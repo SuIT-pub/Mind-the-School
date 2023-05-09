@@ -1,0 +1,10 @@
+﻿I'm sorry, but errors were detected in your script. Please correct the
+errors listed below, and try again.
+
+
+File "game/scripts/buildings/office_building.rpy", line 104: 'image' is not a keyword argument or valid child for the add statement.
+    add image movie_name
+             ^
+
+Ren'Py Version: Ren'Py 8.0.3.22090809
+Sat Apr 15 17:34:53 2023
