@@ -9,7 +9,8 @@ init python:
         if stat != "money":
             return schools[school].display_stat(stat)
 
-        text = str(money)
+        text = str(money.get_value())
+        changed_money = money.get_changed_value()
 
         if changed_money < 0:
             text += "{color=#ff0000}{size=15}([changed_money]){/size}{/color}"
@@ -19,9 +20,17 @@ init python:
 
     # changes the stat value
     def change_stat(stat, change, school):
+        if stat == "money":
+            change_val = math.ceil(change)
+            money.set_value(math.ceil(money.get_value() + change_val))
+            money.set_changed_value(change_val)
+            return
+
         schools[school].change_stat(stat, change)
 
     def reset_stats(school = ""):
+        money.reset_change()
+
         if school != "":
             schools[school].reset_changed_stats()
 
@@ -63,13 +72,17 @@ screen school_overview_stats:
         text display_stat("money")     style "stat_value"
 
         null
-        text "Corruption" style "stat_name"
-        text "Inhibition" style "stat_name"
+        null
+        null
+        # text "Corruption" style "stat_name"
+        # text "Inhibition" style "stat_name"
         text "Reputation" style "stat_name"
         
         null
-        text display_stat("corruption") style "stat_value"
-        text display_stat("inhibition") style "stat_value"
+        null
+        null
+        # text display_stat("corruption") style "stat_value"
+        # text display_stat("inhibition") style "stat_value"
         text display_stat("reputation") style "stat_value"
 
     vbox:
@@ -108,21 +121,21 @@ screen school_overview_images:
             xpos 826 ypos 178
         add "background/bg school elementary school dormitory idle.png":
             xpos 446 ypos 196
-    if unlocked_buildings["labs"]:
+    if get_building("labs").isUnlocked():
         add "background/bg school labs idle.png":
             xpos 664 ypos 356
-    if unlocked_buildings["sports_field"]:
+    if get_building("sports_field").isUnlocked():
         add "background/bg school sports field idle.png":
             xpos 203 ypos -11
-    if unlocked_buildings["tennis_court"]:
+    if get_building("tennis_court").isUnlocked():
         add "background/bg school tennis court idle.png":
             xpos 558 ypos 90
     add "background/bg school gym idle.png":
         xpos 462 ypos 5
-    if unlocked_buildings["pool"]:
+    if get_building("swimming_pool").isUnlocked():
         add "background/bg school pool idle.png":
             xpos 297 ypos 61
-    if unlocked_buildings["cafeteria"]:
+    if get_building("cafeteria").isUnlocked():
         add "background/bg school cafeteria idle.png":
             xpos 229 ypos 460
     add "background/bg school kiosk idle.png":
@@ -175,21 +188,21 @@ screen school_overview_buttons:
             focus_mask True
             xpos 446 ypos 196
             action Call("building", "elementary_school_dormitory")
-    if unlocked_buildings["labs"]:
+    if get_building("labs").isUnlocked():
         imagebutton:
             auto "background/bg school labs %s.png"
             tooltip "Labs"
             focus_mask True
             xpos 644 ypos 356
             action Call("building", "labs")
-    if unlocked_buildings["sports_field"]:
+    if get_building("sports_field").isUnlocked():
         imagebutton:
             auto "background/bg school sports field %s.png"
             tooltip "Sports Field"
             focus_mask True
             xpos 203 ypos -11
             action Call("building", "sports_field")
-    if unlocked_buildings["tennis_court"]:
+    if get_building("tennis_court").isUnlocked():
         imagebutton:
             auto "background/bg school tennis court %s.png"
             tooltip "Tennis Court"
@@ -202,14 +215,14 @@ screen school_overview_buttons:
         focus_mask True
         xpos 462 ypos 5
         action Call("building", "gym")
-    if unlocked_buildings["pool"]:
+    if get_building("swimming_pool").isUnlocked():
         imagebutton:
             auto "background/bg school pool %s.png"
             tooltip "Swimming Pool"
             focus_mask True
             xpos 297 ypos 61
             action Call("building", "swimming_pool")
-    if unlocked_buildings["cafeteria"]:
+    if get_building("cafeteria").isUnlocked():
         imagebutton:
             auto "background/bg school cafeteria %s.png"
             tooltip "Cafeteria"
@@ -234,12 +247,19 @@ screen school_overview_buttons:
         focus_mask True
         xpos 42 ypos 127
         action Call("building", "office_building")
+    
     imagebutton:
         auto "icons/time skip %s.png"
         tooltip "Skip Time"
         focus_mask None
         xalign 0.0 yalign 0.0
         action Call("new_daytime")
+    imagebutton:
+        auto "icons/journal_icon_%s.png"
+        tooltip "Open Journal"
+        focus_mask None
+        xalign 0.07 yalign 0.0
+        action Call("start_journal")
 
     $ tooltip = GetTooltip()
 
@@ -287,8 +307,11 @@ label new_day:
 #################################################
 # shows the map overview and then waits for input
 label map_overview:
-    $ _skipping = False
+    # $ _skipping = False
+    call load_stats
     call load_rules
+    call load_buildings
+    call load_clubs
     
     show screen school_overview_map
     show screen school_overview_stats

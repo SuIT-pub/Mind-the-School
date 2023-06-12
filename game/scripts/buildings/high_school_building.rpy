@@ -14,7 +14,7 @@ init -10 python:
 
     high_school_building_events["check_class"] = {
         "fallback": "high_school_building_person_fallback",
-        "x.x.x.c.d.x:x:x.0": [
+        "x.x.x.c.d.1+:x:x.0": [
             "hsb_peek_into_class_concentrated",
             "hsb_peek_into_class_not_concentrated",
             "hsb_peek_into_class_chaos",
@@ -25,7 +25,7 @@ init -10 python:
 
     high_school_building_events["teach_class"] = {
         "fallback": "high_school_building_person_fallback",
-        "x.x.x.c.d.x:x:x.0": [
+        "x.x.x.c.d.1+:x:x.0": [
             "hsb_teach_class_concentrated",
             "hsb_teach_class_partly_unconcentrated",
             "hsb_teach_class_unconcentrated",
@@ -35,7 +35,7 @@ init -10 python:
 
     high_school_building_events["patrol"] = {
         "fallback": "high_school_building_fallback",
-        "x.x.x.f.d.x:x:x.0": [
+        "x.x.x.f.d.1+:x:x.0": [
             "hsb_patrol_stare",
             "hsb_patrol_kiss", # is conditional
             "hsb_patrol_mobbing",
@@ -49,7 +49,7 @@ init -10 python:
 
     high_school_building_events["students"] = {
         "fallback": "high_school_building_person_fallback",
-        "x.x.x.f.d.x:x:x.0": [
+        "x.x.x.f.d.1+:x:x.0": [
             "hsb_talk_students_1",
             "hsb_talk_students_2",
             "hsb_talk_students_3",
@@ -241,7 +241,7 @@ label hsb_teach_class_chaos:
 # patrol events
 
 label hsb_patrol_intro_variants:
-    $ level = schools["high_school"].level
+    $ level = schools["high_school"].get_level()
     $ poss_variants = [1, 2]
     if rules["student_student_relation"]:
         $ poss_variants.append(3)
@@ -288,7 +288,7 @@ label hsb_patrol_intro_variants:
 label hsb_patrol_stare:
     call hsb_patrol_intro_variants
 
-    $ level = schools["high_school"].level
+    $ level = schools["high_school"].get_level()
 
     if level <= 1:
         # scene expression "events/high_school_building/patrol_stare_1_[high_school_lvl].png"
@@ -341,7 +341,7 @@ label hsb_patrol_mobbing:
 
     $ variant = renpy.random.randint(1,2)
 
-    $ level = schools["high_school"].level
+    $ level = schools["high_school"].get_level()
 
     Subtitles "You spot students punching and pushing a helpless girl."
     if 4 <= level <= 5:
@@ -385,7 +385,7 @@ label hsb_patrol_mobbing:
 label hsb_patrol_groping:
     call hsb_patrol_intro_variants
 
-    $ level = schools["high_school"].level
+    $ level = schools["high_school"].get_level()
 
     Subtitles "The students are having fun touching and groping each other."
     Subtitles "A healthy sight for healty students!"
@@ -419,7 +419,7 @@ label hsb_patrol_groping:
 label hsb_patrol_wind:
     call hsb_patrol_intro_variants
 
-    $ level = schools["high_school"].level
+    $ level = schools["high_school"].get_level()
     $ variant = renpy.random.randint(1, 2)
 
     Subtitles "As you walk through the hallway, a strong gust of wind blows through an open window and throws the students' skirts."
@@ -501,7 +501,7 @@ label hsb_patrol_wind:
 label hsb_patrol_trip:
     call hsb_patrol_intro_variants
 
-    $ level = schools["high_school"].level
+    $ level = schools["high_school"].get_level()
     $ variant = renpy.random.randint(1, 2)
     $ trip_variant = renpy.random.randint(1, 2)
 
@@ -681,7 +681,7 @@ label .patrol_trip_check1:
 label hsb_patrol_collide:
     call hsb_patrol_intro_variants
 
-    $ level = schools["high_school"].level
+    $ level = schools["high_school"].get_level()
     $ variant = renpy.random.randint(1, 3)
 
     Subtitles "As you turn around the corner, you collide with a student that seemingly ran too fast through the hallway."
@@ -754,7 +754,7 @@ label hsb_patrol_collide:
                     $ change_stat("inhibition", 0.9, "high_school")
                     $ change_stat("corruption", 0.5, "high_school")
                     jump new_daytime
-    else
+    else:
         Subtitles "The girl knocks you off, you fall and the girl on top."
         $ variant = renpy.random.randint(1, 11)
         $ variant2 = renpy.random.randint(1, 2)

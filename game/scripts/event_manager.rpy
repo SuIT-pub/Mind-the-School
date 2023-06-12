@@ -10,8 +10,8 @@
 # a level of 10 will be represented by an 'A'
 # weekdays will be represented by a number with 1 representing monday, 2 tuesday, etc.
 # 'd' and 'w' are also valid. 'd' stands for workdays and 'w' for weekends
-# so x.x.x.x.d.xxx.x will always be available on monday to friday
-# while x.x.x.x.w.xxx.x will only be available on saturday and sunday
+# so x.x.x.x.d.x:x:x.x will always be available on monday to friday
+# while x.x.x.x.w.x:x:x.x will only be available on saturday and sunday
 # isPrio decides if the event will be played no matter what or if it only part of a randomized set
 # if 1, it will be played in Order, if it is 0, it will only be part of a set where one event will be randomly selected
 
@@ -28,20 +28,17 @@ init -999 python:
         return 0
 
     def get_level(level_val, school):
-        print(school + ': ' + level_val)
         
         if level_val == "x":
-            print('out0: ' + level_to_string(school))
             return level_to_string(school)
 
         level_str = re.findall('\d+', level_val)
-
         if level_str:
             level = int(''.join(level_str))
+            
             if ((level_val.endswith('-') and level_to_num(school) <= level) or
                 (level_val.endswith('+') and level_to_num(school) >= level)
             ):
-                print('out1: ' + level_to_string(school))
                 return level_to_string(school)
             else:
                 if '-' in level_val:
@@ -49,19 +46,51 @@ init -999 python:
                     if (len(level_split) == 2 and 
                         level_split[0].isdecimal() and 
                         level_split[1].isdecimal() and
-                        int(level_split[0]) <= level_to_num(school) <= int(level0_split[1])
+                        int(level_split[0]) <= level_to_num(school) <= int(level_split[1])
                     ):
-                        print('out2: ' + level_to_string(school))
                         return level_to_string(school)
                 elif ',' in level_val:
                     split_values = level_val.split(',')
                     split_values = [value.strip() for value in split_values]
                     if level_to_num(school) in split_values:
-                        print('out3: ' + level_to_string(school))
                         return level_to_string(school)
 
-        print('out: ' + level_to_string(school))
-        return level_to_string(school)
+        return level_val
+
+    def get_stat(stat_val, stat, school_name):
+        
+        school = get_school(school_name)
+
+        if school == None:
+            return stat_val
+
+        if stat_val == "x":
+            return school.get_stat_number(stat)
+
+        stat_str = re.findall('\d+', stat_val)
+        if stat_str:
+            stats = int(''.join(stat_str))
+
+            if ((stat_val.endswith('-') and school.get_stat_number(stat) <= stats) or
+                (stat_val.endswith('+') and school.get_stat_number(stat) >= stats)
+            ):
+                return school.get_stat_string(stat)
+            else:
+                if '-' in stat_val:
+                    stat_split = stat_val.split('-')
+                    if (len(stat_split) == 2 and 
+                        stat_split[0].isdecimal() and 
+                        stat_split[1].isdecimal() and
+                        int(stat_split[0]) <= school.get_stat_number(stat) <= int(stat_split[1])
+                    ):
+                        return school.get_stat_string(stat)
+                elif ',' in stat_val:
+                    split_values = stat_val.split(',')
+                    split_values = [value.strip() for value in split_values]
+                    if school.get_stat_number(stat) in split_values:
+                        return school.get_stat_string(stat)
+
+        return stat_val
 
     def get_events_count(events):
         event_amount = 0

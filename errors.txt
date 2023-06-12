@@ -2,9 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/scripts/buildings/office_building.rpy", line 104: 'image' is not a keyword argument or valid child for the add statement.
-    add image movie_name
-             ^
+File "game/scripts/stats/stats.rpy", line 84: invalid syntax
+            if count >= len(self.levels)
+    
 
 Ren'Py Version: Ren'Py 8.0.3.22090809
-Sat Apr 15 17:34:53 2023
+Mon Jun 12 15:04:01 2023

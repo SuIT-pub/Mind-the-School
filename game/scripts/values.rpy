@@ -23,15 +23,15 @@ init python:
 
     def level_to_string(school = ""):
 
-        high_school_level = str(schools["high_school"].level)
+        high_school_level = str(schools["high_school"].get_level())
         if high_school_level == "10":
             high_school_level = "A"
 
-        middle_school_level = str(schools["middle_school"].level)
+        middle_school_level = str(schools["middle_school"].get_level())
         if middle_school_level == "10":
             middle_school_level = "A"
 
-        elementary_school_level = str(schools["elementary_school"].level)
+        elementary_school_level = str(schools["elementary_school"].get_level())
         if elementary_school_level == "10":
             elementary_school_level = "A"
         
@@ -45,7 +45,7 @@ init python:
             return high_school_level + ':' + middle_school_level + ':' + elementary_school_level
 
     def level_to_num(school = ""):
-        return schools[school].level
+        return schools[school].get_level()
 
         return -1
 
@@ -64,6 +64,8 @@ init python:
         if (value > 100):
             return 100
         return value
+
+    loli_content = 0
 
 
 default char_Principal = Character(
@@ -185,32 +187,29 @@ default Subtitles_Empty = Character(
 
 default rules = {}
 
-default clubs = {
-    "masturbation": 0,
-    "exhibitionism": 0,
-    "cosplay": 0,
-    "cheerleading": 0,
-    "porn": 0,
-    "sex": 0,
-    "service": 0,
-}
+# default clubs = {
+#     "masturbation": 0,
+#     "exhibitionism": 0,
+#     "cosplay": 0,
+#     "cheerleading": 0,
+#     "porn": 0,
+#     "sex": 0,
+#     "service": 0,
+# }
 
 
 default school_name = "Windstor School"
 default principal_name = "Mark"
 
-default unlocked_buildings = {
-    "labs"        : False,
-    "sports_field": False,
-    "tennis_court": False,
-    "pool"        : False,
-    "cafeteria"   : False,
-}
+default buildings = {}
+
+default clubs = {}
+
+default stat_data = {}
 
 default schools = {}
 
-default money = 1000
-default changed_money = 0
+default money = Stat("money", 1000)
 
 default game_daytime = 0
 default game_day = 1
@@ -220,7 +219,7 @@ default game_year = 2023
 # 0 = no loli content (High School age: 18-22)
 # 1 = slight loli content (Middle School age: 13-17, High School age: 18-22)
 # 2 = hard loli content (Elementary School age: 8-12, Middle School age: 13-17, High School age: 18-22)
-default loli_content = 2
+# default loli_content = 0
 
 default weekday = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
