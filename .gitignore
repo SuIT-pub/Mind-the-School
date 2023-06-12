@@ -1,2 +1,4 @@
 game/images/
 game/videos/
+game/*.rpyc
+game/**/*.rpyc
