@@ -2,7 +2,7 @@ init python:
     import re
     class Stat:
         def __init__(self, name, value):
-            self.name = name;
+            self.name = name
             self.value = value
             self.changed_value = 0
             self.image_path = "icons/stat_" + name + "_icon.png"
@@ -99,7 +99,9 @@ init python:
             return "Description missing for level:[level]"
 
         def get_full_description(self, level):
-            return self.get_description(level) + "\n\n" + self.description
+            return (self.get_description(level) + 
+                "\n-------------------------------------------------------\n" + 
+                self.description)
 
 
     def get_stat_data(stat):
@@ -112,10 +114,13 @@ label load_stats:
     if not "corruption" in stat_data.keys():
         $ stat_data["corruption"] = Stat_Data("corruption", "Corruption")
     $ stat_data["corruption"].__dict__.update({
-        'description': "corruption",
+        'description': "The corruption level is a measure of how corrupt the" +
+            " students' minds are and how open they are to sexual activity.\n" +
+            "\nThe level can be increased by performing sexual activities with" +
+            " the students or by using indirect measures like drugs etc.",
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         'descriptions': [
-            "level 0",
+            "The students are not corrupted.",
             "level 1",
             "level 2",
             "level 3",
@@ -310,11 +315,20 @@ label load_stats:
     if not "level" in stat_data.keys():
         $ stat_data["level"] = Stat_Data("level", "Level")
     $ stat_data["level"].__dict__.update({
-        'description': "level",
+        'description': "The level of the school represents the overall " +
+            "progress of the school. Every new level unlocks new "
+            "possibilities.\n\nTo increase the level of a school you need to " +
+            "fullfill certain criteria like adopting certain rules or " +
+            "running certain events.",
         'levels': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
         'descriptions': [
-            "level 0",
-            "level 1",
+            "The school has not made any progress yet. You are currently in " +
+                "the phase of scouting the school and finding the correct " +
+                "measure to start the process.",
+            "You unlocked the potential of sexual heaven to the students.\n" +
+                "Being prude and absolute unaccepting of the topic before, " +
+                "they now opened their mind to new heights even though they " +
+                "are still new and fearful of it.",
             "level 2",
             "level 3",
             "level 4",

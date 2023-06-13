@@ -176,131 +176,148 @@ init python:
             return None
         return rules[rule_name]
 
+    def load_rule(name, title):
+        if name not in rules.keys():
+            rules[name] = Rule(name, title)
+
+    def load_rule(name, title, data):
+        load_rule(name, title)
+        rules[name].__dict__.update(data)
+
 label load_rules:
-    if "theoretical_sex_ed" not in rules.keys():
-        $ rules["theoretical_sex_ed"] = Rule("theoretical_sex_ed", "Theoretical Sex Education")
-    $ rules["theoretical_sex_ed"].__dict__.update({
-        'description': ("Students get a new sub+++ject in which they deal with the"
-            " topic of the human body and human reproduction."
-            " All on a theoretical basis, of course."),
-        'unlock_conditions': [
-            {
-                "type": "level",
-                "school": "x",
-                "value": "2+",
-                "blocking": False,
-            },
-            {
-                "type": "stat",
-                "stat": "corruption",
-                "value": "0+",
-                "blocking": False,
-            }
-        ],
-        'image_path': 'images/journal/rules/theoretical_sex_ed.png',
-    })
-    if "theoretical_digital_material" not in rules.keys():
-        $ rules["theoretical_digital_material"] = Rule("theoretical_digital_material", "Use Digital Material for study in Theoretical Sex Ed")
-    $ rules["theoretical_digital_material"].__dict__.update({
-        'unlock_conditions': [
-            {
-                "type": "level",
-                "school": "x",
-                "value": "3+",
-                "blocking": False,
-            },
-            {
-                "type": "unlocked",
-                "rule": "theoretical_sex_ed",
-                "blocking": False,
-            }
-        ],
-        'image_path': 'images/journal/rules/theoretical_digital_sex_ed.png',
-    })
-    if "theoretical_teacher_material" not in rules.keys():
-        $ rules["theoretical_teacher_material"] = Rule("theoretical_teacher_material", "Use Teacher for study in Theoretical Sex Ed")
-    $ rules["theoretical_teacher_material"].__dict__.update({
-        'unlock_conditions': [
-            {
-                "type": "unlocked",
-                "rule": "theoretical_digital_material",
-                "blocking": False,
-            }
-        ],
-        'image_path': 'images/journal/rules/theoretical_teacher_sex_ed.png',
-    })
-    if "theoretical_student_material" not in rules.keys():
-        $ rules["theoretical_student_material"] = Rule("theoretical_student_material", "Use Students for study in Theoretical Sex Ed")
-    $ rules["theoretical_student_material"].__dict__.update({
-        'unlock_conditions': [
-            {
-                "type": "unlocked",
-                "rule": "theoretical_teacher_material",
-                "blocking": False,
-            }
-        ]
-    })
+    $ load_rule(
+        "theoretical_sex_ed", 
+        "Theoretical Sex Education",{
+            'description': ("Students get a new sub+++ject in which they deal with the"
+                " topic of the human body and human reproduction."
+                " All on a theoretical basis, of course."),
+            'unlock_conditions': [
+                {
+                    "type": "level",
+                    "school": "x",
+                    "value": "2+",
+                    "blocking": False,
+                },
+                {
+                    "type": "stat",
+                    "stat": "corruption",
+                    "value": "0+",
+                    "blocking": False,
+                }
+            ],
+            'image_path': 'images/journal/rules/theoretical_sex_ed.png',
+        }
+    )
+    load_rule(
+        "theoretical_digital_material", 
+        "Use Digital Material for study in Theoretical Sex Ed",{
+            'unlock_conditions': [
+                {
+                    "type": "level",
+                    "school": "x",
+                    "value": "3+",
+                    "blocking": False,
+                },
+                {
+                    "type": "unlocked",
+                    "rule": "theoretical_sex_ed",
+                    "blocking": False,
+                }
+            ],
+            'image_path': 'images/journal/rules/theoretical_digital_sex_ed.png',
+        }
+    )
+    load_rule(
+        "theoretical_teacher_material", 
+        "Use Teacher for study in Theoretical Sex Ed", {
+            'unlock_conditions': [
+                {
+                    "type": "unlocked",
+                    "rule": "theoretical_digital_material",
+                    "blocking": False,
+                }
+            ],
+            'image_path': 'images/journal/rules/theoretical_teacher_sex_ed.png',
+        }
+    )
+    load_rule(
+        "theoretical_student_material", 
+        "Use Students for study in Theoretical Sex Ed", {
+            'unlock_conditions': [
+                {
+                    "type": "unlocked",
+                    "rule": "theoretical_teacher_material",
+                    "blocking": False,
+                }
+            ]
+        }
+    )
 
-    if "practical_sex_ed" not in rules.keys():
-        $ rules["practical_sex_ed"] = Rule("practical_sex_ed", "Practical Sex Education")
-    $ rules["practical_sex_ed"].__dict__.update({
-        'unlock_conditions': [
-            {
-                "type": "level",
-                "school": "x",
-                "value": "4+",
-                "blocking": False,
-            },
-            {
-                "type": "unlocked",
-                "rule": "theoretical_sex_ed",
-                "blocking": False,
-            }
-        ]
-    })
+    load_rule(
+        "practical_sex_ed", 
+        "Practical Sex Education", {
+            'unlock_conditions': [
+                {
+                    "type": "level",
+                    "school": "x",
+                    "value": "4+",
+                    "blocking": False,
+                },
+                {
+                    "type": "unlocked",
+                    "rule": "theoretical_sex_ed",
+                    "blocking": False,
+                }
+            ]
+        }
+    )
 
-    if "practical_teacher_material" not in rules.keys():
-        $ rules["practical_teacher_material"] = Rule("practical_teacher_material", "Use Teacher for study in Practical Sex Ed")
-    $ rules["practical_teacher_material"].__dict__.update({
-        'unlock_conditions': [
-            {
-                "type": "level",
-                "school": "x",
-                "value": "3+",
-                "blocking": False,
-            },
-            {
-                "type": "unlocked",
-                "rule": "practical_sex_ed",
-                "blocking": False,
-            }
-        ]
-    })
+    load_rule(
+        "practical_teacher_material", 
+        "Use Teacher for study in Practical Sex Ed", {
+            'unlock_conditions': [
+                {
+                    "type": "level",
+                    "school": "x",
+                    "value": "3+",
+                    "blocking": False,
+                },
+                {
+                    "type": "unlocked",
+                    "rule": "practical_sex_ed",
+                    "blocking": False,
+                }
+            ]
+        }
+    )
 
-    if "practical_student_material" not in rules.keys():
-        $ rules["practical_student_material"] = Rule("practical_student_material", "Use Students for study in Practical Sex Ed")
-    $ rules["practical_student_material"].__dict__.update({
-        'unlock_conditions': [
-            {
-                "type": "unlocked",
-                "rule": "practical_teacher_material",
-                "blocking": False,
-            }
-        ]
-    })
+    load_rule(
+        "practical_student_material", 
+        "Use Students for study in Practical Sex Ed", {
+            'unlock_conditions': [
+                {
+                    "type": "unlocked",
+                    "rule": "practical_teacher_material",
+                    "blocking": False,
+                }
+            ]
+        }
+    )
 
-    if "student_student_relation" not in rules.keys():
-        $ rules["student_student_relation"] = Rule("student_student_relation", "Allowed Relationships between Students")
-    $ rules["student_student_relation"].__dict__.update({
-        'description': ("Allows for students to have a relationship between"
-            " each other and to openly show it.")
-    })
+    load_rule(
+        "student_student_relation", 
+        "Allowed Relationships between Students", {
+            'description': ("Allows for students to have a relationship between"
+                " each other and to openly show it.")
+        }
+    )
 
-    if "student_teacher_relation" not in rules.keys():
-        $ rules["student_teacher_relation"] = Rule("student_teacher_relation", "Allowed Relationships between Students and Teacher")
-    $ rules["student_teacher_relation"].__dict__.update({
-        'description': ("Allows for teacher to engage in a relationship with"
-            " students.")
-    })
+    load_rule(
+        "student_teacher_relation", 
+        "Allowed Relationships between Students and Teacher", {
+            'description': ("Allows for teacher to engage in a relationship with"
+                " students.")
+        }
+    )
 
     return

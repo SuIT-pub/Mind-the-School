@@ -29,7 +29,7 @@ init python:
             return stat_obj.get_value()
 
         def get_stat_string(self, stat):
-            return str(get_stat_number(stat))
+            return str(self.get_stat_number(stat))
 
         def reset_changed_stats(self):
             for stat_key in self.stats_objects.keys():
@@ -91,69 +91,71 @@ init python:
 
             stat_obj.set_changed_value(math.ceil((stats[stat_keys] - schools["school_mean"].get_stat_obj(stat_keys).get_value()) * 100) / 100)
             stat_obj.set_value(stats[stat_keys])
+    
+    def load_school(name, title, start_data):
+        if "high_school" not in schools.keys():
+            schools[name] = School(name, title)
+            schools[name].__dict__.update(start_data)
+    
+    def load_school(name, title, start_data, runtime_data):
+        load_school(name, title, start_data)
+        schools[name].__dict__.update(runtime_data)
+
+    def update_school(name, data):
+        schools[name].__dict__.update(data)
 
 label load_schools:
-    if not "high_school" in schools.keys():
-        $ schools["high_school"] = School("high_school", "High School")
-        $ schools["high_school"].__dict__.update({
-            'stats_objects': {
-                "corruption": Stat("corruption", 0),
-                "inhibition": Stat("inhibition", 0),
-                "happiness": Stat("happiness", 20),
-                "education": Stat("education", 10),
-                "charm": Stat("charm", 8),
-                "reputation": Stat("reputation", 12),
-            }
-        })
+    load_school("high_school", "High School", {
+        'stats_objects': {
+            "corruption": Stat("corruption", 0),
+            "inhibition": Stat("inhibition", 0),
+            "happiness": Stat("happiness", 20),
+            "education": Stat("education", 10),
+            "charm": Stat("charm", 8),
+            "reputation": Stat("reputation", 12),
+        }
+    })
 
-    if not "middle_school" in schools.keys():
-        $ schools["middle_school"] = School("middle_school", "Middle School")
-        $ schools["middle_school"].__dict__.update({
-            'stats_objects': {
-                "corruption": Stat("corruption", 0),
-                "inhibition": Stat("inhibition", 0),
-                "happiness": Stat("happiness", 20),
-                "education": Stat("education", 10),
-                "charm": Stat("charm", 8),
-                "reputation": Stat("reputation", 12),
-            }
-        })
+    load_school("middle_school", "Middle School", {
+        'stats_objects': {
+            "corruption": Stat("corruption", 0),
+            "inhibition": Stat("inhibition", 0),
+            "happiness": Stat("happiness", 20),
+            "education": Stat("education", 10),
+            "charm": Stat("charm", 8),
+            "reputation": Stat("reputation", 12),
+        }
+    })
 
-    if not "elementary_school" in schools.keys():
-        $ schools["elementary_school"] = School("elementary_school", "Elementary School")
-        $ schools["elementary_school"].__dict__.update({
-            'stats_objects': {
-                "corruption": Stat("corruption", 0),
-                "inhibition": Stat("inhibition", 0),
-                "happiness": Stat("happiness", 20),
-                "education": Stat("education", 10),
-                "charm": Stat("charm", 8),
-                "reputation": Stat("reputation", 12),
-            }
-        })
+    load_school("elementary_school", "Elementary School", {
+        'stats_objects': {
+            "corruption": Stat("corruption", 0),
+            "inhibition": Stat("inhibition", 0),
+            "happiness": Stat("happiness", 20),
+            "education": Stat("education", 10),
+            "charm": Stat("charm", 8),
+            "reputation": Stat("reputation", 12),
+        }
+    })
 
-    if not "staff" in schools.keys():
-        $ schools["staff"] = School("staff", "Staff")
-        $ schools["staff"].__dict__.update({
-            'stats_objects': {
-                "corruption": Stat("corruption", 0),
-                "inhibition": Stat("inhibition", 0),
-                "happiness": Stat("happiness", 20),
-                "education": Stat("education", 10),
-                "charm": Stat("charm", 8),
-                "reputation": Stat("reputation", 12),
-            }
-        })
+    load_school("staff", "Staff", {
+        'stats_objects': {
+            "corruption": Stat("corruption", 0),
+            "inhibition": Stat("inhibition", 0),
+            "happiness": Stat("happiness", 20),
+            "education": Stat("education", 10),
+            "charm": Stat("charm", 8),
+            "reputation": Stat("reputation", 12),
+        }
+    })
 
-    if not "school_mean" in schools.keys():
-        $ schools["school_mean"] = School("school_mean", "School Mean")
-        $ schools["school_mean"].__dict__.update({
-            'stats_objects': {
-                "corruption": Stat("corruption", 0),
-                "inhibition": Stat("inhibition", 0),
-                "happiness": Stat("happiness", 20),
-                "education": Stat("education", 10),
-                "charm": Stat("charm", 8),
-                "reputation": Stat("reputation", 12),
-            }
-        })
+    load_school("school_mean", "School Mean", {
+        'stats_objects': {
+            "corruption": Stat("corruption", 0),
+            "inhibition": Stat("inhibition", 0),
+            "happiness": Stat("happiness", 20),
+            "education": Stat("education", 10),
+            "charm": Stat("charm", 8),
+            "reputation": Stat("reputation", 12),
+        }
+    })

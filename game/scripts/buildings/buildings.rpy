@@ -53,11 +53,17 @@ init python:
         if building in buildings.keys():
             return buildings[building]
         return None
+
+    def load_building(name, title):
+        if name not in buildings.keys():
+            buildings[name] = Building(name, title)
+
+    def load_building(name, title, data):
+        load_building(name, title)
+        buildings[name].__dict__.update(data)
     
 label load_buildings:
-    if "labs" not in buildings.keys():
-        $ buildings["labs"] = Building("labs", "Labs")
-    $ buildings["labs"].__dict__.update({
+    load_building("labs", "Labs", {
         'description': "A building with various labs and maybe a certain special lab for someone.",
         'unlock_conditions': [
             {
@@ -67,9 +73,7 @@ label load_buildings:
         ]
     })
 
-    if "sports_field" not in buildings.keys():
-        $ buildings["sports_field"] = Building("sports_field", "Sports Field")
-    $ buildings["sports_field"].__dict__.update({
+    load_building("sports_field", "Sports Field", {
         'description': "The sports field",
         'unlock_conditions': [
             {
@@ -79,9 +83,7 @@ label load_buildings:
         ]
     })
 
-    if "tennis_court" not in buildings.keys():
-        $ buildings["tennis_court"] = Building("tennis_court", "Tennis Court")
-    $ buildings["tennis_court"].__dict__.update({
+    load_building("tennis_court", "Tennis Court", {
         'description': "Tennis Court",
         'unlock_conditions': [
             {
@@ -91,9 +93,7 @@ label load_buildings:
         ]
     })
 
-    if "swimming_pool" not in buildings.keys():
-        $ buildings["swimming_pool"] = Building("swimming_pool", "Swimming Pool")
-    $ buildings["swimming_pool"].__dict__.update({
+    load_building("swimming_pool", "Swimming Pool", {
         'description': "Swimming Pool",
         'unlock_conditions': [
             {
@@ -103,9 +103,7 @@ label load_buildings:
         ]
     })
 
-    if "cafeteria" not in buildings.keys():
-        $ buildings["cafeteria"] = Building("cafeteria", "Cafeteria")
-    $ buildings["cafeteria"].__dict__.update({
+    load_building("cafeteria", "Cafeteria", {
         'description': "Cafeteria",
         'unlock_conditions': [
             {

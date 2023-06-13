@@ -175,7 +175,7 @@ screen journal_1 (display, school):
                 
                 vbar value YScrollValue("OverviewDesc"):
                     unscrollable "hide"
-                    xalign 1.0
+                    xalign 1.05
 
     textbutton "Close":
         xalign 0.75

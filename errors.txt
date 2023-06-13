@@ -2,9 +2,10 @@
 errors listed below, and try again.
 
 
-File "game/scripts/stats/stats.rpy", line 84: invalid syntax
-            if count >= len(self.levels)
+File "game/scripts/stats/stats.rpy", line 323: invalid syntax
+            'levels': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                     ^
     
 
 Ren'Py Version: Ren'Py 8.0.3.22090809
-Mon Jun 12 15:04:01 2023
+Mon Jun 12 16:05:01 2023

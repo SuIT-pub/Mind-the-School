@@ -53,100 +53,22 @@ init python:
         if club in clubs.keys():
             return clubs[club]
         return None
+    
+    def load_club(name, title):
+        if name not in clubs.keys():
+            clubs[name] = Club(name, title)
+
+    def load_club(name, title, data):
+        load_club(name, title)
+        clubs[name].__dict__.update(data)
 
 label load_clubs:
-    if "test_club" not in clubs.keys():
-        $ clubs["test_club"] = Club("test_club", "Test Club")
-    $ clubs["test_club"].__dict__.update({
+    $ load_club("test_club", "Test Club",{
         'description': "A Club for testing",
         'unlock_conditions': [
             {
                 "type": "stat",
                 "stat": "inhibition",
-                "school": "x",
-                "value": "1+",
-                "blocking": False,
-            },
-            {
-                "type": "stat",
-                "stat": "corruption",
-                "school": "x",
-                "value": "0+",
-                "blocking": False,
-            },
-            {
-                "type": "stat",
-                "stat": "reputation",
-                "school": "x",
-                "value": "1+",
-                "blocking": False,
-            },
-            {
-                "type": "stat",
-                "stat": "happiness",
-                "school": "x",
-                "value": "0-30",
-                "blocking": False,
-            },
-            {
-                "type": "stat",
-                "stat": "education",
-                "school": "x",
-                "value": "1+",
-                "blocking": False,
-            },
-            {
-                "type": "stat",
-                "stat": "charm",
-                "school": "x",
-                "value": "1+",
-                "blocking": False,
-            },
-            {
-                "type": "stat",
-                "stat": "charm",
-                "school": "x",
-                "value": "1+",
-                "blocking": False,
-            },
-            {
-                "type": "stat",
-                "stat": "charm",
-                "school": "x",
-                "value": "1+",
-                "blocking": False,
-            },
-            {
-                "type": "stat",
-                "stat": "charm",
-                "school": "x",
-                "value": "1+",
-                "blocking": False,
-            },
-            {
-                "type": "stat",
-                "stat": "charm",
-                "school": "x",
-                "value": "1+",
-                "blocking": False,
-            },
-            {
-                "type": "stat",
-                "stat": "charm",
-                "school": "x",
-                "value": "1+",
-                "blocking": False,
-            },
-            {
-                "type": "stat",
-                "stat": "charm",
-                "school": "x",
-                "value": "1+",
-                "blocking": False,
-            },
-            {
-                "type": "stat",
-                "stat": "charm",
                 "school": "x",
                 "value": "1+",
                 "blocking": False,
