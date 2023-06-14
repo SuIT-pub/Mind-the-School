@@ -92,8 +92,6 @@ init python:
             return "images/journal/empty_image.png"
 
         def get_description(self, level):
-            print(level)
-            print(self.descriptions)
             if level < len(self.descriptions) and level >= 0:
                 return self.descriptions[level]
             return "Description missing for level:[level]"

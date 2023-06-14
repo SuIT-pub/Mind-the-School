@@ -25,48 +25,10 @@ init python:
             else:
                 return False
 
-        def is_condition_fullfilled(self, school, condition):
-            if condition["type"] == "stat":
-                stat = condition["stat"]
-                value = condition["value"]
-
-                needed_stat = get_stat(value, stat, school)
-
-                if needed_stat != get_school(school).get_stat_string(stat):
-                    return False
-
-            elif condition["type"] == "unlocked":
-                value = condition["rule"]
-                if not rules[value].isUnlocked(school):
-                    return False
-            elif condition["type"] == "level":
-                stat = condition["school"]
-                value = condition["value"]
-
-                print("stat: " + stat + " school: " + school)
-
-                if stat == school or stat == "x":
-                    level = get_level(value, school)
-
-                    if (level != level_to_string(school)):
-                        return False
-            elif condition["type"] == "school":
-                value = condition["school"]
-                if school != value:
-                    return False
-
-            return True
-
         def isVisible(self, school):
             for condition in self.unlock_conditions:
-                print("rule: " + self.name + ", type: " + condition["type"] + ", blocking: " + str(condition["blocking"]))
-                is_fullfilled = self.is_condition_fullfilled(school, condition)
-                print("fullfilled:" + str(is_fullfilled))
-                if (not is_fullfilled and 
-                condition["blocking"]):
-                    print ("FALSE")
+                if condition.is_blocking(school):
                     return False
-            print ("TRUE")
             return True
 
         def canBeUnlocked(self, school):
@@ -74,7 +36,7 @@ init python:
                 return False
 
             for condition in self.unlock_conditions:
-                if self.is_condition_fullfilled(school, condition):
+                if condition.is_fullfilled(school):
                     continue
                 return False
 
@@ -83,8 +45,6 @@ init python:
 
     def get_visible_rules_by_school(school):
         output = []
-
-        print("\n\n\n\n#############################\n\n\n\n")
 
         for rule in rules.values():
             if (rule.isVisible(school) and 
@@ -97,8 +57,6 @@ init python:
 
     def get_visible_rules():
         output = []
-
-        print("\n\n\n\n#############################\n\n\n\n")
 
         for rule in rules.values():
             if (rule.isVisible("high_school") and 
@@ -176,147 +134,110 @@ init python:
             return None
         return rules[rule_name]
 
-    def load_rule(name, title):
+    def load_rule(name, title, data = None):
         if name not in rules.keys():
             rules[name] = Rule(name, title)
 
-    def load_rule(name, title, data):
-        load_rule(name, title)
-        rules[name].__dict__.update(data)
+        if data != None:
+            rules[name].__dict__.update(data)
 
 label load_rules:
     $ load_rule(
         "theoretical_sex_ed", 
         "Theoretical Sex Education",{
-            'description': ("Students get a new sub+++ject in which they deal with the"
+            'description': ("Students get a new subject in which they deal with the"
                 " topic of the human body and human reproduction."
                 " All on a theoretical basis, of course."),
             'unlock_conditions': [
-                {
-                    "type": "level",
-                    "school": "x",
-                    "value": "2+",
-                    "blocking": False,
-                },
-                {
-                    "type": "stat",
-                    "stat": "corruption",
-                    "value": "0+",
-                    "blocking": False,
-                }
+                LevelCondition("0+"),
+                StatCondition("0+", "corruption"),
+                LockCondition()
             ],
             'image_path': 'images/journal/rules/theoretical_sex_ed.png',
         }
     )
-    load_rule(
+    $ load_rule(
         "theoretical_digital_material", 
         "Use Digital Material for study in Theoretical Sex Ed",{
             'unlock_conditions': [
-                {
-                    "type": "level",
-                    "school": "x",
-                    "value": "3+",
-                    "blocking": False,
-                },
-                {
-                    "type": "unlocked",
-                    "rule": "theoretical_sex_ed",
-                    "blocking": False,
-                }
+                LevelCondition("3+"),
+                RuleCondition("theoretical_sex_ed"),
+                LockCondition()
             ],
             'image_path': 'images/journal/rules/theoretical_digital_sex_ed.png',
         }
     )
-    load_rule(
+    $ load_rule(
         "theoretical_teacher_material", 
         "Use Teacher for study in Theoretical Sex Ed", {
             'unlock_conditions': [
-                {
-                    "type": "unlocked",
-                    "rule": "theoretical_digital_material",
-                    "blocking": False,
-                }
+                RuleCondition("theoretical_digital_material"),
+                LockCondition()
             ],
             'image_path': 'images/journal/rules/theoretical_teacher_sex_ed.png',
         }
     )
-    load_rule(
+    $ load_rule(
         "theoretical_student_material", 
         "Use Students for study in Theoretical Sex Ed", {
             'unlock_conditions': [
-                {
-                    "type": "unlocked",
-                    "rule": "theoretical_teacher_material",
-                    "blocking": False,
-                }
+                RuleCondition("theoretical_teacher_material"),
+                LockCondition()
             ]
         }
     )
 
-    load_rule(
+    $ load_rule(
         "practical_sex_ed", 
         "Practical Sex Education", {
             'unlock_conditions': [
-                {
-                    "type": "level",
-                    "school": "x",
-                    "value": "4+",
-                    "blocking": False,
-                },
-                {
-                    "type": "unlocked",
-                    "rule": "theoretical_sex_ed",
-                    "blocking": False,
-                }
+                LevelCondition("4+"),
+                RuleCondition("theoretical_sex_ed"),
+                LockCondition()
             ]
         }
     )
 
-    load_rule(
+    $ load_rule(
         "practical_teacher_material", 
         "Use Teacher for study in Practical Sex Ed", {
             'unlock_conditions': [
-                {
-                    "type": "level",
-                    "school": "x",
-                    "value": "3+",
-                    "blocking": False,
-                },
-                {
-                    "type": "unlocked",
-                    "rule": "practical_sex_ed",
-                    "blocking": False,
-                }
+                LevelCondition("3+"),
+                RuleCondition("practical_sex_ed"),
+                LockCondition()
             ]
         }
     )
 
-    load_rule(
+    $ load_rule(
         "practical_student_material", 
         "Use Students for study in Practical Sex Ed", {
             'unlock_conditions': [
-                {
-                    "type": "unlocked",
-                    "rule": "practical_teacher_material",
-                    "blocking": False,
-                }
+                RuleCondition("practical_teacher_material"),
+                LockCondition()
             ]
         }
     )
 
-    load_rule(
+    $ load_rule(
         "student_student_relation", 
         "Allowed Relationships between Students", {
             'description': ("Allows for students to have a relationship between"
-                " each other and to openly show it.")
+                " each other and to openly show it."),
+            'unlock_conditions':[
+                LockCondition()
+            ]
         }
     )
 
-    load_rule(
+    $ load_rule(
         "student_teacher_relation", 
         "Allowed Relationships between Students and Teacher", {
             'description': ("Allows for teacher to engage in a relationship with"
-                " students.")
+                " students."),
+            'unlock_conditions':[
+                LockCondition()
+            ]
         }
     )
 

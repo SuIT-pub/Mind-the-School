@@ -1,26 +1,5 @@
 init python:
-    def today():
-        return str(game_day) + "." + str(game_month) + "." + str(game_year)
-
-    def now():
-        return today() + "." + str(game_daytime)
-
-    def today_is_after_date(day_in, month_in, year_in):
-        if game_year > year_in:
-            return True
-        if game_month > month_in:
-            return True
-        if game_day > day_in:
-            return True
-        return False
-
-    def now_is_after_time(day_in, month_in, year_in, time_in):
-        if today_is_after_date(day_in, month_in, year_in):
-            return True
-        if daytime > time_in:
-            return True
-        return False
-
+    
     def level_to_string(school = ""):
 
         high_school_level = str(schools["high_school"].get_level())
@@ -48,15 +27,6 @@ init python:
         return schools[school].get_level()
 
         return -1
-
-    def get_weekday_num(day):
-        wd = (day + 28) % 7
-        if wd == 0:
-            wd = 7
-        return wd
-
-    def get_weekday(day):
-        return weekday[get_weekday_num(day) - 1]
 
     def clamp_stat(value):
         if (value < 0):
@@ -187,17 +157,6 @@ default Subtitles_Empty = Character(
 
 default rules = {}
 
-# default clubs = {
-#     "masturbation": 0,
-#     "exhibitionism": 0,
-#     "cosplay": 0,
-#     "cheerleading": 0,
-#     "porn": 0,
-#     "sex": 0,
-#     "service": 0,
-# }
-
-
 default school_name = "Windstor School"
 default principal_name = "Mark"
 
@@ -211,21 +170,9 @@ default schools = {}
 
 default money = Stat("money", 1000)
 
-default game_daytime = 0
-default game_day = 1
-default game_month = 1
-default game_year = 2023
+default time = Time()
 
 # 0 = no loli content (High School age: 18-22)
 # 1 = slight loli content (Middle School age: 13-17, High School age: 18-22)
 # 2 = hard loli content (Elementary School age: 8-12, Middle School age: 13-17, High School age: 18-22)
 # default loli_content = 0
-
-default weekday = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-
-default month_name = ["January", "February", "March", "April", "May", "June", 
-    "July", "August", "September", "October", "November", "December"
-]
-
-# pre-class first-class lunch-break second-class third-class post-class sleep
-default daytime_name = ["Morning", "Early Noon", "Noon", "Early Afternoon", "Afternoon", "Evening", "Night"]

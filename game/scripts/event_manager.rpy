@@ -101,26 +101,26 @@ init -999 python:
             if len(my_values) < 7:
                 continue
 
-            day     = my_values[0] if my_values[0] != "x" else str(game_day)
-            month   = my_values[1] if my_values[1] != "x" else str(game_month)
-            year    = my_values[2] if my_values[2] != "x" else str(game_year)
+            day     = my_values[0] if my_values[0] != "x" else str(time.day)
+            month   = my_values[1] if my_values[1] != "x" else str(time.month)
+            year    = my_values[2] if my_values[2] != "x" else str(time.year)
             daytime = my_values[3]
 
-            if ((daytime == "c" and     game_daytime in [2, 4, 5]) or
-                (daytime == "f" and     game_daytime in [1, 3, 6]) or
-                (daytime == "n" and     game_daytime in [7]      ) or
-                (daytime == "d" and not game_daytime in [7]      ) or
+            if ((daytime == "c" and     time.daytime in [2, 4, 5]) or
+                (daytime == "f" and     time.daytime in [1, 3, 6]) or
+                (daytime == "n" and     time.daytime in [7]      ) or
+                (daytime == "d" and not time.daytime in [7]      ) or
                 (daytime == "x")
             ):
-                daytime = str(game_daytime)
+                daytime = str(time.daytime)
 
             weekday = my_values[4]
 
-            if ((weekday == "d" and get_weekday_num(game_day) < 6) or
-                (weekday == "w" and get_weekday_num(game_day) > 5) or
+            if ((weekday == "d" and time.get_weekday_num() < 6) or
+                (weekday == "w" and time.get_weekday_num() > 5) or
                 (weekday == "x")
             ):
-                weekday = str(get_weekday_num(game_day))
+                weekday = str(time.get_weekday_num())
 
             levels  = my_values[5].split(':')
             levels[0] = get_level(levels[0], "high_school")
@@ -129,12 +129,12 @@ init -999 python:
 
             is_specific = my_values[6]
 
-            if (day             == str(game_day)                  and 
-                month           == str(game_month)                and 
-                year            == str(game_year)                 and 
-                daytime         == str(game_daytime)              and  
-                weekday         == str(get_weekday_num(game_day)) and
-                ':'.join(levels) == level_to_string()             and
+            if (day             == str(time.day)               and 
+                month           == str(time.month)             and 
+                year            == str(time.year)              and 
+                daytime         == str(time.daytime)           and  
+                weekday         == str(time.get_weekday_num()) and
+                ':'.join(levels) == level_to_string()          and
                 is_specific     == "0"
             ):
                 event_amount += len(value)
@@ -150,37 +150,37 @@ init -999 python:
             if len(my_values) < 6:
                 continue
 
-            day     = my_values[0] if my_values[0] != "x" else str(game_day)
-            month   = my_values[1] if my_values[1] != "x" else str(game_month)
-            year    = my_values[2] if my_values[2] != "x" else str(game_year)
+            day     = my_values[0] if my_values[0] != "x" else str(time.day)
+            month   = my_values[1] if my_values[1] != "x" else str(time.month)
+            year    = my_values[2] if my_values[2] != "x" else str(time.year)
             daytime = my_values[3]
 
-            if ((daytime == "c" and     game_daytime in [2, 4, 5]) or
-                (daytime == "f" and     game_daytime in [1, 3, 6]) or
-                (daytime == "n" and     game_daytime in [7]      ) or
-                (daytime == "d" and not game_daytime in [7]      ) or
+            if ((daytime == "c" and     time.daytime in [2, 4, 5]) or
+                (daytime == "f" and     time.daytime in [1, 3, 6]) or
+                (daytime == "n" and     time.daytime in [7]      ) or
+                (daytime == "d" and not time.daytime in [7]      ) or
                 (daytime == "x")
             ):
-                daytime = str(game_daytime)
+                daytime = str(time.daytime)
 
             weekday = my_values[4]
 
-            if ((weekday == "d" and get_weekday_num(game_day) < 6) or
-                (weekday == "w" and get_weekday_num(game_day) > 5) or
+            if ((weekday == "d" and time.get_weekday_num() < 6) or
+                (weekday == "w" and time.get_weekday_num() > 5) or
                 (weekday == "x")
             ):
-                weekday = str(get_weekday_num(game_day))
+                weekday = str(time.get_weekday_num())
 
             levels  = my_values[5].split(':')
             levels[0] = get_level(levels[0], "high_school")
             levels[1] = get_level(levels[1], "middle_school")
             levels[2] = get_level(levels[2], "elementary_school")
 
-            if (day             == str(game_day)                  and 
-                month           == str(game_month)                and 
-                year            == str(game_year)                 and 
-                daytime         == str(game_daytime)              and  
-                weekday         == str(get_weekday_num(game_day)) and
+            if (day             == str(time.day)               and 
+                month           == str(time.month)             and 
+                year            == str(time.year)              and 
+                daytime         == str(time.daytime)           and  
+                weekday         == str(time.get_weekday_num()) and
                 ':'.join(levels) == level_to_string()
             ):
                 my_events.append((key_values[1], k))
@@ -195,26 +195,26 @@ init -999 python:
             if len(my_values) < 7:
                 continue
 
-            day     = my_values[0] if my_values[0] != "x" else str(game_day)
-            month   = my_values[1] if my_values[1] != "x" else str(game_month)
-            year    = my_values[2] if my_values[2] != "x" else str(game_year)
+            day     = my_values[0] if my_values[0] != "x" else str(time.day)
+            month   = my_values[1] if my_values[1] != "x" else str(time.month)
+            year    = my_values[2] if my_values[2] != "x" else str(time.year)
             daytime = my_values[3]
 
-            if ((daytime == "c" and     game_daytime in [2, 4, 5]) or
-                (daytime == "f" and     game_daytime in [1, 3, 6]) or
-                (daytime == "n" and     game_daytime in [7]      ) or
-                (daytime == "d" and not game_daytime in [7]      ) or
+            if ((daytime == "c" and     time.daytime in [2, 4, 5]) or
+                (daytime == "f" and     time.daytime in [1, 3, 6]) or
+                (daytime == "n" and     time.daytime in [7]      ) or
+                (daytime == "d" and not time.daytime in [7]      ) or
                 (daytime == "x")
             ):
-                daytime = str(game_daytime)
+                daytime = str(time.daytime)
 
             weekday = my_values[4]
 
-            if ((weekday == "d" and get_weekday_num(game_day) < 6) or
-                (weekday == "w" and get_weekday_num(game_day) > 5) or
+            if ((weekday == "d" and time.get_weekday_num() < 6) or
+                (weekday == "w" and time.get_weekday_num() > 5) or
                 (weekday == "x")
             ):
-                weekday = str(get_weekday_num(game_day))
+                weekday = str(time.get_weekday_num())
 
             levels  = my_values[5].split(':')
             levels[0] = get_level(levels[0], "high_school")
@@ -223,15 +223,14 @@ init -999 python:
 
             is_specific = my_values[6]
 
-            if (day             == str(game_day)                  and 
-                month           == str(game_month)                and 
-                year            == str(game_year)                 and 
-                daytime         == str(game_daytime)              and  
-                weekday         == str(get_weekday_num(game_day)) and
-                ':'.join(levels) == level_to_string()             and
+            if (day             == str(time.day)               and 
+                month           == str(time.month)             and 
+                year            == str(time.year)              and 
+                daytime         == str(time.daytime)           and  
+                weekday         == str(time.get_weekday_num()) and
+                ':'.join(levels) == level_to_string()          and
                 is_specific     == "1"
             ):
-                print ("run event")
                 my_events.extend(v)
         return my_events
 
@@ -246,26 +245,26 @@ init -999 python:
             if my_values[0] != "x" or my_values[1] != "x" or my_values[2] != "x":
                 continue
 
-            day     = my_values[0] if my_values[0] != "x" else str(game_day)
-            month   = my_values[1] if my_values[1] != "x" else str(game_month)
-            year    = my_values[2] if my_values[2] != "x" else str(game_year)
+            day     = my_values[0] if my_values[0] != "x" else str(time.day)
+            month   = my_values[1] if my_values[1] != "x" else str(time.month)
+            year    = my_values[2] if my_values[2] != "x" else str(time.year)
             daytime = my_values[3]
 
-            if ((daytime == "c" and     game_daytime in [2, 4, 5]) or
-                (daytime == "f" and     game_daytime in [1, 3, 6]) or
-                (daytime == "n" and     game_daytime in [7]      ) or
-                (daytime == "d" and not game_daytime in [7]      ) or
+            if ((daytime == "c" and     time.daytime in [2, 4, 5]) or
+                (daytime == "f" and     time.daytime in [1, 3, 6]) or
+                (daytime == "n" and     time.daytime in [7]      ) or
+                (daytime == "d" and not time.daytime in [7]      ) or
                 (daytime == "x")
             ):
-                daytime = str(game_daytime)
+                daytime = str(time.daytime)
 
             weekday = my_values[4]
 
-            if ((weekday == "d" and get_weekday_num(game_day) < 6) or
-                (weekday == "w" and get_weekday_num(game_day) > 5) or
+            if ((weekday == "d" and time.get_weekday_num() < 6) or
+                (weekday == "w" and time.get_weekday_num() > 5) or
                 (weekday == "x")
             ):
-                weekday = str(get_weekday_num(game_day))
+                weekday = str(time.get_weekday_num())
 
             levels  = my_values[5].split(':')
             levels[0] = get_level(levels[0], "high_school")
@@ -274,12 +273,12 @@ init -999 python:
 
             is_specific = my_values[6]
 
-            if (day             == str(game_day)                  and 
-                month           == str(game_month)                and 
-                year            == str(game_year)                 and 
-                daytime         == str(game_daytime)              and  
-                weekday         == str(get_weekday_num(game_day)) and
-                ':'.join(levels) == level_to_string()             and
+            if (day             == str(time.day)               and 
+                month           == str(time.month)             and 
+                year            == str(time.year)              and 
+                daytime         == str(time.daytime)           and  
+                weekday         == str(time.get_weekday_num()) and
+                ':'.join(levels) == level_to_string()          and
                 is_specific     == "0"
             ):
                 my_events.extend(v)

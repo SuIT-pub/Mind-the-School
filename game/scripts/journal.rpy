@@ -2,9 +2,6 @@ label start_journal:
     call open_journal (1, "", "high_school")
 
 label open_journal (page, display, school):
-    python:
-        print("Open School: " + school)
-
     if page == 1:
         call screen journal_1(display, school)
     elif page == 2:
@@ -24,6 +21,9 @@ label close_journal:
 
 style journal_text:
     color "#000"
+    size 30
+
+style condition_text:
     size 30
 
 style buttons_idle:
@@ -99,9 +99,9 @@ screen journal_1 (display, school):
 
                     text "{image=icons/stat_money_icon.png}"
                     textbutton "  Money:":
-                            yalign 0.5 
-                            text_style button_style
-                            action Call("open_journal", 1, "money", school)
+                        yalign 0.5 
+                        text_style button_style
+                        action Call("open_journal", 1, "money", school)
                     text "[money_text]" style "journal_text" yalign 0.5
 
                 null height 20
@@ -118,9 +118,9 @@ screen journal_1 (display, school):
 
                     text "{image=icons/stat_level_icon.png}"
                     textbutton "  Level:":
-                                yalign 0.5 
-                                text_style button_style
-                                action Call("open_journal", 1, "level", school)
+                        yalign 0.5 
+                        text_style button_style
+                        action Call("open_journal", 1, "level", school)
                     text "[level_text]" style "journal_text" yalign 0.5
 
                 null height 20
@@ -297,26 +297,18 @@ screen journal_2 (display, school):
 
                 vbox:
                     for condition in active_rule.unlock_conditions:
-                        if "blocking" not in condition or not condition["blocking"]:
-                            if condition["type"] == "level":
-                                if active_rule.is_condition_fullfilled(school, condition):
-                                    text "{image=icons/stat_level_icon.png} {color=#0f0}" + condition["value"] + "{/color}" size 30
-                                else:
-                                    text "{image=icons/stat_level_icon.png} {color=#f00}" + condition["value"] + "{/color}" size 30
-                            elif condition["type"] == "stat":
-                                $ stat_name = condition["stat"]
-                                $ stat_icon = "icons/stat_" + stat_name + "_icon.png"
-                                $ stat_value = condition["value"]
-                                if active_rule.is_condition_fullfilled(school, condition):
-                                    hbox:
-                                        text "{image=[stat_icon]}"
-                                        text " {color=#0f0}[stat_value]{/color}" size 30 yalign 0.5
-                                else:
-                                    hbox:
-                                        text "{image=[stat_icon]}"
-                                        text " {color=#f00}[stat_value]{/color}" size 30 yalign 0.5
+                        if not condition.is_set_blocking():
+                            $ texts = condition.to_text(school)
+                            hbox:
+                                textbutton texts[0]:
+                                    tooltip condition.get_name()
+                                    action NullAction()
+                                textbutton texts[1]:
+                                    text_style "condition_text"
+                                    yalign 0.5
+                                    tooltip condition.get_name()
+                                    action NullAction()
                                 
-
             vbar value YScrollValue("RuleCond"):
                 unscrollable "hide"
                 xalign 1.0
@@ -386,15 +378,16 @@ screen journal_3 (display, school):
             draggable "touch"
 
             vbox:
-                for club in clubs.values():
+                for club_name in get_visible_clubs_by_school(school):
+                    $ club = get_club(club_name)
                     if club is not None:
                         $ club_title = club.title
                         $ button_style = "buttons_idle"
-                        if club.name == display:
+                        if club_name == display:
                             $ button_style = "buttons_selected"
                         textbutton club_title:
                             text_style button_style
-                            action Call("open_journal", 3, club.name, school)
+                            action Call("open_journal", 3, club_name, school)
 
         vbar value YScrollValue("ClubsList"):
             unscrollable "hide"
@@ -436,21 +429,12 @@ screen journal_3 (display, school):
 
                 vbox:
                     for condition in active_club.unlock_conditions:
-                        if "blocking" not in condition or not condition["blocking"]:
-                            if condition["type"] == "stat":
-                                $ stat_name = condition["stat"]
-                                $ stat_icon = "icons/stat_" + stat_name + "_icon.png"
-                                $ stat_value = condition["value"]
-                                if active_club.is_condition_fullfilled(condition, school):
-                                    hbox:
-                                        text "{image=[stat_icon]}"
-                                        text " {color=#0f0}[stat_value]{/color}" size 30 yalign 0.5
-                                else:
-                                    hbox:
-                                        text "{image=[stat_icon]}"
-                                        text " {color=#f00}[stat_value]{/color}" size 30 yalign 0.5
+                        if not condition.is_set_blocking():
+                            $ texts = condition.to_text(school)
+                            hbox:
+                                text texts[0]
+                                text texts[1] size 30 yalign 0.5
                                 
-
             vbar value YScrollValue("ClubCond"):
                 unscrollable "hide"
                 xalign 1.0
@@ -500,15 +484,16 @@ screen journal_4 (display, school):
             draggable "touch"
 
             vbox:
-                for building in buildings.values():
+                for building_name in get_visible_buildings():
+                    $ building = get_building(building_name)
                     if building is not None:
                         $ building_title = building.title
                         $ button_style = "buttons_idle"
-                        if building.name == display:
+                        if building_name == display:
                             $ button_style = "buttons_selected"
                         textbutton building_title:
                             text_style button_style
-                            action Call("open_journal", 4, building.name, school)
+                            action Call("open_journal", 4, building_name, school)
 
         vbar value YScrollValue("BuildingList"):
             unscrollable "hide"
@@ -550,20 +535,14 @@ screen journal_4 (display, school):
 
                 vbox:
                     for condition in active_building.unlock_conditions:
-                        if "blocking" not in condition or not condition["blocking"]:
-                            if condition["type"] == "stat":
-                                $ stat_name = condition["stat"]
-                                $ stat_icon = "icons/stat_" + stat_name + "_icon.png"
-                                $ stat_value = condition["value"]
-                                if active_building.is_condition_fullfilled(condition):
-                                    hbox:
-                                        text "{image=[stat_icon]}"
-                                        text " {color=#0f0}[stat_value]{/color}" size 30 yalign 0.5
-                                else:
-                                    hbox:
-                                        text "{image=[stat_icon]}"
-                                        text " {color=#f00}[stat_value]{/color}" size 30 yalign 0.5
-                                
+                        if not condition.is_set_blocking():
+                            $ texts = condition.to_text(school)
+                            hbox:
+                                text texts[0]
+                                text texts[1]: 
+                                    size 30 
+                                    yalign 0.5
+                                    tooltip condition
 
             vbar value YScrollValue("BuildingCond"):
                 unscrollable "hide"

@@ -91,7 +91,7 @@ label gym_person_fallback:
 # weekly assembly entry point
 label weekly_assembly:
 
-    if today() == "1.1.2023":
+    if time.today() == "1.1.2023":
         jump weekly_assembly_first
 
     Subtitles "todo: weekly assembly"

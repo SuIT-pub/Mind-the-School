@@ -8,8 +8,6 @@ init python:
             self.title = title
             self.level = Stat("level", 0)
 
-            print(self.stats_objects)
-
         def get_stat_obj(self, stat):
             if not stat in self.stats_objects:
                 return None
@@ -41,7 +39,6 @@ init python:
                 stat_obj.reset_change()
 
         def get_stats(self):
-            print (self.stats_objects)
             return self.stats_objects
 
         def get_level(self):
@@ -92,20 +89,19 @@ init python:
             stat_obj.set_changed_value(math.ceil((stats[stat_keys] - schools["school_mean"].get_stat_obj(stat_keys).get_value()) * 100) / 100)
             stat_obj.set_value(stats[stat_keys])
     
-    def load_school(name, title, start_data):
-        if "high_school" not in schools.keys():
+    def load_school(name, title, start_data, runtime_data = None):
+        if name not in schools.keys():
             schools[name] = School(name, title)
             schools[name].__dict__.update(start_data)
-    
-    def load_school(name, title, start_data, runtime_data):
-        load_school(name, title, start_data)
-        schools[name].__dict__.update(runtime_data)
+
+        if runtime_data != None:
+            schools[name].__dict__.update(runtime_data)
 
     def update_school(name, data):
         schools[name].__dict__.update(data)
 
 label load_schools:
-    load_school("high_school", "High School", {
+    $ load_school("high_school", "High School", {
         'stats_objects': {
             "corruption": Stat("corruption", 0),
             "inhibition": Stat("inhibition", 0),
@@ -116,7 +112,7 @@ label load_schools:
         }
     })
 
-    load_school("middle_school", "Middle School", {
+    $ load_school("middle_school", "Middle School", {
         'stats_objects': {
             "corruption": Stat("corruption", 0),
             "inhibition": Stat("inhibition", 0),
@@ -127,7 +123,7 @@ label load_schools:
         }
     })
 
-    load_school("elementary_school", "Elementary School", {
+    $ load_school("elementary_school", "Elementary School", {
         'stats_objects': {
             "corruption": Stat("corruption", 0),
             "inhibition": Stat("inhibition", 0),
@@ -138,7 +134,7 @@ label load_schools:
         }
     })
 
-    load_school("staff", "Staff", {
+    $ load_school("staff", "Staff", {
         'stats_objects': {
             "corruption": Stat("corruption", 0),
             "inhibition": Stat("inhibition", 0),
@@ -149,7 +145,7 @@ label load_schools:
         }
     })
 
-    load_school("school_mean", "School Mean", {
+    $ load_school("school_mean", "School Mean", {
         'stats_objects': {
             "corruption": Stat("corruption", 0),
             "inhibition": Stat("inhibition", 0),

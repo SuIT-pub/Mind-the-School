@@ -1,41 +1,69 @@
-Tue Jun 13 10:29:38 2023
+Wed Jun 14 14:07:03 2023
 Windows-10-10.0.19045
 Ren'Py 8.0.3.22090809
  
 
-Bootstrap to the start of init.init took 0.03s
+Bootstrap to the start of init.init took 0.11s
+Early init took 0.01s
+Loader init took 0.26s
+Loading error handling took 0.12s
+Loading script took 2.75s
+Loading save slot metadata. took 0.25s
+Loading persistent took 0.00s
+
+File "game/scripts/conditions.rpy", line 193: invalid syntax
+            return return ["", "{color=#f00}LOCKED{/color}"]
+                    ^
+    
+DPI scale factor: 2.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Interface start took 0.26s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 3840, 2160)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.3959'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(3616, 2034) drawable=(3616, 2034)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init took 22.43s
 Early init took 0.00s
-Loader init took 0.10s
-Loading error handling took 0.11s
-Loading script took 1.44s
-Loading save slot metadata. took 0.14s
+Loader init took 0.05s
+Loading error handling took 0.03s
+Loading script took 0.25s
+Loading save slot metadata. took 0.03s
 Loading persistent took 0.00s
 Faled to initialize steam: FileNotFoundError("Could not find module 'C:\\RenPy\\lib\\py3-windows-x86_64\\steam_api64.dll' (or one of its dependencies). Try using the full path with constructor syntax.")
-Running init code took 0.22s
-Loading analysis data took 0.02s
+Running init code took 0.27s
+Loading analysis data took 0.03s
 Analyze and compile ATL took 0.00s
 Index archives took 0.00s
 Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.06s
+Dump and make backups. took 0.11s
 Cleaning cache took 0.00s
 Making clean stores took 0.00s
-Initial gc. took 0.03s
+Initial gc. took 0.04s
 DPI scale factor: 2.000000
 nvdrs: Loaded, about to disable thread optimizations.
 nvdrs: b"Couldn't load nvlib." (can be ignored)
 Creating interface object took 0.00s
 Cleaning stores took 0.00s
-Init translation took 0.04s
+Init translation took 0.05s
 Build styles took 0.00s
 Load screen analysis took 0.01s
 Analyze screens took 0.02s
-Save screen analysis took 0.04s
+Save screen analysis took 0.03s
 Prepare screens took 0.09s
 Save pyanalysis. took 0.00s
-Save bytecode. took 0.06s
+Save bytecode. took 0.03s
 Running _start took 0.00s
 Performance test:
-Interface start took 0.18s
+Interface start took 0.11s
 
 Initializing gl2 renderer:
 primary display bounds: (0, 0, 3840, 2160)
@@ -49,545 +77,285 @@ Screen sizes: virtual=(1920, 1080) physical=(3616, 2034) drawable=(3616, 2034)
 Maximum texture size: 4096x4096
 Screen sizes: virtual=(1920, 1080) physical=(3840, 2035) drawable=(3840, 2035)
 Maximum texture size: 4096x4096
-{}
-{}
-{}
-{}
-{}
-run event
-run event
-Open School: high_school
-{'corruption': <store.Stat object at 0x0000000005da3610>, 'inhibition': <store.Stat object at 0x0000000005da3460>, 'happiness': <store.Stat object at 0x0000000005db5d00>, 'education': <store.Stat object at 0x0000000005db5eb0>, 'charm': <store.Stat object at 0x0000000005db5070>, 'reputation': <store.Stat object at 0x0000000005db5700>}
-{'corruption': <store.Stat object at 0x0000000005da3610>, 'inhibition': <store.Stat object at 0x0000000005da3460>, 'happiness': <store.Stat object at 0x0000000005db5d00>, 'education': <store.Stat object at 0x0000000005db5eb0>, 'charm': <store.Stat object at 0x0000000005db5070>, 'reputation': <store.Stat object at 0x0000000005db5700>}
-
-Full traceback:
-  File "game/scripts/overview.rpy", line 289, in script call
-    call time_event_check
-  File "game/scripts/buildings/daily_check.rpy", line 23, in script call
-    call event_check(time_check_events)
-  File "game/scripts/event_manager.rpy", line 311, in script call
-    call expression my_events[i]
-  File "game/scripts/overview.rpy", line 320, in script call
-    Subtitles_Empty ""
-  File "game/scripts/journal.rpy", line 2, in script call
-    call open_journal (1, "", "high_school")
-  File "game/scripts/journal.rpy", line 9, in script
-    call screen journal_1(display, school)
-  File "C:\RenPy\renpy\ast.py", line 2232, in execute
-    self.call("execute")
-  File "C:\RenPy\renpy\ast.py", line 2220, in call
-    return renpy.statements.call(method, parsed, *args, **kwargs)
-  File "C:\RenPy\renpy\statements.py", line 281, in call
-    return method(parsed, *args, **kwargs)
-  File "renpy/common/000statements.rpy", line 609, in execute_call_screen
-    store._return = renpy.call_screen(name, *args, **kwargs)
-  File "C:\RenPy\renpy\exports.py", line 3181, in call_screen
-    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
-  File "C:\RenPy\renpy\ui.py", line 299, in interact
-    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
-  File "C:\RenPy\renpy\display\core.py", line 3377, in interact
-    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
-  File "C:\RenPy\renpy\display\core.py", line 3810, in interact_core
-    root_widget.visit_all(lambda i : i.per_interact())
-  File "C:\RenPy\renpy\display\core.py", line 582, in visit_all
-    d.visit_all(callback, seen)
-  File "C:\RenPy\renpy\display\core.py", line 582, in visit_all
-    d.visit_all(callback, seen)
-  File "C:\RenPy\renpy\display\core.py", line 582, in visit_all
-    d.visit_all(callback, seen)
-  File "C:\RenPy\renpy\display\screen.py", line 451, in visit_all
-    callback(self)
-  File "C:\RenPy\renpy\display\core.py", line 3810, in <lambda>
-    root_widget.visit_all(lambda i : i.per_interact())
-  File "C:\RenPy\renpy\display\screen.py", line 462, in per_interact
-    self.update()
-  File "C:\RenPy\renpy\display\screen.py", line 653, in update
-    self.screen.function(**self.scope)
-  File "game/scripts/journal.rpy", line 38, in execute
-    screen journal_1 (display, school):
-  File "game/scripts/journal.rpy", line 38, in execute
-    screen journal_1 (display, school):
-  File "game/scripts/journal.rpy", line 84, in execute
-    frame:
-  File "game/scripts/journal.rpy", line 89, in execute
-    viewport id "Overview":
-  File "game/scripts/journal.rpy", line 93, in execute
-    vbox:
-  File "game/scripts/journal.rpy", line 128, in execute
-    for stat_key in school_object.get_stats().keys():
-  File "game/scripts/journal.rpy", line 130, in execute
-    $ stat_icon = stat_obj.image_path
-  File "game/scripts/journal.rpy", line 130, in <module>
-    $ stat_icon = stat_obj.image_path
-AttributeError: 'Stat' object has no attribute 'image_path'
-
-While running game code:
-  File "game/scripts/overview.rpy", line 289, in script call
-    call time_event_check
-  File "game/scripts/buildings/daily_check.rpy", line 23, in script call
-    call event_check(time_check_events)
-  File "game/scripts/event_manager.rpy", line 311, in script call
-    call expression my_events[i]
-  File "game/scripts/overview.rpy", line 320, in script call
-    Subtitles_Empty ""
-  File "game/scripts/journal.rpy", line 2, in script call
-    call open_journal (1, "", "high_school")
-  File "game/scripts/journal.rpy", line 9, in script
-    call screen journal_1(display, school)
-  File "renpy/common/000statements.rpy", line 609, in execute_call_screen
-    store._return = renpy.call_screen(name, *args, **kwargs)
-  File "game/scripts/journal.rpy", line 38, in execute
-    screen journal_1 (display, school):
-  File "game/scripts/journal.rpy", line 38, in execute
-    screen journal_1 (display, school):
-  File "game/scripts/journal.rpy", line 84, in execute
-    frame:
-  File "game/scripts/journal.rpy", line 89, in execute
-    viewport id "Overview":
-  File "game/scripts/journal.rpy", line 93, in execute
-    vbox:
-  File "game/scripts/journal.rpy", line 128, in execute
-    for stat_key in school_object.get_stats().keys():
-  File "game/scripts/journal.rpy", line 130, in execute
-    $ stat_icon = stat_obj.image_path
-  File "game/scripts/journal.rpy", line 130, in <module>
-    $ stat_icon = stat_obj.image_path
-AttributeError: 'Stat' object has no attribute 'image_path'
-Resetting cache.
-Bootstrap to the start of init.init took 32.50s
-Early init took 0.00s
-Loader init took 0.04s
-Loading error handling took 0.04s
-Loading script took 0.19s
-Loading save slot metadata. took 0.07s
-Loading persistent took 0.00s
-Faled to initialize steam: FileNotFoundError("Could not find module 'C:\\RenPy\\lib\\py3-windows-x86_64\\steam_api64.dll' (or one of its dependencies). Try using the full path with constructor syntax.")
-Running init code took 0.02s
-Loading analysis data took 0.02s
-Analyze and compile ATL took 0.00s
-Index archives took 0.00s
-Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.05s
-Cleaning cache took 0.00s
-Making clean stores took 0.00s
-Initial gc. took 0.07s
-DPI scale factor: 2.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: b"Couldn't load nvlib." (can be ignored)
-Creating interface object took 0.00s
-Cleaning stores took 0.00s
-Init translation took 0.05s
-Build styles took 0.00s
-Load screen analysis took 0.01s
-Analyze screens took 0.02s
-Save screen analysis took 0.03s
-Prepare screens took 0.06s
-Save pyanalysis. took 0.00s
-Save bytecode. took 0.04s
-Running _start took 0.00s
-Performance test:
-Interface start took 0.08s
-
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 3840, 2160)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'Intel'"
-Renderer: b'Intel(R) Iris(R) Xe Graphics'
-Version: b'4.6.0 - Build 31.0.101.3959'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(3840, 2035) drawable=(3840, 2035)
-Maximum texture size: 4096x4096
-{'corruption': <store.Stat object at 0x0000000004c879a0>, 'inhibition': <store.Stat object at 0x0000000004c878e0>, 'happiness': <store.Stat object at 0x0000000004c871c0>, 'education': <store.Stat object at 0x0000000004c87160>, 'charm': <store.Stat object at 0x0000000004c87340>, 'reputation': <store.Stat object at 0x0000000004c87490>}
-{'corruption': <store.Stat object at 0x0000000004c879a0>, 'inhibition': <store.Stat object at 0x0000000004c878e0>, 'happiness': <store.Stat object at 0x0000000004c871c0>, 'education': <store.Stat object at 0x0000000004c87160>, 'charm': <store.Stat object at 0x0000000004c87340>, 'reputation': <store.Stat object at 0x0000000004c87490>}
-
-Full traceback:
-  File "game/scripts/overview.rpy", line 289, in script call
-    call time_event_check
-  File "game/scripts/buildings/daily_check.rpy", line 23, in script call
-    call event_check(time_check_events)
-  File "game/scripts/event_manager.rpy", line 311, in script call
-    call expression my_events[i]
-  File "game/scripts/overview.rpy", line 320, in script call
-    Subtitles_Empty ""
-  File "game/scripts/journal.rpy", line 2, in script call
-    call open_journal (1, "", "high_school")
-  File "game/scripts/journal.rpy", line 9, in script
-    call screen journal_1(display, school)
-  File "C:\RenPy\renpy\ast.py", line 2232, in execute
-    self.call("execute")
-  File "C:\RenPy\renpy\ast.py", line 2220, in call
-    return renpy.statements.call(method, parsed, *args, **kwargs)
-  File "C:\RenPy\renpy\statements.py", line 281, in call
-    return method(parsed, *args, **kwargs)
-  File "renpy/common/000statements.rpy", line 609, in execute_call_screen
-    store._return = renpy.call_screen(name, *args, **kwargs)
-  File "C:\RenPy\renpy\exports.py", line 3181, in call_screen
-    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
-  File "C:\RenPy\renpy\ui.py", line 299, in interact
-    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
-  File "C:\RenPy\renpy\display\core.py", line 3377, in interact
-    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
-  File "C:\RenPy\renpy\display\core.py", line 3810, in interact_core
-    root_widget.visit_all(lambda i : i.per_interact())
-  File "C:\RenPy\renpy\display\core.py", line 582, in visit_all
-    d.visit_all(callback, seen)
-  File "C:\RenPy\renpy\display\core.py", line 582, in visit_all
-    d.visit_all(callback, seen)
-  File "C:\RenPy\renpy\display\core.py", line 582, in visit_all
-    d.visit_all(callback, seen)
-  File "C:\RenPy\renpy\display\screen.py", line 451, in visit_all
-    callback(self)
-  File "C:\RenPy\renpy\display\core.py", line 3810, in <lambda>
-    root_widget.visit_all(lambda i : i.per_interact())
-  File "C:\RenPy\renpy\display\screen.py", line 462, in per_interact
-    self.update()
-  File "C:\RenPy\renpy\display\screen.py", line 653, in update
-    self.screen.function(**self.scope)
-  File "game/scripts/journal.rpy", line 38, in execute
-    screen journal_1 (display, school):
-  File "game/scripts/journal.rpy", line 38, in execute
-    screen journal_1 (display, school):
-  File "game/scripts/journal.rpy", line 84, in execute
-    frame:
-  File "game/scripts/journal.rpy", line 89, in execute
-    viewport id "Overview":
-  File "game/scripts/journal.rpy", line 93, in execute
-    vbox:
-  File "game/scripts/journal.rpy", line 128, in execute
-    for stat_key in school_object.get_stats().keys():
-  File "game/scripts/journal.rpy", line 130, in execute
-    $ stat_icon = stat_obj.image_path
-  File "game/scripts/journal.rpy", line 130, in <module>
-    $ stat_icon = stat_obj.image_path
-AttributeError: 'Stat' object has no attribute 'image_path'
-
-While running game code:
-  File "game/scripts/overview.rpy", line 289, in script call
-    call time_event_check
-  File "game/scripts/buildings/daily_check.rpy", line 23, in script call
-    call event_check(time_check_events)
-  File "game/scripts/event_manager.rpy", line 311, in script call
-    call expression my_events[i]
-  File "game/scripts/overview.rpy", line 320, in script call
-    Subtitles_Empty ""
-  File "game/scripts/journal.rpy", line 2, in script call
-    call open_journal (1, "", "high_school")
-  File "game/scripts/journal.rpy", line 9, in script
-    call screen journal_1(display, school)
-  File "renpy/common/000statements.rpy", line 609, in execute_call_screen
-    store._return = renpy.call_screen(name, *args, **kwargs)
-  File "game/scripts/journal.rpy", line 38, in execute
-    screen journal_1 (display, school):
-  File "game/scripts/journal.rpy", line 38, in execute
-    screen journal_1 (display, school):
-  File "game/scripts/journal.rpy", line 84, in execute
-    frame:
-  File "game/scripts/journal.rpy", line 89, in execute
-    viewport id "Overview":
-  File "game/scripts/journal.rpy", line 93, in execute
-    vbox:
-  File "game/scripts/journal.rpy", line 128, in execute
-    for stat_key in school_object.get_stats().keys():
-  File "game/scripts/journal.rpy", line 130, in execute
-    $ stat_icon = stat_obj.image_path
-  File "game/scripts/journal.rpy", line 130, in <module>
-    $ stat_icon = stat_obj.image_path
-AttributeError: 'Stat' object has no attribute 'image_path'
-Cleaning stores took 0.00s
-Init translation took 0.00s
-Build styles took 0.00s
-Load screen analysis took 0.03s
-Analyze screens took 0.00s
-Prepare screens took 0.00s
-Running _start took 0.00s
-{}
-{}
-{}
-{}
-{}
-run event
-run event
-Open School: high_school
-{'corruption': <store.Stat object at 0x0000000005474490>, 'inhibition': <store.Stat object at 0x000000000544aa30>, 'happiness': <store.Stat object at 0x000000000544a0d0>, 'education': <store.Stat object at 0x000000000544acd0>, 'charm': <store.Stat object at 0x0000000004e03190>, 'reputation': <store.Stat object at 0x0000000004e89b50>}
-{'corruption': <store.Stat object at 0x0000000005474490>, 'inhibition': <store.Stat object at 0x000000000544aa30>, 'happiness': <store.Stat object at 0x000000000544a0d0>, 'education': <store.Stat object at 0x000000000544acd0>, 'charm': <store.Stat object at 0x0000000004e03190>, 'reputation': <store.Stat object at 0x0000000004e89b50>}
-{'corruption': <store.Stat object at 0x0000000005474490>, 'inhibition': <store.Stat object at 0x000000000544aa30>, 'happiness': <store.Stat object at 0x000000000544a0d0>, 'education': <store.Stat object at 0x000000000544acd0>, 'charm': <store.Stat object at 0x0000000004e03190>, 'reputation': <store.Stat object at 0x0000000004e89b50>}
-{'corruption': <store.Stat object at 0x0000000005474490>, 'inhibition': <store.Stat object at 0x000000000544aa30>, 'happiness': <store.Stat object at 0x000000000544a0d0>, 'education': <store.Stat object at 0x000000000544acd0>, 'charm': <store.Stat object at 0x0000000004e03190>, 'reputation': <store.Stat object at 0x0000000004e89b50>}
-{'corruption': <store.Stat object at 0x0000000005474490>, 'inhibition': <store.Stat object at 0x000000000544aa30>, 'happiness': <store.Stat object at 0x000000000544a0d0>, 'education': <store.Stat object at 0x000000000544acd0>, 'charm': <store.Stat object at 0x0000000004e03190>, 'reputation': <store.Stat object at 0x0000000004e89b50>}
-{'corruption': <store.Stat object at 0x0000000005474490>, 'inhibition': <store.Stat object at 0x000000000544aa30>, 'happiness': <store.Stat object at 0x000000000544a0d0>, 'education': <store.Stat object at 0x000000000544acd0>, 'charm': <store.Stat object at 0x0000000004e03190>, 'reputation': <store.Stat object at 0x0000000004e89b50>}
-{'corruption': <store.Stat object at 0x0000000005474490>, 'inhibition': <store.Stat object at 0x000000000544aa30>, 'happiness': <store.Stat object at 0x000000000544a0d0>, 'education': <store.Stat object at 0x000000000544acd0>, 'charm': <store.Stat object at 0x0000000004e03190>, 'reputation': <store.Stat object at 0x0000000004e89b50>}
-0
-['The school has not made any progress yet. You are currently in the phase of scouting the school and finding the correct measure to start the process.', 'You unlocked the potential of sexual heaven to the students.\nBeing prude and absolute unaccepting of the topic before, they now opened their mind to new heights even though they are still new and fearful of it.', 'level 2', 'level 3', 'level 4', 'level 5', 'level 6', 'level 7', 'level 8', 'level 9', 'level 10']
-
-
-
-
-#############################
-
-
-
-
-rule: theoretical_sex_ed, type: level, blocking: False
-stat: x school: high_school
-fullfilled:False
-rule: theoretical_sex_ed, type: stat, blocking: False
-{'corruption': <store.Stat object at 0x0000000005474490>, 'inhibition': <store.Stat object at 0x000000000544aa30>, 'happiness': <store.Stat object at 0x000000000544a0d0>, 'education': <store.Stat object at 0x000000000544acd0>, 'charm': <store.Stat object at 0x0000000004e03190>, 'reputation': <store.Stat object at 0x0000000004e89b50>}
-{'corruption': <store.Stat object at 0x0000000005474490>, 'inhibition': <store.Stat object at 0x000000000544aa30>, 'happiness': <store.Stat object at 0x000000000544a0d0>, 'education': <store.Stat object at 0x000000000544acd0>, 'charm': <store.Stat object at 0x0000000004e03190>, 'reputation': <store.Stat object at 0x0000000004e89b50>}
-{'corruption': <store.Stat object at 0x0000000005474490>, 'inhibition': <store.Stat object at 0x000000000544aa30>, 'happiness': <store.Stat object at 0x000000000544a0d0>, 'education': <store.Stat object at 0x000000000544acd0>, 'charm': <store.Stat object at 0x0000000004e03190>, 'reputation': <store.Stat object at 0x0000000004e89b50>}
-{'corruption': <store.Stat object at 0x0000000005474490>, 'inhibition': <store.Stat object at 0x000000000544aa30>, 'happiness': <store.Stat object at 0x000000000544a0d0>, 'education': <store.Stat object at 0x000000000544acd0>, 'charm': <store.Stat object at 0x0000000004e03190>, 'reputation': <store.Stat object at 0x0000000004e89b50>}
-{'corruption': <store.Stat object at 0x0000000005474490>, 'inhibition': <store.Stat object at 0x000000000544aa30>, 'happiness': <store.Stat object at 0x000000000544a0d0>, 'education': <store.Stat object at 0x000000000544acd0>, 'charm': <store.Stat object at 0x0000000004e03190>, 'reputation': <store.Stat object at 0x0000000004e89b50>}
-{'corruption': <store.Stat object at 0x0000000005474490>, 'inhibition': <store.Stat object at 0x000000000544aa30>, 'happiness': <store.Stat object at 0x000000000544a0d0>, 'education': <store.Stat object at 0x000000000544acd0>, 'charm': <store.Stat object at 0x0000000004e03190>, 'reputation': <store.Stat object at 0x0000000004e89b50>}
-{'corruption': <store.Stat object at 0x0000000005474490>, 'inhibition': <store.Stat object at 0x000000000544aa30>, 'happiness': <store.Stat object at 0x000000000544a0d0>, 'education': <store.Stat object at 0x000000000544acd0>, 'charm': <store.Stat object at 0x0000000004e03190>, 'reputation': <store.Stat object at 0x0000000004e89b50>}
-{'corruption': <store.Stat object at 0x0000000005474490>, 'inhibition': <store.Stat object at 0x000000000544aa30>, 'happiness': <store.Stat object at 0x000000000544a0d0>, 'education': <store.Stat object at 0x000000000544acd0>, 'charm': <store.Stat object at 0x0000000004e03190>, 'reputation': <store.Stat object at 0x0000000004e89b50>}
-{'corruption': <store.Stat object at 0x0000000005474490>, 'inhibition': <store.Stat object at 0x000000000544aa30>, 'happiness': <store.Stat object at 0x000000000544a0d0>, 'education': <store.Stat object at 0x000000000544acd0>, 'charm': <store.Stat object at 0x0000000004e03190>, 'reputation': <store.Stat object at 0x0000000004e89b50>}
-0
-['The school has not made any progress yet. You are currently in the phase of scouting the school and finding the correct measure to start the process.', 'You unlocked the potential of sexual heaven to the students.\nBeing prude and absolute unaccepting of the topic before, they now opened their mind to new heights even though they are still new and fearful of it.', 'level 2', 'level 3', 'level 4', 'level 5', 'level 6', 'level 7', 'level 8', 'level 9', 'level 10']
-
-
-
-
-#############################
-
-
-
-
-rule: theoretical_sex_ed, type: level, blocking: False
-stat: x school: high_school
-fullfilled:False
-rule: theoretical_sex_ed, type: stat, blocking: False
-Open School: high_school
-{'corruption': <store.Stat object at 0x0000000005474490>, 'inhibition': <store.Stat object at 0x000000000544aa30>, 'happiness': <store.Stat object at 0x000000000544a0d0>, 'education': <store.Stat object at 0x000000000544acd0>, 'charm': <store.Stat object at 0x0000000004e03190>, 'reputation': <store.Stat object at 0x0000000004e89b50>}
-{'corruption': <store.Stat object at 0x0000000005474490>, 'inhibition': <store.Stat object at 0x000000000544aa30>, 'happiness': <store.Stat object at 0x000000000544a0d0>, 'education': <store.Stat object at 0x000000000544acd0>, 'charm': <store.Stat object at 0x0000000004e03190>, 'reputation': <store.Stat object at 0x0000000004e89b50>}
-{'corruption': <store.Stat object at 0x0000000005474490>, 'inhibition': <store.Stat object at 0x000000000544aa30>, 'happiness': <store.Stat object at 0x000000000544a0d0>, 'education': <store.Stat object at 0x000000000544acd0>, 'charm': <store.Stat object at 0x0000000004e03190>, 'reputation': <store.Stat object at 0x0000000004e89b50>}
-0
-['The school has not made any progress yet. You are currently in the phase of scouting the school and finding the correct measure to start the process.', 'You unlocked the potential of sexual heaven to the students.\nBeing prude and absolute unaccepting of the topic before, they now opened their mind to new heights even though they are still new and fearful of it.', 'level 2', 'level 3', 'level 4', 'level 5', 'level 6', 'level 7', 'level 8', 'level 9', 'level 10']
-
-
-
-
-#############################
-
-
-
-
-rule: theoretical_sex_ed, type: level, blocking: False
-stat: x school: high_school
-fullfilled:False
-rule: theoretical_sex_ed, type: stat, blocking: False
-Open School: high_school
-
-Full traceback:
-  File "game/scripts/overview.rpy", line 289, in script call
-    call time_event_check
-  File "game/scripts/buildings/daily_check.rpy", line 23, in script call
-    call event_check(time_check_events)
-  File "game/scripts/event_manager.rpy", line 311, in script call
-    call expression my_events[i]
-  File "game/scripts/overview.rpy", line 320, in script call
-    Subtitles_Empty ""
-  File "game/scripts/journal.rpy", line 2, in script call
-    call open_journal (1, "", "high_school")
-  File "game/scripts/journal.rpy", line 9, in script call
-    call screen journal_1(display, school)
-  File "game/scripts/journal.rpy", line 13, in script call
-    call screen journal_3(display, school)
-  File "game/scripts/journal.rpy", line 13, in script
-    call screen journal_3(display, school)
-  File "C:\RenPy\renpy\ast.py", line 2232, in execute
-    self.call("execute")
-  File "C:\RenPy\renpy\ast.py", line 2220, in call
-    return renpy.statements.call(method, parsed, *args, **kwargs)
-  File "C:\RenPy\renpy\statements.py", line 281, in call
-    return method(parsed, *args, **kwargs)
-  File "renpy/common/000statements.rpy", line 609, in execute_call_screen
-    store._return = renpy.call_screen(name, *args, **kwargs)
-  File "C:\RenPy\renpy\exports.py", line 3181, in call_screen
-    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
-  File "C:\RenPy\renpy\ui.py", line 299, in interact
-    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
-  File "C:\RenPy\renpy\display\core.py", line 3377, in interact
-    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
-  File "C:\RenPy\renpy\display\core.py", line 3810, in interact_core
-    root_widget.visit_all(lambda i : i.per_interact())
-  File "C:\RenPy\renpy\display\core.py", line 582, in visit_all
-    d.visit_all(callback, seen)
-  File "C:\RenPy\renpy\display\core.py", line 582, in visit_all
-    d.visit_all(callback, seen)
-  File "C:\RenPy\renpy\display\core.py", line 582, in visit_all
-    d.visit_all(callback, seen)
-  File "C:\RenPy\renpy\display\screen.py", line 451, in visit_all
-    callback(self)
-  File "C:\RenPy\renpy\display\core.py", line 3810, in <lambda>
-    root_widget.visit_all(lambda i : i.per_interact())
-  File "C:\RenPy\renpy\display\screen.py", line 462, in per_interact
-    self.update()
-  File "C:\RenPy\renpy\display\screen.py", line 653, in update
-    self.screen.function(**self.scope)
-  File "game/scripts/journal.rpy", line 343, in execute
-    screen journal_3 (display, school):
-  File "game/scripts/journal.rpy", line 343, in execute
-    screen journal_3 (display, school):
-  File "game/scripts/journal.rpy", line 403, in execute
-    if display != "":
-  File "game/scripts/journal.rpy", line 429, in execute
-    frame:
-  File "game/scripts/journal.rpy", line 433, in execute
-    viewport id "ClubCond":
-  File "game/scripts/journal.rpy", line 437, in execute
-    vbox:
-  File "game/scripts/journal.rpy", line 438, in execute
-    for condition in active_club.unlock_conditions:
-  File "game/scripts/journal.rpy", line 439, in execute
-    if "blocking" not in condition or not condition["blocking"]:
-  File "game/scripts/journal.rpy", line 440, in execute
-    if condition["type"] == "stat":
-  File "game/scripts/journal.rpy", line 444, in execute
-    if active_club.is_condition_fullfilled(condition, school):
-  File "game/scripts/journal.rpy", line 444, in <module>
-    if active_club.is_condition_fullfilled(condition, school):
-  File "game/scripts/clubs/clubs.rpy", line 26, in is_condition_fullfilled
-    if needed_stat != get_school(school).get_stat_string(stat):
-  File "game/scripts/school.rpy", line 32, in get_stat_string
-    return str(get_stat_number(stat))
-NameError: name 'get_stat_number' is not defined
-
-While running game code:
-  File "game/scripts/overview.rpy", line 289, in script call
-    call time_event_check
-  File "game/scripts/buildings/daily_check.rpy", line 23, in script call
-    call event_check(time_check_events)
-  File "game/scripts/event_manager.rpy", line 311, in script call
-    call expression my_events[i]
-  File "game/scripts/overview.rpy", line 320, in script call
-    Subtitles_Empty ""
-  File "game/scripts/journal.rpy", line 2, in script call
-    call open_journal (1, "", "high_school")
-  File "game/scripts/journal.rpy", line 9, in script call
-    call screen journal_1(display, school)
-  File "game/scripts/journal.rpy", line 13, in script call
-    call screen journal_3(display, school)
-  File "game/scripts/journal.rpy", line 13, in script
-    call screen journal_3(display, school)
-  File "renpy/common/000statements.rpy", line 609, in execute_call_screen
-    store._return = renpy.call_screen(name, *args, **kwargs)
-  File "game/scripts/journal.rpy", line 343, in execute
-    screen journal_3 (display, school):
-  File "game/scripts/journal.rpy", line 343, in execute
-    screen journal_3 (display, school):
-  File "game/scripts/journal.rpy", line 403, in execute
-    if display != "":
-  File "game/scripts/journal.rpy", line 429, in execute
-    frame:
-  File "game/scripts/journal.rpy", line 433, in execute
-    viewport id "ClubCond":
-  File "game/scripts/journal.rpy", line 437, in execute
-    vbox:
-  File "game/scripts/journal.rpy", line 438, in execute
-    for condition in active_club.unlock_conditions:
-  File "game/scripts/journal.rpy", line 439, in execute
-    if "blocking" not in condition or not condition["blocking"]:
-  File "game/scripts/journal.rpy", line 440, in execute
-    if condition["type"] == "stat":
-  File "game/scripts/journal.rpy", line 444, in execute
-    if active_club.is_condition_fullfilled(condition, school):
-  File "game/scripts/journal.rpy", line 444, in <module>
-    if active_club.is_condition_fullfilled(condition, school):
-  File "game/scripts/clubs/clubs.rpy", line 26, in is_condition_fullfilled
-    if needed_stat != get_school(school).get_stat_string(stat):
-  File "game/scripts/school.rpy", line 32, in get_stat_string
-    return str(get_stat_number(stat))
-NameError: name 'get_stat_number' is not defined
-Resetting cache.
-Bootstrap to the start of init.init took 72.80s
-Early init took 0.00s
-Loader init took 0.04s
-Loading error handling took 0.03s
-Loading script took 0.15s
-Loading save slot metadata. took 0.06s
-Loading persistent took 0.00s
-Faled to initialize steam: FileNotFoundError("Could not find module 'C:\\RenPy\\lib\\py3-windows-x86_64\\steam_api64.dll' (or one of its dependencies). Try using the full path with constructor syntax.")
-Running init code took 0.02s
-Loading analysis data took 0.01s
-Analyze and compile ATL took 0.00s
-Index archives took 0.00s
-Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.04s
-Cleaning cache took 0.00s
-Making clean stores took 0.00s
-Initial gc. took 0.08s
-DPI scale factor: 2.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: b"Couldn't load nvlib." (can be ignored)
-Creating interface object took 0.00s
-Cleaning stores took 0.00s
-Init translation took 0.04s
-Build styles took 0.00s
-Load screen analysis took 0.00s
-Analyze screens took 0.01s
-Save screen analysis took 0.03s
-Prepare screens took 0.05s
-Save pyanalysis. took 0.00s
-Save bytecode. took 0.02s
-Running _start took 0.00s
-Performance test:
-Interface start took 0.07s
-
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 3840, 2160)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'Intel'"
-Renderer: b'Intel(R) Iris(R) Xe Graphics'
-Version: b'4.6.0 - Build 31.0.101.3959'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(3840, 2035) drawable=(3840, 2035)
-Maximum texture size: 4096x4096
-{'corruption': <store.Stat object at 0x00000000138169a0>, 'inhibition': <store.Stat object at 0x00000000138161c0>, 'happiness': <store.Stat object at 0x0000000013816be0>, 'education': <store.Stat object at 0x0000000013816c70>, 'charm': <store.Stat object at 0x0000000013816550>, 'reputation': <store.Stat object at 0x00000000138165b0>}
-{'corruption': <store.Stat object at 0x00000000138169a0>, 'inhibition': <store.Stat object at 0x00000000138161c0>, 'happiness': <store.Stat object at 0x0000000013816be0>, 'education': <store.Stat object at 0x0000000013816c70>, 'charm': <store.Stat object at 0x0000000013816550>, 'reputation': <store.Stat object at 0x00000000138165b0>}
-{'corruption': <store.Stat object at 0x00000000138169a0>, 'inhibition': <store.Stat object at 0x00000000138161c0>, 'happiness': <store.Stat object at 0x0000000013816be0>, 'education': <store.Stat object at 0x0000000013816c70>, 'charm': <store.Stat object at 0x0000000013816550>, 'reputation': <store.Stat object at 0x00000000138165b0>}
-0
-['The school has not made any progress yet. You are currently in the phase of scouting the school and finding the correct measure to start the process.', 'You unlocked the potential of sexual heaven to the students.\nBeing prude and absolute unaccepting of the topic before, they now opened their mind to new heights even though they are still new and fearful of it.', 'level 2', 'level 3', 'level 4', 'level 5', 'level 6', 'level 7', 'level 8', 'level 9', 'level 10']
-
-
-
-
-#############################
-
-
-
-
-rule: theoretical_sex_ed, type: level, blocking: False
-stat: x school: high_school
-fullfilled:False
-rule: theoretical_sex_ed, type: stat, blocking: False
-fullfilled:True
-TRUE
-rule: theoretical_digital_material, type: level, blocking: False
-stat: x school: high_school
-fullfilled:False
-rule: theoretical_digital_material, type: unlocked, blocking: False
-fullfilled:False
-TRUE
-rule: theoretical_teacher_material, type: unlocked, blocking: False
-fullfilled:False
-TRUE
-rule: theoretical_student_material, type: unlocked, blocking: False
-fullfilled:False
-TRUE
-rule: practical_sex_ed, type: level, blocking: False
-stat: x school: high_school
-fullfilled:False
-rule: practical_sex_ed, type: unlocked, blocking: False
-fullfilled:False
-TRUE
-rule: practical_teacher_material, type: level, blocking: False
-stat: x school: high_school
-fullfilled:False
-rule: practical_teacher_material, type: unlocked, blocking: False
-fullfilled:False
-TRUE
-rule: practical_student_material, type: unlocked, blocking: False
-fullfilled:False
-TRUE
-TRUE
-TRUE
+level: 0 current: 0
+corruption: 0 current: 0
+level: 3+ current: 0
+level: 4+ current: 0
+level: 3+ current: 0
+inhibition: 1+ current: 0
+level: 5+ current: 0
+level: 5+ current: 0
+level: 2+ current: 0
+level: 2+ current: 0
+level: 8+ current: 0
+level: 7+ current: 0
+level: 5+ current: 0
+level: 0 current: 0
+corruption: 0 current: 0
+level: 3+ current: 0
+level: 4+ current: 0
+level: 3+ current: 0
+inhibition: 1+ current: 0
+level: 5+ current: 0
+level: 5+ current: 0
+level: 2+ current: 0
+level: 2+ current: 0
+level: 8+ current: 0
+level: 7+ current: 0
+level: 5+ current: 0
+level: 0 current: 0
+corruption: 0 current: 0
+level: 3+ current: 0
+level: 4+ current: 0
+level: 3+ current: 0
+inhibition: 1+ current: 0
+level: 5+ current: 0
+level: 5+ current: 0
+level: 2+ current: 0
+level: 2+ current: 0
+level: 8+ current: 0
+level: 7+ current: 0
+level: 5+ current: 0
+level: 0 current: 0
+corruption: 0 current: 0
+level: 3+ current: 0
+level: 4+ current: 0
+level: 3+ current: 0
+inhibition: 1+ current: 0
+level: 5+ current: 0
+level: 5+ current: 0
+level: 2+ current: 0
+level: 2+ current: 0
+level: 8+ current: 0
+level: 7+ current: 0
+level: 5+ current: 0
+level: 0 current: 0
+corruption: 0 current: 0
+level: 3+ current: 0
+level: 4+ current: 0
+level: 3+ current: 0
+inhibition: 1+ current: 0
+level: 5+ current: 0
+level: 5+ current: 0
+level: 2+ current: 0
+level: 2+ current: 0
+level: 8+ current: 0
+level: 7+ current: 0
+level: 5+ current: 0
+level: 0 current: 0
+corruption: 0 current: 0
+level: 3+ current: 0
+level: 4+ current: 0
+level: 3+ current: 0
+inhibition: 1+ current: 0
+level: 5+ current: 0
+level: 5+ current: 0
+level: 2+ current: 0
+level: 2+ current: 0
+level: 8+ current: 0
+level: 7+ current: 0
+level: 5+ current: 0
+level: 0 current: 0
+corruption: 0 current: 0
+level: 3+ current: 0
+level: 4+ current: 0
+level: 3+ current: 0
+level: 0 current: 0
+corruption: 0 current: 0
+level: 3+ current: 0
+level: 4+ current: 0
+level: 3+ current: 0
+level: 0 current: 0
+corruption: 0 current: 0
+level: 3+ current: 0
+level: 4+ current: 0
+level: 3+ current: 0
+level: 0 current: 0
+corruption: 0 current: 0
+level: 3+ current: 0
+level: 4+ current: 0
+level: 3+ current: 0
+inhibition: 1+ current: 0
+level: 5+ current: 0
+level: 5+ current: 0
+level: 2+ current: 0
+level: 2+ current: 0
+level: 8+ current: 0
+level: 7+ current: 0
+level: 5+ current: 0
+inhibition: 1+ current: 0
+level: 5+ current: 0
+level: 5+ current: 0
+level: 2+ current: 0
+level: 2+ current: 0
+level: 8+ current: 0
+level: 7+ current: 0
+level: 5+ current: 0
+inhibition: 1+ current: 0
+level: 5+ current: 0
+level: 5+ current: 0
+level: 2+ current: 0
+level: 2+ current: 0
+level: 8+ current: 0
+level: 7+ current: 0
+level: 5+ current: 0
+inhibition: 1+ current: 0
+level: 5+ current: 0
+level: 5+ current: 0
+level: 2+ current: 0
+level: 2+ current: 0
+level: 8+ current: 0
+level: 7+ current: 0
+level: 5+ current: 0
+level: 0 current: 0
+corruption: 0 current: 0
+level: 3+ current: 0
+level: 4+ current: 0
+level: 3+ current: 0
+inhibition: 1+ current: 0
+level: 5+ current: 0
+level: 5+ current: 0
+level: 2+ current: 0
+level: 2+ current: 0
+level: 8+ current: 0
+level: 7+ current: 0
+level: 5+ current: 0
+inhibition: 1+ current: 0
+level: 5+ current: 0
+level: 5+ current: 0
+level: 2+ current: 0
+level: 2+ current: 0
+level: 8+ current: 0
+level: 7+ current: 0
+level: 5+ current: 0
+level: 0 current: 0
+corruption: 0 current: 0
+level: 3+ current: 0
+level: 4+ current: 0
+level: 3+ current: 0
+inhibition: 1+ current: 0
+level: 5+ current: 0
+level: 5+ current: 0
+level: 2+ current: 0
+level: 2+ current: 0
+level: 8+ current: 0
+level: 7+ current: 0
+level: 5+ current: 0
+inhibition: 1+ current: 0
+level: 5+ current: 0
+level: 5+ current: 0
+level: 2+ current: 0
+level: 2+ current: 0
+level: 8+ current: 0
+level: 7+ current: 0
+level: 5+ current: 0
+level: 0 current: 0
+corruption: 0 current: 0
+level: 3+ current: 0
+level: 4+ current: 0
+level: 3+ current: 0
+inhibition: 1+ current: 0
+level: 5+ current: 0
+level: 5+ current: 0
+level: 2+ current: 0
+level: 2+ current: 0
+level: 8+ current: 0
+level: 7+ current: 0
+level: 5+ current: 0
+inhibition: 1+ current: 0
+level: 5+ current: 0
+level: 5+ current: 0
+level: 2+ current: 0
+level: 2+ current: 0
+level: 8+ current: 0
+level: 7+ current: 0
+level: 5+ current: 0
+level: 0 current: 0
+corruption: 0 current: 0
+level: 3+ current: 0
+level: 4+ current: 0
+level: 3+ current: 0
+inhibition: 1+ current: 0
+level: 5+ current: 0
+level: 5+ current: 0
+level: 2+ current: 0
+level: 2+ current: 0
+level: 8+ current: 0
+level: 7+ current: 0
+level: 5+ current: 0
+inhibition: 1+ current: 0
+level: 5+ current: 0
+level: 5+ current: 0
+level: 2+ current: 0
+level: 2+ current: 0
+level: 8+ current: 0
+level: 7+ current: 0
+level: 5+ current: 0
+level: 0 current: 0
+corruption: 0 current: 0
+level: 3+ current: 0
+level: 4+ current: 0
+level: 3+ current: 0
+inhibition: 1+ current: 0
+level: 5+ current: 0
+level: 5+ current: 0
+level: 2+ current: 0
+level: 2+ current: 0
+level: 8+ current: 0
+level: 7+ current: 0
+level: 5+ current: 0
+inhibition: 1+ current: 0
+level: 5+ current: 0
+level: 5+ current: 0
+level: 2+ current: 0
+level: 2+ current: 0
+level: 8+ current: 0
+level: 7+ current: 0
+level: 5+ current: 0
+level: 0 current: 0
+corruption: 0 current: 0
+level: 3+ current: 0
+level: 4+ current: 0
+level: 3+ current: 0
+inhibition: 1+ current: 0
+level: 5+ current: 0
+level: 5+ current: 0
+level: 2+ current: 0
+level: 2+ current: 0
+level: 8+ current: 0
+level: 7+ current: 0
+level: 5+ current: 0
+inhibition: 1+ current: 0
+level: 5+ current: 0
+level: 5+ current: 0
+level: 2+ current: 0
+level: 2+ current: 0
+level: 8+ current: 0
+level: 7+ current: 0
+level: 5+ current: 0
+level: 0 current: 0
+corruption: 0 current: 0
+level: 3+ current: 0
+level: 4+ current: 0
+level: 3+ current: 0
+inhibition: 1+ current: 0
+level: 5+ current: 0
+level: 5+ current: 0
+level: 2+ current: 0
+level: 2+ current: 0
+level: 8+ current: 0
+level: 7+ current: 0
+level: 5+ current: 0
+inhibition: 1+ current: 0
+level: 5+ current: 0
+level: 5+ current: 0
+level: 2+ current: 0
+level: 2+ current: 0
+level: 8+ current: 0
+level: 7+ current: 0
+level: 5+ current: 0
+level: 0 current: 0
+corruption: 0 current: 0
+level: 3+ current: 0
+level: 4+ current: 0
+level: 3+ current: 0

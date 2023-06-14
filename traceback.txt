@@ -1,81 +1,49 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
 While running game code:
-  File "game/scripts/overview.rpy", line 289, in script call
+  File "game/scripts/overview.rpy", line 280, in script call
     call time_event_check
   File "game/scripts/buildings/daily_check.rpy", line 23, in script call
     call event_check(time_check_events)
-  File "game/scripts/event_manager.rpy", line 311, in script call
+  File "game/scripts/event_manager.rpy", line 310, in script call
     call expression my_events[i]
-  File "game/scripts/overview.rpy", line 320, in script call
+  File "game/scripts/overview.rpy", line 297, in script
     Subtitles_Empty ""
-  File "game/scripts/journal.rpy", line 2, in script call
-    call open_journal (1, "", "high_school")
-  File "game/scripts/journal.rpy", line 9, in script call
-    call screen journal_1(display, school)
-  File "game/scripts/journal.rpy", line 13, in script call
-    call screen journal_3(display, school)
-  File "game/scripts/journal.rpy", line 13, in script
-    call screen journal_3(display, school)
-  File "renpy/common/000statements.rpy", line 609, in execute_call_screen
-    store._return = renpy.call_screen(name, *args, **kwargs)
-  File "game/scripts/journal.rpy", line 343, in execute
-    screen journal_3 (display, school):
-  File "game/scripts/journal.rpy", line 343, in execute
-    screen journal_3 (display, school):
-  File "game/scripts/journal.rpy", line 403, in execute
-    if display != "":
-  File "game/scripts/journal.rpy", line 429, in execute
-    frame:
-  File "game/scripts/journal.rpy", line 433, in execute
-    viewport id "ClubCond":
-  File "game/scripts/journal.rpy", line 437, in execute
+  File "game/scripts/overview.rpy", line 60, in execute
+    screen school_overview_stats:
+  File "game/scripts/overview.rpy", line 60, in execute
+    screen school_overview_stats:
+  File "game/scripts/overview.rpy", line 84, in execute
     vbox:
-  File "game/scripts/journal.rpy", line 438, in execute
-    for condition in active_club.unlock_conditions:
-  File "game/scripts/journal.rpy", line 439, in execute
-    if "blocking" not in condition or not condition["blocking"]:
-  File "game/scripts/journal.rpy", line 440, in execute
-    if condition["type"] == "stat":
-  File "game/scripts/journal.rpy", line 444, in execute
-    if active_club.is_condition_fullfilled(condition, school):
-  File "game/scripts/journal.rpy", line 444, in <module>
-    if active_club.is_condition_fullfilled(condition, school):
-  File "game/scripts/clubs/clubs.rpy", line 26, in is_condition_fullfilled
-    if needed_stat != get_school(school).get_stat_string(stat):
-  File "game/scripts/school.rpy", line 32, in get_stat_string
-    return str(get_stat_number(stat))
-NameError: name 'get_stat_number' is not defined
+  File "game/scripts/overview.rpy", line 88, in execute
+    $ daystr = time.get_weekday()
+  File "game/scripts/overview.rpy", line 88, in <module>
+    $ daystr = time.get_weekday()
+  File "game/scripts/time.rpy", line 48, in get_weekday
+    return weekday[wd - 1]
+NameError: name 'wd' is not defined
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "game/scripts/overview.rpy", line 289, in script call
+  File "game/scripts/overview.rpy", line 280, in script call
     call time_event_check
   File "game/scripts/buildings/daily_check.rpy", line 23, in script call
     call event_check(time_check_events)
-  File "game/scripts/event_manager.rpy", line 311, in script call
+  File "game/scripts/event_manager.rpy", line 310, in script call
     call expression my_events[i]
-  File "game/scripts/overview.rpy", line 320, in script call
+  File "game/scripts/overview.rpy", line 297, in script
     Subtitles_Empty ""
-  File "game/scripts/journal.rpy", line 2, in script call
-    call open_journal (1, "", "high_school")
-  File "game/scripts/journal.rpy", line 9, in script call
-    call screen journal_1(display, school)
-  File "game/scripts/journal.rpy", line 13, in script call
-    call screen journal_3(display, school)
-  File "game/scripts/journal.rpy", line 13, in script
-    call screen journal_3(display, school)
-  File "C:\RenPy\renpy\ast.py", line 2232, in execute
-    self.call("execute")
-  File "C:\RenPy\renpy\ast.py", line 2220, in call
-    return renpy.statements.call(method, parsed, *args, **kwargs)
-  File "C:\RenPy\renpy\statements.py", line 281, in call
-    return method(parsed, *args, **kwargs)
-  File "renpy/common/000statements.rpy", line 609, in execute_call_screen
-    store._return = renpy.call_screen(name, *args, **kwargs)
-  File "C:\RenPy\renpy\exports.py", line 3181, in call_screen
-    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "C:\RenPy\renpy\ast.py", line 921, in execute
+    renpy.exports.say(who, what, *args, **kwargs)
+  File "C:\RenPy\renpy\exports.py", line 1373, in say
+    who(what, *args, **kwargs)
+  File "C:\RenPy\renpy\character.py", line 1266, in __call__
+    self.do_display(who, what, cb_args=self.cb_args, dtt=dtt, **display_args)
+  File "C:\RenPy\renpy\character.py", line 927, in do_display
+    display_say(who,
+  File "C:\RenPy\renpy\character.py", line 666, in display_say
+    rv = renpy.ui.interact(mouse='say', type=type, roll_forward=roll_forward)
   File "C:\RenPy\renpy\ui.py", line 299, in interact
     rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
   File "C:\RenPy\renpy\display\core.py", line 3377, in interact
@@ -96,35 +64,21 @@ Full traceback:
     self.update()
   File "C:\RenPy\renpy\display\screen.py", line 653, in update
     self.screen.function(**self.scope)
-  File "game/scripts/journal.rpy", line 343, in execute
-    screen journal_3 (display, school):
-  File "game/scripts/journal.rpy", line 343, in execute
-    screen journal_3 (display, school):
-  File "game/scripts/journal.rpy", line 403, in execute
-    if display != "":
-  File "game/scripts/journal.rpy", line 429, in execute
-    frame:
-  File "game/scripts/journal.rpy", line 433, in execute
-    viewport id "ClubCond":
-  File "game/scripts/journal.rpy", line 437, in execute
+  File "game/scripts/overview.rpy", line 60, in execute
+    screen school_overview_stats:
+  File "game/scripts/overview.rpy", line 60, in execute
+    screen school_overview_stats:
+  File "game/scripts/overview.rpy", line 84, in execute
     vbox:
-  File "game/scripts/journal.rpy", line 438, in execute
-    for condition in active_club.unlock_conditions:
-  File "game/scripts/journal.rpy", line 439, in execute
-    if "blocking" not in condition or not condition["blocking"]:
-  File "game/scripts/journal.rpy", line 440, in execute
-    if condition["type"] == "stat":
-  File "game/scripts/journal.rpy", line 444, in execute
-    if active_club.is_condition_fullfilled(condition, school):
-  File "game/scripts/journal.rpy", line 444, in <module>
-    if active_club.is_condition_fullfilled(condition, school):
-  File "game/scripts/clubs/clubs.rpy", line 26, in is_condition_fullfilled
-    if needed_stat != get_school(school).get_stat_string(stat):
-  File "game/scripts/school.rpy", line 32, in get_stat_string
-    return str(get_stat_number(stat))
-NameError: name 'get_stat_number' is not defined
+  File "game/scripts/overview.rpy", line 88, in execute
+    $ daystr = time.get_weekday()
+  File "game/scripts/overview.rpy", line 88, in <module>
+    $ daystr = time.get_weekday()
+  File "game/scripts/time.rpy", line 48, in get_weekday
+    return weekday[wd - 1]
+NameError: name 'wd' is not defined
 
 Windows-10-10.0.19045 AMD64
 Ren'Py 8.0.3.22090809
 Mind the School 1.0
-Tue Jun 13 10:30:28 2023
+Tue Jun 13 16:20:14 2023

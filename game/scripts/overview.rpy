@@ -72,26 +72,22 @@ screen school_overview_stats:
         text display_stat("money")     style "stat_value"
 
         null
-        null
-        null
-        # text "Corruption" style "stat_name"
-        # text "Inhibition" style "stat_name"
+        text "Corruption" style "stat_name"
+        text "Inhibition" style "stat_name"
         text "Reputation" style "stat_name"
         
         null
-        null
-        null
-        # text display_stat("corruption") style "stat_value"
-        # text display_stat("inhibition") style "stat_value"
+        text display_stat("corruption") style "stat_value"
+        text display_stat("inhibition") style "stat_value"
         text display_stat("reputation") style "stat_value"
 
     vbox:
         xalign 1.0 ypos 150
 
-        $ daytimestr = daytime_name[game_daytime - 1]
-        $ daystr = get_weekday(game_day)
-        $ monthstr = month_name[game_month - 1]
-        text "[game_day] [monthstr] [game_year]":
+        $ daytimestr = time.get_daytime_name()
+        $ daystr = time.get_weekday()
+        $ monthstr = time.get_month_name()
+        text "[time.day] [monthstr] [time.year]":
             xalign 1.0
             size 30
         text "[daystr]":
@@ -279,27 +275,8 @@ screen school_overview_buttons:
 ####################################################
 # goes to map overview while moving the time forward
 label new_daytime:
-    $ game_daytime += 1
+    $ time.progress_time()
 
-    if game_daytime == 8:
-        jump new_day
-
-    # show screen school_overview_map
-
-    call time_event_check
-
-    jump map_overview
-
-label new_day:
-    $ game_daytime = 1
-    $ game_day += 1
-    if game_day >= 29:
-        $ game_day = 1
-        $ game_month += 1
-        if game_month >= 13:
-            $ game_month = 1
-            $ game_year += 1
-            
     call time_event_check
 
     jump map_overview
