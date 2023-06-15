@@ -24,6 +24,10 @@ init python:
             self.value = clamp_stat(math.ceil((self.value + change_val) * 100) / 100)
             self.changed_value = change_val
 
+        def change_value_to(self, value):
+            delta = value - self.value
+            change_value(delta)
+
         def reset_change(self):
             self.changed_value = 0
 

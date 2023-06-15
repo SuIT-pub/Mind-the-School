@@ -36,16 +36,14 @@ label.after_time_check:
 
         "About the School...":
             call event_check_area("tutorial", office_building_events) 
-        "Check Journal":
-            call event_check_area("journal", office_building_events)
         "Do Paperwork":
             call event_check_area("paperwork", office_building_events)
         "Check Messages":
             call event_check_area("messages", office_building_events)
         "Surf Internet":
             call event_check_area("internet", office_building_events)
-        "Counsel work":
-            call event_check_area("counsel", office_building_events)
+        "Council work":
+            call event_check_area("council", office_building_events)
         "Check rules":
             call event_check_area("rules", office_building_events)
         "Leave":
@@ -298,27 +296,6 @@ label potion_introduction_2:
 
     jump new_day
 
-label check_journal:
-    $ nvl_text = Character(None, kind=nvl)
-    $ hCorr = schools["high_school"].get_level()
-    $ mCorr = schools["middle_school"].get_level()
-    $ eCorr = schools["elementary_school"].get_level()
-    menu:
-        Subtitles "What do you want to check?"
-
-        "High School":
-            nvl_text "High School"
-            nvl_text "Corruption Level: [hCorr]"
-            jump check_journal
-        "Middle School" if loli_content >= 1:
-            Subtitles "school"
-            jump check_journal
-        "Elementary School" if loli_content == 2:
-            Subtitles "school"
-            jump check_journal
-        "Close Journal":
-            jump office_building
-
 label pta_meeting:
     Subtitles "You enter the conference room."
     Subtitles "All representatives already gathered and wait for you."
@@ -329,40 +306,8 @@ label pta_meeting:
     
     char_Principal "First point for today. Does someone have anything to discuss today?"
 
-    char_Principal "No? Alright then lets jump straight to the netx point."
+    char_Principal "No? Alright then lets jump straight to the next point."
 
-label .pta_menu:
-    menu:
-        "Rules":
-            jump pta_meeting.menu_rules
-        "Buildings":
-            jump pta_meeting.menu_buildings
-        "Events":
-            jump pta_meeting.menu_events
-        "End meeting.":
-            jump pta_meeting.end_meeting
-
-    return
-
-label .menu_rules:
-
-    $ page = 0
-
-label .menu_rules_check:
-
-    # menu_block_set = list(rule_names.values())
-
-    # menu:
-    #     set menu_block_set
-
-    #     Subtitles "What rules do you want to establish?"
-
-label .menu_rules_return:
-
-label .menu_buildings:
-
-label .menu_events:
-    
 label .first_pta_meeting:
 
 label .end_meeting:

@@ -172,6 +172,8 @@ default money = Stat("money", 1000)
 
 default time = Time()
 
+default voteProposal = None
+
 # 0 = no loli content (High School age: 18-22)
 # 1 = slight loli content (Middle School age: 13-17, High School age: 18-22)
 # 2 = hard loli content (Elementary School age: 8-12, Middle School age: 13-17, High School age: 18-22)

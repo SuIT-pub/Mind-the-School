@@ -62,7 +62,7 @@ init python:
 
         def is_fullfilled(self, school):
             if self.school == school or self.school == "x":
-                return get_rule(self.value).isUnlocked(school)
+                return is_rule_unlocked(self.value, school)
             return True
 
         def to_text(self, school):
@@ -85,7 +85,7 @@ init python:
 
         def is_fullfilled(self, school):
             if self.school == school or self.school == "x":
-                return get_club(self.value).isUnlocked(school)
+                return get_club(self.value).is_nlocked(school)
             return True
 
         def to_text(self, school):
@@ -106,7 +106,7 @@ init python:
             self.blocking = blocking
 
         def is_fullfilled(self, _school):
-            return get_building(self.value).isUnlocked()
+            return get_building(self.value).is_building_unlocked(self.value)
 
         def to_text(self, _school):
             if self.is_fullfilled(None):
@@ -187,7 +187,7 @@ init python:
             self.blocking = True
 
         def is_fullfilled(self, _school):
-            return facilities
+            return False
 
         def to_text(self, _school):
             return ["", "{color=#f00}LOCKED{/color}"]

@@ -117,21 +117,21 @@ screen school_overview_images:
             xpos 826 ypos 178
         add "background/bg school elementary school dormitory idle.png":
             xpos 446 ypos 196
-    if get_building("labs").isUnlocked():
+    if is_building_unlocked("labs"):
         add "background/bg school labs idle.png":
             xpos 664 ypos 356
-    if get_building("sports_field").isUnlocked():
+    if is_building_unlocked(sports_field):
         add "background/bg school sports field idle.png":
             xpos 203 ypos -11
-    if get_building("tennis_court").isUnlocked():
+    if is_building_unlocked(tennis_court):
         add "background/bg school tennis court idle.png":
             xpos 558 ypos 90
     add "background/bg school gym idle.png":
         xpos 462 ypos 5
-    if get_building("swimming_pool").isUnlocked():
+    if is_building_unlocked(swimming_pool):
         add "background/bg school pool idle.png":
             xpos 297 ypos 61
-    if get_building("cafeteria").isUnlocked():
+    if is_building_unlocked(cafeteria):
         add "background/bg school cafeteria idle.png":
             xpos 229 ypos 460
     add "background/bg school kiosk idle.png":
@@ -184,21 +184,21 @@ screen school_overview_buttons:
             focus_mask True
             xpos 446 ypos 196
             action Call("building", "elementary_school_dormitory")
-    if get_building("labs").isUnlocked():
+    if is_building_unlocked(labs):
         imagebutton:
             auto "background/bg school labs %s.png"
             tooltip "Labs"
             focus_mask True
             xpos 644 ypos 356
             action Call("building", "labs")
-    if get_building("sports_field").isUnlocked():
+    if is_building_unlocked(sports_field):
         imagebutton:
             auto "background/bg school sports field %s.png"
             tooltip "Sports Field"
             focus_mask True
             xpos 203 ypos -11
             action Call("building", "sports_field")
-    if get_building("tennis_court").isUnlocked():
+    if is_building_unlocked(tennis_court):
         imagebutton:
             auto "background/bg school tennis court %s.png"
             tooltip "Tennis Court"
@@ -211,14 +211,14 @@ screen school_overview_buttons:
         focus_mask True
         xpos 462 ypos 5
         action Call("building", "gym")
-    if get_building("swimming_pool").isUnlocked():
+    if is_building_unlocked(swimming_pool):
         imagebutton:
             auto "background/bg school pool %s.png"
             tooltip "Swimming Pool"
             focus_mask True
             xpos 297 ypos 61
             action Call("building", "swimming_pool")
-    if get_building("cafeteria").isUnlocked():
+    if is_building_unlocked(cafeteria):
         imagebutton:
             auto "background/bg school cafeteria %s.png"
             tooltip "Cafeteria"

@@ -1,7 +1,7 @@
 label start_journal:
     call open_journal (1, "", "high_school")
 
-label open_journal (page, display, school):
+label open_journal(page, display, school):
     if page == 1:
         call screen journal_1(display, school)
     elif page == 2:
@@ -10,10 +10,6 @@ label open_journal (page, display, school):
         call screen journal_3(display, school)
     elif page == 4:
         call screen journal_4(display, school)
-
-    Subtitles_Empty ""
-
-    jump open_journal
 
 label close_journal:
     hide screen journal
@@ -35,7 +31,7 @@ style buttons_selected take buttons_idle:
     color gui.hover_muted_color
 
 # School Overview
-screen journal_1 (display, school):
+screen journal_1(display, school):
     tag interaction_overlay
     modal True
 
@@ -194,7 +190,7 @@ screen journal_1 (display, school):
         
 
 # Rules
-screen journal_2 (display, school):
+screen journal_2(display, school):
     tag interaction_overlay
     modal True
     
@@ -313,8 +309,16 @@ screen journal_2 (display, school):
                 unscrollable "hide"
                 xalign 1.0
 
-        textbutton "Plan for vote":
-            xalign 0.576 yalign 0.87
+        if not active_rule.is_unlocked(school):
+            if voteProposal == None or voteProposal[3].get_name() != display:
+                textbutton "Plan for vote":
+                    xalign 0.6 yalign 0.87
+                    text_style "buttons_idle"
+                    action Call("add_rule_to_proposal", display, school)
+            else:
+                text "Already queued!":
+                    xalign 0.6 yalign 0.87
+                    color "#f00"
 
     textbutton "Close":
         xalign 0.75
@@ -332,7 +336,7 @@ screen journal_2 (display, school):
                 text tooltip
 
 # Clubs
-screen journal_3 (display, school):
+screen journal_3(display, school):
     tag interaction_overlay
     modal True
 
@@ -439,6 +443,17 @@ screen journal_3 (display, school):
                 unscrollable "hide"
                 xalign 1.0
 
+        if not active_club.is_unlocked(school):
+            if voteProposal == None or voteProposal[3].get_name() != display:
+                textbutton "Plan for vote":
+                    xalign 0.6 yalign 0.87
+                    text_style "buttons_idle"
+                    action Call("add_club_to_proposal", display, school)
+            else:
+                text "Already queued!":
+                    xalign 0.6 yalign 0.87
+                    color "#f00"
+
     text "Clubs": 
         xalign 0.25 
         yalign 0.2
@@ -461,7 +476,7 @@ screen journal_3 (display, school):
                 text tooltip
 
 # Buildings
-screen journal_4 (display, school):
+screen journal_4(display, school):
     tag interaction_overlay
     modal True
 
@@ -548,8 +563,16 @@ screen journal_4 (display, school):
                 unscrollable "hide"
                 xalign 1.0
 
-        textbutton "Plan for vote":
-            xalign 0.576 yalign 0.87
+        if not active_building.is_unlocked():
+            if voteProposal == None or voteProposal[3].get_name() != display:
+                textbutton "Plan for vote":
+                    xalign 0.6 yalign 0.87
+                    text_style "buttons_idle"
+                    action Call("add_building_to_proposal", display, school)
+            else:
+                text "Already queued!":
+                    xalign 0.6 yalign 0.87
+                    color "#f00"
 
     text "Buildings": 
         xalign 0.25 
@@ -572,3 +595,42 @@ screen journal_4 (display, school):
                 xalign 0.5
                 text tooltip
 
+label add_to_proposal(data, page, school, display, propType):
+    $ voteProposal = [propType, display, school, data]
+    call open_journal(page, display, school)
+
+label add_rule_to_proposal(rule_name, school):
+    $ rule = get_rule(rule_name)
+    if voteProposal != None:
+        $ title = "the " + voteProposal[3].get_type() + " \"" + voteProposal[3].get_title() + "\""
+        if rule == None:
+            return
+        call screen confirm("You already queued [title] for voting.\n\nDo you wanna queue the rule \"[rule.title]\" instead?",
+            Call("add_to_proposal", rule, 2, school, rule_name, "rule"),
+            Call("open_journal", 2, rule_name, school))
+
+    call add_to_proposal(rule, 2, school, rule_name, "rule")
+
+label add_club_to_proposal(club_name, school):
+    $ club = get_club(club_name)
+    if voteProposal != None:
+        $ title = "the " + voteProposal[3].get_type() + " \"" + voteProposal[3].get_title() + "\""
+        if club == None:
+            return
+        call screen confirm("You already queued [title] for voting.\n\nDo you wanna queue the club \"[club.title]\" instead?",
+            Call("add_to_proposal", club, 3, school, club_name, "club"),
+            Call("open_journal", 3, club_name, school))
+
+    call add_to_proposal(club, 3, school, club_name, "club")
+
+label add_building_to_proposal(building_name, school):
+    $ building = get_building(building_name)
+    if voteProposal != None:
+        $ title = "the " + voteProposal[3].get_type() + " \"" + voteProposal[3].get_title() + "\""
+        if building == None:
+            return
+        call screen confirm("You already queued [title] for voting.\n\nDo you wanna queue the building \"[building.title]\" instead?",
+            Call("add_to_proposal", building, 4, school, building_name, "building"),
+            Call("open_journal", 4, building_name, school))
+
+    call add_to_proposal(building, 4, school, building_name, "building")

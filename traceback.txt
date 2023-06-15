@@ -7,21 +7,88 @@ While running game code:
     call event_check(time_check_events)
   File "game/scripts/event_manager.rpy", line 310, in script call
     call expression my_events[i]
-  File "game/scripts/overview.rpy", line 297, in script
+  File "game/scripts/overview.rpy", line 297, in script call
     Subtitles_Empty ""
-  File "game/scripts/overview.rpy", line 60, in execute
-    screen school_overview_stats:
-  File "game/scripts/overview.rpy", line 60, in execute
-    screen school_overview_stats:
-  File "game/scripts/overview.rpy", line 84, in execute
-    vbox:
-  File "game/scripts/overview.rpy", line 88, in execute
-    $ daystr = time.get_weekday()
-  File "game/scripts/overview.rpy", line 88, in <module>
-    $ daystr = time.get_weekday()
-  File "game/scripts/time.rpy", line 48, in get_weekday
-    return weekday[wd - 1]
-NameError: name 'wd' is not defined
+  File "game/scripts/journal.rpy", line 2, in script call
+    call open_journal (1, "", "high_school")
+  File "game/scripts/journal.rpy", line 6, in script call
+    call screen journal_1(display, school)
+  File "game/scripts/journal.rpy", line 8, in script call
+    call screen journal_2(display, school)
+  File "game/scripts/journal.rpy", line 8, in script call
+    call screen journal_2(display, school)
+  File "game/scripts/journal.rpy", line 612, in script call
+    call add_to_proposal(rule, 2, school, rule_name, "rule")
+  File "game/scripts/journal.rpy", line 600, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal.rpy", line 8, in script call
+    call screen journal_2(display, school)
+  File "game/scripts/journal.rpy", line 8, in script call
+    call screen journal_2(display, school)
+  File "game/scripts/journal.rpy", line 8, in script call
+    call screen journal_2(display, school)
+  File "game/scripts/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal.rpy", line 12, in script call
+    call screen journal_4(display, school)
+  File "game/scripts/overview.rpy", line 297, in script call
+    Subtitles_Empty ""
+  File "game/scripts/journal.rpy", line 2, in script call
+    call open_journal (1, "", "high_school")
+  File "game/scripts/journal.rpy", line 6, in script call
+    call screen journal_1(display, school)
+  File "game/scripts/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal.rpy", line 620, in script call
+    call screen confirm("You already queued [title] for voting.\n\nDo you wanna queue the club \"[club.title]\" instead?",
+  File "game/scripts/journal.rpy", line 600, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  [Previous line repeated 2 more times]
+  File "game/scripts/journal.rpy", line 620, in script call
+    call screen confirm("You already queued [title] for voting.\n\nDo you wanna queue the club \"[club.title]\" instead?",
+  File "game/scripts/journal.rpy", line 600, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal.rpy", line 12, in script call
+    call screen journal_4(display, school)
+  File "game/scripts/journal.rpy", line 12, in script call
+    call screen journal_4(display, school)
+  File "game/scripts/journal.rpy", line 632, in script call
+    call screen confirm("You already queued [title] for voting.\n\nDo you wanna queue the building \"[building.title]\" instead?",
+  File "game/scripts/journal.rpy", line 600, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal.rpy", line 12, in script call
+    call screen journal_4(display, school)
+  File "game/scripts/journal.rpy", line 8, in script call
+    call screen journal_2(display, school)
+  File "game/scripts/journal.rpy", line 8, in script call
+    call screen journal_2(display, school)
+  File "game/scripts/journal.rpy", line 608, in script call
+    call screen confirm("You already queued [title] for voting.\n\nDo you wanna queue the rule \"[rule.title]\" instead?",
+  File "game/scripts/journal.rpy", line 600, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/overview.rpy", line 295, in script
+    show screen school_overview_buttons
+  File "renpy/common/000statements.rpy", line 588, in execute_show_screen
+    renpy.show_screen(name, *args, **kwargs)
+  File "game/scripts/overview.rpy", line 146, in execute
+    screen school_overview_buttons:
+  File "game/scripts/overview.rpy", line 146, in execute
+    screen school_overview_buttons:
+  File "game/scripts/overview.rpy", line 187, in execute
+    if is_building_unlocked(labs):
+  File "game/scripts/overview.rpy", line 187, in <module>
+    if is_building_unlocked(labs):
+NameError: name 'labs' is not defined
 
 -- Full Traceback ------------------------------------------------------------
 
@@ -32,53 +99,106 @@ Full traceback:
     call event_check(time_check_events)
   File "game/scripts/event_manager.rpy", line 310, in script call
     call expression my_events[i]
-  File "game/scripts/overview.rpy", line 297, in script
+  File "game/scripts/overview.rpy", line 297, in script call
     Subtitles_Empty ""
-  File "C:\RenPy\renpy\ast.py", line 921, in execute
-    renpy.exports.say(who, what, *args, **kwargs)
-  File "C:\RenPy\renpy\exports.py", line 1373, in say
-    who(what, *args, **kwargs)
-  File "C:\RenPy\renpy\character.py", line 1266, in __call__
-    self.do_display(who, what, cb_args=self.cb_args, dtt=dtt, **display_args)
-  File "C:\RenPy\renpy\character.py", line 927, in do_display
-    display_say(who,
-  File "C:\RenPy\renpy\character.py", line 666, in display_say
-    rv = renpy.ui.interact(mouse='say', type=type, roll_forward=roll_forward)
-  File "C:\RenPy\renpy\ui.py", line 299, in interact
-    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
-  File "C:\RenPy\renpy\display\core.py", line 3377, in interact
-    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
-  File "C:\RenPy\renpy\display\core.py", line 3810, in interact_core
-    root_widget.visit_all(lambda i : i.per_interact())
-  File "C:\RenPy\renpy\display\core.py", line 582, in visit_all
-    d.visit_all(callback, seen)
-  File "C:\RenPy\renpy\display\core.py", line 582, in visit_all
-    d.visit_all(callback, seen)
-  File "C:\RenPy\renpy\display\core.py", line 582, in visit_all
-    d.visit_all(callback, seen)
-  File "C:\RenPy\renpy\display\screen.py", line 451, in visit_all
-    callback(self)
-  File "C:\RenPy\renpy\display\core.py", line 3810, in <lambda>
-    root_widget.visit_all(lambda i : i.per_interact())
-  File "C:\RenPy\renpy\display\screen.py", line 462, in per_interact
+  File "game/scripts/journal.rpy", line 2, in script call
+    call open_journal (1, "", "high_school")
+  File "game/scripts/journal.rpy", line 6, in script call
+    call screen journal_1(display, school)
+  File "game/scripts/journal.rpy", line 8, in script call
+    call screen journal_2(display, school)
+  File "game/scripts/journal.rpy", line 8, in script call
+    call screen journal_2(display, school)
+  File "game/scripts/journal.rpy", line 612, in script call
+    call add_to_proposal(rule, 2, school, rule_name, "rule")
+  File "game/scripts/journal.rpy", line 600, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal.rpy", line 8, in script call
+    call screen journal_2(display, school)
+  File "game/scripts/journal.rpy", line 8, in script call
+    call screen journal_2(display, school)
+  File "game/scripts/journal.rpy", line 8, in script call
+    call screen journal_2(display, school)
+  File "game/scripts/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal.rpy", line 12, in script call
+    call screen journal_4(display, school)
+  File "game/scripts/overview.rpy", line 297, in script call
+    Subtitles_Empty ""
+  File "game/scripts/journal.rpy", line 2, in script call
+    call open_journal (1, "", "high_school")
+  File "game/scripts/journal.rpy", line 6, in script call
+    call screen journal_1(display, school)
+  File "game/scripts/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal.rpy", line 620, in script call
+    call screen confirm("You already queued [title] for voting.\n\nDo you wanna queue the club \"[club.title]\" instead?",
+  File "game/scripts/journal.rpy", line 600, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  [Previous line repeated 2 more times]
+  File "game/scripts/journal.rpy", line 620, in script call
+    call screen confirm("You already queued [title] for voting.\n\nDo you wanna queue the club \"[club.title]\" instead?",
+  File "game/scripts/journal.rpy", line 600, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal.rpy", line 12, in script call
+    call screen journal_4(display, school)
+  File "game/scripts/journal.rpy", line 12, in script call
+    call screen journal_4(display, school)
+  File "game/scripts/journal.rpy", line 632, in script call
+    call screen confirm("You already queued [title] for voting.\n\nDo you wanna queue the building \"[building.title]\" instead?",
+  File "game/scripts/journal.rpy", line 600, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal.rpy", line 12, in script call
+    call screen journal_4(display, school)
+  File "game/scripts/journal.rpy", line 8, in script call
+    call screen journal_2(display, school)
+  File "game/scripts/journal.rpy", line 8, in script call
+    call screen journal_2(display, school)
+  File "game/scripts/journal.rpy", line 608, in script call
+    call screen confirm("You already queued [title] for voting.\n\nDo you wanna queue the rule \"[rule.title]\" instead?",
+  File "game/scripts/journal.rpy", line 600, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/overview.rpy", line 295, in script
+    show screen school_overview_buttons
+  File "C:\RenPy\renpy\ast.py", line 2232, in execute
+    self.call("execute")
+  File "C:\RenPy\renpy\ast.py", line 2220, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "C:\RenPy\renpy\statements.py", line 281, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 588, in execute_show_screen
+    renpy.show_screen(name, *args, **kwargs)
+  File "C:\RenPy\renpy\display\screen.py", line 1218, in show_screen
+    sls.add(_layer, d, _tag, zorder=_zorder, transient=_transient, keep_st=True, name=name)
+  File "C:\RenPy\renpy\display\core.py", line 1132, in add
+    if not self.hide_or_replace(layer, remove_index, "replaced"):
+  File "C:\RenPy\renpy\display\core.py", line 1191, in hide_or_replace
+    if not oldsle.displayable._handles_event(prefix):
+  File "C:\RenPy\renpy\display\screen.py", line 500, in _handles_event
     self.update()
   File "C:\RenPy\renpy\display\screen.py", line 653, in update
     self.screen.function(**self.scope)
-  File "game/scripts/overview.rpy", line 60, in execute
-    screen school_overview_stats:
-  File "game/scripts/overview.rpy", line 60, in execute
-    screen school_overview_stats:
-  File "game/scripts/overview.rpy", line 84, in execute
-    vbox:
-  File "game/scripts/overview.rpy", line 88, in execute
-    $ daystr = time.get_weekday()
-  File "game/scripts/overview.rpy", line 88, in <module>
-    $ daystr = time.get_weekday()
-  File "game/scripts/time.rpy", line 48, in get_weekday
-    return weekday[wd - 1]
-NameError: name 'wd' is not defined
+  File "game/scripts/overview.rpy", line 146, in execute
+    screen school_overview_buttons:
+  File "game/scripts/overview.rpy", line 146, in execute
+    screen school_overview_buttons:
+  File "game/scripts/overview.rpy", line 187, in execute
+    if is_building_unlocked(labs):
+  File "game/scripts/overview.rpy", line 187, in <module>
+    if is_building_unlocked(labs):
+NameError: name 'labs' is not defined
 
 Windows-10-10.0.19045 AMD64
 Ren'Py 8.0.3.22090809
 Mind the School 1.0
-Tue Jun 13 16:20:14 2023
+Thu Jun 15 14:53:31 2023

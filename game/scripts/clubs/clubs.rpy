@@ -15,21 +15,30 @@ init python:
             self.description = ""
             self.image_path = "images/journal/empty_image.png"
 
+        def get_name(self):
+            return self.name
+
+        def get_title(self):
+            return self.title
+
+        def get_type(self):
+            return "club"
+
         def unlock(self):
             self.unlocked = True
 
-        def isUnlocked(self, school):
+        def is_unlocked(self, school):
             if school not in self.unlocked.keys():
                 return False
             return self.unlocked[school]
 
-        def isVisible(self, school):
+        def is_visible(self, school):
             for condition in self.unlock_conditions:
                 if condition.is_blocking(school):
                     return False
             return True
 
-        def canBeUnlocked(self, school):
+        def can_be_unlocked(self, school):
             if school not in schools.keys():
                 return False
 
@@ -45,8 +54,8 @@ init python:
         output = []
 
         for club in clubs.values():
-            if (club.isVisible(school) and 
-            not club.isUnlocked(school) and
+            if (club.is_visible(school) and 
+            not club.is_unlocked(school) and
             club.name not in output):
                 output.append(club.name)
                 continue
@@ -57,22 +66,22 @@ init python:
         output = []
 
         for club in clubs.values():
-            if (club.isVisible("high_school") and 
-            not club.isUnlocked("high_school") and
+            if (club.is_visible("high_school") and 
+            not club.is_unlocked("high_school") and
             club.name not in output):
                 output.append(club.name)
                 continue
             
             if loli_content >= 1:
-                if (club.isVisible("middle_school") and 
-                not club.isUnlocked("middle_school") and
+                if (club.is_visible("middle_school") and 
+                not club.is_unlocked("middle_school") and
                 club.name not in output):
                     output.append(club.name)
                     continue
 
             if loli_content == 2:
-                if (club.isVisible("elementary_school") and 
-                not club.isUnlocked("elementary_school") and
+                if (club.is_visible("elementary_school") and 
+                not club.is_unlocked("elementary_school") and
                 club.name not in output):   
                     output.append(club.name)
                     continue
@@ -83,8 +92,8 @@ init python:
         output = []
 
         for club in clubs.values():
-            high_unlock = club.canBeUnlocked("high_school")
-            high_unlocked = club.isUnlocked("high_school")
+            high_unlock = club.can_be_unlocked("high_school")
+            high_unlocked = club.is_unlocked("high_school")
 
             if (high_unlock and 
             not high_unlocked and 
@@ -93,8 +102,8 @@ init python:
                 continue
 
             if loli_content >= 1:
-                middle_unlock = club.canBeUnlocked("middle_school")
-                middle_unlocked = club.isUnlocked("middle_school")
+                middle_unlock = club.can_be_unlocked("middle_school")
+                middle_unlocked = club.is_unlocked("middle_school")
 
                 if (middle_unlock and 
                 not middle_unlocked and 
@@ -103,8 +112,8 @@ init python:
                     continue
 
             if loli_content == 2:
-                elementary_unlock = club.canBeUnlocked("elementary_school")
-                elementary_unlocked = club.isUnlocked("elementary_school")
+                elementary_unlock = club.can_be_unlocked("elementary_school")
+                elementary_unlocked = club.is_unlocked("elementary_school")
 
                 if (elementary_unlock and 
                 not elementary_unlocked and 
@@ -118,8 +127,8 @@ init python:
         output = []
 
         for club in clubs.values():
-            unlock = club.canBeUnlocked(school)
-            unlocked = club.isUnlocked(school)
+            unlock = club.can_be_unlocked(school)
+            unlocked = club.is_unlocked(school)
 
             if (unlock and not unlocked and club.name not in output):
                 output.append(club.name)
@@ -132,6 +141,16 @@ init python:
             return clubs[club]
         return None
     
+    def is_club_unlocked(club_name, school):
+        if club_name not in clubs.keys():
+            return False
+        return clubs[club_name].is_unlocked(school)
+
+    def is_club_visible(club_name, school):
+        if club_name not in clubs.keys():
+            return False
+        return clubs[club_name].is_visible(school)
+
     def load_club(name, title, data = None):
         if name not in clubs.keys():
             clubs[name] = Club(name, title)
@@ -144,7 +163,7 @@ label load_clubs:
         'description': "A Club for testing",
         'unlock_conditions': [
             StatCondition("1+", "inhibition"),
-            LockCondition(),
+            # LockCondition(),
         ],
     })
 
@@ -155,7 +174,7 @@ label load_clubs:
             "get some time out from the stressy school life.",
         'unlock_conditions': [
             LevelCondition("5+"),
-            LockCondition(),
+            # LockCondition(),
         ],
     })
 
@@ -165,7 +184,7 @@ label load_clubs:
             "activity of presenting their nude bodies in public.",
         'unlock_conditions': [
             LevelCondition("5+"),
-            LockCondition(),
+            # LockCondition(),
         ],
     })
 
@@ -173,7 +192,7 @@ label load_clubs:
         'description': "Here students engage costume crafting and cosplaying.",
         'unlock_conditions': [
             LevelCondition("2+"),
-            LockCondition(),
+            # LockCondition(),
         ],
     })
 
@@ -182,7 +201,7 @@ label load_clubs:
             "exploring new ways to cheer and motivate the teams.",
         'unlock_conditions': [
             LevelCondition("2+"),
-            LockCondition(),
+            # LockCondition(),
         ],
     })
 
@@ -192,7 +211,7 @@ label load_clubs:
             "are ways to make money with it.",
         'unlock_conditions': [
             LevelCondition("8+"),
-            LockCondition(),
+            # LockCondition(),
         ],
     })
 
@@ -202,7 +221,7 @@ label load_clubs:
             "activities and to search for new ways to reach new levels of euphoria.",
         'unlock_conditions': [
             LevelCondition("7+"),
-            LockCondition(),
+            # LockCondition(),
         ],
     })
 
@@ -213,35 +232,35 @@ label load_clubs:
             "to host certain events.",
         'unlock_conditions': [
             LevelCondition("5+"),
-            LockCondition(),
+            # LockCondition(),
         ],
     })
 
     $ load_club("swimming_club", "Swimming Club", {
         'description': "A Swimming Club",
         'unlock_conditions': [
-            LockCondition(),
+            # LockCondition(),
         ],
     })
 
     $ load_club("sport_club", "Sport Club", {
         'description': "A Sport Club",
         'unlock_conditions': [
-            LockCondition(),
+            # LockCondition(),
         ],
     })
 
     $ load_club("literature_club", "Literature Club", {
         'description': "A literature club",
         'unlock_conditions': [
-            LockCondition(),
+            # LockCondition(),
         ],
     })
 
     $ load_club("music_club", "Music Club", {
         'description': "A music club",
         'unlock_conditions': [
-            LockCondition(),
+            # LockCondition(),
         ],
     })
 
@@ -249,20 +268,20 @@ label load_clubs:
         'description': "A club where various games are played, developed " +
             "and tested.",
         'unlock_conditions': [
-            LockCondition(),
+            # LockCondition(),
         ],
     })
 
     $ load_club("arts_club", "Arts & Crafts Club", {
         'description': "",
         'unlock_conditions': [
-            LockCondition(),
+            # LockCondition(),
         ],
     })
 
     $ load_club("outdoor_club", "Outdoor Activities Club", {
         'description': "",
         'unlock_conditions': [
-            LockCondition(),
+            # LockCondition(),
         ],
     })
