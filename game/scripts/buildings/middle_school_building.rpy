@@ -4,29 +4,25 @@
 
 init -10 python:
     middle_school_building_events = {}
+    middle_school_building_events_title = {
+        "check_class": "Check Class",
+        "teach_class": "Teach a Class",
+        "patrol": "Patrol building",
+        "students": "Talk to students",
+    }
 
     middle_school_building_events["fallback"] = "middle_school_building_fallback"
 
     # event check before menu
-    middle_school_building_events["middle_school_building"] = {
-        "fallback": "middle_school_building.after_time_check", # no event
-    }
+    create_event_area(middle_school_building_events, "middle_school_building", "middle_school_building.after_time_check")
 
-    middle_school_building_events["check_class"] = {
-        "fallback": "middle_school_building_person_fallback",
-    }
+    create_event_area(middle_school_building_events, "check_class", "middle_school_building_person_fallback")
 
-    middle_school_building_events["teach_class"] = {
-        "fallback": "middle_school_building_person_fallback",
-    }
+    create_event_area(middle_school_building_events, "teach_class", "middle_school_building_person_fallback")
 
-    middle_school_building_events["patrol"] = {
-        "fallback": "middle_school_building_fallback",
-    }
+    create_event_area(middle_school_building_events, "patrol", "middle_school_building_fallback")
 
-    middle_school_building_events["students"] = {
-        "fallback": "middle_school_building_person_fallback",
-    }
+    create_event_area(middle_school_building_events, "students", "middle_school_building_person_fallback")
 
 ##################################################
 # ----- Middle School Building Entry Point ----- #
@@ -44,7 +40,16 @@ label middle_school_building:
 
     call event_check_area("middle_school_building", middle_school_building_events)
 
-label.after_time_check:
+label .after_time_check:
+
+    call call_event_menu (
+        "What to do in the Middle School?",
+        1, 
+        7, 
+        middle_school_building_events, 
+        middle_school_building_events_title,
+        "fallback", "middle_school_building"
+    )
 
     $ check_events = [
         get_events_area_count("check_class", middle_school_building_events),
@@ -55,7 +60,7 @@ label.after_time_check:
 
     if any(check_events):
         menu:
-            Subtitles "What to do in the Middle School?"
+            subtitles "What to do in the Middle School?"
 
             "Check class" if check_events[0] > 0:
                 call event_check_area("check_class", middle_school_building_events)
@@ -78,10 +83,10 @@ label.after_time_check:
 ######################################################
 
 label middle_school_building_fallback:
-    Subtitles "There is nothing to do here."
+    subtitles "There is nothing to do here."
     return
 label middle_school_building_person_fallback:
-    Subtitles "There is nobody here."
+    subtitles "There is nobody here."
     return
 
 ###########################################

@@ -5,6 +5,9 @@
         "**/*.rpymc": true,
         "**/cache/": true
     },
+    "editor.rulers": [
+        120
+    ],
     "editor.tokenColorCustomizations": {
         "textMateRules": [
             {

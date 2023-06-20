@@ -38,28 +38,28 @@ init python:
     loli_content = 0
 
 
-default char_Principal = Character(
+default character.principal = Character(
     "Principal",
     who_color = "#ffffff",
     what_color = "#ffffff",
     what_size = 28,
     what_outlines = [( 1, "#000000", 0, 0 )],
 )
-default char_Principal_whisper = Character(
+default character.principal_whisper = Character(
     "Principal",
     who_color = "#ffffff",
     what_color = "#ffffff",
     what_size = 15,
     what_outlines = [( 1, "#000000", 0, 0 )],
 )
-default char_Principal_shout = Character(
+default character.principal_shout = Character(
     "Principal",
     who_color = "#ffffff",
     what_color = "#ffffff",
     what_size = 35,
     what_outlines=[( 1, "#000000", 0, 0 )],
 )
-default char_Principal_thought = Character(
+default character.principal_thought = Character(
     "Principal",
     who_color = "#ffffff",
     what_color = "#ffffff",
@@ -67,74 +67,88 @@ default char_Principal_thought = Character(
     italics = True,
     what_outlines = [( 1, "#000000", 0, 0 )],
 )
-default char_Secretary = Character(
+default character.secretary = Character(
     "Secretary",
-    who_color = "#ae00ff",
+    who_color = "#c71585",
     what_color = "#ffffff",
     what_size = 28,
     what_outlines = [( 1, "#000000", 0, 0 )],
 )
-default char_Secretary_whisper = Character(
+default character.secretary_whisper = Character(
     "Secretary",
-    who_color = "#ae00ff",
+    who_color = "#c71585",
     what_color = "#ffffff",
     what_size = 15,
     what_outlines = [( 1, "#000000", 0, 0 )],
 )
-default char_Secretary_shout = Character(
+default character.secretary_shout = Character(
     "Secretary",
-    who_color = "#ae00ff",
+    who_color = "#c71585",
     what_color = "#ffffff",
     what_size = 35,
     what_outlines = [( 1, "#000000", 0, 0 )],
 )
-default char_Examiner = Character(
+default character.teacher = Character(
+    "Teacher", 
+    who_color = "#00ced1",
+    what_color = "#ffffff",
+    what_size = 28,
+    what_outlines = [( 1, "#000000", 0, 0 )],
+)
+default character.parent = Character(
+    "Parent",
+    who_color = "#e6e6fa",
+    what_color = "#ffffff",
+    what_size = 28,
+    what_outlines = [( 1, "#000000", 0, 0)],
+)
+default character.examiner = Character(
     "Examiner",
-    who_color = "#42f74b",
+    who_color = "#f5deb3",
     what_color = "#ffffff",
     what_size = 28,
     what_outlines = [( 1, "#000000", 0, 0 )],
 )
-default char_Regional = Character(
+default character.regional = Character(
     "Region Manager",
-    who_color = "#ebee3b",
+    who_color = "#4169e1",
     what_color = "#ffffff",
     what_size = 28,
     what_outlines = [( 1, "#000000", 0, 0 )],
 )
-default char_SGirl = Character(
+default character.sgirl = Character(
     "School Girl",
-    who_color = "#ee3b3b",
+    who_color = "#8a2be2",
     what_color = "#ffffff",
     what_size = 28,
     what_outlines = [( 1, "#000000", 0, 0 )],
 )
-default char_SBoy = Character(
+default character.sboy = Character(
     "School Boy",
-    who_color = "#212ee6",
+    who_color = "#008000",
     what_color = "#ffffff",
     what_size = 28,
     what_outlines = [( 1, "#000000", 0, 0 )],
 )
-default char_Crowd = Character(
+default character.crowd = Character(
     "Crowd",
-    what_color = "#30f1c8",
+    what_color = "#ffd700",
     what_size = 28,
     what_outlines = [( 1, "#000000", 0, 0 )],
 )
-default char_Crowd_whisper = Character(
+default character.crowd_whisper = Character(
     "Crowd",
-    what_color = "#30f1c8",
+    what_color = "#ffd700",
     what_size = 15,
     what_outlines = [( 1, "#000000", 0, 0 )],
 )
-default char_Crowd_shout = Character(
+default character.crowd_shout = Character(
     "Crowd",
-    what_color = "#30f1c8",
+    what_color = "#ffd700",
     what_size = 35,
     what_outlines = [( 1, "#000000", 0, 0 )],
 )
-default Subtitles = Character(
+default character.subtitles = Character(
     None,
     # window_background = None,
     what_color = "#ffffff",
@@ -144,7 +158,7 @@ default Subtitles = Character(
     what_textalign = 0,
     what_layout = 'subtitle'
 )
-default Subtitles_Empty = Character(
+default character.subtitles_Empty = Character(
     None,
     window_background = None,
     what_color = "#ffffff",

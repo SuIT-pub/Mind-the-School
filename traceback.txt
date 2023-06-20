@@ -1,204 +1,558 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
 While running game code:
-  File "game/scripts/overview.rpy", line 280, in script call
+  File "game/scripts/overview.rpy", line 298, in script call
     call time_event_check
-  File "game/scripts/buildings/daily_check.rpy", line 23, in script call
+  File "game/scripts/buildings/daily_check.rpy", line 27, in script call
     call event_check(time_check_events)
-  File "game/scripts/event_manager.rpy", line 310, in script call
+  File "game/scripts/event_manager.rpy", line 342, in script call
     call expression my_events[i]
-  File "game/scripts/overview.rpy", line 297, in script call
-    Subtitles_Empty ""
-  File "game/scripts/journal.rpy", line 2, in script call
-    call open_journal (1, "", "high_school")
-  File "game/scripts/journal.rpy", line 6, in script call
-    call screen journal_1(display, school)
-  File "game/scripts/journal.rpy", line 8, in script call
-    call screen journal_2(display, school)
-  File "game/scripts/journal.rpy", line 8, in script call
-    call screen journal_2(display, school)
-  File "game/scripts/journal.rpy", line 612, in script call
-    call add_to_proposal(rule, 2, school, rule_name, "rule")
-  File "game/scripts/journal.rpy", line 600, in script call
-    call open_journal(page, display, school)
-  File "game/scripts/journal.rpy", line 8, in script call
-    call screen journal_2(display, school)
-  File "game/scripts/journal.rpy", line 8, in script call
-    call screen journal_2(display, school)
-  File "game/scripts/journal.rpy", line 8, in script call
-    call screen journal_2(display, school)
-  File "game/scripts/journal.rpy", line 10, in script call
-    call screen journal_3(display, school)
-  File "game/scripts/journal.rpy", line 12, in script call
-    call screen journal_4(display, school)
-  File "game/scripts/overview.rpy", line 297, in script call
-    Subtitles_Empty ""
-  File "game/scripts/journal.rpy", line 2, in script call
-    call open_journal (1, "", "high_school")
-  File "game/scripts/journal.rpy", line 6, in script call
-    call screen journal_1(display, school)
-  File "game/scripts/journal.rpy", line 10, in script call
-    call screen journal_3(display, school)
-  File "game/scripts/journal.rpy", line 10, in script call
-    call screen journal_3(display, school)
-  File "game/scripts/journal.rpy", line 620, in script call
-    call screen confirm("You already queued [title] for voting.\n\nDo you wanna queue the club \"[club.title]\" instead?",
-  File "game/scripts/journal.rpy", line 600, in script call
-    call open_journal(page, display, school)
-  File "game/scripts/journal.rpy", line 10, in script call
-    call screen journal_3(display, school)
-  File "game/scripts/journal.rpy", line 10, in script call
-    call screen journal_3(display, school)
-  File "game/scripts/journal.rpy", line 10, in script call
-    call screen journal_3(display, school)
-  [Previous line repeated 2 more times]
-  File "game/scripts/journal.rpy", line 620, in script call
-    call screen confirm("You already queued [title] for voting.\n\nDo you wanna queue the club \"[club.title]\" instead?",
-  File "game/scripts/journal.rpy", line 600, in script call
-    call open_journal(page, display, school)
-  File "game/scripts/journal.rpy", line 10, in script call
-    call screen journal_3(display, school)
-  File "game/scripts/journal.rpy", line 12, in script call
-    call screen journal_4(display, school)
-  File "game/scripts/journal.rpy", line 12, in script call
-    call screen journal_4(display, school)
-  File "game/scripts/journal.rpy", line 632, in script call
-    call screen confirm("You already queued [title] for voting.\n\nDo you wanna queue the building \"[building.title]\" instead?",
-  File "game/scripts/journal.rpy", line 600, in script call
-    call open_journal(page, display, school)
-  File "game/scripts/journal.rpy", line 12, in script call
-    call screen journal_4(display, school)
-  File "game/scripts/journal.rpy", line 8, in script call
-    call screen journal_2(display, school)
-  File "game/scripts/journal.rpy", line 8, in script call
-    call screen journal_2(display, school)
-  File "game/scripts/journal.rpy", line 608, in script call
-    call screen confirm("You already queued [title] for voting.\n\nDo you wanna queue the rule \"[rule.title]\" instead?",
-  File "game/scripts/journal.rpy", line 600, in script call
-    call open_journal(page, display, school)
-  File "game/scripts/overview.rpy", line 295, in script
-    show screen school_overview_buttons
-  File "renpy/common/000statements.rpy", line 588, in execute_show_screen
-    renpy.show_screen(name, *args, **kwargs)
-  File "game/scripts/overview.rpy", line 146, in execute
-    screen school_overview_buttons:
-  File "game/scripts/overview.rpy", line 146, in execute
-    screen school_overview_buttons:
-  File "game/scripts/overview.rpy", line 187, in execute
-    if is_building_unlocked(labs):
-  File "game/scripts/overview.rpy", line 187, in <module>
-    if is_building_unlocked(labs):
-NameError: name 'labs' is not defined
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  [Previous line repeated 24 more times]
+  File "game/scripts/overview.rpy", line 298, in script call
+    call time_event_check
+  File "game/scripts/buildings/daily_check.rpy", line 27, in script call
+    call event_check(time_check_events)
+  File "game/scripts/event_manager.rpy", line 342, in script call
+    call expression my_events[i]
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  [Previous line repeated 17 more times]
+  File "game/scripts/overview.rpy", line 298, in script call
+    call time_event_check
+  File "game/scripts/buildings/daily_check.rpy", line 27, in script call
+    call event_check(time_check_events)
+  File "game/scripts/event_manager.rpy", line 342, in script call
+    call expression my_events[i]
+  File "game/scripts/overview.rpy", line 291, in script call
+    call time_event_check
+  File "game/scripts/buildings/daily_check.rpy", line 27, in script call
+    call event_check(time_check_events)
+  File "game/scripts/event_manager.rpy", line 342, in script call
+    call expression my_events[i]
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 329, in script call
+    call expression name
+  File "game/scripts/buildings/high_school_building.rpy", line 71, in script call
+    call event_check_area("high_school_building", high_school_building_events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 357, in script call
+    call expression events["fallback"]
+  File "game/scripts/buildings/high_school_building.rpy", line 75, in script call
+    call call_event_menu (
+  File "game/scripts/screens.rpy", line 152, in script call
+    call event_check_area(key, events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 351, in script call
+    call expression renpy.random.choice(my_events)
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 329, in script call
+    call expression name
+  File "game/scripts/buildings/high_school_building.rpy", line 71, in script call
+    call event_check_area("high_school_building", high_school_building_events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 357, in script call
+    call expression events["fallback"]
+  File "game/scripts/buildings/high_school_building.rpy", line 75, in script call
+    call call_event_menu (
+  File "game/scripts/screens.rpy", line 152, in script call
+    call event_check_area(key, events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 351, in script call
+    call expression renpy.random.choice(my_events)
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 329, in script call
+    call expression name
+  File "game/scripts/buildings/high_school_building.rpy", line 71, in script call
+    call event_check_area("high_school_building", high_school_building_events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 357, in script call
+    call expression events["fallback"]
+  File "game/scripts/buildings/high_school_building.rpy", line 75, in script call
+    call call_event_menu (
+  File "game/scripts/screens.rpy", line 152, in script call
+    call event_check_area(key, events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 351, in script call
+    call expression renpy.random.choice(my_events)
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 329, in script call
+    call expression name
+  File "game/scripts/buildings/high_school_building.rpy", line 71, in script call
+    call event_check_area("high_school_building", high_school_building_events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 357, in script call
+    call expression events["fallback"]
+  File "game/scripts/buildings/high_school_building.rpy", line 75, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 329, in script call
+    call expression name
+  File "game/scripts/buildings/high_school_building.rpy", line 71, in script call
+    call event_check_area("high_school_building", high_school_building_events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 357, in script call
+    call expression events["fallback"]
+  File "game/scripts/buildings/high_school_building.rpy", line 75, in script call
+    call call_event_menu (
+  File "game/scripts/screens.rpy", line 152, in script call
+    call event_check_area(key, events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 351, in script call
+    call expression renpy.random.choice(my_events)
+  File "game/scripts/buildings/high_school_building.rpy", line 158, in script call
+    call hsb_check_class_seemingly_concentrated.praise_student_private
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 329, in script call
+    call expression name
+  File "game/scripts/buildings/office_building.rpy", line 31, in script call
+    call event_check_area("office_building", office_building_events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 357, in script call
+    call expression events["fallback"]
+  File "game/scripts/buildings/office_building.rpy", line 35, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 329, in script call
+    call expression name
+  File "game/scripts/buildings/office_building.rpy", line 31, in script call
+    call event_check_area("office_building", office_building_events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 357, in script call
+    call expression events["fallback"]
+  File "game/scripts/buildings/office_building.rpy", line 31, in script call
+    call event_check_area("office_building", office_building_events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 357, in script call
+    call expression events["fallback"]
+  File "game/scripts/buildings/office_building.rpy", line 31, in script call
+    call event_check_area("office_building", office_building_events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 357, in script call
+    call expression events["fallback"]
+  File "game/scripts/buildings/office_building.rpy", line 35, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 329, in script call
+    call expression name
+  File "game/scripts/buildings/office_building.rpy", line 31, in script call
+    call event_check_area("office_building", office_building_events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 357, in script call
+    call expression events["fallback"]
+  File "game/scripts/buildings/office_building.rpy", line 35, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 329, in script call
+    call expression name
+  File "game/scripts/buildings/high_school_building.rpy", line 71, in script call
+    call event_check_area("high_school_building", high_school_building_events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 357, in script call
+    call expression events["fallback"]
+  File "game/scripts/buildings/high_school_building.rpy", line 75, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 329, in script call
+    call expression name
+  File "game/scripts/buildings/office_building.rpy", line 31, in script call
+    call event_check_area("office_building", office_building_events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 357, in script call
+    call expression events["fallback"]
+  File "game/scripts/buildings/office_building.rpy", line 35, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 329, in script call
+    call expression name
+  File "game/scripts/buildings/middle_school_dormitory.rpy", line 41, in script call
+    call event_check_area("middle_school_dormitory", middle_school_dormitory_events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 357, in script call
+    call expression events["fallback"]
+  File "game/scripts/buildings/middle_school_dormitory.rpy", line 45, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 329, in script call
+    call expression name
+  File "game/scripts/buildings/middle_school_dormitory.rpy", line 41, in script call
+    call event_check_area("middle_school_dormitory", middle_school_dormitory_events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 357, in script call
+    call expression events["fallback"]
+  File "game/scripts/buildings/middle_school_dormitory.rpy", line 45, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 329, in script call
+    call expression name
+  File "game/scripts/buildings/high_school_building.rpy", line 71, in script call
+    call event_check_area("high_school_building", high_school_building_events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 357, in script call
+    call expression events["fallback"]
+  File "game/scripts/buildings/high_school_building.rpy", line 75, in script call
+    call call_event_menu (
+  File "game/scripts/screens.rpy", line 47, in script call
+    person "[text]"
+  File "game/scripts/screens.rpy", line 152, in script call
+    call event_check_area(key, events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 351, in script call
+    call expression renpy.random.choice(my_events)
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 329, in script call
+    call expression name
+  File "game/scripts/buildings/high_school_building.rpy", line 71, in script call
+    call event_check_area("high_school_building", high_school_building_events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 357, in script call
+    call expression events["fallback"]
+  File "game/scripts/buildings/high_school_building.rpy", line 75, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 329, in script call
+    call expression name
+  File "game/scripts/buildings/high_school_dormitory.rpy", line 41, in script call
+    call event_check_area("high_school_dormitory", high_school_dormitory_events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 357, in script call
+    call expression events["fallback"]
+  File "game/scripts/buildings/high_school_dormitory.rpy", line 45, in script call
+    call call_event_menu (
+  File "game/scripts/screens.rpy", line 30, in script
+    label call_event_menu(text, page, page_limit, events, titles, *key_excludes, person = character.subtitles):
+  File "game/scripts/buildings/high_school_dormitory.rpy", line 45, in <module>
+    call call_event_menu (
+NameError: name 'high_school_dormitory_events_title' is not defined
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "game/scripts/overview.rpy", line 280, in script call
+  File "game/scripts/overview.rpy", line 298, in script call
     call time_event_check
-  File "game/scripts/buildings/daily_check.rpy", line 23, in script call
+  File "game/scripts/buildings/daily_check.rpy", line 27, in script call
     call event_check(time_check_events)
-  File "game/scripts/event_manager.rpy", line 310, in script call
+  File "game/scripts/event_manager.rpy", line 342, in script call
     call expression my_events[i]
-  File "game/scripts/overview.rpy", line 297, in script call
-    Subtitles_Empty ""
-  File "game/scripts/journal.rpy", line 2, in script call
-    call open_journal (1, "", "high_school")
-  File "game/scripts/journal.rpy", line 6, in script call
-    call screen journal_1(display, school)
-  File "game/scripts/journal.rpy", line 8, in script call
-    call screen journal_2(display, school)
-  File "game/scripts/journal.rpy", line 8, in script call
-    call screen journal_2(display, school)
-  File "game/scripts/journal.rpy", line 612, in script call
-    call add_to_proposal(rule, 2, school, rule_name, "rule")
-  File "game/scripts/journal.rpy", line 600, in script call
-    call open_journal(page, display, school)
-  File "game/scripts/journal.rpy", line 8, in script call
-    call screen journal_2(display, school)
-  File "game/scripts/journal.rpy", line 8, in script call
-    call screen journal_2(display, school)
-  File "game/scripts/journal.rpy", line 8, in script call
-    call screen journal_2(display, school)
-  File "game/scripts/journal.rpy", line 10, in script call
-    call screen journal_3(display, school)
-  File "game/scripts/journal.rpy", line 12, in script call
-    call screen journal_4(display, school)
-  File "game/scripts/overview.rpy", line 297, in script call
-    Subtitles_Empty ""
-  File "game/scripts/journal.rpy", line 2, in script call
-    call open_journal (1, "", "high_school")
-  File "game/scripts/journal.rpy", line 6, in script call
-    call screen journal_1(display, school)
-  File "game/scripts/journal.rpy", line 10, in script call
-    call screen journal_3(display, school)
-  File "game/scripts/journal.rpy", line 10, in script call
-    call screen journal_3(display, school)
-  File "game/scripts/journal.rpy", line 620, in script call
-    call screen confirm("You already queued [title] for voting.\n\nDo you wanna queue the club \"[club.title]\" instead?",
-  File "game/scripts/journal.rpy", line 600, in script call
-    call open_journal(page, display, school)
-  File "game/scripts/journal.rpy", line 10, in script call
-    call screen journal_3(display, school)
-  File "game/scripts/journal.rpy", line 10, in script call
-    call screen journal_3(display, school)
-  File "game/scripts/journal.rpy", line 10, in script call
-    call screen journal_3(display, school)
-  [Previous line repeated 2 more times]
-  File "game/scripts/journal.rpy", line 620, in script call
-    call screen confirm("You already queued [title] for voting.\n\nDo you wanna queue the club \"[club.title]\" instead?",
-  File "game/scripts/journal.rpy", line 600, in script call
-    call open_journal(page, display, school)
-  File "game/scripts/journal.rpy", line 10, in script call
-    call screen journal_3(display, school)
-  File "game/scripts/journal.rpy", line 12, in script call
-    call screen journal_4(display, school)
-  File "game/scripts/journal.rpy", line 12, in script call
-    call screen journal_4(display, school)
-  File "game/scripts/journal.rpy", line 632, in script call
-    call screen confirm("You already queued [title] for voting.\n\nDo you wanna queue the building \"[building.title]\" instead?",
-  File "game/scripts/journal.rpy", line 600, in script call
-    call open_journal(page, display, school)
-  File "game/scripts/journal.rpy", line 12, in script call
-    call screen journal_4(display, school)
-  File "game/scripts/journal.rpy", line 8, in script call
-    call screen journal_2(display, school)
-  File "game/scripts/journal.rpy", line 8, in script call
-    call screen journal_2(display, school)
-  File "game/scripts/journal.rpy", line 608, in script call
-    call screen confirm("You already queued [title] for voting.\n\nDo you wanna queue the rule \"[rule.title]\" instead?",
-  File "game/scripts/journal.rpy", line 600, in script call
-    call open_journal(page, display, school)
-  File "game/scripts/overview.rpy", line 295, in script
-    show screen school_overview_buttons
-  File "C:\RenPy\renpy\ast.py", line 2232, in execute
-    self.call("execute")
-  File "C:\RenPy\renpy\ast.py", line 2220, in call
-    return renpy.statements.call(method, parsed, *args, **kwargs)
-  File "C:\RenPy\renpy\statements.py", line 281, in call
-    return method(parsed, *args, **kwargs)
-  File "renpy/common/000statements.rpy", line 588, in execute_show_screen
-    renpy.show_screen(name, *args, **kwargs)
-  File "C:\RenPy\renpy\display\screen.py", line 1218, in show_screen
-    sls.add(_layer, d, _tag, zorder=_zorder, transient=_transient, keep_st=True, name=name)
-  File "C:\RenPy\renpy\display\core.py", line 1132, in add
-    if not self.hide_or_replace(layer, remove_index, "replaced"):
-  File "C:\RenPy\renpy\display\core.py", line 1191, in hide_or_replace
-    if not oldsle.displayable._handles_event(prefix):
-  File "C:\RenPy\renpy\display\screen.py", line 500, in _handles_event
-    self.update()
-  File "C:\RenPy\renpy\display\screen.py", line 653, in update
-    self.screen.function(**self.scope)
-  File "game/scripts/overview.rpy", line 146, in execute
-    screen school_overview_buttons:
-  File "game/scripts/overview.rpy", line 146, in execute
-    screen school_overview_buttons:
-  File "game/scripts/overview.rpy", line 187, in execute
-    if is_building_unlocked(labs):
-  File "game/scripts/overview.rpy", line 187, in <module>
-    if is_building_unlocked(labs):
-NameError: name 'labs' is not defined
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  [Previous line repeated 24 more times]
+  File "game/scripts/overview.rpy", line 298, in script call
+    call time_event_check
+  File "game/scripts/buildings/daily_check.rpy", line 27, in script call
+    call event_check(time_check_events)
+  File "game/scripts/event_manager.rpy", line 342, in script call
+    call expression my_events[i]
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  [Previous line repeated 17 more times]
+  File "game/scripts/overview.rpy", line 298, in script call
+    call time_event_check
+  File "game/scripts/buildings/daily_check.rpy", line 27, in script call
+    call event_check(time_check_events)
+  File "game/scripts/event_manager.rpy", line 342, in script call
+    call expression my_events[i]
+  File "game/scripts/overview.rpy", line 291, in script call
+    call time_event_check
+  File "game/scripts/buildings/daily_check.rpy", line 27, in script call
+    call event_check(time_check_events)
+  File "game/scripts/event_manager.rpy", line 342, in script call
+    call expression my_events[i]
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 329, in script call
+    call expression name
+  File "game/scripts/buildings/high_school_building.rpy", line 71, in script call
+    call event_check_area("high_school_building", high_school_building_events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 357, in script call
+    call expression events["fallback"]
+  File "game/scripts/buildings/high_school_building.rpy", line 75, in script call
+    call call_event_menu (
+  File "game/scripts/screens.rpy", line 152, in script call
+    call event_check_area(key, events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 351, in script call
+    call expression renpy.random.choice(my_events)
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 329, in script call
+    call expression name
+  File "game/scripts/buildings/high_school_building.rpy", line 71, in script call
+    call event_check_area("high_school_building", high_school_building_events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 357, in script call
+    call expression events["fallback"]
+  File "game/scripts/buildings/high_school_building.rpy", line 75, in script call
+    call call_event_menu (
+  File "game/scripts/screens.rpy", line 152, in script call
+    call event_check_area(key, events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 351, in script call
+    call expression renpy.random.choice(my_events)
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 329, in script call
+    call expression name
+  File "game/scripts/buildings/high_school_building.rpy", line 71, in script call
+    call event_check_area("high_school_building", high_school_building_events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 357, in script call
+    call expression events["fallback"]
+  File "game/scripts/buildings/high_school_building.rpy", line 75, in script call
+    call call_event_menu (
+  File "game/scripts/screens.rpy", line 152, in script call
+    call event_check_area(key, events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 351, in script call
+    call expression renpy.random.choice(my_events)
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 329, in script call
+    call expression name
+  File "game/scripts/buildings/high_school_building.rpy", line 71, in script call
+    call event_check_area("high_school_building", high_school_building_events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 357, in script call
+    call expression events["fallback"]
+  File "game/scripts/buildings/high_school_building.rpy", line 75, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 329, in script call
+    call expression name
+  File "game/scripts/buildings/high_school_building.rpy", line 71, in script call
+    call event_check_area("high_school_building", high_school_building_events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 357, in script call
+    call expression events["fallback"]
+  File "game/scripts/buildings/high_school_building.rpy", line 75, in script call
+    call call_event_menu (
+  File "game/scripts/screens.rpy", line 152, in script call
+    call event_check_area(key, events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 351, in script call
+    call expression renpy.random.choice(my_events)
+  File "game/scripts/buildings/high_school_building.rpy", line 158, in script call
+    call hsb_check_class_seemingly_concentrated.praise_student_private
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 329, in script call
+    call expression name
+  File "game/scripts/buildings/office_building.rpy", line 31, in script call
+    call event_check_area("office_building", office_building_events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 357, in script call
+    call expression events["fallback"]
+  File "game/scripts/buildings/office_building.rpy", line 35, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 329, in script call
+    call expression name
+  File "game/scripts/buildings/office_building.rpy", line 31, in script call
+    call event_check_area("office_building", office_building_events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 357, in script call
+    call expression events["fallback"]
+  File "game/scripts/buildings/office_building.rpy", line 31, in script call
+    call event_check_area("office_building", office_building_events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 357, in script call
+    call expression events["fallback"]
+  File "game/scripts/buildings/office_building.rpy", line 31, in script call
+    call event_check_area("office_building", office_building_events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 357, in script call
+    call expression events["fallback"]
+  File "game/scripts/buildings/office_building.rpy", line 35, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 329, in script call
+    call expression name
+  File "game/scripts/buildings/office_building.rpy", line 31, in script call
+    call event_check_area("office_building", office_building_events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 357, in script call
+    call expression events["fallback"]
+  File "game/scripts/buildings/office_building.rpy", line 35, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 329, in script call
+    call expression name
+  File "game/scripts/buildings/high_school_building.rpy", line 71, in script call
+    call event_check_area("high_school_building", high_school_building_events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 357, in script call
+    call expression events["fallback"]
+  File "game/scripts/buildings/high_school_building.rpy", line 75, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 329, in script call
+    call expression name
+  File "game/scripts/buildings/office_building.rpy", line 31, in script call
+    call event_check_area("office_building", office_building_events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 357, in script call
+    call expression events["fallback"]
+  File "game/scripts/buildings/office_building.rpy", line 35, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 329, in script call
+    call expression name
+  File "game/scripts/buildings/middle_school_dormitory.rpy", line 41, in script call
+    call event_check_area("middle_school_dormitory", middle_school_dormitory_events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 357, in script call
+    call expression events["fallback"]
+  File "game/scripts/buildings/middle_school_dormitory.rpy", line 45, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 329, in script call
+    call expression name
+  File "game/scripts/buildings/middle_school_dormitory.rpy", line 41, in script call
+    call event_check_area("middle_school_dormitory", middle_school_dormitory_events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 357, in script call
+    call expression events["fallback"]
+  File "game/scripts/buildings/middle_school_dormitory.rpy", line 45, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 329, in script call
+    call expression name
+  File "game/scripts/buildings/high_school_building.rpy", line 71, in script call
+    call event_check_area("high_school_building", high_school_building_events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 357, in script call
+    call expression events["fallback"]
+  File "game/scripts/buildings/high_school_building.rpy", line 75, in script call
+    call call_event_menu (
+  File "game/scripts/screens.rpy", line 47, in script call
+    person "[text]"
+  File "game/scripts/screens.rpy", line 152, in script call
+    call event_check_area(key, events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 351, in script call
+    call expression renpy.random.choice(my_events)
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 329, in script call
+    call expression name
+  File "game/scripts/buildings/high_school_building.rpy", line 71, in script call
+    call event_check_area("high_school_building", high_school_building_events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 357, in script call
+    call expression events["fallback"]
+  File "game/scripts/buildings/high_school_building.rpy", line 75, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 315, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 329, in script call
+    call expression name
+  File "game/scripts/buildings/high_school_dormitory.rpy", line 41, in script call
+    call event_check_area("high_school_dormitory", high_school_dormitory_events)
+  File "game/scripts/event_manager.rpy", line 326, in script call
+    call event_check(events[area])
+  File "game/scripts/event_manager.rpy", line 357, in script call
+    call expression events["fallback"]
+  File "game/scripts/buildings/high_school_dormitory.rpy", line 45, in script call
+    call call_event_menu (
+  File "game/scripts/screens.rpy", line 30, in script
+    label call_event_menu(text, page, page_limit, events, titles, *key_excludes, person = character.subtitles):
+  File "C:\RenPy\renpy\ast.py", line 1710, in execute
+    args, kwargs = self.arguments.evaluate()
+  File "C:\RenPy\renpy\ast.py", line 342, in evaluate
+    value = renpy.python.py_eval(v, locals=scope)
+  File "C:\RenPy\renpy\python.py", line 1092, in py_eval
+    return py_eval_bytecode(code, globals, locals)
+  File "C:\RenPy\renpy\python.py", line 1085, in py_eval_bytecode
+    return eval(bytecode, globals, locals)
+  File "game/scripts/buildings/high_school_dormitory.rpy", line 45, in <module>
+    call call_event_menu (
+NameError: name 'high_school_dormitory_events_title' is not defined
 
 Windows-10-10.0.19045 AMD64
 Ren'Py 8.0.3.22090809
 Mind the School 1.0
-Thu Jun 15 14:53:31 2023
+Tue Jun 20 16:18:27 2023

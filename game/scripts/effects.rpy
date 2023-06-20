@@ -81,3 +81,47 @@ init python:
                 money.change_value_to(self.value)
             if self.mode == "ADD":
                 money.change_value(self.value)
+
+    class PermAreaEventEffect(Effect):
+        def __init__(self, name, events, area, pattern, mode = "ADD"):
+            super.__init__(name)
+            self.events = events
+            self.area = area
+            self.pattern = pattern
+            self.mode = mode
+
+        def apply(self, _school):
+            if mode == "ADD":
+                add_area_event(self.events, self.area, self.pattern, self.name)
+            if (mode == "REMOVE" and 
+                self.area in self.events and 
+                self.pattern in self.events[self.area] and
+                self.name in self.events[self.area][self.pattern]):
+                self.events[self.area][self.pattern].remove(self.name)
+
+    class PermTimeEventEffect(Effect):
+        def __init__(self, name, events, pattern, mode = "ADD"):
+            super.__init__(name)
+            self.events = events
+            self.pattern = pattern
+            self.mode = mode
+
+        def apply(self, _school):
+            if mode == "ADD":
+                add_event(self.events, self.pattern, self.name)
+            if (mode == "REMOVE" and 
+                self.pattern in self.events and
+                self.name in self.events[self.pattern]):
+                self.events[self.pattern].remove(self.name)
+
+    class TempTimeEventEffect(Effect):
+        def __init__(self, name, pattern, mode = "ADD"):
+            super().__init__(name)
+            self.pattern = pattern
+
+        def apply(self, _school):
+            if mode == "ADD" and self.name not in self.events:
+                add_temp_event(self.pattern, self.name)
+            if mode == "REMOVE" and self.name in self.events:
+                remove_temp_event(self.pattern, self.name)
+

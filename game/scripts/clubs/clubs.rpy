@@ -1,19 +1,17 @@
 init python:
     import re
     class Club:
-        unlock_conditions = []
-
-        unlocked = {
-            "high_school": False,
-            "middle_school": False,
-            "elementary_school": False
-        }
-
         def __init__(self, name, title):
             self.name = name
             self.title = title
             self.description = ""
             self.image_path = "images/journal/empty_image.png"
+            self.unlock_conditions = []
+            self.unlocked = {
+                "high_school": False,
+                "middle_school": False,
+                "elementary_school": False
+            }
 
         def get_name(self):
             return self.name
@@ -50,38 +48,48 @@ init python:
             return True
 
     
-    def get_visible_clubs_by_school(school):
+    def get_unlocked_clubs_by_school(school):
+        output = []
+
+        for club in clubs.values():
+            if club.is_unlocked(school) and club.get_name() not in output:
+                output.append(club.get_name())
+        
+        return output
+
+
+    def get_visible_clubs_by_school(school, include_unlocked = False):
         output = []
 
         for club in clubs.values():
             if (club.is_visible(school) and 
-            not club.is_unlocked(school) and
+            ((not club.is_unlocked(school) and not include_unlocked) or include_unlocked) and
             club.name not in output):
                 output.append(club.name)
                 continue
 
         return output
 
-    def get_visible_clubs():
+    def get_visible_clubs(include_unlocked = False):
         output = []
 
         for club in clubs.values():
             if (club.is_visible("high_school") and 
-            not club.is_unlocked("high_school") and
+            ((not club.is_unlocked("high_school") and not include_unlocked) or include_unlocked) and
             club.name not in output):
                 output.append(club.name)
                 continue
             
             if loli_content >= 1:
                 if (club.is_visible("middle_school") and 
-                not club.is_unlocked("middle_school") and
+                ((not club.is_unlocked("middle_school") and not include_unlocked) or include_unlocked) and
                 club.name not in output):
                     output.append(club.name)
                     continue
 
             if loli_content == 2:
                 if (club.is_visible("elementary_school") and 
-                not club.is_unlocked("elementary_school") and
+                ((not club.is_unlocked("elementary_school") and not include_unlocked) or include_unlocked) and
                 club.name not in output):   
                     output.append(club.name)
                     continue
@@ -154,28 +162,23 @@ init python:
     def load_club(name, title, data = None):
         if name not in clubs.keys():
             clubs[name] = Club(name, title)
+
+        clubs[name].title = title
         
         if data != None:
             clubs[name].__dict__.update(data)
 
 label load_clubs:
-    $ load_club("test_club", "Test Club",{
-        'description': "A Club for testing",
-        'unlock_conditions': [
-            StatCondition("1+", "inhibition"),
-            # LockCondition(),
-        ],
-    })
-
     $ load_club("masturbation_club", "Masturbation Club", {
         'description': "Here students cum together (pun intended) to " +
             "collectively masturbate and explore new ways to satsify " +
             "themselves.\nA nice place for students to socialize and to " +
             "get some time out from the stressy school life.",
         'unlock_conditions': [
-            LevelCondition("5+"),
+            # LevelCondition("5+"),
             # LockCondition(),
         ],
+        'image_path': 'images/journal/clubs/masturbation_club.png',
     })
 
     $ load_club("exhibitionism_club", "Exhibitionism Club", {
@@ -183,26 +186,29 @@ label load_clubs:
             "Here students come together to engage in the thrill seeking " +
             "activity of presenting their nude bodies in public.",
         'unlock_conditions': [
-            LevelCondition("5+"),
+            # LevelCondition("5+"),
             # LockCondition(),
         ],
+        'image_path': 'images/journal/clubs/exhibitionism_club.png',
     })
 
     $ load_club("cosplay_club", "Cosplay Club", {
         'description': "Here students engage costume crafting and cosplaying.",
         'unlock_conditions': [
-            LevelCondition("2+"),
+            # LevelCondition("2+"),
             # LockCondition(),
         ],
+        'image_path': 'images/journal/clubs/cosplay_club.png',
     })
 
     $ load_club("cheerleading_club", "Cheerleading Club", {
         'description': "A sports club for training cheerleading and for" +
             "exploring new ways to cheer and motivate the teams.",
         'unlock_conditions': [
-            LevelCondition("2+"),
+            # LevelCondition("2+"),
             # LockCondition(),
         ],
+        'image_path': 'images/journal/clubs/cheerleading_club.png',
     })
 
     $ load_club("porn_club", "Porn Club", {
@@ -210,7 +216,7 @@ label load_clubs:
             "While it starts as an amateur film shooting club, there for sure " +
             "are ways to make money with it.",
         'unlock_conditions': [
-            LevelCondition("8+"),
+            # LevelCondition("8+"),
             # LockCondition(),
         ],
     })
@@ -220,7 +226,7 @@ label load_clubs:
             "to have fun together in engaging in orgies and other sexual " +
             "activities and to search for new ways to reach new levels of euphoria.",
         'unlock_conditions': [
-            LevelCondition("7+"),
+            # LevelCondition("7+"),
             # LockCondition(),
         ],
     })
@@ -231,34 +237,38 @@ label load_clubs:
             "satisfaction.\n\nThis club may also cooperate with other clubs " +
             "to host certain events.",
         'unlock_conditions': [
-            LevelCondition("5+"),
+            # LevelCondition("5+"),
             # LockCondition(),
         ],
     })
 
     $ load_club("swimming_club", "Swimming Club", {
-        'description': "A Swimming Club",
+        'description': "The swimming club provides ways for students to train " +
+            "their condition and also to train their gracefulness in the water.",
         'unlock_conditions': [
             # LockCondition(),
         ],
     })
 
     $ load_club("sport_club", "Sport Club", {
-        'description': "A Sport Club",
+        'description': "A club where students engage in various sporty " +
+            "activities like track and field or long jump.",
         'unlock_conditions': [
             # LockCondition(),
         ],
     })
 
     $ load_club("literature_club", "Literature Club", {
-        'description': "A literature club",
+        'description': "Here students dedicate the free time to their hobby " +
+            "of reading various books and stories.",
         'unlock_conditions': [
             # LockCondition(),
         ],
     })
 
     $ load_club("music_club", "Music Club", {
-        'description': "A music club",
+        'description': "A musical club where students came together to form " +
+            "bands and to create possibilities to perform on the big stage.",
         'unlock_conditions': [
             # LockCondition(),
         ],
@@ -273,14 +283,18 @@ label load_clubs:
     })
 
     $ load_club("arts_club", "Arts & Crafts Club", {
-        'description': "",
+        'description': "A club where students let out their artistic " +
+            "personalities in many different ways. Here they can paint, " +
+            "sculpt or something else they want to do to present themselves.",
         'unlock_conditions': [
             # LockCondition(),
         ],
     })
 
     $ load_club("outdoor_club", "Outdoor Activities Club", {
-        'description': "",
+        'description': "This club is dedicated to show different activities " +
+            "that can be done out in the nature, like camping or hiking, " +
+            "canoeing. Everything outside- and nature-related.",
         'unlock_conditions': [
             # LockCondition(),
         ],

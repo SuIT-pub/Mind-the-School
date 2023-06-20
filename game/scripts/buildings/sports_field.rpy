@@ -4,33 +4,28 @@
 
 init -10 python:
     sports_field_events = {}
+    sports_field_events_title = {
+        "check_class": "Check on sport class",
+        "teach_class": "Teach a sport class",
+        "peek_changing": "Peek into the changing rooms",
+        "enter_changing": "Enter changing rooms",
+        "steal_changing": "Steal some panties",
+    }
 
     sports_field_events["fallback"] = "sports_field_fallback"
 
     # event check before menu
-    sports_field_events["sports_field"] = {
-        "fallback": "sports_field.after_time_check", # no event
-    }
+    create_event_area(sports_field_events, "sports_field", "sports_field.after_time_check")
 
-    sports_field_events["check_class"] = {
-        "fallback": "sports_field_person_fallback",
-    }
+    create_event_area(sports_field_events, "check_class", "sports_field_person_fallback")
 
-    sports_field_events["teach_class"] = {
-        "fallback": "sports_field_person_fallback",
-    }
+    create_event_area(sports_field_events, "teach_class", "sports_field_person_fallback")
 
-    sports_field_events["peek_changing"] = {
-        "fallback": "sports_field_person_fallback",
-    }
+    create_event_area(sports_field_events, "peek_changing", "sports_field_person_fallback")
 
-    sports_field_events["enter_changing"] = {
-        "fallback": "sports_field_person_fallback",
-    }
+    create_event_area(sports_field_events, "enter_changing", "sports_field_person_fallback")
 
-    sports_field_events["steal"] = {
-        "fallback": "sports_field_person_fallback",
-    }
+    create_event_area(sports_field_events, "steal", "sports_field_person_fallback")
 
 ########################################
 # ----- Sports Field Entry Point ----- #
@@ -50,35 +45,16 @@ label sports_field:
 
     call event_check_area("sports_field", sports_field_events)
 
-label.after_time_check:
+label .after_time_check:
 
-    $ check_events = [
-        get_events_area_count("check_class"   , sports_field_events),
-        get_events_area_count("teach_class"   , sports_field_events),
-        get_events_area_count("peek_changing" , sports_field_events),
-        get_events_area_count("enter_changing", sports_field_events),
-        get_events_area_count("steal"         , sports_field_events),
-    ]
-
-    if any(check_events):
-        menu:
-            Subtitles "What to do on the sports field?"
-
-            "Check on sport class" if check_events[0] > 0:
-                call event_check_area("check_class", sports_field_events)
-            "Teach a sport class" if check_events[1] > 0:
-                call event_check_area("teach_class", sports_field_events)
-            "Take a peek in the changing rooms" if check_events[2] > 0:
-                call event_check_area("peek_changing", sports_field_events)
-            "Enter the changing rooms" if check_events[3] > 0:
-                call event_check_area("enter_changing", sports_field_events)
-            "Steal some panties" if check_events[4] > 0:
-                call event_check_area("steal", sports_field_events)
-            "Return":
-                jump map_overview
-    else:
-        call sports_field_fallback
-        jump map_overview
+    call call_event_menu (
+        "What to do on the sports field",
+        1, 
+        7, 
+        sports_field_events, 
+        sports_field_events_title,
+        "fallback", "sports_field",
+    )
 
     jump sports_field
 
@@ -87,11 +63,11 @@ label.after_time_check:
 ############################################
 
 label sports_field_fallback:
-    Subtitles "There is nothing to see here."
+    subtitles "There is nothing to see here."
     return
 
 label sports_field_person_fallback:
-    Subtitles "There is nobody here."
+    subtitles "There is nobody here."
     return
 
 ###################################

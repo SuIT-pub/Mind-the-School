@@ -120,20 +120,23 @@ screen school_overview_images:
     if is_building_unlocked("labs"):
         add "background/bg school labs idle.png":
             xpos 664 ypos 356
-    if is_building_unlocked(sports_field):
+    if is_building_unlocked("sports_field"):
         add "background/bg school sports field idle.png":
             xpos 203 ypos -11
-    if is_building_unlocked(tennis_court):
+    if is_building_unlocked("tennis_court"):
         add "background/bg school tennis court idle.png":
             xpos 558 ypos 90
     add "background/bg school gym idle.png":
         xpos 462 ypos 5
-    if is_building_unlocked(swimming_pool):
+    if is_building_unlocked("swimming_pool"):
         add "background/bg school pool idle.png":
             xpos 297 ypos 61
-    if is_building_unlocked(cafeteria):
+    if is_building_unlocked("cafeteria"):
         add "background/bg school cafeteria idle.png":
             xpos 229 ypos 460
+    if is_building_unlocked("bath"):
+        add "background/bg school bath idle.png":
+            xpos 557 ypos 319
     add "background/bg school kiosk idle.png":
         xpos 485 ypos 661
     add "background/bg school courtyard idle.png":
@@ -184,21 +187,21 @@ screen school_overview_buttons:
             focus_mask True
             xpos 446 ypos 196
             action Call("building", "elementary_school_dormitory")
-    if is_building_unlocked(labs):
+    if is_building_unlocked("labs"):
         imagebutton:
             auto "background/bg school labs %s.png"
             tooltip "Labs"
             focus_mask True
             xpos 644 ypos 356
             action Call("building", "labs")
-    if is_building_unlocked(sports_field):
+    if is_building_unlocked("sports_field"):
         imagebutton:
             auto "background/bg school sports field %s.png"
             tooltip "Sports Field"
             focus_mask True
             xpos 203 ypos -11
             action Call("building", "sports_field")
-    if is_building_unlocked(tennis_court):
+    if is_building_unlocked("tennis_court"):
         imagebutton:
             auto "background/bg school tennis court %s.png"
             tooltip "Tennis Court"
@@ -211,20 +214,27 @@ screen school_overview_buttons:
         focus_mask True
         xpos 462 ypos 5
         action Call("building", "gym")
-    if is_building_unlocked(swimming_pool):
+    if is_building_unlocked("swimming_pool"):
         imagebutton:
             auto "background/bg school pool %s.png"
             tooltip "Swimming Pool"
             focus_mask True
             xpos 297 ypos 61
             action Call("building", "swimming_pool")
-    if is_building_unlocked(cafeteria):
+    if is_building_unlocked("cafeteria"):
         imagebutton:
             auto "background/bg school cafeteria %s.png"
             tooltip "Cafeteria"
             focus_mask True
             xpos 229 ypos 460
             action Call("building", "cafeteria")
+    if is_building_unlocked("bath"):
+        imagebutton:
+            auto "background/bg school bath %s.png"
+            tooltip "Bath"
+            focus_mask True
+            xpos 557 ypos 319
+            action Call("building", "bath")
     imagebutton:
         auto "background/bg school kiosk %s.png"
         tooltip "Kiosk"
@@ -274,6 +284,14 @@ screen school_overview_buttons:
 
 ####################################################
 # goes to map overview while moving the time forward
+
+label new_day:
+    $ time.progress_day()
+
+    call time_event_check
+
+    jump map_overview
+
 label new_daytime:
     $ time.progress_time()
 
@@ -294,7 +312,7 @@ label map_overview:
     show screen school_overview_stats
     show screen school_overview_buttons
 
-    Subtitles_Empty ""
+    subtitles_Empty ""
 
     jump map_overview
 

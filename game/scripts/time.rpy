@@ -7,18 +7,21 @@ init python:
             self.month = 1
             self.year = 2023
 
+        def progress_day(self):
+            self.daytime = 1
+            self.day += 1
+            if self.day >= 29:
+                self.day = 1
+                self.month += 1
+                if self.month >= 13:
+                    self.month = 1
+                    self.year += 1
+
         def progress_time(self):
             self.daytime += 1
 
             if self.daytime == 8:
-                game_daytime = 1
-                game_day += 1
-                if game_day >= 29:
-                    game_day = 1
-                    game_month += 1
-                    if game_month >= 13:
-                        game_month = 1
-                        game_year += 1
+                self.progress_day()
 
         def get_daytime(self):
             return self.daytime
@@ -59,7 +62,7 @@ init python:
             if daytime == -1:
                 daytime = self.daytime
             daytime_name = ["Morning", "Early Noon", "Noon", "Early Afternoon", "Afternoon", "Evening", "Night"]
-            return daytime_name[daytime]
+            return daytime_name[daytime - 1]
 
         def today(self):
             return str(self.day) + "." + str(self.month) + "." + str(self.year)

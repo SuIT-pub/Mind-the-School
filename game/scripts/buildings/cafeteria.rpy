@@ -4,29 +4,25 @@
 
 init -10 python:
     cafeteria_events = {}
+    cafeteria_events_title = {
+        "eat_alone": "Eat alone",
+        "eat_student": "Eat with students",
+        "eat_teacher": "Eat with teacher",
+        "look": "Look around",
+    }
 
     cafeteria_events["fallback"] = "cafeteria_fallback"
 
     # event check before menu
-    cafeteria_events["cafeteria"] = {
-        "fallback": "cafeteria.after_time_check", # no event
-    }
+    create_event_area(cafeteria_events, "cafeteria", "cafeteria.after_time_check")
 
-    cafeteria_events["eat_alone"] = {
-        "fallback": "cafeteria_eat_fallback",
-    }
+    create_event_area(cafeteria_events, "eat_alone", "cafeteria_eat_fallback")
 
-    cafeteria_events["eat_student"] = {
-        "fallback": "cafeteria_person_fallback",
-    }
+    create_event_area(cafeteria_events, "eat_student", "cafeteria_person_fallback")
 
-    cafeteria_events["eat_teacher"] = {
-        "fallback": "cafeteria_person_fallback",
-    }
+    create_event_area(cafeteria_events, "eat_teacher", "cafeteria_person_fallback")
 
-    cafeteria_events["look"] = {
-        "fallback": "cafeteria_look_fallback",
-    }
+    create_event_area(cafeteria_events, "look", "cafeteria_look_fallback")
 
 #####################################
 # ----- Cafeteria Entry Point ----- #
@@ -46,32 +42,16 @@ label cafeteria:
 
     call event_check_area("cafeteria", cafeteria_events)
 
-label.after_time_check:
+label .after_time_check:
 
-    $ check_events = [
-        get_events_area_count("eat_alone"  , cafeteria_events),
-        get_events_area_count("eat_student", cafeteria_events),
-        get_events_area_count("eat_teacher", cafeteria_events),
-        get_events_area_count("look"       , cafeteria_events),
-    ]
-
-    if any(check_events):
-        menu:
-            Subtitles "What to do at the cafeteria?"
-            
-            "Eat alone" if check_events[0] > 0:
-                call event_check_area("eat_alone", cafeteria_events)
-            "Eat with students" if check_events[1] > 0:
-                call event_check_area("eat_student", cafeteria_events)
-            "Eat with teacher" if check_events[2] > 0:
-                call event_check_area("eat_teacher", cafeteria_events)
-            "Look around" if check_events[3] > 0:
-                call event_check_area("look", cafeteria_events)
-            "Return":
-                jump map_overview
-    else:
-        call cafeteria_fallback
-        jump map_overview
+    call call_event_menu (
+        "What to do at the Cafeteria?",
+        1, 
+        7, 
+        cafeteria_events, 
+        cafeteria_events_title,
+        "fallback", "cafeteria"
+    )
 
     jump cafeteria
 
@@ -80,16 +60,16 @@ label.after_time_check:
 #########################################
 
 label cafeteria_fallback:
-    Subtitles "There is nothing to do here."
+    subtitles "There is nothing to do here."
     return
 label cafeteria_eat_fallback:
-    Subtitles "I'm not hungry."
+    subtitles "I'm not hungry."
     return
 label cafeteria_person_fallback:
-    Subtitles "There is nobody here."
+    subtitles "There is nobody here."
     return
 label cafeteria_look_fallback:
-    Subtitles "There is nothing to see here."
+    subtitles "There is nothing to see here."
     return
 
 ################################

@@ -20,6 +20,38 @@ init -999 python:
     import re
     called_event = False
 
+    def add_temp_event(pattern, name):
+        text = pattern + "~" + name
+        if text not in temp_time_check_events:
+            temp_time_check_events.append(text)
+
+    def remove_temp_event(pattern, name):
+        text = pattern + "~" + name
+        if text in temp_time_check_events:
+            temp_time_check_events.remove(text)
+
+    def add_event(events, pattern, name):
+        if pattern not in events:
+            events[pattern] = [name]
+            return
+        if name not in events[pattern]:
+            events[pattern].append(name)
+
+    def create_event_area(events, area, fallback):
+        events[area] = {"fallback": fallback}
+
+    def add_area_event(events, area, pattern, *name):
+        names = list(name)
+        if area not in events:
+            events[area] = {pattern: names}
+            return
+        if pattern not in events[area]:
+            events[area][pattern] = names
+            return
+        for event_name in names:
+            if event_name not in events[area][pattern]:
+                events[area][pattern].append(event_name)
+
     def get_events_area_count(area, events):
         # try to narrow event-list down to area
         if area in events and area != "fallback":
@@ -287,7 +319,7 @@ init -999 python:
 #################################################################
 # try to run event from event-set depending on area, time and day
 label event_check_area(area, events):
-    $called_event = False
+    $ called_event = False
 
     # try to narrow event-list down to area
     if area in events and area != "fallback":

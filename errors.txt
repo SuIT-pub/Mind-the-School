@@ -2,9 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/scripts/stats/stats.rpy", line 27: invalid syntax
-        def change_value_to(self, value)
-    
+File "game/scripts/buildings/tennis_court.rpy", line 43: expected statement.
+    after_time_check:
+                    ^
 
 Ren'Py Version: Ren'Py 8.0.3.22090809
-Thu Jun 15 14:20:59 2023
+Tue Jun 20 16:17:07 2023

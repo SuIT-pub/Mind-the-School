@@ -1,28 +1,26 @@
-#################################
+###################################
 # ----- Kiosk Event Handler ----- #
-#################################
+###################################
 
 init -10 python:
     kiosk_events = {}
+    kiosk_events_title = {
+        "snack": "Get a snack",
+        "students": "Talk to students",
+    }
 
     kiosk_events["fallback"] = "kiosk_fallback"
 
     # event check before menu
-    kiosk_events["kiosk"] = {
-        "fallback": "kiosk.after_time_check", # no event
-    }
+    create_event_area(kiosk_events, "kiosk", "kiosk.after_time_check")
 
-    kiosk_events["snack"] = {
-        "fallback": "kiosk_snack_fallback",
-    }
+    create_event_area(kiosk_events, "snack", "kiosk_snack_fallback")
 
-    kiosk_events["students"] = {
-        "fallback": "kiosk_person_fallback",
-    }
+    create_event_area(kiosk_events, "students", "kiosk_person_fallback")
 
-###############################
+#################################
 # ----- Kiosk Entry Point ----- #
-###############################
+#################################
 
 label kiosk:
     # show kiosk inside
@@ -36,45 +34,35 @@ label kiosk:
 
     call event_check_area("kiosk", kiosk_events)
 
-label.after_time_check:
+label .after_time_check:
 
-    $ check_events = [
-        get_events_area_count("snack"   , kiosk_events),
-        get_events_area_count("students", kiosk_events),
-    ]
-
-    if any(check_events):
-        menu:
-            Subtitles "What to do at the Kiosk?"
-
-            "Get a snack" if check_events[0] > 0:
-                call event_check_area("snack", kiosk_events)
-            "Talk to students" if check_events[1] > 0:
-                call event_check_area("students", kiosk_events)
-            "Return":
-                jump map_overview
-    else:
-        call kiosk_fallback
-        jump map_overview
+    call call_event_menu (
+        "What to do at the Kiosk?",
+        1, 
+        7, 
+        kiosk_events, 
+        kiosk_events_title,
+        "fallback", "kiosk"
+    )
 
     jump kiosk
 
-###################################
+#####################################
 # ----- Kiosk Fallback Events ----- #
-###################################
+#####################################
 
 label kiosk_fallback:
-    Subtitles "There is nothing to see here."
+    subtitles "There is nothing to see here."
     return
 
 label kiosk_snack_fallback:
-    Subtitles "I don't want anything."
+    subtitles "I don't want anything."
     return
 
 label kiosk_person_fallback:
-    Subtitles "There is nobody here."
+    subtitles "There is nobody here."
     return
 
-##########################
+############################
 # ----- Kiosk Events ----- #
-##########################
+############################

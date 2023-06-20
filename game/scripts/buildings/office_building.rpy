@@ -4,21 +4,22 @@
 
 init -10 python:
     office_building_events = {}
+    office_building_events_title= {
+        "tutorial": "About the school...",
+        "paperwork": "Do paperwork",
+        "messages": "Check messages",
+        "internet": "Surf internet",
+        "council": "Council work",
+    }
 
     office_building_events["fallback"] = "office_building_fallback"
 
     # event check before menu
-    office_building_events["office_building"] = {
-        "fallback": "office_building.after_time_check", # no event
-    }
+    create_event_area(office_building_events, "office_building", "office_building.after_time_check")
 
-    office_building_events["tutorial"] = {
-        "fallback": "tutorial_menu",
-    }
+    create_event_area(office_building_events, "tutorial", "tutorial_menu")
 
-    office_building_events["journal"] = {
-        "fallback": "check_journal",
-    }
+    create_event_area(office_building_events, "journal", "check_journal")
 
 ################################################
 # ----- Office Building Entry Point ----- #
@@ -29,25 +30,17 @@ label office_building:
 
     call event_check_area("office_building", office_building_events)
 
-label.after_time_check:
+label .after_time_check:
 
-    menu:
-        char_Secretary "Hello Headmaster! How can I help you?"
-
-        "About the School...":
-            call event_check_area("tutorial", office_building_events) 
-        "Do Paperwork":
-            call event_check_area("paperwork", office_building_events)
-        "Check Messages":
-            call event_check_area("messages", office_building_events)
-        "Surf Internet":
-            call event_check_area("internet", office_building_events)
-        "Council work":
-            call event_check_area("council", office_building_events)
-        "Check rules":
-            call event_check_area("rules", office_building_events)
-        "Leave":
-            jump map_overview
+    call call_event_menu (
+        "Hello Headmaster! How can I help you?",
+        1, 
+        7, 
+        office_building_events, 
+        office_building_events_title,
+        "fallback", "office_building",
+        character.secretary
+    )
 
     jump office_building
 
@@ -56,7 +49,7 @@ label.after_time_check:
 ####################################################
 
 label office_building_fallback:
-    Subtitles "There is nobody here."
+    subtitles "There is nobody here."
     return
 
 ###########################################
@@ -66,43 +59,61 @@ label office_building_fallback:
 label first_day_introduction:
 
     scene office secretary 1 smile
-    char_Secretary "Hello, nice to meet you! From now on I'll be your secretary."
+    secretary """Hello, nice to meet you! 
+        From now on I'll be your secretary.
+    """
 
     scene office secretary 1 talk
-    char_Secretary "I used to work for the previous principal, so I know the school pretty well."
+    secretary """I used to work for the previous principal, 
+        so I know the school pretty well.
+    """
 
     scene office secretary 3 big smile 
-    char_Secretary "If you have any questions just come and ask me."
+    secretary "If you have any questions just come and ask me."
 
     scene office secretary 2 emotionless
-    char_Secretary "Unfortunately, the last principal left this school in pretty bad shape."
-    char_Secretary "We had to close almost all of our facilities to save some money."
-    char_Secretary "This wasn't only bad for the students' education, but also for the school's reputation."
+    secretary """
+        Unfortunately, the last principal left this school in pretty bad shape.
+
+        We had to close almost all of our facilities to save some money.
+
+        This wasn't only bad for the students' education, but also for the school's reputation.
+    """
 
     scene office secretary 3 big smile
-    char_Secretary "So now it is your job to go on and fix this school!"
+    secretary "So now it is your job to go on and fix this school!"
 
     scene office secretary 4 smile
-    char_Secretary "You won't be handling all the details like hiring teachers or setting up schedules."
-    char_Secretary "You will administer the rules, patrol the campus, manage the infrastructure, interact with the students, and occasionally teach a class or two."
+    secretary """
+        You won't be handling all the details like hiring teachers or setting up schedules.
+
+        You will administer the rules, patrol the campus, manage the infrastructure, interact with the students, and 
+        occasionally teach a class or two.
+    """
 
     scene office secretary 1 emotionless
-    char_Secretary "But new rules must be approved by the PTA which is made up of the school council, teachers and a representative from the regional government."
+    secretary """But new rules must be approved by the PTA which is made up of the school council, teachers and a 
+        representative from the regional government.
+    """
 
     call tutorial_menu
 
     scene office secretary 3 smile
-    char_Secretary "Now you know the basics. You might want to hurry down to the gym for the weekly meeting."
+    secretary "Now you know the basics. You might want to hurry down to the gym for the weekly meeting."
 
     scene office secretary 3 big smile
-    char_Secretary "I'm sure the students are eager to meet you."
+    secretary "I'm sure the students are eager to meet you."
 
     return
 
 image movie_potion_intro_16 = Movie(loop = False, play = "potion_intro_16.mp4")
 image movie_potion_intro_17 = Movie(loop = True, play = "images/office/potion_intro_17.mp4")
 image movie_potion_intro_18 = Movie(loop = True, play = "images/office/potion_intro_18.mp4")
-image movie_potion_intro_18 = Movie(loop = True, play = "images/office/potion_intro_19.mp4", image = "office/potion_intro_20.png")
+image movie_potion_intro_18 = Movie(
+    loop = True, 
+    play = "images/office/potion_intro_19.mp4", 
+    image = "office/potion_intro_20.png"
+)
 
 # screen video(movie_name):
 #     add image movie_name
@@ -110,34 +121,39 @@ image movie_potion_intro_18 = Movie(loop = True, play = "images/office/potion_in
 label potion_introduction_1:
 
     scene expression "office/potion_intro_01.png"
-    char_Secretary "Good Morning, Headmaster!"
-    char_Secretary "Someone dropped a package off for you. But there is no sender."
+    secretary "Good Morning, Headmaster!"
+    secretary "Someone dropped a package off for you. But there is no sender."
 
     scene expression "office/potion_intro_02.png"
-    char_Principal "Mhh... Thats weird, I didn't order anything. Well lets look inside what it is."
-    char_Secretary "Are you sure? What if it is something dangerous?"
-    char_Principal "I wouldn't know why. I'm sure it will be fine."
+    principal "Mhh... Thats weird, I didn't order anything. Well lets look inside what it is."
+    secretary "Are you sure? What if it is something dangerous?"
+    principal "I wouldn't know why. I'm sure it will be fine."
 
     scene expression "office/potion_intro_03.png"
-    char_Principal "See it's just some bottles. Here let's drink one together!"
-    char_Secretary "I don't think that's safe."
-    char_Principal "Ah come on! I'm sure it'll be fine."
+    principal "See it's just some bottles. Here let's drink one together!"
+    secretary "I don't think that's safe."
+    principal "Ah come on! I'm sure it'll be fine."
 
     scene expression "office/potion_intro_04.png"
-    char_Principal_thought "Good she didn't see the letter in the box."
-    char_Principal_thought "In reality, this box comes from my secret supporter. And the bottles are filled with a new special potion."
-    char_Principal_thought "Unfortunately he could only send me 4 potions so I have to find a way reproduce them."
-    char_Principal_thought "But first gonna test them out!"
+    principal_thought """
+        Good she didn't see the letter in the box.
+
+        In reality, this box comes from my secret supporter. And the bottles are filled with a new special potion.
+
+        Unfortunately he could only send me 4 potions so I have to find a way reproduce them.
+
+        But first gonna test them out!
+    """
 
     scene expression "office/potion_intro_05.png"
-    char_Principal "Come on lets drink it!"
-    char_Secretary "Okay let's do it."
+    principal "Come on lets drink it!"
+    secretary "Okay let's do it."
 
     scene expression "office/potion_intro_06.png"
-    char_Secretary "Wow it tastes really nice. But are you getting hot as well?"
+    secretary "Wow it tastes really nice. But are you getting hot as well?"
 
     scene expression "office/potion_intro_07.png"
-    char_Secretary "I'm burning up! Gotta take some clothing off."
+    secretary "I'm burning up! Gotta take some clothing off."
 
     scene expression "office/potion_intro_08.png"
     $ renpy.pause ()
@@ -152,16 +168,16 @@ label potion_introduction_1:
     $ renpy.pause ()
 
     scene expression "office/potion_intro_12.png"
-    char_Secretary "Ahh way better."
+    secretary "Ahh way better."
 
     scene expression "office/potion_intro_13.png"
-    char_Secretary "Headmaster why don't you come over here, so we can better talk to each other."
+    secretary "Headmaster why don't you come over here, so we can better talk to each other."
 
     scene expression "office/potion_intro_14.png"
-    char_Secretary "Oh someone seems to be excited. Does my body turn you on that much?"
+    secretary "Oh someone seems to be excited. Does my body turn you on that much?"
 
     scene expression "office/potion_intro_15.png"
-    char_Secretary "Don't worry I will take responsibility."
+    secretary "Don't worry I will take responsibility."
 
     $ renpy.movie_cutscene("office/potion_intro_16.webm")
     $ renpy.pause(0.0)
@@ -178,7 +194,7 @@ label potion_introduction_1:
     $ renpy.pause()
 
     scene expression "office/potion_intro_21.png"
-    char_Secretary "Ahh I can't take it anymore, please give it to me!"
+    secretary "Ahh I can't take it anymore, please give it to me!"
 
     $ renpy.movie_cutscene("office/potion_intro_22.webm")
     $ renpy.movie_cutscene("office/potion_intro_23.webm", -1, -1)
@@ -202,93 +218,128 @@ label potion_introduction_1:
     $ renpy.pause ()
     
     scene expression "office/potion_intro_35.png"
-    char_Principal "Oh I seem to have overdone it. Propably should give her some rest and look for her tomorrow."
-    char_Principal_thought "But the potion seems to be working full. But I need to check if she is like this tomorrow as well."
+    principal "Oh I seem to have overdone it. Propably should give her some rest and look for her tomorrow."
+    principal_thought """But the potion seems to be working full. But I need to check if she is like this tomorrow 
+        as well.
+    """
 
     jump new_day
     
 label potion_introduction_2:
     # next day screen
     scene expression "office/potion_intro_36.png"
-    char_Secretary "Good Morning Headmaster!"
-    char_Principal "Oh good morning! How are you feeling?"
-    char_Principal_thought "Wow! Now that's some nice outfit!"
+    secretary "Good Morning Headmaster!"
+    principal "Oh good morning! How are you feeling?"
+    principal_thought "Wow! Now that's some nice outfit!"
 
     scene expression "office/potion_intro_37.png"
-    char_Secretary "Oh I feel amazing! I never felt so good before drinking the potion!"
-    char_Principal "So you remember everything that happened yesterday?"
+    secretary "Oh I feel amazing! I never felt so good before drinking the potion!"
+    principal "So you remember everything that happened yesterday?"
 
     scene expression "office/potion_intro_38.png"
-    char_Secretary "Oh for sure I remember everything!"
+    secretary "Oh for sure I remember everything!"
 
     scene expression "office/potion_intro_39.png"
-    char_Secretary "Although I'm really emberassed with us having had sex."
+    secretary "Although I'm really emberassed with us having had sex."
 
     scene expression "office/potion_intro_40.png"
-    char_Secretary "But I'm feeling so free now!"
+    secretary "But I'm feeling so free now!"
 
     scene expression "office/potion_intro_listen.png"
-    char_Principal "That's amazing news! Now my plan is to share this feeling among the students."
+    principal "That's amazing news! Now my plan is to share this feeling among the students."
 
     scene expression "office/potion_intro_41.png"
-    char_Secretary "No, I don't think you will do that."
-    char_Principal "What? Why?"
+    secretary "No, I don't think you will do that."
+    principal "What? Why?"
 
     scene expression "office/potion_intro_42.png"
-    char_Secretary "Because you don't have enough potions!"
+    secretary "Because you don't have enough potions!"
 
     scene expression "office/potion_intro_listen.png"
-    char_Principal "Oh! Mhh... You're right!"
-    char_Principal "Well for one, there are other ways to corrupt... Öhm I mean influence the students."
+    principal "Oh! Mhh... You're right!"
+    principal "Well for one, there are other ways to corrupt... Öhm I mean influence the students."
 
     scene expression "office/potion_intro_42.png"
-    char_Secretary "Oh don't worry dear! I'm fully on your side. I feel great and I want the students to also feel like this."
+    secretary """Oh don't worry dear! I'm fully on your side. I feel great and I want the students to also feel 
+        like this.
+    """
 
     scene expression "office/potion_intro_listen.png"
-    char_Secretary "So what other ways do you mean?"
-    char_Principal "Well there are for example more classical ways like influencing them with lewd materials or more obscure ways like hypnosis."
+    secretary "So what other ways do you mean?"
+    principal """Well there are for example more classical ways like influencing them with lewd materials or more 
+        obscure ways like hypnosis.
+    """
 
     scene expression "office/potion_intro_43.png"
-    char_Secretary "Hypnosis?"
+    secretary "Hypnosis?"
 
     scene expression "office/potion_intro_listen.png"
-    char_Principal "Yeah, I know it's quite absurd. I only heard of ways to do it but I don't know how to do it."
-    char_Principal "Well let's just forget that. Well for one we still have 3 potions."
-    char_Principal "There was a letter with the potions and it says we can water it down to create more potions with a smaller effect."
-    char_Principal "I think if we water 2 potions down enough to serve every student in the school a small drink, then we could create a good base to really influence every student."
-    char_Secretary "Do you think that works? Would there still be enough of an effect?"
-    char_Principal "Well I observed the school over the last week and as far as I could see, the students are not only prudish, they are the abstinence in person."
-    char_Principal "So I think the classical methods would not work until they are at least a little bit open to the idea sex."
-    char_Principal "And without the potion or any other good working method we have no other way."
-    char_Principal "So with the watered down potion we could open their minds and then start the real operation."
-    char_Principal "And while we change the students, we could reopen the lab and work on reproducing the potion using the last remaining as a draft."
+    principal """
+        Yeah, I know it's quite absurd. I only heard of ways to do it but I don't know how to do it.
+
+        Well let's just forget that. Well for one we still have 3 potions.
+
+        There was a letter with the potions and it says we can water it down to create more potions with a smaller 
+        effect.
+
+        I think if we water 2 potions down enough to serve every student in the school a small drink, then we could 
+        create a good base to really influence every student.
+
+        Do you think that works? Would there still be enough of an effect?
+
+        Well I observed the school over the last week and as far as I could see, the students are not only prudish, 
+        they are the abstinence in person.
+
+        So I think the classical methods would not work until they are at least a little bit open to the idea sex.
+
+        And without the potion or any other good working method we have no other way.
+
+        So with the watered down potion we could open their minds and then start the real operation.
+
+        And while we change the students, we could reopen the lab and work on reproducing the potion using the last 
+        remaining as a draft.
+    """
 
     scene expression "office/potion_intro_44.png"
-    char_Secretary "Mhh... That sounds like it could work..."
+    secretary "Mhh... That sounds like it could work..."
 
     scene expression "office/potion_intro_45.png"
-    char_Secretary "Okay let's do that!"
-    char_Secretary "I think the best would be to distribute the diluted potion during recess."
-    char_Principal "Yeah that sounds good, can I entrust that to you?"
+    secretary """
+        Okay let's do that!
+
+        I think the best would be to distribute the diluted potion during recess.
+    """
+    principal "Yeah that sounds good, can I entrust that to you?"
 
     scene expression "office/potion_intro_44.png"
-    char_Secretary "Of course! But there are still some problems."
-    char_Principal "What do you mean?"
-    char_Secretary "The regional representative visits the school every month to make sure the school follows national laws."
+    secretary "Of course! But there are still some problems."
+    principal "What do you mean?"
+    secretary """The regional representative visits the school every month to make sure the school follows 
+        national laws.
+    """
 
     scene expression "office/potion_intro_46.png"
-    char_Secretary "We have to thank the old headmaster for that. So we have to be careful. He manages our monthly budget and es long as the school follows the rules we don't get budget cuts."
-    char_Secretary "So we have to play the long game until we find a way to corrupt the department. The representatives change every month so corrupting one wouldn't help."
+    secretary """
+        We have to thank the old headmaster for that. So we have to be careful. He manages our monthly budget and as 
+        long as the school follows the rules we don't get budget cuts.
+
+        So we have to play the long game until we find a way to corrupt the department. The representatives change 
+        every month so corrupting one wouldn't help.
+    """
 
     scene expression "office/potion_intro_listen.png"
-    char_Principal "Mhh you're right. I guess we have to be careful. But we can later think of a way to deal with them."
-    char_Principal "I have to travel to the city. I have some thing to prepare. I'll be back tomorrow. You meanwhile distribute the potions. Can you make it happen by today's recess?"
+    principal """
+        Mhh you're right. I guess we have to be careful. But we can later think of a way to deal with them.
+
+        I have to travel to the city. I have some thing to prepare. I'll be back tomorrow. You meanwhile distribute the 
+        potions. Can you make it happen by today's recess?
+    """
 
     scene expression "office/potion_intro_47.png"
-    char_Secretary "Sure, just let me handle it!"
+    secretary "Sure, just let me handle it!"
 
     scene expression "office/potion_intro_48.png"
-    char_Principal "Nice! I will be on my way then!"
+    principal "Nice! I will be on my way then!"
 
     $ schools["high_school"].set_level(1)
     $ schools["middle_school"].set_level(1)
@@ -297,30 +348,143 @@ label potion_introduction_2:
     jump new_day
 
 label pta_meeting:
-    Subtitles "You enter the conference room."
-    Subtitles "All representatives already gathered and wait for you."
-    char_Principal "Thank you all for gathering today."
+    subtitles "You enter the conference room."
+    subtitles "All representatives already gathered and wait for you."
+    principal "Thank you all for gathering today."
 
-    if today() == "5.1.2023":
+    if time.today() == "5.1.2023":
         jump pta_meeting.first_pta_meeting
     
-    char_Principal "First point for today. Does someone have anything to discuss today?"
+    principal "First point for today. Does someone have anything to discuss today?"
 
-    char_Principal "No? Alright then lets jump straight to the next point."
+    principal "No? Alright then lets jump straight to the next point."
 
 label .first_pta_meeting:
+    principal """
+        Please allow me to introduce myself as the new Headmaster of this institution as of Monday. 
+
+        I am aware that many of you probably don't know me yet, but I hope to change that soon. 
+
+        During my first week, I took time to gather information about the current status of the school, and it's clear 
+        that there is much needed work to be done. 
+
+        Rest assured, my goal is to get this school back on track and establish it as one of the leading academic 
+        institutions in the country.
+        
+        My theory on how to improve the educational system has been criticised by established psychologists and 
+        teachers. But I can guarantee the effectiveness.
+
+        To give you a better understanding about me. 15 years ago I made my Diploma in Psychology, specifically 
+        Educational Psychology. And over the last years I worked to revolotionize this countries educational system.
+
+        My methods have yet to be accepted by the masses, but this is largely due to the conservative views of the 
+        community and their unwillingness to change their habits and adapt to new approaches.
+
+        To summarize my theory briefly. I aim to use the parts of the human body that no system every used. 
+        
+        The human body is a complex biological machine made to survive in a rough and dangerous ecosystem. So 
+        originally it was built to learn new patterns and methods to give it a better chance at survival.
+
+        Thus the human body handles informations and actions that seem to be of no use as unnecessary. And the human 
+        body developed a relatively simple system to signal all kinds of information. Hormons.
+
+        Hormons are used to deliver certain messages throughout the whole body. And I want to focus on the hormone 
+        dopamine.
+
+        Dopamine is one of the happy hormones and high concentrations of dopamine evoke a feeling of happiness. 
+        Dopamine also helps transfer memories from short-term to long-term memory. And that is where my theory comes 
+        into play.
+
+        The easiest way to produce dopamine is to get intimate. Sure for some that sound like I try to just create a 
+        giant harem school and sure there are other ways but I assure you my intentions are as sincere as they get and 
+        I think this is a great opportunity to fix many problems that occur in our society.
+
+        Problems that are the result of old educational methods and techniques.
+
+        One of the main problems is the rising alienation of individuals in our society. Loneliness is becoming 
+        increasingly prevalent, often due to social isolation caused by a lack of interpersonal skills and inadequate 
+        support from the community.
+
+        Unfortunately it's more that people unable to socialise become outcasts with little to no way to rehabilitate.
+
+        My goal is to create a form of kinship and a deeper form of intimacy among the students. In a way that 
+        emotional and physical support becomes the norm and to help people become more sociable and make it easier for 
+        them to integrate into society.
+
+        It was difficult to apply my theory in a big case study but the investors of this school complex reached out 
+        to me and gave me the opportunity to show the effectiveness of this new method. And that will be achieved to
+        make these schools the best in the country.
+
+        If you want to learn more about my theory, please read my book. I'll happily distribute them to you if you're 
+        interested.
+
+        Of course I don't plan to run these schools alone. I wouldn't be able to handle that. That's why called this 
+        group together so we can work to better these schools together!
+
+        I plan to hold this meeting every friday in the evening so we can exchange ideas, talk about the current state 
+        of the schools and discuss and vote for changes that are planned to be applied for the schools.
+
+        To a good cooperation amd thank you all for listening.
+
+        Now that I finished my {i}small{/i} introduction, please introduce yourself.
+    """
+
+    secretary """
+        Hello everyone, I am the headmasters secretary and I will be in charge some organisational tasks like managing
+        the schedule and lower beraucracy tasks.
+
+        I already worked for the last headmaster and observed the decline of our school with my own eyes.
+
+        If you got any questions or issues for the headmaster, please contact me. Thanks.
+    """
+
+    teacher """
+        Hello, we are teachers at this school.
+        
+        First we are glad to have a new headmaster and we hope you bring this school back to what it once was.
+    
+        I am Teacher 1, currently responsible for the subjects: economics, politics, english and geography.
+    """ (name="Teacher 1")
+    
+    teacher "I am Teacher 2 and I teach the science subjects like biology, chemistry, physics and mathematics." (name="Teacher 2")
+
+    teacher "Teacher 3, pleased. I teach sport, physics and mathematics." (name="Teacher 3")
+
+    teacher "And I am Teacher 4. I teach art, music and history." (name="Teacher 4")
+
+    teacher """
+        As you can see, we are way understaffed and we sometimes have to teach subjects we don't even specialize in.
+
+        We hope you will be able to hire more teachers to ease our workload and support your school reform efforts.
+
+        Now our role during these meetings will be to ensure that new policies and ideas continue to benefit the 
+        students.
+
+        That's all from our side. Thank you very much.
+    """ (name="Teacher 1")
+    
+    parent """
+        Hello, I am a concerned parent of one of the students attending this school and I speak for all parents when I 
+        say that we are worried about the recent changes. However, we trust that you will handle your job competently 
+        and we will observe closely to ensure the well-being of our children.
+    """
+    
+    # introduction school council
+    
 
 label .end_meeting:
-    char_Principal "Thank you all for coming today."
-    char_Principal "Good work and have a nice weekend!"
+    principal """
+        That should be all for today.\n
+        Good work, thank you all for coming and have a nice weekend.
+    """
     jump new_daytime
 
 label male_student_scolding:
-    Subtitles "todo: male scolding"
+    subtitles "todo: male scolding"
 
     return
 
 label mobbing_scolding:
-    Subtitles "todo: mobbing scolding"
+    subtitles "todo: mobbing scolding"
 
     return

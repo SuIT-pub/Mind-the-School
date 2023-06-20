@@ -4,13 +4,18 @@
 
 init -10 python:
     labs_events = {}
+    labs_events_title = {
+        "check_chemistry": "Check chemistry classes",
+        "teach_chemistry": "Teach chemistry classes",
+        "check_biology": "Check biology classes",
+        "teach_biology": "Teach biology classes",
+        "drug_lab": "Go to drug lab",
+    }
 
     labs_events["fallback"] = "labs_fallback"
 
     # event check before menu
-    labs_events["labs"] = {
-        "fallback": "labs.after_time_check", # no event
-    }
+    create_event_area(labs_events, "labs", "labs.after_time_check")
 
 ###############################
 # ----- Labs Entry Point ----- #
@@ -28,7 +33,16 @@ label labs:
 
     call event_check_area("labs", labs_events)
 
-label.after_time_check:
+label .after_time_check:
+
+    call call_event_menu (
+        "What to do at the Labs?",
+        1, 
+        7, 
+        labs_events, 
+        labs_events_title,
+        "fallback", "kiosk"
+    )
 
     $ check_events = [
         get_events_area_count("check_chemistry", labs_events),
@@ -40,7 +54,7 @@ label.after_time_check:
 
     if any(check_events):
         menu:
-            Subtitles "What to do at the Labs?"
+            subtitles "What to do at the Labs?"
 
             "Check chemistry classes" if check_events[0] > 0:
                 call event_check_area("check_chemistry", labs_events)
@@ -65,15 +79,15 @@ label.after_time_check:
 ###################################
 
 label labs_fallback:
-    Subtitles "There is nothing to see here."
+    subtitles "There is nothing to see here."
     return
 
 label labs_snack_fallback:
-    Subtitles "I don't want anything."
+    subtitles "I don't want anything."
     return
 
 label labs_person_fallback:
-    Subtitles "There is nobody here."
+    subtitles "There is nobody here."
     return
 
 ##########################

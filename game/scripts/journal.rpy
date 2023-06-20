@@ -30,6 +30,9 @@ style buttons_idle:
 style buttons_selected take buttons_idle:
     color gui.hover_muted_color
 
+style buttons_active take buttons_idle:
+    color "#008800"
+
 # School Overview
 screen journal_1(display, school):
     tag interaction_overlay
@@ -232,21 +235,35 @@ screen journal_2(display, school):
         yalign 0.2
         size 60
         color "#000"
+
+    $ rule_list = get_visible_rules_by_school(school, True)
+    $ rule_adj = ui.adjustment()
+    python:
+        rule_adj.value = 0
+
+        if display in rule_list:
+            current_selected = rule_list.index(display)
+            rule_adj.range = len(rule_list)
+            rule_adj.value = (current_selected - 5) * len(rule_list) * 2.5
+
     frame:
         # background Solid("#00000090")
         background Solid("#00000000")
-        area (350, 300, 500, 600)
+        area (330, 300, 560, 600)
 
-        viewport id "RuleList":
+        viewport id "RuleList": 
+            yadjustment rule_adj
             mousewheel True
             draggable "touch"
 
             vbox:
-                for rule_name in get_visible_rules_by_school(school):
+                for rule_name in rule_list:
                     $ rule = get_rule(rule_name)
                     if rule is not None:
                         $ rule_title = rule.title
                         $ button_style = "buttons_idle"
+                        if rule.is_unlocked(school):
+                            $ button_style = "buttons_active"
                         if rule_name == display:
                             $ button_style = "buttons_selected"
                         textbutton rule_title:
@@ -281,7 +298,7 @@ screen journal_2(display, school):
             
             vbar value YScrollValue("RuleDesc"):
                 unscrollable "hide"
-                xalign 1.0
+                xalign 1.03
 
         frame:
             background Solid("#0000")
@@ -307,18 +324,23 @@ screen journal_2(display, school):
                                 
             vbar value YScrollValue("RuleCond"):
                 unscrollable "hide"
-                xalign 1.0
+                xalign 1
 
         if not active_rule.is_unlocked(school):
             if voteProposal == None or voteProposal[3].get_name() != display:
                 textbutton "Plan for vote":
                     xalign 0.6 yalign 0.87
                     text_style "buttons_idle"
-                    action Call("add_rule_to_proposal", display, school)
+                    # action Call("add_rule_to_proposal", display, school)
+                    action Function(active_rule.unlock, school)
             else:
                 text "Already queued!":
                     xalign 0.6 yalign 0.87
                     color "#f00"
+        else:
+            text "Already unlocked!":
+                xalign 0.6 yalign 0.87
+                color "#008800"
 
     textbutton "Close":
         xalign 0.75
@@ -373,20 +395,33 @@ screen journal_3(display, school):
             size 20
             color "#000"
 
+    $ club_list = get_visible_clubs_by_school(school, True)
+    $ club_adj = ui.adjustment()
+    python:
+        club_adj.value = 0
+
+        if display in club_list:
+            current_selected = club_list.index(display)
+            club_adj.range = len(club_list)
+            club_adj.value = (current_selected - 5) * len(club_list) * 2.5
+
     frame:
         background Solid("#0000")
-        area (350, 300, 500, 600)
+        area (330, 300, 560, 600)
 
         viewport id "ClubsList":
+            yadjustment club_adj
             mousewheel True
             draggable "touch"
 
             vbox:
-                for club_name in get_visible_clubs_by_school(school):
+                for club_name in club_list:
                     $ club = get_club(club_name)
                     if club is not None:
                         $ club_title = club.title
                         $ button_style = "buttons_idle"
+                        if club.is_unlocked(school):
+                            $ button_style = "buttons_active"
                         if club_name == display:
                             $ button_style = "buttons_selected"
                         textbutton club_title:
@@ -453,6 +488,10 @@ screen journal_3(display, school):
                 text "Already queued!":
                     xalign 0.6 yalign 0.87
                     color "#f00"
+        else:
+            text "Already unlocked!":
+                xalign 0.6 yalign 0.87
+                color "#008800"
 
     text "Clubs": 
         xalign 0.25 
@@ -490,11 +529,22 @@ screen journal_4(display, school):
         hotspot (144, 617, 168, 88) action Call("open_journal", 2, "", school) tooltip "Rules"
         hotspot (144, 722, 168, 88) action Call("open_journal", 3, "", school) tooltip "Clubs"
 
+    $ building_list = get_visible_buildings(True)
+    $ building_adj = ui.adjustment()
+    python:
+        building_adj.value = 0
+
+        if display in building_list:
+            current_selected = building_list.index(display)
+            building_adj.range = len(building_list)
+            building_adj.value = (current_selected - 5) * len(building_list) * 2.5
+
     frame:
         background Solid("#0000")
-        area (350, 300, 500, 600)
+        area (330, 300, 560, 600)
 
         viewport id "BuildingList":
+            yadjustment building_adj
             mousewheel True
             draggable "touch"
 
@@ -504,6 +554,8 @@ screen journal_4(display, school):
                     if building is not None:
                         $ building_title = building.title
                         $ button_style = "buttons_idle"
+                        if building.is_unlocked():
+                            $ button_style = "buttons_active"
                         if building_name == display:
                             $ button_style = "buttons_selected"
                         textbutton building_title:
@@ -573,6 +625,10 @@ screen journal_4(display, school):
                 text "Already queued!":
                     xalign 0.6 yalign 0.87
                     color "#f00"
+        else:
+            text "Already unlocked!":
+                xalign 0.6 yalign 0.87
+                color "#008800"
 
     text "Buildings": 
         xalign 0.25 
