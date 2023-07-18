@@ -14,6 +14,13 @@ init -1 python:
         "students": EventStorage("students", "Talk to students", kiosk_person_fallback),
     }
     
+    kiosk_timed_event.add_event(Event(
+        "first_week_event",
+        ["first_week_kiosk_event"],
+        1,
+        TimeCondition(week = 1),
+    ))
+
 #################################
 # ----- Kiosk Entry Point ----- #
 #################################
@@ -61,3 +68,11 @@ label kiosk_person_fallback:
 ############################
 # ----- Kiosk Events ----- #
 ############################
+
+# first week event
+label first_week_kiosk_event:
+    subtitles "todo: first_week_event"
+
+    $ set_building_blocked("kiosk")
+
+    jump new_day

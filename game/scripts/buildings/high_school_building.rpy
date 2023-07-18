@@ -20,6 +20,13 @@ init python:
         "students5":    EventStorage("students5",   "Talk to students", high_school_building_person_fallback),
     }
 
+    high_school_building_timed_event.add_event(Event(
+        "first_week_event",
+        ["first_week_high_school_building_event"],
+        1,
+        TimeCondition(week = 1),
+    ))
+
     high_school_building_events["check_class"].add_event(Event(
         "check_class_events",
         [
@@ -136,6 +143,16 @@ label high_school_building_person_fallback:
 ###########################################
 # ----- High School Building Events ----- #
 ###########################################
+
+# first week event
+label first_week_high_school_building_event:
+    subtitles "todo: first_week_event"
+
+    $ set_building_blocked("high_school_building")
+    $ set_building_blocked("middle_school_building")
+    $ set_building_blocked("elementary_school_building")
+
+    jump new_day
 
 # check class events
 

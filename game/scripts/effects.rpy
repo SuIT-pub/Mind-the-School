@@ -97,3 +97,11 @@ init -1 python:
         def apply(self, _school):
             remove_temp_event(self.name)
 
+    class BlockBuildingEffect(Effect):
+        def __init(self, name, building_name, is_blocking = True):
+            super().__init__(name)
+            self.building_name = building_name
+            self.is_blocking = is_blocking
+
+        def apply(self, _school):
+            set_building_blocked(self.building_name, self.is_blocking)

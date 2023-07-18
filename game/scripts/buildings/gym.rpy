@@ -17,6 +17,14 @@ init -1 python:
         "steal":          EventStorage("steal",          "Steal some panties",                 gym_fallback       ),
     }
 
+    gym_timed_event.add_event(Event(
+        "first_week_event",
+        ["first_week_gym_event"],
+        1,
+        TimeCondition(week = 1),
+    ))
+
+
 ###############################
 # ----- Gym Entry Point ----- #
 ###############################
@@ -60,6 +68,14 @@ label gym_person_fallback:
 ##########################
 # ----- Gym Events ----- #
 ##########################
+
+# first week event
+label first_week_gym_event:
+    subtitles "todo: first_week_event"
+
+    $ set_building_blocked("gym")
+
+    jump new_day
 
 #############################
 # weekly assembly entry point

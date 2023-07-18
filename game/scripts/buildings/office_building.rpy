@@ -14,6 +14,13 @@ init -1 python:
         "internet":  EventStorage("internet",  "Surf internet",       office_building_fallback),
         "council":   EventStorage("council",   "Council work",        office_building_fallback),
     }
+    
+    office_building_timed_event.add_event(Event(
+        "first_week_event",
+        ["first_week_office_building_event"],
+        1,
+        TimeCondition(week = 1),
+    ))
 
 ################################################
 # ----- Office Building Entry Point ----- #
@@ -48,6 +55,14 @@ label office_building_fallback:
 ###########################################
 # ----- High School Building Events ----- #
 ###########################################
+
+# first week event
+label first_week_office_building_event:
+    subtitles "todo: first_week_event"
+
+    $ set_building_blocked("office_building")
+
+    jump new_day
 
 label first_day_introduction:
 
@@ -466,6 +481,8 @@ label first_pta_meeting:
     """
     
     # introduction school council
+
+    $ set_all_buildings_blocked(False)
     
 
 label .end_meeting:

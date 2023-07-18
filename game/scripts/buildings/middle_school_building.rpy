@@ -15,6 +15,14 @@ init -1 python:
         "students":    EventStorage("strudents",   "Talk to students", middle_school_building_person_fallback),
     }
 
+    middle_school_building_timed_event.add_event(Event(
+        "first_week_event",
+        ["first_week_middle_school_building_event"],
+        1,
+        TimeCondition(week = 1),
+    ))
+
+
 ##################################################
 # ----- Middle School Building Entry Point ----- #
 ##################################################
@@ -57,3 +65,13 @@ label middle_school_building_person_fallback:
 ###########################################
 # ----- Middle School Building Events ----- #
 ###########################################
+
+# first week event
+label first_week_middle_school_building_event:
+    subtitles "todo: first_week_event"
+
+    $ set_building_blocked("high_school_building")
+    $ set_building_blocked("middle_school_building")
+    $ set_building_blocked("elementary_school_building")
+
+    jump new_day

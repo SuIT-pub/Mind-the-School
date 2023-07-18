@@ -14,6 +14,14 @@ init -1 python:
         "patrol":        EventStorage("patrol",        "Patrol building",  elementary_school_dormitory_person_fallback),
         "peek_students": EventStorage("peek_students", "Peek on students", elementary_school_dormitory_person_fallback),
     }
+    
+    elementary_school_dormitory_timed_event.add_event(Event(
+        "first_week_event",
+        ["first_week_elementary_school_dormitory_event"],
+        1,
+        TimeCondition(week = 1),
+    ))
+
 
 #######################################################
 # ----- Elementary School Dormitory Entry Point ----- #
@@ -58,3 +66,13 @@ label elementary_school_dormitory_person_fallback:
 ##################################################
 # ----- Elementary School Dormitory Events ----- #
 ##################################################
+
+# first week event
+label first_week_elementary_school_dormitory_event:
+    subtitles "todo: first_week_event"
+
+    $ set_building_blocked("high_school_dormitory")
+    $ set_building_blocked("middle_school_dormitory")
+    $ set_building_blocked("elementary_school_dormitory")
+
+    jump new_day

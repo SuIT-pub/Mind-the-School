@@ -21,91 +21,176 @@ While running game code:
     subtitles_Empty ""
   File "game/scripts/journal/journal.rpy", line 2, in script call
     call open_journal (1, "", "high_school") from _call_open_journal
-  File "game/scripts/journal/journal.rpy", line 6, in script call
-    call screen journal_1(display, school, show_locked, show_unlocked)
-  File "game/scripts/journal/journal.rpy", line 12, in script call
-    call screen journal_4(display, school, show_locked, show_unlocked)
-  File "game/scripts/journal/journal.rpy", line 1505, in script call
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
     call open_journal(page, display, school)
-  File "game/scripts/journal/journal.rpy", line 12, in script call
-    call screen journal_4(display, school, show_locked, show_unlocked)
-  File "game/scripts/journal/journal.rpy", line 1505, in script call
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
     call open_journal(page, display, school)
-  File "game/scripts/journal/journal.rpy", line 12, in script call
-    call screen journal_4(display, school, show_locked, show_unlocked)
-  File "game/scripts/journal/journal.rpy", line 1505, in script call
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
     call open_journal(page, display, school)
-  File "game/scripts/journal/journal.rpy", line 12, in script call
-    call screen journal_4(display, school, show_locked, show_unlocked)
-  File "game/scripts/journal/journal.rpy", line 1505, in script call
-    call open_journal(page, display, school)
-  File "game/scripts/journal/journal.rpy", line 12, in script call
-    call screen journal_4(display, school, show_locked, show_unlocked)
-  File "game/scripts/journal/journal.rpy", line 1505, in script call
-    call open_journal(page, display, school)
-  File "game/scripts/journal/journal.rpy", line 12, in script call
-    call screen journal_4(display, school, show_locked, show_unlocked)
-  File "game/scripts/journal/journal.rpy", line 8, in script call
-    call screen journal_2(display, school, show_locked, show_unlocked)
+  [Previous line repeated 2 more times]
   File "game/scripts/overview.rpy", line 392, in script call
     subtitles_Empty ""
   File "game/scripts/journal/journal.rpy", line 2, in script call
     call open_journal (1, "", "high_school") from _call_open_journal
   File "game/scripts/journal/journal.rpy", line 6, in script call
-    call screen journal_1(display, school, show_locked, show_unlocked)
+    call screen journal_1(display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 14, in script call
+    call screen journal_5(display, school)
+  File "game/scripts/journal/journal.rpy", line 14, in script call
+    call screen journal_5(display, school)
+  File "game/scripts/journal/journal.rpy", line 1557, in script call
+    call screen journal_5("clubs", school)
+  File "game/scripts/journal/journal.rpy", line 1557, in script call
+    call screen journal_5("clubs", school)
+  File "game/scripts/journal/journal.rpy", line 1557, in script call
+    call screen journal_5("clubs", school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  [Previous line repeated 1 more time]
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  [Previous line repeated 15 more times]
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
   File "game/scripts/overview.rpy", line 392, in script call
     subtitles_Empty ""
-  File "game/scripts/journal/journal.rpy", line 2, in script call
-    call open_journal (1, "", "high_school") from _call_open_journal
-  File "game/scripts/journal/journal.rpy", line 6, in script call
-    call screen journal_1(display, school, show_locked, show_unlocked)
-  File "game/scripts/journal/journal.rpy", line 8, in script call
-    call screen journal_2(display, school, show_locked, show_unlocked)
-  File "game/scripts/journal/journal.rpy", line 1505, in script call
-    call open_journal(page, display, school)
-  File "game/scripts/journal/journal.rpy", line 8, in script call
-    call screen journal_2(display, school, show_locked, show_unlocked)
-  File "game/scripts/journal/journal.rpy", line 1505, in script call
-    call open_journal(page, display, school)
-  File "game/scripts/journal/journal.rpy", line 8, in script call
-    call screen journal_2(display, school, show_locked, show_unlocked)
-  File "game/scripts/journal/journal.rpy", line 1505, in script call
-    call open_journal(page, display, school)
-  File "game/scripts/journal/journal.rpy", line 8, in script call
-    call screen journal_2(display, school, show_locked, show_unlocked)
-  File "game/scripts/journal/journal.rpy", line 1505, in script call
-    call open_journal(page, display, school)
-  File "game/scripts/journal/journal.rpy", line 8, in script call
-    call screen journal_2(display, school, show_locked, show_unlocked)
-  File "game/scripts/journal/journal.rpy", line 8, in script call
-    call screen journal_2(display, school, show_locked, show_unlocked)
-  File "game/scripts/journal/journal.rpy", line 8, in script
-    call screen journal_2(display, school, show_locked, show_unlocked)
-  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
-    store._return = renpy.call_screen(name, *args, **kwargs)
-  File "game/scripts/journal/journal.rpy", line 219, in execute
-    screen journal_2(display, school, show_locked = True, show_unlocked = True):
-  File "game/scripts/journal/journal.rpy", line 219, in execute
-    screen journal_2(display, school, show_locked = True, show_unlocked = True):
-  File "game/scripts/journal/journal.rpy", line 283, in execute
-    frame:
-  File "game/scripts/journal/journal.rpy", line 288, in execute
-    viewport id "RuleList":
-  File "game/scripts/journal/journal.rpy", line 293, in execute
-    vbox:
-  File "game/scripts/journal/journal.rpy", line 294, in execute
-    if journal_settings[2]['show_locked']:
-  File "game/scripts/journal/journal.rpy", line 300, in execute
-    for rule_name in rule_locked_list:
-  File "game/scripts/journal/journal.rpy", line 302, in execute
-    if rule is not None:
-  File "game/scripts/journal/journal.rpy", line 307, in execute
-    textbutton rule_title:
-  File "game/scripts/journal/journal.rpy", line 307, in keywords
-    textbutton rule_title:
-  File "game/scripts/journal/journal.rpy", line 309, in <module>
-    action Call("open_journal", 2, building_name, school, show_locked, show_unlocked)
-NameError: name 'building_name' is not defined
+  File "game/scripts/overview.rpy", line 406, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/office_building.rpy", line 29, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 392, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 406, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 114, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 222, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/overview.rpy", line 392, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 406, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 114, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 222, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/overview.rpy", line 392, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 392, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 406, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 114, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 222, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/overview.rpy", line 392, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 406, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 114, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 222, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/overview.rpy", line 392, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 406, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 114, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 222, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/overview.rpy", line 392, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 392, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 406, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 114, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 222, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 151, in script
+    $ set_building_blocked("high_school_building")
+  File "game/scripts/buildings/high_school_building.rpy", line 151, in <module>
+    $ set_building_blocked("high_school_building")
+TypeError: set_building_blocked() missing 1 required positional argument: 'is_blocked'
 
 -- Full Traceback ------------------------------------------------------------
 
@@ -130,121 +215,182 @@ Full traceback:
     subtitles_Empty ""
   File "game/scripts/journal/journal.rpy", line 2, in script call
     call open_journal (1, "", "high_school") from _call_open_journal
-  File "game/scripts/journal/journal.rpy", line 6, in script call
-    call screen journal_1(display, school, show_locked, show_unlocked)
-  File "game/scripts/journal/journal.rpy", line 12, in script call
-    call screen journal_4(display, school, show_locked, show_unlocked)
-  File "game/scripts/journal/journal.rpy", line 1505, in script call
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
     call open_journal(page, display, school)
-  File "game/scripts/journal/journal.rpy", line 12, in script call
-    call screen journal_4(display, school, show_locked, show_unlocked)
-  File "game/scripts/journal/journal.rpy", line 1505, in script call
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
     call open_journal(page, display, school)
-  File "game/scripts/journal/journal.rpy", line 12, in script call
-    call screen journal_4(display, school, show_locked, show_unlocked)
-  File "game/scripts/journal/journal.rpy", line 1505, in script call
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
     call open_journal(page, display, school)
-  File "game/scripts/journal/journal.rpy", line 12, in script call
-    call screen journal_4(display, school, show_locked, show_unlocked)
-  File "game/scripts/journal/journal.rpy", line 1505, in script call
-    call open_journal(page, display, school)
-  File "game/scripts/journal/journal.rpy", line 12, in script call
-    call screen journal_4(display, school, show_locked, show_unlocked)
-  File "game/scripts/journal/journal.rpy", line 1505, in script call
-    call open_journal(page, display, school)
-  File "game/scripts/journal/journal.rpy", line 12, in script call
-    call screen journal_4(display, school, show_locked, show_unlocked)
-  File "game/scripts/journal/journal.rpy", line 8, in script call
-    call screen journal_2(display, school, show_locked, show_unlocked)
+  [Previous line repeated 2 more times]
   File "game/scripts/overview.rpy", line 392, in script call
     subtitles_Empty ""
   File "game/scripts/journal/journal.rpy", line 2, in script call
     call open_journal (1, "", "high_school") from _call_open_journal
   File "game/scripts/journal/journal.rpy", line 6, in script call
-    call screen journal_1(display, school, show_locked, show_unlocked)
+    call screen journal_1(display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 14, in script call
+    call screen journal_5(display, school)
+  File "game/scripts/journal/journal.rpy", line 14, in script call
+    call screen journal_5(display, school)
+  File "game/scripts/journal/journal.rpy", line 1557, in script call
+    call screen journal_5("clubs", school)
+  File "game/scripts/journal/journal.rpy", line 1557, in script call
+    call screen journal_5("clubs", school)
+  File "game/scripts/journal/journal.rpy", line 1557, in script call
+    call screen journal_5("clubs", school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  [Previous line repeated 1 more time]
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  [Previous line repeated 15 more times]
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
+  File "game/scripts/journal/journal.rpy", line 10, in script call
+    call screen journal_3(display, school)
+  File "game/scripts/journal/journal.rpy", line 1542, in script call
+    call open_journal(page, display, school)
   File "game/scripts/overview.rpy", line 392, in script call
     subtitles_Empty ""
-  File "game/scripts/journal/journal.rpy", line 2, in script call
-    call open_journal (1, "", "high_school") from _call_open_journal
-  File "game/scripts/journal/journal.rpy", line 6, in script call
-    call screen journal_1(display, school, show_locked, show_unlocked)
-  File "game/scripts/journal/journal.rpy", line 8, in script call
-    call screen journal_2(display, school, show_locked, show_unlocked)
-  File "game/scripts/journal/journal.rpy", line 1505, in script call
-    call open_journal(page, display, school)
-  File "game/scripts/journal/journal.rpy", line 8, in script call
-    call screen journal_2(display, school, show_locked, show_unlocked)
-  File "game/scripts/journal/journal.rpy", line 1505, in script call
-    call open_journal(page, display, school)
-  File "game/scripts/journal/journal.rpy", line 8, in script call
-    call screen journal_2(display, school, show_locked, show_unlocked)
-  File "game/scripts/journal/journal.rpy", line 1505, in script call
-    call open_journal(page, display, school)
-  File "game/scripts/journal/journal.rpy", line 8, in script call
-    call screen journal_2(display, school, show_locked, show_unlocked)
-  File "game/scripts/journal/journal.rpy", line 1505, in script call
-    call open_journal(page, display, school)
-  File "game/scripts/journal/journal.rpy", line 8, in script call
-    call screen journal_2(display, school, show_locked, show_unlocked)
-  File "game/scripts/journal/journal.rpy", line 8, in script call
-    call screen journal_2(display, school, show_locked, show_unlocked)
-  File "game/scripts/journal/journal.rpy", line 8, in script
-    call screen journal_2(display, school, show_locked, show_unlocked)
-  File "C:\RenPy\renpy\ast.py", line 2259, in execute
-    self.call("execute")
-  File "C:\RenPy\renpy\ast.py", line 2241, in call
-    return renpy.statements.call(method, parsed, *args, **kwargs)
-  File "C:\RenPy\renpy\statements.py", line 342, in call
-    return method(parsed, *args, **kwargs)
-  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
-    store._return = renpy.call_screen(name, *args, **kwargs)
-  File "C:\RenPy\renpy\exports.py", line 3345, in call_screen
-    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
-  File "C:\RenPy\renpy\ui.py", line 299, in interact
-    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
-  File "C:\RenPy\renpy\display\core.py", line 3579, in interact
-    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
-  File "C:\RenPy\renpy\display\core.py", line 4052, in interact_core
-    root_widget.visit_all(lambda d : d.per_interact())
-  File "C:\RenPy\renpy\display\core.py", line 681, in visit_all
-    d.visit_all(callback, seen)
-  File "C:\RenPy\renpy\display\core.py", line 681, in visit_all
-    d.visit_all(callback, seen)
-  File "C:\RenPy\renpy\display\core.py", line 681, in visit_all
-    d.visit_all(callback, seen)
-  File "C:\RenPy\renpy\display\screen.py", line 476, in visit_all
-    callback(self)
-  File "C:\RenPy\renpy\display\core.py", line 4052, in <lambda>
-    root_widget.visit_all(lambda d : d.per_interact())
-  File "C:\RenPy\renpy\display\screen.py", line 487, in per_interact
-    self.update()
-  File "C:\RenPy\renpy\display\screen.py", line 680, in update
-    self.screen.function(**self.scope)
-  File "game/scripts/journal/journal.rpy", line 219, in execute
-    screen journal_2(display, school, show_locked = True, show_unlocked = True):
-  File "game/scripts/journal/journal.rpy", line 219, in execute
-    screen journal_2(display, school, show_locked = True, show_unlocked = True):
-  File "game/scripts/journal/journal.rpy", line 283, in execute
-    frame:
-  File "game/scripts/journal/journal.rpy", line 288, in execute
-    viewport id "RuleList":
-  File "game/scripts/journal/journal.rpy", line 293, in execute
-    vbox:
-  File "game/scripts/journal/journal.rpy", line 294, in execute
-    if journal_settings[2]['show_locked']:
-  File "game/scripts/journal/journal.rpy", line 300, in execute
-    for rule_name in rule_locked_list:
-  File "game/scripts/journal/journal.rpy", line 302, in execute
-    if rule is not None:
-  File "game/scripts/journal/journal.rpy", line 307, in execute
-    textbutton rule_title:
-  File "game/scripts/journal/journal.rpy", line 307, in keywords
-    textbutton rule_title:
-  File "game/scripts/journal/journal.rpy", line 309, in <module>
-    action Call("open_journal", 2, building_name, school, show_locked, show_unlocked)
-NameError: name 'building_name' is not defined
+  File "game/scripts/overview.rpy", line 406, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/office_building.rpy", line 29, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 392, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 406, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 114, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 222, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/overview.rpy", line 392, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 406, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 114, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 222, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/overview.rpy", line 392, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 392, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 406, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 114, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 222, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/overview.rpy", line 392, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 406, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 114, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 222, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/overview.rpy", line 392, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 406, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 114, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 222, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/overview.rpy", line 392, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 392, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 406, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 114, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 222, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 151, in script
+    $ set_building_blocked("high_school_building")
+  File "C:\RenPy\renpy\ast.py", line 1138, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "C:\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
+    exec(bytecode, globals, locals)
+  File "game/scripts/buildings/high_school_building.rpy", line 151, in <module>
+    $ set_building_blocked("high_school_building")
+TypeError: set_building_blocked() missing 1 required positional argument: 'is_blocked'
 
 Windows-10-10.0.19045 AMD64
 Ren'Py 8.1.1.23060707
 Mind the School dev_0.01
-Mon Jul 17 16:27:18 2023
+Tue Jul 18 13:59:22 2023

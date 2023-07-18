@@ -57,6 +57,8 @@ init -6 python:
             return None
 
         def is_available(self):
+            print("building: " + self.name)
+            print("unlocked: " + str(self.unlocked) + " blocked: " + str(self.blocked))
             return self.unlocked and not self.blocked
 
         def set_blocked(self, is_blocked = True):
@@ -162,7 +164,7 @@ init -6 python:
             return buildings[building]
         return None
 
-    def set_building_blocked(building_name, is_blocked):
+    def set_building_blocked(building_name, is_blocked = True):
         if building_name in buildings.keys():
             buildings[building_name].set_blocked(is_blocked)
 
@@ -190,7 +192,6 @@ init -6 python:
             buildings[name] = Building(name, title)
             buildings[name]._update(title, starting_data)
 
-        set_all_buildings_blocked(False)
         buildings[name]._update(title, runtime_data)
 
     def remove_building(name):

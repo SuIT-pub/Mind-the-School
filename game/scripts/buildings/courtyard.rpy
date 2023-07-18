@@ -14,6 +14,13 @@ init -1 python:
         "patrol":       EventStorage("patrol",       "Patrol",             courtyard_person_fallback),
     }
     
+    courtyard_timed_event.add_event(Event(
+        "first_week_event",
+        ["first_week_courtyard_event"],
+        1,
+        TimeCondition(week = 1),
+    ))
+
 #####################################
 # ----- Courtyard Entry Point ----- #
 #####################################
@@ -58,3 +65,11 @@ label courtyard_person_fallback:
 ################################
 # ----- Courtyard Events ----- #
 ################################
+
+# first week event
+label first_week_courtyard_event:
+    subtitles "todo: first_week_event"
+
+    $ set_building_blocked("courtyard")
+
+    jump new_day
