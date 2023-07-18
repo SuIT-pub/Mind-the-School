@@ -55,7 +55,7 @@ label tutorial_menu:
         secretary "Do you have any questions?"
 
         "Show me the campus":
-            call tutorial_map
+            call tutorial_map from _call_tutorial_map
         "That's all":
             return
 

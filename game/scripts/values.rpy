@@ -1,42 +1,36 @@
 init python:
-    
-    def level_to_string(school = ""):
-
-        high_school_level = str(schools["high_school"].get_level())
-        if high_school_level == "10":
-            high_school_level = "A"
-
-        middle_school_level = str(schools["middle_school"].get_level())
-        if middle_school_level == "10":
-            middle_school_level = "A"
-
-        elementary_school_level = str(schools["elementary_school"].get_level())
-        if elementary_school_level == "10":
-            elementary_school_level = "A"
-        
-        if school == "high_school":
-            return high_school_level
-        elif school == "middle_school":
-            return middle_school_level
-        elif school == "elementary_school":
-            return elementary_school_level
-        else:
-            return high_school_level + ':' + middle_school_level + ':' + elementary_school_level
-
-    def level_to_num(school = ""):
-        return schools[school].get_level()
-
-        return -1
-
-    def clamp_stat(value):
-        if (value < 0):
-            return 0
-        if (value > 100):
-            return 100
-        return value
-
+    # 0 = no loli content (High School age: 18-22)
+    # 1 = slight loli content (Middle School age: 13-17, High School age: 18-22)
+    # 2 = hard loli content (Elementary School age: 8-12, Middle School age: 13-17, High School age: 18-22)
     loli_content = 0
+    cheat_mode = False
 
+default rules = {}
+default buildings = {}
+default clubs = {}
+default schools = {}
+default money = Stat("money", 1000)
+default time = Time()
+default stat_data = {}
+default voteProposal = None
+
+default journal_settings = {
+    2: {
+        'show_locked': True,
+        'show_unlocked': True,
+    },
+    3: {
+        'show_locked': True,
+        'show_unlocked': True,
+    },
+    4: {
+        'show_locked': True,
+        'show_unlocked': True,
+    },
+}
+
+default school_name = "Windstor School"
+default principal_name = "Mark"
 
 default character.principal = Character(
     "Principal",
@@ -169,26 +163,4 @@ default character.subtitles_Empty = Character(
     what_layout = 'subtitle'
 )
 
-default rules = {}
-
-default school_name = "Windstor School"
-default principal_name = "Mark"
-
-default buildings = {}
-
-default clubs = {}
-
-default stat_data = {}
-
-default schools = {}
-
-default money = Stat("money", 1000)
-
-default time = Time()
-
-default voteProposal = None
-
-# 0 = no loli content (High School age: 18-22)
-# 1 = slight loli content (Middle School age: 13-17, High School age: 18-22)
-# 2 = hard loli content (Elementary School age: 8-12, Middle School age: 13-17, High School age: 18-22)
-# default loli_content = 0
+default character.nv_text = Character(None, kind=nvl)

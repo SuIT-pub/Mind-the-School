@@ -2,30 +2,19 @@
 # ----- Sports Field Event Handler ----- #
 ##########################################
 
-init -10 python:
-    sports_field_events = {}
-    sports_field_events_title = {
-        "check_class": "Check on sport class",
-        "teach_class": "Teach a sport class",
-        "peek_changing": "Peek into the changing rooms",
-        "enter_changing": "Enter changing rooms",
-        "steal_changing": "Steal some panties",
+init -1 python:
+    sports_field_after_time_check = Event("sports_field_after_time_check", "sports_field.after_time_check", 1)
+    sports_field_fallback = Event("sports_field_fallback", "sports_field_fallback", 1)
+    sports_field_person_fallback = Event("sports_field_person_fallback", "sports_field_person_fallback", 1)
+
+    sports_field_timed_event = EventStorage("sports_field", "", sports_field_fallback)
+    sports_field_events = {
+        "check_class":    EventStorage("check_class",    "Check on sport class",         sports_field_person_fallback),
+        "teach_class":    EventStorage("teach_class",    "Teach a sport class",          sports_field_person_fallback),
+        "peek_changing":  EventStorage("peek_changing",  "Peek into the changing rooms", sports_field_person_fallback),
+        "enter_changing": EventStorage("enter_changing", "Enter changing rooms",         sports_field_person_fallback),
+        "steal_changing": EventStorage("steal_changing", "Steal some panties",           sports_field_person_fallback),
     }
-
-    sports_field_events["fallback"] = "sports_field_fallback"
-
-    # event check before menu
-    create_event_area(sports_field_events, "sports_field", "sports_field.after_time_check")
-
-    create_event_area(sports_field_events, "check_class", "sports_field_person_fallback")
-
-    create_event_area(sports_field_events, "teach_class", "sports_field_person_fallback")
-
-    create_event_area(sports_field_events, "peek_changing", "sports_field_person_fallback")
-
-    create_event_area(sports_field_events, "enter_changing", "sports_field_person_fallback")
-
-    create_event_area(sports_field_events, "steal", "sports_field_person_fallback")
 
 ########################################
 # ----- Sports Field Entry Point ----- #
@@ -43,7 +32,7 @@ label sports_field:
     # if daytime in [7]:
     #     # show sports field at night empty
 
-    call event_check_area("sports_field", sports_field_events)
+    call call_available_event(sports_field_timed_event) from _call_call_available_event_13
 
 label .after_time_check:
 
@@ -52,9 +41,8 @@ label .after_time_check:
         1, 
         7, 
         sports_field_events, 
-        sports_field_events_title,
-        "fallback", "sports_field",
-    )
+        sports_field_fallback,
+    ) from _call_call_event_menu_13
 
     jump sports_field
 

@@ -2,54 +2,90 @@
 # ----- High School Building Event Handler ----- #
 ##################################################
 
-init -10 python:
-    high_school_building_events = {}
-    high_school_building_events_title = {
-        "check_class": "Check Class",
-        "teach_class": "Teach a Class",
-        "patrol": "Patrol building",
-        "students": "Talk to students",
+init python:
+    high_school_building_after_time_check = Event("high_school_building_after_time_check", "high_school_building.after_time_check", 2)
+    high_school_building_fallback         = Event("high_school_building_fallback",         "high_school_building_fallback",         2)
+    high_school_building_person_fallback  = Event("high_school_building_person_fallback",  "high_school_building_person_fallback",  2)
+
+    high_school_building_timed_event = EventStorage("high_school_building", "", high_school_building_after_time_check)
+    high_school_building_events = {
+        "check_class": EventStorage("check_class", "Check Class",      high_school_building_person_fallback),
+        "teach_class": EventStorage("teach_class", "Teach a Class",    high_school_building_person_fallback),
+        "patrol":      EventStorage("patrol",      "Patrol building",  high_school_building_person_fallback),
+        "students":    EventStorage("students",   "Talk to students", high_school_building_person_fallback),
+        "students1":    EventStorage("students1",   "Talk to students", high_school_building_person_fallback),
+        "students2":    EventStorage("students2",   "Talk to students", high_school_building_person_fallback),
+        "students3":    EventStorage("students3",   "Talk to students", high_school_building_person_fallback),
+        "students4":    EventStorage("students4",   "Talk to students", high_school_building_person_fallback),
+        "students5":    EventStorage("students5",   "Talk to students", high_school_building_person_fallback),
     }
 
-    high_school_building_events["fallback"] = "high_school_building_fallback"
+    high_school_building_events["check_class"].add_event(Event(
+        "check_class_events",
+        [
+            "hsb_peek_into_class_concentrated",
+            "hsb_peek_into_class_not_concentrated",
+            "hsb_peek_into_class_chaos",
+            "hsb_check_class_concentrated",
+            "hsb_check_class_seemingly_concentrated",
+        ],
+        3,
+        # TimeCondition(daytime = 'c', weekday = 'd'),
+        # LevelCondition('1+', "high_school"),
+    ))
 
-    create_event_area(high_school_building_events, "high_school_building", "high_school_building.after_time_check")
+    high_school_building_events["teach_class"].add_event(Event(
+        "teach_class_events",
+        [
+            "hsb_teach_class_concentrated",
+            "hsb_teach_class_partly_unconcentrated",
+            "hsb_teach_class_unconcentrated",
+            "hsb_teach_class_chaos",
+        ],
+        3,
+        # TimeCondition(daytime = 'c', weekday = 'd'),
+        # LevelCondition('1+', "high_school"),
+    ))
 
-    create_event_area(high_school_building_events, "check_class", "high_school_building_person_fallback")
-    add_area_event(high_school_building_events, "check_class", "x.x.x.c.d.1+:x:x.0",
-        "hsb_peek_into_class_concentrated",
-        "hsb_peek_into_class_not_concentrated",
-        "hsb_peek_into_class_chaos",
-        "hsb_check_class_concentrated",
-        "hsb_check_class_seemingly_concentrated"
-    )
+    high_school_building_events["patrol"].add_event(Event(
+        "patrol_events",
+        [
+            "hsb_patrol_stare",
+            "hsb_patrol_mobbing",
+            "hsb_patrol_wind",
+            "hsb_patrol_trip",
+        ],
+        3,
+        # TimeCondition(daytime = 'f', weekday = 'd'),
+        # LevelCondition('1+', "high_school"),
+    ))
+    high_school_building_events["patrol"].add_event(Event("patrol_events_1","hsb_patrol_kiss", 3,
+        # TimeCondition(daytime = 'f', weekday = 'd'),
+        # LevelCondition('1+', "high_school"),
+        # RuleCondition("student_student_relation"),
+    ))
+    high_school_building_events["patrol"].add_event(Event("patrol_events","hsb_patrol_groping", 3,
+        # TimeCondition(daytime = 'f', weekday = 'd'),
+        # LevelCondition('5+', "high_school"),
+    ))
 
-    create_event_area(high_school_building_events, "teach_class", "high_school_building_person_fallback")
-    add_area_event(high_school_building_events, "teach_class", "x.x.x.c.d.1+:x:x.0",
-        "hsb_teach_class_concentrated",
-        "hsb_teach_class_partly_unconcentrated",
-        "hsb_teach_class_unconcentrated",
-        "hsb_teach_class_chaos"
-    )
+    high_school_building_events["students"].add_event(Event(
+        "students_events",
+        [
+            "hsb_talk_students_1",
+            "hsb_talk_students_2",
+            "hsb_talk_students_3",
+        ],
+        3,
+        # TimeCondition(daytime = 'f', weekday = 'd'),
+        # LevelCondition('1+', "high_school"),
+    ))
 
-    create_event_area(high_school_building_events, "patrol", "high_school_building_person_fallback")
-    add_area_event(high_school_building_events, "patrol", "x.x.x.f.d.1+:x:x.0",
-        "hsb_patrol_stare",
-        "hsb_patrol_kiss", # is conditional
-        "hsb_patrol_mobbing",
-        "hsb_patrol_wind",
-        "hsb_patrol_trip"
-    )
-    add_area_event(high_school_building_events, "patrol", "x.x.x.f.d.5+:x:x.0",
-        "hsb_patrol_groping"
-    )
-
-    create_event_area(high_school_building_events, "students", "high_school_building_person_fallback")
-    add_area_event(high_school_building_events, "students", "x.x.x.f.d.1+:x:x.0",
-        "hsb_talk_students_1",
-        "hsb_talk_students_2",
-        "hsb_talk_students_3"
-    )
+    high_school_building_events["students1"].add_event(Event("students_events","hsb_patrol_groping", 3,))
+    high_school_building_events["students2"].add_event(Event("students_events","hsb_patrol_groping", 3,))
+    high_school_building_events["students3"].add_event(Event("students_events","hsb_patrol_groping", 3,))
+    high_school_building_events["students4"].add_event(Event("students_events","hsb_patrol_groping", 3,))
+    high_school_building_events["students5"].add_event(Event("students_events","hsb_patrol_groping", 3,))
 
 
 ##################################################
@@ -68,7 +104,7 @@ label high_school_building:
     # if daytime in [7]:
     #     # show empty corridor at night
 
-    call event_check_area("high_school_building", high_school_building_events)
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
 
 label .after_time_check:
 
@@ -77,9 +113,8 @@ label .after_time_check:
         1, 
         7, 
         high_school_building_events, 
-        high_school_building_events_title,
-        "fallback", "high_school_building"
-    )
+        high_school_building_fallback,
+    ) from _call_call_event_menu_6
 
     jump high_school_building
 
@@ -149,18 +184,20 @@ label hsb_check_class_seemingly_concentrated:
         subtitles "You notice a naked drawing of the teacher."
 
         "Scold the student in front of the class":
-            call hsb_check_class_seemingly_concentrated.scolding_student_public
+            call hsb_check_class_seemingly_concentrated.scolding_student_public from _call_hsb_check_class_seemingly_concentrated_scolding_student_public
         "Silently scold the student":
-            call hsb_check_class_seemingly_concentrated.scolding_student_private
+            call hsb_check_class_seemingly_concentrated.scolding_student_private from _call_hsb_check_class_seemingly_concentrated_scolding_student_private
         "Praise the student in front of the class":
-            call hsb_check_class_seemingly_concentrated.praise_student_public
+            call hsb_check_class_seemingly_concentrated.praise_student_public from _call_hsb_check_class_seemingly_concentrated_praise_student_public
         "Silently praise the student":
-            call hsb_check_class_seemingly_concentrated.praise_student_private
+            call hsb_check_class_seemingly_concentrated.praise_student_private from _call_hsb_check_class_seemingly_concentrated_praise_student_private
         
 label .scolding_student_public:
     principal_shout "What are you drawing? This is not tolerable. Come to my office this evening!"
 
-    $ add_temp_event("x.x.x.6.x.x:x:x", "male_student_scolding")
+    $ add_temp_event(Event("male_student_scolding", "male_student_scolding", 2, 
+        TimeCondition(daytime = 6)
+    ))
 
     $ change_stat("education", 0.5, "high_school")
     $ change_stat("happiness", -0.25, "high_school")
@@ -170,7 +207,9 @@ label .scolding_student_public:
 label .scolding_student_private:
     principal_whisper "What are you drawing? This is not tolerable. Come to my office this evening!"
 
-    $ add_temp_event("x.x.x.6.x.x:x:x", "male_student_scolding")
+    $ add_temp_event(Event("male_student_scolding", "male_student_scolding", 2, 
+        TimeCondition(daytime = 6)
+    ))
 
     $ change_stat("education", 0.1, "high_school")
     $ change_stat("happiness", -0.1, "high_school")
@@ -266,7 +305,7 @@ label hsb_patrol_intro_variants:
     return
 
 label hsb_patrol_stare:
-    call hsb_patrol_intro_variants
+    call hsb_patrol_intro_variants from _call_hsb_patrol_intro_variants
 
     $ level = schools["high_school"].get_level()
 
@@ -293,11 +332,7 @@ label hsb_patrol_stare:
     jump new_daytime
 
 label hsb_patrol_kiss:
-    if rules["student_student_relation"]:
-        call event_check_area("patrol", high_school_building_events)
-        jump new_daytime
-    
-    call hsb_patrol_intro_variants
+    call hsb_patrol_intro_variants from _call_hsb_patrol_intro_variants_1
 
     menu:
         subtitles "You spot two students kissing each other. What do you do?"
@@ -317,7 +352,7 @@ label hsb_patrol_kiss:
     jump new_daytime
 
 label hsb_patrol_mobbing:
-    call hsb_patrol_intro_variants
+    call hsb_patrol_intro_variants from _call_hsb_patrol_intro_variants_2
 
     $ variant = renpy.random.randint(1,2)
 
@@ -348,7 +383,11 @@ label hsb_patrol_mobbing:
             principal_shout "What the hell is happening here?!"
             principal_shout "Get off her. You all come to my office this evening!"
             principal_shout "And you better pray to the heavens if any of won't come!"
-            $ add_temp_event("x.x.x.6.x.x:x:x", "mobbing_scolding")
+            
+            $ add_temp_event(Event("mobbing_scolding", "mobbing_scolding", 2, 
+                TimeCondition(daytime = 6)
+            ))
+
             $ change_stat("happiness", 0.2, "high_school")
             $ change_stat("education", 0.2, "high_school")
             jump new_daytime
@@ -360,10 +399,9 @@ label hsb_patrol_mobbing:
             $ change_stat("inhibition", 1, "high_school")
             $ change_stat("corruption", 0.5, "high_school")
             jump new_daytime
-    jump new_daytime
 
 label hsb_patrol_groping:
-    call hsb_patrol_intro_variants
+    call hsb_patrol_intro_variants from _call_hsb_patrol_intro_variants_3
 
     $ level = schools["high_school"].get_level()
 
@@ -397,7 +435,7 @@ label hsb_patrol_groping:
         jump new_daytime
 
 label hsb_patrol_wind:
-    call hsb_patrol_intro_variants
+    call hsb_patrol_intro_variants from _call_hsb_patrol_intro_variants_4
 
     $ level = schools["high_school"].get_level()
     $ variant = renpy.random.randint(1, 2)
@@ -479,7 +517,7 @@ label hsb_patrol_wind:
                     jump new_daytime
 
 label hsb_patrol_trip:
-    call hsb_patrol_intro_variants
+    call hsb_patrol_intro_variants from _call_hsb_patrol_intro_variants_5
 
     $ level = schools["high_school"].get_level()
     $ variant = renpy.random.randint(1, 2)
@@ -659,14 +697,14 @@ label .patrol_trip_check1:
                         jump new_daytime
 
 label hsb_patrol_collide:
-    call hsb_patrol_intro_variants
+    call hsb_patrol_intro_variants from _call_hsb_patrol_intro_variants_6
 
     $ level = schools["high_school"].get_level()
     $ variant = renpy.random.randint(1, 3)
 
     subtitles "As you turn around the corner, you collide with a student that seemingly ran too fast through the hallway."
     if variant == 1:
-        jump .patrol_trip_check1
+        jump hsb_patrol_trip.patrol_trip_check1
     elif variant == 2:
         subtitles "You both fall. After you open your eyes you see yourself lying on top of the girl that ran into you."
         menu:

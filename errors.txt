@@ -2,9 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/scripts/buildings/tennis_court.rpy", line 43: expected statement.
-    after_time_check:
-                    ^
+File "game/scripts/journal/journal.rpy", line 679: expected ':' not found.
+    else
+        ^
 
-Ren'Py Version: Ren'Py 8.0.3.22090809
-Tue Jun 20 16:17:07 2023
+Ren'Py Version: Ren'Py 8.1.1.23060707
+Mon Jul 17 15:59:12 2023

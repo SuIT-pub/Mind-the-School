@@ -2,33 +2,20 @@
 # ----- Gym Event Handler ----- #
 #################################
 
-init -10 python:
-    gym_events = {}
-    gym_events_title = {
-        "teacher": "Go to teacher",
-        "students": "Go to students",
-        "storage": "Check storage",
-        "peek_changing": "Peek into the changing rooms",
-        "enter_changing": "Enter the changing rooms",
-        "steal": "Steal some panties",
+init -1 python:
+    gym_after_time_check = Event("gym_after_time_check", "gym.after_time_check", 2)
+    gym_fallback         = Event("gym_fallback",         "gym_fallback",         2)
+    gym_person_fallback  = Event("gym_person_fallback",  "gym_person_fallback",  2)
+
+    gym_timed_event = EventStorage("gym", "", gym_after_time_check)
+    gym_events = {
+        "teacher":        EventStorage("teacher",        "Go to teacher",                      gym_person_fallback),
+        "students":       EventStorage("students",       "Go to students",                     gym_person_fallback),
+        "storage":        EventStorage("storage",        "Check storage",                      gym_fallback       ),
+        "peek_changing":  EventStorage("peek_changing",  "Go to Peek into the changing rooms", gym_person_fallback),
+        "enter_changing": EventStorage("enter_changing", "Enter the changing rooms",           gym_fallback       ),
+        "steal":          EventStorage("steal",          "Steal some panties",                 gym_fallback       ),
     }
-
-    gym_events["fallback"] = "gym_fallback"
-
-    # event check before menu
-    create_event_area(gym_events, "gym", "gym.after_time_check")
-
-    create_event_area(gym_events, "teacher", "gym_person_fallback")
-
-    create_event_area(gym_events, "students", "gym_person_fallback")
-
-    create_event_area(gym_events, "storage", "gym_fallback")
-
-    create_event_area(gym_events, "peek_changing", "gym_person_fallback")
-
-    create_event_area(gym_events, "enter_changing", "gym_fallback")
-
-    create_event_area(gym_events, "steal", "gym_fallback")
 
 ###############################
 # ----- Gym Entry Point ----- #
@@ -44,7 +31,7 @@ label gym:
     # if daytime in [7]:
     #     # show gym at night empty
 
-    call event_check_area("gym", gym_events)
+    call call_available_event(gym_timed_event) from _call_call_available_event_5
 
 label .after_time_check:
 
@@ -53,9 +40,8 @@ label .after_time_check:
         1, 
         7, 
         gym_events, 
-        gym_events_title,
-        "fallback", "gym"
-    )
+        gym_events_fallback,
+    ) from _call_call_event_menu_5
 
     jump gym
 
@@ -78,9 +64,6 @@ label gym_person_fallback:
 #############################
 # weekly assembly entry point
 label weekly_assembly:
-
-    if time.today() == "1.1.2023":
-        jump weekly_assembly_first
 
     subtitles "todo: weekly assembly"
 

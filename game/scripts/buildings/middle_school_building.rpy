@@ -2,27 +2,18 @@
 # ----- Middle School Building Event Handler ----- #
 ####################################################
 
-init -10 python:
-    middle_school_building_events = {}
-    middle_school_building_events_title = {
-        "check_class": "Check Class",
-        "teach_class": "Teach a Class",
-        "patrol": "Patrol building",
-        "students": "Talk to students",
+init -1 python:
+    middle_school_building_after_time_check = Event("middle_school_building_after_time_check", "middle_school_building.after_time_check", 2)
+    middle_school_building_fallback         = Event("middle_school_building_fallback",         "middle_school_building_fallback",         2)
+    middle_school_building_person_fallback  = Event("middle_school_building_person_fallback",  "middle_school_building_person_fallback",  2)
+
+    middle_school_building_timed_event = EventStorage("middle_school_building", "", middle_school_building_after_time_check)
+    middle_school_building_events = {
+        "check_class": EventStorage("check_class", "Check Class",      middle_school_building_person_fallback),
+        "teach_class": EventStorage("teach_class", "Teach a Class",    middle_school_building_person_fallback),
+        "patrol":      EventStorage("patrol",      "Patrol building",  middle_school_building_person_fallback),
+        "students":    EventStorage("strudents",   "Talk to students", middle_school_building_person_fallback),
     }
-
-    middle_school_building_events["fallback"] = "middle_school_building_fallback"
-
-    # event check before menu
-    create_event_area(middle_school_building_events, "middle_school_building", "middle_school_building.after_time_check")
-
-    create_event_area(middle_school_building_events, "check_class", "middle_school_building_person_fallback")
-
-    create_event_area(middle_school_building_events, "teach_class", "middle_school_building_person_fallback")
-
-    create_event_area(middle_school_building_events, "patrol", "middle_school_building_fallback")
-
-    create_event_area(middle_school_building_events, "students", "middle_school_building_person_fallback")
 
 ##################################################
 # ----- Middle School Building Entry Point ----- #
@@ -38,7 +29,7 @@ label middle_school_building:
     # if daytime in [7]:
     #     # show empty corridor at night
 
-    call event_check_area("middle_school_building", middle_school_building_events)
+    call call_available_event(middle_school_building_timed_event) from _call_call_available_event_10
 
 label .after_time_check:
 
@@ -47,34 +38,8 @@ label .after_time_check:
         1, 
         7, 
         middle_school_building_events, 
-        middle_school_building_events_title,
-        "fallback", "middle_school_building"
-    )
-
-    $ check_events = [
-        get_events_area_count("check_class", middle_school_building_events),
-        get_events_area_count("teach_class", middle_school_building_events),
-        get_events_area_count("patrol"     , middle_school_building_events),
-        get_events_area_count("students"   , middle_school_building_events),
-    ]
-
-    if any(check_events):
-        menu:
-            subtitles "What to do in the Middle School?"
-
-            "Check class" if check_events[0] > 0:
-                call event_check_area("check_class", middle_school_building_events)
-            "Teach class" if check_events[1] > 0:
-                call event_check_area("teach_class", middle_school_building_events)
-            "Patrol building" if check_events[2] > 0:
-                call event_check_area("patrol", middle_school_building_events)
-            "Talk to students" if check_events[3] > 0:
-                call event_check_area("students", middle_school_building_events)
-            "Return":
-                jump map_overview
-    else:
-        call middle_school_building_fallback
-        jump map_overview
+        middle_school_building_fallback
+    ) from _call_call_event_menu_10
 
     jump middle_school_building
 

@@ -2,27 +2,20 @@
 # ----- Cafeteria Event Handler ----- #
 #######################################
 
-init -10 python:
-    cafeteria_events = {}
-    cafeteria_events_title = {
-        "eat_alone": "Eat alone",
-        "eat_student": "Eat with students",
-        "eat_teacher": "Eat with teacher",
-        "look": "Look around",
+init -1 python:
+    cafeteria_after_time_check = Event("cafeteria_after_time_check", "cafeteria.after_time_check", 2)
+    cafeteria_fallback         = Event("cafeteria_fallback",         "cafeteria_fallback",         2)
+    cafeteria_eat_fallback     = Event("cafeteria_eat_fallback",     "cafeteria_eat_fallback",     2)
+    cafeteria_person_fallback  = Event("cafeteria_person_fallback",  "cafeteria_person_fallback",  2)
+    cafeteria_look_fallback    = Event("cafeteria_look_fallback",    "cafeteria_look_fallback",    2)
+
+    cafeteria_timed_event = EventStorage("cafeteria", "", cafeteria_after_time_check)
+    cafeteria_events = {
+        "eat_alone":   EventStorage("eat_alone",   "Eat alone",         cafeteria_eat_fallback),
+        "eat_student": EventStorage("eat_student", "Eat with students", cafeteria_eat_fallback),
+        "eat_teacher": EventStorage("eat_teacher", "Eat with teacher",  cafeteria_eat_fallback),
+        "eat_look":    EventStorage("eat_look",    "Look around",       cafeteria_eat_fallback),
     }
-
-    cafeteria_events["fallback"] = "cafeteria_fallback"
-
-    # event check before menu
-    create_event_area(cafeteria_events, "cafeteria", "cafeteria.after_time_check")
-
-    create_event_area(cafeteria_events, "eat_alone", "cafeteria_eat_fallback")
-
-    create_event_area(cafeteria_events, "eat_student", "cafeteria_person_fallback")
-
-    create_event_area(cafeteria_events, "eat_teacher", "cafeteria_person_fallback")
-
-    create_event_area(cafeteria_events, "look", "cafeteria_look_fallback")
 
 #####################################
 # ----- Cafeteria Entry Point ----- #
@@ -40,7 +33,7 @@ label cafeteria:
     # if daytime in [7]
     #     # show empty terrace at night
 
-    call event_check_area("cafeteria", cafeteria_events)
+    call call_available_event(cafeteria_timed_event) from _call_call_available_event_1
 
 label .after_time_check:
 
@@ -49,9 +42,8 @@ label .after_time_check:
         1, 
         7, 
         cafeteria_events, 
-        cafeteria_events_title,
-        "fallback", "cafeteria"
-    )
+        cafeteria_fallback,
+    ) from _call_call_event_menu_1
 
     jump cafeteria
 

@@ -2,27 +2,18 @@
 # ----- Elementary School Dormitory Event Handler ----- #
 #########################################################
 
-init -10 python:
-    elementary_school_dormitory_events = {}
-    elementary_school_dormitory_events_title = {
-        "check_rooms": "Check Rooms",
-        "talk_students": "Talk to students",
-        "patrol": "Patrol building",
-        "peek_students": "Peek on students",
+init -1 python:
+    elementary_school_dormitory_after_time_check = Event("elementary_school_dormitory_after_time_check", "elementary_school_dormitory.after_time_check", 2)
+    elementary_school_dormitory_fallback         = Event("elementary_school_dormitory_fallback",         "elementary_school_dormitory_fallback",         2)
+    elementary_school_dormitory_person_fallback  = Event("elementary_school_dormitory_person_fallback",  "elementary_school_dormitory_person_fallback",  2)
+
+    elementary_school_dormitory_timed_event = EventStorage("elementary_school_dormitory", "", elementary_school_dormitory_after_time_check)
+    elementary_school_dormitory_events = {
+        "check_rooms":   EventStorage("check_rooms",   "Check Rooms",      elementary_school_dormitory_person_fallback),
+        "talk_students": EventStorage("talk_students", "Talk to students", elementary_school_dormitory_person_fallback),
+        "patrol":        EventStorage("patrol",        "Patrol building",  elementary_school_dormitory_person_fallback),
+        "peek_students": EventStorage("peek_students", "Peek on students", elementary_school_dormitory_person_fallback),
     }
-
-    elementary_school_dormitory_events["fallback"] = "elementary_school_dormitory_fallback"
-
-    # event check before menu
-    create_event_area(elementary_school_dormitory_events, "elementary_school_dormitory", "elementary_school_dormitory.after_time_check")
-
-    create_event_area(elementary_school_dormitory_events, "check_rooms", "elementary_school_dormitory_person_fallback")
-
-    create_event_area(elementary_school_dormitory_events, "talk_students", "elementary_school_dormitory_person_fallback")
-
-    create_event_area(elementary_school_dormitory_events, "patrol", "elementary_school_dormitory_person_fallback")
-
-    create_event_area(elementary_school_dormitory_events, "peek", "elementary_school_dormitory_person_fallback")
 
 #######################################################
 # ----- Elementary School Dormitory Entry Point ----- #
@@ -38,8 +29,8 @@ label elementary_school_dormitory:
     # if daytime in [7]:
     #     # show empty corridor at night
 
-    call event_check_area("elementary_school_dormitory", elementary_school_dormitory_events)
-
+    call call_available_event(elementary_school_dormitory_timed_event) from _call_call_available_event_4
+    
 label .after_time_check:
 
     call call_event_menu (
@@ -47,9 +38,8 @@ label .after_time_check:
         1, 
         7, 
         elementary_school_dormitory_events, 
-        elementary_school_dormitory_events_title,
-        "fallback", "elementary_school_dormitory"
-    )
+        elementary_school_dormitory_fallback,
+    ) from _call_call_event_menu_4
 
     jump elementary_school_dormitory
 

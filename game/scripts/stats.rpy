@@ -1,4 +1,4 @@
-init python:
+init -6 python:
     import re
     class Stat:
         def __init__(self, name, value):
@@ -14,14 +14,28 @@ init python:
             return self.changed_value
 
         def set_value(self, value):
+            minLimit = get_stat_data(self.name).get_min_limit()
+            maxLimit = get_stat_data(self.name).get_max_limit()
+
             self.value = value
+            if self.value < minLimit:
+                self.value = minLimit
+            if self.value > maxLimit:
+                self.value = maxLimit
 
         def set_changed_value(self, value):
             self.changed_value = value
         
         def change_value(self, delta):
-            change_val = math.ceil(delta * 100) / 100
-            self.value = clamp_stat(math.ceil((self.value + change_val) * 100) / 100)
+            minLimit = get_stat_data(self.name).get_min_limit()
+            maxLimit = get_stat_data(self.name).get_max_limit()
+
+            if self.value + delta < minLimit:
+                delta = -(self.value - minLimit)
+            elif self.value + delta > maxLimit:
+                delta = maxLimit - self.value
+            change_val = math.ceil(delta * 100.0) / 100.0
+            self.value = clamp_stat(math.ceil((self.value + change_val) * 100.0) / 100.0, minLimit, maxLimit)
             self.changed_value = change_val
 
         def change_value_to(self, value):
@@ -44,39 +58,70 @@ init python:
             return get_stat_data(self.name).get_full_description(self.get_level())
 
         def display_stat(self):
+            return self.get_display_value() + self.get_display_change()
 
-            stat_value = self.get_value()
+        def get_display_value(self):
+            stat_value = self.get_value() + 0
 
             if self.name == "inhibition":
-                stat_value = 100 - stat_value
+                stat_value = 100.0 - stat_value
 
-            text = str(stat_value)
+            return str(stat_value)
+
+        def get_display_change(self):
             global change
             change = self.get_changed_value()
 
+            text = ""
+
             if (self.name != "inhibition"):
                 if change < 0:
-                    text += "{color=#ff0000}{size=15}(" + str(change) + "){/size}{/color}"
+                    text = "{color=#ff0000}{size=15}(" + str(change) + "){/size}{/color}"
                 elif change > 0:
-                    text += "{color=#00ff00}{size=15}(+" + str(change) + "){/size}{/color}"
+                    text = "{color=#00ff00}{size=15}(+" + str(change) + "){/size}{/color}"
             else:
                 if change < 0:
                     change = -change
-                    text += "{color=#ff0000}{size=15}(+" + str(change) + "){/size}{/color}"
+                    text = "{color=#ff0000}{size=15}(+" + str(change) + "){/size}{/color}"
                 elif change > 0:
-                    text += "{color=#00ff00}{size=15}(-" + str(change) + "){/size}{/color}"
-
+                    text = "{color=#00ff00}{size=15}(-" + str(change) + "){/size}{/color}"
             return text
 
     class Stat_Data:
-        levels = [0]
-        images = ["images/journal/empty_image.png"]
-        descriptions = ["EMPTY"]
-        
         def __init__(self, name, title):
             self.name = name
             self.title = title
+            self.levels = [0]
+            self.images = ["images/journal/empty_image.png"]
+            self.descriptions = ["EMPTY"]
             self.description = "test"
+            self.min_limit = 0
+            self.max_limit = 100
+
+        def _update(self, title, data = None):
+            if data != None:
+                self.__dict__.update(data)
+
+            self.title = title
+            
+            if not hasattr(self, 'levels'):
+                self.levels = [0]
+            if not hasattr(self, 'images'):
+                self.images = ["images/journal/empty_image.png"]
+            if not hasattr(self, 'descriptions'):
+                self.descriptions = ["EMPTY"]
+            if not hasattr(self, 'description'):
+                self.description = "test"
+            if not hasattr(self, 'min_limit'):
+                self.min_limit = 0
+            if not hasattr(self, 'max_limit'):
+                self.max_limit = 100
+
+        def get_min_limit(self):
+            return self.min_limit
+
+        def get_max_limit(self):
+            return self.max_limit
 
         def get_level(self, value):
             count = 0
@@ -110,12 +155,23 @@ init python:
         if not stat in stat_data:
             return None
         return stat_data[stat]
+    
+    def clamp_stat(value, min = 0, max = 100):
+        if (value < min):
+            return min
+        if (value > max):
+            return max
+        return value
 
+    def load_stat_data(name, title, data):
+        if name not in stat_data.keys():
+            stat_data[name] = Stat_Data(name, title)
+
+        stat_data[name]._update(title, data)
 
 label load_stats:
-    if not "corruption" in stat_data.keys():
-        $ stat_data["corruption"] = Stat_Data("corruption", "Corruption")
-    $ stat_data["corruption"].__dict__.update({
+    
+    $ load_stat_data("corruption", "Corruption", {
         'description': "The corruption level is a measure of how corrupt the" +
             " students' minds are and how open they are to sexual activity.\n" +
             "\nThe level can be increased by performing sexual activities with" +
@@ -149,9 +205,7 @@ label load_stats:
         ]
     })
 
-    if not "inhibition" in stat_data.keys():
-        $ stat_data["inhibition"] = Stat_Data("inhibition", "Inhibition")
-    $ stat_data["inhibition"].__dict__.update({
+    $ load_stat_data("inhibition", "Inhibition", {
         'description': "inhibition",
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         'descriptions': [
@@ -182,9 +236,7 @@ label load_stats:
         ]
     })
 
-    if not "happiness" in stat_data.keys():
-        $ stat_data["happiness"] = Stat_Data("happiness", "Happiness")
-    $ stat_data["happiness"].__dict__.update({
+    $ load_stat_data("happiness", "Happiness", {
         'description': "happiness",
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         'descriptions': [
@@ -215,9 +267,7 @@ label load_stats:
         ]
     })
 
-    if not "education" in stat_data.keys():
-        $ stat_data["education"] = Stat_Data("education", "Education")
-    $ stat_data["education"].__dict__.update({
+    $ load_stat_data("education", "Education", {
         'description': "education",
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         'descriptions': [
@@ -248,9 +298,7 @@ label load_stats:
         ]
     })
 
-    if not "charm" in stat_data.keys():
-        $ stat_data["charm"] = Stat_Data("charm", "Charm")
-    $ stat_data["charm"].__dict__.update({
+    $ load_stat_data("charm", "Charm", {
         'description': "charm",
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         'descriptions': [
@@ -281,9 +329,7 @@ label load_stats:
         ]
     })
 
-    if not "reputation" in stat_data.keys():
-        $ stat_data["reputation"] = Stat_Data("reputation", "Reputation")
-    $ stat_data["reputation"].__dict__.update({
+    $ load_stat_data("reputation", "Reputation", {
         'description': "repuation",
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         'descriptions': [
@@ -314,9 +360,7 @@ label load_stats:
         ]
     })
 
-    if not "level" in stat_data.keys():
-        $ stat_data["level"] = Stat_Data("level", "Level")
-    $ stat_data["level"].__dict__.update({
+    $ load_stat_data("level", "Level", {
         'description': "The level of the school represents the overall " +
             "progress of the school. Every new level unlocks new "
             "possibilities.\n\nTo increase the level of a school you need to " +
@@ -353,12 +397,11 @@ label load_stats:
             "images/journal/empty_image.png",
             "images/journal/empty_image.png",
             "images/journal/empty_image.png",
-        ]
+        ],
+        'max_limit': 10,
     })
 
-    if not "money" in stat_data.keys():
-        $ stat_data["money"] = Stat_Data("money", "Money")
-    $ stat_data["money"].__dict__.update({
+    $ load_stat_data("money", "Money", {
         'description': "money",
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         'descriptions': [
@@ -386,6 +429,7 @@ label load_stats:
             "images/journal/empty_image.png",
             "images/journal/empty_image.png",
             "images/journal/empty_image.png",
-        ]
+        ],
+        'max_limit': 1000000000,
     })
     

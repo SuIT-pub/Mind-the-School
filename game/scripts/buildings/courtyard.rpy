@@ -2,23 +2,18 @@
 # ----- Courtyard Event Handler ----- #
 #######################################
 
-init -10 python:
-    courtyard_events = {}
-    courtyard_events_title = {
-        "talk_student": "Talk with students",
-        "talk_teacher": "Talk with teacher",
-        "patrol": "Patrol",
+init -1 python:
+    courtyard_after_time_check = Event("courtyard_after_time_check", "courtyard.after_time_check", 2)
+    courtyard_fallback         = Event("courtyard_fallback",         "courtyard_fallback",         2)
+    courtyard_person_fallback  = Event("courtyard_person_fallback",  "courtyard_person_fallback",  2)
+
+    courtyard_timed_event = EventStorage("courtyard", "", courtyard_after_time_check)
+    courtyard_events = {
+        "talk_student": EventStorage("talk_student", "Talk with students", courtyard_person_fallback),
+        "talk_teacher": EventStorage("talk_teacher", "Talk with teacher",  courtyard_person_fallback),
+        "patrol":       EventStorage("patrol",       "Patrol",             courtyard_person_fallback),
     }
-
-    courtyard_events["fallback"] = "courtyard_fallback"
-
-    # event check before menu
-    create_event_area(courtyard_events, "courtyard", "courtyard.after_time_check")
-
-    create_event_area(courtyard_events, "talk_student", "courtyard_person_fallback")
-
-    create_event_area(courtyard_events, "talk_teacher", "courtyard_person_fallback")
-
+    
 #####################################
 # ----- Courtyard Entry Point ----- #
 #####################################
@@ -35,7 +30,7 @@ label courtyard:
     # if daytime in [7]
     #     # show empty courtyard at night
 
-    call event_check_area("courtyard", courtyard_events)
+    call call_available_event(courtyard_timed_event) from _call_call_available_event_2
 
 label .after_time_check:
 
@@ -44,9 +39,8 @@ label .after_time_check:
         1, 
         7, 
         courtyard_events, 
-        courtyard_events_title,
-        "fallback", "courtyard"
-    )
+        courtyard_fallback,
+    ) from _call_call_event_menu_2
 
     jump courtyard
 

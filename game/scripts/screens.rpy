@@ -9,47 +9,51 @@ style menu_text_left take menu_text:
 style menu_text_right take menu_text:
     textalign 1.0
 
-init python:
-    def clean_events_for_menu(events, titles, *key_excludes):
-        print("Clean events")
-        event_keys = list(events.keys())
-
-        # remove events that should be excluded
-        for key in key_excludes:
-            if key in event_keys:
-                event_keys.remove(key)
+init -1 python:
+    def clean_events_for_menu(events):
+        output = {}
 
         # remove events that have no applicable events
         for key in events.keys():
-            if (key not in titles or get_events_area_count(key, events) == 0) and key in event_keys:
-                event_keys.remove(key)
+            if (events[key].count_available_events() > 0 and key not in output.keys()):
+                output[key] = events[key]
 
-        return event_keys
+        return output
         
 
-label call_event_menu(text, page, page_limit, events, titles, *key_excludes, person = character.subtitles):
+label call_event_menu(text, page, page_limit, events, fallback, person = character.subtitles, school = "x"):
+    $ event_list = clean_events_for_menu(events)
 
-    python:
-        print("call menu")
-
-    $ event_keys = clean_events_for_menu(events, titles, key_excludes)
-
-    python:
-        print(event_keys)
-
-    if len(event_keys) == 0:
-        call call_fallback_from_menu(events["fallback"])
+    if len(event_list) == 0:
+        call call_event(fallback) from _call_call_event
         jump map_overview
 
-    show screen menu_event_choice(page, page_limit, event_keys, titles)
+    show screen menu_event_choice(page, page_limit, event_list)
 
     while True:
         person "[text]"
 
-    
+label call_event(event_obj):
+    hide screen menu_event_choice
 
-screen menu_event_choice(page, page_limit, event_keys, titles):
+    if isinstance(event_obj, EventStorage):
+        $ event_obj.call_available_event()
+
+    if isinstance(event_obj, Event):
+        $ event_obj = event_obj.get_event()
+
+    if isinstance(event_obj, str):
+        call expression event_obj from _call_expression_2
+
+    $ i = 0
+    while(len(event_obj) > i):
+        call expression event_obj[i] from _call_expression_3
+        $ i += 1
+
+screen menu_event_choice(page, page_limit, events):
     tag menu_choice
+
+    $ event_count = len(events)
 
     frame:
         background "#ffffff00"
@@ -60,34 +64,31 @@ screen menu_event_choice(page, page_limit, event_keys, titles):
             yalign 0.5
 
             # get max amount of pages needed to display all elements
-            $ max_pages = len(event_keys) // page_limit + 1
-            if len(event_keys) % page_limit == 0:
-                $ max_pages = len(event_keys) // page_limit
+            $ max_pages = event_count // page_limit + 1
+            if event_count % page_limit == 0:
+                $ max_pages = event_count // page_limit
                 
             $ start = (page - 1) * page_limit
             $ end = page * page_limit
 
-            python:
-                print("\n\n\n----------")
-                print(event_keys)
+            $ event_keys = list(events.keys())
+
             # display all elements for current page
             for i in range(start, end):
-                python:
-                    print("pos:" + str(i) + " length:" + str(len(event_keys)))
                 # display empty space if last page and no elements are remaining
-                if i >= len(event_keys) and max_pages != 1:
+                if i >= event_count and max_pages != 1:
                     null height 78
                 # display element
-                elif i < len(event_keys):
-                    $ key = event_keys[i]
+                elif i < event_count:
+                    $ event = events[event_keys[i]]
                     button:
                         background "gui/button/choice_idle_background.png"
                         hover_background "gui/button/choice_hover_background.png"
-                        text titles[key] style "menu_text":
+                        text event.get_title() style "menu_text":
                             xalign 0.5
                             yalign 0.5
                         xsize 1185
-                        action Call("call_event_from_menu", key, events)
+                        action Call("call_event", event)
                     null height 30
                 
             # display paginator if needed
@@ -108,7 +109,7 @@ screen menu_event_choice(page, page_limit, event_keys, titles):
                                 yalign 0.0
                             xsize 250
                             ysize 52
-                            action Show("menu_event_choice", None, page - 1, page_limit, event_keys, titles)
+                            action Show("menu_event_choice", None, page - 1, page_limit, events)
                     else:
                         null width 250 height 52
                     
@@ -122,7 +123,7 @@ screen menu_event_choice(page, page_limit, event_keys, titles):
                         ysize 52
 
                     # go to next page
-                    if end < len(event_keys):
+                    if end < event_count:
                         button:
                             background "gui/button/choice_idle_background_250px.png"
                             hover_background "gui/button/choice_hover_background_250px.png"
@@ -131,7 +132,7 @@ screen menu_event_choice(page, page_limit, event_keys, titles):
                                 yalign 0.0
                             xsize 250
                             ysize 52
-                            action Show("menu_event_choice", None, page + 1, page_limit, event_keys, titles)
+                            action Show("menu_event_choice", None, page + 1, page_limit, events)
                     else:
                         null width 250 height 52
 
@@ -145,13 +146,4 @@ screen menu_event_choice(page, page_limit, event_keys, titles):
                     yalign 0.5
                 xsize 1185
                 action Jump("map_overview")
-            
-label call_event_from_menu(key, events):
-    hide screen menu_event_choice
-
-    call event_check_area(key, events)
-
-label call_fallback_from_menu(key):
-    hide screen menu_event_choice
-
-    call expression key
+    

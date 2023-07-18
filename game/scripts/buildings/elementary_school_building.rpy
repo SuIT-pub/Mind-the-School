@@ -2,27 +2,18 @@
 # ----- Elementary School Building Event Handler ----- #
 ##################################################
 
-init -10 python:
-    elementary_school_building_events = {}
-    elementary_school_building_events_title = {
-        "check_class": "Check Class",
-        "teach_class": "Teach a Class",
-        "patrol": "Patrol building",
-        "students": "Talk to students",
+init -1 python:
+    elementary_school_building_after_time_check = Event("elementary_school_building_after_time_check", "elementary_school_building.after_time_check", 2)
+    elementary_school_building_fallback         = Event("elementary_school_building_fallback",         "elementary_school_building_fallback",         2)
+    elementary_school_building_person_fallback  = Event("elementary_school_building_person_fallback",  "elementary_school_building_person_fallback",  2)
+
+    elementary_school_building_timed_event = EventStorage("elementary_school_building", "", elementary_school_building_after_time_check)
+    elementary_school_building_events = {
+        "check_class": EventStorage("check_class", "Check Class",      elementary_school_building_person_fallback),
+        "teach_class": EventStorage("teach_class", "Teach a Class",    elementary_school_building_person_fallback),
+        "patrol":      EventStorage("patrol",      "Patrol building",  elementary_school_building_person_fallback),
+        "students":    EventStorage("strudents",   "Talk to students", elementary_school_building_person_fallback),
     }
-
-    elementary_school_building_events["fallback"] = "elementary_school_building_fallback"
-
-    # event check before menu
-    create_event_area(elementary_school_building_events, "elementary_school_building", "elementary_school_building.after_time_check")
-
-    create_event_area(elementary_school_building_events, "check_class", "elementary_school_building_person_fallback")
-
-    create_event_area(elementary_school_building_events, "teach_class", "elementary_school_building_person_fallback")
-
-    create_event_area(elementary_school_building_events, "patrol", "elementary_school_building_fallback")
-
-    create_event_area(elementary_school_building_events, "students", "elementary_school_building_person_fallback")
 
 ################################################
 # ----- Elementary School Building Entry Point ----- #
@@ -38,7 +29,7 @@ label elementary_school_building:
     # if daytime in [7]:
     #     # show empty corridor at night
 
-    call event_check_area("elementary_school_building", elementary_school_building_events)
+    call call_available_event(elementary_school_building_timed_event) from _call_call_available_event_3
 
 label .after_time_check:
 
@@ -47,9 +38,8 @@ label .after_time_check:
         1, 
         7, 
         elementary_school_building_events, 
-        elementary_school_building_events_title,
-        "fallback", "elementary_school_building"
-    )
+        elementary_school_building_fallback,
+    ) from _call_call_event_menu_3
 
     jump elementary_school_building
 

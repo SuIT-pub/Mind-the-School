@@ -1,17 +1,39 @@
-init python:
+init -6 python:
     import re
     class Club:
         def __init__(self, name, title):
             self.name = name
             self.title = title
             self.description = ""
+            self.image_path_alt = "images/journal/empty_image.png"
             self.image_path = "images/journal/empty_image.png"
-            self.unlock_conditions = []
             self.unlocked = {
                 "high_school": False,
                 "middle_school": False,
                 "elementary_school": False
             }
+            self.unlock_conditions = []
+
+        def _update(self, title, data = None):
+            if data != None:
+                self.__dict__.update(data)
+
+            self.title = title
+
+            if not hasattr(self, 'description'):
+                self.description = ""
+            if not hasattr(self, 'image_path'):
+                self.image_path = "images/journal/empty_image.png"
+            if not hasattr(self, 'image_path_alt'):
+                self.image_path_alt = "images/journal/empty_image.png"
+            if not hasattr(self, 'unlocked'):
+                self.unlocked = {
+                    "high_school": False,
+                    "middle_school": False,
+                    "elementary_school": False,
+                }
+            if not hasattr(self, 'unlock_conditions'):
+                self.unlock_conditions = []
 
         def get_name(self):
             return self.name
@@ -22,8 +44,24 @@ init python:
         def get_type(self):
             return "club"
 
-        def unlock(self):
-            self.unlocked = True
+        def get_image(self, school, level):
+            for i in reversed(range(0, level + 1)):
+                image = self.image_path.replace("{school}", school).replace("{level}", str(i))
+                if renpy.exists(image):
+                    return image
+            return self.image_path_alt
+
+        def get_full_image(self, school, level):
+            image = self.get_image(school, level)
+            full_image = image.replace(".", "_full.")
+
+            if renpy.exists(full_image):
+                return full_image
+            return None
+
+        def unlock(self, school, unlock = True):
+            if school in self.unlocked:
+                self.unlocked[school] = unlock
 
         def is_unlocked(self, school):
             if school not in self.unlocked.keys():
@@ -47,6 +85,22 @@ init python:
 
             return True
 
+        def get_list_conditions(self):
+            output = []
+            for condition in self.unlock_conditions:
+                if not condition.is_set_blocking() and condition.display_in_list:
+                    output.append(condition)
+
+            return output
+
+        def get_desc_conditions(self):
+            output = []
+            for condition in self.unlock_conditions:
+                if not condition.is_set_blocking() and condition.display_in_desc:
+                    output.append(condition)
+
+            return output
+
     
     def get_unlocked_clubs_by_school(school):
         output = []
@@ -58,15 +112,91 @@ init python:
         return output
 
 
+    def get_visible_locked_clubs_by_school(school):
+        output = []
+
+        for club in clubs.values():
+            if (club.is_visible(school) and 
+            not club.is_unlocked(school) and
+            club.get_name() not in output):
+                output.append(club.get_name())
+                continue
+
+        return output
+
+    def get_visible_unlocked_clubs_by_school(school):
+        output = []
+
+        for club in clubs.values():
+            if (club.is_visible(school) and 
+            club.is_unlocked(school) and
+            club.get_name() not in output):
+                output.append(club.get_name())
+                continue
+
+        return output
+
     def get_visible_clubs_by_school(school, include_unlocked = False):
         output = []
 
         for club in clubs.values():
             if (club.is_visible(school) and 
             ((not club.is_unlocked(school) and not include_unlocked) or include_unlocked) and
-            club.name not in output):
-                output.append(club.name)
+            club.get_name() not in output):
+                output.append(club.get_name())
                 continue
+
+        return output
+
+    def get_visible_unlocked_clubs():
+        output = []
+
+        for club in clubs.values():
+            if (club.is_visible("high_school") and 
+            club.is_unlocked("high_school") and
+            club.get_name() not in output):
+                output.append(club.get_name())
+                continue
+            
+            if loli_content >= 1:
+                if (club.is_visible("middle_school") and 
+                club.is_unlocked("middle_school") and
+                club.get_name() not in output):
+                    output.append(club.get_name())
+                    continue
+
+            if loli_content == 2:
+                if (club.is_visible("elementary_school") and 
+                club.is_unlocked("elementary_school") and
+                club.get_name() not in output):   
+                    output.append(club.get_name())
+                    continue
+
+        return output
+
+    def get_visible_locked_clubs():
+        output = []
+
+        for club in clubs.values():
+            if (club.is_visible("high_school") and 
+            not club.is_unlocked("high_school") and
+            club.get_name() not in output):
+                output.append(club.get_name())
+                continue
+            
+            if loli_content >= 1:
+                if (club.is_visible("middle_school") and 
+                not club.is_unlocked("middle_school") and
+                club.get_name() not in output):
+                    output.append(club.get_name())
+                    continue
+
+            if loli_content == 2:
+                if (club.is_visible("elementary_school") and 
+                not club.is_unlocked("elementary_school") and
+                club.get_name() not in output):   
+                    output.append(club.get_name())
+                    continue
 
         return output
 
@@ -163,10 +293,11 @@ init python:
         if name not in clubs.keys():
             clubs[name] = Club(name, title)
 
-        clubs[name].title = title
-        
-        if data != None:
-            clubs[name].__dict__.update(data)
+        clubs[name]._update(title, data)
+
+    def remove_club(name):
+        if name in clubs.keys():
+            del(clubs[name])
 
 label load_clubs:
     $ load_club("masturbation_club", "Masturbation Club", {
@@ -299,3 +430,5 @@ label load_clubs:
             # LockCondition(),
         ],
     })
+
+    return
