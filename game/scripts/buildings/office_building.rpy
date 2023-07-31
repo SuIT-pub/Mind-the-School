@@ -114,18 +114,6 @@ label first_day_introduction:
 
     return
 
-image movie_potion_intro_16 = Movie(loop = False, play = "potion_intro_16.mp4")
-image movie_potion_intro_17 = Movie(loop = True, play = "images/office/potion_intro_17.mp4")
-image movie_potion_intro_18 = Movie(loop = True, play = "images/office/potion_intro_18.mp4")
-image movie_potion_intro_18 = Movie(
-    loop = True, 
-    play = "images/office/potion_intro_19.mp4", 
-    image = "office/potion_intro_20.png"
-)
-
-# screen video(movie_name):
-#     add image movie_name
-
 label potion_introduction_1:
 
     show potion intro 01
@@ -234,7 +222,6 @@ label potion_introduction_1:
     jump new_day
     
 label potion_introduction_2:
-    # next day screen
     show potion intro 36
     secretary "Good Morning Headmaster!"
     principal "Oh good morning! How are you feeling?"
@@ -482,7 +469,8 @@ label first_pta_meeting:
     
     # introduction school council
 
-    $ set_all_buildings_blocked(False)
+    $ set_all_buildings_blocked(True)
+    $ set_building_blocked("office_building", False)
     
 
 label .end_meeting:

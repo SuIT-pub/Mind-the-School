@@ -14,6 +14,8 @@ init -6 python:
             return self.changed_value
 
         def set_value(self, value):
+            old_value = self.value
+
             minLimit = get_stat_data(self.name).get_min_limit()
             maxLimit = get_stat_data(self.name).get_max_limit()
 
@@ -22,6 +24,9 @@ init -6 python:
                 self.value = minLimit
             if self.value > maxLimit:
                 self.value = maxLimit
+
+            delta = math.ceil((self.value - old_value) * 100.0) / 100.0
+            self.set_changed_value(delta)
 
         def set_changed_value(self, value):
             self.changed_value = value
@@ -36,7 +41,7 @@ init -6 python:
                 delta = maxLimit - self.value
             change_val = math.ceil(delta * 100.0) / 100.0
             self.value = clamp_stat(math.ceil((self.value + change_val) * 100.0) / 100.0, minLimit, maxLimit)
-            self.changed_value = change_val
+            self.set_changed_value(change_val)
 
         def change_value_to(self, value):
             delta = value - self.value

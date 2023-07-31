@@ -49,6 +49,10 @@ init -6 python:
                 image = self.image_path.replace("{school}", school).replace("{level}", str(i))
                 if renpy.exists(image):
                     return image
+            for i in range(0, 10):
+                image = self.image_path.replace("{school}", school).replace("{level}", str(i))
+                if renpy.exists(image):
+                    return image
             return self.image_path_alt
 
         def get_full_image(self, school, level):
@@ -338,8 +342,8 @@ label load_rules:
                 RuleCondition("theoretical_digital_material", blocking = True),
                 # LockCondition()
             ],
-            'image_path': 'images/journal/rules/theoretical_teacher_sex_ed.png',
-            'image_path_alt': 'images/journal/rules/theoretical_teacher_sex_ed.png',
+            'image_path': 'images/journal/rules/theoretical_teacher_sex_ed_{level}.png',
+            'image_path_alt': 'images/journal/rules/theoretical_teacher_sex_ed_3.png',
         }
     )
     $ load_rule(
@@ -356,7 +360,7 @@ label load_rules:
                 # LockCondition()
             ],
             'image_path': 'images/journal/rules/theoretical_student_sex_ed_{school}_{level}.png',
-            'image_path_alt': 'images/journal/rules/theoretical_student_sex_ed.png',
+            'image_path_alt': 'images/journal/rules/theoretical_student_sex_ed_high_school_3.png',
         }
     )
 
@@ -373,8 +377,8 @@ label load_rules:
                 RuleCondition("theoretical_sex_ed", blocking = True),
                 # LockCondition()
             ],
-            'image_path': 'images/journal/rules/practical_sex_ed.png',
-            'image_path_alt': 'images/journal/rules/practical_sex_ed.png',
+            'image_path': 'images/journal/rules/practical_sex_ed_{school}_{level}.png',
+            'image_path_alt': 'images/journal/rules/practical_sex_ed_high_school_6.png',
         }
     )
 
@@ -392,8 +396,8 @@ label load_rules:
                 RuleCondition("theoretical_teacher_material", blocking = True),
                 # LockCondition()
             ],
-            'image_path': 'images/journal/rules/practical_teacher_sex_ed.png',
-            'image_path_alt': 'images/journal/rules/practical_teacher_sex_ed.png',
+            'image_path': 'images/journal/rules/practical_sex_ed_teacher_{level}.png',
+            'image_path_alt': 'images/journal/rules/practical_sex_ed_teacher_5.png',
         }
     )
 
@@ -409,8 +413,8 @@ label load_rules:
                 RuleCondition("theoretical_student_material", blocking = True),
                 # LockCondition()
             ],
-            'image_path': 'images/journal/rules/practical_student_sex_ed.png',
-            'image_path_alt': 'images/journal/rules/practical_student_sex_ed.png',
+            'image_path': 'images/journal/rules/practical_sex_ed_students_{school}_{level}.png',
+            'image_path_alt': 'images/journal/rules/practical_sex_ed_students_high_school_6.png',
         }
     )
 

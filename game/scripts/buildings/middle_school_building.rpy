@@ -68,7 +68,30 @@ label middle_school_building_person_fallback:
 
 # first week event
 label first_week_middle_school_building_event:
-    subtitles "todo: first_week_event"
+    show first week high school building 1
+    subtitles """You enter the main building of the high school.
+        
+        Well, you don't really need to enter the building to get an idea of the state it's in."""
+        
+    show first week high school building 2
+    principal_thought """Despite my fear, the building seems to be rather well maintained.
+
+        It could be a bit cleaner but the corridor seems rather well.
+
+        Let's see the classrooms."""
+    
+    show first week high school building 3
+    principal_thought "Oh not bad as well. "
+
+    show first week high school building 4
+    principal_thought "Hmm I think there should be a class right now, let's check."
+
+    show first week high school building 6
+    principal_thought "Hmm looks like a normal class, but I think the students have no material?"
+    principal_thought "Yeah, not one school girl has even one book."
+    principal_thought "I guess the former principal cut back on those"
+
+    $ set_stat_for_all("education", 15)
 
     $ set_building_blocked("high_school_building")
     $ set_building_blocked("middle_school_building")

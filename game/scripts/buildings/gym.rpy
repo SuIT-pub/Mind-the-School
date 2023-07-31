@@ -71,7 +71,12 @@ label gym_person_fallback:
 
 # first week event
 label first_week_gym_event:
-    subtitles "todo: first_week_event"
+    principal_thought "Okay, now the Gym. I have been here shortly for my introduction speech but I haven't had the chance to get a thorough look."
+    principal_thought "Mhh, doesn't look to shabby..."
+    principal_thought "Seems to be decently stocked."
+    principal_thought "The material is well maintained. I guess it's alright."
+
+    $ set_stat_for_all("charm", 15)
 
     $ set_building_blocked("gym")
 

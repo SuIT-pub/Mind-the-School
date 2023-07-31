@@ -61,8 +61,8 @@ screen school_overview_stats ():
         text display_stat("money")     style "stat_value"
 
         null
-        text "Corruption" style "stat_name"
-        text "Inhibition" style "stat_name"
+        text "-" style "stat_name"
+        text "-" style "stat_name"
         text "Reputation" style "stat_name"
         
         null
@@ -354,6 +354,21 @@ screen school_overview_buttons ():
                 xalign 0.5
                 text tooltip
 
+screen daytime_screen():
+    add "black"
+
+    $ daystr = time.get_weekday()
+    $ monthstr = time.get_month_name()
+
+    text "[daystr], [time.day] [monthstr] [time.year]":
+        xalign 0.5 yalign 0.5
+        size 60
+
+    button:
+        xpos 0 ypos 0
+        xsize 1902 ysize 1080
+        action Return()
+
 #########################
 # ----- Map Logic ----- #
 #########################
@@ -361,16 +376,28 @@ screen school_overview_buttons ():
 ####################################################
 # goes to map overview while moving the time forward
 
+label set_day(day, month, year):
+    $ time.set_time(day, month, year)
+
+    call screen daytime_screen 
+
+    call time_event_check from _call_time_event_check_2
+
+    jump map_overview
+
 label new_day:
     $ time.progress_day()
+
+    call screen daytime_screen 
 
     call time_event_check from _call_time_event_check
 
     jump map_overview
 
 label new_daytime:
-    $ time.progress_time()
-
+    if time.progress_time():
+        call screen daytime_screen
+        
     call time_event_check from _call_time_event_check_1
 
     jump map_overview

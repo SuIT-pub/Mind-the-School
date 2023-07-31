@@ -21,6 +21,12 @@ init -6 python:
                 return None
             return self.stats_objects[stat]
 
+        def set_stat(self, stat, value):
+            stat_obj = self.get_stat_obj(stat)
+            stat_obj.set_value(value)
+
+            update_mean_values()
+
         def change_stat(self, stat, delta):
             stat_obj = self.get_stat_obj(stat)
             stat_obj.change_value(delta)
@@ -188,6 +194,16 @@ init -6 python:
             stat_obj.set_changed_value(math.ceil((stats[stat_keys] - schools["school_mean"].get_stat_obj(stat_keys).get_value()) * 100) / 100)
             stat_obj.set_value(stats[stat_keys])
     
+    def set_stat_for_all(stat, value):
+        schools["high_school"].set_stat(stat, value)
+        schools["middle_school"].set_stat(stat, value)
+        schools["elementary_school"].set_stat(stat, value)
+
+    def change_stat_for_all(stat, delta):
+        schools["high_school"].change_stat(stat, delta)
+        schools["middle_school"].change_stat(stat, delta)
+        schools["elementary_school"].change_stat(stat, delta)
+
     def load_school(name, title, start_data, runtime_data = None):
         if name not in schools.keys():
             schools[name] = School(name, title)

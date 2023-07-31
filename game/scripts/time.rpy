@@ -8,21 +8,49 @@ init -6 python:
             self.month = 1
             self.year = 2023
 
+        def set_time(self, day, month, year):
+            self.daytime = 1
+            self.day = day
+            self.month = month
+            self.year = year
+
+        def add_time(self, **kwargs):
+            if 'day' in kwargs.keys():
+                self.day += kwargs['day']
+            if 'month' in kwargs.keys():
+                self.month += kwargs['month']
+            if 'year' in kwargs.keys():
+                self.year += kwargs['year' ]
+            if 'daytime' in kwargs.keys():
+                self.daytime += kwargs['daytime']
+
+            self.correct_time()
+
         def progress_day(self):
             self.daytime = 1
             self.day += 1
-            if self.day >= 29:
-                self.day = 1
-                self.month += 1
-                if self.month >= 13:
-                    self.month = 1
-                    self.year += 1
+            self.correct_time()
 
         def progress_time(self):
             self.daytime += 1
 
             if self.daytime == 8:
                 self.progress_day()
+                return True
+            return False
+        
+        def correct_time(self):
+            while self.daytime > 7:
+                self.daytime -= 7
+                self.day += 1
+
+            while self.day > 28:
+                self.day -= 22
+                self.month += 1
+
+            while self.month > 12:
+                self.month -= 12
+                self.year += 1
 
         def get_daytime(self):
             return self.daytime

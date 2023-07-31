@@ -68,7 +68,14 @@ label courtyard_person_fallback:
 
 # first week event
 label first_week_courtyard_event:
-    subtitles "todo: first_week_event"
+    subtitles "You walk through the courtyard."
+
+    principal_thought "Hmm, the courtyard doesn't look too bad. At least it is kept clean."
+    principal_thought "But it seems most of the appliances here are out of order."
+    principal_thought "For example the public toilet is broken."
+    principal_thought "At least the courtyard doesn't need immediate fixing."
+
+    $ set_stat_for_all("happiness", 12)
 
     $ set_building_blocked("courtyard")
 

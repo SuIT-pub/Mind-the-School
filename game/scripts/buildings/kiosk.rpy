@@ -71,7 +71,15 @@ label kiosk_person_fallback:
 
 # first week event
 label first_week_kiosk_event:
-    subtitles "todo: first_week_event"
+    principal_thought "Now, somewhere here should be the kiosk..."
+    principal_thought "Hmm, why is it so crowded?"
+    principal "Excuse me, did something happen? Why is it so crowded here?"
+    sgirl "What do you mean? It's always this full. We can't get food anywhere else than here."
+    principal "Oh I understand... Thanks."
+    principal_thought "This is not acceptable. Did the former headmaster really close the cafeteria?"
+    principal_thought "That can't be right..."
+
+    $ change_stat_for_all("reputation", -2)
 
     $ set_building_blocked("kiosk")
 

@@ -1324,14 +1324,18 @@ screen journal_5(display, school):
             $ active_club_name = active_club.name
             $ active_club_title = active_club.title
             $ active_club_desc = active_club.description
-            $ active_club_image = "journal/empty_image.png"
-            if renpy.exists(active_club.image_path):
-                $ active_club_image = active_club.image_path
-
             $ active_club_desc_conditions = active_club.get_desc_conditions()
-        
-            image "[active_club_image]":
-                xalign 0.63 yalign 0.65
+            $ active_club_image = active_club.get_image(school, active_school.get_level())
+            $ active_club_full_image = active_club.get_full_image(school, active_school.get_level())
+
+            if active_club_full_image != None:
+                button:
+                    xalign 0.63 yalign 0.65
+                    image "[active_club_image]"
+                    action Call("call_max_image_from_journal", active_club_full_image, 5, school, display)
+            else:
+                image "[active_club_image]": 
+                    xalign 0.629 yalign 0.647
             
             text active_club_title:
                 xpos 989

@@ -49,6 +49,10 @@ init -6 python:
                 image = self.image_path.replace("{school}", school).replace("{level}", str(i))
                 if renpy.exists(image):
                     return image
+            for i in range(0, 10):
+                image = self.image_path.replace("{school}", school).replace("{level}", str(i))
+                if renpy.exists(image):
+                    return image
             return self.image_path_alt
 
         def get_full_image(self, school, level):
@@ -58,6 +62,7 @@ init -6 python:
             if renpy.exists(full_image):
                 return full_image
             return None
+
 
         def unlock(self, school, unlock = True):
             if school in self.unlocked:
@@ -310,6 +315,7 @@ label load_clubs:
             # LockCondition(),
         ],
         'image_path': 'images/journal/clubs/masturbation_club.png',
+        'image_path_alt': 'images/journal/clubs/masturbation_club.png',
     })
 
     $ load_club("exhibitionism_club", "Exhibitionism Club", {
@@ -321,6 +327,7 @@ label load_clubs:
             # LockCondition(),
         ],
         'image_path': 'images/journal/clubs/exhibitionism_club.png',
+        'image_path_alt': 'images/journal/clubs/exhibitionism_club.png',
     })
 
     $ load_club("cosplay_club", "Cosplay Club", {
@@ -330,6 +337,7 @@ label load_clubs:
             # LockCondition(),
         ],
         'image_path': 'images/journal/clubs/cosplay_club.png',
+        'image_path_alt': 'images/journal/clubs/cosplay_club.png',
     })
 
     $ load_club("cheerleading_club", "Cheerleading Club", {
@@ -339,7 +347,8 @@ label load_clubs:
             # LevelCondition("2+"),
             # LockCondition(),
         ],
-        'image_path': 'images/journal/clubs/cheerleading_club.png',
+        'image_path': 'images/journal/clubs/cheerleading_club_{school}_{level}.png',
+        'image_path_alt': 'images/journal/clubs/cheerleading_club_high_school_2.png',
     })
 
     $ load_club("porn_club", "Porn Club", {

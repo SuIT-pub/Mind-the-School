@@ -48,7 +48,7 @@ label time_event_check:
     hide screen school_overview_map
     hide screen school_overview_stats
     hide screen school_overview_buttons
-
+    
     call call_available_event(temp_time_check_events) from _call_call_available_event_16
 
 label .after_temp_event_check:

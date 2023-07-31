@@ -69,7 +69,18 @@ label elementary_school_dormitory_person_fallback:
 
 # first week event
 label first_week_elementary_school_dormitory_event:
-    subtitles "todo: first_week_event"
+    principal_thought "The dormitory looks alright."
+    principal_thought "As far as I know, the students have to share a communal bathroom."
+    principal_thought "Private bathrooms would be nice for the students, but for one I don't think we really need that and then it would need a lot of rebuilding. So that should be last on the list."
+    principal_thought "Let's see if someone would let me see their room so I can check the state of these."
+    #klopft
+    principal "Hello? I'm Mr. Izuku the new Headmaster. Can I come in? I'm here to inspect the building."
+    subtitles "..."
+    principal "Hello?"
+
+    principal_thought "Hmm nobody seems to be here. Nevermind. I just let my Secretary give me a report."
+
+    $ set_stat_for_all("inhibition", 2)
 
     $ set_building_blocked("high_school_dormitory")
     $ set_building_blocked("middle_school_dormitory")
