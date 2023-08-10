@@ -8,11 +8,22 @@
             return
 
 label intro:
+    subtitles "All characters and events in this game, even those based on real people, are entirely fictional."
+
     $ school_name = renpy.input("Please name your School: (Default: \"Windstor School\")")
     $ school_name = school_name.strip() or "Windstor Academy"
 
-    $ principal_name = renpy.input("Please name your Character: (Default \"Mark\")")
-    $ principal_name = principal_name.strip() or "Mark"
+    $ set_game_data("school_name", school_name)
+
+    $ principal_first_name = renpy.input("First name of your Character: (Default \"Mark\")")
+    $ principal_first_name = principal_first_name.strip() or "Mark"
+
+    $ set_game_data("principal_first_name", principal_first_name)
+
+    $ principal_last_name = renpy.input("Last name of your Character: (Default \"Benson\")")
+    $ principal_last_name = principal_last_name.strip() or "Benson"
+
+    $ set_game_data("principal_last_name", principal_last_name)
 
     $ school_config = "a High School."
     if loli_content == 1:
@@ -45,9 +56,12 @@ label intro:
     nvl clear
 
     nv_text "And this time you will succeed."
-    nv_text "This time you won't rush things and keep what's happening here out of the public eye, until it's ready for it."
-    nv_text "Luckily, unlike your previous school, this one is a boarding school. And a very strict one at that."
-    nv_text "No going out, no going home during the holidays. Parents are only allowed to visit with prior notice."
-    nv_text "It's almost like a prison, only nicer. It's perfect!"
+    nv_text "People always blocked you off. Never let you try your theory of intimate conditioning."
+    nv_text "But now you got the chance. The sponsors where very impressed by yours talks and theories so they helped you get ahold of this school."
+    nv_text "You will not let them down."
+
+    nvl clear
+
+    nv_text "You enter the office..."
 
     jump new_daytime

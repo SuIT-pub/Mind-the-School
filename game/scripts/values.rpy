@@ -5,6 +5,17 @@ init python:
     loli_content = 0
     cheat_mode = False
 
+    def set_game_data(key, value):
+        gameData[key] = value
+
+    def get_game_data(key):
+        if key in gameData.keys():
+            return gameData[key]
+        return None
+
+    def contains_game_data(key):
+        return key in gameData.keys()
+
 default rules = {}
 default buildings = {}
 default clubs = {}
@@ -12,25 +23,7 @@ default schools = {}
 default money = Stat("money", 1000)
 default time = Time()
 default stat_data = {}
-default voteProposal = None
-
-default journal_settings = {
-    2: {
-        'show_locked': True,
-        'show_unlocked': True,
-    },
-    3: {
-        'show_locked': True,
-        'show_unlocked': True,
-    },
-    4: {
-        'show_locked': True,
-        'show_unlocked': True,
-    },
-}
-
-default school_name = "Windstor School"
-default principal_name = "Mark"
+default gameData = {}
 
 default character.principal = Character(
     "Principal",
@@ -163,4 +156,4 @@ default character.subtitles_Empty = Character(
     what_layout = 'subtitle'
 )
 
-default character.nv_text = Character(None, kind=nvl)
+default character.nv_text = Character(None, kind=nvl, what_text_align=0.5, what_xalign=0.5)

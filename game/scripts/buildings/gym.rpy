@@ -21,8 +21,17 @@ init -1 python:
         "first_week_event",
         ["first_week_gym_event"],
         1,
-        TimeCondition(week = 1),
+        TimeCondition(day = "2-4", month = 1, year = 2023),
     ))
+
+    
+    gym_timed_event.add_event(Event(
+        "first_potion_event",
+        ["first_potion_gym_event"],
+        1,
+        TimeCondition(day = 9),
+    ))
+
 
 
 ###############################
@@ -48,7 +57,7 @@ label .after_time_check:
         1, 
         7, 
         gym_events, 
-        gym_events_fallback,
+        gym_fallback,
     ) from _call_call_event_menu_5
 
     jump gym
@@ -68,6 +77,17 @@ label gym_person_fallback:
 ##########################
 # ----- Gym Events ----- #
 ##########################
+
+
+label first_potion_gym_event:
+    subtitles "You enter the Gym and see a group of students and teacher in a yoga session."
+    principal_thought "Oh that is a sport session I can get behind!"
+    principal_thought "Mhh, yes very flexible!"
+
+    $ set_building_blocked("gym")
+
+    jump new_daytime
+
 
 # first week event
 label first_week_gym_event:
@@ -125,7 +145,7 @@ label weekly_assembly_first:
 
     #show view from slightly behind crowd towards stage (secretary pointing towards principal)
     scene expression "events/intro/intro gym 6 [loli_content].png"
-    secretary_shout "But without further ado... Greet your new Headmaster [principal_name]!"
+    secretary_shout "But without further ado... Greet your new Headmaster Mr. [principal_last_name]!"
     subtitles "You walk to the podium."
 
     #show view of stagefrom front with principal standing at podium with hands on podium
@@ -136,7 +156,7 @@ label weekly_assembly_first:
 
     #show view of crowd from slightly behind but other side, principal hand on chest
     scene expression "events/intro/intro gym 8 [loli_content].png"
-    principal_shout "Now a little about me. My name is [principal_name] and I come from the country."
+    principal_shout "Now a little about me. My name is [principal_first_name] [principal_last_name] and I come from the country."
     principal_shout "I taught in various schools and was also the principal of a school in the capital."
 
     #show principal rasing finger
@@ -152,6 +172,7 @@ label weekly_assembly_first:
 
     scene office secretary 3 big smile
     secretary "Wow! That was a nice speech!"
-    secretary "Now that everything's settled, let's start your first day as principal here. Shall we?"
+    secretary "Now that we finished the introduction, let's start with the entry paperwork."
+    principal "Alright."
 
-    jump new_daytime
+    jump new_day

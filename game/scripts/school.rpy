@@ -170,6 +170,11 @@ init -6 python:
         for keys in schools.keys():
             if keys == 'school_mean':
                 continue
+            if keys == 'middle_school' and loli_content == 0:
+                continue
+            if keys == 'elementary_school' and loli_content != 2:
+                continue
+
             mean_level += schools[keys].get_level()
             school_amount += 1
             for stat_keys in schools[keys].get_stats().keys():

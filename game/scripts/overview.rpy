@@ -354,21 +354,17 @@ screen school_overview_buttons ():
                 xalign 0.5
                 text tooltip
 
-screen daytime_screen():
+screen black_screen_text(text_str):
     add "black"
 
-    $ daystr = time.get_weekday()
-    $ monthstr = time.get_month_name()
-
-    text "[daystr], [time.day] [monthstr] [time.year]":
+    text text_str:
         xalign 0.5 yalign 0.5
         size 60
 
     button:
         xpos 0 ypos 0
-        xsize 1902 ysize 1080
+        xsize 1920 ysize 1080
         action Return()
-
 #########################
 # ----- Map Logic ----- #
 #########################
@@ -379,7 +375,7 @@ screen daytime_screen():
 label set_day(day, month, year):
     $ time.set_time(day, month, year)
 
-    call screen daytime_screen 
+    call screen black_screen_text (f"{time.get_weekday()}, {time.day} {time.get_month_name()} {time.year}")
 
     call time_event_check from _call_time_event_check_2
 
@@ -388,7 +384,7 @@ label set_day(day, month, year):
 label new_day:
     $ time.progress_day()
 
-    call screen daytime_screen 
+    call screen black_screen_text (f"{time.get_weekday()}, {time.day} {time.get_month_name()} {time.year}")
 
     call time_event_check from _call_time_event_check
 
@@ -396,7 +392,7 @@ label new_day:
 
 label new_daytime:
     if time.progress_time():
-        call screen daytime_screen
+        call screen black_screen_text (f"{time.get_weekday()}, {time.day} {time.get_month_name()} {time.year}")
         
     call time_event_check from _call_time_event_check_1
 

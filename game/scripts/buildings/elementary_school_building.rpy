@@ -19,8 +19,17 @@ init -1 python:
         "first_week_event",
         ["first_week_elementary_school_building_event"],
         1,
-        TimeCondition(week = 1),
+        TimeCondition(day = "2-4", month = 1, year = 2023),
     ))
+
+    
+    elementary_school_building_timed_event.add_event(Event(
+        "first_potion_event",
+        ["first_potion_elementary_school_building_event"],
+        1,
+        TimeCondition(day = 9),
+    ))
+
 
 
 ################################################
@@ -65,6 +74,21 @@ label elementary_school_building_person_fallback:
 #################################################
 # ----- Elementary School Building Events ----- #
 #################################################
+
+
+label first_potion_elementary_school_building_event:
+    
+    principal_thought "Let's see how classes are today."
+    subtitles "You look into a classroom and the first thing you notice is that almost everyone has opened up or at least partially removed their clothes."
+    subtitles "Apparently the teachers also took a drink."
+    principal_thought "Hmm, I can't wait to have this view on a regular basis, but that's gonna take some time."
+
+    $ set_building_blocked("high_school_building")
+    $ set_building_blocked("middle_school_building")
+    $ set_building_blocked("elementary_school_building")
+
+    jump new_daytime
+
 
 # first week event
 label first_week_elementary_school_building_event:

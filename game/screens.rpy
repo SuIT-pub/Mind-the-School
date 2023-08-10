@@ -553,7 +553,11 @@ screen about():
         vbox:
 
             label "[config.name!t]"
+            text _("A Game by Su.iT")
             text _("Version [config.version!t]\n")
+
+            text _("Visit my {a=https://patreon.com/user?u=93190317}Patreon{/a}")
+            text _("Visit my {a=https://discord.gg/5a5VNJY2Fc}Discord{/a}")
 
             ## gui.about is usually set in options.rpy.
             if gui.about:
@@ -568,7 +572,6 @@ style about_text is gui_text
 
 style about_label_text:
     size gui.label_text_size
-
 
 ## Load and Save screens #######################################################
 ##

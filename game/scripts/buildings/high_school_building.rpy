@@ -12,19 +12,21 @@ init python:
         "check_class": EventStorage("check_class", "Check Class",      high_school_building_person_fallback),
         "teach_class": EventStorage("teach_class", "Teach a Class",    high_school_building_person_fallback),
         "patrol":      EventStorage("patrol",      "Patrol building",  high_school_building_person_fallback),
-        "students":    EventStorage("students",   "Talk to students", high_school_building_person_fallback),
-        "students1":    EventStorage("students1",   "Talk to students", high_school_building_person_fallback),
-        "students2":    EventStorage("students2",   "Talk to students", high_school_building_person_fallback),
-        "students3":    EventStorage("students3",   "Talk to students", high_school_building_person_fallback),
-        "students4":    EventStorage("students4",   "Talk to students", high_school_building_person_fallback),
-        "students5":    EventStorage("students5",   "Talk to students", high_school_building_person_fallback),
+        "students":    EventStorage("students",    "Talk to students", high_school_building_person_fallback),
     }
 
     high_school_building_timed_event.add_event(Event(
         "first_week_event",
         ["first_week_high_school_building_event"],
         1,
-        TimeCondition(week = 1),
+        TimeCondition(day = "2-4", month = 1, year = 2023),
+    ))
+
+    high_school_building_timed_event.add_event(Event(
+        "first_potion_event",
+        ["first_potion_high_school_building_event"],
+        1,
+        TimeCondition(day = 9),
     ))
 
     high_school_building_events["check_class"].add_event(Event(
@@ -87,12 +89,6 @@ init python:
         # TimeCondition(daytime = 'f', weekday = 'd'),
         # LevelCondition('1+', "high_school"),
     ))
-
-    high_school_building_events["students1"].add_event(Event("students_events","hsb_patrol_groping", 3,))
-    high_school_building_events["students2"].add_event(Event("students_events","hsb_patrol_groping", 3,))
-    high_school_building_events["students3"].add_event(Event("students_events","hsb_patrol_groping", 3,))
-    high_school_building_events["students4"].add_event(Event("students_events","hsb_patrol_groping", 3,))
-    high_school_building_events["students5"].add_event(Event("students_events","hsb_patrol_groping", 3,))
 
 
 ##################################################
@@ -176,6 +172,22 @@ label first_week_high_school_building_event:
     $ set_building_blocked("elementary_school_building")
 
     jump new_day
+
+label first_potion_high_school_building_event:
+
+    show first potion high school building 1
+    principal_thought "Let's see how classes are today."
+    
+    show first potion high school building 2
+    subtitles "You look into a classroom and the first thing you notice is that almost everyone has opened up or at least partially removed their clothes."
+    subtitles "Apparently the teachers also took a drink."
+    principal_thought "Hmm, I can't wait to have this view on a regular basis, but that's gonna take some time."
+
+    $ set_building_blocked("high_school_building")
+    $ set_building_blocked("middle_school_building")
+    $ set_building_blocked("elementary_school_building")
+
+    jump new_daytime
 
 # check class events
 

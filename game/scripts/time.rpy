@@ -8,11 +8,19 @@ init -6 python:
             self.month = 1
             self.year = 2023
 
-        def set_time(self, day, month, year):
-            self.daytime = 1
-            self.day = day
-            self.month = month
-            self.year = year
+        def set_time(self, **kwargs):
+            if 'day' in kwargs.keys():
+                self.day = kwargs['day']
+            if 'month' in kwargs.keys():
+                self.month = kwargs['month']
+            if 'year' in kwargs.keys():
+                self.year = kwargs['year' ]
+            if 'daytime' in kwargs.keys():
+                self.daytime = kwargs['daytime']
+            else:
+                self.daytime = 1
+
+            self.correct_time()
 
         def add_time(self, **kwargs):
             if 'day' in kwargs.keys():
@@ -212,7 +220,7 @@ init -6 python:
                             split_value[1].isdecimal() and
                             int(split_value[0]) <= self.daytime <= int(split_value[1])
                         ):
-                            return self.daytime
+                            return True
 
             return str(value) == str(self.daytime)
         

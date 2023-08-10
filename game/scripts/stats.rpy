@@ -183,17 +183,17 @@ label load_stats:
             " the students or by using indirect measures like drugs etc.",
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         'descriptions': [
+            "There is rarely anything more pure than these students.",
             "The students are not corrupted.",
-            "level 1",
-            "level 2",
-            "level 3",
-            "level 4",
-            "level 5",
-            "level 6",
-            "level 7",
-            "level 8",
-            "level 9",
-            "level 10",
+            "The students have tasted the light sweetness of corruption.",
+            "The students feel a bit more safe to talk about certain topics.",
+            "The students don't mind talking about sexual topics.",
+            "The students feel more open towards more intimate interactions.",
+            "The students like to touch each other more intimately.",
+            "The students don't see the need to restrain themself in their sexuality.",
+            "The students love to touch each other and play fun games.",
+            "The students think of almost nothing but sex.",
+            "Sex became the default for the students. There is almost nothing and nobody they wouldn't do.",
         ],
         'images': [
             "images/journal/empty_image.png",
@@ -211,20 +211,23 @@ label load_stats:
     })
 
     $ load_stat_data("inhibition", "Inhibition", {
-        'description': "inhibition",
+        'description': "The inhibition level shows how the students feel in their own bodies.\n" +
+            "The better they feel in their own bodies the more they open up and the less they feel embarrased about showing their bodies.\n" +
+            "\n The level can be increased by bringing the student in embarrasing situations that leaves them exposed or" +
+            " that presents their bodies in other ways.",
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         'descriptions': [
-            "level 0",
-            "level 1",
-            "level 2",
-            "level 3",
-            "level 4",
-            "level 5",
-            "level 6",
-            "level 7",
-            "level 8",
-            "level 9",
-            "level 10",
+            "The students hate to show skin.",
+            "The students don't like to show skin.",
+            "The students don't mind showing a little bit skin.",
+            "The students don't mind showing a little bit more skin.",
+            "The students like to show a bit of skin.",
+            "The students like to present their bodies.",
+            "The students show a bit more of their skin on a regular basis.",
+            "The students love to show a bit more skin.",
+            "The students love to show a lot of skin.",
+            "The students like to barely wear anything.",
+            "The students love to be naked all the time.",
         ],
         'images': [
             "images/journal/empty_image.png",
@@ -242,20 +245,24 @@ label load_stats:
     })
 
     $ load_stat_data("happiness", "Happiness", {
-        'description': "happiness",
+        'description': "Happiness descripes how happy the students are to be at this school.\n" + 
+            "The happier they are, the less likely they are to cause problems.\n"
+            "\nEvents that make students happy, raises the overall happiness of all students."
+            " It can be the simple things like praising someone or giving them a gift.\n"
+            "On the other hand situations that makes the students uncomforable lowers the students happiness.",
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         'descriptions': [
-            "level 0",
-            "level 1",
-            "level 2",
-            "level 3",
-            "level 4",
-            "level 5",
-            "level 6",
-            "level 7",
-            "level 8",
-            "level 9",
-            "level 10",
+            "The students are rioting.",
+            "The students are very dissatisfied.",
+            "The students are unhappy.",
+            "The students are rather dissatisfied.",
+            "The students are not feeling well.",
+            "The students are not unhappy.",
+            "The students feel rather good.",
+            "The students are quite happy.",
+            "The students are happy.",
+            "The students are very happy.",
+            "For the students, this school is a paradise.",
         ],
         'images': [
             "images/journal/empty_image.png",
@@ -273,20 +280,24 @@ label load_stats:
     })
 
     $ load_stat_data("education", "Education", {
-        'description': "education",
+        'description': "Education measures how good the students are at school.\n" +
+            "The level of education is an important factor and influences the monthly budget the " +
+            "goodwill of the authorities and the willingness of potential contractors to establish a contract.\n" +
+            "\nThe Education can be raised by making sure the students have a good surrounding where they can learn " +
+            "and by making sure the students attend the classes.",
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         'descriptions': [
-            "level 0",
-            "level 1",
-            "level 2",
-            "level 3",
-            "level 4",
-            "level 5",
-            "level 6",
-            "level 7",
-            "level 8",
-            "level 9",
-            "level 10",
+            "A shimpanzee is more intelligent than these students.",
+            "They fail through most of the exams.",
+            "The students are very bad at school.",
+            "The students are rather bad at school.",
+            "The students are below average.",
+            "The academic performance is average.",
+            "The students are just above average.",
+            "The students are quite good at school.",
+            "The students are pretty smart.",
+            "The students are very smart.",
+            "Albert Einstein? More like your students.",
         ],
         'images': [
             "images/journal/empty_image.png",
@@ -304,20 +315,23 @@ label load_stats:
     })
 
     $ load_stat_data("charm", "Charm", {
-        'description': "charm",
+        'description': "Charm describes how other people percieve a students as a person. " +
+            "The charm is influenced by factors like fitness, likability, how gentle they are and looks.\n" +
+            "\nThe charm can be improved by working on the fitness, working on the character, " +
+            "or by socially interaction with other people.",
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         'descriptions': [
-            "level 0",
-            "level 1",
-            "level 2",
-            "level 3",
-            "level 4",
-            "level 5",
-            "level 6",
-            "level 7",
-            "level 8",
-            "level 9",
-            "level 10",
+            "The students are the extreme opposite of charming.",
+            "A hobgoblin is more charming than these students.",
+            "The students are socially incompetent.",
+            "The students are rather unsozial.",
+            "The students looks and social interaction are just below average.",
+            "The students looks and social interaction are average.",
+            "The students looks and social interaction are just above average.",
+            "The students are rather social.",
+            "The students are socially competent.",
+            "The students are very charming.",
+            "Nobody is more charming than your students. A bunch of sexy and social gigastacys.",
         ],
         'images': [
             "images/journal/empty_image.png",
@@ -335,7 +349,9 @@ label load_stats:
     })
 
     $ load_stat_data("reputation", "Reputation", {
-        'description': "repuation",
+        'description': "This displayes the reputation of you and the school. " +
+            "The reputation directly influences the goodwill of the authorities towards you and the school " + 
+            "and the monthly budget your school recieves.",
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         'descriptions': [
             "level 0",
@@ -408,7 +424,7 @@ label load_stats:
 
     $ load_stat_data("money", "Money", {
         'description': "money",
-        'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+        'levels': [0, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000],
         'descriptions': [
             "level 0",
             "level 1",

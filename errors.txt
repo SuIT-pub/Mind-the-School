@@ -2,11 +2,9 @@
 errors listed below, and try again.
 
 
-The label _call_time_event_check is defined twice, at File "game/scripts/overview.rpy", line 384:
-    call time_event_check from _call_time_event_check
-and File "game/scripts/overview.rpy", line 393:
-    call time_event_check from _call_time_event_check
-
+File "game/screens.rpy", line 579: screen expects a non-empty block.
+    screen replay_gallery():
+                            ^
 
 Ren'Py Version: Ren'Py 8.1.1.23060707
-Tue Jul 18 15:36:51 2023
+Wed Aug  9 09:34:51 2023

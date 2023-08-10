@@ -19,8 +19,16 @@ init -1 python:
         "first_week_event",
         ["first_week_elementary_school_dormitory_event"],
         1,
-        TimeCondition(week = 1),
+        TimeCondition(day = "2-4", month = 1, year = 2023),
     ))
+
+    elementary_school_dormitory_timed_event.add_event(Event(
+        "first_potion_event",
+        ["first_potion_elementary_school_dormitory_event"],
+        1,
+        TimeCondition(day = 9),
+    ))
+
 
 
 #######################################################
@@ -87,3 +95,20 @@ label first_week_elementary_school_dormitory_event:
     $ set_building_blocked("elementary_school_dormitory")
 
     jump new_day
+
+label first_potion_elementary_school_dormitory_event:
+    subtitles "You enter the dormitory of the elementary school."
+    principal_thought "Mhh, where does the noise come from?"
+    principal_thought "Ah I think there are some students in the room over there."
+    principal_thought "Ahh party games!"
+
+    if time.check_daytime("c"):
+        principal_thought "Normally I would scold them for skipping class but today is a special day so I gladly enjoy this view."
+    else:
+        principal_thought "Ahh I like this view. Nothing more erotic than nudity in combination with a party game."
+
+    $ set_building_blocked("high_school_dormitory")
+    $ set_building_blocked("middle_school_dormitory")
+    $ set_building_blocked("elementary_school_dormitory")
+
+    jump new_daytime

@@ -18,8 +18,9 @@ init -1 python:
         "first_week_event",
         ["first_week_kiosk_event"],
         1,
-        TimeCondition(week = 1),
+        TimeCondition(day = "2-4", month = 1, year = 2023),
     ))
+    
 
 #################################
 # ----- Kiosk Entry Point ----- #
@@ -44,7 +45,7 @@ label .after_time_check:
         1, 
         7, 
         kiosk_events, 
-        kiosk_events_fallback,
+        kiosk_fallback,
     ) from _call_call_event_menu_8
 
     jump kiosk

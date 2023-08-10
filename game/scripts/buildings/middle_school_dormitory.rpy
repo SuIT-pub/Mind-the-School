@@ -19,7 +19,14 @@ init -1 python:
         "first_week_event",
         ["first_week_middle_school_dormitory_event"],
         1,
-        TimeCondition(week = 1),
+        TimeCondition(day = "2-4", month = 1, year = 2023),
+    ))
+    
+    middle_school_dormitory_timed_event.add_event(Event(
+        "first_potion_event",
+        ["first_potion_middle_school_dormitory_event"],
+        1,
+        TimeCondition(day = 9),
     ))
 
 
@@ -37,7 +44,7 @@ label middle_school_dormitory:
     # if daytime in [7]:
     #     # show empty corridor at night
 
-    call call_available_event(middle_school_building_timed_event) from _call_call_available_event_11
+    call call_available_event(middle_school_dormitory_timed_event) from _call_call_available_event_11
 
 label .after_time_check:
 
@@ -46,8 +53,7 @@ label .after_time_check:
         1, 
         7, 
         middle_school_dormitory_events, 
-        middle_school_dormitory_events_title,
-        "fallback", "middle_school_dormitory"
+        middle_school_dormitory_fallback
     ) from _call_call_event_menu_11
 
     jump middle_school_dormitory
@@ -67,6 +73,23 @@ label middle_school_dormitory_person_fallback:
 ##################################################
 # ----- Middle School Dormitory Events ----- #
 ##################################################
+
+label first_potion_middle_school_dormitory_event:
+    subtitles "You enter the dormitory of the middle school."
+    principal_thought "Mhh, where does the noise come from?"
+    principal_thought "Ah I think there are some students in the room over there."
+    principal_thought "Ahh party games!"
+
+    if time.check_daytime("c"):
+        principal_thought "Normally I would scold them for skipping class but today is a special day so I gladly enjoy this view."
+    else:
+        principal_thought "Ahh I like this view. Nothing more erotic than nudity in combination with a party game."
+
+    $ set_building_blocked("high_school_dormitory")
+    $ set_building_blocked("middle_school_dormitory")
+    $ set_building_blocked("elementary_school_dormitory")
+
+    jump new_daytime
 
 # first week event
 label first_week_middle_school_dormitory_event:

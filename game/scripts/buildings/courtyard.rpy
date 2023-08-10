@@ -18,8 +18,16 @@ init -1 python:
         "first_week_event",
         ["first_week_courtyard_event"],
         1,
-        TimeCondition(week = 1),
+        TimeCondition(day = "2-4", month = 1, year = 2023),
     ))
+    
+    courtyard_timed_event.add_event(Event(
+        "first_potion_event",
+        ["first_potion_courtyard_event"],
+        1,
+        TimeCondition(day = 9),
+    ))
+
 
 #####################################
 # ----- Courtyard Entry Point ----- #
@@ -65,6 +73,19 @@ label courtyard_person_fallback:
 ################################
 # ----- Courtyard Events ----- #
 ################################
+
+
+label first_potion_courtyard_event:
+
+    subtitles "You walk around in the courtyard."
+    subtitles "The first thing you notice is the group of students sunbathing in the middle of the yard."
+    subtitles "Normally that wouldn't be such a weird thing, if they weren't in only their underwear."
+    principal_thought "I certainly enjoy the view. Unfortunately it only lasts for today until the serum finishes settling in their bodies."
+
+    $ set_building_blocked("courtyard")
+
+    jump new_daytime
+
 
 # first week event
 label first_week_courtyard_event:

@@ -1,26 +1,126 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
-While loading the script.
-ScriptError: Name ('game/scripts/school.rpy', 1688829332, 2) is defined twice, at game/scripts/school.rpy:222 and game/scripts/school-cdic.rpyc:222.
+While running game code:
+  File "game/scripts/overview.rpy", line 397, in script call
+    call time_event_check from _call_time_event_check_1
+  File "game/scripts/daily_check.rpy", line 52, in script call
+    call call_available_event(temp_time_check_events) from _call_call_available_event_16
+  File "game/scripts/event.rpy", line 222, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/daily_check.rpy", line 56, in script call
+    call call_available_event(temp_check_events) from _call_call_available_event_17
+  File "game/scripts/event.rpy", line 222, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/overview.rpy", line 415, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 415, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 415, in script call
+    subtitles_Empty ""
+  [Previous line repeated 18 more times]
+  File "game/scripts/overview.rpy", line 397, in script call
+    call time_event_check from _call_time_event_check_1
+  File "game/scripts/daily_check.rpy", line 52, in script call
+    call call_available_event(temp_time_check_events) from _call_call_available_event_16
+  File "game/scripts/event.rpy", line 222, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/daily_check.rpy", line 56, in script call
+    call call_available_event(temp_check_events) from _call_call_available_event_17
+  File "game/scripts/event.rpy", line 222, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/overview.rpy", line 397, in script call
+    call time_event_check from _call_time_event_check_1
+  File "game/scripts/daily_check.rpy", line 52, in script call
+    call call_available_event(temp_time_check_events) from _call_call_available_event_16
+  File "game/scripts/event.rpy", line 222, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/daily_check.rpy", line 56, in script call
+    call call_available_event(temp_check_events) from _call_call_available_event_17
+  File "game/scripts/event.rpy", line 222, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/overview.rpy", line 415, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 415, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 415, in script call
+    subtitles_Empty ""
+  [Previous line repeated 2 more times]
+  File "game/scripts/journal/journal.rpy", line 2, in script call
+    call open_journal (1, "", "high_school") from _call_open_journal
+  File "game/scripts/journal/journal.rpy", line 6, in script call
+    call screen journal_1(display, school)
+  File "game/scripts/journal/journal.rpy", line 8, in script call
+    call screen journal_2(display, school)
+  File "game/scripts/journal/journal.rpy", line 1561, in script
+    $ set_game_data("journal_setting_" + page + "_" + setting, value)
+  File "game/scripts/journal/journal.rpy", line 1561, in <module>
+    $ set_game_data("journal_setting_" + page + "_" + setting, value)
+TypeError: can only concatenate str (not "int") to str
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "C:\RenPy\renpy\bootstrap.py", line 275, in bootstrap
-    renpy.main.main()
-  File "C:\RenPy\renpy\main.py", line 492, in main
-    renpy.game.script.load_script() # sets renpy.game.script.
-  File "C:\RenPy\renpy\script.py", line 310, in load_script
-    self.load_appropriate_file(".rpyc", [ "_ren.py", ".rpy" ], dir, fn, initcode)
-  File "C:\RenPy\renpy\script.py", line 888, in load_appropriate_file
-    self.finish_load(stmts, initcode, filename=lastfn) # type: ignore
-  File "C:\RenPy\renpy\script.py", line 525, in finish_load
-    check_name(node)
-  File "C:\RenPy\renpy\script.py", line 501, in check_name
-    raise ScriptError("Name %s is defined twice, at %s:%d and %s:%d." %
-ScriptError: Name ('game/scripts/school.rpy', 1688829332, 2) is defined twice, at game/scripts/school.rpy:222 and game/scripts/school-cdic.rpyc:222.
+  File "game/scripts/overview.rpy", line 397, in script call
+    call time_event_check from _call_time_event_check_1
+  File "game/scripts/daily_check.rpy", line 52, in script call
+    call call_available_event(temp_time_check_events) from _call_call_available_event_16
+  File "game/scripts/event.rpy", line 222, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/daily_check.rpy", line 56, in script call
+    call call_available_event(temp_check_events) from _call_call_available_event_17
+  File "game/scripts/event.rpy", line 222, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/overview.rpy", line 415, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 415, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 415, in script call
+    subtitles_Empty ""
+  [Previous line repeated 18 more times]
+  File "game/scripts/overview.rpy", line 397, in script call
+    call time_event_check from _call_time_event_check_1
+  File "game/scripts/daily_check.rpy", line 52, in script call
+    call call_available_event(temp_time_check_events) from _call_call_available_event_16
+  File "game/scripts/event.rpy", line 222, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/daily_check.rpy", line 56, in script call
+    call call_available_event(temp_check_events) from _call_call_available_event_17
+  File "game/scripts/event.rpy", line 222, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/overview.rpy", line 397, in script call
+    call time_event_check from _call_time_event_check_1
+  File "game/scripts/daily_check.rpy", line 52, in script call
+    call call_available_event(temp_time_check_events) from _call_call_available_event_16
+  File "game/scripts/event.rpy", line 222, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/daily_check.rpy", line 56, in script call
+    call call_available_event(temp_check_events) from _call_call_available_event_17
+  File "game/scripts/event.rpy", line 222, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/overview.rpy", line 415, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 415, in script call
+    subtitles_Empty ""
+  File "game/scripts/overview.rpy", line 415, in script call
+    subtitles_Empty ""
+  [Previous line repeated 2 more times]
+  File "game/scripts/journal/journal.rpy", line 2, in script call
+    call open_journal (1, "", "high_school") from _call_open_journal
+  File "game/scripts/journal/journal.rpy", line 6, in script call
+    call screen journal_1(display, school)
+  File "game/scripts/journal/journal.rpy", line 8, in script call
+    call screen journal_2(display, school)
+  File "game/scripts/journal/journal.rpy", line 1561, in script
+    $ set_game_data("journal_setting_" + page + "_" + setting, value)
+  File "C:\RenPy\renpy\ast.py", line 1138, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "C:\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
+    exec(bytecode, globals, locals)
+  File "game/scripts/journal/journal.rpy", line 1561, in <module>
+    $ set_game_data("journal_setting_" + page + "_" + setting, value)
+TypeError: can only concatenate str (not "int") to str
 
 Windows-10-10.0.19045 AMD64
 Ren'Py 8.1.1.23060707
-Mind the School dev_0.01
-Mon Jul 31 08:10:52 2023
+Mind the School 0.01
+Thu Aug 10 08:58:32 2023

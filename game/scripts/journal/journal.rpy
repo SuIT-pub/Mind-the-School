@@ -291,7 +291,8 @@ screen journal_2(display, school):
             draggable "touch"
 
             vbox:
-                if journal_settings[2]['show_locked']:
+                $ journal_settings = get_game_data("journal_setting_2_show_locked")
+                if journal_settings == None or journal_settings:
                     textbutton "hide locked rules":
                         text_style "buttons_idle"
                         yalign 0.5
@@ -300,7 +301,7 @@ screen journal_2(display, school):
                     for rule_name in rule_locked_list:
                         $ rule = get_rule(rule_name)
                         if rule is not None:
-                            $ rule_title = rule.title
+                            $ rule_title = rule.get_title()
                             $ button_style = "buttons_idle"
                             if rule_name == display:
                                 $ button_style = "buttons_selected"
@@ -316,7 +317,8 @@ screen journal_2(display, school):
 
                 null height 20
 
-                if journal_settings[2]['show_unlocked']:
+                $ journal_settings = get_game_data("journal_setting_2_show_unlocked")
+                if journal_settings == None or journal_settings:
                     textbutton "hide unlocked rules":
                         text_style "buttons_idle"
                         yalign 0.5
@@ -325,7 +327,7 @@ screen journal_2(display, school):
                     for rule_name in rule_unlocked_list:
                         $ rule = get_rule(rule_name)
                         if rule is not None:
-                            $ rule_title = rule.title
+                            $ rule_title = rule.get_title()
                             $ button_style = "buttons_active"
                             if rule_name == display:
                                 $ button_style = "buttons_selected"
@@ -339,19 +341,6 @@ screen journal_2(display, school):
                         action Call("set_journal_setting", 2, display, school, 'show_unlocked', True)
                     image "journal/journal/left_list_seperator.png"
 
-            # vbox:
-            #     for rule in rule_list:
-            #         if rule is not None:
-            #             $ rule_title = rule.title
-            #             $ button_style = "buttons_idle"
-            #             if rule.is_unlocked(school):
-            #                 $ button_style = "buttons_active"
-            #             if rule.get_name() == display:
-            #                 $ button_style = "buttons_selected"
-            #             textbutton rule_title:
-            #                 text_style button_style
-            #                 action Call("open_journal", 2, rule.get_name(), school)
-
         vbar value YScrollValue("RuleList"):
             unscrollable "hide"
             xalign 1.0
@@ -361,8 +350,8 @@ screen journal_2(display, school):
 
     if display != "":
         $ active_rule = get_rule(display)
-        $ active_rule_name = active_rule.name
-        $ active_rule_desc = active_rule.description
+        $ active_rule_name = active_rule.get_name()
+        $ active_rule_desc = active_rule.get_description()
         $ active_school = get_school(school)
 
         $ active_rule_image = active_rule.get_image(school, active_school.get_level())
@@ -434,6 +423,7 @@ screen journal_2(display, school):
 
         if not active_rule.is_unlocked(school):
             if active_rule.can_be_unlocked(school):
+                $ voteProposal = get_game_data("voteProposal")
                 if voteProposal == None or voteProposal[3].get_name() != display:
                     textbutton "Plan for vote":
                         xalign 0.6 yalign 0.87
@@ -537,7 +527,8 @@ screen journal_3(display, school):
             draggable "touch"
 
             vbox:
-                if journal_settings[3]['show_locked']:
+                $ journal_settings = get_game_data("journal_setting_3_show_locked")
+                if journal_settings == None or journal_settings:
                     textbutton "hide locked clubs":
                         text_style "buttons_idle"
                         yalign 0.5
@@ -546,7 +537,7 @@ screen journal_3(display, school):
                     for club_name in club_locked_list:
                         $ club = get_club(club_name)
                         if club is not None:
-                            $ club_title = club.title
+                            $ club_title = club.get_title()
                             $ button_style = "buttons_idle"
                             if club_name == display:
                                 $ button_style = "buttons_selected"
@@ -562,7 +553,8 @@ screen journal_3(display, school):
 
                 null height 20
 
-                if journal_settings[3]['show_unlocked']:
+                $ journal_settings = get_game_data("journal_setting_3_show_unlocked")
+                if journal_settings == None or journal_settings:
                     textbutton "hide unlocked clubs":
                         text_style "buttons_idle"
                         yalign 0.5
@@ -571,7 +563,7 @@ screen journal_3(display, school):
                     for club_name in club_unlocked_list:
                         $ club = get_club(club_name)
                         if club is not None:
-                            $ club_title = club.title
+                            $ club_title = club.get_title()
                             $ button_style = "buttons_active"
                             if club_name == display:
                                 $ button_style = "buttons_selected"
@@ -594,8 +586,8 @@ screen journal_3(display, school):
 
     if display != "":
         $ active_club = get_club(display)
-        $ active_club_name = active_club.name
-        $ active_club_desc = active_club.description
+        $ active_club_name = active_club.get_name()
+        $ active_club_desc = active_club.get_description()
         $ active_school = get_school(school)
 
         $ active_club_image = active_club.get_image(school, active_school.get_level())
@@ -665,6 +657,7 @@ screen journal_3(display, school):
                 ypos 328
 
         if not active_club.is_unlocked(school):
+            $ voteProposal = get_game_data("voteProposal")
             if voteProposal == None or voteProposal[3].get_name() != display:
                 textbutton "Plan for vote":
                     xalign 0.6 yalign 0.87
@@ -746,7 +739,8 @@ screen journal_4(display, school):
             draggable "touch"
 
             vbox:
-                if journal_settings[4]['show_locked']:
+                $ journal_settings = get_game_data("journal_setting_4_show_locked")
+                if journal_settings == None or journal_settings:
                     textbutton "hide locked buildings":
                         text_style "buttons_idle"
                         yalign 0.5
@@ -755,7 +749,7 @@ screen journal_4(display, school):
                     for building_name in building_locked_list:
                         $ building = get_building(building_name)
                         if building is not None:
-                            $ building_title = building.title
+                            $ building_title = building.get_title()
                             $ button_style = "buttons_idle"
                             if building_name == display:
                                 $ button_style = "buttons_selected"
@@ -771,7 +765,8 @@ screen journal_4(display, school):
 
                 null height 20
 
-                if journal_settings[4]['show_unlocked']:
+                $ journal_settings = get_game_data("journal_setting_4_show_unlocked")
+                if journal_settings == None or journal_settings:
                     textbutton "hide unlocked buildings":
                         text_style "buttons_idle"
                         yalign 0.5
@@ -780,7 +775,7 @@ screen journal_4(display, school):
                     for building_name in building_unlocked_list:
                         $ building = get_building(building_name)
                         if building is not None:
-                            $ building_title = building.title
+                            $ building_title = building.get_title()
                             $ button_style = "buttons_active"
                             if building_name == display:
                                 $ button_style = "buttons_selected"
@@ -803,16 +798,22 @@ screen journal_4(display, school):
 
     if display != "":
         $ active_building = get_building(display)
-        $ active_building_name = active_building.name
-        $ active_building_desc = active_building.description
+        $ active_building_name = active_building.get_name()
+        $ active_building_desc = active_building.get_description()
 
-        $ active_building_image = "journal/empty_image.png"
-        if renpy.exists(active_building.image_path):
-            $ active_building_image = active_building.image_path
+        $ active_building_image = active_building.get_image()
+        $ active_building_full_image = active_building.get_full_image()
 
-        image "[active_building_image]":
-            xalign 0.63 yalign 0.65
+        if active_building_full_image != None:
+            button:
+                xalign 0.63 yalign 0.65
+                image "[active_building_image]"
+                action Call("call_max_image_from_journal", active_building_full_image, 4, school, display)
+        else:
+            image "[active_building_image]": 
+                xalign 0.629 yalign 0.647
         
+
         $ active_building_desc_conditions = active_building.get_desc_conditions()
         
         frame:
@@ -868,6 +869,7 @@ screen journal_4(display, school):
                 ypos 328
 
         if not active_building.is_unlocked():
+            $ voteProposal = get_game_data("voteProposal")
             if voteProposal == None or voteProposal[3].get_name() != display:
                 textbutton "Plan for vote":
                     xalign 0.6 yalign 0.87
@@ -1183,6 +1185,12 @@ screen journal_5(display, school):
                     draggable "touch"
 
                     vbox:
+                        text "Unlocking certain rules can lead to unintended behaviour or a broken game save.\nProceed on your own risk.":
+                            color "#000000"
+                            size 20
+
+                        null height 20
+
                         for rule_key in rules.keys():
                             $ rule = get_rule(rule_key)
                             $ rule_name = rule.get_title()
@@ -1206,9 +1214,9 @@ screen journal_5(display, school):
                     xalign 1.0
         else:
             $ active_rule = get_rule(rule_keywords[1])
-            $ active_rule_name = active_rule.name
-            $ active_rule_title = active_rule.title
-            $ active_rule_desc = active_rule.description
+            $ active_rule_name = active_rule.get_name()
+            $ active_rule_title = active_rule.get_title()
+            $ active_rule_desc = active_rule.get_description()
             $ active_rule_image = active_rule.get_image(school, active_school.get_level())
             $ active_rule_full_image = active_rule.get_full_image(school, active_school.get_level())
 
@@ -1321,9 +1329,9 @@ screen journal_5(display, school):
                     xalign 1.0
         else:
             $ active_club = get_club(club_keywords[1])
-            $ active_club_name = active_club.name
-            $ active_club_title = active_club.title
-            $ active_club_desc = active_club.description
+            $ active_club_name = active_club.get_name()
+            $ active_club_title = active_club.get_title()
+            $ active_club_desc = active_club.get_description()
             $ active_club_desc_conditions = active_club.get_desc_conditions()
             $ active_club_image = active_club.get_image(school, active_school.get_level())
             $ active_club_full_image = active_club.get_full_image(school, active_school.get_level())
@@ -1435,18 +1443,24 @@ screen journal_5(display, school):
                     xalign 1.0
         else:
             $ active_building = get_building(building_keywords[1])
-            $ active_building_name = active_building.name
-            $ active_building_title = active_building.title
-            $ active_building_desc = active_building.description
-            $ active_building_image = "journal/empty_image.png"
-            if renpy.exists(active_building.image_path):
-                $ active_building_image = active_building.image_path
+            $ active_building_name = active_building.get_name()
+            $ active_building_title = active_building.get_title()
+            $ active_building_desc = active_building.get_description()
+            
+            $ active_building_image = active_building.get_image()
+            $ active_building_full_image = active_building.get_full_image()
 
+            if active_building_full_image != None:
+                button:
+                    xalign 0.63 yalign 0.65
+                    image "[active_building_image]"
+                    action Call("call_max_image_from_journal", active_building_full_image, 4, school, display)
+            else:
+                image "[active_building_image]": 
+                    xalign 0.629 yalign 0.647
+        
             $ active_building_desc_conditions = active_building.get_desc_conditions()
         
-            image "[active_building_image]":
-                xalign 0.63 yalign 0.65
-            
             text active_building_title:
                 xpos 989
                 ypos 200
@@ -1532,6 +1546,8 @@ screen journal_5(display, school):
                 xalign 0.5
                 text tooltip
 
+
+
 screen max_image_from_journal(image_path):
     tag interaction_overlay
     modal True
@@ -1542,9 +1558,8 @@ screen max_image_from_journal(image_path):
         action Call("open_journal", journal, display, school)
 
 label set_journal_setting(page, display, school, setting, value):
-    $ journal_settings[page][setting] = value
+    $ set_game_data("journal_setting_" + str(page) + "_" + setting, value)
     call open_journal(page, display, school)
-
 
 label call_max_image_from_journal(image_path, journal, school, display):
     hide screen school_overview_buttons
@@ -1560,7 +1575,7 @@ label switch_club(club_name, school):
     $ club.unlock(school, not club.is_unlocked(school))
     call screen journal_5("clubs", school)
 
-label switch_building(club_name, school):
+label switch_building(building_name, school):
     $ building = get_building(building_name)
     $ building.unlock(not building.is_unlocked())
     call screen journal_5("buildings", school)
@@ -1576,16 +1591,18 @@ label modify_stat(stat, amount, school):
     call screen journal_5("stats", school)
 
 label add_to_proposal(data, page, school, display, propType):
-    $ voteProposal = [propType, display, school, data]
+    $ set_game_data("voteProposal", [propType, display, school, data])
     call open_journal(page, display, school) from _call_open_journal_1
 
 label add_rule_to_proposal(rule_name, school):
     $ rule = get_rule(rule_name)
+    $ voteProposal = get_game_data("voteProposal")
     if voteProposal != None:
         $ title = "the " + voteProposal[3].get_type() + " \"" + voteProposal[3].get_title() + "\""
+        $ rule_title = rule.get_title()
         if rule == None:
             return
-        call screen confirm("You already queued [title] for voting.\n\nDo you wanna queue the rule \"[rule.title]\" instead?",
+        call screen confirm("You already queued [title] for voting.\n\nDo you wanna queue the rule \"[rule_title]\" instead?",
             Call("add_to_proposal", rule, 2, school, rule_name, "rule"),
             Call("open_journal", 2, rule_name, school))
 
@@ -1593,11 +1610,13 @@ label add_rule_to_proposal(rule_name, school):
 
 label add_club_to_proposal(club_name, school):
     $ club = get_club(club_name)
+    $ voteProposal = get_game_data("voteProposal")
     if voteProposal != None:
         $ title = "the " + voteProposal[3].get_type() + " \"" + voteProposal[3].get_title() + "\""
+        $ club_title = club.get_title()
         if club == None:
             return
-        call screen confirm("You already queued [title] for voting.\n\nDo you wanna queue the club \"[club.title]\" instead?",
+        call screen confirm("You already queued [title] for voting.\n\nDo you wanna queue the club \"[club_title]\" instead?",
             Call("add_to_proposal", club, 3, school, club_name, "club"),
             Call("open_journal", 3, club_name, school))
 
@@ -1605,11 +1624,13 @@ label add_club_to_proposal(club_name, school):
 
 label add_building_to_proposal(building_name, school):
     $ building = get_building(building_name)
+    $ voteProposal = get_game_data("voteProposal")
     if voteProposal != None:
         $ title = "the " + voteProposal[3].get_type() + " \"" + voteProposal[3].get_title() + "\""
+        $ building_title = building.get_title()
         if building == None:
             return
-        call screen confirm("You already queued [title] for voting.\n\nDo you wanna queue the building \"[building.title]\" instead?",
+        call screen confirm("You already queued [title] for voting.\n\nDo you wanna queue the building \"[building_title]\" instead?",
             Call("add_to_proposal", building, 4, school, building_name, "building"),
             Call("open_journal", 4, building_name, school))
 

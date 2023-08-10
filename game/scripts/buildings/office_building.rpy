@@ -19,8 +19,16 @@ init -1 python:
         "first_week_event",
         ["first_week_office_building_event"],
         1,
-        TimeCondition(week = 1),
+        TimeCondition(day = "2-4", month = 1, year = 2023),
     ))
+    
+    office_building_timed_event.add_event(Event(
+        "first_potion_event",
+        ["first_potion_office_building_event"],
+        1,
+        TimeCondition(day = 9),
+    ))
+
 
 ################################################
 # ----- Office Building Entry Point ----- #
@@ -49,16 +57,26 @@ label .after_time_check:
 ####################################################
 
 label office_building_fallback:
-    subtitles "There is nobody here."
+    subtitles "There is nothing to do here."
     return
 
 ###########################################
 # ----- High School Building Events ----- #
 ###########################################
 
+label first_potion_office_building_event:
+    subtitles "You enter the teachers office."
+    principal_thought "Ahh the teacher seem to be eating at the kiosk as well."
+    principal_thought "Not that I have a problem with it. Quite the opposite. That makes some thing a bit easier."
+
+    $ set_building_blocked("office_building")
+
+    jump new_daytime
+
 # first week event
 label first_week_office_building_event:
-    subtitles "todo: first_week_event"
+    subtitles "Mhh. The office is nothing special but at least not really run down."
+    subtitles "I can work with that."
 
     $ set_building_blocked("office_building")
 
@@ -113,234 +131,6 @@ label first_day_introduction:
     secretary "I'm sure the students are eager to meet you."
 
     return
-
-label potion_introduction_1:
-
-    show potion intro 01
-    secretary "Good Morning, Headmaster!"
-    secretary "Someone dropped a package off for you. But there is no sender."
-
-    show potion intro 02
-    principal "Mhh... Thats weird, I didn't order anything. Well lets look inside what it is."
-    secretary "Are you sure? What if it is something dangerous?"
-    principal "I wouldn't know why. I'm sure it will be fine."
-
-    show potion intro 03
-    principal "See it's just some bottles. Here let's drink one together!"
-    secretary "I don't think that's safe."
-    principal "Ah come on! I'm sure it'll be fine."
-
-    show potion intro 04
-    principal_thought """
-        Good she didn't see the letter in the box.
-
-        In reality, this box comes from my secret supporter. And the bottles are filled with a new special potion.
-
-        Unfortunately he could only send me 4 potions so I have to find a way reproduce them.
-
-        But first gonna test them out!
-    """
-
-    show potion intro 05
-    principal "Come on lets drink it!"
-    secretary "Okay let's do it."
-
-    show potion intro 06
-    secretary "Wow it tastes really nice. But are you getting hot as well?"
-
-    show potion intro 07
-    secretary "I'm burning up! Gotta take some clothing off."
-
-    show potion intro 08
-    $ renpy.pause ()
-
-    show potion intro 09
-    $ renpy.pause ()
-
-    show potion intro 10
-    $ renpy.pause ()
-
-    show potion intro 11
-    $ renpy.pause ()
-
-    show potion intro 12
-    secretary "Ahh way better."
-
-    show potion intro 13
-    secretary "Headmaster why don't you come over here, so we can better talk to each other."
-
-    show potion intro 14
-    secretary "Oh someone seems to be excited. Does my body turn you on that much?"
-
-    show potion intro 15
-    secretary "Don't worry I will take responsibility."
-
-    $ renpy.movie_cutscene("images/office/potion intro 16.webm")
-    $ renpy.pause(0.0)
-
-    # $ renpy.movie_cutscene("office/potion intro 17.webm", None, -1)
-    # $ renpy.pause()
-
-    $ renpy.movie_cutscene("images/office/potion intro 18.webm", -1, -1)
-    $ renpy.pause(0.0)
-
-    $ renpy.movie_cutscene("images/office/potion intro 19.webm", -1)
-
-    show potion intro 20
-    $ renpy.pause()
-
-    show potion intro 21
-    secretary "Ahh I can't take it anymore, please give it to me!"
-
-    $ renpy.movie_cutscene("images/office/potion intro 22.webm")
-    $ renpy.movie_cutscene("images/office/potion intro 23.webm", -1, -1)
-    $ renpy.movie_cutscene("images/office/potion intro 24.webm", -1, -1)
-    $ renpy.movie_cutscene("images/office/potion intro 25.webm", -1, -1)
-    $ renpy.movie_cutscene("images/office/potion intro 26.webm", -1, -1)
-    $ renpy.movie_cutscene("images/office/potion intro 27.webm")
-
-    show potion intro 28
-    $ renpy.pause ()
-
-    show potion intro 29
-    $ renpy.pause ()
-
-    $ renpy.movie_cutscene("images/office/potion intro 30.webm", -1, -1)
-    $ renpy.movie_cutscene("images/office/potion intro 31.webm", -1, -1)
-    $ renpy.movie_cutscene("images/office/potion intro 32.webm", -1, -1)
-    $ renpy.movie_cutscene("images/office/potion intro 33.webm")
-
-    show potion intro 34
-    $ renpy.pause ()
-    
-    show potion intro 35
-    principal "Oh I seem to have overdone it. Propably should give her some rest and look for her tomorrow."
-    principal_thought """But the potion seems to be working full. But I need to check if she is like this tomorrow 
-        as well.
-    """
-
-    jump new_day
-    
-label potion_introduction_2:
-    show potion intro 36
-    secretary "Good Morning Headmaster!"
-    principal "Oh good morning! How are you feeling?"
-    principal_thought "Wow! Now that's some nice outfit!"
-
-    show potion intro 37
-    secretary "Oh I feel amazing! I never felt so good before drinking the potion!"
-    principal "So you remember everything that happened yesterday?"
-
-    show potion intro 38
-    secretary "Oh for sure I remember everything!"
-
-    show potion intro 39
-    secretary "Although I'm really emberassed with us having had sex."
-
-    show potion intro 40
-    secretary "But I'm feeling so free now!"
-
-    scene expression "office/potion intro listen.png"
-    principal "That's amazing news! Now my plan is to share this feeling among the students."
-
-    show potion intro 41
-    secretary "No, I don't think you will do that."
-    principal "What? Why?"
-
-    show potion intro 42
-    secretary "Because you don't have enough potions!"
-
-    scene expression "office/potion intro listen.png"
-    principal "Oh! Mhh... You're right!"
-    principal "Well for one, there are other ways to corrupt... Öhm I mean influence the students."
-
-    show potion intro 42
-    secretary """Oh don't worry dear! I'm fully on your side. I feel great and I want the students to also feel 
-        like this.
-    """
-
-    scene expression "office/potion intro listen.png"
-    secretary "So what other ways do you mean?"
-    principal """Well there are for example more classical ways like influencing them with lewd materials or more 
-        obscure ways like hypnosis.
-    """
-
-    show potion intro 43
-    secretary "Hypnosis?"
-
-    scene expression "office/potion intro listen.png"
-    principal """
-        Yeah, I know it's quite absurd. I only heard of ways to do it but I don't know how to do it.
-
-        Well let's just forget that. Well for one we still have 3 potions.
-
-        There was a letter with the potions and it says we can water it down to create more potions with a smaller 
-        effect.
-
-        I think if we water 2 potions down enough to serve every student in the school a small drink, then we could 
-        create a good base to really influence every student.
-
-        Do you think that works? Would there still be enough of an effect?
-
-        Well I observed the school over the last week and as far as I could see, the students are not only prudish, 
-        they are the abstinence in person.
-
-        So I think the classical methods would not work until they are at least a little bit open to the idea sex.
-
-        And without the potion or any other good working method we have no other way.
-
-        So with the watered down potion we could open their minds and then start the real operation.
-
-        And while we change the students, we could reopen the lab and work on reproducing the potion using the last 
-        remaining as a draft.
-    """
-
-    show potion intro 44
-    secretary "Mhh... That sounds like it could work..."
-
-    show potion intro 45
-    secretary """
-        Okay let's do that!
-
-        I think the best would be to distribute the diluted potion during recess.
-    """
-    principal "Yeah that sounds good, can I entrust that to you?"
-
-    show potion intro 44
-    secretary "Of course! But there are still some problems."
-    principal "What do you mean?"
-    secretary """The regional representative visits the school every month to make sure the school follows 
-        national laws.
-    """
-
-    show potion intro 46
-    secretary """
-        We have to thank the old headmaster for that. So we have to be careful. He manages our monthly budget and as 
-        long as the school follows the rules we don't get budget cuts.
-
-        So we have to play the long game until we find a way to corrupt the department. The representatives change 
-        every month so corrupting one wouldn't help.
-    """
-
-    scene expression "office/potion intro listen.png"
-    principal """
-        Mhh you're right. I guess we have to be careful. But we can later think of a way to deal with them.
-
-        I have to travel to the city. I have some thing to prepare. I'll be back tomorrow. You meanwhile distribute the 
-        potions. Can you make it happen by today's recess?
-    """
-
-    show potion intro 47
-    secretary "Sure, just let me handle it!"
-
-    show potion intro 48
-    principal "Nice! I will be on my way then!"
-
-    $ schools["high_school"].set_level(1)
-    $ schools["middle_school"].set_level(1)
-    $ schools["elementary_school"].set_level(1)
-
-    jump new_day
 
 label pta_meeting:
     subtitles "You enter the conference room."
