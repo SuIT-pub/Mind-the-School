@@ -2,9 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/screens.rpy", line 579: screen expects a non-empty block.
-    screen replay_gallery():
-                            ^
+File "game/scripts/journal/buildings.rpy", line 345: invalid syntax
+            '_max_level': 2,
+             ^
 
 Ren'Py Version: Ren'Py 8.1.1.23060707
-Wed Aug  9 09:34:51 2023
+Thu Aug 10 09:52:01 2023

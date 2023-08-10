@@ -421,27 +421,22 @@ screen journal_2(display, school):
                 unscrollable "hide"
                 ypos 328
 
-        if not active_rule.is_unlocked(school):
-            if active_rule.can_be_unlocked(school):
-                $ voteProposal = get_game_data("voteProposal")
-                if voteProposal == None or voteProposal[3].get_name() != display:
-                    textbutton "Plan for vote":
-                        xalign 0.6 yalign 0.87
-                        text_style "buttons_idle"
-                        action Call("add_rule_to_proposal", display, school)
-                else:
-                    text "Already queued!":
-                        xalign 0.6 yalign 0.87
-                        color "#f00"
-            else:
-                textbutton "Plan for vote":
-                        xalign 0.6 yalign 0.87
-                        text_style "buttons_inactive"
-        else:
-            text "Already unlocked!":
-                xalign 0.6 yalign 0.87
-                color "#008800"
-                size 30
+        # if not active_rule.is_unlocked(school):
+        #     $ voteProposal = get_game_data("voteProposal")
+        #     if voteProposal == None or voteProposal[3].get_name() != display:
+        #         textbutton "Plan for vote":
+        #             xalign 0.6 yalign 0.87
+        #             text_style "buttons_idle"
+        #             action Call("add_rule_to_proposal", display, school)
+        #     else:
+        #         text "Already queued!":
+        #             xalign 0.6 yalign 0.87
+        #             color "#f00"
+        # else:
+        #     text "Already unlocked!":
+        #         xalign 0.6 yalign 0.87
+        #         color "#008800"
+        #         size 30
 
     textbutton "Close":
         xalign 0.75
@@ -656,21 +651,21 @@ screen journal_3(display, school):
                 unscrollable "hide"
                 ypos 328
 
-        if not active_club.is_unlocked(school):
-            $ voteProposal = get_game_data("voteProposal")
-            if voteProposal == None or voteProposal[3].get_name() != display:
-                textbutton "Plan for vote":
-                    xalign 0.6 yalign 0.87
-                    text_style "buttons_idle"
-                    action Call("add_club_to_proposal", display, school)
-            else:
-                text "Already queued!":
-                    xalign 0.6 yalign 0.87
-                    color "#f00"
-        else:
-            text "Already unlocked!":
-                xalign 0.6 yalign 0.87
-                color "#008800"
+        # if not active_club.is_unlocked(school):
+        #     $ voteProposal = get_game_data("voteProposal")
+        #     if voteProposal == None or voteProposal[3].get_name() != display:
+        #         textbutton "Plan for vote":
+        #             xalign 0.6 yalign 0.87
+        #             text_style "buttons_idle"
+        #             action Call("add_club_to_proposal", display, school)
+        #     else:
+        #         text "Already queued!":
+        #             xalign 0.6 yalign 0.87
+        #             color "#f00"
+        # else:
+        #     text "Already unlocked!":
+        #         xalign 0.6 yalign 0.87
+        #         color "#008800"
 
     text "Clubs": 
         xalign 0.25 
@@ -872,21 +867,21 @@ screen journal_4(display, school):
                 unscrollable "hide"
                 ypos 328
 
-        if not active_building.is_unlocked() or active_building.has_higher_level():
-            $ voteProposal = get_game_data("voteProposal")
-            if voteProposal == None or voteProposal[3].get_name() != display:
-                textbutton "Vote for [cond_type]":
-                    xalign 0.6 yalign 0.87
-                    text_style "buttons_idle"
-                    action Call("add_building_to_proposal", display, school)
-            else:
-                text "Already queued!":
-                    xalign 0.6 yalign 0.87
-                    color "#ff0000"
-        else:
-            text "Fully upgraded!":
-                xalign 0.6 yalign 0.87
-                color "#008800"
+        # if not active_building.is_unlocked() or active_building.has_higher_level():
+        #     $ voteProposal = get_game_data("voteProposal")
+        #     if voteProposal == None or voteProposal[3].get_name() != display:
+        #         textbutton "Vote for [cond_type]":
+        #             xalign 0.6 yalign 0.87
+        #             text_style "buttons_idle"
+        #             action Call("add_building_to_proposal", display, school)
+        #     else:
+        #         text "Already queued!":
+        #             xalign 0.6 yalign 0.87
+        #             color "#ff0000"
+        # else:
+        #     text "Fully upgraded!":
+        #         xalign 0.6 yalign 0.87
+        #         color "#008800"
 
     text "Buildings": 
         xalign 0.25 
@@ -1427,6 +1422,7 @@ screen journal_5(display, school):
                         for building_key in buildings.keys():
                             $ building = get_building(building_key)
                             $ building_name = building.get_title()
+                            $ building_level = building.get_level()
                             $ building_unlock_text = "{color=#ff0000}UNLOCK{/color}"
                             if building.is_unlocked():
                                 $ building_unlock_text = "{color=#00ff00}LOCK{/color}"
@@ -1438,7 +1434,22 @@ screen journal_5(display, school):
                                 null width 100
                                 button:
                                     text building_unlock_text
-                                    action Call("switch_building", building.get_name(), school)
+                                    action Call("switch_building", building.get_name(), school, -1000)
+                                null width 100
+                                button:
+                                    text "-":
+                                        style "buttons_idle"
+                                    action Call("switch_building", building.get_name(), school, -1)
+                                null width 20
+                                button:
+                                    text "[building_level]":
+                                        style "buttons_idle"
+                                    action Null()
+                                null width 10
+                                button:
+                                    text "+":
+                                        style "buttons_idle"
+                                    action Call("switch_building", building.get_name(), school, 1)
                             null height 10
                         
 
@@ -1551,7 +1562,6 @@ screen journal_5(display, school):
                 text tooltip
 
 
-
 screen max_image_from_journal(image_path):
     tag interaction_overlay
     modal True
@@ -1579,9 +1589,13 @@ label switch_club(club_name, school):
     $ club.unlock(school, not club.is_unlocked(school))
     call screen journal_5("clubs", school)
 
-label switch_building(building_name, school):
+label switch_building(building_name, school, level_delta):
     $ building = get_building(building_name)
-    $ building.unlock(not building.is_unlocked())
+
+    if level_delta == -1000:
+        $ building.unlock(not building.is_unlocked())
+    else:
+        $ building.set_level(building.get_level() + level_delta)
     call screen journal_5("buildings", school)
 
 label modify_stat(stat, amount, school):
