@@ -120,7 +120,7 @@ label tutorial_map:
     secretary "The weekly assemblies also take place in here every monday."
 
     show screen show_building("Pool")
-    secretary "This is the our Swimming Pool. The best place to cool off on hot days. Especially because we don't relly get winter in this part of the world."
+    secretary "This is the our Swimming Pool. The best place to cool off on hot days. Especially because we don't really get winter in this part of the world."
     if not is_building_unlocked("pool"):
         secretary "But even this Facility couldn't survive the mishaps of the former Principal."
         secretary "I hope you can bring this back into operation rather quick. I really enjoy going for a swim."

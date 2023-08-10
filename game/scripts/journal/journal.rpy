@@ -813,8 +813,12 @@ screen journal_4(display, school):
             image "[active_building_image]": 
                 xalign 0.629 yalign 0.647
         
+        $ cond_type = "unlock"
 
-        $ active_building_desc_conditions = active_building.get_desc_conditions()
+        if active_building.is_unlocked():
+            $ cond_type = "upgrade"
+
+        $ active_building_desc_conditions = active_building.get_desc_conditions(cond_type)
         
         frame:
             background Solid("#0000")
@@ -828,7 +832,7 @@ screen journal_4(display, school):
 
                     if len(active_building_desc_conditions) != 0:
                         null height 40
-                        text "{u}To unlock you need:{/u}" style "journal_desc"
+                        text "{u}To [cond_type] you need:{/u}" style "journal_desc"
                         for condition in active_building_desc_conditions:
                             $ texts = condition.to_desc_text(school)
                             textbutton texts:
@@ -849,7 +853,7 @@ screen journal_4(display, school):
                 draggable "touch"
 
                 vbox:
-                    for condition in active_building.get_list_conditions():
+                    for condition in active_building.get_list_conditions(cond_type):
                         $ texts = condition.to_list_text(school)
                         hbox:
                             textbutton texts[0]:
@@ -868,19 +872,19 @@ screen journal_4(display, school):
                 unscrollable "hide"
                 ypos 328
 
-        if not active_building.is_unlocked():
+        if not active_building.is_unlocked() or active_building.has_higher_level():
             $ voteProposal = get_game_data("voteProposal")
             if voteProposal == None or voteProposal[3].get_name() != display:
-                textbutton "Plan for vote":
+                textbutton "Vote for [cond_type]":
                     xalign 0.6 yalign 0.87
                     text_style "buttons_idle"
                     action Call("add_building_to_proposal", display, school)
             else:
                 text "Already queued!":
                     xalign 0.6 yalign 0.87
-                    color "#f00"
+                    color "#ff0000"
         else:
-            text "Already unlocked!":
+            text "Fully upgraded!":
                 xalign 0.6 yalign 0.87
                 color "#008800"
 

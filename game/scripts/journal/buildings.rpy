@@ -9,7 +9,9 @@ init -6 python:
             self._image_path = "images/journal/empty_image.png"
             self._unlocked = False
             self._level = 1
+            self._max_level = 1
             self._unlock_conditions = []
+            self._update_conditions = []
             self._blocked = False
 
         def _update(self, title, data = None):
@@ -26,10 +28,14 @@ init -6 python:
                 self._image_path_alt = "images/journal/empty_image.png"
             if not hasattr(self, '_level'):
                 self._level = 1
+            if not hasattr(self, '_max_level'):
+                self._max_level = 1
             if not hasattr(self, '_unlocked'):
                 self._unlocked = False
             if not hasattr(self, '_unlock_conditions'):
                 self._unlock_conditions = []
+            if not hasattr(self, '_update_conditions'):
+                self._update_conditions = []
             if not hasattr(self, '_blocked'):
                 self._blocked = False
         
@@ -61,6 +67,18 @@ init -6 python:
                 return full_image
             return None
 
+        def get_level(self):
+            return self._level
+
+        def get_max_level(self):
+            return self._max_level
+
+        def set_level(self, level):
+            self._level = level
+
+        def set_max_level(self, level):
+            self._max_level = level
+
         def is_available(self):
             return self.is_unlocked() and not self.is_blocked()
 
@@ -75,7 +93,7 @@ init -6 python:
 
         def is_blocked(self):
             return self._blocked
-        
+
         def is_visible(self):
             for condition in self._unlock_conditions:
                 if condition.is_blocking(None):
@@ -90,17 +108,43 @@ init -6 python:
 
             return True
 
-        def get_list_conditions(self):
+        def can_be_upgraded(self):
+            for condition in self._update_conditions:
+                if condition.is_fullfilled(None):
+                    continue
+                return False
+
+            return True
+
+        def has_higher_level(self):
+            return self._level < self._max_level
+
+        def get_update_conditions(self, level):
+            if level > len(self._update_conditions) or level <= 0:
+                return []
+            return self._update_conditions[level - 1]
+
+        def get_list_conditions(self, cond_type = "unlock"):
             output = []
-            for condition in self._unlock_conditions:
+
+            conditions = self._unlock_conditions
+            if cond_type == "upgrade":
+                conditions = self.get_update_conditions(self._level)
+
+            for condition in conditions:
                 if not condition.is_set_blocking() and condition.display_in_list:
                     output.append(condition)
 
             return output
 
-        def get_desc_conditions(self):
+        def get_desc_conditions(self, cond_type = "unlock"):
             output = []
-            for condition in self._unlock_conditions:
+
+            conditions = self._unlock_conditions
+            if cond_type == "upgrade":
+                conditions = self.get_update_conditions(self._level)
+
+            for condition in conditions:
                 if not condition.is_set_blocking() and condition.display_in_desc:
                     output.append(condition)
 
@@ -218,62 +262,83 @@ init -6 python:
 label load_buildings:
     $ load_building("high_school_building", "High School Building", {
         '_description': "The main school building for those students that attend high school.",
-        '_unlock_conditions': []
+        '_max_level': 1,
+        '_unlock_conditions': [],
+        '_update_conditions':[],
     }, {
         '_unlocked': True,
     })
 
     $ load_building("high_school_dormitory", "High School Dormitory", {
         '_description': "The dormitory dedicated to the high school students",
-        '_unlock_conditions': []
+        '_max_level': 1,
+        '_unlock_conditions': [],
+        '_update_conditions':[],
     }, {
         '_unlocked': True,
     })
 
     $ load_building("middle_school_building", "Middle School Building", {
         '_description': "The main school building for those students that attend middle school.",
-        '_unlock_conditions': []
+        '_max_level': 1,
+        '_unlock_conditions': [],
+        '_update_conditions':[],
     }, {
         '_unlocked': True,
     })
 
     $ load_building("middle_school_dormitory", "Middle School Dormitory", {
         '_description': "The dormitory dedicated to the middle school students",
-        '_unlock_conditions': []
+        '_max_level': 1,
+        '_unlock_conditions': [],
+        '_update_conditions':[],
     }, {
         '_unlocked': True,
     })
 
     $ load_building("elementary_school_building", "Elementary School Building", {
         '_description': "The main school building for those students that attend elementary school.",
-        '_unlock_conditions': []
+        '_max_level': 1,
+        '_unlock_conditions': [],
+        '_update_conditions':[],
     }, {
         '_unlocked': True,
     })
 
     $ load_building("elementary_school_dormitory", "Elementary School Dormitory", {
         '_description': "The dormitory dedicated to the elementary school students",
-        '_unlock_conditions': []
+        '_max_level': 1,
+        '_unlock_conditions': [],
+        '_update_conditions':[],
     }, {
         '_unlocked': True,
     })
 
     $ load_building("labs", "Labs", {
         '_description': "A building with various labs and maybe a certain special lab for someone.",
+        '_max_level': 2,
         '_unlock_conditions': [
             MoneyCondition(1000),
             # LockCondition()
-        ]
+        ],
+        '_update_conditions':[
+            [
+                MoneyCondition(2000),
+                # LockCondition()
+            ],
+        ],
     }, {
         '_unlocked': False,
     })
 
     $ load_building("sports_field", "Sports Field", {
         '_description': "A large area dedicated to various sport activities.",
+        '_max_level': 1,
         '_unlock_conditions': [
             MoneyCondition(1000),
             # LockCondition()
-        ]
+        ],
+        '_update_conditions':[],
     }, {
         '_unlocked': False,
     })
@@ -281,17 +346,21 @@ label load_buildings:
     $ load_building("tennis_court", "Tennis Court", {
         '_description': "Something only a reputable school can have. \n" +
             "A tennis court. Of course only used for playing tennis.",
+        '_max_level': 1,
         '_unlock_conditions': [
             MoneyCondition(1000),
             # LockCondition()
-        ]
+        ],
+        '_update_conditions':[],
     }, {
         '_unlocked': False,
     })
 
     $ load_building("gym", "Gym", {
         '_description': "This is the indoor gym used for sports classes and school assemblies.",
-        '_unlock_conditions': []
+        '_max_level': 1,
+        '_unlock_conditions': [],
+        '_update_conditions':[],
     }, {
         '_unlocked': True,
     })
@@ -300,10 +369,12 @@ label load_buildings:
         '_description': "The schools pool. One of the favorite places of " +
             "almost every student. Chilling in the cool water, looking at " +
             "the fellow students in their skimpy bathing suits.",
+        '_max_level': 1,
         '_unlock_conditions': [
             MoneyCondition(1000),
             # LockCondition()
-        ]
+        ],
+        '_update_conditions':[],
     }, {
         '_unlocked': False,
     })
@@ -311,10 +382,12 @@ label load_buildings:
     $ load_building("cafeteria", "Cafeteria", {
         '_description': "The cafeteria, the place students come together to " +
             "spend their free-time and to eat together.",
+        '_max_level': 1,
         '_unlock_conditions': [
             MoneyCondition(1000),
             # LockCondition()
-        ]
+        ],
+        '_update_conditions':[],
     }, {
         '_unlocked': False,
     })
@@ -322,31 +395,39 @@ label load_buildings:
     $ load_building("bath", "Bath", {
         '_description': "The public bath. Here the students can relax and/or wash" +
             "after a long school day.",
+        '_max_level': 1,
         '_unlock_conditions': [
             MoneyCondition(1000),
             # LockCondition()
-        ]
+        ],
+        '_update_conditions':[],
     }, {
         '_unlocked': False,
     })
 
     $ load_building("kiosk", "Kiosk", {
         '_description': "A small vendor that sells food and small utilities necessary for everday life at the school campus.",
-        '_unlock_conditions': []
+        '_max_level': 1,
+        '_unlock_conditions': [],
+        '_update_conditions':[],
     }, {
         '_unlocked': True,
     })
 
     $ load_building("courtyard", "Courtyard", {
         '_description': "The outside area of the school campus. Here teacher and students can relax and enjoy the nice fresh air of this rather isolated region.",
-        '_unlock_conditions': []
+        '_max_level': 1,
+        '_unlock_conditions': [],
+        '_update_conditions':[],
     }, {
         '_unlocked': True,
     })
 
     $ load_building("office_building", "Office Building", {
         '_description': "The building that holds all offices needed for the management of the entire school.",
-        '_unlock_conditions': []
+        '_max_level': 1,
+        '_unlock_conditions': [],
+        '_update_conditions':[],
     }, {
         '_unlocked': True,
     })
