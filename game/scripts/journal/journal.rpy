@@ -1435,21 +1435,22 @@ screen journal_5(display, school):
                                 button:
                                     text building_unlock_text
                                     action Call("switch_building", building.get_name(), school, -1000)
-                                null width 100
-                                button:
-                                    text "-":
-                                        style "buttons_idle"
-                                    action Call("switch_building", building.get_name(), school, -1)
-                                null width 20
-                                button:
-                                    text "[building_level]":
-                                        style "buttons_idle"
-                                    action Null()
-                                null width 10
-                                button:
-                                    text "+":
-                                        style "buttons_idle"
-                                    action Call("switch_building", building.get_name(), school, 1)
+                                if building.is_unlocked():
+                                    null width 100
+                                    button:
+                                        text "-":
+                                            style "buttons_idle"
+                                        action Call("switch_building", building.get_name(), school, -1)
+                                    null width 20
+                                    button:
+                                        text "[building_level]":
+                                            style "buttons_idle"
+                                        action Null()
+                                    null width 10
+                                    button:
+                                        text "+":
+                                            style "buttons_idle"
+                                        action Call("switch_building", building.get_name(), school, 1)
                             null height 10
                         
 
