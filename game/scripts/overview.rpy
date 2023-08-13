@@ -3,28 +3,21 @@
 init -1 python:
     import math
 
-    # generates the stat-value text with change
-    def display_stat(stat, school = "school_mean"):
-        if stat != "money":
-            return schools[school].display_stat(stat)
-        else:
-            return money.display_stat()
-
     # changes the stat value
-    def change_stat(stat, change, school):
+    def change_stat(stat, change, name = "", map = None):
         if stat == "money":
             money.change_value(change)
         else:
-            schools[school].change_stat(stat, change)
+            change_stat_for_char(stat, change, name, map)
 
-    def reset_stats(school = ""):
+    def reset_stats(map, name = ""):
         money.reset_change()
 
-        if school != "":
-            schools[school].reset_changed_stats()
-
-        for keys in schools.keys():
-            schools[keys].reset_changed_stats()
+        if name != "" and name in map.keys():
+            map[name].reset_changed_stats()
+        else:
+            for keys in map.keys():
+                map[keys].reset_changed_stats()
 
 ######################
 # ----- Styles ----- #
@@ -55,20 +48,20 @@ screen school_overview_stats ():
         text "Education     " style "stat_name"
         text "Money"          style "stat_name"
 
-        text display_stat("happiness") style "stat_value"
-        text display_stat("charm")     style "stat_value"
-        text display_stat("education") style "stat_value"
-        text display_stat("money")     style "stat_value"
+        text str(get_mean_stat("happiness", charList['schools'])) style "stat_value"
+        text str(get_mean_stat("charm",     charList['schools'])) style "stat_value"
+        text str(get_mean_stat("education", charList['schools'])) style "stat_value"
+        text str(get_mean_stat("money",     charList['schools'])) style "stat_value"
 
         null
-        text "-" style "stat_name"
-        text "-" style "stat_name"
+        text "Corruption" style "stat_name"
+        text "Inhibition" style "stat_name"
         text "Reputation" style "stat_name"
         
         null
-        text display_stat("corruption") style "stat_value"
-        text display_stat("inhibition") style "stat_value"
-        text display_stat("reputation") style "stat_value"
+        text str(get_mean_stat("corruption", charList['schools'])) style "stat_value"
+        text str(get_mean_stat("inhibition", charList['schools'])) style "stat_value"
+        text str(get_mean_stat("reputation", charList['schools'])) style "stat_value"
 
     vbox:
         xalign 1.0 ypos 150
@@ -354,8 +347,52 @@ screen school_overview_buttons ():
                 xalign 0.5
                 text tooltip
 
+screen image_with_nude_var(image_path, nude = 0):
+
+    if image_path == "":
+        $ path = "black"
+    else:
+        $ path = image_path.replace("{nude}", str(nude))
+
+    add path
+    
+    if nude_vision != 0 and nude == nude_vision:
+        imagebutton:
+            auto "icons/sight_disabled_%s.png"
+            focus_mask None
+            xalign 0.0 yalign 0.0
+            action Show("image_with_nude_var", None, image_path, 0)
+
+    if nude == 0 and nude_vision >= 1:
+        imagebutton:
+            auto "icons/eye_target_%s.png"
+            focus_mask None
+            xalign 0.0 yalign 0.0
+            action Show("image_with_nude_var", None, image_path, 1)
+
+    if nude == 1 and nude_vision == 2:
+        imagebutton:
+            auto "icons/fire_iris_%s.png"
+            focus_mask None
+            xalign 0.0 yalign 0.0
+            action Show("image_with_nude_var", None, image_path, 2)
+
+
+screen black_error_screen_text(text_str):
+    add "black"
+    
+    text text_str:
+        xalign 0 yalign 0
+        size 20
+        color "#ff0000"
+
 screen black_screen_text(text_str):
     add "black"
+    
+    key "K_SPACE" action Return()
+    key "K_ESCAPE" action Return()
+    key "K_KP_ENTER" action Return()
+    key "K_SELECT" action Return()
 
     text text_str:
         xalign 0.5 yalign 0.5
@@ -410,7 +447,7 @@ label map_overview:
     
     show screen school_overview_map
     show screen school_overview_stats
-    show screen school_overview_buttons
+    call screen school_overview_buttons
 
     subtitles_Empty ""
 
@@ -419,7 +456,7 @@ label map_overview:
 #############################################################################
 # building distributor. directs the building calls to the corresponding label
 label building(name=""):
-    $ reset_stats()
+    $ reset_stats(charList["schools"])
     $ _skipping = True
 
     hide screen school_overview_map

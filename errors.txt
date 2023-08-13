@@ -2,9 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/scripts/journal/buildings.rpy", line 345: invalid syntax
-            '_max_level': 2,
-             ^
+File "game/scripts/overview.rpy", line 352: 'tooltip' is not a keyword argument or valid child for the screen statement.
+    tooltip = False
+           ^
 
-Ren'Py Version: Ren'Py 8.1.1.23060707
-Thu Aug 10 09:52:01 2023
+Ren'Py Version: Ren'Py 8.0.3.22090809
+Sun Aug 13 13:23:25 2023

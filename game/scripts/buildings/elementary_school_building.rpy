@@ -37,14 +37,21 @@ init -1 python:
 ################################################
 
 label elementary_school_building:
-    # show school corridor
+    
+    $ image_path = "images/background/elementary school building/bg f.png"
 
-    # if daytime in [1, 3, 6]:
-    #     # show corridor filled with students
-    # if daytime in [2, 4, 5]:
-    #     # show empty corridor
-    # if daytime in [7]:
-    #     # show empty corridor at night
+    if time.check_daytime("c"):
+        $ image_path = get_image_with_level(
+            "images/background/elementary school building/bg c {level} {nude}.png", 
+            "elementary_school", 
+            charList["schools"]
+        )
+
+    if time.check_daytime(7):
+        $ image_path = "images/background/elementary school building/bg 7.png"
+
+    show screen image_with_nude_var (image_path, 0)
+
 
     call call_available_event(elementary_school_building_timed_event) from _call_call_available_event_3
 
@@ -78,7 +85,10 @@ label elementary_school_building_person_fallback:
 
 label first_potion_elementary_school_building_event:
     
+    show first potion elementary school building 1
     principal_thought "Let's see how classes are today."
+    
+    show first potion elementary school building 2
     subtitles "You look into a classroom and the first thing you notice is that almost everyone has opened up or at least partially removed their clothes."
     subtitles "Apparently the teachers also took a drink."
     principal_thought "Hmm, I can't wait to have this view on a regular basis, but that's gonna take some time."
@@ -115,7 +125,7 @@ label first_week_elementary_school_building_event:
     principal_thought "Yeah, not one school girl has even one book."
     principal_thought "I guess the former principal cut back on those"
 
-    $ set_stat_for_all("education", 15)
+    $ set_stat_for_all("education", 15, schools)
 
     $ set_building_blocked("high_school_building")
     $ set_building_blocked("middle_school_building")

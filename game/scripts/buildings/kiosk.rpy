@@ -80,7 +80,7 @@ label first_week_kiosk_event:
     principal_thought "This is not acceptable. Did the former headmaster really close the cafeteria?"
     principal_thought "That can't be right..."
 
-    $ change_stat_for_all("reputation", -2)
+    $ change_stat_for_all("reputation", -2, schools)
 
     $ set_building_blocked("kiosk")
 

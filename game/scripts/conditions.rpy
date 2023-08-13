@@ -40,7 +40,7 @@ init -6 python:
             self.display_in_desc = True
             
         def is_fullfilled(self, school):
-            school_obj = get_school(school)
+            school_obj = get_character(school, charList["schools"])
             if self.school == school or self.school == "x":
                 return school_obj.check_stat(self.stat, self.value)
 
@@ -158,8 +158,8 @@ init -6 python:
 
         def is_fullfilled(self, school):
 
-            school_obj = get_school(school)
-            self_school_obj = get_school(self.school)
+            school_obj = get_character(school, charList["schools"])
+            self_school_obj = get_character(self.school, charList["schools"])
 
             if school != "x" and (self.school == school or self.school == "x"):
                 return school_obj.check_level(self.value)
@@ -230,7 +230,7 @@ init -6 python:
         def get_name(self):
             if self.school not in schools.keys():
                 return self.school
-            return get_school(school).title
+            return get_character(school, charList["schools"]).get_title()
 
     class LockCondition(Condition):
 

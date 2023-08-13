@@ -58,7 +58,7 @@ init -1 python:
             self.value = value
 
         def apply(self, school):
-            school_obj = get_school(school)
+            school_obj = get_character(school, charList["schools"])
             if school_obj == None:
                 return
             stat_obj = school_obj.get_stat(self.stat)

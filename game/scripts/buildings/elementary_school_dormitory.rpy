@@ -88,7 +88,7 @@ label first_week_elementary_school_dormitory_event:
 
     principal_thought "Hmm nobody seems to be here. Nevermind. I just let my Secretary give me a report."
 
-    $ set_stat_for_all("inhibition", 2)
+    $ set_stat_for_all("inhibition", 2, schools)
 
     $ set_building_blocked("high_school_dormitory")
     $ set_building_blocked("middle_school_dormitory")
@@ -97,11 +97,18 @@ label first_week_elementary_school_dormitory_event:
     jump new_day
 
 label first_potion_elementary_school_dormitory_event:
+
+    show first potion dormitory 1
     subtitles "You enter the dormitory of the elementary school."
     principal_thought "Mhh, where does the noise come from?"
+
+    show first potion dormitory 2
     principal_thought "Ah I think there are some students in the room over there."
+
+    show first potion elementary school dormitory 2
     principal_thought "Ahh party games!"
 
+    show first potion elementary school dormitory 3
     if time.check_daytime("c"):
         principal_thought "Normally I would scold them for skipping class but today is a special day so I gladly enjoy this view."
     else:

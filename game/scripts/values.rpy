@@ -4,6 +4,7 @@ init python:
     # 2 = hard loli content (Elementary School age: 8-12, Middle School age: 13-17, High School age: 18-22)
     loli_content = 0
     cheat_mode = False
+    nude_vision = 2
 
     def set_game_data(key, value):
         gameData[key] = value
@@ -16,10 +17,31 @@ init python:
     def contains_game_data(key):
         return key in gameData.keys()
 
+    def get_image_with_level(image_path, name, map):
+        level = get_level_for_char(name, map)
+
+        path = image_path.replace("{nude}", "0")
+
+        for i in reversed(range(0, level + 1)):
+            image = path.replace("{level}", str(i))
+            if renpy.exists(image):
+                return image_path.replace("{level}", str(i))
+        for i in range(0, 10):
+            image = path.replace("{level}", str(i))
+            if renpy.exists(image):
+                return image_path.replace("{level}", str(i))
+        
+        return ""
+            
+
 default rules = {}
 default buildings = {}
 default clubs = {}
-default schools = {}
+default charList = {
+    'schools': {},
+    'teacher': {},
+    'staff': {},
+}
 default money = Stat("money", 1000)
 default time = Time()
 default stat_data = {}

@@ -7,7 +7,6 @@ init -6 python:
             self._description = ""
             self._image_path_alt = "images/journal/empty_image.png"
             self._image_path = "images/journal/empty_image.png"
-            self._unlocked = False
             self._level = 0
             self._max_level = 1
             self._unlock_conditions = []
@@ -30,8 +29,6 @@ init -6 python:
                 self._level = 0
             if not hasattr(self, '_max_level'):
                 self._max_level = 1
-            if not hasattr(self, '_unlocked'):
-                self._unlocked = False
             if not hasattr(self, '_unlock_conditions'):
                 self._unlock_conditions = []
             if not hasattr(self, '_update_conditions'):
@@ -57,7 +54,7 @@ init -6 python:
             return self._description[level]
 
         def get_image(self):
-            level = get_lowest_level()
+            level = get_lowest_level(schools)
             for i in reversed(range(0, level + 1)):
                 image = self._image_path.replace("{level}", str(i))
                 if renpy.exists(image):
@@ -279,7 +276,7 @@ label load_buildings:
         '_unlock_conditions': [],
         '_update_conditions':[],
     }, {
-        '_unlocked': True,
+        '_level': 1,
     })
 
     $ load_building("high_school_dormitory", "High School Dormitory", {
@@ -291,7 +288,7 @@ label load_buildings:
         '_unlock_conditions': [],
         '_update_conditions':[],
     }, {
-        '_unlocked': True,
+        '_level': 1,
     })
 
     $ load_building("middle_school_building", "Middle School Building", {
@@ -303,7 +300,7 @@ label load_buildings:
         '_unlock_conditions': [],
         '_update_conditions':[],
     }, {
-        '_unlocked': True,
+        '_level': 1,
     })
 
     $ load_building("middle_school_dormitory", "Middle School Dormitory", {
@@ -315,7 +312,7 @@ label load_buildings:
         '_unlock_conditions': [],
         '_update_conditions':[],
     }, {
-        '_unlocked': True,
+        '_level': 1,
     })
 
     $ load_building("elementary_school_building", "Elementary School Building", {
@@ -327,7 +324,7 @@ label load_buildings:
         '_unlock_conditions': [],
         '_update_conditions':[],
     }, {
-        '_unlocked': True,
+        '_level': 1,
     })
 
     $ load_building("elementary_school_dormitory", "Elementary School Dormitory", {
@@ -339,7 +336,7 @@ label load_buildings:
         '_unlock_conditions': [],
         '_update_conditions':[],
     }, {
-        '_unlocked': True,
+        '_level': 1,
     })
 
     $ load_building("labs", "Labs", {
@@ -360,7 +357,7 @@ label load_buildings:
             ],
         ],
     }, {
-        '_unlocked': False,
+        '_level': 0,
     })
 
     $ load_building("sports_field", "Sports Field", {
@@ -375,7 +372,7 @@ label load_buildings:
         ],
         '_update_conditions':[],
     }, {
-        '_unlocked': False,
+        '_level': 0,
     })
 
     $ load_building("tennis_court", "Tennis Court", {
@@ -390,7 +387,7 @@ label load_buildings:
         ],
         '_update_conditions':[],
     }, {
-        '_unlocked': False,
+        '_level': 0,
     })
 
     $ load_building("gym", "Gym", {
@@ -402,7 +399,7 @@ label load_buildings:
         '_unlock_conditions': [],
         '_update_conditions':[],
     }, {
-        '_unlocked': True,
+        '_level': 1,
     })
 
     $ load_building("swimming_pool", "Swimming Pool", {
@@ -417,7 +414,7 @@ label load_buildings:
         ],
         '_update_conditions':[],
     }, {
-        '_unlocked': False,
+        '_level': 0,
     })
 
     $ load_building("cafeteria", "Cafeteria", {
@@ -432,7 +429,7 @@ label load_buildings:
         ],
         '_update_conditions':[],
     }, {
-        '_unlocked': False,
+        '_level': 0,
     })
 
     $ load_building("bath", "Bath", {
@@ -447,7 +444,7 @@ label load_buildings:
         ],
         '_update_conditions':[],
     }, {
-        '_unlocked': False,
+        '_level': 0,
     })
 
     $ load_building("kiosk", "Kiosk", {
@@ -459,7 +456,7 @@ label load_buildings:
         '_unlock_conditions': [],
         '_update_conditions':[],
     }, {
-        '_unlocked': True,
+        '_level': 1,
     })
 
     $ load_building("courtyard", "Courtyard", {
@@ -471,7 +468,7 @@ label load_buildings:
         '_unlock_conditions': [],
         '_update_conditions':[],
     }, {
-        '_unlocked': True,
+        '_level': 1,
     })
 
     $ load_building("office_building", "Office Building", {
@@ -483,7 +480,7 @@ label load_buildings:
         '_unlock_conditions': [],
         '_update_conditions':[],
     }, {
-        '_unlocked': True,
+        '_level': 1,
     })
 
     return

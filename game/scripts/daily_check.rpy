@@ -19,7 +19,7 @@ init -1 python:
     ))
 
     temp_check_events.add_event(Event("first_week_epilogue_final", "first_week_epilogue_final", 1,
-        TimeCondition(day = 10, month = 1, year = 2023)
+        TimeCondition(day = 10, month = 1, year = 2023, daytime = 1)
     ))
 
     temp_check_events.add_event(Event("weekly_assembly_first", "weekly_assembly_first", 2,
@@ -240,9 +240,9 @@ label .replay:
 
     # for the rest of the day the strong effects can be observed throughout the campus
     
-    $ schools["high_school"].set_level(1)
-    $ schools["middle_school"].set_level(1)
-    $ schools["elementary_school"].set_level(1)
+    $ set_level_for_char(1, "high_school", charList["schools"])
+    $ set_level_for_char(1, "middle_school", charList["schools"])
+    $ set_level_for_char(1, "elementary_school", charList["schools"])
 
     $ set_all_buildings_blocked(False)
 

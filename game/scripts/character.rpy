@@ -1,6 +1,6 @@
 init -6 python:
     import math
-    class School:
+    class Char:
         def __init__(self, name, title):
             self.name = name
             self.title = title
@@ -25,13 +25,13 @@ init -6 python:
             stat_obj = self.get_stat_obj(stat)
             stat_obj.set_value(value)
 
-            update_mean_values()
+            update_mean_values(charList['schools'])
 
         def change_stat(self, stat, delta):
             stat_obj = self.get_stat_obj(stat)
             stat_obj.change_value(delta)
 
-            update_mean_values()
+            update_mean_values(charList['schools'])
 
         def get_stat_number(self, stat):
             stat_obj = self.get_stat_obj(stat)
@@ -148,85 +148,108 @@ init -6 python:
 
             return stat_obj.get_display_change()
     
-    def get_school(school):
-        if school in schools.keys():
-            return schools[school]
-        return None
-
-    def get_lowest_level():
+    def get_lowest_level(map):
         level = 100
-        for school in schools.values():
+        for school in map.values():
             if school.get_level() < level:
                 level = school.get_level()
 
         return level
 
-    def update_mean_values():
-        stats = {}
+    def get_mean_stat(stat, map):
+        mean = 0
 
-        mean_level = 0
+        count = 0
+        for obj in map.values():
+            if stat == 'level':
+                mean += obj.get_level()
+            else:
+                mean += obj.get_stat_number(stat)
+            count += 1
 
-        school_amount = 0
-        for keys in schools.keys():
-            if keys == 'school_mean':
-                continue
-            if keys == 'middle_school' and loli_content == 0:
-                continue
-            if keys == 'elementary_school' and loli_content != 2:
-                continue
+        if count == 0:
+            return 0
 
-            mean_level += schools[keys].get_level()
-            school_amount += 1
-            for stat_keys in schools[keys].get_stats().keys():
-                if stat_keys not in stats:
-                    stats[stat_keys] = 0
-                stats[stat_keys] += schools[keys].get_stat_obj(stat_keys).get_value()
+        return mean / count
+
+    def get_character(name, map):
+        if name not in map.keys():
+            return None
+
+        return map[name]
+
+    def get_stat_for_char(stat, name, map):
+        if name in map.keys():
+            return map[name].get_stat_number(stat)
+        return -1
+
+    def get_level_for_char(name, map):
+        if name in map.keys():
+            return map[name].get_level()
+        return -1
+
+    def set_stat_for_all(stat, value, map):
+        for character in map.keys():
+            map[character].set_stat(stat, value)
+
+    def set_stat_for_char(stat, value, name, map):
+        if name not in map.keys():
+            return
+        map[name].set_stat(stat, value)
         
-        mean_level /= school_amount
-
-        schools["school_mean"].set_level(int(mean_level))
-
-        for stat_keys in stats.keys():
-            minLimit = get_stat_data(stat_keys).get_min_limit()
-            maxLimit = get_stat_data(stat_keys).get_max_limit()
-            stats[stat_keys] = clamp_stat(math.ceil((stats[stat_keys] / school_amount) * 100) / 100, minLimit, maxLimit)
-
-            stat_obj = schools["school_mean"].get_stat_obj(stat_keys)
-
-            if stat_obj == None:
-                continue
-
-            stat_obj.set_changed_value(math.ceil((stats[stat_keys] - schools["school_mean"].get_stat_obj(stat_keys).get_value()) * 100) / 100)
-            stat_obj.set_value(stats[stat_keys])
-    
-    def set_stat_for_all(stat, value):
-        schools["high_school"].set_stat(stat, value)
-        schools["middle_school"].set_stat(stat, value)
-        schools["elementary_school"].set_stat(stat, value)
-
+    def set_level_for_char(value, name, map):
+        if name not in map.keys():
+            return
+        map[name].set_level(value)
+        
     def change_stat_for_all(stat, delta):
-        schools["high_school"].change_stat(stat, delta)
-        schools["middle_school"].change_stat(stat, delta)
-        schools["elementary_school"].change_stat(stat, delta)
+        for character in map.keys():
+            map[character].change_stat(stat, value)
 
-    def load_school(name, title, start_data, runtime_data = None):
-        if name not in schools.keys():
-            schools[name] = School(name, title)
-            schools[name].__dict__.update(start_data)
+    def change_stat_for_char(stat, value, name, map):
+        if name not in map.keys():
+            return
+        map[name].set_stat(stat, value)
 
-        schools[name]._update(runtime_data)
+    def load_character(name, title, map, start_data, runtime_data = None):
+        if name not in map.keys():
+            map[name] = Char(name, title)
+            map[name].__dict__.update(start_data)
 
-    def update_school(name, data):
-        schools[name]._update(data)
+        map[name]._update(runtime_data)
 
-    def remove_school(name):
-        if name in schools.keys():
-            del(schools[name])
+    def update_character(name, map, data):
+        map[name]._update(runtime_data)
+
+    def remove_character(name, map):
+        if name in map.keys():
+            del(map[name])
 
 label load_schools:
-    $ remove_school("staff")
 
-    $ load_school("high_school", "High School", {
+    $ load_character("secretary", "Secretary", charList['staff'], {
+        'stats_objects': {
+            "corruption": Stat("corruption", 0),
+            "inhibition": Stat("inhibition", 0),
+            "happiness": Stat("happiness", 20),
+            "education": Stat("education", 10),
+            "charm": Stat("charm", 8),
+            "reputation": Stat("reputation", 12),
+        },
+    })
+
+    $ load_character("teacher_1", "Teacher 1", charList['teacher'], {
+        'stats_objects': {
+            "corruption": Stat("corruption", 0),
+            "inhibition": Stat("inhibition", 0),
+            "happiness": Stat("happiness", 20),
+            "education": Stat("education", 10),
+            "charm": Stat("charm", 8),
+            "reputation": Stat("reputation", 12),
+        },
+    })
+
+    $ load_character("teacher_2", "Teacher 2", charList['teacher'], {
         'stats_objects': {
             "corruption": Stat("corruption", 0),
             "inhibition": Stat("inhibition", 0),
@@ -237,7 +260,7 @@ label load_schools:
         }
     })
 
-    $ load_school("middle_school", "Middle School", {
+    $ load_character("teacher_3", "Teacher 3", charList['teacher'], {
         'stats_objects': {
             "corruption": Stat("corruption", 0),
             "inhibition": Stat("inhibition", 0),
@@ -248,7 +271,7 @@ label load_schools:
         }
     })
 
-    $ load_school("elementary_school", "Elementary School", {
+    $ load_character("teacher_4", "Teacher 4", charList['teacher'], {
         'stats_objects': {
             "corruption": Stat("corruption", 0),
             "inhibition": Stat("inhibition", 0),
@@ -259,7 +282,40 @@ label load_schools:
         }
     })
 
-    $ load_school("school_mean", "School Mean", {
+    $ load_character("teacher_5", "Teacher 5", charList['teacher'], {
+        'stats_objects': {
+            "corruption": Stat("corruption", 0),
+            "inhibition": Stat("inhibition", 0),
+            "happiness": Stat("happiness", 20),
+            "education": Stat("education", 10),
+            "charm": Stat("charm", 8),
+            "reputation": Stat("reputation", 12),
+        }
+    })
+
+    $ load_character("high_school", "High School", charList['schools'], {
+        'stats_objects': {
+            "corruption": Stat("corruption", 0),
+            "inhibition": Stat("inhibition", 0),
+            "happiness": Stat("happiness", 20),
+            "education": Stat("education", 10),
+            "charm": Stat("charm", 8),
+            "reputation": Stat("reputation", 12),
+        }
+    })
+
+    $ load_character("middle_school", "Middle School", charList['schools'], {
+        'stats_objects': {
+            "corruption": Stat("corruption", 0),
+            "inhibition": Stat("inhibition", 0),
+            "happiness": Stat("happiness", 20),
+            "education": Stat("education", 10),
+            "charm": Stat("charm", 8),
+            "reputation": Stat("reputation", 12),
+        }
+    })
+
+    $ load_character("elementary_school", "Elementary School", charList['schools'], {
         'stats_objects': {
             "corruption": Stat("corruption", 0),
             "inhibition": Stat("inhibition", 0),

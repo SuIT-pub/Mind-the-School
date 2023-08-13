@@ -80,9 +80,17 @@ label gym_person_fallback:
 
 
 label first_potion_gym_event:
+    show first potion gym 1
     subtitles "You enter the Gym and see a group of students and teacher in a yoga session."
+
+    show first potion gym 2
     principal_thought "Oh that is a sport session I can get behind!"
+
+    show first potion gym 3
     principal_thought "Mhh, yes very flexible!"
+
+    show first potion gym 4
+    principal_thought "Oh they seem to really get into it!"
 
     $ set_building_blocked("gym")
 
@@ -96,7 +104,7 @@ label first_week_gym_event:
     principal_thought "Seems to be decently stocked."
     principal_thought "The material is well maintained. I guess it's alright."
 
-    $ set_stat_for_all("charm", 15)
+    $ set_stat_for_all("charm", 15, schools)
 
     $ set_building_blocked("gym")
 

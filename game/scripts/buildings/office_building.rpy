@@ -65,8 +65,11 @@ label office_building_fallback:
 ###########################################
 
 label first_potion_office_building_event:
+
+    show first potion office 1
     subtitles "You enter the teachers office."
     principal_thought "Ahh the teacher seem to be eating at the kiosk as well."
+    show first potion office 2
     principal_thought "Not that I have a problem with it. Quite the opposite. That makes some thing a bit easier."
 
     $ set_building_blocked("office_building")

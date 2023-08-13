@@ -101,7 +101,7 @@ screen journal_1(display, school):
         size 60
         color "#000"
 
-    $ school_object = get_school(school)
+    $ school_object = get_character(school, charList["schools"])
     $ school_stats = school_object.get_stats()
 
     frame:
@@ -352,7 +352,7 @@ screen journal_2(display, school):
         $ active_rule = get_rule(display)
         $ active_rule_name = active_rule.get_name()
         $ active_rule_desc = active_rule.get_description()
-        $ active_school = get_school(school)
+        $ active_school = get_character(school, charList["schools"])
 
         $ active_rule_image = active_rule.get_image(school, active_school.get_level())
         $ active_rule_full_image = active_rule.get_full_image(school, active_school.get_level())
@@ -583,7 +583,7 @@ screen journal_3(display, school):
         $ active_club = get_club(display)
         $ active_club_name = active_club.get_name()
         $ active_club_desc = active_club.get_description()
-        $ active_school = get_school(school)
+        $ active_school = get_character(school, charList["schools"])
 
         $ active_club_image = active_club.get_image(school, active_school.get_level())
         $ active_club_full_image = active_club.get_full_image(school, active_school.get_level())
@@ -984,7 +984,7 @@ screen journal_5(display, school):
             unscrollable "hide"
             xalign 1.0
 
-    $ active_school = get_school(school)
+    $ active_school = get_character(school, charList["schools"])
 
     if display == "stats":
         frame:
@@ -1603,10 +1603,10 @@ label modify_stat(stat, amount, school):
     if stat == "money":
         $ money.change_value(amount)
     elif stat == "level":
-        $ school_obj = get_school(school)
+        $ school_obj = get_character(school, charList["schools"])
         $ school_obj.set_level(school_obj.get_level() + amount)
     else:
-        $ get_school(school).change_stat(stat, amount)
+        $ get_character(school, charList["schools"]).change_stat(stat, amount)
     call screen journal_5("stats", school)
 
 label add_to_proposal(data, page, school, display, propType):

@@ -77,8 +77,13 @@ label courtyard_person_fallback:
 
 label first_potion_courtyard_event:
 
+    show first potion courtyard 1
     subtitles "You walk around in the courtyard."
+
+    show first potion courtyard 2
     subtitles "The first thing you notice is the group of students sunbathing in the middle of the yard."
+    
+    show first potion courtyard 3
     subtitles "Normally that wouldn't be such a weird thing, if they weren't in only their underwear."
     principal_thought "I certainly enjoy the view. Unfortunately it only lasts for today until the serum finishes settling in their bodies."
 
@@ -96,7 +101,7 @@ label first_week_courtyard_event:
     principal_thought "For example the public toilet is broken."
     principal_thought "At least the courtyard doesn't need immediate fixing."
 
-    $ set_stat_for_all("happiness", 12)
+    $ set_stat_for_all("happiness", 12, schools)
 
     $ set_building_blocked("courtyard")
 
