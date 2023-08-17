@@ -49,11 +49,11 @@ init -6 python:
 
         def get_image(self, school, level):
             for i in reversed(range(0, level + 1)):
-                image = self._image_path.replace("{school}", school).replace("{level}", str(i))
+                image = self._image_path.replace("<school>", school).replace("<level>", str(i))
                 if renpy.exists(image):
                     return image
             for i in range(0, 10):
-                image = self._image_path.replace("{school}", school).replace("{level}", str(i))
+                image = self._image_path.replace("<school>", school).replace("<level>", str(i))
                 if renpy.exists(image):
                     return image
             return self._image_path_alt
@@ -353,7 +353,7 @@ label load_clubs:
             # LevelCondition("2+"),
             LockCondition(),
         ],
-        '_image_path': 'images/journal/clubs/cheerleading_club_{school}_{level}.png',
+        '_image_path': 'images/journal/clubs/cheerleading_club_<school>_<level>.png',
         '_image_path_alt': 'images/journal/clubs/cheerleading_club_high_school_2.png',
     })
 

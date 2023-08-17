@@ -1,6 +1,6 @@
-#########################################################
+#####################################################
 # ----- Middle School Dormitory Event Handler ----- #
-#########################################################
+#####################################################
 
 init -1 python:
     middle_school_dormitory_after_time_check = Event("middle_school_dormitory_after_time_check", "middle_school_dormitory.after_time_check", 2)
@@ -29,10 +29,11 @@ init -1 python:
         TimeCondition(day = 9),
     ))
 
+#####################################################
 
-#######################################################
+###################################################
 # ----- Middle School Dormitory Entry Point ----- #
-#######################################################
+###################################################
 
 label middle_school_dormitory:
     # show dorm corridor
@@ -48,19 +49,40 @@ label middle_school_dormitory:
 
 label .after_time_check:
 
+    call show_middle_school_dormitory_idle_image()
+
     call call_event_menu (
         "What to do in the Middle School Dorm?",
         1, 
         7, 
         middle_school_dormitory_events, 
-        middle_school_dormitory_fallback
+        middle_school_dormitory_fallback,
+        character.subtitles,
+        "middle_school",
     ) from _call_call_event_menu_11
 
     jump middle_school_dormitory
 
-###########################################################
+label show_middle_school_dormitory_idle_image():    
+    $ image_path = "images/background/middle school dormitory/bg c.png"
+
+    if time.check_daytime("c"):
+        $ image_path = get_image_with_level(
+            "images/background/middle school dormitory/bg f <level> <nude>.png", 
+            get_level_for_char("middle_school", charList["schools"]),
+        )
+    elif time.check_daytime(7):
+        $ image_path = "images/background/middle school dormitory/bg 7.png"
+
+    show screen image_with_nude_var (image_path, 0)
+
+    return
+
+###################################################
+
+#######################################################
 # ----- Middle School Dormitory Fallback Events ----- #
-###########################################################
+#######################################################
 
 label middle_school_dormitory_fallback:
     subtitles "There is nothing to do here."
@@ -70,9 +92,11 @@ label middle_school_dormitory_person_fallback:
     subtitles "There is nobody here."
     return
 
-##################################################
+#######################################################
+
+##############################################
 # ----- Middle School Dormitory Events ----- #
-##################################################
+##############################################
 
 label first_potion_middle_school_dormitory_event:
 
@@ -111,10 +135,12 @@ label first_week_middle_school_dormitory_event:
 
     principal_thought "Hmm nobody seems to be here. Nevermind. I just let my Secretary give me a report."
 
-    $ set_stat_for_all("inhibition", 2, schools)
+    $ set_stat_for_all("inhibition", 2, charList["schools"])
 
     $ set_building_blocked("high_school_dormitory")
     $ set_building_blocked("middle_school_dormitory")
     $ set_building_blocked("elementary_school_dormitory")
 
     jump new_day
+
+##############################################

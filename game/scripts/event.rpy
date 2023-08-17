@@ -26,12 +26,12 @@ init -3 python:
             if priority == 0 or priority == 1:
                 for event in self.events[1].values():
                     if event.is_available(school):
-                        return list(event)
+                        return 1
             if priority == 0 or priority == 2:
                 output = 0
                 for event in self.events[2].values():
                     if event.is_available(school):
-                        output.append(event)
+                        output += 1
                 if output != 0:
                     return output
             if priority == 0 or priority == 3:
@@ -63,9 +63,12 @@ init -3 python:
                     return output
             if priority == 0 or priority == 3:
                 output = []
+                print("Get Level 3 Event")
+                print("check " + str(sum(event.get_event_count() for event in self.events[3].values())) + " possible")
                 for event in self.events[3].values():
                     if event.is_available(school):
                         output.append(event)
+                print("found " + str(len(output)) + " possible")
                 if len(output) != 0:
                     return [random.choice(output)]
             return []
@@ -78,6 +81,7 @@ init -3 python:
             return output
 
         def call_available_event(self, school = "x", priority = 0):
+            print("Call available events")
             events = self.get_available_events_with_fallback(school, priority)
 
             for event in events:
@@ -154,6 +158,8 @@ init -3 python:
         def __init__(self, name, event, priority, *conditions):
             self.name = name
             self.event = event
+            if isinstance(self.event, str):
+                self.event = [self.event]
             self.conditions = list(conditions)
 
             # 1 = highest (the first 1 to occur is called blocking all other events)
@@ -175,20 +181,24 @@ init -3 python:
 
         def add_event(self, *event):
             events = list(event)
-            if isinstance(self.event, str):
-                self.event = list(self.event)
-
             self.event.extend(events)
 
         def get_event(self):
-
             if isinstance(self.event, str):
                 return [self.event]
             else:
-                if self.priority != 2:
+                if self.priority == 1:
+                    return [self.event[1]]
+                elif self.priority == 2:
                     return self.event
                 else:
                     return [random.choice(self.event)]
+
+        def get_event_count(self):
+            if isinstance(self.event, str):
+                return 1
+            else:
+                return len(self.event)
 
         def get_priority(self):
             return self.priority
@@ -203,7 +213,11 @@ init -3 python:
 
             events = self.get_event()
 
-            renpy.call("call_event", events)
+            print("events: " + str(events))
+
+            renpy.call("call_event", events, self.priority)
+
+
 
     def load_event(events, name, data):
         if name not in events.keys():

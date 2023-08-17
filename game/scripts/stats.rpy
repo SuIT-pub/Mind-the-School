@@ -19,13 +19,10 @@ init -6 python:
             minLimit = get_stat_data(self.name).get_min_limit()
             maxLimit = get_stat_data(self.name).get_max_limit()
 
-            self.value = value
-            if self.value < minLimit:
-                self.value = minLimit
-            if self.value > maxLimit:
-                self.value = maxLimit
+            # self.value = clamp_stat(round(value, 2), minLimit, maxLimit)
+            self.value = clamp_stat(round(value, 2), minLimit, maxLimit)
 
-            delta = math.ceil((self.value - old_value) * 100.0) / 100.0
+            delta = round(self.value - old_value, 2)
             self.set_changed_value(delta)
 
         def set_changed_value(self, value):
@@ -39,8 +36,9 @@ init -6 python:
                 delta = -(self.value - minLimit)
             elif self.value + delta > maxLimit:
                 delta = maxLimit - self.value
+
             change_val = math.ceil(delta * 100.0) / 100.0
-            self.value = clamp_stat(math.ceil((self.value + change_val) * 100.0) / 100.0, minLimit, maxLimit)
+            self.value = clamp_stat(round(self.value + change_val, 2), minLimit, maxLimit)
             self.set_changed_value(change_val)
 
         def change_value_to(self, value):
@@ -354,17 +352,17 @@ label load_stats:
             "and the monthly budget your school recieves.",
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         'descriptions': [
-            "level 0",
-            "level 1",
-            "level 2",
-            "level 3",
-            "level 4",
-            "level 5",
-            "level 6",
-            "level 7",
-            "level 8",
-            "level 9",
-            "level 10",
+            "How the hell are you still in charge of this school?",
+            "The school is very unpopular.",
+            "The school is pretty unpopular and are very unsatisfied with your work.",
+            "The people are very unsatisfied with your work.",
+            "The officials are a bit unsatisfied with your work.",
+            "You are doing a decent job and the people are aware of it.",
+            "The officials are quite satisfied with your work.",
+            "The people are satisfied with your job.",
+            "The people are very satisfied with your work and like your school.",
+            "The public is extremely happy with your work and your school enjoys quite the popularity.",
+            "People think you are the best that could have happened to the school.",
         ],
         'images': [
             "images/journal/empty_image.png",

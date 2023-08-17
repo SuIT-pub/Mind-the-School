@@ -1,3 +1,7 @@
+######################
+# ----- SCREENS -----#
+######################
+
 screen show_building (building):
     use school_overview_images
 
@@ -50,6 +54,11 @@ screen show_building (building):
         add "background/bg school bath hover.png":
             xpos 557 ypos 319
 
+######################
+
+#####################
+# ----- LABEL ----- #
+#####################
 
 label tutorial_menu:
 
@@ -155,3 +164,5 @@ label tutorial_map:
     hide screen school_overview_map
 
     return
+
+#####################

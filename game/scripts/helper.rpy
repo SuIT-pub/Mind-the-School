@@ -80,4 +80,3 @@ init python:
                 return True
     
         return False
-                

@@ -32,7 +32,7 @@ init -1 python:
         TimeCondition(day = 9),
     ))
 
-
+#################################
 
 ###############################
 # ----- Gym Entry Point ----- #
@@ -52,15 +52,38 @@ label gym:
 
 label .after_time_check:
 
+    $ school = get_random_school()
+
+    call show_gym_idle_image(school)
+
     call call_event_menu (
         "What to do in the Gym?",
         1, 
         7, 
         gym_events, 
         gym_fallback,
+        character.subtitles,
+        school,
     ) from _call_call_event_menu_5
 
     jump gym
+
+label show_gym_idle_image(school):    
+    $ image_path = "images/background/gym/bg f.png"
+
+    if time.check_daytime("c"):
+        $ image_path = get_image_with_level(
+            "images/background/gym/bg c {level> <nude}.png", 
+            get_level_for_char(school, charList["schools"]),
+        )
+    elif time.check_daytime(7):
+        $ image_path = "images/background/gym/bg 7.png"
+
+    show screen image_with_nude_var (image_path, 0)
+
+    return
+
+###############################
 
 ###################################
 # ----- Gym Fallback Events ----- #
@@ -74,10 +97,11 @@ label gym_person_fallback:
     subtitles "There is nobody here."
     return
 
+###################################
+
 ##########################
 # ----- Gym Events ----- #
 ##########################
-
 
 label first_potion_gym_event:
     show first potion gym 1
@@ -104,7 +128,7 @@ label first_week_gym_event:
     principal_thought "Seems to be decently stocked."
     principal_thought "The material is well maintained. I guess it's alright."
 
-    $ set_stat_for_all("charm", 15, schools)
+    $ set_stat_for_all("charm", 15, charList["schools"])
 
     $ set_building_blocked("gym")
 
@@ -184,3 +208,5 @@ label weekly_assembly_first:
     principal "Alright."
 
     jump new_day
+
+##########################

@@ -49,11 +49,11 @@ init -6 python:
 
         def get_image(self, school, level):
             for i in reversed(range(0, level + 1)):
-                image = self._image_path.replace("{school}", school).replace("{level}", str(i))
+                image = self._image_path.replace("<school>", school).replace("<level>", str(i))
                 if renpy.exists(image):
                     return image
             for i in range(0, 10):
-                image = self._image_path.replace("{school}", school).replace("{level}", str(i))
+                image = self._image_path.replace("<school>", school).replace("<level>", str(i))
                 if renpy.exists(image):
                     return image
             return self._image_path_alt
@@ -341,7 +341,7 @@ label load_rules:
             RuleCondition("theoretical_digital_material", blocking = True),
             LockCondition(),
         ],
-        '_image_path': 'images/journal/rules/theoretical_teacher_sex_ed_{level}.png',
+        '_image_path': 'images/journal/rules/theoretical_teacher_sex_ed_<level>.png',
         '_image_path_alt': 'images/journal/rules/theoretical_teacher_sex_ed_3.png',
     })
     $ load_rule("theoretical_student_material", "Use Students for learning", {
@@ -355,7 +355,7 @@ label load_rules:
             RuleCondition("theoretical_teacher_material", blocking = True),
             LockCondition(),
         ],
-        '_image_path': 'images/journal/rules/theoretical_student_sex_ed_{school}_{level}.png',
+        '_image_path': 'images/journal/rules/theoretical_student_sex_ed_<school>_<level>.png',
         '_image_path_alt': 'images/journal/rules/theoretical_student_sex_ed_high_school_3.png',
     })
 
@@ -370,7 +370,7 @@ label load_rules:
             RuleCondition("theoretical_sex_ed", blocking = True),
             LockCondition(),
         ],
-        '_image_path': 'images/journal/rules/practical_sex_ed_{school}_{level}.png',
+        '_image_path': 'images/journal/rules/practical_sex_ed_<school>_<level>.png',
         '_image_path_alt': 'images/journal/rules/practical_sex_ed_high_school_6.png',
     })
 
@@ -386,7 +386,7 @@ label load_rules:
             RuleCondition("theoretical_teacher_material", blocking = True),
             LockCondition(),
         ],
-        '_image_path': 'images/journal/rules/practical_sex_ed_teacher_{level}.png',
+        '_image_path': 'images/journal/rules/practical_sex_ed_teacher_<level>.png',
         '_image_path_alt': 'images/journal/rules/practical_sex_ed_teacher_5.png',
     })
 
@@ -400,7 +400,7 @@ label load_rules:
             RuleCondition("theoretical_student_material", blocking = True),
             LockCondition(),
         ],
-        '_image_path': 'images/journal/rules/practical_sex_ed_students_{school}_{level}.png',
+        '_image_path': 'images/journal/rules/practical_sex_ed_students_<school>_<level>.png',
         '_image_path_alt': 'images/journal/rules/practical_sex_ed_students_high_school_6.png',
     })
 
@@ -425,7 +425,7 @@ label load_rules:
         '_unlock_conditions': [
             LevelCondition("3+"),
         ],
-        '_image_path': 'images/journal/rules/relaxed_uniform_{school}.png',
+        '_image_path': 'images/journal/rules/relaxed_uniform_<school>.png',
         '_image_path_alt': 'images/journal/rules/relaxed_uniform_high_school.png',
     })
 
@@ -435,7 +435,7 @@ label load_rules:
             LevelCondition("5+"),
             RuleCondition("relaxed_uniform", blocking = True),
         ],
-        '_image_path': 'images/journal/rules/sexy_uniform_{school}.png',
+        '_image_path': 'images/journal/rules/sexy_uniform_<school>.png',
         '_image_path_alt': 'images/journal/rules/sexy_uniform_high_school.png',
     })
 
@@ -445,7 +445,7 @@ label load_rules:
             LevelCondition("8+"),
             RuleCondition("sexy_uniform", blocking = True),
         ],
-        '_image_path': 'images/journal/rules/nude_uniform_{school}.png',
+        '_image_path': 'images/journal/rules/nude_uniform_<school>.png',
         '_image_path_alt': 'images/journal/rules/nude_uniform_high_school.png',
     })
 

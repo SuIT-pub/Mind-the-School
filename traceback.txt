@@ -1,286 +1,1932 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
 While running game code:
-  File "game/scripts/overview.rpy", line 434, in script call
+  File "game/scripts/overview.rpy", line 448, in script call
     call time_event_check from _call_time_event_check_1
   File "game/scripts/daily_check.rpy", line 52, in script call
     call call_available_event(temp_time_check_events) from _call_call_available_event_16
-  File "game/scripts/event.rpy", line 222, in script call
+  File "game/scripts/event.rpy", line 236, in script call
     call expression events[j] from _call_expression
   File "game/scripts/daily_check.rpy", line 56, in script call
     call call_available_event(temp_check_events) from _call_call_available_event_17
-  File "game/scripts/event.rpy", line 222, in script call
+  File "game/scripts/event.rpy", line 236, in script call
     call expression events[j] from _call_expression
-  File "game/scripts/overview.rpy", line 450, in script call
+  File "game/scripts/overview.rpy", line 466, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 450, in script call
+  File "game/scripts/overview.rpy", line 466, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 450, in script call
+  File "game/scripts/overview.rpy", line 466, in script call
     call screen school_overview_buttons
   [Previous line repeated 18 more times]
-  File "game/scripts/overview.rpy", line 434, in script call
+  File "game/scripts/overview.rpy", line 448, in script call
     call time_event_check from _call_time_event_check_1
   File "game/scripts/daily_check.rpy", line 52, in script call
     call call_available_event(temp_time_check_events) from _call_call_available_event_16
-  File "game/scripts/event.rpy", line 222, in script call
+  File "game/scripts/event.rpy", line 236, in script call
     call expression events[j] from _call_expression
   File "game/scripts/daily_check.rpy", line 56, in script call
     call call_available_event(temp_check_events) from _call_call_available_event_17
-  File "game/scripts/event.rpy", line 222, in script call
+  File "game/scripts/event.rpy", line 236, in script call
     call expression events[j] from _call_expression
-  File "game/scripts/overview.rpy", line 434, in script call
+  File "game/scripts/overview.rpy", line 448, in script call
     call time_event_check from _call_time_event_check_1
   File "game/scripts/daily_check.rpy", line 52, in script call
     call call_available_event(temp_time_check_events) from _call_call_available_event_16
-  File "game/scripts/event.rpy", line 222, in script call
+  File "game/scripts/event.rpy", line 236, in script call
     call expression events[j] from _call_expression
   File "game/scripts/daily_check.rpy", line 56, in script call
     call call_available_event(temp_check_events) from _call_call_available_event_17
-  File "game/scripts/event.rpy", line 222, in script call
+  File "game/scripts/event.rpy", line 236, in script call
     call expression events[j] from _call_expression
-  File "game/scripts/overview.rpy", line 450, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 2, in script call
-    call open_journal (1, "", "high_school") from _call_open_journal
-  File "game/scripts/journal/journal.rpy", line 6, in script call
-    call screen journal_1(display, school)
-  File "game/scripts/overview.rpy", line 450, in script call
+  File "game/scripts/overview.rpy", line 466, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  [Previous line repeated 2 more times]
+  File "game/scripts/overview.rpy", line 480, in script call
     call expression name from _call_expression_1
-  File "game/scripts/buildings/middle_school_dormitory.rpy", line 47, in script call
+  File "game/scripts/buildings/elementary_school_building.rpy", line 41, in script call
+    call call_available_event(elementary_school_building_timed_event) from _call_call_available_event_3
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/elementary_school_building.rpy", line 47, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/elementary_school_building.rpy", line 41, in script call
+    call call_available_event(elementary_school_building_timed_event) from _call_call_available_event_3
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/elementary_school_building.rpy", line 47, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/middle_school_building.rpy", line 40, in script call
+    call call_available_event(middle_school_building_timed_event) from _call_call_available_event_10
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/middle_school_building.rpy", line 46, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/middle_school_dormitory.rpy", line 48, in script call
     call call_available_event(middle_school_dormitory_timed_event) from _call_call_available_event_11
-  File "game/scripts/event.rpy", line 222, in script call
+  File "game/scripts/event.rpy", line 236, in script call
     call expression events[j] from _call_expression
-  File "game/scripts/overview.rpy", line 450, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 466, in script call
-    call expression name from _call_expression_1
-  File "game/scripts/buildings/high_school_building.rpy", line 120, in script call
-    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
-  File "game/scripts/event.rpy", line 222, in script call
-    call expression events[j] from _call_expression
-  File "game/scripts/overview.rpy", line 450, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 466, in script call
-    call expression name from _call_expression_1
-  File "game/scripts/buildings/courtyard.rpy", line 48, in script call
-    call call_available_event(courtyard_timed_event) from _call_call_available_event_2
-  File "game/scripts/event.rpy", line 222, in script call
-    call expression events[j] from _call_expression
-  File "game/scripts/overview.rpy", line 450, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 466, in script call
-    call expression name from _call_expression_1
-  File "game/scripts/buildings/office_building.rpy", line 40, in script call
-    call call_available_event(office_building_timed_event) from _call_call_available_event_12
-  File "game/scripts/event.rpy", line 222, in script call
-    call expression events[j] from _call_expression
-  File "game/scripts/overview.rpy", line 450, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 466, in script call
-    call expression name from _call_expression_1
-  File "game/scripts/buildings/high_school_building.rpy", line 120, in script call
-    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
-  File "game/scripts/event.rpy", line 222, in script call
-    call expression events[j] from _call_expression
-  File "game/scripts/buildings/high_school_building.rpy", line 124, in script call
+  File "game/scripts/buildings/middle_school_dormitory.rpy", line 54, in script call
     call call_event_menu (
-  File "game/scripts/overview.rpy", line 450, in script call
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/middle_school_dormitory.rpy", line 48, in script call
+    call call_available_event(middle_school_dormitory_timed_event) from _call_call_available_event_11
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/middle_school_dormitory.rpy", line 54, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 466, in script call
-    call expression name from _call_expression_1
-  File "game/scripts/buildings/high_school_building.rpy", line 120, in script call
-    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
-  File "game/scripts/event.rpy", line 222, in script call
-    call expression events[j] from _call_expression
-  File "game/scripts/buildings/high_school_building.rpy", line 124, in script call
-    call call_event_menu (
-  File "game/scripts/overview.rpy", line 450, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  [Previous line repeated 12 more times]
+  File "game/scripts/overview.rpy", line 480, in script call
     call expression name from _call_expression_1
-  File "game/scripts/buildings/high_school_building.rpy", line 120, in script call
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
     call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
-  File "game/scripts/event.rpy", line 222, in script call
+  File "game/scripts/event.rpy", line 236, in script call
     call expression events[j] from _call_expression
-  File "game/scripts/buildings/high_school_building.rpy", line 124, in script call
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
     call call_event_menu (
-  File "game/scripts/screens.rpy", line 28, in script call
-    call call_event(fallback) from _call_call_event
-  File "game/scripts/screens.rpy", line 50, in script call
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
     call expression event_obj[i] from _call_expression_3
-  File "game/scripts/buildings/high_school_building.rpy", line 141, in script
-    subtitles "There is nothing to do here."
-  File "game/scripts/overview.rpy", line 350, in execute
-    screen image_with_nude_var(image_path, nude = 0):
-  File "game/scripts/overview.rpy", line 350, in execute
-    screen image_with_nude_var(image_path, nude = 0):
-  File "game/scripts/overview.rpy", line 352, in execute
-    if image_path == "":
-  File "game/scripts/overview.rpy", line 355, in execute
-    $ path = image_path.replace("{nude}", str(nude))
-  File "game/scripts/overview.rpy", line 355, in <module>
-    $ path = image_path.replace("{nude}", str(nude))
-AttributeError: 'int' object has no attribute 'replace'
+  File "game/scripts/buildings/high_school_building.rpy", line 159, in script call
+    subtitles "You are looking into one of the windows of a classroom."
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/buildings/high_school_building.rpy", line 159, in script call
+    subtitles "You are looking into one of the windows of a classroom."
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/buildings/high_school_building.rpy", line 159, in script call
+    subtitles "You are looking into one of the windows of a classroom."
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/buildings/high_school_building.rpy", line 159, in script call
+    subtitles "You are looking into one of the windows of a classroom."
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/buildings/high_school_building.rpy", line 160, in script call
+    subtitles "The students are paying attention to the lesson."
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/courtyard.rpy", line 49, in script call
+    call call_available_event(courtyard_timed_event) from _call_call_available_event_2
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/courtyard.rpy", line 57, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/middle_school_dormitory.rpy", line 48, in script call
+    call call_available_event(middle_school_dormitory_timed_event) from _call_call_available_event_11
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/middle_school_dormitory.rpy", line 54, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/kiosk.rpy", line 40, in script call
+    call call_available_event(kiosk_timed_event) from _call_call_available_event_8
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/kiosk.rpy", line 48, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/middle_school_dormitory.rpy", line 48, in script call
+    call call_available_event(middle_school_dormitory_timed_event) from _call_call_available_event_11
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/middle_school_dormitory.rpy", line 54, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/middle_school_dormitory.rpy", line 48, in script call
+    call call_available_event(middle_school_dormitory_timed_event) from _call_call_available_event_11
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/middle_school_dormitory.rpy", line 54, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/middle_school_dormitory.rpy", line 48, in script call
+    call call_available_event(middle_school_dormitory_timed_event) from _call_call_available_event_11
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/middle_school_dormitory.rpy", line 54, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script
+    $ call_effects(school, effects)
+  File "game/scripts/menu.rpy", line 9, in <module>
+    $ call_effects(school, effects)
+  File "game/scripts/effects.rpy", line 6, in call_effects
+    effect.apply(school)
+  File "game/scripts/effects.rpy", line 121, in apply
+    self.event.call_available_event()
+  File "game/scripts/event.rpy", line 85, in call_available_event
+    events = self.get_available_events_with_fallback(school, priority)
+  File "game/scripts/event.rpy", line 77, in get_available_events_with_fallback
+    output = self.get_available_events(school, priority)
+  File "game/scripts/event.rpy", line 67, in get_available_events
+    print("check " + str(sum(event.get_event_count() for event in self.events[3])) + " possible")
+  File "game/scripts/event.rpy", line 67, in <genexpr>
+    print("check " + str(sum(event.get_event_count() for event in self.events[3])) + " possible")
+AttributeError: 'str' object has no attribute 'get_event_count'
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "game/scripts/overview.rpy", line 434, in script call
+  File "game/scripts/overview.rpy", line 448, in script call
     call time_event_check from _call_time_event_check_1
   File "game/scripts/daily_check.rpy", line 52, in script call
     call call_available_event(temp_time_check_events) from _call_call_available_event_16
-  File "game/scripts/event.rpy", line 222, in script call
+  File "game/scripts/event.rpy", line 236, in script call
     call expression events[j] from _call_expression
   File "game/scripts/daily_check.rpy", line 56, in script call
     call call_available_event(temp_check_events) from _call_call_available_event_17
-  File "game/scripts/event.rpy", line 222, in script call
+  File "game/scripts/event.rpy", line 236, in script call
     call expression events[j] from _call_expression
-  File "game/scripts/overview.rpy", line 450, in script call
+  File "game/scripts/overview.rpy", line 466, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 450, in script call
+  File "game/scripts/overview.rpy", line 466, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 450, in script call
+  File "game/scripts/overview.rpy", line 466, in script call
     call screen school_overview_buttons
   [Previous line repeated 18 more times]
-  File "game/scripts/overview.rpy", line 434, in script call
+  File "game/scripts/overview.rpy", line 448, in script call
     call time_event_check from _call_time_event_check_1
   File "game/scripts/daily_check.rpy", line 52, in script call
     call call_available_event(temp_time_check_events) from _call_call_available_event_16
-  File "game/scripts/event.rpy", line 222, in script call
+  File "game/scripts/event.rpy", line 236, in script call
     call expression events[j] from _call_expression
   File "game/scripts/daily_check.rpy", line 56, in script call
     call call_available_event(temp_check_events) from _call_call_available_event_17
-  File "game/scripts/event.rpy", line 222, in script call
+  File "game/scripts/event.rpy", line 236, in script call
     call expression events[j] from _call_expression
-  File "game/scripts/overview.rpy", line 434, in script call
+  File "game/scripts/overview.rpy", line 448, in script call
     call time_event_check from _call_time_event_check_1
   File "game/scripts/daily_check.rpy", line 52, in script call
     call call_available_event(temp_time_check_events) from _call_call_available_event_16
-  File "game/scripts/event.rpy", line 222, in script call
+  File "game/scripts/event.rpy", line 236, in script call
     call expression events[j] from _call_expression
   File "game/scripts/daily_check.rpy", line 56, in script call
     call call_available_event(temp_check_events) from _call_call_available_event_17
-  File "game/scripts/event.rpy", line 222, in script call
+  File "game/scripts/event.rpy", line 236, in script call
     call expression events[j] from _call_expression
-  File "game/scripts/overview.rpy", line 450, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 2, in script call
-    call open_journal (1, "", "high_school") from _call_open_journal
-  File "game/scripts/journal/journal.rpy", line 6, in script call
-    call screen journal_1(display, school)
-  File "game/scripts/overview.rpy", line 450, in script call
+  File "game/scripts/overview.rpy", line 466, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  [Previous line repeated 2 more times]
+  File "game/scripts/overview.rpy", line 480, in script call
     call expression name from _call_expression_1
-  File "game/scripts/buildings/middle_school_dormitory.rpy", line 47, in script call
+  File "game/scripts/buildings/elementary_school_building.rpy", line 41, in script call
+    call call_available_event(elementary_school_building_timed_event) from _call_call_available_event_3
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/elementary_school_building.rpy", line 47, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/elementary_school_building.rpy", line 41, in script call
+    call call_available_event(elementary_school_building_timed_event) from _call_call_available_event_3
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/elementary_school_building.rpy", line 47, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/middle_school_building.rpy", line 40, in script call
+    call call_available_event(middle_school_building_timed_event) from _call_call_available_event_10
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/middle_school_building.rpy", line 46, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/middle_school_dormitory.rpy", line 48, in script call
     call call_available_event(middle_school_dormitory_timed_event) from _call_call_available_event_11
-  File "game/scripts/event.rpy", line 222, in script call
+  File "game/scripts/event.rpy", line 236, in script call
     call expression events[j] from _call_expression
-  File "game/scripts/overview.rpy", line 450, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 466, in script call
-    call expression name from _call_expression_1
-  File "game/scripts/buildings/high_school_building.rpy", line 120, in script call
-    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
-  File "game/scripts/event.rpy", line 222, in script call
-    call expression events[j] from _call_expression
-  File "game/scripts/overview.rpy", line 450, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 466, in script call
-    call expression name from _call_expression_1
-  File "game/scripts/buildings/courtyard.rpy", line 48, in script call
-    call call_available_event(courtyard_timed_event) from _call_call_available_event_2
-  File "game/scripts/event.rpy", line 222, in script call
-    call expression events[j] from _call_expression
-  File "game/scripts/overview.rpy", line 450, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 466, in script call
-    call expression name from _call_expression_1
-  File "game/scripts/buildings/office_building.rpy", line 40, in script call
-    call call_available_event(office_building_timed_event) from _call_call_available_event_12
-  File "game/scripts/event.rpy", line 222, in script call
-    call expression events[j] from _call_expression
-  File "game/scripts/overview.rpy", line 450, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 466, in script call
-    call expression name from _call_expression_1
-  File "game/scripts/buildings/high_school_building.rpy", line 120, in script call
-    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
-  File "game/scripts/event.rpy", line 222, in script call
-    call expression events[j] from _call_expression
-  File "game/scripts/buildings/high_school_building.rpy", line 124, in script call
+  File "game/scripts/buildings/middle_school_dormitory.rpy", line 54, in script call
     call call_event_menu (
-  File "game/scripts/overview.rpy", line 450, in script call
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/middle_school_dormitory.rpy", line 48, in script call
+    call call_available_event(middle_school_dormitory_timed_event) from _call_call_available_event_11
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/middle_school_dormitory.rpy", line 54, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 466, in script call
-    call expression name from _call_expression_1
-  File "game/scripts/buildings/high_school_building.rpy", line 120, in script call
-    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
-  File "game/scripts/event.rpy", line 222, in script call
-    call expression events[j] from _call_expression
-  File "game/scripts/buildings/high_school_building.rpy", line 124, in script call
-    call call_event_menu (
-  File "game/scripts/overview.rpy", line 450, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  [Previous line repeated 12 more times]
+  File "game/scripts/overview.rpy", line 480, in script call
     call expression name from _call_expression_1
-  File "game/scripts/buildings/high_school_building.rpy", line 120, in script call
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
     call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
-  File "game/scripts/event.rpy", line 222, in script call
+  File "game/scripts/event.rpy", line 236, in script call
     call expression events[j] from _call_expression
-  File "game/scripts/buildings/high_school_building.rpy", line 124, in script call
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
     call call_event_menu (
-  File "game/scripts/screens.rpy", line 28, in script call
-    call call_event(fallback) from _call_call_event
-  File "game/scripts/screens.rpy", line 50, in script call
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
     call expression event_obj[i] from _call_expression_3
-  File "game/scripts/buildings/high_school_building.rpy", line 141, in script
-    subtitles "There is nothing to do here."
-  File "F:\RenPy\renpy\ast.py", line 921, in execute
-    renpy.exports.say(who, what, *args, **kwargs)
-  File "F:\RenPy\renpy\exports.py", line 1373, in say
-    who(what, *args, **kwargs)
-  File "F:\RenPy\renpy\character.py", line 1266, in __call__
-    self.do_display(who, what, cb_args=self.cb_args, dtt=dtt, **display_args)
-  File "F:\RenPy\renpy\character.py", line 927, in do_display
-    display_say(who,
-  File "F:\RenPy\renpy\character.py", line 666, in display_say
-    rv = renpy.ui.interact(mouse='say', type=type, roll_forward=roll_forward)
-  File "F:\RenPy\renpy\ui.py", line 299, in interact
-    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
-  File "F:\RenPy\renpy\display\core.py", line 3377, in interact
-    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
-  File "F:\RenPy\renpy\display\core.py", line 3810, in interact_core
-    root_widget.visit_all(lambda i : i.per_interact())
-  File "F:\RenPy\renpy\display\core.py", line 582, in visit_all
-    d.visit_all(callback, seen)
-  File "F:\RenPy\renpy\display\core.py", line 582, in visit_all
-    d.visit_all(callback, seen)
-  File "F:\RenPy\renpy\display\core.py", line 582, in visit_all
-    d.visit_all(callback, seen)
-  File "F:\RenPy\renpy\display\screen.py", line 451, in visit_all
-    callback(self)
-  File "F:\RenPy\renpy\display\core.py", line 3810, in <lambda>
-    root_widget.visit_all(lambda i : i.per_interact())
-  File "F:\RenPy\renpy\display\screen.py", line 462, in per_interact
-    self.update()
-  File "F:\RenPy\renpy\display\screen.py", line 653, in update
-    self.screen.function(**self.scope)
-  File "game/scripts/overview.rpy", line 350, in execute
-    screen image_with_nude_var(image_path, nude = 0):
-  File "game/scripts/overview.rpy", line 350, in execute
-    screen image_with_nude_var(image_path, nude = 0):
-  File "game/scripts/overview.rpy", line 352, in execute
-    if image_path == "":
-  File "game/scripts/overview.rpy", line 355, in execute
-    $ path = image_path.replace("{nude}", str(nude))
-  File "game/scripts/overview.rpy", line 355, in <module>
-    $ path = image_path.replace("{nude}", str(nude))
-AttributeError: 'int' object has no attribute 'replace'
+  File "game/scripts/buildings/high_school_building.rpy", line 159, in script call
+    subtitles "You are looking into one of the windows of a classroom."
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/buildings/high_school_building.rpy", line 159, in script call
+    subtitles "You are looking into one of the windows of a classroom."
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/buildings/high_school_building.rpy", line 159, in script call
+    subtitles "You are looking into one of the windows of a classroom."
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/buildings/high_school_building.rpy", line 159, in script call
+    subtitles "You are looking into one of the windows of a classroom."
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/buildings/high_school_building.rpy", line 160, in script call
+    subtitles "The students are paying attention to the lesson."
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/courtyard.rpy", line 49, in script call
+    call call_available_event(courtyard_timed_event) from _call_call_available_event_2
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/courtyard.rpy", line 57, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script call
+    $ call_effects(school, effects)
+  File "game/scripts/event_menu.rpy", line 63, in script call
+    call expression event_obj[i] from _call_expression_3
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/middle_school_dormitory.rpy", line 48, in script call
+    call call_available_event(middle_school_dormitory_timed_event) from _call_call_available_event_11
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/middle_school_dormitory.rpy", line 54, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/kiosk.rpy", line 40, in script call
+    call call_available_event(kiosk_timed_event) from _call_call_available_event_8
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/kiosk.rpy", line 48, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/middle_school_dormitory.rpy", line 48, in script call
+    call call_available_event(middle_school_dormitory_timed_event) from _call_call_available_event_11
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/middle_school_dormitory.rpy", line 54, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/middle_school_dormitory.rpy", line 48, in script call
+    call call_available_event(middle_school_dormitory_timed_event) from _call_call_available_event_11
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/middle_school_dormitory.rpy", line 54, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/middle_school_dormitory.rpy", line 48, in script call
+    call call_available_event(middle_school_dormitory_timed_event) from _call_call_available_event_11
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/middle_school_dormitory.rpy", line 54, in script call
+    call call_event_menu (
+  File "game/scripts/overview.rpy", line 466, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 480, in script call
+    call expression name from _call_expression_1
+  File "game/scripts/buildings/high_school_building.rpy", line 52, in script call
+    call call_available_event(high_school_building_timed_event) from _call_call_available_event_6
+  File "game/scripts/event.rpy", line 236, in script call
+    call expression events[j] from _call_expression
+  File "game/scripts/buildings/high_school_building.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/event_menu.rpy", line 35, in script call
+    person "[text]"
+  File "game/scripts/menu.rpy", line 9, in script
+    $ call_effects(school, effects)
+  File "C:\RenPy\renpy\ast.py", line 1138, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "C:\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
+    exec(bytecode, globals, locals)
+  File "game/scripts/menu.rpy", line 9, in <module>
+    $ call_effects(school, effects)
+  File "game/scripts/effects.rpy", line 6, in call_effects
+    effect.apply(school)
+  File "game/scripts/effects.rpy", line 121, in apply
+    self.event.call_available_event()
+  File "game/scripts/event.rpy", line 85, in call_available_event
+    events = self.get_available_events_with_fallback(school, priority)
+  File "game/scripts/event.rpy", line 77, in get_available_events_with_fallback
+    output = self.get_available_events(school, priority)
+  File "game/scripts/event.rpy", line 67, in get_available_events
+    print("check " + str(sum(event.get_event_count() for event in self.events[3])) + " possible")
+  File "game/scripts/event.rpy", line 67, in <genexpr>
+    print("check " + str(sum(event.get_event_count() for event in self.events[3])) + " possible")
+AttributeError: 'str' object has no attribute 'get_event_count'
 
 Windows-10-10.0.19045 AMD64
-Ren'Py 8.0.3.22090809
+Ren'Py 8.1.1.23060707
 Mind the School 0.01
-Sun Aug 13 13:43:14 2023
+Thu Aug 17 13:09:01 2023

@@ -9,6 +9,19 @@ init python:
     def set_game_data(key, value):
         gameData[key] = value
 
+    def start_progress(key):
+        gameData[key] = 1
+
+    def advance_progress(key, delta = 1):
+        if key not in gameData.keys():
+            gameData[key] = 0
+        gameData[key] += delta
+
+    def get_progress(key):
+        if key not in gameData.keys():
+            return -1
+        return gameData[key]
+
     def get_game_data(key):
         if key in gameData.keys():
             return gameData[key]
@@ -17,29 +30,36 @@ init python:
     def contains_game_data(key):
         return key in gameData.keys()
 
-    def get_image_with_level(image_path, name, map):
-        level = get_level_for_char(name, map)
+    def get_image_with_level(image_path, level):
 
-        path = image_path.replace("{nude}", "0")
+        path = image_path.replace("<nude>", "0")
 
         for i in reversed(range(0, level + 1)):
-            image = path.replace("{level}", str(i))
+            image = path.replace("<level>", str(i))
             if renpy.exists(image):
-                return image_path.replace("{level}", str(i))
+                return image_path.replace("<level>", str(i))
         for i in range(0, 10):
-            image = path.replace("{level}", str(i))
+            image = path.replace("<level>", str(i))
             if renpy.exists(image):
-                return image_path.replace("{level}", str(i))
+                return image_path.replace("<level>", str(i))
         
-        return ""
-            
+        return image_path
+
+    def get_random_school():
+        variant = renpy.random.randint(0, loli_content)
+
+        return "high_school"
+        if variant == 1:
+            return "middle_school"
+        if variant == 2:
+            return "elementary_school"
+       
 
 default rules = {}
 default buildings = {}
 default clubs = {}
 default charList = {
     'schools': {},
-    'teacher': {},
     'staff': {},
 }
 default money = Stat("money", 1000)

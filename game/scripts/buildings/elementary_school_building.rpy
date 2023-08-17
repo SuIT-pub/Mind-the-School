@@ -1,6 +1,6 @@
-##################################################
+########################################################
 # ----- Elementary School Building Event Handler ----- #
-##################################################
+########################################################
 
 init -1 python:
     elementary_school_building_after_time_check = Event("elementary_school_building_after_time_check", "elementary_school_building.after_time_check", 2)
@@ -30,32 +30,19 @@ init -1 python:
         TimeCondition(day = 9),
     ))
 
+########################################################
 
-
-################################################
+######################################################
 # ----- Elementary School Building Entry Point ----- #
-################################################
+######################################################
 
 label elementary_school_building:
     
-    $ image_path = "images/background/elementary school building/bg f.png"
-
-    if time.check_daytime("c"):
-        $ image_path = get_image_with_level(
-            "images/background/elementary school building/bg c {level} {nude}.png", 
-            "elementary_school", 
-            charList["schools"]
-        )
-
-    if time.check_daytime(7):
-        $ image_path = "images/background/elementary school building/bg 7.png"
-
-    show screen image_with_nude_var (image_path, 0)
-
-
     call call_available_event(elementary_school_building_timed_event) from _call_call_available_event_3
 
 label .after_time_check:
+
+    call show_elementary_school_building_idle_image()
 
     call call_event_menu (
         "What to do in the Elementary School?",
@@ -63,9 +50,28 @@ label .after_time_check:
         7, 
         elementary_school_building_events, 
         elementary_school_building_fallback,
+        character.subtitles,
+        "elementary_school",
     ) from _call_call_event_menu_3
 
     jump elementary_school_building
+
+label show_elementary_school_building_idle_image():    
+    $ image_path = "images/background/elementary school building/bg f.png"
+
+    if time.check_daytime("c"):
+        $ image_path = get_image_with_level(
+            "images/background/elementary school building/bg c <level> <nude>.png", 
+            get_level_for_char("elementary_school", charList["schools"]),
+        )
+    elif time.check_daytime(7):
+        $ image_path = "images/background/elementary school building/bg 7.png"
+
+    show screen image_with_nude_var (image_path, 0)
+
+    return
+
+######################################################
 
 ##########################################################
 # ----- Elementary School Building Fallback Events ----- #
@@ -78,10 +84,11 @@ label elementary_school_building_person_fallback:
     subtitles "There is nobody here."
     return
 
+##########################################################
+
 #################################################
 # ----- Elementary School Building Events ----- #
 #################################################
-
 
 label first_potion_elementary_school_building_event:
     
@@ -125,10 +132,12 @@ label first_week_elementary_school_building_event:
     principal_thought "Yeah, not one school girl has even one book."
     principal_thought "I guess the former principal cut back on those"
 
-    $ set_stat_for_all("education", 15, schools)
+    $ set_stat_for_all("education", 15, charList["schools"])
 
     $ set_building_blocked("high_school_building")
     $ set_building_blocked("middle_school_building")
     $ set_building_blocked("elementary_school_building")
 
     jump new_day
+
+#################################################

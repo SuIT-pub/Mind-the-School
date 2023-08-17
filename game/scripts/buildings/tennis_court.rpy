@@ -7,7 +7,7 @@ init -1 python:
     tennis_court_fallback         = Event("tennis_court_fallback",         "tennis_court_fallback",         2)
     tennis_court_person_fallback  = Event("tennis_court_person_fallback",  "tennis_court_person_fallback",  2)
 
-    tennis_court_timed_event = EventStorage("tennis_court", "", tennis_court_fallback)
+    tennis_court_timed_event = EventStorage("tennis_court", "", tennis_court_after_time_check)
     tennis_court_events = {
         "check_class":    EventStorage("check_class",    "Check on tennis class",        tennis_court_fallback),
         "teach_class":    EventStorage("teach_class",    "Teach a tennis class",         tennis_court_fallback),
@@ -15,6 +15,8 @@ init -1 python:
         "enter_changing": EventStorage("enter_changing", "Enter changing rooms",         tennis_court_fallback),
         "steal_changing": EventStorage("steal_changing", "Steal some panties",           tennis_court_fallback),
     }
+
+##########################################
 
 ########################################
 # ----- Tennis Court Entry Point ----- #
@@ -36,15 +38,43 @@ label tennis_court:
 
 label .after_time_check:
 
+    $ school = get_random_school()
+
+    call show_tennis_court_idle_image(school)
+
     call call_event_menu (
         "What to do at the tennis court?",
         1, 
         7, 
         tennis_court_events, 
         tennis_court_fallback,
+        character.subtitles,
+        school,
     ) from _call_call_event_menu_15
 
     jump tennis_court
+
+label show_tennis_court_idle_image(school):    
+    $ image_path = "images/background/tennis court/bg 1.png"
+
+    if time.check_daytime("c"):
+        $ image_path = get_image_with_level(
+            "images/background/tennis court/bg c <level> <nude>.png", 
+            get_level_for_char(school, charList["schools"]),
+        )
+    elif time.check_daytime("3,6"):
+        $ image_path = get_image_with_level(
+            "images/background/tennis court/bg 3,6 <level> <nude>.png", 
+            get_level_for_char(school, charList["schools"]),
+        )
+    elif time.check_daytime(7):
+        $ image_path = "images/background/tennis court/bg 7.png"
+
+    show screen image_with_nude_var (image_path, 0)
+
+    return
+
+########################################
 
 ############################################
 # ----- Tennis Court Fallback Events ----- #
@@ -58,6 +88,12 @@ label tennis_court_person_fallback:
     subtitles "There is nobody here."
     return
 
+############################################
+
 ###################################
 # ----- Tennis Court Events ----- #
+###################################
+
+
+
 ###################################

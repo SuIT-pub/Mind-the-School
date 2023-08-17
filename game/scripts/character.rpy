@@ -25,13 +25,9 @@ init -6 python:
             stat_obj = self.get_stat_obj(stat)
             stat_obj.set_value(value)
 
-            update_mean_values(charList['schools'])
-
         def change_stat(self, stat, delta):
             stat_obj = self.get_stat_obj(stat)
             stat_obj.change_value(delta)
-
-            update_mean_values(charList['schools'])
 
         def get_stat_number(self, stat):
             stat_obj = self.get_stat_obj(stat)
@@ -156,8 +152,11 @@ init -6 python:
 
         return level
 
-    def get_mean_stat(stat, map):
+    def get_mean_stat(stat, map = None):
         mean = 0
+
+        if stat == "money":
+            return money.get_value()
 
         count = 0
         for obj in map.values():
@@ -170,7 +169,7 @@ init -6 python:
         if count == 0:
             return 0
 
-        return mean / count
+        return round(mean / count, 2)
 
     def get_character(name, map):
         if name not in map.keys():
@@ -178,7 +177,11 @@ init -6 python:
 
         return map[name]
 
-    def get_stat_for_char(stat, name, map):
+    def get_stat_for_char(stat, name = "", map = None):
+
+        if stat == "money":
+            return money.get_value()
+
         if name in map.keys():
             return map[name].get_stat_number(stat)
         return -1
@@ -238,7 +241,7 @@ label load_schools:
         },
     })
 
-    $ load_character("teacher_1", "Teacher 1", charList['teacher'], {
+    $ load_character("teacher", "Teacher", charList['staff'], {
         'stats_objects': {
             "corruption": Stat("corruption", 0),
             "inhibition": Stat("inhibition", 0),
@@ -248,51 +251,6 @@ label load_schools:
             "reputation": Stat("reputation", 12),
         },
     })
-
-    $ load_character("teacher_2", "Teacher 2", charList['teacher'], {
-        'stats_objects': {
-            "corruption": Stat("corruption", 0),
-            "inhibition": Stat("inhibition", 0),
-            "happiness": Stat("happiness", 20),
-            "education": Stat("education", 10),
-            "charm": Stat("charm", 8),
-            "reputation": Stat("reputation", 12),
-        }
-    })
-
-    $ load_character("teacher_3", "Teacher 3", charList['teacher'], {
-        'stats_objects': {
-            "corruption": Stat("corruption", 0),
-            "inhibition": Stat("inhibition", 0),
-            "happiness": Stat("happiness", 20),
-            "education": Stat("education", 10),
-            "charm": Stat("charm", 8),
-            "reputation": Stat("reputation", 12),
-        }
-    })
-
-    $ load_character("teacher_4", "Teacher 4", charList['teacher'], {
-        'stats_objects': {
-            "corruption": Stat("corruption", 0),
-            "inhibition": Stat("inhibition", 0),
-            "happiness": Stat("happiness", 20),
-            "education": Stat("education", 10),
-            "charm": Stat("charm", 8),
-            "reputation": Stat("reputation", 12),
-        }
-    })
-
-    $ load_character("teacher_5", "Teacher 5", charList['teacher'], {
-        'stats_objects': {
-            "corruption": Stat("corruption", 0),
-            "inhibition": Stat("inhibition", 0),
-            "happiness": Stat("happiness", 20),
-            "education": Stat("education", 10),
-            "charm": Stat("charm", 8),
-            "reputation": Stat("reputation", 12),
-        }
-    })
-
     $ load_character("high_school", "High School", charList['schools'], {
         'stats_objects': {
             "corruption": Stat("corruption", 0),

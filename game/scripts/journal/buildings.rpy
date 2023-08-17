@@ -1,5 +1,14 @@
+############################
+# ----- PYTHON BLOCK ----- #
+############################
+
 init -6 python:
     import re
+
+    #######################
+    # ----- CLASSES ----- #
+#######################
+
     class Building:
         def __init__(self, name, title):
             self._name = name
@@ -56,7 +65,7 @@ init -6 python:
         def get_image(self):
             level = get_lowest_level(schools)
             for i in reversed(range(0, level + 1)):
-                image = self._image_path.replace("{level}", str(i))
+                image = self._image_path.replace("<level>", str(i))
                 if renpy.exists(image):
                     return image
             return self._image_path_alt
@@ -157,9 +166,11 @@ init -6 python:
 
             return output
 
+    #######################
 
-    #############################################
-    # Buildings Global Methods
+    ########################################
+    # ----- Buildings Global Methods ----- #
+    ########################################
     
     def count_locked_buildings():
         output = 0
@@ -265,6 +276,15 @@ init -6 python:
     def remove_building(name):
         if name in buildings.keys():
             del(buildings[name])
+
+    
+    ########################################
+
+############################
+
+#####################
+# ----- LABEL ----- #
+#####################
 
 label load_buildings:
     $ load_building("high_school_building", "High School Building", {
@@ -484,3 +504,5 @@ label load_buildings:
     })
 
     return
+
+#####################

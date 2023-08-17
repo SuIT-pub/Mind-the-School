@@ -21,6 +21,7 @@ init -1 python:
         TimeCondition(day = "2-4", month = 1, year = 2023),
     ))
     
+###################################
 
 #################################
 # ----- Kiosk Entry Point ----- #
@@ -40,15 +41,37 @@ label kiosk:
 
 label .after_time_check:
 
+    $ school = get_random_school()
+
+    call show_kiosk_idle_image(school)
+
     call call_event_menu (
         "What to do at the Kiosk?",
         1, 
         7, 
         kiosk_events, 
         kiosk_fallback,
+        character,
     ) from _call_call_event_menu_8
 
     jump kiosk
+
+label show_kiosk_idle_image(school):    
+    $ image_path = "images/background/kiosk/bg f.png"
+
+    if time.check_daytime("c"):
+        $ image_path = get_image_with_level(
+            "images/background/kiosk/bg c <level> <nude>.png", 
+            get_level_for_char(school, charList["schools"]),
+        )
+    elif time.check_daytime(7):
+        $ image_path = "images/background/kiosk/bg 7.png"
+
+    show screen image_with_nude_var (image_path, 0)
+
+    return
+
+#################################
 
 #####################################
 # ----- Kiosk Fallback Events ----- #
@@ -66,6 +89,8 @@ label kiosk_person_fallback:
     subtitles "There is nobody here."
     return
 
+#####################################
+
 ############################
 # ----- Kiosk Events ----- #
 ############################
@@ -80,8 +105,10 @@ label first_week_kiosk_event:
     principal_thought "This is not acceptable. Did the former headmaster really close the cafeteria?"
     principal_thought "That can't be right..."
 
-    $ change_stat_for_all("reputation", -2, schools)
+    $ change_stat_for_all("reputation", -2, charList["schools"])
 
     $ set_building_blocked("kiosk")
 
     jump new_day
+
+############################

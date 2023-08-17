@@ -65,8 +65,8 @@ init -6 python:
                 return ""
             return stat_data.title
 
-    class RuleCondition(Condition):
 
+    class RuleCondition(Condition):
         def __init__(self, value, school = "x", blocking = False):
             super().__init__()
             self.value = value
@@ -93,8 +93,8 @@ init -6 python:
                 return ""
             return get_rule(self.value).title
 
-    class ClubCondition(Condition):
 
+    class ClubCondition(Condition):
         def __init__(self, value, school = "x", blocking = False):
             super().__init__()
             self.value = value
@@ -121,8 +121,8 @@ init -6 python:
                 return ""
             return get_club(self.value).title
 
-    class BuildingCondition(Condition):
 
+    class BuildingCondition(Condition):
         def __init__(self, value, blocking = False):
             super().__init__()
             self.value = value
@@ -146,8 +146,8 @@ init -6 python:
                 return ""
             return get_building(self.value).title
 
-    class LevelCondition(Condition):
 
+    class LevelCondition(Condition):
         def __init__(self, value, school = "x", blocking = False):
             super().__init__()
             self.value = value
@@ -184,8 +184,8 @@ init -6 python:
         def get_name(self):
             return "Level"
 
-    class MoneyCondition(Condition):
 
+    class MoneyCondition(Condition):
         def __init__(self, value, blocking = False):
             super().__init__()
             self.value = value
@@ -211,8 +211,8 @@ init -6 python:
         def get_name(self):
             return "Money"
 
-    class SchoolCondition(Condition):
 
+    class SchoolCondition(Condition):
         def __init__(self, school = "x", blocking = True):
             super().__init__()
             self.school = school
@@ -232,8 +232,8 @@ init -6 python:
                 return self.school
             return get_character(school, charList["schools"]).get_title()
 
-    class LockCondition(Condition):
 
+    class LockCondition(Condition):
         def __init__(self):
             super().__init__()
             self.blocking = True
@@ -250,8 +250,8 @@ init -6 python:
         def get_name(self):
             return "lock"
 
-    class TimeCondition(Condition):
 
+    class TimeCondition(Condition):
         def __init__(self, blocking = True, **kwargs):
             super().__init__()
             self.day     = "x" if 'day'     not in kwargs.keys() else kwargs['day'    ]
@@ -315,8 +315,8 @@ init -6 python:
         def get_name(self):
             return f"{self.day}:{self.week}:{self.month}:{self.year}:{self.daytime}:{self.weekday}"
             
-    class RandomCondition(Condition):
 
+    class RandomCondition(Condition):
         def __init__(self, amount, limit, blocking = False):
             super().__init__()
             self.amount = amount
@@ -336,3 +336,31 @@ init -6 python:
 
         def get_name(self):
             return f"Random ({self.amount}/{self.limit})"
+
+
+    class ValueCondition(Condition):
+        def __init__(self, name, key, value, blocking = False):
+            super().__init__()
+            self.name = name
+            self.key = key
+            self.value = value
+            self.blocking = blocking
+            self.display_in_desc = True
+            self.display_in_list = False
+
+        def is_fullfilled(self, _school):
+            if self.key not in gameData.keys():
+                return False
+            return gameData[self.key] == self.value
+
+        def to_desc_text(self, _school):
+            if self.is_fullfilled(_school):
+                return self.name + " is {color=#0f0}" + self.value + "{/color}"
+            else:
+                return self.name + " is {color=#f00}" + self.value + "{/color}"
+
+        def to_list_text(self, _school):
+            return ["", ""]
+
+        def get_name(self):
+            return self.name

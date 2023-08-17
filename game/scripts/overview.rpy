@@ -19,6 +19,11 @@ init -1 python:
             for keys in map.keys():
                 map[keys].reset_changed_stats()
 
+    def hide_all():
+        print("hide")
+        for s in renpy.display.screen.screens_by_name:
+            renpy.hide_screen(s)
+
 ######################
 # ----- Styles ----- #
 ######################
@@ -51,7 +56,7 @@ screen school_overview_stats ():
         text str(get_mean_stat("happiness", charList['schools'])) style "stat_value"
         text str(get_mean_stat("charm",     charList['schools'])) style "stat_value"
         text str(get_mean_stat("education", charList['schools'])) style "stat_value"
-        text str(get_mean_stat("money",     charList['schools'])) style "stat_value"
+        text str(get_stat_for_char("money")) style "stat_value"
 
         null
         text "Corruption" style "stat_name"
@@ -150,7 +155,7 @@ screen school_overview_images ():
     # Bath
     if is_building_available("bath"):
         add "background/bg school bath idle.png":
-            xpos 557 ypos 319
+            xpos 540 ypos 319
 
     # Kiosk
     if is_building_available("kiosk"):
@@ -290,7 +295,7 @@ screen school_overview_buttons ():
             auto "background/bg school bath %s.png"
             tooltip "Bath"
             focus_mask True
-            xpos 557 ypos 319
+            xpos 538 ypos 300
             action Call("building", "bath")
 
     # Kiosk
@@ -347,39 +352,48 @@ screen school_overview_buttons ():
                 xalign 0.5
                 text tooltip
 
-screen image_with_nude_var(image_path, nude = 0):
-
-    if image_path == "":
-        $ path = "black"
+screen image_screen(image_path):
+    tag background
+    if not renpy.exists(image_path):
+        $ renpy.show_screen("black_error_screen_text", "image '" + image_path + "' not found")
     else:
-        $ path = image_path.replace("{nude}", str(nude))
+        add image_path
 
-    add path
+screen image_with_nude_var(image_path, limit = 2, nude = 0):
+    tag background
+    
+    $ path = image_path.replace("<nude>", str(nude))
+
+    if not renpy.exists(path):
+        $ renpy.show_screen("black_error_screen_text", "image '" + path + "' not found")
+    else:
+        add path
     
     if nude_vision != 0 and nude == nude_vision:
         imagebutton:
             auto "icons/sight_disabled_%s.png"
             focus_mask None
             xalign 0.0 yalign 0.0
-            action Show("image_with_nude_var", None, image_path, 0)
+            action Show("image_with_nude_var", None, image_path, limit, 0)
 
     if nude == 0 and nude_vision >= 1:
         imagebutton:
             auto "icons/eye_target_%s.png"
             focus_mask None
             xalign 0.0 yalign 0.0
-            action Show("image_with_nude_var", None, image_path, 1)
+            action Show("image_with_nude_var", None, image_path, limit, 1)
 
     if nude == 1 and nude_vision == 2:
         imagebutton:
             auto "icons/fire_iris_%s.png"
             focus_mask None
             xalign 0.0 yalign 0.0
-            action Show("image_with_nude_var", None, image_path, 2)
+            action Show("image_with_nude_var", None, image_path, limit, 2)
 
 
 screen black_error_screen_text(text_str):
     add "black"
+    zorder -1
     
     text text_str:
         xalign 0 yalign 0
@@ -445,13 +459,13 @@ label map_overview:
     call load_buildings from _call_load_buildings_1
     call load_clubs from _call_load_clubs_1
     
+    $ hide_all()
+
     show screen school_overview_map
     show screen school_overview_stats
     call screen school_overview_buttons
 
     subtitles_Empty ""
-
-    jump map_overview
 
 #############################################################################
 # building distributor. directs the building calls to the corresponding label

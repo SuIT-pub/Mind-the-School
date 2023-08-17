@@ -17,6 +17,8 @@ init -1 python:
         "eat_look":    EventStorage("eat_look",    "Look around",       cafeteria_eat_fallback),
     }
 
+#######################################
+
 #####################################
 # ----- Cafeteria Entry Point ----- #
 #####################################
@@ -37,15 +39,43 @@ label cafeteria:
 
 label .after_time_check:
 
+    $ school = get_random_school()
+
+    call show_cafeteria_idle_image(school)
+
     call call_event_menu (
         "What to do at the Cafeteria?",
         1, 
         7, 
         cafeteria_events, 
         cafeteria_fallback,
+        character.subtitles,
+        school,
     ) from _call_call_event_menu_1
 
     jump cafeteria
+
+label show_cafeteria_idle_image(school):    
+    $ image_path = "images/background/cafeteria/bg c.png"
+
+    if time.check_daytime("1,6"):
+        $ image_path = get_image_with_level(
+            "images/background/cafeteria/bg 1,6 <level> <nude>.png", 
+            get_level_for_char(school, charList["schools"]),
+        )
+    elif time.check_daytime(3):
+        $ image_path = get_image_with_level(
+            "images/background/cafeteria/bg 3 <level> <nude>.png", 
+            get_level_for_char(school, charList["schools"]),
+        )
+    elif time.check_daytime(7):
+        $ image_path = "images/background/cafeteria/bg 7.png"
+
+    show screen image_with_nude_var (image_path, 0)
+
+    return
+
+#####################################
 
 #########################################
 # ----- Cafeteria Fallback Events ----- #
@@ -64,6 +94,11 @@ label cafeteria_look_fallback:
     subtitles "There is nothing to see here."
     return
 
+#########################################
+
 ################################
 # ----- Cafeteria Events ----- #
+################################
+
+
 ################################

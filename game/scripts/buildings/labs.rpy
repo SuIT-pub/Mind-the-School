@@ -16,6 +16,8 @@ init -1 python:
         "drug_lab":        EventStorage("drug_lab",        "Go to drug lab",          labs_fallback       ),
     }
 
+##################################
+
 ################################
 # ----- Labs Entry Point ----- #
 ################################
@@ -33,6 +35,10 @@ label labs:
     call call_available_event(labs_timed_event) from _call_call_available_event_9
 
 label .after_time_check:
+    
+    $ school = get_random_school()
+
+    call show_labs_idle_image(school)
 
     call call_event_menu (
         "What to do at the Labs?",
@@ -40,9 +46,28 @@ label .after_time_check:
         7, 
         labs_events, 
         labs_fallback,
+        character.subtitles,
+        school,
     ) from _call_call_event_menu_9
 
     jump labs
+
+label show_labs_idle_image(school):    
+    $ image_path = "images/background/labs/bg f.png"
+
+    if time.check_daytime("c"):
+        $ image_path = get_image_with_level(
+            "images/background/labs/bg c <level> <nude>.png", 
+            get_level_for_char(school, charList["schools"]),
+        )
+    elif time.check_daytime(7):
+        $ image_path = "images/background/labs/bg 7.png"
+
+    show screen image_with_nude_var (image_path, 0)
+
+    return
+
+################################
 
 ####################################
 # ----- Labs Fallback Events ----- #
@@ -56,6 +81,12 @@ label labs_person_fallback:
     subtitles "There is nobody here."
     return
 
+####################################
+
 ###########################
 # ----- Labs Events ----- #
+###########################
+
+
+
 ###########################

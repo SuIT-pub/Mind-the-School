@@ -1,12 +1,12 @@
-##################################################
+#############################################
 # ----- Office Building Event Handler ----- #
-##################################################
+#############################################
 
 init -1 python:
     office_building_after_time_check = Event("office_building_after_time_check", "office_building.after_time_check", 2)
     office_building_fallback         = Event("office_building_fallback",         "office_building_fallback",         2)
 
-    office_building_timed_event = EventStorage("office_building", "", office_building_fallback)
+    office_building_timed_event = EventStorage("office_building", "", office_building_after_time_check)
     office_building_events = {
         "tutorial":  EventStorage("tutorial",  "About the school...", office_building_fallback),
         "paperwork": EventStorage("paperwork", "Do paperwork",        office_building_fallback),
@@ -29,17 +29,23 @@ init -1 python:
         TimeCondition(day = 9),
     ))
 
+#############################################
 
-################################################
+###########################################
 # ----- Office Building Entry Point ----- #
-################################################
+###########################################
 
 label office_building:
-    scene office secretary 4 big smile
 
     call call_available_event(office_building_timed_event) from _call_call_available_event_12
 
 label .after_time_check:
+
+    $ staff = "teacher"
+    if renpy.random.randint(1, 2) == 1:
+        $ staff = "secretary"
+
+    call show_office_building_idle_image(staff)
 
     call call_event_menu (
         "Hello Headmaster! How can I help you?",
@@ -47,10 +53,28 @@ label .after_time_check:
         7, 
         office_building_events, 
         office_building_fallback,
-        character.secretary
+        character.secretary,
+        staff,
     ) from _call_call_event_menu_12
 
     jump office_building
+
+label show_office_building_idle_image(staff):    
+    $ image_path = "images/background/office building/bg f.png"
+
+    if time.check_daytime("c"):
+        $ image_path = get_image_with_level(
+            "images/background/office building/bg c <level> <nude>.png", 
+            get_level_for_char(staff, charList["staff"]),
+        )
+    elif time.check_daytime(7):
+        $ image_path = "images/background/office building/bg 7.png"
+
+    show screen image_with_nude_var (image_path, 0)
+
+    return
+
+###########################################
 
 ####################################################
 # ----- High School Building Fallback Events ----- #
@@ -59,6 +83,8 @@ label .after_time_check:
 label office_building_fallback:
     subtitles "There is nothing to do here."
     return
+
+####################################################
 
 ###########################################
 # ----- High School Building Events ----- #
@@ -70,7 +96,7 @@ label first_potion_office_building_event:
     subtitles "You enter the teachers office."
     principal_thought "Ahh the teacher seem to be eating at the kiosk as well."
     show first potion office 2
-    principal_thought "Not that I have a problem with it. Quite the opposite. That makes some thing a bit easier."
+    principal_thought "Not that I have a problem with it. Quite the opposite. That makes some things a bit easier."
 
     $ set_building_blocked("office_building")
 
@@ -143,6 +169,9 @@ label pta_meeting:
     principal "First point for today. Does someone have anything to discuss today?"
 
     principal "No? Alright then lets jump straight to the next point."
+
+    # todo: implement PTA Meeting
+    subtitles "PTA Meeting not implemented yet."
 
     jump new_daytime
 
@@ -273,12 +302,4 @@ label .end_meeting:
     """
     jump new_daytime
 
-label male_student_scolding:
-    subtitles "todo: male scolding"
-
-    return
-
-label mobbing_scolding:
-    subtitles "todo: mobbing scolding"
-
-    return
+###########################################

@@ -29,13 +29,7 @@ init -1 python:
         TimeCondition(day = 9),
     ))
 
-    # high_school_dormitory_events["check_rooms"].add_event(Event("check_rooms_events", "hsd_check_room_1", 3,
-    #     TimeCondition(daytime = 'f', weekday = 'd')
-    # ))
-
-    # high_school_dormitory_events["check_rooms"].add_event(Event("check_rooms_events_1", "hsd_check_room_1", 3,
-    #     TimeCondition(weekday = 'w')
-    # ))
+###################################################
 
 #################################################
 # ----- High School Dormitory Entry Point ----- #
@@ -55,15 +49,36 @@ label high_school_dormitory:
 
 label .after_time_check:
 
+    call show_high_school_dormitory_idle_image()
+
     call call_event_menu (
         "What to do in the High School Dorm?",
         1, 
         7, 
         high_school_dormitory_events, 
         high_school_dormitory_fallback,
+        character.subtitles,
+        "high_school",
     ) from _call_call_event_menu_7
 
     jump high_school_dormitory
+
+label show_high_school_dormitory_idle_image():    
+    $ image_path = "images/background/high school dormitory/bg c.png"
+
+    if time.check_daytime("c"):
+        $ image_path = get_image_with_level(
+            "images/background/high school dormitory/bg f <level> <nude>.png", 
+            get_level_for_char("high_school", charList["schools"]),
+        )
+    elif time.check_daytime(7):
+        $ image_path = "images/background/high school dormitory/bg 7.png"
+
+    show screen image_with_nude_var (image_path, 0)
+
+    return
+
+#################################################
 
 #####################################################
 # ----- High School Dormitory Fallback Events ----- #
@@ -76,6 +91,8 @@ label high_school_dormitory_fallback:
 label high_school_dormitory_person_fallback:
     subtitles "There is nobody here."
     return
+
+#####################################################
 
 ############################################
 # ----- High School Dormitory Events ----- #
@@ -94,7 +111,7 @@ label first_week_high_school_dormitory_event:
 
     principal_thought "Hmm nobody seems to be here. Nevermind. I just let my Secretary give me a report."
 
-    $ set_stat_for_all("inhibition", 2, schools)
+    $ set_stat_for_all("inhibition", 2, charList["schools"])
 
     $ set_building_blocked("high_school_dormitory")
     $ set_building_blocked("middle_school_dormitory")
@@ -128,89 +145,4 @@ label first_potion_high_school_dormitory_event:
     jump new_daytime
 
 
-label hsd_check_room_1:
-    subtitles "You knock on one of the dorm rooms. Nobody opens."
-    subtitles "You hold your ear on the door but you hear nothing!"
-
-    menu:
-        "Enter Room":
-            jump hsd_check_room_1.enter_room_all
-        "Knock":
-            jump hsd_check_room_1.knock_room
-        "Leave":
-            jump new_daytime
-
-label .knock_room:
-    $ variant = renpy.random.randInt(1, 2)
-    if variant == 1:
-        subtitles "You knock but nobody answers."
-        menu:
-            subtitles "What do you do?"
-            "Enter room":
-                jump hsd_check_room_1.enter_room_empty
-            "Leave":
-                jump new_daytime
-    if variant == 2:
-        sgirl "Enter!"
-        menu:
-            subtitles "What do you do?"
-            "Enter room":
-                jump hsd_check_room_1.enter_room_girl
-            "Leave":
-                jump new_daytime
-    jump new_daytime
-    
-
-label .enter_room_empty:
-    subtitles "You enter the room."
-    $ variant = renpy.random.randInt(1, 3)
-    if variant == 1:
-        jump hsd_check_room_1.enter_room_empty_empty
-    if variant == 2:
-        jump hsd_check_room_1.enter_room_empty_clothing
-    jump new_daytime
-
-label .enter_room_all:
-    subtitles "You enter the room."
-    $ variant = renpy.random.randInt(1, 3)
-    if variant == 1:
-        jump hsd_check_room_1.enter_room_empty_empty
-    if variant == 2:
-        jump hsd_check_room_1.enter_room_empty_clothing
-    if variant == 3:
-        jump hsd_check_room_1.enter_room_girl_dressing
-    jump new_daytime
-
-label .enter_room_empty_empty:
-    subtitles "The room is empty. You can't find anything interesting."
-    jump new_daytime
-label .enter_room_empty_clothing:
-    subtitles "The room is empty but there is clothing lying around everywhere."
-    menu:
-        subtitles "What to do?"
-        "Steal panties":
-            jump hsd_check_room_1.enter_room_steal_panties
-        "Steal bras":
-            jump hsd_check_room_1.enter_room_steal_bras
-        "Leave":
-            jump new_daytime
-label .enter_room_girl_dressing:
-    subtitles "You get greeted by a half naked student in the process of dressing up."
-    sgirl "EEEK! Get out!"
-    $ change_stat("inhibition", 0.1, "high_school", charList["schools"])
-    $ change_stat("corruption", 0.02, "high_school", charList["schools"])
-    $ change_stat("happiness", -0.1, "high_school", charList["schools"])
-    jump new_daytime
-
-label .enter_room_girl:
-    subtitles "As you enter you get greeted by a student. You talk a little bit before you leave again."
-    jump new_daytime
-
-label .enter_room_steal_panties:
-    subtitles "You quickly take some panties."
-    jump new_daytime
-
-label .enter_room_steal_bras:
-    subtitles "You quickly take some bras."
-    jump new_daytime
-
+############################################

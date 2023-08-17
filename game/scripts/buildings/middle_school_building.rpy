@@ -29,6 +29,7 @@ init -1 python:
         TimeCondition(day = 9),
     ))
 
+####################################################
 
 ##################################################
 # ----- Middle School Building Entry Point ----- #
@@ -36,34 +37,40 @@ init -1 python:
 
 label middle_school_building:
     
-    $ image_path = "images/background/middle school building/bg f.png"
-
-    if time.check_daytime("c"):
-        $ image_path = get_image_with_level(
-            "images/background/middle school building/bg c {level} {nude}.png", 
-            "middle_school", 
-            charList["schools"]
-        )
-
-    if time.check_daytime(7):
-        $ image_path = "images/background/middle school building/bg 7.png"
-
-    show screen image_with_nude_var (image_path, 0)
-
-
     call call_available_event(middle_school_building_timed_event) from _call_call_available_event_10
 
 label .after_time_check:
+
+    call show_middle_school_building_idle_image()
 
     call call_event_menu (
         "What to do in the Middle School?",
         1, 
         7, 
         middle_school_building_events, 
-        middle_school_building_fallback
+        middle_school_building_fallback,
+        character.subtitles,
+        "middle_school",
     ) from _call_call_event_menu_10
 
     jump middle_school_building
+
+label show_middle_school_building_idle_image():    
+    $ image_path = "images/background/middle school building/bg f.png"
+
+    if time.check_daytime("c"):
+        $ image_path = get_image_with_level(
+            "images/background/middle school building/bg c <level> <nude>.png", 
+            get_level_for_char("middle_school", charList["schools"]),
+        )
+    elif time.check_daytime(7):
+        $ image_path = "images/background/middle school building/bg 7.png"
+
+    show screen image_with_nude_var (image_path, 0)
+
+    return
+
+##################################################
 
 ######################################################
 # ----- Middle School Building Fallback Events ----- #
@@ -76,9 +83,11 @@ label middle_school_building_person_fallback:
     subtitles "There is nobody here."
     return
 
-###########################################
+######################################################
+
+#############################################
 # ----- Middle School Building Events ----- #
-###########################################
+#############################################
 
 label first_potion_middle_school_building_event:
     
@@ -122,10 +131,12 @@ label first_week_middle_school_building_event:
     principal_thought "Yeah, not one school girl has even one book."
     principal_thought "I guess the former principal cut back on those"
 
-    $ set_stat_for_all("education", 15, schools)
+    $ set_stat_for_all("education", 15, charList["schools"])
 
     $ set_building_blocked("high_school_building")
     $ set_building_blocked("middle_school_building")
     $ set_building_blocked("elementary_school_building")
 
     jump new_day
+    
+#############################################

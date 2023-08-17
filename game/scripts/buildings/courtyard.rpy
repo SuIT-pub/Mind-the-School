@@ -28,6 +28,7 @@ init -1 python:
         TimeCondition(day = 9),
     ))
 
+#######################################
 
 #####################################
 # ----- Courtyard Entry Point ----- #
@@ -49,15 +50,43 @@ label courtyard:
 
 label .after_time_check:
 
+    $ school = get_random_school()
+
+    call show_courtyard_idle_image(school)
+
     call call_event_menu (
         "What to do at the Courtyard?",
         1, 
         7, 
         courtyard_events, 
         courtyard_fallback,
+        character.subtitles,
+        school,
     ) from _call_call_event_menu_2
 
     jump courtyard
+
+label show_courtyard_idle_image(school):    
+    $ image_path = "images/background/gym/bg c.png"
+
+    if time.check_daytime("1,6"):
+        $ image_path = get_image_with_level(
+            "images/background/gym/bg 1,6 <level> <nude>.png", 
+            get_level_for_char(school, charList["schools"]),
+        )
+    elif time.check_daytime(3):
+        $ image_path = get_image_with_level(
+            "images/background/gym/bg 3 <level> <nude>.png", 
+            get_level_for_char(school, charList["schools"]),
+        )
+    elif time.check_daytime(7):
+        $ image_path = "images/background/gym/bg 7.png"
+
+    show screen image_with_nude_var (image_path, 0)
+
+    return
+
+#####################################
 
 #########################################
 # ----- Courtyard Fallback Events ----- #
@@ -70,10 +99,11 @@ label courtyard_person_fallback:
     subtitles "There is nobody here."
     return
 
+#########################################
+
 ################################
 # ----- Courtyard Events ----- #
 ################################
-
 
 label first_potion_courtyard_event:
 
@@ -101,8 +131,10 @@ label first_week_courtyard_event:
     principal_thought "For example the public toilet is broken."
     principal_thought "At least the courtyard doesn't need immediate fixing."
 
-    $ set_stat_for_all("happiness", 12, schools)
+    $ set_stat_for_all("happiness", 12, charList["schools"])
 
     $ set_building_blocked("courtyard")
 
     jump new_day
+
+################################

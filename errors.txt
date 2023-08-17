@@ -2,9 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/scripts/overview.rpy", line 352: 'tooltip' is not a keyword argument or valid child for the screen statement.
-    tooltip = False
-           ^
+File "game/scripts/event.rpy", line 66: is not terminated with a newline. (Check strings and parenthesis.)
+(Perhaps you left out a " at the end of the first line.)
+                    print("Get Level 3 Event)
 
-Ren'Py Version: Ren'Py 8.0.3.22090809
-Sun Aug 13 13:23:25 2023
+Ren'Py Version: Ren'Py 8.1.1.23060707
+Thu Aug 17 11:41:59 2023

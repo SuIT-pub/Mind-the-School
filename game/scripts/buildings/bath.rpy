@@ -16,6 +16,8 @@ init -1 python:
         "mixed_enter":  EventStorage("mixed_enter",  "Enter the mixed bath",      bath_enter_fallback),
         "mixed_peek":   EventStorage("mixed_peek",   "Peek into the mixed bath",  bath_peek_fallback ),
     }
+    
+##################################
 
 #################################
 # ----- Kiosk Entry Point ----- #
@@ -37,15 +39,43 @@ label bath:
 
 label .after_time_check:
 
+    $ school = get_random_school()
+
+    call show_bath_idle_image(school)
+
     call call_event_menu (
         "What to do in the Bath?",
         1, 
         7, 
         bath_events,
         bath_fallback,
+        character.subtitles,
+        school,
     ) from _call_call_event_menu
 
     jump bath
+
+label show_bath_idle_image(school):    
+    $ image_path = "images/background/bath/bg c.png"
+
+    if time.check_daytime("1,3"):
+        $ image_path = get_image_with_level(
+            "images/background/bath/bg 1,3 <level> <nude>.png", 
+            get_level_for_char(school, charList["schools"]),
+        )
+    elif time.check_daytime(6):
+        $ image_path = get_image_with_level(
+            "images/background/bath/bg 6 <level> <nude>.png", 
+            get_level_for_char(school, charList["schools"]),
+        )
+    elif time.check_daytime(7):
+        $ image_path = "images/background/bath/bg 7.png"
+
+    show screen image_with_nude_var (image_path, 0)
+
+    return
+
+##################################
 
 ####################################
 # ----- Bath Fallback Events ----- #
@@ -63,6 +93,11 @@ label bath_enter_fallback:
     subtitles "I don't want to take a bath."
     return
 
+####################################
+
 ###########################
 # ----- Bath Events ----- #
+###########################
+
+
 ###########################

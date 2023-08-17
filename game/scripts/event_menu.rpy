@@ -10,45 +10,60 @@ style menu_text_right take menu_text:
     textalign 1.0
 
 init -1 python:
-    def clean_events_for_menu(events):
-        output = {}
+    def clean_events_for_menu(events, school = "x"):
+        output = []
+        used = []
 
         # remove events that have no applicable events
         for key in events.keys():
-            if (events[key].count_available_events() > 0 and key not in output.keys()):
-                output[key] = events[key]
+            if (events[key].count_available_events(school) > 0 and key not in used):
+                output.append((events[key].get_title(), EventEffect(events[key])))
+                used.append(key)
 
         return output
         
 
 label call_event_menu(text, page, page_limit, events, fallback, person = character.subtitles, school = "x"):
-    $ event_list = clean_events_for_menu(events)
+    $ event_list = clean_events_for_menu(events, school)
 
     if len(event_list) == 0:
         call call_event(fallback) from _call_call_event
         jump map_overview
 
-    show screen menu_event_choice(page, page_limit, event_list)
+    show screen custom_menu_choice(page, page_limit, event_list)
 
-    while True:
-        person "[text]"
+    person "[text]"
 
-label call_event(event_obj):
+    jump new_daytime
+
+label call_event(event_obj, priority = 0):
     hide screen menu_event_choice
 
     if isinstance(event_obj, EventStorage):
+        python:
+            print("Is EventStorage") 
         $ event_obj.call_available_event()
 
+
     if isinstance(event_obj, Event):
+        python:
+            print("Is Event")
         $ event_obj = event_obj.get_event()
 
     if isinstance(event_obj, str):
+        python:
+            print("Is String")
         call expression event_obj from _call_expression_2
+
+    python:
+        print("Iterate List")
 
     $ i = 0
     while(len(event_obj) > i):
         call expression event_obj[i] from _call_expression_3
         $ i += 1
+
+    
 
 screen menu_event_choice(page, page_limit, events):
     tag menu_choice

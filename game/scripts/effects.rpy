@@ -1,5 +1,10 @@
 init -1 python:
     from abc import ABC,abstractmethod
+
+    def call_effects(school, *effects: Effect):
+        for effect in effects:
+            effect.apply(school)
+
     class Effect(ABC):
         def __init__(self, name):
             self.name = name
@@ -98,10 +103,47 @@ init -1 python:
             remove_temp_event(self.name)
 
     class BlockBuildingEffect(Effect):
-        def __init(self, name, building_name, is_blocking = True):
+        def __init__(self, name, building_name, is_blocking = True):
             super().__init__(name)
             self.building_name = building_name
             self.is_blocking = is_blocking
 
         def apply(self, _school):
             set_building_blocked(self.building_name, self.is_blocking)
+
+    class EventEffect(Effect):
+        def __init__(self, event):
+            super().__init__(event.get_title())
+            self.event = event
+
+        def apply(self, _school):
+            if isinstance(self.event, EventStorage):
+                self.event.call_available_event()
+
+            if isinstance(self.event, Event):
+                event_obj = self.event.get_event()
+                for event in event_obj:
+                    renpy.call(event)
+
+            if isinstance(self.event, str):
+                renpy.call(self.event)
+
+    class ValueEffect(Effect):
+        def __init__(self, key, value):
+            super().__init__(key)
+            self.key = key
+            self.value = value
+
+        def apply(self, _school):
+            gameData[self.key] = self.value
+
+    class ProgressEffect(Effect):
+        def __init__(self, key, value = 1):
+            super().__init__(key)
+            self.key = key
+            self.value = value
+
+        def apply(self, _school):
+            if self.key not in gameData.keys():
+                gameData[self.key] = 0
+            gameData[self.key] += self.value
