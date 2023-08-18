@@ -16,6 +16,12 @@ init -1 python:
         "mixed_enter":  EventStorage("mixed_enter",  "Enter the mixed bath",      bath_enter_fallback),
         "mixed_peek":   EventStorage("mixed_peek",   "Peek into the mixed bath",  bath_peek_fallback ),
     }
+
+    bath_bg_images = [
+        BGImage("images/background/bath/bg 1,3 <level> <nude>.png", 1, TimeCondition(daytime = "1,3")), # show bath with students
+        BGImage("images/background/bath/bg 6 <level> <nude>.png", 1, TimeCondition(daytime = 6)), # show bath with students and/or teacher
+        BGImage("images/background/bath/bg 7.png", 1, TimeCondition(daytime = 7)), # show bath at night empty or with teachers
+    ]
     
 ##################################
 
@@ -24,24 +30,14 @@ init -1 python:
 #################################
 
 label bath:
-    # show bath inside
 
-    # if daytime in [1, 3]:
-    #     # show bath with students
-    # if daytime in [6]:
-    #     # show bath with students and/or teacher
-    # if daytime in [2, 4, 5]:
-    #     # show bath empty
-    # if daytime in [7]:
-    #     # show bath at night empty or with teachers
-
-    call call_available_event(bath_timed_event) from _call_call_available_event
+    call call_available_event(bath_timed_event) from bath_1
 
 label .after_time_check:
 
     $ school = get_random_school()
 
-    call show_bath_idle_image(school)
+    call show_bath_idle_image(school) from bath_2
 
     call call_event_menu (
         "What to do in the Bath?",
@@ -51,27 +47,19 @@ label .after_time_check:
         bath_fallback,
         character.subtitles,
         school,
-    ) from _call_call_event_menu
+    ) from bath_3
 
-    jump bath
+    jump bath from bath_4
 
 label show_bath_idle_image(school):    
-    $ image_path = "images/background/bath/bg c.png"
 
-    if time.check_daytime("1,3"):
-        $ image_path = get_image_with_level(
-            "images/background/bath/bg 1,3 <level> <nude>.png", 
-            get_level_for_char(school, charList["schools"]),
-        )
-    elif time.check_daytime(6):
-        $ image_path = get_image_with_level(
-            "images/background/bath/bg 6 <level> <nude>.png", 
-            get_level_for_char(school, charList["schools"]),
-        )
-    elif time.check_daytime(7):
-        $ image_path = "images/background/bath/bg 7.png"
+    $ max_nude, image_path = get_background(
+        "images/background/bath/bg c.png", # show bath empty
+        bath_bg_images,
+        get_level_for_char(school, charList["schools"]),
+    )
 
-    show screen image_with_nude_var (image_path, 0)
+    show screen image_with_nude_var (image_path, max_nude)
 
     return
 

@@ -29,6 +29,12 @@ init -1 python:
         TimeCondition(day = 9),
     ))
 
+    office_building_bg_images = [
+        BGImage("images/background/office building/bg <staff> f.png", 1, TimeCondition(daytime = "f")), # show headmasters/teachers office empty
+        BGImage("images/background/office building/bg <staff> c <level> <nude>.png", 1, TimeCondition(daytime = "c")), # show headmasters/teachers office with people
+        BGImage("images/background/office building/bg <staff> 7.png", 1, TimeCondition(daytime = 7)), # show headmasters/teachers office empty at night
+    ]
+    
 #############################################
 
 ###########################################
@@ -37,7 +43,7 @@ init -1 python:
 
 label office_building:
 
-    call call_available_event(office_building_timed_event) from _call_call_available_event_12
+    call call_available_event(office_building_timed_event) from office_building_1
 
 label .after_time_check:
 
@@ -45,7 +51,7 @@ label .after_time_check:
     if renpy.random.randint(1, 2) == 1:
         $ staff = "secretary"
 
-    call show_office_building_idle_image(staff)
+    call show_office_building_idle_image(staff) from office_building_2
 
     call call_event_menu (
         "Hello Headmaster! How can I help you?",
@@ -55,22 +61,20 @@ label .after_time_check:
         office_building_fallback,
         character.secretary,
         staff,
-    ) from _call_call_event_menu_12
+    ) from office_building_3
 
-    jump office_building
+    jump office_building from office_building_4
 
-label show_office_building_idle_image(staff):    
-    $ image_path = "images/background/office building/bg f.png"
+label show_office_building_idle_image(staff_val):
 
-    if time.check_daytime("c"):
-        $ image_path = get_image_with_level(
-            "images/background/office building/bg c <level> <nude>.png", 
-            get_level_for_char(staff, charList["staff"]),
-        )
-    elif time.check_daytime(7):
-        $ image_path = "images/background/office building/bg 7.png"
+    $ max_nude, image_path = get_background(
+        "images/background/office building/bg f.png", # show headmasters office empty
+        office_building_bg_images,
+        get_level_for_char(staff_val, charList["staff"]),
+        staff = staff_val
+    )
 
-    show screen image_with_nude_var (image_path, 0)
+    show screen image_with_nude_var (image_path, max_nude)
 
     return
 
@@ -100,7 +104,7 @@ label first_potion_office_building_event:
 
     $ set_building_blocked("office_building")
 
-    jump new_daytime
+    jump new_daytime from first_potion_office_building_event_1
 
 # first week event
 label first_week_office_building_event:
@@ -109,7 +113,7 @@ label first_week_office_building_event:
 
     $ set_building_blocked("office_building")
 
-    jump new_day
+    jump new_day from first_week_office_building_event_1
 
 label first_day_introduction:
 
@@ -151,7 +155,7 @@ label first_day_introduction:
         representative from the regional government.
     """
 
-    call tutorial_menu from _call_tutorial_menu
+    call tutorial_menu from first_day_introduction_1
 
     scene office secretary 3 smile
     secretary "Now you know the basics. You might want to hurry down to the gym for the weekly meeting."
@@ -173,7 +177,7 @@ label pta_meeting:
     # todo: implement PTA Meeting
     subtitles "PTA Meeting not implemented yet."
 
-    jump new_daytime
+    jump new_daytime from pta_meeting_1
 
 label first_pta_meeting:
     subtitles "You enter the conference room."
@@ -300,6 +304,6 @@ label .end_meeting:
         That should be all for today.\n
         Good work, thank you all for coming and have a nice weekend.
     """
-    jump new_daytime
+    jump new_daytime from first_pta_meeting_1
 
 ###########################################

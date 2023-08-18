@@ -20,7 +20,6 @@ init -1 python:
                 map[keys].reset_changed_stats()
 
     def hide_all():
-        print("hide")
         for s in renpy.display.screen.screens_by_name:
             renpy.hide_screen(s)
 
@@ -364,26 +363,29 @@ screen image_with_nude_var(image_path, limit = 2, nude = 0):
     
     $ path = image_path.replace("<nude>", str(nude))
 
+    if limit > nude_vision:
+        $ nude_vision = limit
+
     if not renpy.exists(path):
         $ renpy.show_screen("black_error_screen_text", "image '" + path + "' not found")
     else:
         add path
     
-    if nude_vision != 0 and nude == nude_vision:
+    if nude_vision != 0 and nude == limit:
         imagebutton:
             auto "icons/sight_disabled_%s.png"
             focus_mask None
             xalign 0.0 yalign 0.0
             action Show("image_with_nude_var", None, image_path, limit, 0)
 
-    if nude == 0 and nude_vision >= 1:
+    if nude == 0 and limit > 0:
         imagebutton:
             auto "icons/eye_target_%s.png"
             focus_mask None
             xalign 0.0 yalign 0.0
             action Show("image_with_nude_var", None, image_path, limit, 1)
 
-    if nude == 1 and nude_vision == 2:
+    if nude == 1 and limit > 1:
         imagebutton:
             auto "icons/fire_iris_%s.png"
             focus_mask None
@@ -426,44 +428,44 @@ screen black_screen_text(text_str):
 label set_day(day, month, year):
     $ time.set_time(day, month, year)
 
-    call screen black_screen_text (f"{time.get_weekday()}, {time.day} {time.get_month_name()} {time.year}")
+    call screen black_screen_text (f"{time.get_weekday()}, {time.day} {time.get_month_name()} {time.year}") from set_day_1
 
-    call time_event_check from _call_time_event_check_2
+    call time_event_check from set_day_2
 
-    jump map_overview
+    jump map_overview from set_day_3
 
 label new_day:
     $ time.progress_day()
 
-    call screen black_screen_text (f"{time.get_weekday()}, {time.day} {time.get_month_name()} {time.year}")
+    call screen black_screen_text (f"{time.get_weekday()}, {time.day} {time.get_month_name()} {time.year}") from new_day_1
 
-    call time_event_check from _call_time_event_check
+    call time_event_check from new_day_2
 
-    jump map_overview
+    jump map_overview from new_day_3
 
 label new_daytime:
     if time.progress_time():
-        call screen black_screen_text (f"{time.get_weekday()}, {time.day} {time.get_month_name()} {time.year}")
+        call screen black_screen_text (f"{time.get_weekday()}, {time.day} {time.get_month_name()} {time.year}") from new_daytime_1
         
-    call time_event_check from _call_time_event_check_1
+    call time_event_check from new_daytime_2
 
-    jump map_overview
+    jump map_overview from new_daytime_3
 
 #################################################
 # shows the map overview and then waits for input
 label map_overview:
     # $ _skipping = False
-    call load_stats from _call_load_stats_1
-    call load_schools from _call_load_schools_1
-    call load_rules from _call_load_rules_1
-    call load_buildings from _call_load_buildings_1
-    call load_clubs from _call_load_clubs_1
+    call load_stats from map_overview_1
+    call load_schools from map_overview_2
+    call load_rules from map_overview_3
+    call load_buildings from map_overview_4
+    call load_clubs from map_overview_5
     
     $ hide_all()
 
     show screen school_overview_map
     show screen school_overview_stats
-    call screen school_overview_buttons
+    call screen school_overview_buttons from map_overview_6
 
     subtitles_Empty ""
 
@@ -477,6 +479,6 @@ label building(name=""):
     hide screen school_overview_stats
     hide screen school_overview_buttons
 
-    call expression name from _call_expression_1
+    call expression name from building_1
 
-    call map_overview from _call_map_overview
+    call map_overview from building_2

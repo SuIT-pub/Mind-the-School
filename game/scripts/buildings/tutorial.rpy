@@ -68,11 +68,11 @@ label tutorial_menu:
         secretary "Do you have any questions?"
 
         "Show me the campus":
-            call tutorial_map from _call_tutorial_map
+            call tutorial_map from tutorial_menu_1
         "That's all":
             return
 
-    jump tutorial_menu
+    jump tutorial_menu from tutorial_menu_2
 
 label tutorial_map:
     show screen school_overview_images

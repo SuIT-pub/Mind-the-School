@@ -27,40 +27,31 @@ label call_event_menu(text, page, page_limit, events, fallback, person = charact
     $ event_list = clean_events_for_menu(events, school)
 
     if len(event_list) == 0:
-        call call_event(fallback) from _call_call_event
-        jump map_overview
+        call call_event(fallback) from call_event_menu_1
+        jump map_overview from call_event_menu_2
 
     show screen custom_menu_choice(page, page_limit, event_list)
 
     person "[text]"
 
-    jump new_daytime
+    jump new_daytime from call_event_menu_3
 
 label call_event(event_obj, priority = 0):
     hide screen menu_event_choice
 
     if isinstance(event_obj, EventStorage):
-        python:
-            print("Is EventStorage") 
         $ event_obj.call_available_event()
 
 
     if isinstance(event_obj, Event):
-        python:
-            print("Is Event")
         $ event_obj = event_obj.get_event()
 
     if isinstance(event_obj, str):
-        python:
-            print("Is String")
-        call expression event_obj from _call_expression_2
-
-    python:
-        print("Iterate List")
+        call expression event_obj from call_event_1
 
     $ i = 0
     while(len(event_obj) > i):
-        call expression event_obj[i] from _call_expression_3
+        call expression event_obj[i] from call_event_2
         $ i += 1
 
     

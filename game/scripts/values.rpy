@@ -53,6 +53,12 @@ init python:
             return "middle_school"
         if variant == 2:
             return "elementary_school"
+
+    def log_val(key, value):
+        print(key + ": " + str(value))
+
+    def log(msg):
+        print(msg)
        
 
 default rules = {}

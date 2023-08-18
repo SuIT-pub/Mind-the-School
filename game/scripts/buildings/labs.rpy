@@ -16,6 +16,11 @@ init -1 python:
         "drug_lab":        EventStorage("drug_lab",        "Go to drug lab",          labs_fallback       ),
     }
 
+    labs_bg_images = [
+        BGImage("images/background/labs/bg c <level> <nude>.png", 1, TimeCondition(daytime = "c")), # show corridor with few students
+        BGImage("images/background/labs/bg 7.png", 1, TimeCondition(daytime = 7)), # show empty corridor at night
+    ]
+    
 ##################################
 
 ################################
@@ -23,22 +28,14 @@ init -1 python:
 ################################
 
 label labs:
-    # show labs corridor inside
-
-    # if daytime in [1, 3, 6]:
-    #     # show corridor with few students
-    # if daytime in [2, 4, 5]:
-    #     # show empty corridpr
-    # if daytime in [7]:
-    #     # show empty corridor at night
-
-    call call_available_event(labs_timed_event) from _call_call_available_event_9
+    
+    call call_available_event(labs_timed_event) from labs_1
 
 label .after_time_check:
     
     $ school = get_random_school()
 
-    call show_labs_idle_image(school)
+    call show_labs_idle_image(school) from labs_2
 
     call call_event_menu (
         "What to do at the Labs?",
@@ -48,20 +45,18 @@ label .after_time_check:
         labs_fallback,
         character.subtitles,
         school,
-    ) from _call_call_event_menu_9
+    ) from labs_3
 
-    jump labs
+    jump labs from labs_4
 
 label show_labs_idle_image(school):    
-    $ image_path = "images/background/labs/bg f.png"
+    $ image_path = "images/background/labs/bg f.png" # show empty corridor
 
-    if time.check_daytime("c"):
-        $ image_path = get_image_with_level(
-            "images/background/labs/bg c <level> <nude>.png", 
-            get_level_for_char(school, charList["schools"]),
-        )
-    elif time.check_daytime(7):
-        $ image_path = "images/background/labs/bg 7.png"
+    $ max_nude, image_path = get_background(
+        "images/background/labs/bg f.png",
+        labs_bg_images,
+        get_level_for_char(school, charList["schools"]),
+    )
 
     show screen image_with_nude_var (image_path, 0)
 

@@ -21,6 +21,11 @@ init -1 python:
         TimeCondition(day = "2-4", month = 1, year = 2023),
     ))
     
+    kiosk_bg_images = [
+        BGImage("images/background/kiosk/bg c <level> <nude>.png", 1, TimeCondition(daytime = "c")), # show kiosk with students
+        BGImage("images/background/kiosk/bg 7.png", 1, TimeCondition(daytime = 7)), # show kiosk at night empty
+    ]
+    
 ###################################
 
 #################################
@@ -28,22 +33,14 @@ init -1 python:
 #################################
 
 label kiosk:
-    # show kiosk inside
 
-    # if daytime in [1, 3, 6]:
-    #     # show kiosk with students
-    # if daytime in [2, 4, 5]:
-    #     # show kiosk empty
-    # if daytime in [7]:
-    #     # show kiosk at night empty
-
-    call call_available_event(kiosk_timed_event) from _call_call_available_event_8
+    call call_available_event(kiosk_timed_event) from kiosk_1
 
 label .after_time_check:
 
     $ school = get_random_school()
 
-    call show_kiosk_idle_image(school)
+    call show_kiosk_idle_image(school) from kiosk_2
 
     call call_event_menu (
         "What to do at the Kiosk?",
@@ -52,22 +49,19 @@ label .after_time_check:
         kiosk_events, 
         kiosk_fallback,
         character,
-    ) from _call_call_event_menu_8
+    ) from kiosk_3
 
-    jump kiosk
+    jump kiosk from kiosk_4
 
-label show_kiosk_idle_image(school):    
-    $ image_path = "images/background/kiosk/bg f.png"
+label show_kiosk_idle_image(school):
 
-    if time.check_daytime("c"):
-        $ image_path = get_image_with_level(
-            "images/background/kiosk/bg c <level> <nude>.png", 
-            get_level_for_char(school, charList["schools"]),
-        )
-    elif time.check_daytime(7):
-        $ image_path = "images/background/kiosk/bg 7.png"
+    $ max_nude, image_path = get_background(
+        "images/background/kiosk/bg f.png", # show kiosk empty
+        kiosk_bg_images,
+        get_level_for_char(school, charList["schools"]),
+    )
 
-    show screen image_with_nude_var (image_path, 0)
+    show screen image_with_nude_var (image_path, max_nude)
 
     return
 
@@ -109,6 +103,6 @@ label first_week_kiosk_event:
 
     $ set_building_blocked("kiosk")
 
-    jump new_day
+    jump new_day from first_week_kiosk_event_1
 
 ############################

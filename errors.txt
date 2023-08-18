@@ -2,9 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/scripts/event.rpy", line 66: is not terminated with a newline. (Check strings and parenthesis.)
-(Perhaps you left out a " at the end of the first line.)
-                    print("Get Level 3 Event)
+File "game/scripts/background.rpy", line 91: invalid syntax
+            $ max_nude, output = image.get_image(level, **kwargs)
+             ^
 
 Ren'Py Version: Ren'Py 8.1.1.23060707
-Thu Aug 17 11:41:59 2023
+Thu Aug 17 17:04:06 2023

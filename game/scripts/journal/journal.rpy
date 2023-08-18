@@ -1,21 +1,21 @@
 label start_journal:
-    call open_journal (1, "", "high_school") from _call_open_journal
+    call open_journal (1, "", "high_school") from start_journal_1
 
 label open_journal(page, display, school):
     if page == 1:
-        call screen journal_1(display, school)
+        call screen journal_1(display, school) from open_journal_1
     elif page == 2:
-        call screen journal_2(display, school)
+        call screen journal_2(display, school) from open_journal_2
     elif page == 3:
-        call screen journal_3(display, school)
+        call screen journal_3(display, school) from open_journal_3
     elif page == 4:
-        call screen journal_4(display, school)
+        call screen journal_4(display, school) from open_journal_4
     elif page == 5:
-        call screen journal_5(display, school)
+        call screen journal_5(display, school) from open_journal_5
 
 label close_journal:
     hide screen journal
-    jump map_overview
+    jump map_overview from close_journal_1
 
 style journal_desc:
     color "#000"
@@ -1574,21 +1574,21 @@ screen max_image_from_journal(image_path):
 
 label set_journal_setting(page, display, school, setting, value):
     $ set_game_data("journal_setting_" + str(page) + "_" + setting, value)
-    call open_journal(page, display, school)
+    call open_journal(page, display, school) from set_journal_setting_1
 
 label call_max_image_from_journal(image_path, journal, school, display):
     hide screen school_overview_buttons
-    call screen max_image_from_journal(image_path)
+    call screen max_image_from_journal(image_path) from call_max_image_from_journal_1
 
 label switch_rule(rule_name, school):
     $ rule = get_rule(rule_name)
     $ rule.unlock(school, not rule.is_unlocked(school))
-    call screen journal_5("rules", school)
+    call screen journal_5("rules", school) from swtich_rule_1
 
 label switch_club(club_name, school):
     $ club = get_club(club_name)
     $ club.unlock(school, not club.is_unlocked(school))
-    call screen journal_5("clubs", school)
+    call screen journal_5("clubs", school) from switch_club_1
 
 label switch_building(building_name, school, level_delta):
     $ building = get_building(building_name)
@@ -1597,7 +1597,7 @@ label switch_building(building_name, school, level_delta):
         $ building.unlock(not building.is_unlocked())
     else:
         $ building.set_level(building.get_level() + level_delta)
-    call screen journal_5("buildings", school)
+    call screen journal_5("buildings", school) from switch_building_1
 
 label modify_stat(stat, amount, school):
     if stat == "money":
@@ -1607,11 +1607,11 @@ label modify_stat(stat, amount, school):
         $ school_obj.set_level(school_obj.get_level() + amount)
     else:
         $ get_character(school, charList["schools"]).change_stat(stat, amount)
-    call screen journal_5("stats", school)
+    call screen journal_5("stats", school) from modify_stat_1
 
 label add_to_proposal(data, page, school, display, propType):
     $ set_game_data("voteProposal", [propType, display, school, data])
-    call open_journal(page, display, school) from _call_open_journal_1
+    call open_journal(page, display, school) from add_to_proposal_1
 
 label add_rule_to_proposal(rule_name, school):
     $ rule = get_rule(rule_name)
@@ -1623,9 +1623,9 @@ label add_rule_to_proposal(rule_name, school):
             return
         call screen confirm("You already queued [title] for voting.\n\nDo you wanna queue the rule \"[rule_title]\" instead?",
             Call("add_to_proposal", rule, 2, school, rule_name, "rule"),
-            Call("open_journal", 2, rule_name, school))
+            Call("open_journal", 2, rule_name, school)) from add_rule_to_proposal_1
 
-    call add_to_proposal(rule, 2, school, rule_name, "rule") from _call_add_to_proposal
+    call add_to_proposal(rule, 2, school, rule_name, "rule") from add_rule_to_proposal_2
 
 label add_club_to_proposal(club_name, school):
     $ club = get_club(club_name)
@@ -1637,9 +1637,9 @@ label add_club_to_proposal(club_name, school):
             return
         call screen confirm("You already queued [title] for voting.\n\nDo you wanna queue the club \"[club_title]\" instead?",
             Call("add_to_proposal", club, 3, school, club_name, "club"),
-            Call("open_journal", 3, club_name, school))
+            Call("open_journal", 3, club_name, school)) from add_club_to_proposal_1
 
-    call add_to_proposal(club, 3, school, club_name, "club") from _call_add_to_proposal_1
+    call add_to_proposal(club, 3, school, club_name, "club") from add_club_to_proposal_2
 
 label add_building_to_proposal(building_name, school):
     $ building = get_building(building_name)
@@ -1651,6 +1651,6 @@ label add_building_to_proposal(building_name, school):
             return
         call screen confirm("You already queued [title] for voting.\n\nDo you wanna queue the building \"[building_title]\" instead?",
             Call("add_to_proposal", building, 4, school, building_name, "building"),
-            Call("open_journal", 4, building_name, school))
+            Call("open_journal", 4, building_name, school)) from add_building_to_proposal_1
 
-    call add_to_proposal(building, 4, school, building_name, "building") from _call_add_to_proposal_2
+    call add_to_proposal(building, 4, school, building_name, "building") from add_building_to_proposal_2

@@ -29,6 +29,11 @@ init -1 python:
         TimeCondition(day = 9),
     ))
 
+    middle_school_building_bg_images = [
+        BGImage("images/background/middle school building/bg c <level> <nude>.png", 1, TimeCondition(daytime = "c")),
+        BGImage("images/background/middle school building/bg 7.png", 1, TimeCondition(daytime = 7)),
+    ]
+    
 ####################################################
 
 ##################################################
@@ -37,11 +42,11 @@ init -1 python:
 
 label middle_school_building:
     
-    call call_available_event(middle_school_building_timed_event) from _call_call_available_event_10
+    call call_available_event(middle_school_building_timed_event) from middle_school_building_1
 
 label .after_time_check:
 
-    call show_middle_school_building_idle_image()
+    call show_middle_school_building_idle_image() from middle_school_building_2
 
     call call_event_menu (
         "What to do in the Middle School?",
@@ -51,22 +56,19 @@ label .after_time_check:
         middle_school_building_fallback,
         character.subtitles,
         "middle_school",
-    ) from _call_call_event_menu_10
+    ) from middle_school_building_3
 
-    jump middle_school_building
+    jump middle_school_building from middle_school_building_4
 
-label show_middle_school_building_idle_image():    
-    $ image_path = "images/background/middle school building/bg f.png"
+label show_middle_school_building_idle_image():
 
-    if time.check_daytime("c"):
-        $ image_path = get_image_with_level(
-            "images/background/middle school building/bg c <level> <nude>.png", 
-            get_level_for_char("middle_school", charList["schools"]),
-        )
-    elif time.check_daytime(7):
-        $ image_path = "images/background/middle school building/bg 7.png"
+    $ max_nude, image_path = get_background(
+        "images/background/middle school building/bg f.png",
+        middle_school_building_bg_images,
+        get_level_for_char("middle_school", charList["schools"]),
+    )
 
-    show screen image_with_nude_var (image_path, 0)
+    show screen image_with_nude_var (image_path, max_nude)
 
     return
 
@@ -103,7 +105,7 @@ label first_potion_middle_school_building_event:
     $ set_building_blocked("middle_school_building")
     $ set_building_blocked("elementary_school_building")
 
-    jump new_daytime
+    jump new_daytime from first_potion_middle_school_building_event_1
 
 
 # first week event
@@ -137,6 +139,6 @@ label first_week_middle_school_building_event:
     $ set_building_blocked("middle_school_building")
     $ set_building_blocked("elementary_school_building")
 
-    jump new_day
+    jump new_day from first_week_middle_school_building_event_1
     
 #############################################

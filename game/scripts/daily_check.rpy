@@ -49,11 +49,11 @@ label time_event_check:
     hide screen school_overview_stats
     hide screen school_overview_buttons
     
-    call call_available_event(temp_time_check_events) from _call_call_available_event_16
+    call call_available_event(temp_time_check_events) from time_event_check_1
 
 label .after_temp_event_check:
 
-    call call_available_event(temp_check_events) from _call_call_available_event_17
+    call call_available_event(temp_check_events) from time_event_check_2
 
 label .after_event_check:
     return
@@ -69,12 +69,12 @@ label first_week_epilogue:
     secretary "Okay, I'll go call your cab."
     principal "Thank you very much."
     
-    call screen black_screen_text ("20 minutes later")
+    call screen black_screen_text ("20 minutes later") from first_week_epilogue_1
 
     secretary "Izuku! Your cab just arrived!"
     principal "Perfect! I'll be off then. Expect me back early on Monday. I need all the time I can get."
 
-    call screen black_screen_text ("Monday, 8 January 2023")
+    call screen black_screen_text ("Monday, 8 January 2023") from first_week_epilogue_2
 
 label .replay:
 
@@ -156,7 +156,7 @@ label .replay:
 
     $ renpy.end_replay()
 
-    call screen black_screen_text ("Tuesday, 9 January 2023")
+    call screen black_screen_text ("Tuesday, 9 January 2023") from first_week_epilogue_3
 
     # principal enters office
     principal "Ahh she's already gone."
@@ -214,7 +214,7 @@ label .replay:
     principal "But first, let's work on diluting the first potion down for the students. It's getting late and we want to be ready for recess."
     secretary "Yeah let's do it!"
 
-    call screen black_screen_text ("Later at recess")
+    call screen black_screen_text ("Later at recess") from first_week_epilogue_4
 
     principal "Phew we just got it finished! Now we have to distribute it."
     secretary "Ah I already organised something!"
@@ -250,7 +250,7 @@ label .replay:
 
     $ time.set_time(day = 9, daytime = 3)
 
-    jump new_daytime
+    jump new_daytime from first_week_epilogue_5
 
 label first_week_epilogue_final:
     $ set_all_buildings_blocked(False)

@@ -17,6 +17,12 @@ init -1 python:
         "eat_look":    EventStorage("eat_look",    "Look around",       cafeteria_eat_fallback),
     }
 
+    cafeteria_bg_images = [
+        BGImage("images/background/cafeteria/bg 1,6 <level> <nude>.png", 1, TimeCondition(daytime = "1,6")), # show terrace with a few students
+        BGImage("images/background/cafeteria/bg 3 <level> <nude>.png", 1, TimeCondition(daytime = 3)), # show terrace full of students and teacher
+        BGImage("images/background/cafeteria/bg 7.png", 1, TimeCondition(daytime = 7)), # show empty terrace at night
+    ]
+    
 #######################################
 
 #####################################
@@ -24,24 +30,14 @@ init -1 python:
 #####################################
 
 label cafeteria:
-    # show cafeteria terrace
 
-    # if daytime in [1, 6]:
-    #     # show terrace with a few students
-    # if daytime in [3]:
-    #     # show terrace full of students and teacher
-    # if daytime in [2, 4, 5]:
-    #     # show empty terrace
-    # if daytime in [7]
-    #     # show empty terrace at night
-
-    call call_available_event(cafeteria_timed_event) from _call_call_available_event_1
+    call call_available_event(cafeteria_timed_event) from cafeteria_1
 
 label .after_time_check:
 
     $ school = get_random_school()
 
-    call show_cafeteria_idle_image(school)
+    call show_cafeteria_idle_image(school) from cafeteria_2
 
     call call_event_menu (
         "What to do at the Cafeteria?",
@@ -51,27 +47,18 @@ label .after_time_check:
         cafeteria_fallback,
         character.subtitles,
         school,
-    ) from _call_call_event_menu_1
+    ) from cafeteria_3
 
-    jump cafeteria
+    jump cafeteria from cafeteria_4
 
-label show_cafeteria_idle_image(school):    
-    $ image_path = "images/background/cafeteria/bg c.png"
+label show_cafeteria_idle_image(school):
+    $ max_nude, image_path = get_background(
+        "images/background/cafeteria/bg c.png", # show empty terrace
+        cafeteria_bg_images,
+        get_level_for_char(school, charList["schools"]),
+    )
 
-    if time.check_daytime("1,6"):
-        $ image_path = get_image_with_level(
-            "images/background/cafeteria/bg 1,6 <level> <nude>.png", 
-            get_level_for_char(school, charList["schools"]),
-        )
-    elif time.check_daytime(3):
-        $ image_path = get_image_with_level(
-            "images/background/cafeteria/bg 3 <level> <nude>.png", 
-            get_level_for_char(school, charList["schools"]),
-        )
-    elif time.check_daytime(7):
-        $ image_path = "images/background/cafeteria/bg 7.png"
-
-    show screen image_with_nude_var (image_path, 0)
+    show screen image_with_nude_var (image_path, max_nude)
 
     return
 

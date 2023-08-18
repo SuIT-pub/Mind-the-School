@@ -16,6 +16,12 @@ init -1 python:
         "steal_changing": EventStorage("steal_changing", "Steal some panties",           tennis_court_fallback),
     }
 
+    tennis_court_bg_images = [
+        BGImage("images/background/tennis court/bg c <level> <nude>.png", 1, TimeCondition(daytime = "c")), # show tennis court with students
+        BGImage("images/background/tennis court/bg 3,6 <level> <nude>.png", 1, TimeCondition(daytime = "3,6")), # show tennis court with few students
+        BGImage("images/background/tennis court/bg 7.png", 1, TimeCondition(daytime = 7)), # show tennis court at night empty
+    ]
+    
 ##########################################
 
 ########################################
@@ -23,24 +29,14 @@ init -1 python:
 ########################################
 
 label tennis_court:
-    # show tennis court
-
-    # if daytime in [1]:
-    #     # show empty tennis court
-    # if daytime in [2, 4, 5]:
-    #     # show tennis court with students
-    # if daytime in [3, 6]:
-    #     # show tennis court with few students
-    # if daytime in [7]:
-    #     # show tennis court at night empty
-
-    call call_available_event(tennis_court_timed_event) from _call_call_available_event_15
+    
+    call call_available_event(tennis_court_timed_event) from tennis_court_1
 
 label .after_time_check:
 
     $ school = get_random_school()
 
-    call show_tennis_court_idle_image(school)
+    call show_tennis_court_idle_image(school) from tennis_court_2
 
     call call_event_menu (
         "What to do at the tennis court?",
@@ -50,27 +46,19 @@ label .after_time_check:
         tennis_court_fallback,
         character.subtitles,
         school,
-    ) from _call_call_event_menu_15
+    ) from tennis_court_3
 
-    jump tennis_court
+    jump tennis_court from tennis_court_4
 
-label show_tennis_court_idle_image(school):    
-    $ image_path = "images/background/tennis court/bg 1.png"
+label show_tennis_court_idle_image(school):
 
-    if time.check_daytime("c"):
-        $ image_path = get_image_with_level(
-            "images/background/tennis court/bg c <level> <nude>.png", 
-            get_level_for_char(school, charList["schools"]),
-        )
-    elif time.check_daytime("3,6"):
-        $ image_path = get_image_with_level(
-            "images/background/tennis court/bg 3,6 <level> <nude>.png", 
-            get_level_for_char(school, charList["schools"]),
-        )
-    elif time.check_daytime(7):
-        $ image_path = "images/background/tennis court/bg 7.png"
+    $ max_nude, image_path = get_background(
+        "images/background/tennis court/bg 1.png", # show empty tennis court
+        tennis_court_bg_images,
+        get_level_for_char(school, charList["schools"]),
+    )
 
-    show screen image_with_nude_var (image_path, 0)
+    show screen image_with_nude_var (image_path, max_nude)
 
     return
 

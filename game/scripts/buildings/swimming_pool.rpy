@@ -16,6 +16,12 @@ init -1 python:
         "steal_changing": EventStorage("steal_changing", "Steal some panties",           swimming_pool_person_fallback),
     }
 
+    swimming_pool_bg_images = [
+        BGImage("images/background/swimming pool/bg c <level> <nude>.png", 1, TimeCondition(daytime = "c")), # show swimming pool with students
+        BGImage("images/background/swimming pool/bg 3,6 <level> <nude>.png", 1, TimeCondition(daytime = "3,6")), # show swimming pool with few students
+        BGImage("images/background/swimming pool/bg 7.png", 1, TimeCondition(daytime = 7)), # show swimming pool at night empty
+    ]
+    
 ###########################################
 
 #########################################
@@ -23,24 +29,14 @@ init -1 python:
 #########################################
 
 label swimming_pool:
-    # show swimming pool
-
-    # if daytime in [1]:
-    #     # show empty swimming pool
-    # if daytime in [2, 4, 5]:
-    #     # show swimming pool with students
-    # if daytime in [3, 6]:
-    #     # show swimming pool with few students
-    # if daytime in [7]:
-    #     # show swimming pool at night empty
-
-    call call_available_event(swimming_pool_timed_event) from _call_call_available_event_14
+    
+    call call_available_event(swimming_pool_timed_event) from swimming_pool_1
 
 label .after_time_check:
     
     $ school = get_random_school()
 
-    call show_swimming_pool_idle_image(school)
+    call show_swimming_pool_idle_image(school) from swimming_pool_2
 
     call call_event_menu (
         "What to do at the swimming pool?",
@@ -50,27 +46,19 @@ label .after_time_check:
         swimming_pool_fallback,
         character.subtitles,
         school,
-    ) from _call_call_event_menu_14
+    ) from swimming_pool_3
 
-    jump swimming_pool
+    jump swimming_pool from swimming_pool_4
 
-label show_swimming_pool_idle_image(school):    
-    $ image_path = "images/background/swimming pool/bg 1.png"
+label show_swimming_pool_idle_image(school):
 
-    if time.check_daytime("c"):
-        $ image_path = get_image_with_level(
-            "images/background/swimming pool/bg c <level> <nude>.png", 
-            get_level_for_char(school, charList["schools"]),
-        )
-    elif time.check_daytime("3,6"):
-        $ image_path = get_image_with_level(
-            "images/background/swimming pool/bg 3,6 <level> <nude>.png", 
-            get_level_for_char(school, charList["schools"]),
-        )
-    elif time.check_daytime(7):
-        $ image_path = "images/background/swimming pool/bg 7.png"
+    $ max_nude, image_path = get_background(
+        "images/background/swimming pool/bg 1.png", # show empty swimming pool
+        swimming_pool_bg_images,
+        get_level_for_char(school, charList["schools"]),
+    )
 
-    show screen image_with_nude_var (image_path, 0)
+    show screen image_with_nude_var (image_path, max_nude)
 
     return
 

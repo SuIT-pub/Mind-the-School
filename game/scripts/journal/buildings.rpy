@@ -57,7 +57,6 @@ init -6 python:
         def get_description(self, level = -1):
             if level == -1:
                 level = self._level
-            print("level:" + str(level))
             if level < 0 or level >= len(self._description):
                 return ""
             return self._description[level]

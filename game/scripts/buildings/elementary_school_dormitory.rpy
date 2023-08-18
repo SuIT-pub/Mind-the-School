@@ -29,6 +29,11 @@ init -1 python:
         TimeCondition(day = 9),
     ))
 
+    elementary_school_dormitory_bg_images = [
+        BGImage("images/background/elementary school dormitory/bg f <level> <nude>.png", 1, TimeCondition(daytime = "1,3")),
+        BGImage("images/background/elementary school dormitory/bg 7.png", 1, TimeCondition(daytime = 7)),
+    ]
+    
 #########################################################
 
 #######################################################
@@ -36,20 +41,12 @@ init -1 python:
 #######################################################
 
 label elementary_school_dormitory:
-    # show dorm corridor
 
-    # if daytime in [1, 3, 6]:
-    #     # show corridor filled with students and open doors
-    # if daytime in [2, 4, 5]:
-    #     # show empty corridor
-    # if daytime in [7]:
-    #     # show empty corridor at night
-
-    call call_available_event(elementary_school_dormitory_timed_event) from _call_call_available_event_4
+    call call_available_event(elementary_school_dormitory_timed_event) from elementary_school_dormitory_1
     
 label .after_time_check:
 
-    call show_elementary_school_dormitory_idle_image()
+    call show_elementary_school_dormitory_idle_image() from elementary_school_dormitory_2
 
     call call_event_menu (
         "What to do in the Elementary School Dorm?",
@@ -59,22 +56,19 @@ label .after_time_check:
         elementary_school_dormitory_fallback,
         character.subtitles,
         "elementary_school",
-    ) from _call_call_event_menu_4
+    ) from elementary_school_dormitory_3
 
-    jump elementary_school_dormitory
+    jump elementary_school_dormitory from elementary_school_dormitory_4
 
-label show_elementary_school_dormitory_idle_image():    
-    $ image_path = "images/background/elementary school dormitory/bg c.png"
+label show_elementary_school_dormitory_idle_image():
 
-    if time.check_daytime("c"):
-        $ image_path = get_image_with_level(
-            "images/background/elementary school dormitory/bg f <level> <nude>.png", 
-            get_level_for_char("elementary_school", charList["schools"]),
-        )
-    elif time.check_daytime(7):
-        $ image_path = "images/background/elementary school dormitory/bg 7.png"
+    $ max_nude, image_path = get_background(
+        "images/background/elementary school dormitory/bg c.png",
+        elementary_school_dormitory_bg_images,
+        get_level_for_char("elementary_school", charList["schools"]),
+    )
 
-    show screen image_with_nude_var (image_path, 0)
+    show screen image_with_nude_var (image_path, max_nude)
 
     return
 
@@ -117,7 +111,7 @@ label first_week_elementary_school_dormitory_event:
     $ set_building_blocked("middle_school_dormitory")
     $ set_building_blocked("elementary_school_dormitory")
 
-    jump new_day
+    jump new_day from first_week_elementary_school_dormitory_event_1
 
 label first_potion_elementary_school_dormitory_event:
 
@@ -141,6 +135,6 @@ label first_potion_elementary_school_dormitory_event:
     $ set_building_blocked("middle_school_dormitory")
     $ set_building_blocked("elementary_school_dormitory")
 
-    jump new_daytime
+    jump new_daytime from first_potion_elementary_school_dormitory_event_1
 
 ##################################################

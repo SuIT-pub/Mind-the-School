@@ -28,6 +28,12 @@ init -1 python:
         TimeCondition(day = 9),
     ))
 
+    courtyard_bg_images = [
+        BGImage("images/background/courtyard/bg 1,6 <level> <nude>.png", 1, TimeCondition(daytime = "1,6")), # show courtyard with a few students
+        BGImage("images/background/courtyard/bg 3 <level> <nude>.png", 1, TimeCondition(daytime = 3)), # show courtyard full of students and teacher
+        BGImage("images/background/courtyard/bg 7.png", 1, TimeCondition(daytime = 7)), # show empty courtyard at night
+    ]
+    
 #######################################
 
 #####################################
@@ -35,24 +41,14 @@ init -1 python:
 #####################################
 
 label courtyard:
-    # show courtyard overview
 
-    # if daytime in [1, 6]:
-    #     # show courtyard with a few students
-    # if daytime in [3]:
-    #     # show courtyard full of students and teacher
-    # if daytime in [2, 4, 5]:
-    #     # show empty courtyard
-    # if daytime in [7]
-    #     # show empty courtyard at night
-
-    call call_available_event(courtyard_timed_event) from _call_call_available_event_2
+    call call_available_event(courtyard_timed_event) from courtyard_1
 
 label .after_time_check:
 
     $ school = get_random_school()
 
-    call show_courtyard_idle_image(school)
+    call show_courtyard_idle_image(school) from courtyard_2
 
     call call_event_menu (
         "What to do at the Courtyard?",
@@ -62,27 +58,19 @@ label .after_time_check:
         courtyard_fallback,
         character.subtitles,
         school,
-    ) from _call_call_event_menu_2
+    ) from courtyard_3
 
-    jump courtyard
+    jump courtyard from courtyard_4
 
-label show_courtyard_idle_image(school):    
-    $ image_path = "images/background/gym/bg c.png"
+label show_courtyard_idle_image(school):
 
-    if time.check_daytime("1,6"):
-        $ image_path = get_image_with_level(
-            "images/background/gym/bg 1,6 <level> <nude>.png", 
-            get_level_for_char(school, charList["schools"]),
-        )
-    elif time.check_daytime(3):
-        $ image_path = get_image_with_level(
-            "images/background/gym/bg 3 <level> <nude>.png", 
-            get_level_for_char(school, charList["schools"]),
-        )
-    elif time.check_daytime(7):
-        $ image_path = "images/background/gym/bg 7.png"
+    $ max_nude, image_path = get_background(
+        "images/background/courtyard/bg c.png", # show empty courtyard
+        courtyard_bg_images,
+        get_level_for_char(school, charList["schools"]),
+    )
 
-    show screen image_with_nude_var (image_path, 0)
+    show screen image_with_nude_var (image_path, max_nude)
 
     return
 
@@ -119,7 +107,7 @@ label first_potion_courtyard_event:
 
     $ set_building_blocked("courtyard")
 
-    jump new_daytime
+    jump new_daytime from first_potion_courtyard_event_1
 
 
 # first week event
@@ -135,6 +123,6 @@ label first_week_courtyard_event:
 
     $ set_building_blocked("courtyard")
 
-    jump new_day
+    jump new_day from first_week_courtyard_event_1
 
 ################################

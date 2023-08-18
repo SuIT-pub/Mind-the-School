@@ -260,8 +260,6 @@ init -6 python:
 
             value = str(value)
 
-            print("value:" + value + " weekday:" + str(self.get_weekday_num()))
-
             if (value == str(self.get_weekday_num()) or
                 (value == 'd' and time.get_weekday_num() < 6) or
                 (value == 'w' and time.get_weekday_num() > 5)

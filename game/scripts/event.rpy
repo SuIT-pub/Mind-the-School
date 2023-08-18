@@ -19,6 +19,9 @@ init -3 python:
             return self.title
 
         def add_event(self, event):
+
+
+
             if event.get_name() not in self.events[event.get_priority()].keys():
                 self.events[event.get_priority()][event.get_name()] = event
 
@@ -50,10 +53,12 @@ init -3 python:
             return output
 
         def get_available_events(self, school = "x", priority = 0):
+
             if priority == 0 or priority == 1:
                 for event in self.events[1].values():
                     if event.is_available(school):
                         return [event]
+
             if priority == 0 or priority == 2:
                 output = []
                 for event in self.events[2].values():
@@ -61,16 +66,15 @@ init -3 python:
                         output.append(event)
                 if len(output) != 0:
                     return output
+
             if priority == 0 or priority == 3:
                 output = []
-                print("Get Level 3 Event")
-                print("check " + str(sum(event.get_event_count() for event in self.events[3].values())) + " possible")
                 for event in self.events[3].values():
                     if event.is_available(school):
                         output.append(event)
-                print("found " + str(len(output)) + " possible")
                 if len(output) != 0:
                     return [random.choice(output)]
+
             return []
 
         def get_available_events_with_fallback(self, school = "x", priority = 0):
@@ -81,7 +85,6 @@ init -3 python:
             return output
 
         def call_available_event(self, school = "x", priority = 0):
-            print("Call available events")
             events = self.get_available_events_with_fallback(school, priority)
 
             for event in events:
@@ -155,7 +158,7 @@ init -3 python:
                 event.call()
 
     class Event:
-        def __init__(self, name, event, priority, *conditions):
+        def __init__(self, name: str, event: Union[str, List[str]], priority: int, *conditions: Condition):
             self.name = name
             self.event = event
             if isinstance(self.event, str):
@@ -176,19 +179,27 @@ init -3 python:
 
             self.__dict__.update(data)
 
+        def check_event(self):
+            for event in self.event:
+                if not renpy.has_label(event):
+                    log("|ERROR| at " + self.name + ": Label " + event + " is missing!")
+
         def get_name(self):
             return self.name
 
         def add_event(self, *event):
             events = list(event)
+
             self.event.extend(events)
 
         def get_event(self):
             if isinstance(self.event, str):
                 return [self.event]
             else:
+                if len(self.event) == 0:
+                    return []
                 if self.priority == 1:
-                    return [self.event[1]]
+                    return [self.event[0]]
                 elif self.priority == 2:
                     return self.event
                 else:
@@ -213,8 +224,6 @@ init -3 python:
 
             events = self.get_event()
 
-            print("events: " + str(events))
-
             renpy.call("call_event", events, self.priority)
 
 
@@ -233,6 +242,6 @@ label call_available_event(event_storage, school = "x", priority = 0):
         $ events = events_list[i].get_event()
         $ j = 0
         while (len(events) > j):
-            call expression events[j] from _call_expression
+            call expression events[j] from call_available_event_1
             $ j += 1
         $ i += 1

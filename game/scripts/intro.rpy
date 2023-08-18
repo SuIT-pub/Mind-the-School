@@ -3,7 +3,7 @@
         "This Game contains sexual content and is not suitable for consumption by underage people.\nPlease confirm you are not underage in your country."
 
         "Yes I am above 18.":
-            jump intro
+            jump intro from ask_age_1
         "No unfortunately I am underage.":
             return
 
@@ -64,4 +64,4 @@ label intro:
 
     nv_text "You enter the office..."
 
-    jump new_daytime
+    jump new_daytime from intro_1

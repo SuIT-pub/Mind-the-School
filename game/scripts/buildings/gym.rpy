@@ -32,6 +32,11 @@ init -1 python:
         TimeCondition(day = 9),
     ))
 
+    gym_bg_images = [
+        BGImage("images/background/gym/bg c <level> <nude>.png", 1, TimeCondition(daytime = "c")), # show gym with students
+        BGImage("images/background/gym/bg 7.png", 1, TimeCondition(daytime = 7)), # show gym at night empty
+    ]
+    
 #################################
 
 ###############################
@@ -39,22 +44,14 @@ init -1 python:
 ###############################
 
 label gym:
-    # show gym inside
 
-    # if daytime in [1, 3, 6]:
-    #     # show gym empty
-    # if daytime in [2, 4, 5]:
-    #     # show gym with students
-    # if daytime in [7]:
-    #     # show gym at night empty
-
-    call call_available_event(gym_timed_event) from _call_call_available_event_5
+    call call_available_event(gym_timed_event) from gym_1
 
 label .after_time_check:
 
     $ school = get_random_school()
 
-    call show_gym_idle_image(school)
+    call show_gym_idle_image(school) from gym_2
 
     call call_event_menu (
         "What to do in the Gym?",
@@ -64,22 +61,19 @@ label .after_time_check:
         gym_fallback,
         character.subtitles,
         school,
-    ) from _call_call_event_menu_5
+    ) from gym_3
 
-    jump gym
+    jump gym from gym_4
 
-label show_gym_idle_image(school):    
-    $ image_path = "images/background/gym/bg f.png"
+label show_gym_idle_image(school):
 
-    if time.check_daytime("c"):
-        $ image_path = get_image_with_level(
-            "images/background/gym/bg c {level> <nude}.png", 
-            get_level_for_char(school, charList["schools"]),
-        )
-    elif time.check_daytime(7):
-        $ image_path = "images/background/gym/bg 7.png"
+    $ max_nude, image_path = get_background(
+        "images/background/gym/bg f.png", # show gym empty
+        gym_bg_images,
+        get_level_for_char(school, charList["schools"]),
+    )
 
-    show screen image_with_nude_var (image_path, 0)
+    show screen image_with_nude_var (image_path, max_nude)
 
     return
 
@@ -118,7 +112,7 @@ label first_potion_gym_event:
 
     $ set_building_blocked("gym")
 
-    jump new_daytime
+    jump new_daytime from first_potion_gym_event_1
 
 
 # first week event
@@ -132,7 +126,7 @@ label first_week_gym_event:
 
     $ set_building_blocked("gym")
 
-    jump new_day
+    jump new_day from first_week_gym_event_1
 
 #############################
 # weekly assembly entry point
@@ -207,6 +201,6 @@ label weekly_assembly_first:
     secretary "Now that we finished the introduction, let's start with the entry paperwork."
     principal "Alright."
 
-    jump new_day
+    jump new_day from weekly_assembly_first_1
 
 ##########################
