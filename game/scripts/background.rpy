@@ -19,14 +19,20 @@ init -2 python:
         def get_image(self, level, **kwargs):
             output = self._image_path
 
+            log("get_image: start")
+
             max_nude = 0
 
             for key, value in kwargs.items():
                 output = output.replace(f"<{key}>", str(value))
             
+            log("get_image: replaced keywords")
+
             path = output.replace("<nude>", "0")
 
             check_output = ""
+
+            log("get_image: start check for existing level image")
 
             for i in reversed(range(0, level + 1)):
                 image = path.replace("<level>", str(i))
@@ -38,18 +44,28 @@ init -2 python:
                     if renpy.exists(image):
                         check_output = output.replace("<level>", str(i))
 
+            log("get_image: finished check for level image")
+
             if check_output == "":
                 print(f"'{self._image_path}' interpolated to '{output}' couldn't be found!")
                 return -1, self._image_path
+
+            log("get_image: get biggest nude variant possible")
+
+            if "<nude>" not in check_output:
+                return 0, check_output
 
             i = 0
             while True:
                 i += 1
                 image = check_output.replace("<nude>", str(i))
+                log("get_image: check " + str(i) + " => " + image)
                 if renpy.exists(image):
                     max_nude = i
                 else:
                     break
+
+            log("get_image: found biggest nude variant possible")
 
             return max_nude, check_output
 
@@ -85,6 +101,8 @@ init -2 python:
         output_nude = 0
         priority = -1
 
+        log("get_background: get images")
+
         for image in images:
             if not image.can_be_used():
                 continue
@@ -95,6 +113,8 @@ init -2 python:
                 output_nude = max_nude
                 priority = image.get_priority()
         
+        log("get_background: found image")
+
         if output_image == None:
             return 0, fallback
         else:
