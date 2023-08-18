@@ -179,3 +179,77 @@ Version: b'4.6.0 - Build 31.0.101.4369'
 Display Info: None
 Screen sizes: virtual=(1920, 1080) physical=(3840, 2035) drawable=(3840, 2035)
 Maximum texture size: 4096x4096
+high_school_building pre-image
+pre-image-load
+get_background: get images
+get_image: start
+get_image: replaced keywords
+get_image: start check for existing level image
+get_image: finished check for level image
+get_image: get biggest nude variant possible
+get_background: found image
+post-image-load
+post-image-display
+high_school_building post-image
+load image with nude var
+check if image with nude version exists
+display button for nude variation
+load image with nude var
+check if image with nude version exists
+display button for nude variation
+high_school_building pre-image
+pre-image-load
+get_background: get images
+get_background: found image
+post-image-load
+post-image-display
+high_school_building post-image
+load image with nude var
+check if image with nude version exists
+display button for nude variation
+load image with nude var
+check if image with nude version exists
+display button for nude variation
+high_school_building pre-image
+pre-image-load
+get_background: get images
+get_image: start
+get_image: replaced keywords
+get_image: start check for existing level image
+get_image: finished check for level image
+get_image: get biggest nude variant possible
+get_image: check 1 => images/background/high school building/bg c 1 1.png
+get_image: check 2 => images/background/high school building/bg c 1 2.png
+get_image: check 3 => images/background/high school building/bg c 1 3.png
+get_image: found biggest nude variant possible
+get_background: found image
+post-image-load
+post-image-display
+high_school_building post-image
+load image with nude var
+check if image with nude version exists
+display button for nude variation
+load image with nude var
+check if image with nude version exists
+display button for nude variation
+load image with nude var
+check if image with nude version exists
+display button for nude variation
+load image with nude var
+check if image with nude version exists
+display button for nude variation
+load image with nude var
+check if image with nude version exists
+display button for nude variation
+load image with nude var
+check if image with nude version exists
+display button for nude variation
+load image with nude var
+check if image with nude version exists
+display button for nude variation
+load image with nude var
+check if image with nude version exists
+display button for nude variation
+load image with nude var
+check if image with nude version exists
+display button for nude variation
