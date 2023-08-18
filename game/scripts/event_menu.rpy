@@ -28,13 +28,13 @@ label call_event_menu(text, page, page_limit, events, fallback, person = charact
 
     if len(event_list) == 0:
         call call_event(fallback) from call_event_menu_1
-        jump map_overview from call_event_menu_2
+        jump map_overview
 
     show screen custom_menu_choice(page, page_limit, event_list)
 
     person "[text]"
 
-    jump new_daytime from call_event_menu_3
+    jump new_daytime
 
 label call_event(event_obj, priority = 0):
     hide screen menu_event_choice

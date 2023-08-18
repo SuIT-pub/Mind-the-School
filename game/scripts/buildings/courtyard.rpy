@@ -60,7 +60,7 @@ label .after_time_check:
         school,
     ) from courtyard_3
 
-    jump courtyard from courtyard_4
+    jump courtyard
 
 label show_courtyard_idle_image(school):
 
@@ -107,7 +107,7 @@ label first_potion_courtyard_event:
 
     $ set_building_blocked("courtyard")
 
-    jump new_daytime from first_potion_courtyard_event_1
+    jump new_daytime
 
 
 # first week event
@@ -123,6 +123,6 @@ label first_week_courtyard_event:
 
     $ set_building_blocked("courtyard")
 
-    jump new_day from first_week_courtyard_event_1
+    jump new_day
 
 ################################

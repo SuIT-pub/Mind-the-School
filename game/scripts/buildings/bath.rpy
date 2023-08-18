@@ -49,7 +49,7 @@ label .after_time_check:
         school,
     ) from bath_3
 
-    jump bath from bath_4
+    jump bath
 
 label show_bath_idle_image(school):    
 

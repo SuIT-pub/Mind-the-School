@@ -47,7 +47,7 @@ label .after_time_check:
         school,
     ) from labs_3
 
-    jump labs from labs_4
+    jump labs
 
 label show_labs_idle_image(school):    
     $ image_path = "images/background/labs/bg f.png" # show empty corridor

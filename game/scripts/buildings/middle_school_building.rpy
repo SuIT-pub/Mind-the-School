@@ -58,7 +58,7 @@ label .after_time_check:
         "middle_school",
     ) from middle_school_building_3
 
-    jump middle_school_building from middle_school_building_4
+    jump middle_school_building
 
 label show_middle_school_building_idle_image():
 
@@ -105,7 +105,7 @@ label first_potion_middle_school_building_event:
     $ set_building_blocked("middle_school_building")
     $ set_building_blocked("elementary_school_building")
 
-    jump new_daytime from first_potion_middle_school_building_event_1
+    jump new_daytime
 
 
 # first week event
@@ -139,6 +139,6 @@ label first_week_middle_school_building_event:
     $ set_building_blocked("middle_school_building")
     $ set_building_blocked("elementary_school_building")
 
-    jump new_day from first_week_middle_school_building_event_1
+    jump new_day
     
 #############################################

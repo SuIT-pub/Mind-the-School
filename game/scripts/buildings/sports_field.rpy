@@ -48,7 +48,7 @@ label .after_time_check:
         school,
     ) from sports_field_3
 
-    jump sports_field from sports_field_4
+    jump sports_field
 
 label show_sports_field_idle_image(school):    
 

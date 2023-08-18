@@ -48,7 +48,7 @@ label .after_time_check:
         school,
     ) from tennis_court_3
 
-    jump tennis_court from tennis_court_4
+    jump tennis_court
 
 label show_tennis_court_idle_image(school):
 

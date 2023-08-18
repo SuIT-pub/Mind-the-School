@@ -361,17 +361,23 @@ screen image_screen(image_path):
 screen image_with_nude_var(image_path, limit = 2, nude = 0):
     tag background
     
+    $ log("load image with nude var")
+
     $ path = image_path.replace("<nude>", str(nude))
 
     if limit > nude_vision:
         $ nude_vision = limit
+
+    $ log("check if image with nude version exists")
 
     if not renpy.exists(path):
         $ renpy.show_screen("black_error_screen_text", "image '" + path + "' not found")
     else:
         add path
     
-    if nude_vision != 0 and nude == limit:
+    $ log("display button for nude variation")
+
+    if nude_vision != 0 and nude == limit and nude != 0:
         imagebutton:
             auto "icons/sight_disabled_%s.png"
             focus_mask None
@@ -428,28 +434,28 @@ screen black_screen_text(text_str):
 label set_day(day, month, year):
     $ time.set_time(day, month, year)
 
-    call screen black_screen_text (f"{time.get_weekday()}, {time.day} {time.get_month_name()} {time.year}") from set_day_1
+    call screen black_screen_text (f"{time.get_weekday()}, {time.day} {time.get_month_name()} {time.year}")
 
     call time_event_check from set_day_2
 
-    jump map_overview from set_day_3
+    jump map_overview
 
 label new_day:
     $ time.progress_day()
 
-    call screen black_screen_text (f"{time.get_weekday()}, {time.day} {time.get_month_name()} {time.year}") from new_day_1
+    call screen black_screen_text (f"{time.get_weekday()}, {time.day} {time.get_month_name()} {time.year}")
 
     call time_event_check from new_day_2
 
-    jump map_overview from new_day_3
+    jump map_overview
 
 label new_daytime:
     if time.progress_time():
-        call screen black_screen_text (f"{time.get_weekday()}, {time.day} {time.get_month_name()} {time.year}") from new_daytime_1
+        call screen black_screen_text (f"{time.get_weekday()}, {time.day} {time.get_month_name()} {time.year}")
         
     call time_event_check from new_daytime_2
 
-    jump map_overview from new_daytime_3
+    jump map_overview
 
 #################################################
 # shows the map overview and then waits for input
@@ -465,7 +471,7 @@ label map_overview:
 
     show screen school_overview_map
     show screen school_overview_stats
-    call screen school_overview_buttons from map_overview_6
+    call screen school_overview_buttons
 
     subtitles_Empty ""
 

@@ -58,7 +58,7 @@ label .after_time_check:
         "middle_school",
     ) from middle_school_dormitory_3
 
-    jump middle_school_dormitory from middle_school_dormitory_4
+    jump middle_school_dormitory
 
 label show_middle_school_dormitory_idle_image():
 
@@ -114,7 +114,7 @@ label first_potion_middle_school_dormitory_event:
     $ set_building_blocked("middle_school_dormitory")
     $ set_building_blocked("elementary_school_dormitory")
 
-    jump new_daytime from first_potion_middle_school_dormitory_event_1
+    jump new_daytime
 
 # first week event
 label first_week_middle_school_dormitory_event:
@@ -135,6 +135,6 @@ label first_week_middle_school_dormitory_event:
     $ set_building_blocked("middle_school_dormitory")
     $ set_building_blocked("elementary_school_dormitory")
 
-    jump new_day from first_week_middle_school_dormitory_event_1
+    jump new_day
 
 ##############################################

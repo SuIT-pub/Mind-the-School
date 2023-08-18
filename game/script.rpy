@@ -8,6 +8,6 @@ label start:
     call load_clubs from start_4
     call load_rules from start_5
 
-    jump ask_age from start_6
+    jump ask_age
 
     return

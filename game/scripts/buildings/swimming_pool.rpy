@@ -48,7 +48,7 @@ label .after_time_check:
         school,
     ) from swimming_pool_3
 
-    jump swimming_pool from swimming_pool_4
+    jump swimming_pool
 
 label show_swimming_pool_idle_image(school):
 

@@ -46,7 +46,11 @@ label high_school_building:
 
 label .after_time_check:
 
+    $ log("high_school_building pre-image")
+
     call show_high_school_building_idle_image() from high_school_building_2
+
+    $ log("high_school_building post-image")
 
     call call_event_menu (
         "What to do in the High School?",
@@ -58,10 +62,12 @@ label .after_time_check:
         "high_school",
     ) from high_school_building_3
 
-    jump high_school_building from high_school_building_4
+    jump high_school_building
 
 
 label show_high_school_building_idle_image():
+
+    $ log("pre-image-load")
 
     $ max_nude, image_path = get_background(
         "images/background/high school building/bg f.png",
@@ -69,7 +75,11 @@ label show_high_school_building_idle_image():
         get_level_for_char("high_school", charList["schools"]),
     )
 
+    $ log("post-image-load")
+
     show screen image_with_nude_var (image_path, max_nude)
+
+    $ log("post-image-display")
 
     return
 
@@ -126,7 +136,7 @@ label first_week_high_school_building_event:
     $ set_building_blocked("middle_school_building")
     $ set_building_blocked("elementary_school_building")
 
-    jump new_day from first_week_high_school_building_event_1
+    jump new_day
 
 label first_potion_high_school_building_event:
 
@@ -142,7 +152,7 @@ label first_potion_high_school_building_event:
     $ set_building_blocked("middle_school_building")
     $ set_building_blocked("elementary_school_building")
 
-    jump new_daytime from first_potion_high_school_building_event_1
+    jump new_daytime
 
 ###########################################
 

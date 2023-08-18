@@ -51,7 +51,7 @@ label .after_time_check:
         character,
     ) from kiosk_3
 
-    jump kiosk from kiosk_4
+    jump kiosk
 
 label show_kiosk_idle_image(school):
 
@@ -103,6 +103,6 @@ label first_week_kiosk_event:
 
     $ set_building_blocked("kiosk")
 
-    jump new_day from first_week_kiosk_event_1
+    jump new_day
 
 ############################

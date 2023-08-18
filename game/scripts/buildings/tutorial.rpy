@@ -72,7 +72,7 @@ label tutorial_menu:
         "That's all":
             return
 
-    jump tutorial_menu from tutorial_menu_2
+    jump tutorial_menu
 
 label tutorial_map:
     show screen school_overview_images

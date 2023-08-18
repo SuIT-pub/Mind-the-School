@@ -63,7 +63,7 @@ label .after_time_check:
         school,
     ) from gym_3
 
-    jump gym from gym_4
+    jump gym
 
 label show_gym_idle_image(school):
 
@@ -112,7 +112,7 @@ label first_potion_gym_event:
 
     $ set_building_blocked("gym")
 
-    jump new_daytime from first_potion_gym_event_1
+    jump new_daytime
 
 
 # first week event
@@ -126,7 +126,7 @@ label first_week_gym_event:
 
     $ set_building_blocked("gym")
 
-    jump new_day from first_week_gym_event_1
+    jump new_day
 
 #############################
 # weekly assembly entry point
@@ -201,6 +201,6 @@ label weekly_assembly_first:
     secretary "Now that we finished the introduction, let's start with the entry paperwork."
     principal "Alright."
 
-    jump new_day from weekly_assembly_first_1
+    jump new_day
 
 ##########################

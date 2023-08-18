@@ -49,7 +49,7 @@ label .after_time_check:
         school,
     ) from cafeteria_3
 
-    jump cafeteria from cafeteria_4
+    jump cafeteria
 
 label show_cafeteria_idle_image(school):
     $ max_nude, image_path = get_background(

@@ -63,7 +63,7 @@ label .after_time_check:
         staff,
     ) from office_building_3
 
-    jump office_building from office_building_4
+    jump office_building
 
 label show_office_building_idle_image(staff_val):
 
@@ -104,7 +104,7 @@ label first_potion_office_building_event:
 
     $ set_building_blocked("office_building")
 
-    jump new_daytime from first_potion_office_building_event_1
+    jump new_daytime
 
 # first week event
 label first_week_office_building_event:
@@ -113,7 +113,7 @@ label first_week_office_building_event:
 
     $ set_building_blocked("office_building")
 
-    jump new_day from first_week_office_building_event_1
+    jump new_day
 
 label first_day_introduction:
 
@@ -177,7 +177,7 @@ label pta_meeting:
     # todo: implement PTA Meeting
     subtitles "PTA Meeting not implemented yet."
 
-    jump new_daytime from pta_meeting_1
+    jump new_daytime
 
 label first_pta_meeting:
     subtitles "You enter the conference room."
@@ -304,6 +304,6 @@ label .end_meeting:
         That should be all for today.\n
         Good work, thank you all for coming and have a nice weekend.
     """
-    jump new_daytime from first_pta_meeting_1
+    jump new_daytime
 
 ###########################################
