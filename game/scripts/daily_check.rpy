@@ -476,6 +476,7 @@ label first_week_epilogue_final:
     principal_thought "Now let's see how the students behave after the potion settled in."
 
     dev "This is where the content for this version ends. You can still roam around but there are no events for the different locations yet."
+    dev "Only a few nice background images at the different locations :)"
     dev "Thank you for playing up to this point. Look forward to the next version."
     dev "And feel free to visit my {a=https://patreon.com/suitji}Patreon{/a} and {a=https://discord.gg/UbHnxnRekA}Discord{/a}."
     dev "I'd be happy if you leave some feedback or some ideas on the Discord so I can work to further improve this game!"
