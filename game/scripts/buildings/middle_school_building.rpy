@@ -30,7 +30,7 @@ init -1 python:
     ))
 
     middle_school_building_bg_images = [
-        BGImage("images/background/middle school building/bg c <level> <nude>.png", 1, TimeCondition(daytime = "c")),
+        BGImage("images/background/middle school building/bg c <level> <nude>.png", 1, TimeCondition(daytime = "c", weekday = "d")),
         BGImage("images/background/middle school building/bg 7.png", 1, TimeCondition(daytime = 7)),
     ]
     

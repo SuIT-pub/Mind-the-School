@@ -178,23 +178,47 @@ init python:
 
     ## Classify files as None to exclude them from the built distributions.
 
+    ## Classify files as None to exclude them from the built distributions.
+
     build.classify('**~', None)
     build.classify('**.bak', None)
+    build.classify('**.psd', None)
     build.classify('**/.**', None)
     build.classify('**/#**', None)
     build.classify('**/thumbs.db', None)
+    build.classify("game/**.rpy", None)
+    build.classify("event backup", None)
 
-    ## To archive files, classify them as 'archive'.
-
-    # build.classify('game/**.png', 'archive')
-    # build.classify('game/**.jpg', 'archive')
-
-    ## Files matching documentation patterns are duplicated in a mac app build,
-    ## so they appear in both the app and the zip file.
+    ## Files matching documentation patterns are duplicated in a mac app
+    ## build, so they appear in both the app and the zip file.
 
     build.documentation('*.html')
-    build.documentation('*.txt')
+    build.classify('*.txt', None)
+    build.classify('*.docx', None)
+    build.classify('**.xcf', None)
 
+    # Declare three archives.
+    build.archive("scripts", "all")
+    build.archive("images", "all")
+    build.archive("sounds", "all")
+
+    # Put script files into the scripts archive.
+    build.classify("game/**.ttf", "scripts")
+    build.classify("game/**.rpyc", "scripts")
+
+    # Put images into the images archive.
+    build.classify("game/**.jpg", "images")
+    build.classify("game/**.png", "images")
+    build.classify("game/**.avi", "images")
+    build.classify("game/**.webp", "images")
+    build.classify("game/**.webm", "images")
+
+    # Put sounds into the sounds archive.
+    build.classify("game/**.ogg", "sounds")
+    build.classify("game/**.wav", "sounds")
+    build.classify("game/**.mp3", "sounds")
+
+    build.include_i686 = False
 
 ## A Google Play license key is required to download expansion files and perform
 ## in-app purchases. It can be found on the "Services & APIs" page of the Google

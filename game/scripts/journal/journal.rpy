@@ -351,7 +351,7 @@ screen journal_2(display, school):
     if display != "":
         $ active_rule = get_rule(display)
         $ active_rule_name = active_rule.get_name()
-        $ active_rule_desc = active_rule.get_description()
+        $ active_rule_desc = active_rule.get_description_str()
         $ active_school = get_character(school, charList["schools"])
 
         $ active_rule_image = active_rule.get_image(school, active_school.get_level())
@@ -582,7 +582,7 @@ screen journal_3(display, school):
     if display != "":
         $ active_club = get_club(display)
         $ active_club_name = active_club.get_name()
-        $ active_club_desc = active_club.get_description()
+        $ active_club_desc = active_club.get_description_str()
         $ active_school = get_character(school, charList["schools"])
 
         $ active_club_image = active_club.get_image(school, active_school.get_level())
@@ -794,7 +794,7 @@ screen journal_4(display, school):
     if display != "":
         $ active_building = get_building(display)
         $ active_building_name = active_building.get_name()
-        $ active_building_desc = active_building.get_description()
+        $ active_building_desc = active_building.get_description_str()
 
         $ active_building_image = active_building.get_image()
         $ active_building_full_image = active_building.get_full_image()
@@ -1004,6 +1004,9 @@ screen journal_5(display, school):
                 mousewheel True
                 draggable "touch"
                 vbox:
+                    text "Changing stats can lead to unintended behaviour or a broken game save.\nProceed on your own risk.":
+                        color "#000000"
+                        size 20
                     # MONEY
                     hbox:
                         text "{image=icons/stat_money_icon.png}"
@@ -1215,7 +1218,7 @@ screen journal_5(display, school):
             $ active_rule = get_rule(rule_keywords[1])
             $ active_rule_name = active_rule.get_name()
             $ active_rule_title = active_rule.get_title()
-            $ active_rule_desc = active_rule.get_description()
+            $ active_rule_desc = active_rule.get_description_str()
             $ active_rule_image = active_rule.get_image(school, active_school.get_level())
             $ active_rule_full_image = active_rule.get_full_image(school, active_school.get_level())
 
@@ -1233,6 +1236,7 @@ screen journal_5(display, school):
             text active_rule_title:
                 xpos 989
                 ypos 200
+                size 30
                 xmaximum 500
                 ymaximum 50
                 color "#000"
@@ -1305,6 +1309,9 @@ screen journal_5(display, school):
                     draggable "touch"
 
                     vbox:
+                        text "Unlocking certain clubs can lead to unintended behaviour or a broken game save.\nProceed on your own risk.":
+                            color "#000000"
+                            size 20
                         for club_key in clubs.keys():
                             $ club = get_club(club_key)
                             $ club_name = club.get_title()
@@ -1330,7 +1337,7 @@ screen journal_5(display, school):
             $ active_club = get_club(club_keywords[1])
             $ active_club_name = active_club.get_name()
             $ active_club_title = active_club.get_title()
-            $ active_club_desc = active_club.get_description()
+            $ active_club_desc = active_club.get_description_str()
             $ active_club_desc_conditions = active_club.get_desc_conditions()
             $ active_club_image = active_club.get_image(school, active_school.get_level())
             $ active_club_full_image = active_club.get_full_image(school, active_school.get_level())
@@ -1419,6 +1426,9 @@ screen journal_5(display, school):
                     draggable "touch"
 
                     vbox:
+                        text "Unlocking certain buildings can lead to unintended behaviour or a broken game save.\nProceed on your own risk.":
+                            color "#000000"
+                            size 20
                         for building_key in buildings.keys():
                             $ building = get_building(building_key)
                             $ building_name = building.get_title()
@@ -1461,7 +1471,7 @@ screen journal_5(display, school):
             $ active_building = get_building(building_keywords[1])
             $ active_building_name = active_building.get_name()
             $ active_building_title = active_building.get_title()
-            $ active_building_desc = active_building.get_description()
+            $ active_building_desc = active_building.get_description_str()
             
             $ active_building_image = active_building.get_image()
             $ active_building_full_image = active_building.get_full_image()

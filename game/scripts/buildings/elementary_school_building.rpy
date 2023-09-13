@@ -31,7 +31,7 @@ init -1 python:
     ))
 
     elementary_school_building_bg_images = [
-        BGImage("images/background/elementary school building/bg c <level> <nude>.png", 1, TimeCondition(daytime = "c")),
+        BGImage("images/background/elementary school building/bg c <level> <nude>.png", 1, TimeCondition(daytime = "c", weekday = "d")),
         BGImage("images/background/elementary school building/bg 7.png", 1, TimeCondition(daytime = 7)),
     ]
     
@@ -64,7 +64,7 @@ label .after_time_check:
 label show_elementary_school_building_idle_image():    
     
     $ max_nude, image_path = get_background(
-        "images/background/elementary_school_building/bg f.png",
+        "images/background/elementary school building/bg f.png",
         elementary_school_building_bg_images,
         get_level_for_char("elementary_school", charList["schools"]),
     )

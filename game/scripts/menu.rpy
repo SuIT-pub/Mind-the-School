@@ -10,7 +10,6 @@ label call_element(effects, school = "x"):
 
 screen custom_menu_choice(page, page_limit, elements, school = "x"):
     tag menu_choice
-    modal True
 
     $ element_count = len(elements)
 

@@ -1,17 +1,61 @@
 init -6 python:
     import re
     from abc import ABC, abstractmethod
+
+    class ConditionStorage:
+        def __init__(self, *conditions):
+            self.conditions = list(conditions)
+            self.list_conditions = []
+            self.desc_conditions = []
+
+            for condition in self.conditions:
+                if not condition.is_set_blocking() and condition.display_in_list:
+                    self.list_conditions.append(condition)
+                if not condition.is_set_blocking() and condition.display_in_desc:
+                    self.desc_conditions.append(condition)
+
+        def get_list_conditions(self):
+            return self.list_conditions
+
+        def get_desc_conditions(self):
+            return self.desc_conditions
+
+        def get_votable_conditions(self, school = None):
+            output = []
+            for condition in self.conditions:
+                if not condition.is_blocking(school) and condition.is_votable:
+                    output.append(condition)
+            return output
+
+        def get_conditions(self):
+            return self.conditions
+
+        def is_fullfilled(self, school = None):
+            for condition in self.conditions:
+                if condition.is_fullfilled(school):
+                    continue
+                return False
+
+            return True
+
+        def is_blocking(self, school = None):
+            for condition in self.conditions:
+                if condition.is_blocking(school):
+                    return False
+            return True
+
     class Condition(ABC):
         def __init__(self):
             self.blocking = False
             self.display_in_list = False
             self.display_in_desc = False
+            self.is_votable = False
 
         @abstractmethod
         def is_fullfilled(self, school):
             pass
 
-        def is_blocking(self, school):
+        def is_blocking(self, school = None):
             return (not self.is_fullfilled(school) and self.blocking)
 
         def is_set_blocking(self):
@@ -29,6 +73,10 @@ init -6 python:
         def get_name(self):
             pass
 
+        @abstractmethod
+        def get_diff(self, char_obj):
+            pass
+
     class StatCondition(Condition):
         def __init__(self, value, stat, school = "x", blocking = False):
             super().__init__()
@@ -38,6 +86,7 @@ init -6 python:
             self.blocking = blocking
             self.display_in_list = True
             self.display_in_desc = True
+            self.is_votable = True
             
         def is_fullfilled(self, school):
             school_obj = get_character(school, charList["schools"])
@@ -64,6 +113,21 @@ init -6 python:
             if stat_data == None:
                 return ""
             return stat_data.title
+
+        def get_diff(self, char_obj):
+            obj_stat = char_obj.get_stat_number(self.stat)
+
+            diff = obj_stat - self.value
+
+            print("diff: " + str(diff))
+
+            if diff < -20:
+                return diff * 10
+            elif diff < -10:
+                return diff * 5
+            elif diff < -5:
+                return diff * 2
+            return diff
 
 
     class RuleCondition(Condition):
@@ -93,6 +157,11 @@ init -6 python:
                 return ""
             return get_rule(self.value).title
 
+        def get_diff(self, char_obj):
+            if is_fullfilled(char_obj.get_name()):
+                return 0
+            return -100
+
 
     class ClubCondition(Condition):
         def __init__(self, value, school = "x", blocking = False):
@@ -121,6 +190,10 @@ init -6 python:
                 return ""
             return get_club(self.value).title
 
+        def get_diff(self, char_obj):
+            if is_fullfilled(char_obj.get_name()):
+                return 0
+            return -100
 
     class BuildingCondition(Condition):
         def __init__(self, value, blocking = False):
@@ -146,6 +219,10 @@ init -6 python:
                 return ""
             return get_building(self.value).title
 
+        def get_diff(self, char_obj):
+            if is_fullfilled(char_obj.get_name()):
+                return 0
+            return -100
 
     class LevelCondition(Condition):
         def __init__(self, value, school = "x", blocking = False):
@@ -184,6 +261,9 @@ init -6 python:
         def get_name(self):
             return "Level"
 
+        def get_diff(self, char_obj):
+            return (char_obj.get_level - self.value) * 10
+
 
     class MoneyCondition(Condition):
         def __init__(self, value, blocking = False):
@@ -211,6 +291,12 @@ init -6 python:
         def get_name(self):
             return "Money"
 
+        def get_diff(self, char_obj):
+            output = -20 + (money.get_value() - self.value)
+            if output > 0:
+                return 0
+            return output
+
 
     class SchoolCondition(Condition):
         def __init__(self, school = "x", blocking = True):
@@ -232,6 +318,11 @@ init -6 python:
                 return self.school
             return get_character(school, charList["schools"]).get_title()
 
+        def get_diff(self, char_obj):
+            if char_obj.name == self.school:
+                return 0
+            return -100
+
 
     class LockCondition(Condition):
         def __init__(self):
@@ -249,6 +340,9 @@ init -6 python:
 
         def get_name(self):
             return "lock"
+
+        def get_diff(self, char_obj):
+            return -100
 
 
     class TimeCondition(Condition):
@@ -314,6 +408,11 @@ init -6 python:
 
         def get_name(self):
             return f"{self.day}:{self.week}:{self.month}:{self.year}:{self.daytime}:{self.weekday}"
+
+        def get_diff(self, char_obj):
+            if is_fullfilled(None):
+                return 0
+            return -100
             
 
     class RandomCondition(Condition):
@@ -336,6 +435,9 @@ init -6 python:
 
         def get_name(self):
             return f"Random ({self.amount}/{self.limit})"
+
+        def get_diff(self, char_obj):
+            return 0
 
 
     class ValueCondition(Condition):
@@ -364,3 +466,8 @@ init -6 python:
 
         def get_name(self):
             return self.name
+
+        def get_diff(self, char_obj):
+            if is_fullfilled(None):
+                return 0
+            return -100

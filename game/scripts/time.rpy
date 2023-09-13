@@ -109,13 +109,14 @@ init -6 python:
 
             for split_val in day_split:
                 split_value = split_val.strip()
-                val_str = re.findall('\d+', split_value)
+                val_str = re.findall('\d+', split_value)[0]
                 if val_str:
                     day = int(''.join(val_str))
 
                     if (day == self.day or
                         (split_value.endswith('+') and self.day >= day) or
-                        (split_value.endswith('-') and self.day <= day)
+                        (split_value.endswith('-') and self.day <= day) or
+                        self.day == day
                     ):
                         return True
                     elif '-' in split_value:
@@ -144,8 +145,9 @@ init -6 python:
                     month = int(''.join(val_str))
 
                     if (month == self.month or
-                        (split_value.endswith('+') and self.month >= month )or
-                        (split_value.endswith('-') and self.month <= month)
+                        (split_value.endswith('+') and self.month >= month) or
+                        (split_value.endswith('-') and self.month <= month) or
+                        self.month == month
                     ):
                         return True
                     elif '-' in split_value:
@@ -175,7 +177,8 @@ init -6 python:
 
                     if (year == self.year or
                         (split_value.endswith('+') and self.year >= year) or
-                        (split_value.endswith('-') and self.year <= year)
+                        (split_value.endswith('-') and self.year <= year) or
+                        self.year == year
                     ):
                         return True
                     elif '-' in split_value:
@@ -206,11 +209,13 @@ init -6 python:
             for split_val in daytime_split:
                 split_value = split_val.strip()
                 val_str = re.findall('\d+', split_value)
+
                 if val_str:
                     daytime = int(''.join(val_str))
 
                     if ((split_value.endswith('+') and self.daytime >= daytime) or
-                        (split_value.endswith('-') and self.daytime <= daytime)
+                        (split_value.endswith('-') and self.daytime <= daytime) or
+                        self.daytime == daytime
                     ):
                         return True
                     elif '-' in split_value:
@@ -240,7 +245,8 @@ init -6 python:
 
                     if (week == self.get_week() or
                         (split_value.endswith('+') and self.get_week() >= week) or
-                        (split_value.endswith('-') and self.get_week() <= week)
+                        (split_value.endswith('-') and self.get_week() <= week) or
+                        self.get_week() == week
                     ):
                         return True
                     elif '-' in split_value:
@@ -275,7 +281,8 @@ init -6 python:
                     weekday = int(''.join(val_str))
 
                     if ((split_value.endswith('+') and self.get_weekday() >= weekday) or
-                        (split_value.endswith('-') and self.get_weekday() <= weekday)
+                        (split_value.endswith('-') and self.get_weekday() <= weekday) or
+                        self.get_weekday() == weekday
                     ):
                         return True
                     elif '-' in split_value:

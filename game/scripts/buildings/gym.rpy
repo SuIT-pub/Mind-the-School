@@ -33,7 +33,7 @@ init -1 python:
     ))
 
     gym_bg_images = [
-        BGImage("images/background/gym/bg c <level> <nude>.png", 1, TimeCondition(daytime = "c")), # show gym with students
+        BGImage("images/background/gym/bg c <school> <level> <nude>.png", 1, TimeCondition(daytime = "c", weekday = "d")), # show gym with students
         BGImage("images/background/gym/bg 7.png", 1, TimeCondition(daytime = 7)), # show gym at night empty
     ]
     
@@ -65,12 +65,13 @@ label .after_time_check:
 
     jump gym
 
-label show_gym_idle_image(school):
+label show_gym_idle_image(school_name):
 
     $ max_nude, image_path = get_background(
         "images/background/gym/bg f.png", # show gym empty
         gym_bg_images,
-        get_level_for_char(school, charList["schools"]),
+        get_level_for_char(school_name, charList["schools"]),
+        school = school_name
     )
 
     show screen image_with_nude_var (image_path, max_nude)
@@ -117,8 +118,13 @@ label first_potion_gym_event:
 
 # first week event
 label first_week_gym_event:
+    show first week gym 1
     principal_thought "Okay, now the Gym. I have been here shortly for my introduction speech but I haven't had the chance to get a thorough look."
+
+    show first week gym 2
     principal_thought "Mhh, doesn't look to shabby..."
+    
+    show first week gym 3
     principal_thought "Seems to be decently stocked."
     principal_thought "The material is well maintained. I guess it's alright."
 
@@ -140,11 +146,10 @@ label weekly_assembly:
 # first weekly assembly of the game
 label weekly_assembly_first:
 
-    scene expression "events/intro/intro gym 1.png"
+    scene expression "events/intro/intro gym 2 [loli_content].png"
     subtitles "You leave the office with the secretary and head for the Gym."
     
     #show inside gym with students walking towards their position in gym or talking to each other in groups by school
-    scene expression "events/intro/intro gym 2 [loli_content].png"
     subtitles "As you enter the hall, you'll be greeted by students standing all around the hall."
     
     #show move up stairs with secretary in front and clear view of butt
@@ -170,7 +175,7 @@ label weekly_assembly_first:
     secretary_shout "He will be starting today and we're all very excited to see the positive changes he will bring!"
 
     #show view from slightly behind crowd towards stage (secretary pointing towards principal)
-    scene expression "events/intro/intro gym 6 [loli_content].png"
+    # scene expression "events/intro/intro gym 6 [loli_content].png"
     secretary_shout "But without further ado... Greet your new Headmaster Mr. [principal_last_name]!"
     subtitles "You walk to the podium."
 
@@ -186,12 +191,12 @@ label weekly_assembly_first:
     principal_shout "I taught in various schools and was also the principal of a school in the capital."
 
     #show principal rasing finger
-    scene expression "events/intro/intro gym 9 [loli_content].png"
+    # scene expression "events/intro/intro gym 9 [loli_content].png"
     principal_shout "I want to make it clear that I will not tolerate misbehavior! {b}BUT{/b} I am a fair person."
     principal_shout "No one will be punished if they don't deserve it and I will do everything I can to make sure that you all have a nice and safe place to grow and learn!"
 
     #show principal with wide open arms
-    scene expression "events/intro/intro gym 10 [loli_content].png"
+    # scene expression "events/intro/intro gym 10 [loli_content].png"
     principal_shout "If you ever have any problems, ideas or questions, feel free to come to me anytime. I will help wherever I can!"
     principal_shout "Thank you and let's have a great time together!"
     crowd_shout "*clapping*"

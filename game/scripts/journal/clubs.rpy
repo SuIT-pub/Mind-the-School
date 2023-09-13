@@ -10,9 +10,15 @@ init -6 python:
             self._unlocked = {
                 "high_school": False,
                 "middle_school": False,
-                "elementary_school": False
+                "elementary_school": False,
             }
-            self._unlock_conditions = []
+            self._unlock_conditions = ConditionStorage()
+            self._vote_comments = {}
+            self._default_comments = {
+                "yes": "I vote yes.",
+                "no": "I vote no.",
+                "veto": "I veto this decision.",
+            }
 
         def _update(self, title, data = None):
             if data != None:
@@ -33,7 +39,15 @@ init -6 python:
                     "elementary_school": False,
                 }
             if not hasattr(self, '_unlock_conditions'):
-                self._unlock_conditions = []
+                self._unlock_conditions = ConditionStorage()
+            if not hasattr(self, '_vote_comments'):
+                self._vote_comments = {}
+            if not hasattr(self, '_default_comments'):
+                self._default_comments = {
+                    "yes": "I vote yes.",
+                    "no": "I vote no.",
+                    "veto": "I veto this decision.",
+                }
 
         def get_name(self):
             return self._name
@@ -47,14 +61,17 @@ init -6 python:
         def get_description(self):
             return self._description
 
+        def get_description_str(self):
+            return "\n\n".join(self._description)
+
         def get_image(self, school, level):
             for i in reversed(range(0, level + 1)):
                 image = self._image_path.replace("<school>", school).replace("<level>", str(i))
-                if renpy.exists(image):
+                if renpy.loadable(image):
                     return image
             for i in range(0, 10):
                 image = self._image_path.replace("<school>", school).replace("<level>", str(i))
-                if renpy.exists(image):
+                if renpy.loadable(image):
                     return image
             return self._image_path_alt
 
@@ -62,7 +79,7 @@ init -6 python:
             image = self.get_image(school, level)
             full_image = image.replace(".", "_full.")
 
-            if renpy.exists(full_image):
+            if renpy.loadable(full_image):
                 return full_image
             return None
 
@@ -72,43 +89,33 @@ init -6 python:
                 self._unlocked[school] = unlock
 
         def is_unlocked(self, school):
-            if school not in self._unlocked.keys():
-                return False
-            return self._unlocked[school]
+            return school in self._unlocked.keys() and self._unlocked[school]
 
         def is_visible(self, school):
-            for condition in self._unlock_conditions:
-                if condition.is_blocking(school):
-                    return False
-            return True
+            return school in charList["schools"].keys() and self._unlock_conditions.is_blocking(school)
 
         def can_be_unlocked(self, school):
-            if school not in schools.keys():
-                return False
+            return school in charList["schools"].keys() and self._unlock_conditions.is_fullfilled(school)
 
-            for condition in self._unlock_conditions:
-                if condition.is_fullfilled(school):
-                    continue
-                return False
+        def get_condition_storage(self):
+            return self._unlock_conditions
 
-            return True
+        def get_conditions(self):
+            return self._unlock_conditions.get_conditions()
 
         def get_list_conditions(self):
-            output = []
-            for condition in self._unlock_conditions:
-                if not condition.is_set_blocking() and condition.display_in_list:
-                    output.append(condition)
-
-            return output
+            return self._unlock_conditions.get_list_conditions()
 
         def get_desc_conditions(self):
-            output = []
-            for condition in self._unlock_conditions:
-                if not condition.is_set_blocking() and condition.display_in_desc:
-                    output.append(condition)
+            return self._unlock_conditions.get_desc_conditions()
+        
+        def get_votable_conditions(self):
+            return self._unlock_conditions.get_votable_conditions()
 
-            return output
-
+        def get_vote_comments(self, char, result):
+            if char not in self._vote_comments.keys():
+                return self._default_comments[result]
+            return self._vote_comments[char][result]
 
     #############################################
     # Clubs Global Methods
@@ -312,138 +319,145 @@ init -6 python:
 
 label load_clubs:
     $ load_club("masturbation_club", "Masturbation Club", {
-        '_description': "Here students cum together (pun intended) to " +
-            "collectively masturbate and explore new ways to satsify " +
-            "themselves.\nA nice place for students to socialize and to " +
-            "get some time out from the stressy school life.",
-        '_unlock_conditions': [
+        '_description': [
+            "Here students cum together (pun intended) to collectively masturbate and explore new ways to satsify themselves.\nA nice place for students to socialize and to get some time out from the stressy school life.",
+        ],
+        '_unlock_conditions': ConditionStorage(
             # LevelCondition("5+"),
             LockCondition(),
-        ],
+        ),
         '_image_path': 'images/journal/clubs/masturbation_club.png',
         '_image_path_alt': 'images/journal/clubs/masturbation_club.png',
     })
 
     $ load_club("exhibitionism_club", "Exhibitionism Club", {
-        '_description': "The club to celebrate the art that is the human body. " +
-            "Here students come together to engage in the thrill seeking " +
-            "activity of presenting their nude bodies in public.",
-        '_unlock_conditions': [
+        '_description': [
+            "The club to celebrate the art that is the human body. Here students come together to engage in the thrill seeking activity of presenting their nude bodies in public.",
+        ],
+        '_unlock_conditions': ConditionStorage(
             # LevelCondition("5+"),
             LockCondition(),
-        ],
+        ),
         '_image_path': 'images/journal/clubs/exhibitionism_club.png',
         '_image_path_alt': 'images/journal/clubs/exhibitionism_club.png',
     })
 
     $ load_club("cosplay_club", "Cosplay Club", {
-        '_description': "Here students engage costume crafting and cosplaying.",
-        '_unlock_conditions': [
+        '_description': [
+            "Here students engage costume crafting and cosplaying.",
+        ],
+        '_unlock_conditions': ConditionStorage(
             # LevelCondition("2+"),
             LockCondition(),
-        ],
+        ),
         '_image_path': 'images/journal/clubs/cosplay_club.png',
         '_image_path_alt': 'images/journal/clubs/cosplay_club.png',
     })
 
     $ load_club("cheerleading_club", "Cheerleading Club", {
-        '_description': "A sports club for training cheerleading and for" +
-            "exploring new ways to cheer and motivate the teams.",
-        '_unlock_conditions': [
-            # LevelCondition("2+"),
-            LockCondition(),
+        '_description': [
+            "A sports club for training cheerleading and for exploring new ways to cheer and motivate the teams.",
         ],
+        '_unlock_conditions': ConditionStorage(
+            # LevelCondition("2+"),
+            # LockCondition(),
+        ),
         '_image_path': 'images/journal/clubs/cheerleading_club_<school>_<level>.png',
         '_image_path_alt': 'images/journal/clubs/cheerleading_club_high_school_2.png',
     })
 
     $ load_club("porn_club", "Porn Club", {
-        '_description': "An Arts and Crafts Club for shooting Porn and Erotica.\n" +
-            "While it starts as an amateur film shooting club, there for sure " +
-            "are ways to make money with it.",
-        '_unlock_conditions': [
+        '_description': [
+            "An Arts and Crafts Club for shooting Porn and Erotica.\nWhile it starts as an amateur film shooting club, there for sure are ways to make money with it.",
+        ],
+        '_unlock_conditions': ConditionStorage(
             # LevelCondition("8+"),
             LockCondition(),
-        ],
+        ),
     })
 
     $ load_club("sex_club", "Sex Club", {
-        '_description': "Like in the masturbation club, the students meet here " +
-            "to have fun together in engaging in orgies and other sexual " +
-            "activities and to search for new ways to reach new levels of euphoria.",
-        '_unlock_conditions': [
+        '_description': [
+            "Like in the masturbation club, the students meet here to have fun together in engaging in orgies and other sexual activities and to search for new ways to reach new levels of euphoria.",
+        ],
+        '_unlock_conditions': ConditionStorage(
             # LevelCondition("7+"),
             LockCondition(),
-        ],
+        ),
     })
 
     $ load_club("service_club", "Service Club", {
-        '_description': "This club specializes in finding and testing ways " +
-            "to optimize and find new ways to achieve optimal customer " +
-            "satisfaction.\n\nThis club may also cooperate with other clubs " +
-            "to host certain events.",
-        '_unlock_conditions': [
+        '_description': [
+            "This club specializes in finding and testing ways to optimize and find new ways to achieve optimal customer satisfaction.",
+            "This club may also cooperate with other clubs to host certain events.",
+        ],
+        '_unlock_conditions': ConditionStorage(
             # LevelCondition("5+"),
             LockCondition(),
-        ],
+        ),
     })
 
     $ load_club("swimming_club", "Swimming Club", {
-        '_description': "The swimming club provides ways for students to train " +
-            "their condition and also to train their gracefulness in the water.",
-        '_unlock_conditions': [
-            LockCondition(),
+        '_description': [
+            "The swimming club provides ways for students to train their condition and also to train their gracefulness in the water.",
         ],
+        '_unlock_conditions': ConditionStorage(
+            LockCondition(),
+        ),
     })
 
     $ load_club("sport_club", "Sport Club", {
-        '_description': "A club where students engage in various sporty " +
-            "activities like track and field or long jump.",
-        '_unlock_conditions': [
-            LockCondition(),
+        '_description': [
+            "A club where students engage in various sporty activities like track and field or long jump.",
         ],
+        '_unlock_conditions': ConditionStorage(
+            LockCondition(),
+        ),
     })
 
     $ load_club("literature_club", "Literature Club", {
-        '_description': "Here students dedicate the free time to their hobby " +
-            "of reading various books and stories.",
-        '_unlock_conditions': [
-            LockCondition(),
+        '_description': [
+            "Here students dedicate the free time to their hobby of reading various books and stories.",
         ],
+        '_unlock_conditions': ConditionStorage(
+            LockCondition(),
+        ),
     })
 
     $ load_club("music_club", "Music Club", {
-        '_description': "A musical club where students came together to form " +
-            "bands and to create possibilities to perform on the big stage.",
-        '_unlock_conditions': [
-            LockCondition(),
+        '_description': [
+            "A musical club where students came together to form bands and to create possibilities to perform on the big stage.",
         ],
+        '_unlock_conditions': ConditionStorage(
+            LockCondition(),
+        ),
     })
 
     $ load_club("game_club", "Game Club", {
-        '_description': "A club where various games are played, developed " +
-            "and tested.",
-        '_unlock_conditions': [
-            LockCondition(),
+        '_description': [
+            "A club where various games are played, developed and tested.",
         ],
+        '_unlock_conditions': ConditionStorage(
+            LockCondition(),
+        ),
     })
 
     $ load_club("arts_club", "Arts & Crafts Club", {
-        '_description': "A club where students let out their artistic " +
-            "personalities in many different ways. Here they can paint, " +
-            "sculpt or something else they want to do to present themselves.",
-        '_unlock_conditions': [
-            LockCondition(),
+        '_description': [
+            "A club where students let out their artistic personalities in many different ways. Here they can paint, sculpt or something else they want to do to present themselves.",
         ],
+        '_unlock_conditions': ConditionStorage(
+            LockCondition(),
+        ),
     })
 
     $ load_club("outdoor_club", "Outdoor Activities Club", {
-        '_description': "This club is dedicated to show different activities " +
-            "that can be done out in the nature, like camping or hiking, " +
-            "canoeing. Everything outside- and nature-related.",
-        '_unlock_conditions': [
-            LockCondition(),
+        '_description': [
+            "This club is dedicated to show different activities that can be done out in the nature, like camping or hiking, canoeing. Everything outside- and nature-related.",
         ],
+        '_unlock_conditions': ConditionStorage(
+            LockCondition(),
+        ),
     })
 
     return

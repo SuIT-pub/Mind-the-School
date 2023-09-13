@@ -36,23 +36,20 @@ init python:
 
         for i in reversed(range(0, level + 1)):
             image = path.replace("<level>", str(i))
-            if renpy.exists(image):
+            if renpy.loadable(image):
                 return image_path.replace("<level>", str(i))
         for i in range(0, 10):
             image = path.replace("<level>", str(i))
-            if renpy.exists(image):
+            if renpy.loadable(image):
                 return image_path.replace("<level>", str(i))
         
         return image_path
 
     def get_random_school():
-        variant = renpy.random.randint(0, loli_content)
+        return get_random_choice("high_school", "middle_school", "elementary_school")
 
-        return "high_school"
-        if variant == 1:
-            return "middle_school"
-        if variant == 2:
-            return "elementary_school"
+    def get_random_choice(*choice):
+        return renpy.random.choice(list(choice))
 
     def log_val(key, value):
         print(key + ": " + str(value))
@@ -60,6 +57,9 @@ init python:
     def log(msg):
         print(msg)
        
+
+default intro_dev_message = "This version of the game only includes content up to day 10, when free roaming begins. You can still play and roam from there, but there will be no content."
+
 
 default rules = {}
 default buildings = {}
@@ -73,6 +73,13 @@ default time = Time()
 default stat_data = {}
 default gameData = {}
 
+default character.dev = Character(
+    "Suit-Kun",
+    who_color = "#00ff11",
+    what_color = "#ffffff",
+    what_size = 28,
+    what_outlines = [( 1, "#000000", 0, 0 )],
+)
 default character.principal = Character(
     "Principal",
     who_color = "#ffffff",

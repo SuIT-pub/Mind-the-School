@@ -16,6 +16,12 @@ init -6 python:
             if not hasattr(self, 'stats_objects'):
                 self.stats_objects = {}
 
+        def get_name(self):
+            return self.name
+
+        def get_title(self):
+            return self.title
+
         def get_stat_obj(self, stat):
             if not stat in self.stats_objects:
                 return None
@@ -54,6 +60,8 @@ init -6 python:
         def check_stat(self, stat_name, value):
             if value == "x":
                 return self.get_stat_string(stat_name)
+
+            value = str(value)
 
             split = value.split(',')
 
@@ -160,6 +168,12 @@ init -6 python:
 
         count = 0
         for obj in map.values():
+
+            if obj.get_name() == "middle_school" and loli_content == 0:
+                continue
+            if obj.get_name() == "elementary_school" and loli_content != 2:
+                continue
+
             if stat == 'level':
                 mean += obj.get_level()
             else:
@@ -205,9 +219,9 @@ init -6 python:
             return
         map[name].set_level(value)
         
-    def change_stat_for_all(stat, delta):
+    def change_stat_for_all(stat, delta, map):
         for character in map.keys():
-            map[character].change_stat(stat, value)
+            map[character].change_stat(stat, delta)
 
     def change_stat_for_char(stat, value, name, map):
         if name not in map.keys():
@@ -231,6 +245,17 @@ init -6 python:
 label load_schools:
 
     $ load_character("secretary", "Secretary", charList['staff'], {
+        'stats_objects': {
+            "corruption": Stat("corruption", 0),
+            "inhibition": Stat("inhibition", 0),
+            "happiness": Stat("happiness", 20),
+            "education": Stat("education", 10),
+            "charm": Stat("charm", 8),
+            "reputation": Stat("reputation", 12),
+        },
+    })
+
+    $ load_character("parents", "Parents", charList, {
         'stats_objects': {
             "corruption": Stat("corruption", 0),
             "inhibition": Stat("inhibition", 0),

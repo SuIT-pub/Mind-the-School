@@ -29,8 +29,9 @@ init -1 python:
     ))
 
     courtyard_bg_images = [
-        BGImage("images/background/courtyard/bg 1,6 <level> <nude>.png", 1, TimeCondition(daytime = "1,6")), # show courtyard with a few students
-        BGImage("images/background/courtyard/bg 3 <level> <nude>.png", 1, TimeCondition(daytime = 3)), # show courtyard full of students and teacher
+        BGImage("images/background/courtyard/bg 1,6 <school> <level> <nude>.png", 1, TimeCondition(daytime = "1,6")), # show courtyard with a few students
+        BGImage("images/background/courtyard/bg 1,6 <school> <level> <nude>.png", 1, TimeCondition(daytime = "c", weekday = "w")), # show courtyard with a few students
+        BGImage("images/background/courtyard/bg 3 <school> <level> <nude>.png", 1, TimeCondition(daytime = 3)), # show courtyard full of students and teacher
         BGImage("images/background/courtyard/bg 7.png", 1, TimeCondition(daytime = 7)), # show empty courtyard at night
     ]
     
@@ -62,12 +63,13 @@ label .after_time_check:
 
     jump courtyard
 
-label show_courtyard_idle_image(school):
+label show_courtyard_idle_image(school_name):
 
     $ max_nude, image_path = get_background(
         "images/background/courtyard/bg c.png", # show empty courtyard
         courtyard_bg_images,
-        get_level_for_char(school, charList["schools"]),
+        get_level_for_char(school_name, charList["schools"]),
+        school = school_name
     )
 
     show screen image_with_nude_var (image_path, max_nude)
@@ -112,11 +114,18 @@ label first_potion_courtyard_event:
 
 # first week event
 label first_week_courtyard_event:
+    show first week courtyard 1
     subtitles "You walk through the courtyard."
 
-    principal_thought "Hmm, the courtyard doesn't look too bad. At least it is kept clean."
-    principal_thought "But it seems most of the appliances here are out of order."
+    principal_thought "Hmm, the courtyard looks really bad..."
+    
+    show first week courtyard 2
+    principal_thought "Tt seems most of the appliances here are out of order."
+
+    show first week courtyard 3
     principal_thought "For example the public toilet is broken."
+
+    show first week courtyard 4
     principal_thought "At least the courtyard doesn't need immediate fixing."
 
     $ set_stat_for_all("happiness", 12, charList["schools"])

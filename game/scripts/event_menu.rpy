@@ -30,9 +30,11 @@ label call_event_menu(text, page, page_limit, events, fallback, person = charact
         call call_event(fallback) from call_event_menu_1
         jump map_overview
 
-    show screen custom_menu_choice(page, page_limit, event_list)
+    show text "text"
+    $ person ("[text]", interact=False)
 
-    person "[text]"
+    call screen custom_menu_choice(page, page_limit, event_list)
+
 
     jump new_daytime
 

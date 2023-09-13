@@ -35,6 +35,23 @@ label intro:
     if loli_content > 0:
         $ school_config_noun = "schools"
 
+    show screen black_error_screen_text ("")
+
+    menu:
+        subtitles "Play intro?"
+
+        "Yes. Play intro!":
+            jump .start
+        "Skip to tutorial.":
+            call tutorial_1.tutorial_2 from intro_1
+        "Skip after intro.":
+            call tutorial_1.tutorial_3 from intro_2
+        "Skip to free-roam. (Skips first week bonus stats.)":
+            call skip_to_free_roam from intro_3
+
+label .start:
+    hide screen black_error_screen_text
+
     nv_text "Welcome to [school_name]!"
     nv_text "[school_name] is a school located deep in the woods, aeons away from the nearest city."
     nv_text "This academy consists of [school_config]"
@@ -65,3 +82,17 @@ label intro:
     nv_text "You enter the office..."
 
     jump new_daytime
+
+label skip_to_free_roam:
+    
+    dev "[intro_dev_message]"
+
+    $ set_level_for_char(1, "high_school", charList["schools"])
+    $ set_level_for_char(1, "middle_school", charList["schools"])
+    $ set_level_for_char(1, "elementary_school", charList["schools"])
+    $ set_level_for_char(1, "teacher", charList["staff"])
+    $ set_level_for_char(5, "secretary", charList["staff"])
+
+    $ time.set_time(day = 10, month = 1, year = 2023)
+
+    call first_week_epilogue_final from skip_to_free_roam_1

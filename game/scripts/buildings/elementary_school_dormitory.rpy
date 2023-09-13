@@ -30,7 +30,8 @@ init -1 python:
     ))
 
     elementary_school_dormitory_bg_images = [
-        BGImage("images/background/elementary school dormitory/bg f <level> <nude>.png", 1, TimeCondition(daytime = "1,3")),
+        BGImage("images/background/elementary school dormitory/bg f <level> <nude>.png", 1, TimeCondition(daytime = "f")),
+        BGImage("images/background/elementary school dormitory/bg f <level> <nude>.png", 1, TimeCondition(daytime = "c", weekday="w")),
         BGImage("images/background/elementary school dormitory/bg 7.png", 1, TimeCondition(daytime = 7)),
     ]
     

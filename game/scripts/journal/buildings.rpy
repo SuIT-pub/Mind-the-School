@@ -18,9 +18,15 @@ init -6 python:
             self._image_path = "images/journal/empty_image.png"
             self._level = 0
             self._max_level = 1
-            self._unlock_conditions = []
+            self._unlock_conditions = ConditionStorage()
             self._update_conditions = []
             self._blocked = False
+            self._vote_comments = {}
+            self._default_comments = {
+                "yes": "I vote yes.",
+                "no": "I vote no.",
+                "veto": "I veto this decision.",
+            }
 
         def _update(self, title, data = None):
             if data != None:
@@ -39,11 +45,19 @@ init -6 python:
             if not hasattr(self, '_max_level'):
                 self._max_level = 1
             if not hasattr(self, '_unlock_conditions'):
-                self._unlock_conditions = []
+                self._unlock_conditions = ConditionStorage()
             if not hasattr(self, '_update_conditions'):
                 self._update_conditions = []
             if not hasattr(self, '_blocked'):
                 self._blocked = False
+            if not hasattr(self, '_vote_comments'):
+                self._vote_comments = {}
+            if not hasattr(self, '_default_comments'):
+                self._default_comments = {
+                    "yes": "I vote yes.",
+                    "no": "I vote no.",
+                    "veto": "I veto this decision.",
+                }
         
         def get_name(self):
             return self._name
@@ -61,11 +75,14 @@ init -6 python:
                 return ""
             return self._description[level]
 
+        def get_description_str(self, level = -1):
+            return "\n\n".join(self.get_description(level))
+
         def get_image(self):
-            level = get_lowest_level(schools)
+            level = get_lowest_level(charList["schools"])
             for i in reversed(range(0, level + 1)):
                 image = self._image_path.replace("<level>", str(i))
-                if renpy.exists(image):
+                if renpy.loadable(image):
                     return image
             return self._image_path_alt
 
@@ -73,7 +90,7 @@ init -6 python:
             image = self.get_image()
             full_image = image.replace(".", "_full.")
 
-            if renpy.exists(full_image):
+            if renpy.loadable(full_image):
                 return full_image
             return None
 
@@ -110,60 +127,66 @@ init -6 python:
             return self._blocked
 
         def is_visible(self):
-            for condition in self._unlock_conditions:
-                if condition.is_blocking(None):
-                    return False
-            return True
+            return self._unlock_conditions.is_blocking()
 
         def can_be_unlocked(self):
-            for condition in self._unlock_conditions:
-                if condition.is_fullfilled(None):
-                    continue
-                return False
-
-            return True
+            return self._unlock_conditions.is_fullfilled()
 
         def can_be_upgraded(self):
-            for condition in self._update_conditions:
-                if condition.is_fullfilled(None):
-                    continue
-                return False
-
-            return True
+            conditions = get_update_conditions(self._level + 1)
+            return conditions != None and conditions.is_fullfilled(None)
 
         def has_higher_level(self):
             return self._level < self._max_level
 
-        def get_update_conditions(self, level):
+        def get_unlock_condition_storage(self):
+            return self._unlock_conditions
+        
+        def get_upgrade_condition_storage(self, level):
             if level > len(self._update_conditions) or level <= 0:
-                return []
+                return None
             return self._update_conditions[level - 1]
 
-        def get_list_conditions(self, cond_type = "unlock"):
-            output = []
+        def get_unlock_conditions(self):
+            return self._unlock_conditions.get_conditions()
 
-            conditions = self._unlock_conditions
+        def get_update_conditions(self, level):
+            if level > len(self._update_conditions) or level <= 0:
+                return None
+            return self._update_conditions[level - 1]
+        
+        def get_list_conditions(self, cond_type = "unlock", level = -1):
+            if level == -1:
+                level = self._level
+
+            if cond_type == "unlock":
+                return self._unlock_conditions.get_list_conditions()
             if cond_type == "upgrade":
-                conditions = self.get_update_conditions(self._level)
+                return self.get_update_conditions(level).get_list_conditions()
 
-            for condition in conditions:
-                if not condition.is_set_blocking() and condition.display_in_list:
-                    output.append(condition)
+        def get_desc_conditions(self, cond_type = "unlock", level = -1):
+            if level == -1:
+                level = self._level
 
-            return output
-
-        def get_desc_conditions(self, cond_type = "unlock"):
-            output = []
-
-            conditions = self._unlock_conditions
+            if cond_type == "unlock":
+                return self._unlock_conditions.get_desc_conditions()
             if cond_type == "upgrade":
-                conditions = self.get_update_conditions(self._level)
+                return self.get_update_conditions(level).get_desc_conditions()
 
-            for condition in conditions:
-                if not condition.is_set_blocking() and condition.display_in_desc:
-                    output.append(condition)
+        def get_votable_conditions(self, cond_type = "unlock", level = -1):
+            if level == -1:
+                level = self._level
 
-            return output
+            if cond_type == "unlock":
+                return self._unlock_conditions.get_votable_conditions()
+            if cond_type == "upgrade":
+                return self.get_update_conditions(level).get_votable_conditions()
+
+        def get_vote_comments(self, char, result):
+            if char not in self._vote_comments.keys():
+                return self._default_comments[result]
+            return self._vote_comments[char][result]
+
 
     #######################
 
@@ -288,11 +311,15 @@ init -6 python:
 label load_buildings:
     $ load_building("high_school_building", "High School Building", {
         '_description': [
-            "The main school building for those students that attend high school.",
-            "The main school building for those students that attend high school.",
+            [
+                "The main school building for those students that attend high school.",
+            ],
+            [
+                "The main school building for those students that attend high school.",
+            ],
         ],
         '_max_level': 1,
-        '_unlock_conditions': [],
+        '_unlock_conditions': ConditionStorage(),
         '_update_conditions':[],
     }, {
         '_level': 1,
@@ -300,11 +327,15 @@ label load_buildings:
 
     $ load_building("high_school_dormitory", "High School Dormitory", {
         '_description': [
-            "The dormitory dedicated to the high school students",
-            "The dormitory dedicated to the high school students",
+            [
+                "The dormitory dedicated to the high school students",
+            ],
+            [
+                "The dormitory dedicated to the high school students",
+            ],
         ],
         '_max_level': 1,
-        '_unlock_conditions': [],
+        '_unlock_conditions': ConditionStorage(),
         '_update_conditions':[],
     }, {
         '_level': 1,
@@ -312,11 +343,15 @@ label load_buildings:
 
     $ load_building("middle_school_building", "Middle School Building", {
         '_description': [
-            "The main school building for those students that attend middle school.",
-            "The main school building for those students that attend middle school.",
+            [
+                "The main school building for those students that attend middle school.",
+            ],
+            [
+                "The main school building for those students that attend middle school.",
+            ],
         ],
         '_max_level': 1,
-        '_unlock_conditions': [],
+        '_unlock_conditions': ConditionStorage(),
         '_update_conditions':[],
     }, {
         '_level': 1,
@@ -324,11 +359,15 @@ label load_buildings:
 
     $ load_building("middle_school_dormitory", "Middle School Dormitory", {
         '_description': [
-            "The dormitory dedicated to the middle school students",
-            "The dormitory dedicated to the middle school students",
+            [
+                "The dormitory dedicated to the middle school students",
+            ],
+            [
+                "The dormitory dedicated to the middle school students",
+            ],
         ],
         '_max_level': 1,
-        '_unlock_conditions': [],
+        '_unlock_conditions': ConditionStorage(),
         '_update_conditions':[],
     }, {
         '_level': 1,
@@ -336,11 +375,15 @@ label load_buildings:
 
     $ load_building("elementary_school_building", "Elementary School Building", {
         '_description': [
-            "The main school building for those students that attend elementary school.",
-            "The main school building for those students that attend elementary school.",
+            [
+                "The main school building for those students that attend elementary school.",
+            ],
+            [
+                "The main school building for those students that attend elementary school.",
+            ],
         ],
         '_max_level': 1,
-        '_unlock_conditions': [],
+        '_unlock_conditions': ConditionStorage(),
         '_update_conditions':[],
     }, {
         '_level': 1,
@@ -348,11 +391,15 @@ label load_buildings:
 
     $ load_building("elementary_school_dormitory", "Elementary School Dormitory", {
         '_description': [
-            "The dormitory dedicated to the elementary school students",
-            "The dormitory dedicated to the elementary school students",
+            [
+                "The dormitory dedicated to the elementary school students",
+            ],
+            [
+                "The dormitory dedicated to the elementary school students",
+            ],
         ],
         '_max_level': 1,
-        '_unlock_conditions': [],
+        '_unlock_conditions': ConditionStorage(),
         '_update_conditions':[],
     }, {
         '_level': 1,
@@ -360,20 +407,26 @@ label load_buildings:
 
     $ load_building("labs", "Labs", {
         '_description': [
-            "A building with various labs and maybe a certain special lab for someone.",
-            "A building with various labs and maybe a certain special lab for someone.",
-            "A building with various labs and maybe a certain special lab for someone.",
+            [
+                "A building with various labs and maybe a certain special lab for someone.",
+            ],
+            [
+                "A building with various labs and maybe a certain special lab for someone.",
+            ],
+            [
+                "A building with various labs and maybe a certain special lab for someone.",
+            ],
         ],
         '_max_level': 2,
-        '_unlock_conditions': [
+        '_unlock_conditions': ConditionStorage(
             MoneyCondition(1000),
             LockCondition()
-        ],
+        ),
         '_update_conditions':[
-            [
+            ConditionStorage(
                 MoneyCondition(2000),
                 LockCondition()
-            ],
+            ),
         ],
     }, {
         '_level': 0,
@@ -381,14 +434,18 @@ label load_buildings:
 
     $ load_building("sports_field", "Sports Field", {
         '_description': [
-            "A large area dedicated to various sport activities.",
-            "A large area dedicated to various sport activities.",
+            [
+                "A large area dedicated to various sport activities.",
+            ],
+            [
+                "A large area dedicated to various sport activities.",
+            ],
         ],
         '_max_level': 1,
-        '_unlock_conditions': [
+        '_unlock_conditions': ConditionStorage(
             MoneyCondition(1000),
             LockCondition()
-        ],
+        ),
         '_update_conditions':[],
     }, {
         '_level': 0,
@@ -396,14 +453,18 @@ label load_buildings:
 
     $ load_building("tennis_court", "Tennis Court", {
         '_description': [
-            "Something only a reputable school can have.\nA tennis court. Of course only used for playing tennis.",
-            "Something only a reputable school can have.\nA tennis court. Of course only used for playing tennis.",
+            [
+                "Something only a reputable school can have.\nA tennis court. Of course only used for playing tennis.",
+            ],
+            [
+                "Something only a reputable school can have.\nA tennis court. Of course only used for playing tennis.",
+            ],
         ],
         '_max_level': 1,
-        '_unlock_conditions': [
+        '_unlock_conditions': ConditionStorage(
             MoneyCondition(1000),
             LockCondition()
-        ],
+        ),
         '_update_conditions':[],
     }, {
         '_level': 0,
@@ -411,11 +472,15 @@ label load_buildings:
 
     $ load_building("gym", "Gym", {
         '_description': [
-            "This is the indoor gym used for sports classes and school assemblies.",
-            "This is the indoor gym used for sports classes and school assemblies.",
+            [
+                "This is the indoor gym used for sports classes and school assemblies.",
+            ],
+            [
+                "This is the indoor gym used for sports classes and school assemblies.",
+            ],
         ],
         '_max_level': 1,
-        '_unlock_conditions': [],
+        '_unlock_conditions': ConditionStorage(),
         '_update_conditions':[],
     }, {
         '_level': 1,
@@ -423,14 +488,18 @@ label load_buildings:
 
     $ load_building("swimming_pool", "Swimming Pool", {
         '_description': [
-            "The schools pool. One of the favorite places of almost every student. Chilling in the cool water, looking at the fellow students in their skimpy bathing suits.",
-            "The schools pool. One of the favorite places of almost every student. Chilling in the cool water, looking at the fellow students in their skimpy bathing suits.",
+            [
+                "The schools pool. One of the favorite places of almost every student. Chilling in the cool water, looking at the fellow students in their skimpy bathing suits.",
+            ],
+            [
+                "The schools pool. One of the favorite places of almost every student. Chilling in the cool water, looking at the fellow students in their skimpy bathing suits.",
+            ],
         ],
         '_max_level': 1,
-        '_unlock_conditions': [
+        '_unlock_conditions': ConditionStorage(
             MoneyCondition(1000),
             LockCondition()
-        ],
+        ),
         '_update_conditions':[],
     }, {
         '_level': 0,
@@ -438,14 +507,18 @@ label load_buildings:
 
     $ load_building("cafeteria", "Cafeteria", {
         '_description': [
-            "The cafeteria, the place students come together to spend their free-time and to eat together.",
-            "The cafeteria, the place students come together to spend their free-time and to eat together.",
+            [
+                "The cafeteria, the place students come together to spend their free-time and to eat together.",
+            ],
+            [
+                "The cafeteria, the place students come together to spend their free-time and to eat together.",
+            ],
         ],
         '_max_level': 1,
-        '_unlock_conditions': [
+        '_unlock_conditions': ConditionStorage(
             MoneyCondition(1000),
             LockCondition()
-        ],
+        ),
         '_update_conditions':[],
     }, {
         '_level': 0,
@@ -453,14 +526,18 @@ label load_buildings:
 
     $ load_building("bath", "Bath", {
         '_description': [
-            "The public bath. Here the students can relax and/or wash after a long school day.",
-            "The public bath. Here the students can relax and/or wash after a long school day.",
+            [
+                "The public bath. Here the students can relax and/or wash after a long school day.",
+            ],
+            [
+                "The public bath. Here the students can relax and/or wash after a long school day.",
+            ],
         ],
         '_max_level': 1,
-        '_unlock_conditions': [
+        '_unlock_conditions': ConditionStorage(
             MoneyCondition(1000),
             LockCondition()
-        ],
+        ),
         '_update_conditions':[],
     }, {
         '_level': 0,
@@ -468,11 +545,15 @@ label load_buildings:
 
     $ load_building("kiosk", "Kiosk", {
         '_description': [
-            "A small vendor that sells food and small utilities necessary for everday life at the school campus.",
-            "A small vendor that sells food and small utilities necessary for everday life at the school campus.",
+            [
+                "A small vendor that sells food and small utilities necessary for everday life at the school campus.",
+            ],
+            [
+                "A small vendor that sells food and small utilities necessary for everday life at the school campus.",
+            ],
         ],
         '_max_level': 1,
-        '_unlock_conditions': [],
+        '_unlock_conditions': ConditionStorage(),
         '_update_conditions':[],
     }, {
         '_level': 1,
@@ -480,11 +561,15 @@ label load_buildings:
 
     $ load_building("courtyard", "Courtyard", {
         '_description': [
-            "The outside area of the school campus. Here teacher and students can relax and enjoy the nice fresh air of this rather isolated region.",
-            "The outside area of the school campus. Here teacher and students can relax and enjoy the nice fresh air of this rather isolated region.",
+            [
+                "The outside area of the school campus. Here teacher and students can relax and enjoy the nice fresh air of this rather isolated region.",
+            ],
+            [
+                "The outside area of the school campus. Here teacher and students can relax and enjoy the nice fresh air of this rather isolated region.",
+            ],
         ],
         '_max_level': 1,
-        '_unlock_conditions': [],
+        '_unlock_conditions': ConditionStorage(),
         '_update_conditions':[],
     }, {
         '_level': 1,
@@ -492,11 +577,15 @@ label load_buildings:
 
     $ load_building("office_building", "Office Building", {
         '_description': [
-            "The building that holds all offices needed for the management of the entire school.",
-            "The building that holds all offices needed for the management of the entire school.",
+            [
+                "The building that holds all offices needed for the management of the entire school.",
+            ],
+            [
+                "The building that holds all offices needed for the management of the entire school.",
+            ],
         ],
         '_max_level': 1,
-        '_unlock_conditions': [],
+        '_unlock_conditions': ConditionStorage(),
         '_update_conditions':[],
     }, {
         '_level': 1,

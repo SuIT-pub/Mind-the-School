@@ -353,29 +353,23 @@ screen school_overview_buttons ():
 
 screen image_screen(image_path):
     tag background
-    if not renpy.exists(image_path):
+    if not renpy.loadable(image_path):
         $ renpy.show_screen("black_error_screen_text", "image '" + image_path + "' not found")
     else:
-        add image_path
+        image "[image_path]"
 
 screen image_with_nude_var(image_path, limit = 2, nude = 0):
     tag background
     
-    $ log("load image with nude var")
-
     $ path = image_path.replace("<nude>", str(nude))
 
     if limit > nude_vision:
         $ nude_vision = limit
 
-    $ log("check if image with nude version exists")
-
-    if not renpy.exists(path):
+    if not renpy.loadable(path):
         $ renpy.show_screen("black_error_screen_text", "image '" + path + "' not found")
     else:
-        add path
-    
-    $ log("display button for nude variation")
+        image "[path]"
 
     if nude_vision != 0 and nude == limit and nude != 0:
         imagebutton:
@@ -431,12 +425,21 @@ screen black_screen_text(text_str):
 ####################################################
 # goes to map overview while moving the time forward
 
-label set_day(day, month, year):
-    $ time.set_time(day, month, year)
+label set_day_and_time(day, month, year, daytime):
+    $ time.set_time(day = day, month = month, year = year, daytime = daytime)
 
     call screen black_screen_text (f"{time.get_weekday()}, {time.day} {time.get_month_name()} {time.year}")
 
     call time_event_check from set_day_2
+
+    jump map_overview
+
+label set_day(day, month, year):
+    $ time.set_time(day = day, month = month, year = year)
+
+    call screen black_screen_text (f"{time.get_weekday()}, {time.day} {time.get_month_name()} {time.year}")
+
+    call time_event_check from set_day_3
 
     jump map_overview
 

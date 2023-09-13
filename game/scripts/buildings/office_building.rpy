@@ -30,9 +30,9 @@ init -1 python:
     ))
 
     office_building_bg_images = [
-        BGImage("images/background/office building/bg <staff> f.png", 1, TimeCondition(daytime = "f")), # show headmasters/teachers office empty
-        BGImage("images/background/office building/bg <staff> c <level> <nude>.png", 1, TimeCondition(daytime = "c")), # show headmasters/teachers office with people
-        BGImage("images/background/office building/bg <staff> 7.png", 1, TimeCondition(daytime = 7)), # show headmasters/teachers office empty at night
+        BGImage("images/background/office building/bg f <staff>.png", 1, TimeCondition(daytime = "f")), # show headmasters/teachers office empty
+        BGImage("images/background/office building/bg c <staff> <level> <nude>.png", 1, TimeCondition(daytime = "c")), # show headmasters/teachers office with people
+        BGImage("images/background/office building/bg 7 <staff>.png", 1, TimeCondition(daytime = 7)), # show headmasters/teachers office empty at night
     ]
     
 #############################################
@@ -47,9 +47,7 @@ label office_building:
 
 label .after_time_check:
 
-    $ staff = "teacher"
-    if renpy.random.randint(1, 2) == 1:
-        $ staff = "secretary"
+    $ staff = get_random_choice("teacher", "secretary")
 
     call show_office_building_idle_image(staff) from office_building_2
 
@@ -108,6 +106,8 @@ label first_potion_office_building_event:
 
 # first week event
 label first_week_office_building_event:
+
+    show first week office building 1
     subtitles "Mhh. The office is nothing special but at least not really run down."
     subtitles "I can work with that."
 
@@ -115,9 +115,9 @@ label first_week_office_building_event:
 
     jump new_day
 
-label first_day_introduction:
-
-    scene office secretary 1 smile
+label first_day_introduction:    
+    
+    show office secretary 1 smile
     secretary """Hello, nice to meet you! 
         From now on I'll be your secretary.
     """
@@ -155,7 +155,7 @@ label first_day_introduction:
         representative from the regional government.
     """
 
-    call tutorial_menu from first_day_introduction_1
+    call tutorial_menu from first_day_introduction_3
 
     scene office secretary 3 smile
     secretary "Now you know the basics. You might want to hurry down to the gym for the weekly meeting."
@@ -165,7 +165,7 @@ label first_day_introduction:
 
     return
 
-label pta_meeting:
+label old_pta_meeting:
     subtitles "You enter the conference room."
     subtitles "All representatives already gathered and wait for you."
     principal "Thank you all for gathering today."
@@ -179,7 +179,7 @@ label pta_meeting:
 
     jump new_daytime
 
-label first_pta_meeting:
+label old_first_pta_meeting:
     subtitles "You enter the conference room."
     subtitles "All representatives already gathered and wait for you."
     principal "Thank you all for gathering today."

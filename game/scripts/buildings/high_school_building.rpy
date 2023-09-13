@@ -30,7 +30,7 @@ init -1 python:
     ))
 
     high_school_building_bg_images = [
-        BGImage("images/background/high school building/bg c <level> <nude>.png", 1, TimeCondition(daytime = "c")),
+        BGImage("images/background/high school building/bg c <level> <nude>.png", 1, TimeCondition(daytime = "c", weekday = "d")),
         BGImage("images/background/high school building/bg 7.png", 1, TimeCondition(daytime = 7)),
     ]
 
@@ -46,11 +46,7 @@ label high_school_building:
 
 label .after_time_check:
 
-    $ log("high_school_building pre-image")
-
     call show_high_school_building_idle_image() from high_school_building_2
-
-    $ log("high_school_building post-image")
 
     call call_event_menu (
         "What to do in the High School?",
@@ -67,19 +63,13 @@ label .after_time_check:
 
 label show_high_school_building_idle_image():
 
-    $ log("pre-image-load")
-
     $ max_nude, image_path = get_background(
         "images/background/high school building/bg f.png",
         high_school_building_bg_images, 
         get_level_for_char("high_school", charList["schools"]),
     )
 
-    $ log("post-image-load")
-
     show screen image_with_nude_var (image_path, max_nude)
-
-    $ log("post-image-display")
 
     return
 
