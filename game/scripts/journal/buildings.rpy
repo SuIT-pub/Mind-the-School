@@ -14,8 +14,8 @@ init -6 python:
             self._name = name
             self._title = title
             self._description = ""
-            self._image_path_alt = "images/journal/empty_image.png"
-            self._image_path = "images/journal/empty_image.png"
+            self._image_path_alt = "images/journal/empty_image.webp"
+            self._image_path = "images/journal/empty_image.webp"
             self._level = 0
             self._max_level = 1
             self._unlock_conditions = ConditionStorage()
@@ -37,9 +37,9 @@ init -6 python:
             if not hasattr(self, '_description'):
                 self._description = ""
             if not hasattr(self, '_image_path'):
-                self._image_path = "images/journal/empty_image.png"
+                self._image_path = "images/journal/empty_image.webp"
             if not hasattr(self, '_image_path_alt'):
-                self._image_path_alt = "images/journal/empty_image.png"
+                self._image_path_alt = "images/journal/empty_image.webp"
             if not hasattr(self, '_level'):
                 self._level = 0
             if not hasattr(self, '_max_level'):
@@ -126,15 +126,15 @@ init -6 python:
         def is_blocked(self):
             return self._blocked
 
-        def is_visible(self):
-            return self._unlock_conditions.is_blocking()
+        def is_visible(self, **kwargs):
+            return self._unlock_conditions.is_blocking(**kwargs)
 
-        def can_be_unlocked(self):
-            return self._unlock_conditions.is_fullfilled()
+        def can_be_unlocked(self, **kwargs):
+            return self._unlock_conditions.is_fullfilled(**kwargs)
 
-        def can_be_upgraded(self):
+        def can_be_upgraded(self, **kwargs):
             conditions = get_update_conditions(self._level + 1)
-            return conditions != None and conditions.is_fullfilled(None)
+            return conditions != None and conditions.is_fullfilled(**kwargs)
 
         def has_higher_level(self):
             return self._level < self._max_level
@@ -162,7 +162,11 @@ init -6 python:
             if cond_type == "unlock":
                 return self._unlock_conditions.get_list_conditions()
             if cond_type == "upgrade":
-                return self.get_update_conditions(level).get_list_conditions()
+                update_conditions = self.get_update_conditions(level)
+                if update_conditions == None:
+                    return []
+                else:
+                    return self.get_update_conditions(level).get_list_conditions()
 
         def get_desc_conditions(self, cond_type = "unlock", level = -1):
             if level == -1:
@@ -171,21 +175,37 @@ init -6 python:
             if cond_type == "unlock":
                 return self._unlock_conditions.get_desc_conditions()
             if cond_type == "upgrade":
-                return self.get_update_conditions(level).get_desc_conditions()
+                update_conditions = self.get_update_conditions(level)
+                if update_conditions == None:
+                    return []
+                else:
+                    return self.get_update_conditions(level).get_desc_conditions()
 
-        def get_votable_conditions(self, cond_type = "unlock", level = -1):
+        
+        def get_desc_conditions_desc(self, cond_type = "unlock", level = -1, **kwargs):
             if level == -1:
                 level = self._level
 
             if cond_type == "unlock":
-                return self._unlock_conditions.get_votable_conditions()
+                return self._unlock_conditions.get_desc_conditions_desc(**kwargs)
             if cond_type == "upgrade":
-                return self.get_update_conditions(level).get_votable_conditions()
+                update_conditions = self.get_update_conditions(level)
+                if update_conditions == None:
+                    return []
+                else:
+                    return self.get_update_conditions(level).get_desc_conditions_desc(**kwargs)
 
         def get_vote_comments(self, char, result):
             if char not in self._vote_comments.keys():
                 return self._default_comments[result]
-            return self._vote_comments[char][result]
+
+            vote = "{color=#00ff00}Votes For{/color}"
+            if result == "no":
+                vote = "{color=#ff0000}Votes Against{/color}"
+            elif result == "veto":
+                vote = "Vetoes"
+
+            return f"{vote}\n{self._vote_comments[char][result]}"
 
 
     #######################

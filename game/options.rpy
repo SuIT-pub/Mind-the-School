@@ -23,7 +23,7 @@ define gui.show_name = True
 
 ## The version of the game.
 
-define config.version = "0.01"
+define config.version = "0.1.1A"
 
 
 ## Text that is placed on the game's about screen. Place the text between the
@@ -71,6 +71,11 @@ define config.has_voice = False
 ## Each variable should be set to a transition, or None to indicate that no
 ## transition should be used.
 
+default dissolveM = Dissolve(0.5 * (2.0 - persistent.transition_speed))
+default persistent.transition_speed = 1.75
+
+default persistent.display_textbox = 0
+
 ## Entering or exiting the game menu.
 
 define config.enter_transition = dissolve
@@ -108,11 +113,10 @@ define config.end_game_transition = None
 
 define config.window = "auto"
 
-
 ## Transitions used to show and hide the dialogue window
 
-define config.window_show_transition = Dissolve(.2)
-define config.window_hide_transition = Dissolve(.2)
+define config.window_show_transition = Dissolve(0.5 * (2.0 - persistent.transition_speed))
+define config.window_hide_transition = Dissolve(0.5 * (2.0 - persistent.transition_speed))
 
 
 ## Preference defaults #########################################################
@@ -187,7 +191,9 @@ init python:
     build.classify('**/#**', None)
     build.classify('**/thumbs.db', None)
     build.classify("game/**.rpy", None)
-    build.classify("event backup", None)
+    build.classify("game/saves", None)
+    build.classify("event backup/**", None)
+    build.classify("*android.json", None)
 
     ## Files matching documentation patterns are duplicated in a mac app
     ## build, so they appear in both the app and the zip file.
@@ -220,6 +226,21 @@ init python:
 
     build.include_i686 = False
 
+init python:
+    config.keymap["hide_windows"] = []
+    
+    config.underlay.append(
+        renpy.Keymap( 
+            K_h = renpy.curry(renpy.run)( Call("trigger_hide") )
+        )
+    )
+    config.underlay.append(
+        renpy.Keymap( 
+            mouseup_2 = renpy.curry(renpy.run)( Call("trigger_hide") )
+        )
+    )
+            
+
 ## A Google Play license key is required to download expansion files and perform
 ## in-app purchases. It can be found on the "Services & APIs" page of the Google
 ## Play developer console.
@@ -231,3 +252,4 @@ init python:
 ## by a slash.
 
 # define build.itch_project = "renpytom/test-project"
+    

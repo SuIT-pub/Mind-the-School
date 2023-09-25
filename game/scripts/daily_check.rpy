@@ -10,9 +10,9 @@ init -1 python:
     temp_check_events      = EventStorage("temp_check_events",      "", after_event_check     )
     temp_time_check_events = TempEventStorage("temp_time_check_events", "", after_temp_event_check)
 
-    temp_check_events.add_event(Event("first_day_introduction", "first_day_introduction", 2,
-        TimeCondition(day = 1, month = 1, year = 2023, daytime = 1)
-    ))
+    # temp_check_events.add_event(Event("first_day_introduction", "first_day_introduction", 2,
+    #     TimeCondition(day = 1, month = 1, year = 2023, daytime = 1)
+    # ))
 
     temp_check_events.add_event(Event("tutorial_1", "tutorial_1", 1,
         TimeCondition(day = 2, month = 1, year = 2023, daytime = 1)
@@ -26,9 +26,9 @@ init -1 python:
         TimeCondition(day = 10, month = 1, year = 2023, daytime = 1)
     ))
 
-    temp_check_events.add_event(Event("weekly_assembly_first", "weekly_assembly_first", 2,
-        TimeCondition(day = 1, month = 1, year = 2023, daytime = 1)
-    ))
+    # temp_check_events.add_event(Event("weekly_assembly_first", "weekly_assembly_first", 2,
+    #     TimeCondition(day = 1, month = 1, year = 2023, daytime = 1)
+    # ))
 
     # temp_check_events.add_event(Event("weekly_assembly", "weekly_assembly", 2,
     #     TimeCondition(weekday = 1, daytime = 1)
@@ -70,7 +70,7 @@ label tutorial_1:
     show screen black_error_screen_text ("")
 
     menu:
-        subtitles "Play tutorial?"
+        "Play tutorial?"
         "Yes":
             jump .tutorial_2
         "No":
@@ -79,7 +79,7 @@ label tutorial_1:
 label .tutorial_2:
     hide screen black_error_screen_text
 
-    show intro tutorial 1
+    show intro tutorial 1 with dissolveM
     dev "Hello, I'm Suit-Kun and welcome to Mind the School. I'm going to explain a few things about the game."
     dev "The game is a simple event-driven sandbox management game. This means that you visit the available locations, an event happens and you get stat points or other effects."
     dev "Then, after fulfilling certain conditions, you can unlock new rules, clubs or buildings for your school."
@@ -89,93 +89,93 @@ label .tutorial_2:
     dev "In the background you can see a map of the campus."
     dev "Your lovely secretary has probably already shown you the various facilities, so I'll just show you the overlay."
     
-    show intro tutorial 2
+    show intro tutorial 2 with dissolveM
     dev "These are all the facilities on campus. You can click or tap on them to enter and trigger events."
     
-    show intro tutorial 3
+    show intro tutorial 3 with dissolveM
     dev "At a facility, you'll be given a selection of activities you can do at the facility. The activities you can do depend on the level of your school and the day and time."
 
-    show intro tutorial 4
+    show intro tutorial 4 with dissolveM
     dev "This version has a little extra that will be hidden behind an item in later versions, but keep an eye out for this icon in the top left corner and feel free to click on it."
 
-    show intro tutorial 3
+    show intro tutorial 3 with dissolveM
     dev "An activity usually lasts for one time unit."
     
-    show intro tutorial 1
+    show intro tutorial 1 with dissolveM
     dev "While we're at it. One day is seperated into 7 segments. Morning, Early Noon, Noon, Early Afternoon, Afternoon, Evening and Night."
     
-    show intro tutorial 5
+    show intro tutorial 5 with dissolveM
     dev "You can see the current date and time up here."
     
-    show intro tutorial 6
+    show intro tutorial 6 with dissolveM
     dev "And here you can skip to the next time segment."
     
-    show intro tutorial 7
+    show intro tutorial 7 with dissolveM
     dev "Here you can see your current stats."
     if loli_content > 0:
         dev "Remember that these statistics show the average of all schools. So if one school has 100 points and another has 0 points, this table would show a score of 50."
     dev "I'm not going to explain these stats. You can find a more detailed explanation of the stats in your journal."
     dev "The stats also have no effect on the game at the moment. This will change in future versions." ######## version dependend
     
-    show intro tutorial 8
+    show intro tutorial 8 with dissolveM
     dev "You can find the journal up here."    
 
-    show intro tutorial 9
+    show intro tutorial 9 with dissolveM
     dev "This is the journal. Here you will find all the information you need to manage your school."
 
     if loli_content > 0:
-        show intro tutorial 10
+        show intro tutorial 10 with dissolveM
         dev "Here you can switch between the schools."
 
-    show intro tutorial 11
+    show intro tutorial 11 with dissolveM
     dev "And here you can change the page."
 
-    show intro tutorial 12
+    show intro tutorial 12 with dissolveM
     dev "Here you can see the statistics for the current school."
     
-    show intro tutorial 13
+    show intro tutorial 13 with dissolveM
     dev "You can click on a stat to get more detailed information on the right hand side of the journal."
 
-    show intro tutorial 14
+    show intro tutorial 14 with dissolveM
     dev "The upper part is the description of the stat, divided into three parts."
     dev "The first part describes the level of the stat, the second part describes the stat itself and the last part describes how to increase the stat."
 
-    show intro tutorial 15
+    show intro tutorial 15 with dissolveM
     dev "The bottom part would normally be an image showing and representing the current stat level."
     dev "But I haven't made them yet. They will be added later." ######## version dependend
 
-    show intro tutorial 16
+    show intro tutorial 16 with dissolveM
     dev "Now we come to the Rules page in your journal. This is where you can manage your school rules."
     dev "It is very similar to the school overview page. On the left you have an overview of all the rules."
     dev "Rules may not be visible until certain conditions are met."
     dev "Rules highlighted in green are already unlocked and active."
     dev "Clicking on a rule will bring up a detail page on the right."
 
-    show intro tutorial 17
+    show intro tutorial 17 with dissolveM
     dev "The top part is again a description of the rule and the conditions for unlocking the rule."
     
-    show intro tutorial 18
+    show intro tutorial 18 with dissolveM
     dev "Below this is another image. You can click on the image to get a full screen view of it."
     dev "The images for some rules change as you progress through the game to better represent the effects behind the rule, according to the school's state."
     dev "So it may be worth revisiting some of the rules after you have upgraded a school. ;)"
     
-    show intro tutorial 19
+    show intro tutorial 19 with dissolveM
     dev "Next to the image you will see a small overview of the conditions that need to be fulfilled."
     dev "However, only conditions related to the school's statistics are shown here to give a clearer picture of the stats required."
     dev "The list in the description will always include all conditions."
 
-    show intro tutorial 20
+    show intro tutorial 20 with dissolveM
     dev "Here would be a button to queue this rule to be voted on by the Parent Teacher Association (PTA). But the PTA isn't implemented yet, so this will be added later."
     
-    show intro tutorial 21
+    show intro tutorial 21 with dissolveM
     dev "There is also the Clubs page. It is structured exactly the same as the rules page."
 
-    show intro tutorial 22
+    show intro tutorial 22 with dissolveM
     dev "The same applies to the Buildings page."
     if loli_content > 0:
         dev "The only difference is that the buildings page doesn't have the school tabs at the top, as the changes made here affect the whole campus."
 
-    show intro tutorial 1
+    show intro tutorial 1 with dissolveM
     dev "That's all. Thanks for listening. :D"
 
 label .tutorial_3:
@@ -188,267 +188,281 @@ label .tutorial_3:
 
     jump map_overview
 
+image anim_first_week_epilogue_17 = Movie(play ="images/events/first week/first week epilogue 17.webm", start_image = "images/events/first week/first week epilogue 17_1.jpg", loop = True)
+image anim_first_week_epilogue_18 = Movie(play ="images/events/first week/first week epilogue 18.webm", start_image = "images/events/first week/first week epilogue 18_1.jpg", loop = True)
+image anim_first_week_epilogue_19 = Movie(play ="images/events/first week/first week epilogue 19.webm", start_image = "images/events/first week/first week epilogue 19_1.jpg", loop = True)
+image anim_first_week_epilogue_20 = Movie(play ="images/events/first week/first week epilogue 20.webm", start_image = "images/events/first week/first week epilogue 20_1.jpg", loop = True)
+image anim_first_week_epilogue_21 = Movie(play ="images/events/first week/first week epilogue 21.webm", start_image = "images/events/first week/first week epilogue 21_1.jpg", loop = True)
+image anim_first_week_epilogue_22 = Movie(play ="images/events/first week/first week epilogue 22.webm", start_image = "images/events/first week/first week epilogue 22_1.jpg", loop = True)
+image anim_first_week_epilogue_23 = Movie(play ="images/events/first week/first week epilogue 23.webm", start_image = "images/events/first week/first week epilogue 23_1.jpg", loop = True)
+image anim_first_week_epilogue_24 = Movie(play ="images/events/first week/first week epilogue 24.webm", start_image = "images/events/first week/first week epilogue 24_1.jpg", image = "images/events/first week/first week epilogue 24_2.jpg", loop = False)
+
 label first_week_epilogue:
 
-    # first week epilogue 1
-    secretary "Good Morning Mr. [principal_last_name]. Could you get a good picture of the situation in the school?"
-    principal "Yes thank you! And please just call me [principal_first_name]. It's a bit akward to be called so formal."
+    $ hide_all()
+
+    scene office secretary 1 big smile with dissolveM
+    secretary "Good Morning Mr. [headmaster_last_name]. Could you get a good picture of the situation in the school?"
+    headmaster "Yes thank you! And please just call me [headmaster_first_name]. It's a bit akward to be called so formal."
 
     # first week epilogue 2
-    secretary "Okay [principal_first_name]."
-    principal "Good! Could you please call me a cab? I have to drive into town to prepare some things for my time at the school."
+    show office secretary 1 big smile with dissolveM
+    secretary "Okay [headmaster_first_name]."
+    headmaster "Good! Could you please call me a cab? I have to drive into town to prepare some things for my time at the school."
+    show office secretary 1 talk with dissolveM
     secretary "I'll get right on it, but can I ask what you have planned?"
-    principal "You can but I can't really answer that. Some of it is classified and the rest isn't secured yet."
-    principal "If I'm successful, I'll let you know as soon as possible."
+    show office secretary 1 emotionless with dissolveM
+    headmaster "You can but I can't really answer that. Some of it is classified and the rest isn't secured yet."
+    headmaster "If I'm successful, I'll let you know as soon as possible."
 
     # first week epilogue 3
+    scene office secretary 3 smile with dissolveM
     secretary "Okay, I'll go call your cab."
-    principal "Thank you very much."
+    headmaster "Thank you very much."
     
     call screen black_screen_text ("20 minutes later")
 
     # first week epilogue 4
-    secretary "Izuku! Your cab just arrived!"
-    principal "Perfect! I'll be off then. Expect me back early on Monday. I need all the time I can get."
+    scene office secretary 2 smile with dissolveM
+    secretary "[headmaster_first_name]! Your cab just arrived!"
+    headmaster "Perfect! I'll be off then. Expect me back early on Monday. I need all the time I can get."
 
     call screen black_screen_text ("Monday, 8 January 2023")
 
 label .replay:
 
-    show first week epilogue 5
-    # principal enters with two boxes
+    show first week epilogue 5  
+    # headmaster enters with two boxes
     secretary "Good Morning, welcome back!"
     secretary "These 2 Boxes got delivered just an hour ago!"
-    principal "Thank you very much!"
+    headmaster "Thank you very much!"
 
-    show first week epilogue 6
+    show first week epilogue 6 with dissolveM
     # both put boxes on desk
     secretary "Is this the stuff you had to prepare?"
-    principal "Yes, at least some of it. Some things take a little more time to prepare."
+    headmaster "Yes, at least some of it. Some things take a little more time to prepare."
     secretary "What is it?"
-    principal "Here I'll show you."
+    headmaster "Here I'll show you."
 
-    show first week epilogue 7
-    # principal opens one box and reveals multiple bottles
-    principal "This is a special energizer."
+    show first week epilogue 7 with dissolveM
+    # headmaster opens one box and reveals multiple bottles
+    headmaster "This is a special energizer."
     secretary "Energizer?"
     
-    show first week epilogue 8
-    # principal takes one bottle
-    principal "Yes, a close friend of mine is a biochemist and I asked him to put this stuff together."
-    principal "He has helped me with my previous projects and he is truly a master alchemist."
-    principal "This drink is a special blend to help students relax and concentrate. Weird, isn't it?"
+    show first week epilogue 8 with dissolveM
+    # headmaster takes one bottle
+    headmaster "Yes, a close friend of mine is a biochemist and I asked him to put this stuff together."
+    headmaster "He has helped me with my previous projects and he is truly a master alchemist."
+    headmaster "This drink is a special blend to help students relax and concentrate. Weird, isn't it?"
     secretary "Does it really work?"
-    principal "Sure I have full faith in my friends abilities, but you can try one if you want."
+    headmaster "Sure I have full faith in my friends abilities, but you can try one if you want."
 
-    show first week epilogue 9
-    # principal gives the bottle to the secretary
+    show first week epilogue 9 with dissolveM
+    # headmaster gives the bottle to the secretary
     secretary "Can I drink it? Is it really safe?"
-    principal "Absolutely, it is absolutely safe. In fact, it's really healthy. It is practically is a vitamin shake."
-    principal "It's not a meal replacement, but it's packed with healthy vitamins and protein. It is also low in fat and sugar!"
+    headmaster "Absolutely, it is absolutely safe. In fact, it's really healthy. It is practically is a vitamin shake."
+    headmaster "It's not a meal replacement, but it's packed with healthy vitamins and protein. It is also low in fat and sugar!"
     secretary "Oh wow, that sounds wonderful! I'd love to try one."
 
-    show first week epilogue 10
+    show first week epilogue 10 with dissolveM
     # secretary drinks potion
     secretary "Oh that's really tasty!"
-    show first week epilogue 11
+    show first week epilogue 11 with dissolveM
     secretary "And... Oh wow! The effect is almost immediate. I feel so much better! I don't feel any of the bad sleep I had last night!"
     secretary "Oh wow! That's amazing, I also feel much more focused. For example, I notice that sometimes you look at my breasts."
-    principal "Oh... Ah... Ehm..."
+    headmaster "Oh... Ah... Ehm..."
 
-    show first week epilogue 12
+    show first week epilogue 12 with dissolveM
     # secretary laughs
     secretary "Haha! Don't worry about it! I know I have very big breasts."
     secretary "It's normal for people to stare at them. Do you want to see them?"
-    principal "..."
+    headmaster "..."
     secretary "Don't be so shy. I know you want to!"
 
-    show first week epilogue 13
+    show first week epilogue 13 with dissolveM
     # secretary opens blouse
     secretary "Here! They're bigger than they look in those clothes, aren't they."
 
-    show first week epilogue 14
+    show first week epilogue 14 with dissolveM
     # secretary takes of bra
     secretary "Here, touch them! I'm really proud of them, they're nice and firm even though they're this big."
 
-    show first week epilogue 15
-    # principal touches/kneads breasts
+    show first week epilogue 15 with dissolveM
+    # headmaster touches/kneads breasts
     secretary "Yeah that's nice! Mhhh..."
 
-    show first week epilogue 16
-    # secretary touches principals crotch
+    show first week epilogue 16 with dissolveM
+    # secretary touches headmasters crotch
     secretary "Ahh you seem to like them as well."
     secretary "Let me help you out."
 
-    $ renpy.movie_cutscene("images/events/first week/first week epilogue 17.webm", -1, -1)
-    # first week epilogue 17
-    # secretary pulls out dick
-    # secretary gives handjob
+    scene anim_first_week_epilogue_17 with dissolveM
+    pause
 
-    $ renpy.movie_cutscene("images/events/first week/first week epilogue 18.webm", -1, -1)
-    # first week epilogue 18
-    # secretary gives titjob
+    scene anim_first_week_epilogue_18 with dissolveM
+    pause
 
-    $ renpy.movie_cutscene("images/events/first week/first week epilogue 19.webm", -1, -1)
-    # first week epilogue 19
-    # secretary gives blowjob
-    
-    $ renpy.movie_cutscene("images/events/first week/first week epilogue 20.webm", 0, -1)
-    # first week epilogue 20
-    # cunningulus
-    # secretary "Ah please give it to me!"
+    scene anim_first_week_epilogue_19 with dissolveM
+    pause
 
-    $ renpy.movie_cutscene("images/events/first week/first week epilogue 21.webm", -1, -1)
-    # first week epilogue 21
-    # desk missionary
+    scene anim_first_week_epilogue_20 with dissolveM
+    pause
 
-    $ renpy.movie_cutscene("images/events/first week/first week epilogue 22.webm", -1, -1)
-    # first week epilogue 22
-    # floor cowgirl
+    scene anim_first_week_epilogue_21 with dissolveM
+    pause
 
-    $ renpy.movie_cutscene("images/events/first week/first week epilogue 23.webm", -1, -1)
-    # first week epilogue 23
-    # floor doggy
+    scene anim_first_week_epilogue_22 with dissolveM
+    pause
 
-    $ renpy.movie_cutscene("images/events/first week/first week epilogue 24.webm", -1, 0)
+    scene anim_first_week_epilogue_23 with dissolveM
+    pause
+
+    scene anim_first_week_epilogue_24 with dissolveM
+    pause
+
+
     # first week epilogue 24
     # floor hardcore
 
-    show first week epilogue 25
-    principal_thought "Oh seems like I overdid it a little bit. But that was really hot. The effect of the potion lives up to my friend's promise."
+    hide anim_first_week_epilogue_24
+
+    show first week epilogue 25 with dissolveM
+    headmaster_thought "Oh seems like I overdid it a little bit. But that was really hot. The effect of the potion lives up to my friend's promise."
     # secretary passes out
 
-    show first week epilogue 26
-    principal_thought "Let's get you to the couch."
+    show first week epilogue 26 with dissolveM
+    headmaster_thought "Let's get you to the couch."
 
-    show first week epilogue 27
-    # principal puts secretary on the couch
-    principal_thought "Let's see how she feels after she rested. Gotta get her a blanket first though."
+    show first week epilogue 27 with dissolveM
+    # headmaster puts secretary on the couch
+    headmaster_thought "Let's see how she feels after she rested. Gotta get her a blanket first though."
 
     $ renpy.end_replay()
 
     call screen black_screen_text ("Tuesday, 9 January 2023")
 
-    show first week epilogue 28
-    # principal enters office
-    principal "Ahh she's already gone."
+    show first week epilogue 28 with dissolveM
+    # headmaster enters office
+    headmaster "Ahh she's already gone."
 
-    show first week epilogue 29
-    # principal approaches the boxes
-    # principal starts handling boxes
+    show first week epilogue 29 with dissolveM
+    pause
+    # headmaster approaches the boxes
+    # headmaster starts handling boxes
 
-    show first week epilogue 30
+    show first week epilogue 30 with dissolveM
     # secretary enters office
-    principal "Ah good morning! ohh..."
+    headmaster "Ah good morning! ohh..."
 
-    show first week epilogue 31
-    secretary "Good morning [principal_first_name]! What's wrong?"
-    principal "Ehm, nice outfit!"
+    show first week epilogue 31 with dissolveM
+    secretary "Good morning [headmaster_first_name]! What's wrong?"
+    headmaster "Ehm, nice outfit!"
 
-    show first week epilogue 32
+    show first week epilogue 32 with dissolveM
     # secretary poses
     secretary "Oh yeah, do you like it? This morning I just felt like I would rather wear this than my old outfit."
-    show first week epilogue 33
-    principal "It fits you really well! So... about yesterday..."
-    show first week epilogue 34
+    show first week epilogue 33 with dissolveM
+    headmaster "It fits you really well! So... about yesterday..."
+    show first week epilogue 34 with dissolveM
     secretary "Oh when we had sex? Yeah that was nice!"
     secretary "At first I was a little surprised because I would never behave like that, but strangely enough I didn't hate it."
-    show first week epilogue 35
+    show first week epilogue 35 with dissolveM
     secretary "It was as if my body was urging me to open up to the situation."
     secretary "And I am really glad that it happened. But is this another effect of the drink I had yesterday?"
-    show first week epilogue 36
-    principal "Well, I knew it would have a similar effect. I knew the consumer would open up and feel more free, but I didn't expect the effect to be this strong."
-    principal "As I see, the effect is not as strong now as it was yesterday..."
-    show first week epilogue 37
+    show first week epilogue 36 with dissolveM
+    headmaster "Well, I knew it would have a similar effect. I knew the consumer would open up and feel more free, but I didn't expect the effect to be this strong."
+    headmaster "As I see, the effect is not as strong now as it was yesterday..."
+    show first week epilogue 37 with dissolveM
     secretary "Yes, you're right. Even though I feel freer, I don't feel so overwhelmed anymore."
-    show first week epilogue 36
-    principal "Mhh... It probably has to do with the change in your mindset. Yesterday it had to adjust to the new influx of emotions and feelings."
-    principal "But now that your mind is used to the new way, it is calmer. It could also be the drink."
-    principal "Perhaps it distributes itself the fastest in the libido so it overwhelms the other body mechanisms, and now it is more evenly distributed so you are more calm."
-    show first week epilogue 37
+    show first week epilogue 36 with dissolveM
+    headmaster "Mhh... It probably has to do with the change in your mindset. Yesterday it had to adjust to the new influx of emotions and feelings."
+    headmaster "But now that your mind is used to the new way, it is calmer. It could also be the drink."
+    headmaster "Perhaps it distributes itself the fastest in the libido so it overwhelms the other body mechanisms, and now it is more evenly distributed so you are more calm."
+    show first week epilogue 37 with dissolveM
     secretary "I can't really follow, but from what I can see, it works beautifully."
-    show first week epilogue 36
-    principal "It does, but there is one problem. As you can see, we only have three bottles left. My friend unfortunately had to fly to Brazil so he could only produce 4 bottles."
-    show first week epilogue 38
+    show first week epilogue 36 with dissolveM
+    headmaster "It does, but there is one problem. As you can see, we only have three bottles left. My friend unfortunately had to fly to Brazil so he could only produce 4 bottles."
+    show first week epilogue 38 with dissolveM
     secretary "What? And you still gave me a full bottle?"
-    show first week epilogue 36
-    principal "That is no problem, I was planning to do that anyway."
-    principal "He said the drink could be diluted down to a 100 drinks. Of course, the effect would be diminished, but it would still have an effect."
-    principal "So I came up with the following plan. We will take a bottle, dilute it enough, and hand out one of these drinks to every student at recess today."
-    principal "One thing I have observed at this school is how extremely prudish the students are. They don't just avoid the subject, they outright hate it."
-    show first week epilogue 39
+    show first week epilogue 36 with dissolveM
+    headmaster "That is no problem, I was planning to do that anyway."
+    headmaster "He said the drink could be diluted down to a 100 drinks. Of course, the effect would be diminished, but it would still have an effect."
+    headmaster "So I came up with the following plan. We will take a bottle, dilute it enough, and hand out one of these drinks to every student at recess today."
+    headmaster "One thing I have observed at this school is how extremely prudish the students are. They don't just avoid the subject, they outright hate it."
+    show first week epilogue 39 with dissolveM
     secretary "Yeah, I always wondered about that..."
-    show first week epilogue 36
-    principal "So I guess one drink of the diluted potion should be enough to open these kids up to the subject."
-    principal "After that it should be possible to influence them in more traditional ways in addition to the more exotic ways."
-    show first week epilogue 37
+    show first week epilogue 36 with dissolveM
+    headmaster "So I guess one drink of the diluted potion should be enough to open these kids up to the subject."
+    headmaster "After that it should be possible to influence them in more traditional ways in addition to the more exotic ways."
+    show first week epilogue 37 with dissolveM
     secretary "What do you mean by 'more exotic ways'?"
-    show first week epilogue 36
-    principal "Well, I planned to use methods like this potion and hypnosis."
-    show first week epilogue 40
+    show first week epilogue 36 with dissolveM
+    headmaster "Well, I planned to use methods like this potion and hypnosis."
+    show first week epilogue 40 with dissolveM
     secretary "Hypnosis?!"
-    show first week epilogue 36
-    principal "Yeah!"
-    show first week epilogue 40
+    show first week epilogue 36 with dissolveM
+    headmaster "Yeah!"
+    show first week epilogue 40 with dissolveM
     secretary "Does that even work?"
-    show first week epilogue 36
-    principal "Oh yeah, it definitely works, but it takes a lot of preparation, so I couldn't prepare it over the weekend."
-    principal "For it to work, the students must first be receptive to the subject and then they will be able to be influenced by hypnosis."
-    principal "But the effects are quite weak so it needs to be set up correctly to provide a constant influence. But for that it will be very cost effective."
-    principal "So for now we are going to work with basic influences, such as exposure to appropriate material in their free time and classes in a way that doesn't raise suspicion."
-    show first week epilogue 37
+    show first week epilogue 36 with dissolveM
+    headmaster "Oh yeah, it definitely works, but it takes a lot of preparation, so I couldn't prepare it over the weekend."
+    headmaster "For it to work, the students must first be receptive to the subject and then they will be able to be influenced by hypnosis."
+    headmaster "But the effects are quite weak so it needs to be set up correctly to provide a constant influence. But for that it will be very cost effective."
+    headmaster "So for now we are going to work with basic influences, such as exposure to appropriate material in their free time and classes in a way that doesn't raise suspicion."
+    show first week epilogue 37 with dissolveM
     secretary "Sounds like you have a very thorough plan."
-    show first week epilogue 36
-    principal "Well, I have. I have been working towards my goal for most of my life, and that includes reforming various institutions."
-    principal "So this school is just a stepping stone in my plan to reform the society."
-    show first week epilogue 41
+    show first week epilogue 36 with dissolveM
+    headmaster "Well, I have. I have been working towards my goal for most of my life, and that includes reforming various institutions."
+    headmaster "So this school is just a stepping stone in my plan to reform the society."
+    show first week epilogue 41 with dissolveM
     secretary "And I'm happy to help you!"
-    show first week epilogue 42
-    principal "And for that I thank you very much!"
-    show first week epilogue 41
-    # principal slaps secretaries ass
+    show first week epilogue 42 with dissolveM
+    headmaster "And for that I thank you very much!"
+    show first week epilogue 41 with dissolveM
+    # headmaster slaps secretaries ass
     secretary "But what do you have planned for the remaining two potions."
-    show first week epilogue 42
-    principal "Oh yeah I plan to reopen the lab building and to add a private laboratory where I can work on reproducing the potion."
-    principal "I got some instructions from my buddy, but I still have to work on it and these potions will help me."
-    principal "Once I have a few prototypes, the process of changing the school should be much faster."
-    principal "But first, let's work on diluting the first potion down for the students. It's getting late and we want to be ready for recess."
-    show first week epilogue 35
+    show first week epilogue 42 with dissolveM
+    headmaster "Oh yeah I plan to reopen the lab building and to add a private laboratory where I can work on reproducing the potion."
+    headmaster "I got some instructions from my buddy, but I still have to work on it and these potions will help me."
+    headmaster "Once I have a few prototypes, the process of changing the school should be much faster."
+    headmaster "Recreating the potions will probably be quite a task. I'm sure the first iterations will have a much weaker effect, if any effect at all."
+    headmaster "But first, let's work on diluting the first potion down for the students. It's getting late and we want to be ready for recess."
+    show first week epilogue 35 with dissolveM
     secretary "Yeah let's do it!"
 
     call screen black_screen_text ("Later at recess")
 
-    show first week epilogue 43
-    principal "Phew we just got it finished! Now we have to distribute it."
-    show first week epilogue 44
+    show first week epilogue 43 with dissolveM
+    headmaster "Phew we just got it finished! Now we have to distribute it."
+    show first week epilogue 44 with dissolveM
     secretary "Ah I already organised something!"
     secretary "I asked the kiosk vendor to give one drink out for free for every order."
     secretary "Because it is the only place to get food here, it is garanteed that every student gets at least one drink."
     secretary "I also asked to make sure to only give out one per person."
-    show first week epilogue 45
-    principal "Perfect! I'm glad to have you as my secretary!"
+    show first week epilogue 45 with dissolveM
+    headmaster "Perfect! I'm glad to have you as my secretary!"
     secretary "Well you already thanked me for that."
-    show first week epilogue 46
-    principal "Öhm... Did I? Ohhhh you mean that time!"
+    show first week epilogue 46 with dissolveM
+    headmaster "Öhm... Did I? Ohhhh you mean that time!"
     secretary "Yeah that was really nice."
-    principal "Alright then let's go eat something as well. I think we aren't needed here for now."
+    headmaster "Alright then let's go eat something as well. I think we aren't needed here for now."
     secretary "Sounds good!"
 
-    # principal and secretary take some food from kiosk and sit down among the students and start eating an conversing
+    # headmaster and secretary take some food from kiosk and sit down among the students and start eating an conversing
     # while they eat, they notice the students get more fidgity
 
     # some students start to take off some clothes
     # other start groping their own breasts
     # others start kissing each other
-    show first week epilogue 47
-    subtitles_Empty ""
-    show first week epilogue 48
-    subtitles_Empty ""
-    show first week epilogue 49
-    subtitles_Empty ""
-    show first week epilogue 50
+    show first week epilogue 47 with dissolveM
+    pause
+    show first week epilogue 48 with dissolveM
+    pause
+    show first week epilogue 49 with dissolveM
+    pause
+    show first week epilogue 50 with dissolveM
 
-    principal "Ah the potions seem to start taking effect."
+    headmaster "Ah the potions seem to start taking effect."
     secretary "Yes! I guess school will be more fun now."
 
     # for the rest of the day the strong effects can be observed throughout the campus
@@ -467,16 +481,82 @@ label .replay:
 
     jump new_daytime
 
-label first_week_epilogue_final:
-    show screen black_error_screen_text ("")
-
+label first_week_epilogue_final: 
     $ set_all_buildings_blocked(False)
 
-    principal_thought "Well as far as I could see, the potion worked perfectly. Even though the potion was diluted, they initial start effect was still very strong."
-    principal_thought "Now let's see how the students behave after the potion settled in."
+    $ hide_all()
 
+    hide screen black_screen_text
+
+    show first week epilogue final 1 with dissolveM
+    # headmaster enters campus
+    headmaster_thought "Oh hello! The effects seem to have diminished quite a lot."
+    show first week epilogue final 2 with dissolveM
+    headmaster_thought "I guess the potion seems to have fully settled in their systems and their bodies to have adjusted to the new influx of hormones."
+    show first week epilogue final 3 with dissolveM
+    headmaster_thought "But I guess that's a good thing. It would be bad if they were constantly horny without adapting to the change."
+
+    # headmaster approaches student
+    show first week epilogue final 4 with dissolveM
+    headmaster "Oh hello! How are you doing?"
+    sgirl "Oh hello Mr. [headmaster_last_name]! I'm doing great! I kinda feel a bit more relaxed than yesterday! I think..." (name='Miwa Igarashi')
+    show first week epilogue final 5 with dissolveM
+    headmaster "Oh that's good to hear! But what do you mean with you think? Is everything really alright?"
+    show first week epilogue final 6 with dissolveM
+    sgirl "Oh yeah, yeah! Everything is fine, it' sjust, I have the feeling there is a gap in my memory. I can't remember anything from yesterday after recess."  (name='Miwa Igarashi')
+    show first week epilogue final 7 with dissolveM
+    sgirl "I only know to have been extremely happy and relaxed yesterday, but I can't remember anything else." (name='Miwa Igarashi')
+    show first week epilogue final 8 with dissolveM
+    headmaster "Hmm interesting... Well at least you are feeling fine. Pay the nurse a visit if you start to feel unwell."
+    sgirl "Okay, I will! Thank you Mr. [headmaster_last_name]!" (name='Miwa Igarashi')
+
+    # school girl walks off, headmaster stays a little bit in thoughts
+    show first week epilogue final 9 with dissolveM
+    headmaster_thought "Hmm... that's an interessting effect. She doesn't remember anything that happened yesterday, but the long term effect seems to still be in place."
+    show first week epilogue final 10 with dissolveM
+    headmaster_thought "[secretary_first_name] didn't seem to have any memory gaps whatsoever. I wonder if it has to do with the fact that the students go a diluted version."
+
+    # secretary approaches from behind
+    show first week epilogue final 11 with dissolveM
+    secretary "Oh hello [headmaster_first_name]! How are you doing?"
+    headmaster "Oh hello [secretary_first_name]! I'm doing fine. I was just talking to one of the students."
+    headmaster "She said she can't remember anything from yesterday after recess. Do you have any idea how this could have come about?"
+    headmaster "I mean you didn't have this problem, did you?"
+    show first week epilogue final 13 with dissolveM
+    secretary "No I don't think so."
+    show first week epilogue final 14 with dissolveM
+    headmaster "I think it had to do with the fact that the students were given a diluted version of the potion."
+    headmaster "My mate was explaining to me a bit about its effects and mechanics. I couldn't quite follow, but I think he said something about using certain proteins to help the brain cope with the large influx of emotions during the acclimatisation phase."
+    headmaster "Maybe the diluted version doesn't have enough of those proteins to help the brain deal with the emotions. I mean, my mate said that if you dilute the potion by 1 to 100, the effects don't diminish that much."
+    headmaster "So I think the balance was upset and the students experienced something like a blackout, where the brain just stops storing memories."
+    show first week epilogue final 15 with dissolveM
+    secretary "Well, at least the side effects weren't more serious."
+    show first week epilogue final 16 with dissolveM
+    headmaster "When I think about it, it might have been a good thing."
+    show first week epilogue final 15 with dissolveM
+    secretary "What do you mean?"
+    show first week epilogue final 16 with dissolveM
+    headmaster "I have noticed that the students are almost back to their old selves. They are more relaxed and not so stuck up, and they already seem to have modified their uniforms, but the actual long term effect seems rather minimal compared to the effect it had on you."
+    headmaster "I can't imagine how the students would react in their current state if they could remember everything that happened yesterday."
+    show first week epilogue final 15 with dissolveM
+    secretary "Oh yes, you're right. That would have been a disaster."
+    show first week epilogue final 16 with dissolveM
+    headmaster "Well, that's good to know, but until we get the lab back up and running there's nothing we can really do about it."
+    headmaster "I need to reproduce the potion first. I'm not sure I can do it the way my buddy did it."
+    headmaster "The first iterations are likely to have a much weaker effect, if any."
+    show first week epilogue final 15 with dissolveM
+    secretary "I guess we'll see when the time comes."
+    show first week epilogue final 17 with dissolveM
+    headmaster "Oh I guess classes just started. I think I should start my rounds."
+    show first week epilogue final 18 with dissolveM
+    secretary "Good luck."
+
+    hide screen black_error_screen_text
+
+    show thanks 1 with dissolveM
     dev "This is where the content for this version ends. You can still roam around but there are no events for the different locations yet."
     dev "Only a few nice background images at the different locations :)"
+    show thanks 2 with dissolveM
     dev "Thank you for playing up to this point. Look forward to the next version."
     dev "And feel free to visit my {a=https://patreon.com/suitji}Patreon{/a} and {a=https://discord.gg/UbHnxnRekA}Discord{/a}."
     dev "I'd be happy if you leave some feedback or some ideas on the Discord so I can work to further improve this game!"

@@ -9,9 +9,9 @@ init -6 python:
             self.desc_conditions = []
 
             for condition in self.conditions:
-                if not condition.is_set_blocking() and condition.display_in_list:
+                if condition.display_in_list:
                     self.list_conditions.append(condition)
-                if not condition.is_set_blocking() and condition.display_in_desc:
+                if condition.display_in_desc:
                     self.desc_conditions.append(condition)
 
         def get_list_conditions(self):
@@ -20,27 +20,32 @@ init -6 python:
         def get_desc_conditions(self):
             return self.desc_conditions
 
-        def get_votable_conditions(self, school = None):
+        def get_desc_conditions_desc(self, **kwargs):
+            blocking = False
+            if 'blocking' in kwargs.keys() and kwargs['blocking']:
+                blocking = True
             output = []
-            for condition in self.conditions:
-                if not condition.is_blocking(school) and condition.is_votable:
-                    output.append(condition)
+            print("blocking: " + str(blocking))
+            for condition in self.desc_conditions:
+                print("condition: " + condition.get_name())
+                if not blocking or not condition.blocking:
+                    output.append(condition.to_desc_text(**kwargs))
             return output
 
         def get_conditions(self):
             return self.conditions
 
-        def is_fullfilled(self, school = None):
+        def is_fullfilled(self, **kwargs):
             for condition in self.conditions:
-                if condition.is_fullfilled(school):
+                if condition.is_fullfilled(**kwargs):
                     continue
                 return False
 
             return True
 
-        def is_blocking(self, school = None):
+        def is_blocking(self, **kwargs):
             for condition in self.conditions:
-                if condition.is_blocking(school):
+                if condition.is_blocking(**kwargs):
                     return False
             return True
 
@@ -49,24 +54,23 @@ init -6 python:
             self.blocking = False
             self.display_in_list = False
             self.display_in_desc = False
-            self.is_votable = False
 
         @abstractmethod
-        def is_fullfilled(self, school):
+        def is_fullfilled(self, **kwargs):
             pass
 
-        def is_blocking(self, school = None):
-            return (not self.is_fullfilled(school) and self.blocking)
+        def is_blocking(self, **kwargs):
+            return (not self.is_fullfilled(**kwargs) and self.blocking)
 
         def is_set_blocking(self):
             return self.blocking
 
         @abstractmethod
-        def to_list_text(self, school):
+        def to_list_text(self, **kwargs):
             pass
 
         @abstractmethod
-        def to_desc_text(self, school):
+        def to_desc_text(self, **kwargs):
             pass
 
         @abstractmethod
@@ -78,32 +82,30 @@ init -6 python:
             pass
 
     class StatCondition(Condition):
-        def __init__(self, value, stat, school = "x", blocking = False):
+        def __init__(self, value, stat, blocking = False):
             super().__init__()
             self.value = value
             self.stat = stat
-            self.school = school
             self.blocking = blocking
             self.display_in_list = True
             self.display_in_desc = True
-            self.is_votable = True
             
-        def is_fullfilled(self, school):
-            school_obj = get_character(school, charList["schools"])
-            if self.school == school or self.school == "x":
-                return school_obj.check_stat(self.stat, self.value)
+        def is_fullfilled(self, **kwargs):
+            char_obj = get_kwargs('char_obj', **kwargs)
+            if char_obj == None:
+                return False
 
-            return True
+            return char_obj.check_stat(self.stat, self.value)
         
-        def to_list_text(self, school):
+        def to_list_text(self, **kwargs):
             icon = "icons/stat_" + self.stat + "_icon.png"
-            if self.is_fullfilled(school):
+            if self.is_fullfilled(**kwargs):
                 return ["{image=" + icon + "}", "{color=#0f0}" + str(self.value) + "{/color}"]
             else:
                 return ["{image=" + icon + "}", "{color=#f00}" + str(self.value) + "{/color}"]
 
-        def to_desc_text(self, school):
-            if self.is_fullfilled(school):
+        def to_desc_text(self, **kwargs):
+            if self.is_fullfilled(**kwargs):
                 return self.get_name() + ": {color=#0f0}" + str(self.value) + "{/color}"
             else:
                 return self.get_name() + ": {color=#f00}" + str(self.value) + "{/color}"
@@ -116,10 +118,8 @@ init -6 python:
 
         def get_diff(self, char_obj):
             obj_stat = char_obj.get_stat_number(self.stat)
-
-            diff = obj_stat - self.value
-
-            print("diff: " + str(diff))
+            print("stat:")
+            diff = get_value_diff(self.value, obj_stat)
 
             if diff < -20:
                 return diff * 10
@@ -129,7 +129,6 @@ init -6 python:
                 return diff * 2
             return diff
 
-
     class RuleCondition(Condition):
         def __init__(self, value, school = "x", blocking = False):
             super().__init__()
@@ -138,16 +137,18 @@ init -6 python:
             self.blocking = blocking
             self.display_in_desc = True
 
-        def is_fullfilled(self, school):
-            if self.school == school or self.school == "x":
-                return is_rule_unlocked(self.value, school)
-            return True
+        def is_fullfilled(self, **kwargs):
+            char_obj = get_kwargs('char_obj', **kwargs)
+            if char_obj == None:
+                return False
 
-        def to_list_text(self, _school):
+            return get_rule(self.value).is_unlocked(char_obj.get_name())
+
+        def to_list_text(self, **kwargs):
             return ["", ""]
 
-        def to_desc_text(self, school):
-            if self.is_fullfilled(school):
+        def to_desc_text(self, **kwargs):
+            if self.is_fullfilled(**kwargs):
                 return "{color=#0f0}" + get_rule(self.value).get_title() + "{/color} is unlocked"
             else:
                 return "{color=#f00}" + get_rule(self.value).get_title() + "{/color} is unlocked"
@@ -155,32 +156,32 @@ init -6 python:
         def get_name(self):
             if self.value not in rules.keys():
                 return ""
-            return get_rule(self.value).title
+            return get_rule(self.value).get_title()
 
         def get_diff(self, char_obj):
-            if is_fullfilled(char_obj.get_name()):
+            if self.is_fullfilled(char_obj = char_obj):
                 return 0
             return -100
 
-
     class ClubCondition(Condition):
-        def __init__(self, value, school = "x", blocking = False):
+        def __init__(self, value, blocking = False):
             super().__init__()
             self.value = value
-            self.school = school
             self.blocking = blocking
             self.display_in_desc = True
 
-        def is_fullfilled(self, school):
-            if self.school == school or self.school == "x":
-                return get_club(self.value).is_unlocked(school)
-            return True
+        def is_fullfilled(self, **kwargs):
+            char_obj = get_kwargs('char_obj', **kwargs)
+            if char_obj == None:
+                return False
 
-        def to_list_text(self, _school):
+            return get_club(self.value).is_unlocked(char_obj.get_name())
+
+        def to_list_text(self, **kwargs):
             return ["", ""]
 
-        def to_desc_text(self, school):
-            if self.is_fullfilled(school):
+        def to_desc_text(self, **kwargs):
+            if self.is_fullfilled(**kwargs):
                 return "{color=#0f0}" + get_club(self.value).get_title() + "{/color} is unlocked"
             else:
                 return "{color=#f00}" + get_club(self.value).get_title() + "{/color} is unlocked"
@@ -191,7 +192,7 @@ init -6 python:
             return get_club(self.value).title
 
         def get_diff(self, char_obj):
-            if is_fullfilled(char_obj.get_name()):
+            if self.is_fullfilled(char_obj.get_name()):
                 return 0
             return -100
 
@@ -202,14 +203,14 @@ init -6 python:
             self.blocking = blocking
             self.display_in_desc = True
 
-        def is_fullfilled(self, _school):
+        def is_fullfilled(self, **kwargs):
             return get_building(self.value).is_building_unlocked(self.value)
 
-        def to_list_text(self, _school):
+        def to_list_text(self, **kwargs):
             return ["", ""]
 
-        def to_desc_text(self, school):
-            if self.is_fullfilled(school):
+        def to_desc_text(self, **kwargs):
+            if self.is_fullfilled(**kwargs):
                 return "{color=#0f0}" + get_building(self.value).get_title() + "{/color} is unlocked"
             else:
                 return "{color=#f00}" + get_building(self.value).get_title() + "{/color} is unlocked"
@@ -220,40 +221,33 @@ init -6 python:
             return get_building(self.value).title
 
         def get_diff(self, char_obj):
-            if is_fullfilled(char_obj.get_name()):
+            if self.is_fullfilled(char_obj.get_name()):
                 return 0
             return -100
 
     class LevelCondition(Condition):
-        def __init__(self, value, school = "x", blocking = False):
+        def __init__(self, value, blocking = False):
             super().__init__()
             self.value = value
-            self.school = school
             self.blocking = blocking
             self.display_in_list = True
             self.display_in_desc = True
 
-        def is_fullfilled(self, school):
+        def is_fullfilled(self, **kwargs):
+            char_obj = get_kwargs('char_obj', **kwargs)
+            if char_obj == None:
+                return False
 
-            school_obj = get_character(school, charList["schools"])
-            self_school_obj = get_character(self.school, charList["schools"])
+            return char_obj.check_level(self.value)
 
-            if school != "x" and (self.school == school or self.school == "x"):
-                return school_obj.check_level(self.value)
-
-            if self.school != "x" and (self.school == school or school == "x"):
-                return self_school_obj.check_level(self.value)
-
-            return True
-
-        def to_desc_text(self, school):
-            if self.is_fullfilled(school):
+        def to_desc_text(self, **kwargs):
+            if self.is_fullfilled(**kwargs):
                 return "Level: {color=#0f0}" + self.value + "{/color}"
             else:
                 return "Level: {color=#f00}" + self.value + "{/color}"
 
-        def to_list_text(self, school):
-            if self.is_fullfilled(school):
+        def to_list_text(self, **kwargs):
+            if self.is_fullfilled(**kwargs):
                 return ["{image=icons/stat_level_icon.png}", "{color=#0f0}" + str(self.value) + "{/color}"]
             else:
                 return ["{image=icons/stat_level_icon.png}", "{color=#f00}" + str(self.value) + "{/color}"]
@@ -262,8 +256,17 @@ init -6 python:
             return "Level"
 
         def get_diff(self, char_obj):
-            return (char_obj.get_level - self.value) * 10
+            # return char_obj.get_nearest_level_delta(self.value) * 20
 
+            obj_level = char_obj.get_level()
+            print("level:")
+            diff = get_value_diff(self.value, obj_level)
+
+            if diff < -2:
+                return diff * 50
+            elif diff < -1:
+                return diff * 20
+            return diff
 
     class MoneyCondition(Condition):
         def __init__(self, value, blocking = False):
@@ -273,17 +276,17 @@ init -6 python:
             self.display_in_list = True
             self.display_in_desc = True
 
-        def is_fullfilled(self, _school):
+        def is_fullfilled(self, **kwargs):
             return money.get_value() >= self.value
 
-        def to_desc_text(self, school):
-            if self.is_fullfilled(school):
+        def to_desc_text(self, **kwargs):
+            if self.is_fullfilled():
                 return "Money: {color=#0f0}" + str(self.value) + "{/color}"
             else:
                 return "Money: {color=#f00}" + str(self.value) + "{/color}"
 
-        def to_list_text(self, school):
-            if self.is_fullfilled(school):
+        def to_list_text(self, **kwargs):
+            if self.is_fullfilled():
                 return ["{image=icons/stat_money_icon.png}", "{color=#0f0}" + str(self.value) + "{/color}"]
             else:
                 return ["{image=icons/stat_money_icon.png}", "{color=#f00}" + str(self.value) + "{/color}"]
@@ -304,13 +307,13 @@ init -6 python:
             self.school = school
             self.blocking = blocking
 
-        def is_fullfilled(self, school):
-            return self.school == school or self.school == "x"
+        def is_fullfilled(self, **kwargs):
+            return 'school' in kwargs.keys() and (self.school == kwargs['school'] or self.school == "x")
 
-        def to_list_text(self, _school):
+        def to_list_text(self, **kwargs):
             return ["", ""]
 
-        def to_desc_text(self, _school):
+        def to_desc_text(self, **kwargs):
             return ""
 
         def get_name(self):
@@ -329,13 +332,13 @@ init -6 python:
             super().__init__()
             self.blocking = True
 
-        def is_fullfilled(self, _school):
+        def is_fullfilled(self, **kwargs):
             return False
 
-        def to_desc_text(self, _school):
+        def to_desc_text(self, **kwargs):
             return ""
 
-        def to_list_text(self, _school):
+        def to_list_text(self, **kwargs):
             return ["", ""]
 
         def get_name(self):
@@ -357,7 +360,7 @@ init -6 python:
             self.blocking = blocking
             self.display_in_desc = True
 
-        def is_fullfilled(self, _school):
+        def is_fullfilled(self, **kwargs):
             return (
                 time.check_day    (self.day    ) and
                 time.check_month  (self.month  ) and
@@ -366,10 +369,10 @@ init -6 python:
                 time.check_daytime(self.daytime) and
                 time.check_weekday(self.weekday))
 
-        def to_list_text(self, _school):
+        def to_list_text(self, **kwargs):
             return ["", ""]
 
-        def to_desc_text(self, _school):
+        def to_desc_text(self, **kwargs):
             text = ""
 
             if ((self.day != "x" or self.week != "x" or self.weekday != "x") or
@@ -401,7 +404,7 @@ init -6 python:
                     text = " "
                 text += f"{time.get_daytime_name(self.daytime)}"
 
-            if self.is_fullfilled(school):
+            if self.is_fullfilled(school = school):
                 return "Time is {color=#0f0}" + text + "{/color}"
             else:
                 return "Time is {color=#f00}" + text + "{/color}"
@@ -410,7 +413,7 @@ init -6 python:
             return f"{self.day}:{self.week}:{self.month}:{self.year}:{self.daytime}:{self.weekday}"
 
         def get_diff(self, char_obj):
-            if is_fullfilled(None):
+            if self.is_fullfilled(None):
                 return 0
             return -100
             
@@ -424,13 +427,13 @@ init -6 python:
             self.display_in_desc = True
             self.display_in_list = True
 
-        def is_fullfilled(self, _school):
+        def is_fullfilled(self, **kwargs):
             return random.randInt(0, self.limit) < self.amount
 
-        def to_desc_text(self, _school):
+        def to_desc_text(self, **kwargs):
             return f"Chance: {str(100 / self.limit * self.amount)}%"
 
-        def to_list_text(self, _school):
+        def to_list_text(self, **kwargs):
             return ["", f"{str(100 / self.limit * self.amount)}%"]
 
         def get_name(self):
@@ -440,7 +443,7 @@ init -6 python:
             return 0
 
 
-    class ValueCondition(Condition):
+    class GameDataCondition(Condition):
         def __init__(self, name, key, value, blocking = False):
             super().__init__()
             self.name = name
@@ -450,24 +453,86 @@ init -6 python:
             self.display_in_desc = True
             self.display_in_list = False
 
-        def is_fullfilled(self, _school):
+        def is_fullfilled(self, **kwargs):
             if self.key not in gameData.keys():
                 return False
             return gameData[self.key] == self.value
 
-        def to_desc_text(self, _school):
-            if self.is_fullfilled(_school):
+        def to_desc_text(self, **kwargs):
+            if self.is_fullfilled():
                 return self.name + " is {color=#0f0}" + self.value + "{/color}"
             else:
                 return self.name + " is {color=#f00}" + self.value + "{/color}"
 
-        def to_list_text(self, _school):
+        def to_list_text(self, **kwargs):
             return ["", ""]
 
         def get_name(self):
             return self.name
 
         def get_diff(self, char_obj):
-            if is_fullfilled(None):
+            if aelf.is_fullfilled():
+                return 0
+            return -100
+
+    class ValueCondition(Condition):
+        def __init__(self, key, value, blocking = False):
+            super().__init__()
+            self.key = key
+            self.value = value
+            self.blocking = blocking
+            self.display_in_desc = True
+            self.display_in_list = False
+
+        def is_fullfilled(self, **kwargs):
+            if self.key not in kwargs.keys():
+                return False
+            return kwargs[self.key] == self.value
+
+        def to_desc_text(self, **kwargs):
+            if self.is_fullfilled():
+                return self.key + " is {color=#0f0}" + self.value + "{/color}"
+            else:
+                return self.key + " is {color=#f00}" + self.value + "{/color}"
+
+        def to_list_text(self, **kwargs):
+            return ["", ""]
+
+        def get_name(self):
+            return self.key
+
+        def get_diff(self, char_obj):
+            if self.is_fullfilled():
+                return 0
+            return -100
+
+    class NumValueCondition(Condition):
+        def __init__(self, key, value, blocking = False):
+            super().__init__()
+            self.key = key
+            self.value = value
+            self.blocking = blocking
+            self.display_in_desc = True
+            self.display_in_list = False
+
+        def is_fullfilled(self, **kwargs):
+            if self.key not in kwargs.keys():
+                return False
+            return get_value_diff(self.value, kwargs[self.key]) >= 0
+
+        def to_desc_text(self, **kwargs):
+            if self.is_fullfilled():
+                return self.key + " is {color=#0f0}" + self.value + "{/color}"
+            else:
+                return self.key + " is {color=#f00}" + self.value + "{/color}"
+
+        def to_list_text(self, **kwargs):
+            return ["", ""]
+
+        def get_name(self):
+            return self.key
+
+        def get_diff(self, char_obj):
+            if self.is_fullfilled():
                 return 0
             return -100

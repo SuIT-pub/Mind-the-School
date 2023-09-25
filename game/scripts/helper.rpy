@@ -1,4 +1,6 @@
 init python:
+    import re
+
     def get_element(name, map = None):
         if type(map) is dict and name in map.keys():
             return (True, map[name])
@@ -80,3 +82,68 @@ init python:
                 return True
     
         return False
+
+    def in_kwargs(key, **kwargs):
+        if key in kwargs.keys():
+            return True
+        return False
+
+    def get_kwargs(key, **kwargs):
+        if key in kwargs.keys():
+            return kwargs[key]
+        return None
+
+    def is_integer(text):
+        try:
+            int(text)
+            return True
+        except ValueError:
+            return False
+
+    def is_float(text):
+        try:
+            float(text)
+            return True
+        except ValueError:
+            return False
+
+    def set_smallest(smallest, value):
+        if smallest is None or value < smallest:
+            return value
+        return smallest
+
+    def set_nearest(nearest, value):
+        if nearest is None or abs(value) < abs(nearest):
+            return value
+        return nearest
+
+    def get_value_diff(value1: [str, int], value2: int):
+        split = value1.split(',')
+
+        nearest = None
+
+        for split_val in split:
+            split_val = split_val.strip()
+            val_str = re.findall('\d+', split_val)
+            if val_str:
+                vals = int(''.join(val_str))
+                if '-' in split_val:
+                    if split_val.endswith('-'):
+                        nearest = set_nearest(nearest, vals - value2)
+                    else:
+                        val_list = split_val.split('-')
+                        if value2 < int(val_list[0]):
+                            nearest = set_nearest(nearest, value2 - int(val_list[0]))
+                        elif value2 > int(val_list[1]):
+                            nearest = set_nearest(nearest, int(val_list[1]) - value2)
+                        else:
+                            nearest = set_nearest(nearest, abs(int(val_list[0]) - value2))
+                elif split_val.endswith('+'):
+                    nearest = set_nearest(nearest, value2 - vals)
+                else:
+                    nearest = set_nearest(nearest, -abs(vals - int(value2)))
+
+        print("value1: " + str(value1) + " value2: " + str(value2) + " nearest: " + str(nearest))
+
+        return nearest
+        

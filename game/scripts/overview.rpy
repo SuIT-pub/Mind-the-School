@@ -1,24 +1,6 @@
 ######################
 # Map overview methods
 init -1 python:
-    import math
-
-    # changes the stat value
-    def change_stat(stat, change, name = "", map = None):
-        if stat == "money":
-            money.change_value(change)
-        else:
-            change_stat_for_char(stat, change, name, map)
-
-    def reset_stats(map, name = ""):
-        money.reset_change()
-
-        if name != "" and name in map.keys():
-            map[name].reset_changed_stats()
-        else:
-            for keys in map.keys():
-                map[keys].reset_changed_stats()
-
     def hide_all():
         for s in renpy.display.screen.screens_by_name:
             renpy.hide_screen(s)
@@ -52,10 +34,10 @@ screen school_overview_stats ():
         text "Education     " style "stat_name"
         text "Money"          style "stat_name"
 
-        text str(get_mean_stat("happiness", charList['schools'])) style "stat_value"
-        text str(get_mean_stat("charm",     charList['schools'])) style "stat_value"
-        text str(get_mean_stat("education", charList['schools'])) style "stat_value"
-        text str(get_stat_for_char("money")) style "stat_value"
+        text display_mean_stat("happiness") style "stat_value"
+        text display_mean_stat("charm") style "stat_value"
+        text display_mean_stat("education") style "stat_value"
+        text display_mean_stat("money") style "stat_value"
 
         null
         text "Corruption" style "stat_name"
@@ -63,9 +45,9 @@ screen school_overview_stats ():
         text "Reputation" style "stat_name"
         
         null
-        text str(get_mean_stat("corruption", charList['schools'])) style "stat_value"
-        text str(get_mean_stat("inhibition", charList['schools'])) style "stat_value"
-        text str(get_mean_stat("reputation", charList['schools'])) style "stat_value"
+        text display_mean_stat("corruption") style "stat_value"
+        text display_mean_stat("inhibition") style "stat_value"
+        text display_mean_stat("reputation") style "stat_value"
 
     vbox:
         xalign 1.0 ypos 150
@@ -351,46 +333,64 @@ screen school_overview_buttons ():
                 xalign 0.5
                 text tooltip
 
-screen image_screen(image_path):
-    tag background
+label show_image_screen(image_path):
     if not renpy.loadable(image_path):
         $ renpy.show_screen("black_error_screen_text", "image '" + image_path + "' not found")
     else:
-        image "[image_path]"
+        show screen image_screen(image_path) with dissolveM
 
-screen image_with_nude_var(image_path, limit = 2, nude = 0):
+screen image_screen(image_path):
+    tag background
+    image "[image_path]"
+
+label show_image_with_nude_var(image_path, limit = 2, nude = 0):
+    if limit > nude_vision:
+        $ limit = nude_vision
+
+    $ paths = []
+    $ image_not_found = False
+
+    python:
+        for i in range(0, limit + 1):
+            paths.append(image_path.replace("<nude>", str(i)))
+            if len(paths) > 0 and not renpy.loadable(paths[len(paths) - 1]):
+                print(f"'{self._image_path}' interpolated to '{output}' couldn't be found!")
+                image_not_found = True
+    
+    if image_not_found:
+        return
+
+    show screen image_with_nude_var(paths, limit, nude) with dissolveM
+
+    return
+
+screen image_with_nude_var(paths, limit = 2, nude = 0):
     tag background
     
-    $ path = image_path.replace("<nude>", str(nude))
+    $ path = paths[nude]
 
-    if limit > nude_vision:
-        $ nude_vision = limit
-
-    if not renpy.loadable(path):
-        $ renpy.show_screen("black_error_screen_text", "image '" + path + "' not found")
-    else:
-        image "[path]"
+    image "[path]"
 
     if nude_vision != 0 and nude == limit and nude != 0:
         imagebutton:
             auto "icons/sight_disabled_%s.png"
             focus_mask None
             xalign 0.0 yalign 0.0
-            action Show("image_with_nude_var", None, image_path, limit, 0)
+            action Show("image_with_nude_var", dissolveM, paths, limit, 0)
 
     if nude == 0 and limit > 0:
         imagebutton:
             auto "icons/eye_target_%s.png"
             focus_mask None
             xalign 0.0 yalign 0.0
-            action Show("image_with_nude_var", None, image_path, limit, 1)
+            action Show("image_with_nude_var", dissolveM, paths, limit, 1)
 
     if nude == 1 and limit > 1:
         imagebutton:
             auto "icons/fire_iris_%s.png"
             focus_mask None
             xalign 0.0 yalign 0.0
-            action Show("image_with_nude_var", None, image_path, limit, 2)
+            action Show("image_with_nude_var", dissolveM, paths, limit, 2)
 
 
 screen black_error_screen_text(text_str):
@@ -428,8 +428,10 @@ screen black_screen_text(text_str):
 label set_day_and_time(day, month, year, daytime):
     $ time.set_time(day = day, month = month, year = year, daytime = daytime)
 
-    call screen black_screen_text (f"{time.get_weekday()}, {time.day} {time.get_month_name()} {time.year}")
+    $ hide_all()
 
+    call screen black_screen_text (f"{time.get_weekday()}, {time.day} {time.get_month_name()} {time.year}")
+    
     call time_event_check from set_day_2
 
     jump map_overview
@@ -437,8 +439,10 @@ label set_day_and_time(day, month, year, daytime):
 label set_day(day, month, year):
     $ time.set_time(day = day, month = month, year = year)
 
-    call screen black_screen_text (f"{time.get_weekday()}, {time.day} {time.get_month_name()} {time.year}")
+    $ hide_all()
 
+    call screen black_screen_text (f"{time.get_weekday()}, {time.day} {time.get_month_name()} {time.year}")
+    
     call time_event_check from set_day_3
 
     jump map_overview
@@ -446,19 +450,28 @@ label set_day(day, month, year):
 label new_day:
     $ time.progress_day()
 
-    call screen black_screen_text (f"{time.get_weekday()}, {time.day} {time.get_month_name()} {time.year}")
+    $ hide_all()
 
+    call screen black_screen_text (f"{time.get_weekday()}, {time.day} {time.get_month_name()} {time.year}")
+    
     call time_event_check from new_day_2
 
     jump map_overview
 
 label new_daytime:
+    $ hide_all()
+
     if time.progress_time():
         call screen black_screen_text (f"{time.get_weekday()}, {time.day} {time.get_month_name()} {time.year}")
-        
+
     call time_event_check from new_daytime_2
 
     jump map_overview
+
+screen school_overview():
+    use school_overview_map
+    use school_overview_stats
+    use school_overview_buttons
 
 #################################################
 # shows the map overview and then waits for input
@@ -470,11 +483,15 @@ label map_overview:
     call load_buildings from map_overview_4
     call load_clubs from map_overview_5
     
+    $ update_mean_stats()
+
     $ hide_all()
 
-    show screen school_overview_map
+    scene bg school overview idle
+    # show screen school_overview_map
     show screen school_overview_stats
     call screen school_overview_buttons
+    # call screen school_overview with dissolveM
 
     subtitles_Empty ""
 

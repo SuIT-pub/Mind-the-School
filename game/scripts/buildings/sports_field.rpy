@@ -17,9 +17,9 @@ init -1 python:
     }
 
     sports_field_bg_images = [
-        BGImage("images/background/sports field/bg c <level> <nude>.png", 1, TimeCondition(daytime = "c")), # show sports field with students
-        BGImage("images/background/sports field/bg 3,6 <level> <nude>.png", 1, TimeCondition(daytime = "3,6")), # show sports field with few students
-        BGImage("images/background/sports field/bg 7.png", 1, TimeCondition(daytime = 7)), # show sports field at night empty
+        BGImage("images/background/sports field/bg c <level> <nude>.jpg", 1, TimeCondition(daytime = "c")), # show sports field with students
+        BGImage("images/background/sports field/bg 3,6 <level> <nude>.jpg", 1, TimeCondition(daytime = "3,6")), # show sports field with few students
+        BGImage("images/background/sports field/bg 7.jpg", 1, TimeCondition(daytime = 7)), # show sports field at night empty
     ]
     
 ##########################################
@@ -53,12 +53,12 @@ label .after_time_check:
 label show_sports_field_idle_image(school):    
 
     $ max_nude, image_path = get_background(
-        "images/background/sports field/bg 1.png", # show empty sports field
+        "images/background/sports field/bg 1.jpg", # show empty sports field
         sports_field_bg_images,
         get_level_for_char(school, charList["schools"]),
     )
 
-    show screen image_with_nude_var (image_path, max_nude)
+    call show_image_with_nude_var (image_path, max_nude) from _call_show_image_with_nude_var_13
 
     return
 

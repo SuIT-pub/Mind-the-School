@@ -46,7 +46,12 @@ init python:
         return image_path
 
     def get_random_school():
-        return get_random_choice("high_school", "middle_school", "elementary_school")
+        if loli_content == 2:
+            return get_random_choice("high_school", "middle_school", "elementary_school")
+        elif loli_content == 1:
+            return get_random_choice("high_school", "middle_school")
+        else:
+            return "high_school"
 
     def get_random_choice(*choice):
         return renpy.random.choice(list(choice))
@@ -60,6 +65,7 @@ init python:
 
 default intro_dev_message = "This version of the game only includes content up to day 10, when free roaming begins. You can still play and roam from there, but there will be no content."
 
+default hide_gui = False
 
 default rules = {}
 default buildings = {}
@@ -75,127 +81,146 @@ default gameData = {}
 
 default character.dev = Character(
     "Suit-Kun",
+    # window_background = get_textbox(),
     who_color = "#00ff11",
     what_color = "#ffffff",
     what_size = 28,
-    what_outlines = [( 1, "#000000", 0, 0 )],
+    # what_outlines = [( 1, "#000000", 0, 0 )],
 )
-default character.principal = Character(
-    "Principal",
+default character.headmaster = Character(
+    "[headmaster_first_name] [headmaster_last_name]",
+    #window_background = None,
     who_color = "#ffffff",
     what_color = "#ffffff",
     what_size = 28,
-    what_outlines = [( 1, "#000000", 0, 0 )],
+    # what_outlines = [( 1, "#000000", 0, 0 )],
 )
-default character.principal_whisper = Character(
-    "Principal",
+default character.headmaster_whisper = Character(
+    "[headmaster_first_name] [headmaster_last_name]",
+    #window_background = None,
     who_color = "#ffffff",
     what_color = "#ffffff",
     what_size = 15,
-    what_outlines = [( 1, "#000000", 0, 0 )],
+    # what_outlines = [( 1, "#000000", 0, 0 )],
 )
-default character.principal_shout = Character(
-    "Principal",
+default character.headmaster_shout = Character(
+    "[headmaster_first_name] [headmaster_last_name]",
+    #window_background = None,
     who_color = "#ffffff",
     what_color = "#ffffff",
     what_size = 35,
-    what_outlines=[( 1, "#000000", 0, 0 )],
+    # what_outlines=[( 1, "#000000", 0, 0 )],
 )
-default character.principal_thought = Character(
-    "Principal",
+default character.headmaster_thought = Character(
+    "[headmaster_first_name] [headmaster_last_name]",
+    #window_background = None,
     who_color = "#ffffff",
     what_color = "#ffffff",
     what_size = 28,
     italics = True,
-    what_outlines = [( 1, "#000000", 0, 0 )],
+    # what_outlines = [( 1, "#000000", 0, 0 )],
 )
+default secretary_first_name = "Emiko"
+default secretary_last_name = "Langley"
 default character.secretary = Character(
-    "Secretary",
+    "[secretary_first_name] [secretary_last_name]",
+    #window_background = None,
     who_color = "#c71585",
     what_color = "#ffffff",
     what_size = 28,
-    what_outlines = [( 1, "#000000", 0, 0 )],
+    # what_outlines = [( 1, "#000000", 0, 0 )],
 )
 default character.secretary_whisper = Character(
-    "Secretary",
+    "[secretary_first_name] [secretary_last_name]",
+    #window_background = None,
     who_color = "#c71585",
     what_color = "#ffffff",
     what_size = 15,
-    what_outlines = [( 1, "#000000", 0, 0 )],
+    # what_outlines = [( 1, "#000000", 0, 0 )],
 )
 default character.secretary_shout = Character(
-    "Secretary",
+    "[secretary_first_name] [secretary_last_name]",
+    #window_background = None,
     who_color = "#c71585",
     what_color = "#ffffff",
     what_size = 35,
-    what_outlines = [( 1, "#000000", 0, 0 )],
+    # what_outlines = [( 1, "#000000", 0, 0 )],
 )
 default character.teacher = Character(
     "Teacher", 
+    #window_background = None,
     who_color = "#00ced1",
     what_color = "#ffffff",
     what_size = 28,
-    what_outlines = [( 1, "#000000", 0, 0 )],
+    # what_outlines = [( 1, "#000000", 0, 0 )],
 )
 default character.parent = Character(
     "Parent",
+    #window_background = None,
     who_color = "#e6e6fa",
     what_color = "#ffffff",
     what_size = 28,
-    what_outlines = [( 1, "#000000", 0, 0)],
+    # what_outlines = [( 1, "#000000", 0, 0)],
 )
 default character.examiner = Character(
     "Examiner",
+    #window_background = None,
     who_color = "#f5deb3",
     what_color = "#ffffff",
     what_size = 28,
-    what_outlines = [( 1, "#000000", 0, 0 )],
+    # what_outlines = [( 1, "#000000", 0, 0 )],
 )
 default character.regional = Character(
     "Region Manager",
+    #window_background = None,
     who_color = "#4169e1",
     what_color = "#ffffff",
     what_size = 28,
-    what_outlines = [( 1, "#000000", 0, 0 )],
+    # what_outlines = [( 1, "#000000", 0, 0 )],
 )
 default character.sgirl = Character(
     "School Girl",
+    #window_background = None,
     who_color = "#8a2be2",
     what_color = "#ffffff",
     what_size = 28,
-    what_outlines = [( 1, "#000000", 0, 0 )],
+    # what_outlines = [( 1, "#000000", 0, 0 )],
 )
 default character.sboy = Character(
     "School Boy",
+    #window_background = None,
     who_color = "#008000",
     what_color = "#ffffff",
     what_size = 28,
-    what_outlines = [( 1, "#000000", 0, 0 )],
+    # what_outlines = [( 1, "#000000", 0, 0 )],
 )
 default character.crowd = Character(
     "Crowd",
+    #window_background = None,
     what_color = "#ffd700",
     what_size = 28,
-    what_outlines = [( 1, "#000000", 0, 0 )],
+    # what_outlines = [( 1, "#000000", 0, 0 )],
 )
 default character.crowd_whisper = Character(
     "Crowd",
+    #window_background = None,
     what_color = "#ffd700",
     what_size = 15,
-    what_outlines = [( 1, "#000000", 0, 0 )],
+    # what_outlines = [( 1, "#000000", 0, 0 )],
 )
 default character.crowd_shout = Character(
     "Crowd",
+    #window_background = None,
     what_color = "#ffd700",
     what_size = 35,
-    what_outlines = [( 1, "#000000", 0, 0 )],
+    # what_outlines = [( 1, "#000000", 0, 0 )],
 )
 default character.subtitles = Character(
     None,
-    # window_background = None,
+    #window_background = None,
     what_color = "#ffffff",
     what_size = 28,
-    what_outlines = [( 1, "#000000", 0, 0 )],
+    # what_outlines = [( 1, "#000000", 0, 0 )],
     what_xalign = 0.5,
     what_textalign = 0,
     what_layout = 'subtitle'
@@ -205,7 +230,7 @@ default character.subtitles_Empty = Character(
     window_background = None,
     what_color = "#ffffff",
     what_size = 28,
-    what_outlines = [( 1, "#000000", 0, 0 )],
+    # what_outlines = [( 1, "#000000", 0, 0 )],
     what_xalign = 0.5,
     what_textalign = 0,
     what_layout = 'subtitle'

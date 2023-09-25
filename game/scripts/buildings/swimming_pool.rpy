@@ -17,9 +17,9 @@ init -1 python:
     }
 
     swimming_pool_bg_images = [
-        BGImage("images/background/swimming pool/bg c <level> <nude>.png", 1, TimeCondition(daytime = "c")), # show swimming pool with students
-        BGImage("images/background/swimming pool/bg 3,6 <level> <nude>.png", 1, TimeCondition(daytime = "3,6")), # show swimming pool with few students
-        BGImage("images/background/swimming pool/bg 7.png", 1, TimeCondition(daytime = 7)), # show swimming pool at night empty
+        BGImage("images/background/swimming pool/bg c <level> <nude>.jpg", 1, TimeCondition(daytime = "c")), # show swimming pool with students
+        BGImage("images/background/swimming pool/bg 3,6 <level> <nude>.jpg", 1, TimeCondition(daytime = "3,6")), # show swimming pool with few students
+        BGImage("images/background/swimming pool/bg 7.jpg", 1, TimeCondition(daytime = 7)), # show swimming pool at night empty
     ]
     
 ###########################################
@@ -53,12 +53,12 @@ label .after_time_check:
 label show_swimming_pool_idle_image(school):
 
     $ max_nude, image_path = get_background(
-        "images/background/swimming pool/bg 1.png", # show empty swimming pool
+        "images/background/swimming pool/bg 1.jpg", # show empty swimming pool
         swimming_pool_bg_images,
         get_level_for_char(school, charList["schools"]),
     )
 
-    show screen image_with_nude_var (image_path, max_nude)
+    call show_image_with_nude_var (image_path, max_nude) from _call_show_image_with_nude_var_14
 
     return
 

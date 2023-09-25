@@ -22,9 +22,9 @@ init -1 python:
     ))
     
     kiosk_bg_images = [
-        BGImage("images/background/kiosk/bg f <school> <level> <nude>.png", 1, TimeCondition(daytime = "f")), # show kiosk with students
-        BGImage("images/background/kiosk/bg f <school> <level> <nude>.png", 1, TimeCondition(daytime = "c", weekday = "w")), # show kiosk with students
-        BGImage("images/background/kiosk/bg 7.png", 1, TimeCondition(daytime = 7)), # show kiosk at night empty
+        BGImage("images/background/kiosk/bg f <school> <level> <nude>.jpg", 1, TimeCondition(daytime = "f")), # show kiosk with students
+        BGImage("images/background/kiosk/bg f <school> <level> <nude>.jpg", 1, TimeCondition(daytime = "c", weekday = "w")), # show kiosk with students
+        BGImage("images/background/kiosk/bg 7.jpg", 1, TimeCondition(daytime = 7)), # show kiosk at night empty
     ]
     
 ###################################
@@ -57,13 +57,13 @@ label .after_time_check:
 label show_kiosk_idle_image(school_name):
 
     $ max_nude, image_path = get_background(
-        "images/background/kiosk/bg c.png", # show kiosk empty
+        "images/background/kiosk/bg c.jpg", # show kiosk empty
         kiosk_bg_images,
         get_level_for_char(school_name, charList["schools"]),
         school = school_name
     )
 
-    show screen image_with_nude_var (image_path, max_nude)
+    call show_image_with_nude_var (image_path, max_nude) from _call_show_image_with_nude_var_8
 
     return
 
@@ -94,23 +94,23 @@ label kiosk_person_fallback:
 # first week event
 label first_week_kiosk_event:
 
-    show first week kiosk 1
-    principal_thought "Now, somewhere here should be the kiosk..."
-    show first week kiosk 2
-    principal_thought "Hmm, why is it so crowded?"
+    show first week kiosk 1 with dissolveM
+    headmaster_thought "Now, somewhere here should be the kiosk..."
+    show first week kiosk 2 with dissolveM
+    headmaster_thought "Hmm, why is it so crowded?"
 
-    show first week kiosk 3
-    principal "Excuse me, did something happen? Why is it so crowded here?"
+    show first week kiosk 3 with dissolveM
+    headmaster "Excuse me, did something happen? Why is it so crowded here?"
     
-    show first week kiosk 4
-    sgirl "What do you mean? It's always this full. We can't get food anywhere else than here."
+    show first week kiosk 4 with dissolveM
+    sgirl "What do you mean? It's always this full. We can't get food anywhere else than here." (name = "Lin Kato")
     
-    show first week kiosk 3
-    principal "Oh I understand... Thanks."
+    show first week kiosk 3 with dissolveM
+    headmaster "Oh I understand... Thanks."
 
-    show first week kiosk 5
-    principal_thought "This is not acceptable. Did the former headmaster really close the cafeteria?"
-    principal_thought "That can't be right..."
+    show first week kiosk 5 with dissolveM
+    headmaster_thought "This is not acceptable. Did the former headmaster really close the cafeteria?"
+    headmaster_thought "That can't be right..."
 
     $ change_stat_for_all("reputation", -2, charList['schools'])
 

@@ -2,8 +2,10 @@
 ## Initialization
 ################################################################################
 
-init offset = -1
+init 0:
+    $ set_dissolve()
 
+init offset = -1
 
 ################################################################################
 ## Styles
@@ -75,15 +77,38 @@ style frame:
     padding gui.frame_borders.padding
     background Frame("gui/frame.png", gui.frame_borders, tile=gui.frame_tile)
 
-
+style hide_text:
+    color "#00000000"
 
 ################################################################################
 ## In-game screens
 ################################################################################
 
+screen wait_hide():
+    modal True
+
+    key "h" action Return()
+    key "mouseup_2" action Return()
+
+    button:
+        xpos 0 ypos 0
+        xsize 1920 ysize 1080
+        action Return()
+
+label trigger_hide():
+    if not hide_gui:
+        $ hide_gui = True
+        window hide
+        $ quick_menu = False
+        call screen wait_hide
+        $ quick_menu = True
+        window show
+        $ renpy.rollback(checkpoints=2)
+        $ hide_gui = False
+        return
 
 ## Say screen ##################################################################
-##
+##h
 ## The say screen is used to display dialogue to the player. It takes two
 ## parameters, who and what, which are the name of the speaking character and
 ## the text to be displayed, respectively. (The who parameter can be None if no
@@ -98,19 +123,22 @@ style frame:
 screen say(who, what):
     style_prefix "say"
 
-    window:
-        id "window"
+    window:        
+        if persistent.display_textbox == 0:
+            style "window"
+        elif persistent.display_textbox == 1:
+            style "window_1"
+        else:
+            style "window_2"
 
         if who is not None:
-
             window:
                 id "namebox"
                 style "namebox"
                 text who id "who"
 
         text what id "what"
-
-
+                
     ## If there's a side image, display it above the text. Do not display on the
     ## phone variant - there's no room.
     if not renpy.variant("small"):
@@ -122,8 +150,10 @@ init python:
     config.character_id_prefixes.append('namebox')
 
 style window is default
-style say_label is default
-style say_dialogue is default
+style say_label:
+    outlines [ (absolute(2), "#000", absolute(0), absolute(0)) ]
+style say_dialogue:
+    outlines [ (absolute(2), "#000", absolute(0), absolute(0)) ]
 style say_thought is say_dialogue
 
 style namebox is default
@@ -136,7 +166,13 @@ style window:
     yalign gui.textbox_yalign
     ysize gui.textbox_height
 
-    background Image("gui/textbox.png", xalign=0.5, yalign=1.0)
+    background Image("gui/textbox100.png", xalign=0.5, yalign=1.0)
+
+style window_1 is window:
+    background Image("gui/textbox50.png", xalign=0.5, yalign=1.0)
+
+style window_2 is window:
+    background None
 
 style namebox:
     xpos gui.name_xpos
@@ -257,6 +293,7 @@ screen quick_menu():
             textbutton _("Q.Save") action QuickSave()
             textbutton _("Q.Load") action QuickLoad()
             textbutton _("Prefs") action ShowMenu('preferences')
+            textbutton _("Hide") action Call("trigger_hide")
 
 
 ## This code ensures that the quick_menu screen is displayed in-game, whenever
@@ -273,6 +310,7 @@ style quick_button:
     properties gui.button_properties("quick_button")
 
 style quick_button_text:
+    outlines [(1, "#000", 0, 0)] 
     properties gui.button_text_properties("quick_button")
 
 
@@ -711,6 +749,19 @@ style slot_button_text:
 ##
 ## https://www.renpy.org/doc/html/screen_special.html#preferences
 
+init python:
+    def set_dissolve():
+        if persistent == None or persistent.transition_speed == None:
+            persistent.transition_speed = 1.75
+        dissolveM = Dissolve(0.5 * persistent.transition_speed)
+
+    def get_textbox():
+        if persistent != None and persistent.display_textbox == None:
+            persistent.display_textbox = True
+        if persistent == None or persistent.display_textbox:
+            return "gui/textbox.png"
+        return None
+
 screen preferences():
 
     tag menu
@@ -737,6 +788,13 @@ screen preferences():
                     textbutton _("After Choices") action Preference("after choices", "toggle")
                     textbutton _("Transitions") action InvertSelected(Preference("transitions", "toggle"))
 
+                vbox:
+                    style_prefix "radio"
+                    label _("Text Box Transparency")
+                    textbutton _("100%") action SetField(persistent, "display_textbox", 0)
+                    textbutton _("50%") action SetField(persistent, "display_textbox", 1)
+                    textbutton _("0%") action SetField(persistent, "display_textbox", 2)
+
                 ## Additional vboxes of type "radio_pref" or "check_pref" can be
                 ## added here, to add additional creator-defined preferences.
 
@@ -748,26 +806,34 @@ screen preferences():
 
                 vbox:
 
-                    label _("Text Speed")
+                    label _("Auto-Forward Time")
+                    bar value Preference("auto-forward time")
 
+                    label _("Text Speed")
                     bar value Preference("text speed")
 
-                    label _("Auto-Forward Time")
-
-                    bar value Preference("auto-forward time")
+                    if preferences.transitions == 2:
+                        label _("Transition Speed")
+                        bar value FieldValue(
+                            persistent, 
+                            'transition_speed', 
+                            2.0, 
+                            max_is_zero=False, 
+                            style='slider', 
+                            offset=0, 
+                            step=.2, 
+                            action=SetVariable("dissolveM", Dissolve(0.5 * (2.0 - persistent.transition_speed)))
+                        ) xmaximum 525 alt "Transition Speed"
 
                 vbox:
 
                     if config.has_music:
                         label _("Music Volume")
-
                         hbox:
                             bar value Preference("music volume")
 
                     if config.has_sound:
-
                         label _("Sound Volume")
-
                         hbox:
                             bar value Preference("sound volume")
 
@@ -777,7 +843,6 @@ screen preferences():
 
                     if config.has_voice:
                         label _("Voice Volume")
-
                         hbox:
                             bar value Preference("voice volume")
 
@@ -1425,6 +1490,7 @@ screen quick_menu():
             textbutton _("Skip") action Skip() alternate Skip(fast=True, confirm=True)
             textbutton _("Auto") action Preference("auto-forward", "toggle")
             textbutton _("Menu") action ShowMenu()
+            textbutton _("Hide") action Call("trigger_hide")
 
 
 style window:

@@ -18,9 +18,9 @@ init -1 python:
     }
 
     bath_bg_images = [
-        BGImage("images/background/bath/bg 1,3 <level> <nude>.png", 1, TimeCondition(daytime = "1,3")), # show bath with students
-        BGImage("images/background/bath/bg 6 <level> <nude>.png", 1, TimeCondition(daytime = 6)), # show bath with students and/or teacher
-        BGImage("images/background/bath/bg 7.png", 1, TimeCondition(daytime = 7)), # show bath at night empty or with teachers
+        BGImage("images/background/bath/bg 1,3 <level> <nude>.jpg", 1, TimeCondition(daytime = "1,3")), # show bath with students
+        BGImage("images/background/bath/bg 6 <level> <nude>.jpg", 1, TimeCondition(daytime = 6)), # show bath with students and/or teacher
+        BGImage("images/background/bath/bg 7.jpg", 1, TimeCondition(daytime = 7)), # show bath at night empty or with teachers
     ]
     
 ##################################
@@ -54,12 +54,12 @@ label .after_time_check:
 label show_bath_idle_image(school):    
 
     $ max_nude, image_path = get_background(
-        "images/background/bath/bg c.png", # show bath empty
+        "images/background/bath/bg c.jpg", # show bath empty
         bath_bg_images,
         get_level_for_char(school, charList["schools"]),
     )
 
-    show screen image_with_nude_var (image_path, max_nude)
+    call show_image_with_nude_var (image_path, max_nude) from _call_show_image_with_nude_var
 
     return
 

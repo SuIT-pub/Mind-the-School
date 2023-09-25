@@ -1,258 +1,126 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
 While running game code:
-  File "game/scripts/overview.rpy", line 459, in script call
-    call time_event_check from new_daytime_2
-  File "game/scripts/daily_check.rpy", line 56, in script call
-    call call_available_event(temp_time_check_events) from time_event_check_1
-  File "game/scripts/event.rpy", line 245, in script call
-    call expression events[j] from call_available_event_1
-  File "game/scripts/daily_check.rpy", line 60, in script call
-    call call_available_event(temp_check_events) from time_event_check_2
-  File "game/scripts/event.rpy", line 245, in script call
-    call expression events[j] from call_available_event_1
-  File "game/scripts/overview.rpy", line 451, in script call
-    call time_event_check from new_day_2
-  File "game/scripts/daily_check.rpy", line 56, in script call
-    call call_available_event(temp_time_check_events) from time_event_check_1
-  File "game/scripts/event.rpy", line 245, in script call
-    call expression events[j] from call_available_event_1
-  File "game/scripts/daily_check.rpy", line 60, in script call
-    call call_available_event(temp_check_events) from time_event_check_2
-  File "game/scripts/event.rpy", line 245, in script call
-    call expression events[j] from call_available_event_1
-  File "game/scripts/overview.rpy", line 477, in script call
+  File "game/scripts/intro.rpy", line 50, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 211, in script call
+    call first_week_epilogue_final from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 493, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 491, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 38, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 245, in script call
-    call expression events[j] from call_available_event_1
-  File "game/scripts/overview.rpy", line 477, in script call
+  File "game/scripts/journal/journal.rpy", line 2, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/overview.rpy", line 493, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 491, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/courtyard.rpy", line 46, in script call
-    call call_available_event(courtyard_timed_event) from courtyard_1
-  File "game/scripts/event.rpy", line 245, in script call
-    call expression events[j] from call_available_event_1
-  File "game/scripts/overview.rpy", line 477, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 491, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/office_building.rpy", line 46, in script call
-    call call_available_event(office_building_timed_event) from office_building_1
-  File "game/scripts/event.rpy", line 245, in script call
-    call expression events[j] from call_available_event_1
-  File "game/scripts/overview.rpy", line 451, in script call
-    call time_event_check from new_day_2
-  File "game/scripts/daily_check.rpy", line 56, in script call
-    call call_available_event(temp_time_check_events) from time_event_check_1
-  File "game/scripts/event.rpy", line 245, in script call
-    call expression events[j] from call_available_event_1
-  File "game/scripts/daily_check.rpy", line 60, in script call
-    call call_available_event(temp_check_events) from time_event_check_2
-  File "game/scripts/event.rpy", line 245, in script call
-    call expression events[j] from call_available_event_1
-  File "game/scripts/overview.rpy", line 477, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 491, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/middle_school_dormitory.rpy", line 46, in script call
-    call call_available_event(middle_school_dormitory_timed_event) from middle_school_dormitory_1
-  File "game/scripts/event.rpy", line 245, in script call
-    call expression events[j] from call_available_event_1
-  File "game/scripts/overview.rpy", line 477, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 491, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/office_building.rpy", line 46, in script call
-    call call_available_event(office_building_timed_event) from office_building_1
-  File "game/scripts/event.rpy", line 245, in script call
-    call expression events[j] from call_available_event_1
-  File "game/scripts/overview.rpy", line 477, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 491, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/courtyard.rpy", line 46, in script call
-    call call_available_event(courtyard_timed_event) from courtyard_1
-  File "game/scripts/event.rpy", line 245, in script call
-    call expression events[j] from call_available_event_1
-  File "game/scripts/overview.rpy", line 477, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 491, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/gym.rpy", line 48, in script call
-    call call_available_event(gym_timed_event) from gym_1
-  File "game/scripts/event.rpy", line 245, in script call
-    call expression events[j] from call_available_event_1
-  File "game/scripts/overview.rpy", line 459, in script call
-    call time_event_check from new_daytime_2
-  File "game/scripts/daily_check.rpy", line 56, in script call
-    call call_available_event(temp_time_check_events) from time_event_check_1
-  File "game/scripts/event.rpy", line 245, in script call
-    call expression events[j] from call_available_event_1
-  File "game/scripts/daily_check.rpy", line 60, in script call
-    call call_available_event(temp_check_events) from time_event_check_2
-  File "game/scripts/event.rpy", line 245, in script call
-    call expression events[j] from call_available_event_1
-  File "game/scripts/daily_check.rpy", line 480, in script
-    dev "And feel free to visit my {a=patreon.com/suitji}Patreon{/a} and {a=https://discord.gg/UbHnxnRekA}Discord{/a}."
-  File "renpy/common/00defaults.rpy", line 218, in hyperlink_function
-    return config.hyperlink_handlers[protocol](value)
-  File "renpy/common/00defaults.rpy", line 182, in call_in_new_context_handler
-    renpy.call_in_new_context(value)
-ScriptError: could not find label 'patreon.com/suitji'.
+  File "game/scripts/journal/journal.rpy", line 2, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 6, in script call
+    call screen journal_1(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 8, in script call
+    call screen journal_2(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 14, in script call
+    call screen journal_5(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 14, in script call
+    call screen journal_5(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 14, in script
+    call screen journal_5(display, school) with dissolveM
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "game/scripts/journal/journal.rpy", line 940, in execute
+    screen journal_5(display, school):
+  File "game/scripts/journal/journal.rpy", line 940, in execute
+    screen journal_5(display, school):
+  File "game/scripts/journal/journal.rpy", line 1024, in execute
+    if display == "stats":
+  File "game/scripts/journal/journal.rpy", line 1215, in execute
+    if len(rule_keywords) == 1:
+  File "game/scripts/journal/journal.rpy", line 1269, in execute
+    $ active_rule_desc_conditions_desc = active_rule.get_desc_conditions_desc(char_obj = active_school)
+  File "game/scripts/journal/journal.rpy", line 1269, in <module>
+    $ active_rule_desc_conditions_desc = active_rule.get_desc_conditions_desc(char_obj = active_school)
+  File "game/scripts/journal/rules.rpy", line 119, in get_desc_conditions_desc
+    return self._unlock_conditions.get_desc_conditions_desc(**kwargs)
+  File "game/scripts/conditions.rpy", line 30, in get_desc_conditions_desc
+    print("condition: " + condition.get_name())
+  File "game/scripts/conditions.rpy", line 159, in get_name
+    return get_rule(self.value).title
+AttributeError: 'Rule' object has no attribute 'title'
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "game/scripts/overview.rpy", line 459, in script call
-    call time_event_check from new_daytime_2
-  File "game/scripts/daily_check.rpy", line 56, in script call
-    call call_available_event(temp_time_check_events) from time_event_check_1
-  File "game/scripts/event.rpy", line 245, in script call
-    call expression events[j] from call_available_event_1
-  File "game/scripts/daily_check.rpy", line 60, in script call
-    call call_available_event(temp_check_events) from time_event_check_2
-  File "game/scripts/event.rpy", line 245, in script call
-    call expression events[j] from call_available_event_1
-  File "game/scripts/overview.rpy", line 451, in script call
-    call time_event_check from new_day_2
-  File "game/scripts/daily_check.rpy", line 56, in script call
-    call call_available_event(temp_time_check_events) from time_event_check_1
-  File "game/scripts/event.rpy", line 245, in script call
-    call expression events[j] from call_available_event_1
-  File "game/scripts/daily_check.rpy", line 60, in script call
-    call call_available_event(temp_check_events) from time_event_check_2
-  File "game/scripts/event.rpy", line 245, in script call
-    call expression events[j] from call_available_event_1
-  File "game/scripts/overview.rpy", line 477, in script call
+  File "game/scripts/intro.rpy", line 50, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 211, in script call
+    call first_week_epilogue_final from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 493, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 491, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 38, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 245, in script call
-    call expression events[j] from call_available_event_1
-  File "game/scripts/overview.rpy", line 477, in script call
+  File "game/scripts/journal/journal.rpy", line 2, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/overview.rpy", line 493, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 491, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/courtyard.rpy", line 46, in script call
-    call call_available_event(courtyard_timed_event) from courtyard_1
-  File "game/scripts/event.rpy", line 245, in script call
-    call expression events[j] from call_available_event_1
-  File "game/scripts/overview.rpy", line 477, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 491, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/office_building.rpy", line 46, in script call
-    call call_available_event(office_building_timed_event) from office_building_1
-  File "game/scripts/event.rpy", line 245, in script call
-    call expression events[j] from call_available_event_1
-  File "game/scripts/overview.rpy", line 451, in script call
-    call time_event_check from new_day_2
-  File "game/scripts/daily_check.rpy", line 56, in script call
-    call call_available_event(temp_time_check_events) from time_event_check_1
-  File "game/scripts/event.rpy", line 245, in script call
-    call expression events[j] from call_available_event_1
-  File "game/scripts/daily_check.rpy", line 60, in script call
-    call call_available_event(temp_check_events) from time_event_check_2
-  File "game/scripts/event.rpy", line 245, in script call
-    call expression events[j] from call_available_event_1
-  File "game/scripts/overview.rpy", line 477, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 491, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/middle_school_dormitory.rpy", line 46, in script call
-    call call_available_event(middle_school_dormitory_timed_event) from middle_school_dormitory_1
-  File "game/scripts/event.rpy", line 245, in script call
-    call expression events[j] from call_available_event_1
-  File "game/scripts/overview.rpy", line 477, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 491, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/office_building.rpy", line 46, in script call
-    call call_available_event(office_building_timed_event) from office_building_1
-  File "game/scripts/event.rpy", line 245, in script call
-    call expression events[j] from call_available_event_1
-  File "game/scripts/overview.rpy", line 477, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 491, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/courtyard.rpy", line 46, in script call
-    call call_available_event(courtyard_timed_event) from courtyard_1
-  File "game/scripts/event.rpy", line 245, in script call
-    call expression events[j] from call_available_event_1
-  File "game/scripts/overview.rpy", line 477, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 491, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/gym.rpy", line 48, in script call
-    call call_available_event(gym_timed_event) from gym_1
-  File "game/scripts/event.rpy", line 245, in script call
-    call expression events[j] from call_available_event_1
-  File "game/scripts/overview.rpy", line 459, in script call
-    call time_event_check from new_daytime_2
-  File "game/scripts/daily_check.rpy", line 56, in script call
-    call call_available_event(temp_time_check_events) from time_event_check_1
-  File "game/scripts/event.rpy", line 245, in script call
-    call expression events[j] from call_available_event_1
-  File "game/scripts/daily_check.rpy", line 60, in script call
-    call call_available_event(temp_check_events) from time_event_check_2
-  File "game/scripts/event.rpy", line 245, in script call
-    call expression events[j] from call_available_event_1
-  File "game/scripts/daily_check.rpy", line 480, in script
-    dev "And feel free to visit my {a=patreon.com/suitji}Patreon{/a} and {a=https://discord.gg/UbHnxnRekA}Discord{/a}."
-  File "C:\renpy-8.1.2-sdk\renpy\ast.py", line 930, in execute
-    renpy.exports.say(who, what, *args, **kwargs)
-  File "C:\renpy-8.1.2-sdk\renpy\exports.py", line 1474, in say
-    who(what, *args, **kwargs)
-  File "C:\renpy-8.1.2-sdk\renpy\character.py", line 1352, in __call__
-    self.do_display(who, what, cb_args=self.cb_args, dtt=dtt, **display_args)
-  File "C:\renpy-8.1.2-sdk\renpy\character.py", line 1003, in do_display
-    display_say(who,
-  File "C:\renpy-8.1.2-sdk\renpy\character.py", line 693, in display_say
-    rv = renpy.ui.interact(mouse='say', type=type, roll_forward=roll_forward)
-  File "C:\renpy-8.1.2-sdk\renpy\ui.py", line 299, in interact
+  File "game/scripts/journal/journal.rpy", line 2, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 6, in script call
+    call screen journal_1(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 8, in script call
+    call screen journal_2(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 14, in script call
+    call screen journal_5(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 14, in script call
+    call screen journal_5(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 14, in script
+    call screen journal_5(display, school) with dissolveM
+  File "C:\RenPy\renpy\ast.py", line 2259, in execute
+    self.call("execute")
+  File "C:\RenPy\renpy\ast.py", line 2241, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "C:\RenPy\renpy\statements.py", line 342, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "C:\RenPy\renpy\exports.py", line 3347, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "C:\RenPy\renpy\ui.py", line 299, in interact
     rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
-  File "C:\renpy-8.1.2-sdk\renpy\display\core.py", line 3587, in interact
+  File "C:\RenPy\renpy\display\core.py", line 3587, in interact
     repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
-  File "C:\renpy-8.1.2-sdk\renpy\display\core.py", line 4548, in interact_core
-    rv = root_widget.event(ev, x, y, 0)
-  File "C:\renpy-8.1.2-sdk\renpy\display\layout.py", line 1179, in event
-    rv = i.event(ev, x - xo, y - yo, cst)
-  File "C:\renpy-8.1.2-sdk\renpy\display\layout.py", line 1179, in event
-    rv = i.event(ev, x - xo, y - yo, cst)
-  File "C:\renpy-8.1.2-sdk\renpy\display\layout.py", line 1179, in event
-    rv = i.event(ev, x - xo, y - yo, cst)
-  File "C:\renpy-8.1.2-sdk\renpy\display\screen.py", line 770, in event
-    rv = self.child.event(ev, x, y, st)
-  File "C:\renpy-8.1.2-sdk\renpy\display\layout.py", line 1179, in event
-    rv = i.event(ev, x - xo, y - yo, cst)
-  File "C:\renpy-8.1.2-sdk\renpy\display\layout.py", line 1403, in event
-    rv = super(Window, self).event(ev, x, y, st)
-  File "C:\renpy-8.1.2-sdk\renpy\display\layout.py", line 281, in event
-    rv = d.event(ev, x - xo, y - yo, st)
-  File "C:\renpy-8.1.2-sdk\renpy\display\layout.py", line 1179, in event
-    rv = i.event(ev, x - xo, y - yo, cst)
-  File "C:\renpy-8.1.2-sdk\renpy\text\text.py", line 2099, in event
-    rv = self.style.hyperlink_functions[1](target)
-  File "renpy/common/00defaults.rpy", line 218, in hyperlink_function
-    return config.hyperlink_handlers[protocol](value)
-  File "renpy/common/00defaults.rpy", line 182, in call_in_new_context_handler
-    renpy.call_in_new_context(value)
-  File "C:\renpy-8.1.2-sdk\renpy\game.py", line 349, in call_in_new_context
-    return renpy.execution.run_context(False)
-  File "C:\renpy-8.1.2-sdk\renpy\execution.py", line 953, in run_context
-    context.run()
-  File "C:\renpy-8.1.2-sdk\renpy\script.py", line 1013, in lookup
-    raise ScriptError("could not find label '%s'." % str(original))
-ScriptError: could not find label 'patreon.com/suitji'.
+  File "C:\RenPy\renpy\display\core.py", line 4060, in interact_core
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "C:\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\RenPy\renpy\display\screen.py", line 476, in visit_all
+    callback(self)
+  File "C:\RenPy\renpy\display\core.py", line 4060, in <lambda>
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "C:\RenPy\renpy\display\screen.py", line 487, in per_interact
+    self.update()
+  File "C:\RenPy\renpy\display\screen.py", line 680, in update
+    self.screen.function(**self.scope)
+  File "game/scripts/journal/journal.rpy", line 940, in execute
+    screen journal_5(display, school):
+  File "game/scripts/journal/journal.rpy", line 940, in execute
+    screen journal_5(display, school):
+  File "game/scripts/journal/journal.rpy", line 1024, in execute
+    if display == "stats":
+  File "game/scripts/journal/journal.rpy", line 1215, in execute
+    if len(rule_keywords) == 1:
+  File "game/scripts/journal/journal.rpy", line 1269, in execute
+    $ active_rule_desc_conditions_desc = active_rule.get_desc_conditions_desc(char_obj = active_school)
+  File "game/scripts/journal/journal.rpy", line 1269, in <module>
+    $ active_rule_desc_conditions_desc = active_rule.get_desc_conditions_desc(char_obj = active_school)
+  File "game/scripts/journal/rules.rpy", line 119, in get_desc_conditions_desc
+    return self._unlock_conditions.get_desc_conditions_desc(**kwargs)
+  File "game/scripts/conditions.rpy", line 30, in get_desc_conditions_desc
+    print("condition: " + condition.get_name())
+  File "game/scripts/conditions.rpy", line 159, in get_name
+    return get_rule(self.value).title
+AttributeError: 'Rule' object has no attribute 'title'
 
 Windows-10-10.0.19045 AMD64
 Ren'Py 8.1.2.23090503
-Mind the School 0.01
-Wed Sep 13 15:14:13 2023
+Mind the School 0.1.1A
+Mon Sep 25 11:48:58 2023

@@ -6,7 +6,15 @@ python:
 
 label call_element(effects, school = "x"):
     hide screen custom_menu_choice
+    hide screen image_with_nude_var
+    hide None
     $ call_effects(school, effects)
+
+label close_menu():
+    hide screen custom_menu_choice
+    hide screen image_with_nude_var
+    hide None
+    jump map_overview
 
 screen custom_menu_choice(page, page_limit, elements, school = "x"):
     tag menu_choice
@@ -101,5 +109,5 @@ screen custom_menu_choice(page, page_limit, elements, school = "x"):
                     xalign 0.5
                     yalign 0.5
                 xsize 1185
-                action Jump("map_overview")
+                action Jump("close_menu")
     

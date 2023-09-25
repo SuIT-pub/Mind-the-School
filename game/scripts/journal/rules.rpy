@@ -5,8 +5,8 @@ init -6 python:
             self._name = name
             self._title = title
             self._description = ""
-            self._image_path_alt = "images/journal/empty_image.png"
-            self._image_path = "images/journal/empty_image.png"
+            self._image_path_alt = "images/journal/empty_image.webp"
+            self._image_path = "images/journal/empty_image.webp"
             self._unlocked = {
                 "high_school": False,
                 "middle_school": False,
@@ -30,9 +30,9 @@ init -6 python:
             if not hasattr(self, '_description'):
                 self._description = ""
             if not hasattr(self, '_image_path'):
-                self._image_path = "images/journal/empty_image.png"
+                self._image_path = "images/journal/empty_image.webp"
             if not hasattr(self, '_image_path_alt'):
-                self._image_path_alt = "images/journal/empty_image.png"
+                self._image_path_alt = "images/journal/empty_image.webp"
             if not hasattr(self, '_unlocked'):
                 self._unlocked = {
                     "high_school": False,
@@ -97,10 +97,10 @@ init -6 python:
             return school in self._unlocked and self._unlocked[school]
 
         def is_visible(self, school):
-            return school in charList["schools"].keys() and self._unlock_conditions.is_blocking(school)
+            return self._unlock_conditions.is_blocking(char_obj = get_character(school, charList["schools"]))
 
         def can_be_unlocked(self, school):
-            return school in charList["schools"].keys() and self._unlock_conditions.is_fullfilled(school)
+            return self._unlock_conditions.is_fullfilled(char_obj = get_character(school, charList["schools"]))
 
         def get_condition_storage(self):
             return self._unlock_conditions
@@ -114,13 +114,20 @@ init -6 python:
         def get_desc_conditions(self):
             return self._unlock_conditions.get_desc_conditions()
         
-        def get_votable_conditions(self):
-            return self._unlock_conditions.get_votable_conditions()
-
+        def get_desc_conditions_desc(self, **kwargs):
+            return self._unlock_conditions.get_desc_conditions_desc(**kwargs)
+        
         def get_vote_comments(self, char, result):
             if char not in self._vote_comments.keys():
                 return self._default_comments[result]
-            return self._vote_comments[char][result]
+
+            vote = "{color=#00ff00}Votes For{/color}"
+            if result == "no":
+                vote = "{color=#ff0000}Votes Against{/color}"
+            elif result == "veto":
+                vote = "Vetoes"
+
+            return f"{vote}\n{self._vote_comments[char][result]}"
 
         def apply_effects(self):
             for effect in self._unlock_effects:
@@ -331,12 +338,12 @@ label load_rules:
             "Students get a new subject in which they deal with the topic of the human body and human reproduction. All on a theoretical basis, of course.",
         ],
         '_unlock_conditions': ConditionStorage(
-            LevelCondition("2+"),
-            StatCondition(20, "inhibition"),
+            LevelCondition("1+"),
+            StatCondition("95-", "inhibition"),
             # LockCondition(),
         ),
-        '_image_path': 'images/journal/rules/theoretical_sex_ed.png',
-        '_image_path_alt': 'images/journal/rules/theoretical_sex_ed.png',
+        '_image_path': 'images/journal/rules/theoretical_sex_ed.jpg',
+        '_image_path_alt': 'images/journal/rules/theoretical_sex_ed.jpg',
         '_vote_comments': {
             'teacher': {
                 'yes': 'I think it is important to teach the students about the human body and reproduction. It is a natural part of life and should be treated as such. So I vote yes.',
@@ -360,12 +367,13 @@ label load_rules:
             "The Theoretical Sex Education-Class gets expanded by using digital reference material like educational videos about reproduction.",
         ],
         '_unlock_conditions': ConditionStorage(
-            LevelCondition("3+"),
+            LevelCondition("2+"),
+            StatCondition("90-", "inhibition"),
             RuleCondition("theoretical_sex_ed", blocking = True),
-            LockCondition(),
+            # LockCondition(),
         ),
-        '_image_path': 'images/journal/rules/theoretical_digital_sex_ed.png',
-        '_image_path_alt': 'images/journal/rules/theoretical_digital_sex_ed.png',
+        '_image_path': 'images/journal/rules/theoretical_digital_sex_ed.jpg',
+        '_image_path_alt': 'images/journal/rules/theoretical_digital_sex_ed.jpg',
         '_vote_comments': {
             'teacher': {
                 'yes': 'I believe incorporating digital materials like pornography into theoretical sex education can provide a more realistic view of the topic, helping students understand the complexities and potential risks associated with it. However, it\'s crucial to ensure age-appropriate content and a responsible approach to such discussions. So I vote yes.',
@@ -390,10 +398,11 @@ label load_rules:
         ],
         '_unlock_conditions': ConditionStorage(
             RuleCondition("theoretical_digital_material", blocking = True),
+            StatCondition("85-", "inhibition"),
             LockCondition(),
         ),
-        '_image_path': 'images/journal/rules/theoretical_teacher_sex_ed_<level>.png',
-        '_image_path_alt': 'images/journal/rules/theoretical_teacher_sex_ed_3.png',
+        '_image_path': 'images/journal/rules/theoretical_teacher_sex_ed_<level>.jpg',
+        '_image_path_alt': 'images/journal/rules/theoretical_teacher_sex_ed_3.jpg',
         '_vote_comments': {
             'teacher': {
                 'yes': 'I believe that using teachers\' bodies as a reference material in theoretical sex education is a great way to help students understand the concepts better. It can also be a great way to foster a safe and healthy learning environment. I vote for this proposal.',
@@ -419,10 +428,11 @@ label load_rules:
         ],
         '_unlock_conditions': ConditionStorage(
             RuleCondition("theoretical_teacher_material", blocking = True),
+            StatCondition("80-", "inhibition"),
             LockCondition(),
         ),
-        '_image_path': 'images/journal/rules/theoretical_student_sex_ed_<school>_<level>.png',
-        '_image_path_alt': 'images/journal/rules/theoretical_student_sex_ed_high_school_3.png',
+        '_image_path': 'images/journal/rules/theoretical_student_sex_ed_<school>_<level>.jpg',
+        '_image_path_alt': 'images/journal/rules/theoretical_student_sex_ed_high_school_3.jpg',
         '_vote_comments': {
             'teacher': {
                 'yes': 'I believe that using student bodies as reference materials in theoretical sex education is an excellent way to help young people better understand their bodies, how they work and how to take care of them. It can also provide a safe environment for students to ask questions without feeling ashamed or embarrassed.',
@@ -452,8 +462,8 @@ label load_rules:
             RuleCondition("theoretical_sex_ed", blocking = True),
             LockCondition(),
         ),
-        '_image_path': 'images/journal/rules/practical_sex_ed_<school>_<level>.png',
-        '_image_path_alt': 'images/journal/rules/practical_sex_ed_high_school_6.png',
+        '_image_path': 'images/journal/rules/practical_sex_ed_<school>_<level>.jpg',
+        '_image_path_alt': 'images/journal/rules/practical_sex_ed_high_school_6.jpg',
         '_vote_comments': {
             'teacher': {
                 'yes': 'I believe that introducing practical sex education in our school is a great idea. It will help to equip students with the knowledge and skills they need to make responsible and informed decisions about their sexual health.',
@@ -484,8 +494,8 @@ label load_rules:
             RuleCondition("theoretical_teacher_material", blocking = True),
             LockCondition(),
         ),
-        '_image_path': 'images/journal/rules/practical_sex_ed_teacher_<level>.png',
-        '_image_path_alt': 'images/journal/rules/practical_sex_ed_teacher_5.png',
+        '_image_path': 'images/journal/rules/practical_sex_ed_teacher_<level>.jpg',
+        '_image_path_alt': 'images/journal/rules/practical_sex_ed_teacher_5.jpg',
     })
 
     $ load_rule("practical_student_material", "Use Students for learning in PSE", {
@@ -497,8 +507,8 @@ label load_rules:
             RuleCondition("theoretical_student_material", blocking = True),
             LockCondition(),
         ),
-        '_image_path': 'images/journal/rules/practical_sex_ed_students_<school>_<level>.png',
-        '_image_path_alt': 'images/journal/rules/practical_sex_ed_students_high_school_6.png',
+        '_image_path': 'images/journal/rules/practical_sex_ed_students_<school>_<level>.jpg',
+        '_image_path_alt': 'images/journal/rules/practical_sex_ed_students_high_school_6.jpg',
     })
 
     $ load_rule("student_student_relation", "Students Relations", {
@@ -506,7 +516,6 @@ label load_rules:
             "Allows for students to have a relationship between each other and to openly show it.",
         ],
         '_unlock_conditions':ConditionStorage(
-            LockCondition(),
         ),
     })
 
@@ -514,8 +523,8 @@ label load_rules:
         '_description': [
             "Allows for teacher to engage in a relationship with students.",
         ],
-        '_unlock_conditions':ConditionStorage(
-            LockCondition(),
+        '_unlock_conditions': ConditionStorage(
+            StatCondition('10+', 'corruption'),
         ),
     })
 
@@ -526,8 +535,8 @@ label load_rules:
         '_unlock_conditions': ConditionStorage(
             LevelCondition("3+"),
         ),
-        '_image_path': 'images/journal/rules/relaxed_uniform_<school>.png',
-        '_image_path_alt': 'images/journal/rules/relaxed_uniform_high_school.png',
+        '_image_path': 'images/journal/rules/relaxed_uniform_<school>.jpg',
+        '_image_path_alt': 'images/journal/rules/relaxed_uniform_high_school.jpg',
     })
 
     $ load_rule("sexy_uniform", "Sexy Uniform", {
@@ -538,8 +547,8 @@ label load_rules:
             LevelCondition("5+"),
             RuleCondition("relaxed_uniform", blocking = True),
         ),
-        '_image_path': 'images/journal/rules/sexy_uniform_<school>.png',
-        '_image_path_alt': 'images/journal/rules/sexy_uniform_high_school.png',
+        '_image_path': 'images/journal/rules/sexy_uniform_<school>.jpg',
+        '_image_path_alt': 'images/journal/rules/sexy_uniform_high_school.jpg',
     })
 
     $ load_rule("nude_uniform", "Nude Uniform", {
@@ -550,8 +559,8 @@ label load_rules:
             LevelCondition("8+"),
             RuleCondition("sexy_uniform", blocking = True),
         ),
-        '_image_path': 'images/journal/rules/nude_uniform_<school>.png',
-        '_image_path_alt': 'images/journal/rules/nude_uniform_high_school.png',
+        '_image_path': 'images/journal/rules/nude_uniform_<school>.jpg',
+        '_image_path_alt': 'images/journal/rules/nude_uniform_high_school.jpg',
     })
 
     return

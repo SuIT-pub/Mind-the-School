@@ -30,9 +30,9 @@ init -1 python:
     ))
 
     elementary_school_dormitory_bg_images = [
-        BGImage("images/background/elementary school dormitory/bg f <level> <nude>.png", 1, TimeCondition(daytime = "f")),
-        BGImage("images/background/elementary school dormitory/bg f <level> <nude>.png", 1, TimeCondition(daytime = "c", weekday="w")),
-        BGImage("images/background/elementary school dormitory/bg 7.png", 1, TimeCondition(daytime = 7)),
+        BGImage("images/background/elementary school dormitory/bg f <level> <nude>.jpg", 1, TimeCondition(daytime = "f")),
+        BGImage("images/background/elementary school dormitory/bg f <level> <nude>.jpg", 1, TimeCondition(daytime = "c", weekday="w")),
+        BGImage("images/background/elementary school dormitory/bg 7.jpg", 1, TimeCondition(daytime = 7)),
     ]
     
 #########################################################
@@ -64,12 +64,12 @@ label .after_time_check:
 label show_elementary_school_dormitory_idle_image():
 
     $ max_nude, image_path = get_background(
-        "images/background/elementary school dormitory/bg c.png",
+        "images/background/elementary school dormitory/bg c.jpg",
         elementary_school_dormitory_bg_images,
         get_level_for_char("elementary_school", charList["schools"]),
     )
 
-    show screen image_with_nude_var (image_path, max_nude)
+    call show_image_with_nude_var (image_path, max_nude) from _call_show_image_with_nude_var_4
 
     return
 
@@ -95,16 +95,23 @@ label elementary_school_dormitory_person_fallback:
 
 # first week event
 label first_week_elementary_school_dormitory_event:
-    principal_thought "The dormitory looks alright."
-    principal_thought "As far as I know, the students have to share a communal bathroom."
-    principal_thought "Private bathrooms would be nice for the students, but for one I don't think we really need that and then it would need a lot of rebuilding. So that should be last on the list."
-    principal_thought "Let's see if someone would let me see their room so I can check the state of these."
-    #klopft
-    principal "Hello? I'm Mr. Izuku the new Headmaster. Can I come in? I'm here to inspect the building."
-    subtitles "..."
-    principal "Hello?"
+    show first week high school dormitory 1 with dissolveM
+    headmaster_thought "The dormitory looks alright."
 
-    principal_thought "Hmm nobody seems to be here. Nevermind. I just let my Secretary give me a report."
+    show first week high school dormitory 2 with dissolveM
+    headmaster_thought "As far as I know, the students have to share a communal bathroom."
+    headmaster_thought "Private bathrooms would be nice for the students, but for one I don't think we really need that and then it would need a lot of rebuilding. So that should be last on the list."
+    
+    show first week high school dormitory 3 with dissolveM
+    headmaster_thought "Let's see if someone would let me see their room so I can check the state of these."
+    
+    show first week high school dormitory 4 with dissolveM
+    headmaster "Hello? I'm Mr. [headmaster_last_name] the new Headmaster. Can I come in? I'm here to inspect the building."
+    subtitles "..."
+    headmaster "Hello?"
+
+    show first week high school dormitory 5 with dissolveM
+    headmaster_thought "Hmm nobody seems to be here. Nevermind. I just let my Secretary give me a report."
 
     $ set_stat_for_all("inhibition", 2, charList["schools"])
 
@@ -116,21 +123,21 @@ label first_week_elementary_school_dormitory_event:
 
 label first_potion_elementary_school_dormitory_event:
 
-    show first potion dormitory 1
+    show first potion dormitory 1 with dissolveM
     subtitles "You enter the dormitory of the elementary school."
-    principal_thought "Mhh, where does the noise come from?"
+    headmaster_thought "Mhh, where does the noise come from?"
 
-    show first potion dormitory 2
-    principal_thought "Ah I think there are some students in the room over there."
+    show first potion dormitory 2 with dissolveM
+    headmaster_thought "Ah I think there are some students in the room over there."
 
-    show first potion elementary school dormitory 2
-    principal_thought "Ahh party games!"
+    show first potion elementary school dormitory 2 with dissolveM
+    headmaster_thought "Ahh party games!"
 
-    show first potion elementary school dormitory 3
+    show first potion elementary school dormitory 3 with dissolveM
     if time.check_daytime("c"):
-        principal_thought "Normally I would scold them for skipping class but today is a special day so I gladly enjoy this view."
+        headmaster_thought "Normally I would scold them for skipping class but today is a special day so I gladly enjoy this view."
     else:
-        principal_thought "Ahh I like this view. Nothing more erotic than nudity in combination with a party game."
+        headmaster_thought "Ahh I like this view. Nothing more erotic than nudity in combination with a party game."
 
     $ set_building_blocked("high_school_dormitory")
     $ set_building_blocked("middle_school_dormitory")

@@ -18,9 +18,9 @@ init -1 python:
     }
 
     cafeteria_bg_images = [
-        BGImage("images/background/cafeteria/bg 1,6 <level> <nude>.png", 1, TimeCondition(daytime = "1,6")), # show terrace with a few students
-        BGImage("images/background/cafeteria/bg 3 <level> <nude>.png", 1, TimeCondition(daytime = 3)), # show terrace full of students and teacher
-        BGImage("images/background/cafeteria/bg 7.png", 1, TimeCondition(daytime = 7)), # show empty terrace at night
+        BGImage("images/background/cafeteria/bg 1,6 <level> <nude>.jpg", 1, TimeCondition(daytime = "1,6")), # show terrace with a few students
+        BGImage("images/background/cafeteria/bg 3 <level> <nude>.jpg", 1, TimeCondition(daytime = 3)), # show terrace full of students and teacher
+        BGImage("images/background/cafeteria/bg 7.jpg", 1, TimeCondition(daytime = 7)), # show empty terrace at night
     ]
     
 #######################################
@@ -53,12 +53,12 @@ label .after_time_check:
 
 label show_cafeteria_idle_image(school):
     $ max_nude, image_path = get_background(
-        "images/background/cafeteria/bg c.png", # show empty terrace
+        "images/background/cafeteria/bg c.jpg", # show empty terrace
         cafeteria_bg_images,
         get_level_for_char(school, charList["schools"]),
     )
 
-    show screen image_with_nude_var (image_path, max_nude)
+    call show_image_with_nude_var (image_path, max_nude) from _call_show_image_with_nude_var_1
 
     return
 

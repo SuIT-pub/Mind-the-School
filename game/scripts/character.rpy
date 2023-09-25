@@ -59,33 +59,35 @@ init -6 python:
 
         def check_stat(self, stat_name, value):
             if value == "x":
-                return self.get_stat_string(stat_name)
+                return True
 
-            value = str(value)
+            return get_value_diff(value, self.get_stat_number(stat_name)) >= 0
 
-            split = value.split(',')
+            # value = str(value)
 
-            for split_val in split:
-                split_val = split_val.strip()
-                stat_str = re.findall('\d+', split_val)
-                if stat_str:
-                    stat = int(''.join(stat_str))
+            # split = value.split(',')
+
+            # for split_val in split:
+            #     split_val = split_val.strip()
+            #     stat_str = re.findall('\d+', split_val)
+            #     if stat_str:
+            #         stat = int(''.join(stat_str))
                     
-                    if (stat == self.get_stat_number(stat_name) or
-                        (split_val.endswith('-') and self.get_stat_number(stat_name) <= stat) or
-                        (split_val.endswith('+') and self.get_stat_number(stat_name) >= stat)
-                    ):
-                        return True
-                    elif '-' in split_val:
-                        stat_split = split_val.split('-')
-                        if (len(stat_split) == 2 and 
-                            stat_split[0].isdecimal() and 
-                            stat_split[1].isdecimal() and
-                            int(stat_split[0]) <= self.get_stat_number(stat_name) <= int(stat_split[1])
-                        ):
-                            return True
+            #         if (stat == self.get_stat_number(stat_name) or
+            #             (split_val.endswith('-') and self.get_stat_number(stat_name) <= stat) or
+            #             (split_val.endswith('+') and self.get_stat_number(stat_name) >= stat)
+            #         ):
+            #             return True
+            #         elif '-' in split_val:
+            #             stat_split = split_val.split('-')
+            #             if (len(stat_split) == 2 and 
+            #                 stat_split[0].isdecimal() and 
+            #                 stat_split[1].isdecimal() and
+            #                 int(stat_split[0]) <= self.get_stat_number(stat_name) <= int(stat_split[1])
+            #             ):
+            #                 return True
 
-            return str(value) == self.get_stat_string(stat_name)
+            # return str(value) == self.get_stat_string(stat_name)
 
         def get_level(self):
             return self.level.get_value()
@@ -100,9 +102,19 @@ init -6 python:
             elif self.level.get_value() > 10:
                 self.level.set_value(10)
 
-        def check_level(self, value):
+        def get_nearest_level_delta(self, level):
+            for i in range(self.get_level(), 11):
+                if self.check_level(level, i):
+                    return self.get_level() - i
+
+        def check_level(self, value, test_level = None):
             if value == "x":
                 return self.get_level_str()
+
+            if test_level == None:
+                test_level = self.get_level()
+
+            value = str(value)
 
             split = value.split(',')
 
@@ -113,8 +125,8 @@ init -6 python:
                     level = int(''.join(level_str))
                     
                     if (level == self.get_level() or
-                        (split_val.endswith('-') and self.get_level() <= level) or
-                        (split_val.endswith('+') and self.get_level() >= level)
+                        (split_val.endswith('-') and test_level <= level) or
+                        (split_val.endswith('+') and test_level >= level)
                     ):
                         return True
                     elif '-' in split_val:
@@ -122,11 +134,11 @@ init -6 python:
                         if (len(level_split) == 2 and 
                             level_split[0].isdecimal() and 
                             level_split[1].isdecimal() and
-                            int(level_split[0]) <= self.get_level() <= int(level_split[1])
+                            int(level_split[0]) <= test_level <= int(level_split[1])
                         ):
                             return True
 
-            return str(value) == self.get_level_str()
+            return str(value) == str(test_level)
 
         def display_stat(self, stat):
             stat_obj = self.get_stat_obj(stat)
@@ -160,30 +172,52 @@ init -6 python:
 
         return level
 
-    def get_mean_stat(stat, map = None):
-        mean = 0
+    def update_mean_stats():
+        mean_school = get_character("school_mean_values", charList)
+        for stat in mean_school.get_stats().keys():
+            mean = 0
+            count = 0
 
-        if stat == "money":
-            return money.get_value()
+            for obj in charList["schools"].values():
+                if obj.get_name() == "middle_school" and loli_content == 0:
+                    continue
+                if obj.get_name() == "elementary_school" and loli_content != 2:
+                    continue
+                
+                mean += obj.get_stat_number(stat)
+                count += 1
 
+            if count == 0:
+                mean_school.set_stat(stat, 0)
+            else:
+                mean_school.set_stat(stat, round(mean / count, 2))
+
+        mean_level = 0
         count = 0
-        for obj in map.values():
-
+        for obj in charList["schools"].values():
             if obj.get_name() == "middle_school" and loli_content == 0:
                 continue
             if obj.get_name() == "elementary_school" and loli_content != 2:
                 continue
 
-            if stat == 'level':
-                mean += obj.get_level()
-            else:
-                mean += obj.get_stat_number(stat)
+            mean_level += obj.get_level()
             count += 1
 
-        if count == 0:
-            return 0
+        mean_school.set_level(math.ceil(mean_level))
+               
+    def get_mean_stat(stat):
+        if stat == "money":
+            return money.get_value()
+        elif stat == "level":
+            return get_level_for_char(stat, "school_mean_values", map)
+        else:
+            return get_stat_for_char(stat, "school_mean_values", map)
 
-        return round(mean / count, 2)
+    def display_mean_stat(stat):
+        if stat == "money":
+            return money.display_stat()
+        else:
+            return get_character("school_mean_values", charList).display_stat(stat)
 
     def get_character(name, map):
         if name not in map.keys():
@@ -219,6 +253,13 @@ init -6 python:
             return
         map[name].set_level(value)
         
+    # changes the stat value
+    def change_stat(stat, change, name = "", map = None):
+        if stat == "money":
+            money.change_value(change)
+        else:
+            change_stat_for_char(stat, change, name, map)
+
     def change_stat_for_all(stat, delta, map):
         for character in map.keys():
             map[character].change_stat(stat, delta)
@@ -226,7 +267,16 @@ init -6 python:
     def change_stat_for_char(stat, value, name, map):
         if name not in map.keys():
             return
-        map[name].set_stat(stat, value)
+        map[name].change_stat(stat, value)
+
+    def reset_stats(map, name = ""):
+        money.reset_change()
+
+        if name != "" and name in map.keys():
+            map[name].reset_changed_stats()
+        else:
+            for keys in map.keys():
+                map[keys].reset_changed_stats()
 
     def load_character(name, title, map, start_data, runtime_data = None):
         if name not in map.keys():
@@ -247,7 +297,7 @@ label load_schools:
     $ load_character("secretary", "Secretary", charList['staff'], {
         'stats_objects': {
             "corruption": Stat("corruption", 0),
-            "inhibition": Stat("inhibition", 0),
+            "inhibition": Stat("inhibition", 100),
             "happiness": Stat("happiness", 20),
             "education": Stat("education", 10),
             "charm": Stat("charm", 8),
@@ -258,7 +308,7 @@ label load_schools:
     $ load_character("parents", "Parents", charList, {
         'stats_objects': {
             "corruption": Stat("corruption", 0),
-            "inhibition": Stat("inhibition", 0),
+            "inhibition": Stat("inhibition", 100),
             "happiness": Stat("happiness", 20),
             "education": Stat("education", 10),
             "charm": Stat("charm", 8),
@@ -269,7 +319,7 @@ label load_schools:
     $ load_character("teacher", "Teacher", charList['staff'], {
         'stats_objects': {
             "corruption": Stat("corruption", 0),
-            "inhibition": Stat("inhibition", 0),
+            "inhibition": Stat("inhibition", 100),
             "happiness": Stat("happiness", 20),
             "education": Stat("education", 10),
             "charm": Stat("charm", 8),
@@ -279,7 +329,7 @@ label load_schools:
     $ load_character("high_school", "High School", charList['schools'], {
         'stats_objects': {
             "corruption": Stat("corruption", 0),
-            "inhibition": Stat("inhibition", 0),
+            "inhibition": Stat("inhibition", 100),
             "happiness": Stat("happiness", 20),
             "education": Stat("education", 10),
             "charm": Stat("charm", 8),
@@ -290,7 +340,7 @@ label load_schools:
     $ load_character("middle_school", "Middle School", charList['schools'], {
         'stats_objects': {
             "corruption": Stat("corruption", 0),
-            "inhibition": Stat("inhibition", 0),
+            "inhibition": Stat("inhibition", 100),
             "happiness": Stat("happiness", 20),
             "education": Stat("education", 10),
             "charm": Stat("charm", 8),
@@ -301,7 +351,18 @@ label load_schools:
     $ load_character("elementary_school", "Elementary School", charList['schools'], {
         'stats_objects': {
             "corruption": Stat("corruption", 0),
-            "inhibition": Stat("inhibition", 0),
+            "inhibition": Stat("inhibition", 100),
+            "happiness": Stat("happiness", 20),
+            "education": Stat("education", 10),
+            "charm": Stat("charm", 8),
+            "reputation": Stat("reputation", 12),
+        }
+    })
+
+    $ load_character("school_mean_values", "Mean School", charList, {
+        'stats_objects': {
+            "corruption": Stat("corruption", 0),
+            "inhibition": Stat("inhibition", 100),
             "happiness": Stat("happiness", 20),
             "education": Stat("education", 10),
             "charm": Stat("charm", 8),

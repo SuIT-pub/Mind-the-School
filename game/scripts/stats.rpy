@@ -66,9 +66,6 @@ init -6 python:
         def get_display_value(self):
             stat_value = self.get_value() + 0
 
-            if self.name == "inhibition":
-                stat_value = 100.0 - stat_value
-
             return str(stat_value)
 
         def get_display_change(self):
@@ -83,19 +80,21 @@ init -6 python:
                 elif change > 0:
                     text = "{color=#00ff00}{size=15}(+" + str(change) + "){/size}{/color}"
             else:
-                if change < 0:
-                    change = -change
+                if change > 0:
                     text = "{color=#ff0000}{size=15}(+" + str(change) + "){/size}{/color}"
-                elif change > 0:
+                elif change < 0:
+                    change = -change
                     text = "{color=#00ff00}{size=15}(-" + str(change) + "){/size}{/color}"
             return text
+
+        
 
     class Stat_Data:
         def __init__(self, name, title):
             self.name = name
             self.title = title
             self.levels = [0]
-            self.images = ["images/journal/empty_image.png"]
+            self.images = ["images/journal/empty_image.webp"]
             self.descriptions = ["EMPTY"]
             self.description = "test"
             self.min_limit = 0
@@ -110,7 +109,7 @@ init -6 python:
             if not hasattr(self, 'levels'):
                 self.levels = [0]
             if not hasattr(self, 'images'):
-                self.images = ["images/journal/empty_image.png"]
+                self.images = ["images/journal/empty_image.webp"]
             if not hasattr(self, 'descriptions'):
                 self.descriptions = ["EMPTY"]
             if not hasattr(self, 'description'):
@@ -141,7 +140,7 @@ init -6 python:
         def get_image(self, level):
             if level < len(self.images) and level >= 0:
                 return self.images[level]
-            return "images/journal/empty_image.png"
+            return "images/journal/empty_image.webp"
 
         def get_description(self, level):
             if level < len(self.descriptions) and level >= 0:
@@ -194,17 +193,17 @@ label load_stats:
             "Sex became the default for the students. There is almost nothing and nobody they wouldn't do.",
         ],
         'images': [
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
         ]
     })
 
@@ -228,17 +227,17 @@ label load_stats:
             "The students love to be naked all the time.",
         ],
         'images': [
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
         ]
     })
 
@@ -263,17 +262,17 @@ label load_stats:
             "For the students, this school is a paradise.",
         ],
         'images': [
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
         ]
     })
 
@@ -298,17 +297,17 @@ label load_stats:
             "Albert Einstein? More like your students.",
         ],
         'images': [
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
         ]
     })
 
@@ -332,17 +331,17 @@ label load_stats:
             "Nobody is more charming than your students. A bunch of sexy and social gigastacys.",
         ],
         'images': [
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
         ]
     })
 
@@ -365,17 +364,17 @@ label load_stats:
             "People think you are the best that could have happened to the school.",
         ],
         'images': [
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
         ]
     })
 
@@ -405,17 +404,17 @@ label load_stats:
             "level 10",
         ],
         'images': [
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
         ],
         'max_limit': 10,
     })
@@ -437,17 +436,17 @@ label load_stats:
             "level 10",
         ],
         'images': [
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
-            "images/journal/empty_image.png",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
+            "images/journal/empty_image.webp",
         ],
         'max_limit': 1000000000,
     })

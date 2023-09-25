@@ -2,6 +2,8 @@
 
 label start:
 
+    $ set_dissolve()
+
     call load_stats from start_1
     call load_schools from start_2
     call load_buildings from start_3

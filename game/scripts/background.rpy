@@ -5,10 +5,10 @@ init -2 python:
             self._conditions = list(conditions)
             self._priority = priority
 
-        def can_be_used(self):
+        def can_be_used(self, **kwargs):
             for condition in self._conditions:
 
-                if condition.is_fullfilled(None):
+                if condition.is_fullfilled(**kwargs):
                     continue
                 return False
 
@@ -90,7 +90,7 @@ init -2 python:
         priority = -1
 
         for image in images:
-            if not image.can_be_used():
+            if not image.can_be_used(**kwargs):
                 continue
 
             max_nude, output = image.get_image(level, **kwargs)

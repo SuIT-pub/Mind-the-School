@@ -17,8 +17,8 @@ init -1 python:
     }
 
     labs_bg_images = [
-        BGImage("images/background/labs/bg c <level> <nude>.png", 1, TimeCondition(daytime = "c")), # show corridor with few students
-        BGImage("images/background/labs/bg 7.png", 1, TimeCondition(daytime = 7)), # show empty corridor at night
+        BGImage("images/background/labs/bg c <level> <nude>.jpg", 1, TimeCondition(daytime = "c")), # show corridor with few students
+        BGImage("images/background/labs/bg 7.jpg", 1, TimeCondition(daytime = 7)), # show empty corridor at night
     ]
     
 ##################################
@@ -50,16 +50,15 @@ label .after_time_check:
     jump labs
 
 label show_labs_idle_image(school):    
-    $ image_path = "images/background/labs/bg f.png" # show empty corridor
+    $ image_path = "images/background/labs/bg f.jpg" # show empty corridor
 
     $ max_nude, image_path = get_background(
-        "images/background/labs/bg f.png",
+        "images/background/labs/bg f.jpg",
         labs_bg_images,
         get_level_for_char(school, charList["schools"]),
     )
 
-    show screen image_with_nude_var (image_path, 0)
-
+    call show_image_with_nude_var (image_path, 0) from _call_show_image_with_nude_var_9
     return
 
 ################################

@@ -30,9 +30,10 @@ init -1 python:
     ))
 
     office_building_bg_images = [
-        BGImage("images/background/office building/bg f <staff>.png", 1, TimeCondition(daytime = "f")), # show headmasters/teachers office empty
-        BGImage("images/background/office building/bg c <staff> <level> <nude>.png", 1, TimeCondition(daytime = "c")), # show headmasters/teachers office with people
-        BGImage("images/background/office building/bg 7 <staff>.png", 1, TimeCondition(daytime = 7)), # show headmasters/teachers office empty at night
+        BGImage("images/background/office building/bg c Teacher.jpg", 1, TimeCondition(daytime = "c"), ValueCondition('staff', 'teacher')), # show headmasters/teachers office empty
+        BGImage("images/background/office building/bg f Secretary <level> <nude>.jpg", 1, TimeCondition(daytime = "c"), ValueCondition('staff', 'secretary')), # show headmasters/teachers office with people
+        BGImage("images/background/office building/bg f <staff> <level> <nude>.jpg", 1, TimeCondition(daytime = "f")), # show headmasters/teachers office with people
+        BGImage("images/background/office building/bg 7 <staff>.jpg", 1, TimeCondition(daytime = 7)), # show headmasters/teachers office empty at night
     ]
     
 #############################################
@@ -66,13 +67,13 @@ label .after_time_check:
 label show_office_building_idle_image(staff_val):
 
     $ max_nude, image_path = get_background(
-        "images/background/office building/bg f.png", # show headmasters office empty
+        "images/background/office building/bg f.jpg", # show headmasters office empty
         office_building_bg_images,
         get_level_for_char(staff_val, charList["staff"]),
         staff = staff_val
     )
 
-    show screen image_with_nude_var (image_path, max_nude)
+    call show_image_with_nude_var (image_path, max_nude) from _call_show_image_with_nude_var_12
 
     return
 
@@ -94,11 +95,11 @@ label office_building_fallback:
 
 label first_potion_office_building_event:
 
-    show first potion office 1
+    show first potion office 1 with dissolveM
     subtitles "You enter the teachers office."
-    principal_thought "Ahh the teacher seem to be eating at the kiosk as well."
-    show first potion office 2
-    principal_thought "Not that I have a problem with it. Quite the opposite. That makes some things a bit easier."
+    headmaster_thought "Ahh the teacher seem to be eating at the kiosk as well."
+    show first potion office 2 with dissolveM
+    headmaster_thought "Not that I have a problem with it. Quite the opposite. That makes some things a bit easier."
 
     $ set_building_blocked("office_building")
 
@@ -107,7 +108,7 @@ label first_potion_office_building_event:
 # first week event
 label first_week_office_building_event:
 
-    show first week office building 1
+    show first week office building 1 with dissolveM
     subtitles "Mhh. The office is nothing special but at least not really run down."
     subtitles "I can work with that."
 
@@ -115,64 +116,14 @@ label first_week_office_building_event:
 
     jump new_day
 
-label first_day_introduction:    
-    
-    show office secretary 1 smile
-    secretary """Hello, nice to meet you! 
-        From now on I'll be your secretary.
-    """
-
-    scene office secretary 1 talk
-    secretary """I used to work for the previous principal, 
-        so I know the school pretty well.
-    """
-
-    scene office secretary 3 big smile 
-    secretary "If you have any questions just come and ask me."
-
-    scene office secretary 2 emotionless
-    secretary """
-        Unfortunately, the last principal left this school in pretty bad shape.
-
-        We had to close almost all of our facilities to save some money.
-
-        This wasn't only bad for the students' education, but also for the school's reputation.
-    """
-
-    scene office secretary 3 big smile
-    secretary "So now it is your job to go on and fix this school!"
-
-    scene office secretary 4 smile
-    secretary """
-        You won't be handling all the details like hiring teachers or setting up schedules.
-
-        You will administer the rules, patrol the campus, manage the infrastructure, interact with the students, and 
-        occasionally teach a class or two.
-    """
-
-    scene office secretary 1 emotionless
-    secretary """But new rules must be approved by the PTA which is made up of the school council, teachers and a 
-        representative from the regional government.
-    """
-
-    call tutorial_menu from first_day_introduction_3
-
-    scene office secretary 3 smile
-    secretary "Now you know the basics. You might want to hurry down to the gym for the weekly meeting."
-
-    scene office secretary 3 big smile
-    secretary "I'm sure the students are eager to meet you."
-
-    return
-
 label old_pta_meeting:
     subtitles "You enter the conference room."
     subtitles "All representatives already gathered and wait for you."
-    principal "Thank you all for gathering today."
+    headmaster "Thank you all for gathering today."
 
-    principal "First point for today. Does someone have anything to discuss today?"
+    headmaster "First point for today. Does someone have anything to discuss today?"
 
-    principal "No? Alright then lets jump straight to the next point."
+    headmaster "No? Alright then lets jump straight to the next point."
 
     # todo: implement PTA Meeting
     subtitles "PTA Meeting not implemented yet."
@@ -182,9 +133,9 @@ label old_pta_meeting:
 label old_first_pta_meeting:
     subtitles "You enter the conference room."
     subtitles "All representatives already gathered and wait for you."
-    principal "Thank you all for gathering today."
+    headmaster "Thank you all for gathering today."
 
-    principal """
+    headmaster """
         Please allow me to introduce myself as the new Headmaster of this institution as of Monday. 
 
         I am aware that many of you probably don't know me yet, but I hope to change that soon. 
@@ -300,7 +251,7 @@ label old_first_pta_meeting:
     
 
 label .end_meeting:
-    principal """
+    headmaster """
         That should be all for today.\n
         Good work, thank you all for coming and have a nice weekend.
     """

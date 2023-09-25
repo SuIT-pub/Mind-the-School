@@ -2,9 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/scripts/buildings/tutorial.rpy", line 120: expected 'image_name_component' not found.
-    hide scene 
-        ^
+File "game/scripts/journal/journal.rpy", line 441: textbutton expects a non-empty block.
+    textbutton "Plan for vote ([probability_text])":
+                                                    ^
 
 Ren'Py Version: Ren'Py 8.1.2.23090503
-Wed Sep 13 14:11:59 2023
+Mon Sep 25 11:07:10 2023

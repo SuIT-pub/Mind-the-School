@@ -15,15 +15,15 @@ label intro:
 
     $ set_game_data("school_name", school_name)
 
-    $ principal_first_name = renpy.input("First name of your Character: (Default \"Mark\")")
-    $ principal_first_name = principal_first_name.strip() or "Mark"
+    $ headmaster_first_name = renpy.input("First name of your Character: (Default \"Mark\")")
+    $ headmaster_first_name = headmaster_first_name.strip() or "Mark"
 
-    $ set_game_data("principal_first_name", principal_first_name)
+    $ set_game_data("headmaster_first_name", headmaster_first_name)
 
-    $ principal_last_name = renpy.input("Last name of your Character: (Default \"Benson\")")
-    $ principal_last_name = principal_last_name.strip() or "Benson"
+    $ headmaster_last_name = renpy.input("Last name of your Character: (Default \"Benson\")")
+    $ headmaster_last_name = headmaster_last_name.strip() or "Benson"
 
-    $ set_game_data("principal_last_name", principal_last_name)
+    $ set_game_data("headmaster_last_name", headmaster_last_name)
 
     $ school_config = "a High School."
     if loli_content == 1:
@@ -38,7 +38,7 @@ label intro:
     show screen black_error_screen_text ("")
 
     menu:
-        subtitles "Play intro?"
+        "Play intro?"
 
         "Yes. Play intro!":
             jump .start
@@ -59,7 +59,7 @@ label .start:
 
     nvl clear
 
-    nv_text "To be fair, after the fuckup of the last principal, this school lost a lot of its prestige."
+    nv_text "To be fair, after the fuckup of the last headmaster, this school lost a lot of its prestige."
     nv_text "And after the last headmaster mysteriously disappeared, you were invited to take over."
 
     nvl clear
@@ -80,8 +80,121 @@ label .start:
     nvl clear
 
     nv_text "You enter the office..."
+    
+    call screen black_screen_text ("Monday, 1 January 2023") with dissolveM
 
-    jump new_daytime
+    show office secretary 1 smile with dissolveM
+    secretary """Hello Mr. [headmaster_last_name], nice to meet you!
+        My name is [secretary_first_name] [secretary_last_name].
+    """ (name="Secretary")
+    secretary "From now on I'll be your secretary."
+
+    show office secretary 1 talk with dissolveM
+    secretary """I used to work for the previous headmaster, 
+        so I know the school pretty well.
+    """
+
+    show office secretary 3 big smile  with dissolveM
+    secretary "If you have any questions just come and ask me."
+
+    show office secretary 2 emotionless with dissolveM
+    secretary """
+        Unfortunately, the last headmaster left this school in pretty bad shape.
+
+        We had to close almost all of our facilities to save some money.
+
+        This wasn't only bad for the students' education, but also for the school's reputation.
+    """
+
+    show office secretary 3 big smile with dissolveM
+    secretary "So now it is your job to go on and fix this school!"
+
+    show office secretary 4 smile with dissolveM
+    secretary """
+        You won't be handling all the details like hiring teachers or setting up schedules.
+
+        You will administer the rules, patrol the campus, manage the infrastructure, interact with the students, and 
+        occasionally teach a class or two.
+    """
+
+    show office secretary 1 emotionless with dissolveM
+    secretary """But new rules must be approved by the PTA which is made up of the school council, teachers and a 
+        representative from the regional government.
+    """
+
+    call tutorial_menu from first_day_introduction_3
+
+    show office secretary 3 smile with dissolveM
+    secretary "Now you know the basics. You might want to hurry down to the gym for the weekly meeting."
+
+    show office secretary 3 big smile with dissolveM
+    secretary "I'm sure the students are eager to meet you."
+
+    scene expression "events/intro/intro gym 2 [loli_content].jpg" with dissolveM 
+    subtitles "You leave the office with the secretary and head for the Gym."
+    
+    #show inside gym with students walking towards their position in gym or talking to each other in groups by school
+    subtitles "As you enter the hall, you'll be greeted by students standing all around the hall."
+    
+    #show move up stairs with secretary in front and clear view of butt
+    show intro gym 3 1 with dissolveM
+    subtitles "As you and your secretary meak your way to the stage, all the students begin to form neat rows."
+    secretary_whisper "The students in the left are from the high school."
+    if loli_content >= 1:
+        secretary_whisper "The students in the center are from the middle school."
+    if loli_content == 2:
+        secretary_whisper "And to the right are the elementary school students."
+
+    scene intro gym 3 2 with dissolveM
+    headmaster_thought "Wow she has a nice butt. I can't wait to make it mine."
+    
+    #show secretary stand at podium with hands on podium
+    scene intro gym 4 with dissolveM
+    secretary_shout "Good Morning Students!"
+    crowd_shout "Good Morning!"
+
+    #show crowd from behind Secretary (students standing in clear rows)
+    show expression "events/intro/intro gym 5 [loli_content].jpg" with dissolveM
+    secretary_shout "It is with great pleasure, that I introduce you to your new Headmaster."
+    secretary_shout "He will be starting today and we're all very excited to see the positive changes he will bring!"
+
+    #show view from slightly behind crowd towards stage (secretary pointing towards headmaster)
+    # show expression "events/intro/intro gym 6 [loli_content].jpg"
+    secretary_shout "But without further ado... Greet your new Headmaster Mr. [headmaster_last_name]!"
+    subtitles "You walk to the podium."
+
+    #show view of stagefrom front with headmaster standing at podium with hands on podium
+    show intro gym 7
+    hide expression "events/intro/intro gym 5 [loli_content].jpg" with dissolveM
+    headmaster_shout "Greetings to you all. I am honored to stand here today."
+    headmaster_shout "When I came here, I saw the condition of this school and the mishaps of your former headmaster."
+    headmaster_shout "I guarantee I won't repeat the same mistakes and I will bring this school back to its former glory and beyond."
+
+    #show view of crowd from slightly behind but other side, headmaster hand on chest
+    show expression "events/intro/intro gym 8 [loli_content].jpg" with dissolveM
+    headmaster_shout "Now a little about me. My name is [headmaster_first_name] [headmaster_last_name] and I come from the country."
+    headmaster_shout "I taught in various schools and was also the headmaster of a school in the capital."
+
+    #show headmaster rasing finger
+    # scene expression "events/intro/intro gym 9 [loli_content].jpg"
+    headmaster_shout "I want to make it clear that I will not tolerate misbehavior! {b}BUT{/b} I am a fair person."
+    headmaster_shout "No one will be punished if they don't deserve it and I will do everything I can to make sure that you all have a nice and safe place to grow and learn!"
+
+    #show headmaster with wide open arms
+    # scene expression "events/intro/intro gym 10 [loli_content].jpg"
+    headmaster_shout "If you ever have any problems, ideas or questions, feel free to come to me anytime. I will help wherever I can!"
+    headmaster_shout "Thank you and let's have a great time together!"
+    crowd_shout "*clapping*"
+
+    scene office secretary 3 big smile
+    secretary "Wow! That was a nice speech!"
+    secretary "Now that we finished the introduction, let's start with the entry paperwork."
+    headmaster "Alright."
+
+    jump new_day
+
+##########################
+
 
 label skip_to_free_roam:
     

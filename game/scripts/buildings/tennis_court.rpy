@@ -17,9 +17,9 @@ init -1 python:
     }
 
     tennis_court_bg_images = [
-        BGImage("images/background/tennis court/bg c <level> <nude>.png", 1, TimeCondition(daytime = "c")), # show tennis court with students
-        BGImage("images/background/tennis court/bg 3,6 <level> <nude>.png", 1, TimeCondition(daytime = "3,6")), # show tennis court with few students
-        BGImage("images/background/tennis court/bg 7.png", 1, TimeCondition(daytime = 7)), # show tennis court at night empty
+        BGImage("images/background/tennis court/bg c <level> <nude>.jpg", 1, TimeCondition(daytime = "c")), # show tennis court with students
+        BGImage("images/background/tennis court/bg 3,6 <level> <nude>.jpg", 1, TimeCondition(daytime = "3,6")), # show tennis court with few students
+        BGImage("images/background/tennis court/bg 7.jpg", 1, TimeCondition(daytime = 7)), # show tennis court at night empty
     ]
     
 ##########################################
@@ -53,12 +53,12 @@ label .after_time_check:
 label show_tennis_court_idle_image(school):
 
     $ max_nude, image_path = get_background(
-        "images/background/tennis court/bg 1.png", # show empty tennis court
+        "images/background/tennis court/bg 1.jpg", # show empty tennis court
         tennis_court_bg_images,
         get_level_for_char(school, charList["schools"]),
     )
 
-    show screen image_with_nude_var (image_path, max_nude)
+    call show_image_with_nude_var (image_path, max_nude) from _call_show_image_with_nude_var_15
 
     return
 

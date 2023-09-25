@@ -3,15 +3,15 @@ label start_journal:
 
 label open_journal(page, display, school):
     if page == 1:
-        call screen journal_1(display, school)
+        call screen journal_1(display, school) with dissolveM
     elif page == 2:
-        call screen journal_2(display, school)
+        call screen journal_2(display, school) with dissolveM
     elif page == 3:
-        call screen journal_3(display, school)
+        call screen journal_3(display, school) with dissolveM
     elif page == 4:
-        call screen journal_4(display, school)
+        call screen journal_4(display, school) with dissolveM
     elif page == 5:
-        call screen journal_5(display, school)
+        call screen journal_5(display, school) with dissolveM
 
 label close_journal:
     hide screen journal
@@ -53,22 +53,25 @@ screen journal_1(display, school):
     tag interaction_overlay
     modal True
 
-    key "K_ESCAPE" action Jump("map_overview")
+    use school_overview_map
+    use school_overview_stats
+
+    key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
 
     imagemap:
         idle "journal/journal/[school]/1_[loli_content]_idle.png"
         hover "journal/journal/[school]/1_[loli_content]_hover.png"
 
-        hotspot (1522, 617, 168, 88) action Call("open_journal", 2, "", school) tooltip "Rules"
-        hotspot (1522, 722, 168, 88) action Call("open_journal", 3, "", school) tooltip "Clubs"
-        hotspot (1522, 830, 168, 88) action Call("open_journal", 4, "", school) tooltip "Buildings"
+        hotspot (1522, 617, 168, 88) action [With(dissolveM), Call("open_journal", 2, "", school)] tooltip "Rules"
+        hotspot (1522, 722, 168, 88) action [With(dissolveM), Call("open_journal", 3, "", school)] tooltip "Clubs"
+        hotspot (1522, 830, 168, 88) action [With(dissolveM), Call("open_journal", 4, "", school)] tooltip "Buildings"
 
         if school != "high_school":
-            hotspot (373, 80, 160, 67) action Call("open_journal", 1, display, "high_school") tooltip "High School"
+            hotspot (373, 80, 160, 67) action [With(dissolveM), Call("open_journal", 1, display, "high_school")] tooltip "High School"
         if school != "middle_school" and loli_content >= 1:
-            hotspot (550, 80, 160, 67) action Call("open_journal", 1, display, "middle_school") tooltip "Middle School"
+            hotspot (550, 80, 160, 67) action [With(dissolveM), Call("open_journal", 1, display, "middle_school")] tooltip "Middle School"
         if school != "elementary_school" and loli_content == 2:
-            hotspot (725, 80, 160, 67) action Call("open_journal", 1, display, "elementary_school") tooltip "Elementary School"
+            hotspot (725, 80, 160, 67) action [With(dissolveM), Call("open_journal", 1, display, "elementary_school")] tooltip "Elementary School"
 
     if cheat_mode:
         imagebutton:
@@ -77,7 +80,7 @@ screen journal_1(display, school):
             tooltip "Cheats"
             xpos 1268
             ypos 70
-            action Call("open_journal", 5, "", school)
+            action [With(dissolveM), Call("open_journal", 5, "", school)]
         
     if (school == "high_school" and loli_content >= 1):
         text "High School":
@@ -124,7 +127,7 @@ screen journal_1(display, school):
                     textbutton "  Money:":
                         yalign 0.5 
                         text_style button_style
-                        action Call("open_journal", 1, "money", school)
+                        action [With(dissolveM), Call("open_journal", 1, "money", school)]
                     text "[money_text]" style "journal_text" yalign 0.5
 
                 null height 20
@@ -143,7 +146,7 @@ screen journal_1(display, school):
                     textbutton "  Level:":
                         yalign 0.5 
                         text_style button_style
-                        action Call("open_journal", 1, "level", school)
+                        action [With(dissolveM), Call("open_journal", 1, "level", school)]
                     text "[level_text]" style "journal_text" yalign 0.5
 
                 null height 20
@@ -161,7 +164,7 @@ screen journal_1(display, school):
                         textbutton "  [stat_title]:":
                             yalign 0.5 
                             text_style button_style
-                            action Call("open_journal", 1, stat_obj.name, school)
+                            action [With(dissolveM), Call("open_journal", 1, stat_obj.name, school)]
                         text " [stat_value]" style "journal_text" yalign 0.5
 
         vbar value YScrollValue("Overview"):
@@ -203,7 +206,7 @@ screen journal_1(display, school):
     textbutton "Close":
         xalign 0.75
         yalign 0.87
-        action Jump("map_overview")
+        action [With(dissolveM), Jump("map_overview")]
 
     $ tooltip = GetTooltip()
     if tooltip:
@@ -220,22 +223,25 @@ screen journal_2(display, school):
     tag interaction_overlay
     modal True
     
-    key "K_ESCAPE" action Jump("map_overview")
+    use school_overview_map
+    use school_overview_stats
+
+    key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
 
     imagemap:
         idle "journal/journal/[school]/2_[loli_content]_idle.png"
         hover "journal/journal/[school]/2_[loli_content]_hover.png"
 
-        hotspot (144, 250, 168, 88) action Call("open_journal", 1, "", school) tooltip "School Overview"
-        hotspot (1522, 722, 168, 88) action Call("open_journal", 3, "", school) tooltip "Clubs"
-        hotspot (1522, 830, 168, 88) action Call("open_journal", 4, "", school) tooltip "Buildings"
+        hotspot (144, 250, 168, 88) action [With(dissolveM), Call("open_journal", 1, "", school)] tooltip "School Overview"
+        hotspot (1522, 722, 168, 88) action [With(dissolveM), Call("open_journal", 3, "", school)] tooltip "Clubs"
+        hotspot (1522, 830, 168, 88) action [With(dissolveM), Call("open_journal", 4, "", school)] tooltip "Buildings"
         
         if school != "high_school":
-            hotspot (373, 80, 160, 67) action Call("open_journal", 2, display, "high_school") tooltip "High School"
+            hotspot (373, 80, 160, 67) action [With(dissolveM), Call("open_journal", 2, display, "high_school")] tooltip "High School"
         if school != "middle_school" and loli_content >= 1:
-            hotspot (550, 80, 160, 67) action Call("open_journal", 2, display, "middle_school") tooltip "Middle School"
+            hotspot (550, 80, 160, 67) action [With(dissolveM), Call("open_journal", 2, display, "middle_school")] tooltip "Middle School"
         if school != "elementary_school" and loli_content == 2:
-            hotspot (725, 80, 160, 67) action Call("open_journal", 2, display, "elementary_school") tooltip "Elementary School"
+            hotspot (725, 80, 160, 67) action [With(dissolveM), Call("open_journal", 2, display, "elementary_school")] tooltip "Elementary School"
 
     if cheat_mode:
         imagebutton:
@@ -244,7 +250,7 @@ screen journal_2(display, school):
             tooltip "Cheats"
             xpos 1268
             ypos 70
-            action Call("open_journal", 5, "", school)
+            action [With(dissolveM), Call("open_journal", 5, "", school)]
         
     if (school == "high_school" and loli_content >= 1):
         text "High School":
@@ -296,7 +302,7 @@ screen journal_2(display, school):
                     textbutton "hide locked rules":
                         text_style "buttons_idle"
                         yalign 0.5
-                        action Call("set_journal_setting", 2, display, school, 'show_locked', False)
+                        action [With(dissolveM), Call("set_journal_setting", 2, display, school, 'show_locked', False)]
                     image "journal/journal/left_list_seperator.png"
                     for rule_name in rule_locked_list:
                         $ rule = get_rule(rule_name)
@@ -307,12 +313,12 @@ screen journal_2(display, school):
                                 $ button_style = "buttons_selected"
                             textbutton rule_title:
                                 text_style button_style
-                                action Call("open_journal", 2, rule_name, school)
+                                action [With(dissolveM), Call("open_journal", 2, rule_name, school)]
                 else:
                     textbutton "show locked rules":
                         text_style "buttons_inactive"
                         yalign 0.5
-                        action Call("set_journal_setting", 2, display, school, 'show_locked', True)
+                        action [With(dissolveM), Call("set_journal_setting", 2, display, school, 'show_locked', True)]
                     image "journal/journal/left_list_seperator.png"
 
                 null height 20
@@ -322,7 +328,7 @@ screen journal_2(display, school):
                     textbutton "hide unlocked rules":
                         text_style "buttons_idle"
                         yalign 0.5
-                        action Call("set_journal_setting", 2, display, school, 'show_unlocked', False)
+                        action [With(dissolveM), Call("set_journal_setting", 2, display, school, 'show_unlocked', False)]
                     image "journal/journal/left_list_seperator.png"
                     for rule_name in rule_unlocked_list:
                         $ rule = get_rule(rule_name)
@@ -333,12 +339,12 @@ screen journal_2(display, school):
                                 $ button_style = "buttons_selected"
                             textbutton rule_title:
                                 text_style button_style
-                                action Call("open_journal", 2, rule_name, school)
+                                action [With(dissolveM), Call("open_journal", 2, rule_name, school)]
                 else:
                     textbutton "show unlocked rules":
                         text_style "buttons_inactive"
                         yalign 0.5
-                        action Call("set_journal_setting", 2, display, school, 'show_unlocked', True)
+                        action [With(dissolveM), Call("set_journal_setting", 2, display, school, 'show_unlocked', True)]
                     image "journal/journal/left_list_seperator.png"
 
         vbar value YScrollValue("RuleList"):
@@ -362,12 +368,12 @@ screen journal_2(display, school):
             button:
                 xalign 0.63 yalign 0.65
                 image "[active_rule_image]"
-                action Call("call_max_image_from_journal", active_rule_full_image, 2, school, display)
+                action [With(dissolveM), Call("call_max_image_from_journal", active_rule_full_image, 2, school, display)]
         else:
             image "[active_rule_image]": 
                 xalign 0.629 yalign 0.647
         
-        $ active_rule_desc_conditions = active_rule.get_desc_conditions()
+        $ active_rule_desc_conditions_desc = active_rule.get_desc_conditions_desc(char_obj = active_school, blocking = True)
         
         frame:
             background Solid("#0000")
@@ -379,12 +385,11 @@ screen journal_2(display, school):
                 vbox:
                     text active_rule_desc style "journal_desc"
 
-                    if len(active_rule_desc_conditions) != 0:
+                    if len(active_rule_desc_conditions_desc) != 0:
                         null height 40
                         text "{u}To unlock you need:{/u}" style "journal_desc"
-                        for condition in active_rule_desc_conditions:
-                            $ texts = condition.to_desc_text(school)
-                            textbutton texts:
+                        for desc in active_rule_desc_conditions_desc:
+                            textbutton desc:
                                 text_style "journal_desc"
                                 yalign 0.5
                                 action NullAction()
@@ -403,7 +408,7 @@ screen journal_2(display, school):
 
                 vbox:
                     for condition in active_rule.get_list_conditions():
-                        $ texts = condition.to_list_text(school)
+                        $ texts = condition.to_list_text(char_obj = active_school)
                         hbox:
                             textbutton texts[0]:
                                 tooltip condition.get_name()
@@ -421,27 +426,34 @@ screen journal_2(display, school):
                 unscrollable "hide"
                 ypos 328
 
-        # if not active_rule.is_unlocked(school):
-        #     $ voteProposal = get_game_data("voteProposal")
-        #     if voteProposal == None or voteProposal[3].get_name() != display:
-        #         textbutton "Plan for vote":
-        #             xalign 0.6 yalign 0.87
-        #             text_style "buttons_idle"
-        #             action Call("add_rule_to_proposal", display, school)
-        #     else:
-        #         text "Already queued!":
-        #             xalign 0.6 yalign 0.87
-        #             color "#f00"
-        # else:
-        #     text "Already unlocked!":
-        #         xalign 0.6 yalign 0.87
-        #         color "#008800"
-        #         size 30
+        if not active_rule.is_unlocked(school):
+            $ voteProposal = get_game_data("voteProposal")
+            if voteProposal == None or voteProposal[3].get_name() != display:
+                $ probability = calculateProbabilitySum(active_rule.get_condition_storage())
+                $ probability_text = str(clamp_stat(round(probability, 2))) + "%"
+                if probability > 0:
+                    textbutton "Plan for vote ([probability_text])":
+                        xalign 0.62 yalign 0.87
+                        text_style "buttons_idle"
+                        action Call("add_rule_to_proposal", display, school)
+                else:
+                    textbutton "Plan for vote ([probability_text])":
+                        xalign 0.62 yalign 0.87
+                        text_style "buttons_inactive"
+            else:
+                text "Already queued!":
+                    xalign 0.6 yalign 0.87
+                    color "#f00"
+        else:
+            text "Already unlocked!":
+                xalign 0.6 yalign 0.87
+                color "#008800"
+                size 30
 
     textbutton "Close":
         xalign 0.75
         yalign 0.87
-        action Jump("map_overview")
+        action [With(dissolveM), Jump("map_overview")]
 
     $ tooltip = GetTooltip()
     if tooltip:
@@ -458,22 +470,25 @@ screen journal_3(display, school):
     tag interaction_overlay
     modal True
 
-    key "K_ESCAPE" action Jump("map_overview")
+    use school_overview_map
+    use school_overview_stats
+
+    key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
 
     imagemap:
         idle "journal/journal/[school]/3_[loli_content]_idle.png"
         hover "journal/journal/[school]/3_[loli_content]_hover.png"
 
-        hotspot (144, 250, 168, 88) action Call("open_journal", 1, "", school) tooltip "School Overview"
-        hotspot (144, 617, 168, 88) action Call("open_journal", 2, "", school) tooltip "Rules"
-        hotspot (1522, 830, 168, 88) action Call("open_journal", 4, "", school) tooltip "Buildings"
+        hotspot (144, 250, 168, 88) action  [With(dissolveM), Call("open_journal", 1, "", school)] tooltip "School Overview"
+        hotspot (144, 617, 168, 88) action  [With(dissolveM), Call("open_journal", 2, "", school)] tooltip "Rules"
+        hotspot (1522, 830, 168, 88) action [With(dissolveM), Call("open_journal", 4, "", school)] tooltip "Buildings"
 
         if school != "high_school":
-            hotspot (373, 80, 160, 67) action Call("open_journal", 3, display, "high_school") tooltip "High School"
+            hotspot (373, 80, 160, 67) action [With(dissolveM), Call("open_journal", 3, display, "high_school")] tooltip "High School"
         if school != "middle_school" and loli_content >= 1:
-            hotspot (550, 80, 160, 67) action Call("open_journal", 3, display, "middle_school") tooltip "Middle School"
+            hotspot (550, 80, 160, 67) action [With(dissolveM), Call("open_journal", 3, display, "middle_school")] tooltip "Middle School"
         if school != "elementary_school" and loli_content == 2:
-            hotspot (725, 80, 160, 67) action Call("open_journal", 3, display, "elementary_school") tooltip "Elementary School"
+            hotspot (725, 80, 160, 67) action [With(dissolveM), Call("open_journal", 3, display, "elementary_school")] tooltip "Elementary School"
     
     if cheat_mode:
         imagebutton:
@@ -482,7 +497,7 @@ screen journal_3(display, school):
             tooltip "Cheats"
             xpos 1268
             ypos 70
-            action Call("open_journal", 5, "", school)
+            action [With(dissolveM), Call("open_journal", 5, "", school)]
         
     if (school == "high_school" and loli_content >= 1):
         text "High School":
@@ -527,7 +542,7 @@ screen journal_3(display, school):
                     textbutton "hide locked clubs":
                         text_style "buttons_idle"
                         yalign 0.5
-                        action Call("set_journal_setting", 3, display, school, 'show_locked', False)
+                        action [With(dissolveM), Call("set_journal_setting", 3, display, school, 'show_locked', False)]
                     image "journal/journal/left_list_seperator.png"
                     for club_name in club_locked_list:
                         $ club = get_club(club_name)
@@ -538,12 +553,12 @@ screen journal_3(display, school):
                                 $ button_style = "buttons_selected"
                             textbutton club_title:
                                 text_style button_style
-                                action Call("open_journal", 3, club_name, school)
+                                action [With(dissolveM), Call("open_journal", 3, club_name, school)]
                 else:
                     textbutton "show locked clubs":
                         text_style "buttons_inactive"
                         yalign 0.5
-                        action Call("set_journal_setting", 3, display, school, 'show_locked', True)
+                        action [With(dissolveM), Call("set_journal_setting", 3, display, school, 'show_locked', True)]
                     image "journal/journal/left_list_seperator.png"
 
                 null height 20
@@ -553,7 +568,7 @@ screen journal_3(display, school):
                     textbutton "hide unlocked clubs":
                         text_style "buttons_idle"
                         yalign 0.5
-                        action Call("set_journal_setting", 3, display, school, 'show_unlocked', False)
+                        action [With(dissolveM), Call("set_journal_setting", 3, display, school, 'show_unlocked', False)]
                     image "journal/journal/left_list_seperator.png"
                     for club_name in club_unlocked_list:
                         $ club = get_club(club_name)
@@ -564,12 +579,12 @@ screen journal_3(display, school):
                                 $ button_style = "buttons_selected"
                             textbutton club_title:
                                 text_style button_style
-                                action Call("open_journal", 3, club_name, school)
+                                action [With(dissolveM), Call("open_journal", 3, club_name, school)]
                 else:
                     textbutton "show unlocked clubs":
                         text_style "buttons_inactive"
                         yalign 0.5
-                        action Call("set_journal_setting", 3, display, school, 'show_unlocked', True)
+                        action [With(dissolveM), Call("set_journal_setting", 3, display, school, 'show_unlocked', True)]
                     image "journal/journal/left_list_seperator.png"
 
         vbar value YScrollValue("ClubsList"):
@@ -592,12 +607,12 @@ screen journal_3(display, school):
             button:
                 xalign 0.63 yalign 0.65
                 image "[active_club_image]"
-                action Call("call_max_image_from_journal", active_club_full_image, 3, school, display)
+                action [With(dissolveM), Call("call_max_image_from_journal", active_club_full_image, 3, school, display)]
         else:
             image "[active_club_image]": 
                 xalign 0.629 yalign 0.647
         
-        $ active_club_desc_conditions = active_club.get_desc_conditions()
+        $ active_club_desc_conditions_desc = active_club.get_desc_conditions_desc(char_obj = active_school, blocking = True)
         
         frame:
             background Solid("#0000")
@@ -609,12 +624,11 @@ screen journal_3(display, school):
                 vbox:
                     text active_club_desc style "journal_desc"
 
-                    if len(active_club_desc_conditions) != 0:
+                    if len(active_club_desc_conditions_desc) != 0:
                         null height 40
                         text "{u}To unlock you need:{/u}" style "journal_desc"
-                        for condition in active_club_desc_conditions:
-                            $ texts = condition.to_desc_text(school)
-                            textbutton texts:
+                        for desc in active_club_desc_conditions_desc:
+                            textbutton desc:
                                 text_style "journal_desc"
                                 yalign 0.5
                                 action NullAction()
@@ -633,7 +647,7 @@ screen journal_3(display, school):
 
                 vbox:
                     for condition in active_club.get_list_conditions():
-                        $ texts = condition.to_list_text(school)
+                        $ texts = condition.to_list_text(char_obj = active_school)
                         hbox:
                             textbutton texts[0]:
                                 tooltip condition.get_name()
@@ -651,21 +665,29 @@ screen journal_3(display, school):
                 unscrollable "hide"
                 ypos 328
 
-        # if not active_club.is_unlocked(school):
-        #     $ voteProposal = get_game_data("voteProposal")
-        #     if voteProposal == None or voteProposal[3].get_name() != display:
-        #         textbutton "Plan for vote":
-        #             xalign 0.6 yalign 0.87
-        #             text_style "buttons_idle"
-        #             action Call("add_club_to_proposal", display, school)
-        #     else:
-        #         text "Already queued!":
-        #             xalign 0.6 yalign 0.87
-        #             color "#f00"
-        # else:
-        #     text "Already unlocked!":
-        #         xalign 0.6 yalign 0.87
-        #         color "#008800"
+        if not active_club.is_unlocked(school):
+            $ voteProposal = get_game_data("voteProposal")
+            if voteProposal == None or voteProposal[3].get_name() != display:
+                $ probability = calculateProbabilitySum(active_club.get_condition_storage())
+                $ probability_text = str(clamp_stat(round(probability, 2))) + "%"
+                if probability > 0:
+                    textbutton "Plan for vote ([probability_text])":
+                        xalign 0.62 yalign 0.87
+                        text_style "buttons_idle"
+                        action Call("add_club_to_proposal", display, school)
+                else:
+                    textbutton "Plan for vote ([probability_text])":
+                        xalign 0.62 yalign 0.87
+                        text_style "buttons_inactive"
+            else:
+                text "Already queued!":
+                    xalign 0.6 yalign 0.87
+                    color "#f00"
+        else:
+            text "Already unlocked!":
+                xalign 0.6 yalign 0.87
+                color "#008800"
+                size 30
 
     text "Clubs": 
         xalign 0.25 
@@ -676,7 +698,7 @@ screen journal_3(display, school):
     textbutton "Close":
         xalign 0.75
         yalign 0.87
-        action Jump("map_overview")
+        action [With(dissolveM), Jump("map_overview")]
 
     $ tooltip = GetTooltip()
     if tooltip:
@@ -693,15 +715,18 @@ screen journal_4(display, school):
     tag interaction_overlay
     modal True
 
-    key "K_ESCAPE" action Jump("map_overview")
+    use school_overview_map
+    use school_overview_stats
+
+    key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
 
     imagemap:
         idle "journal/journal/high_school/4_0_idle.png"
         hover "journal/journal/high_school/4_0_hover.png"
 
-        hotspot (144, 250, 168, 88) action Call("open_journal", 1, "", school) tooltip "School Overview"
-        hotspot (144, 617, 168, 88) action Call("open_journal", 2, "", school) tooltip "Rules"
-        hotspot (144, 722, 168, 88) action Call("open_journal", 3, "", school) tooltip "Clubs"
+        hotspot (144, 250, 168, 88) action [With(dissolveM), Call("open_journal", 1, "", school)] tooltip "School Overview"
+        hotspot (144, 617, 168, 88) action [With(dissolveM), Call("open_journal", 2, "", school)] tooltip "Rules"
+        hotspot (144, 722, 168, 88) action [With(dissolveM), Call("open_journal", 3, "", school)] tooltip "Clubs"
     
     if cheat_mode:
         imagebutton:
@@ -710,7 +735,7 @@ screen journal_4(display, school):
             tooltip "Cheats"
             xpos 1268
             ypos 70
-            action Call("open_journal", 5, "", school)
+            action [With(dissolveM), Call("open_journal", 5, "", school)]
     
     $ building_locked_list = get_visible_locked_buildings()
     $ building_unlocked_list = get_visible_unlocked_buildings()
@@ -739,7 +764,7 @@ screen journal_4(display, school):
                     textbutton "hide locked buildings":
                         text_style "buttons_idle"
                         yalign 0.5
-                        action Call("set_journal_setting", 4, display, school, 'show_locked', False)
+                        action [With(dissolveM), Call("set_journal_setting", 4, display, school, 'show_locked', False)]
                     image "journal/journal/left_list_seperator.png"
                     for building_name in building_locked_list:
                         $ building = get_building(building_name)
@@ -750,12 +775,12 @@ screen journal_4(display, school):
                                 $ button_style = "buttons_selected"
                             textbutton building_title:
                                 text_style button_style
-                                action Call("open_journal", 4, building_name, school)
+                                action [With(dissolveM), Call("open_journal", 4, building_name, school)]
                 else:
                     textbutton "show locked buildings":
                         text_style "buttons_inactive"
                         yalign 0.5
-                        action Call("set_journal_setting", 4, display, school, 'show_locked', True)
+                        action [With(dissolveM), Call("set_journal_setting", 4, display, school, 'show_locked', True)]
                     image "journal/journal/left_list_seperator.png"
 
                 null height 20
@@ -765,7 +790,7 @@ screen journal_4(display, school):
                     textbutton "hide unlocked buildings":
                         text_style "buttons_idle"
                         yalign 0.5
-                        action Call("set_journal_setting", 4, display, school, 'show_unlocked', False)
+                        action [With(dissolveM), Call("set_journal_setting", 4, display, school, 'show_unlocked', False)]
                     image "journal/journal/left_list_seperator.png"
                     for building_name in building_unlocked_list:
                         $ building = get_building(building_name)
@@ -776,12 +801,12 @@ screen journal_4(display, school):
                                 $ button_style = "buttons_selected"
                             textbutton building_title:
                                 text_style button_style
-                                action Call("open_journal", 4, building_name, school)
+                                action [With(dissolveM), Call("open_journal", 4, building_name, school)]
                 else:
                     textbutton "show unlocked buildings":
                         text_style "buttons_inactive"
                         yalign 0.5
-                        action Call("set_journal_setting", 4, display, school, 'show_unlocked', True)
+                        action [With(dissolveM), Call("set_journal_setting", 4, display, school, 'show_unlocked', True)]
                     image "journal/journal/left_list_seperator.png"
 
         vbar value YScrollValue("BuildingList"):
@@ -803,7 +828,7 @@ screen journal_4(display, school):
             button:
                 xalign 0.63 yalign 0.65
                 image "[active_building_image]"
-                action Call("call_max_image_from_journal", active_building_full_image, 4, school, display)
+                action [With(dissolveM), Call("call_max_image_from_journal", active_building_full_image, 4, school, display)]
         else:
             image "[active_building_image]": 
                 xalign 0.629 yalign 0.647
@@ -813,7 +838,7 @@ screen journal_4(display, school):
         if active_building.is_unlocked():
             $ cond_type = "upgrade"
 
-        $ active_building_desc_conditions = active_building.get_desc_conditions(cond_type)
+        $ active_building_desc_conditions_desc = active_building.get_desc_conditions_desc(cond_type, char_obj = active_school, blocking = True)
         
         frame:
             background Solid("#0000")
@@ -828,9 +853,8 @@ screen journal_4(display, school):
                     if len(active_building_desc_conditions) != 0:
                         null height 40
                         text "{u}To [cond_type] you need:{/u}" style "journal_desc"
-                        for condition in active_building_desc_conditions:
-                            $ texts = condition.to_desc_text(school)
-                            textbutton texts:
+                        for desc in active_building_desc_conditions_desc:
+                            textbutton desc:
                                 text_style "journal_desc"
                                 yalign 0.5
                                 action NullAction()
@@ -849,7 +873,7 @@ screen journal_4(display, school):
 
                 vbox:
                     for condition in active_building.get_list_conditions(cond_type):
-                        $ texts = condition.to_list_text(school)
+                        $ texts = condition.to_list_text(char_obj = active_school)
                         hbox:
                             textbutton texts[0]:
                                 tooltip condition.get_name()
@@ -867,21 +891,29 @@ screen journal_4(display, school):
                 unscrollable "hide"
                 ypos 328
 
-        # if not active_building.is_unlocked() or active_building.has_higher_level():
-        #     $ voteProposal = get_game_data("voteProposal")
-        #     if voteProposal == None or voteProposal[3].get_name() != display:
-        #         textbutton "Vote for [cond_type]":
-        #             xalign 0.6 yalign 0.87
-        #             text_style "buttons_idle"
-        #             action Call("add_building_to_proposal", display, school)
-        #     else:
-        #         text "Already queued!":
-        #             xalign 0.6 yalign 0.87
-        #             color "#ff0000"
-        # else:
-        #     text "Fully upgraded!":
-        #         xalign 0.6 yalign 0.87
-        #         color "#008800"
+        if not active_building.is_unlocked(school):
+            $ voteProposal = get_game_data("voteProposal")
+            if voteProposal == None or voteProposal[3].get_name() != display:
+                $ probability = calculateProbabilitySum(active_building.get_condition_storage())
+                $ probability_text = str(clamp_stat(round(probability, 2))) + "%"
+                if probability > 0:
+                    textbutton "Plan for vote ([probability_text])":
+                        xalign 0.62 yalign 0.87
+                        text_style "buttons_idle"
+                        action Call("add_building_to_proposal", display, school)
+                else:
+                    textbutton "Plan for vote ([probability_text])":
+                        xalign 0.62 yalign 0.87
+                        text_style "buttons_inactive"
+            else:
+                text "Already queued!":
+                    xalign 0.6 yalign 0.87
+                    color "#f00"
+        else:
+            text "Already unlocked!":
+                xalign 0.6 yalign 0.87
+                color "#008800"
+                size 30
 
     text "Buildings": 
         xalign 0.25 
@@ -892,7 +924,7 @@ screen journal_4(display, school):
     textbutton "Close":
         xalign 0.75
         yalign 0.87
-        action Jump("map_overview")
+        action [With(dissolveM), Jump("map_overview")]
 
     $ tooltip = GetTooltip()
     if tooltip:
@@ -909,7 +941,10 @@ screen journal_5(display, school):
     tag interaction_overlay
     modal True
 
-    key "K_ESCAPE" action Jump("map_overview")
+    use school_overview_map
+    use school_overview_stats
+
+    key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
 
     imagemap:
         if not display.startswith("building"):
@@ -919,17 +954,17 @@ screen journal_5(display, school):
             idle "journal/journal/high_school/5_0_idle.png"
             hover "journal/journal/high_school/5_0_hover.png"
 
-        hotspot (144, 250, 168, 88) action Call("open_journal", 1, "", school) tooltip "School Overview"
-        hotspot (144, 617, 168, 88) action Call("open_journal", 2, "", school) tooltip "Rules"
-        hotspot (144, 722, 168, 88) action Call("open_journal", 3, "", school) tooltip "Clubs"
-        hotspot (144, 830, 168, 88) action Call("open_journal", 4, "", school) tooltip "Buildings"
+        hotspot (144, 250, 168, 88) action [With(dissolveM), Call("open_journal", 1, "", school)] tooltip "School Overview"
+        hotspot (144, 617, 168, 88) action [With(dissolveM), Call("open_journal", 2, "", school)] tooltip "Rules"
+        hotspot (144, 722, 168, 88) action [With(dissolveM), Call("open_journal", 3, "", school)] tooltip "Clubs"
+        hotspot (144, 830, 168, 88) action [With(dissolveM), Call("open_journal", 4, "", school)] tooltip "Buildings"
 
         if school != "high_school":
-            hotspot (373, 80, 160, 67) action Call("open_journal", 5, display, "high_school") tooltip "High School"
+            hotspot (373, 80, 160, 67) action [With(dissolveM), Call("open_journal", 5, display, "high_school")] tooltip "High School"
         if school != "middle_school" and loli_content >= 1:
-            hotspot (550, 80, 160, 67) action Call("open_journal", 5, display, "middle_school") tooltip "Middle School"
+            hotspot (550, 80, 160, 67) action [With(dissolveM), Call("open_journal", 5, display, "middle_school")] tooltip "Middle School"
         if school != "elementary_school" and loli_content == 2:
-            hotspot (725, 80, 160, 67) action Call("open_journal", 5, display, "elementary_school") tooltip "Elementary School"
+            hotspot (725, 80, 160, 67) action [With(dissolveM), Call("open_journal", 5, display, "elementary_school")] tooltip "Elementary School"
 
     if not display.startswith("building"):
         if (school == "high_school" and loli_content >= 1):
@@ -977,7 +1012,7 @@ screen journal_5(display, school):
                         $ button_style = "buttons_selected"
                     textbutton option_text:
                         text_style button_style
-                        action Call("open_journal", 5, option, school)
+                        action [With(dissolveM), Call("open_journal", 5, option, school)]
                 
 
         vbar value YScrollValue("CheatListLeft"):
@@ -1009,7 +1044,7 @@ screen journal_5(display, school):
                         size 20
                     # MONEY
                     hbox:
-                        text "{image=icons/stat_money_icon.png}"
+                        text "{image=icons/stat_money_icon.webp}"
                         text " Money" style "journal_text" yalign 0.5
                     hbox:
                         textbutton "1000" action Call("modify_stat", "money", -1000, school) text_style "buttons_idle"
@@ -1026,7 +1061,7 @@ screen journal_5(display, school):
                     null height 30
                     # LEVEL
                     hbox:
-                        text "{image=icons/stat_level_icon.png}"
+                        text "{image=icons/stat_level_icon.webp}"
                         text " Level" style "journal_text" yalign 0.5
                     hbox:
                         textbutton "Min" action Call("modify_stat", "level", -100, school) text_style "buttons_idle"
@@ -1047,7 +1082,7 @@ screen journal_5(display, school):
                     null height 30
                     # CORRUPTION
                     hbox:
-                        text "{image=icons/stat_corruption_icon.png}"
+                        text "{image=icons/stat_corruption_icon.webp}"
                         text " Corruption" style "journal_text" yalign 0.5
                     hbox:
                         textbutton "Min" action Call("modify_stat", "corruption", -100, school) text_style "buttons_idle"
@@ -1068,7 +1103,7 @@ screen journal_5(display, school):
                     null height 30
                     # INHIBITION
                     hbox:
-                        text "{image=icons/stat_inhibition_icon.png}"
+                        text "{image=icons/stat_inhibition_icon.webp}"
                         text " Inhibition" style "journal_text" yalign 0.5
                     hbox:
                         textbutton "Min" action Call("modify_stat", "inhibition", -100, school) text_style "buttons_idle"
@@ -1089,7 +1124,7 @@ screen journal_5(display, school):
                     null height 30
                     # HAPPINESS
                     hbox:
-                        text "{image=icons/stat_happiness_icon.png}"
+                        text "{image=icons/stat_happiness_icon.webp}"
                         text " Happiness" style "journal_text" yalign 0.5
                     hbox:
                         textbutton "Min" action Call("modify_stat", "happiness", -100, school) text_style "buttons_idle"
@@ -1110,7 +1145,7 @@ screen journal_5(display, school):
                     null height 30
                     # EDUCATION
                     hbox:
-                        text "{image=icons/stat_education_icon.png}"
+                        text "{image=icons/stat_education_icon.webp}"
                         text " Education" style "journal_text" yalign 0.5
                     hbox:
                         textbutton "Min" action Call("modify_stat", "education", -100, school) text_style "buttons_idle"
@@ -1131,7 +1166,7 @@ screen journal_5(display, school):
                     null height 30
                     # CHARM
                     hbox:
-                        text "{image=icons/stat_charm_icon.png}"
+                        text "{image=icons/stat_charm_icon.webp}"
                         text " Charm" style "journal_text" yalign 0.5
                     hbox:
                         textbutton "Min" action Call("modify_stat", "charm", -100, school) text_style "buttons_idle"
@@ -1152,7 +1187,7 @@ screen journal_5(display, school):
                     null height 30
                     # REPUTATION
                     hbox:
-                        text "{image=icons/stat_reputation_icon.png}"
+                        text "{image=icons/stat_reputation_icon.webp}"
                         text " Reputation" style "journal_text" yalign 0.5
                     hbox:
                         textbutton "Min" action Call("modify_stat", "reputation", -100, school) text_style "buttons_idle"
@@ -1202,12 +1237,12 @@ screen journal_5(display, school):
                             button:
                                 text rule_name:
                                     style "buttons_idle"
-                                action Call("open_journal", 5, display + ":" + rule.get_name(), school)
+                                action [With(dissolveM), Call("open_journal", 5, display + ":" + rule.get_name(), school)]
                             hbox:
                                 null width 100
                                 button:
                                     text rule_unlock_text
-                                    action Call("switch_rule", rule.get_name(), school)
+                                    action [With(dissolveM), Call("switch_rule", rule.get_name(), school)]
                             null height 10
                         
 
@@ -1226,12 +1261,12 @@ screen journal_5(display, school):
                 button:
                     xalign 0.63 yalign 0.65
                     image "[active_rule_image]"
-                    action Call("call_max_image_from_journal", active_rule_full_image, 5, school, display)
+                    action [With(dissolveM), Call("call_max_image_from_journal", active_rule_full_image, 5, school, display)]
             else:
                 image "[active_rule_image]": 
                     xalign 0.629 yalign 0.647
         
-            $ active_rule_desc_conditions = active_rule.get_desc_conditions()
+            $ active_rule_desc_conditions_desc = active_rule.get_desc_conditions_desc(char_obj = active_school)
         
             text active_rule_title:
                 xpos 989
@@ -1251,12 +1286,11 @@ screen journal_5(display, school):
                     vbox:
                         text active_rule_desc style "journal_desc"
 
-                        if len(active_rule_desc_conditions) != 0:
+                        if len(active_rule_desc_conditions_desc) != 0:
                             null height 40
                             text "{u}To unlock you need:{/u}" style "journal_desc"
-                            for condition in active_rule_desc_conditions:
-                                $ texts = condition.to_desc_text(school)
-                                textbutton texts:
+                            for desc in active_rule_desc_conditions_desc:
+                                textbutton desc:
                                     text_style "journal_desc"
                                     yalign 0.5
                                     action NullAction()
@@ -1276,7 +1310,7 @@ screen journal_5(display, school):
                     vbox:
                         for condition in active_rule.get_list_conditions():
                             if not condition.is_set_blocking():
-                                $ texts = condition.to_list_text(school)
+                                $ texts = condition.to_list_text(char_obj = active_school)
                                 hbox:
                                     textbutton texts[0]:
                                         tooltip condition.get_name()
@@ -1296,7 +1330,7 @@ screen journal_5(display, school):
             textbutton "Return":
                 xalign 0.55 yalign 0.87
                 text_style "buttons_idle"
-                action Call("open_journal", 5, "rules", school)
+                action [With(dissolveM), Call("open_journal", 5, "rules", school)]
     elif display.startswith("clubs"):
         $ club_keywords = display.split(":")
         if len(club_keywords) == 1:
@@ -1321,12 +1355,12 @@ screen journal_5(display, school):
                             button:
                                 text club_name:
                                     style "buttons_idle"
-                                action Call("open_journal", 5, display + ":" + club.get_name(), school)
+                                action [With(dissolveM), Call("open_journal", 5, display + ":" + club.get_name(), school)]
                             hbox:
                                 null width 100
                                 button:
                                     text club_unlock_text
-                                    action Call("switch_club", club.get_name(), school)
+                                    action [With(dissolveM), Call("switch_club", club.get_name(), school)]
                             null height 10
                         
 
@@ -1338,7 +1372,7 @@ screen journal_5(display, school):
             $ active_club_name = active_club.get_name()
             $ active_club_title = active_club.get_title()
             $ active_club_desc = active_club.get_description_str()
-            $ active_club_desc_conditions = active_club.get_desc_conditions()
+            $ active_club_desc_conditions_desc = active_club.get_desc_conditions_desc(char_obj = active_school)
             $ active_club_image = active_club.get_image(school, active_school.get_level())
             $ active_club_full_image = active_club.get_full_image(school, active_school.get_level())
 
@@ -1346,7 +1380,7 @@ screen journal_5(display, school):
                 button:
                     xalign 0.63 yalign 0.65
                     image "[active_club_image]"
-                    action Call("call_max_image_from_journal", active_club_full_image, 5, school, display)
+                    action [With(dissolveM), Call("call_max_image_from_journal", active_club_full_image, 5, school, display)]
             else:
                 image "[active_club_image]": 
                     xalign 0.629 yalign 0.647
@@ -1368,12 +1402,11 @@ screen journal_5(display, school):
                     vbox:
                         text active_club_desc style "journal_desc"
 
-                        if len(active_club_desc_conditions) != 0:
+                        if len(active_club_desc_conditions_desc) != 0:
                             null height 40
                             text "{u}To unlock you need:{/u}" style "journal_desc"
-                            for condition in active_club_desc_conditions:
-                                $ texts = condition.to_desc_text(school)
-                                textbutton texts:
+                            for desc in active_club_desc_conditions_desc:
+                                textbutton desc:
                                     text_style "journal_desc"
                                     yalign 0.5
                                     action NullAction()
@@ -1393,7 +1426,7 @@ screen journal_5(display, school):
                     vbox:
                         for condition in active_club.get_list_conditions():
                             if not condition.is_set_blocking():
-                                $ texts = condition.to_list_text(school)
+                                $ texts = condition.to_list_text(char_obj = active_school)
                                 hbox:
                                     textbutton texts[0]:
                                         tooltip condition.get_name()
@@ -1413,7 +1446,7 @@ screen journal_5(display, school):
             textbutton "Return":
                 xalign 0.55 yalign 0.87
                 text_style "buttons_idle"
-                action Call("open_journal", 5, "clubs", school)
+                action [With(dissolveM), Call("open_journal", 5, "clubs", school)]
     elif display.startswith("buildings"):
         $ building_keywords = display.split(":")
         if len(building_keywords) == 1:
@@ -1439,18 +1472,18 @@ screen journal_5(display, school):
                             button:
                                 text building_name:
                                     style "buttons_idle"
-                                action Call("open_journal", 5, display + ":" + building.get_name(), school)
+                                action [With(dissolveM), Call("open_journal", 5, display + ":" + building.get_name(), school)]
                             hbox:
                                 null width 100
                                 button:
                                     text building_unlock_text
-                                    action Call("switch_building", building.get_name(), school, -1000)
+                                    action [With(dissolveM), Call("switch_building", building.get_name(), school, -1000)]
                                 if building.is_unlocked():
                                     null width 100
                                     button:
                                         text "-":
                                             style "buttons_idle"
-                                        action Call("switch_building", building.get_name(), school, -1)
+                                        action [With(dissolveM), Call("switch_building", building.get_name(), school, -1)]
                                     null width 20
                                     button:
                                         text "[building_level]":
@@ -1460,7 +1493,7 @@ screen journal_5(display, school):
                                     button:
                                         text "+":
                                             style "buttons_idle"
-                                        action Call("switch_building", building.get_name(), school, 1)
+                                        action [With(dissolveM), Call("switch_building", building.get_name(), school, 1)]
                             null height 10
                         
 
@@ -1485,7 +1518,7 @@ screen journal_5(display, school):
                 image "[active_building_image]": 
                     xalign 0.629 yalign 0.647
         
-            $ active_building_desc_conditions = active_building.get_desc_conditions()
+            $ active_building_desc_conditions_desc = active_building.get_desc_conditions_desc(char_obj = active_school)
         
             text active_building_title:
                 xpos 989
@@ -1504,12 +1537,11 @@ screen journal_5(display, school):
                     vbox:
                         text active_building_desc style "journal_desc"
 
-                        if len(active_building_desc_conditions) != 0:
+                        if len(active_building_desc_conditions_desc) != 0:
                             null height 40
                             text "{u}To unlock you need:{/u}" style "journal_desc"
-                            for condition in active_building_desc_conditions:
-                                $ texts = condition.to_desc_text(school)
-                                textbutton texts:
+                            for desc in active_building_desc_conditions_desc:
+                                textbutton desc:
                                     text_style "journal_desc"
                                     yalign 0.5
                                     action NullAction()
@@ -1529,7 +1561,7 @@ screen journal_5(display, school):
                     vbox:
                         for condition in active_building.get_list_conditions():
                             if not condition.is_set_blocking():
-                                $ texts = condition.to_list_text(school)
+                                $ texts = condition.to_list_text(char_obj = active_school)
                                 hbox:
                                     textbutton texts[0]:
                                         tooltip condition.get_name()
@@ -1549,7 +1581,7 @@ screen journal_5(display, school):
             textbutton "Return":
                 xalign 0.55 yalign 0.87
                 text_style "buttons_idle"
-                action Call("open_journal", 5, "buildings", school)
+                action [With(dissolveM), Call("open_journal", 5, "buildings", school)]
 
     text "Cheats": 
         xalign 0.25 
@@ -1560,7 +1592,7 @@ screen journal_5(display, school):
     textbutton "Close":
         xalign 0.75
         yalign 0.87
-        action Jump("map_overview")
+        action [With(dissolveM), Jump("map_overview")]
 
     $ tooltip = GetTooltip()
     if tooltip:
@@ -1580,7 +1612,7 @@ screen max_image_from_journal(image_path):
     button:
         xpos 0 ypos 0
         xsize 1902 ysize 1080
-        action Call("open_journal", journal, display, school)
+        action [With(dissolveM), Call("open_journal", journal, display, school)]
 
 label set_journal_setting(page, display, school, setting, value):
     $ set_game_data("journal_setting_" + str(page) + "_" + setting, value)
@@ -1588,17 +1620,17 @@ label set_journal_setting(page, display, school, setting, value):
 
 label call_max_image_from_journal(image_path, journal, school, display):
     hide screen school_overview_buttons
-    call screen max_image_from_journal(image_path)
+    call screen max_image_from_journal(image_path) with dissolveM
 
 label switch_rule(rule_name, school):
     $ rule = get_rule(rule_name)
     $ rule.unlock(school, not rule.is_unlocked(school))
-    call screen journal_5("rules", school)
+    call screen journal_5("rules", school) with dissolveM
 
 label switch_club(club_name, school):
     $ club = get_club(club_name)
     $ club.unlock(school, not club.is_unlocked(school))
-    call screen journal_5("clubs", school)
+    call screen journal_5("clubs", school) with dissolveM
 
 label switch_building(building_name, school, level_delta):
     $ building = get_building(building_name)
@@ -1607,7 +1639,7 @@ label switch_building(building_name, school, level_delta):
         $ building.unlock(not building.is_unlocked())
     else:
         $ building.set_level(building.get_level() + level_delta)
-    call screen journal_5("buildings", school)
+    call screen journal_5("buildings", school) with dissolveM
 
 label modify_stat(stat, amount, school):
     if stat == "money":
@@ -1617,7 +1649,7 @@ label modify_stat(stat, amount, school):
         $ school_obj.set_level(school_obj.get_level() + amount)
     else:
         $ get_character(school, charList["schools"]).change_stat(stat, amount)
-    call screen journal_5("stats", school)
+    call screen journal_5("stats", school) with dissolveM
 
 label add_to_proposal(data, page, school, display, propType):
     $ set_game_data("voteProposal", [propType, display, school, data])

@@ -35,7 +35,6 @@ label call_event_menu(text, page, page_limit, events, fallback, person = charact
 
     call screen custom_menu_choice(page, page_limit, event_list)
 
-
     jump new_daytime
 
 label call_event(event_obj, priority = 0):

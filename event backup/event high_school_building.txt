@@ -134,32 +134,32 @@ label hsb_patrol_intro_variants:
 
     if variant == 1:
         # show students talking
-        # scene expression "events/high_school_building/variants_patrol_talking_[high_school_lvl].png"
+        # scene expression "events/high_school_building/variants_patrol_talking_[high_school_lvl].jpg"
         subtitles "You walk through the hallway of the school building."
         subtitles "The hallway is filled with students talking to each other."
     elif variant == 2:
         # show students playing with each other
-        # scene expression "events/high_school_building/variants_patrol_playing_[high_school_lvl].png"
+        # scene expression "events/high_school_building/variants_patrol_playing_[high_school_lvl].jpg"
         subtitles "You walk through the hallway of the school building."
         subtitles "You see students playing with each other, clapping and such."
     elif variant == 3:
         # show students kissing each other
-        # scene expression "events/high_school_building/variants_patrol_kissing_[high_school_lvl].png"
+        # scene expression "events/high_school_building/variants_patrol_kissing_[high_school_lvl].jpg"
         subtitles "You walk through the hallway of the school building."
         subtitles "The hallway is filled with love and students kissing."
     elif variant == 4:
         # show students hugging and kuddling
-        # scene expression "events/high_school_building/variants_patrol_cuddling_[high_school_lvl].png"
+        # scene expression "events/high_school_building/variants_patrol_cuddling_[high_school_lvl].jpg"
         subtitles "You walk through the hallway of the school building."
         subtitles "The view is heartwarming, seeing the student hug and cuddle.<p> You are happy with the results."
     elif variant == 5:
         # show students groping each other and having fun
-        # scene expression "events/high_school_building/variants_patrol_groping_[high_school_lvl].png"
+        # scene expression "events/high_school_building/variants_patrol_groping_[high_school_lvl].jpg"
         subtitles "You walk through the hallway of the school building."
         subtitles "The students having fun grabbing and groping each other, discovering ther bodies."
     elif variant == 6:
         # show students having sex in all areas and corners of the hallway
-        # scene expression "events/high_school_building/variants_patrol_sex_[high_school_lvl].png"
+        # scene expression "events/high_school_building/variants_patrol_sex_[high_school_lvl].jpg"
         subtitles "You walk through the hallway of the school building."
         subtitles "What a view! Everywhere you look, you see students having sex. Nice!"
     return
@@ -170,21 +170,21 @@ label hsb_patrol_stare:
     $ level = get_level_for_char("high_school", charList["schools"])
 
     if level <= 1:
-        # scene expression "events/high_school_building/patrol_stare_1_[high_school_lvl].png"
+        # scene expression "events/high_school_building/patrol_stare_1_[high_school_lvl].jpg"
         subtitles "As you patrol the area, you see the sudents stare in your direction.<p>Their cold gazes hurt a little bit, but you're sure they don't mean it that way."
         $ change_stat("happiness", 0.1, "high_school", charList["schools"])
     elif 2 <= level <= 4:
-        # scene expression "events/high_school_building/patrol_stare_2_[high_school_lvl].png"
+        # scene expression "events/high_school_building/patrol_stare_2_[high_school_lvl].jpg"
         subtitles "You walk through the hallways and everywhere the students smile at you. It is really nice here at this school!"
         $ change_stat("happiness", 0.5, "high_school", charList["schools"])
     elif 5 <= level <= 6:
-        # scene expression "events/high_school_building/patrol_stare_3_[high_school_lvl].png"
+        # scene expression "events/high_school_building/patrol_stare_3_[high_school_lvl].jpg"
         subtitles " As soon as the students see you, they start pulling up their tops to present their bosom for their official greeting to you."
         $ change_stat("happiness", 0.5, "high_school", charList["schools"])
         $ change_stat("inhibition", 0.2, "high_school", charList["schools"])
         $ change_stat("corruption", 0.1, "high_school", charList["schools"])
     elif level >= 7:
-        # scene expression "events/high_school_building/patrol_stare_4_[high_school_lvl].png"
+        # scene expression "events/high_school_building/patrol_stare_4_[high_school_lvl].jpg"
         subtitles " As soon as the students see you, they start pulling up their tops and skirts to present their beautiful bodies for their official greeting to you."
         $ change_stat("happiness", 0.5, "high_school", charList["schools"])
         $ change_stat("inhibition", 0.4, "high_school", charList["schools"])

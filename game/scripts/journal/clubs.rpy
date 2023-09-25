@@ -5,8 +5,8 @@ init -6 python:
             self._name = name
             self._title = title
             self._description = ""
-            self._image_path_alt = "images/journal/empty_image.png"
-            self._image_path = "images/journal/empty_image.png"
+            self._image_path_alt = "images/journal/empty_image.webp"
+            self._image_path = "images/journal/empty_image.webp"
             self._unlocked = {
                 "high_school": False,
                 "middle_school": False,
@@ -29,9 +29,9 @@ init -6 python:
             if not hasattr(self, '_description'):
                 self._description = ""
             if not hasattr(self, '_image_path'):
-                self._image_path = "images/journal/empty_image.png"
+                self._image_path = "images/journal/empty_image.webp"
             if not hasattr(self, '_image_path_alt'):
-                self._image_path_alt = "images/journal/empty_image.png"
+                self._image_path_alt = "images/journal/empty_image.webp"
             if not hasattr(self, '_unlocked'):
                 self._unlocked = {
                     "high_school": False,
@@ -92,10 +92,10 @@ init -6 python:
             return school in self._unlocked.keys() and self._unlocked[school]
 
         def is_visible(self, school):
-            return school in charList["schools"].keys() and self._unlock_conditions.is_blocking(school)
+            return self._unlock_conditions.is_blocking(char_obj = get_character(school, charList["schools"]))
 
         def can_be_unlocked(self, school):
-            return school in charList["schools"].keys() and self._unlock_conditions.is_fullfilled(school)
+            return self._unlock_conditions.is_fullfilled(char_obj = get_character(school, charList["schools"]))
 
         def get_condition_storage(self):
             return self._unlock_conditions
@@ -109,13 +109,20 @@ init -6 python:
         def get_desc_conditions(self):
             return self._unlock_conditions.get_desc_conditions()
         
-        def get_votable_conditions(self):
-            return self._unlock_conditions.get_votable_conditions()
-
+        def get_desc_conditions_desc(self, **kwargs):
+            return self._unlock_conditions.get_desc_conditions_desc(**kwargs)
+        
         def get_vote_comments(self, char, result):
             if char not in self._vote_comments.keys():
                 return self._default_comments[result]
-            return self._vote_comments[char][result]
+
+            vote = "{color=#00ff00}Votes For{/color}"
+            if result == "no":
+                vote = "{color=#ff0000}Votes Against{/color}"
+            elif result == "veto":
+                vote = "Vetoes"
+
+            return f"{vote}\n{self._vote_comments[char][result]}"
 
     #############################################
     # Clubs Global Methods
@@ -326,8 +333,8 @@ label load_clubs:
             # LevelCondition("5+"),
             LockCondition(),
         ),
-        '_image_path': 'images/journal/clubs/masturbation_club.png',
-        '_image_path_alt': 'images/journal/clubs/masturbation_club.png',
+        '_image_path': 'images/journal/clubs/masturbation_club.jpg',
+        '_image_path_alt': 'images/journal/clubs/masturbation_club.jpg',
     })
 
     $ load_club("exhibitionism_club", "Exhibitionism Club", {
@@ -338,8 +345,8 @@ label load_clubs:
             # LevelCondition("5+"),
             LockCondition(),
         ),
-        '_image_path': 'images/journal/clubs/exhibitionism_club.png',
-        '_image_path_alt': 'images/journal/clubs/exhibitionism_club.png',
+        '_image_path': 'images/journal/clubs/exhibitionism_club.jpg',
+        '_image_path_alt': 'images/journal/clubs/exhibitionism_club.jpg',
     })
 
     $ load_club("cosplay_club", "Cosplay Club", {
@@ -350,8 +357,8 @@ label load_clubs:
             # LevelCondition("2+"),
             LockCondition(),
         ),
-        '_image_path': 'images/journal/clubs/cosplay_club.png',
-        '_image_path_alt': 'images/journal/clubs/cosplay_club.png',
+        '_image_path': 'images/journal/clubs/cosplay_club.jpg',
+        '_image_path_alt': 'images/journal/clubs/cosplay_club.jpg',
     })
 
     $ load_club("cheerleading_club", "Cheerleading Club", {
@@ -362,8 +369,8 @@ label load_clubs:
             # LevelCondition("2+"),
             # LockCondition(),
         ),
-        '_image_path': 'images/journal/clubs/cheerleading_club_<school>_<level>.png',
-        '_image_path_alt': 'images/journal/clubs/cheerleading_club_high_school_2.png',
+        '_image_path': 'images/journal/clubs/cheerleading_club_<school>_<level>.jpg',
+        '_image_path_alt': 'images/journal/clubs/cheerleading_club_high_school_2.jpg',
     })
 
     $ load_club("porn_club", "Porn Club", {

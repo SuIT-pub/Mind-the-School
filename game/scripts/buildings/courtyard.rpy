@@ -29,10 +29,10 @@ init -1 python:
     ))
 
     courtyard_bg_images = [
-        BGImage("images/background/courtyard/bg 1,6 <school> <level> <nude>.png", 1, TimeCondition(daytime = "1,6")), # show courtyard with a few students
-        BGImage("images/background/courtyard/bg 1,6 <school> <level> <nude>.png", 1, TimeCondition(daytime = "c", weekday = "w")), # show courtyard with a few students
-        BGImage("images/background/courtyard/bg 3 <school> <level> <nude>.png", 1, TimeCondition(daytime = 3)), # show courtyard full of students and teacher
-        BGImage("images/background/courtyard/bg 7.png", 1, TimeCondition(daytime = 7)), # show empty courtyard at night
+        BGImage("images/background/courtyard/bg 1,6 <school> <level> <nude>.jpg", 1, TimeCondition(daytime = "1,6")), # show courtyard with a few students
+        BGImage("images/background/courtyard/bg 1,6 <school> <level> <nude>.jpg", 1, TimeCondition(daytime = "c", weekday = "w")), # show courtyard with a few students
+        BGImage("images/background/courtyard/bg 3 <school> <level> <nude>.jpg", 1, TimeCondition(daytime = 3)), # show courtyard full of students and teacher
+        BGImage("images/background/courtyard/bg 7.jpg", 1, TimeCondition(daytime = 7)), # show empty courtyard at night
     ]
     
 #######################################
@@ -66,13 +66,13 @@ label .after_time_check:
 label show_courtyard_idle_image(school_name):
 
     $ max_nude, image_path = get_background(
-        "images/background/courtyard/bg c.png", # show empty courtyard
+        "images/background/courtyard/bg c.jpg", # show empty courtyard
         courtyard_bg_images,
         get_level_for_char(school_name, charList["schools"]),
         school = school_name
     )
 
-    show screen image_with_nude_var (image_path, max_nude)
+    call show_image_with_nude_var (image_path, max_nude) from _call_show_image_with_nude_var_2
 
     return
 
@@ -97,15 +97,15 @@ label courtyard_person_fallback:
 
 label first_potion_courtyard_event:
 
-    show first potion courtyard 1
+    show first potion courtyard 1 with dissolveM
     subtitles "You walk around in the courtyard."
 
-    show first potion courtyard 2
+    show first potion courtyard 2 with dissolveM
     subtitles "The first thing you notice is the group of students sunbathing in the middle of the yard."
     
-    show first potion courtyard 3
+    show first potion courtyard 3 with dissolveM
     subtitles "Normally that wouldn't be such a weird thing, if they weren't in only their underwear."
-    principal_thought "I certainly enjoy the view. Unfortunately it only lasts for today until the serum finishes settling in their bodies."
+    headmaster_thought "I certainly enjoy the view. Unfortunately it only lasts for today until the serum finishes settling in their bodies."
 
     $ set_building_blocked("courtyard")
 
@@ -114,19 +114,19 @@ label first_potion_courtyard_event:
 
 # first week event
 label first_week_courtyard_event:
-    show first week courtyard 1
+    show first week courtyard 1 with dissolveM
     subtitles "You walk through the courtyard."
 
-    principal_thought "Hmm, the courtyard looks really bad..."
+    headmaster_thought "Hmm, the courtyard looks really bad..."
     
-    show first week courtyard 2
-    principal_thought "Tt seems most of the appliances here are out of order."
+    show first week courtyard 2 with dissolveM
+    headmaster_thought "Tt seems most of the appliances here are out of order."
 
-    show first week courtyard 3
-    principal_thought "For example the public toilet is broken."
+    show first week courtyard 3 with dissolveM
+    headmaster_thought "For example the public toilet is broken."
 
-    show first week courtyard 4
-    principal_thought "At least the courtyard doesn't need immediate fixing."
+    show first week courtyard 4 with dissolveM
+    headmaster_thought "At least the courtyard doesn't need immediate fixing."
 
     $ set_stat_for_all("happiness", 12, charList["schools"])
 

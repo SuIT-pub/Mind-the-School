@@ -216,7 +216,7 @@ init -3 python:
 
         def is_available(self, school):
             for condition in self.conditions:
-                if not condition.is_fullfilled(school):
+                if not condition.is_fullfilled(char_obj = get_character(school, charList["schools"])):
                     return False
             return True
 
