@@ -2,7 +2,6 @@ game/images/
 game/videos/
 game/saves/
 game/chache/
-**.rpyc
 **.rpy.bak
 **.bak
 log.txt
