@@ -1,22 +1,13 @@
 init -6 python:
-    from collections.abc import Sequence
     from typing import Dict, Any
     import math
-    class Char(Sequence):
+    class Char:
         def __init__(self, name, title):
             self.name = name
             self.title = title
             self.level = Stat("level", 0)
             self.stats_objects = {}
             
-        def __getitem__(self, key: str) -> num:
-            if key not in self.stats_objects.keys():
-                return 0
-            return self.stats_objects[key].get_value()
-
-        def __len__(self) -> int:
-            return len(self.stats_objects)
-
         def _update(self, data: Dict[str, Any] = None) -> None:
             if data != None:
                 self.__dict__.update(data)
