@@ -2,6 +2,6 @@ game/images/
 game/videos/
 game/saves/
 game/chache/
-*.rpyc
-*.rpy.bak
-*.bak
+**.rpyc
+**.rpy.bak
+**.bak
