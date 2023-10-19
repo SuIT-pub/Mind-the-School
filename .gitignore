@@ -2,6 +2,9 @@ game/images/
 game/videos/
 game/saves/
 game/chache/
-*.rpyc
-*.rpy.bak
-*.bak
+**.rpyc
+**.rpy.bak
+**.bak
+log.txt
+game/cache/screens.rpyb
+game/cache/bytecode-39.rpyb
