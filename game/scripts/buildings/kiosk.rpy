@@ -3,10 +3,10 @@
 ###################################
 
 init -1 python:
-    kiosk_after_time_check = Event("kiosk_after_time_check", "kiosk.after_time_check", 2)
-    kiosk_fallback         = Event("kiosk_fallback",         "kiosk_fallback",         2)
-    kiosk_snack_fallback   = Event("kiosk_snack_fallback",   "kiosk_snack_fallback",   2)
-    kiosk_person_fallback  = Event("kiosk_person_fallback",  "kiosk_person_fallback",  2)
+    kiosk_after_time_check = Event(2, "kiosk.after_time_check")
+    kiosk_fallback         = Event(2, "kiosk_fallback")
+    kiosk_snack_fallback   = Event(2, "kiosk_snack_fallback")
+    kiosk_person_fallback  = Event(2, "kiosk_person_fallback")
 
     kiosk_timed_event = EventStorage("kiosk", "", kiosk_after_time_check)
     kiosk_events = {
@@ -14,16 +14,19 @@ init -1 python:
         "students": EventStorage("students", "Talk to students", kiosk_person_fallback),
     }
     
-    kiosk_timed_event.add_event(Event(
-        "first_week_event",
+    kiosk_timed_event.add_event(Event(1,
         ["first_week_kiosk_event"],
-        1,
         TimeCondition(day = "2-4", month = 1, year = 2023),
     ))
     
+
+
+    kiosk_timed_event.check_all_events()
+    map(lambda x: x.check_all_events(), kiosk_events.values())
+
     kiosk_bg_images = [
-        BGImage("images/background/kiosk/bg f <school> <level> <nude>.jpg", 1, TimeCondition(daytime = "f")), # show kiosk with students
-        BGImage("images/background/kiosk/bg f <school> <level> <nude>.jpg", 1, TimeCondition(daytime = "c", weekday = "w")), # show kiosk with students
+        BGImage("images/background/kiosk/bg f <name> <level> <nude>.jpg", 1, TimeCondition(daytime = "f")), # show kiosk with students
+        BGImage("images/background/kiosk/bg f <name> <level> <nude>.jpg", 1, TimeCondition(daytime = "c", weekday = "w")), # show kiosk with students
         BGImage("images/background/kiosk/bg 7.jpg", 1, TimeCondition(daytime = 7)), # show kiosk at night empty
     ]
     
@@ -33,34 +36,32 @@ init -1 python:
 # ----- Kiosk Entry Point ----- #
 #################################
 
-label kiosk:
+label kiosk ():
 
     call call_available_event(kiosk_timed_event) from kiosk_1
 
-label .after_time_check:
+label .after_time_check (**kwargs):
 
-    $ school = get_random_school()
+    $ school_obj = get_random_school()
 
-    call show_kiosk_idle_image(school) from kiosk_2
+    call show_kiosk_idle_image(school_obj) from kiosk_2
 
     call call_event_menu (
-        "What to do at the Kiosk?",
-        1, 
-        7, 
+        "What to do at the Kiosk?", 
         kiosk_events, 
         kiosk_fallback,
-        character,
+        character.subtitles,
+        char_obj = school_obj
     ) from kiosk_3
 
     jump kiosk
 
-label show_kiosk_idle_image(school_name):
+label show_kiosk_idle_image(school_obj):
 
     $ max_nude, image_path = get_background(
         "images/background/kiosk/bg c.jpg", # show kiosk empty
         kiosk_bg_images,
-        get_level_for_char(school_name, charList["schools"]),
-        school = school_name
+        school_obj
     )
 
     call show_image_with_nude_var (image_path, max_nude) from _call_show_image_with_nude_var_8
@@ -73,17 +74,17 @@ label show_kiosk_idle_image(school_name):
 # ----- Kiosk Fallback Events ----- #
 #####################################
 
-label kiosk_fallback:
+label kiosk_fallback (**kwargs):
     subtitles "There is nothing to see here."
-    return
+    jump map_overview
 
-label kiosk_snack_fallback:
+label kiosk_snack_fallback (**kwargs):
     subtitles "I don't want anything."
-    return
+    jump map_overview
 
-label kiosk_person_fallback:
+label kiosk_person_fallback (**kwargs):
     subtitles "There is nobody here."
-    return
+    jump map_overview
 
 #####################################
 
@@ -92,7 +93,7 @@ label kiosk_person_fallback:
 ############################
 
 # first week event
-label first_week_kiosk_event:
+label first_week_kiosk_event (**kwargs):
 
     show first week kiosk 1 with dissolveM
     headmaster_thought "Now, somewhere here should be the kiosk..."
@@ -109,10 +110,10 @@ label first_week_kiosk_event:
     headmaster "Oh I understand... Thanks."
 
     show first week kiosk 5 with dissolveM
-    headmaster_thought "This is not acceptable. Did the former headmaster really close the cafeteria?"
+    headmaster_thought "This is not acceptable. Did the former headmaster really close the kiosk?"
     headmaster_thought "That can't be right..."
 
-    $ change_stat_for_all("reputation", -2, charList['schools'])
+    $ change_stat_for_all("reputation", 5, charList['schools'])
 
     $ set_building_blocked("kiosk")
 

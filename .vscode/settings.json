@@ -9,7 +9,38 @@
         120
     ],
     "workbench.editor.showTabs": false,
+    "todohighlight.include":[
+        "**/*.js",
+        "**/*.jsx",
+        "**/*.ts",
+        "**/*.tsx",
+        "**/*.html",
+        "**/*.php",
+        "**/*.css",
+        "**/*.scss",
+        "**/*.rpy"
+    ],
     "editor.tokenColorCustomizations": {
+        "[*Light*]": {
+            "textMateRules": [
+                {
+                    "scope": "ref.matchtext",
+                    "settings": {
+                        "foreground": "#000"
+                    }
+                }
+            ]
+        },
+        "[*Dark*]": {
+            "textMateRules": [
+                {
+                    "scope": "ref.matchtext",
+                    "settings": {
+                        "foreground": "#fff"
+                    }
+                }
+            ]
+        },
         "textMateRules": [
             {
                 "scope": "renpy.meta.plain",
@@ -243,5 +274,72 @@
                 }
             }
         ]
-    }
+    },
+    "cSpell.enableFiletypes": [
+        "renpy"
+    ],
+    "cSpell.words": [
+        "APPDATA",
+        "beraucracy",
+        "Cheerleading",
+        "cond",
+        "daystr",
+        "daytimestr",
+        "elif",
+        "Emiko",
+        "endswith",
+        "findall",
+        "Finola",
+        "fuckup",
+        "getitem",
+        "gigastacys",
+        "Haha",
+        "hasattr",
+        "hbox",
+        "hotspot",
+        "Igarashi",
+        "imagebutton",
+        "imagemap",
+        "inac",
+        "isdecimal",
+        "isdigit",
+        "isinstance",
+        "Kato",
+        "kwargs",
+        "loli",
+        "Mhhh",
+        "Miwa",
+        "monthstr",
+        "mousewheel",
+        "namebox",
+        "nearrect",
+        "objs",
+        "Ohhhh",
+        "Onsen",
+        "renpy",
+        "rpyc",
+        "ruleset",
+        "sboy",
+        "sgirl",
+        "startswith",
+        "textalign",
+        "unaccepting",
+        "unlockable",
+        "vals",
+        "vbar",
+        "vscrollbar",
+        "vslider",
+        "Windstor",
+        "xalign",
+        "xmaximum",
+        "xpos",
+        "xsize",
+        "yadjustment",
+        "yalign",
+        "ymaximum",
+        "ypos",
+        "ysize",
+        "zorder"
+    ],
+    "cSpell.language": "en,en-GB"
 }

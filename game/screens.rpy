@@ -594,8 +594,8 @@ screen about():
             text _("A Game by Su.iT")
             text _("Version [config.version!t]\n")
 
-            text _("Visit my {a=https://patreon.com/user?u=93190317}Patreon{/a}")
-            text _("Visit my {a=https://discord.gg/5a5VNJY2Fc}Discord{/a}")
+            text _("Visit my {a=" + patreon + "}Patreon{/a}")
+            text _("Visit my {a=" + discord + "}Discord{/a}")
 
             ## gui.about is usually set in options.rpy.
             if gui.about:
@@ -657,6 +657,15 @@ screen file_slots(title):
                 input:
                     style "page_label_text"
                     value page_name_value
+
+            if title == "Save":
+                style "page_label"
+                xalign 0.9
+                textbutton _("Upload Saves") action UploadSync()
+            if title == "Load":
+                style "page_label"
+                xalign 0.9
+                textbutton _("Download Saves") action DownloadSync()
 
             ## The grid of file slots.
             grid gui.file_slot_cols gui.file_slot_rows:

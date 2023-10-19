@@ -3,9 +3,9 @@
 ###########################################
 
 init -1 python:
-    swimming_pool_after_time_check = Event("swimming_pool_after_time_check", "swimming_pool.after_time_check", 2)
-    swimming_pool_fallback         = Event("swimming_pool_fallback",         "swimming_pool_fallback",         2)
-    swimming_pool_person_fallback  = Event("swimming_pool_person_fallback",  "swimming_pool_person_fallback",  2)
+    swimming_pool_after_time_check = Event(2, "swimming_pool.after_time_check")
+    swimming_pool_fallback         = Event(2, "swimming_pool_fallback")
+    swimming_pool_person_fallback  = Event(2, "swimming_pool_person_fallback")
 
     swimming_pool_timed_event = EventStorage("swimming_pool", "", swimming_pool_after_time_check)
     swimming_pool_events = {
@@ -15,6 +15,11 @@ init -1 python:
         "enter_changing": EventStorage("enter_changing", "Enter changing rooms",         swimming_pool_person_fallback),
         "steal_changing": EventStorage("steal_changing", "Steal some panties",           swimming_pool_person_fallback),
     }
+
+
+
+    swimming_pool_timed_event.check_all_events()
+    map(lambda x: x.check_all_events(), swimming_pool_events.values())
 
     swimming_pool_bg_images = [
         BGImage("images/background/swimming pool/bg c <level> <nude>.jpg", 1, TimeCondition(daytime = "c")), # show swimming pool with students
@@ -28,34 +33,32 @@ init -1 python:
 # ----- Swimming Pool Entry Point ----- #
 #########################################
 
-label swimming_pool:
+label swimming_pool ():
     
     call call_available_event(swimming_pool_timed_event) from swimming_pool_1
 
-label .after_time_check:
+label .after_time_check (**kwargs):
     
-    $ school = get_random_school()
+    $ school_obj = get_random_school()
 
-    call show_swimming_pool_idle_image(school) from swimming_pool_2
+    call show_swimming_pool_idle_image(school_obj) from swimming_pool_2
 
     call call_event_menu (
-        "What to do at the swimming pool?",
-        1, 
-        7, 
+        "What to do at the swimming pool?", 
         swimming_pool_events, 
         swimming_pool_fallback,
         character.subtitles,
-        school,
+        char_obj = school_obj,
     ) from swimming_pool_3
 
     jump swimming_pool
 
-label show_swimming_pool_idle_image(school):
+label show_swimming_pool_idle_image(school_obj):
 
     $ max_nude, image_path = get_background(
         "images/background/swimming pool/bg 1.jpg", # show empty swimming pool
         swimming_pool_bg_images,
-        get_level_for_char(school, charList["schools"]),
+        school_obj,
     )
 
     call show_image_with_nude_var (image_path, max_nude) from _call_show_image_with_nude_var_14
@@ -68,13 +71,13 @@ label show_swimming_pool_idle_image(school):
 # ----- Swimming Pool Fallback Events ----- #
 #############################################
 
-label swimming_pool_fallback:
+label swimming_pool_fallback (**kwargs):
     subtitles "There is nothing to see here."
-    return
+    jump map_overview
 
-label swimming_pool_person_fallback:
+label swimming_pool_person_fallback (**kwargs):
     subtitles "There is nobody here."
-    return
+    jump map_overview
 
 #############################################
 

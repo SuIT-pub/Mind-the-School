@@ -1,333 +1,61 @@
 init -6 python:
     import re
-    class Club:
+    class Club(Journal_Obj):
         def __init__(self, name, title):
-            self._name = name
-            self._title = title
-            self._description = ""
-            self._image_path_alt = "images/journal/empty_image.webp"
-            self._image_path = "images/journal/empty_image.webp"
+            super().__init__(name, title)
             self._unlocked = {
                 "high_school": False,
                 "middle_school": False,
                 "elementary_school": False,
             }
-            self._unlock_conditions = ConditionStorage()
-            self._vote_comments = {}
-            self._default_comments = {
-                "yes": "I vote yes.",
-                "no": "I vote no.",
-                "veto": "I veto this decision.",
-            }
 
-        def _update(self, title, data = None):
+        def _update(self, title: str, data: Dict[str, Any] = None) -> None:
+            super()._update(title, data)
             if data != None:
                 self.__dict__.update(data)
 
-            self._title = title
-
-            if not hasattr(self, '_description'):
-                self._description = ""
-            if not hasattr(self, '_image_path'):
-                self._image_path = "images/journal/empty_image.webp"
-            if not hasattr(self, '_image_path_alt'):
-                self._image_path_alt = "images/journal/empty_image.webp"
             if not hasattr(self, '_unlocked'):
                 self._unlocked = {
                     "high_school": False,
                     "middle_school": False,
                     "elementary_school": False,
                 }
-            if not hasattr(self, '_unlock_conditions'):
-                self._unlock_conditions = ConditionStorage()
-            if not hasattr(self, '_vote_comments'):
-                self._vote_comments = {}
-            if not hasattr(self, '_default_comments'):
-                self._default_comments = {
-                    "yes": "I vote yes.",
-                    "no": "I vote no.",
-                    "veto": "I veto this decision.",
-                }
 
-        def get_name(self):
-            return self._name
-
-        def get_title(self):
-            return self._title
-
-        def get_type(self):
+        def get_type(self) -> str:
             return "club"
-
-        def get_description(self):
-            return self._description
-
-        def get_description_str(self):
-            return "\n\n".join(self._description)
-
-        def get_image(self, school, level):
-            for i in reversed(range(0, level + 1)):
-                image = self._image_path.replace("<school>", school).replace("<level>", str(i))
-                if renpy.loadable(image):
-                    return image
-            for i in range(0, 10):
-                image = self._image_path.replace("<school>", school).replace("<level>", str(i))
-                if renpy.loadable(image):
-                    return image
-            return self._image_path_alt
-
-        def get_full_image(self, school, level):
-            image = self.get_image(school, level)
-            full_image = image.replace(".", "_full.")
-
-            if renpy.loadable(full_image):
-                return full_image
-            return None
-
-
-        def unlock(self, school, unlock = True):
-            if school in self._unlocked:
-                self._unlocked[school] = unlock
-
-        def is_unlocked(self, school):
-            return school in self._unlocked.keys() and self._unlocked[school]
-
-        def is_visible(self, school):
-            return self._unlock_conditions.is_blocking(char_obj = get_character(school, charList["schools"]))
-
-        def can_be_unlocked(self, school):
-            return self._unlock_conditions.is_fullfilled(char_obj = get_character(school, charList["schools"]))
-
-        def get_condition_storage(self):
-            return self._unlock_conditions
-
-        def get_conditions(self):
-            return self._unlock_conditions.get_conditions()
-
-        def get_list_conditions(self):
-            return self._unlock_conditions.get_list_conditions()
-
-        def get_desc_conditions(self):
-            return self._unlock_conditions.get_desc_conditions()
-        
-        def get_desc_conditions_desc(self, **kwargs):
-            return self._unlock_conditions.get_desc_conditions_desc(**kwargs)
-        
-        def get_vote_comments(self, char, result):
-            if char not in self._vote_comments.keys():
-                return self._default_comments[result]
-
-            vote = "{color=#00ff00}Votes For{/color}"
-            if result == "no":
-                vote = "{color=#ff0000}Votes Against{/color}"
-            elif result == "veto":
-                vote = "Vetoes"
-
-            return f"{vote}\n{self._vote_comments[char][result]}"
 
     #############################################
     # Clubs Global Methods
     
-    def get_unlocked_clubs_by_school(school):
-        output = []
-
-        for club in clubs.values():
-            if club.is_unlocked(school) and club.get_name() not in output:
-                output.append(club.get_name())
-        
-        return output
-
-
-    def get_visible_locked_clubs_by_school(school):
-        output = []
-
-        for club in clubs.values():
-            if (club.is_visible(school) and 
-            not club.is_unlocked(school) and
-            club.get_name() not in output):
-                output.append(club.get_name())
-                continue
-
-        return output
-
-    def get_visible_unlocked_clubs_by_school(school):
-        output = []
-
-        for club in clubs.values():
-            if (club.is_visible(school) and 
-            club.is_unlocked(school) and
-            club.get_name() not in output):
-                output.append(club.get_name())
-                continue
-
-        return output
-
-    def get_visible_clubs_by_school(school, include_unlocked = False):
-        output = []
-
-        for club in clubs.values():
-            if (club.is_visible(school) and 
-            ((not club.is_unlocked(school) and not include_unlocked) or include_unlocked) and
-            club.get_name() not in output):
-                output.append(club.get_name())
-                continue
-
-        return output
-
-    def get_visible_unlocked_clubs():
-        output = []
-
-        for club in clubs.values():
-            if (club.is_visible("high_school") and 
-            club.is_unlocked("high_school") and
-            club.get_name() not in output):
-                output.append(club.get_name())
-                continue
-            
-            if loli_content >= 1:
-                if (club.is_visible("middle_school") and 
-                club.is_unlocked("middle_school") and
-                club.get_name() not in output):
-                    output.append(club.get_name())
-                    continue
-
-            if loli_content == 2:
-                if (club.is_visible("elementary_school") and 
-                club.is_unlocked("elementary_school") and
-                club.get_name() not in output):   
-                    output.append(club.get_name())
-                    continue
-
-        return output
-
-    def get_visible_locked_clubs():
-        output = []
-
-        for club in clubs.values():
-            if (club.is_visible("high_school") and 
-            not club.is_unlocked("high_school") and
-            club.get_name() not in output):
-                output.append(club.get_name())
-                continue
-            
-            if loli_content >= 1:
-                if (club.is_visible("middle_school") and 
-                not club.is_unlocked("middle_school") and
-                club.get_name() not in output):
-                    output.append(club.get_name())
-                    continue
-
-            if loli_content == 2:
-                if (club.is_visible("elementary_school") and 
-                not club.is_unlocked("elementary_school") and
-                club.get_name() not in output):   
-                    output.append(club.get_name())
-                    continue
-
-        return output
-
-    def get_visible_clubs(include_unlocked = False):
-        output = []
-
-        for club in clubs.values():
-            if (club.is_visible("high_school") and 
-            ((not club.is_unlocked("high_school") and not include_unlocked) or include_unlocked) and
-            club.get_name() not in output):
-                output.append(club.get_name())
-                continue
-            
-            if loli_content >= 1:
-                if (club.is_visible("middle_school") and 
-                ((not club.is_unlocked("middle_school") and not include_unlocked) or include_unlocked) and
-                club.get_name() not in output):
-                    output.append(club.get_name())
-                    continue
-
-            if loli_content == 2:
-                if (club.is_visible("elementary_school") and 
-                ((not club.is_unlocked("elementary_school") and not include_unlocked) or include_unlocked) and
-                club.get_name() not in output):   
-                    output.append(club.get_name())
-                    continue
-
-        return output
-
-    def get_unlockable_clubs():
-        output = []
-
-        for club in clubs.values():
-            high_unlock = club.can_be_unlocked("high_school")
-            high_unlocked = club.is_unlocked("high_school")
-
-            if (high_unlock and 
-            not high_unlocked and 
-            club.get_name() not in output):
-                output.append(club.get_name())
-                continue
-
-            if loli_content >= 1:
-                middle_unlock = club.can_be_unlocked("middle_school")
-                middle_unlocked = club.is_unlocked("middle_school")
-
-                if (middle_unlock and 
-                not middle_unlocked and 
-                club.get_name() not in output):
-                    output.append(club.get_name())
-                    continue
-
-            if loli_content == 2:
-                elementary_unlock = club.can_be_unlocked("elementary_school")
-                elementary_unlocked = club.is_unlocked("elementary_school")
-
-                if (elementary_unlock and 
-                not elementary_unlocked and 
-                club.get_name() not in output):
-                    output.append(club.get_name())
-                    continue
-
-        return output
-
-    def get_unlockable_clubs_by_school(school):
-        output = []
-
-        for club in clubs.values():
-            unlock = club.can_be_unlocked(school)
-            unlocked = club.is_unlocked(school)
-
-            if (unlock and not unlocked and club.get_name() not in output):
-                output.append(club.get_name())
-                continue
-
-        return output
-
-    def get_club(club):
+    def get_club(club: str) -> Club:
         if club in clubs.keys():
             return clubs[club]
         return None
     
-    def is_club_unlocked(club_name, school):
+    def is_club_unlocked(club_name: str, school: str) -> bool:
         if club_name not in clubs.keys():
             return False
         return clubs[club_name].is_unlocked(school)
 
-    def is_club_visible(club_name, school):
+    def is_club_visible(club_name: str, **kwargs) -> bool:
         if club_name not in clubs.keys():
             return False
-        return clubs[club_name].is_visible(school)
+        return clubs[club_name].is_visible(**kwargs)
 
-    def load_club(name, title, data = None):
+    def load_club(name: str, title: str, data: Dict[str, Any] = None) -> None:
         if name not in clubs.keys():
             clubs[name] = Club(name, title)
 
         clubs[name]._update(title, data)
 
-    def remove_club(name):
+    def remove_club(name: str) -> None:
         if name in clubs.keys():
             del(clubs[name])
 
-label load_clubs:
+label load_clubs ():
     $ load_club("masturbation_club", "Masturbation Club", {
         '_description': [
-            "Here students cum together (pun intended) to collectively masturbate and explore new ways to satsify themselves.\nA nice place for students to socialize and to get some time out from the stressy school life.",
+            "Here students cum together (pun intended) to collectively masturbate and explore new ways to satisfy themselves.\nA nice place for students to socialize and to get some time out from the stressful school life.",
         ],
         '_unlock_conditions': ConditionStorage(
             # LevelCondition("5+"),

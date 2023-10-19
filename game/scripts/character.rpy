@@ -1,13 +1,23 @@
 init -6 python:
+    from collections.abc import Sequence
+    from typing import Dict, Any
     import math
-    class Char:
+    class Char(Sequence):
         def __init__(self, name, title):
             self.name = name
             self.title = title
             self.level = Stat("level", 0)
             self.stats_objects = {}
+            
+        def __getitem__(self, key: str) -> num:
+            if key not in self.stats_objects.keys():
+                return 0
+            return self.stats_objects[key].get_value()
 
-        def _update(self, data = None):
+        def __len__(self) -> int:
+            return len(self.stats_objects)
+
+        def _update(self, data: Dict[str, Any] = None) -> None:
             if data != None:
                 self.__dict__.update(data)
 
@@ -16,36 +26,44 @@ init -6 python:
             if not hasattr(self, 'stats_objects'):
                 self.stats_objects = {}
 
-        def get_name(self):
+        def get_name(self) -> str:
             return self.name
 
-        def get_title(self):
+        def get_title(self) -> str:
             return self.title
 
-        def get_stat_obj(self, stat):
-            if not stat in self.stats_objects:
+        def check_stat_exists(self, stat: str) -> bool:
+            return stat in self.stats_objects.keys()
+
+        def get_stat_obj(self, stat: str) -> Stat:
+            if stat not in self.stats_objects.keys():
                 return None
             return self.stats_objects[stat]
 
-        def set_stat(self, stat, value):
+        def set_stat(self, stat: str, value: num) -> None:
             stat_obj = self.get_stat_obj(stat)
-            stat_obj.set_value(value)
+            if stat_obj == None:
+                return
+            stat_obj.set_value(value, self.get_level())
 
-        def change_stat(self, stat, delta):
+        def change_stat(self, stat: str, delta: num) -> None:
             stat_obj = self.get_stat_obj(stat)
-            stat_obj.change_value(delta)
+            if stat_obj == None:
+                return
+            stat_obj.change_value(delta, self.get_level())
 
-        def get_stat_number(self, stat):
+        def get_stat_number(self, stat: str) -> num:
             stat_obj = self.get_stat_obj(stat)
 
             if stat_obj == None:
                 return -1
             return stat_obj.get_value()
 
-        def get_stat_string(self, stat):
+        def get_stat_string(self, stat: str) -> str:
             return str(self.get_stat_number(stat))
 
-        def reset_changed_stats(self):
+        def reset_changed_stats(self) -> None:
+            self.level.reset_change()
             for stat_key in self.stats_objects.keys():
                 stat_obj = self.get_stat_obj(stat_key)
 
@@ -54,93 +72,43 @@ init -6 python:
 
                 stat_obj.reset_change()
 
-        def get_stats(self):
+        def get_stats(self) -> Dict[str, Stat]:
             return self.stats_objects
 
-        def check_stat(self, stat_name, value):
+        def check_stat(self, stat: str, value: num | str) -> bool:
             if value == "x":
                 return True
 
-            return get_value_diff(value, self.get_stat_number(stat_name)) >= 0
+            return get_value_diff(value, self.get_stat_number(stat)) >= 0
 
-            # value = str(value)
-
-            # split = value.split(',')
-
-            # for split_val in split:
-            #     split_val = split_val.strip()
-            #     stat_str = re.findall('\d+', split_val)
-            #     if stat_str:
-            #         stat = int(''.join(stat_str))
-                    
-            #         if (stat == self.get_stat_number(stat_name) or
-            #             (split_val.endswith('-') and self.get_stat_number(stat_name) <= stat) or
-            #             (split_val.endswith('+') and self.get_stat_number(stat_name) >= stat)
-            #         ):
-            #             return True
-            #         elif '-' in split_val:
-            #             stat_split = split_val.split('-')
-            #             if (len(stat_split) == 2 and 
-            #                 stat_split[0].isdecimal() and 
-            #                 stat_split[1].isdecimal() and
-            #                 int(stat_split[0]) <= self.get_stat_number(stat_name) <= int(stat_split[1])
-            #             ):
-            #                 return True
-
-            # return str(value) == self.get_stat_string(stat_name)
-
-        def get_level(self):
+        def get_level(self) -> int:
             return self.level.get_value()
 
-        def get_level_str(self):
+        def get_level_str(self) -> str:
             return str(self.get_level())
 
-        def set_level(self, level):
+        def set_level(self, level: int) -> None:
             self.level.set_value(level)
             if self.level.get_value() < 0:
                 self.level.set_value(0)
             elif self.level.get_value() > 10:
                 self.level.set_value(10)
 
-        def get_nearest_level_delta(self, level):
+        def get_nearest_level_delta(self, level: int) -> int:
             for i in range(self.get_level(), 11):
                 if self.check_level(level, i):
                     return self.get_level() - i
 
-        def check_level(self, value, test_level = None):
+        def check_level(self, value: num | str, test_level: int = None) -> bool:
             if value == "x":
-                return self.get_level_str()
+                return True
 
             if test_level == None:
                 test_level = self.get_level()
 
-            value = str(value)
+            return get_value_diff(value, test_level) >= 0
 
-            split = value.split(',')
-
-            for split_val in split:
-                split_val = split_val.strip()
-                level_str = re.findall('\d+', split_val)
-                if level_str:
-                    level = int(''.join(level_str))
-                    
-                    if (level == self.get_level() or
-                        (split_val.endswith('-') and test_level <= level) or
-                        (split_val.endswith('+') and test_level >= level)
-                    ):
-                        return True
-                    elif '-' in split_val:
-                        level_split = split_val.split('-')
-                        if (len(level_split) == 2 and 
-                            level_split[0].isdecimal() and 
-                            level_split[1].isdecimal() and
-                            int(level_split[0]) <= test_level <= int(level_split[1])
-                        ):
-                            return True
-
-            return str(value) == str(test_level)
-
-        def display_stat(self, stat):
+        def display_stat(self, stat: str) -> str:
             stat_obj = self.get_stat_obj(stat)
 
             if stat_obj == None:
@@ -148,7 +116,7 @@ init -6 python:
 
             return stat_obj.display_stat()
 
-        def get_display_value(self, stat):
+        def get_display_value(self, stat: str) -> str:
             stat_obj = self.get_stat_obj(stat)
 
             if stat_obj == None:
@@ -156,7 +124,7 @@ init -6 python:
 
             return stat_obj.get_display_value()
 
-        def get_display_change(self, stat):
+        def get_display_change(self, stat: str) -> str:
             stat_obj = self.get_stat_obj(stat)
 
             if stat_obj == None:
@@ -164,7 +132,7 @@ init -6 python:
 
             return stat_obj.get_display_change()
     
-    def get_lowest_level(map):
+    def get_lowest_level(map: Dict[str, Char | Dict[str, Any]]) -> int:
         level = 100
         for school in map.values():
             if school.get_level() < level:
@@ -172,7 +140,7 @@ init -6 python:
 
         return level
 
-    def update_mean_stats():
+    def update_mean_stats() -> None:
         mean_school = get_character("school_mean_values", charList)
         for stat in mean_school.get_stats().keys():
             mean = 0
@@ -204,169 +172,235 @@ init -6 python:
             count += 1
 
         mean_school.set_level(math.ceil(mean_level))
-               
-    def get_mean_stat(stat):
-        if stat == "money":
+
+    def get_mean_stat(stat: str) -> num:
+        if stat == MONEY:
             return money.get_value()
-        elif stat == "level":
+        elif stat == LEVEL:
             return get_level_for_char(stat, "school_mean_values", map)
         else:
             return get_stat_for_char(stat, "school_mean_values", map)
 
-    def display_mean_stat(stat):
-        if stat == "money":
+    def display_mean_stat(stat: str) -> str:
+        if stat == MONEY:
             return money.display_stat()
         else:
             return get_character("school_mean_values", charList).display_stat(stat)
 
-    def get_character(name, map):
+    def get_character(
+        name: str, 
+        map: Dict[str, Char | Dict[str, Any]]
+    ) -> Char:
         if name not in map.keys():
             return None
 
         return map[name]
 
-    def get_stat_for_char(stat, name = "", map = None):
+    def get_stat_for_char(
+        stat: str, 
+        char: str | Char = "", 
+        map: Dict[str, Char | Dict[str, Any]] = None
+    ) -> num:
 
-        if stat == "money":
+        if stat == MONEY:
             return money.get_value()
 
-        if name in map.keys():
-            return map[name].get_stat_number(stat)
+        if isinstance('char', Char):
+            return char.get_stat_number(stat)
+        else:
+            if map == None or char not in map.keys():
+                return -1
+            return map[char].get_stat_number(stat)
+
+    def get_level_for_char(
+        char: str | Char, 
+        map: Dict[str, Char | Dict[str, Any]] = None
+    ) -> int:
+        if isinstance(char, Char):
+            return char.get_level()
+        if map != None and char in map.keys():
+            return map[char].get_level()
         return -1
 
-    def get_level_for_char(name, map):
-        if name in map.keys():
-            return map[name].get_level()
-        return -1
-
-    def set_stat_for_all(stat, value, map):
+    def set_stat_for_all(
+        stat: str, 
+        value: num, 
+        map: Dict[str, Char | Dict[str, Any]]
+    ) -> None:
         for character in map.keys():
             map[character].set_stat(stat, value)
 
-    def set_stat_for_char(stat, value, name, map):
-        if name not in map.keys():
-            return
-        map[name].set_stat(stat, value)
+    def set_stat_for_char(
+        stat: str, 
+        value: num, 
+        char: str | Char, 
+        map: Dict[str, Char | Dict[str, Any]] = None
+    ) -> None:
+        if isinstance(char, Char):
+            char.set_stat(stat, value)
+        elif map != None and char in map.keys():
+            map[char].set_stat(stat, value)
         
-    def set_level_for_char(value, name, map):
-        if name not in map.keys():
-            return
-        map[name].set_level(value)
+    def set_level_for_char(
+        value: int, 
+        char: str | Char, 
+        map: Dict[str, Char | Dict[str, Any]] = None
+    ) -> None:
+        if isinstance(char, Char):
+            char.set_level(value)
+        elif map != None and char in map.keys():
+            map[char].set_level(value)
         
     # changes the stat value
-    def change_stat(stat, change, name = "", map = None):
-        if stat == "money":
+    def change_stat(
+        stat: str, 
+        change: num, 
+        name: str | Char = "", 
+        map: Dict[str, Char | Dict[str, Any]] = None
+    ) -> None:
+        if stat == MONEY:
             money.change_value(change)
         else:
             change_stat_for_char(stat, change, name, map)
 
-    def change_stat_for_all(stat, delta, map):
+    def change_stat_for_all(
+        stat: str, 
+        delta: num, 
+        map: Dict[str, Char | Dict[str, Any]]
+    ) -> None:
         for character in map.keys():
             map[character].change_stat(stat, delta)
 
-    def change_stat_for_char(stat, value, name, map):
-        if name not in map.keys():
-            return
-        map[name].change_stat(stat, value)
+    def change_stat_for_char(
+        stat: str, 
+        value: num, 
+        char: str | Char, 
+        map: Dict[str, Char | Dict[str, Any]] = None
+    ) -> None:
+        if isinstance(char, Char):
+            char.change_stat(stat, value)
+        elif map != None and char in map.keys():
+            map[char].change_stat(stat, value)
 
-    def reset_stats(map, name = ""):
+    def reset_stats(
+        char: str | Char = "", 
+        map: Dict[str, Char | Dict[str, Any]] = None
+    ) -> None:
         money.reset_change()
-
-        if name != "" and name in map.keys():
-            map[name].reset_changed_stats()
-        else:
+        
+        if isinstance(char, Char):
+            char.reset_changed_stats()
+        elif map != None and char in map.keys():
+            map[char].reset_changed_stats()
+        elif map != None:
             for keys in map.keys():
                 map[keys].reset_changed_stats()
 
-    def load_character(name, title, map, start_data, runtime_data = None):
+    def load_character(
+        name: str, 
+        title: str, 
+        map: Dict[str, Char | Dict[str, Any]], 
+        start_data: Dict[str, Any], 
+        runtime_data: Dict[str, Any] = None
+    ) -> None:
         if name not in map.keys():
             map[name] = Char(name, title)
             map[name].__dict__.update(start_data)
 
         map[name]._update(runtime_data)
 
-    def update_character(name, map, data):
-        map[name]._update(runtime_data)
+    def update_character(
+        char: str | Char, 
+        data: Dict[str, Any], 
+        map: Dict[str, Char | Dict[str, Any]] = None
+    ) -> None:
+        if isinstance(char, Char):
+            char._update(data)
+        elif map != None and char in map.keys():
+            map[char]._update(data)
 
-    def remove_character(name, map):
+    def remove_character(
+        name: str, 
+        map: Dict[str, Char | Dict[str, Any]]
+    ) -> None:
         if name in map.keys():
             del(map[name])
 
-label load_schools:
+label load_schools ():
 
     $ load_character("secretary", "Secretary", charList['staff'], {
         'stats_objects': {
-            "corruption": Stat("corruption", 0),
-            "inhibition": Stat("inhibition", 100),
-            "happiness": Stat("happiness", 20),
-            "education": Stat("education", 10),
-            "charm": Stat("charm", 8),
-            "reputation": Stat("reputation", 12),
-        },
+            "corruption": Stat(CORRUPTION, 35),
+            "inhibition": Stat(INHIBITION, 50),
+            "happiness": Stat(HAPPINESS, 57),
+            "education": Stat(EDUCATION, 28),
+            "charm": Stat(CHARM, 35),
+            "reputation": Stat(REPUTATION, 79),
+        }
     })
 
     $ load_character("parents", "Parents", charList, {
         'stats_objects': {
-            "corruption": Stat("corruption", 0),
-            "inhibition": Stat("inhibition", 100),
-            "happiness": Stat("happiness", 20),
-            "education": Stat("education", 10),
-            "charm": Stat("charm", 8),
-            "reputation": Stat("reputation", 12),
-        },
+            "corruption": Stat(CORRUPTION, 0),
+            "inhibition": Stat(INHIBITION, 100),
+            "happiness": Stat(HAPPINESS, 15),
+            "education": Stat(EDUCATION, 15),
+            "charm": Stat(CHARM, 28),
+            "reputation": Stat(REPUTATION, 38),
+        }
     })
 
     $ load_character("teacher", "Teacher", charList['staff'], {
         'stats_objects': {
-            "corruption": Stat("corruption", 0),
-            "inhibition": Stat("inhibition", 100),
-            "happiness": Stat("happiness", 20),
-            "education": Stat("education", 10),
-            "charm": Stat("charm", 8),
-            "reputation": Stat("reputation", 12),
-        },
+            "corruption": Stat(CORRUPTION, 0),
+            "inhibition": Stat(INHIBITION, 100),
+            "happiness": Stat(HAPPINESS, 13),
+            "education": Stat(EDUCATION, 35),
+            "charm": Stat(CHARM, 14),
+            "reputation": Stat(REPUTATION, 17),
+        }
     })
     $ load_character("high_school", "High School", charList['schools'], {
         'stats_objects': {
-            "corruption": Stat("corruption", 0),
-            "inhibition": Stat("inhibition", 100),
-            "happiness": Stat("happiness", 20),
-            "education": Stat("education", 10),
-            "charm": Stat("charm", 8),
-            "reputation": Stat("reputation", 12),
+            "corruption": Stat(CORRUPTION, 0),
+            "inhibition": Stat(INHIBITION, 100),
+            "happiness": Stat(HAPPINESS, 12),
+            "education": Stat(EDUCATION, 9),
+            "charm": Stat(CHARM, 8),
+            "reputation": Stat(REPUTATION, 7),
         }
     })
 
     $ load_character("middle_school", "Middle School", charList['schools'], {
         'stats_objects': {
-            "corruption": Stat("corruption", 0),
-            "inhibition": Stat("inhibition", 100),
-            "happiness": Stat("happiness", 20),
-            "education": Stat("education", 10),
-            "charm": Stat("charm", 8),
-            "reputation": Stat("reputation", 12),
+            "corruption": Stat(CORRUPTION, 0),
+            "inhibition": Stat(INHIBITION, 100),
+            "happiness": Stat(HAPPINESS, 12),
+            "education": Stat(EDUCATION, 9),
+            "charm": Stat(CHARM, 8),
+            "reputation": Stat(REPUTATION, 7),
         }
     })
 
     $ load_character("elementary_school", "Elementary School", charList['schools'], {
         'stats_objects': {
-            "corruption": Stat("corruption", 0),
-            "inhibition": Stat("inhibition", 100),
-            "happiness": Stat("happiness", 20),
-            "education": Stat("education", 10),
-            "charm": Stat("charm", 8),
-            "reputation": Stat("reputation", 12),
+            "corruption": Stat(CORRUPTION, 0),
+            "inhibition": Stat(INHIBITION, 100),
+            "happiness": Stat(HAPPINESS, 12),
+            "education": Stat(EDUCATION, 9),
+            "charm": Stat(CHARM, 8),
+            "reputation": Stat(REPUTATION, 7),
         }
     })
 
     $ load_character("school_mean_values", "Mean School", charList, {
         'stats_objects': {
-            "corruption": Stat("corruption", 0),
-            "inhibition": Stat("inhibition", 100),
-            "happiness": Stat("happiness", 20),
-            "education": Stat("education", 10),
-            "charm": Stat("charm", 8),
-            "reputation": Stat("reputation", 12),
+            "corruption": Stat(CORRUPTION, 0),
+            "inhibition": Stat(INHIBITION, 100),
+            "happiness": Stat(HAPPINESS, 12),
+            "education": Stat(EDUCATION, 9),
+            "charm": Stat(CHARM, 8),
+            "reputation": Stat(REPUTATION, 7),
         }
     })
 

@@ -3,33 +3,54 @@
 ##################################################
 
 init -1 python:
-    high_school_building_after_time_check = Event("high_school_building_after_time_check", "high_school_building.after_time_check", 2)
-    high_school_building_fallback         = Event("high_school_building_fallback",         "high_school_building_fallback",         2)
-    high_school_building_person_fallback  = Event("high_school_building_person_fallback",  "high_school_building_person_fallback",  2)
+    hsb_after_time_check = Event(2, "high_school_building.after_time_check")
+    hsb_fallback         = Event(2, "hsb_fallback")
+    hsb_person_fallback  = Event(2, "hsb_person_fallback")
 
-    high_school_building_timed_event = EventStorage("high_school_building", "", high_school_building_after_time_check)
-    high_school_building_events = {
-        "check_class": EventStorage("check_class", "Check Class",      high_school_building_person_fallback),
-        "teach_class": EventStorage("teach_class", "Teach a Class",    high_school_building_person_fallback),
-        "patrol":      EventStorage("patrol",      "Patrol building",  high_school_building_person_fallback),
-        "students":    EventStorage("students",    "Talk to students", high_school_building_person_fallback),
+    hsb_timed_event = TempEventStorage("hsb", "", hsb_after_time_check)
+    hsb_events = {
+        "check_class": EventStorage("check_class", "Check Class",      hsb_person_fallback),
+        "teach_class": EventStorage("teach_class", "Teach a Class",    hsb_person_fallback),
+        "patrol":      EventStorage("patrol",      "Patrol building",  hsb_person_fallback),
+        "students":    EventStorage("students",    "Talk to students", hsb_person_fallback),
     }
 
-    high_school_building_timed_event.add_event(Event(
-        "first_week_event",
-        ["first_week_high_school_building_event"],
-        1,
+    hsb_timed_event.add_event(Event(1,
+        ["first_week_hsb_event"],
         TimeCondition(day = "2-4", month = 1, year = 2023),
     ))
 
-    high_school_building_timed_event.add_event(Event(
-        "first_potion_event",
-        ["first_potion_high_school_building_event"],
-        1,
+    hsb_timed_event.add_event(Event(1,
+        ["first_potion_hsb_event"],
         TimeCondition(day = 9),
     ))
 
-    high_school_building_bg_images = [
+    event1 = Event(3, 
+        ["sb_event_1"],
+        OR(
+            TimeCondition(daytime = "c", weekday = "d"),
+            TimeCondition(weekday = "w"),
+        ),
+    )
+
+    hsb_events["teach_class"].add_event(event1)
+    
+    hsb_events["patrol"].add_event(event1)
+    hsb_events["patrol"].add_event(Event(3, 
+        ["sb_event_3"], 
+        TimeCondition(daytime = "d")
+    ))
+
+    hsb_events["check_class"].add_event(Event(3,
+        ["sb_event_2"],
+        TimeCondition(daytime = "c", weekday = "d"),
+    ))
+
+
+    hsb_timed_event.check_all_events()
+    map(lambda x: x.check_all_events(), hsb_events.values())
+
+    hsb_bg_images = [
         BGImage("images/background/high school building/bg c <level> <nude>.jpg", 1, TimeCondition(daytime = "c", weekday = "d")),
         BGImage("images/background/high school building/bg 7.jpg", 1, TimeCondition(daytime = 7)),
     ]
@@ -40,33 +61,33 @@ init -1 python:
 # ----- High School Building Entry Point ----- #
 ################################################
 
-label high_school_building:
+label high_school_building ():
 
-    call call_available_event(high_school_building_timed_event) from high_school_building_1
+    call call_available_event(hsb_timed_event) from high_school_building_1
 
-label .after_time_check:
+label .after_time_check (**kwargs):
 
-    call show_high_school_building_idle_image() from high_school_building_2
+    $ school_obj = get_character("high_school", charList["schools"])
+
+    call show_hsb_idle_image(school_obj) from high_school_building_2
 
     call call_event_menu (
-        "What to do in the High School?",
-        1, 
-        7, 
-        high_school_building_events, 
-        high_school_building_fallback,
+        "What to do in the High School?", 
+        hsb_events,
+        hsb_fallback,
         character.subtitles,
-        "high_school",
+        char_obj = school_obj,
     ) from high_school_building_3
 
     jump high_school_building
 
 
-label show_high_school_building_idle_image():
+label show_hsb_idle_image(school_obj):
 
     $ max_nude, image_path = get_background(
         "images/background/high school building/bg f.jpg",
-        high_school_building_bg_images, 
-        get_level_for_char("high_school", charList["schools"]),
+        hsb_bg_images, 
+        school_obj,
     )
 
     call show_image_with_nude_var(image_path, max_nude) from _call_show_image_with_nude_var_6
@@ -79,12 +100,13 @@ label show_high_school_building_idle_image():
 # ----- High School Building Fallback Events ----- #
 ####################################################
 
-label high_school_building_fallback:
+label hsb_fallback (**kwargs):
     subtitles "There is nothing to do here."
-    return
-label high_school_building_person_fallback:
+    jump map_overview
+
+label hsb_person_fallback (**kwargs):
     subtitles "There is nobody here."
-    return
+    jump map_overview
 
 ####################################################
 
@@ -93,7 +115,7 @@ label high_school_building_person_fallback:
 ###########################################
 
 # first week event
-label first_week_high_school_building_event:
+label first_week_hsb_event (**kwargs):
     
     show first week high school building 1 with dissolveM
     subtitles """You enter the main building of the high school.
@@ -118,7 +140,7 @@ label first_week_high_school_building_event:
     headmaster_thought "Yeah, not one school girl has even one book."
     headmaster_thought "I guess the former headmaster cut back on those"
 
-    $ set_stat_for_all("education", 15, charList["schools"])
+    $ change_stat_for_all("education", 5, charList["schools"])
 
     $ set_building_blocked("high_school_building")
     $ set_building_blocked("middle_school_building")
@@ -126,7 +148,7 @@ label first_week_high_school_building_event:
 
     jump new_day
 
-label first_potion_high_school_building_event:
+label first_potion_hsb_event (**kwargs):
 
     show first potion high school building 1 with dissolveM
     headmaster_thought "Let's see how classes are today."

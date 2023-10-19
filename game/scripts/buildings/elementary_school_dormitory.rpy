@@ -3,9 +3,9 @@
 #########################################################
 
 init -1 python:
-    elementary_school_dormitory_after_time_check = Event("elementary_school_dormitory_after_time_check", "elementary_school_dormitory.after_time_check", 2)
-    elementary_school_dormitory_fallback         = Event("elementary_school_dormitory_fallback",         "elementary_school_dormitory_fallback",         2)
-    elementary_school_dormitory_person_fallback  = Event("elementary_school_dormitory_person_fallback",  "elementary_school_dormitory_person_fallback",  2)
+    elementary_school_dormitory_after_time_check = Event(2, "elementary_school_dormitory.after_time_check")
+    elementary_school_dormitory_fallback         = Event(2, "elementary_school_dormitory_fallback")
+    elementary_school_dormitory_person_fallback  = Event(2, "elementary_school_dormitory_person_fallback")
 
     elementary_school_dormitory_timed_event = EventStorage("elementary_school_dormitory", "", elementary_school_dormitory_after_time_check)
     elementary_school_dormitory_events = {
@@ -15,19 +15,20 @@ init -1 python:
         "peek_students": EventStorage("peek_students", "Peek on students", elementary_school_dormitory_person_fallback),
     }
     
-    elementary_school_dormitory_timed_event.add_event(Event(
-        "first_week_event",
+    elementary_school_dormitory_timed_event.add_event(Event(1,
         ["first_week_elementary_school_dormitory_event"],
-        1,
         TimeCondition(day = "2-4", month = 1, year = 2023),
     ))
 
-    elementary_school_dormitory_timed_event.add_event(Event(
-        "first_potion_event",
+    elementary_school_dormitory_timed_event.add_event(Event(1,
         ["first_potion_elementary_school_dormitory_event"],
-        1,
         TimeCondition(day = 9),
     ))
+
+
+
+    elementary_school_dormitory_timed_event.check_all_events()
+    map(lambda x: x.check_all_events(), elementary_school_dormitory_events.values())
 
     elementary_school_dormitory_bg_images = [
         BGImage("images/background/elementary school dormitory/bg f <level> <nude>.jpg", 1, TimeCondition(daytime = "f")),
@@ -41,32 +42,32 @@ init -1 python:
 # ----- Elementary School Dormitory Entry Point ----- #
 #######################################################
 
-label elementary_school_dormitory:
+label elementary_school_dormitory ():
 
     call call_available_event(elementary_school_dormitory_timed_event) from elementary_school_dormitory_1
     
-label .after_time_check:
+label .after_time_check (**kwargs):
 
-    call show_elementary_school_dormitory_idle_image() from elementary_school_dormitory_2
+    $ school_obj = get_character("elementary_school", charList["schools"])
+
+    call show_elementary_school_dormitory_idle_image(school_obj) from elementary_school_dormitory_2
 
     call call_event_menu (
-        "What to do in the Elementary School Dorm?",
-        1, 
-        7, 
+        "What to do in the Elementary School Dorm?", 
         elementary_school_dormitory_events, 
         elementary_school_dormitory_fallback,
         character.subtitles,
-        "elementary_school",
+        char_obj = school_obj,
     ) from elementary_school_dormitory_3
 
     jump elementary_school_dormitory
 
-label show_elementary_school_dormitory_idle_image():
+label show_elementary_school_dormitory_idle_image(school_obj):
 
     $ max_nude, image_path = get_background(
         "images/background/elementary school dormitory/bg c.jpg",
         elementary_school_dormitory_bg_images,
-        get_level_for_char("elementary_school", charList["schools"]),
+        school_obj,
     )
 
     call show_image_with_nude_var (image_path, max_nude) from _call_show_image_with_nude_var_4
@@ -79,13 +80,13 @@ label show_elementary_school_dormitory_idle_image():
 # ----- Elementary School Dormitory Fallback Events ----- #
 ###########################################################
 
-label elementary_school_dormitory_fallback:
+label elementary_school_dormitory_fallback (**kwargs):
     subtitles "There is nothing to do here."
-    return
+    jump map_overview
 
-label elementary_school_dormitory_person_fallback:
+label elementary_school_dormitory_person_fallback (**kwargs):
     subtitles "There is nobody here."
-    return
+    jump map_overview
 
 ###########################################################
 
@@ -94,7 +95,7 @@ label elementary_school_dormitory_person_fallback:
 ##################################################
 
 # first week event
-label first_week_elementary_school_dormitory_event:
+label first_week_elementary_school_dormitory_event (**kwargs):
     show first week high school dormitory 1 with dissolveM
     headmaster_thought "The dormitory looks alright."
 
@@ -111,9 +112,10 @@ label first_week_elementary_school_dormitory_event:
     headmaster "Hello?"
 
     show first week high school dormitory 5 with dissolveM
-    headmaster_thought "Hmm nobody seems to be here. Nevermind. I just let my Secretary give me a report."
-
-    $ set_stat_for_all("inhibition", 2, charList["schools"])
+    headmaster_thought "Hmm nobody seems to be here. Forget it. I'll just let my Secretary give me a report."
+    
+    $ change_stat_for_all("inhibition", -3, charList["schools"])
+    $ change_stat_for_all("happiness", 3, charList["schools"])
 
     $ set_building_blocked("high_school_dormitory")
     $ set_building_blocked("middle_school_dormitory")
@@ -121,7 +123,7 @@ label first_week_elementary_school_dormitory_event:
 
     jump new_day
 
-label first_potion_elementary_school_dormitory_event:
+label first_potion_elementary_school_dormitory_event (**kwargs):
 
     show first potion dormitory 1 with dissolveM
     subtitles "You enter the dormitory of the elementary school."

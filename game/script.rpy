@@ -1,6 +1,6 @@
 ﻿# The game starts here.
 
-label start:
+label start ():
 
     $ set_dissolve()
 

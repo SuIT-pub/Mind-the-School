@@ -1,4 +1,6 @@
 init python:
+    from typing import TypeVar
+
     # 0 = no loli content (High School age: 18-22)
     # 1 = slight loli content (Middle School age: 13-17, High School age: 18-22)
     # 2 = hard loli content (Elementary School age: 8-12, Middle School age: 13-17, High School age: 18-22)
@@ -6,31 +8,40 @@ init python:
     cheat_mode = False
     nude_vision = 2
 
-    def set_game_data(key, value):
+    def set_game_data(key: str, value: Any) -> None:
         gameData[key] = value
 
-    def start_progress(key):
-        gameData[key] = 1
+    def start_progress(key: str) -> None:
+        if "progress" not in gameData.keys():
+            gameData["progress"] = {}
+        gameData["progress"][key] = 1
 
-    def advance_progress(key, delta = 1):
-        if key not in gameData.keys():
-            gameData[key] = 0
-        gameData[key] += delta
+    def advance_progress(key: str, delta: int = 1) -> None:
+        if "progress" not in gameData.keys():
+            gameData["progress"] = {}
+        if key not in gameData["progress"].keys():
+            gameData["progress"][key] = 0
+        gameData["progress"][key] += delta
 
-    def get_progress(key):
-        if key not in gameData.keys():
+    def set_progress(key: str, value: int) -> None:
+        if "progress" not in gameData.keys():
+            gameData["progress"] = {}
+        gameData["progress"][key] = value
+
+    def get_progress(key: str)-> int:
+        if "progress" not in gameData.keys() or key not in gameData["progress"].keys():
             return -1
-        return gameData[key]
+        return gameData["progress"][key]
 
-    def get_game_data(key):
+    def get_game_data(key: str) -> Any:
         if key in gameData.keys():
             return gameData[key]
         return None
 
-    def contains_game_data(key):
+    def contains_game_data(key: str) -> bool:
         return key in gameData.keys()
 
-    def get_image_with_level(image_path, level):
+    def get_image_with_level(image_path: str, level: int) -> str:
 
         path = image_path.replace("<nude>", "0")
 
@@ -45,7 +56,11 @@ init python:
         
         return image_path
 
-    def get_random_school():
+    def get_random_school() -> Char:
+        school = get_random_school_name()
+        return charList['schools'][school]
+
+    def get_random_school_name() -> str:
         if loli_content == 2:
             return get_random_choice("high_school", "middle_school", "elementary_school")
         elif loli_content == 1:
@@ -53,15 +68,24 @@ init python:
         else:
             return "high_school"
 
-    def get_random_choice(*choice):
+    def get_all_schools() -> List[Char]:
+        if loli_content == 2:
+            return [charList['schools']['high_school'], charList['schools']['middle_school'], charList['schools']['elementary_school']]
+        elif loli_content == 1:
+            return [charList['schools']['high_school'], charList['schools']['middle_school']]
+        else:
+            return [charList['schools']['high_school']]
+
+    T = TypeVar('T')
+
+    def get_random_choice(*choice: T) -> T:
         return renpy.random.choice(list(choice))
 
-    def log_val(key, value):
-        print(key + ": " + str(value))
+    def log_val(key: str, value: Any) -> None:
+        print(key + ": " + str(value) + "\n")
 
-    def log(msg):
-        print(msg)
-       
+    def log(msg: str) -> None:
+        print(str(msg) + "\n")
 
 default intro_dev_message = "This version of the game only includes content up to day 10, when free roaming begins. You can still play and roam from there, but there will be no content."
 
@@ -74,7 +98,8 @@ default charList = {
     'schools': {},
     'staff': {},
 }
-default money = Stat("money", 1000)
+
+default money = Stat(MONEY, 1000)
 default time = Time()
 default stat_data = {}
 default gameData = {}
@@ -146,8 +171,50 @@ default character.secretary_shout = Character(
     what_size = 35,
     # what_outlines = [( 1, "#000000", 0, 0 )],
 )
-default character.teacher = Character(
-    "Teacher", 
+default teacher_1_first_name = "Lily"
+default teacher_1_last_name = "Anderson"
+default character.teacher1 = Character(
+    "[teacher_1_first_name] [teacher_1_last_name]", 
+    #window_background = None,
+    who_color = "#00ced1",
+    what_color = "#ffffff",
+    what_size = 28,
+    # what_outlines = [( 1, "#000000", 0, 0 )],
+)
+default teacher_2_first_name = "Yulan"
+default teacher_2_last_name = "Chen"
+default character.teacher2 = Character(
+    "[teacher_2_first_name] [teacher_2_last_name]", 
+    #window_background = None,
+    who_color = "#00ced1",
+    what_color = "#ffffff",
+    what_size = 28,
+    # what_outlines = [( 1, "#000000", 0, 0 )],
+)
+default teacher_3_first_name = "Finola"
+default teacher_3_last_name = "Ryan"
+default character.teacher3 = Character(
+    "[teacher_3_first_name] [teacher_3_last_name]", 
+    #window_background = None,
+    who_color = "#00ced1",
+    what_color = "#ffffff",
+    what_size = 28,
+    # what_outlines = [( 1, "#000000", 0, 0 )],
+)
+default teacher_4_first_name = "Chloe"
+default teacher_4_last_name = "Garcia"
+default character.teacher4 = Character(
+    "[teacher_4_first_name] [teacher_4_last_name]", 
+    #window_background = None,
+    who_color = "#00ced1",
+    what_color = "#ffffff",
+    what_size = 28,
+    # what_outlines = [( 1, "#000000", 0, 0 )],
+)
+default teacher_5_first_name = "Zoe"
+default teacher_5_last_name = "Parker"
+default character.teacher5 = Character(
+    "[teacher_5_first_name] [teacher_5_last_name]", 
     #window_background = None,
     who_color = "#00ced1",
     what_color = "#ffffff",

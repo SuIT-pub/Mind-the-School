@@ -1,126 +1,30 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
 While running game code:
-  File "game/scripts/intro.rpy", line 50, in script call
-    call skip_to_free_roam from intro_3
-  File "game/scripts/intro.rpy", line 211, in script call
-    call first_week_epilogue_final from skip_to_free_roam_1
-  File "game/scripts/overview.rpy", line 493, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 2, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/overview.rpy", line 493, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 2, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 6, in script call
-    call screen journal_1(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 8, in script call
-    call screen journal_2(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 14, in script call
-    call screen journal_5(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 14, in script call
-    call screen journal_5(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 14, in script
-    call screen journal_5(display, school) with dissolveM
-  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
-    store._return = renpy.call_screen(name, *args, **kwargs)
-  File "game/scripts/journal/journal.rpy", line 940, in execute
-    screen journal_5(display, school):
-  File "game/scripts/journal/journal.rpy", line 940, in execute
-    screen journal_5(display, school):
-  File "game/scripts/journal/journal.rpy", line 1024, in execute
-    if display == "stats":
-  File "game/scripts/journal/journal.rpy", line 1215, in execute
-    if len(rule_keywords) == 1:
-  File "game/scripts/journal/journal.rpy", line 1269, in execute
-    $ active_rule_desc_conditions_desc = active_rule.get_desc_conditions_desc(char_obj = active_school)
-  File "game/scripts/journal/journal.rpy", line 1269, in <module>
-    $ active_rule_desc_conditions_desc = active_rule.get_desc_conditions_desc(char_obj = active_school)
-  File "game/scripts/journal/rules.rpy", line 119, in get_desc_conditions_desc
-    return self._unlock_conditions.get_desc_conditions_desc(**kwargs)
-  File "game/scripts/conditions.rpy", line 30, in get_desc_conditions_desc
-    print("condition: " + condition.get_name())
-  File "game/scripts/conditions.rpy", line 159, in get_name
-    return get_rule(self.value).title
-AttributeError: 'Rule' object has no attribute 'title'
+  File "game/scripts/journal/journal_obj.rpy", line 1, in script
+    init -7 python:
+  File "game/scripts/journal/journal_obj.rpy", line 5, in <module>
+    class Journal_Obj(ABC):
+  File "game/scripts/journal/journal_obj.rpy", line 111, in Journal_Obj
+    def get_list_conditions(self, cond_type: str = UNLOCK, level: int = -1) -> List[Condition]:
+NameError: name 'UNLOCK' is not defined
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "game/scripts/intro.rpy", line 50, in script call
-    call skip_to_free_roam from intro_3
-  File "game/scripts/intro.rpy", line 211, in script call
-    call first_week_epilogue_final from skip_to_free_roam_1
-  File "game/scripts/overview.rpy", line 493, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 2, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/overview.rpy", line 493, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 2, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 6, in script call
-    call screen journal_1(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 8, in script call
-    call screen journal_2(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 14, in script call
-    call screen journal_5(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 14, in script call
-    call screen journal_5(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 14, in script
-    call screen journal_5(display, school) with dissolveM
-  File "C:\RenPy\renpy\ast.py", line 2259, in execute
-    self.call("execute")
-  File "C:\RenPy\renpy\ast.py", line 2241, in call
-    return renpy.statements.call(method, parsed, *args, **kwargs)
-  File "C:\RenPy\renpy\statements.py", line 342, in call
-    return method(parsed, *args, **kwargs)
-  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
-    store._return = renpy.call_screen(name, *args, **kwargs)
-  File "C:\RenPy\renpy\exports.py", line 3347, in call_screen
-    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
-  File "C:\RenPy\renpy\ui.py", line 299, in interact
-    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
-  File "C:\RenPy\renpy\display\core.py", line 3587, in interact
-    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
-  File "C:\RenPy\renpy\display\core.py", line 4060, in interact_core
-    root_widget.visit_all(lambda d : d.per_interact())
-  File "C:\RenPy\renpy\display\core.py", line 684, in visit_all
-    d.visit_all(callback, seen)
-  File "C:\RenPy\renpy\display\core.py", line 684, in visit_all
-    d.visit_all(callback, seen)
-  File "C:\RenPy\renpy\display\core.py", line 684, in visit_all
-    d.visit_all(callback, seen)
-  File "C:\RenPy\renpy\display\screen.py", line 476, in visit_all
-    callback(self)
-  File "C:\RenPy\renpy\display\core.py", line 4060, in <lambda>
-    root_widget.visit_all(lambda d : d.per_interact())
-  File "C:\RenPy\renpy\display\screen.py", line 487, in per_interact
-    self.update()
-  File "C:\RenPy\renpy\display\screen.py", line 680, in update
-    self.screen.function(**self.scope)
-  File "game/scripts/journal/journal.rpy", line 940, in execute
-    screen journal_5(display, school):
-  File "game/scripts/journal/journal.rpy", line 940, in execute
-    screen journal_5(display, school):
-  File "game/scripts/journal/journal.rpy", line 1024, in execute
-    if display == "stats":
-  File "game/scripts/journal/journal.rpy", line 1215, in execute
-    if len(rule_keywords) == 1:
-  File "game/scripts/journal/journal.rpy", line 1269, in execute
-    $ active_rule_desc_conditions_desc = active_rule.get_desc_conditions_desc(char_obj = active_school)
-  File "game/scripts/journal/journal.rpy", line 1269, in <module>
-    $ active_rule_desc_conditions_desc = active_rule.get_desc_conditions_desc(char_obj = active_school)
-  File "game/scripts/journal/rules.rpy", line 119, in get_desc_conditions_desc
-    return self._unlock_conditions.get_desc_conditions_desc(**kwargs)
-  File "game/scripts/conditions.rpy", line 30, in get_desc_conditions_desc
-    print("condition: " + condition.get_name())
-  File "game/scripts/conditions.rpy", line 159, in get_name
-    return get_rule(self.value).title
-AttributeError: 'Rule' object has no attribute 'title'
+  File "game/scripts/journal/journal_obj.rpy", line 1, in script
+    init -7 python:
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 1138, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "C:\Users\bigma\Documents\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
+    exec(bytecode, globals, locals)
+  File "game/scripts/journal/journal_obj.rpy", line 5, in <module>
+    class Journal_Obj(ABC):
+  File "game/scripts/journal/journal_obj.rpy", line 111, in Journal_Obj
+    def get_list_conditions(self, cond_type: str = UNLOCK, level: int = -1) -> List[Condition]:
+NameError: name 'UNLOCK' is not defined
 
 Windows-10-10.0.19045 AMD64
-Ren'Py 8.1.2.23090503
-Mind the School 0.1.1A
-Mon Sep 25 11:48:58 2023
+Ren'Py 8.1.3.23091805
+Mind the School 0.1.2
+Thu Oct 19 16:03:51 2023

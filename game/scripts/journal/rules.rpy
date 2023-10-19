@@ -1,336 +1,58 @@
 init -6 python:
     import re
-    class Rule:
-        def __init__(self, name, title):
-            self._name = name
-            self._title = title
-            self._description = ""
-            self._image_path_alt = "images/journal/empty_image.webp"
-            self._image_path = "images/journal/empty_image.webp"
+    class Rule(Journal_Obj):
+        def __init__(self, name: str, title: str):
+            super().__init__(name, title)
             self._unlocked = {
                 "high_school": False,
                 "middle_school": False,
                 "elementary_school": False,
             }
-            self._unlock_conditions = ConditionStorage()
-            self._vote_comments = {}
-            self._default_comments = {
-                "yes": "I vote yes.",
-                "no": "I vote no.",
-                "veto": "I veto this decision.",
-            }
-            self._unlock_effects = []
 
-        def _update(self, title, data = None):
+        def _update(self, title: str, data: Dict[str, Any] = None) -> None:
+            super()._update(title, data)
             if data != None:
                 self.__dict__.update(data)
-
-            self._title = title
-
-            if not hasattr(self, '_description'):
-                self._description = ""
-            if not hasattr(self, '_image_path'):
-                self._image_path = "images/journal/empty_image.webp"
-            if not hasattr(self, '_image_path_alt'):
-                self._image_path_alt = "images/journal/empty_image.webp"
+                
             if not hasattr(self, '_unlocked'):
                 self._unlocked = {
                     "high_school": False,
                     "middle_school": False,
                     "elementary_school": False,
                 }
-            if not hasattr(self, '_unlock_conditions'):
-                self._unlock_conditions = ConditionStorage()
-            if not hasattr(self, '_vote_comments'):
-                self._vote_comments = {}
-            if not hasattr(self, '_default_comments'):
-                self._default_comments = {
-                    "yes": "I vote yes.",
-                    "no": "I vote no.",
-                    "veto": "I veto this decision.",
-                }
-            if not hasattr(self, '_unlock_effects'):
-                self._unlock_effects = []
-        
-        def get_name(self):
-            return self._name
-
-        def get_title(self):
-            return self._title
-
-        def get_type(self):
+                
+        def get_type(self) -> str:
             return "rule"
-
-        def get_description(self):
-            return self._description
-
-        def get_description_str(self):
-            return "\n\n".join(self._description)
-
-        def get_image(self, school, level):
-            for i in reversed(range(0, level + 1)):
-                image = self._image_path.replace("<school>", school).replace("<level>", str(i))
-                if renpy.loadable(image):
-                    return image
-            for i in range(0, 10):
-                image = self._image_path.replace("<school>", school).replace("<level>", str(i))
-                if renpy.loadable(image):
-                    return image
-            return self._image_path_alt
-
-        def get_full_image(self, school, level):
-            image = self.get_image(school, level)
-            full_image = image.replace(".", "_full.")
-
-            if renpy.loadable(full_image):
-                return full_image
-            return None
-
-        def unlock(self, school, unlock = True, apply_effects = False):
-            if school in self._unlocked:
-                self._unlocked[school] = unlock
-
-            if self._unlocked[school] and apply_effects:
-                self.apply_effects()
-
-        def is_unlocked(self, school):
-            return school in self._unlocked and self._unlocked[school]
-
-        def is_visible(self, school):
-            return self._unlock_conditions.is_blocking(char_obj = get_character(school, charList["schools"]))
-
-        def can_be_unlocked(self, school):
-            return self._unlock_conditions.is_fullfilled(char_obj = get_character(school, charList["schools"]))
-
-        def get_condition_storage(self):
-            return self._unlock_conditions
-
-        def get_conditions(self):
-            return self._unlock_conditions.get_conditions()
-
-        def get_list_conditions(self):
-            return self._unlock_conditions.get_list_conditions()
-
-        def get_desc_conditions(self):
-            return self._unlock_conditions.get_desc_conditions()
-        
-        def get_desc_conditions_desc(self, **kwargs):
-            return self._unlock_conditions.get_desc_conditions_desc(**kwargs)
-        
-        def get_vote_comments(self, char, result):
-            if char not in self._vote_comments.keys():
-                return self._default_comments[result]
-
-            vote = "{color=#00ff00}Votes For{/color}"
-            if result == "no":
-                vote = "{color=#ff0000}Votes Against{/color}"
-            elif result == "veto":
-                vote = "Vetoes"
-
-            return f"{vote}\n{self._vote_comments[char][result]}"
-
-        def apply_effects(self):
-            for effect in self._unlock_effects:
-                effect.apply()
-
 
     #############################################
     # Rules Global Methods
     
-    def get_unlocked_rules_by_school(school):
-        output = []
-
-        for rule in rules.values():
-            if rule.is_unlocked(school) and rule.get_name() not in output:
-                output.append(rule.get_name())
-        
-        return output
-
-    def get_visible_unlocked_rules_by_school(school):
-        output = []
-
-        for rule in rules.values():
-            if (rule.is_visible(school) and 
-            rule.is_unlocked(school) and
-            rule.get_name() not in output):
-                output.append(rule.get_name())
-
-        return output
-
-    def get_visible_locked_rules_by_school(school):
-        output = []
-
-        for rule in rules.values():
-            if (rule.is_visible(school) and 
-            not rule.is_unlocked(school) and
-            rule.get_name() not in output):
-                output.append(rule.get_name())
-
-        return output
-
-    def get_visible_rules_by_school(school, include_unlocked = False):
-        output = []
-
-        for rule in rules.values():
-            if (rule.is_visible(school) and 
-            (not rule.is_unlocked(school) or include_unlocked) and
-            rule.get_name() not in output):
-                output.append(rule.get_name())
-
-        return output
-    
-    def get_visible_unlocked_rules():
-        output = []
-
-        for rule in rules.values():
-            if (rule.is_visible("high_school") and 
-            rule.is_unlocked("high_school") and
-            rule.get_name() not in output):
-                output.append(rule.get_name())
-                continue
-            
-            if loli_content >= 1:
-                if (rule.is_visible("middle_school") and 
-                rule.is_unlocked("middle_school") and
-                rule.get_name() not in output):
-                    output.append(rule.get_name())
-                    continue
-
-            if loli_content == 2:
-                if (rule.is_visible("elementary_school") and 
-                rule.is_unlocked("elementary_school") and
-                rule.get_name() not in output):   
-                    output.append(rule.get_name())
-                    continue
-
-        return output
-
-    def get_visible_locked_rules():
-        output = []
-
-        for rule in rules.values():
-            if (rule.is_visible("high_school") and 
-            not rule.is_unlocked("high_school") and
-            rule.get_name() not in output):
-                output.append(rule.get_name())
-                continue
-            
-            if loli_content >= 1:
-                if (rule.is_visible("middle_school") and 
-                not rule.is_unlocked("middle_school") and
-                rule.get_name() not in output):
-                    output.append(rule.get_name())
-                    continue
-
-            if loli_content == 2:
-                if (rule.is_visible("elementary_school") and 
-                not rule.is_unlocked("elementary_school") and
-                rule.get_name() not in output):   
-                    output.append(rule.get_name())
-                    continue
-
-        return output
-
-    def get_visible_rules(include_unlocked = False):
-        output = []
-
-        for rule in rules.values():
-            if (rule.is_visible("high_school") and 
-            (not rule.is_unlocked("high_school") or include_unlocked) and
-            rule.get_name() not in output):
-                output.append(rule.get_name())
-                continue
-            
-            if loli_content >= 1:
-                if (rule.is_visible("middle_school") and 
-                (not rule.is_unlocked("middle_school") or include_unlocked) and
-                rule.get_name() not in output):
-                    output.append(rule.get_name())
-                    continue
-
-            if loli_content == 2:
-                if (rule.is_visible("elementary_school") and 
-                (not rule.is_unlocked("elementary_school") or include_unlocked) and
-                rule.get_name() not in output):   
-                    output.append(rule.get_name())
-                    continue
-
-        return output
-
-    def get_unlockable_rules():
-        output = []
-
-        for rule in rules.values():
-            high_unlock = rule.can_be_unlocked("high_school")
-            high_unlocked = rule.is_unlocked("high_school")
-
-            if (high_unlock and 
-            not high_unlocked and 
-            rule.get_name() not in output):
-                output.append(rule.get_name())
-                continue
-
-            if loli_content >= 1:
-                middle_unlock = rule.can_be_unlocked("middle_school")
-                middle_unlocked = rule.is_unlocked("middle_school")
-
-                if (middle_unlock and 
-                not middle_unlocked and 
-                rule.get_name() not in output):
-                    output.append(rule.gwt_name())
-                    continue
-
-            if loli_content == 2:
-                elementary_unlock = rule.can_be_unlocked("elementary_school")
-                elementary_unlocked = rule.is_unlocked("elementary_school")
-
-                if (elementary_unlock and 
-                not elementary_unlocked and 
-                rule.get_name() not in output):
-                    output.append(rule.get_name())
-                    continue
-
-        return output
-
-    def get_unlockable_rules_by_school(school):
-        output = []
-
-        for rule in rules.values():
-            unlock = rule.can_be_unlocked(school)
-            unlocked = rule.is_unlocked(school)
-
-            if (unlock and not unlocked and rule.get_name() not in output):
-                output.append(rule.get_name())
-                continue
-
-        return output
-
-    def get_rule(rule_name):
+    def get_rule(rule_name: str) -> Rule:
         if not rules or rule_name not in rules.keys():
             return None
         return rules[rule_name]
 
-    def is_rule_unlocked(rule_name, school):
+    def is_rule_unlocked(rule_name: str, school: str) -> bool:
         if rule_name not in rules.keys():
             return False
         return rules[rule_name].is_unlocked(school)
 
-    def is_rule_visible(rule_name, school):
+    def is_rule_visible(rule_name: str, **kwargs) -> bool:
         if rule_name not in rules.keys():
             return False
-        return rules[rule_name].is_visible(school)
+        return rules[rule_name].is_visible(**kwargs)
 
-    def load_rule(name, title, data = None):
+    def load_rule(name: str, title: str, data: Dict[str, Any] = None) -> None:
         if name not in rules.keys():
             rules[name] = Rule(name, title)
 
         rules[name]._update(title, data)
 
-    def remove_rule(name):
+    def remove_rule(name: str) -> None:
         if name in rules.keys():
             del(rules[name])
 
-label load_rules:
+label load_rules ():
     $ remove_rule("service_uniform")
 
     $ load_rule("theoretical_sex_ed", "Theoretical Sex Education (TSE)", {
@@ -338,8 +60,8 @@ label load_rules:
             "Students get a new subject in which they deal with the topic of the human body and human reproduction. All on a theoretical basis, of course.",
         ],
         '_unlock_conditions': ConditionStorage(
+            StatCondition(inhibition = '95-', corruption = '10+'),
             LevelCondition("1+"),
-            StatCondition("95-", "inhibition"),
             # LockCondition(),
         ),
         '_image_path': 'images/journal/rules/theoretical_sex_ed.jpg',
@@ -368,7 +90,7 @@ label load_rules:
         ],
         '_unlock_conditions': ConditionStorage(
             LevelCondition("2+"),
-            StatCondition("90-", "inhibition"),
+            StatCondition(inhibition = '90-'),
             RuleCondition("theoretical_sex_ed", blocking = True),
             # LockCondition(),
         ),
@@ -398,7 +120,7 @@ label load_rules:
         ],
         '_unlock_conditions': ConditionStorage(
             RuleCondition("theoretical_digital_material", blocking = True),
-            StatCondition("85-", "inhibition"),
+            StatCondition(inhibition = '85-'),
             LockCondition(),
         ),
         '_image_path': 'images/journal/rules/theoretical_teacher_sex_ed_<level>.jpg',
@@ -428,7 +150,7 @@ label load_rules:
         ],
         '_unlock_conditions': ConditionStorage(
             RuleCondition("theoretical_teacher_material", blocking = True),
-            StatCondition("80-", "inhibition"),
+            StatCondition(inhibition = '80-'),
             LockCondition(),
         ),
         '_image_path': 'images/journal/rules/theoretical_student_sex_ed_<school>_<level>.jpg',
@@ -516,6 +238,7 @@ label load_rules:
             "Allows for students to have a relationship between each other and to openly show it.",
         ],
         '_unlock_conditions':ConditionStorage(
+            ProgressCondition("Unlock Student Relation", "unlock_student_relationship", 1, True),
         ),
     })
 
@@ -524,7 +247,8 @@ label load_rules:
             "Allows for teacher to engage in a relationship with students.",
         ],
         '_unlock_conditions': ConditionStorage(
-            StatCondition('10+', 'corruption'),
+            StatCondition(corruption = '10+'),
+            RuleCondition("student_student_relation", blocking = True),
         ),
     })
 

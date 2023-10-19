@@ -9,76 +9,40 @@ init -6 python:
     # ----- CLASSES ----- #
 #######################
 
-    class Building:
-        def __init__(self, name, title):
-            self._name = name
-            self._title = title
-            self._description = ""
-            self._image_path_alt = "images/journal/empty_image.webp"
-            self._image_path = "images/journal/empty_image.webp"
+    class Building(Journal_Obj):
+        def __init__(self, name: str, title: str):
+            super().__init__(name, title)
             self._level = 0
             self._max_level = 1
-            self._unlock_conditions = ConditionStorage()
             self._update_conditions = []
             self._blocked = False
-            self._vote_comments = {}
-            self._default_comments = {
-                "yes": "I vote yes.",
-                "no": "I vote no.",
-                "veto": "I veto this decision.",
-            }
 
-        def _update(self, title, data = None):
+        def _update(self, title: str, data: Dict[str, Any] = None) -> None:
+            super()._update(title, data)
             if data != None:
                 self.__dict__.update(data)
-
-            self._title = title
-
-            if not hasattr(self, '_description'):
-                self._description = ""
-            if not hasattr(self, '_image_path'):
-                self._image_path = "images/journal/empty_image.webp"
-            if not hasattr(self, '_image_path_alt'):
-                self._image_path_alt = "images/journal/empty_image.webp"
+                
             if not hasattr(self, '_level'):
                 self._level = 0
             if not hasattr(self, '_max_level'):
                 self._max_level = 1
-            if not hasattr(self, '_unlock_conditions'):
-                self._unlock_conditions = ConditionStorage()
             if not hasattr(self, '_update_conditions'):
                 self._update_conditions = []
-            if not hasattr(self, '_blocked'):
-                self._blocked = False
-            if not hasattr(self, '_vote_comments'):
-                self._vote_comments = {}
-            if not hasattr(self, '_default_comments'):
-                self._default_comments = {
-                    "yes": "I vote yes.",
-                    "no": "I vote no.",
-                    "veto": "I veto this decision.",
-                }
         
-        def get_name(self):
-            return self._name
-
-        def get_title(self):
-            return self._title
-
-        def get_type(self):
+        def get_type(self) -> str:
             return "building"
 
-        def get_description(self, level = -1):
+        def get_description(self, level: int = -1) -> List[str]:
             if level == -1:
                 level = self._level
             if level < 0 or level >= len(self._description):
                 return ""
             return self._description[level]
 
-        def get_description_str(self, level = -1):
+        def get_description_str(self, level: int = -1) -> str:
             return "\n\n".join(self.get_description(level))
 
-        def get_image(self):
+        def get_image(self, _school = "x", _level = -1) -> str:
             level = get_lowest_level(charList["schools"])
             for i in reversed(range(0, level + 1)):
                 image = self._image_path.replace("<level>", str(i))
@@ -86,7 +50,7 @@ init -6 python:
                     return image
             return self._image_path_alt
 
-        def get_full_image(self):
+        def get_full_image(self, _school = "x", _level = -1) -> str:
             image = self.get_image()
             full_image = image.replace(".", "_full.")
 
@@ -94,13 +58,13 @@ init -6 python:
                 return full_image
             return None
 
-        def get_level(self):
+        def get_level(self) -> int:
             return self._level
 
-        def get_max_level(self):
+        def get_max_level(self) -> int:
             return self._max_level
 
-        def set_level(self, level):
+        def set_level(self, level: int) -> None:
             if level < 0:
                 level = 0
             if level > self._max_level:
@@ -108,73 +72,74 @@ init -6 python:
 
             self._level = level
 
-        def set_max_level(self, level):
+        def set_max_level(self, level: int) -> None:
             self._max_level = level
 
-        def is_available(self):
-            return self.is_unlocked() and not self.is_blocked()
+        def is_available(self) -> bool:
+            return self.is_unlocked("x") and not self.is_blocked()
 
-        def set_blocked(self, is_blocked = True):
+        def set_blocked(self, is_blocked: bool = True) -> None:
             self._blocked = is_blocked
 
-        def unlock(self, unlock = True):
+        def unlock(self, unlock: bool = True) -> None:
             self._level = 1 if unlock else 0
 
-        def is_unlocked(self):
+        def is_unlocked(self, _school) -> bool:
             return self._level != 0
 
-        def is_blocked(self):
+        def is_blocked(self) -> bool:
             return self._blocked
 
-        def is_visible(self, **kwargs):
-            return self._unlock_conditions.is_blocking(**kwargs)
+        def can_be_upgraded(self, **kwargs) -> bool:
+            conditions = self.get_update_conditions(self._level)
+            return conditions != None and conditions.is_fulfilled(**kwargs)
 
-        def can_be_unlocked(self, **kwargs):
-            return self._unlock_conditions.is_fullfilled(**kwargs)
-
-        def can_be_upgraded(self, **kwargs):
-            conditions = get_update_conditions(self._level + 1)
-            return conditions != None and conditions.is_fullfilled(**kwargs)
-
-        def has_higher_level(self):
+        def has_higher_level(self) -> bool:
             return self._level < self._max_level
 
-        def get_unlock_condition_storage(self):
-            return self._unlock_conditions
-        
-        def get_upgrade_condition_storage(self, level):
+        def get_upgrade_condition_storage(self, level: int) -> ConditionStorage:
             if level > len(self._update_conditions) or level <= 0:
                 return None
             return self._update_conditions[level - 1]
 
-        def get_unlock_conditions(self):
-            return self._unlock_conditions.get_conditions()
-
-        def get_update_conditions(self, level):
+        def get_update_conditions(self, level: int) -> ConditionStorage:
             if level > len(self._update_conditions) or level <= 0:
                 return None
             return self._update_conditions[level - 1]
         
-        def get_list_conditions(self, cond_type = "unlock", level = -1):
+        def get_list_conditions(self, cond_type: str = UNLOCK, level: int = -1) -> List[Condition]:
             if level == -1:
                 level = self._level
 
-            if cond_type == "unlock":
+            if cond_type == UNLOCK:
                 return self._unlock_conditions.get_list_conditions()
-            if cond_type == "upgrade":
+            if cond_type == UPGRADE:
                 update_conditions = self.get_update_conditions(level)
                 if update_conditions == None:
                     return []
                 else:
                     return self.get_update_conditions(level).get_list_conditions()
-
-        def get_desc_conditions(self, cond_type = "unlock", level = -1):
+        
+        def get_list_conditions_list(self, cond_type: str = UNLOCK, level: int = -1, **kwargs) -> List[Tuple[str, str]]:
             if level == -1:
                 level = self._level
 
-            if cond_type == "unlock":
+            if cond_type == UNLOCK:
+                return self._unlock_conditions.get_list_conditions_list(**kwargs)
+            if cond_type == UPGRADE:
+                update_conditions = self.get_update_conditions(level)
+                if update_conditions == None:
+                    return []
+                else:
+                    return self.get_update_conditions(level).get_list_conditions_list(**kwargs)
+
+        def get_desc_conditions(self, cond_type: str = UNLOCK, level: int = -1) -> List[Condition]:
+            if level == -1:
+                level = self._level
+
+            if cond_type == UNLOCK:
                 return self._unlock_conditions.get_desc_conditions()
-            if cond_type == "upgrade":
+            if cond_type == UPGRADE:
                 update_conditions = self.get_update_conditions(level)
                 if update_conditions == None:
                     return []
@@ -182,31 +147,18 @@ init -6 python:
                     return self.get_update_conditions(level).get_desc_conditions()
 
         
-        def get_desc_conditions_desc(self, cond_type = "unlock", level = -1, **kwargs):
+        def get_desc_conditions_desc(self, cond_type: str = UNLOCK, level: int = -1, **kwargs) -> List[str]:
             if level == -1:
                 level = self._level
 
-            if cond_type == "unlock":
+            if cond_type == UNLOCK:
                 return self._unlock_conditions.get_desc_conditions_desc(**kwargs)
-            if cond_type == "upgrade":
+            if cond_type == UPGRADE:
                 update_conditions = self.get_update_conditions(level)
                 if update_conditions == None:
                     return []
                 else:
                     return self.get_update_conditions(level).get_desc_conditions_desc(**kwargs)
-
-        def get_vote_comments(self, char, result):
-            if char not in self._vote_comments.keys():
-                return self._default_comments[result]
-
-            vote = "{color=#00ff00}Votes For{/color}"
-            if result == "no":
-                vote = "{color=#ff0000}Votes Against{/color}"
-            elif result == "veto":
-                vote = "Vetoes"
-
-            return f"{vote}\n{self._vote_comments[char][result]}"
-
 
     #######################
 
@@ -214,108 +166,59 @@ init -6 python:
     # ----- Buildings Global Methods ----- #
     ########################################
     
-    def count_locked_buildings():
+    def count_locked_buildings() -> int:
         output = 0
 
         for building in buildings.values():
-            if not building.is_unlocked():
+            if not building.is_unlocked("x"):
                 output += 1
         return output
 
-    def get_unlocked_buildings():
+    def get_unlocked_buildings() -> List[str]:
         output = []
 
         for building in buildings.values():
-            if building.is_unlocked() and building.get_name() not in output:
+            if building.is_unlocked("x") and building.get_name() not in output:
                 output.append(building.get_name())
         
         return output
     
-    def get_visible_unlocked_buildings():
-        output = []
-
-        for building in buildings.values():
-            if (building.is_visible() and 
-            building.is_unlocked() and
-            building.get_name() not in output):
-                output.append(building.get_name())
-                continue
-            
-        return output
-
-    def get_visible_locked_buildings():
-        output = []
-
-        for building in buildings.values():
-            if (building.is_visible() and 
-            not building.is_unlocked() and
-            building.get_name() not in output):
-                output.append(building.get_name())
-                continue
-            
-        return output
-
-    def get_visible_buildings(include_unlocked = False):
-        output = []
-
-        for building in buildings.values():
-            if (building.is_visible() and 
-            (not building.is_unlocked() or include_unlocked) and
-            building.get_name() not in output):
-                output.append(building.get_name())
-                continue
-            
-        return output
-
-    def get_unlockable_buildings():
-        output = []
-
-        for building in buildings.values():
-            unlock = building.can_be_unlocked()
-            unlocked = building.is_unlocked()
-
-            if (unlock and not unlocked and building.get_name() not in output):
-                output.append(building.get_name())
-                continue
-
-        return output
-
-    def get_building(building):
+    def get_building(building: str) -> Building:
         if building in buildings.keys():
             return buildings[building]
         return None
 
-    def set_building_blocked(building_name, is_blocked = True):
+    def set_building_blocked(building_name: str, is_blocked: bool = True) -> None:
         if building_name in buildings.keys():
             buildings[building_name].set_blocked(is_blocked)
 
-    def set_all_buildings_blocked(is_blocked = True):
+    def set_all_buildings_blocked(is_blocked: bool = True) -> None:
         for building in buildings.values():
             building.set_blocked(is_blocked)
 
-    def is_building_available(building_name):
+    def is_building_available(building_name: str) -> bool:
         if building_name not in buildings.keys():
             return False
         return buildings[building_name].is_available()
 
-    def is_building_unlocked(building_name):
+    def is_building_unlocked(building_name: str) -> bool:
         if building_name not in buildings.keys():
             return False
-        return buildings[building_name].is_unlocked()
+        return buildings[building_name].is_unlocked("x")
 
-    def is_building_visible(building_name):
+    def is_building_visible(building_name: str) -> bool:
         if building_name not in buildings.keys():
             return False
         return buildings[building_name].is_visible()
 
-    def load_building(name, title, runtime_data = None, starting_data = None):
+    def load_building(name: str, title: str, runtime_data: Dict[str, Any] = None, starting_data: Dict[str, Any] = None) -> None:
         if name not in buildings.keys():
             buildings[name] = Building(name, title)
             buildings[name]._update(title, starting_data)
 
         buildings[name]._update(title, runtime_data)
 
-    def remove_building(name):
+    def remove_building(name: str) -> None:
         if name in buildings.keys():
             del(buildings[name])
 
@@ -328,7 +231,7 @@ init -6 python:
 # ----- LABEL ----- #
 #####################
 
-label load_buildings:
+label load_buildings ():
     $ load_building("high_school_building", "High School Building", {
         '_description': [
             [
@@ -440,12 +343,11 @@ label load_buildings:
         '_max_level': 2,
         '_unlock_conditions': ConditionStorage(
             MoneyCondition(1000),
-            LockCondition()
+            # LockCondition()
         ),
         '_update_conditions':[
             ConditionStorage(
                 MoneyCondition(2000),
-                LockCondition()
             ),
         ],
     }, {
@@ -464,7 +366,6 @@ label load_buildings:
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(
             MoneyCondition(1000),
-            LockCondition()
         ),
         '_update_conditions':[],
     }, {
@@ -566,10 +467,10 @@ label load_buildings:
     $ load_building("kiosk", "Kiosk", {
         '_description': [
             [
-                "A small vendor that sells food and small utilities necessary for everday life at the school campus.",
+                "A small vendor that sells food and small utilities necessary for everyday life at the school campus.",
             ],
             [
-                "A small vendor that sells food and small utilities necessary for everday life at the school campus.",
+                "A small vendor that sells food and small utilities necessary for everyday life at the school campus.",
             ],
         ],
         '_max_level': 1,

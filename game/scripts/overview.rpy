@@ -34,10 +34,10 @@ screen school_overview_stats ():
         text "Education     " style "stat_name"
         text "Money"          style "stat_name"
 
-        text display_mean_stat("happiness") style "stat_value"
-        text display_mean_stat("charm") style "stat_value"
-        text display_mean_stat("education") style "stat_value"
-        text display_mean_stat("money") style "stat_value"
+        text display_mean_stat(HAPPINESS) style "stat_value"
+        text display_mean_stat(CHARM) style "stat_value"
+        text display_mean_stat(EDUCATION) style "stat_value"
+        text display_mean_stat(MONEY) style "stat_value"
 
         null
         text "Corruption" style "stat_name"
@@ -45,9 +45,9 @@ screen school_overview_stats ():
         text "Reputation" style "stat_name"
         
         null
-        text display_mean_stat("corruption") style "stat_value"
-        text display_mean_stat("inhibition") style "stat_value"
-        text display_mean_stat("reputation") style "stat_value"
+        text display_mean_stat(CORRUPTION) style "stat_value"
+        text display_mean_stat(INHIBITION) style "stat_value"
+        text display_mean_stat(REPUTATION) style "stat_value"
 
     vbox:
         xalign 1.0 ypos 150
@@ -154,7 +154,7 @@ screen school_overview_images ():
             xpos 42 ypos 127
 
 ############################################################################
-# display clickable buttons for the buildings leading to building distibutor
+# display clickable buttons for the buildings leading to building distributor
 screen school_overview_buttons ():
     tag interaction_overlay
     modal True
@@ -343,55 +343,6 @@ screen image_screen(image_path):
     tag background
     image "[image_path]"
 
-label show_image_with_nude_var(image_path, limit = 2, nude = 0):
-    if limit > nude_vision:
-        $ limit = nude_vision
-
-    $ paths = []
-    $ image_not_found = False
-
-    python:
-        for i in range(0, limit + 1):
-            paths.append(image_path.replace("<nude>", str(i)))
-            if len(paths) > 0 and not renpy.loadable(paths[len(paths) - 1]):
-                print(f"'{self._image_path}' interpolated to '{output}' couldn't be found!")
-                image_not_found = True
-    
-    if image_not_found:
-        return
-
-    show screen image_with_nude_var(paths, limit, nude) with dissolveM
-
-    return
-
-screen image_with_nude_var(paths, limit = 2, nude = 0):
-    tag background
-    
-    $ path = paths[nude]
-
-    image "[path]"
-
-    if nude_vision != 0 and nude == limit and nude != 0:
-        imagebutton:
-            auto "icons/sight_disabled_%s.png"
-            focus_mask None
-            xalign 0.0 yalign 0.0
-            action Show("image_with_nude_var", dissolveM, paths, limit, 0)
-
-    if nude == 0 and limit > 0:
-        imagebutton:
-            auto "icons/eye_target_%s.png"
-            focus_mask None
-            xalign 0.0 yalign 0.0
-            action Show("image_with_nude_var", dissolveM, paths, limit, 1)
-
-    if nude == 1 and limit > 1:
-        imagebutton:
-            auto "icons/fire_iris_%s.png"
-            focus_mask None
-            xalign 0.0 yalign 0.0
-            action Show("image_with_nude_var", dissolveM, paths, limit, 2)
-
 
 screen black_error_screen_text(text_str):
     add "black"
@@ -447,7 +398,7 @@ label set_day(day, month, year):
 
     jump map_overview
 
-label new_day:
+label new_day ():
     $ time.progress_day()
 
     $ hide_all()
@@ -458,7 +409,7 @@ label new_day:
 
     jump map_overview
 
-label new_daytime:
+label new_daytime ():
     $ hide_all()
 
     if time.progress_time():
@@ -475,7 +426,7 @@ screen school_overview():
 
 #################################################
 # shows the map overview and then waits for input
-label map_overview:
+label map_overview ():
     # $ _skipping = False
     call load_stats from map_overview_1
     call load_schools from map_overview_2
@@ -498,7 +449,7 @@ label map_overview:
 #############################################################################
 # building distributor. directs the building calls to the corresponding label
 label building(name=""):
-    $ reset_stats(charList["schools"])
+    $ reset_stats(map = charList["schools"])
     $ _skipping = True
 
     hide screen school_overview_map

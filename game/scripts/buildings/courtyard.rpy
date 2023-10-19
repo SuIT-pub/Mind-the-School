@@ -3,9 +3,9 @@
 #######################################
 
 init -1 python:
-    courtyard_after_time_check = Event("courtyard_after_time_check", "courtyard.after_time_check", 2)
-    courtyard_fallback         = Event("courtyard_fallback",         "courtyard_fallback",         2)
-    courtyard_person_fallback  = Event("courtyard_person_fallback",  "courtyard_person_fallback",  2)
+    courtyard_after_time_check = Event(2, "courtyard.after_time_check")
+    courtyard_fallback         = Event(2, "courtyard_fallback")
+    courtyard_person_fallback  = Event(2, "courtyard_person_fallback")
 
     courtyard_timed_event = EventStorage("courtyard", "", courtyard_after_time_check)
     courtyard_events = {
@@ -14,24 +14,37 @@ init -1 python:
         "patrol":       EventStorage("patrol",       "Patrol",             courtyard_person_fallback),
     }
     
-    courtyard_timed_event.add_event(Event(
-        "first_week_event",
+    courtyard_timed_event.add_event(Event(1,
         ["first_week_courtyard_event"],
-        1,
         TimeCondition(day = "2-4", month = 1, year = 2023),
     ))
     
-    courtyard_timed_event.add_event(Event(
-        "first_potion_event",
+    courtyard_timed_event.add_event(Event(1,
         ["first_potion_courtyard_event"],
-        1,
         TimeCondition(day = 9),
     ))
 
+    courtyard_events["patrol"].add_event(Event(3, 
+        ["courtyard_event_1", "courtyard_event_2"],
+        TimeCondition(daytime = "f", weekday = "d"),
+    ))
+
+    courtyard_events["patrol"].add_event(Event(3, 
+        ["courtyard_event_3"],
+        TimeCondition(daytime = "d"),
+    ))
+
+    courtyard_timed_event.check_all_events()
+    map(lambda x: x.check_all_events(), courtyard_events.values())
+
     courtyard_bg_images = [
-        BGImage("images/background/courtyard/bg 1,6 <school> <level> <nude>.jpg", 1, TimeCondition(daytime = "1,6")), # show courtyard with a few students
-        BGImage("images/background/courtyard/bg 1,6 <school> <level> <nude>.jpg", 1, TimeCondition(daytime = "c", weekday = "w")), # show courtyard with a few students
-        BGImage("images/background/courtyard/bg 3 <school> <level> <nude>.jpg", 1, TimeCondition(daytime = 3)), # show courtyard full of students and teacher
+        BGImage("images/background/courtyard/bg 1,6 <name> <level> <nude>.jpg", 1, 
+            OR(
+                TimeCondition(daytime = "1,6", weekday = "w"), 
+                TimeCondition(daytime = "c", weekday = "d")
+            )
+        ), # show courtyard with a few students
+        BGImage("images/background/courtyard/bg 3 <name> <level> <nude>.jpg", 1, TimeCondition(daytime = 3)), # show courtyard full of students and teacher
         BGImage("images/background/courtyard/bg 7.jpg", 1, TimeCondition(daytime = 7)), # show empty courtyard at night
     ]
     
@@ -41,35 +54,32 @@ init -1 python:
 # ----- Courtyard Entry Point ----- #
 #####################################
 
-label courtyard:
+label courtyard ():
 
     call call_available_event(courtyard_timed_event) from courtyard_1
 
-label .after_time_check:
+label .after_time_check (**kwargs):
 
-    $ school = get_random_school()
+    $ school_obj = get_random_school()
 
-    call show_courtyard_idle_image(school) from courtyard_2
+    call show_courtyard_idle_image(school_obj) from courtyard_2
 
     call call_event_menu (
-        "What to do at the Courtyard?",
-        1, 
-        7, 
+        "What to do at the Courtyard?", 
         courtyard_events, 
         courtyard_fallback,
         character.subtitles,
-        school,
+        char_obj = school_obj,
     ) from courtyard_3
 
     jump courtyard
 
-label show_courtyard_idle_image(school_name):
+label show_courtyard_idle_image(school_obj):
 
     $ max_nude, image_path = get_background(
         "images/background/courtyard/bg c.jpg", # show empty courtyard
         courtyard_bg_images,
-        get_level_for_char(school_name, charList["schools"]),
-        school = school_name
+        school_obj,
     )
 
     call show_image_with_nude_var (image_path, max_nude) from _call_show_image_with_nude_var_2
@@ -82,12 +92,12 @@ label show_courtyard_idle_image(school_name):
 # ----- Courtyard Fallback Events ----- #
 #########################################
 
-label courtyard_fallback:
+label courtyard_fallback (**kwargs):
     subtitles "There is nothing to see here."
-    return
-label courtyard_person_fallback:
+    jump map_overview
+label courtyard_person_fallback (**kwargs):
     subtitles "There is nobody here."
-    return
+    jump map_overview
 
 #########################################
 
@@ -95,7 +105,7 @@ label courtyard_person_fallback:
 # ----- Courtyard Events ----- #
 ################################
 
-label first_potion_courtyard_event:
+label first_potion_courtyard_event (**kwargs):
 
     show first potion courtyard 1 with dissolveM
     subtitles "You walk around in the courtyard."
@@ -111,9 +121,8 @@ label first_potion_courtyard_event:
 
     jump new_daytime
 
-
 # first week event
-label first_week_courtyard_event:
+label first_week_courtyard_event (**kwargs):
     show first week courtyard 1 with dissolveM
     subtitles "You walk through the courtyard."
 
@@ -128,10 +137,77 @@ label first_week_courtyard_event:
     show first week courtyard 4 with dissolveM
     headmaster_thought "At least the courtyard doesn't need immediate fixing."
 
-    $ set_stat_for_all("happiness", 12, charList["schools"])
+    $ change_stat_for_all("happiness", 5, charList["schools"])
 
     $ set_building_blocked("courtyard")
 
     jump new_day
+
+# TODO: make images
+label courtyard_event_1 (**kwargs):
+    show screen black_screen_text("courtyard_event_1")
+
+    subtitles "You walk along the courtyard when a gist of wind blows up the girls skirt in front of you."
+    $ call_custom_menu_with_text("How do you react?", character.subtitles, False,
+        ("Look", "courtyard_event_1.look"),
+        ("Look away", "courtyard_event_1.look_away"),
+    **kwargs)
+
+label .look (**kwargs):
+    show screen black_screen_text("courtyard_event_1.look")
+    subtitles "You take the chance to stare directly ahead and burn that image into your brain and retina."
+    subtitles "The girl looks at you, screams, covers herself and runs away."
+    sgirl "PERVERT!"
+
+    $ change_stats_with_modifier(kwargs["char_obj"],
+        happiness = -0.4, reputation = -0.2, inhibition = -0.4)
+    jump new_daytime
+
+label .look_away (**kwargs):
+    show screen black_screen_text("courtyard_event_1.look_away")
+    subtitles "You quickly look away, but the image is already burned into your brain."
+    subtitles "The girl looks at you ashamed of the situation and runs away. Glad you didn't stare."
+
+    $ change_stats_with_modifier(kwargs["char_obj"],
+        happiness = 0.1, reputation = 0.1, inhibition = -0.1)
+    jump new_daytime
+
+# TODO: make images
+label courtyard_event_2 (**kwargs):
+    show screen black_screen_text("courtyard_event_2")
+    subtitles "You notice a girl sitting alone in the courtyard, apparently left out by the others."
+    $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
+        ("Talk to her", "courtyard_event_2.talk"),
+        ("Leave her alone", "courtyard_event_2.leave"),
+    **kwargs)
+
+label .talk (**kwargs):
+    show screen black_screen_text("courtyard_event_2.talk")
+    headmaster "Hey, are you alright?"
+    sgirl "Oh, hi. I'm fine, just a bit tired."
+    headmaster "You look a bit lonely. Why don't you join the others?"
+    sgirl "I don't really like them. They are all so... shallow."
+    headmaster "I see. Well, I'm sure you'll find some friends eventually."
+    sgirl "..."
+    headmaster "If you need anything, just ask me. See you later."
+    sgirl "Thanks, bye."
+    $ change_stats_with_modifier(kwargs["char_obj"],
+        happiness = -0.2, reputation = 0.2)
+    jump new_daytime
+
+label .leave (**kwargs):
+    show screen black_screen_text("courtyard_event_2.leave")
+    subtitles "You decide to leave her alone."
+    $ change_stats_with_modifier(kwargs["char_obj"],
+        happiness = -0.7, reputation = -0.2)
+    jump new_daytime
+
+label courtyard_event_3 (**kwargs):
+    show screen black_screen_text("courtyard_event_3")
+    subtitles "You notice a group of girls taking a break together."
+
+    $ change_stats_with_modifier(kwargs["char_obj"],
+        charm = 0.3, happiness = 0.2, education = 0.2, reputation = 0.1)
+    jump new_daytime
 
 ################################

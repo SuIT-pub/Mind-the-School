@@ -1,36 +1,41 @@
 init -6 python:
+    from typing import Dict, Any
     import re
+
     class Stat:
-        def __init__(self, name, value):
-            self.name = name
+        def __init__(self, type: str, value: num):
+            self.type = type
             self.value = value
             self.changed_value = 0
-            self.image_path = "icons/stat_" + name + "_icon.png"
+            self.image_path = "icons/stat_" + str(type) + "_icon.png"
 
-        def get_value(self):
+        def get_name(self) -> str:
+            return self.type
+
+        def get_value(self) -> num:
             return self.value
         
-        def get_changed_value(self):
+        def get_changed_value(self) -> num:
             return self.changed_value
 
-        def set_value(self, value):
+        def set_value(self, value: num, level: int = 10) -> None:
             old_value = self.value
 
-            minLimit = get_stat_data(self.name).get_min_limit()
-            maxLimit = get_stat_data(self.name).get_max_limit()
+            minLimit = Stat_Data[self.type].get_min_limit()
+            maxLimit = Stat_Data[self.type].get_max_limit()
 
-            # self.value = clamp_stat(round(value, 2), minLimit, maxLimit)
-            self.value = clamp_stat(round(value, 2), minLimit, maxLimit)
+            # self.value = clamp_value(round(value, 2), minLimit, maxLimit)
+            self.value = clamp_stat_value(round(value, 2), self.type, level, minLimit, maxLimit)
 
             delta = round(self.value - old_value, 2)
             self.set_changed_value(delta)
 
-        def set_changed_value(self, value):
+        def set_changed_value(self, value: num) -> None:
             self.changed_value = value
         
-        def change_value(self, delta):
-            minLimit = get_stat_data(self.name).get_min_limit()
-            maxLimit = get_stat_data(self.name).get_max_limit()
+        def change_value(self, delta: num, level: int = 10) -> None:
+            minLimit = Stat_Data[self.type].get_min_limit()
+            maxLimit = Stat_Data[self.type].get_max_limit()
 
             if self.value + delta < minLimit:
                 delta = -(self.value - minLimit)
@@ -38,43 +43,43 @@ init -6 python:
                 delta = maxLimit - self.value
 
             change_val = math.ceil(delta * 100.0) / 100.0
-            self.value = clamp_stat(round(self.value + change_val, 2), minLimit, maxLimit)
+            self.value = clamp_stat_value(round(self.value + change_val, 2), self.type, level, minLimit, maxLimit)
             self.set_changed_value(change_val)
 
-        def change_value_to(self, value):
+        def change_value_to(self, value: num, level: int = 10) -> None:
             delta = value - self.value
-            change_value(delta)
+            change_value(delta, level)
 
-        def reset_change(self):
+        def reset_change(self) -> None:
             self.changed_value = 0
 
-        def get_level(self):
-            return get_stat_data(self.name).get_level(self.value)
+        def get_level(self) -> int:
+            return Stat_Data[self.type].get_level(self.value)
 
-        def get_image(self):
-            return get_stat_data(self.name).get_image(self.get_level())
+        def get_image(self) -> str:
+            return Stat_Data[self.type].get_image(self.get_level())
 
-        def get_description(self):
-            return get_stat_data(self.name).get_description(self.get_level())
+        def get_description(self) -> str:
+            return Stat_Data[self.type].get_description(self.get_level())
 
-        def get_full_description(self):
-            return get_stat_data(self.name).get_full_description(self.get_level())
+        def get_full_description(self) -> str:
+            return Stat_Data[self.type].get_full_description(self.get_level())
 
-        def display_stat(self):
+        def display_stat(self) -> str:
             return self.get_display_value() + self.get_display_change()
 
-        def get_display_value(self):
+        def get_display_value(self) -> str:
             stat_value = self.get_value() + 0
 
             return str(stat_value)
 
-        def get_display_change(self):
+        def get_display_change(self) -> str:
             global change
             change = self.get_changed_value()
 
             text = ""
 
-            if (self.name != "inhibition"):
+            if (self.type != INHIBITION):
                 if change < 0:
                     text = "{color=#ff0000}{size=15}(" + str(change) + "){/size}{/color}"
                 elif change > 0:
@@ -87,11 +92,9 @@ init -6 python:
                     text = "{color=#00ff00}{size=15}(-" + str(change) + "){/size}{/color}"
             return text
 
-        
-
     class Stat_Data:
-        def __init__(self, name, title):
-            self.name = name
+        def __init__(self, type: str, title: str):
+            self.type = type
             self.title = title
             self.levels = [0]
             self.images = ["images/journal/empty_image.webp"]
@@ -100,7 +103,12 @@ init -6 python:
             self.min_limit = 0
             self.max_limit = 100
 
-        def _update(self, title, data = None):
+        def __class_getitem__(cls, key: str) -> Stat_Data:
+            if not key in stat_data.keys():
+                return None
+            return stat_data[key]
+
+        def _update(self, title: str, data: Dict[str, Any] = None) -> None:
             if data != None:
                 self.__dict__.update(data)
 
@@ -119,13 +127,16 @@ init -6 python:
             if not hasattr(self, 'max_limit'):
                 self.max_limit = 100
 
-        def get_min_limit(self):
+        def get_title(self) -> str:
+            return self.title
+
+        def get_min_limit(self) -> int:
             return self.min_limit
 
-        def get_max_limit(self):
+        def get_max_limit(self) -> int:
             return self.max_limit
 
-        def get_level(self, value):
+        def get_level(self, value: int) -> int:
             count = 0
             for l in self.levels:
                 if value < l:
@@ -137,43 +148,66 @@ init -6 python:
 
             return 0
         
-        def get_image(self, level):
+        def get_image(self, level: int) -> str:
             if level < len(self.images) and level >= 0:
                 return self.images[level]
             return "images/journal/empty_image.webp"
 
-        def get_description(self, level):
+        def get_description(self, level: int) -> str:
             if level < len(self.descriptions) and level >= 0:
                 return self.descriptions[level]
             return "Description missing for level:[level]"
 
-        def get_full_description(self, level):
+        def get_full_description(self, level: int) -> str:
             return (self.get_description(level) + 
                 "\n-------------------------------------------------------\n" + 
                 self.description)
 
+    def clamp_stat_value(value: num, stat: str, level: int, min: num = 0, max: num = 100) -> num:
+        if stat == CORRUPTION:
+            return clamp_value(value, min, max - level * (max / 10))
+        elif stat == INHIBITION:
+            return clamp_value(value, level * (max / 10), max)
+        else:
+            return clamp_value(value, min, max)
 
-    def get_stat_data(stat):
-        if not stat in stat_data:
-            return None
-        return stat_data[stat]
-    
-    def clamp_stat(value, min = 0, max = 100):
+
+    def clamp_value(value: num, min: num = 0, max: num = 100) -> num:
         if (value < min):
             return min
         if (value > max):
             return max
         return value
 
-    def load_stat_data(name, title, data):
+    def load_stat_data(name: str, title: str, data: Dict[str, Any]) -> None:
         if name not in stat_data.keys():
             stat_data[name] = Stat_Data(name, title)
 
         stat_data[name]._update(title, data)
 
-label load_stats:
+    def get_stat_levels(value: str) -> num:
+        neg = 1
+
+        if "dec_" in value:
+            value = value.replace("dec_", "")
+            neg = -1
+
+        if value == "tiny":
+            return round(random.uniform(0.1, 0.3), 2) * neg
+        elif value == "small":
+            return round(random.uniform(0.3, 0.5), 2) * neg
+        elif value == "medium":
+            return round(random.uniform(0.5, 1.0), 2) * neg
+        elif value == "large":
+            return round(random.uniform(1.0, 3.0), 2) * neg
+        elif value == "giant":
+            return round(random.uniform(3.0, 7.0), 2) * neg
+        else:
+            return round(random.uniform(0.1, 0.8), 2) * neg
+
+label load_stats ():
     
-    $ load_stat_data("corruption", "Corruption", {
+    $ load_stat_data(CORRUPTION, "Corruption", {
         'description': "The corruption level is a measure of how corrupt the" +
             " students' minds are and how open they are to sexual activity.\n" +
             "\nThe level can be increased by performing sexual activities with" +
@@ -207,10 +241,10 @@ label load_stats:
         ]
     })
 
-    $ load_stat_data("inhibition", "Inhibition", {
+    $ load_stat_data(INHIBITION, "Inhibition", {
         'description': "The inhibition level shows how the students feel in their own bodies.\n" +
-            "The better they feel in their own bodies the more they open up and the less they feel embarrased about showing their bodies.\n" +
-            "\n The level can be increased by bringing the student in embarrasing situations that leaves them exposed or" +
+            "The better they feel in their own bodies the more they open up and the less they feel embarrassed about showing their bodies.\n" +
+            "\n The level can be increased by bringing the student in embarrassing situations that leaves them exposed or" +
             " that presents their bodies in other ways.",
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         'descriptions': [
@@ -241,12 +275,12 @@ label load_stats:
         ]
     })
 
-    $ load_stat_data("happiness", "Happiness", {
-        'description': "Happiness descripes how happy the students are to be at this school.\n" + 
+    $ load_stat_data(HAPPINESS, "Happiness", {
+        'description': "Happiness describes how happy the students are to be at this school.\n" + 
             "The happier they are, the less likely they are to cause problems.\n"
             "\nEvents that make students happy, raises the overall happiness of all students."
             " It can be the simple things like praising someone or giving them a gift.\n"
-            "On the other hand situations that makes the students uncomforable lowers the students happiness.",
+            "On the other hand situations that makes the students uncomfortable lowers the students happiness.",
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         'descriptions': [
             "The students are rioting.",
@@ -276,7 +310,7 @@ label load_stats:
         ]
     })
 
-    $ load_stat_data("education", "Education", {
+    $ load_stat_data(EDUCATION, "Education", {
         'description': "Education measures how good the students are at school.\n" +
             "The level of education is an important factor and influences the monthly budget the " +
             "goodwill of the authorities and the willingness of potential contractors to establish a contract.\n" +
@@ -284,7 +318,7 @@ label load_stats:
             "and by making sure the students attend the classes.",
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         'descriptions': [
-            "A shimpanzee is more intelligent than these students.",
+            "A chimpanzee is more intelligent than these students.",
             "They fail through most of the exams.",
             "The students are very bad at school.",
             "The students are rather bad at school.",
@@ -311,8 +345,8 @@ label load_stats:
         ]
     })
 
-    $ load_stat_data("charm", "Charm", {
-        'description': "Charm describes how other people percieve a students as a person. " +
+    $ load_stat_data(CHARM, "Charm", {
+        'description': "Charm describes how other people perceive a students as a person. " +
             "The charm is influenced by factors like fitness, likability, how gentle they are and looks.\n" +
             "\nThe charm can be improved by working on the fitness, working on the character, " +
             "or by socially interaction with other people.",
@@ -321,7 +355,7 @@ label load_stats:
             "The students are the extreme opposite of charming.",
             "A hobgoblin is more charming than these students.",
             "The students are socially incompetent.",
-            "The students are rather unsozial.",
+            "The students are rather unsocial.",
             "The students looks and social interaction are just below average.",
             "The students looks and social interaction are average.",
             "The students looks and social interaction are just above average.",
@@ -345,10 +379,10 @@ label load_stats:
         ]
     })
 
-    $ load_stat_data("reputation", "Reputation", {
-        'description': "This displayes the reputation of you and the school. " +
+    $ load_stat_data(REPUTATION, "Reputation", {
+        'description': "This displays the reputation of you and the school. " +
             "The reputation directly influences the goodwill of the authorities towards you and the school " + 
-            "and the monthly budget your school recieves.",
+            "and the monthly budget your school receives.",
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         'descriptions': [
             "How the hell are you still in charge of this school?",
@@ -378,11 +412,11 @@ label load_stats:
         ]
     })
 
-    $ load_stat_data("level", "Level", {
+    $ load_stat_data(LEVEL, "Level", {
         'description': "The level of the school represents the overall " +
             "progress of the school. Every new level unlocks new "
             "possibilities.\n\nTo increase the level of a school you need to " +
-            "fullfill certain criteria like adopting certain rules or " +
+            "fulfil certain criteria like adopting certain rules or " +
             "running certain events.",
         'levels': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
         'descriptions': [
@@ -419,7 +453,7 @@ label load_stats:
         'max_limit': 10,
     })
 
-    $ load_stat_data("money", "Money", {
+    $ load_stat_data(MONEY, "Money", {
         'description': "money",
         'levels': [0, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000],
         'descriptions': [

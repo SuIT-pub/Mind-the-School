@@ -23,7 +23,7 @@ define gui.show_name = True
 
 ## The version of the game.
 
-define config.version = "0.1.1A"
+define config.version = "0.1.2"
 
 
 ## Text that is placed on the game's about screen. Place the text between the
@@ -37,7 +37,7 @@ define gui.about = _p("""
 ## distribution. This must be ASCII-only, and must not contain spaces, colons,
 ## or semicolons.
 
-define build.name = "MindTheSchool"
+define build.name = "MindTheSchool-0.1.2"
 
 
 ## Sounds and music ############################################################
@@ -192,6 +192,8 @@ init python:
     build.classify('**/thumbs.db', None)
     build.classify("game/**.rpy", None)
     build.classify("game/saves", None)
+    build.classify("game/loli_patch.rpyc", None)
+    build.classify("game/cheat_patch.rpyc", None)
     build.classify("event backup/**", None)
     build.classify("*android.json", None)
 
@@ -201,6 +203,8 @@ init python:
     build.documentation('*.html')
     build.classify('*.txt', None)
     build.classify('*.docx', None)
+    build.classify('*.xlsx', None)
+    build.classify('*.xlsm', None)
     build.classify('**.xcf', None)
 
     # Declare three archives.
@@ -253,3 +257,6 @@ init python:
 
 # define build.itch_project = "renpytom/test-project"
     
+
+define discord = 'http://tiny.cc/mindtheschooldiscord'
+define patreon = 'http://tiny.cc/mindtheschoolpatreon'

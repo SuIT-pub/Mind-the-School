@@ -2,9 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/scripts/journal/journal.rpy", line 441: textbutton expects a non-empty block.
-    textbutton "Plan for vote ([probability_text])":
-                                                    ^
+File "game/scripts/event.rpy", line 143: invalid syntax
+            self.events = [event if event.get_id() != event_id for event in self.events]
+                                                                ^
 
-Ren'Py Version: Ren'Py 8.1.2.23090503
-Mon Sep 25 11:07:10 2023
+Ren'Py Version: Ren'Py 8.1.3.23091805
+Thu Oct 19 15:24:54 2023

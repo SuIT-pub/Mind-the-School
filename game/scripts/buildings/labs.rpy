@@ -3,9 +3,9 @@
 ##################################
 
 init -1 python:
-    labs_after_time_check = Event("labs_after_time_check", "labs.after_time_check", 2)
-    labs_fallback         = Event("labs_fallback",         "labs_fallback",         2)
-    labs_person_fallback  = Event("labs_person_fallback",  "labs_person_fallback",  2)
+    labs_after_time_check = Event(2, "labs.after_time_check")
+    labs_fallback         = Event(2, "labs_fallback")
+    labs_person_fallback  = Event(2, "labs_person_fallback")
 
     labs_timed_event = EventStorage("labs", "", labs_after_time_check)
     labs_events = {
@@ -15,6 +15,11 @@ init -1 python:
         "teach_biology":   EventStorage("teach_biology",   "Teach biology classes",   labs_person_fallback),
         "drug_lab":        EventStorage("drug_lab",        "Go to drug lab",          labs_fallback       ),
     }
+
+
+
+    labs_timed_event.check_all_events()
+    map(lambda x: x.check_all_events(), labs_events.values())
 
     labs_bg_images = [
         BGImage("images/background/labs/bg c <level> <nude>.jpg", 1, TimeCondition(daytime = "c")), # show corridor with few students
@@ -27,24 +32,22 @@ init -1 python:
 # ----- Labs Entry Point ----- #
 ################################
 
-label labs:
+label labs ():
     
     call call_available_event(labs_timed_event) from labs_1
 
-label .after_time_check:
+label .after_time_check (**kwargs):
     
-    $ school = get_random_school()
+    $ school_obj = get_random_school()
 
-    call show_labs_idle_image(school) from labs_2
+    call show_labs_idle_image(school_obj) from labs_2
 
     call call_event_menu (
-        "What to do at the Labs?",
-        1, 
-        7, 
+        "What to do at the Labs?", 
         labs_events, 
         labs_fallback,
         character.subtitles,
-        school,
+        char_obj = school_obj,
     ) from labs_3
 
     jump labs
@@ -55,7 +58,7 @@ label show_labs_idle_image(school):
     $ max_nude, image_path = get_background(
         "images/background/labs/bg f.jpg",
         labs_bg_images,
-        get_level_for_char(school, charList["schools"]),
+        school_obj,
     )
 
     call show_image_with_nude_var (image_path, 0) from _call_show_image_with_nude_var_9
@@ -67,13 +70,13 @@ label show_labs_idle_image(school):
 # ----- Labs Fallback Events ----- #
 ####################################
 
-label labs_fallback:
+label labs_fallback (**kwargs):
     subtitles "There is nothing to see here."
-    return
+    jump map_overview
 
-label labs_person_fallback:
+label labs_person_fallback (**kwargs):
     subtitles "There is nobody here."
-    return
+    jump map_overview
 
 ####################################
 

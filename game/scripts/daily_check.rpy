@@ -1,28 +1,31 @@
 init -1 python:
-    def add_temp_event(event):
+    def add_temp_event(event: Event):
         temp_time_check_events.add_event(event)
-    def remove_temp_event(event):
+    def remove_temp_event(event: Event):
         temp_time_check_events.remove_event(event)
 
-    after_temp_event_check = Event("after_temp_event_check", "time_event_check.after_temp_event_check", 2)
-    after_event_check      = Event("after_event_check",      "time_event_check.after_event_check",      2)
+    after_temp_event_check = Event(2, "time_event_check.after_temp_event_check")
+    after_event_check      = Event(2, "time_event_check.after_event_check")
 
-    temp_check_events      = EventStorage("temp_check_events",      "", after_event_check     )
     temp_time_check_events = TempEventStorage("temp_time_check_events", "", after_temp_event_check)
+    temp_check_events      = EventStorage("temp_check_events", "", after_event_check)
 
     # temp_check_events.add_event(Event("first_day_introduction", "first_day_introduction", 2,
     #     TimeCondition(day = 1, month = 1, year = 2023, daytime = 1)
     # ))
 
-    temp_check_events.add_event(Event("tutorial_1", "tutorial_1", 1,
+    temp_check_events.add_event(Event(1, 
+        "tutorial_1", 
         TimeCondition(day = 2, month = 1, year = 2023, daytime = 1)
     ))
 
-    temp_check_events.add_event(Event("first_week_epilogue", "first_week_epilogue", 1,
-        TimeCondition(day = 5, month = 1, year = 2023, daytime = 1)
+    temp_check_events.add_event(Event(1, 
+        "first_week_epilogue", 
+        TimeCondition(day = 5, month = 1, year = 2023, daytime = 2)
     ))
 
-    temp_check_events.add_event(Event("first_week_epilogue_final", "first_week_epilogue_final", 1,
+    temp_check_events.add_event(Event(1, 
+        "first_week_epilogue_final", 
         TimeCondition(day = 10, month = 1, year = 2023, daytime = 1)
     ))
 
@@ -34,9 +37,10 @@ init -1 python:
     #     TimeCondition(weekday = 1, daytime = 1)
     # ))
 
-    # temp_check_events.add_event(Event("first_pta_meeting", "first_pta_meeting", 1,
-    #     TimeCondition(day = 5, month = 1, year = 2023, daytime = 1)
-    # ))
+    temp_check_events.add_event(Event(1, 
+        "first_pta_meeting", 
+        TimeCondition(day = 5, month = 1, year = 2023, daytime = 1)
+    ))
 
     # temp_check_events.add_event(Event("pta_meeting1", "pta_meeting", 2,
     #     TimeCondition(day = 5, daytime = 1)
@@ -46,27 +50,30 @@ init -1 python:
     #     TimeCondition(day = 19, daytime = 1)
     # ))
 
+    temp_time_check_events.check_all_events()
+    temp_check_events.check_all_events()
 
-label time_event_check:
+
+label time_event_check ():
 
     hide screen school_overview_map
     hide screen school_overview_stats
     hide screen school_overview_buttons
     
-    call call_available_event(temp_time_check_events) from time_event_check_1
+    call call_available_event(temp_time_check_events, with_removal = True) from time_event_check_1
 
-label .after_temp_event_check:
+label .after_temp_event_check (**kwargs):
 
     call call_available_event(temp_check_events) from time_event_check_2
 
-label .after_event_check:
+label .after_event_check (**kwargs):
     return
 
 ##################################
 # ----- Daily Check Events ----- #
 ##################################
 
-label tutorial_1:
+label tutorial_1 (**kwargs):
     show screen black_error_screen_text ("")
 
     menu:
@@ -93,7 +100,7 @@ label .tutorial_2:
     dev "These are all the facilities on campus. You can click or tap on them to enter and trigger events."
     
     show intro tutorial 3 with dissolveM
-    dev "At a facility, you'll be given a selection of activities you can do at the facility. The activities you can do depend on the level of your school and the day and time."
+    dev "At a facility, you are given a selection of activities you can do at the facility. The activities you can do depend on the level of your school and the day and time."
 
     show intro tutorial 4 with dissolveM
     dev "This version has a little extra that will be hidden behind an item in later versions, but keep an eye out for this icon in the top left corner and feel free to click on it."
@@ -102,7 +109,7 @@ label .tutorial_2:
     dev "An activity usually lasts for one time unit."
     
     show intro tutorial 1 with dissolveM
-    dev "While we're at it. One day is seperated into 7 segments. Morning, Early Noon, Noon, Early Afternoon, Afternoon, Evening and Night."
+    dev "While we're at it. One day is separated into 7 segments. Morning, Early Noon, Noon, Early Afternoon, Afternoon, Evening and Night."
     
     show intro tutorial 5 with dissolveM
     dev "You can see the current date and time up here."
@@ -115,7 +122,7 @@ label .tutorial_2:
     if loli_content > 0:
         dev "Remember that these statistics show the average of all schools. So if one school has 100 points and another has 0 points, this table would show a score of 50."
     dev "I'm not going to explain these stats. You can find a more detailed explanation of the stats in your journal."
-    dev "The stats also have no effect on the game at the moment. This will change in future versions." ######## version dependend
+    dev "The stats also have no effect on the game at the moment. This will change in future versions." ######## version dependent
     
     show intro tutorial 8 with dissolveM
     dev "You can find the journal up here."    
@@ -142,7 +149,7 @@ label .tutorial_2:
 
     show intro tutorial 15 with dissolveM
     dev "The bottom part would normally be an image showing and representing the current stat level."
-    dev "But I haven't made them yet. They will be added later." ######## version dependend
+    dev "But I haven't made them yet. They will be added later." ######## version dependent
 
     show intro tutorial 16 with dissolveM
     dev "Now we come to the Rules page in your journal. This is where you can manage your school rules."
@@ -197,13 +204,13 @@ image anim_first_week_epilogue_22 = Movie(play ="images/events/first week/first 
 image anim_first_week_epilogue_23 = Movie(play ="images/events/first week/first week epilogue 23.webm", start_image = "images/events/first week/first week epilogue 23_1.jpg", loop = True)
 image anim_first_week_epilogue_24 = Movie(play ="images/events/first week/first week epilogue 24.webm", start_image = "images/events/first week/first week epilogue 24_1.jpg", image = "images/events/first week/first week epilogue 24_2.jpg", loop = False)
 
-label first_week_epilogue:
+label first_week_epilogue (**kwargs):
 
     $ hide_all()
 
     scene office secretary 1 big smile with dissolveM
     secretary "Good Morning Mr. [headmaster_last_name]. Could you get a good picture of the situation in the school?"
-    headmaster "Yes thank you! And please just call me [headmaster_first_name]. It's a bit akward to be called so formal."
+    headmaster "Yes thank you! And please just call me [headmaster_first_name]. It's a bit awkward to be called so formal."
 
     # first week epilogue 2
     show office secretary 1 big smile with dissolveM
@@ -437,7 +444,7 @@ label .replay:
     show first week epilogue 44 with dissolveM
     secretary "Ah I already organised something!"
     secretary "I asked the kiosk vendor to give one drink out for free for every order."
-    secretary "Because it is the only place to get food here, it is garanteed that every student gets at least one drink."
+    secretary "Because it is the only place to get food here, it is guaranteed that every student gets at least one drink."
     secretary "I also asked to make sure to only give out one per person."
     show first week epilogue 45 with dissolveM
     headmaster "Perfect! I'm glad to have you as my secretary!"
@@ -449,7 +456,7 @@ label .replay:
     secretary "Sounds good!"
 
     # headmaster and secretary take some food from kiosk and sit down among the students and start eating an conversing
-    # while they eat, they notice the students get more fidgity
+    # while they eat, they notice the students get more fidgety
 
     # some students start to take off some clothes
     # other start groping their own breasts
@@ -481,7 +488,7 @@ label .replay:
 
     jump new_daytime
 
-label first_week_epilogue_final: 
+label first_week_epilogue_final (**kwargs): 
     $ set_all_buildings_blocked(False)
 
     $ hide_all()
@@ -503,7 +510,7 @@ label first_week_epilogue_final:
     show first week epilogue final 5 with dissolveM
     headmaster "Oh that's good to hear! But what do you mean with you think? Is everything really alright?"
     show first week epilogue final 6 with dissolveM
-    sgirl "Oh yeah, yeah! Everything is fine, it' sjust, I have the feeling there is a gap in my memory. I can't remember anything from yesterday after recess."  (name='Miwa Igarashi')
+    sgirl "Oh yeah, yeah! Everything is fine, it's just, I have the feeling there is a gap in my memory. I can't remember anything from yesterday after recess."  (name='Miwa Igarashi')
     show first week epilogue final 7 with dissolveM
     sgirl "I only know to have been extremely happy and relaxed yesterday, but I can't remember anything else." (name='Miwa Igarashi')
     show first week epilogue final 8 with dissolveM
@@ -512,7 +519,7 @@ label first_week_epilogue_final:
 
     # school girl walks off, headmaster stays a little bit in thoughts
     show first week epilogue final 9 with dissolveM
-    headmaster_thought "Hmm... that's an interessting effect. She doesn't remember anything that happened yesterday, but the long term effect seems to still be in place."
+    headmaster_thought "Hmm... that's an interesting effect. She doesn't remember anything that happened yesterday, but the long term effect seems to still be in place."
     show first week epilogue final 10 with dissolveM
     headmaster_thought "[secretary_first_name] didn't seem to have any memory gaps whatsoever. I wonder if it has to do with the fact that the students go a diluted version."
 
@@ -551,14 +558,19 @@ label first_week_epilogue_final:
     show first week epilogue final 18 with dissolveM
     secretary "Good luck."
 
+label .skip:
+
     hide screen black_error_screen_text
 
     show thanks 1 with dissolveM
+    
+    dev "[intro_dev_message]"
+
     dev "This is where the content for this version ends. You can still roam around but there are no events for the different locations yet."
     dev "Only a few nice background images at the different locations :)"
     show thanks 2 with dissolveM
     dev "Thank you for playing up to this point. Look forward to the next version."
-    dev "And feel free to visit my {a=https://patreon.com/suitji}Patreon{/a} and {a=https://discord.gg/UbHnxnRekA}Discord{/a}."
+    dev "And feel free to visit my {a=[patreon]}Patreon{/a} and {a=[discord]}Discord{/a}."
     dev "I'd be happy if you leave some feedback or some ideas on the Discord so I can work to further improve this game!"
 
     jump map_overview

@@ -1,4 +1,4 @@
-﻿label ask_age:
+﻿label ask_age ():
     menu:
         "This Game contains sexual content and is not suitable for consumption by underage people.\nPlease confirm you are not underage in your country."
 
@@ -7,7 +7,7 @@
         "No unfortunately I am underage.":
             return
 
-label intro:
+label intro ():
     subtitles "All characters and events in this game, even those based on real people, are entirely fictional."
 
     $ school_name = renpy.input("Please name your School: (Default: \"Windstor School\")")
@@ -74,7 +74,7 @@ label .start:
 
     nv_text "And this time you will succeed."
     nv_text "People always blocked you off. Never let you try your theory of intimate conditioning."
-    nv_text "But now you got the chance. The sponsors where very impressed by yours talks and theories so they helped you get ahold of this school."
+    nv_text "But now you got the chance. The sponsors were very impressed by yours talks and theories so they helped you get ahold of this school."
     nv_text "You will not let them down."
 
     nvl clear
@@ -134,11 +134,11 @@ label .start:
     subtitles "You leave the office with the secretary and head for the Gym."
     
     #show inside gym with students walking towards their position in gym or talking to each other in groups by school
-    subtitles "As you enter the hall, you'll be greeted by students standing all around the hall."
+    subtitles "As you enter the hall, you are greeted by students standing all around the hall."
     
     #show move up stairs with secretary in front and clear view of butt
     show intro gym 3 1 with dissolveM
-    subtitles "As you and your secretary meak your way to the stage, all the students begin to form neat rows."
+    subtitles "As you and your secretary make your way to the stage, all the students begin to form neat rows."
     secretary_whisper "The students in the left are from the high school."
     if loli_content >= 1:
         secretary_whisper "The students in the center are from the middle school."
@@ -163,7 +163,7 @@ label .start:
     secretary_shout "But without further ado... Greet your new Headmaster Mr. [headmaster_last_name]!"
     subtitles "You walk to the podium."
 
-    #show view of stagefrom front with headmaster standing at podium with hands on podium
+    #show view of stage from front with headmaster standing at podium with hands on podium
     show intro gym 7
     hide expression "events/intro/intro gym 5 [loli_content].jpg" with dissolveM
     headmaster_shout "Greetings to you all. I am honored to stand here today."
@@ -173,12 +173,12 @@ label .start:
     #show view of crowd from slightly behind but other side, headmaster hand on chest
     show expression "events/intro/intro gym 8 [loli_content].jpg" with dissolveM
     headmaster_shout "Now a little about me. My name is [headmaster_first_name] [headmaster_last_name] and I come from the country."
-    headmaster_shout "I taught in various schools and was also the headmaster of a school in the capital."
+    headmaster_shout "I taught in various schools and was also the headmaster of a school in the capitol."
 
     #show headmaster rasing finger
     # scene expression "events/intro/intro gym 9 [loli_content].jpg"
     headmaster_shout "I want to make it clear that I will not tolerate misbehavior! {b}BUT{/b} I am a fair person."
-    headmaster_shout "No one will be punished if they don't deserve it and I will do everything I can to make sure that you all have a nice and safe place to grow and learn!"
+    headmaster_shout "No one will be punished if they don't deserve it, and I will do everything I can to make sure that you all have a nice and safe place to grow and learn!"
 
     #show headmaster with wide open arms
     # scene expression "events/intro/intro gym 10 [loli_content].jpg"
@@ -196,10 +196,8 @@ label .start:
 ##########################
 
 
-label skip_to_free_roam:
+label skip_to_free_roam ():
     
-    dev "[intro_dev_message]"
-
     $ set_level_for_char(1, "high_school", charList["schools"])
     $ set_level_for_char(1, "middle_school", charList["schools"])
     $ set_level_for_char(1, "elementary_school", charList["schools"])
@@ -208,4 +206,4 @@ label skip_to_free_roam:
 
     $ time.set_time(day = 10, month = 1, year = 2023)
 
-    call first_week_epilogue_final from skip_to_free_roam_1
+    call first_week_epilogue_final.skip from skip_to_free_roam_1

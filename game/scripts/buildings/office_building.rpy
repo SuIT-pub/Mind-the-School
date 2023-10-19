@@ -3,37 +3,48 @@
 #############################################
 
 init -1 python:
-    office_building_after_time_check = Event("office_building_after_time_check", "office_building.after_time_check", 2)
-    office_building_fallback         = Event("office_building_fallback",         "office_building_fallback",         2)
+    office_building_after_time_check = Event(2, "office_building.after_time_check")
+    office_building_fallback         = Event(2, "office_building_fallback")
 
     office_building_timed_event = EventStorage("office_building", "", office_building_after_time_check)
     office_building_events = {
-        "tutorial":  EventStorage("tutorial",  "About the school...", office_building_fallback),
-        "paperwork": EventStorage("paperwork", "Do paperwork",        office_building_fallback),
-        "messages":  EventStorage("messages",  "Check messages",      office_building_fallback),
-        "internet":  EventStorage("internet",  "Surf internet",       office_building_fallback),
-        "council":   EventStorage("council",   "Council work",        office_building_fallback),
+        "look_around": EventStorage("look",      "Look around",         office_building_fallback),
+        "tutorial":    EventStorage("tutorial",  "About the school...", office_building_fallback),
+        "paperwork":   EventStorage("paperwork", "Do paperwork",        office_building_fallback),
+        "messages":    EventStorage("messages",  "Check messages",      office_building_fallback),
+        "internet":    EventStorage("internet",  "Surf internet",       office_building_fallback),
+        "council":     EventStorage("council",   "Council work",        office_building_fallback),
     }
     
-    office_building_timed_event.add_event(Event(
-        "first_week_event",
+    office_building_timed_event.add_event(Event(1,
         ["first_week_office_building_event"],
-        1,
         TimeCondition(day = "2-4", month = 1, year = 2023),
     ))
     
-    office_building_timed_event.add_event(Event(
-        "first_potion_event",
+    office_building_timed_event.add_event(Event(1,
         ["first_potion_office_building_event"],
-        1,
         TimeCondition(day = 9),
     ))
 
+    office_building_events["look_around"].add_event(Event(3,
+        ["office_event_1", "office_event_2"],
+        TimeCondition(weekday = "d", daytime = "d"),
+    ))
+
+    office_building_events["look_around"].add_event(Event(3,
+        ["office_event_3"],
+        TimeCondition(weekday = "d", daytime = "d"),
+        NOT(RuleCondition("student_student_relation")),
+    ))
+
+    office_building_timed_event.check_all_events()
+    map(lambda x: x.check_all_events(), office_building_events.values())
+
     office_building_bg_images = [
-        BGImage("images/background/office building/bg c Teacher.jpg", 1, TimeCondition(daytime = "c"), ValueCondition('staff', 'teacher')), # show headmasters/teachers office empty
-        BGImage("images/background/office building/bg f Secretary <level> <nude>.jpg", 1, TimeCondition(daytime = "c"), ValueCondition('staff', 'secretary')), # show headmasters/teachers office with people
-        BGImage("images/background/office building/bg f <staff> <level> <nude>.jpg", 1, TimeCondition(daytime = "f")), # show headmasters/teachers office with people
-        BGImage("images/background/office building/bg 7 <staff>.jpg", 1, TimeCondition(daytime = 7)), # show headmasters/teachers office empty at night
+        BGImage("images/background/office building/bg c teacher.jpg", 1, TimeCondition(daytime = "c"), ValueCondition('name', 'teacher')), # show headmasters/teachers office empty
+        BGImage("images/background/office building/bg f secretary <level> <nude>.jpg", 1, TimeCondition(daytime = "c"), ValueCondition('name', 'secretary')), # show headmasters/teachers office with people
+        BGImage("images/background/office building/bg f <name> <level> <nude>.jpg", 1, TimeCondition(daytime = "f")), # show headmasters/teachers office with people
+        BGImage("images/background/office building/bg 7 <name>.jpg", 1, TimeCondition(daytime = 7)), # show headmasters/teachers office empty at night
     ]
     
 #############################################
@@ -42,35 +53,36 @@ init -1 python:
 # ----- Office Building Entry Point ----- #
 ###########################################
 
-label office_building:
+label office_building ():
 
     call call_available_event(office_building_timed_event) from office_building_1
 
-label .after_time_check:
+label .after_time_check (**kwargs):
 
-    $ staff = get_random_choice("teacher", "secretary")
+    $ char = get_random_choice("teacher", "secretary")
 
-    call show_office_building_idle_image(staff) from office_building_2
+    $ char_obj = get_character(char, charList['staff'])
+
+    call show_office_building_idle_image(char_obj) from office_building_2
+
+
 
     call call_event_menu (
-        "Hello Headmaster! How can I help you?",
-        1, 
-        7, 
+        "Hello Headmaster! How can I help you?" if char_obj.get_name() == "secretary" else "What do you do?", 
         office_building_events, 
         office_building_fallback,
-        character.secretary,
-        staff,
+        character.secretary if char_obj.get_name() == "secretary" else character.subtitles,
+        char_obj = char_obj,
     ) from office_building_3
 
     jump office_building
 
-label show_office_building_idle_image(staff_val):
+label show_office_building_idle_image(char_obj):
 
     $ max_nude, image_path = get_background(
         "images/background/office building/bg f.jpg", # show headmasters office empty
         office_building_bg_images,
-        get_level_for_char(staff_val, charList["staff"]),
-        staff = staff_val
+        char_obj
     )
 
     call show_image_with_nude_var (image_path, max_nude) from _call_show_image_with_nude_var_12
@@ -83,9 +95,9 @@ label show_office_building_idle_image(staff_val):
 # ----- High School Building Fallback Events ----- #
 ####################################################
 
-label office_building_fallback:
+label office_building_fallback (**kwargs):
     subtitles "There is nothing to do here."
-    return
+    jump map_overview
 
 ####################################################
 
@@ -93,7 +105,7 @@ label office_building_fallback:
 # ----- High School Building Events ----- #
 ###########################################
 
-label first_potion_office_building_event:
+label first_potion_office_building_event (**kwargs):
 
     show first potion office 1 with dissolveM
     subtitles "You enter the teachers office."
@@ -106,155 +118,109 @@ label first_potion_office_building_event:
     jump new_daytime
 
 # first week event
-label first_week_office_building_event:
+label first_week_office_building_event (**kwargs):
 
     show first week office building 1 with dissolveM
     subtitles "Mhh. The office is nothing special but at least not really run down."
     subtitles "I can work with that."
 
+    $ change_stat_for_all("education", 5, charList['schools'])
+    $ change_stat_for_all("happiness", 5, charList['staff'])
+    $ change_stat_for_all("reputation", 5, charList['staff'])
+
     $ set_building_blocked("office_building")
 
     jump new_day
 
-label old_pta_meeting:
-    subtitles "You enter the conference room."
-    subtitles "All representatives already gathered and wait for you."
-    headmaster "Thank you all for gathering today."
+# TODO: make images
+label office_event_1 (**kwargs):
+    show screen black_screen_text("office_event_1")
+    subtitles "You notice a girl sitting in front of the teachers office."
+    subtitles "Apparently she is in need of counseling."
 
-    headmaster "First point for today. Does someone have anything to discuss today?"
+    $ change_stats_with_modifier(kwargs["char_obj"],
+        happiness = 0.2, reputation = 0.2)
+    $ change_stats_with_modifier(get_character("teacher", charList['staff']),
+        happiness = 0.2)
+    
+    jump new_daytime
 
-    headmaster "No? Alright then lets jump straight to the next point."
+# TODO: make images
+label office_event_2 (**kwargs):
+    show screen black_screen_text("office_event_2")
+    subtitles "Even the teachers need a break from time to time."
 
-    # todo: implement PTA Meeting
-    subtitles "PTA Meeting not implemented yet."
+    $ change_stats_with_modifier(kwargs["char_obj"],
+        education = -0.4, reputation = -0.1)
+    $ change_stats_with_modifier(get_character("teacher", charList['staff']),
+        happiness = 0.2)
 
     jump new_daytime
 
-label old_first_pta_meeting:
-    subtitles "You enter the conference room."
-    subtitles "All representatives already gathered and wait for you."
-    headmaster "Thank you all for gathering today."
-
-    headmaster """
-        Please allow me to introduce myself as the new Headmaster of this institution as of Monday. 
-
-        I am aware that many of you probably don't know me yet, but I hope to change that soon. 
-
-        During my first week, I took time to gather information about the current status of the school, and it's clear 
-        that there is much needed work to be done. 
-
-        Rest assured, my goal is to get this school back on track and establish it as one of the leading academic 
-        institutions in the country.
-        
-        My theory on how to improve the educational system has been criticised by established psychologists and 
-        teachers. But I can guarantee the effectiveness.
-
-        To give you a better understanding about me. 15 years ago I made my Diploma in Psychology, specifically 
-        Educational Psychology. And over the last years I worked to revolotionize this countries educational system.
-
-        My methods have yet to be accepted by the masses, but this is largely due to the conservative views of the 
-        community and their unwillingness to change their habits and adapt to new approaches.
-
-        To summarize my theory briefly. I aim to use the parts of the human body that no system every used. 
-        
-        The human body is a complex biological machine made to survive in a rough and dangerous ecosystem. So 
-        originally it was built to learn new patterns and methods to give it a better chance at survival.
-
-        Thus the human body handles informations and actions that seem to be of no use as unnecessary. And the human 
-        body developed a relatively simple system to signal all kinds of information. Hormons.
-
-        Hormons are used to deliver certain messages throughout the whole body. And I want to focus on the hormone 
-        dopamine.
-
-        Dopamine is one of the happy hormones and high concentrations of dopamine evoke a feeling of happiness. 
-        Dopamine also helps transfer memories from short-term to long-term memory. And that is where my theory comes 
-        into play.
-
-        The easiest way to produce dopamine is to get intimate. Sure for some that sound like I try to just create a 
-        giant harem school and sure there are other ways but I assure you my intentions are as sincere as they get and 
-        I think this is a great opportunity to fix many problems that occur in our society.
-
-        Problems that are the result of old educational methods and techniques.
-
-        One of the main problems is the rising alienation of individuals in our society. Loneliness is becoming 
-        increasingly prevalent, often due to social isolation caused by a lack of interpersonal skills and inadequate 
-        support from the community.
-
-        Unfortunately it's more that people unable to socialise become outcasts with little to no way to rehabilitate.
-
-        My goal is to create a form of kinship and a deeper form of intimacy among the students. In a way that 
-        emotional and physical support becomes the norm and to help people become more sociable and make it easier for 
-        them to integrate into society.
-
-        It was difficult to apply my theory in a big case study but the investors of this school complex reached out 
-        to me and gave me the opportunity to show the effectiveness of this new method. And that will be achieved to
-        make these schools the best in the country.
-
-        If you want to learn more about my theory, please read my book. I'll happily distribute them to you if you're 
-        interested.
-
-        Of course I don't plan to run these schools alone. I wouldn't be able to handle that. That's why called this 
-        group together so we can work to better these schools together!
-
-        I plan to hold this meeting every friday in the evening so we can exchange ideas, talk about the current state 
-        of the schools and discuss and vote for changes that are planned to be applied for the schools.
-
-        To a good cooperation amd thank you all for listening.
-
-        Now that I finished my {i}small{/i} introduction, please introduce yourself.
-    """
-
-    secretary """
-        Hello everyone, I am the headmasters secretary and I will be in charge some organisational tasks like managing
-        the schedule and lower beraucracy tasks.
-
-        I already worked for the last headmaster and observed the decline of our school with my own eyes.
-
-        If you got any questions or issues for the headmaster, please contact me. Thanks.
-    """
-
-    teacher """
-        Hello, we are teachers at this school.
-        
-        First we are glad to have a new headmaster and we hope you bring this school back to what it once was.
+# TODO: make images
+label office_event_3 (**kwargs):
+    show screen black_screen_text("office_event_3")
+    subtitles "You enter the office and see two students sitting there."
     
-        I am Teacher 1, currently responsible for the subjects: economics, politics, english and geography.
-    """ (name="Teacher 1")
-    
-    teacher "I am Teacher 2 and I teach the science subjects like biology, chemistry, physics and mathematics." (name="Teacher 2")
+    $ call_custom_menu(False, 
+        ("Ignore them", "office_event_3.ignore"),
+        ("Ask why here", "office_event_3.talk"),
+    **kwargs)
 
-    teacher "Teacher 3, pleased. I teach sport, physics and mathematics." (name="Teacher 3")
+label .ignore (**kwargs):
+    show screen black_screen_text("office_event_3.ignore")
+    subtitles "You ignore them and continue you way."
 
-    teacher "And I am Teacher 4. I teach art, music and history." (name="Teacher 4")
+    $ change_stats_with_modifier(get_character("teacher", charList['staff']),
+        happiness = 0.2)
 
-    teacher """
-        As you can see, we are way understaffed and we sometimes have to teach subjects we don't even specialize in.
+    jump new_daytime
 
-        We hope you will be able to hire more teachers to ease our workload and support your school reform efforts.
+label .talk (**kwargs):
+    show screen black_screen_text("office_event_3.talk")
+    headmaster "Why are you sitting here?"
+    sgirl "We were called here by the teacher."
+    headmaster "Do you know why?"
+    sgirl "Probably because we are a couple."
 
-        Now our role during these meetings will be to ensure that new policies and ideas continue to benefit the 
-        students.
+    $ call_custom_menu(False, 
+        ("Tell about policy", "office_event_3.policy"),
+        ("Take care of it for them", "office_event_3.care"),
+    **kwargs)
 
-        That's all from our side. Thank you very much.
-    """ (name="Teacher 1")
-    
-    parent """
-        Hello, I am a concerned parent of one of the students attending this school and I speak for all parents when I 
-        say that we are worried about the recent changes. However, we trust that you will handle your job competently 
-        and we will observe closely to ensure the well-being of our children.
-    """
-    
-    # introduction school council
+label .policy (**kwargs):
+    show screen black_screen_text("office_event_3.talk.policy")
+    headmaster "Well, you know that relationships between students are not allowed."
+    sgirl "But what does the school care about our relationship?"
+    headmaster "It's a measure to keep you focused on your education."
+    headmaster "At least hold yourself back until you are done with school."
+    sgirl "..."
+    headmaster "Now you both go back to class."
 
-    $ set_all_buildings_blocked(True)
-    $ set_building_blocked("office_building", False)
-    
+    $ change_stats_with_modifier(kwargs["char_obj"],
+        charm = 0.4, happiness = -0.4)
+    $ change_stats_with_modifier(get_character("teacher", charList['staff']),
+        happiness = 0.2)
 
-label .end_meeting:
-    headmaster """
-        That should be all for today.\n
-        Good work, thank you all for coming and have a nice weekend.
-    """
+    jump new_daytime
+
+label .care (**kwargs):
+    show screen black_screen_text("office_event_3.talk.care")
+    headmaster "Okay, listen. You know relationships aren't allowed here at school."
+    sgirl "But..."
+    headmaster "BUT, I don't like this rule either. So I will take care of it for you."
+    headmaster "I think I will abandon this rule in the future."
+    headmaster "Now go back to class."
+    sgirl "Thank you!"
+
+    $ change_stats_with_modifier(kwargs["char_obj"],
+        charm = -0.4, happiness = 0.5, inhibition = -0.4)
+    $ change_stats_with_modifier(get_character("teacher", charList['staff']),
+        happiness = -0.3)
+
+    if get_progress("unlock_student_relationship") == -1:
+        $ start_progress("unlock_student_relationship")
+
     jump new_daytime
 
 ###########################################

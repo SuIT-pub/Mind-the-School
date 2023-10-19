@@ -112,7 +112,7 @@ screen show_building_idle (building):
 # ----- LABEL ----- #
 #####################
 
-label tutorial_menu:
+label tutorial_menu ():
 
     scene office secretary 4 big smile with dissolveM
 
@@ -126,7 +126,7 @@ label tutorial_menu:
 
     jump tutorial_menu
 
-label tutorial_map:
+label tutorial_map ():
     show screen school_overview_images with dissolveM
     secretary "This is the school campus. Quite big, isn't it?"
 
@@ -170,7 +170,7 @@ label tutorial_map:
     if is_building_unlocked("tennis_court"):
         secretary "Ah our Tennis Court! Ah good place for students to become fit and get their mind off studying."
     else:
-        secretary "Our would be Tennis Court. Currently in very bad shape und definetly not usable."
+        secretary "Our would be Tennis Court. Currently in very bad shape and definitely not usable."
 
     show screen show_building_hovered("Gym") with dissolveM
     secretary "This is the Gym Hall. Sport classes take place here."
@@ -201,7 +201,7 @@ label tutorial_map:
         secretary "Here they get full meals, while for snacks they have to go to the Kiosk next door."
 
     show screen show_building_hovered("Kiosk") with dissolveM
-    secretary "While I'm at it. This is the Kiosk. Here students get snacks and drink and other cool stuff like magazines."
+    secretary "While I'm at it. This is the Kiosk. Here students get snacks and drinks and other cool stuff like magazines."
 
     show screen show_building_hovered("Courtyard") with dissolveM
     secretary "This large area is the courtyard. Here the students can relax and spend their free time on campus."
