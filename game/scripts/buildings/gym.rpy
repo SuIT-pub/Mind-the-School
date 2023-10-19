@@ -159,7 +159,7 @@ label gym_event_1 (**kwargs):
 
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
-    $ corruption = char_obj[CORRUPTION]
+    $ corruption = char_obj.get_stat_number(CORRUPTION)
 
     $ topic = get_random_choice("putting on my shoes", "doing my hair", "getting ready")
 
@@ -214,7 +214,7 @@ label gym_event_2 (**kwargs):
 
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
-    $ inhibition = char_obj[INHIBITION]
+    $ inhibition = char_obj.get_stat_number(INHIBITION)
 
     $ topic = get_random_choice("clothe", "clothe", "clothe", "clothe", "breasts", "asses")
 
