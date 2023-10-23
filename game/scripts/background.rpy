@@ -194,8 +194,10 @@ label show_image(path, display_type = SHOW, **kwargs):
     if char_obj != None:
         $ kwargs["name"] = char_obj.get_name()
 
-    # replace in string path each key from kwargs with corresponding value
-    $ image_path = "".join([image_path.replace(f"<{key}>", str(value)) for key, value in kwargs.items()])
+    python:
+        # replace in string path each key from kwargs with corresponding value
+        for (key, value) in kwargs.items():
+            image_path = image_path.replace(f"<{key}>", str(value))
 
     if char_obj != None:
         $ image_path = get_available_level(image_path, char_obj.get_level())
@@ -206,7 +208,7 @@ label show_image(path, display_type = SHOW, **kwargs):
         show expression image_path
     elif display_type == SCENE:
         scene expression image_path
-
+    return
     
 
 label show_ext_image_with_nude_var(image_path, **kwargs):
