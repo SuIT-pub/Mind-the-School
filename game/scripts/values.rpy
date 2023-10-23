@@ -1,5 +1,6 @@
 init python:
     from typing import TypeVar
+    import random
 
     # 0 = no loli content (High School age: 18-22)
     # 1 = slight loli content (Middle School age: 13-17, High School age: 18-22)
@@ -80,6 +81,9 @@ init python:
 
     def get_random_choice(*choice: T) -> T:
         return renpy.random.choice(list(choice))
+
+    def get_random_int(start: int, end: int):
+        return random.randint(start, end)
 
     def log_val(key: str, value: Any) -> None:
         print(key + ": " + str(value) + "\n")

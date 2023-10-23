@@ -105,6 +105,11 @@ init -2 python:
         for key, value in kwargs.items():
             image_path = image_path.replace(f"<{key}>", str(value))
 
+        if "<variant>" in image_path:
+            max_variant = get_image_max_value("<variant>", image_path, 1)
+            if max_variant >= 1:
+                image_path = image_path.replace("<variant>", str(get_random_int(1, max_variant)))
+
         if in_kwargs("level", **kwargs):
             image_path = get_available_level(image_path, get_kwargs("level", **kwargs))
 
@@ -121,7 +126,7 @@ init -2 python:
                 if i > 0:
                     return i - 1, image_path
                 elif i == 0:
-                    print(f"'{image_path}' is missing nude variants!")
+                    print(f"'{new_image_path}' is missing!")
                     return -1, image_path
 
         return nude_vision, image_path
@@ -157,6 +162,7 @@ init -2 python:
 
     def get_available_level(path: str, level: int) -> str:
         old_image = path.replace("<nude>", "0")
+        old_image = old_image.replace("<variant>", "0")
 
         for i in reversed(range(0, level + 1)):
             image = old_image.replace("<level>", str(i))
@@ -168,6 +174,15 @@ init -2 python:
                 return path.replace("<level>", str(i))
 
         return path
+
+    def get_image_max_value(key: str, image_path: str, start: int = 0, end: int = 10):
+        old_image = image_path.replace("<nude>", "0")
+
+        for i in range(start, end):
+            image = old_image.replace(key, str(i))
+            if not renpy.loadable(image):
+                return i - 1
+        return end
 
 
 label show_image(path, display_type = SHOW, **kwargs):

@@ -25,8 +25,8 @@ init -1 python:
     map(lambda x: x.check_all_events(), kiosk_events.values())
 
     kiosk_bg_images = [
-        BGImage("images/background/kiosk/bg f <name> <level> <nude>.jpg", 1, TimeCondition(daytime = "f")), # show kiosk with students
-        BGImage("images/background/kiosk/bg f <name> <level> <nude>.jpg", 1, TimeCondition(daytime = "c", weekday = "w")), # show kiosk with students
+        BGImage("images/background/kiosk/bg f <name> <level> <nude> <variant>.jpg", 2, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))), # show kiosk with students
+        BGImage("images/background/kiosk/bg f <name> <level> <nude>.jpg", 1, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))), # show kiosk with students
         BGImage("images/background/kiosk/bg 7.jpg", 1, TimeCondition(daytime = 7)), # show kiosk at night empty
     ]
     
@@ -51,7 +51,7 @@ label .after_time_check (**kwargs):
         kiosk_events, 
         kiosk_fallback,
         character.subtitles,
-        char_obj = school_obj
+        char_obj = school_obj,
     ) from kiosk_3
 
     jump kiosk
@@ -61,7 +61,7 @@ label show_kiosk_idle_image(school_obj):
     $ max_nude, image_path = get_background(
         "images/background/kiosk/bg c.jpg", # show kiosk empty
         kiosk_bg_images,
-        school_obj
+        school_obj,
     )
 
     call show_image_with_nude_var (image_path, max_nude) from _call_show_image_with_nude_var_8
