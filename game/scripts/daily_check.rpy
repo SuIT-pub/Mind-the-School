@@ -8,23 +8,23 @@ init -1 python:
     after_event_check      = Event(2, "time_event_check.after_event_check")
 
     temp_time_check_events = TempEventStorage("temp_time_check_events", "", after_temp_event_check)
-    temp_check_events      = EventStorage("temp_check_events", "", after_event_check)
+    time_check_events      = EventStorage("time_check_events", "", after_event_check)
 
     # temp_check_events.add_event(Event("first_day_introduction", "first_day_introduction", 2,
     #     TimeCondition(day = 1, month = 1, year = 2023, daytime = 1)
     # ))
 
-    temp_check_events.add_event(Event(1, 
+    temp_time_check_events.add_event(Event(1, 
         "tutorial_1", 
         TimeCondition(day = 2, month = 1, year = 2023, daytime = 1)
     ))
 
-    temp_check_events.add_event(Event(1, 
+    temp_time_check_events.add_event(Event(1, 
         "first_week_epilogue", 
         TimeCondition(day = 5, month = 1, year = 2023, daytime = 2)
     ))
 
-    temp_check_events.add_event(Event(1, 
+    temp_time_check_events.add_event(Event(1, 
         "first_week_epilogue_final", 
         TimeCondition(day = 10, month = 1, year = 2023, daytime = 1)
     ))
@@ -37,7 +37,7 @@ init -1 python:
     #     TimeCondition(weekday = 1, daytime = 1)
     # ))
 
-    temp_check_events.add_event(Event(1, 
+    temp_time_check_events.add_event(Event(1, 
         "first_pta_meeting", 
         TimeCondition(day = 5, month = 1, year = 2023, daytime = 1)
     ))
@@ -51,7 +51,7 @@ init -1 python:
     # ))
 
     temp_time_check_events.check_all_events()
-    temp_check_events.check_all_events()
+    time_check_events.check_all_events()
 
 
 label time_event_check ():
@@ -59,12 +59,12 @@ label time_event_check ():
     hide screen school_overview_map
     hide screen school_overview_stats
     hide screen school_overview_buttons
-    
+
     call call_available_event(temp_time_check_events, with_removal = True) from time_event_check_1
 
 label .after_temp_event_check (**kwargs):
 
-    call call_available_event(temp_check_events) from time_event_check_2
+    call call_available_event(time_check_events) from time_event_check_2
 
 label .after_event_check (**kwargs):
     return

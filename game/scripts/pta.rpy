@@ -143,7 +143,7 @@ label first_pta_meeting (**kwargs):
     subtitles "You enter the conference room."
     subtitles "All representatives already gathered and wait for you."
 
-    call show_ext_image_with_nude_var(f"images/events/pta/first meeting/first pta meeting 1 <loli_content> <nude>.png", loli_content = loli_content) from first_pta_meeting_1
+    call show_ext_image_with_nude_var(f"images/events/pta/first meeting/first pta meeting 1 <loli_content> <nude>.jpg", loli_content = loli_content) from first_pta_meeting_1
     headmaster """
         Thank you all for gathering today.
 
@@ -153,7 +153,7 @@ label first_pta_meeting (**kwargs):
     """
 
     hide screen image_with_nude_var
-    scene expression "events/pta/first meeting/first pta meeting 2 [loli_content].png"
+    scene expression "events/pta/first meeting/first pta meeting 2 [loli_content].jpg"
     headmaster """
         During my first week, I've taken the time to find out about the current state of the school, and it's clear 
         that there's a lot of work to be done. 
@@ -162,7 +162,7 @@ label first_pta_meeting (**kwargs):
         institutions in the country. 
     """
 
-    scene expression "events/pta/first meeting/first pta meeting 3 [loli_content].png"
+    scene expression "events/pta/first meeting/first pta meeting 3 [loli_content].jpg"
     headmaster """
         My theory on how to improve the education system has been criticised by established psychologists and teachers. 
         But I can guarantee its effectiveness.
@@ -177,7 +177,7 @@ label first_pta_meeting (**kwargs):
         To briefly summarise my theory. I want to use the parts of the human body that no system has used before.
     """
  
-    scene expression "events/pta/first meeting/first pta meeting 4 [loli_content].png"
+    scene expression "events/pta/first meeting/first pta meeting 4 [loli_content].jpg"
     headmaster """
         The human body is a complex biological machine designed to survive in a harsh and dangerous ecosystem. So it 
         was originally built to learn new patterns and methods to give it a better chance of survival.
@@ -197,7 +197,7 @@ label first_pta_meeting (**kwargs):
         Problems that are the result of old educational methods and techniques.
     """
 
-    scene expression "events/pta/first meeting/first pta meeting 2 [loli_content].png"
+    scene expression "events/pta/first meeting/first pta meeting 2 [loli_content].jpg"
     headmaster """
         One of the main problems is the increasing alienation of individuals in our society. Loneliness is becoming 
         more common, often due to social isolation caused by a lack of interpersonal skills and inadequate support from 
@@ -215,7 +215,7 @@ label first_pta_meeting (**kwargs):
         the best in the country.
     """
 
-    call show_ext_image_with_nude_var(f"images/events/pta/first meeting/first pta meeting 5 <loli_content> <nude>.png", loli_content = loli_content) from first_pta_meeting_2
+    call show_ext_image_with_nude_var(f"images/events/pta/first meeting/first pta meeting 5 <loli_content> <nude>.jpg", loli_content = loli_content) from first_pta_meeting_2
     headmaster """
         If you want to know more about my theory, please read my book. I'll be happy to give it to you if you're 
         interested.
@@ -258,7 +258,7 @@ label first_pta_meeting (**kwargs):
         That's all from our side. Thank you very much.
     """
     
-    call show_ext_image_with_nude_var(f"images/events/pta/first meeting/first pta meeting 8 <nude>.png", loli_content = loli_content) from first_pta_meeting_3
+    call show_ext_image_with_nude_var(f"images/events/pta/first meeting/first pta meeting 8 <nude>.jpg", loli_content = loli_content) from first_pta_meeting_3
     parent """
         Hello, I am a concerned parent of one of the students attending this school and I speak for all parents when I 
         say that we are worried about the recent changes. 
@@ -272,7 +272,7 @@ label first_pta_meeting (**kwargs):
         $ pronoun = "we are"
 
     hide screen image_with_nude_var
-    call show_ext_image_with_nude_var(f"images/events/pta/first meeting/first pta meeting 9 <loli_content> <nude>.png", loli_content = loli_content) from first_pta_meeting_4
+    call show_ext_image_with_nude_var(f"images/events/pta/first meeting/first pta meeting 9 <loli_content> <nude>.jpg", loli_content = loli_content) from first_pta_meeting_4
     sgirl """
         Hello, we are the student representatives of this school and [pronoun] here to make sure that the students of this 
         school are not let out of the decision making and to act as the Mouthpiece of the students issues and 

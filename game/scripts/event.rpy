@@ -138,12 +138,12 @@ init -3 python:
         def add_event(self, event: Event):
             self.events.append(event)
 
-        def remove_event(self, event_id: str):
+        def remove_event(self, event_obj: str | Event):
             new_events = []
-            for event in self.events:
-                if event.get_id() != event_id:
-                    new_events.append(event)
-            self.events = new_events
+
+            if isinstance(event_obj, Event):
+                event_obj = event_obj.get_id()
+            self.events = list(filter(lambda event: event.get_id() != event_obj, self.events))
 
         def count_available_events(self, _priority = 0, **kwargs):
             output = 0
@@ -208,7 +208,7 @@ init -3 python:
 
     class Event:
         def __init__(self, priority: int, event: str | List[str], *conditions: Condition):
-            self.event_id = str(time.time())
+            self.event_id = str(id(self))
             self.event = event
             if isinstance(self.event, str):
                 self.event = [self.event]
@@ -219,6 +219,12 @@ init -3 python:
             # 3 = lowest (selected random among 3's)
             self.priority = priority 
             self.event_type = ""
+
+        def __str__(self):
+            return self.event_id
+
+        def __repr__(self):
+            return self.event_id
 
         def _update(self, data: Dict[str, Any]):
             if not hasattr(self, 'conditions'):
@@ -284,6 +290,7 @@ init -3 python:
             renpy.call("call_event", events, self.priority, **kwargs)
 
 label call_available_event(event_storage, priority = 0, **kwargs):
+
     $ events_list = event_storage.get_available_events_with_fallback(priority, **kwargs)
 
     $ i = 0

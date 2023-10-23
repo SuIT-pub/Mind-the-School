@@ -21,7 +21,7 @@ style stat_value:
 ###################################
 # display the school map with stats
 screen school_overview_map ():
-    add "background/bg school overview idle.png"
+    add "background/bg school overview idle.jpg"
 
 ##############################
 # display the stats on the map
@@ -69,7 +69,7 @@ screen school_overview_stats ():
 ##################################
 # display all buildings on the map
 screen school_overview_images ():
-    add "background/bg school overview idle.png"
+    add "background/bg school overview idle.jpg"
 
     # High School Building
     if is_building_available("high_school_building"):

@@ -1,30 +1,94 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
 While running game code:
-  File "game/scripts/journal/journal_obj.rpy", line 1, in script
-    init -7 python:
-  File "game/scripts/journal/journal_obj.rpy", line 5, in <module>
-    class Journal_Obj(ABC):
-  File "game/scripts/journal/journal_obj.rpy", line 111, in Journal_Obj
-    def get_list_conditions(self, cond_type: str = UNLOCK, level: int = -1) -> List[Condition]:
-NameError: name 'UNLOCK' is not defined
+  File "game/scripts/intro.rpy", line 46, in script call
+    call tutorial_1.tutorial_2 from intro_1
+  File "game/scripts/overview.rpy", line 444, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 459, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 54, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 315, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/overview.rpy", line 444, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 459, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
+  File "game/scripts/event.rpy", line 315, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/overview.rpy", line 444, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 459, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 66, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 315, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/overview.rpy", line 408, in script call
+    call time_event_check from new_day_2
+  File "game/scripts/daily_check.rpy", line 65, in script call
+    call call_available_event(temp_time_check_events, with_removal = True) from time_event_check_1
+  File "game/scripts/event.rpy", line 300, in script
+    $ events_list = event_storage.get_available_events_with_fallback(priority, **kwargs)
+  File "game/scripts/event.rpy", line 300, in <module>
+    $ events_list = event_storage.get_available_events_with_fallback(priority, **kwargs)
+  File "game/scripts/event.rpy", line 191, in get_available_events_with_fallback
+    log_val("events", self.events)
+  File "game/scripts/values.rpy", line 85, in log_val
+    print(key + ": " + str(value) + "\n")
+TypeError: __repr__ returned non-string (type int)
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "game/scripts/journal/journal_obj.rpy", line 1, in script
-    init -7 python:
-  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 1138, in execute
+  File "game/scripts/intro.rpy", line 46, in script call
+    call tutorial_1.tutorial_2 from intro_1
+  File "game/scripts/overview.rpy", line 444, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 459, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 54, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 315, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/overview.rpy", line 444, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 459, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
+  File "game/scripts/event.rpy", line 315, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/overview.rpy", line 444, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 459, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 66, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 315, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/overview.rpy", line 408, in script call
+    call time_event_check from new_day_2
+  File "game/scripts/daily_check.rpy", line 65, in script call
+    call call_available_event(temp_time_check_events, with_removal = True) from time_event_check_1
+  File "game/scripts/event.rpy", line 300, in script
+    $ events_list = event_storage.get_available_events_with_fallback(priority, **kwargs)
+  File "F:\RenPy\renpy\ast.py", line 1138, in execute
     renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
-  File "C:\Users\bigma\Documents\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
+  File "F:\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
     exec(bytecode, globals, locals)
-  File "game/scripts/journal/journal_obj.rpy", line 5, in <module>
-    class Journal_Obj(ABC):
-  File "game/scripts/journal/journal_obj.rpy", line 111, in Journal_Obj
-    def get_list_conditions(self, cond_type: str = UNLOCK, level: int = -1) -> List[Condition]:
-NameError: name 'UNLOCK' is not defined
+  File "game/scripts/event.rpy", line 300, in <module>
+    $ events_list = event_storage.get_available_events_with_fallback(priority, **kwargs)
+  File "game/scripts/event.rpy", line 191, in get_available_events_with_fallback
+    log_val("events", self.events)
+  File "game/scripts/values.rpy", line 85, in log_val
+    print(key + ": " + str(value) + "\n")
+TypeError: __repr__ returned non-string (type int)
 
 Windows-10-10.0.19045 AMD64
 Ren'Py 8.1.3.23091805
 Mind the School 0.1.2
-Thu Oct 19 16:03:51 2023
+Mon Oct 23 12:51:29 2023

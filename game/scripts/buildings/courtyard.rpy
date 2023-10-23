@@ -38,12 +38,7 @@ init -1 python:
     map(lambda x: x.check_all_events(), courtyard_events.values())
 
     courtyard_bg_images = [
-        BGImage("images/background/courtyard/bg 1,6 <name> <level> <nude>.jpg", 1, 
-            OR(
-                TimeCondition(daytime = "1,6", weekday = "w"), 
-                TimeCondition(daytime = "c", weekday = "d")
-            )
-        ), # show courtyard with a few students
+        BGImage("images/background/courtyard/bg 1,6 <name> <level> <nude>.jpg", 1, OR(TimeCondition(daytime = "1,6", weekday = "w"), TimeCondition(daytime = "c", weekday = "d"))), # show courtyard with a few students
         BGImage("images/background/courtyard/bg 3 <name> <level> <nude>.jpg", 1, TimeCondition(daytime = 3)), # show courtyard full of students and teacher
         BGImage("images/background/courtyard/bg 7.jpg", 1, TimeCondition(daytime = 7)), # show empty courtyard at night
     ]

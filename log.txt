@@ -1,183 +1,1404 @@
-Thu Oct 19 17:09:07 2023
+Mon Oct 23 12:34:39 2023
 Windows-10-10.0.19045
 Ren'Py 8.1.3.23091805
  
 
-Bootstrap to the start of init.init. took 0.03s
+Bootstrap to the start of init.init. took 0.05s
 Early init. took 0.00s
-Loader init. took 0.05s
-Loading error handling. took 0.03s
-Loading script. took 0.40s
-Loading save slot metadata. took 0.05s
+Loader init. took 0.12s
+Loading error handling. took 0.05s
+Loading script. took 0.53s
+Loading save slot metadata. took 0.11s
 Loading persistent. took 0.00s
-Running init code. took 0.07s
-Loading analysis data. took 0.01s
+Running init code. took 0.10s
+Loading analysis data. took 0.02s
 Analyze and compile ATL. took 0.00s
-Reloading save slot metadata. took 0.03s
+Reloading save slot metadata. took 0.07s
 Index archives took 0.00s
-Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.05s
+Dump and make backups. took 0.09s
 Cleaning cache. took 0.00s
 Making clean stores. took 0.00s
-Initial gc. took 0.03s
-DPI scale factor: 2.000000
+Initial gc. took 0.07s
+DPI scale factor: 1.000000
 nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: b"Couldn't load nvlib." (can be ignored)
-Creating interface object. took 0.01s
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.64s
 Cleaning stores took 0.00s
-Init translation took 0.06s
+Init translation took 0.09s
 Build styles took 0.01s
-Load screen analysis took 0.01s
-Analyze screens took 0.01s
-Save screen analysis took 0.02s
-Prepare screens took 0.06s
-Save pyanalysis. took 0.00s
-Save bytecode. took 0.03s
-Running _start took 0.00s
-Performance test:
-Interface start. took 0.17s
-
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 3840, 2160)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'Intel'"
-Renderer: b'Intel(R) Iris(R) Xe Graphics'
-Version: b'4.6.0 - Build 31.0.101.4575'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(3840, 2035) drawable=(3840, 2035)
-Maximum texture size: 4096x4096
-Resetting cache.
-Bootstrap to the start of init.init. took 4.89s
-Early init. took 0.00s
-Loader init. took 0.05s
-Loading error handling. took 0.03s
-Loading script. took 0.15s
-Loading save slot metadata. took 0.06s
-Loading persistent. took 0.00s
-Running init code. took 0.03s
-Loading analysis data. took 0.01s
-Analyze and compile ATL. took 0.00s
-Reloading save slot metadata. took 0.05s
-Index archives took 0.00s
-Dump and make backups. took 0.04s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.06s
-DPI scale factor: 2.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: b"Couldn't load nvlib." (can be ignored)
-Creating interface object. took 0.00s
-Cleaning stores took 0.00s
-Init translation took 0.07s
-Build styles took 0.01s
-Load screen analysis took 0.06s
+Load screen analysis took 0.11s
 Analyze screens took 0.00s
 Save screen analysis took 0.00s
-Prepare screens took 0.10s
+Prepare screens took 0.18s
 Save pyanalysis. took 0.00s
-Save bytecode. took 0.00s
+Save bytecode. took 0.05s
 Running _start took 0.00s
 Performance test:
-Interface start. took 0.10s
+Interface start. took 0.24s
 
 Initializing gl2 renderer:
-primary display bounds: (0, 0, 3840, 2160)
+primary display bounds: (0, 0, 2560, 1080)
 swap interval: 1 frames
 Windowed mode.
-Vendor: "b'Intel'"
-Renderer: b'Intel(R) Iris(R) Xe Graphics'
-Version: b'4.6.0 - Build 31.0.101.4575'
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
 Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(3840, 2035) drawable=(3840, 2035)
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
 Maximum texture size: 4096x4096
+Screen sizes: virtual=(1920, 1080) physical=(1016, 608) drawable=(1016, 608)
+Maximum texture size: 4096x4096
+events_list: [<store.Event object at 0x000000000566c310>]
+
+temp_time_check_events
+
+events_list: [<store.Event object at 0x0000000005676670>]
+
+temp_check_events
+
+events_list: [<store.Event object at 0x00000000056766d0>]
+
+temp_check_events
+
+events_list: [<store.Event object at 0x00000000056766d0>]
+
 Resetting cache.
-Bootstrap to the start of init.init. took 105.04s
+Bootstrap to the start of init.init. took 84.55s
 Early init. took 0.00s
-Loader init. took 0.07s
-Loading error handling. took 0.03s
-Loading script. took 0.24s
-Loading save slot metadata. took 0.08s
+Loader init. took 0.11s
+Loading error handling. took 0.05s
+Loading script. took 0.33s
+Loading save slot metadata. took 0.18s
 Loading persistent. took 0.00s
-Running init code. took 0.03s
-Loading analysis data. took 0.01s
+Running init code. took 0.11s
+Loading analysis data. took 0.03s
 Analyze and compile ATL. took 0.00s
-Reloading save slot metadata. took 0.06s
+Reloading save slot metadata. took 0.12s
 Index archives took 0.00s
-Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.12s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.11s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.75s
+Cleaning stores took 0.00s
+Init translation took 0.11s
+Build styles took 0.01s
+Load screen analysis took 0.00s
+Analyze screens took 0.05s
+Save screen analysis took 0.04s
+Prepare screens took 0.19s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.04s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.09s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+temp_time_check_events
+
+events_list: [<store.Event object at 0x000000000543d460>]
+
+temp_check_events
+
+events_list: [<store.Event object at 0x000000000543d3d0>]
+
+temp_check_events
+
+events_list: [<store.Event object at 0x000000000543d3d0>]
+
+events_list: [<store.Event object at 0x0000000007085190>]
+
+temp_time_check_events
+
+events_list: [<store.Event object at 0x000000000543d460>]
+
+temp_check_events
+
+events_list: [<store.Event object at 0x000000000543d3d0>]
+
+temp_check_events
+
+events_list: [<store.Event object at 0x000000000543d3d0>]
+
+Resetting cache.
+Bootstrap to the start of init.init. took 168.18s
+Early init. took 0.00s
+Loader init. took 0.16s
+Loading error handling. took 0.04s
+Loading script. took 0.53s
+Loading save slot metadata. took 0.15s
+Loading persistent. took 0.00s
+Running init code. took 0.09s
+Loading analysis data. took 0.03s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.09s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
 Dump and make backups. took 0.12s
 Cleaning cache. took 0.00s
 Making clean stores. took 0.00s
 Initial gc. took 0.13s
-DPI scale factor: 2.000000
+DPI scale factor: 1.000000
 nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: b"Couldn't load nvlib." (can be ignored)
-Creating interface object. took 0.00s
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.89s
 Cleaning stores took 0.00s
-Init translation took 0.10s
+Init translation took 0.14s
 Build styles took 0.01s
-Load screen analysis took 0.00s
-Analyze screens took 0.04s
-Save screen analysis took 0.05s
-Prepare screens took 0.19s
+Load screen analysis took 0.01s
+Analyze screens took 0.05s
+Save screen analysis took 0.06s
+Prepare screens took 0.24s
 Save pyanalysis. took 0.00s
-Save bytecode. took 0.05s
+Save bytecode. took 0.03s
 Running _start took 0.00s
 Performance test:
-Interface start. took 0.10s
+Interface start. took 0.11s
 
 Initializing gl2 renderer:
-primary display bounds: (0, 0, 3840, 2160)
+primary display bounds: (0, 0, 2560, 1080)
 swap interval: 1 frames
 Windowed mode.
-Vendor: "b'Intel'"
-Renderer: b'Intel(R) Iris(R) Xe Graphics'
-Version: b'4.6.0 - Build 31.0.101.4575'
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
 Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(3840, 2035) drawable=(3840, 2035)
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
 Maximum texture size: 4096x4096
+temp_time_check_events
+
+events_list: [['time_event_check.after_temp_event_check']]
+
+temp_check_events
+
+events_list: [['time_event_check.after_event_check']]
+
+temp_check_events
+
+events_list: [['time_event_check.after_event_check']]
+
+events_list: [['first_week_hsb_event']]
+
+temp_time_check_events
+
+events_list: [['time_event_check.after_temp_event_check']]
+
+temp_check_events
+
+events_list: [['time_event_check.after_event_check']]
+
+temp_check_events
+
+events_list: [['time_event_check.after_event_check']]
+
 Resetting cache.
-Bootstrap to the start of init.init. took 130.06s
+Bootstrap to the start of init.init. took 282.22s
 Early init. took 0.00s
-Loader init. took 0.05s
-Loading error handling. took 0.02s
-Loading script. took 0.18s
-Loading save slot metadata. took 0.06s
+Loader init. took 0.11s
+Loading error handling. took 0.03s
+Loading script. took 0.40s
+Loading save slot metadata. took 0.14s
 Loading persistent. took 0.00s
-Running init code. took 0.03s
-Loading analysis data. took 0.01s
+Running init code. took 0.08s
+Loading analysis data. took 0.03s
 Analyze and compile ATL. took 0.00s
-Reloading save slot metadata. took 0.04s
+Reloading save slot metadata. took 0.08s
 Index archives took 0.00s
-Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.05s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.10s
 Cleaning cache. took 0.00s
 Making clean stores. took 0.00s
-Initial gc. took 0.07s
-DPI scale factor: 2.000000
+Initial gc. took 0.11s
+DPI scale factor: 1.000000
 nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: b"Couldn't load nvlib." (can be ignored)
-Creating interface object. took 0.00s
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.62s
+Cleaning stores took 0.00s
+Init translation took 0.09s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.05s
+Save screen analysis took 0.05s
+Prepare screens took 0.16s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.08s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+temp_time_check_events
+
+events: [['tutorial_1'], ['first_week_epilogue'], ['first_week_epilogue_final'], ['first_pta_meeting']]
+
+output: [['first_pta_meeting']]
+
+events_list: [['first_pta_meeting']]
+
+temp_time_check_events
+
+events: [['tutorial_1'], ['first_week_epilogue'], ['first_week_epilogue_final'], ['first_pta_meeting']]
+
+output: [['first_pta_meeting']]
+
+events_list: [['first_pta_meeting']]
+
+temp_time_check_events
+
+events: []
+
+output: []
+
+events_list: [['time_event_check.after_temp_event_check']]
+
+temp_check_events
+
+events_list: [['time_event_check.after_event_check']]
+
+temp_check_events
+
+events_list: [['time_event_check.after_event_check']]
+
+Resetting cache.
+Bootstrap to the start of init.init. took 536.49s
+Early init. took 0.00s
+Loader init. took 0.12s
+Loading error handling. took 0.05s
+Loading script. took 0.51s
+Loading save slot metadata. took 0.15s
+Loading persistent. took 0.01s
+Running init code. took 0.09s
+Loading analysis data. took 0.03s
+Analyze and compile ATL. took 0.01s
+Reloading save slot metadata. took 0.09s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.12s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.12s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.77s
+Cleaning stores took 0.00s
+Init translation took 0.09s
+Build styles took 0.01s
+Load screen analysis took 0.01s
+Analyze screens took 0.06s
+Save screen analysis took 0.07s
+Prepare screens took 0.30s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.04s
+Running _start took 0.01s
+Performance test:
+Interface start. took 0.14s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+temp_time_check_events
+
+events: [['tutorial_1'], ['first_week_epilogue'], ['first_week_epilogue_final'], ['first_pta_meeting']]
+
+output: [['first_week_epilogue']]
+
+events_list: [['first_week_epilogue']]
+
+Resetting cache.
+Bootstrap to the start of init.init. took 572.59s
+Early init. took 0.00s
+Loader init. took 0.13s
+Loading error handling. took 0.06s
+Loading script. took 0.58s
+Loading save slot metadata. took 0.15s
+Loading persistent. took 0.00s
+Running init code. took 0.11s
+Loading analysis data. took 0.06s
+Analyze and compile ATL. took 0.01s
+Reloading save slot metadata. took 0.16s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.13s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.13s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.64s
+Cleaning stores took 0.00s
+Init translation took 0.06s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.03s
+Save screen analysis took 0.05s
+Prepare screens took 0.13s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.08s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+temp_time_check_events
+
+events: [['tutorial_1'], ['first_week_epilogue'], ['first_week_epilogue_final'], ['first_pta_meeting']]
+
+output: [['first_week_epilogue']]
+
+events_list: [['first_week_epilogue']]
+
+Remove event
+
+events_list: [['tutorial_1'], ['first_week_epilogue'], ['first_week_epilogue_final'], ['first_pta_meeting']]
+
+events_list: []
+
+Cleaning stores took 0.00s
+Init translation took 0.00s
+Build styles took 0.00s
+Load screen analysis took 0.06s
+Analyze screens took 0.00s
+Prepare screens took 0.00s
+Running _start took 0.00s
+events_list: [['first_week_courtyard_event']]
+
+temp_time_check_events
+
+events: []
+
+output: []
+
+events_list: [['time_event_check.after_temp_event_check']]
+
+Remove event
+
+events_list: []
+
+events_list: []
+
+temp_check_events
+
+events_list: [['time_event_check.after_event_check']]
+
+temp_check_events
+
+events_list: [['time_event_check.after_event_check']]
+
+events_list: [['first_week_office_building_event']]
+
+temp_time_check_events
+
+events: []
+
+output: []
+
+events_list: [['time_event_check.after_temp_event_check']]
+
+Remove event
+
+events_list: []
+
+events_list: []
+
+temp_check_events
+
+events_list: [['time_event_check.after_event_check']]
+
+temp_check_events
+
+events_list: [['time_event_check.after_event_check']]
+
+events: [['first_week_hsb_event'], ['first_potion_hsb_event']]
+
+output: [['first_week_hsb_event']]
+
+events_list: [['first_week_hsb_event']]
+
+Remove event
+
+events_list: [['first_week_hsb_event'], ['first_potion_hsb_event']]
+
+events_list: []
+
+temp_time_check_events
+
+events: []
+
+output: []
+
+events_list: [['time_event_check.after_temp_event_check']]
+
+Remove event
+
+events_list: []
+
+events_list: []
+
+temp_check_events
+
+events_list: [['time_event_check.after_event_check']]
+
+temp_check_events
+
+events_list: [['time_event_check.after_event_check']]
+
+Resetting cache.
+Bootstrap to the start of init.init. took 656.25s
+Early init. took 0.00s
+Loader init. took 0.12s
+Loading error handling. took 0.05s
+Loading script. took 0.41s
+Loading save slot metadata. took 0.18s
+Loading persistent. took 0.00s
+
+File "game/scripts/event.rpy", line 146: invalid syntax
+                log_val("event_obj": event_obj)
+                                    ^
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Interface start. took 1.04s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 662.64s
+Early init. took 0.00s
+Loader init. took 0.15s
+Loading error handling. took 0.03s
+Loading script. took 0.45s
+Loading save slot metadata. took 0.19s
+Loading persistent. took 0.01s
+Running init code. took 0.12s
+Loading analysis data. took 0.03s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.13s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.11s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.12s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.83s
+Cleaning stores took 0.00s
+Init translation took 0.12s
+Build styles took 0.01s
+Load screen analysis took 0.00s
+Analyze screens took 0.05s
+Save screen analysis took 0.04s
+Prepare screens took 0.16s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.08s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+temp_time_check_events
+
+events: [['tutorial_1'], ['first_week_epilogue'], ['first_week_epilogue_final'], ['first_pta_meeting']]
+
+output: [['first_pta_meeting']]
+
+events_list: [['first_pta_meeting']]
+
+Remove event
+
+events_list: [['tutorial_1'], ['first_week_epilogue'], ['first_week_epilogue_final'], ['first_pta_meeting']]
+
+events_list: []
+
+Resetting cache.
+Bootstrap to the start of init.init. took 684.86s
+Early init. took 0.00s
+Loader init. took 0.12s
+Loading error handling. took 0.03s
+Loading script. took 0.36s
+Loading save slot metadata. took 0.11s
+Loading persistent. took 0.00s
+Running init code. took 0.07s
+Loading analysis data. took 0.03s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.08s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.10s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.10s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.57s
+Cleaning stores took 0.00s
+Init translation took 0.09s
+Build styles took 0.01s
+Load screen analysis took 0.03s
+Analyze screens took 0.06s
+Save screen analysis took 0.05s
+Prepare screens took 0.16s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.09s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+temp_time_check_events
+
+events: [['tutorial_1'], ['first_week_epilogue'], ['first_week_epilogue_final'], ['first_pta_meeting']]
+
+output: [['first_pta_meeting']]
+
+events_list: [['first_pta_meeting']]
+
+Remove event: 1698057964.9346712
+
+events_list: [['tutorial_1'], ['first_week_epilogue'], ['first_week_epilogue_final'], ['first_pta_meeting']]
+
+events_list: []
+
+Resetting cache.
+Bootstrap to the start of init.init. took 734.72s
+Early init. took 0.00s
+Loader init. took 0.11s
+Loading error handling. took 0.03s
+Loading script. took 0.35s
+Loading save slot metadata. took 0.14s
+Loading persistent. took 0.00s
+Running init code. took 0.06s
+Loading analysis data. took 0.03s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.12s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.17s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.12s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 1.08s
+Cleaning stores took 0.00s
+Init translation took 0.12s
+Build styles took 0.01s
+Load screen analysis took 0.01s
+Analyze screens took 0.11s
+Save screen analysis took 0.15s
+Prepare screens took 0.28s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.04s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.15s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+temp_time_check_events
+
+events: [1698058014.800937, 1698058014.800937, 1698058014.800937, 1698058014.800937]
+
+output: [1698058014.800937]
+
+events_list: [1698058014.800937]
+
+Remove event: 1698058014.800937
+
+events_list: [1698058014.800937, 1698058014.800937, 1698058014.800937, 1698058014.800937]
+
+events_list: []
+
+Resetting cache.
+Bootstrap to the start of init.init. took 878.81s
+Early init. took 0.00s
+Loader init. took 0.24s
+Loading error handling. took 0.09s
+Loading script. took 0.60s
+Loading save slot metadata. took 0.29s
+Loading persistent. took 0.00s
+Running init code. took 0.13s
+Loading analysis data. took 0.05s
+Analyze and compile ATL. took 0.01s
+Reloading save slot metadata. took 0.20s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.15s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.14s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.62s
+Cleaning stores took 0.00s
+Init translation took 0.09s
+Build styles took 0.01s
+Load screen analysis took 0.02s
+Analyze screens took 0.06s
+Save screen analysis took 0.06s
+Prepare screens took 0.20s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.09s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+temp_time_check_events
+
+events: [1698058159.5168183, 1698058159.5168183, 1698058159.5168183, 1698058159.5168183]
+
+output: [1698058159.5168183]
+
+events_list: [1698058159.5168183]
+
+Remove event: 1698058159.5168183
+
+events_list: [1698058159.5168183, 1698058159.5168183, 1698058159.5168183, 1698058159.5168183]
+
+events_list: []
+
+Resetting cache.
+Bootstrap to the start of init.init. took 884.18s
+Early init. took 0.00s
+Loader init. took 0.20s
+Loading error handling. took 0.06s
+Loading script. took 0.49s
+Loading save slot metadata. took 0.16s
+Loading persistent. took 0.00s
+
+Full traceback:
+  File "game/scripts/buildings/bath.rpy", line 5, in script
+    init -1 python:
+  File "F:\RenPy\renpy\ast.py", line 1138, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "F:\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
+    exec(bytecode, globals, locals)
+  File "game/scripts/buildings/bath.rpy", line 6, in <module>
+    bath_after_time_check = Event(2, "bath.after_time_check")
+  File "game/scripts/event.rpy", line 217, in __init__
+    self.event_id = id()
+TypeError: id() takes exactly one argument (0 given)
+
+While running game code:
+  File "game/scripts/buildings/bath.rpy", line 5, in script
+    init -1 python:
+  File "game/scripts/buildings/bath.rpy", line 6, in <module>
+    bath_after_time_check = Event(2, "bath.after_time_check")
+  File "game/scripts/event.rpy", line 217, in __init__
+    self.event_id = id()
+TypeError: id() takes exactly one argument (0 given)
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Interface start. took 0.99s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 915.01s
+Early init. took 0.00s
+Loader init. took 0.28s
+Loading error handling. took 0.03s
+Loading script. took 0.55s
+Loading save slot metadata. took 0.28s
+Loading persistent. took 0.01s
+
+Full traceback:
+  File "game/scripts/buildings/bath.rpy", line 5, in script
+    init -1 python:
+  File "F:\RenPy\renpy\ast.py", line 1138, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "F:\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
+    exec(bytecode, globals, locals)
+  File "game/scripts/buildings/bath.rpy", line 6, in <module>
+    bath_after_time_check = Event(2, "bath.after_time_check")
+  File "game/scripts/event.rpy", line 217, in __init__
+    self.event_id = id()
+TypeError: id() takes exactly one argument (0 given)
+
+While running game code:
+  File "game/scripts/buildings/bath.rpy", line 5, in script
+    init -1 python:
+  File "game/scripts/buildings/bath.rpy", line 6, in <module>
+    bath_after_time_check = Event(2, "bath.after_time_check")
+  File "game/scripts/event.rpy", line 217, in __init__
+    self.event_id = id()
+TypeError: id() takes exactly one argument (0 given)
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Interface start. took 1.30s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 920.21s
+Early init. took 0.00s
+Loader init. took 0.12s
+Loading error handling. took 0.03s
+Loading script. took 0.37s
+Loading save slot metadata. took 0.11s
+Loading persistent. took 0.00s
+
+Full traceback:
+  File "game/scripts/buildings/bath.rpy", line 5, in script
+    init -1 python:
+  File "F:\RenPy\renpy\ast.py", line 1138, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "F:\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
+    exec(bytecode, globals, locals)
+  File "game/scripts/buildings/bath.rpy", line 6, in <module>
+    bath_after_time_check = Event(2, "bath.after_time_check")
+  File "game/scripts/event.rpy", line 217, in __init__
+    self.event_id = get_id()
+NameError: name 'get_id' is not defined
+
+While running game code:
+  File "game/scripts/buildings/bath.rpy", line 5, in script
+    init -1 python:
+  File "game/scripts/buildings/bath.rpy", line 6, in <module>
+    bath_after_time_check = Event(2, "bath.after_time_check")
+  File "game/scripts/event.rpy", line 217, in __init__
+    self.event_id = get_id()
+NameError: name 'get_id' is not defined
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Interface start. took 0.83s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 933.34s
+Early init. took 0.00s
+Loader init. took 0.11s
+Loading error handling. took 0.03s
+Loading script. took 0.33s
+Loading save slot metadata. took 0.10s
+Loading persistent. took 0.00s
+
+Full traceback:
+  File "game/scripts/buildings/bath.rpy", line 5, in script
+    init -1 python:
+  File "F:\RenPy\renpy\ast.py", line 1138, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "F:\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
+    exec(bytecode, globals, locals)
+  File "game/scripts/buildings/bath.rpy", line 6, in <module>
+    bath_after_time_check = Event(2, "bath.after_time_check")
+  File "game/scripts/event.rpy", line 217, in __init__
+    self.event_id = get_id()
+NameError: name 'get_id' is not defined
+
+While running game code:
+  File "game/scripts/buildings/bath.rpy", line 5, in script
+    init -1 python:
+  File "game/scripts/buildings/bath.rpy", line 6, in <module>
+    bath_after_time_check = Event(2, "bath.after_time_check")
+  File "game/scripts/event.rpy", line 217, in __init__
+    self.event_id = get_id()
+NameError: name 'get_id' is not defined
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Interface start. took 0.77s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 952.33s
+Early init. took 0.00s
+Loader init. took 0.12s
+Loading error handling. took 0.03s
+Loading script. took 0.36s
+Loading save slot metadata. took 0.10s
+Loading persistent. took 0.00s
+
+Full traceback:
+  File "game/scripts/buildings/bath.rpy", line 5, in script
+    init -1 python:
+  File "F:\RenPy\renpy\ast.py", line 1138, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "F:\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
+    exec(bytecode, globals, locals)
+  File "game/scripts/buildings/bath.rpy", line 6, in <module>
+    bath_after_time_check = Event(2, "bath.after_time_check")
+  File "game/scripts/event.rpy", line 217, in __init__
+    self.event_id = get_id()
+  File "game/scripts/helper.rpy", line 181, in get_id
+    if id == old_id:
+UnboundLocalError: local variable 'old_id' referenced before assignment
+
+While running game code:
+  File "game/scripts/buildings/bath.rpy", line 5, in script
+    init -1 python:
+  File "game/scripts/buildings/bath.rpy", line 6, in <module>
+    bath_after_time_check = Event(2, "bath.after_time_check")
+  File "game/scripts/event.rpy", line 217, in __init__
+    self.event_id = get_id()
+  File "game/scripts/helper.rpy", line 181, in get_id
+    if id == old_id:
+UnboundLocalError: local variable 'old_id' referenced before assignment
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Interface start. took 0.81s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 978.98s
+Early init. took 0.00s
+Loader init. took 0.13s
+Loading error handling. took 0.03s
+Loading script. took 0.39s
+Loading save slot metadata. took 0.11s
+Loading persistent. took 0.00s
+
+Full traceback:
+  File "game/scripts/buildings/bath.rpy", line 5, in script
+    init -1 python:
+  File "F:\RenPy\renpy\ast.py", line 1138, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "F:\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
+    exec(bytecode, globals, locals)
+  File "game/scripts/buildings/bath.rpy", line 6, in <module>
+    bath_after_time_check = Event(2, "bath.after_time_check")
+  File "game/scripts/event.rpy", line 217, in __init__
+    self.event_id = get_id()
+  File "game/scripts/helper.rpy", line 182, in get_id
+    if id == old_id:
+UnboundLocalError: local variable 'old_id' referenced before assignment
+
+While running game code:
+  File "game/scripts/buildings/bath.rpy", line 5, in script
+    init -1 python:
+  File "game/scripts/buildings/bath.rpy", line 6, in <module>
+    bath_after_time_check = Event(2, "bath.after_time_check")
+  File "game/scripts/event.rpy", line 217, in __init__
+    self.event_id = get_id()
+  File "game/scripts/helper.rpy", line 182, in get_id
+    if id == old_id:
+UnboundLocalError: local variable 'old_id' referenced before assignment
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Interface start. took 0.78s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 1002.56s
+Early init. took 0.00s
+Loader init. took 0.10s
+Loading error handling. took 0.03s
+Loading script. took 0.35s
+Loading save slot metadata. took 0.10s
+Loading persistent. took 0.00s
+
+Full traceback:
+  File "game/scripts/buildings/bath.rpy", line 5, in script
+    init -1 python:
+  File "F:\RenPy\renpy\ast.py", line 1138, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "F:\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
+    exec(bytecode, globals, locals)
+  File "game/scripts/buildings/bath.rpy", line 6, in <module>
+    bath_after_time_check = Event(2, "bath.after_time_check")
+  File "game/scripts/event.rpy", line 217, in __init__
+    self.event_id = get_id()
+NameError: name 'get_id' is not defined
+
+While running game code:
+  File "game/scripts/buildings/bath.rpy", line 5, in script
+    init -1 python:
+  File "game/scripts/buildings/bath.rpy", line 6, in <module>
+    bath_after_time_check = Event(2, "bath.after_time_check")
+  File "game/scripts/event.rpy", line 217, in __init__
+    self.event_id = get_id()
+NameError: name 'get_id' is not defined
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Interface start. took 0.82s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 1008.20s
+Early init. took 0.00s
+Loader init. took 0.12s
+Loading error handling. took 0.03s
+Loading script. took 0.41s
+Loading save slot metadata. took 0.10s
+Loading persistent. took 0.00s
+Running init code. took 0.07s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.08s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.11s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.09s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.56s
+Cleaning stores took 0.00s
+Init translation took 0.09s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.04s
+Save screen analysis took 0.05s
+Prepare screens took 0.18s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.01s
+Performance test:
+Interface start. took 0.13s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+temp_time_check_events
+
+
+Full traceback:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call tutorial_1.tutorial_2 from intro_1
+  File "game/scripts/overview.rpy", line 444, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 459, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 54, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 315, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/overview.rpy", line 444, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 459, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
+  File "game/scripts/event.rpy", line 315, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/overview.rpy", line 444, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 459, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 66, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 315, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/overview.rpy", line 408, in script call
+    call time_event_check from new_day_2
+  File "game/scripts/daily_check.rpy", line 65, in script call
+    call call_available_event(temp_time_check_events, with_removal = True) from time_event_check_1
+  File "game/scripts/event.rpy", line 300, in script
+    $ events_list = event_storage.get_available_events_with_fallback(priority, **kwargs)
+  File "F:\RenPy\renpy\ast.py", line 1138, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "F:\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
+    exec(bytecode, globals, locals)
+  File "game/scripts/event.rpy", line 300, in <module>
+    $ events_list = event_storage.get_available_events_with_fallback(priority, **kwargs)
+  File "game/scripts/event.rpy", line 191, in get_available_events_with_fallback
+    log_val("events", self.events)
+  File "game/scripts/values.rpy", line 85, in log_val
+    print(key + ": " + str(value) + "\n")
+TypeError: __repr__ returned non-string (type int)
+
+While running game code:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call tutorial_1.tutorial_2 from intro_1
+  File "game/scripts/overview.rpy", line 444, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 459, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 54, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 315, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/overview.rpy", line 444, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 459, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
+  File "game/scripts/event.rpy", line 315, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/overview.rpy", line 444, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 459, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 66, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 315, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/overview.rpy", line 408, in script call
+    call time_event_check from new_day_2
+  File "game/scripts/daily_check.rpy", line 65, in script call
+    call call_available_event(temp_time_check_events, with_removal = True) from time_event_check_1
+  File "game/scripts/event.rpy", line 300, in script
+    $ events_list = event_storage.get_available_events_with_fallback(priority, **kwargs)
+  File "game/scripts/event.rpy", line 300, in <module>
+    $ events_list = event_storage.get_available_events_with_fallback(priority, **kwargs)
+  File "game/scripts/event.rpy", line 191, in get_available_events_with_fallback
+    log_val("events", self.events)
+  File "game/scripts/values.rpy", line 85, in log_val
+    print(key + ": " + str(value) + "\n")
+TypeError: __repr__ returned non-string (type int)
+Resetting cache.
+Bootstrap to the start of init.init. took 1021.08s
+Early init. took 0.00s
+Loader init. took 0.13s
+Loading error handling. took 0.07s
+Loading script. took 0.50s
+Loading save slot metadata. took 0.12s
+Loading persistent. took 0.00s
+Running init code. took 0.07s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.07s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.09s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.10s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.54s
 Cleaning stores took 0.00s
 Init translation took 0.07s
 Build styles took 0.00s
 Load screen analysis took 0.01s
-Analyze screens took 0.01s
-Save screen analysis took 0.03s
-Prepare screens took 0.08s
+Analyze screens took 0.03s
+Save screen analysis took 0.04s
+Prepare screens took 0.17s
 Save pyanalysis. took 0.00s
-Save bytecode. took 0.05s
-Running _start took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.01s
 Performance test:
-Interface start. took 0.05s
+Interface start. took 0.07s
 
 Initializing gl2 renderer:
-primary display bounds: (0, 0, 3840, 2160)
+primary display bounds: (0, 0, 2560, 1080)
 swap interval: 1 frames
 Windowed mode.
-Vendor: "b'Intel'"
-Renderer: b'Intel(R) Iris(R) Xe Graphics'
-Version: b'4.6.0 - Build 31.0.101.4575'
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
 Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(3840, 2035) drawable=(3840, 2035)
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+temp_time_check_events
+
+events: [113289728, 113290064, 113289488, 113288960]
+
+output: [113288960]
+
+events_list: [113288960]
+
+Remove event: 113288960
+
+events_list: [113289728, 113290064, 113289488, 113288960]
+
+events_list: [113289728, 113290064, 113289488]
+
+temp_time_check_events
+
+events: [113289728, 113290064, 113289488]
+
+output: [113290064]
+
+events_list: [113290064]
+
+Remove event: 113290064
+
+events_list: [113289728, 113290064, 113289488]
+
+events_list: [113289728, 113289488]
+
+temp_time_check_events
+
+events: [113289728, 113289488]
+
+output: []
+
+events_list: [113288000]
+
+Remove event: 113288000
+
+events_list: [113289728, 113289488]
+
+events_list: [113289728, 113289488]
+
+temp_check_events
+
+events_list: [113287856]
+
+temp_check_events
+
+events_list: [113287856]
+
+Resetting cache.
+Bootstrap to the start of init.init. took 1147.84s
+Early init. took 0.00s
+Loader init. took 0.16s
+Loading error handling. took 0.06s
+Loading script. took 0.83s
+Loading save slot metadata. took 0.15s
+Loading persistent. took 0.00s
+Running init code. took 0.08s
+Loading analysis data. took 0.04s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.09s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.11s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.12s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.69s
+Cleaning stores took 0.00s
+Init translation took 0.12s
+Build styles took 0.01s
+Load screen analysis took 0.02s
+Analyze screens took 0.07s
+Save screen analysis took 0.09s
+Prepare screens took 0.42s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.07s
+Running _start took 0.03s
+Performance test:
+Interface start. took 0.18s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+events: [119601424, 119601760, 119599600, 119601616]
+
+output: []
+
+events_list: [119602528]
+
+Remove event: 119602528
+
+events_list: [119601424, 119601760, 119599600, 119601616]
+
+events_list: [119601424, 119601760, 119599600, 119601616]
+
+events_list: [119601808]
+
+events_list: [119601808]
+
+Resetting cache.
+Bootstrap to the start of init.init. took 1175.12s
+Early init. took 0.00s
+Loader init. took 0.11s
+Loading error handling. took 0.04s
+Loading script. took 0.40s
+Loading save slot metadata. took 0.12s
+Loading persistent. took 0.00s
+Running init code. took 0.06s
+Loading analysis data. took 0.03s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.08s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.10s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.12s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.64s
+Cleaning stores took 0.00s
+Init translation took 0.11s
+Build styles took 0.01s
+Load screen analysis took 0.03s
+Analyze screens took 0.05s
+Save screen analysis took 0.06s
+Prepare screens took 0.18s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.09s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
 Maximum texture size: 4096x4096

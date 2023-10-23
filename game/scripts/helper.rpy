@@ -1,4 +1,4 @@
-init python:
+init -99 python:
     import re
 
     def get_element(name: str, map: Dict[str, Any] = None):
@@ -172,3 +172,4 @@ init python:
                     nearest = set_nearest(nearest, -abs(vals - int(value2)))
 
         return nearest
+    
