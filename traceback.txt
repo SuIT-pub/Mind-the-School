@@ -9,543 +9,245 @@ While running game code:
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/office_building.rpy", line 70, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 444, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
   File "game/scripts/overview.rpy", line 444, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/office_building.rpy", line 70, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 444, in script call
+    call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 444, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/office_building.rpy", line 70, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
   File "game/scripts/overview.rpy", line 444, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/office_building.rpy", line 70, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
   File "game/scripts/overview.rpy", line 444, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/office_building.rpy", line 70, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
   File "game/scripts/overview.rpy", line 444, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/office_building.rpy", line 70, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
   File "game/scripts/overview.rpy", line 444, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/office_building.rpy", line 70, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
   File "game/scripts/overview.rpy", line 444, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/office_building.rpy", line 70, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 444, in script call
+    call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 444, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/office_building.rpy", line 70, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
   File "game/scripts/overview.rpy", line 444, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/office_building.rpy", line 70, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
   File "game/scripts/overview.rpy", line 444, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/office_building.rpy", line 70, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
   File "game/scripts/overview.rpy", line 444, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/office_building.rpy", line 70, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
   File "game/scripts/overview.rpy", line 444, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/office_building.rpy", line 70, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
   File "game/scripts/overview.rpy", line 444, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/office_building.rpy", line 70, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 444, in script call
+    call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 444, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/office_building.rpy", line 70, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
   File "game/scripts/overview.rpy", line 444, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/office_building.rpy", line 70, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
   File "game/scripts/overview.rpy", line 444, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/office_building.rpy", line 70, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
   File "game/scripts/overview.rpy", line 444, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/gym.rpy", line 63, in script call
+    call call_available_event(gym_timed_event) from gym_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/gym.rpy", line 71, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 68, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 90, in script call
+    $ call_effects(effects, **kwargs)
   File "game/scripts/event.rpy", line 326, in script call
     $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 47, in script call
-    call show_kiosk_idle_image(school_obj) from kiosk_2
-  File "game/scripts/buildings/kiosk.rpy", line 61, in script
-    $ max_nude, image_path = get_background(
-  File "game/scripts/buildings/kiosk.rpy", line 61, in <module>
-    $ max_nude, image_path = get_background(
-  File "game/scripts/background.rpy", line 149, in get_background
-    max_nude, output = image.get_image(level = level, **kwargs)
-  File "game/scripts/background.rpy", line 23, in get_image
-    return get_image(self._image_path, **kwargs)
-  File "game/scripts/background.rpy", line 106, in get_image
-    kwargs["variant"] = get_random_int(1, max_variant)
-  File "game/scripts/values.rpy", line 86, in get_random_int
-    return random.randint(start, end)
-ValueError: empty range for randrange() (1, 1, 0)
+  File "game/scripts/buildings/gym.rpy", line 309, in script
+    $ image = Image_Series("/images/events/gym/gym_event_3 <name> <level> <variant> <step>.png", variant = variant, name = "high_school", **kwargs)
+  File "game/scripts/buildings/gym.rpy", line 309, in <module>
+    $ image = Image_Series("/images/events/gym/gym_event_3 <name> <level> <variant> <step>.png", variant = variant, name = "high_school", **kwargs)
+  File "game/scripts/background.rpy", line 26, in __init__
+    image_path = refine_image(image_path, **kwargs)
+  File "game/scripts/background.rpy", line 267, in refine_image
+    image_path = get_available_level(image_path, char_obj.get_level())
+  File "game/scripts/background.rpy", line 225, in get_available_level
+    old_image = path.replace(key, "~#~")
+NameError: name 'key' is not defined
 
 -- Full Traceback ------------------------------------------------------------
 
@@ -558,551 +260,251 @@ Full traceback:
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/office_building.rpy", line 70, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 444, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
   File "game/scripts/overview.rpy", line 444, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/office_building.rpy", line 70, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 444, in script call
+    call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 444, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/office_building.rpy", line 70, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
   File "game/scripts/overview.rpy", line 444, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/office_building.rpy", line 70, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
   File "game/scripts/overview.rpy", line 444, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/office_building.rpy", line 70, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
   File "game/scripts/overview.rpy", line 444, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/office_building.rpy", line 70, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
   File "game/scripts/overview.rpy", line 444, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/office_building.rpy", line 70, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
   File "game/scripts/overview.rpy", line 444, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/office_building.rpy", line 70, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 444, in script call
+    call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 444, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/office_building.rpy", line 70, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
   File "game/scripts/overview.rpy", line 444, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/office_building.rpy", line 70, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
   File "game/scripts/overview.rpy", line 444, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/office_building.rpy", line 70, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
   File "game/scripts/overview.rpy", line 444, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/office_building.rpy", line 70, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
   File "game/scripts/overview.rpy", line 444, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/office_building.rpy", line 70, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
   File "game/scripts/overview.rpy", line 444, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/office_building.rpy", line 70, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 444, in script call
+    call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 444, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/office_building.rpy", line 70, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
   File "game/scripts/overview.rpy", line 444, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/office_building.rpy", line 70, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
   File "game/scripts/overview.rpy", line 444, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/office_building.rpy", line 58, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/office_building.rpy", line 70, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
   File "game/scripts/overview.rpy", line 444, in script call
     call screen school_overview_buttons
   File "game/scripts/overview.rpy", line 459, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/buildings/gym.rpy", line 63, in script call
+    call call_available_event(gym_timed_event) from gym_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
+  File "game/scripts/buildings/gym.rpy", line 71, in script call
     call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 68, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 90, in script call
+    $ call_effects(effects, **kwargs)
   File "game/scripts/event.rpy", line 326, in script call
     $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 49, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 75, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 326, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 444, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 459, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 41, in script call
-    call call_available_event(kiosk_timed_event) from kiosk_1
-  File "game/scripts/event.rpy", line 307, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 47, in script call
-    call show_kiosk_idle_image(school_obj) from kiosk_2
-  File "game/scripts/buildings/kiosk.rpy", line 61, in script
-    $ max_nude, image_path = get_background(
+  File "game/scripts/buildings/gym.rpy", line 309, in script
+    $ image = Image_Series("/images/events/gym/gym_event_3 <name> <level> <variant> <step>.png", variant = variant, name = "high_school", **kwargs)
   File "F:\RenPy\renpy\ast.py", line 1138, in execute
     renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
   File "F:\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
     exec(bytecode, globals, locals)
-  File "game/scripts/buildings/kiosk.rpy", line 61, in <module>
-    $ max_nude, image_path = get_background(
-  File "game/scripts/background.rpy", line 149, in get_background
-    max_nude, output = image.get_image(level = level, **kwargs)
-  File "game/scripts/background.rpy", line 23, in get_image
-    return get_image(self._image_path, **kwargs)
-  File "game/scripts/background.rpy", line 106, in get_image
-    kwargs["variant"] = get_random_int(1, max_variant)
-  File "game/scripts/values.rpy", line 86, in get_random_int
-    return random.randint(start, end)
-  File "/home/tom/ab/renpy-build-fix/tmp/install.linux-x86_64/lib/python3.9/random.py", line 338, in randint
-  File "/home/tom/ab/renpy-build-fix/tmp/install.linux-x86_64/lib/python3.9/random.py", line 316, in randrange
-ValueError: empty range for randrange() (1, 1, 0)
+  File "game/scripts/buildings/gym.rpy", line 309, in <module>
+    $ image = Image_Series("/images/events/gym/gym_event_3 <name> <level> <variant> <step>.png", variant = variant, name = "high_school", **kwargs)
+  File "game/scripts/background.rpy", line 26, in __init__
+    image_path = refine_image(image_path, **kwargs)
+  File "game/scripts/background.rpy", line 267, in refine_image
+    image_path = get_available_level(image_path, char_obj.get_level())
+  File "game/scripts/background.rpy", line 225, in get_available_level
+    old_image = path.replace(key, "~#~")
+NameError: name 'key' is not defined
 
 Windows-10-10.0.19045 AMD64
 Ren'Py 8.1.3.23091805
 Mind the School 0.1.2
-Mon Oct 23 14:18:45 2023
+Mon Nov  6 14:34:24 2023

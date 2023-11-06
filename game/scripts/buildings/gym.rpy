@@ -155,84 +155,104 @@ label weekly_assembly (**kwargs):
     return
 
 label gym_event_1 (**kwargs):
-    show screen black_screen_text("gym_event_1")
 
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
+    $ school_name = "high_school" #char_obj.get_name()
+
     $ corruption = char_obj.get_stat_number(CORRUPTION)
 
-    $ topic = get_random_choice("putting on my shoes", "doing my hair", "getting ready")
+    $ girls = {
+        "high_school": ("Aona Komuro", "Elsie Johnson")
+    }
 
-    # Image variants: getting ready, shoes, hair
+    $ variant = get_random_choice("shoes", "hair", "ready")
+
+    $ topics = {
+        "shoes": "putting on my shoes",
+        "hair": "doing my hair",
+        "ready": "getting ready",
+    }
+
+    $ topic = topics[variant]
+
+    $ image = Image_Series("/images/events/gym/gym_event_1 <name> <level> <topic> <step>.png", topic = variant, name = school_name, **kwargs)
+
+    $ image.show(0)
     subtitles "In the Gym, you see a girl getting ready for P.E."
 
     if corruption >= 80:
         show screen black_screen_text("gym_event_1\ncorruption >= 80")
-        sgirl "Im [topic] right now, how about a quick make out session before class starts? We got a few minutes for that."
+        sgirl "Im [topic] right now, how about a quick make out session before class starts? We got a few minutes for that." (name = girls[school_name][0])
         headmaster "For a girl as pretty as you? Of course I do!"
         subtitles "After she is ready, you spend a few minutes making out with her."
         $ change_stats_with_modifier(char_obj, 
             inhibition = DEC_LARGE, corruption = MEDIUM, charm = SMALL)
     elif corruption >= 60:
         show screen black_screen_text("gym_event_1\ncorruption >= 60")
-        sgirl "Im [topic] now, how about a proper good luck kiss before class?"
+        sgirl "Im [topic] now, how about a proper good luck kiss before class?" (name = girls[school_name][0])
         headmaster "That sounds like a very good measure!"
         subtitles "After she is ready, you french kiss her for a minute."
         $ change_stats_with_modifier(char_obj, 
             inhibition = DEC_MEDIUM, corruption = MEDIUM, charm = SMALL)
     elif corruption >= 40:
         show screen black_screen_text("gym_event_1\ncorruption >= 40")
-        sgirl "just [topic] for P.E.\n Say, do you wish we would just run around nude all day?"
-        sgirl "We just might if you asked us to."
+        sgirl "just [topic] for P.E.\n Say, do you wish we would just run around nude all day?" (name = girls[school_name][0])
+        sgirl "We just might if you asked us to." (name = girls[school_name][1])
         # tease headmaster -> run off
-        sgirl "*giggle*"
+        sgirl "*giggle*" (name="School Girls")
         $ change_stats_with_modifier(char_obj, 
             inhibition = DEC_SMALL, corruption = MEDIUM, charm = SMALL)
     elif corruption >= 20:
         show screen black_screen_text("gym_event_1\ncorruption >= 20")
-        sgirl "Just [topic] for P.E.\n Say, do you wish we would just run around in underwear all day?"
-        sgirl "We just might if you asked us to."
+        sgirl "Just [topic] for P.E.\n Say, do you wish we would just run around in underwear all day?" (name = girls[school_name][0])
+        sgirl "We just might if you asked us to." (name = girls[school_name][1])
         # tease headmaster -> run off
-        sgirl "*giggle*"
+        sgirl "*giggle*" (name="School Girls")
         $ change_stats_with_modifier(char_obj, 
             inhibition = DEC_SMALL, corruption = SMALL, charm = SMALL)
     elif corruption >= 5:
-        show screen black_screen_text("gym_event_1\ncorruption >= 5")
-        sgirl "Just give me a moment more to get ready for class. You like watching me doing whatever, right?"
+        $ image.show(1)
+        sgirl "Just give me a moment more to get ready for class. You like watching me doing whatever, right?" (name = girls[school_name][0])
+
+        $ image.show(2)
         headmaster "As pretty as you are? I sure do!"
+
         $ change_stats_with_modifier(char_obj, 
             inhibition = DEC_SMALL, corruption = TINY, charm = TINY)
     else:
-        show screen black_screen_text("gym_event_1\ncorruption < 5")
-        sgirl "Are you getting ready for gym class too, Mr. [headmaster_last_name]?"
+        $ image.show(1)
+        sgirl "Are you getting ready for gym class too, Mr. [headmaster_last_name]?" (name = girls[school_name][0])
+
         $ change_stats_with_modifier(char_obj, 
             inhibition = DEC_TINY, corruption = TINY, charm = TINY)
     jump new_daytime
 
 label gym_event_2 (**kwargs):
-    show screen black_screen_text("gym_event_2")
-
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
     $ inhibition = char_obj.get_stat_number(INHIBITION)
 
-    $ topic = get_random_choice("clothe", "clothe", "clothe", "clothe", "breasts", "asses")
+    $ topic = get_random_choice(("clothe", 0.75), "breasts", ("asses", 0.15))
 
+    $ image = Image_Series("/images/events/gym/gym_event_2 <name> <level> <topic> <step>.png", topic = topic, name = "high_school", **kwargs)
+
+    $ image.show(0)
     if topic == "breasts":
-        show screen black_screen_text("gym_event_2\ntopic_breasts")
         subtitles "You find yourself in the girls changing room with some bare breasts on display."
     elif topic == "asses":
-        show screen black_screen_text("gym_event_2\ntopic_asses")
         subtitles "You find yourself in the girls changing room. You can't help but look on those bare asses."
     else:
-        show screen black_screen_text("gym_event_2\ntopic_clothe")
         subtitles "You walk in on some girls changing their clothes before P.E."
     
     if inhibition >= 80:
-        show screen black_screen_text("gym_event_2\ntopic_[topic] inhibition >= 80")
+        $ image.show(1)
         subtitles "It took a few seconds for them to realize what is happening."
+        $ image.show(2)
         sgirl "*scream*" (name="School Girls")
+        $ image.show(3)
         headmaster "Sorry, I didn't mean to intrude."
+        $ image.show(4)
         subtitles "You run out as fast as you can."
         $ change_stats_with_modifier(char_obj, 
             inhibition = MEDIUM, HAPPINESS = DEC_MEDIUM, REPUTATION = DEC_SMALL)
@@ -273,18 +293,36 @@ label .escape (**kwargs):
     jump new_daytime
 
 label gym_event_3 (**kwargs):
-    show screen black_screen_text("gym_event_3")
-
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
+    $ variant = get_random_int(1, 1)
+
+    $ girls = {
+        1: "Kokoro Nakamura",
+    }
+
+    $ girl_name = girls[variant].split(" ")[0]
+    $ girl_full_name = girls[variant]
+
+    $ image = Image_Series("/images/events/gym/gym_event_3 <name> <level> <variant> <step>.png", variant = variant, name = "high_school", **kwargs)
+
+    $ image.show(0)
     headmaster "Sorry but that top doesn't conform to the uniform policy."
-    sgirl "Whaa... But my normal uniform is in the wash!"
+    $ image.show(1)
+    sgirl "Whaa... But my normal uniform is in the wash!" (name = girl_full_name)
+    $ image.show(2)
     headmaster "That's unfortunate but you can't keep wearing this for P.E. as it is bad for the hygiene and could lead to injuries."
-    sgirl "But I don't have anything else!"
+    headmaster "The sport clothing is made of special materials that are designed to be worn during sports and have antibacterial properties."
+    $ image.show(3)
+    sgirl "But I don't have anything else!" (name = girl_full_name)
+    $ image.show(4)
     headmaster "I'm sorry but you will have to take of your top then."
-    sgirl "But..."
+    $ image.show(5)
+    sgirl "But..." (name = girl_full_name)
     headmaster "I'm sorry but I can't make an exception. Better keep your timetable in mind next time."
-    subtitles "<Girl Name> takes of her top and is now only wearing her bra."
+    $ image.show(6)
+    subtitles "[girl_name] takes of her top and is now only wearing her bra."
+    $ image.show(7)
     subtitles "She proceeded to take part on the P.E. class, almost dying of shame."
 
     $ change_stats_with_modifier(char_obj,

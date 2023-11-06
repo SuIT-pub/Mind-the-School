@@ -42,7 +42,7 @@ init -1 python:
 
     office_building_bg_images = [
         BGImage("images/background/office building/bg c teacher.jpg", 1, TimeCondition(daytime = "c"), ValueCondition('name', 'teacher')), # show headmasters/teachers office empty
-        BGImage("images/background/office building/bg f secretary <level> <nude>.jpg", 1, TimeCondition(daytime = "c"), ValueCondition('name', 'secretary')), # show headmasters/teachers office with people
+        BGImage("images/background/office building/bg c secretary <level> <nude>.jpg", 1, TimeCondition(daytime = "c"), ValueCondition('name', 'secretary')), # show headmasters/teachers office with people
         BGImage("images/background/office building/bg f <name> <level> <nude>.jpg", 1, TimeCondition(daytime = "f")), # show headmasters/teachers office with people
         BGImage("images/background/office building/bg 7 <name>.jpg", 1, TimeCondition(daytime = 7)), # show headmasters/teachers office empty at night
     ]
@@ -139,9 +139,9 @@ label office_event_1 (**kwargs):
     subtitles "Apparently she is in need of counseling."
 
     $ change_stats_with_modifier(kwargs["char_obj"],
-        happiness = 0.2, reputation = 0.2)
+        happiness = TINY, reputation = TINY)
     $ change_stats_with_modifier(get_character("teacher", charList['staff']),
-        happiness = 0.2)
+        happiness = TINY)
     
     jump new_daytime
 
@@ -151,9 +151,9 @@ label office_event_2 (**kwargs):
     subtitles "Even the teachers need a break from time to time."
 
     $ change_stats_with_modifier(kwargs["char_obj"],
-        education = -0.4, reputation = -0.1)
+        education = DEC_SMALL, reputation = DEC_TINY)
     $ change_stats_with_modifier(get_character("teacher", charList['staff']),
-        happiness = 0.2)
+        happiness = TINY)
 
     jump new_daytime
 
@@ -172,7 +172,7 @@ label .ignore (**kwargs):
     subtitles "You ignore them and continue you way."
 
     $ change_stats_with_modifier(get_character("teacher", charList['staff']),
-        happiness = 0.2)
+        happiness = TINY)
 
     jump new_daytime
 
@@ -198,9 +198,9 @@ label .policy (**kwargs):
     headmaster "Now you both go back to class."
 
     $ change_stats_with_modifier(kwargs["char_obj"],
-        charm = 0.4, happiness = -0.4)
+        charm = SMALL, happiness = DEC_SMALL)
     $ change_stats_with_modifier(get_character("teacher", charList['staff']),
-        happiness = 0.2)
+        happiness = TINY)
 
     jump new_daytime
 
@@ -214,9 +214,9 @@ label .care (**kwargs):
     sgirl "Thank you!"
 
     $ change_stats_with_modifier(kwargs["char_obj"],
-        charm = -0.4, happiness = 0.5, inhibition = -0.4)
+        charm = DEC_SMALL, happiness = MEDIUM, inhibition = DEC_SMALL)
     $ change_stats_with_modifier(get_character("teacher", charList['staff']),
-        happiness = -0.3)
+        happiness = DEC_SMALL)
 
     if get_progress("unlock_student_relationship") == -1:
         $ start_progress("unlock_student_relationship")

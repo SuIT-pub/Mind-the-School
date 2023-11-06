@@ -1,7 +1,14 @@
 # TODO: make images
 label sb_event_1 (**kwargs): # patrol, check class
-    show screen black_screen_text("sb_event_1")
+    # show screen black_screen_text("sb_event_1")
+    $ image = Image_Series("/images/events/school building/sb_event_1 <name> <step>.png", **kwargs)
+
+    # call show_image("/images/events/school building/sb_event_1 <name> 1.png", SCENE, **kwargs)
+    $ image.show(0)
     subtitles "You walk through the corridors of the high school."
+
+    # call show_image("/images/events/school building/sb_event_1 <name> 2.png", SCENE, **kwargs)
+    $ image.show(1)
     subtitles "You come across a couple making out in the hallway."
 
     $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
@@ -9,18 +16,22 @@ label sb_event_1 (**kwargs): # patrol, check class
         ("Stop them", "sb_event_1.stop", not is_rule_unlocked("student_student_relation", "high_school")), 
     **kwargs)
 label .leave (**kwargs):
-    show screen black_screen_text("sb_event_1.leave")
+    # show screen black_screen_text("sb_event_1.leave")
+    $ image.show(2)
+    # call show_image("/images/events/school building/sb_event_1 <name> 3.png", SCENE, **kwargs)
     subtitles "You decide to leave them and let them have their fun."
     $ change_stats_with_modifier(kwargs["char_obj"],
-        charm = -0.5, education = 0.1, corruption = 0.2, inhibition = -0.3)
+        charm = DEC_SMALL, education = TINY, corruption = TINY, inhibition = DEC_SMALL)
     jump new_daytime
 
 label .stop (**kwargs):
-    show screen black_screen_text("sb_event_1.stop")
+    # show screen black_screen_text("sb_event_1.stop")
+    $ image.show(3)
+    # call show_image("/images/events/school building/sb_event_1 <name> 4.png", SCENE, **kwargs)
     headmaster "Hey you! Stop that. You know that is against the rules!"
     sgirl "We're sorry!"
     $ change_stats_with_modifier(kwargs["char_obj"],
-        charm = 0.6, happiness = -0.5, education = 0.3, reputation = 0.1, inhibition = -0.2)
+        charm = MEDIUM, happiness = DEC_SMALL, education = SMALL, reputation = TINY, inhibition = DEC_TINY)
     jump new_daytime
 
 # TODO: make images
@@ -37,14 +48,14 @@ label .leave (**kwargs):
     show screen black_screen_text("sb_event_2.leave")
     subtitles "You decide to leave her alone."
     $ change_stats_with_modifier(kwargs["char_obj"],
-        charm = -0.1, education = 0.1)
+        charm = DEC_TINY, education = TINY)
     jump new_daytime
 
 label .help (**kwargs):
     show screen black_screen_text("sb_event_2.help")
     subtitles "You help her up."
     $ change_stats_with_modifier(kwargs["char_obj"],
-        charm = -0.1, happiness = 0.4, education = 0.1)
+        charm = DEC_TINY, happiness = SMALL, education = TINY)
     jump new_daytime
 
 # TODO: make images
@@ -79,7 +90,7 @@ label .leave (**kwargs):
     sgirl "..."
     subtitles"You walk away with a heavy heart."
     $ change_stats_with_modifier(kwargs["char_obj"], 
-        charm = 0.1, happiness = -1.0, education = 0.1, reputation = -0.1)
+        charm = TINY, happiness = DEC_LARGE, education = TINY, reputation = DEC_TINY)
     jump new_daytime
 
 label .get_to_bottom (**kwargs):
@@ -97,7 +108,7 @@ label .get_to_bottom (**kwargs):
     #she starts shaking
     subtitles "You support her back to your office and bring her something warm to drink."
     $ change_stats_with_modifier(kwargs["char_obj"],
-        happiness = 1.1, reputation = 0.1)
+        happiness = LARGE, reputation = TINY)
     jump new_daytime
 
 label .send_class (**kwargs):
@@ -117,7 +128,7 @@ label .poor_thing (**kwargs):
     sgirl "Yes... thank you..."
     subtitles "You help her up and walk her to the dormitory."
     $ change_stats_with_modifier(kwargs["char_obj"],
-        happiness = 1.1, reputation = 0.1)
+        happiness = LARGE, reputation = TINY)
     jump new_daytime
 
 label .chin_up (**kwargs):
@@ -128,5 +139,5 @@ label .chin_up (**kwargs):
     sgirl "Ok..."
     subtitles "You help her up and she walks off."
     $ change_stats_with_modifier(kwargs["char_obj"],
-        happiness = 1.1, reputation = 0.1)
+        happiness = LARGE, reputation = TINY)
     jump new_daytime

@@ -27,13 +27,14 @@ init -1 python:
 
     event1 = Event(3, 
         ["sb_event_1"],
-        OR(
-            TimeCondition(daytime = "c", weekday = "d"),
-            TimeCondition(weekday = "w"),
-        ),
+        OR(TimeCondition(daytime = "c", weekday = "d"), TimeCondition(weekday = "w"),),
     )
 
     hsb_events["teach_class"].add_event(event1)
+    hsb_events["teach_class"].add_event(Event(3,
+        ["sb_event_2"],
+        TimeCondition(daytime = "c", weekday = "d"),
+    ))
     
     hsb_events["patrol"].add_event(event1)
     hsb_events["patrol"].add_event(Event(3, 
@@ -41,10 +42,6 @@ init -1 python:
         TimeCondition(daytime = "d")
     ))
 
-    hsb_events["check_class"].add_event(Event(3,
-        ["sb_event_2"],
-        TimeCondition(daytime = "c", weekday = "d"),
-    ))
 
 
     hsb_timed_event.check_all_events()

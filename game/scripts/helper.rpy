@@ -173,3 +173,30 @@ init -99 python:
 
         return nearest
     
+    def remove_all_from_list(list_obj: List[Any], value: Any | List[Any]):
+        if type(value) is list_obj:
+            for val in value:
+                list_obj.remove(val)
+        else:
+            while value in list_obj:
+                list_obj.remove(value)
+        return list_obj
+
+    def random_say(person: Person = None, *text: str | Tuple[str, Person] | Tuple[str, Person, str]):
+        if person is None:
+            person = character.subtitles
+        if len(text) == 0:
+            return
+
+        text_obj = get_random_choice(text)
+
+        text = text_obj
+        name = person.name
+        if not isinstance(text_obj, str):
+            text = text_obj[0]
+            person = text_obj[1]
+            name = person.name
+            if len(text_obj) == 3:
+                name = text_obj[2]
+
+        person (text, name = name)
