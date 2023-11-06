@@ -49,6 +49,7 @@ init -2 python:
 
         def show(self, step: int, display_type = SCENE, variant = -1):
             if step < 0 or step >= len(self.steps):
+                log_val("image", self._image_path)
                 log(f"Step {step} is out of range! (Min: 0, Max: {len(self.steps) - 1}))")
                 return
 
@@ -269,13 +270,13 @@ init -2 python:
             return renpy.loadable(image_path)
 
 
-label show_image(path, display_type = SHOW, **kwargs):
+label show_image(path, display_type = SCENE, **kwargs):
     $ image_path = refine_image(path, **kwargs)
 
     call show_ready_image(image_path, display_type)
     return
     
-label show_ready_image(path, display_type = SHOW):
+label show_ready_image(path, display_type = SCENE):
     if "<nude>" in path:
         call show_image_with_nude_var(path)
     else:

@@ -138,10 +138,19 @@ label first_week_courtyard_event (**kwargs):
 
     jump new_day
 
-# TODO: make images
+# TODO: modify for Level 4+
 label courtyard_event_1 (**kwargs):
-    show screen black_screen_text("courtyard_event_1")
+    $ variant = get_random_int(1, 1)
 
+    $ char_obj = get_kwargs("char_obj", **kwargs)
+
+    $ name = "high_school"
+
+    $ image = Image_Series("images/events/courtyard/courtyard_event_1 <name> <level> <variant> <step>.png", name = name, variant = variant, **kwargs)
+
+    $ renpy.block_rollback()
+
+    $ image.show(0)
     subtitles "You walk along the courtyard when a gist of wind blows up the girls skirt in front of you."
     $ call_custom_menu_with_text("How do you react?", character.subtitles, False,
         ("Look", "courtyard_event_1.look"),
@@ -149,9 +158,11 @@ label courtyard_event_1 (**kwargs):
     **kwargs)
 
 label .look (**kwargs):
-    show screen black_screen_text("courtyard_event_1.look")
+    $ image.show(1)
     subtitles "You take the chance to stare directly ahead and burn that image into your brain and retina."
+    $ image.show(2)
     subtitles "The girl looks at you, screams, covers herself and runs away."
+    $ image.show(3)
     sgirl "PERVERT!"
 
     $ change_stats_with_modifier(kwargs["char_obj"],
@@ -159,8 +170,9 @@ label .look (**kwargs):
     jump new_daytime
 
 label .look_away (**kwargs):
-    show screen black_screen_text("courtyard_event_1.look_away")
+    $ image.show(4)
     subtitles "You quickly look away, but the image is already burned into your brain."
+    $ image.show(5)
     subtitles "The girl looks at you ashamed of the situation and runs away. Glad you didn't stare."
 
     $ change_stats_with_modifier(kwargs["char_obj"],
@@ -169,7 +181,15 @@ label .look_away (**kwargs):
 
 # TODO: make images
 label courtyard_event_2 (**kwargs):
-    show screen black_screen_text("courtyard_event_2")
+    $ char_obj = get_kwargs("char_obj", **kwargs)
+
+    $ name = "high_school"
+
+    $ image = Image_Series("images/events/courtyard/courtyard_event_2 <name> <level> <step>.png", name = name, **kwargs)
+
+    $ renpy.block_rollback()
+
+    $ image.show(0)
     subtitles "You notice a girl sitting alone in the courtyard, apparently left out by the others."
     $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
         ("Talk to her", "courtyard_event_2.talk"),
@@ -177,28 +197,37 @@ label courtyard_event_2 (**kwargs):
     **kwargs)
 
 label .talk (**kwargs):
-    show screen black_screen_text("courtyard_event_2.talk")
+    $ image.show(2)
     headmaster "Hey, are you alright?"
+    $ image.show(3)
     sgirl "Oh, hi. I'm fine, just a bit tired."
+    $ image.show(4)
     headmaster "You look a bit lonely. Why don't you join the others?"
+    $ image.show(5)
     sgirl "I don't really like them. They are all so... shallow."
+    $ image.show(6)
     headmaster "I see. Well, I'm sure you'll find some friends eventually."
+    $ image.show(7)
     sgirl "..."
+    $ image.show(8)
     headmaster "If you need anything, just ask me. See you later."
+    $ image.show(9)
     sgirl "Thanks, bye."
     $ change_stats_with_modifier(kwargs["char_obj"],
         happiness = -0.2, reputation = 0.2)
     jump new_daytime
 
 label .leave (**kwargs):
-    show screen black_screen_text("courtyard_event_2.leave")
+    $ image.show(1)
     subtitles "You decide to leave her alone."
     $ change_stats_with_modifier(kwargs["char_obj"],
         happiness = -0.7, reputation = -0.2)
     jump new_daytime
 
 label courtyard_event_3 (**kwargs):
-    show screen black_screen_text("courtyard_event_3")
+    $ renpy.block_rollback()
+    
+    call show_image ("images/events/courtyard/courtyard_event_3 <name> <level>.png", name = "high_school", **kwargs)
     subtitles "You notice a group of girls taking a break together."
 
     $ change_stats_with_modifier(kwargs["char_obj"],

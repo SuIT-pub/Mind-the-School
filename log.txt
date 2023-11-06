@@ -2058,3 +2058,1286 @@ Version: b'4.6.0 NVIDIA 536.23'
 Display Info: None
 Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
 Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 6206.43s
+Early init. took 0.00s
+Loader init. took 0.14s
+Loading error handling. took 0.05s
+Loading script. took 0.50s
+Loading save slot metadata. took 0.18s
+Loading persistent. took 0.01s
+Running init code. took 0.11s
+Loading analysis data. took 0.05s
+Analyze and compile ATL. took 0.01s
+Reloading save slot metadata. took 0.16s
+Index archives took 0.00s
+Dump and make backups. took 0.15s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.16s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.84s
+Cleaning stores took 0.00s
+Init translation took 0.09s
+Build styles took 0.01s
+Load screen analysis took 0.14s
+Analyze screens took 0.00s
+Save screen analysis took 0.00s
+Prepare screens took 0.15s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.00s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.10s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 7507.14s
+Early init. took 0.00s
+Loader init. took 0.22s
+Loading error handling. took 0.05s
+Loading script. took 0.78s
+Loading save slot metadata. took 0.33s
+Loading persistent. took 0.01s
+Running init code. took 0.20s
+Loading analysis data. took 0.05s
+Analyze and compile ATL. took 0.01s
+Reloading save slot metadata. took 0.16s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.18s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.16s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 1.56s
+Cleaning stores took 0.00s
+Init translation took 0.20s
+Build styles took 0.01s
+Load screen analysis took 0.00s
+Analyze screens took 0.10s
+Save screen analysis took 0.11s
+Prepare screens took 0.43s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.07s
+Running _start took 0.01s
+Performance test:
+Interface start. took 0.29s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+Step 0 is out of range! (Min: 0, Max: -1))
+
+Resetting cache.
+Bootstrap to the start of init.init. took 7628.24s
+Early init. took 0.00s
+Loader init. took 0.23s
+Loading error handling. took 0.08s
+Loading script. took 0.66s
+Loading save slot metadata. took 0.19s
+Loading persistent. took 0.01s
+Running init code. took 0.14s
+Loading analysis data. took 0.05s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.13s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.23s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.17s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.90s
+Cleaning stores took 0.00s
+Init translation took 0.16s
+Build styles took 0.01s
+Load screen analysis took 0.01s
+Analyze screens took 0.06s
+Save screen analysis took 0.07s
+Prepare screens took 0.24s
+Save pyanalysis. took 0.05s
+Save bytecode. took 0.04s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.12s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+image: images/events/courtyard/courtyard_event_1 high_school <level> 1 <step>.jpg
+
+Step 0 is out of range! (Min: 0, Max: -1))
+
+Resetting cache.
+Bootstrap to the start of init.init. took 7674.57s
+Early init. took 0.00s
+Loader init. took 0.15s
+Loading error handling. took 0.06s
+Loading script. took 0.56s
+Loading save slot metadata. took 0.20s
+Loading persistent. took 0.00s
+Running init code. took 0.15s
+Loading analysis data. took 0.05s
+Analyze and compile ATL. took 0.01s
+Reloading save slot metadata. took 0.17s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.16s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.36s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 1.13s
+Cleaning stores took 0.00s
+Init translation took 0.14s
+Build styles took 0.01s
+Load screen analysis took 0.01s
+Analyze screens took 0.06s
+Save screen analysis took 0.08s
+Prepare screens took 0.23s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.01s
+Performance test:
+Interface start. took 0.11s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+level: 1
+
+image: images/events/courtyard/courtyard_event_1 high_school <level> 1 <step>.jpg
+
+Step 0 is out of range! (Min: 0, Max: -1))
+
+Resetting cache.
+Bootstrap to the start of init.init. took 7705.42s
+Early init. took 0.00s
+Loader init. took 0.17s
+Loading error handling. took 0.08s
+Loading script. took 0.90s
+Loading save slot metadata. took 0.20s
+Loading persistent. took 0.01s
+Running init code. took 0.11s
+Loading analysis data. took 0.04s
+Analyze and compile ATL. took 0.01s
+Reloading save slot metadata. took 0.13s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.12s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.17s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 1.19s
+Cleaning stores took 0.00s
+Init translation took 0.13s
+Build styles took 0.01s
+Load screen analysis took 0.01s
+Analyze screens took 0.05s
+Save screen analysis took 0.07s
+Prepare screens took 0.29s
+Save pyanalysis. took 0.06s
+Save bytecode. took 0.04s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.14s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+level: 1
+
+refined image: images/events/courtyard/courtyard_event_1 high_school <level> 1 <step>.jpg
+
+image: images/events/courtyard/courtyard_event_1 high_school <level> 1 <step>.jpg
+
+Step 0 is out of range! (Min: 0, Max: -1))
+
+Resetting cache.
+Bootstrap to the start of init.init. took 7809.64s
+Early init. took 0.00s
+Loader init. took 0.16s
+Loading error handling. took 0.07s
+Loading script. took 0.60s
+Loading save slot metadata. took 0.19s
+Loading persistent. took 0.00s
+Running init code. took 0.12s
+Loading analysis data. took 0.06s
+Analyze and compile ATL. took 0.01s
+Reloading save slot metadata. took 0.12s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.14s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.15s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.93s
+Cleaning stores took 0.00s
+Init translation took 0.10s
+Build styles took 0.01s
+Load screen analysis took 0.01s
+Analyze screens took 0.05s
+Save screen analysis took 0.06s
+Prepare screens took 0.23s
+Save pyanalysis. took 0.05s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.12s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+level: 1
+
+pre_level image: images/events/courtyard/courtyard_event_1 high_school <level> 1 <step>.jpg
+
+post_level image: images/events/courtyard/courtyard_event_1 high_school <level> 1 <step>.jpg
+
+refined image: images/events/courtyard/courtyard_event_1 high_school <level> 1 <step>.jpg
+
+image: images/events/courtyard/courtyard_event_1 high_school <level> 1 <step>.jpg
+
+Step 0 is out of range! (Min: 0, Max: -1))
+
+Resetting cache.
+Bootstrap to the start of init.init. took 7841.45s
+Early init. took 0.00s
+Loader init. took 0.15s
+Loading error handling. took 0.05s
+Loading script. took 0.58s
+Loading save slot metadata. took 0.18s
+Loading persistent. took 0.00s
+Running init code. took 0.13s
+Loading analysis data. took 0.06s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.12s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.15s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.17s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.86s
+Cleaning stores took 0.00s
+Init translation took 0.11s
+Build styles took 0.01s
+Load screen analysis took 0.01s
+Analyze screens took 0.06s
+Save screen analysis took 0.07s
+Prepare screens took 0.25s
+Save pyanalysis. took 0.05s
+Save bytecode. took 0.03s
+Running _start took 0.01s
+Performance test:
+Interface start. took 0.14s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+old_image: images/background/courtyard/bg 3 high_school 1 0.jpg
+
+old_image: images/background/courtyard/bg 3 middle_school 1 0.jpg
+
+old_image: images/background/courtyard/bg 3 elementary_school 1 0.jpg
+
+level: 1
+
+pre_level image: images/events/courtyard/courtyard_event_1 high_school <level> 1 <step>.jpg
+
+old_image: images/events/courtyard/courtyard_event_1 high_school <level> 1 0.jpg
+
+post_level image: images/events/courtyard/courtyard_event_1 high_school <level> 1 <step>.jpg
+
+refined image: images/events/courtyard/courtyard_event_1 high_school <level> 1 <step>.jpg
+
+image: images/events/courtyard/courtyard_event_1 high_school <level> 1 <step>.jpg
+
+Step 0 is out of range! (Min: 0, Max: -1))
+
+Resetting cache.
+Bootstrap to the start of init.init. took 7887.95s
+Early init. took 0.00s
+Loader init. took 0.21s
+Loading error handling. took 0.07s
+Loading script. took 0.62s
+Loading save slot metadata. took 0.18s
+Loading persistent. took 0.01s
+Running init code. took 0.10s
+Loading analysis data. took 0.04s
+Analyze and compile ATL. took 0.01s
+Reloading save slot metadata. took 0.14s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.14s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.20s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 1.16s
+Cleaning stores took 0.00s
+Init translation took 0.14s
+Build styles took 0.01s
+Load screen analysis took 0.01s
+Analyze screens took 0.07s
+Save screen analysis took 0.08s
+Prepare screens took 0.27s
+Save pyanalysis. took 0.05s
+Save bytecode. took 0.04s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.18s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+old_image: images/background/courtyard/bg 3 elementary_school 1 0.jpg
+
+image: images/background/courtyard/bg 3 elementary_school 1 0.jpg
+
+old_image: images/background/courtyard/bg 3 elementary_school 1 0.jpg
+
+image: images/background/courtyard/bg 3 elementary_school 1 0.jpg
+
+old_image: images/background/courtyard/bg 3 elementary_school 1 0.jpg
+
+image: images/background/courtyard/bg 3 elementary_school 1 0.jpg
+
+old_image: images/background/courtyard/bg 3 middle_school 1 0.jpg
+
+image: images/background/courtyard/bg 3 middle_school 1 0.jpg
+
+level: 1
+
+pre_level image: images/events/courtyard/courtyard_event_1 high_school <level> 1 <step>.jpg
+
+old_image: images/events/courtyard/courtyard_event_1 high_school <level> 1 0.jpg
+
+image: images/events/courtyard/courtyard_event_1 high_school 1 1 0.jpg
+
+image: images/events/courtyard/courtyard_event_1 high_school 0 1 0.jpg
+
+post_level image: images/events/courtyard/courtyard_event_1 high_school <level> 1 <step>.jpg
+
+refined image: images/events/courtyard/courtyard_event_1 high_school <level> 1 <step>.jpg
+
+image: images/events/courtyard/courtyard_event_1 high_school <level> 1 <step>.jpg
+
+Step 0 is out of range! (Min: 0, Max: -1))
+
+Resetting cache.
+Bootstrap to the start of init.init. took 7914.78s
+Early init. took 0.00s
+Loader init. took 0.17s
+Loading error handling. took 0.06s
+Loading script. took 0.64s
+Loading save slot metadata. took 0.20s
+Loading persistent. took 0.01s
+Running init code. took 0.13s
+Loading analysis data. took 0.06s
+Analyze and compile ATL. took 0.01s
+Reloading save slot metadata. took 0.13s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.15s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.16s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 1.00s
+Cleaning stores took 0.00s
+Init translation took 0.17s
+Build styles took 0.01s
+Load screen analysis took 0.02s
+Analyze screens took 0.06s
+Save screen analysis took 0.07s
+Prepare screens took 0.27s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.04s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.12s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+old_image: images/background/courtyard/bg 3 high_school 1 0.jpg
+
+image: images/background/courtyard/bg 3 high_school 1 0.jpg
+
+old_image: images/background/courtyard/bg 3 middle_school 1 0.jpg
+
+image: images/background/courtyard/bg 3 middle_school 1 0.jpg
+
+level: 1
+
+pre_level image: images/events/courtyard/courtyard_event_1 high_school <level> 1 <step>.png
+
+old_image: images/events/courtyard/courtyard_event_1 high_school <level> 1 0.png
+
+image: images/events/courtyard/courtyard_event_1 high_school 1 1 0.png
+
+post_level image: images/events/courtyard/courtyard_event_1 high_school 1 1 <step>.png
+
+refined image: images/events/courtyard/courtyard_event_1 high_school 1 1 <step>.png
+
+Resetting cache.
+Bootstrap to the start of init.init. took 7954.78s
+Early init. took 0.00s
+Loader init. took 0.26s
+Loading error handling. took 0.09s
+Loading script. took 0.68s
+Loading save slot metadata. took 0.24s
+Loading persistent. took 0.00s
+Running init code. took 0.14s
+Loading analysis data. took 0.05s
+Analyze and compile ATL. took 0.01s
+Reloading save slot metadata. took 0.20s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.20s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.16s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.91s
+Cleaning stores took 0.00s
+Init translation took 0.19s
+Build styles took 0.00s
+Load screen analysis took 0.02s
+Analyze screens took 0.08s
+Save screen analysis took 0.09s
+Prepare screens took 0.24s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.04s
+Running _start took 0.01s
+Performance test:
+Interface start. took 0.16s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 7963.82s
+Early init. took 0.00s
+Loader init. took 0.24s
+Loading error handling. took 0.13s
+Loading script. took 0.78s
+Loading save slot metadata. took 0.19s
+Loading persistent. took 0.00s
+Running init code. took 0.11s
+Loading analysis data. took 0.06s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.16s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.18s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.13s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.61s
+Cleaning stores took 0.00s
+Init translation took 0.11s
+Build styles took 0.01s
+Load screen analysis took 0.02s
+Analyze screens took 0.05s
+Save screen analysis took 0.07s
+Prepare screens took 0.21s
+Save pyanalysis. took 0.04s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.11s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+refined image: images/events/courtyard/courtyard_event_1 high_school 1 1 <step>.png
+
+Resetting cache.
+Bootstrap to the start of init.init. took 7994.93s
+Early init. took 0.00s
+Loader init. took 0.16s
+Loading error handling. took 0.05s
+Loading script. took 0.63s
+Loading save slot metadata. took 0.18s
+Loading persistent. took 0.01s
+Running init code. took 0.16s
+Loading analysis data. took 0.07s
+Analyze and compile ATL. took 0.01s
+Reloading save slot metadata. took 0.16s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.18s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.16s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 1.29s
+Cleaning stores took 0.00s
+Init translation took 0.15s
+Build styles took 0.01s
+Load screen analysis took 0.01s
+Analyze screens took 0.07s
+Save screen analysis took 0.07s
+Prepare screens took 0.25s
+Save pyanalysis. took 0.05s
+Save bytecode. took 0.04s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.13s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 8038.78s
+Early init. took 0.00s
+Loader init. took 0.18s
+Loading error handling. took 0.06s
+Loading script. took 0.49s
+Loading save slot metadata. took 0.16s
+Loading persistent. took 0.00s
+Running init code. took 0.10s
+Loading analysis data. took 0.05s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.12s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.16s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.13s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.71s
+Cleaning stores took 0.00s
+Init translation took 0.11s
+Build styles took 0.01s
+Load screen analysis took 0.08s
+Analyze screens took 0.06s
+Save screen analysis took 0.06s
+Prepare screens took 0.25s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.15s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 8152.96s
+Early init. took 0.00s
+Loader init. took 0.15s
+Loading error handling. took 0.05s
+Loading script. took 0.62s
+Loading save slot metadata. took 0.18s
+Loading persistent. took 0.00s
+Running init code. took 0.12s
+Loading analysis data. took 0.04s
+Analyze and compile ATL. took 0.01s
+Reloading save slot metadata. took 0.12s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.17s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.19s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 1.11s
+Cleaning stores took 0.00s
+Init translation took 0.14s
+Build styles took 0.01s
+Load screen analysis took 0.01s
+Analyze screens took 0.07s
+Save screen analysis took 0.08s
+Prepare screens took 0.29s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.04s
+Running _start took 0.01s
+Performance test:
+Interface start. took 0.15s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 8239.99s
+Early init. took 0.00s
+Loader init. took 0.23s
+Loading error handling. took 0.05s
+Loading script. took 0.71s
+Loading save slot metadata. took 0.22s
+Loading persistent. took 0.01s
+Running init code. took 0.11s
+Loading analysis data. took 0.04s
+Analyze and compile ATL. took 0.01s
+Reloading save slot metadata. took 0.11s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.14s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.21s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 1.21s
+Cleaning stores took 0.00s
+Init translation took 0.20s
+Build styles took 0.02s
+Load screen analysis took 0.02s
+Analyze screens took 0.06s
+Save screen analysis took 0.06s
+Prepare screens took 0.24s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.04s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.21s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 8260.05s
+Early init. took 0.00s
+Loader init. took 0.24s
+Loading error handling. took 0.06s
+Loading script. took 0.99s
+Loading save slot metadata. took 0.30s
+Loading persistent. took 0.00s
+Running init code. took 0.13s
+Loading analysis data. took 0.04s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.13s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.15s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.13s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.90s
+Cleaning stores took 0.00s
+Init translation took 0.16s
+Build styles took 0.01s
+Load screen analysis took 0.02s
+Analyze screens took 0.07s
+Save screen analysis took 0.09s
+Prepare screens took 0.30s
+Save pyanalysis. took 0.06s
+Save bytecode. took 0.04s
+Running _start took 0.01s
+Performance test:
+Interface start. took 0.13s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 8283.00s
+Early init. took 0.00s
+Loader init. took 0.16s
+Loading error handling. took 0.04s
+Loading script. took 0.71s
+Loading save slot metadata. took 0.22s
+Loading persistent. took 0.01s
+Running init code. took 0.11s
+Loading analysis data. took 0.05s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.11s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.15s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.17s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.87s
+Cleaning stores took 0.00s
+Init translation took 0.13s
+Build styles took 0.01s
+Load screen analysis took 0.02s
+Analyze screens took 0.06s
+Save screen analysis took 0.09s
+Prepare screens took 0.24s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.13s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+Cleaning stores took 0.00s
+Init translation took 0.00s
+Build styles took 0.01s
+Load screen analysis took 0.09s
+Analyze screens took 0.00s
+Prepare screens took 0.00s
+Running _start took 0.01s
+Resetting cache.
+Bootstrap to the start of init.init. took 8386.71s
+Early init. took 0.00s
+Loader init. took 0.71s
+Loading error handling. took 0.09s
+Loading script. took 0.74s
+Loading save slot metadata. took 0.27s
+Loading persistent. took 0.01s
+Running init code. took 0.15s
+Loading analysis data. took 0.05s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.18s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.15s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.23s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 1.14s
+Cleaning stores took 0.00s
+Init translation took 0.19s
+Build styles took 0.01s
+Load screen analysis took 0.00s
+Analyze screens took 0.11s
+Save screen analysis took 0.11s
+Prepare screens took 0.41s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.05s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.14s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 8457.97s
+Early init. took 0.00s
+Loader init. took 0.15s
+Loading error handling. took 0.05s
+Loading script. took 0.70s
+Loading save slot metadata. took 0.20s
+Loading persistent. took 0.01s
+Running init code. took 0.11s
+Loading analysis data. took 0.05s
+Analyze and compile ATL. took 0.01s
+Reloading save slot metadata. took 0.11s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.15s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.16s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.75s
+Cleaning stores took 0.00s
+Init translation took 0.10s
+Build styles took 0.01s
+Load screen analysis took 0.01s
+Analyze screens took 0.06s
+Save screen analysis took 0.06s
+Prepare screens took 0.23s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.10s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 8529.24s
+Early init. took 0.00s
+Loader init. took 0.18s
+Loading error handling. took 0.06s
+Loading script. took 0.66s
+Loading save slot metadata. took 0.32s
+Loading persistent. took 0.01s
+Running init code. took 0.11s
+Loading analysis data. took 0.05s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.24s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.13s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.19s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.89s
+Cleaning stores took 0.00s
+Init translation took 0.12s
+Build styles took 0.01s
+Load screen analysis took 0.01s
+Analyze screens took 0.05s
+Save screen analysis took 0.06s
+Prepare screens took 0.23s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.10s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 8536.14s
+Early init. took 0.00s
+Loader init. took 0.16s
+Loading error handling. took 0.06s
+Loading script. took 0.57s
+Loading save slot metadata. took 0.17s
+Loading persistent. took 0.01s
+Running init code. took 0.12s
+Loading analysis data. took 0.04s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.15s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.17s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.14s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.86s
+Cleaning stores took 0.00s
+Init translation took 0.12s
+Build styles took 0.01s
+Load screen analysis took 0.02s
+Analyze screens took 0.05s
+Save screen analysis took 0.23s
+Prepare screens took 0.39s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.04s
+Running _start took 0.01s
+Performance test:
+Interface start. took 0.16s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 8546.05s
+Early init. took 0.00s
+Loader init. took 0.15s
+Loading error handling. took 0.05s
+Loading script. took 0.56s
+Loading save slot metadata. took 0.21s
+Loading persistent. took 0.01s
+Running init code. took 0.15s
+Loading analysis data. took 0.05s
+Analyze and compile ATL. took 0.01s
+Reloading save slot metadata. took 0.11s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.15s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.16s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.85s
+Cleaning stores took 0.00s
+Init translation took 0.12s
+Build styles took 0.01s
+Load screen analysis took 0.01s
+Analyze screens took 0.05s
+Save screen analysis took 0.07s
+Prepare screens took 0.22s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.01s
+Performance test:
+Interface start. took 0.12s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 16706.81s
+Early init. took 0.00s
+Loader init. took 0.16s
+Loading error handling. took 0.04s
+Loading script. took 0.58s
+Loading save slot metadata. took 0.25s
+Loading persistent. took 0.01s
+Running init code. took 0.15s
+Loading analysis data. took 0.05s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.13s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.16s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.16s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 1.12s
+Cleaning stores took 0.00s
+Init translation took 0.12s
+Build styles took 0.01s
+Load screen analysis took 0.01s
+Analyze screens took 0.10s
+Save screen analysis took 0.20s
+Prepare screens took 0.26s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.05s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.15s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 17654.41s
+Early init. took 0.00s
+Loader init. took 0.17s
+Loading error handling. took 0.72s
+Loading script. took 3.91s
+Loading save slot metadata. took 0.46s
+Loading persistent. took 0.01s
+Running init code. took 0.32s
+Loading analysis data. took 0.05s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.25s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.16s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.17s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 1.14s
+Cleaning stores took 0.00s
+Init translation took 0.14s
+Build styles took 0.01s
+Load screen analysis took 0.01s
+Analyze screens took 0.06s
+Save screen analysis took 0.06s
+Prepare screens took 0.24s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.04s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.22s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 17713.62s
+Early init. took 0.00s
+Loader init. took 0.16s
+Loading error handling. took 0.05s
+Loading script. took 0.59s
+Loading save slot metadata. took 0.17s
+Loading persistent. took 0.01s
+Running init code. took 0.09s
+Loading analysis data. took 0.04s
+Analyze and compile ATL. took 0.01s
+Reloading save slot metadata. took 0.11s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.12s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.13s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.66s
+Cleaning stores took 0.01s
+Init translation took 0.14s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.05s
+Save screen analysis took 0.06s
+Prepare screens took 0.24s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.10s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 17768.28s
+Early init. took 0.00s
+Loader init. took 0.14s
+Loading error handling. took 0.06s
+Loading script. took 0.47s
+Loading save slot metadata. took 0.17s
+Loading persistent. took 0.00s
+Running init code. took 0.09s
+Loading analysis data. took 0.03s
+Analyze and compile ATL. took 0.01s
+Reloading save slot metadata. took 0.09s
+Index archives took 0.00s
+Dump and make backups. took 0.10s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.11s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.58s
+Cleaning stores took 0.00s
+Init translation took 0.10s
+Build styles took 0.01s
+Load screen analysis took 0.11s
+Analyze screens took 0.00s
+Save screen analysis took 0.00s
+Prepare screens took 0.23s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.00s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.10s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 536.23'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1016, 572) drawable=(1016, 572)
+Maximum texture size: 4096x4096

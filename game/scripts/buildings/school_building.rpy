@@ -3,6 +3,8 @@ label sb_event_1 (**kwargs): # patrol, check class
     # show screen black_screen_text("sb_event_1")
     $ image = Image_Series("/images/events/school building/sb_event_1 <name> <step>.png", **kwargs)
 
+    $ renpy.block_rollback()
+
     # call show_image("/images/events/school building/sb_event_1 <name> 1.png", SCENE, **kwargs)
     $ image.show(0)
     subtitles "You walk through the corridors of the high school."

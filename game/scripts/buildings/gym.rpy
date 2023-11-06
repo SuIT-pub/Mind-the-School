@@ -178,6 +178,8 @@ label gym_event_1 (**kwargs):
 
     $ image = Image_Series("/images/events/gym/gym_event_1 <name> <level> <topic> <step>.png", topic = variant, name = school_name, **kwargs)
 
+    $ renpy.block_rollback()
+
     $ image.show(0)
     subtitles "In the Gym, you see a girl getting ready for P.E."
 
@@ -233,9 +235,11 @@ label gym_event_2 (**kwargs):
 
     $ inhibition = char_obj.get_stat_number(INHIBITION)
 
-    $ topic = get_random_choice(("clothe", 0.75), "breasts", ("asses", 0.15))
+    $ topic = get_random_choice(("clothe", 0.75), "breasts", ("asses", 0.15)) if topic == "" else topic
 
     $ image = Image_Series("/images/events/gym/gym_event_2 <name> <level> <topic> <step>.png", topic = topic, name = "high_school", **kwargs)
+
+    $ renpy.block_rollback()
 
     $ image.show(0)
     if topic == "breasts":
@@ -305,6 +309,8 @@ label gym_event_3 (**kwargs):
     $ girl_full_name = girls[variant]
 
     $ image = Image_Series("/images/events/gym/gym_event_3 <name> <level> <variant> <step>.png", variant = variant, name = "high_school", **kwargs)
+
+    $ renpy.block_rollback()
 
     $ image.show(0)
     headmaster "Sorry but that top doesn't conform to the uniform policy."
