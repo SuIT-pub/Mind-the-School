@@ -134,8 +134,14 @@ label first_week_office_building_event (**kwargs):
 
 # TODO: make images
 label office_event_1 (**kwargs):
-    show screen black_screen_text("office_event_1")
+    $ image = Image_Series("images/events/office/office_event_1 <name> <level> <step>.png", name = "high_school", **kwargs)
+
+    $ renpy.block_rollback()
+
+    $ image.show(0)
     subtitles "You notice a girl sitting in front of the teachers office."
+
+    $ image.show(1)
     subtitles "Apparently she is in need of counseling."
 
     $ change_stats_with_modifier(kwargs["char_obj"],
@@ -147,7 +153,7 @@ label office_event_1 (**kwargs):
 
 # TODO: make images
 label office_event_2 (**kwargs):
-    show screen black_screen_text("office_event_2")
+    call show_image("images/events/office/office_event_2 <level> <variant>.png", **kwargs)
     subtitles "Even the teachers need a break from time to time."
 
     $ change_stats_with_modifier(kwargs["char_obj"],
@@ -159,7 +165,9 @@ label office_event_2 (**kwargs):
 
 # TODO: make images
 label office_event_3 (**kwargs):
-    show screen black_screen_text("office_event_3")
+    $ image = Image_Series("images/events/office/office_event_3 <name> <level> <step>.png", name = "high_school", **kwargs)
+
+    $ image.show(0)
     subtitles "You enter the office and see two students sitting there."
     
     $ call_custom_menu(False, 
@@ -168,7 +176,7 @@ label office_event_3 (**kwargs):
     **kwargs)
 
 label .ignore (**kwargs):
-    show screen black_screen_text("office_event_3.ignore")
+    $ image.show(1)
     subtitles "You ignore them and continue you way."
 
     $ change_stats_with_modifier(get_character("teacher", charList['staff']),
@@ -177,10 +185,13 @@ label .ignore (**kwargs):
     jump new_daytime
 
 label .talk (**kwargs):
-    show screen black_screen_text("office_event_3.talk")
+    $ image.show(2)
     headmaster "Why are you sitting here?"
+    $ image.show(3)
     sgirl "We were called here by the teacher."
+    $ image.show(2)
     headmaster "Do you know why?"
+    $ image.show(4)
     sgirl "Probably because we are a couple."
 
     $ call_custom_menu(False, 
@@ -189,11 +200,14 @@ label .talk (**kwargs):
     **kwargs)
 
 label .policy (**kwargs):
-    show screen black_screen_text("office_event_3.talk.policy")
+    $ image.show(5)
     headmaster "Well, you know that relationships between students are not allowed."
+    $ image.show(6)
     sgirl "But what does the school care about our relationship?"
+    $ image.show(5)
     headmaster "It's a measure to keep you focused on your education."
     headmaster "At least hold yourself back until you are done with school."
+    $ image.show(2)
     sgirl "..."
     headmaster "Now you both go back to class."
 
@@ -205,12 +219,15 @@ label .policy (**kwargs):
     jump new_daytime
 
 label .care (**kwargs):
-    show screen black_screen_text("office_event_3.talk.care")
+    $ image.show(7)
     headmaster "Okay, listen. You know relationships aren't allowed here at school."
+    $ image.show(6)
     sgirl "But..."
+    $ image.show(7)
     headmaster "BUT, I don't like this rule either. So I will take care of it for you."
     headmaster "I think I will abandon this rule in the future."
     headmaster "Now go back to class."
+    $ image.show(8)
     sgirl "Thank you!"
 
     $ change_stats_with_modifier(kwargs["char_obj"],
