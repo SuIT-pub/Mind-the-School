@@ -38,23 +38,26 @@ label .stop (**kwargs):
 
 # TODO: make images
 label sb_event_2 (**kwargs): # teach class
-    show screen black_screen_text("sb_event_2")
+    $ image = Image_Series("/images/events/school building/sb_event_2 <name> <step>.png", **kwargs)
+
+    $ image.show(0)
     subtitles "A student tripped while handing out assignments in class."
 
+    $ image.show(1)
     $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
         ("Leave alone", "sb_event_2.leave"),
         ("Help her up", "sb_event_2.help"), 
     **kwargs)
 
 label .leave (**kwargs):
-    show screen black_screen_text("sb_event_2.leave")
+    $ image.show(2)
     subtitles "You decide to leave her alone."
     $ change_stats_with_modifier(kwargs["char_obj"],
         charm = DEC_TINY, education = TINY)
     jump new_daytime
 
 label .help (**kwargs):
-    show screen black_screen_text("sb_event_2.help")
+    $ image.show(3)
     subtitles "You help her up."
     $ change_stats_with_modifier(kwargs["char_obj"],
         charm = DEC_TINY, happiness = SMALL, education = TINY)
