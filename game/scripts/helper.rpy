@@ -200,3 +200,6 @@ init -99 python:
                 name = text_obj[2]
 
         person (text, name = name)
+
+    def begin_event():
+        renpy.block_rollback()
