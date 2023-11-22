@@ -25,7 +25,14 @@ init -1 python:
         TimeCondition(day = 9),
     ))
 
+    event1 = new Event(3, 
+        ["sd_event_1", "sd_event_2"],
+        OR(TimeCondition(weekday = "d", daytime = "f"), TimeCondition(weekday = "w"))
+    )
 
+    high_school_dormitory_events["check_rooms"].add_event(event1)
+    high_school_dormitory_events["patrol"].add_event(event1)
+    high_school_dormitory_events["peek_students"].add_event(event1)
 
     high_school_dormitory_timed_event.check_all_events()
     map(lambda x: x.check_all_events(), high_school_dormitory_events.values())
