@@ -79,8 +79,10 @@ init python:
 
     T = TypeVar('T')
 
-    def get_random_choice(*choice: T | Tuple[T, float]) -> T:
-        if any(isinstance(item, tuple) for item in choice):
+    def get_random_choice(*choice: T | Tuple[float, T]) -> T:
+        choice = list(choice)
+        log_val("choice", choice)
+        if any((isinstance(item, tuple) and (isinstance(item[0], float) or isinstance(item[0], int))) for item in choice):
             end_choice = []
             tuples = [item for item in choice if isinstance(item, tuple)]
             no_tuples = [item for item in choice if not isinstance(item, tuple)]
@@ -88,8 +90,9 @@ init python:
             total_weight = 100
 
             for x in tuples:
-                weight = int(x[1] * 100)
-                end_choice.extend([x[0]] * weight)
+                log_val("x", x)
+                weight = int(x[0] * 100)
+                end_choice.extend([x[1]] * weight)
                 total_weight -= weight
 
             weights = int(total_weight / len(no_tuples))
@@ -97,8 +100,10 @@ init python:
             for x in no_tuples:
                 end_choice.extend([x] * weights)
 
+            log("return weighted random")
             return end_choice[get_random_int(0, len(end_choice) - 1)]
         else:
+            log("return random")
             return choice[get_random_int(0, len(choice) - 1)]
 
     def get_random_int(start: int, end: int):

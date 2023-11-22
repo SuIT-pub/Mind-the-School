@@ -235,7 +235,7 @@ label gym_event_2 (**kwargs):
 
     $ inhibition = char_obj.get_stat_number(INHIBITION)
 
-    $ topic = get_random_choice(("clothe", 0.75), "breasts", ("asses", 0.15)) if topic == "" else topic
+    $ topic = get_random_choice((0.75, "clothe"), "breasts", (0.15, "asses")) if topic == "" else topic
 
     $ image = Image_Series("/images/events/gym/gym_event_2 <name> <level> <topic> <step>.png", topic = topic, name = "high_school", **kwargs)
 

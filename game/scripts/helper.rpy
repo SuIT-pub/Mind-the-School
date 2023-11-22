@@ -182,46 +182,43 @@ init -99 python:
                 list_obj.remove(value)
         return list_obj
 
-    def random_say(person: Person | Tuple[Person, str] = None, image: Image_Series = None, *text: str | Tuple[str, Person] | Tuple[str, Person, str] | Tuple[str, Person, int] | Tuple[str, Person, str, int] | Tuple[str, Person, bool] | Tuple[str, Person, str, bool] | Tuple[str, Person, bool, int] | Tuple[str, Person, str, bool, int]):
-        name = ""
-        if person is None:
-            person = character.subtitles
-        elif isinstance(person, Person):
-            name = person.name
-        else:
-            name = person[1]
-            person = person[0]
+    def random_say(*text: str | Dict[str, Any] | Tuple[float, Dict[str, Any]], **kwargs):
 
-        while len(text) > 0:
-            text_obj = get_random_choice(text)
+        person = get_kwargs("person", character.subtitles, **kwargs)
+        name = get_kwargs("name", person.name, **kwargs)
+        image = get_kwargs("image", None, **kwargs)
 
-            text = text_obj
-            if not isinstance(text_obj, str):
-                text = text_obj[0]
-                person = text_obj[1]
-                if len(text_obj) >= 3:
-                    if isinstance(text_obj[2], str):
-                        name = text_obj[2]
-                    if isinstance(text_obj[2], bool) and not text_obj[2]:
-                        text.remove(text_obj)
-                        continue
-                    if isinstance(text_obj[2], int) and image != None:
-                        image.show(text_obj[2])
+        text_list = list(text)
 
-                    if len(text_obj) >= 4:
-                        if isinstance(text_obj[3], bool) and not text_obj[3]:
-                            text.remove(text_obj)
-                            continue
-                        if isinstance(text_obj[3], int) and image != None:
-                            image.show(text_obj[3])
+        while len(text_list) > 0:
+            log_val("text_list", text_list)
+            text_obj = get_random_choice(*text_list)
 
-                        if len(text_obj) == 5 and image != None:
-                            image.show(text_obj[4])
+            log_val("text_obj", text_obj)
 
-            person (text, name = name)
+            text_out = text_obj
+            if isinstance(text_obj, dict):
+                if "if" in text_obj.keys() and not text_obj["if"]:
+                    text_list.remove(text_obj)
+                    continue
+                if "say" in text_obj.keys():
+                    text_out = text_obj["say"]
+                if "person" in text_obj.keys():
+                    person = text_obj["person"]
+                    name = person.name
+                if "name" in text_obj.keys():
+                    name = text_obj["name"]
+                if "image" in text_obj.keys() and image != None:
+                    renpy.call("say_with_image", image, text_obj["image"], text_out, name, person)
+
+            person (text_out, name = name)
             break
 
         return
 
     def begin_event():
         renpy.block_rollback()
+
+label say_with_image (image_series, step, text, person_name, person):
+    $ image_series.show(step)
+    $ person(text, name = person_name)

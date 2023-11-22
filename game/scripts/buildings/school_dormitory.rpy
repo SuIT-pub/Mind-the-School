@@ -49,18 +49,21 @@ label sd_event_2 (**kwargs):
     $ topic_set = 1 if inhibition > get_random_int(30, 50) else 2
 
     if topic_set == 1:
-        $ topic = ["ah", "ahhh", "oh", "eeek", ("panties", 5), ("breasts", 2)]
+        $ topic = ["ah", "ahhh", "oh", "eeek", (0.05, "panties"), (0.02, "breasts")]
     else:
         $ topic = ["guys_stop", "huh", "reason", "dressing", "blush"]
 
-    $ topic = get_random_choice(topic)
+    $ log_val("topic", topic)
+
+    $ topic = get_random_choice(*topic)
 
     $ girl_name = get_random_choice("Aona Komuro", "Lin Kato", "Gloria Goto")
 
     if location == "shower":
         $ girl_name = get_random_choice("Sakura Mori", "Elsie Johnson", "Ishimaru Maki")
 
-    $ image = Image_Series("images/events/school dormitory/sd_event_2 <name> <topic> <location> <girl> <level> <step>.png", name = "high_school", topic = topic, girl = girl_name, **kwargs)
+    $ image = Image_Series("images/events/school dormitory/sd_event_2 <name> <topic> <location> <girl> <level> <step>.png", name = "high_school", location = location, topic = topic, girl = girl_name, **kwargs)
+    $ image2 = Image_Series("images/events/school dormitory/sd_event_2 <location> <step>.png", location = location)
 
     $ begin_event()
 
@@ -81,11 +84,11 @@ label sd_event_2 (**kwargs):
             happiness = DEC_LARGE, inhibition = DEC_TINY)
     elif topic in ["panties", "breasts"]:
         $ image.show(0)
-        $ random_say(person = (character.sgirl, girl_name),
+        $ random_say(
             "Ah!!! Look away, please, you can see my [topic]!",
             "Ah!!! Look away, please, I don't want guys seeing my [topic]!",
             "Eek! Stop! Don't stare at my [topic]!",
-        )
+            person = character.sgirl, name = girl_name)
         $ change_stats_with_modifier(char_obj,
             happiness = DEC_LARGE, inhibition = DEC_TINY, charm = MEDIUM)
     elif topic == "oh":
@@ -99,7 +102,7 @@ label sd_event_2 (**kwargs):
         subtitles "You quickly make an exit."
         $ change_stats_with_modifier(char_obj,
             inhibition = DEC_TINY, happiness = DEC_MEDIUM)
-        jump new_daytime;
+        jump new_daytime
     # elif topic == "guys_stop":
     #     $ image.show(0)
     #     sgirl "Excuse me!\n Can you guys stop running in and out of here?!"
@@ -148,23 +151,23 @@ label sd_event_2 (**kwargs):
     #     $ change_stats_with_modifier(char_obj,
     #         inhibition = DEC_TINY, charm = SMALL)
 
-    call show_image("images/events/school dormitory/sd_event_2 <location>.png", location = location) from sd_event_2_1
-    $ random_say(character.headmaster,
-        "Oh, wrong door, bye!",
-        "Sorry, I'm leaving!",
-        ("So sorry!", topic_set == 1),
-        ("I'm terribly sorry!", topic_set == 1),
-        ("I'm leaving, I'm leaving!", topic_set == 1),
-        ("You hastily beat a retreat.", character.subtitles, topic_set == 1),
-        ('say':"Good view, bad timing.", character.subtitles, topic_set == 1),
-        ("Oh, sorry.", topic_set == 2),
-        ("Oh, sorry about that!", topic_set == 2),
-        ("Sorry miss, wrong door obviously!", topic_set == 2),
-        ("Nice view, wrong door. Sorry!", topic_set == 2),
-        ("Bad timing I see. Sorry about that!", topic_set == 2),
-        ("After a quick look at the sexy girl, you apologize and leave.", character.subtitles, topic_set == 2),
-        ("A nice view, but you quickly leave anyway.", character.subtitles, topic_set == 2),
-    )
+    
+    $ random_say(
+        {'say': "Oh, wrong door, bye!", 'image': 0},
+        {'say': "Sorry, I'm leaving!", 'image': 0},
+        {'say': "So sorry!", 'if': topic_set == 1, 'image': 0},
+        {'say': "I'm terribly sorry!", 'if': topic_set == 1, 'image': 0},
+        {'say': "I'm leaving, I'm leaving!", 'if': topic_set == 1, 'image': 0},
+        {'say': "You hastily beat a retreat.", 'person': character.subtitles, 'if': topic_set == 1, 'image': 1},
+        {'say': "Good view, bad timing.", 'person': character.subtitles, 'if': topic_set == 1, 'image': 1},
+        person = character.headmaster, image = image2)
+        # ("Oh, sorry.", topic_set == 2),
+        # ("Oh, sorry about that!", topic_set == 2),
+        # ("Sorry miss, wrong door obviously!", topic_set == 2),
+        # ("Nice view, wrong door. Sorry!", topic_set == 2),
+        # ("Bad timing I see. Sorry about that!", topic_set == 2),
+        # ("After a quick look at the sexy girl, you apologize and leave.", character.subtitles, topic_set == 2),
+        # ("A nice view, but you quickly leave anyway.", character.subtitles, topic_set == 2),
 
     jump new_daytime
 

@@ -25,7 +25,7 @@ init -1 python:
         TimeCondition(day = 9),
     ))
 
-    event1 = new Event(3, 
+    event1 = Event(3, 
         ["sd_event_1", "sd_event_2"],
         OR(TimeCondition(weekday = "d", daytime = "f"), TimeCondition(weekday = "w"))
     )
