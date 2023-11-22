@@ -182,24 +182,48 @@ init -99 python:
                 list_obj.remove(value)
         return list_obj
 
-    def random_say(person: Person = None, *text: str | Tuple[str, Person] | Tuple[str, Person, str]):
+    def random_say(person: Person | Tuple[Person, str] = None, image: Image_Series = None,
+        *text: str | 
+        Tuple[str, Person]            | Tuple[str, Person, str] | 
+        Tuple[str, Person, int]       | Tuple[str, Person, str, int]
+        Tuple[str, Person, bool]      | Tuple[str, Person, str, bool] |
+        Tuple[str, Person, bool, int] | Tuple[str, Person, str, bool, int] |
+    ):
         if person is None:
             person = character.subtitles
-        if len(text) == 0:
-            return
 
-        text_obj = get_random_choice(text)
+        while len(text) > 0:
+            text_obj = get_random_choice(text)
 
-        text = text_obj
-        name = person.name
-        if not isinstance(text_obj, str):
-            text = text_obj[0]
-            person = text_obj[1]
+            text = text_obj
             name = person.name
-            if len(text_obj) == 3:
-                name = text_obj[2]
+            if not isinstance(text_obj, str):
+                text = text_obj[0]
+                person = text_obj[1]
+                name = person.name
+                if len(text_obj) >= 3:
+                    if is_instance(text_obj[2], str):
+                        name = text_obj[2]
+                    if is_instance(text_obj[2], bool) and not text_obj[2]:
+                        text.remove(text_obj)
+                        continue
+                    if is_instance(text_obj[2], int) and image != None:
+                        image.show(text_obj[2])
 
-        person (text, name = name)
+                    if len(text_obj) >= 4:
+                        if is_instance(text_obj[3], bool) and not text_obj[3]:
+                            text.remove(text_obj)
+                            continue
+                        if is_instance(text_obj[3], int) and image != None:
+                            image.show(text_obj[3])
+
+                        if len(text_obj) == 5 and image != None:
+                            image.show(text_obj[4])
+
+            person (text, name = name)
+            break
+
+        return
 
     def begin_event():
         renpy.block_rollback()
