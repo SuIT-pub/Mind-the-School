@@ -171,6 +171,34 @@ label sd_event_2 (**kwargs):
 
     jump new_daytime
 
+label sd_event_3 (**kwargs):
+    $ char_obj = get_kwargs("char_obj", **kwargs)
+    $ inhibition = char_obj.get_stat_number(INHIBITION)
+
+    $ topic = get_random_choice("normal", (0.1, "panties"), (0.02, "nude"))
+
+    $ image = Image_Series("images/events/school dormitory/sd_event_3 <name> <level> <topic> <step>.png", name = "high_school", topic = topic, **kwargs)
+
+    $ begin_event()
+
+    # if inhibition >= 80:
+    $ image.show(0)
+    subtitles "Looks like some of the students are ready to bunk."
+    $ image.show(1)
+    headmaster "I'm sorry, I didn't realize..."
+    $ image.show(2)
+    sgirl "Mm- Mr. [headmaster_last_name]"
+    $ image.show(3)
+    headmaster "Bye!"
+    
+    if topic == "normal":
+        $ change_stats_with_modifier(char_obj, inhibition = DEC_SMALL)
+    elif topic == "panties":
+        $ change_stats_with_modifier(char_obj, inhibition = DEC_MEDIUM)
+    elif topic == "nude":
+        $ change_stats_with_modifier(char_obj, inhibition = DEC_LARGE)
+
+    jump new_daytime
 
 
 
