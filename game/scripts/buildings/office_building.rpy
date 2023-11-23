@@ -136,7 +136,7 @@ label first_week_office_building_event (**kwargs):
 label office_event_1 (**kwargs):
     $ image = Image_Series("images/events/office/office_event_1 <name> <level> <step>.png", name = "high_school", **kwargs)
 
-    $ renpy.block_rollback()
+    $ begin_event();
 
     $ image.show(0)
     subtitles "You notice a girl sitting in front of the teachers office."
@@ -153,7 +153,9 @@ label office_event_1 (**kwargs):
 
 # TODO: make images
 label office_event_2 (**kwargs):
-    call show_image("images/events/office/office_event_2 <level> <variant>.png", **kwargs)
+    $ begin_event();
+    
+    call show_image(get_image("images/events/office/office_event_2 <level> <variant>.png", **kwargs)[1])
     subtitles "Even the teachers need a break from time to time."
 
     $ change_stats_with_modifier(kwargs["char_obj"],
@@ -166,6 +168,8 @@ label office_event_2 (**kwargs):
 # TODO: make images
 label office_event_3 (**kwargs):
     $ image = Image_Series("images/events/office/office_event_3 <name> <level> <step>.png", name = "high_school", **kwargs)
+
+    $ begin_event();
 
     $ image.show(0)
     subtitles "You enter the office and see two students sitting there."

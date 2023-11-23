@@ -26,7 +26,7 @@ init -1 python:
 
     courtyard_events["patrol"].add_event(Event(3, 
         ["courtyard_event_1", "courtyard_event_2"],
-        TimeCondition(daytime = "f", weekday = "d"),
+        OR(TimeCondition(daytime = "f", weekday = "d"), TimeCondition(daytime = "d", weekday = "w"))
     ))
 
     courtyard_events["patrol"].add_event(Event(3, 

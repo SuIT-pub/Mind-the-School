@@ -27,11 +27,10 @@ init -1 python:
 
     event1 = Event(3, 
         ["sd_event_1", "sd_event_2"],
-        OR(TimeCondition(weekday = "d", daytime = "f"), TimeCondition(weekday = "w"))
+        OR(TimeCondition(weekday = "d", daytime = "f"), TimeCondition(daytime = "d", weekday = "w"))
     )
 
     high_school_dormitory_events["check_rooms"].add_event(event1)
-    high_school_dormitory_events["patrol"].add_event(event1)
     high_school_dormitory_events["peek_students"].add_event(event1)
 
     high_school_dormitory_timed_event.check_all_events()

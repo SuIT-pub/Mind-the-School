@@ -1,4 +1,6 @@
 init -99 python:
+    from typing import TypeVar
+    import random
     import re
 
     def get_element(name: str, map: Dict[str, Any] = None):
@@ -191,10 +193,7 @@ init -99 python:
         text_list = list(text)
 
         while len(text_list) > 0:
-            log_val("text_list", text_list)
             text_obj = get_random_choice(*text_list)
-
-            log_val("text_obj", text_obj)
 
             text_out = text_obj
             if isinstance(text_obj, dict):
@@ -218,6 +217,110 @@ init -99 python:
 
     def begin_event():
         renpy.block_rollback()
+
+    
+    def set_game_data(key: str, value: Any) -> None:
+        gameData[key] = value
+
+    def start_progress(key: str) -> None:
+        if "progress" not in gameData.keys():
+            gameData["progress"] = {}
+        gameData["progress"][key] = 1
+
+    def advance_progress(key: str, delta: int = 1) -> None:
+        if "progress" not in gameData.keys():
+            gameData["progress"] = {}
+        if key not in gameData["progress"].keys():
+            gameData["progress"][key] = 0
+        gameData["progress"][key] += delta
+
+    def set_progress(key: str, value: int) -> None:
+        if "progress" not in gameData.keys():
+            gameData["progress"] = {}
+        gameData["progress"][key] = value
+
+    def get_progress(key: str)-> int:
+        if "progress" not in gameData.keys() or key not in gameData["progress"].keys():
+            return -1
+        return gameData["progress"][key]
+
+    def get_game_data(key: str) -> Any:
+        if key in gameData.keys():
+            return gameData[key]
+        return None
+
+    def contains_game_data(key: str) -> bool:
+        return key in gameData.keys()
+
+    def get_image_with_level(image_path: str, level: int) -> str:
+
+        path = image_path.replace("<nude>", "0")
+
+        for i in reversed(range(0, level + 1)):
+            image = path.replace("<level>", str(i))
+            if renpy.loadable(image):
+                return image_path.replace("<level>", str(i))
+        for i in range(0, 10):
+            image = path.replace("<level>", str(i))
+            if renpy.loadable(image):
+                return image_path.replace("<level>", str(i))
+        
+        return image_path
+
+    def get_random_school() -> Char:
+        school = get_random_school_name()
+        return charList['schools'][school]
+
+    def get_random_school_name() -> str:
+        if loli_content == 2:
+            return get_random_choice("high_school", "middle_school", "elementary_school")
+        elif loli_content == 1:
+            return get_random_choice("high_school", "middle_school")
+        else:
+            return "high_school"
+
+    def get_all_schools() -> List[Char]:
+        if loli_content == 2:
+            return [charList['schools']['high_school'], charList['schools']['middle_school'], charList['schools']['elementary_school']]
+        elif loli_content == 1:
+            return [charList['schools']['high_school'], charList['schools']['middle_school']]
+        else:
+            return [charList['schools']['high_school']]
+
+    T = TypeVar('T')
+
+    def get_random_choice(*choice: T | Tuple[float, T]) -> T:
+        choice = list(choice)
+        if any((isinstance(item, tuple) and (isinstance(item[0], float) or isinstance(item[0], int))) for item in choice):
+            end_choice = []
+            tuples = [item for item in choice if isinstance(item, tuple)]
+            no_tuples = [item for item in choice if not isinstance(item, tuple)]
+
+            total_weight = 100
+
+            for x in tuples:
+                weight = int(x[0] * 100)
+                end_choice.extend([x[1]] * weight)
+                total_weight -= weight
+
+            weights = int(total_weight / len(no_tuples))
+
+            for x in no_tuples:
+                end_choice.extend([x] * weights)
+
+            return end_choice[get_random_int(0, len(end_choice) - 1)]
+        else:
+            return choice[get_random_int(0, len(choice) - 1)]
+
+    def get_random_int(start: int, end: int):
+        return random.randint(start, end)
+
+    def log_val(key: str, value: Any) -> None:
+        print(key + ": " + str(value) + "\n")
+
+    def log(msg: str) -> None:
+        print(str(msg) + "\n")
+
 
 label say_with_image (image_series, step, text, person_name, person):
     $ image_series.show(step)

@@ -128,15 +128,15 @@ label .get_to_bottom (**kwargs):
     $ image.show(3) # headmaster looks to girl
     headmaster "I really want to help you. Please tell me what is going on."
 
-    $ image.show(9) # headmaster looks girl doesn't answer
+    $ image.show(10) # headmaster looks girl doesn't answer
     sgirl "..."
     
-    $ image.show(10) # headmaster rests head against wall talking
+    $ image.show(9) # headmaster rests head against wall talking
     headmaster "Please listen."
 
-    $ image.show(9) # headmaster rests head against wall talking
-    sgirl "..."
     $ image.show(10) # headmaster rests head against wall talking
+    sgirl "..."
+    $ image.show(9) # headmaster rests head against wall talking
     headmaster "Whatever happened to you, if some someone did or said anything."
 
     $ image.show(11) # girl buries head deeper into arms

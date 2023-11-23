@@ -27,7 +27,7 @@ init -1 python:
 
     event1 = Event(3, 
         ["sb_event_1"],
-        OR(TimeCondition(daytime = "c", weekday = "d"), TimeCondition(weekday = "w"),),
+        OR(TimeCondition(daytime = "c", weekday = "d"), TimeCondition(daytime = "d", weekday = "w")),
     )
 
     hsb_events["teach_class"].add_event(event1)

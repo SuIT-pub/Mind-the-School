@@ -30,7 +30,7 @@ init -2 python:
 
         def create_steps(self, image_path: str):
             if '<step>' in image_path:
-                max_steps = get_image_max_value('<step>', image_path, 0)
+                max_steps = get_image_max_value('<step>', image_path, 0, 100)
 
                 for i in range(0, max_steps + 1):
                     image = image_path.replace('<step>', str(i))
