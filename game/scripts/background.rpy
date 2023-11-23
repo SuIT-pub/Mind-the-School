@@ -47,7 +47,7 @@ init -2 python:
                     self.steps.append(Image_Step(i, variant))
             return
 
-        def show(self, step: int, display_type = SCENE, variant = -1):
+        def show(self, step: int, display_type = SCENE, variant = -1) -> int:
             if step < 0 or step >= len(self.steps):
                 log_val("image", self._image_path)
                 log(f"Step {step} is out of range! (Min: 0, Max: {len(self.steps) - 1}))")

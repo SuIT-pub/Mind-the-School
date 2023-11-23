@@ -321,6 +321,15 @@ init -99 python:
     def log(msg: str) -> None:
         print(str(msg) + "\n")
 
+    def get_stat_from_char_kwargs(stat: str, **kwargs) -> float:
+        char_obj = get_kwargs("char_obj", **kwargs)
+        if char_obj == None:
+            return -1
+        return char_obj.get_stat_number(stat)
+
+    def get_stat_from_char(char_obj: Character, stat: str) -> float:
+        return char_obj.get_stat_number(stat)
+
 
 label say_with_image (image_series, step, text, person_name, person):
     $ image_series.show(step)
