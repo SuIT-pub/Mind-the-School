@@ -141,6 +141,16 @@ default character.teacher5 = Character(
     what_size = 28,
     # what_outlines = [( 1, "#000000", 0, 0 )],
 )
+
+default character.vendor = Character(
+    "Vendor",
+    #window_background = None,
+    who_color = "#601561",
+    what_color = "#ffffff",
+    what_size = 28,
+    # what_outlines = [( 1, "#000000", 0, 0)],
+)
+
 default character.parent = Character(
     "Parent",
     #window_background = None,

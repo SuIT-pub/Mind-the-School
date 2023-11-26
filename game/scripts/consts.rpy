@@ -39,3 +39,5 @@ init -9:
     $ YES = "yes"
     $ NO = "no"
     $ VETO = "veto"
+
+    $ CHAR = "char_obj"

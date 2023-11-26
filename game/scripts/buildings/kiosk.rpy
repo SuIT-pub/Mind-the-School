@@ -119,4 +119,92 @@ label first_week_kiosk_event (**kwargs):
 
     jump new_day
 
+label kiosk_event_1 (**kwargs):
+    $ char_obj = get_kwargs("char_obj", **kwargs)
+
+    $ begin_event()
+
+
+    subtitles "For some, coffee is the only way to save the day."
+
+    $ change_stats_with_modifier(char_obj,
+        happiness = SMALL)
+
+    jump new_daytime;
+
+label kiosk_event_2 (**kwargs):
+    $ char_obj = get_kwargs("char_obj", **kwargs)
+
+    $ begin_event()
+
+    sgirl "*AHHH*"
+    subtitles "A girl seems to have spilt her drink down her blouse."
+    subtitles "Luckily she doesn't notice her see-through blouse in all the excitement."
+
+label kiosk_event_3 (**kwargs):
+    $ char_obj = get_kwargs("char_obj", **kwargs)
+
+    $ topic = get_random_choice("normal", (0.25, "kind"), (0.05, "slimy"))
+
+    $ kwargs["topic"] = topic
+
+    $ begin_event()
+
+    sgirl "Hi, I want a Hot Dog!"
+    vendor "Sure that makes 2.50$"
+    sgirl "2.50?! It has been only 1.50$ last week?"
+    vendor "I'm sorry, but I can no longer afford to keep the prices so low."
+    sgirl "But I can't afford that!"
+
+    $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
+        ("Leave alone", "kiosk_event_3.leave"),
+        ("Help her out", "kiosk_event_3.help"), 
+    **kwargs)
+
+label .leave (**kwargs):
+    if kwargs["topic"] == "normal":
+        vendor "I'm sorry but there is nothing I can do."
+        sgirl "*sob*"
+        headmaster_thought "Poor girl..."
+
+        $ change_stats_with_modifier(kwargs[CHAR],
+            happiness = DEC_MEDIUM, charm = DEC_SMALL)
+        jump new_daytime
+    elif kwargs["topic"] == "kind":
+        vendor "I'm sorry to hear that... You know what? This one is on the house."
+        sgirl "*sob* Thank you."
+        headmaster_thought "Mhh, things are worse than I thought. I can't believe the students have to go hungry."
+        headmaster_thought "I should think about doing something about that."
+
+        $ change_stats_with_modifier(kwargs[CHAR],
+            happiness = DEC_SMALL, charm = TINY)
+        jump new_daytime;
+    else:
+        vendor "You know what? I think I could help you."
+        sgirl "Really?"
+        vendor "Yeah you could, you know have my Hot Dog."
+        sgirl "Your Hot Dog? What do you m... Eeek! Pervert!"
+        headmaster_thought "Mhh what kind of noise is that? Hmmm... It won't be anything bad."
+
+        $ change_stats_with_modifier(kwargs[CHAR],
+            happiness = DEC_LARGE, charm = DEC_MEDIUM, reputation = DEC_SMALL)
+        jump new_daytime
+
+label .help (**kwargs):
+    headmaster "What's the matter here?"
+    sgirl "Oh Mr. [headmaster_last_name]... nothing..."
+    headmaster "I'll pay her meal and please add a coffee. Do you drink coffee?"
+    sgirl "Yes?"
+    headmaster "Good, coffee then."
+    vendor "Sure!"
+    sgirl "Thank you very much!"
+    headmaster "No problem. I know it can be hard, but if you are in a predicament just come talk to me and I'm sure we can find a way." 
+    sgirl "..."
+
+    $ change_stats_with_modifier(kwargs[CHAR],
+        happiness = SMALL, reputation = MEDIUM)
+    jump new_daytime
+
+    
+
 ############################
