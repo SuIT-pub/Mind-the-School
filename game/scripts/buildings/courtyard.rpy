@@ -148,7 +148,7 @@ label courtyard_event_1 (**kwargs):
 
     $ image = Image_Series("images/events/courtyard/courtyard_event_1 <name> <level> <variant> <step>.png", name = name, variant = variant, **kwargs)
 
-    $ renpy.block_rollback()
+    $ begin_event()
 
     $ image.show(0)
     subtitles "You walk along the courtyard when a gist of wind blows up the girls skirt in front of you."
@@ -187,7 +187,7 @@ label courtyard_event_2 (**kwargs):
 
     $ image = Image_Series("images/events/courtyard/courtyard_event_2 <name> <level> <step>.png", name = name, **kwargs)
 
-    $ renpy.block_rollback()
+    $ begin_event()
 
     $ image.show(0)
     subtitles "You notice a girl sitting alone in the courtyard, apparently left out by the others."
@@ -225,7 +225,7 @@ label .leave (**kwargs):
     jump new_daytime
 
 label courtyard_event_3 (**kwargs):
-    $ renpy.block_rollback()
+    $ begin_event()
     
     call show_image ("images/events/courtyard/courtyard_event_3 <name> <level>.png", name = "high_school", **kwargs)
     subtitles "You notice a group of girls taking a break together."
