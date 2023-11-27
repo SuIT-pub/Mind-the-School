@@ -47,7 +47,7 @@ class Editor(renpy.editor.Editor):
 
     def end(self, **kwargs):
         self.args.reverse()
-        code = 'I:\\VSCode\\bin\\code-insiders.cmd'
+        code = 'C:\\Users\\bigma\\AppData\\Local\\Programs\\Microsoft VS Code Insiders\\bin\\code-insiders.cmd'
         args = [code, "-g"] + self.args
         args = [renpy.exports.fsencode(i) for i in args]
 
