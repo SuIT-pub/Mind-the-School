@@ -20,11 +20,18 @@ init -1 python:
     ))
 
     k_event_1 = Event(3, 
-        ["kiosk_event_1", "kiosk_event_2", "kiosk_event_3"],
+        ["kiosk_event_1", "kiosk_event_2"],
         OR(TimeCondition(weekday = "d", daytime = "f"), TimeCondition(weekday="w", daytime = "d"))
     )
 
+    k_event_3 = Event(3, 
+        ["kiosk_event_3"],
+        OR(TimeCondition(weekday = "d", daytime = "f"), TimeCondition(weekday="w", daytime = "d")),
+        NOT(BuildingCondition("cafeteria"))
+    )
+
     kiosk_events["snack"].add_event(k_event_1)
+    kiosk_events["snack"].add_event(k_event_3)
 
     kiosk_timed_event.check_all_events()
     map(lambda x: x.check_all_events(), kiosk_events.values())
@@ -127,9 +134,12 @@ label first_week_kiosk_event (**kwargs):
 label kiosk_event_1 (**kwargs):
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
+    $ variant = get_random_int(1, 2)
+    $ girl = get_random_choice("Aona Komuro", "Ikushi Ito", "Gloria Goto", "Lin Kato")
+
     $ begin_event()
 
-
+    $ show_image("images/events/kiosk/kiosk_event_1 <name> <girl> <level> <variant>", name = "high_school", girl = girl, variant = variant, **kwargs)
     subtitles "For some, coffee is the only way to save the day."
 
     $ change_stats_with_modifier(char_obj,
@@ -140,26 +150,46 @@ label kiosk_event_1 (**kwargs):
 label kiosk_event_2 (**kwargs):
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
+    $ girl = get_random_choice("Hatano Miwa", "Kokoro Nakamura", "Soyoon Yamamoto")
+
+    $ image = Image_Series("images/events/kiosk/kiosk_event_2 <name> <girl> <level> <step>.png", name = "high_school", girl = girl, **kwargs)
+
     $ begin_event()
 
-    sgirl "*AHHH*"
+    $ image.show(0)
+    sgirl "*AHHH*" (name = girl)
+    $ image.show(1)
     subtitles "A girl seems to have spilt her drink down her blouse."
+    $ image.show(2)
     subtitles "Luckily she doesn't notice her see-through blouse in all the excitement."
+
+    $ change_stats_with_modifier(char_obj,
+        happiness = DEC_TINY, inhibition = DEC_MEDIUM, corruption = TINY)
+
+    jump new_daytime
 
 label kiosk_event_3 (**kwargs):
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
     $ topic = get_random_choice("normal", (0.25, "kind"), (0.05, "slimy"))
+    $ girl = "Miwa Igarashi"
 
     $ kwargs["topic"] = topic
 
+    $ image = Image_Series("images/events/kiosk/kiosk_event_3 <name> <level> <step>.png", name = "high_school", **kwargs)
+
     $ begin_event()
 
-    sgirl "Hi, I want a Hot Dog!"
+    $ image.show(0)
+    sgirl "Hi, I want a Hot Dog!" (name = girl)
+    $ image.show(1)
     vendor "Sure that makes 2.50$"
-    sgirl "2.50?! It has been only 1.50$ last week?"
+    $ image.show(2)
+    sgirl "2.50?! It has been only 1.50$ last week?" (name = girl)
+    $ image.show(1)
     vendor "I'm sorry, but I can no longer afford to keep the prices so low."
-    sgirl "But I can't afford that!"
+    $ image.show(2)
+    sgirl "But I can't afford that!" (name = girl)
 
     $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
         ("Leave alone", "kiosk_event_3.leave"),
@@ -167,17 +197,29 @@ label kiosk_event_3 (**kwargs):
     **kwargs)
 
 label .leave (**kwargs):
-    if kwargs["topic"] == "normal":
-        vendor "I'm sorry but there is nothing I can do."
-        sgirl "*sob*"
-        headmaster_thought "Poor girl..."
+    if kwargs["topic"] == "slimy":
+        $ image.show(3)
+        vendor "You know what? I think I could help you."
+        $ image.show(4)
+        sgirl "Really?" (name = girl)
+        $ image.show(5)
+        vendor "Yeah you could, you know have my Hot Dog."
+        $ image.show(6)
+        sgirl "Your Hot Dog? What do you m..." (name = girl)
+        sgirl "Eeek! Pervert!" (name = girl)
+        $ image.show(7)
+        headmaster_thought "Mhh what kind of noise is that? Hmmm... I guess it's nothing serious."
 
         $ change_stats_with_modifier(kwargs[CHAR],
-            happiness = DEC_MEDIUM, charm = DEC_SMALL)
+            happiness = DEC_LARGE, charm = DEC_MEDIUM, reputation = DEC_SMALL)
         jump new_daytime
+        
     elif kwargs["topic"] == "kind":
+        $ image.show(8)
         vendor "I'm sorry to hear that... You know what? This one is on the house."
-        sgirl "*sob* Thank you."
+        $ image.show(9)
+        sgirl "*sob* Thank you." (name = girl)
+        $ image.show(10)
         headmaster_thought "Mhh, things are worse than I thought. I can't believe the students have to go hungry."
         headmaster_thought "I should think about doing something about that."
 
@@ -189,29 +231,40 @@ label .leave (**kwargs):
 
         jump new_daytime
     else:
-        vendor "You know what? I think I could help you."
-        sgirl "Really?"
-        vendor "Yeah you could, you know have my Hot Dog."
-        sgirl "Your Hot Dog? What do you m... Eeek! Pervert!"
-        headmaster_thought "Mhh what kind of noise is that? Hmmm... It won't be anything bad."
+        $ image.show(11)
+        vendor "I'm sorry but there is nothing I can do."
+        $ image.show(12)
+        sgirl "*sob*" (name = girl)
+        $ image.show(13)
+        headmaster_thought "Poor girl..."
 
         $ change_stats_with_modifier(kwargs[CHAR],
-            happiness = DEC_LARGE, charm = DEC_MEDIUM, reputation = DEC_SMALL)
+            happiness = DEC_MEDIUM, charm = DEC_SMALL)
         jump new_daytime
 
 label .help (**kwargs):
+    $ image.show(14)
     headmaster "What's the matter here?"
-    sgirl "Oh Mr. [headmaster_last_name]... nothing..."
-    headmaster "I'll pay her meal and please add a coffee. Do you drink coffee?"
-    sgirl "Yes?"
+    $ image.show(15)
+    sgirl "Oh Mr. [headmaster_last_name]... nothing..." (name = girl)
+    $ image.show(16)
+    headmaster "I'll pay her meal and please add a coffee."
+    headmaster "Do you drink coffee?"
+    $ image.show(17)
+    sgirl "Yes?" (name = girl)
+    $ image.show(18)
     headmaster "Good, coffee then."
+    $ image.show(19)
     vendor "Sure!"
-    sgirl "Thank you very much!"
+    $ image.show(20)
+    sgirl "Thank you very much!" (name = girl)
+    $ image.show(21)
     headmaster "No problem. I know it can be hard, but if you are in a predicament just come talk to me and I'm sure we can find a way." 
-    sgirl "..."
+    $ image.show(22)
+    sgirl "..." (name = girl)
 
     $ change_stats_with_modifier(kwargs[CHAR],
-        happiness = SMALL, reputation = MEDIUM)
+        happiness = MEDIUM, reputation = MEDIUM, charm = DEC_TINY)
     jump new_daytime
 
     
