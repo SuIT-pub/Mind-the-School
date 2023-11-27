@@ -18,8 +18,13 @@ init -1 python:
         ["first_week_kiosk_event"],
         TimeCondition(day = "2-4", month = 1, year = 2023),
     ))
-    
 
+    k_event_1 = Event(3, 
+        ["kiosk_event_1", "kiosk_event_2", "kiosk_event_3"],
+        OR(TimeCondition(weekday = "d", daytime = "f"), TimeCondition(weekday="w", daytime = "d"))
+    )
+
+    kiosk_events["snack"].add_event(k_event_1)
 
     kiosk_timed_event.check_all_events()
     map(lambda x: x.check_all_events(), kiosk_events.values())
@@ -178,6 +183,10 @@ label .leave (**kwargs):
 
         $ change_stats_with_modifier(kwargs[CHAR],
             happiness = DEC_SMALL, charm = TINY)
+    
+        if get_progress("unlock_cafeteria") == -1:
+            $ start_progress("unlock_cafeteria")
+
         jump new_daytime
     else:
         vendor "You know what? I think I could help you."
