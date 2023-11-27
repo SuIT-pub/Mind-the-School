@@ -1371,3 +1371,1833 @@ Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
 Maximum texture size: 4096x4096
 'images/background/kiosk/bg f middle_school 1 0 <variant>.jpg' is missing!
 
+Resetting cache.
+Bootstrap to the start of init.init. took 2714.72s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.02s
+Loading script. took 0.18s
+Loading save slot metadata. took 0.07s
+Loading persistent. took 0.00s
+
+File "game/scripts/overview.rpy", line 309: 'Key' is not a keyword argument or valid child of the screen statement.
+    Key "z" action Call("new_daytime")
+       ^
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Interface start. took 0.12s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 2727.12s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.02s
+Loading script. took 0.28s
+Loading save slot metadata. took 0.06s
+Loading persistent. took 0.00s
+Running init code. took 0.05s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.04s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.06s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.07s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.06s
+Build styles took 0.00s
+Load screen analysis took 0.00s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.07s
+Save pyanalysis. took 0.02s
+Save bytecode. took 0.02s
+Running _start took 0.01s
+Performance test:
+Interface start. took 0.11s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 2752.53s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.03s
+Loading script. took 0.24s
+Loading save slot metadata. took 0.07s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.05s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.05s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.07s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.04s
+Build styles took 0.00s
+Load screen analysis took 0.00s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.10s
+Save pyanalysis. took 0.05s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.12s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1440) drawable=(2560, 1440)
+Maximum texture size: 4096x4096
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 2995.87s
+Early init. took 0.00s
+Loader init. took 0.21s
+Loading error handling. took 0.04s
+Loading script. took 0.24s
+Loading save slot metadata. took 0.08s
+Loading persistent. took 0.00s
+Running init code. took 0.05s
+Loading analysis data. took 0.03s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.05s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.05s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.08s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.08s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.03s
+Save screen analysis took 0.04s
+Prepare screens took 0.12s
+Save pyanalysis. took 0.04s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.14s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 3228.18s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.02s
+Loading script. took 0.19s
+Loading save slot metadata. took 0.06s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.05s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.05s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.08s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.03s
+Save screen analysis took 0.05s
+Prepare screens took 0.16s
+Save pyanalysis. took 0.04s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.09s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 3289.67s
+Early init. took 0.00s
+Loader init. took 0.07s
+Loading error handling. took 0.03s
+Loading script. took 0.28s
+Loading save slot metadata. took 0.17s
+Loading persistent. took 0.01s
+Running init code. took 0.05s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.04s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.05s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.07s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.04s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.07s
+Save pyanalysis. took 0.02s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.09s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 3351.29s
+Early init. took 0.00s
+Loader init. took 0.05s
+Loading error handling. took 0.02s
+Loading script. took 0.17s
+Loading save slot metadata. took 0.06s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.05s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.05s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.11s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.04s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.01s
+Save screen analysis took 0.03s
+Prepare screens took 0.07s
+Save pyanalysis. took 0.02s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.09s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 3382.21s
+Early init. took 0.00s
+Loader init. took 0.07s
+Loading error handling. took 0.02s
+Loading script. took 0.20s
+Loading save slot metadata. took 0.07s
+Loading persistent. took 0.00s
+Running init code. took 0.03s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.04s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.05s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.06s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.08s
+Save pyanalysis. took 0.02s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.09s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 3451.30s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.02s
+Loading script. took 0.18s
+Loading save slot metadata. took 0.06s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.05s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.05s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.07s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.08s
+Save pyanalysis. took 0.02s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.08s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 3464.08s
+Early init. took 0.00s
+Loader init. took 0.05s
+Loading error handling. took 0.02s
+Loading script. took 0.20s
+Loading save slot metadata. took 0.08s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.03s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.05s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.05s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.06s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.04s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.01s
+Save screen analysis took 0.02s
+Prepare screens took 0.11s
+Save pyanalysis. took 0.03s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.07s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 3470.76s
+Early init. took 0.00s
+Loader init. took 0.05s
+Loading error handling. took 0.02s
+Loading script. took 0.19s
+Loading save slot metadata. took 0.06s
+Loading persistent. took 0.00s
+Running init code. took 0.03s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.04s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.04s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.06s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.04s
+Build styles took 0.00s
+Load screen analysis took 0.00s
+Analyze screens took 0.01s
+Save screen analysis took 0.02s
+Prepare screens took 0.10s
+Save pyanalysis. took 0.03s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.13s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 3482.11s
+Early init. took 0.00s
+Loader init. took 0.05s
+Loading error handling. took 0.02s
+Loading script. took 0.17s
+Loading save slot metadata. took 0.05s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.05s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.05s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.08s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.07s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.07s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 3513.09s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.03s
+Loading script. took 0.20s
+Loading save slot metadata. took 0.05s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.01s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.04s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.05s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.06s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.03s
+Save screen analysis took 0.03s
+Prepare screens took 0.10s
+Save pyanalysis. took 0.03s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.11s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 3533.34s
+Early init. took 0.00s
+Loader init. took 0.08s
+Loading error handling. took 0.03s
+Loading script. took 0.21s
+Loading save slot metadata. took 0.06s
+Loading persistent. took 0.00s
+Running init code. took 0.07s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.04s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.05s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.06s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.00s
+Analyze screens took 0.02s
+Save screen analysis took 0.02s
+Prepare screens took 0.07s
+Save pyanalysis. took 0.02s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.07s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 3553.62s
+Early init. took 0.00s
+Loader init. took 0.05s
+Loading error handling. took 0.02s
+Loading script. took 0.19s
+Loading save slot metadata. took 0.06s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.04s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.05s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.06s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.02s
+Prepare screens took 0.11s
+Save pyanalysis. took 0.03s
+Save bytecode. took 0.04s
+Running _start took 0.02s
+Performance test:
+Interface start. took 0.10s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 3560.09s
+Early init. took 0.00s
+Loader init. took 0.05s
+Loading error handling. took 0.02s
+Loading script. took 0.19s
+Loading save slot metadata. took 0.06s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.04s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.05s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.06s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.04s
+Build styles took 0.00s
+Load screen analysis took 0.00s
+Analyze screens took 0.01s
+Save screen analysis took 0.02s
+Prepare screens took 0.09s
+Save pyanalysis. took 0.03s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.13s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 3574.28s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.03s
+Loading script. took 0.18s
+Loading save slot metadata. took 0.06s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.04s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.05s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.06s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.06s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.08s
+Save pyanalysis. took 0.02s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.11s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 3628.05s
+Early init. took 0.00s
+Loader init. took 0.05s
+Loading error handling. took 0.02s
+Loading script. took 0.18s
+Loading save slot metadata. took 0.06s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.04s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.05s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.08s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.04s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.09s
+Save pyanalysis. took 0.02s
+Save bytecode. took 0.04s
+Running _start took 0.01s
+Performance test:
+Interface start. took 0.07s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 3637.61s
+Early init. took 0.00s
+Loader init. took 0.07s
+Loading error handling. took 0.03s
+Loading script. took 0.17s
+Loading save slot metadata. took 0.06s
+Loading persistent. took 0.00s
+Running init code. took 0.05s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.07s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.05s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.06s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.03s
+Save screen analysis took 0.03s
+Prepare screens took 0.07s
+Save pyanalysis. took 0.03s
+Save bytecode. took 0.02s
+Running _start took 0.01s
+Performance test:
+Interface start. took 0.12s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 5036.69s
+Early init. took 0.00s
+Loader init. took 0.11s
+Loading error handling. took 0.04s
+Loading script. took 0.39s
+Loading save slot metadata. took 0.06s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.05s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.06s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.07s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.07s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.05s
+Save screen analysis took 0.07s
+Prepare screens took 0.14s
+Save pyanalysis. took 0.04s
+Save bytecode. took 0.04s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.23s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 5180.27s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.02s
+Loading script. took 0.19s
+Loading save slot metadata. took 0.06s
+Loading persistent. took 0.00s
+
+File "game/scripts/menu.rpy", line 136: expected a keyword argument, colon, or end of line.
+    text = "[title] ([count])"
+         ^
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Interface start. took 0.14s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 5206.24s
+Early init. took 0.00s
+Loader init. took 0.05s
+Loading error handling. took 0.02s
+Loading script. took 0.18s
+Loading save slot metadata. took 0.05s
+Loading persistent. took 0.00s
+Running init code. took 0.05s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.04s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.05s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.04s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.08s
+Save pyanalysis. took 0.02s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.06s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 5224.90s
+Early init. took 0.00s
+Loader init. took 0.05s
+Loading error handling. took 0.02s
+Loading script. took 0.17s
+Loading save slot metadata. took 0.06s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.05s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.06s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.08s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.04s
+Prepare screens took 0.13s
+Save pyanalysis. took 0.03s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.07s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+
+Full traceback:
+  File "game/scripts/intro.rpy", line 50, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 209, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 497, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_dormitory.rpy", line 53, in script call
+    call call_available_event(high_school_dormitory_timed_event) from high_school_dormitory_1
+  File "game/scripts/event.rpy", line 307, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_dormitory.rpy", line 61, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 68, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 90, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 326, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 497, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_dormitory.rpy", line 53, in script call
+    call call_available_event(high_school_dormitory_timed_event) from high_school_dormitory_1
+  File "game/scripts/event.rpy", line 307, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_dormitory.rpy", line 61, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 75, in script call
+    call call_event(fallback, **kwargs) from call_event_menu_1
+  File "game/scripts/event.rpy", line 326, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 497, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_dormitory.rpy", line 53, in script call
+    call call_available_event(high_school_dormitory_timed_event) from high_school_dormitory_1
+  File "game/scripts/event.rpy", line 307, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_dormitory.rpy", line 61, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 68, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 90, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 326, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 497, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_dormitory.rpy", line 53, in script call
+    call call_available_event(high_school_dormitory_timed_event) from high_school_dormitory_1
+  File "game/scripts/event.rpy", line 307, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_dormitory.rpy", line 61, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 75, in script call
+    call call_event(fallback, **kwargs) from call_event_menu_1
+  File "game/scripts/event.rpy", line 326, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 497, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_dormitory.rpy", line 53, in script call
+    call call_available_event(high_school_dormitory_timed_event) from high_school_dormitory_1
+  File "game/scripts/event.rpy", line 307, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_dormitory.rpy", line 61, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 75, in script call
+    call call_event(fallback, **kwargs) from call_event_menu_1
+  File "game/scripts/event.rpy", line 326, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 497, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_dormitory.rpy", line 53, in script call
+    call call_available_event(high_school_dormitory_timed_event) from high_school_dormitory_1
+  File "game/scripts/event.rpy", line 307, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_dormitory.rpy", line 61, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 68, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 90, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 326, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 497, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/kiosk.rpy", line 46, in script call
+    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/event.rpy", line 307, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/kiosk.rpy", line 54, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 75, in script call
+    call call_event(fallback, **kwargs) from call_event_menu_1
+  File "game/scripts/event.rpy", line 326, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 497, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/kiosk.rpy", line 46, in script call
+    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/event.rpy", line 307, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/kiosk.rpy", line 54, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 75, in script call
+    call call_event(fallback, **kwargs) from call_event_menu_1
+  File "game/scripts/event.rpy", line 326, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 497, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/kiosk.rpy", line 46, in script call
+    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/event.rpy", line 307, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/kiosk.rpy", line 54, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 68, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 90, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 326, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/kiosk.rpy", line 164, in script call
+    $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
+  File "game/scripts/menu.rpy", line 68, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 88, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 497, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/kiosk.rpy", line 46, in script call
+    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/event.rpy", line 307, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/kiosk.rpy", line 54, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 75, in script call
+    call call_event(fallback, **kwargs) from call_event_menu_1
+  File "game/scripts/event.rpy", line 326, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 497, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/gym.rpy", line 63, in script call
+    call call_available_event(gym_timed_event) from gym_1
+  File "game/scripts/event.rpy", line 307, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/gym.rpy", line 71, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 75, in script call
+    call call_event(fallback, **kwargs) from call_event_menu_1
+  File "game/scripts/event.rpy", line 326, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 497, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 63, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 307, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 71, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 68, in script
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2259, in execute
+    self.call("execute")
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2241, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\statements.py", line 342, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\exports.py", line 3347, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "C:\Users\bigma\Documents\RenPy\renpy\ui.py", line 299, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 3582, in interact
+    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 4543, in interact_core
+    rv = root_widget.event(ev, x, y, 0)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 1179, in event
+    rv = i.event(ev, x - xo, y - yo, cst)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 1179, in event
+    rv = i.event(ev, x - xo, y - yo, cst)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 1179, in event
+    rv = i.event(ev, x - xo, y - yo, cst)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 770, in event
+    rv = self.child.event(ev, x, y, st)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 1179, in event
+    rv = i.event(ev, x - xo, y - yo, cst)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 1403, in event
+    rv = super(Window, self).event(ev, x, y, st)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 281, in event
+    rv = d.event(ev, x - xo, y - yo, st)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 1179, in event
+    rv = i.event(ev, x - xo, y - yo, cst)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\behavior.py", line 524, in event
+    if map_event(ev, name):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\behavior.py", line 280, in map_event
+    check_code = eval("lambda ev : " + compile_event(keysym, True), globals())
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\behavior.py", line 187, in compile_event
+    raise Exception("Invalid key specifier %s" % key)
+Exception: Invalid key specifier [count]
+
+While running game code:
+  File "game/scripts/intro.rpy", line 50, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 209, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 497, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_dormitory.rpy", line 53, in script call
+    call call_available_event(high_school_dormitory_timed_event) from high_school_dormitory_1
+  File "game/scripts/event.rpy", line 307, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_dormitory.rpy", line 61, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 68, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 90, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 326, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 497, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_dormitory.rpy", line 53, in script call
+    call call_available_event(high_school_dormitory_timed_event) from high_school_dormitory_1
+  File "game/scripts/event.rpy", line 307, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_dormitory.rpy", line 61, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 75, in script call
+    call call_event(fallback, **kwargs) from call_event_menu_1
+  File "game/scripts/event.rpy", line 326, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 497, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_dormitory.rpy", line 53, in script call
+    call call_available_event(high_school_dormitory_timed_event) from high_school_dormitory_1
+  File "game/scripts/event.rpy", line 307, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_dormitory.rpy", line 61, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 68, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 90, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 326, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 497, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_dormitory.rpy", line 53, in script call
+    call call_available_event(high_school_dormitory_timed_event) from high_school_dormitory_1
+  File "game/scripts/event.rpy", line 307, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_dormitory.rpy", line 61, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 75, in script call
+    call call_event(fallback, **kwargs) from call_event_menu_1
+  File "game/scripts/event.rpy", line 326, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 497, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_dormitory.rpy", line 53, in script call
+    call call_available_event(high_school_dormitory_timed_event) from high_school_dormitory_1
+  File "game/scripts/event.rpy", line 307, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_dormitory.rpy", line 61, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 75, in script call
+    call call_event(fallback, **kwargs) from call_event_menu_1
+  File "game/scripts/event.rpy", line 326, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 497, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_dormitory.rpy", line 53, in script call
+    call call_available_event(high_school_dormitory_timed_event) from high_school_dormitory_1
+  File "game/scripts/event.rpy", line 307, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_dormitory.rpy", line 61, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 68, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 90, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 326, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 497, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/kiosk.rpy", line 46, in script call
+    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/event.rpy", line 307, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/kiosk.rpy", line 54, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 75, in script call
+    call call_event(fallback, **kwargs) from call_event_menu_1
+  File "game/scripts/event.rpy", line 326, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 497, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/kiosk.rpy", line 46, in script call
+    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/event.rpy", line 307, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/kiosk.rpy", line 54, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 75, in script call
+    call call_event(fallback, **kwargs) from call_event_menu_1
+  File "game/scripts/event.rpy", line 326, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 497, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/kiosk.rpy", line 46, in script call
+    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/event.rpy", line 307, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/kiosk.rpy", line 54, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 68, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 90, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 326, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/kiosk.rpy", line 164, in script call
+    $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
+  File "game/scripts/menu.rpy", line 68, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 88, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 497, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/kiosk.rpy", line 46, in script call
+    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/event.rpy", line 307, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/kiosk.rpy", line 54, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 75, in script call
+    call call_event(fallback, **kwargs) from call_event_menu_1
+  File "game/scripts/event.rpy", line 326, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 497, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/gym.rpy", line 63, in script call
+    call call_available_event(gym_timed_event) from gym_1
+  File "game/scripts/event.rpy", line 307, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/gym.rpy", line 71, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 75, in script call
+    call call_event(fallback, **kwargs) from call_event_menu_1
+  File "game/scripts/event.rpy", line 326, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/overview.rpy", line 482, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 497, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 63, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 307, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 71, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 68, in script
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+Exception: Invalid key specifier [count]
+Resetting cache.
+Bootstrap to the start of init.init. took 5330.04s
+Early init. took 0.00s
+Loader init. took 0.05s
+Loading error handling. took 0.02s
+Loading script. took 0.17s
+Loading save slot metadata. took 0.08s
+Loading persistent. took 0.00s
+Running init code. took 0.06s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.04s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.05s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.07s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.04s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.01s
+Save screen analysis took 0.02s
+Prepare screens took 0.08s
+Save pyanalysis. took 0.02s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.11s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 6762.27s
+Early init. took 0.00s
+Loader init. took 0.08s
+Loading error handling. took 0.02s
+Loading script. took 0.19s
+Loading save slot metadata. took 0.06s
+Loading persistent. took 0.00s
+
+File "game/scripts/menu.rpy", line 201: reached end of line when expecting ':'.
+    if keyboard 
+                ^
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Interface start. took 0.08s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1437, 808) drawable=(1437, 808)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 7871.02s
+Early init. took 0.00s
+Loader init. took 0.07s
+Loading error handling. took 0.02s
+Loading script. took 0.27s
+Loading save slot metadata. took 0.06s
+Loading persistent. took 0.00s
+Running init code. took 0.05s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.05s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.05s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.06s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.10s
+Build styles took 0.01s
+Load screen analysis took 0.01s
+Analyze screens took 0.03s
+Save screen analysis took 0.04s
+Prepare screens took 0.10s
+Save pyanalysis. took 0.03s
+Save bytecode. took 0.02s
+Running _start took 0.01s
+Performance test:
+Interface start. took 0.09s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1437, 808) drawable=(1437, 808)
+Maximum texture size: 4096x4096
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 15719.80s
+Early init. took 0.00s
+Loader init. took 0.09s
+Loading error handling. took 0.03s
+Loading script. took 0.16s
+Loading save slot metadata. took 0.08s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.05s
+Index archives took 0.00s
+Dump and make backups. took 0.05s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.08s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.06s
+Build styles took 0.00s
+Load screen analysis took 0.04s
+Analyze screens took 0.00s
+Save screen analysis took 0.00s
+Prepare screens took 0.07s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.00s
+Running _start took 0.01s
+Performance test:
+Interface start. took 0.24s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 15738.99s
+Early init. took 0.00s
+Loader init. took 0.07s
+Loading error handling. took 0.03s
+Loading script. took 0.21s
+Loading save slot metadata. took 0.12s
+Loading persistent. took 0.01s
+Running init code. took 0.05s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.07s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.07s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.07s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.06s
+Build styles took 0.00s
+Load screen analysis took 0.00s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.11s
+Save pyanalysis. took 0.07s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.12s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 15770.29s
+Early init. took 0.00s
+Loader init. took 0.08s
+Loading error handling. took 0.05s
+Loading script. took 0.26s
+Loading save slot metadata. took 0.11s
+Loading persistent. took 0.00s
+Running init code. took 0.05s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.05s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.06s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.07s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.07s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.24s
+Save pyanalysis. took 0.04s
+Save bytecode. took 0.06s
+Running _start took 0.01s
+Performance test:
+Interface start. took 0.10s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+'images/background/kiosk/bg f elementary_school 1 0 <variant>.jpg' is missing!
+
+'images/background/kiosk/bg f middle_school 1 0 <variant>.jpg' is missing!
+
+Resetting cache.
+Bootstrap to the start of init.init. took 15919.43s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.03s
+Loading script. took 0.41s
+Loading save slot metadata. took 0.13s
+Loading persistent. took 0.00s
+Running init code. took 0.05s
+Loading analysis data. took 0.04s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.06s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.09s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.15s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.09s
+Build styles took 0.00s
+Load screen analysis took 0.02s
+Analyze screens took 0.04s
+Save screen analysis took 0.06s
+Prepare screens took 0.33s
+Save pyanalysis. took 0.07s
+Save bytecode. took 0.07s
+Running _start took 0.01s
+Performance test:
+Interface start. took 0.12s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+'images/background/kiosk/bg f middle_school 1 0 <variant>.jpg' is missing!
+
+Resetting cache.
+Bootstrap to the start of init.init. took 15952.53s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.03s
+Loading script. took 0.34s
+Loading save slot metadata. took 0.12s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.05s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.05s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.11s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.13s
+Build styles took 0.00s
+Load screen analysis took 0.03s
+Analyze screens took 0.06s
+Save screen analysis took 0.08s
+Prepare screens took 0.20s
+Save pyanalysis. took 0.04s
+Save bytecode. took 0.03s
+Running _start took 0.01s
+Performance test:
+Interface start. took 0.19s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096

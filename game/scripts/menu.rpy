@@ -100,6 +100,8 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
 
     $ element_count = len(elements)
 
+    $ keyboard = (not renpy.android and not renpy.ios)
+
     frame:
         background "#ffffff00"
         area(367, 0, 1185, 800)
@@ -116,6 +118,7 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
             $ start = (page - 1) * page_limit
             $ end = page * page_limit
 
+            $ count = 1
             # display all elements for current page
             for i in range(start, end):
                 # display empty space if last page and no elements are remaining
@@ -128,15 +131,22 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
                         $ title, effects = elements[i]
                     else:
                         $ title, effects, _active = elements[i]
+                    $ title_text = "[title]"
+                    if keyboard and count < 10:
+                        $ title_text = "[title] ([count])"
+                        key str(count) action Call("call_element", effects, **kwargs)
                     button:
                         background "gui/button/choice_idle_background.png"
                         hover_background "gui/button/choice_hover_background.png"
-                        text title style "menu_text":
+                        text title_text style "menu_text":
                             xalign 0.5
                             yalign 0.5
                         xsize 1185
+                        xalign 0.5
                         action Call("call_element", effects, **kwargs)
+                        
                     null height 30
+                $ count += 1
                 
             # display paginator if needed
             if max_pages != 1:
@@ -148,6 +158,7 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
 
                     # go to previous page
                     if start != 0:
+                        key "," action Show("custom_menu_choice", None, page - 1, page_limit, elements, **kwargs)
                         button:
                             background "gui/button/choice_idle_background_250px.png"
                             hover_background "gui/button/choice_hover_background_250px.png"
@@ -171,6 +182,7 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
 
                     # go to next page
                     if end < element_count:
+                        key "." action Show("custom_menu_choice", None, page + 1, page_limit, elements, **kwargs)
                         button:
                             background "gui/button/choice_idle_background_250px.png"
                             hover_background "gui/button/choice_hover_background_250px.png"
@@ -186,12 +198,19 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
             null height 30
 
             if with_leave:
-                button:
-                    background "gui/button/choice_idle_background.png"
-                    hover_background "gui/button/choice_hover_background.png"
-                    text "Leave" style "menu_text":
+                $ l_text = ""
+                if keyboard:
+                    $ l_text = " (⌫)"
+                    key "K_BACKSPACE" action Jump("close_menu")
+                hbox:
+                    xsize 1920
+                    button:
+                        background "gui/button/choice_idle_background.png"
+                        hover_background "gui/button/choice_hover_background.png"
+                        text "Leave[l_text]" style "menu_text":
+                            xalign 0.5
+                            yalign 0.5
+                        xsize 1185
                         xalign 0.5
-                        yalign 0.5
-                    xsize 1185
-                    action Jump("close_menu")
+                        action Jump("close_menu")
     

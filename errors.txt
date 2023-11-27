@@ -2,9 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/scripts/journal/journal.rpy", line 329: 'locked_text' is not a keyword argument or valid child of the screen statement.
-    locked_text = "(Locked)"
-               ^
+File "game/scripts/menu.rpy", line 201: reached end of line when expecting ':'.
+    if keyboard 
+                ^
 
 Ren'Py Version: Ren'Py 8.1.3.23091805
-Mon Nov 27 10:08:13 2023
+Mon Nov 27 11:25:20 2023
