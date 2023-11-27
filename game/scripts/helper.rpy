@@ -194,25 +194,6 @@ init -99 python:
         text_out = ""
 
         while len(text_list) > 0:
-        #     log_val("text_list", text_list)
-
-        #     log_val("text_obj", text_obj)
-
-        #     text_out = text_obj
-        #     if isinstance(text_obj, dict):
-        #         if "if" in text_obj.keys() and not text_obj["if"]:
-        #             text_list.remove(text_obj)
-        #             continue
-        #         if "say" in text_obj.keys():
-        #             text_out = text_obj["say"]
-        #         if "person" in text_obj.keys():
-        #             person = text_obj["person"]
-        #             name = person.name
-        #         if "name" in text_obj.keys():
-        #             name = text_obj["name"]
-        #         if "image" in text_obj.keys() and image != None:
-        #             renpy.call("say_with_image", image, text_obj["image"], text_out, name, person)
-
             text_obj = get_random_choice(*text_list)
 
             skip = False

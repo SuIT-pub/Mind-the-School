@@ -53,12 +53,8 @@ label sd_event_2 (**kwargs):
     else:
         $ topic = ["guys_stop", "huh", "reason", "dressing", "blush"]
 
-    $ log_val("topic", topic)
-
     $ topic = get_random_choice(*topic)
     
-    $ log_val("topic", topic)
-
     $ girl_name = get_random_choice("Aona Komuro", "Lin Kato", "Gloria Goto")
 
     if location == "shower":
