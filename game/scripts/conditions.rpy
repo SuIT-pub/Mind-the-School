@@ -38,12 +38,18 @@ init -6 python:
             self.conditions = list(conditions)
             self.list_conditions = []
             self.desc_conditions = []
+            self.is_locked = False
 
             for condition in self.conditions:
+                if isinstance(condition, LockCondition):
+                    self.is_locked = True
                 if condition.display_in_list:
                     self.list_conditions.append(condition)
                 if condition.display_in_desc:
                     self.desc_conditions.append(condition)
+
+        def get_is_locked():
+            return self.is_locked
 
         def get_list_conditions(self):
             return self.list_conditions
@@ -400,8 +406,8 @@ init -6 python:
             return -100
 
     class LockCondition(Condition):
-        def __init__(self):
-            super().__init__(True)
+        def __init__(self, is_blocking: bool = True):
+            super().__init__(is_blocking)
 
         def is_fulfilled(self, **kwargs):
             return False

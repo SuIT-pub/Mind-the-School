@@ -343,7 +343,7 @@ label load_buildings ():
         '_max_level': 2,
         '_unlock_conditions': ConditionStorage(
             MoneyCondition(1000),
-            # LockCondition()
+            LockCondition()
         ),
         '_update_conditions':[
             ConditionStorage(
@@ -366,6 +366,7 @@ label load_buildings ():
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(
             MoneyCondition(1000),
+            LockCondition(),
         ),
         '_update_conditions':[],
     }, {
@@ -437,8 +438,9 @@ label load_buildings ():
         ],
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(
+            ProgressCondition("Unlock Cafeteria", "unlock_cafeteria", 1, True),
             MoneyCondition(1000),
-            LockCondition()
+            LockCondition(False),
         ),
         '_update_conditions':[],
     }, {
