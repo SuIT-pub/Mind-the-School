@@ -56,6 +56,8 @@ label sd_event_2 (**kwargs):
     $ log_val("topic", topic)
 
     $ topic = get_random_choice(*topic)
+    
+    $ log_val("topic", topic)
 
     $ girl_name = get_random_choice("Aona Komuro", "Lin Kato", "Gloria Goto")
 
@@ -153,13 +155,13 @@ label sd_event_2 (**kwargs):
 
     
     $ random_say(
-        {'say': "Oh, wrong door, bye!", 'image': 0},
-        {'say': "Sorry, I'm leaving!", 'image': 0},
-        {'say': "So sorry!", 'if': topic_set == 1, 'image': 0},
-        {'say': "I'm terribly sorry!", 'if': topic_set == 1, 'image': 0},
-        {'say': "I'm leaving, I'm leaving!", 'if': topic_set == 1, 'image': 0},
-        {'say': "You hastily beat a retreat.", 'person': character.subtitles, 'if': topic_set == 1, 'image': 1},
-        {'say': "Good view, bad timing.", 'person': character.subtitles, 'if': topic_set == 1, 'image': 1},
+        ("Oh, wrong door, bye!", 0),
+        ("Sorry, I'm leaving!", 0),
+        ("So sorry!", topic_set == 1, 0),
+        ("I'm terribly sorry!", topic_set == 1, 0),
+        ("I'm leaving, I'm leaving!", topic_set == 1,  0),
+        ("You hastily beat a retreat.", character.subtitles, topic_set == 1, 1),
+        ("Good view, bad timing.", character.subtitles, topic_set == 1, 1),
         person = character.headmaster, image = image2)
         # ("Oh, sorry.", topic_set == 2),
         # ("Oh, sorry about that!", topic_set == 2),

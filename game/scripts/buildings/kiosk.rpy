@@ -130,7 +130,7 @@ label kiosk_event_1 (**kwargs):
     $ change_stats_with_modifier(char_obj,
         happiness = SMALL)
 
-    jump new_daytime;
+    jump new_daytime
 
 label kiosk_event_2 (**kwargs):
     $ char_obj = get_kwargs("char_obj", **kwargs)
@@ -178,7 +178,7 @@ label .leave (**kwargs):
 
         $ change_stats_with_modifier(kwargs[CHAR],
             happiness = DEC_SMALL, charm = TINY)
-        jump new_daytime;
+        jump new_daytime
     else:
         vendor "You know what? I think I could help you."
         sgirl "Really?"

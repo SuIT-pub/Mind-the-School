@@ -1,6 +1,5 @@
 init -99 python:
     from typing import TypeVar
-    import random
     import re
 
     def get_element(name: str, map: Dict[str, Any] = None):
@@ -184,7 +183,7 @@ init -99 python:
                 list_obj.remove(value)
         return list_obj
 
-    def random_say(*text: str | Dict[str, Any] | Tuple[float, Dict[str, Any]], **kwargs):
+    def random_say(*text: str | Tuple, **kwargs):
 
         person = get_kwargs("person", character.subtitles, **kwargs)
         name = get_kwargs("name", person.name, **kwargs)
@@ -192,23 +191,58 @@ init -99 python:
 
         text_list = list(text)
 
+        text_out = ""
+
         while len(text_list) > 0:
+        #     log_val("text_list", text_list)
+
+        #     log_val("text_obj", text_obj)
+
+        #     text_out = text_obj
+        #     if isinstance(text_obj, dict):
+        #         if "if" in text_obj.keys() and not text_obj["if"]:
+        #             text_list.remove(text_obj)
+        #             continue
+        #         if "say" in text_obj.keys():
+        #             text_out = text_obj["say"]
+        #         if "person" in text_obj.keys():
+        #             person = text_obj["person"]
+        #             name = person.name
+        #         if "name" in text_obj.keys():
+        #             name = text_obj["name"]
+        #         if "image" in text_obj.keys() and image != None:
+        #             renpy.call("say_with_image", image, text_obj["image"], text_out, name, person)
+
             text_obj = get_random_choice(*text_list)
 
-            text_out = text_obj
-            if isinstance(text_obj, dict):
-                if "if" in text_obj.keys() and not text_obj["if"]:
-                    text_list.remove(text_obj)
+            skip = False
+            use_image = -1
+            use_name = ""
+
+            if isinstance(text_obj, str):
+                text_out = text_obj
+            else:
+                for obj in text_obj:
+                    if isinstance(obj, str):
+                        text_out = obj
+                    elif isinstance(obj, bool) and not obj:
+                        text_list.remove(text_obj)
+                        skip = True
+                        break
+                    elif isinstance(obj, int) and image != None:
+                        use_image = obj
+                    elif isinstance(obj, ADVCharacter):
+                        person = obj
+                    elif isinstance(obj, tuple):
+                        person = obj[0]
+                        use_name = obj[1]
+
+                if skip:
                     continue
-                if "say" in text_obj.keys():
-                    text_out = text_obj["say"]
-                if "person" in text_obj.keys():
-                    person = text_obj["person"]
-                    name = person.name
-                if "name" in text_obj.keys():
-                    name = text_obj["name"]
-                if "image" in text_obj.keys() and image != None:
-                    renpy.call("say_with_image", image, text_obj["image"], text_out, name, person)
+                if use_name != "":
+                    name = use_name
+                if use_image != -1 and image != None:
+                    renpy.call("say_with_image", image, use_image, text_out, name, person)
 
             person (text_out, name = name)
             break
@@ -218,7 +252,7 @@ init -99 python:
     def begin_event():
         renpy.block_rollback()
 
-    
+
     def set_game_data(key: str, value: Any) -> None:
         gameData[key] = value
 
