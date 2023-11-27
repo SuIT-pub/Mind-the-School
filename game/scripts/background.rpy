@@ -265,6 +265,27 @@ init -2 python:
             image_path = get_available_level(image_path, char_obj.get_level())
 
         return image_path
+
+    def refine_image_with_variant(image_path: str, **kwargs) -> str:
+
+        if 'loli_content' not in kwargs.keys():
+            kwargs['loli_content'] = loli_content
+
+        char_obj = get_kwargs('char_obj', None, **kwargs)
+        if char_obj != None and 'name' not in kwargs.keys():
+            kwargs['name'] = char_obj.get_name()
+
+        for key, value in kwargs.items():
+            image_path = image_path.replace(f"<{key}>", str(value))
+
+        if "<variant>" in image_path:
+            variant = get_image_max_value("<variant>", image_path, 0, 100)
+            image_path = image_path.replace(f"<variant>", str(variant))
+
+        if char_obj != None:
+            image_path = get_available_level(image_path, char_obj.get_level())
+
+        return image_path
     
     def check_image(image_path: str) -> bool:
             return renpy.loadable(image_path)
@@ -272,6 +293,12 @@ init -2 python:
 
 label show_image(path, display_type = SCENE, **kwargs):
     $ image_path = refine_image(path, **kwargs)
+
+    call show_ready_image(image_path, display_type)
+    return
+
+label show_image_with_variant(path, display_type = SCENE, **kwargs):
+    $ image_path = refine_image_with_variant(path, **kwargs)
 
     call show_ready_image(image_path, display_type)
     return
