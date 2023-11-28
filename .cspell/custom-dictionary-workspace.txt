@@ -1,11 +1,16 @@
 # Custom Dictionary Words
 abstractmethod
+daysegment
 Flaticon
+keydown
 noalt
 pagekeys
 quicksaved
 readlines
 renpytom
+repr
+traceback
+Traceback
 unscrollable
 vboxes
 vpgrid
