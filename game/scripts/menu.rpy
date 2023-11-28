@@ -95,6 +95,15 @@ label close_menu():
     hide screen image_with_nude_var
     jump map_overview
 
+style menu_text:
+    color "#fff"
+    textalign 0.5
+    size 30
+style menu_text_left take menu_text:
+    textalign 0.0
+style menu_text_right take menu_text:
+    textalign 1.0
+
 screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwargs):
     tag menu_choice
 
@@ -132,9 +141,9 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
                     else:
                         $ title, effects, _active = elements[i]
                     $ title_text = "[title]"
-                    if keyboard and count < 10:
+                    if has_keyboard() and count < 10:
                         $ title_text = "[title] ([count])"
-                        key str(count) action Call("call_element", effects, **kwargs)
+                        key ("K_" + str(count)) action Call("call_element", effects, **kwargs)
                     button:
                         background "gui/button/choice_idle_background.png"
                         hover_background "gui/button/choice_hover_background.png"
@@ -158,11 +167,14 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
 
                     # go to previous page
                     if start != 0:
-                        key "," action Show("custom_menu_choice", None, page - 1, page_limit, elements, **kwargs)
+                        $ prev_text = "  << Prev"
+                        if has_keyboard():
+                            $ prev_text = "(,)  << Prev"
+                            key "K_COMMA" action Show("custom_menu_choice", None, page - 1, page_limit, elements, **kwargs)
                         button:
                             background "gui/button/choice_idle_background_250px.png"
                             hover_background "gui/button/choice_hover_background_250px.png"
-                            text "  << Prev" style "menu_text_left":
+                            text prev_text style "menu_text_left":
                                 xalign 0.5
                                 yalign 0.0
                             xsize 250
@@ -182,11 +194,14 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
 
                     # go to next page
                     if end < element_count:
-                        key "." action Show("custom_menu_choice", None, page + 1, page_limit, elements, **kwargs)
+                        $ next_text = "Next >>  "
+                        if has_keyboard():
+                            $ next_text = "Next >>  (.)"
+                            key "K_PERIOD" action Show("custom_menu_choice", None, page + 1, page_limit, elements, **kwargs)
                         button:
                             background "gui/button/choice_idle_background_250px.png"
                             hover_background "gui/button/choice_hover_background_250px.png"
-                            text "Next >>  " style "menu_text_right":
+                            text next_text style "menu_text_right":
                                 xalign 0.5
                                 yalign 0.0
                             xsize 250
