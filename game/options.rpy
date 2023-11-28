@@ -196,6 +196,7 @@ init python:
     build.classify("game/cheat_patch.rpyc", None)
     build.classify("event backup/**", None)
     build.classify("*android.json", None)
+    build.classify("Members", None)
 
     ## Files matching documentation patterns are duplicated in a mac app
     ## build, so they appear in both the app and the zip file.
