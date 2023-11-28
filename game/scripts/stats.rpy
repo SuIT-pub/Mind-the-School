@@ -349,7 +349,7 @@ label load_stats ():
         'description': "Charm describes how other people perceive a students as a person. " +
             "The charm is influenced by factors like fitness, likability, how gentle they are and looks.\n" +
             "\nThe charm can be improved by working on the fitness, working on the character, " +
-            "or by socially interaction with other people.",
+            "or by social interaction with other people.",
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         'descriptions': [
             "The students are the extreme opposite of charming.",

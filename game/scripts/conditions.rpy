@@ -48,7 +48,7 @@ init -6 python:
                 if condition.display_in_desc:
                     self.desc_conditions.append(condition)
 
-        def get_is_locked():
+        def get_is_locked(self):
             return self.is_locked
 
         def get_list_conditions(self):
