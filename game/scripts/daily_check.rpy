@@ -50,6 +50,11 @@ init -1 python:
     #     TimeCondition(day = 19, daytime = 1)
     # ))
 
+    time_check_events.add_event(Event(2, 
+        "end_of_month",
+        TimeCondition(day = "1", daytime = "1")
+    ))
+
     temp_time_check_events.check_all_events()
     time_check_events.check_all_events()
 
@@ -69,9 +74,9 @@ label .after_temp_event_check (**kwargs):
 label .after_event_check (**kwargs):
     return
 
-##################################
-# ----- Daily Check Events ----- #
-##################################
+############################
+# ----- Intro Events ----- #
+############################
 
 label tutorial_1 (**kwargs):
     show screen black_error_screen_text ("")
@@ -574,3 +579,10 @@ label .skip:
     dev "I'd be happy if you leave some feedback or some ideas on the Discord so I can work to further improve this game!"
 
     jump map_overview
+
+##################################
+# ----- Daily Check Events ----- #
+##################################
+
+label end_of_month (**kwargs):
+    $ change_stat(MONEY, 1000)
