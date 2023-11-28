@@ -360,6 +360,9 @@ init -99 python:
     def split_to_non_empty_list(s, delimiter):
         return list(filter(str.strip, s.split(delimiter)))
 
+    def has_keyboard():
+        return not renpy.android and not renpy.ios and persistent.shortcuts
+
 
 label say_with_image (image_series, step, text, person_name, person):
     $ image_series.show(step)

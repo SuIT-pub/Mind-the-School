@@ -65,6 +65,20 @@ screen school_overview_stats ():
             xalign 1.0
             size 30
 
+        $ daysegment = ""
+        if time.check_daytime("n"):
+            $ daysegment = "{color=#1b26c0}Night{/color}"
+        elif time.check_weekday("d") and time.check_daytime("c"):
+            $ daysegment = "{color=#ab0000}Class{/color}"
+        elif time.check_weekday("d") and time.check_daytime("f"):
+            $ daysegment = "{color=#0eab00}Free-Time{/color}"
+        elif time.check_weekday("w"):
+            $ daysegment = "{color=#ba6413}Weekend{/color}"
+
+        text "[daysegment]":
+            xalign 1.0
+            size 30
+
 
 ##################################
 # display all buildings on the map
@@ -164,13 +178,13 @@ screen school_overview_buttons ():
     # High School Building
     if is_building_available("high_school_building"):
         $ hsb_text = ""
-        if keyboard:
+        if has_keyboard():
             $ hsb_text = " (1)"
-            key "1" action Call("building", "high_school_building")
+            key "K_1" action Call("building", "high_school_building")
         imagebutton:
             auto "background/bg school high school building %s.png"
             hover "background/bg school high school building hover.png"
-            tooltip "High School Building[hsb_text]"
+            tooltip "High School Building" + hsb_text
             focus_mask True
             xpos 1171 ypos 262
             action Call("building", "high_school_building")
@@ -178,12 +192,12 @@ screen school_overview_buttons ():
     # High School Dormitory
     if is_building_available("high_school_dormitory"):
         $ hsd_text = ""
-        if keyboard:
+        if has_keyboard():
             $ hsd_text = " (2)"
-            key "2" action Call("building", "high_school_dormitory")
+            key "K_2" action Call("building", "high_school_dormitory")
         imagebutton:
             auto "background/bg school high school dormitory %s.png"
-            tooltip "High School Dormitory[hsd_text]"
+            tooltip "High School Dormitory" + hsd_text
             focus_mask True
             xpos 1257 ypos 613
             action Call("building", "high_school_dormitory")
@@ -256,12 +270,12 @@ screen school_overview_buttons ():
     # Gym
     if is_building_available("gym"):
         $ g_text = ""
-        if keyboard:
+        if has_keyboard():
             $ g_text = " (6)"
-            key "6" action Call("building", "gym")
+            key "K_6" action Call("building", "gym")
         imagebutton:
             auto "background/bg school gym %s.png"
-            tooltip "Gym[g_text]"
+            tooltip "Gym" + g_text
             focus_mask True
             xpos 462 ypos 5
             action Call("building", "gym")
@@ -278,12 +292,12 @@ screen school_overview_buttons ():
     # Cafeteria
     if is_building_available("cafeteria"):
         $ cf_text = ""
-        if keyboard:
+        if has_keyboard():
             $ cf_text = " (7)"
-            key "7" action Call("building", "cafeteria")
+            key "K_7" action Call("building", "cafeteria")
         imagebutton:
             auto "background/bg school cafeteria %s.png"
-            tooltip "Cafeteria[cf_text]"
+            tooltip "Cafeteria" + cf_text
             focus_mask True
             xpos 229 ypos 460
             action Call("building", "cafeteria")
@@ -300,12 +314,12 @@ screen school_overview_buttons ():
     # Kiosk
     if is_building_available("kiosk"):
         $ k_text = ""
-        if keyboard:
+        if has_keyboard():
             $ k_text = " (5)"
-            key "5" action Call("building", "kiosk")
+            key "K_5" action Call("building", "kiosk")
         imagebutton:
             auto "background/bg school kiosk %s.png"
-            tooltip "Kiosk[k_text]"
+            tooltip "Kiosk" + k_text
             focus_mask True
             xpos 485 ypos 661
             action Call("building", "kiosk")
@@ -313,12 +327,12 @@ screen school_overview_buttons ():
     # Courtyard
     if is_building_available("courtyard"):
         $ c_text = ""
-        if keyboard:
+        if has_keyboard():
             $ c_text = " (4)"
-            key "4" action Call("building", "courtyard")
+            key "K_4" action Call("building", "courtyard")
         imagebutton:
             auto "background/bg school courtyard %s.png"
-            tooltip "Courtyard[c_text]"
+            tooltip "Courtyard" + c_text
             focus_mask True
             xpos 604 ypos 228
             action Call("building", "courtyard")
@@ -326,41 +340,41 @@ screen school_overview_buttons ():
     # Office Building
     if is_building_available("office_building"):
         $ o_text = ""
-        if keyboard:
+        if has_keyboard():
             $ o_text = " (3)"
-            key "3" action Call("building", "office_building")
+            key "K_3" action Call("building", "office_building")
         imagebutton:
             auto "background/bg school office building %s.png"
-            tooltip "Office Building[o_text]"
+            tooltip "Office Building" + o_text
             focus_mask True
             xpos 42 ypos 127
             action Call("building", "office_building")
     
     $ s_text = ""
-    if keyboard:
-        $ s_text = " (S)"
-        key "s" action Call("new_daytime")
+    if has_keyboard():
+        $ s_text = " (Z)"
+        key "K_z" action Call("new_daytime")
     # Skip Daytime
     imagebutton:
         auto "icons/time skip %s.png"
-        tooltip "Skip Time[s_text]"
+        tooltip "Skip Time" + s_text
         focus_mask None
         xalign 0.0 yalign 0.0
         action Call("new_daytime")
 
     $ j_text = ""
-    if keyboard:
+    if has_keyboard():
         $ j_text = " (J)"
-    key "j" action Call("start_journal")
+    key "K_j" action Call("start_journal")
     # Open Journal
     imagebutton:
         auto "icons/journal_icon_%s.png"
-        tooltip "Open Journal[j_text]"
+        tooltip "Open Journal" + j_text
         focus_mask None
         xalign 0.07 yalign 0.0
         action Call("start_journal")
 
-    $ tooltip = GetTooltip()
+    $ tooltip = GetTooltip("school_overview_buttons")
 
     if tooltip:
         nearrect:

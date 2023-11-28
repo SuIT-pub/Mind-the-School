@@ -815,6 +815,17 @@ screen preferences():
 
             null height (4 * gui.pref_spacing)
 
+            if not renpy.android and not renpy.ios:
+                hbox:
+                    vbox:
+                        style_prefix "check"
+                        label _("SkipKeyboard")
+                        textbutton _("Shortcuts") action ToggleField(persistent, "shortcuts")
+
+                
+                null height (4 * gui.pref_spacing)
+
+
             hbox:
                 style_prefix "slider"
                 box_wrap True

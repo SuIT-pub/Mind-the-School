@@ -118,6 +118,7 @@ define config.window = "auto"
 define config.window_show_transition = Dissolve(0.5 * (2.0 - persistent.transition_speed))
 define config.window_hide_transition = Dissolve(0.5 * (2.0 - persistent.transition_speed))
 
+define persistent.shortcuts = True
 
 ## Preference defaults #########################################################
 
