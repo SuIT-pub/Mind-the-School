@@ -1,7 +1,7 @@
 init python:
     def get_journal_type(page: int) -> str:
         page -= 1
-        types = ["overview", "rules", "clubs", "buildings", "cheats"]
+        types = ["overview", "rules", "clubs", "buildings", "cheats", "credits"]
         if page < 0 or page > 4:
             return ""
         return types[page]
@@ -36,6 +36,8 @@ label open_journal(page, display, school):
         call screen journal_page(4, display, school) with dissolveM
     elif page == 5:
         call screen journal_cheats(display, school) with dissolveM
+    elif page == 6:
+        call screen journal_credits(display, school) with dissolveM
 
 label close_journal ():
     hide screen journal
@@ -178,7 +180,7 @@ screen journal_simple_list(page, display, school, display_list, default_style = 
 
 screen journal_page_selector(page, display, school):
     imagemap:
-        if page != 4 and not display.startswith("building"):
+        if page != 4 and not display.startswith("building") and page != 6:
             idle "journal/journal/[school]/[page]_[loli_content]_idle.png"
             hover "journal/journal/[school]/[page]_[loli_content]_hover.png"
         else:
@@ -208,7 +210,7 @@ screen journal_page_selector(page, display, school):
             if school != "elementary_school" and loli_content == 2:
                 hotspot (725, 80, 160, 67) action [With(dissolveM), Call("open_journal", page, display, "elementary_school")] tooltip "Elementary School"
     
-    if page != 4 and not display.startswith("building"):
+    if page != 4 and not display.startswith("building") and page != 6:
         if (school == "high_school" and loli_content >= 1):
             text "High School":
                 xalign 0.22 yalign 0.1
@@ -233,6 +235,15 @@ screen journal_page_selector(page, display, school):
             xpos 1268
             ypos 70
             action [With(dissolveM), Call("open_journal", 5, "", school)]
+
+    if page != 6:
+        imagebutton:
+            idle "journal/journal/credit_tag_idle.png"
+            hover "journal/journal/credit_tag_hover.png"
+            tooltip "Credits"
+            xpos 338
+            ypos 953
+            action [With(dissolveM), Call("open_journal", 6, "", school)]
     
 screen journal_desc(page, display, active_school, active_obj):
     $ active_obj_desc = active_obj.get_description_str()
@@ -1095,9 +1106,137 @@ screen journal_cheats(display, school):
                 xalign 0.5
                 text tooltip
 
+screen journal_credits(display, school):
+    tag interaction_overlay
+    modal True
+
+    use school_overview_map
+    use school_overview_stats
+
+    key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
+
+    use journal_page_selector(6, display, school)
+
+    text "Credits":
+        xalign 0.21 yalign 0.95
+        size 20
+        color "#000"
+
+    $ student_members = get_members("Student")
+    $ teacher_members = get_members("Teacher")
+
+    # left side
+    frame:
+        # background Solid("#00000090")
+        background Solid("#00000000")
+        area (350, 200, 500, 750)
+
+        vbox:
+            text "Thanks to all patrons!":
+                    size 40
+                    color "#000000"
+            null height 20
+            hbox:
+                viewport id "credits teachers list":
+                    mousewheel True
+                    draggable "touch"
+
+                    vbox:
+                        text "Teacher Tier ($5)":
+                            size 35
+                            color "#491616"
+
+                        null height 20
+
+                        for member in teacher_members:
+                            $ data = member.split(',')
+                            if data[0] == '*blacklisted*':
+                                text "{i}Anonymous{/i}":
+                                    color "#00000060"
+                                    size 25
+                            elif data[0].startswith('*alias*'):
+                                $ alias = data[0][7:]
+                                text "{i}[alias]{/i}":
+                                    color "#000000"
+                                    size 25
+                            else:
+                                text "[data[0]]":
+                                    color "#000000"
+                                    size 25
+                        
+                vbar value YScrollValue("credits teachers list"):
+                    unscrollable "hide"
+                    xalign 1.0
+
+    # right side
+    frame:
+        # background Solid("#00000090")
+        background Solid("#00000000")
+        area (960, 200, 500, 750)
+
+        vbox:
+            text "Consider supporting the game:":
+                    size 30
+                    color "#000000"
+            imagebutton:
+                idle "journal/journal/patreon banner idle.png"
+                hover "journal/journal/patreon banner hover.png"
+                action Call("open_patreon_link", school)
+            null height 20
+            hbox:
+                viewport id "credits students list":
+                    mousewheel True
+                    draggable "touch"
+
+                    vbox:
+                        text "Student Tier ($1)":
+                            size 35
+                            color "#16491c"
+
+                        null height 20
+
+                        for member in student_members:
+                            $ data = member.split(',')
+                            if data[0] == '*blacklisted*':
+                                text "{i}Anonymous{/i}":
+                                    color "#00000060"
+                                    size 25
+                            elif data[0].startswith('*alias*'):
+                                $ alias = data[0][7:]
+                                text "{i}[alias]{/i}":
+                                    color "#000000"
+                                    size 25
+                            else:
+                                text "[data[0]]":
+                                    color "#000000"
+                                    size 25
+                        
+                vbar value YScrollValue("credits teachers list"):
+                    unscrollable "hide"
+                    xalign 1.0
+
+    textbutton "Close":
+        xalign 0.75
+        yalign 0.87
+        action [With(dissolveM), Jump("map_overview")]
+
+    $ tooltip = GetTooltip()
+    if tooltip:
+        nearrect:
+            focus "tooltip"
+            prefer_top True
+
+            frame:
+                xalign 0.5
+                text tooltip
+
 ############################
 # Journal Methods
 ############################
+
+label open_patreon_link(school):
+    $ renpy.run(OpenURL(patreon))
+    call open_journal(6, "", school) from open_patreon_link_1
 
 label set_journal_setting(page, display, school, setting, value):
     $ set_game_data("journal_setting_" + str(page) + "_" + setting, value)

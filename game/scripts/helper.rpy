@@ -345,6 +345,21 @@ init -99 python:
     def get_stat_from_char(char_obj: Character, stat: str) -> float:
         return char_obj.get_stat_number(stat)
 
+    def get_members(tier: str = ''):
+        if not renpy.loadable("members.csv"):
+            return []
+        file = renpy.open_file("members.csv")
+        lines = split_to_non_empty_list(file.read().decode(), "\r\n")
+        if tier == '':
+            return lines
+        else:
+            return [line for line in lines if line.split(',')[1].strip() == tier]
+        output = []
+
+
+    def split_to_non_empty_list(s, delimiter):
+        return list(filter(str.strip, s.split(delimiter)))
+
 
 label say_with_image (image_series, step, text, person_name, person):
     $ image_series.show(step)

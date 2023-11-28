@@ -1,0 +1,20 @@
+# Custom Dictionary Words
+abstractmethod
+Flaticon
+noalt
+pagekeys
+quicksaved
+readlines
+renpytom
+unscrollable
+vboxes
+vpgrid
+webm
+webp
+xmargin
+xoffset
+xpadding
+yfill
+yinitial
+yoffset
+ypadding

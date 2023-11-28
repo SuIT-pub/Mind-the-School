@@ -1,13 +1,13 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
-While running game code:
+While loading <renpy.display.im.Image object ('patreon banner idle.png') at 0x0000000007254f70>:
   File "game/scripts/intro.rpy", line 50, in script call
     call skip_to_free_roam from intro_3
   File "game/scripts/intro.rpy", line 209, in script call
     call first_week_epilogue_final.skip from skip_to_free_roam_1
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 497, in script call
+  File "game/scripts/overview.rpy", line 499, in script call
     call expression name from building_1
   File "game/scripts/buildings/high_school_dormitory.rpy", line 53, in script call
     call call_available_event(high_school_dormitory_timed_event) from high_school_dormitory_1
@@ -23,9 +23,9 @@ While running game code:
     $ call_effects(effects, **kwargs)
   File "game/scripts/event.rpy", line 326, in script call
     $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 497, in script call
+  File "game/scripts/overview.rpy", line 499, in script call
     call expression name from building_1
   File "game/scripts/buildings/high_school_dormitory.rpy", line 53, in script call
     call call_available_event(high_school_dormitory_timed_event) from high_school_dormitory_1
@@ -37,11 +37,11 @@ While running game code:
     call call_event(fallback, **kwargs) from call_event_menu_1
   File "game/scripts/event.rpy", line 326, in script call
     $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 497, in script call
+  File "game/scripts/overview.rpy", line 499, in script call
     call expression name from building_1
   File "game/scripts/buildings/high_school_dormitory.rpy", line 53, in script call
     call call_available_event(high_school_dormitory_timed_event) from high_school_dormitory_1
@@ -57,9 +57,9 @@ While running game code:
     $ call_effects(effects, **kwargs)
   File "game/scripts/event.rpy", line 326, in script call
     $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 497, in script call
+  File "game/scripts/overview.rpy", line 499, in script call
     call expression name from building_1
   File "game/scripts/buildings/high_school_dormitory.rpy", line 53, in script call
     call call_available_event(high_school_dormitory_timed_event) from high_school_dormitory_1
@@ -71,11 +71,11 @@ While running game code:
     call call_event(fallback, **kwargs) from call_event_menu_1
   File "game/scripts/event.rpy", line 326, in script call
     $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 497, in script call
+  File "game/scripts/overview.rpy", line 499, in script call
     call expression name from building_1
   File "game/scripts/buildings/high_school_dormitory.rpy", line 53, in script call
     call call_available_event(high_school_dormitory_timed_event) from high_school_dormitory_1
@@ -87,11 +87,11 @@ While running game code:
     call call_event(fallback, **kwargs) from call_event_menu_1
   File "game/scripts/event.rpy", line 326, in script call
     $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 497, in script call
+  File "game/scripts/overview.rpy", line 499, in script call
     call expression name from building_1
   File "game/scripts/buildings/high_school_dormitory.rpy", line 53, in script call
     call call_available_event(high_school_dormitory_timed_event) from high_school_dormitory_1
@@ -107,57 +107,57 @@ While running game code:
     $ call_effects(effects, **kwargs)
   File "game/scripts/event.rpy", line 326, in script call
     $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
   File "game/scripts/journal/journal.rpy", line 26, in script call
     call open_journal (1, "", "high_school") from start_journal_1
   File "game/scripts/journal/journal.rpy", line 30, in script call
     call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
   File "game/scripts/journal/journal.rpy", line 26, in script call
     call open_journal (1, "", "high_school") from start_journal_1
   File "game/scripts/journal/journal.rpy", line 30, in script call
     call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 497, in script call
+  File "game/scripts/overview.rpy", line 499, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 46, in script call
+  File "game/scripts/buildings/kiosk.rpy", line 53, in script call
     call call_available_event(kiosk_timed_event) from kiosk_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 54, in script call
+  File "game/scripts/buildings/kiosk.rpy", line 61, in script call
     call call_event_menu (
   File "game/scripts/menu.rpy", line 75, in script call
     call call_event(fallback, **kwargs) from call_event_menu_1
   File "game/scripts/event.rpy", line 326, in script call
     $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 497, in script call
+  File "game/scripts/overview.rpy", line 499, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 46, in script call
+  File "game/scripts/buildings/kiosk.rpy", line 53, in script call
     call call_available_event(kiosk_timed_event) from kiosk_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 54, in script call
+  File "game/scripts/buildings/kiosk.rpy", line 61, in script call
     call call_event_menu (
   File "game/scripts/menu.rpy", line 75, in script call
     call call_event(fallback, **kwargs) from call_event_menu_1
   File "game/scripts/event.rpy", line 326, in script call
     $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 497, in script call
+  File "game/scripts/overview.rpy", line 499, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 46, in script call
+  File "game/scripts/buildings/kiosk.rpy", line 53, in script call
     call call_available_event(kiosk_timed_event) from kiosk_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 54, in script call
+  File "game/scripts/buildings/kiosk.rpy", line 61, in script call
     call call_event_menu (
   File "game/scripts/menu.rpy", line 78, in script call
     call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
@@ -167,31 +167,31 @@ While running game code:
     $ call_effects(effects, **kwargs)
   File "game/scripts/event.rpy", line 326, in script call
     $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 164, in script call
+  File "game/scripts/buildings/kiosk.rpy", line 194, in script call
     $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
   File "game/scripts/menu.rpy", line 68, in script call
     call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
   File "game/scripts/menu.rpy", line 88, in script call
     $ renpy.call(effects, **kwargs)
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 497, in script call
+  File "game/scripts/overview.rpy", line 499, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 46, in script call
+  File "game/scripts/buildings/kiosk.rpy", line 53, in script call
     call call_available_event(kiosk_timed_event) from kiosk_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 54, in script call
+  File "game/scripts/buildings/kiosk.rpy", line 61, in script call
     call call_event_menu (
   File "game/scripts/menu.rpy", line 75, in script call
     call call_event(fallback, **kwargs) from call_event_menu_1
   File "game/scripts/event.rpy", line 326, in script call
     $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 497, in script call
+  File "game/scripts/overview.rpy", line 499, in script call
     call expression name from building_1
   File "game/scripts/buildings/gym.rpy", line 63, in script call
     call call_available_event(gym_timed_event) from gym_1
@@ -203,9 +203,9 @@ While running game code:
     call call_event(fallback, **kwargs) from call_event_menu_1
   File "game/scripts/event.rpy", line 326, in script call
     $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 497, in script call
+  File "game/scripts/overview.rpy", line 499, in script call
     call expression name from building_1
   File "game/scripts/buildings/high_school_building.rpy", line 63, in script call
     call call_available_event(hsb_timed_event) from high_school_building_1
@@ -215,11 +215,83 @@ While running game code:
     call call_event_menu (
   File "game/scripts/menu.rpy", line 78, in script call
     call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
-  File "game/scripts/menu.rpy", line 68, in script
-    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/overview.rpy", line 484, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 499, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_dormitory.rpy", line 53, in script call
+    call call_available_event(high_school_dormitory_timed_event) from high_school_dormitory_1
+  File "game/scripts/event.rpy", line 307, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_dormitory.rpy", line 61, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 484, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 499, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/kiosk.rpy", line 53, in script call
+    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/event.rpy", line 307, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/kiosk.rpy", line 61, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 484, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 499, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/kiosk.rpy", line 53, in script call
+    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/event.rpy", line 307, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/kiosk.rpy", line 61, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 484, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 499, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/kiosk.rpy", line 53, in script call
+    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/event.rpy", line 307, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/kiosk.rpy", line 61, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 484, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 499, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 63, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 307, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 71, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 484, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/overview.rpy", line 484, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 484, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 40, in script
+    call screen journal_credits(display, school) with dissolveM
   File "renpy/common/000statements.rpy", line 670, in execute_call_screen
     store._return = renpy.call_screen(name, *args, **kwargs)
-Exception: Invalid key specifier [count]
+OSError: Couldn't find file 'patreon banner idle.png'.
 
 -- Full Traceback ------------------------------------------------------------
 
@@ -228,9 +300,9 @@ Full traceback:
     call skip_to_free_roam from intro_3
   File "game/scripts/intro.rpy", line 209, in script call
     call first_week_epilogue_final.skip from skip_to_free_roam_1
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 497, in script call
+  File "game/scripts/overview.rpy", line 499, in script call
     call expression name from building_1
   File "game/scripts/buildings/high_school_dormitory.rpy", line 53, in script call
     call call_available_event(high_school_dormitory_timed_event) from high_school_dormitory_1
@@ -246,9 +318,9 @@ Full traceback:
     $ call_effects(effects, **kwargs)
   File "game/scripts/event.rpy", line 326, in script call
     $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 497, in script call
+  File "game/scripts/overview.rpy", line 499, in script call
     call expression name from building_1
   File "game/scripts/buildings/high_school_dormitory.rpy", line 53, in script call
     call call_available_event(high_school_dormitory_timed_event) from high_school_dormitory_1
@@ -260,11 +332,11 @@ Full traceback:
     call call_event(fallback, **kwargs) from call_event_menu_1
   File "game/scripts/event.rpy", line 326, in script call
     $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 497, in script call
+  File "game/scripts/overview.rpy", line 499, in script call
     call expression name from building_1
   File "game/scripts/buildings/high_school_dormitory.rpy", line 53, in script call
     call call_available_event(high_school_dormitory_timed_event) from high_school_dormitory_1
@@ -280,9 +352,9 @@ Full traceback:
     $ call_effects(effects, **kwargs)
   File "game/scripts/event.rpy", line 326, in script call
     $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 497, in script call
+  File "game/scripts/overview.rpy", line 499, in script call
     call expression name from building_1
   File "game/scripts/buildings/high_school_dormitory.rpy", line 53, in script call
     call call_available_event(high_school_dormitory_timed_event) from high_school_dormitory_1
@@ -294,11 +366,11 @@ Full traceback:
     call call_event(fallback, **kwargs) from call_event_menu_1
   File "game/scripts/event.rpy", line 326, in script call
     $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 497, in script call
+  File "game/scripts/overview.rpy", line 499, in script call
     call expression name from building_1
   File "game/scripts/buildings/high_school_dormitory.rpy", line 53, in script call
     call call_available_event(high_school_dormitory_timed_event) from high_school_dormitory_1
@@ -310,11 +382,11 @@ Full traceback:
     call call_event(fallback, **kwargs) from call_event_menu_1
   File "game/scripts/event.rpy", line 326, in script call
     $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 497, in script call
+  File "game/scripts/overview.rpy", line 499, in script call
     call expression name from building_1
   File "game/scripts/buildings/high_school_dormitory.rpy", line 53, in script call
     call call_available_event(high_school_dormitory_timed_event) from high_school_dormitory_1
@@ -330,57 +402,57 @@ Full traceback:
     $ call_effects(effects, **kwargs)
   File "game/scripts/event.rpy", line 326, in script call
     $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
   File "game/scripts/journal/journal.rpy", line 26, in script call
     call open_journal (1, "", "high_school") from start_journal_1
   File "game/scripts/journal/journal.rpy", line 30, in script call
     call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
   File "game/scripts/journal/journal.rpy", line 26, in script call
     call open_journal (1, "", "high_school") from start_journal_1
   File "game/scripts/journal/journal.rpy", line 30, in script call
     call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 497, in script call
+  File "game/scripts/overview.rpy", line 499, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 46, in script call
+  File "game/scripts/buildings/kiosk.rpy", line 53, in script call
     call call_available_event(kiosk_timed_event) from kiosk_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 54, in script call
+  File "game/scripts/buildings/kiosk.rpy", line 61, in script call
     call call_event_menu (
   File "game/scripts/menu.rpy", line 75, in script call
     call call_event(fallback, **kwargs) from call_event_menu_1
   File "game/scripts/event.rpy", line 326, in script call
     $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 497, in script call
+  File "game/scripts/overview.rpy", line 499, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 46, in script call
+  File "game/scripts/buildings/kiosk.rpy", line 53, in script call
     call call_available_event(kiosk_timed_event) from kiosk_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 54, in script call
+  File "game/scripts/buildings/kiosk.rpy", line 61, in script call
     call call_event_menu (
   File "game/scripts/menu.rpy", line 75, in script call
     call call_event(fallback, **kwargs) from call_event_menu_1
   File "game/scripts/event.rpy", line 326, in script call
     $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 497, in script call
+  File "game/scripts/overview.rpy", line 499, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 46, in script call
+  File "game/scripts/buildings/kiosk.rpy", line 53, in script call
     call call_available_event(kiosk_timed_event) from kiosk_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 54, in script call
+  File "game/scripts/buildings/kiosk.rpy", line 61, in script call
     call call_event_menu (
   File "game/scripts/menu.rpy", line 78, in script call
     call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
@@ -390,31 +462,31 @@ Full traceback:
     $ call_effects(effects, **kwargs)
   File "game/scripts/event.rpy", line 326, in script call
     $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 164, in script call
+  File "game/scripts/buildings/kiosk.rpy", line 194, in script call
     $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
   File "game/scripts/menu.rpy", line 68, in script call
     call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
   File "game/scripts/menu.rpy", line 88, in script call
     $ renpy.call(effects, **kwargs)
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 497, in script call
+  File "game/scripts/overview.rpy", line 499, in script call
     call expression name from building_1
-  File "game/scripts/buildings/kiosk.rpy", line 46, in script call
+  File "game/scripts/buildings/kiosk.rpy", line 53, in script call
     call call_available_event(kiosk_timed_event) from kiosk_1
   File "game/scripts/event.rpy", line 307, in script call
     $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/kiosk.rpy", line 54, in script call
+  File "game/scripts/buildings/kiosk.rpy", line 61, in script call
     call call_event_menu (
   File "game/scripts/menu.rpy", line 75, in script call
     call call_event(fallback, **kwargs) from call_event_menu_1
   File "game/scripts/event.rpy", line 326, in script call
     $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 497, in script call
+  File "game/scripts/overview.rpy", line 499, in script call
     call expression name from building_1
   File "game/scripts/buildings/gym.rpy", line 63, in script call
     call call_available_event(gym_timed_event) from gym_1
@@ -426,9 +498,9 @@ Full traceback:
     call call_event(fallback, **kwargs) from call_event_menu_1
   File "game/scripts/event.rpy", line 326, in script call
     $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/overview.rpy", line 482, in script call
+  File "game/scripts/overview.rpy", line 484, in script call
     call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 497, in script call
+  File "game/scripts/overview.rpy", line 499, in script call
     call expression name from building_1
   File "game/scripts/buildings/high_school_building.rpy", line 63, in script call
     call call_available_event(hsb_timed_event) from high_school_building_1
@@ -438,8 +510,80 @@ Full traceback:
     call call_event_menu (
   File "game/scripts/menu.rpy", line 78, in script call
     call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
-  File "game/scripts/menu.rpy", line 68, in script
-    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/overview.rpy", line 484, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 499, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_dormitory.rpy", line 53, in script call
+    call call_available_event(high_school_dormitory_timed_event) from high_school_dormitory_1
+  File "game/scripts/event.rpy", line 307, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_dormitory.rpy", line 61, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 484, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 499, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/kiosk.rpy", line 53, in script call
+    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/event.rpy", line 307, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/kiosk.rpy", line 61, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 484, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 499, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/kiosk.rpy", line 53, in script call
+    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/event.rpy", line 307, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/kiosk.rpy", line 61, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 484, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 499, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/kiosk.rpy", line 53, in script call
+    call call_available_event(kiosk_timed_event) from kiosk_1
+  File "game/scripts/event.rpy", line 307, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/kiosk.rpy", line 61, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 484, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 499, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 63, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 307, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 71, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 78, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 484, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/overview.rpy", line 484, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 484, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 40, in script
+    call screen journal_credits(display, school) with dissolveM
   File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2259, in execute
     self.call("execute")
   File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2241, in call
@@ -454,33 +598,59 @@ Full traceback:
     rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
   File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 3582, in interact
     repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
-  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 4543, in interact_core
-    rv = root_widget.event(ev, x, y, 0)
-  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 1179, in event
-    rv = i.event(ev, x - xo, y - yo, cst)
-  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 1179, in event
-    rv = i.event(ev, x - xo, y - yo, cst)
-  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 1179, in event
-    rv = i.event(ev, x - xo, y - yo, cst)
-  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 770, in event
-    rv = self.child.event(ev, x, y, st)
-  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 1179, in event
-    rv = i.event(ev, x - xo, y - yo, cst)
-  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 1403, in event
-    rv = super(Window, self).event(ev, x, y, st)
-  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 281, in event
-    rv = d.event(ev, x - xo, y - yo, st)
-  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 1179, in event
-    rv = i.event(ev, x - xo, y - yo, cst)
-  File "C:\Users\bigma\Documents\RenPy\renpy\display\behavior.py", line 524, in event
-    if map_event(ev, name):
-  File "C:\Users\bigma\Documents\RenPy\renpy\display\behavior.py", line 280, in map_event
-    check_code = eval("lambda ev : " + compile_event(keysym, True), globals())
-  File "C:\Users\bigma\Documents\RenPy\renpy\display\behavior.py", line 187, in compile_event
-    raise Exception("Invalid key specifier %s" % key)
-Exception: Invalid key specifier [count]
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 4175, in interact_core
+    self.draw_screen(root_widget, fullscreen_video, (not fullscreen_video) or video_frame_drawn)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 2782, in draw_screen
+    surftree = renpy.display.render.render_screen(
+  File "render.pyx", line 492, in renpy.display.render.render_screen
+  File "render.pyx", line 266, in renpy.display.render.render
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 888, in render
+    surf = render(child, width, height, cst, cat)
+  File "render.pyx", line 170, in renpy.display.render.render
+  File "render.pyx", line 266, in renpy.display.render.render
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 888, in render
+    surf = render(child, width, height, cst, cat)
+  File "render.pyx", line 170, in renpy.display.render.render
+  File "render.pyx", line 266, in renpy.display.render.render
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 888, in render
+    surf = render(child, width, height, cst, cat)
+  File "render.pyx", line 170, in renpy.display.render.render
+  File "render.pyx", line 266, in renpy.display.render.render
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 731, in render
+    child = renpy.display.render.render(self.child, w, h, st, at)
+  File "render.pyx", line 170, in renpy.display.render.render
+  File "render.pyx", line 266, in renpy.display.render.render
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 888, in render
+    surf = render(child, width, height, cst, cat)
+  File "render.pyx", line 170, in renpy.display.render.render
+  File "render.pyx", line 266, in renpy.display.render.render
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 1338, in render
+    surf = render(child,
+  File "render.pyx", line 170, in renpy.display.render.render
+  File "render.pyx", line 266, in renpy.display.render.render
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 1109, in render
+    surf = render(d, width - x, rh, cst, cat)
+  File "render.pyx", line 170, in renpy.display.render.render
+  File "render.pyx", line 266, in renpy.display.render.render
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\behavior.py", line 948, in render
+    rv = super(Button, self).render(width, height, st, at)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 1338, in render
+    surf = render(child,
+  File "render.pyx", line 170, in renpy.display.render.render
+  File "render.pyx", line 266, in renpy.display.render.render
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\im.py", line 676, in render
+    return cache.get(self, render=True)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\im.py", line 330, in get
+    surf = image.load()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\im.py", line 803, in load
+    raise e
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\im.py", line 757, in load
+    filelike = renpy.loader.load(self.filename, directory="images")
+  File "C:\Users\bigma\Documents\RenPy\renpy\loader.py", line 833, in load
+    raise IOError("Couldn't find file '%s'." % name)
+OSError: Couldn't find file 'patreon banner idle.png'.
 
 Windows-10-10.0.19045 AMD64
 Ren'Py 8.1.3.23091805
 Mind the School 0.1.2
-Mon Nov 27 10:59:43 2023
+Tue Nov 28 15:11:08 2023
