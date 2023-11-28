@@ -602,6 +602,12 @@ screen about():
                 text "[gui.about!t]\n"
 
             text _("Made with {a=https://www.renpy.org/}Ren'Py{/a} [renpy.version_only].\n\n[renpy.license!t]")
+            null height 20
+            text _("{b}{u}Assets{/u}{/b}")
+            text _("{a=https://icons8.com/icon/82787/externer-link}External Link{/a} Icon by {a=https://icons8.com}Icons8{/a}")
+            text _("Icons by {a=https://game-icons.net/}Game-icons.net{/a}")
+            text _("Notepad Png vectors by {a=https://lovepik.com/images/png-notepad.html}Lovepik.com{/a}")
+            text _("Journal icons created by {a=https://www.flaticon.com/free-icons/journal}Freepik - Flaticon{/a}")
 
 
 style about_label is gui_label
