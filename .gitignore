@@ -10,3 +10,6 @@ game/cache/bytecode-39.rpyb
 .vscode/settings.json
 Mind your School.docx
 Plans.xlsm
+Members/Members_*.csv
+Members/alias.csv
+Members/blacklist.txt
