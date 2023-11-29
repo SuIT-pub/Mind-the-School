@@ -94,6 +94,13 @@ init -99 python:
             return kwargs[key]
         return alt
 
+    def clamp_value(value: num, min: num, max: num):
+        if value < min:
+            return min
+        if value > max:
+            return max
+        return value
+
     def is_integer(text: str):
         try:
             int(text)

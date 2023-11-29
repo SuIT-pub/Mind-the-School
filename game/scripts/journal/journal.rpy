@@ -1172,7 +1172,7 @@ screen journal_credits(display, school):
     frame:
         # background Solid("#00000090")
         background Solid("#00000000")
-        area (960, 200, 500, 750)
+        area (960, 200, 500, 700)
 
         vbox:
             text "Consider supporting the game:":
@@ -1211,7 +1211,7 @@ screen journal_credits(display, school):
                                     color "#000000"
                                     size 25
                         
-                vbar value YScrollValue("credits teachers list"):
+                vbar value YScrollValue("credits students list"):
                     unscrollable "hide"
                     xalign 1.0
 
