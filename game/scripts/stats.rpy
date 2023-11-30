@@ -3,6 +3,64 @@ init -6 python:
     import re
 
     class Stat:
+        """
+        This class represents a stat of a Character Object.
+
+        ### Attributes:
+        1. type: str
+            - The type of the stat.
+        2. value: num
+            - The current value of the stat.
+        3. changed_value: num
+            - The change of the stat since the last update.
+        4. image_path: str
+            - The path to the icon image of the stat.
+
+        ### Methods:
+        1. get_name() -> str
+            - Returns the name of the stat.
+        2. get_value() -> num
+            - Returns the current value of the stat.
+        3. get_changed_value() -> num
+            - Returns the change of the stat since the last update.
+        4. set_value(value: num, level: int = 10)
+            - Sets the value of the stat to the given value.
+            - The value is clamped between the min and max limit of the stat.
+            - The change of the stat is calculated and saved.
+        5. set_changed_value(value: num)
+            - Sets the change of the stat to the given value.
+        6. change_value(delta: num, level: int = 10)
+            - Changes the value of the stat by the given delta.
+            - The value is clamped between the min and max limit of the stat.
+            - The change of the stat is calculated and saved.
+        7. change_value_to(value: num, level: int = 10)
+            - Changes the value of the stat to the given value.
+            - The value is clamped between the min and max limit of the stat.
+            - The change of the stat is calculated and saved.
+        8. reset_change()
+            - Resets the change of the stat to 0.
+        9. get_level() -> int
+            - Returns the data level of the stat. See Stat_Data for more information.
+        10. get_image() -> str
+            - Returns the path to the image representing the stat for overview in the journal. See Stat_Data for more information.
+        11. get_description() -> str
+            - Returns the description of the stat for overview in the journal. See Stat_Data for more information.
+        12. get_full_description() -> str
+            - Returns the full description of the stat for the journal. See Stat_Data for more information.
+        13. display_stat() -> str
+            - Returns the stat as a string for display in the journal.
+        14. get_display_value() -> str
+            - Returns the value of the stat as a string for display in the journal.
+        15. get_display_change() -> str
+            - Returns the change of the stat as a string for display in the journal.
+
+        ### Parameters:
+        1. type: str
+            - The type of the stat.
+        2. value: num
+            - The current value of the stat.
+        """
+
         def __init__(self, type: str, value: num):
             self.type = type
             self.value = value
@@ -10,15 +68,49 @@ init -6 python:
             self.image_path = "icons/stat_" + str(type) + "_icon.png"
 
         def get_name(self) -> str:
+            """
+            Returns the name of the stat.
+
+            ### Returns:
+            1. str
+                - The name of the stat.
+            """
+
             return self.type
 
         def get_value(self) -> num:
+            """
+            Returns the current value of the stat.
+
+            ### Returns:
+            1. num
+                - The current value of the stat.
+            """
+
             return self.value
         
         def get_changed_value(self) -> num:
+            """
+            Returns the change of the stat since the last update.
+
+            ### Returns:
+            1. num
+                - The change of the stat since the last update.
+            """
+
             return self.changed_value
 
-        def set_value(self, value: num, level: int = 10) -> None:
+        def set_value(self, value: num, level: int = 10):
+            """
+            Sets the value of the stat to the given value.
+
+            ### Parameters:
+            1. value: num
+                - The value to set the stat to.
+            2. level: int (default 10)
+                - The level of the school. This is used to calculate the min and max limit of the stat.
+            """
+
             old_value = self.value
 
             minLimit = Stat_Data[self.type].get_min_limit()
@@ -30,10 +122,28 @@ init -6 python:
             delta = round(self.value - old_value, 2)
             self.set_changed_value(delta)
 
-        def set_changed_value(self, value: num) -> None:
+        def set_changed_value(self, value: num):
+            """
+            Sets the change of the stat to the given value.
+
+            ### Parameters:
+            1. value: num
+                - The value to set the change of the stat to.
+            """
+
             self.changed_value = value
         
-        def change_value(self, delta: num, level: int = 10) -> None:
+        def change_value(self, delta: num, level: int = 10):
+            """
+            Changes the value of the stat by the given delta.
+
+            ### Parameters:
+            1. delta: num
+                - The value to change the stat by.
+            2. level: int (default 10)
+                - The level of the school. This is used to calculate the min and max limit of the stat.
+            """
+
             minLimit = Stat_Data[self.type].get_min_limit()
             maxLimit = Stat_Data[self.type].get_max_limit()
 
@@ -46,34 +156,106 @@ init -6 python:
             self.value = clamp_stat_value(round(self.value + change_val, 2), self.type, level, minLimit, maxLimit)
             self.set_changed_value(change_val)
 
-        def change_value_to(self, value: num, level: int = 10) -> None:
+        def change_value_to(self, value: num, level: int = 10):
+            """
+            Changes the value of the stat to the given value.
+
+            ### Parameters:
+            1. value: num
+                - The value to change the stat to.
+            2. level: int (default 10)
+                - The level of the school. This is used to calculate the min and max limit of the stat.
+            """
+
             delta = value - self.value
             change_value(delta, level)
 
-        def reset_change(self) -> None:
+        def reset_change(self):
+            """
+            Resets the change of the stat to 0.
+            """
+
             self.changed_value = 0
 
         def get_level(self) -> int:
+            """
+            Returns the data level of the stat. See Stat_Data for more information.
+
+            ### Returns:
+            1. int
+                - The data level of the stat.
+            """
+
             return Stat_Data[self.type].get_level(self.value)
 
         def get_image(self) -> str:
+            """
+            Returns the path to the image representing the stat for overview in the journal. See Stat_Data for more information.
+
+            ### Returns:
+            1. str
+                - The path to the image representing the stat for overview in the journal.
+            """
+
             return Stat_Data[self.type].get_image(self.get_level())
 
         def get_description(self) -> str:
+            """
+            Returns the description of the stat for overview in the journal. See Stat_Data for more information.
+
+            ### Returns:
+            1. str
+                - The description of the stat for overview in the journal.
+            """
+
             return Stat_Data[self.type].get_description(self.get_level())
 
         def get_full_description(self) -> str:
+            """
+            Returns the full description of the stat for the journal. See Stat_Data for more information.
+
+            ### Returns:
+            1. str
+                - The full description of the stat for the journal.
+                - The full description consists of the description for the current level and the general description of the stat.
+            """
+
             return Stat_Data[self.type].get_full_description(self.get_level())
 
         def display_stat(self) -> str:
+            """
+            Returns the stat as a string for display in the journal.
+
+            ### Returns:
+            1. str
+                - The stat as a string for display in the journal.
+                - The string consists of the value of the stat and the change of the stat.
+            """
+
             return self.get_display_value() + self.get_display_change()
 
         def get_display_value(self) -> str:
+            """
+            Returns the value of the stat as a string for display in the journal.
+
+            ### Returns:
+            1. str
+                - The value of the stat as a string for display in the journal.
+            """
+
             stat_value = self.get_value() + 0
 
             return str(stat_value)
 
         def get_display_change(self) -> str:
+            """
+            Returns the change of the stat as a string for display in the journal.
+
+            ### Returns:
+            1. str
+                - The change of the stat as a string for display in the journal.
+            """
+
             global change
             change = self.get_changed_value()
 
@@ -93,6 +275,61 @@ init -6 python:
             return text
 
     class Stat_Data:
+        """
+        This class represents the data of a stat.
+        This class is used to store background information about a stat.
+        To make it changeable for existing save games and centralised for all stats, the data has been extracted from the stat-class.
+
+        ### Attributes:
+        1. type: str
+            - The type of the stat.
+        2. title: str
+            - The title of the stat. This is the name that is used on displayables
+        3. levels: List[int]
+            - The levels of the stat.
+            - Stats are separated into different levels. Each level has a different image and description.
+        4. images: List[str]
+            - The images of the stat. Depending on the level of the stat, a different image is used.
+        5. descriptions: List[str]
+            - The descriptions of the stat. Depending on the level of the stat, a different description is used.
+        6. description: str
+            - The general description of the stat.
+        7. min_limit: num
+            - The minimum limit of the stat.
+        8. max_limit: num
+            - The maximum limit of the stat.
+
+        ### Methods:
+        1. __class_getitem__(key: str) -> Stat_Data
+            - Returns the Stat_Data object with the given key.
+        2. _update(title: str, data: Dict[str, Any] = None)
+            - Updates the data of the stat.
+            - If data is None, the data is not updated.
+        3. get_title() -> str
+            - Returns the title of the stat.
+        4. get_min_limit() -> int
+            - Returns the minimum limit of the stat.
+        5. get_max_limit() -> int
+            - Returns the maximum limit of the stat.
+        6. get_level(value: int) -> int
+            - Returns the level of the stat for the given value.
+        7. get_image(level: int) -> str
+            - Returns the image of the stat for the given level.
+        8. get_description(level: int) -> str
+            - Returns the description of the stat for the given level.
+        9. get_full_description(level: int) -> str
+            - Returns the full description of the stat for the given level.
+        10. clamp_stat_value(value: num, stat: str, level: int, min: num = 0, max: num = 100) -> num
+            - Clamps the given value between the min and max limit of the stat.
+        11. clamp_value(value: num, min: num = 0, max: num = 100) -> num
+            - Clamps the given value between the given min and max value.
+        12. load_stat_data(name: str, title: str, data: Dict[str, Any])
+            - Loads and updates the data of the stat.
+            - If the stat does not exist, a new stat is created.
+        13. get_stat_levels(value: str) -> num
+            - Returns the level of the stat for the given value.
+        """
+
         def __init__(self, type: str, title: str):
             self.type = type
             self.title = title
@@ -108,7 +345,7 @@ init -6 python:
                 return None
             return stat_data[key]
 
-        def _update(self, title: str, data: Dict[str, Any] = None) -> None:
+        def _update(self, title: str, data: Dict[str, Any] = None):
             if data != None:
                 self.__dict__.update(data)
 
@@ -128,15 +365,51 @@ init -6 python:
                 self.max_limit = 100
 
         def get_title(self) -> str:
+            """
+            Returns the title of the stat.
+            The title is the name that is used on displayables.
+
+            ### Returns:
+            1. str
+                - The title of the stat.
+            """
+
             return self.title
 
         def get_min_limit(self) -> int:
+            """
+            Returns the minimum limit of the stat.
+
+            ### Returns:
+            1. int
+                - The minimum limit of the stat.
+            """
+
             return self.min_limit
 
         def get_max_limit(self) -> int:
+            """
+            Returns the maximum limit of the stat.
+
+            ### Returns:
+            1. int
+                - The maximum limit of the stat.
+            """
             return self.max_limit
 
         def get_level(self, value: int) -> int:
+            """
+            Returns the level of the stat for the given value.
+
+            ### Parameters:
+            1. value: int
+                - The value to get the level for.
+
+            ### Returns:
+            1. int
+                - The level of the stat for the given value.
+            """
+
             count = 0
             for l in self.levels:
                 if value < l:
@@ -149,21 +422,81 @@ init -6 python:
             return 0
         
         def get_image(self, level: int) -> str:
+            """
+            Returns the image of the stat for the given level.
+
+            ### Parameters:
+            1. level: int
+                - The level to get the image for.
+
+            ### Returns:
+            1. str
+                - The image of the stat for the given level.
+            """
+
             if level < len(self.images) and level >= 0:
                 return self.images[level]
             return "images/journal/empty_image.webp"
 
         def get_description(self, level: int) -> str:
+            """
+            Returns the description of the stat for the given level.
+
+            ### Parameters:
+            1. level: int
+                - The level to get the description for.
+
+            ### Returns:
+            1. str
+                - The description of the stat for the given level.
+            """
+
             if level < len(self.descriptions) and level >= 0:
                 return self.descriptions[level]
             return "Description missing for level:[level]"
 
         def get_full_description(self, level: int) -> str:
+            """
+            Returns the full description of the stat for the given level.
+            The full description consists of the description for the current level and the general description of the stat.
+
+            ### Parameters:
+            1. level: int
+                - The level to get the full description for.
+
+            ### Returns:
+            1. str
+                - The full description of the stat for the given level.
+            """
+
             return (self.get_description(level) + 
                 "\n-------------------------------------------------------\n" + 
                 self.description)
 
     def clamp_stat_value(value: num, stat: str, level: int, min: num = 0, max: num = 100) -> num:
+        """
+        Clamps the given value between the min and max limit of the stat.
+        The min and max limit are calculated based on the level of the school.
+        Exceptions are the corruption and inhibition stat. 
+        For these stats the min and max limit are calculated based on the level of the school.
+
+        ### Parameters:
+        1. value: num
+            - The value to clamp.
+        2. stat: str
+            - The type of the stat.
+        3. level: int
+            - The level of the school. This is used to calculate the min and max limit of the stat.
+        4. min: num (default 0)
+            - The minimum limit of the stat.
+        5. max: num (default 100)
+            - The maximum limit of the stat.
+
+        ### Returns:
+        1. num
+            - The clamped value.
+        """
+
         if stat == CORRUPTION:
             return clamp_value(value, min, max - level * (max / 10))
         elif stat == INHIBITION:
@@ -173,19 +506,63 @@ init -6 python:
 
 
     def clamp_value(value: num, min: num = 0, max: num = 100) -> num:
+        """
+        Clamps the given value between the given min and max value.
+
+        ### Parameters:
+        1. value: num
+            - The value to clamp.
+        2. min: num (default 0)
+            - The minimum limit of the stat.
+        3. max: num (default 100)
+            - The maximum limit of the stat.
+
+        ### Returns:
+        1. num
+            - The clamped value.
+        """
+
         if (value < min):
             return min
         if (value > max):
             return max
         return value
 
-    def load_stat_data(name: str, title: str, data: Dict[str, Any]) -> None:
+    def load_stat_data(name: str, title: str, data: Dict[str, Any]):
+        """
+        Loads and updates the data of the stat.
+        If the stat does not exist, a new stat is created.
+
+        ### Parameters:
+        1. name: str
+            - The type of the stat.
+        2. title: str
+            - The title of the stat. This is the name that is used on displayables
+        3. data: Dict[str, Any]
+            - The data of the stat.
+        """
+
         if name not in stat_data.keys():
             stat_data[name] = Stat_Data(name, title)
 
         stat_data[name]._update(title, data)
 
     def get_stat_levels(value: str) -> num:
+        """
+        Returns a value based on the different constants inserted.
+
+        ### Parameters:
+        1. value: str
+            - The value to get the level for.
+            - The value can be a constant or a string with the format "dec_[constant]".
+            - The constant can be "tiny", "small", "medium", "large" or "giant".
+            - The dec_ prefix can be used to invert the value into its negative equivalent.
+
+        ### Returns:
+        1. num
+            - The value based on the different constants inserted.
+        """
+
         neg = 1
 
         if "dec_" in value:

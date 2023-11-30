@@ -35,7 +35,22 @@ init python:
         filtered_elements = [tupleEl for tupleEl in elements if len(tupleEl) == 2 or tupleEl[2]]
         renpy.call("call_menu", text, person, with_leave, *filtered_elements, **kwargs)
 
-    def clean_events_for_menu(events: Dict[str, Event], **kwargs) -> List[Tuple[str, EventEffect]]:
+    def clean_events_for_menu(events: Dict[str, EventStorage], **kwargs) -> List[Tuple[str, EventEffect]]:
+        """
+        Cleans a list of events for use in a menu.
+        It takes each EventStorage in events and checks if it has any applicable events. If it does, it adds it to the output list.
+        The elements in the output list are tuples of the form (title, EventEffect).
+
+        ### Parameters
+        1. events : Dict[str, EventStorage]
+            - The events to filter and refine for use in the menu.
+
+        ### Returns
+        1. List[Tuple[str, EventEffect]]
+            - The list of events that have applicable events and their effects.
+
+        """
+
         output = []
         used = []
 
@@ -50,6 +65,21 @@ init python:
 
 # calls a menu with the given elements
 label call_menu(text, person, with_leave = True, *elements, **kwargs):
+    """
+    Calls a menu with the given elements and the given text and person.
+
+    ### Parameters
+    1. text : str
+        - The text to display below the menu.
+    2. person : Person
+        - The person to display saying the text.
+    3. with_leave : bool, (default True)
+        - Whether or not to display a leave button.
+    4. *elements : Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool]
+        - The elements to display in the menu. 
+        - Each element is a tuple of the form (title, event_label, active), (title, effect, active) or (title, effect_list, active). 
+        - The active parameter is optional and defaults to True.
+    """
 
     if not with_leave and len(elements) == 1:
         $ title, effects, _active = None, None, None
@@ -69,6 +99,20 @@ label call_menu(text, person, with_leave = True, *elements, **kwargs):
 
 # calls a menu specialized in use for events
 label call_event_menu(text, events, fallback, person = character.subtitles, **kwargs):
+    """
+    Refines a list of events and calls a menu with the given elements and the given text and person.
+
+    ### Parameters
+    1. text : str
+        - The text to display below the menu.
+    2. events : Dict[str, EventStorage]
+        - The events to filter and refine for use in the menu.
+    3. fallback : str
+        - The event to call if no events are available.
+    4. person : Person, (default character.subtitles)
+        - The person to display saying the text.
+    """
+
     $ event_list = clean_events_for_menu(events, **kwargs)
 
     if len(event_list) == 0:
@@ -81,6 +125,15 @@ label call_event_menu(text, events, fallback, person = character.subtitles, **kw
 
 # calls the effect of a selected choice
 label call_element(effects, **kwargs):
+    """
+    Calls the effect of a selected choice in the menu.
+
+    ### Parameters
+    1. effects : str | Effect | List[Effect]
+        - The effect to call.
+        - if effects is a string, it is interpreted as an event label.
+    """
+
     hide screen custom_menu_choice
     hide screen image_with_nude_var
 
@@ -91,6 +144,9 @@ label call_element(effects, **kwargs):
 
 # closes the current menu
 label close_menu():
+    """
+    Closes the current menu.
+    """
     hide screen custom_menu_choice
     hide screen image_with_nude_var
     jump map_overview
@@ -105,6 +161,25 @@ style menu_text_right take menu_text:
     textalign 1.0
 
 screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwargs):
+    python:
+        """
+        Displays a menu with the given elements.
+
+        ### Parameters
+        1. page : int
+            - The page to display.
+        2. page_limit : int
+            - The maximum amount of elements to display per page.
+        3. elements : List[Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool]]
+            - The elements to display in the menu. 
+            - Each element is a tuple of the form (title, event_label, active), (title, effect, active) or (title, effect_list, active). 
+            - The active parameter is optional and defaults to True.
+        4. with_leave : bool, (default True)
+            - Whether or not to display a leave button.
+        5. **kwargs
+            - Any additional keyword arguments are passed to the effects of the selected element.
+        """
+
     tag menu_choice
 
     $ element_count = len(elements)
@@ -142,7 +217,7 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
                         $ title, effects, _active = elements[i]
                     $ title_text = "[title]"
                     if has_keyboard() and count < 10:
-                        $ title_text = "[title] ([count])"
+                        $ title_text = "[title] [[[count]]"
                         key ("K_" + str(count)) action Call("call_element", effects, **kwargs)
                     button:
                         background "gui/button/choice_idle_background.png"
@@ -167,14 +242,14 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
 
                     # go to previous page
                     if start != 0:
-                        $ prev_text = "  << Prev"
+                        $ prev_text = ""
                         if has_keyboard():
-                            $ prev_text = "(,)  << Prev"
+                            $ prev_text = "[,]"
                             key "K_COMMA" action Show("custom_menu_choice", None, page - 1, page_limit, elements, **kwargs)
                         button:
                             background "gui/button/choice_idle_background_250px.png"
                             hover_background "gui/button/choice_hover_background_250px.png"
-                            text prev_text style "menu_text_left":
+                            text "[prev_text]  << Prev" style "menu_text_left":
                                 xalign 0.5
                                 yalign 0.0
                             xsize 250
@@ -194,14 +269,14 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
 
                     # go to next page
                     if end < element_count:
-                        $ next_text = "Next >>  "
+                        $ next_text = ""
                         if has_keyboard():
-                            $ next_text = "Next >>  (.)"
+                            $ next_text = "[.]"
                             key "K_PERIOD" action Show("custom_menu_choice", None, page + 1, page_limit, elements, **kwargs)
                         button:
                             background "gui/button/choice_idle_background_250px.png"
                             hover_background "gui/button/choice_hover_background_250px.png"
-                            text next_text style "menu_text_right":
+                            text "Next >>  [next_text]" style "menu_text_right":
                                 xalign 0.5
                                 yalign 0.0
                             xsize 250
@@ -215,8 +290,8 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
             if with_leave:
                 $ l_text = ""
                 if keyboard:
-                    $ l_text = " (⌫)"
-                    key "K_BACKSPACE" action Jump("close_menu")
+                    $ l_text = " [Esc]"
+                    key "K_ESCAPE" action Jump("close_menu")
                 hbox:
                     xsize 1920
                     button:

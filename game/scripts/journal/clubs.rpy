@@ -1,6 +1,19 @@
 init -6 python:
     import re
     class Club(Journal_Obj):
+        """
+        A sub-class of Journal_Obj.
+        A club is a group of students that come together to engage in a certain activity.
+
+        ### Attributes:
+        1. _unlocked: Dict[str, bool]
+            - A dictionary that stores the unlocked state of the club for each school.
+
+        ### Methods:
+        1. get_type() -> str
+            - Returns the type of the object.
+        """
+
         def __init__(self, name, title):
             super().__init__(name, title)
             self._unlocked = {
@@ -22,33 +35,104 @@ init -6 python:
                 }
 
         def get_type(self) -> str:
+            """
+            Returns the type of the object.
+
+            ### Returns:
+            1. str
+                - The type of the object.
+                - In this case "club".
+            """
+
             return "club"
 
     #############################################
     # Clubs Global Methods
     
     def get_club(club: str) -> Club:
+        """
+        Returns the club object with the given name.
+
+        ### Parameters:
+        1. club: str
+            - The name of the club.
+
+        ### Returns:
+        1. Club
+            - The club object with the given name.
+            - If no club with the given name exists, returns None.
+        """
+
         if club in clubs.keys():
             return clubs[club]
         return None
     
     def is_club_unlocked(club_name: str, school: str) -> bool:
+        """
+        Returns whether the club with the given name is unlocked for the given school.
+
+        ### Parameters:
+        1. club_name: str
+            - The name of the club.
+        2. school: str
+            - The name of the school.
+
+        ### Returns:
+        1. bool
+            - Whether the club with the given name is unlocked for the given school.
+            - If no club with the given name exists, returns False.
+        """
+
         if club_name not in clubs.keys():
             return False
         return clubs[club_name].is_unlocked(school)
 
     def is_club_visible(club_name: str, **kwargs) -> bool:
+        """
+        Returns whether the club with the given name is visible for the given school.
+        A club is visible if it is unlocked for the given school or the conditions for unlocking it are met or no locking conditions are set.
+
+        ### Parameters:
+        1. club_name: str
+            - The name of the club.
+
+        ### Returns:
+        1. bool
+            - Whether the club with the given name is visible for the given school.
+            - If no club with the given name exists, returns False.
+        """
+
         if club_name not in clubs.keys():
             return False
         return clubs[club_name].is_visible(**kwargs)
 
     def load_club(name: str, title: str, data: Dict[str, Any] = None) -> None:
+        """
+        Loads or updates a club with the given name and title and the given data.
+
+        ### Parameters:
+        1. name: str
+            - The name of the club.
+        2. title: str
+            - The title of the club.
+        3. data: Dict[str, Any]
+            - The data of the club.
+        """
+
         if name not in clubs.keys():
             clubs[name] = Club(name, title)
 
         clubs[name]._update(title, data)
 
     def remove_club(name: str) -> None:
+        """
+        Removes the club with the given name.
+
+        ### Parameters:
+        1. name: str
+            - The name of the club.
+        """
+
         if name in clubs.keys():
             del(clubs[name])
 

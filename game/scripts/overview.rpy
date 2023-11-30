@@ -2,6 +2,10 @@
 # Map overview methods
 init -1 python:
     def hide_all():
+        """
+        hides all screens
+        """
+
         for s in renpy.display.screen.screens_by_name:
             renpy.hide_screen(s)
 
@@ -179,7 +183,7 @@ screen school_overview_buttons ():
     if is_building_available("high_school_building"):
         $ hsb_text = ""
         if has_keyboard():
-            $ hsb_text = " (1)"
+            $ hsb_text = " [[1]"
             key "K_1" action Call("building", "high_school_building")
         imagebutton:
             auto "background/bg school high school building %s.png"
@@ -193,7 +197,7 @@ screen school_overview_buttons ():
     if is_building_available("high_school_dormitory"):
         $ hsd_text = ""
         if has_keyboard():
-            $ hsd_text = " (2)"
+            $ hsd_text = " [[2]"
             key "K_2" action Call("building", "high_school_dormitory")
         imagebutton:
             auto "background/bg school high school dormitory %s.png"
@@ -271,7 +275,7 @@ screen school_overview_buttons ():
     if is_building_available("gym"):
         $ g_text = ""
         if has_keyboard():
-            $ g_text = " (6)"
+            $ g_text = " [[6]"
             key "K_6" action Call("building", "gym")
         imagebutton:
             auto "background/bg school gym %s.png"
@@ -293,7 +297,7 @@ screen school_overview_buttons ():
     if is_building_available("cafeteria"):
         $ cf_text = ""
         if has_keyboard():
-            $ cf_text = " (7)"
+            $ cf_text = " [[7]"
             key "K_7" action Call("building", "cafeteria")
         imagebutton:
             auto "background/bg school cafeteria %s.png"
@@ -315,7 +319,7 @@ screen school_overview_buttons ():
     if is_building_available("kiosk"):
         $ k_text = ""
         if has_keyboard():
-            $ k_text = " (5)"
+            $ k_text = " [[5]"
             key "K_5" action Call("building", "kiosk")
         imagebutton:
             auto "background/bg school kiosk %s.png"
@@ -328,7 +332,7 @@ screen school_overview_buttons ():
     if is_building_available("courtyard"):
         $ c_text = ""
         if has_keyboard():
-            $ c_text = " (4)"
+            $ c_text = " [[4]"
             key "K_4" action Call("building", "courtyard")
         imagebutton:
             auto "background/bg school courtyard %s.png"
@@ -341,7 +345,7 @@ screen school_overview_buttons ():
     if is_building_available("office_building"):
         $ o_text = ""
         if has_keyboard():
-            $ o_text = " (3)"
+            $ o_text = " [[3]"
             key "K_3" action Call("building", "office_building")
         imagebutton:
             auto "background/bg school office building %s.png"
@@ -429,6 +433,20 @@ screen black_screen_text(text_str):
 # goes to map overview while moving the time forward
 
 label set_day_and_time(day, month, year, daytime):
+    """
+    sets the day and time and then goes to map overview
+
+    # Parameters:
+    1. day: int
+        - the day of the month
+    2. month: int
+        - the month of the year
+    3. year: int
+        - the year
+    4. daytime: str
+        - the daytime
+    """
+
     $ time.set_time(day = day, month = month, year = year, daytime = daytime)
 
     $ hide_all()
@@ -440,6 +458,18 @@ label set_day_and_time(day, month, year, daytime):
     jump map_overview
 
 label set_day(day, month, year):
+    """
+    sets the day and then goes to map overview
+
+    # Parameters:
+    1. day: int
+        - the day of the month
+    2. month: int
+        - the month of the year
+    3. year: int
+        - the year
+    """
+
     $ time.set_time(day = day, month = month, year = year)
 
     $ hide_all()
@@ -451,6 +481,10 @@ label set_day(day, month, year):
     jump map_overview
 
 label new_day ():
+    """
+    progresses the day and then goes to map overview
+    """
+
     $ time.progress_day()
 
     $ hide_all()
@@ -462,6 +496,10 @@ label new_day ():
     jump map_overview
 
 label new_daytime ():
+    """
+    progresses the daytime and then goes to map overview
+    """
+
     $ hide_all()
 
     if time.progress_time():

@@ -10,6 +10,87 @@ init -6 python:
 #######################
 
     class Building(Journal_Obj):
+        """
+        A subclass of Journal_Obj.
+        A class that represents a building in the game.
+
+        ### Attributes:
+        1. _level: int
+            - The current upgrade level of the building.
+            - 0 is building is not yet unlocked.
+        2. _max_level: int
+            - The maximum upgrade level of the building.
+        3. _update_conditions: List[ConditionStorage]
+            - A list of ConditionStorage objects that represent the conditions for upgrading the building.
+            - Each ConditionStorage represents the upgrade condition for a specific level.
+        4. _blocked: bool
+            - A boolean that represents if the building is blocked or not.
+            - A blocked building can not be accessed.
+
+        ### Methods:
+        1. get_type() -> str
+            - Returns the type of the object.
+            - In this case "building".
+        2. get_description(level: int = -1) -> List[str]
+            - Returns the description of the building.
+            - If level is -1, the description of the current level is returned.
+            - If level is not -1, the description of the specified level is returned.
+        3. get_description_str(level: int = -1) -> str
+            - Returns the description of the building as a string.
+            - If level is -1, the description of the current level is returned.
+            - If level is not -1, the description of the specified level is returned.
+        4. get_image(_school = "x", _level = -1) -> str
+            - Returns the image path of the building for the image used in the journal.
+        5. get_full_image(_school = "x", _level = -1) -> str
+            - Returns the image path of the building for the image used in the journal.
+            - If the full image does not exist, None is returned.
+        6. get_level() -> int
+            - Returns the current upgrade level of the building.
+        7. get_max_level() -> int
+            - Returns the maximum upgrade level of the building.
+        8. set_level(level: int)
+            - Sets the current upgrade level of the building to the specified level.
+        9. set_max_level(level: int)
+            - Sets the maximum upgrade level of the building to the specified level.
+        10. is_available() -> bool
+            - Returns True if the building is unlocked and not blocked.
+        11. set_blocked(is_blocked: bool = True)
+            - Sets the blocked status of the building to the specified value.
+        12. unlock(unlock: bool = True)
+            - Sets the current upgrade level of the building to 1 if unlock is True, else to 0.
+        13. is_unlocked(_school) -> bool
+            - Returns True if the building is unlocked.
+        14. is_blocked() -> bool
+            - Returns True if the building is blocked.
+        15. can_be_upgraded(**kwargs) -> bool
+            - Returns True if the building can be upgraded.
+            - The conditions for upgrading the building are checked.
+        16. has_higher_level() -> bool
+            - Returns True if the building has a higher upgrade level than the one the building is currently at.
+        17. get_update_conditions(level: int) -> ConditionStorage
+            - Returns the ConditionStorage object that represents the conditions for upgrading the building to the specified level.
+            - If the specified level is not valid, None is returned.
+        18. get_list_conditions(cond_type: str = UNLOCK, level: int = -1) -> List[Condition]
+            - Returns a list of Condition objects that represent the conditions for unlocking or upgrading the building.
+            - If level is -1, the conditions for the current level are returned.
+            - If level is not -1, the conditions for the specified level are returned.
+        19. get_list_conditions_list(cond_type: str = UNLOCK, level: int = -1, **kwargs) -> List[Tuple[str, str]]
+            - Returns a list of tuples that represent the conditions for unlocking or upgrading the building.
+            - If level is -1, the conditions for the current level are returned.
+            - If level is not -1, the conditions for the specified level are returned.
+            - The tuples are in the form (condition icon, condition value).
+        20. get_desc_conditions(cond_type: str = UNLOCK, level: int = -1) -> List[Condition]
+            - Returns a list of Condition objects that represent the conditions for unlocking or upgrading the building.
+            - If level is -1, the conditions for the current level are returned.
+            - If level is not -1, the conditions for the specified level are returned.
+            - The conditions are sorted by their description.
+        21. get_desc_conditions_desc(cond_type: str = UNLOCK, level: int = -1, **kwargs) -> List[str]
+            - Returns a list of strings that represent the conditions for unlocking or upgrading the building.
+            - If level is -1, the conditions for the current level are returned.
+            - If level is not -1, the conditions for the specified level are returned.
+            - The conditions are sorted by their description.
+        """
+
         def __init__(self, name: str, title: str):
             super().__init__(name, title)
             self._level = 0
@@ -17,7 +98,7 @@ init -6 python:
             self._update_conditions = []
             self._blocked = False
 
-        def _update(self, title: str, data: Dict[str, Any] = None) -> None:
+        def _update(self, title: str, data: Dict[str, Any] = None):
             super()._update(title, data)
             if data != None:
                 self.__dict__.update(data)
@@ -30,9 +111,32 @@ init -6 python:
                 self._update_conditions = []
         
         def get_type(self) -> str:
+            """
+            Returns the type of the object.
+
+            ### Returns:
+            1. str
+                - The type of the object.
+                - In this case "building".
+            """
+
             return "building"
 
         def get_description(self, level: int = -1) -> List[str]:
+            """
+            Returns the description of the building.
+
+            ### Parameters:
+            1. level: int = -1
+                - The level of the building for which the description should be returned.
+                - If level is -1, the description of the current level is returned.
+                - If level is not -1, the description of the specified level is returned.
+
+            ### Returns:
+            1. List[str]
+                - The description of the building.
+            """
+
             if level == -1:
                 level = self._level
             if level < 0 or level >= len(self._description):
@@ -40,9 +144,37 @@ init -6 python:
             return self._description[level]
 
         def get_description_str(self, level: int = -1) -> str:
+            """
+            Returns the description of the building as a string.
+
+            ### Parameters:
+            1. level: int = -1
+                - The level of the building for which the description should be returned.
+                - If level is -1, the description of the current level is returned.
+                - If level is not -1, the description of the specified level is returned.
+
+            ### Returns:
+            1. str
+                - The description of the building as a string joined together with an empty row.
+            """
+
             return "\n\n".join(self.get_description(level))
 
         def get_image(self, _school = "x", _level = -1) -> str:
+            """
+            Returns the image path of the building for the image used in the journal.
+
+            ### Parameters:
+            1. _school = "x"
+                - is not used.
+            2. _level = -1
+                - is not used.
+
+            ### Returns:
+            1. str
+                - The image path of the building for the image used in the journal.
+            """
+
             level = get_lowest_level(charList["schools"])
             for i in reversed(range(0, level + 1)):
                 image = self._image_path.replace("<level>", str(i))
@@ -51,6 +183,21 @@ init -6 python:
             return self._image_path_alt
 
         def get_full_image(self, _school = "x", _level = -1) -> str:
+            """
+            Returns the image path for the fullscreen image of the building for the image used in the journal.
+
+            ### Parameters:
+            1. _school = "x"
+                - is not used.
+            2. _level = -1
+                - is not used.
+
+            ### Returns:
+            1. str
+                - The image path for the fullscreen image of the building for the image used in the journal.
+                - If the full image does not exist, None is returned.
+            """
+
             image = self.get_image()
             full_image = image.replace(".", "_full.")
 
@@ -59,12 +206,36 @@ init -6 python:
             return None
 
         def get_level(self) -> int:
+            """
+            Returns the current upgrade level of the building.
+
+            ### Returns:
+            1. int
+                - The current upgrade level of the building.
+            """
+
             return self._level
 
         def get_max_level(self) -> int:
+            """
+            Returns the maximum upgrade level of the building.
+
+            ### Returns:
+            1. int
+                - The maximum upgrade level of the building.
+            """
+
             return self._max_level
 
-        def set_level(self, level: int) -> None:
+        def set_level(self, level: int):
+            """
+            Sets the current upgrade level of the building to the specified level.
+
+            ### Parameters:
+            1. level: int
+                - The level to which the current upgrade level of the building should be set to.
+            """
+
             if level < 0:
                 level = 0
             if level > self._max_level:
@@ -72,42 +243,144 @@ init -6 python:
 
             self._level = level
 
-        def set_max_level(self, level: int) -> None:
+        def set_max_level(self, level: int):
+            """
+            Sets the maximum upgrade level of the building to the specified level.
+
+            ### Parameters:
+            1. level: int
+                - The level to which the maximum upgrade level of the building should be set to.
+            """
+
             self._max_level = level
 
         def is_available(self) -> bool:
+            """
+            Returns True if the building is unlocked and not blocked.
+
+            ### Returns:
+            1. bool
+                - True if the building is unlocked and not blocked.
+            """
+
             return self.is_unlocked("x") and not self.is_blocked()
 
-        def set_blocked(self, is_blocked: bool = True) -> None:
+        def set_blocked(self, is_blocked: bool = True):
+            """
+            Sets the blocked status of the building to the specified value.
+            A blocked building can not be accessed by the player.
+
+            ### Parameters:
+            1. is_blocked: bool = True
+                - The value to which the blocked status of the building should be set to.
+            """
+
             self._blocked = is_blocked
 
-        def unlock(self, unlock: bool = True) -> None:
+        def unlock(self, unlock: bool = True):
+            """
+            Sets the current upgrade level of the building to 1 if unlock is True, else to 0.
+
+            ### Parameters:
+            1. unlock: bool = True
+                - If True, the current upgrade level of the building is set to 1.
+                - If False, the current upgrade level of the building is set to 0.
+            """
+
             self._level = 1 if unlock else 0
 
         def is_unlocked(self, _school) -> bool:
+            """
+            Returns True if the building is unlocked.
+
+            ### Parameters:
+            1. _school
+                - is not used.
+
+            ### Returns:
+            1. bool
+                - True if the building is unlocked.
+            """
+
             return self._level != 0
 
         def is_blocked(self) -> bool:
+            """
+            Returns True if the building is blocked.
+
+            ### Returns:
+            1. bool
+                - True if the building is blocked.
+            """
+
             return self._blocked
 
         def can_be_upgraded(self, **kwargs) -> bool:
+            """
+            Returns True if the building can be upgraded.
+            The conditions for upgrading the building are checked.
+
+            ### Parameters:
+            1. **kwargs
+                - The values for the variables used in the conditions.
+
+            ### Returns:
+            1. bool
+                - True if the building can be upgraded.
+            """
+
             conditions = self.get_update_conditions(self._level)
             return conditions != None and conditions.is_fulfilled(**kwargs)
 
         def has_higher_level(self) -> bool:
+            """
+            Returns True if the building has a higher upgrade level than the one the building is currently at.
+
+            ### Returns:
+            1. bool
+                - True if the building has a higher upgrade level than the one the building is currently at.
+            """
+
             return self._level < self._max_level
 
-        def get_upgrade_condition_storage(self, level: int) -> ConditionStorage:
-            if level > len(self._update_conditions) or level <= 0:
-                return None
-            return self._update_conditions[level - 1]
-
         def get_update_conditions(self, level: int) -> ConditionStorage:
+            """
+            Returns the ConditionStorage object that represents the conditions for upgrading the building to the specified level.
+
+            ### Parameters:
+            1. level: int
+                - The level for which the conditions should be returned.
+
+            ### Returns:
+            1. ConditionStorage
+                - The ConditionStorage object that represents the conditions for upgrading the building to the specified level.
+                - If the specified level is not valid, None is returned.
+            """
+
             if level > len(self._update_conditions) or level <= 0:
                 return None
             return self._update_conditions[level - 1]
         
         def get_list_conditions(self, cond_type: str = UNLOCK, level: int = -1) -> List[Condition]:
+            """
+            Returns a list of Condition objects that represent the conditions for unlocking or upgrading the building.
+            If level is -1, the conditions for the current level are returned.
+
+            ### Parameters:
+            1. cond_type: str = UNLOCK
+                - The type of conditions that should be returned.
+                - If cond_type is UNLOCK, the conditions for unlocking the building are returned.
+                - If cond_type is UPGRADE, the conditions for upgrading the building are returned.
+            2. level: int = -1
+                - The level for which the conditions should be returned.
+                - If level is -1, the conditions for the current level are returned.
+                - only needed if cond_type is UPGRADE.
+
+            ### Returns:
+            1. List[Condition]
+                - A list of Condition objects that represent the conditions for unlocking or upgrading the building.
+            """
+
             if level == -1:
                 level = self._level
 
@@ -121,6 +394,26 @@ init -6 python:
                     return self.get_update_conditions(level).get_list_conditions()
         
         def get_list_conditions_list(self, cond_type: str = UNLOCK, level: int = -1, **kwargs) -> List[Tuple[str, str]]:
+            """
+            Returns a list of tuples that represent the conditions for unlocking or upgrading the building.
+            If level is -1, the conditions for the current level are returned.
+
+            ### Parameters:
+            1. cond_type: str = UNLOCK
+                - The type of conditions that should be returned.
+                - If cond_type is UNLOCK, the conditions for unlocking the building are returned.
+                - If cond_type is UPGRADE, the conditions for upgrading the building are returned.
+            2. level: int = -1
+                - The level for which the conditions should be returned.
+                - If level is -1, the conditions for the current level are returned.
+                - only needed if cond_type is UPGRADE.
+
+            ### Returns:
+            1. List[Tuple[str, str]]
+                - A list of tuples that represent the conditions for unlocking or upgrading the building.
+                - The tuples are in the form (condition icon, condition value).
+            """
+
             if level == -1:
                 level = self._level
 
@@ -134,6 +427,26 @@ init -6 python:
                     return self.get_update_conditions(level).get_list_conditions_list(**kwargs)
 
         def get_desc_conditions(self, cond_type: str = UNLOCK, level: int = -1) -> List[Condition]:
+            """
+            Returns a list of Condition objects that represent the conditions for unlocking or upgrading the building.
+            If level is -1, the conditions for the current level are returned.
+
+            ### Parameters:
+            1. cond_type: str = UNLOCK
+                - The type of conditions that should be returned.
+                - If cond_type is UNLOCK, the conditions for unlocking the building are returned.
+                - If cond_type is UPGRADE, the conditions for upgrading the building are returned.
+            2. level: int = -1
+                - The level for which the conditions should be returned.
+                - If level is -1, the conditions for the current level are returned.
+                - only needed if cond_type is UPGRADE.
+
+            ### Returns:
+            1. List[Condition]
+                - A list of Condition objects that represent the conditions for unlocking or upgrading the building.
+                - The conditions are sorted by their description.
+            """
+
             if level == -1:
                 level = self._level
 
@@ -148,6 +461,26 @@ init -6 python:
 
         
         def get_desc_conditions_desc(self, cond_type: str = UNLOCK, level: int = -1, **kwargs) -> List[str]:
+            """
+            Returns a list of strings that represent the conditions for unlocking or upgrading the building.
+            If level is -1, the conditions for the current level are returned.
+
+            ### Parameters:
+            1. cond_type: str = UNLOCK
+                - The type of conditions that should be returned.
+                - If cond_type is UNLOCK, the conditions for unlocking the building are returned.
+                - If cond_type is UPGRADE, the conditions for upgrading the building are returned.
+            2. level: int = -1
+                - The level for which the conditions should be returned.
+                - If level is -1, the conditions for the current level are returned.
+                - only needed if cond_type is UPGRADE.
+
+            ### Returns:
+            1. List[str]
+                - A list of strings that represent the conditions for unlocking or upgrading the building.
+                - The conditions are sorted by their description.
+            """
+
             if level == -1:
                 level = self._level
 
@@ -167,6 +500,14 @@ init -6 python:
     ########################################
     
     def count_locked_buildings() -> int:
+        """
+        Returns the number of locked buildings.
+
+        ### Returns:
+        1. int
+            - The number of locked buildings.
+        """
+
         output = 0
 
         for building in buildings.values():
@@ -175,6 +516,14 @@ init -6 python:
         return output
 
     def get_unlocked_buildings() -> List[str]:
+        """
+        Returns a list of the names of all unlocked buildings.
+
+        ### Returns:
+        1. List[str]
+            - A list of the names of all unlocked buildings.
+        """
+
         output = []
 
         for building in buildings.values():
@@ -184,41 +533,129 @@ init -6 python:
         return output
     
     def get_building(building: str) -> Building:
+        """
+        Returns the Building object with the specified name.
+        
+        ### Parameters:
+        1. building: str
+            - The name of the building that should be returned.
+
+        ### Returns:
+        1. Building
+            - The Building object with the specified name.
+            - If no Building object with the specified name exists, None is returned.
+        """
+
         if building in buildings.keys():
             return buildings[building]
         return None
 
-    def set_building_blocked(building_name: str, is_blocked: bool = True) -> None:
+    def set_building_blocked(building_name: str, is_blocked: bool = True):
+        """
+        Sets the blocked status of the building with the specified name to the specified value.
+
+        ### Parameters:
+        1. building_name: str
+            - The name of the building that should be updated.
+        2. is_blocked: bool = True
+            - The value to which the blocked status of the building should be set to.
+        """
+
         if building_name in buildings.keys():
             buildings[building_name].set_blocked(is_blocked)
 
-    def set_all_buildings_blocked(is_blocked: bool = True) -> None:
+    def set_all_buildings_blocked(is_blocked: bool = True):
+        """
+        Sets the blocked status of all buildings to the specified value.
+
+        ### Parameters:
+        1. is_blocked: bool = True
+            - The value to which the blocked status of the buildings should be set to.
+        """
+
         for building in buildings.values():
             building.set_blocked(is_blocked)
 
     def is_building_available(building_name: str) -> bool:
+        """
+        Returns True if the building with the specified name is unlocked and not blocked.
+
+        ### Parameters:
+        1. building_name: str
+            - The name of the building that should be checked.
+
+        ### Returns:
+        1. bool
+            - True if the building with the specified name is unlocked and not blocked.
+        """
+
         if building_name not in buildings.keys():
             return False
         return buildings[building_name].is_available()
 
     def is_building_unlocked(building_name: str) -> bool:
+        """
+        Returns True if the building with the specified name is unlocked.
+
+        ### Parameters:
+        1. building_name: str
+            - The name of the building that should be checked.
+
+        ### Returns:
+        1. bool
+            - True if the building with the specified name is unlocked.
+        """
+
         if building_name not in buildings.keys():
             return False
         return buildings[building_name].is_unlocked("x")
 
     def is_building_visible(building_name: str) -> bool:
+        """
+        Returns True if the building with the specified name is visible.
+        A building is visible when there is no blocking condition or all blocking conditions are fulfilled.
+
+        ### Parameters:
+        1. building_name: str
+            - The name of the building that should be checked.
+        """
+
         if building_name not in buildings.keys():
             return False
         return buildings[building_name].is_visible()
 
-    def load_building(name: str, title: str, runtime_data: Dict[str, Any] = None, starting_data: Dict[str, Any] = None) -> None:
+    def load_building(name: str, title: str, runtime_data: Dict[str, Any] = None, starting_data: Dict[str, Any] = None):
+        """
+        Loads or updates a building with the specified name, title and data.
+
+        ### Parameters:
+        1. name: str
+            - The name of the building that should be loaded or updated.
+        2. title: str
+            - The title of the building that should be loaded or updated.
+        3. runtime_data: Dict[str, Any] (Default None)
+            - The data that should be used to update the building.
+            - runtime_data contains data that can be changed in the building during runtime without loosing essential data
+        4. starting_data: Dict[str, Any] (Default None)
+            - The data that should be used to update the building.
+            - starting_data contains data that should not be changed in the building during runtime.
+        """
+
         if name not in buildings.keys():
             buildings[name] = Building(name, title)
             buildings[name]._update(title, starting_data)
 
         buildings[name]._update(title, runtime_data)
 
-    def remove_building(name: str) -> None:
+    def remove_building(name: str):
+        """
+        Removes the building with the specified name.
+
+        ### Parameters:
+        1. name: str
+            - The name of the building that should be removed.
+        """
+
         if name in buildings.keys():
             del(buildings[name])
 

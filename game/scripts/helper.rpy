@@ -2,131 +2,164 @@ init -99 python:
     from typing import TypeVar
     import re
 
-    def get_element(name: str, map: Dict[str, Any] = None):
-        if type(map) is dict and name in map.keys():
-            return (True, map[name])
-        if type(map) is list and name.isdigit() and int(name) >= 0 and int(name) < len(map):
-            return (True, map[int(name)])
+    def in_kwargs(key: str, **kwargs) -> bool:
+        """
+        Checks if a key is in kwargs
 
-        if "." in name:
-            nameSplit = name.split(".", 1)
+        ### Parameters:
+        1. key: str
+            - The key to check for
+        2. **kwargs
+            - The kwargs to check in
 
-            if (type(map) is list and 
-                nameSplit[0].isdigit() and 
-                int(nameSplit[0]) >= 0 and 
-                int(nameSplit[0]) < len(map)
-            ):
-                return get_element(nameSplit[1], map[int(nameSplit[0])])
-            if type(map) is dict and nameSplit[0] in map.keys():
-                return get_element(nameSplit[1], map[nameSplit[0]])
+        ### Returns:
+        1. bool
+            - True if the key is in kwargs, False otherwise
+        """
 
-            return (False)
-
-        return (False)
-
-    def set_element(key: str, value: Any, map: Dict[str, Any]):
-        if "." in key:
-            keySplit = key.split(".", 1)
-
-            if type(map) is dict:
-                if keySplit[0] not in map.keys():
-                    createKey = keySplit[1]
-                    if "." in createKey:
-                        keySplit2 = createKey.split(".", 1)
-                        createKey = keySplit2[0]
-
-                    if createKey.isdigit():
-                        map[keySplit[0]] = []
-                    else:
-                        map[keySplit[0]] = {}
-
-                    return set_element(keySplit[1], value, map[keySplit[0]])
-            elif type(map) is list:
-                if not keySplit[0].isdigit():
-                    return False 
-
-                index = int(keySplit[0])
-
-                if index < 0:
-                    return False
-
-                if index >= len(map):
-
-                    while index >= len(map):
-                        map.append(None)
-
-                    createKey = keySplit[1]
-                    if "." in createKey:
-                        keySplit2 = createKey.split(".", 1)
-                        createKey = keySplit2[0]
-
-                    if createKey.isdigit():
-                        map[index] = []
-                    else:
-                        map[index] = {}
-
-                    return set_element(keySplit[1], value, map[index])
-        else:
-            if type(map) is dict:
-                map[key] = value
-                return True
-            elif type(map) is list and key.isdigit():
-                index = int(key)
-
-                if index < 0:
-                    return False
-
-                while index >= len(map):
-                    map.append(None)
-
-                map[index] = value
-                return True
-    
-        return False
-
-    def in_kwargs(key: str, **kwargs):
         if key in kwargs.keys():
             return True
         return False
 
-    def get_kwargs(key: str, alt = None, **kwargs):
+    def get_kwargs(key: str, alt = None, **kwargs) -> Any:
+        """
+        Gets a value from kwargs
+
+        ### Parameters:
+        1. key: str
+            - The key to get
+        2. alt: Any (default None)
+            - The value to return if the key is not in kwargs
+        3. **kwargs
+            - The kwargs to get from
+        """
+
         if key in kwargs.keys():
             return kwargs[key]
         return alt
 
-    def clamp_value(value: num, min: num, max: num):
+    def clamp_value(value: num, min: num, max: num) -> num:
+        """
+        Clamps a value between a min and max
+
+        ### Parameters:
+        1. value: num
+            - The value to clamp
+        2. min: num
+            - The minimum value
+        3. max: num
+            - The maximum value
+
+        ### Returns:
+        1. num
+            - The clamped value
+        """
+
         if value < min:
             return min
         if value > max:
             return max
         return value
 
-    def is_integer(text: str):
+    def is_integer(text: str) -> bool:
+        """
+        Checks if a string can be converted to an integer
+
+        ### Parameters:
+        1. text: str
+            - The string to check
+
+        ### Returns:
+        1. bool
+            - True if the string can be converted to an integer, False otherwise
+        """
+
         try:
             int(text)
             return True
         except ValueError:
             return False
 
-    def is_float(text: str):
+    def is_float(text: str) -> bool:
+        """
+        Checks if a string can be converted to a float
+
+        ### Parameters:
+        1. text: str
+            - The string to check
+
+        ### Returns:
+        1. bool
+            - True if the string can be converted to a float, False otherwise
+        """
+
         try:
             float(text)
             return True
         except ValueError:
             return False
 
-    def set_smallest(smallest: num, value: num):
-        if smallest is None or value < smallest:
-            return value
+    def set_smallest(*values: num) -> num:
+        """
+        Returns the smaller of the two values
+
+        ### Parameters:
+        1. *values: num
+            - The values to compare
+
+        ### Returns:
+        1. num
+            - The smallest value
+        """
+
+        smallest = None
+
+        for value in values:
+            if smallest is None or value < smallest:
+                smallest = value
         return smallest
 
-    def set_nearest(nearest: num, value: num):
+    def set_nearest(nearest: num, value: num) -> num:
+        """
+        Returns the value if it is closer to 0 than the nearest value
+
+        ### Parameters:
+        1. nearest: num
+            - The nearest value
+        2. value: num
+            - The value to compare
+
+        ### Returns:
+        1. num
+            - The nearest value
+        """
+
         if nearest is None or abs(value) < abs(nearest):
             return value
         return nearest
 
-    def check_in_value(value1: [str, int], value2: int):
-        split = str(value1).split(',')
+    def check_in_value(value_range: [str, int], value: int) -> bool:
+        """
+        Checks if a value is in a value range
+        The range can be defined in multiple ways:
+            - as a single value
+            - as a range (e.g. 1-5)
+            - as a range with a minimum (e.g. 1+)
+            - as a range with a maximum (e.g. 5-)
+            - as a list of values (e.g. 1,3,5)
+
+        ### Parameters:
+        1. value_range: [str, int]
+            - The value range to check
+        2. value: int
+            - The value to check
+
+        ### Returns:
+        1. bool
+            - True if the value is in the value range, False otherwise
+        """
+
+        split = str(value_range).split(',')
 
         nearest = None
 
@@ -137,24 +170,46 @@ init -99 python:
                 vals = int(''.join(val_str))
                 if '-' in split_val:
                     if split_val.endswith('-'):
-                        if value2 <= vals:
+                        if value <= vals:
                             return True
                     else:
                         val_list = split_val.split('-')
-                        if value2 < int(val_list[0]) or value2 > int(val_list[1]):
+                        if value < int(val_list[0]) or value > int(val_list[1]):
                             continue
                         else:
                             return True
                 elif split_val.endswith('+'):
-                    if value2 >= vals:
+                    if value >= vals:
                         return True
-                elif vals == value2:
+                elif vals == value:
                     return True
 
         return str(value1) == str(value2)
 
-    def get_value_diff(value1: [str, int], value2: int):
-        split = str(value1).split(',')
+    def get_value_diff(value_range: [str, int], value: int) -> num:
+        """
+        Returns the difference between a value and a value range
+        The range can be defined in multiple ways:
+            - as a single value
+            - as a range (e.g. 1-5)
+            - as a range with a minimum (e.g. 1+)
+            - as a range with a maximum (e.g. 5-)
+            - as a list of values (e.g. 1,3,5)
+        
+        ### Parameters:
+        1. value_range: [str, int]
+            - The value range to check
+        2. value: int
+            - The value to check
+
+        ### Returns:
+        1. num
+            - The difference between the value and the value range
+            - If the value is inside the range the difference will be the positive difference from the next lowest value
+            - If the value is outside the range the difference will be the negative difference from the nearest value
+        """
+
+        split = str(value_range).split(',')
 
         nearest = None
 
@@ -165,23 +220,37 @@ init -99 python:
                 vals = int(''.join(val_str))
                 if '-' in split_val:
                     if split_val.endswith('-'):
-                        nearest = set_nearest(nearest, vals - value2)
+                        nearest = set_nearest(nearest, vals - value)
                     else:
                         val_list = split_val.split('-')
-                        if value2 < int(val_list[0]):
-                            nearest = set_nearest(nearest, value2 - int(val_list[0]))
-                        elif value2 > int(val_list[1]):
-                            nearest = set_nearest(nearest, int(val_list[1]) - value2)
+                        if value < int(val_list[0]):
+                            nearest = set_nearest(nearest, value - int(val_list[0]))
+                        elif value > int(val_list[1]):
+                            nearest = set_nearest(nearest, int(val_list[1]) - value)
                         else:
-                            nearest = set_nearest(nearest, abs(int(val_list[0]) - value2))
+                            nearest = set_nearest(nearest, abs(int(val_list[0]) - value))
                 elif split_val.endswith('+'):
-                    nearest = set_nearest(nearest, value2 - vals)
+                    nearest = set_nearest(nearest, value - vals)
                 else:
-                    nearest = set_nearest(nearest, -abs(vals - int(value2)))
+                    nearest = set_nearest(nearest, -abs(vals - int(value)))
 
         return nearest
     
-    def remove_all_from_list(list_obj: List[Any], value: Any | List[Any]):
+    def remove_all_from_list(list_obj: List[Any], value: Any | List[Any]) -> List[Any]:
+        """
+        Removes all instances of a value from a list
+
+        ### Parameters:
+        1. list_obj: List[Any]
+            - The list to remove from
+        2. value: Any | List[Any]
+            - The value to remove
+
+        ### Returns:
+        1. List[Any]
+            - The list with the value removed
+        """
+
         if type(value) is list_obj:
             for val in value:
                 list_obj.remove(val)
@@ -191,6 +260,24 @@ init -99 python:
         return list_obj
 
     def random_say(*text: str | Tuple, **kwargs):
+        """
+        Prints a random string from a list of strings
+
+        ### Parameters:
+        1. *text: str | Tuple
+            - The strings to print
+            - If a tuple is passed it will be treated as a list of strings
+            - If the tuple contains a bool it will be treated as a condition
+            - If the tuple contains an int it will be treated as an image
+            - If the tuple contains a ADVCharacter it will be treated as a character
+            - If the tuple contains a tuple it will be treated as a character and a name
+            - If the tuple is contained in another tuple starting with a float it will be treated as a weight
+        2. **kwargs
+            - The kwargs to get from
+            - If the kwargs contain a "person" key it will be treated as a character
+            - If the kwargs contain a "name" key it will be treated as a name
+            - If the kwargs contain a "image" key it will be treated as an image
+        """
 
         person = get_kwargs("person", character.subtitles, **kwargs)
         name = get_kwargs("name", person.name, **kwargs)
@@ -238,62 +325,149 @@ init -99 python:
         return
 
     def begin_event():
+        """
+        This method is called at the start of an event after choices and topics have been chosen in the event.
+        It prevents rollback to before this method and thus prevents changing choices and topics.
+        """
+
         renpy.block_rollback()
 
 
-    def set_game_data(key: str, value: Any) -> None:
+    def set_game_data(key: str, value: Any):
+        """
+        Sets a value in gameData
+
+        ### Parameters:
+        1. key: str
+            - The key to set
+        2. value: Any
+            - The value to set
+        """
+
         gameData[key] = value
 
-    def start_progress(key: str) -> None:
+    def start_progress(key: str):
+        """
+        Starts an event chain
+
+        ### Parameters:
+        1. key: str
+            - The key for the event chain
+        """
+
         if "progress" not in gameData.keys():
             gameData["progress"] = {}
         gameData["progress"][key] = 1
 
-    def advance_progress(key: str, delta: int = 1) -> None:
+    def advance_progress(key: str, delta: int = 1):
+        """
+        Advances an event chain
+
+        ### Parameters:
+        1. key: str
+            - The key for the event chain
+            - If the event chain does not exist it will be created
+        2. delta: int (default 1)
+            - The amount of advance for the event chain
+        """
+
         if "progress" not in gameData.keys():
             gameData["progress"] = {}
         if key not in gameData["progress"].keys():
             gameData["progress"][key] = 0
         gameData["progress"][key] += delta
 
-    def set_progress(key: str, value: int) -> None:
+    def set_progress(key: str, value: int):
+        """
+        Sets the progress of an event chain
+
+        ### Parameters:
+        1. key: str
+            - The key for the event chain
+            - If the event chain does not exist it will be created
+        2. value: int
+            - The value of progress to set the event chain to
+        """
+
         if "progress" not in gameData.keys():
             gameData["progress"] = {}
         gameData["progress"][key] = value
 
-    def get_progress(key: str)-> int:
+    def get_progress(key: str) -> int:
+        """
+        Gets the progress of an event chain
+
+        ### Parameters:
+        1. key: str
+            - The key for the event chain
+
+        ### Returns:
+        1. int
+            - The progress of the event chain
+            - if the event chain does not exist -1 is returned
+        """
+
         if "progress" not in gameData.keys() or key not in gameData["progress"].keys():
             return -1
         return gameData["progress"][key]
 
     def get_game_data(key: str) -> Any:
+        """
+        Gets a value from gameData
+
+        ### Parameters:
+        1. key: str
+            - The key to get
+
+        ### Returns:
+        1. Any
+            - The value from gameData
+            - If the key does not exist None is returned
+        """
+
         if key in gameData.keys():
             return gameData[key]
         return None
 
     def contains_game_data(key: str) -> bool:
+        """
+        Checks if a key is in gameData
+
+        ### Parameters:
+        1. key: str
+            - The key to check
+
+        ### Returns:
+        1. bool
+            - True if the key is in gameData, False otherwise
+        """
+
         return key in gameData.keys()
 
-    def get_image_with_level(image_path: str, level: int) -> str:
-
-        path = image_path.replace("<nude>", "0")
-
-        for i in reversed(range(0, level + 1)):
-            image = path.replace("<level>", str(i))
-            if renpy.loadable(image):
-                return image_path.replace("<level>", str(i))
-        for i in range(0, 10):
-            image = path.replace("<level>", str(i))
-            if renpy.loadable(image):
-                return image_path.replace("<level>", str(i))
-        
-        return image_path
-
     def get_random_school() -> Char:
+        """
+        Gets a random school
+
+        ### Returns:
+        1. Char
+            - The random school
+        """
+
         school = get_random_school_name()
         return charList['schools'][school]
 
     def get_random_school_name() -> str:
+        """
+        Gets a random school name
+
+        ### Returns:
+        1. str
+            - The random school name
+            - If loli_content is set to 2, the name is selected from all schools
+            - If loli_content is set to 1, the name is selected from all but the elementary_school
+            - If loli_content is set to 0, only high_school is selected
+        """
+
         if loli_content == 2:
             return get_random_choice("high_school", "middle_school", "elementary_school")
         elif loli_content == 1:
@@ -302,6 +476,17 @@ init -99 python:
             return "high_school"
 
     def get_all_schools() -> List[Char]:
+        """
+        Gets a list of all schools
+
+        ### Returns:
+        1. List[Char]
+            - The list with all schools
+            - If loli_content is set to 2, all schools are contained in that list
+            - If loli_content is set to 1, all but the elementary_school are contained in that list
+            - If loli_content is set to 0, only high_school is contained
+        """
+
         if loli_content == 2:
             return [charList['schools']['high_school'], charList['schools']['middle_school'], charList['schools']['elementary_school']]
         elif loli_content == 1:
@@ -312,6 +497,21 @@ init -99 python:
     T = TypeVar('T')
 
     def get_random_choice(*choice: T | Tuple[float, T]) -> T:
+        """
+        Selects a random value from a set of values
+
+        ### Parameters:
+        1. *choice: T | Tuple[float, T]
+            - The set of values to choose from
+            - If a value is a tuple, the float acts as a weight that influences the probability of that value being chosen
+            - The float value is a percentage in the range from 0.0 to 1.0
+
+        ### Returns:
+        1. T
+            - value chosen
+            - if the input value was a tuple, only the value of that tuple is returned and not the float
+        """
+
         choice = list(choice)
         if any((isinstance(item, tuple) and (isinstance(item[0], float) or isinstance(item[0], int))) for item in choice):
             end_choice = []
@@ -334,25 +534,100 @@ init -99 python:
         else:
             return choice[get_random_int(0, len(choice) - 1)]
 
-    def get_random_int(start: int, end: int):
+    def get_random_int(start: int, end: int) -> int:
+        """
+        Gets a random integer in a range
+
+        ### Parameters:
+        1. start: int
+            - The start of the range (inclusive)
+        2. end: int
+            - The end of the range (inclusive)
+
+        ### Returns:
+        1. int
+            - The random integer
+        """
+
         return random.randint(start, end)
 
-    def log_val(key: str, value: Any) -> None:
+    def log_val(key: str, value: Any):
+        """
+        Prints a key and value
+
+        ### Parameters:
+        1. key: str
+            - The key to print
+        2. value: Any
+            - The value to print
+        """
+
         print(key + ": " + str(value) + "\n")
 
-    def log(msg: str) -> None:
+    def log(msg: str):
+        """
+        Prints a message
+
+        ### Parameters:
+        1. msg: str
+            - The message to print
+        """
+
         print(str(msg) + "\n")
 
     def get_stat_from_char_kwargs(stat: str, **kwargs) -> float:
+        """
+        Gets a stat from a character stored in kwargs
+
+        ### Parameters:
+        1. stat: str
+            - The stat to get
+        2. **kwargs
+            - The kwargs to get the character from
+
+        ### Returns:
+        1. float
+            - The stat value
+            - If the character is not in kwargs -1 is returned
+        """
+
         char_obj = get_kwargs("char_obj", **kwargs)
         if char_obj == None:
             return -1
         return char_obj.get_stat_number(stat)
 
     def get_stat_from_char(char_obj: Character, stat: str) -> float:
+        """
+        Gets a stat from a character
+
+        ### Parameters:
+        1. char_obj: Character
+            - The character to get the stat from
+        2. stat: str
+            - The stat to get
+
+        ### Returns:
+        1. float
+            - The stat value
+        """
+
         return char_obj.get_stat_number(stat)
 
-    def get_members(tier: str = ''):
+    def get_members(tier: str = '') -> List[str]:
+        """
+        Gets a list of patreon members
+        It retrieves the csv list from the members.csv and returns it as a list of strings after filtering it by tier
+
+        ### Parameters:
+        1. tier: str (default '')
+            - The tier to filter by
+            - If tier is '' no filtering is done
+
+        ### Returns:
+        1. List[str]
+            - The list of members
+        """
+
         if not renpy.loadable("members.csv"):
             return []
         file = renpy.open_file("members.csv")
@@ -361,16 +636,53 @@ init -99 python:
             return lines
         else:
             return [line for line in lines if line.split(',')[1].strip() == tier]
-        output = []
 
+    def split_to_non_empty_list(s, delimiter) -> List[str]:
+        """
+        Splits a string into a list of non-empty strings
 
-    def split_to_non_empty_list(s, delimiter):
+        ### Parameters:
+        1. s: str
+            - The string to split
+        2. delimiter: str
+            - The delimiter to split by
+
+        ### Returns:
+        1. List[str]
+            - The list of non-empty strings
+        """
+
         return list(filter(str.strip, s.split(delimiter)))
 
-    def has_keyboard():
+    def has_keyboard() -> bool:
+        """
+        Checks if the current platform has a keyboard and the use of keyboard shortcuts is activated in the game settings
+
+        ### Returns:
+        1. bool
+            - True if the platform has a keyboard and the use of keyboard shortcuts is activated in the game settings, False otherwise
+        """
+
         return not renpy.android and not renpy.ios and persistent.shortcuts
 
 
 label say_with_image (image_series, step, text, person_name, person):
+    """
+    Prints a text with an image
+    Mainly used for the "random_say" method
+
+    ### Parameters:
+    1. image_series: Image_Series
+        - The image series to use
+    2. step: int
+        - The step of the image series to use
+    3. text: str
+        - The text to print
+    4. person_name: str
+        - The name of the person to print
+    5. person: ADVCharacter
+        - The character who says the text
+    """
+
     $ image_series.show(step)
     $ person(text, name = person_name)

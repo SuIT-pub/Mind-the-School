@@ -1,12 +1,42 @@
 init -6 python:
     import re
     class PTAProposal:
+        """
+        A class that represents a proposal for the PTA meeting.
+
+        ### Attributes:
+        1. _journal_obj : Journal_Obj
+            - The journal object that represents the proposal.
+        2. _action: str
+            - The action that should be performed on the proposal.
+            - Can be "unlock" or "upgrade"
+        3. _school: str
+            - The name of the school that the proposal is for.
+        """
+
         def __init__(self, journal_obj: Journal_Obj, action: str, school):
             self._journal_obj = journal_obj
             self._action = action
             self._school = school
 
     def calculateProbabilitySum(conditions: ConditionStorage, *char_obj_list: Char) -> float:
+        """
+        Calculates the probability of a character voting yes for a proposal.
+
+        ### Parameters:
+        1. conditions: ConditionStorage
+            - The conditions that decide the success of the proposal.
+            - These are used to calculate the probability depending on the difference from expected values
+        2. char_obj_list: Char
+            - The characters that should vote on the proposal.
+            - If None, the default characters will be used.
+
+        ### Returns:
+        1. float
+            - The probability of the proposal being accepted.
+            - The range goes from 0.0 to 100.0
+        """
+
         if conditions == None:
             return 0.0
 
@@ -26,6 +56,22 @@ init -6 python:
         return probability / len(char_obj_list)
 
     def calculateProbability(conditions: ConditionStorage, char_obj: Char) -> float:
+        """
+        Calculates the probability of a character voting yes for a proposal.
+
+        ### Parameters:
+        1. conditions: ConditionStorage
+            - The conditions that decide the success of the proposal.
+            - These are used to calculate the probability depending on the difference from expected values
+        2. char_obj: Char
+            - The character that should vote on the proposal.
+
+        ### Returns:
+        1. float
+            - The probability of the proposal being accepted.
+            - The range goes from 0.0 to 100.0
+        """
+
         voteConditions = conditions.get_conditions()
         probability = 50.0
         for condition in voteConditions:
@@ -33,6 +79,22 @@ init -6 python:
         return probability
 
     def voteCharacter(conditions: ConditionStorage, char_obj: Char) -> str:
+        """
+        Lets a character vote on a proposal.
+
+        ### Parameters:
+        1. conditions: ConditionStorage
+            - The conditions that decide the success of the proposal.
+            - These are used to calculate the probability depending on the difference from expected values
+        2. char_obj: Char
+            - The character that should vote on the proposal.
+
+        ### Returns:
+        1. str
+            - The vote of the character.
+            - Can be "yes", "no" or "veto"
+        """
+
         probability = calculateProbability(conditions, char_obj)
         vote = renpy.random.random() * 100
         voteDiff = probability - vote
@@ -46,6 +108,11 @@ init -6 python:
     
 
 label pta_meeting (**kwargs):
+    """
+    The main label for the PTA meeting.
+    Here the player can vote on proposals and discuss issues.
+    """
+
     subtitles "You enter the conference room."
     subtitles "All representatives already gathered and wait for you."
     headmaster "Thank you all for gathering today."

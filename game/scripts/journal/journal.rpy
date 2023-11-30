@@ -324,7 +324,7 @@ screen journal_vote_button(page, display, active_school, active_obj):
             $ action_text = "unlock"
             $ probability = 0
             if obj_type == 'building' and active_obj.can_be_upgraded(char_obj = active_school):
-                $ condition_storage = active_obj.get_upgrade_condition_storage(active_obj.get_level())
+                $ condition_storage = active_obj.get_update_conditions(active_obj.get_level())
                 $ action_text = "upgrade"
             if obj_type == 'building':
                 $ probability = calculateProbabilitySum(condition_storage)

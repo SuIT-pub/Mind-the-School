@@ -1,6 +1,19 @@
 init -6 python:
     import re
     class Rule(Journal_Obj):
+        """
+        A subclass of Journal_Obj that represents a rule.
+        A rule is a special type of journal object that can be used to unlock new content in the game.
+
+        ### Attributes:
+        1. _unlocked: Dict[str, bool] 
+            - A dictionary that stores the unlock status of the rule for each school.
+
+        ### Methods:
+        1. get_type() -> str
+            - Returns the type of the journal object.
+        """
+
         def __init__(self, name: str, title: str):
             super().__init__(name, title)
             self._unlocked = {
@@ -22,33 +35,104 @@ init -6 python:
                 }
                 
         def get_type(self) -> str:
+            """
+            Returns the type of the journal object.
+
+            ### Returns:
+            1. str
+                - The type of the journal object.
+                - In this case, it returns "rule".
+            """
+
             return "rule"
 
     #############################################
     # Rules Global Methods
     
     def get_rule(rule_name: str) -> Rule:
+        """
+        Returns the rule with the given name.
+
+        ### Parameters:
+        1. rule_name: str
+            - The name of the rule to be returned.
+
+        ### Returns:
+        1. Rule
+            - The rule with the given name.
+            - If no rule with the given name exists, returns None.
+        """
+
         if not rules or rule_name not in rules.keys():
             return None
         return rules[rule_name]
 
     def is_rule_unlocked(rule_name: str, school: str) -> bool:
+        """
+        Returns whether the rule with the given name is unlocked for the given school.
+
+        ### Parameters:
+        1. rule_name: str
+            - The name of the rule to be checked.
+        2. school: str
+            - The school to be checked.
+
+        ### Returns:
+        1. bool
+            - Whether the rule with the given name is unlocked for the given school.
+            - If no rule with the given name exists, returns False.
+        """
+
         if rule_name not in rules.keys():
             return False
         return rules[rule_name].is_unlocked(school)
 
     def is_rule_visible(rule_name: str, **kwargs) -> bool:
+        """
+        Returns whether the rule with the given name is visible.
+        A rule is visible when it is unlocked for at least one school or when it has no blocking fulfilled conditions.
+
+        ### Parameters:
+        1. rule_name: str
+            - The name of the rule to be checked.
+
+        ### Returns:
+        1. bool
+            - Whether the rule with the given name is visible.
+            - If no rule with the given name exists, returns False.
+        """
+
         if rule_name not in rules.keys():
             return False
         return rules[rule_name].is_visible(**kwargs)
 
-    def load_rule(name: str, title: str, data: Dict[str, Any] = None) -> None:
+    def load_rule(name: str, title: str, data: Dict[str, Any] = None):
+        """
+        Loads and updates a rule with the given name, title and data.
+
+        ### Parameters:
+        1. name: str
+            - The name of the rule to be loaded.
+        2. title: str
+            - The title of the rule to be loaded.
+        3. data: Dict[str, Any]
+            - The data of the rule to be loaded.
+        """
+
         if name not in rules.keys():
             rules[name] = Rule(name, title)
 
         rules[name]._update(title, data)
 
-    def remove_rule(name: str) -> None:
+    def remove_rule(name: str):
+        """
+        Removes the rule with the given name.
+
+        ### Parameters:
+        1. name: str
+            - The name of the rule to be removed.
+        """
+
         if name in rules.keys():
             del(rules[name])
 
