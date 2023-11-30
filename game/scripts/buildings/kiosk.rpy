@@ -186,7 +186,7 @@ label kiosk_event_3 (**kwargs):
     vendor "Sure that makes 2.50$"
     $ image.show(2)
     sgirl "2.50?! It has been only 1.50$ last week?" (name = girl)
-    $ image.show(1)
+    $ image.show(3)
     vendor "I'm sorry, but I can no longer afford to keep the prices so low."
     $ image.show(2)
     sgirl "But I can't afford that!" (name = girl)
@@ -198,16 +198,17 @@ label kiosk_event_3 (**kwargs):
 
 label .leave (**kwargs):
     if kwargs["topic"] == "slimy":
-        $ image.show(3)
-        vendor "You know what? I think I could help you."
         $ image.show(4)
-        sgirl "Really?" (name = girl)
+        vendor "You know what? I think I could help you."
         $ image.show(5)
-        vendor "Yeah you could, you know have my Hot Dog."
+        sgirl "Really?" (name = girl)
         $ image.show(6)
-        sgirl "Your Hot Dog? What do you m..." (name = girl)
-        sgirl "Eeek! Pervert!" (name = girl)
+        vendor "Yeah you could, you know have my Hot Dog."
         $ image.show(7)
+        sgirl "Your Hot Dog? What do you m..." (name = girl)
+        $ image.show(8)
+        sgirl "Eeek! Pervert!" (name = girl)
+        $ image.show(9)
         headmaster_thought "Mhh what kind of noise is that? Hmmm... I guess it's nothing serious."
 
         $ change_stats_with_modifier(kwargs[CHAR],
@@ -215,11 +216,11 @@ label .leave (**kwargs):
         jump new_daytime
         
     elif kwargs["topic"] == "kind":
-        $ image.show(8)
-        vendor "I'm sorry to hear that... You know what? This one is on the house."
-        $ image.show(9)
-        sgirl "*sob* Thank you." (name = girl)
         $ image.show(10)
+        vendor "I'm sorry to hear that... You know what? This one is on the house."
+        $ image.show(11)
+        sgirl "*sob* Thank you." (name = girl)
+        $ image.show(12)
         headmaster_thought "Mhh, things are worse than I thought. I can't believe the students have to go hungry."
         headmaster_thought "I should think about doing something about that."
 
@@ -231,11 +232,11 @@ label .leave (**kwargs):
 
         jump new_daytime
     else:
-        $ image.show(11)
-        vendor "I'm sorry but there is nothing I can do."
-        $ image.show(12)
-        sgirl "*sob*" (name = girl)
         $ image.show(13)
+        vendor "I'm sorry but there is nothing I can do."
+        $ image.show(14)
+        sgirl "*sob*" (name = girl)
+        $ image.show(15)
         headmaster_thought "Poor girl..."
 
         $ change_stats_with_modifier(kwargs[CHAR],
@@ -243,24 +244,24 @@ label .leave (**kwargs):
         jump new_daytime
 
 label .help (**kwargs):
-    $ image.show(14)
-    headmaster "What's the matter here?"
-    $ image.show(15)
-    sgirl "Oh Mr. [headmaster_last_name]... nothing..." (name = girl)
     $ image.show(16)
+    headmaster "What's the matter here?"
+    $ image.show(17)
+    sgirl "Oh Mr. [headmaster_last_name]... nothing..." (name = girl)
+    $ image.show(18)
     headmaster "I'll pay her meal and please add a coffee."
     headmaster "Do you drink coffee?"
-    $ image.show(17)
-    sgirl "Yes?" (name = girl)
-    $ image.show(18)
-    headmaster "Good, coffee then."
     $ image.show(19)
-    vendor "Sure!"
+    sgirl "Yes?" (name = girl)
     $ image.show(20)
-    sgirl "Thank you very much!" (name = girl)
+    headmaster "Good, coffee then."
     $ image.show(21)
-    headmaster "No problem. I know it can be hard, but if you are in a predicament just come talk to me and I'm sure we can find a way." 
+    vendor "Sure!"
     $ image.show(22)
+    sgirl "Thank you very much!" (name = girl)
+    $ image.show(23)
+    headmaster "No problem. I know it can be hard, but if you are in a predicament just come talk to me and I'm sure we can find a way." 
+    $ image.show(24)
     sgirl "..." (name = girl)
 
     $ change_stats_with_modifier(kwargs[CHAR],
