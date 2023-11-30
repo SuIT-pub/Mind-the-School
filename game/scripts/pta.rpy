@@ -112,19 +112,19 @@ label pta_meeting (**kwargs):
     The main label for the PTA meeting.
     Here the player can vote on proposals and discuss issues.
     """
-
-    subtitles "You enter the conference room."
-    subtitles "All representatives already gathered and wait for you."
-    headmaster "Thank you all for gathering today."
-
-    headmaster "First point for today. Does someone have anything to discuss today?"
-
-    if "pta-issues" in gameData and len(gameData["pta-issues"]) != 0:
-        subtitles "todo: add pta-issues"
-    else:
-        headmaster "No? Alright then lets jump straight to the next point."
-
+    
     $ proposal = get_game_data('voteProposal')
+    $ obj_school = get_random_school()
+    $ obj_parent = get_character("parents", charList)
+    $ obj_teacher = get_character("teacher", charList["staff"])
+    $ obj_secretary = get_character("secretary", charList["staff"])
+    
+    $ obj = None
+    $ obj_type = None
+    $ obj_title = None
+    $ obj_desc = None
+    $ obj_action = None
+
     if proposal != None:
         $ obj = proposal._journal_obj
         $ obj_type = obj.get_type()
@@ -133,9 +133,81 @@ label pta_meeting (**kwargs):
         $ obj_action = proposal._action
 
         $ obj_school = get_character(proposal._school, charList["schools"])
-        $ obj_school_name = obj_school.get_name()
-        $ obj_school_title = obj_school.get_title()
 
+    $ obj_school_name = obj_school.get_name()
+    $ obj_school_title = obj_school.get_title()
+
+    if proposal != None:
+        $ forNum = 0
+        
+        $ teacher_obj = get_character("teacher", charList["staff"])
+        $ teacher_vote = voteCharacter(
+            obj.get_condition_storage(), 
+            teacher_obj,
+            obj_school_name,
+        )
+        $ teacher_response = obj.get_vote_comments("teacher", teacher_vote)
+        if teacher_vote == 'yes':
+            $ forNum += 1
+        elif teacher_vote == 'veto':
+            $ forNum = -3
+            
+        $ school_obj = get_character(obj_school_name, charList["schools"])
+        $ student_vote = voteCharacter(
+            obj.get_condition_storage(), 
+            school_obj,
+            obj_school_name,
+        )
+        $ student_response = obj.get_vote_comments("student", student_vote)
+        if student_vote == 'yes':
+            $ forNum += 1
+        elif student_vote == 'veto':
+            $ forNum = -3
+            
+        $ parent_obj = charList["parents"]
+        $ parent_vote = voteCharacter(
+            obj.get_condition_storage(), 
+            parent_obj, 
+            obj_school_name,
+        )
+        $ parent_response = obj.get_vote_comments("parent", parent_vote)
+        if parent_vote == 'yes':
+            $ forNum += 1
+        elif parent_vote == 'veto':
+            $ forNum = -3
+
+    
+    $ image = Image_Series("images/events/pta/regular meeting/pta_1 <secretary_level> <teacher_level> <student_level> <parent_level> <step>.png", 
+        secretary_level = obj_secretary.get_level(),
+        teacher_level = obj_teacher.get_level(), 
+        school = obj_school_name, 
+        student_level = obj_school.get_level(), 
+        parent_level = obj_parent.get_level()
+    )
+
+    $ speaking_teacher = get_random_choice("Lily Anderson", "Yulan Chen", "Finola Ryan", "Chloe Garcia", "Zoe Parker")
+    $ speaking_parent = get_random_choice("Yuki Yamamoto", "Adelaide Hall", "Nubia Davis")
+    $ speaking_student = get_random_choice("Yuriko Oshima")
+
+    $ begin_event()
+
+    $ image.show(0)
+    subtitles "You enter the conference room."
+    subtitles "All representatives already gathered and wait for you."
+    $ image.show(1)
+    headmaster "Thank you all for gathering today."
+
+    $ image.show(2)
+    headmaster "First point for today. Does someone have anything to discuss today?"
+
+    if "pta-issues" in gameData and len(gameData["pta-issues"]) != 0:
+        subtitles "todo: add pta-issues"
+    else:
+        $ image.show(3)
+        headmaster "No? Alright then lets jump straight to the next point."
+
+    if proposal != None:
+        $ image.show(4)
         if obj_type == "rule":
             headmaster "Today I want to put to vote a change in the [obj_school_title]s ruleset."
             headmaster "I want to implement the Rule: [obj_title]."
@@ -147,55 +219,50 @@ label pta_meeting (**kwargs):
         elif obj_type == "building" and obj_action == "upgrade":
             headmaster "Today I want to put to vote if we want to upgrade the [obj_title]."
 
+        $ image.show(5)
         $ i = 0
         while i < len(obj_desc):
             $ desc_text = obj_desc[i]
             headmaster "[desc_text]"
             $ i += 1
 
+        $ image.show(6)
         headmaster "Please cast your vote now."
 
-        $ forNum = 0
-
-        $ teacher_obj = get_character("teacher", charList["staff"])
-        $ teacher_vote = voteCharacter(
-            obj.get_condition_storage(), 
-            teacher_obj,
-            obj_school_name,
+        $ show_image("images/events/pta/regular meeting/pta_2 <secretary_level> <teacher_level> <student_level> <parent_level> <teacher> <vote>.png",
+            secretary_level = obj_secretary.get_level(),
+            teacher_level = obj_teacher.get_level(), 
+            school = obj_school_name, 
+            student_level = obj_school.get_level(), 
+            parent_level = obj_parent.get_level()
+            teacher = speaking_teacher,
+            vote = teacher_vote
         )
-        $ teacher_response = obj.get_vote_comments("teacher", teacher_vote)
         teacher1 "[teacher_response]"
-        if teacher_vote == 'yes':
-            $ forNum += 1
-        elif teacher_vote == 'veto':
-            $ forNum = -3
 
-        $ school_obj = get_character(obj_school_name, charList["schools"])
-        $ student_vote = voteCharacter(
-            obj.get_condition_storage(), 
-            school_obj,
-            obj_school_name,
+        $ show_image("images/events/pta/regular meeting/pta_2 <secretary_level> <teacher_level> <student_level> <parent_level> <student> <vote>.png",
+            secretary_level = obj_secretary.get_level(),
+            teacher_level = obj_teacher.get_level(), 
+            school = obj_school_name, 
+            student_level = obj_school.get_level(), 
+            parent_level = obj_parent.get_level()
+            student = speaking_student,
+            vote = student_vote
         )
-        $ student_response = obj.get_vote_comments("student", student_vote)
         sgirl "[student_response]"
-        if student_vote == 'yes':
-            $ forNum += 1
-        elif student_vote == 'veto':
-            $ forNum = -3
 
-        $ parent_obj = charList["parents"]
-        $ parent_vote = voteCharacter(
-            obj.get_condition_storage(), 
-            parent_obj, 
-            obj_school_name,
+        $ show_image("images/events/pta/regular meeting/pta_2 <secretary_level> <teacher_level> <school> <student_level> <parent_level> <parent> <vote>.png",
+            secretary_level = obj_secretary.get_level(),
+            teacher_level = obj_teacher.get_level(), 
+            school = obj_school_name, 
+            student_level = obj_school.get_level(), 
+            parent_level = obj_parent.get_level()
+            parent = speaking_parent,
+            vote = parent_vote
         )
-        $ parent_response = obj.get_vote_comments("parent", parent_vote)
         parent "[parent_response]"
-        if parent_vote == 'yes':
-            $ forNum += 1
-        elif parent_vote == 'veto':
-            $ forNum = -3
 
+        $ image.show(7)
         if forNum >= 2:
             headmaster "The vote was successful. The [obj_title] will be implemented."
             $ obj.unlock(obj_school_name, True, True)
@@ -207,10 +274,12 @@ label pta_meeting (**kwargs):
 label first_pta_meeting (**kwargs):
     $ hide_all()
 
+    $ show_image("images/events/pta/first meeting/first pta meeting 0.png")
+
     subtitles "You enter the conference room."
     subtitles "All representatives already gathered and wait for you."
 
-    call show_ext_image_with_nude_var(f"images/events/pta/first meeting/first pta meeting 1 <loli_content> <nude>.jpg", loli_content = loli_content) from first_pta_meeting_1
+    call show_ext_image_with_nude_var(f"images/events/pta/first meeting/first pta meeting 1 0 <nude>.jpg") from first_pta_meeting_1
     headmaster """
         Thank you all for gathering today.
 
@@ -220,7 +289,7 @@ label first_pta_meeting (**kwargs):
     """
 
     hide screen image_with_nude_var
-    scene expression "events/pta/first meeting/first pta meeting 2 [loli_content].jpg"
+    scene expression "events/pta/first meeting/first pta meeting 2 0.jpg"
     headmaster """
         During my first week, I've taken the time to find out about the current state of the school, and it's clear 
         that there's a lot of work to be done. 
@@ -229,7 +298,7 @@ label first_pta_meeting (**kwargs):
         institutions in the country. 
     """
 
-    scene expression "events/pta/first meeting/first pta meeting 3 [loli_content].jpg"
+    scene expression "events/pta/first meeting/first pta meeting 3 0.jpg"
     headmaster """
         My theory on how to improve the education system has been criticised by established psychologists and teachers. 
         But I can guarantee its effectiveness.
@@ -244,7 +313,7 @@ label first_pta_meeting (**kwargs):
         To briefly summarise my theory. I want to use the parts of the human body that no system has used before.
     """
  
-    scene expression "events/pta/first meeting/first pta meeting 4 [loli_content].jpg"
+    scene expression "events/pta/first meeting/first pta meeting 4 0.jpg"
     headmaster """
         The human body is a complex biological machine designed to survive in a harsh and dangerous ecosystem. So it 
         was originally built to learn new patterns and methods to give it a better chance of survival.
@@ -264,7 +333,7 @@ label first_pta_meeting (**kwargs):
         Problems that are the result of old educational methods and techniques.
     """
 
-    scene expression "events/pta/first meeting/first pta meeting 2 [loli_content].jpg"
+    scene expression "events/pta/first meeting/first pta meeting 2 0.jpg"
     headmaster """
         One of the main problems is the increasing alienation of individuals in our society. Loneliness is becoming 
         more common, often due to social isolation caused by a lack of interpersonal skills and inadequate support from 
@@ -282,7 +351,7 @@ label first_pta_meeting (**kwargs):
         the best in the country.
     """
 
-    call show_ext_image_with_nude_var(f"images/events/pta/first meeting/first pta meeting 5 <loli_content> <nude>.jpg", loli_content = loli_content) from first_pta_meeting_2
+    call show_ext_image_with_nude_var(f"images/events/pta/first meeting/first pta meeting 5 <loli_content> <nude>.jpg", loli_content = 0) from first_pta_meeting_2
     headmaster """
         If you want to know more about my theory, please read my book. I'll be happy to give it to you if you're 
         interested.
@@ -325,7 +394,7 @@ label first_pta_meeting (**kwargs):
         That's all from our side. Thank you very much.
     """
     
-    call show_ext_image_with_nude_var(f"images/events/pta/first meeting/first pta meeting 8 <nude>.jpg", loli_content = loli_content) from first_pta_meeting_3
+    call show_ext_image_with_nude_var(f"images/events/pta/first meeting/first pta meeting 8 <nude>.jpg", loli_content = 0) from first_pta_meeting_3
     parent """
         Hello, I am a concerned parent of one of the students attending this school and I speak for all parents when I 
         say that we are worried about the recent changes. 
@@ -339,7 +408,7 @@ label first_pta_meeting (**kwargs):
         $ pronoun = "we are"
 
     hide screen image_with_nude_var
-    call show_ext_image_with_nude_var(f"images/events/pta/first meeting/first pta meeting 9 <loli_content> <nude>.jpg", loli_content = loli_content) from first_pta_meeting_4
+    call show_ext_image_with_nude_var(f"images/events/pta/first meeting/first pta meeting 9 <loli_content> <nude>.jpg", loli_content = 0) from first_pta_meeting_4
     sgirl """
         Hello, we are the student representatives of this school and [pronoun] here to make sure that the students of this 
         school are not let out of the decision making and to act as the Mouthpiece of the students issues and 

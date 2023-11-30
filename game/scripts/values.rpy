@@ -91,6 +91,14 @@ default character.secretary_shout = Character(
     what_size = 35,
     # what_outlines = [( 1, "#000000", 0, 0 )],
 )
+default character.teacher = Character(
+    "Teacher", 
+    #window_background = None,
+    who_color = "#00ced1",
+    what_color = "#ffffff",
+    what_size = 28,
+    # what_outlines = [( 1, "#000000", 0, 0 )],
+)
 default teacher_1_first_name = "Lily"
 default teacher_1_last_name = "Anderson"
 default character.teacher1 = Character(

@@ -4,6 +4,7 @@ daysegment
 Flaticon
 keydown
 noalt
+Oshima
 pagekeys
 quicksaved
 readlines
@@ -23,3 +24,5 @@ yfill
 yinitial
 yoffset
 ypadding
+Yuki
+Yuriko
