@@ -234,7 +234,7 @@ label pta_meeting (**kwargs):
             teacher_level = obj_teacher.get_level(), 
             school = obj_school_name, 
             student_level = obj_school.get_level(), 
-            parent_level = obj_parent.get_level()
+            parent_level = obj_parent.get_level(),
             teacher = speaking_teacher,
             vote = teacher_vote
         )
@@ -245,7 +245,7 @@ label pta_meeting (**kwargs):
             teacher_level = obj_teacher.get_level(), 
             school = obj_school_name, 
             student_level = obj_school.get_level(), 
-            parent_level = obj_parent.get_level()
+            parent_level = obj_parent.get_level(),
             student = speaking_student,
             vote = student_vote
         )
@@ -256,7 +256,7 @@ label pta_meeting (**kwargs):
             teacher_level = obj_teacher.get_level(), 
             school = obj_school_name, 
             student_level = obj_school.get_level(), 
-            parent_level = obj_parent.get_level()
+            parent_level = obj_parent.get_level(),
             parent = speaking_parent,
             vote = parent_vote
         )
