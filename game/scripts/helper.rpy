@@ -575,6 +575,18 @@ init -99 python:
 
         print(str(msg) + "\n")
 
+    def log_error(msg: str):
+        """
+        Prints an error message
+
+        ### Parameters:
+        1. msg: str
+            - The message to print
+        """
+
+        print("|ERROR| " + str(msg) + "\n")
+        renpy.notify("|ERROR| " + str(msg))
+
     def get_stat_from_char_kwargs(stat: str, **kwargs) -> float:
         """
         Gets a stat from a character stored in kwargs
@@ -665,24 +677,3 @@ init -99 python:
 
         return not renpy.android and not renpy.ios and persistent.shortcuts
 
-
-label say_with_image (image_series, step, text, person_name, person):
-    """
-    Prints a text with an image
-    Mainly used for the "random_say" method
-
-    ### Parameters:
-    1. image_series: Image_Series
-        - The image series to use
-    2. step: int
-        - The step of the image series to use
-    3. text: str
-        - The text to print
-    4. person_name: str
-        - The name of the person to print
-    5. person: ADVCharacter
-        - The character who says the text
-    """
-
-    $ image_series.show(step)
-    $ person(text, name = person_name)

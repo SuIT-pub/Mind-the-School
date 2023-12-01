@@ -1,10 +1,5 @@
 init -9:
-    # python:
-    #     from typing import TypeVar
-
-    #     num = TypeVar('num', int, float)
-    #     val = TypeVar('val', int, float, str)
-
+    
     $ CORRUPTION = "corruption"
     $ INHIBITION = "inhibition"
     $ HAPPINESS = "happiness"

@@ -572,11 +572,11 @@ init -3 python:
             """
 
             if self.priority < 1 or self.priority > 3:
-                log("|ERROR| at Event " + self.id + ": Priority " + str(self.priority) + " is not valid!")
+                log_error(" at Event " + self.id + ": Priority " + str(self.priority) + " is not valid!")
 
             for event in self.event:
                 if not renpy.has_label(event):
-                    log("|ERROR| at Event " + self.id + ": Label " + event + " is missing!")
+                    log_error(" at Event " + self.id + ": Label " + event + " is missing!")
 
         def get_id(self) -> str:
             """

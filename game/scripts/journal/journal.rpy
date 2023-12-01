@@ -248,8 +248,6 @@ screen journal_page_selector(page, display, school):
 screen journal_desc(page, display, active_school, active_obj):
     $ active_obj_desc = active_obj.get_description_str()
 
-    $ log("test")
-
     $ action_text = "unlock"
     if active_obj.get_type() == "building" and active_obj.is_unlocked("x")  and active_obj.has_higher_level():
         $ action_text = "upgrade"
