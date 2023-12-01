@@ -164,11 +164,13 @@ init -2 python:
             if step < 0 or step >= len(self.steps):
                 log_val("image", self._image_path)
                 log(f"Step {step} is out of range! (Min: 0, Max: {len(self.steps) - 1}))")
+                renpy.show("black_screen_text", f"Step {step} is out of range! (Min: 0, Max: {len(self.steps) - 1}))")
                 return
 
             image_step = self.steps[step]
             if image_step == None:
                 log(f"Step {step} is missing variants for {self._image_path}!")
+                renpy.show("black_screen_text", f"Step {step} is missing variants for {self._image_path}!")
                 return
 
             (image_path, variant) = image_step.get_image(self._image_path, variant)

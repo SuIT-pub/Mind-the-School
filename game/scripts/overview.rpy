@@ -25,11 +25,21 @@ style stat_value:
 ###################################
 # display the school map with stats
 screen school_overview_map ():
+    python:
+        """
+        Displays the school map
+        """
+
     add "background/bg school overview idle.jpg"
 
 ##############################
 # display the stats on the map
 screen school_overview_stats ():
+    python:
+        """
+        Displays the stats on the map
+        """
+
     grid 4 4:
         xalign 1.0 yalign 0.0
         spacing 5
@@ -87,6 +97,11 @@ screen school_overview_stats ():
 ##################################
 # display all buildings on the map
 screen school_overview_images ():
+    python:
+        """
+        Displays all buildings on the map
+        """
+
     add "background/bg school overview idle.jpg"
 
     # High School Building
@@ -174,6 +189,11 @@ screen school_overview_images ():
 ############################################################################
 # display clickable buttons for the buildings leading to building distributor
 screen school_overview_buttons ():
+    python:
+        """
+        Displays clickable buttons for the buildings leading to building distributor
+        """
+
     tag interaction_overlay
     modal True
     
@@ -389,18 +409,17 @@ screen school_overview_buttons ():
                 xalign 0.5
                 text tooltip
 
-label show_image_screen(image_path):
-    if not renpy.loadable(image_path):
-        $ renpy.show_screen("black_error_screen_text", "image '" + image_path + "' not found")
-    else:
-        show screen image_screen(image_path) with dissolveM
-
-screen image_screen(image_path):
-    tag background
-    image "[image_path]"
-
-
 screen black_error_screen_text(text_str):
+    python:
+        """
+        Displays a black screen with red text
+        Would be used for error messages
+
+        # Parameters:
+        1. text_str: str
+            - the text to be displayed
+        """
+
     add "black"
     zorder -1
     
@@ -410,6 +429,15 @@ screen black_error_screen_text(text_str):
         color "#ff0000"
 
 screen black_screen_text(text_str):
+    python:
+        """
+        Displays a black screen with white text
+
+        # Parameters:
+        1. text_str: str
+            - the text to be displayed
+        """
+
     add "black"
     
     key "K_SPACE" action Return()
@@ -428,6 +456,28 @@ screen black_screen_text(text_str):
 #########################
 # ----- Map Logic ----- #
 #########################
+
+
+label say_with_image (image_series, step, text, person_name, person):
+    """
+    Prints a text with an image
+    Mainly used for the "random_say" method
+
+    ### Parameters:
+    1. image_series: Image_Series
+        - The image series to use
+    2. step: int
+        - The step of the image series to use
+    3. text: str
+        - The text to print
+    4. person_name: str
+        - The name of the person to print
+    5. person: ADVCharacter
+        - The character who says the text
+    """
+
+    $ image_series.show(step)
+    $ person(text, name = person_name)
 
 ####################################################
 # goes to map overview while moving the time forward

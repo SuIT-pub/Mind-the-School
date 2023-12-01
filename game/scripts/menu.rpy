@@ -48,7 +48,6 @@ init python:
         ### Returns
         1. List[Tuple[str, EventEffect]]
             - The list of events that have applicable events and their effects.
-
         """
 
         output = []
