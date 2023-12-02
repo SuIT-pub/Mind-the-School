@@ -181,7 +181,7 @@ label kiosk_event_3 (**kwargs):
     $ begin_event()
 
     $ image.show(0)
-    sgirl "Hi, I want a Hot Dog!" (name = girl)
+    sgirl "Hi, I want a Bento!" (name = girl)
     $ image.show(1)
     vendor "Sure that makes 2.50$"
     $ image.show(2)
@@ -219,7 +219,7 @@ label .leave (**kwargs):
         $ image.show(10)
         vendor "I'm sorry to hear that... You know what? This one is on the house."
         $ image.show(11)
-        sgirl "*sob* Thank you." (name = girl)
+        sgirl "Really? Thank you." (name = girl)
         $ image.show(12)
         headmaster_thought "Mhh, things are worse than I thought. I can't believe the students have to go hungry."
         headmaster_thought "I should think about doing something about that."
@@ -232,11 +232,11 @@ label .leave (**kwargs):
 
         jump new_daytime
     else:
-        $ image.show(13)
+        $ image.show(10)
         vendor "I'm sorry but there is nothing I can do."
-        $ image.show(14)
+        $ image.show(13)
         sgirl "*sob*" (name = girl)
-        $ image.show(15)
+        $ image.show(12)
         headmaster_thought "Poor girl..."
 
         $ change_stats_with_modifier(kwargs[CHAR],
@@ -244,24 +244,24 @@ label .leave (**kwargs):
         jump new_daytime
 
 label .help (**kwargs):
-    $ image.show(16)
+    $ image.show(14)
     headmaster "What's the matter here?"
-    $ image.show(17)
+    $ image.show(15)
     sgirl "Oh Mr. [headmaster_last_name]... nothing..." (name = girl)
-    $ image.show(18)
+    $ image.show(16)
     headmaster "I'll pay her meal and please add a coffee."
+    $ image.show(17)
     headmaster "Do you drink coffee?"
-    $ image.show(19)
     sgirl "Yes?" (name = girl)
-    $ image.show(20)
+    $ image.show(18)
     headmaster "Good, coffee then."
-    $ image.show(21)
+    $ image.show(19)
     vendor "Sure!"
-    $ image.show(22)
+    $ image.show(20)
     sgirl "Thank you very much!" (name = girl)
-    $ image.show(23)
+    $ image.show(21)
     headmaster "No problem. I know it can be hard, but if you are in a predicament just come talk to me and I'm sure we can find a way." 
-    $ image.show(24)
+    $ image.show(22)
     sgirl "..." (name = girl)
 
     $ change_stats_with_modifier(kwargs[CHAR],
