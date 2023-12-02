@@ -185,8 +185,11 @@ label pta_meeting (**kwargs):
         parent_level = obj_parent.get_level()
     )
 
-    $ speaking_teacher = get_random_choice("Lily Anderson", "Yulan Chen", "Finola Ryan", "Chloe Garcia", "Zoe Parker")
-    $ speaking_parent = get_random_choice("Yuki Yamamoto", "Adelaide Hall", "Nubia Davis")
+    # $ speaking_teacher = get_random_choice("Lily Anderson", "Yulan Chen", "Finola Ryan", "Chloe Garcia", "Zoe Parker")
+    # $ speaking_parent = get_random_choice("Yuki Yamamoto", "Adelaide Hall", "Nubia Davis")
+
+    $ speaking_teacher = "Yulan Chen"
+    $ speaking parent = "Adelaide Hall"
     $ speaking_student = get_random_choice("Yuriko Oshima")
 
     $ begin_event()
@@ -238,7 +241,7 @@ label pta_meeting (**kwargs):
             teacher = speaking_teacher,
             vote = teacher_vote
         )
-        teacher1 "[teacher_response]"
+        teacher "[teacher_response]" (name = speaking_teacher)
 
         $ show_image("images/events/pta/regular meeting/pta_2 <secretary_level> <teacher_level> <student_level> <parent_level> <student> <vote>.png",
             secretary_level = obj_secretary.get_level(),
@@ -249,7 +252,7 @@ label pta_meeting (**kwargs):
             student = speaking_student,
             vote = student_vote
         )
-        sgirl "[student_response]"
+        sgirl "[student_response]" (name = speaking_student)
 
         $ show_image("images/events/pta/regular meeting/pta_2 <secretary_level> <teacher_level> <school> <student_level> <parent_level> <parent> <vote>.png",
             secretary_level = obj_secretary.get_level(),
@@ -260,7 +263,7 @@ label pta_meeting (**kwargs):
             parent = speaking_parent,
             vote = parent_vote
         )
-        parent "[parent_response]"
+        parent "[parent_response]" (name = speaking_parent)
 
         $ image.show(7)
         if forNum >= 2:
