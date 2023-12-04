@@ -819,8 +819,10 @@ screen preferences():
                 hbox:
                     vbox:
                         style_prefix "check"
-                        label _("SkipKeyboard")
-                        textbutton _("Shortcuts") action ToggleField(persistent, "shortcuts")
+                        label _("Keyboard Shortcuts")
+                        textbutton _("Active") action SetField(persistent, "shortcuts", 0)
+                        textbutton _("Hidden") action SetField(persistent, "shortcuts", 1)
+                        textbutton _("Disabled") action SetField(persistent, "shortcuts", 2)
 
                 
                 null height (4 * gui.pref_spacing)

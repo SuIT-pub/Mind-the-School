@@ -182,8 +182,6 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
 
     $ element_count = len(elements)
 
-    $ keyboard = (not renpy.android and not renpy.ios)
-
     frame:
         background "#ffffff00"
         area(367, 0, 1185, 800)
@@ -215,7 +213,8 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
                         $ title, effects, _active = elements[i]
                     $ title_text = "[title]"
                     if has_keyboard() and count < 10:
-                        $ title_text = "[title] [[[count]]"
+                        if show_shortcut():
+                            $ title_text = "[title] [[[count]]"
                         key ("K_" + str(count)) action Call("call_element", effects, **kwargs)
                     button:
                         background "gui/button/choice_idle_background.png"
@@ -242,7 +241,8 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
                     if start != 0:
                         $ prev_text = ""
                         if has_keyboard():
-                            $ prev_text = "[,]"
+                            if show_shortcut():
+                                $ prev_text = "[,]"
                             key "K_COMMA" action Show("custom_menu_choice", None, page - 1, page_limit, elements, **kwargs)
                         button:
                             background "gui/button/choice_idle_background_250px.png"
@@ -269,7 +269,8 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
                     if end < element_count:
                         $ next_text = ""
                         if has_keyboard():
-                            $ next_text = "[.]"
+                            if show_shortcut():
+                                $ next_text = "[.]"
                             key "K_PERIOD" action Show("custom_menu_choice", None, page + 1, page_limit, elements, **kwargs)
                         button:
                             background "gui/button/choice_idle_background_250px.png"
@@ -287,8 +288,9 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
 
             if with_leave:
                 $ l_text = ""
-                if keyboard:
-                    $ l_text = " [Esc]"
+                if has_keyboard():
+                    if show_shortcut():
+                        $ l_text = " [Esc]"
                     key "K_ESCAPE" action Jump("close_menu")
                 hbox:
                     xsize 1920

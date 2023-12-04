@@ -675,5 +675,16 @@ init -99 python:
             - True if the platform has a keyboard and the use of keyboard shortcuts is activated in the game settings, False otherwise
         """
 
-        return not renpy.android and not renpy.ios and persistent.shortcuts
+        return not renpy.android and not renpy.ios and persistent.shortcuts != 2
+
+    def show_shortcut() -> bool:
+        """
+        Checks if the use of keyboard shortcuts is activated in the game settings
+
+        ### Returns:
+        1. bool
+            - True if the use of keyboard shortcuts is activated in the game settings, False otherwise
+        """
+
+        return persistent.shortcuts == 0
 

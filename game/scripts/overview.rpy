@@ -197,13 +197,12 @@ screen school_overview_buttons ():
     tag interaction_overlay
     modal True
     
-    $ keyboard = (not renpy.android and not renpy.ios)
-
     # High School Building
     if is_building_available("high_school_building"):
         $ hsb_text = ""
-        if has_keyboard():
-            $ hsb_text = " [[1]"
+        if has_keyboard():  
+            if show_shortcut():
+                $ hsb_text = " [[1]"
             key "K_1" action Call("building", "high_school_building")
         imagebutton:
             auto "background/bg school high school building %s.png"
@@ -217,7 +216,8 @@ screen school_overview_buttons ():
     if is_building_available("high_school_dormitory"):
         $ hsd_text = ""
         if has_keyboard():
-            $ hsd_text = " [[2]"
+            if show_shortcut():
+                $ hsd_text = " [[2]"
             key "K_2" action Call("building", "high_school_dormitory")
         imagebutton:
             auto "background/bg school high school dormitory %s.png"
@@ -295,7 +295,8 @@ screen school_overview_buttons ():
     if is_building_available("gym"):
         $ g_text = ""
         if has_keyboard():
-            $ g_text = " [[6]"
+            if show_shortcut():
+                $ g_text = " [[6]"
             key "K_6" action Call("building", "gym")
         imagebutton:
             auto "background/bg school gym %s.png"
@@ -317,7 +318,8 @@ screen school_overview_buttons ():
     if is_building_available("cafeteria"):
         $ cf_text = ""
         if has_keyboard():
-            $ cf_text = " [[7]"
+            if show_shortcut():
+                $ cf_text = " [[7]"
             key "K_7" action Call("building", "cafeteria")
         imagebutton:
             auto "background/bg school cafeteria %s.png"
@@ -339,7 +341,8 @@ screen school_overview_buttons ():
     if is_building_available("kiosk"):
         $ k_text = ""
         if has_keyboard():
-            $ k_text = " [[5]"
+            if show_shortcut():
+                $ k_text = " [[5]"
             key "K_5" action Call("building", "kiosk")
         imagebutton:
             auto "background/bg school kiosk %s.png"
@@ -352,7 +355,8 @@ screen school_overview_buttons ():
     if is_building_available("courtyard"):
         $ c_text = ""
         if has_keyboard():
-            $ c_text = " [[4]"
+            if show_shortcut():
+                $ c_text = " [[4]"
             key "K_4" action Call("building", "courtyard")
         imagebutton:
             auto "background/bg school courtyard %s.png"
@@ -365,7 +369,8 @@ screen school_overview_buttons ():
     if is_building_available("office_building"):
         $ o_text = ""
         if has_keyboard():
-            $ o_text = " [[3]"
+            if show_shortcut():
+                $ o_text = " [[3]"
             key "K_3" action Call("building", "office_building")
         imagebutton:
             auto "background/bg school office building %s.png"
@@ -376,7 +381,8 @@ screen school_overview_buttons ():
     
     $ s_text = ""
     if has_keyboard():
-        $ s_text = " (Z)"
+        if show_shortcut():
+            $ s_text = " [[Z]"
         key "K_z" action Call("new_daytime")
     # Skip Daytime
     imagebutton:
@@ -388,7 +394,8 @@ screen school_overview_buttons ():
 
     $ j_text = ""
     if has_keyboard():
-        $ j_text = " (J)"
+        if show_shortcut():
+            $ j_text = " [[J]"
     key "K_j" action Call("start_journal")
     # Open Journal
     imagebutton:
