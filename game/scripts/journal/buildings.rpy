@@ -669,6 +669,8 @@ init -6 python:
 #####################
 
 label load_buildings ():
+
+    # unlocked
     $ load_building("high_school_building", "High School Building", {
         '_description': [
             [
@@ -685,6 +687,7 @@ label load_buildings ():
         '_level': 1,
     })
 
+    # unlocked
     $ load_building("high_school_dormitory", "High School Dormitory", {
         '_description': [
             [
@@ -701,6 +704,7 @@ label load_buildings ():
         '_level': 1,
     })
 
+    # unlocked
     $ load_building("middle_school_building", "Middle School Building", {
         '_description': [
             [
@@ -717,6 +721,7 @@ label load_buildings ():
         '_level': 1,
     })
 
+    # unlocked
     $ load_building("middle_school_dormitory", "Middle School Dormitory", {
         '_description': [
             [
@@ -733,6 +738,7 @@ label load_buildings ():
         '_level': 1,
     })
 
+    # unlocked
     $ load_building("elementary_school_building", "Elementary School Building", {
         '_description': [
             [
@@ -749,6 +755,7 @@ label load_buildings ():
         '_level': 1,
     })
 
+    # unlocked
     $ load_building("elementary_school_dormitory", "Elementary School Dormitory", {
         '_description': [
             [
@@ -765,6 +772,7 @@ label load_buildings ():
         '_level': 1,
     })
 
+    #! locked, currently not implemented
     $ load_building("labs", "Labs", {
         '_description': [
             [
@@ -791,6 +799,7 @@ label load_buildings ():
         '_level': 0,
     })
 
+    #! locked, currently not implemented
     $ load_building("sports_field", "Sports Field", {
         '_description': [
             [
@@ -810,6 +819,7 @@ label load_buildings ():
         '_level': 0,
     })
 
+    #! locked, currently not implemented
     $ load_building("tennis_court", "Tennis Court", {
         '_description': [
             [
@@ -829,6 +839,7 @@ label load_buildings ():
         '_level': 0,
     })
 
+    # unlocked
     $ load_building("gym", "Gym", {
         '_description': [
             [
@@ -845,6 +856,7 @@ label load_buildings ():
         '_level': 1,
     })
 
+    #! locked, currently not implemented
     $ load_building("swimming_pool", "Swimming Pool", {
         '_description': [
             [
@@ -864,6 +876,7 @@ label load_buildings ():
         '_level': 0,
     })
 
+    #TODO: locked, planned for implementation
     $ load_building("cafeteria", "Cafeteria", {
         '_description': [
             [
@@ -884,6 +897,7 @@ label load_buildings ():
         '_level': 0,
     })
 
+    #! locked, currently not implemented
     $ load_building("bath", "Bath", {
         '_description': [
             [
@@ -903,6 +917,7 @@ label load_buildings ():
         '_level': 0,
     })
 
+    # unlocked
     $ load_building("kiosk", "Kiosk", {
         '_description': [
             [
@@ -919,6 +934,7 @@ label load_buildings ():
         '_level': 1,
     })
 
+    # unlocked
     $ load_building("courtyard", "Courtyard", {
         '_description': [
             [
@@ -935,6 +951,7 @@ label load_buildings ():
         '_level': 1,
     })
 
+    # unlocked
     $ load_building("office_building", "Office Building", {
         '_description': [
             [

@@ -139,14 +139,15 @@ init -6 python:
 label load_rules ():
     $ remove_rule("service_uniform")
 
+    #! locked, currently not implemented
     $ load_rule("theoretical_sex_ed", "Theoretical Sex Education (TSE)", {
         '_description': [
             "Students get a new subject in which they deal with the topic of the human body and human reproduction. All on a theoretical basis, of course.",
         ],
         '_unlock_conditions': ConditionStorage(
             StatCondition(inhibition = '95-', corruption = '10+'),
-            LevelCondition("1+"),
-            # LockCondition(),
+            LevelCondition("1+", True),
+            LockCondition(False),
         ),
         '_image_path': 'images/journal/rules/theoretical_sex_ed.jpg',
         '_image_path_alt': 'images/journal/rules/theoretical_sex_ed.jpg',
@@ -168,6 +169,8 @@ label load_rules ():
             },
         },
     })
+
+    #! locked, currently not implemented
     $ load_rule("theoretical_digital_material", "Digital Material for TSE", {
         '_description': [
             "The Theoretical Sex Education-Class gets expanded by using digital reference material like educational videos about reproduction.",
@@ -175,7 +178,7 @@ label load_rules ():
         '_unlock_conditions': ConditionStorage(
             LevelCondition("2+"),
             StatCondition(inhibition = '90-'),
-            RuleCondition("theoretical_sex_ed", blocking = True),
+            RuleCondition("theoretical_sex_ed", True),
             # LockCondition(),
         ),
         '_image_path': 'images/journal/rules/theoretical_digital_sex_ed.jpg',
@@ -198,6 +201,8 @@ label load_rules ():
             },
         },
     })
+
+    #! locked, currently not implemented
     $ load_rule("theoretical_teacher_material", "Use Teacher for learning in TSE", {
         '_description': [
             "The teacher volunteer to use their own bodies to give the students the best way to show them the human body.",
@@ -227,6 +232,8 @@ label load_rules ():
             },
         }
     })
+
+    #! locked, currently not implemented
     $ load_rule("theoretical_student_material", "Use Students for learning in TSE", {
         '_description': [
             "The students learn about the human body, and the differences each individual has, by presenting them with their own bodies.",
@@ -258,6 +265,7 @@ label load_rules ():
         }
     })
 
+    #! locked, currently not implemented
     $ load_rule("practical_sex_ed", "Practical Sex Education (PSE)", {
         '_description': [
             "Everyone who wanted some hands-on experience during Sex Ed now has the chance!",
@@ -289,6 +297,7 @@ label load_rules ():
         }
     })
 
+    #! locked, currently not implemented
     $ load_rule("practical_teacher_material", "Use Teacher for learning in PSE", {
         '_description': [
             "The teachers once again volunteer to help give the students the best learning experience as possible.",
@@ -304,6 +313,7 @@ label load_rules ():
         '_image_path_alt': 'images/journal/rules/practical_sex_ed_teacher_5.jpg',
     })
 
+    #! locked, currently not implemented
     $ load_rule("practical_student_material", "Use Students for learning in PSE", {
         '_description': [
             "After learning from the teachers how to have sex, the students now learn how to learn the preferences of your sex partner.\nSo the students now get to experiment on each other.",
@@ -317,15 +327,18 @@ label load_rules ():
         '_image_path_alt': 'images/journal/rules/practical_sex_ed_students_high_school_6.jpg',
     })
 
+    # * implemented
     $ load_rule("student_student_relation", "Students Relations", {
         '_description': [
             "Allows for students to have a relationship between each other and to openly show it.",
         ],
         '_unlock_conditions':ConditionStorage(
             ProgressCondition("Unlock Student Relation", "unlock_student_relationship", 1, True),
+            StatCondition(inhibition = "95-", corruption = "2+"),
         ),
     })
 
+    #! locked, currently not implemented
     $ load_rule("student_teacher_relation", "Students-Teacher Relations", {
         '_description': [
             "Allows for teacher to engage in a relationship with students.",
@@ -333,9 +346,11 @@ label load_rules ():
         '_unlock_conditions': ConditionStorage(
             StatCondition(corruption = '10+'),
             RuleCondition("student_student_relation", blocking = True),
+            LockCondition(False),
         ),
     })
 
+    #! locked, currently not implemented
     $ load_rule("relaxed_uniform", "Relaxed Uniform", {
         '_description': [
             "The students are free to be more relaxed about how to wear the uniform.",
@@ -347,6 +362,7 @@ label load_rules ():
         '_image_path_alt': 'images/journal/rules/relaxed_uniform_high_school.jpg',
     })
 
+    #! locked, currently not implemented
     $ load_rule("sexy_uniform", "Sexy Uniform", {
         '_description': [
             "A new uniform rule with a minimum amount of skin that has to be shown",
@@ -359,6 +375,7 @@ label load_rules ():
         '_image_path_alt': 'images/journal/rules/sexy_uniform_high_school.jpg',
     })
 
+    #! locked, currently not implemented
     $ load_rule("nude_uniform", "Nude Uniform", {
         '_description': [
             "The best uniform there is with covering as little as possible.",

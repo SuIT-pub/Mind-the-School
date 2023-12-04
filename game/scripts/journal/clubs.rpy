@@ -137,6 +137,8 @@ init -6 python:
             del(clubs[name])
 
 label load_clubs ():
+
+    #! locked, currently not implemented
     $ load_club("masturbation_club", "Masturbation Club", {
         '_description': [
             "Here students cum together (pun intended) to collectively masturbate and explore new ways to satisfy themselves.\nA nice place for students to socialize and to get some time out from the stressful school life.",
@@ -149,6 +151,7 @@ label load_clubs ():
         '_image_path_alt': 'images/journal/clubs/masturbation_club.jpg',
     })
 
+    #! locked, currently not implemented
     $ load_club("exhibitionism_club", "Exhibitionism Club", {
         '_description': [
             "The club to celebrate the art that is the human body. Here students come together to engage in the thrill seeking activity of presenting their nude bodies in public.",
@@ -161,6 +164,7 @@ label load_clubs ():
         '_image_path_alt': 'images/journal/clubs/exhibitionism_club.jpg',
     })
 
+    #! locked, currently not implemented
     $ load_club("cosplay_club", "Cosplay Club", {
         '_description': [
             "Here students engage costume crafting and cosplaying.",
@@ -173,6 +177,7 @@ label load_clubs ():
         '_image_path_alt': 'images/journal/clubs/cosplay_club.jpg',
     })
 
+    #! locked, currently not implemented
     $ load_club("cheerleading_club", "Cheerleading Club", {
         '_description': [
             "A sports club for training cheerleading and for exploring new ways to cheer and motivate the teams.",
@@ -185,6 +190,7 @@ label load_clubs ():
         '_image_path_alt': 'images/journal/clubs/cheerleading_club_high_school_2.jpg',
     })
 
+    #! locked, currently not implemented
     $ load_club("porn_club", "Porn Club", {
         '_description': [
             "An Arts and Crafts Club for shooting Porn and Erotica.\nWhile it starts as an amateur film shooting club, there for sure are ways to make money with it.",
@@ -195,6 +201,7 @@ label load_clubs ():
         ),
     })
 
+    #! locked, currently not implemented
     $ load_club("sex_club", "Sex Club", {
         '_description': [
             "Like in the masturbation club, the students meet here to have fun together in engaging in orgies and other sexual activities and to search for new ways to reach new levels of euphoria.",
@@ -205,6 +212,7 @@ label load_clubs ():
         ),
     })
 
+    #! locked, currently not implemented
     $ load_club("service_club", "Service Club", {
         '_description': [
             "This club specializes in finding and testing ways to optimize and find new ways to achieve optimal customer satisfaction.",
@@ -216,6 +224,7 @@ label load_clubs ():
         ),
     })
 
+    #! locked, currently not implemented
     $ load_club("swimming_club", "Swimming Club", {
         '_description': [
             "The swimming club provides ways for students to train their condition and also to train their gracefulness in the water.",
@@ -225,6 +234,7 @@ label load_clubs ():
         ),
     })
 
+    #! locked, currently not implemented
     $ load_club("sport_club", "Sport Club", {
         '_description': [
             "A club where students engage in various sporty activities like track and field or long jump.",
@@ -234,6 +244,7 @@ label load_clubs ():
         ),
     })
 
+    #! locked, currently not implemented
     $ load_club("literature_club", "Literature Club", {
         '_description': [
             "Here students dedicate the free time to their hobby of reading various books and stories.",
@@ -243,6 +254,7 @@ label load_clubs ():
         ),
     })
 
+    #! locked, currently not implemented
     $ load_club("music_club", "Music Club", {
         '_description': [
             "A musical club where students came together to form bands and to create possibilities to perform on the big stage.",
@@ -252,6 +264,7 @@ label load_clubs ():
         ),
     })
 
+    #! locked, currently not implemented
     $ load_club("game_club", "Game Club", {
         '_description': [
             "A club where various games are played, developed and tested.",
@@ -261,6 +274,7 @@ label load_clubs ():
         ),
     })
 
+    #! locked, currently not implemented
     $ load_club("arts_club", "Arts & Crafts Club", {
         '_description': [
             "A club where students let out their artistic personalities in many different ways. Here they can paint, sculpt or something else they want to do to present themselves.",
@@ -270,6 +284,7 @@ label load_clubs ():
         ),
     })
 
+    #! locked, currently not implemented
     $ load_club("outdoor_club", "Outdoor Activities Club", {
         '_description': [
             "This club is dedicated to show different activities that can be done out in the nature, like camping or hiking, canoeing. Everything outside- and nature-related.",
