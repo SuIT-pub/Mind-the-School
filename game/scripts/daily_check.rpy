@@ -106,6 +106,7 @@ label .tutorial_2:
     
     show intro tutorial 3 with dissolveM
     dev "At a facility, you are given a selection of activities you can do at the facility. The activities you can do depend on the level of your school and the day and time."
+    dev "You can select the choices either by clicking them or pressing the corresponding buttons shown in the brackets. You can turn this function off in the settings."
 
     show intro tutorial 4 with dissolveM
     dev "This version has a little extra that will be hidden behind an item in later versions, but keep an eye out for this icon in the top left corner and feel free to click on it."
@@ -194,11 +195,14 @@ label .tutorial_3:
 
     hide screen black_error_screen_text
 
-    dev "[intro_dev_message]"
-
     $ time.set_time(day = 2, month = 1, year = 2023, daytime = 1)
 
-    jump map_overview
+    jump first_week_epilogue_final.skip
+
+    # dev "[intro_dev_message]"
+
+
+    # jump map_overview
 
 image anim_first_week_epilogue_17 = Movie(play ="images/events/first week/first week epilogue 17.webm", start_image = "images/events/first week/first week epilogue 17_1.jpg", loop = True)
 image anim_first_week_epilogue_18 = Movie(play ="images/events/first week/first week epilogue 18.webm", start_image = "images/events/first week/first week epilogue 18_1.jpg", loop = True)
@@ -214,8 +218,8 @@ label first_week_epilogue (**kwargs):
     $ hide_all()
 
     scene office secretary 1 big smile with dissolveM
-    secretary "Good Morning Mr. [headmaster_last_name]. Could you get a good picture of the situation in the school?"
-    headmaster "Yes thank you! And please just call me [headmaster_first_name]. It's a bit awkward to be called so formal."
+    secretary "That was a good first meeting Mr. [headmaster_last_name]. "
+    headmaster "Thank you! And please just call me [headmaster_first_name]. It's a bit awkward to be called so formal."
 
     # first week epilogue 2
     show office secretary 1 big smile with dissolveM
@@ -569,13 +573,14 @@ label .skip:
 
     show thanks 1 with dissolveM
     
-    dev "[intro_dev_message]"
+    # dev "[intro_dev_message]"
 
-    dev "This is where the content for this version ends. You can still roam around but there are no events for the different locations yet."
-    dev "Only a few nice background images at the different locations :)"
+    dev "This is where the actual free roaming begins."
+    dev "Please keep in mind, that this game is still an early version and thus has a limited amount of events and potential bugs."
+    dev "Also try to revisit some events as some have different variants that change randomly."
     show thanks 2 with dissolveM
-    dev "Thank you for playing up to this point. Look forward to the next version."
-    dev "And feel free to visit my {a=[patreon]}Patreon{/a} and {a=[discord]}Discord{/a}."
+    dev "I hope you'll still enjoy the game."
+    dev "To stay up to date on development visit my {a=[patreon]}Patreon{/a} and {a=[discord]}Discord{/a}."
     dev "I'd be happy if you leave some feedback or some ideas on the Discord so I can work to further improve this game!"
 
     jump map_overview

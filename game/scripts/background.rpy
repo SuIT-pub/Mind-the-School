@@ -341,7 +341,7 @@ init -2 python:
                 if i > 0:
                     return i - 1, image_path
                 elif i == 0:
-                    log_error(f"'{new_image_path}' is missing!")
+                    log(f"|ERROR| '{new_image_path}' is missing!")
                     return -1, image_path
 
         return nude_vision, image_path
@@ -591,7 +591,7 @@ label show_ready_image(path, display_type = SCENE):
     # """
 
     if "<nude>" in path:
-        call show_image_with_nude_var(path)
+        call show_ext_image_with_nude_var(path)
     else:
         if check_image(path):
             if display_type == SHOW:

@@ -277,12 +277,12 @@ label pta_meeting (**kwargs):
 label first_pta_meeting (**kwargs):
     $ hide_all()
 
-    $ show_image("images/events/pta/first meeting/first pta meeting 0.png")
+    call show_image("images/events/pta/first meeting/first pta meeting 0.png") from first_pta_meeting_0
 
     subtitles "You enter the conference room."
     subtitles "All representatives already gathered and wait for you."
 
-    call show_ext_image_with_nude_var(f"images/events/pta/first meeting/first pta meeting 1 0 <nude>.jpg") from first_pta_meeting_1
+    call show_image(f"images/events/pta/first meeting/first pta meeting 1 0 <nude>.jpg") from first_pta_meeting_1
     headmaster """
         Thank you all for gathering today.
 
@@ -354,7 +354,7 @@ label first_pta_meeting (**kwargs):
         the best in the country.
     """
 
-    call show_ext_image_with_nude_var(f"images/events/pta/first meeting/first pta meeting 5 <loli_content> <nude>.jpg", loli_content = 0) from first_pta_meeting_2
+    call show_image(f"images/events/pta/first meeting/first pta meeting 5 <loli_content> <nude>.jpg", loli_content = 0) from first_pta_meeting_2
     headmaster """
         If you want to know more about my theory, please read my book. I'll be happy to give it to you if you're 
         interested.
@@ -397,7 +397,7 @@ label first_pta_meeting (**kwargs):
         That's all from our side. Thank you very much.
     """
     
-    call show_ext_image_with_nude_var(f"images/events/pta/first meeting/first pta meeting 8 <nude>.jpg", loli_content = 0) from first_pta_meeting_3
+    call show_image(f"images/events/pta/first meeting/first pta meeting 8 <nude>.jpg", loli_content = 0) from first_pta_meeting_3
     parent """
         Hello, I am a concerned parent of one of the students attending this school and I speak for all parents when I 
         say that we are worried about the recent changes. 
@@ -411,7 +411,7 @@ label first_pta_meeting (**kwargs):
         $ pronoun = "we are"
 
     hide screen image_with_nude_var
-    call show_ext_image_with_nude_var(f"images/events/pta/first meeting/first pta meeting 9 <loli_content> <nude>.jpg", loli_content = 0) from first_pta_meeting_4
+    call show_image(f"images/events/pta/first meeting/first pta meeting 9 <loli_content> <nude>.jpg", loli_content = 0) from first_pta_meeting_4
     sgirl """
         Hello, we are the student representatives of this school and [pronoun] here to make sure that the students of this 
         school are not let out of the decision making and to act as the Mouthpiece of the students issues and 
