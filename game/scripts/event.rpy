@@ -20,6 +20,8 @@ init -3 python:
             - Priority 1 represents an event that is called first and blocks all other events.
             - Priority 2 represents an Event that is called together with all other events with priority 2 and then moves on to priority 3.
             - Priority 3 represents a set of events from which one is called randomly.
+        5. fallback_text: str
+            - The text that is displayed when the fallback event is called.
 
         ### Methods:
         1. get_name() -> str
@@ -58,10 +60,11 @@ init -3 python:
             - Checks if all events are created correctly.
         """
 
-        def __init__(self, name: str, title: str, fallback: Event):
+        def __init__(self, name: str, title: str, fallback: Event = None, fallback_text: str = "There is nothing to do here."):
             self.name = name
             self.title = title
-            self.fallback = fallback
+            self.fallback = fallback if fallback != None else default_fallback
+            self.fallback_text = fallback_text
             self.events = {
                 1: {},
                 2: {},
@@ -74,6 +77,8 @@ init -3 python:
             """
 
             self.title = title
+            if not hasattr(self, 'fallback_text'):
+                self.fallback_text = "There is nothing to do here."
 
         def get_name(self) -> str:
             """
@@ -283,6 +288,8 @@ init -3 python:
 
             events = self.get_available_events_with_fallback(priority, **kwargs)
 
+            kwargs["fallback_text"] = self.fallback_text
+
             if "event_type" not in kwargs.keys():
                 kwargs["event_type"] = self.name
 
@@ -321,8 +328,8 @@ init -3 python:
             - The events that are stored in the EventStorage. The events are stored in a list.
         """
 
-        def __init__(self, name: str, title: str, fallback: Event):
-            super().__init__(name, title, fallback)
+        def __init__(self, name: str, title: str, fallback: Event = None, fallback_text: str = "How did you end up here? That shouldn't have happened. Better notify the dev about this."):
+            super().__init__(name, title, fallback, fallback_text)
             self.events = []
 
         def _update(self, title):
@@ -700,19 +707,19 @@ init -3 python:
             renpy.call("call_event", events, self.priority, **kwargs)
 
 label call_available_event(event_storage, priority = 0, **kwargs):
-    """
-    Calls all available events depending on the priority.
+    # """
+    # Calls all available events depending on the priority.
 
-    ### Parameters:
-    1. event_storage: EventStorage | TempEventStorage
-        - The event storage that is used to call the events.
-        - If the event storage is a TempEventStorage, the events are removed from the storage after they are called.
-    2. priority: int (Default 0)
-        - The priority of the events that are called.
-        - If priority is 0, all events are called.
-    3. **kwargs
-        - The arguments that are passed to the events.
-    """
+    # ### Parameters:
+    # 1. event_storage: EventStorage | TempEventStorage
+    #     - The event storage that is used to call the events.
+    #     - If the event storage is a TempEventStorage, the events are removed from the storage after they are called.
+    # 2. priority: int (Default 0)
+    #     - The priority of the events that are called.
+    #     - If priority is 0, all events are called.
+    # 3. **kwargs
+    #     - The arguments that are passed to the events.
+    # """
 
     $ events_list = event_storage.get_available_events_with_fallback(priority, **kwargs)
 
@@ -734,18 +741,18 @@ label call_available_event(event_storage, priority = 0, **kwargs):
     return
 
 label call_event(event_obj, priority = 0, **kwargs):
-    """
-    Calls all available events depending on the priority.
+    # """
+    # Calls all available events depending on the priority.
 
-    ### Parameters:
-    1. event_obj: str | List[str] | Event | EventStorage | TempEventStorage
-        - The event that is called.
-        - If the event is a string, the event is called.
-        - If the event is a list of strings, all events in the list are called.
-        - If the event is an Event, the event is called.
-        - If the event is an EventStorage, all events in the EventStorage are called.
-        - If the event is a TempEventStorage, all events in the TempEventStorage are called.
-    """
+    # ### Parameters:
+    # 1. event_obj: str | List[str] | Event | EventStorage | TempEventStorage
+    #     - The event that is called.
+    #     - If the event is a string, the event is called.
+    #     - If the event is a list of strings, all events in the list are called.
+    #     - If the event is an Event, the event is called.
+    #     - If the event is an EventStorage, all events in the EventStorage are called.
+    #     - If the event is a TempEventStorage, all events in the TempEventStorage are called.
+    # """
 
     if isinstance(event_obj, EventStorage):
         $ event_obj.call_available_event(**kwargs)
@@ -762,3 +769,27 @@ label call_event(event_obj, priority = 0, **kwargs):
         $ i += 1
 
     return
+
+init -2:
+    define default_fallback = Event(2, "default_fallback_event")
+
+label default_fallback_event (**kwargs):
+
+    $ local_subtitles = Character(
+        None,
+        window_background = None,
+        what_color = "#ffffff",
+        what_size = 28,
+        what_outlines = [( 1, "#000000", 0, 0 )],
+        what_xalign = 0.5,
+        what_textalign = 0,
+        what_layout = 'subtitle'
+    )
+
+    $ text = "There is nothing to do here."
+
+    if "fallback_text" in kwargs.keys():
+        $ text = kwargs["fallback_text"]
+
+    $ local_subtitles(text)
+    jump map_overview

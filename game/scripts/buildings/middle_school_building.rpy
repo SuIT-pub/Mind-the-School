@@ -3,34 +3,30 @@
 ####################################################
 
 init -1 python:
-    middle_school_building_after_time_check = Event(2, "middle_school_building.after_time_check")
-    middle_school_building_fallback         = Event(2, "middle_school_building_fallback")
-    middle_school_building_person_fallback  = Event(2, "middle_school_building_person_fallback")
-
-    middle_school_building_timed_event = EventStorage("middle_school_building", "", middle_school_building_after_time_check)
-    middle_school_building_events = {
-        "check_class": EventStorage("check_class", "Check Class",      middle_school_building_person_fallback),
-        "teach_class": EventStorage("teach_class", "Teach a Class",    middle_school_building_person_fallback),
-        "patrol":      EventStorage("patrol",      "Patrol building",  middle_school_building_person_fallback),
-        "students":    EventStorage("strudents",   "Talk to students", middle_school_building_person_fallback),
+    msb_timed_event = EventStorage("middle_school_building", "", Event(2, "middle_school_building.after_time_check"))
+    msb_events = {
+        "check_class": EventStorage("check_class", "Check Class",      default_fallback, "There is nobody here."),
+        "teach_class": EventStorage("teach_class", "Teach a Class",    default_fallback, "There is nobody here."),
+        "patrol":      EventStorage("patrol",      "Patrol building",  default_fallback, "There is nobody here."),
+        "students":    EventStorage("strudents",   "Talk to students", default_fallback, "There is nobody here."),
     }
 
-    middle_school_building_timed_event.add_event(Event(1,
+    msb_timed_event.add_event(Event(1,
         ["first_week_middle_school_building_event"],
         TimeCondition(day = "2-4", month = 1, year = 2023),
     ))
     
-    middle_school_building_timed_event.add_event(Event(1,
+    msb_timed_event.add_event(Event(1,
         ["first_potion_middle_school_building_event"],
         TimeCondition(day = 9),
     ))
 
 
 
-    middle_school_building_timed_event.check_all_events()
-    map(lambda x: x.check_all_events(), middle_school_building_events.values())
+    msb_timed_event.check_all_events()
+    map(lambda x: x.check_all_events(), msb_events.values())
 
-    middle_school_building_bg_images = [
+    msb_bg_images = [
         BGImage("images/background/middle school building/bg c <level> <nude>.jpg", 1, TimeCondition(daytime = "c", weekday = "d")),
         BGImage("images/background/middle school building/bg 7.jpg", 1, TimeCondition(daytime = 7)),
     ]
@@ -43,50 +39,25 @@ init -1 python:
 
 label middle_school_building ():
     
-    call call_available_event(middle_school_building_timed_event) from middle_school_building_1
+    call call_available_event(msb_timed_event) from middle_school_building_1
 
 label .after_time_check (**kwargs):
 
     $ school_obj = get_character("middle_school", charList["schools"])
 
-    call show_middle_school_building_idle_image(school_obj) from middle_school_building_2
+    call show_idle_image(school_obj, "images/background/middle school building/bg f.jpg", msb_bg_images) from middle_school_building_2
 
     call call_event_menu (
         "What to do in the Middle School?", 
-        middle_school_building_events, 
-        middle_school_building_fallback,
+        msb_events, 
+        default_fallback,
         character.subtitles,
         char_obj = school_obj,
     ) from middle_school_building_3
 
     jump middle_school_building
 
-label show_middle_school_building_idle_image(school_obj):
-
-    $ max_nude, image_path = get_background(
-        "images/background/middle school building/bg f.jpg",
-        middle_school_building_bg_images,
-        school_obj,
-    )
-
-    call show_image_with_nude_var (image_path, max_nude) from _call_show_image_with_nude_var_10
-
-    return
-
 ##################################################
-
-######################################################
-# ----- Middle School Building Fallback Events ----- #
-######################################################
-
-label middle_school_building_fallback (**kwargs):
-    subtitles "There is nothing to do here."
-    jump map_overview
-label middle_school_building_person_fallback (**kwargs):
-    subtitles "There is nobody here."
-    jump map_overview
-
-######################################################
 
 #############################################
 # ----- Middle School Building Events ----- #

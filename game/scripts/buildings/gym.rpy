@@ -3,20 +3,16 @@
 #################################
 
 init -1 python:
-    gym_after_time_check = Event(2, "gym.after_time_check")
-    gym_fallback         = Event(2, "gym_fallback")
-    gym_person_fallback  = Event(2, "gym_person_fallback")
-
-    gym_timed_event = EventStorage("gym", "", gym_after_time_check)
+    gym_timed_event = EventStorage("gym", "", Event(2, "gym.after_time_check"))
     gym_events = {
-        "teacher":        EventStorage("teacher",        "Go to teacher",                      gym_person_fallback),
-        "students":       EventStorage("students",       "Go to students",                     gym_person_fallback),
-        "storage":        EventStorage("storage",        "Check storage",                      gym_fallback       ),
-        "peek_changing":  EventStorage("peek_changing",  "Go to Peek into the changing rooms", gym_person_fallback),
-        "enter_changing": EventStorage("enter_changing", "Enter the changing rooms",           gym_fallback       ),
-        "check_pe":       EventStorage("check_pe",       "Check a P.E. class",                 gym_fallback       ),
-        "teach_pe":       EventStorage("teach_pe",       "Teach a P.E. class",                 gym_fallback       ),
-        "steal":          EventStorage("steal",          "Steal some panties",                 gym_fallback       ),
+        "teacher":        EventStorage("teacher",        "Go to teacher",                      default_fallback, "There is nobody here."),
+        "students":       EventStorage("students",       "Go to students",                     default_fallback, "There is nobody here."),
+        "storage":        EventStorage("storage",        "Check storage",                      default_fallback, "There is nothing to do here."),
+        "peek_changing":  EventStorage("peek_changing",  "Go to Peek into the changing rooms", default_fallback, "There is nobody here."),
+        "enter_changing": EventStorage("enter_changing", "Enter the changing rooms",           default_fallback, "There is nothing to do here."),
+        "check_pe":       EventStorage("check_pe",       "Check a P.E. class",                 default_fallback, "There is nothing to do here."),
+        "teach_pe":       EventStorage("teach_pe",       "Teach a P.E. class",                 default_fallback, "There is nothing to do here."),
+        "steal":          EventStorage("steal",          "Steal some panties",                 default_fallback, "There is nothing to do here."),
     }
 
     gym_timed_event.add_event(Event(1,
@@ -66,45 +62,19 @@ label .after_time_check (**kwargs):
 
     $ school_obj = get_random_school()
 
-    call show_gym_idle_image(school_obj) from gym_2
+    call show_idle_image(school_obj, "images/background/gym/bg f.jpg", gym_bg_images) from gym_2
 
     call call_event_menu (
         "What to do in the Gym?", 
         gym_events, 
-        gym_fallback,
+        default_fallback,
         character.subtitles,
         char_obj = school_obj,
     ) from gym_3
 
     jump gym
 
-label show_gym_idle_image(school_obj):
-
-    $ max_nude, image_path = get_background(
-        "images/background/gym/bg f.jpg", # show gym empty
-        gym_bg_images,
-        school_obj,
-    )
-
-    call show_image_with_nude_var (image_path, max_nude) from _call_show_image_with_nude_var_5
-
-    return
-
 ###############################
-
-###################################
-# ----- Gym Fallback Events ----- #
-###################################
-
-label gym_fallback (**kwargs):
-    subtitles "There is nothing to see here."
-    jump map_overview
-
-label gym_person_fallback (**kwargs):
-    subtitles "There is nobody here."
-    jump map_overview
-
-###################################
 
 ##########################
 # ----- Gym Events ----- #

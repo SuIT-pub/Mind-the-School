@@ -3,15 +3,10 @@
 ###################################
 
 init -1 python:
-    kiosk_after_time_check = Event(2, "kiosk.after_time_check")
-    kiosk_fallback         = Event(2, "kiosk_fallback")
-    kiosk_snack_fallback   = Event(2, "kiosk_snack_fallback")
-    kiosk_person_fallback  = Event(2, "kiosk_person_fallback")
-
-    kiosk_timed_event = EventStorage("kiosk", "", kiosk_after_time_check)
+    kiosk_timed_event = EventStorage("kiosk", "", Event(2, "kiosk.after_time_check"))
     kiosk_events = {
-        "snack":    EventStorage("snack",    "Get a snack",      kiosk_snack_fallback ),
-        "students": EventStorage("students", "Talk to students", kiosk_person_fallback),
+        "snack":    EventStorage("snack",    "Get a snack",      default_fallback, "I don't want anything."),
+        "students": EventStorage("students", "Talk to students", default_fallback, "There is nobody here."),
     }
     
     kiosk_timed_event.add_event(Event(1,
@@ -56,49 +51,19 @@ label .after_time_check (**kwargs):
 
     $ school_obj = get_random_school()
 
-    call show_kiosk_idle_image(school_obj) from kiosk_2
+    call show_idle_image(school_obj, "images/background/kiosk/bg c.jpg", kiosk_bg_images) from kiosk_2
 
     call call_event_menu (
         "What to do at the Kiosk?", 
         kiosk_events, 
-        kiosk_fallback,
+        default_fallback,
         character.subtitles,
         char_obj = school_obj,
     ) from kiosk_3
 
     jump kiosk
 
-label show_kiosk_idle_image(school_obj):
-
-    $ max_nude, image_path = get_background(
-        "images/background/kiosk/bg c.jpg", # show kiosk empty
-        kiosk_bg_images,
-        school_obj,
-    )
-
-    call show_image_with_nude_var (image_path, max_nude) from _call_show_image_with_nude_var_8
-
-    return
-
 #################################
-
-#####################################
-# ----- Kiosk Fallback Events ----- #
-#####################################
-
-label kiosk_fallback (**kwargs):
-    subtitles "There is nothing to see here."
-    jump map_overview
-
-label kiosk_snack_fallback (**kwargs):
-    subtitles "I don't want anything."
-    jump map_overview
-
-label kiosk_person_fallback (**kwargs):
-    subtitles "There is nobody here."
-    jump map_overview
-
-#####################################
 
 ############################
 # ----- Kiosk Events ----- #

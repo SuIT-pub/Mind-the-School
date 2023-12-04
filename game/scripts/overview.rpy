@@ -459,22 +459,22 @@ screen black_screen_text(text_str):
 
 
 label say_with_image (image_series, step, text, person_name, person):
-    """
-    Prints a text with an image
-    Mainly used for the "random_say" method
+    # """
+    # Prints a text with an image
+    # Mainly used for the "random_say" method
 
-    ### Parameters:
-    1. image_series: Image_Series
-        - The image series to use
-    2. step: int
-        - The step of the image series to use
-    3. text: str
-        - The text to print
-    4. person_name: str
-        - The name of the person to print
-    5. person: ADVCharacter
-        - The character who says the text
-    """
+    # ### Parameters:
+    # 1. image_series: Image_Series
+    #     - The image series to use
+    # 2. step: int
+    #     - The step of the image series to use
+    # 3. text: str
+    #     - The text to print
+    # 4. person_name: str
+    #     - The name of the person to print
+    # 5. person: ADVCharacter
+    #     - The character who says the text
+    # """
 
     $ image_series.show(step)
     $ person(text, name = person_name)
@@ -483,19 +483,19 @@ label say_with_image (image_series, step, text, person_name, person):
 # goes to map overview while moving the time forward
 
 label set_day_and_time(day, month, year, daytime):
-    """
-    sets the day and time and then goes to map overview
+    # """
+    # sets the day and time and then goes to map overview
 
-    # Parameters:
-    1. day: int
-        - the day of the month
-    2. month: int
-        - the month of the year
-    3. year: int
-        - the year
-    4. daytime: str
-        - the daytime
-    """
+    # # Parameters:
+    # 1. day: int
+    #     - the day of the month
+    # 2. month: int
+    #     - the month of the year
+    # 3. year: int
+    #     - the year
+    # 4. daytime: str
+    #     - the daytime
+    # """
 
     $ time.set_time(day = day, month = month, year = year, daytime = daytime)
 
@@ -508,17 +508,17 @@ label set_day_and_time(day, month, year, daytime):
     jump map_overview
 
 label set_day(day, month, year):
-    """
-    sets the day and then goes to map overview
+    # """
+    # sets the day and then goes to map overview
 
-    # Parameters:
-    1. day: int
-        - the day of the month
-    2. month: int
-        - the month of the year
-    3. year: int
-        - the year
-    """
+    # # Parameters:
+    # 1. day: int
+    #     - the day of the month
+    # 2. month: int
+    #     - the month of the year
+    # 3. year: int
+    #     - the year
+    # """
 
     $ time.set_time(day = day, month = month, year = year)
 
@@ -531,9 +531,9 @@ label set_day(day, month, year):
     jump map_overview
 
 label new_day ():
-    """
-    progresses the day and then goes to map overview
-    """
+    # """
+    # progresses the day and then goes to map overview
+    # """
 
     $ time.progress_day()
 
@@ -546,9 +546,9 @@ label new_day ():
     jump map_overview
 
 label new_daytime ():
-    """
-    progresses the daytime and then goes to map overview
-    """
+    # """
+    # progresses the daytime and then goes to map overview
+    # """
 
     $ hide_all()
 

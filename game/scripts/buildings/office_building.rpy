@@ -3,17 +3,14 @@
 #############################################
 
 init -1 python:
-    office_building_after_time_check = Event(2, "office_building.after_time_check")
-    office_building_fallback         = Event(2, "office_building_fallback")
-
-    office_building_timed_event = EventStorage("office_building", "", office_building_after_time_check)
+    office_building_timed_event = EventStorage("office_building", "", Event(2, "office_building.after_time_check"))
     office_building_events = {
-        "look_around": EventStorage("look",      "Look around",         office_building_fallback),
-        "tutorial":    EventStorage("tutorial",  "About the school...", office_building_fallback),
-        "paperwork":   EventStorage("paperwork", "Do paperwork",        office_building_fallback),
-        "messages":    EventStorage("messages",  "Check messages",      office_building_fallback),
-        "internet":    EventStorage("internet",  "Surf internet",       office_building_fallback),
-        "council":     EventStorage("council",   "Council work",        office_building_fallback),
+        "look_around": EventStorage("look",      "Look around"),
+        "tutorial":    EventStorage("tutorial",  "About the school..."),
+        "paperwork":   EventStorage("paperwork", "Do paperwork"),
+        "messages":    EventStorage("messages",  "Check messages"),
+        "internet":    EventStorage("internet",  "Surf internet"),
+        "council":     EventStorage("council",   "Council work"),
     }
     
     office_building_timed_event.add_event(Event(1,
@@ -63,43 +60,19 @@ label .after_time_check (**kwargs):
 
     $ char_obj = get_character(char, charList['staff'])
 
-    call show_office_building_idle_image(char_obj) from office_building_2
-
-
+    call show_idle_image(char_obj, "images/background/office building/bg f.jpg", office_building_bg_images) from office_building_2
 
     call call_event_menu (
         "Hello Headmaster! How can I help you?" if char_obj.get_name() == "secretary" else "What do you do?", 
         office_building_events, 
-        office_building_fallback,
+        default_fallback,
         character.secretary if char_obj.get_name() == "secretary" else character.subtitles,
         char_obj = char_obj,
     ) from office_building_3
 
     jump office_building
 
-label show_office_building_idle_image(char_obj):
-
-    $ max_nude, image_path = get_background(
-        "images/background/office building/bg f.jpg", # show headmasters office empty
-        office_building_bg_images,
-        char_obj
-    )
-
-    call show_image_with_nude_var (image_path, max_nude) from _call_show_image_with_nude_var_12
-
-    return
-
 ###########################################
-
-####################################################
-# ----- High School Building Fallback Events ----- #
-####################################################
-
-label office_building_fallback (**kwargs):
-    subtitles "There is nothing to do here."
-    jump map_overview
-
-####################################################
 
 ###########################################
 # ----- High School Building Events ----- #

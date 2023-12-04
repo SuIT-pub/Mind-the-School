@@ -3,35 +3,31 @@
 ########################################################
 
 init -1 python:
-    elementary_school_building_after_time_check = Event(2, "elementary_school_building.after_time_check")
-    elementary_school_building_fallback         = Event(2, "elementary_school_building_fallback")
-    elementary_school_building_person_fallback  = Event(2, "elementary_school_building_person_fallback")
-
-    elementary_school_building_timed_event = EventStorage("elementary_school_building", "", elementary_school_building_after_time_check)
-    elementary_school_building_events = {
-        "check_class": EventStorage("check_class", "Check Class",      elementary_school_building_person_fallback),
-        "teach_class": EventStorage("teach_class", "Teach a Class",    elementary_school_building_person_fallback),
-        "patrol":      EventStorage("patrol",      "Patrol building",  elementary_school_building_person_fallback),
-        "students":    EventStorage("students",   "Talk to students", elementary_school_building_person_fallback),
+    esb_timed_event = EventStorage("elementary_school_building", "", Event(2, "elementary_school_building.after_time_check"))
+    esb_events = {
+        "check_class": EventStorage("check_class", "Check Class",      default_fallback, "There is nobody here."),
+        "teach_class": EventStorage("teach_class", "Teach a Class",    default_fallback, "There is nobody here."),
+        "patrol":      EventStorage("patrol",      "Patrol building",  default_fallback, "There is nobody here."),
+        "students":    EventStorage("students",   "Talk to students",  default_fallback, "There is nobody here."),
     }
     
-    elementary_school_building_timed_event.add_event(Event(1,
+    esb_timed_event.add_event(Event(1,
         ["first_week_elementary_school_building_event"],
         TimeCondition(day = "2-4", month = 1, year = 2023),
     ))
 
     
-    elementary_school_building_timed_event.add_event(Event(1,
+    esb_timed_event.add_event(Event(1,
         ["first_potion_elementary_school_building_event"],
         TimeCondition(day = 9),
     ))
 
 
 
-    elementary_school_building_timed_event.check_all_events()
-    map(lambda x: x.check_all_events(), elementary_school_building_events.values())
+    esb_timed_event.check_all_events()
+    map(lambda x: x.check_all_events(), esb_events.values())
 
-    elementary_school_building_bg_images = [
+    esb_bg_images = [
         BGImage("images/background/elementary school building/bg c <level> <nude>.jpg", 1, TimeCondition(daytime = "c", weekday = "d")),
         BGImage("images/background/elementary school building/bg 7.jpg", 1, TimeCondition(daytime = 7)),
     ]
@@ -44,50 +40,25 @@ init -1 python:
 
 label elementary_school_building ():
     
-    call call_available_event(elementary_school_building_timed_event) from elementary_school_building_1
+    call call_available_event(esb_timed_event) from elementary_school_building_1
 
 label .after_time_check (**kwargs):
 
     $ school_obj = get_character("elementary_school", charList["schools"])
 
-    call show_elementary_school_building_idle_image(school_obj) from elementary_school_building_2
+    call show_idle_image(school_obj, "images/background/elementary school building/bg f.jpg", esb_bg_images) from elementary_school_building_2
 
     call call_event_menu (
         "What to do in the Elementary School?", 
-        elementary_school_building_events, 
-        elementary_school_building_fallback,
+        esb_events, 
+        default_fallback,
         character.subtitles,
         char_obj = school_obj,
     ) from elementary_school_building_3
 
     jump elementary_school_building
 
-label show_elementary_school_building_idle_image(school_obj):    
-    
-    $ max_nude, image_path = get_background(
-        "images/background/elementary school building/bg f.jpg",
-        elementary_school_building_bg_images,
-        school_obj,
-    )
-
-    call show_image_with_nude_var (image_path, max_nude) from _call_show_image_with_nude_var_3
-
-    return
-
 ######################################################
-
-##########################################################
-# ----- Elementary School Building Fallback Events ----- #
-##########################################################
-
-label elementary_school_building_fallback (**kwargs):
-    subtitles "There is nothing to do here."
-    jump map_overview
-label elementary_school_building_person_fallback (**kwargs):
-    subtitles "There is nobody here."
-    jump map_overview
-
-##########################################################
 
 #################################################
 # ----- Elementary School Building Events ----- #

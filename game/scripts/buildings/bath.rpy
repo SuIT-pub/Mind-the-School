@@ -2,22 +2,15 @@
 # ----- Bath Event Handler ----- #
 ##################################
 
-init -1 python:    
-    bath_after_time_check = Event(2, "bath.after_time_check")
-    bath_fallback         = Event(2, "bath_fallback")
-    bath_enter_fallback   = Event(2, "bath_enter_fallback")
-    bath_peek_fallback    = Event(2, "bath_peek_fallback")
-
-    bath_timed_event = EventStorage("bath", "", bath_after_time_check)
+init -1 python:
+    bath_timed_event = EventStorage("bath", "", Event(2, "bath.after_time_check"))
     bath_events = {
-        "male_enter":   EventStorage("male_enter",   "Enter the male bath",       bath_enter_fallback),
-        "female_enter": EventStorage("female_enter", "Enter the female bath",     bath_enter_fallback),
-        "female_peek":  EventStorage("female_peek",  "Peek into the female bath", bath_peek_fallback ),
-        "mixed_enter":  EventStorage("mixed_enter",  "Enter the mixed bath",      bath_enter_fallback),
-        "mixed_peek":   EventStorage("mixed_peek",   "Peek into the mixed bath",  bath_peek_fallback ),
+        "male_enter":   EventStorage("male_enter",   "Enter the male bath",       default_fallback, "I don't want to take a bath."),
+        "female_enter": EventStorage("female_enter", "Enter the female bath",     default_fallback, "I don't want to take a bath."),
+        "female_peek":  EventStorage("female_peek",  "Peek into the female bath", default_fallback, "There is nobody here."       ),
+        "mixed_enter":  EventStorage("mixed_enter",  "Enter the mixed bath",      default_fallback, "I don't want to take a bath."),
+        "mixed_peek":   EventStorage("mixed_peek",   "Peek into the mixed bath",  default_fallback, "There is nobody here."       ),
     }
-
-
 
     bath_timed_event.check_all_events()
     map(lambda x: x.check_all_events(), bath_events.values())
@@ -42,49 +35,20 @@ label .after_time_check (**kwargs):
 
     $ school_obj = get_random_school()
 
-    call show_bath_idle_image(school_obj) from bath_2
+    call show_idle_image(school_obj, "images/background/bath/bg c.jpg", bath_bg_images) from bath_2
 
     call call_event_menu (
         "What to do in the Bath?",
         bath_events,
-        bath_fallback,
+        default_fallback,
         character.subtitles,
         char_obj = school_obj,
+        fallback_text = "There is nothing to see here."
     ) from bath_3
 
     jump bath
 
-label show_bath_idle_image(school_obj):    
-
-    $ max_nude, image_path = get_background(
-        "images/background/bath/bg c.jpg", # show bath empty
-        bath_bg_images,
-        school_obj,
-    )
-
-    call show_image_with_nude_var (image_path, max_nude) from _call_show_image_with_nude_var
-
-    return
-
 ##################################
-
-####################################
-# ----- Bath Fallback Events ----- #
-####################################
-
-label bath_fallback (**kwargs):
-    subtitles "There is nothing to see here."
-    jump map_overview
-
-label bath_peek_fallback (**kwargs):
-    subtitles "There is nobody here."
-    jump map_overview
-
-label bath_enter_fallback (**kwargs):
-    subtitles "I don't want to take a bath."
-    jump map_overview
-
-####################################
 
 ###########################
 # ----- Bath Events ----- #

@@ -3,32 +3,28 @@
 #####################################################
 
 init -1 python:
-    middle_school_dormitory_after_time_check = Event(2, "middle_school_dormitory.after_time_check")
-    middle_school_dormitory_fallback         = Event(2, "middle_school_dormitory_fallback")
-    middle_school_dormitory_person_fallback  = Event(2, "middle_school_dormitory_person_fallback")
-
-    middle_school_dormitory_timed_event = EventStorage("middle_school_dormitory", "", middle_school_dormitory_after_time_check)
-    middle_school_dormitory_events = {
-        "check_rooms":   EventStorage("check_rooms",   "Check Rooms",      middle_school_dormitory_person_fallback),
-        "talk_students": EventStorage("talk_students", "Talk to students", middle_school_dormitory_person_fallback),
-        "patrol":        EventStorage("patrol",        "Patrol building",  middle_school_dormitory_person_fallback),
-        "peek_students": EventStorage("peek_students", "Peek on students", middle_school_dormitory_person_fallback),
+    msd_timed_event = EventStorage("middle_school_dormitory", "", Event(2, "middle_school_dormitory.after_time_check"))
+    msd_events = {
+        "check_rooms":   EventStorage("check_rooms",   "Check Rooms",      default_fallback, "There is nobody here."),
+        "talk_students": EventStorage("talk_students", "Talk to students", default_fallback, "There is nobody here."),
+        "patrol":        EventStorage("patrol",        "Patrol building",  default_fallback, "There is nobody here."),
+        "peek_students": EventStorage("peek_students", "Peek on students", default_fallback, "There is nobody here."),
     }
     
-    middle_school_dormitory_timed_event.add_event(Event(1,
+    msd_timed_event.add_event(Event(1,
         ["first_week_middle_school_dormitory_event"],
         TimeCondition(day = "2-4", month = 1, year = 2023),
     ))
     
-    middle_school_dormitory_timed_event.add_event(Event(1,
+    msd_timed_event.add_event(Event(1,
         ["first_potion_middle_school_dormitory_event"],
         TimeCondition(day = 9),
     ))
 
 
 
-    middle_school_dormitory_timed_event.check_all_events()
-    map(lambda x: x.check_all_events(), middle_school_dormitory_events.values())
+    msd_timed_event.check_all_events()
+    map(lambda x: x.check_all_events(), msd_events.values())
 
     middle_school_dormitory_bg_images = [
         BGImage("images/background/middle school dormitory/bg f <level> <nude>.jpg", 1, TimeCondition(daytime = "f")),
@@ -44,51 +40,25 @@ init -1 python:
 
 label middle_school_dormitory ():
     
-    call call_available_event(middle_school_dormitory_timed_event) from middle_school_dormitory_1
+    call call_available_event(msd_timed_event) from middle_school_dormitory_1
 
 label .after_time_check (**kwargs):
 
     $ school_obj = get_character("middle_school", charList["schools"])
 
-    call show_middle_school_dormitory_idle_image(school_obj) from middle_school_dormitory_2
+    call show_idle_image(school_obj, "images/background/middle school dormitory/bg c.jpg", middle_school_dormitory_bg_images) from middle_school_dormitory_2
 
     call call_event_menu (
         "What to do in the Middle School Dorm?", 
-        middle_school_dormitory_events, 
-        middle_school_dormitory_fallback,
+        msd_events, 
+        default_fallback,
         character.subtitles,
         char_obj = school_obj,
     ) from middle_school_dormitory_3
 
     jump middle_school_dormitory
 
-label show_middle_school_dormitory_idle_image(school_obj):
-
-    $ max_nude, image_path = get_background(
-        "images/background/middle school dormitory/bg c.jpg",
-        middle_school_dormitory_bg_images,
-        school_obj,
-    )
-
-    call show_image_with_nude_var (image_path, max_nude) from _call_show_image_with_nude_var_11
-
-    return
-
 ###################################################
-
-#######################################################
-# ----- Middle School Dormitory Fallback Events ----- #
-#######################################################
-
-label middle_school_dormitory_fallback (**kwargs):
-    subtitles "There is nothing to do here."
-    jump map_overview
-
-label middle_school_dormitory_person_fallback (**kwargs):
-    subtitles "There is nobody here."
-    jump map_overview
-
-#######################################################
 
 ##############################################
 # ----- Middle School Dormitory Events ----- #

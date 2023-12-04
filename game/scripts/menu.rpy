@@ -64,21 +64,21 @@ init python:
 
 # calls a menu with the given elements
 label call_menu(text, person, with_leave = True, *elements, **kwargs):
-    """
-    Calls a menu with the given elements and the given text and person.
+    # """
+    # Calls a menu with the given elements and the given text and person.
 
-    ### Parameters
-    1. text : str
-        - The text to display below the menu.
-    2. person : Person
-        - The person to display saying the text.
-    3. with_leave : bool, (default True)
-        - Whether or not to display a leave button.
-    4. *elements : Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool]
-        - The elements to display in the menu. 
-        - Each element is a tuple of the form (title, event_label, active), (title, effect, active) or (title, effect_list, active). 
-        - The active parameter is optional and defaults to True.
-    """
+    # ### Parameters
+    # 1. text : str
+    #     - The text to display below the menu.
+    # 2. person : Person
+    #     - The person to display saying the text.
+    # 3. with_leave : bool, (default True)
+    #     - Whether or not to display a leave button.
+    # 4. *elements : Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool]
+    #     - The elements to display in the menu. 
+    #     - Each element is a tuple of the form (title, event_label, active), (title, effect, active) or (title, effect_list, active). 
+    #     - The active parameter is optional and defaults to True.
+    # """
 
     if not with_leave and len(elements) == 1:
         $ title, effects, _active = None, None, None
@@ -98,19 +98,19 @@ label call_menu(text, person, with_leave = True, *elements, **kwargs):
 
 # calls a menu specialized in use for events
 label call_event_menu(text, events, fallback, person = character.subtitles, **kwargs):
-    """
-    Refines a list of events and calls a menu with the given elements and the given text and person.
+    # """
+    # Refines a list of events and calls a menu with the given elements and the given text and person.
 
-    ### Parameters
-    1. text : str
-        - The text to display below the menu.
-    2. events : Dict[str, EventStorage]
-        - The events to filter and refine for use in the menu.
-    3. fallback : str
-        - The event to call if no events are available.
-    4. person : Person, (default character.subtitles)
-        - The person to display saying the text.
-    """
+    # ### Parameters
+    # 1. text : str
+    #     - The text to display below the menu.
+    # 2. events : Dict[str, EventStorage]
+    #     - The events to filter and refine for use in the menu.
+    # 3. fallback : str
+    #     - The event to call if no events are available.
+    # 4. person : Person, (default character.subtitles)
+    #     - The person to display saying the text.
+    # """
 
     $ event_list = clean_events_for_menu(events, **kwargs)
 
@@ -124,14 +124,14 @@ label call_event_menu(text, events, fallback, person = character.subtitles, **kw
 
 # calls the effect of a selected choice
 label call_element(effects, **kwargs):
-    """
-    Calls the effect of a selected choice in the menu.
+    # """
+    # Calls the effect of a selected choice in the menu.
 
-    ### Parameters
-    1. effects : str | Effect | List[Effect]
-        - The effect to call.
-        - if effects is a string, it is interpreted as an event label.
-    """
+    # ### Parameters
+    # 1. effects : str | Effect | List[Effect]
+    #     - The effect to call.
+    #     - if effects is a string, it is interpreted as an event label.
+    # """
 
     hide screen custom_menu_choice
     hide screen image_with_nude_var
@@ -143,9 +143,9 @@ label call_element(effects, **kwargs):
 
 # closes the current menu
 label close_menu():
-    """
-    Closes the current menu.
-    """
+    # """
+    # Closes the current menu.
+    # """
     hide screen custom_menu_choice
     hide screen image_with_nude_var
     jump map_overview
@@ -160,24 +160,23 @@ style menu_text_right take menu_text:
     textalign 1.0
 
 screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwargs):
-    python:
-        """
-        Displays a menu with the given elements.
+    # """
+    # Displays a menu with the given elements.
 
-        ### Parameters
-        1. page : int
-            - The page to display.
-        2. page_limit : int
-            - The maximum amount of elements to display per page.
-        3. elements : List[Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool]]
-            - The elements to display in the menu. 
-            - Each element is a tuple of the form (title, event_label, active), (title, effect, active) or (title, effect_list, active). 
-            - The active parameter is optional and defaults to True.
-        4. with_leave : bool, (default True)
-            - Whether or not to display a leave button.
-        5. **kwargs
-            - Any additional keyword arguments are passed to the effects of the selected element.
-        """
+    # ### Parameters
+    # 1. page : int
+    #     - The page to display.
+    # 2. page_limit : int
+    #     - The maximum amount of elements to display per page.
+    # 3. elements : List[Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool]]
+    #     - The elements to display in the menu. 
+    #     - Each element is a tuple of the form (title, event_label, active), (title, effect, active) or (title, effect_list, active). 
+    #     - The active parameter is optional and defaults to True.
+    # 4. with_leave : bool, (default True)
+    #     - Whether or not to display a leave button.
+    # 5. **kwargs
+    #     - Any additional keyword arguments are passed to the effects of the selected element.
+    # """
 
     tag menu_choice
 

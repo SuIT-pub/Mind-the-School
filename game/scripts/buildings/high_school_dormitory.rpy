@@ -3,24 +3,20 @@
 ###################################################
 
 init -1 python:
-    high_school_dormitory_after_time_check = Event(2, "high_school_dormitory.after_time_check")
-    high_school_dormitory_fallback         = Event(2, "high_school_dormitory_fallback")
-    high_school_dormitory_person_fallback  = Event(2, "high_school_dormitory_person_fallback")
-
-    high_school_dormitory_timed_event = EventStorage("high_school_dormitory", "", high_school_dormitory_after_time_check)
-    high_school_dormitory_events = {
-        "check_rooms":   EventStorage("check_rooms",   "Check Rooms",      high_school_dormitory_person_fallback),
-        "talk_students": EventStorage("talk_students", "Talk to students", high_school_dormitory_person_fallback),
-        "patrol":        EventStorage("patrol",        "Patrol building",  high_school_dormitory_person_fallback),
-        "peek_students": EventStorage("peek_students", "Peek on students", high_school_dormitory_person_fallback),
+    hsd_timed_event = EventStorage("high_school_dormitory", "", Event(2, "high_school_dormitory.after_time_check"))
+    hsd_events = {
+        "check_rooms":   EventStorage("check_rooms",   "Check Rooms",      default_fallback, "There is nobody here."),
+        "talk_students": EventStorage("talk_students", "Talk to students", default_fallback, "There is nobody here."),
+        "patrol":        EventStorage("patrol",        "Patrol building",  default_fallback, "There is nobody here."),
+        "peek_students": EventStorage("peek_students", "Peek on students", default_fallback, "There is nobody here."),
     }
 
-    high_school_dormitory_timed_event.add_event(Event(1,
+    hsd_timed_event.add_event(Event(1,
         ["first_week_high_school_dormitory_event"],
         TimeCondition(day = "2-4", month = 1, year = 2023),
     ))
 
-    high_school_dormitory_timed_event.add_event(Event(1,
+    hsd_timed_event.add_event(Event(1,
         ["first_potion_high_school_dormitory_event"],
         TimeCondition(day = 9),
     ))
@@ -30,11 +26,11 @@ init -1 python:
         OR(TimeCondition(weekday = "d", daytime = "f"), TimeCondition(daytime = "d", weekday = "w"))
     )
 
-    high_school_dormitory_events["check_rooms"].add_event(event1)
-    high_school_dormitory_events["peek_students"].add_event(event1)
+    hsd_events["check_rooms"].add_event(event1)
+    hsd_events["peek_students"].add_event(event1)
 
-    high_school_dormitory_timed_event.check_all_events()
-    map(lambda x: x.check_all_events(), high_school_dormitory_events.values())
+    hsd_timed_event.check_all_events()
+    map(lambda x: x.check_all_events(), hsd_events.values())
 
     high_school_dormitory_bg_images = [
         BGImage("images/background/high school dormitory/bg f <level> <nude>.jpg", 1, TimeCondition(daytime = "f")),
@@ -50,51 +46,25 @@ init -1 python:
 
 label high_school_dormitory ():
     
-    call call_available_event(high_school_dormitory_timed_event) from high_school_dormitory_1
+    call call_available_event(hsd_timed_event) from high_school_dormitory_1
 
 label .after_time_check (**kwargs):
 
     $ school_obj = get_character("high_school", charList["schools"])
 
-    call show_high_school_dormitory_idle_image(school_obj) from high_school_dormitory_2
+    call show_idle_image(school_obj, "images/background/high school dormitory/bg c.jpg", high_school_dormitory_bg_images) from high_school_dormitory_2
 
     call call_event_menu (
         "What to do in the High School Dorm?", 
-        high_school_dormitory_events, 
-        high_school_dormitory_fallback,
+        hsd_events, 
+        default_fallback,
         character.subtitles,
         char_obj = school_obj,
     ) from high_school_dormitory_3
 
     jump high_school_dormitory
 
-label show_high_school_dormitory_idle_image(school_obj):
-
-    $ max_nude, image_path = get_background(
-        "images/background/high school dormitory/bg c.jpg",
-        high_school_dormitory_bg_images,
-        school_obj,
-    )
-
-    call show_image_with_nude_var (image_path, max_nude) from _call_show_image_with_nude_var_7
-
-    return
-
 #################################################
-
-#####################################################
-# ----- High School Dormitory Fallback Events ----- #
-#####################################################
-
-label high_school_dormitory_fallback (**kwargs):
-    subtitles "There is nothing to do here."
-    jump map_overview
-
-label high_school_dormitory_person_fallback (**kwargs):
-    subtitles "There is nobody here."
-    jump map_overview
-
-#####################################################
 
 ############################################
 # ----- High School Dormitory Events ----- #

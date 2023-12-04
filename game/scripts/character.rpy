@@ -306,7 +306,7 @@ init -6 python:
                 - The level to set the character to
             """
 
-            level = clamp(level, 0, 10)
+            level = clamp_value(level, 0, 10)
             self.level.set_value(level)
 
         def get_nearest_level_delta(self, level: int) -> int:
@@ -785,9 +785,9 @@ init -6 python:
             del(map[name])
 
 label load_schools ():
-    """
-    Loads and updates all the Character-Objects for the game
-    """
+    # """
+    # Loads and updates all the Character-Objects for the game
+    # """
 
     $ load_character("secretary", "Secretary", charList['staff'], {
         'stats_objects': {

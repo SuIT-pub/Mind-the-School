@@ -3,16 +3,12 @@
 ##################################################
 
 init -1 python:
-    hsb_after_time_check = Event(2, "high_school_building.after_time_check")
-    hsb_fallback         = Event(2, "hsb_fallback")
-    hsb_person_fallback  = Event(2, "hsb_person_fallback")
-
-    hsb_timed_event = TempEventStorage("hsb", "", hsb_after_time_check)
+    hsb_timed_event = TempEventStorage("hsb", "", Event(2, "high_school_building.after_time_check"))
     hsb_events = {
-        "check_class": EventStorage("check_class", "Check Class",      hsb_person_fallback),
-        "teach_class": EventStorage("teach_class", "Teach a Class",    hsb_person_fallback),
-        "patrol":      EventStorage("patrol",      "Patrol building",  hsb_person_fallback),
-        "students":    EventStorage("students",    "Talk to students", hsb_person_fallback),
+        "check_class": EventStorage("check_class", "Check Class",      default_fallback, "There is nobody here."),
+        "teach_class": EventStorage("teach_class", "Teach a Class",    default_fallback, "There is nobody here."),
+        "patrol":      EventStorage("patrol",      "Patrol building",  default_fallback, "There is nobody here."),
+        "students":    EventStorage("students",    "Talk to students", default_fallback, "There is nobody here."),
     }
 
     hsb_timed_event.add_event(Event(1,
@@ -66,46 +62,19 @@ label .after_time_check (**kwargs):
 
     $ school_obj = get_character("high_school", charList["schools"])
 
-    call show_hsb_idle_image(school_obj) from high_school_building_2
+    call show_idle_image(school_obj, "images/background/high school building/bg f.jpg", hsb_bg_images) from high_school_building_2
 
     call call_event_menu (
         "What to do in the High School?", 
         hsb_events,
-        hsb_fallback,
+        default_fallback,
         character.subtitles,
         char_obj = school_obj,
     ) from high_school_building_3
 
     jump high_school_building
 
-
-label show_hsb_idle_image(school_obj):
-
-    $ max_nude, image_path = get_background(
-        "images/background/high school building/bg f.jpg",
-        hsb_bg_images, 
-        school_obj,
-    )
-
-    call show_image_with_nude_var(image_path, max_nude) from _call_show_image_with_nude_var_6
-
-    return
-
 ################################################
-
-####################################################
-# ----- High School Building Fallback Events ----- #
-####################################################
-
-label hsb_fallback (**kwargs):
-    subtitles "There is nothing to do here."
-    jump map_overview
-
-label hsb_person_fallback (**kwargs):
-    subtitles "There is nobody here."
-    jump map_overview
-
-####################################################
 
 ###########################################
 # ----- High School Building Events ----- #

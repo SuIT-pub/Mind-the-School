@@ -3,15 +3,11 @@
 #######################################
 
 init -1 python:
-    courtyard_after_time_check = Event(2, "courtyard.after_time_check")
-    courtyard_fallback         = Event(2, "courtyard_fallback")
-    courtyard_person_fallback  = Event(2, "courtyard_person_fallback")
-
-    courtyard_timed_event = EventStorage("courtyard", "", courtyard_after_time_check)
+    courtyard_timed_event = EventStorage("courtyard", "", Event(2, "courtyard.after_time_check"))
     courtyard_events = {
-        "talk_student": EventStorage("talk_student", "Talk with students", courtyard_person_fallback),
-        "talk_teacher": EventStorage("talk_teacher", "Talk with teacher",  courtyard_person_fallback),
-        "patrol":       EventStorage("patrol",       "Patrol",             courtyard_person_fallback),
+        "talk_student": EventStorage("talk_student", "Talk with students", default_fallback, "There is nobody here."),
+        "talk_teacher": EventStorage("talk_teacher", "Talk with teacher",  default_fallback, "There is nobody here."),
+        "patrol":       EventStorage("patrol",       "Patrol",             default_fallback, "There is nobody here."),
     }
     
     courtyard_timed_event.add_event(Event(1,
@@ -57,44 +53,20 @@ label .after_time_check (**kwargs):
 
     $ school_obj = get_random_school()
 
-    call show_courtyard_idle_image(school_obj) from courtyard_2
+    call show_idle_image(school_obj, "images/background/courtyard/bg c.jpg", courtyard_bg_images) from courtyard_2
 
     call call_event_menu (
         "What to do at the Courtyard?", 
         courtyard_events, 
-        courtyard_fallback,
+        default_fallback,
         character.subtitles,
         char_obj = school_obj,
+        fallback_text = "There is nothing to see here."
     ) from courtyard_3
 
     jump courtyard
 
-label show_courtyard_idle_image(school_obj):
-
-    $ max_nude, image_path = get_background(
-        "images/background/courtyard/bg c.jpg", # show empty courtyard
-        courtyard_bg_images,
-        school_obj,
-    )
-
-    call show_image_with_nude_var (image_path, max_nude) from _call_show_image_with_nude_var_2
-
-    return
-
 #####################################
-
-#########################################
-# ----- Courtyard Fallback Events ----- #
-#########################################
-
-label courtyard_fallback (**kwargs):
-    subtitles "There is nothing to see here."
-    jump map_overview
-label courtyard_person_fallback (**kwargs):
-    subtitles "There is nobody here."
-    jump map_overview
-
-#########################################
 
 ################################
 # ----- Courtyard Events ----- #

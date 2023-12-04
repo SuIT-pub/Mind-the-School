@@ -184,7 +184,7 @@ init -99 python:
                 elif vals == value:
                     return True
 
-        return str(value1) == str(value2)
+        return str(value_range) == str(value)
 
     def get_value_diff(value_range: [str, int], value: int) -> num:
         """

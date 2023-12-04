@@ -108,10 +108,10 @@ init -6 python:
     
 
 label pta_meeting (**kwargs):
-    """
-    The main label for the PTA meeting.
-    Here the player can vote on proposals and discuss issues.
-    """
+    # """
+    # The main label for the PTA meeting.
+    # Here the player can vote on proposals and discuss issues.
+    # """
     
     $ proposal = get_game_data('voteProposal')
     $ obj_school = get_random_school()
@@ -189,7 +189,7 @@ label pta_meeting (**kwargs):
     # $ speaking_parent = get_random_choice("Yuki Yamamoto", "Adelaide Hall", "Nubia Davis")
 
     $ speaking_teacher = "Yulan Chen"
-    $ speaking parent = "Adelaide Hall"
+    $ speaking_parent = "Adelaide Hall"
     $ speaking_student = get_random_choice("Yuriko Oshima")
 
     $ begin_event()

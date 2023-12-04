@@ -533,18 +533,27 @@ init -2 python:
         return renpy.loadable(image_path)
 
 
-label show_image(path, display_type = SCENE, **kwargs):
-    """
-    Shows an image with the given path and keyword arguments.
+label show_idle_image(char_obj, fallback, bg_images):
 
-    ### Parameters:
-    1. path: str
-        - The image path to show.
-    2. display_type: int (default SCENE)
-        - The display type of the image.
-    3. **kwargs
-        - The keyword arguments to replace in the image path.
-    """
+    $ max_nude, image_path = get_background(fallback, bg_images, char_obj)
+
+    call show_image_with_nude_var (image_path, max_nude) from show_idle_image_1
+
+    return
+
+
+label show_image(path, display_type = SCENE, **kwargs):
+    # """
+    # Shows an image with the given path and keyword arguments.
+
+    # ### Parameters:
+    # 1. path: str
+    #     - The image path to show.
+    # 2. display_type: int (default SCENE)
+    #     - The display type of the image.
+    # 3. **kwargs
+    #     - The keyword arguments to replace in the image path.
+    # """
 
     $ image_path = refine_image(path, **kwargs)
 
@@ -552,17 +561,17 @@ label show_image(path, display_type = SCENE, **kwargs):
     return
 
 label show_image_with_variant(path, display_type = SCENE, **kwargs):
-    """
-    Shows an image with the given path and keyword arguments where the variant keyword gets selected randomly if not already given in kwargs.
+    # """
+    # Shows an image with the given path and keyword arguments where the variant keyword gets selected randomly if not already given in kwargs.
 
-    ### Parameters:
-    1. path: str
-        - The image path to show.
-    2. display_type: int (default SCENE)
-        - The display type of the image.
-    3. **kwargs
-        - The keyword arguments to replace in the image path.
-    """
+    # ### Parameters:
+    # 1. path: str
+    #     - The image path to show.
+    # 2. display_type: int (default SCENE)
+    #     - The display type of the image.
+    # 3. **kwargs
+    #     - The keyword arguments to replace in the image path.
+    # """
 
     $ image_path = refine_image_with_variant(path, **kwargs)
 
@@ -570,16 +579,16 @@ label show_image_with_variant(path, display_type = SCENE, **kwargs):
     return
     
 label show_ready_image(path, display_type = SCENE):
-    """
-    Shows an image with the given path and display type.
-    This method automatically looks for the best way to show the image.
+    # """
+    # Shows an image with the given path and display type.
+    # This method automatically looks for the best way to show the image.
 
-    ### Parameters:
-    1. path: str
-        - The image path to show.
-    2. display_type: int (default SCENE)
-        - The display type of the image.
-    """
+    # ### Parameters:
+    # 1. path: str
+    #     - The image path to show.
+    # 2. display_type: int (default SCENE)
+    #     - The display type of the image.
+    # """
 
     if "<nude>" in path:
         call show_image_with_nude_var(path)
@@ -594,32 +603,32 @@ label show_ready_image(path, display_type = SCENE):
     return
 
 label show_ext_image_with_nude_var(image_path, **kwargs):
-    """
-    Shows an image with the given path and keyword arguments.
-    This method shows the image in a special way where a button is shown to switch between the different nude versions of the image.
+    # """
+    # Shows an image with the given path and keyword arguments.
+    # This method shows the image in a special way where a button is shown to switch between the different nude versions of the image.
 
-    ### Parameters:
-    1. image_path: str
-        - The image path to show.
-    2. **kwargs
-        - The keyword arguments to replace in the image path.
-    """
+    # ### Parameters:
+    # 1. image_path: str
+    #     - The image path to show.
+    # 2. **kwargs
+    #     - The keyword arguments to replace in the image path.
+    # """
 
     $ nude, image = get_image(image_path, **kwargs)
     call show_image_with_nude_var(image, nude) from show_ext_image_with_nude_var_1
     return
 
 label show_image_with_nude_var(image_path, limit = 0):
-    """
-    Is used to display an image with nude variants.
-    DO NOT USE THIS METHOD DIRECTLY! Use show_ext_image_with_nude_var instead!
+    # """
+    # Is used to display an image with nude variants.
+    # DO NOT USE THIS METHOD DIRECTLY! Use show_ext_image_with_nude_var instead!
 
-    ### Parameters:
-    1. image_path: str
-        - The image path to show.
-    2. limit: int (default 0)
-        - The highest nude level to show.
-    """
+    # ### Parameters:
+    # 1. image_path: str
+    #     - The image path to show.
+    # 2. limit: int (default 0)
+    #     - The highest nude level to show.
+    # """
 
     if limit > nude_vision:
         $ limit = nude_vision
@@ -638,23 +647,22 @@ label show_image_with_nude_var(image_path, limit = 0):
     if image_not_found:
         return
 
-    show screen image_with_nude_var(paths, limit, nude) with dissolveM
+    show screen image_with_nude_var(paths, limit) with dissolveM
 
     return
 
 screen image_with_nude_var(paths, limit = 2, nude = 0):
-    python:
-        """
-        Shows the image with a button to switch between the different nude versions.
+    # """
+    # Shows the image with a button to switch between the different nude versions.
 
-        ### Parameters:
-        1. paths: List[str]
-            - A list of all the image paths.
-        2. limit: int (default 2)
-            - The highest nude level to show.
-        3. nude: int (default 0)
-            - The current nude level.
-        """
+    # ### Parameters:
+    # 1. paths: List[str]
+    #     - A list of all the image paths.
+    # 2. limit: int (default 2)
+    #     - The highest nude level to show.
+    # 3. nude: int (default 0)
+    #     - The current nude level.
+    # """
     tag background
     
     $ path = paths[nude]
