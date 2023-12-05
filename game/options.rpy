@@ -37,7 +37,7 @@ define gui.about = _p("""
 ## distribution. This must be ASCII-only, and must not contain spaces, colons,
 ## or semicolons.
 
-define build.name = "MindTheSchool-0.1.2"
+define build.name = "MindTheSchool"
 
 
 ## Sounds and music ############################################################
@@ -118,7 +118,7 @@ define config.window = "auto"
 define config.window_show_transition = Dissolve(0.5 * (2.0 - persistent.transition_speed))
 define config.window_hide_transition = Dissolve(0.5 * (2.0 - persistent.transition_speed))
 
-define persistent.shortcuts = 0
+default persistent.shortcuts = 0
 
 ## Preference defaults #########################################################
 
@@ -198,6 +198,8 @@ init python:
     build.classify("event backup/**", None)
     build.classify("*android.json", None)
     build.classify("Members", None)
+    build.classify("Test", None)
+    build.classify("cspell.json", None)
 
     ## Files matching documentation patterns are duplicated in a mac app
     ## build, so they appear in both the app and the zip file.
@@ -213,10 +215,13 @@ init python:
     build.archive("scripts", "all")
     build.archive("images", "all")
     build.archive("sounds", "all")
+    build.archive("data", "all")
 
     # Put script files into the scripts archive.
     build.classify("game/**.ttf", "scripts")
     build.classify("game/**.rpyc", "scripts")
+
+    build.classify("game/members.csv", "data")
 
     # Put images into the images archive.
     build.classify("game/**.jpg", "images")

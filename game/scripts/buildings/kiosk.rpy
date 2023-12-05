@@ -105,7 +105,7 @@ label kiosk_event_1 (**kwargs):
 
     $ begin_event()
 
-    call show_image("images/events/kiosk/kiosk_event_1 <name> <girl> <level> <variant>.png", name = "high_school", girl = girl, variant = variant, **kwargs)
+    call show_image("images/events/kiosk/kiosk_event_1 <name> <girl> <level> <variant>.png", name = "high_school", girl = girl, variant = variant, **kwargs) from _call_show_image_1
     subtitles "For some, coffee is the only way to save the day."
 
     $ change_stats_with_modifier(char_obj,

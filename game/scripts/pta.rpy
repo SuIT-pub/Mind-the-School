@@ -240,7 +240,7 @@ label pta_meeting (**kwargs):
             parent_level = obj_parent.get_level(),
             teacher = speaking_teacher,
             vote = teacher_vote
-        )
+        ) from _call_show_image_3
         teacher "[teacher_response]" (name = speaking_teacher)
 
         call show_image("images/events/pta/regular meeting/pta_2 <secretary_level> <teacher_level> <student_level> <parent_level> <student> <vote>.png",
@@ -251,7 +251,7 @@ label pta_meeting (**kwargs):
             parent_level = obj_parent.get_level(),
             student = speaking_student,
             vote = student_vote
-        )
+        ) from _call_show_image_4
         sgirl "[student_response]" (name = speaking_student)
 
         call show_image("images/events/pta/regular meeting/pta_2 <secretary_level> <teacher_level> <student_level> <parent_level> <parent> <vote>.png",
@@ -262,7 +262,7 @@ label pta_meeting (**kwargs):
             parent_level = obj_parent.get_level(),
             parent = speaking_parent,
             vote = parent_vote
-        )
+        ) from _call_show_image_5
         parent "[parent_response]" (name = speaking_parent)
 
         $ image.show(7)

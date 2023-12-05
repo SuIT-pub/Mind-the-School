@@ -557,7 +557,7 @@ label show_image(path, display_type = SCENE, **kwargs):
 
     $ image_path = refine_image(path, **kwargs)
 
-    call show_ready_image(image_path, display_type)
+    call show_ready_image(image_path, display_type) from _call_show_ready_image
     return
 
 label show_image_with_variant(path, display_type = SCENE, **kwargs):
@@ -575,7 +575,7 @@ label show_image_with_variant(path, display_type = SCENE, **kwargs):
 
     $ image_path = refine_image_with_variant(path, **kwargs)
 
-    call show_ready_image(image_path, display_type)
+    call show_ready_image(image_path, display_type) from _call_show_ready_image_1
     return
     
 label show_ready_image(path, display_type = SCENE):
@@ -591,7 +591,7 @@ label show_ready_image(path, display_type = SCENE):
     # """
 
     if "<nude>" in path:
-        call show_ext_image_with_nude_var(path)
+        call show_ext_image_with_nude_var(path) from _call_show_ext_image_with_nude_var
     else:
         if check_image(path):
             if display_type == SHOW:

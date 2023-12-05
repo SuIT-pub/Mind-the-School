@@ -199,7 +199,7 @@ label .leave (**kwargs):
 label courtyard_event_3 (**kwargs):
     $ begin_event()
     
-    call show_image ("images/events/courtyard/courtyard_event_3 <name> <level>.png", name = "high_school", **kwargs)
+    call show_image ("images/events/courtyard/courtyard_event_3 <name> <level>.png", name = "high_school", **kwargs) from _call_show_image
     subtitles "You notice a group of girls taking a break together."
 
     $ change_stats_with_modifier(kwargs["char_obj"],
