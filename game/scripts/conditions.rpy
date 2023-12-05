@@ -749,7 +749,7 @@ init -6 python:
                 - Whether the condition is fulfilled or not.
             """
 
-            return get_building(self.value).is_building_unlocked(self.value)
+            return get_building(self.value).is_unlocked(self.value)
 
         def to_list_text(self, **kwargs) -> Tuple[str, str, str]:
             """
@@ -1292,7 +1292,7 @@ init -6 python:
                 - Whether the condition is fulfilled or not.
             """
 
-            return random.randInt(0, self.limit) < self.amount
+            return get_random_int(0, self.limit) < self.amount
 
         def to_desc_text(self, **kwargs) -> str:
             """

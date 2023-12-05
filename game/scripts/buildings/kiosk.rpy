@@ -22,7 +22,8 @@ init -1 python:
     k_event_3 = Event(3, 
         ["kiosk_event_3"],
         OR(TimeCondition(weekday = "d", daytime = "f"), TimeCondition(weekday="w", daytime = "d")),
-        NOT(BuildingCondition("cafeteria"))
+        NOT(BuildingCondition("cafeteria")),
+        RandomCondition(75, 100)
     )
 
     kiosk_events["snack"].add_event(k_event_1)
@@ -104,7 +105,7 @@ label kiosk_event_1 (**kwargs):
 
     $ begin_event()
 
-    $ show_image("images/events/kiosk/kiosk_event_1 <name> <girl> <level> <variant>", name = "high_school", girl = girl, variant = variant, **kwargs)
+    call show_image("images/events/kiosk/kiosk_event_1 <name> <girl> <level> <variant>.png", name = "high_school", girl = girl, variant = variant, **kwargs)
     subtitles "For some, coffee is the only way to save the day."
 
     $ change_stats_with_modifier(char_obj,

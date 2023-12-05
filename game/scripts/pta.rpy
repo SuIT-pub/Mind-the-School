@@ -232,7 +232,7 @@ label pta_meeting (**kwargs):
         $ image.show(6)
         headmaster "Please cast your vote now."
 
-        $ show_image("images/events/pta/regular meeting/pta_2 <secretary_level> <teacher_level> <student_level> <parent_level> <teacher> <vote>.png",
+        call show_image("images/events/pta/regular meeting/pta_2 <secretary_level> <teacher_level> <student_level> <parent_level> <teacher> <vote>.png",
             secretary_level = obj_secretary.get_level(),
             teacher_level = obj_teacher.get_level(), 
             school = obj_school_name, 
@@ -243,7 +243,7 @@ label pta_meeting (**kwargs):
         )
         teacher "[teacher_response]" (name = speaking_teacher)
 
-        $ show_image("images/events/pta/regular meeting/pta_2 <secretary_level> <teacher_level> <student_level> <parent_level> <student> <vote>.png",
+        call show_image("images/events/pta/regular meeting/pta_2 <secretary_level> <teacher_level> <student_level> <parent_level> <student> <vote>.png",
             secretary_level = obj_secretary.get_level(),
             teacher_level = obj_teacher.get_level(), 
             school = obj_school_name, 
@@ -254,7 +254,7 @@ label pta_meeting (**kwargs):
         )
         sgirl "[student_response]" (name = speaking_student)
 
-        $ show_image("images/events/pta/regular meeting/pta_2 <secretary_level> <teacher_level> <school> <student_level> <parent_level> <parent> <vote>.png",
+        call show_image("images/events/pta/regular meeting/pta_2 <secretary_level> <teacher_level> <school> <student_level> <parent_level> <parent> <vote>.png",
             secretary_level = obj_secretary.get_level(),
             teacher_level = obj_teacher.get_level(), 
             school = obj_school_name, 

@@ -26,7 +26,7 @@ init -1 python:
         OR(TimeCondition(weekday = "d", daytime = "f"), TimeCondition(daytime = "d", weekday = "w"))
     )
 
-    hsd_events["check_rooms"].add_event(event1)
+    # hsd_events["check_rooms"].add_event(event1)
     hsd_events["peek_students"].add_event(event1)
 
     hsd_timed_event.check_all_events()
