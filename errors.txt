@@ -2,13 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/scripts/pta.rpy", line 149: Line is indented, but the preceding one-line python statement statement does not expect a block. Please check this line's indentation. You may have forgotten a colon (:).
-    $ teacher_response = obj.get_vote_comments("teacher", teacher_vote)
-    ^
-
-File "game/scripts/pta.rpy", line 161: Line is indented, but the preceding one-line python statement statement does not expect a block. Please check this line's indentation. You may have forgotten a colon (:).
-    $ student_response = obj.get_vote_comments("student", student_vote)
-    ^
+File "game/scripts/menu.rpy", line 222: The frame statement is not a valid child of the button statement.
+    hover_background "gui/button/choice_hover_background.png" frame = Frame("gui/button/choice_hover_background.png", 52, 1185, tile = 16)
+                                                                   ^
 
 Ren'Py Version: Ren'Py 8.1.3.23091805
-Tue Dec  5 13:47:47 2023
+Tue Dec  5 15:20:04 2023

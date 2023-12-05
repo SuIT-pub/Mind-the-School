@@ -198,12 +198,12 @@ label .tutorial_3:
 
     $ time.set_time(day = 2, month = 1, year = 2023, daytime = 1)
 
-    jump first_week_epilogue_final.skip
+    # jump first_week_epilogue_final.skip
 
     # dev "[intro_dev_message]"
 
 
-    # jump map_overview
+    jump map_overview
 
 image anim_first_week_epilogue_17 = Movie(play ="images/events/first week/first week epilogue 17.webm", start_image = "images/events/first week/first week epilogue 17_1.jpg", loop = True)
 image anim_first_week_epilogue_18 = Movie(play ="images/events/first week/first week epilogue 18.webm", start_image = "images/events/first week/first week epilogue 18_1.jpg", loop = True)

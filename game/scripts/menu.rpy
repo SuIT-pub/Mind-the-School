@@ -218,8 +218,8 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
                         key ("K_" + str(count)) action Call("call_element", effects, **kwargs)
                         key ("K_KP" + str(count)) action Call("call_element", effects, **kwargs)
                     button:
-                        background "gui/button/choice_idle_background.png"
-                        hover_background "gui/button/choice_hover_background.png"
+                        background Frame("gui/button/choice_idle_background.png", 1, 1, True)
+                        hover_background Frame("gui/button/choice_hover_background.png", 1, 1, True)
                         text title_text style "menu_text":
                             xalign 0.5
                             yalign 0.5
@@ -246,8 +246,8 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
                                 $ prev_text = "[,]"
                             key "K_COMMA" action Show("custom_menu_choice", None, page - 1, page_limit, elements, **kwargs)
                         button:
-                            background "gui/button/choice_idle_background_250px.png"
-                            hover_background "gui/button/choice_hover_background_250px.png"
+                            background Frame("gui/button/choice_idle_background_250px.png")
+                            hover_background Frame("gui/button/choice_hover_background_250px.png")
                             text "[prev_text]  << Prev" style "menu_text_left":
                                 xalign 0.5
                                 yalign 0.0
