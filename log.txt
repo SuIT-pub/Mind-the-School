@@ -33572,3 +33572,11 @@ Version: b'4.6.0 - Build 31.0.101.4575'
 Display Info: None
 Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
 Maximum texture size: 4096x4096
+Screen sizes: virtual=(1920, 1080) physical=(2304, 1226) drawable=(2304, 1226)
+Maximum texture size: 4096x4096
+Screen sizes: virtual=(1920, 1080) physical=(2304, 1262) drawable=(2304, 1262)
+Maximum texture size: 4096x4096
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1406) drawable=(2560, 1406)
+Maximum texture size: 4096x4096
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096

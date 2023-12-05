@@ -14,3 +14,4 @@ Members/Members_*.csv
 Members/alias.csv
 Members/blacklist.txt
 game/scripts/test.py
+Test/**
