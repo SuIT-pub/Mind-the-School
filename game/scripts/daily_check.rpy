@@ -42,9 +42,10 @@ init -1 python:
         TimeCondition(day = 5, month = 1, year = 2023, daytime = 1)
     ))
 
-    # temp_check_events.add_event(Event("pta_meeting1", "pta_meeting", 2,
-    #     TimeCondition(day = 5, daytime = 1)
-    # ))
+    time_check_events.add_event(Event(2,
+        "pta_meeting",
+        TimeCondition(weekday = 5, daytime = 1)
+    ))
 
     # temp_check_events.add_event(Event("pta_meeting2", "pta_meeting", 2,
     #     TimeCondition(day = 19, daytime = 1)
@@ -487,6 +488,7 @@ label .replay:
     $ set_level_for_char(1, "middle_school", charList["schools"])
     $ set_level_for_char(1, "elementary_school", charList["schools"])
     $ set_level_for_char(1, "teacher", charList["staff"])
+    $ set_level_for_char(1, "parents", charList)
     $ set_level_for_char(5, "secretary", charList["staff"])
 
     $ set_all_buildings_blocked(False)

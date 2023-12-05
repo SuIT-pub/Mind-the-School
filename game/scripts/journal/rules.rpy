@@ -357,6 +357,7 @@ label load_rules ():
         ],
         '_unlock_conditions': ConditionStorage(
             LevelCondition("3+"),
+            LockCondition(False),
         ),
         '_image_path': 'images/journal/rules/relaxed_uniform_<school>.jpg',
         '_image_path_alt': 'images/journal/rules/relaxed_uniform_high_school.jpg',

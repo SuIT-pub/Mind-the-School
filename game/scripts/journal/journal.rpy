@@ -334,9 +334,9 @@ screen journal_vote_button(page, display, active_school, active_obj):
                     charList["parents"]
                 )
             $ locked_text = ""
+            $ probability_text = str(clamp_value(round(probability, 2))) + "%"
             if condition_storage.get_is_locked():
-                $ locked_text = "(Locked)"
-            $ probability_text = str(clamp_value(round(probability, 2))) + "%" + locked_text
+                $ probability_text = "Locked"
             if probability > 0:
                 textbutton "Vote for [action_text] ([probability_text])":
                     xpos 985 yalign 0.83

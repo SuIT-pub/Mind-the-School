@@ -144,7 +144,7 @@ label pta_meeting (**kwargs):
         $ teacher_vote = voteCharacter(
             obj.get_condition_storage(), 
             teacher_obj,
-            obj_school_name,
+            # obj_school_name,
         )
         $ teacher_response = obj.get_vote_comments("teacher", teacher_vote)
         if teacher_vote == 'yes':
@@ -156,7 +156,7 @@ label pta_meeting (**kwargs):
         $ student_vote = voteCharacter(
             obj.get_condition_storage(), 
             school_obj,
-            obj_school_name,
+            # obj_school_name,
         )
         $ student_response = obj.get_vote_comments("student", student_vote)
         if student_vote == 'yes':
@@ -168,7 +168,7 @@ label pta_meeting (**kwargs):
         $ parent_vote = voteCharacter(
             obj.get_condition_storage(), 
             parent_obj, 
-            obj_school_name,
+            # obj_school_name,
         )
         $ parent_response = obj.get_vote_comments("parent", parent_vote)
         if parent_vote == 'yes':
@@ -254,7 +254,7 @@ label pta_meeting (**kwargs):
         )
         sgirl "[student_response]" (name = speaking_student)
 
-        call show_image("images/events/pta/regular meeting/pta_2 <secretary_level> <teacher_level> <school> <student_level> <parent_level> <parent> <vote>.png",
+        call show_image("images/events/pta/regular meeting/pta_2 <secretary_level> <teacher_level> <student_level> <parent_level> <parent> <vote>.png",
             secretary_level = obj_secretary.get_level(),
             teacher_level = obj_teacher.get_level(), 
             school = obj_school_name, 
@@ -271,6 +271,12 @@ label pta_meeting (**kwargs):
             $ obj.unlock(obj_school_name, True, True)
         else:
             headmaster "The vote was unsuccessful. The [obj_title] will not be implemented."
+
+        $ set_game_data("voteProposal", None)
+
+        
+    headmaster "It seems like that's all we have for today."
+    headmaster "I thank you all for coming."
 
     jump new_daytime
     
