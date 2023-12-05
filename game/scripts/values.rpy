@@ -6,6 +6,7 @@ init python:
     loli_content = 0
     cheat_mode = False
     nude_vision = 2
+    time_freeze = False
 
 default intro_dev_message = "This version of the game only includes content up to day 10, when free roaming begins. You can still play and roam from there, but there will be no content."
 

@@ -486,6 +486,8 @@ label say_with_image (image_series, step, text, person_name, person):
     $ image_series.show(step)
     $ person(text, name = person_name)
 
+    return
+
 ####################################################
 # goes to map overview while moving the time forward
 
@@ -542,7 +544,8 @@ label new_day ():
     # progresses the day and then goes to map overview
     # """
 
-    $ time.progress_day()
+    if not time_freeze:
+        $ time.progress_day()
 
     $ hide_all()
 
@@ -559,7 +562,7 @@ label new_daytime ():
 
     $ hide_all()
 
-    if time.progress_time():
+    if not time_freeze and time.progress_time():
         call screen black_screen_text (f"{time.get_weekday()}, {time.day} {time.get_month_name()} {time.year}")
 
     call time_event_check from new_daytime_2

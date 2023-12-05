@@ -668,17 +668,104 @@ screen journal_cheats(display, school):
         color "#000"
 
     $ options = {
+        "general": "General",
         "stats": "Stats",
         "rules": "Rules",
         "clubs": "Clubs",
         "buildings": "Buildings",
     }
 
+    if display == "":
+        $ display = "general"
+
     use journal_simple_list(5, display, school, options)
 
     $ active_school = get_character(school, charList["schools"])
 
-    if display == "stats":
+    if display == "general":
+        frame:
+            background Solid("#0000")
+            area (950, 200, 560, 690)
+
+            viewport id "CheatStatList":
+                mousewheel True
+                draggable "touch"
+                vbox:
+                    text "Changing game values can lead to unintended behaviour or a broken game save.\nProceed on your own risk.":
+                        color "#000000"
+                        size 20
+
+                    null height 20
+
+                    # TIME
+                    hbox:
+                        button:
+                            text "Time" xalign 0.0 style "journal_text"
+                            xsize 250
+
+                        $ time_freeze_text = "{color=#00ff00}FREEZE{/color}"
+                        if time_freeze:
+                            $ time_freeze_text = "{color=#ff0000}UNFREEZE{/color}"
+                        button:
+                            text time_freeze_text xalign 1.0
+                            action [With(dissolveM), Call("switch_time_freeze", 5, display, school)]
+                            xsize 250
+                    null height 10
+                    text "Set daytime to:" style "journal_text" size 20
+                    hbox:
+                        button:
+                            text "Morning" style "buttons_idle"
+                            action Call("set_time_cheat", 5, display, school, daytime = 1)
+                        text "    " style "journal_text"
+                        button:
+                            text "Early Noon" style "buttons_idle"
+                            action Call("set_time_cheat", 5, display, school, daytime = 2)
+                        text "    " style "journal_text"
+                        button:
+                            text "Noon" style "buttons_idle"
+                            action Call("set_time_cheat", 5, display, school, daytime = 3)
+                    hbox:
+                        button:
+                            text "Early Afternoon" style "buttons_idle"
+                            action Call("set_time_cheat", 5, display, school, daytime = 4)
+                        text "    " style "journal_text"
+                        button:
+                            text "Afternoon" style "buttons_idle"
+                            action Call("set_time_cheat", 5, display, school, daytime = 5)
+                    hbox:
+                        button:
+                            text "Evening" style "buttons_idle"
+                            action Call("set_time_cheat", 5, display, school, daytime = 6)
+                        text "    " style "journal_text"
+                        button:
+                            text "Night" style "buttons_idle"
+                            action Call("set_time_cheat", 5, display, school, daytime = 7)
+                    null height 10
+                    text "Left-click to fast forward; Right click to rewind" style "journal_text" size 20
+                    hbox:
+                        $ day = time.day
+                        $ month = time.get_month_name()
+                        $ year = time.year
+                        button:
+                            text "[day]" style "buttons_idle"
+                            action Call("change_time_cheat", 5, display, school, day = 1)
+                            alternate Call("change_time_cheat", 5, display, school, day = -1)
+                        text "    " style "journal_text"
+                        button:
+                            text "[month]" style "buttons_idle"
+                            action Call("change_time_cheat", 5, display, school, month = 1)
+                            alternate Call("change_time_cheat", 5, display, school, month = -1)
+                        text "    " style "journal_text"
+                        button:
+                            text "[year]" style "buttons_idle"
+                            action Call("change_time_cheat", 5, display, school, year = 1)
+                            alternate Call("change_time_cheat", 5, display, school, year = -1)
+                
+                    
+            vbar value YScrollValue("CheatStatList"):
+                unscrollable "hide"
+                xalign 1.0
+    elif display == "stats":
         frame:
             background Solid("#0000")
             area (950, 200, 560, 690)
@@ -1231,6 +1318,25 @@ screen journal_credits(display, school):
 ############################
 # Journal Methods
 ############################
+
+label set_time_cheat(page, display, school, **kwargs):
+    $ time.set_time(**kwargs)
+
+    call open_journal(page, display, school) from set_time_cheat_1
+
+label change_time_cheat(page, display, school, **kwargs):
+    $ time.add_time(**kwargs)
+
+    call open_journal(page, display, school) from change_time_cheat_1
+
+label switch_time_freeze(page, display, school, value = None):
+    if time_freeze == None:
+        $ time_freeze = True
+    elif value == None:
+        $ time_freeze = value
+    else:
+        $ time_freeze = not time_freeze
+    call open_journal(page, display, school) from switch_time_freeze_1
 
 label open_patreon_link(school):
     $ renpy.run(OpenURL(patreon))

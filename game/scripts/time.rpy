@@ -87,12 +87,12 @@ init -6 python:
             self.month = 1
             self.year = 2023
 
-        def set_time(self, **kwargs: int | str):
+        def set_time(self, **kwargs: int):
             """
             Sets the time.
 
             ### Parameters:
-            1. **kwargs: int | str
+            1. **kwargs: int
                 - day: int
                     - the day in the month
                     - from 1 - 28
@@ -112,13 +112,13 @@ init -6 python:
                     - 7: Night
             """
 
-            if 'day' in kwargs.keys():
+            if 'day' in kwargs.keys() and is_integer(kwargs['day']):
                 self.day = kwargs['day']
-            if 'month' in kwargs.keys():
+            if 'month' in kwargs.keys() and is_integer(kwargs['month']):
                 self.month = kwargs['month']
-            if 'year' in kwargs.keys():
+            if 'year' in kwargs.keys() and is_integer(kwargs['year']):
                 self.year = kwargs['year']
-            if 'daytime' in kwargs.keys():
+            if 'daytime' in kwargs.keys() and is_integer(kwargs['daytime']):
                 self.daytime = kwargs['daytime']
             else:
                 self.daytime = 1
@@ -150,13 +150,13 @@ init -6 python:
                     - 7: Night
             """
 
-            if 'day' in kwargs.keys():
+            if 'day' in kwargs.keys() and is_integer(kwargs['day']):
                 self.day += kwargs['day']
-            if 'month' in kwargs.keys():
+            if 'month' in kwargs.keys() and is_integer(kwargs['month']):
                 self.month += kwargs['month']
-            if 'year' in kwargs.keys():
+            if 'year' in kwargs.keys() and is_integer(kwargs['year']):
                 self.year += kwargs['year']
-            if 'daytime' in kwargs.keys():
+            if 'daytime' in kwargs.keys() and is_integer(kwargs['daytime']):
                 self.daytime += kwargs['daytime']
 
             self.correct_time()
