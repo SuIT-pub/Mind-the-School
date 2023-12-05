@@ -216,6 +216,7 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
                         if show_shortcut():
                             $ title_text = "[title] [[[count]]"
                         key ("K_" + str(count)) action Call("call_element", effects, **kwargs)
+                        key ("K_KP" + str(count)) action Call("call_element", effects, **kwargs)
                     button:
                         background "gui/button/choice_idle_background.png"
                         hover_background "gui/button/choice_hover_background.png"

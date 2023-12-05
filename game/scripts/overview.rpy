@@ -204,6 +204,7 @@ screen school_overview_buttons ():
             if show_shortcut():
                 $ hsb_text = " [[1]"
             key "K_1" action Call("building", "high_school_building")
+            key "K_KP1" action Call("building", "high_school_building")
         imagebutton:
             auto "background/bg school high school building %s.png"
             hover "background/bg school high school building hover.png"
@@ -219,6 +220,7 @@ screen school_overview_buttons ():
             if show_shortcut():
                 $ hsd_text = " [[2]"
             key "K_2" action Call("building", "high_school_dormitory")
+            key "K_KP2" action Call("building", "high_school_dormitory")
         imagebutton:
             auto "background/bg school high school dormitory %s.png"
             tooltip "High School Dormitory" + hsd_text
@@ -298,6 +300,7 @@ screen school_overview_buttons ():
             if show_shortcut():
                 $ g_text = " [[6]"
             key "K_6" action Call("building", "gym")
+            key "K_KP6" action Call("building", "gym")
         imagebutton:
             auto "background/bg school gym %s.png"
             tooltip "Gym" + g_text
@@ -321,6 +324,7 @@ screen school_overview_buttons ():
             if show_shortcut():
                 $ cf_text = " [[7]"
             key "K_7" action Call("building", "cafeteria")
+            key "K_KP7" action Call("building", "cafeteria")
         imagebutton:
             auto "background/bg school cafeteria %s.png"
             tooltip "Cafeteria" + cf_text
@@ -343,7 +347,7 @@ screen school_overview_buttons ():
         if has_keyboard():
             if show_shortcut():
                 $ k_text = " [[5]"
-            key "K_5" action Call("building", "kiosk")
+            key "K_KP5" action Call("building", "kiosk")
         imagebutton:
             auto "background/bg school kiosk %s.png"
             tooltip "Kiosk" + k_text
@@ -357,7 +361,7 @@ screen school_overview_buttons ():
         if has_keyboard():
             if show_shortcut():
                 $ c_text = " [[4]"
-            key "K_4" action Call("building", "courtyard")
+            key "K_KP4" action Call("building", "courtyard")
         imagebutton:
             auto "background/bg school courtyard %s.png"
             tooltip "Courtyard" + c_text
@@ -371,7 +375,7 @@ screen school_overview_buttons ():
         if has_keyboard():
             if show_shortcut():
                 $ o_text = " [[3]"
-            key "K_3" action Call("building", "office_building")
+            key "K_KP3" action Call("building", "office_building")
         imagebutton:
             auto "background/bg school office building %s.png"
             tooltip "Office Building" + o_text

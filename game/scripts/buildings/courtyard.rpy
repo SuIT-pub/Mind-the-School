@@ -138,7 +138,7 @@ label .look (**kwargs):
     sgirl "PERVERT!"
 
     $ change_stats_with_modifier(kwargs["char_obj"],
-        happiness = -0.4, reputation = -0.2, inhibition = -0.4)
+        happiness = DEC_SMALL, reputation = DEC_TINY, inhibition = DEC_SMALL)
     jump new_daytime
 
 label .look_away (**kwargs):
@@ -148,7 +148,7 @@ label .look_away (**kwargs):
     subtitles "The girl looks at you ashamed of the situation and runs away. Glad you didn't stare."
 
     $ change_stats_with_modifier(kwargs["char_obj"],
-        happiness = 0.1, reputation = 0.1, inhibition = -0.1)
+        happiness = TINY, reputation = TINY, inhibition = DEC_TINY)
     jump new_daytime
 
 # TODO: make images
@@ -186,14 +186,14 @@ label .talk (**kwargs):
     $ image.show(9)
     sgirl "Thanks, bye."
     $ change_stats_with_modifier(kwargs["char_obj"],
-        happiness = -0.2, reputation = 0.2)
+        happiness = DEC_TINY, reputation = TINY)
     jump new_daytime
 
 label .leave (**kwargs):
     $ image.show(1)
     subtitles "You decide to leave her alone."
     $ change_stats_with_modifier(kwargs["char_obj"],
-        happiness = -0.7, reputation = -0.2)
+        happiness = DEC_MEDIUM, reputation = DEC_SMALL)
     jump new_daytime
 
 label courtyard_event_3 (**kwargs):
@@ -203,7 +203,7 @@ label courtyard_event_3 (**kwargs):
     subtitles "You notice a group of girls taking a break together."
 
     $ change_stats_with_modifier(kwargs["char_obj"],
-        charm = 0.3, happiness = 0.2, education = 0.2, reputation = 0.1)
+        charm = SMALL, happiness = TINY, education = TINY, reputation = SMALL)
     jump new_daytime
 
 ################################

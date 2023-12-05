@@ -229,7 +229,7 @@ label gym_event_2 (**kwargs):
         $ image.show(4)
         subtitles "You run out as fast as you can."
         $ change_stats_with_modifier(char_obj, 
-            inhibition = MEDIUM, HAPPINESS = DEC_MEDIUM, REPUTATION = DEC_SMALL)
+            inhibition = DEC_SMALL, HAPPINESS = DEC_MEDIUM, REPUTATION = DEC_SMALL)
     elif inhibition >= 60:
         show screen black_screen_text("gym_event_2\ntopic_[topic] inhibition >= 60")
 

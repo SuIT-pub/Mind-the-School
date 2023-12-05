@@ -152,8 +152,13 @@ init -6 python:
             elif self.value + delta > maxLimit:
                 delta = maxLimit - self.value
 
+            old_value = self.value
+
             change_val = math.ceil(delta * 100.0) / 100.0
             self.value = clamp_stat_value(round(self.value + change_val, 2), self.type, level, minLimit, maxLimit)
+
+            change_val = round(self.value - old_value, 2)
+
             self.set_changed_value(change_val)
 
         def change_value_to(self, value: num, level: int = 10):
@@ -500,7 +505,7 @@ init -6 python:
         if stat == CORRUPTION:
             return clamp_value(value, min, max - level * (max / 10))
         elif stat == INHIBITION:
-            return clamp_value(value, level * (max / 10), max)
+            return clamp_value(value, 100 - (level * (max / 10)), max)
         else:
             return clamp_value(value, min, max)
 
