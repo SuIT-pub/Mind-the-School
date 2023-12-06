@@ -18,9 +18,9 @@ init -1 python:
     map(lambda x: x.check_all_events(), tennis_court_events.values())
 
     tennis_court_bg_images = [
-        BGImage("images/background/tennis court/bg c <level> <nude>.jpg", 1, TimeCondition(daytime = "c")), # show tennis court with students
-        BGImage("images/background/tennis court/bg 3,6 <level> <nude>.jpg", 1, TimeCondition(daytime = "3,6")), # show tennis court with few students
-        BGImage("images/background/tennis court/bg 7.jpg", 1, TimeCondition(daytime = 7)), # show tennis court at night empty
+        BGImage("images/background/tennis court/bg c <level> <nude>.webp", 1, TimeCondition(daytime = "c")), # show tennis court with students
+        BGImage("images/background/tennis court/bg 3,6 <level> <nude>.webp", 1, TimeCondition(daytime = "3,6")), # show tennis court with few students
+        BGImage("images/background/tennis court/bg 7.webp", 1, TimeCondition(daytime = 7)), # show tennis court at night empty
     ]
     
 ##########################################
@@ -37,7 +37,7 @@ label .after_time_check (**kwargs):
 
     $ school_obj = get_random_school()
 
-    call show_idle_image(school_obj, "images/background/tennis court/bg 1.jpg", tennis_court_bg_images) from tennis_court_2
+    call show_idle_image(school_obj, "images/background/tennis court/bg 1.webp", tennis_court_bg_images) from tennis_court_2
 
     call call_event_menu (
         "What to do at the tennis court?", 

@@ -34,9 +34,9 @@ init -1 python:
     map(lambda x: x.check_all_events(), courtyard_events.values())
 
     courtyard_bg_images = [
-        BGImage("images/background/courtyard/bg 1,6 <name> <level> <nude>.jpg", 1, OR(TimeCondition(daytime = "1,6", weekday = "w"), TimeCondition(daytime = "c", weekday = "d"))), # show courtyard with a few students
-        BGImage("images/background/courtyard/bg 3 <name> <level> <nude>.jpg", 1, TimeCondition(daytime = 3)), # show courtyard full of students and teacher
-        BGImage("images/background/courtyard/bg 7.jpg", 1, TimeCondition(daytime = 7)), # show empty courtyard at night
+        BGImage("images/background/courtyard/bg 1,6 <name> <level> <nude>.webp", 1, OR(TimeCondition(daytime = "1,6", weekday = "w"), TimeCondition(daytime = "c", weekday = "d"))), # show courtyard with a few students
+        BGImage("images/background/courtyard/bg 3 <name> <level> <nude>.webp", 1, TimeCondition(daytime = 3)), # show courtyard full of students and teacher
+        BGImage("images/background/courtyard/bg 7.webp", 1, TimeCondition(daytime = 7)), # show empty courtyard at night
     ]
     
 #######################################
@@ -53,7 +53,7 @@ label .after_time_check (**kwargs):
 
     $ school_obj = get_random_school()
 
-    call show_idle_image(school_obj, "images/background/courtyard/bg c.jpg", courtyard_bg_images) from courtyard_2
+    call show_idle_image(school_obj, "images/background/courtyard/bg c.webp", courtyard_bg_images) from courtyard_2
 
     call call_event_menu (
         "What to do at the Courtyard?", 
@@ -118,7 +118,7 @@ label courtyard_event_1 (**kwargs):
 
     $ name = "high_school"
 
-    $ image = Image_Series("images/events/courtyard/courtyard_event_1 <name> <level> <variant> <step>.png", name = name, variant = variant, **kwargs)
+    $ image = Image_Series("images/events/courtyard/courtyard_event_1 <name> <level> <variant> <step>.webp", name = name, variant = variant, **kwargs)
 
     $ begin_event()
 
@@ -157,7 +157,7 @@ label courtyard_event_2 (**kwargs):
 
     $ name = "high_school"
 
-    $ image = Image_Series("images/events/courtyard/courtyard_event_2 <name> <level> <step>.png", name = name, **kwargs)
+    $ image = Image_Series("images/events/courtyard/courtyard_event_2 <name> <level> <step>.webp", name = name, **kwargs)
 
     $ begin_event()
 
@@ -199,7 +199,7 @@ label .leave (**kwargs):
 label courtyard_event_3 (**kwargs):
     $ begin_event()
     
-    call show_image ("images/events/courtyard/courtyard_event_3 <name> <level>.png", name = "high_school", **kwargs) from _call_show_image
+    call show_image ("images/events/courtyard/courtyard_event_3 <name> <level>.webp", name = "high_school", **kwargs) from _call_show_image
     subtitles "You notice a group of girls taking a break together."
 
     $ change_stats_with_modifier(kwargs["char_obj"],

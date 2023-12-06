@@ -30,7 +30,7 @@ screen school_overview_map ():
         Displays the school map
         """
 
-    add "background/bg school overview idle.jpg"
+    add "background/bg school overview idle.webp"
 
 ##############################
 # display the stats on the map
@@ -102,88 +102,88 @@ screen school_overview_images ():
         Displays all buildings on the map
         """
 
-    add "background/bg school overview idle.jpg"
+    add "background/bg school overview idle.webp"
 
     # High School Building
     if is_building_available("high_school_building"):
-        add "background/bg school high school building idle.png":
+        add "background/bg school high school building idle.webp":
             xpos 1171 ypos 262
 
     # High School Dormitory
     if is_building_available("high_school_dormitory"):
-        add "background/bg school high school dormitory idle.png":
+        add "background/bg school high school dormitory idle.webp":
             xpos 1257 ypos 613
 
     if loli_content >= 1:
         # Middle School Building
         if is_building_available("middle_school_building"):
-            add "background/bg school middle school building idle.png":
+            add "background/bg school middle school building idle.webp":
                 xpos 725 ypos 103
 
         # Middle School Dormitory
         if is_building_available("middle_school_dormitory"):
-            add "background/bg school middle school dormitory idle.png":
+            add "background/bg school middle school dormitory idle.webp":
                 xpos 666 ypos 476
 
     if loli_content == 2:
         # Elementary School Building
         if is_building_available("elementary_school_building"):
-            add "background/bg school elementary school building idle.png":
+            add "background/bg school elementary school building idle.webp":
                 xpos 826 ypos 178
         
         # Elementary School Dormitory
         if is_building_available("elementary_school_dormitory"):
-            add "background/bg school elementary school dormitory idle.png":
+            add "background/bg school elementary school dormitory idle.webp":
                 xpos 446 ypos 196
 
     # Labs
     if is_building_available("labs"):
-        add "background/bg school labs idle.png":
+        add "background/bg school labs idle.webp":
             xpos 664 ypos 356
 
     # Sports Field
     if is_building_available("sports_field"):
-        add "background/bg school sports field idle.png":
+        add "background/bg school sports field idle.webp":
             xpos 203 ypos -11
 
     # Tennis Court
     if is_building_available("tennis_court"):
-        add "background/bg school tennis court idle.png":
+        add "background/bg school tennis court idle.webp":
             xpos 558 ypos 90
 
     # Gym
     if is_building_available("gym"):
-        add "background/bg school gym idle.png":
+        add "background/bg school gym idle.webp":
             xpos 462 ypos 5
 
     # Swimming Pool
     if is_building_available("swimming_pool"):
-        add "background/bg school pool idle.png":
+        add "background/bg school pool idle.webp":
             xpos 297 ypos 61
 
     # Cafeteria
     if is_building_available("cafeteria"):
-        add "background/bg school cafeteria idle.png":
+        add "background/bg school cafeteria idle.webp":
             xpos 229 ypos 460
 
     # Bath
     if is_building_available("bath"):
-        add "background/bg school bath idle.png":
+        add "background/bg school bath idle.webp":
             xpos 540 ypos 319
 
     # Kiosk
     if is_building_available("kiosk"):
-        add "background/bg school kiosk idle.png":
+        add "background/bg school kiosk idle.webp":
             xpos 485 ypos 661
 
     # Courtyard
     if is_building_available("courtyard"):
-        add "background/bg school courtyard idle.png":
+        add "background/bg school courtyard idle.webp":
             xpos 604 ypos 228
 
     # Office Building
     if is_building_available("office_building"):
-        add "background/bg school office building idle.png":
+        add "background/bg school office building idle.webp":
             xpos 42 ypos 127
 
 ############################################################################
@@ -206,8 +206,8 @@ screen school_overview_buttons ():
             key "K_1" action Call("building", "high_school_building")
             key "K_KP1" action Call("building", "high_school_building")
         imagebutton:
-            auto "background/bg school high school building %s.png"
-            hover "background/bg school high school building hover.png"
+            auto "background/bg school high school building %s.webp"
+            hover "background/bg school high school building hover.webp"
             tooltip "High School Building" + hsb_text
             focus_mask True
             xpos 1171 ypos 262
@@ -222,7 +222,7 @@ screen school_overview_buttons ():
             key "K_2" action Call("building", "high_school_dormitory")
             key "K_KP2" action Call("building", "high_school_dormitory")
         imagebutton:
-            auto "background/bg school high school dormitory %s.png"
+            auto "background/bg school high school dormitory %s.webp"
             tooltip "High School Dormitory" + hsd_text
             focus_mask True
             xpos 1257 ypos 613
@@ -232,7 +232,7 @@ screen school_overview_buttons ():
         # Middle School Building
         if is_building_available("middle_school_building"):
             imagebutton:
-                auto "background/bg school middle school building %s.png"
+                auto "background/bg school middle school building %s.webp"
                 tooltip "Middle School Building"
                 focus_mask True
                 xpos 725 ypos 103
@@ -241,7 +241,7 @@ screen school_overview_buttons ():
         # Middle School Dormitory
         if is_building_available("middle_school_dormitory"):
             imagebutton:
-                auto "background/bg school middle school dormitory %s.png"
+                auto "background/bg school middle school dormitory %s.webp"
                 tooltip "Middle School Dormitory"
                 focus_mask True
                 xpos 666 ypos 476
@@ -251,7 +251,7 @@ screen school_overview_buttons ():
         # Elementary School Building
         if is_building_available("elementary_school_building"):
             imagebutton:
-                auto "background/bg school elementary school building %s.png"
+                auto "background/bg school elementary school building %s.webp"
                 tooltip "Elementary School Building"
                 focus_mask True
                 xpos 826 ypos 178
@@ -260,7 +260,7 @@ screen school_overview_buttons ():
         # Elementary School Dormitory
         if is_building_available("elementary_school_dormitory"):
             imagebutton:
-                auto "background/bg school elementary school dormitory %s.png"
+                auto "background/bg school elementary school dormitory %s.webp"
                 tooltip "Elementary School Dormitory"
                 focus_mask True
                 xpos 446 ypos 196
@@ -269,7 +269,7 @@ screen school_overview_buttons ():
     # Labs
     if is_building_available("labs"):
         imagebutton:
-            auto "background/bg school labs %s.png"
+            auto "background/bg school labs %s.webp"
             tooltip "Labs"
             focus_mask True
             xpos 644 ypos 356
@@ -278,7 +278,7 @@ screen school_overview_buttons ():
     # Sports Field
     if is_building_available("sports_field"):
         imagebutton:
-            auto "background/bg school sports field %s.png"
+            auto "background/bg school sports field %s.webp"
             tooltip "Sports Field"
             focus_mask True
             xpos 203 ypos -11
@@ -287,7 +287,7 @@ screen school_overview_buttons ():
     # Tennis Court
     if is_building_available("tennis_court"):
         imagebutton:
-            auto "background/bg school tennis court %s.png"
+            auto "background/bg school tennis court %s.webp"
             tooltip "Tennis Court"
             focus_mask True
             xpos 558 ypos 90
@@ -302,7 +302,7 @@ screen school_overview_buttons ():
             key "K_6" action Call("building", "gym")
             key "K_KP6" action Call("building", "gym")
         imagebutton:
-            auto "background/bg school gym %s.png"
+            auto "background/bg school gym %s.webp"
             tooltip "Gym" + g_text
             focus_mask True
             xpos 462 ypos 5
@@ -311,7 +311,7 @@ screen school_overview_buttons ():
     # Swimming Pool
     if is_building_available("swimming_pool"):
         imagebutton:
-            auto "background/bg school pool %s.png"
+            auto "background/bg school pool %s.webp"
             tooltip "Swimming Pool"
             focus_mask True
             xpos 297 ypos 61
@@ -326,7 +326,7 @@ screen school_overview_buttons ():
             key "K_7" action Call("building", "cafeteria")
             key "K_KP7" action Call("building", "cafeteria")
         imagebutton:
-            auto "background/bg school cafeteria %s.png"
+            auto "background/bg school cafeteria %s.webp"
             tooltip "Cafeteria" + cf_text
             focus_mask True
             xpos 229 ypos 460
@@ -335,7 +335,7 @@ screen school_overview_buttons ():
     # Bath
     if is_building_available("bath"):
         imagebutton:
-            auto "background/bg school bath %s.png"
+            auto "background/bg school bath %s.webp"
             tooltip "Bath"
             focus_mask True
             xpos 538 ypos 300
@@ -349,7 +349,7 @@ screen school_overview_buttons ():
                 $ k_text = " [[5]"
             key "K_KP5" action Call("building", "kiosk")
         imagebutton:
-            auto "background/bg school kiosk %s.png"
+            auto "background/bg school kiosk %s.webp"
             tooltip "Kiosk" + k_text
             focus_mask True
             xpos 485 ypos 661
@@ -363,7 +363,7 @@ screen school_overview_buttons ():
                 $ c_text = " [[4]"
             key "K_KP4" action Call("building", "courtyard")
         imagebutton:
-            auto "background/bg school courtyard %s.png"
+            auto "background/bg school courtyard %s.webp"
             tooltip "Courtyard" + c_text
             focus_mask True
             xpos 604 ypos 228
@@ -377,7 +377,7 @@ screen school_overview_buttons ():
                 $ o_text = " [[3]"
             key "K_KP3" action Call("building", "office_building")
         imagebutton:
-            auto "background/bg school office building %s.png"
+            auto "background/bg school office building %s.webp"
             tooltip "Office Building" + o_text
             focus_mask True
             xpos 42 ypos 127
@@ -390,7 +390,7 @@ screen school_overview_buttons ():
         key "K_z" action Call("new_daytime")
     # Skip Daytime
     imagebutton:
-        auto "icons/time skip %s.png"
+        auto "icons/time skip %s.webp"
         tooltip "Skip Time" + s_text
         focus_mask None
         xalign 0.0 yalign 0.0
@@ -403,7 +403,7 @@ screen school_overview_buttons ():
     key "K_j" action Call("start_journal")
     # Open Journal
     imagebutton:
-        auto "icons/journal_icon_%s.png"
+        auto "icons/journal_icon_%s.webp"
         tooltip "Open Journal" + j_text
         focus_mask None
         xalign 0.07 yalign 0.0

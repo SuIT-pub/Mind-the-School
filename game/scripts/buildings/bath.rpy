@@ -16,9 +16,9 @@ init -1 python:
     map(lambda x: x.check_all_events(), bath_events.values())
 
     bath_bg_images = [
-        BGImage("images/background/bath/bg 1,3 <level> <nude>.jpg", 1, TimeCondition(daytime = "1,3")), # show bath with students
-        BGImage("images/background/bath/bg 6 <level> <nude>.jpg", 1, TimeCondition(daytime = 6)), # show bath with students and/or teacher
-        BGImage("images/background/bath/bg 7.jpg", 1, TimeCondition(daytime = 7)), # show bath at night empty or with teachers
+        BGImage("images/background/bath/bg 1,3 <level> <nude>.webp", 1, TimeCondition(daytime = "1,3")), # show bath with students
+        BGImage("images/background/bath/bg 6 <level> <nude>.webp", 1, TimeCondition(daytime = 6)), # show bath with students and/or teacher
+        BGImage("images/background/bath/bg 7.webp", 1, TimeCondition(daytime = 7)), # show bath at night empty or with teachers
     ]
     
 ##################################
@@ -35,7 +35,7 @@ label .after_time_check (**kwargs):
 
     $ school_obj = get_random_school()
 
-    call show_idle_image(school_obj, "images/background/bath/bg c.jpg", bath_bg_images) from bath_2
+    call show_idle_image(school_obj, "images/background/bath/bg c.webp", bath_bg_images) from bath_2
 
     call call_event_menu (
         "What to do in the Bath?",

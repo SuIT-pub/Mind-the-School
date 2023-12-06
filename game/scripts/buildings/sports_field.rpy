@@ -18,9 +18,9 @@ init -1 python:
     map(lambda x: x.check_all_events(), sports_field_events.values())
 
     sports_field_bg_images = [
-        BGImage("images/background/sports field/bg c <level> <nude>.jpg", 1, TimeCondition(daytime = "c")), # show sports field with students
-        BGImage("images/background/sports field/bg 3,6 <level> <nude>.jpg", 1, TimeCondition(daytime = "3,6")), # show sports field with few students
-        BGImage("images/background/sports field/bg 7.jpg", 1, TimeCondition(daytime = 7)), # show sports field at night empty
+        BGImage("images/background/sports field/bg c <level> <nude>.webp", 1, TimeCondition(daytime = "c")), # show sports field with students
+        BGImage("images/background/sports field/bg 3,6 <level> <nude>.webp", 1, TimeCondition(daytime = "3,6")), # show sports field with few students
+        BGImage("images/background/sports field/bg 7.webp", 1, TimeCondition(daytime = 7)), # show sports field at night empty
     ]
     
 ##########################################
@@ -37,7 +37,7 @@ label .after_time_check (**kwargs):
 
     $ school_obj = get_random_school()
 
-    call show_idle_image(school_obj, "images/background/sports field/bg 1.jpg", sports_field_bg_images) from sports_field_2
+    call show_idle_image(school_obj, "images/background/sports field/bg 1.webp", sports_field_bg_images) from sports_field_2
 
     call call_event_menu (
         "What to do on the sports field", 

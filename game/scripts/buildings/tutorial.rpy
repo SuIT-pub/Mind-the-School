@@ -6,104 +6,104 @@ screen show_building_hovered (building):
     use school_overview_images
 
     if building == "High School Building" or building == "x":
-        add "background/bg school high school building hover.png":
+        add "background/bg school high school building hover.webp":
             xpos 1171 ypos 262
     if building == "High School Dormitory" or building == "x":
-        add "background/bg school high school dormitory hover.png":
+        add "background/bg school high school dormitory hover.webp":
             xpos 1257 ypos 613
     if building == "Middle School Building" or building == "x":
-        add "background/bg school middle school building hover.png":
+        add "background/bg school middle school building hover.webp":
             xpos 725 ypos 103
     if building == "Middle School Dormitory" or building == "x":
-        add "background/bg school middle school dormitory hover.png":
+        add "background/bg school middle school dormitory hover.webp":
             xpos 666 ypos 476
     if building == "Elementary School Building" or building == "x":
-        add "background/bg school elementary school building hover.png":
+        add "background/bg school elementary school building hover.webp":
             xpos 826 ypos 178
     if building == "Elementary School Dormitory" or building == "x":
-        add "background/bg school elementary school dormitory hover.png":
+        add "background/bg school elementary school dormitory hover.webp":
             xpos 446 ypos 196
     if building == "Labs" or building == "x":
-        add "background/bg school labs hover.png":
+        add "background/bg school labs hover.webp":
             xpos 644 ypos 356
     if building == "Sports Field" or building == "x":
-        add "background/bg school sports field hover.png":
+        add "background/bg school sports field hover.webp":
             xpos 203 ypos -11
     if building == "Tennis Court" or building == "x":
-        add "background/bg school tennis court hover.png":
+        add "background/bg school tennis court hover.webp":
             xpos 558 ypos 90
     if building == "Gym" or building == "x":
-        add "background/bg school gym hover.png":
+        add "background/bg school gym hover.webp":
             xpos 462 ypos 5
     if building == "Pool" or building == "x":
-        add "background/bg school pool hover.png":
+        add "background/bg school pool hover.webp":
             xpos 297 ypos 61
     if building == "Cafeteria" or building == "x":
-        add "background/bg school cafeteria hover.png":
+        add "background/bg school cafeteria hover.webp":
             xpos 229 ypos 460
     if building == "Kiosk" or building == "x":
-        add "background/bg school kiosk hover.png":
+        add "background/bg school kiosk hover.webp":
             xpos 485 ypos 661
     if building == "Courtyard" or building == "x":
-        add "background/bg school courtyard hover.png":
+        add "background/bg school courtyard hover.webp":
             xpos 604 ypos 228
     if building == "Office Building" or building == "x":
-        add "background/bg school office building hover.png":
+        add "background/bg school office building hover.webp":
             xpos 42 ypos 127
     if building == "Bath" or building == "x":
-        add "background/bg school bath hover.png":
+        add "background/bg school bath hover.webp":
             xpos 557 ypos 319
 
 screen show_building_idle (building):
     use school_overview_images
 
     if building == "High School Building" or building == "x":
-        add "background/bg school high school building idle.png":
+        add "background/bg school high school building idle.webp":
             xpos 1171 ypos 262
     if building == "High School Dormitory" or building == "x":
-        add "background/bg school high school dormitory idle.png":
+        add "background/bg school high school dormitory idle.webp":
             xpos 1257 ypos 613
     if building == "Middle School Building" or building == "x":
-        add "background/bg school middle school building idle.png":
+        add "background/bg school middle school building idle.webp":
             xpos 725 ypos 103
     if building == "Middle School Dormitory" or building == "x":
-        add "background/bg school middle school dormitory idle.png":
+        add "background/bg school middle school dormitory idle.webp":
             xpos 666 ypos 476
     if building == "Elementary School Building" or building == "x":
-        add "background/bg school elementary school building idle.png":
+        add "background/bg school elementary school building idle.webp":
             xpos 826 ypos 178
     if building == "Elementary School Dormitory" or building == "x":
-        add "background/bg school elementary school dormitory idle.png":
+        add "background/bg school elementary school dormitory idle.webp":
             xpos 446 ypos 196
     if building == "Labs" or building == "x":
-        add "background/bg school labs idle.png":
+        add "background/bg school labs idle.webp":
             xpos 644 ypos 356
     if building == "Sports Field" or building == "x":
-        add "background/bg school sports field idle.png":
+        add "background/bg school sports field idle.webp":
             xpos 203 ypos -11
     if building == "Tennis Court" or building == "x":
-        add "background/bg school tennis court idle.png":
+        add "background/bg school tennis court idle.webp":
             xpos 558 ypos 90
     if building == "Gym" or building == "x":
-        add "background/bg school gym idle.png":
+        add "background/bg school gym idle.webp":
             xpos 462 ypos 5
     if building == "Pool" or building == "x":
-        add "background/bg school pool idle.png":
+        add "background/bg school pool idle.webp":
             xpos 297 ypos 61
     if building == "Cafeteria" or building == "x":
-        add "background/bg school cafeteria idle.png":
+        add "background/bg school cafeteria idle.webp":
             xpos 229 ypos 460
     if building == "Kiosk" or building == "x":
-        add "background/bg school kiosk idle.png":
+        add "background/bg school kiosk idle.webp":
             xpos 485 ypos 661
     if building == "Courtyard" or building == "x":
-        add "background/bg school courtyard idle.png":
+        add "background/bg school courtyard idle.webp":
             xpos 604 ypos 228
     if building == "Office Building" or building == "x":
-        add "background/bg school office building idle.png":
+        add "background/bg school office building idle.webp":
             xpos 42 ypos 127
     if building == "Bath" or building == "x":
-        add "background/bg school bath idle.png":
+        add "background/bg school bath idle.webp":
             xpos 557 ypos 319
 
 ######################

@@ -18,9 +18,9 @@ init -1 python:
     map(lambda x: x.check_all_events(), swimming_pool_events.values())
 
     swimming_pool_bg_images = [
-        BGImage("images/background/swimming pool/bg c <level> <nude>.jpg", 1, TimeCondition(daytime = "c")), # show swimming pool with students
-        BGImage("images/background/swimming pool/bg 3,6 <level> <nude>.jpg", 1, TimeCondition(daytime = "3,6")), # show swimming pool with few students
-        BGImage("images/background/swimming pool/bg 7.jpg", 1, TimeCondition(daytime = 7)), # show swimming pool at night empty
+        BGImage("images/background/swimming pool/bg c <level> <nude>.webp", 1, TimeCondition(daytime = "c")), # show swimming pool with students
+        BGImage("images/background/swimming pool/bg 3,6 <level> <nude>.webp", 1, TimeCondition(daytime = "3,6")), # show swimming pool with few students
+        BGImage("images/background/swimming pool/bg 7.webp", 1, TimeCondition(daytime = 7)), # show swimming pool at night empty
     ]
     
 ###########################################
@@ -37,7 +37,7 @@ label .after_time_check (**kwargs):
     
     $ school_obj = get_random_school()
 
-    call show_idle_image(school_obj, "images/background/swimming pool/bg 1.jpg", swimming_pool_bg_images) from swimming_pool_2
+    call show_idle_image(school_obj, "images/background/swimming pool/bg 1.webp", swimming_pool_bg_images) from swimming_pool_2
 
     call call_event_menu (
         "What to do at the swimming pool?", 

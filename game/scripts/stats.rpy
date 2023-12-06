@@ -65,7 +65,7 @@ init -6 python:
             self.type = type
             self.value = value
             self.changed_value = 0
-            self.image_path = "icons/stat_" + str(type) + "_icon.png"
+            self.image_path = "icons/stat_" + str(type) + "_icon.webp"
 
         def get_name(self) -> str:
             """

@@ -18,8 +18,8 @@ init -1 python:
     map(lambda x: x.check_all_events(), labs_events.values())
 
     labs_bg_images = [
-        BGImage("images/background/labs/bg c <level> <nude>.jpg", 1, TimeCondition(daytime = "c")), # show corridor with few students
-        BGImage("images/background/labs/bg 7.jpg", 1, TimeCondition(daytime = 7)), # show empty corridor at night
+        BGImage("images/background/labs/bg c <level> <nude>.webp", 1, TimeCondition(daytime = "c")), # show corridor with few students
+        BGImage("images/background/labs/bg 7.webp", 1, TimeCondition(daytime = 7)), # show empty corridor at night
     ]
     
 ##################################
@@ -36,7 +36,7 @@ label .after_time_check (**kwargs):
     
     $ school_obj = get_random_school()
 
-    call show_idle_image(school_obj, "images/background/labs/bg f.jpg", labs_bg_images) from labs_2
+    call show_idle_image(school_obj, "images/background/labs/bg f.webp", labs_bg_images) from labs_2
 
     call call_event_menu (
         "What to do at the Labs?", 

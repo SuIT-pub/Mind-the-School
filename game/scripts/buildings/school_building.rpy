@@ -1,15 +1,15 @@
 # TODO: make images
 label sb_event_1 (**kwargs): # patrol, check class
     # show screen black_screen_text("sb_event_1")
-    $ image = Image_Series("/images/events/school building/sb_event_1 <name> <step>.png", **kwargs)
+    $ image = Image_Series("/images/events/school building/sb_event_1 <name> <step>.webp", **kwargs)
 
     $ begin_event()
 
-    # call show_image("/images/events/school building/sb_event_1 <name> 1.png", SCENE, **kwargs)
+    # call show_image("/images/events/school building/sb_event_1 <name> 1.webp", SCENE, **kwargs)
     $ image.show(0)
     subtitles "You walk through the corridors of the high school."
 
-    # call show_image("/images/events/school building/sb_event_1 <name> 2.png", SCENE, **kwargs)
+    # call show_image("/images/events/school building/sb_event_1 <name> 2.webp", SCENE, **kwargs)
     $ image.show(1)
     subtitles "You come across a couple making out in the hallway."
 
@@ -20,7 +20,7 @@ label sb_event_1 (**kwargs): # patrol, check class
 label .leave (**kwargs):
     # show screen black_screen_text("sb_event_1.leave")
     $ image.show(2)
-    # call show_image("/images/events/school building/sb_event_1 <name> 3.png", SCENE, **kwargs)
+    # call show_image("/images/events/school building/sb_event_1 <name> 3.webp", SCENE, **kwargs)
     subtitles "You decide to leave them and let them have their fun."
     $ change_stats_with_modifier(kwargs["char_obj"],
         charm = DEC_SMALL, education = TINY, corruption = TINY, inhibition = DEC_SMALL)
@@ -29,7 +29,7 @@ label .leave (**kwargs):
 label .stop (**kwargs):
     # show screen black_screen_text("sb_event_1.stop")
     $ image.show(3)
-    # call show_image("/images/events/school building/sb_event_1 <name> 4.png", SCENE, **kwargs)
+    # call show_image("/images/events/school building/sb_event_1 <name> 4.webp", SCENE, **kwargs)
     headmaster "Hey you! Stop that. You know that is against the rules!"
     sgirl "We're sorry!"
     $ change_stats_with_modifier(kwargs["char_obj"],
@@ -38,7 +38,7 @@ label .stop (**kwargs):
 
 # TODO: make images
 label sb_event_2 (**kwargs): # teach class
-    $ image = Image_Series("/images/events/school building/sb_event_2 <name> <step>.png", **kwargs)
+    $ image = Image_Series("/images/events/school building/sb_event_2 <name> <step>.webp", **kwargs)
 
     $ begin_event()
 
@@ -67,7 +67,7 @@ label .help (**kwargs):
 
 # TODO: make images
 label sb_event_3 (**kwargs): # patrol
-    $ image = Image_Series("/images/events/school building/sb_event_3 <name> <step>.png", **kwargs)
+    $ image = Image_Series("/images/events/school building/sb_event_3 <name> <step>.webp", **kwargs)
 
     $ begin_event()
 

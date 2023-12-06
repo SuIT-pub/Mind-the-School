@@ -44,8 +44,8 @@ init -1 python:
     map(lambda x: x.check_all_events(), gym_events.values())
 
     gym_bg_images = [
-        BGImage("images/background/gym/bg c <name> <level> <nude>.jpg", 1, TimeCondition(daytime = "c", weekday = "d")), # show gym with students
-        BGImage("images/background/gym/bg 7.jpg", 1, TimeCondition(daytime = 7)), # show gym at night empty
+        BGImage("images/background/gym/bg c <name> <level> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")), # show gym with students
+        BGImage("images/background/gym/bg 7.webp", 1, TimeCondition(daytime = 7)), # show gym at night empty
     ]
     
 #################################
@@ -62,7 +62,7 @@ label .after_time_check (**kwargs):
 
     $ school_obj = get_random_school()
 
-    call show_idle_image(school_obj, "images/background/gym/bg f.jpg", gym_bg_images) from gym_2
+    call show_idle_image(school_obj, "images/background/gym/bg f.webp", gym_bg_images) from gym_2
 
     call call_event_menu (
         "What to do in the Gym?", 
@@ -146,7 +146,7 @@ label gym_event_1 (**kwargs):
 
     $ topic = topics[variant]
 
-    $ image = Image_Series("/images/events/gym/gym_event_1 <name> <level> <topic> <step>.png", topic = variant, name = school_name, **kwargs)
+    $ image = Image_Series("/images/events/gym/gym_event_1 <name> <level> <topic> <step>.webp", topic = variant, name = school_name, **kwargs)
 
     $ begin_event()
 
@@ -207,7 +207,7 @@ label gym_event_2 (**kwargs):
 
     $ topic = get_random_choice((0.75, "clothe"), "breasts", (0.15, "asses"))
 
-    $ image = Image_Series("/images/events/gym/gym_event_2 <name> <level> <topic> <step>.png", topic = topic, name = "high_school", **kwargs)
+    $ image = Image_Series("/images/events/gym/gym_event_2 <name> <level> <topic> <step>.webp", topic = topic, name = "high_school", **kwargs)
 
     $ begin_event()
 
@@ -278,7 +278,7 @@ label gym_event_3 (**kwargs):
     $ girl_name = girls[variant].split(" ")[0]
     $ girl_full_name = girls[variant]
 
-    $ image = Image_Series("/images/events/gym/gym_event_3 <name> <level> <variant> <step>.png", variant = variant, name = "high_school", **kwargs)
+    $ image = Image_Series("/images/events/gym/gym_event_3 <name> <level> <variant> <step>.webp", variant = variant, name = "high_school", **kwargs)
 
     $ begin_event()
 

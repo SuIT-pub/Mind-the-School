@@ -3,6 +3,7 @@ abstractmethod
 daysegment
 Flaticon
 keydown
+nconvert
 noalt
 Oshima
 pagekeys

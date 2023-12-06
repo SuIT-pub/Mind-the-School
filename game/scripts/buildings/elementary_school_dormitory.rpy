@@ -27,9 +27,9 @@ init -1 python:
     map(lambda x: x.check_all_events(), esd_events.values())
 
     esd_bg_images = [
-        BGImage("images/background/elementary school dormitory/bg f <level> <nude>.jpg", 1, TimeCondition(daytime = "f")),
-        BGImage("images/background/elementary school dormitory/bg f <level> <nude>.jpg", 1, TimeCondition(daytime = "c", weekday="w")),
-        BGImage("images/background/elementary school dormitory/bg 7.jpg", 1, TimeCondition(daytime = 7)),
+        BGImage("images/background/elementary school dormitory/bg f <level> <nude>.webp", 1, TimeCondition(daytime = "f")),
+        BGImage("images/background/elementary school dormitory/bg f <level> <nude>.webp", 1, TimeCondition(daytime = "c", weekday="w")),
+        BGImage("images/background/elementary school dormitory/bg 7.webp", 1, TimeCondition(daytime = 7)),
     ]
     
 #########################################################
@@ -46,7 +46,7 @@ label .after_time_check (**kwargs):
 
     $ school_obj = get_character("elementary_school", charList["schools"])
 
-    call show_idle_image(school_obj, "images/background/elementary school dormitory/bg c.jpg", esd_bg_images) from elementary_school_dormitory_2
+    call show_idle_image(school_obj, "images/background/elementary school dormitory/bg c.webp", esd_bg_images) from elementary_school_dormitory_2
 
     call call_event_menu (
         "What to do in the Elementary School Dorm?", 

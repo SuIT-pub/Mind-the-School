@@ -132,7 +132,7 @@ screen journal_foldable_list(is_showing, text, page, display, school, obj_list, 
             text_style "buttons_idle"
             yalign 0.5
             action [With(dissolveM), Call("set_journal_setting", page, display, school, text, False)]
-        image "journal/journal/left_list_separator.png"
+        image "journal/journal/left_list_separator.webp"
         for obj_name in obj_list:
             $ obj = get_journal_obj(journal_map, obj_name)
             if obj is not None:
@@ -148,7 +148,7 @@ screen journal_foldable_list(is_showing, text, page, display, school, obj_list, 
             text_style "buttons_inactive"
             yalign 0.5
             action [With(dissolveM), Call("set_journal_setting", page, display, school, text, True)]
-        image "journal/journal/left_list_separator.png"
+        image "journal/journal/left_list_separator.webp"
 
 screen journal_simple_list(page, display, school, display_list, default_style = "buttons_idle"):
     frame:
@@ -181,11 +181,11 @@ screen journal_simple_list(page, display, school, display_list, default_style = 
 screen journal_page_selector(page, display, school):
     imagemap:
         if page != 4 and not display.startswith("building") and page != 6:
-            idle "journal/journal/[school]/[page]_[loli_content]_idle.png"
-            hover "journal/journal/[school]/[page]_[loli_content]_hover.png"
+            idle "journal/journal/[school]/[page]_[loli_content]_idle.webp"
+            hover "journal/journal/[school]/[page]_[loli_content]_hover.webp"
         else:
-            idle "journal/journal/high_school/[page]_0_idle.png"
-            hover "journal/journal/high_school/[page]_0_hover.png"
+            idle "journal/journal/high_school/[page]_0_idle.webp"
+            hover "journal/journal/high_school/[page]_0_hover.webp"
 
         if page != 1:
             hotspot (144, 250, 168, 88) action [With(dissolveM), Call("open_journal", 1, "", school)] tooltip "School Overview"
@@ -229,8 +229,8 @@ screen journal_page_selector(page, display, school):
 
     if cheat_mode and page != 5:
         imagebutton:
-            idle "journal/journal/cheat_tag_idle.png"
-            hover "journal/journal/cheat_tag_hover.png"
+            idle "journal/journal/cheat_tag_idle.webp"
+            hover "journal/journal/cheat_tag_hover.webp"
             tooltip "Cheats"
             xpos 1268
             ypos 70
@@ -238,8 +238,8 @@ screen journal_page_selector(page, display, school):
 
     if page != 6:
         imagebutton:
-            idle "journal/journal/credit_tag_idle.png"
-            hover "journal/journal/credit_tag_hover.png"
+            idle "journal/journal/credit_tag_idle.webp"
+            hover "journal/journal/credit_tag_hover.webp"
             tooltip "Credits"
             xpos 338
             ypos 953
@@ -555,7 +555,7 @@ screen journal_overview(display, school):
                         $ button_style = "buttons_selected"
                     $ money_text = money.display_stat()
 
-                    text "{image=icons/stat_money_icon.png}"
+                    text "{image=icons/stat_money_icon.webp}"
                     textbutton "  Money:":
                         yalign 0.5 
                         text_style button_style
@@ -574,7 +574,7 @@ screen journal_overview(display, school):
                         $ button_style = "buttons_selected"
                     $ level_text = school_object.level.display_stat()
 
-                    text "{image=icons/stat_level_icon.png}"
+                    text "{image=icons/stat_level_icon.webp}"
                     textbutton "  Level:":
                         yalign 0.5 
                         text_style button_style
@@ -1264,8 +1264,8 @@ screen journal_credits(display, school):
                     size 30
                     color "#000000"
             imagebutton:
-                idle "journal/journal/patreon banner idle.png"
-                hover "journal/journal/patreon banner hover.png"
+                idle "journal/journal/patreon banner idle.webp"
+                hover "journal/journal/patreon banner hover.webp"
                 action Call("open_patreon_link", school)
             null height 20
             hbox:

@@ -147,8 +147,8 @@ label load_clubs ():
             # LevelCondition("5+"),
             LockCondition(),
         ),
-        '_image_path': 'images/journal/clubs/masturbation_club.jpg',
-        '_image_path_alt': 'images/journal/clubs/masturbation_club.jpg',
+        '_image_path': 'images/journal/clubs/masturbation_club.webp',
+        '_image_path_alt': 'images/journal/clubs/masturbation_club.webp',
     })
 
     #! locked, currently not implemented
@@ -160,8 +160,8 @@ label load_clubs ():
             # LevelCondition("5+"),
             LockCondition(),
         ),
-        '_image_path': 'images/journal/clubs/exhibitionism_club.jpg',
-        '_image_path_alt': 'images/journal/clubs/exhibitionism_club.jpg',
+        '_image_path': 'images/journal/clubs/exhibitionism_club.webp',
+        '_image_path_alt': 'images/journal/clubs/exhibitionism_club.webp',
     })
 
     #! locked, currently not implemented
@@ -173,8 +173,8 @@ label load_clubs ():
             # LevelCondition("2+"),
             LockCondition(),
         ),
-        '_image_path': 'images/journal/clubs/cosplay_club.jpg',
-        '_image_path_alt': 'images/journal/clubs/cosplay_club.jpg',
+        '_image_path': 'images/journal/clubs/cosplay_club.webp',
+        '_image_path_alt': 'images/journal/clubs/cosplay_club.webp',
     })
 
     #! locked, currently not implemented
@@ -186,8 +186,8 @@ label load_clubs ():
             # LevelCondition("2+"),
             # LockCondition(),
         ),
-        '_image_path': 'images/journal/clubs/cheerleading_club_<school>_<level>.jpg',
-        '_image_path_alt': 'images/journal/clubs/cheerleading_club_high_school_2.jpg',
+        '_image_path': 'images/journal/clubs/cheerleading_club_<school>_<level>.webp',
+        '_image_path_alt': 'images/journal/clubs/cheerleading_club_high_school_2.webp',
     })
 
     #! locked, currently not implemented

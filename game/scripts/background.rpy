@@ -671,21 +671,21 @@ screen image_with_nude_var(paths, limit = 2, nude = 0):
 
     if nude_vision != 0 and nude == limit and nude != 0:
         imagebutton:
-            auto "icons/sight_disabled_%s.png"
+            auto "icons/sight_disabled_%s.webp"
             focus_mask None
             xalign 0.0 yalign 0.0
             action Show("image_with_nude_var", dissolveM, paths, limit, 0)
 
     if nude == 0 and limit > 0:
         imagebutton:
-            auto "icons/eye_target_%s.png"
+            auto "icons/eye_target_%s.webp"
             focus_mask None
             xalign 0.0 yalign 0.0
             action Show("image_with_nude_var", dissolveM, paths, limit, 1)
 
     if nude == 1 and limit > 1:
         imagebutton:
-            auto "icons/fire_iris_%s.png"
+            auto "icons/fire_iris_%s.webp"
             focus_mask None
             xalign 0.0 yalign 0.0
             action Show("image_with_nude_var", dissolveM, paths, limit, 2)

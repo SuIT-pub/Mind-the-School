@@ -458,7 +458,7 @@ init -6 python:
 
             output = []
             for stat in self.stats.keys():
-                icon = "icons/stat_" + str(stat) + "_icon.png"
+                icon = "icons/stat_" + str(stat) + "_icon.webp"
                 if char_obj.check_stat(stat, self.stats[stat]):
                     output.append(("{image=" + icon + "}", "{color=#0f0}" + str(self.stats[stat]) + "{/color}", Stat_Data[stat].get_title()))
                 else:
@@ -871,9 +871,9 @@ init -6 python:
                 - The title is optional.
             """
             if self.is_fulfilled(**kwargs):
-                return ("{image=icons/stat_level_icon.png}", "{color=#0f0}" + str(self.value) + "{/color}", "Level")
+                return ("{image=icons/stat_level_icon.webp}", "{color=#0f0}" + str(self.value) + "{/color}", "Level")
             else:
-                return ("{image=icons/stat_level_icon.png}", "{color=#f00}" + str(self.value) + "{/color}", "Level")
+                return ("{image=icons/stat_level_icon.webp}", "{color=#f00}" + str(self.value) + "{/color}", "Level")
 
         def get_name(self):
             """
@@ -973,9 +973,9 @@ init -6 python:
             """
 
             if self.is_fulfilled():
-                return ("{image=icons/stat_money_icon.png}", "{color=#0f0}" + str(self.value) + "{/color}", "Money")
+                return ("{image=icons/stat_money_icon.webp}", "{color=#0f0}" + str(self.value) + "{/color}", "Money")
             else:
-                return ("{image=icons/stat_money_icon.png}", "{color=#f00}" + str(self.value) + "{/color}", "Money")
+                return ("{image=icons/stat_money_icon.webp}", "{color=#f00}" + str(self.value) + "{/color}", "Money")
 
         def get_name(self) -> str:
             """

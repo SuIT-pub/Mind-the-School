@@ -28,8 +28,8 @@ init -1 python:
     map(lambda x: x.check_all_events(), esb_events.values())
 
     esb_bg_images = [
-        BGImage("images/background/elementary school building/bg c <level> <nude>.jpg", 1, TimeCondition(daytime = "c", weekday = "d")),
-        BGImage("images/background/elementary school building/bg 7.jpg", 1, TimeCondition(daytime = 7)),
+        BGImage("images/background/elementary school building/bg c <level> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")),
+        BGImage("images/background/elementary school building/bg 7.webp", 1, TimeCondition(daytime = 7)),
     ]
     
 ########################################################
@@ -46,7 +46,7 @@ label .after_time_check (**kwargs):
 
     $ school_obj = get_character("elementary_school", charList["schools"])
 
-    call show_idle_image(school_obj, "images/background/elementary school building/bg f.jpg", esb_bg_images) from elementary_school_building_2
+    call show_idle_image(school_obj, "images/background/elementary school building/bg f.webp", esb_bg_images) from elementary_school_building_2
 
     call call_event_menu (
         "What to do in the Elementary School?", 

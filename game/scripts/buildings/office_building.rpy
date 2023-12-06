@@ -38,10 +38,10 @@ init -1 python:
     map(lambda x: x.check_all_events(), office_building_events.values())
 
     office_building_bg_images = [
-        BGImage("images/background/office building/bg c teacher.jpg", 1, TimeCondition(daytime = "c"), ValueCondition('name', 'teacher')), # show headmasters/teachers office empty
-        BGImage("images/background/office building/bg c secretary <level> <nude>.jpg", 1, TimeCondition(daytime = "c"), ValueCondition('name', 'secretary')), # show headmasters/teachers office with people
-        BGImage("images/background/office building/bg f <name> <level> <nude>.jpg", 1, TimeCondition(daytime = "f")), # show headmasters/teachers office with people
-        BGImage("images/background/office building/bg 7 <name>.jpg", 1, TimeCondition(daytime = 7)), # show headmasters/teachers office empty at night
+        BGImage("images/background/office building/bg c teacher.webp", 1, TimeCondition(daytime = "c"), ValueCondition('name', 'teacher')), # show headmasters/teachers office empty
+        BGImage("images/background/office building/bg c secretary <level> <nude>.webp", 1, TimeCondition(daytime = "c"), ValueCondition('name', 'secretary')), # show headmasters/teachers office with people
+        BGImage("images/background/office building/bg f <name> <level> <nude>.webp", 1, TimeCondition(daytime = "f")), # show headmasters/teachers office with people
+        BGImage("images/background/office building/bg 7 <name>.webp", 1, TimeCondition(daytime = 7)), # show headmasters/teachers office empty at night
     ]
     
 #############################################
@@ -60,7 +60,7 @@ label .after_time_check (**kwargs):
 
     $ char_obj = get_character(char, charList['staff'])
 
-    call show_idle_image(char_obj, "images/background/office building/bg f.jpg", office_building_bg_images) from office_building_2
+    call show_idle_image(char_obj, "images/background/office building/bg f.webp", office_building_bg_images) from office_building_2
 
     call call_event_menu (
         "Hello Headmaster! How can I help you?" if char_obj.get_name() == "secretary" else "What do you do?", 
@@ -107,7 +107,7 @@ label first_week_office_building_event (**kwargs):
 
 # TODO: make images
 label office_event_1 (**kwargs):
-    $ image = Image_Series("images/events/office/office_event_1 <name> <level> <step>.png", name = "high_school", **kwargs)
+    $ image = Image_Series("images/events/office/office_event_1 <name> <level> <step>.webp", name = "high_school", **kwargs)
 
     $ begin_event();
 
@@ -128,7 +128,7 @@ label office_event_1 (**kwargs):
 label office_event_2 (**kwargs):
     $ begin_event();
     
-    call show_image(get_image("images/events/office/office_event_2 <level> <variant>.png", **kwargs)[1]) from _call_show_image_2
+    call show_image(get_image("images/events/office/office_event_2 <level> <variant>.webp", **kwargs)[1]) from _call_show_image_2
     subtitles "Even the teachers need a break from time to time."
 
     $ change_stats_with_modifier(kwargs["char_obj"],
@@ -140,7 +140,7 @@ label office_event_2 (**kwargs):
 
 # TODO: make images
 label office_event_3 (**kwargs):
-    $ image = Image_Series("images/events/office/office_event_3 <name> <level> <step>.png", name = "high_school", **kwargs)
+    $ image = Image_Series("images/events/office/office_event_3 <name> <level> <step>.webp", name = "high_school", **kwargs)
 
     $ begin_event();
 

@@ -130,7 +130,7 @@ label .start:
     show office secretary 3 big smile with dissolveM
     secretary "I'm sure the students are eager to meet you."
 
-    scene expression "events/intro/intro gym 2 [loli_content].jpg" with dissolveM 
+    scene expression "events/intro/intro gym 2 [loli_content].webp" with dissolveM 
     subtitles "You leave the office with the secretary and head for the Gym."
     
     #show inside gym with students walking towards their position in gym or talking to each other in groups by school
@@ -154,34 +154,34 @@ label .start:
     crowd_shout "Good Morning!"
 
     #show crowd from behind Secretary (students standing in clear rows)
-    show expression "events/intro/intro gym 5 [loli_content].jpg" with dissolveM
+    show expression "events/intro/intro gym 5 [loli_content].webp" with dissolveM
     secretary_shout "It is with great pleasure, that I introduce you to your new Headmaster."
     secretary_shout "He will be starting today and we're all very excited to see the positive changes he will bring!"
 
     #show view from slightly behind crowd towards stage (secretary pointing towards headmaster)
-    # show expression "events/intro/intro gym 6 [loli_content].jpg"
+    # show expression "events/intro/intro gym 6 [loli_content].webp"
     secretary_shout "But without further ado... Greet your new Headmaster Mr. [headmaster_last_name]!"
     subtitles "You walk to the podium."
 
     #show view of stage from front with headmaster standing at podium with hands on podium
     show intro gym 7
-    hide expression "events/intro/intro gym 5 [loli_content].jpg" with dissolveM
+    hide expression "events/intro/intro gym 5 [loli_content].webp" with dissolveM
     headmaster_shout "Greetings to you all. I am honored to stand here today."
     headmaster_shout "When I came here, I saw the condition of this school and the mishaps of your former headmaster."
     headmaster_shout "I guarantee I won't repeat the same mistakes and I will bring this school back to its former glory and beyond."
 
     #show view of crowd from slightly behind but other side, headmaster hand on chest
-    show expression "events/intro/intro gym 8 [loli_content].jpg" with dissolveM
+    show expression "events/intro/intro gym 8 [loli_content].webp" with dissolveM
     headmaster_shout "Now a little about me. My name is [headmaster_first_name] [headmaster_last_name] and I come from the country."
     headmaster_shout "I taught in various schools and was also the headmaster of a school in the capitol."
 
     #show headmaster rasing finger
-    # scene expression "events/intro/intro gym 9 [loli_content].jpg"
+    # scene expression "events/intro/intro gym 9 [loli_content].webp"
     headmaster_shout "I want to make it clear that I will not tolerate misbehavior! {b}BUT{/b} I am a fair person."
     headmaster_shout "No one will be punished if they don't deserve it, and I will do everything I can to make sure that you all have a nice and safe place to grow and learn!"
 
     #show headmaster with wide open arms
-    # scene expression "events/intro/intro gym 10 [loli_content].jpg"
+    # scene expression "events/intro/intro gym 10 [loli_content].webp"
     headmaster_shout "If you ever have any problems, ideas or questions, feel free to come to me anytime. I will help wherever I can!"
     headmaster_shout "Thank you and let's have a great time together!"
     crowd_shout "*clapping*"

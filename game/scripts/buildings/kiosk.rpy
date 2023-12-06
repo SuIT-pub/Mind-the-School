@@ -33,9 +33,9 @@ init -1 python:
     map(lambda x: x.check_all_events(), kiosk_events.values())
 
     kiosk_bg_images = [
-        BGImage("images/background/kiosk/bg f <name> <level> <nude> <variant>.jpg", 2, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))), # show kiosk with students
-        BGImage("images/background/kiosk/bg f <name> <level> <nude>.jpg", 1, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))), # show kiosk with students
-        BGImage("images/background/kiosk/bg 7.jpg", 1, TimeCondition(daytime = 7)), # show kiosk at night empty
+        BGImage("images/background/kiosk/bg f <name> <level> <nude> <variant>.webp", 2, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))), # show kiosk with students
+        BGImage("images/background/kiosk/bg f <name> <level> <nude>.webp", 1, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))), # show kiosk with students
+        BGImage("images/background/kiosk/bg 7.webp", 1, TimeCondition(daytime = 7)), # show kiosk at night empty
     ]
     
 ###################################
@@ -52,7 +52,7 @@ label .after_time_check (**kwargs):
 
     $ school_obj = get_random_school()
 
-    call show_idle_image(school_obj, "images/background/kiosk/bg c.jpg", kiosk_bg_images) from kiosk_2
+    call show_idle_image(school_obj, "images/background/kiosk/bg c.webp", kiosk_bg_images) from kiosk_2
 
     call call_event_menu (
         "What to do at the Kiosk?", 
@@ -105,7 +105,7 @@ label kiosk_event_1 (**kwargs):
 
     $ begin_event()
 
-    call show_image("images/events/kiosk/kiosk_event_1 <name> <girl> <level> <variant>.png", name = "high_school", girl = girl, variant = variant, **kwargs) from _call_show_image_1
+    call show_image("images/events/kiosk/kiosk_event_1 <name> <girl> <level> <variant>.webp", name = "high_school", girl = girl, variant = variant, **kwargs) from _call_show_image_1
     subtitles "For some, coffee is the only way to save the day."
 
     $ change_stats_with_modifier(char_obj,
@@ -118,7 +118,7 @@ label kiosk_event_2 (**kwargs):
 
     $ girl = get_random_choice("Hatano Miwa", "Kokoro Nakamura", "Soyoon Yamamoto")
 
-    $ image = Image_Series("images/events/kiosk/kiosk_event_2 <name> <girl> <level> <step>.png", name = "high_school", girl = girl, **kwargs)
+    $ image = Image_Series("images/events/kiosk/kiosk_event_2 <name> <girl> <level> <step>.webp", name = "high_school", girl = girl, **kwargs)
 
     $ begin_event()
 
@@ -142,7 +142,7 @@ label kiosk_event_3 (**kwargs):
 
     $ kwargs["topic"] = topic
 
-    $ image = Image_Series("images/events/kiosk/kiosk_event_3 <name> <level> <step>.png", name = "high_school", **kwargs)
+    $ image = Image_Series("images/events/kiosk/kiosk_event_3 <name> <level> <step>.webp", name = "high_school", **kwargs)
 
     $ begin_event()
 

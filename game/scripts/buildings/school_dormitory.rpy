@@ -1,6 +1,6 @@
 # education < 80
 label sd_event_1 (**kwargs):
-    $ image = Image_Series("images/events/school dormitory/sd_event_1 <name> <level> <step>.png", name = "high_school", **kwargs)
+    $ image = Image_Series("images/events/school dormitory/sd_event_1 <name> <level> <step>.webp", name = "high_school", **kwargs)
 
     $ girl_name = "Easkey Tanaka"
 
@@ -60,8 +60,8 @@ label sd_event_2 (**kwargs):
     if location == "shower":
         $ girl_name = get_random_choice("Sakura Mori", "Elsie Johnson", "Ishimaru Maki")
 
-    $ image = Image_Series("images/events/school dormitory/sd_event_2 <name> <topic> <location> <girl> <level> <step>.png", name = "high_school", location = location, topic = topic, girl = girl_name, **kwargs)
-    $ image2 = Image_Series("images/events/school dormitory/sd_event_2 <location> <step>.png", location = location)
+    $ image = Image_Series("images/events/school dormitory/sd_event_2 <name> <topic> <location> <girl> <level> <step>.webp", name = "high_school", location = location, topic = topic, girl = girl_name, **kwargs)
+    $ image2 = Image_Series("images/events/school dormitory/sd_event_2 <location> <step>.webp", location = location)
 
     $ begin_event()
 
@@ -175,7 +175,7 @@ label sd_event_3 (**kwargs):
 
     $ topic = get_random_choice("normal", (0.1, "panties"), (0.02, "nude"))
 
-    $ image = Image_Series("images/events/school dormitory/sd_event_3 <name> <topic> <level> <step>.png", name = "high_school", topic = topic, **kwargs)
+    $ image = Image_Series("images/events/school dormitory/sd_event_3 <name> <topic> <level> <step>.webp", name = "high_school", topic = topic, **kwargs)
 
     $ begin_event()
 

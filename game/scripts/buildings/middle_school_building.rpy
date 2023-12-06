@@ -27,8 +27,8 @@ init -1 python:
     map(lambda x: x.check_all_events(), msb_events.values())
 
     msb_bg_images = [
-        BGImage("images/background/middle school building/bg c <level> <nude>.jpg", 1, TimeCondition(daytime = "c", weekday = "d")),
-        BGImage("images/background/middle school building/bg 7.jpg", 1, TimeCondition(daytime = 7)),
+        BGImage("images/background/middle school building/bg c <level> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")),
+        BGImage("images/background/middle school building/bg 7.webp", 1, TimeCondition(daytime = 7)),
     ]
     
 ####################################################
@@ -45,7 +45,7 @@ label .after_time_check (**kwargs):
 
     $ school_obj = get_character("middle_school", charList["schools"])
 
-    call show_idle_image(school_obj, "images/background/middle school building/bg f.jpg", msb_bg_images) from middle_school_building_2
+    call show_idle_image(school_obj, "images/background/middle school building/bg f.webp", msb_bg_images) from middle_school_building_2
 
     call call_event_menu (
         "What to do in the Middle School?", 
