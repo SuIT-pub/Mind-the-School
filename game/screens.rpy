@@ -351,6 +351,10 @@ screen navigation():
 
             textbutton _("End Replay") action EndReplay(confirm=True)
 
+        elif not _in_replay:
+
+            textbutton _("Replay Gallery") action ShowMenu("replay_gallery")
+
         elif not main_menu:
 
             textbutton _("Main Menu") action MainMenu()
@@ -1080,6 +1084,23 @@ screen help():
             elif device == "gamepad":
                 use gamepad_help
 
+
+screen replay_gallery():
+
+    tag menu
+
+    use game_menu(_("Replay Gallery"), scroll="viewport"):
+
+        style_prefix "replay_gallery"
+
+        vbox:
+            spacing 23
+
+            for i in range(0, 19):
+                text "text [i]"
+            # for i in _replay_list:
+                # hbox:
+                #     textbutton i.name action Replay(i.name)
 
 screen keyboard_help():
 
