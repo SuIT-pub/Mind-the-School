@@ -336,6 +336,9 @@ label load_rules ():
             ProgressCondition("Unlock Student Relation", "unlock_student_relationship", 1, True),
             StatCondition(inhibition = "95-", corruption = "2+"),
         ),
+        
+        '_image_path': 'images/journal/rules/student_student_relation <level> 0.webp',
+        '_image_path_alt': 'images/journal/rules/student_student_relation <level> 1.webp',
     })
 
     #! locked, currently not implemented

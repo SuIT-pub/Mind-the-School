@@ -892,6 +892,8 @@ label load_buildings ():
             MoneyCondition(1000),
             LockCondition(False),
         ),
+        '_image_path': 'images/journal/buildings/cafeteria <level> 0.webp',
+        '_image_path_alt': 'images/journal/buildings/cafeteria 1 0.webp',
         '_update_conditions':[],
     }, {
         '_level': 0,
