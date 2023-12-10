@@ -20,7 +20,7 @@ init -1 python:
     
     office_building_timed_event.add_event(Event(1,
         ["first_potion_office_building_event"],
-        TimeCondition(day = 9),
+        TimeCondition(day = 9, month = 1, year = 2023),
     ))
 
     office_building_events["look_around"].add_event(Event(3,

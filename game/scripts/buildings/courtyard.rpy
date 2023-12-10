@@ -17,7 +17,7 @@ init -1 python:
     
     courtyard_timed_event.add_event(Event(1,
         ["first_potion_courtyard_event"],
-        TimeCondition(day = 9),
+        TimeCondition(day = 9, month = 1, year = 2023),
     ))
 
     courtyard_events["patrol"].add_event(Event(3, 

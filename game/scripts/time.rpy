@@ -196,7 +196,7 @@ init -6 python:
                 self.day += 1
 
             while self.day > 28:
-                self.day -= 22
+                self.day -= 28
                 self.month += 1
 
             while self.month > 12:

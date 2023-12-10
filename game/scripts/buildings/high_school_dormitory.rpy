@@ -18,7 +18,7 @@ init -1 python:
 
     hsd_timed_event.add_event(Event(1,
         ["first_potion_high_school_dormitory_event"],
-        TimeCondition(day = 9),
+        TimeCondition(day = 9, month = 1, year = 2023),
     ))
 
     event1 = Event(3, 
