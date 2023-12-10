@@ -320,7 +320,7 @@ init -99 python:
                 if use_image != -1 and image != None:
                     renpy.call("say_with_image", image, use_image, text_out, name, person)
 
-            person (text_out, name = name, color = person.color)
+            person (text_out, name = name)
             break
 
         return

@@ -199,6 +199,7 @@ init python:
     build.classify("*android.json", None)
     build.classify("Members", None)
     build.classify("Test", None)
+    build.classify("Image Converter", None)
     build.classify("cspell.json", None)
 
     ## Files matching documentation patterns are duplicated in a mac app

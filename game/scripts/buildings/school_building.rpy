@@ -83,7 +83,7 @@ label sb_event_3 (**kwargs): # patrol
 
     $ call_custom_menu(False,
         ("What is going on?", "sb_event_3.what"),
-        ("If it's nothing, go back to class", "sb_event_3.send_class", time.check_daytime("c")), 
+        ("If it's nothing, go back to class", "sb_event_3.send_class", time.check_daytime("c") and time.check_weekday("d")), 
     **kwargs)
 
 label .what (**kwargs):

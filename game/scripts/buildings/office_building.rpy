@@ -126,9 +126,12 @@ label office_event_1 (**kwargs):
 
 # TODO: make images
 label office_event_2 (**kwargs):
+
+    $ kwargs["char_obj"] = get_character("teacher", charList['staff'])
+
     $ begin_event();
     
-    call show_image(get_image("images/events/office/office_event_2 <level> <variant>.webp", char_obj = get_character("teacher", charList['staff']), **kwargs)[1]) from _call_show_image_2
+    call show_image(get_image("images/events/office/office_event_2 <level> <variant>.webp", **kwargs)[1]) from _call_show_image_2
     subtitles "Even the teachers need a break from time to time."
 
     $ change_stats_with_modifier(kwargs["char_obj"],

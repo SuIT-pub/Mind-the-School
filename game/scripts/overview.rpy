@@ -347,6 +347,7 @@ screen school_overview_buttons ():
         if has_keyboard():
             if show_shortcut():
                 $ k_text = " [[5]"
+            key "K_5" action Call("building", "kiosk")
             key "K_KP5" action Call("building", "kiosk")
         imagebutton:
             auto "background/bg school kiosk %s.webp"
@@ -361,6 +362,7 @@ screen school_overview_buttons ():
         if has_keyboard():
             if show_shortcut():
                 $ c_text = " [[4]"
+            key "K_4" action Call("building", "courtyard")
             key "K_KP4" action Call("building", "courtyard")
         imagebutton:
             auto "background/bg school courtyard %s.webp"
@@ -375,6 +377,7 @@ screen school_overview_buttons ():
         if has_keyboard():
             if show_shortcut():
                 $ o_text = " [[3]"
+            key "K_3" action Call("building", "office_building")
             key "K_KP3" action Call("building", "office_building")
         imagebutton:
             auto "background/bg school office building %s.webp"
