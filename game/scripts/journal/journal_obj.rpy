@@ -394,20 +394,17 @@ init -7 python:
             1. str
                 - Vote comments of the object.
             """
-
-            text = ""
-
-            if char not in self._vote_comments.keys():
-                text = self._default_comments[result]
-
+            
             vote = "{color=#00ff00}Votes For{/color}"
             if result == NO:
                 vote = "{color=#ff0000}Votes Against{/color}"
             elif result == VETO:
                 vote = "Vetoes"
 
-            text = f"{vote}\n{self._vote_comments[char][result]}"
-            return text
+            if char not in self._vote_comments.keys():
+                return f"{vote}\n{self._default_comments[result]}"
+            else:
+                return f"{vote}\n{self._vote_comments[char][result]}"
 
         def apply_effects(self):
             """

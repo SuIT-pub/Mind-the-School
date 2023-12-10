@@ -308,6 +308,7 @@ init -99 python:
                         use_image = obj
                     elif isinstance(obj, ADVCharacter):
                         person = obj
+                        name = person.name
                     elif isinstance(obj, tuple):
                         person = obj[0]
                         use_name = obj[1]
@@ -319,7 +320,7 @@ init -99 python:
                 if use_image != -1 and image != None:
                     renpy.call("say_with_image", image, use_image, text_out, name, person)
 
-            person (text_out, name = name)
+            person (text_out, name = name, color = person.color)
             break
 
         return

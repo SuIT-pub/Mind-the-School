@@ -23,7 +23,11 @@ init -1 python:
 
     event1 = Event(3, 
         ["sd_event_1", "sd_event_2"],
-        OR(TimeCondition(weekday = "d", daytime = "f"), TimeCondition(daytime = "d", weekday = "w"))
+        OR(
+            TimeCondition(weekday = "d", daytime = "f"), 
+            TimeCondition(weekday = "d", daytime = "n"), 
+            TimeCondition(weekday = "w")
+        )
     )
 
     # hsd_events["check_rooms"].add_event(event1)

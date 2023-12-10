@@ -419,7 +419,7 @@ label first_pta_meeting (**kwargs):
     hide screen image_with_nude_var
     call show_image(f"images/events/pta/first meeting/first pta meeting 9 <loli_content> <nude>.webp", loli_content = 0) from first_pta_meeting_4
     sgirl """
-        Hello, we are the student representatives of this school and [pronoun] here to make sure that the students of this 
+        Hello, I am the student representative of this school and I am here to make sure that the students of this 
         school are not let out of the decision making and to act as the Mouthpiece of the students issues and 
         suggestions.
     """

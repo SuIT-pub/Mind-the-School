@@ -111,6 +111,8 @@ label call_event_menu(text, events, fallback, person = character.subtitles, **kw
     # 4. person : Person, (default character.subtitles)
     #     - The person to display saying the text.
     # """
+    
+    $ renpy.choice_for_skipping()
 
     $ event_list = clean_events_for_menu(events, **kwargs)
 
@@ -179,6 +181,8 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
     # """
 
     tag menu_choice
+
+    $ renpy.choice_for_skipping()
 
     $ element_count = len(elements)
 

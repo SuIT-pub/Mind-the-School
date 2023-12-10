@@ -1,240 +1,34 @@
-Thu Dec  7 17:05:53 2023
+Sun Dec 10 12:52:35 2023
 Windows-10-10.0.19045
 Ren'Py 8.1.3.23091805
  
 
-Bootstrap to the start of init.init. took 0.05s
+Bootstrap to the start of init.init. took 0.04s
 Early init. took 0.00s
-Loader init. took 0.26s
-Loading error handling. took 0.12s
-Loading script. took 1.96s
-Loading save slot metadata. took 0.46s
+Loader init. took 0.12s
+Loading error handling. took 0.04s
+Loading script. took 0.47s
+Loading save slot metadata. took 0.15s
 Loading persistent. took 0.00s
-Running init code. took 0.21s
-Loading analysis data. took 0.07s
-Analyze and compile ATL. took 0.01s
-Reloading save slot metadata. took 0.08s
+Running init code. took 0.09s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.11s
 Index archives took 0.00s
-Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.24s
+Dump and make backups. took 0.07s
 Cleaning cache. took 0.00s
 Making clean stores. took 0.00s
-Initial gc. took 0.07s
+Initial gc. took 0.05s
 DPI scale factor: 1.000000
 nvdrs: Loaded, about to disable thread optimizations.
 nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.84s
+Creating interface object. took 0.40s
 Cleaning stores took 0.00s
-Init translation took 0.14s
-Build styles took 0.01s
-Load screen analysis took 0.02s
-Analyze screens took 0.08s
-Save screen analysis took 0.08s
+Init translation took 0.08s
+Build styles took 0.00s
+Load screen analysis took 0.05s
+Analyze screens took 0.00s
+Save screen analysis took 0.00s
 Prepare screens took 0.23s
 Save pyanalysis. took 0.00s
 Save bytecode. took 0.06s
-Running _start took 0.00s
-Performance test:
-Interface start. took 0.39s
-
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1080)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'NVIDIA Corporation'"
-Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
-Version: b'4.6.0 NVIDIA 546.17'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
-Maximum texture size: 4096x4096
-
-Full traceback:
-  File "game/scripts/intro.rpy", line 50, in script call
-    call skip_to_free_roam from intro_3
-  File "game/scripts/intro.rpy", line 210, in script call
-    call first_week_epilogue_final.skip from skip_to_free_roam_1
-  File "game/scripts/overview.rpy", line 598, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 36, in script call
-    call screen journal_page(4, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 38, in script call
-    call screen journal_cheats(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 38, in script call
-    call screen journal_cheats(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 38, in script call
-    call screen journal_cheats(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 1351, in script call
-    call screen max_image_from_journal(image_path) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 36, in script
-    call screen journal_page(4, display, school) with dissolveM
-  File "F:\RenPy\renpy\ast.py", line 2259, in execute
-    self.call("execute")
-  File "F:\RenPy\renpy\ast.py", line 2241, in call
-    return renpy.statements.call(method, parsed, *args, **kwargs)
-  File "F:\RenPy\renpy\statements.py", line 342, in call
-    return method(parsed, *args, **kwargs)
-  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
-    store._return = renpy.call_screen(name, *args, **kwargs)
-  File "F:\RenPy\renpy\exports.py", line 3347, in call_screen
-    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
-  File "F:\RenPy\renpy\ui.py", line 299, in interact
-    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
-  File "F:\RenPy\renpy\display\core.py", line 3582, in interact
-    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
-  File "F:\RenPy\renpy\display\core.py", line 4055, in interact_core
-    root_widget.visit_all(lambda d : d.per_interact())
-  File "F:\RenPy\renpy\display\core.py", line 684, in visit_all
-    d.visit_all(callback, seen)
-  File "F:\RenPy\renpy\display\core.py", line 684, in visit_all
-    d.visit_all(callback, seen)
-  File "F:\RenPy\renpy\display\core.py", line 684, in visit_all
-    d.visit_all(callback, seen)
-  File "F:\RenPy\renpy\display\screen.py", line 476, in visit_all
-    callback(self)
-  File "F:\RenPy\renpy\display\core.py", line 4055, in <lambda>
-    root_widget.visit_all(lambda d : d.per_interact())
-  File "F:\RenPy\renpy\display\screen.py", line 487, in per_interact
-    self.update()
-  File "F:\RenPy\renpy\display\screen.py", line 680, in update
-    self.screen.function(**self.scope)
-  File "game/scripts/journal/journal.rpy", line 449, in execute
-    screen journal_page(page, display, school):
-  File "game/scripts/journal/journal.rpy", line 449, in execute
-    screen journal_page(page, display, school):
-  File "game/scripts/journal/journal.rpy", line 476, in execute
-    if display != "" and not active_obj.is_visible(char_obj = active_school):
-  File "game/scripts/journal/journal.rpy", line 476, in <module>
-    if display != "" and not active_obj.is_visible(char_obj = active_school):
-AttributeError: 'NoneType' object has no attribute 'is_visible'
-
-While running game code:
-  File "game/scripts/intro.rpy", line 50, in script call
-    call skip_to_free_roam from intro_3
-  File "game/scripts/intro.rpy", line 210, in script call
-    call first_week_epilogue_final.skip from skip_to_free_roam_1
-  File "game/scripts/overview.rpy", line 598, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 36, in script call
-    call screen journal_page(4, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 38, in script call
-    call screen journal_cheats(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 38, in script call
-    call screen journal_cheats(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 38, in script call
-    call screen journal_cheats(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 1351, in script call
-    call screen max_image_from_journal(image_path) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 36, in script
-    call screen journal_page(4, display, school) with dissolveM
-  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
-    store._return = renpy.call_screen(name, *args, **kwargs)
-  File "game/scripts/journal/journal.rpy", line 449, in execute
-    screen journal_page(page, display, school):
-  File "game/scripts/journal/journal.rpy", line 449, in execute
-    screen journal_page(page, display, school):
-  File "game/scripts/journal/journal.rpy", line 476, in execute
-    if display != "" and not active_obj.is_visible(char_obj = active_school):
-  File "game/scripts/journal/journal.rpy", line 476, in <module>
-    if display != "" and not active_obj.is_visible(char_obj = active_school):
-AttributeError: 'NoneType' object has no attribute 'is_visible'
-|ERROR| 'images/background/kiosk/bg f elementary_school 1 0 <variant>.webp' is missing!
-
-Resetting cache.
-Bootstrap to the start of init.init. took 1003.45s
-Early init. took 0.00s
-Loader init. took 0.20s
-Loading error handling. took 0.07s
-Loading script. took 0.42s
-Loading save slot metadata. took 0.17s
-Loading persistent. took 0.01s
-Running init code. took 0.09s
-Loading analysis data. took 0.04s
-Analyze and compile ATL. took 0.00s
-Reloading save slot metadata. took 0.14s
-Index archives took 0.00s
-Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.12s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.17s
-DPI scale factor: 1.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.54s
-Cleaning stores took 0.00s
-Init translation took 0.10s
-Build styles took 0.01s
-Load screen analysis took 0.01s
-Analyze screens took 0.06s
-Save screen analysis took 0.07s
-Prepare screens took 0.26s
-Save pyanalysis. took 0.00s
-Save bytecode. took 0.06s
-Running _start took 0.00s
-Performance test:
-Interface start. took 0.11s
-
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1080)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'NVIDIA Corporation'"
-Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
-Version: b'4.6.0 NVIDIA 546.17'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
-Maximum texture size: 4096x4096
-|ERROR| 'images/background/office building/bg f teacher 1 0.webp' is missing!
-
-Resetting cache.
-Bootstrap to the start of init.init. took 1304.53s
-Early init. took 0.00s
-Loader init. took 0.14s
-Loading error handling. took 0.06s
-Loading script. took 0.37s
-Loading save slot metadata. took 0.15s
-Loading persistent. took 0.00s
-Running init code. took 0.08s
-Loading analysis data. took 0.04s
-Analyze and compile ATL. took 0.00s
-Reloading save slot metadata. took 0.09s
-Index archives took 0.00s
-Dump and make backups. took 0.10s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.14s
-DPI scale factor: 1.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.58s
-Cleaning stores took 0.00s
-Init translation took 0.09s
-Build styles took 0.01s
-Load screen analysis took 0.12s
-Analyze screens took 0.00s
-Save screen analysis took 0.00s
-Prepare screens took 0.25s
-Save pyanalysis. took 0.00s
-Save bytecode. took 0.00s
-Running _start took 0.01s
-Performance test:
-Interface start. took 0.14s
-
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1080)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'NVIDIA Corporation'"
-Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
-Version: b'4.6.0 NVIDIA 546.17'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
-Maximum texture size: 4096x4096

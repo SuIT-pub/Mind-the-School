@@ -592,6 +592,8 @@ label map_overview ():
 
     $ hide_all()
 
+    $ renpy.choice_for_skipping()
+
     scene bg school overview idle
     # show screen school_overview_map
     show screen school_overview_stats
