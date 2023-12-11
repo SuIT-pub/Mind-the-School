@@ -216,7 +216,7 @@ screen journal_page_selector(page, display):
             ypos 953
             action [With(dissolveM), Call("open_journal", 6, "")]
     
-screen journal_desc(page, display, active_obj):
+screen journal_desc(page, display, active_obj, with_title = False):
     $ active_obj_desc = active_obj.get_description_str()
 
     $ action_text = "unlock"
@@ -227,7 +227,10 @@ screen journal_desc(page, display, active_obj):
         
     frame:
         background Solid("#0000")
-        area (989, 200, 500, 250)
+        if with_title:
+            area (989, 250, 500, 200)
+        else:
+            area (989, 200, 500, 250)
         viewport id "RuleDesc":
             mousewheel True
             draggable "touch"
@@ -832,57 +835,10 @@ screen journal_cheats(display):
                 ymaximum 50
                 color "#000"
 
-            frame:
-                background Solid("#00000000")
-                area (989, 250, 500, 200)
-                viewport id "CheatRuleDesc":
-                    mousewheel True
-                    draggable "touch"
+            use journal_desc(page, display, active_rule, True)
 
-                    vbox:
-                        text active_rule_desc style "journal_desc"
+            use journal_list_conditions(page, active_rule)
 
-                        if len(active_rule_desc_conditions_desc) != 0:
-                            null height 40
-                            text "{u}To unlock you need:{/u}" style "journal_desc"
-                            for desc in active_rule_desc_conditions_desc:
-                                textbutton desc:
-                                    text_style "journal_desc"
-                                    yalign 0.5
-                                    action NullAction()
-                
-                vbar value YScrollValue("CheatRuleDesc"):
-                    unscrollable "hide"
-                    xalign 1.03
-
-            frame:
-                background Solid("#0000")
-                area (1350, 474, 150, 328)
-
-                viewport id "CheatRuleCond":
-                    mousewheel True
-                    draggable "touch"
-
-                    vbox:
-                        for condition in active_rule.get_list_conditions():
-                            if not condition.is_set_blocking():
-                                $ texts = condition.to_list_text(char_obj = get_school())
-                                hbox:
-                                    textbutton texts[0]:
-                                        tooltip condition.get_name()
-                                        action NullAction()
-                                    textbutton texts[1]:
-                                        text_style "condition_text"
-                                        yalign 0.5
-                                        tooltip condition.get_name()
-                                        action NullAction()
-                                    
-                vbar value YScrollValue("CheatRuleCond"):
-                    unscrollable "hide"
-                    xalign 1
-                bar value XScrollValue("CheatRuleCond"):
-                    unscrollable "hide"
-                    ypos 328
             textbutton "Return":
                 xalign 0.55 yalign 0.87
                 text_style "buttons_idle"
@@ -948,57 +904,10 @@ screen journal_cheats(display):
                 ymaximum 50
                 color "#000"
 
-            frame:
-                background Solid("#00000000")
-                area (989, 250, 500, 200)
-                viewport id "CheatClubDesc":
-                    mousewheel True
-                    draggable "touch"
+            use journal_desc(page, display, active_club, True)
 
-                    vbox:
-                        text active_club_desc style "journal_desc"
+            use journal_list_conditions(page, active_club)
 
-                        if len(active_club_desc_conditions_desc) != 0:
-                            null height 40
-                            text "{u}To unlock you need:{/u}" style "journal_desc"
-                            for desc in active_club_desc_conditions_desc:
-                                textbutton desc:
-                                    text_style "journal_desc"
-                                    yalign 0.5
-                                    action NullAction()
-                
-                vbar value YScrollValue("CheatClubDesc"):
-                    unscrollable "hide"
-                    xalign 1.03
-
-            frame:
-                background Solid("#0000")
-                area (1350, 474, 150, 328)
-
-                viewport id "CheatClubCond":
-                    mousewheel True
-                    draggable "touch"
-
-                    vbox:
-                        for condition in active_club.get_list_conditions():
-                            if not condition.is_set_blocking():
-                                $ texts = condition.to_list_text(char_obj = get_school())
-                                hbox:
-                                    textbutton texts[0]:
-                                        tooltip condition.get_name()
-                                        action NullAction()
-                                    textbutton texts[1]:
-                                        text_style "condition_text"
-                                        yalign 0.5
-                                        tooltip condition.get_name()
-                                        action NullAction()
-                                    
-                vbar value YScrollValue("CheatClubCond"):
-                    unscrollable "hide"
-                    xalign 1
-                bar value XScrollValue("CheatClubCond"):
-                    unscrollable "hide"
-                    ypos 328
             textbutton "Return":
                 xalign 0.55 yalign 0.87
                 text_style "buttons_idle"
@@ -1023,7 +932,7 @@ screen journal_cheats(display):
                             $ building_name = building.get_title()
                             $ building_level = building.get_level()
                             $ building_unlock_text = "{color=#ff0000}UNLOCK{/color}"
-                            if building.is_unlocked("x"):
+                            if building.is_unlocked():
                                 $ building_unlock_text = "{color=#00ff00}LOCK{/color}"
                             button:
                                 text building_name:
@@ -1034,7 +943,7 @@ screen journal_cheats(display):
                                 button:
                                     text building_unlock_text
                                     action [With(dissolveM), Call("switch_building", building.get_name(), -1000)]
-                                if building.is_unlocked("x"):
+                                if building.is_unlocked():
                                     null width 100
                                     button:
                                         text "-":
@@ -1083,57 +992,10 @@ screen journal_cheats(display):
                 ymaximum 50
                 color "#000"
 
-            frame:
-                background Solid("#00000000")
-                area (989, 250, 500, 200)
-                viewport id "CheatBuildingDesc":
-                    mousewheel True
-                    draggable "touch"
+            use journal_desc(page, display, active_building, True)
 
-                    vbox:
-                        text active_building_desc style "journal_desc"
+            use journal_list_conditions(page, active_building)
 
-                        if len(active_building_desc_conditions_desc) != 0:
-                            null height 40
-                            text "{u}To unlock you need:{/u}" style "journal_desc"
-                            for desc in active_building_desc_conditions_desc:
-                                textbutton desc:
-                                    text_style "journal_desc"
-                                    yalign 0.5
-                                    action NullAction()
-                
-                vbar value YScrollValue("CheatBuildingDesc"):
-                    unscrollable "hide"
-                    xalign 1.03
-
-            frame:
-                background Solid("#0000")
-                area (1350, 474, 150, 328)
-
-                viewport id "CheatBuildingCond":
-                    mousewheel True
-                    draggable "touch"
-
-                    vbox:
-                        for condition in active_building.get_list_conditions():
-                            if not condition.is_set_blocking():
-                                $ texts = condition.to_list_text(char_obj = get_school())
-                                hbox:
-                                    textbutton texts[0]:
-                                        tooltip condition.get_name()
-                                        action NullAction()
-                                    textbutton texts[1]:
-                                        text_style "condition_text"
-                                        yalign 0.5
-                                        tooltip condition.get_name()
-                                        action NullAction()
-                                    
-                vbar value YScrollValue("CheatBuildingCond"):
-                    unscrollable "hide"
-                    xalign 1
-                bar value XScrollValue("CheatBuildingCond"):
-                    unscrollable "hide"
-                    ypos 328
             textbutton "Return":
                 xalign 0.55 yalign 0.87
                 text_style "buttons_idle"
@@ -1333,7 +1195,7 @@ label switch_building(building_name, level_delta):
     $ building = get_building(building_name)
 
     if level_delta == -1000:
-        $ building.unlock(not building.is_unlocked("x"))
+        $ building.unlock(not building.is_unlocked())
     else:
         $ building.set_level(building.get_level() + level_delta)
     call open_journal(5, "buildings") from switch_building_1
@@ -1394,7 +1256,7 @@ label add_building_to_proposal(building_name):
             Call("open_journal", 4, building_name))
 
     $ action = "unlock"
-    if building.is_unlocked("x"):
+    if building.is_unlocked():
         $ action = "upgrade"
 
     call add_to_proposal(building, 4, building_name, action) from add_building_to_proposal_2
