@@ -162,67 +162,60 @@ init -7 python:
 
             return "\n\n".join(self._description)
 
-        def get_image(self, school: str = "x", level: int = 0) -> str:
+        def get_image(self, level: int = -1) -> str:
             """
             Returns the path to the image of the object.
             The image represents the visual representation of the object for use in the UI.
             The image path is interpolated with the school and level of the object it represents.
 
             ### Parameters:
-            1. school: str (Default "x")
-                - School of the object.
-            2. level: int (Default 0)
+            1. level: int (Default -1)
                 - Level of the object.
+                - If -1 the level will be determined by the school of the object.
 
             ### Returns:
             1. str
                 - Path to the image of the object.
             """
 
-            schools = [school]
-            if school == "x":
-                schools = ["high_school"]
-                if loli_content >= 1:
-                    schools.append("middle_school")
-                if loli_content == 2:
-                    schools.append("elementary_school")
+            if level == -1:
+                level = get_level_for_char(get_school())
+
             for i in reversed(range(0, level + 1)):
                 image = self._image_path.replace("<level>", str(i))
-                for s in schools:
-                    image = image.replace("<school>", s)
-                    if renpy.loadable(image):
-                        return image
+                if renpy.loadable(image):
+                    return image
             for i in range(0, 10):
                 image = self._image_path.replace("<level>", str(i))
-                for s in schools:
-                    image = image.replace("<school>", s)
-                    if renpy.loadable(image):
-                        return image
+                if renpy.loadable(image):
+                    return image
             return self._image_path_alt
         
-        def get_full_image(self, school: str = "x", level: int = 0) -> str:
+        def get_full_image(self, level: int = 1) -> str:
             """
             It gets the full size version of the image from get_image
 
             ### Parameters:
-            1. school: str (Default "x")
-                - School of the object
-            2. level: int (Default 0)
+            2. level: int (Default -1)
                 - Level of the object
+                - If -1 the level will be determined by the school of the object
 
             ### Returns:
             1. str
                 - Path to the full image of the object
             """
 
-            image = self.get_image(school, level)
+            if level == -1:
+                level = get_level_for_char(get_school())
+
+            image = self.get_image(level)
             full_image = image.replace(".", "_full.")
 
             if renpy.loadable(full_image):
                 return full_image
             return None
         
-        def unlock(self, school: str, unlock: bool = True, apply_effects: bool = False):
+        def unlock(self, unlock: bool = True, apply_effects: bool = False):
             """
             Unlocks the object.
 
@@ -235,13 +228,12 @@ init -7 python:
                 - Whether to apply the effects of unlocking the object.
             """
 
-            if school in self._unlocked:
-                self._unlocked[school] = unlock
+            self._unlocked = unlock
 
-            if self._unlocked[school] and apply_effects:
+            if self._unlocked and apply_effects:
                 self.apply_effects()
         
-        def is_unlocked(self, school: str) -> bool:
+        def is_unlocked(self) -> bool:
             """
             Returns whether the object is unlocked.
 
@@ -254,7 +246,7 @@ init -7 python:
                 - Whether the object is unlocked.
             """
 
-            return school in self._unlocked and self._unlocked[school]
+            return self._unlocked
 
         def is_visible(self, **kwargs) -> bool:
             """
@@ -414,63 +406,63 @@ init -7 python:
             for effect in self._unlock_effects:
                 effect.apply()
 
-    def get_visible_unlocked_objs_by_school(map: Dict[str, Journal_Obj], school: str | Char) -> List[str]:
-        """
-        Returns the names of the visible unlocked objects of the map by school.
+    # def get_visible_unlocked_objs_by_school(map: Dict[str, Journal_Obj], school: str | Char) -> List[str]:
+    #     """
+    #     Returns the names of the visible unlocked objects of the map by school.
 
-        ### Parameters:
-        1. map: Dict[str, Journal_Obj]
-            - Map of the objects.
-        2. school: str | Char
-            - School of the objects.
+    #     ### Parameters:
+    #     1. map: Dict[str, Journal_Obj]
+    #         - Map of the objects.
+    #     2. school: str | Char
+    #         - School of the objects.
 
-        ### Returns:
-        1. List[str]
-            - Names of the visible unlocked objects of the map by school.
-        """
+    #     ### Returns:
+    #     1. List[str]
+    #         - Names of the visible unlocked objects of the map by school.
+    #     """
 
-        output = []
+    #     output = []
 
-        school_obj = school
-        if isinstance(school, str):
-            school_obj = get_character(school, charList['schools'])
+    #     school_obj = school
+    #     if isinstance(school, str):
+    #         school_obj = get_character(school, charList['schools'])
 
-        for obj in map.values():
-            if (obj.is_visible(char_obj = school_obj) and
-                obj.is_unlocked(school) and
-                obj.get_name() not in output):
-                    output.append(obj.get_name())
+    #     for obj in map.values():
+    #         if (obj.is_visible(char_obj = school_obj) and
+    #             obj.is_unlocked(school) and
+    #             obj.get_name() not in output):
+    #                 output.append(obj.get_name())
 
-        return output
+    #     return output
 
-    def get_visible_locked_objs_by_school(map: Dict[str, Journal_Obj], school: str | Char) -> List[str]:
-        """
-        Returns the names of the visible locked objects of the map by school.
+    # def get_visible_locked_objs_by_school(map: Dict[str, Journal_Obj], school: str | Char) -> List[str]:
+    #     """
+    #     Returns the names of the visible locked objects of the map by school.
 
-        ### Parameters:
-        1. map: Dict[str, Journal_Obj]
-            - Map of the objects.
-        2. school: str | Char
-            - School of the objects.
+    #     ### Parameters:
+    #     1. map: Dict[str, Journal_Obj]
+    #         - Map of the objects.
+    #     2. school: str | Char
+    #         - School of the objects.
 
-        ### Returns:
-        1. List[str]
-            - Names of the visible locked objects of the map by school.
-        """
+    #     ### Returns:
+    #     1. List[str]
+    #         - Names of the visible locked objects of the map by school.
+    #     """
 
-        output = []
+    #     output = []
 
-        school_obj = school
-        if isinstance(school, str):
-            school_obj = get_character(school, charList['schools'])
+    #     school_obj = school
+    #     if isinstance(school, str):
+    #         school_obj = get_character(school, charList['schools'])
 
-        for obj in map.values():
-            if (obj.is_visible(char_obj = school_obj) and 
-            not obj.is_unlocked(school) and
-            obj.get_name() not in output):
-                output.append(obj.get_name())
+    #     for obj in map.values():
+    #         if (obj.is_visible(char_obj = school_obj) and 
+    #         not obj.is_unlocked(school) and
+    #         obj.get_name() not in output):
+    #             output.append(obj.get_name())
 
-        return output
+    #     return output
 
     
     def get_visible_unlocked_objs(map: Dict[str, Journal_Obj]) -> List[str]:
@@ -488,31 +480,14 @@ init -7 python:
 
         output = []
 
-        high_school_obj = get_character('high_school', charList['schools'])
-        middle_school_obj = get_character('middle_school', charList['schools'])
-        elementary_school_obj = get_character('elementary_school', charList['schools'])
+        school_obj = get_school()
 
         for obj in map.values():
-            if (obj.is_visible(char_obj = high_school_obj) and 
-            obj.is_unlocked("high_school") and
+            if (obj.is_visible(char_obj = school_obj) and 
+            obj.is_unlocked() and
             obj.get_name() not in output):
                 output.append(obj.get_name())
                 continue
-            
-            if loli_content >= 1:
-                if (obj.is_visible(char_obj = middle_school_obj) and 
-                obj.is_unlocked("middle_school") and
-                obj.get_name() not in output):
-                    output.append(obj.get_name())
-                    continue
-
-            if loli_content == 2:
-                if (obj.is_visible(char_obj = elementary_school_obj) and 
-                obj.is_unlocked("elementary_school") and
-                obj.get_name() not in output):   
-                    output.append(obj.get_name())
-                    continue
-
         return output
 
     def get_visible_locked_objs(map: Dict[str, Journal_Obj]) -> List[str]:
@@ -530,31 +505,14 @@ init -7 python:
 
         output = []
 
-        high_school_obj = get_character('high_school', charList['schools'])
-        middle_school_obj = get_character('middle_school', charList['schools'])
-        elementary_school_obj = get_character('elementary_school', charList['schools'])
+        high_school_obj = get_school()
 
         for obj in map.values():
-            if (obj.is_visible(char_obj = high_school_obj) and 
-            not obj.is_unlocked("high_school") and
+            if (obj.is_visible(char_obj = school_obj) and 
+            not obj.is_unlocked() and
             obj.get_name() not in output):
                 output.append(obj.get_name())
                 continue
-            
-            if loli_content >= 1:
-                if (obj.is_visible(char_obj = middle_school_obj) and 
-                not obj.is_unlocked("middle_school") and
-                obj.get_name() not in output):
-                    output.append(obj.get_name())
-                    continue
-
-            if loli_content == 2:
-                if (obj.is_visible(char_obj = elementary_school_obj) and 
-                not obj.is_unlocked("elementary_school") and
-                obj.get_name() not in output):   
-                    output.append(obj.get_name())
-                    continue
-
         return output
 
     def get_visible_objs(map: Dict[str, Journal_Obj], include_unlocked: bool = False) -> List[str]:
@@ -575,31 +533,15 @@ init -7 python:
 
         output = []
 
-        high_school_obj = get_character('high_school', charList['schools'])
-        middle_school_obj = get_character('middle_school', charList['schools'])
-        elementary_school_obj = get_character('elementary_school', charList['schools'])
+        school_obj = get_school()
 
         for obj in map.values():
-            if (obj.is_visible(char_obj = high_school_obj) and 
-            (not obj.is_unlocked("high_school") or include_unlocked) and
+            if (obj.is_visible(char_obj = school_obj) and 
+            (not obj.is_unlocked() or include_unlocked) and
             obj.get_name() not in output):
                 output.append(obj.get_name())
                 continue
             
-            if loli_content >= 1:
-                if (obj.is_visible(char_obj = middle_school_obj) and 
-                (not obj.is_unlocked("middle_school") or include_unlocked) and
-                obj.get_name() not in output):
-                    output.append(obj.get_name())
-                    continue
-
-            if loli_content == 2:
-                if (obj.is_visible(char_obj = elementary_school_obj) and 
-                (not obj.is_unlocked("elementary_school") or include_unlocked) and
-                obj.get_name() not in output):   
-                    output.append(obj.get_name())
-                    continue
-
         return output
 
     def get_unlockable_objs(map: Dict[str, Journal_Obj]) -> List[str]:
@@ -617,70 +559,46 @@ init -7 python:
 
         output = []
 
-        high_school_obj = get_character('high_school', charList['schools'])
-        middle_school_obj = get_character('middle_school', charList['schools'])
-        elementary_school_obj = get_character('elementary_school', charList['schools'])
+        school_obj = get_school()
 
         for obj in map.values():
-            high_unlock = obj.can_be_unlocked(char_obj = high_school_obj)
-            high_unlocked = obj.is_unlocked("high_school")
-
-            if (high_unlock and 
-            not high_unlocked and 
-            obj.get_name() not in output):
-                output.append(obj.get_name())
-                continue
-
-            if loli_content >= 1:
-                middle_unlock = obj.can_be_unlocked(char_obj = middle_school_obj)
-                middle_unlocked = obj.is_unlocked("middle_school")
-
-                if (middle_unlock and 
-                not middle_unlocked and 
-                obj.get_name() not in output):
-                    output.append(obj.gwt_name())
-                    continue
-
-            if loli_content == 2:
-                elementary_unlock = obj.can_be_unlocked(char_obj = elementary_school_obj)
-                elementary_unlocked = obj.is_unlocked("elementary_school")
-
-                if (elementary_unlock and 
-                not elementary_unlocked and 
-                obj.get_name() not in output):
-                    output.append(obj.get_name())
-                    continue
-
-        return output
-
-    def get_unlockable_objs_by_school(school: str | Char) -> List[str]:
-        """
-        Returns the names of all the objects that can be unlocked for a specific school.
-
-        ### Parameters:
-        1. school: str | Char
-            - The school for which the objects should be unlockable
-
-        ### Returns:
-        1. List[str]
-            - Names of the unlockable objects for the school.
-        """
-
-        output = []
-
-        school_obj = school
-        if isinstance(school, str):
-            school_obj = get_character(school, charList['schools'])
-
-        for obj in map.values():
-            unlock = obj.can_be_unlocked(char_obj = school_obj)
-            unlocked = obj.is_unlocked(school)
-
-            if (unlock and not unlocked and obj.get_name() not in output):
+            if (obj.can_be_unlocked(char_obj = school_obj) and 
+                not obj.is_unlocked() and 
+                obj.get_name() not in output
+            ):
                 output.append(obj.get_name())
                 continue
 
         return output
+
+    # def get_unlockable_objs_by_school(school: str | Char) -> List[str]:
+    #     """
+    #     Returns the names of all the objects that can be unlocked for a specific school.
+
+    #     ### Parameters:
+    #     1. school: str | Char
+    #         - The school for which the objects should be unlockable
+
+    #     ### Returns:
+    #     1. List[str]
+    #         - Names of the unlockable objects for the school.
+    #     """
+
+    #     output = []
+
+    #     school_obj = school
+    #     if isinstance(school, str):
+    #         school_obj = get_character(school, charList['schools'])
+
+    #     for obj in map.values():
+    #         unlock = obj.can_be_unlocked(char_obj = school_obj)
+    #         unlocked = obj.is_unlocked(school)
+
+    #         if (unlock and not unlocked and obj.get_name() not in output):
+    #             output.append(obj.get_name())
+    #             continue
+
+    #     return output
 
     def get_journal_obj(map: Dict[str, Journal_Obj], name: str) -> Journal_Obj:
         """

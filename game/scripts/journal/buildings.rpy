@@ -160,7 +160,7 @@ init -6 python:
 
             return "\n\n".join(self.get_description(level))
 
-        def get_image(self, _school = "x", _level = -1) -> str:
+        def get_image(self, _level = -1) -> str:
             """
             Returns the image path of the building for the image used in the journal.
 
@@ -175,14 +175,14 @@ init -6 python:
                 - The image path of the building for the image used in the journal.
             """
 
-            level = get_lowest_level(charList["schools"])
+            level = get_level_for_char(get_school())
             for i in reversed(range(0, level + 1)):
                 image = self._image_path.replace("<level>", str(i))
                 if renpy.loadable(image):
                     return image
             return self._image_path_alt
 
-        def get_full_image(self, _school = "x", _level = -1) -> str:
+        def get_full_image(self, _level = -1) -> str:
             """
             Returns the image path for the fullscreen image of the building for the image used in the journal.
 
@@ -263,7 +263,7 @@ init -6 python:
                 - True if the building is unlocked and not blocked.
             """
 
-            return self.is_unlocked("x") and not self.is_blocked()
+            return self.is_unlocked() and not self.is_blocked()
 
         def set_blocked(self, is_blocked: bool = True):
             """
@@ -289,7 +289,7 @@ init -6 python:
 
             self._level = 1 if unlock else 0
 
-        def is_unlocked(self, _school) -> bool:
+        def is_unlocked(self) -> bool:
             """
             Returns True if the building is unlocked.
 
@@ -527,7 +527,7 @@ init -6 python:
         output = []
 
         for building in buildings.values():
-            if building.is_unlocked("x") and building.get_name() not in output:
+            if building.is_unlocked() and building.get_name() not in output:
                 output.append(building.get_name())
         
         return output
@@ -608,7 +608,7 @@ init -6 python:
 
         if building_name not in buildings.keys():
             return False
-        return buildings[building_name].is_unlocked("x")
+        return buildings[building_name].is_unlocked()
 
     def is_building_visible(building_name: str) -> bool:
         """

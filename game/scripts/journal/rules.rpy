@@ -16,11 +16,7 @@ init -6 python:
 
         def __init__(self, name: str, title: str):
             super().__init__(name, title)
-            self._unlocked = {
-                "high_school": False,
-                "middle_school": False,
-                "elementary_school": False,
-            }
+            self._unlocked = False
 
         def _update(self, title: str, data: Dict[str, Any] = None) -> None:
             super()._update(title, data)
@@ -28,12 +24,11 @@ init -6 python:
                 self.__dict__.update(data)
                 
             if not hasattr(self, '_unlocked'):
-                self._unlocked = {
-                    "high_school": False,
-                    "middle_school": False,
-                    "elementary_school": False,
-                }
-                
+                self._unlocked = False
+
+            if not isinstance(self._unlocked, bool):
+                self._unlocked = self._unlocked['high_school'] or self._unlocked['middle_school'] or self._unlocked['elementary_school']
+
         def get_type(self) -> str:
             """
             Returns the type of the journal object.
@@ -67,7 +62,7 @@ init -6 python:
             return None
         return rules[rule_name]
 
-    def is_rule_unlocked(rule_name: str, school: str) -> bool:
+    def is_rule_unlocked(rule_name: str) -> bool:
         """
         Returns whether the rule with the given name is unlocked for the given school.
 
@@ -85,7 +80,7 @@ init -6 python:
 
         if rule_name not in rules.keys():
             return False
-        return rules[rule_name].is_unlocked(school)
+        return rules[rule_name].is_unlocked()
 
     def is_rule_visible(rule_name: str, **kwargs) -> bool:
         """
@@ -244,7 +239,7 @@ label load_rules ():
             StatCondition(inhibition = '80-'),
             LockCondition(),
         ),
-        '_image_path': 'images/journal/rules/theoretical_student_sex_ed_<school>_<level>.webp',
+        '_image_path': 'images/journal/rules/theoretical_student_sex_ed_high_school_<level>.webp',
         '_image_path_alt': 'images/journal/rules/theoretical_student_sex_ed_high_school_3.webp',
         '_vote_comments': {
             'teacher': {
@@ -276,7 +271,7 @@ label load_rules ():
             RuleCondition("theoretical_sex_ed", blocking = True),
             LockCondition(),
         ),
-        '_image_path': 'images/journal/rules/practical_sex_ed_<school>_<level>.webp',
+        '_image_path': 'images/journal/rules/practical_sex_ed_high_school_<level>.webp',
         '_image_path_alt': 'images/journal/rules/practical_sex_ed_high_school_6.webp',
         '_vote_comments': {
             'teacher': {
@@ -323,7 +318,7 @@ label load_rules ():
             RuleCondition("theoretical_student_material", blocking = True),
             LockCondition(),
         ),
-        '_image_path': 'images/journal/rules/practical_sex_ed_students_<school>_<level>.webp',
+        '_image_path': 'images/journal/rules/practical_sex_ed_students_high_school_<level>.webp',
         '_image_path_alt': 'images/journal/rules/practical_sex_ed_students_high_school_6.webp',
     })
 
@@ -362,7 +357,7 @@ label load_rules ():
             LevelCondition("3+"),
             LockCondition(False),
         ),
-        '_image_path': 'images/journal/rules/relaxed_uniform_<school>.webp',
+        '_image_path': 'images/journal/rules/relaxed_uniform_high_school.webp',
         '_image_path_alt': 'images/journal/rules/relaxed_uniform_high_school.webp',
     })
 
@@ -375,7 +370,7 @@ label load_rules ():
             LevelCondition("5+"),
             RuleCondition("relaxed_uniform", blocking = True),
         ),
-        '_image_path': 'images/journal/rules/sexy_uniform_<school>.webp',
+        '_image_path': 'images/journal/rules/sexy_uniform_high_school.webp',
         '_image_path_alt': 'images/journal/rules/sexy_uniform_high_school.webp',
     })
 
@@ -388,7 +383,7 @@ label load_rules ():
             LevelCondition("8+"),
             RuleCondition("sexy_uniform", blocking = True),
         ),
-        '_image_path': 'images/journal/rules/nude_uniform_<school>.webp',
+        '_image_path': 'images/journal/rules/nude_uniform_high_school.webp',
         '_image_path_alt': 'images/journal/rules/nude_uniform_high_school.webp',
     })
 

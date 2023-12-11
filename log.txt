@@ -1,35 +1,140 @@
-Sun Dec 10 17:11:01 2023
+Mon Dec 11 11:18:31 2023
 Windows-10-10.0.19045
 Ren'Py 8.1.3.23091805
  
 
-Bootstrap to the start of init.init. took 0.04s
+Bootstrap to the start of init.init. took 0.03s
 Early init. took 0.00s
-Loader init. took 0.11s
-Loading error handling. took 0.14s
-Loading script. took 3.17s
-Loading save slot metadata. took 0.12s
+Loader init. took 0.06s
+Loading error handling. took 0.03s
+Loading script. took 0.42s
+Loading save slot metadata. took 0.10s
 Loading persistent. took 0.00s
-Running init code. took 0.16s
-Loading analysis data. took 0.00s
-Analyze and compile ATL. took 0.01s
-Reloading save slot metadata. took 0.09s
-Index archives took 0.00s
-Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.08s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.04s
-DPI scale factor: 1.000000
+
+Full traceback:
+  File "game/scripts/buildings/school_dormitory.rpy", line 5, in script
+    init -1 python:
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 1138, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "C:\Users\bigma\Documents\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
+    exec(bytecode, globals, locals)
+  File "game/scripts/buildings/school_dormitory.rpy", line 36, in <module>
+    sd_timed_event.check_all_events()
+  File "game/scripts/event.rpy", line 306, in check_all_events
+    event.check_event()
+  File "game/scripts/event.rpy", line 586, in check_event
+    log_error(" at Event " + self.id + ": Label " + event + " is missing!")
+AttributeError: 'Event' object has no attribute 'id'
+
+While running game code:
+  File "game/scripts/buildings/school_dormitory.rpy", line 5, in script
+    init -1 python:
+  File "game/scripts/buildings/school_dormitory.rpy", line 36, in <module>
+    sd_timed_event.check_all_events()
+  File "game/scripts/event.rpy", line 306, in check_all_events
+    event.check_event()
+  File "game/scripts/event.rpy", line 586, in check_event
+    log_error(" at Event " + self.id + ": Label " + event + " is missing!")
+AttributeError: 'Event' object has no attribute 'id'
+DPI scale factor: 1.500000
 nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.36s
-Cleaning stores took 0.00s
-Init translation took 0.05s
-Build styles took 0.00s
-Load screen analysis took 0.00s
-Analyze screens took 0.09s
-Save screen analysis took 0.04s
-Prepare screens took 0.26s
-Save pyanalysis. took 0.04s
-Save bytecode. took 0.05s
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Interface start. took 0.31s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+While handling exception:
+Traceback (most recent call last):
+  File "C:\Users\bigma\Documents\RenPy\renpy\python.py", line 1031, in py_compile
+    fixed_source = renpy.compat.fixes.fix_tokens(source)
+  File "C:\Users\bigma\Documents\RenPy\renpy\compat\fixes.py", line 228, in fix_tokens
+    raise e
+  File "C:\Users\bigma\Documents\RenPy\renpy\compat\fixes.py", line 213, in fix_tokens
+    tokens = list(tokenize.tokenize(bio.readline))
+  File "/home/tom/ab/renpy-build-fix/tmp/install.linux-x86_64/lib/python3.9/tokenize.py", line 521, in _tokenize
+tokenize.TokenError: ('EOF in multi-line statement', (2, 0))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\error.py", line 140, in report_exception
+    renpy.game.invoke_in_new_context(
+  File "C:\Users\bigma\Documents\RenPy\renpy\game.py", line 287, in invoke_in_new_context
+    return callable(*args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\error.py", line 48, in call_exception_screen
+    return renpy.ui.interact(mouse="screen", type="screen", suppress_overlay=True, suppress_underlay=True)
+  File "C:\Users\bigma\Documents\RenPy\renpy\ui.py", line 299, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 3582, in interact
+    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 3783, in interact_core
+    renpy.display.screen.prepare_screens()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 996, in prepare_screens
+    analyze_screens()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 973, in analyze_screens
+    s.ast.analyze_screen()
+  File "C:\Users\bigma\Documents\RenPy\renpy\sl2\slast.py", line 2584, in analyze_screen
+    ast.analyze(analysis)
+  File "C:\Users\bigma\Documents\RenPy\renpy\sl2\slast.py", line 2553, in analyze
+    SLBlock.analyze(self, analysis)
+  File "C:\Users\bigma\Documents\RenPy\renpy\sl2\slast.py", line 407, in analyze
+    i.analyze(analysis)
+  File "C:\Users\bigma\Documents\RenPy\renpy\sl2\slast.py", line 1393, in analyze
+    const = min(const, analysis.is_constant_expr(cond))
+  File "C:\Users\bigma\Documents\RenPy\renpy\py3analysis.py", line 558, in is_constant_expr
+    node, literal = ccache.ast_eval_literal(expr)
+  File "C:\Users\bigma\Documents\RenPy\renpy\py3analysis.py", line 790, in ast_eval_literal
+    expr = py_compile(expr, 'eval', ast_node=True)
+  File "C:\Users\bigma\Documents\RenPy\renpy\python.py", line 1088, in py_compile
+    raise e
+  File "C:\Users\bigma\Documents\RenPy\renpy\python.py", line 1034, in py_compile
+    raise orig_e
+  File "C:\Users\bigma\Documents\RenPy\renpy\python.py", line 1027, in py_compile
+    tree = compile(source, filename, py_mode, ast.PyCF_ONLY_AST | flags, 1)
+  File "game/scripts/journal/journal.rpy", line 445
+    display != "" and not active_obj.is_visible)
+                                               ^
+SyntaxError: unmatched ')'
+
+Full traceback:
+  File "C:\Users\bigma\Documents\RenPy\renpy\bootstrap.py", line 275, in bootstrap
+    renpy.main.main()
+  File "C:\Users\bigma\Documents\RenPy\renpy\main.py", line 564, in main
+    renpy.game.context().run(node)
+  File "game/scripts/buildings/school_dormitory.rpy", line 5, in script
+    init -1 python:
+  File "/home/tom/ab/renpy-build-fix/tmp/install.linux-x86_64/lib/python3.9/site-packages/future/utils/__init__.py", line 444, in raise_
+  File "game/scripts/buildings/school_dormitory.rpy", line 5, in script
+    init -1 python:
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 1138, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "C:\Users\bigma\Documents\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
+    exec(bytecode, globals, locals)
+  File "game/scripts/buildings/school_dormitory.rpy", line 36, in <module>
+    sd_timed_event.check_all_events()
+  File "game/scripts/event.rpy", line 306, in check_all_events
+    event.check_event()
+  File "game/scripts/event.rpy", line 586, in check_event
+    log_error(" at Event " + self.id + ": Label " + event + " is missing!")
+AttributeError: 'Event' object has no attribute 'id'
+
+While running game code:
+  File "game/scripts/buildings/school_dormitory.rpy", line 5, in script
+    init -1 python:
+  File "game/scripts/buildings/school_dormitory.rpy", line 5, in script
+    init -1 python:
+  File "game/scripts/buildings/school_dormitory.rpy", line 36, in <module>
+    sd_timed_event.check_all_events()
+  File "game/scripts/event.rpy", line 306, in check_all_events
+    event.check_event()
+  File "game/scripts/event.rpy", line 586, in check_event
+    log_error(" at Event " + self.id + ": Label " + event + " is missing!")
+AttributeError: 'Event' object has no attribute 'id'

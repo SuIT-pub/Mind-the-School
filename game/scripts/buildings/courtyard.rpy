@@ -34,8 +34,8 @@ init -1 python:
     map(lambda x: x.check_all_events(), courtyard_events.values())
 
     courtyard_bg_images = [
-        BGImage("images/background/courtyard/bg 1,6 <name> <level> <nude>.webp", 1, OR(TimeCondition(daytime = "1,6", weekday = "w"), TimeCondition(daytime = "c", weekday = "d"))), # show courtyard with a few students
-        BGImage("images/background/courtyard/bg 3 <name> <level> <nude>.webp", 1, TimeCondition(daytime = 3)), # show courtyard full of students and teacher
+        BGImage("images/background/courtyard/bg 1,6 <level> <nude>.webp", 1, OR(TimeCondition(daytime = "1,6", weekday = "w"), TimeCondition(daytime = "c", weekday = "d"))), # show courtyard with a few students
+        BGImage("images/background/courtyard/bg 3 <level> <nude>.webp", 1, TimeCondition(daytime = 3)), # show courtyard full of students and teacher
         BGImage("images/background/courtyard/bg 7.webp", 1, TimeCondition(daytime = 7)), # show empty courtyard at night
     ]
     
@@ -51,7 +51,7 @@ label courtyard ():
 
 label .after_time_check (**kwargs):
 
-    $ school_obj = get_random_school()
+    $ school_obj = get_school()
 
     call show_idle_image(school_obj, "images/background/courtyard/bg c.webp", courtyard_bg_images) from courtyard_2
 
@@ -104,7 +104,7 @@ label first_week_courtyard_event (**kwargs):
     show first week courtyard 4 with dissolveM
     headmaster_thought "At least the courtyard doesn't need immediate fixing."
 
-    $ change_stat_for_all("happiness", 5, charList["schools"])
+    $ change_stat("happiness", 5, get_school())
 
     $ set_building_blocked("courtyard")
 
@@ -116,9 +116,7 @@ label courtyard_event_1 (**kwargs):
 
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
-    $ name = "high_school"
-
-    $ image = Image_Series("images/events/courtyard/courtyard_event_1 <name> <level> <variant> <step>.webp", name = name, variant = variant, **kwargs)
+    $ image = Image_Series("images/events/courtyard/courtyard_event_1 high_school <level> <variant> <step>.webp", variant = variant, **kwargs)
 
     $ begin_event()
 
@@ -155,9 +153,7 @@ label .look_away (**kwargs):
 label courtyard_event_2 (**kwargs):
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
-    $ name = "high_school"
-
-    $ image = Image_Series("images/events/courtyard/courtyard_event_2 <name> <level> <step>.webp", name = name, **kwargs)
+    $ image = Image_Series("images/events/courtyard/courtyard_event_2 high_school <level> <step>.webp", **kwargs)
 
     $ begin_event()
 

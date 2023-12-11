@@ -14,10 +14,9 @@ init -6 python:
             - The name of the school that the proposal is for.
         """
 
-        def __init__(self, journal_obj: Journal_Obj, action: str, school):
+        def __init__(self, journal_obj: Journal_Obj, action: str):
             self._journal_obj = journal_obj
             self._action = action
-            self._school = school
 
     def calculateProbabilitySum(conditions: ConditionStorage, *char_obj_list: Char) -> float:
         """
@@ -45,7 +44,7 @@ init -6 python:
                 get_character("teacher", charList["staff"]),
                 charList["parents"],
             ]
-            char_obj_list.extend(get_all_schools())
+            char_obj_list.extend(get_school())
 
         probability = 0.0
 
@@ -114,7 +113,7 @@ label pta_meeting (**kwargs):
     # """
     
     $ proposal = get_game_data('voteProposal')
-    $ obj_school = get_random_school()
+    $ obj_school = get_school()
     $ obj_parent = get_character("parents", charList)
     $ obj_teacher = get_character("teacher", charList["staff"])
     $ obj_secretary = get_character("secretary", charList["staff"])
@@ -132,8 +131,6 @@ label pta_meeting (**kwargs):
         $ obj_desc = obj.get_description()
         $ obj_action = proposal._action
 
-        $ obj_school = get_character(proposal._school, charList["schools"])
-
     $ obj_school_name = obj_school.get_name()
     $ obj_school_title = obj_school.get_title()
 
@@ -144,7 +141,6 @@ label pta_meeting (**kwargs):
         $ teacher_vote = voteCharacter(
             obj.get_condition_storage(), 
             teacher_obj,
-            # obj_school_name,
         )
         $ teacher_response = obj.get_vote_comments("teacher", teacher_vote)
         if teacher_vote == 'yes':
@@ -156,7 +152,6 @@ label pta_meeting (**kwargs):
         $ student_vote = voteCharacter(
             obj.get_condition_storage(), 
             school_obj,
-            # obj_school_name,
         )
         $ student_response = obj.get_vote_comments("student", student_vote)
         if student_vote == 'yes':
@@ -168,7 +163,6 @@ label pta_meeting (**kwargs):
         $ parent_vote = voteCharacter(
             obj.get_condition_storage(), 
             parent_obj, 
-            # obj_school_name,
         )
         $ parent_response = obj.get_vote_comments("parent", parent_vote)
         if parent_vote == 'yes':
@@ -179,8 +173,7 @@ label pta_meeting (**kwargs):
     
     $ image = Image_Series("images/events/pta/regular meeting/pta_1 <secretary_level> <teacher_level> <student_level> <parent_level> <step>.webp", 
         secretary_level = obj_secretary.get_level(),
-        teacher_level = obj_teacher.get_level(), 
-        school = obj_school_name, 
+        teacher_level = obj_teacher.get_level(),
         student_level = obj_school.get_level(), 
         parent_level = obj_parent.get_level()
     )
@@ -212,10 +205,10 @@ label pta_meeting (**kwargs):
     if proposal != None:
         $ image.show(4)
         if obj_type == "rule":
-            headmaster "Today I want to put to vote a change in the [obj_school_title]s ruleset."
+            headmaster "Today I want to put to vote a change in the schools ruleset."
             headmaster "I want to implement the Rule: [obj_title]."
         elif obj_type == "club":
-            headmaster "Today I want to put to vote if we want to open a new club at the [obj_school_title]."
+            headmaster "Today I want to put to vote if we want to open a new club at the school."
             headmaster "I want to open the [obj_title]."
         elif obj_type == "building" and obj_action == "unlock":
             headmaster "Today I want to put to vote if we want to restore the [obj_title]."
@@ -235,7 +228,6 @@ label pta_meeting (**kwargs):
         call show_image("images/events/pta/regular meeting/pta_2 <secretary_level> <teacher_level> <student_level> <parent_level> <teacher> <vote>.webp",
             secretary_level = obj_secretary.get_level(),
             teacher_level = obj_teacher.get_level(), 
-            school = obj_school_name, 
             student_level = obj_school.get_level(), 
             parent_level = obj_parent.get_level(),
             teacher = speaking_teacher,
@@ -245,8 +237,7 @@ label pta_meeting (**kwargs):
 
         call show_image("images/events/pta/regular meeting/pta_2 <secretary_level> <teacher_level> <student_level> <parent_level> <student> <vote>.webp",
             secretary_level = obj_secretary.get_level(),
-            teacher_level = obj_teacher.get_level(), 
-            school = obj_school_name, 
+            teacher_level = obj_teacher.get_level(),
             student_level = obj_school.get_level(), 
             parent_level = obj_parent.get_level(),
             student = speaking_student,
@@ -256,8 +247,7 @@ label pta_meeting (**kwargs):
 
         call show_image("images/events/pta/regular meeting/pta_2 <secretary_level> <teacher_level> <student_level> <parent_level> <parent> <vote>.webp",
             secretary_level = obj_secretary.get_level(),
-            teacher_level = obj_teacher.get_level(), 
-            school = obj_school_name, 
+            teacher_level = obj_teacher.get_level(),
             student_level = obj_school.get_level(), 
             parent_level = obj_parent.get_level(),
             parent = speaking_parent,
@@ -412,10 +402,6 @@ label first_pta_meeting (**kwargs):
         well-being of our children.
     """
     
-    $ pronoun = "I am"
-    if loli_content != 0:
-        $ pronoun = "we are"
-
     hide screen image_with_nude_var
     call show_image(f"images/events/pta/first meeting/first pta meeting 9 <loli_content> <nude>.webp", loli_content = 0) from first_pta_meeting_4
     sgirl """
