@@ -591,8 +591,6 @@ label map_overview ():
     call load_buildings from map_overview_4
     call load_clubs from map_overview_5
     
-    $ update_mean_stats()
-
     $ hide_all()
 
     $ renpy.choice_for_skipping()

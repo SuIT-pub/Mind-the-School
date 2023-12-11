@@ -38,6 +38,46 @@ init -99 python:
             return kwargs[key]
         return alt
 
+    def max(*values: number) -> number:
+        """
+        Returns the largest value
+
+        ### Parameters:
+        1. *values: number
+            - The values to compare
+
+        ### Returns:
+        1. number
+            - The largest value
+        """
+
+        largest = None
+
+        for value in values:
+            if largest is None or value > largest:
+                largest = value
+        return largest
+
+    def min(*values: number) -> number:
+        """
+        Returns the smallest value
+
+        ### Parameters:
+        1. *values: number
+            - The values to compare
+
+        ### Returns:
+        1. number
+            - The smallest value
+        """
+
+        smallest = None
+
+        for value in values:
+            if smallest is None or value < smallest:
+                smallest = value
+        return smallest
+
     def clamp_value(value: num, min: num, max: num) -> num:
         """
         Clamps a value between a min and max
@@ -536,6 +576,7 @@ init -99 python:
         """
 
         print(str(msg) + "\n")
+        return
 
     def log_error(msg: str):
         """
@@ -547,7 +588,8 @@ init -99 python:
         """
 
         print("|ERROR| " + str(msg) + "\n")
-        renpy.notify("|ERROR| " + str(msg))
+        # renpy.notify("|ERROR| " + str(msg))
+        return
 
     def get_stat_from_char_kwargs(stat: str, **kwargs) -> float:
         """

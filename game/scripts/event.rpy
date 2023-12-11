@@ -558,6 +558,9 @@ init -3 python:
             return self.event_id
 
         def _update(self, data: Dict[str, Any]):
+            if not hasattr(self, 'event_id'):
+                self.event_id = str(id(self))
+
             if not hasattr(self, 'conditions'):
                 self.conditions = []
 
@@ -579,11 +582,11 @@ init -3 python:
             """
 
             if self.priority < 1 or self.priority > 3:
-                log_error(" at Event " + self.id + ": Priority " + str(self.priority) + " is not valid!")
+                log_error(" at Event " + self.event_id + ": Priority " + str(self.priority) + " is not valid!")
 
             for event in self.event:
                 if not renpy.has_label(event):
-                    log_error(" at Event " + self.id + ": Label " + event + " is missing!")
+                    log_error(" at Event " + self.event_id + ": Label " + event + " is missing!")
 
         def get_id(self) -> str:
             """

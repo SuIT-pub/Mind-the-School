@@ -1,4 +1,4 @@
-Mon Dec 11 11:18:31 2023
+Mon Dec 11 11:21:54 2023
 Windows-10-10.0.19045
 Ren'Py 8.1.3.23091805
  
@@ -7,39 +7,39 @@ Bootstrap to the start of init.init. took 0.03s
 Early init. took 0.00s
 Loader init. took 0.06s
 Loading error handling. took 0.03s
-Loading script. took 0.42s
-Loading save slot metadata. took 0.10s
+Loading script. took 0.47s
+Loading save slot metadata. took 0.08s
 Loading persistent. took 0.00s
+|ERROR|  at Event 95324864: Label first_week_school_dormitory_event is missing!
 
-Full traceback:
-  File "game/scripts/buildings/school_dormitory.rpy", line 5, in script
-    init -1 python:
-  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 1138, in execute
-    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
-  File "C:\Users\bigma\Documents\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
-    exec(bytecode, globals, locals)
-  File "game/scripts/buildings/school_dormitory.rpy", line 36, in <module>
-    sd_timed_event.check_all_events()
-  File "game/scripts/event.rpy", line 306, in check_all_events
-    event.check_event()
-  File "game/scripts/event.rpy", line 586, in check_event
-    log_error(" at Event " + self.id + ": Label " + event + " is missing!")
-AttributeError: 'Event' object has no attribute 'id'
+|ERROR|  at Event 95325008: Label first_potion_school_dormitory_event is missing!
 
-While running game code:
-  File "game/scripts/buildings/school_dormitory.rpy", line 5, in script
-    init -1 python:
-  File "game/scripts/buildings/school_dormitory.rpy", line 36, in <module>
-    sd_timed_event.check_all_events()
-  File "game/scripts/event.rpy", line 306, in check_all_events
-    event.check_event()
-  File "game/scripts/event.rpy", line 586, in check_event
-    log_error(" at Event " + self.id + ": Label " + event + " is missing!")
-AttributeError: 'Event' object has no attribute 'id'
+Running init code. took 0.05s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.06s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.07s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.04s
 DPI scale factor: 1.500000
 nvdrs: Loaded, about to disable thread optimizations.
 nvdrs: b"Couldn't load nvlib." (can be ignored)
-Interface start. took 0.31s
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.04s
+Build styles took 0.00s
+Load screen analysis took 0.00s
+Analyze screens took 0.02s
+Save screen analysis took 0.02s
+Prepare screens took 0.09s
+Save pyanalysis. took 0.02s
+Save bytecode. took 0.04s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.17s
 
 Initializing gl2 renderer:
 primary display bounds: (0, 0, 2560, 1440)
@@ -51,90 +51,4939 @@ Version: b'4.6.0 - Build 31.0.101.4575'
 Display Info: None
 Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
 Maximum texture size: 4096x4096
-While handling exception:
-Traceback (most recent call last):
-  File "C:\Users\bigma\Documents\RenPy\renpy\python.py", line 1031, in py_compile
-    fixed_source = renpy.compat.fixes.fix_tokens(source)
-  File "C:\Users\bigma\Documents\RenPy\renpy\compat\fixes.py", line 228, in fix_tokens
-    raise e
-  File "C:\Users\bigma\Documents\RenPy\renpy\compat\fixes.py", line 213, in fix_tokens
-    tokens = list(tokenize.tokenize(bio.readline))
-  File "/home/tom/ab/renpy-build-fix/tmp/install.linux-x86_64/lib/python3.9/tokenize.py", line 521, in _tokenize
-tokenize.TokenError: ('EOF in multi-line statement', (2, 0))
+Resetting cache.
+Bootstrap to the start of init.init. took 48.75s
+Early init. took 0.00s
+Loader init. took 0.05s
+Loading error handling. took 0.03s
+Loading script. took 0.20s
+Loading save slot metadata. took 0.07s
+Loading persistent. took 0.00s
+Running init code. took 0.03s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.05s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.06s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.06s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.04s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.07s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.05s
 
-During handling of the above exception, another exception occurred:
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 753.22s
+Early init. took 0.00s
+Loader init. took 0.07s
+Loading error handling. took 0.02s
+Loading script. took 0.17s
+Loading save slot metadata. took 0.06s
+Loading persistent. took 0.00s
+Running init code. took 0.03s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.06s
+Index archives took 0.00s
+Dump and make backups. took 0.06s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.06s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.09s
+Analyze screens took 0.00s
+Save screen analysis took 0.00s
+Prepare screens took 0.07s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.00s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.06s
 
-Traceback (most recent call last):
-  File "C:\Users\bigma\Documents\RenPy\renpy\display\error.py", line 140, in report_exception
-    renpy.game.invoke_in_new_context(
-  File "C:\Users\bigma\Documents\RenPy\renpy\game.py", line 287, in invoke_in_new_context
-    return callable(*args, **kwargs)
-  File "C:\Users\bigma\Documents\RenPy\renpy\display\error.py", line 48, in call_exception_screen
-    return renpy.ui.interact(mouse="screen", type="screen", suppress_overlay=True, suppress_underlay=True)
-  File "C:\Users\bigma\Documents\RenPy\renpy\ui.py", line 299, in interact
-    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
-  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 3582, in interact
-    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
-  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 3783, in interact_core
-    renpy.display.screen.prepare_screens()
-  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 996, in prepare_screens
-    analyze_screens()
-  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 973, in analyze_screens
-    s.ast.analyze_screen()
-  File "C:\Users\bigma\Documents\RenPy\renpy\sl2\slast.py", line 2584, in analyze_screen
-    ast.analyze(analysis)
-  File "C:\Users\bigma\Documents\RenPy\renpy\sl2\slast.py", line 2553, in analyze
-    SLBlock.analyze(self, analysis)
-  File "C:\Users\bigma\Documents\RenPy\renpy\sl2\slast.py", line 407, in analyze
-    i.analyze(analysis)
-  File "C:\Users\bigma\Documents\RenPy\renpy\sl2\slast.py", line 1393, in analyze
-    const = min(const, analysis.is_constant_expr(cond))
-  File "C:\Users\bigma\Documents\RenPy\renpy\py3analysis.py", line 558, in is_constant_expr
-    node, literal = ccache.ast_eval_literal(expr)
-  File "C:\Users\bigma\Documents\RenPy\renpy\py3analysis.py", line 790, in ast_eval_literal
-    expr = py_compile(expr, 'eval', ast_node=True)
-  File "C:\Users\bigma\Documents\RenPy\renpy\python.py", line 1088, in py_compile
-    raise e
-  File "C:\Users\bigma\Documents\RenPy\renpy\python.py", line 1034, in py_compile
-    raise orig_e
-  File "C:\Users\bigma\Documents\RenPy\renpy\python.py", line 1027, in py_compile
-    tree = compile(source, filename, py_mode, ast.PyCF_ONLY_AST | flags, 1)
-  File "game/scripts/journal/journal.rpy", line 445
-    display != "" and not active_obj.is_visible)
-                                               ^
-SyntaxError: unmatched ')'
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
 
 Full traceback:
-  File "C:\Users\bigma\Documents\RenPy\renpy\bootstrap.py", line 275, in bootstrap
-    renpy.main.main()
-  File "C:\Users\bigma\Documents\RenPy\renpy\main.py", line 564, in main
-    renpy.game.context().run(node)
-  File "game/scripts/buildings/school_dormitory.rpy", line 5, in script
-    init -1 python:
-  File "/home/tom/ab/renpy-build-fix/tmp/install.linux-x86_64/lib/python3.9/site-packages/future/utils/__init__.py", line 444, in raise_
-  File "game/scripts/buildings/school_dormitory.rpy", line 5, in script
-    init -1 python:
+  File "game/scripts/intro.rpy", line 48, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 206, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 603, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 618, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 771, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 219, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 237, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 594, in script
+    $ update_mean_stats()
   File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 1138, in execute
     renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
   File "C:\Users\bigma\Documents\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
     exec(bytecode, globals, locals)
-  File "game/scripts/buildings/school_dormitory.rpy", line 36, in <module>
-    sd_timed_event.check_all_events()
-  File "game/scripts/event.rpy", line 306, in check_all_events
-    event.check_event()
-  File "game/scripts/event.rpy", line 586, in check_event
-    log_error(" at Event " + self.id + ": Label " + event + " is missing!")
-AttributeError: 'Event' object has no attribute 'id'
+  File "game/scripts/overview.rpy", line 594, in <module>
+    $ update_mean_stats()
+NameError: name 'update_mean_stats' is not defined
 
 While running game code:
-  File "game/scripts/buildings/school_dormitory.rpy", line 5, in script
-    init -1 python:
-  File "game/scripts/buildings/school_dormitory.rpy", line 5, in script
-    init -1 python:
-  File "game/scripts/buildings/school_dormitory.rpy", line 36, in <module>
-    sd_timed_event.check_all_events()
-  File "game/scripts/event.rpy", line 306, in check_all_events
-    event.check_event()
-  File "game/scripts/event.rpy", line 586, in check_event
-    log_error(" at Event " + self.id + ": Label " + event + " is missing!")
-AttributeError: 'Event' object has no attribute 'id'
+  File "game/scripts/intro.rpy", line 48, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 206, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 603, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 618, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 771, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 219, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 237, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 594, in script
+    $ update_mean_stats()
+  File "game/scripts/overview.rpy", line 594, in <module>
+    $ update_mean_stats()
+NameError: name 'update_mean_stats' is not defined
+Resetting cache.
+Bootstrap to the start of init.init. took 766.14s
+Early init. took 0.00s
+Loader init. took 0.07s
+Loading error handling. took 0.03s
+Loading script. took 0.31s
+Loading save slot metadata. took 0.07s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.06s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.09s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.09s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.06s
+Build styles took 0.00s
+Load screen analysis took 0.00s
+Analyze screens took 0.02s
+Save screen analysis took 0.04s
+Prepare screens took 0.12s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.19s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Cleaning stores took 0.00s
+Init translation took 0.00s
+Build styles took 0.00s
+Load screen analysis took 0.04s
+Analyze screens took 0.00s
+Prepare screens took 0.00s
+Running _start took 0.00s
+Resetting cache.
+Bootstrap to the start of init.init. took 907.14s
+Early init. took 0.00s
+Loader init. took 0.07s
+Loading error handling. took 0.03s
+Loading script. took 0.31s
+Loading save slot metadata. took 0.12s
+Loading persistent. took 0.00s
+Running init code. took 0.05s
+Loading analysis data. took 0.03s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.07s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.06s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.14s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.00s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.08s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.07s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 941.16s
+Early init. took 0.00s
+Loader init. took 0.09s
+Loading error handling. took 0.03s
+Loading script. took 0.25s
+Loading save slot metadata. took 0.06s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.05s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.05s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.08s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.04s
+Analyze screens took 0.01s
+Save screen analysis took 0.03s
+Prepare screens took 0.08s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.07s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+
+Full traceback:
+  File "game/scripts/intro.rpy", line 48, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 206, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 771, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 219, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 237, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script
+    call screen journal_overview(display) with dissolveM
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2259, in execute
+    self.call("execute")
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2241, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\statements.py", line 342, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\exports.py", line 3347, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "C:\Users\bigma\Documents\RenPy\renpy\ui.py", line 299, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 3582, in interact
+    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 4055, in interact_core
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 476, in visit_all
+    callback(self)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 4055, in <lambda>
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 487, in per_interact
+    self.update()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 680, in update
+    self.screen.function(**self.scope)
+  File "game/scripts/journal/journal.rpy", line 473, in execute
+    screen journal_overview(display):
+  File "game/scripts/journal/journal.rpy", line 473, in execute
+    screen journal_overview(display):
+  File "game/scripts/journal/journal.rpy", line 482, in execute
+    use journal_page_selector(1, display)
+  File "game/scripts/journal/journal.rpy", line 181, in execute
+    screen journal_page_selector(page, display):
+  File "game/scripts/journal/journal.rpy", line 181, in execute
+    screen journal_page_selector(page, display):
+  File "game/scripts/journal/journal.rpy", line 201, in execute
+    if cheat_mode and page != 5:
+  File "game/scripts/journal/journal.rpy", line 202, in execute
+    imagebutton:
+  File "game/scripts/journal/journal.rpy", line 202, in keywords
+    imagebutton:
+  File "game/scripts/journal/journal.rpy", line 208, in <module>
+    action [With(dissolveM), Call("open_journal", 5, "", school)]
+NameError: name 'school' is not defined
+
+While running game code:
+  File "game/scripts/intro.rpy", line 48, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 206, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 771, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 219, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 237, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script
+    call screen journal_overview(display) with dissolveM
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "game/scripts/journal/journal.rpy", line 473, in execute
+    screen journal_overview(display):
+  File "game/scripts/journal/journal.rpy", line 473, in execute
+    screen journal_overview(display):
+  File "game/scripts/journal/journal.rpy", line 482, in execute
+    use journal_page_selector(1, display)
+  File "game/scripts/journal/journal.rpy", line 181, in execute
+    screen journal_page_selector(page, display):
+  File "game/scripts/journal/journal.rpy", line 181, in execute
+    screen journal_page_selector(page, display):
+  File "game/scripts/journal/journal.rpy", line 201, in execute
+    if cheat_mode and page != 5:
+  File "game/scripts/journal/journal.rpy", line 202, in execute
+    imagebutton:
+  File "game/scripts/journal/journal.rpy", line 202, in keywords
+    imagebutton:
+  File "game/scripts/journal/journal.rpy", line 208, in <module>
+    action [With(dissolveM), Call("open_journal", 5, "", school)]
+NameError: name 'school' is not defined
+Resetting cache.
+Bootstrap to the start of init.init. took 965.23s
+Early init. took 0.00s
+Loader init. took 0.07s
+Loading error handling. took 0.03s
+Loading script. took 0.27s
+Loading save slot metadata. took 0.10s
+Loading persistent. took 0.00s
+Running init code. took 0.06s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.08s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.07s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.07s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.10s
+Build styles took 0.01s
+Load screen analysis took 0.02s
+Analyze screens took 0.06s
+Save screen analysis took 0.04s
+Prepare screens took 0.14s
+Save pyanalysis. took 0.04s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.10s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+
+Full traceback:
+  File "game/scripts/intro.rpy", line 48, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 206, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 771, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 219, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 237, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display) with dissolveM
+  [Previous line repeated 4 more times]
+  File "game/scripts/journal/journal.rpy", line 30, in script
+    call screen journal_overview(display) with dissolveM
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2259, in execute
+    self.call("execute")
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2241, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\statements.py", line 342, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\exports.py", line 3347, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "C:\Users\bigma\Documents\RenPy\renpy\ui.py", line 299, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 3582, in interact
+    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 4055, in interact_core
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 476, in visit_all
+    callback(self)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 4055, in <lambda>
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 487, in per_interact
+    self.update()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 680, in update
+    self.screen.function(**self.scope)
+  File "game/scripts/journal/journal.rpy", line 473, in execute
+    screen journal_overview(display):
+  File "game/scripts/journal/journal.rpy", line 473, in execute
+    screen journal_overview(display):
+  File "game/scripts/journal/journal.rpy", line 575, in execute
+    if display != "":
+  File "game/scripts/journal/journal.rpy", line 584, in execute
+    if active_stat_obj != None:
+  File "game/scripts/journal/journal.rpy", line 585, in execute
+    $ active_desc = active_stat_obj.get_full_description()
+  File "game/scripts/journal/journal.rpy", line 585, in <module>
+    $ active_desc = active_stat_obj.get_full_description()
+AttributeError: 'int' object has no attribute 'get_full_description'
+
+While running game code:
+  File "game/scripts/intro.rpy", line 48, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 206, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 771, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 219, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 237, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display) with dissolveM
+  [Previous line repeated 4 more times]
+  File "game/scripts/journal/journal.rpy", line 30, in script
+    call screen journal_overview(display) with dissolveM
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "game/scripts/journal/journal.rpy", line 473, in execute
+    screen journal_overview(display):
+  File "game/scripts/journal/journal.rpy", line 473, in execute
+    screen journal_overview(display):
+  File "game/scripts/journal/journal.rpy", line 575, in execute
+    if display != "":
+  File "game/scripts/journal/journal.rpy", line 584, in execute
+    if active_stat_obj != None:
+  File "game/scripts/journal/journal.rpy", line 585, in execute
+    $ active_desc = active_stat_obj.get_full_description()
+  File "game/scripts/journal/journal.rpy", line 585, in <module>
+    $ active_desc = active_stat_obj.get_full_description()
+AttributeError: 'int' object has no attribute 'get_full_description'
+Resetting cache.
+Bootstrap to the start of init.init. took 1060.67s
+Early init. took 0.00s
+Loader init. took 0.10s
+Loading error handling. took 0.04s
+Loading script. took 0.49s
+Loading save slot metadata. took 0.11s
+Loading persistent. took 0.00s
+Running init code. took 0.06s
+Loading analysis data. took 0.04s
+Analyze and compile ATL. took 0.01s
+Reloading save slot metadata. took 0.13s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.09s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.12s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.08s
+Save pyanalysis. took 0.02s
+Save bytecode. took 0.02s
+Running _start took 0.01s
+Performance test:
+Interface start. took 0.11s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+
+Full traceback:
+  File "game/scripts/intro.rpy", line 48, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 206, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 771, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 219, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 237, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display) with dissolveM
+  [Previous line repeated 4 more times]
+  File "game/scripts/journal/journal.rpy", line 30, in script
+    call screen journal_overview(display) with dissolveM
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2259, in execute
+    self.call("execute")
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2241, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\statements.py", line 342, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\exports.py", line 3347, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "C:\Users\bigma\Documents\RenPy\renpy\ui.py", line 299, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 3582, in interact
+    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 4055, in interact_core
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 476, in visit_all
+    callback(self)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 4055, in <lambda>
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 487, in per_interact
+    self.update()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 680, in update
+    self.screen.function(**self.scope)
+  File "game/scripts/journal/journal.rpy", line 473, in execute
+    screen journal_overview(display):
+  File "game/scripts/journal/journal.rpy", line 473, in execute
+    screen journal_overview(display):
+  File "game/scripts/journal/journal.rpy", line 575, in execute
+    if display != "":
+  File "game/scripts/journal/journal.rpy", line 581, in execute
+    if display == "level":
+  File "game/scripts/journal/journal.rpy", line 582, in execute
+    $ active_stat_obj = school_object.get_level_obj()
+  File "game/scripts/journal/journal.rpy", line 582, in <module>
+    $ active_stat_obj = school_object.get_level_obj()
+AttributeError: 'Char' object has no attribute 'get_level_obj'
+
+While running game code:
+  File "game/scripts/intro.rpy", line 48, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 206, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 771, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 219, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 237, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display) with dissolveM
+  [Previous line repeated 4 more times]
+  File "game/scripts/journal/journal.rpy", line 30, in script
+    call screen journal_overview(display) with dissolveM
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "game/scripts/journal/journal.rpy", line 473, in execute
+    screen journal_overview(display):
+  File "game/scripts/journal/journal.rpy", line 473, in execute
+    screen journal_overview(display):
+  File "game/scripts/journal/journal.rpy", line 575, in execute
+    if display != "":
+  File "game/scripts/journal/journal.rpy", line 581, in execute
+    if display == "level":
+  File "game/scripts/journal/journal.rpy", line 582, in execute
+    $ active_stat_obj = school_object.get_level_obj()
+  File "game/scripts/journal/journal.rpy", line 582, in <module>
+    $ active_stat_obj = school_object.get_level_obj()
+AttributeError: 'Char' object has no attribute 'get_level_obj'
+Resetting cache.
+Bootstrap to the start of init.init. took 1076.45s
+Early init. took 0.00s
+Loader init. took 0.08s
+Loading error handling. took 0.03s
+Loading script. took 0.29s
+Loading save slot metadata. took 0.07s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.08s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.07s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.11s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.07s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.05s
+Prepare screens took 0.13s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.10s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 1155.22s
+Early init. took 0.00s
+Loader init. took 0.07s
+Loading error handling. took 0.03s
+Loading script. took 0.22s
+Loading save slot metadata. took 0.08s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.05s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.07s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.09s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.03s
+Save screen analysis took 0.03s
+Prepare screens took 0.09s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.10s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Cleaning stores took 0.00s
+Init translation took 0.00s
+Build styles took 0.00s
+Load screen analysis took 0.04s
+Analyze screens took 0.00s
+Prepare screens took 0.00s
+Running _start took 0.00s
+School: 3
+
+Resetting cache.
+Bootstrap to the start of init.init. took 1498.00s
+Early init. took 0.00s
+Loader init. took 0.07s
+Loading error handling. took 0.02s
+Loading script. took 0.22s
+Loading save slot metadata. took 0.08s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.05s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.06s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.09s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.00s
+Analyze screens took 0.01s
+Save screen analysis took 0.03s
+Prepare screens took 0.06s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.09s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+School: 3
+
+Resetting cache.
+Bootstrap to the start of init.init. took 1512.31s
+Early init. took 0.00s
+Loader init. took 0.08s
+Loading error handling. took 0.03s
+Loading script. took 0.23s
+Loading save slot metadata. took 0.10s
+Loading persistent. took 0.00s
+Running init code. took 0.05s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.06s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.05s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.07s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.10s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.07s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+School: 1
+
+Cleaning stores took 0.00s
+Init translation took 0.00s
+Build styles took 0.00s
+Load screen analysis took 0.04s
+Analyze screens took 0.00s
+Prepare screens took 0.00s
+Running _start took 0.00s
+School: 1
+
+
+Full traceback:
+  File "game/scripts/intro.rpy", line 48, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 206, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 771, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 219, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 237, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script
+    call screen journal_page(2, display) with dissolveM
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2259, in execute
+    self.call("execute")
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2241, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\statements.py", line 342, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\exports.py", line 3347, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "C:\Users\bigma\Documents\RenPy\renpy\ui.py", line 299, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 3582, in interact
+    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 4055, in interact_core
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 476, in visit_all
+    callback(self)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 4055, in <lambda>
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 487, in per_interact
+    self.update()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 680, in update
+    self.screen.function(**self.scope)
+  File "game/scripts/journal/journal.rpy", line 420, in execute
+    screen journal_page(page, display):
+  File "game/scripts/journal/journal.rpy", line 420, in execute
+    screen journal_page(page, display):
+  File "game/scripts/journal/journal.rpy", line 443, in execute
+    use journal_obj_list(page, display, journal_map)
+  File "game/scripts/journal/journal.rpy", line 89, in execute
+    screen journal_obj_list(page, display, journal_map):
+  File "game/scripts/journal/journal.rpy", line 89, in execute
+    screen journal_obj_list(page, display, journal_map):
+  File "game/scripts/journal/journal.rpy", line 91, in execute
+    $ locked_list = get_visible_locked_objs_by_school(journal_map)
+  File "game/scripts/journal/journal.rpy", line 91, in <module>
+    $ locked_list = get_visible_locked_objs_by_school(journal_map)
+NameError: name 'get_visible_locked_objs_by_school' is not defined
+
+While running game code:
+  File "game/scripts/intro.rpy", line 48, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 206, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 771, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 219, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 237, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script
+    call screen journal_page(2, display) with dissolveM
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "game/scripts/journal/journal.rpy", line 420, in execute
+    screen journal_page(page, display):
+  File "game/scripts/journal/journal.rpy", line 420, in execute
+    screen journal_page(page, display):
+  File "game/scripts/journal/journal.rpy", line 443, in execute
+    use journal_obj_list(page, display, journal_map)
+  File "game/scripts/journal/journal.rpy", line 89, in execute
+    screen journal_obj_list(page, display, journal_map):
+  File "game/scripts/journal/journal.rpy", line 89, in execute
+    screen journal_obj_list(page, display, journal_map):
+  File "game/scripts/journal/journal.rpy", line 91, in execute
+    $ locked_list = get_visible_locked_objs_by_school(journal_map)
+  File "game/scripts/journal/journal.rpy", line 91, in <module>
+    $ locked_list = get_visible_locked_objs_by_school(journal_map)
+NameError: name 'get_visible_locked_objs_by_school' is not defined
+Resetting cache.
+Bootstrap to the start of init.init. took 1541.45s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.02s
+Loading script. took 0.25s
+Loading save slot metadata. took 0.08s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.07s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.07s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.12s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.00s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.07s
+Save pyanalysis. took 0.03s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.08s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+
+Full traceback:
+  File "game/scripts/intro.rpy", line 48, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 206, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 771, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 219, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 237, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 1316, in script call
+    call open_journal(page, display) from set_journal_setting_1
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 1316, in script call
+    call open_journal(page, display) from set_journal_setting_1
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 1316, in script call
+    call open_journal(page, display) from set_journal_setting_1
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 1316, in script call
+    call open_journal(page, display) from set_journal_setting_1
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display) with dissolveM
+  [Previous line repeated 1 more time]
+  File "game/scripts/overview.rpy", line 589, in script call
+    call load_schools from map_overview_2
+  File "game/scripts/character.rpy", line 840, in script
+    $ charList['schools'].pop("high_school")
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 1138, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "C:\Users\bigma\Documents\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
+    exec(bytecode, globals, locals)
+  File "game/scripts/character.rpy", line 840, in <module>
+    $ charList['schools'].pop("high_school")
+KeyError: 'schools'
+
+While running game code:
+  File "game/scripts/intro.rpy", line 48, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 206, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 771, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 219, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 237, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 1316, in script call
+    call open_journal(page, display) from set_journal_setting_1
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 1316, in script call
+    call open_journal(page, display) from set_journal_setting_1
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 1316, in script call
+    call open_journal(page, display) from set_journal_setting_1
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 1316, in script call
+    call open_journal(page, display) from set_journal_setting_1
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display) with dissolveM
+  [Previous line repeated 1 more time]
+  File "game/scripts/overview.rpy", line 589, in script call
+    call load_schools from map_overview_2
+  File "game/scripts/character.rpy", line 840, in script
+    $ charList['schools'].pop("high_school")
+  File "game/scripts/character.rpy", line 840, in <module>
+    $ charList['schools'].pop("high_school")
+KeyError: 'schools'
+Resetting cache.
+Bootstrap to the start of init.init. took 1631.15s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.02s
+Loading script. took 0.24s
+Loading save slot metadata. took 0.07s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.04s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.06s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.06s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.09s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.04s
+Build styles took 0.00s
+Load screen analysis took 0.02s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.07s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.05s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+
+Full traceback:
+  File "game/scripts/intro.rpy", line 48, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 206, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 771, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 219, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 237, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 1316, in script call
+    call open_journal(page, display) from set_journal_setting_1
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 1316, in script call
+    call open_journal(page, display) from set_journal_setting_1
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 1316, in script call
+    call open_journal(page, display) from set_journal_setting_1
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 1316, in script call
+    call open_journal(page, display) from set_journal_setting_1
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display) with dissolveM
+  [Previous line repeated 1 more time]
+  File "game/scripts/overview.rpy", line 591, in script call
+    call load_buildings from map_overview_4
+  File "game/scripts/journal/buildings.rpy", line 719, in script
+    $ buildings.pop("high_school_building")
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 1138, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "C:\Users\bigma\Documents\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
+    exec(bytecode, globals, locals)
+  File "game/scripts/journal/buildings.rpy", line 719, in <module>
+    $ buildings.pop("high_school_building")
+  File "C:\Users\bigma\Documents\RenPy\renpy\revertable.py", line 97, in do_mutation
+    return method(self, *args, **kwargs)
+KeyError: 'high_school_building'
+
+While running game code:
+  File "game/scripts/intro.rpy", line 48, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 206, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 771, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 219, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 237, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 1316, in script call
+    call open_journal(page, display) from set_journal_setting_1
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 1316, in script call
+    call open_journal(page, display) from set_journal_setting_1
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 1316, in script call
+    call open_journal(page, display) from set_journal_setting_1
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 1316, in script call
+    call open_journal(page, display) from set_journal_setting_1
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display) with dissolveM
+  [Previous line repeated 1 more time]
+  File "game/scripts/overview.rpy", line 591, in script call
+    call load_buildings from map_overview_4
+  File "game/scripts/journal/buildings.rpy", line 719, in script
+    $ buildings.pop("high_school_building")
+  File "game/scripts/journal/buildings.rpy", line 719, in <module>
+    $ buildings.pop("high_school_building")
+KeyError: 'high_school_building'
+Resetting cache.
+Bootstrap to the start of init.init. took 1790.97s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.02s
+Loading script. took 0.19s
+Loading save slot metadata. took 0.07s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.01s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.05s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.05s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.07s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.04s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.07s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.06s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 1905.65s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.02s
+Loading script. took 0.21s
+Loading save slot metadata. took 0.09s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.07s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.05s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.08s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.04s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.07s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.05s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 1936.92s
+Early init. took 0.00s
+Loader init. took 0.08s
+Loading error handling. took 0.02s
+Loading script. took 0.30s
+Loading save slot metadata. took 0.07s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.06s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.06s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.06s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.04s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.07s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.06s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 1957.72s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.02s
+Loading script. took 0.15s
+Loading save slot metadata. took 0.08s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.03s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.05s
+Index archives took 0.00s
+Dump and make backups. took 0.06s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.08s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.04s
+Analyze screens took 0.00s
+Save screen analysis took 0.00s
+Prepare screens took 0.07s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.00s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.07s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 2132.26s
+Early init. took 0.00s
+Loader init. took 0.08s
+Loading error handling. took 0.02s
+Loading script. took 0.18s
+Loading save slot metadata. took 0.10s
+Loading persistent. took 0.00s
+Running init code. took 0.05s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.07s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.05s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.09s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.00s
+Analyze screens took 0.01s
+Save screen analysis took 0.03s
+Prepare screens took 0.08s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.06s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Screen sizes: virtual=(1920, 1080) physical=(2304, 1262) drawable=(2304, 1262)
+Maximum texture size: 4096x4096
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1406) drawable=(2560, 1406)
+Maximum texture size: 4096x4096
+Screen sizes: virtual=(1920, 1080) physical=(2304, 1262) drawable=(2304, 1262)
+Maximum texture size: 4096x4096
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1406) drawable=(2560, 1406)
+Maximum texture size: 4096x4096
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+output locked: []
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'high_school_building', 'high_school_dormitory']
+
+output locked: []
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'high_school_building', 'high_school_dormitory']
+
+output locked: []
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'high_school_building', 'high_school_dormitory']
+
+Resetting cache.
+Bootstrap to the start of init.init. took 6596.86s
+Early init. took 0.00s
+Loader init. took 0.08s
+Loading error handling. took 0.08s
+Loading script. took 2.28s
+Loading save slot metadata. took 0.50s
+Loading persistent. took 0.00s
+Running init code. took 0.19s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.21s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.06s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.07s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.07s
+Build styles took 0.00s
+Load screen analysis took 0.02s
+Analyze screens took 0.03s
+Save screen analysis took 0.03s
+Prepare screens took 0.08s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.13s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+output locked: []
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'high_school_building', 'high_school_dormitory']
+
+output locked: []
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'high_school_building', 'high_school_dormitory']
+
+output locked: []
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'high_school_building', 'high_school_dormitory']
+
+output locked: []
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'high_school_building', 'high_school_dormitory']
+
+buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+Cleaning stores took 0.00s
+Init translation took 0.00s
+Build styles took 0.00s
+Load screen analysis took 0.04s
+Analyze screens took 0.00s
+Prepare screens took 0.00s
+Running _start took 0.00s
+School: 1
+
+buildings: dict_keys(['high_school_building', 'high_school_dormitory', 'middle_school_building', 'middle_school_dormitory', 'elementary_school_building', 'elementary_school_dormitory', 'labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+Resetting cache.
+Bootstrap to the start of init.init. took 6624.29s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.02s
+Loading script. took 0.20s
+Loading save slot metadata. took 0.08s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.06s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.06s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.10s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.00s
+Analyze screens took 0.01s
+Save screen analysis took 0.04s
+Prepare screens took 0.07s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.06s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+School: 1
+
+buildings: dict_keys(['high_school_building', 'labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+Cleaning stores took 0.00s
+Init translation took 0.00s
+Build styles took 0.00s
+Load screen analysis took 0.04s
+Analyze screens took 0.00s
+Prepare screens took 0.00s
+Running _start took 0.00s
+School: 1
+
+buildings: dict_keys(['high_school_building', 'labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+Resetting cache.
+Bootstrap to the start of init.init. took 6662.58s
+Early init. took 0.00s
+Loader init. took 0.08s
+Loading error handling. took 0.03s
+Loading script. took 0.27s
+Loading save slot metadata. took 0.10s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.09s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.09s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.12s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.00s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.09s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.12s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+School: 1
+
+buildings: dict_keys(['high_school_building', 'labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+possible buildings: dict_keys(['high_school_building', 'labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+output locked: []
+
+possible buildings: dict_keys(['high_school_building', 'labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+output unlocked: ['high_school_building', 'gym', 'kiosk', 'courtyard', 'office_building', 'high_school_dormitory']
+
+possible buildings: dict_keys(['high_school_building', 'labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+output locked: []
+
+possible buildings: dict_keys(['high_school_building', 'labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+output unlocked: ['high_school_building', 'gym', 'kiosk', 'courtyard', 'office_building', 'high_school_dormitory']
+
+possible buildings: dict_keys(['high_school_building', 'labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+output locked: []
+
+possible buildings: dict_keys(['high_school_building', 'labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+output unlocked: ['high_school_building', 'gym', 'kiosk', 'courtyard', 'office_building', 'high_school_dormitory']
+
+Resetting cache.
+Bootstrap to the start of init.init. took 6725.90s
+Early init. took 0.00s
+Loader init. took 0.07s
+Loading error handling. took 0.07s
+Loading script. took 0.23s
+Loading save slot metadata. took 0.08s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.06s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.07s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.10s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.04s
+Prepare screens took 0.17s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.10s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+possible buildings: dict_keys(['high_school_building', 'labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+output locked: []
+
+possible buildings: dict_keys(['high_school_building', 'labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+output unlocked: ['high_school_building', 'gym', 'kiosk', 'courtyard', 'office_building', 'high_school_dormitory']
+
+possible buildings: dict_keys(['high_school_building', 'labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+output locked: []
+
+possible buildings: dict_keys(['high_school_building', 'labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+output unlocked: ['high_school_building', 'gym', 'kiosk', 'courtyard', 'office_building', 'high_school_dormitory']
+
+possible buildings: dict_keys(['high_school_building', 'labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+output locked: []
+
+possible buildings: dict_keys(['high_school_building', 'labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+output unlocked: ['high_school_building', 'gym', 'kiosk', 'courtyard', 'office_building', 'high_school_dormitory']
+
+possible buildings: dict_keys(['high_school_building', 'labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+output locked: []
+
+possible buildings: dict_keys(['high_school_building', 'labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+output unlocked: ['high_school_building', 'gym', 'kiosk', 'courtyard', 'office_building', 'high_school_dormitory']
+
+buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'high_school_building', 'high_school_dormitory']
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'high_school_building', 'high_school_dormitory']
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'high_school_building', 'high_school_dormitory']
+
+Resetting cache.
+Bootstrap to the start of init.init. took 6921.08s
+Early init. took 0.00s
+Loader init. took 0.09s
+Loading error handling. took 0.03s
+Loading script. took 0.36s
+Loading save slot metadata. took 0.08s
+Loading persistent. took 0.00s
+Running init code. took 0.05s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.09s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.06s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.20s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.06s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.11s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.08s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+
+Full traceback:
+  File "game/scripts/intro.rpy", line 48, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 206, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 771, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 219, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 237, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display) with dissolveM
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 36, in script
+    call screen journal_page(4, display) with dissolveM
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2259, in execute
+    self.call("execute")
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2241, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\statements.py", line 342, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\exports.py", line 3347, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "C:\Users\bigma\Documents\RenPy\renpy\ui.py", line 299, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 3582, in interact
+    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 4055, in interact_core
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 476, in visit_all
+    callback(self)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 4055, in <lambda>
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 487, in per_interact
+    self.update()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 680, in update
+    self.screen.function(**self.scope)
+  File "game/scripts/journal/journal.rpy", line 420, in execute
+    screen journal_page(page, display):
+  File "game/scripts/journal/journal.rpy", line 420, in execute
+    screen journal_page(page, display):
+  File "game/scripts/journal/journal.rpy", line 443, in execute
+    use journal_obj_list(page, display, journal_map)
+  File "game/scripts/journal/journal.rpy", line 89, in execute
+    screen journal_obj_list(page, display, journal_map):
+  File "game/scripts/journal/journal.rpy", line 89, in execute
+    screen journal_obj_list(page, display, journal_map):
+  File "game/scripts/journal/journal.rpy", line 91, in execute
+    $ locked_list = get_visible_locked_objs(journal_map)
+  File "game/scripts/journal/journal.rpy", line 91, in <module>
+    $ locked_list = get_visible_locked_objs(journal_map)
+  File "game/scripts/journal/journal_obj.rpy", line 519, in get_visible_locked_objs
+    if (obj.is_visible(char_obj = school_obj) and
+  File "game/scripts/journal/journal_obj.rpy", line 262, in is_visible
+    log_val(self.name + " blocking", is_blocking)
+AttributeError: 'Building' object has no attribute 'name'
+
+While running game code:
+  File "game/scripts/intro.rpy", line 48, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 206, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 771, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 219, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 237, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display) with dissolveM
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 36, in script
+    call screen journal_page(4, display) with dissolveM
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "game/scripts/journal/journal.rpy", line 420, in execute
+    screen journal_page(page, display):
+  File "game/scripts/journal/journal.rpy", line 420, in execute
+    screen journal_page(page, display):
+  File "game/scripts/journal/journal.rpy", line 443, in execute
+    use journal_obj_list(page, display, journal_map)
+  File "game/scripts/journal/journal.rpy", line 89, in execute
+    screen journal_obj_list(page, display, journal_map):
+  File "game/scripts/journal/journal.rpy", line 89, in execute
+    screen journal_obj_list(page, display, journal_map):
+  File "game/scripts/journal/journal.rpy", line 91, in execute
+    $ locked_list = get_visible_locked_objs(journal_map)
+  File "game/scripts/journal/journal.rpy", line 91, in <module>
+    $ locked_list = get_visible_locked_objs(journal_map)
+  File "game/scripts/journal/journal_obj.rpy", line 519, in get_visible_locked_objs
+    if (obj.is_visible(char_obj = school_obj) and
+  File "game/scripts/journal/journal_obj.rpy", line 262, in is_visible
+    log_val(self.name + " blocking", is_blocking)
+AttributeError: 'Building' object has no attribute 'name'
+Resetting cache.
+Bootstrap to the start of init.init. took 6938.27s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.03s
+Loading script. took 0.19s
+Loading save slot metadata. took 0.06s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.06s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.06s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.07s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.04s
+Build styles took 0.00s
+Load screen analysis took 0.02s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.07s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.05s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output unlocked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output unlocked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output unlocked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output unlocked: []
+
+buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output unlocked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output unlocked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output unlocked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output unlocked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output unlocked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output unlocked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output unlocked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output unlocked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output unlocked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output unlocked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output unlocked: []
+
+Resetting cache.
+Bootstrap to the start of init.init. took 6962.12s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.02s
+Loading script. took 0.32s
+Loading save slot metadata. took 0.09s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.06s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.07s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.12s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.06s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.07s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.06s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'high_school_building', 'high_school_dormitory']
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'high_school_building', 'high_school_dormitory']
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'high_school_building', 'high_school_dormitory']
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'high_school_building', 'high_school_dormitory']
+
+Resetting cache.
+Bootstrap to the start of init.init. took 6997.84s
+Early init. took 0.00s
+Loader init. took 0.07s
+Loading error handling. took 0.03s
+Loading script. took 0.21s
+Loading save slot metadata. took 0.07s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.06s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.06s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.08s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.02s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.07s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.05s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'high_school_building', 'high_school_dormitory']
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'high_school_building', 'high_school_dormitory']
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'high_school_building', 'high_school_dormitory']
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+high_school_building blocking: True
+
+high_school_dormitory blocking: True
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'high_school_building', 'high_school_dormitory']
+
+Cleaning stores took 0.00s
+Init translation took 0.00s
+Build styles took 0.00s
+Load screen analysis took 0.04s
+Analyze screens took 0.00s
+Prepare screens took 0.00s
+Running _start took 0.00s
+School: 1
+
+buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory']
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory']
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory']
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory']
+
+school_dormitory blocking: True
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory']
+
+school_dormitory blocking: True
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory']
+
+school_building blocking: True
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory']
+
+school_building blocking: True
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory']
+
+school_dormitory blocking: True
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory']
+
+school_dormitory blocking: True
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory']
+
+school_building blocking: True
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory']
+
+school_building blocking: True
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory']
+
+office_building blocking: True
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory']
+
+office_building blocking: True
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory']
+
+courtyard blocking: True
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory']
+
+courtyard blocking: True
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory']
+
+kiosk blocking: True
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory']
+
+kiosk blocking: True
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory']
+
+gym blocking: True
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output locked: []
+
+possible buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+
+labs blocking: False
+
+sports_field blocking: False
+
+tennis_court blocking: False
+
+gym blocking: True
+
+swimming_pool blocking: False
+
+cafeteria blocking: False
+
+bath blocking: False
+
+kiosk blocking: True
+
+courtyard blocking: True
+
+office_building blocking: True
+
+school_building blocking: True
+
+school_dormitory blocking: True
+
+output unlocked: ['gym', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory']
+
+gym blocking: True
+
+buildings: dict_keys(['labs', 'sports_field', 'tennis_court', 'gym', 'swimming_pool', 'cafeteria', 'bath', 'kiosk', 'courtyard', 'office_building', 'school_building', 'school_dormitory'])
+

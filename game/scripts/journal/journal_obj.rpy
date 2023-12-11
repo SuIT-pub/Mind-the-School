@@ -258,7 +258,9 @@ init -7 python:
                 - Whether the object is visible.
             """
 
-            return self._unlock_conditions.is_blocking(**kwargs)
+            is_blocking = self._unlock_conditions.is_blocking(**kwargs)
+            log_val(self._name + " blocking", is_blocking)
+            return is_blocking
 
         def can_be_unlocked(self, **kwargs) -> bool:
             """
@@ -482,12 +484,17 @@ init -7 python:
 
         school_obj = get_school()
 
+        log_val("possible buildings", map.keys())
+
         for obj in map.values():
             if (obj.is_visible(char_obj = school_obj) and 
             obj.is_unlocked() and
             obj.get_name() not in output):
                 output.append(obj.get_name())
                 continue
+
+        log_val("output unlocked", output)
+
         return output
 
     def get_visible_locked_objs(map: Dict[str, Journal_Obj]) -> List[str]:
@@ -507,12 +514,17 @@ init -7 python:
 
         high_school_obj = get_school()
 
+        log_val("possible buildings", map.keys())
+
         for obj in map.values():
             if (obj.is_visible(char_obj = school_obj) and 
             not obj.is_unlocked() and
             obj.get_name() not in output):
                 output.append(obj.get_name())
                 continue
+
+        log_val("output locked", output)
+
         return output
 
     def get_visible_objs(map: Dict[str, Journal_Obj], include_unlocked: bool = False) -> List[str]:

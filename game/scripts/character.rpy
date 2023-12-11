@@ -297,6 +297,17 @@ init -6 python:
 
             return str(self.get_level())
 
+        def get_level_obj(self) -> Stat:
+            """
+            Returns the level object of the character
+
+            ### Returns:
+            1. Stat
+                - The level object of the character
+            """
+
+            return self.level
+
         def set_level(self, level: int):
             """
             Sets the level of the character
@@ -753,75 +764,41 @@ label load_schools ():
         }
     })
 
-    # $ load_character("teacher", "Teacher", charList['staff'], {
-    #     'stats_objects': {
-    #         "corruption": Stat(CORRUPTION, 0),
-    #         "inhibition": Stat(INHIBITION, 100),
-    #         "happiness": Stat(HAPPINESS, 13),
-    #         "education": Stat(EDUCATION, 35),
-    #         "charm": Stat(CHARM, 14),
-    #         "reputation": Stat(REPUTATION, 17),
-    #     }
-    # })
-    # $ load_character("high_school", "High School", charList['schools'], {
-    #     'stats_objects': {
-    #         "corruption": Stat(CORRUPTION, 0),
-    #         "inhibition": Stat(INHIBITION, 100),
-    #         "happiness": Stat(HAPPINESS, 12),
-    #         "education": Stat(EDUCATION, 9),
-    #         "charm": Stat(CHARM, 8),
-    #         "reputation": Stat(REPUTATION, 7),
-    #     }
-    # })
-
-    # $ load_character("middle_school", "Middle School", charList['schools'], {
-    #     'stats_objects': {
-    #         "corruption": Stat(CORRUPTION, 0),
-    #         "inhibition": Stat(INHIBITION, 100),
-    #         "happiness": Stat(HAPPINESS, 12),
-    #         "education": Stat(EDUCATION, 9),
-    #         "charm": Stat(CHARM, 8),
-    #         "reputation": Stat(REPUTATION, 7),
-    #     }
-    # })
-
-    # $ load_character("elementary_school", "Elementary School", charList['schools'], {
-    #     'stats_objects': {
-    #         "corruption": Stat(CORRUPTION, 0),
-    #         "inhibition": Stat(INHIBITION, 100),
-    #         "happiness": Stat(HAPPINESS, 12),
-    #         "education": Stat(EDUCATION, 9),
-    #         "charm": Stat(CHARM, 8),
-    #         "reputation": Stat(REPUTATION, 7),
-    #     }
-    # })
-
-    # $ load_character("school_mean_values", "Mean School", charList, {
-    #     'stats_objects': {
-    #         "corruption": Stat(CORRUPTION, 0),
-    #         "inhibition": Stat(INHIBITION, 100),
-    #         "happiness": Stat(HAPPINESS, 12),
-    #         "education": Stat(EDUCATION, 9),
-    #         "charm": Stat(CHARM, 8),
-    #         "reputation": Stat(REPUTATION, 7),
-    #     }
-    # })
+    $ load_character("teacher", "Teacher", charList['staff'], {
+        'stats_objects': {
+            "corruption": Stat(CORRUPTION, 0),
+            "inhibition": Stat(INHIBITION, 100),
+            "happiness": Stat(HAPPINESS, 13),
+            "education": Stat(EDUCATION, 35),
+            "charm": Stat(CHARM, 14),
+            "reputation": Stat(REPUTATION, 17),
+        }
+    })
 
     #############################################
     # compatibility with version 0.1.2
     $ character = get_character("school_mean_values", charList)
-
     if character != None:
+        $ max_level = 0
+        $ high_school = get_character("high_school", charList['schools'])
+        $ middle_school = get_character("middle_school", charList['schools'])
+        $ elementary_school = get_character("elementary_school", charList['schools'])
+        if high_school != None:
+            $ max_level = max(max_level, high_school.get_level())
+
         $ character.name = "school"
         $ character.title = "School"
+        $ character.level = Stat("level", max_level)
+        $ log_val(character.title, character.get_level())
         $ charList["school"] = character
-    $ charList['schools'].pop("high_school")
-    $ charList['schools'].pop("middle_school")
-    $ charList['schools'].pop("elementary_school")
-    $ charList.pop('schools')
-    $ charList.pop("school_mean_values")
+        $ charList.pop("school_mean_values")
+    if 'schools' in charList:
+        $ charList['schools'].pop("high_school")
+        $ charList['schools'].pop("middle_school")
+        $ charList['schools'].pop("elementary_school")
+        $ charList.pop('schools')
+    #############################################
 
-    
     $ load_character("school", "School", charList, {
         'stats_objects': {
             "corruption": Stat(CORRUPTION, 0),

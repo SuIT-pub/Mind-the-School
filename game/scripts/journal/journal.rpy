@@ -88,8 +88,8 @@ style journal_pta_overview take buttons_idle:
 
 screen journal_obj_list(page, display, journal_map):
     $ journal_type = get_obj_type(page)
-    $ locked_list = get_visible_locked_objs_by_school(journal_map)
-    $ unlocked_list = get_visible_unlocked_objs_by_school(journal_map)
+    $ locked_list = get_visible_locked_objs(journal_map)
+    $ unlocked_list = get_visible_unlocked_objs(journal_map)
     $ obj_list = locked_list + unlocked_list
     $ adj = ui.adjustment()
 
@@ -205,7 +205,7 @@ screen journal_page_selector(page, display):
             tooltip "Cheats"
             xpos 1268
             ypos 70
-            action [With(dissolveM), Call("open_journal", 5, "", school)]
+            action [With(dissolveM), Call("open_journal", 5, "")]
 
     if page != 6:
         imagebutton:
@@ -214,7 +214,7 @@ screen journal_page_selector(page, display):
             tooltip "Credits"
             xpos 338
             ypos 953
-            action [With(dissolveM), Call("open_journal", 6, "", school)]
+            action [With(dissolveM), Call("open_journal", 6, "")]
     
 screen journal_desc(page, display, active_obj):
     $ active_obj_desc = active_obj.get_description_str()
@@ -442,7 +442,7 @@ screen journal_page(page, display):
 
     use journal_obj_list(page, display, journal_map)
 
-    if display != "" and not active_obj.is_visible):
+    if display != "" and not active_obj.is_visible():
         $ display = ""
 
     if display != "":
@@ -579,7 +579,7 @@ screen journal_overview(display):
         if display == "money":
             $ active_stat_obj = money
         if display == "level":
-            $ active_stat_obj = school_object.get_level()
+            $ active_stat_obj = school_object.get_level_obj()
 
         if active_stat_obj != None:
             $ active_desc = active_stat_obj.get_full_description()

@@ -510,9 +510,14 @@ init -6 python:
 
         output = 0
 
+        log_val("buildings", buildings.keys())
+
         for building in buildings.values():
-            if not building.is_unlocked("x"):
+            if not building.is_unlocked():
                 output += 1
+                
+        log_val("output locked", output)
+
         return output
 
     def get_unlocked_buildings() -> List[str]:
@@ -526,10 +531,14 @@ init -6 python:
 
         output = []
 
+        log_val("buildings", buildings.keys())
+
         for building in buildings.values():
             if building.is_unlocked() and building.get_name() not in output:
                 output.append(building.get_name())
         
+        log_val("output unlocked", output)
+
         return output
     
     def get_building(building: str) -> Building:
@@ -670,14 +679,44 @@ init -6 python:
 
 label load_buildings ():
 
+    #############################################################
+    # compatibility with save files from 0.1.2
+    if 'high_school_building' in buildings.keys():
+        $ high_school_building = buildings['high_school_building']
+        $ high_school_building._name = "school_building"
+        $ high_school_building._title = "School Building"
+        $ buildings['school_building'] = high_school_building
+
+    if 'high_school_dormitory' in buildings.keys():
+        $ high_school_dormitory = buildings['high_school_dormitory']
+        $ high_school_dormitory._name = "school_dormitory"
+        $ high_school_dormitory._title = "School Dormitory"
+        $ buildings['school_dormitory'] = high_school_dormitory
+
+    if 'high_school_building' in buildings.keys():
+        $ buildings.pop("high_school_building")
+    if 'high_school_dormitory' in buildings.keys():
+        $ buildings.pop("high_school_dormitory")
+    if 'middle_school_building' in buildings.keys():
+        $ buildings.pop("middle_school_building")
+    if 'middle_school_dormitory' in buildings.keys():
+        $ buildings.pop("middle_school_dormitory")
+    if 'elementary_school_building' in buildings.keys():
+        $ buildings.pop("elementary_school_building")
+    if 'elementary_school_dormitory' in buildings.keys():
+        $ buildings.pop("elementary_school_dormitory")
+
+    $ log_val("buildings", buildings.keys())
+    #############################################################
+
     # unlocked
-    $ load_building("high_school_building", "High School Building", {
+    $ load_building("school_building", "School Building", {
         '_description': [
             [
-                "The main school building for those students that attend high school.",
+                "The main school building for those students that attend school.",
             ],
             [
-                "The main school building for those students that attend high school.",
+                "The main school building for those students that attend school.",
             ],
         ],
         '_max_level': 1,
@@ -688,81 +727,13 @@ label load_buildings ():
     })
 
     # unlocked
-    $ load_building("high_school_dormitory", "High School Dormitory", {
+    $ load_building("school_dormitory", "School Dormitory", {
         '_description': [
             [
-                "The dormitory dedicated to the high school students",
+                "The dormitory dedicated to the school students",
             ],
             [
-                "The dormitory dedicated to the high school students",
-            ],
-        ],
-        '_max_level': 1,
-        '_unlock_conditions': ConditionStorage(),
-        '_update_conditions':[],
-    }, {
-        '_level': 1,
-    })
-
-    # unlocked
-    $ load_building("middle_school_building", "Middle School Building", {
-        '_description': [
-            [
-                "The main school building for those students that attend middle school.",
-            ],
-            [
-                "The main school building for those students that attend middle school.",
-            ],
-        ],
-        '_max_level': 1,
-        '_unlock_conditions': ConditionStorage(),
-        '_update_conditions':[],
-    }, {
-        '_level': 1,
-    })
-
-    # unlocked
-    $ load_building("middle_school_dormitory", "Middle School Dormitory", {
-        '_description': [
-            [
-                "The dormitory dedicated to the middle school students",
-            ],
-            [
-                "The dormitory dedicated to the middle school students",
-            ],
-        ],
-        '_max_level': 1,
-        '_unlock_conditions': ConditionStorage(),
-        '_update_conditions':[],
-    }, {
-        '_level': 1,
-    })
-
-    # unlocked
-    $ load_building("elementary_school_building", "Elementary School Building", {
-        '_description': [
-            [
-                "The main school building for those students that attend elementary school.",
-            ],
-            [
-                "The main school building for those students that attend elementary school.",
-            ],
-        ],
-        '_max_level': 1,
-        '_unlock_conditions': ConditionStorage(),
-        '_update_conditions':[],
-    }, {
-        '_level': 1,
-    })
-
-    # unlocked
-    $ load_building("elementary_school_dormitory", "Elementary School Dormitory", {
-        '_description': [
-            [
-                "The dormitory dedicated to the elementary school students",
-            ],
-            [
-                "The dormitory dedicated to the elementary school students",
+                "The dormitory dedicated to the school students",
             ],
         ],
         '_max_level': 1,
