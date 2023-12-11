@@ -34,8 +34,8 @@ init -1 python:
     map(lambda x: x.check_all_events(), courtyard_events.values())
 
     courtyard_bg_images = [
-        BGImage("images/background/courtyard/bg 1,6 <level> <nude>.webp", 1, OR(TimeCondition(daytime = "1,6", weekday = "w"), TimeCondition(daytime = "c", weekday = "d"))), # show courtyard with a few students
-        BGImage("images/background/courtyard/bg 3 <level> <nude>.webp", 1, TimeCondition(daytime = 3)), # show courtyard full of students and teacher
+        BGImage("images/background/courtyard/bg 1,6 <loli> <level> <nude>.webp", 1, OR(TimeCondition(daytime = "1,6", weekday = "w"), TimeCondition(daytime = "c", weekday = "d"))), # show courtyard with a few students
+        BGImage("images/background/courtyard/bg 3 <loli> <level> <nude>.webp", 1, TimeCondition(daytime = 3)), # show courtyard full of students and teacher
         BGImage("images/background/courtyard/bg 7.webp", 1, TimeCondition(daytime = 7)), # show empty courtyard at night
     ]
     
@@ -53,7 +53,9 @@ label .after_time_check (**kwargs):
 
     $ school_obj = get_school()
 
-    call show_idle_image(school_obj, "images/background/courtyard/bg c.webp", courtyard_bg_images) from courtyard_2
+    call show_idle_image(school_obj, "images/background/courtyard/bg c.webp", courtyard_bg_images, 
+        loli = get_random_loli()
+    ) from courtyard_2
 
     call call_event_menu (
         "What to do at the Courtyard?", 

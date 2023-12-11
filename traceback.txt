@@ -37,39 +37,775 @@ While running game code:
     $ renpy.call(effects, **kwargs)
   File "game/scripts/overview.rpy", line 601, in script call
     call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display) with dissolveM
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
   File "game/scripts/overview.rpy", line 601, in script call
     call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 36, in script
-    call screen journal_page(4, display) with dissolveM
-  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
-    store._return = renpy.call_screen(name, *args, **kwargs)
-  File "game/scripts/journal/journal.rpy", line 420, in execute
-    screen journal_page(page, display):
-  File "game/scripts/journal/journal.rpy", line 420, in execute
-    screen journal_page(page, display):
-  File "game/scripts/journal/journal.rpy", line 443, in execute
-    use journal_obj_list(page, display, journal_map)
-  File "game/scripts/journal/journal.rpy", line 89, in execute
-    screen journal_obj_list(page, display, journal_map):
-  File "game/scripts/journal/journal.rpy", line 89, in execute
-    screen journal_obj_list(page, display, journal_map):
-  File "game/scripts/journal/journal.rpy", line 91, in execute
-    $ locked_list = get_visible_locked_objs(journal_map)
-  File "game/scripts/journal/journal.rpy", line 91, in <module>
-    $ locked_list = get_visible_locked_objs(journal_map)
-  File "game/scripts/journal/journal_obj.rpy", line 519, in get_visible_locked_objs
-    if (obj.is_visible(char_obj = school_obj) and
-  File "game/scripts/journal/journal_obj.rpy", line 262, in is_visible
-    log_val(self.name + " blocking", is_blocking)
-AttributeError: 'Building' object has no attribute 'name'
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 771, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 56, in script call
+    call show_idle_image(school_obj, "images/background/courtyard/bg c.webp", courtyard_bg_images) from courtyard_2
+  File "game/scripts/background.rpy", line 543, in script
+    $ max_nude, image_path = get_background(fallback, bg_images, char_obj)
+  File "game/scripts/background.rpy", line 543, in <module>
+    $ max_nude, image_path = get_background(fallback, bg_images, char_obj)
+  File "game/scripts/background.rpy", line 389, in get_background
+    max_nude, output = image.get_image(level = level, **kwargs)
+  File "game/scripts/background.rpy", line 273, in get_image
+    return get_image(self._image_path, **kwargs)
+  File "game/scripts/background.rpy", line 333, in get_image
+    # log_val("variant", kwargs['variant'])
+KeyError: 'variant'
 
 -- Full Traceback ------------------------------------------------------------
 
@@ -110,69 +846,781 @@ Full traceback:
     $ renpy.call(effects, **kwargs)
   File "game/scripts/overview.rpy", line 601, in script call
     call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display) with dissolveM
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
   File "game/scripts/overview.rpy", line 601, in script call
     call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 36, in script
-    call screen journal_page(4, display) with dissolveM
-  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2259, in execute
-    self.call("execute")
-  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2241, in call
-    return renpy.statements.call(method, parsed, *args, **kwargs)
-  File "C:\Users\bigma\Documents\RenPy\renpy\statements.py", line 342, in call
-    return method(parsed, *args, **kwargs)
-  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
-    store._return = renpy.call_screen(name, *args, **kwargs)
-  File "C:\Users\bigma\Documents\RenPy\renpy\exports.py", line 3347, in call_screen
-    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
-  File "C:\Users\bigma\Documents\RenPy\renpy\ui.py", line 299, in interact
-    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
-  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 3582, in interact
-    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
-  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 4055, in interact_core
-    root_widget.visit_all(lambda d : d.per_interact())
-  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
-    d.visit_all(callback, seen)
-  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
-    d.visit_all(callback, seen)
-  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
-    d.visit_all(callback, seen)
-  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 476, in visit_all
-    callback(self)
-  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 4055, in <lambda>
-    root_widget.visit_all(lambda d : d.per_interact())
-  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 487, in per_interact
-    self.update()
-  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 680, in update
-    self.screen.function(**self.scope)
-  File "game/scripts/journal/journal.rpy", line 420, in execute
-    screen journal_page(page, display):
-  File "game/scripts/journal/journal.rpy", line 420, in execute
-    screen journal_page(page, display):
-  File "game/scripts/journal/journal.rpy", line 443, in execute
-    use journal_obj_list(page, display, journal_map)
-  File "game/scripts/journal/journal.rpy", line 89, in execute
-    screen journal_obj_list(page, display, journal_map):
-  File "game/scripts/journal/journal.rpy", line 89, in execute
-    screen journal_obj_list(page, display, journal_map):
-  File "game/scripts/journal/journal.rpy", line 91, in execute
-    $ locked_list = get_visible_locked_objs(journal_map)
-  File "game/scripts/journal/journal.rpy", line 91, in <module>
-    $ locked_list = get_visible_locked_objs(journal_map)
-  File "game/scripts/journal/journal_obj.rpy", line 519, in get_visible_locked_objs
-    if (obj.is_visible(char_obj = school_obj) and
-  File "game/scripts/journal/journal_obj.rpy", line 262, in is_visible
-    log_val(self.name + " blocking", is_blocking)
-AttributeError: 'Building' object has no attribute 'name'
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 771, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 601, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 616, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 50, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 740, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 56, in script call
+    call show_idle_image(school_obj, "images/background/courtyard/bg c.webp", courtyard_bg_images) from courtyard_2
+  File "game/scripts/background.rpy", line 543, in script
+    $ max_nude, image_path = get_background(fallback, bg_images, char_obj)
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 1138, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "C:\Users\bigma\Documents\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
+    exec(bytecode, globals, locals)
+  File "game/scripts/background.rpy", line 543, in <module>
+    $ max_nude, image_path = get_background(fallback, bg_images, char_obj)
+  File "game/scripts/background.rpy", line 389, in get_background
+    max_nude, output = image.get_image(level = level, **kwargs)
+  File "game/scripts/background.rpy", line 273, in get_image
+    return get_image(self._image_path, **kwargs)
+  File "game/scripts/background.rpy", line 333, in get_image
+    # log_val("variant", kwargs['variant'])
+KeyError: 'variant'
 
 Windows-10-10.0.19045 AMD64
 Ren'Py 8.1.3.23091805
 Mind the School 0.1.2
-Mon Dec 11 13:17:17 2023
+Mon Dec 11 13:38:20 2023

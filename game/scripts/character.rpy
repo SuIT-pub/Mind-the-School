@@ -777,8 +777,8 @@ label load_schools ():
 
     #############################################
     # compatibility with version 0.1.2
-    $ character = get_character("school_mean_values", charList)
-    if character != None:
+    $ old_character = get_character("school_mean_values", charList)
+    if old_character != None:
         $ max_level = 0
         $ high_school = get_character("high_school", charList['schools'])
         $ middle_school = get_character("middle_school", charList['schools'])
@@ -786,11 +786,10 @@ label load_schools ():
         if high_school != None:
             $ max_level = max(max_level, high_school.get_level())
 
-        $ character.name = "school"
-        $ character.title = "School"
-        $ character.level = Stat("level", max_level)
-        $ log_val(character.title, character.get_level())
-        $ charList["school"] = character
+        $ old_character.name = "school"
+        $ old_character.title = "School"
+        $ old_character.level = Stat("level", max_level)
+        $ charList["school"] = old_character
         $ charList.pop("school_mean_values")
     if 'schools' in charList:
         $ charList['schools'].pop("high_school")

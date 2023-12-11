@@ -553,6 +553,17 @@ init -99 python:
 
         return random.randint(start, end)
 
+    def get_random_loli() -> int:
+        """
+        Gets a random value representing the choice of loli_content
+
+        ### Returns:
+        1. int
+            - the random value
+        """
+        value = get_random_int(0, loli_content)
+        return value
+
     def log_val(key: str, value: Any):
         """
         Prints a key and value

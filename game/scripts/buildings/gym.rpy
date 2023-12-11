@@ -44,7 +44,7 @@ init -1 python:
     map(lambda x: x.check_all_events(), gym_events.values())
 
     gym_bg_images = [
-        BGImage("images/background/gym/bg c <level> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")), # show gym with students
+        BGImage("images/background/gym/bg c <loli> <level> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")), # show gym with students
         BGImage("images/background/gym/bg 7.webp", 1, TimeCondition(daytime = 7)), # show gym at night empty
     ]
     
@@ -62,7 +62,9 @@ label .after_time_check (**kwargs):
 
     $ school_obj = get_school()
 
-    call show_idle_image(school_obj, "images/background/gym/bg f.webp", gym_bg_images) from gym_2
+    call show_idle_image(school_obj, "images/background/gym/bg f.webp", gym_bg_images, 
+        loli = get_random_loli()
+    ) from gym_2
 
     call call_event_menu (
         "What to do in the Gym?", 

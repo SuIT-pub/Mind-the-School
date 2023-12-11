@@ -510,13 +510,9 @@ init -6 python:
 
         output = 0
 
-        log_val("buildings", buildings.keys())
-
         for building in buildings.values():
             if not building.is_unlocked():
                 output += 1
-                
-        log_val("output locked", output)
 
         return output
 
@@ -531,13 +527,9 @@ init -6 python:
 
         output = []
 
-        log_val("buildings", buildings.keys())
-
         for building in buildings.values():
             if building.is_unlocked() and building.get_name() not in output:
                 output.append(building.get_name())
-        
-        log_val("output unlocked", output)
 
         return output
     
@@ -705,8 +697,6 @@ label load_buildings ():
         $ buildings.pop("elementary_school_building")
     if 'elementary_school_dormitory' in buildings.keys():
         $ buildings.pop("elementary_school_dormitory")
-
-    $ log_val("buildings", buildings.keys())
     #############################################################
 
     # unlocked

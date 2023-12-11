@@ -33,8 +33,8 @@ init -1 python:
     map(lambda x: x.check_all_events(), kiosk_events.values())
 
     kiosk_bg_images = [
-        BGImage("images/background/kiosk/bg f <level> <nude> <variant>.webp", 2, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))), # show kiosk with students
-        BGImage("images/background/kiosk/bg f <level> <nude>.webp", 1, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))), # show kiosk with students
+        BGImage("images/background/kiosk/bg f <loli> <level> <nude> <variant>.webp", 2, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))), # show kiosk with students
+        BGImage("images/background/kiosk/bg f <loli> <level> <nude>.webp", 1, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))), # show kiosk with students
         BGImage("images/background/kiosk/bg 7.webp", 1, TimeCondition(daytime = 7)), # show kiosk at night empty
     ]
     
@@ -52,7 +52,9 @@ label .after_time_check (**kwargs):
 
     $ school_obj = get_school()
 
-    call show_idle_image(school_obj, "images/background/kiosk/bg c.webp", kiosk_bg_images) from kiosk_2
+    call show_idle_image(school_obj, "images/background/kiosk/bg c.webp", kiosk_bg_images, 
+        loli = get_random_loli()
+    ) from kiosk_2
 
     call call_event_menu (
         "What to do at the Kiosk?", 

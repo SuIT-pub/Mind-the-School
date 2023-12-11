@@ -371,7 +371,7 @@ init -2 python:
         if "name" not in kwargs.keys():
             kwargs["name"] = char_obj.get_name()
         if "loli_content" not in kwargs.keys():
-            kwargs["loli"] = loli_content
+            kwargs["loli_content"] = loli_content
 
         output_image = None
         output_nude = 0
@@ -533,9 +533,9 @@ init -2 python:
         return renpy.loadable(image_path)
 
 
-label show_idle_image(char_obj, fallback, bg_images):
+label show_idle_image(char_obj, fallback, bg_images, **kwargs):
 
-    $ max_nude, image_path = get_background(fallback, bg_images, char_obj)
+    $ max_nude, image_path = get_background(fallback, bg_images, char_obj, **kwargs)
 
     call show_image_with_nude_var (image_path, max_nude) from show_idle_image_1
 
