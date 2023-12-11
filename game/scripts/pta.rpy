@@ -148,7 +148,7 @@ label pta_meeting (**kwargs):
         elif teacher_vote == 'veto':
             $ forNum = -3
             
-        $ school_obj = get_character(obj_school_name, charList["schools"])
+        $ school_obj = get_school()
         $ student_vote = voteCharacter(
             obj.get_condition_storage(), 
             school_obj,

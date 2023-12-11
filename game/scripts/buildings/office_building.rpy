@@ -80,6 +80,8 @@ label .after_time_check (**kwargs):
 
 label first_potion_office_building_event (**kwargs):
 
+    $ begin_event()
+    
     show first potion office 1 with dissolveM
     subtitles "You enter the teachers office."
     headmaster_thought "Ahh the teacher seem to be eating at the kiosk as well."
@@ -93,11 +95,13 @@ label first_potion_office_building_event (**kwargs):
 # first week event
 label first_week_office_building_event (**kwargs):
 
+    $ begin_event()
+    
     show first week office building 1 with dissolveM
     subtitles "Mhh. The office is nothing special but at least not really run down."
     subtitles "I can work with that."
 
-    $ change_stat_for_all("education", 5, get_school())
+    $ change_stat("education", 5, get_school())
     $ change_stat_for_all("happiness", 5, charList['staff'])
     $ change_stat_for_all("reputation", 5, charList['staff'])
 
@@ -156,6 +160,9 @@ label office_event_3 (**kwargs):
     **kwargs)
 
 label .ignore (**kwargs):
+    
+    $ begin_event()
+    
     $ image.show(1)
     subtitles "You ignore them and continue you way."
 
@@ -165,6 +172,9 @@ label .ignore (**kwargs):
     jump new_daytime
 
 label .talk (**kwargs):
+    
+    $ begin_event()
+    
     $ image.show(2)
     headmaster "Why are you sitting here?"
     $ image.show(3)
@@ -180,6 +190,9 @@ label .talk (**kwargs):
     **kwargs)
 
 label .policy (**kwargs):
+    
+    $ begin_event()
+    
     $ image.show(5)
     headmaster "Well, you know that relationships between students are not allowed."
     $ image.show(6)
@@ -199,6 +212,9 @@ label .policy (**kwargs):
     jump new_daytime
 
 label .care (**kwargs):
+    
+    $ begin_event()
+    
     $ image.show(7)
     headmaster "Okay, listen. You know relationships aren't allowed here at school."
     $ image.show(6)

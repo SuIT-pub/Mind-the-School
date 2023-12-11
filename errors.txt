@@ -2,9 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/scripts/journal/journal.rpy", line 305: invalid syntax
-                        get_character("parents", charList)
-                         ^
+File "game/scripts/journal/journal_obj.rpy", line 189: invalid syntax
+            $ log_val('variant', variant)
+             ^
 
 Ren'Py Version: Ren'Py 8.1.3.23091805
-Mon Dec 11 11:17:57 2023
+Mon Dec 11 15:14:37 2023

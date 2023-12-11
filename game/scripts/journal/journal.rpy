@@ -25,9 +25,9 @@ init python:
 label start_journal ():
     call open_journal (1, "") from start_journal_1
 
-label open_journal(page, display):
+label open_journal(page, display, char = "school"):
     if page == 1:
-        call screen journal_overview(display) with dissolveM
+        call screen journal_overview(display, char) with dissolveM
     elif page == 2:
         call screen journal_page(2, display) with dissolveM
     elif page == 3:
@@ -178,10 +178,14 @@ screen journal_simple_list(page, display, display_list, default_style = "buttons
             unscrollable "hide"
             xalign 1.0
 
-screen journal_page_selector(page, display):
+screen journal_page_selector(page, display, char = "school"):
     imagemap:
-        idle "journal/journal/[page]_idle.webp"
-        hover "journal/journal/[page]_hover.webp"
+        if page == 1:
+            idle "journal/journal/[page]_[char]_idle.webp"
+            hover "journal/journal/[page]_hover.webp"
+        else:
+            idle "journal/journal/[page]_idle.webp"
+            hover "journal/journal/[page]_hover.webp"
 
         if page != 1:
             hotspot (144, 250, 168, 88) action [With(dissolveM), Call("open_journal", 1, "")] tooltip "School Overview"
@@ -197,6 +201,31 @@ screen journal_page_selector(page, display):
             hotspot (1522, 830, 168, 88) action [With(dissolveM), Call("open_journal", 4, "")] tooltip "Buildings"
         if page > 4:
             hotspot (144, 830, 168, 88) action [With(dissolveM), Call("open_journal", 4, "")] tooltip "Buildings"
+
+        if page == 1:
+            if char != "school":
+                hotspot (373, 80, 160, 67) action [With(dissolveM), Call("open_journal", 1, display, "school")] tooltip "School"
+            if char != "teacher":
+                hotspot (550, 80, 160, 67) action [With(dissolveM), Call("open_journal", 1, display, "teacher")] tooltip "Teacher"
+            if char != "parents":
+                hotspot (725, 80, 160, 67) action [With(dissolveM), Call("open_journal", 1, display, "parents")] tooltip "Parents"
+    
+    if page == 1:
+        if char == "school":
+            text "School":
+                xalign 0.225 yalign 0.1
+                size 20
+                color "#000"
+        if char == "teacher":
+            text "Teacher":
+                xalign 0.3225 yalign 0.1
+                size 20
+                color "#000"
+        if char == "parents":
+            text "Parents":
+                xalign 0.415 yalign 0.1
+                size 20
+                color "#000"
 
     if cheat_mode and page != 5:
         imagebutton:
@@ -331,8 +360,8 @@ screen journal_vote_button(page, display, active_obj):
             size 30
 
 screen journal_image(page, display, active_obj):
-    $ active_obj_image = active_obj.get_image()
-    $ active_obj_full_image = active_obj.get_full_image()
+    $ active_obj_image, active_obj_variant = active_obj.get_image(variant = get_random_loli())
+    $ active_obj_full_image = active_obj.get_full_image(variant = active_obj_variant)
 
     if active_obj_full_image != None:
         button:
@@ -351,12 +380,12 @@ screen journal_cheats_stat(stat):
     if stat == MONEY:
         $ stat_value = money.get_display_value()
     elif stat == LEVEL:
-        $ stat_value = get_level_from_char(get_school())
+        $ stat_value = get_level_for_char(get_school())
     else:
         $ stat_value = get_school().get_display_value(stat)
 
     hbox:
-        text "{image=icons/stat_[stat_name]_icon.webp}"
+        text "{image=icons/stat_[stat_name]_icon.web1p}"
         text " [stat_text]" style "journal_text" yalign 0.5
     hbox:
         if stat != MONEY:
@@ -442,13 +471,14 @@ screen journal_page(page, display):
     $ journal_type = get_journal_type(page)
     $ journal_map = get_journal_map(page)
     $ active_obj = get_journal_obj(journal_map, display)
+    
+    if display != "" and not active_obj.is_visible(char_obj = get_school()):
+        $ display = ""
 
     use journal_obj_list(page, display, journal_map)
 
-    if display != "" and not active_obj.is_visible():
-        $ display = ""
-
     if display != "":
+        $ log_val("display", display)
         use journal_image(page, display, active_obj)
 
         use journal_desc(page, display, active_obj)
@@ -473,7 +503,7 @@ screen journal_page(page, display):
                 text tooltip
 
 # School Overview
-screen journal_overview(display):
+screen journal_overview(display, char = "school"):
     tag interaction_overlay
     modal True
 
@@ -482,7 +512,7 @@ screen journal_overview(display):
 
     key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
 
-    use journal_page_selector(1, display)
+    use journal_page_selector(1, display, char)
 
     text "School Overview": 
         xalign 0.25 
@@ -490,7 +520,13 @@ screen journal_overview(display):
         size 60
         color "#000"
 
-    $ school_object = get_school()
+    $ object_overview = {
+        'school': get_school(),
+        'teacher': get_character('teacher', charList['staff']),
+        'parents': get_character('parents', charList)
+    }
+
+    $ school_object = object_overview[char]
     $ school_stats = school_object.get_stats()
 
     $ pta_proposal = get_game_data('voteProposal')
@@ -1097,7 +1133,7 @@ screen journal_credits(display):
             imagebutton:
                 idle "journal/journal/patreon banner idle.webp"
                 hover "journal/journal/patreon banner hover.webp"
-                action Call("open_patreon_link", school)
+                action Call("open_patreon_link")
             null height 20
             hbox:
                 viewport id "credits students list":

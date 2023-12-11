@@ -93,7 +93,7 @@ label first_week_kiosk_event (**kwargs):
     headmaster_thought "This is not acceptable. Did the former headmaster really close the kiosk?"
     headmaster_thought "That can't be right..."
 
-    $ change_stat_for_all("reputation", 5, get_school())
+    $ change_stat("reputation", 5, get_school())
 
     $ set_building_blocked("kiosk")
 
@@ -165,6 +165,9 @@ label kiosk_event_3 (**kwargs):
     **kwargs)
 
 label .leave (**kwargs):
+    
+    $ begin_event()
+    
     if kwargs["topic"] == "slimy":
         $ image.show(4)
         vendor "You know what? I think I could help you."
@@ -212,6 +215,9 @@ label .leave (**kwargs):
         jump new_daytime
 
 label .help (**kwargs):
+    
+    $ begin_event()
+    
     $ image.show(14)
     headmaster "What's the matter here?"
     $ image.show(15)

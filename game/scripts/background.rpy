@@ -471,6 +471,8 @@ init -2 python:
 
         if 'loli_content' not in kwargs.keys():
             kwargs['loli_content'] = loli_content
+        if 'loli' not in kwargs.keys():
+            kwargs['loli'] = get_random_loli()
 
         char_obj = get_kwargs('char_obj', None, **kwargs)
         if char_obj != None and 'name' not in kwargs.keys():
@@ -501,6 +503,8 @@ init -2 python:
 
         if 'loli_content' not in kwargs.keys():
             kwargs['loli_content'] = loli_content
+        if 'loli' not in kwargs.keys():
+            kwargs['loli'] = get_random_loli()
 
         char_obj = get_kwargs('char_obj', None, **kwargs)
         if char_obj != None and 'name' not in kwargs.keys():
@@ -509,14 +513,16 @@ init -2 python:
         for key, value in kwargs.items():
             image_path = image_path.replace(f"<{key}>", str(value))
 
+        variant = get_kwargs('variant', 0, **kwargs)
+
         if "<variant>" in image_path:
-            variant = get_image_max_value("<variant>", image_path, 0, 100)
+            variant = get_random_int(0, get_image_max_value("<variant>", image_path, 0, 100))
             image_path = image_path.replace(f"<variant>", str(variant))
 
         if char_obj != None:
             image_path = get_available_level(image_path, char_obj.get_level())
 
-        return image_path
+        return image_path, variant
     
     def check_image(image_path: str) -> bool:
         """
@@ -573,7 +579,7 @@ label show_image_with_variant(path, display_type = SCENE, **kwargs):
     #     - The keyword arguments to replace in the image path.
     # """
 
-    $ image_path = refine_image_with_variant(path, **kwargs)
+    $ image_path, variant = refine_image_with_variant(path, **kwargs)
 
     call show_ready_image(image_path, display_type) from _call_show_ready_image_1
     return

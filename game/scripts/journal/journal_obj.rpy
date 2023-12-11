@@ -162,7 +162,7 @@ init -7 python:
 
             return "\n\n".join(self._description)
 
-        def get_image(self, level: int = -1) -> str:
+        def get_image(self, *, level: int = -1, variant = -1) -> str:
             """
             Returns the path to the image of the object.
             The image represents the visual representation of the object for use in the UI.
@@ -181,17 +181,23 @@ init -7 python:
             if level == -1:
                 level = get_level_for_char(get_school())
 
-            for i in reversed(range(0, level + 1)):
-                image = self._image_path.replace("<level>", str(i))
-                if renpy.loadable(image):
-                    return image
-            for i in range(0, 10):
-                image = self._image_path.replace("<level>", str(i))
-                if renpy.loadable(image):
-                    return image
-            return self._image_path_alt
+            kwargs = {}
+
+            if variant != -1:
+                kwargs["variant"] = variant
+
+            log_val('variant', variant)
+
+            image_path = get_available_level(self._image_path, level)
+            image_path, variant = refine_image_with_variant(image_path, **kwargs)
+            
+            log_val('variant', variant)
+
+            if renpy.loadable(image_path):
+                return image_path, variant
+            return self._image_path_alt, -1
         
-        def get_full_image(self, level: int = 1) -> str:
+        def get_full_image(self, *, level: int = -1, variant = -1) -> str:
             """
             It gets the full size version of the image from get_image
 
@@ -208,7 +214,17 @@ init -7 python:
             if level == -1:
                 level = get_level_for_char(get_school())
 
-            image = self.get_image(level)
+            kwargs = {}
+
+            if variant != -1:
+                kwargs["variant"] = variant
+
+            log_val('variant', variant)
+
+            image, variant = self.get_image(level = level, **kwargs)
+            
+            log_val('variant', variant)
+
             full_image = image.replace(".", "_full.")
 
             if renpy.loadable(full_image):
@@ -259,6 +275,7 @@ init -7 python:
             """
 
             is_blocking = self._unlock_conditions.is_blocking(**kwargs)
+            log_val(f"{self._name} is blocking", is_blocking)
             return is_blocking
 
         def can_be_unlocked(self, **kwargs) -> bool:

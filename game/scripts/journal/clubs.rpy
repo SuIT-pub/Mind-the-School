@@ -181,8 +181,8 @@ label load_clubs ():
             # LevelCondition("2+"),
             # LockCondition(),
         ),
-        '_image_path': 'images/journal/clubs/cheerleading_club_high_school_<level>.webp',
-        '_image_path_alt': 'images/journal/clubs/cheerleading_club_high_school_2.webp',
+        '_image_path': 'images/journal/clubs/cheerleading_club_<variant>_<level>.webp',
+        '_image_path_alt': 'images/journal/clubs/cheerleading_club_0_2.webp',
     })
 
     #! locked, currently not implemented

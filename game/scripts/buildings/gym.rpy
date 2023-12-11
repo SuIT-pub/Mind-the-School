@@ -83,6 +83,9 @@ label .after_time_check (**kwargs):
 ##########################
 
 label first_potion_gym_event (**kwargs):
+    
+    $ begin_event()
+    
     show first potion gym 1 with dissolveM
     subtitles "You enter the Gym and see a group of students and teacher in a yoga session."
 
@@ -102,6 +105,9 @@ label first_potion_gym_event (**kwargs):
 
 # first week event
 label first_week_gym_event (**kwargs):
+    
+    $ begin_event()
+    
     show first week gym 1 with dissolveM
     headmaster_thought "Okay, now the Gym. I have been here shortly for my introduction speech but I haven't had the chance to get a thorough look."
 
@@ -112,7 +118,7 @@ label first_week_gym_event (**kwargs):
     headmaster_thought "Seems to be decently stocked."
     headmaster_thought "The material is well maintained. I guess it's alright."
 
-    $ change_stat_for_all("charm", 5, get_school())
+    $ change_stat("charm", 5, get_school())
 
     $ set_building_blocked("gym")
 
@@ -144,7 +150,7 @@ label gym_event_1 (**kwargs):
 
     $ topic = topics[variant]
 
-    $ image = Image_Series("/images/events/gym/gym_event_1 <name> <level> <topic> <step>.webp", topic = variant, name = school_name, **kwargs)
+    $ image = Image_Series("/images/events/gym/gym_event_1 <level> <topic> <step>.webp", topic = variant, **kwargs)
 
     $ begin_event()
 
@@ -205,7 +211,7 @@ label gym_event_2 (**kwargs):
 
     $ topic = get_random_choice((0.75, "clothe"), "breasts", (0.15, "asses"))
 
-    $ image = Image_Series("/images/events/gym/gym_event_2 <name> <level> <topic> <step>.webp", topic = topic, name = "high_school", **kwargs)
+    $ image = Image_Series("/images/events/gym/gym_event_2 <level> <topic> <step>.webp", topic = topic, name = "high_school", **kwargs)
 
     $ begin_event()
 
@@ -251,12 +257,18 @@ label gym_event_2 (**kwargs):
 
     jump new_daytime
 label .sorry (**kwargs):
+    
+    $ begin_event()
+    
     sgirl "Okay..."
     headmaster_thought "I think she doesn't believe me..."
     $ change_stats_with_modifier(char_obj,
         HAPPINESS = DEC_MEDIUM, REPUTATION = DEC_SMALL)
     jump new_daytime
 label .escape (**kwargs):
+    
+    $ begin_event()
+    
     sgirl "Oh, I was just..."
     headmaster "It's okay. You couldn't possible know."
     subtitles "You leave the room and leave the girls behind dumbfounded."

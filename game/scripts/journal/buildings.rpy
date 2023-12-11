@@ -293,10 +293,6 @@ init -6 python:
             """
             Returns True if the building is unlocked.
 
-            ### Parameters:
-            1. _school
-                - is not used.
-
             ### Returns:
             1. bool
                 - True if the building is unlocked.

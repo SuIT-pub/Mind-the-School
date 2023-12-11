@@ -106,35 +106,13 @@ screen school_overview_images ():
 
     # High School Building
     if is_building_available("school_building"):
-        add "background/bg school high school building idle.webp":
+        add "background/bg school school building idle.webp":
             xpos 1171 ypos 262
 
     # High School Dormitory
     if is_building_available("school_dormitory"):
-        add "background/bg school high school dormitory idle.webp":
+        add "background/bg school school dormitory idle.webp":
             xpos 1257 ypos 613
-
-    # if loli_content >= 1:
-    #     # Middle School Building
-    #     if is_building_available("middle_school_building"):
-    #         add "background/bg school middle school building idle.webp":
-    #             xpos 725 ypos 103
-
-    #     # Middle School Dormitory
-    #     if is_building_available("middle_school_dormitory"):
-    #         add "background/bg school middle school dormitory idle.webp":
-    #             xpos 666 ypos 476
-
-    # if loli_content == 2:
-    #     # Elementary School Building
-    #     if is_building_available("elementary_school_building"):
-    #         add "background/bg school elementary school building idle.webp":
-    #             xpos 826 ypos 178
-        
-    #     # Elementary School Dormitory
-    #     if is_building_available("elementary_school_dormitory"):
-    #         add "background/bg school elementary school dormitory idle.webp":
-    #             xpos 446 ypos 196
 
     # Labs
     if is_building_available("labs"):

@@ -592,5 +592,3 @@ label .skip:
 label end_of_month (**kwargs):
 
     $ change_stat(MONEY, 1000)
-
-    jump new_daytime

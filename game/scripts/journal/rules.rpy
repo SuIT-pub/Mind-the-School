@@ -239,8 +239,8 @@ label load_rules ():
             StatCondition(inhibition = '80-'),
             LockCondition(),
         ),
-        '_image_path': 'images/journal/rules/theoretical_student_sex_ed_high_school_<level>.webp',
-        '_image_path_alt': 'images/journal/rules/theoretical_student_sex_ed_high_school_3.webp',
+        '_image_path': 'images/journal/rules/theoretical_student_sex_ed_<level>.webp',
+        '_image_path_alt': 'images/journal/rules/theoretical_student_sex_ed_3.webp',
         '_vote_comments': {
             'teacher': {
                 'yes': 'I believe that using student bodies as reference materials in theoretical sex education is an excellent way to help young people better understand their bodies, how they work and how to take care of them. It can also provide a safe environment for students to ask questions without feeling ashamed or embarrassed.',
@@ -357,8 +357,8 @@ label load_rules ():
             LevelCondition("3+"),
             LockCondition(False),
         ),
-        '_image_path': 'images/journal/rules/relaxed_uniform_high_school.webp',
-        '_image_path_alt': 'images/journal/rules/relaxed_uniform_high_school.webp',
+        '_image_path': 'images/journal/rules/relaxed_uniform.webp',
+        '_image_path_alt': 'images/journal/rules/relaxed_uniform.webp',
     })
 
     #! locked, currently not implemented
@@ -370,8 +370,8 @@ label load_rules ():
             LevelCondition("5+"),
             RuleCondition("relaxed_uniform", blocking = True),
         ),
-        '_image_path': 'images/journal/rules/sexy_uniform_high_school.webp',
-        '_image_path_alt': 'images/journal/rules/sexy_uniform_high_school.webp',
+        '_image_path': 'images/journal/rules/sexy_uniform.webp',
+        '_image_path_alt': 'images/journal/rules/sexy_uniform.webp',
     })
 
     #! locked, currently not implemented
@@ -383,8 +383,8 @@ label load_rules ():
             LevelCondition("8+"),
             RuleCondition("sexy_uniform", blocking = True),
         ),
-        '_image_path': 'images/journal/rules/nude_uniform_high_school.webp',
-        '_image_path_alt': 'images/journal/rules/nude_uniform_high_school.webp',
+        '_image_path': 'images/journal/rules/nude_uniform.webp',
+        '_image_path_alt': 'images/journal/rules/nude_uniform.webp',
     })
 
     return
