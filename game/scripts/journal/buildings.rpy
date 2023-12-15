@@ -160,51 +160,6 @@ init -6 python:
 
             return "\n\n".join(self.get_description(level))
 
-        def get_image(self, _level = -1) -> str:
-            """
-            Returns the image path of the building for the image used in the journal.
-
-            ### Parameters:
-            1. _school = "x"
-                - is not used.
-            2. _level = -1
-                - is not used.
-
-            ### Returns:
-            1. str
-                - The image path of the building for the image used in the journal.
-            """
-
-            level = get_level_for_char(get_school())
-            for i in reversed(range(0, level + 1)):
-                image = self._image_path.replace("<level>", str(i))
-                if renpy.loadable(image):
-                    return image
-            return self._image_path_alt
-
-        def get_full_image(self, _level = -1) -> str:
-            """
-            Returns the image path for the fullscreen image of the building for the image used in the journal.
-
-            ### Parameters:
-            1. _school = "x"
-                - is not used.
-            2. _level = -1
-                - is not used.
-
-            ### Returns:
-            1. str
-                - The image path for the fullscreen image of the building for the image used in the journal.
-                - If the full image does not exist, None is returned.
-            """
-
-            image = self.get_image()
-            full_image = image.replace(".", "_full.")
-
-            if renpy.loadable(full_image):
-                return full_image
-            return None
-
         def get_level(self) -> int:
             """
             Returns the current upgrade level of the building.

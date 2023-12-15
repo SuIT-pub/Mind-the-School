@@ -228,8 +228,8 @@ init -7 python:
             full_image = image.replace(".", "_full.")
 
             if renpy.loadable(full_image):
-                return full_image
-            return None
+                return full_image, variant
+            return None, 0
         
         def unlock(self, unlock: bool = True, apply_effects: bool = False):
             """
@@ -524,7 +524,7 @@ init -7 python:
 
         output = []
 
-        high_school_obj = get_school()
+        school_obj = get_school()
 
         for obj in map.values():
             if (obj.is_visible(char_obj = school_obj) and 

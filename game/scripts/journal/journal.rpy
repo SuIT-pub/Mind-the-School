@@ -385,7 +385,7 @@ screen journal_cheats_stat(stat):
         $ stat_value = get_school().get_display_value(stat)
 
     hbox:
-        text "{image=icons/stat_[stat_name]_icon.web1p}"
+        text "{image=icons/stat_[stat_name]_icon.webp}"
         text " [stat_text]" style "journal_text" yalign 0.5
     hbox:
         if stat != MONEY:
@@ -849,8 +849,8 @@ screen journal_cheats(display):
             $ active_rule_name = active_rule.get_name()
             $ active_rule_title = active_rule.get_title()
             $ active_rule_desc = active_rule.get_description_str()
-            $ active_rule_image = active_rule.get_image()
-            $ active_rule_full_image = active_rule.get_full_image()
+            $ active_rule_image, variation = active_rule.get_image()
+            $ active_rule_full_image, variation = active_rule.get_full_image(variant = variation)
 
             if active_rule_full_image != None:
                 button:
@@ -921,8 +921,8 @@ screen journal_cheats(display):
             $ active_club_title = active_club.get_title()
             $ active_club_desc = active_club.get_description_str()
             $ active_club_desc_conditions_desc = active_club.get_desc_conditions_desc(char_obj = get_school())
-            $ active_club_image = active_club.get_image()
-            $ active_club_full_image = active_club.get_full_image()
+            $ active_club_image, variation = active_club.get_image()
+            $ active_club_full_image, variation = active_club.get_full_image(variant = variation)
 
             if active_club_full_image != None:
                 button:
@@ -1007,8 +1007,8 @@ screen journal_cheats(display):
             $ active_building_title = active_building.get_title()
             $ active_building_desc = active_building.get_description_str()
             
-            $ active_building_image = active_building.get_image()
-            $ active_building_full_image = active_building.get_full_image()
+            $ active_building_image, variation = active_building.get_image()
+            $ active_building_full_image, variation = active_building.get_full_image(variant = variation)
 
             if active_building_full_image != None:
                 button:

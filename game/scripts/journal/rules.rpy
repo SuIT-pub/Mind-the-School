@@ -140,7 +140,7 @@ label load_rules ():
             "Students get a new subject in which they deal with the topic of the human body and human reproduction. All on a theoretical basis, of course.",
         ],
         '_unlock_conditions': ConditionStorage(
-            StatCondition(inhibition = '95-', corruption = '10+'),
+            StatCondition(inhibition = '90-', corruption = '10+'),
             LevelCondition("1+", True),
             LockCondition(False),
         ),
@@ -159,7 +159,7 @@ label load_rules ():
             },
             'parents': {
                 'yes': 'I fully support the introduction of theoretical sex education in our school curriculum. It\'s essential for our children to have a comprehensive understanding of the topic to make informed decisions about their health and relationships. That\'s why I vote yes.',
-                'no': 'I believe that theoretical sex education is not appropriate for our school, and it should be left to parents to discuss these matters at home. We should prioritize other subjects that are more important for our children\'s education. So I vote no',
+                'no': 'I believe that theoretical sex education is not appropriate for our school, and it should be left to parents to discuss these matters at home. We should prioritize other subjects that are more important for our children\'s education. So I vote no.',
                 'veto': 'I vehemently oppose the introduction of theoretical sex education in our school; it\'s a ridiculous notion that infringes upon our parental rights and values. Our children\'s education should focus on traditional subjects, leaving discussions about sex to families. I veto.',
             },
         },
