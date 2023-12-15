@@ -585,6 +585,8 @@ label map_overview ():
 # building distributor. directs the building calls to the corresponding label
 label building(name=""):
     $ reset_stats(get_school())
+    $ reset_stats(get_character('parents', charList))
+    $ reset_stats(get_character('teacher', charList['staff']))
     $ _skipping = True
 
     hide screen school_overview_map
