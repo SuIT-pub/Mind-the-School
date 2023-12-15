@@ -573,11 +573,7 @@ init -6 python:
                 - Whether the condition is fulfilled or not.
             """
 
-            char_obj = get_kwargs('char_obj', **kwargs)
-            if char_obj == None:
-                return False
-
-            return get_rule(self.value).is_unlocked(char_obj.get_name())
+            return get_rule(self.value).is_unlocked()
 
         def to_list_text(self, **kwargs) -> Tuple[str, str, str]:
             """
@@ -621,7 +617,7 @@ init -6 python:
                 return ""
             return get_rule(self.value).get_title()
 
-        def get_diff(self, char_obj: Char) -> num:
+        def get_diff(self, _char_obj: Char) -> num:
             """
             Returns the difference between the condition and the given character.
             If the condition is fulfilled, the difference is 0.
@@ -636,7 +632,7 @@ init -6 python:
                 - The difference between the condition and the given character.
             """
 
-            if self.is_fulfilled(char_obj = char_obj):
+            if self.is_fulfilled():
                 return 0
             return -100
 
@@ -663,11 +659,7 @@ init -6 python:
                 - Whether the condition is fulfilled or not.
             """
 
-            char_obj = get_kwargs('char_obj', **kwargs)
-            if char_obj == None:
-                return False
-
-            return get_club(self.value).is_unlocked(char_obj.get_name())
+            return get_club(self.value).is_unlocked()
 
         def to_list_text(self, **kwargs) -> Tuple[str, str, str]:
             """
@@ -707,7 +699,7 @@ init -6 python:
                 return ""
             return get_club(self.value).title
 
-        def get_diff(self, char_obj: Char) -> num:
+        def get_diff(self, _char_obj: Char) -> num:
             """
             Returns the difference between the condition and the given character.
             If the condition is fulfilled, the difference is 0.
@@ -722,7 +714,7 @@ init -6 python:
                 - The difference between the condition and the given character.
             """
 
-            if self.is_fulfilled(char_obj.get_name()):
+            if self.is_fulfilled():
                 return 0
             return -100
 
@@ -749,7 +741,7 @@ init -6 python:
                 - Whether the condition is fulfilled or not.
             """
 
-            return get_building(self.value).is_unlocked(self.value)
+            return get_building(self.value).is_unlocked()
 
         def to_list_text(self, **kwargs) -> Tuple[str, str, str]:
             """
@@ -789,7 +781,7 @@ init -6 python:
                 return ""
             return get_building(self.value).title
 
-        def get_diff(self, char_obj: Char):
+        def get_diff(self, _char_obj: Char):
             """
             Returns the difference between the condition and the given character.
             If the condition is fulfilled, the difference is 0.
@@ -804,7 +796,7 @@ init -6 python:
                 - The difference between the condition and the given character.
             """
 
-            if self.is_fulfilled(char_obj.get_name()):
+            if self.is_fulfilled():
                 return 0
             return -100
 
@@ -1010,76 +1002,6 @@ init -6 python:
                 return 0
             return output
 
-    class SchoolCondition(Condition):
-        """
-        A class for conditions that check the school of a character object.
-        """
-
-        def __init__(self, school: str = "x", blocking: bool = True):
-            super().__init__(blocking)
-            self.school = school
-
-        def is_fulfilled(self, **kwargs):
-            """
-            Returns whether the characters school equals the school of the condition.
-
-            ### Parameters:
-            1. **kwargs
-                - Additional arguments.
-
-            ### Returns:
-            1. bool
-                - Whether the condition is fulfilled or not.
-            """
-
-            char_obj = get_kwargs('char_obj', **kwargs)
-            if char_obj == None:
-                return False
-            return self.school == "x" or char_obj.get_name() == self.school
-
-        def to_list_text(self, **kwargs) -> Tuple[str, str, str]:
-            """
-            Returns an empty tuple as the condition is not displayed in the display list.
-            """
-
-            return ("", "", "")
-
-        def to_desc_text(self, **kwargs) -> str:
-            """
-            Returns an empty string as the condition is not displayed in the description.
-            """
-
-            return ""
-
-        def get_name(self) -> str:
-            """
-            Returns the name of the school in the condition.
-
-            ### Returns:
-            1. str
-                - The name of the school in the condition.
-            """
-
-            char_obj = get_character(school, charList["schools"])
-            if char_obj == None:
-                return self.school
-            return char_obj.get_title()
-
-        def get_diff(self, char_obj: Char) -> num:
-            """
-            Returns the difference between the condition and the given character.
-            If the condition is fulfilled, the difference is 0.
-            Otherwise the difference is -100.
-
-            ### Parameters:
-            1. char_obj: Char
-                - The character to compare the condition to.
-            """
-
-            if char_obj.name == self.school:
-                return 0
-            return -100
-
     class LockCondition(Condition):
         """
         A class for conditions that lock the object it is used in.
@@ -1247,7 +1169,7 @@ init -6 python:
                 - The difference between the condition and the current time.
             """
 
-            if self.is_fulfilled(None):
+            if self.is_fulfilled():
                 return 0
             return -100
             

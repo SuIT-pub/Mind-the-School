@@ -34,8 +34,8 @@ init -1 python:
     map(lambda x: x.check_all_events(), courtyard_events.values())
 
     courtyard_bg_images = [
-        BGImage("images/background/courtyard/bg 1,6 <name> <level> <nude>.webp", 1, OR(TimeCondition(daytime = "1,6", weekday = "w"), TimeCondition(daytime = "c", weekday = "d"))), # show courtyard with a few students
-        BGImage("images/background/courtyard/bg 3 <name> <level> <nude>.webp", 1, TimeCondition(daytime = 3)), # show courtyard full of students and teacher
+        BGImage("images/background/courtyard/bg 1,6 <loli> <level> <nude>.webp", 1, OR(TimeCondition(daytime = "1,6", weekday = "w"), TimeCondition(daytime = "c", weekday = "d"))), # show courtyard with a few students
+        BGImage("images/background/courtyard/bg 3 <loli> <level> <nude>.webp", 1, TimeCondition(daytime = 3)), # show courtyard full of students and teacher
         BGImage("images/background/courtyard/bg 7.webp", 1, TimeCondition(daytime = 7)), # show empty courtyard at night
     ]
     
@@ -51,9 +51,11 @@ label courtyard ():
 
 label .after_time_check (**kwargs):
 
-    $ school_obj = get_random_school()
+    $ school_obj = get_school()
 
-    call show_idle_image(school_obj, "images/background/courtyard/bg c.webp", courtyard_bg_images) from courtyard_2
+    call show_idle_image(school_obj, "images/background/courtyard/bg c.webp", courtyard_bg_images, 
+        loli = get_random_loli()
+    ) from courtyard_2
 
     call call_event_menu (
         "What to do at the Courtyard?", 
@@ -74,6 +76,8 @@ label .after_time_check (**kwargs):
 
 label first_potion_courtyard_event (**kwargs):
 
+    $ begin_event()
+    
     show first potion courtyard 1 with dissolveM
     subtitles "You walk around in the courtyard."
 
@@ -90,6 +94,9 @@ label first_potion_courtyard_event (**kwargs):
 
 # first week event
 label first_week_courtyard_event (**kwargs):
+    
+    $ begin_event()
+    
     show first week courtyard 1 with dissolveM
     subtitles "You walk through the courtyard."
 
@@ -104,7 +111,7 @@ label first_week_courtyard_event (**kwargs):
     show first week courtyard 4 with dissolveM
     headmaster_thought "At least the courtyard doesn't need immediate fixing."
 
-    $ change_stat_for_all("happiness", 5, charList["schools"])
+    $ change_stat("happiness", 5, get_school())
 
     $ set_building_blocked("courtyard")
 
@@ -112,13 +119,12 @@ label first_week_courtyard_event (**kwargs):
 
 # TODO: modify for Level 4+
 label courtyard_event_1 (**kwargs):
+    
     $ variant = get_random_int(1, 1)
 
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
-    $ name = "high_school"
-
-    $ image = Image_Series("images/events/courtyard/courtyard_event_1 <name> <level> <variant> <step>.webp", name = name, variant = variant, **kwargs)
+    $ image = Image_Series("images/events/courtyard/courtyard_event_1 <level> <variant> <step>.webp", variant = variant, **kwargs)
 
     $ begin_event()
 
@@ -130,6 +136,9 @@ label courtyard_event_1 (**kwargs):
     **kwargs)
 
 label .look (**kwargs):
+    
+    $ begin_event()
+    
     $ image.show(1)
     subtitles "You take the chance to stare directly ahead and burn that image into your brain and retina."
     $ image.show(2)
@@ -142,6 +151,9 @@ label .look (**kwargs):
     jump new_daytime
 
 label .look_away (**kwargs):
+    
+    $ begin_event()
+    
     $ image.show(4)
     subtitles "You quickly look away, but the image is already burned into your brain."
     $ image.show(5)
@@ -155,9 +167,7 @@ label .look_away (**kwargs):
 label courtyard_event_2 (**kwargs):
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
-    $ name = "high_school"
-
-    $ image = Image_Series("images/events/courtyard/courtyard_event_2 <name> <level> <step>.webp", name = name, **kwargs)
+    $ image = Image_Series("images/events/courtyard/courtyard_event_2 <level> <step>.webp", **kwargs)
 
     $ begin_event()
 
@@ -169,6 +179,9 @@ label courtyard_event_2 (**kwargs):
     **kwargs)
 
 label .talk (**kwargs):
+    
+    $ begin_event()
+    
     $ image.show(2)
     headmaster "Hey, are you alright?"
     $ image.show(3)
@@ -190,6 +203,9 @@ label .talk (**kwargs):
     jump new_daytime
 
 label .leave (**kwargs):
+    
+    $ begin_event()
+    
     $ image.show(1)
     subtitles "You decide to leave her alone."
     $ change_stats_with_modifier(kwargs["char_obj"],
@@ -199,7 +215,7 @@ label .leave (**kwargs):
 label courtyard_event_3 (**kwargs):
     $ begin_event()
     
-    call show_image ("images/events/courtyard/courtyard_event_3 <name> <level>.webp", name = "high_school", **kwargs) from _call_show_image
+    call show_image ("images/events/courtyard/courtyard_event_3 <level>.webp", **kwargs) from _call_show_image
     subtitles "You notice a group of girls taking a break together."
 
     $ change_stats_with_modifier(kwargs["char_obj"],

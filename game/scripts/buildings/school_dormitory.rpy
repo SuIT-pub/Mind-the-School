@@ -1,6 +1,141 @@
+###################################################
+# ----- High School Dormitory Event Handler ----- #
+###################################################
+
+init -1 python:
+    sd_timed_event = EventStorage("school_dormitory", "", Event(2, "school_dormitory.after_time_check"))
+    sd_events = {
+        "check_rooms":   EventStorage("check_rooms",   "Check Rooms",      default_fallback, "There is nobody here."),
+        "talk_students": EventStorage("talk_students", "Talk to students", default_fallback, "There is nobody here."),
+        "patrol":        EventStorage("patrol",        "Patrol building",  default_fallback, "There is nobody here."),
+        "peek_students": EventStorage("peek_students", "Peek on students", default_fallback, "There is nobody here."),
+    }
+
+    sd_timed_event.add_event(Event(1,
+        ["first_week_school_dormitory_event"],
+        TimeCondition(day = "2-4", month = 1, year = 2023),
+    ))
+
+    sd_timed_event.add_event(Event(1,
+        ["first_potion_school_dormitory_event"],
+        TimeCondition(day = 9, month = 1, year = 2023),
+    ))
+
+    event1 = Event(3, 
+        ["sd_event_1", "sd_event_2"],
+        OR(
+            TimeCondition(weekday = "d", daytime = "f"), 
+            TimeCondition(weekday = "d", daytime = "n"), 
+            TimeCondition(weekday = "w")
+        )
+    )
+
+    # hsd_events["check_rooms"].add_event(event1)
+    sd_events["peek_students"].add_event(event1)
+
+    sd_timed_event.check_all_events()
+    map(lambda x: x.check_all_events(), sd_events.values())
+
+    school_dormitory_bg_images = [
+        BGImage("images/background/school dormitory/bg f <loli> <level> <nude>.webp", 1, TimeCondition(daytime = "f")),
+        BGImage("images/background/school dormitory/bg f <loli> <level> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "w")),
+        BGImage("images/background/school dormitory/bg 7.webp", 1, TimeCondition(daytime = 7)),
+    ]
+    
+###################################################
+
+############################################
+# ----- School Dormitory Entry Point ----- #
+############################################
+
+label school_dormitory ():
+    
+    call call_available_event(sd_timed_event) from school_dormitory_1
+
+label .after_time_check (**kwargs):
+
+    $ school_obj = get_school()
+
+    call show_idle_image(school_obj, "images/background/school dormitory/bg c.webp", school_dormitory_bg_images,
+        loli = get_random_loli()
+    ) from school_dormitory_2
+
+    call call_event_menu (
+        "What to do in the High School Dorm?", 
+        hsd_events, 
+        default_fallback,
+        character.subtitles,
+        char_obj = school_obj,
+    ) from school_dormitory_3
+
+    jump school_dormitory
+
+#################################################
+
+#######################################
+# ----- School Dormitory Events ----- #
+#######################################
+
+
+# first week event
+label first_week_school_dormitory_event (**kwargs):
+    
+    $ begin_event()
+    
+    show first week school dormitory 1 with dissolveM
+    headmaster_thought "The dormitory looks alright."
+
+    show first week school dormitory 2 with dissolveM
+    headmaster_thought "As far as I know, the students have to share a communal bathroom."
+    headmaster_thought "Private bathrooms would be nice for the students, but for one I don't think we really need that and then it would need a lot of rebuilding. So that should be last on the list."
+    
+    show first week school dormitory 3 with dissolveM
+    headmaster_thought "Let's see if someone would let me see their room so I can check the state of these."
+    
+    show first week school dormitory 4 with dissolveM
+    headmaster "Hello? I'm Mr. [headmaster_last_name] the new Headmaster. Can I come in? I'm here to inspect the building."
+    subtitles "..."
+    headmaster "Hello?"
+
+    show first week school dormitory 5 with dissolveM
+    headmaster_thought "Hmm nobody seems to be here. Nevermind. I just let my Secretary give me a report."
+
+    $ change_stat("inhibition", -3, get_school())
+    $ change_stat("happiness", 3, get_school())
+
+    $ set_building_blocked("school_dormitory")
+
+    jump new_day
+
+
+label first_potion_school_dormitory_event (**kwargs):
+
+    $ begin_event()
+    
+    show first potion school dormitory 1 with dissolveM
+    subtitles "You enter the dormitory of the high school."
+    headmaster_thought "Mhh, where does the noise come from?"
+
+    show first potion school dormitory 2 with dissolveM
+    headmaster_thought "Ah I think there are some students in the room over there."
+
+    show first potion school dormitory 3 with dissolveM
+    headmaster_thought "Ahh party games!"
+
+    show first potion school dormitory 4 with dissolveM
+    if time.check_daytime("c"):
+        headmaster_thought "Normally I would scold them for skipping class but today is a special day so I gladly enjoy this view."
+    else:
+        headmaster_thought "Ahh I like this view. Nothing more erotic than nudity in combination with a party game."
+
+    $ set_building_blocked("school_dormitory")
+
+    jump new_daytime
+
+
 # education < 80
 label sd_event_1 (**kwargs):
-    $ image = Image_Series("images/events/school dormitory/sd_event_1 <name> <level> <step>.webp", name = "high_school", **kwargs)
+    $ image = Image_Series("images/events/school dormitory/sd_event_1 <level> <step>.webp", **kwargs)
 
     $ girl_name = "Easkey Tanaka"
 
@@ -60,7 +195,7 @@ label sd_event_2 (**kwargs):
     if location == "shower":
         $ girl_name = get_random_choice("Sakura Mori", "Elsie Johnson", "Ishimaru Maki")
 
-    $ image = Image_Series("images/events/school dormitory/sd_event_2 <name> <topic> <location> <girl> <level> <step>.webp", name = "high_school", location = location, topic = topic, girl = girl_name, **kwargs)
+    $ image = Image_Series("images/events/school dormitory/sd_event_2 <topic> <location> <girl> <level> <step>.webp", location = location, topic = topic, girl = girl_name, **kwargs)
     $ image2 = Image_Series("images/events/school dormitory/sd_event_2 <location> <step>.webp", location = location)
 
     $ begin_event()
@@ -175,7 +310,7 @@ label sd_event_3 (**kwargs):
 
     $ topic = get_random_choice("normal", (0.1, "panties"), (0.02, "nude"))
 
-    $ image = Image_Series("images/events/school dormitory/sd_event_3 <name> <topic> <level> <step>.webp", name = "high_school", topic = topic, **kwargs)
+    $ image = Image_Series("images/events/school dormitory/sd_event_3 <topic> <level> <step>.webp", topic = topic, **kwargs)
 
     $ begin_event()
 

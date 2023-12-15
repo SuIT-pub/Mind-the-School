@@ -80,6 +80,8 @@ label .after_time_check (**kwargs):
 
 label first_potion_office_building_event (**kwargs):
 
+    $ begin_event()
+    
     show first potion office 1 with dissolveM
     subtitles "You enter the teachers office."
     headmaster_thought "Ahh the teacher seem to be eating at the kiosk as well."
@@ -93,11 +95,13 @@ label first_potion_office_building_event (**kwargs):
 # first week event
 label first_week_office_building_event (**kwargs):
 
+    $ begin_event()
+    
     show first week office building 1 with dissolveM
     subtitles "Mhh. The office is nothing special but at least not really run down."
     subtitles "I can work with that."
 
-    $ change_stat_for_all("education", 5, charList['schools'])
+    $ change_stat("education", 5, get_school())
     $ change_stat_for_all("happiness", 5, charList['staff'])
     $ change_stat_for_all("reputation", 5, charList['staff'])
 
@@ -107,7 +111,7 @@ label first_week_office_building_event (**kwargs):
 
 # TODO: make images
 label office_event_1 (**kwargs):
-    $ image = Image_Series("images/events/office/office_event_1 <name> <level> <step>.webp", name = "high_school", **kwargs)
+    $ image = Image_Series("images/events/office/office_event_1 <level> <step>.webp", **kwargs)
 
     $ begin_event();
 
@@ -117,7 +121,7 @@ label office_event_1 (**kwargs):
     $ image.show(1)
     subtitles "Apparently she is in need of counseling."
 
-    $ change_stats_with_modifier(kwargs["char_obj"],
+    $ change_stats_with_modifier(get_school(),
         happiness = TINY, reputation = TINY)
     $ change_stats_with_modifier(get_character("teacher", charList['staff']),
         happiness = TINY)
@@ -134,7 +138,7 @@ label office_event_2 (**kwargs):
     call show_image(get_image("images/events/office/office_event_2 <level> <variant>.webp", **kwargs)[1]) from _call_show_image_2
     subtitles "Even the teachers need a break from time to time."
 
-    $ change_stats_with_modifier(kwargs["char_obj"],
+    $ change_stats_with_modifier(get_school(),
         education = DEC_SMALL, reputation = DEC_TINY)
     $ change_stats_with_modifier(get_character("teacher", charList['staff']),
         happiness = TINY)
@@ -143,7 +147,7 @@ label office_event_2 (**kwargs):
 
 # TODO: make images
 label office_event_3 (**kwargs):
-    $ image = Image_Series("images/events/office/office_event_3 <name> <level> <step>.webp", name = "high_school", **kwargs)
+    $ image = Image_Series("images/events/office/office_event_3 <level> <step>.webp", **kwargs)
 
     $ begin_event();
 
@@ -156,6 +160,9 @@ label office_event_3 (**kwargs):
     **kwargs)
 
 label .ignore (**kwargs):
+    
+    $ begin_event()
+    
     $ image.show(1)
     subtitles "You ignore them and continue you way."
 
@@ -165,6 +172,9 @@ label .ignore (**kwargs):
     jump new_daytime
 
 label .talk (**kwargs):
+    
+    $ begin_event()
+    
     $ image.show(2)
     headmaster "Why are you sitting here?"
     $ image.show(3)
@@ -180,6 +190,9 @@ label .talk (**kwargs):
     **kwargs)
 
 label .policy (**kwargs):
+    
+    $ begin_event()
+    
     $ image.show(5)
     headmaster "Well, you know that relationships between students are not allowed."
     $ image.show(6)
@@ -191,7 +204,7 @@ label .policy (**kwargs):
     sgirl "..."
     headmaster "Now you both go back to class."
 
-    $ change_stats_with_modifier(kwargs["char_obj"],
+    $ change_stats_with_modifier(get_school(),
         charm = SMALL, happiness = DEC_SMALL)
     $ change_stats_with_modifier(get_character("teacher", charList['staff']),
         happiness = TINY)
@@ -199,6 +212,9 @@ label .policy (**kwargs):
     jump new_daytime
 
 label .care (**kwargs):
+    
+    $ begin_event()
+    
     $ image.show(7)
     headmaster "Okay, listen. You know relationships aren't allowed here at school."
     $ image.show(6)
@@ -210,7 +226,7 @@ label .care (**kwargs):
     $ image.show(8)
     sgirl "Thank you!"
 
-    $ change_stats_with_modifier(kwargs["char_obj"],
+    $ change_stats_with_modifier(get_school(),
         charm = DEC_SMALL, happiness = MEDIUM, inhibition = DEC_SMALL)
     $ change_stats_with_modifier(get_character("teacher", charList['staff']),
         happiness = DEC_SMALL)

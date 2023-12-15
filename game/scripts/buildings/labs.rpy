@@ -34,7 +34,7 @@ label labs ():
 
 label .after_time_check (**kwargs):
     
-    $ school_obj = get_random_school()
+    $ school_obj = get_school()
 
     call show_idle_image(school_obj, "images/background/labs/bg f.webp", labs_bg_images) from labs_2
 

@@ -417,7 +417,7 @@ init -6 python:
 
             count = 0
             for l in self.levels:
-                if value < l:
+                if value <= l:
                     return count - 1
                 count += 1
 

@@ -16,11 +16,7 @@ init -6 python:
 
         def __init__(self, name: str, title: str):
             super().__init__(name, title)
-            self._unlocked = {
-                "high_school": False,
-                "middle_school": False,
-                "elementary_school": False,
-            }
+            self._unlocked = False
 
         def _update(self, title: str, data: Dict[str, Any] = None) -> None:
             super()._update(title, data)
@@ -28,12 +24,11 @@ init -6 python:
                 self.__dict__.update(data)
                 
             if not hasattr(self, '_unlocked'):
-                self._unlocked = {
-                    "high_school": False,
-                    "middle_school": False,
-                    "elementary_school": False,
-                }
-                
+                self._unlocked = False
+
+            if not isinstance(self._unlocked, bool):
+                self._unlocked = self._unlocked['high_school'] or self._unlocked['middle_school'] or self._unlocked['elementary_school']
+
         def get_type(self) -> str:
             """
             Returns the type of the journal object.
@@ -67,7 +62,7 @@ init -6 python:
             return None
         return rules[rule_name]
 
-    def is_rule_unlocked(rule_name: str, school: str) -> bool:
+    def is_rule_unlocked(rule_name: str) -> bool:
         """
         Returns whether the rule with the given name is unlocked for the given school.
 
@@ -85,7 +80,7 @@ init -6 python:
 
         if rule_name not in rules.keys():
             return False
-        return rules[rule_name].is_unlocked(school)
+        return rules[rule_name].is_unlocked()
 
     def is_rule_visible(rule_name: str, **kwargs) -> bool:
         """
@@ -145,7 +140,7 @@ label load_rules ():
             "Students get a new subject in which they deal with the topic of the human body and human reproduction. All on a theoretical basis, of course.",
         ],
         '_unlock_conditions': ConditionStorage(
-            StatCondition(inhibition = '95-', corruption = '10+'),
+            StatCondition(inhibition = '90-', corruption = '10+'),
             LevelCondition("1+", True),
             LockCondition(False),
         ),
@@ -164,7 +159,7 @@ label load_rules ():
             },
             'parents': {
                 'yes': 'I fully support the introduction of theoretical sex education in our school curriculum. It\'s essential for our children to have a comprehensive understanding of the topic to make informed decisions about their health and relationships. That\'s why I vote yes.',
-                'no': 'I believe that theoretical sex education is not appropriate for our school, and it should be left to parents to discuss these matters at home. We should prioritize other subjects that are more important for our children\'s education. So I vote no',
+                'no': 'I believe that theoretical sex education is not appropriate for our school, and it should be left to parents to discuss these matters at home. We should prioritize other subjects that are more important for our children\'s education. So I vote no.',
                 'veto': 'I vehemently oppose the introduction of theoretical sex education in our school; it\'s a ridiculous notion that infringes upon our parental rights and values. Our children\'s education should focus on traditional subjects, leaving discussions about sex to families. I veto.',
             },
         },
@@ -244,8 +239,8 @@ label load_rules ():
             StatCondition(inhibition = '80-'),
             LockCondition(),
         ),
-        '_image_path': 'images/journal/rules/theoretical_student_sex_ed_<school>_<level>.webp',
-        '_image_path_alt': 'images/journal/rules/theoretical_student_sex_ed_high_school_3.webp',
+        '_image_path': 'images/journal/rules/theoretical_student_sex_ed_<level>.webp',
+        '_image_path_alt': 'images/journal/rules/theoretical_student_sex_ed_3.webp',
         '_vote_comments': {
             'teacher': {
                 'yes': 'I believe that using student bodies as reference materials in theoretical sex education is an excellent way to help young people better understand their bodies, how they work and how to take care of them. It can also provide a safe environment for students to ask questions without feeling ashamed or embarrassed.',
@@ -276,7 +271,7 @@ label load_rules ():
             RuleCondition("theoretical_sex_ed", blocking = True),
             LockCondition(),
         ),
-        '_image_path': 'images/journal/rules/practical_sex_ed_<school>_<level>.webp',
+        '_image_path': 'images/journal/rules/practical_sex_ed_high_school_<level>.webp',
         '_image_path_alt': 'images/journal/rules/practical_sex_ed_high_school_6.webp',
         '_vote_comments': {
             'teacher': {
@@ -323,7 +318,7 @@ label load_rules ():
             RuleCondition("theoretical_student_material", blocking = True),
             LockCondition(),
         ),
-        '_image_path': 'images/journal/rules/practical_sex_ed_students_<school>_<level>.webp',
+        '_image_path': 'images/journal/rules/practical_sex_ed_students_high_school_<level>.webp',
         '_image_path_alt': 'images/journal/rules/practical_sex_ed_students_high_school_6.webp',
     })
 
@@ -362,8 +357,8 @@ label load_rules ():
             LevelCondition("3+"),
             LockCondition(False),
         ),
-        '_image_path': 'images/journal/rules/relaxed_uniform_<school>.webp',
-        '_image_path_alt': 'images/journal/rules/relaxed_uniform_high_school.webp',
+        '_image_path': 'images/journal/rules/relaxed_uniform.webp',
+        '_image_path_alt': 'images/journal/rules/relaxed_uniform.webp',
     })
 
     #! locked, currently not implemented
@@ -375,8 +370,8 @@ label load_rules ():
             LevelCondition("5+"),
             RuleCondition("relaxed_uniform", blocking = True),
         ),
-        '_image_path': 'images/journal/rules/sexy_uniform_<school>.webp',
-        '_image_path_alt': 'images/journal/rules/sexy_uniform_high_school.webp',
+        '_image_path': 'images/journal/rules/sexy_uniform.webp',
+        '_image_path_alt': 'images/journal/rules/sexy_uniform.webp',
     })
 
     #! locked, currently not implemented
@@ -388,8 +383,8 @@ label load_rules ():
             LevelCondition("8+"),
             RuleCondition("sexy_uniform", blocking = True),
         ),
-        '_image_path': 'images/journal/rules/nude_uniform_<school>.webp',
-        '_image_path_alt': 'images/journal/rules/nude_uniform_high_school.webp',
+        '_image_path': 'images/journal/rules/nude_uniform.webp',
+        '_image_path_alt': 'images/journal/rules/nude_uniform.webp',
     })
 
     return

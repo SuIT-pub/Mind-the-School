@@ -38,6 +38,46 @@ init -99 python:
             return kwargs[key]
         return alt
 
+    def max(*values: number) -> number:
+        """
+        Returns the largest value
+
+        ### Parameters:
+        1. *values: number
+            - The values to compare
+
+        ### Returns:
+        1. number
+            - The largest value
+        """
+
+        largest = None
+
+        for value in values:
+            if largest is None or value > largest:
+                largest = value
+        return largest
+
+    def min(*values: number) -> number:
+        """
+        Returns the smallest value
+
+        ### Parameters:
+        1. *values: number
+            - The values to compare
+
+        ### Returns:
+        1. number
+            - The smallest value
+        """
+
+        smallest = None
+
+        for value in values:
+            if smallest is None or value < smallest:
+                smallest = value
+        return smallest
+
     def clamp_value(value: num, min: num, max: num) -> num:
         """
         Clamps a value between a min and max
@@ -445,7 +485,7 @@ init -99 python:
 
         return key in gameData.keys()
 
-    def get_random_school() -> Char:
+    def get_school() -> Char:
         """
         Gets a random school
 
@@ -454,46 +494,7 @@ init -99 python:
             - The random school
         """
 
-        school = get_random_school_name()
-        return charList['schools'][school]
-
-    def get_random_school_name() -> str:
-        """
-        Gets a random school name
-
-        ### Returns:
-        1. str
-            - The random school name
-            - If loli_content is set to 2, the name is selected from all schools
-            - If loli_content is set to 1, the name is selected from all but the elementary_school
-            - If loli_content is set to 0, only high_school is selected
-        """
-
-        if loli_content == 2:
-            return get_random_choice("high_school", "middle_school", "elementary_school")
-        elif loli_content == 1:
-            return get_random_choice("high_school", "middle_school")
-        else:
-            return "high_school"
-
-    def get_all_schools() -> List[Char]:
-        """
-        Gets a list of all schools
-
-        ### Returns:
-        1. List[Char]
-            - The list with all schools
-            - If loli_content is set to 2, all schools are contained in that list
-            - If loli_content is set to 1, all but the elementary_school are contained in that list
-            - If loli_content is set to 0, only high_school is contained
-        """
-
-        if loli_content == 2:
-            return [charList['schools']['high_school'], charList['schools']['middle_school'], charList['schools']['elementary_school']]
-        elif loli_content == 1:
-            return [charList['schools']['high_school'], charList['schools']['middle_school']]
-        else:
-            return [charList['schools']['high_school']]
+        return charList['school']
 
     T = TypeVar('T')
 
@@ -552,6 +553,17 @@ init -99 python:
 
         return random.randint(start, end)
 
+    def get_random_loli() -> int:
+        """
+        Gets a random value representing the choice of loli_content
+
+        ### Returns:
+        1. int
+            - the random value
+        """
+        value = get_random_int(0, loli_content)
+        return value
+
     def log_val(key: str, value: Any):
         """
         Prints a key and value
@@ -575,6 +587,7 @@ init -99 python:
         """
 
         print(str(msg) + "\n")
+        return
 
     def log_error(msg: str):
         """
@@ -586,7 +599,8 @@ init -99 python:
         """
 
         print("|ERROR| " + str(msg) + "\n")
-        renpy.notify("|ERROR| " + str(msg))
+        # renpy.notify("|ERROR| " + str(msg))
+        return
 
     def get_stat_from_char_kwargs(stat: str, **kwargs) -> float:
         """

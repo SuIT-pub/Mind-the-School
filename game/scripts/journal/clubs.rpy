@@ -16,11 +16,7 @@ init -6 python:
 
         def __init__(self, name, title):
             super().__init__(name, title)
-            self._unlocked = {
-                "high_school": False,
-                "middle_school": False,
-                "elementary_school": False,
-            }
+            self._unlocked = False
 
         def _update(self, title: str, data: Dict[str, Any] = None) -> None:
             super()._update(title, data)
@@ -28,11 +24,10 @@ init -6 python:
                 self.__dict__.update(data)
 
             if not hasattr(self, '_unlocked'):
-                self._unlocked = {
-                    "high_school": False,
-                    "middle_school": False,
-                    "elementary_school": False,
-                }
+                self._unlocked = False
+
+            if not isinstance(self._unlocked, bool):
+                self._unlocked = self._unlocked['high_school'] or self._unlocked['middle_school'] or self._unlocked['elementary_school']
 
         def get_type(self) -> str:
             """
@@ -67,7 +62,7 @@ init -6 python:
             return clubs[club]
         return None
     
-    def is_club_unlocked(club_name: str, school: str) -> bool:
+    def is_club_unlocked(club_name: str) -> bool:
         """
         Returns whether the club with the given name is unlocked for the given school.
 
@@ -85,7 +80,7 @@ init -6 python:
 
         if club_name not in clubs.keys():
             return False
-        return clubs[club_name].is_unlocked(school)
+        return clubs[club_name].is_unlocked()
 
     def is_club_visible(club_name: str, **kwargs) -> bool:
         """
@@ -186,8 +181,8 @@ label load_clubs ():
             # LevelCondition("2+"),
             # LockCondition(),
         ),
-        '_image_path': 'images/journal/clubs/cheerleading_club_<school>_<level>.webp',
-        '_image_path_alt': 'images/journal/clubs/cheerleading_club_high_school_2.webp',
+        '_image_path': 'images/journal/clubs/cheerleading_club_<variant>_<level>.webp',
+        '_image_path_alt': 'images/journal/clubs/cheerleading_club_0_2.webp',
     })
 
     #! locked, currently not implemented

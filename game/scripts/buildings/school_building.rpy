@@ -1,7 +1,140 @@
-# TODO: make images
+#############################################
+# ----- School Building Event Handler ----- #
+#############################################
+
+init -1 python:
+    sb_timed_event = TempEventStorage("sb", "", Event(2, "school_building.after_time_check"))
+    sb_events = {
+        "check_class": EventStorage("check_class", "Check Class",      default_fallback, "There is nobody here."),
+        "teach_class": EventStorage("teach_class", "Teach a Class",    default_fallback, "There is nobody here."),
+        "patrol":      EventStorage("patrol",      "Patrol building",  default_fallback, "There is nobody here."),
+        "students":    EventStorage("students",    "Talk to students", default_fallback, "There is nobody here."),
+    }
+
+    sb_timed_event.add_event(Event(1,
+        ["first_week_sb_event"],
+        TimeCondition(day = "2-4", month = 1, year = 2023),
+    ))
+
+    sb_timed_event.add_event(Event(1,
+        ["first_potion_sb_event"],
+        TimeCondition(day = 9, month = 1, year = 2023),
+    ))
+
+    event1 = Event(3, 
+        ["sb_event_1"],
+        TimeCondition(daytime = "c", weekday = "d"),
+    )
+
+    sb_events["teach_class"].add_event(event1)
+    sb_events["teach_class"].add_event(Event(3,
+        ["sb_event_2"],
+        TimeCondition(daytime = "c", weekday = "d"),
+    ))
+    
+    sb_events["patrol"].add_event(event1)
+    sb_events["patrol"].add_event(Event(3, 
+        ["sb_event_3"], 
+        TimeCondition(daytime = "d")
+    ))
+
+
+
+    sb_timed_event.check_all_events()
+    map(lambda x: x.check_all_events(), sb_events.values())
+
+    sb_bg_images = [
+        BGImage("images/background/school building/bg c <loli> <level> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")),
+        BGImage("images/background/school building/bg 7.webp", 1, TimeCondition(daytime = 7)),
+    ]
+
+##################################################
+
+###########################################
+# ----- School Building Entry Point ----- #
+###########################################
+
+label school_building ():
+
+    call call_available_event(sb_timed_event) from school_building_1
+
+label .after_time_check (**kwargs):
+
+    $ school_obj = get_character("school", charList)
+
+    call show_idle_image(school_obj, "images/background/school building/bg f.webp", sb_bg_images,
+        loli = get_random_loli()
+    ) from school_building_2
+
+    call call_event_menu (
+        "What to do in the School?", 
+        sb_events,
+        default_fallback,
+        character.subtitles,
+        char_obj = school_obj,
+    ) from school_building_3
+
+    jump school_building
+
+################################################
+
+######################################
+# ----- School Building Events ----- #
+######################################
+
+# first week event
+label first_week_sb_event (**kwargs):
+    
+    $ begin_event()
+
+    show first week school building 1 with dissolveM
+    subtitles """You enter the main building of the high school.
+        
+        Well, you don't really need to enter the building to get an idea of the state it's in."""
+        
+    show first week school building 2 with dissolveM
+    headmaster_thought """Despite my fear, the building seems to be rather well maintained.
+
+        It could be a bit cleaner but the corridor seems rather well.
+
+        Let's see the classrooms."""
+    
+    show first week school building 3 with dissolveM
+    headmaster_thought "Oh not bad as well. "
+
+    show first week school building 4 with dissolveM
+    headmaster_thought "Hmm I think there should be a class right now, let's check."
+
+    show first week school building 6 with dissolveM
+    headmaster_thought "Hmm looks like a normal class, but I think the students have no material?"
+    headmaster_thought "Yeah, not one school girl has even one book."
+    headmaster_thought "I guess the former headmaster cut back on those"
+
+    $ change_stat("education", 5, get_school())
+
+    $ set_building_blocked("school_building")
+
+    jump new_day
+
+label first_potion_sb_event (**kwargs):
+
+    $ begin_event()
+    
+    show first potion school building 1 with dissolveM
+    headmaster_thought "Let's see how classes are today."
+    
+    show first potion school building 2 with dissolveM
+    subtitles "You look into a classroom and the first thing you notice is that almost everyone has opened up or at least partially removed their clothes."
+    subtitles "Apparently the teachers also took a drink."
+    headmaster_thought "Hmm, I can't wait to have this view on a regular basis, but that's gonna take some time."
+
+    $ set_building_blocked("school_building")
+
+    jump new_daytime
+
 label sb_event_1 (**kwargs): # patrol, check class
     # show screen black_screen_text("sb_event_1")
-    $ image = Image_Series("/images/events/school building/sb_event_1 <name> <step>.webp", **kwargs)
+    $ image = Image_Series("/images/events/school building/sb_event_1 <step>.webp", **kwargs)
 
     $ begin_event()
 
@@ -15,9 +148,12 @@ label sb_event_1 (**kwargs): # patrol, check class
 
     $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
         ("Leave and let them have fun", "sb_event_1.leave"),
-        ("Stop them", "sb_event_1.stop", not is_rule_unlocked("student_student_relation", "high_school")), 
+        ("Stop them", "sb_event_1.stop", not is_rule_unlocked("student_student_relation")), 
     **kwargs)
 label .leave (**kwargs):
+    
+    $ begin_event()
+    
     # show screen black_screen_text("sb_event_1.leave")
     $ image.show(2)
     # call show_image("/images/events/school building/sb_event_1 <name> 3.webp", SCENE, **kwargs)
@@ -27,6 +163,9 @@ label .leave (**kwargs):
     jump new_daytime
 
 label .stop (**kwargs):
+    
+    $ begin_event()
+    
     # show screen black_screen_text("sb_event_1.stop")
     $ image.show(3)
     # call show_image("/images/events/school building/sb_event_1 <name> 4.webp", SCENE, **kwargs)
@@ -38,7 +177,7 @@ label .stop (**kwargs):
 
 # TODO: make images
 label sb_event_2 (**kwargs): # teach class
-    $ image = Image_Series("/images/events/school building/sb_event_2 <name> <step>.webp", **kwargs)
+    $ image = Image_Series("/images/events/school building/sb_event_2 <step>.webp", **kwargs)
 
     $ begin_event()
 
@@ -52,6 +191,9 @@ label sb_event_2 (**kwargs): # teach class
     **kwargs)
 
 label .leave (**kwargs):
+    
+    $ begin_event()
+    
     $ image.show(2)
     subtitles "You decide to leave her alone."
     $ change_stats_with_modifier(kwargs["char_obj"],
@@ -59,6 +201,9 @@ label .leave (**kwargs):
     jump new_daytime
 
 label .help (**kwargs):
+    
+    $ begin_event()
+    
     $ image.show(3)
     subtitles "You help her up."
     $ change_stats_with_modifier(kwargs["char_obj"],
@@ -67,7 +212,7 @@ label .help (**kwargs):
 
 # TODO: make images
 label sb_event_3 (**kwargs): # patrol
-    $ image = Image_Series("/images/events/school building/sb_event_3 <name> <step>.webp", **kwargs)
+    $ image = Image_Series("/images/events/school building/sb_event_3 <step>.webp", **kwargs)
 
     $ begin_event()
 
@@ -87,6 +232,9 @@ label sb_event_3 (**kwargs): # patrol
     **kwargs)
 
 label .what (**kwargs):
+    
+    $ begin_event()
+    
     $ image.show(3) # headmaster sits next to her
     headmaster "What is going on? I can see there is something bothering you."
 
@@ -105,6 +253,9 @@ label .what (**kwargs):
     **kwargs)
 
 label .leave (**kwargs):
+    
+    $ begin_event()
+    
     $ image.show(6)
     subtitles"You hesitate for a moment, but then decide to leave her alone."
 
@@ -125,6 +276,9 @@ label .leave (**kwargs):
     jump new_daytime
 
 label .get_to_bottom (**kwargs):
+    
+    $ begin_event()
+    
     $ image.show(3) # headmaster looks to girl
     headmaster "I really want to help you. Please tell me what is going on."
 
@@ -157,6 +311,9 @@ label .get_to_bottom (**kwargs):
     jump new_daytime
 
 label .send_class (**kwargs):
+    
+    $ begin_event()
+    
     $ image.show(15) # headmaster starts walking away
     headmaster "Then you better get back to class."
 
@@ -176,6 +333,8 @@ label .send_class (**kwargs):
 
 label .poor_thing (**kwargs):
 
+    $ begin_event()
+    
     $ image.show(19) # headmaster squats next to her
     headmaster "Look, maybe you should just take the day off. I'll notify your teacher."
 
@@ -189,6 +348,8 @@ label .poor_thing (**kwargs):
     jump new_daytime
 
 label .chin_up (**kwargs):
+    
+    $ begin_event()
     
     $ image.show(19) # headmaster squats next to her
     headmaster "Now, now, it can't be that bad. I'm sure whatever caused those tears will soon be forgotten."

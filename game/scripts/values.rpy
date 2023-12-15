@@ -16,7 +16,6 @@ default rules = {}
 default buildings = {}
 default clubs = {}
 default charList = {
-    'schools': {},
     'staff': {},
 }
 

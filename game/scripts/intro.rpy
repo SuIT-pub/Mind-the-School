@@ -32,8 +32,6 @@ label intro ():
         $ school_config = "a High, Middle and Elementary School."
 
     $ school_config_noun = "school"
-    if loli_content > 0:
-        $ school_config_noun = "schools"
 
     show screen black_error_screen_text ("")
 
@@ -55,7 +53,7 @@ label .start:
     nv_text "Welcome to [school_name]!"
     nv_text "[school_name] is a school located deep in the woods, aeons away from the nearest city."
     nv_text "This academy consists of [school_config]"
-    nv_text "Here it is where you, the new headmaster, will take on the task of managing the [school_config_noun] and restoring them back to their former glory."
+    nv_text "Here it is where you, the new headmaster, will take on the task of managing the school and restoring them back to their former glory."
 
     nvl clear
 
@@ -198,9 +196,7 @@ label .start:
 
 label skip_to_free_roam ():
     
-    $ set_level_for_char(1, "high_school", charList["schools"])
-    $ set_level_for_char(1, "middle_school", charList["schools"])
-    $ set_level_for_char(1, "elementary_school", charList["schools"])
+    $ set_level_for_char(1, "school", charList)
     $ set_level_for_char(1, "teacher", charList["staff"])
     $ set_level_for_char(1, "parents", charList)
     $ set_level_for_char(5, "secretary", charList["staff"])

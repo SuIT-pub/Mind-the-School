@@ -44,7 +44,7 @@ init -1 python:
     map(lambda x: x.check_all_events(), gym_events.values())
 
     gym_bg_images = [
-        BGImage("images/background/gym/bg c <name> <level> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")), # show gym with students
+        BGImage("images/background/gym/bg c <loli> <level> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")), # show gym with students
         BGImage("images/background/gym/bg 7.webp", 1, TimeCondition(daytime = 7)), # show gym at night empty
     ]
     
@@ -60,9 +60,11 @@ label gym ():
 
 label .after_time_check (**kwargs):
 
-    $ school_obj = get_random_school()
+    $ school_obj = get_school()
 
-    call show_idle_image(school_obj, "images/background/gym/bg f.webp", gym_bg_images) from gym_2
+    call show_idle_image(school_obj, "images/background/gym/bg f.webp", gym_bg_images, 
+        loli = get_random_loli()
+    ) from gym_2
 
     call call_event_menu (
         "What to do in the Gym?", 
@@ -81,6 +83,9 @@ label .after_time_check (**kwargs):
 ##########################
 
 label first_potion_gym_event (**kwargs):
+    
+    $ begin_event()
+    
     show first potion gym 1 with dissolveM
     subtitles "You enter the Gym and see a group of students and teacher in a yoga session."
 
@@ -100,6 +105,9 @@ label first_potion_gym_event (**kwargs):
 
 # first week event
 label first_week_gym_event (**kwargs):
+    
+    $ begin_event()
+    
     show first week gym 1 with dissolveM
     headmaster_thought "Okay, now the Gym. I have been here shortly for my introduction speech but I haven't had the chance to get a thorough look."
 
@@ -110,7 +118,7 @@ label first_week_gym_event (**kwargs):
     headmaster_thought "Seems to be decently stocked."
     headmaster_thought "The material is well maintained. I guess it's alright."
 
-    $ change_stat_for_all("charm", 5, charList["schools"])
+    $ change_stat("charm", 5, get_school())
 
     $ set_building_blocked("gym")
 
@@ -128,13 +136,9 @@ label gym_event_1 (**kwargs):
 
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
-    $ school_name = "high_school" #char_obj.get_name()
-
     $ corruption = char_obj.get_stat_number(CORRUPTION)
 
-    $ girls = {
-        "high_school": ("Aona Komuro", "Elsie Johnson")
-    }
+    $ girls = ("Aona Komuro", "Elsie Johnson")
 
     $ variant = get_random_choice("shoes", "hair", "ready")
 
@@ -146,7 +150,7 @@ label gym_event_1 (**kwargs):
 
     $ topic = topics[variant]
 
-    $ image = Image_Series("/images/events/gym/gym_event_1 <name> <level> <topic> <step>.webp", topic = variant, name = school_name, **kwargs)
+    $ image = Image_Series("/images/events/gym/gym_event_1 <level> <topic> <step>.webp", topic = variant, **kwargs)
 
     $ begin_event()
 
@@ -155,37 +159,37 @@ label gym_event_1 (**kwargs):
 
     if corruption >= 80:
         show screen black_screen_text("gym_event_1\ncorruption >= 80")
-        sgirl "Im [topic] right now, how about a quick make out session before class starts? We got a few minutes for that." (name = girls[school_name][0])
+        sgirl "Im [topic] right now, how about a quick make out session before class starts? We got a few minutes for that." (name = girls[0])
         headmaster "For a girl as pretty as you? Of course I do!"
         subtitles "After she is ready, you spend a few minutes making out with her."
         $ change_stats_with_modifier(char_obj, 
             inhibition = DEC_LARGE, corruption = MEDIUM, charm = SMALL)
     elif corruption >= 60:
         show screen black_screen_text("gym_event_1\ncorruption >= 60")
-        sgirl "Im [topic] now, how about a proper good luck kiss before class?" (name = girls[school_name][0])
+        sgirl "Im [topic] now, how about a proper good luck kiss before class?" (name = girls[0])
         headmaster "That sounds like a very good measure!"
         subtitles "After she is ready, you french kiss her for a minute."
         $ change_stats_with_modifier(char_obj, 
             inhibition = DEC_MEDIUM, corruption = MEDIUM, charm = SMALL)
     elif corruption >= 40:
         show screen black_screen_text("gym_event_1\ncorruption >= 40")
-        sgirl "just [topic] for P.E.\n Say, do you wish we would just run around nude all day?" (name = girls[school_name][0])
-        sgirl "We just might if you asked us to." (name = girls[school_name][1])
+        sgirl "just [topic] for P.E.\n Say, do you wish we would just run around nude all day?" (name = girls[0])
+        sgirl "We just might if you asked us to." (name = girls[1])
         # tease headmaster -> run off
         sgirl "*giggle*" (name="School Girls")
         $ change_stats_with_modifier(char_obj, 
             inhibition = DEC_SMALL, corruption = MEDIUM, charm = SMALL)
     elif corruption >= 20:
         show screen black_screen_text("gym_event_1\ncorruption >= 20")
-        sgirl "Just [topic] for P.E.\n Say, do you wish we would just run around in underwear all day?" (name = girls[school_name][0])
-        sgirl "We just might if you asked us to." (name = girls[school_name][1])
+        sgirl "Just [topic] for P.E.\n Say, do you wish we would just run around in underwear all day?" (name = girls[0])
+        sgirl "We just might if you asked us to." (name = girls[1])
         # tease headmaster -> run off
         sgirl "*giggle*" (name="School Girls")
         $ change_stats_with_modifier(char_obj, 
             inhibition = DEC_SMALL, corruption = SMALL, charm = SMALL)
     elif corruption >= 5:
         $ image.show(1)
-        sgirl "Just give me a moment more to get ready for class. You like watching me doing whatever, right?" (name = girls[school_name][0])
+        sgirl "Just give me a moment more to get ready for class. You like watching me doing whatever, right?" (name = girls[0])
 
         $ image.show(2)
         headmaster "As pretty as you are? I sure do!"
@@ -194,7 +198,7 @@ label gym_event_1 (**kwargs):
             inhibition = DEC_SMALL, corruption = TINY, charm = TINY)
     else:
         $ image.show(1)
-        sgirl "Are you getting ready for gym class too, Mr. [headmaster_last_name]?" (name = girls[school_name][0])
+        sgirl "Are you getting ready for gym class too, Mr. [headmaster_last_name]?" (name = girls[0])
 
         $ change_stats_with_modifier(char_obj, 
             inhibition = DEC_TINY, corruption = TINY, charm = TINY)
@@ -207,7 +211,7 @@ label gym_event_2 (**kwargs):
 
     $ topic = get_random_choice((0.75, "clothe"), "breasts", (0.15, "asses"))
 
-    $ image = Image_Series("/images/events/gym/gym_event_2 <name> <level> <topic> <step>.webp", topic = topic, name = "high_school", **kwargs)
+    $ image = Image_Series("/images/events/gym/gym_event_2 <level> <topic> <step>.webp", topic = topic, name = "high_school", **kwargs)
 
     $ begin_event()
 
@@ -253,12 +257,18 @@ label gym_event_2 (**kwargs):
 
     jump new_daytime
 label .sorry (**kwargs):
+    
+    $ begin_event()
+    
     sgirl "Okay..."
     headmaster_thought "I think she doesn't believe me..."
     $ change_stats_with_modifier(char_obj,
         HAPPINESS = DEC_MEDIUM, REPUTATION = DEC_SMALL)
     jump new_daytime
 label .escape (**kwargs):
+    
+    $ begin_event()
+    
     sgirl "Oh, I was just..."
     headmaster "It's okay. You couldn't possible know."
     subtitles "You leave the room and leave the girls behind dumbfounded."
@@ -278,7 +288,7 @@ label gym_event_3 (**kwargs):
     $ girl_name = girls[variant].split(" ")[0]
     $ girl_full_name = girls[variant]
 
-    $ image = Image_Series("/images/events/gym/gym_event_3 <name> <level> <variant> <step>.webp", variant = variant, name = "high_school", **kwargs)
+    $ image = Image_Series("/images/events/gym/gym_event_3 <level> <variant> <step>.webp", variant = variant, **kwargs)
 
     $ begin_event()
 

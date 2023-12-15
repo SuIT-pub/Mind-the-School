@@ -484,9 +484,7 @@ label .replay:
 
     # for the rest of the day the strong effects can be observed throughout the campus
     
-    $ set_level_for_char(1, "high_school", charList["schools"])
-    $ set_level_for_char(1, "middle_school", charList["schools"])
-    $ set_level_for_char(1, "elementary_school", charList["schools"])
+    $ set_level_for_char(1, "school", charList)
     $ set_level_for_char(1, "teacher", charList["staff"])
     $ set_level_for_char(1, "parents", charList)
     $ set_level_for_char(5, "secretary", charList["staff"])
@@ -594,5 +592,3 @@ label .skip:
 label end_of_month (**kwargs):
 
     $ change_stat(MONEY, 1000)
-
-    jump new_daytime
