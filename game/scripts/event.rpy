@@ -2,6 +2,7 @@ init -3 python:
     import re
     import random
     import time
+    from typing import Any, Dict, List, Tuple, Union
     
     class EventStorage:
         """
@@ -503,6 +504,19 @@ init -3 python:
         """
         This class represents an event that can be called.
 
+        ### Parameters:
+        1. priority: int
+            - The priority of the event.
+            - 1 = highest (the first 1 to occur is called blocking all other events)
+            - 2 = middle (all 2's are called after each other)
+            - 3 = lowest (selected random among 3's)
+        2. event: str
+            - The name of the event. This is used to call the event.
+        3. values: SelectorSet
+            - The values that are passed to the event.
+        4. *conditions: Condition
+            - The conditions that need to be fulfilled for the event to be available.
+
         ### Attributes:
         1. event_id: str
             - The id of the event. This is used to identify the event.
@@ -536,13 +550,13 @@ init -3 python:
             - Returns True if all conditions are fulfilled.
         8. call(**kwargs)
             - Calls the event.
+
+
         """
 
-        def __init__(self, priority: int, event: str | List[str], *conditions: Condition):
+        def __init__(self, priority: int, event: str, values: SelectorSet = None, *conditions: Condition):
             self.event_id = str(id(self))
             self.event = event
-            if isinstance(self.event, str):
-                self.event = [self.event]
             self.conditions = list(conditions)
 
             # 1 = highest (the first 1 to occur is called blocking all other events)
@@ -550,6 +564,7 @@ init -3 python:
             # 3 = lowest (selected random among 3's)
             self.priority = priority 
             self.event_type = ""
+            self.values = values
 
         def __str__(self):
             return self.event_id
@@ -569,6 +584,9 @@ init -3 python:
 
             if not hasattr(self, 'event_type'):
                 self.event_type = ""
+
+            if not hasattr(self, 'values'):
+                self.values = []
 
             self.__dict__.update(data)
 
@@ -612,20 +630,7 @@ init -3 python:
 
             self.event_type = event_type
 
-        def add_event(self, *event: Event):
-            """
-            Adds an event to the event.
-
-            ### Parameters:
-            1. *event: Event
-                - The events that are added to the event.
-            """
-
-            events = list(event)
-
-            self.event.extend(events)
-
-        def get_event(self) -> List[str]:
+        def get_event(self) -> str:
             """
             Returns the events depending on the priority.
             If the priority is 1 a list containing the first event is returned.
@@ -637,31 +642,7 @@ init -3 python:
                 - A list containing the events depending on the priority.
             """
 
-            if isinstance(self.event, str):
-                return [self.event]
-            else:
-                if len(self.event) == 0:
-                    return []
-                if self.priority == 1:
-                    return [self.event[0]]
-                elif self.priority == 2:
-                    return self.event
-                else:
-                    return [random.choice(self.event)]
-
-        def get_event_count(self) -> int:
-            """
-            Returns the number of events stored.
-
-            ### Returns:
-            1. int
-                - The number of events stored.
-            """
-
-            if isinstance(self.event, str):
-                return 1
-            else:
-                return len(self.event)
+            return self.event
 
         def get_priority(self) -> int:
             """
@@ -707,7 +688,11 @@ init -3 python:
             if "event_type" not in kwargs.keys():
                 kwargs["event_type"] = self.event_type
 
+            if self.values != None:
+                kwargs.update(self.values.get_values())
+
             renpy.call("call_event", events, self.priority, **kwargs)
+
 
 label call_available_event(event_storage, priority = 0, **kwargs):
     # """

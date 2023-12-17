@@ -91,3 +91,1930 @@ Version: b'4.6.0 - Build 31.0.101.4575'
 Display Info: None
 Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
 Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 2069.94s
+Early init. took 0.00s
+Loader init. took 0.09s
+Loading error handling. took 0.05s
+Loading script. took 0.27s
+Loading save slot metadata. took 0.10s
+Loading persistent. took 0.00s
+
+File "game/scripts/event.rpy", line 542: invalid syntax
+        def __init__(self, priority: int, event: str | List[str], *conditions: Condition, *, values: List[] = None):
+                                                                                           ^
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Interface start. took 0.18s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 2088.40s
+Early init. took 0.00s
+Loader init. took 0.05s
+Loading error handling. took 0.02s
+Loading script. took 0.25s
+Loading save slot metadata. took 0.13s
+Loading persistent. took 0.00s
+
+File "game/scripts/event.rpy", line 542: invalid syntax
+        def __init__(self, priority: int, event: str | List[str], *conditions: Condition, *, values: List[ValueSet] = None):
+                                                                                           ^
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Interface start. took 0.17s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 2111.34s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.02s
+Loading script. took 0.23s
+Loading save slot metadata. took 0.06s
+Loading persistent. took 0.00s
+Running init code. took 0.05s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.11s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.08s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.07s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.07s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.04s
+Prepare screens took 0.12s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.08s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 2138.01s
+Early init. took 0.00s
+Loader init. took 0.05s
+Loading error handling. took 0.05s
+Loading script. took 0.22s
+Loading save slot metadata. took 0.06s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.07s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.06s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.08s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.01s
+Save screen analysis took 0.03s
+Prepare screens took 0.07s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.06s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 2338.58s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.06s
+Loading script. took 0.23s
+Loading save slot metadata. took 0.09s
+Loading persistent. took 0.00s
+Running init code. took 0.05s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.06s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.08s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.10s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.02s
+Analyze screens took 0.03s
+Save screen analysis took 0.03s
+Prepare screens took 0.08s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.10s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 2367.99s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.04s
+Loading script. took 0.18s
+Loading save slot metadata. took 0.07s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.05s
+Index archives took 0.00s
+Dump and make backups. took 0.05s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.10s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.04s
+Analyze screens took 0.00s
+Save screen analysis took 0.00s
+Prepare screens took 0.07s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.00s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.07s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 2780.40s
+Early init. took 0.00s
+Loader init. took 0.05s
+Loading error handling. took 0.02s
+Loading script. took 0.18s
+Loading save slot metadata. took 0.08s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.06s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.06s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.08s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.00s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.07s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.08s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 3123.93s
+Early init. took 0.00s
+Loader init. took 0.07s
+Loading error handling. took 0.06s
+Loading script. took 0.25s
+Loading save slot metadata. took 0.17s
+Loading persistent. took 0.00s
+Running init code. took 0.07s
+Loading analysis data. took 0.03s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.09s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.07s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.12s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.07s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.04s
+Prepare screens took 0.09s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.11s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 3133.60s
+Early init. took 0.00s
+Loader init. took 0.05s
+Loading error handling. took 0.05s
+Loading script. took 0.23s
+Loading save slot metadata. took 0.07s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.08s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.17s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.10s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.08s
+Build styles took 0.00s
+Load screen analysis took 0.02s
+Analyze screens took 0.02s
+Save screen analysis took 0.04s
+Prepare screens took 0.14s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.04s
+Running _start took 0.01s
+Performance test:
+Interface start. took 0.13s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 3172.26s
+Early init. took 0.00s
+Loader init. took 0.07s
+Loading error handling. took 0.04s
+Loading script. took 0.17s
+Loading save slot metadata. took 0.07s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.06s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.07s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.08s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.04s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.08s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.07s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 3209.48s
+Early init. took 0.00s
+Loader init. took 0.07s
+Loading error handling. took 0.05s
+Loading script. took 0.19s
+Loading save slot metadata. took 0.11s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.03s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.08s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.09s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.10s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.07s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.04s
+Prepare screens took 0.09s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.07s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 3266.48s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.04s
+Loading script. took 0.18s
+Loading save slot metadata. took 0.07s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.03s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.08s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.08s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.08s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.06s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.09s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.06s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 3444.57s
+Early init. took 0.00s
+Loader init. took 0.05s
+Loading error handling. took 0.04s
+Loading script. took 0.20s
+Loading save slot metadata. took 0.11s
+Loading persistent. took 0.00s
+Running init code. took 0.05s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.05s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.05s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.08s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.13s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.09s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 3538.33s
+Early init. took 0.00s
+Loader init. took 0.05s
+Loading error handling. took 0.04s
+Loading script. took 0.18s
+Loading save slot metadata. took 0.07s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.05s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.06s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.06s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.06s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.06s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 3746.66s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.05s
+Loading script. took 0.25s
+Loading save slot metadata. took 0.07s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.04s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.06s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.07s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.04s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.01s
+Save screen analysis took 0.03s
+Prepare screens took 0.07s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.06s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 3786.91s
+Early init. took 0.00s
+Loader init. took 0.07s
+Loading error handling. took 0.05s
+Loading script. took 0.25s
+Loading save slot metadata. took 0.09s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.07s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.06s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.13s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.06s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.05s
+Prepare screens took 0.09s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.01s
+Performance test:
+Interface start. took 0.14s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 3862.00s
+Early init. took 0.00s
+Loader init. took 0.05s
+Loading error handling. took 0.04s
+Loading script. took 0.25s
+Loading save slot metadata. took 0.07s
+Loading persistent. took 0.00s
+Running init code. took 0.05s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.07s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.07s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.08s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.05s
+Prepare screens took 0.09s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.08s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 4133.97s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.04s
+Loading script. took 0.16s
+Loading save slot metadata. took 0.06s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.06s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.07s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.07s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.07s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.07s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 4316.03s
+Early init. took 0.00s
+Loader init. took 0.05s
+Loading error handling. took 0.04s
+Loading script. took 0.17s
+Loading save slot metadata. took 0.08s
+Loading persistent. took 0.00s
+Running init code. took 0.03s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.06s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.06s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.08s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.06s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.08s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.07s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 4461.63s
+Early init. took 0.00s
+Loader init. took 0.07s
+Loading error handling. took 0.04s
+Loading script. took 0.25s
+Loading save slot metadata. took 0.07s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.06s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.05s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.06s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.06s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.06s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 4584.29s
+Early init. took 0.00s
+Loader init. took 0.07s
+Loading error handling. took 0.04s
+Loading script. took 0.28s
+Loading save slot metadata. took 0.07s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.06s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.05s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.07s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.04s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.01s
+Save screen analysis took 0.03s
+Prepare screens took 0.09s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.07s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 4665.76s
+Early init. took 0.00s
+Loader init. took 0.05s
+Loading error handling. took 0.04s
+Loading script. took 0.25s
+Loading save slot metadata. took 0.13s
+Loading persistent. took 0.00s
+Running init code. took 0.05s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.06s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.07s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.07s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.07s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.01s
+Performance test:
+Interface start. took 0.08s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 4805.05s
+Early init. took 0.00s
+Loader init. took 0.05s
+Loading error handling. took 0.05s
+Loading script. took 0.25s
+Loading save slot metadata. took 0.07s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.06s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.08s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.10s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.07s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.01s
+Performance test:
+Interface start. took 0.08s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 4885.10s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.06s
+Loading script. took 0.24s
+Loading save slot metadata. took 0.09s
+Loading persistent. took 0.00s
+Running init code. took 0.05s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.06s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.06s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.08s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.08s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.05s
+Running _start took 0.01s
+Performance test:
+Interface start. took 0.13s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 4984.74s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.04s
+Loading script. took 0.21s
+Loading save slot metadata. took 0.08s
+Loading persistent. took 0.00s
+Running init code. took 0.03s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.05s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.05s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.07s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.07s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.07s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 5028.12s
+Early init. took 0.00s
+Loader init. took 0.05s
+Loading error handling. took 0.04s
+Loading script. took 0.20s
+Loading save slot metadata. took 0.10s
+Loading persistent. took 0.00s
+Running init code. took 0.20s
+Loading analysis data. took 0.03s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.08s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.09s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.07s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.04s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.01s
+Save screen analysis took 0.03s
+Prepare screens took 0.08s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.06s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 5060.62s
+Early init. took 0.00s
+Loader init. took 0.05s
+Loading error handling. took 0.04s
+Loading script. took 0.20s
+Loading save slot metadata. took 0.07s
+Loading persistent. took 0.00s
+|ERROR|  at Event 85613920: Label t is missing!
+
+|ERROR|  at Event 85613920: Label u is missing!
+
+|ERROR|  at Event 85613920: Label t is missing!
+
+|ERROR|  at Event 85613920: Label o is missing!
+
+|ERROR|  at Event 85613920: Label r is missing!
+
+|ERROR|  at Event 85613920: Label i is missing!
+
+|ERROR|  at Event 85613920: Label a is missing!
+
+|ERROR|  at Event 85613920: Label l is missing!
+
+|ERROR|  at Event 85613920: Label _ is missing!
+
+|ERROR|  at Event 85613920: Label 1 is missing!
+
+|ERROR|  at Event 85612336: Label f is missing!
+
+|ERROR|  at Event 85612336: Label i is missing!
+
+|ERROR|  at Event 85612336: Label r is missing!
+
+|ERROR|  at Event 85612336: Label s is missing!
+
+|ERROR|  at Event 85612336: Label t is missing!
+
+|ERROR|  at Event 85612336: Label _ is missing!
+
+|ERROR|  at Event 85612336: Label w is missing!
+
+|ERROR|  at Event 85612336: Label e is missing!
+
+|ERROR|  at Event 85612336: Label e is missing!
+
+|ERROR|  at Event 85612336: Label k is missing!
+
+|ERROR|  at Event 85612336: Label _ is missing!
+
+|ERROR|  at Event 85612336: Label e is missing!
+
+|ERROR|  at Event 85612336: Label p is missing!
+
+|ERROR|  at Event 85612336: Label i is missing!
+
+|ERROR|  at Event 85612336: Label l is missing!
+
+|ERROR|  at Event 85612336: Label o is missing!
+
+|ERROR|  at Event 85612336: Label g is missing!
+
+|ERROR|  at Event 85612336: Label u is missing!
+
+|ERROR|  at Event 85612336: Label e is missing!
+
+|ERROR|  at Event 85613632: Label f is missing!
+
+|ERROR|  at Event 85613632: Label i is missing!
+
+|ERROR|  at Event 85613632: Label r is missing!
+
+|ERROR|  at Event 85613632: Label s is missing!
+
+|ERROR|  at Event 85613632: Label t is missing!
+
+|ERROR|  at Event 85613632: Label _ is missing!
+
+|ERROR|  at Event 85613632: Label w is missing!
+
+|ERROR|  at Event 85613632: Label e is missing!
+
+|ERROR|  at Event 85613632: Label e is missing!
+
+|ERROR|  at Event 85613632: Label k is missing!
+
+|ERROR|  at Event 85613632: Label _ is missing!
+
+|ERROR|  at Event 85613632: Label e is missing!
+
+|ERROR|  at Event 85613632: Label p is missing!
+
+|ERROR|  at Event 85613632: Label i is missing!
+
+|ERROR|  at Event 85613632: Label l is missing!
+
+|ERROR|  at Event 85613632: Label o is missing!
+
+|ERROR|  at Event 85613632: Label g is missing!
+
+|ERROR|  at Event 85613632: Label u is missing!
+
+|ERROR|  at Event 85613632: Label e is missing!
+
+|ERROR|  at Event 85613632: Label _ is missing!
+
+|ERROR|  at Event 85613632: Label f is missing!
+
+|ERROR|  at Event 85613632: Label i is missing!
+
+|ERROR|  at Event 85613632: Label n is missing!
+
+|ERROR|  at Event 85613632: Label a is missing!
+
+|ERROR|  at Event 85613632: Label l is missing!
+
+|ERROR|  at Event 85614064: Label f is missing!
+
+|ERROR|  at Event 85614064: Label i is missing!
+
+|ERROR|  at Event 85614064: Label r is missing!
+
+|ERROR|  at Event 85614064: Label s is missing!
+
+|ERROR|  at Event 85614064: Label t is missing!
+
+|ERROR|  at Event 85614064: Label _ is missing!
+
+|ERROR|  at Event 85614064: Label p is missing!
+
+|ERROR|  at Event 85614064: Label t is missing!
+
+|ERROR|  at Event 85614064: Label a is missing!
+
+|ERROR|  at Event 85614064: Label _ is missing!
+
+|ERROR|  at Event 85614064: Label m is missing!
+
+|ERROR|  at Event 85614064: Label e is missing!
+
+|ERROR|  at Event 85614064: Label e is missing!
+
+|ERROR|  at Event 85614064: Label t is missing!
+
+|ERROR|  at Event 85614064: Label i is missing!
+
+|ERROR|  at Event 85614064: Label n is missing!
+
+|ERROR|  at Event 85614064: Label g is missing!
+
+|ERROR|  at Event 85610752: Label p is missing!
+
+|ERROR|  at Event 85610752: Label t is missing!
+
+|ERROR|  at Event 85610752: Label a is missing!
+
+|ERROR|  at Event 85610752: Label _ is missing!
+
+|ERROR|  at Event 85610752: Label m is missing!
+
+|ERROR|  at Event 85610752: Label e is missing!
+
+|ERROR|  at Event 85610752: Label e is missing!
+
+|ERROR|  at Event 85610752: Label t is missing!
+
+|ERROR|  at Event 85610752: Label i is missing!
+
+|ERROR|  at Event 85610752: Label n is missing!
+
+|ERROR|  at Event 85610752: Label g is missing!
+
+|ERROR|  at Event 85612144: Label e is missing!
+
+|ERROR|  at Event 85612144: Label n is missing!
+
+|ERROR|  at Event 85612144: Label d is missing!
+
+|ERROR|  at Event 85612144: Label _ is missing!
+
+|ERROR|  at Event 85612144: Label o is missing!
+
+|ERROR|  at Event 85612144: Label f is missing!
+
+|ERROR|  at Event 85612144: Label _ is missing!
+
+|ERROR|  at Event 85612144: Label m is missing!
+
+|ERROR|  at Event 85612144: Label o is missing!
+
+|ERROR|  at Event 85612144: Label n is missing!
+
+|ERROR|  at Event 85612144: Label t is missing!
+
+|ERROR|  at Event 85612144: Label h is missing!
+
+Running init code. took 0.07s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.06s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.07s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.06s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.06s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.06s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 5157.02s
+Early init. took 0.00s
+Loader init. took 0.05s
+Loading error handling. took 0.04s
+Loading script. took 0.28s
+Loading save slot metadata. took 0.10s
+Loading persistent. took 0.00s
+|ERROR|  at Event 115746416: Label t is missing!
+
+|ERROR|  at Event 115746416: Label u is missing!
+
+|ERROR|  at Event 115746416: Label t is missing!
+
+|ERROR|  at Event 115746416: Label o is missing!
+
+|ERROR|  at Event 115746416: Label r is missing!
+
+|ERROR|  at Event 115746416: Label i is missing!
+
+|ERROR|  at Event 115746416: Label a is missing!
+
+|ERROR|  at Event 115746416: Label l is missing!
+
+|ERROR|  at Event 115746416: Label _ is missing!
+
+|ERROR|  at Event 115746416: Label 1 is missing!
+
+|ERROR|  at Event 115746896: Label f is missing!
+
+|ERROR|  at Event 115746896: Label i is missing!
+
+|ERROR|  at Event 115746896: Label r is missing!
+
+|ERROR|  at Event 115746896: Label s is missing!
+
+|ERROR|  at Event 115746896: Label t is missing!
+
+|ERROR|  at Event 115746896: Label _ is missing!
+
+|ERROR|  at Event 115746896: Label w is missing!
+
+|ERROR|  at Event 115746896: Label e is missing!
+
+|ERROR|  at Event 115746896: Label e is missing!
+
+|ERROR|  at Event 115746896: Label k is missing!
+
+|ERROR|  at Event 115746896: Label _ is missing!
+
+|ERROR|  at Event 115746896: Label e is missing!
+
+|ERROR|  at Event 115746896: Label p is missing!
+
+|ERROR|  at Event 115746896: Label i is missing!
+
+|ERROR|  at Event 115746896: Label l is missing!
+
+|ERROR|  at Event 115746896: Label o is missing!
+
+|ERROR|  at Event 115746896: Label g is missing!
+
+|ERROR|  at Event 115746896: Label u is missing!
+
+|ERROR|  at Event 115746896: Label e is missing!
+
+|ERROR|  at Event 115745552: Label f is missing!
+
+|ERROR|  at Event 115745552: Label i is missing!
+
+|ERROR|  at Event 115745552: Label r is missing!
+
+|ERROR|  at Event 115745552: Label s is missing!
+
+|ERROR|  at Event 115745552: Label t is missing!
+
+|ERROR|  at Event 115745552: Label _ is missing!
+
+|ERROR|  at Event 115745552: Label w is missing!
+
+|ERROR|  at Event 115745552: Label e is missing!
+
+|ERROR|  at Event 115745552: Label e is missing!
+
+|ERROR|  at Event 115745552: Label k is missing!
+
+|ERROR|  at Event 115745552: Label _ is missing!
+
+|ERROR|  at Event 115745552: Label e is missing!
+
+|ERROR|  at Event 115745552: Label p is missing!
+
+|ERROR|  at Event 115745552: Label i is missing!
+
+|ERROR|  at Event 115745552: Label l is missing!
+
+|ERROR|  at Event 115745552: Label o is missing!
+
+|ERROR|  at Event 115745552: Label g is missing!
+
+|ERROR|  at Event 115745552: Label u is missing!
+
+|ERROR|  at Event 115745552: Label e is missing!
+
+|ERROR|  at Event 115745552: Label _ is missing!
+
+|ERROR|  at Event 115745552: Label f is missing!
+
+|ERROR|  at Event 115745552: Label i is missing!
+
+|ERROR|  at Event 115745552: Label n is missing!
+
+|ERROR|  at Event 115745552: Label a is missing!
+
+|ERROR|  at Event 115745552: Label l is missing!
+
+|ERROR|  at Event 115745120: Label f is missing!
+
+|ERROR|  at Event 115745120: Label i is missing!
+
+|ERROR|  at Event 115745120: Label r is missing!
+
+|ERROR|  at Event 115745120: Label s is missing!
+
+|ERROR|  at Event 115745120: Label t is missing!
+
+|ERROR|  at Event 115745120: Label _ is missing!
+
+|ERROR|  at Event 115745120: Label p is missing!
+
+|ERROR|  at Event 115745120: Label t is missing!
+
+|ERROR|  at Event 115745120: Label a is missing!
+
+|ERROR|  at Event 115745120: Label _ is missing!
+
+|ERROR|  at Event 115745120: Label m is missing!
+
+|ERROR|  at Event 115745120: Label e is missing!
+
+|ERROR|  at Event 115745120: Label e is missing!
+
+|ERROR|  at Event 115745120: Label t is missing!
+
+|ERROR|  at Event 115745120: Label i is missing!
+
+|ERROR|  at Event 115745120: Label n is missing!
+
+|ERROR|  at Event 115745120: Label g is missing!
+
+|ERROR|  at Event 115748576: Label p is missing!
+
+|ERROR|  at Event 115748576: Label t is missing!
+
+|ERROR|  at Event 115748576: Label a is missing!
+
+|ERROR|  at Event 115748576: Label _ is missing!
+
+|ERROR|  at Event 115748576: Label m is missing!
+
+|ERROR|  at Event 115748576: Label e is missing!
+
+|ERROR|  at Event 115748576: Label e is missing!
+
+|ERROR|  at Event 115748576: Label t is missing!
+
+|ERROR|  at Event 115748576: Label i is missing!
+
+|ERROR|  at Event 115748576: Label n is missing!
+
+|ERROR|  at Event 115748576: Label g is missing!
+
+|ERROR|  at Event 115746464: Label e is missing!
+
+|ERROR|  at Event 115746464: Label n is missing!
+
+|ERROR|  at Event 115746464: Label d is missing!
+
+|ERROR|  at Event 115746464: Label _ is missing!
+
+|ERROR|  at Event 115746464: Label o is missing!
+
+|ERROR|  at Event 115746464: Label f is missing!
+
+|ERROR|  at Event 115746464: Label _ is missing!
+
+|ERROR|  at Event 115746464: Label m is missing!
+
+|ERROR|  at Event 115746464: Label o is missing!
+
+|ERROR|  at Event 115746464: Label n is missing!
+
+|ERROR|  at Event 115746464: Label t is missing!
+
+|ERROR|  at Event 115746464: Label h is missing!
+
+Running init code. took 0.07s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.06s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.05s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.09s
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.07s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.07s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 5582.89s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.05s
+Loading script. took 0.20s
+Loading save slot metadata. took 0.08s
+Loading persistent. took 0.00s
+
+Full traceback:
+  File "game/scripts/buildings/school_dormitory.rpy", line 5, in script
+    init -1 python:
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 1138, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "C:\Users\bigma\Documents\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
+    exec(bytecode, globals, locals)
+  File "game/scripts/buildings/school_dormitory.rpy", line 35, in <module>
+    SelectorSet(
+NameError: name 'SelectorSet' is not defined
+
+While running game code:
+  File "game/scripts/buildings/school_dormitory.rpy", line 5, in script
+    init -1 python:
+  File "game/scripts/buildings/school_dormitory.rpy", line 35, in <module>
+    SelectorSet(
+NameError: name 'SelectorSet' is not defined
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Interface start. took 0.22s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 5590.84s
+Early init. took 0.00s
+Loader init. took 0.09s
+Loading error handling. took 0.03s
+Loading script. took 0.30s
+Loading save slot metadata. took 0.07s
+Loading persistent. took 0.00s
+
+Full traceback:
+  File "game/scripts/buildings/school_dormitory.rpy", line 5, in script
+    init -1 python:
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 1138, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "C:\Users\bigma\Documents\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
+    exec(bytecode, globals, locals)
+  File "game/scripts/buildings/school_dormitory.rpy", line 35, in <module>
+    SelectorSet(
+NameError: name 'SelectorSet' is not defined
+
+While running game code:
+  File "game/scripts/buildings/school_dormitory.rpy", line 5, in script
+    init -1 python:
+  File "game/scripts/buildings/school_dormitory.rpy", line 35, in <module>
+    SelectorSet(
+NameError: name 'SelectorSet' is not defined
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Interface start. took 0.26s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 5598.84s
+Early init. took 0.00s
+Loader init. took 0.09s
+Loading error handling. took 0.03s
+Loading script. took 0.28s
+Loading save slot metadata. took 0.09s
+Loading persistent. took 0.00s
+
+Full traceback:
+  File "game/scripts/buildings/school_dormitory.rpy", line 5, in script
+    init -1 python:
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 1138, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "C:\Users\bigma\Documents\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
+    exec(bytecode, globals, locals)
+  File "game/scripts/buildings/school_dormitory.rpy", line 35, in <module>
+    SelectorSet(
+NameError: name 'SelectorSet' is not defined
+
+While running game code:
+  File "game/scripts/buildings/school_dormitory.rpy", line 5, in script
+    init -1 python:
+  File "game/scripts/buildings/school_dormitory.rpy", line 35, in <module>
+    SelectorSet(
+NameError: name 'SelectorSet' is not defined
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Interface start. took 0.19s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 5602.48s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.02s
+Loading script. took 0.17s
+Loading save slot metadata. took 0.07s
+Loading persistent. took 0.00s
+
+Full traceback:
+  File "game/scripts/buildings/school_dormitory.rpy", line 5, in script
+    init -1 python:
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 1138, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "C:\Users\bigma\Documents\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
+    exec(bytecode, globals, locals)
+  File "game/scripts/buildings/school_dormitory.rpy", line 35, in <module>
+    SelectorSet(
+NameError: name 'SelectorSet' is not defined
+
+While running game code:
+  File "game/scripts/buildings/school_dormitory.rpy", line 5, in script
+    init -1 python:
+  File "game/scripts/buildings/school_dormitory.rpy", line 35, in <module>
+    SelectorSet(
+NameError: name 'SelectorSet' is not defined
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Interface start. took 0.16s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 5613.43s
+Early init. took 0.00s
+Loader init. took 0.07s
+Loading error handling. took 0.02s
+Loading script. took 0.18s
+Loading save slot metadata. took 0.07s
+Loading persistent. took 0.00s
+
+Full traceback:
+  File "game/scripts/buildings/school_dormitory.rpy", line 5, in script
+    init -1 python:
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 1138, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "C:\Users\bigma\Documents\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
+    exec(bytecode, globals, locals)
+  File "game/scripts/buildings/school_dormitory.rpy", line 35, in <module>
+    SelectorSet(
+NameError: name 'SelectorSet' is not defined
+
+While running game code:
+  File "game/scripts/buildings/school_dormitory.rpy", line 5, in script
+    init -1 python:
+  File "game/scripts/buildings/school_dormitory.rpy", line 35, in <module>
+    SelectorSet(
+NameError: name 'SelectorSet' is not defined
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Interface start. took 0.15s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 5623.72s
+Early init. took 0.00s
+Loader init. took 0.07s
+Loading error handling. took 0.03s
+Loading script. took 0.18s
+Loading save slot metadata. took 0.07s
+Loading persistent. took 0.00s
+
+Full traceback:
+  File "game/scripts/buildings/school_dormitory.rpy", line 5, in script
+    init -1 python:
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 1138, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "C:\Users\bigma\Documents\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
+    exec(bytecode, globals, locals)
+  File "game/scripts/buildings/school_dormitory.rpy", line 35, in <module>
+    SelectorSet(
+NameError: name 'SelectorSet' is not defined
+
+While running game code:
+  File "game/scripts/buildings/school_dormitory.rpy", line 5, in script
+    init -1 python:
+  File "game/scripts/buildings/school_dormitory.rpy", line 35, in <module>
+    SelectorSet(
+NameError: name 'SelectorSet' is not defined
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Interface start. took 0.17s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 5633.10s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.03s
+Loading script. took 0.25s
+Loading save slot metadata. took 0.08s
+Loading persistent. took 0.00s
+
+Full traceback:
+  File "game/scripts/buildings/school_dormitory.rpy", line 5, in script
+    init -1 python:
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 1138, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "C:\Users\bigma\Documents\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
+    exec(bytecode, globals, locals)
+  File "game/scripts/buildings/school_dormitory.rpy", line 35, in <module>
+    SelectorSet(
+NameError: name 'SelectorSet' is not defined
+
+While running game code:
+  File "game/scripts/buildings/school_dormitory.rpy", line 5, in script
+    init -1 python:
+  File "game/scripts/buildings/school_dormitory.rpy", line 35, in <module>
+    SelectorSet(
+NameError: name 'SelectorSet' is not defined
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Interface start. took 0.19s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 5702.97s
+Early init. took 0.00s
+Loader init. took 0.13s
+Loading error handling. took 0.04s
+Loading script. took 0.28s
+Loading save slot metadata. took 0.06s
+Loading persistent. took 0.00s
+
+Full traceback:
+  File "game/scripts/buildings/school_dormitory.rpy", line 5, in script
+    init -1 python:
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 1138, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "C:\Users\bigma\Documents\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
+    exec(bytecode, globals, locals)
+  File "game/scripts/buildings/school_dormitory.rpy", line 35, in <module>
+    SelectorSet(
+NameError: name 'SelectorSet' is not defined
+
+While running game code:
+  File "game/scripts/buildings/school_dormitory.rpy", line 5, in script
+    init -1 python:
+  File "game/scripts/buildings/school_dormitory.rpy", line 35, in <module>
+    SelectorSet(
+NameError: name 'SelectorSet' is not defined
+DPI scale factor: 1.500000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Interface start. took 0.22s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Maximum texture size: 4096x4096

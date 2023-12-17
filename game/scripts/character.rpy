@@ -485,6 +485,32 @@ init -6 python:
 
         return map[name]
 
+    def get_stat_obj_for_char(stat: str, char: str | Char, map: Dict[str, Char | Dict[str, Any]] = None) -> Stat:
+        """
+        Returns the stat object for the character
+
+        ### Parameters:
+        1. stat: str
+            - The name of the stat to get
+        2. char: str | Char
+            - The name of the character or the character itself to get the stat from
+            - If there is no character in map with the name, -1 is returned
+        3. map: Dict[str, Char | Dict[str, Any]] (default None)
+            - The map of characters to get the character from
+            - If None and the name of the character is used instead of the Character-Object itself, -1 is returned
+
+        ### Returns:
+        1. Stat
+            - The stat object for the character
+            - None if the stat does not exist
+        """
+
+        if isinstance(char, Char):
+            return char.get_stat_obj(stat)
+        elif map != None and char in map.keys():
+            return map[char].get_stat_obj(stat)
+        return None
+
     def get_stat_for_char(stat: str, char: str | Char = "", map: Dict[str, Char | Dict[str, Any]] = None) -> num:
         """
         Returns the stat value for the character
@@ -508,12 +534,11 @@ init -6 python:
         if stat == MONEY:
             return money.get_value()
 
-        if isinstance('char', Char):
+        if isinstance(char, Char):
             return char.get_stat_number(stat)
-        else:
-            if map == None or char not in map.keys():
-                return -1
+        elif map != None and char in map.keys():
             return map[char].get_stat_number(stat)
+        return -1
 
     def get_level_for_char(char: str | Char, map: Dict[str, Char | Dict[str, Any]] = None) -> int:
         """

@@ -406,11 +406,12 @@ init -6 python:
         A class for conditions that check the stats of a character.
         """
 
-        def __init__(self, blocking: bool = False, **kwargs):
+        def __init__(self, blocking: bool = False, *, char_obj: Char = None, **kwargs):
             super().__init__(blocking)
             self.stats = kwargs
             self.display_in_list = True
             self.display_in_desc = True
+            self.char_obj = char_obj
             
         def is_fulfilled(self, **kwargs) -> bool:
             """
@@ -424,8 +425,13 @@ init -6 python:
             1. bool
                 - Whether the condition is fulfilled or not.
             """
+            char_obj = None
+            if hasattr(self, 'char_obj'):
+                char_obj = self.char_obj
 
-            char_obj = get_kwargs('char_obj', **kwargs)
+            if char_obj == None:
+                char_obj = get_kwargs('char_obj', **kwargs)
+
             if char_obj == None:
                 return False
 
@@ -805,11 +811,12 @@ init -6 python:
         A class for conditions that check the level of a character object.
         """
 
-        def __init__(self, value: int, blocking: bool = False):
+        def __init__(self, value: int, blocking: bool = False, *, char_obj: Char = None):
             super().__init__(blocking)
             self.value = value
             self.display_in_list = True
             self.display_in_desc = True
+            self.char_obj = char_obj
 
         def is_fulfilled(self, **kwargs):
             """
@@ -824,7 +831,12 @@ init -6 python:
                 - Whether the condition is fulfilled or not.
             """
 
-            char_obj = get_kwargs('char_obj', **kwargs)
+            char_obj = None
+            if hasattr(self, 'char_obj'):
+                char_obj = self.char_obj
+
+            if char_obj == None:
+                char_obj = get_kwargs('char_obj', **kwargs)
             if char_obj == None:
                 return False
 
@@ -1186,7 +1198,7 @@ init -6 python:
             - The random value is generated between 0 and the limit.
         """
 
-        def __init__(self, amount: num, limit: num, blocking: bool = False):
+        def __init__(self, amount: num, limit: num = 100, blocking: bool = False):
             """
             The constructor for the RandomCondition class.
 
@@ -1494,6 +1506,7 @@ init -6 python:
         """
 
         def __init__(self, key: str, value: val, blocking: bool = False):
+
             super().__init__(blocking)
             self.key = key
             self.value = value
@@ -1556,6 +1569,183 @@ init -6 python:
             if self.is_fulfilled():
                 return 0
             return -100
+
+    class NumCompareCondition(Condition):
+        """
+        A class for conditions that check the value of kwargs by checking if the value is inside a ranged value.
+        """
+
+        def __init__(self, key: str, value: val | Selector, operation: str, blocking: bool = False):
+            """
+            The constructor for the NumCompareCondition class.
+
+            ### Parameters:
+            1. key: str
+                - The key of the value for kwargs.
+            2. value: val | Selector
+                - The value that is used to compare the value of kwargs.
+                - If the value is a Selector, the value is rolled for every check.
+            3. operation: str
+                - The operation that is used to compare the value of kwargs and the given value.
+                - The following operations are available:
+                    - ">": The value of kwargs has to be larger than the given value.
+                    - ">=": The value of kwargs has to be larger than or equal to the given value.
+                    - "<": The value of kwargs has to be smaller than the given value.
+                    - "<=": The value of kwargs has to be smaller than or equal to the given value.
+                    - "==": The value of kwargs has to be equal to the given value.
+                    - "!=": The value of kwargs has to be not equal to the given value.
+            4. blocking: bool = False
+                - Whether the condition is blocking or not.
+            """
+
+            super().__init__(blocking)
+            self.key = key
+            self.value = value
+            self.operation = operation
+            self.display_in_desc = True
+            self.display_in_list = False
+
+        def is_fulfilled(self, **kwargs) -> bool:
+            """
+            Returns whether a certain value of kwargs is inside a ranged value.
+
+            ### Parameters:
+            1. **kwargs
+                - Additional arguments.
+
+            ### Returns:
+            1. bool
+                - Whether the condition is fulfilled or not.
+            """
+
+            if self.key not in kwargs.keys():
+                return False
+
+            value = self.value
+
+            if isinstance(self.value, Selector):
+                value = self.value.roll(**kwargs)
+
+            if self.operation == ">":
+                return kwargs[self.key] > value
+            elif self.operation == ">=":
+                return kwargs[self.key] >= value
+            elif self.operation == "<":
+                return kwargs[self.key] < value
+            elif self.operation == "<=":
+                return kwargs[self.key] <= value
+            elif self.operation == "==":
+                return kwargs[self.key] == value
+            elif self.operation == "!=":
+                return kwargs[self.key] != value
+            return False
+
+        def to_desc_text(self, **kwargs) -> str:
+            """
+            Returns the description text for the condition that is displayed in the description.
+
+            ### Returns:
+            1. str
+                - The condition text for the description.
+            """
+
+            if self.is_fulfilled():
+                return self.key + " " + self.operation + " {color=#0f0}" + self.value + "{/color}"
+            else:
+                return self.key + " " + self.operation + " {color=#f00}" + self.value + "{/color}"
+
+        def get_name(self) -> str:
+            """
+            Returns the name of the condition.
+
+            ### Returns:
+            1. str
+                - The key of the value for kwargs.
+            """
+
+            return self.key
+
+        def get_diff(self, _char_obj) -> num:
+            """
+            Returns the difference between the condition and the value of kwargs.
+            If the condition is fulfilled, the difference is 0.
+            Otherwise the difference is -100.
+
+            ### Returns:
+            1. num
+                - The difference between the condition and the value of kwargs.
+            """
+
+            if self.key not in kwargs.keys():
+                return -100
+            value = self.value
+            if isinstance(self.value, Selector):
+                value = self.value.roll(**kwargs)
+            if self.operation == ">":
+                return kwargs[self.key] - value
+            elif self.operation == ">=":
+                return kwargs[self.key] - value
+            elif self.operation == "<":
+                return value - kwargs[self.key]
+            elif self.operation == "<=":
+                return value - kwargs[self.key]
+            elif self.operation == "==":
+                return 0 if kwargs[self.key] == value else -100
+            elif self.operation == "!=":
+                return 0 if kwargs[self.key] != value else -100
+            return -100
+
+    class KeyCompareCondition(Condition):
+        """
+        A class for conditions that check the value of kwargs by checking if the value is inside a ranged value.
+        """
+
+        def __init__(self, key_1: str, key_2: str, operation: str, blocking: bool = False):
+
+            super().__init__(blocking)
+            self.key_1 = key_1
+            self.key_2 = key_2
+            self.operation = operation
+            self.display_in_desc = True
+            self.display_in_list = False
+
+        def is_fulfilled(self, **kwargs) -> bool:
+            """
+            Returns whether a certain value of kwargs is inside a ranged value.
+
+            ### Parameters:
+            1. **kwargs
+                - Additional arguments.
+
+            ### Returns:
+            1. bool
+                - Whether the condition is fulfilled or not.
+            """
+
+            if self.key_1 not in kwargs.keys() or self.key_2 not in kwargs.keys():
+                return False
+
+            value_1 = kwargs[self.key_1]
+            value_2 = kwargs[self.key_2]
+
+            if isinstance(value_1, Selector):
+                value_1 = value_1.roll(**kwargs)
+            if isinstance(value_2, Selector):
+                value_2 = value_2.roll(**kwargs)
+
+            if self.operation == ">":
+                return value_1 > value_2
+            elif self.operation == ">=":
+                return value_1 >= value_2
+            elif self.operation == "<":
+                return value_1 < value_2
+            elif self.operation == "<=":
+                return value_1 <= value_2
+            elif self.operation == "==":
+                return value_1 == value_2
+            elif self.operation == "!=":
+                return value_1 != value_2
+            return False
 
     class AND(Condition):
         """

@@ -498,7 +498,7 @@ init -99 python:
 
     T = TypeVar('T')
 
-    def get_random_choice(*choice: T | Tuple[float, T]) -> T:
+    def get_random_choice(*choice: T | Tuple[float, T] | Tuple[float, T, bool | Condition], **kwargs) -> T:
         """
         Selects a random value from a set of values
 
@@ -523,6 +523,21 @@ init -99 python:
             total_weight = 100
 
             for x in tuples:
+                if len(x) == 3:
+                    if isinstance(x[2], bool) and not x[2]:
+                        continue
+                    elif isinstance(x[2], Condition) and not x[2].is_fulfilled(**kwargs):
+                        continue
+                elif len(x) == 2:
+                    if isinstance(x[1], bool):
+                        if x[1]:
+                            no_tuples.append(x[0])
+                        continue
+                    elif isinstance(x[1], Condition):
+                        if x[1].is_fulfilled(**kwargs):
+                            no_tuples.append(x[0])
+                        continue
+
                 weight = int(x[0] * 100)
                 end_choice.extend([x[1]] * weight)
                 total_weight -= weight

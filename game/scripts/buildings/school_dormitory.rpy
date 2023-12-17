@@ -11,27 +11,54 @@ init -1 python:
         "peek_students": EventStorage("peek_students", "Peek on students", default_fallback, "There is nobody here."),
     }
 
-    sd_timed_event.add_event(Event(1,
-        ["first_week_school_dormitory_event"],
+    sd_timed_event.add_event(Event(1, "first_week_school_dormitory_event", None
         TimeCondition(day = "2-4", month = 1, year = 2023),
     ))
 
-    sd_timed_event.add_event(Event(1,
-        ["first_potion_school_dormitory_event"],
+    sd_timed_event.add_event(Event(1, "first_potion_school_dormitory_event", None
         TimeCondition(day = 9, month = 1, year = 2023),
     ))
 
-    event1 = Event(3, 
-        ["sd_event_1", "sd_event_2"],
+    sd_events["peek_students"].add_event(Event(3, "sd_event_1", None
         OR(
             TimeCondition(weekday = "d", daytime = "f"), 
             TimeCondition(weekday = "d", daytime = "n"), 
             TimeCondition(weekday = "w")
         )
-    )
+    ))
 
-    # hsd_events["check_rooms"].add_event(event1)
-    sd_events["peek_students"].add_event(event1)
+    sd_events["peek_students"].add_event(Event(3, "sd_event_2",
+        SelectorSet(
+            RandomValueSelector('inhibition_limit', 30, 50),
+            StatSelector('inhibition', get_stat_obj_for_char(INHIBITION, get_school())),
+            RandomListSelector('location', "dorm_room", "shower"),
+            RandomListSelector('topic', 
+                (
+                    RandomListSelector('', "ah", "ahhh", "oh", "eeek", (0.05, "panties"), (0.02, "breasts")), 
+                    KeyCompareCondition("inhibition", "inhibition_limit", ">=")
+                ),
+                (
+                    RandomListSelector('', "guys_stop", "huh", "reason", "dressing", "blush"), 
+                    KeyCompareCondition("inhibition", "inhibition_limit", "<")
+                ),
+            ),
+            RandomListSelector('girl_name',
+                (
+                    RandomListSelector('', "Aona Komuro", "Lin Kato", "Gloria Goto"), 
+                    ValueCondition("location", "dorm_room")
+                ),
+                (
+                    RandomListSelector('', "Sakura Mori", "Elsie Johnson", "Ishimaru Maki"), 
+                    ValueCondition("location", "shower")
+                ),
+            ),
+        ),
+        OR(
+            TimeCondition(weekday = "d", daytime = "f"), 
+            TimeCondition(weekday = "d", daytime = "n"), 
+            TimeCondition(weekday = "w")
+        )
+    ))
 
     sd_timed_event.check_all_events()
     map(lambda x: x.check_all_events(), sd_events.values())
@@ -176,6 +203,9 @@ label sd_event_1 (**kwargs):
 
 label sd_event_2 (**kwargs):
     $ char_obj = get_kwargs("char_obj", **kwargs)
+
+    $ log_value("values", kwargs)
+
     $ inhibition = char_obj.get_stat_number(INHIBITION)
 
     $ location = get_random_choice("dorm_room", "shower")

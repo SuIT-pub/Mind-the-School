@@ -10,23 +10,19 @@ init -1 python:
         "patrol":       EventStorage("patrol",       "Patrol",             default_fallback, "There is nobody here."),
     }
     
-    courtyard_timed_event.add_event(Event(1,
-        ["first_week_courtyard_event"],
+    courtyard_timed_event.add_event(Event(1, "first_week_courtyard_event", None
         TimeCondition(day = "2-4", month = 1, year = 2023),
     ))
     
-    courtyard_timed_event.add_event(Event(1,
-        ["first_potion_courtyard_event"],
+    courtyard_timed_event.add_event(Event(1, "first_potion_courtyard_event", None,
         TimeCondition(day = 9, month = 1, year = 2023),
     ))
 
-    courtyard_events["patrol"].add_event(Event(3, 
-        ["courtyard_event_1", "courtyard_event_2"],
+    courtyard_events["patrol"].add_event(Event(3, "courtyard_event_1", "courtyard_event_2", None,
         OR(TimeCondition(daytime = "f", weekday = "d"), TimeCondition(daytime = "d", weekday = "w"))
     ))
 
-    courtyard_events["patrol"].add_event(Event(3, 
-        ["courtyard_event_3"],
+    courtyard_events["patrol"].add_event(Event(3, "courtyard_event_3", None,
         TimeCondition(daytime = "d"),
     ))
 
