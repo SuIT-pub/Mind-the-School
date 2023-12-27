@@ -233,7 +233,7 @@ label gym_event_2 (**kwargs):
     elif inhibition >= 60:
         show screen black_screen_text("gym_event_2\ntopic_[topic] inhibition >= 60")
 
-        $ call_custom_menu_with_text("Oops... Nice view but they don't seem too happy about me being here.", characters.headmaster_thought, False,
+        $ call_custom_menu_with_text("Oops... Nice view but they don't seem too happy about me being here.", character.headmaster_thought, False,
             ("I'm sorry, I didn't know I was in the girls locker room", "gym_event_2.sorry"),
             ("Oh pardon me but I'm conducting a walk through of all escape routes in case there's a fire.", "gym_event_2.escape"),
         **kwargs)
