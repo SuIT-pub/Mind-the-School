@@ -572,10 +572,10 @@ init -6 python:
             1. bool
                 - Whether the condition is fulfilled or not.
             """
-
-            char_obj = get_kwargs('char_obj', **kwargs)
-            if char_obj == None:
-                return False
+            char_obj = get_character("high_school", charList["schools"])
+            # char_obj = get_kwargs('char_obj', **kwargs)
+            # if char_obj == None:
+            #     return False
 
             return get_rule(self.value).is_unlocked(char_obj.get_name())
 
