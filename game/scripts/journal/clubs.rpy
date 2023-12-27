@@ -183,8 +183,8 @@ label load_clubs ():
             "A sports club for training cheerleading and for exploring new ways to cheer and motivate the teams.",
         ],
         '_unlock_conditions': ConditionStorage(
-            # LevelCondition("2+"),
-            # LockCondition(),
+            LevelCondition("2+"),
+            LockCondition(False),
         ),
         '_image_path': 'images/journal/clubs/cheerleading_club_<school>_<level>.webp',
         '_image_path_alt': 'images/journal/clubs/cheerleading_club_high_school_2.webp',
