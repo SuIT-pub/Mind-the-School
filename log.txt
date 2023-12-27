@@ -1264,3 +1264,8 @@ Version: b'4.6.0 NVIDIA 546.17'
 Display Info: None
 Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
 Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 1347.51s
+Early init. took 0.00s
+Loader init. took 0.30s
+Loading error handling. took 0.05s
