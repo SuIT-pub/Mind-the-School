@@ -1623,3 +1623,1113 @@ Version: b'4.6.0 NVIDIA 546.17'
 Display Info: None
 Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
 Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 5243.42s
+Early init. took 0.00s
+Loader init. took 4.53s
+Loading error handling. took 1.37s
+Loading script. took 3.85s
+Loading save slot metadata. took 0.88s
+Loading persistent. took 0.00s
+Running init code. took 0.78s
+Loading analysis data. took 0.19s
+Analyze and compile ATL. took 0.07s
+Reloading save slot metadata. took 0.58s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.40s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.76s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 5.35s
+Cleaning stores took 0.16s
+Init translation took 0.41s
+Build styles took 0.01s
+Load screen analysis took 0.01s
+Analyze screens took 0.09s
+Save screen analysis took 0.21s
+Prepare screens took 0.18s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.27s
+Running _start took 0.06s
+Performance test:
+Interface start. took 1.45s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 546.17'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
+Maximum texture size: 4096x4096
+
+Full traceback:
+  File "game/scripts/intro.rpy", line 50, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 210, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 623, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 737, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 768, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 84, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 102, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display, school) with dissolveM
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display, school) with dissolveM
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display, school) with dissolveM
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 38, in script call
+    call screen journal_cheats(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 38, in script call
+    call screen journal_cheats(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 38, in script
+    call screen journal_cheats(display, school) with dissolveM
+  File "F:\RenPy\renpy\ast.py", line 2259, in execute
+    self.call("execute")
+  File "F:\RenPy\renpy\ast.py", line 2241, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "F:\RenPy\renpy\statements.py", line 342, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "F:\RenPy\renpy\exports.py", line 3347, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "F:\RenPy\renpy\ui.py", line 299, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "F:\RenPy\renpy\display\core.py", line 3582, in interact
+    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
+  File "F:\RenPy\renpy\display\core.py", line 4055, in interact_core
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "F:\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "F:\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "F:\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "F:\RenPy\renpy\display\screen.py", line 476, in visit_all
+    callback(self)
+  File "F:\RenPy\renpy\display\core.py", line 4055, in <lambda>
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "F:\RenPy\renpy\display\screen.py", line 487, in per_interact
+    self.update()
+  File "F:\RenPy\renpy\display\screen.py", line 680, in update
+    self.screen.function(**self.scope)
+  File "game/scripts/journal/journal.rpy", line 668, in execute
+    screen journal_cheats(display, school):
+  File "game/scripts/journal/journal.rpy", line 668, in execute
+    screen journal_cheats(display, school):
+  File "game/scripts/journal/journal.rpy", line 699, in execute
+    if display == "general":
+  File "game/scripts/journal/journal.rpy", line 816, in execute
+    if len(rule_keywords) == 1:
+  File "game/scripts/journal/journal.rpy", line 903, in execute
+    frame:
+  File "game/scripts/journal/journal.rpy", line 907, in execute
+    viewport id "CheatRuleCond":
+  File "game/scripts/journal/journal.rpy", line 911, in execute
+    vbox:
+  File "game/scripts/journal/journal.rpy", line 912, in execute
+    for condition in active_rule.get_list_conditions():
+  File "game/scripts/journal/journal.rpy", line 913, in execute
+    if not condition.is_set_blocking():
+  File "game/scripts/journal/journal.rpy", line 915, in execute
+    hbox:
+  File "game/scripts/journal/journal.rpy", line 916, in execute
+    textbutton texts[0]:
+  File "F:\RenPy\renpy\ui.py", line 988, in _textbutton
+    text = renpy.text.text.Text(label, style=text_style, substitute=substitute, scope=scope, **text_kwargs)
+  File "F:\RenPy\renpy\text\text.py", line 1612, in __init__
+    raise Exception("Cannot display {0!r} as text.".format(i))
+Exception: Cannot display ('{image=icons/stat_inhibition_icon.webp}', '{color=#f00}95-{/color}', 'Inhibition') as text.
+
+While running game code:
+  File "game/scripts/intro.rpy", line 50, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 210, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 623, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 737, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 768, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 84, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 102, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display, school) with dissolveM
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display, school) with dissolveM
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display, school) with dissolveM
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 38, in script call
+    call screen journal_cheats(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 38, in script call
+    call screen journal_cheats(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 38, in script
+    call screen journal_cheats(display, school) with dissolveM
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "game/scripts/journal/journal.rpy", line 668, in execute
+    screen journal_cheats(display, school):
+  File "game/scripts/journal/journal.rpy", line 668, in execute
+    screen journal_cheats(display, school):
+  File "game/scripts/journal/journal.rpy", line 699, in execute
+    if display == "general":
+  File "game/scripts/journal/journal.rpy", line 816, in execute
+    if len(rule_keywords) == 1:
+  File "game/scripts/journal/journal.rpy", line 903, in execute
+    frame:
+  File "game/scripts/journal/journal.rpy", line 907, in execute
+    viewport id "CheatRuleCond":
+  File "game/scripts/journal/journal.rpy", line 911, in execute
+    vbox:
+  File "game/scripts/journal/journal.rpy", line 912, in execute
+    for condition in active_rule.get_list_conditions():
+  File "game/scripts/journal/journal.rpy", line 913, in execute
+    if not condition.is_set_blocking():
+  File "game/scripts/journal/journal.rpy", line 915, in execute
+    hbox:
+  File "game/scripts/journal/journal.rpy", line 916, in execute
+    textbutton texts[0]:
+Exception: Cannot display ('{image=icons/stat_inhibition_icon.webp}', '{color=#f00}95-{/color}', 'Inhibition') as text.
+Resetting cache.
+Bootstrap to the start of init.init. took 5499.33s
+Early init. took 0.00s
+Loader init. took 0.31s
+Loading error handling. took 2.19s
+Loading script. took 2.31s
+Loading save slot metadata. took 0.19s
+Loading persistent. took 0.00s
+Running init code. took 0.20s
+Loading analysis data. took 0.05s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.13s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.12s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.11s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.65s
+Cleaning stores took 0.00s
+Init translation took 0.08s
+Build styles took 0.00s
+Load screen analysis took 0.05s
+Analyze screens took 0.03s
+Save screen analysis took 0.05s
+Prepare screens took 0.20s
+Save pyanalysis. took 0.07s
+Save bytecode. took 0.04s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.79s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 546.17'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
+Maximum texture size: 4096x4096
+
+Full traceback:
+  File "game/scripts/intro.rpy", line 50, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 210, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 623, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 737, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 768, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 84, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 102, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display, school) with dissolveM
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display, school) with dissolveM
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display, school) with dissolveM
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 38, in script call
+    call screen journal_cheats(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 38, in script call
+    call screen journal_cheats(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 38, in script
+    call screen journal_cheats(display, school) with dissolveM
+  File "F:\RenPy\renpy\ast.py", line 2259, in execute
+    self.call("execute")
+  File "F:\RenPy\renpy\ast.py", line 2241, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "F:\RenPy\renpy\statements.py", line 342, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "F:\RenPy\renpy\exports.py", line 3347, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "F:\RenPy\renpy\ui.py", line 299, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "F:\RenPy\renpy\display\core.py", line 3582, in interact
+    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
+  File "F:\RenPy\renpy\display\core.py", line 4055, in interact_core
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "F:\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "F:\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "F:\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "F:\RenPy\renpy\display\screen.py", line 476, in visit_all
+    callback(self)
+  File "F:\RenPy\renpy\display\core.py", line 4055, in <lambda>
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "F:\RenPy\renpy\display\screen.py", line 487, in per_interact
+    self.update()
+  File "F:\RenPy\renpy\display\screen.py", line 680, in update
+    self.screen.function(**self.scope)
+  File "game/scripts/journal/journal.rpy", line 668, in execute
+    screen journal_cheats(display, school):
+  File "game/scripts/journal/journal.rpy", line 668, in execute
+    screen journal_cheats(display, school):
+  File "game/scripts/journal/journal.rpy", line 699, in execute
+    if display == "general":
+  File "game/scripts/journal/journal.rpy", line 816, in execute
+    if len(rule_keywords) == 1:
+  File "game/scripts/journal/journal.rpy", line 903, in execute
+    $ active_obj_list_conditions_list = active_obj.get_list_conditions_list(cond_type = action_text, char_obj = active_school, blocking = True)
+  File "game/scripts/journal/journal.rpy", line 903, in <module>
+    $ active_obj_list_conditions_list = active_obj.get_list_conditions_list(cond_type = action_text, char_obj = active_school, blocking = True)
+NameError: name 'active_obj' is not defined
+
+While running game code:
+  File "game/scripts/intro.rpy", line 50, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 210, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 623, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 737, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 768, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 84, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 102, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display, school) with dissolveM
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display, school) with dissolveM
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display, school) with dissolveM
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 38, in script call
+    call screen journal_cheats(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 38, in script call
+    call screen journal_cheats(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 38, in script
+    call screen journal_cheats(display, school) with dissolveM
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "game/scripts/journal/journal.rpy", line 668, in execute
+    screen journal_cheats(display, school):
+  File "game/scripts/journal/journal.rpy", line 668, in execute
+    screen journal_cheats(display, school):
+  File "game/scripts/journal/journal.rpy", line 699, in execute
+    if display == "general":
+  File "game/scripts/journal/journal.rpy", line 816, in execute
+    if len(rule_keywords) == 1:
+  File "game/scripts/journal/journal.rpy", line 903, in execute
+    $ active_obj_list_conditions_list = active_obj.get_list_conditions_list(cond_type = action_text, char_obj = active_school, blocking = True)
+  File "game/scripts/journal/journal.rpy", line 903, in <module>
+    $ active_obj_list_conditions_list = active_obj.get_list_conditions_list(cond_type = action_text, char_obj = active_school, blocking = True)
+NameError: name 'active_obj' is not defined
+
+Full traceback:
+  File "game/scripts/intro.rpy", line 50, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 210, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 623, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 737, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 768, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 84, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 102, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display, school) with dissolveM
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display, school) with dissolveM
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display, school) with dissolveM
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 38, in script call
+    call screen journal_cheats(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 38, in script call
+    call screen journal_cheats(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 38, in script
+    call screen journal_cheats(display, school) with dissolveM
+  File "F:\RenPy\renpy\ast.py", line 2259, in execute
+    self.call("execute")
+  File "F:\RenPy\renpy\ast.py", line 2241, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "F:\RenPy\renpy\statements.py", line 342, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "F:\RenPy\renpy\exports.py", line 3347, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "F:\RenPy\renpy\ui.py", line 299, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "F:\RenPy\renpy\display\core.py", line 3582, in interact
+    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
+  File "F:\RenPy\renpy\display\core.py", line 4055, in interact_core
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "F:\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "F:\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "F:\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "F:\RenPy\renpy\display\screen.py", line 476, in visit_all
+    callback(self)
+  File "F:\RenPy\renpy\display\core.py", line 4055, in <lambda>
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "F:\RenPy\renpy\display\screen.py", line 487, in per_interact
+    self.update()
+  File "F:\RenPy\renpy\display\screen.py", line 680, in update
+    self.screen.function(**self.scope)
+  File "game/scripts/journal/journal.rpy", line 668, in execute
+    screen journal_cheats(display, school):
+  File "game/scripts/journal/journal.rpy", line 668, in execute
+    screen journal_cheats(display, school):
+  File "game/scripts/journal/journal.rpy", line 699, in execute
+    if display == "general":
+  File "game/scripts/journal/journal.rpy", line 816, in execute
+    if len(rule_keywords) == 1:
+  File "game/scripts/journal/journal.rpy", line 903, in execute
+    $ active_obj_list_conditions_list = active_obj.get_list_conditions_list(cond_type = action_text, char_obj = active_school, blocking = True)
+  File "game/scripts/journal/journal.rpy", line 903, in <module>
+    $ active_obj_list_conditions_list = active_obj.get_list_conditions_list(cond_type = action_text, char_obj = active_school, blocking = True)
+NameError: name 'active_obj' is not defined
+
+While running game code:
+  File "game/scripts/intro.rpy", line 50, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 210, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 623, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 737, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 768, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 84, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 102, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display, school) with dissolveM
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display, school) with dissolveM
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display, school) with dissolveM
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 38, in script call
+    call screen journal_cheats(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 38, in script call
+    call screen journal_cheats(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 38, in script
+    call screen journal_cheats(display, school) with dissolveM
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "game/scripts/journal/journal.rpy", line 668, in execute
+    screen journal_cheats(display, school):
+  File "game/scripts/journal/journal.rpy", line 668, in execute
+    screen journal_cheats(display, school):
+  File "game/scripts/journal/journal.rpy", line 699, in execute
+    if display == "general":
+  File "game/scripts/journal/journal.rpy", line 816, in execute
+    if len(rule_keywords) == 1:
+  File "game/scripts/journal/journal.rpy", line 903, in execute
+    $ active_obj_list_conditions_list = active_obj.get_list_conditions_list(cond_type = action_text, char_obj = active_school, blocking = True)
+  File "game/scripts/journal/journal.rpy", line 903, in <module>
+    $ active_obj_list_conditions_list = active_obj.get_list_conditions_list(cond_type = action_text, char_obj = active_school, blocking = True)
+NameError: name 'active_obj' is not defined
+Resetting cache.
+Bootstrap to the start of init.init. took 5543.82s
+Early init. took 0.00s
+Loader init. took 0.14s
+Loading error handling. took 0.04s
+Loading script. took 0.66s
+Loading save slot metadata. took 0.14s
+Loading persistent. took 0.00s
+Running init code. took 0.09s
+Loading analysis data. took 0.15s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.20s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.12s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.14s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.56s
+Cleaning stores took 0.00s
+Init translation took 0.11s
+Build styles took 0.01s
+Load screen analysis took 0.85s
+Analyze screens took 0.05s
+Save screen analysis took 0.06s
+Prepare screens took 0.18s
+Save pyanalysis. took 0.04s
+Save bytecode. took 0.10s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.20s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 546.17'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
+Maximum texture size: 4096x4096
+
+Full traceback:
+  File "game/scripts/intro.rpy", line 50, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 210, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 623, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 737, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 768, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 84, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 102, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display, school) with dissolveM
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display, school) with dissolveM
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display, school) with dissolveM
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 38, in script call
+    call screen journal_cheats(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 38, in script call
+    call screen journal_cheats(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 38, in script
+    call screen journal_cheats(display, school) with dissolveM
+  File "F:\RenPy\renpy\ast.py", line 2259, in execute
+    self.call("execute")
+  File "F:\RenPy\renpy\ast.py", line 2241, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "F:\RenPy\renpy\statements.py", line 342, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "F:\RenPy\renpy\exports.py", line 3347, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "F:\RenPy\renpy\ui.py", line 299, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "F:\RenPy\renpy\display\core.py", line 3582, in interact
+    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
+  File "F:\RenPy\renpy\display\core.py", line 4055, in interact_core
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "F:\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "F:\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "F:\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "F:\RenPy\renpy\display\screen.py", line 476, in visit_all
+    callback(self)
+  File "F:\RenPy\renpy\display\core.py", line 4055, in <lambda>
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "F:\RenPy\renpy\display\screen.py", line 487, in per_interact
+    self.update()
+  File "F:\RenPy\renpy\display\screen.py", line 680, in update
+    self.screen.function(**self.scope)
+  File "game/scripts/journal/journal.rpy", line 668, in execute
+    screen journal_cheats(display, school):
+  File "game/scripts/journal/journal.rpy", line 668, in execute
+    screen journal_cheats(display, school):
+  File "game/scripts/journal/journal.rpy", line 699, in execute
+    if display == "general":
+  File "game/scripts/journal/journal.rpy", line 816, in execute
+    if len(rule_keywords) == 1:
+  File "game/scripts/journal/journal.rpy", line 903, in execute
+    $ active_obj_list_conditions_list = active_rule.get_list_conditions_list(cond_type = action_text, char_obj = active_school, blocking = True)
+  File "game/scripts/journal/journal.rpy", line 903, in <module>
+    $ active_obj_list_conditions_list = active_rule.get_list_conditions_list(cond_type = action_text, char_obj = active_school, blocking = True)
+NameError: name 'action_text' is not defined
+
+While running game code:
+  File "game/scripts/intro.rpy", line 50, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 210, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 623, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 737, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 768, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 84, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 102, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 36, in script call
+    call screen journal_page(4, display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display, school) with dissolveM
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_page(2, display, school) with dissolveM
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 34, in script call
+    call screen journal_page(3, display, school) with dissolveM
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "", "high_school") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 30, in script call
+    call screen journal_overview(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 38, in script call
+    call screen journal_cheats(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 38, in script call
+    call screen journal_cheats(display, school) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 38, in script
+    call screen journal_cheats(display, school) with dissolveM
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "game/scripts/journal/journal.rpy", line 668, in execute
+    screen journal_cheats(display, school):
+  File "game/scripts/journal/journal.rpy", line 668, in execute
+    screen journal_cheats(display, school):
+  File "game/scripts/journal/journal.rpy", line 699, in execute
+    if display == "general":
+  File "game/scripts/journal/journal.rpy", line 816, in execute
+    if len(rule_keywords) == 1:
+  File "game/scripts/journal/journal.rpy", line 903, in execute
+    $ active_obj_list_conditions_list = active_rule.get_list_conditions_list(cond_type = action_text, char_obj = active_school, blocking = True)
+  File "game/scripts/journal/journal.rpy", line 903, in <module>
+    $ active_obj_list_conditions_list = active_rule.get_list_conditions_list(cond_type = action_text, char_obj = active_school, blocking = True)
+NameError: name 'action_text' is not defined
+Resetting cache.
+Bootstrap to the start of init.init. took 5577.26s
+Early init. took 0.01s
+Loader init. took 0.26s
+Loading error handling. took 0.03s
+Loading script. took 1.22s
+Loading save slot metadata. took 0.40s
+Loading persistent. took 0.00s
+Running init code. took 0.11s
+Loading analysis data. took 0.09s
+Analyze and compile ATL. took 0.01s
+Reloading save slot metadata. took 0.11s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.13s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.11s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.61s
+Cleaning stores took 0.00s
+Init translation took 0.08s
+Build styles took 0.00s
+Load screen analysis took 0.14s
+Analyze screens took 0.03s
+Save screen analysis took 0.05s
+Prepare screens took 0.16s
+Save pyanalysis. took 0.05s
+Save bytecode. took 0.07s
+Running _start took 0.01s
+Performance test:
+Interface start. took 0.15s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 546.17'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
+Maximum texture size: 4096x4096
+|ERROR| 'images/background/office building/bg f teacher 1 0.webp' is missing!
+

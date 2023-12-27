@@ -900,32 +900,32 @@ screen journal_cheats(display, school):
                     unscrollable "hide"
                     xalign 1.03
 
+            $ active_obj_list_conditions_list = active_rule.get_list_conditions_list(cond_type = "unlock", char_obj = active_school, blocking = True)
+
             frame:
                 background Solid("#0000")
                 area (1350, 474, 150, 328)
 
-                viewport id "CheatRuleCond":
+                viewport id "ObjCond":
                     mousewheel True
                     draggable "touch"
 
                     vbox:
-                        for condition in active_rule.get_list_conditions():
-                            if not condition.is_set_blocking():
-                                $ texts = condition.to_list_text(char_obj = active_school)
-                                hbox:
-                                    textbutton texts[0]:
-                                        tooltip condition.get_name()
-                                        action NullAction()
-                                    textbutton texts[1]:
-                                        text_style "condition_text"
-                                        yalign 0.5
-                                        tooltip condition.get_name()
-                                        action NullAction()
+                        for (image_text, text_text, text_title) in active_obj_list_conditions_list:
+                            hbox:
+                                textbutton image_text:
+                                    tooltip text_title
+                                    action NullAction()
+                                textbutton text_text:
+                                    text_style "condition_text"
+                                    yalign 0.5
+                                    tooltip text_title
+                                    action NullAction()
                                     
-                vbar value YScrollValue("CheatRuleCond"):
+                vbar value YScrollValue("ObjCond"):
                     unscrollable "hide"
                     xalign 1
-                bar value XScrollValue("CheatRuleCond"):
+                bar value XScrollValue("ObjCond"):
                     unscrollable "hide"
                     ypos 328
             textbutton "Return":
