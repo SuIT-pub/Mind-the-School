@@ -1,35 +1,50 @@
-Sun Dec 10 17:11:01 2023
+Mon Dec 25 12:44:18 2023
 Windows-10-10.0.19045
 Ren'Py 8.1.3.23091805
  
 
-Bootstrap to the start of init.init. took 0.04s
+Bootstrap to the start of init.init. took 0.05s
 Early init. took 0.00s
-Loader init. took 0.11s
-Loading error handling. took 0.14s
-Loading script. took 3.17s
-Loading save slot metadata. took 0.12s
+Loader init. took 0.37s
+Loading error handling. took 0.09s
+Loading script. took 0.80s
+Loading save slot metadata. took 0.56s
 Loading persistent. took 0.00s
-Running init code. took 0.16s
-Loading analysis data. took 0.00s
-Analyze and compile ATL. took 0.01s
-Reloading save slot metadata. took 0.09s
+Running init code. took 0.19s
+Loading analysis data. took 0.05s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.25s
 Index archives took 0.00s
-Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.08s
+Dump and make backups. took 0.12s
 Cleaning cache. took 0.00s
 Making clean stores. took 0.00s
-Initial gc. took 0.04s
+Initial gc. took 0.08s
 DPI scale factor: 1.000000
 nvdrs: Loaded, about to disable thread optimizations.
 nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.36s
+Creating interface object. took 0.89s
 Cleaning stores took 0.00s
-Init translation took 0.05s
-Build styles took 0.00s
-Load screen analysis took 0.00s
-Analyze screens took 0.09s
-Save screen analysis took 0.04s
-Prepare screens took 0.26s
-Save pyanalysis. took 0.04s
-Save bytecode. took 0.05s
+Init translation took 0.07s
+Build styles took 0.01s
+Load screen analysis took 0.10s
+Analyze screens took 0.00s
+Save screen analysis took 0.00s
+Prepare screens took 0.23s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.00s
+Running _start took 0.01s
+Performance test:
+Interface start. took 0.31s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 546.17'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
+Maximum texture size: 4096x4096
+|ERROR| 'images/background/office building/bg f teacher 1 0.webp' is missing!
+
