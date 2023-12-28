@@ -427,7 +427,7 @@ init -6 python:
 
             char_obj = get_kwargs('char_obj', **kwargs)
             if char_obj == None:
-                return False
+                char_obj = get_character("high_school", charList["schools"])
 
             for stat in self.stats.keys():
                 if not char_obj.check_stat(stat, self.stats[stat]):

@@ -30,7 +30,8 @@ init -1 python:
         )
     )
 
-    # hsd_events["check_rooms"].add_event(event1)
+    hsd_events["check_rooms"].add_event(Event(3, "sd_event_3", TimeCondition(daytime = "6+")))
+    
     hsd_events["peek_students"].add_event(event1)
 
     hsd_timed_event.check_all_events()

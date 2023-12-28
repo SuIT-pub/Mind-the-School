@@ -109,7 +109,7 @@ label first_week_office_building_event (**kwargs):
 label office_event_1 (**kwargs):
     $ image = Image_Series("images/events/office/office_event_1 <name> <level> <step>.webp", name = "high_school", **kwargs)
 
-    $ begin_event();
+    $ begin_event("office_event_1");
 
     $ image.show(0)
     subtitles "You notice a girl sitting in front of the teachers office."
@@ -129,7 +129,7 @@ label office_event_2 (**kwargs):
 
     $ kwargs["char_obj"] = get_character("teacher", charList['staff'])
 
-    $ begin_event();
+    $ begin_event("office_event_2");
     
     call show_image(get_image("images/events/office/office_event_2 <level> <variant>.webp", **kwargs)[1]) from _call_show_image_2
     subtitles "Even the teachers need a break from time to time."
@@ -145,7 +145,7 @@ label office_event_2 (**kwargs):
 label office_event_3 (**kwargs):
     $ image = Image_Series("images/events/office/office_event_3 <name> <level> <step>.webp", name = "high_school", **kwargs)
 
-    $ begin_event();
+    $ begin_event("office_event_3");
 
     $ image.show(0)
     subtitles "You enter the office and see two students sitting there."

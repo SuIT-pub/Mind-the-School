@@ -1,41 +1,136 @@
-Wed Dec 27 15:47:52 2023
+Thu Dec 28 10:49:45 2023
 Windows-10-10.0.19045
 Ren'Py 8.1.3.23091805
  
 
-Bootstrap to the start of init.init. took 0.05s
-Early init. took 0.01s
-Loader init. took 0.59s
-Loading error handling. took 0.10s
-Loading script. took 2.14s
-Loading save slot metadata. took 0.55s
+Bootstrap to the start of init.init. took 0.04s
+Early init. took 0.00s
+Loader init. took 0.12s
+Loading error handling. took 0.08s
+Loading script. took 2.27s
+Loading save slot metadata. took 0.11s
 Loading persistent. took 0.00s
-Running init code. took 0.19s
-Loading analysis data. took 0.05s
-Analyze and compile ATL. took 0.01s
-Reloading save slot metadata. took 0.27s
+Running init code. took 0.14s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.10s
 Index archives took 0.00s
 Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.19s
+Dump and make backups. took 0.09s
 Cleaning cache. took 0.00s
 Making clean stores. took 0.00s
-Initial gc. took 0.06s
+Initial gc. took 0.05s
 DPI scale factor: 1.000000
 nvdrs: Loaded, about to disable thread optimizations.
 nvdrs: Disabled thread optimizations.
-Creating interface object. took 1.17s
+Creating interface object. took 0.42s
 Cleaning stores took 0.00s
-Init translation took 0.12s
-Build styles took 0.01s
-Load screen analysis took 0.02s
-Analyze screens took 0.09s
-Save screen analysis took 0.18s
-Prepare screens took 0.40s
-Save pyanalysis. took 0.05s
-Save bytecode. took 0.10s
+Init translation took 0.06s
+Build styles took 0.00s
+Load screen analysis took 0.00s
+Analyze screens took 0.03s
+Save screen analysis took 0.04s
+Prepare screens took 0.16s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.07s
 Running _start took 0.00s
 Performance test:
-Interface start. took 0.54s
+Interface start. took 0.26s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 546.17'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
+Maximum texture size: 4096x4096
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': False, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': False, 'sb_event_2': False, 'sb_event_3': False, 'sd_event_1': False, 'sd_event_2': False, 'sd_event_3': False, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': False, 'office_event_2': False, 'office_event_3': False}
+
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': False, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': False, 'sb_event_2': True, 'sb_event_3': False, 'sd_event_1': False, 'sd_event_2': False, 'sd_event_3': False, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': False, 'office_event_2': False, 'office_event_3': False}
+
+Resetting cache.
+Bootstrap to the start of init.init. took 41.22s
+Early init. took 0.00s
+Loader init. took 0.11s
+Loading error handling. took 0.05s
+Loading script. took 0.28s
+Loading save slot metadata. took 0.18s
+Loading persistent. took 0.00s
+Running init code. took 0.06s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.15s
+Index archives took 0.00s
+Dump and make backups. took 0.08s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.08s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.45s
+Cleaning stores took 0.00s
+Init translation took 0.08s
+Build styles took 0.01s
+Load screen analysis took 0.10s
+Analyze screens took 0.00s
+Save screen analysis took 0.00s
+Prepare screens took 0.16s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.00s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.08s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 546.17'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
+Maximum texture size: 4096x4096
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': False, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': False, 'sb_event_2': False, 'sb_event_3': False, 'sd_event_1': False, 'sd_event_2': False, 'sd_event_3': False, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': False, 'office_event_2': False, 'office_event_3': False}
+
+Resetting cache.
+Bootstrap to the start of init.init. took 99.78s
+Early init. took 0.00s
+Loader init. took 0.13s
+Loading error handling. took 0.04s
+Loading script. took 0.30s
+Loading save slot metadata. took 0.11s
+Loading persistent. took 0.00s
+
+Full traceback:
+  File "game/scripts/buildings/courtyard.rpy", line 5, in script
+    init -1 python:
+  File "F:\RenPy\renpy\ast.py", line 1138, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "F:\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
+    exec(bytecode, globals, locals)
+  File "game/scripts/buildings/courtyard.rpy", line 23, in <module>
+    courtyard_events["patrol"].add_event(Event(3,
+  File "game/scripts/event.rpy", line 555, in __init__
+    if event_name not in seenEvents.keys():
+NameError: name 'seenEvents' is not defined
+
+While running game code:
+  File "game/scripts/buildings/courtyard.rpy", line 5, in script
+    init -1 python:
+  File "game/scripts/buildings/courtyard.rpy", line 23, in <module>
+    courtyard_events["patrol"].add_event(Event(3,
+  File "game/scripts/event.rpy", line 555, in __init__
+    if event_name not in seenEvents.keys():
+NameError: name 'seenEvents' is not defined
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Interface start. took 0.59s
 
 Initializing gl2 renderer:
 primary display bounds: (0, 0, 2560, 1080)
@@ -48,35 +143,125 @@ Display Info: None
 Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
 Maximum texture size: 4096x4096
 Resetting cache.
-Bootstrap to the start of init.init. took 101.69s
+Bootstrap to the start of init.init. took 218.39s
 Early init. took 0.00s
-Loader init. took 0.15s
-Loading error handling. took 0.09s
-Loading script. took 0.74s
-Loading save slot metadata. took 0.14s
-Loading persistent. took 0.01s
-Running init code. took 0.10s
-Loading analysis data. took 0.04s
-Analyze and compile ATL. took 0.00s
-Reloading save slot metadata. took 0.10s
-Index archives took 0.00s
-Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.11s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.11s
+Loader init. took 0.13s
+Loading error handling. took 0.05s
+Loading script. took 0.32s
+Loading save slot metadata. took 0.11s
+Loading persistent. took 0.00s
+
+Full traceback:
+  File "game/scripts/buildings/courtyard.rpy", line 5, in script
+    init -1 python:
+  File "F:\RenPy\renpy\ast.py", line 1138, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "F:\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
+    exec(bytecode, globals, locals)
+  File "game/scripts/buildings/courtyard.rpy", line 23, in <module>
+    courtyard_events["patrol"].add_event(Event(3,
+  File "game/scripts/event.rpy", line 555, in __init__
+    if event_name not in seenEvents.keys():
+NameError: name 'seenEvents' is not defined
+
+While running game code:
+  File "game/scripts/buildings/courtyard.rpy", line 5, in script
+    init -1 python:
+  File "game/scripts/buildings/courtyard.rpy", line 23, in <module>
+    courtyard_events["patrol"].add_event(Event(3,
+  File "game/scripts/event.rpy", line 555, in __init__
+    if event_name not in seenEvents.keys():
+NameError: name 'seenEvents' is not defined
 DPI scale factor: 1.000000
 nvdrs: Loaded, about to disable thread optimizations.
 nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.54s
+Interface start. took 0.67s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 546.17'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 221.40s
+Early init. took 0.00s
+Loader init. took 0.12s
+Loading error handling. took 0.05s
+Loading script. took 0.31s
+Loading save slot metadata. took 0.14s
+Loading persistent. took 0.01s
+
+Full traceback:
+  File "game/scripts/buildings/courtyard.rpy", line 5, in script
+    init -1 python:
+  File "F:\RenPy\renpy\ast.py", line 1138, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "F:\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
+    exec(bytecode, globals, locals)
+  File "game/scripts/buildings/courtyard.rpy", line 23, in <module>
+    courtyard_events["patrol"].add_event(Event(3,
+  File "game/scripts/event.rpy", line 555, in __init__
+    if event_name not in seenEvents.keys():
+NameError: name 'seenEvents' is not defined
+
+While running game code:
+  File "game/scripts/buildings/courtyard.rpy", line 5, in script
+    init -1 python:
+  File "game/scripts/buildings/courtyard.rpy", line 23, in <module>
+    courtyard_events["patrol"].add_event(Event(3,
+  File "game/scripts/event.rpy", line 555, in __init__
+    if event_name not in seenEvents.keys():
+NameError: name 'seenEvents' is not defined
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Interface start. took 1.10s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 546.17'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 272.34s
+Early init. took 0.00s
+Loader init. took 0.12s
+Loading error handling. took 0.06s
+Loading script. took 0.39s
+Loading save slot metadata. took 0.12s
+Loading persistent. took 0.01s
+Running init code. took 0.07s
+Loading analysis data. took 0.03s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.11s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.10s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.08s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.44s
 Cleaning stores took 0.00s
-Init translation took 0.09s
-Build styles took 0.00s
-Load screen analysis took 0.01s
-Analyze screens took 0.06s
-Save screen analysis took 0.07s
-Prepare screens took 0.26s
-Save pyanalysis. took 0.05s
+Init translation took 0.08s
+Build styles took 0.01s
+Load screen analysis took 0.00s
+Analyze screens took 0.04s
+Save screen analysis took 0.06s
+Prepare screens took 0.36s
+Save pyanalysis. took 0.00s
 Save bytecode. took 0.04s
 Running _start took 0.01s
 Performance test:
@@ -93,37 +278,459 @@ Display Info: None
 Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
 Maximum texture size: 4096x4096
 Resetting cache.
-Bootstrap to the start of init.init. took 118.48s
+Bootstrap to the start of init.init. took 343.57s
 Early init. took 0.00s
-Loader init. took 0.22s
-Loading error handling. took 0.06s
-Loading script. took 0.76s
-Loading save slot metadata. took 0.17s
+Loader init. took 0.15s
+Loading error handling. took 0.04s
+Loading script. took 0.29s
+Loading save slot metadata. took 0.10s
 Loading persistent. took 0.00s
-Running init code. took 0.10s
-Loading analysis data. took 0.05s
-Analyze and compile ATL. took 0.01s
+Running init code. took 0.06s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.07s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.08s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.08s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.38s
+Cleaning stores took 0.00s
+Init translation took 0.06s
+Build styles took 0.00s
+Load screen analysis took 0.00s
+Analyze screens took 0.03s
+Save screen analysis took 0.04s
+Prepare screens took 0.14s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.07s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 546.17'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
+Maximum texture size: 4096x4096
+
+Full traceback:
+  File "game/scripts/intro.rpy", line 50, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 210, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 623, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 741, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 772, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 84, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 102, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 623, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 741, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 772, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 49, in script call
+    $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 623, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 741, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 772, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 84, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 102, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 623, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 741, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 772, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 49, in script call
+    $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 623, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 741, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 772, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 43, in script
+    $ begin_event("sb_event_2")
+  File "F:\RenPy\renpy\ast.py", line 1138, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "F:\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
+    exec(bytecode, globals, locals)
+  File "game/scripts/buildings/school_building.rpy", line 43, in <module>
+    $ begin_event("sb_event_2")
+  File "game/scripts/helper.rpy", line 334, in begin_event
+    log_val("all_events_seen", seenEvents)
+UnboundLocalError: local variable 'seenEvents' referenced before assignment
+
+While running game code:
+  File "game/scripts/intro.rpy", line 50, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 210, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 623, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 741, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 772, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 84, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 102, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 623, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 741, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 772, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 49, in script call
+    $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 623, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 741, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 772, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 84, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 102, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 623, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 741, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 772, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 49, in script call
+    $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 606, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 623, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
+    call call_available_event(hsb_timed_event) from high_school_building_1
+  File "game/scripts/event.rpy", line 741, in script call
+    $ renpy.call(events[j], **kwargs)
+  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 772, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 43, in script
+    $ begin_event("sb_event_2")
+  File "game/scripts/buildings/school_building.rpy", line 43, in <module>
+    $ begin_event("sb_event_2")
+  File "game/scripts/helper.rpy", line 334, in begin_event
+    log_val("all_events_seen", seenEvents)
+UnboundLocalError: local variable 'seenEvents' referenced before assignment
+Resetting cache.
+Bootstrap to the start of init.init. took 374.14s
+Early init. took 0.00s
+Loader init. took 0.12s
+Loading error handling. took 0.04s
+Loading script. took 0.41s
+Loading save slot metadata. took 0.18s
+Loading persistent. took 0.00s
+Running init code. took 0.07s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
 Reloading save slot metadata. took 0.13s
 Index archives took 0.00s
 Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.15s
+Dump and make backups. took 0.09s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.09s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.38s
+Cleaning stores took 0.00s
+Init translation took 0.07s
+Build styles took 0.01s
+Load screen analysis took 0.01s
+Analyze screens took 0.03s
+Save screen analysis took 0.04s
+Prepare screens took 0.17s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.07s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 546.17'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
+Maximum texture size: 4096x4096
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': False, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': False, 'sb_event_2': False, 'sb_event_3': False, 'sd_event_1': False, 'sd_event_2': False, 'sd_event_3': False, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': False, 'office_event_2': False, 'office_event_3': False}
+
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': False, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': False, 'sb_event_2': True, 'sb_event_3': False, 'sd_event_1': False, 'sd_event_2': False, 'sd_event_3': False, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': False, 'office_event_2': False, 'office_event_3': False}
+
+Resetting cache.
+Bootstrap to the start of init.init. took 390.40s
+Early init. took 0.00s
+Loader init. took 0.12s
+Loading error handling. took 0.04s
+Loading script. took 0.35s
+Loading save slot metadata. took 0.20s
+Loading persistent. took 0.00s
+Running init code. took 0.05s
+Loading analysis data. took 0.03s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.15s
+Index archives took 0.00s
+Dump and make backups. took 0.08s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.09s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.41s
+Cleaning stores took 0.00s
+Init translation took 0.08s
+Build styles took 0.00s
+Load screen analysis took 0.07s
+Analyze screens took 0.00s
+Save screen analysis took 0.00s
+Prepare screens took 0.14s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.00s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.09s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 546.17'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
+Maximum texture size: 4096x4096
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': False, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': False, 'sb_event_2': False, 'sb_event_3': False, 'sd_event_1': False, 'sd_event_2': False, 'sd_event_3': False, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': False, 'office_event_2': False, 'office_event_3': False}
+
+Resetting cache.
+Bootstrap to the start of init.init. took 475.47s
+Early init. took 0.00s
+Loader init. took 0.12s
+Loading error handling. took 0.03s
+Loading script. took 0.32s
+Loading save slot metadata. took 0.19s
+Loading persistent. took 0.01s
+Running init code. took 0.07s
+Loading analysis data. took 0.03s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.13s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.09s
 Cleaning cache. took 0.00s
 Making clean stores. took 0.00s
 Initial gc. took 0.11s
 DPI scale factor: 1.000000
 nvdrs: Loaded, about to disable thread optimizations.
 nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.58s
+Creating interface object. took 0.59s
 Cleaning stores took 0.00s
-Init translation took 0.10s
-Build styles took 0.00s
-Load screen analysis took 0.04s
-Analyze screens took 0.06s
+Init translation took 0.12s
+Build styles took 0.01s
+Load screen analysis took 0.00s
+Analyze screens took 0.07s
 Save screen analysis took 0.06s
-Prepare screens took 0.19s
+Prepare screens took 0.36s
 Save pyanalysis. took 0.00s
-Save bytecode. took 0.03s
-Running _start took 0.00s
+Save bytecode. took 0.14s
+Running _start took 0.05s
 Performance test:
 Interface start. took 0.13s
 
@@ -137,126 +744,40 @@ Version: b'4.6.0 NVIDIA 546.17'
 Display Info: None
 Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
 Maximum texture size: 4096x4096
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': False, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': False, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': False, 'sd_event_2': False, 'sd_event_3': False, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': False, 'office_event_2': False, 'office_event_3': False}
+
+game_data: {'school_name': 'Windstor Academy', 'headmaster_first_name': 'Mark', 'headmaster_last_name': 'Benson', 'seen_events': {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': False, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': False, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': False, 'sd_event_2': False, 'sd_event_3': False, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': False, 'office_event_2': False, 'office_event_3': False}}
+
 Resetting cache.
-Bootstrap to the start of init.init. took 127.50s
+Bootstrap to the start of init.init. took 504.49s
 Early init. took 0.00s
-Loader init. took 0.15s
-Loading error handling. took 0.05s
-Loading script. took 0.45s
+Loader init. took 0.11s
+Loading error handling. took 0.04s
+Loading script. took 0.28s
 Loading save slot metadata. took 0.17s
 Loading persistent. took 0.00s
-Running init code. took 0.09s
-Loading analysis data. took 0.06s
-Analyze and compile ATL. took 0.01s
-Reloading save slot metadata. took 0.12s
+Running init code. took 0.06s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.13s
 Index archives took 0.00s
-Dump and make backups. took 0.13s
+Dump and make backups. took 0.07s
 Cleaning cache. took 0.00s
 Making clean stores. took 0.00s
-Initial gc. took 0.11s
+Initial gc. took 0.09s
 DPI scale factor: 1.000000
 nvdrs: Loaded, about to disable thread optimizations.
 nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.54s
+Creating interface object. took 0.42s
 Cleaning stores took 0.00s
-Init translation took 0.11s
+Init translation took 0.09s
 Build styles took 0.01s
-Load screen analysis took 0.10s
+Load screen analysis took 0.06s
 Analyze screens took 0.00s
 Save screen analysis took 0.00s
-Prepare screens took 0.20s
+Prepare screens took 0.14s
 Save pyanalysis. took 0.00s
 Save bytecode. took 0.00s
-Running _start took 0.00s
-Performance test:
-Interface start. took 0.11s
-
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1080)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'NVIDIA Corporation'"
-Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
-Version: b'4.6.0 NVIDIA 546.17'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
-Maximum texture size: 4096x4096
-Resetting cache.
-Bootstrap to the start of init.init. took 156.59s
-Early init. took 0.00s
-Loader init. took 0.15s
-Loading error handling. took 0.04s
-Loading script. took 0.73s
-Loading save slot metadata. took 0.16s
-Loading persistent. took 0.01s
-Running init code. took 0.09s
-Loading analysis data. took 0.04s
-Analyze and compile ATL. took 0.00s
-Reloading save slot metadata. took 0.12s
-Index archives took 0.00s
-Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.11s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.11s
-DPI scale factor: 1.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.43s
-Cleaning stores took 0.00s
-Init translation took 0.08s
-Build styles took 0.01s
-Load screen analysis took 0.00s
-Analyze screens took 0.04s
-Save screen analysis took 0.05s
-Prepare screens took 0.18s
-Save pyanalysis. took 0.04s
-Save bytecode. took 0.04s
-Running _start took 0.01s
-Performance test:
-Interface start. took 0.11s
-
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1080)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'NVIDIA Corporation'"
-Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
-Version: b'4.6.0 NVIDIA 546.17'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
-Maximum texture size: 4096x4096
-Resetting cache.
-Bootstrap to the start of init.init. took 163.52s
-Early init. took 0.00s
-Loader init. took 0.16s
-Loading error handling. took 0.11s
-Loading script. took 0.88s
-Loading save slot metadata. took 0.21s
-Loading persistent. took 0.01s
-Running init code. took 0.15s
-Loading analysis data. took 0.07s
-Analyze and compile ATL. took 0.01s
-Reloading save slot metadata. took 0.14s
-Index archives took 0.00s
-Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.18s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.13s
-DPI scale factor: 1.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.54s
-Cleaning stores took 0.00s
-Init translation took 0.10s
-Build styles took 0.01s
-Load screen analysis took 0.01s
-Analyze screens took 0.05s
-Save screen analysis took 0.07s
-Prepare screens took 0.21s
-Save pyanalysis. took 0.04s
-Save bytecode. took 0.04s
 Running _start took 0.00s
 Performance test:
 Interface start. took 0.10s
@@ -271,85 +792,55 @@ Version: b'4.6.0 NVIDIA 546.17'
 Display Info: None
 Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
 Maximum texture size: 4096x4096
-Resetting cache.
-Bootstrap to the start of init.init. took 189.06s
-Early init. took 0.00s
-Loader init. took 0.16s
-Loading error handling. took 0.05s
-Loading script. took 1.05s
-Loading save slot metadata. took 0.26s
-Loading persistent. took 0.01s
-Running init code. took 0.15s
-Loading analysis data. took 0.06s
-Analyze and compile ATL. took 0.00s
-Reloading save slot metadata. took 0.14s
-Index archives took 0.00s
-Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.14s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.15s
-DPI scale factor: 1.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: Disabled thread optimizations.
-Creating interface object. took 1.11s
-Cleaning stores took 0.00s
-Init translation took 0.12s
-Build styles took 0.00s
-Load screen analysis took 0.01s
-Analyze screens took 0.08s
-Save screen analysis took 0.07s
-Prepare screens took 0.46s
-Save pyanalysis. took 0.05s
-Save bytecode. took 0.05s
-Running _start took 0.00s
-Performance test:
-Interface start. took 0.11s
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': False, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': False, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': False, 'sd_event_2': False, 'sd_event_3': False, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': False, 'office_event_2': False, 'office_event_3': False}
 
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1080)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'NVIDIA Corporation'"
-Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
-Version: b'4.6.0 NVIDIA 546.17'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
-Maximum texture size: 4096x4096
+game_data: {'school_name': 'Windstor Academy', 'headmaster_first_name': 'Mark', 'headmaster_last_name': 'Benson', 'seen_events': {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': False, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': False, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': False, 'sd_event_2': False, 'sd_event_3': False, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': False, 'office_event_2': False, 'office_event_3': False}}
+
+Cleaning stores took 0.00s
+Init translation took 0.00s
+Build styles took 0.00s
+Load screen analysis took 0.07s
+Analyze screens took 0.00s
+Prepare screens took 0.00s
+Running _start took 0.01s
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': False, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': False, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': False, 'sd_event_2': False, 'sd_event_3': False, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': False, 'office_event_2': False, 'office_event_3': False}
+
+game_data: {'school_name': 'Windstor Academy', 'headmaster_first_name': 'Mark', 'headmaster_last_name': 'Benson', 'seen_events': {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': False, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': False, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': False, 'sd_event_2': False, 'sd_event_3': False, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': False, 'office_event_2': False, 'office_event_3': False}}
+
 Resetting cache.
-Bootstrap to the start of init.init. took 362.37s
+Bootstrap to the start of init.init. took 550.73s
 Early init. took 0.00s
-Loader init. took 0.23s
-Loading error handling. took 0.06s
-Loading script. took 1.30s
-Loading save slot metadata. took 0.20s
+Loader init. took 0.15s
+Loading error handling. took 0.09s
+Loading script. took 1.95s
+Loading save slot metadata. took 0.35s
 Loading persistent. took 0.00s
-Running init code. took 0.11s
-Loading analysis data. took 0.06s
+Running init code. took 0.13s
+Loading analysis data. took 0.03s
 Analyze and compile ATL. took 0.00s
-Reloading save slot metadata. took 0.16s
+Reloading save slot metadata. took 0.20s
 Index archives took 0.00s
 Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.14s
+Dump and make backups. took 0.10s
 Cleaning cache. took 0.00s
 Making clean stores. took 0.00s
 Initial gc. took 0.11s
 DPI scale factor: 1.000000
 nvdrs: Loaded, about to disable thread optimizations.
 nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.65s
+Creating interface object. took 0.35s
 Cleaning stores took 0.00s
-Init translation took 0.10s
+Init translation took 0.08s
 Build styles took 0.01s
-Load screen analysis took 0.01s
-Analyze screens took 0.07s
-Save screen analysis took 0.07s
-Prepare screens took 0.37s
-Save pyanalysis. took 0.07s
+Load screen analysis took 0.00s
+Analyze screens took 0.06s
+Save screen analysis took 0.05s
+Prepare screens took 0.20s
+Save pyanalysis. took 0.00s
 Save bytecode. took 0.04s
 Running _start took 0.00s
 Performance test:
-Interface start. took 0.14s
+Interface start. took 0.16s
 
 Initializing gl2 renderer:
 primary display bounds: (0, 0, 2560, 1080)
@@ -362,112 +853,23 @@ Display Info: None
 Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
 Maximum texture size: 4096x4096
 Resetting cache.
-Bootstrap to the start of init.init. took 378.52s
+Bootstrap to the start of init.init. took 557.42s
 Early init. took 0.00s
-Loader init. took 0.21s
-Loading error handling. took 0.06s
-Loading script. took 0.54s
-Loading save slot metadata. took 0.21s
-Loading persistent. took 0.01s
-Running init code. took 0.12s
-Loading analysis data. took 0.06s
-Analyze and compile ATL. took 0.00s
-Reloading save slot metadata. took 0.13s
-Index archives took 0.00s
-Dump and make backups. took 0.11s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.18s
-DPI scale factor: 1.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.67s
-Cleaning stores took 0.00s
-Init translation took 0.16s
-Build styles took 0.01s
-Load screen analysis took 0.14s
-Analyze screens took 0.00s
-Save screen analysis took 0.00s
-Prepare screens took 0.22s
-Save pyanalysis. took 0.00s
-Save bytecode. took 0.00s
-Running _start took 0.00s
-Performance test:
-Interface start. took 0.12s
-
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1080)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'NVIDIA Corporation'"
-Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
-Version: b'4.6.0 NVIDIA 546.17'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
-Maximum texture size: 4096x4096
-Resetting cache.
-Bootstrap to the start of init.init. took 458.39s
-Early init. took 0.00s
-Loader init. took 0.15s
+Loader init. took 0.17s
 Loading error handling. took 0.05s
-Loading script. took 0.80s
-Loading save slot metadata. took 0.14s
+Loading script. took 0.37s
+Loading save slot metadata. took 0.13s
 Loading persistent. took 0.00s
-Running init code. took 0.08s
+Running init code. took 0.07s
 Loading analysis data. took 0.04s
-Analyze and compile ATL. took 0.00s
-Reloading save slot metadata. took 0.10s
+Analyze and compile ATL. took 0.01s
+Reloading save slot metadata. took 0.09s
 Index archives took 0.00s
 Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.11s
+Dump and make backups. took 0.09s
 Cleaning cache. took 0.00s
 Making clean stores. took 0.00s
-Initial gc. took 0.11s
-DPI scale factor: 1.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.48s
-Cleaning stores took 0.00s
-Init translation took 0.10s
-Build styles took 0.00s
-Load screen analysis took 0.00s
-Analyze screens took 0.03s
-Save screen analysis took 0.04s
-Prepare screens took 0.14s
-Save pyanalysis. took 0.03s
-Save bytecode. took 0.03s
-Running _start took 0.00s
-Performance test:
-Interface start. took 0.09s
-
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1080)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'NVIDIA Corporation'"
-Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
-Version: b'4.6.0 NVIDIA 546.17'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
-Maximum texture size: 4096x4096
-Resetting cache.
-Bootstrap to the start of init.init. took 485.77s
-Early init. took 0.00s
-Loader init. took 0.20s
-Loading error handling. took 0.05s
-Loading script. took 0.83s
-Loading save slot metadata. took 0.18s
-Loading persistent. took 0.01s
-Running init code. took 0.13s
-Loading analysis data. took 0.05s
-Analyze and compile ATL. took 0.00s
-Reloading save slot metadata. took 0.11s
-Index archives took 0.00s
-Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.12s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.11s
+Initial gc. took 0.09s
 DPI scale factor: 1.000000
 nvdrs: Loaded, about to disable thread optimizations.
 nvdrs: Disabled thread optimizations.
@@ -478,12 +880,12 @@ Build styles took 0.00s
 Load screen analysis took 0.01s
 Analyze screens took 0.04s
 Save screen analysis took 0.05s
-Prepare screens took 0.16s
-Save pyanalysis. took 0.04s
+Prepare screens took 0.14s
+Save pyanalysis. took 0.00s
 Save bytecode. took 0.03s
 Running _start took 0.00s
 Performance test:
-Interface start. took 0.10s
+Interface start. took 0.08s
 
 Initializing gl2 renderer:
 primary display bounds: (0, 0, 2560, 1080)
@@ -495,1103 +897,86 @@ Version: b'4.6.0 NVIDIA 546.17'
 Display Info: None
 Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
 Maximum texture size: 4096x4096
-Resetting cache.
-Bootstrap to the start of init.init. took 569.02s
-Early init. took 0.00s
-Loader init. took 0.26s
-Loading error handling. took 0.06s
-Loading script. took 0.54s
-Loading save slot metadata. took 0.18s
-Loading persistent. took 0.01s
-Running init code. took 0.11s
-Loading analysis data. took 0.06s
-Analyze and compile ATL. took 0.00s
-Reloading save slot metadata. took 0.12s
-Index archives took 0.00s
-Dump and make backups. took 0.13s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.14s
-DPI scale factor: 1.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.75s
-Cleaning stores took 0.00s
-Init translation took 0.19s
-Build styles took 0.01s
-Load screen analysis took 0.13s
-Analyze screens took 0.00s
-Save screen analysis took 0.00s
-Prepare screens took 0.40s
-Save pyanalysis. took 0.00s
-Save bytecode. took 0.00s
-Running _start took 0.00s
-Performance test:
-Interface start. took 0.19s
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': False, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': False, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': False, 'sd_event_2': False, 'sd_event_3': False, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': False, 'office_event_2': False, 'office_event_3': False}
 
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1080)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'NVIDIA Corporation'"
-Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
-Version: b'4.6.0 NVIDIA 546.17'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
-Maximum texture size: 4096x4096
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': False, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': False, 'sd_event_2': False, 'sd_event_3': False, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': False, 'office_event_2': False, 'office_event_3': False}
+
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': False, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': False, 'sd_event_2': False, 'sd_event_3': True, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': False, 'office_event_2': False, 'office_event_3': False}
+
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': False, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': False, 'sd_event_2': False, 'sd_event_3': True, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': False, 'office_event_2': False, 'office_event_3': False}
+
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': False, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': False, 'sd_event_2': False, 'sd_event_3': True, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': False, 'office_event_2': False, 'office_event_3': False}
+
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': False, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': False, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': False, 'office_event_2': False, 'office_event_3': False}
+
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': False, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': False, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': False, 'office_event_2': False, 'office_event_3': False}
+
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': False, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': False, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': False, 'office_event_2': False, 'office_event_3': False}
+
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': False, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': True, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': False, 'office_event_2': False, 'office_event_3': False}
+
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': False, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': True, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': False, 'office_event_2': True, 'office_event_3': False}
+
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': False, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': True, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': False, 'office_event_2': True, 'office_event_3': True}
+
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': False, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': True, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': True, 'office_event_2': True, 'office_event_3': True}
+
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': True, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': True, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': True, 'office_event_2': True, 'office_event_3': True}
+
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': True, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': True, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': True, 'office_event_2': True, 'office_event_3': True}
+
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': True, 'courtyard_event_3': True, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': True, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': True, 'office_event_2': True, 'office_event_3': True}
+
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': True, 'courtyard_event_3': True, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': True, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': True, 'office_event_2': True, 'office_event_3': True}
+
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': True, 'courtyard_event_3': True, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': True, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': True, 'office_event_2': True, 'office_event_3': True}
+
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': True, 'courtyard_event_3': True, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': True, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': True, 'office_event_2': True, 'office_event_3': True}
+
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': True, 'courtyard_event_3': True, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': True, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': True, 'office_event_2': True, 'office_event_3': True}
+
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': True, 'courtyard_event_3': True, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': True, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': True, 'office_event_2': True, 'office_event_3': True}
+
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': True, 'courtyard_event_3': True, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': True, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': True, 'office_event_2': True, 'office_event_3': True}
+
+all_events_seen: {'courtyard_event_1': True, 'courtyard_event_2': True, 'courtyard_event_3': True, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': True, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': True, 'office_event_2': True, 'office_event_3': True}
+
+|ERROR| 'images/background/kiosk/bg f elementary_school 1 0 <variant>.webp' is missing!
+
+all_events_seen: {'courtyard_event_1': True, 'courtyard_event_2': True, 'courtyard_event_3': True, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': True, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': True, 'office_event_1': True, 'office_event_2': True, 'office_event_3': True}
+
+|ERROR| 'images/background/kiosk/bg f middle_school 1 0 <variant>.webp' is missing!
+
+all_events_seen: {'courtyard_event_1': True, 'courtyard_event_2': True, 'courtyard_event_3': True, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': True, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': True, 'office_event_1': True, 'office_event_2': True, 'office_event_3': True}
+
+all_events_seen: {'courtyard_event_1': True, 'courtyard_event_2': True, 'courtyard_event_3': True, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': True, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': True, 'kiosk_event_2': False, 'kiosk_event_3': True, 'office_event_1': True, 'office_event_2': True, 'office_event_3': True}
+
+all_events_seen: {'courtyard_event_1': True, 'courtyard_event_2': True, 'courtyard_event_3': True, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': True, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': True, 'kiosk_event_2': True, 'kiosk_event_3': True, 'office_event_1': True, 'office_event_2': True, 'office_event_3': True}
+
+all_events_seen: {'courtyard_event_1': True, 'courtyard_event_2': True, 'courtyard_event_3': True, 'gym_event_1': True, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': True, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': True, 'kiosk_event_2': True, 'kiosk_event_3': True, 'office_event_1': True, 'office_event_2': True, 'office_event_3': True}
+
+all_events_seen: {'courtyard_event_1': True, 'courtyard_event_2': True, 'courtyard_event_3': True, 'gym_event_1': True, 'gym_event_3': True, 'gym_event_2': False, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': True, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': True, 'kiosk_event_2': True, 'kiosk_event_3': True, 'office_event_1': True, 'office_event_2': True, 'office_event_3': True}
+
+all_events_seen: {'courtyard_event_1': True, 'courtyard_event_2': True, 'courtyard_event_3': True, 'gym_event_1': True, 'gym_event_3': True, 'gym_event_2': False, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': True, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': True, 'kiosk_event_2': True, 'kiosk_event_3': True, 'office_event_1': True, 'office_event_2': True, 'office_event_3': True}
+
+all_events_seen: {'courtyard_event_1': True, 'courtyard_event_2': True, 'courtyard_event_3': True, 'gym_event_1': True, 'gym_event_3': True, 'gym_event_2': True, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': True, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': True, 'kiosk_event_2': True, 'kiosk_event_3': True, 'office_event_1': True, 'office_event_2': True, 'office_event_3': True}
+
+all_events_seen: {'courtyard_event_1': True, 'courtyard_event_2': True, 'courtyard_event_3': True, 'gym_event_1': True, 'gym_event_3': True, 'gym_event_2': True, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': True, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': True, 'kiosk_event_2': True, 'kiosk_event_3': True, 'office_event_1': True, 'office_event_2': True, 'office_event_3': True}
+
 Resetting cache.
-Bootstrap to the start of init.init. took 615.41s
+Bootstrap to the start of init.init. took 746.55s
 Early init. took 0.00s
-Loader init. took 0.15s
+Loader init. took 0.14s
 Loading error handling. took 0.04s
-Loading script. took 0.65s
-Loading save slot metadata. took 0.12s
+Loading script. took 0.44s
+Loading save slot metadata. took 0.21s
 Loading persistent. took 0.00s
-Running init code. took 0.09s
+Running init code. took 0.07s
 Loading analysis data. took 0.03s
 Analyze and compile ATL. took 0.00s
-Reloading save slot metadata. took 0.11s
-Index archives took 0.00s
-Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.11s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.11s
-DPI scale factor: 1.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.53s
-Cleaning stores took 0.00s
-Init translation took 0.09s
-Build styles took 0.01s
-Load screen analysis took 0.00s
-Analyze screens took 0.05s
-Save screen analysis took 0.05s
-Prepare screens took 0.21s
-Save pyanalysis. took 0.04s
-Save bytecode. took 0.03s
-Running _start took 0.01s
-Performance test:
-Interface start. took 0.10s
-
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1080)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'NVIDIA Corporation'"
-Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
-Version: b'4.6.0 NVIDIA 546.17'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
-Maximum texture size: 4096x4096
-Resetting cache.
-Bootstrap to the start of init.init. took 635.22s
-Early init. took 0.00s
-Loader init. took 0.55s
-Loading error handling. took 0.25s
-Loading script. took 0.84s
-Loading save slot metadata. took 0.22s
-Loading persistent. took 0.01s
-Running init code. took 0.10s
-Loading analysis data. took 0.07s
-Analyze and compile ATL. took 0.01s
-Reloading save slot metadata. took 0.12s
-Index archives took 0.00s
-Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.18s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.13s
-DPI scale factor: 1.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.57s
-Cleaning stores took 0.00s
-Init translation took 0.11s
-Build styles took 0.01s
-Load screen analysis took 0.06s
-Analyze screens took 0.06s
-Save screen analysis took 0.07s
-Prepare screens took 0.22s
-Save pyanalysis. took 0.06s
-Save bytecode. took 0.04s
-Running _start took 0.01s
-Performance test:
-Interface start. took 0.11s
-
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1080)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'NVIDIA Corporation'"
-Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
-Version: b'4.6.0 NVIDIA 546.17'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
-Maximum texture size: 4096x4096
-Resetting cache.
-Bootstrap to the start of init.init. took 642.58s
-Early init. took 0.00s
-Loader init. took 0.17s
-Loading error handling. took 0.06s
-Loading script. took 0.66s
-Loading save slot metadata. took 0.17s
-Loading persistent. took 0.01s
-
-File "game/scripts/journal/journal.rpy", line 364: Indentation mismatch.
-DPI scale factor: 1.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: Disabled thread optimizations.
-Interface start. took 0.89s
-
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1080)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'NVIDIA Corporation'"
-Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
-Version: b'4.6.0 NVIDIA 546.17'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
-Maximum texture size: 4096x4096
-Resetting cache.
-Bootstrap to the start of init.init. took 655.50s
-Early init. took 0.00s
-Loader init. took 0.35s
-Loading error handling. took 0.05s
-Loading script. took 1.62s
-Loading save slot metadata. took 0.27s
-Loading persistent. took 0.01s
-Running init code. took 0.32s
-Loading analysis data. took 0.11s
-Analyze and compile ATL. took 0.01s
-Reloading save slot metadata. took 0.15s
-Index archives took 0.00s
-Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.15s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.12s
-DPI scale factor: 1.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.78s
-Cleaning stores took 0.00s
-Init translation took 0.12s
-Build styles took 0.01s
-Load screen analysis took 0.02s
-Analyze screens took 0.05s
-Save screen analysis took 0.06s
-Prepare screens took 0.25s
-Save pyanalysis. took 0.04s
-Save bytecode. took 0.04s
-Running _start took 0.00s
-Performance test:
-Interface start. took 0.10s
-
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1080)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'NVIDIA Corporation'"
-Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
-Version: b'4.6.0 NVIDIA 546.17'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
-Maximum texture size: 4096x4096
-Resetting cache.
-Bootstrap to the start of init.init. took 664.32s
-Early init. took 0.00s
-Loader init. took 0.18s
-Loading error handling. took 0.06s
-Loading script. took 0.81s
-Loading save slot metadata. took 0.21s
-Loading persistent. took 0.01s
-Running init code. took 0.11s
-Loading analysis data. took 0.06s
-Analyze and compile ATL. took 0.00s
-Reloading save slot metadata. took 0.11s
-Index archives took 0.00s
-Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.12s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.09s
-DPI scale factor: 1.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.46s
-Cleaning stores took 0.00s
-Init translation took 0.09s
-Build styles took 0.00s
-Load screen analysis took 0.01s
-Analyze screens took 0.05s
-Save screen analysis took 0.05s
-Prepare screens took 0.25s
-Save pyanalysis. took 0.05s
-Save bytecode. took 0.04s
-Running _start took 0.01s
-Performance test:
-Interface start. took 0.10s
-
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1080)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'NVIDIA Corporation'"
-Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
-Version: b'4.6.0 NVIDIA 546.17'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
-Maximum texture size: 4096x4096
-
-Full traceback:
-  File "game/scripts/intro.rpy", line 50, in script call
-    call skip_to_free_roam from intro_3
-  File "game/scripts/intro.rpy", line 210, in script call
-    call first_week_epilogue_final.skip from skip_to_free_roam_1
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 623, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
-    call call_available_event(hsb_timed_event) from high_school_building_1
-  File "game/scripts/event.rpy", line 737, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 123, in script call
-    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
-  File "game/scripts/menu.rpy", line 97, in script call
-    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
-  File "game/scripts/menu.rpy", line 144, in script call
-    $ call_effects(effects, **kwargs)
-  File "game/scripts/event.rpy", line 768, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/buildings/school_building.rpy", line 84, in script call
-    $ call_custom_menu(False,
-  File "game/scripts/menu.rpy", line 89, in script call
-    $ renpy.call("call_element", effects, **kwargs)
-  File "game/scripts/menu.rpy", line 142, in script call
-    $ renpy.call(effects, **kwargs)
-  File "game/scripts/buildings/school_building.rpy", line 102, in script call
-    $ call_custom_menu(False,
-  File "game/scripts/menu.rpy", line 97, in script call
-    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
-  File "game/scripts/menu.rpy", line 142, in script call
-    $ renpy.call(effects, **kwargs)
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script call
-    call screen journal_page(2, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script
-    call screen journal_page(2, display, school) with dissolveM
-  File "F:\RenPy\renpy\ast.py", line 2259, in execute
-    self.call("execute")
-  File "F:\RenPy\renpy\ast.py", line 2241, in call
-    return renpy.statements.call(method, parsed, *args, **kwargs)
-  File "F:\RenPy\renpy\statements.py", line 342, in call
-    return method(parsed, *args, **kwargs)
-  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
-    store._return = renpy.call_screen(name, *args, **kwargs)
-  File "F:\RenPy\renpy\exports.py", line 3347, in call_screen
-    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
-  File "F:\RenPy\renpy\ui.py", line 299, in interact
-    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
-  File "F:\RenPy\renpy\display\core.py", line 3582, in interact
-    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
-  File "F:\RenPy\renpy\display\core.py", line 4055, in interact_core
-    root_widget.visit_all(lambda d : d.per_interact())
-  File "F:\RenPy\renpy\display\core.py", line 684, in visit_all
-    d.visit_all(callback, seen)
-  File "F:\RenPy\renpy\display\core.py", line 684, in visit_all
-    d.visit_all(callback, seen)
-  File "F:\RenPy\renpy\display\core.py", line 684, in visit_all
-    d.visit_all(callback, seen)
-  File "F:\RenPy\renpy\display\screen.py", line 476, in visit_all
-    callback(self)
-  File "F:\RenPy\renpy\display\core.py", line 4055, in <lambda>
-    root_widget.visit_all(lambda d : d.per_interact())
-  File "F:\RenPy\renpy\display\screen.py", line 487, in per_interact
-    self.update()
-  File "F:\RenPy\renpy\display\screen.py", line 680, in update
-    self.screen.function(**self.scope)
-  File "game/scripts/journal/journal.rpy", line 464, in execute
-    screen journal_page(page, display, school):
-  File "game/scripts/journal/journal.rpy", line 464, in execute
-    screen journal_page(page, display, school):
-  File "game/scripts/journal/journal.rpy", line 494, in execute
-    if display != "":
-  File "game/scripts/journal/journal.rpy", line 501, in execute
-    use journal_vote_button(page, display, active_school, active_obj)
-  File "game/scripts/journal/journal.rpy", line 314, in execute
-    screen journal_vote_button(page, display, active_school, active_obj):
-  File "game/scripts/journal/journal.rpy", line 314, in execute
-    screen journal_vote_button(page, display, active_school, active_obj):
-  File "game/scripts/journal/journal.rpy", line 366, in execute
-    if tooltip:
-  File "game/scripts/journal/journal.rpy", line 367, in execute
-    nearrect:
-  File "F:\RenPy\renpy\display\layout.py", line 2297, in __init__
-    raise Exception("A NearRect requires either a focus or a rect parameter.")
-Exception: A NearRect requires either a focus or a rect parameter.
-
-While running game code:
-  File "game/scripts/intro.rpy", line 50, in script call
-    call skip_to_free_roam from intro_3
-  File "game/scripts/intro.rpy", line 210, in script call
-    call first_week_epilogue_final.skip from skip_to_free_roam_1
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 623, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
-    call call_available_event(hsb_timed_event) from high_school_building_1
-  File "game/scripts/event.rpy", line 737, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 123, in script call
-    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
-  File "game/scripts/menu.rpy", line 97, in script call
-    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
-  File "game/scripts/menu.rpy", line 144, in script call
-    $ call_effects(effects, **kwargs)
-  File "game/scripts/event.rpy", line 768, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/buildings/school_building.rpy", line 84, in script call
-    $ call_custom_menu(False,
-  File "game/scripts/menu.rpy", line 89, in script call
-    $ renpy.call("call_element", effects, **kwargs)
-  File "game/scripts/menu.rpy", line 142, in script call
-    $ renpy.call(effects, **kwargs)
-  File "game/scripts/buildings/school_building.rpy", line 102, in script call
-    $ call_custom_menu(False,
-  File "game/scripts/menu.rpy", line 97, in script call
-    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
-  File "game/scripts/menu.rpy", line 142, in script call
-    $ renpy.call(effects, **kwargs)
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script call
-    call screen journal_page(2, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script
-    call screen journal_page(2, display, school) with dissolveM
-  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
-    store._return = renpy.call_screen(name, *args, **kwargs)
-  File "game/scripts/journal/journal.rpy", line 464, in execute
-    screen journal_page(page, display, school):
-  File "game/scripts/journal/journal.rpy", line 464, in execute
-    screen journal_page(page, display, school):
-  File "game/scripts/journal/journal.rpy", line 494, in execute
-    if display != "":
-  File "game/scripts/journal/journal.rpy", line 501, in execute
-    use journal_vote_button(page, display, active_school, active_obj)
-  File "game/scripts/journal/journal.rpy", line 314, in execute
-    screen journal_vote_button(page, display, active_school, active_obj):
-  File "game/scripts/journal/journal.rpy", line 314, in execute
-    screen journal_vote_button(page, display, active_school, active_obj):
-  File "game/scripts/journal/journal.rpy", line 366, in execute
-    if tooltip:
-  File "game/scripts/journal/journal.rpy", line 367, in execute
-    nearrect:
-Exception: A NearRect requires either a focus or a rect parameter.
-Resetting cache.
-Bootstrap to the start of init.init. took 685.54s
-Early init. took 0.00s
-Loader init. took 0.22s
-Loading error handling. took 0.06s
-Loading script. took 0.98s
-Loading save slot metadata. took 0.17s
-Loading persistent. took 0.01s
-Running init code. took 0.14s
-Loading analysis data. took 0.06s
-Analyze and compile ATL. took 0.00s
-Reloading save slot metadata. took 0.11s
-Index archives took 0.00s
-Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.15s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.14s
-DPI scale factor: 1.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.62s
-Cleaning stores took 0.00s
-Init translation took 0.09s
-Build styles took 0.00s
-Load screen analysis took 0.01s
-Analyze screens took 0.05s
-Save screen analysis took 0.07s
-Prepare screens took 0.33s
-Save pyanalysis. took 0.06s
-Save bytecode. took 0.03s
-Running _start took 0.00s
-Performance test:
-Interface start. took 0.10s
-
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1080)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'NVIDIA Corporation'"
-Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
-Version: b'4.6.0 NVIDIA 546.17'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
-Maximum texture size: 4096x4096
-Resetting cache.
-Bootstrap to the start of init.init. took 699.40s
-Early init. took 0.00s
-Loader init. took 0.19s
-Loading error handling. took 0.05s
-Loading script. took 0.73s
-Loading save slot metadata. took 0.16s
-Loading persistent. took 0.01s
-Running init code. took 0.10s
-Loading analysis data. took 0.05s
-Analyze and compile ATL. took 0.00s
-Reloading save slot metadata. took 0.11s
-Index archives took 0.00s
-Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.13s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.11s
-DPI scale factor: 1.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.60s
-Cleaning stores took 0.00s
-Init translation took 0.18s
-Build styles took 0.01s
-Load screen analysis took 0.02s
-Analyze screens took 0.16s
-Save screen analysis took 0.10s
-Prepare screens took 0.30s
-Save pyanalysis. took 0.06s
-Save bytecode. took 0.05s
-Running _start took 0.01s
-Performance test:
-Interface start. took 0.11s
-
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1080)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'NVIDIA Corporation'"
-Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
-Version: b'4.6.0 NVIDIA 546.17'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
-Maximum texture size: 4096x4096
-Resetting cache.
-Bootstrap to the start of init.init. took 735.95s
-Early init. took 0.00s
-Loader init. took 0.15s
-Loading error handling. took 0.05s
-Loading script. took 0.71s
-Loading save slot metadata. took 0.14s
-Loading persistent. took 0.00s
-Running init code. took 0.09s
-Loading analysis data. took 0.05s
-Analyze and compile ATL. took 0.00s
-Reloading save slot metadata. took 0.10s
-Index archives took 0.00s
-Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.12s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.10s
-DPI scale factor: 1.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.45s
-Cleaning stores took 0.00s
-Init translation took 0.08s
-Build styles took 0.01s
-Load screen analysis took 0.01s
-Analyze screens took 0.05s
-Save screen analysis took 0.06s
-Prepare screens took 0.32s
-Save pyanalysis. took 0.07s
-Save bytecode. took 0.04s
-Running _start took 0.01s
-Performance test:
-Interface start. took 0.12s
-
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1080)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'NVIDIA Corporation'"
-Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
-Version: b'4.6.0 NVIDIA 546.17'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
-Maximum texture size: 4096x4096
-Resetting cache.
-Bootstrap to the start of init.init. took 925.46s
-Early init. took 0.00s
-Loader init. took 0.15s
-Loading error handling. took 0.05s
-Loading script. took 0.80s
-Loading save slot metadata. took 0.17s
-Loading persistent. took 0.00s
-Running init code. took 0.10s
-Loading analysis data. took 0.05s
-Analyze and compile ATL. took 0.00s
-Reloading save slot metadata. took 0.12s
-Index archives took 0.00s
-Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.13s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.10s
-DPI scale factor: 1.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.44s
-Cleaning stores took 0.00s
-Init translation took 0.08s
-Build styles took 0.01s
-Load screen analysis took 0.01s
-Analyze screens took 0.06s
-Save screen analysis took 0.06s
-Prepare screens took 0.27s
-Save pyanalysis. took 0.04s
-Save bytecode. took 0.04s
-Running _start took 0.00s
-Performance test:
-Interface start. took 0.10s
-
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1080)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'NVIDIA Corporation'"
-Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
-Version: b'4.6.0 NVIDIA 546.17'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
-Maximum texture size: 4096x4096
-Resetting cache.
-Bootstrap to the start of init.init. took 941.76s
-Early init. took 0.00s
-Loader init. took 0.16s
-Loading error handling. took 0.06s
-Loading script. took 0.98s
-Loading save slot metadata. took 0.19s
-Loading persistent. took 0.01s
-Running init code. took 0.13s
-Loading analysis data. took 0.08s
-Analyze and compile ATL. took 0.00s
 Reloading save slot metadata. took 0.18s
 Index archives took 0.00s
 Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.23s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.13s
-DPI scale factor: 1.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.55s
-Cleaning stores took 0.00s
-Init translation took 0.11s
-Build styles took 0.01s
-Load screen analysis took 0.01s
-Analyze screens took 0.05s
-Save screen analysis took 0.06s
-Prepare screens took 0.23s
-Save pyanalysis. took 0.04s
-Save bytecode. took 0.03s
-Running _start took 0.00s
-Performance test:
-Interface start. took 0.09s
-
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1080)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'NVIDIA Corporation'"
-Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
-Version: b'4.6.0 NVIDIA 546.17'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
-Maximum texture size: 4096x4096
-Resetting cache.
-Bootstrap to the start of init.init. took 966.76s
-Early init. took 0.00s
-Loader init. took 0.15s
-Loading error handling. took 0.05s
-Loading script. took 0.80s
-Loading save slot metadata. took 0.14s
-Loading persistent. took 0.00s
-Running init code. took 0.10s
-Loading analysis data. took 0.05s
-Analyze and compile ATL. took 0.00s
-Reloading save slot metadata. took 0.10s
-Index archives took 0.00s
-Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.12s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.09s
-DPI scale factor: 1.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.49s
-Cleaning stores took 0.00s
-Init translation took 0.08s
-Build styles took 0.01s
-Load screen analysis took 0.01s
-Analyze screens took 0.05s
-Save screen analysis took 0.06s
-Prepare screens took 0.23s
-Save pyanalysis. took 0.04s
-Save bytecode. took 0.04s
-Running _start took 0.00s
-Performance test:
-Interface start. took 0.11s
-
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1080)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'NVIDIA Corporation'"
-Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
-Version: b'4.6.0 NVIDIA 546.17'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
-Maximum texture size: 4096x4096
-Resetting cache.
-Bootstrap to the start of init.init. took 984.75s
-Early init. took 0.00s
-Loader init. took 0.32s
-Loading error handling. took 0.18s
-Loading script. took 1.43s
-Loading save slot metadata. took 0.23s
-Loading persistent. took 0.01s
-Running init code. took 0.11s
-Loading analysis data. took 0.06s
-Analyze and compile ATL. took 0.01s
-Reloading save slot metadata. took 0.12s
-Index archives took 0.00s
-Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.13s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.09s
-DPI scale factor: 1.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.45s
-Cleaning stores took 0.00s
-Init translation took 0.10s
-Build styles took 0.01s
-Load screen analysis took 0.01s
-Analyze screens took 0.05s
-Save screen analysis took 0.06s
-Prepare screens took 0.20s
-Save pyanalysis. took 0.05s
-Save bytecode. took 0.03s
-Running _start took 0.00s
-Performance test:
-Interface start. took 0.11s
-
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1080)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'NVIDIA Corporation'"
-Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
-Version: b'4.6.0 NVIDIA 546.17'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
-Maximum texture size: 4096x4096
-Resetting cache.
-Bootstrap to the start of init.init. took 1040.30s
-Early init. took 0.00s
-Loader init. took 0.14s
-Loading error handling. took 0.05s
-Loading script. took 0.72s
-Loading save slot metadata. took 0.15s
-Loading persistent. took 0.00s
-Running init code. took 0.09s
-Loading analysis data. took 0.05s
-Analyze and compile ATL. took 0.00s
-Reloading save slot metadata. took 0.10s
-Index archives took 0.00s
-Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.12s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.12s
-DPI scale factor: 1.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.54s
-Cleaning stores took 0.00s
-Init translation took 0.09s
-Build styles took 0.00s
-Load screen analysis took 0.01s
-Analyze screens took 0.05s
-Save screen analysis took 0.05s
-Prepare screens took 0.21s
-Save pyanalysis. took 0.04s
-Save bytecode. took 0.03s
-Running _start took 0.00s
-Performance test:
-Interface start. took 0.10s
-
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1080)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'NVIDIA Corporation'"
-Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
-Version: b'4.6.0 NVIDIA 546.17'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
-Maximum texture size: 4096x4096
-Resetting cache.
-Bootstrap to the start of init.init. took 1347.51s
-Early init. took 0.00s
-Loader init. took 0.30s
-Loading error handling. took 0.05s
-Loading script. took 0.47s
-Loading save slot metadata. took 0.16s
-Loading persistent. took 0.01s
-Running init code. took 0.08s
-Loading analysis data. took 0.04s
-Analyze and compile ATL. took 0.00s
-Reloading save slot metadata. took 0.11s
-Index archives took 0.00s
-Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.12s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.14s
-DPI scale factor: 1.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.70s
-Cleaning stores took 0.00s
-Init translation took 0.12s
-Build styles took 0.01s
-Load screen analysis took 0.01s
-Analyze screens took 0.05s
-Save screen analysis took 0.07s
-Prepare screens took 0.22s
-Save pyanalysis. took 0.00s
-Save bytecode. took 0.05s
-Running _start took 0.01s
-Performance test:
-Interface start. took 0.11s
-
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1080)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'NVIDIA Corporation'"
-Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
-Version: b'4.6.0 NVIDIA 546.17'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
-Maximum texture size: 4096x4096
-Resetting cache.
-Bootstrap to the start of init.init. took 1464.21s
-Early init. took 0.00s
-Loader init. took 0.18s
-Loading error handling. took 0.05s
-Loading script. took 0.73s
-Loading save slot metadata. took 0.17s
-Loading persistent. took 0.01s
-Running init code. took 0.08s
-Loading analysis data. took 0.04s
-Analyze and compile ATL. took 0.01s
-Reloading save slot metadata. took 0.10s
-Index archives took 0.00s
-Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.13s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.13s
-DPI scale factor: 1.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.63s
-Cleaning stores took 0.00s
-Init translation took 0.10s
-Build styles took 0.01s
-Load screen analysis took 0.01s
-Analyze screens took 0.05s
-Save screen analysis took 0.06s
-Prepare screens took 0.26s
-Save pyanalysis. took 0.00s
-Save bytecode. took 0.04s
-Running _start took 0.00s
-Performance test:
-Interface start. took 0.09s
-
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1080)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'NVIDIA Corporation'"
-Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
-Version: b'4.6.0 NVIDIA 546.17'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
-Maximum texture size: 4096x4096
-Resetting cache.
-Bootstrap to the start of init.init. took 2316.85s
-Early init. took 0.00s
-Loader init. took 0.17s
-Loading error handling. took 0.04s
-Loading script. took 0.56s
-Loading save slot metadata. took 0.20s
-Loading persistent. took 0.00s
-Running init code. took 0.10s
-Loading analysis data. took 0.04s
-Analyze and compile ATL. took 0.00s
-Reloading save slot metadata. took 0.18s
-Index archives took 0.00s
-Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.17s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.18s
-DPI scale factor: 1.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: Disabled thread optimizations.
-Creating interface object. took 1.17s
-Cleaning stores took 0.00s
-Init translation took 0.13s
-Build styles took 0.01s
-Load screen analysis took 0.04s
-Analyze screens took 0.08s
-Save screen analysis took 0.08s
-Prepare screens took 0.52s
-Save pyanalysis. took 0.00s
-Save bytecode. took 0.05s
-Running _start took 0.01s
-Performance test:
-Interface start. took 0.21s
-
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1080)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'NVIDIA Corporation'"
-Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
-Version: b'4.6.0 NVIDIA 546.17'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
-Maximum texture size: 4096x4096
-Resetting cache.
-Bootstrap to the start of init.init. took 2321.16s
-Early init. took 0.00s
-Loader init. took 0.21s
-Loading error handling. took 0.07s
-Loading script. took 0.65s
-Loading save slot metadata. took 0.23s
-Loading persistent. took 0.01s
-Running init code. took 0.13s
-Loading analysis data. took 0.05s
-Analyze and compile ATL. took 0.00s
-Reloading save slot metadata. took 0.12s
-Index archives took 0.00s
-Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.16s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.14s
-DPI scale factor: 1.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.63s
-Cleaning stores took 0.00s
-Init translation took 0.12s
-Build styles took 0.01s
-Load screen analysis took 0.01s
-Analyze screens took 0.07s
-Save screen analysis took 0.07s
-Prepare screens took 0.20s
-Save pyanalysis. took 0.00s
-Save bytecode. took 0.03s
-Running _start took 0.00s
-Performance test:
-Interface start. took 0.11s
-
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1080)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'NVIDIA Corporation'"
-Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
-Version: b'4.6.0 NVIDIA 546.17'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
-Maximum texture size: 4096x4096
-Resetting cache.
-Bootstrap to the start of init.init. took 2339.00s
-Early init. took 0.00s
-Loader init. took 0.14s
-Loading error handling. took 0.06s
-Loading script. took 0.48s
-Loading save slot metadata. took 0.21s
-Loading persistent. took 0.01s
-Running init code. took 0.09s
-Loading analysis data. took 0.05s
-Analyze and compile ATL. took 0.01s
-Reloading save slot metadata. took 0.12s
-Index archives took 0.00s
-Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.13s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.13s
-DPI scale factor: 1.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.65s
-Cleaning stores took 0.00s
-Init translation took 0.11s
-Build styles took 0.00s
-Load screen analysis took 0.01s
-Analyze screens took 0.05s
-Save screen analysis took 0.08s
-Prepare screens took 0.26s
-Save pyanalysis. took 0.00s
-Save bytecode. took 0.06s
-Running _start took 0.00s
-Performance test:
-Interface start. took 0.10s
-
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1080)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'NVIDIA Corporation'"
-Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
-Version: b'4.6.0 NVIDIA 546.17'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
-Maximum texture size: 4096x4096
-Resetting cache.
-Bootstrap to the start of init.init. took 2413.33s
-Early init. took 0.00s
-Loader init. took 0.16s
-Loading error handling. took 0.05s
-Loading script. took 0.56s
-Loading save slot metadata. took 0.22s
-Loading persistent. took 0.01s
-Running init code. took 0.10s
-Loading analysis data. took 0.05s
-Analyze and compile ATL. took 0.01s
-Reloading save slot metadata. took 0.17s
-Index archives took 0.00s
-Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.12s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.16s
-DPI scale factor: 1.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.66s
-Cleaning stores took 0.00s
-Init translation took 0.11s
-Build styles took 0.01s
-Load screen analysis took 0.01s
-Analyze screens took 0.04s
-Save screen analysis took 0.07s
-Prepare screens took 0.28s
-Save pyanalysis. took 0.00s
-Save bytecode. took 0.05s
-Running _start took 0.00s
-Performance test:
-Interface start. took 0.11s
-
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1080)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'NVIDIA Corporation'"
-Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
-Version: b'4.6.0 NVIDIA 546.17'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
-Maximum texture size: 4096x4096
-Resetting cache.
-Bootstrap to the start of init.init. took 2428.18s
-Early init. took 0.00s
-Loader init. took 0.19s
-Loading error handling. took 0.06s
-Loading script. took 0.57s
-Loading save slot metadata. took 0.19s
-Loading persistent. took 0.01s
-Running init code. took 0.10s
-Loading analysis data. took 0.04s
-Analyze and compile ATL. took 0.00s
-Reloading save slot metadata. took 0.14s
-Index archives took 0.00s
-Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.14s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.14s
-DPI scale factor: 1.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.64s
-Cleaning stores took 0.00s
-Init translation took 0.13s
-Build styles took 0.01s
-Load screen analysis took 0.01s
-Analyze screens took 0.05s
-Save screen analysis took 0.07s
-Prepare screens took 0.29s
-Save pyanalysis. took 0.00s
-Save bytecode. took 0.04s
-Running _start took 0.00s
-Performance test:
-Interface start. took 0.11s
-
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1080)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'NVIDIA Corporation'"
-Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
-Version: b'4.6.0 NVIDIA 546.17'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
-Maximum texture size: 4096x4096
-Resetting cache.
-Bootstrap to the start of init.init. took 2525.62s
-Early init. took 0.00s
-Loader init. took 0.17s
-Loading error handling. took 0.05s
-Loading script. took 0.46s
-Loading save slot metadata. took 0.16s
-Loading persistent. took 0.00s
-Running init code. took 0.11s
-Loading analysis data. took 0.04s
-Analyze and compile ATL. took 0.00s
-Reloading save slot metadata. took 0.12s
-Index archives took 0.00s
 Dump and make backups. took 0.10s
 Cleaning cache. took 0.00s
 Making clean stores. took 0.00s
@@ -1599,19 +984,210 @@ Initial gc. took 0.12s
 DPI scale factor: 1.000000
 nvdrs: Loaded, about to disable thread optimizations.
 nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.93s
+Creating interface object. took 0.57s
 Cleaning stores took 0.00s
-Init translation took 0.25s
+Init translation took 0.14s
 Build styles took 0.01s
-Load screen analysis took 0.20s
+Load screen analysis took 0.02s
+Analyze screens took 0.08s
+Save screen analysis took 0.09s
+Prepare screens took 0.41s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.04s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.09s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 546.17'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 877.98s
+Early init. took 0.00s
+Loader init. took 0.12s
+Loading error handling. took 0.03s
+Loading script. took 0.39s
+Loading save slot metadata. took 0.12s
+Loading persistent. took 0.00s
+Running init code. took 0.06s
+Loading analysis data. took 0.03s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.08s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.09s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.09s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.59s
+Cleaning stores took 0.00s
+Init translation took 0.07s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.04s
+Save screen analysis took 0.05s
+Prepare screens took 0.26s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.08s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 546.17'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
+Maximum texture size: 4096x4096
+all_events_seen: {'courtyard_event_1': True, 'courtyard_event_2': True, 'courtyard_event_3': True, 'gym_event_1': True, 'gym_event_3': True, 'gym_event_2': True, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': True, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': True, 'kiosk_event_2': True, 'kiosk_event_3': True, 'office_event_1': True, 'office_event_2': True, 'office_event_3': True}
+
+all_events_seen: {'courtyard_event_1': True, 'courtyard_event_2': True, 'courtyard_event_3': True, 'gym_event_1': True, 'gym_event_3': True, 'gym_event_2': True, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': True, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': True, 'kiosk_event_2': True, 'kiosk_event_3': True, 'office_event_1': True, 'office_event_2': True, 'office_event_3': True}
+
+all_events_seen: {'courtyard_event_1': True, 'courtyard_event_2': True, 'courtyard_event_3': True, 'gym_event_1': True, 'gym_event_3': True, 'gym_event_2': True, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': True, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': True, 'kiosk_event_2': True, 'kiosk_event_3': True, 'office_event_1': True, 'office_event_2': True, 'office_event_3': True}
+
+all_events_seen: {'courtyard_event_1': True, 'courtyard_event_2': True, 'courtyard_event_3': True, 'gym_event_1': True, 'gym_event_3': True, 'gym_event_2': True, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': True, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': True, 'kiosk_event_2': True, 'kiosk_event_3': True, 'office_event_1': True, 'office_event_2': True, 'office_event_3': True}
+
+all_events_seen: {'courtyard_event_1': True, 'courtyard_event_2': True, 'courtyard_event_3': True, 'gym_event_1': True, 'gym_event_3': True, 'gym_event_2': True, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': True, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': True, 'kiosk_event_2': True, 'kiosk_event_3': True, 'office_event_1': True, 'office_event_2': True, 'office_event_3': True}
+
+all_events_seen: {'courtyard_event_1': True, 'courtyard_event_2': True, 'courtyard_event_3': True, 'gym_event_1': True, 'gym_event_3': True, 'gym_event_2': True, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': True, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': True, 'kiosk_event_2': True, 'kiosk_event_3': True, 'office_event_1': True, 'office_event_2': True, 'office_event_3': True}
+
+Resetting cache.
+Bootstrap to the start of init.init. took 1858.77s
+Early init. took 0.00s
+Loader init. took 0.13s
+Loading error handling. took 0.03s
+Loading script. took 0.43s
+Loading save slot metadata. took 0.18s
+Loading persistent. took 0.01s
+Running init code. took 0.08s
+Loading analysis data. took 0.04s
+Analyze and compile ATL. took 0.01s
+Reloading save slot metadata. took 0.33s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.14s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.19s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.54s
+Cleaning stores took 0.00s
+Init translation took 0.10s
+Build styles took 0.01s
+Load screen analysis took 0.01s
+Analyze screens took 0.06s
+Save screen analysis took 0.05s
+Prepare screens took 0.19s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.08s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 546.17'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 1884.34s
+Early init. took 0.00s
+Loader init. took 0.12s
+Loading error handling. took 0.04s
+Loading script. took 0.40s
+Loading save slot metadata. took 0.10s
+Loading persistent. took 0.00s
+Running init code. took 0.06s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.07s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.10s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.11s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.49s
+Cleaning stores took 0.00s
+Init translation took 0.07s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.04s
+Save screen analysis took 0.05s
+Prepare screens took 0.17s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.07s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 546.17'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 1893.65s
+Early init. took 0.00s
+Loader init. took 0.11s
+Loading error handling. took 0.03s
+Loading script. took 0.27s
+Loading save slot metadata. took 0.11s
+Loading persistent. took 0.00s
+Running init code. took 0.06s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.07s
+Index archives took 0.00s
+Dump and make backups. took 0.07s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.09s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.39s
+Cleaning stores took 0.00s
+Init translation took 0.06s
+Build styles took 0.01s
+Load screen analysis took 0.06s
 Analyze screens took 0.00s
 Save screen analysis took 0.00s
-Prepare screens took 0.25s
+Prepare screens took 0.13s
 Save pyanalysis. took 0.00s
 Save bytecode. took 0.00s
 Running _start took 0.00s
 Performance test:
-Interface start. took 0.14s
+Interface start. took 0.08s
 
 Initializing gl2 renderer:
 primary display bounds: (0, 0, 2560, 1080)
@@ -1623,1113 +1199,9 @@ Version: b'4.6.0 NVIDIA 546.17'
 Display Info: None
 Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
 Maximum texture size: 4096x4096
-Resetting cache.
-Bootstrap to the start of init.init. took 5243.42s
-Early init. took 0.00s
-Loader init. took 4.53s
-Loading error handling. took 1.37s
-Loading script. took 3.85s
-Loading save slot metadata. took 0.88s
-Loading persistent. took 0.00s
-Running init code. took 0.78s
-Loading analysis data. took 0.19s
-Analyze and compile ATL. took 0.07s
-Reloading save slot metadata. took 0.58s
-Index archives took 0.00s
-Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.40s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.76s
-DPI scale factor: 1.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: Disabled thread optimizations.
-Creating interface object. took 5.35s
-Cleaning stores took 0.16s
-Init translation took 0.41s
-Build styles took 0.01s
-Load screen analysis took 0.01s
-Analyze screens took 0.09s
-Save screen analysis took 0.21s
-Prepare screens took 0.18s
-Save pyanalysis. took 0.00s
-Save bytecode. took 0.27s
-Running _start took 0.06s
-Performance test:
-Interface start. took 1.45s
+all_events_seen: {'courtyard_event_1': True, 'courtyard_event_2': True, 'courtyard_event_3': True, 'gym_event_1': True, 'gym_event_3': True, 'gym_event_2': True, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': True, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': True, 'kiosk_event_2': True, 'kiosk_event_3': True, 'office_event_1': True, 'office_event_2': True, 'office_event_3': True}
 
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1080)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'NVIDIA Corporation'"
-Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
-Version: b'4.6.0 NVIDIA 546.17'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
-Maximum texture size: 4096x4096
+all_events_seen: {'courtyard_event_1': True, 'courtyard_event_2': True, 'courtyard_event_3': True, 'gym_event_1': True, 'gym_event_3': True, 'gym_event_2': True, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': True, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': True, 'kiosk_event_2': True, 'kiosk_event_3': True, 'office_event_1': True, 'office_event_2': True, 'office_event_3': True}
 
-Full traceback:
-  File "game/scripts/intro.rpy", line 50, in script call
-    call skip_to_free_roam from intro_3
-  File "game/scripts/intro.rpy", line 210, in script call
-    call first_week_epilogue_final.skip from skip_to_free_roam_1
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 623, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
-    call call_available_event(hsb_timed_event) from high_school_building_1
-  File "game/scripts/event.rpy", line 737, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 123, in script call
-    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
-  File "game/scripts/menu.rpy", line 97, in script call
-    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
-  File "game/scripts/menu.rpy", line 144, in script call
-    $ call_effects(effects, **kwargs)
-  File "game/scripts/event.rpy", line 768, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/buildings/school_building.rpy", line 84, in script call
-    $ call_custom_menu(False,
-  File "game/scripts/menu.rpy", line 89, in script call
-    $ renpy.call("call_element", effects, **kwargs)
-  File "game/scripts/menu.rpy", line 142, in script call
-    $ renpy.call(effects, **kwargs)
-  File "game/scripts/buildings/school_building.rpy", line 102, in script call
-    $ call_custom_menu(False,
-  File "game/scripts/menu.rpy", line 97, in script call
-    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
-  File "game/scripts/menu.rpy", line 142, in script call
-    $ renpy.call(effects, **kwargs)
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script call
-    call screen journal_page(2, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script call
-    call screen journal_page(2, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script call
-    call screen journal_page(2, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 34, in script call
-    call screen journal_page(3, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 34, in script call
-    call screen journal_page(3, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 36, in script call
-    call screen journal_page(4, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 34, in script call
-    call screen journal_page(3, display, school) with dissolveM
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script call
-    call screen journal_page(2, display, school) with dissolveM
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 34, in script call
-    call screen journal_page(3, display, school) with dissolveM
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 38, in script call
-    call screen journal_cheats(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 38, in script call
-    call screen journal_cheats(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 38, in script
-    call screen journal_cheats(display, school) with dissolveM
-  File "F:\RenPy\renpy\ast.py", line 2259, in execute
-    self.call("execute")
-  File "F:\RenPy\renpy\ast.py", line 2241, in call
-    return renpy.statements.call(method, parsed, *args, **kwargs)
-  File "F:\RenPy\renpy\statements.py", line 342, in call
-    return method(parsed, *args, **kwargs)
-  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
-    store._return = renpy.call_screen(name, *args, **kwargs)
-  File "F:\RenPy\renpy\exports.py", line 3347, in call_screen
-    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
-  File "F:\RenPy\renpy\ui.py", line 299, in interact
-    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
-  File "F:\RenPy\renpy\display\core.py", line 3582, in interact
-    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
-  File "F:\RenPy\renpy\display\core.py", line 4055, in interact_core
-    root_widget.visit_all(lambda d : d.per_interact())
-  File "F:\RenPy\renpy\display\core.py", line 684, in visit_all
-    d.visit_all(callback, seen)
-  File "F:\RenPy\renpy\display\core.py", line 684, in visit_all
-    d.visit_all(callback, seen)
-  File "F:\RenPy\renpy\display\core.py", line 684, in visit_all
-    d.visit_all(callback, seen)
-  File "F:\RenPy\renpy\display\screen.py", line 476, in visit_all
-    callback(self)
-  File "F:\RenPy\renpy\display\core.py", line 4055, in <lambda>
-    root_widget.visit_all(lambda d : d.per_interact())
-  File "F:\RenPy\renpy\display\screen.py", line 487, in per_interact
-    self.update()
-  File "F:\RenPy\renpy\display\screen.py", line 680, in update
-    self.screen.function(**self.scope)
-  File "game/scripts/journal/journal.rpy", line 668, in execute
-    screen journal_cheats(display, school):
-  File "game/scripts/journal/journal.rpy", line 668, in execute
-    screen journal_cheats(display, school):
-  File "game/scripts/journal/journal.rpy", line 699, in execute
-    if display == "general":
-  File "game/scripts/journal/journal.rpy", line 816, in execute
-    if len(rule_keywords) == 1:
-  File "game/scripts/journal/journal.rpy", line 903, in execute
-    frame:
-  File "game/scripts/journal/journal.rpy", line 907, in execute
-    viewport id "CheatRuleCond":
-  File "game/scripts/journal/journal.rpy", line 911, in execute
-    vbox:
-  File "game/scripts/journal/journal.rpy", line 912, in execute
-    for condition in active_rule.get_list_conditions():
-  File "game/scripts/journal/journal.rpy", line 913, in execute
-    if not condition.is_set_blocking():
-  File "game/scripts/journal/journal.rpy", line 915, in execute
-    hbox:
-  File "game/scripts/journal/journal.rpy", line 916, in execute
-    textbutton texts[0]:
-  File "F:\RenPy\renpy\ui.py", line 988, in _textbutton
-    text = renpy.text.text.Text(label, style=text_style, substitute=substitute, scope=scope, **text_kwargs)
-  File "F:\RenPy\renpy\text\text.py", line 1612, in __init__
-    raise Exception("Cannot display {0!r} as text.".format(i))
-Exception: Cannot display ('{image=icons/stat_inhibition_icon.webp}', '{color=#f00}95-{/color}', 'Inhibition') as text.
-
-While running game code:
-  File "game/scripts/intro.rpy", line 50, in script call
-    call skip_to_free_roam from intro_3
-  File "game/scripts/intro.rpy", line 210, in script call
-    call first_week_epilogue_final.skip from skip_to_free_roam_1
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 623, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
-    call call_available_event(hsb_timed_event) from high_school_building_1
-  File "game/scripts/event.rpy", line 737, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 123, in script call
-    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
-  File "game/scripts/menu.rpy", line 97, in script call
-    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
-  File "game/scripts/menu.rpy", line 144, in script call
-    $ call_effects(effects, **kwargs)
-  File "game/scripts/event.rpy", line 768, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/buildings/school_building.rpy", line 84, in script call
-    $ call_custom_menu(False,
-  File "game/scripts/menu.rpy", line 89, in script call
-    $ renpy.call("call_element", effects, **kwargs)
-  File "game/scripts/menu.rpy", line 142, in script call
-    $ renpy.call(effects, **kwargs)
-  File "game/scripts/buildings/school_building.rpy", line 102, in script call
-    $ call_custom_menu(False,
-  File "game/scripts/menu.rpy", line 97, in script call
-    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
-  File "game/scripts/menu.rpy", line 142, in script call
-    $ renpy.call(effects, **kwargs)
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script call
-    call screen journal_page(2, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script call
-    call screen journal_page(2, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script call
-    call screen journal_page(2, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 34, in script call
-    call screen journal_page(3, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 34, in script call
-    call screen journal_page(3, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 36, in script call
-    call screen journal_page(4, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 34, in script call
-    call screen journal_page(3, display, school) with dissolveM
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script call
-    call screen journal_page(2, display, school) with dissolveM
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 34, in script call
-    call screen journal_page(3, display, school) with dissolveM
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 38, in script call
-    call screen journal_cheats(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 38, in script call
-    call screen journal_cheats(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 38, in script
-    call screen journal_cheats(display, school) with dissolveM
-  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
-    store._return = renpy.call_screen(name, *args, **kwargs)
-  File "game/scripts/journal/journal.rpy", line 668, in execute
-    screen journal_cheats(display, school):
-  File "game/scripts/journal/journal.rpy", line 668, in execute
-    screen journal_cheats(display, school):
-  File "game/scripts/journal/journal.rpy", line 699, in execute
-    if display == "general":
-  File "game/scripts/journal/journal.rpy", line 816, in execute
-    if len(rule_keywords) == 1:
-  File "game/scripts/journal/journal.rpy", line 903, in execute
-    frame:
-  File "game/scripts/journal/journal.rpy", line 907, in execute
-    viewport id "CheatRuleCond":
-  File "game/scripts/journal/journal.rpy", line 911, in execute
-    vbox:
-  File "game/scripts/journal/journal.rpy", line 912, in execute
-    for condition in active_rule.get_list_conditions():
-  File "game/scripts/journal/journal.rpy", line 913, in execute
-    if not condition.is_set_blocking():
-  File "game/scripts/journal/journal.rpy", line 915, in execute
-    hbox:
-  File "game/scripts/journal/journal.rpy", line 916, in execute
-    textbutton texts[0]:
-Exception: Cannot display ('{image=icons/stat_inhibition_icon.webp}', '{color=#f00}95-{/color}', 'Inhibition') as text.
-Resetting cache.
-Bootstrap to the start of init.init. took 5499.33s
-Early init. took 0.00s
-Loader init. took 0.31s
-Loading error handling. took 2.19s
-Loading script. took 2.31s
-Loading save slot metadata. took 0.19s
-Loading persistent. took 0.00s
-Running init code. took 0.20s
-Loading analysis data. took 0.05s
-Analyze and compile ATL. took 0.00s
-Reloading save slot metadata. took 0.13s
-Index archives took 0.00s
-Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.12s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.11s
-DPI scale factor: 1.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.65s
-Cleaning stores took 0.00s
-Init translation took 0.08s
-Build styles took 0.00s
-Load screen analysis took 0.05s
-Analyze screens took 0.03s
-Save screen analysis took 0.05s
-Prepare screens took 0.20s
-Save pyanalysis. took 0.07s
-Save bytecode. took 0.04s
-Running _start took 0.00s
-Performance test:
-Interface start. took 0.79s
-
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1080)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'NVIDIA Corporation'"
-Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
-Version: b'4.6.0 NVIDIA 546.17'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
-Maximum texture size: 4096x4096
-
-Full traceback:
-  File "game/scripts/intro.rpy", line 50, in script call
-    call skip_to_free_roam from intro_3
-  File "game/scripts/intro.rpy", line 210, in script call
-    call first_week_epilogue_final.skip from skip_to_free_roam_1
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 623, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
-    call call_available_event(hsb_timed_event) from high_school_building_1
-  File "game/scripts/event.rpy", line 737, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 123, in script call
-    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
-  File "game/scripts/menu.rpy", line 97, in script call
-    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
-  File "game/scripts/menu.rpy", line 144, in script call
-    $ call_effects(effects, **kwargs)
-  File "game/scripts/event.rpy", line 768, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/buildings/school_building.rpy", line 84, in script call
-    $ call_custom_menu(False,
-  File "game/scripts/menu.rpy", line 89, in script call
-    $ renpy.call("call_element", effects, **kwargs)
-  File "game/scripts/menu.rpy", line 142, in script call
-    $ renpy.call(effects, **kwargs)
-  File "game/scripts/buildings/school_building.rpy", line 102, in script call
-    $ call_custom_menu(False,
-  File "game/scripts/menu.rpy", line 97, in script call
-    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
-  File "game/scripts/menu.rpy", line 142, in script call
-    $ renpy.call(effects, **kwargs)
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script call
-    call screen journal_page(2, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script call
-    call screen journal_page(2, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script call
-    call screen journal_page(2, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 34, in script call
-    call screen journal_page(3, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 34, in script call
-    call screen journal_page(3, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 36, in script call
-    call screen journal_page(4, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 34, in script call
-    call screen journal_page(3, display, school) with dissolveM
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script call
-    call screen journal_page(2, display, school) with dissolveM
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 34, in script call
-    call screen journal_page(3, display, school) with dissolveM
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 38, in script call
-    call screen journal_cheats(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 38, in script call
-    call screen journal_cheats(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 38, in script
-    call screen journal_cheats(display, school) with dissolveM
-  File "F:\RenPy\renpy\ast.py", line 2259, in execute
-    self.call("execute")
-  File "F:\RenPy\renpy\ast.py", line 2241, in call
-    return renpy.statements.call(method, parsed, *args, **kwargs)
-  File "F:\RenPy\renpy\statements.py", line 342, in call
-    return method(parsed, *args, **kwargs)
-  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
-    store._return = renpy.call_screen(name, *args, **kwargs)
-  File "F:\RenPy\renpy\exports.py", line 3347, in call_screen
-    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
-  File "F:\RenPy\renpy\ui.py", line 299, in interact
-    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
-  File "F:\RenPy\renpy\display\core.py", line 3582, in interact
-    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
-  File "F:\RenPy\renpy\display\core.py", line 4055, in interact_core
-    root_widget.visit_all(lambda d : d.per_interact())
-  File "F:\RenPy\renpy\display\core.py", line 684, in visit_all
-    d.visit_all(callback, seen)
-  File "F:\RenPy\renpy\display\core.py", line 684, in visit_all
-    d.visit_all(callback, seen)
-  File "F:\RenPy\renpy\display\core.py", line 684, in visit_all
-    d.visit_all(callback, seen)
-  File "F:\RenPy\renpy\display\screen.py", line 476, in visit_all
-    callback(self)
-  File "F:\RenPy\renpy\display\core.py", line 4055, in <lambda>
-    root_widget.visit_all(lambda d : d.per_interact())
-  File "F:\RenPy\renpy\display\screen.py", line 487, in per_interact
-    self.update()
-  File "F:\RenPy\renpy\display\screen.py", line 680, in update
-    self.screen.function(**self.scope)
-  File "game/scripts/journal/journal.rpy", line 668, in execute
-    screen journal_cheats(display, school):
-  File "game/scripts/journal/journal.rpy", line 668, in execute
-    screen journal_cheats(display, school):
-  File "game/scripts/journal/journal.rpy", line 699, in execute
-    if display == "general":
-  File "game/scripts/journal/journal.rpy", line 816, in execute
-    if len(rule_keywords) == 1:
-  File "game/scripts/journal/journal.rpy", line 903, in execute
-    $ active_obj_list_conditions_list = active_obj.get_list_conditions_list(cond_type = action_text, char_obj = active_school, blocking = True)
-  File "game/scripts/journal/journal.rpy", line 903, in <module>
-    $ active_obj_list_conditions_list = active_obj.get_list_conditions_list(cond_type = action_text, char_obj = active_school, blocking = True)
-NameError: name 'active_obj' is not defined
-
-While running game code:
-  File "game/scripts/intro.rpy", line 50, in script call
-    call skip_to_free_roam from intro_3
-  File "game/scripts/intro.rpy", line 210, in script call
-    call first_week_epilogue_final.skip from skip_to_free_roam_1
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 623, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
-    call call_available_event(hsb_timed_event) from high_school_building_1
-  File "game/scripts/event.rpy", line 737, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 123, in script call
-    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
-  File "game/scripts/menu.rpy", line 97, in script call
-    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
-  File "game/scripts/menu.rpy", line 144, in script call
-    $ call_effects(effects, **kwargs)
-  File "game/scripts/event.rpy", line 768, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/buildings/school_building.rpy", line 84, in script call
-    $ call_custom_menu(False,
-  File "game/scripts/menu.rpy", line 89, in script call
-    $ renpy.call("call_element", effects, **kwargs)
-  File "game/scripts/menu.rpy", line 142, in script call
-    $ renpy.call(effects, **kwargs)
-  File "game/scripts/buildings/school_building.rpy", line 102, in script call
-    $ call_custom_menu(False,
-  File "game/scripts/menu.rpy", line 97, in script call
-    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
-  File "game/scripts/menu.rpy", line 142, in script call
-    $ renpy.call(effects, **kwargs)
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script call
-    call screen journal_page(2, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script call
-    call screen journal_page(2, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script call
-    call screen journal_page(2, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 34, in script call
-    call screen journal_page(3, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 34, in script call
-    call screen journal_page(3, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 36, in script call
-    call screen journal_page(4, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 34, in script call
-    call screen journal_page(3, display, school) with dissolveM
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script call
-    call screen journal_page(2, display, school) with dissolveM
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 34, in script call
-    call screen journal_page(3, display, school) with dissolveM
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 38, in script call
-    call screen journal_cheats(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 38, in script call
-    call screen journal_cheats(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 38, in script
-    call screen journal_cheats(display, school) with dissolveM
-  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
-    store._return = renpy.call_screen(name, *args, **kwargs)
-  File "game/scripts/journal/journal.rpy", line 668, in execute
-    screen journal_cheats(display, school):
-  File "game/scripts/journal/journal.rpy", line 668, in execute
-    screen journal_cheats(display, school):
-  File "game/scripts/journal/journal.rpy", line 699, in execute
-    if display == "general":
-  File "game/scripts/journal/journal.rpy", line 816, in execute
-    if len(rule_keywords) == 1:
-  File "game/scripts/journal/journal.rpy", line 903, in execute
-    $ active_obj_list_conditions_list = active_obj.get_list_conditions_list(cond_type = action_text, char_obj = active_school, blocking = True)
-  File "game/scripts/journal/journal.rpy", line 903, in <module>
-    $ active_obj_list_conditions_list = active_obj.get_list_conditions_list(cond_type = action_text, char_obj = active_school, blocking = True)
-NameError: name 'active_obj' is not defined
-
-Full traceback:
-  File "game/scripts/intro.rpy", line 50, in script call
-    call skip_to_free_roam from intro_3
-  File "game/scripts/intro.rpy", line 210, in script call
-    call first_week_epilogue_final.skip from skip_to_free_roam_1
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 623, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
-    call call_available_event(hsb_timed_event) from high_school_building_1
-  File "game/scripts/event.rpy", line 737, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 123, in script call
-    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
-  File "game/scripts/menu.rpy", line 97, in script call
-    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
-  File "game/scripts/menu.rpy", line 144, in script call
-    $ call_effects(effects, **kwargs)
-  File "game/scripts/event.rpy", line 768, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/buildings/school_building.rpy", line 84, in script call
-    $ call_custom_menu(False,
-  File "game/scripts/menu.rpy", line 89, in script call
-    $ renpy.call("call_element", effects, **kwargs)
-  File "game/scripts/menu.rpy", line 142, in script call
-    $ renpy.call(effects, **kwargs)
-  File "game/scripts/buildings/school_building.rpy", line 102, in script call
-    $ call_custom_menu(False,
-  File "game/scripts/menu.rpy", line 97, in script call
-    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
-  File "game/scripts/menu.rpy", line 142, in script call
-    $ renpy.call(effects, **kwargs)
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script call
-    call screen journal_page(2, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script call
-    call screen journal_page(2, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script call
-    call screen journal_page(2, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 34, in script call
-    call screen journal_page(3, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 34, in script call
-    call screen journal_page(3, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 36, in script call
-    call screen journal_page(4, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 34, in script call
-    call screen journal_page(3, display, school) with dissolveM
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script call
-    call screen journal_page(2, display, school) with dissolveM
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 34, in script call
-    call screen journal_page(3, display, school) with dissolveM
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 38, in script call
-    call screen journal_cheats(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 38, in script call
-    call screen journal_cheats(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 38, in script
-    call screen journal_cheats(display, school) with dissolveM
-  File "F:\RenPy\renpy\ast.py", line 2259, in execute
-    self.call("execute")
-  File "F:\RenPy\renpy\ast.py", line 2241, in call
-    return renpy.statements.call(method, parsed, *args, **kwargs)
-  File "F:\RenPy\renpy\statements.py", line 342, in call
-    return method(parsed, *args, **kwargs)
-  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
-    store._return = renpy.call_screen(name, *args, **kwargs)
-  File "F:\RenPy\renpy\exports.py", line 3347, in call_screen
-    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
-  File "F:\RenPy\renpy\ui.py", line 299, in interact
-    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
-  File "F:\RenPy\renpy\display\core.py", line 3582, in interact
-    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
-  File "F:\RenPy\renpy\display\core.py", line 4055, in interact_core
-    root_widget.visit_all(lambda d : d.per_interact())
-  File "F:\RenPy\renpy\display\core.py", line 684, in visit_all
-    d.visit_all(callback, seen)
-  File "F:\RenPy\renpy\display\core.py", line 684, in visit_all
-    d.visit_all(callback, seen)
-  File "F:\RenPy\renpy\display\core.py", line 684, in visit_all
-    d.visit_all(callback, seen)
-  File "F:\RenPy\renpy\display\screen.py", line 476, in visit_all
-    callback(self)
-  File "F:\RenPy\renpy\display\core.py", line 4055, in <lambda>
-    root_widget.visit_all(lambda d : d.per_interact())
-  File "F:\RenPy\renpy\display\screen.py", line 487, in per_interact
-    self.update()
-  File "F:\RenPy\renpy\display\screen.py", line 680, in update
-    self.screen.function(**self.scope)
-  File "game/scripts/journal/journal.rpy", line 668, in execute
-    screen journal_cheats(display, school):
-  File "game/scripts/journal/journal.rpy", line 668, in execute
-    screen journal_cheats(display, school):
-  File "game/scripts/journal/journal.rpy", line 699, in execute
-    if display == "general":
-  File "game/scripts/journal/journal.rpy", line 816, in execute
-    if len(rule_keywords) == 1:
-  File "game/scripts/journal/journal.rpy", line 903, in execute
-    $ active_obj_list_conditions_list = active_obj.get_list_conditions_list(cond_type = action_text, char_obj = active_school, blocking = True)
-  File "game/scripts/journal/journal.rpy", line 903, in <module>
-    $ active_obj_list_conditions_list = active_obj.get_list_conditions_list(cond_type = action_text, char_obj = active_school, blocking = True)
-NameError: name 'active_obj' is not defined
-
-While running game code:
-  File "game/scripts/intro.rpy", line 50, in script call
-    call skip_to_free_roam from intro_3
-  File "game/scripts/intro.rpy", line 210, in script call
-    call first_week_epilogue_final.skip from skip_to_free_roam_1
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 623, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
-    call call_available_event(hsb_timed_event) from high_school_building_1
-  File "game/scripts/event.rpy", line 737, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 123, in script call
-    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
-  File "game/scripts/menu.rpy", line 97, in script call
-    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
-  File "game/scripts/menu.rpy", line 144, in script call
-    $ call_effects(effects, **kwargs)
-  File "game/scripts/event.rpy", line 768, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/buildings/school_building.rpy", line 84, in script call
-    $ call_custom_menu(False,
-  File "game/scripts/menu.rpy", line 89, in script call
-    $ renpy.call("call_element", effects, **kwargs)
-  File "game/scripts/menu.rpy", line 142, in script call
-    $ renpy.call(effects, **kwargs)
-  File "game/scripts/buildings/school_building.rpy", line 102, in script call
-    $ call_custom_menu(False,
-  File "game/scripts/menu.rpy", line 97, in script call
-    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
-  File "game/scripts/menu.rpy", line 142, in script call
-    $ renpy.call(effects, **kwargs)
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script call
-    call screen journal_page(2, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script call
-    call screen journal_page(2, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script call
-    call screen journal_page(2, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 34, in script call
-    call screen journal_page(3, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 34, in script call
-    call screen journal_page(3, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 36, in script call
-    call screen journal_page(4, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 34, in script call
-    call screen journal_page(3, display, school) with dissolveM
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script call
-    call screen journal_page(2, display, school) with dissolveM
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 34, in script call
-    call screen journal_page(3, display, school) with dissolveM
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 38, in script call
-    call screen journal_cheats(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 38, in script call
-    call screen journal_cheats(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 38, in script
-    call screen journal_cheats(display, school) with dissolveM
-  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
-    store._return = renpy.call_screen(name, *args, **kwargs)
-  File "game/scripts/journal/journal.rpy", line 668, in execute
-    screen journal_cheats(display, school):
-  File "game/scripts/journal/journal.rpy", line 668, in execute
-    screen journal_cheats(display, school):
-  File "game/scripts/journal/journal.rpy", line 699, in execute
-    if display == "general":
-  File "game/scripts/journal/journal.rpy", line 816, in execute
-    if len(rule_keywords) == 1:
-  File "game/scripts/journal/journal.rpy", line 903, in execute
-    $ active_obj_list_conditions_list = active_obj.get_list_conditions_list(cond_type = action_text, char_obj = active_school, blocking = True)
-  File "game/scripts/journal/journal.rpy", line 903, in <module>
-    $ active_obj_list_conditions_list = active_obj.get_list_conditions_list(cond_type = action_text, char_obj = active_school, blocking = True)
-NameError: name 'active_obj' is not defined
-Resetting cache.
-Bootstrap to the start of init.init. took 5543.82s
-Early init. took 0.00s
-Loader init. took 0.14s
-Loading error handling. took 0.04s
-Loading script. took 0.66s
-Loading save slot metadata. took 0.14s
-Loading persistent. took 0.00s
-Running init code. took 0.09s
-Loading analysis data. took 0.15s
-Analyze and compile ATL. took 0.00s
-Reloading save slot metadata. took 0.20s
-Index archives took 0.00s
-Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.12s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.14s
-DPI scale factor: 1.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.56s
-Cleaning stores took 0.00s
-Init translation took 0.11s
-Build styles took 0.01s
-Load screen analysis took 0.85s
-Analyze screens took 0.05s
-Save screen analysis took 0.06s
-Prepare screens took 0.18s
-Save pyanalysis. took 0.04s
-Save bytecode. took 0.10s
-Running _start took 0.00s
-Performance test:
-Interface start. took 0.20s
-
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1080)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'NVIDIA Corporation'"
-Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
-Version: b'4.6.0 NVIDIA 546.17'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
-Maximum texture size: 4096x4096
-
-Full traceback:
-  File "game/scripts/intro.rpy", line 50, in script call
-    call skip_to_free_roam from intro_3
-  File "game/scripts/intro.rpy", line 210, in script call
-    call first_week_epilogue_final.skip from skip_to_free_roam_1
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 623, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
-    call call_available_event(hsb_timed_event) from high_school_building_1
-  File "game/scripts/event.rpy", line 737, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 123, in script call
-    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
-  File "game/scripts/menu.rpy", line 97, in script call
-    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
-  File "game/scripts/menu.rpy", line 144, in script call
-    $ call_effects(effects, **kwargs)
-  File "game/scripts/event.rpy", line 768, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/buildings/school_building.rpy", line 84, in script call
-    $ call_custom_menu(False,
-  File "game/scripts/menu.rpy", line 89, in script call
-    $ renpy.call("call_element", effects, **kwargs)
-  File "game/scripts/menu.rpy", line 142, in script call
-    $ renpy.call(effects, **kwargs)
-  File "game/scripts/buildings/school_building.rpy", line 102, in script call
-    $ call_custom_menu(False,
-  File "game/scripts/menu.rpy", line 97, in script call
-    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
-  File "game/scripts/menu.rpy", line 142, in script call
-    $ renpy.call(effects, **kwargs)
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script call
-    call screen journal_page(2, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script call
-    call screen journal_page(2, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script call
-    call screen journal_page(2, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 34, in script call
-    call screen journal_page(3, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 34, in script call
-    call screen journal_page(3, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 36, in script call
-    call screen journal_page(4, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 34, in script call
-    call screen journal_page(3, display, school) with dissolveM
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script call
-    call screen journal_page(2, display, school) with dissolveM
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 34, in script call
-    call screen journal_page(3, display, school) with dissolveM
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 38, in script call
-    call screen journal_cheats(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 38, in script call
-    call screen journal_cheats(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 38, in script
-    call screen journal_cheats(display, school) with dissolveM
-  File "F:\RenPy\renpy\ast.py", line 2259, in execute
-    self.call("execute")
-  File "F:\RenPy\renpy\ast.py", line 2241, in call
-    return renpy.statements.call(method, parsed, *args, **kwargs)
-  File "F:\RenPy\renpy\statements.py", line 342, in call
-    return method(parsed, *args, **kwargs)
-  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
-    store._return = renpy.call_screen(name, *args, **kwargs)
-  File "F:\RenPy\renpy\exports.py", line 3347, in call_screen
-    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
-  File "F:\RenPy\renpy\ui.py", line 299, in interact
-    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
-  File "F:\RenPy\renpy\display\core.py", line 3582, in interact
-    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
-  File "F:\RenPy\renpy\display\core.py", line 4055, in interact_core
-    root_widget.visit_all(lambda d : d.per_interact())
-  File "F:\RenPy\renpy\display\core.py", line 684, in visit_all
-    d.visit_all(callback, seen)
-  File "F:\RenPy\renpy\display\core.py", line 684, in visit_all
-    d.visit_all(callback, seen)
-  File "F:\RenPy\renpy\display\core.py", line 684, in visit_all
-    d.visit_all(callback, seen)
-  File "F:\RenPy\renpy\display\screen.py", line 476, in visit_all
-    callback(self)
-  File "F:\RenPy\renpy\display\core.py", line 4055, in <lambda>
-    root_widget.visit_all(lambda d : d.per_interact())
-  File "F:\RenPy\renpy\display\screen.py", line 487, in per_interact
-    self.update()
-  File "F:\RenPy\renpy\display\screen.py", line 680, in update
-    self.screen.function(**self.scope)
-  File "game/scripts/journal/journal.rpy", line 668, in execute
-    screen journal_cheats(display, school):
-  File "game/scripts/journal/journal.rpy", line 668, in execute
-    screen journal_cheats(display, school):
-  File "game/scripts/journal/journal.rpy", line 699, in execute
-    if display == "general":
-  File "game/scripts/journal/journal.rpy", line 816, in execute
-    if len(rule_keywords) == 1:
-  File "game/scripts/journal/journal.rpy", line 903, in execute
-    $ active_obj_list_conditions_list = active_rule.get_list_conditions_list(cond_type = action_text, char_obj = active_school, blocking = True)
-  File "game/scripts/journal/journal.rpy", line 903, in <module>
-    $ active_obj_list_conditions_list = active_rule.get_list_conditions_list(cond_type = action_text, char_obj = active_school, blocking = True)
-NameError: name 'action_text' is not defined
-
-While running game code:
-  File "game/scripts/intro.rpy", line 50, in script call
-    call skip_to_free_roam from intro_3
-  File "game/scripts/intro.rpy", line 210, in script call
-    call first_week_epilogue_final.skip from skip_to_free_roam_1
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/overview.rpy", line 623, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/high_school_building.rpy", line 59, in script call
-    call call_available_event(hsb_timed_event) from high_school_building_1
-  File "game/scripts/event.rpy", line 737, in script call
-    $ renpy.call(events[j], **kwargs)
-  File "game/scripts/buildings/high_school_building.rpy", line 67, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 123, in script call
-    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
-  File "game/scripts/menu.rpy", line 97, in script call
-    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
-  File "game/scripts/menu.rpy", line 144, in script call
-    $ call_effects(effects, **kwargs)
-  File "game/scripts/event.rpy", line 768, in script call
-    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-  File "game/scripts/buildings/school_building.rpy", line 84, in script call
-    $ call_custom_menu(False,
-  File "game/scripts/menu.rpy", line 89, in script call
-    $ renpy.call("call_element", effects, **kwargs)
-  File "game/scripts/menu.rpy", line 142, in script call
-    $ renpy.call(effects, **kwargs)
-  File "game/scripts/buildings/school_building.rpy", line 102, in script call
-    $ call_custom_menu(False,
-  File "game/scripts/menu.rpy", line 97, in script call
-    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
-  File "game/scripts/menu.rpy", line 142, in script call
-    $ renpy.call(effects, **kwargs)
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script call
-    call screen journal_page(2, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script call
-    call screen journal_page(2, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script call
-    call screen journal_page(2, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 34, in script call
-    call screen journal_page(3, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 34, in script call
-    call screen journal_page(3, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 36, in script call
-    call screen journal_page(4, display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 34, in script call
-    call screen journal_page(3, display, school) with dissolveM
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 32, in script call
-    call screen journal_page(2, display, school) with dissolveM
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 34, in script call
-    call screen journal_page(3, display, school) with dissolveM
-  File "game/scripts/overview.rpy", line 606, in script call
-    call screen school_overview_buttons
-  File "game/scripts/journal/journal.rpy", line 26, in script call
-    call open_journal (1, "", "high_school") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 30, in script call
-    call screen journal_overview(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 38, in script call
-    call screen journal_cheats(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 38, in script call
-    call screen journal_cheats(display, school) with dissolveM
-  File "game/scripts/journal/journal.rpy", line 38, in script
-    call screen journal_cheats(display, school) with dissolveM
-  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
-    store._return = renpy.call_screen(name, *args, **kwargs)
-  File "game/scripts/journal/journal.rpy", line 668, in execute
-    screen journal_cheats(display, school):
-  File "game/scripts/journal/journal.rpy", line 668, in execute
-    screen journal_cheats(display, school):
-  File "game/scripts/journal/journal.rpy", line 699, in execute
-    if display == "general":
-  File "game/scripts/journal/journal.rpy", line 816, in execute
-    if len(rule_keywords) == 1:
-  File "game/scripts/journal/journal.rpy", line 903, in execute
-    $ active_obj_list_conditions_list = active_rule.get_list_conditions_list(cond_type = action_text, char_obj = active_school, blocking = True)
-  File "game/scripts/journal/journal.rpy", line 903, in <module>
-    $ active_obj_list_conditions_list = active_rule.get_list_conditions_list(cond_type = action_text, char_obj = active_school, blocking = True)
-NameError: name 'action_text' is not defined
-Resetting cache.
-Bootstrap to the start of init.init. took 5577.26s
-Early init. took 0.01s
-Loader init. took 0.26s
-Loading error handling. took 0.03s
-Loading script. took 1.22s
-Loading save slot metadata. took 0.40s
-Loading persistent. took 0.00s
-Running init code. took 0.11s
-Loading analysis data. took 0.09s
-Analyze and compile ATL. took 0.01s
-Reloading save slot metadata. took 0.11s
-Index archives took 0.00s
-Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
-Dump and make backups. took 0.13s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.11s
-DPI scale factor: 1.000000
-nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: Disabled thread optimizations.
-Creating interface object. took 0.61s
-Cleaning stores took 0.00s
-Init translation took 0.08s
-Build styles took 0.00s
-Load screen analysis took 0.14s
-Analyze screens took 0.03s
-Save screen analysis took 0.05s
-Prepare screens took 0.16s
-Save pyanalysis. took 0.05s
-Save bytecode. took 0.07s
-Running _start took 0.01s
-Performance test:
-Interface start. took 0.15s
-
-Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1080)
-swap interval: 1 frames
-Windowed mode.
-Vendor: "b'NVIDIA Corporation'"
-Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
-Version: b'4.6.0 NVIDIA 546.17'
-Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
-Maximum texture size: 4096x4096
-|ERROR| 'images/background/office building/bg f teacher 1 0.webp' is missing!
+all_events_seen: {'courtyard_event_1': True, 'courtyard_event_2': True, 'courtyard_event_3': True, 'gym_event_1': True, 'gym_event_3': True, 'gym_event_2': True, 'sb_event_1': True, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': True, 'sd_event_2': True, 'sd_event_3': True, 'kiosk_event_1': True, 'kiosk_event_2': True, 'kiosk_event_3': True, 'office_event_1': True, 'office_event_2': True, 'office_event_3': True}
 

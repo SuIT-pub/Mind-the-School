@@ -103,7 +103,7 @@ label kiosk_event_1 (**kwargs):
     $ variant = get_random_int(1, 2)
     $ girl = get_random_choice("Aona Komuro", "Ikushi Ito", "Gloria Goto", "Lin Kato")
 
-    $ begin_event()
+    $ begin_event("kiosk_event_1")
 
     call show_image("images/events/kiosk/kiosk_event_1 <name> <girl> <level> <variant>.webp", name = "high_school", girl = girl, variant = variant, **kwargs) from _call_show_image_1
     subtitles "For some, coffee is the only way to save the day."
@@ -120,7 +120,7 @@ label kiosk_event_2 (**kwargs):
 
     $ image = Image_Series("images/events/kiosk/kiosk_event_2 <name> <girl> <level> <step>.webp", name = "high_school", girl = girl, **kwargs)
 
-    $ begin_event()
+    $ begin_event("kiosk_event_2")
 
     $ image.show(0)
     sgirl "*AHHH*" (name = girl)
@@ -144,7 +144,7 @@ label kiosk_event_3 (**kwargs):
 
     $ image = Image_Series("images/events/kiosk/kiosk_event_3 <name> <level> <step>.webp", name = "high_school", **kwargs)
 
-    $ begin_event()
+    $ begin_event("kiosk_event_3")
 
     $ image.show(0)
     sgirl "Hi, I want a Bento!" (name = girl)

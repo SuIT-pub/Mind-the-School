@@ -148,7 +148,7 @@ label gym_event_1 (**kwargs):
 
     $ image = Image_Series("/images/events/gym/gym_event_1 <name> <level> <topic> <step>.webp", topic = variant, name = school_name, **kwargs)
 
-    $ begin_event()
+    $ begin_event("gym_event_1")
 
     $ image.show(0)
     subtitles "In the Gym, you see a girl getting ready for P.E."
@@ -209,7 +209,7 @@ label gym_event_2 (**kwargs):
 
     $ image = Image_Series("/images/events/gym/gym_event_2 <name> <level> <topic> <step>.webp", topic = topic, name = "high_school", **kwargs)
 
-    $ begin_event()
+    $ begin_event("gym_event_2")
 
     $ image.show(0)
     if topic == "breasts":
@@ -280,7 +280,7 @@ label gym_event_3 (**kwargs):
 
     $ image = Image_Series("/images/events/gym/gym_event_3 <name> <level> <variant> <step>.webp", variant = variant, name = "high_school", **kwargs)
 
-    $ begin_event()
+    $ begin_event("gym_event_3")
 
     $ image.show(0)
     headmaster "Sorry but that top doesn't conform to the uniform policy."
