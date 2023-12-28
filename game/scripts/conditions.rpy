@@ -541,10 +541,12 @@ init -6 python:
                 diff = get_value_diff(self.stats[stat], obj_stat)
 
                 if diff < -20:
-                    output += diff * 10
+                    output += diff * 20
                 elif diff < -10:
+                    output += diff * 10
+                elif diff < 0:
                     output += diff * 5
-                elif diff < -5:
+                elif diff > 5:
                     output += diff * 2
                 else:
                     output += diff
