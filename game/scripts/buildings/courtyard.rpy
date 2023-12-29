@@ -120,7 +120,7 @@ label courtyard_event_1 (**kwargs):
 
     $ image = Image_Series("images/events/courtyard/courtyard_event_1 <name> <level> <variant> <step>.webp", name = name, variant = variant, **kwargs)
 
-    $ begin_event()
+    $ begin_event("courtyard_event_1")
 
     $ image.show(0)
     subtitles "You walk along the courtyard when a gist of wind blows up the girls skirt in front of you."
@@ -159,7 +159,7 @@ label courtyard_event_2 (**kwargs):
 
     $ image = Image_Series("images/events/courtyard/courtyard_event_2 <name> <level> <step>.webp", name = name, **kwargs)
 
-    $ begin_event()
+    $ begin_event("courtyard_event_2")
 
     $ image.show(0)
     subtitles "You notice a girl sitting alone in the courtyard, apparently left out by the others."
@@ -197,7 +197,7 @@ label .leave (**kwargs):
     jump new_daytime
 
 label courtyard_event_3 (**kwargs):
-    $ begin_event()
+    $ begin_event("courtyard_event_3")
     
     call show_image ("images/events/courtyard/courtyard_event_3 <name> <level>.webp", name = "high_school", **kwargs) from _call_show_image
     subtitles "You notice a group of girls taking a break together."

@@ -53,7 +53,7 @@ label .start:
     hide screen black_error_screen_text
 
     nv_text "Welcome to [school_name]!"
-    nv_text "[school_name] is a school located deep in the woods, aeons away from the nearest city."
+    nv_text "[school_name] is a school located deep in the woods, miles away from the nearest city."
     nv_text "This academy consists of [school_config]"
     nv_text "Here it is where you, the new headmaster, will take on the task of managing the [school_config_noun] and restoring them back to their former glory."
 
