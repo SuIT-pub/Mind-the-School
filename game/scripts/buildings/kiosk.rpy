@@ -9,15 +9,15 @@ init -1 python:
         "students": EventStorage("students", "Talk to students", default_fallback, "There is nobody here."),
     }
     
-    kiosk_timed_event.add_event(Event(1, "first_week_kiosk_event", None
+    kiosk_timed_event.add_event(Event(1, "first_week_kiosk_event",
         TimeCondition(day = "2-4", month = 1, year = 2023),
     ))
 
-    k_event_1 = Event(3, "kiosk_event_1", None,
+    k_event_1 = Event(3, "kiosk_event_1",
         OR(TimeCondition(weekday = "d", daytime = "f"), TimeCondition(weekday="w", daytime = "d"))
     )
 
-    k_event_3 = Event(3, "kiosk_event_3", None,
+    k_event_3 = Event(3, "kiosk_event_3",
         OR(TimeCondition(weekday = "d", daytime = "f"), TimeCondition(weekday="w", daytime = "d")),
         NOT(BuildingCondition("cafeteria")),
         RandomCondition(75, 100)

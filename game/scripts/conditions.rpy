@@ -1749,6 +1749,50 @@ init -6 python:
                 return value_1 != value_2
             return False
 
+        def get_name(self) -> str:
+            """
+            Returns the name of the condition.
+
+            ### Returns:
+            1. str
+                - The key of the value for kwargs.
+            """
+
+            return f"{self.key_1} {self.operation} {self.key_2}"
+
+        def get_diff(self, char_obj: Char) -> num:
+            """
+            Returns the difference between the condition and the value of kwargs.
+            If the condition is fulfilled, the difference is 0.
+            Otherwise the difference is -100.
+
+            ### Returns:
+            1. num
+                - The difference between the condition and the value of kwargs.
+            """
+
+            if self.key_1 not in kwargs.keys() or self.key_2 not in kwargs.keys():
+                return -100
+            value_1 = kwargs[self.key_1]
+            value_2 = kwargs[self.key_2]
+            if isinstance(value_1, Selector):
+                value_1 = value_1.roll(**kwargs)
+            if isinstance(value_2, Selector):
+                value_2 = value_2.roll(**kwargs)
+            if self.operation == ">":
+                return value_1 - value_2
+            elif self.operation == ">=":
+                return value_1 - value_2
+            elif self.operation == "<":
+                return value_2 - value_1
+            elif self.operation == "<=":
+                return value_2 - value_1
+            elif self.operation == "==":
+                return 0 if value_1 == value_2 else -100
+            elif self.operation == "!=":
+                return 0 if value_1 != value_2 else -100
+            return -100
+
     class AND(Condition):
         """
         A class for conditions that check if all conditions are fulfilled.

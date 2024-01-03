@@ -1,21 +1,27 @@
-init python:
+init -3 python:
 
     from abc import ABC, abstractmethod
     import random
     from typing import Any
 
-    class SelectorSet(ABC):
+    class SelectorSet():
         def __init__(self, *selectors: Selector):
-            self._selectors = selectors
+            self._selectors = list(selectors)
 
-        def roll_values(self, **kwargs):
+        def add_selector(self, *selector: Selector):
+            self._selectors.extend(selector)
+
+        def roll_values(self):
             """
             Rolls the values of the event.
             """
 
+            kwargs = {}
+
             for selector in self._selectors:
                 selector.update(**kwargs)
-                key, value = selector.get_value()
+                key = selector.get_name()
+                value = selector.get_value(**kwargs)
                 if key not in kwargs:
                     kwargs[key] = value
 
@@ -28,9 +34,8 @@ init python:
                 - A list of tuples containing the name and the value of the values.
             """
 
-            return {value.get_name(): value.get_value() for value in self.values}
+            return {selector.get_name(): selector.get_value() for selector in self._selectors}
             
-
     class Selector(ABC):
         """
         A class that represents a set of values that can be rolled.
@@ -52,12 +57,23 @@ init python:
         def roll(self, **kwargs) -> Any:
             pass
 
-        def get_value(self):
+        def get_name(self):
+            """
+            Returns the name of the value.
+
+            ### Returns:
+            1. str
+                - The name of the value.
+            """
+
+            return self._key
+
+        def get_value(self, **kwargs):
             """
             Returns a tuple of the key and the value.
             """
             if self._realtime:
-                self.update()
+                self.update(**kwargs)
 
             return self._value
         
@@ -75,7 +91,7 @@ init python:
         A class that represents a set of values that can be rolled.
         """
 
-        def __init__(self, key: str, *values: Any, realtime: bool = True):
+        def __init__(self, key: str, *values: Any, realtime: bool = False):
             super().__init__(realtime, key)
             self._list = values
 
@@ -83,10 +99,9 @@ init python:
             """
             Returns a random value from the list.
             """
-
-            value = get_random_choice(*self._list)
-            if isinstance(value, ValueSet):
-                return value.roll(**kwargs)
+            value = get_random_choice(*self._list, **kwargs)
+            while isinstance(value, Selector):
+                value = value.roll(**kwargs)
             return value
 
     class RandomValueSelector(Selector):
@@ -94,7 +109,7 @@ init python:
         A class that represents a set of values that can be rolled.
         """
 
-        def __init__(self, key: str, min_value: int, max_value: int, realtime: bool = True):
+        def __init__(self, key: str, min_value: int, max_value: int, realtime: bool = False):
             super().__init__(realtime, key)
             self._min_value = min_value
             self._max_value = max_value
@@ -112,7 +127,7 @@ init python:
         A class that represents a set of values that can be rolled.
         """
 
-        def __init__(self, key: str, condition: Condition, true_value: Any, false_value: Any, realtime: bool = True):
+        def __init__(self, key: str, condition: Condition, true_value: Any, false_value: Any, realtime: bool = False):
             super().__init__(realtime, key)
             self._condition = condition
             self._true_value = true_value
@@ -124,7 +139,7 @@ init python:
             """
 
             value = self._true_value if self._condition.is_fulfilled(**kwargs) else self._false_value
-            if isinstance(value, ValueSet):
+            if isinstance(value, Selector):
                 return value.roll(**kwargs)
             return value
 
@@ -133,16 +148,17 @@ init python:
         A class that represents a set of values that can be rolled.
         """
 
-        def __init__(self, key: str, stat: Stat, realtime: bool = True):
+        def __init__(self, key: str, stat: str, char: str, realtime: bool = False):
             super().__init__(realtime, key)
             self._stat = stat
+            self._char = char
 
         def roll(self, **kwargs) -> Any:
             """
             Returns a random value from the list.
             """
 
-            return self._stat.get_value()
+            return get_character_by_key(self._char).get_stat_number(self._stat)
 
     class ValueSelector(Selector):
         """
@@ -175,3 +191,20 @@ init python:
 
         def roll(self, **kwargs) -> Any:
             return kwargs[self._key]
+
+    class DictSelector(Selector):
+
+        def __init__(self, key: str, index: str, dict: Dict, realtime: bool = True):
+            super().__init__(realtime, key)
+            self._index = index
+            self._dict = dict
+
+        def roll(self, **kwargs) -> Any:
+            """
+            Returns a random value from the list.
+            """
+
+            if self._index not in self._dict:
+                return None
+
+            return self._dict[self._index]

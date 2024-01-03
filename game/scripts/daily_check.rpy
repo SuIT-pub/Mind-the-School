@@ -14,18 +14,15 @@ init -1 python:
     #     TimeCondition(day = 1, month = 1, year = 2023, daytime = 1)
     # ))
 
-    temp_time_check_events.add_event(Event(1, 
-        "tutorial_1", 
+    temp_time_check_events.add_event(Event(1, "tutorial_1", 
         TimeCondition(day = 2, month = 1, year = 2023, daytime = 1)
     ))
 
-    temp_time_check_events.add_event(Event(1, 
-        "first_week_epilogue", 
+    temp_time_check_events.add_event(Event(1, "first_week_epilogue", 
         TimeCondition(day = 5, month = 1, year = 2023, daytime = 2)
     ))
 
-    temp_time_check_events.add_event(Event(1, 
-        "first_week_epilogue_final", 
+    temp_time_check_events.add_event(Event(1, "first_week_epilogue_final", 
         TimeCondition(day = 10, month = 1, year = 2023, daytime = 1)
     ))
 
@@ -37,13 +34,11 @@ init -1 python:
     #     TimeCondition(weekday = 1, daytime = 1)
     # ))
 
-    temp_time_check_events.add_event(Event(1, 
-        "first_pta_meeting", 
+    temp_time_check_events.add_event(Event(1, "first_pta_meeting", 
         TimeCondition(day = 5, month = 1, year = 2023, daytime = 1)
     ))
 
-    time_check_events.add_event(Event(2,
-        "pta_meeting",
+    time_check_events.add_event(Event(2, "pta_meeting",
         TimeCondition(weekday = 5, daytime = 1)
     ))
 
@@ -51,8 +46,7 @@ init -1 python:
     #     TimeCondition(day = 19, daytime = 1)
     # ))
 
-    time_check_events.add_event(Event(2, 
-        "end_of_month",
+    time_check_events.add_event(Event(2, "end_of_month",
         TimeCondition(day = "1", daytime = "1")
     ))
 

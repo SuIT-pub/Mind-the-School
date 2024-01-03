@@ -15,20 +15,21 @@ init -1 python:
         "steal":          EventStorage("steal",          "Steal some panties",                 default_fallback, "There is nothing to do here."),
     }
 
-    gym_timed_event.add_event(Event(1, "first_week_gym_event", None,
+    gym_timed_event.add_event(Event(1, "first_week_gym_event",
         TimeCondition(day = "2-4", month = 1, year = 2023),
     ))
 
     
-    gym_timed_event.add_event(Event(1, "first_potion_gym_event", None
+    gym_timed_event.add_event(Event(1, "first_potion_gym_event",
         TimeCondition(day = 9, month = 1, year = 2023),
     ))
 
-    gym_event1 = Event(3, "gym_event_1", None
+    gym_event1 = Event(3, "gym_event_1",
+        StatSelector("corruption", CORRUPTION, "school"),
         TimeCondition(daytime = "c", weekday = "d")
     )
     
-    gym_event3 = Event(3, "gym_event_3", None
+    gym_event3 = Event(3, "gym_event_3",
         TimeCondition(daytime = "c", weekday = "d")
     )    
 
@@ -36,7 +37,7 @@ init -1 python:
     gym_events["check_pe"].add_event(gym_event1, gym_event3)
     gym_events["teach_pe"].add_event(gym_event1, gym_event3)
 
-    gym_events["enter_changing"].add_event(Event(3, "gym_event_2", None,
+    gym_events["enter_changing"].add_event(Event(3, "gym_event_2",
         TimeCondition(daytime = "c", weekday = "d")
     ))
 

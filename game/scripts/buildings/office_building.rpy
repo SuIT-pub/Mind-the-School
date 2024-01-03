@@ -13,23 +13,23 @@ init -1 python:
         "council":     EventStorage("council",   "Council work"),
     }
     
-    office_building_timed_event.add_event(Event(1,
-        ["first_week_office_building_event"],
+    office_building_timed_event.add_event(Event(1, "first_week_office_building_event",
         TimeCondition(day = "2-4", month = 1, year = 2023),
     ))
     
-    office_building_timed_event.add_event(Event(1,
-        ["first_potion_office_building_event"],
+    office_building_timed_event.add_event(Event(1, "first_potion_office_building_event",
         TimeCondition(day = 9, month = 1, year = 2023),
     ))
 
-    office_building_events["look_around"].add_event(Event(3,
-        ["office_event_1", "office_event_2"],
+    office_building_events["look_around"].add_event(Event(3, "office_event_1",
         TimeCondition(weekday = "d", daytime = "d"),
     ))
 
-    office_building_events["look_around"].add_event(Event(3,
-        ["office_event_3"],
+    office_building_events["look_around"].add_event(Event(3, "office_event_2",
+        TimeCondition(weekday = "d", daytime = "d"),
+    ))
+
+    office_building_events["look_around"].add_event(Event(3, "office_event_3",
         TimeCondition(weekday = "d", daytime = "d"),
         NOT(RuleCondition("student_student_relation")),
     ))

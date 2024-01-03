@@ -11,34 +11,27 @@ init -1 python:
         "students":    EventStorage("students",    "Talk to students", default_fallback, "There is nobody here."),
     }
 
-    sb_timed_event.add_event(Event(1,
-        ["first_week_sb_event"],
+    sb_timed_event.add_event(Event(1, "first_week_sb_event",
         TimeCondition(day = "2-4", month = 1, year = 2023),
     ))
 
-    sb_timed_event.add_event(Event(1,
-        ["first_potion_sb_event"],
+    sb_timed_event.add_event(Event(1, "first_potion_sb_event",
         TimeCondition(day = 9, month = 1, year = 2023),
     ))
 
-    event1 = Event(3, 
-        ["sb_event_1"],
+    event1 = Event(3, "sb_event_1",
         TimeCondition(daytime = "c", weekday = "d"),
     )
-
     sb_events["teach_class"].add_event(event1)
-    sb_events["teach_class"].add_event(Event(3,
-        ["sb_event_2"],
+    sb_events["patrol"].add_event(event1)
+
+    sb_events["teach_class"].add_event(Event(3, "sb_event_2",
         TimeCondition(daytime = "c", weekday = "d"),
     ))
     
-    sb_events["patrol"].add_event(event1)
-    sb_events["patrol"].add_event(Event(3, 
-        ["sb_event_3"], 
+    sb_events["patrol"].add_event(Event(3, "sb_event_3",
         TimeCondition(daytime = "d")
     ))
-
-
 
     sb_timed_event.check_all_events()
     map(lambda x: x.check_all_events(), sb_events.values())

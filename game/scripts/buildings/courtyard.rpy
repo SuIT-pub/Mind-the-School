@@ -10,19 +10,24 @@ init -1 python:
         "patrol":       EventStorage("patrol",       "Patrol",             default_fallback, "There is nobody here."),
     }
     
-    courtyard_timed_event.add_event(Event(1, "first_week_courtyard_event", None
+    courtyard_timed_event.add_event(Event(1, "first_week_courtyard_event",
         TimeCondition(day = "2-4", month = 1, year = 2023),
     ))
     
-    courtyard_timed_event.add_event(Event(1, "first_potion_courtyard_event", None,
+    courtyard_timed_event.add_event(Event(1, "first_potion_courtyard_event",
         TimeCondition(day = 9, month = 1, year = 2023),
     ))
 
-    courtyard_events["patrol"].add_event(Event(3, "courtyard_event_1", "courtyard_event_2", None,
+    courtyard_events["patrol"].add_event(Event(3, "courtyard_event_1",
+        RandomValueSelector('variant', 1, 1),
         OR(TimeCondition(daytime = "f", weekday = "d"), TimeCondition(daytime = "d", weekday = "w"))
     ))
 
-    courtyard_events["patrol"].add_event(Event(3, "courtyard_event_3", None,
+    courtyard_events["patrol"].add_event(Event(3, "courtyard_event_2",
+        OR(TimeCondition(daytime = "f", weekday = "d"), TimeCondition(daytime = "d", weekday = "w"))
+    ))
+
+    courtyard_events["patrol"].add_event(Event(3, "courtyard_event_3",
         TimeCondition(daytime = "d"),
     ))
 
@@ -115,12 +120,9 @@ label first_week_courtyard_event (**kwargs):
 
 # TODO: modify for Level 4+
 label courtyard_event_1 (**kwargs):
-    
-    $ variant = get_random_int(1, 1)
-
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
-    $ image = Image_Series("images/events/courtyard/courtyard_event_1 <level> <variant> <step>.webp", variant = variant, **kwargs)
+    $ image = Image_Series("images/events/courtyard/courtyard_event_1 <level> <variant> <step>.webp", **kwargs)
 
     $ begin_event("courtyard_event_1")
 

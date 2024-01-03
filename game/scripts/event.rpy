@@ -500,6 +500,8 @@ init -3 python:
             for event in self.events:
                 event.check_event()
 
+    rerollSelectors = []
+
     class Event:
         """
         This class represents an event that can be called.
@@ -554,10 +556,15 @@ init -3 python:
 
         """
 
-        def __init__(self, priority: int, event: str, values: SelectorSet = None, *conditions: Condition):
+        def __init__(self, priority: int, event: str, *conditions: Condition | Selector):
             self.event_id = str(id(self))
             self.event = event
-            self.conditions = list(conditions)
+            self.conditions = [condition for condition in conditions if isinstance(condition, Condition)]
+            self.values = SelectorSet(*[condition for condition in conditions if isinstance(condition, Selector)])
+
+            rerollSelectors.append(self.values)
+
+            # self.conditions = list(conditions)
 
             # 1 = highest (the first 1 to occur is called blocking all other events)
             # 2 = middle (all 2's are called after each other)
@@ -568,7 +575,7 @@ init -3 python:
                 for event_name in self.event:
                     if event_name not in seenEvents.keys():
                         seenEvents[event_name] = False
-            self.values = values
+            # self.values = values
 
         def __str__(self):
             return self.event_id
@@ -577,6 +584,10 @@ init -3 python:
             return self.event_id
 
         def _update(self, data: Dict[str, Any]):
+
+            if not hasattr(self, 'event'):
+                self.event = ""
+
             if not hasattr(self, 'event_id'):
                 self.event_id = str(id(self))
 
@@ -606,9 +617,8 @@ init -3 python:
             if self.priority < 1 or self.priority > 3:
                 log_error(" at Event " + self.event_id + ": Priority " + str(self.priority) + " is not valid!")
 
-            for event in self.event:
-                if not renpy.has_label(event):
-                    log_error(" at Event " + self.event_id + ": Label " + event + " is missing!")
+            if not renpy.has_label(self.event):
+                log_error(" at Event " + self.event_id + ": Label " + event + " is missing!")
 
         def get_id(self) -> str:
             """
@@ -724,10 +734,7 @@ label call_available_event(event_storage, priority = 0, **kwargs):
         if event_storage.get_type() == "TempEventStorage":
             $ event_storage.remove_event(events_list[i].get_id())
 
-        $ j = 0
-        while (len(events) > j):
-            $ renpy.call(events[j], **kwargs)
-            $ j += 1
+        $ renpy.call(events, **kwargs)
         $ i += 1
 
     return
@@ -753,12 +760,12 @@ label call_event(event_obj, priority = 0, **kwargs):
     if isinstance(event_obj, str):
         if renpy.has_label(event_obj):
             $ renpy.call(event_obj, from_current="call_event_1", **kwargs)
-    
-    $ i = 0
-    while(len(event_obj) > i):
-        if renpy.has_label(event_obj[i]):
-            $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-        $ i += 1
+    else:
+        $ i = 0
+        while(len(event_obj) > i):
+            if renpy.has_label(event_obj[i]):
+                $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+            $ i += 1
 
     return
 

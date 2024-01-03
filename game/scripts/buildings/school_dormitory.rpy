@@ -11,46 +11,45 @@ init -1 python:
         "peek_students": EventStorage("peek_students", "Peek on students", default_fallback, "There is nobody here."),
     }
 
-    sd_timed_event.add_event(Event(1, "first_week_school_dormitory_event", None
+    sd_timed_event.add_event(Event(1, "first_week_school_dormitory_event",
         TimeCondition(day = "2-4", month = 1, year = 2023),
     ))
 
-    sd_timed_event.add_event(Event(1, "first_potion_school_dormitory_event", None
+    sd_timed_event.add_event(Event(1, "first_potion_school_dormitory_event",
         TimeCondition(day = 9, month = 1, year = 2023),
     ))
 
-    sd_events["peek_students"].add_event(Event(3, "sd_event_1", None
-        OR(
-            TimeCondition(weekday = "d", daytime = "f"), 
-            TimeCondition(weekday = "d", daytime = "n"), 
-            TimeCondition(weekday = "w")
-        )
-    ))
+    # sd_events["peek_students"].add_event(Event(3, "sd_event_1", None
+    #     OR(
+    #         TimeCondition(weekday = "d", daytime = "f"), 
+    #         TimeCondition(weekday = "d", daytime = "n"), 
+    #         TimeCondition(weekday = "w")
+    #     )
+    # ))
 
     sd_events["peek_students"].add_event(Event(3, "sd_event_2",
-        SelectorSet(
-            RandomValueSelector('inhibition_limit', 30, 50),
-            StatSelector('inhibition', get_stat_obj_for_char(INHIBITION, get_school())),
-            RandomListSelector('location', "dorm_room", "shower"),
-            RandomListSelector('topic', 
-                (
-                    RandomListSelector('', "ah", "ahhh", "oh", "eeek", (0.05, "panties"), (0.02, "breasts")), 
-                    KeyCompareCondition("inhibition", "inhibition_limit", ">=")
-                ),
-                (
-                    RandomListSelector('', "guys_stop", "huh", "reason", "dressing", "blush"), 
-                    KeyCompareCondition("inhibition", "inhibition_limit", "<")
-                ),
+        RandomValueSelector('inhibition_limit', 30, 50),
+        StatSelector('inhibition', INHIBITION, "school"),
+        RandomListSelector('location', "dorm_room", "shower"),
+        ConditionSelector("topic_set", KeyCompareCondition("inhibition", "inhibition_limit", ">="), 1, 2),
+        RandomListSelector('topic', 
+            (
+                RandomListSelector('', "ah", "ahhh", "oh", "eeek", (0.05, "panties"), (0.02, "breasts")), 
+                NumCompareCondition("topic_set", 1, "==")
             ),
-            RandomListSelector('girl_name',
-                (
-                    RandomListSelector('', "Aona Komuro", "Lin Kato", "Gloria Goto"), 
-                    ValueCondition("location", "dorm_room")
-                ),
-                (
-                    RandomListSelector('', "Sakura Mori", "Elsie Johnson", "Ishimaru Maki"), 
-                    ValueCondition("location", "shower")
-                ),
+            (
+                RandomListSelector('', "guys_stop", "huh", "reason", "dressing", "blush"), 
+                NumCompareCondition("topic_set", 2, "==")
+            ),
+        ),
+        RandomListSelector('girl_name',
+            (
+                RandomListSelector('', "Aona Komuro", "Lin Kato", "Gloria Goto"), 
+                ValueCondition("location", "dorm_room")
+            ),
+            (
+                RandomListSelector('', "Sakura Mori", "Elsie Johnson", "Ishimaru Maki"), 
+                ValueCondition("location", "shower")
             ),
         ),
         OR(
@@ -89,7 +88,7 @@ label .after_time_check (**kwargs):
 
     call call_event_menu (
         "What to do in the High School Dorm?", 
-        hsd_events, 
+        sd_events, 
         default_fallback,
         character.subtitles,
         char_obj = school_obj,
@@ -203,30 +202,15 @@ label sd_event_1 (**kwargs):
 
 label sd_event_2 (**kwargs):
     $ char_obj = get_kwargs("char_obj", **kwargs)
-
-    $ log_value("values", kwargs)
-
-    $ inhibition = char_obj.get_stat_number(INHIBITION)
-
-    $ location = get_random_choice("dorm_room", "shower")
-    $ topic = []
-
-    $ topic_set = 1 if inhibition > get_random_int(30, 50) else 2
-
-    if topic_set == 1:
-        $ topic = ["ah", "ahhh", "oh", "eeek", (0.05, "panties"), (0.02, "breasts")]
-    else:
-        $ topic = ["guys_stop", "huh", "reason", "dressing", "blush"]
-
-    $ topic = get_random_choice(*topic)
     
-    $ girl_name = get_random_choice("Aona Komuro", "Lin Kato", "Gloria Goto")
+    $ inhibition = get_kwargs('inhibition', **kwargs)
+    $ location = get_kwargs('location', **kwargs)
+    $ topic = get_kwargs('topic', **kwargs)
+    $ girl_name = get_kwargs('girl_name', **kwargs)
+    $ topic_set = get_kwargs('topic_set', **kwargs)
 
-    if location == "shower":
-        $ girl_name = get_random_choice("Sakura Mori", "Elsie Johnson", "Ishimaru Maki")
-
-    $ image = Image_Series("images/events/school dormitory/sd_event_2 <topic> <location> <girl> <level> <step>.webp", location = location, topic = topic, girl = girl_name, **kwargs)
-    $ image2 = Image_Series("images/events/school dormitory/sd_event_2 <location> <step>.webp", location = location)
+    $ image = Image_Series("images/events/school dormitory/sd_event_2 <topic> <location> <girl_name> <level> <step>.webp", **kwargs)
+    $ image2 = Image_Series("images/events/school dormitory/sd_event_2 <location> <step>.webp", **kwargs)
 
     $ begin_event("sd_event_2")
 
