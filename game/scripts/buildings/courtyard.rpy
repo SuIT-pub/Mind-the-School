@@ -18,18 +18,20 @@ init -1 python:
         TimeCondition(day = 9, month = 1, year = 2023),
     ))
 
-    courtyard_events["patrol"].add_event(Event(3, "courtyard_event_1",
+    courtyard_event1 = Event(3, "courtyard_event_1",
         RandomValueSelector('variant', 1, 1),
         OR(TimeCondition(daytime = "f", weekday = "d"), TimeCondition(daytime = "d", weekday = "w"))
-    ))
+    )
 
-    courtyard_events["patrol"].add_event(Event(3, "courtyard_event_2",
+    courtyard_event2 = Event(3, "courtyard_event_2",
         OR(TimeCondition(daytime = "f", weekday = "d"), TimeCondition(daytime = "d", weekday = "w"))
-    ))
+    )
 
-    courtyard_events["patrol"].add_event(Event(3, "courtyard_event_3",
+    courtyard_event3 = Event(3, "courtyard_event_3",
         TimeCondition(daytime = "d"),
-    ))
+    )
+
+    courtyard_events["patrol"].add_event(courtyard_event1, courtyard_event2, courtyard_event3)
 
     courtyard_timed_event.check_all_events()
     map(lambda x: x.check_all_events(), courtyard_events.values())

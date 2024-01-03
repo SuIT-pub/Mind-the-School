@@ -13,18 +13,25 @@ init -1 python:
         TimeCondition(day = "2-4", month = 1, year = 2023),
     ))
 
-    k_event_1 = Event(3, "kiosk_event_1",
+    kiosk_event1 = Event(3, "kiosk_event_1",
+        RandomValueSelector("variant", 1, 2),
+        RandomListSelector("girl", "Aona Komuro", "Ikushi Ito", "Gloria Goto", "Lin Kato"),
         OR(TimeCondition(weekday = "d", daytime = "f"), TimeCondition(weekday="w", daytime = "d"))
     )
 
-    k_event_3 = Event(3, "kiosk_event_3",
+    kiosk_event2 = Event(3, "kiosk_event_2",
+        RandomListSelector("girl", "Hatano Miwa", "Kokoro Nakamura", "Soyoon Yamamoto"),
+        OR(TimeCondition(weekday = "d", daytime = "f"), TimeCondition(weekday="w", daytime = "d"))
+    )
+
+    kiosk_event3 = Event(3, "kiosk_event_3",
+        RandomListSelector("topic", "normal", (0.25, "kind"), (0.05, "slimy")),
         OR(TimeCondition(weekday = "d", daytime = "f"), TimeCondition(weekday="w", daytime = "d")),
         NOT(BuildingCondition("cafeteria")),
         RandomCondition(75, 100)
     )
 
-    kiosk_events["snack"].add_event(k_event_1)
-    kiosk_events["snack"].add_event(k_event_3)
+    kiosk_events["snack"].add_event(kiosk_event1, kiosk_event2, kiosk_event3)
 
     kiosk_timed_event.check_all_events()
     map(lambda x: x.check_all_events(), kiosk_events.values())
@@ -99,12 +106,12 @@ label first_week_kiosk_event (**kwargs):
 label kiosk_event_1 (**kwargs):
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
-    $ variant = get_random_int(1, 2)
-    $ girl = get_random_choice("Aona Komuro", "Ikushi Ito", "Gloria Goto", "Lin Kato")
+    $ variant = get_kwargs("variant", **kwargs)
+    $ girl = get_kwargs("girl", **kwargs)
 
     $ begin_event("kiosk_event_1")
 
-    call show_image("images/events/kiosk/kiosk_event_1 <girl> <level> <variant>.webp", girl = girl, variant = variant, **kwargs) from _call_show_image_1
+    call show_image("images/events/kiosk/kiosk_event_1 <girl> <level> <variant>.webp", **kwargs) from _call_show_image_1
     subtitles "For some, coffee is the only way to save the day."
 
     $ change_stats_with_modifier(char_obj,
@@ -115,9 +122,9 @@ label kiosk_event_1 (**kwargs):
 label kiosk_event_2 (**kwargs):
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
-    $ girl = get_random_choice("Hatano Miwa", "Kokoro Nakamura", "Soyoon Yamamoto")
+    $ girl = get_kwargs("girl", **kwargs)
 
-    $ image = Image_Series("images/events/kiosk/kiosk_event_2 <girl> <level> <step>.webp", girl = girl, **kwargs)
+    $ image = Image_Series("images/events/kiosk/kiosk_event_2 <girl> <level> <step>.webp", **kwargs)
 
     $ begin_event("kiosk_event_2")
 
@@ -136,25 +143,22 @@ label kiosk_event_2 (**kwargs):
 label kiosk_event_3 (**kwargs):
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
-    $ topic = get_random_choice("normal", (0.25, "kind"), (0.05, "slimy"))
-    $ girl = "Miwa Igarashi"
-
-    $ kwargs["topic"] = topic
+    $ topic = get_kwargs("topic", **kwargs)
 
     $ image = Image_Series("images/events/kiosk/kiosk_event_3 <level> <step>.webp", **kwargs)
 
     $ begin_event("kiosk_event_3")
 
     $ image.show(0)
-    sgirl "Hi, I want a Bento!" (name = girl)
+    sgirl "Hi, I want a Bento!" (name = "Miwa Igarashi")
     $ image.show(1)
     vendor "Sure that makes 2.50$"
     $ image.show(2)
-    sgirl "2.50?! It has been only 1.50$ last week?" (name = girl)
+    sgirl "2.50?! It has been only 1.50$ last week?" (name = "Miwa Igarashi")
     $ image.show(3)
     vendor "I'm sorry, but I can no longer afford to keep the prices so low."
     $ image.show(2)
-    sgirl "But I can't afford that!" (name = girl)
+    sgirl "But I can't afford that!" (name = "Miwa Igarashi")
 
     $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
         ("Leave alone", "kiosk_event_3.leave"),
@@ -169,13 +173,13 @@ label .leave (**kwargs):
         $ image.show(4)
         vendor "You know what? I think I could help you."
         $ image.show(5)
-        sgirl "Really?" (name = girl)
+        sgirl "Really?" (name = "Miwa Igarashi")
         $ image.show(6)
         vendor "Yeah you could, you know have my Hot Dog."
         $ image.show(7)
-        sgirl "Your Hot Dog? What do you m..." (name = girl)
+        sgirl "Your Hot Dog? What do you m..." (name = "Miwa Igarashi")
         $ image.show(8)
-        sgirl "Eeek! Pervert!" (name = girl)
+        sgirl "Eeek! Pervert!" (name = "Miwa Igarashi")
         $ image.show(9)
         headmaster_thought "Mhh what kind of noise is that? Hmmm... I guess it's nothing serious."
 
@@ -187,7 +191,7 @@ label .leave (**kwargs):
         $ image.show(10)
         vendor "I'm sorry to hear that... You know what? This one is on the house."
         $ image.show(11)
-        sgirl "Really? Thank you." (name = girl)
+        sgirl "Really? Thank you." (name = "Miwa Igarashi")
         $ image.show(12)
         headmaster_thought "Mhh, things are worse than I thought. I can't believe the students have to go hungry."
         headmaster_thought "I should think about doing something about that."
@@ -203,7 +207,7 @@ label .leave (**kwargs):
         $ image.show(10)
         vendor "I'm sorry but there is nothing I can do."
         $ image.show(13)
-        sgirl "*sob*" (name = girl)
+        sgirl "*sob*" (name = "Miwa Igarashi")
         $ image.show(12)
         headmaster_thought "Poor girl..."
 
@@ -218,22 +222,22 @@ label .help (**kwargs):
     $ image.show(14)
     headmaster "What's the matter here?"
     $ image.show(15)
-    sgirl "Oh Mr. [headmaster_last_name]... nothing..." (name = girl)
+    sgirl "Oh Mr. [headmaster_last_name]... nothing..." (name = "Miwa Igarashi")
     $ image.show(16)
     headmaster "I'll pay her meal and please add a coffee."
     $ image.show(17)
     headmaster "Do you drink coffee?"
-    sgirl "Yes?" (name = girl)
+    sgirl "Yes?" (name = "Miwa Igarashi")
     $ image.show(18)
     headmaster "Good, coffee then."
     $ image.show(19)
     vendor "Sure!"
     $ image.show(20)
-    sgirl "Thank you very much!" (name = girl)
+    sgirl "Thank you very much!" (name = "Miwa Igarashi")
     $ image.show(21)
     headmaster "No problem. I know it can be hard, but if you are in a predicament just come talk to me and I'm sure we can find a way." 
     $ image.show(22)
-    sgirl "..." (name = girl)
+    sgirl "..." (name = "Miwa Igarashi")
 
     $ change_stats_with_modifier(kwargs[CHAR],
         happiness = MEDIUM, reputation = MEDIUM, charm = DEC_TINY)

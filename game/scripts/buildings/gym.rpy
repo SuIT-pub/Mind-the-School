@@ -26,20 +26,33 @@ init -1 python:
 
     gym_event1 = Event(3, "gym_event_1",
         StatSelector("corruption", CORRUPTION, "school"),
+        RandomListSelector("topic_variant", "shoes", "hair", "ready"),
+        DictSelector("topic", "topic_variant", {
+            "shoes": "putting on my shoes",
+            "hair": "doing my hair",
+            "ready": "getting ready",
+        }),
         TimeCondition(daytime = "c", weekday = "d")
     )
     
+    gym_event2 = Event(3, "gym_event_2",
+        StatSelector("inhibition", INHIBITION, "school"),
+        RandomListSelector("topic", (0.75, "clothe"), "breasts", (0.15, "asses")),
+        TimeCondition(daytime = "c", weekday = "d")
+    )
+
     gym_event3 = Event(3, "gym_event_3",
+        RandomValueSelector("variant", 1, 1),
+        DictSelector("girl", "variant", {
+            1: "Kokoro Nakamura",
+        })
         TimeCondition(daytime = "c", weekday = "d")
     )    
 
+    gym_events["enter_changing"].add_event(gym_event2)
     gym_events["students"].add_event(gym_event1, gym_event3)
     gym_events["check_pe"].add_event(gym_event1, gym_event3)
     gym_events["teach_pe"].add_event(gym_event1, gym_event3)
-
-    gym_events["enter_changing"].add_event(Event(3, "gym_event_2",
-        TimeCondition(daytime = "c", weekday = "d")
-    ))
 
     gym_timed_event.check_all_events()
     map(lambda x: x.check_all_events(), gym_events.values())
@@ -134,24 +147,13 @@ label weekly_assembly (**kwargs):
     return
 
 label gym_event_1 (**kwargs):
-
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
-    $ corruption = char_obj.get_stat_number(CORRUPTION)
+    $ corruption = get_kwargs("corruption", **kwargs)
+    $ topic_variant = get_kwargs("topic_variant", **kwargs)
+    $ topic = get_kwargs("topic", **kwargs)
 
-    $ girls = ("Aona Komuro", "Elsie Johnson")
-
-    $ variant = get_random_choice("shoes", "hair", "ready")
-
-    $ topics = {
-        "shoes": "putting on my shoes",
-        "hair": "doing my hair",
-        "ready": "getting ready",
-    }
-
-    $ topic = topics[variant]
-
-    $ image = Image_Series("/images/events/gym/gym_event_1 <level> <topic> <step>.webp", topic = variant, **kwargs)
+    $ image = Image_Series("/images/events/gym/gym_event_1 <level> <topic_variant> <step>.webp", **kwargs)
 
     $ begin_event("gym_event_1")
 
@@ -190,7 +192,7 @@ label gym_event_1 (**kwargs):
     #         inhibition = DEC_SMALL, corruption = SMALL, charm = SMALL)
     if corruption >= 5:
         $ image.show(1)
-        sgirl "Just give me a moment more to get ready for class. You like watching me doing whatever, right?" (name = girls[0])
+        sgirl "Just give me a moment more to get ready for class. You like watching me doing whatever, right?" (name = "Aona Komuro")
 
         $ image.show(2)
         headmaster "As pretty as you are? I sure do!"
@@ -199,7 +201,7 @@ label gym_event_1 (**kwargs):
             inhibition = DEC_SMALL, corruption = TINY, charm = TINY)
     else:
         $ image.show(1)
-        sgirl "Are you getting ready for gym class too, Mr. [headmaster_last_name]?" (name = girls[0])
+        sgirl "Are you getting ready for gym class too, Mr. [headmaster_last_name]?" (name = "Aona Komuro")
 
         $ change_stats_with_modifier(char_obj, 
             inhibition = DEC_TINY, corruption = TINY, charm = TINY)
@@ -208,11 +210,10 @@ label gym_event_1 (**kwargs):
 label gym_event_2 (**kwargs):
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
-    $ inhibition = char_obj.get_stat_number(INHIBITION)
+    $ inhibition = get_kwargs("inhibition", **kwargs)
+    $ topic = get_kwargs("topic", **kwargs)
 
-    $ topic = get_random_choice((0.75, "clothe"), "breasts", (0.15, "asses"))
-
-    $ image = Image_Series("/images/events/gym/gym_event_2 <level> <topic> <step>.webp", topic = topic, name = "high_school", **kwargs)
+    $ image = Image_Series("/images/events/gym/gym_event_2 <level> <topic> <step>.webp", **kwargs)
 
     $ begin_event("gym_event_2")
 
@@ -280,16 +281,13 @@ label .escape (**kwargs):
 label gym_event_3 (**kwargs):
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
-    $ variant = get_random_int(1, 1)
+    $ variant = get_kwargs("variant", **kwargs)
+    $ girl = get_kwargs("girl", **kwargs)
 
-    $ girls = {
-        1: "Kokoro Nakamura",
-    }
+    $ girl_name = girl.split(" ")[0]
+    $ girl_full_name = girl
 
-    $ girl_name = girls[variant].split(" ")[0]
-    $ girl_full_name = girls[variant]
-
-    $ image = Image_Series("/images/events/gym/gym_event_3 <level> <variant> <step>.webp", variant = variant, **kwargs)
+    $ image = Image_Series("/images/events/gym/gym_event_3 <level> <variant> <step>.webp", **kwargs)
 
     $ begin_event("gym_event_3")
 

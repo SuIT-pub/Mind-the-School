@@ -19,19 +19,20 @@ init -1 python:
         TimeCondition(day = 9, month = 1, year = 2023),
     ))
 
-    event1 = Event(3, "sb_event_1",
+    sb_event1 = Event(3, "sb_event_1",
         TimeCondition(daytime = "c", weekday = "d"),
     )
-    sb_events["teach_class"].add_event(event1)
-    sb_events["patrol"].add_event(event1)
 
-    sb_events["teach_class"].add_event(Event(3, "sb_event_2",
+    sb_event2 = Event(3, "sb_event_2",
         TimeCondition(daytime = "c", weekday = "d"),
-    ))
+    )
     
-    sb_events["patrol"].add_event(Event(3, "sb_event_3",
+    sb_event3 = Event(3, "sb_event_3",
         TimeCondition(daytime = "d")
-    ))
+    )
+
+    sb_events["teach_class"].add_event(sb_event1, sb_event2)
+    sb_events["patrol"].add_event(sb_event1, sb_event3)
 
     sb_timed_event.check_all_events()
     map(lambda x: x.check_all_events(), sb_events.values())
@@ -154,7 +155,6 @@ label .leave (**kwargs):
     $ change_stats_with_modifier(kwargs["char_obj"],
         charm = DEC_SMALL, education = TINY, corruption = TINY, inhibition = DEC_SMALL)
     jump new_daytime
-
 label .stop (**kwargs):
     
     $ begin_event()
@@ -168,7 +168,6 @@ label .stop (**kwargs):
         charm = MEDIUM, happiness = DEC_SMALL, education = SMALL, reputation = TINY, inhibition = DEC_TINY)
     jump new_daytime
 
-# TODO: make images
 label sb_event_2 (**kwargs): # teach class
     $ image = Image_Series("/images/events/school building/sb_event_2 <step>.webp", **kwargs)
 
@@ -182,7 +181,6 @@ label sb_event_2 (**kwargs): # teach class
         ("Leave alone", "sb_event_2.leave"),
         ("Help her up", "sb_event_2.help"), 
     **kwargs)
-
 label .leave (**kwargs):
     
     $ begin_event()
@@ -192,7 +190,6 @@ label .leave (**kwargs):
     $ change_stats_with_modifier(kwargs["char_obj"],
         charm = DEC_TINY, education = TINY)
     jump new_daytime
-
 label .help (**kwargs):
     
     $ begin_event()
@@ -203,7 +200,6 @@ label .help (**kwargs):
         charm = DEC_TINY, happiness = SMALL, education = TINY)
     jump new_daytime
 
-# TODO: make images
 label sb_event_3 (**kwargs): # patrol
     $ image = Image_Series("/images/events/school building/sb_event_3 <step>.webp", **kwargs)
 
@@ -223,7 +219,6 @@ label sb_event_3 (**kwargs): # patrol
         ("What is going on?", "sb_event_3.what"),
         ("If it's nothing, go back to class", "sb_event_3.send_class", time.check_daytime("c") and time.check_weekday("d")), 
     **kwargs)
-
 label .what (**kwargs):
     
     $ begin_event()
@@ -244,7 +239,6 @@ label .what (**kwargs):
         ("Leave her alone", "sb_event_3.leave"), 
         ("Get to the bottom of this", "sb_event_3.get_to_bottom"), 
     **kwargs)
-
 label .leave (**kwargs):
     
     $ begin_event()
@@ -267,7 +261,6 @@ label .leave (**kwargs):
     $ change_stats_with_modifier(kwargs["char_obj"], 
         charm = TINY, happiness = DEC_LARGE, education = TINY, reputation = DEC_TINY)
     jump new_daytime
-
 label .get_to_bottom (**kwargs):
     
     $ begin_event()
@@ -302,7 +295,6 @@ label .get_to_bottom (**kwargs):
     $ change_stats_with_modifier(kwargs["char_obj"],
         happiness = LARGE, reputation = TINY)
     jump new_daytime
-
 label .send_class (**kwargs):
     
     $ begin_event()
@@ -323,7 +315,6 @@ label .send_class (**kwargs):
         ("Poor thing", "sb_event_3.poor_thing"), 
         ("Chin up", "sb_event_3.chin_up"), 
     **kwargs)
-
 label .poor_thing (**kwargs):
 
     $ begin_event()
@@ -339,7 +330,6 @@ label .poor_thing (**kwargs):
     $ change_stats_with_modifier(kwargs["char_obj"],
         happiness = LARGE, reputation = TINY)
     jump new_daytime
-
 label .chin_up (**kwargs):
     
     $ begin_event()

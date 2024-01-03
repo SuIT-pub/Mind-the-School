@@ -19,15 +19,17 @@ init -1 python:
         TimeCondition(day = 9, month = 1, year = 2023),
     ))
 
-    # sd_events["peek_students"].add_event(Event(3, "sd_event_1", None
-    #     OR(
-    #         TimeCondition(weekday = "d", daytime = "f"), 
-    #         TimeCondition(weekday = "d", daytime = "n"), 
-    #         TimeCondition(weekday = "w")
-    #     )
-    # ))
+    sd_event1 = Event(3, "sd_event_1",
+        StatSelector('education', EDUCATION, "school"),
+        StatSelector('inhibition', INHIBITION, "school"),
+        OR(
+            TimeCondition(weekday = "d", daytime = "f"), 
+            TimeCondition(weekday = "d", daytime = "n"), 
+            TimeCondition(weekday = "w")
+        )
+    )
 
-    sd_events["peek_students"].add_event(Event(3, "sd_event_2",
+    sd_event2 = Event(3, "sd_event_2",
         RandomValueSelector('inhibition_limit', 30, 50),
         StatSelector('inhibition', INHIBITION, "school"),
         RandomListSelector('location', "dorm_room", "shower"),
@@ -57,7 +59,15 @@ init -1 python:
             TimeCondition(weekday = "d", daytime = "n"), 
             TimeCondition(weekday = "w")
         )
-    ))
+    )
+
+    sd_event3 = Event(3, "sd_event_3",
+        StatSelector('inhibition', INHIBITION, "school"),
+        RandomListSelector('topic', "normal", (0.1, "panties"), (0.02, "nude")),
+        TimeCondition(daytime = "6,7"),
+    )
+
+    sd_events["peek_students"].add_event(sd_event1, sd_event2, sd_event3)
 
     sd_timed_event.check_all_events()
     map(lambda x: x.check_all_events(), sd_events.values())
@@ -161,25 +171,23 @@ label first_potion_school_dormitory_event (**kwargs):
 
 # education < 80
 label sd_event_1 (**kwargs):
-    $ image = Image_Series("images/events/school dormitory/sd_event_1 <level> <step>.webp", **kwargs)
+    $ char_obj = get_kwargs("char_obj", **kwargs)
 
-    $ girl_name = "Easkey Tanaka"
+    $ education = get_kwargs('education', **kwargs)
+    $ inhibition = get_kwargs('inhibition', **kwargs)
+
+    $ image = Image_Series("images/events/school dormitory/sd_event_1 <level> <step>.webp", **kwargs)
 
     $ begin_event("sd_event_1")
 
-    $ char_obj = get_kwargs("char_obj", **kwargs)
-
-    $ education = char_obj.get_stat_number(EDUCATION)
-    $ inhibition = char_obj.get_stat_number(INHIBITION)
-
     if education > 50 and get_random_int(0, 1) == 0:
         $ image.show(0)
-        sgirl "Umm, hello!" (name = girl_name)
+        sgirl "Umm, hello!" (name = "Easkey Tanaka")
         $ image.show(1)
         headmaster "Hello there, is everything okay?"
         if inhibition >= 90:
             $ image.show(2)
-            sgirl "Yeah Mr. [headmaster_last_name], but would you please knock before entering next time?" (name = girl_name)
+            sgirl "Yeah Mr. [headmaster_last_name], but would you please knock before entering next time?" (name = "Easkey Tanaka")
             $ image.show(3)
             headmaster "Ah yes... yes of course."
             $ change_stats_with_modifier(char_obj,
@@ -187,7 +195,7 @@ label sd_event_1 (**kwargs):
             jump new_daytime
         else:
             $ image.show(5)
-            sgirl "Yeah Mr. [headmaster_last_name], you just surprised me." (name = girl_name)
+            sgirl "Yeah Mr. [headmaster_last_name], you just surprised me." (name = "Easkey Tanaka")
             $ image.show(6)
             headmaster "Oh, sorry about that."
             $ change_stats_with_modifier(char_obj,
@@ -195,7 +203,7 @@ label sd_event_1 (**kwargs):
             jump new_daytime
     else:
         $ image.show(4)
-        sgirl "hmm... This homework is hard. Why do I need to learn this anyway?" (name = girl_name)
+        sgirl "hmm... This homework is hard. Why do I need to learn this anyway?" (name = "Easkey Tanaka")
         $ change_stats_with_modifier(char_obj,
             education = SMALL)
         jump new_daytime
@@ -320,11 +328,11 @@ label sd_event_2 (**kwargs):
 
 label sd_event_3 (**kwargs):
     $ char_obj = get_kwargs("char_obj", **kwargs)
-    $ inhibition = char_obj.get_stat_number(INHIBITION)
 
-    $ topic = get_random_choice("normal", (0.1, "panties"), (0.02, "nude"))
+    $ inhibition = get_kwargs('inhibition', **kwargs)
+    $ topic = get_kwargs('topic', **kwargs)
 
-    $ image = Image_Series("images/events/school dormitory/sd_event_3 <topic> <level> <step>.webp", topic = topic, **kwargs)
+    $ image = Image_Series("images/events/school dormitory/sd_event_3 <topic> <level> <step>.webp", **kwargs)
 
     $ begin_event("sd_event_3")
 

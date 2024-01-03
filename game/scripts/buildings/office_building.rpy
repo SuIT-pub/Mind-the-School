@@ -21,18 +21,20 @@ init -1 python:
         TimeCondition(day = 9, month = 1, year = 2023),
     ))
 
-    office_building_events["look_around"].add_event(Event(3, "office_event_1",
+    office_event1 = Event(3, "office_event_1",
         TimeCondition(weekday = "d", daytime = "d"),
-    ))
+    )
 
-    office_building_events["look_around"].add_event(Event(3, "office_event_2",
+    office_event2 = Event(3, "office_event_2",
         TimeCondition(weekday = "d", daytime = "d"),
-    ))
+    )
 
-    office_building_events["look_around"].add_event(Event(3, "office_event_3",
+    office_event3 = Event(3, "office_event_3",
         TimeCondition(weekday = "d", daytime = "d"),
         NOT(RuleCondition("student_student_relation")),
-    ))
+    )
+
+    office_building_events["look_around"].add_event(office_event1, office_event2, office_event3)
 
     office_building_timed_event.check_all_events()
     map(lambda x: x.check_all_events(), office_building_events.values())
