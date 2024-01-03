@@ -45,7 +45,7 @@ init -1 python:
         RandomValueSelector("variant", 1, 1),
         DictSelector("girl", "variant", {
             1: "Kokoro Nakamura",
-        })
+        }),
         TimeCondition(daytime = "c", weekday = "d")
     )    
 

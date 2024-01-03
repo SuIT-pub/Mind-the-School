@@ -406,7 +406,7 @@ init -6 python:
         A class for conditions that check the stats of a character.
         """
 
-        def __init__(self, blocking: bool = False, *, char_obj: Char = None, **kwargs):
+        def __init__(self, blocking: bool = False, *, char_obj: str | Char = None, **kwargs):
             super().__init__(blocking)
             self.stats = kwargs
             self.display_in_list = True
@@ -429,11 +429,11 @@ init -6 python:
             if hasattr(self, 'char_obj'):
                 char_obj = self.char_obj
 
-            if char_obj == None:
-                char_obj = get_kwargs('char_obj', **kwargs)
+            if isinstance(char_obj, str):
+                char_obj = get_character_by_key(char_obj)
 
             if char_obj == None:
-                char_obj = get_character("high_school", charList["schools"])
+                char_obj = get_kwargs('char_obj', get_school(), **kwargs)
 
             for stat in self.stats.keys():
                 if not char_obj.check_stat(stat, self.stats[stat]):

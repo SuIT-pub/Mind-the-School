@@ -704,6 +704,7 @@ init -3 python:
 
             if self.values != None:
                 kwargs.update(self.values.get_values())
+                self.values.roll_values()
 
             renpy.call("call_event", events, self.priority, **kwargs)
 
@@ -756,11 +757,11 @@ label call_event(event_obj, priority = 0, **kwargs):
     if isinstance(event_obj, EventStorage):
         $ event_obj.call_available_event(**kwargs)
     if isinstance(event_obj, Event):
-        $ event_obj = event_obj.get_event()
+        $ event_obj.call(**kwargs)
     if isinstance(event_obj, str):
         if renpy.has_label(event_obj):
             $ renpy.call(event_obj, from_current="call_event_1", **kwargs)
-    else:
+    if isinstance(event_obj, list):
         $ i = 0
         while(len(event_obj) > i):
             if renpy.has_label(event_obj[i]):
