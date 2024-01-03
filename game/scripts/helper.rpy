@@ -551,10 +551,12 @@ init -99 python:
         Selects a random value from a set of values
 
         ### Parameters:
-        1. *choice: T | Tuple[float, T]
+        1. *choice: T | Tuple[float, T] | Tuple[float, T, bool | Condition]
             - The set of values to choose from
             - If a value is a tuple, the float acts as a weight that influences the probability of that value being chosen
             - The float value is a percentage in the range from 0.0 to 1.0
+            - If the tuple contains a bool, the value will only be chosen if the bool is True
+            - If the tuple contains a Condition, the value will only be chosen if the Condition is fulfilled
 
         ### Returns:
         1. T
@@ -598,6 +600,9 @@ init -99 python:
         else:
             if any((isinstance(item, tuple) and isinstance(item[1], Condition) for item in choice)):
                 choice = list(filter(lambda x: not isinstance(x, tuple) or not isinstance(x[1], Condition) or x[1].is_fulfilled(**kwargs), choice))
+
+            if len(choice) == 0:
+                return None
 
             result = choice[get_random_int(0, len(choice) - 1)]
             if isinstance(result, tuple):
