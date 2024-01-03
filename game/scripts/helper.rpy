@@ -365,11 +365,24 @@ init -99 python:
 
         return
 
-    def begin_event():
+    def begin_event(name: str = ""):
         """
         This method is called at the start of an event after choices and topics have been chosen in the event.
         It prevents rollback to before this method and thus prevents changing choices and topics.
         """
+
+        global seenEvents
+
+        if contains_game_data("seen_events"):
+            seenEvents = get_game_data("seen_events")
+
+        log_val("all_events_seen", seenEvents)
+
+        if name != "" and name in seenEvents.keys():
+            seenEvents[name] = True
+            set_game_data("seen_events", seenEvents)
+            if all(seenEvents.values()):
+                set_game_data("all_events_seen", True)
 
         renpy.block_rollback()
 

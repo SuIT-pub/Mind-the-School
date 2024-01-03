@@ -136,7 +136,7 @@ label sb_event_1 (**kwargs): # patrol, check class
     # show screen black_screen_text("sb_event_1")
     $ image = Image_Series("/images/events/school building/sb_event_1 <step>.webp", **kwargs)
 
-    $ begin_event()
+    $ begin_event("sb_event_1")
 
     # call show_image("/images/events/school building/sb_event_1 <name> 1.webp", SCENE, **kwargs)
     $ image.show(0)
@@ -179,7 +179,7 @@ label .stop (**kwargs):
 label sb_event_2 (**kwargs): # teach class
     $ image = Image_Series("/images/events/school building/sb_event_2 <step>.webp", **kwargs)
 
-    $ begin_event()
+    $ begin_event("sb_event_2")
 
     $ image.show(0)
     subtitles "A student tripped while handing out assignments in class."
@@ -214,7 +214,7 @@ label .help (**kwargs):
 label sb_event_3 (**kwargs): # patrol
     $ image = Image_Series("/images/events/school building/sb_event_3 <step>.webp", **kwargs)
 
-    $ begin_event()
+    $ begin_event("sb_event_3")
 
     $ image.show(0) # walk with girl sitting
     subtitles "As you walk through the corridors of the high school, you notice a student sitting in the corner of the hallway."

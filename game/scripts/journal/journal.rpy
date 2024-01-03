@@ -253,6 +253,9 @@ screen journal_desc(page, display, active_obj, with_title = False):
         $ action_text = "upgrade"
 
     $ active_obj_desc_conditions_desc = active_obj.get_desc_conditions_desc(cond_type = action_text, char_obj = get_school(), blocking = True)
+    $ condition_storage = active_obj.get_condition_storage()
+    if obj_type == 'building' and active_obj.can_be_upgraded(char_obj = active_school):
+        $ condition_storage = active_obj.get_update_conditions(active_obj.get_level())
         
     frame:
         background Solid("#0000")
@@ -265,6 +268,12 @@ screen journal_desc(page, display, active_obj, with_title = False):
             draggable "touch"
 
             vbox:
+                if condition_storage.get_is_locked():
+                    text "This object isn't currently implemented and only acts as a preview of what's to come." style "journal_desc"
+                    text "All values and contents are subject to change." style "journal_desc"
+                    text "----------------------------------------" style "journal_desc"
+                    null height 40
+
                 text active_obj_desc style "journal_desc"
 
                 if len(active_obj_desc_conditions_desc) != 0:
@@ -340,15 +349,19 @@ screen journal_vote_button(page, display, active_obj):
             $ probability_text = str(clamp_value(round(probability, 2))) + "%"
             if condition_storage.get_is_locked():
                 $ probability_text = "Locked"
-            if probability > 0:
-                textbutton "Vote for [action_text] ([probability_text])":
-                    xpos 985 yalign 0.83
-                    text_style "buttons_idle"
-                    action Call("add_" + obj_type + "_to_proposal", display)
-            else:
-                textbutton "Vote for [action_text] ([probability_text])":
+                textbutton "Vote not available in this version!":
                     xpos 985 yalign 0.83
                     text_style "buttons_inactive"
+            else:
+                if probability > 0:
+                    textbutton "Vote for [action_text] ([probability_text])":
+                        xpos 985 yalign 0.83
+                        text_style "buttons_idle"
+                        action Call("add_" + obj_type + "_to_proposal", display)
+                else:
+                    textbutton "Vote for [action_text] ([probability_text])":
+                        xpos 985 yalign 0.83
+                        text_style "buttons_inactive"
         else:
             text "Already scheduled!":
                 xpos 985 yalign 0.83

@@ -166,7 +166,7 @@ label sd_event_1 (**kwargs):
 
     $ girl_name = "Easkey Tanaka"
 
-    $ begin_event()
+    $ begin_event("sd_event_1")
 
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
@@ -228,7 +228,7 @@ label sd_event_2 (**kwargs):
     $ image = Image_Series("images/events/school dormitory/sd_event_2 <topic> <location> <girl> <level> <step>.webp", location = location, topic = topic, girl = girl_name, **kwargs)
     $ image2 = Image_Series("images/events/school dormitory/sd_event_2 <location> <step>.webp", location = location)
 
-    $ begin_event()
+    $ begin_event("sd_event_2")
 
     if topic == "ah":
         $ image.show(0)
@@ -342,7 +342,7 @@ label sd_event_3 (**kwargs):
 
     $ image = Image_Series("images/events/school dormitory/sd_event_3 <topic> <level> <step>.webp", topic = topic, **kwargs)
 
-    $ begin_event()
+    $ begin_event("sd_event_3")
 
     # if inhibition >= 80:
     $ image.show(0)

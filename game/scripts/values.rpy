@@ -1,3 +1,6 @@
+init -99 python:
+    seenEvents = {}
+
 init python:
 
     # 0 = no loli content (High School age: 18-22)

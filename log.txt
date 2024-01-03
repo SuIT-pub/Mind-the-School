@@ -347,7 +347,7 @@ nvdrs: Loaded, about to disable thread optimizations.
 nvdrs: b"Couldn't load nvlib." (can be ignored)
 Creating interface object. took 0.00s
 Cleaning stores took 0.00s
-Init translation took 0.05s
+Init translation took 0.08s
 Build styles took 0.00s
 Load screen analysis took 0.00s
 Analyze screens took 0.02s

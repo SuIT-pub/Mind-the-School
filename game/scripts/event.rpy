@@ -564,6 +564,10 @@ init -3 python:
             # 3 = lowest (selected random among 3's)
             self.priority = priority 
             self.event_type = ""
+            if priority == 3:
+                for event_name in self.event:
+                    if event_name not in seenEvents.keys():
+                        seenEvents[event_name] = False
             self.values = values
 
         def __str__(self):

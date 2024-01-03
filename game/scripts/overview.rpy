@@ -576,8 +576,13 @@ label map_overview ():
     scene bg school overview idle
     # show screen school_overview_map
     show screen school_overview_stats
+
+    $ renpy.block_rollback()
+
     call screen school_overview_buttons
     # call screen school_overview with dissolveM
+
+
 
     subtitles_Empty ""
 
