@@ -18,15 +18,20 @@ init -1 python:
 
     hsd_timed_event.add_event(Event(1,
         ["first_potion_high_school_dormitory_event"],
-        TimeCondition(day = 9),
+        TimeCondition(day = 9, month = 1, year = 2023),
     ))
 
     event1 = Event(3, 
         ["sd_event_1", "sd_event_2"],
-        OR(TimeCondition(weekday = "d", daytime = "f"), TimeCondition(daytime = "d", weekday = "w"))
+        OR(
+            TimeCondition(weekday = "d", daytime = "f"), 
+            TimeCondition(weekday = "d", daytime = "n"), 
+            TimeCondition(weekday = "w")
+        )
     )
 
-    # hsd_events["check_rooms"].add_event(event1)
+    hsd_events["check_rooms"].add_event(Event(3, "sd_event_3", TimeCondition(daytime = "6+")))
+    
     hsd_events["peek_students"].add_event(event1)
 
     hsd_timed_event.check_all_events()

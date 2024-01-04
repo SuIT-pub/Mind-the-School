@@ -123,13 +123,21 @@ label trigger_hide():
 screen say(who, what):
     style_prefix "say"
 
-    window:        
-        if persistent.display_textbox == 0:
-            style "window"
-        elif persistent.display_textbox == 1:
-            style "window_1"
+    window:   
+        if renpy.android or renpy.ios:
+            if persistent.display_textbox == 0:
+                style "window_android"
+            elif persistent.display_textbox == 1:
+                style "window_1_android"
+            else:
+                style "window_2"
         else:
-            style "window_2"
+            if persistent.display_textbox == 0:
+                style "window"
+            elif persistent.display_textbox == 1:
+                style "window_1"
+            else:
+                style "window_2"
 
         if who is not None:
             window:
@@ -143,7 +151,6 @@ screen say(who, what):
     ## phone variant - there's no room.
     if not renpy.variant("small"):
         add SideImage() xalign 0.0 yalign 1.0
-
 
 ## Make the namebox available for styling through the Character object.
 init python:
@@ -173,6 +180,12 @@ style window_1 is window:
 
 style window_2 is window:
     background None
+
+style window_android is window:
+    ysize 345
+
+style window_1_android is window_android:
+    background Image("gui/textbox50.png", xalign=0.5, yalign=1.0)
 
 style namebox:
     xpos gui.name_xpos

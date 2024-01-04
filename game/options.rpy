@@ -23,7 +23,7 @@ define gui.show_name = True
 
 ## The version of the game.
 
-define config.version = "0.1.2"
+define config.version = "0.1.2B"
 
 
 ## Text that is placed on the game's about screen. Place the text between the
@@ -199,6 +199,7 @@ init python:
     build.classify("*android.json", None)
     build.classify("Members", None)
     build.classify("Test", None)
+    build.classify("Image Converter", None)
     build.classify("cspell.json", None)
 
     ## Files matching documentation patterns are duplicated in a mac app

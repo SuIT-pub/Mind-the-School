@@ -18,12 +18,12 @@ init -1 python:
 
     hsb_timed_event.add_event(Event(1,
         ["first_potion_hsb_event"],
-        TimeCondition(day = 9),
+        TimeCondition(day = 9, month = 1, year = 2023),
     ))
 
     event1 = Event(3, 
         ["sb_event_1"],
-        OR(TimeCondition(daytime = "c", weekday = "d"), TimeCondition(daytime = "d", weekday = "w")),
+        TimeCondition(daytime = "c", weekday = "d"),
     )
 
     hsb_events["teach_class"].add_event(event1)
