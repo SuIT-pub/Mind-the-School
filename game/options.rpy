@@ -158,6 +158,13 @@ define config.save_directory = "MindtheSchool-1679668774"
 define config.window_icon = "gui/window_icon.png"
 
 
+## Gallery #####################################################################
+##
+## The persistent variable that stores gallery images.
+
+default persistent.gallery = {}
+
+
 ## Build configuration #########################################################
 ##
 ## This section controls how Ren'Py turns your project into distribution files.

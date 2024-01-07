@@ -66,6 +66,9 @@ init -3 python:
                 - The return value is formatted in a way, that it can be used to directly update the kwargs of an event.
             """
 
+            if len(self._selectors) > 0 and self._selectors[0].get_value() is None:
+                self.roll_values()
+
             return {selector.get_name(): selector.get_value() for selector in self._selectors}
             
     class Selector(ABC):

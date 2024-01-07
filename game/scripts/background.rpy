@@ -175,7 +175,8 @@ init -2 python:
 
             (image_path, variant) = image_step.get_image(self._image_path, variant)
 
-            renpy.call("show_ready_image", image_path, display_type)   
+            if not sfw_mode:
+                renpy.call("show_ready_image", image_path, display_type)   
             return variant  
                 
     class BGImage(Image_Obj):
@@ -538,6 +539,10 @@ init -2 python:
         """
         return renpy.loadable(image_path)
 
+label show_sfw_text(text):
+    if sfw_mode:
+        scene screen black_screen_text (text) with dissolveM
+    return
 
 label show_idle_image(char_obj, fallback, bg_images, **kwargs):
 

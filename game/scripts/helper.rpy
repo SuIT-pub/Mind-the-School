@@ -386,6 +386,8 @@ init -99 python:
 
         renpy.block_rollback()
 
+        renpy.call("show_sfw_text", name)
+
 
     def set_game_data(key: str, value: Any):
         """

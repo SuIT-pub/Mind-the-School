@@ -67,7 +67,8 @@ init -1 python:
         TimeCondition(daytime = "6,7"),
     )
 
-    sd_events["peek_students"].add_event(sd_event1, sd_event2, sd_event3)
+    sd_events["peek_students"].add_event(sd_event2)
+    # sd_events["peek_students"].add_event(sd_event1, sd_event2, sd_event3)
 
     sd_timed_event.check_all_events()
     map(lambda x: x.check_all_events(), sd_events.values())
@@ -211,11 +212,15 @@ label sd_event_1 (**kwargs):
 label sd_event_2 (**kwargs):
     $ char_obj = get_kwargs("char_obj", **kwargs)
     
-    $ inhibition = get_kwargs('inhibition', **kwargs)
-    $ location = get_kwargs('location', **kwargs)
-    $ topic = get_kwargs('topic', **kwargs)
-    $ girl_name = get_kwargs('girl_name', **kwargs)
-    $ topic_set = get_kwargs('topic_set', **kwargs)
+    $ gallery = Gallery_Manager("sd_event_2")
+
+    $ log_val("gallery_test", gallery)
+    $ renpy.pause()
+
+    $ topic_set = gallery.get_value('topic_set', **kwargs)
+    $ location = gallery.get_value('location', **kwargs)
+    $ girl_name = gallery.get_value('girl_name', **kwargs)
+    $ topic = gallery.get_value('topic', **kwargs)
 
     $ image = Image_Series("images/events/school dormitory/sd_event_2 <topic> <location> <girl_name> <level> <step>.webp", **kwargs)
     $ image2 = Image_Series("images/events/school dormitory/sd_event_2 <location> <step>.webp", **kwargs)
