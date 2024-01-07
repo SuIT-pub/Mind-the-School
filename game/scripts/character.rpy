@@ -485,6 +485,56 @@ init -6 python:
 
         return map[name]
 
+    def get_character_by_key(key: str) -> Char:
+        """
+        Returns the character object from the map
+
+        ### Parameters:
+        1. key: str
+            - The key of the character to get
+
+        ### Returns:
+        1. Char
+            - The character object from the map
+            - None if the character does not exist
+        """
+
+        if key == "school":
+            return get_school()
+        elif key == "parents":
+            return get_character("parents", charList)
+        elif key == "teacher":
+            return get_character("teacher", charList['staff'])
+        elif key == "secretary":
+            return get_character("secretary", charList['staff'])
+        return None
+
+    def get_stat_obj_for_char(stat: str, char: str | Char, map: Dict[str, Char | Dict[str, Any]] = None) -> Stat:
+        """
+        Returns the stat object for the character
+
+        ### Parameters:
+        1. stat: str
+            - The name of the stat to get
+        2. char: str | Char
+            - The name of the character or the character itself to get the stat from
+            - If there is no character in map with the name, -1 is returned
+        3. map: Dict[str, Char | Dict[str, Any]] (default None)
+            - The map of characters to get the character from
+            - If None and the name of the character is used instead of the Character-Object itself, -1 is returned
+
+        ### Returns:
+        1. Stat
+            - The stat object for the character
+            - None if the stat does not exist
+        """
+
+        if isinstance(char, Char):
+            return char.get_stat_obj(stat)
+        elif map != None and char in map.keys():
+            return map[char].get_stat_obj(stat)
+        return None
+
     def get_stat_for_char(stat: str, char: str | Char = "", map: Dict[str, Char | Dict[str, Any]] = None) -> num:
         """
         Returns the stat value for the character
@@ -508,12 +558,11 @@ init -6 python:
         if stat == MONEY:
             return money.get_value()
 
-        if isinstance('char', Char):
+        if isinstance(char, Char):
             return char.get_stat_number(stat)
-        else:
-            if map == None or char not in map.keys():
-                return -1
+        elif map != None and char in map.keys():
             return map[char].get_stat_number(stat)
+        return -1
 
     def get_level_for_char(char: str | Char, map: Dict[str, Char | Dict[str, Any]] = None) -> int:
         """
@@ -777,37 +826,42 @@ label load_schools ():
 
     #############################################
     # compatibility with version 0.1.2
-    $ old_character = get_character("school_mean_values", charList)
-    if old_character != None:
-        $ max_level = 0
-        $ high_school = get_character("high_school", charList['schools'])
-        $ middle_school = get_character("middle_school", charList['schools'])
-        $ elementary_school = get_character("elementary_school", charList['schools'])
-        if high_school != None:
-            $ max_level = max(max_level, high_school.get_level())
+    # loading of school is included
+    $ fix_schools()
 
-        $ old_character.name = "school"
-        $ old_character.title = "School"
-        $ old_character.level = Stat("level", max_level)
-        $ charList["school"] = old_character
-        $ charList.pop("school_mean_values")
-    if 'schools' in charList:
-        $ charList['schools'].pop("high_school")
-        $ charList['schools'].pop("middle_school")
-        $ charList['schools'].pop("elementary_school")
-        $ charList.pop('schools')
-    #############################################
+    
+    # $ log_val("charList", charList)
+    # $ old_character = get_character("school_mean_values", charList)
+    # if old_character != None:
+    #     $ max_level = 0
+    #     $ high_school = get_character("high_school", charList['schools'])
+    #     $ middle_school = get_character("middle_school", charList['schools'])
+    #     $ elementary_school = get_character("elementary_school", charList['schools'])
+    #     if high_school != None:
+    #         $ max_level = max(max_level, high_school.get_level())
 
-    $ load_character("school", "School", charList, {
-        'stats_objects': {
-            "corruption": Stat(CORRUPTION, 0),
-            "inhibition": Stat(INHIBITION, 100),
-            "happiness": Stat(HAPPINESS, 12),
-            "education": Stat(EDUCATION, 9),
-            "charm": Stat(CHARM, 8),
-            "reputation": Stat(REPUTATION, 7),
-        }
-    })
+    #     $ old_character.name = "school"
+    #     $ old_character.title = "School"
+    #     $ old_character.level = Stat("level", max_level)
+    #     $ charList["school"] = old_character
+    #     $ charList.pop("school_mean_values")
+    # if 'schools' in charList:
+    #     $ charList['schools'].pop("high_school")
+    #     $ charList['schools'].pop("middle_school")
+    #     $ charList['schools'].pop("elementary_school")
+    #     $ charList.pop('schools')
+    # #############################################
+
+    # $ load_character("school", "School", charList, {
+    #     'stats_objects': {
+    #         "corruption": Stat(CORRUPTION, 0),
+    #         "inhibition": Stat(INHIBITION, 100),
+    #         "happiness": Stat(HAPPINESS, 12),
+    #         "education": Stat(EDUCATION, 9),
+    #         "charm": Stat(CHARM, 8),
+    #         "reputation": Stat(REPUTATION, 7),
+    #     }
+    # })
     
 
     return

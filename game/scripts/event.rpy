@@ -2,6 +2,7 @@ init -3 python:
     import re
     import random
     import time
+    from typing import Any, Dict, List, Tuple, Union
     
     class EventStorage:
         """
@@ -499,9 +500,24 @@ init -3 python:
             for event in self.events:
                 event.check_event()
 
+    rerollSelectors = []
+
     class Event:
         """
         This class represents an event that can be called.
+
+        ### Parameters:
+        1. priority: int
+            - The priority of the event.
+            - 1 = highest (the first 1 to occur is called blocking all other events)
+            - 2 = middle (all 2's are called after each other)
+            - 3 = lowest (selected random among 3's)
+        2. event: str
+            - The name of the event. This is used to call the event.
+        3. values: SelectorSet
+            - The values that are passed to the event.
+        4. *conditions: Condition
+            - The conditions that need to be fulfilled for the event to be available.
 
         ### Attributes:
         1. event_id: str
@@ -536,20 +552,30 @@ init -3 python:
             - Returns True if all conditions are fulfilled.
         8. call(**kwargs)
             - Calls the event.
+
+
         """
 
-        def __init__(self, priority: int, event: str | List[str], *conditions: Condition):
+        def __init__(self, priority: int, event: str, *conditions: Condition | Selector):
             self.event_id = str(id(self))
             self.event = event
-            if isinstance(self.event, str):
-                self.event = [self.event]
-            self.conditions = list(conditions)
+            self.conditions = [condition for condition in conditions if isinstance(condition, Condition)]
+            self.values = SelectorSet(*[condition for condition in conditions if isinstance(condition, Selector)])
+
+            rerollSelectors.append(self.values)
+
+            # self.conditions = list(conditions)
 
             # 1 = highest (the first 1 to occur is called blocking all other events)
             # 2 = middle (all 2's are called after each other)
             # 3 = lowest (selected random among 3's)
             self.priority = priority 
             self.event_type = ""
+            if priority == 3:
+                for event_name in self.event:
+                    if event_name not in seenEvents.keys():
+                        seenEvents[event_name] = False
+            # self.values = values
 
         def __str__(self):
             return self.event_id
@@ -558,6 +584,10 @@ init -3 python:
             return self.event_id
 
         def _update(self, data: Dict[str, Any]):
+
+            if not hasattr(self, 'event'):
+                self.event = ""
+
             if not hasattr(self, 'event_id'):
                 self.event_id = str(id(self))
 
@@ -569,6 +599,9 @@ init -3 python:
 
             if not hasattr(self, 'event_type'):
                 self.event_type = ""
+
+            if not hasattr(self, 'values'):
+                self.values = []
 
             self.__dict__.update(data)
 
@@ -584,9 +617,8 @@ init -3 python:
             if self.priority < 1 or self.priority > 3:
                 log_error(" at Event " + self.event_id + ": Priority " + str(self.priority) + " is not valid!")
 
-            for event in self.event:
-                if not renpy.has_label(event):
-                    log_error(" at Event " + self.event_id + ": Label " + event + " is missing!")
+            if not renpy.has_label(self.event):
+                log_error(" at Event " + self.event_id + ": Label " + event + " is missing!")
 
         def get_id(self) -> str:
             """
@@ -612,20 +644,7 @@ init -3 python:
 
             self.event_type = event_type
 
-        def add_event(self, *event: Event):
-            """
-            Adds an event to the event.
-
-            ### Parameters:
-            1. *event: Event
-                - The events that are added to the event.
-            """
-
-            events = list(event)
-
-            self.event.extend(events)
-
-        def get_event(self) -> List[str]:
+        def get_event(self) -> str:
             """
             Returns the events depending on the priority.
             If the priority is 1 a list containing the first event is returned.
@@ -637,31 +656,7 @@ init -3 python:
                 - A list containing the events depending on the priority.
             """
 
-            if isinstance(self.event, str):
-                return [self.event]
-            else:
-                if len(self.event) == 0:
-                    return []
-                if self.priority == 1:
-                    return [self.event[0]]
-                elif self.priority == 2:
-                    return self.event
-                else:
-                    return [random.choice(self.event)]
-
-        def get_event_count(self) -> int:
-            """
-            Returns the number of events stored.
-
-            ### Returns:
-            1. int
-                - The number of events stored.
-            """
-
-            if isinstance(self.event, str):
-                return 1
-            else:
-                return len(self.event)
+            return self.event
 
         def get_priority(self) -> int:
             """
@@ -707,7 +702,12 @@ init -3 python:
             if "event_type" not in kwargs.keys():
                 kwargs["event_type"] = self.event_type
 
+            if self.values != None:
+                kwargs.update(self.values.get_values())
+                self.values.roll_values()
+
             renpy.call("call_event", events, self.priority, **kwargs)
+
 
 label call_available_event(event_storage, priority = 0, **kwargs):
     # """
@@ -735,10 +735,7 @@ label call_available_event(event_storage, priority = 0, **kwargs):
         if event_storage.get_type() == "TempEventStorage":
             $ event_storage.remove_event(events_list[i].get_id())
 
-        $ j = 0
-        while (len(events) > j):
-            $ renpy.call(events[j], **kwargs)
-            $ j += 1
+        $ renpy.call(events, **kwargs)
         $ i += 1
 
     return
@@ -760,16 +757,16 @@ label call_event(event_obj, priority = 0, **kwargs):
     if isinstance(event_obj, EventStorage):
         $ event_obj.call_available_event(**kwargs)
     if isinstance(event_obj, Event):
-        $ event_obj = event_obj.get_event()
+        $ event_obj.call(**kwargs)
     if isinstance(event_obj, str):
         if renpy.has_label(event_obj):
             $ renpy.call(event_obj, from_current="call_event_1", **kwargs)
-    
-    $ i = 0
-    while(len(event_obj) > i):
-        if renpy.has_label(event_obj[i]):
-            $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
-        $ i += 1
+    if isinstance(event_obj, list):
+        $ i = 0
+        while(len(event_obj) > i):
+            if renpy.has_label(event_obj[i]):
+                $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+            $ i += 1
 
     return
 

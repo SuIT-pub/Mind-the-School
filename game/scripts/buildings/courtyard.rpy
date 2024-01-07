@@ -10,25 +10,28 @@ init -1 python:
         "patrol":       EventStorage("patrol",       "Patrol",             default_fallback, "There is nobody here."),
     }
     
-    courtyard_timed_event.add_event(Event(1,
-        ["first_week_courtyard_event"],
+    courtyard_timed_event.add_event(Event(1, "first_week_courtyard_event",
         TimeCondition(day = "2-4", month = 1, year = 2023),
     ))
     
-    courtyard_timed_event.add_event(Event(1,
-        ["first_potion_courtyard_event"],
+    courtyard_timed_event.add_event(Event(1, "first_potion_courtyard_event",
         TimeCondition(day = 9, month = 1, year = 2023),
     ))
 
-    courtyard_events["patrol"].add_event(Event(3, 
-        ["courtyard_event_1", "courtyard_event_2"],
+    courtyard_event1 = Event(3, "courtyard_event_1",
+        RandomValueSelector('variant', 1, 1),
         OR(TimeCondition(daytime = "f", weekday = "d"), TimeCondition(daytime = "d", weekday = "w"))
-    ))
+    )
 
-    courtyard_events["patrol"].add_event(Event(3, 
-        ["courtyard_event_3"],
+    courtyard_event2 = Event(3, "courtyard_event_2",
+        OR(TimeCondition(daytime = "f", weekday = "d"), TimeCondition(daytime = "d", weekday = "w"))
+    )
+
+    courtyard_event3 = Event(3, "courtyard_event_3",
         TimeCondition(daytime = "d"),
-    ))
+    )
+
+    courtyard_events["patrol"].add_event(courtyard_event1, courtyard_event2, courtyard_event3)
 
     courtyard_timed_event.check_all_events()
     map(lambda x: x.check_all_events(), courtyard_events.values())
@@ -119,14 +122,11 @@ label first_week_courtyard_event (**kwargs):
 
 # TODO: modify for Level 4+
 label courtyard_event_1 (**kwargs):
-    
-    $ variant = get_random_int(1, 1)
-
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
-    $ image = Image_Series("images/events/courtyard/courtyard_event_1 <level> <variant> <step>.webp", variant = variant, **kwargs)
+    $ image = Image_Series("images/events/courtyard/courtyard_event_1 <level> <variant> <step>.webp", **kwargs)
 
-    $ begin_event()
+    $ begin_event("courtyard_event_1")
 
     $ image.show(0)
     subtitles "You walk along the courtyard when a gist of wind blows up the girls skirt in front of you."
@@ -169,7 +169,7 @@ label courtyard_event_2 (**kwargs):
 
     $ image = Image_Series("images/events/courtyard/courtyard_event_2 <level> <step>.webp", **kwargs)
 
-    $ begin_event()
+    $ begin_event("courtyard_event_2")
 
     $ image.show(0)
     subtitles "You notice a girl sitting alone in the courtyard, apparently left out by the others."
@@ -213,7 +213,7 @@ label .leave (**kwargs):
     jump new_daytime
 
 label courtyard_event_3 (**kwargs):
-    $ begin_event()
+    $ begin_event("courtyard_event_3")
     
     call show_image ("images/events/courtyard/courtyard_event_3 <level>.webp", **kwargs) from _call_show_image
     subtitles "You notice a group of girls taking a break together."

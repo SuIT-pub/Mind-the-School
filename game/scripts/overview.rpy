@@ -176,7 +176,7 @@ screen school_overview_buttons ():
     modal True
     
     # High School Building
-    if is_building_available("school_building"):
+    if is_building_available("school_building") or is_building_available("high_school_building"):
         $ sb_text = ""
         if has_keyboard():  
             if show_shortcut():
@@ -192,7 +192,7 @@ screen school_overview_buttons ():
             action Call("building", "school_building")
 
     # High School Dormitory
-    if is_building_available("school_dormitory"):
+    if is_building_available("school_dormitory") or is_building_available("high_school_dormitory"):
         $ sd_text = ""
         if has_keyboard():
             if show_shortcut():
@@ -571,13 +571,20 @@ label map_overview ():
     
     $ hide_all()
 
+    $ reroll_selectors()
+
     $ renpy.choice_for_skipping()
 
     scene bg school overview idle
     # show screen school_overview_map
     show screen school_overview_stats
+
+    $ renpy.block_rollback()
+
     call screen school_overview_buttons
     # call screen school_overview with dissolveM
+
+
 
     subtitles_Empty ""
 

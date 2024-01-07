@@ -1,80 +1,745 @@
-Fri Dec 15 13:12:20 2023
+Wed Jan  3 18:15:45 2024
 Windows-10-10.0.19045
 Ren'Py 8.1.3.23091805
  
 
-Bootstrap to the start of init.init. took 0.02s
+Bootstrap to the start of init.init. took 0.04s
 Early init. took 0.00s
-Loader init. took 0.11s
+Loader init. took 0.14s
 Loading error handling. took 0.05s
-Loading script. took 1.11s
-Loading save slot metadata. took 0.20s
+Loading script. took 1.68s
+Loading save slot metadata. took 0.21s
 Loading persistent. took 0.00s
-Running init code. took 0.10s
-Loading analysis data. took 0.02s
-Analyze and compile ATL. took 0.00s
-Reloading save slot metadata. took 0.15s
-Index archives took 0.00s
-Dump and make backups. took 0.04s
-Cleaning cache. took 0.00s
-Making clean stores. took 0.00s
-Initial gc. took 0.03s
-DPI scale factor: 1.500000
+
+File "game/scripts/buildings/gym.rpy", line 49: invalid syntax
+            TimeCondition(daytime = "c", weekday = "d")
+             ^
+DPI scale factor: 1.000000
 nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: b"Couldn't load nvlib." (can be ignored)
-Creating interface object. took 0.01s
-Cleaning stores took 0.00s
-Init translation took 0.04s
-Build styles took 0.00s
-Load screen analysis took 0.01s
-Analyze screens took 0.02s
-Save screen analysis took 0.02s
-Prepare screens took 0.13s
-Save pyanalysis. took 0.00s
-Save bytecode. took 0.04s
-Running _start took 0.00s
-Performance test:
-Interface start. took 0.14s
+nvdrs: Disabled thread optimizations.
+Interface start. took 0.87s
 
 Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1440)
+primary display bounds: (0, 0, 2560, 1080)
 swap interval: 1 frames
 Windowed mode.
-Vendor: "b'Intel'"
-Renderer: b'Intel(R) Iris(R) Xe Graphics'
-Version: b'4.6.0 - Build 31.0.101.4575'
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 546.17'
 Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
 Maximum texture size: 4096x4096
 Resetting cache.
-Bootstrap to the start of init.init. took 223.89s
+Bootstrap to the start of init.init. took 25.79s
 Early init. took 0.00s
-Loader init. took 0.07s
-Loading error handling. took 0.04s
-Loading script. took 0.21s
+Loader init. took 0.12s
+Loading error handling. took 0.03s
+Loading script. took 1.06s
 Loading save slot metadata. took 0.10s
 Loading persistent. took 0.00s
-Running init code. took 0.04s
+Running init code. took 0.09s
 Loading analysis data. took 0.02s
 Analyze and compile ATL. took 0.00s
-Reloading save slot metadata. took 0.08s
+Reloading save slot metadata. took 0.17s
 Index archives took 0.00s
-Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.14s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.05s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.34s
+Cleaning stores took 0.00s
+Init translation took 0.08s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.04s
+Save screen analysis took 0.04s
+Prepare screens took 0.19s
+Save pyanalysis. took 0.04s
+Save bytecode. took 0.04s
+Running _start took 0.01s
+Performance test:
+Interface start. took 0.09s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 546.17'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 97.18s
+Early init. took 0.00s
+Loader init. took 0.12s
+Loading error handling. took 0.04s
+Loading script. took 0.48s
+Loading save slot metadata. took 0.14s
+Loading persistent. took 0.00s
+Running init code. took 0.06s
+Loading analysis data. took 0.03s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.10s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
 Dump and make backups. took 0.09s
 Cleaning cache. took 0.00s
 Making clean stores. took 0.00s
-Initial gc. took 0.06s
-DPI scale factor: 1.500000
+Initial gc. took 0.08s
+DPI scale factor: 1.000000
 nvdrs: Loaded, about to disable thread optimizations.
-nvdrs: b"Couldn't load nvlib." (can be ignored)
-Creating interface object. took 0.00s
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.41s
 Cleaning stores took 0.00s
-Init translation took 0.04s
-Build styles took 0.00s
+Init translation took 0.08s
+Build styles took 0.01s
 Load screen analysis took 0.01s
-Analyze screens took 0.02s
-Save screen analysis took 0.03s
-Prepare screens took 0.06s
+Analyze screens took 0.03s
+Save screen analysis took 0.04s
+Prepare screens took 0.14s
+Save pyanalysis. took 0.04s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.09s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 546.17'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
+Maximum texture size: 4096x4096
+Cleaning stores took 0.00s
+Init translation took 0.00s
+Build styles took 0.01s
+Load screen analysis took 0.07s
+Analyze screens took 0.00s
+Prepare screens took 0.00s
+Running _start took 0.01s
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': False, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': False, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': False, 'sd_event_2': False, 'sd_event_3': False, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': False, 'office_event_2': False, 'office_event_3': False}
+
+
+Full traceback:
+  File "game/scripts/intro.rpy", line 48, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 206, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 584, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 603, in script call
+    call expression name from building_1
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 768, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 218, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 238, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 584, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 603, in script call
+    call expression name from building_1
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 768, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 180, in script call
+    $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 584, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 603, in script call
+    call expression name from building_1
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 768, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 218, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 238, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 584, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 603, in script call
+    call expression name from building_1
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 768, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 180, in script call
+    $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 584, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 603, in script call
+    call expression name from building_1
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 768, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 180, in script call
+    $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 584, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 603, in script call
+    call expression name from building_1
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 768, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 218, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 238, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 584, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 603, in script call
+    call expression name from building_1
+  File "game/scripts/menu.rpy", line 120, in script call
+    call call_event(fallback, **kwargs) from call_event_menu_1
+  File "game/scripts/event.rpy", line 768, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/overview.rpy", line 584, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 584, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 603, in script call
+    call expression name from building_1
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 768, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 218, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 238, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 584, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 603, in script call
+    call expression name from building_1
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 768, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 180, in script call
+    $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 584, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 603, in script call
+    call expression name from building_1
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 768, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 218, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 238, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 584, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 603, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/gym.rpy", line 73, in script call
+    call call_available_event(gym_timed_event) from gym_1
+  File "game/scripts/event.rpy", line 738, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/gym.rpy", line 83, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 584, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 603, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/office_building.rpy", line 57, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
+  File "game/scripts/event.rpy", line 738, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/office_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 584, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 603, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 53, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 738, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 63, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 763, in script call
+    $ renpy.call(event_obj, from_current="call_event_1", **kwargs)
+  File "game/scripts/overview.rpy", line 553, in script call
+    call time_event_check from new_daytime_2
+  File "game/scripts/daily_check.rpy", line 73, in script call
+    call call_available_event(temp_time_check_events, with_removal = True) from time_event_check_1
+  File "game/scripts/event.rpy", line 727, in script
+    $ events_list = event_storage.get_available_events_with_fallback(priority, **kwargs)
+  File "F:\RenPy\renpy\ast.py", line 1138, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "F:\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
+    exec(bytecode, globals, locals)
+  File "game/scripts/event.rpy", line 727, in <module>
+    $ events_list = event_storage.get_available_events_with_fallback(priority, **kwargs)
+  File "game/scripts/event.rpy", line 468, in get_available_events_with_fallback
+    output = self.get_available_events(**kwargs)
+  File "game/scripts/event.rpy", line 448, in get_available_events
+    if event.is_available(**kwargs):
+  File "game/scripts/event.rpy", line 688, in is_available
+    if not condition.is_fulfilled(**kwargs):
+  File "game/scripts/conditions.rpy", line 436, in is_fulfilled
+    char_obj = get_character("high_school", charList["schools"])
+KeyError: 'schools'
+
+While running game code:
+  File "game/scripts/intro.rpy", line 48, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 206, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 584, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 603, in script call
+    call expression name from building_1
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 768, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 218, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 238, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 584, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 603, in script call
+    call expression name from building_1
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 768, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 180, in script call
+    $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 584, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 603, in script call
+    call expression name from building_1
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 768, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 218, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 238, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 584, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 603, in script call
+    call expression name from building_1
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 768, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 180, in script call
+    $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 584, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 603, in script call
+    call expression name from building_1
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 768, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 180, in script call
+    $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 584, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 603, in script call
+    call expression name from building_1
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 768, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 218, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 238, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 584, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 603, in script call
+    call expression name from building_1
+  File "game/scripts/menu.rpy", line 120, in script call
+    call call_event(fallback, **kwargs) from call_event_menu_1
+  File "game/scripts/event.rpy", line 768, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/overview.rpy", line 584, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 584, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 603, in script call
+    call expression name from building_1
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 768, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 218, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 238, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 584, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 603, in script call
+    call expression name from building_1
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 768, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 180, in script call
+    $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 584, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 603, in script call
+    call expression name from building_1
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 768, in script call
+    $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 218, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 89, in script call
+    $ renpy.call("call_element", effects, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 238, in script call
+    $ call_custom_menu(False,
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 142, in script call
+    $ renpy.call(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 584, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 603, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/gym.rpy", line 73, in script call
+    call call_available_event(gym_timed_event) from gym_1
+  File "game/scripts/event.rpy", line 738, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/gym.rpy", line 83, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 584, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 603, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/office_building.rpy", line 57, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
+  File "game/scripts/event.rpy", line 738, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/office_building.rpy", line 67, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 584, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 603, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 53, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 738, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/courtyard.rpy", line 63, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 123, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 97, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 144, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 763, in script call
+    $ renpy.call(event_obj, from_current="call_event_1", **kwargs)
+  File "game/scripts/overview.rpy", line 553, in script call
+    call time_event_check from new_daytime_2
+  File "game/scripts/daily_check.rpy", line 73, in script call
+    call call_available_event(temp_time_check_events, with_removal = True) from time_event_check_1
+  File "game/scripts/event.rpy", line 727, in script
+    $ events_list = event_storage.get_available_events_with_fallback(priority, **kwargs)
+  File "game/scripts/event.rpy", line 727, in <module>
+    $ events_list = event_storage.get_available_events_with_fallback(priority, **kwargs)
+  File "game/scripts/event.rpy", line 468, in get_available_events_with_fallback
+    output = self.get_available_events(**kwargs)
+  File "game/scripts/event.rpy", line 448, in get_available_events
+    if event.is_available(**kwargs):
+  File "game/scripts/event.rpy", line 688, in is_available
+    if not condition.is_fulfilled(**kwargs):
+  File "game/scripts/conditions.rpy", line 436, in is_fulfilled
+    char_obj = get_character("high_school", charList["schools"])
+KeyError: 'schools'
+Resetting cache.
+Bootstrap to the start of init.init. took 203.65s
+Early init. took 0.00s
+Loader init. took 0.13s
+Loading error handling. took 0.03s
+Loading script. took 0.39s
+Loading save slot metadata. took 0.21s
+Loading persistent. took 0.00s
+Running init code. took 0.06s
+Loading analysis data. took 0.03s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.17s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.09s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.14s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.58s
+Cleaning stores took 0.00s
+Init translation took 0.14s
+Build styles took 0.00s
+Load screen analysis took 0.00s
+Analyze screens took 0.10s
+Save screen analysis took 0.07s
+Prepare screens took 0.16s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.10s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 546.17'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 232.22s
+Early init. took 0.00s
+Loader init. took 0.13s
+Loading error handling. took 0.03s
+Loading script. took 0.37s
+Loading save slot metadata. took 0.11s
+Loading persistent. took 0.00s
+Running init code. took 0.10s
+Loading analysis data. took 0.05s
+Analyze and compile ATL. took 0.01s
+Reloading save slot metadata. took 0.13s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.11s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.09s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.44s
+Cleaning stores took 0.00s
+Init translation took 0.08s
+Build styles took 0.00s
+Load screen analysis took 0.03s
+Analyze screens took 0.04s
+Save screen analysis took 0.05s
+Prepare screens took 0.15s
 Save pyanalysis. took 0.00s
 Save bytecode. took 0.03s
 Running _start took 0.00s
@@ -82,12 +747,481 @@ Performance test:
 Interface start. took 0.07s
 
 Initializing gl2 renderer:
-primary display bounds: (0, 0, 2560, 1440)
+primary display bounds: (0, 0, 2560, 1080)
 swap interval: 1 frames
 Windowed mode.
-Vendor: "b'Intel'"
-Renderer: b'Intel(R) Iris(R) Xe Graphics'
-Version: b'4.6.0 - Build 31.0.101.4575'
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 546.17'
 Display Info: None
-Screen sizes: virtual=(1920, 1080) physical=(2560, 1346) drawable=(2560, 1346)
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 242.09s
+Early init. took 0.00s
+Loader init. took 0.19s
+Loading error handling. took 0.04s
+Loading script. took 0.38s
+Loading save slot metadata. took 0.13s
+Loading persistent. took 0.00s
+Running init code. took 0.08s
+Loading analysis data. took 0.03s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.10s
+Index archives took 0.00s
+Dump and make backups. took 0.09s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.13s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.50s
+Cleaning stores took 0.00s
+Init translation took 0.10s
+Build styles took 0.00s
+Load screen analysis took 0.07s
+Analyze screens took 0.00s
+Save screen analysis took 0.00s
+Prepare screens took 0.15s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.00s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.10s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 546.17'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
+Maximum texture size: 4096x4096
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': True, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': False, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': False, 'sd_event_2': False, 'sd_event_3': False, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': False, 'office_event_2': False, 'office_event_3': False}
+
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': True, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': False, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': False, 'sd_event_2': False, 'sd_event_3': False, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': False, 'office_event_2': False, 'office_event_3': False}
+
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': True, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': False, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': False, 'sd_event_2': False, 'sd_event_3': False, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': False, 'office_event_2': False, 'office_event_3': False}
+
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': True, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': False, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': False, 'sd_event_2': False, 'sd_event_3': False, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': False, 'office_event_2': False, 'office_event_3': False}
+
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': True, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': False, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': False, 'sd_event_2': False, 'sd_event_3': False, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': False, 'office_event_2': False, 'office_event_3': False}
+
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': True, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': False, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': False, 'sd_event_2': False, 'sd_event_3': False, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': False, 'office_event_2': False, 'office_event_3': False}
+
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': True, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': False, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': False, 'sd_event_2': True, 'sd_event_3': False, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': False, 'office_event_2': False, 'office_event_3': False}
+
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': True, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': False, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': False, 'sd_event_2': True, 'sd_event_3': False, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': False, 'office_event_2': False, 'office_event_3': False}
+
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': True, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': False, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': True, 'sd_event_2': True, 'sd_event_3': False, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': False, 'office_event_2': False, 'office_event_3': False}
+
+all_events_seen: {'courtyard_event_1': False, 'courtyard_event_2': False, 'courtyard_event_3': True, 'gym_event_1': False, 'gym_event_3': False, 'gym_event_2': False, 'sb_event_1': False, 'sb_event_2': True, 'sb_event_3': True, 'sd_event_1': True, 'sd_event_2': True, 'sd_event_3': False, 'kiosk_event_1': False, 'kiosk_event_2': False, 'kiosk_event_3': False, 'office_event_1': False, 'office_event_2': False, 'office_event_3': False}
+
+Resetting cache.
+Bootstrap to the start of init.init. took 1089.72s
+Early init. took 0.00s
+Loader init. took 0.13s
+Loading error handling. took 0.03s
+Loading script. took 0.28s
+Loading save slot metadata. took 0.25s
+Loading persistent. took 0.00s
+Running init code. took 0.06s
+Loading analysis data. took 0.03s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.16s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.08s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.11s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.50s
+Cleaning stores took 0.00s
+Init translation took 0.11s
+Build styles took 0.01s
+Load screen analysis took 0.00s
+Analyze screens took 0.05s
+Save screen analysis took 0.05s
+Prepare screens took 0.22s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.01s
+Performance test:
+Interface start. took 0.10s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 546.17'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 1093.61s
+Early init. took 0.00s
+Loader init. took 0.11s
+Loading error handling. took 0.03s
+Loading script. took 0.35s
+Loading save slot metadata. took 0.14s
+Loading persistent. took 0.00s
+Running init code. took 0.07s
+Loading analysis data. took 0.03s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.08s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.09s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.09s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.42s
+Cleaning stores took 0.00s
+Init translation took 0.08s
+Build styles took 0.01s
+Load screen analysis took 0.01s
+Analyze screens took 0.03s
+Save screen analysis took 0.04s
+Prepare screens took 0.15s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.09s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 546.17'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 1196.85s
+Early init. took 0.00s
+Loader init. took 0.12s
+Loading error handling. took 0.03s
+Loading script. took 0.32s
+Loading save slot metadata. took 0.13s
+Loading persistent. took 0.00s
+Running init code. took 0.06s
+Loading analysis data. took 0.03s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.09s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.08s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.10s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.44s
+Cleaning stores took 0.00s
+Init translation took 0.08s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.03s
+Save screen analysis took 0.05s
+Prepare screens took 0.18s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.07s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 546.17'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 1276.77s
+Early init. took 0.00s
+Loader init. took 0.12s
+Loading error handling. took 0.04s
+Loading script. took 0.32s
+Loading save slot metadata. took 0.11s
+Loading persistent. took 0.00s
+Running init code. took 0.06s
+Loading analysis data. took 0.03s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.08s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.08s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.09s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.46s
+Cleaning stores took 0.00s
+Init translation took 0.14s
+Build styles took 0.01s
+Load screen analysis took 0.03s
+Analyze screens took 0.06s
+Save screen analysis took 0.06s
+Prepare screens took 0.19s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.09s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 546.17'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 1302.24s
+Early init. took 0.00s
+Loader init. took 0.12s
+Loading error handling. took 0.03s
+Loading script. took 0.29s
+Loading save slot metadata. took 0.11s
+Loading persistent. took 0.00s
+Running init code. took 0.06s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.07s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.08s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.10s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.44s
+Cleaning stores took 0.00s
+Init translation took 0.09s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.04s
+Save screen analysis took 0.05s
+Prepare screens took 0.14s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.07s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 546.17'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 1427.09s
+Early init. took 0.00s
+Loader init. took 0.12s
+Loading error handling. took 0.03s
+Loading script. took 0.35s
+Loading save slot metadata. took 0.13s
+Loading persistent. took 0.00s
+Running init code. took 0.07s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.08s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.09s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.09s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.42s
+Cleaning stores took 0.00s
+Init translation took 0.15s
+Build styles took 0.01s
+Load screen analysis took 0.01s
+Analyze screens took 0.03s
+Save screen analysis took 0.04s
+Prepare screens took 0.12s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.07s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 546.17'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 1590.82s
+Early init. took 0.00s
+Loader init. took 0.12s
+Loading error handling. took 0.06s
+Loading script. took 0.30s
+Loading save slot metadata. took 0.11s
+Loading persistent. took 0.00s
+Running init code. took 0.06s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.07s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.09s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.12s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.44s
+Cleaning stores took 0.00s
+Init translation took 0.11s
+Build styles took 0.01s
+Load screen analysis took 0.06s
+Analyze screens took 0.06s
+Save screen analysis took 0.06s
+Prepare screens took 0.15s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.08s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 546.17'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 1818.18s
+Early init. took 0.00s
+Loader init. took 0.11s
+Loading error handling. took 0.04s
+Loading script. took 0.31s
+Loading save slot metadata. took 0.12s
+Loading persistent. took 0.00s
+Running init code. took 0.06s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.08s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.08s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.10s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.47s
+Cleaning stores took 0.00s
+Init translation took 0.09s
+Build styles took 0.00s
+Load screen analysis took 0.05s
+Analyze screens took 0.06s
+Save screen analysis took 0.06s
+Prepare screens took 0.18s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.08s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 546.17'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 2056.52s
+Early init. took 0.00s
+Loader init. took 0.13s
+Loading error handling. took 0.03s
+Loading script. took 0.29s
+Loading save slot metadata. took 0.11s
+Loading persistent. took 0.00s
+Running init code. took 0.06s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.08s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\vbs\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.08s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.10s
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Creating interface object. took 0.46s
+Cleaning stores took 0.00s
+Init translation took 0.11s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.05s
+Save screen analysis took 0.07s
+Prepare screens took 0.18s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.09s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 546.17'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1017) drawable=(2560, 1017)
 Maximum texture size: 4096x4096

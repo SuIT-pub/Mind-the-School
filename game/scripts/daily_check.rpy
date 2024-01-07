@@ -14,18 +14,15 @@ init -1 python:
     #     TimeCondition(day = 1, month = 1, year = 2023, daytime = 1)
     # ))
 
-    temp_time_check_events.add_event(Event(1, 
-        "tutorial_1", 
+    temp_time_check_events.add_event(Event(1, "tutorial_1", 
         TimeCondition(day = 2, month = 1, year = 2023, daytime = 1)
     ))
 
-    temp_time_check_events.add_event(Event(1, 
-        "first_week_epilogue", 
+    temp_time_check_events.add_event(Event(1, "first_week_epilogue", 
         TimeCondition(day = 5, month = 1, year = 2023, daytime = 2)
     ))
 
-    temp_time_check_events.add_event(Event(1, 
-        "first_week_epilogue_final", 
+    temp_time_check_events.add_event(Event(1, "first_week_epilogue_final", 
         TimeCondition(day = 10, month = 1, year = 2023, daytime = 1)
     ))
 
@@ -37,13 +34,11 @@ init -1 python:
     #     TimeCondition(weekday = 1, daytime = 1)
     # ))
 
-    temp_time_check_events.add_event(Event(1, 
-        "first_pta_meeting", 
+    temp_time_check_events.add_event(Event(1, "first_pta_meeting", 
         TimeCondition(day = 5, month = 1, year = 2023, daytime = 1)
     ))
 
-    time_check_events.add_event(Event(2,
-        "pta_meeting",
+    time_check_events.add_event(Event(2, "pta_meeting",
         TimeCondition(weekday = 5, daytime = 1)
     ))
 
@@ -51,9 +46,18 @@ init -1 python:
     #     TimeCondition(day = 19, daytime = 1)
     # ))
 
-    time_check_events.add_event(Event(2, 
-        "end_of_month",
+    time_check_events.add_event(Event(2, "end_of_month",
         TimeCondition(day = "1", daytime = "1")
+    ))
+
+    temp_time_check_events.add_event(Event(1,
+        "event_all_events_seen",
+        GameDataCondition("all_events_seen", "all_events_seen", True)
+    ))
+
+    temp_time_check_events.add_event(Event(1,
+        "event_reached_max_stats",
+        StatCondition(inhibition = "90-", corruption = "5+")
     ))
 
     temp_time_check_events.check_all_events()
@@ -78,6 +82,34 @@ label .after_event_check (**kwargs):
 ############################
 # ----- Intro Events ----- #
 ############################
+
+label event_all_events_seen (**kwargs):
+    $ begin_event()
+    $ hide_all()
+    
+    $ renpy.choice_for_skipping()
+
+    show thanks 1 with dissolveM
+    dev "Thank you for playing, you found all events, that are currently in this version."
+    dev "You can still continue playing. Some events have different variants that change every time you visit them."
+
+    jump new_daytime
+
+
+label event_reached_max_stats (**kwargs):
+    $ begin_event()
+    $ hide_all()
+    
+    $ renpy.choice_for_skipping()
+
+    show thanks 1 with dissolveM
+    dev "Thank you for playing, you reached a stat level that pretty much maxes out your experience."
+    dev "You can still continue to play, but raising your stats beyond this point will not have any effect."
+    dev "With your current stat level, you will be able to unlock all there is to see in this version."
+    dev "Thanks for playing!"
+
+    jump new_daytime
+
 
 label tutorial_1 (**kwargs):
     show screen black_error_screen_text ("")

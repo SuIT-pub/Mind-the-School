@@ -72,7 +72,7 @@ init -6 python:
         """
 
         voteConditions = conditions.get_conditions()
-        probability = 25.0
+        probability = 100.0
         for condition in voteConditions:
             probability += condition.get_diff(char_obj)
         return probability

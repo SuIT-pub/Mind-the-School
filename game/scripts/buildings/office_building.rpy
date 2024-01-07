@@ -13,26 +13,28 @@ init -1 python:
         "council":     EventStorage("council",   "Council work"),
     }
     
-    office_building_timed_event.add_event(Event(1,
-        ["first_week_office_building_event"],
+    office_building_timed_event.add_event(Event(1, "first_week_office_building_event",
         TimeCondition(day = "2-4", month = 1, year = 2023),
     ))
     
-    office_building_timed_event.add_event(Event(1,
-        ["first_potion_office_building_event"],
+    office_building_timed_event.add_event(Event(1, "first_potion_office_building_event",
         TimeCondition(day = 9, month = 1, year = 2023),
     ))
 
-    office_building_events["look_around"].add_event(Event(3,
-        ["office_event_1", "office_event_2"],
+    office_event1 = Event(3, "office_event_1",
         TimeCondition(weekday = "d", daytime = "d"),
-    ))
+    )
 
-    office_building_events["look_around"].add_event(Event(3,
-        ["office_event_3"],
+    office_event2 = Event(3, "office_event_2",
+        TimeCondition(weekday = "d", daytime = "d"),
+    )
+
+    office_event3 = Event(3, "office_event_3",
         TimeCondition(weekday = "d", daytime = "d"),
         NOT(RuleCondition("student_student_relation")),
-    ))
+    )
+
+    office_building_events["look_around"].add_event(office_event1, office_event2, office_event3)
 
     office_building_timed_event.check_all_events()
     map(lambda x: x.check_all_events(), office_building_events.values())
@@ -113,7 +115,7 @@ label first_week_office_building_event (**kwargs):
 label office_event_1 (**kwargs):
     $ image = Image_Series("images/events/office/office_event_1 <level> <step>.webp", **kwargs)
 
-    $ begin_event();
+    $ begin_event("office_event_1");
 
     $ image.show(0)
     subtitles "You notice a girl sitting in front of the teachers office."
@@ -133,7 +135,7 @@ label office_event_2 (**kwargs):
 
     $ kwargs["char_obj"] = get_character("teacher", charList['staff'])
 
-    $ begin_event();
+    $ begin_event("office_event_2");
     
     call show_image(get_image("images/events/office/office_event_2 <level> <variant>.webp", **kwargs)[1]) from _call_show_image_2
     subtitles "Even the teachers need a break from time to time."
@@ -149,7 +151,7 @@ label office_event_2 (**kwargs):
 label office_event_3 (**kwargs):
     $ image = Image_Series("images/events/office/office_event_3 <level> <step>.webp", **kwargs)
 
-    $ begin_event();
+    $ begin_event("office_event_3");
 
     $ image.show(0)
     subtitles "You enter the office and see two students sitting there."

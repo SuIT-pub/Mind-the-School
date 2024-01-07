@@ -243,9 +243,10 @@ init -1 python:
                 self.event.call_available_event(**kwargs)
 
             if isinstance(self.event, Event):
-                event_obj = self.event.get_event()
-                for event in event_obj:
-                    renpy.call(event, **kwargs)
+                self.event.call(**kwargs)
+                # event_obj = self.event.get_event()
+                # for event in event_obj:
+                #     renpy.call(event, **kwargs)
 
             if isinstance(self.event, str):
                 renpy.call(self.event, **kwargs)
