@@ -15,36 +15,50 @@ init -1 python:
         "steal":          EventStorage("steal",          "Steal some panties",                 default_fallback, "There is nothing to do here."),
     }
 
-    gym_timed_event.add_event(Event(1,
-        ["first_week_gym_event"],
+    gym_timed_event.add_event(Event(1, "first_week_gym_event",
         TimeCondition(day = "2-4", month = 1, year = 2023),
     ))
 
     
-    gym_timed_event.add_event(Event(1,
-        ["first_potion_gym_event"],
+    gym_timed_event.add_event(Event(1, "first_potion_gym_event",
         TimeCondition(day = 9, month = 1, year = 2023),
     ))
 
-    gym_event1 = Event(3, 
-        ["gym_event_1", "gym_event_3"], 
+    gym_event1 = Event(3, "gym_event_1",
+        StatSelector("corruption", CORRUPTION, "school"),
+        RandomListSelector("topic_variant", "shoes", "hair", "ready"),
+        DictSelector("topic", "topic_variant", {
+            "shoes": "putting on my shoes",
+            "hair": "doing my hair",
+            "ready": "getting ready",
+        }),
+        TimeCondition(daytime = "c", weekday = "d")
+    )
+    
+    gym_event2 = Event(3, "gym_event_2",
+        StatSelector("inhibition", INHIBITION, "school"),
+        RandomListSelector("topic", (0.75, "clothe"), "breasts", (0.15, "asses")),
         TimeCondition(daytime = "c", weekday = "d")
     )
 
-    gym_events["students"].add_event(gym_event1)
-    gym_events["check_pe"].add_event(gym_event1)
-    gym_events["teach_pe"].add_event(gym_event1)
-
-    gym_events["enter_changing"].add_event(Event(3, 
-        ["gym_event_2"], 
+    gym_event3 = Event(3, "gym_event_3",
+        RandomValueSelector("variant", 1, 1),
+        DictSelector("girl", "variant", {
+            1: "Kokoro Nakamura",
+        }),
         TimeCondition(daytime = "c", weekday = "d")
-    ))
+    )    
+
+    gym_events["enter_changing"].add_event(gym_event2)
+    gym_events["students"].add_event(gym_event1, gym_event3)
+    gym_events["check_pe"].add_event(gym_event1, gym_event3)
+    gym_events["teach_pe"].add_event(gym_event1, gym_event3)
 
     gym_timed_event.check_all_events()
     map(lambda x: x.check_all_events(), gym_events.values())
 
     gym_bg_images = [
-        BGImage("images/background/gym/bg c <name> <level> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")), # show gym with students
+        BGImage("images/background/gym/bg c <loli> <level> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")), # show gym with students
         BGImage("images/background/gym/bg 7.webp", 1, TimeCondition(daytime = 7)), # show gym at night empty
     ]
     
@@ -60,9 +74,11 @@ label gym ():
 
 label .after_time_check (**kwargs):
 
-    $ school_obj = get_random_school()
+    $ school_obj = get_school()
 
-    call show_idle_image(school_obj, "images/background/gym/bg f.webp", gym_bg_images) from gym_2
+    call show_idle_image(school_obj, "images/background/gym/bg f.webp", gym_bg_images, 
+        loli = get_random_loli()
+    ) from gym_2
 
     call call_event_menu (
         "What to do in the Gym?", 
@@ -81,6 +97,9 @@ label .after_time_check (**kwargs):
 ##########################
 
 label first_potion_gym_event (**kwargs):
+    
+    $ begin_event()
+    
     show first potion gym 1 with dissolveM
     subtitles "You enter the Gym and see a group of students and teacher in a yoga session."
 
@@ -100,6 +119,9 @@ label first_potion_gym_event (**kwargs):
 
 # first week event
 label first_week_gym_event (**kwargs):
+    
+    $ begin_event()
+    
     show first week gym 1 with dissolveM
     headmaster_thought "Okay, now the Gym. I have been here shortly for my introduction speech but I haven't had the chance to get a thorough look."
 
@@ -110,7 +132,7 @@ label first_week_gym_event (**kwargs):
     headmaster_thought "Seems to be decently stocked."
     headmaster_thought "The material is well maintained. I guess it's alright."
 
-    $ change_stat_for_all("charm", 5, charList["schools"])
+    $ change_stat("charm", 5, get_school())
 
     $ set_building_blocked("gym")
 
@@ -125,28 +147,13 @@ label weekly_assembly (**kwargs):
     return
 
 label gym_event_1 (**kwargs):
-
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
-    $ school_name = "high_school" #char_obj.get_name()
+    $ corruption = get_kwargs("corruption", **kwargs)
+    $ topic_variant = get_kwargs("topic_variant", **kwargs)
+    $ topic = get_kwargs("topic", **kwargs)
 
-    $ corruption = char_obj.get_stat_number(CORRUPTION)
-
-    $ girls = {
-        "high_school": ("Aona Komuro", "Elsie Johnson")
-    }
-
-    $ variant = get_random_choice("shoes", "hair", "ready")
-
-    $ topics = {
-        "shoes": "putting on my shoes",
-        "hair": "doing my hair",
-        "ready": "getting ready",
-    }
-
-    $ topic = topics[variant]
-
-    $ image = Image_Series("/images/events/gym/gym_event_1 <name> <level> <topic> <step>.webp", topic = variant, name = school_name, **kwargs)
+    $ image = Image_Series("/images/events/gym/gym_event_1 <level> <topic_variant> <step>.webp", **kwargs)
 
     $ begin_event("gym_event_1")
 
@@ -185,7 +192,7 @@ label gym_event_1 (**kwargs):
     #         inhibition = DEC_SMALL, corruption = SMALL, charm = SMALL)
     if corruption >= 5:
         $ image.show(1)
-        sgirl "Just give me a moment more to get ready for class. You like watching me doing whatever, right?" (name = girls[school_name][0])
+        sgirl "Just give me a moment more to get ready for class. You like watching me doing whatever, right?" (name = "Aona Komuro")
 
         $ image.show(2)
         headmaster "As pretty as you are? I sure do!"
@@ -194,7 +201,7 @@ label gym_event_1 (**kwargs):
             inhibition = DEC_SMALL, corruption = TINY, charm = TINY)
     else:
         $ image.show(1)
-        sgirl "Are you getting ready for gym class too, Mr. [headmaster_last_name]?" (name = girls[school_name][0])
+        sgirl "Are you getting ready for gym class too, Mr. [headmaster_last_name]?" (name = "Aona Komuro")
 
         $ change_stats_with_modifier(char_obj, 
             inhibition = DEC_TINY, corruption = TINY, charm = TINY)
@@ -203,11 +210,10 @@ label gym_event_1 (**kwargs):
 label gym_event_2 (**kwargs):
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
-    $ inhibition = char_obj.get_stat_number(INHIBITION)
+    $ inhibition = get_kwargs("inhibition", **kwargs)
+    $ topic = get_kwargs("topic", **kwargs)
 
-    $ topic = get_random_choice((0.75, "clothe"), "breasts", (0.15, "asses"))
-
-    $ image = Image_Series("/images/events/gym/gym_event_2 <name> <level> <topic> <step>.webp", topic = topic, name = "high_school", **kwargs)
+    $ image = Image_Series("/images/events/gym/gym_event_2 <level> <topic> <step>.webp", **kwargs)
 
     $ begin_event("gym_event_2")
 
@@ -253,12 +259,18 @@ label gym_event_2 (**kwargs):
 
     jump new_daytime
 label .sorry (**kwargs):
+    
+    $ begin_event()
+    
     sgirl "Okay..."
     headmaster_thought "I think she doesn't believe me..."
     $ change_stats_with_modifier(char_obj,
         HAPPINESS = DEC_MEDIUM, REPUTATION = DEC_SMALL)
     jump new_daytime
 label .escape (**kwargs):
+    
+    $ begin_event()
+    
     sgirl "Oh, I was just..."
     headmaster "It's okay. You couldn't possible know."
     subtitles "You leave the room and leave the girls behind dumbfounded."
@@ -269,16 +281,13 @@ label .escape (**kwargs):
 label gym_event_3 (**kwargs):
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
-    $ variant = get_random_int(1, 1)
+    $ variant = get_kwargs("variant", **kwargs)
+    $ girl = get_kwargs("girl", **kwargs)
 
-    $ girls = {
-        1: "Kokoro Nakamura",
-    }
+    $ girl_name = girl.split(" ")[0]
+    $ girl_full_name = girl
 
-    $ girl_name = girls[variant].split(" ")[0]
-    $ girl_full_name = girls[variant]
-
-    $ image = Image_Series("/images/events/gym/gym_event_3 <name> <level> <variant> <step>.webp", variant = variant, name = "high_school", **kwargs)
+    $ image = Image_Series("/images/events/gym/gym_event_3 <level> <variant> <step>.webp", **kwargs)
 
     $ begin_event("gym_event_3")
 

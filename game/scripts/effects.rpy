@@ -43,14 +43,12 @@ init -1 python:
             self.rule = rule
 
         def apply(self, **kwargs):
-            char_obj = get_kwargs("char_obj", "x", **kwargs)
-
             if isinstance(self.rule, str):
                 rule = get_rule(self.rule)
                 if rule != None:
-                    rule.unlock(char_obj.get_name())
+                    rule.unlock()
             else:
-                self.rule.unlock(char_obj.get_name())
+                self.rule.unlock()
 
     class ClubEffect(Effect):
         """
@@ -61,15 +59,13 @@ init -1 python:
             super().__init__(name)
             self.club = club
 
-        def apply(self, **kwargs):            
-            char_obj = get_kwargs("char_obj", "x", **kwargs)
-
+        def apply(self, **kwargs):
             if isinstance(self.club, str):
                 club = get_club(self.club)
                 if club != None:
-                    club.unlock(char_obj.get_name())
+                    club.unlock()
             else:
-                self.club.unlock(char_obj.get_name())
+                self.club.unlock()
 
     class BuildingEffect(Effect):
         """
@@ -247,9 +243,10 @@ init -1 python:
                 self.event.call_available_event(**kwargs)
 
             if isinstance(self.event, Event):
-                event_obj = self.event.get_event()
-                for event in event_obj:
-                    renpy.call(event, **kwargs)
+                self.event.call(**kwargs)
+                # event_obj = self.event.get_event()
+                # for event in event_obj:
+                #     renpy.call(event, **kwargs)
 
             if isinstance(self.event, str):
                 renpy.call(self.event, **kwargs)

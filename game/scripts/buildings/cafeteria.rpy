@@ -32,7 +32,7 @@ label cafeteria ():
 
 label .after_time_check (**kwargs):
 
-    $ school_obj = get_random_school()
+    $ school_obj = get_school()
 
     call show_idle_image(school_obj, "images/background/cafeteria/bg c.webp", cafeteria_bg_images) from cafeteria_2
 

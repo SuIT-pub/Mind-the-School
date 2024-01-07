@@ -33,7 +33,7 @@ label bath ():
 
 label .after_time_check (**kwargs):
 
-    $ school_obj = get_random_school()
+    $ school_obj = get_school()
 
     call show_idle_image(school_obj, "images/background/bath/bg c.webp", bath_bg_images) from bath_2
 

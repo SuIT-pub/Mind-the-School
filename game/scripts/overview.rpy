@@ -48,10 +48,10 @@ screen school_overview_stats ():
         text "Education     " style "stat_name"
         text "Money"          style "stat_name"
 
-        text display_mean_stat(HAPPINESS) style "stat_value"
-        text display_mean_stat(CHARM) style "stat_value"
-        text display_mean_stat(EDUCATION) style "stat_value"
-        text display_mean_stat(MONEY) style "stat_value"
+        text display_school_stat(HAPPINESS) style "stat_value"
+        text display_school_stat(CHARM) style "stat_value"
+        text display_school_stat(EDUCATION) style "stat_value"
+        text display_school_stat(MONEY) style "stat_value"
 
         null
         text "Corruption" style "stat_name"
@@ -59,9 +59,9 @@ screen school_overview_stats ():
         text "Reputation" style "stat_name"
         
         null
-        text display_mean_stat(CORRUPTION) style "stat_value"
-        text display_mean_stat(INHIBITION) style "stat_value"
-        text display_mean_stat(REPUTATION) style "stat_value"
+        text display_school_stat(CORRUPTION) style "stat_value"
+        text display_school_stat(INHIBITION) style "stat_value"
+        text display_school_stat(REPUTATION) style "stat_value"
 
     vbox:
         xalign 1.0 ypos 150
@@ -105,36 +105,14 @@ screen school_overview_images ():
     add "background/bg school overview idle.webp"
 
     # High School Building
-    if is_building_available("high_school_building"):
-        add "background/bg school high school building idle.webp":
+    if is_building_available("school_building"):
+        add "background/bg school school building idle.webp":
             xpos 1171 ypos 262
 
     # High School Dormitory
-    if is_building_available("high_school_dormitory"):
-        add "background/bg school high school dormitory idle.webp":
+    if is_building_available("school_dormitory"):
+        add "background/bg school school dormitory idle.webp":
             xpos 1257 ypos 613
-
-    if loli_content >= 1:
-        # Middle School Building
-        if is_building_available("middle_school_building"):
-            add "background/bg school middle school building idle.webp":
-                xpos 725 ypos 103
-
-        # Middle School Dormitory
-        if is_building_available("middle_school_dormitory"):
-            add "background/bg school middle school dormitory idle.webp":
-                xpos 666 ypos 476
-
-    if loli_content == 2:
-        # Elementary School Building
-        if is_building_available("elementary_school_building"):
-            add "background/bg school elementary school building idle.webp":
-                xpos 826 ypos 178
-        
-        # Elementary School Dormitory
-        if is_building_available("elementary_school_dormitory"):
-            add "background/bg school elementary school dormitory idle.webp":
-                xpos 446 ypos 196
 
     # Labs
     if is_building_available("labs"):
@@ -198,73 +176,73 @@ screen school_overview_buttons ():
     modal True
     
     # High School Building
-    if is_building_available("high_school_building"):
-        $ hsb_text = ""
+    if is_building_available("school_building") or is_building_available("high_school_building"):
+        $ sb_text = ""
         if has_keyboard():  
             if show_shortcut():
-                $ hsb_text = " [[1]"
-            key "K_1" action Call("building", "high_school_building")
-            key "K_KP1" action Call("building", "high_school_building")
+                $ sb_text = " [[1]"
+            key "K_1" action Call("building", "school_building")
+            key "K_KP1" action Call("building", "school_building")
         imagebutton:
-            auto "background/bg school high school building %s.webp"
-            hover "background/bg school high school building hover.webp"
-            tooltip "High School Building" + hsb_text
+            auto "background/bg school school building %s.webp"
+            hover "background/bg school school building hover.webp"
+            tooltip "School Building" + sb_text
             focus_mask True
             xpos 1171 ypos 262
-            action Call("building", "high_school_building")
+            action Call("building", "school_building")
 
     # High School Dormitory
-    if is_building_available("high_school_dormitory"):
-        $ hsd_text = ""
+    if is_building_available("school_dormitory") or is_building_available("high_school_dormitory"):
+        $ sd_text = ""
         if has_keyboard():
             if show_shortcut():
-                $ hsd_text = " [[2]"
-            key "K_2" action Call("building", "high_school_dormitory")
-            key "K_KP2" action Call("building", "high_school_dormitory")
+                $ sd_text = " [[2]"
+            key "K_2" action Call("building", "school_dormitory")
+            key "K_KP2" action Call("building", "school_dormitory")
         imagebutton:
-            auto "background/bg school high school dormitory %s.webp"
-            tooltip "High School Dormitory" + hsd_text
+            auto "background/bg school school dormitory %s.webp"
+            tooltip "School Dormitory" + sd_text
             focus_mask True
             xpos 1257 ypos 613
-            action Call("building", "high_school_dormitory")
+            action Call("building", "school_dormitory")
 
-    if loli_content >= 1:
-        # Middle School Building
-        if is_building_available("middle_school_building"):
-            imagebutton:
-                auto "background/bg school middle school building %s.webp"
-                tooltip "Middle School Building"
-                focus_mask True
-                xpos 725 ypos 103
-                action Call("building", "middle_school_building")
+    # if loli_content >= 1:
+    #     # Middle School Building
+    #     if is_building_available("middle_school_building"):
+    #         imagebutton:
+    #             auto "background/bg school middle school building %s.webp"
+    #             tooltip "Middle School Building"
+    #             focus_mask True
+    #             xpos 725 ypos 103
+    #             action Call("building", "middle_school_building")
         
-        # Middle School Dormitory
-        if is_building_available("middle_school_dormitory"):
-            imagebutton:
-                auto "background/bg school middle school dormitory %s.webp"
-                tooltip "Middle School Dormitory"
-                focus_mask True
-                xpos 666 ypos 476
-                action Call("building", "middle_school_dormitory")
+    #     # Middle School Dormitory
+    #     if is_building_available("middle_school_dormitory"):
+    #         imagebutton:
+    #             auto "background/bg school middle school dormitory %s.webp"
+    #             tooltip "Middle School Dormitory"
+    #             focus_mask True
+    #             xpos 666 ypos 476
+    #             action Call("building", "middle_school_dormitory")
 
-    if loli_content == 2:
-        # Elementary School Building
-        if is_building_available("elementary_school_building"):
-            imagebutton:
-                auto "background/bg school elementary school building %s.webp"
-                tooltip "Elementary School Building"
-                focus_mask True
-                xpos 826 ypos 178
-                action Call("building", "elementary_school_building")
+    # if loli_content == 2:
+    #     # Elementary School Building
+    #     if is_building_available("elementary_school_building"):
+    #         imagebutton:
+    #             auto "background/bg school elementary school building %s.webp"
+    #             tooltip "Elementary School Building"
+    #             focus_mask True
+    #             xpos 826 ypos 178
+    #             action Call("building", "elementary_school_building")
 
-        # Elementary School Dormitory
-        if is_building_available("elementary_school_dormitory"):
-            imagebutton:
-                auto "background/bg school elementary school dormitory %s.webp"
-                tooltip "Elementary School Dormitory"
-                focus_mask True
-                xpos 446 ypos 196
-                action Call("building", "elementary_school_dormitory")
+    #     # Elementary School Dormitory
+    #     if is_building_available("elementary_school_dormitory"):
+    #         imagebutton:
+    #             auto "background/bg school elementary school dormitory %s.webp"
+    #             tooltip "Elementary School Dormitory"
+    #             focus_mask True
+    #             xpos 446 ypos 196
+    #             action Call("building", "elementary_school_dormitory")
 
     # Labs
     if is_building_available("labs"):
@@ -591,9 +569,9 @@ label map_overview ():
     call load_buildings from map_overview_4
     call load_clubs from map_overview_5
     
-    $ update_mean_stats()
-
     $ hide_all()
+
+    $ reroll_selectors()
 
     $ renpy.choice_for_skipping()
 
@@ -613,7 +591,9 @@ label map_overview ():
 #############################################################################
 # building distributor. directs the building calls to the corresponding label
 label building(name=""):
-    $ reset_stats(map = charList["schools"])
+    $ reset_stats(get_school())
+    $ reset_stats(get_character('parents', charList))
+    $ reset_stats(get_character('teacher', charList['staff']))
     $ _skipping = True
 
     hide screen school_overview_map

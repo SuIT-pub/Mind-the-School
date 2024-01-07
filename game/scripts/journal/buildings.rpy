@@ -160,51 +160,6 @@ init -6 python:
 
             return "\n\n".join(self.get_description(level))
 
-        def get_image(self, _school = "x", _level = -1) -> str:
-            """
-            Returns the image path of the building for the image used in the journal.
-
-            ### Parameters:
-            1. _school = "x"
-                - is not used.
-            2. _level = -1
-                - is not used.
-
-            ### Returns:
-            1. str
-                - The image path of the building for the image used in the journal.
-            """
-
-            level = get_lowest_level(charList["schools"])
-            for i in reversed(range(0, level + 1)):
-                image = self._image_path.replace("<level>", str(i))
-                if renpy.loadable(image):
-                    return image
-            return self._image_path_alt
-
-        def get_full_image(self, _school = "x", _level = -1) -> str:
-            """
-            Returns the image path for the fullscreen image of the building for the image used in the journal.
-
-            ### Parameters:
-            1. _school = "x"
-                - is not used.
-            2. _level = -1
-                - is not used.
-
-            ### Returns:
-            1. str
-                - The image path for the fullscreen image of the building for the image used in the journal.
-                - If the full image does not exist, None is returned.
-            """
-
-            image = self.get_image()
-            full_image = image.replace(".", "_full.")
-
-            if renpy.loadable(full_image):
-                return full_image
-            return None
-
         def get_level(self) -> int:
             """
             Returns the current upgrade level of the building.
@@ -263,7 +218,7 @@ init -6 python:
                 - True if the building is unlocked and not blocked.
             """
 
-            return self.is_unlocked("x") and not self.is_blocked()
+            return self.is_unlocked() and not self.is_blocked()
 
         def set_blocked(self, is_blocked: bool = True):
             """
@@ -289,13 +244,9 @@ init -6 python:
 
             self._level = 1 if unlock else 0
 
-        def is_unlocked(self, _school) -> bool:
+        def is_unlocked(self) -> bool:
             """
             Returns True if the building is unlocked.
-
-            ### Parameters:
-            1. _school
-                - is not used.
 
             ### Returns:
             1. bool
@@ -511,8 +462,9 @@ init -6 python:
         output = 0
 
         for building in buildings.values():
-            if not building.is_unlocked("x"):
+            if not building.is_unlocked():
                 output += 1
+
         return output
 
     def get_unlocked_buildings() -> List[str]:
@@ -527,9 +479,9 @@ init -6 python:
         output = []
 
         for building in buildings.values():
-            if building.is_unlocked("x") and building.get_name() not in output:
+            if building.is_unlocked() and building.get_name() not in output:
                 output.append(building.get_name())
-        
+
         return output
     
     def get_building(building: str) -> Building:
@@ -608,7 +560,7 @@ init -6 python:
 
         if building_name not in buildings.keys():
             return False
-        return buildings[building_name].is_unlocked("x")
+        return buildings[building_name].is_unlocked()
 
     def is_building_visible(building_name: str) -> bool:
         """
@@ -670,14 +622,42 @@ init -6 python:
 
 label load_buildings ():
 
+    #############################################################
+    # compatibility with save files from 0.1.2
+    if 'high_school_building' in buildings.keys():
+        $ high_school_building = buildings['high_school_building']
+        $ high_school_building._name = "school_building"
+        $ high_school_building._title = "School Building"
+        $ buildings['school_building'] = high_school_building
+
+    if 'high_school_dormitory' in buildings.keys():
+        $ high_school_dormitory = buildings['high_school_dormitory']
+        $ high_school_dormitory._name = "school_dormitory"
+        $ high_school_dormitory._title = "School Dormitory"
+        $ buildings['school_dormitory'] = high_school_dormitory
+
+    if 'high_school_building' in buildings.keys():
+        $ buildings.pop("high_school_building")
+    if 'high_school_dormitory' in buildings.keys():
+        $ buildings.pop("high_school_dormitory")
+    if 'middle_school_building' in buildings.keys():
+        $ buildings.pop("middle_school_building")
+    if 'middle_school_dormitory' in buildings.keys():
+        $ buildings.pop("middle_school_dormitory")
+    if 'elementary_school_building' in buildings.keys():
+        $ buildings.pop("elementary_school_building")
+    if 'elementary_school_dormitory' in buildings.keys():
+        $ buildings.pop("elementary_school_dormitory")
+    #############################################################
+
     # unlocked
-    $ load_building("high_school_building", "High School Building", {
+    $ load_building("school_building", "School Building", {
         '_description': [
             [
-                "The main school building for those students that attend high school.",
+                "The main school building for those students that attend school.",
             ],
             [
-                "The main school building for those students that attend high school.",
+                "The main school building for those students that attend school.",
             ],
         ],
         '_max_level': 1,
@@ -688,81 +668,13 @@ label load_buildings ():
     })
 
     # unlocked
-    $ load_building("high_school_dormitory", "High School Dormitory", {
+    $ load_building("school_dormitory", "School Dormitory", {
         '_description': [
             [
-                "The dormitory dedicated to the high school students",
+                "The dormitory dedicated to the school students",
             ],
             [
-                "The dormitory dedicated to the high school students",
-            ],
-        ],
-        '_max_level': 1,
-        '_unlock_conditions': ConditionStorage(),
-        '_update_conditions':[],
-    }, {
-        '_level': 1,
-    })
-
-    # unlocked
-    $ load_building("middle_school_building", "Middle School Building", {
-        '_description': [
-            [
-                "The main school building for those students that attend middle school.",
-            ],
-            [
-                "The main school building for those students that attend middle school.",
-            ],
-        ],
-        '_max_level': 1,
-        '_unlock_conditions': ConditionStorage(),
-        '_update_conditions':[],
-    }, {
-        '_level': 1,
-    })
-
-    # unlocked
-    $ load_building("middle_school_dormitory", "Middle School Dormitory", {
-        '_description': [
-            [
-                "The dormitory dedicated to the middle school students",
-            ],
-            [
-                "The dormitory dedicated to the middle school students",
-            ],
-        ],
-        '_max_level': 1,
-        '_unlock_conditions': ConditionStorage(),
-        '_update_conditions':[],
-    }, {
-        '_level': 1,
-    })
-
-    # unlocked
-    $ load_building("elementary_school_building", "Elementary School Building", {
-        '_description': [
-            [
-                "The main school building for those students that attend elementary school.",
-            ],
-            [
-                "The main school building for those students that attend elementary school.",
-            ],
-        ],
-        '_max_level': 1,
-        '_unlock_conditions': ConditionStorage(),
-        '_update_conditions':[],
-    }, {
-        '_level': 1,
-    })
-
-    # unlocked
-    $ load_building("elementary_school_dormitory", "Elementary School Dormitory", {
-        '_description': [
-            [
-                "The dormitory dedicated to the elementary school students",
-            ],
-            [
-                "The dormitory dedicated to the elementary school students",
+                "The dormitory dedicated to the school students",
             ],
         ],
         '_max_level': 1,
