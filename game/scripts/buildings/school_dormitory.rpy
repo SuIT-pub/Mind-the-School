@@ -3,12 +3,12 @@
 ###################################################
 
 init -1 python:
-    sd_timed_event = EventStorage("school_dormitory", "", Event(2, "school_dormitory.after_time_check"))
+    sd_timed_event = EventStorage("school_dormitory", "", "school_dormitory", Event(2, "school_dormitory.after_time_check"))
     sd_events = {
-        "check_rooms":   EventStorage("check_rooms",   "Check Rooms",      default_fallback, "There is nobody here."),
-        "talk_students": EventStorage("talk_students", "Talk to students", default_fallback, "There is nobody here."),
-        "patrol":        EventStorage("patrol",        "Patrol building",  default_fallback, "There is nobody here."),
-        "peek_students": EventStorage("peek_students", "Peek on students", default_fallback, "There is nobody here."),
+        "check_rooms":   EventStorage("check_rooms",   "Check Rooms",      "school_dormitory", default_fallback, "There is nobody here."),
+        "talk_students": EventStorage("talk_students", "Talk to students", "school_dormitory", default_fallback, "There is nobody here."),
+        "patrol":        EventStorage("patrol",        "Patrol building",  "school_dormitory", default_fallback, "There is nobody here."),
+        "peek_students": EventStorage("peek_students", "Peek on students", "school_dormitory", default_fallback, "There is nobody here."),
     }
 
     sd_timed_event.add_event(Event(1, "first_week_school_dormitory_event",
@@ -58,7 +58,8 @@ init -1 python:
             TimeCondition(weekday = "d", daytime = "f"), 
             TimeCondition(weekday = "d", daytime = "n"), 
             TimeCondition(weekday = "w")
-        )
+        ),
+        title = "test"
     )
 
     sd_event3 = Event(3, "sd_event_3",
@@ -174,8 +175,15 @@ label first_potion_school_dormitory_event (**kwargs):
 label sd_event_1 (**kwargs):
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
-    $ education = get_kwargs('education', **kwargs)
-    $ inhibition = get_kwargs('inhibition', **kwargs)
+    $ gallery = Gallery_Manager("sd_event_1")
+
+    $ gallery.set_stat_ranges(
+        education = (50, 100),
+        inhibition = (90, 100),
+    )
+
+    $ education = gallery.get_value('education', **kwargs)
+    $ inhibition = gallery.get_value('inhibition', **kwargs)
 
     $ image = Image_Series("images/events/school dormitory/sd_event_1 <level> <step>.webp", **kwargs)
 
@@ -214,13 +222,16 @@ label sd_event_2 (**kwargs):
     
     $ gallery = Gallery_Manager("sd_event_2")
 
-    $ log_val("gallery_test", gallery)
-    $ renpy.pause()
+    $ gallery.set_topic_titles(
+        location = 'Location',
+        girl_name = 'Girl',
+        topic = 'Topic',
+    )
 
-    $ topic_set = gallery.get_value('topic_set', **kwargs)
     $ location = gallery.get_value('location', **kwargs)
     $ girl_name = gallery.get_value('girl_name', **kwargs)
     $ topic = gallery.get_value('topic', **kwargs)
+    $ topic_set = gallery.get_value('topic_set', **kwargs)
 
     $ image = Image_Series("images/events/school dormitory/sd_event_2 <topic> <location> <girl_name> <level> <step>.webp", **kwargs)
     $ image2 = Image_Series("images/events/school dormitory/sd_event_2 <location> <step>.webp", **kwargs)
@@ -334,8 +345,14 @@ label sd_event_2 (**kwargs):
 label sd_event_3 (**kwargs):
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
-    $ inhibition = get_kwargs('inhibition', **kwargs)
-    $ topic = get_kwargs('topic', **kwargs)
+    $ gallery = Gallery_Manager("sd_event_3")
+
+    # $ gallery.set_stat_ranges(
+    #     inhibition = (80, 100),
+    # )
+
+    # $ inhibition = gallery.get_value('inhibition', **kwargs)
+    $ topic = gallery.get_value('topic', **kwargs)
 
     $ image = Image_Series("images/events/school dormitory/sd_event_3 <topic> <level> <step>.webp", **kwargs)
 

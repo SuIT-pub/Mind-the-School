@@ -3,10 +3,10 @@
 ###################################
 
 init -1 python:
-    kiosk_timed_event = EventStorage("kiosk", "", Event(2, "kiosk.after_time_check"))
+    kiosk_timed_event = EventStorage("kiosk", "", "kiosk", Event(2, "kiosk.after_time_check"))
     kiosk_events = {
-        "snack":    EventStorage("snack",    "Get a snack",      default_fallback, "I don't want anything."),
-        "students": EventStorage("students", "Talk to students", default_fallback, "There is nobody here."),
+        "snack":    EventStorage("snack",    "Get a snack",      "kiosk", default_fallback, "I don't want anything."),
+        "students": EventStorage("students", "Talk to students", "kiosk", default_fallback, "There is nobody here."),
     }
     
     kiosk_timed_event.add_event(Event(1, "first_week_kiosk_event",
@@ -106,8 +106,10 @@ label first_week_kiosk_event (**kwargs):
 label kiosk_event_1 (**kwargs):
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
-    $ variant = get_kwargs("variant", **kwargs)
-    $ girl = get_kwargs("girl", **kwargs)
+    $ gallery = Gallery_Manager("kiosk_event_1")
+
+    $ variant = gallery.get_value("variant", **kwargs)
+    $ girl = gallery.get_value("girl", **kwargs)
 
     $ begin_event("kiosk_event_1")
 
@@ -122,7 +124,9 @@ label kiosk_event_1 (**kwargs):
 label kiosk_event_2 (**kwargs):
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
-    $ girl = get_kwargs("girl", **kwargs)
+    $ gallery = Gallery_Manager("kiosk_event_2")
+
+    $ girl = gallery.get_value("kiosk", **kwargs)
 
     $ image = Image_Series("images/events/kiosk/kiosk_event_2 <girl> <level> <step>.webp", **kwargs)
 
@@ -143,7 +147,9 @@ label kiosk_event_2 (**kwargs):
 label kiosk_event_3 (**kwargs):
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
-    $ topic = get_kwargs("topic", **kwargs)
+    $ gallery = Gallery_Manager("kiosk_event_3")
+
+    $ topic = gallery.get_value("topic", **kwargs)
 
     $ image = Image_Series("images/events/kiosk/kiosk_event_3 <level> <step>.webp", **kwargs)
 

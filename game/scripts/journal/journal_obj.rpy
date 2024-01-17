@@ -275,7 +275,6 @@ init -7 python:
             """
 
             is_blocking = self._unlock_conditions.is_blocking(**kwargs)
-            log_val(f"{self._name} is blocking", is_blocking)
             return is_blocking
 
         def can_be_unlocked(self, **kwargs) -> bool:

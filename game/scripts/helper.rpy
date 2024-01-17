@@ -376,8 +376,6 @@ init -99 python:
         if contains_game_data("seen_events"):
             seenEvents = get_game_data("seen_events")
 
-        log_val("all_events_seen", seenEvents)
-
         if name != "" and name in seenEvents.keys():
             seenEvents[name] = True
             set_game_data("seen_events", seenEvents)
@@ -789,3 +787,14 @@ init -99 python:
             selector.roll_values()
 
         rerollSelectors.clear()
+
+    def get_location_title(key: str) -> str:
+        building = get_building(key)
+        if building == None:
+            return key
+        return building.get_title()
+
+    def get_event_from_register(name: str) -> Event:
+        if name in event_register.keys():
+            return event_register[name]
+        return None

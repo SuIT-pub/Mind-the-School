@@ -3,12 +3,12 @@
 #############################################
 
 init -1 python:
-    sb_timed_event = TempEventStorage("sb", "", Event(2, "school_building.after_time_check"))
+    sb_timed_event = TempEventStorage("school_building", "", "school_building", Event(2, "school_building.after_time_check"))
     sb_events = {
-        "check_class": EventStorage("check_class", "Check Class",      default_fallback, "There is nobody here."),
-        "teach_class": EventStorage("teach_class", "Teach a Class",    default_fallback, "There is nobody here."),
-        "patrol":      EventStorage("patrol",      "Patrol building",  default_fallback, "There is nobody here."),
-        "students":    EventStorage("students",    "Talk to students", default_fallback, "There is nobody here."),
+        "check_class": EventStorage("check_class", "Check Class",      "school_building", default_fallback, "There is nobody here."),
+        "teach_class": EventStorage("teach_class", "Teach a Class",    "school_building", default_fallback, "There is nobody here."),
+        "patrol":      EventStorage("patrol",      "Patrol building",  "school_building", default_fallback, "There is nobody here."),
+        "students":    EventStorage("students",    "Talk to students", "school_building", default_fallback, "There is nobody here."),
     }
 
     sb_timed_event.add_event(Event(1, "first_week_sb_event",
@@ -127,6 +127,7 @@ label first_potion_sb_event (**kwargs):
     jump new_daytime
 
 label sb_event_1 (**kwargs): # patrol, check class
+    $ gallery = Gallery_Manager("sb_event_1")
     # show screen black_screen_text("sb_event_1")
     $ image = Image_Series("/images/events/school building/sb_event_1 <step>.webp", **kwargs)
 
@@ -169,6 +170,8 @@ label .stop (**kwargs):
     jump new_daytime
 
 label sb_event_2 (**kwargs): # teach class
+    $ gallery = Gallery_Manager("sb_event_2")
+
     $ image = Image_Series("/images/events/school building/sb_event_2 <step>.webp", **kwargs)
 
     $ begin_event("sb_event_2")
@@ -201,6 +204,8 @@ label .help (**kwargs):
     jump new_daytime
 
 label sb_event_3 (**kwargs): # patrol
+    $ gallery = Gallery_Manager("sb_event_3")
+
     $ image = Image_Series("/images/events/school building/sb_event_3 <step>.webp", **kwargs)
 
     $ begin_event("sb_event_3")

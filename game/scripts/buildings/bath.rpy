@@ -3,13 +3,13 @@
 ##################################
 
 init -1 python:
-    bath_timed_event = EventStorage("bath", "", Event(2, "bath.after_time_check"))
+    bath_timed_event = EventStorage("bath", "", "bath", Event(2, "bath.after_time_check"))
     bath_events = {
-        "male_enter":   EventStorage("male_enter",   "Enter the male bath",       default_fallback, "I don't want to take a bath."),
-        "female_enter": EventStorage("female_enter", "Enter the female bath",     default_fallback, "I don't want to take a bath."),
-        "female_peek":  EventStorage("female_peek",  "Peek into the female bath", default_fallback, "There is nobody here."       ),
-        "mixed_enter":  EventStorage("mixed_enter",  "Enter the mixed bath",      default_fallback, "I don't want to take a bath."),
-        "mixed_peek":   EventStorage("mixed_peek",   "Peek into the mixed bath",  default_fallback, "There is nobody here."       ),
+        "male_enter":   EventStorage("male_enter",   "Enter the male bath",       "bath", default_fallback, "I don't want to take a bath."),
+        "female_enter": EventStorage("female_enter", "Enter the female bath",     "bath", default_fallback, "I don't want to take a bath."),
+        "female_peek":  EventStorage("female_peek",  "Peek into the female bath", "bath", default_fallback, "There is nobody here."       ),
+        "mixed_enter":  EventStorage("mixed_enter",  "Enter the mixed bath",      "bath", default_fallback, "I don't want to take a bath."),
+        "mixed_peek":   EventStorage("mixed_peek",   "Peek into the mixed bath",  "bath", default_fallback, "There is nobody here."       ),
     }
 
     bath_timed_event.check_all_events()

@@ -38,6 +38,8 @@ label open_journal(page, display, char = "school"):
         call screen journal_cheats(display) with dissolveM
     elif page == 6:
         call screen journal_credits(display) with dissolveM
+    elif page == 7:
+        call screen journal_gallery(display) with dissolve
 
 label close_journal ():
     hide screen journal
@@ -150,10 +152,14 @@ screen journal_foldable_list(is_showing, text, page, display, obj_list, default_
             action [With(dissolveM), Call("set_journal_setting", page, display, text, True)]
         image "journal/journal/left_list_separator.webp"
 
-screen journal_simple_list(page, display, display_list, default_style = "buttons_idle"):
+screen journal_simple_list(page, display, display_list, default_style = "buttons_idle", **kwargs):
+    $ pos_x = get_kwargs('pos_x', 330, **kwargs)
+    $ pos_y = get_kwargs('pos_y', 300, **kwargs)
+    $ width = get_kwargs('width', 560, **kwargs)
+    $ height = get_kwargs('height', 600, **kwargs)
     frame:
         background Solid("#0000")
-        area (330, 300, 560, 600)
+        area (pos_x, pos_y, width, height)
 
         viewport id "SimpleList":
             mousewheel True
@@ -172,6 +178,43 @@ screen journal_simple_list(page, display, display_list, default_style = "buttons
                     textbutton elem_text:
                         text_style button_style
                         action [With(dissolveM), Call("open_journal", page, elem)]
+                
+
+        vbar value YScrollValue("SimpleList"):
+            unscrollable "hide"
+            xalign 1.0
+
+screen journal_simple_grid(page, display, display_list, default_style = "buttons_idle", **kwargs):
+    $ pos_x = get_kwargs('pos_x', 330, **kwargs)
+    $ pos_y = get_kwargs('pos_y', 300, **kwargs)
+    $ width = get_kwargs('width', 560, **kwargs)
+    $ height = get_kwargs('height', 600, **kwargs)
+    $ rows = len(display_list) - (len(display_list % 2)) / 2
+    frame:
+        background Solid("#0000")
+        area (pos_x, pos_y, width, height)
+
+        viewport id "SimpleList":
+            mousewheel True
+            draggable "touch"
+
+            vbox:
+                grid 2 rows:
+                    for elem in display_list.keys():
+                        $ elem_image = None
+                        $ elem_text = display_list[elem]
+                        if isinstance(elem_text, list):
+                            $ elem_image = elem_text[1]
+                            $ elem_text = elem_text[0]
+                        $ button_style = default_style
+                        if elem == display:
+                            $ button_style = "buttons_selected"
+                        textbutton elem_text:
+                            text_style button_style
+                            action [With(dissolveM), Call("open_journal", page, elem)]
+                    if len(display_list) % 2 == 1:
+                        null width 1
+                        null height 1
                 
 
         vbar value YScrollValue("SimpleList"):
@@ -244,6 +287,15 @@ screen journal_page_selector(page, display, char = "school"):
             xpos 338
             ypos 953
             action [With(dissolveM), Call("open_journal", 6, "")]
+
+    if page != 7:
+        imagebutton:
+            idle "journal/journal/gallery_tag_idle.webp"
+            hover "journal/journal/gallery_tag_hover.webp"
+            tooltip "Gallery"
+            xpos 1225
+            ypos 983
+            action [With(dissolveM), Call("open_journal", 7, "")]
     
 screen journal_desc(page, display, active_obj, with_title = False):
     $ active_obj_desc = active_obj.get_description_str()
@@ -781,6 +833,12 @@ screen journal_cheats(display):
                             text "[year]" style "buttons_idle"
                             action Call("change_time_cheat", 5, display, year = 1)
                             alternate Call("change_time_cheat", 5, display, year = -1)
+                    null height 10
+                    
+                    text "Debug:" style "journal_text" size 20
+                    button:
+                        text "Run Test-Label" style "buttons_idle"
+                        action Call("test_label")
                 
                     
             vbar value YScrollValue("CheatStatList"):
@@ -1071,6 +1129,148 @@ screen journal_cheats(display):
                 xalign 0.5
                 text tooltip
 
+init -10 python:
+    gallery_chooser = {}
+    gallery_chooser_order = []
+    old_event = ""
+    height = 0
+screen journal_gallery(display):
+    tag interaction_overlay
+    modal True
+
+    use school_overview_map
+    use school_overview_stats
+
+    key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
+
+    use journal_page_selector(7, display)
+
+    text "Gallery":
+        xalign 0.25 yalign 0.2
+        size 60
+        color "#000"
+
+    $ location = ""
+    $ event = ""
+
+    if '.' in display:
+        $ location, event = display.split('.')
+    else:
+        $ location = display
+
+    $ location_list = [get_building(location_name) for location_name in persistent.gallery.keys() if get_building(location_name) != None]
+
+    if len(location_list) != 0 and location == "":
+        $ location_dict = {building.get_name(): building.get_title() for building in location_list}
+        $ location_button = "buttons_idle"
+        use journal_simple_list(7, location, location_dict, "buttons_idle", pos_x = 350, width = 500)
+    elif location != "":
+        $ location_title = get_building(location).get_title()
+        textbutton "← [location_title]":
+            xpos 350 ypos 300
+            text_style "buttons_idle"
+            action [With(dissolveM), Call("open_journal", 7, "")]
+
+    if location != "":    
+        $ event_list = [get_event_from_register(event_name) for event_name in persistent.gallery[location].keys() if get_event_from_register(event_name) != None]
+        $ event_dict = {f"{location}.{event_obj.get_event()}": event_obj.get_title() for event_obj in event_list}
+        use journal_simple_list(7, display, event_dict, "buttons_idle", pos_x = 400, pos_y = 350, width = 450)
+
+    if event != "":
+        if event != old_event:
+            $ gallery_chooser = {}
+            $ gallery_chooser_order = []
+            $ old_event = event
+        if 'last_data' in persistent.gallery[location][event]['options'].keys() and 'last_order' in persistent.gallery[location][event]['options'].keys():
+            $ gallery_chooser = persistent.gallery[location][event]['options']['last_data']
+            $ gallery_chooser_order = persistent.gallery[location][event]['options']['last_order']
+        $ event_obj = get_event_from_register(event)
+        $ event_title = event_obj.get_title()
+        text event_title:
+            xpos 989
+            ypos 200
+            size 30
+            xmaximum 500
+            ymaximum 50
+            color "#000"
+
+        image "journal/empty_image_wide.webp":
+            xpos 989 ypos 250
+
+        text "Variants":
+            xpos 989
+            ypos 560
+            color "#000"
+
+        $ variant_names = [topic for topic in persistent.gallery[location][event]['order']]
+        frame:
+            area(989, 600, 500, 250)
+            background Solid('#0000')
+            viewport id "GallerySelectionOverview":
+                mousewheel True
+                draggable "touch"
+                hbox:
+                    $ gallery_dict = persistent.gallery[location][event]['values']
+                    for variant_name in variant_names:
+                        $ values = list(gallery_dict.keys())
+
+                        if variant_name not in gallery_chooser_order:
+                            $ gallery_chooser_order.append(variant_name)
+                            $ gallery_chooser[variant_name] = values[0]
+
+                        $ value = gallery_chooser[variant_name]
+
+                        if value not in values:
+                            $ gallery_chooser[variant_name] = values[0]
+
+                        $ gallery_dict = gallery_dict[gallery_chooser[variant_name]]
+
+                        if len(values) > 1:
+                            $ title = get_gallery_topic_title(location, event, variant_name) 
+                            frame:
+                                background Frame("gui/border.png", left=1, top=1, tile = True)
+                                # outlines [(1, "#000", 0, 0)] 
+                                vbox:
+                                    text "[title]":
+                                        bold True
+                                        style "journal_text"
+                                        size 30
+                                    for value in values:
+                                        if value == gallery_chooser[variant_name]:
+                                            textbutton "[value]":
+                                                text_style "buttons_selected"
+                                                action Null()
+                                        else:
+                                            textbutton "[value]":
+                                                text_style "buttons_idle"
+                                                action [With(dissolveM), SetDict(gallery_chooser, variant_name, value), SetVariable('gallery_chooser', update_gallery_chooser(gallery_chooser_order, gallery_chooser, persistent.gallery[location][event]['values']))]
+            bar value XScrollValue("GallerySelectionOverview"):
+                unscrollable "hide"
+                yalign 1.0
+                yoffset 15
+            vbar value YScrollValue("GallerySelectionOverview"):
+                unscrollable "hide"
+                xalign 1.0
+                xoffset 15
+        $ persistent.gallery[location][event]['options']['last_data'] = gallery_chooser
+        $ persistent.gallery[location][event]['options']['last_order'] = gallery_chooser_order
+        textbutton "Play":
+            text_style "buttons_idle"
+            xpos 1389
+            ypos 910
+            action Call('start_gallery_replay', event, gallery_chooser, display)
+            
+init python:
+    def update_gallery_chooser(gallery_chooser_order: List[string], gallery_chooser: Dict[string, Any], gallery_dict: Dict[string, Any]) -> Dict[string, Any]:
+        reset = False
+        for topic in gallery_chooser_order:
+            if gallery_chooser[topic] not in gallery_dict.keys() or reset:
+                values = list(gallery_dict.keys())
+                gallery_chooser[topic] = values[0]
+                reset = True
+            gallery_dict = gallery_dict[gallery_chooser[topic]]
+        return gallery_chooser
+
 screen journal_credits(display):
     tag interaction_overlay
     modal True
@@ -1198,6 +1398,15 @@ screen journal_credits(display):
 ############################
 # Journal Methods
 ############################
+
+label start_gallery_replay(event, data, display):
+    $ log_val('gallery_data', data)
+    $ log_val('gallery_event', event)
+    $ log_val('gallery_display', display)
+
+    $ renpy.pause()
+
+    call open_journal(7, display)
 
 label set_time_cheat(page, display, **kwargs):
     $ time.set_time(**kwargs)

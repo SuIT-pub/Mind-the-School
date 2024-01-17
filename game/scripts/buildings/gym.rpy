@@ -3,16 +3,16 @@
 #################################
 
 init -1 python:
-    gym_timed_event = EventStorage("gym", "", Event(2, "gym.after_time_check"))
+    gym_timed_event = EventStorage("gym", "", "gym", Event(2, "gym.after_time_check"))
     gym_events = {
-        "teacher":        EventStorage("teacher",        "Go to teacher",                      default_fallback, "There is nobody here."),
-        "students":       EventStorage("students",       "Go to students",                     default_fallback, "There is nobody here."),
-        "storage":        EventStorage("storage",        "Check storage",                      default_fallback, "There is nothing to do here."),
-        "peek_changing":  EventStorage("peek_changing",  "Go to Peek into the changing rooms", default_fallback, "There is nobody here."),
-        "enter_changing": EventStorage("enter_changing", "Enter the changing rooms",           default_fallback, "There is nothing to do here."),
-        "check_pe":       EventStorage("check_pe",       "Check a P.E. class",                 default_fallback, "There is nothing to do here."),
-        "teach_pe":       EventStorage("teach_pe",       "Teach a P.E. class",                 default_fallback, "There is nothing to do here."),
-        "steal":          EventStorage("steal",          "Steal some panties",                 default_fallback, "There is nothing to do here."),
+        "teacher":        EventStorage("teacher",        "Go to teacher",                      "gym", default_fallback, "There is nobody here."),
+        "students":       EventStorage("students",       "Go to students",                     "gym", default_fallback, "There is nobody here."),
+        "storage":        EventStorage("storage",        "Check storage",                      "gym", default_fallback, "There is nothing to do here."),
+        "peek_changing":  EventStorage("peek_changing",  "Go to Peek into the changing rooms", "gym", default_fallback, "There is nobody here."),
+        "enter_changing": EventStorage("enter_changing", "Enter the changing rooms",           "gym", default_fallback, "There is nothing to do here."),
+        "check_pe":       EventStorage("check_pe",       "Check a P.E. class",                 "gym", default_fallback, "There is nothing to do here."),
+        "teach_pe":       EventStorage("teach_pe",       "Teach a P.E. class",                 "gym", default_fallback, "There is nothing to do here."),
+        "steal":          EventStorage("steal",          "Steal some panties",                 "gym", default_fallback, "There is nothing to do here."),
     }
 
     gym_timed_event.add_event(Event(1, "first_week_gym_event",
@@ -149,9 +149,13 @@ label weekly_assembly (**kwargs):
 label gym_event_1 (**kwargs):
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
-    $ corruption = get_kwargs("corruption", **kwargs)
-    $ topic_variant = get_kwargs("topic_variant", **kwargs)
-    $ topic = get_kwargs("topic", **kwargs)
+    $ gallery = Gallery_Manager("gym_event_1")
+
+    $ gallery.set_stat_ranges(corruption = [5, 20, 40, 60, 80, 100])
+
+    $ corruption = gallery.get_value("corruption", **kwargs)
+    $ topic_variant = gallery.get_value("topic_variant", **kwargs)
+    $ topic = gallery.get_value("topic", **kwargs)
 
     $ image = Image_Series("/images/events/gym/gym_event_1 <level> <topic_variant> <step>.webp", **kwargs)
 
@@ -210,8 +214,12 @@ label gym_event_1 (**kwargs):
 label gym_event_2 (**kwargs):
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
-    $ inhibition = get_kwargs("inhibition", **kwargs)
-    $ topic = get_kwargs("topic", **kwargs)
+    $ gallery = Gallery_Manager("gym_event_2")
+
+    $ gallery.set_stat_ranges(inhibition = [30, 60, 80, 100])
+
+    $ inhibition = gallery.get_value("inhibition", **kwargs)
+    $ topic = gallery.get_value("topic", **kwargs)
 
     $ image = Image_Series("/images/events/gym/gym_event_2 <level> <topic> <step>.webp", **kwargs)
 
@@ -281,8 +289,10 @@ label .escape (**kwargs):
 label gym_event_3 (**kwargs):
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
-    $ variant = get_kwargs("variant", **kwargs)
-    $ girl = get_kwargs("girl", **kwargs)
+    $ gallery = Gallery_Manager("gym_event_3")
+
+    $ variant = gallery.get_value("variant", **kwargs)
+    $ girl = gallery.get_value("girl", **kwargs)
 
     $ girl_name = girl.split(" ")[0]
     $ girl_full_name = girl

@@ -3,13 +3,13 @@
 ###########################################
 
 init -1 python:
-    swimming_pool_timed_event = EventStorage("swimming_pool", "", Event(2, "swimming_pool.after_time_check"))
+    swimming_pool_timed_event = EventStorage("swimming_pool", "", "swimming_pool", Event(2, "swimming_pool.after_time_check"))
     swimming_pool_events = {
-        "check_class":    EventStorage("check_class",    "Check on swimming class",      default_fallback, "There is nobody here."),
-        "teach_class":    EventStorage("teach_class",    "Teach a swimming class",       default_fallback, "There is nobody here."),
-        "peek_changing":  EventStorage("peek_changing",  "Peek into the changing rooms", default_fallback, "There is nobody here."),
-        "enter_changing": EventStorage("enter_changing", "Enter changing rooms",         default_fallback, "There is nobody here."),
-        "steal_changing": EventStorage("steal_changing", "Steal some panties",           default_fallback, "There is nobody here."),
+        "check_class":    EventStorage("check_class",    "Check on swimming class",      "swimming_pool", default_fallback, "There is nobody here."),
+        "teach_class":    EventStorage("teach_class",    "Teach a swimming class",       "swimming_pool", default_fallback, "There is nobody here."),
+        "peek_changing":  EventStorage("peek_changing",  "Peek into the changing rooms", "swimming_pool", default_fallback, "There is nobody here."),
+        "enter_changing": EventStorage("enter_changing", "Enter changing rooms",         "swimming_pool", default_fallback, "There is nobody here."),
+        "steal_changing": EventStorage("steal_changing", "Steal some panties",           "swimming_pool", default_fallback, "There is nobody here."),
     }
 
 

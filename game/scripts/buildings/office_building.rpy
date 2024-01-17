@@ -3,14 +3,14 @@
 #############################################
 
 init -1 python:
-    office_building_timed_event = EventStorage("office_building", "", Event(2, "office_building.after_time_check"))
+    office_building_timed_event = EventStorage("office_building", "", "office_building", Event(2, "office_building.after_time_check"))
     office_building_events = {
-        "look_around": EventStorage("look",      "Look around"),
-        "tutorial":    EventStorage("tutorial",  "About the school..."),
-        "paperwork":   EventStorage("paperwork", "Do paperwork"),
-        "messages":    EventStorage("messages",  "Check messages"),
-        "internet":    EventStorage("internet",  "Surf internet"),
-        "council":     EventStorage("council",   "Council work"),
+        "look_around": EventStorage("look",      "Look around",         "office_building"),
+        "tutorial":    EventStorage("tutorial",  "About the school...", "office_building"),
+        "paperwork":   EventStorage("paperwork", "Do paperwork",        "office_building"),
+        "messages":    EventStorage("messages",  "Check messages",      "office_building"),
+        "internet":    EventStorage("internet",  "Surf internet",       "office_building"),
+        "council":     EventStorage("council",   "Council work",        "office_building"),
     }
     
     office_building_timed_event.add_event(Event(1, "first_week_office_building_event",
@@ -113,6 +113,9 @@ label first_week_office_building_event (**kwargs):
 
 # TODO: make images
 label office_event_1 (**kwargs):
+
+    $ gallery = Gallery_Manager("office_event_1")
+
     $ image = Image_Series("images/events/office/office_event_1 <level> <step>.webp", **kwargs)
 
     $ begin_event("office_event_1");
@@ -132,8 +135,9 @@ label office_event_1 (**kwargs):
 
 # TODO: make images
 label office_event_2 (**kwargs):
-
     $ kwargs["char_obj"] = get_character("teacher", charList['staff'])
+
+    $ gallery = Gallery_Manager("office_event_2")
 
     $ begin_event("office_event_2");
     
@@ -149,6 +153,8 @@ label office_event_2 (**kwargs):
 
 # TODO: make images
 label office_event_3 (**kwargs):
+    $ gallery = Gallery_Manager("office_event_3")
+
     $ image = Image_Series("images/events/office/office_event_3 <level> <step>.webp", **kwargs)
 
     $ begin_event("office_event_3");

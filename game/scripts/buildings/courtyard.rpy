@@ -3,11 +3,11 @@
 #######################################
 
 init -1 python:
-    courtyard_timed_event = EventStorage("courtyard", "", Event(2, "courtyard.after_time_check"))
+    courtyard_timed_event = EventStorage("courtyard", "", "courtyard", Event(2, "courtyard.after_time_check"))
     courtyard_events = {
-        "talk_student": EventStorage("talk_student", "Talk with students", default_fallback, "There is nobody here."),
-        "talk_teacher": EventStorage("talk_teacher", "Talk with teacher",  default_fallback, "There is nobody here."),
-        "patrol":       EventStorage("patrol",       "Patrol",             default_fallback, "There is nobody here."),
+        "talk_student": EventStorage("talk_student", "Talk with students", "courtyard", default_fallback, "There is nobody here."),
+        "talk_teacher": EventStorage("talk_teacher", "Talk with teacher",  "courtyard", default_fallback, "There is nobody here."),
+        "patrol":       EventStorage("patrol",       "Patrol",             "courtyard", default_fallback, "There is nobody here."),
     }
     
     courtyard_timed_event.add_event(Event(1, "first_week_courtyard_event",
@@ -20,15 +20,18 @@ init -1 python:
 
     courtyard_event1 = Event(3, "courtyard_event_1",
         RandomValueSelector('variant', 1, 1),
-        OR(TimeCondition(daytime = "f", weekday = "d"), TimeCondition(daytime = "d", weekday = "w"))
+        OR(TimeCondition(daytime = "f", weekday = "d"), TimeCondition(daytime = "d", weekday = "w")),
+        title = "Gist of Wind"
     )
 
     courtyard_event2 = Event(3, "courtyard_event_2",
-        OR(TimeCondition(daytime = "f", weekday = "d"), TimeCondition(daytime = "d", weekday = "w"))
+        OR(TimeCondition(daytime = "f", weekday = "d"), TimeCondition(daytime = "d", weekday = "w")),
+        title = "Girl sitting alone"
     )
 
     courtyard_event3 = Event(3, "courtyard_event_3",
         TimeCondition(daytime = "d"),
+        title = "Girls taking a break"
     )
 
     courtyard_events["patrol"].add_event(courtyard_event1, courtyard_event2, courtyard_event3)
@@ -124,6 +127,8 @@ label first_week_courtyard_event (**kwargs):
 label courtyard_event_1 (**kwargs):
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
+    $ Gallery_Manager("courtyard_event_1")
+
     $ image = Image_Series("images/events/courtyard/courtyard_event_1 <level> <variant> <step>.webp", **kwargs)
 
     $ begin_event("courtyard_event_1")
@@ -134,7 +139,6 @@ label courtyard_event_1 (**kwargs):
         ("Look", "courtyard_event_1.look"),
         ("Look away", "courtyard_event_1.look_away"),
     **kwargs)
-
 label .look (**kwargs):
     
     $ begin_event()
@@ -149,7 +153,6 @@ label .look (**kwargs):
     $ change_stats_with_modifier(kwargs["char_obj"],
         happiness = DEC_SMALL, reputation = DEC_TINY, inhibition = DEC_SMALL)
     jump new_daytime
-
 label .look_away (**kwargs):
     
     $ begin_event()
@@ -167,6 +170,8 @@ label .look_away (**kwargs):
 label courtyard_event_2 (**kwargs):
     $ char_obj = get_kwargs("char_obj", **kwargs)
 
+    $ Gallery_Manager("courtyard_event_2")
+
     $ image = Image_Series("images/events/courtyard/courtyard_event_2 <level> <step>.webp", **kwargs)
 
     $ begin_event("courtyard_event_2")
@@ -177,7 +182,6 @@ label courtyard_event_2 (**kwargs):
         ("Talk to her", "courtyard_event_2.talk"),
         ("Leave her alone", "courtyard_event_2.leave"),
     **kwargs)
-
 label .talk (**kwargs):
     
     $ begin_event()
@@ -201,7 +205,6 @@ label .talk (**kwargs):
     $ change_stats_with_modifier(kwargs["char_obj"],
         happiness = DEC_TINY, reputation = TINY)
     jump new_daytime
-
 label .leave (**kwargs):
     
     $ begin_event()
@@ -215,6 +218,8 @@ label .leave (**kwargs):
 label courtyard_event_3 (**kwargs):
     $ begin_event("courtyard_event_3")
     
+    $ Gallery_Manager("courtyard_event_3")
+
     call show_image ("images/events/courtyard/courtyard_event_3 <level>.webp", **kwargs) from _call_show_image
     subtitles "You notice a group of girls taking a break together."
 

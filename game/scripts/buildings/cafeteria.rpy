@@ -3,12 +3,12 @@
 #######################################
 
 init -1 python:
-    cafeteria_timed_event = EventStorage("cafeteria", "", Event(2, "cafeteria.after_time_check"))
+    cafeteria_timed_event = EventStorage("cafeteria", "", "cafeteria", Event(2, "cafeteria.after_time_check"))
     cafeteria_events = {
-        "eat_alone":   EventStorage("eat_alone",   "Eat alone",         default_fallback, "I'm not hungry."),
-        "eat_student": EventStorage("eat_student", "Eat with students", default_fallback, "I'm not hungry."),
-        "eat_teacher": EventStorage("eat_teacher", "Eat with teacher",  default_fallback, "I'm not hungry."),
-        "eat_look":    EventStorage("eat_look",    "Look around",       default_fallback, "I'm not hungry."),
+        "eat_alone":   EventStorage("eat_alone",   "Eat alone",         "cafeteria", default_fallback, "I'm not hungry."),
+        "eat_student": EventStorage("eat_student", "Eat with students", "cafeteria", default_fallback, "I'm not hungry."),
+        "eat_teacher": EventStorage("eat_teacher", "Eat with teacher",  "cafeteria", default_fallback, "I'm not hungry."),
+        "eat_look":    EventStorage("eat_look",    "Look around",       "cafeteria", default_fallback, "I'm not hungry."),
     }
 
     cafeteria_timed_event.check_all_events()

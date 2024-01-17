@@ -7,8 +7,8 @@ init -1 python:
     after_temp_event_check = Event(2, "time_event_check.after_temp_event_check")
     after_event_check      = Event(2, "time_event_check.after_event_check")
 
-    temp_time_check_events = TempEventStorage("temp_time_check_events", "", after_temp_event_check)
-    time_check_events      = EventStorage("time_check_events", "", after_event_check)
+    temp_time_check_events = TempEventStorage("temp_time_check_events", "", "", after_temp_event_check)
+    time_check_events      = EventStorage("time_check_events", "", "", after_event_check)
 
     # temp_check_events.add_event(Event("first_day_introduction", "first_day_introduction", 2,
     #     TimeCondition(day = 1, month = 1, year = 2023, daytime = 1)
@@ -47,7 +47,7 @@ init -1 python:
     # ))
 
     time_check_events.add_event(Event(2, "end_of_month",
-        TimeCondition(day = "1", daytime = "1")
+        TimeCondition(day = 1, daytime = 1)
     ))
 
     temp_time_check_events.add_event(Event(1,

@@ -61,7 +61,7 @@ init -3 python:
             - Checks if all events are created correctly.
         """
 
-        def __init__(self, name: str, title: str, fallback: Event = None, fallback_text: str = "There is nothing to do here."):
+        def __init__(self, name: str, title: str, location: str, fallback: Event = None, fallback_text: str = "There is nothing to do here."):
             self.name = name
             self.title = title
             self.fallback = fallback if fallback != None else default_fallback
@@ -71,6 +71,7 @@ init -3 python:
                 2: {},
                 3: {},
             }
+            self.location = location
 
         def _update(self, title: str):
             """
@@ -91,6 +92,17 @@ init -3 python:
             """
 
             return self.name
+
+        def get_location(self) -> str:
+            """
+            Returns the location of the EventStorage.
+
+            ### Returns:
+            1. str
+                - The location of the EventStorage.
+            """
+
+            return self.location
 
         def get_title(self) -> str:
             """
@@ -126,7 +138,12 @@ init -3 python:
             """
 
             for event in events:
+                if event.get_priority() == 3 and event.get_event() not in seenEvents.keys():
+                    seenEvents[event.get_event()] = False
+
                 if event.get_id() not in self.events[event.get_priority()].keys():
+                    if self.location != "":
+                        self.register_event_for_location(event, self.location)
                     self.events[event.get_priority()][event.get_id()] = event
 
         def remove_event(self, event_id: str):
@@ -310,6 +327,27 @@ init -3 python:
             for event in self.events[3].values():
                 event.check_event()
 
+        def register_event_for_location(self, event: Event, location: str):
+            """
+            Registers an event for a location.
+            This is used to make sure that the event is only called when the player is at the location.
+
+            ### Parameters:
+            1. event: str
+                - The event that is registered.
+            2. location: str
+                - The location that the event is registered for.
+            """
+
+
+
+            event.set_location(location)
+
+            if location not in location_event_register.keys():
+                location_event_register[location] = set()
+
+            location_event_register[location].add(event)
+
     class TempEventStorage(EventStorage):
         """
         Subclass of EventStorage.
@@ -329,8 +367,8 @@ init -3 python:
             - The events that are stored in the EventStorage. The events are stored in a list.
         """
 
-        def __init__(self, name: str, title: str, fallback: Event = None, fallback_text: str = "How did you end up here? That shouldn't have happened. Better notify the dev about this."):
-            super().__init__(name, title, fallback, fallback_text)
+        def __init__(self, name: str, title: str, location: str = "", fallback: Event = None, fallback_text: str = "How did you end up here? That shouldn't have happened. Better notify the dev about this."):
+            super().__init__(name, title, location, fallback, fallback_text)
             self.events = []
 
         def _update(self, title):
@@ -356,6 +394,10 @@ init -3 python:
             1. *event: Event
                 - The events that are added to the EventStorage.
             """
+
+            if self.location != "":
+                for event_obj in event:
+                    self.register_event_for_location(event_obj, self.location)
 
             self.events.extend(event)
 
@@ -556,9 +598,11 @@ init -3 python:
 
         """
 
-        def __init__(self, priority: int, event: str, *conditions: Condition | Selector):
-            self.event_id = str(id(self))
+        def __init__(self, priority: int, event: str, *conditions: Condition | Selector, title: str = "", thumbnail: str = ""):
+            self.event_id = str(event)
             self.event = event
+            self.title = title
+            self.thumbnail = thumbnail
             self.conditions = [condition for condition in conditions if isinstance(condition, Condition)]
             self.values = SelectorSet(*[condition for condition in conditions if isinstance(condition, Selector)])
 
@@ -571,11 +615,10 @@ init -3 python:
             # 3 = lowest (selected random among 3's)
             self.priority = priority 
             self.event_type = ""
-            if priority == 3:
-                for event_name in self.event:
-                    if event_name not in seenEvents.keys():
-                        seenEvents[event_name] = False
             # self.values = values
+
+            event_register[self.event_id] = self
+            self.location = ""
 
         def __str__(self):
             return self.event_id
@@ -629,7 +672,41 @@ init -3 python:
                 - The id of the event.
             """
 
-            return self.event_id
+            return self.event
+
+        def get_title(self) -> str:
+            """
+            Returns the title of the event.
+
+            ### Returns:
+            1. str
+                - The title of the event.
+            """
+
+            return self.title
+
+        def get_location(self) -> str:
+            """
+            Returns the location of the event.
+
+            ### Returns:
+            1. str
+                - The location of the event.
+            """
+
+            return self.location
+
+        def set_location(self, location: str):
+            """
+            Sets the location of the event.
+
+            ### Parameters:
+            1. location: str
+                - The location of the event.
+            """
+
+            self.location = location
+            return
 
         def set_event_type(self, event_type: str):
             """
