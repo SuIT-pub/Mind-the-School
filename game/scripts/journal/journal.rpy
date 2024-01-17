@@ -1181,7 +1181,9 @@ screen journal_gallery(display):
             $ gallery_chooser = {}
             $ gallery_chooser_order = []
             $ old_event = event
-        if 'last_data' in persistent.gallery[location][event]['options'].keys() and 'last_order' in persistent.gallery[location][event]['options'].keys():
+        if ('last_data' in persistent.gallery[location][event]['options'].keys() and 
+            'last_order' in persistent.gallery[location][event]['options'].keys()
+        ):
             $ gallery_chooser = persistent.gallery[location][event]['options']['last_data']
             $ gallery_chooser_order = persistent.gallery[location][event]['options']['last_order']
         $ event_obj = get_event_from_register(event)
@@ -1197,12 +1199,10 @@ screen journal_gallery(display):
         image "journal/empty_image_wide.webp":
             xpos 989 ypos 250
 
-        text "Variants":
-            xpos 989
-            ypos 560
-            color "#000"
-
         $ variant_names = [topic for topic in persistent.gallery[location][event]['order']]
+        $ log_val('variant_names', variant_names)
+        $ log_val('gallery_data', persistent.gallery[location][event])
+        $ has_option = False
         frame:
             area(989, 600, 500, 250)
             background Solid('#0000')
@@ -1236,12 +1236,16 @@ screen journal_gallery(display):
                                         style "journal_text"
                                         size 30
                                     for value in values:
+                                        $ has_option = True
+                                        $ value_text = get_translation(value)
+                                        $ log_val('translations', translation_texts)
+                                        $ log_val('value_text', value_text)
                                         if value == gallery_chooser[variant_name]:
-                                            textbutton "[value]":
+                                            textbutton "[value_text]":
                                                 text_style "buttons_selected"
                                                 action Null()
                                         else:
-                                            textbutton "[value]":
+                                            textbutton "[value_text]":
                                                 text_style "buttons_idle"
                                                 action [With(dissolveM), SetDict(gallery_chooser, variant_name, value), SetVariable('gallery_chooser', update_gallery_chooser(gallery_chooser_order, gallery_chooser, persistent.gallery[location][event]['values']))]
             bar value XScrollValue("GallerySelectionOverview"):
@@ -1254,6 +1258,15 @@ screen journal_gallery(display):
                 xoffset 15
         $ persistent.gallery[location][event]['options']['last_data'] = gallery_chooser
         $ persistent.gallery[location][event]['options']['last_order'] = gallery_chooser_order
+        
+        if has_option:            
+            text "Variants":
+                xpos 989
+                ypos 560
+                color "#000"
+
+        
+        
         textbutton "Play":
             text_style "buttons_idle"
             xpos 1389

@@ -87,17 +87,15 @@ init python:
             - The key if the title cannot be found.
         """
 
-        if location not in persistent.gallery.keys():
-            return key
-        if event not in persistent.gallery[location].keys():
-            return key
-        if 'options' not in persistent.gallery[location][event].keys():
-            return key
-        if 'titles' not in persistent.gallery[location][event]['options'].keys():
-            return key
-        if key not in persistent.gallery[location][event]['options']['titles'].keys():
-            return key
-        return persistent.gallery[location][event]['options']['titles'][key]
+        if (location in persistent.gallery.keys() and
+            event in persistent.gallery[location].keys() and
+            'options' in persistent.gallery[location][event].keys() and 
+            'titles' in persistent.gallery[location][event]['options'].keys() and
+            key in persistent.gallery[location][event]['options']['titles'].keys()
+        ):
+            return persistent.gallery[location][event]['options']['titles'][key]
+
+        return get_translation(key)
 
     class Gallery_Manager:
         """
@@ -189,15 +187,24 @@ init python:
                 self.data[value] = {}
 
             self.order.append(key)
+            log_val('gallery_data', persistent.gallery[self.location][self.event])
+            log_val('order', self.order)
+            log_val('count', self.count)
             if (len(persistent.gallery[self.location][self.event]['order']) <= self.count or 
                 persistent.gallery[self.location][self.event]['order'][self.count] != key
             ):
+                log_val('reset', True)
                 persistent.gallery[self.location][self.event]['values'] = {}
-
-            persistent.gallery[self.location][self.event]['order'] = self.order
+                persistent.gallery[self.location][self.event]['options'].pop('last_order', None)
+                persistent.gallery[self.location][self.event]['options'].pop('last_data', None)
+                persistent.gallery[self.location][self.event]['order'] = self.order
 
             self.data = self.data[value]
-            persistent.gallery[self.location][self.event]['values'].update(self.original_data)
+            persistent.gallery[self.location][self.event]['values'] = update_dict(
+                persistent.gallery[self.location][self.event]['values'], 
+                self.original_data
+            )
+
             self.count = self.count + 1
 
         def get_value(self, key: str, alt: Any = None, **kwargs) -> Any:

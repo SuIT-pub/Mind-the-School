@@ -1,7 +1,10 @@
-init -99 python:
+init -98 python:
     seenEvents = {}
     location_event_register = {}
     event_register = {}
+
+    translation_texts = {}
+    get_translations()
 
 init python:
 

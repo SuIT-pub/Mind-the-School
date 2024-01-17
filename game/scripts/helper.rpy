@@ -1,5 +1,6 @@
 init -99 python:
     from typing import TypeVar
+    import collections.abc
     import re
 
     def in_kwargs(key: str, **kwargs) -> bool:
@@ -736,6 +737,62 @@ init -99 python:
             return lines
         else:
             return [line for line in lines if line.split(',')[1].strip() == tier]
+
+    def get_translations():
+        """
+        Gets the translations from the translations.csv file
+        """
+
+        global translation_texts
+
+        if not renpy.loadable("translations.csv"):
+            translation_texts = {}
+        file = renpy.open_file("translations.csv")
+        lines = split_to_non_empty_list(file.read().decode(), "\r\n")
+        translation_texts = {line.split(',')[0]: line.split(',')[1] for line in lines}
+
+    def get_translation(key: str) -> str:
+        """
+        Gets a translation from the translations.csv file
+
+        ### Parameters:
+        1. key: str
+            - The key to get the translation for
+
+        ### Returns:
+        1. str
+            - The translation
+            - If the key is not in the translations.csv file the key is returned
+        """
+
+        if key in translation_texts.keys():
+            return translation_texts[key]
+        return key
+
+    def update_dict(original_dict, new_dict):
+        """
+        Updates a dictionary with another dictionary
+
+        ### Parameters:
+        1. original_dict: dict
+            - The dictionary to update
+        2. new_dict: dict
+            - The dictionary to update with
+
+        ### Returns:
+        1. dict
+            - The updated dictionary
+        """
+
+        for key, value in new_dict.items():
+            if isinstance(value, collections.Mapping):
+                temp = update_dict(original_dict.get(key, { }), value)
+                original_dict[key] = temp
+            elif isinstance(value, list):
+                original_dict[key] = (original_dict.get(key, []) + value)
+            else:
+                original_dict[key] = new_dict[key]
+        return original_dict
 
     def split_to_non_empty_list(s, delimiter) -> List[str]:
         """

@@ -222,12 +222,6 @@ label sd_event_2 (**kwargs):
     
     $ gallery = Gallery_Manager("sd_event_2")
 
-    $ gallery.set_topic_titles(
-        location = 'Location',
-        girl_name = 'Girl',
-        topic = 'Topic',
-    )
-
     $ location = gallery.get_value('location', **kwargs)
     $ girl_name = gallery.get_value('girl_name', **kwargs)
     $ topic = gallery.get_value('topic', **kwargs)
