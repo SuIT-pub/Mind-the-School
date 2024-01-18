@@ -1,4 +1,5 @@
 init python:
+    gallery_manager = None
     def prep_gallery(location: str, event: str, *key: str):
         """
         Prepares the gallery database for use.
@@ -129,7 +130,12 @@ init python:
 
         """
 
-        def __init__(self, event: str):
+        def __init__(self, **kwargs):
+            event = get_kwargs('event_name', None, **kwargs)
+            if event == None:
+                return
+            global gallery_manager
+            gallery_manager = self
             self.event = event
             self.location = get_event_from_register(event).get_location()
 
@@ -142,89 +148,128 @@ init python:
             self.count = 0
             renpy.call_screen("black_screen_text", event)
 
-        def set_stat_ranges(self, **max_limits: List[float]):
-            """
-            Sets up steps for stats.
-            This is to normalize stat value to reduce the amount of values that need to be stored.
+            log_val('gallery', persistent.gallery)
 
-            ### Parameters:
-            1. **max_limits: List[float]
-                - The value steps for each stat.
-            """
+    def set_stat_ranges(**max_limits: List[float]):
+        """
+        Sets up steps for stats.
+        This is to normalize stat value to reduce the amount of values that need to be stored.
 
-            for key in max_limits.keys():
-                    self.current_ranges[key] = list(max_limits[key])
+        ### Parameters:
+        1. **max_limits: List[float]
+            - The value steps for each stat.
+        """
 
-        def set_topic_titles(self, **titles: str):
-            """
-            Sets up titles for topics.
+        global gallery_manager
 
-            ### Parameters:
-            1. **titles: str
-                - The titles for each topic.
-            """
+        if gallery_manager == None:
+            return
 
-            if 'titles' not in persistent.gallery[self.location][self.event]['options'].keys():
-                persistent.gallery[self.location][self.event]['options']['titles'] = {}
-            for key in titles.keys():
-                persistent.gallery[self.location][self.event]['options']['titles'][key] = titles[key]
+        for key in max_limits.keys():
+                gallery_manager.current_ranges[key] = list(max_limits[key])
 
-        def register_value(self, key: str, value: number | string):
-            """
-            Registers a value for the use in the gallery database.
+    def set_topic_titles(**titles: str):
+        """
+        Sets up titles for topics.
 
-            ### Parameters:
-            1. key: str
-                - The key to register the value under.
-            2. value: number | string
-                - The value to register.
-            """
-            
-            if key in self.current_ranges.keys() and is_float(value):
-                value = min(filter(lambda x: x > float(value), self.current_ranges[key]))                
+        ### Parameters:
+        1. **titles: str
+            - The titles for each topic.
+        """
 
-            if value not in self.data.keys():
-                self.data[value] = {}
+        global gallery_manager
 
-            self.order.append(key)
-            log_val('gallery_data', persistent.gallery[self.location][self.event])
-            log_val('order', self.order)
-            log_val('count', self.count)
-            if (len(persistent.gallery[self.location][self.event]['order']) <= self.count or 
-                persistent.gallery[self.location][self.event]['order'][self.count] != key
-            ):
-                log_val('reset', True)
-                persistent.gallery[self.location][self.event]['values'] = {}
-                persistent.gallery[self.location][self.event]['options'].pop('last_order', None)
-                persistent.gallery[self.location][self.event]['options'].pop('last_data', None)
-                persistent.gallery[self.location][self.event]['order'] = self.order
+        if gallery_manager == None:
+            return
 
-            self.data = self.data[value]
-            persistent.gallery[self.location][self.event]['values'] = update_dict(
-                persistent.gallery[self.location][self.event]['values'], 
-                self.original_data
-            )
+        if 'titles' not in persistent.gallery[gallery_manager.location][gallery_manager.event]['options'].keys():
+            persistent.gallery[gallery_manager.location][gallery_manager.event]['options']['titles'] = {}
+        for key in titles.keys():
+            persistent.gallery[gallery_manager.location][gallery_manager.event]['options']['titles'][key] = titles[key]
 
-            self.count = self.count + 1
+    def register_value(key: str, value: number | string):
+        """
+        Registers a value for the use in the gallery database.
 
-        def get_value(self, key: str, alt: Any = None, **kwargs) -> Any:
-            """
-            Gets a value from the gallery database.
+        ### Parameters:
+        1. key: str
+            - The key to register the value under.
+        2. value: number | string
+            - The value to register.
+        """
 
-            ### Parameters:
-            1. key: str
-                - The key to get the value from.
-            2. alt: Any (default: None)
-                - The value to return if the key is not found.
+        global gallery_manager
 
-            ### Returns:
-            1. Any:
-                - The value found in the database.
-            """
-
-            value = get_kwargs(key, alt, **kwargs)
-            if not _in_replay:
-                self.register_value(key, value)
-            return value
-
+        if gallery_manager == None:
+            return
         
+        if key in gallery_manager.current_ranges.keys() and is_float(value):
+            value = min(filter(lambda x: x > float(value), gallery_manager.current_ranges[key]))                
+
+        if value not in gallery_manager.data.keys():
+            gallery_manager.data[value] = {}
+
+        gallery_manager.order.append(key)
+        if (len(persistent.gallery[gallery_manager.location][gallery_manager.event]['order']) <= gallery_manager.count or 
+            persistent.gallery[gallery_manager.location][gallery_manager.event]['order'][gallery_manager.count] != key
+        ):
+            log_val('reset', True)
+            persistent.gallery[gallery_manager.location][gallery_manager.event]['values'] = {}
+            persistent.gallery[gallery_manager.location][gallery_manager.event]['options'].pop('last_order', None)
+            persistent.gallery[gallery_manager.location][gallery_manager.event]['options'].pop('last_data', None)
+            persistent.gallery[gallery_manager.location][gallery_manager.event]['order'] = gallery_manager.order
+
+        gallery_manager.data = gallery_manager.data[value]
+        persistent.gallery[gallery_manager.location][gallery_manager.event]['values'] = update_dict(
+            persistent.gallery[gallery_manager.location][gallery_manager.event]['values'], 
+            gallery_manager.original_data
+        )
+
+        gallery_manager.count = gallery_manager.count + 1
+
+    def get_value(key: str, alt: Any = None, **kwargs) -> Any:
+        """
+        Gets a value from the gallery database.
+
+        ### Parameters:
+        1. key: str
+            - The key to get the value from.
+        2. alt: Any (default: None)
+            - The value to return if the key is not found.
+
+        ### Returns:
+        1. Any:
+            - The value found in the database.
+        """
+
+        value = get_kwargs(key, alt, **kwargs)
+        in_replay = get_kwargs('in_replay', False, **kwargs)
+        if not in_replay:
+            register_value(key, value)
+        # log_val('gallery', persistent.gallery)
+
+        log_val(key, value)
+
+        return value
+
+    def get_char_value(**kwargs) -> Char:
+        char_obj = get_kwargs("char_obj", None, **kwargs)
+        if char_obj == None:
+            char_obj_key = get_kwargs("char_obj_key", None, **kwargs)
+            if char_obj_key == None:
+                return None
+            char_obj = get_character_by_key(char_obj_key)
+            if char_obj == None:
+                return None
+
+        in_replay = get_kwargs('in_replay', False, **kwargs)
+
+        if not in_replay:
+            register_value("char_obj_key", char_obj.get_name())
+            register_value("level", char_obj.get_level())
+
+        log_val('gallery_data', persistent.gallery)
+
+        return char_obj
+
+    

@@ -311,7 +311,9 @@ init -3 python:
             if "event_type" not in kwargs.keys():
                 kwargs["event_type"] = self.name
 
+
             for event in events:
+                kwargs["event_name"] = event.get_event()
                 event.call(**kwargs)
 
         def check_all_events(self):
@@ -783,6 +785,8 @@ init -3 python:
                 kwargs.update(self.values.get_values())
                 self.values.roll_values()
 
+            kwargs["event_name"] = self.get_event()
+
             renpy.call("call_event", events, self.priority, **kwargs)
 
 
@@ -805,12 +809,16 @@ label call_available_event(event_storage, priority = 0, **kwargs):
 
     $ i = 0
     while(len(events_list) > i):
-        $ events = events_list[i].get_event()
+        $ event_obj = events_list[i]
+        $ events = event_obj.get_event()
         if "event_type" not in kwargs.keys():
-            $ kwargs["event_type"] = events_list[i].event_type
+            $ kwargs["event_type"] = event_obj.event_type
 
         if event_storage.get_type() == "TempEventStorage":
-            $ event_storage.remove_event(events_list[i].get_id())
+            $ event_storage.remove_event(event_obj.get_id())
+
+        
+        $ kwargs["event_name"] = event_obj.get_event()
 
         $ renpy.call(events, **kwargs)
         $ i += 1
@@ -837,11 +845,15 @@ label call_event(event_obj, priority = 0, **kwargs):
         $ event_obj.call(**kwargs)
     if isinstance(event_obj, str):
         if renpy.has_label(event_obj):
+            $ gallery_manager = None
+            $ kwargs["event_name"] = event_obj
             $ renpy.call(event_obj, from_current="call_event_1", **kwargs)
     if isinstance(event_obj, list):
         $ i = 0
         while(len(event_obj) > i):
             if renpy.has_label(event_obj[i]):
+                $ gallery_manager = None
+                $ kwargs["event_name"] = event_obj[i]
                 $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
             $ i += 1
 

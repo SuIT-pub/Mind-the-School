@@ -218,19 +218,16 @@ label sd_event_1 (**kwargs):
         jump new_daytime
 
 label sd_event_2 (**kwargs):
-    $ char_obj = get_kwargs("char_obj", **kwargs)
-    
-    $ gallery = Gallery_Manager("sd_event_2")
+    $ begin_event(**kwargs)
 
-    $ location = gallery.get_value('location', **kwargs)
-    $ girl_name = gallery.get_value('girl_name', **kwargs)
-    $ topic = gallery.get_value('topic', **kwargs)
-    $ topic_set = gallery.get_value('topic_set', **kwargs)
+    $ char_obj = get_char_value(**kwargs)
+    $ location = get_value('location', **kwargs)
+    $ girl_name = get_value('girl_name', **kwargs)
+    $ topic = get_value('topic', **kwargs)
+    $ topic_set = get_value('topic_set', **kwargs)
 
     $ image = Image_Series("images/events/school dormitory/sd_event_2 <topic> <location> <girl_name> <level> <step>.webp", **kwargs)
     $ image2 = Image_Series("images/events/school dormitory/sd_event_2 <location> <step>.webp", **kwargs)
-
-    $ begin_event("sd_event_2")
 
     if topic == "ah":
         $ image.show(0)
@@ -267,7 +264,7 @@ label sd_event_2 (**kwargs):
         subtitles "You quickly make an exit."
         $ change_stats_with_modifier(char_obj,
             inhibition = DEC_TINY, happiness = DEC_MEDIUM)
-        jump new_daytime
+        $ end_event(**kwargs)
     # elif topic == "guys_stop":
     #     $ image.show(0)
     #     sgirl "Excuse me!\n Can you guys stop running in and out of here?!"
@@ -334,7 +331,7 @@ label sd_event_2 (**kwargs):
         # ("After a quick look at the sexy girl, you apologize and leave.", character.subtitles, topic_set == 2),
         # ("A nice view, but you quickly leave anyway.", character.subtitles, topic_set == 2),
 
-    jump new_daytime
+    $ end_event(**kwargs)
 
 label sd_event_3 (**kwargs):
     $ char_obj = get_kwargs("char_obj", **kwargs)

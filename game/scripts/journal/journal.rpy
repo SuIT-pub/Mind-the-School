@@ -26,6 +26,8 @@ label start_journal ():
     call open_journal (1, "") from start_journal_1
 
 label open_journal(page, display, char = "school"):
+    $ log_val("display", display)
+
     if page == 1:
         call screen journal_overview(display, char) with dissolveM
     elif page == 2:
@@ -1265,13 +1267,14 @@ screen journal_gallery(display):
                 ypos 560
                 color "#000"
 
-        
+        $ gallery_chooser['in_replay'] = True
+        $ gallery_chooser['journal_display'] = display
         
         textbutton "Play":
             text_style "buttons_idle"
             xpos 1389
             ypos 910
-            action Call('start_gallery_replay', event, gallery_chooser, display)
+            action Call(event, **gallery_chooser)
             
 init python:
     def update_gallery_chooser(gallery_chooser_order: List[string], gallery_chooser: Dict[string, Any], gallery_dict: Dict[string, Any]) -> Dict[string, Any]:
@@ -1416,8 +1419,6 @@ label start_gallery_replay(event, data, display):
     $ log_val('gallery_data', data)
     $ log_val('gallery_event', event)
     $ log_val('gallery_display', display)
-
-    $ renpy.pause()
 
     call open_journal(7, display)
 

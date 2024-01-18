@@ -150,7 +150,7 @@ label .look (**kwargs):
     $ image.show(3)
     sgirl "PERVERT!"
 
-    $ change_stats_with_modifier(kwargs["char_obj"],
+    $ change_stats_with_modifier(char_obj,
         happiness = DEC_SMALL, reputation = DEC_TINY, inhibition = DEC_SMALL)
     jump new_daytime
 label .look_away (**kwargs):

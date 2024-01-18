@@ -366,7 +366,7 @@ init -99 python:
 
         return
 
-    def begin_event(name: str = ""):
+    def begin_event(**kwargs):
         """
         This method is called at the start of an event after choices and topics have been chosen in the event.
         It prevents rollback to before this method and thus prevents changing choices and topics.
@@ -374,19 +374,61 @@ init -99 python:
 
         global seenEvents
 
+        event_name = get_kwargs("event_name", "", **kwargs)
+        in_replay = get_kwargs("in_replay", False, **kwargs)
+
+        if event_name != "" and not in_replay:
+            gallery_manager = Gallery_Manager(**kwargs)
+
         if contains_game_data("seen_events"):
             seenEvents = get_game_data("seen_events")
 
-        if name != "" and name in seenEvents.keys():
-            seenEvents[name] = True
+        if event_name != "" and event_name in seenEvents.keys():
+            seenEvents[event_name] = True
             set_game_data("seen_events", seenEvents)
             if all(seenEvents.values()):
                 set_game_data("all_events_seen", True)
 
         renpy.block_rollback()
 
-        renpy.call("show_sfw_text", name)
+        renpy.call("show_sfw_text", event_name)
 
+    def end_event(return_type: str = "new_daytime", **kwargs):
+        in_replay = get_kwargs("in_replay", False, **kwargs)
+        if in_replay:
+            log_val("replay_data", kwargs)
+            display_journal = get_kwargs("journal_display", "", **kwargs)
+            renpy.call("open_journal", 7, display_journal, from_current = False)
+            return
+
+        if "new_daytime":
+            renpy.jump("new_daytime")
+        elif "new_day":
+            renpy.jump("new_day")
+        else:
+            renpy.jump("overview")
+        
+
+    def load_event_char(**kwargs):
+        """
+        Loads a character from kwargs
+
+        ### Parameters:
+        1. **kwargs
+            - The kwargs to get the character from
+
+        ### Returns:
+        1. Character
+            - The character
+            - If the character is not in kwargs None is returned
+        """
+
+        char_obj = get_kwargs("char_obj", get_character_from_key(get_kwargs("char_obj_key", None, **kwargs)), **kwargs)
+        if char_obj == None:
+            return None
+        kwargs["char_obj_key"] = char_obj.get_name()
+        get_value("char_obj_key", **kwargs)
+        return char_obj
 
     def set_game_data(key: str, value: Any):
         """
@@ -400,6 +442,107 @@ init -99 python:
         """
 
         gameData[key] = value
+
+    def set_name(key: str, first_name: str, last_name: str):
+        """
+        Sets a name in gameData
+
+        ### Parameters:
+        1. key: str
+            - The key to set
+        2. first_name: str
+            - The first name to set
+        3. last_name: str
+            - The last name to set
+        """
+
+        if "names" not in gameData.keys():
+            gameData["names"] = {}
+        gameData["names"][key] = (first_name, last_name)
+
+    def get_name(key: str) -> Tuple[str, str]:
+        """
+        Gets a name from gameData
+
+        ### Parameters:
+        1. key: str
+            - The key to get
+
+        ### Returns:
+        1. Tuple[str, str]
+            - The name
+            - If the key is not in gameData (None, None) is returned
+        """
+
+        if "names" not in gameData.keys() or key not in gameData["names"].keys():
+            if key in default_names.keys():
+                return default_names[key]
+            else:
+                return (None, None)
+        return gameData["names"][key]
+
+    def get_name_str(key: str) -> str:
+        """
+        Gets a name from gameData as a string
+
+        ### Parameters:
+        1. key: str
+            - The key to get
+
+        ### Returns:
+        1. str
+            - The name
+            - If the key is not in gameData "" is returned
+        """
+
+        if "names" not in gameData.keys() or key not in gameData["names"].keys():
+            if key in default_names.keys():
+                return ' '.join(list(default_names[key]))
+            else:
+                return "first_name last_name"
+        return ' '.join(list(gameData["names"][key]))
+
+    def get_name_first(key: str) -> str:
+        """
+        Gets a first name from gameData
+
+        ### Parameters:
+        1. key: str
+            - The key to get
+
+        ### Returns:
+        1. str
+            - The first name
+            - If the key is not in gameData "" is returned
+        """
+
+        if "names" not in gameData.keys() or key not in gameData["names"].keys():
+            if key in default_names.keys():
+                return default_names[key][0]
+            else:
+                return "first_name"
+        return gameData["names"][key][0]
+
+    def get_name_last(key: str) -> str:
+        """
+        Gets a last name from gameData
+
+        ### Parameters:
+        1. key: str
+            - The key to get
+
+        ### Returns:
+        1. str
+            - The last name
+            - If the key is not in gameData "" is returned
+        """
+
+        if "names" not in gameData.keys() or key not in gameData["names"].keys():
+            if key in default_names.keys():
+                return default_names[key][1]
+            else:
+                return "last_name"
+        return gameData["names"][key][1]
 
     def start_progress(key: str):
         """
@@ -546,6 +689,12 @@ init -99 python:
                 "reputation": Stat(REPUTATION, 7),
             }
         })
+
+    def check_old_versions():
+        if 'headmaster_first_name' in gameData.keys() and 'headmaster_last_name' in gameData.keys():
+            set_name("headmaster", gameData['headmaster_first_name'], gameData['headmaster_last_name'])
+            gameData.pop('headmaster_first_name')
+            gameData.pop('headmaster_last_name')
 
     def get_random_choice(*choice: T | Tuple[float, T] | Tuple[float, T, bool | Condition], **kwargs) -> T:
         """

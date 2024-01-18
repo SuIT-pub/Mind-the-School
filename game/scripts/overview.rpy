@@ -573,6 +573,8 @@ label map_overview ():
 
     $ reroll_selectors()
 
+    $ check_old_versions()
+
     $ renpy.choice_for_skipping()
 
     scene bg school overview idle
