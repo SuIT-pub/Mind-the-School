@@ -81,8 +81,7 @@ label .after_time_check (**kwargs):
 ###########################################
 
 label first_potion_office_building_event (**kwargs):
-
-    $ begin_event()
+    $ begin_event(**kwargs)
     
     show first potion office 1 with dissolveM
     subtitles "You enter the teachers office."
@@ -92,12 +91,11 @@ label first_potion_office_building_event (**kwargs):
 
     $ set_building_blocked("office_building")
 
-    jump new_daytime
+    $ end_event('new_daytime', **kwargs)
 
 # first week event
 label first_week_office_building_event (**kwargs):
-
-    $ begin_event()
+    $ begin_event(**kwargs)
     
     show first week office building 1 with dissolveM
     subtitles "Mhh. The office is nothing special but at least not really run down."
@@ -109,16 +107,13 @@ label first_week_office_building_event (**kwargs):
 
     $ set_building_blocked("office_building")
 
-    jump new_day
+    $ end_event('new_day', **kwargs)
 
 # TODO: make images
 label office_event_1 (**kwargs):
-
-    $ gallery = Gallery_Manager("office_event_1")
+    $ begin_event(**kwargs);
 
     $ image = Image_Series("images/events/office/office_event_1 <level> <step>.webp", **kwargs)
-
-    $ begin_event("office_event_1");
 
     $ image.show(0)
     subtitles "You notice a girl sitting in front of the teachers office."
@@ -131,16 +126,14 @@ label office_event_1 (**kwargs):
     $ change_stats_with_modifier(get_character("teacher", charList['staff']),
         happiness = TINY)
     
-    jump new_daytime
+    $ end_event('new_daytime', **kwargs)
 
 # TODO: make images
 label office_event_2 (**kwargs):
-    $ kwargs["char_obj"] = get_character("teacher", charList['staff'])
+    $ begin_event(**kwargs);
 
-    $ gallery = Gallery_Manager("office_event_2")
+    $ char_obj = get_character("teacher", charList['staff'])
 
-    $ begin_event("office_event_2");
-    
     call show_image(get_image("images/events/office/office_event_2 <level> <variant>.webp", **kwargs)[1]) from _call_show_image_2
     subtitles "Even the teachers need a break from time to time."
 
@@ -149,15 +142,13 @@ label office_event_2 (**kwargs):
     $ change_stats_with_modifier(get_character("teacher", charList['staff']),
         happiness = TINY)
 
-    jump new_daytime
+    $ end_event('new_daytime', **kwargs)
 
 # TODO: make images
 label office_event_3 (**kwargs):
-    $ gallery = Gallery_Manager("office_event_3")
+    $ begin_event(**kwargs);
 
     $ image = Image_Series("images/events/office/office_event_3 <level> <step>.webp", **kwargs)
-
-    $ begin_event("office_event_3");
 
     $ image.show(0)
     subtitles "You enter the office and see two students sitting there."
@@ -177,7 +168,7 @@ label .ignore (**kwargs):
     $ change_stats_with_modifier(get_character("teacher", charList['staff']),
         happiness = TINY)
 
-    jump new_daytime
+    $ end_event('new_daytime', **kwargs)
 
 label .talk (**kwargs):
     
@@ -217,7 +208,7 @@ label .policy (**kwargs):
     $ change_stats_with_modifier(get_character("teacher", charList['staff']),
         happiness = TINY)
 
-    jump new_daytime
+    $ end_event('new_daytime', **kwargs)
 
 label .care (**kwargs):
     
@@ -242,6 +233,6 @@ label .care (**kwargs):
     if get_progress("unlock_student_relationship") == -1:
         $ start_progress("unlock_student_relationship")
 
-    jump new_daytime
+    $ end_event('new_daytime', **kwargs)
 
 ###########################################

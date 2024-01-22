@@ -248,6 +248,8 @@ image anim_first_week_epilogue_24 = Movie(play ="images/events/first week/first 
 
 label first_week_epilogue (**kwargs):
 
+    $ begin_event(**kwargs)
+
     $ hide_all()
 
     scene office secretary 1 big smile with dissolveM
@@ -277,8 +279,6 @@ label first_week_epilogue (**kwargs):
     headmaster "Perfect! I'll be off then. Expect me back early on Monday. I need all the time I can get."
 
     call screen black_screen_text ("Monday, 8 January 2023")
-
-label .replay:
 
     show first week epilogue 5  
     # headmaster enters with two boxes
@@ -385,8 +385,6 @@ label .replay:
     show first week epilogue 27 with dissolveM
     # headmaster puts secretary on the couch
     headmaster_thought "Let's see how she feels after she rested. Gotta get her a blanket first though."
-
-    $ renpy.end_replay()
 
     call screen black_screen_text ("Tuesday, 9 January 2023")
 
@@ -516,20 +514,23 @@ label .replay:
 
     # for the rest of the day the strong effects can be observed throughout the campus
     
-    $ set_level_for_char(1, "school", charList)
-    $ set_level_for_char(1, "teacher", charList["staff"])
-    $ set_level_for_char(1, "parents", charList)
-    $ set_level_for_char(5, "secretary", charList["staff"])
+    if not is_in_replay:
+        $ set_level_for_char(1, "school", charList)
+        $ set_level_for_char(1, "teacher", charList["staff"])
+        $ set_level_for_char(1, "parents", charList)
+        $ set_level_for_char(5, "secretary", charList["staff"])
 
-    $ set_all_buildings_blocked(False)
+        $ set_all_buildings_blocked(False)
 
-    $ set_building_blocked("kiosk")
+        $ set_building_blocked("kiosk")
 
-    $ time.set_time(day = 9, daytime = 3)
+        $ time.set_time(day = 9, daytime = 3)
 
-    jump new_daytime
+    $ end_event('new_daytime', **kwargs)
 
 label first_week_epilogue_final (**kwargs): 
+    $ begin_event(**kwargs)
+
     $ set_all_buildings_blocked(False)
 
     $ hide_all()
@@ -598,6 +599,8 @@ label first_week_epilogue_final (**kwargs):
     headmaster "Oh I guess classes just started. I think I should start my rounds."
     show first week epilogue final 18 with dissolveM
     secretary "Good luck."
+
+    $ end_event('none', **kwargs)
 
 label .skip:
 

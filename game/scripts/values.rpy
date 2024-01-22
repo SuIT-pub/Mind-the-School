@@ -41,6 +41,8 @@ default charList = {
     'staff': {},
 }
 
+default is_in_replay = False
+
 default money = Stat(MONEY, 1000)
 default time = Time()
 default stat_data = {}

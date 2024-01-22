@@ -513,7 +513,7 @@ init -6 python:
             - The value to which the blocked status of the building should be set to.
         """
 
-        if building_name in buildings.keys():
+        if not is_in_replay and building_name in buildings.keys():
             buildings[building_name].set_blocked(is_blocked)
 
     def set_all_buildings_blocked(is_blocked: bool = True):
@@ -524,6 +524,9 @@ init -6 python:
         1. is_blocked: bool = True
             - The value to which the blocked status of the buildings should be set to.
         """
+
+        if is_in_replay:
+            return
 
         for building in buildings.values():
             building.set_blocked(is_blocked)

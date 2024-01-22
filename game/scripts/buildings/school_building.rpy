@@ -78,8 +78,7 @@ label .after_time_check (**kwargs):
 
 # first week event
 label first_week_sb_event (**kwargs):
-    
-    $ begin_event()
+    $ begin_event(**kwargs)
 
     show first week school building 1 with dissolveM
     subtitles """You enter the main building of the high school.
@@ -108,11 +107,11 @@ label first_week_sb_event (**kwargs):
 
     $ set_building_blocked("school_building")
 
-    jump new_day
+    $ end_event('new_day', **kwargs)
 
 label first_potion_sb_event (**kwargs):
 
-    $ begin_event()
+    $ begin_event(**kwargs)
     
     show first potion school building 1 with dissolveM
     headmaster_thought "Let's see how classes are today."
@@ -124,14 +123,14 @@ label first_potion_sb_event (**kwargs):
 
     $ set_building_blocked("school_building")
 
-    jump new_daytime
+    
+    $ end_event('new_daytime', **kwargs)
 
 label sb_event_1 (**kwargs): # patrol, check class
-    $ gallery = Gallery_Manager("sb_event_1")
+    $ begin_event(**kwargs)
+
     # show screen black_screen_text("sb_event_1")
     $ image = Image_Series("/images/events/school building/sb_event_1 <step>.webp", **kwargs)
-
-    $ begin_event("sb_event_1")
 
     # call show_image("/images/events/school building/sb_event_1 <name> 1.webp", SCENE, **kwargs)
     $ image.show(0)
@@ -155,7 +154,8 @@ label .leave (**kwargs):
     subtitles "You decide to leave them and let them have their fun."
     $ change_stats_with_modifier(kwargs["char_obj"],
         charm = DEC_SMALL, education = TINY, corruption = TINY, inhibition = DEC_SMALL)
-    jump new_daytime
+    
+    $ end_event('new_daytime', **kwargs)
 label .stop (**kwargs):
     
     $ begin_event()
@@ -167,14 +167,13 @@ label .stop (**kwargs):
     sgirl "We're sorry!"
     $ change_stats_with_modifier(kwargs["char_obj"],
         charm = MEDIUM, happiness = DEC_SMALL, education = SMALL, reputation = TINY, inhibition = DEC_TINY)
-    jump new_daytime
+    
+    $ end_event('new_daytime', **kwargs)
 
 label sb_event_2 (**kwargs): # teach class
-    $ gallery = Gallery_Manager("sb_event_2")
+    $ begin_event(**kwargs)
 
     $ image = Image_Series("/images/events/school building/sb_event_2 <step>.webp", **kwargs)
-
-    $ begin_event("sb_event_2")
 
     $ image.show(0)
     subtitles "A student tripped while handing out assignments in class."
@@ -192,7 +191,8 @@ label .leave (**kwargs):
     subtitles "You decide to leave her alone."
     $ change_stats_with_modifier(kwargs["char_obj"],
         charm = DEC_TINY, education = TINY)
-    jump new_daytime
+    
+    $ end_event('new_daytime', **kwargs)
 label .help (**kwargs):
     
     $ begin_event()
@@ -201,14 +201,13 @@ label .help (**kwargs):
     subtitles "You help her up."
     $ change_stats_with_modifier(kwargs["char_obj"],
         charm = DEC_TINY, happiness = SMALL, education = TINY)
-    jump new_daytime
+    
+    $ end_event('new_daytime', **kwargs)
 
 label sb_event_3 (**kwargs): # patrol
-    $ gallery = Gallery_Manager("sb_event_3")
-
+    $ begin_event(**kwargs)
+    
     $ image = Image_Series("/images/events/school building/sb_event_3 <step>.webp", **kwargs)
-
-    $ begin_event("sb_event_3")
 
     $ image.show(0) # walk with girl sitting
     subtitles "As you walk through the corridors of the high school, you notice a student sitting in the corner of the hallway."
@@ -265,7 +264,8 @@ label .leave (**kwargs):
 
     $ change_stats_with_modifier(kwargs["char_obj"], 
         charm = TINY, happiness = DEC_LARGE, education = TINY, reputation = DEC_TINY)
-    jump new_daytime
+    
+    $ end_event('new_daytime', **kwargs)
 label .get_to_bottom (**kwargs):
     
     $ begin_event()
@@ -299,7 +299,8 @@ label .get_to_bottom (**kwargs):
 
     $ change_stats_with_modifier(kwargs["char_obj"],
         happiness = LARGE, reputation = TINY)
-    jump new_daytime
+    
+    $ end_event('new_daytime', **kwargs)
 label .send_class (**kwargs):
     
     $ begin_event()
@@ -334,7 +335,8 @@ label .poor_thing (**kwargs):
     subtitles "You help her up and walk her to the dormitory."
     $ change_stats_with_modifier(kwargs["char_obj"],
         happiness = LARGE, reputation = TINY)
-    jump new_daytime
+    
+    $ end_event('new_daytime', **kwargs)
 label .chin_up (**kwargs):
     
     $ begin_event()
@@ -353,4 +355,5 @@ label .chin_up (**kwargs):
     subtitles "You help her up and she walks off."
     $ change_stats_with_modifier(kwargs["char_obj"],
         happiness = LARGE, reputation = TINY)
-    jump new_daytime
+    
+    $ end_event('new_daytime', **kwargs)

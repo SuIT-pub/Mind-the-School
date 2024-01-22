@@ -97,8 +97,7 @@ label .after_time_check (**kwargs):
 ##########################
 
 label first_potion_gym_event (**kwargs):
-    
-    $ begin_event()
+    $ begin_event(**kwargs)
     
     show first potion gym 1 with dissolveM
     subtitles "You enter the Gym and see a group of students and teacher in a yoga session."
@@ -114,13 +113,13 @@ label first_potion_gym_event (**kwargs):
 
     $ set_building_blocked("gym")
 
-    jump new_daytime
+    $ end_event('new_daytime', **kwargs)
 
 
 # first week event
 label first_week_gym_event (**kwargs):
     
-    $ begin_event()
+    $ begin_event(**kwargs)
     
     show first week gym 1 with dissolveM
     headmaster_thought "Okay, now the Gym. I have been here shortly for my introduction speech but I haven't had the chance to get a thorough look."
@@ -136,7 +135,7 @@ label first_week_gym_event (**kwargs):
 
     $ set_building_blocked("gym")
 
-    jump new_day
+    $ end_event('new_daytime', **kwargs)
 
 #############################
 # weekly assembly entry point
@@ -147,19 +146,16 @@ label weekly_assembly (**kwargs):
     return
 
 label gym_event_1 (**kwargs):
-    $ char_obj = get_kwargs("char_obj", **kwargs)
+    $ begin_event(**kwargs)
 
-    $ gallery = Gallery_Manager("gym_event_1")
+    $ set_stat_ranges(corruption = [5, 100])
 
-    $ gallery.set_stat_ranges(corruption = [5, 20, 40, 60, 80, 100])
-
-    $ corruption = gallery.get_value("corruption", **kwargs)
-    $ topic_variant = gallery.get_value("topic_variant", **kwargs)
-    $ topic = gallery.get_value("topic", **kwargs)
+    $ char_obj = get_char_value(**kwargs)
+    $ corruption = get_value("corruption", **kwargs)
+    $ topic_variant = get_value("topic_variant", **kwargs)
+    $ topic = get_value("topic", **kwargs)
 
     $ image = Image_Series("/images/events/gym/gym_event_1 <level> <topic_variant> <step>.webp", **kwargs)
-
-    $ begin_event("gym_event_1")
 
     $ image.show(0)
     subtitles "In the Gym, you see a girl getting ready for P.E."
@@ -209,21 +205,18 @@ label gym_event_1 (**kwargs):
 
         $ change_stats_with_modifier(char_obj, 
             inhibition = DEC_TINY, corruption = TINY, charm = TINY)
-    jump new_daytime
+    $ end_event('new_daytime', **kwargs)
 
 label gym_event_2 (**kwargs):
-    $ char_obj = get_kwargs("char_obj", **kwargs)
+    $ begin_event(**kwargs)
 
-    $ gallery = Gallery_Manager("gym_event_2")
+    $ get_stat_ranges(inhibition = [100])
 
-    $ gallery.set_stat_ranges(inhibition = [30, 60, 80, 100])
-
-    $ inhibition = gallery.get_value("inhibition", **kwargs)
-    $ topic = gallery.get_value("topic", **kwargs)
+    $ char_obj = get_char_value(**kwargs)
+    $ inhibition = get_value("inhibition", **kwargs)
+    $ topic = get_value("topic", **kwargs)
 
     $ image = Image_Series("/images/events/gym/gym_event_2 <level> <topic> <step>.webp", **kwargs)
-
-    $ begin_event("gym_event_2")
 
     $ image.show(0)
     if topic == "breasts":
@@ -265,7 +258,7 @@ label gym_event_2 (**kwargs):
     $ change_stats_with_modifier(char_obj,
         inhibition = DEC_MEDIUM)
 
-    jump new_daytime
+    $ end_event('new_daytime', **kwargs)
 label .sorry (**kwargs):
     
     $ begin_event()
@@ -274,7 +267,7 @@ label .sorry (**kwargs):
     headmaster_thought "I think she doesn't believe me..."
     $ change_stats_with_modifier(char_obj,
         HAPPINESS = DEC_MEDIUM, REPUTATION = DEC_SMALL)
-    jump new_daytime
+    $ end_event('new_daytime', **kwargs)
 label .escape (**kwargs):
     
     $ begin_event()
@@ -284,22 +277,20 @@ label .escape (**kwargs):
     subtitles "You leave the room and leave the girls behind dumbfounded."
     $ change_stats_with_modifier(char_obj,
         inhibition = DEC_MEDIUM, HAPPINESS = DEC_SMALL)
-    jump new_daytime
+    $ end_event('new_daytime', **kwargs)
 
 label gym_event_3 (**kwargs):
-    $ char_obj = get_kwargs("char_obj", **kwargs)
+    $ begin_event(**kwargs)
 
-    $ gallery = Gallery_Manager("gym_event_3")
-
-    $ variant = gallery.get_value("variant", **kwargs)
-    $ girl = gallery.get_value("girl", **kwargs)
+    $ char_obj = get_char_value(**kwargs)
+    $ variant = get_value("variant", **kwargs)
+    $ girl = get_value("girl", **kwargs)
 
     $ girl_name = girl.split(" ")[0]
     $ girl_full_name = girl
 
     $ image = Image_Series("/images/events/gym/gym_event_3 <level> <variant> <step>.webp", **kwargs)
 
-    $ begin_event("gym_event_3")
 
     $ image.show(0)
     headmaster "Sorry but that top doesn't conform to the uniform policy."
@@ -322,4 +313,4 @@ label gym_event_3 (**kwargs):
 
     $ change_stats_with_modifier(char_obj,
         inhibition = DEC_MEDIUM, happiness = DEC_LARGE, charm = TINY, education = TINY, reputation = DEC_SMALL)
-    jump new_daytime
+    $ end_event('new_daytime', **kwargs)

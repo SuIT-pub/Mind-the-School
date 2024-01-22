@@ -1,9 +1,2488 @@
-Thu Jan 18 12:42:13 2024
+Fri Jan 19 13:17:32 2024
 Windows-10-10.0.22631
 Ren'Py 8.1.3.23091805
  
 
-Bootstrap to the start of init.init. took 0.02s
+Bootstrap to the start of init.init. took 0.03s
+Early init. took 0.00s
+Loader init. took 0.07s
+Loading error handling. took 0.03s
+Loading script. took 0.48s
+Loading save slot metadata. took 0.06s
+Loading persistent. took 0.00s
+Running init code. took 0.13s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.06s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.10s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.06s
+DPI scale factor: 2.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.09s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.00s
+Analyze screens took 0.07s
+Save screen analysis took 0.08s
+Prepare screens took 0.18s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.06s
+Running _start took 0.01s
+Performance test:
+Interface start. took 0.16s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 3840, 2160)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(3659, 2058) drawable=(3659, 2058)
+Maximum texture size: 4096x4096
+Screen sizes: virtual=(1920, 1080) physical=(3840, 2019) drawable=(3840, 2019)
+Maximum texture size: 4096x4096
+display: 
+
+display: 
+
+
+Full traceback:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 44, in script
+    call screen journal_gallery(display) with dissolve
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2259, in execute
+    self.call("execute")
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2241, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\statements.py", line 342, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\exports.py", line 3347, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "C:\Users\bigma\Documents\RenPy\renpy\ui.py", line 299, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 3582, in interact
+    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 4055, in interact_core
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  [Previous line repeated 1 more time]
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 481, in visit_all
+    self.child.visit_all(callback, seen=None)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  [Previous line repeated 2 more times]
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 686, in visit_all
+    callback(self)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 4055, in <lambda>
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\image.py", line 793, in per_interact
+    self.find_target()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\image.py", line 683, in find_target
+    raise Exception(error)
+Exception: DynamicImage 'journal/journal/[page]_[char]_idle.webp': could not find image. ('journal/journal/7_school_idle.webp')
+
+While running game code:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 44, in script
+    call screen journal_gallery(display) with dissolve
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+Exception: DynamicImage 'journal/journal/[page]_[char]_idle.webp': could not find image. ('journal/journal/7_school_idle.webp')
+display: 
+
+display: 
+
+
+Full traceback:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 44, in script
+    call screen journal_gallery(display) with dissolve
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2259, in execute
+    self.call("execute")
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2241, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\statements.py", line 342, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\exports.py", line 3347, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "C:\Users\bigma\Documents\RenPy\renpy\ui.py", line 299, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 3582, in interact
+    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 4055, in interact_core
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  [Previous line repeated 1 more time]
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 481, in visit_all
+    self.child.visit_all(callback, seen=None)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  [Previous line repeated 2 more times]
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 686, in visit_all
+    callback(self)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 4055, in <lambda>
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\image.py", line 793, in per_interact
+    self.find_target()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\image.py", line 683, in find_target
+    raise Exception(error)
+Exception: DynamicImage 'journal/journal/[page]_[char]_idle.webp': could not find image. ('journal/journal/7_school_idle.webp')
+
+While running game code:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 44, in script
+    call screen journal_gallery(display) with dissolve
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+Exception: DynamicImage 'journal/journal/[page]_[char]_idle.webp': could not find image. ('journal/journal/7_school_idle.webp')
+display: 
+
+Resetting cache.
+Bootstrap to the start of init.init. took 776.95s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.03s
+Loading script. took 0.28s
+Loading save slot metadata. took 0.09s
+Loading persistent. took 0.00s
+Running init code. took 0.03s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.07s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.05s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.07s
+DPI scale factor: 2.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.00s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.08s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.06s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 3840, 2160)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(3840, 2019) drawable=(3840, 2019)
+Maximum texture size: 4096x4096
+display: 
+
+display: 
+
+
+Full traceback:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 44, in script
+    call screen journal_gallery(display) with dissolveM
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2259, in execute
+    self.call("execute")
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2241, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\statements.py", line 342, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\exports.py", line 3347, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "C:\Users\bigma\Documents\RenPy\renpy\ui.py", line 299, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 3582, in interact
+    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 4055, in interact_core
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  [Previous line repeated 1 more time]
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 481, in visit_all
+    self.child.visit_all(callback, seen=None)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  [Previous line repeated 2 more times]
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 686, in visit_all
+    callback(self)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 4055, in <lambda>
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\image.py", line 793, in per_interact
+    self.find_target()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\image.py", line 683, in find_target
+    raise Exception(error)
+Exception: DynamicImage 'journal/journal/[page]_[char]_idle.webp': could not find image. ('journal/journal/7_school_idle.webp')
+
+While running game code:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 44, in script
+    call screen journal_gallery(display) with dissolveM
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+Exception: DynamicImage 'journal/journal/[page]_[char]_idle.webp': could not find image. ('journal/journal/7_school_idle.webp')
+Resetting cache.
+Bootstrap to the start of init.init. took 831.08s
+Early init. took 0.00s
+Loader init. took 0.07s
+Loading error handling. took 0.03s
+Loading script. took 0.37s
+Loading save slot metadata. took 0.06s
+Loading persistent. took 0.00s
+Running init code. took 0.05s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.05s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.06s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.08s
+DPI scale factor: 2.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.06s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.03s
+Save screen analysis took 0.04s
+Prepare screens took 0.12s
+Save pyanalysis. took 0.03s
+Save bytecode. took 0.03s
+Running _start took 0.01s
+Performance test:
+Interface start. took 0.10s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 3840, 2160)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(3840, 2019) drawable=(3840, 2019)
+Maximum texture size: 4096x4096
+display: 
+
+page: 7
+
+translations: {'location': 'location', 'girl_name': 'Girl', 'topic': 'Topic', 'dorm_room': 'Dorm Room', 'shower': 'Shower', 'first_potion_courtyard_event': 'First Potion', 'first_week_courtyard_event': 'First Week', 'courtyard_event_1': 'Gist of Wind', 'courtyard_event_2': 'Girl sitting alone', 'courtyard_event_3': 'Girls taking a break', 'first_potion_gym_event': 'First Potion', 'first_week_gym_event': 'First Week', 'gym_event_1': 'Girls getting ready', 'gym_event_2': 'Walk in Clothing Room', 'gym_event_3': 'Missing her Sports Clothes', 'first_potion_kiosk_event': 'First Potion', 'first_week_kiosk_event': 'First Week', 'kiosk_event_1': 'Coffee saves the day', 'kiosk_event_2': 'Spilled drink', 'kiosk_event_3': 'Expensive Bento', 'first_potion_office_building_event': 'First Potion', 'first_week_office_building_event': 'First Week', 'office_event_1': 'In need of counseling', 'office_event_2': 'Teeacher need a break', 'office_event_3': 'Two students waiting', 'first_potion_sb_event': 'First Potion', 'first_week_sb_event': 'First Week', 'sb_event_1': 'Couples kissing', 'sb_event_2': 'Student tripping in class', 'sb_event_3': 'Crying girl', 'first_potion_school_dormitory_event': 'First Potion', 'first_week_school_dormitory_event': 'First Week', 'sd_event_1': 'Homework is hard', 'sd_event_2': 'Walk in on Girl', 'sd_event_3': 'Ready to bunk', 'first_week_epilogue': 'First Week Epilogue', 'first_week_epilogue_final': 'First Week Epilogue Final'}
+
+value_text: 0
+
+page: 7
+
+translations: {'location': 'location', 'girl_name': 'Girl', 'topic': 'Topic', 'dorm_room': 'Dorm Room', 'shower': 'Shower', 'first_potion_courtyard_event': 'First Potion', 'first_week_courtyard_event': 'First Week', 'courtyard_event_1': 'Gist of Wind', 'courtyard_event_2': 'Girl sitting alone', 'courtyard_event_3': 'Girls taking a break', 'first_potion_gym_event': 'First Potion', 'first_week_gym_event': 'First Week', 'gym_event_1': 'Girls getting ready', 'gym_event_2': 'Walk in Clothing Room', 'gym_event_3': 'Missing her Sports Clothes', 'first_potion_kiosk_event': 'First Potion', 'first_week_kiosk_event': 'First Week', 'kiosk_event_1': 'Coffee saves the day', 'kiosk_event_2': 'Spilled drink', 'kiosk_event_3': 'Expensive Bento', 'first_potion_office_building_event': 'First Potion', 'first_week_office_building_event': 'First Week', 'office_event_1': 'In need of counseling', 'office_event_2': 'Teeacher need a break', 'office_event_3': 'Two students waiting', 'first_potion_sb_event': 'First Potion', 'first_week_sb_event': 'First Week', 'sb_event_1': 'Couples kissing', 'sb_event_2': 'Student tripping in class', 'sb_event_3': 'Crying girl', 'first_potion_school_dormitory_event': 'First Potion', 'first_week_school_dormitory_event': 'First Week', 'sd_event_1': 'Homework is hard', 'sd_event_2': 'Walk in on Girl', 'sd_event_3': 'Ready to bunk', 'first_week_epilogue': 'First Week Epilogue', 'first_week_epilogue_final': 'First Week Epilogue Final'}
+
+value_text: 0
+
+page: 7
+
+translations: {'location': 'location', 'girl_name': 'Girl', 'topic': 'Topic', 'dorm_room': 'Dorm Room', 'shower': 'Shower', 'first_potion_courtyard_event': 'First Potion', 'first_week_courtyard_event': 'First Week', 'courtyard_event_1': 'Gist of Wind', 'courtyard_event_2': 'Girl sitting alone', 'courtyard_event_3': 'Girls taking a break', 'first_potion_gym_event': 'First Potion', 'first_week_gym_event': 'First Week', 'gym_event_1': 'Girls getting ready', 'gym_event_2': 'Walk in Clothing Room', 'gym_event_3': 'Missing her Sports Clothes', 'first_potion_kiosk_event': 'First Potion', 'first_week_kiosk_event': 'First Week', 'kiosk_event_1': 'Coffee saves the day', 'kiosk_event_2': 'Spilled drink', 'kiosk_event_3': 'Expensive Bento', 'first_potion_office_building_event': 'First Potion', 'first_week_office_building_event': 'First Week', 'office_event_1': 'In need of counseling', 'office_event_2': 'Teeacher need a break', 'office_event_3': 'Two students waiting', 'first_potion_sb_event': 'First Potion', 'first_week_sb_event': 'First Week', 'sb_event_1': 'Couples kissing', 'sb_event_2': 'Student tripping in class', 'sb_event_3': 'Crying girl', 'first_potion_school_dormitory_event': 'First Potion', 'first_week_school_dormitory_event': 'First Week', 'sd_event_1': 'Homework is hard', 'sd_event_2': 'Walk in on Girl', 'sd_event_3': 'Ready to bunk', 'first_week_epilogue': 'First Week Epilogue', 'first_week_epilogue_final': 'First Week Epilogue Final'}
+
+value_text: 0
+
+page: 7
+
+translations: {'location': 'location', 'girl_name': 'Girl', 'topic': 'Topic', 'dorm_room': 'Dorm Room', 'shower': 'Shower', 'first_potion_courtyard_event': 'First Potion', 'first_week_courtyard_event': 'First Week', 'courtyard_event_1': 'Gist of Wind', 'courtyard_event_2': 'Girl sitting alone', 'courtyard_event_3': 'Girls taking a break', 'first_potion_gym_event': 'First Potion', 'first_week_gym_event': 'First Week', 'gym_event_1': 'Girls getting ready', 'gym_event_2': 'Walk in Clothing Room', 'gym_event_3': 'Missing her Sports Clothes', 'first_potion_kiosk_event': 'First Potion', 'first_week_kiosk_event': 'First Week', 'kiosk_event_1': 'Coffee saves the day', 'kiosk_event_2': 'Spilled drink', 'kiosk_event_3': 'Expensive Bento', 'first_potion_office_building_event': 'First Potion', 'first_week_office_building_event': 'First Week', 'office_event_1': 'In need of counseling', 'office_event_2': 'Teeacher need a break', 'office_event_3': 'Two students waiting', 'first_potion_sb_event': 'First Potion', 'first_week_sb_event': 'First Week', 'sb_event_1': 'Couples kissing', 'sb_event_2': 'Student tripping in class', 'sb_event_3': 'Crying girl', 'first_potion_school_dormitory_event': 'First Potion', 'first_week_school_dormitory_event': 'First Week', 'sd_event_1': 'Homework is hard', 'sd_event_2': 'Walk in on Girl', 'sd_event_3': 'Ready to bunk', 'first_week_epilogue': 'First Week Epilogue', 'first_week_epilogue_final': 'First Week Epilogue Final'}
+
+value_text: 0
+
+display: 
+
+page: 1
+
+page: 1
+
+page: 1
+
+page: 1
+
+display: 
+
+
+Full traceback:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 44, in script
+    call screen journal_gallery(display) with dissolveM
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2259, in execute
+    self.call("execute")
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2241, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\statements.py", line 342, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\exports.py", line 3347, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "C:\Users\bigma\Documents\RenPy\renpy\ui.py", line 299, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 3582, in interact
+    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 4055, in interact_core
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  [Previous line repeated 1 more time]
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 481, in visit_all
+    self.child.visit_all(callback, seen=None)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  [Previous line repeated 2 more times]
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 686, in visit_all
+    callback(self)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 4055, in <lambda>
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\image.py", line 793, in per_interact
+    self.find_target()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\image.py", line 683, in find_target
+    raise Exception(error)
+Exception: DynamicImage 'journal/journal/[page]_[char]_idle.webp': could not find image. ('journal/journal/7_school_idle.webp')
+
+While running game code:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 44, in script
+    call screen journal_gallery(display) with dissolveM
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+Exception: DynamicImage 'journal/journal/[page]_[char]_idle.webp': could not find image. ('journal/journal/7_school_idle.webp')
+Resetting cache.
+Bootstrap to the start of init.init. took 1143.76s
+Early init. took 0.00s
+Loader init. took 0.08s
+Loading error handling. took 0.03s
+Loading script. took 0.31s
+Loading save slot metadata. took 0.08s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.03s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.06s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.06s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.07s
+DPI scale factor: 2.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.06s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.04s
+Save screen analysis took 0.03s
+Prepare screens took 0.10s
+Save pyanalysis. took 0.02s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.07s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 3840, 2160)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(3840, 2019) drawable=(3840, 2019)
+Maximum texture size: 4096x4096
+display: 
+
+
+Full traceback:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 44, in script
+    call screen journal_gallery(display) with dissolveM
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2259, in execute
+    self.call("execute")
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2241, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\statements.py", line 342, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\exports.py", line 3347, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "C:\Users\bigma\Documents\RenPy\renpy\ui.py", line 299, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 3582, in interact
+    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 4055, in interact_core
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 476, in visit_all
+    callback(self)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 4055, in <lambda>
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 487, in per_interact
+    self.update()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 680, in update
+    self.screen.function(**self.scope)
+  File "game/scripts/journal/journal.rpy", line 1143, in execute
+    screen journal_gallery(display):
+  File "game/scripts/journal/journal.rpy", line 1143, in execute
+    screen journal_gallery(display):
+  File "game/scripts/journal/journal.rpy", line 1152, in execute
+    use journal_page_selector(7, display)
+  File "game/scripts/journal/journal.rpy", line 226, in execute
+    screen journal_page_selector(page, display, char = "school"):
+  File "game/scripts/journal/journal.rpy", line 226, in execute
+    screen journal_page_selector(page, display, char = "school"):
+  File "game/scripts/journal/journal.rpy", line 227, in execute
+    imagemap:
+  File "game/scripts/journal/journal.rpy", line 228, in execute
+    if page == 1:
+  File "game/scripts/journal/journal.rpy", line 234, in execute
+    $ idle_text = "journal/journal/" + page + "_idle.webp"
+  File "game/scripts/journal/journal.rpy", line 234, in <module>
+    $ idle_text = "journal/journal/" + page + "_idle.webp"
+TypeError: can only concatenate str (not "int") to str
+
+While running game code:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 44, in script
+    call screen journal_gallery(display) with dissolveM
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "game/scripts/journal/journal.rpy", line 1143, in execute
+    screen journal_gallery(display):
+  File "game/scripts/journal/journal.rpy", line 1143, in execute
+    screen journal_gallery(display):
+  File "game/scripts/journal/journal.rpy", line 1152, in execute
+    use journal_page_selector(7, display)
+  File "game/scripts/journal/journal.rpy", line 226, in execute
+    screen journal_page_selector(page, display, char = "school"):
+  File "game/scripts/journal/journal.rpy", line 226, in execute
+    screen journal_page_selector(page, display, char = "school"):
+  File "game/scripts/journal/journal.rpy", line 227, in execute
+    imagemap:
+  File "game/scripts/journal/journal.rpy", line 228, in execute
+    if page == 1:
+  File "game/scripts/journal/journal.rpy", line 234, in execute
+    $ idle_text = "journal/journal/" + page + "_idle.webp"
+  File "game/scripts/journal/journal.rpy", line 234, in <module>
+    $ idle_text = "journal/journal/" + page + "_idle.webp"
+TypeError: can only concatenate str (not "int") to str
+display: 
+
+
+Full traceback:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script
+    call screen journal_overview(display, char) with dissolveM
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2259, in execute
+    self.call("execute")
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2241, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\statements.py", line 342, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\exports.py", line 3347, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "C:\Users\bigma\Documents\RenPy\renpy\ui.py", line 299, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 3582, in interact
+    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 4055, in interact_core
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 476, in visit_all
+    callback(self)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 4055, in <lambda>
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 487, in per_interact
+    self.update()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 680, in update
+    self.screen.function(**self.scope)
+  File "game/scripts/journal/journal.rpy", line 577, in execute
+    screen journal_overview(display, char = "school"):
+  File "game/scripts/journal/journal.rpy", line 577, in execute
+    screen journal_overview(display, char = "school"):
+  File "game/scripts/journal/journal.rpy", line 586, in execute
+    use journal_page_selector(1, display, char)
+  File "game/scripts/journal/journal.rpy", line 226, in execute
+    screen journal_page_selector(page, display, char = "school"):
+  File "game/scripts/journal/journal.rpy", line 226, in execute
+    screen journal_page_selector(page, display, char = "school"):
+  File "game/scripts/journal/journal.rpy", line 227, in execute
+    imagemap:
+  File "game/scripts/journal/journal.rpy", line 228, in execute
+    if page == 1:
+  File "game/scripts/journal/journal.rpy", line 229, in execute
+    $ idle_text = "journal/journal/" + page + "_" + char + "_idle.webp"
+  File "game/scripts/journal/journal.rpy", line 229, in <module>
+    $ idle_text = "journal/journal/" + page + "_" + char + "_idle.webp"
+TypeError: can only concatenate str (not "int") to str
+
+While running game code:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script
+    call screen journal_overview(display, char) with dissolveM
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "game/scripts/journal/journal.rpy", line 577, in execute
+    screen journal_overview(display, char = "school"):
+  File "game/scripts/journal/journal.rpy", line 577, in execute
+    screen journal_overview(display, char = "school"):
+  File "game/scripts/journal/journal.rpy", line 586, in execute
+    use journal_page_selector(1, display, char)
+  File "game/scripts/journal/journal.rpy", line 226, in execute
+    screen journal_page_selector(page, display, char = "school"):
+  File "game/scripts/journal/journal.rpy", line 226, in execute
+    screen journal_page_selector(page, display, char = "school"):
+  File "game/scripts/journal/journal.rpy", line 227, in execute
+    imagemap:
+  File "game/scripts/journal/journal.rpy", line 228, in execute
+    if page == 1:
+  File "game/scripts/journal/journal.rpy", line 229, in execute
+    $ idle_text = "journal/journal/" + page + "_" + char + "_idle.webp"
+  File "game/scripts/journal/journal.rpy", line 229, in <module>
+    $ idle_text = "journal/journal/" + page + "_" + char + "_idle.webp"
+TypeError: can only concatenate str (not "int") to str
+display: 
+
+
+Full traceback:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script
+    call screen journal_overview(display, char) with dissolveM
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2259, in execute
+    self.call("execute")
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2241, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\statements.py", line 342, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\exports.py", line 3347, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "C:\Users\bigma\Documents\RenPy\renpy\ui.py", line 299, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 3582, in interact
+    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 4055, in interact_core
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  [Previous line repeated 1 more time]
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 476, in visit_all
+    callback(self)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 4055, in <lambda>
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 487, in per_interact
+    self.update()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 680, in update
+    self.screen.function(**self.scope)
+  File "game/scripts/journal/journal.rpy", line 577, in execute
+    screen journal_overview(display, char = "school"):
+  File "game/scripts/journal/journal.rpy", line 577, in execute
+    screen journal_overview(display, char = "school"):
+  File "game/scripts/journal/journal.rpy", line 586, in execute
+    use journal_page_selector(1, display, char)
+  File "game/scripts/journal/journal.rpy", line 226, in execute
+    screen journal_page_selector(page, display, char = "school"):
+  File "game/scripts/journal/journal.rpy", line 226, in execute
+    screen journal_page_selector(page, display, char = "school"):
+  File "game/scripts/journal/journal.rpy", line 227, in execute
+    imagemap:
+  File "game/scripts/journal/journal.rpy", line 228, in execute
+    if page == 1:
+  File "game/scripts/journal/journal.rpy", line 229, in execute
+    $ idle_text = "journal/journal/" + page + "_" + char + "_idle.webp"
+  File "game/scripts/journal/journal.rpy", line 229, in <module>
+    $ idle_text = "journal/journal/" + page + "_" + char + "_idle.webp"
+TypeError: can only concatenate str (not "int") to str
+
+While running game code:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script
+    call screen journal_overview(display, char) with dissolveM
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "game/scripts/journal/journal.rpy", line 577, in execute
+    screen journal_overview(display, char = "school"):
+  File "game/scripts/journal/journal.rpy", line 577, in execute
+    screen journal_overview(display, char = "school"):
+  File "game/scripts/journal/journal.rpy", line 586, in execute
+    use journal_page_selector(1, display, char)
+  File "game/scripts/journal/journal.rpy", line 226, in execute
+    screen journal_page_selector(page, display, char = "school"):
+  File "game/scripts/journal/journal.rpy", line 226, in execute
+    screen journal_page_selector(page, display, char = "school"):
+  File "game/scripts/journal/journal.rpy", line 227, in execute
+    imagemap:
+  File "game/scripts/journal/journal.rpy", line 228, in execute
+    if page == 1:
+  File "game/scripts/journal/journal.rpy", line 229, in execute
+    $ idle_text = "journal/journal/" + page + "_" + char + "_idle.webp"
+  File "game/scripts/journal/journal.rpy", line 229, in <module>
+    $ idle_text = "journal/journal/" + page + "_" + char + "_idle.webp"
+TypeError: can only concatenate str (not "int") to str
+Resetting cache.
+Bootstrap to the start of init.init. took 1174.18s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.04s
+Loading script. took 0.32s
+Loading save slot metadata. took 0.08s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.03s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.05s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.06s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.06s
+DPI scale factor: 2.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.04s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.09s
+Save pyanalysis. took 0.02s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.06s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 3840, 2160)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(3840, 2019) drawable=(3840, 2019)
+Maximum texture size: 4096x4096
+display: 
+
+
+Full traceback:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script
+    call screen journal_overview(display, char) with dissolveM
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2259, in execute
+    self.call("execute")
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2241, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\statements.py", line 342, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\exports.py", line 3347, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "C:\Users\bigma\Documents\RenPy\renpy\ui.py", line 299, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 3598, in interact
+    scene_lists.replace_transient()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1072, in replace_transient
+    self.remove(layer, tag, prefix=prefix)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1400, in remove
+    self.hide_or_replace(layer, remove_index, prefix)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1306, in hide_or_replace
+    if not oldsle.displayable._handles_event(prefix):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 527, in _handles_event
+    return self.child._handles_event(event)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 141, in _handles_event
+    if i._handles_event(event):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 141, in _handles_event
+    if i._handles_event(event):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\image.py", line 748, in _handles_event
+    self.find_target()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\image.py", line 669, in find_target
+    raise Exception("In DynamicImage %r: Could not find substitution '%s'." % (self.name, str(ke.args[0])))
+Exception: In DynamicImage '[idle_text]': Could not find substitution 'idle_text'.
+
+While running game code:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script
+    call screen journal_overview(display, char) with dissolveM
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+Exception: In DynamicImage '[idle_text]': Could not find substitution 'idle_text'.
+Resetting cache.
+Bootstrap to the start of init.init. took 1258.20s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.03s
+Loading script. took 0.16s
+Loading save slot metadata. took 0.07s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.04s
+Index archives took 0.00s
+Dump and make backups. took 0.04s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.09s
+DPI scale factor: 2.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.04s
+Build styles took 0.00s
+Load screen analysis took 0.04s
+Analyze screens took 0.00s
+Save screen analysis took 0.00s
+Prepare screens took 0.07s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.00s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.07s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 3840, 2160)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(3840, 2019) drawable=(3840, 2019)
+Maximum texture size: 4096x4096
+display: 
+
+
+Full traceback:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script
+    call screen journal_overview(display, char) with dissolveM
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2259, in execute
+    self.call("execute")
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2241, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\statements.py", line 342, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\exports.py", line 3347, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "C:\Users\bigma\Documents\RenPy\renpy\ui.py", line 299, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 3598, in interact
+    scene_lists.replace_transient()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1072, in replace_transient
+    self.remove(layer, tag, prefix=prefix)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1400, in remove
+    self.hide_or_replace(layer, remove_index, prefix)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1306, in hide_or_replace
+    if not oldsle.displayable._handles_event(prefix):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 527, in _handles_event
+    return self.child._handles_event(event)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 141, in _handles_event
+    if i._handles_event(event):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 141, in _handles_event
+    if i._handles_event(event):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\image.py", line 748, in _handles_event
+    self.find_target()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\image.py", line 669, in find_target
+    raise Exception("In DynamicImage %r: Could not find substitution '%s'." % (self.name, str(ke.args[0])))
+Exception: In DynamicImage '[idle_text]': Could not find substitution 'idle_text'.
+
+While running game code:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script
+    call screen journal_overview(display, char) with dissolveM
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+Exception: In DynamicImage '[idle_text]': Could not find substitution 'idle_text'.
+Resetting cache.
+Bootstrap to the start of init.init. took 1275.35s
+Early init. took 0.00s
+Loader init. took 0.05s
+Loading error handling. took 0.02s
+Loading script. took 0.18s
+Loading save slot metadata. took 0.13s
+Loading persistent. took 0.00s
+Running init code. took 0.05s
+Loading analysis data. took 0.03s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.05s
+Index archives took 0.00s
+Dump and make backups. took 0.04s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.13s
+DPI scale factor: 2.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.06s
+Build styles took 0.00s
+Load screen analysis took 0.05s
+Analyze screens took 0.00s
+Save screen analysis took 0.00s
+Prepare screens took 0.08s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.00s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.08s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 3840, 2160)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(3840, 2019) drawable=(3840, 2019)
+Maximum texture size: 4096x4096
+display: 
+
+
+Full traceback:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script
+    call screen journal_overview(display, char) with dissolveM
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2259, in execute
+    self.call("execute")
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2241, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\statements.py", line 342, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\exports.py", line 3347, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "C:\Users\bigma\Documents\RenPy\renpy\ui.py", line 299, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 3598, in interact
+    scene_lists.replace_transient()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1072, in replace_transient
+    self.remove(layer, tag, prefix=prefix)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1400, in remove
+    self.hide_or_replace(layer, remove_index, prefix)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1306, in hide_or_replace
+    if not oldsle.displayable._handles_event(prefix):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 527, in _handles_event
+    return self.child._handles_event(event)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 141, in _handles_event
+    if i._handles_event(event):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 141, in _handles_event
+    if i._handles_event(event):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\image.py", line 748, in _handles_event
+    self.find_target()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\image.py", line 669, in find_target
+    raise Exception("In DynamicImage %r: Could not find substitution '%s'." % (self.name, str(ke.args[0])))
+Exception: In DynamicImage '[idle_text]': Could not find substitution 'idle_text'.
+
+While running game code:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script
+    call screen journal_overview(display, char) with dissolveM
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+Exception: In DynamicImage '[idle_text]': Could not find substitution 'idle_text'.
+Resetting cache.
+Bootstrap to the start of init.init. took 1319.91s
+Early init. took 0.00s
+Loader init. took 0.08s
+Loading error handling. took 0.03s
+Loading script. took 0.28s
+Loading save slot metadata. took 0.07s
+Loading persistent. took 0.00s
+
+File "game/scripts/journal/journal.rpy", line 236: a non-constant keyword argument like 'idle idle_text' is not allowed after a python block.
+    idle idle_text
+                  ^
+DPI scale factor: 2.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Interface start. took 0.13s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 3840, 2160)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(3840, 2019) drawable=(3840, 2019)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 1388.28s
+Early init. took 0.00s
+Loader init. took 0.07s
+Loading error handling. took 0.02s
+Loading script. took 0.22s
+Loading save slot metadata. took 0.07s
+Loading persistent. took 0.00s
+
+File "game/scripts/journal/journal.rpy", line 234: Indentation mismatch.
+DPI scale factor: 2.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Interface start. took 0.09s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 3840, 2160)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(3840, 2019) drawable=(3840, 2019)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 1393.05s
 Early init. took 0.00s
 Loader init. took 0.06s
 Loading error handling. took 0.02s
+Loading script. took 0.43s
+Loading save slot metadata. took 0.05s
+Loading persistent. took 0.00s
+Running init code. took 0.05s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.06s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.06s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.04s
+DPI scale factor: 2.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.00s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.11s
+Save pyanalysis. took 0.02s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.10s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 3840, 2160)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(3840, 2019) drawable=(3840, 2019)
+Maximum texture size: 4096x4096
+display: 
+
+
+Full traceback:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script
+    call screen journal_overview(display, char) with dissolveM
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2259, in execute
+    self.call("execute")
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2241, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\statements.py", line 342, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\exports.py", line 3347, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "C:\Users\bigma\Documents\RenPy\renpy\ui.py", line 299, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 3598, in interact
+    scene_lists.replace_transient()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1072, in replace_transient
+    self.remove(layer, tag, prefix=prefix)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1400, in remove
+    self.hide_or_replace(layer, remove_index, prefix)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1306, in hide_or_replace
+    if not oldsle.displayable._handles_event(prefix):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 527, in _handles_event
+    return self.child._handles_event(event)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 141, in _handles_event
+    if i._handles_event(event):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 141, in _handles_event
+    if i._handles_event(event):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\image.py", line 748, in _handles_event
+    self.find_target()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\image.py", line 669, in find_target
+    raise Exception("In DynamicImage %r: Could not find substitution '%s'." % (self.name, str(ke.args[0])))
+Exception: In DynamicImage '[idle_text]': Could not find substitution 'idle_text'.
+
+While running game code:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script
+    call screen journal_overview(display, char) with dissolveM
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+Exception: In DynamicImage '[idle_text]': Could not find substitution 'idle_text'.
+Resetting cache.
+Bootstrap to the start of init.init. took 1395.15s
+Early init. took 0.00s
+Loader init. took 0.10s
+Loading error handling. took 0.06s
+Loading script. took 0.43s
+Loading save slot metadata. took 0.06s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.03s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.05s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.06s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.06s
+DPI scale factor: 2.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.03s
+Save screen analysis took 0.04s
+Prepare screens took 0.11s
+Save pyanalysis. took 0.02s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.07s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 3840, 2160)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(3840, 2019) drawable=(3840, 2019)
+Maximum texture size: 4096x4096
+display: 
+
+
+Full traceback:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script
+    call screen journal_overview(display, char) with dissolveM
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2259, in execute
+    self.call("execute")
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2241, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\statements.py", line 342, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\exports.py", line 3347, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "C:\Users\bigma\Documents\RenPy\renpy\ui.py", line 299, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 3598, in interact
+    scene_lists.replace_transient()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1072, in replace_transient
+    self.remove(layer, tag, prefix=prefix)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1400, in remove
+    self.hide_or_replace(layer, remove_index, prefix)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1306, in hide_or_replace
+    if not oldsle.displayable._handles_event(prefix):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 527, in _handles_event
+    return self.child._handles_event(event)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 141, in _handles_event
+    if i._handles_event(event):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 141, in _handles_event
+    if i._handles_event(event):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\image.py", line 748, in _handles_event
+    self.find_target()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\image.py", line 669, in find_target
+    raise Exception("In DynamicImage %r: Could not find substitution '%s'." % (self.name, str(ke.args[0])))
+Exception: In DynamicImage '[idle_text]': Could not find substitution 'idle_text'.
+
+While running game code:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script
+    call screen journal_overview(display, char) with dissolveM
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+Exception: In DynamicImage '[idle_text]': Could not find substitution 'idle_text'.
+Resetting cache.
+Bootstrap to the start of init.init. took 1543.04s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.03s
+Loading script. took 0.33s
+Loading save slot metadata. took 0.07s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.03s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.05s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.07s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.08s
+DPI scale factor: 2.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.08s
+Build styles took 0.00s
+Load screen analysis took 0.04s
+Analyze screens took 0.10s
+Save screen analysis took 0.03s
+Prepare screens took 0.18s
+Save pyanalysis. took 0.04s
+Save bytecode. took 0.04s
+Running _start took 0.01s
+Performance test:
+Interface start. took 0.14s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 3840, 2160)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(3840, 2019) drawable=(3840, 2019)
+Maximum texture size: 4096x4096
+display: 
+
+
+Full traceback:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script
+    call screen journal_overview(display, char) with dissolveM
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2259, in execute
+    self.call("execute")
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2241, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\statements.py", line 342, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\exports.py", line 3347, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "C:\Users\bigma\Documents\RenPy\renpy\ui.py", line 299, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 3598, in interact
+    scene_lists.replace_transient()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1072, in replace_transient
+    self.remove(layer, tag, prefix=prefix)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1400, in remove
+    self.hide_or_replace(layer, remove_index, prefix)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1306, in hide_or_replace
+    if not oldsle.displayable._handles_event(prefix):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 527, in _handles_event
+    return self.child._handles_event(event)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 141, in _handles_event
+    if i._handles_event(event):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 141, in _handles_event
+    if i._handles_event(event):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\image.py", line 748, in _handles_event
+    self.find_target()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\image.py", line 669, in find_target
+    raise Exception("In DynamicImage %r: Could not find substitution '%s'." % (self.name, str(ke.args[0])))
+Exception: In DynamicImage '[idle_text]': Could not find substitution 'idle_text'.
+
+While running game code:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script
+    call screen journal_overview(display, char) with dissolveM
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+Exception: In DynamicImage '[idle_text]': Could not find substitution 'idle_text'.
+Resetting cache.
+Bootstrap to the start of init.init. took 1549.32s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.03s
+Loading script. took 0.18s
+Loading save slot metadata. took 0.07s
+Loading persistent. took 0.00s
+Running init code. took 0.05s
+Loading analysis data. took 0.04s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.07s
+Index archives took 0.00s
+Dump and make backups. took 0.07s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.11s
+DPI scale factor: 2.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.05s
+Analyze screens took 0.00s
+Save screen analysis took 0.00s
+Prepare screens took 0.08s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.00s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.09s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 3840, 2160)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(3840, 2019) drawable=(3840, 2019)
+Maximum texture size: 4096x4096
+display: 
+
+
+Full traceback:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script
+    call screen journal_overview(display, char) with dissolveM
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2259, in execute
+    self.call("execute")
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2241, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\statements.py", line 342, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\exports.py", line 3347, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "C:\Users\bigma\Documents\RenPy\renpy\ui.py", line 299, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 3598, in interact
+    scene_lists.replace_transient()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1072, in replace_transient
+    self.remove(layer, tag, prefix=prefix)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1400, in remove
+    self.hide_or_replace(layer, remove_index, prefix)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1306, in hide_or_replace
+    if not oldsle.displayable._handles_event(prefix):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 527, in _handles_event
+    return self.child._handles_event(event)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 141, in _handles_event
+    if i._handles_event(event):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 141, in _handles_event
+    if i._handles_event(event):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\image.py", line 748, in _handles_event
+    self.find_target()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\image.py", line 669, in find_target
+    raise Exception("In DynamicImage %r: Could not find substitution '%s'." % (self.name, str(ke.args[0])))
+Exception: In DynamicImage '[idle_text]': Could not find substitution 'idle_text'.
+
+While running game code:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script
+    call screen journal_overview(display, char) with dissolveM
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+Exception: In DynamicImage '[idle_text]': Could not find substitution 'idle_text'.
+Resetting cache.
+Bootstrap to the start of init.init. took 1565.34s
+Early init. took 0.00s
+Loader init. took 0.07s
+Loading error handling. took 0.03s
+Loading script. took 0.25s
+Loading save slot metadata. took 0.08s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.05s
+Index archives took 0.00s
+Dump and make backups. took 0.04s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.09s
+DPI scale factor: 2.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.06s
+Build styles took 0.00s
+Load screen analysis took 0.05s
+Analyze screens took 0.00s
+Save screen analysis took 0.00s
+Prepare screens took 0.08s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.00s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.08s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 3840, 2160)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(3840, 2019) drawable=(3840, 2019)
+Maximum texture size: 4096x4096
+display: 
+
+
+Full traceback:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script
+    call screen journal_overview(display, char) with dissolveM
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2259, in execute
+    self.call("execute")
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2241, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\statements.py", line 342, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\exports.py", line 3347, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "C:\Users\bigma\Documents\RenPy\renpy\ui.py", line 299, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 3598, in interact
+    scene_lists.replace_transient()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1072, in replace_transient
+    self.remove(layer, tag, prefix=prefix)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1400, in remove
+    self.hide_or_replace(layer, remove_index, prefix)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1306, in hide_or_replace
+    if not oldsle.displayable._handles_event(prefix):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 527, in _handles_event
+    return self.child._handles_event(event)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 141, in _handles_event
+    if i._handles_event(event):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 141, in _handles_event
+    if i._handles_event(event):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\image.py", line 748, in _handles_event
+    self.find_target()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\image.py", line 669, in find_target
+    raise Exception("In DynamicImage %r: Could not find substitution '%s'." % (self.name, str(ke.args[0])))
+Exception: In DynamicImage '[idle_text]': Could not find substitution 'idle_text'.
+
+While running game code:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script
+    call screen journal_overview(display, char) with dissolveM
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+Exception: In DynamicImage '[idle_text]': Could not find substitution 'idle_text'.
+Resetting cache.
+Bootstrap to the start of init.init. took 1570.40s
+Early init. took 0.00s
+Loader init. took 0.07s
+Loading error handling. took 0.02s
+Loading script. took 0.40s
+Loading save slot metadata. took 0.09s
+Loading persistent. took 0.00s
+Running init code. took 0.07s
+Loading analysis data. took 0.03s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.07s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.06s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.12s
+DPI scale factor: 2.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.06s
+Build styles took 0.00s
+Load screen analysis took 0.00s
+Analyze screens took 0.03s
+Save screen analysis took 0.03s
+Prepare screens took 0.19s
+Save pyanalysis. took 0.03s
+Save bytecode. took 0.05s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.11s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 3840, 2160)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(3840, 2019) drawable=(3840, 2019)
+Maximum texture size: 4096x4096
+display: 
+
+idle_text: journal/journal/1_school_idle.webp
+
+
+Full traceback:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script
+    call screen journal_overview(display, char) with dissolveM
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2259, in execute
+    self.call("execute")
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2241, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\statements.py", line 342, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\exports.py", line 3347, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "C:\Users\bigma\Documents\RenPy\renpy\ui.py", line 299, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 3598, in interact
+    scene_lists.replace_transient()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1072, in replace_transient
+    self.remove(layer, tag, prefix=prefix)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1400, in remove
+    self.hide_or_replace(layer, remove_index, prefix)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1306, in hide_or_replace
+    if not oldsle.displayable._handles_event(prefix):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 527, in _handles_event
+    return self.child._handles_event(event)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 141, in _handles_event
+    if i._handles_event(event):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 141, in _handles_event
+    if i._handles_event(event):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\image.py", line 748, in _handles_event
+    self.find_target()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\image.py", line 669, in find_target
+    raise Exception("In DynamicImage %r: Could not find substitution '%s'." % (self.name, str(ke.args[0])))
+Exception: In DynamicImage '[idle_text]': Could not find substitution 'idle_text'.
+
+While running game code:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script
+    call screen journal_overview(display, char) with dissolveM
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+Exception: In DynamicImage '[idle_text]': Could not find substitution 'idle_text'.
+Resetting cache.
+Bootstrap to the start of init.init. took 1573.98s
+Early init. took 0.00s
+Loader init. took 0.07s
+Loading error handling. took 0.03s
+Loading script. took 0.31s
+Loading save slot metadata. took 0.07s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.06s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.06s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.07s
+DPI scale factor: 2.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.02s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.10s
+Save pyanalysis. took 0.02s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.07s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 3840, 2160)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(3840, 2019) drawable=(3840, 2019)
+Maximum texture size: 4096x4096
+display: 
+
+idle_text 1: journal/journal/1_school_idle.webp
+
+
+Full traceback:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script
+    call screen journal_overview(display, char) with dissolveM
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2259, in execute
+    self.call("execute")
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2241, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\statements.py", line 342, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\exports.py", line 3347, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "C:\Users\bigma\Documents\RenPy\renpy\ui.py", line 299, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 3598, in interact
+    scene_lists.replace_transient()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1072, in replace_transient
+    self.remove(layer, tag, prefix=prefix)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1400, in remove
+    self.hide_or_replace(layer, remove_index, prefix)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1306, in hide_or_replace
+    if not oldsle.displayable._handles_event(prefix):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 527, in _handles_event
+    return self.child._handles_event(event)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 141, in _handles_event
+    if i._handles_event(event):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 141, in _handles_event
+    if i._handles_event(event):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\image.py", line 748, in _handles_event
+    self.find_target()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\image.py", line 669, in find_target
+    raise Exception("In DynamicImage %r: Could not find substitution '%s'." % (self.name, str(ke.args[0])))
+Exception: In DynamicImage '[idle_text]': Could not find substitution 'idle_text'.
+
+While running game code:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script
+    call screen journal_overview(display, char) with dissolveM
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+Exception: In DynamicImage '[idle_text]': Could not find substitution 'idle_text'.
+Resetting cache.
+Bootstrap to the start of init.init. took 1838.96s
+Early init. took 0.00s
+Loader init. took 0.05s
+Loading error handling. took 0.02s
+Loading script. took 0.15s
+Loading save slot metadata. took 0.07s
+Loading persistent. took 0.00s
+Running init code. took 0.03s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.04s
+Index archives took 0.00s
+Dump and make backups. took 0.04s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.08s
+DPI scale factor: 2.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.04s
+Analyze screens took 0.00s
+Save screen analysis took 0.00s
+Prepare screens took 0.07s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.00s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.08s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 3840, 2160)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(3840, 2019) drawable=(3840, 2019)
+Maximum texture size: 4096x4096
+display: 
+
+idle_text 1: journal/journal/1_school_idle.webp
+
+
+Full traceback:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script
+    call screen journal_overview(display, char) with dissolveM
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2259, in execute
+    self.call("execute")
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2241, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\statements.py", line 342, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\exports.py", line 3347, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "C:\Users\bigma\Documents\RenPy\renpy\ui.py", line 299, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 3598, in interact
+    scene_lists.replace_transient()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1072, in replace_transient
+    self.remove(layer, tag, prefix=prefix)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1400, in remove
+    self.hide_or_replace(layer, remove_index, prefix)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1306, in hide_or_replace
+    if not oldsle.displayable._handles_event(prefix):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 527, in _handles_event
+    return self.child._handles_event(event)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 141, in _handles_event
+    if i._handles_event(event):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 141, in _handles_event
+    if i._handles_event(event):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\image.py", line 748, in _handles_event
+    self.find_target()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\image.py", line 669, in find_target
+    raise Exception("In DynamicImage %r: Could not find substitution '%s'." % (self.name, str(ke.args[0])))
+Exception: In DynamicImage '[idle_text]': Could not find substitution 'idle_text'.
+
+While running game code:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script
+    call screen journal_overview(display, char) with dissolveM
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+Exception: In DynamicImage '[idle_text]': Could not find substitution 'idle_text'.
+Resetting cache.
+Bootstrap to the start of init.init. took 1856.40s
+Early init. took 0.00s
+Loader init. took 0.08s
+Loading error handling. took 0.02s
+Loading script. took 0.37s
+Loading save slot metadata. took 0.10s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.05s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.06s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.11s
+DPI scale factor: 2.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.06s
+Build styles took 0.00s
+Load screen analysis took 0.00s
+Analyze screens took 0.02s
+Save screen analysis took 0.03s
+Prepare screens took 0.07s
+Save pyanalysis. took 0.03s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.07s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 3840, 2160)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(3840, 2019) drawable=(3840, 2019)
+Maximum texture size: 4096x4096
+display: 
+
+idle_text 1: journal/journal/1_school_idle.webp
+
+
+Full traceback:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script
+    call screen journal_overview(display, char) with dissolveM
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2259, in execute
+    self.call("execute")
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2241, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\statements.py", line 342, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\exports.py", line 3347, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "C:\Users\bigma\Documents\RenPy\renpy\ui.py", line 299, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 3598, in interact
+    scene_lists.replace_transient()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1072, in replace_transient
+    self.remove(layer, tag, prefix=prefix)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1400, in remove
+    self.hide_or_replace(layer, remove_index, prefix)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 1306, in hide_or_replace
+    if not oldsle.displayable._handles_event(prefix):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 527, in _handles_event
+    return self.child._handles_event(event)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 141, in _handles_event
+    if i._handles_event(event):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\layout.py", line 141, in _handles_event
+    if i._handles_event(event):
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\image.py", line 748, in _handles_event
+    self.find_target()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\image.py", line 669, in find_target
+    raise Exception("In DynamicImage %r: Could not find substitution '%s'." % (self.name, str(ke.args[0])))
+Exception: In DynamicImage '[idle_text]': Could not find substitution 'idle_text'.
+
+While running game code:
+  File "game/scripts/intro.rpy", line 46, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 207, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/overview.rpy", line 586, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 26, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 32, in script
+    call screen journal_overview(display, char) with dissolveM
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+Exception: In DynamicImage '[idle_text]': Could not find substitution 'idle_text'.
+Resetting cache.
+Bootstrap to the start of init.init. took 2079.75s
+Early init. took 0.00s
+Loader init. took 0.08s
+Loading error handling. took 0.04s
+Loading script. took 0.41s
+Loading save slot metadata. took 0.09s
+Loading persistent. took 0.00s
+Running init code. took 0.04s
+Loading analysis data. took 0.03s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.09s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.12s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.11s
+DPI scale factor: 2.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.06s
+Build styles took 0.00s
+Load screen analysis took 0.02s
+Analyze screens took 0.03s
+Save screen analysis took 0.05s
+Prepare screens took 0.12s
+Save pyanalysis. took 0.03s
+Save bytecode. took 0.05s
+Running _start took 0.01s
+Performance test:
+Interface start. took 0.08s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 3840, 2160)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(3840, 2019) drawable=(3840, 2019)
+Maximum texture size: 4096x4096
+display: 
+
+Resetting cache.
+Bootstrap to the start of init.init. took 2112.21s
+Early init. took 0.00s
+Loader init. took 0.06s
+Loading error handling. took 0.03s
+Loading script. took 0.35s
+Loading save slot metadata. took 0.08s
+Loading persistent. took 0.00s
+Running init code. took 0.05s
+Loading analysis data. took 0.11s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.08s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.07s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.10s
+DPI scale factor: 2.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.06s
+Build styles took 0.00s
+Load screen analysis took 0.01s
+Analyze screens took 0.03s
+Save screen analysis took 0.04s
+Prepare screens took 0.11s
+Save pyanalysis. took 0.03s
+Save bytecode. took 0.02s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.18s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 3840, 2160)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(3840, 2019) drawable=(3840, 2019)
+Maximum texture size: 4096x4096
+display: 
+
+display: 
+
+translations: {'location': 'location', 'girl_name': 'Girl', 'topic': 'Topic', 'dorm_room': 'Dorm Room', 'shower': 'Shower', 'first_potion_courtyard_event': 'First Potion', 'first_week_courtyard_event': 'First Week', 'courtyard_event_1': 'Gist of Wind', 'courtyard_event_2': 'Girl sitting alone', 'courtyard_event_3': 'Girls taking a break', 'first_potion_gym_event': 'First Potion', 'first_week_gym_event': 'First Week', 'gym_event_1': 'Girls getting ready', 'gym_event_2': 'Walk in Clothing Room', 'gym_event_3': 'Missing her Sports Clothes', 'first_potion_kiosk_event': 'First Potion', 'first_week_kiosk_event': 'First Week', 'kiosk_event_1': 'Coffee saves the day', 'kiosk_event_2': 'Spilled drink', 'kiosk_event_3': 'Expensive Bento', 'first_potion_office_building_event': 'First Potion', 'first_week_office_building_event': 'First Week', 'office_event_1': 'In need of counseling', 'office_event_2': 'Teeacher need a break', 'office_event_3': 'Two students waiting', 'first_potion_sb_event': 'First Potion', 'first_week_sb_event': 'First Week', 'sb_event_1': 'Couples kissing', 'sb_event_2': 'Student tripping in class', 'sb_event_3': 'Crying girl', 'first_potion_school_dormitory_event': 'First Potion', 'first_week_school_dormitory_event': 'First Week', 'sd_event_1': 'Homework is hard', 'sd_event_2': 'Walk in on Girl', 'sd_event_3': 'Ready to bunk', 'first_week_epilogue': 'First Week Epilogue', 'first_week_epilogue_final': 'First Week Epilogue Final'}
+
+value_text: 0
+
+gallery: {'school_dormitory': {'sd_event_2': {'values': {}, 'ranges': {}, 'options': {}, 'order': []}}}
+
+reset: True
+
+gallery_data: {'school_dormitory': {'sd_event_2': {'values': {'school': {1: {}}}, 'ranges': {}, 'options': {}, 'order': ['char_obj_key', 'level']}}}
+
+location: dorm_room
+
+girl_name: Lin Kato
+
+topic: oh
+
+topic_set: 1
+
+display: 
+
+display: 
+
+translations: {'location': 'location', 'girl_name': 'Girl', 'topic': 'Topic', 'dorm_room': 'Dorm Room', 'shower': 'Shower', 'first_potion_courtyard_event': 'First Potion', 'first_week_courtyard_event': 'First Week', 'courtyard_event_1': 'Gist of Wind', 'courtyard_event_2': 'Girl sitting alone', 'courtyard_event_3': 'Girls taking a break', 'first_potion_gym_event': 'First Potion', 'first_week_gym_event': 'First Week', 'gym_event_1': 'Girls getting ready', 'gym_event_2': 'Walk in Clothing Room', 'gym_event_3': 'Missing her Sports Clothes', 'first_potion_kiosk_event': 'First Potion', 'first_week_kiosk_event': 'First Week', 'kiosk_event_1': 'Coffee saves the day', 'kiosk_event_2': 'Spilled drink', 'kiosk_event_3': 'Expensive Bento', 'first_potion_office_building_event': 'First Potion', 'first_week_office_building_event': 'First Week', 'office_event_1': 'In need of counseling', 'office_event_2': 'Teeacher need a break', 'office_event_3': 'Two students waiting', 'first_potion_sb_event': 'First Potion', 'first_week_sb_event': 'First Week', 'sb_event_1': 'Couples kissing', 'sb_event_2': 'Student tripping in class', 'sb_event_3': 'Crying girl', 'first_potion_school_dormitory_event': 'First Potion', 'first_week_school_dormitory_event': 'First Week', 'sd_event_1': 'Homework is hard', 'sd_event_2': 'Walk in on Girl', 'sd_event_3': 'Ready to bunk', 'first_week_epilogue': 'First Week Epilogue', 'first_week_epilogue_final': 'First Week Epilogue Final'}
+
+value_text: 0
+
+display: school_dormitory
+
+translations: {'location': 'location', 'girl_name': 'Girl', 'topic': 'Topic', 'dorm_room': 'Dorm Room', 'shower': 'Shower', 'first_potion_courtyard_event': 'First Potion', 'first_week_courtyard_event': 'First Week', 'courtyard_event_1': 'Gist of Wind', 'courtyard_event_2': 'Girl sitting alone', 'courtyard_event_3': 'Girls taking a break', 'first_potion_gym_event': 'First Potion', 'first_week_gym_event': 'First Week', 'gym_event_1': 'Girls getting ready', 'gym_event_2': 'Walk in Clothing Room', 'gym_event_3': 'Missing her Sports Clothes', 'first_potion_kiosk_event': 'First Potion', 'first_week_kiosk_event': 'First Week', 'kiosk_event_1': 'Coffee saves the day', 'kiosk_event_2': 'Spilled drink', 'kiosk_event_3': 'Expensive Bento', 'first_potion_office_building_event': 'First Potion', 'first_week_office_building_event': 'First Week', 'office_event_1': 'In need of counseling', 'office_event_2': 'Teeacher need a break', 'office_event_3': 'Two students waiting', 'first_potion_sb_event': 'First Potion', 'first_week_sb_event': 'First Week', 'sb_event_1': 'Couples kissing', 'sb_event_2': 'Student tripping in class', 'sb_event_3': 'Crying girl', 'first_potion_school_dormitory_event': 'First Potion', 'first_week_school_dormitory_event': 'First Week', 'sd_event_1': 'Homework is hard', 'sd_event_2': 'Walk in on Girl', 'sd_event_3': 'Ready to bunk', 'first_week_epilogue': 'First Week Epilogue', 'first_week_epilogue_final': 'First Week Epilogue Final'}
+
+value_text: 0
+
+translations: {'location': 'location', 'girl_name': 'Girl', 'topic': 'Topic', 'dorm_room': 'Dorm Room', 'shower': 'Shower', 'first_potion_courtyard_event': 'First Potion', 'first_week_courtyard_event': 'First Week', 'courtyard_event_1': 'Gist of Wind', 'courtyard_event_2': 'Girl sitting alone', 'courtyard_event_3': 'Girls taking a break', 'first_potion_gym_event': 'First Potion', 'first_week_gym_event': 'First Week', 'gym_event_1': 'Girls getting ready', 'gym_event_2': 'Walk in Clothing Room', 'gym_event_3': 'Missing her Sports Clothes', 'first_potion_kiosk_event': 'First Potion', 'first_week_kiosk_event': 'First Week', 'kiosk_event_1': 'Coffee saves the day', 'kiosk_event_2': 'Spilled drink', 'kiosk_event_3': 'Expensive Bento', 'first_potion_office_building_event': 'First Potion', 'first_week_office_building_event': 'First Week', 'office_event_1': 'In need of counseling', 'office_event_2': 'Teeacher need a break', 'office_event_3': 'Two students waiting', 'first_potion_sb_event': 'First Potion', 'first_week_sb_event': 'First Week', 'sb_event_1': 'Couples kissing', 'sb_event_2': 'Student tripping in class', 'sb_event_3': 'Crying girl', 'first_potion_school_dormitory_event': 'First Potion', 'first_week_school_dormitory_event': 'First Week', 'sd_event_1': 'Homework is hard', 'sd_event_2': 'Walk in on Girl', 'sd_event_3': 'Ready to bunk', 'first_week_epilogue': 'First Week Epilogue', 'first_week_epilogue_final': 'First Week Epilogue Final'}
+
+value_text: 0
+
+translations: {'location': 'location', 'girl_name': 'Girl', 'topic': 'Topic', 'dorm_room': 'Dorm Room', 'shower': 'Shower', 'first_potion_courtyard_event': 'First Potion', 'first_week_courtyard_event': 'First Week', 'courtyard_event_1': 'Gist of Wind', 'courtyard_event_2': 'Girl sitting alone', 'courtyard_event_3': 'Girls taking a break', 'first_potion_gym_event': 'First Potion', 'first_week_gym_event': 'First Week', 'gym_event_1': 'Girls getting ready', 'gym_event_2': 'Walk in Clothing Room', 'gym_event_3': 'Missing her Sports Clothes', 'first_potion_kiosk_event': 'First Potion', 'first_week_kiosk_event': 'First Week', 'kiosk_event_1': 'Coffee saves the day', 'kiosk_event_2': 'Spilled drink', 'kiosk_event_3': 'Expensive Bento', 'first_potion_office_building_event': 'First Potion', 'first_week_office_building_event': 'First Week', 'office_event_1': 'In need of counseling', 'office_event_2': 'Teeacher need a break', 'office_event_3': 'Two students waiting', 'first_potion_sb_event': 'First Potion', 'first_week_sb_event': 'First Week', 'sb_event_1': 'Couples kissing', 'sb_event_2': 'Student tripping in class', 'sb_event_3': 'Crying girl', 'first_potion_school_dormitory_event': 'First Potion', 'first_week_school_dormitory_event': 'First Week', 'sd_event_1': 'Homework is hard', 'sd_event_2': 'Walk in on Girl', 'sd_event_3': 'Ready to bunk', 'first_week_epilogue': 'First Week Epilogue', 'first_week_epilogue_final': 'First Week Epilogue Final'}
+
+value_text: 0
+
+display: 
+
+translations: {'location': 'location', 'girl_name': 'Girl', 'topic': 'Topic', 'dorm_room': 'Dorm Room', 'shower': 'Shower', 'first_potion_courtyard_event': 'First Potion', 'first_week_courtyard_event': 'First Week', 'courtyard_event_1': 'Gist of Wind', 'courtyard_event_2': 'Girl sitting alone', 'courtyard_event_3': 'Girls taking a break', 'first_potion_gym_event': 'First Potion', 'first_week_gym_event': 'First Week', 'gym_event_1': 'Girls getting ready', 'gym_event_2': 'Walk in Clothing Room', 'gym_event_3': 'Missing her Sports Clothes', 'first_potion_kiosk_event': 'First Potion', 'first_week_kiosk_event': 'First Week', 'kiosk_event_1': 'Coffee saves the day', 'kiosk_event_2': 'Spilled drink', 'kiosk_event_3': 'Expensive Bento', 'first_potion_office_building_event': 'First Potion', 'first_week_office_building_event': 'First Week', 'office_event_1': 'In need of counseling', 'office_event_2': 'Teeacher need a break', 'office_event_3': 'Two students waiting', 'first_potion_sb_event': 'First Potion', 'first_week_sb_event': 'First Week', 'sb_event_1': 'Couples kissing', 'sb_event_2': 'Student tripping in class', 'sb_event_3': 'Crying girl', 'first_potion_school_dormitory_event': 'First Potion', 'first_week_school_dormitory_event': 'First Week', 'sd_event_1': 'Homework is hard', 'sd_event_2': 'Walk in on Girl', 'sd_event_3': 'Ready to bunk', 'first_week_epilogue': 'First Week Epilogue', 'first_week_epilogue_final': 'First Week Epilogue Final'}
+
+value_text: 0
+
+display: school_dormitory
+
+translations: {'location': 'location', 'girl_name': 'Girl', 'topic': 'Topic', 'dorm_room': 'Dorm Room', 'shower': 'Shower', 'first_potion_courtyard_event': 'First Potion', 'first_week_courtyard_event': 'First Week', 'courtyard_event_1': 'Gist of Wind', 'courtyard_event_2': 'Girl sitting alone', 'courtyard_event_3': 'Girls taking a break', 'first_potion_gym_event': 'First Potion', 'first_week_gym_event': 'First Week', 'gym_event_1': 'Girls getting ready', 'gym_event_2': 'Walk in Clothing Room', 'gym_event_3': 'Missing her Sports Clothes', 'first_potion_kiosk_event': 'First Potion', 'first_week_kiosk_event': 'First Week', 'kiosk_event_1': 'Coffee saves the day', 'kiosk_event_2': 'Spilled drink', 'kiosk_event_3': 'Expensive Bento', 'first_potion_office_building_event': 'First Potion', 'first_week_office_building_event': 'First Week', 'office_event_1': 'In need of counseling', 'office_event_2': 'Teeacher need a break', 'office_event_3': 'Two students waiting', 'first_potion_sb_event': 'First Potion', 'first_week_sb_event': 'First Week', 'sb_event_1': 'Couples kissing', 'sb_event_2': 'Student tripping in class', 'sb_event_3': 'Crying girl', 'first_potion_school_dormitory_event': 'First Potion', 'first_week_school_dormitory_event': 'First Week', 'sd_event_1': 'Homework is hard', 'sd_event_2': 'Walk in on Girl', 'sd_event_3': 'Ready to bunk', 'first_week_epilogue': 'First Week Epilogue', 'first_week_epilogue_final': 'First Week Epilogue Final'}
+
+value_text: 0
+
+display: school_dormitory.sd_event_2
+
+variant_names: ['char_obj_key', 'level', 'location', 'girl_name', 'topic', 'topic_set']
+
+gallery_data: {'values': {'school': {1: {'dorm_room': {'Lin Kato': {'oh': {1: {}}}}}}}, 'ranges': {}, 'options': {}, 'order': ['char_obj_key', 'level', 'location', 'girl_name', 'topic', 'topic_set']}
+
+translations: {'location': 'location', 'girl_name': 'Girl', 'topic': 'Topic', 'dorm_room': 'Dorm Room', 'shower': 'Shower', 'first_potion_courtyard_event': 'First Potion', 'first_week_courtyard_event': 'First Week', 'courtyard_event_1': 'Gist of Wind', 'courtyard_event_2': 'Girl sitting alone', 'courtyard_event_3': 'Girls taking a break', 'first_potion_gym_event': 'First Potion', 'first_week_gym_event': 'First Week', 'gym_event_1': 'Girls getting ready', 'gym_event_2': 'Walk in Clothing Room', 'gym_event_3': 'Missing her Sports Clothes', 'first_potion_kiosk_event': 'First Potion', 'first_week_kiosk_event': 'First Week', 'kiosk_event_1': 'Coffee saves the day', 'kiosk_event_2': 'Spilled drink', 'kiosk_event_3': 'Expensive Bento', 'first_potion_office_building_event': 'First Potion', 'first_week_office_building_event': 'First Week', 'office_event_1': 'In need of counseling', 'office_event_2': 'Teeacher need a break', 'office_event_3': 'Two students waiting', 'first_potion_sb_event': 'First Potion', 'first_week_sb_event': 'First Week', 'sb_event_1': 'Couples kissing', 'sb_event_2': 'Student tripping in class', 'sb_event_3': 'Crying girl', 'first_potion_school_dormitory_event': 'First Potion', 'first_week_school_dormitory_event': 'First Week', 'sd_event_1': 'Homework is hard', 'sd_event_2': 'Walk in on Girl', 'sd_event_3': 'Ready to bunk', 'first_week_epilogue': 'First Week Epilogue', 'first_week_epilogue_final': 'First Week Epilogue Final'}
+
+value_text: 0
+
+Screen sizes: virtual=(1920, 1080) physical=(3840, 2115) drawable=(3840, 2115)
+Maximum texture size: 4096x4096
+Screen sizes: virtual=(1920, 1080) physical=(3840, 2019) drawable=(3840, 2019)
+Maximum texture size: 4096x4096

@@ -204,7 +204,9 @@ init python:
             return
         
         if key in gallery_manager.current_ranges.keys() and is_float(value):
+            log_value('value', value)
             value = min(filter(lambda x: x > float(value), gallery_manager.current_ranges[key]))                
+            log_value('post-filter value', value)
 
         if value not in gallery_manager.data.keys():
             gallery_manager.data[value] = {}

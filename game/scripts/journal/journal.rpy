@@ -41,7 +41,7 @@ label open_journal(page, display, char = "school"):
     elif page == 6:
         call screen journal_credits(display) with dissolveM
     elif page == 7:
-        call screen journal_gallery(display) with dissolve
+        call screen journal_gallery(display) with dissolveM
 
 label close_journal ():
     hide screen journal
@@ -226,11 +226,26 @@ screen journal_simple_grid(page, display, display_list, default_style = "buttons
 screen journal_page_selector(page, display, char = "school"):
     imagemap:
         if page == 1:
-            idle "journal/journal/[page]_[char]_idle.webp"
-            hover "journal/journal/[page]_hover.webp"
-        else:
-            idle "journal/journal/[page]_idle.webp"
-            hover "journal/journal/[page]_hover.webp"
+            idle "journal/journal/1_[char]_idle.webp"
+            hover "journal/journal/1_hover.webp"
+        elif page == 2:
+            idle "journal/journal/2_idle.webp"
+            hover "journal/journal/2_hover.webp"
+        elif page == 3:
+            idle "journal/journal/3_idle.webp"
+            hover "journal/journal/3_hover.webp"
+        elif page == 4:
+            idle "journal/journal/4_idle.webp"
+            hover "journal/journal/4_hover.webp"
+        elif page == 5:
+            idle "journal/journal/5_idle.webp"
+            hover "journal/journal/5_hover.webp"
+        elif page == 6:
+            idle "journal/journal/6_idle.webp"
+            hover "journal/journal/6_hover.webp"
+        elif page == 7:
+            idle "journal/journal/7_idle.webp"
+            hover "journal/journal/7_hover.webp"
 
         if page != 1:
             hotspot (144, 250, 168, 88) action [With(dissolveM), Call("open_journal", 1, "")] tooltip "School Overview"
@@ -1175,7 +1190,7 @@ screen journal_gallery(display):
 
     if location != "":    
         $ event_list = [get_event_from_register(event_name) for event_name in persistent.gallery[location].keys() if get_event_from_register(event_name) != None]
-        $ event_dict = {f"{location}.{event_obj.get_event()}": event_obj.get_title() for event_obj in event_list}
+        $ event_dict = {f"{location}.{event_obj.get_event()}": get_translation(event_obj.get_event()) for event_obj in event_list}
         use journal_simple_list(7, display, event_dict, "buttons_idle", pos_x = 400, pos_y = 350, width = 450)
 
     if event != "":
@@ -1189,7 +1204,7 @@ screen journal_gallery(display):
             $ gallery_chooser = persistent.gallery[location][event]['options']['last_data']
             $ gallery_chooser_order = persistent.gallery[location][event]['options']['last_order']
         $ event_obj = get_event_from_register(event)
-        $ event_title = event_obj.get_title()
+        $ event_title = get_translation(event_obj.get_event())
         text event_title:
             xpos 989
             ypos 200
@@ -1274,7 +1289,7 @@ screen journal_gallery(display):
             text_style "buttons_idle"
             xpos 1389
             ypos 910
-            action Call(event, **gallery_chooser)
+            action [SetVariable('is_in_replay', True), Call(event, **gallery_chooser)]
             
 init python:
     def update_gallery_chooser(gallery_chooser_order: List[string], gallery_chooser: Dict[string, Any], gallery_dict: Dict[string, Any]) -> Dict[string, Any]:

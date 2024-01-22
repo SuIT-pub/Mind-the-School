@@ -3,3 +3,62 @@ girl_name,Girl
 topic,Topic
 dorm_room,Dorm Room
 shower,Shower
+
+###############
+# Event Names
+
+# Bath
+
+# Cafeteria
+
+# Courtyard
+first_potion_courtyard_event,First Potion
+first_week_courtyard_event,First Week
+courtyard_event_1,Gist of Wind
+courtyard_event_2,Girl sitting alone
+courtyard_event_3,Girls taking a break
+
+# Gym
+first_potion_gym_event,First Potion
+first_week_gym_event,First Week
+gym_event_1,Girls getting ready
+gym_event_2,Walk in Clothing Room
+gym_event_3,Missing her Sports Clothes
+
+# Kiosk
+first_potion_kiosk_event,First Potion
+first_week_kiosk_event,First Week
+kiosk_event_1,Coffee saves the day
+kiosk_event_2,Spilled drink
+kiosk_event_3,Expensive Bento
+
+# Office Building
+first_potion_office_building_event,First Potion
+first_week_office_building_event,First Week
+office_event_1,In need of counseling
+office_event_2,Teeacher need a break
+office_event_3,Two students waiting
+
+# School Building
+first_potion_sb_event,First Potion
+first_week_sb_event,First Week
+sb_event_1,Couples kissing
+sb_event_2,Student tripping in class
+sb_event_3,Crying girl
+
+# School Dormitory
+first_potion_school_dormitory_event,First Potion
+first_week_school_dormitory_event,First Week
+sd_event_1,Homework is hard
+sd_event_2,Walk in on Girl
+sd_event_3,Ready to bunk
+
+# Sports Field
+
+# Swimming Pool
+
+# Tennis Court
+
+# Misc
+first_week_epilogue,First Week Epilogue
+first_week_epilogue_final,First Week Epilogue Final

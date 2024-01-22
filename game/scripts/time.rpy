@@ -112,6 +112,9 @@ init -6 python:
                     - 7: Night
             """
 
+            if is_in_replay:
+                return
+
             if 'day' in kwargs.keys() and is_integer(kwargs['day']):
                 self.day = kwargs['day']
             if 'month' in kwargs.keys() and is_integer(kwargs['month']):

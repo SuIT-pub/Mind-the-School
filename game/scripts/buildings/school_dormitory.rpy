@@ -58,8 +58,7 @@ init -1 python:
             TimeCondition(weekday = "d", daytime = "f"), 
             TimeCondition(weekday = "d", daytime = "n"), 
             TimeCondition(weekday = "w")
-        ),
-        title = "test"
+        )
     )
 
     sd_event3 = Event(3, "sd_event_3",
@@ -118,7 +117,7 @@ label .after_time_check (**kwargs):
 # first week event
 label first_week_school_dormitory_event (**kwargs):
     
-    $ begin_event()
+    $ begin_event(**kwargs)
     
     show first week school dormitory 1 with dissolveM
     headmaster_thought "The dormitory looks alright."
@@ -143,12 +142,12 @@ label first_week_school_dormitory_event (**kwargs):
 
     $ set_building_blocked("school_dormitory")
 
-    jump new_day
+    $ end_event('new_day', **kwargs)
 
 
 label first_potion_school_dormitory_event (**kwargs):
 
-    $ begin_event()
+    $ begin_event(**kwargs)
     
     show first potion school dormitory 1 with dissolveM
     subtitles "You enter the dormitory of the high school."
@@ -168,26 +167,23 @@ label first_potion_school_dormitory_event (**kwargs):
 
     $ set_building_blocked("school_dormitory")
 
-    jump new_daytime
+    $ end_event('new_daytime', **kwargs)
 
 
 # education < 80
 label sd_event_1 (**kwargs):
-    $ char_obj = get_kwargs("char_obj", **kwargs)
+    $ begin_event(**kwargs)
 
-    $ gallery = Gallery_Manager("sd_event_1")
-
-    $ gallery.set_stat_ranges(
+    $ set_stat_ranges(
         education = (50, 100),
         inhibition = (90, 100),
     )
 
+    $ char_obj = get_char_value(**kwargs)
     $ education = gallery.get_value('education', **kwargs)
     $ inhibition = gallery.get_value('inhibition', **kwargs)
 
     $ image = Image_Series("images/events/school dormitory/sd_event_1 <level> <step>.webp", **kwargs)
-
-    $ begin_event("sd_event_1")
 
     if education > 50 and get_random_int(0, 1) == 0:
         $ image.show(0)
@@ -201,7 +197,7 @@ label sd_event_1 (**kwargs):
             headmaster "Ah yes... yes of course."
             $ change_stats_with_modifier(char_obj,
                 HAPPINESS = DEC_TINY)
-            jump new_daytime
+            $ end_event(**kwargs)
         else:
             $ image.show(5)
             sgirl "Yeah Mr. [headmaster_last_name], you just surprised me." (name = "Easkey Tanaka")
@@ -209,13 +205,13 @@ label sd_event_1 (**kwargs):
             headmaster "Oh, sorry about that."
             $ change_stats_with_modifier(char_obj,
                 HAPPINESS = DEC_TINY, education = MEDIUM)
-            jump new_daytime
+            $ end_event(**kwargs)
     else:
         $ image.show(4)
         sgirl "hmm... This homework is hard. Why do I need to learn this anyway?" (name = "Easkey Tanaka")
         $ change_stats_with_modifier(char_obj,
             education = SMALL)
-        jump new_daytime
+        $ end_event(**kwargs)
 
 label sd_event_2 (**kwargs):
     $ begin_event(**kwargs)
@@ -334,20 +330,12 @@ label sd_event_2 (**kwargs):
     $ end_event(**kwargs)
 
 label sd_event_3 (**kwargs):
-    $ char_obj = get_kwargs("char_obj", **kwargs)
+    $ begin_event(**kwargs)
 
-    $ gallery = Gallery_Manager("sd_event_3")
-
-    # $ gallery.set_stat_ranges(
-    #     inhibition = (80, 100),
-    # )
-
-    # $ inhibition = gallery.get_value('inhibition', **kwargs)
-    $ topic = gallery.get_value('topic', **kwargs)
+    $ char_obj = get_char_value(**kwargs)
+    $ topic = get_value('topic', **kwargs)
 
     $ image = Image_Series("images/events/school dormitory/sd_event_3 <topic> <level> <step>.webp", **kwargs)
-
-    $ begin_event("sd_event_3")
 
     # if inhibition >= 80:
     $ image.show(0)
@@ -365,7 +353,7 @@ label sd_event_3 (**kwargs):
     elif topic == "nude":
         $ change_stats_with_modifier(char_obj, inhibition = DEC_LARGE)
 
-    jump new_daytime
+    $ end_event(**kwargs)
 
 
 

@@ -391,12 +391,14 @@ init -99 python:
 
         renpy.block_rollback()
 
-        renpy.call("show_sfw_text", event_name)
+        if event_name != "":
+            renpy.call("show_sfw_text", event_name)
 
     def end_event(return_type: str = "new_daytime", **kwargs):
         in_replay = get_kwargs("in_replay", False, **kwargs)
         if in_replay:
             log_val("replay_data", kwargs)
+            is_in_replay = False
             display_journal = get_kwargs("journal_display", "", **kwargs)
             renpy.call("open_journal", 7, display_journal, from_current = False)
             return
@@ -405,6 +407,8 @@ init -99 python:
             renpy.jump("new_daytime")
         elif "new_day":
             renpy.jump("new_day")
+        elif "none":
+            return
         else:
             renpy.jump("overview")
         
@@ -441,6 +445,9 @@ init -99 python:
             - The value to set
         """
 
+        if is_in_replay:
+            return
+
         gameData[key] = value
 
     def set_name(key: str, first_name: str, last_name: str):
@@ -455,6 +462,9 @@ init -99 python:
         3. last_name: str
             - The last name to set
         """
+
+        if is_in_replay:
+            return
 
         if "names" not in gameData.keys():
             gameData["names"] = {}
@@ -553,6 +563,9 @@ init -99 python:
             - The key for the event chain
         """
 
+        if is_in_replay:
+            return
+
         if "progress" not in gameData.keys():
             gameData["progress"] = {}
         gameData["progress"][key] = 1
@@ -568,6 +581,9 @@ init -99 python:
         2. delta: int (default 1)
             - The amount of advance for the event chain
         """
+
+        if is_in_replay:
+            return
 
         if "progress" not in gameData.keys():
             gameData["progress"] = {}
@@ -586,6 +602,9 @@ init -99 python:
         2. value: int
             - The value of progress to set the event chain to
         """
+
+        if is_in_replay:
+            return
 
         if "progress" not in gameData.keys():
             gameData["progress"] = {}
@@ -898,7 +917,7 @@ init -99 python:
             translation_texts = {}
         file = renpy.open_file("translations.csv")
         lines = split_to_non_empty_list(file.read().decode(), "\r\n")
-        translation_texts = {line.split(',')[0]: line.split(',')[1] for line in lines}
+        translation_texts = {line.split(',')[0]: line.split(',')[1] for line in lines if ',' in line}
 
     def get_translation(key: str) -> str:
         """

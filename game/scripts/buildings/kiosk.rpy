@@ -78,6 +78,7 @@ label .after_time_check (**kwargs):
 
 # first week event
 label first_week_kiosk_event (**kwargs):
+    $ begin_event(**kwargs)
 
     show first week kiosk 1 with dissolveM
     headmaster_thought "Now, somewhere here should be the kiosk..."
@@ -101,17 +102,15 @@ label first_week_kiosk_event (**kwargs):
 
     $ set_building_blocked("kiosk")
 
-    jump new_day
+    $ end_event('new_day', **kwargs)
 
 label kiosk_event_1 (**kwargs):
-    $ char_obj = get_kwargs("char_obj", **kwargs)
+    $ begin_event(**kwargs)
 
-    $ gallery = Gallery_Manager("kiosk_event_1")
+    $ char_obj = get_char_value(**kwargs)
+    $ variant = get_value("variant", **kwargs)
+    $ girl = get_value("girl", **kwargs)
 
-    $ variant = gallery.get_value("variant", **kwargs)
-    $ girl = gallery.get_value("girl", **kwargs)
-
-    $ begin_event("kiosk_event_1")
 
     call show_image("images/events/kiosk/kiosk_event_1 <girl> <level> <variant>.webp", **kwargs) from _call_show_image_1
     subtitles "For some, coffee is the only way to save the day."
@@ -119,18 +118,16 @@ label kiosk_event_1 (**kwargs):
     $ change_stats_with_modifier(char_obj,
         happiness = SMALL)
 
-    jump new_daytime
+    $ end_event('new_daytime', **kwargs)
 
 label kiosk_event_2 (**kwargs):
-    $ char_obj = get_kwargs("char_obj", **kwargs)
+    $ begin_event(**kwargs)
 
-    $ gallery = Gallery_Manager("kiosk_event_2")
-
-    $ girl = gallery.get_value("kiosk", **kwargs)
+    $ char_obj = get_char_value(**kwargs)
+    $ girl = get_value("girl", **kwargs)
 
     $ image = Image_Series("images/events/kiosk/kiosk_event_2 <girl> <level> <step>.webp", **kwargs)
 
-    $ begin_event("kiosk_event_2")
 
     $ image.show(0)
     sgirl "*AHHH*" (name = girl)
@@ -142,18 +139,15 @@ label kiosk_event_2 (**kwargs):
     $ change_stats_with_modifier(char_obj,
         happiness = DEC_TINY, inhibition = DEC_MEDIUM, corruption = TINY)
 
-    jump new_daytime
+    $ end_event('new_daytime', **kwargs)
 
 label kiosk_event_3 (**kwargs):
-    $ char_obj = get_kwargs("char_obj", **kwargs)
+    $ begin_event(**kwargs)
 
-    $ gallery = Gallery_Manager("kiosk_event_3")
-
+    $ char_obj = get_char_value(**kwargs)
     $ topic = gallery.get_value("topic", **kwargs)
 
     $ image = Image_Series("images/events/kiosk/kiosk_event_3 <level> <step>.webp", **kwargs)
-
-    $ begin_event("kiosk_event_3")
 
     $ image.show(0)
     sgirl "Hi, I want a Bento!" (name = "Miwa Igarashi")
@@ -189,9 +183,9 @@ label .leave (**kwargs):
         $ image.show(9)
         headmaster_thought "Mhh what kind of noise is that? Hmmm... I guess it's nothing serious."
 
-        $ change_stats_with_modifier(kwargs[CHAR],
+        $ change_stats_with_modifier(char_obj,
             happiness = DEC_LARGE, charm = DEC_MEDIUM, reputation = DEC_SMALL)
-        jump new_daytime
+        $ end_event('new_daytime', **kwargs)
         
     elif kwargs["topic"] == "kind":
         $ image.show(10)
@@ -202,13 +196,13 @@ label .leave (**kwargs):
         headmaster_thought "Mhh, things are worse than I thought. I can't believe the students have to go hungry."
         headmaster_thought "I should think about doing something about that."
 
-        $ change_stats_with_modifier(kwargs[CHAR],
+        $ change_stats_with_modifier(char_obj,
             happiness = DEC_SMALL, charm = TINY)
     
         if get_progress("unlock_cafeteria") == -1:
             $ start_progress("unlock_cafeteria")
 
-        jump new_daytime
+        $ end_event('new_daytime', **kwargs)
     else:
         $ image.show(10)
         vendor "I'm sorry but there is nothing I can do."
@@ -217,9 +211,9 @@ label .leave (**kwargs):
         $ image.show(12)
         headmaster_thought "Poor girl..."
 
-        $ change_stats_with_modifier(kwargs[CHAR],
+        $ change_stats_with_modifier(char_obj,
             happiness = DEC_MEDIUM, charm = DEC_SMALL)
-        jump new_daytime
+        $ end_event('new_daytime', **kwargs)
 
 label .help (**kwargs):
     
@@ -245,7 +239,7 @@ label .help (**kwargs):
     $ image.show(22)
     sgirl "..." (name = "Miwa Igarashi")
 
-    $ change_stats_with_modifier(kwargs[CHAR],
+    $ change_stats_with_modifier(char_obj,
         happiness = MEDIUM, reputation = MEDIUM, charm = DEC_TINY)
     jump new_daytime
 

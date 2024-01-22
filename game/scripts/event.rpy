@@ -600,10 +600,9 @@ init -3 python:
 
         """
 
-        def __init__(self, priority: int, event: str, *conditions: Condition | Selector, title: str = "", thumbnail: str = ""):
+        def __init__(self, priority: int, event: str, *conditions: Condition | Selector, thumbnail: str = ""):
             self.event_id = str(event)
             self.event = event
-            self.title = title
             self.thumbnail = thumbnail
             self.conditions = [condition for condition in conditions if isinstance(condition, Condition)]
             self.values = SelectorSet(*[condition for condition in conditions if isinstance(condition, Selector)])
@@ -620,7 +619,7 @@ init -3 python:
             # self.values = values
 
             event_register[self.event_id] = self
-            self.location = ""
+            self.location = "Miscellaneous"
 
         def __str__(self):
             return self.event_id
@@ -675,17 +674,6 @@ init -3 python:
             """
 
             return self.event
-
-        def get_title(self) -> str:
-            """
-            Returns the title of the event.
-
-            ### Returns:
-            1. str
-                - The title of the event.
-            """
-
-            return self.title
 
         def get_location(self) -> str:
             """
