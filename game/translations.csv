@@ -3,6 +3,7 @@ girl_name,Girl
 topic,Topic
 dorm_room,Dorm Room
 shower,Shower
+variant,Variant
 
 ###############
 # Event Names
@@ -62,3 +63,4 @@ sd_event_3,Ready to bunk
 # Misc
 first_week_epilogue,First Week Epilogue
 first_week_epilogue_final,First Week Epilogue Final
+first_pta_meeting,First PTA Meeting

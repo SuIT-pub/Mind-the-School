@@ -389,25 +389,30 @@ init -99 python:
             if all(seenEvents.values()):
                 set_game_data("all_events_seen", True)
 
+        if in_replay:
+            char_obj = None
+
         renpy.block_rollback()
 
         if event_name != "":
             renpy.call("show_sfw_text", event_name)
 
     def end_event(return_type: str = "new_daytime", **kwargs):
+
+        is_in_replay = False
+
         in_replay = get_kwargs("in_replay", False, **kwargs)
         if in_replay:
-            log_val("replay_data", kwargs)
             is_in_replay = False
             display_journal = get_kwargs("journal_display", "", **kwargs)
             renpy.call("open_journal", 7, display_journal, from_current = False)
             return
 
-        if "new_daytime":
+        if return_type == "new_daytime":
             renpy.jump("new_daytime")
-        elif "new_day":
+        elif return_type == "new_day":
             renpy.jump("new_day")
-        elif "none":
+        elif return_type == "none":
             return
         else:
             renpy.jump("overview")

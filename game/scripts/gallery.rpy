@@ -1,4 +1,15 @@
 init python:
+
+    if persistent.gallery is None:
+        persistent.gallery = {}
+
+    def merge_endings(old, new, current):
+        current = update_dict(current, old)
+        current = update_dict(current, new)
+        return current
+
+    renpy.register_persistent('gallery', merge_endings)
+
     gallery_manager = None
     def prep_gallery(location: str, event: str, *key: str):
         """
@@ -25,7 +36,10 @@ init python:
 
         # Check if event exists in persistent.gallery[location], if not, create it
         if event not in persistent.gallery[location].keys():
-            persistent.gallery[location][event] = {'values': {}, 'ranges': {}, 'options': {}, 'order': []}
+            persistent.gallery[location][event] = {'values': {}, 'ranges': {}, 'options': {}, 'order': [], 'decisions': {}}
+
+        if 'decisions' not in persistent.gallery[location][event].keys():
+            persistent.gallery[location][event]['decisions'] = {}
 
         # Clear the order list
         # persistent.gallery[location][event]['order'] = []
@@ -59,7 +73,7 @@ init python:
 
         if location not in persistent.gallery.keys():
             persistent.gallery[location] = {}
-        persistent.gallery[location][event] = {'values': {}, 'ranges': {}, 'options': {}, 'order': []}
+        persistent.gallery[location][event] = {'values': {}, 'ranges': {}, 'options': {}, 'order': [], 'decisions': {}}
 
     def get_gallery_values(location: str, event: str, values: Dict[str, Any], key: List[str]) -> List:
         current = persistent.gallery[location][event]['values']
@@ -146,9 +160,7 @@ init python:
             self.data = self.original_data
             self.order = []
             self.count = 0
-            renpy.call_screen("black_screen_text", event)
-
-            log_val('gallery', persistent.gallery)
+            self.decisions = persistent.gallery[self.location][event]['decisions']
 
     def set_stat_ranges(**max_limits: List[float]):
         """
@@ -202,11 +214,13 @@ init python:
 
         if gallery_manager == None:
             return
-        
+
         if key in gallery_manager.current_ranges.keys() and is_float(value):
-            log_value('value', value)
-            value = min(filter(lambda x: x > float(value), gallery_manager.current_ranges[key]))                
-            log_value('post-filter value', value)
+            closest_value = 100
+            for val in gallery_manager.current_ranges[key]:
+                if val > value and val < closest_value:
+                    closest_value = val
+            value = closest_value if closest_value != 100 else value
 
         if value not in gallery_manager.data.keys():
             gallery_manager.data[value] = {}
@@ -215,11 +229,12 @@ init python:
         if (len(persistent.gallery[gallery_manager.location][gallery_manager.event]['order']) <= gallery_manager.count or 
             persistent.gallery[gallery_manager.location][gallery_manager.event]['order'][gallery_manager.count] != key
         ):
-            log_val('reset', True)
             persistent.gallery[gallery_manager.location][gallery_manager.event]['values'] = {}
             persistent.gallery[gallery_manager.location][gallery_manager.event]['options'].pop('last_order', None)
             persistent.gallery[gallery_manager.location][gallery_manager.event]['options'].pop('last_data', None)
             persistent.gallery[gallery_manager.location][gallery_manager.event]['order'] = gallery_manager.order
+            persistent.gallery[gallery_manager.location][gallery_manager.event]['decisions'] = {}
+            gallery_manager.decisions = persistent.gallery[gallery_manager.location][gallery_manager.event]['decisions']
 
         gallery_manager.data = gallery_manager.data[value]
         persistent.gallery[gallery_manager.location][gallery_manager.event]['values'] = update_dict(
@@ -228,6 +243,47 @@ init python:
         )
 
         gallery_manager.count = gallery_manager.count + 1
+
+    def register_decision(key: str):
+        """
+        Registers a decision for the use in the gallery database.
+
+        ### Parameters:
+        1. key: str
+            - The key to register the decision under.
+        """
+
+        global gallery_manager
+
+        if gallery_manager == None:
+            return
+
+        if key not in gallery_manager.decisions.keys():
+            gallery_manager.decisions[key] = {}
+        gallery_manager.decisions = gallery_manager.decisions[key]
+
+    def get_decision_possibilities(decision_data: Dict[str, Any], decisions: List[str]) -> List[str]:
+        """
+        Gets a list of possibilities for a decision.
+
+        ### Parameters:
+        1. decision_data: Dict[str, Any]
+            - The data for the decision.
+        2. decisions: List[str]
+            - The decisions that have been used so far until now.
+
+        ### Returns:
+        1. List[str]:
+            - The list of possibilities for the decision.
+        """
+
+        current_level = decision_data
+
+        for key in decisions:
+            current_level = current_level[key]
+
+        return list(current_level.keys())
+            
 
     def get_value(key: str, alt: Any = None, **kwargs) -> Any:
         """
@@ -248,9 +304,6 @@ init python:
         in_replay = get_kwargs('in_replay', False, **kwargs)
         if not in_replay:
             register_value(key, value)
-        # log_val('gallery', persistent.gallery)
-
-        log_val(key, value)
 
         return value
 
@@ -270,8 +323,24 @@ init python:
             register_value("char_obj_key", char_obj.get_name())
             register_value("level", char_obj.get_level())
 
-        log_val('gallery_data', persistent.gallery)
-
         return char_obj
 
+    
+    def get_char_value_with_level(**kwargs) -> Char:
+        char_obj = get_kwargs("char_obj", None, **kwargs)
+        if char_obj == None:
+            char_obj_key = get_kwargs("char_obj_key", None, **kwargs)
+            if char_obj_key == None:
+                return None
+            char_obj = get_character_by_key(char_obj_key)
+            if char_obj == None:
+                return None
+
+        in_replay = get_kwargs('in_replay', False, **kwargs)
+
+        if not in_replay:
+            register_value("char_obj_key", char_obj.get_name())
+            register_value("level", char_obj.get_level())
+
+        return char_obj, char_obj.get_level()
     

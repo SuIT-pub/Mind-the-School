@@ -618,8 +618,10 @@ init -3 python:
             self.event_type = ""
             # self.values = values
 
+            
+
             event_register[self.event_id] = self
-            self.location = "Miscellaneous"
+            self.location = "misc"
 
         def __str__(self):
             return self.event_id
@@ -659,10 +661,24 @@ init -3 python:
             """
 
             if self.priority < 1 or self.priority > 3:
-                log_error(" at Event " + self.event_id + ": Priority " + str(self.priority) + " is not valid!")
+                log_error("[[301] Event " + self.event_id + ": Priority " + str(self.priority) + " is not valid!")
 
             if not renpy.has_label(self.event):
-                log_error(" at Event " + self.event_id + ": Label " + event + " is missing!")
+                log_error("[[302] Event " + self.event_id + ": Label " + event + " is missing!")
+
+        def get_thumbnail(self) -> str:
+            """
+            Returns the thumbnail of the event.
+
+            ### Returns:
+            1. str
+                - The thumbnail of the event.
+            """
+
+            if self.thumbnail == "":
+                return "journal/empty_image_wide.webp"
+
+            return self.thumbnail
 
         def get_id(self) -> str:
             """
@@ -774,6 +790,7 @@ init -3 python:
                 self.values.roll_values()
 
             kwargs["event_name"] = self.get_event()
+            kwargs["in_event"] = True
 
             renpy.call("call_event", events, self.priority, **kwargs)
 
@@ -807,6 +824,7 @@ label call_available_event(event_storage, priority = 0, **kwargs):
 
         
         $ kwargs["event_name"] = event_obj.get_event()
+        $ kwargs["in_event"] = True
 
         $ renpy.call(events, **kwargs)
         $ i += 1
@@ -835,6 +853,7 @@ label call_event(event_obj, priority = 0, **kwargs):
         if renpy.has_label(event_obj):
             $ gallery_manager = None
             $ kwargs["event_name"] = event_obj
+            $ kwargs["in_event"] = True
             $ renpy.call(event_obj, from_current="call_event_1", **kwargs)
     if isinstance(event_obj, list):
         $ i = 0
@@ -842,6 +861,7 @@ label call_event(event_obj, priority = 0, **kwargs):
             if renpy.has_label(event_obj[i]):
                 $ gallery_manager = None
                 $ kwargs["event_name"] = event_obj[i]
+                $ kwargs["in_event"] = True
                 $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
             $ i += 1
 

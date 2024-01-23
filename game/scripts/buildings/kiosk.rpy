@@ -11,24 +11,28 @@ init -1 python:
     
     kiosk_timed_event.add_event(Event(1, "first_week_kiosk_event",
         TimeCondition(day = "2-4", month = 1, year = 2023),
+        thumbnail = "images/events/first week/first week kiosk 1.webp"
     ))
 
     kiosk_event1 = Event(3, "kiosk_event_1",
         RandomValueSelector("variant", 1, 2),
-        RandomListSelector("girl", "Aona Komuro", "Ikushi Ito", "Gloria Goto", "Lin Kato"),
-        OR(TimeCondition(weekday = "d", daytime = "f"), TimeCondition(weekday="w", daytime = "d"))
+        RandomListSelector("girl_name", "Aona Komuro", "Ikushi Ito", "Gloria Goto", "Lin Kato"),
+        OR(TimeCondition(weekday = "d", daytime = "f"), TimeCondition(weekday="w", daytime = "d")),
+        thumbnail = "images/events/kiosk/kiosk_event_1 Aona Komuro 1 1.webp"
     )
 
     kiosk_event2 = Event(3, "kiosk_event_2",
-        RandomListSelector("girl", "Hatano Miwa", "Kokoro Nakamura", "Soyoon Yamamoto"),
-        OR(TimeCondition(weekday = "d", daytime = "f"), TimeCondition(weekday="w", daytime = "d"))
+        RandomListSelector("girl_name", "Hatano Miwa", "Kokoro Nakamura", "Soyoon Yamamoto"),
+        OR(TimeCondition(weekday = "d", daytime = "f"), TimeCondition(weekday="w", daytime = "d")),
+        thumbnail = "images/events/kiosk/kiosk_event_2 Hatano Miwa 1 0.webp"
     )
 
     kiosk_event3 = Event(3, "kiosk_event_3",
         RandomListSelector("topic", "normal", (0.25, "kind"), (0.05, "slimy")),
         OR(TimeCondition(weekday = "d", daytime = "f"), TimeCondition(weekday="w", daytime = "d")),
         NOT(BuildingCondition("cafeteria")),
-        RandomCondition(75, 100)
+        RandomCondition(75, 100),
+        thumbnail = "images/events/kiosk/kiosk_event_3 1 0.webp"
     )
 
     kiosk_events["snack"].add_event(kiosk_event1, kiosk_event2, kiosk_event3)
@@ -109,10 +113,10 @@ label kiosk_event_1 (**kwargs):
 
     $ char_obj = get_char_value(**kwargs)
     $ variant = get_value("variant", **kwargs)
-    $ girl = get_value("girl", **kwargs)
+    $ girl_name = get_value("girl_name", **kwargs)
 
 
-    call show_image("images/events/kiosk/kiosk_event_1 <girl> <level> <variant>.webp", **kwargs) from _call_show_image_1
+    call show_image("images/events/kiosk/kiosk_event_1 <girl_name> <level> <variant>.webp", **kwargs) from _call_show_image_1
     subtitles "For some, coffee is the only way to save the day."
 
     $ change_stats_with_modifier(char_obj,
@@ -124,9 +128,9 @@ label kiosk_event_2 (**kwargs):
     $ begin_event(**kwargs)
 
     $ char_obj = get_char_value(**kwargs)
-    $ girl = get_value("girl", **kwargs)
+    $ girl_name = get_value("girl_name", **kwargs)
 
-    $ image = Image_Series("images/events/kiosk/kiosk_event_2 <girl> <level> <step>.webp", **kwargs)
+    $ image = Image_Series("images/events/kiosk/kiosk_event_2 <girl_name> <level> <step>.webp", **kwargs)
 
 
     $ image.show(0)
@@ -145,7 +149,7 @@ label kiosk_event_3 (**kwargs):
     $ begin_event(**kwargs)
 
     $ char_obj = get_char_value(**kwargs)
-    $ topic = gallery.get_value("topic", **kwargs)
+    $ topic = get_value("topic", **kwargs)
 
     $ image = Image_Series("images/events/kiosk/kiosk_event_3 <level> <step>.webp", **kwargs)
 

@@ -7,8 +7,8 @@ init -1 python:
     after_temp_event_check = Event(2, "time_event_check.after_temp_event_check")
     after_event_check      = Event(2, "time_event_check.after_event_check")
 
-    temp_time_check_events = TempEventStorage("temp_time_check_events", "", "", after_temp_event_check)
-    time_check_events      = EventStorage("time_check_events", "", "", after_event_check)
+    temp_time_check_events = TempEventStorage("temp_time_check_events", "", "misc", after_temp_event_check)
+    time_check_events      = EventStorage("time_check_events", "", "misc", after_event_check)
 
     # temp_check_events.add_event(Event("first_day_introduction", "first_day_introduction", 2,
     #     TimeCondition(day = 1, month = 1, year = 2023, daytime = 1)
@@ -19,11 +19,13 @@ init -1 python:
     ))
 
     temp_time_check_events.add_event(Event(1, "first_week_epilogue", 
-        TimeCondition(day = 5, month = 1, year = 2023, daytime = 2)
+        TimeCondition(day = 5, month = 1, year = 2023, daytime = 2),
+        thumbnail = "images/events/first week/first week epilogue 8.webp"
     ))
 
     temp_time_check_events.add_event(Event(1, "first_week_epilogue_final", 
-        TimeCondition(day = 10, month = 1, year = 2023, daytime = 1)
+        TimeCondition(day = 10, month = 1, year = 2023, daytime = 1),
+        thumbnail = "images/events/first week/first week epilogue final 3.webp"
     ))
 
     # temp_check_events.add_event(Event("weekly_assembly_first", "weekly_assembly_first", 2,
@@ -35,7 +37,8 @@ init -1 python:
     # ))
 
     temp_time_check_events.add_event(Event(1, "first_pta_meeting", 
-        TimeCondition(day = 5, month = 1, year = 2023, daytime = 1)
+        TimeCondition(day = 5, month = 1, year = 2023, daytime = 1),
+        thumbnail = "images/events/pta/first meeting/first pta meeting 0.webp"
     ))
 
     time_check_events.add_event(Event(2, "pta_meeting",
@@ -534,6 +537,9 @@ label first_week_epilogue_final (**kwargs):
     $ set_all_buildings_blocked(False)
 
     $ hide_all()
+    $ secretary_name = get_name_first('secretary')
+    $ headmaster_first_name = get_name_first('headmaster')
+    $ headmaster_last_name = get_name_last('headmaster')
 
     hide screen black_screen_text
 
@@ -563,12 +569,12 @@ label first_week_epilogue_final (**kwargs):
     show first week epilogue final 9 with dissolveM
     headmaster_thought "Hmm... that's an interesting effect. She doesn't remember anything that happened yesterday, but the long term effect seems to still be in place."
     show first week epilogue final 10 with dissolveM
-    headmaster_thought "[secretary_first_name] didn't seem to have any memory gaps whatsoever. I wonder if it has to do with the fact that the students go a diluted version."
+    headmaster_thought "[secretary_name] didn't seem to have any memory gaps whatsoever. I wonder if it has to do with the fact that the students go a diluted version."
 
     # secretary approaches from behind
     show first week epilogue final 11 with dissolveM
     secretary "Oh hello [headmaster_first_name]! How are you doing?"
-    headmaster "Oh hello [secretary_first_name]! I'm doing fine. I was just talking to one of the students."
+    headmaster "Oh hello [secretary_name]! I'm doing fine. I was just talking to one of the students."
     headmaster "She said she can't remember anything from yesterday after recess. Do you have any idea how this could have come about?"
     headmaster "I mean you didn't have this problem, did you?"
     show first week epilogue final 13 with dissolveM

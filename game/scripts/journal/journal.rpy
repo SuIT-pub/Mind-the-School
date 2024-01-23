@@ -26,8 +26,6 @@ label start_journal ():
     call open_journal (1, "") from start_journal_1
 
 label open_journal(page, display, char = "school"):
-    $ log_val("display", display)
-
     if page == 1:
         call screen journal_overview(display, char) with dissolveM
     elif page == 2:
@@ -168,7 +166,8 @@ screen journal_simple_list(page, display, display_list, default_style = "buttons
             draggable "touch"
 
             vbox:
-                for elem in display_list.keys():
+                $ elem_list = sorted(display_list.keys())
+                for elem in elem_list:
                     $ elem_image = None
                     $ elem_text = display_list[elem]
                     if isinstance(elem_text, list):
@@ -560,7 +559,6 @@ screen journal_page(page, display):
     use journal_obj_list(page, display, journal_map)
 
     if display != "":
-        $ log_val("display", display)
         use journal_image(page, display, active_obj)
 
         use journal_desc(page, display, active_obj)
@@ -856,6 +854,17 @@ screen journal_cheats(display):
                     button:
                         text "Run Test-Label" style "buttons_idle"
                         action Call("test_label")
+
+                    null height 10
+                    hbox:
+                        button:
+                            text "Reset Gallery" xalign 0.0 style "journal_text"
+                            xsize 250
+
+                        button:
+                            text "{color=#ff0000}RESET NOW{/color}" xalign 1.0
+                            action [With(dissolveM), Call("reset_gallery_cheat", 5, display)]
+                            xsize 250
                 
                     
             vbar value YScrollValue("CheatStatList"):
@@ -1179,10 +1188,17 @@ screen journal_gallery(display):
 
     if len(location_list) != 0 and location == "":
         $ location_dict = {building.get_name(): building.get_title() for building in location_list}
+
+        if 'misc' in persistent.gallery.keys():
+            $ location_dict['misc'] = "Miscellaneous"
+
         $ location_button = "buttons_idle"
         use journal_simple_list(7, location, location_dict, "buttons_idle", pos_x = 350, width = 500)
     elif location != "":
-        $ location_title = get_building(location).get_title()
+        $ location_title = "Miscellaneous"
+        $ building = get_building(location)
+        if building != None:
+            $ location_title = building.get_title()
         textbutton "← [location_title]":
             xpos 350 ypos 300
             text_style "buttons_idle"
@@ -1213,12 +1229,12 @@ screen journal_gallery(display):
             ymaximum 50
             color "#000"
 
-        image "journal/empty_image_wide.webp":
+        $ thumbnail = im.Scale(event_obj.get_thumbnail(), 500, 281)
+
+        image thumbnail:
             xpos 989 ypos 250
 
         $ variant_names = [topic for topic in persistent.gallery[location][event]['order']]
-        $ log_val('variant_names', variant_names)
-        $ log_val('gallery_data', persistent.gallery[location][event])
         $ has_option = False
         frame:
             area(989, 600, 500, 250)
@@ -1252,11 +1268,9 @@ screen journal_gallery(display):
                                         bold True
                                         style "journal_text"
                                         size 30
-                                    for value in values:
+                                    for value in sorted(values):
                                         $ has_option = True
                                         $ value_text = get_translation(value)
-                                        $ log_val('translations', translation_texts)
-                                        $ log_val('value_text', value_text)
                                         if value == gallery_chooser[variant_name]:
                                             textbutton "[value_text]":
                                                 text_style "buttons_selected"
@@ -1273,23 +1287,21 @@ screen journal_gallery(display):
                 unscrollable "hide"
                 xalign 1.0
                 xoffset 15
+
         $ persistent.gallery[location][event]['options']['last_data'] = gallery_chooser
         $ persistent.gallery[location][event]['options']['last_order'] = gallery_chooser_order
-        
+
         if has_option:            
             text "Variants":
                 xpos 989
                 ypos 560
                 color "#000"
 
-        $ gallery_chooser['in_replay'] = True
-        $ gallery_chooser['journal_display'] = display
-        
         textbutton "Play":
             text_style "buttons_idle"
             xpos 1389
             ypos 910
-            action [SetVariable('is_in_replay', True), Call(event, **gallery_chooser)]
+            action [Call('start_gallery_replay', location, event, gallery_chooser, display)]
             
 init python:
     def update_gallery_chooser(gallery_chooser_order: List[string], gallery_chooser: Dict[string, Any], gallery_dict: Dict[string, Any]) -> Dict[string, Any]:
@@ -1430,12 +1442,25 @@ screen journal_credits(display):
 # Journal Methods
 ############################
 
-label start_gallery_replay(event, data, display):
-    $ log_val('gallery_data', data)
-    $ log_val('gallery_event', event)
-    $ log_val('gallery_display', display)
+label reset_gallery_cheat(page, display):
+    $ reset_gallery()
 
-    call open_journal(7, display)
+    $ renpy.notify("Reset gallery!")
+
+    call open_journal(page, display) from reset_gallery_cheat_1
+
+label start_gallery_replay(location, event, gallery_chooser, display):
+    $ is_in_replay = True
+    $ gallery_chooser['in_replay'] = True
+    $ gallery_chooser['journal_display'] = display
+    $ gallery_chooser['in_event'] = True
+    $ gallery_chooser['event_name'] = event
+    $ gallery_chooser['decision_data'] = persistent.gallery[location][event]['decisions']
+    
+    $ hide_all()
+
+    $ renpy.call(event, **gallery_chooser)
+        
 
 label set_time_cheat(page, display, **kwargs):
     $ time.set_time(**kwargs)
@@ -1454,6 +1479,10 @@ label switch_time_freeze(page, display, value = None):
         $ time_freeze = value
     else:
         $ time_freeze = not time_freeze
+    if time_freeze:
+        $ renpy.notify("Time is now frozen!")
+    else:
+        $ renpy.notify("Time is not frozen anymore!")
     call open_journal(page, display) from switch_time_freeze_1
 
 label open_patreon_link():

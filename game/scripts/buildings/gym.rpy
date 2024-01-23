@@ -17,11 +17,13 @@ init -1 python:
 
     gym_timed_event.add_event(Event(1, "first_week_gym_event",
         TimeCondition(day = "2-4", month = 1, year = 2023),
+        thumbnail = "images/events/first week/first week gym 1.webp"
     ))
 
     
     gym_timed_event.add_event(Event(1, "first_potion_gym_event",
         TimeCondition(day = 9, month = 1, year = 2023),
+        thumbnail = "images/events/first potion/first potion gym 1.webp"
     ))
 
     gym_event1 = Event(3, "gym_event_1",
@@ -32,21 +34,24 @@ init -1 python:
             "hair": "doing my hair",
             "ready": "getting ready",
         }),
-        TimeCondition(daytime = "c", weekday = "d")
+        TimeCondition(daytime = "c", weekday = "d"),
+        thumbnail = "images/events/gym/gym_event_1 1 hair 0.webp"
     )
     
     gym_event2 = Event(3, "gym_event_2",
         StatSelector("inhibition", INHIBITION, "school"),
         RandomListSelector("topic", (0.75, "clothe"), "breasts", (0.15, "asses")),
-        TimeCondition(daytime = "c", weekday = "d")
+        TimeCondition(daytime = "c", weekday = "d"),
+        thumbnail = "images/events/gym/gym_event_2 1 clothe 0.webp"
     )
 
     gym_event3 = Event(3, "gym_event_3",
         RandomValueSelector("variant", 1, 1),
-        DictSelector("girl", "variant", {
+        DictSelector("girl_name", "variant", {
             1: "Kokoro Nakamura",
         }),
-        TimeCondition(daytime = "c", weekday = "d")
+        TimeCondition(daytime = "c", weekday = "d"),
+        thumbnail = "images/events/gym/gym_event_3 1 1 0.webp"
     )    
 
     gym_events["enter_changing"].add_event(gym_event2)
@@ -210,7 +215,7 @@ label gym_event_1 (**kwargs):
 label gym_event_2 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ get_stat_ranges(inhibition = [100])
+    $ set_stat_ranges(inhibition = [100])
 
     $ char_obj = get_char_value(**kwargs)
     $ inhibition = get_value("inhibition", **kwargs)
@@ -227,16 +232,16 @@ label gym_event_2 (**kwargs):
         subtitles "You walk in on some girls changing their clothes before P.E."
     
     # if inhibition >= 80:
-    #     $ image.show(1)
-    #     subtitles "It took a few seconds for them to realize what is happening."
-    #     $ image.show(2)
-    #     sgirl "*scream*" (name="School Girls")
-    #     $ image.show(3)
-    #     headmaster "Sorry, I didn't mean to intrude."
-    #     $ image.show(4)
-    #     subtitles "You run out as fast as you can."
-    #     $ change_stats_with_modifier(char_obj, 
-    #         inhibition = DEC_SMALL, HAPPINESS = DEC_MEDIUM, REPUTATION = DEC_SMALL)
+    $ image.show(1)
+    subtitles "It took a few seconds for them to realize what is happening."
+    $ image.show(2)
+    sgirl "*scream*" (name="School Girls")
+    $ image.show(3)
+    headmaster "Sorry, I didn't mean to intrude."
+    $ image.show(4)
+    subtitles "You run out as fast as you can."
+    $ change_stats_with_modifier(char_obj, 
+        inhibition = DEC_SMALL, HAPPINESS = DEC_MEDIUM, REPUTATION = DEC_SMALL)
     # elif inhibition >= 60:
     #     show screen black_screen_text("gym_event_2\ntopic_[topic] inhibition >= 60")
 
@@ -251,12 +256,12 @@ label gym_event_2 (**kwargs):
     #     $ change_stats_with_modifier(char_obj,
     #         inhibition = DEC_SMALL, HAPPINESS = DEC_SMALL)
     # else:
-    show screen black_screen_text("gym_event_2\ntopic_[topic] inhibition < 30")
-    sgirl "Ahh!"
-    headmaster "Sorry, is everything alright?"
-    sgirl "Yes, I was just surprised."
-    $ change_stats_with_modifier(char_obj,
-        inhibition = DEC_MEDIUM)
+    # show screen black_screen_text("gym_event_2\ntopic_[topic] inhibition < 30")
+    # sgirl "Ahh!"
+    # headmaster "Sorry, is everything alright?"
+    # sgirl "Yes, I was just surprised."
+    # $ change_stats_with_modifier(char_obj,
+    #     inhibition = DEC_MEDIUM)
 
     $ end_event('new_daytime', **kwargs)
 label .sorry (**kwargs):

@@ -79,8 +79,8 @@ label .start:
     
     call screen black_screen_text ("Monday, 1 January 2023") with dissolveM
 
-    $ headmaster_last_name = get_last_name("headmaster")
-    $ secretary_name = get_name("secretary")
+    $ headmaster_last_name = get_name_last("headmaster")
+    $ secretary_name = get_name_str("secretary")
 
     show office secretary 1 smile with dissolveM
     secretary """Hello Mr. [headmaster_last_name], nice to meet you!

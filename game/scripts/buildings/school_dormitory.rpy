@@ -13,10 +13,12 @@ init -1 python:
 
     sd_timed_event.add_event(Event(1, "first_week_school_dormitory_event",
         TimeCondition(day = "2-4", month = 1, year = 2023),
+        thumbnail = "images/events/first week/first week school dormitory 1.webp"
     ))
 
     sd_timed_event.add_event(Event(1, "first_potion_school_dormitory_event",
         TimeCondition(day = 9, month = 1, year = 2023),
+        thumbnail = "images/events/first potion/first potion school dormitory 3.webp"
     ))
 
     sd_event1 = Event(3, "sd_event_1",
@@ -26,7 +28,8 @@ init -1 python:
             TimeCondition(weekday = "d", daytime = "f"), 
             TimeCondition(weekday = "d", daytime = "n"), 
             TimeCondition(weekday = "w")
-        )
+        ),
+        thumbnail = "images/events/school dormitory/sd_event_1 1 0.webp"
     )
 
     sd_event2 = Event(3, "sd_event_2",
@@ -58,26 +61,30 @@ init -1 python:
             TimeCondition(weekday = "d", daytime = "f"), 
             TimeCondition(weekday = "d", daytime = "n"), 
             TimeCondition(weekday = "w")
-        )
+        ),
+        thumbnail = "images/events/school dormitory/sd_event_2 ah dorm_room Aona Komuro 1 0.webp"
     )
 
     sd_event3 = Event(3, "sd_event_3",
         StatSelector('inhibition', INHIBITION, "school"),
         RandomListSelector('topic', "normal", (0.1, "panties"), (0.02, "nude")),
         TimeCondition(daytime = "6,7"),
+        thumbnail = "images/events/school dormitory/sd_event_3 normal 1 0.webp"
     )
 
-    sd_events["peek_students"].add_event(sd_event2)
-    # sd_events["peek_students"].add_event(sd_event1, sd_event2, sd_event3)
-
-    sd_timed_event.check_all_events()
-    map(lambda x: x.check_all_events(), sd_events.values())
-
+    # sd_events["peek_students"].add_event(sd_event2)
+    sd_events["peek_students"].add_event(sd_event1, sd_event2, sd_event3)
+    
     school_dormitory_bg_images = [
         BGImage("images/background/school dormitory/bg f <loli> <level> <nude>.webp", 1, TimeCondition(daytime = "f")),
         BGImage("images/background/school dormitory/bg f <loli> <level> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "w")),
         BGImage("images/background/school dormitory/bg 7.webp", 1, TimeCondition(daytime = 7)),
     ]
+
+init 1 python:    
+    sd_timed_event.check_all_events()
+    map(lambda x: x.check_all_events(), sd_events.values())
+
     
 ###################################################
 
@@ -180,8 +187,8 @@ label sd_event_1 (**kwargs):
     )
 
     $ char_obj = get_char_value(**kwargs)
-    $ education = gallery.get_value('education', **kwargs)
-    $ inhibition = gallery.get_value('inhibition', **kwargs)
+    $ education = get_value('education', **kwargs)
+    $ inhibition = get_value('inhibition', **kwargs)
 
     $ image = Image_Series("images/events/school dormitory/sd_event_1 <level> <step>.webp", **kwargs)
 

@@ -136,7 +136,7 @@ init -2 python:
                     if '<variant>' in image_path:
                         variant = get_image_max_value("<variant>", image_path, 1)
                         if variant == 0:
-                            log_error(f"'{image_path}' has no variants!")
+                            log_error(f"[203] '{image_path}' has no variants!")
                             self.steps.append(None)
                             continue
 
@@ -162,14 +162,13 @@ init -2 python:
             """
 
             if step < 0 or step >= len(self.steps):
-                log_val("image", self._image_path)
-                log_error(f"Step {step} is out of range! (Min: 0, Max: {len(self.steps) - 1}))")
+                log_error(f"[201] Step {step} for {self._image_path} is out of range! (Min: 0, Max: {len(self.steps) - 1}))")
                 renpy.show("black_screen_text", [], None, f"Step {step} is out of range! (Min: 0, Max: {len(self.steps) - 1}))")
                 return
 
             image_step = self.steps[step]
             if image_step == None:
-                log_error(f"Step {step} is missing variants for {self._image_path}!")
+                log_error(f"[202] Step {step} is missing variants for {self._image_path}!")
                 renpy.show("black_screen_text", [], None, f"Step {step} is missing variants for {self._image_path}!")
                 return
 
@@ -333,7 +332,7 @@ init -2 python:
             if renpy.loadable(image_path):
                 return 0, image_path
             else:
-                log_error(f"'{image_path}' could not be found!")
+                log_error(f"[204] '{image_path}' could not be found!")
                 return -1, image_path
 
         for i in range(0, nude_vision):
@@ -342,7 +341,7 @@ init -2 python:
                 if i > 0:
                     return i - 1, image_path
                 elif i == 0:
-                    log(f"|ERROR| '{new_image_path}' is missing!")
+                    log_error(f"[204] '{new_image_path}' could not be found!")
                     return -1, image_path
 
         return nude_vision, image_path
@@ -610,7 +609,7 @@ label show_ready_image(path, display_type = SCENE):
             elif display_type == SCENE:
                 scene expression path with dissolveM
         else:
-            $ log_error("Image not found: " + path)
+            $ log_error(f"[204] '{new_image_path}' could not be found!")
     return
 
 label show_ext_image_with_nude_var(image_path, **kwargs):
@@ -652,7 +651,7 @@ label show_image_with_nude_var(image_path, limit = 0):
             new_image_path = image_path.replace("<nude>", str(i))
             paths.append(new_image_path)
             if len(paths) == 0 and not renpy.loadable(new_image_path):
-                log_error(f"'{image_path}' is missing nude versions!")
+                log_error(f"[205] '{image_path}' is missing nude version images!")
                 image_not_found = True
     
     if image_not_found:

@@ -2,7 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/scripts/journal/journal.rpy", line 234: Indentation mismatch.
+File "game/scripts/journal/journal.rpy", line 1193: 'location_dict' is not a keyword argument or valid child of the screen statement.
+    location_dict['misc'] = "Miscellaneous"
+                 ^
 
 Ren'Py Version: Ren'Py 8.1.3.23091805
-Fri Jan 19 13:40:40 2024
+Tue Jan 23 15:26:49 2024

@@ -575,6 +575,8 @@ label map_overview ():
 
     $ check_old_versions()
 
+    $ is_in_replay = False
+
     $ renpy.choice_for_skipping()
 
     scene bg school overview idle

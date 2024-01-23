@@ -30,6 +30,10 @@ init -1 python:
             self.name = name
 
         @abstractmethod
+        def __str__(self):
+            pass
+
+        @abstractmethod
         def apply(self, **kwargs):
             pass
 
@@ -41,6 +45,9 @@ init -1 python:
         def __init__(self, name: str, rule: str | Rule):
             super().__init__(name)
             self.rule = rule
+
+        def __str__(self):
+            return f"{self.rule}"
 
         def apply(self, **kwargs):
             if isinstance(self.rule, str):
@@ -59,6 +66,9 @@ init -1 python:
             super().__init__(name)
             self.club = club
 
+        def __str__(self):
+            return f"{self.club}"
+
         def apply(self, **kwargs):
             if isinstance(self.club, str):
                 club = get_club(self.club)
@@ -75,6 +85,9 @@ init -1 python:
         def __init__(self, name: str, building: str | Building):
             super().__init__(name)
             self.building = building
+
+        def __str__(self):
+            return f"{self.building}"
 
         def apply(self, **kwargs):
             if isinstance(self.building, str):
@@ -101,6 +114,9 @@ init -1 python:
             super().__init__(name)
             self.mode = mode
             self.value = value
+
+        def __str__(self):
+            return f"{self.value}"
 
         def apply(self, **kwargs):
             char_obj = get_kwargs("char_obj", **kwargs)
@@ -132,6 +148,9 @@ init -1 python:
             self.stat = stat
             self.mode = mode
             self.value = value
+
+        def __str__(self):
+            return f"{self.value}"
 
         def apply(self, **kwargs):
             char_obj = get_kwargs("char_obj", **kwargs)
@@ -165,6 +184,9 @@ init -1 python:
             self.mode = mode
             self.value = value
 
+        def __str__(self):
+            return f"{self.value}"
+
         def apply(self, **kwargs):
             if self.mode == "SET":
                 money.change_value_to(self.value)
@@ -184,6 +206,9 @@ init -1 python:
             super().__init__(event.get_title())
             self.event = event
 
+        def __str__(self):
+            return f"{self.event}"
+
         def apply(self, **kwargs):
             add_temp_event(self.event)
 
@@ -198,6 +223,9 @@ init -1 python:
 
         def __init__(self, id: str):
             super().__init__(id)
+
+        def __str__(self):
+            return f"{self.id}"
 
         def apply(self, **kwargs):
             remove_temp_event(self.id)
@@ -219,6 +247,9 @@ init -1 python:
             self.building_name = building_name
             self.is_blocking = is_blocking
 
+        def __str__(self):
+            return f"{self.building_name}"
+
         def apply(self, **kwargs):
             set_building_blocked(self.building_name, self.is_blocking)
 
@@ -237,6 +268,9 @@ init -1 python:
         def __init__(self, event: Event):
             super().__init__(event.get_title())
             self.event = event
+
+        def __str__(self):
+            return f"{self.event}"
 
         def apply(self, **kwargs):
             if isinstance(self.event, EventStorage):
@@ -267,6 +301,9 @@ init -1 python:
             self.key = key
             self.value = value
 
+        def __str__(self):
+            return f"{self.value}"
+
         def apply(self, **kwargs):
             gameData[self.key] = self.value
 
@@ -285,6 +322,9 @@ init -1 python:
             super().__init__(key)
             self.key = key
             self.value = value
+
+        def __str__(self):
+            return f"{self.value}"
 
         def apply(self, **kwargs):
             if self.key not in gameData.keys():

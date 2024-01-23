@@ -15,23 +15,28 @@ init -1 python:
     
     office_building_timed_event.add_event(Event(1, "first_week_office_building_event",
         TimeCondition(day = "2-4", month = 1, year = 2023),
+        thumbnail = "images/events/first week/first week office building 1.webp"
     ))
     
     office_building_timed_event.add_event(Event(1, "first_potion_office_building_event",
         TimeCondition(day = 9, month = 1, year = 2023),
+        thumbnail = "images/events/first potion/first potion office 1.webp"
     ))
 
     office_event1 = Event(3, "office_event_1",
         TimeCondition(weekday = "d", daytime = "d"),
+        thumbnail = "images/events/office/office_event_1 1 0.webp"
     )
 
     office_event2 = Event(3, "office_event_2",
         TimeCondition(weekday = "d", daytime = "d"),
+        thumbnail = "images/events/office/office_event_2 1 1.webp"
     )
 
     office_event3 = Event(3, "office_event_3",
         TimeCondition(weekday = "d", daytime = "d"),
         NOT(RuleCondition("student_student_relation")),
+        thumbnail = "images/events/office/office_event_3 1 0.webp"
     )
 
     office_building_events["look_around"].add_event(office_event1, office_event2, office_event3)
@@ -113,6 +118,8 @@ label first_week_office_building_event (**kwargs):
 label office_event_1 (**kwargs):
     $ begin_event(**kwargs);
 
+    $ char_obj = get_char_value(**kwargs)
+    
     $ image = Image_Series("images/events/office/office_event_1 <level> <step>.webp", **kwargs)
 
     $ image.show(0)
@@ -148,6 +155,8 @@ label office_event_2 (**kwargs):
 label office_event_3 (**kwargs):
     $ begin_event(**kwargs);
 
+    $ char_obj = get_char_value(**kwargs)
+    
     $ image = Image_Series("images/events/office/office_event_3 <level> <step>.webp", **kwargs)
 
     $ image.show(0)

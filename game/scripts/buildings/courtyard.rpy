@@ -12,23 +12,28 @@ init -1 python:
     
     courtyard_timed_event.add_event(Event(1, "first_week_courtyard_event",
         TimeCondition(day = "2-4", month = 1, year = 2023),
+        thumbnail = "images/events/first week/first week courtyard 1.webp"
     ))
     
     courtyard_timed_event.add_event(Event(1, "first_potion_courtyard_event",
         TimeCondition(day = 9, month = 1, year = 2023),
+        thumbnail = "images/events/first potion/first potion courtyard 1.webp"
     ))
 
     courtyard_event1 = Event(3, "courtyard_event_1",
         RandomValueSelector('variant', 1, 1),
-        OR(TimeCondition(daytime = "f", weekday = "d"), TimeCondition(daytime = "d", weekday = "w"))
+        OR(TimeCondition(daytime = "f", weekday = "d"), TimeCondition(daytime = "d", weekday = "w")),
+        thumbnail = "images/events/courtyard/courtyard_event_1 1 1 0.webp"
     )
 
     courtyard_event2 = Event(3, "courtyard_event_2",
-        OR(TimeCondition(daytime = "f", weekday = "d"), TimeCondition(daytime = "d", weekday = "w"))
+        OR(TimeCondition(daytime = "f", weekday = "d"), TimeCondition(daytime = "d", weekday = "w")),
+        thumbnail = "images/events/courtyard/courtyard_event_2 1 0.webp"
     )
 
     courtyard_event3 = Event(3, "courtyard_event_3",
-        TimeCondition(daytime = "d")
+        TimeCondition(daytime = "d"),
+        thumbnail = "images/events/courtyard/courtyard_event_3 1.webp"
     )
 
     courtyard_events["patrol"].add_event(courtyard_event1, courtyard_event2, courtyard_event3)
@@ -124,7 +129,7 @@ label courtyard_event_1 (**kwargs):
 
     $ char_obj = get_char_value(**kwargs)
 
-    $ image = Image_Series("images/events/courtyard/courtyard_event_1 <level> <variant> <step>.webp", **kwargs)
+    $ image = Image_Series("images/events/courtyard/courtyard_event_1 <level> 1 <step>.webp", **kwargs)
 
     $ image.show(0)
     subtitles "You walk along the courtyard when a gist of wind blows up the girls skirt in front of you."
@@ -155,7 +160,7 @@ label .look_away (**kwargs):
     $ image.show(5)
     subtitles "The girl looks at you ashamed of the situation and runs away. Glad you didn't stare."
 
-    $ change_stats_with_modifier(kwargs["char_obj"],
+    $ change_stats_with_modifier(char_obj,
         happiness = TINY, reputation = TINY, inhibition = DEC_TINY)
     
     $ end_event("new_daytime", **kwargs)
@@ -164,7 +169,7 @@ label .look_away (**kwargs):
 label courtyard_event_2 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ char_obj = get_char_value("char_obj", **kwargs)
+    $ char_obj = get_char_value(**kwargs)
 
     $ image = Image_Series("images/events/courtyard/courtyard_event_2 <level> <step>.webp", **kwargs)
 
@@ -195,9 +200,9 @@ label .talk (**kwargs):
     $ image.show(9)
     sgirl "Thanks, bye."
     
-    $ change_stats_with_modifier(kwargs["char_obj"],
+    $ change_stats_with_modifier(char_obj,
         happiness = DEC_TINY, reputation = TINY)
-    $ end_event("new_datimey", **kwargs)
+    $ end_event("new_daytime", **kwargs)
 label .leave (**kwargs):
     
     $ begin_event()
@@ -205,17 +210,19 @@ label .leave (**kwargs):
     $ image.show(1)
     subtitles "You decide to leave her alone."
     
-    $ change_stats_with_modifier(kwargs["char_obj"],
+    $ change_stats_with_modifier(char_obj,
         happiness = DEC_MEDIUM, reputation = DEC_SMALL)
     $ end_event("new_daytime", **kwargs)
 
 label courtyard_event_3 (**kwargs):
     $ begin_event(**kwargs)
     
+    $ char_obj = get_char_value(**kwargs)
+    
     call show_image ("images/events/courtyard/courtyard_event_3 <level>.webp", **kwargs) from _call_show_image
     subtitles "You notice a group of girls taking a break together."
 
-    $ change_stats_with_modifier(kwargs["char_obj"],
+    $ change_stats_with_modifier(char_obj,
         charm = SMALL, happiness = TINY, education = TINY, reputation = SMALL)
     
     $ end_event("new_daytime", **kwargs)
