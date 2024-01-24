@@ -477,6 +477,10 @@ init -99 python:
             gameData["names"] = {}
         gameData["names"][key] = (first_name, last_name)
 
+        if key == "headmaster":
+            headmaster_first_name = first_name
+            headmaster_last_name = last_name
+
     def get_name(key: str) -> Tuple[str, str]:
         """
         Gets a name from gameData

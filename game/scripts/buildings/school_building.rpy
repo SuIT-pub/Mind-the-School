@@ -11,15 +11,21 @@ init -1 python:
         "students":    EventStorage("students",    "Talk to students", "school_building", default_fallback, "There is nobody here."),
     }
 
-    sb_timed_event.add_event(Event(1, "first_week_sb_event",
+    sb_bg_images = [
+        BGImage("images/background/school building/bg c <loli> <level> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")),
+        BGImage("images/background/school building/bg 7.webp", 1, TimeCondition(daytime = 7)),
+    ]
+
+init 1 python:
+    first_week_sb_event = Event(1, "first_week_sb_event",
         TimeCondition(day = "2-4", month = 1, year = 2023),
         thumbnail = "images/events/first week/first week school building 2.webp"
-    ))
+    )
 
-    sb_timed_event.add_event(Event(1, "first_potion_sb_event",
+    first_potion_sb_event = Event(1, "first_potion_sb_event",
         TimeCondition(day = 9, month = 1, year = 2023),
         thumbnail = "images/events/first potion/first potion school building 1.webp"
-    ))
+    )
 
     sb_event1 = Event(3, "sb_event_1",
         TimeCondition(daytime = "c", weekday = "d"),
@@ -36,15 +42,11 @@ init -1 python:
         thumbnail = "images/events/school building/sb_event_3 0.webp"
     )
 
+    sb_timed_event.add_event(first_week_sb_event, first_potion_sb_event)
+
     sb_events["teach_class"].add_event(sb_event1, sb_event2)
     sb_events["patrol"].add_event(sb_event1, sb_event3)
-
-    sb_bg_images = [
-        BGImage("images/background/school building/bg c <loli> <level> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")),
-        BGImage("images/background/school building/bg 7.webp", 1, TimeCondition(daytime = 7)),
-    ]
-
-init 1 python:
+    
     sb_timed_event.check_all_events()
     map(lambda x: x.check_all_events(), sb_events.values())
 

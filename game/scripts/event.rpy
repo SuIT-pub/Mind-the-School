@@ -82,6 +82,17 @@ init -3 python:
             if not hasattr(self, 'fallback_text'):
                 self.fallback_text = "There is nothing to do here."
 
+        def get_fallback(self) -> Event:
+            """
+            Returns the fallback event of the EventStorage.
+
+            ### Returns:
+            1. Event
+                - The fallback event of the EventStorage.
+            """
+
+            return self.fallback
+
         def get_name(self) -> str:
             """
             Returns the name of the EventStorage.
@@ -403,6 +414,26 @@ init -3 python:
 
             self.events.extend(event)
 
+        def force_add_event(self, *event: Event):
+            """
+            Force-adds an event to the EventStorage.
+
+            ### Parameters:
+            1. *event: Event
+                - The events that are added to the EventStorage.
+            """
+
+            if self.location != "":
+                for event_obj in event:
+                    self.register_event_for_location(event_obj, self.location)
+
+            if not contains_game_data("temp_event_blocker"):
+                set_game_data("temp_event_blocker", [])
+
+            for event_obj in event:
+                get_game_data("temp_event_blocker").remove(event_obj.get_id())
+                self.events.append(event_obj)
+
         def remove_event(self, event_obj: str | Event):
             """
             Removes an event from the EventStorage.
@@ -532,7 +563,20 @@ init -3 python:
             if "event_type" not in kwargs.keys():
                 kwargs["event_type"] = self.name + "_timed"
 
+            log_val('gameData', gameData)
+
+            if not contains_game_data("temp_event_blocker"):
+                set_game_data("temp_event_blocker", [])
+
+            temp_event_blocker = get_game_data("temp_event_blocker")
+
             for event in events:
+                if event.get_id() != self.fallback.get_id():
+                    if event.get_id() in temp_event_blocker:
+                        continue
+
+                    temp_event_blocker.append(event.get_id())
+
                 event.call(**kwargs)
 
         def check_all_events(self):
@@ -811,9 +855,16 @@ label call_available_event(event_storage, priority = 0, **kwargs):
     # """
 
     $ events_list = event_storage.get_available_events_with_fallback(priority, **kwargs)
+    if not contains_game_data("temp_event_blocker"):
+        $ set_game_data("temp_event_blocker", [])
+
+    $ temp_event_blocker = get_game_data("temp_event_blocker")
+
+    $ log_val('gameData', gameData)
 
     $ i = 0
     while(len(events_list) > i):
+        $ continue_loop = False
         $ event_obj = events_list[i]
         $ events = event_obj.get_event()
         if "event_type" not in kwargs.keys():
@@ -822,11 +873,16 @@ label call_available_event(event_storage, priority = 0, **kwargs):
         if event_storage.get_type() == "TempEventStorage":
             $ event_storage.remove_event(event_obj.get_id())
 
-        
-        $ kwargs["event_name"] = event_obj.get_event()
-        $ kwargs["in_event"] = True
+            if event_obj.get_id() in temp_event_blocker:
+                $ continue_loop = True
+            else:
+                $ temp_event_blocker.append(event_obj.get_id())
 
-        $ renpy.call(events, **kwargs)
+        if not continue_loop or event_obj.get_id() == event_storage.get_fallback().get_id():
+            $ kwargs["event_name"] = event_obj.get_event()
+            $ kwargs["in_event"] = True
+
+            $ renpy.call(events, **kwargs)
         $ i += 1
 
     return

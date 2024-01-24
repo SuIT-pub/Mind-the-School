@@ -10,44 +10,67 @@ init -1 python:
     temp_time_check_events = TempEventStorage("temp_time_check_events", "", "misc", after_temp_event_check)
     time_check_events      = EventStorage("time_check_events", "", "misc", after_event_check)
 
-    time_check_events.add_event(Event(1, "tutorial_1", 
+init 1 python:
+    tutorial_1_event = Event(2, "tutorial_1", 
         TimeCondition(day = 2, month = 1, year = 2023, daytime = 1)
-    ))
+    )
 
-    time_check_events.add_event(Event(1, "first_week_epilogue", 
+    first_week_epilogue_event = Event(1, "first_week_epilogue", 
         TimeCondition(day = 5, month = 1, year = 2023, daytime = 2),
         thumbnail = "images/events/first week/first week epilogue 8.webp"
-    ))
+    )
 
-    time_check_events.add_event(Event(1, "first_week_epilogue_final", 
+    first_week_epilogue_final_event = Event(1, "first_week_epilogue_final", 
         TimeCondition(day = 10, month = 1, year = 2023, daytime = 1),
         thumbnail = "images/events/first week/first week epilogue final 3.webp"
-    ))
+    )
 
-    time_check_events.add_event(Event(1, "first_pta_meeting", 
+    first_pta_meeting_event = Event(1, "first_pta_meeting", 
         TimeCondition(day = 5, month = 1, year = 2023, daytime = 1),
         thumbnail = "images/events/pta/first meeting/first pta meeting 0.webp"
-    ))
+    )
 
-    time_check_events.add_event(Event(2, "pta_meeting",
+    pta_meeting_event = Event(2, "pta_meeting",
         TimeCondition(weekday = 5, daytime = 1)
-    ))
+    )
 
-    time_check_events.add_event(Event(2, "end_of_month",
+    end_of_month_event = Event(2, "end_of_month",
         TimeCondition(day = 1, daytime = 1)
-    ))
+    )
 
-    temp_time_check_events.add_event(Event(1,
+    event_all_events_seen_event = Event(1,
         "event_all_events_seen",
         GameDataCondition("all_events_seen", "all_events_seen", True)
-    ))
+    )
 
-    temp_time_check_events.add_event(Event(1,
+    event_reached_max_stats_event = Event(1,
         "event_reached_max_stats",
         StatCondition(inhibition = "90-", corruption = "5+")
-    ))
+    )
 
-init 1 python:
+    intro_check_all_facilities_event = Event(2, "intro_check_all_facilities", 
+        TimeCondition(day = 2, month = 1, year = 2023, daytime = 1)
+    )
+
+    intro_check_all_first_potions_event = Event(1, "intro_check_all_first_potions", 
+        TimeCondition(day = 9, month = 1, year = 2023, daytime = 4)
+    )
+
+    time_check_events.add_event(
+        tutorial_1_event, 
+        first_week_epilogue_event, 
+        first_week_epilogue_final_event, 
+        first_pta_meeting_event, 
+        pta_meeting_event, 
+        end_of_month_event,
+        intro_check_all_facilities_event,
+        intro_check_all_first_potions_event
+    )
+    temp_time_check_events.add_event(
+        event_all_events_seen_event, 
+        event_reached_max_stats_event,
+    )
+
     temp_time_check_events.check_all_events()
     time_check_events.check_all_events()
 
@@ -68,6 +91,28 @@ label .after_event_check (**kwargs):
 ############################
 # ----- Intro Events ----- #
 ############################
+
+label intro_check_all_facilities (**kwargs):
+    $ begin_event()
+
+    scene bg school overview idle
+    show screen school_overview_stats
+
+    headmaster_thought "Okay time to check all the facilities and see if they need improvement."
+    headmaster_thought "I should try to inspect all the locations until friday where I will have my first PTA meeting."
+
+    jump map_overview
+
+label intro_check_all_first_potions (**kwargs):
+    $ begin_event()
+
+    scene bg school overview idle
+    show screen school_overview_stats
+
+    headmaster_thought "By this time all the students should have eaten."
+    headmaster_thought "Time to go around campus and check on the students and the potion's effect."
+
+    jump map_overview
 
 label event_all_events_seen (**kwargs):
     $ begin_event()
@@ -98,6 +143,8 @@ label event_reached_max_stats (**kwargs):
 
 
 label tutorial_1 (**kwargs):
+    $ begin_event(**kwargs)
+
     show screen black_error_screen_text ("")
 
     menu:
@@ -214,14 +261,13 @@ label .tutorial_3:
 
     hide screen black_error_screen_text
 
-    $ time.set_time(day = 2, month = 1, year = 2023, daytime = 1)
+    $ end_event('none', **kwargs)
 
     # jump first_week_epilogue_final.skip
 
     # dev "[intro_dev_message]"
 
-
-    jump map_overview
+    return
 
 image anim_first_week_epilogue_17 = Movie(play ="images/events/first week/first week epilogue 17.webm", start_image = "images/events/first week/first week epilogue 17_1.webp", loop = True)
 image anim_first_week_epilogue_18 = Movie(play ="images/events/first week/first week epilogue 18.webm", start_image = "images/events/first week/first week epilogue 18_1.webp", loop = True)

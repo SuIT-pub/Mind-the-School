@@ -9,7 +9,12 @@ init -1 python:
         "talk_teacher": EventStorage("talk_teacher", "Talk with teacher",  "courtyard", default_fallback, "There is nobody here."),
         "patrol":       EventStorage("patrol",       "Patrol",             "courtyard", default_fallback, "There is nobody here."),
     }
-    
+
+    courtyard_bg_images = [
+        BGImage("images/background/courtyard/bg 1,6 <loli> <level> <nude>.webp", 1, OR(TimeCondition(daytime = "1,6", weekday = "w"), TimeCondition(daytime = "c", weekday = "d"))), # show courtyard with a few students
+        BGImage("images/background/courtyard/bg 3 <loli> <level> <nude>.webp", 1, TimeCondition(daytime = 3)), # show courtyard full of students and teacher
+        BGImage("images/background/courtyard/bg 7.webp", 1, TimeCondition(daytime = 7)), # show empty courtyard at night
+    ]    
     courtyard_timed_event.add_event(Event(1, "first_week_courtyard_event",
         TimeCondition(day = "2-4", month = 1, year = 2023),
         thumbnail = "images/events/first week/first week courtyard 1.webp"
@@ -37,12 +42,6 @@ init -1 python:
     )
 
     courtyard_events["patrol"].add_event(courtyard_event1, courtyard_event2, courtyard_event3)
-
-    courtyard_bg_images = [
-        BGImage("images/background/courtyard/bg 1,6 <loli> <level> <nude>.webp", 1, OR(TimeCondition(daytime = "1,6", weekday = "w"), TimeCondition(daytime = "c", weekday = "d"))), # show courtyard with a few students
-        BGImage("images/background/courtyard/bg 3 <loli> <level> <nude>.webp", 1, TimeCondition(daytime = 3)), # show courtyard full of students and teacher
-        BGImage("images/background/courtyard/bg 7.webp", 1, TimeCondition(daytime = 7)), # show empty courtyard at night
-    ]
     
 init 1 python:
     courtyard_timed_event.check_all_events()

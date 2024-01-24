@@ -1,17 +1,5 @@
 init -98 python:
-    default_names = {
-        'headmaster': ('Mark', 'Benson'),
-        'secretary': ('Emiko', 'Langley'),
-        'teacher1': ('Lily', 'Anderson'),
-        'teacher2': ('Yulan', 'Chen'),
-        'teacher3': ('Finola', 'Ryan'),
-        'teacher4': ('Chloe', 'Garcia'),
-        'teacher5': ('Zoe', 'Parker'),
-        'vendor': ('Vendor', ''),
-        'parent1': ('Adelaide', 'Hall'),
-        'parent2': ('Nubia', 'Davis'),
-        'parent3': ('Yuki', 'Yamamoto'),
-    }
+    
     seenEvents = {}
     location_event_register = {}
     event_register = {}
@@ -40,15 +28,32 @@ default charList = {
     'staff': {},
 }
 
-default is_in_replay = False
-default replay_data = {}
-
 default money = Stat(MONEY, 1000)
 default time = Time()
 default stat_data = {}
+
 default gameData = {}
+default is_in_replay = False
+default replay_data = {}
 
 default event_data = {}
+
+default default_names = {
+    'headmaster': ('Mark', 'Benson'),
+    'secretary': ('Emiko', 'Langley'),
+    'teacher1': ('Lily', 'Anderson'),
+    'teacher2': ('Yulan', 'Chen'),
+    'teacher3': ('Finola', 'Ryan'),
+    'teacher4': ('Chloe', 'Garcia'),
+    'teacher5': ('Zoe', 'Parker'),
+    'vendor': ('Vendor', ''),
+    'parent1': ('Adelaide', 'Hall'),
+    'parent2': ('Nubia', 'Davis'),
+    'parent3': ('Yuki', 'Yamamoto'),
+}
+
+default headmaster_first_name = default_names['headmaster'][0]
+default headmaster_last_name = default_names['headmaster'][1]
 
 default character.dev = Character(
     "Suit-Kun",
@@ -59,7 +64,7 @@ default character.dev = Character(
     # what_outlines = [( 1, "#000000", 0, 0 )],
 )
 default character.headmaster = Character(
-    get_name_str("headmaster"),
+    "[headmaster_first_name] [headmaster_last_name]",
     #window_background = None,
     who_color = "#ffffff",
     what_color = "#ffffff",
@@ -67,7 +72,7 @@ default character.headmaster = Character(
     # what_outlines = [( 1, "#000000", 0, 0 )],
 )
 default character.headmaster_whisper = Character(
-    get_name_str("headmaster"),
+    "[headmaster_first_name] [headmaster_last_name]",
     #window_background = None,
     who_color = "#ffffff",
     what_color = "#ffffff",
@@ -75,7 +80,7 @@ default character.headmaster_whisper = Character(
     # what_outlines = [( 1, "#000000", 0, 0 )],
 )
 default character.headmaster_shout = Character(
-    get_name_str("headmaster"),
+    "[headmaster_first_name] [headmaster_last_name]",
     #window_background = None,
     who_color = "#ffffff",
     what_color = "#ffffff",
@@ -83,7 +88,7 @@ default character.headmaster_shout = Character(
     # what_outlines=[( 1, "#000000", 0, 0 )],
 )
 default character.headmaster_thought = Character(
-    get_name_str("headmaster"),
+    "[headmaster_first_name] [headmaster_last_name]",
     #window_background = None,
     who_color = "#ffffff",
     what_color = "#ffffff",
@@ -92,7 +97,7 @@ default character.headmaster_thought = Character(
     # what_outlines = [( 1, "#000000", 0, 0 )],
 )
 default character.secretary = Character(
-    get_name_str("secretary"),
+    "Emiko Langley",
     #window_background = None,
     who_color = "#c71585",
     what_color = "#ffffff",
@@ -100,7 +105,7 @@ default character.secretary = Character(
     # what_outlines = [( 1, "#000000", 0, 0 )],
 )
 default character.secretary_whisper = Character(
-    get_name_str("secretary"),
+    "Emiko Langley",
     #window_background = None,
     who_color = "#c71585",
     what_color = "#ffffff",
@@ -108,7 +113,7 @@ default character.secretary_whisper = Character(
     # what_outlines = [( 1, "#000000", 0, 0 )],
 )
 default character.secretary_shout = Character(
-    get_name_str("secretary"),
+    "Emiko Langley",
     #window_background = None,
     who_color = "#c71585",
     what_color = "#ffffff",
@@ -124,7 +129,7 @@ default character.teacher = Character(
     # what_outlines = [( 1, "#000000", 0, 0 )],
 )
 default character.teacher1 = Character(
-    get_name_str("teacher1"),
+    "Lily Anderson",
     #window_background = None,
     who_color = "#00ced1",
     what_color = "#ffffff",
@@ -132,7 +137,7 @@ default character.teacher1 = Character(
     # what_outlines = [( 1, "#000000", 0, 0 )],
 )
 default character.teacher2 = Character(
-    get_name_str("teacher2"),
+    "Yulan Chen",
     #window_background = None,
     who_color = "#00ced1",
     what_color = "#ffffff",
@@ -140,7 +145,7 @@ default character.teacher2 = Character(
     # what_outlines = [( 1, "#000000", 0, 0 )],
 )
 default character.teacher3 = Character(
-    get_name_str("teacher3"),
+    "Finola Ryan",
     #window_background = None,
     who_color = "#00ced1",
     what_color = "#ffffff",
@@ -148,7 +153,7 @@ default character.teacher3 = Character(
     # what_outlines = [( 1, "#000000", 0, 0 )],
 )
 default character.teacher4 = Character(
-    get_name_str("teacher4"),
+    "Chloe Garcia",
     #window_background = None,
     who_color = "#00ced1",
     what_color = "#ffffff",
@@ -156,7 +161,7 @@ default character.teacher4 = Character(
     # what_outlines = [( 1, "#000000", 0, 0 )],
 )
 default character.teacher5 = Character(
-    get_name_str("teacher5"),
+    "Zoe Parker",
     #window_background = None,
     who_color = "#00ced1",
     what_color = "#ffffff",

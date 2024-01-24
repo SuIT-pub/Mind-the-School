@@ -38,12 +38,15 @@ label intro ():
 
         "Yes. Play intro!":
             jump .start
-        "Skip to tutorial.":
-            call tutorial_1.tutorial_2 from intro_1
-        "Skip after intro.":
-            call tutorial_1.tutorial_3 from intro_2
+        "Skip intro.":
+            jump .jump_to_tutorial
         "Skip to free-roam. (Skips first week bonus stats.)":
             call skip_to_free_roam from intro_3
+
+label .jump_to_tutorial:
+    $ time.set_time(day = 1, month = 1, year = 2023, daytime = 1)
+
+    jump new_day
 
 label .start:
     hide screen black_error_screen_text
@@ -189,6 +192,8 @@ label .start:
     secretary "Wow! That was a nice speech!"
     secretary "Now that we finished the introduction, let's start with the entry paperwork."
     headmaster "Alright."
+
+    $ time.set_time(day = 1, month = 1, year = 2023, daytime = 1)
 
     jump new_day
 

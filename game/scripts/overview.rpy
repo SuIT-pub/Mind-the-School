@@ -563,17 +563,17 @@ screen school_overview():
 # shows the map overview and then waits for input
 label map_overview ():
     # $ _skipping = False
-    call load_stats from map_overview_1
-    call load_schools from map_overview_2
-    call load_rules from map_overview_3
-    call load_buildings from map_overview_4
-    call load_clubs from map_overview_5
+    # call load_stats from map_overview_1
+    # call load_schools from map_overview_2
+    # call load_rules from map_overview_3
+    # call load_buildings from map_overview_4
+    # call load_clubs from map_overview_5
     
     $ hide_all()
 
     $ reroll_selectors()
 
-    $ check_old_versions()
+    # $ check_old_versions()
 
     $ is_in_replay = False
 
