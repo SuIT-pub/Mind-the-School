@@ -14,15 +14,16 @@ init -1 python:
 
 
 
-    tennis_court_timed_event.check_all_events()
-    map(lambda x: x.check_all_events(), tennis_court_events.values())
-
     tennis_court_bg_images = [
         BGImage("images/background/tennis court/bg c <level> <nude>.webp", 1, TimeCondition(daytime = "c")), # show tennis court with students
         BGImage("images/background/tennis court/bg 3,6 <level> <nude>.webp", 1, TimeCondition(daytime = "3,6")), # show tennis court with few students
         BGImage("images/background/tennis court/bg 7.webp", 1, TimeCondition(daytime = 7)), # show tennis court at night empty
     ]
-    
+
+init 1 python:    
+    tennis_court_timed_event.check_all_events()
+    map(lambda x: x.check_all_events(), tennis_court_events.values())
+
 ##########################################
 
 ########################################

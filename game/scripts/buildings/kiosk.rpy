@@ -37,15 +37,16 @@ init -1 python:
 
     kiosk_events["snack"].add_event(kiosk_event1, kiosk_event2, kiosk_event3)
 
-    kiosk_timed_event.check_all_events()
-    map(lambda x: x.check_all_events(), kiosk_events.values())
-
     kiosk_bg_images = [
         BGImage("images/background/kiosk/bg f <loli> <level> <nude> <variant>.webp", 2, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))), # show kiosk with students
         BGImage("images/background/kiosk/bg f <loli> <level> <nude>.webp", 1, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))), # show kiosk with students
         BGImage("images/background/kiosk/bg 7.webp", 1, TimeCondition(daytime = 7)), # show kiosk at night empty
     ]
-    
+
+init 1 python:
+    kiosk_timed_event.check_all_events()
+    map(lambda x: x.check_all_events(), kiosk_events.values())
+
 ###################################
 
 #################################

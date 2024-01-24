@@ -84,7 +84,6 @@ init -1 python:
 init 1 python:    
     sd_timed_event.check_all_events()
     map(lambda x: x.check_all_events(), sd_events.values())
-
     
 ###################################################
 
@@ -187,8 +186,8 @@ label sd_event_1 (**kwargs):
     )
 
     $ char_obj = get_char_value(**kwargs)
-    $ education = get_value('education', **kwargs)
     $ inhibition = get_value('inhibition', **kwargs)
+    $ education = get_value('education', **kwargs)
 
     $ image = Image_Series("images/events/school dormitory/sd_event_1 <level> <step>.webp", **kwargs)
 

@@ -811,44 +811,6 @@ init -99 python:
         value = get_random_int(0, loli_content)
         return value
 
-    def log_val(key: str, value: Any):
-        """
-        Prints a key and value
-
-        ### Parameters:
-        1. key: str
-            - The key to print
-        2. value: Any
-            - The value to print
-        """
-
-        print(key + ": " + str(value) + "\n")
-
-    def log(msg: str):
-        """
-        Prints a message
-
-        ### Parameters:
-        1. msg: str
-            - The message to print
-        """
-
-        print(str(msg) + "\n")
-        return
-
-    def log_error(msg: str):
-        """
-        Prints an error message
-
-        ### Parameters:
-        1. msg: str
-            - The message to print
-        """
-
-        print("|ERROR| " + str(msg) + "\n")
-        # renpy.notify("|ERROR| " + str(msg))
-        return
-
     def get_stat_from_char_kwargs(stat: str, **kwargs) -> float:
         """
         Gets a stat from a character stored in kwargs
@@ -1028,3 +990,18 @@ init -99 python:
         if name in event_register.keys():
             return event_register[name]
         return None
+
+    def is_replay(**kwargs):
+        """
+        Checks if the game is in replay mode
+
+        ### Parameters:
+        1. **kwargs
+            - The kwargs to get the character from
+
+        ### Returns:
+        1. bool
+            - True if the game is in replay mode, False otherwise
+        """
+
+        return get_kwargs("in_replay", False, **kwargs)

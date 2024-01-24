@@ -41,16 +41,17 @@ init -1 python:
 
     office_building_events["look_around"].add_event(office_event1, office_event2, office_event3)
 
-    office_building_timed_event.check_all_events()
-    map(lambda x: x.check_all_events(), office_building_events.values())
-
     office_building_bg_images = [
         BGImage("images/background/office building/bg c teacher.webp", 1, TimeCondition(daytime = "c"), ValueCondition('name', 'teacher')), # show headmasters/teachers office empty
         BGImage("images/background/office building/bg c secretary <level> <nude>.webp", 1, TimeCondition(daytime = "c"), ValueCondition('name', 'secretary')), # show headmasters/teachers office with people
         BGImage("images/background/office building/bg f <name> <level> <nude>.webp", 1, TimeCondition(daytime = "f")), # show headmasters/teachers office with people
         BGImage("images/background/office building/bg 7 <name>.webp", 1, TimeCondition(daytime = 7)), # show headmasters/teachers office empty at night
     ]
-    
+
+init 1 python:    
+    office_building_timed_event.check_all_events()
+    map(lambda x: x.check_all_events(), office_building_events.values())
+
 #############################################
 
 ###########################################

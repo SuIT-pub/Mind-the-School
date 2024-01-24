@@ -2,9 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/scripts/journal/journal.rpy", line 1193: 'location_dict' is not a keyword argument or valid child of the screen statement.
-    location_dict['misc'] = "Miscellaneous"
-                 ^
+File "game/scripts/journal/journal.rpy", line 1241: keyword argument 'xpos' appears more than once in a textbutton statement.
+    xpos 1280
+        ^
 
 Ren'Py Version: Ren'Py 8.1.3.23091805
-Tue Jan 23 15:26:49 2024
+Wed Jan 24 11:34:37 2024

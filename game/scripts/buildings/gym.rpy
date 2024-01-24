@@ -59,14 +59,15 @@ init -1 python:
     gym_events["check_pe"].add_event(gym_event1, gym_event3)
     gym_events["teach_pe"].add_event(gym_event1, gym_event3)
 
-    gym_timed_event.check_all_events()
-    map(lambda x: x.check_all_events(), gym_events.values())
-
     gym_bg_images = [
         BGImage("images/background/gym/bg c <loli> <level> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")), # show gym with students
         BGImage("images/background/gym/bg 7.webp", 1, TimeCondition(daytime = 7)), # show gym at night empty
     ]
     
+init 1 python:
+    gym_timed_event.check_all_events()
+    map(lambda x: x.check_all_events(), gym_events.values())
+
 #################################
 
 ###############################

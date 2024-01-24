@@ -11,15 +11,16 @@ init -1 python:
         "eat_look":    EventStorage("eat_look",    "Look around",       "cafeteria", default_fallback, "I'm not hungry."),
     }
 
-    cafeteria_timed_event.check_all_events()
-    map(lambda x: x.check_all_events(), cafeteria_events.values())
-
     cafeteria_bg_images = [
         BGImage("images/background/cafeteria/bg 1,6 <level> <nude>.webp", 1, TimeCondition(daytime = "1,6")), # show terrace with a few students
         BGImage("images/background/cafeteria/bg 3 <level> <nude>.webp", 1, TimeCondition(daytime = 3)), # show terrace full of students and teacher
         BGImage("images/background/cafeteria/bg 7.webp", 1, TimeCondition(daytime = 7)), # show empty terrace at night
     ]
     
+init 1 python:
+    cafeteria_timed_event.check_all_events()
+    map(lambda x: x.check_all_events(), cafeteria_events.values())
+
 #######################################
 
 #####################################

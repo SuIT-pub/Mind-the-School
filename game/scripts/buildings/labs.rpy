@@ -12,15 +12,14 @@ init -1 python:
         "drug_lab":        EventStorage("drug_lab",        "Go to drug lab",          "labs", default_fallback, "There is nothing to see here."),
     }
 
-
-
-    labs_timed_event.check_all_events()
-    map(lambda x: x.check_all_events(), labs_events.values())
-
     labs_bg_images = [
         BGImage("images/background/labs/bg c <level> <nude>.webp", 1, TimeCondition(daytime = "c")), # show corridor with few students
         BGImage("images/background/labs/bg 7.webp", 1, TimeCondition(daytime = 7)), # show empty corridor at night
     ]
+
+init 1 python:
+    labs_timed_event.check_all_events()
+    map(lambda x: x.check_all_events(), labs_events.values())
     
 ##################################
 

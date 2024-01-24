@@ -309,8 +309,8 @@ screen journal_page_selector(page, display, char = "school"):
             idle "journal/journal/gallery_tag_idle.webp"
             hover "journal/journal/gallery_tag_hover.webp"
             tooltip "Gallery"
-            xpos 1225
-            ypos 983
+            xpos 1280
+            ypos 960
             action [With(dissolveM), Call("open_journal", 7, "")]
     
 screen journal_desc(page, display, active_obj, with_title = False):
@@ -785,6 +785,20 @@ screen journal_cheats(display):
 
                     null height 20
 
+                    # DEBUG
+                    hbox:
+                        button:
+                            text "DEBUG" xalign 0.0 style "journal_text"
+                            xsize 250
+
+                        $ debug_mode_text = "{color=#00ff00}ACTIVATE{/color}"
+                        if debug_mode:
+                            $ debug_mode_text = "{color=#ff0000}DEACTIVATE{/color}"
+                        button:
+                            text debug_mode_text xalign 1.0
+                            action [With(dissolveM), Call("switch_debug_mode", 5, display)]
+                            xsize 250
+                    null height 10
                     # TIME
                     hbox:
                         button:
@@ -1172,6 +1186,11 @@ screen journal_gallery(display):
     use journal_page_selector(7, display)
 
     text "Gallery":
+        xalign 0.725 yalign 0.955
+        size 20
+        color "#000"
+
+    text "Gallery":
         xalign 0.25 yalign 0.2
         size 60
         color "#000"
@@ -1219,6 +1238,15 @@ screen journal_gallery(display):
         ):
             $ gallery_chooser = persistent.gallery[location][event]['options']['last_data']
             $ gallery_chooser_order = persistent.gallery[location][event]['options']['last_order']
+
+        if debug_mode:
+            textbutton "{color=#ff0000}Reset Gallery{/color}":
+                text_style "journal_text"
+                xpos 1280
+                ypos 160
+                action [With(dissolveM), Call('reset_event_gallery', location, event, location)]
+
+
         $ event_obj = get_event_from_register(event)
         $ event_title = get_translation(event_obj.get_event())
         text event_title:
@@ -1244,6 +1272,7 @@ screen journal_gallery(display):
                 draggable "touch"
                 hbox:
                     $ gallery_dict = persistent.gallery[location][event]['values']
+                    $ log_val('gallery', persistent.gallery[location][event])
                     for variant_name in variant_names:
                         $ values = list(gallery_dict.keys())
 
@@ -1297,11 +1326,30 @@ screen journal_gallery(display):
                 ypos 560
                 color "#000"
 
-        textbutton "Play":
-            text_style "buttons_idle"
-            xpos 1389
-            ypos 910
+        button:
+            text "Start Replay":
+                style "buttons_idle"
+                size 50
+            xpos 1000
+            ypos 880
             action [Call('start_gallery_replay', location, event, gallery_chooser, display)]
+        
+        textbutton "Close":
+            xalign 0.75
+            yalign 0.87
+            action [With(dissolveM), Jump("map_overview")]
+
+    
+    $ tooltip = GetTooltip()
+    if tooltip:
+        nearrect:
+            focus "tooltip"
+            prefer_top True
+
+            frame:
+                xalign 0.5
+                text tooltip
+
             
 init python:
     def update_gallery_chooser(gallery_chooser_order: List[string], gallery_chooser: Dict[string, Any], gallery_dict: Dict[string, Any]) -> Dict[string, Any]:
@@ -1309,7 +1357,9 @@ init python:
         for topic in gallery_chooser_order:
             if gallery_chooser[topic] not in gallery_dict.keys() or reset:
                 values = list(gallery_dict.keys())
-                gallery_chooser[topic] = values[0]
+                gallery_chooser[topic] = None
+                if len(values) != 0:
+                    gallery_chooser[topic] = values[0]
                 reset = True
             gallery_dict = gallery_dict[gallery_chooser[topic]]
         return gallery_chooser
@@ -1442,6 +1492,14 @@ screen journal_credits(display):
 # Journal Methods
 ############################
 
+label reset_event_gallery(location, event, display):
+    $ reset_gallery(location, event)
+
+    if location not in persistent.gallery.keys():
+        $ display = ""
+
+    call open_journal(7, display) from reset_event_gallery_1
+
 label reset_gallery_cheat(page, display):
     $ reset_gallery()
 
@@ -1471,6 +1529,20 @@ label change_time_cheat(page, display, **kwargs):
     $ time.add_time(**kwargs)
 
     call open_journal(page, display) from change_time_cheat_1
+
+label switch_debug_mode(page, display, value = None):
+    if debug_mode == None:
+        $ debug_mode = True
+    elif value == None:
+        $ debug_mode = value
+    else:
+        $ debug_mode = not debug_mode
+
+    if debug_mode:
+        $ renpy.notify("Debug mode activated!")
+    else:
+        $ renpy.notify("Debug mode deactivated!")
+    call open_journal(page, display) from switch_debug_mode_1
 
 label switch_time_freeze(page, display, value = None):
     if time_freeze == None:

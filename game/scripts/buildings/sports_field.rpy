@@ -12,17 +12,16 @@ init -1 python:
         "steal_changing": EventStorage("steal_changing", "Steal some panties",           "sports_field", default_fallback, "There is nobody here."),
     }
 
-
-
-    sports_field_timed_event.check_all_events()
-    map(lambda x: x.check_all_events(), sports_field_events.values())
-
     sports_field_bg_images = [
         BGImage("images/background/sports field/bg c <level> <nude>.webp", 1, TimeCondition(daytime = "c")), # show sports field with students
         BGImage("images/background/sports field/bg 3,6 <level> <nude>.webp", 1, TimeCondition(daytime = "3,6")), # show sports field with few students
         BGImage("images/background/sports field/bg 7.webp", 1, TimeCondition(daytime = 7)), # show sports field at night empty
     ]
     
+init 1 python:
+    sports_field_timed_event.check_all_events()
+    map(lambda x: x.check_all_events(), sports_field_events.values())
+
 ##########################################
 
 ########################################

@@ -8,7 +8,7 @@ init python:
         current = update_dict(current, new)
         return current
 
-    renpy.register_persistent('gallery', merge_endings)
+    # renpy.register_persistent('gallery', merge_endings)
 
     gallery_manager = None
     def prep_gallery(location: str, event: str, *key: str):
@@ -73,7 +73,12 @@ init python:
 
         if location not in persistent.gallery.keys():
             persistent.gallery[location] = {}
-        persistent.gallery[location][event] = {'values': {}, 'ranges': {}, 'options': {}, 'order': [], 'decisions': {}}
+        
+        persistent.gallery[location].pop(event, None)
+
+        if len(persistent.gallery[location].keys()) == 0:
+            persistent.gallery.pop(location, None)
+        # persistent.gallery[location][event] = {'values': {}, 'ranges': {}, 'options': {}, 'order': [], 'decisions': {}}
 
     def get_gallery_values(location: str, event: str, values: Dict[str, Any], key: List[str]) -> List:
         current = persistent.gallery[location][event]['values']
@@ -216,16 +221,20 @@ init python:
             return
 
         if key in gallery_manager.current_ranges.keys() and is_float(value):
+            log_val('pre-range value', value)
             closest_value = 100
             for val in gallery_manager.current_ranges[key]:
                 if val > value and val < closest_value:
                     closest_value = val
-            value = closest_value if closest_value != 100 else value
+            value = closest_value
+            log_val('post-range value', value)
 
         if value not in gallery_manager.data.keys():
             gallery_manager.data[value] = {}
 
         gallery_manager.order.append(key)
+        log_val('gallery_manager.order', gallery_manager.order)
+        log_val('gallery order', persistent.gallery[gallery_manager.location][gallery_manager.event]['order'])
         if (len(persistent.gallery[gallery_manager.location][gallery_manager.event]['order']) <= gallery_manager.count or 
             persistent.gallery[gallery_manager.location][gallery_manager.event]['order'][gallery_manager.count] != key
         ):

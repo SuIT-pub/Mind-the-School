@@ -14,15 +14,16 @@ init -1 python:
 
 
 
-    swimming_pool_timed_event.check_all_events()
-    map(lambda x: x.check_all_events(), swimming_pool_events.values())
-
     swimming_pool_bg_images = [
         BGImage("images/background/swimming pool/bg c <level> <nude>.webp", 1, TimeCondition(daytime = "c")), # show swimming pool with students
         BGImage("images/background/swimming pool/bg 3,6 <level> <nude>.webp", 1, TimeCondition(daytime = "3,6")), # show swimming pool with few students
         BGImage("images/background/swimming pool/bg 7.webp", 1, TimeCondition(daytime = 7)), # show swimming pool at night empty
     ]
     
+init 1 python:
+    swimming_pool_timed_event.check_all_events()
+    map(lambda x: x.check_all_events(), swimming_pool_events.values())
+
 ###########################################
 
 #########################################

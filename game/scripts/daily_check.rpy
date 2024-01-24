@@ -10,33 +10,21 @@ init -1 python:
     temp_time_check_events = TempEventStorage("temp_time_check_events", "", "misc", after_temp_event_check)
     time_check_events      = EventStorage("time_check_events", "", "misc", after_event_check)
 
-    # temp_check_events.add_event(Event("first_day_introduction", "first_day_introduction", 2,
-    #     TimeCondition(day = 1, month = 1, year = 2023, daytime = 1)
-    # ))
-
-    temp_time_check_events.add_event(Event(1, "tutorial_1", 
+    time_check_events.add_event(Event(1, "tutorial_1", 
         TimeCondition(day = 2, month = 1, year = 2023, daytime = 1)
     ))
 
-    temp_time_check_events.add_event(Event(1, "first_week_epilogue", 
+    time_check_events.add_event(Event(1, "first_week_epilogue", 
         TimeCondition(day = 5, month = 1, year = 2023, daytime = 2),
         thumbnail = "images/events/first week/first week epilogue 8.webp"
     ))
 
-    temp_time_check_events.add_event(Event(1, "first_week_epilogue_final", 
+    time_check_events.add_event(Event(1, "first_week_epilogue_final", 
         TimeCondition(day = 10, month = 1, year = 2023, daytime = 1),
         thumbnail = "images/events/first week/first week epilogue final 3.webp"
     ))
 
-    # temp_check_events.add_event(Event("weekly_assembly_first", "weekly_assembly_first", 2,
-    #     TimeCondition(day = 1, month = 1, year = 2023, daytime = 1)
-    # ))
-
-    # temp_check_events.add_event(Event("weekly_assembly", "weekly_assembly", 2,
-    #     TimeCondition(weekday = 1, daytime = 1)
-    # ))
-
-    temp_time_check_events.add_event(Event(1, "first_pta_meeting", 
+    time_check_events.add_event(Event(1, "first_pta_meeting", 
         TimeCondition(day = 5, month = 1, year = 2023, daytime = 1),
         thumbnail = "images/events/pta/first meeting/first pta meeting 0.webp"
     ))
@@ -44,10 +32,6 @@ init -1 python:
     time_check_events.add_event(Event(2, "pta_meeting",
         TimeCondition(weekday = 5, daytime = 1)
     ))
-
-    # temp_check_events.add_event(Event("pta_meeting2", "pta_meeting", 2,
-    #     TimeCondition(day = 19, daytime = 1)
-    # ))
 
     time_check_events.add_event(Event(2, "end_of_month",
         TimeCondition(day = 1, daytime = 1)
@@ -63,12 +47,11 @@ init -1 python:
         StatCondition(inhibition = "90-", corruption = "5+")
     ))
 
+init 1 python:
     temp_time_check_events.check_all_events()
     time_check_events.check_all_events()
 
-
 label time_event_check ():
-
     hide screen school_overview_map
     hide screen school_overview_stats
     hide screen school_overview_buttons

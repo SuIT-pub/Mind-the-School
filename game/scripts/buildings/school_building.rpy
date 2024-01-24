@@ -39,13 +39,14 @@ init -1 python:
     sb_events["teach_class"].add_event(sb_event1, sb_event2)
     sb_events["patrol"].add_event(sb_event1, sb_event3)
 
-    sb_timed_event.check_all_events()
-    map(lambda x: x.check_all_events(), sb_events.values())
-
     sb_bg_images = [
         BGImage("images/background/school building/bg c <loli> <level> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")),
         BGImage("images/background/school building/bg 7.webp", 1, TimeCondition(daytime = 7)),
     ]
+
+init 1 python:
+    sb_timed_event.check_all_events()
+    map(lambda x: x.check_all_events(), sb_events.values())
 
 ##################################################
 
@@ -232,7 +233,7 @@ label sb_event_3 (**kwargs): # patrol
 
     $ call_custom_menu(False,
         ("What is going on?", "sb_event_3.what"),
-        ("If it's nothing, go back to class", "sb_event_3.send_class", time.check_daytime("c") and time.check_weekday("d")), 
+        ("If it's nothing, go back to class", "sb_event_3.send_class", (time.check_daytime("c") and time.check_weekday("d")) or is_replay(**kwargs)), 
     **kwargs)
 label .what (**kwargs):
     
