@@ -10,9 +10,24 @@ init python:
             - Whether or not to display a leave button.
         2. *elements : Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool]
             - The elements to display in the menu. Each element is a tuple of the form (title, event_label, active), (title, effect, active) or (title, effect_list, active). The active parameter is optional and defaults to True.
-
         """
+
+        in_event = get_kwargs('in_event', False, **kwargs)
+        in_replay = get_kwargs('in_replay', False, **kwargs)
+
+        if in_event and in_replay:
+            made_decisions = get_kwargs('made_decisions', [], **kwargs)
+            decision_data = get_kwargs('decision_data', {}, **kwargs)
+            possible_decisions = get_decision_possibilities(decision_data, made_decisions)
+            elements = [tupleEl for tupleEl in elements if str(tupleEl[1]) in possible_decisions]
+            
         filtered_elements = [tupleEl for tupleEl in elements if len(tupleEl) == 2 or tupleEl[2]]
+
+        if len(filtered_elements) == 0:
+            character.dev ("Oops something went wrong here. There seems to be nothing to choose from. Sry about that. I'll send you back to the map.")
+            character.dev (f"Error Code: [101]{kwargs['event_name']}:{';'.join([tag.split('.')[1] for tag in made_decisions])}")
+            renpy.jump("map_overview")
+
         renpy.call("call_menu", None, None, with_leave, *filtered_elements, **kwargs)
 
     def call_custom_menu_with_text(text: str, person: Person, with_leave: bool = True, *elements: Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool], **kwargs) -> None:
@@ -31,8 +46,24 @@ init python:
 
         """
 
+        in_event = get_kwargs('in_event', False, **kwargs)
+        in_replay = get_kwargs('in_replay', False, **kwargs)
+
+        if in_event and in_replay:
+            made_decisions = get_kwargs('made_decisions', [], **kwargs)
+            decision_data = get_kwargs('decision_data', {}, **kwargs)
+            possible_decisions = get_decision_possibilities(decision_data, made_decisions)
+            elements = [tupleEl for tupleEl in elements if str(tupleEl[1]) in possible_decisions]
 
         filtered_elements = [tupleEl for tupleEl in elements if len(tupleEl) == 2 or tupleEl[2]]
+
+        
+        if len(filtered_elements) == 0:
+            character.dev ("Oops something went wrong here. There seems to be nothing to choose from. Sry about that. I'll send you back to the map.")
+            character.dev (f"Error Code: [101]{kwargs['event_name']}:{';'.join([tag.split('.')[1] for tag in made_decisions])}")
+            renpy.jump("map_overview")
+
+
         renpy.call("call_menu", text, person, with_leave, *filtered_elements, **kwargs)
 
     def clean_events_for_menu(events: Dict[str, EventStorage], **kwargs) -> List[Tuple[str, EventEffect]]:
@@ -138,9 +169,30 @@ label call_element(effects, **kwargs):
     hide screen custom_menu_choice
     hide screen image_with_nude_var
 
+    $ in_event = get_kwargs('in_event', False, **kwargs)
+    $ in_replay = get_kwargs('in_replay', False, **kwargs)
+
     if isinstance(effects, str):
+        if in_event:
+            if not in_replay:
+                $ register_decision(effects)
+            else:
+                if 'made_decisions' not in kwargs.keys():
+                    $ kwargs['made_decisions'] = [effects]
+                else:
+                    $ kwargs['made_decisions'].append(effects)
         $ renpy.call(effects, **kwargs)
 
+    if in_event and isinstance(effects, Effect):
+        if not in_replay:
+            $ register_decision(effects)
+        else:
+            if 'made_decisions' not in kwargs.keys():
+                $ kwargs['made_decisions'] = [effects]
+            else:
+                $ kwargs['made_decisions'].append(effects)
+        
+        $ register_decision(str(effects))
     $ call_effects(effects, **kwargs)
 
 # closes the current menu

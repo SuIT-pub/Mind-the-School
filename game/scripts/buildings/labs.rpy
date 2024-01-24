@@ -3,24 +3,23 @@
 ##################################
 
 init -1 python:
-    labs_timed_event = EventStorage("labs", "", Event(2, "labs.after_time_check"))
+    labs_timed_event = EventStorage("labs", "", "labs", Event(2, "labs.after_time_check"))
     labs_events = {
-        "check_chemistry": EventStorage("check_chemistry", "Check chemistry classes", default_fallback, "There is nobody here."),
-        "teach_chemistry": EventStorage("teach_chemistry", "Teach chemistry classes", default_fallback, "There is nobody here."),
-        "check_biology":   EventStorage("check_biology",   "Check biology classes",   default_fallback, "There is nobody here."),
-        "teach_biology":   EventStorage("teach_biology",   "Teach biology classes",   default_fallback, "There is nobody here."),
-        "drug_lab":        EventStorage("drug_lab",        "Go to drug lab",          default_fallback, "There is nothing to see here."),
+        "check_chemistry": EventStorage("check_chemistry", "Check chemistry classes", "labs", default_fallback, "There is nobody here."),
+        "teach_chemistry": EventStorage("teach_chemistry", "Teach chemistry classes", "labs", default_fallback, "There is nobody here."),
+        "check_biology":   EventStorage("check_biology",   "Check biology classes",   "labs", default_fallback, "There is nobody here."),
+        "teach_biology":   EventStorage("teach_biology",   "Teach biology classes",   "labs", default_fallback, "There is nobody here."),
+        "drug_lab":        EventStorage("drug_lab",        "Go to drug lab",          "labs", default_fallback, "There is nothing to see here."),
     }
-
-
-
-    labs_timed_event.check_all_events()
-    map(lambda x: x.check_all_events(), labs_events.values())
 
     labs_bg_images = [
         BGImage("images/background/labs/bg c <level> <nude>.webp", 1, TimeCondition(daytime = "c")), # show corridor with few students
         BGImage("images/background/labs/bg 7.webp", 1, TimeCondition(daytime = 7)), # show empty corridor at night
     ]
+
+init 1 python:
+    labs_timed_event.check_all_events()
+    map(lambda x: x.check_all_events(), labs_events.values())
     
 ##################################
 

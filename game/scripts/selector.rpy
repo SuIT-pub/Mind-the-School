@@ -53,8 +53,7 @@ init -3 python:
                 selector.update(**kwargs)
                 key = selector.get_name()
                 value = selector.get_value(**kwargs)
-                if key not in kwargs:
-                    kwargs[key] = value
+                kwargs[key] = value
 
         def get_values(self) -> List[Tuple[str, Any]]:
             """
@@ -66,7 +65,17 @@ init -3 python:
                 - The return value is formatted in a way, that it can be used to directly update the kwargs of an event.
             """
 
-            return {selector.get_name(): selector.get_value() for selector in self._selectors}
+            if len(self._selectors) > 0 and (self._selectors[0].get_value() is None or self._selectors[0].get_value() == None):
+                self.roll_values()
+
+            kwargs = {}
+
+            for selector in self._selectors:
+                key = selector.get_name()
+                value = selector.get_value(**kwargs)
+                kwargs[key] = value
+
+            return kwargs
             
     class Selector(ABC):
         """
@@ -119,7 +128,7 @@ init -3 python:
             If realtime is set to True, the value will be updated before returning it.
             """
 
-            if self._realtime:
+            if self._realtime or self._value == None:
                 self.update(**kwargs)
 
             return self._value
@@ -382,7 +391,7 @@ init -3 python:
             Returns the value from the dict.
             """
 
-            if self._index not in self._dict:
+            if self._index not in kwargs or kwargs[self._index] not in self._dict:
                 return None
 
-            return self._dict[self._index]
+            return self._dict[kwargs[self._index]]

@@ -303,6 +303,14 @@ init -6 python:
             - The stats that are being changed. The key is the stat, and the value is the value of the stat.
         """
 
+        in_replay = get_kwargs('in_replay', False, **kwargs)
+
+        if char_obj == None or in_replay:
+            return
+
         for stat in kwargs.keys():
+            if stat == "char_obj":
+                continue
+
             # if stat in Stat_Data:
             change_stat_with_modifier(stat, kwargs[stat], char_obj)

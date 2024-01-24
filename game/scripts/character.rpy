@@ -171,6 +171,9 @@ init -6 python:
                 - The value to set the stat to
             """
 
+            if is_in_replay:
+                return
+
             stat_obj = self.get_stat_obj(stat)
             if stat_obj == None:
                 return
@@ -186,6 +189,9 @@ init -6 python:
             2. delta: num
                 - The value to change the stat by
             """
+
+            if is_in_replay:
+                return
 
             stat_obj = self.get_stat_obj(stat)
             if stat_obj == None:
@@ -232,6 +238,9 @@ init -6 python:
             """
             Resets the change of all the stats
             """
+
+            if is_in_replay:
+                return
 
             self.level.reset_change()
             for stat_key in self.stats_objects.keys():
@@ -316,6 +325,9 @@ init -6 python:
             1. level: int
                 - The level to set the character to
             """
+
+            if is_in_replay:
+                return
 
             level = clamp_value(level, 0, 10)
             self.level.set_value(level)
@@ -640,6 +652,9 @@ init -6 python:
             - The map of characters to get the character from
             - If None and the name of the character is used instead of the Character-Object itself, -1 is returned
         """
+
+        if is_in_replay:
+            return
 
         if isinstance(char, Char):
             char.set_level(value)

@@ -1,5 +1,23 @@
-init -99 python:
+init -98 python:
+    default_names = {
+        'headmaster': ('Mark', 'Benson'),
+        'secretary': ('Emiko', 'Langley'),
+        'teacher1': ('Lily', 'Anderson'),
+        'teacher2': ('Yulan', 'Chen'),
+        'teacher3': ('Finola', 'Ryan'),
+        'teacher4': ('Chloe', 'Garcia'),
+        'teacher5': ('Zoe', 'Parker'),
+        'vendor': ('Vendor', ''),
+        'parent1': ('Adelaide', 'Hall'),
+        'parent2': ('Nubia', 'Davis'),
+        'parent3': ('Yuki', 'Yamamoto'),
+    }
     seenEvents = {}
+    location_event_register = {}
+    event_register = {}
+
+    translation_texts = {}
+    get_translations()
 
 init python:
 
@@ -9,7 +27,7 @@ init python:
     loli_content = 0
     cheat_mode = False
     nude_vision = 2
-    time_freeze = False
+    sfw_mode = False
 
 default intro_dev_message = "This version of the game only includes content up to day 10, when free roaming begins. You can still play and roam from there, but there will be no content."
 
@@ -22,10 +40,15 @@ default charList = {
     'staff': {},
 }
 
+default is_in_replay = False
+default replay_data = {}
+
 default money = Stat(MONEY, 1000)
 default time = Time()
 default stat_data = {}
 default gameData = {}
+
+default event_data = {}
 
 default character.dev = Character(
     "Suit-Kun",
@@ -36,7 +59,7 @@ default character.dev = Character(
     # what_outlines = [( 1, "#000000", 0, 0 )],
 )
 default character.headmaster = Character(
-    "[headmaster_first_name] [headmaster_last_name]",
+    get_name_str("headmaster"),
     #window_background = None,
     who_color = "#ffffff",
     what_color = "#ffffff",
@@ -44,7 +67,7 @@ default character.headmaster = Character(
     # what_outlines = [( 1, "#000000", 0, 0 )],
 )
 default character.headmaster_whisper = Character(
-    "[headmaster_first_name] [headmaster_last_name]",
+    get_name_str("headmaster"),
     #window_background = None,
     who_color = "#ffffff",
     what_color = "#ffffff",
@@ -52,7 +75,7 @@ default character.headmaster_whisper = Character(
     # what_outlines = [( 1, "#000000", 0, 0 )],
 )
 default character.headmaster_shout = Character(
-    "[headmaster_first_name] [headmaster_last_name]",
+    get_name_str("headmaster"),
     #window_background = None,
     who_color = "#ffffff",
     what_color = "#ffffff",
@@ -60,7 +83,7 @@ default character.headmaster_shout = Character(
     # what_outlines=[( 1, "#000000", 0, 0 )],
 )
 default character.headmaster_thought = Character(
-    "[headmaster_first_name] [headmaster_last_name]",
+    get_name_str("headmaster"),
     #window_background = None,
     who_color = "#ffffff",
     what_color = "#ffffff",
@@ -68,10 +91,8 @@ default character.headmaster_thought = Character(
     italics = True,
     # what_outlines = [( 1, "#000000", 0, 0 )],
 )
-default secretary_first_name = "Emiko"
-default secretary_last_name = "Langley"
 default character.secretary = Character(
-    "[secretary_first_name] [secretary_last_name]",
+    get_name_str("secretary"),
     #window_background = None,
     who_color = "#c71585",
     what_color = "#ffffff",
@@ -79,7 +100,7 @@ default character.secretary = Character(
     # what_outlines = [( 1, "#000000", 0, 0 )],
 )
 default character.secretary_whisper = Character(
-    "[secretary_first_name] [secretary_last_name]",
+    get_name_str("secretary"),
     #window_background = None,
     who_color = "#c71585",
     what_color = "#ffffff",
@@ -87,7 +108,7 @@ default character.secretary_whisper = Character(
     # what_outlines = [( 1, "#000000", 0, 0 )],
 )
 default character.secretary_shout = Character(
-    "[secretary_first_name] [secretary_last_name]",
+    get_name_str("secretary"),
     #window_background = None,
     who_color = "#c71585",
     what_color = "#ffffff",
@@ -102,50 +123,40 @@ default character.teacher = Character(
     what_size = 28,
     # what_outlines = [( 1, "#000000", 0, 0 )],
 )
-default teacher_1_first_name = "Lily"
-default teacher_1_last_name = "Anderson"
 default character.teacher1 = Character(
-    "[teacher_1_first_name] [teacher_1_last_name]", 
+    get_name_str("teacher1"),
     #window_background = None,
     who_color = "#00ced1",
     what_color = "#ffffff",
     what_size = 28,
     # what_outlines = [( 1, "#000000", 0, 0 )],
 )
-default teacher_2_first_name = "Yulan"
-default teacher_2_last_name = "Chen"
 default character.teacher2 = Character(
-    "[teacher_2_first_name] [teacher_2_last_name]", 
+    get_name_str("teacher2"),
     #window_background = None,
     who_color = "#00ced1",
     what_color = "#ffffff",
     what_size = 28,
     # what_outlines = [( 1, "#000000", 0, 0 )],
 )
-default teacher_3_first_name = "Finola"
-default teacher_3_last_name = "Ryan"
 default character.teacher3 = Character(
-    "[teacher_3_first_name] [teacher_3_last_name]", 
+    get_name_str("teacher3"),
     #window_background = None,
     who_color = "#00ced1",
     what_color = "#ffffff",
     what_size = 28,
     # what_outlines = [( 1, "#000000", 0, 0 )],
 )
-default teacher_4_first_name = "Chloe"
-default teacher_4_last_name = "Garcia"
 default character.teacher4 = Character(
-    "[teacher_4_first_name] [teacher_4_last_name]", 
+    get_name_str("teacher4"),
     #window_background = None,
     who_color = "#00ced1",
     what_color = "#ffffff",
     what_size = 28,
     # what_outlines = [( 1, "#000000", 0, 0 )],
 )
-default teacher_5_first_name = "Zoe"
-default teacher_5_last_name = "Parker"
 default character.teacher5 = Character(
-    "[teacher_5_first_name] [teacher_5_last_name]", 
+    get_name_str("teacher5"),
     #window_background = None,
     who_color = "#00ced1",
     what_color = "#ffffff",

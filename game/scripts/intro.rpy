@@ -18,12 +18,10 @@ label intro ():
     $ headmaster_first_name = renpy.input("First name of your Character: (Default \"Mark\")")
     $ headmaster_first_name = headmaster_first_name.strip() or "Mark"
 
-    $ set_game_data("headmaster_first_name", headmaster_first_name)
-
     $ headmaster_last_name = renpy.input("Last name of your Character: (Default \"Benson\")")
     $ headmaster_last_name = headmaster_last_name.strip() or "Benson"
 
-    $ set_game_data("headmaster_last_name", headmaster_last_name)
+    $ set_name("headmaster", headmaster_first_name, headmaster_last_name)
 
     $ school_config = "a High School."
     if loli_content == 1:
@@ -81,9 +79,12 @@ label .start:
     
     call screen black_screen_text ("Monday, 1 January 2023") with dissolveM
 
+    $ headmaster_last_name = get_name_last("headmaster")
+    $ secretary_name = get_name_str("secretary")
+
     show office secretary 1 smile with dissolveM
     secretary """Hello Mr. [headmaster_last_name], nice to meet you!
-        My name is [secretary_first_name] [secretary_last_name].
+        My name is [secretary_name].
     """ (name="Secretary")
     secretary "From now on I'll be your secretary."
 

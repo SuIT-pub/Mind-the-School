@@ -3,50 +3,55 @@
 #################################
 
 init -1 python:
-    gym_timed_event = EventStorage("gym", "", Event(2, "gym.after_time_check"))
+    gym_timed_event = EventStorage("gym", "", "gym", Event(2, "gym.after_time_check"))
     gym_events = {
-        "teacher":        EventStorage("teacher",        "Go to teacher",                      default_fallback, "There is nobody here."),
-        "students":       EventStorage("students",       "Go to students",                     default_fallback, "There is nobody here."),
-        "storage":        EventStorage("storage",        "Check storage",                      default_fallback, "There is nothing to do here."),
-        "peek_changing":  EventStorage("peek_changing",  "Go to Peek into the changing rooms", default_fallback, "There is nobody here."),
-        "enter_changing": EventStorage("enter_changing", "Enter the changing rooms",           default_fallback, "There is nothing to do here."),
-        "check_pe":       EventStorage("check_pe",       "Check a P.E. class",                 default_fallback, "There is nothing to do here."),
-        "teach_pe":       EventStorage("teach_pe",       "Teach a P.E. class",                 default_fallback, "There is nothing to do here."),
-        "steal":          EventStorage("steal",          "Steal some panties",                 default_fallback, "There is nothing to do here."),
+        "teacher":        EventStorage("teacher",        "Go to teacher",                      "gym", default_fallback, "There is nobody here."),
+        "students":       EventStorage("students",       "Go to students",                     "gym", default_fallback, "There is nobody here."),
+        "storage":        EventStorage("storage",        "Check storage",                      "gym", default_fallback, "There is nothing to do here."),
+        "peek_changing":  EventStorage("peek_changing",  "Go to Peek into the changing rooms", "gym", default_fallback, "There is nobody here."),
+        "enter_changing": EventStorage("enter_changing", "Enter the changing rooms",           "gym", default_fallback, "There is nothing to do here."),
+        "check_pe":       EventStorage("check_pe",       "Check a P.E. class",                 "gym", default_fallback, "There is nothing to do here."),
+        "teach_pe":       EventStorage("teach_pe",       "Teach a P.E. class",                 "gym", default_fallback, "There is nothing to do here."),
+        "steal":          EventStorage("steal",          "Steal some panties",                 "gym", default_fallback, "There is nothing to do here."),
     }
 
     gym_timed_event.add_event(Event(1, "first_week_gym_event",
         TimeCondition(day = "2-4", month = 1, year = 2023),
+        thumbnail = "images/events/first week/first week gym 1.webp"
     ))
 
     
     gym_timed_event.add_event(Event(1, "first_potion_gym_event",
         TimeCondition(day = 9, month = 1, year = 2023),
+        thumbnail = "images/events/first potion/first potion gym 1.webp"
     ))
 
     gym_event1 = Event(3, "gym_event_1",
         StatSelector("corruption", CORRUPTION, "school"),
-        RandomListSelector("topic_variant", "shoes", "hair", "ready"),
-        DictSelector("topic", "topic_variant", {
+        RandomListSelector("topic", "shoes", "hair", "ready"),
+        DictSelector("topic_text", "topic", {
             "shoes": "putting on my shoes",
             "hair": "doing my hair",
             "ready": "getting ready",
         }),
-        TimeCondition(daytime = "c", weekday = "d")
+        TimeCondition(daytime = "c", weekday = "d"),
+        thumbnail = "images/events/gym/gym_event_1 1 hair 0.webp"
     )
     
     gym_event2 = Event(3, "gym_event_2",
         StatSelector("inhibition", INHIBITION, "school"),
         RandomListSelector("topic", (0.75, "clothe"), "breasts", (0.15, "asses")),
-        TimeCondition(daytime = "c", weekday = "d")
+        TimeCondition(daytime = "c", weekday = "d"),
+        thumbnail = "images/events/gym/gym_event_2 1 clothe 0.webp"
     )
 
     gym_event3 = Event(3, "gym_event_3",
         RandomValueSelector("variant", 1, 1),
-        DictSelector("girl", "variant", {
+        DictSelector("girl_name", "variant", {
             1: "Kokoro Nakamura",
         }),
-        TimeCondition(daytime = "c", weekday = "d")
+        TimeCondition(daytime = "c", weekday = "d"),
+        thumbnail = "images/events/gym/gym_event_3 1 1 0.webp"
     )    
 
     gym_events["enter_changing"].add_event(gym_event2)
@@ -54,14 +59,15 @@ init -1 python:
     gym_events["check_pe"].add_event(gym_event1, gym_event3)
     gym_events["teach_pe"].add_event(gym_event1, gym_event3)
 
-    gym_timed_event.check_all_events()
-    map(lambda x: x.check_all_events(), gym_events.values())
-
     gym_bg_images = [
         BGImage("images/background/gym/bg c <loli> <level> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")), # show gym with students
         BGImage("images/background/gym/bg 7.webp", 1, TimeCondition(daytime = 7)), # show gym at night empty
     ]
     
+init 1 python:
+    gym_timed_event.check_all_events()
+    map(lambda x: x.check_all_events(), gym_events.values())
+
 #################################
 
 ###############################
@@ -97,8 +103,7 @@ label .after_time_check (**kwargs):
 ##########################
 
 label first_potion_gym_event (**kwargs):
-    
-    $ begin_event()
+    $ begin_event(**kwargs)
     
     show first potion gym 1 with dissolveM
     subtitles "You enter the Gym and see a group of students and teacher in a yoga session."
@@ -114,13 +119,13 @@ label first_potion_gym_event (**kwargs):
 
     $ set_building_blocked("gym")
 
-    jump new_daytime
+    $ end_event('new_daytime', **kwargs)
 
 
 # first week event
 label first_week_gym_event (**kwargs):
     
-    $ begin_event()
+    $ begin_event(**kwargs)
     
     show first week gym 1 with dissolveM
     headmaster_thought "Okay, now the Gym. I have been here shortly for my introduction speech but I haven't had the chance to get a thorough look."
@@ -136,7 +141,7 @@ label first_week_gym_event (**kwargs):
 
     $ set_building_blocked("gym")
 
-    jump new_day
+    $ end_event('new_daytime', **kwargs)
 
 #############################
 # weekly assembly entry point
@@ -147,15 +152,14 @@ label weekly_assembly (**kwargs):
     return
 
 label gym_event_1 (**kwargs):
-    $ char_obj = get_kwargs("char_obj", **kwargs)
+    $ begin_event(**kwargs)
 
-    $ corruption = get_kwargs("corruption", **kwargs)
-    $ topic_variant = get_kwargs("topic_variant", **kwargs)
-    $ topic = get_kwargs("topic", **kwargs)
+    $ char_obj = get_char_value(**kwargs)
+    $ corruption = get_stat_value("corruption", [5, 100], **kwargs)
+    $ topic_variant = get_value("topic", **kwargs)
+    $ topic = get_value("topic_text", **kwargs)
 
-    $ image = Image_Series("/images/events/gym/gym_event_1 <level> <topic_variant> <step>.webp", **kwargs)
-
-    $ begin_event("gym_event_1")
+    $ image = Image_Series("/images/events/gym/gym_event_1 <level> <topic> <step>.webp", **kwargs)
 
     $ image.show(0)
     subtitles "In the Gym, you see a girl getting ready for P.E."
@@ -190,7 +194,7 @@ label gym_event_1 (**kwargs):
     #     sgirl "*giggle*" (name="School Girls")
     #     $ change_stats_with_modifier(char_obj, 
     #         inhibition = DEC_SMALL, corruption = SMALL, charm = SMALL)
-    if corruption >= 5:
+    if corruption > 5:
         $ image.show(1)
         sgirl "Just give me a moment more to get ready for class. You like watching me doing whatever, right?" (name = "Aona Komuro")
 
@@ -205,17 +209,16 @@ label gym_event_1 (**kwargs):
 
         $ change_stats_with_modifier(char_obj, 
             inhibition = DEC_TINY, corruption = TINY, charm = TINY)
-    jump new_daytime
+    $ end_event('new_daytime', **kwargs)
 
 label gym_event_2 (**kwargs):
-    $ char_obj = get_kwargs("char_obj", **kwargs)
+    $ begin_event(**kwargs)
 
-    $ inhibition = get_kwargs("inhibition", **kwargs)
-    $ topic = get_kwargs("topic", **kwargs)
+    $ char_obj = get_char_value(**kwargs)
+    $ inhibition = get_stat_value("inhibition", [100], **kwargs)
+    $ topic = get_value("topic", **kwargs)
 
     $ image = Image_Series("/images/events/gym/gym_event_2 <level> <topic> <step>.webp", **kwargs)
-
-    $ begin_event("gym_event_2")
 
     $ image.show(0)
     if topic == "breasts":
@@ -226,16 +229,16 @@ label gym_event_2 (**kwargs):
         subtitles "You walk in on some girls changing their clothes before P.E."
     
     # if inhibition >= 80:
-    #     $ image.show(1)
-    #     subtitles "It took a few seconds for them to realize what is happening."
-    #     $ image.show(2)
-    #     sgirl "*scream*" (name="School Girls")
-    #     $ image.show(3)
-    #     headmaster "Sorry, I didn't mean to intrude."
-    #     $ image.show(4)
-    #     subtitles "You run out as fast as you can."
-    #     $ change_stats_with_modifier(char_obj, 
-    #         inhibition = DEC_SMALL, HAPPINESS = DEC_MEDIUM, REPUTATION = DEC_SMALL)
+    $ image.show(1)
+    subtitles "It took a few seconds for them to realize what is happening."
+    $ image.show(2)
+    sgirl "*scream*" (name="School Girls")
+    $ image.show(3)
+    headmaster "Sorry, I didn't mean to intrude."
+    $ image.show(4)
+    subtitles "You run out as fast as you can."
+    $ change_stats_with_modifier(char_obj, 
+        inhibition = DEC_SMALL, HAPPINESS = DEC_MEDIUM, REPUTATION = DEC_SMALL)
     # elif inhibition >= 60:
     #     show screen black_screen_text("gym_event_2\ntopic_[topic] inhibition >= 60")
 
@@ -250,14 +253,14 @@ label gym_event_2 (**kwargs):
     #     $ change_stats_with_modifier(char_obj,
     #         inhibition = DEC_SMALL, HAPPINESS = DEC_SMALL)
     # else:
-    show screen black_screen_text("gym_event_2\ntopic_[topic] inhibition < 30")
-    sgirl "Ahh!"
-    headmaster "Sorry, is everything alright?"
-    sgirl "Yes, I was just surprised."
-    $ change_stats_with_modifier(char_obj,
-        inhibition = DEC_MEDIUM)
+    # show screen black_screen_text("gym_event_2\ntopic_[topic] inhibition < 30")
+    # sgirl "Ahh!"
+    # headmaster "Sorry, is everything alright?"
+    # sgirl "Yes, I was just surprised."
+    # $ change_stats_with_modifier(char_obj,
+    #     inhibition = DEC_MEDIUM)
 
-    jump new_daytime
+    $ end_event('new_daytime', **kwargs)
 label .sorry (**kwargs):
     
     $ begin_event()
@@ -266,7 +269,7 @@ label .sorry (**kwargs):
     headmaster_thought "I think she doesn't believe me..."
     $ change_stats_with_modifier(char_obj,
         HAPPINESS = DEC_MEDIUM, REPUTATION = DEC_SMALL)
-    jump new_daytime
+    $ end_event('new_daytime', **kwargs)
 label .escape (**kwargs):
     
     $ begin_event()
@@ -276,20 +279,20 @@ label .escape (**kwargs):
     subtitles "You leave the room and leave the girls behind dumbfounded."
     $ change_stats_with_modifier(char_obj,
         inhibition = DEC_MEDIUM, HAPPINESS = DEC_SMALL)
-    jump new_daytime
+    $ end_event('new_daytime', **kwargs)
 
 label gym_event_3 (**kwargs):
-    $ char_obj = get_kwargs("char_obj", **kwargs)
+    $ begin_event(**kwargs)
 
-    $ variant = get_kwargs("variant", **kwargs)
-    $ girl = get_kwargs("girl", **kwargs)
+    $ char_obj = get_char_value(**kwargs)
+    $ variant = get_value("variant", **kwargs)
+    $ girl = get_value("girl_name", **kwargs)
 
     $ girl_name = girl.split(" ")[0]
     $ girl_full_name = girl
 
     $ image = Image_Series("/images/events/gym/gym_event_3 <level> <variant> <step>.webp", **kwargs)
 
-    $ begin_event("gym_event_3")
 
     $ image.show(0)
     headmaster "Sorry but that top doesn't conform to the uniform policy."
@@ -312,4 +315,4 @@ label gym_event_3 (**kwargs):
 
     $ change_stats_with_modifier(char_obj,
         inhibition = DEC_MEDIUM, happiness = DEC_LARGE, charm = TINY, education = TINY, reputation = DEC_SMALL)
-    jump new_daytime
+    $ end_event('new_daytime', **kwargs)

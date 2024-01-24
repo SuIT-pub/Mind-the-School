@@ -271,6 +271,8 @@ label pta_meeting (**kwargs):
     jump new_daytime
     
 label first_pta_meeting (**kwargs):
+    $ begin_event(**kwargs)
+
     $ hide_all()
 
     call show_image("images/events/pta/first meeting/first pta meeting 0.webp") from first_pta_meeting_0
@@ -368,8 +370,9 @@ label first_pta_meeting (**kwargs):
 
     hide screen image_with_nude_var
     scene first pta meeting 6
+    $ secretary_name = get_name_str('secretary')
     secretary """
-        Hello everyone, I am [secretary_first_name] [secretary_last_name], the headmasters secretary and I will be in 
+        Hello everyone, I am [secretary_name], the headmasters secretary and I will be in 
         charge some organisational tasks like managing the schedule and lower beraucracy tasks.
 
         I already worked for the last headmaster and observed the decline of our school with my own eyes.
@@ -378,8 +381,9 @@ label first_pta_meeting (**kwargs):
     """
 
     scene first pta meeting 7
+    $ teacher2_name = get_name_str('teacher2')
     teacher2 """
-        Hello I am [teacher_2_first_name] [teacher_2_last_name] and today I represent the teachers of this school.
+        Hello I am [teacher2_name] and today I represent the teachers of this school.
 
         First we are glad to have a new headmaster and we hope you bring this school back to what it once was.
         
@@ -418,4 +422,4 @@ label first_pta_meeting (**kwargs):
     $ set_all_buildings_blocked(True)
     $ set_building_blocked("office_building", False)
     
-    jump new_daytime
+    $ end_event('new_daytime', **kwargs)

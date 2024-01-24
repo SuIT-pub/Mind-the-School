@@ -186,13 +186,9 @@ init -7 python:
             if variant != -1:
                 kwargs["variant"] = variant
 
-            log_val('variant', variant)
-
             image_path = get_available_level(self._image_path, level)
             image_path, variant = refine_image_with_variant(image_path, **kwargs)
             
-            log_val('variant', variant)
-
             if renpy.loadable(image_path):
                 return image_path, variant
             return self._image_path_alt, -1
@@ -219,12 +215,8 @@ init -7 python:
             if variant != -1:
                 kwargs["variant"] = variant
 
-            log_val('variant', variant)
-
             image, variant = self.get_image(level = level, **kwargs)
             
-            log_val('variant', variant)
-
             full_image = image.replace(".", "_full.")
 
             if renpy.loadable(full_image):
@@ -275,7 +267,6 @@ init -7 python:
             """
 
             is_blocking = self._unlock_conditions.is_blocking(**kwargs)
-            log_val(f"{self._name} is blocking", is_blocking)
             return is_blocking
 
         def can_be_unlocked(self, **kwargs) -> bool:

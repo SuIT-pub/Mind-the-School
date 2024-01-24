@@ -3,44 +3,50 @@
 #############################################
 
 init -1 python:
-    sb_timed_event = TempEventStorage("sb", "", Event(2, "school_building.after_time_check"))
+    sb_timed_event = TempEventStorage("school_building", "", "school_building", Event(2, "school_building.after_time_check"))
     sb_events = {
-        "check_class": EventStorage("check_class", "Check Class",      default_fallback, "There is nobody here."),
-        "teach_class": EventStorage("teach_class", "Teach a Class",    default_fallback, "There is nobody here."),
-        "patrol":      EventStorage("patrol",      "Patrol building",  default_fallback, "There is nobody here."),
-        "students":    EventStorage("students",    "Talk to students", default_fallback, "There is nobody here."),
+        "check_class": EventStorage("check_class", "Check Class",      "school_building", default_fallback, "There is nobody here."),
+        "teach_class": EventStorage("teach_class", "Teach a Class",    "school_building", default_fallback, "There is nobody here."),
+        "patrol":      EventStorage("patrol",      "Patrol building",  "school_building", default_fallback, "There is nobody here."),
+        "students":    EventStorage("students",    "Talk to students", "school_building", default_fallback, "There is nobody here."),
     }
 
     sb_timed_event.add_event(Event(1, "first_week_sb_event",
         TimeCondition(day = "2-4", month = 1, year = 2023),
+        thumbnail = "images/events/first week/first week school building 2.webp"
     ))
 
     sb_timed_event.add_event(Event(1, "first_potion_sb_event",
         TimeCondition(day = 9, month = 1, year = 2023),
+        thumbnail = "images/events/first potion/first potion school building 1.webp"
     ))
 
     sb_event1 = Event(3, "sb_event_1",
         TimeCondition(daytime = "c", weekday = "d"),
+        thumbnail = "images/events/school building/sb_event_1 0.webp"
     )
 
     sb_event2 = Event(3, "sb_event_2",
         TimeCondition(daytime = "c", weekday = "d"),
+        thumbnail = "images/events/school building/sb_event_2 0.webp"
     )
     
     sb_event3 = Event(3, "sb_event_3",
-        TimeCondition(daytime = "d")
+        TimeCondition(daytime = "d"),
+        thumbnail = "images/events/school building/sb_event_3 0.webp"
     )
 
     sb_events["teach_class"].add_event(sb_event1, sb_event2)
     sb_events["patrol"].add_event(sb_event1, sb_event3)
 
-    sb_timed_event.check_all_events()
-    map(lambda x: x.check_all_events(), sb_events.values())
-
     sb_bg_images = [
         BGImage("images/background/school building/bg c <loli> <level> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")),
         BGImage("images/background/school building/bg 7.webp", 1, TimeCondition(daytime = 7)),
     ]
+
+init 1 python:
+    sb_timed_event.check_all_events()
+    map(lambda x: x.check_all_events(), sb_events.values())
 
 ##################################################
 
@@ -78,8 +84,7 @@ label .after_time_check (**kwargs):
 
 # first week event
 label first_week_sb_event (**kwargs):
-    
-    $ begin_event()
+    $ begin_event(**kwargs)
 
     show first week school building 1 with dissolveM
     subtitles """You enter the main building of the high school.
@@ -108,11 +113,11 @@ label first_week_sb_event (**kwargs):
 
     $ set_building_blocked("school_building")
 
-    jump new_day
+    $ end_event('new_day', **kwargs)
 
 label first_potion_sb_event (**kwargs):
 
-    $ begin_event()
+    $ begin_event(**kwargs)
     
     show first potion school building 1 with dissolveM
     headmaster_thought "Let's see how classes are today."
@@ -124,13 +129,16 @@ label first_potion_sb_event (**kwargs):
 
     $ set_building_blocked("school_building")
 
-    jump new_daytime
+    
+    $ end_event('new_daytime', **kwargs)
 
 label sb_event_1 (**kwargs): # patrol, check class
+    $ begin_event(**kwargs)
+
+    $ char_obj = get_char_value(**kwargs)
+    
     # show screen black_screen_text("sb_event_1")
     $ image = Image_Series("/images/events/school building/sb_event_1 <step>.webp", **kwargs)
-
-    $ begin_event("sb_event_1")
 
     # call show_image("/images/events/school building/sb_event_1 <name> 1.webp", SCENE, **kwargs)
     $ image.show(0)
@@ -152,9 +160,10 @@ label .leave (**kwargs):
     $ image.show(2)
     # call show_image("/images/events/school building/sb_event_1 <name> 3.webp", SCENE, **kwargs)
     subtitles "You decide to leave them and let them have their fun."
-    $ change_stats_with_modifier(kwargs["char_obj"],
+    $ change_stats_with_modifier(char_obj,
         charm = DEC_SMALL, education = TINY, corruption = TINY, inhibition = DEC_SMALL)
-    jump new_daytime
+    
+    $ end_event('new_daytime', **kwargs)
 label .stop (**kwargs):
     
     $ begin_event()
@@ -164,14 +173,17 @@ label .stop (**kwargs):
     # call show_image("/images/events/school building/sb_event_1 <name> 4.webp", SCENE, **kwargs)
     headmaster "Hey you! Stop that. You know that is against the rules!"
     sgirl "We're sorry!"
-    $ change_stats_with_modifier(kwargs["char_obj"],
+    $ change_stats_with_modifier(char_obj,
         charm = MEDIUM, happiness = DEC_SMALL, education = SMALL, reputation = TINY, inhibition = DEC_TINY)
-    jump new_daytime
+    
+    $ end_event('new_daytime', **kwargs)
 
 label sb_event_2 (**kwargs): # teach class
-    $ image = Image_Series("/images/events/school building/sb_event_2 <step>.webp", **kwargs)
+    $ begin_event(**kwargs)
 
-    $ begin_event("sb_event_2")
+    $ char_obj = get_char_value(**kwargs)
+    
+    $ image = Image_Series("/images/events/school building/sb_event_2 <step>.webp", **kwargs)
 
     $ image.show(0)
     subtitles "A student tripped while handing out assignments in class."
@@ -187,23 +199,27 @@ label .leave (**kwargs):
     
     $ image.show(2)
     subtitles "You decide to leave her alone."
-    $ change_stats_with_modifier(kwargs["char_obj"],
+    $ change_stats_with_modifier(char_obj,
         charm = DEC_TINY, education = TINY)
-    jump new_daytime
+    
+    $ end_event('new_daytime', **kwargs)
 label .help (**kwargs):
     
     $ begin_event()
     
     $ image.show(3)
     subtitles "You help her up."
-    $ change_stats_with_modifier(kwargs["char_obj"],
+    $ change_stats_with_modifier(char_obj,
         charm = DEC_TINY, happiness = SMALL, education = TINY)
-    jump new_daytime
+    
+    $ end_event('new_daytime', **kwargs)
 
 label sb_event_3 (**kwargs): # patrol
-    $ image = Image_Series("/images/events/school building/sb_event_3 <step>.webp", **kwargs)
+    $ begin_event(**kwargs)
 
-    $ begin_event("sb_event_3")
+    $ char_obj = get_char_value(**kwargs)
+    
+    $ image = Image_Series("/images/events/school building/sb_event_3 <step>.webp", **kwargs)
 
     $ image.show(0) # walk with girl sitting
     subtitles "As you walk through the corridors of the high school, you notice a student sitting in the corner of the hallway."
@@ -217,7 +233,7 @@ label sb_event_3 (**kwargs): # patrol
 
     $ call_custom_menu(False,
         ("What is going on?", "sb_event_3.what"),
-        ("If it's nothing, go back to class", "sb_event_3.send_class", time.check_daytime("c") and time.check_weekday("d")), 
+        ("If it's nothing, go back to class", "sb_event_3.send_class", (time.check_daytime("c") and time.check_weekday("d")) or is_replay(**kwargs)), 
     **kwargs)
 label .what (**kwargs):
     
@@ -258,9 +274,10 @@ label .leave (**kwargs):
     $ image.show(8) # headmaster stands a bit further away looking back to her
     subtitles"You walk away with a heavy heart."
 
-    $ change_stats_with_modifier(kwargs["char_obj"], 
+    $ change_stats_with_modifier(char_obj, 
         charm = TINY, happiness = DEC_LARGE, education = TINY, reputation = DEC_TINY)
-    jump new_daytime
+    
+    $ end_event('new_daytime', **kwargs)
 label .get_to_bottom (**kwargs):
     
     $ begin_event()
@@ -292,9 +309,10 @@ label .get_to_bottom (**kwargs):
     $ image.show(14) # headmaster and girl walk to office
     subtitles "You support her back to your office and bring her something warm to drink."
 
-    $ change_stats_with_modifier(kwargs["char_obj"],
+    $ change_stats_with_modifier(char_obj,
         happiness = LARGE, reputation = TINY)
-    jump new_daytime
+    
+    $ end_event('new_daytime', **kwargs)
 label .send_class (**kwargs):
     
     $ begin_event()
@@ -327,9 +345,10 @@ label .poor_thing (**kwargs):
 
     $ image.show(14) # headmaster helps girl up
     subtitles "You help her up and walk her to the dormitory."
-    $ change_stats_with_modifier(kwargs["char_obj"],
+    $ change_stats_with_modifier(char_obj,
         happiness = LARGE, reputation = TINY)
-    jump new_daytime
+    
+    $ end_event('new_daytime', **kwargs)
 label .chin_up (**kwargs):
     
     $ begin_event()
@@ -346,6 +365,7 @@ label .chin_up (**kwargs):
 
     $ image.show(23) # girl walks away
     subtitles "You help her up and she walks off."
-    $ change_stats_with_modifier(kwargs["char_obj"],
+    $ change_stats_with_modifier(char_obj,
         happiness = LARGE, reputation = TINY)
-    jump new_daytime
+    
+    $ end_event('new_daytime', **kwargs)

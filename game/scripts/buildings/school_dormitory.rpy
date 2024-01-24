@@ -3,20 +3,22 @@
 ###################################################
 
 init -1 python:
-    sd_timed_event = EventStorage("school_dormitory", "", Event(2, "school_dormitory.after_time_check"))
+    sd_timed_event = EventStorage("school_dormitory", "", "school_dormitory", Event(2, "school_dormitory.after_time_check"))
     sd_events = {
-        "check_rooms":   EventStorage("check_rooms",   "Check Rooms",      default_fallback, "There is nobody here."),
-        "talk_students": EventStorage("talk_students", "Talk to students", default_fallback, "There is nobody here."),
-        "patrol":        EventStorage("patrol",        "Patrol building",  default_fallback, "There is nobody here."),
-        "peek_students": EventStorage("peek_students", "Peek on students", default_fallback, "There is nobody here."),
+        "check_rooms":   EventStorage("check_rooms",   "Check Rooms",      "school_dormitory", default_fallback, "There is nobody here."),
+        "talk_students": EventStorage("talk_students", "Talk to students", "school_dormitory", default_fallback, "There is nobody here."),
+        "patrol":        EventStorage("patrol",        "Patrol building",  "school_dormitory", default_fallback, "There is nobody here."),
+        "peek_students": EventStorage("peek_students", "Peek on students", "school_dormitory", default_fallback, "There is nobody here."),
     }
 
     sd_timed_event.add_event(Event(1, "first_week_school_dormitory_event",
         TimeCondition(day = "2-4", month = 1, year = 2023),
+        thumbnail = "images/events/first week/first week school dormitory 1.webp"
     ))
 
     sd_timed_event.add_event(Event(1, "first_potion_school_dormitory_event",
         TimeCondition(day = 9, month = 1, year = 2023),
+        thumbnail = "images/events/first potion/first potion school dormitory 3.webp"
     ))
 
     sd_event1 = Event(3, "sd_event_1",
@@ -26,7 +28,8 @@ init -1 python:
             TimeCondition(weekday = "d", daytime = "f"), 
             TimeCondition(weekday = "d", daytime = "n"), 
             TimeCondition(weekday = "w")
-        )
+        ),
+        thumbnail = "images/events/school dormitory/sd_event_1 1 0.webp"
     )
 
     sd_event2 = Event(3, "sd_event_2",
@@ -58,25 +61,29 @@ init -1 python:
             TimeCondition(weekday = "d", daytime = "f"), 
             TimeCondition(weekday = "d", daytime = "n"), 
             TimeCondition(weekday = "w")
-        )
+        ),
+        thumbnail = "images/events/school dormitory/sd_event_2 ah dorm_room Aona Komuro 1 0.webp"
     )
 
     sd_event3 = Event(3, "sd_event_3",
         StatSelector('inhibition', INHIBITION, "school"),
         RandomListSelector('topic', "normal", (0.1, "panties"), (0.02, "nude")),
         TimeCondition(daytime = "6,7"),
+        thumbnail = "images/events/school dormitory/sd_event_3 normal 1 0.webp"
     )
 
+    # sd_events["peek_students"].add_event(sd_event2)
     sd_events["peek_students"].add_event(sd_event1, sd_event2, sd_event3)
-
-    sd_timed_event.check_all_events()
-    map(lambda x: x.check_all_events(), sd_events.values())
-
+    
     school_dormitory_bg_images = [
         BGImage("images/background/school dormitory/bg f <loli> <level> <nude>.webp", 1, TimeCondition(daytime = "f")),
         BGImage("images/background/school dormitory/bg f <loli> <level> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "w")),
         BGImage("images/background/school dormitory/bg 7.webp", 1, TimeCondition(daytime = 7)),
     ]
+
+init 1 python:    
+    sd_timed_event.check_all_events()
+    map(lambda x: x.check_all_events(), sd_events.values())
     
 ###################################################
 
@@ -116,7 +123,7 @@ label .after_time_check (**kwargs):
 # first week event
 label first_week_school_dormitory_event (**kwargs):
     
-    $ begin_event()
+    $ begin_event(**kwargs)
     
     show first week school dormitory 1 with dissolveM
     headmaster_thought "The dormitory looks alright."
@@ -141,12 +148,12 @@ label first_week_school_dormitory_event (**kwargs):
 
     $ set_building_blocked("school_dormitory")
 
-    jump new_day
+    $ end_event('new_day', **kwargs)
 
 
 label first_potion_school_dormitory_event (**kwargs):
 
-    $ begin_event()
+    $ begin_event(**kwargs)
     
     show first potion school dormitory 1 with dissolveM
     subtitles "You enter the dormitory of the high school."
@@ -166,19 +173,18 @@ label first_potion_school_dormitory_event (**kwargs):
 
     $ set_building_blocked("school_dormitory")
 
-    jump new_daytime
+    $ end_event('new_daytime', **kwargs)
 
 
 # education < 80
 label sd_event_1 (**kwargs):
-    $ char_obj = get_kwargs("char_obj", **kwargs)
+    $ begin_event(**kwargs)
 
-    $ education = get_kwargs('education', **kwargs)
-    $ inhibition = get_kwargs('inhibition', **kwargs)
+    $ char_obj = get_char_value(**kwargs)
+    $ inhibition = get_stat_value('inhibition', [50, 100], **kwargs)
+    $ education = get_stat_value('education', [90, 100], **kwargs)
 
     $ image = Image_Series("images/events/school dormitory/sd_event_1 <level> <step>.webp", **kwargs)
-
-    $ begin_event("sd_event_1")
 
     if education > 50 and get_random_int(0, 1) == 0:
         $ image.show(0)
@@ -192,7 +198,7 @@ label sd_event_1 (**kwargs):
             headmaster "Ah yes... yes of course."
             $ change_stats_with_modifier(char_obj,
                 HAPPINESS = DEC_TINY)
-            jump new_daytime
+            $ end_event(**kwargs)
         else:
             $ image.show(5)
             sgirl "Yeah Mr. [headmaster_last_name], you just surprised me." (name = "Easkey Tanaka")
@@ -200,27 +206,25 @@ label sd_event_1 (**kwargs):
             headmaster "Oh, sorry about that."
             $ change_stats_with_modifier(char_obj,
                 HAPPINESS = DEC_TINY, education = MEDIUM)
-            jump new_daytime
+            $ end_event(**kwargs)
     else:
         $ image.show(4)
         sgirl "hmm... This homework is hard. Why do I need to learn this anyway?" (name = "Easkey Tanaka")
         $ change_stats_with_modifier(char_obj,
             education = SMALL)
-        jump new_daytime
+        $ end_event(**kwargs)
 
 label sd_event_2 (**kwargs):
-    $ char_obj = get_kwargs("char_obj", **kwargs)
-    
-    $ inhibition = get_kwargs('inhibition', **kwargs)
-    $ location = get_kwargs('location', **kwargs)
-    $ topic = get_kwargs('topic', **kwargs)
-    $ girl_name = get_kwargs('girl_name', **kwargs)
-    $ topic_set = get_kwargs('topic_set', **kwargs)
+    $ begin_event(**kwargs)
+
+    $ char_obj = get_char_value(**kwargs)
+    $ location = get_value('location', **kwargs)
+    $ girl_name = get_value('girl_name', **kwargs)
+    $ topic = get_value('topic', **kwargs)
+    $ topic_set = get_value('topic_set', **kwargs)
 
     $ image = Image_Series("images/events/school dormitory/sd_event_2 <topic> <location> <girl_name> <level> <step>.webp", **kwargs)
     $ image2 = Image_Series("images/events/school dormitory/sd_event_2 <location> <step>.webp", **kwargs)
-
-    $ begin_event("sd_event_2")
 
     if topic == "ah":
         $ image.show(0)
@@ -257,7 +261,7 @@ label sd_event_2 (**kwargs):
         subtitles "You quickly make an exit."
         $ change_stats_with_modifier(char_obj,
             inhibition = DEC_TINY, happiness = DEC_MEDIUM)
-        jump new_daytime
+        $ end_event(**kwargs)
     # elif topic == "guys_stop":
     #     $ image.show(0)
     #     sgirl "Excuse me!\n Can you guys stop running in and out of here?!"
@@ -324,17 +328,15 @@ label sd_event_2 (**kwargs):
         # ("After a quick look at the sexy girl, you apologize and leave.", character.subtitles, topic_set == 2),
         # ("A nice view, but you quickly leave anyway.", character.subtitles, topic_set == 2),
 
-    jump new_daytime
+    $ end_event(**kwargs)
 
 label sd_event_3 (**kwargs):
-    $ char_obj = get_kwargs("char_obj", **kwargs)
+    $ begin_event(**kwargs)
 
-    $ inhibition = get_kwargs('inhibition', **kwargs)
-    $ topic = get_kwargs('topic', **kwargs)
+    $ char_obj = get_char_value(**kwargs)
+    $ topic = get_value('topic', **kwargs)
 
     $ image = Image_Series("images/events/school dormitory/sd_event_3 <topic> <level> <step>.webp", **kwargs)
-
-    $ begin_event("sd_event_3")
 
     # if inhibition >= 80:
     $ image.show(0)
@@ -352,7 +354,7 @@ label sd_event_3 (**kwargs):
     elif topic == "nude":
         $ change_stats_with_modifier(char_obj, inhibition = DEC_LARGE)
 
-    jump new_daytime
+    $ end_event(**kwargs)
 
 
 

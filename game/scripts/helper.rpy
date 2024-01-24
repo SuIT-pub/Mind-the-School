@@ -1,5 +1,6 @@
 init -99 python:
     from typing import TypeVar
+    import collections.abc
     import re
 
     def in_kwargs(key: str, **kwargs) -> bool:
@@ -365,7 +366,7 @@ init -99 python:
 
         return
 
-    def begin_event(name: str = ""):
+    def begin_event(**kwargs):
         """
         This method is called at the start of an event after choices and topics have been chosen in the event.
         It prevents rollback to before this method and thus prevents changing choices and topics.
@@ -373,19 +374,72 @@ init -99 python:
 
         global seenEvents
 
+        event_name = get_kwargs("event_name", "", **kwargs)
+        in_replay = get_kwargs("in_replay", False, **kwargs)
+
+        if event_name != "" and not in_replay:
+            gallery_manager = Gallery_Manager(**kwargs)
+
         if contains_game_data("seen_events"):
             seenEvents = get_game_data("seen_events")
 
-        log_val("all_events_seen", seenEvents)
-
-        if name != "" and name in seenEvents.keys():
-            seenEvents[name] = True
+        if event_name != "" and event_name in seenEvents.keys():
+            seenEvents[event_name] = True
             set_game_data("seen_events", seenEvents)
             if all(seenEvents.values()):
                 set_game_data("all_events_seen", True)
 
+        if in_replay:
+            char_obj = None
+
         renpy.block_rollback()
 
+        if event_name != "":
+            renpy.call("show_sfw_text", event_name)
+
+    def end_event(return_type: str = "new_daytime", **kwargs):
+
+        global is_in_replay
+
+        is_in_replay = False
+
+        in_replay = get_kwargs("in_replay", False, **kwargs)
+        if in_replay:
+            is_in_replay = False
+            display_journal = get_kwargs("journal_display", "", **kwargs)
+            renpy.call("open_journal", 7, display_journal, from_current = False)
+            return
+
+        if return_type == "new_daytime":
+            renpy.jump("new_daytime")
+        elif return_type == "new_day":
+            renpy.jump("new_day")
+        elif return_type == "none":
+            return
+        else:
+            renpy.jump("overview")
+        
+
+    def load_event_char(**kwargs):
+        """
+        Loads a character from kwargs
+
+        ### Parameters:
+        1. **kwargs
+            - The kwargs to get the character from
+
+        ### Returns:
+        1. Character
+            - The character
+            - If the character is not in kwargs None is returned
+        """
+
+        char_obj = get_kwargs("char_obj", get_character_by_key(get_kwargs("char_obj_key", None, **kwargs)), **kwargs)
+        if char_obj == None:
+            return None
+        kwargs["char_obj_key"] = char_obj.get_name()
+        get_value("char_obj_key", **kwargs)
+        return char_obj
 
     def set_game_data(key: str, value: Any):
         """
@@ -398,7 +452,114 @@ init -99 python:
             - The value to set
         """
 
+        if is_in_replay:
+            return
+
         gameData[key] = value
+
+    def set_name(key: str, first_name: str, last_name: str):
+        """
+        Sets a name in gameData
+
+        ### Parameters:
+        1. key: str
+            - The key to set
+        2. first_name: str
+            - The first name to set
+        3. last_name: str
+            - The last name to set
+        """
+
+        if is_in_replay:
+            return
+
+        if "names" not in gameData.keys():
+            gameData["names"] = {}
+        gameData["names"][key] = (first_name, last_name)
+
+    def get_name(key: str) -> Tuple[str, str]:
+        """
+        Gets a name from gameData
+
+        ### Parameters:
+        1. key: str
+            - The key to get
+
+        ### Returns:
+        1. Tuple[str, str]
+            - The name
+            - If the key is not in gameData (None, None) is returned
+        """
+
+        if "names" not in gameData.keys() or key not in gameData["names"].keys():
+            if key in default_names.keys():
+                return default_names[key]
+            else:
+                return (None, None)
+        return gameData["names"][key]
+
+    def get_name_str(key: str) -> str:
+        """
+        Gets a name from gameData as a string
+
+        ### Parameters:
+        1. key: str
+            - The key to get
+
+        ### Returns:
+        1. str
+            - The name
+            - If the key is not in gameData "" is returned
+        """
+
+        if "names" not in gameData.keys() or key not in gameData["names"].keys():
+            if key in default_names.keys():
+                return ' '.join(list(default_names[key]))
+            else:
+                return "first_name last_name"
+        return ' '.join(list(gameData["names"][key]))
+
+    def get_name_first(key: str) -> str:
+        """
+        Gets a first name from gameData
+
+        ### Parameters:
+        1. key: str
+            - The key to get
+
+        ### Returns:
+        1. str
+            - The first name
+            - If the key is not in gameData "" is returned
+        """
+
+        if "names" not in gameData.keys() or key not in gameData["names"].keys():
+            if key in default_names.keys():
+                return default_names[key][0]
+            else:
+                return "first_name"
+        return gameData["names"][key][0]
+
+    def get_name_last(key: str) -> str:
+        """
+        Gets a last name from gameData
+
+        ### Parameters:
+        1. key: str
+            - The key to get
+
+        ### Returns:
+        1. str
+            - The last name
+            - If the key is not in gameData "" is returned
+        """
+
+        if "names" not in gameData.keys() or key not in gameData["names"].keys():
+            if key in default_names.keys():
+                return default_names[key][1]
+            else:
+                return "last_name"
+        return gameData["names"][key][1]
 
     def start_progress(key: str):
         """
@@ -408,6 +569,9 @@ init -99 python:
         1. key: str
             - The key for the event chain
         """
+
+        if is_in_replay:
+            return
 
         if "progress" not in gameData.keys():
             gameData["progress"] = {}
@@ -424,6 +588,9 @@ init -99 python:
         2. delta: int (default 1)
             - The amount of advance for the event chain
         """
+
+        if is_in_replay:
+            return
 
         if "progress" not in gameData.keys():
             gameData["progress"] = {}
@@ -442,6 +609,9 @@ init -99 python:
         2. value: int
             - The value of progress to set the event chain to
         """
+
+        if is_in_replay:
+            return
 
         if "progress" not in gameData.keys():
             gameData["progress"] = {}
@@ -546,6 +716,12 @@ init -99 python:
             }
         })
 
+    def check_old_versions():
+        if 'headmaster_first_name' in gameData.keys() and 'headmaster_last_name' in gameData.keys():
+            set_name("headmaster", gameData['headmaster_first_name'], gameData['headmaster_last_name'])
+            gameData.pop('headmaster_first_name')
+            gameData.pop('headmaster_last_name')
+
     def get_random_choice(*choice: T | Tuple[float, T] | Tuple[float, T, bool | Condition], **kwargs) -> T:
         """
         Selects a random value from a set of values
@@ -637,44 +813,6 @@ init -99 python:
         value = get_random_int(0, loli_content)
         return value
 
-    def log_val(key: str, value: Any):
-        """
-        Prints a key and value
-
-        ### Parameters:
-        1. key: str
-            - The key to print
-        2. value: Any
-            - The value to print
-        """
-
-        print(key + ": " + str(value) + "\n")
-
-    def log(msg: str):
-        """
-        Prints a message
-
-        ### Parameters:
-        1. msg: str
-            - The message to print
-        """
-
-        print(str(msg) + "\n")
-        return
-
-    def log_error(msg: str):
-        """
-        Prints an error message
-
-        ### Parameters:
-        1. msg: str
-            - The message to print
-        """
-
-        print("|ERROR| " + str(msg) + "\n")
-        # renpy.notify("|ERROR| " + str(msg))
-        return
-
     def get_stat_from_char_kwargs(stat: str, **kwargs) -> float:
         """
         Gets a stat from a character stored in kwargs
@@ -737,6 +875,62 @@ init -99 python:
         else:
             return [line for line in lines if line.split(',')[1].strip() == tier]
 
+    def get_translations():
+        """
+        Gets the translations from the translations.csv file
+        """
+
+        global translation_texts
+
+        if not renpy.loadable("translations.csv"):
+            translation_texts = {}
+        file = renpy.open_file("translations.csv")
+        lines = split_to_non_empty_list(file.read().decode(), "\r\n")
+        translation_texts = {line.split(',')[0]: line.split(',')[1] for line in lines if ',' in line}
+
+    def get_translation(key: str) -> str:
+        """
+        Gets a translation from the translations.csv file
+
+        ### Parameters:
+        1. key: str
+            - The key to get the translation for
+
+        ### Returns:
+        1. str
+            - The translation
+            - If the key is not in the translations.csv file the key is returned
+        """
+
+        if key in translation_texts.keys():
+            return translation_texts[key]
+        return key
+
+    def update_dict(original_dict, new_dict):
+        """
+        Updates a dictionary with another dictionary
+
+        ### Parameters:
+        1. original_dict: dict
+            - The dictionary to update
+        2. new_dict: dict
+            - The dictionary to update with
+
+        ### Returns:
+        1. dict
+            - The updated dictionary
+        """
+
+        for key, value in new_dict.items():
+            if isinstance(value, collections.Mapping):
+                temp = update_dict(original_dict.get(key, { }), value)
+                original_dict[key] = temp
+            elif isinstance(value, list):
+                original_dict[key] = (original_dict.get(key, []) + value)
+            else:
+                original_dict[key] = new_dict[key]
+        return original_dict
+
     def split_to_non_empty_list(s, delimiter) -> List[str]:
         """
         Splits a string into a list of non-empty strings
@@ -787,3 +981,79 @@ init -99 python:
             selector.roll_values()
 
         rerollSelectors.clear()
+
+    def get_location_title(key: str) -> str:
+        """
+        Gets the title of a location
+
+        ### Parameters:
+        1. key: str
+            - The key of the location
+
+        ### Returns:
+        1. str
+            - The title of the location
+            - If the location does not exist the key is returned
+        """
+
+        building = get_building(key)
+        if building == None:
+            return key
+        return building.get_title()
+
+    def get_event_from_register(name: str) -> Event:
+        """
+        Gets an event from the event register
+
+        ### Parameters:
+        1. name: str
+            - The name of the event
+
+        ### Returns:
+        1. Event
+            - The event
+            - If the event does not exist None is returned
+        """
+
+        if name in event_register.keys():
+            return event_register[name]
+        return None
+
+    def is_replay(**kwargs):
+        """
+        Checks if the game is in replay mode
+
+        ### Parameters:
+        1. **kwargs
+            - The kwargs to get the character from
+
+        ### Returns:
+        1. bool
+            - True if the game is in replay mode, False otherwise
+        """
+
+        return get_kwargs("in_replay", False, **kwargs)
+
+    def compare_to(value1: num, value2: num) -> int:
+        """
+        Compares two values
+
+        ### Parameters:
+        1. value1: num
+            - The first value
+        2. value2: num
+            - The second value
+
+        ### Returns:
+        1. int
+            - 1 if value1 is greater than value2
+            - -1 if value1 is less than value2
+            - 0 if value1 is equal to value2
+        """
+
+        if value1 > value2:
+            return 1
+        elif value1 < value2:
+            return -1
+        else:
+            return 0
