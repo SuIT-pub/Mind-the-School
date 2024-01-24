@@ -791,9 +791,9 @@ screen journal_cheats(display):
                             text "DEBUG" xalign 0.0 style "journal_text"
                             xsize 250
 
-                        $ debug_mode_text = "{color=#00ff00}ACTIVATE{/color}"
+                        $ debug_mode_text = "{color=#ff0000}ACTIVATE{/color}"
                         if debug_mode:
-                            $ debug_mode_text = "{color=#ff0000}DEACTIVATE{/color}"
+                            $ debug_mode_text = "{color=#00ff00}DEACTIVATE{/color}"
                         button:
                             text debug_mode_text xalign 1.0
                             action [With(dissolveM), Call("switch_debug_mode", 5, display)]
@@ -805,9 +805,9 @@ screen journal_cheats(display):
                             text "Time" xalign 0.0 style "journal_text"
                             xsize 250
 
-                        $ time_freeze_text = "{color=#00ff00}FREEZE{/color}"
+                        $ time_freeze_text = "{color=#ff0000}FREEZE{/color}"
                         if time_freeze:
-                            $ time_freeze_text = "{color=#ff0000}UNFREEZE{/color}"
+                            $ time_freeze_text = "{color=#00ff00}UNFREEZE{/color}"
                         button:
                             text time_freeze_text xalign 1.0
                             action [With(dissolveM), Call("switch_time_freeze", 5, display)]
@@ -1524,6 +1524,7 @@ label start_gallery_replay(location, event, gallery_chooser, display):
     $ gallery_chooser['in_event'] = True
     $ gallery_chooser['event_name'] = event
     $ gallery_chooser['decision_data'] = persistent.gallery[location][event]['decisions']
+    $ replay_data = gallery_chooser
     
     $ hide_all()
 
@@ -1533,10 +1534,19 @@ label start_gallery_replay(location, event, gallery_chooser, display):
 label set_time_cheat(page, display, **kwargs):
     $ time.set_time(**kwargs)
 
+    if time.compare_now(10, 1, 2023, 2) == -1:
+        $ time.set_time(day = 10, month = 1, year = 2023, daytime = 2)
+
     call open_journal(page, display) from set_time_cheat_1
 
 label change_time_cheat(page, display, **kwargs):
     $ time.add_time(**kwargs)
+
+    if time.compare_today(10, 1, 2023) == -1:
+        $ time.set_time(day = 10, month = 1, year = 2023, daytime = time.get_daytime())
+
+    if time.compare_now(10, 1, 2023, 2) == -1:
+        $ time.set_time(day = 10, month = 1, year = 2023, daytime = 2)
 
     call open_journal(page, display) from change_time_cheat_1
 

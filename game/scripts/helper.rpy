@@ -399,6 +399,8 @@ init -99 python:
 
     def end_event(return_type: str = "new_daytime", **kwargs):
 
+        global is_in_replay
+
         is_in_replay = False
 
         in_replay = get_kwargs("in_replay", False, **kwargs)
@@ -981,12 +983,38 @@ init -99 python:
         rerollSelectors.clear()
 
     def get_location_title(key: str) -> str:
+        """
+        Gets the title of a location
+
+        ### Parameters:
+        1. key: str
+            - The key of the location
+
+        ### Returns:
+        1. str
+            - The title of the location
+            - If the location does not exist the key is returned
+        """
+
         building = get_building(key)
         if building == None:
             return key
         return building.get_title()
 
     def get_event_from_register(name: str) -> Event:
+        """
+        Gets an event from the event register
+
+        ### Parameters:
+        1. name: str
+            - The name of the event
+
+        ### Returns:
+        1. Event
+            - The event
+            - If the event does not exist None is returned
+        """
+
         if name in event_register.keys():
             return event_register[name]
         return None
@@ -1005,3 +1033,27 @@ init -99 python:
         """
 
         return get_kwargs("in_replay", False, **kwargs)
+
+    def compare_to(value1: num, value2: num) -> int:
+        """
+        Compares two values
+
+        ### Parameters:
+        1. value1: num
+            - The first value
+        2. value2: num
+            - The second value
+
+        ### Returns:
+        1. int
+            - 1 if value1 is greater than value2
+            - -1 if value1 is less than value2
+            - 0 if value1 is equal to value2
+        """
+
+        if value1 > value2:
+            return 1
+        elif value1 < value2:
+            return -1
+        else:
+            return 0
