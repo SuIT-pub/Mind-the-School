@@ -5,6 +5,13 @@ dorm_room,Dorm Room
 shower,Shower
 variant,Variant
 teacher,Teacher
+education,Education
+inhibition,Inhibition
+corruption,Corruption
+happiness,Happiness
+charm,Charm
+money,Money
+reputation,Reputation
 
 ###############
 # Event Names

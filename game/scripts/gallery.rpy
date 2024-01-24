@@ -296,7 +296,7 @@ init python:
         global gallery_manager
 
         if gallery_manager == None:
-            return
+            return get_kwargs(key, alt, **kwargs)
 
         gallery_manager.current_ranges[key] = ranges
 
@@ -307,7 +307,7 @@ init python:
         global gallery_manager
 
         if gallery_manager == None:
-            return
+            return get_kwargs(key, alt, **kwargs)
 
         gallery_manager.current_ranges[key] = ranges
 
