@@ -364,31 +364,32 @@ screen school_overview_buttons ():
             xpos 42 ypos 127
             action Call("building", "office_building")
     
-    $ s_text = ""
-    if has_keyboard():
-        if show_shortcut():
-            $ s_text = " [[Z]"
-        key "K_z" action Call("new_daytime")
-    # Skip Daytime
-    imagebutton:
-        auto "icons/time skip %s.webp"
-        tooltip "Skip Time" + s_text
-        focus_mask None
-        xalign 0.0 yalign 0.0
-        action Call("new_daytime")
+    if time.compare_today(10, 1, 2023) != -1:
+        $ s_text = ""
+        if has_keyboard():
+            if show_shortcut():
+                $ s_text = " [[Z]"
+            key "K_z" action Call("new_daytime")
+        # Skip Daytime
+        imagebutton:
+            auto "icons/time skip %s.webp"
+            tooltip "Skip Time" + s_text
+            focus_mask None
+            xalign 0.0 yalign 0.0
+            action Call("new_daytime")
 
-    $ j_text = ""
-    if has_keyboard():
-        if show_shortcut():
-            $ j_text = " [[J]"
-    key "K_j" action Call("start_journal")
-    # Open Journal
-    imagebutton:
-        auto "icons/journal_icon_%s.webp"
-        tooltip "Open Journal" + j_text
-        focus_mask None
-        xalign 0.07 yalign 0.0
-        action Call("start_journal")
+        $ j_text = ""
+        if has_keyboard():
+            if show_shortcut():
+                $ j_text = " [[J]"
+        key "K_j" action Call("start_journal")
+        # Open Journal
+        imagebutton:
+            auto "icons/journal_icon_%s.webp"
+            tooltip "Open Journal" + j_text
+            focus_mask None
+            xalign 0.07 yalign 0.0
+            action Call("start_journal")
 
     $ tooltip = GetTooltip("school_overview_buttons")
 

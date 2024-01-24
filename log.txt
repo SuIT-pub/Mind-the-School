@@ -3258,3 +3258,279 @@ Version: b'4.6.0 - Build 31.0.101.4575'
 Display Info: None
 Screen sizes: virtual=(1920, 1080) physical=(2560, 1351) drawable=(2560, 1351)
 Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 3464.29s
+Early init. took 0.00s
+Loader init. took 0.05s
+Loading error handling. took 0.02s
+Loading script. took 0.32s
+Loading save slot metadata. took 0.08s
+Loading persistent. took 0.00s
+Running init code. took 0.06s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.06s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.07s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.14s
+DPI scale factor: 1.250000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.07s
+Build styles took 0.00s
+Load screen analysis took 0.00s
+Analyze screens took 0.03s
+Save screen analysis took 0.07s
+Prepare screens took 0.13s
+Save pyanalysis. took 0.03s
+Save bytecode. took 0.02s
+Running _start took 0.01s
+Performance test:
+Interface start. took 0.11s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1351) drawable=(2560, 1351)
+Maximum texture size: 4096x4096
+
+Full traceback:
+  File "game/scripts/overview.rpy", line 540, in script call
+    call time_event_check from new_day_2
+  File "game/scripts/daily_check.rpy", line 82, in script call
+    call call_available_event(temp_time_check_events, with_removal = True) from time_event_check_1
+  File "game/scripts/event.rpy", line 885, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/daily_check.rpy", line 86, in script call
+    call call_available_event(time_check_events) from time_event_check_2
+  File "game/scripts/event.rpy", line 885, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/overview.rpy", line 589, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 608, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 885, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/overview.rpy", line 589, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 608, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/school_building.rpy", line 61, in script call
+    call call_available_event(sb_timed_event) from school_building_1
+  File "game/scripts/event.rpy", line 885, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/overview.rpy", line 589, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 608, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/school_dormitory.rpy", line 96, in script call
+    call call_available_event(sd_timed_event) from school_dormitory_1
+  File "game/scripts/event.rpy", line 885, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/overview.rpy", line 540, in script call
+    call time_event_check from new_day_2
+  File "game/scripts/daily_check.rpy", line 82, in script call
+    call call_available_event(temp_time_check_events, with_removal = True) from time_event_check_1
+  File "game/scripts/event.rpy", line 885, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/daily_check.rpy", line 86, in script call
+    call call_available_event(time_check_events) from time_event_check_2
+  File "game/scripts/event.rpy", line 885, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/overview.rpy", line 554, in script call
+    call time_event_check from new_daytime_2
+  File "game/scripts/daily_check.rpy", line 82, in script call
+    call call_available_event(temp_time_check_events, with_removal = True) from time_event_check_1
+  File "game/scripts/event.rpy", line 885, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/daily_check.rpy", line 86, in script call
+    call call_available_event(time_check_events) from time_event_check_2
+  File "game/scripts/event.rpy", line 885, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/overview.rpy", line 554, in script call
+    call time_event_check from new_daytime_2
+  File "game/scripts/daily_check.rpy", line 82, in script call
+    call call_available_event(temp_time_check_events, with_removal = True) from time_event_check_1
+  File "game/scripts/event.rpy", line 885, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/daily_check.rpy", line 86, in script call
+    call call_available_event(time_check_events) from time_event_check_2
+  File "game/scripts/event.rpy", line 885, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/overview.rpy", line 589, in script
+    call screen school_overview_buttons
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2259, in execute
+    self.call("execute")
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2241, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\statements.py", line 342, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\exports.py", line 3347, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "C:\Users\bigma\Documents\RenPy\renpy\ui.py", line 299, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 3582, in interact
+    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 4055, in interact_core
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 476, in visit_all
+    callback(self)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 4055, in <lambda>
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 487, in per_interact
+    self.update()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 680, in update
+    self.screen.function(**self.scope)
+  File "game/scripts/overview.rpy", line 169, in execute
+    screen school_overview_buttons ():
+  File "game/scripts/overview.rpy", line 169, in execute
+    screen school_overview_buttons ():
+  File "game/scripts/overview.rpy", line 367, in execute
+    if compare_today(10, 1, 2023) != -1:
+  File "game/scripts/overview.rpy", line 367, in <module>
+    if compare_today(10, 1, 2023) != -1:
+NameError: name 'compare_today' is not defined
+
+While running game code:
+  File "game/scripts/overview.rpy", line 540, in script call
+    call time_event_check from new_day_2
+  File "game/scripts/daily_check.rpy", line 82, in script call
+    call call_available_event(temp_time_check_events, with_removal = True) from time_event_check_1
+  File "game/scripts/event.rpy", line 885, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/daily_check.rpy", line 86, in script call
+    call call_available_event(time_check_events) from time_event_check_2
+  File "game/scripts/event.rpy", line 885, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/overview.rpy", line 589, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 608, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 58, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/event.rpy", line 885, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/overview.rpy", line 589, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 608, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/school_building.rpy", line 61, in script call
+    call call_available_event(sb_timed_event) from school_building_1
+  File "game/scripts/event.rpy", line 885, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/overview.rpy", line 589, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 608, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/school_dormitory.rpy", line 96, in script call
+    call call_available_event(sd_timed_event) from school_dormitory_1
+  File "game/scripts/event.rpy", line 885, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/overview.rpy", line 540, in script call
+    call time_event_check from new_day_2
+  File "game/scripts/daily_check.rpy", line 82, in script call
+    call call_available_event(temp_time_check_events, with_removal = True) from time_event_check_1
+  File "game/scripts/event.rpy", line 885, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/daily_check.rpy", line 86, in script call
+    call call_available_event(time_check_events) from time_event_check_2
+  File "game/scripts/event.rpy", line 885, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/overview.rpy", line 554, in script call
+    call time_event_check from new_daytime_2
+  File "game/scripts/daily_check.rpy", line 82, in script call
+    call call_available_event(temp_time_check_events, with_removal = True) from time_event_check_1
+  File "game/scripts/event.rpy", line 885, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/daily_check.rpy", line 86, in script call
+    call call_available_event(time_check_events) from time_event_check_2
+  File "game/scripts/event.rpy", line 885, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/overview.rpy", line 554, in script call
+    call time_event_check from new_daytime_2
+  File "game/scripts/daily_check.rpy", line 82, in script call
+    call call_available_event(temp_time_check_events, with_removal = True) from time_event_check_1
+  File "game/scripts/event.rpy", line 885, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/daily_check.rpy", line 86, in script call
+    call call_available_event(time_check_events) from time_event_check_2
+  File "game/scripts/event.rpy", line 885, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/overview.rpy", line 589, in script
+    call screen school_overview_buttons
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "game/scripts/overview.rpy", line 169, in execute
+    screen school_overview_buttons ():
+  File "game/scripts/overview.rpy", line 169, in execute
+    screen school_overview_buttons ():
+  File "game/scripts/overview.rpy", line 367, in execute
+    if compare_today(10, 1, 2023) != -1:
+  File "game/scripts/overview.rpy", line 367, in <module>
+    if compare_today(10, 1, 2023) != -1:
+NameError: name 'compare_today' is not defined
+Resetting cache.
+Bootstrap to the start of init.init. took 3479.98s
+Early init. took 0.00s
+Loader init. took 0.07s
+Loading error handling. took 0.02s
+Loading script. took 0.25s
+Loading save slot metadata. took 0.14s
+Loading persistent. took 0.00s
+Running init code. took 0.05s
+Loading analysis data. took 0.02s
+Analyze and compile ATL. took 0.00s
+Reloading save slot metadata. took 0.06s
+Index archives took 0.00s
+Backing up script files to 'C:\\Users\\bigma\\AppData\\Roaming/RenPy/backups\\Mind the School':
+Dump and make backups. took 0.06s
+Cleaning cache. took 0.00s
+Making clean stores. took 0.00s
+Initial gc. took 0.09s
+DPI scale factor: 1.250000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: b"Couldn't load nvlib." (can be ignored)
+Creating interface object. took 0.00s
+Cleaning stores took 0.00s
+Init translation took 0.05s
+Build styles took 0.00s
+Load screen analysis took 0.00s
+Analyze screens took 0.02s
+Save screen analysis took 0.04s
+Prepare screens took 0.10s
+Save pyanalysis. took 0.02s
+Save bytecode. took 0.03s
+Running _start took 0.00s
+Performance test:
+Interface start. took 0.09s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 2560, 1440)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'Intel'"
+Renderer: b'Intel(R) Iris(R) Xe Graphics'
+Version: b'4.6.0 - Build 31.0.101.4575'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(2560, 1351) drawable=(2560, 1351)
+Maximum texture size: 4096x4096
