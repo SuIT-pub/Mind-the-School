@@ -1218,6 +1218,14 @@ screen journal_gallery(display):
         $ building = get_building(location)
         if building != None:
             $ location_title = building.get_title()
+        
+        if debug_mode:
+            textbutton "{color=#ff0000}Reset Location{/color}":
+                text_style "journal_text"
+                xpos 350
+                ypos 260
+                action [With(dissolveM), Call('reset_event_gallery', location, "")]
+
         textbutton "← [location_title]":
             xpos 350 ypos 300
             text_style "buttons_idle"
@@ -1240,11 +1248,11 @@ screen journal_gallery(display):
             $ gallery_chooser_order = persistent.gallery[location][event]['options']['last_order']
 
         if debug_mode:
-            textbutton "{color=#ff0000}Reset Gallery{/color}":
+            textbutton "{color=#ff0000}Reset Event{/color}":
                 text_style "journal_text"
                 xpos 1280
                 ypos 160
-                action [With(dissolveM), Call('reset_event_gallery', location, event, location)]
+                action [With(dissolveM), Call('reset_event_gallery', location, event)]
 
 
         $ event_obj = get_event_from_register(event)
@@ -1257,7 +1265,9 @@ screen journal_gallery(display):
             ymaximum 50
             color "#000"
 
-        $ thumbnail = im.Scale(event_obj.get_thumbnail(), 500, 281)
+        $ thumbnail = Image("images/journal/empty_image_wide.webp")
+        if renpy.loadable(event_obj.get_thumbnail()):
+            $ thumbnail = im.Scale(event_obj.get_thumbnail(), 500, 281)
 
         image thumbnail:
             xpos 989 ypos 250
@@ -1492,13 +1502,13 @@ screen journal_credits(display):
 # Journal Methods
 ############################
 
-label reset_event_gallery(location, event, display):
+label reset_event_gallery(location, event):
     $ reset_gallery(location, event)
 
     if location not in persistent.gallery.keys():
-        $ display = ""
+        $ location = ""
 
-    call open_journal(7, display) from reset_event_gallery_1
+    call open_journal(7, location) from reset_event_gallery_1
 
 label reset_gallery_cheat(page, display):
     $ reset_gallery()

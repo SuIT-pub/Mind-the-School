@@ -67,18 +67,15 @@ init python:
             - If left blank together with location, the entire database is reset.
         """
 
-        if location == "" and event == "":
+        if location != "":
+            if location not in persistent.gallery.keys():
+                return
+            if event == "" or len(persistent.gallery[location].keys()) == 0:
+                persistent.gallery.pop(location, None)
+            elif event != "":
+                persistent.gallery[location].pop(event, None)
+        elif event == "":
             persistent.gallery = {}
-            return
-
-        if location not in persistent.gallery.keys():
-            persistent.gallery[location] = {}
-        
-        persistent.gallery[location].pop(event, None)
-
-        if len(persistent.gallery[location].keys()) == 0:
-            persistent.gallery.pop(location, None)
-        # persistent.gallery[location][event] = {'values': {}, 'ranges': {}, 'options': {}, 'order': [], 'decisions': {}}
 
     def get_gallery_values(location: str, event: str, values: Dict[str, Any], key: List[str]) -> List:
         current = persistent.gallery[location][event]['values']
@@ -294,6 +291,28 @@ init python:
         return list(current_level.keys())
             
 
+    def set_stat_value(key: str, value: float, ranges: List[float], **kwargs) -> float:
+        
+        global gallery_manager
+
+        if gallery_manager == None:
+            return
+
+        gallery_manager.current_ranges[key] = ranges
+
+        return set_value(key, value, **kwargs)
+
+    def get_stat_value(key: str, ranges: List[float], alt: float = 100, **kwargs) -> float:
+        
+        global gallery_manager
+
+        if gallery_manager == None:
+            return
+
+        gallery_manager.current_ranges[key] = ranges
+
+        return get_value(key, alt, **kwargs)
+
     def get_value(key: str, alt: Any = None, **kwargs) -> Any:
         """
         Gets a value from the gallery database.
@@ -310,46 +329,107 @@ init python:
         """
 
         value = get_kwargs(key, alt, **kwargs)
+
+        return set_value(key, value, **kwargs)
+
+    def set_value(key: str, value: Any, **kwargs):
+        """
+        Sets a value in the gallery database.
+
+        ### Parameters:
+        1. key: str
+            - The key to set the value under.
+        2. value: Any
+            - The value to set.
+
+        ### Returns:
+        1. Any:
+            - The value set in the database.
+        """
+
         in_replay = get_kwargs('in_replay', False, **kwargs)
         if not in_replay:
             register_value(key, value)
 
-        return value
+        return value        
+
+    def set_char_value_with_level(char: Char, **kwargs) -> Tuple[Char, int]:
+        """
+        Sets a character value in the gallery database.
+
+        ### Parameters:
+        1. char: Char
+            - The character to set the value under.
+
+        ### Returns:
+        1. Tuple[Char, int]:
+            - The character set in the database.
+            - The level of the character.
+        """
+
+        if char == None:
+            char_obj_key = get_kwargs("char_obj_key", None, **kwargs)
+            if char_obj_key == None:
+                return None
+            char = get_character_by_key(char_obj_key)
+            if char == None:
+                return None
+
+        in_replay = get_kwargs('in_replay', False, **kwargs)
+
+        if not in_replay:
+            register_value("char_obj_key", char.get_name())
+            register_value("level", char.get_level())
+
+        return (char, char.get_level())
+
+    def set_char_value(char_objs: Char, **kwargs) -> Char:
+        """
+        Sets a character value in the gallery database.
+
+        ### Parameters:
+        1. char_obj: Char
+            - The character to set the value under.
+
+        ### Returns:
+        1. Char:
+            - The character set in the database.
+        """
+
+        (char_objs, level) = set_char_value_with_level(char_objs, **kwargs)
+
+        return char_objs
 
     def get_char_value(**kwargs) -> Char:
+        """
+        Gets a character from kwargs and sets it in the gallery database.
+
+        ### Parameters:
+        1. **kwargs: Any
+            - The kwargs to get the value from.
+
+        ### Returns:
+        1. Char:
+            - The character set in the database.
+        """
+
         char_obj = get_kwargs("char_obj", None, **kwargs)
-        if char_obj == None:
-            char_obj_key = get_kwargs("char_obj_key", None, **kwargs)
-            if char_obj_key == None:
-                return None
-            char_obj = get_character_by_key(char_obj_key)
-            if char_obj == None:
-                return None
+        return set_char_value(char_obj, **kwargs)
 
-        in_replay = get_kwargs('in_replay', False, **kwargs)
+    def get_char_value_with_level(**kwargs) -> Tuple[Char, int]:
+        """
+        Gets a character from kwargs and sets it in the gallery database.
 
-        if not in_replay:
-            register_value("char_obj_key", char_obj.get_name())
-            register_value("level", char_obj.get_level())
+        ### Parameters:
+        1. **kwargs: Any
+            - The kwargs to get the value from.
 
-        return char_obj
+        ### Returns:
+        1. Tuple[Char, int]:
+            - The character set in the database.
+            - The level of the character.
+        """
 
-    
-    def get_char_value_with_level(**kwargs) -> Char:
         char_obj = get_kwargs("char_obj", None, **kwargs)
-        if char_obj == None:
-            char_obj_key = get_kwargs("char_obj_key", None, **kwargs)
-            if char_obj_key == None:
-                return None
-            char_obj = get_character_by_key(char_obj_key)
-            if char_obj == None:
-                return None
-
-        in_replay = get_kwargs('in_replay', False, **kwargs)
-
-        if not in_replay:
-            register_value("char_obj_key", char_obj.get_name())
-            register_value("level", char_obj.get_level())
-
-        return char_obj, char_obj.get_level()
+        return set_char_value_with_level(char_obj, **kwargs)
     

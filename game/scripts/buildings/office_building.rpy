@@ -29,8 +29,9 @@ init -1 python:
     )
 
     office_event2 = Event(3, "office_event_2",
+        RandomListSelector("teacher", "Finola Ryan", "Yulan Chen"),
         TimeCondition(weekday = "d", daytime = "d"),
-        thumbnail = "images/events/office/office_event_2 1 1.webp"
+        thumbnail = "images/events/office/office_event_2 1 Finola Ryan.webp"
     )
 
     office_event3 = Event(3, "office_event_3",
@@ -119,8 +120,8 @@ label first_week_office_building_event (**kwargs):
 label office_event_1 (**kwargs):
     $ begin_event(**kwargs);
 
-    $ char_obj = get_char_value(**kwargs)
-    
+    $ char_obj = set_char_value(get_character_by_key("school"), **kwargs)
+
     $ image = Image_Series("images/events/office/office_event_1 <level> <step>.webp", **kwargs)
 
     $ image.show(0)
@@ -129,9 +130,9 @@ label office_event_1 (**kwargs):
     $ image.show(1)
     subtitles "Apparently she is in need of counseling."
 
-    $ change_stats_with_modifier(get_school(),
+    $ change_stats_with_modifier(char_obj,
         happiness = TINY, reputation = TINY)
-    $ change_stats_with_modifier(get_character("teacher", charList['staff']),
+    $ change_stats_with_modifier(get_character_by_key("teacher"),
         happiness = TINY)
     
     $ end_event('new_daytime', **kwargs)
@@ -140,14 +141,15 @@ label office_event_1 (**kwargs):
 label office_event_2 (**kwargs):
     $ begin_event(**kwargs);
 
-    $ char_obj = get_character("teacher", charList['staff'])
+    $ char_obj, teacher_level = set_char_value_with_level(get_character("teacher", charList['staff']), **kwargs)
+    $ get_value("teacher", **kwargs)
 
-    call show_image(get_image("images/events/office/office_event_2 <level> <variant>.webp", **kwargs)[1]) from _call_show_image_2
+    call show_image(get_image("images/events/office/office_event_2 <teacher_level> <teacher>.webp", teacher_level = teacher_level, **kwargs)[1]) from _call_show_image_2
     subtitles "Even the teachers need a break from time to time."
 
-    $ change_stats_with_modifier(get_school(),
+    $ change_stats_with_modifier(get_character_by_key("school"),
         education = DEC_SMALL, reputation = DEC_TINY)
-    $ change_stats_with_modifier(get_character("teacher", charList['staff']),
+    $ change_stats_with_modifier(char_obj,
         happiness = TINY)
 
     $ end_event('new_daytime', **kwargs)
@@ -156,8 +158,8 @@ label office_event_2 (**kwargs):
 label office_event_3 (**kwargs):
     $ begin_event(**kwargs);
 
-    $ char_obj = get_char_value(**kwargs)
-    
+    $ char_obj = set_char_value(get_character_by_key("school"), **kwargs)
+
     $ image = Image_Series("images/events/office/office_event_3 <level> <step>.webp", **kwargs)
 
     $ image.show(0)
@@ -175,7 +177,7 @@ label .ignore (**kwargs):
     $ image.show(1)
     subtitles "You ignore them and continue you way."
 
-    $ change_stats_with_modifier(get_character("teacher", charList['staff']),
+    $ change_stats_with_modifier(get_character_by_key("teacher"),
         happiness = TINY)
 
     $ end_event('new_daytime', **kwargs)
@@ -213,9 +215,9 @@ label .policy (**kwargs):
     sgirl "..."
     headmaster "Now you both go back to class."
 
-    $ change_stats_with_modifier(get_school(),
+    $ change_stats_with_modifier(char_obj,
         charm = SMALL, happiness = DEC_SMALL)
-    $ change_stats_with_modifier(get_character("teacher", charList['staff']),
+    $ change_stats_with_modifier(get_character_by_key("teacher"),
         happiness = TINY)
 
     $ end_event('new_daytime', **kwargs)
@@ -235,14 +237,15 @@ label .care (**kwargs):
     $ image.show(8)
     sgirl "Thank you!"
 
-    $ change_stats_with_modifier(get_school(),
+    $ change_stats_with_modifier(char_obj,
         charm = DEC_SMALL, happiness = MEDIUM, inhibition = DEC_SMALL)
     $ change_stats_with_modifier(get_character("teacher", charList['staff']),
         happiness = DEC_SMALL)
 
     if get_progress("unlock_student_relationship") == -1:
         $ start_progress("unlock_student_relationship")
-
+        $ renpy.notify("Updated the Journal!")
+        
     $ end_event('new_daytime', **kwargs)
 
 ###########################################

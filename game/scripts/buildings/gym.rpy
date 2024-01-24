@@ -28,8 +28,8 @@ init -1 python:
 
     gym_event1 = Event(3, "gym_event_1",
         StatSelector("corruption", CORRUPTION, "school"),
-        RandomListSelector("topic_variant", "shoes", "hair", "ready"),
-        DictSelector("topic", "topic_variant", {
+        RandomListSelector("topic", "shoes", "hair", "ready"),
+        DictSelector("topic_text", "topic", {
             "shoes": "putting on my shoes",
             "hair": "doing my hair",
             "ready": "getting ready",
@@ -154,14 +154,12 @@ label weekly_assembly (**kwargs):
 label gym_event_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ set_stat_ranges(corruption = [5, 100])
-
     $ char_obj = get_char_value(**kwargs)
-    $ corruption = get_value("corruption", **kwargs)
-    $ topic_variant = get_value("topic_variant", **kwargs)
-    $ topic = get_value("topic", **kwargs)
+    $ corruption = get_stat_value("corruption", [5, 100], **kwargs)
+    $ topic_variant = get_value("topic", **kwargs)
+    $ topic = get_value("topic_text", **kwargs)
 
-    $ image = Image_Series("/images/events/gym/gym_event_1 <level> <topic_variant> <step>.webp", **kwargs)
+    $ image = Image_Series("/images/events/gym/gym_event_1 <level> <topic> <step>.webp", **kwargs)
 
     $ image.show(0)
     subtitles "In the Gym, you see a girl getting ready for P.E."
@@ -196,7 +194,7 @@ label gym_event_1 (**kwargs):
     #     sgirl "*giggle*" (name="School Girls")
     #     $ change_stats_with_modifier(char_obj, 
     #         inhibition = DEC_SMALL, corruption = SMALL, charm = SMALL)
-    if corruption >= 5:
+    if corruption > 5:
         $ image.show(1)
         sgirl "Just give me a moment more to get ready for class. You like watching me doing whatever, right?" (name = "Aona Komuro")
 
@@ -216,10 +214,8 @@ label gym_event_1 (**kwargs):
 label gym_event_2 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ set_stat_ranges(inhibition = [100])
-
     $ char_obj = get_char_value(**kwargs)
-    $ inhibition = get_value("inhibition", **kwargs)
+    $ inhibition = get_stat_value("inhibition", [100], **kwargs)
     $ topic = get_value("topic", **kwargs)
 
     $ image = Image_Series("/images/events/gym/gym_event_2 <level> <topic> <step>.webp", **kwargs)
@@ -290,7 +286,7 @@ label gym_event_3 (**kwargs):
 
     $ char_obj = get_char_value(**kwargs)
     $ variant = get_value("variant", **kwargs)
-    $ girl = get_value("girl", **kwargs)
+    $ girl = get_value("girl_name", **kwargs)
 
     $ girl_name = girl.split(" ")[0]
     $ girl_full_name = girl

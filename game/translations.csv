@@ -4,6 +4,7 @@ topic,Topic
 dorm_room,Dorm Room
 shower,Shower
 variant,Variant
+teacher,Teacher
 
 ###############
 # Event Names
@@ -37,7 +38,7 @@ kiosk_event_3,Expensive Bento
 first_potion_office_building_event,First Potion
 first_week_office_building_event,First Week
 office_event_1,In need of counseling
-office_event_2,Teeacher need a break
+office_event_2,Teacher need a break
 office_event_3,Two students waiting
 
 # School Building

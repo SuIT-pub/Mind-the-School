@@ -1,9 +1,14 @@
 {
     "version": "0.2",
-    "ignorePaths": ["game\\members.csv"],
+    "ignorePaths": [
+        "game\\members.csv"
+    ],
     "dictionaryDefinitions": [],
     "dictionaries": [],
     "words": [],
     "ignoreWords": [],
-    "import": []
+    "import": [],
+    "enableFiletypes": [
+        "csv"
+    ]
 }

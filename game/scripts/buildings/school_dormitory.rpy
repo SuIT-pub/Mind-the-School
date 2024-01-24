@@ -180,14 +180,9 @@ label first_potion_school_dormitory_event (**kwargs):
 label sd_event_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ set_stat_ranges(
-        education = (50, 100),
-        inhibition = (90, 100),
-    )
-
     $ char_obj = get_char_value(**kwargs)
-    $ inhibition = get_value('inhibition', **kwargs)
-    $ education = get_value('education', **kwargs)
+    $ inhibition = get_stat_value('inhibition', [50, 100], **kwargs)
+    $ education = get_stat_value('education', [90, 100], **kwargs)
 
     $ image = Image_Series("images/events/school dormitory/sd_event_1 <level> <step>.webp", **kwargs)
 

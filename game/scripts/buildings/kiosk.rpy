@@ -31,7 +31,7 @@ init -1 python:
         RandomListSelector("topic", "normal", (0.25, "kind"), (0.05, "slimy")),
         OR(TimeCondition(weekday = "d", daytime = "f"), TimeCondition(weekday="w", daytime = "d")),
         NOT(BuildingCondition("cafeteria")),
-        RandomCondition(75, 100),
+        RandomCondition(25, 100),
         thumbnail = "images/events/kiosk/kiosk_event_3 1 0.webp"
     )
 
@@ -135,7 +135,7 @@ label kiosk_event_2 (**kwargs):
 
 
     $ image.show(0)
-    sgirl "*AHHH*" (name = girl)
+    sgirl "*AHHH*" (name = girl_name)
     $ image.show(1)
     subtitles "A girl seems to have spilt her drink down her blouse."
     $ image.show(2)
@@ -206,6 +206,7 @@ label .leave (**kwargs):
     
         if get_progress("unlock_cafeteria") == -1:
             $ start_progress("unlock_cafeteria")
+            $ renpy.notify("Updated the Journal!")
 
         $ end_event('new_daytime', **kwargs)
     else:

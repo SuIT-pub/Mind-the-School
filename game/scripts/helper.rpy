@@ -432,7 +432,7 @@ init -99 python:
             - If the character is not in kwargs None is returned
         """
 
-        char_obj = get_kwargs("char_obj", get_character_from_key(get_kwargs("char_obj_key", None, **kwargs)), **kwargs)
+        char_obj = get_kwargs("char_obj", get_character_by_key(get_kwargs("char_obj_key", None, **kwargs)), **kwargs)
         if char_obj == None:
             return None
         kwargs["char_obj_key"] = char_obj.get_name()
