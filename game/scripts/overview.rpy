@@ -536,6 +536,7 @@ label new_day ():
     $ hide_all()
 
     call screen black_screen_text (f"{time.get_weekday()}, {time.day} {time.get_month_name()} {time.year}")
+    $ renpy.force_autosave()
     
     call time_event_check from new_day_2
 
@@ -550,6 +551,7 @@ label new_daytime ():
 
     if not time_freeze and time.progress_time():
         call screen black_screen_text (f"{time.get_weekday()}, {time.day} {time.get_month_name()} {time.year}")
+        $ renpy.force_autosave()
 
     call time_event_check from new_daytime_2
 

@@ -56,6 +56,18 @@ init 1 python:
         TimeCondition(day = 9, month = 1, year = 2023, daytime = 4)
     )
 
+    game_over_happiness_event = Event(1, "game_over_happiness", 
+        StatCondition(happiness = "0-")
+    )
+
+    game_over_education_event = Event(1, "game_over_education", 
+        StatCondition(education = "0-")
+    )
+
+    game_over_reputation_event = Event(1, "game_over_reputation", 
+        StatCondition(reputation = "0-")
+    )
+
     time_check_events.add_event(
         tutorial_1_event, 
         first_week_epilogue_event, 
@@ -64,7 +76,10 @@ init 1 python:
         pta_meeting_event, 
         end_of_month_event,
         intro_check_all_facilities_event,
-        intro_check_all_first_potions_event
+        intro_check_all_first_potions_event,
+        game_over_happiness_event,
+        game_over_education_event,
+        game_over_reputation_event,
     )
     temp_time_check_events.add_event(
         event_all_events_seen_event, 
@@ -91,6 +106,45 @@ label .after_event_check (**kwargs):
 ############################
 # ----- Intro Events ----- #
 ############################
+
+label game_over_happiness (**kwargs):
+    $ begin_event()
+
+    show screen black_error_screen_text ("")
+
+    nvl clear
+
+    nv_text "The students happiness plunged to an all-time low."
+    nv_text "The students are revolting and protesting against you, demanding the school board to fire you."
+    nv_text "The school board has no choice but to fire you."
+    nv_text "You are now unemployed and have to find a new job."
+
+    $ MainMenu(confirm=False)()
+
+label game_over_education (**kwargs):
+    $ begin_event()
+
+    show screen black_error_screen_text ("")
+
+    nvl clear
+
+    nv_text "The school board noticed the lack of education and the low grades of the students."
+    nv_text "They decided to fire you and hire a new headmaster."
+
+    $ MainMenu(confirm=False)()
+
+label game_over_reputation (**kwargs):
+    $ begin_event()
+
+    show screen black_error_screen_text ("")
+    
+    nvl clear
+
+    nv_text "Your bad reputation made it into the news."
+    nv_text "The school board put under pressure by the public, decided to fire you."
+
+    $ MainMenu(confirm=False)()
+
 
 label intro_check_all_facilities (**kwargs):
     $ begin_event()
