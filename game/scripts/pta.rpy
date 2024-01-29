@@ -233,7 +233,15 @@ label pta_meeting (**kwargs):
             teacher = speaking_teacher,
             vote = teacher_vote
         ) from _call_show_image_3
-        teacher "[teacher_response]" (name = speaking_teacher)
+
+        if isinstance(teacher_response, str):
+            teacher "[teacher_response]" (name = speaking_teacher)
+        else:
+            $ i = 0
+            while i < len(teacher_response):
+                $ response_text = teacher_response[i]
+                teacher "[response_text]" (name = speaking_teacher)
+                $ i += 1
 
         call show_image("images/events/pta/regular meeting/pta_2 <secretary_level> <teacher_level> <student_level> <parent_level> <student> <vote>.webp",
             secretary_level = obj_secretary.get_level(),
@@ -243,7 +251,15 @@ label pta_meeting (**kwargs):
             student = speaking_student,
             vote = student_vote
         ) from _call_show_image_4
-        sgirl "[student_response]" (name = speaking_student)
+
+        if isinstance(student_response, str):
+            sgirl "[student_response]" (name = speaking_student)
+        else:
+            $ i = 0
+            while i < len(student_response):
+                $ response_text = student_response[i]
+                sgirl "[response_text]" (name = speaking_student)
+                $ i += 1
 
         call show_image("images/events/pta/regular meeting/pta_2 <secretary_level> <teacher_level> <student_level> <parent_level> <parent> <vote>.webp",
             secretary_level = obj_secretary.get_level(),
@@ -253,7 +269,15 @@ label pta_meeting (**kwargs):
             parent = speaking_parent,
             vote = parent_vote
         ) from _call_show_image_5
-        parent "[parent_response]" (name = speaking_parent)
+
+        if isinstance(parent_response, str):
+            parent "[parent_response]" (name = speaking_parent)
+        else:
+            $ i = 0
+            while i < len(parent_response):
+                $ response_text = parent_response[i]
+                parent "[response_text]" (name = speaking_parent)
+                $ i += 1
 
         $ image.show(7)
         if forNum >= 2:

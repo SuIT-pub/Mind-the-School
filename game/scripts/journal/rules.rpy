@@ -170,19 +170,48 @@ label load_rules ():
         '_image_path_alt': 'images/journal/rules/theoretical_sex_ed.webp',
         '_vote_comments': {
             'teacher': {
-                'yes': 'I think it is important to teach the students about the human body and reproduction. It is a natural part of life and should be treated as such. So I vote yes.',
-                'no': 'Introducing theoretical sex education in schools could be problematic as it may interfere with family values and parents\' role in guiding their children on sensitive topics. That\'s why I vote against the introduction of theoretical sex education.',
-                'veto': 'I am appalled by the mere suggestion of introducing theoretical sex education in schools. This is an absurd notion that undermines the values and principles we strive to instill in our students, and it completely disregards the importance of parental guidance in such delicate matters. As a teacher, I vehemently veto any attempt to implement this nonsensical curriculum.',
+                'yes': [
+                    'I think it is important to teach the students about the human body and reproduction.', 
+                    'It is a natural part of life and should be treated as such. So I vote yes.'
+                ],
+                'no': [
+                    'Introducing theoretical sex education in schools could be problematic as it may interfere with family values and parents\' role in guiding their children on sensitive topics.', 
+                    'That\'s why I vote against the introduction of theoretical sex education.'
+                ],
+                'veto': [
+                    'I am appalled by the mere suggestion of introducing theoretical sex education in schools.', 
+                    'This is an absurd notion that undermines the values and principles we strive to instill in our students, and it completely disregards the importance of parental guidance in such delicate matters.', 
+                    'As a teacher, I vehemently veto any attempt to implement this nonsensical curriculum.'
+                ],
             },
             'student': {
-                'yes': 'As a student of this school, I strongly support the introduction of theoretical sex education. It is essential for students to have access to comprehensive and accurate information that can help them make informed decisions about their sexual health and well-being. Therefore, I vote yes on this proposal.',
-                'no': 'I believe that theoretical sex education goes against my personal beliefs and values. I would prefer to focus on different aspects of education that align more closely with my interests and priorities. Therefore, I vote no on this proposal.',
-                'veto': 'I believe introducing theoretical sex education is unnecessary and ridiculous. We should focus on practical, real-life skills instead. I veto this proposal.',
+                'yes': [
+                    'As a student of this school, I strongly support the introduction of theoretical sex education.', 
+                    'It is essential for students to have access to comprehensive and accurate information that can help them make informed decisions about their sexual health and well-being. Therefore, I vote yes on this proposal.'
+                ],
+                'no': [
+                    'I believe that theoretical sex education goes against my personal beliefs and values.', 
+                    'I would prefer to focus on different aspects of education that align more closely with my interests and priorities. Therefore, I vote no on this proposal.'
+                ],
+                'veto': [
+                    'I believe introducing theoretical sex education is unnecessary and ridiculous.', 
+                    'We should focus on practical, real-life skills instead. I veto this proposal.'
+                ],
             },
             'parents': {
-                'yes': 'I fully support the introduction of theoretical sex education in our school curriculum. It\'s essential for our children to have a comprehensive understanding of the topic to make informed decisions about their health and relationships. That\'s why I vote yes.',
-                'no': 'I believe that theoretical sex education is not appropriate for our school, and it should be left to parents to discuss these matters at home. We should prioritize other subjects that are more important for our children\'s education. So I vote no.',
-                'veto': 'I vehemently oppose the introduction of theoretical sex education in our school; it\'s a ridiculous notion that infringes upon our parental rights and values. Our children\'s education should focus on traditional subjects, leaving discussions about sex to families. I veto.',
+                'yes': [
+                    'I fully support the introduction of theoretical sex education in our school curriculum.', 
+                    'It\'s essential for our children to have a comprehensive understanding of the topic to make informed decisions about their health and relationships. That\'s why I vote yes.'
+                ],
+                'no': [
+                    'I believe that theoretical sex education is not appropriate for our school, and it should be left to parents to discuss these matters at home.', 
+                    'We should prioritize other subjects that are more important for our children\'s education. So I vote no.'
+                ],
+                'veto': [
+                    'I vehemently oppose the introduction of theoretical sex education in our school.', 
+                    'It\'s a ridiculous notion that infringes upon our parental rights and values.', 
+                    'Our children\'s education should focus on traditional subjects, leaving discussions about sex to families. I veto.'
+                ],
             },
         },
     })
@@ -202,19 +231,39 @@ label load_rules ():
         '_image_path_alt': 'images/journal/rules/theoretical_digital_sex_ed.webp',
         '_vote_comments': {
             'teacher': {
-                'yes': 'I believe incorporating digital materials like pornography into theoretical sex education can provide a more realistic view of the topic, helping students understand the complexities and potential risks associated with it. However, it\'s crucial to ensure age-appropriate content and a responsible approach to such discussions. So I vote yes.',
-                'no': 'I firmly oppose the use of digital material like pornography in theoretical sex education. It\'s important to maintain a safe and responsible learning environment, prioritizing age-appropriate and evidence-based resources to educate our students about sexuality. So I vote no.',
-                'veto': 'I strongly object to the use of digital material like pornography in theoretical sex education. We must focus on providing accurate, age-appropriate information and promoting healthy discussions rather than exposing our students to explicit content. I veto this decision.',
+                'yes': [
+                    'I believe incorporating digital materials like pornography into theoretical sex education can provide a more realistic view of the topic, helping students understand the complexities and potential risks associated with it.', 
+                    'However, it\'s crucial to ensure age-appropriate content and a responsible approach to such discussions. So I vote yes.'
+                ],
+                'no': [
+                    'I firmly oppose the use of digital material like pornography in theoretical sex education.', 
+                    'It\'s important to maintain a safe and responsible learning environment, prioritizing age-appropriate and evidence-based resources to educate our students about sexuality. So I vote no.'
+                ],
+                'veto': [
+                    'I strongly object to the use of digital material like pornography in theoretical sex education.', 
+                    'We must focus on providing accurate, age-appropriate information and promoting healthy discussions rather than exposing our students to explicit content. I veto this decision.'
+                ],
             },
             'student': {
-                'yes': 'I think using digital stuff like porn in sex ed could make it more real and help us see the complicated parts and the risks. But we need to be sure it\'s right for our age and talk about it in a responsible way. So yeah, I\'m saying yes.',
+                'yes': [
+                    'I think using digital stuff like porn in sex ed could make it more real and help us see the complicated parts and the risks.', 
+                    'But we need to be sure it\'s right for our age and talk about it in a responsible way. So yeah, I\'m saying yes.'
+                ],
                 'no': 'I really don\'t think we should use digital stuff like porn in sex ed. We need to make sure it\'s safe and right for our age, and we should use trusted sources to teach us about sex. That\'s why I\'m saying no.',
                 'veto': 'I\'m really against using digital stuff like porn in sex ed. We should give the right info for our age and talk about it in a healthy way, not show explicit stuff to students. I veto this idea.',
             },
             'parents': {
-                'yes': 'I think including digital materials like pornography in sex education could offer a more realistic perspective for our children, aiding their understanding of the complexities and potential risks involved. Nevertheless, it\'s vital to make sure the content is suitable for their age and that the discussions are handled responsibly. Thus, I\'m in favor of this approach.',
-                'no': 'I\'m strongly against using digital material like pornography in sex education. We need to make sure our children learn about sexuality in a safe and responsible way, using age-appropriate and evidence-based resources. So, my vote is a definite no.',
-                'veto': 'I strongly oppose the inclusion of digital materials, such as pornography, in theoretical sex education. It\'s crucial that we concentrate on delivering accurate, age-appropriate information and encouraging healthy discussions, rather than exposing our children to explicit content. I firmly veto this decision.',
+                'yes': [
+                    'I think including digital materials like pornography in sex education could offer a more realistic perspective for our children, aiding their understanding of the complexities and potential risks involved.', 
+                    'Nevertheless, it\'s vital to make sure the content is suitable for their age and that the discussions are handled responsibly. Thus, I\'m in favor of this approach.'
+                ],
+                'no': [
+                    'I\'m strongly against using digital material like pornography in sex education.', 
+                    'We need to make sure our children learn about sexuality in a safe and responsible way, using age-appropriate and evidence-based resources. So, my vote is a definite no.'
+                ],
+                'veto': ['I strongly oppose the inclusion of digital materials, such as pornography, in theoretical sex education.', 
+                'It\'s crucial that we concentrate on delivering accurate, age-appropriate information and encouraging healthy discussions, rather than exposing our children to explicit content. I firmly veto this decision.'
+                ],
             },
         },
     })
