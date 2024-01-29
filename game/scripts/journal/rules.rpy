@@ -29,6 +29,13 @@ init -6 python:
             if not isinstance(self._unlocked, bool):
                 self._unlocked = self._unlocked['high_school'] or self._unlocked['middle_school'] or self._unlocked['elementary_school']
 
+        def is_valid(self):
+            """
+            Checks whether the rule is valid.
+            """
+
+            super().is_valid()
+
         def get_type(self) -> str:
             """
             Returns the type of the journal object.
@@ -119,6 +126,8 @@ init -6 python:
 
         rules[name]._update(title, data)
 
+        rules[name].is_valid()
+
     def remove_rule(name: str):
         """
         Removes the rule with the given name.
@@ -133,6 +142,19 @@ init -6 python:
 
 label load_rules ():
     $ remove_rule("service_uniform")
+
+    $ load_rule("school_jobs", "School Jobs", {
+        '_description': [
+            "The students get an opportunity to work or help out in certain facilities of the school.",
+            "This not only helps the facilities to run more smoothly, but also gives the students a chance to learn new skills and to earn some money.",
+        ],
+        '_unlock_conditions': ConditionStorage(
+            ProgressCondition("unlock_school_jobs", "unlock_school_jobs", 2, True),
+            PTAOverride('parents'),
+        ),
+        '_image_path': 'images/journal/rules/school_jobs.webp',
+        '_image_path_alt': 'images/journal/rules/school_jobs.webp',
+    })
 
     #! locked, currently not implemented
     $ load_rule("theoretical_sex_ed", "Theoretical Sex Education (TSE)", {

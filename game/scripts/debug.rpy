@@ -27,7 +27,7 @@ init python:
         print(str(msg) + "\n")
         return
 
-    def log_error(msg: str):
+    def log_error(code: int, msg: str):
         """
         Prints an error message
 
@@ -36,10 +36,13 @@ init python:
             - The message to print
         """
 
-        print("|ERROR| " + str(msg) + "\n")
+        print(f"|ERROR[{str(code)}]| {str(msg)}\n")
         # renpy.notify("|ERROR| " + str(msg))
         return
 
 
 label test_label():
+    if get_progress("unlock_cafeteria") == -1:
+        $ start_progress("unlock_cafeteria")
+        $ renpy.notify("Updated the Journal!")
     return

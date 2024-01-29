@@ -104,6 +104,18 @@ init -7 python:
             if hasattr(self, '_unlock_effects'):
                 self._unlock_effects = []
 
+        def is_valid(self) -> bool:
+            if self._name == "":
+                log_error(401, f"|Journal_Obj:{self._name}| Name is missing!")
+            if self._title == "":
+                log_error(402, f"|Journal_Obj:{self._name}| Title is missing!")
+            if not isinstance(self._description, list):
+                log_error(403, f"|Journal_Obj:{self._name}| Description is not a list!")
+            if self._unlock_conditions is None or not isinstance(self._unlock_conditions, ConditionStorage):
+                log_error(404, f"|Journal_Obj:{self._name}| Unlock conditions are missing!")
+            
+            
+
         def get_name(self) -> str:
             """
             Returns the name of the object.

@@ -218,20 +218,16 @@ init python:
             return
 
         if key in gallery_manager.current_ranges.keys() and is_float(value):
-            log_val('pre-range value', value)
             closest_value = 100
             for val in gallery_manager.current_ranges[key]:
                 if val > value and val < closest_value:
                     closest_value = val
             value = closest_value
-            log_val('post-range value', value)
 
         if value not in gallery_manager.data.keys():
             gallery_manager.data[value] = {}
 
         gallery_manager.order.append(key)
-        log_val('gallery_manager.order', gallery_manager.order)
-        log_val('gallery order', persistent.gallery[gallery_manager.location][gallery_manager.event]['order'])
         if (len(persistent.gallery[gallery_manager.location][gallery_manager.event]['order']) <= gallery_manager.count or 
             persistent.gallery[gallery_manager.location][gallery_manager.event]['order'][gallery_manager.count] != key
         ):

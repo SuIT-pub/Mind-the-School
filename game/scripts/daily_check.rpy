@@ -1,4 +1,11 @@
 init -1 python:
+    def after_load_event_check(location: str, events: Dict[str, EventStorage], general_event: EventStorage, timed_event: TempEventStorage):
+        
+        timed_event.check_all_events()
+        general_event.check_all_events()
+        if events != None:
+            map(lambda x: x.check_all_events(), events.values())
+
     def add_temp_event(event: Event):
         temp_time_check_events.add_event(event)
     def remove_temp_event(event: Event):

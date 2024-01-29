@@ -29,6 +29,13 @@ init -6 python:
             if not isinstance(self._unlocked, bool):
                 self._unlocked = self._unlocked['high_school'] or self._unlocked['middle_school'] or self._unlocked['elementary_school']
 
+        def is_valid(self):
+            """
+            Checks whether the club is valid.
+            """
+
+            super().is_valid()
+
         def get_type(self) -> str:
             """
             Returns the type of the object.
@@ -118,6 +125,8 @@ init -6 python:
             clubs[name] = Club(name, title)
 
         clubs[name]._update(title, data)
+
+        clubs[name].is_valid()
 
     def remove_club(name: str) -> None:
         """

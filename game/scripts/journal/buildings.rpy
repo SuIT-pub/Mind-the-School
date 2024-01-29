@@ -97,6 +97,8 @@ init -6 python:
             self._max_level = 1
             self._update_conditions = []
             self._blocked = False
+            self._construction_time = 0
+            self._upgrade_effects = {}
 
         def _update(self, title: str, data: Dict[str, Any] = None):
             super()._update(title, data)
@@ -109,7 +111,24 @@ init -6 python:
                 self._max_level = 1
             if not hasattr(self, '_update_conditions'):
                 self._update_conditions = []
+            if not hasattr(self, '_blocked'):
+                self._blocked = False
+            if not hasattr(self, '_construction_time'):
+                self._construction_time = 0
+            if not hasattr(self, '_upgrade_effects'):
+                self._upgrade_effects = {}
         
+        def is_valid(self):
+            """
+            Checks if the building is valid.
+            """
+
+            super().is_valid()
+
+            if self._construction_time < 0:
+                log_error(410, f"|Building:{self.get_name()}|Construction time has to be 0 or positive.")
+
+
         def get_type(self) -> str:
             """
             Returns the type of the object.
@@ -232,7 +251,7 @@ init -6 python:
 
             self._blocked = is_blocked
 
-        def unlock(self, unlock: bool = True):
+        def unlock(self, unlock: bool = True, apply_effects: bool = False):
             """
             Sets the current upgrade level of the building to 1 if unlock is True, else to 0.
 
@@ -242,7 +261,17 @@ init -6 python:
                 - If False, the current upgrade level of the building is set to 0.
             """
 
-            self._level = 1 if unlock else 0
+            if unlock:
+                advance_progress("unlock_" + self.get_name())
+                new_time = Time(time.day_to_string())
+                new_time.add_time(day = self._construction_time)
+                set_game_data(self.get_name() + "_construction_end", new_time.day_to_string())
+                self._level = 1
+            else:
+                self._level = 0
+
+            if unlock and apply_effects:
+                self.apply_effects()
 
         def is_unlocked(self) -> bool:
             """
@@ -602,6 +631,8 @@ init -6 python:
 
         buildings[name]._update(title, runtime_data)
 
+        buildings[name].is_valid()
+
     def remove_building(name: str):
         """
         Removes the building with the specified name.
@@ -805,11 +836,12 @@ label load_buildings ():
         '_unlock_conditions': ConditionStorage(
             ProgressCondition("Unlock Cafeteria", "unlock_cafeteria", 1, True),
             MoneyCondition(1000),
-            LockCondition(False),
+            # LockCondition(False),
         ),
         '_image_path': 'images/journal/buildings/cafeteria <level> 0.webp',
         '_image_path_alt': 'images/journal/buildings/cafeteria 1 0.webp',
         '_update_conditions':[],
+        '_construction_time': 7,
     }, {
         '_level': 0,
     })

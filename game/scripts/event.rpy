@@ -563,8 +563,6 @@ init -3 python:
             if "event_type" not in kwargs.keys():
                 kwargs["event_type"] = self.name + "_timed"
 
-            log_val('gameData', gameData)
-
             if not contains_game_data("temp_event_blocker"):
                 set_game_data("temp_event_blocker", [])
 
@@ -705,10 +703,10 @@ init -3 python:
             """
 
             if self.priority < 1 or self.priority > 3:
-                log_error("[[301] Event " + self.event_id + ": Priority " + str(self.priority) + " is not valid!")
+                log_error(301, "Event " + self.event_id + ": Priority " + str(self.priority) + " is not valid!")
 
             if not renpy.has_label(self.event):
-                log_error("[[302] Event " + self.event_id + ": Label " + event + " is missing!")
+                log_error(302, "Event " + self.event_id + ": Label " + self.event + " is missing!")
 
         def get_thumbnail(self) -> str:
             """
@@ -859,8 +857,6 @@ label call_available_event(event_storage, priority = 0, **kwargs):
         $ set_game_data("temp_event_blocker", [])
 
     $ temp_event_blocker = get_game_data("temp_event_blocker")
-
-    $ log_val('gameData', gameData)
 
     $ i = 0
     while(len(events_list) > i):
