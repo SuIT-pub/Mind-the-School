@@ -3,7 +3,8 @@
 ##################################
 
 init -1 python:
-    labs_timed_event = EventStorage("labs", "", "labs", Event(2, "labs.after_time_check"))
+    labs_timed_event = TempEventStorage("labs", "", "labs", Event(2, "labs.after_time_check"))
+    labs_general_event = EventStorage("labs", "", "labs", Event(2, "labs.after_general_check"))
     labs_events = {
         "check_chemistry": EventStorage("check_chemistry", "Check chemistry classes", "labs", default_fallback, "There is nobody here."),
         "teach_chemistry": EventStorage("teach_chemistry", "Teach chemistry classes", "labs", default_fallback, "There is nobody here."),
@@ -17,9 +18,7 @@ init -1 python:
         BGImage("images/background/labs/bg 7.webp", 1, TimeCondition(daytime = 7)), # show empty corridor at night
     ]
 
-init 1 python:
-    labs_timed_event.check_all_events()
-    map(lambda x: x.check_all_events(), labs_events.values())
+# init 1 python:
     
 ##################################
 
@@ -28,11 +27,12 @@ init 1 python:
 ################################
 
 label labs ():
-    
     call call_available_event(labs_timed_event) from labs_1
 
 label .after_time_check (**kwargs):
-    
+    call call_available_event(labs_general_event) from labs_4
+
+label .after_general_check (**kwargs):
     $ school_obj = get_school()
 
     call show_idle_image(school_obj, "images/background/labs/bg f.webp", labs_bg_images) from labs_2

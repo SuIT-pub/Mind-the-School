@@ -3,7 +3,8 @@
 ###########################################
 
 init -1 python:
-    swimming_pool_timed_event = EventStorage("swimming_pool", "", "swimming_pool", Event(2, "swimming_pool.after_time_check"))
+    swimming_pool_timed_event = TempEventStorage("swimming_pool", "", "swimming_pool", Event(2, "swimming_pool.after_time_check"))
+    swimming_pool_general_event = EventStorage("swimming_pool", "", "swimming_pool", Event(2, "swimming_pool.after_general_check"))
     swimming_pool_events = {
         "check_class":    EventStorage("check_class",    "Check on swimming class",      "swimming_pool", default_fallback, "There is nobody here."),
         "teach_class":    EventStorage("teach_class",    "Teach a swimming class",       "swimming_pool", default_fallback, "There is nobody here."),
@@ -12,17 +13,13 @@ init -1 python:
         "steal_changing": EventStorage("steal_changing", "Steal some panties",           "swimming_pool", default_fallback, "There is nobody here."),
     }
 
-
-
     swimming_pool_bg_images = [
         BGImage("images/background/swimming pool/bg c <level> <nude>.webp", 1, TimeCondition(daytime = "c")), # show swimming pool with students
         BGImage("images/background/swimming pool/bg 3,6 <level> <nude>.webp", 1, TimeCondition(daytime = "3,6")), # show swimming pool with few students
         BGImage("images/background/swimming pool/bg 7.webp", 1, TimeCondition(daytime = 7)), # show swimming pool at night empty
     ]
     
-init 1 python:
-    swimming_pool_timed_event.check_all_events()
-    map(lambda x: x.check_all_events(), swimming_pool_events.values())
+# init 1 python:
 
 ###########################################
 
@@ -31,11 +28,12 @@ init 1 python:
 #########################################
 
 label swimming_pool ():
-    
     call call_available_event(swimming_pool_timed_event) from swimming_pool_1
 
 label .after_time_check (**kwargs):
-    
+    call call_available_event(swimming_pool_general_event) from swimming_pool_4
+
+label .after_general_check (**kwargs):    
     $ school_obj = get_random_school()
 
     call show_idle_image(school_obj, "images/background/swimming pool/bg 1.webp", swimming_pool_bg_images) from swimming_pool_2

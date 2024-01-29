@@ -3,7 +3,8 @@
 ##########################################
 
 init -1 python:
-    sports_field_timed_event = EventStorage("sports_field", "", "sports_field", Event(1, "sports_field.after_time_check"))
+    sports_field_timed_event = TempEventStorage("sports_field", "", "sports_field", Event(1, "sports_field.after_time_check"))
+    sports_field_general_event = EventStorage("sports_field", "", "sports_field", Event(1, "sports_field.after_general_check"))
     sports_field_events = {
         "check_class":    EventStorage("check_class",    "Check on sport class",         "sports_field", default_fallback, "There is nobody here."),
         "teach_class":    EventStorage("teach_class",    "Teach a sport class",          "sports_field", default_fallback, "There is nobody here."),
@@ -18,9 +19,7 @@ init -1 python:
         BGImage("images/background/sports field/bg 7.webp", 1, TimeCondition(daytime = 7)), # show sports field at night empty
     ]
     
-init 1 python:
-    sports_field_timed_event.check_all_events()
-    map(lambda x: x.check_all_events(), sports_field_events.values())
+# init 1 python:
 
 ##########################################
 
@@ -29,11 +28,12 @@ init 1 python:
 ########################################
 
 label sports_field ():
-    
     call call_available_event(sports_field_timed_event) from sports_field_1
 
 label .after_time_check (**kwargs):
+    call call_available_event(sports_field_general_event) from sports_field_4
 
+label .after_general_check (**kwargs):
     $ school_obj = get_random_school()
 
     call show_idle_image(school_obj, "images/background/sports field/bg 1.webp", sports_field_bg_images) from sports_field_2

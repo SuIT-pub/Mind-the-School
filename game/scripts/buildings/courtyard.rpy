@@ -3,7 +3,8 @@
 #######################################
 
 init -1 python:
-    courtyard_timed_event = EventStorage("courtyard", "", "courtyard", Event(2, "courtyard.after_time_check"))
+    courtyard_timed_event = TempEventStorage("courtyard", "", "courtyard", Event(2, "courtyard.after_time_check"))
+    courtyard_general_event = EventStorage("courtyard", "", "courtyard", Event(2, "courtyard.after_general_check"))
     courtyard_events = {
         "talk_student": EventStorage("talk_student", "Talk with students", "courtyard", default_fallback, "There is nobody here."),
         "talk_teacher": EventStorage("talk_teacher", "Talk with teacher",  "courtyard", default_fallback, "There is nobody here."),
@@ -15,6 +16,8 @@ init -1 python:
         BGImage("images/background/courtyard/bg 3 <loli> <level> <nude>.webp", 1, TimeCondition(daytime = 3)), # show courtyard full of students and teacher
         BGImage("images/background/courtyard/bg 7.webp", 1, TimeCondition(daytime = 7)), # show empty courtyard at night
     ]    
+
+init 1 python:
     courtyard_timed_event.add_event(Event(1, "first_week_courtyard_event",
         TimeCondition(day = "2-4", month = 1, year = 2023),
         thumbnail = "images/events/first week/first week courtyard 1.webp"
@@ -42,10 +45,6 @@ init -1 python:
     )
 
     courtyard_events["patrol"].add_event(courtyard_event1, courtyard_event2, courtyard_event3)
-    
-init 1 python:
-    courtyard_timed_event.check_all_events()
-    map(lambda x: x.check_all_events(), courtyard_events.values())
 
 #######################################
 
@@ -54,11 +53,12 @@ init 1 python:
 #####################################
 
 label courtyard ():
-
     call call_available_event(courtyard_timed_event) from courtyard_1
 
 label .after_time_check (**kwargs):
+    call call_available_event(courtyard_general_event) from courtyard_4
 
+label .after_general_check (**kwargs):
     $ school_obj = get_school()
 
     call show_idle_image(school_obj, "images/background/courtyard/bg c.webp", courtyard_bg_images, 

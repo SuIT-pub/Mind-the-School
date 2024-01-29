@@ -3,7 +3,8 @@
 ##########################################
 
 init -1 python:
-    tennis_court_timed_event = EventStorage("tennis_court", "", "tennis_court", Event(2, "tennis_court.after_time_check"))
+    tennis_court_timed_event = TempEventStorage("tennis_court", "", "tennis_court", Event(2, "tennis_court.after_time_check"))
+    tennis_court_general_event = EventStorage("tennis_court", "", "tennis_court", Event(2, "tennis_court.after_general_check"))
     tennis_court_events = {
         "check_class":    EventStorage("check_class",    "Check on tennis class",        "tennis_court", default_fallback, "There is nobody here."),
         "teach_class":    EventStorage("teach_class",    "Teach a tennis class",         "tennis_court", default_fallback, "There is nobody here."),
@@ -20,9 +21,7 @@ init -1 python:
         BGImage("images/background/tennis court/bg 7.webp", 1, TimeCondition(daytime = 7)), # show tennis court at night empty
     ]
 
-init 1 python:    
-    tennis_court_timed_event.check_all_events()
-    map(lambda x: x.check_all_events(), tennis_court_events.values())
+# init 1 python:
 
 ##########################################
 
@@ -31,11 +30,12 @@ init 1 python:
 ########################################
 
 label tennis_court ():
-    
     call call_available_event(tennis_court_timed_event) from tennis_court_1
 
 label .after_time_check (**kwargs):
+    call call_available_event(tennis_court_general_event) from tennis_court_4
 
+label .after_general_check (**kwargs):
     $ school_obj = get_random_school()
 
     call show_idle_image(school_obj, "images/background/tennis court/bg 1.webp", tennis_court_bg_images) from tennis_court_2

@@ -3,7 +3,8 @@
 #############################################
 
 init -1 python:
-    office_building_timed_event = EventStorage("office_building", "", "office_building", Event(2, "office_building.after_time_check"))
+    office_building_timed_event = TempEventStorage("office_building", "", "office_building", Event(2, "office_building.after_time_check"))
+    office_building_general_event = EventStorage("office_building", "", "office_building", Event(2, "office_building.after_general_check"))
     office_building_events = {
         "look_around": EventStorage("look",      "Look around",         "office_building"),
         "tutorial":    EventStorage("tutorial",  "About the school...", "office_building"),
@@ -12,7 +13,15 @@ init -1 python:
         "internet":    EventStorage("internet",  "Surf internet",       "office_building"),
         "council":     EventStorage("council",   "Council work",        "office_building"),
     }
-    
+
+    office_building_bg_images = [
+        BGImage("images/background/office building/bg c teacher.webp", 1, TimeCondition(daytime = "c"), ValueCondition('name', 'teacher')), # show headmasters/teachers office empty
+        BGImage("images/background/office building/bg c secretary <level> <nude>.webp", 1, TimeCondition(daytime = "c"), ValueCondition('name', 'secretary')), # show headmasters/teachers office with people
+        BGImage("images/background/office building/bg f <name> <level> <nude>.webp", 1, TimeCondition(daytime = "f")), # show headmasters/teachers office with people
+        BGImage("images/background/office building/bg 7 <name>.webp", 1, TimeCondition(daytime = 7)), # show headmasters/teachers office empty at night
+    ]
+
+init 1 python:    
     office_building_timed_event.add_event(Event(1, "first_week_office_building_event",
         TimeCondition(day = "2-4", month = 1, year = 2023),
         thumbnail = "images/events/first week/first week office building 1.webp"
@@ -42,17 +51,6 @@ init -1 python:
 
     office_building_events["look_around"].add_event(office_event1, office_event2, office_event3)
 
-    office_building_bg_images = [
-        BGImage("images/background/office building/bg c teacher.webp", 1, TimeCondition(daytime = "c"), ValueCondition('name', 'teacher')), # show headmasters/teachers office empty
-        BGImage("images/background/office building/bg c secretary <level> <nude>.webp", 1, TimeCondition(daytime = "c"), ValueCondition('name', 'secretary')), # show headmasters/teachers office with people
-        BGImage("images/background/office building/bg f <name> <level> <nude>.webp", 1, TimeCondition(daytime = "f")), # show headmasters/teachers office with people
-        BGImage("images/background/office building/bg 7 <name>.webp", 1, TimeCondition(daytime = 7)), # show headmasters/teachers office empty at night
-    ]
-
-init 1 python:    
-    office_building_timed_event.check_all_events()
-    map(lambda x: x.check_all_events(), office_building_events.values())
-
 #############################################
 
 ###########################################
@@ -60,11 +58,12 @@ init 1 python:
 ###########################################
 
 label office_building ():
-
     call call_available_event(office_building_timed_event) from office_building_1
 
 label .after_time_check (**kwargs):
+    call call_available_event(office_building_general_event) from office_building_4
 
+label .after_general_check (**kwargs):
     $ char = get_random_choice("teacher", "secretary")
 
     $ char_obj = get_character(char, charList['staff'])

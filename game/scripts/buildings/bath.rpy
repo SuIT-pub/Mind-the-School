@@ -3,7 +3,8 @@
 ##################################
 
 init -1 python:
-    bath_timed_event = EventStorage("bath", "", "bath", Event(2, "bath.after_time_check"))
+    bath_timed_event = TempEventStorage("bath", "", "bath", Event(2, "bath.after_time_check"))
+    bath_general_event = EventStorage("bath", "", "bath", Event(2, "bath.after_general_check"))
     bath_events = {
         "male_enter":   EventStorage("male_enter",   "Enter the male bath",       "bath", default_fallback, "I don't want to take a bath."),
         "female_enter": EventStorage("female_enter", "Enter the female bath",     "bath", default_fallback, "I don't want to take a bath."),
@@ -18,9 +19,7 @@ init -1 python:
         BGImage("images/background/bath/bg 7.webp", 1, TimeCondition(daytime = 7)), # show bath at night empty or with teachers
     ]
     
-init 1 python:
-    bath_timed_event.check_all_events()
-    map(lambda x: x.check_all_events(), bath_events.values())
+# init 1 python:
 
 ##################################
 
@@ -29,11 +28,12 @@ init 1 python:
 #################################
 
 label bath ():
-
     call call_available_event(bath_timed_event) from bath_1
 
 label .after_time_check (**kwargs):
+    call call_available_event(bath_general_event) from bath_4
 
+label .after_general_check (**kwargs):
     $ school_obj = get_school()
 
     call show_idle_image(school_obj, "images/background/bath/bg c.webp", bath_bg_images) from bath_2

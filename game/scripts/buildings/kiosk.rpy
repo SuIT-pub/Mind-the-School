@@ -3,12 +3,20 @@
 ###################################
 
 init -1 python:
-    kiosk_timed_event = EventStorage("kiosk", "", "kiosk", Event(2, "kiosk.after_time_check"))
+    kiosk_timed_event = TempEventStorage("kiosk", "", "kiosk", Event(2, "kiosk.after_time_check"))
+    kiosk_general_event = EventStorage("kiosk", "", "kiosk", Event(2, "kiosk.after_general_check"))
     kiosk_events = {
         "snack":    EventStorage("snack",    "Get a snack",      "kiosk", default_fallback, "I don't want anything."),
         "students": EventStorage("students", "Talk to students", "kiosk", default_fallback, "There is nobody here."),
     }
-    
+
+    kiosk_bg_images = [
+        BGImage("images/background/kiosk/bg f <loli> <level> <nude> <variant>.webp", 2, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))), # show kiosk with students
+        BGImage("images/background/kiosk/bg f <loli> <level> <nude>.webp", 1, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))), # show kiosk with students
+        BGImage("images/background/kiosk/bg 7.webp", 1, TimeCondition(daytime = 7)), # show kiosk at night empty
+    ]
+
+init 1 python:
     kiosk_timed_event.add_event(Event(1, "first_week_kiosk_event",
         TimeCondition(day = "2-4", month = 1, year = 2023),
         thumbnail = "images/events/first week/first week kiosk 1.webp"
@@ -37,16 +45,6 @@ init -1 python:
 
     kiosk_events["snack"].add_event(kiosk_event1, kiosk_event2, kiosk_event3)
 
-    kiosk_bg_images = [
-        BGImage("images/background/kiosk/bg f <loli> <level> <nude> <variant>.webp", 2, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))), # show kiosk with students
-        BGImage("images/background/kiosk/bg f <loli> <level> <nude>.webp", 1, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))), # show kiosk with students
-        BGImage("images/background/kiosk/bg 7.webp", 1, TimeCondition(daytime = 7)), # show kiosk at night empty
-    ]
-
-init 1 python:
-    kiosk_timed_event.check_all_events()
-    map(lambda x: x.check_all_events(), kiosk_events.values())
-
 ###################################
 
 #################################
@@ -54,11 +52,12 @@ init 1 python:
 #################################
 
 label kiosk ():
-
     call call_available_event(kiosk_timed_event) from kiosk_1
 
 label .after_time_check (**kwargs):
+    call call_available_event(kiosk_general_event) from kiosk_4
 
+label .after_general_check (**kwargs):
     $ school_obj = get_school()
 
     call show_idle_image(school_obj, "images/background/kiosk/bg c.webp", kiosk_bg_images, 

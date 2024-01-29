@@ -3,7 +3,8 @@
 ###################################################
 
 init -1 python:
-    sd_timed_event = EventStorage("school_dormitory", "", "school_dormitory", Event(2, "school_dormitory.after_time_check"))
+    sd_timed_event = TempEventStorage("school_dormitory", "", "school_dormitory", Event(2, "school_dormitory.after_time_check"))
+    sd_general_event = EventStorage("school_dormitory", "", "school_dormitory", Event(2, "school_dormitory.after_general_check"))
     sd_events = {
         "check_rooms":   EventStorage("check_rooms",   "Check Rooms",      "school_dormitory", default_fallback, "There is nobody here."),
         "talk_students": EventStorage("talk_students", "Talk to students", "school_dormitory", default_fallback, "There is nobody here."),
@@ -11,6 +12,13 @@ init -1 python:
         "peek_students": EventStorage("peek_students", "Peek on students", "school_dormitory", default_fallback, "There is nobody here."),
     }
 
+    school_dormitory_bg_images = [
+        BGImage("images/background/school dormitory/bg f <loli> <level> <nude>.webp", 1, TimeCondition(daytime = "f")),
+        BGImage("images/background/school dormitory/bg f <loli> <level> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "w")),
+        BGImage("images/background/school dormitory/bg 7.webp", 1, TimeCondition(daytime = 7)),
+    ]
+
+init 1 python:    
     sd_timed_event.add_event(Event(1, "first_week_school_dormitory_event",
         TimeCondition(day = "2-4", month = 1, year = 2023),
         thumbnail = "images/events/first week/first week school dormitory 1.webp"
@@ -75,16 +83,6 @@ init -1 python:
     # sd_events["peek_students"].add_event(sd_event2)
     sd_events["peek_students"].add_event(sd_event1, sd_event2, sd_event3)
     
-    school_dormitory_bg_images = [
-        BGImage("images/background/school dormitory/bg f <loli> <level> <nude>.webp", 1, TimeCondition(daytime = "f")),
-        BGImage("images/background/school dormitory/bg f <loli> <level> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "w")),
-        BGImage("images/background/school dormitory/bg 7.webp", 1, TimeCondition(daytime = 7)),
-    ]
-
-init 1 python:    
-    sd_timed_event.check_all_events()
-    map(lambda x: x.check_all_events(), sd_events.values())
-    
 ###################################################
 
 ############################################
@@ -92,11 +90,12 @@ init 1 python:
 ############################################
 
 label school_dormitory ():
-    
     call call_available_event(sd_timed_event) from school_dormitory_1
 
 label .after_time_check (**kwargs):
+    call call_available_event(sd_general_event) from school_dormitory_4
 
+label .after_general_check (**kwargs):
     $ school_obj = get_school()
 
     call show_idle_image(school_obj, "images/background/school dormitory/bg c.webp", school_dormitory_bg_images,

@@ -3,7 +3,8 @@
 #################################
 
 init -1 python:
-    gym_timed_event = EventStorage("gym", "", "gym", Event(2, "gym.after_time_check"))
+    gym_timed_event = TempEventStorage("gym", "", "gym", Event(2, "gym.after_time_check"))
+    gym_general_event = EventStorage("gym", "", "gym", Event(2, "gym.after_general_check"))
     gym_events = {
         "teacher":        EventStorage("teacher",        "Go to teacher",                      "gym", default_fallback, "There is nobody here."),
         "students":       EventStorage("students",       "Go to students",                     "gym", default_fallback, "There is nobody here."),
@@ -15,6 +16,12 @@ init -1 python:
         "steal":          EventStorage("steal",          "Steal some panties",                 "gym", default_fallback, "There is nothing to do here."),
     }
 
+    gym_bg_images = [
+        BGImage("images/background/gym/bg c <loli> <level> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")), # show gym with students
+        BGImage("images/background/gym/bg 7.webp", 1, TimeCondition(daytime = 7)), # show gym at night empty
+    ]
+    
+init 1 python:
     gym_timed_event.add_event(Event(1, "first_week_gym_event",
         TimeCondition(day = "2-4", month = 1, year = 2023),
         thumbnail = "images/events/first week/first week gym 1.webp"
@@ -59,15 +66,6 @@ init -1 python:
     gym_events["check_pe"].add_event(gym_event1, gym_event3)
     gym_events["teach_pe"].add_event(gym_event1, gym_event3)
 
-    gym_bg_images = [
-        BGImage("images/background/gym/bg c <loli> <level> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")), # show gym with students
-        BGImage("images/background/gym/bg 7.webp", 1, TimeCondition(daytime = 7)), # show gym at night empty
-    ]
-    
-init 1 python:
-    gym_timed_event.check_all_events()
-    map(lambda x: x.check_all_events(), gym_events.values())
-
 #################################
 
 ###############################
@@ -75,11 +73,12 @@ init 1 python:
 ###############################
 
 label gym ():
-
     call call_available_event(gym_timed_event) from gym_1
 
 label .after_time_check (**kwargs):
+    call call_available_event(gym_general_event) from gym_4
 
+label .after_general_check (**kwargs):
     $ school_obj = get_school()
 
     call show_idle_image(school_obj, "images/background/gym/bg f.webp", gym_bg_images, 

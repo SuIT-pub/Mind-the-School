@@ -4,6 +4,7 @@
 
 init -1 python:
     sb_timed_event = TempEventStorage("school_building", "", "school_building", Event(2, "school_building.after_time_check"))
+    sb_general_event = EventStorage("school_building", "", "school_building", Event(2, "school_building.after_general_check"))
     sb_events = {
         "check_class": EventStorage("check_class", "Check Class",      "school_building", default_fallback, "There is nobody here."),
         "teach_class": EventStorage("teach_class", "Teach a Class",    "school_building", default_fallback, "There is nobody here."),
@@ -46,9 +47,6 @@ init 1 python:
 
     sb_events["teach_class"].add_event(sb_event1, sb_event2)
     sb_events["patrol"].add_event(sb_event1, sb_event3)
-    
-    sb_timed_event.check_all_events()
-    map(lambda x: x.check_all_events(), sb_events.values())
 
 ##################################################
 
@@ -57,11 +55,12 @@ init 1 python:
 ###########################################
 
 label school_building ():
-
     call call_available_event(sb_timed_event) from school_building_1
 
 label .after_time_check (**kwargs):
+    call call_available_event(sb_general_event) from school_building_4
 
+label .after_general_check (**kwargs):
     $ school_obj = get_character("school", charList)
 
     call show_idle_image(school_obj, "images/background/school building/bg f.webp", sb_bg_images,
