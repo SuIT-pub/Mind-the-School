@@ -81,11 +81,23 @@ init -6 python:
             - checks if the current date and time is after the given date and time
         """
 
-        def __init__(self):
+        def __init__(self, input: str = ""):
+
             self.daytime = 0
             self.day = 1
             self.month = 1
             self.year = 2023
+            
+            input_list = input.split("-")
+            if len(input_list) == 3:
+                self.day = int(input_list[0])
+                self.month = int(input_list[1])
+                self.year = int(input_list[2])
+            elif len(input_list) == 4:
+                self.day = int(input_list[0])
+                self.month = int(input_list[1])
+                self.year = int(input_list[2])
+                self.daytime = int(input_list[3])
 
         def set_time(self, **kwargs: int):
             """
@@ -559,6 +571,46 @@ init -6 python:
             daytime_name = ["Morning", "Early Noon", "Noon", "Early Afternoon", "Afternoon", "Evening", "Night"]
             return daytime_name[daytime - 1]
 
+        def get_date_in(self, **kwargs) -> Tuple[int, int, int]:
+            """
+            Returns the date in the given time.
+
+            ### Parameters:
+            1. **kwargs: int
+                - day: int
+                    - the day in the month
+                    - from 1 - 28
+                - month: int
+                    - the month in the year
+                    - from 1 - 12
+                - year: int
+                    - the year
+
+            ### Returns:
+            1. Tuple[int, int, int]
+                - the date in the given time
+            """
+            
+            day = self.day
+            month = self.month
+            year = self.year
+
+            if 'day' in kwargs.keys() and is_integer(kwargs['day']):
+                day = day + int(kwargs['day'])
+            if 'month' in kwargs.keys() and is_integer(kwargs['month']):
+                month = month + int(kwargs['month'])
+            if 'year' in kwargs.keys() and is_integer(kwargs['year']):
+                year = year + int(kwargs['year'])
+
+            while day > 28:
+                day -= 28
+                month += 1
+            while month > 12:
+                month -= 12
+                year += 1
+
+            return (day, month, year)
+
         def today(self) -> str:
             """
             Returns the current date in the format "day.month.year".
@@ -798,5 +850,72 @@ init -6 python:
 
             return self.compare_time(self.day, self.month, self.year, self.daytime, day, month, year, time)
 
+        def day_to_string(self) -> str:
+            """
+            Returns the current day as a string.
 
+            ### Returns:
+            1. str
+                - the current day as a string
+            """
 
+            return f"{self.day}-{self.month}-{self.year}"
+
+    def compare_time(time1: Time, time2: Time) -> int:
+        """
+        Compares two dates and times.
+
+        ### Parameters:
+        1. time1: Time
+            - the first time
+        2. time2: Time
+            - the second time
+
+        ### Returns:
+        1. int
+            - 1 if the first date and time is after the second date and time
+            - -1 if the first date and time is before the second date and time
+            - 0 if the first date and time is equal to the second date and time
+        """
+
+        return time1.compare_now(time2.day, time2.month, time2.year, time2.daytime)
+
+    def compare_day(time1: Time, time2: Time) -> int:
+        """
+        Compares two dates.
+
+        ### Parameters:
+        1. time1: Time
+            - the first time
+        2. time2: Time
+            - the second time
+
+        ### Returns:
+        1. int
+            - 1 if the first date is after the second date
+            - -1 if the first date is before the second date
+            - 0 if the first date is equal to the second date
+        """
+
+        return time1.compare_today(time2.day, time2.month, time2.year)
+
+    def get_day_difference(time1: Time, time2: Time) -> int:
+        """
+        Returns the difference in days between two dates.
+
+        ### Parameters:
+        1. time1: Time
+            - the first time
+        2. time2: Time
+            - the second time
+
+        ### Returns:
+        1. int
+            - the difference in days between the two dates
+        """
+
+        day_diff = abs(time1.day - time2.day)
+        month_diff = abs(time1.month - time2.month)
+        year_diff = abs(time1.year - time2.year)
+
+        return day_diff + month_diff * 28 + year_diff * 336

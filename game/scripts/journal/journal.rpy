@@ -317,12 +317,13 @@ screen journal_desc(page, display, active_obj, with_title = False):
     $ active_obj_desc = active_obj.get_description_str()
 
     $ action_text = "unlock"
-    if active_obj.get_type() == "building" and active_obj.is_unlocked()  and active_obj.has_higher_level():
+    $ obj_type = active_obj.get_type()
+    if obj_type == "building" and active_obj.is_unlocked()  and active_obj.has_higher_level():
         $ action_text = "upgrade"
 
     $ active_obj_desc_conditions_desc = active_obj.get_desc_conditions_desc(cond_type = action_text, char_obj = get_school(), blocking = True)
     $ condition_storage = active_obj.get_condition_storage()
-    if obj_type == 'building' and active_obj.can_be_upgraded(char_obj = active_school):
+    if obj_type == 'building' and active_obj.can_be_upgraded(char_obj = get_school()):
         $ condition_storage = active_obj.get_update_conditions(active_obj.get_level())
         
     frame:
@@ -1282,7 +1283,6 @@ screen journal_gallery(display):
                 draggable "touch"
                 hbox:
                     $ gallery_dict = persistent.gallery[location][event]['values']
-                    $ log_val('gallery', persistent.gallery[location][event])
                     for variant_name in variant_names:
                         $ values = list(gallery_dict.keys())
 
@@ -1619,7 +1619,7 @@ label modify_stat(stat, amount):
     call open_journal(5, "stats") from modify_stat_1
 
 label add_to_proposal(data, page, display, action = "unlock"):
-    $ proposal = PTAProposal(data, display)
+    $ proposal = PTAProposal(data, action)
     $ set_game_data("voteProposal", proposal)
     call open_journal(page, display) from add_to_proposal_1
 
@@ -1653,6 +1653,11 @@ label add_club_to_proposal(club_name):
 
 label add_building_to_proposal(building_name):
     $ building = get_building(building_name)
+
+    $ action = "unlock"
+    if building.is_unlocked():
+        $ action = "upgrade"
+
     $ voteProposal = get_game_data("voteProposal")
     if voteProposal != None:
         $ title = "the " + voteProposal._journal_obj.get_type() + " \"" + voteProposal._journal_obj.get_title() + "\""
@@ -1660,11 +1665,7 @@ label add_building_to_proposal(building_name):
         if building == None:
             return
         call screen confirm("You already scheduled [title] for voting.\n\nDo you wanna schedule the building \"[building_title]\" instead?",
-            Call("add_to_proposal", building, 4, building_name),
+            Call("add_to_proposal", building, 4, building_name, action),
             Call("open_journal", 4, building_name))
-
-    $ action = "unlock"
-    if building.is_unlocked():
-        $ action = "upgrade"
 
     call add_to_proposal(building, 4, building_name, action) from add_building_to_proposal_2

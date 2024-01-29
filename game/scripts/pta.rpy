@@ -43,8 +43,8 @@ init -6 python:
             char_obj_list = [
                 get_character("teacher", charList["staff"]),
                 charList["parents"],
+                get_school(),
             ]
-            char_obj_list.extend(get_school())
 
         probability = 0.0
 
@@ -258,7 +258,7 @@ label pta_meeting (**kwargs):
         $ image.show(7)
         if forNum >= 2:
             headmaster "The vote was successful. The [obj_title] will be implemented."
-            $ obj.unlock(obj_school_name, True, True)
+            $ obj.unlock(True, True)
         else:
             headmaster "The vote was unsuccessful. The [obj_title] will not be implemented."
 

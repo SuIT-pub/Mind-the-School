@@ -325,6 +325,60 @@ init -3 python:
 
             return get_character_by_key(self._char).get_stat_number(self._stat)
 
+    class TimeSelector(Selector):
+        """
+        A Selector-class that sets a time-value.
+        TimeSelector is a child of Selector and inherits all of its attributes and methods.
+
+        ### Attributes:
+        1. _time_type: str
+            - The type of the time.
+            - The time_type is used to identify the time in the time module.
+
+        ### Methods:
+        1. roll() -> Any
+            - Returns the value of the time.
+
+        ### Parameters:
+        1. key: str
+            - The key of the value.
+            - The key is used to identify the value in the events kwargs.
+        2. time_type: str
+            - The type of the time.
+            - The time_type is used to identify the time in the time module.
+            - See the roll() method for more information.
+        """
+
+        def __init__(self, key: str, time_type: str):
+            super().__init__(True, key)
+            self._time_type = time_type
+
+        def roll(self, **kwargs) -> Any:
+            """
+            Returns the value of the time.
+            The time_type is used to identify the time in the time module.
+            The following time_types are available:
+                1. "day": The day of the month.
+                2. "month": The month of the year.
+                3. "year": The year.
+                4. "daytime": The daytime.
+                5. "weekday": The weekday.
+            If none of these are specified, the time will be returned as a string.
+            """
+
+            if time_type == "day":
+                return time.get_day()
+            elif time_type == "month":
+                return time.get_month()
+            elif time_type == "year":
+                return time.get_year()
+            elif time_type == "daytime":
+                return time.get_daytime()
+            elif time_type == "weekday":
+                return time.get_weekday()
+            else:
+                return time.day_to_string()
+
     class ValueSelector(Selector):
         """
         A Selector-class that sets a value on initialisation for insertion into the event
@@ -395,3 +449,187 @@ init -3 python:
                 return None
 
             return self._dict[kwargs[self._index]]
+
+    class GameDataSelector(Selector):
+        """
+        A Selector-class that chooses a value from the GameData Storage.
+        GameDataSelector is a child of Selector and inherits all of its attributes and methods.
+
+        ### Attributes:
+        1. _index: str
+            - The key for the GameData Storage from where the the value is determined.
+            - This parameter takes the value in get_game_data(_index) and uses it as the value for the Selector.
+
+        ### Methods:
+        1. roll() -> Any
+            - Returns the value from the GameData Storage.
+
+        ### Parameters:
+        1. key: str
+            - The key of the value.
+            - The key is used to identify the value in the events kwargs.
+        2. index: str
+            - The key for the GameData Storage from where the the value is determined.
+            - This parameter takes the value in get_game_data(_index) and uses it as the value for the Selector.
+        """
+
+        def __init__(self, key: str, index: str):
+            super().__init__(True, key)
+            self._index = index
+
+        def roll(self, **kwargs) -> Any:
+            """
+            Returns the value from the GameData Storage.
+            """
+
+            return get_game_data(self._index)
+
+    class ProgressSelector(Selector):
+        """
+        A Selector-class that chooses a value from the Event Progress Database.
+        ProgressSelector is a child of Selector and inherits all of its attributes and methods.
+
+        ### Attributes:
+        1. _index: str
+            - The key for the Event Progress Database from where the the value is determined.
+            - This parameter takes the value in get_progress(_index) and uses it as the value for the Selector.
+
+        ### Methods:
+        1. roll() -> Any
+            - Returns the value from the Event Progress Database.
+
+        ### Parameters:
+        1. key: str
+            - The key of the value.
+            - The key is used to identify the value in the events kwargs.
+        2. index: str
+            - The key for the Event Progress Database from where the the value is determined.
+            - This parameter takes the value in get_progress(_index) and uses it as the value for the Selector.
+        """
+
+        def __init__(self, key: str, index: str):
+            super().__init__(True, key)
+            self._index = index
+
+        def roll(self, **kwargs) -> Any:
+            """
+            Returns the progress of the Event Progress Database.
+            """
+
+            return get_progress(self._index)
+
+    class RuleUnlockedSelector(Selector):
+        """
+        A Selector-class that stores if the rule is unlocked
+        RuleUnlockedSelector is a child of Selector and inherits all of its attributes and methods.
+
+        ### Attributes:
+        1. _rule: Rule
+            - The rule that is checked for being unlocked.
+
+        ### Methods:
+        1. roll() -> Any
+            - Returns the value of the rule.
+
+        ### Parameters:
+        1. key: str
+            - The key of the value.
+            - The key is used to identify the value in the events kwargs.
+        2. rule: str
+            - The key of the rule.
+            - The rule is used to identify the rule in the rule dictionary.
+        """
+
+        def __init__(self, key: str, rule: str):
+            super().__init__(True, key)
+            self._rule = get_rule(rule)
+
+        def roll(self, **kwargs) -> Any:
+            return self._rule.is_unlocked()
+
+    class ClubUnlockedSelector(Selector):
+        """
+        A Selector-class that stores if the club is unlocked
+        ClubUnlockedSelector is a child of Selector and inherits all of its attributes and methods.
+
+        ### Attributes:
+        1. _club: Club
+            - The club that is checked for being unlocked.
+
+        ### Methods:
+        1. roll() -> Any
+            - Returns the value of the club.
+
+        ### Parameters:
+        1. key: str
+            - The key of the value.
+            - The key is used to identify the value in the events kwargs.
+        2. club: str
+            - The key of the club.
+            - The club is used to identify the club in the club dictionary.
+        """
+
+        def __init__(self, key: str, club: str):
+            super().__init__(True, key)
+            self._club = get_club(club)
+
+        def roll(self, **kwargs) -> Any:
+            return self._club.is_unlocked()
+
+    class BuildingUnlockedSelector(Selector):
+        """
+        A Selector-class that stores if the building is unlocked
+        BuildingUnlockedSelector is a child of Selector and inherits all of its attributes and methods.
+
+        ### Attributes:
+        1. _building: Building
+            - The building that is checked for being unlocked.
+
+        ### Methods:
+        1. roll() -> Any
+            - Returns the value of the building.
+
+        ### Parameters:
+        1. key: str
+            - The key of the value.
+            - The key is used to identify the value in the events kwargs.
+        2. building: str
+            - The key of the building.
+            - The building is used to identify the building in the building dictionary.
+        """
+
+        def __init__(self, key: str, building: str):
+            super().__init__(True, key)
+            self._building = get_building(building)
+
+        def roll(self, **kwargs) -> Any:
+            return self._building.is_unlocked()
+
+    class BuildingLevelSelector(Selector):
+        """
+        A Selector-class that stores the level of the building
+        BuildingLevelSelector is a child of Selector and inherits all of its attributes and methods.
+
+        ### Attributes:
+        1. _building: Building
+            - The building that is checked for being unlocked.
+
+        ### Methods:
+        1. roll() -> Any
+            - Returns the level of the building.
+
+        ### Parameters:
+        1. key: str
+            - The key of the value.
+            - The key is used to identify the value in the events kwargs.
+        2. building: str
+            - The key of the building.
+            - The building is used to identify the building in the building dictionary.
+        """
+
+        def __init__(self, key: str, building: str):
+            super().__init__(True, key)
+            self._building = get_building(building)
+
+        def roll(self, **kwargs) -> Any:
+            return self._building.get_level()

@@ -1376,7 +1376,7 @@ init -6 python:
         A class for conditions that check the progress of an event series.
         """
 
-        def __init__(self, name: str, key: str, value: int, blocking: bool = False):
+        def __init__(self, name: str, key: str, value: int | str, blocking: bool = False):
             super().__init__(blocking)
             self.name = name
             self.key = key
@@ -1696,6 +1696,91 @@ init -6 python:
             elif self.operation == "!=":
                 return 0 if kwargs[self.key] != value else -100
             return -100
+
+    class CompareCondition(Condition):
+        def __init__(self, key: str, value: Any | Selector, blocking: bool = False):
+            """
+            The constructor for the CompareCondition class.
+
+            ### Parameters:
+            1. key: str
+                - The key of the value for kwargs.
+            2. value: Any | Selector
+                - The value that is used to compare the value of kwargs.
+                - If the value is a Selector, the value is rolled for every check.
+            3. blocking: bool (default: False)
+                - Whether the condition is blocking or not.
+            """
+
+            super().__init__(blocking)
+            self.key = key
+            self.value = value
+            self.display_in_desc = True
+            self.display_in_list = False
+
+        def is_fulfilled(self, **kwargs) -> bool:
+            """
+            Returns whether a certain value of kwargs is equal to a certain value.
+
+            ### Returns:
+            1. bool
+                - Whether the condition is fulfilled or not.
+            """
+
+            if self.key not in kwargs.keys():
+                return False
+
+            value = self.value
+
+            if isinstance(self.value, Selector):
+                value = self.value.roll(**kwargs)
+
+            return kwargs[self.key] == value
+
+        def to_desc_text(self, **kwargs) -> str:
+            """
+            Returns the description text for the condition that is displayed in the description.
+
+            ### Returns:
+            1. str
+                - The condition text for the description.
+            """
+
+            if self.is_fulfilled():
+                return self.key + " equals {color=#0f0}" + self.value + "{/color}"
+            else:
+                return self.key + " equals {color=#f00}" + self.value + "{/color}"
+
+        def get_name(self) -> str:
+            """
+            Returns the name of the condition.
+
+            ### Returns:
+            1. str
+                - The key of the value for kwargs.
+            """
+
+            return self.key
+
+        def get_diff(self, _char_obj) -> num:
+            """
+            Returns the difference between the condition and the value of kwargs.
+            If the condition is fulfilled, the difference is 0.
+            Otherwise the difference is -100.
+
+            ### Parameters:
+            1. char_obj: Char
+                - The character to compare the condition to.
+
+            ### Returns:
+            1. num
+                - The difference between the condition and the value of kwargs.
+            """
+
+            if self.key not in kwargs.keys():
+                return -100
+            value = self.value
+            return 0 if kwargs[self.key] == value else -100
 
     class KeyCompareCondition(Condition):
         """
@@ -2182,3 +2267,57 @@ init -6 python:
             diff = condition.get_diff(char_obj)
 
             return clamp_value(100 - diff, -100, 100)
+
+    class PTAOverride(Condition):
+        """
+        A class for conditions that check if only one of the conditions is fulfilled.
+        """
+
+        def __init__(self, char: str = "", accept: bool = True):
+            super().__init__(False)
+            self.char = char
+            self.accept = accept
+
+        def is_fulfilled(self, **kwargs) -> bool:
+            """
+            Returns whether only one of the conditions is fulfilled.
+
+            ### Parameters:
+            1. **kwargs
+                - Additional arguments.
+
+            ### Returns:
+            1. bool
+                - Whether the condition is fulfilled or not.
+            """
+
+            return self.accept
+
+        def get_name(self) -> str:
+            """
+            Returns the name of the condition.
+            Logic conditions are displayed in a special way.
+
+            ### Returns:
+            1. str
+                - The name of the condition.
+            """
+
+            return f"PTAOverride({self.char}, {self.accept})"
+
+        def get_diff(self, char_obj: Char) -> num:
+            """
+            Returns the difference of the condition inverted.
+
+            ### Parameters:
+            1. char_obj: Char
+                - The character to compare the condition to.
+
+            ### Returns:
+            1. num
+                - The difference of the condition inverted.
+            """
+
+            if self.char == "" or self.char == char_obj.get_name():
+                return 1000 if self.accept else -1000
+            return 0

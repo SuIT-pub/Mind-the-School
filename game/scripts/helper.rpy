@@ -417,7 +417,7 @@ init -99 python:
         elif return_type == "none":
             return
         else:
-            renpy.jump("overview")
+            renpy.jump("map_overview")
         
 
     def load_event_char(**kwargs):
@@ -575,11 +575,13 @@ init -99 python:
         """
 
         if is_in_replay:
-            return
+            return -1
 
         if "progress" not in gameData.keys():
             gameData["progress"] = {}
         gameData["progress"][key] = 1
+
+        return 1
 
     def advance_progress(key: str, delta: int = 1):
         """
@@ -594,13 +596,16 @@ init -99 python:
         """
 
         if is_in_replay:
-            return
+            return -1
 
         if "progress" not in gameData.keys():
             gameData["progress"] = {}
         if key not in gameData["progress"].keys():
             gameData["progress"][key] = 0
         gameData["progress"][key] += delta
+
+
+        return gameData["progress"][key]
 
     def set_progress(key: str, value: int):
         """
@@ -615,11 +620,13 @@ init -99 python:
         """
 
         if is_in_replay:
-            return
+            return value
 
         if "progress" not in gameData.keys():
             gameData["progress"] = {}
         gameData["progress"][key] = value
+
+        return value
 
     def get_progress(key: str) -> int:
         """
@@ -635,7 +642,7 @@ init -99 python:
             - if the event chain does not exist -1 is returned
         """
 
-        if "progress" not in gameData.keys() or key not in gameData["progress"].keys():
+        if "progress" not in gameData.keys() or key not in gameData["progress"].keys() or is_in_replay:
             return -1
         return gameData["progress"][key]
 
@@ -726,7 +733,7 @@ init -99 python:
             gameData.pop('headmaster_first_name')
             gameData.pop('headmaster_last_name')
 
-    def get_random_choice(*choice: T | Tuple[float, T] | Tuple[float, T, bool | Condition], **kwargs) -> T:
+    def get_random_choice(*choice: T | Tuple[float, T] | Tuple[T, bool | Condition] | Tuple[float, T, bool | Condition], **kwargs) -> T:
         """
         Selects a random value from a set of values
 
@@ -771,10 +778,11 @@ init -99 python:
                 end_choice.extend([x[1]] * weight)
                 total_weight -= weight
 
-            weights = int(total_weight / len(no_tuples))
+            if total_weight >= len(no_tuples):
+                weights = int(total_weight / len(no_tuples))
 
-            for x in no_tuples:
-                end_choice.extend([x] * weights)
+                for x in no_tuples:
+                    end_choice.extend([x] * weights)
 
             return end_choice[get_random_int(0, len(end_choice) - 1)]
         else:
