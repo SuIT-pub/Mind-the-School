@@ -39,6 +39,25 @@ init 1 python:
         TimeCondition(daytime = "d"),
         thumbnail = "images/events/courtyard/courtyard_event_3 1.webp")
 
+    courtyard_event4 = Event(3, "courtyard_event_4",
+        OR(TimeCondition(weekday = "d", daytime = "f"),
+            TimeCondition(weekday = "w", daytime = "d")),
+        RandomListSelector('girl_name', "Gloria Goto", "Sakura Mori", "Ikushi Ito", "Ishimaru Maki",
+            (
+                RandomListSelector('', 'Luna Clark', 'Hiroshi Suzuki', 'Miela Frejadottir', 'Sofia Harada', 'Thanchanok Cooper'),
+                LoliContentCondition("1+")
+            )),
+        thumbnail = "images/events/courtyard/courtyard_event_4 1.webp")
+
+    courtyard_event5 = Event(3, "courtyard_event_5",
+        OR(TimeCondition(weekday = "d", daytime = "f"),
+            TimeCondition(weekday = "w", daytime = "d")),
+        thumbnail = "images/events/courtyard/courtyard_event_5 1.webp")
+
+    courtyard_event6 = Event(3, "courtyard_event_6",
+        TimeCondition(weekday = "d", daytime = "2,4"),
+        thumbnail = "images/events/courtyard/courtyard_event_6 1.webp")
+
     courtyard_timed_event.add_event(
         first_week_courtyard_event_event,
         first_potion_courtyard_event_event,
@@ -48,6 +67,9 @@ init 1 python:
         courtyard_event1, 
         courtyard_event2, 
         courtyard_event3,
+        courtyard_event4,
+        courtyard_event5,
+        courtyard_event6,
     )
 
 #######################################
@@ -229,6 +251,42 @@ label courtyard_event_3 (**kwargs):
     $ change_stats_with_modifier(char_obj,
         charm = SMALL, happiness = TINY, education = TINY, reputation = SMALL)
     
+    $ end_event("new_daytime", **kwargs)
+
+label courtyard_event_4(**kwargs):
+    $ begin_event(**kwargs)
+
+    $ char_obj = get_char_value(**kwargs)
+    $ girl_name = get_value("girl_name", **kwargs)
+
+    # headmaster walks with umbrella
+    # Student comes running towards him
+    # Students runs past him, but headmaster gets a good view through the wet and see-through clothing
+    headmaster "Interesting..."
+
+    $ end_event("new_daytime", **kwargs)
+
+label courtyard_event_5(**kwargs):
+    $ begin_event(**kwargs)
+
+    $ char_obj = get_char_value(**kwargs)
+
+    subtitles "You come across a group of students talking to each other."
+
+    $ end_event("new_daytime", **kwargs)
+
+label courtyard_event_6(**kwargs):
+    $ begin_event(**kwargs)
+
+    $ char_obj = get_char_value(**kwargs)
+
+    headmaster "Excuse me, but what are you doing here?"
+    sgirl "I'm taking my break sir."
+    headmaster "Class already started. You should be in class."
+    sgirl "Really?!"
+    headmaster "Yes. Now run along and check the time next time so you don't arrive late!"
+    sgirl "Sorry!"
+
     $ end_event("new_daytime", **kwargs)
 
 ################################

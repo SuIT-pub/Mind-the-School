@@ -165,6 +165,7 @@ label cafeteria_construction(**kwargs):
 label cafeteria_event_1(**kwargs):
     $ begin_event(**kwargs)
 
+    $ char_obj = get_char_value(**kwargs)
     $ topic = get_value("topic", **kwargs)
 
     show screen black_screen_text("cafeteria_event_1\n" + topic)
@@ -178,6 +179,7 @@ label cafeteria_event_1(**kwargs):
 label cafeteria_event_2(**kwargs):
     $ begin_event(**kwargs)
 
+    $ char_obj = get_char_value(**kwargs)
     $ time_ob = get_value('time', **kwargs)
     $ girl_name = get_value('girl_name', **kwargs)
 
@@ -193,6 +195,7 @@ label cafeteria_event_2(**kwargs):
 label cafeteria_event_3(**kwargs):
     $ begin_event(**kwargs)
 
+    $ char_obj = get_char_value(**kwargs)
     $ unlock_school_jobs = get_value('unlock_school_jobs', **kwargs)
     $ topic = get_value('topic', **kwargs)
 
@@ -291,6 +294,7 @@ label cafeteria_event_3(**kwargs):
 label cafeteria_event_4(**kwargs):
     $ begin_event(**kwargs)
 
+    $ char_obj = get_char_value(**kwargs)
     $ amount = get_value("amount", **kwargs)
     $ girl_1 = get_value("girl_1", **kwargs)
     $ girl_2 = get_value("girl_2", **kwargs)
@@ -307,6 +311,7 @@ label cafeteria_event_4(**kwargs):
 label cafeteria_event_5(**kwargs):
     $ begin_event(**kwargs)
 
+    $ char_obj = get_char_value(**kwargs)
     $ classes = get_value("classes", **kwargs)
 
     $ image = Image_Series("images/background/cafeteria/cafeteria_event_5 <level> <classes> <step>.webp")

@@ -60,20 +60,24 @@ init 1 python:
         TimeCondition(daytime = "d"),
         thumbnail = "images/events/school building/sb_event_3 0.webp")
 
+    sb_event4 = Event(3, "sb_event_4",
+        TimeCondition(weekday = "d", daytime = "f"),
+        thumbnail = "images/events/school building/sb_event_4 0.webp")
 
     sb_timed_event.add_event(
         first_week_sb_event, 
-        first_potion_sb_event
+        first_potion_sb_event,
     )
 
     sb_events["teach_class"].add_event(
         first_class_sb_event_event, 
         sb_event1, 
-        sb_event2
+        sb_event2,
     )
     sb_events["patrol"].add_event(
         sb_event1, 
-        sb_event3
+        sb_event3,
+        sb_event4,
     )
 
 ##################################################
@@ -444,4 +448,46 @@ label .chin_up (**kwargs):
     $ change_stats_with_modifier(char_obj,
         happiness = LARGE, reputation = TINY)
     
+    $ end_event('new_daytime', **kwargs)
+
+label sb_event_4(**kwargs):
+    $ begin_event(**kwargs)
+
+    $ char_obj = get_char_value(**kwargs)
+
+    sgirl "AHH!"
+    subtitles "*CRASH*"
+    sgirl "Ouch..."
+
+    $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
+        ("Leave her alone", "sb_event_4.leave"),
+        ("Help her up", "sb_event_4.help"),
+        ("Point out her panties", "sb_event_4.panties"),
+    **kwargs)
+
+label .leave (**kwargs):
+
+    headmaster_thought "Hmm, the others already rush to help her. No need for me to get involved."
+
+    $ end_event('new_daytime', **kwargs)
+
+label .help (**kwargs):
+
+    headmaster "Are you okay? Here let me help you."
+    sgirl "Thank you."
+    headmaster "Does anything hurt?"
+    sgirl "No, I'm fine."
+    headmaster "Okay then. Be more careful next time."
+    sgirl "Yes, I will."
+
+    $ end_event('new_daytime', **kwargs)
+
+label .panties (**kwargs):
+
+    headmaster "Cute panties."
+    sgirl "Eh?!"
+    headmaster "Oh, sorry. I didn't mean to embarrass you. But that bear is cute cute."
+    sgirl "Eeeek! Pervert!"
+    # girl runs off
+
     $ end_event('new_daytime', **kwargs)
