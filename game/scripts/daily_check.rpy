@@ -322,6 +322,9 @@ label .tutorial_3:
 
     hide screen black_error_screen_text
 
+    if 'kwargs' not in locals() and 'kwargs' not in globals():
+        $ kwargs = {}
+
     $ end_event('none', **kwargs)
 
     # jump first_week_epilogue_final.skip

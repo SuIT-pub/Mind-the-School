@@ -67,6 +67,14 @@ init -6 python:
             self.changed_value = 0
             self.image_path = "icons/stat_" + str(type) + "_icon.webp"
 
+        def _repair(self) -> bool:
+            if not hasattr(self, 'type') and hasattr(self, 'image_path'):
+                stat_type = re.sub(r'icons/stat_', '', self.image_path)
+                stat_type = re.sub(r'_icon.webp', '', stat_type)
+                self.type = stat_type
+                return True
+            return False
+
         def get_image_path(self):
             if self.image_path.endswith('.png'):
                 self.image_path = re.sub(r'\.png$', '.webp', self.image_path)
@@ -81,6 +89,9 @@ init -6 python:
             1. str
                 - The name of the stat.
             """
+
+            if not hasattr(self, 'type'):
+                self.type = ""
 
             return self.type
 
@@ -272,7 +283,7 @@ init -6 python:
 
             text = ""
 
-            if (self.type != INHIBITION):
+            if (self.get_name() != INHIBITION):
                 if change < 0:
                     text = "{color=#ff0000}{size=15}(" + str(change) + "){/size}{/color}"
                 elif change > 0:
@@ -641,17 +652,17 @@ label load_stats ():
             " that presents their bodies in other ways.",
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         'descriptions': [
-            "The students hate to show skin.",
-            "The students don't like to show skin.",
-            "The students don't mind showing a little bit skin.",
-            "The students don't mind showing a little bit more skin.",
-            "The students like to show a bit of skin.",
-            "The students like to present their bodies.",
-            "The students show a bit more of their skin on a regular basis.",
-            "The students love to show a bit more skin.",
-            "The students love to show a lot of skin.",
-            "The students like to barely wear anything.",
             "The students love to be naked all the time.",
+            "The students like to barely wear anything.",
+            "The students love to show a lot of skin.",
+            "The students love to show a bit more skin.",
+            "The students show a bit more of their skin on a regular basis.",
+            "The students like to present their bodies.",
+            "The students like to show a bit of skin.",
+            "The students don't mind showing a little bit more skin.",
+            "The students don't mind showing a little bit skin.",
+            "The students don't like to show skin.",
+            "The students hate to show skin.",
         ],
         'images': [
             "images/journal/empty_image.webp",

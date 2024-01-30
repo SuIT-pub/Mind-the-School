@@ -1,30 +1,84 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
 While running game code:
-  File "game/scripts/values.rpy", line 1, in script
-    init -98 python:
-  File "game/scripts/values.rpy", line 18, in <module>
-    get_loli_filter()
-  File "game/scripts/helper.rpy", line 927, in get_loli_filter
-    key, content_level = line.split(',', 1)
-ValueError: not enough values to unpack (expected 2, got 1)
+  File "game/scripts/intro.rpy", line 44, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 212, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 591, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 44, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 48, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 48, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 48, in script call
+    call screen journal_overview(display, char) with dissolveM
+  [Previous line repeated 22 more times]
+  File "game/scripts/intro.rpy", line 44, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 212, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 591, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 44, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 48, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 48, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 48, in script call
+    call screen journal_overview(display, char) with dissolveM
+  [Previous line repeated 22 more times]
+ScriptError: could not find label 'journal_overview'.
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "game/scripts/values.rpy", line 1, in script
-    init -98 python:
-  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 1138, in execute
-    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
-  File "C:\Users\bigma\Documents\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
-    exec(bytecode, globals, locals)
-  File "game/scripts/values.rpy", line 18, in <module>
-    get_loli_filter()
-  File "game/scripts/helper.rpy", line 927, in get_loli_filter
-    key, content_level = line.split(',', 1)
-ValueError: not enough values to unpack (expected 2, got 1)
+  File "C:\Users\bigma\Documents\RenPy\renpy\bootstrap.py", line 275, in bootstrap
+    renpy.main.main()
+  File "C:\Users\bigma\Documents\RenPy\renpy\main.py", line 670, in main
+    run(restart)
+  File "C:\Users\bigma\Documents\RenPy\renpy\main.py", line 144, in run
+    renpy.execution.run_context(True)
+  File "C:\Users\bigma\Documents\RenPy\renpy\execution.py", line 955, in run_context
+    context.run()
+  File "game/scripts/intro.rpy", line 44, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 212, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 591, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 44, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 48, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 48, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 48, in script call
+    call screen journal_overview(display, char) with dissolveM
+  [Previous line repeated 22 more times]
+  File "game/scripts/intro.rpy", line 44, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 212, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/overview.rpy", line 591, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 44, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 48, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 48, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 48, in script call
+    call screen journal_overview(display, char) with dissolveM
+  [Previous line repeated 22 more times]
+  File "C:\Users\bigma\Documents\RenPy\renpy\script.py", line 1013, in lookup
+    raise ScriptError("could not find label '%s'." % str(original))
+ScriptError: could not find label 'journal_overview'.
 
 Windows-10-10.0.22631 AMD64
 Ren'Py 8.1.3.23091805
 Mind the School 0.1.3
-Tue Jan 30 11:11:58 2024
+Tue Jan 30 14:43:11 2024

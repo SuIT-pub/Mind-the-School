@@ -14,6 +14,18 @@ label start ():
 
     return
 
+init python:
+    def check_stats_compatibility():
+        school = get_character_by_key("school")
+        parents = get_character_by_key("parents")
+        teacher = get_character_by_key("teacher")
+        secretary = get_character_by_key("secretary")
+
+        map(lambda: x._repair(), school.get_stats().values())
+        map(lambda: x._repair(), parents.get_stats().values())
+        map(lambda: x._repair(), teacher.get_stats().values())
+        map(lambda: x._repair(), secretary.get_stats().values())
+
 label after_load:
     call load_stats from after_load_1
     call load_schools from after_load_2
@@ -22,6 +34,8 @@ label after_load:
     call load_clubs from after_load_5
     
     $ check_old_versions()
+
+    $ check_stats_compatibility()
 
     if contains_game_data("names") and "headmaster" in get_game_data("names"):
         $ headmaster_first_name = get_game_data("names")["headmaster"][0]

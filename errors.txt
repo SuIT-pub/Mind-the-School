@@ -2,8 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/scripts/buildings/cafeteria.rpy", line 288: invalid syntax
-    loli_level =
+File "game/scripts/stats.rpy", line 76: 'return' outside function
+        return False
+         ^
 
 Ren'Py Version: Ren'Py 8.1.3.23091805
-Tue Jan 30 10:47:16 2024
+Tue Jan 30 14:42:57 2024

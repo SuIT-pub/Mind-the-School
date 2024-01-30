@@ -676,7 +676,8 @@ screen image_with_nude_var(paths, limit = 2, nude = 0):
     
     $ path = paths[nude]
 
-    image "[path]"
+    if renpy.loadable(path):
+        image "[path]"
 
     if nude_vision != 0 and nude == limit and nude != 0:
         imagebutton:
