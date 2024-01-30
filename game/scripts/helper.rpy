@@ -903,6 +903,34 @@ init -99 python:
         lines = split_to_non_empty_list(file.read().decode(), "\r\n")
         translation_texts = {line.split(',')[0]: line.split(',')[1] for line in lines if ',' in line}
 
+    
+    def get_loli_filter():
+        """
+        Gets the translations from the translations.csv file
+        """
+
+        global loli_filter
+
+        if not renpy.loadable("loli_filter"):
+            loli_filter = {0:[], 1:[], 2:[]}
+        file = renpy.open_file("loli_filter")
+        lines = split_to_non_empty_list(file.read().decode(), "\r\n")
+
+        if 0 not in loli_filter:
+            loli_filter[0] = []
+        if 1 not in loli_filter:
+            loli_filter[1] = []
+        if 2 not in loli_filter:
+            loli_filter[2] = []
+
+        for line in lines:
+            key, content_level = line.split(';', 1)
+            if int(content_level) >= 1:
+                loli_filter[0].append(key)
+            if int(content_level) == 2:
+                loli_filter[1].append(key)
+
+
     ############################
     # --- Ren'Py Functions --- #
     ############################

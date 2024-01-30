@@ -1269,13 +1269,14 @@ screen journal_gallery(display):
             text_style "buttons_idle"
             action [With(dissolveM), Call("open_journal", 7, "")]
 
-        text "Please select an event.":
-            xpos 989
-            ypos 200
-            size 30
-            xmaximum 500
-            ymaximum 50
-            color "#000"
+        if event == "":
+            text "Please select an event.":
+                xpos 989
+                ypos 200
+                size 30
+                xmaximum 500
+                ymaximum 50
+                color "#000"
 
     if location != "":    
         $ event_list = [get_event_from_register(event_name) for event_name in persistent.gallery[location].keys() if get_event_from_register(event_name) != None]
@@ -1318,6 +1319,8 @@ screen journal_gallery(display):
         image thumbnail:
             xpos 989 ypos 250
 
+        $ disable_play = False
+
         $ variant_names = [topic for topic in persistent.gallery[location][event]['order']]
         $ has_option = False
         frame:
@@ -1352,17 +1355,30 @@ screen journal_gallery(display):
                                         bold True
                                         style "journal_text"
                                         size 30
-                                    for value in sorted(values):
-                                        $ has_option = True
-                                        $ value_text = get_translation(value)
-                                        if value == gallery_chooser[variant_name]:
-                                            textbutton "[value_text]":
-                                                text_style "buttons_selected"
-                                                action Null()
-                                        else:
-                                            textbutton "[value_text]":
-                                                text_style "buttons_idle"
-                                                action [With(dissolveM), SetDict(gallery_chooser, variant_name, value), SetVariable('gallery_chooser', update_gallery_chooser(gallery_chooser_order, gallery_chooser, persistent.gallery[location][event]['values']))]
+
+                                    $ filtered_values = [value for value in values if variant_name + '.' + value not in loli_filter[loli_content]]
+                                    # $ filtered_values = []
+
+                                    if len(filtered_values) == 0:
+                                        if gallery_chooser[variant_name] not in filtered_values:
+                                            $ gallery_chooser[variant_name] = None
+                                            $ update_gallery_chooser(gallery_chooser_order, gallery_chooser, persistent.gallery[location][event]['values'])
+                                        $ disable_play = True
+                                    else:
+                                        for value in sorted(filtered_values):
+                                            if variant_name + '.' + value in loli_filter[loli_content]:
+                                                continue
+
+                                            $ has_option = True
+                                            $ value_text = get_translation(value)
+                                            if value == gallery_chooser[variant_name]:
+                                                textbutton "[value_text]":
+                                                    text_style "buttons_selected"
+                                                    action Null()
+                                            else:
+                                                textbutton "[value_text]":
+                                                    text_style "buttons_idle"
+                                                    action [With(dissolveM), SetDict(gallery_chooser, variant_name, value), SetVariable('gallery_chooser', update_gallery_chooser(gallery_chooser_order, gallery_chooser, persistent.gallery[location][event]['values']))]
             bar value XScrollValue("GallerySelectionOverview"):
                 unscrollable "hide"
                 yalign 1.0
@@ -1372,8 +1388,9 @@ screen journal_gallery(display):
                 xalign 1.0
                 xoffset 15
 
-        $ persistent.gallery[location][event]['options']['last_data'] = gallery_chooser
-        $ persistent.gallery[location][event]['options']['last_order'] = gallery_chooser_order
+        if not disable_play:
+            $ persistent.gallery[location][event]['options']['last_data'] = gallery_chooser
+            $ persistent.gallery[location][event]['options']['last_order'] = gallery_chooser_order
 
         if has_option:            
             text "Variants":
@@ -1381,13 +1398,14 @@ screen journal_gallery(display):
                 ypos 560
                 color "#000"
 
-        button:
-            text "Start Replay":
-                style "buttons_idle"
-                size 50
-            xpos 1000
-            ypos 880
-            action [Call('start_gallery_replay', location, event, gallery_chooser, display)]
+        if not disable_play:
+            button:
+                text "Start Replay":
+                    style "buttons_idle"
+                    size 50
+                xpos 1000
+                ypos 880
+                action [Call('start_gallery_replay', location, event, gallery_chooser, display)]
         
         textbutton "Close":
             xalign 0.75

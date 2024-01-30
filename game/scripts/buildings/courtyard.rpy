@@ -18,33 +18,37 @@ init -1 python:
     ]    
 
 init 1 python:
-    courtyard_timed_event.add_event(Event(1, "first_week_courtyard_event",
+    first_week_courtyard_event_event = Event(1, "first_week_courtyard_event",
         TimeCondition(day = "2-4", month = 1, year = 2023),
-        thumbnail = "images/events/first week/first week courtyard 1.webp"
-    ))
+        thumbnail = "images/events/first week/first week courtyard 1.webp")
     
-    courtyard_timed_event.add_event(Event(1, "first_potion_courtyard_event",
+    first_potion_courtyard_event_event = Event(1, "first_potion_courtyard_event",
         TimeCondition(day = 9, month = 1, year = 2023),
-        thumbnail = "images/events/first potion/first potion courtyard 1.webp"
-    ))
+        thumbnail = "images/events/first potion/first potion courtyard 1.webp")
 
     courtyard_event1 = Event(3, "courtyard_event_1",
         RandomValueSelector('variant', 1, 1),
         OR(TimeCondition(daytime = "f", weekday = "d"), TimeCondition(daytime = "d", weekday = "w")),
-        thumbnail = "images/events/courtyard/courtyard_event_1 1 1 0.webp"
-    )
+        thumbnail = "images/events/courtyard/courtyard_event_1 1 1 0.webp")
 
     courtyard_event2 = Event(3, "courtyard_event_2",
         OR(TimeCondition(daytime = "f", weekday = "d"), TimeCondition(daytime = "d", weekday = "w")),
-        thumbnail = "images/events/courtyard/courtyard_event_2 1 0.webp"
-    )
+        thumbnail = "images/events/courtyard/courtyard_event_2 1 0.webp")
 
     courtyard_event3 = Event(3, "courtyard_event_3",
         TimeCondition(daytime = "d"),
-        thumbnail = "images/events/courtyard/courtyard_event_3 1.webp"
+        thumbnail = "images/events/courtyard/courtyard_event_3 1.webp")
+
+    courtyard_timed_event.add_event(
+        first_week_courtyard_event_event,
+        first_potion_courtyard_event_event,
     )
 
-    courtyard_events["patrol"].add_event(courtyard_event1, courtyard_event2, courtyard_event3)
+    courtyard_events["patrol"].add_event(
+        courtyard_event1, 
+        courtyard_event2, 
+        courtyard_event3,
+    )
 
 #######################################
 

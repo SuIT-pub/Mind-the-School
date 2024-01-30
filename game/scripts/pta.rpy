@@ -405,10 +405,17 @@ label first_pta_meeting (**kwargs):
     """
 
     scene first pta meeting 7
-    $ teacher2_name = get_name_str('teacher2')
-    teacher2 """
-        Hello I am [teacher2_name] and today I represent the teachers of this school.
+    teacher2 "Hello I am Yulan Chen. I am the History and Politics teacher. I also represent the teachers in this school."
 
+    teacher1 "Hello Lily Anderson, I teach Math and Sciences at this school."
+
+    teacher3 "I am Finola Ryan, I teach English and History. Pleasure."
+
+    teacher4 "Chloe Garcia, I teach Arts and Music."
+
+    teacher5 "And I am Zoe Parker, I teach Physical Education and Health. A pleasure to meet you all."
+
+    teacher2 """
         First we are glad to have a new headmaster and we hope you bring this school back to what it once was.
         
         As you can see, we are way understaffed and we sometimes have to teach subjects we don't even specialize in.
@@ -417,26 +424,21 @@ label first_pta_meeting (**kwargs):
 
         Now our role during these meetings will be to ensure that new policies and ideas continue to benefit the 
         students.
-
-        That's all from our side. Thank you very much.
     """
     
     call show_image(f"images/events/pta/first meeting/first pta meeting 8 <nude>.webp", loli_content = 0) from first_pta_meeting_3
-    parent """
-        Hello, I am a concerned parent of one of the students attending this school and I speak for all parents when I 
-        say that we are worried about the recent changes. 
-        
-        However, we trust that you will handle your job competently and we will observe closely to ensure the 
-        well-being of our children.
-    """
+    parent "Hello, I am Adelaide Hall, a concerned parent of one of the students attending this school and I speak for all parents when I say that we are worried about the recent changes." (name = 'Adelaide Hall')
+    parent "However, we trust that you will handle your job competently and we will observe closely to ensure the well-being of our children." (name = 'Adelaide Hall')
+    
+    parent "I am Nubia Davis. A Pleasure." (name = 'Nubia Davis')
+
+    parent "Yuki Yamamoto." (name = 'Yuki Yamamoto')
+
+    headmaster_thought "Oh quite the cold introduction..."
     
     hide screen image_with_nude_var
     call show_image(f"images/events/pta/first meeting/first pta meeting 9 <loli_content> <nude>.webp", loli_content = 0) from first_pta_meeting_4
-    sgirl """
-        Hello, I am the student representative of this school and I am here to make sure that the students of this 
-        school are not let out of the decision making and to act as the Mouthpiece of the students issues and 
-        suggestions.
-    """
+    sgirl "Hello, I am Yuriko Oshima, the student representative of this school and I am here to make sure that the students of this school are not let out of the decision making and to act as the Mouthpiece of the students issues and suggestions." (name = 'Yuriko Oshima')
 
     hide screen image_with_nude_var
     scene first pta meeting 10 #

@@ -20,13 +20,11 @@ init -1 python:
 init 1 python:
     first_week_sb_event = Event(1, "first_week_sb_event",
         TimeCondition(day = "2-4", month = 1, year = 2023),
-        thumbnail = "images/events/first week/first week school building 2.webp"
-    )
+        thumbnail = "images/events/first week/first week school building 2.webp")
 
     first_potion_sb_event = Event(1, "first_potion_sb_event",
         TimeCondition(day = 9, month = 1, year = 2023),
-        thumbnail = "images/events/first potion/first potion school building 1.webp"
-    )
+        thumbnail = "images/events/first potion/first potion school building 1.webp")
 
     first_class_sb_event_event = Event(1, "first_class_sb_event",
         TimeCondition(weekday = "d", daytime = "c"),
@@ -47,28 +45,36 @@ init 1 python:
                     LoliContentCondition('2')
                 ),
             )
-        )
-    )
+        ),
+        thumbnail = "")
 
     sb_event1 = Event(3, "sb_event_1",
         TimeCondition(daytime = "c", weekday = "d"),
-        thumbnail = "images/events/school building/sb_event_1 0.webp"
-    )
+        thumbnail = "images/events/school building/sb_event_1 0.webp")
 
     sb_event2 = Event(3, "sb_event_2",
         TimeCondition(daytime = "c", weekday = "d"),
-        thumbnail = "images/events/school building/sb_event_2 0.webp"
-    )
+        thumbnail = "images/events/school building/sb_event_2 0.webp")
     
     sb_event3 = Event(3, "sb_event_3",
         TimeCondition(daytime = "d"),
-        thumbnail = "images/events/school building/sb_event_3 0.webp"
+        thumbnail = "images/events/school building/sb_event_3 0.webp")
+
+
+    sb_timed_event.add_event(
+        first_week_sb_event, 
+        first_potion_sb_event
     )
 
-    sb_timed_event.add_event(first_week_sb_event, first_potion_sb_event)
-
-    sb_events["teach_class"].add_event(first_class_sb_event_event, sb_event1, sb_event2)
-    sb_events["patrol"].add_event(sb_event1, sb_event3)
+    sb_events["teach_class"].add_event(
+        first_class_sb_event_event, 
+        sb_event1, 
+        sb_event2
+    )
+    sb_events["patrol"].add_event(
+        sb_event1, 
+        sb_event3
+    )
 
 ##################################################
 
