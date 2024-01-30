@@ -39,7 +39,6 @@ init 1 python:
         TimeCondition(daytime = "d"),
         thumbnail = "images/events/courtyard/courtyard_event_3 1.webp")
 
-
     courtyard_timed_event.add_event(
         first_week_courtyard_event_event,
         first_potion_courtyard_event_event,

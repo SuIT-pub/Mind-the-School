@@ -39,7 +39,6 @@ init 1 python:
         RandomCondition(25, 100),
         thumbnail = "images/events/kiosk/kiosk_event_3 1 0.webp")
 
-
     kiosk_timed_event.add_event(
         first_week_kiosk_event_event,
     )
