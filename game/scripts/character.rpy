@@ -102,6 +102,25 @@ init -6 python:
             if not hasattr(self, 'stats_objects'):
                 self.stats_objects = {}
 
+        def check_stat_exists(self, stat: str) -> bool:
+            """
+            Checks if the stat exists in the character
+
+            ### Parameters:
+            1. stat: str
+                - The name of the stat to check
+
+            ### Returns:
+            1. bool
+                - True if the stat exists
+                - False if the stat does not exist
+            """
+
+            return stat in self.stats_objects.keys()
+
+        ##################
+        # Attribute getter
+
         def get_name(self) -> str:
             """
             Returns the name of the character
@@ -126,22 +145,6 @@ init -6 python:
 
             return self.title
 
-        def check_stat_exists(self, stat: str) -> bool:
-            """
-            Checks if the stat exists in the character
-
-            ### Parameters:
-            1. stat: str
-                - The name of the stat to check
-
-            ### Returns:
-            1. bool
-                - True if the stat exists
-                - False if the stat does not exist
-            """
-
-            return stat in self.stats_objects.keys()
-
         def get_stat_obj(self, stat: str) -> Stat:
             """
             Returns the stat object of the stat
@@ -159,6 +162,9 @@ init -6 python:
             if stat not in self.stats_objects.keys():
                 return None
             return self.stats_objects[stat]
+
+        ##############
+        # Stat handler
 
         def set_stat(self, stat: str, value: num):
             """
@@ -284,6 +290,72 @@ init -6 python:
 
             return get_value_diff(value, self.get_stat_number(stat)) >= 0
 
+        def display_stat(self, stat: str) -> str:
+            """
+            Returns the stat as a string with the change
+
+            ### Parameters:
+            1. stat: str
+                - The name of the stat to get
+
+            ### Returns:
+            1. str
+                - The stat as a string with the change
+                - "NaN" if the stat does not exist
+            """
+
+            stat_obj = self.get_stat_obj(stat)
+
+            if stat_obj == None:
+                return "NaN"
+
+            return stat_obj.display_stat()
+
+        def get_display_value(self, stat: str) -> str:
+            """
+            Returns the value of the stat as a string
+
+            ### Parameters:
+            1. stat: str
+                - The name of the stat to get
+
+            ### Returns:
+            1. str
+                - The value of the stat as a string
+                - "NaN" if the stat does not exist
+            """
+
+            stat_obj = self.get_stat_obj(stat)
+
+            if stat_obj == None:
+                return "NaN"
+
+            return stat_obj.get_display_value()
+
+        def get_display_change(self, stat: str) -> str:
+            """
+            Returns the change of the stat as a string
+
+            ### Parameters:
+            1. stat: str
+                - The name of the stat to get
+
+            ### Returns:
+            1. str
+                - The change of the stat as a string
+                - "NaN" if the stat does not exist
+            """
+
+            stat_obj = self.get_stat_obj(stat)
+
+            if stat_obj == None:
+                return "NaN"
+
+            return stat_obj.get_display_change()
+    
+        ###############
+        # Level handler
+
         def get_level(self) -> int:
             """
             Returns the level of the character
@@ -374,70 +446,25 @@ init -6 python:
                 test_level = self.get_level()
 
             return get_value_diff(value, test_level) >= 0
+    #################
 
-        def display_stat(self, stat: str) -> str:
-            """
-            Returns the stat as a string with the change
+    #####################
+    # School Char Handler
 
-            ### Parameters:
-            1. stat: str
-                - The name of the stat to get
+    def get_school() -> Char:
+        """
+        Gets a random school
 
-            ### Returns:
-            1. str
-                - The stat as a string with the change
-                - "NaN" if the stat does not exist
-            """
+        ### Returns:
+        1. Char
+            - The random school
+        """
+        
+        if 'school' not in charList.keys():
+            fix_schools()
 
-            stat_obj = self.get_stat_obj(stat)
+        return charList['school']
 
-            if stat_obj == None:
-                return "NaN"
-
-            return stat_obj.display_stat()
-
-        def get_display_value(self, stat: str) -> str:
-            """
-            Returns the value of the stat as a string
-
-            ### Parameters:
-            1. stat: str
-                - The name of the stat to get
-
-            ### Returns:
-            1. str
-                - The value of the stat as a string
-                - "NaN" if the stat does not exist
-            """
-
-            stat_obj = self.get_stat_obj(stat)
-
-            if stat_obj == None:
-                return "NaN"
-
-            return stat_obj.get_display_value()
-
-        def get_display_change(self, stat: str) -> str:
-            """
-            Returns the change of the stat as a string
-
-            ### Parameters:
-            1. stat: str
-                - The name of the stat to get
-
-            ### Returns:
-            1. str
-                - The change of the stat as a string
-                - "NaN" if the stat does not exist
-            """
-
-            stat_obj = self.get_stat_obj(stat)
-
-            if stat_obj == None:
-                return "NaN"
-
-            return stat_obj.get_display_change()
-    
     def get_school_stat(stat: str) -> num:
         """
         Gets the mean value of a stat from the mean school character
@@ -475,6 +502,9 @@ init -6 python:
             return money.display_stat()
         else:
             return get_school().display_stat(stat)
+
+    ######################
+    # General Char Handler
 
     def get_character(name: str, map: Dict[str, Char | Dict[str, Any]]) -> Char:
         """
@@ -520,6 +550,9 @@ init -6 python:
         elif key == "secretary":
             return get_character("secretary", charList['staff'])
         return None
+
+    ###################
+    # Char Stat Handler
 
     def get_stat_obj_for_char(stat: str, char: str | Char, map: Dict[str, Char | Dict[str, Any]] = None) -> Stat:
         """
@@ -576,30 +609,6 @@ init -6 python:
             return map[char].get_stat_number(stat)
         return -1
 
-    def get_level_for_char(char: str | Char, map: Dict[str, Char | Dict[str, Any]] = None) -> int:
-        """
-        Returns the level of the character
-
-        ### Parameters:
-        1. char: str | Char
-            - The name of the character to get the level from
-            - If there is no character in map with the name, -1 is returned
-        2. map: Dict[str, Char | Dict[str, Any]] (default None)
-            - The map of characters to get the character from
-            - If None and the name of the character is used instead of the Character-Object itself, -1 is returned
-
-        ### Returns:
-        1. int
-            - The level of the character
-            - -1 if the character does not exist
-        """
-
-        if isinstance(char, Char):
-            return char.get_level()
-        if map != None and char in map.keys():
-            return map[char].get_level()
-        return -1
-
     def set_stat_for_all(stat: str, value: num, map: Dict[str, Char | Dict[str, Any]]):
         """
         Sets the stat value for all characters in the map
@@ -637,31 +646,7 @@ init -6 python:
             char.set_stat(stat, value)
         elif map != None and char in map.keys():
             map[char].set_stat(stat, value)
-        
-    def set_level_for_char(value: int, char: str | Char, map: Dict[str, Char | Dict[str, Any]] = None):
-        """
-        Sets the level of the character
 
-        ### Parameters:
-        1. value: int
-            - The value to set the level to
-        2. char: str | Char
-            - The name of the character or the character itself to set the level for
-            - If there is no character in map with the name, -1 is returned
-        3. map: Dict[str, Char | Dict[str, Any]] (default None)
-            - The map of characters to get the character from
-            - If None and the name of the character is used instead of the Character-Object itself, -1 is returned
-        """
-
-        if is_in_replay:
-            return
-
-        if isinstance(char, Char):
-            char.set_level(value)
-        elif map != None and char in map.keys():
-            map[char].set_level(value)
-        
-    # changes the stat value
     def change_stat(stat: str, change: num, name: str | Char = "", map: Dict[str, Char | Dict[str, Any]] = None):
         """
         Changes the stat value for a character or the money value if the stat is MONEY
@@ -744,6 +729,59 @@ init -6 python:
         elif map != None:
             for keys in map.keys():
                 map[keys].reset_changed_stats()
+
+    ###################
+    # Char Level Handler
+
+    def get_level_for_char(char: str | Char, map: Dict[str, Char | Dict[str, Any]] = None) -> int:
+        """
+        Returns the level of the character
+
+        ### Parameters:
+        1. char: str | Char
+            - The name of the character to get the level from
+            - If there is no character in map with the name, -1 is returned
+        2. map: Dict[str, Char | Dict[str, Any]] (default None)
+            - The map of characters to get the character from
+            - If None and the name of the character is used instead of the Character-Object itself, -1 is returned
+
+        ### Returns:
+        1. int
+            - The level of the character
+            - -1 if the character does not exist
+        """
+
+        if isinstance(char, Char):
+            return char.get_level()
+        if map != None and char in map.keys():
+            return map[char].get_level()
+        return -1
+
+    def set_level_for_char(value: int, char: str | Char, map: Dict[str, Char | Dict[str, Any]] = None):
+        """
+        Sets the level of the character
+
+        ### Parameters:
+        1. value: int
+            - The value to set the level to
+        2. char: str | Char
+            - The name of the character or the character itself to set the level for
+            - If there is no character in map with the name, -1 is returned
+        3. map: Dict[str, Char | Dict[str, Any]] (default None)
+            - The map of characters to get the character from
+            - If None and the name of the character is used instead of the Character-Object itself, -1 is returned
+        """
+
+        if is_in_replay:
+            return
+
+        if isinstance(char, Char):
+            char.set_level(value)
+        elif map != None and char in map.keys():
+            map[char].set_level(value)
+
+    #####################
+    # Char Object Handler
 
     def load_character(name: str, title: str, map: Dict[str, Char | Dict[str, Any]], start_data: Dict[str, Any], runtime_data: Dict[str, Any] = None):
         """

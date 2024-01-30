@@ -12,6 +12,11 @@ happiness,Happiness
 charm,Charm
 money,Money
 reputation,Reputation
+class,Class
+amount,Amount
+girl_1,1.Girl
+girl_2,2.Girl
+girl_3,3.Girl
 
 ###############
 # Event Names
@@ -51,6 +56,7 @@ office_event_3,Two students waiting
 # School Building
 first_potion_sb_event,First Potion
 first_week_sb_event,First Week
+first_class_sb_event,First Class
 sb_event_1,Couples kissing
 sb_event_2,Student tripping in class
 sb_event_3,Crying girl

@@ -47,7 +47,7 @@ init 1 python:
 
     event_all_events_seen_event = Event(1,
         "event_all_events_seen",
-        GameDataCondition("all_events_seen", "all_events_seen", True)
+        GameDataCondition("all_events_seen", True)
     )
 
     event_reached_max_stats_event = Event(1,

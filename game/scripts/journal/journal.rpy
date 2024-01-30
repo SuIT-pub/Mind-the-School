@@ -1,16 +1,34 @@
 init python:
+    gallery_chooser = {}
+    gallery_chooser_order = []
+    old_event = ""
+
+    def update_gallery_chooser(gallery_chooser_order: List[string], gallery_chooser: Dict[string, Any], gallery_dict: Dict[string, Any]) -> Dict[string, Any]:
+        reset = False
+        for topic in gallery_chooser_order:
+            if gallery_chooser[topic] not in gallery_dict.keys() or reset:
+                values = list(gallery_dict.keys())
+                gallery_chooser[topic] = None
+                if len(values) != 0:
+                    gallery_chooser[topic] = values[0]
+                reset = True
+            gallery_dict = gallery_dict[gallery_chooser[topic]]
+        return gallery_chooser
+    
     def get_journal_type(page: int) -> str:
         page -= 1
         types = ["overview", "rules", "clubs", "buildings", "cheats", "credits"]
         if page < 0 or page > 4:
             return ""
         return types[page]
+    
     def get_obj_type(page: int) -> str:
         page -= 2
         types = ["rule", "club", "building"]
         if page < 0 or page > 2:
             return ""
         return types[page]
+    
     def get_journal_map(page: int) -> Dict[str, Journal_Obj]:
         page -= 2
         types = [rules, clubs, buildings]
@@ -157,6 +175,7 @@ screen journal_simple_list(page, display, display_list, default_style = "buttons
     $ pos_y = get_kwargs('pos_y', 300, **kwargs)
     $ width = get_kwargs('width', 560, **kwargs)
     $ height = get_kwargs('height', 600, **kwargs)
+    $ sort = get_kwargs('sort', False, **kwargs)
     frame:
         background Solid("#0000")
         area (pos_x, pos_y, width, height)
@@ -166,7 +185,7 @@ screen journal_simple_list(page, display, display_list, default_style = "buttons
             draggable "touch"
 
             vbox:
-                $ elem_list = sorted(display_list.keys())
+                $ elem_list = sorted(display_list.keys()) if sort else display_list.keys()
                 for elem in elem_list:
                     $ elem_image = None
                     $ elem_text = display_list[elem]
@@ -312,7 +331,7 @@ screen journal_page_selector(page, display, char = "school"):
             xpos 1280
             ypos 960
             action [With(dissolveM), Call("open_journal", 7, "")]
-    
+
 screen journal_desc(page, display, active_obj, with_title = False):
     $ active_obj_desc = active_obj.get_description_str()
 
@@ -445,6 +464,10 @@ screen journal_image(page, display, active_obj):
     $ active_obj_image, active_obj_variant = active_obj.get_image(variant = get_random_loli())
     $ active_obj_full_image = active_obj.get_full_image(variant = active_obj_variant)
 
+    if not renpy.loadable(active_obj_image):
+        $ active_obj_image = "images/journal/empty_image.webp"
+        $ active_obj_full_image = None
+
     if active_obj_full_image != None:
         button:
             xpos 985 yalign 0.65
@@ -540,6 +563,22 @@ screen journal_page(page, display):
 
     key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
 
+    $ journal_type = get_journal_type(page)
+    $ journal_map = get_journal_map(page)
+    $ active_obj = get_journal_obj(journal_map, display)
+    
+    if display == "" or display != "" and not active_obj.is_visible(char_obj = get_school()):
+        $ display = ""
+        $ locked_list = get_visible_locked_objs(journal_map)
+        $ unlocked_list = get_visible_unlocked_objs(journal_map)
+
+        if len(unlocked_list) != 0:
+            $ display = unlocked_list[0]
+        elif len(locked_list) != 0:
+            $ display = locked_list[0]
+
+        $ active_obj = get_journal_obj(journal_map, display)
+
     use journal_page_selector(page, display)
 
     $ page_title = get_obj_type(page).capitalize()
@@ -549,13 +588,6 @@ screen journal_page(page, display):
         yalign 0.2
         size 60
         color "#000"
-
-    $ journal_type = get_journal_type(page)
-    $ journal_map = get_journal_map(page)
-    $ active_obj = get_journal_obj(journal_map, display)
-    
-    if display != "" and not active_obj.is_visible(char_obj = get_school()):
-        $ display = ""
 
     use journal_obj_list(page, display, journal_map)
 
@@ -611,6 +643,9 @@ screen journal_overview(display, char = "school"):
     $ school_stats = school_object.get_stats()
 
     $ pta_proposal = get_game_data('voteProposal')
+
+    if display == "":
+        $ display = "level"
 
     frame:
         # background Solid("#00000090")
@@ -674,7 +709,7 @@ screen journal_overview(display, char = "school"):
 
                 for stat_key in school_stats.keys():
                     $ stat_obj = school_object.get_stat_obj(stat_key)
-                    $ stat_icon = stat_obj.image_path
+                    $ stat_icon = stat_obj.get_image_path()
                     $ stat_value = stat_obj.display_stat()
                     $ stat_title = Stat_Data[stat_obj.get_name()].get_title()
                     $ button_style = "buttons_idle"
@@ -694,17 +729,17 @@ screen journal_overview(display, char = "school"):
 
     if display != "":
         $ active_stat_obj = None
-        if school_object.check_stat_exists(display):
-            $ active_stat_obj = school_object.get_stat_obj(display)
-        if display == "money":
-            $ active_stat_obj = money
         if display == "level":
             $ active_stat_obj = school_object.get_level_obj()
+        elif display == "money":
+            $ active_stat_obj = money
+        elif school_object.check_stat_exists(display):
+            $ active_stat_obj = school_object.get_stat_obj(display)
 
         if active_stat_obj != None:
             $ active_desc = active_stat_obj.get_full_description()
             $ active_image = active_stat_obj.get_image()
-
+            $ log_val('active_desc', active_desc)
 
             image "[active_image]":
                 xalign 0.63 yalign 0.65
@@ -716,7 +751,7 @@ screen journal_overview(display, char = "school"):
                     mousewheel True
                     draggable "touch"
 
-                    text active_desc:
+                    text "[active_desc]":
                         color "#000"
                         size 22
                 
@@ -1170,11 +1205,6 @@ screen journal_cheats(display):
                 xalign 0.5
                 text tooltip
 
-init -10 python:
-    gallery_chooser = {}
-    gallery_chooser_order = []
-    old_event = ""
-    height = 0
 screen journal_gallery(display):
     tag interaction_overlay
     modal True
@@ -1213,7 +1243,14 @@ screen journal_gallery(display):
             $ location_dict['misc'] = "Miscellaneous"
 
         $ location_button = "buttons_idle"
-        use journal_simple_list(7, location, location_dict, "buttons_idle", pos_x = 350, width = 500)
+        use journal_simple_list(7, location, location_dict, "buttons_idle", pos_x = 350, width = 500, sort = True)
+        text "Please select a location.":
+            xpos 989
+            ypos 200
+            size 30
+            xmaximum 500
+            ymaximum 50
+            color "#000"
     elif location != "":
         $ location_title = "Miscellaneous"
         $ building = get_building(location)
@@ -1232,10 +1269,18 @@ screen journal_gallery(display):
             text_style "buttons_idle"
             action [With(dissolveM), Call("open_journal", 7, "")]
 
+        text "Please select an event.":
+            xpos 989
+            ypos 200
+            size 30
+            xmaximum 500
+            ymaximum 50
+            color "#000"
+
     if location != "":    
         $ event_list = [get_event_from_register(event_name) for event_name in persistent.gallery[location].keys() if get_event_from_register(event_name) != None]
         $ event_dict = {f"{location}.{event_obj.get_event()}": get_translation(event_obj.get_event()) for event_obj in event_list}
-        use journal_simple_list(7, display, event_dict, "buttons_idle", pos_x = 400, pos_y = 350, width = 450)
+        use journal_simple_list(7, display, event_dict, "buttons_idle", pos_x = 400, pos_y = 350, width = 450, sort = True)
 
     if event != "":
         if event != old_event:
@@ -1359,20 +1404,6 @@ screen journal_gallery(display):
             frame:
                 xalign 0.5
                 text tooltip
-
-            
-init python:
-    def update_gallery_chooser(gallery_chooser_order: List[string], gallery_chooser: Dict[string, Any], gallery_dict: Dict[string, Any]) -> Dict[string, Any]:
-        reset = False
-        for topic in gallery_chooser_order:
-            if gallery_chooser[topic] not in gallery_dict.keys() or reset:
-                values = list(gallery_dict.keys())
-                gallery_chooser[topic] = None
-                if len(values) != 0:
-                    gallery_chooser[topic] = values[0]
-                reset = True
-            gallery_dict = gallery_dict[gallery_chooser[topic]]
-        return gallery_chooser
 
 screen journal_credits(display):
     tag interaction_overlay
@@ -1529,7 +1560,6 @@ label start_gallery_replay(location, event, gallery_chooser, display):
     $ hide_all()
 
     $ renpy.call(event, **gallery_chooser)
-        
 
 label set_time_cheat(page, display, **kwargs):
     $ time.set_time(**kwargs)

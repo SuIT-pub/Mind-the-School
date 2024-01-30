@@ -28,6 +28,28 @@ init 1 python:
         thumbnail = "images/events/first potion/first potion school building 1.webp"
     )
 
+    first_class_sb_event_event = Event(1, "first_class_sb_event",
+        TimeCondition(weekday = "d", daytime = "c"),
+        ProgressCondition('first_class', '2-'),
+        RandomListSelector('class', 
+            ('3A', NOT(GameDataCondition('first_class_3A', True))),
+            (
+                '2A', 
+                AND(
+                    NOT(GameDataCondition('first_class_2A', True)),
+                    LoliContentCondition('1+')
+                ),
+            ),
+            (
+                '1A', 
+                AND(
+                    NOT(GameDataCondition('first_class_1A', True)),
+                    LoliContentCondition('2')
+                ),
+            )
+        )
+    )
+
     sb_event1 = Event(3, "sb_event_1",
         TimeCondition(daytime = "c", weekday = "d"),
         thumbnail = "images/events/school building/sb_event_1 0.webp"
@@ -45,7 +67,7 @@ init 1 python:
 
     sb_timed_event.add_event(first_week_sb_event, first_potion_sb_event)
 
-    sb_events["teach_class"].add_event(sb_event1, sb_event2)
+    sb_events["teach_class"].add_event(first_class_sb_event_event, sb_event1, sb_event2)
     sb_events["patrol"].add_event(sb_event1, sb_event3)
 
 ##################################################
@@ -132,6 +154,53 @@ label first_potion_sb_event (**kwargs):
 
     
     $ end_event('new_daytime', **kwargs)
+
+label first_class_sb_event (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ char_obj = set_char_value(get_school(), **kwargs)
+    $ school_class = get_value('class', **kwargs)
+    
+    # $ image = Image_Series("/images/events/school building/first_class_sb_event <class> <nude> <step>.webp", **kwargs)
+
+    show screen black_screen_text("first_class_sb_event\nClass:" + school_class)
+
+    headmaster "Hello, let me introduce myself again. I'm [headmaster_first_name] [headmaster_last_name], the new headmaster of this school."
+    headmaster "I'm actually a psychologist but I got myself a teaching license to help students like you to receive a better education."
+    headmaster "Don't worry, you will still be taught by your regular teachers. I work mainly on school reform and will only occasionally teach a class."
+    headmaster "If you have any questions or issues, feel free to come to me. I always put heavy emphasis on the well-being of my students."
+    headmaster "Now I'd like to get to know you a bit better. Would you please all introduce yourself?"
+
+    if school_class == "3A":
+        headmaster "Miss Ryan, would you like to start?"
+        teacher3 "Yes, of course."
+        teacher3 "My name is Finola Ryan. I'm 28 years old and I'm a teacher for English and Geography. I am also the class teacher of 3A."
+        # students introduce themselves
+        $ set_game_data('first_class_3A', True)
+        $ advance_progress('first_class')
+        if loli_content == 0:
+            $ set_progress('first_class', 3)
+
+    elif school_class == "2A":
+        headmaster "Miss Anderson, would you like to start?"
+        teacher1 "Yes, of course."
+        teacher1 "My name is Lily Anderson. I'm 32 years old and I'm a teacher for Math and Sciences. I am also the class teacher of 2A."
+        # students introduce themselves
+        $ set_game_data('first_class_2A', True)
+        $ advance_progress('first_class')
+        if loli_content <= 1:
+            $ set_progress('first_class', 3)
+
+    elif school_class == "1A":
+        headmaster "Miss Parker, would you like to start?"
+        teacher5 "Yes, of course."
+        teacher5 "My name is Zoe Parker. I'm 24 years old and I'm a teacher for Sport and Art. I am also the class teacher of 1A."
+        # students introduce themselves
+        $ set_game_data('first_class_1A', True)
+        $ advance_progress('first_class')
+
+    $ end_event('new_daytime', **kwargs)
+
 
 label sb_event_1 (**kwargs): # patrol, check class
     $ begin_event(**kwargs)

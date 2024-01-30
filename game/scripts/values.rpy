@@ -1,14 +1,4 @@
 init -98 python:
-    
-    seenEvents = {}
-    location_event_register = {}
-    event_register = {}
-
-    translation_texts = {}
-    get_translations()
-
-init python:
-
     # 0 = no loli content (High School age: 18-22)
     # 1 = slight loli content (Middle School age: 13-17, High School age: 18-22)
     # 2 = hard loli content (Elementary School age: 8-12, Middle School age: 13-17, High School age: 18-22)
@@ -16,6 +6,13 @@ init python:
     cheat_mode = False
     nude_vision = 2
     sfw_mode = False
+    
+    seenEvents = {}
+    location_event_register = {}
+    event_register = {}
+
+    translation_texts = {}
+    get_translations()
 
 default intro_dev_message = "This version of the game only includes content up to day 10, when free roaming begins. You can still play and roam from there, but there will be no content."
 

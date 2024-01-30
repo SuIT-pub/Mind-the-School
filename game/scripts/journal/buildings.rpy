@@ -7,7 +7,7 @@ init -6 python:
 
     #######################
     # ----- CLASSES ----- #
-#######################
+    #######################
 
     class Building(Journal_Obj):
         """
@@ -478,7 +478,82 @@ init -6 python:
     ########################################
     # ----- Buildings Global Methods ----- #
     ########################################
-    
+
+    ##################
+    # Building Handler
+
+    def get_building(building: str) -> Building:
+        """
+        Returns the Building object with the specified name.
+        
+        ### Parameters:
+        1. building: str
+            - The name of the building that should be returned.
+
+        ### Returns:
+        1. Building
+            - The Building object with the specified name.
+            - If no Building object with the specified name exists, None is returned.
+        """
+
+        if building in buildings.keys():
+            return buildings[building]
+        return None
+
+    def get_location_title(key: str) -> str:
+        """
+        Gets the title of a location
+
+        ### Parameters:
+        1. key: str
+            - The key of the location
+
+        ### Returns:
+        1. str
+            - The title of the location
+            - If the location does not exist the key is returned
+        """
+
+        building = get_building(key)
+        if building == None:
+            return key
+        return building.get_title()
+
+    ########################
+    # Building block handler
+
+    def set_building_blocked(building_name: str, is_blocked: bool = True):
+        """
+        Sets the blocked status of the building with the specified name to the specified value.
+
+        ### Parameters:
+        1. building_name: str
+            - The name of the building that should be updated.
+        2. is_blocked: bool = True
+            - The value to which the blocked status of the building should be set to.
+        """
+
+        if not is_in_replay and building_name in buildings.keys():
+            buildings[building_name].set_blocked(is_blocked)
+
+    def set_all_buildings_blocked(is_blocked: bool = True):
+        """
+        Sets the blocked status of all buildings to the specified value.
+
+        ### Parameters:
+        1. is_blocked: bool = True
+            - The value to which the blocked status of the buildings should be set to.
+        """
+
+        if is_in_replay:
+            return
+
+        for building in buildings.values():
+            building.set_blocked(is_blocked)
+
+    ############################
+    # Building visibility getter
+
     def count_locked_buildings() -> int:
         """
         Returns the number of locked buildings.
@@ -513,70 +588,6 @@ init -6 python:
 
         return output
     
-    def get_building(building: str) -> Building:
-        """
-        Returns the Building object with the specified name.
-        
-        ### Parameters:
-        1. building: str
-            - The name of the building that should be returned.
-
-        ### Returns:
-        1. Building
-            - The Building object with the specified name.
-            - If no Building object with the specified name exists, None is returned.
-        """
-
-        if building in buildings.keys():
-            return buildings[building]
-        return None
-
-    def set_building_blocked(building_name: str, is_blocked: bool = True):
-        """
-        Sets the blocked status of the building with the specified name to the specified value.
-
-        ### Parameters:
-        1. building_name: str
-            - The name of the building that should be updated.
-        2. is_blocked: bool = True
-            - The value to which the blocked status of the building should be set to.
-        """
-
-        if not is_in_replay and building_name in buildings.keys():
-            buildings[building_name].set_blocked(is_blocked)
-
-    def set_all_buildings_blocked(is_blocked: bool = True):
-        """
-        Sets the blocked status of all buildings to the specified value.
-
-        ### Parameters:
-        1. is_blocked: bool = True
-            - The value to which the blocked status of the buildings should be set to.
-        """
-
-        if is_in_replay:
-            return
-
-        for building in buildings.values():
-            building.set_blocked(is_blocked)
-
-    def is_building_available(building_name: str) -> bool:
-        """
-        Returns True if the building with the specified name is unlocked and not blocked.
-
-        ### Parameters:
-        1. building_name: str
-            - The name of the building that should be checked.
-
-        ### Returns:
-        1. bool
-            - True if the building with the specified name is unlocked and not blocked.
-        """
-
-        if building_name not in buildings.keys():
-            return False
-        return buildings[building_name].is_available()
-
     def is_building_unlocked(building_name: str) -> bool:
         """
         Returns True if the building with the specified name is unlocked.
@@ -607,6 +618,29 @@ init -6 python:
         if building_name not in buildings.keys():
             return False
         return buildings[building_name].is_visible()
+
+    ###############################
+    # Building availability handler
+
+    def is_building_available(building_name: str) -> bool:
+        """
+        Returns True if the building with the specified name is unlocked and not blocked.
+
+        ### Parameters:
+        1. building_name: str
+            - The name of the building that should be checked.
+
+        ### Returns:
+        1. bool
+            - True if the building with the specified name is unlocked and not blocked.
+        """
+
+        if building_name not in buildings.keys():
+            return False
+        return buildings[building_name].is_available()
+
+    #########################
+    # Building Object Handler
 
     def load_building(name: str, title: str, runtime_data: Dict[str, Any] = None, starting_data: Dict[str, Any] = None):
         """
@@ -834,7 +868,7 @@ label load_buildings ():
         ],
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(
-            ProgressCondition("Unlock Cafeteria", "unlock_cafeteria", 1, True),
+            ProgressCondition("unlock_cafeteria", 1, True),
             MoneyCondition(1000),
             # LockCondition(False),
         ),

@@ -20,7 +20,7 @@ init -1 python:
     
 init 1 python:
     cafeteria_construction_event = Event(1, "cafeteria_construction",
-        ProgressCondition("cafeteria_construction", "unlock_cafeteria", "2"),
+        ProgressCondition("unlock_cafeteria", "2"),
     )
 
     cafeteria_event_1_event = Event(3, "cafeteria_event_1",
@@ -36,12 +36,12 @@ init 1 python:
                 RandomListSelector('', 'Miwa Igarashi'),
                 RuleCondition('school_jobs')
             ),
-        )about:blank#blocked
+        )
     )
 
     cafeteria_event_3_event = Event(3, "cafeteria_event_3",
         OR(
-            TimeCondition(day = "d", daytime = "f")
+            TimeCondition(weekday = "d", daytime = "f")
         ),
         NOT(RuleCondition('school_jobs')),
         ProgressSelector("unlock_school_jobs_value", "unlock_school_jobs"),
@@ -52,10 +52,10 @@ init 1 python:
         RandomListSelector('topic', (0.5, 'normal'), (0.2, 'tripped'), (0.15, 'tripped_injury'), 'overwhelmed'),
     )
 
-    cafeteria_event_4_event = Event(3, "cafeteria_event_3",
+    cafeteria_event_4_event = Event(3, "cafeteria_event_4",
         OR(
-            TimeCondition(day = "d", daytime = "f"),
-            TimeCondition(day = "w", daytime = "d")
+            TimeCondition(weekday = "d", daytime = "f"),
+            TimeCondition(weekday = "w", daytime = "d")
         ),
         RuleCondition('school_jobs'),
         RandomListSelector("amount", "1 Girl", "2 Girls", "3 Girls"),
@@ -77,6 +77,11 @@ init 1 python:
 
 
     cafeteria_general_event.add_event(cafeteria_construction_event)
+    cafeteria_events["eat_alone"].add_event(cafeteria_event_3_event, cafeteria_event_4_event)
+    cafeteria_events["eat_student"].add_event(cafeteria_event_3_event, cafeteria_event_4_event)
+    cafeteria_events["eat_teacher"].add_event(cafeteria_event_3_event, cafeteria_event_4_event)
+    cafeteria_events["eat_look"].add_event(cafeteria_event_2_event)
+
 
 #######################################
 
@@ -112,7 +117,7 @@ label .after_general_check (**kwargs):
 ################################
 
 label cafeteria_construction(**kwargs):
-    $ begin_event()
+    show screen black_screen_text("cafeteria_construction")
 
     if not contains_game_data("cafeteria_construction_end"):
         $ set_game_data("cafeteria_construction_end", time.day_to_string())
@@ -121,30 +126,26 @@ label cafeteria_construction(**kwargs):
     $ time_comparison = compare_time(time, end_time)
 
     if time_comparison == -1:
+        $ begin_event()
+
         $ day_difference = get_day_difference(time, end_time)
         headmaster "The cafeteria is under construction. It will be finished in [day_difference] days."
+
+        $ end_event('map_overview', **kwargs)
     else:
+        $ begin_event(**kwargs)
+
         $ set_progress("unlock_cafeteria", 3)
         headmaster "The cafeteria is finally finished. I can eat here now."
 
-    jump map_overview
-
-label cafeteria_construction_finished(**kwargs):
-    $ begin_event(**kwargs)
-    # sees Adelaide Hall work there as kitchen mother
-    headmaster "The cafeteria is finally finished. I can eat here now."
-
-    $ remove_runtime_temp_event('cafeteria', get_building('cafeteria')._construction_event)
-    $ cafeteria_timed_event.remove_event(get_building('cafeteria')._construction_event)
-
-    $ end_event('map_overview', **kwargs)
+        $ end_event('next_daytime', **kwargs)
 
 label cafeteria_event_1(**kwargs):
     $ begin_event(**kwargs)
 
     $ topic = get_value("topic", **kwargs)
 
-    call screen black_screen_text("cafeteria_event_1\n" + topic)
+    show screen black_screen_text("cafeteria_event_1\n" + topic)
 
     parent "Hello Mr. [headmaster_last_name] and welcome! What can I help you with?" (name = 'Adelaide Hall')
     headmaster "I would like to have a [topic]."
@@ -155,12 +156,12 @@ label cafeteria_event_1(**kwargs):
 label cafeteria_event_2(**kwargs):
     $ begin_event(**kwargs)
 
-    $ time = get_value('time', **kwargs)
+    $ time_ob = get_value('time', **kwargs)
     $ girl_name = get_value('girl_name', **kwargs)
 
-    call screen black_screen_text("cafeteria_event_2\nTime: " + str(time) + "\n" + girl_name)
+    show screen black_screen_text("cafeteria_event_2\nTime: " + str(time_ob) + "\n" + girl_name)
 
-    if time == 1:
+    if time_ob == 1:
         headmaster_thought "It seems [girl_name] is getting ready for work."
     else:
         headmaster_thought "Ah, [girl_name] is finishing up her work."
@@ -177,7 +178,7 @@ label cafeteria_event_3(**kwargs):
 
     $ school_job_progress = get_progress('school_job_progress')
 
-    call screen black_screen_text("cafeteria_event_3\nSchool Job Progress: " + str(unlock_school_jobs) + "\n School Jobs Unlocked: " + str(school_jobs) + "\n" + girl_name)
+    show screen black_screen_text("cafeteria_event_3\nSchool Job Progress: " + str(unlock_school_jobs) + "\n" + girl_name + "\n" + topic)
 
     $ image = Image_Series("images/background/cafeteria/cafeteria_event_3 <level> <school_jobs>.webp")
 
@@ -194,7 +195,7 @@ label cafeteria_event_3(**kwargs):
         parent "You could say that. I'm a bit overwhelmed with work. " (name = name)
         parent "Today there just too much work to do for one person." (name = name)
 
-        if unlock_school_jobs < 1:
+        if unlock_school_jobs != 2:
             $ unlock_school_jobs = set_progress('unlock_school_jobs', unlock_school_jobs)
             $ school_job_progress = advance_progress('school_job_progress')
 
@@ -202,8 +203,8 @@ label cafeteria_event_3(**kwargs):
             headmaster "Thank you, you too."
 
             if school_job_progress >= 3:
-                $ set_progress('unlock_school_jobs', 1)
-        elif unlock_school_jobs == 1:
+                $ set_progress('unlock_school_jobs', 2)
+        elif unlock_school_jobs == 2:
 
             headmaster "Mhh I see. I could help you out if you want."
             parent "Really? That would be great. I would really appreciate it." (name = name)
@@ -232,7 +233,7 @@ label cafeteria_event_3(**kwargs):
             headmaster "Oh thank you I completely forgot about that. See you later."
             parent "Bye."
 
-            $ set_progress('unlock_school_jobs', 2)
+            $ set_progress('unlock_school_jobs', 3)
 
             $ time.progress_time()
 
@@ -274,8 +275,9 @@ label cafeteria_event_4(**kwargs):
     $ girl_3 = get_value("girl_3", **kwargs)
     $ topic = get_value("topic", **kwargs)
     
-    call screen black_screen_text("cafeteria_event_4\n" + amount + "\n Girls: " + (', '.join([girl_1, girl_2, girl_3])) + "\n" + topic)
+    show screen black_screen_text("cafeteria_event_4\n" + amount + "\n Girls: " + (', '.join([girl_1, girl_2, girl_3])) + "\n" + topic)
 
+    subtitles "To be added."
     # Adelaide is seen working helped by students
 
     $ end_event('new_daytime', **kwargs)

@@ -149,7 +149,7 @@ label load_rules ():
             "This not only helps the facilities to run more smoothly, but also gives the students a chance to learn new skills and to earn some money.",
         ],
         '_unlock_conditions': ConditionStorage(
-            ProgressCondition("unlock_school_jobs", "unlock_school_jobs", 2, True),
+            ProgressCondition("unlock_school_jobs", 3, True),
             PTAOverride('parents'),
         ),
         '_image_path': 'images/journal/rules/school_jobs.webp',
@@ -274,7 +274,7 @@ label load_rules ():
             "The teacher volunteer to use their own bodies to give the students the best way to show them the human body.",
         ],
         '_unlock_conditions': ConditionStorage(
-            RuleCondition("theoretical_digital_material", blocking = True),
+            RuleCondition("theoretical_digital_material", True),
             StatCondition(inhibition = '85-'),
             LockCondition(),
         ),
@@ -306,7 +306,7 @@ label load_rules ():
             "While it may be a bit shameful for the students, it also is a great way to build some confidence over their own bodies and to accept that every body is beautiful and should be displayed as such.",
         ],
         '_unlock_conditions': ConditionStorage(
-            RuleCondition("theoretical_teacher_material", blocking = True),
+            RuleCondition("theoretical_teacher_material", True),
             StatCondition(inhibition = '80-'),
             LockCondition(),
         ),
@@ -339,7 +339,7 @@ label load_rules ():
         ],
         '_unlock_conditions': ConditionStorage(
             LevelCondition("4+"),
-            RuleCondition("theoretical_sex_ed", blocking = True),
+            RuleCondition("theoretical_sex_ed", True),
             LockCondition(),
         ),
         '_image_path': 'images/journal/rules/practical_sex_ed_high_school_<level>.webp',
@@ -371,8 +371,8 @@ label load_rules ():
         ],
         '_unlock_conditions': ConditionStorage(
             LevelCondition("5+"),
-            RuleCondition("practical_sex_ed", blocking = True),
-            RuleCondition("theoretical_teacher_material", blocking = True),
+            RuleCondition("practical_sex_ed", True),
+            RuleCondition("theoretical_teacher_material", True),
             LockCondition(),
         ),
         '_image_path': 'images/journal/rules/practical_sex_ed_teacher_<level>.webp',
@@ -385,8 +385,8 @@ label load_rules ():
             "After learning from the teachers how to have sex, the students now learn how to learn the preferences of your sex partner.\nSo the students now get to experiment on each other.",
         ],
         '_unlock_conditions': ConditionStorage(
-            RuleCondition("practical_teacher_material", blocking = True),
-            RuleCondition("theoretical_student_material", blocking = True),
+            RuleCondition("practical_teacher_material", True),
+            RuleCondition("theoretical_student_material", True),
             LockCondition(),
         ),
         '_image_path': 'images/journal/rules/practical_sex_ed_students_high_school_<level>.webp',
@@ -399,7 +399,7 @@ label load_rules ():
             "Allows for students to have a relationship between each other and to openly show it.",
         ],
         '_unlock_conditions':ConditionStorage(
-            ProgressCondition("Unlock Student Relation", "unlock_student_relationship", 1, True),
+            ProgressCondition("unlock_student_relationship", 1, True),
             StatCondition(inhibition = "95-", corruption = "2+"),
         ),
         
@@ -439,7 +439,7 @@ label load_rules ():
         ],
         '_unlock_conditions': ConditionStorage(
             LevelCondition("5+"),
-            RuleCondition("relaxed_uniform", blocking = True),
+            RuleCondition("relaxed_uniform", True),
         ),
         '_image_path': 'images/journal/rules/sexy_uniform.webp',
         '_image_path_alt': 'images/journal/rules/sexy_uniform.webp',
@@ -452,7 +452,7 @@ label load_rules ():
         ],
         '_unlock_conditions': ConditionStorage(
             LevelCondition("8+"),
-            RuleCondition("sexy_uniform", blocking = True),
+            RuleCondition("sexy_uniform", True),
         ),
         '_image_path': 'images/journal/rules/nude_uniform.webp',
         '_image_path_alt': 'images/journal/rules/nude_uniform.webp',

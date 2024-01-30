@@ -67,6 +67,12 @@ init -6 python:
             self.changed_value = 0
             self.image_path = "icons/stat_" + str(type) + "_icon.webp"
 
+        def get_image_path(self):
+            if self.image_path.endswith('.png'):
+                self.image_path = re.sub(r'\.png$', '.webp', self.image_path)
+            return self.image_path
+
+
         def get_name(self) -> str:
             """
             Returns the name of the stat.
@@ -415,16 +421,22 @@ init -6 python:
                 - The level of the stat for the given value.
             """
 
-            count = 0
-            for l in self.levels:
-                if value <= l:
-                    return count - 1
-                count += 1
+            
+            closest_value = len(self.levels) - 1
+            for i, val in enumerate(self.levels):
+                if val > value and val < self.levels[closest_value]:
+                    closest_value = i
 
-            if count >= len(self.levels):
-                return len(self.levels) - 1
+            # count = 0
+            # for l in self.levels:
+            #     if value <= l:
+            #         return count - 1
+            #     count += 1
 
-            return 0
+            # if count >= len(self.levels):
+            #     return len(self.levels) - 1
+
+            return closest_value
         
         def get_image(self, level: int) -> str:
             """
@@ -458,7 +470,7 @@ init -6 python:
 
             if level < len(self.descriptions) and level >= 0:
                 return self.descriptions[level]
-            return "Description missing for level:[level]"
+            return "Description missing for level:" + str(level)
 
         def get_full_description(self, level: int) -> str:
             """
@@ -549,7 +561,6 @@ init -6 python:
 
         if name not in stat_data.keys():
             stat_data[name] = Stat_Data(name, title)
-
         stat_data[name]._update(title, data)
 
     def get_stat_levels(value: str) -> num:
@@ -729,7 +740,7 @@ label load_stats ():
 
     $ load_stat_data(CHARM, "Charm", {
         'description': "Charm describes how other people perceive a students as a person. " +
-            "The charm is influenced by factors like fitness, likability, how gentle they are and looks.\n" +
+            "The charm is influenced by factors like fitness, likability, looks and how gentle they are.\n" +
             "\nThe charm can be improved by working on the fitness, working on the character, " +
             "or by social interaction with other people.",
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],

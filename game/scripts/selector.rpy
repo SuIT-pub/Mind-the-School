@@ -1,8 +1,27 @@
 init -3 python:
-
     from abc import ABC, abstractmethod
     import random
     from typing import Any
+
+    rerollSelectors = []
+
+    ##################
+    # Selector Handler
+
+    def reroll_selectors():
+        """
+        Rerolls all selectors
+        """
+
+        global rerollSelectors
+
+        for selector in rerollSelectors:
+            selector.roll_values()
+
+        rerollSelectors.clear()
+
+    ##################
+    # Selector Classes
 
     class SelectorSet():
         """
@@ -366,15 +385,15 @@ init -3 python:
             If none of these are specified, the time will be returned as a string.
             """
 
-            if time_type == "day":
+            if self._time_type == "day":
                 return time.get_day()
-            elif time_type == "month":
+            elif self._time_type == "month":
                 return time.get_month()
-            elif time_type == "year":
+            elif self._time_type == "year":
                 return time.get_year()
-            elif time_type == "daytime":
+            elif self._time_type == "daytime":
                 return time.get_daytime()
-            elif time_type == "weekday":
+            elif self._time_type == "weekday":
                 return time.get_weekday()
             else:
                 return time.day_to_string()

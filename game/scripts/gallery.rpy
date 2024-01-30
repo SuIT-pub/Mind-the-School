@@ -1,16 +1,19 @@
 init python:
+    gallery_manager = None
 
-    if persistent.gallery is None:
-        persistent.gallery = {}
+    # if persistent.gallery is None:
+    #     persistent.gallery = {}
 
-    def merge_endings(old, new, current):
-        current = update_dict(current, old)
-        current = update_dict(current, new)
-        return current
+    # def merge_endings(old, new, current):
+    #     current = update_dict(current, old)
+    #     current = update_dict(current, new)
+    #     return current
 
     # renpy.register_persistent('gallery', merge_endings)
 
-    gallery_manager = None
+    ############################
+    # Gallery Persistent handler
+
     def prep_gallery(location: str, event: str, *key: str):
         """
         Prepares the gallery database for use.
@@ -114,31 +117,31 @@ init python:
 
         return get_translation(key)
 
+    #################
+    # Gallery Manager
+
     class Gallery_Manager:
         """
         A class to manage the gallery database for each event.
         The class has to be initialized in the start label of the event.
-
-        ### Methods:
-        1. set_stat_ranges(**max_limits: List[float])
-            - Sets up steps for stats.
-            - This is to normalize stat value to reduce the amount of values that need to be stored.
-        2. set_topic_titles(**titles: str)
-            - Sets up titles for topics.
-        3. register_value(key: str, value: number | string)
-            - Registers a value for the use in the gallery database.
-        4. get_value(key: str, alt: Any = None, **kwargs) -> Any
-            - Gets a value from the gallery database.
 
         ### Attributes:
         1. event: str
             - The event of the gallery.
         2. location: str
             - The location of the gallery.
-        3. current_list: dict
-            - The current list of values in the database.
-        4. current_ranges: dict
+        3. current_ranges: dict
             - The current list of ranges in the database.
+        4. original_data: dict
+            - The original data of the database at the time of initialization.
+        5. data: dict
+            - The up to date data for the database.
+        6. order: list
+            - The up to date order of the inserted keys.
+        7. count: int
+            - the amount of inserted keys
+        8. decisions: dict
+            - the current database of made decisions
 
         ### Parameters:
         1. event: str
@@ -164,42 +167,8 @@ init python:
             self.count = 0
             self.decisions = persistent.gallery[self.location][event]['decisions']
 
-    def set_stat_ranges(**max_limits: List[float]):
-        """
-        Sets up steps for stats.
-        This is to normalize stat value to reduce the amount of values that need to be stored.
-
-        ### Parameters:
-        1. **max_limits: List[float]
-            - The value steps for each stat.
-        """
-
-        global gallery_manager
-
-        if gallery_manager == None:
-            return
-
-        for key in max_limits.keys():
-                gallery_manager.current_ranges[key] = list(max_limits[key])
-
-    def set_topic_titles(**titles: str):
-        """
-        Sets up titles for topics.
-
-        ### Parameters:
-        1. **titles: str
-            - The titles for each topic.
-        """
-
-        global gallery_manager
-
-        if gallery_manager == None:
-            return
-
-        if 'titles' not in persistent.gallery[gallery_manager.location][gallery_manager.event]['options'].keys():
-            persistent.gallery[gallery_manager.location][gallery_manager.event]['options']['titles'] = {}
-        for key in titles.keys():
-            persistent.gallery[gallery_manager.location][gallery_manager.event]['options']['titles'][key] = titles[key]
+    ######################################################
+    # Value and Decision registration into persistent data
 
     def register_value(key: str, value: number | string):
         """
@@ -264,6 +233,9 @@ init python:
             gallery_manager.decisions[key] = {}
         gallery_manager.decisions = gallery_manager.decisions[key]
 
+    #################################
+    # Persistent data Decision getter
+
     def get_decision_possibilities(decision_data: Dict[str, Any], decisions: List[str]) -> List[str]:
         """
         Gets a list of possibilities for a decision.
@@ -285,7 +257,9 @@ init python:
             current_level = current_level[key]
 
         return list(current_level.keys())
-            
+
+    ############################
+    # Stat Value Gallery Handler
 
     def set_stat_value(key: str, value: float, ranges: List[float], **kwargs) -> float:
         
@@ -308,6 +282,9 @@ init python:
         gallery_manager.current_ranges[key] = ranges
 
         return get_value(key, alt, **kwargs)
+
+    ###############################
+    # General Value Gallery Handler
 
     def get_value(key: str, alt: Any = None, **kwargs) -> Any:
         """
@@ -348,6 +325,9 @@ init python:
             register_value(key, value)
 
         return value        
+
+    ###########################################
+    # Character and Level Value Gallery Handler
 
     def set_char_value_with_level(char: Char, **kwargs) -> Tuple[Char, int]:
         """
@@ -428,4 +408,21 @@ init python:
 
         char_obj = get_kwargs("char_obj", None, **kwargs)
         return set_char_value_with_level(char_obj, **kwargs)
+
+    ################
+    # Replay Handler
     
+    def is_replay(**kwargs):
+        """
+        Checks if the game is in replay mode
+
+        ### Parameters:
+        1. **kwargs
+            - The kwargs to get the character from
+
+        ### Returns:
+        1. bool
+            - True if the game is in replay mode, False otherwise
+        """
+
+        return get_kwargs("in_replay", False, **kwargs)

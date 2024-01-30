@@ -1,9 +1,15 @@
+init -2 python:
+    default_fallback = Event(2, "default_fallback_event")
+
 init -3 python:
     import re
     import random
     import time
     from typing import Any, Dict, List, Tuple, Union
     
+    ###############
+    # Event classes
+
     class EventStorage:
         """
         EventStorage is a class that stores events and can call them when needed.
@@ -82,6 +88,41 @@ init -3 python:
             if not hasattr(self, 'fallback_text'):
                 self.fallback_text = "There is nothing to do here."
 
+        def check_all_events(self):
+            """
+            Checks if all events are created correctly.
+            If any event is not properly set up, an error message is printed.
+            """
+
+            for event in self.events[1].values():
+                event.check_event()
+            for event in self.events[2].values():
+                event.check_event()
+            for event in self.events[3].values():
+                event.check_event()
+
+        def register_event_for_location(self, event: Event, location: str):
+            """
+            Registers an event for a location.
+            This is used to make sure that the event is only called when the player is at the location.
+
+            ### Parameters:
+            1. event: str
+                - The event that is registered.
+            2. location: str
+                - The location that the event is registered for.
+            """
+
+            event.set_location(location)
+
+            if location not in location_event_register.keys():
+                location_event_register[location] = set()
+
+            location_event_register[location].add(event)
+
+        ###################
+        # Attribute getters
+
         def get_fallback(self) -> Event:
             """
             Returns the fallback event of the EventStorage.
@@ -138,6 +179,9 @@ init -3 python:
 
             return "EventStorage"
 
+        ###############
+        # Event Handler
+
         def add_event(self, *events: Event):
             """
             Adds an event to the EventStorage.
@@ -166,6 +210,8 @@ init -3 python:
             del self.events[2][event_id]
             del self.events[3][event_id]
 
+        ##############
+        # Event getter
 
         def count_available_events(self, priority: int = 0, **kwargs) -> int:
             """
@@ -300,6 +346,9 @@ init -3 python:
                 return [self.fallback]
             return output
 
+        ##############
+        # Event caller
+
         def call_available_event(self, priority: int = 0, **kwargs):
             """
             Calls all available events depending on the priority.
@@ -327,40 +376,6 @@ init -3 python:
                 kwargs["event_name"] = event.get_event()
                 event.call(**kwargs)
 
-        def check_all_events(self):
-            """
-            Checks if all events are created correctly.
-            If any event is not properly set up, an error message is printed.
-            """
-
-            for event in self.events[1].values():
-                event.check_event()
-            for event in self.events[2].values():
-                event.check_event()
-            for event in self.events[3].values():
-                event.check_event()
-
-        def register_event_for_location(self, event: Event, location: str):
-            """
-            Registers an event for a location.
-            This is used to make sure that the event is only called when the player is at the location.
-
-            ### Parameters:
-            1. event: str
-                - The event that is registered.
-            2. location: str
-                - The location that the event is registered for.
-            """
-
-
-
-            event.set_location(location)
-
-            if location not in location_event_register.keys():
-                location_event_register[location] = set()
-
-            location_event_register[location].add(event)
-
     class TempEventStorage(EventStorage):
         """
         Subclass of EventStorage.
@@ -387,6 +402,18 @@ init -3 python:
         def _update(self, title):
             self.title = title
 
+        def check_all_events(self):
+            """
+            Checks if all events are created correctly.
+            If any event is not properly set up, an error message is printed.
+            """
+
+            for event in self.events:
+                event.check_event()
+
+        ##################
+        # Attribute getter
+
         def get_type(self) -> str:
             """
             Returns the type of the EventStorage.
@@ -398,6 +425,9 @@ init -3 python:
             """
 
             return "TempEventStorage"
+
+        ###############
+        # Event handler
 
         def add_event(self, *event: Event):
             """
@@ -448,6 +478,9 @@ init -3 python:
             if isinstance(event_obj, Event):
                 event_obj = event_obj.get_id()
             self.events = list(filter(lambda event: event.get_id() != event_obj, self.events))
+
+        ##############
+        # Event getter
 
         def count_available_events(self, _priority = 0, **kwargs) -> int:
             """
@@ -546,6 +579,9 @@ init -3 python:
                 return [self.fallback]
             return output
 
+        ##############
+        # Event caller
+
         def call_available_event(self, _priority: int = 0, **kwargs):
             """
             Calls all available events.
@@ -576,17 +612,6 @@ init -3 python:
                     temp_event_blocker.append(event.get_id())
 
                 event.call(**kwargs)
-
-        def check_all_events(self):
-            """
-            Checks if all events are created correctly.
-            If any event is not properly set up, an error message is printed.
-            """
-
-            for event in self.events:
-                event.check_event()
-
-    rerollSelectors = []
 
     class Event:
         """
@@ -638,8 +663,6 @@ init -3 python:
             - Returns True if all conditions are fulfilled.
         8. call(**kwargs)
             - Calls the event.
-
-
         """
 
         def __init__(self, priority: int, event: str, *conditions: Condition | Selector, thumbnail: str = ""):
@@ -707,6 +730,9 @@ init -3 python:
 
             if not renpy.has_label(self.event):
                 log_error(302, "Event " + self.event_id + ": Label " + self.event + " is missing!")
+
+        #############################
+        # Attribute getter and setter
 
         def get_thumbnail(self) -> str:
             """
@@ -794,6 +820,9 @@ init -3 python:
 
             return self.priority
 
+        ###############
+        # Event handler
+
         def is_available(self, **kwargs) -> bool:
             """
             Checks if the event is available.
@@ -813,6 +842,9 @@ init -3 python:
                 if not condition.is_fulfilled(**kwargs):
                     return False
             return True
+
+        ##############
+        # Event caller
 
         def call(self, **kwargs):
             """
@@ -836,6 +868,83 @@ init -3 python:
 
             renpy.call("call_event", events, self.priority, **kwargs)
 
+    #####################
+    # Event label handler
+
+    def begin_event(**kwargs):
+        """
+        This method is called at the start of an event after choices and topics have been chosen in the event.
+        It prevents rollback to before this method and thus prevents changing choices and topics.
+        """
+
+        global seenEvents
+
+        event_name = get_kwargs("event_name", "", **kwargs)
+        in_replay = get_kwargs("in_replay", False, **kwargs)
+
+        if event_name != "" and not in_replay:
+            gallery_manager = Gallery_Manager(**kwargs)
+
+        if contains_game_data("seen_events"):
+            seenEvents = get_game_data("seen_events")
+
+        if event_name != "" and event_name in seenEvents.keys():
+            seenEvents[event_name] = True
+            set_game_data("seen_events", seenEvents)
+            if all(seenEvents.values()):
+                set_game_data("all_events_seen", True)
+
+        if in_replay:
+            char_obj = None
+
+        renpy.block_rollback()
+
+        if event_name != "":
+            renpy.call("show_sfw_text", event_name)
+
+    def end_event(return_type: str = "new_daytime", **kwargs):
+
+        global is_in_replay
+
+        is_in_replay = False
+
+        in_replay = get_kwargs("in_replay", False, **kwargs)
+        if in_replay:
+            is_in_replay = False
+            display_journal = get_kwargs("journal_display", "", **kwargs)
+            renpy.call("open_journal", 7, display_journal, from_current = False)
+            return
+
+        if return_type == "new_daytime":
+            renpy.jump("new_daytime")
+        elif return_type == "new_day":
+            renpy.jump("new_day")
+        elif return_type == "none":
+            return
+        else:
+            renpy.jump("map_overview")
+
+    def get_event_from_register(name: str) -> Event:
+        """
+        Gets an event from the event register
+
+        ### Parameters:
+        1. name: str
+            - The name of the event
+
+        ### Returns:
+        1. Event
+            - The event
+            - If the event does not exist None is returned
+        """
+
+        if name in event_register.keys():
+            return event_register[name]
+        return None
+#################
+
+##############
+# Event caller
 
 label call_available_event(event_storage, priority = 0, **kwargs):
     # """
@@ -919,8 +1028,8 @@ label call_event(event_obj, priority = 0, **kwargs):
 
     return
 
-init -2:
-    define default_fallback = Event(2, "default_fallback_event")
+#######################
+# Default event handler
 
 label default_fallback_event (**kwargs):
 
