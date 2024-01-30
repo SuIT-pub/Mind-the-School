@@ -551,7 +551,6 @@ label show_idle_image(char_obj, fallback, bg_images, **kwargs):
 
     return
 
-
 label show_image(path, display_type = SCENE, **kwargs):
     # """
     # Shows an image with the given path and keyword arguments.

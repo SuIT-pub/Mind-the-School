@@ -20,13 +20,12 @@ init -1 python:
     
 init 1 python:
     cafeteria_construction_event = Event(1, "cafeteria_construction",
-        ProgressCondition("unlock_cafeteria", "2"),
-    )
+        ProgressCondition("unlock_cafeteria", "2"))
 
     cafeteria_event_1_event = Event(3, "cafeteria_event_1",
         TimeCondition(daytime = "d"),
         RandomListSelector("topic", "coffee", "tea", "warm milk"),
-    )
+        thumbnail = "")
     
     cafeteria_event_2_event = Event(3, "cafeteria_event_2",
         TimeCondition(daytime = "1,6"),
@@ -36,8 +35,8 @@ init 1 python:
                 RandomListSelector('', 'Miwa Igarashi'),
                 RuleCondition('school_jobs')
             ),
-        )
-    )
+        ),
+        thumbnail = "")
 
     cafeteria_event_3_event = Event(3, "cafeteria_event_3",
         OR(
@@ -50,7 +49,7 @@ init 1 python:
             ProgressSelector("", "unlock_school_jobs")
         ),
         RandomListSelector('topic', (0.5, 'normal'), (0.2, 'tripped'), (0.15, 'tripped_injury'), 'overwhelmed'),
-    )
+        thumbnail = "")
 
     cafeteria_event_4_event = Event(3, "cafeteria_event_4",
         OR(
@@ -72,15 +71,38 @@ init 1 python:
             (1, 'None', NOT(CompareCondition('amount', '3 Girls'))),
             'Sakura Mori',
         ),
-        RandomListSelector('topic', 'normal')
+        RandomListSelector('topic', 'normal'),
+        thumbnail = "")
+
+    cafeteria_event_5_event = Event(3, "cafeteria_event_5",
+        TimeCondition(weekday = "d", daytime = "f"),
+        RandomListSelector('classes', 
+            ('3A', LoliContentCondition(0)),
+            (RandomListSelector('', '3A', '2A', '2A 3A'), LoliContentCondition(1)),
+            (RandomListSelector('', '1A', '1A 2A', '1A 2A, 3A', '1A 3A', '2A', '2A 3A', '3A'), LoliContentCondition(2))
+        ),
+        thumbnail = "")
+
+
+    cafeteria_general_event.add_event(
+        cafeteria_construction_event
     )
-
-
-    cafeteria_general_event.add_event(cafeteria_construction_event)
-    cafeteria_events["eat_alone"].add_event(cafeteria_event_3_event, cafeteria_event_4_event)
-    cafeteria_events["eat_student"].add_event(cafeteria_event_3_event, cafeteria_event_4_event)
-    cafeteria_events["eat_teacher"].add_event(cafeteria_event_3_event, cafeteria_event_4_event)
-    cafeteria_events["eat_look"].add_event(cafeteria_event_2_event)
+    cafeteria_events["eat_alone"].add_event(
+        cafeteria_event_3_event, 
+        cafeteria_event_4_event, 
+        cafeteria_event_5_event
+    )
+    cafeteria_events["eat_student"].add_event(
+        cafeteria_event_3_event, 
+        cafeteria_event_4_event
+    )
+    cafeteria_events["eat_teacher"].add_event(
+        cafeteria_event_3_event, 
+        cafeteria_event_4_event
+    )
+    cafeteria_events["eat_look"].add_event(
+        cafeteria_event_2_event
+    )
 
 
 #######################################
@@ -102,7 +124,7 @@ label .after_general_check (**kwargs):
 
     call call_event_menu (
         "What to do at the Cafeteria?", 
-        cafeteria_events, 
+        cafeteria_events,
         default_fallback,
         character.subtitles,
         char_obj = school_obj,
@@ -279,6 +301,20 @@ label cafeteria_event_4(**kwargs):
 
     subtitles "To be added."
     # Adelaide is seen working helped by students
+
+    $ end_event('new_daytime', **kwargs)
+
+label cafeteria_event_5(**kwargs):
+    $ begin_event(**kwargs)
+
+    $ classes = get_value("classes", **kwargs)
+
+    $ image = Image_Series("images/background/cafeteria/cafeteria_event_5 <level> <classes> <step>.webp")
+
+    $ image.show(0)
+    subtitles "You take your lunch, sit down at a table and observe your surroundings."
+    $ image.show(1)
+    headmaster_thought "It seems like the students are enjoying their lunch break."
 
     $ end_event('new_daytime', **kwargs)
 

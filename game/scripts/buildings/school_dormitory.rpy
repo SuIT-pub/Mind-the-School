@@ -19,15 +19,13 @@ init -1 python:
     ]
 
 init 1 python:    
-    sd_timed_event.add_event(Event(1, "first_week_school_dormitory_event",
+    first_week_school_dormitory_event_event = Event(1, "first_week_school_dormitory_event",
         TimeCondition(day = "2-4", month = 1, year = 2023),
-        thumbnail = "images/events/first week/first week school dormitory 1.webp"
-    ))
+        thumbnail = "images/events/first week/first week school dormitory 1.webp")
 
-    sd_timed_event.add_event(Event(1, "first_potion_school_dormitory_event",
+    first_potion_school_dormitory_event_event = Event(1, "first_potion_school_dormitory_event",
         TimeCondition(day = 9, month = 1, year = 2023),
-        thumbnail = "images/events/first potion/first potion school dormitory 3.webp"
-    ))
+        thumbnail = "images/events/first potion/first potion school dormitory 3.webp")
 
     sd_event1 = Event(3, "sd_event_1",
         StatSelector('education', EDUCATION, "school"),
@@ -37,8 +35,7 @@ init 1 python:
             TimeCondition(weekday = "d", daytime = "n"), 
             TimeCondition(weekday = "w")
         ),
-        thumbnail = "images/events/school dormitory/sd_event_1 1 0.webp"
-    )
+        thumbnail = "images/events/school dormitory/sd_event_1 1 0.webp")
 
     sd_event2 = Event(3, "sd_event_2",
         RandomValueSelector('inhibition_limit', 30, 50),
@@ -70,14 +67,18 @@ init 1 python:
             TimeCondition(weekday = "d", daytime = "n"), 
             TimeCondition(weekday = "w")
         ),
-        thumbnail = "images/events/school dormitory/sd_event_2 ah dorm_room Aona Komuro 1 0.webp"
-    )
+        thumbnail = "images/events/school dormitory/sd_event_2 ah dorm_room Aona Komuro 1 0.webp")
 
     sd_event3 = Event(3, "sd_event_3",
         StatSelector('inhibition', INHIBITION, "school"),
         RandomListSelector('topic', "normal", (0.1, "panties"), (0.02, "nude")),
         TimeCondition(daytime = "6,7"),
-        thumbnail = "images/events/school dormitory/sd_event_3 normal 1 0.webp"
+        thumbnail = "images/events/school dormitory/sd_event_3 normal 1 0.webp")
+
+
+    sd_timed_event.add_event(
+        first_week_school_dormitory_event_event,
+        first_potion_school_dormitory_event_event,
     )
 
     # sd_events["peek_students"].add_event(sd_event2)

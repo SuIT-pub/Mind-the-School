@@ -22,16 +22,13 @@ init -1 python:
     ]
     
 init 1 python:
-    gym_timed_event.add_event(Event(1, "first_week_gym_event",
+    first_week_gym_event_event = Event(1, "first_week_gym_event",
         TimeCondition(day = "2-4", month = 1, year = 2023),
-        thumbnail = "images/events/first week/first week gym 1.webp"
-    ))
+        thumbnail = "images/events/first week/first week gym 1.webp")
 
-    
-    gym_timed_event.add_event(Event(1, "first_potion_gym_event",
+    first_potion_gym_event_event = Event(1, "first_potion_gym_event",
         TimeCondition(day = 9, month = 1, year = 2023),
-        thumbnail = "images/events/first potion/first potion gym 1.webp"
-    ))
+        thumbnail = "images/events/first potion/first potion gym 1.webp")
 
     gym_event1 = Event(3, "gym_event_1",
         StatSelector("corruption", CORRUPTION, "school"),
@@ -42,15 +39,13 @@ init 1 python:
             "ready": "getting ready",
         }),
         TimeCondition(daytime = "c", weekday = "d"),
-        thumbnail = "images/events/gym/gym_event_1 1 hair 0.webp"
-    )
+        thumbnail = "images/events/gym/gym_event_1 1 hair 0.webp")
     
     gym_event2 = Event(3, "gym_event_2",
         StatSelector("inhibition", INHIBITION, "school"),
         RandomListSelector("topic", (0.75, "clothe"), "breasts", (0.15, "asses")),
         TimeCondition(daytime = "c", weekday = "d"),
-        thumbnail = "images/events/gym/gym_event_2 1 clothe 0.webp"
-    )
+        thumbnail = "images/events/gym/gym_event_2 1 clothe 0.webp")
 
     gym_event3 = Event(3, "gym_event_3",
         RandomValueSelector("variant", 1, 1),
@@ -58,13 +53,29 @@ init 1 python:
             1: "Kokoro Nakamura",
         }),
         TimeCondition(daytime = "c", weekday = "d"),
-        thumbnail = "images/events/gym/gym_event_3 1 1 0.webp"
-    )    
+        thumbnail = "images/events/gym/gym_event_3 1 1 0.webp")    
 
-    gym_events["enter_changing"].add_event(gym_event2)
-    gym_events["students"].add_event(gym_event1, gym_event3)
-    gym_events["check_pe"].add_event(gym_event1, gym_event3)
-    gym_events["teach_pe"].add_event(gym_event1, gym_event3)
+
+    gym_timed_event.add_event(
+        first_week_gym_event_event,
+        first_potion_gym_event_event,
+    )
+
+    gym_events["enter_changing"].add_event(
+        gym_event2,
+    )
+    gym_events["students"].add_event(
+        gym_event1, 
+        gym_event3,
+    )
+    gym_events["check_pe"].add_event(
+        gym_event1, 
+        gym_event3,
+    )
+    gym_events["teach_pe"].add_event(
+        gym_event1, 
+        gym_event3,
+    )
 
 #################################
 

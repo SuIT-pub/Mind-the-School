@@ -22,34 +22,39 @@ init -1 python:
     ]
 
 init 1 python:    
-    office_building_timed_event.add_event(Event(1, "first_week_office_building_event",
+    first_week_office_building_event_event = Event(1, "first_week_office_building_event",
         TimeCondition(day = "2-4", month = 1, year = 2023),
-        thumbnail = "images/events/first week/first week office building 1.webp"
-    ))
+        thumbnail = "images/events/first week/first week office building 1.webp")
     
-    office_building_timed_event.add_event(Event(1, "first_potion_office_building_event",
+    first_potion_office_building_event_event = Event(1, "first_potion_office_building_event",
         TimeCondition(day = 9, month = 1, year = 2023),
-        thumbnail = "images/events/first potion/first potion office 1.webp"
-    ))
+        thumbnail = "images/events/first potion/first potion office 1.webp")
 
     office_event1 = Event(3, "office_event_1",
         TimeCondition(weekday = "d", daytime = "d"),
-        thumbnail = "images/events/office/office_event_1 1 0.webp"
-    )
+        thumbnail = "images/events/office/office_event_1 1 0.webp")
 
     office_event2 = Event(3, "office_event_2",
         RandomListSelector("teacher", "Finola Ryan", "Yulan Chen"),
         TimeCondition(weekday = "d", daytime = "d"),
-        thumbnail = "images/events/office/office_event_2 1 Finola Ryan.webp"
-    )
+        thumbnail = "images/events/office/office_event_2 1 Finola Ryan.webp")
 
     office_event3 = Event(3, "office_event_3",
         TimeCondition(weekday = "d", daytime = "d"),
         NOT(RuleCondition("student_student_relation")),
-        thumbnail = "images/events/office/office_event_3 1 0.webp"
+        thumbnail = "images/events/office/office_event_3 1 0.webp")
+
+
+    office_building_timed_event.add_event(
+        first_potion_office_building_event_event,
+        first_week_office_building_event_event,
     )
 
-    office_building_events["look_around"].add_event(office_event1, office_event2, office_event3)
+    office_building_events["look_around"].add_event(
+        office_event1, 
+        office_event2, 
+        office_event3,
+    )
 
 #############################################
 
