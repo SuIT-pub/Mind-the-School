@@ -683,7 +683,7 @@ screen journal_overview(display, char = "school"):
                     textbutton "  Money:":
                         yalign 0.5 
                         text_style button_style
-                        action [With(dissolveM), Call("open_journal", 1, "money")]
+                        action [With(dissolveM), Call("open_journal", 1, "money", char)]
                     text "[money_text]" style "journal_text" yalign 0.5
 
                 null height 20
@@ -702,7 +702,7 @@ screen journal_overview(display, char = "school"):
                     textbutton "  Level:":
                         yalign 0.5 
                         text_style button_style
-                        action [With(dissolveM), Call("open_journal", 1, "level")]
+                        action [With(dissolveM), Call("open_journal", 1, "level", char)]
                     text "[level_text]" style "journal_text" yalign 0.5
 
                 null height 20
@@ -720,7 +720,7 @@ screen journal_overview(display, char = "school"):
                         textbutton "  [stat_title]:":
                             yalign 0.5 
                             text_style button_style
-                            action [With(dissolveM), Call("open_journal", 1, stat_obj.get_name())]
+                            action [With(dissolveM), Call("open_journal", 1, stat_obj.get_name(), char)]
                         text " [stat_value]" style "journal_text" yalign 0.5
 
         vbar value YScrollValue("Overview"):
@@ -739,7 +739,6 @@ screen journal_overview(display, char = "school"):
         if active_stat_obj != None:
             $ active_desc = active_stat_obj.get_full_description()
             $ active_image = active_stat_obj.get_image()
-            $ log_val('active_desc', active_desc)
 
             image "[active_image]":
                 xalign 0.63 yalign 0.65
