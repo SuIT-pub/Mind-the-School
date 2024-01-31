@@ -1233,23 +1233,30 @@ screen journal_gallery(display):
     else:
         $ location = display
 
-    $ location_list = [get_building(location_name) for location_name in persistent.gallery.keys() if get_building(location_name) != None]
-
-    if len(location_list) != 0 and location == "":
+    if location == "":
+        $ location_list = [get_building(location_name) for location_name in persistent.gallery.keys() if get_building(location_name) != None]
         $ location_dict = {building.get_name(): building.get_title() for building in location_list}
 
         if 'misc' in persistent.gallery.keys():
             $ location_dict['misc'] = "Miscellaneous"
 
-        $ location_button = "buttons_idle"
-        use journal_simple_list(7, location, location_dict, "buttons_idle", pos_x = 350, width = 500, sort = True)
-        text "Please select a location.":
-            xpos 989
-            ypos 200
-            size 30
-            xmaximum 500
-            ymaximum 50
-            color "#000"
+        if len(location_dict) != 0:
+            use journal_simple_list(7, location, location_dict, "buttons_idle", pos_x = 350, width = 500, sort = True)
+            text "Please select a location.":
+                xpos 989
+                ypos 200
+                size 30
+                xmaximum 500
+                ymaximum 50
+                color "#000"
+        else:
+            text "No Events to replay :(":
+                xpos 989
+                ypos 200
+                size 30
+                xmaximum 500
+                ymaximum 50
+                color "#000"
     elif location != "":
         $ location_title = "Miscellaneous"
         $ building = get_building(location)
@@ -1365,9 +1372,6 @@ screen journal_gallery(display):
                                         $ disable_play = True
                                     else:
                                         for value in sorted(filtered_values):
-                                            if variant_name + '.' + value in loli_filter[loli_content]:
-                                                continue
-
                                             $ has_option = True
                                             $ value_text = get_translation(value)
                                             if value == gallery_chooser[variant_name]:
@@ -1405,11 +1409,18 @@ screen journal_gallery(display):
                 xpos 1000
                 ypos 880
                 action [Call('start_gallery_replay', location, event, gallery_chooser, display)]
-        
-        textbutton "Close":
-            xalign 0.75
-            yalign 0.87
-            action [With(dissolveM), Jump("map_overview")]
+        else:
+            button:
+                text "Replay not available":
+                    style "buttons_inactive"
+                    size 30
+                xpos 1000
+                ypos 880
+
+    textbutton "Close":
+        xalign 0.75
+        yalign 0.87
+        action [With(dissolveM), Jump("map_overview")]
 
     
     $ tooltip = GetTooltip()
