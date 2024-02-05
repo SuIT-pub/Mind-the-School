@@ -17,4 +17,4 @@ Download  File from [Releases Page](https://github.com/SuIT-pub/Mind-the-School/
 ### PC & Mac
 Unpack .zip-file and execute
 ### Android
-Open .apk file on Mobile Device. FOllow intstructions on device.
+Open .apk file on Mobile Device. Follow intstructions on device.
