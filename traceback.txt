@@ -15,11 +15,14 @@ While running game code:
     call screen journal_overview(display, char) with dissolveM
   File "game/scripts/journal/journal.rpy", line 48, in script call
     call screen journal_overview(display, char) with dissolveM
-  [Previous line repeated 22 more times]
-  File "game/scripts/intro.rpy", line 44, in script call
-    call skip_to_free_roam from intro_3
-  File "game/scripts/intro.rpy", line 212, in script call
-    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  [Previous line repeated 4 more times]
+  File "game/scripts/journal/journal.rpy", line 60, in script call
+    call screen journal_gallery(display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 60, in script call
+    call screen journal_gallery(display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 60, in script call
+    call screen journal_gallery(display) with dissolveM
+  [Previous line repeated 27 more times]
   File "game/scripts/overview.rpy", line 591, in script call
     call screen school_overview_buttons
   File "game/scripts/journal/journal.rpy", line 44, in script call
@@ -30,20 +33,71 @@ While running game code:
     call screen journal_overview(display, char) with dissolveM
   File "game/scripts/journal/journal.rpy", line 48, in script call
     call screen journal_overview(display, char) with dissolveM
-  [Previous line repeated 22 more times]
-ScriptError: could not find label 'journal_overview'.
+  [Previous line repeated 7 more times]
+  File "game/scripts/journal/journal.rpy", line 50, in script call
+    call screen journal_page(2, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 50, in script call
+    call screen journal_page(2, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 50, in script call
+    call screen journal_page(2, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 52, in script call
+    call screen journal_page(3, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 54, in script call
+    call screen journal_page(4, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 54, in script call
+    call screen journal_page(4, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 54, in script call
+    call screen journal_page(4, display) with dissolveM
+  [Previous line repeated 10 more times]
+  File "game/scripts/overview.rpy", line 591, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 44, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 48, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 60, in script call
+    call screen journal_gallery(display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 60, in script call
+    call screen journal_gallery(display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 60, in script call
+    call screen journal_gallery(display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 60, in script
+    call screen journal_gallery(display) with dissolveM
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "game/scripts/journal/journal.rpy", line 1207, in execute
+    screen journal_gallery(display):
+  File "game/scripts/journal/journal.rpy", line 1207, in execute
+    screen journal_gallery(display):
+  File "game/scripts/journal/journal.rpy", line 1292, in execute
+    if event != "":
+  File "game/scripts/journal/journal.rpy", line 1332, in execute
+    frame:
+  File "game/scripts/journal/journal.rpy", line 1335, in execute
+    viewport id "GallerySelectionOverview":
+  File "game/scripts/journal/journal.rpy", line 1338, in execute
+    hbox:
+  File "game/scripts/journal/journal.rpy", line 1340, in execute
+    for variant_name in variant_names:
+  File "game/scripts/journal/journal.rpy", line 1354, in execute
+    if len(values) > 1:
+  File "game/scripts/journal/journal.rpy", line 1356, in execute
+    frame:
+  File "game/scripts/journal/journal.rpy", line 1359, in execute
+    vbox:
+  File "game/scripts/journal/journal.rpy", line 1365, in execute
+    $ filtered_values = [value for value in values if variant_name + '.' + value not in loli_filter[loli_content]]
+  File "game/scripts/journal/journal.rpy", line 1365, in <module>
+    $ filtered_values = [value for value in values if variant_name + '.' + value not in loli_filter[loli_content]]
+  File "game/scripts/journal/journal.rpy", line 1365, in <lambda>
+    $ filtered_values = [value for value in values if variant_name + '.' + value not in loli_filter[loli_content]]
+  File "game/scripts/journal/journal.rpy", line 1365, in <listcomp>
+    $ filtered_values = [value for value in values if variant_name + '.' + value not in loli_filter[loli_content]]
+TypeError: can only concatenate str (not "int") to str
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "C:\Users\bigma\Documents\RenPy\renpy\bootstrap.py", line 275, in bootstrap
-    renpy.main.main()
-  File "C:\Users\bigma\Documents\RenPy\renpy\main.py", line 670, in main
-    run(restart)
-  File "C:\Users\bigma\Documents\RenPy\renpy\main.py", line 144, in run
-    renpy.execution.run_context(True)
-  File "C:\Users\bigma\Documents\RenPy\renpy\execution.py", line 955, in run_context
-    context.run()
   File "game/scripts/intro.rpy", line 44, in script call
     call skip_to_free_roam from intro_3
   File "game/scripts/intro.rpy", line 212, in script call
@@ -58,11 +112,14 @@ Full traceback:
     call screen journal_overview(display, char) with dissolveM
   File "game/scripts/journal/journal.rpy", line 48, in script call
     call screen journal_overview(display, char) with dissolveM
-  [Previous line repeated 22 more times]
-  File "game/scripts/intro.rpy", line 44, in script call
-    call skip_to_free_roam from intro_3
-  File "game/scripts/intro.rpy", line 212, in script call
-    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  [Previous line repeated 4 more times]
+  File "game/scripts/journal/journal.rpy", line 60, in script call
+    call screen journal_gallery(display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 60, in script call
+    call screen journal_gallery(display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 60, in script call
+    call screen journal_gallery(display) with dissolveM
+  [Previous line repeated 27 more times]
   File "game/scripts/overview.rpy", line 591, in script call
     call screen school_overview_buttons
   File "game/scripts/journal/journal.rpy", line 44, in script call
@@ -73,12 +130,97 @@ Full traceback:
     call screen journal_overview(display, char) with dissolveM
   File "game/scripts/journal/journal.rpy", line 48, in script call
     call screen journal_overview(display, char) with dissolveM
-  [Previous line repeated 22 more times]
-  File "C:\Users\bigma\Documents\RenPy\renpy\script.py", line 1013, in lookup
-    raise ScriptError("could not find label '%s'." % str(original))
-ScriptError: could not find label 'journal_overview'.
+  [Previous line repeated 7 more times]
+  File "game/scripts/journal/journal.rpy", line 50, in script call
+    call screen journal_page(2, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 50, in script call
+    call screen journal_page(2, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 50, in script call
+    call screen journal_page(2, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 52, in script call
+    call screen journal_page(3, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 54, in script call
+    call screen journal_page(4, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 54, in script call
+    call screen journal_page(4, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 54, in script call
+    call screen journal_page(4, display) with dissolveM
+  [Previous line repeated 10 more times]
+  File "game/scripts/overview.rpy", line 591, in script call
+    call screen school_overview_buttons
+  File "game/scripts/journal/journal.rpy", line 44, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 48, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 60, in script call
+    call screen journal_gallery(display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 60, in script call
+    call screen journal_gallery(display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 60, in script call
+    call screen journal_gallery(display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 60, in script
+    call screen journal_gallery(display) with dissolveM
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2259, in execute
+    self.call("execute")
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2241, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\statements.py", line 342, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 670, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\exports.py", line 3347, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "C:\Users\bigma\Documents\RenPy\renpy\ui.py", line 299, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 3582, in interact
+    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, pause=pause, pause_start=pause_start, pause_modal=pause_modal, **kwargs) # type: ignore
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 4055, in interact_core
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 684, in visit_all
+    d.visit_all(callback, seen)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 476, in visit_all
+    callback(self)
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\core.py", line 4055, in <lambda>
+    root_widget.visit_all(lambda d : d.per_interact())
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 487, in per_interact
+    self.update()
+  File "C:\Users\bigma\Documents\RenPy\renpy\display\screen.py", line 680, in update
+    self.screen.function(**self.scope)
+  File "game/scripts/journal/journal.rpy", line 1207, in execute
+    screen journal_gallery(display):
+  File "game/scripts/journal/journal.rpy", line 1207, in execute
+    screen journal_gallery(display):
+  File "game/scripts/journal/journal.rpy", line 1292, in execute
+    if event != "":
+  File "game/scripts/journal/journal.rpy", line 1332, in execute
+    frame:
+  File "game/scripts/journal/journal.rpy", line 1335, in execute
+    viewport id "GallerySelectionOverview":
+  File "game/scripts/journal/journal.rpy", line 1338, in execute
+    hbox:
+  File "game/scripts/journal/journal.rpy", line 1340, in execute
+    for variant_name in variant_names:
+  File "game/scripts/journal/journal.rpy", line 1354, in execute
+    if len(values) > 1:
+  File "game/scripts/journal/journal.rpy", line 1356, in execute
+    frame:
+  File "game/scripts/journal/journal.rpy", line 1359, in execute
+    vbox:
+  File "game/scripts/journal/journal.rpy", line 1365, in execute
+    $ filtered_values = [value for value in values if variant_name + '.' + value not in loli_filter[loli_content]]
+  File "game/scripts/journal/journal.rpy", line 1365, in <module>
+    $ filtered_values = [value for value in values if variant_name + '.' + value not in loli_filter[loli_content]]
+  File "game/scripts/journal/journal.rpy", line 1365, in <lambda>
+    $ filtered_values = [value for value in values if variant_name + '.' + value not in loli_filter[loli_content]]
+  File "game/scripts/journal/journal.rpy", line 1365, in <listcomp>
+    $ filtered_values = [value for value in values if variant_name + '.' + value not in loli_filter[loli_content]]
+TypeError: can only concatenate str (not "int") to str
 
 Windows-10-10.0.22631 AMD64
 Ren'Py 8.1.3.23091805
 Mind the School 0.1.3
-Tue Jan 30 14:43:11 2024
+Thu Feb  1 10:59:41 2024
