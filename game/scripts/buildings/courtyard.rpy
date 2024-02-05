@@ -271,6 +271,8 @@ label courtyard_event_5(**kwargs):
 
     $ char_obj = get_char_value(**kwargs)
 
+    # headmaster walks by
+    # students walk by talking with each other
     subtitles "You come across a group of students talking to each other."
 
     $ end_event("new_daytime", **kwargs)
@@ -280,11 +282,17 @@ label courtyard_event_6(**kwargs):
 
     $ char_obj = get_char_value(**kwargs)
 
+    # headmaster approaches a student sitting on the courtyard
     headmaster "Excuse me, but what are you doing here?"
+    # student looks up kinda surprised
     sgirl "I'm taking my break sir."
+    # headmaster looking rather angry
     headmaster "Class already started. You should be in class."
+    # student surprised
     sgirl "Really?!"
+    # headmaster nods
     headmaster "Yes. Now run along and check the time next time so you don't arrive late!"
+    # student runs off
     sgirl "Sorry!"
 
     $ end_event("new_daytime", **kwargs)

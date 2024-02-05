@@ -455,6 +455,7 @@ label sb_event_4(**kwargs):
 
     $ char_obj = get_char_value(**kwargs)
 
+    # you see a girl falling in the hallway
     sgirl "AHH!"
     subtitles "*CRASH*"
     sgirl "Ouch..."
@@ -467,26 +468,37 @@ label sb_event_4(**kwargs):
 
 label .leave (**kwargs):
 
+    # students run to fallen student helping her, headmaster standing further back observing it and then walking away
     headmaster_thought "Hmm, the others already rush to help her. No need for me to get involved."
 
     $ end_event('new_daytime', **kwargs)
 
 label .help (**kwargs):
 
+    # headmaster quickly approaches girl and helps her up
     headmaster "Are you okay? Here let me help you."
+    # girl smiles and thanks him
     sgirl "Thank you."
+    # headmaster looking worried
     headmaster "Does anything hurt?"
+    # girl happy 
     sgirl "No, I'm fine."
+    # headmaster standing behind waving as girl walks off
     headmaster "Okay then. Be more careful next time."
+    # girl waves back
     sgirl "Yes, I will."
 
     $ end_event('new_daytime', **kwargs)
 
 label .panties (**kwargs):
 
+    # headmaster crouches in front of her
     headmaster "Cute panties."
+    # girl jumps back
     sgirl "Eh?!"
+    # headmaster points down
     headmaster "Oh, sorry. I didn't mean to embarrass you. But that bear is cute cute."
+    # girl jumps up
     sgirl "Eeeek! Pervert!"
     # girl runs off
 

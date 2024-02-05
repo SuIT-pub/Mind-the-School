@@ -36,6 +36,7 @@ init 1 python:
                 RuleCondition('school_jobs')
             ),
         ),
+        RandomListSelector('topic', (0.7, 'apron'), (0.1, 'underwear'), (0.07, 'bra'), 'breasts', 'nude'),
         thumbnail = "")
 
     cafeteria_event_3_event = Event(3, "cafeteria_event_3",
@@ -170,9 +171,16 @@ label cafeteria_event_1(**kwargs):
 
     show screen black_screen_text("cafeteria_event_1\n" + topic)
 
+    # Adelaide greets Headmaster
     parent "Hello Mr. [headmaster_last_name] and welcome! What can I help you with?" (name = 'Adelaide Hall')
+
+    # Headmaster orders
     headmaster "I would like to have a [topic]."
+
+    # Adelaide gets off to prepare the order
     parent "Sure, I'll get it for you right away." (name = 'Adelaide Hall')
+
+    # Headmaster meanwhile looks into the cafeteria
 
     $ end_event('new_daytime', **kwargs)
 
@@ -182,13 +190,18 @@ label cafeteria_event_2(**kwargs):
     $ char_obj = get_char_value(**kwargs)
     $ time_ob = get_value('time', **kwargs)
     $ girl_name = get_value('girl_name', **kwargs)
+    $ topic = get_value('topic', **kwargs)
 
     show screen black_screen_text("cafeteria_event_2\nTime: " + str(time_ob) + "\n" + girl_name)
 
+    # headmaster walks into the cafeteria pantry where someone is changing clothes
     if time_ob == 1:
         headmaster_thought "It seems [girl_name] is getting ready for work."
     else:
         headmaster_thought "Ah, [girl_name] is finishing up her work."
+
+    headmaster "I'm sorry, I didn't mean to disturb you."
+    sgirl "Eh? Please leave, I'm changing."
 
     $ end_event('new_daytime', **kwargs)
 
@@ -207,16 +220,26 @@ label cafeteria_event_3(**kwargs):
 
     $ image = Image_Series("images/background/cafeteria/cafeteria_event_3 <level> <school_jobs>.webp")
 
+    # headmaster enters and walks to counter
     subtitles "You enter the cafeteria and step to the counter."
     if topic == "overwhelmed":
+        # headmaster at counter talks
         headmaster "Hello, I would like to have a..."
+        # Adelaide is seen working multiple tasks
         parent "Sorry, I'm a bit busy. Could you wait a little bit please?" (name = name)
+        # view back to headmaster
         headmaster "Sure, no problem."
+        # view on headmaster waiting in front of the counter looking around
         subtitles "You wait for a while."
+        # Adelaide approaches headmaster looking rather exhausted
         parent "Sorry for the wait. What would you like to have?" (name = name)
+        # view back to headmaster
         headmaster "I'd like to have a sandwich and a coffee please."
+        # Adelaide prepares the order
         parent "Sure, I'll get it for you right away." (name = name)
+        # view back to headmaster
         headmaster "A busy day today?"
+        # Adelaide pauses to talk with the headmaster
         parent "You could say that. I'm a bit overwhelmed with work. " (name = name)
         parent "Today there just too much work to do for one person." (name = name)
 
@@ -224,6 +247,7 @@ label cafeteria_event_3(**kwargs):
             $ unlock_school_jobs = set_progress('unlock_school_jobs', unlock_school_jobs)
             $ school_job_progress = advance_progress('school_job_progress')
 
+            # Adelaide gives the order to the headmaster
             parent "Well anyway, here is your order. Have a nice day." (name = name)
             headmaster "Thank you, you too."
 
@@ -231,19 +255,30 @@ label cafeteria_event_3(**kwargs):
                 $ set_progress('unlock_school_jobs', 2)
         elif unlock_school_jobs == 2:
 
+            # headmaster looks to be in thought
             headmaster "Mhh I see. I could help you out if you want."
+            # Adelaide looks happy
             parent "Really? That would be great. I would really appreciate it." (name = name)
+            # headmaster goes behind the counter
             headmaster "No problem. What do you want me to do?"
+            # Adelaide gives headmaster a task
             parent "Well, I need someone to help me with the dishes. Could you do that?" (name = name)
+            # headmaster thumbs up
             headmaster "Sure, I can do that."
+            # Adelaide thumbs up
             parent "Thank you! After that you could help with..."
 
             call screen black_screen_text("2 hours later")
 
             $ hide_all()
 
+            # Adelaide approaches headmaster rather exhausted
             parent "Thank you so much for your help. I really appreciate it." (name = name)
+
+            # Headmaster looks exhausted as well
             headmaster "You're welcome. I'm glad I could help you out."
+
+            # Headmaster and Adelaide start discussion
             headmaster "You know, what do you think about hiring some students to help you out?"
             parent "You mean part time. Wouldn't that distract them from their studies?" (name = name)
             headmaster "Maybe, but I think it would be a good opportunity for them to learn some responsibility."
@@ -254,8 +289,11 @@ label cafeteria_event_3(**kwargs):
             headmaster "So I guess we both agree that it would be a good idea to hire some students to help you out."
             parent "Yes, definitely. I'll support that Idea at the PTA meeting and will convince the other parents to do so as well."
             headmaster "Great, I'm looking forward to it."
+            # Adelaide gives headmaster a sandwich and a coffee
             parent "Thank you so much for your help. Also I made your sandwich and coffee. You definitely earned it." (name = name)
+            # Headmaster takes the sandwich and coffee
             headmaster "Oh thank you I completely forgot about that. See you later."
+            # Adelaide waves
             parent "Bye."
 
             $ set_progress('unlock_school_jobs', 3)
@@ -264,30 +302,49 @@ label cafeteria_event_3(**kwargs):
 
     elif topic == "tripped" or topic == "tripped_injury":
 
+        # headmaster approaches counter
         headmaster "Hello, I would like to have a..."
+        # Adelaide is seen falling behind the counter
         parent "Ahh!" (name = name)
         subtitles "*CRASH*"
+        # headmaster looks over the counter
         headmaster "Oh no! Are you okay?"
+        # Adelaide lying behind counter
         parent "Yes, I'm fine. I just tripped over my own feet." (name = name)
+        # headmaster leaps over counter
         headmaster "Here, let me help you."
+        # headmaster crouches next to adelaide
         headmaster "Does anything hurt?"
 
         if topic == "tripped_injury":
+            # adelaide rubs her ankle
             parent "Yes, my ankle hurts a bit." (name = name)
+            # headmaster takes a look at the ankle
             headmaster "Let me take a look at it."
             headmaster "It seems like you sprained your ankle. You should go to the nurse's office and get it checked out."
+            # adelaide tries to stand up
             parent "I don't think it's that bad. I can still walk." (name = name)
+            # headmaster helps adelaide up
             headmaster "No I insist. I'll take care of the kitchen while you're away."
+            # adelaide looks at headmaster
             parent "Okay, thank you." (name = name)
+            # headmaster works in the kitchen
             subtitles "You spend the next hours working in the kitchen."
         else:
+            # adelaide already standing up again
             parent "No, I'm fine. I just need to be more careful." (name = name)
+            # headmaster helps adelaide up
             headmaster "Okay, but if you need anything just let me know."
+            # adelaide looks at headmaster
             parent "Thank you." (name = name)
     else:
+        # headmaster approaches counter
         headmaster "Hello, I would like to have a sandwich and a coffee please."
+        # Adelaide prepares the order
         parent "Sure, I'll get it for you right away." (name = name)
+        # Adelaide gives the order to the headmaster
         parent "Here you go." (name = name)
+        # headmaster takes the sandwich and coffee
         headmaster "Thank you."
     $ end_event('new_daytime', **kwargs)
 
@@ -316,8 +373,11 @@ label cafeteria_event_5(**kwargs):
 
     $ image = Image_Series("images/background/cafeteria/cafeteria_event_5 <level> <classes> <step>.webp")
 
+    # Headmaster walks to empty table with his food
     $ image.show(0)
     subtitles "You take your lunch, sit down at a table and observe your surroundings."
+
+    # Headmaster looks around
     $ image.show(1)
     headmaster_thought "It seems like the students are enjoying their lunch break."
 
