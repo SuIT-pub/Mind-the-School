@@ -369,14 +369,14 @@ screen school_overview_buttons ():
         if has_keyboard():
             if show_shortcut():
                 $ s_text = " [[Z]"
-            key "K_z" action Call("new_daytime")
+            key "K_z" action Call("skip_time")
         # Skip Daytime
         imagebutton:
             auto "icons/time skip %s.webp"
             tooltip "Skip Time" + s_text
             focus_mask None
             xalign 0.0 yalign 0.0
-            action Call("new_daytime")
+            action Call("skip_time")
 
         $ j_text = ""
         if has_keyboard():
@@ -591,8 +591,6 @@ label map_overview ():
     call screen school_overview_buttons
     # call screen school_overview with dissolveM
 
-
-
     subtitles_Empty ""
 
 #############################################################################
@@ -610,3 +608,10 @@ label building(name=""):
     call expression name from building_1
 
     call map_overview from building_2
+
+label skip_time ():
+    $ reset_stats(get_school())
+    $ reset_stats(get_character('parents', charList))
+    $ reset_stats(get_character('teacher', charList['staff']))
+
+    call new_daytime from skip_time_1

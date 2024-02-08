@@ -69,6 +69,9 @@ init 1 python:
         first_potion_sb_event,
     )
 
+    sb_general_event.add_event(
+    )
+
     sb_events["teach_class"].add_event(
         first_class_sb_event_event, 
         sb_event1, 
@@ -88,7 +91,7 @@ init 1 python:
 
 label school_building ():
     call call_available_event(sb_timed_event) from school_building_1
-
+    
 label .after_time_check (**kwargs):
     call call_available_event(sb_general_event) from school_building_4
 
