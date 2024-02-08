@@ -724,48 +724,6 @@ init -99 python:
             return -1
         return gameData["progress"][key]
 
-    ###########################################
-    # --- Version Compatibility Functions --- #
-    ###########################################
-
-    def fix_schools():
-        old_character = get_character("school_mean_values", charList)
-        if old_character != None:
-            max_level = 0
-            high_school = get_character("high_school", charList['schools'])
-            middle_school = get_character("middle_school", charList['schools'])
-            elementary_school = get_character("elementary_school", charList['schools'])
-            if high_school != None:
-                max_level = max(max_level, high_school.get_level())
-
-            old_character.name = "school"
-            old_character.title = "School"
-            old_character.level = Stat("level", max_level)
-            charList["school"] = old_character
-            charList.pop("school_mean_values")
-        if 'schools' in charList:
-            charList['schools'].pop("high_school")
-            charList['schools'].pop("middle_school")
-            charList['schools'].pop("elementary_school")
-            charList.pop('schools')
-
-        load_character("school", "School", charList, {
-            'stats_objects': {
-                "corruption": Stat(CORRUPTION, 0),
-                "inhibition": Stat(INHIBITION, 100),
-                "happiness": Stat(HAPPINESS, 12),
-                "education": Stat(EDUCATION, 9),
-                "charm": Stat(CHARM, 8),
-                "reputation": Stat(REPUTATION, 7),
-            }
-        })
-
-    def check_old_versions():
-        if 'headmaster_first_name' in gameData.keys() and 'headmaster_last_name' in gameData.keys():
-            set_name("headmaster", gameData['headmaster_first_name'], gameData['headmaster_last_name'])
-            gameData.pop('headmaster_first_name')
-            gameData.pop('headmaster_last_name')
-
     ################################
     # --- Randomizer Functions --- #
     ################################
