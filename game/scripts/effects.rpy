@@ -330,3 +330,34 @@ init -1 python:
             if self.key not in gameData.keys():
                 gameData[self.key] = 0
             gameData[self.key] += self.value
+
+    class ModifierEffect(Effect):
+        """
+        Adds a modifier to a stat.
+
+        ### Attributes:
+        1. key: str
+            - Key of the modifier.
+        2. stat: str
+            - Name of the stat.
+        3. mod_obj: Modifier_Obj
+            - Modifier to be added.
+        4. char_obj: Char (Default None)
+            - Character to which the modifier will be added.
+        5. collection: str (Default "default")
+            - Collection of the modifier.
+        """
+
+        def __init__(self, key: str, stat: str, mod_obj: Modifier_Obj, char_obj: Char = None, collection: str = 'default'):
+            super().__init__(key)
+            self.key = key
+            self.stat = stat
+            self.modifier = mod_obj
+            self.char_obj = char_obj
+            self.collection = collection
+
+        def __str__(self):
+            return f"{self.key}"
+
+        def apply(self, **kwargs):
+            set_modifier(self.key, self.stat, self.modifier, char_obj = self.char_obj, collection = self.collection)
