@@ -751,13 +751,6 @@ init -6 python:
 
             return get_building(self.value).is_unlocked()
 
-        def to_list_text(self, **kwargs) -> Tuple[str, str, str]:
-            """
-            Returns an empty tuple as the condition is not displayed in the display list.
-            """
-
-            return ("", "", "")
-
         def to_desc_text(self, **kwargs) -> str:
             """
             Returns the description text for the condition that is displayed in the description.
@@ -807,6 +800,70 @@ init -6 python:
             if self.is_fulfilled():
                 return 0
             return -100
+
+    class BuildingLevelCondition(Condition):
+        def __init__(self, name: str, level: int, blocking: bool = False):
+            super().__init__(blocking)
+            self.name = name
+            self.level = level
+            self.display_in_desc = True
+
+            def is_fulfilled(self, **kwargs) -> bool:
+                """
+                Returns whether the building level is active or not.
+
+                ### Parameters:
+                1. **kwargs
+                    - Additional arguments.
+
+                ### Returns:
+                1. bool
+                    - Whether the condition is fulfilled or not.
+                """
+
+                return get_building(self.name).get_level() == self.level
+
+            def to_desc_text(self, **kwargs) -> str:
+                """
+                Returns the description text for the condition that is displayed in the description.
+
+                ### Parameters:
+                1. **kwargs
+                    - Additional arguments.
+
+                ### Returns:
+                1. str
+                    - The condition text for the description.
+                """
+
+                if self.is_fulfilled(**kwargs):
+                    return "Building {color=#0f0}" + get_building(self.name).get_title() + "{/color} is at level {color=#0f0}" + str(self.level) + "{/color}"
+                else:
+                    return "Building {color=#f00}" + get_building(self.name).get_title() + "{/color} is at level {color=#f00}" + str(self.level) + "{/color}"
+
+            def get_name(self) -> str:
+                """
+                Returns the name of the Building in the condition.
+
+                ### Returns:
+                1. str
+                    - The name of the Building in the condition.
+                """
+
+                if self.name not in buildings.keys():
+                    return ""
+                return get_building(self.name).title
+
+            def get_diff(self, _char_obj: Char):
+                """
+                Returns the difference between the condition and the given character.
+                If the condition is fulfilled, the difference is 0.
+                Otherwise the difference is -100.
+                """
+
+                if self.is_fulfilled():
+                    return 0
+                return -100
 
     class LevelCondition(Condition):
         """

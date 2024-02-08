@@ -282,7 +282,10 @@ label pta_meeting (**kwargs):
         $ image.show(7)
         if forNum >= 2:
             headmaster "The vote was successful. The [obj_title] will be implemented."
-            $ obj.unlock(True, True)
+            if obj_action == "unlock":
+                $ obj.unlock(True, True)
+            if obj_action == "upgrade":
+                $ obj.upgrade(True, True)
         else:
             headmaster "The vote was unsuccessful. The [obj_title] will not be implemented."
 

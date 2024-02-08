@@ -20,7 +20,7 @@ init -6 python:
             - 0 is building is not yet unlocked.
         2. _max_level: int
             - The maximum upgrade level of the building.
-        3. _update_conditions: List[ConditionStorage]
+        3. _upgrade_conditions: List[ConditionStorage]
             - A list of ConditionStorage objects that represent the conditions for upgrading the building.
             - Each ConditionStorage represents the upgrade condition for a specific level.
         4. _blocked: bool
@@ -67,7 +67,7 @@ init -6 python:
             - The conditions for upgrading the building are checked.
         16. has_higher_level() -> bool
             - Returns True if the building has a higher upgrade level than the one the building is currently at.
-        17. get_update_conditions(level: int) -> ConditionStorage
+        17. get_upgrade_conditions(level: int) -> ConditionStorage
             - Returns the ConditionStorage object that represents the conditions for upgrading the building to the specified level.
             - If the specified level is not valid, None is returned.
         18. get_list_conditions(cond_type: str = UNLOCK, level: int = -1) -> List[Condition]
@@ -95,7 +95,7 @@ init -6 python:
             super().__init__(name, title)
             self._level = 0
             self._max_level = 1
-            self._update_conditions = []
+            self._upgrade_conditions = []
             self._blocked = False
             self._construction_time = 0
             self._upgrade_effects = {}
@@ -109,8 +109,8 @@ init -6 python:
                 self._level = 0
             if not hasattr(self, '_max_level'):
                 self._max_level = 1
-            if not hasattr(self, '_update_conditions'):
-                self._update_conditions = []
+            if not hasattr(self, '_upgrade_conditions'):
+                self._upgrade_conditions = []
             if not hasattr(self, '_blocked'):
                 self._blocked = False
             if not hasattr(self, '_construction_time'):
@@ -272,6 +272,43 @@ init -6 python:
             if unlock and apply_effects:
                 self.apply_effects()
 
+        def upgrade(self, apply_effects: bool = False):
+            """
+            Upgrades the building to the next level.
+
+            ### Parameters:
+            1. apply_effects: bool = False
+                - If True, the effects of the upgrade are applied.
+            """
+
+            if self._level < self._max_level:
+                self._level += 1
+
+            advance_progress("unlock_" + self.get_name())
+            new_time = Time(time.day_to_string())
+            new_time.add_time(day = self._construction_time)
+            set_game_data(self.get_name() + "_construction_end", new_time.day_to_string())
+
+            if apply_effects:
+                self.apply_upgrade_effects()
+
+        def apply_upgrade_effects(self, level: int = -1):
+            """
+            Applies the effects of the upgrade.
+
+            ### Parameters:
+            1. level: int = -1
+                - The level to which the effects should be applied.
+                - If level is -1, the effects for the current level are applied.
+            """
+
+            if level == -1:
+                level = self._level
+
+            if level in self._upgrade_effects.keys():
+                for effect in self._upgrade_effects[level]:
+                    effect.apply()
+
         def is_unlocked(self) -> bool:
             """
             Returns True if the building is unlocked.
@@ -308,7 +345,7 @@ init -6 python:
                 - True if the building can be upgraded.
             """
 
-            conditions = self.get_update_conditions(self._level)
+            conditions = self.get_upgrade_conditions(self._level)
             return conditions != None and conditions.is_fulfilled(**kwargs)
 
         def has_higher_level(self) -> bool:
@@ -322,7 +359,7 @@ init -6 python:
 
             return self._level < self._max_level
 
-        def get_update_conditions(self, level: int) -> ConditionStorage:
+        def get_upgrade_conditions(self, level: int) -> ConditionStorage:
             """
             Returns the ConditionStorage object that represents the conditions for upgrading the building to the specified level.
 
@@ -336,9 +373,9 @@ init -6 python:
                 - If the specified level is not valid, None is returned.
             """
 
-            if level > len(self._update_conditions) or level <= 0:
+            if level > len(self._upgrade_conditions) or level <= 0:
                 return None
-            return self._update_conditions[level - 1]
+            return self._upgrade_conditions[level - 1]
         
         def get_list_conditions(self, cond_type: str = UNLOCK, level: int = -1) -> List[Condition]:
             """
@@ -366,11 +403,11 @@ init -6 python:
             if cond_type == UNLOCK:
                 return self._unlock_conditions.get_list_conditions()
             if cond_type == UPGRADE:
-                update_conditions = self.get_update_conditions(level)
-                if update_conditions == None:
+                upgrade_conditions = self.get_upgrade_conditions(level)
+                if upgrade_conditions == None:
                     return []
                 else:
-                    return self.get_update_conditions(level).get_list_conditions()
+                    return self.get_upgrade_conditions(level).get_list_conditions()
         
         def get_list_conditions_list(self, cond_type: str = UNLOCK, level: int = -1, **kwargs) -> List[Tuple[str, str]]:
             """
@@ -399,11 +436,11 @@ init -6 python:
             if cond_type == UNLOCK:
                 return self._unlock_conditions.get_list_conditions_list(**kwargs)
             if cond_type == UPGRADE:
-                update_conditions = self.get_update_conditions(level)
-                if update_conditions == None:
+                upgrade_conditions = self.get_upgrade_conditions(level)
+                if upgrade_conditions == None:
                     return []
                 else:
-                    return self.get_update_conditions(level).get_list_conditions_list(**kwargs)
+                    return self.get_upgrade_conditions(level).get_list_conditions_list(**kwargs)
 
         def get_desc_conditions(self, cond_type: str = UNLOCK, level: int = -1) -> List[Condition]:
             """
@@ -432,11 +469,11 @@ init -6 python:
             if cond_type == UNLOCK:
                 return self._unlock_conditions.get_desc_conditions()
             if cond_type == UPGRADE:
-                update_conditions = self.get_update_conditions(level)
-                if update_conditions == None:
+                upgrade_conditions = self.get_upgrade_conditions(level)
+                if upgrade_conditions == None:
                     return []
                 else:
-                    return self.get_update_conditions(level).get_desc_conditions()
+                    return self.get_upgrade_conditions(level).get_desc_conditions()
 
         def get_desc_conditions_desc(self, cond_type: str = UNLOCK, level: int = -1, **kwargs) -> List[str]:
             """
@@ -465,11 +502,11 @@ init -6 python:
             if cond_type == UNLOCK:
                 return self._unlock_conditions.get_desc_conditions_desc(**kwargs)
             if cond_type == UPGRADE:
-                update_conditions = self.get_update_conditions(level)
-                if update_conditions == None:
+                upgrade_conditions = self.get_upgrade_conditions(level)
+                if upgrade_conditions == None:
                     return []
                 else:
-                    return self.get_update_conditions(level).get_desc_conditions_desc(**kwargs)
+                    return self.get_upgrade_conditions(level).get_desc_conditions_desc(**kwargs)
 
     #######################
 
@@ -727,7 +764,7 @@ label load_buildings ():
         ],
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(),
-        '_update_conditions':[],
+        '_upgrade_conditions':[],
     }, {
         '_level': 1,
     })
@@ -744,7 +781,7 @@ label load_buildings ():
         ],
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(),
-        '_update_conditions':[],
+        '_upgrade_conditions':[],
     }, {
         '_level': 1,
     })
@@ -767,7 +804,7 @@ label load_buildings ():
             MoneyCondition(1000),
             LockCondition()
         ),
-        '_update_conditions':[
+        '_upgrade_conditions':[
             ConditionStorage(
                 MoneyCondition(2000),
             ),
@@ -791,7 +828,7 @@ label load_buildings ():
             MoneyCondition(1000),
             LockCondition(),
         ),
-        '_update_conditions':[],
+        '_upgrade_conditions':[],
     }, {
         '_level': 0,
     })
@@ -811,7 +848,7 @@ label load_buildings ():
             MoneyCondition(1000),
             LockCondition()
         ),
-        '_update_conditions':[],
+        '_upgrade_conditions':[],
     }, {
         '_level': 0,
     })
@@ -828,7 +865,7 @@ label load_buildings ():
         ],
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(),
-        '_update_conditions':[],
+        '_upgrade_conditions':[],
     }, {
         '_level': 1,
     })
@@ -848,7 +885,7 @@ label load_buildings ():
             MoneyCondition(1000),
             LockCondition()
         ),
-        '_update_conditions':[],
+        '_upgrade_conditions':[],
     }, {
         '_level': 0,
     })
@@ -856,10 +893,37 @@ label load_buildings ():
     $ load_building("cafeteria", "Cafeteria", {
         '_description': [
             [
-                "The cafeteria, the place students come together to spend their free-time and to eat together.",
+                "The cafeteria is a place where students can come together to spend their free-time and to eat together.",
+                "Here the students will receive free lunch. This helps the students to save money and to have a healthy meal every day.",
+                "\nWeekly Costs after unlock: 100$",
             ],
             [
-                "The cafeteria, the place students come together to spend their free-time and to eat together.",
+                "Level 1",
+                "The cafeteria is a place where students can come together to spend their free-time and to eat together.",
+                "Here the students will receive free lunch. This helps the students to save money and to have a healthy meal every day.",
+                "Currently the cafeteria can only provide relatively cheap food. But with the right investments, the cafeteria can be upgraded to provide better food and to be more efficient.",
+                "\nWeekly Costs: 100$",
+                "\nWeekly Costs after upgrade: 250$",
+            ],
+            [
+                "The cafeteria is a place where students can come together to spend their free-time and to eat together.",
+                "Here the students will receive free lunch. This helps the students to save money and to have a healthy meal every day.",
+                "Currently the cafeteria provides decent food. But with the right investments, the cafeteria can be upgraded to provide better food and to be more efficient.",
+                "\nWeekly Costs: 250$",
+                "\nWeekly Costs after upgrade: 500$",
+            ],
+            [
+                "The cafeteria is a place where students can come together to spend their free-time and to eat together.",
+                "Here the students will receive free lunch. This helps the students to save money and to have a healthy meal every day.",
+                "Currently the cafeteria provides expensive, healthy and nutritional food. Maybe we could find a way to upgrade it to have it also make profit for the school.",
+                "\nWeekly Costs: 500$",
+                "\nWeekly Costs after upgrade: 800$",
+            ],
+            [
+                "The cafeteria is a place where students can come together to spend their free-time and to eat together.",
+                "Here the students will receive free lunch. This helps the students to save money and to have a healthy meal every day.",
+                "The cafeteria has been prepared to receive guests from outside.",
+                "\nWeekly Costs: 800$",
             ],
         ],
         '_max_level': 1,
@@ -868,14 +932,35 @@ label load_buildings ():
             MoneyCondition(1500),
             # LockCondition(False),
         ),
-        '_image_path': 'images/journal/buildings/cafeteria <level> 0.webp',
-        '_image_path_alt': 'images/journal/buildings/cafeteria 1 0.webp',
-        '_update_conditions':[],
-        '_construction_time': 7,
         '_unlock_effects': [
             ModifierEffect('weekly_cost_cafeteria', 'money', Modifier_Obj('Cafeteria', "+", -100), collection = 'payroll'),
             MoneyEffect('Unlock_Cafeteria_Cost', -1500),
-        ]
+        ],
+        '_upgrade_conditions':[
+            ConditionStorage(
+                MoneyCondition(3000),
+            ),
+            ConditionStorage(
+                MoneyCondition(5000),
+            ),
+            ConditionStorage(
+                MoneyCondition(10000),
+            ),
+        ],
+        '_upgrade_effects': {
+            2: [
+                ModifierEffect('weekly_cost_cafeteria', 'money', Modifier_Obj('Cafeteria', "+", -250), collection = 'payroll'),
+            ],
+            3: [
+                ModifierEffect('weekly_cost_cafeteria', 'money', Modifier_Obj('Cafeteria', "+", -500), collection = 'payroll'),
+            ],
+            4: [
+                ModifierEffect('weekly_cost_cafeteria', 'money', Modifier_Obj('Cafeteria', "+", -800), collection = 'payroll'),
+            ],
+        },
+        '_image_path': 'images/journal/buildings/cafeteria <level> 0.webp',
+        '_image_path_alt': 'images/journal/buildings/cafeteria 1 0.webp',
+        '_construction_time': 7,
     }, {
         '_level': 0,
     })
@@ -895,7 +980,7 @@ label load_buildings ():
             MoneyCondition(1000),
             LockCondition()
         ),
-        '_update_conditions':[],
+        '_upgrade_conditions':[],
     }, {
         '_level': 0,
     })
@@ -912,7 +997,7 @@ label load_buildings ():
         ],
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(),
-        '_update_conditions':[],
+        '_upgrade_conditions':[],
     }, {
         '_level': 1,
     })
@@ -929,7 +1014,7 @@ label load_buildings ():
         ],
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(),
-        '_update_conditions':[],
+        '_upgrade_conditions':[],
     }, {
         '_level': 1,
     })
@@ -946,7 +1031,7 @@ label load_buildings ():
         ],
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(),
-        '_update_conditions':[],
+        '_upgrade_conditions':[],
     }, {
         '_level': 1,
     })
