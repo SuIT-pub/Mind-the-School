@@ -946,7 +946,7 @@ init -3 python:
 ##############
 # Event caller
 
-label call_available_event(event_storage, priority = 0, **kwargs):
+label call_available_event(event_storage, priority = 0, no_fallback = False, **kwargs):
     # """
     # Calls all available events depending on the priority.
 
@@ -961,7 +961,13 @@ label call_available_event(event_storage, priority = 0, **kwargs):
     #     - The arguments that are passed to the events.
     # """
 
-    $ events_list = event_storage.get_available_events_with_fallback(priority, **kwargs)
+    $ events_list = []
+
+    if no_fallback:
+        $ events_list = event_storage.get_available_events(priority, **kwargs)
+    else:
+        $ events_list = event_storage.get_available_events_with_fallback(priority, **kwargs)
+
     if not contains_game_data("temp_event_blocker"):
         $ set_game_data("temp_event_blocker", [])
 

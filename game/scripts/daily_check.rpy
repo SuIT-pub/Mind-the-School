@@ -41,6 +41,10 @@ init 1 python:
         TimeCondition(weekday = 5, daytime = 1)
     )
 
+    new_week_event = Event(2, "new_week",
+        TimeCondition(weekday = 1, daytime = 1)
+    )
+
     end_of_month_event = Event(2, "end_of_month",
         TimeCondition(day = 1, daytime = 1)
     )
@@ -81,6 +85,7 @@ init 1 python:
         first_week_epilogue_final_event, 
         first_pta_meeting_event, 
         pta_meeting_event, 
+        new_week_event,
         end_of_month_event,
         intro_check_all_facilities_event,
         intro_check_all_first_potions_event,
@@ -93,19 +98,16 @@ init 1 python:
         event_reached_max_stats_event,
     )
 
-    temp_time_check_events.check_all_events()
-    time_check_events.check_all_events()
-
 label time_event_check ():
     hide screen school_overview_map
     hide screen school_overview_stats
     hide screen school_overview_buttons
 
-    call call_available_event(temp_time_check_events, with_removal = True) from time_event_check_1
+    call call_available_event(temp_time_check_events, 0, True, with_removal = True) from time_event_check_1
 
 label .after_temp_event_check (**kwargs):
 
-    call call_available_event(time_check_events) from time_event_check_2
+    call call_available_event(time_check_events, 0, True) from time_event_check_2
 
 label .after_event_check (**kwargs):
     return
@@ -152,7 +154,6 @@ label game_over_reputation (**kwargs):
 
     $ MainMenu(confirm=False)()
 
-
 label intro_check_all_facilities (**kwargs):
     $ begin_event()
 
@@ -187,7 +188,6 @@ label event_all_events_seen (**kwargs):
 
     jump new_daytime
 
-
 label event_reached_max_stats (**kwargs):
     $ begin_event()
     $ hide_all()
@@ -201,7 +201,6 @@ label event_reached_max_stats (**kwargs):
     dev "Thanks for playing!"
 
     jump new_daytime
-
 
 label tutorial_1 (**kwargs):
     $ begin_event(**kwargs)
@@ -723,6 +722,11 @@ label .skip:
 # ----- Daily Check Events ----- #
 ##################################
 
-label end_of_month (**kwargs):
+label new_week (**kwargs):
+    $ change_money_with_modifier(200, 'payroll')
+    return
 
-    $ change_stat(MONEY, 1000)
+label end_of_month (**kwargs):
+    # $ change_stat(MONEY, 1000)
+
+    return

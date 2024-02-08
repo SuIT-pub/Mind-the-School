@@ -128,7 +128,6 @@ init -6 python:
             if self._construction_time < 0:
                 log_error(410, f"|Building:{self.get_name()}|Construction time has to be 0 or positive.")
 
-
         def get_type(self) -> str:
             """
             Returns the type of the object.
@@ -439,7 +438,6 @@ init -6 python:
                 else:
                     return self.get_update_conditions(level).get_desc_conditions()
 
-        
         def get_desc_conditions_desc(self, cond_type: str = UNLOCK, level: int = -1, **kwargs) -> List[str]:
             """
             Returns a list of strings that represent the conditions for unlocking or upgrading the building.
@@ -679,7 +677,33 @@ init -6 python:
         if name in buildings.keys():
             del(buildings[name])
 
-    
+    def compatibility_check():
+        # compatibility with save files from 0.1.2
+        if 'high_school_building' in buildings.keys():
+            high_school_building = buildings['high_school_building']
+            high_school_building._name = "school_building"
+            high_school_building._title = "School Building"
+            buildings['school_building'] = high_school_building
+
+        if 'high_school_dormitory' in buildings.keys():
+            high_school_dormitory = buildings['high_school_dormitory']
+            high_school_dormitory._name = "school_dormitory"
+            high_school_dormitory._title = "School Dormitory"
+            buildings['school_dormitory'] = high_school_dormitory
+
+        if 'high_school_building' in buildings.keys():
+            buildings.pop("high_school_building")
+        if 'high_school_dormitory' in buildings.keys():
+            buildings.pop("high_school_dormitory")
+        if 'middle_school_building' in buildings.keys():
+            buildings.pop("middle_school_building")
+        if 'middle_school_dormitory' in buildings.keys():
+            buildings.pop("middle_school_dormitory")
+        if 'elementary_school_building' in buildings.keys():
+            buildings.pop("elementary_school_building")
+        if 'elementary_school_dormitory' in buildings.keys():
+            buildings.pop("elementary_school_dormitory")
+
     ########################################
 
 ############################
@@ -689,34 +713,7 @@ init -6 python:
 #####################
 
 label load_buildings ():
-
-    #############################################################
-    # compatibility with save files from 0.1.2
-    if 'high_school_building' in buildings.keys():
-        $ high_school_building = buildings['high_school_building']
-        $ high_school_building._name = "school_building"
-        $ high_school_building._title = "School Building"
-        $ buildings['school_building'] = high_school_building
-
-    if 'high_school_dormitory' in buildings.keys():
-        $ high_school_dormitory = buildings['high_school_dormitory']
-        $ high_school_dormitory._name = "school_dormitory"
-        $ high_school_dormitory._title = "School Dormitory"
-        $ buildings['school_dormitory'] = high_school_dormitory
-
-    if 'high_school_building' in buildings.keys():
-        $ buildings.pop("high_school_building")
-    if 'high_school_dormitory' in buildings.keys():
-        $ buildings.pop("high_school_dormitory")
-    if 'middle_school_building' in buildings.keys():
-        $ buildings.pop("middle_school_building")
-    if 'middle_school_dormitory' in buildings.keys():
-        $ buildings.pop("middle_school_dormitory")
-    if 'elementary_school_building' in buildings.keys():
-        $ buildings.pop("elementary_school_building")
-    if 'elementary_school_dormitory' in buildings.keys():
-        $ buildings.pop("elementary_school_dormitory")
-    #############################################################
+    $ compatibility_check()
 
     # unlocked
     $ load_building("school_building", "School Building", {
@@ -856,7 +853,6 @@ label load_buildings ():
         '_level': 0,
     })
 
-    #TODO: locked, planned for implementation
     $ load_building("cafeteria", "Cafeteria", {
         '_description': [
             [
@@ -869,13 +865,17 @@ label load_buildings ():
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(
             ProgressCondition("unlock_cafeteria", 1, True),
-            MoneyCondition(1000),
+            MoneyCondition(1500),
             # LockCondition(False),
         ),
         '_image_path': 'images/journal/buildings/cafeteria <level> 0.webp',
         '_image_path_alt': 'images/journal/buildings/cafeteria 1 0.webp',
         '_update_conditions':[],
         '_construction_time': 7,
+        '_unlock_effects': [
+            ModifierEffect('weekly_cost_cafeteria', 'money', Modifier_Obj('Cafeteria', "+", -100), collection = 'payroll'),
+            MoneyEffect('Unlock_Cafeteria_Cost', -1500),
+        ]
     }, {
         '_level': 0,
     })
