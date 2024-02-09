@@ -950,12 +950,15 @@ label load_buildings ():
         '_upgrade_effects': {
             2: [
                 ModifierEffect('weekly_cost_cafeteria', 'money', Modifier_Obj('Cafeteria', "+", -250), collection = 'payroll'),
+                MoneyEffect('Unlock_Cafeteria_Cost', -3000),
             ],
             3: [
                 ModifierEffect('weekly_cost_cafeteria', 'money', Modifier_Obj('Cafeteria', "+", -500), collection = 'payroll'),
+                MoneyEffect('Unlock_Cafeteria_Cost', -5000),
             ],
             4: [
                 ModifierEffect('weekly_cost_cafeteria', 'money', Modifier_Obj('Cafeteria', "+", -800), collection = 'payroll'),
+                MoneyEffect('Unlock_Cafeteria_Cost', -10000),
             ],
         },
         '_image_path': 'images/journal/buildings/cafeteria <level> 0.webp',
