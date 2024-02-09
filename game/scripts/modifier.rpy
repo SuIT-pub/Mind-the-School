@@ -42,6 +42,17 @@ init -6 python:
 
             return self._name
 
+        def get_value(self) -> num:
+            """
+            Gets the value of the modifier.
+
+            ### Returns:
+            1. num
+                - The value of the modifier.
+            """
+
+            return self._value
+
         def get_change(self) -> str:
             """
             Gets the change in the stat based on the mod_type and value.
@@ -419,3 +430,59 @@ init -6 python:
 
             # if stat in Stat_Data:
             change_stat_with_modifier(stat, kwargs[stat], char_obj, collection)
+
+    def sort_payroll_modifier(weekly: Dict[str, Modifier_Obj], monthly: Dict[str, Modifier_Obj]) -> Tuple[List[Tuple[str, int, int]], List[Tuple[str, int, int]], int, int]:
+        """
+        Sorts the payroll modifier into positive and negative income.
+
+        ### Parameters:
+        1. weekly: Dict[str, Modifier_Obj]
+            - The weekly payroll modifier.
+        2. monthly: Dict[str, Modifier_Obj]
+            - The monthly payroll modifier.
+
+        ### Returns:
+        1. Tuple[List[Tuple[str, int, int]], List[Tuple[str, int, int]], int, int]
+            - A tuple of the positive income list, negative income list, net weekly income, and net monthly income.
+        """
+
+        positive_income = {}
+        negative_income = {}
+
+        net_weekly = 0
+        net_monthly = 0
+
+        if weekly != None:
+            for modifier in weekly.values():
+                key = modifier.get_name()
+                net_weekly += modifier.get_value()
+                if modifier.get_value() > 0:
+                    if key not in positive_income.keys():
+                        positive_income[key] = (0, 0)
+                    income = positive_income[key]
+                    positive_income[key] = (income[0] + modifier.get_value(), income[1])
+                else:
+                    if key not in negative_income.keys():
+                        negative_income[key] = (0, 0)
+                    income = negative_income[key]
+                    negative_income[key] = (income[0] + modifier.get_value(), income[1])
+
+        if monthly != None:
+            for modifier in monthly.values():
+                key = modifier.get_name()
+                net_monthly += modifier.get_value()
+                if modifier.get_value() > 0:
+                    if key not in positive_income.keys():
+                        positive_income[key] = (0, 0)
+                    income = positive_income[key]
+                    positive_income[key] = (income[0], income[1] + modifier.get_value())
+                else:
+                    if key not in negative_income.keys():
+                        negative_income[key] = (0, 0)
+                    income = negative_income[key]
+                    negative_income[key] = (income[0], income[1] + modifier.get_value())
+
+        positive_income_list = [(key, value[0], value[1]) for key, value in positive_income.items()]
+        negative_income_list = [(key, value[0], value[1]) for key, value in negative_income.items()]
+
+        return (positive_income_list, negative_income_list, net_weekly, net_monthly)

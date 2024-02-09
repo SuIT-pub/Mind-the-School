@@ -25,9 +25,9 @@ init -6 python:
         prefix = get_kwargs('prefix', "", **kwargs)
 
         if is_fulfilled:
-            prefix += "{color=#0f0}|{/color} "
+            prefix += "{color=#00a000}|{/color} "
         else:
-            prefix += "{color=#f00}|{/color} "
+            prefix += "{color=#a00000}|{/color} "
 
         kwargs['prefix'] = prefix
 
@@ -466,9 +466,9 @@ init -6 python:
             for stat in self.stats.keys():
                 icon = "icons/stat_" + str(stat) + "_icon.webp"
                 if char_obj.check_stat(stat, self.stats[stat]):
-                    output.append(("{image=" + icon + "}", "{color=#0f0}" + str(self.stats[stat]) + "{/color}", Stat_Data[stat].get_title()))
+                    output.append(("{image=" + icon + "}", "{color=#00a000}" + str(self.stats[stat]) + "{/color}", Stat_Data[stat].get_title()))
                 else:
-                    output.append(("{image=" + icon + "}", "{color=#f00}" + str(self.stats[stat]) + "{/color}", Stat_Data[stat].get_title()))
+                    output.append(("{image=" + icon + "}", "{color=#a00000}" + str(self.stats[stat]) + "{/color}", Stat_Data[stat].get_title()))
             if len(output) == 0:
                 return ("","")
             elif len(output) == 1:
@@ -500,9 +500,9 @@ init -6 python:
                 stat_name = Stat_Data[stat].get_title()
 
                 if char_obj.check_stat(stat, self.stats[stat]):
-                    output.append(stat_name + ": {color=#0f0}" + str(self.stats[stat]) + "{/color}")
+                    output.append(stat_name + ": {color=#00a000}" + str(self.stats[stat]) + "{/color}")
                 else:
-                    output.append(stat_name + ": {color=#f00}" + str(self.stats[stat]) + "{/color}")
+                    output.append(stat_name + ": {color=#a00000}" + str(self.stats[stat]) + "{/color}")
 
             if len(output) == 0:
                 return ""
@@ -608,9 +608,9 @@ init -6 python:
             """
 
             if self.is_fulfilled(**kwargs):
-                return "Rule {color=#0f0}" + get_rule(self.value).get_title() + "{/color} is unlocked"
+                return "Rule {color=#00a000}" + get_rule(self.value).get_title() + "{/color} is unlocked"
             else:
-                return "Rule {color=#f00}" + get_rule(self.value).get_title() + "{/color} is unlocked"
+                return "Rule {color=#a00000}" + get_rule(self.value).get_title() + "{/color} is unlocked"
 
         def get_name(self) -> str:
             """
@@ -690,9 +690,9 @@ init -6 python:
             """
 
             if self.is_fulfilled(**kwargs):
-                return "Club {color=#0f0}" + get_club(self.value).get_title() + "{/color} is unlocked"
+                return "Club {color=#00a000}" + get_club(self.value).get_title() + "{/color} is unlocked"
             else:
-                return "Club {color=#f00}" + get_club(self.value).get_title() + "{/color} is unlocked"
+                return "Club {color=#a00000}" + get_club(self.value).get_title() + "{/color} is unlocked"
 
         def get_name(self) -> str:
             """
@@ -765,9 +765,9 @@ init -6 python:
             """
 
             if self.is_fulfilled(**kwargs):
-                return "Building {color=#0f0}" + get_building(self.value).get_title() + "{/color} is unlocked"
+                return "Building {color=#00a000}" + get_building(self.value).get_title() + "{/color} is unlocked"
             else:
-                return "Building {color=#f00}" + get_building(self.value).get_title() + "{/color} is unlocked"
+                return "Building {color=#a00000}" + get_building(self.value).get_title() + "{/color} is unlocked"
 
         def get_name(self) -> str:
             """
@@ -837,9 +837,9 @@ init -6 python:
                 """
 
                 if self.is_fulfilled(**kwargs):
-                    return "Building {color=#0f0}" + get_building(self.name).get_title() + "{/color} is at level {color=#0f0}" + str(self.level) + "{/color}"
+                    return "Building {color=#00a000}" + get_building(self.name).get_title() + "{/color} is at level {color=#00a000}" + str(self.level) + "{/color}"
                 else:
-                    return "Building {color=#f00}" + get_building(self.name).get_title() + "{/color} is at level {color=#f00}" + str(self.level) + "{/color}"
+                    return "Building {color=#a00000}" + get_building(self.name).get_title() + "{/color} is at level {color=#a00000}" + str(self.level) + "{/color}"
 
             def get_name(self) -> str:
                 """
@@ -915,9 +915,9 @@ init -6 python:
             """
 
             if self.is_fulfilled(**kwargs):
-                return "Level: {color=#0f0}" + self.value + "{/color}"
+                return "Level: {color=#00a000}" + self.value + "{/color}"
             else:
-                return "Level: {color=#f00}" + self.value + "{/color}"
+                return "Level: {color=#a00000}" + self.value + "{/color}"
 
         def to_list_text(self, **kwargs) -> Tuple[str, str, str]:
             """
@@ -934,9 +934,9 @@ init -6 python:
                 - The title is optional.
             """
             if self.is_fulfilled(**kwargs):
-                return ("{image=icons/stat_level_icon.webp}", "{color=#0f0}" + str(self.value) + "{/color}", "Level")
+                return ("{image=icons/stat_level_icon.webp}", "{color=#00a000}" + str(self.value) + "{/color}", "Level")
             else:
-                return ("{image=icons/stat_level_icon.webp}", "{color=#f00}" + str(self.value) + "{/color}", "Level")
+                return ("{image=icons/stat_level_icon.webp}", "{color=#a00000}" + str(self.value) + "{/color}", "Level")
 
         def get_name(self):
             """
@@ -1016,9 +1016,9 @@ init -6 python:
             """
 
             if self.is_fulfilled():
-                return "Money: {color=#0f0}" + str(self.value) + "{/color}"
+                return "Money: {color=#00a000}" + str(self.value) + "{/color}"
             else:
-                return "Money: {color=#f00}" + str(self.value) + "{/color}"
+                return "Money: {color=#a00000}" + str(self.value) + "{/color}"
 
         def to_list_text(self, **kwargs) -> Tuple[str, str, str]:
             """
@@ -1036,9 +1036,9 @@ init -6 python:
             """
 
             if self.is_fulfilled():
-                return ("{image=icons/stat_money_icon.webp}", "{color=#0f0}" + str(self.value) + "{/color}", "Money")
+                return ("{image=icons/stat_money_icon.webp}", "{color=#00a000}" + str(self.value) + "{/color}", "Money")
             else:
-                return ("{image=icons/stat_money_icon.webp}", "{color=#f00}" + str(self.value) + "{/color}", "Money")
+                return ("{image=icons/stat_money_icon.webp}", "{color=#a00000}" + str(self.value) + "{/color}", "Money")
 
         def get_name(self) -> str:
             """
@@ -1214,9 +1214,9 @@ init -6 python:
                 text += f"{time.get_daytime_name(self.daytime)}"
 
             if self.is_fulfilled(**kwargs):
-                return "Time is {color=#0f0}" + text + "{/color}"
+                return "Time is {color=#00a000}" + text + "{/color}"
             else:
-                return "Time is {color=#f00}" + text + "{/color}"
+                return "Time is {color=#a00000}" + text + "{/color}"
 
         def get_name(self) -> str:
             """
@@ -1243,7 +1243,7 @@ init -6 python:
             if self.is_fulfilled():
                 return 0
             return -100
-            
+
     class RandomCondition(Condition):
         """
         A class for conditions that are fulfilled randomly.
@@ -1386,9 +1386,9 @@ init -6 python:
             """
 
             if self.is_fulfilled():
-                return get_translation(self.key) + " is {color=#0f0}" + str(self.value) + "{/color}"
+                return get_translation(self.key) + " is {color=#00a000}" + str(self.value) + "{/color}"
             else:
-                return get_translation(self.key) + " is {color=#f00}" + str(self.value) + "{/color}"
+                return get_translation(self.key) + " is {color=#a00000}" + str(self.value) + "{/color}"
 
         def to_list_text(self, **kwargs) -> Tuple[str, str, str]:
             """
@@ -1459,9 +1459,9 @@ init -6 python:
             """
 
             if self.is_fulfilled():
-                return "Progress-level of {color=#3645e9}" + get_translation(self.key) + "{/color} is {color=#0f0}" + str(self.value) + "{/color}"
+                return "Progress-level of {color=#3645e9}" + get_translation(self.key) + "{/color} is {color=#00a000}" + str(self.value) + "{/color}"
             else:
-                return "Progress-level of {color=#3645e9}" + get_translation(self.key) + "{/color} is {color=#f00}" + str(self.value) + "{/color}"
+                return "Progress-level of {color=#3645e9}" + get_translation(self.key) + "{/color} is {color=#a00000}" + str(self.value) + "{/color}"
 
         def get_name(self) -> str:
             """
@@ -1523,9 +1523,9 @@ init -6 python:
             """
 
             if self.is_fulfilled():
-                return get_translation(self.key) + " is {color=#0f0}" + str(self.value) + "{/color}"
+                return get_translation(self.key) + " is {color=#00a000}" + str(self.value) + "{/color}"
             else:
-                return get_translation(self.key) + " is {color=#f00}" + str(self.value) + "{/color}"
+                return get_translation(self.key) + " is {color=#a00000}" + str(self.value) + "{/color}"
 
         def get_name(self) -> str:
             """
@@ -1593,9 +1593,9 @@ init -6 python:
             """
 
             if self.is_fulfilled():
-                return get_translation(self.key) + " is {color=#0f0}" + self.value + "{/color}"
+                return get_translation(self.key) + " is {color=#00a000}" + self.value + "{/color}"
             else:
-                return get_translation(self.key) + " is {color=#f00}" + self.value + "{/color}"
+                return get_translation(self.key) + " is {color=#a00000}" + self.value + "{/color}"
 
         def get_name(self) -> str:
             """
@@ -1703,9 +1703,9 @@ init -6 python:
             """
 
             if self.is_fulfilled():
-                return get_translation(self.key) + " " + self.operation + " {color=#0f0}" + self.value + "{/color}"
+                return get_translation(self.key) + " " + self.operation + " {color=#00a000}" + self.value + "{/color}"
             else:
-                return get_translation(self.key) + " " + self.operation + " {color=#f00}" + self.value + "{/color}"
+                return get_translation(self.key) + " " + self.operation + " {color=#a00000}" + self.value + "{/color}"
 
         def get_name(self) -> str:
             """
@@ -1798,9 +1798,9 @@ init -6 python:
             """
 
             if self.is_fulfilled():
-                return get_translation(self.key) + " equals {color=#0f0}" + self.value + "{/color}"
+                return get_translation(self.key) + " equals {color=#00a000}" + self.value + "{/color}"
             else:
-                return get_translation(self.key) + " equals {color=#f00}" + self.value + "{/color}"
+                return get_translation(self.key) + " equals {color=#a00000}" + self.value + "{/color}"
 
         def get_name(self) -> str:
             """

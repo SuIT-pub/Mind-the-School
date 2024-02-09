@@ -285,15 +285,15 @@ init -6 python:
 
             if (self.get_name() != INHIBITION):
                 if change < 0:
-                    text = "{color=#ff0000}{size=15}(" + str(change) + "){/size}{/color}"
+                    text = "{color=#a00000}{size=15}(" + str(change) + "){/size}{/color}"
                 elif change > 0:
-                    text = "{color=#00ff00}{size=15}(+" + str(change) + "){/size}{/color}"
+                    text = "{color=#00a000}{size=15}(+" + str(change) + "){/size}{/color}"
             else:
                 if change > 0:
-                    text = "{color=#ff0000}{size=15}(+" + str(change) + "){/size}{/color}"
+                    text = "{color=#a00000}{size=15}(+" + str(change) + "){/size}{/color}"
                 elif change < 0:
                     change = -change
-                    text = "{color=#00ff00}{size=15}(-" + str(change) + "){/size}{/color}"
+                    text = "{color=#00a000}{size=15}(-" + str(change) + "){/size}{/color}"
             return text
 
     class Stat_Data:
@@ -435,7 +435,7 @@ init -6 python:
             
             closest_value = len(self.levels) - 1
             for i, val in enumerate(self.levels):
-                if val > value and val < self.levels[closest_value]:
+                if val >= value and val < self.levels[closest_value]:
                     closest_value = i
 
             # count = 0
@@ -858,34 +858,10 @@ label load_stats ():
     })
 
     $ load_stat_data(MONEY, "Money", {
-        'description': "money",
-        'levels': [0, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000],
-        'descriptions': [
-            "level 0",
-            "level 1",
-            "level 2",
-            "level 3",
-            "level 4",
-            "level 5",
-            "level 6",
-            "level 7",
-            "level 8",
-            "level 9",
-            "level 10",
-        ],
-        'images': [
-            "images/journal/empty_image.webp",
-            "images/journal/empty_image.webp",
-            "images/journal/empty_image.webp",
-            "images/journal/empty_image.webp",
-            "images/journal/empty_image.webp",
-            "images/journal/empty_image.webp",
-            "images/journal/empty_image.webp",
-            "images/journal/empty_image.webp",
-            "images/journal/empty_image.webp",
-            "images/journal/empty_image.webp",
-            "images/journal/empty_image.webp",
-        ],
+        'description': "The money is used to purchase upgrade for the school and to pay for expenses.\n" +
+            "You have to pay for all of that with your own budget, but you get a monthly budget from the authorities.\n\n" +
+            "Of course, you don't get much. You have to make sure that you don't run out of money. "+
+            "You can also earn money by working in your office. Maybe you find another way...",
         'max_limit': 1000000000,
     })
     

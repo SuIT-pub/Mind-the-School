@@ -181,12 +181,12 @@ label sd_event_1 (**kwargs):
     $ begin_event(**kwargs)
 
     $ char_obj = get_char_value(**kwargs)
-    $ inhibition = get_stat_value('inhibition', [50, 100], **kwargs)
-    $ education = get_stat_value('education', [90, 100], **kwargs)
+    $ inhibition = get_stat_value('inhibition', [89, 100], **kwargs)
+    $ education = get_stat_value('education', [50, 100], **kwargs)
 
     $ image = Image_Series("images/events/school dormitory/sd_event_1 <level> <step>.webp", **kwargs)
 
-    if education > 50 and get_random_int(0, 1) == 0:
+    if education > 50:
         $ image.show(0)
         sgirl "Umm, hello!" (name = "Easkey Tanaka")
         $ image.show(1)

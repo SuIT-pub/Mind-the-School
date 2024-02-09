@@ -10,6 +10,8 @@ label start ():
     call load_clubs from start_4
     call load_rules from start_5
 
+    $ fix_modifier()
+
     jump ask_age
 
     return
@@ -34,9 +36,15 @@ init python:
     def fix_modifier():
         # add weekly cost for cafeteria if not already added
         if (get_building('cafeteria').is_unlocked() and 
-            get_modifier('weekly_cost_cafeteria', 'money', None, 'weekly') == None
+            get_modifier('weekly_cost_cafeteria', 'money', None, 'payroll_weekly') == None
         ):
-            set_modifier('weekly_cost_cafeteria', 'money', Modifier_Obj('Cafeteria', "+", -100), collection = 'payroll')
+            set_modifier('weekly_cost_cafeteria', 'money', Modifier_Obj('Cafeteria', "+", -100), collection = 'payroll_weekly')
+
+        if get_modifier('monthly_budget', 'money', None, 'payroll_monthly') == None:
+            set_modifier('monthly_budget', 'money', Modifier_Obj('Budget', "+", 1000), collection = 'payroll_monthly')
+
+        if get_modifier('teacher_pay', 'money', None, 'payroll_weekly') == None:
+            set_modifier('teacher_pay', 'money', Modifier_Obj('Teacher', "+", -150), collection = 'payroll_weekly')
 
     def fix_schools():
         old_character = get_character("school_mean_values", charList)

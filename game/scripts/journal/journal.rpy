@@ -53,7 +53,7 @@ label open_journal(page, display, char = "school"):
     elif page == 4:
         call screen journal_page(4, display) with dissolveM
     elif page == 5:
-        call screen journal_cheats(display) with dissolveM
+        call screen journal_cheats(display, char) with dissolveM
     elif page == 6:
         call screen journal_credits(display) with dissolveM
     elif page == 7:
@@ -75,11 +75,15 @@ style journal_text:
     color "#000"
     size 30
 
+style journal_text_small:
+    color "#000"
+    size 20
+
 style journal_text_center take journal_text:
     textalign 0.5
 
 style condition_text:
-    size 30
+    size 20
 
 style condition_desc:
     size 20
@@ -255,7 +259,10 @@ screen journal_page_selector(page, display, char = "school"):
         elif page == 4:
             idle "journal/journal/4_idle.webp"
             hover "journal/journal/4_hover.webp"
-        elif page == 5:
+        elif page == 5 and display == 'stats':
+            idle "journal/journal/5_stats_[char]_idle.webp"
+            hover "journal/journal/5_stats_hover.webp"
+        elif page == 5 and display != 'stats':
             idle "journal/journal/5_idle.webp"
             hover "journal/journal/5_hover.webp"
         elif page == 6:
@@ -280,15 +287,15 @@ screen journal_page_selector(page, display, char = "school"):
         if page > 4:
             hotspot (144, 830, 168, 88) action [With(dissolveM), Call("open_journal", 4, "")] tooltip "Buildings"
 
-        if page == 1:
+        if page == 1 or (page == 5 and display == 'stats'):
             if char != "school":
-                hotspot (373, 80, 160, 67) action [With(dissolveM), Call("open_journal", 1, display, "school")] tooltip "School"
+                hotspot (373, 80, 160, 67) action [With(dissolveM), Call("open_journal", page, display, "school")] tooltip "School"
             if char != "teacher":
-                hotspot (550, 80, 160, 67) action [With(dissolveM), Call("open_journal", 1, display, "teacher")] tooltip "Teacher"
+                hotspot (550, 80, 160, 67) action [With(dissolveM), Call("open_journal", page, display, "teacher")] tooltip "Teacher"
             if char != "parents":
-                hotspot (725, 80, 160, 67) action [With(dissolveM), Call("open_journal", 1, display, "parents")] tooltip "Parents"
+                hotspot (725, 80, 160, 67) action [With(dissolveM), Call("open_journal", page, display, "parents")] tooltip "Parents"
     
-    if page == 1:
+    if page == 1 or (page == 5 and display == 'stats'):
         if char == "school":
             text "School":
                 xalign 0.225 yalign 0.1
@@ -375,7 +382,7 @@ screen journal_desc(page, display, active_obj, with_title = False):
     
         vbar value YScrollValue("RuleDesc"):
             unscrollable "hide"
-            xalign 1.03
+            xalign 1.04
 
 screen journal_list_conditions(page, active_obj):
     $ action_text = "unlock"
@@ -397,6 +404,7 @@ screen journal_list_conditions(page, active_obj):
                     hbox:
                         textbutton image_text:
                             tooltip text_title
+                            text_style "condition_text"
                             action NullAction()
                         textbutton text_text:
                             text_style "condition_text"
@@ -453,7 +461,7 @@ screen journal_vote_button(page, display, active_obj):
         else:
             text "Already scheduled!":
                 xpos 985 yalign 0.83
-                color "#f00"
+                color "#a00000"
     else:
         text "Already unlocked!":
             xpos 985 yalign 0.83
@@ -462,13 +470,13 @@ screen journal_vote_button(page, display, active_obj):
 
 screen journal_image(page, display, active_obj):
     $ active_obj_image, active_obj_variant = active_obj.get_image(variant = get_random_loli())
-    $ active_obj_full_image = active_obj.get_full_image(variant = active_obj_variant)
+    $ active_obj_full_image, active_obj_variant = active_obj.get_full_image(variant = active_obj_variant)
 
     if not renpy.loadable(active_obj_image):
         $ active_obj_image = "images/journal/empty_image.webp"
         $ active_obj_full_image = None
 
-    if active_obj_full_image != None:
+    if active_obj_full_image != None and renpy.loadable(active_obj_full_image):
         button:
             xpos 985 yalign 0.65
             image "[active_obj_image]"
@@ -477,41 +485,43 @@ screen journal_image(page, display, active_obj):
         image "[active_obj_image]": 
             xpos 985 yalign 0.65
 
-screen journal_cheats_stat(stat):
+screen journal_cheats_stat(stat, char = "school"):
     $ stat_name = str(stat)
     $ stat_text = stat_name.capitalize()
     $ stat_value = 0
 
+    $ char_obj = get_character_by_key(char)
+
     if stat == MONEY:
         $ stat_value = money.get_display_value()
     elif stat == LEVEL:
-        $ stat_value = get_level_for_char(get_school())
+        $ stat_value = get_level_for_char(char_obj)
     else:
-        $ stat_value = get_school().get_display_value(stat)
+        $ stat_value = char_obj.get_display_value(stat)
 
     hbox:
         text "{image=icons/stat_[stat_name]_icon.webp}"
         text " [stat_text]" style "journal_text" yalign 0.5
     hbox:
         if stat != MONEY:
-            textbutton "Min" action Call("modify_stat", stat, -100) text_style "buttons_idle"
+            textbutton "Min" action Call("modify_stat", stat, -100, char) text_style "buttons_idle"
             null width 20
 
         if stat == MONEY:
-            textbutton "1000" action Call("modify_stat", stat, -1000) text_style "buttons_idle"
+            textbutton "1000" action Call("modify_stat", stat, -1000, char) text_style "buttons_idle"
             null width 30
         elif stat == LEVEL:
-            textbutton "5" action Call("modify_stat", stat, -5) text_style "buttons_idle"
+            textbutton "5" action Call("modify_stat", stat, -5, char) text_style "buttons_idle"
             null width 40
         else:
-            textbutton "10" action Call("modify_stat", stat, -10) text_style "buttons_idle"
+            textbutton "10" action Call("modify_stat", stat, -10, char) text_style "buttons_idle"
             null width 20
 
         if stat == MONEY:
-            textbutton "-" action Call("modify_stat", stat, -100) text_style "buttons_idle"
+            textbutton "-" action Call("modify_stat", stat, -100, char) text_style "buttons_idle"
             null width 65
         else:
-            textbutton "-" action Call("modify_stat", stat, -1) text_style "buttons_idle"
+            textbutton "-" action Call("modify_stat", stat, -1, char) text_style "buttons_idle"
             null width 15
 
         button:
@@ -520,24 +530,24 @@ screen journal_cheats_stat(stat):
 
         if stat == MONEY:
             null width 65
-            textbutton "+" action Call("modify_stat", stat, 100) text_style "buttons_idle"
+            textbutton "+" action Call("modify_stat", stat, 100, char) text_style "buttons_idle"
         else:
             null width 15
-            textbutton "+" action Call("modify_stat", stat, 1) text_style "buttons_idle"
+            textbutton "+" action Call("modify_stat", stat, 1, char) text_style "buttons_idle"
 
         if stat == MONEY:
             null width 30
-            textbutton "1000" action Call("modify_stat", stat, 1000) text_style "buttons_idle"
+            textbutton "1000" action Call("modify_stat", stat, 1000, char) text_style "buttons_idle"
         elif stat == LEVEL:
             null width 40
-            textbutton "5" action Call("modify_stat", stat, 5) text_style "buttons_idle"
+            textbutton "5" action Call("modify_stat", stat, 5, char) text_style "buttons_idle"
         else:
             null width 20
-            textbutton "10" action Call("modify_stat", stat, 10) text_style "buttons_idle"
+            textbutton "10" action Call("modify_stat", stat, 10, char) text_style "buttons_idle"
 
         if stat != MONEY:
             null width 30
-            textbutton "Max" action Call("modify_stat", stat, 100) text_style "buttons_idle"
+            textbutton "Max" action Call("modify_stat", stat, 100, char) text_style "buttons_idle"
     null height 30
 
 screen max_image_from_journal(image_path):
@@ -548,6 +558,194 @@ screen max_image_from_journal(image_path):
         xpos 0 ypos 0
         xsize 1902 ysize 1080
         action [With(dissolveM), Call("open_journal", journal, display)]
+
+screen journal_money_overview():
+    $ stat_obj = money
+    $ stat_desc = Stat_Data[stat_obj.get_name()].description
+
+    frame:
+        background Solid("#0000")
+        area (982, 175, 500, 300)
+        viewport id "OverviewDesc":
+            mousewheel True
+            draggable "touch"
+
+            text "[stat_desc]":
+                color "#000"
+                size 22
+        
+        vbar value YScrollValue("OverviewDesc"):
+            unscrollable "hide"
+            xalign 1.05
+
+    $ modifier_weekly = get_modifier_lists('money', None, 'payroll_weekly')
+    $ modifier_monthly = get_modifier_lists('money', None, 'payroll_monthly')
+
+    $ (positive_income_list, negative_income_list, net_weekly, net_monthly) = sort_payroll_modifier(modifier_weekly, modifier_monthly)
+
+    $ rows = len(positive_income_list) + len(negative_income_list) + 6
+
+    $ weekly_net_color = "#00a000"
+    $ monthly_net_color = "#00a000"
+
+    if net_weekly < 0:
+        $ weekly_net_color = "#a00000"
+    elif net_weekly == 0:
+        $ weekly_net_color = "#000"
+
+    if net_monthly < 0:
+        $ monthly_net_color = "#a00000"
+    elif net_monthly == 0:
+        $ monthly_net_color = "#000"
+
+    frame:
+        background Solid("#0000")
+        area (989, 475, 510, 400)
+        left_padding 0
+        right_padding 0
+        viewport id "MoneyOverview":
+            mousewheel True
+            draggable "touch"
+
+            vbox:
+                frame:
+                    background Frame("gui/Payroll_Table_1.webp", left=1, top=1, tile = False)
+                    left_padding 0
+                    hbox:
+                        button:
+                            text "{b}Name{/b}" style "journal_text_small"
+                            xsize 300
+                        null width 5
+                        button:
+                            text "{b}Weekly{/b}" style "journal_text_small"
+                            xsize 95
+                        null width 2
+                        button:
+                            text "{b}Monthly{/b}" style "journal_text_small"
+                            xsize 95
+                        null width 3
+                null height -2
+                frame:
+                    background Frame("gui/Payroll_Table_2.webp", left=1, top=1, tile = False)
+                    left_padding 0
+                    hbox:
+                        button:
+                            text "{b}Net Income{/b}" style "journal_text_small"
+                            xsize 300
+                        null width 5
+                        button:
+                            text "{b}{color=[weekly_net_color]}[net_weekly]{/color}{/b}" style "journal_text_small"
+                            xsize 95
+                        null width 5
+                        button:
+                            text "{b}{color=[monthly_net_color]}[net_monthly]{/color}{/b}" style "journal_text_small"
+                            xsize 95
+
+                null height 3
+
+                $ table_variant = 1
+
+                if len(positive_income_list) > 0:
+                    for name, weekly, monthly in positive_income_list:
+                        $ weekly_color = "#00a000"
+                        $ monthly_color = "#00a000"
+
+                        if weekly < 0:
+                            $ weekly_color = "#a00000"
+                        elif weekly == 0:
+                            $ weekly_color = "#000"
+
+                        if monthly < 0:
+                            $ monthly_color = "#a00000"
+                        elif monthly == 0:
+                            $ monthly_color = "#000"
+                        frame:
+                            background Frame("gui/Payroll_Table_" + str(table_variant) + ".webp", left=1, top=1, tile = False)
+                            left_padding 0
+                            hbox:
+                                button:
+                                    text "[name]" style "journal_text_small"
+                                    xsize 300
+                                
+                                if weekly == 0:
+                                    null width 100
+                                else:
+                                    null width 5
+                                    button:
+                                        text "{color=[weekly_color]}[weekly]{/color}" style "journal_text_small"
+                                        xsize 95
+                                if monthly == 0:
+                                    null width 100
+                                else:
+                                    null width 5
+                                    button:
+                                        text "{color=[monthly_color]}[monthly]{/color}" style "journal_text_small"
+                                        xsize 95
+                        $ table_variant = 3 - table_variant
+                        null height -2
+                    null height 5
+
+                if len(negative_income_list) > 0:
+                    for name, weekly, monthly in negative_income_list:
+                        $ weekly_color = "#00a000"
+                        $ monthly_color = "#00a000"
+
+                        if weekly < 0:
+                            $ weekly_color = "#a00000"
+                        elif weekly == 0:
+                            $ weekly_color = "#000"
+
+                        if monthly < 0:
+                            $ monthly_color = "#a00000"
+                        elif monthly == 0:
+                            $ monthly_color = "#000"
+                        frame:
+                            background Frame("gui/Payroll_Table_" + str(table_variant) + ".webp", left=1, top=1, tile = False)
+                            left_padding 0
+                            hbox:
+                                button:
+                                    text "[name]" style "journal_text_small"
+                                    xsize 300
+                                
+                                if weekly == 0:
+                                    null width 100
+                                else:
+                                    null width 5
+                                    button:
+                                        text "{color=[weekly_color]}[weekly]{/color}" style "journal_text_small"
+                                        xsize 95
+                                if monthly == 0:
+                                    null width 100
+                                else:
+                                    null width 5
+                                    button:
+                                        text "{color=[monthly_color]}[monthly]{/color}" style "journal_text_small"
+                                        xsize 95
+                        $ table_variant = 3 - table_variant
+                        null height -2
+                    null height 5
+
+                frame:
+                    background Frame("gui/Payroll_Table_" + str(table_variant) + ".webp", left=1, top=1, tile = False)
+                    left_padding 0
+                    hbox:
+                        button:
+                            text "{b}Net Income{/b}" style "journal_text_small"
+                            xsize 300
+                        null width 5
+                        button:
+                            text "{b}{color=[weekly_net_color]}[net_weekly]{/color}{/b}" style "journal_text_small"
+                            xsize 95
+                        null width 5
+                        button:
+                            text "{b}{color=[monthly_net_color]}[net_monthly]{/color}{/b}" style "journal_text_small"
+                            xsize 95
+
+        vbar value YScrollValue("MoneyOverview"):
+            unscrollable "hide"
+            xalign 1.035
+
+
 
 ############################
 # Main Journals
@@ -560,6 +758,8 @@ screen journal_page(page, display):
     
     use school_overview_map
     use school_overview_stats
+
+    image "journal/journal/background.webp"
 
     key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
 
@@ -623,6 +823,8 @@ screen journal_overview(display, char = "school"):
     use school_overview_map
     use school_overview_stats
 
+    image "journal/journal/background.webp"
+
     key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
 
     use journal_page_selector(1, display, char)
@@ -645,7 +847,7 @@ screen journal_overview(display, char = "school"):
     $ pta_proposal = get_game_data('voteProposal')
 
     if display == "":
-        $ display = "level"
+        $ display = "money"
 
     frame:
         # background Solid("#00000090")
@@ -736,27 +938,30 @@ screen journal_overview(display, char = "school"):
         elif school_object.check_stat_exists(display):
             $ active_stat_obj = school_object.get_stat_obj(display)
 
-        if active_stat_obj != None:
-            $ active_desc = active_stat_obj.get_full_description()
-            $ active_image = active_stat_obj.get_image()
+        if display == "money":
+            use journal_money_overview
+        else:
+            if active_stat_obj != None:
+                $ active_desc = active_stat_obj.get_full_description()
+                $ active_image = active_stat_obj.get_image()
 
-            image "[active_image]":
-                xalign 0.63 yalign 0.65
-            
-            frame:
-                background Solid("#0000")
-                area (989, 200, 500, 250)
-                viewport id "OverviewDesc":
-                    mousewheel True
-                    draggable "touch"
-
-                    text "[active_desc]":
-                        color "#000"
-                        size 22
+                image "[active_image]":
+                    xalign 0.63 yalign 0.65
                 
-                vbar value YScrollValue("OverviewDesc"):
-                    unscrollable "hide"
-                    xalign 1.05
+                frame:
+                    background Solid("#0000")
+                    area (989, 200, 500, 250)
+                    viewport id "OverviewDesc":
+                        mousewheel True
+                        draggable "touch"
+
+                        text "[active_desc]":
+                            color "#000"
+                            size 22
+                    
+                    vbar value YScrollValue("OverviewDesc"):
+                        unscrollable "hide"
+                        xalign 1.05
 
     textbutton "Close":
         xalign 0.75
@@ -774,16 +979,18 @@ screen journal_overview(display, char = "school"):
                 text tooltip
 
 # Cheats
-screen journal_cheats(display):
+screen journal_cheats(display, char = "school"):
     tag interaction_overlay
     modal True
 
     use school_overview_map
     use school_overview_stats
 
+    image "journal/journal/background.webp"
+
     key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
 
-    use journal_page_selector(5, display)
+    use journal_page_selector(5, display, char)
 
     text "Cheats":
         xalign 0.72 yalign 0.11
@@ -826,9 +1033,9 @@ screen journal_cheats(display):
                             text "DEBUG" xalign 0.0 style "journal_text"
                             xsize 250
 
-                        $ debug_mode_text = "{color=#ff0000}ACTIVATE{/color}"
+                        $ debug_mode_text = "{color=#a00000}ACTIVATE{/color}"
                         if debug_mode:
-                            $ debug_mode_text = "{color=#00ff00}DEACTIVATE{/color}"
+                            $ debug_mode_text = "{color=#00a000}DEACTIVATE{/color}"
                         button:
                             text debug_mode_text xalign 1.0
                             action [With(dissolveM), Call("switch_debug_mode", 5, display)]
@@ -840,9 +1047,9 @@ screen journal_cheats(display):
                             text "Time" xalign 0.0 style "journal_text"
                             xsize 250
 
-                        $ time_freeze_text = "{color=#ff0000}FREEZE{/color}"
+                        $ time_freeze_text = "{color=#a00000}FREEZE{/color}"
                         if time_freeze:
-                            $ time_freeze_text = "{color=#00ff00}UNFREEZE{/color}"
+                            $ time_freeze_text = "{color=#00a000}UNFREEZE{/color}"
                         button:
                             text time_freeze_text xalign 1.0
                             action [With(dissolveM), Call("switch_time_freeze", 5, display)]
@@ -911,7 +1118,7 @@ screen journal_cheats(display):
                             xsize 250
 
                         button:
-                            text "{color=#ff0000}RESET NOW{/color}" xalign 1.0
+                            text "{color=#a00000}RESET NOW{/color}" xalign 1.0
                             action [With(dissolveM), Call("reset_gallery_cheat", 5, display)]
                             xsize 250
                 
@@ -932,21 +1139,21 @@ screen journal_cheats(display):
                         color "#000000"
                         size 20
                     # MONEY
-                    use journal_cheats_stat(MONEY)
+                    use journal_cheats_stat(MONEY, char)
                     # LEVEL
-                    use journal_cheats_stat(LEVEL)
+                    use journal_cheats_stat(LEVEL, char)
                     # CORRUPTION
-                    use journal_cheats_stat(CORRUPTION)
+                    use journal_cheats_stat(CORRUPTION, char)
                     # INHIBITION
-                    use journal_cheats_stat(INHIBITION)
+                    use journal_cheats_stat(INHIBITION, char)
                     # HAPPINESS
-                    use journal_cheats_stat(HAPPINESS)
+                    use journal_cheats_stat(HAPPINESS, char)
                     # EDUCATION
-                    use journal_cheats_stat(EDUCATION)
+                    use journal_cheats_stat(EDUCATION, char)
                     # CHARM
-                    use journal_cheats_stat(CHARM)
+                    use journal_cheats_stat(CHARM, char)
                     # REPUTATION
-                    use journal_cheats_stat(REPUTATION)
+                    use journal_cheats_stat(REPUTATION, char)
                     
             vbar value YScrollValue("CheatStatList"):
                 unscrollable "hide"
@@ -972,9 +1179,9 @@ screen journal_cheats(display):
                         for rule_key in rules.keys():
                             $ rule = get_rule(rule_key)
                             $ rule_name = rule.get_title()
-                            $ rule_unlock_text = "{color=#ff0000}UNLOCK{/color}"
+                            $ rule_unlock_text = "{color=#a00000}UNLOCK{/color}"
                             if rule.is_unlocked():
-                                $ rule_unlock_text = "{color=#00ff00}LOCK{/color}"
+                                $ rule_unlock_text = "{color=#00a000}LOCK{/color}"
                             button:
                                 text rule_name:
                                     style "buttons_idle"
@@ -1043,9 +1250,9 @@ screen journal_cheats(display):
                         for club_key in clubs.keys():
                             $ club = get_club(club_key)
                             $ club_name = club.get_title()
-                            $ club_unlock_text = "{color=#ff0000}UNLOCK{/color}"
+                            $ club_unlock_text = "{color=#a00000}UNLOCK{/color}"
                             if club.is_unlocked():
-                                $ club_unlock_text = "{color=#00ff00}LOCK{/color}"
+                                $ club_unlock_text = "{color=#00a000}LOCK{/color}"
                             button:
                                 text club_name:
                                     style "buttons_idle"
@@ -1113,9 +1320,9 @@ screen journal_cheats(display):
                             $ building = get_building(building_key)
                             $ building_name = building.get_title()
                             $ building_level = building.get_level()
-                            $ building_unlock_text = "{color=#ff0000}UNLOCK{/color}"
+                            $ building_unlock_text = "{color=#a00000}UNLOCK{/color}"
                             if building.is_unlocked():
-                                $ building_unlock_text = "{color=#00ff00}LOCK{/color}"
+                                $ building_unlock_text = "{color=#00a000}LOCK{/color}"
                             button:
                                 text building_name:
                                     style "buttons_idle"
@@ -1211,6 +1418,8 @@ screen journal_gallery(display):
     use school_overview_map
     use school_overview_stats
 
+    image "journal/journal/background.webp"
+
     key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
 
     use journal_page_selector(7, display)
@@ -1264,7 +1473,7 @@ screen journal_gallery(display):
             $ location_title = building.get_title()
         
         if debug_mode:
-            textbutton "{color=#ff0000}Reset Location{/color}":
+            textbutton "{color=#a00000}Reset Location{/color}":
                 text_style "journal_text"
                 xpos 350
                 ypos 260
@@ -1301,7 +1510,7 @@ screen journal_gallery(display):
             $ gallery_chooser_order = persistent.gallery[location][event]['options']['last_order']
 
         if debug_mode:
-            textbutton "{color=#ff0000}Reset Event{/color}":
+            textbutton "{color=#a00000}Reset Event{/color}":
                 text_style "journal_text"
                 xpos 1280
                 ypos 160
@@ -1362,7 +1571,7 @@ screen journal_gallery(display):
                                         style "journal_text"
                                         size 30
 
-                                    $ filtered_values = [value for value in values if variant_name + '.' + value not in loli_filter[loli_content]]
+                                    $ filtered_values = [value for value in values if variant_name + '.' + str(value) not in loli_filter[loli_content]]
                                     # $ filtered_values = []
 
                                     if len(filtered_values) == 0:
@@ -1439,6 +1648,8 @@ screen journal_credits(display):
 
     use school_overview_map
     use school_overview_stats
+
+    image "journal/journal/background.webp"
 
     key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
 
@@ -1666,7 +1877,7 @@ label switch_building(building_name, level_delta):
         $ building.set_level(building.get_level() + level_delta)
     call open_journal(5, "buildings") from switch_building_1
 
-label modify_stat(stat, amount):
+label modify_stat(stat, amount, char):
     $ school_obj = get_school()
     if stat == "money":
         $ money.change_value(amount)
@@ -1674,7 +1885,7 @@ label modify_stat(stat, amount):
         $ school_obj.set_level(school_obj.get_level() + amount)
     else:
         $ school_obj.change_stat(stat, amount)
-    call open_journal(5, "stats") from modify_stat_1
+    call open_journal(5, "stats", char) from modify_stat_1
 
 label add_to_proposal(data, page, display, action = "unlock"):
     $ proposal = PTAProposal(data, action)
