@@ -860,23 +860,8 @@ label load_stats ():
     $ load_stat_data(MONEY, "Money", {
         'description': "The money is used to purchase upgrade for the school and to pay for expenses.\n" +
             "You have to pay for all of that with your own budget, but you get a monthly budget from the authorities.\n\n" +
-            "Of course, you don't get much. You have to make sure that you don't run out of money."+
+            "Of course, you don't get much. You have to make sure that you don't run out of money. "+
             "You can also earn money by working in your office. Maybe you find another way...",
-        'levels': [0, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000],
-        'descriptions': [],
-        'images': [
-            "images/journal/empty_image.webp",
-            "images/journal/empty_image.webp",
-            "images/journal/empty_image.webp",
-            "images/journal/empty_image.webp",
-            "images/journal/empty_image.webp",
-            "images/journal/empty_image.webp",
-            "images/journal/empty_image.webp",
-            "images/journal/empty_image.webp",
-            "images/journal/empty_image.webp",
-            "images/journal/empty_image.webp",
-            "images/journal/empty_image.webp",
-        ],
         'max_limit': 1000000000,
     })
     

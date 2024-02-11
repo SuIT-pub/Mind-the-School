@@ -53,7 +53,7 @@ label open_journal(page, display, char = "school"):
     elif page == 4:
         call screen journal_page(4, display) with dissolveM
     elif page == 5:
-        call screen journal_cheats(display) with dissolveM
+        call screen journal_cheats(display, char) with dissolveM
     elif page == 6:
         call screen journal_credits(display) with dissolveM
     elif page == 7:
@@ -259,7 +259,10 @@ screen journal_page_selector(page, display, char = "school"):
         elif page == 4:
             idle "journal/journal/4_idle.webp"
             hover "journal/journal/4_hover.webp"
-        elif page == 5:
+        elif page == 5 and display == 'stats':
+            idle "journal/journal/5_stats_[char]_idle.webp"
+            hover "journal/journal/5_stats_hover.webp"
+        elif page == 5 and display != 'stats':
             idle "journal/journal/5_idle.webp"
             hover "journal/journal/5_hover.webp"
         elif page == 6:
@@ -284,15 +287,15 @@ screen journal_page_selector(page, display, char = "school"):
         if page > 4:
             hotspot (144, 830, 168, 88) action [With(dissolveM), Call("open_journal", 4, "")] tooltip "Buildings"
 
-        if page == 1:
+        if page == 1 or (page == 5 and display == 'stats'):
             if char != "school":
-                hotspot (373, 80, 160, 67) action [With(dissolveM), Call("open_journal", 1, display, "school")] tooltip "School"
+                hotspot (373, 80, 160, 67) action [With(dissolveM), Call("open_journal", page, display, "school")] tooltip "School"
             if char != "teacher":
-                hotspot (550, 80, 160, 67) action [With(dissolveM), Call("open_journal", 1, display, "teacher")] tooltip "Teacher"
+                hotspot (550, 80, 160, 67) action [With(dissolveM), Call("open_journal", page, display, "teacher")] tooltip "Teacher"
             if char != "parents":
-                hotspot (725, 80, 160, 67) action [With(dissolveM), Call("open_journal", 1, display, "parents")] tooltip "Parents"
+                hotspot (725, 80, 160, 67) action [With(dissolveM), Call("open_journal", page, display, "parents")] tooltip "Parents"
     
-    if page == 1:
+    if page == 1 or (page == 5 and display == 'stats'):
         if char == "school":
             text "School":
                 xalign 0.225 yalign 0.1
@@ -482,41 +485,43 @@ screen journal_image(page, display, active_obj):
         image "[active_obj_image]": 
             xpos 985 yalign 0.65
 
-screen journal_cheats_stat(stat):
+screen journal_cheats_stat(stat, char = "school"):
     $ stat_name = str(stat)
     $ stat_text = stat_name.capitalize()
     $ stat_value = 0
 
+    $ char_obj = get_character_by_key(char)
+
     if stat == MONEY:
         $ stat_value = money.get_display_value()
     elif stat == LEVEL:
-        $ stat_value = get_level_for_char(get_school())
+        $ stat_value = get_level_for_char(char_obj)
     else:
-        $ stat_value = get_school().get_display_value(stat)
+        $ stat_value = char_obj.get_display_value(stat)
 
     hbox:
         text "{image=icons/stat_[stat_name]_icon.webp}"
         text " [stat_text]" style "journal_text" yalign 0.5
     hbox:
         if stat != MONEY:
-            textbutton "Min" action Call("modify_stat", stat, -100) text_style "buttons_idle"
+            textbutton "Min" action Call("modify_stat", stat, -100, char) text_style "buttons_idle"
             null width 20
 
         if stat == MONEY:
-            textbutton "1000" action Call("modify_stat", stat, -1000) text_style "buttons_idle"
+            textbutton "1000" action Call("modify_stat", stat, -1000, char) text_style "buttons_idle"
             null width 30
         elif stat == LEVEL:
-            textbutton "5" action Call("modify_stat", stat, -5) text_style "buttons_idle"
+            textbutton "5" action Call("modify_stat", stat, -5, char) text_style "buttons_idle"
             null width 40
         else:
-            textbutton "10" action Call("modify_stat", stat, -10) text_style "buttons_idle"
+            textbutton "10" action Call("modify_stat", stat, -10, char) text_style "buttons_idle"
             null width 20
 
         if stat == MONEY:
-            textbutton "-" action Call("modify_stat", stat, -100) text_style "buttons_idle"
+            textbutton "-" action Call("modify_stat", stat, -100, char) text_style "buttons_idle"
             null width 65
         else:
-            textbutton "-" action Call("modify_stat", stat, -1) text_style "buttons_idle"
+            textbutton "-" action Call("modify_stat", stat, -1, char) text_style "buttons_idle"
             null width 15
 
         button:
@@ -525,24 +530,24 @@ screen journal_cheats_stat(stat):
 
         if stat == MONEY:
             null width 65
-            textbutton "+" action Call("modify_stat", stat, 100) text_style "buttons_idle"
+            textbutton "+" action Call("modify_stat", stat, 100, char) text_style "buttons_idle"
         else:
             null width 15
-            textbutton "+" action Call("modify_stat", stat, 1) text_style "buttons_idle"
+            textbutton "+" action Call("modify_stat", stat, 1, char) text_style "buttons_idle"
 
         if stat == MONEY:
             null width 30
-            textbutton "1000" action Call("modify_stat", stat, 1000) text_style "buttons_idle"
+            textbutton "1000" action Call("modify_stat", stat, 1000, char) text_style "buttons_idle"
         elif stat == LEVEL:
             null width 40
-            textbutton "5" action Call("modify_stat", stat, 5) text_style "buttons_idle"
+            textbutton "5" action Call("modify_stat", stat, 5, char) text_style "buttons_idle"
         else:
             null width 20
-            textbutton "10" action Call("modify_stat", stat, 10) text_style "buttons_idle"
+            textbutton "10" action Call("modify_stat", stat, 10, char) text_style "buttons_idle"
 
         if stat != MONEY:
             null width 30
-            textbutton "Max" action Call("modify_stat", stat, 100) text_style "buttons_idle"
+            textbutton "Max" action Call("modify_stat", stat, 100, char) text_style "buttons_idle"
     null height 30
 
 screen max_image_from_journal(image_path):
@@ -754,6 +759,8 @@ screen journal_page(page, display):
     use school_overview_map
     use school_overview_stats
 
+    image "journal/journal/background.webp"
+
     key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
 
     $ journal_type = get_journal_type(page)
@@ -815,6 +822,8 @@ screen journal_overview(display, char = "school"):
 
     use school_overview_map
     use school_overview_stats
+
+    image "journal/journal/background.webp"
 
     key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
 
@@ -970,16 +979,18 @@ screen journal_overview(display, char = "school"):
                 text tooltip
 
 # Cheats
-screen journal_cheats(display):
+screen journal_cheats(display, char = "school"):
     tag interaction_overlay
     modal True
 
     use school_overview_map
     use school_overview_stats
 
+    image "journal/journal/background.webp"
+
     key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
 
-    use journal_page_selector(5, display)
+    use journal_page_selector(5, display, char)
 
     text "Cheats":
         xalign 0.72 yalign 0.11
@@ -1128,21 +1139,21 @@ screen journal_cheats(display):
                         color "#000000"
                         size 20
                     # MONEY
-                    use journal_cheats_stat(MONEY)
+                    use journal_cheats_stat(MONEY, char)
                     # LEVEL
-                    use journal_cheats_stat(LEVEL)
+                    use journal_cheats_stat(LEVEL, char)
                     # CORRUPTION
-                    use journal_cheats_stat(CORRUPTION)
+                    use journal_cheats_stat(CORRUPTION, char)
                     # INHIBITION
-                    use journal_cheats_stat(INHIBITION)
+                    use journal_cheats_stat(INHIBITION, char)
                     # HAPPINESS
-                    use journal_cheats_stat(HAPPINESS)
+                    use journal_cheats_stat(HAPPINESS, char)
                     # EDUCATION
-                    use journal_cheats_stat(EDUCATION)
+                    use journal_cheats_stat(EDUCATION, char)
                     # CHARM
-                    use journal_cheats_stat(CHARM)
+                    use journal_cheats_stat(CHARM, char)
                     # REPUTATION
-                    use journal_cheats_stat(REPUTATION)
+                    use journal_cheats_stat(REPUTATION, char)
                     
             vbar value YScrollValue("CheatStatList"):
                 unscrollable "hide"
@@ -1407,6 +1418,8 @@ screen journal_gallery(display):
     use school_overview_map
     use school_overview_stats
 
+    image "journal/journal/background.webp"
+
     key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
 
     use journal_page_selector(7, display)
@@ -1636,6 +1649,8 @@ screen journal_credits(display):
     use school_overview_map
     use school_overview_stats
 
+    image "journal/journal/background.webp"
+
     key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
 
     use journal_page_selector(6, display)
@@ -1862,7 +1877,7 @@ label switch_building(building_name, level_delta):
         $ building.set_level(building.get_level() + level_delta)
     call open_journal(5, "buildings") from switch_building_1
 
-label modify_stat(stat, amount):
+label modify_stat(stat, amount, char):
     $ school_obj = get_school()
     if stat == "money":
         $ money.change_value(amount)
@@ -1870,7 +1885,7 @@ label modify_stat(stat, amount):
         $ school_obj.set_level(school_obj.get_level() + amount)
     else:
         $ school_obj.change_stat(stat, amount)
-    call open_journal(5, "stats") from modify_stat_1
+    call open_journal(5, "stats", char) from modify_stat_1
 
 label add_to_proposal(data, page, display, action = "unlock"):
     $ proposal = PTAProposal(data, action)
