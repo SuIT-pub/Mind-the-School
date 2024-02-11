@@ -13,9 +13,10 @@ init -1 python:
     }
 
     cafeteria_bg_images = [
-        BGImage("images/background/cafeteria/bg 1,6 <level> <nude>.webp", 1, TimeCondition(daytime = "1,6")), # show terrace with a few students
-        BGImage("images/background/cafeteria/bg 3 <level> <nude>.webp", 1, TimeCondition(daytime = 3)), # show terrace full of students and teacher
-        BGImage("images/background/cafeteria/bg 7.webp", 1, TimeCondition(daytime = 7)), # show empty terrace at night
+        BGImage("images/background/cafeteria/bg d <loli> <parent> <student> <variant> <nude>.png", 1, TimeCondition(daytime = '3,6', weekday = 'd')),
+        BGImage("images/background/cafeteria/bg d <loli> <parent> <student> <variant> <nude>.png", 2, AND(TimeCondition(daytime = 'd', weekday = 'w'), RandomCondition(1, 1))),
+        BGImage("images/background/cafeteria/bg c <parent> <nude>.png", 1, OR(TimeCondition(daytime = 'c', weekday = 'd'), TimeCondition(daytime = 'd', weekday = 'w'))),
+        BGImage("images/background/cafeteria/bg 7.png", 1, TimeCondition(daytime = 7)), # show empty terrace at night
     ]
     
 init 1 python:
@@ -121,7 +122,11 @@ label .after_time_check (**kwargs):
 label .after_general_check (**kwargs):
     $ school_obj = get_school()
 
-    call show_idle_image(school_obj, "images/background/cafeteria/bg c.webp", cafeteria_bg_images) from cafeteria_2
+    call show_idle_image(school_obj, "images/background/cafeteria/bg c.png", cafeteria_bg_images,
+        parent = get_character_by_key('parents').get_level(),
+        student = get_character_by_key('school').get_level(),
+        loli = get_random_loli()
+    ) from cafeteria_2
 
     call call_event_menu (
         "What to do at the Cafeteria?", 
