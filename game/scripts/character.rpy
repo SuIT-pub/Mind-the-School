@@ -534,6 +534,7 @@ init -6 python:
         ### Parameters:
         1. key: str
             - The key of the character to get
+            - school, parents, teacher, secretary
 
         ### Returns:
         1. Char

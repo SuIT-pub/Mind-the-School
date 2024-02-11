@@ -419,7 +419,7 @@ screen black_error_screen_text(text_str):
     text text_str:
         xalign 0 yalign 0
         size 20
-        color "#ff0000"
+        color "#a00000"
 
 screen black_screen_text(text_str):
     python:

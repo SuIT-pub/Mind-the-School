@@ -408,9 +408,9 @@ init -7 python:
                 - Vote comments of the object.
             """
             
-            vote = "{color=#00ff00}Votes For{/color}"
+            vote = "{color=#00a000}Votes For{/color}"
             if result == NO:
-                vote = "{color=#ff0000}Votes Against{/color}"
+                vote = "{color=#a00000}Votes Against{/color}"
             elif result == VETO:
                 vote = "Vetoes"
 

@@ -933,7 +933,7 @@ label load_buildings ():
             # LockCondition(False),
         ),
         '_unlock_effects': [
-            ModifierEffect('weekly_cost_cafeteria', 'money', Modifier_Obj('Cafeteria', "+", -100), collection = 'payroll'),
+            ModifierEffect('weekly_cost_cafeteria', 'money', Modifier_Obj('Cafeteria', "+", -100), collection = 'payroll_weekly'),
             MoneyEffect('Unlock_Cafeteria_Cost', -1500),
         ],
         '_upgrade_conditions':[
@@ -949,15 +949,15 @@ label load_buildings ():
         ],
         '_upgrade_effects': {
             2: [
-                ModifierEffect('weekly_cost_cafeteria', 'money', Modifier_Obj('Cafeteria', "+", -250), collection = 'payroll'),
+                ModifierEffect('weekly_cost_cafeteria', 'money', Modifier_Obj('Cafeteria', "+", -250), collection = 'payroll_weekly'),
                 MoneyEffect('Unlock_Cafeteria_Cost', -3000),
             ],
             3: [
-                ModifierEffect('weekly_cost_cafeteria', 'money', Modifier_Obj('Cafeteria', "+", -500), collection = 'payroll'),
+                ModifierEffect('weekly_cost_cafeteria', 'money', Modifier_Obj('Cafeteria', "+", -500), collection = 'payroll_weekly'),
                 MoneyEffect('Unlock_Cafeteria_Cost', -5000),
             ],
             4: [
-                ModifierEffect('weekly_cost_cafeteria', 'money', Modifier_Obj('Cafeteria', "+", -800), collection = 'payroll'),
+                ModifierEffect('weekly_cost_cafeteria', 'money', Modifier_Obj('Cafeteria', "+", -800), collection = 'payroll_weekly'),
                 MoneyEffect('Unlock_Cafeteria_Cost', -10000),
             ],
         },
