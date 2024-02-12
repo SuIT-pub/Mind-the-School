@@ -14,9 +14,6 @@ label start ():
 
     jump ask_age
 
-    # $ set_modifier('monthly_budget', 'money', Modifier_Obj('Base', "+", 1000), collection = 'payroll_monthly')
-    # $ set_modifier('teacher_pay', 'money', Modifier_Obj('Teacher', "+", -150), collection = 'payroll_weekly')
-
     return
 
 init python:
