@@ -3,12 +3,10 @@
 #######################################
 
 init -1 python:
-    courtyard_timed_event = TempEventStorage("courtyard", "", "courtyard", Event(2, "courtyard.after_time_check"))
-    courtyard_general_event = EventStorage("courtyard", "", "courtyard", Event(2, "courtyard.after_general_check"))
+    courtyard_timed_event = TempEventStorage("courtyard_timed", "courtyard", Event(2, "courtyard.after_time_check"))
+    courtyard_general_event = EventStorage("courtyard_general", "courtyard", Event(2, "courtyard.after_general_check"))
     courtyard_events = {
-        "talk_student": EventStorage("talk_student", "Talk with students", "courtyard", default_fallback, "There is nobody here."),
-        "talk_teacher": EventStorage("talk_teacher", "Talk with teacher",  "courtyard", default_fallback, "There is nobody here."),
-        "patrol":       EventStorage("patrol",       "Patrol",             "courtyard", default_fallback, "There is nobody here."),
+        "patrol":       EventStorage("patrol", "courtyard", default_fallback, "There is nobody here."),
     }
 
     courtyard_bg_images = [

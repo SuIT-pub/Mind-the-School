@@ -3,16 +3,15 @@
 ###################################
 
 init -1 python:
-    kiosk_timed_event = TempEventStorage("kiosk", "", "kiosk", Event(2, "kiosk.after_time_check"))
-    kiosk_general_event = EventStorage("kiosk", "", "kiosk", Event(2, "kiosk.after_general_check"))
+    kiosk_timed_event = TempEventStorage("kiosk_timed", "kiosk", Event(2, "kiosk.after_time_check"))
+    kiosk_general_event = EventStorage("kiosk_general", "kiosk", Event(2, "kiosk.after_general_check"))
     kiosk_events = {
-        "snack":    EventStorage("snack",    "Get a snack",      "kiosk", default_fallback, "I don't want anything."),
-        "students": EventStorage("students", "Talk to students", "kiosk", default_fallback, "There is nobody here."),
+        "snack":    EventStorage("get_snack",    "kiosk", default_fallback, "I don't want anything."),
+        "students": EventStorage("talk_student", "kiosk", default_fallback, "There is nobody here."),
     }
 
     kiosk_bg_images = [
-        BGImage("images/background/kiosk/bg f <loli> <level> <nude> <variant>.webp", 2, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))), # show kiosk with students
-        BGImage("images/background/kiosk/bg f <loli> <level> <nude>.webp", 1, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))), # show kiosk with students
+        BGImage("images/background/kiosk/bg f <loli> <level> <nude> <variant>.webp", 1, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))), # show kiosk with students
         BGImage("images/background/kiosk/bg 7.webp", 1, TimeCondition(daytime = 7)), # show kiosk at night empty
     ]
 

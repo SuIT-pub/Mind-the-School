@@ -203,11 +203,11 @@ init -1 python:
         """
 
         def __init__(self, event: Event):
-            super().__init__(event.get_title())
+            super().__init__(event.get_name())
             self.event = event
 
         def __str__(self):
-            return f"{self.event}"
+            return f"{self.event.get_name()}"
 
         def apply(self, **kwargs):
             add_temp_event(self.event)
@@ -266,11 +266,11 @@ init -1 python:
         """
 
         def __init__(self, event: Event):
-            super().__init__(event.get_title())
+            super().__init__(event.get_name())
             self.event = event
 
         def __str__(self):
-            return f"{self.event}"
+            return f"{self.event.get_name()}"
 
         def apply(self, **kwargs):
             if isinstance(self.event, EventStorage):

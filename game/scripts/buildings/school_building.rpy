@@ -3,13 +3,17 @@
 #############################################
 
 init -1 python:
-    sb_timed_event = TempEventStorage("school_building", "", "school_building", Event(2, "school_building.after_time_check"))
-    sb_general_event = EventStorage("school_building", "", "school_building", Event(2, "school_building.after_general_check"))
+    sb_timed_event = TempEventStorage("school_building", "school_building", Event(2, "school_building.after_time_check"))
+    sb_general_event = EventStorage("school_building", "school_building", Event(2, "school_building.after_general_check"))
     sb_events = {
-        "check_class": EventStorage("check_class", "Check Class",      "school_building", default_fallback, "There is nobody here."),
-        "teach_class": EventStorage("teach_class", "Teach a Class",    "school_building", default_fallback, "There is nobody here."),
-        "patrol":      EventStorage("patrol",      "Patrol building",  "school_building", default_fallback, "There is nobody here."),
-        "students":    EventStorage("students",    "Talk to students", "school_building", default_fallback, "There is nobody here."),
+        "check_class": EventStorage("check_class",  "school_building", default_fallback, "There is nobody here."),
+        "teach_class": EventStorage("teach_class",  "school_building", default_fallback, "There is nobody here."),
+        "patrol":      EventStorage("patrol",       "school_building", default_fallback, "There is nobody here."),
+        "students":    EventStorage("talk_student", "school_building", default_fallback, "There is nobody here."),
+    }
+    sb_teach_events = {
+        "english": EventStorage("english", "school_building", default_fallback, "There is nobody here."),
+        "math":    EventStorage("math",    "school_building", default_fallback, "There is nobody here."),
     }
 
     sb_bg_images = [
@@ -18,6 +22,9 @@ init -1 python:
     ]
 
 init 1 python:
+
+    ####################
+    # Event construction
     first_week_sb_event = Event(1, "first_week_sb_event",
         TimeCondition(day = "2-4", month = 1, year = 2023),
         thumbnail = "images/events/first week/first week school building 2.webp")
@@ -64,6 +71,17 @@ init 1 python:
         TimeCondition(weekday = "d", daytime = "f"),
         thumbnail = "images/events/school building/sb_event_4 0.webp")
 
+    # Teaching events
+    sb_event_teach_class_event = Event(3, "teach_class_event",
+        TimeCondition(weekday = "d", daytime = "c"),
+    )
+
+    sb_teach_english_1_event = Event(3, "sb_teach_english_1")
+    sb_teach_math_1_event = Event(3, "sb_teach_math_1")
+
+    #################
+    # Event insertion
+
     sb_timed_event.add_event(
         first_week_sb_event, 
         first_potion_sb_event,
@@ -74,13 +92,21 @@ init 1 python:
 
     sb_events["teach_class"].add_event(
         first_class_sb_event_event, 
-        sb_event1, 
-        sb_event2,
+        sb_event_teach_class_event,
     )
     sb_events["patrol"].add_event(
         sb_event1, 
         sb_event3,
         sb_event4,
+    )
+
+    sb_teach_events["english"].add_event(
+        sb_teach_english_1_event,
+        sb_event2,
+    )
+    sb_teach_events["math"].add_event(
+        sb_teach_math_1_event,
+        sb_event2,
     )
 
 ##################################################
@@ -117,6 +143,9 @@ label .after_general_check (**kwargs):
 ######################################
 # ----- School Building Events ----- #
 ######################################
+
+#####################
+# Introduction Events
 
 # first week event
 label first_week_sb_event (**kwargs):
@@ -214,6 +243,36 @@ label first_class_sb_event (**kwargs):
 
     $ end_event('new_daytime', **kwargs)
 
+#################
+# Teaching events
+
+label teach_class_event (**kwargs):
+    $ school_obj = get_character("school", charList)
+    
+    call show_idle_image(school_obj, "images/background/school building/bg f.webp", sb_bg_images,
+        loli = get_random_loli()
+    ) from teach_class_event_2
+
+    call call_event_menu (
+        "What subject do you wanna teach?", 
+        sb_teach_events,
+        default_fallback,
+        character.subtitles,
+        char_obj = school_obj,
+    ) from teach_class_event_1
+
+    jump school_building
+
+label sb_teach_english_1 (**kwargs):
+    subtitles "Todo: english subject"
+    jump new_daytime
+
+label sb_teach_math_1 (**kwargs):
+    subtitles "Todo: math subject"
+    jump new_daytime
+
+#######################
+# General Random Events
 
 label sb_event_1 (**kwargs): # patrol, check class
     $ begin_event(**kwargs)

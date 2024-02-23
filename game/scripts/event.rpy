@@ -17,59 +17,54 @@ init -3 python:
         ### Attributes:
         1. name: str
             - The name of the EventStorage. This is used to identify the EventStorage.
-        2. title: str
-            - The title of the EventStorage. This is used for the GUI.
-        3. fallback: Event
+        2. fallback: Event
             - The fallback event that is called when no other events are available.
-        4. events: Dict[int, Dict[str, Event]]
+        3. events: Dict[int, Dict[str, Event]]
             - The events that are stored in the EventStorage. The events are stored in a dictionary with the priority as the key and the dictionary as a value.
             - The event Dictionary is a dictionary with the event id as the key and the event as the value.
             - Priority 1 represents an event that is called first and blocks all other events.
             - Priority 2 represents an Event that is called together with all other events with priority 2 and then moves on to priority 3.
             - Priority 3 represents a set of events from which one is called randomly.
-        5. fallback_text: str
+        4. fallback_text: str
             - The text that is displayed when the fallback event is called.
 
         ### Methods:
         1. get_name() -> str
             - Returns the name of the EventStorage.
-        2. get_title() -> str
-            - Returns the title of the EventStorage.
-        3. get_type() -> str
+        2. get_type() -> str
             - Returns the type of the EventStorage.
-        4. add_event(event: Event)
+        3. add_event(event: Event)
             - Adds an event to the EventStorage.
-        5. remove_event(event_id: str)
+        4. remove_event(event_id: str)
             - Removes an event from the EventStorage.
-        6. count_available_events(priority: int = 0, **kwargs) -> int
+        5. count_available_events(priority: int = 0, **kwargs) -> int
             - Counts the number of events that are available.
             - If priority is 0, all events are counted.
             - Otherwise only the events with the given priority are counted.
-        7. count_available_events_with_fallback(priority: int = 0, **kwargs) -> int
+        6. count_available_events_with_fallback(priority: int = 0, **kwargs) -> int
             - Counts the number of events that are available.
             - If priority is 0, all events are counted.
             - Otherwise only the events with the given priority are counted.
             - If no events are available, 1 is returned.
-        8. get_available_events(priority: int = 0, **kwargs) -> List[Event]
+        7. get_available_events(priority: int = 0, **kwargs) -> List[Event]
             - Returns a list of all available events.
             - If priority is 0, all events are returned.
             - Otherwise only the events with the given priority are returned.
-        9. get_available_events_with_fallback(priority: int = 0, **kwargs) -> List[Event]
+        8. get_available_events_with_fallback(priority: int = 0, **kwargs) -> List[Event]
             - Returns a list of all available events.
             - If priority is 0, all events are returned.
             - Otherwise only the events with the given priority are returned.
             - If no events are available, the fallback event is returned.
-        10. call_available_event(priority: int = 0, **kwargs)
+        9. call_available_event(priority: int = 0, **kwargs)
             - Calls all available events depending on the priority.
             - If priority is 0, all events are called.
             - Otherwise only the events with the given priority are called.
-        11. check_all_events()
+        10. check_all_events()
             - Checks if all events are created correctly.
         """
 
-        def __init__(self, name: str, title: str, location: str, fallback: Event = None, fallback_text: str = "There is nothing to do here."):
+        def __init__(self, name: str, location: str, fallback: Event = None, fallback_text: str = "There is nothing to do here."):
             self.name = name
-            self.title = title
             self.fallback = fallback if fallback != None else default_fallback
             self.fallback_text = fallback_text
             self.events = {
@@ -79,12 +74,11 @@ init -3 python:
             }
             self.location = location
 
-        def _update(self, title: str):
+        def _update(self):
             """
             Updates the title of the EventStorage.
             """
 
-            self.title = title
             if not hasattr(self, 'fallback_text'):
                 self.fallback_text = "There is nothing to do here."
 
@@ -155,17 +149,6 @@ init -3 python:
             """
 
             return self.location
-
-        def get_title(self) -> str:
-            """
-            Returns the title of the EventStorage.
-
-            ### Returns:
-            1. str
-                - The title of the EventStorage.
-            """
-
-            return self.title
 
         def get_type(self) -> str:
             """
@@ -387,20 +370,18 @@ init -3 python:
         ### Attributes:
         1. name: str
             - The name of the EventStorage. This is used to identify the EventStorage.
-        2. title: str
-            - The title of the EventStorage. This is used for the GUI.
-        3. fallback: Event
+        2. fallback: Event
             - The fallback event that is called when no other events are available.
-        4. events: List[Event]
+        3. events: List[Event]
             - The events that are stored in the EventStorage. The events are stored in a list.
         """
 
-        def __init__(self, name: str, title: str, location: str = "", fallback: Event = None, fallback_text: str = "How did you end up here? That shouldn't have happened. Better notify the dev about this."):
-            super().__init__(name, title, location, fallback, fallback_text)
+        def __init__(self, name: str, location: str = "", fallback: Event = None, fallback_text: str = "How did you end up here? That shouldn't have happened. Better notify the dev about this."):
+            super().__init__(name, location, fallback, fallback_text)
             self.events = []
 
-        def _update(self, title):
-            self.title = title
+        def _update(self):
+            pass
 
         def check_all_events(self):
             """
@@ -967,6 +948,8 @@ label call_available_event(event_storage, priority = 0, no_fallback = False, **k
         $ events_list = event_storage.get_available_events(priority, **kwargs)
     else:
         $ events_list = event_storage.get_available_events_with_fallback(priority, **kwargs)
+
+    $ log_val('event_list', events_list)
 
     if not contains_game_data("temp_event_blocker"):
         $ set_game_data("temp_event_blocker", [])

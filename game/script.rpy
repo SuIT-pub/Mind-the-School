@@ -33,6 +33,16 @@ init python:
         map(lambda: x._repair(), teacher.get_stats().values())
         map(lambda: x._repair(), secretary.get_stats().values())
 
+        if time.today_is_after_date(9, 1, 2023):
+            if school.get_level() == 0:
+                school.set_level(1)
+            if parents.get_level() == 0:
+                parents.set_level(1)
+            if teacher.get_level() == 0:
+                teacher.set_level(1)
+            if secretary.get_level() == 0:
+                secretary.set_level(5)
+
     def fix_modifier():
         # add weekly cost for cafeteria if not already added
         if (get_building('cafeteria').is_unlocked() and 
@@ -83,6 +93,7 @@ init python:
             set_name("headmaster", gameData['headmaster_first_name'], gameData['headmaster_last_name'])
             gameData.pop('headmaster_first_name')
             gameData.pop('headmaster_last_name')
+
 
 
     ###########################################

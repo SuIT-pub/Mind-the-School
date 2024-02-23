@@ -17,6 +17,36 @@ amount,Amount
 girl_1,1.Girl
 girl_2,2.Girl
 girl_3,3.Girl
+patrol,Patrol
+teach_class,Teach Class
+check_class,Check Class
+peek_students,Peek Students
+look_around,Look Around
+male_enter,Enter male bath
+female_enter,Enter female bath
+female_peek,Peek into female bath
+mixed_enter,Enter mixed bath
+mixed_peek,Peek into mixed bath
+eat_alone,Eat Alone
+eat_student,Eat with Students
+eat_teacher,Eat with Teacher
+eat_look,Look Around
+talk_student,Talk to Student
+talk_teacher,Talk to Teacher
+go_teacher,Go to Teacher
+go_students,Go to Student
+check_storage,Check Storage
+peek_changing,Peek into Changing Room
+enter_changing,Enter Changing Room
+check_pe,Check P.E. Class
+teach_pe,Teach P.E. Class
+teach_class,Teach Class
+steal_panties,Steal Panties
+get_snack,Get a snack
+tutorial,About the school...
+paperwork,Do Paperwork
+learn,Learn subject
+check_rooms,Check Rooms
 
 ###############
 # Event Names

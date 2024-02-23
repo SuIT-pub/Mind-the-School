@@ -1,7 +1,7 @@
 init python:
     from typing import Tuple, Union, List
 
-    def call_custom_menu(with_leave: bool = True, *elements: Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool], **kwargs) -> None:
+    def call_custom_menu(with_leave: bool = True, *elements: str | Effect | List[Effect] | Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool], **kwargs) -> None:
         """
         Calls a custom menu with the given elements and the given text and person.
 
@@ -19,9 +19,9 @@ init python:
             made_decisions = get_kwargs('made_decisions', [], **kwargs)
             decision_data = get_kwargs('decision_data', {}, **kwargs)
             possible_decisions = get_decision_possibilities(decision_data, made_decisions)
-            elements = [tupleEl for tupleEl in elements if str(tupleEl[1]) in possible_decisions]
+            elements = [tupleEl for tupleEl in elements if str(tupleEl) in possible_decisions or (isinstance(tupleEl, Tuple) and str(tupleEl[1]) in possible_decisions)]
             
-        filtered_elements = [tupleEl for tupleEl in elements if len(tupleEl) == 2 or tupleEl[2]]
+        filtered_elements = [tupleEl for tupleEl in elements if not isinstance(tupleEl, Tuple) or len(tupleEl) == 2 or tupleEl[2]]
 
         if len(filtered_elements) == 0:
             character.dev ("Oops something went wrong here. There seems to be nothing to choose from. Sry about that. I'll send you back to the map.")
@@ -30,7 +30,7 @@ init python:
 
         renpy.call("call_menu", None, None, with_leave, *filtered_elements, **kwargs)
 
-    def call_custom_menu_with_text(text: str, person: Person, with_leave: bool = True, *elements: Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool], **kwargs) -> None:
+    def call_custom_menu_with_text(text: str, person: Person, with_leave: bool = True, *elements: str | Effect | List[Effect] | Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool], **kwargs) -> None:
         """
         Calls a custom menu with the given elements and the given text and person.
 
@@ -53,9 +53,9 @@ init python:
             made_decisions = get_kwargs('made_decisions', [], **kwargs)
             decision_data = get_kwargs('decision_data', {}, **kwargs)
             possible_decisions = get_decision_possibilities(decision_data, made_decisions)
-            elements = [tupleEl for tupleEl in elements if str(tupleEl[1]) in possible_decisions]
+            elements = [tupleEl for tupleEl in elements if str(tupleEl) in possible_decisions or (isinstance(tupleEl, Tuple) and str(tupleEl[1]) in possible_decisions)]
 
-        filtered_elements = [tupleEl for tupleEl in elements if len(tupleEl) == 2 or tupleEl[2]]
+        filtered_elements = [tupleEl for tupleEl in elements if not isinstance(tupleEl, Tuple) or len(tupleEl) == 2 or tupleEl[2]]
 
         
         if len(filtered_elements) == 0:
@@ -87,7 +87,7 @@ init python:
         # remove events that have no applicable events
         for key in events.keys():
             if (events[key].count_available_events(**kwargs) > 0 and key not in used):
-                output.append((events[key].get_title(), EventEffect(events[key])))
+                output.append(EventEffect(events[key]))
                 used.append(key)
 
         return output
@@ -105,7 +105,7 @@ label call_menu(text, person, with_leave = True, *elements, **kwargs):
     #     - The person to display saying the text.
     # 3. with_leave : bool, (default True)
     #     - Whether or not to display a leave button.
-    # 4. *elements : Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool]
+    # 4. *elements : str | Effect | List[Effect] | Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool]
     #     - The elements to display in the menu. 
     #     - Each element is a tuple of the form (title, event_label, active), (title, effect, active) or (title, effect_list, active). 
     #     - The active parameter is optional and defaults to True.
@@ -113,7 +113,10 @@ label call_menu(text, person, with_leave = True, *elements, **kwargs):
 
     if not with_leave and len(elements) == 1:
         $ title, effects, _active = None, None, None
-        if len(elements[0]) == 2:
+        if not isinstance(elements[0], Tuple):
+            $ effects = elements[0]
+            $ title = get_translation(str(effects))
+        elif len(elements[0]) == 2:
             $ title, effects = elements[0]
         else:
             $ title, effects, _active = elements[0]
@@ -263,7 +266,10 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
                 # display element
                 elif i < element_count:
                     $ title, effects, _active = None, None, None
-                    if len(elements[i]) == 2:
+                    if not isinstance(elements[i], Tuple):
+                        $ effects = elements[i]
+                        $ title = get_translation(str(effects))
+                    elif len(elements[i]) == 2:
                         $ title, effects = elements[i]
                     else:
                         $ title, effects, _active = elements[i]

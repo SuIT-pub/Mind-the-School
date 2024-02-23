@@ -3,14 +3,14 @@
 ##########################################
 
 init -1 python:
-    tennis_court_timed_event = TempEventStorage("tennis_court", "", "tennis_court", Event(2, "tennis_court.after_time_check"))
-    tennis_court_general_event = EventStorage("tennis_court", "", "tennis_court", Event(2, "tennis_court.after_general_check"))
+    tennis_court_timed_event = TempEventStorage("tennis_court", "tennis_court", Event(2, "tennis_court.after_time_check"))
+    tennis_court_general_event = EventStorage("tennis_court",   "tennis_court", Event(2, "tennis_court.after_general_check"))
     tennis_court_events = {
-        "check_class":    EventStorage("check_class",    "Check on tennis class",        "tennis_court", default_fallback, "There is nobody here."),
-        "teach_class":    EventStorage("teach_class",    "Teach a tennis class",         "tennis_court", default_fallback, "There is nobody here."),
-        "peek_changing":  EventStorage("peek_changing",  "Peek into the changing rooms", "tennis_court", default_fallback, "There is nobody here."),
-        "enter_changing": EventStorage("enter_changing", "Enter changing rooms",         "tennis_court", default_fallback, "There is nobody here."),
-        "steal_changing": EventStorage("steal_changing", "Steal some panties",           "tennis_court", default_fallback, "There is nobody here."),
+        "check_class":    EventStorage("check_class",    "tennis_court", default_fallback, "There is nobody here."),
+        "teach_class":    EventStorage("teach_class",    "tennis_court", default_fallback, "There is nobody here."),
+        "peek_changing":  EventStorage("peek_changing",  "tennis_court", default_fallback, "There is nobody here."),
+        "enter_changing": EventStorage("enter_changing", "tennis_court", default_fallback, "There is nobody here."),
+        "steal_changing": EventStorage("steal_changing", "tennis_court", default_fallback, "There is nobody here."),
     }
 
 

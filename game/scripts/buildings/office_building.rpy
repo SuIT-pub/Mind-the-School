@@ -3,15 +3,13 @@
 #############################################
 
 init -1 python:
-    office_building_timed_event = TempEventStorage("office_building", "", "office_building", Event(2, "office_building.after_time_check"))
-    office_building_general_event = EventStorage("office_building", "", "office_building", Event(2, "office_building.after_general_check"))
+    office_building_timed_event = TempEventStorage("office_building", "office_building", Event(2, "office_building.after_time_check"))
+    office_building_general_event = EventStorage("office_building", "office_building", Event(2, "office_building.after_general_check"))
     office_building_events = {
-        "look_around": EventStorage("look",      "Look around",         "office_building"),
-        "tutorial":    EventStorage("tutorial",  "About the school...", "office_building"),
-        "paperwork":   EventStorage("paperwork", "Do paperwork",        "office_building"),
-        "messages":    EventStorage("messages",  "Check messages",      "office_building"),
-        "internet":    EventStorage("internet",  "Surf internet",       "office_building"),
-        "council":     EventStorage("council",   "Council work",        "office_building"),
+        "look_around": EventStorage("look_around",   "office_building"),
+        "tutorial":    EventStorage("tutorial",      "office_building"),
+        "paperwork":   EventStorage("paperwork",     "office_building"),
+        "learn":       EventStorage("learn_subject", "office_building"),
     }
 
     office_building_bg_images = [

@@ -5,7 +5,7 @@ init -98 python:
     loli_content = 0
     cheat_mode = False
     nude_vision = 2
-    sfw_mode = False
+    sfw_mode = True
     
     seenEvents = {}
     location_event_register = {}

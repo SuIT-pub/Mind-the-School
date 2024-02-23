@@ -3,14 +3,9 @@
 ##################################
 
 init -1 python:
-    labs_timed_event = TempEventStorage("labs", "", "labs", Event(2, "labs.after_time_check"))
-    labs_general_event = EventStorage("labs", "", "labs", Event(2, "labs.after_general_check"))
+    labs_timed_event = TempEventStorage("labs_timed", "labs", Event(2, "labs.after_time_check"))
+    labs_general_event = EventStorage("labs_general", "labs", Event(2, "labs.after_general_check"))
     labs_events = {
-        "check_chemistry": EventStorage("check_chemistry", "Check chemistry classes", "labs", default_fallback, "There is nobody here."),
-        "teach_chemistry": EventStorage("teach_chemistry", "Teach chemistry classes", "labs", default_fallback, "There is nobody here."),
-        "check_biology":   EventStorage("check_biology",   "Check biology classes",   "labs", default_fallback, "There is nobody here."),
-        "teach_biology":   EventStorage("teach_biology",   "Teach biology classes",   "labs", default_fallback, "There is nobody here."),
-        "drug_lab":        EventStorage("drug_lab",        "Go to drug lab",          "labs", default_fallback, "There is nothing to see here."),
     }
 
     labs_bg_images = [

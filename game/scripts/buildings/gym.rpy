@@ -3,17 +3,17 @@
 #################################
 
 init -1 python:
-    gym_timed_event = TempEventStorage("gym", "", "gym", Event(2, "gym.after_time_check"))
-    gym_general_event = EventStorage("gym", "", "gym", Event(2, "gym.after_general_check"))
+    gym_timed_event = TempEventStorage("gym_timed", "gym", Event(2, "gym.after_time_check"))
+    gym_general_event = EventStorage("gym_general", "gym", Event(2, "gym.after_general_check"))
     gym_events = {
-        "teacher":        EventStorage("teacher",        "Go to teacher",                      "gym", default_fallback, "There is nobody here."),
-        "students":       EventStorage("students",       "Go to students",                     "gym", default_fallback, "There is nobody here."),
-        "storage":        EventStorage("storage",        "Check storage",                      "gym", default_fallback, "There is nothing to do here."),
-        "peek_changing":  EventStorage("peek_changing",  "Go to Peek into the changing rooms", "gym", default_fallback, "There is nobody here."),
-        "enter_changing": EventStorage("enter_changing", "Enter the changing rooms",           "gym", default_fallback, "There is nothing to do here."),
-        "check_pe":       EventStorage("check_pe",       "Check a P.E. class",                 "gym", default_fallback, "There is nothing to do here."),
-        "teach_pe":       EventStorage("teach_pe",       "Teach a P.E. class",                 "gym", default_fallback, "There is nothing to do here."),
-        "steal":          EventStorage("steal",          "Steal some panties",                 "gym", default_fallback, "There is nothing to do here."),
+        "teacher":        EventStorage("go_teacher",     "gym", default_fallback, "There is nobody here."),
+        "students":       EventStorage("go_students",    "gym", default_fallback, "There is nobody here."),
+        "storage":        EventStorage("check_storage",  "gym", default_fallback, "There is nothing to do here."),
+        "peek_changing":  EventStorage("peek_changing",  "gym", default_fallback, "There is nobody here."),
+        "enter_changing": EventStorage("enter_changing", "gym", default_fallback, "There is nothing to do here."),
+        "check_pe":       EventStorage("check_pe",       "gym", default_fallback, "There is nothing to do here."),
+        "teach_pe":       EventStorage("teach_pe",       "gym", default_fallback, "There is nothing to do here."),
+        "steal":          EventStorage("steal_panties",  "gym", default_fallback, "There is nothing to do here."),
     }
 
     gym_bg_images = [

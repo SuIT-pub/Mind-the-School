@@ -3,13 +3,13 @@
 ###################################################
 
 init -1 python:
-    sd_timed_event = TempEventStorage("school_dormitory", "", "school_dormitory", Event(2, "school_dormitory.after_time_check"))
-    sd_general_event = EventStorage("school_dormitory", "", "school_dormitory", Event(2, "school_dormitory.after_general_check"))
+    sd_timed_event = TempEventStorage("school_dormitory", "school_dormitory", Event(2, "school_dormitory.after_time_check"))
+    sd_general_event = EventStorage("school_dormitory",   "school_dormitory", Event(2, "school_dormitory.after_general_check"))
     sd_events = {
-        "check_rooms":   EventStorage("check_rooms",   "Check Rooms",      "school_dormitory", default_fallback, "There is nobody here."),
-        "talk_students": EventStorage("talk_students", "Talk to students", "school_dormitory", default_fallback, "There is nobody here."),
-        "patrol":        EventStorage("patrol",        "Patrol building",  "school_dormitory", default_fallback, "There is nobody here."),
-        "peek_students": EventStorage("peek_students", "Peek on students", "school_dormitory", default_fallback, "There is nobody here."),
+        "check_rooms":   EventStorage("check_rooms",   "school_dormitory", default_fallback, "There is nobody here."),
+        "talk_students": EventStorage("talk_student",  "school_dormitory", default_fallback, "There is nobody here."),
+        "patrol":        EventStorage("patrol",        "school_dormitory", default_fallback, "There is nobody here."),
+        "peek_students": EventStorage("peek_students", "school_dormitory", default_fallback, "There is nobody here."),
     }
 
     school_dormitory_bg_images = [
