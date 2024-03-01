@@ -123,9 +123,10 @@ label .after_time_check (**kwargs):
 
 label .after_general_check (**kwargs):
     $ school_obj = get_character("school", charList)
+    $ loli = get_random_loli()
 
     call show_idle_image(school_obj, "images/background/school building/bg f.webp", sb_bg_images,
-        loli = get_random_loli()
+        loli = loli
     ) from school_building_2
 
     call call_event_menu (
@@ -134,6 +135,7 @@ label .after_general_check (**kwargs):
         default_fallback,
         character.subtitles,
         char_obj = school_obj,
+        image_loli = loli,
     ) from school_building_3
 
     jump school_building
@@ -248,9 +250,10 @@ label first_class_sb_event (**kwargs):
 
 label teach_class_event (**kwargs):
     $ school_obj = get_character("school", charList)
+    $ loli = get_kwargs('image_loli', get_random_loli(), **kwargs)
     
     call show_idle_image(school_obj, "images/background/school building/bg f.webp", sb_bg_images,
-        loli = get_random_loli()
+        loli = loli
     ) from teach_class_event_2
 
     call call_event_menu (
