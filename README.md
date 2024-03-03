@@ -1,7 +1,7 @@
 
 # Mind the School
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://github.com/SuIT-pub/Mind-the-School?tab=License-1-ov-file))
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://github.com/SuIT-pub/Mind-the-School?tab=License-1-ov-file)
 [![GitHub Release](https://img.shields.io/github/v/release/SuIT-pub/Mind-the-School?style=flat-square&label=Release)](https://github.com/SuIT-pub/Mind-the-School/releases/latest)
 
 
