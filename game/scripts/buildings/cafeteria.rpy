@@ -51,7 +51,7 @@ init 1 python:
             1, 
             ProgressSelector("", "unlock_school_jobs")
         ),
-        RandomListSelector('topic', (0.5, 'normal'), (0.2, 'tripped'), (0.15, 'tripped_injury'), 'overwhelmed'),
+        RandomListSelector('topic', (0.5, 'normal'), (0.3, 'tripped'), 'overwhelmed'),
         thumbnail = "")
 
     cafeteria_event_4_event = Event(3, "cafeteria_event_4",
@@ -68,7 +68,7 @@ init 1 python:
                 CompareCondition('amount', '3 Girls')
             ))),
             'Elsie Johnson',
-            ('Luna Clark', loli_content >= 1),
+            'Luna Clark',
         ),
         RandomListSelector('girl_3',
             (1, 'None', NOT(CompareCondition('amount', '3 Girls'))),
@@ -82,7 +82,7 @@ init 1 python:
         RandomListSelector('classes', 
             ('3A', LoliContentCondition(0)),
             (RandomListSelector('', '3A', '2A', '2A 3A'), LoliContentCondition(1)),
-            (RandomListSelector('', '1A', '1A 2A', '1A 2A, 3A', '1A 3A', '2A', '2A 3A', '3A'), LoliContentCondition(2))
+            (RandomListSelector('', '1A', '1A 2A', '1A 2A 3A', '1A 3A', '2A', '2A 3A', '3A'), LoliContentCondition(2))
         ),
         thumbnail = "")
 
@@ -179,9 +179,6 @@ label cafeteria_event_1(**kwargs):
     $ topic = get_value("topic", **kwargs)
     $ parent_level = get_value("parent_level", **kwargs)
 
-
-    # show screen black_screen_text("cafeteria_event_1\n" + topic)
-
     $ image = Image_Series("images/events/cafeteria/cafeteria_event_1 <parent> <step>.webp", parent = parent_level, **kwargs)
 
     $ image.show(0)
@@ -211,15 +208,18 @@ label cafeteria_event_2(**kwargs):
     $ girl_name = get_value('girl_name', **kwargs)
     $ topic = get_value('topic', **kwargs)
 
-    show screen black_screen_text("cafeteria_event_2\nTime: " + str(time_ob) + "\n" + girl_name)
+    $ image = Image_Series("images/background/cafeteria/cafeteria_event_2 <level> <step>.webp", **kwargs)
 
     # headmaster walks into the cafeteria pantry where someone is changing clothes
+    $ image.show(0)
     if time_ob == 1:
         headmaster_thought "It seems [girl_name] is getting ready for work."
     else:
         headmaster_thought "Ah, [girl_name] is finishing up her work."
 
+    $ image.show(1)
     headmaster "I'm sorry, I didn't mean to disturb you."
+    $ image.show(2)
     sgirl "Eh? Please leave, I'm changing."
 
     $ end_event('new_daytime', **kwargs)
@@ -234,8 +234,6 @@ label cafeteria_event_3(**kwargs):
     $ name = "Adelaide Hall"
 
     $ school_job_progress = get_progress('school_job_progress')
-
-    show screen black_screen_text("cafeteria_event_3\nSchool Job Progress: " + str(unlock_school_jobs) + "\n" + girl_name + "\n" + topic)
 
     $ image = Image_Series("images/background/cafeteria/cafeteria_event_3 <level> <topic> <step>.webp")
 
@@ -346,49 +344,54 @@ label cafeteria_event_3(**kwargs):
 
             $ time.progress_time()
 
-    elif topic == "tripped" or topic == "tripped_injury":
+    elif topic == "tripped":
 
         # headmaster approaches counter
+        $ image.show(0)
         headmaster "Hello, I would like to have a..."
         # Adelaide is seen falling behind the counter
+        $ image.show(1)
         parent "Ahh!" (name = name)
         subtitles "*CRASH*"
         # headmaster looks over the counter
+        $ image.show(2)
         headmaster "Oh no! Are you okay?"
         # Adelaide lying behind counter
+        $ image.show(3)
         parent "Yes, I'm fine. I just tripped over my own feet." (name = name)
         # headmaster leaps over counter
+        $ image.show(4)
         headmaster "Here, let me help you."
         # headmaster crouches next to adelaide
+        $ image.show(5)
         headmaster "Does anything hurt?"
-
-        if topic == "tripped_injury":
-            # adelaide rubs her ankle
-            parent "Yes, my ankle hurts a bit." (name = name)
-            # headmaster takes a look at the ankle
-            headmaster "Let me take a look at it."
-            headmaster "It seems like you sprained your ankle. You should go to the nurse's office and get it checked out."
-            # adelaide tries to stand up
-            parent "I don't think it's that bad. I can still walk." (name = name)
-            # headmaster helps adelaide up
-            headmaster "No I insist. I'll take care of the kitchen while you're away."
-            # adelaide looks at headmaster
-            parent "Okay, thank you." (name = name)
-            # headmaster works in the kitchen
-            subtitles "You spend the next hours working in the kitchen."
-        else:
-            # adelaide already standing up again
-            parent "No, I'm fine. I just need to be more careful." (name = name)
-            # headmaster helps adelaide up
-            headmaster "Okay, but if you need anything just let me know."
-            # adelaide looks at headmaster
-            parent "Thank you." (name = name)
+        # adelaide rubs her ankle
+        $ image.show(6)
+        parent "Yes, my ankle hurts a bit." (name = name)
+        # headmaster takes a look at the ankle
+        $ image.show(7)
+        headmaster "Let me take a look at it."
+        $ image.show(8)
+        headmaster "It seems like you sprained your ankle. You should go to the nurse's office and get it checked out."
+        # adelaide tries to stand up
+        $ image.show(9)
+        parent "I don't think it's that bad. I can still walk." (name = name)
+        # headmaster helps adelaide up
+        $ image.show(10)
+        headmaster "No I insist. I'll take care of the kitchen while you're away."
+        # adelaide looks at headmaster
+        parent "Okay, thank you." (name = name)
+        # headmaster works in the kitchen
+        $ image.show(11)
+        subtitles "You spend the next hours working in the kitchen."
     else:
         # headmaster approaches counter
-        headmaster "Hello, I would like to have a sandwich and a coffee please."
+        $ image.show(0)
+        headmaster "Hello, I would like to have a coffee please."
         # Adelaide prepares the order
         parent "Sure, I'll get it for you right away." (name = name)
         # Adelaide gives the order to the headmaster
+        $ image.show(2)
         parent "Here you go." (name = name)
         # headmaster takes the sandwich and coffee
         headmaster "Thank you."
@@ -404,10 +407,12 @@ label cafeteria_event_4(**kwargs):
     $ girl_3 = get_value("girl_3", **kwargs)
     $ topic = get_value("topic", **kwargs)
     
-    show screen black_screen_text("cafeteria_event_4\n" + amount + "\n Girls: " + (', '.join([girl_1, girl_2, girl_3])) + "\n" + topic)
+    call show_image ("images/background/cafeteria/cafeteria_event_4 <level> <girl_1> <girl_2> <girl_3>.webp", **kwargs) from _call_show_image_cafeteria_event_4
 
-    subtitles "To be added."
-    # Adelaide is seen working helped by students
+    $ image.show(0)
+    headmaster_thought "It seems Adelaide is already putting the girls to work."
+    if amount == "2 Girls" or amount == "3 Girls":
+        headmaster_thought "I'm glad that so many girls are ready to help her."
 
     $ end_event('new_daytime', **kwargs)
 
