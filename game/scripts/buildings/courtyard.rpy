@@ -10,7 +10,7 @@ init -1 python:
     }
 
     courtyard_bg_images = [
-        BGImage("images/background/courtyard/bg 1,6 <loli> <level> <nude>.webp", 1, OR(TimeCondition(daytime = "1,6", weekday = "w"), TimeCondition(daytime = "c", weekday = "d"))), # show courtyard with a few students
+        BGImage("images/background/courtyard/bg 1,6 <loli> <level> <nude>.webp", 1, OR(TimeCondition(daytime = "1,6", weekday = "w"), TimeCondition(daytime = "f", weekday = "d"))), # show courtyard with a few students
         BGImage("images/background/courtyard/bg 3 <loli> <level> <nude>.webp", 1, TimeCondition(daytime = 3)), # show courtyard full of students and teacher
         BGImage("images/background/courtyard/bg 7.webp", 1, TimeCondition(daytime = 7)), # show empty courtyard at night
     ]    
