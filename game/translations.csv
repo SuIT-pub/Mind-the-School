@@ -61,6 +61,11 @@ math,Math
 # Bath
 
 # Cafeteria
+cafeteria_event_1,Get some Coffee
+cafeteria_event_2,Getting ready
+cafeteria_event_3,A lot to do
+cafeteria_event_4,Students at work
+cafeteria_event_5,Eating in silence
 
 # Courtyard
 first_potion_courtyard_event,First Potion
