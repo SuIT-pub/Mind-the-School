@@ -48,6 +48,12 @@ paperwork,Do Paperwork
 learn,Learn subject
 check_rooms,Check Rooms
 
+############
+# Subjects
+
+english,English
+math,Math
+
 ###############
 # Event Names
 
