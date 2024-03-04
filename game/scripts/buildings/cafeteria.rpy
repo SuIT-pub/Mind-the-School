@@ -24,7 +24,6 @@ init 1 python:
     cafeteria_event_1_event = Event(3, "cafeteria_event_1",
         TimeCondition(daytime = "d"),
         RandomListSelector("topic", "coffee", "tea", "warm milk"),
-        LevelSelector("parent_level", "parents"),
         thumbnail = "")
     
     cafeteria_event_2_event = Event(3, "cafeteria_event_2",
@@ -163,9 +162,8 @@ label cafeteria_construction(**kwargs):
 label cafeteria_event_1(**kwargs):
     $ begin_event(**kwargs)
 
-    $ char_obj = get_char_value(**kwargs)
+    $ parent_obj, parent_level = get_char_value_with_level('parent_obj', **kwargs)
     $ topic = get_value("topic", **kwargs)
-    $ parent_level = get_value("parent_level", **kwargs)
 
     $ image = Image_Series("images/events/cafeteria/cafeteria_event_1 <parent> <step>.webp", parent = parent_level, **kwargs)
 
@@ -185,6 +183,9 @@ label cafeteria_event_1(**kwargs):
     $ image.show(5)
     parent "Here you go." (name = 'Adelaide Hall')
     headmaster "Thank you."
+
+    $ change_stats_with_modifier(parent_obj,
+        happiness = SMALL, CHARM = TINY)
 
     $ end_event('new_daytime', **kwargs)
 

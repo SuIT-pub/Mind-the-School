@@ -540,6 +540,7 @@ init -6 python:
         1. Char
             - The character object from the map
             - None if the character does not exist
+            - possible keys: school, parents, teacher, secretary
         """
 
         if key == "school":

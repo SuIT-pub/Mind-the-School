@@ -693,3 +693,36 @@ init -3 python:
 
         def roll(self, **kwargs) -> Any:
             return self._building.get_level()
+
+    class CharacterSelector(Selector):
+        """
+        A Selector-class that stores the character
+        CharacterSelector is a child of Selector and inherits all of its attributes and methods.
+
+        ### Attributes:
+        1. _char: str
+            - The key of the character.
+            - The character is used to identify the character in the character dictionary.
+            - See method get_character_by_key() in the character module for more information.
+
+        ### Methods:
+        1. roll() -> Any
+            - Returns the character.
+
+        ### Parameters:
+        1. key: str
+            - The key of the value.
+            - The key is used to identify the value in the events kwargs.
+        2. char: str
+            - The key of the character.
+            - The character is used to identify the character in the character dictionary.
+            - See method get_character_by_key() in the character module for more information.
+            - possible keys: school, parents, teacher, secretary
+        """
+
+        def __init__(self, key: str, char: str = 'school'):
+            super().__init__(True, key)
+            self._char = char
+
+        def roll(self, **kwargs) -> Any:
+            return get_character_by_key(self._char)

@@ -376,12 +376,14 @@ init python:
 
         return char_objs
 
-    def get_char_value(**kwargs) -> Char:
+    def get_char_value(char_name: str = 'char_obj', **kwargs) -> Char:
         """
         Gets a character from kwargs and sets it in the gallery database.
 
         ### Parameters:
-        1. **kwargs: Any
+        1. char_name: str (default: 'char_obj')
+            - The name of the character to get from the kwargs.
+        2. **kwargs: Any
             - The kwargs to get the value from.
 
         ### Returns:
@@ -389,15 +391,17 @@ init python:
             - The character set in the database.
         """
 
-        char_obj = get_kwargs("char_obj", None, **kwargs)
+        char_obj = get_kwargs(char_name, None, **kwargs)
         return set_char_value(char_obj, **kwargs)
 
-    def get_char_value_with_level(**kwargs) -> Tuple[Char, int]:
+    def get_char_value_with_level(char_name: str = 'char_obj', **kwargs) -> Tuple[Char, int]:
         """
         Gets a character from kwargs and sets it in the gallery database.
 
         ### Parameters:
-        1. **kwargs: Any
+        1. char_name: str (default: 'char_obj')
+            - The name of the character to get from the kwargs.
+        2. **kwargs: Any
             - The kwargs to get the value from.
 
         ### Returns:
@@ -406,7 +410,7 @@ init python:
             - The level of the character.
         """
 
-        char_obj = get_kwargs("char_obj", None, **kwargs)
+        char_obj = get_kwargs(char_name, None, **kwargs)
         return set_char_value_with_level(char_obj, **kwargs)
 
     ################

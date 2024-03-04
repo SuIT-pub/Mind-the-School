@@ -148,6 +148,11 @@ label call_event_menu(text, events, fallback, person = character.subtitles, **kw
     
     $ renpy.choice_for_skipping()
 
+    $ kwargs['school_obj'] = get_character_by_key('school')
+    $ kwargs['parent_obj'] = get_character_by_key('parent')
+    $ kwargs['teacher_obj'] = get_character_by_key('teacher')
+    $ kwargs['secretary_obj'] = get_character_by_key('secretary')
+
     $ event_list = clean_events_for_menu(events, **kwargs)
 
     if len(event_list) == 0:
