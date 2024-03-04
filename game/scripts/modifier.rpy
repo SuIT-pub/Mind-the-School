@@ -377,8 +377,6 @@ init -6 python:
 
         value = apply_stat_modifier('money', value, None, collection)
 
-        log_val('value', value)
-
         change_stat('money', value)
 
     def change_stat_with_modifier(stat: str, value: num, char_obj: Char, collection: str = 'default'):

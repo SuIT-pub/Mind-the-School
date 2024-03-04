@@ -949,8 +949,6 @@ label call_available_event(event_storage, priority = 0, no_fallback = False, **k
     else:
         $ events_list = event_storage.get_available_events_with_fallback(priority, **kwargs)
 
-    $ log_val('event_list', events_list)
-
     if not contains_game_data("temp_event_blocker"):
         $ set_game_data("temp_event_blocker", [])
 

@@ -2,83 +2,9 @@
 errors listed below, and try again.
 
 
-The label cafeteria is defined twice, at File "game/scripts/buildings/cafeteria.rpy", line 120:
-label cafeteria ():
-and File "game/scripts/buildings/cafeteria-cdic.rpyc", line 116:
-
-
-
-The label cafeteria_1 is defined twice, at File "game/scripts/buildings/cafeteria.rpy", line 121:
-    call call_available_event(cafeteria_timed_event) from cafeteria_1
-and File "game/scripts/buildings/cafeteria-cdic.rpyc", line 117:
-
-
-
-The label cafeteria.after_time_check is defined twice, at File "game/scripts/buildings/cafeteria.rpy", line 123:
-label .after_time_check (**kwargs):
-and File "game/scripts/buildings/cafeteria-cdic.rpyc", line 119:
-
-
-
-The label cafeteria_4 is defined twice, at File "game/scripts/buildings/cafeteria.rpy", line 124:
-    call call_available_event(cafeteria_general_event) from cafeteria_4
-and File "game/scripts/buildings/cafeteria-cdic.rpyc", line 120:
-
-
-
-The label cafeteria.after_general_check is defined twice, at File "game/scripts/buildings/cafeteria.rpy", line 126:
-label .after_general_check (**kwargs):
-and File "game/scripts/buildings/cafeteria-cdic.rpyc", line 122:
-
-
-
-The label cafeteria_2 is defined twice, at File "game/scripts/buildings/cafeteria.rpy", line 129:
-    call show_idle_image(school_obj, "images/background/cafeteria/bg c.png", cafeteria_bg_images,
-and File "game/scripts/buildings/cafeteria-cdic.rpyc", line 125:
-
-
-
-The label cafeteria_3 is defined twice, at File "game/scripts/buildings/cafeteria.rpy", line 135:
-    call call_event_menu (
-and File "game/scripts/buildings/cafeteria-cdic.rpyc", line 131:
-
-
-
-The label cafeteria_construction is defined twice, at File "game/scripts/buildings/cafeteria.rpy", line 151:
-label cafeteria_construction(**kwargs):
-and File "game/scripts/buildings/cafeteria-cdic.rpyc", line 147:
-
-
-
-The label cafeteria_event_1 is defined twice, at File "game/scripts/buildings/cafeteria.rpy", line 175:
-label cafeteria_event_1(**kwargs):
-and File "game/scripts/buildings/cafeteria-cdic.rpyc", line 171:
-
-
-
-The label cafeteria_event_2 is defined twice, at File "game/scripts/buildings/cafeteria.rpy", line 206:
-label cafeteria_event_2(**kwargs):
-and File "game/scripts/buildings/cafeteria-cdic.rpyc", line 192:
-
-
-
-The label cafeteria_event_3 is defined twice, at File "game/scripts/buildings/cafeteria.rpy", line 227:
-label cafeteria_event_3(**kwargs):
-and File "game/scripts/buildings/cafeteria-cdic.rpyc", line 213:
-
-
-
-The label cafeteria_event_4 is defined twice, at File "game/scripts/buildings/cafeteria.rpy", line 397:
-label cafeteria_event_4(**kwargs):
-and File "game/scripts/buildings/cafeteria-cdic.rpyc", line 356:
-
-
-
-The label cafeteria_event_5 is defined twice, at File "game/scripts/buildings/cafeteria.rpy", line 414:
-label cafeteria_event_5(**kwargs):
-and File "game/scripts/buildings/cafeteria-cdic.rpyc", line 373:
-
-
+File "game/scripts/buildings/cafeteria.rpy", line 93: invalid syntax
+            cafeteria_event_2_event
+             ^
 
 Ren'Py Version: Ren'Py 8.1.3.23091805
-Fri Mar  1 13:03:36 2024
+Mon Mar  4 13:51:19 2024

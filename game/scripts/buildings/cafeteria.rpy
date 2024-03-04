@@ -6,17 +6,15 @@ init -1 python:
     cafeteria_timed_event = TempEventStorage("cafeteria_timed", "cafeteria", Event(2, "cafeteria.after_time_check"))
     cafeteria_general_event = EventStorage("cafeteria_general", "cafeteria", Event(2, "cafeteria.after_general_check"))
     cafeteria_events = {
-        "eat_alone":   EventStorage("eat_alone",   default_fallback, "I'm not hungry."),
-        "eat_student": EventStorage("eat_student", default_fallback, "I'm not hungry."),
-        "eat_teacher": EventStorage("eat_teacher", default_fallback, "I'm not hungry."),
-        "eat_look":    EventStorage("eat_look",    default_fallback, "I'm not hungry."),
+        "order_food":  EventStorage("order_food",  "cafeteria", default_fallback, "I'm not hungry."),
+        "eat_alone":   EventStorage("eat_alone",   "cafeteria", default_fallback, "I'm not hungry."),
     }
 
     cafeteria_bg_images = [
-        BGImage("images/background/cafeteria/bg d <loli> <parent> <student> <variant> <nude>.png", 1, TimeCondition(daytime = '3,6', weekday = 'd')),
-        BGImage("images/background/cafeteria/bg d <loli> <parent> <student> <variant> <nude>.png", 2, AND(TimeCondition(daytime = 'd', weekday = 'w'), RandomCondition(1, 1))),
-        BGImage("images/background/cafeteria/bg c <parent> <nude>.png", 1, OR(TimeCondition(daytime = 'c', weekday = 'd'), TimeCondition(daytime = 'd', weekday = 'w'))),
-        BGImage("images/background/cafeteria/bg 7.png", 1, TimeCondition(daytime = 7)), # show empty terrace at night
+        BGImage("images/background/cafeteria/bg d <loli> <parent> <student> <variant> <nude>.webp", 1, TimeCondition(daytime = '3,6', weekday = 'd')),
+        BGImage("images/background/cafeteria/bg d <loli> <parent> <student> <variant> <nude>.webp", 2, AND(TimeCondition(daytime = 'd', weekday = 'w'), RandomCondition(1, 1))),
+        BGImage("images/background/cafeteria/bg c <parent> <nude>.webp", 1, OR(TimeCondition(daytime = 'c', weekday = 'd'), TimeCondition(daytime = 'd', weekday = 'w'))),
+        BGImage("images/background/cafeteria/bg 7.webp", 1, TimeCondition(daytime = 7)), # show empty terrace at night
     ]
     
 init 1 python:
@@ -90,25 +88,15 @@ init 1 python:
     cafeteria_general_event.add_event(
         cafeteria_construction_event
     )
-    cafeteria_events["eat_alone"].add_event(
-        cafeteria_event_1_event
+    cafeteria_events["order_food"].add_event(
+        cafeteria_event_1_event,
+        cafeteria_event_2_event,
+        cafeteria_event_3_event,
+        cafeteria_event_4_event,
     )
-    # cafeteria_events["eat_alone"].add_event(
-    #     cafeteria_event_3_event, 
-    #     cafeteria_event_4_event, 
-    #     cafeteria_event_5_event
-    # )
-    # cafeteria_events["eat_student"].add_event(
-    #     cafeteria_event_3_event, 
-    #     cafeteria_event_4_event
-    # )
-    # cafeteria_events["eat_teacher"].add_event(
-    #     cafeteria_event_3_event, 
-    #     cafeteria_event_4_event
-    # )
-    # cafeteria_events["eat_look"].add_event(
-    #     cafeteria_event_2_event
-    # )
+    cafeteria_events["eat_alone"].add_event(
+        cafeteria_event_5_event, 
+    )
 
 
 #######################################
@@ -126,7 +114,7 @@ label .after_time_check (**kwargs):
 label .after_general_check (**kwargs):
     $ school_obj = get_school()
 
-    call show_idle_image(school_obj, "images/background/cafeteria/bg c.png", cafeteria_bg_images,
+    call show_idle_image(school_obj, "images/background/cafeteria/bg c.webp", cafeteria_bg_images,
         parent = get_character_by_key('parents').get_level(),
         student = get_character_by_key('school').get_level(),
         loli = get_random_loli()
@@ -208,7 +196,7 @@ label cafeteria_event_2(**kwargs):
     $ girl_name = get_value('girl_name', **kwargs)
     $ topic = get_value('topic', **kwargs)
 
-    $ image = Image_Series("images/background/cafeteria/cafeteria_event_2 <level> <step>.webp", **kwargs)
+    $ image = Image_Series("images/events/cafeteria/cafeteria_event_2 <level> <step>.webp", **kwargs)
 
     # headmaster walks into the cafeteria pantry where someone is changing clothes
     $ image.show(0)
@@ -235,7 +223,7 @@ label cafeteria_event_3(**kwargs):
 
     $ school_job_progress = get_progress('school_job_progress')
 
-    $ image = Image_Series("images/background/cafeteria/cafeteria_event_3 <level> <topic> <step>.webp")
+    $ image = Image_Series("images/events/cafeteria/cafeteria_event_3 <level> <topic> <step>.webp")
 
     # headmaster enters and walks to counter
     # subtitles "You enter the cafeteria and step to the counter."
@@ -407,7 +395,7 @@ label cafeteria_event_4(**kwargs):
     $ girl_3 = get_value("girl_3", **kwargs)
     $ topic = get_value("topic", **kwargs)
     
-    call show_image ("images/background/cafeteria/cafeteria_event_4 <level> <girl_1> <girl_2> <girl_3>.webp", **kwargs) from _call_show_image_cafeteria_event_4
+    call show_image ("images/events/cafeteria/cafeteria_event_4 <level> <girl_1> <girl_2> <girl_3>.webp", **kwargs) from _call_show_image_cafeteria_event_4
 
     $ image.show(0)
     headmaster_thought "It seems Adelaide is already putting the girls to work."
@@ -422,7 +410,7 @@ label cafeteria_event_5(**kwargs):
     $ char_obj = get_char_value(**kwargs)
     $ classes = get_value("classes", **kwargs)
 
-    $ image = Image_Series("images/background/cafeteria/cafeteria_event_5 <level> <classes> <step>.webp")
+    $ image = Image_Series("images/events/cafeteria/cafeteria_event_5 <level> <classes> <step>.webp")
 
     # Headmaster walks to empty table with his food
     $ image.show(0)
