@@ -72,7 +72,7 @@ label .after_general_check (**kwargs):
     call show_idle_image("images/background/office building/bg f.webp", office_building_bg_images) from office_building_2
 
     call call_event_menu (
-        "Hello Headmaster! How can I help you?" if char_obj.get_name() == "secretary" else "What do you do?", 
+        "Hello Headmaster! How can I help you?" if char == "secretary" else "What do you do?", 
         office_building_events, 
         default_fallback,
         character.secretary if char == "secretary" else character.subtitles,

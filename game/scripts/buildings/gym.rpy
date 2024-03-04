@@ -179,14 +179,14 @@ label gym_event_1 (**kwargs):
     #     sgirl "Im [topic] right now, how about a quick make out session before class starts? We got a few minutes for that." (name = girls[school_name][0])
     #     headmaster "For a girl as pretty as you? Of course I do!"
     #     subtitles "After she is ready, you spend a few minutes making out with her."
-    #     $ change_stats_with_modifier(char_obj, 
+    #     $ change_stats_with_modifier(school_obj, 
     #         inhibition = DEC_LARGE, corruption = MEDIUM, charm = SMALL)
     # elif corruption >= 60:
     #     show screen black_screen_text("gym_event_1\ncorruption >= 60")
     #     sgirl "Im [topic] now, how about a proper good luck kiss before class?" (name = girls[school_name][0])
     #     headmaster "That sounds like a very good measure!"
     #     subtitles "After she is ready, you french kiss her for a minute."
-    #     $ change_stats_with_modifier(char_obj, 
+    #     $ change_stats_with_modifier(school_obj, 
     #         inhibition = DEC_MEDIUM, corruption = MEDIUM, charm = SMALL)
     # elif corruption >= 40:
     #     show screen black_screen_text("gym_event_1\ncorruption >= 40")
@@ -194,7 +194,7 @@ label gym_event_1 (**kwargs):
     #     sgirl "We just might if you asked us to." (name = girls[school_name][1])
     #     # tease headmaster -> run off
     #     sgirl "*giggle*" (name="School Girls")
-    #     $ change_stats_with_modifier(char_obj, 
+    #     $ change_stats_with_modifier(school_obj, 
     #         inhibition = DEC_SMALL, corruption = MEDIUM, charm = SMALL)
     # elif corruption >= 20:
     #     show screen black_screen_text("gym_event_1\ncorruption >= 20")
@@ -202,7 +202,7 @@ label gym_event_1 (**kwargs):
     #     sgirl "We just might if you asked us to." (name = girls[school_name][1])
     #     # tease headmaster -> run off
     #     sgirl "*giggle*" (name="School Girls")
-    #     $ change_stats_with_modifier(char_obj, 
+    #     $ change_stats_with_modifier(school_obj, 
     #         inhibition = DEC_SMALL, corruption = SMALL, charm = SMALL)
     if corruption > 5:
         $ image.show(1)
@@ -260,14 +260,14 @@ label gym_event_2 (**kwargs):
     #     show screen black_screen_text("gym_event_2\ntopic_[topic] inhibition >= 30")
     #     subtitles "<GIRL NAME> is down to bra und panties, but her bra doesn't seem to fit her."
     #     headmaster "Be sure to wear good fitting bras to keep being as perky as you are and to keep your breasts healthy."
-    #     $ change_stats_with_modifier(char_obj,
+    #     $ change_stats_with_modifier(school_obj,
     #         inhibition = DEC_SMALL, HAPPINESS = DEC_SMALL)
     # else:
     # show screen black_screen_text("gym_event_2\ntopic_[topic] inhibition < 30")
     # sgirl "Ahh!"
     # headmaster "Sorry, is everything alright?"
     # sgirl "Yes, I was just surprised."
-    # $ change_stats_with_modifier(char_obj,
+    # $ change_stats_with_modifier(school_obj,
     #     inhibition = DEC_MEDIUM)
 
     $ end_event('new_daytime', **kwargs)
