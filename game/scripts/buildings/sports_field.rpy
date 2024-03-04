@@ -36,7 +36,7 @@ label .after_time_check (**kwargs):
 label .after_general_check (**kwargs):
     $ loli = get_random_loli()
 
-    call show_idle_image("images/background/sports field/bg 1.webp", sports_field_bg_images
+    call show_idle_image("images/background/sports field/bg 1.webp", sports_field_bg_images,
         loli = loli,
     ) from sports_field_2
 

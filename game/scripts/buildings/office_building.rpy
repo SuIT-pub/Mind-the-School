@@ -15,7 +15,7 @@ init -1 python:
     office_building_bg_images = [
         BGImage("images/background/office building/bg c teacher.webp", 1, TimeCondition(daytime = "c"), ValueCondition('name', 'teacher')), # show headmasters/teachers office empty
         BGImage("images/background/office building/bg c secretary <secretary_level> <nude>.webp", 1, TimeCondition(daytime = "c"), ValueCondition('name', 'secretary')), # show headmasters/teachers office with people
-        BGImage("images/background/office building/bg f <name> <teacher_level> <nude>.webp", 1, TimeCondition(daytime = "f")), # show headmasters/teachers office with people
+        BGImage("images/background/office building/bg f <name> <level> <nude>.webp", 1, TimeCondition(daytime = "f")), # show headmasters/teachers office with people
         BGImage("images/background/office building/bg 7 <name>.webp", 1, TimeCondition(daytime = 7)), # show headmasters/teachers office empty at night
     ]
 
@@ -69,7 +69,10 @@ label .after_time_check (**kwargs):
 label .after_general_check (**kwargs):
     $ char = get_random_choice("teacher", "secretary")
 
-    call show_idle_image("images/background/office building/bg f.webp", office_building_bg_images) from office_building_2
+    call show_idle_image("images/background/office building/bg f.webp", office_building_bg_images,
+        name = char,
+        level = get_character_by_key(char).get_level(),
+    ) from office_building_2
 
     call call_event_menu (
         "Hello Headmaster! How can I help you?" if char == "secretary" else "What do you do?", 
