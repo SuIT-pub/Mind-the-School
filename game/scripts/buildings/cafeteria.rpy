@@ -11,9 +11,9 @@ init -1 python:
     }
 
     cafeteria_bg_images = [
-        BGImage("images/background/cafeteria/bg d <loli> <parent> <student> <variant> <nude>.webp", 1, TimeCondition(daytime = '3,6', weekday = 'd')),
-        BGImage("images/background/cafeteria/bg d <loli> <parent> <student> <variant> <nude>.webp", 2, AND(TimeCondition(daytime = 'd', weekday = 'w'), RandomCondition(1, 1))),
-        BGImage("images/background/cafeteria/bg c <parent> <nude>.webp", 1, OR(TimeCondition(daytime = 'c', weekday = 'd'), TimeCondition(daytime = 'd', weekday = 'w'))),
+        BGImage("images/background/cafeteria/bg d <loli> <parent_level> <school_level> <variant> <nude>.webp", 1, TimeCondition(daytime = '3,6', weekday = 'd')),
+        BGImage("images/background/cafeteria/bg d <loli> <parent_level> <school_level> <variant> <nude>.webp", 2, AND(TimeCondition(daytime = 'd', weekday = 'w'), RandomCondition(1, 1))),
+        BGImage("images/background/cafeteria/bg c <parent_level> <nude>.webp", 1, OR(TimeCondition(daytime = 'c', weekday = 'd'), TimeCondition(daytime = 'd', weekday = 'w'))),
         BGImage("images/background/cafeteria/bg 7.webp", 1, TimeCondition(daytime = 7)), # show empty terrace at night
     ]
     
@@ -29,11 +29,14 @@ init 1 python:
     cafeteria_event_2_event = Event(3, "cafeteria_event_2",
         TimeCondition(daytime = "1,6"),
         TimeSelector("time", "daytime"),
-        RandomListSelector("girl_name", "Adelaide Hall",
-            (
-                RandomListSelector('', 'Miwa Igarashi'),
-                RuleCondition('school_jobs')
-            ),
+        RandomListSelector("char_class", "parent", ("student", RuleCondition('school_jobs')))
+        ConditionSelector('char_obj', CompareCondition('char_class', 'parent'), 
+            get_character_by_key('parents'), 
+            get_character_by_key('school')
+        ),
+        RandomListSelector("girl_name", 
+            ("Adelaide Hall", CompareCondition('char_class', 'parent')),
+            (RandomListSelector('', 'Miwa Igarashi'), CompareCondition('char_class', 'student')),   
         ),
         RandomListSelector('topic', (0.7, 'apron'), (0.1, 'underwear'), (0.07, 'bra'), 'breasts', 'nude'),
         thumbnail = "")
@@ -111,12 +114,10 @@ label .after_time_check (**kwargs):
     call call_available_event(cafeteria_general_event) from cafeteria_4
 
 label .after_general_check (**kwargs):
-    $ school_obj = get_school()
+    $ loli = get_random_loli()
 
-    call show_idle_image(school_obj, "images/background/cafeteria/bg c.webp", cafeteria_bg_images,
-        parent = get_character_by_key('parents').get_level(),
-        student = get_character_by_key('school').get_level(),
-        loli = get_random_loli()
+    call show_idle_image("images/background/cafeteria/bg c.webp", cafeteria_bg_images,
+        loli = loli,
     ) from cafeteria_2
 
     call call_event_menu (
@@ -124,7 +125,7 @@ label .after_general_check (**kwargs):
         cafeteria_events,
         default_fallback,
         character.subtitles,
-        char_obj = school_obj,
+        context = loli,
     ) from cafeteria_3
 
     jump cafeteria
@@ -162,10 +163,10 @@ label cafeteria_construction(**kwargs):
 label cafeteria_event_1(**kwargs):
     $ begin_event(**kwargs)
 
-    $ parent_obj, parent_level = get_char_value_with_level('parent_obj', **kwargs)
+    $ parent_obj = get_char_value('parent_obj', **kwargs)
     $ topic = get_value("topic", **kwargs)
 
-    $ image = Image_Series("images/events/cafeteria/cafeteria_event_1 <parent> <step>.webp", parent = parent_level, **kwargs)
+    $ image = Image_Series("images/events/cafeteria/cafeteria_event_1 <parent_level> <step>.webp", **kwargs)
 
     $ image.show(0)
     parent "Hello Mr. [headmaster_last_name] and welcome! What can I help you with?" (name = 'Adelaide Hall')
@@ -176,8 +177,8 @@ label cafeteria_event_1(**kwargs):
     $ image.show(2)
     parent "Sure, I'll get it for you right away." (name = 'Adelaide Hall')
 
-    $ image.show(3)
-    $ renpy.pause()
+    # $ image.show(3)
+    # $ renpy.pause()
     $ image.show(4)
     $ renpy.pause()
     $ image.show(5)
@@ -192,12 +193,12 @@ label cafeteria_event_1(**kwargs):
 label cafeteria_event_2(**kwargs):
     $ begin_event(**kwargs)
 
-    $ char_obj = get_char_value(**kwargs)
+    $ char_obj, char_level = get_char_value_with_level('char_obj', **kwargs)
     $ time_ob = get_value('time', **kwargs)
     $ girl_name = get_value('girl_name', **kwargs)
     $ topic = get_value('topic', **kwargs)
 
-    $ image = Image_Series("images/events/cafeteria/cafeteria_event_2 <level> <step>.webp", **kwargs)
+    $ image = Image_Series("images/events/cafeteria/cafeteria_event_2 <level> <step>.webp", level = char_level, **kwargs)
 
     # headmaster walks into the cafeteria pantry where someone is changing clothes
     $ image.show(0)
@@ -216,7 +217,8 @@ label cafeteria_event_2(**kwargs):
 label cafeteria_event_3(**kwargs):
     $ begin_event(**kwargs)
 
-    $ char_obj = get_char_value(**kwargs)
+    $ parent_obj = get_char_value('parent_obj', **kwargs)
+    $ school_obj = get_char_value('school_obj', **kwargs)
     $ unlock_school_jobs = get_stat_value('unlock_school_jobs', **kwargs)
     $ topic = get_value('topic', **kwargs)
 
@@ -224,7 +226,7 @@ label cafeteria_event_3(**kwargs):
 
     $ school_job_progress = get_progress('school_job_progress')
 
-    $ image = Image_Series("images/events/cafeteria/cafeteria_event_3 <level> <topic> <step>.webp")
+    $ image = Image_Series("images/events/cafeteria/cafeteria_event_3 <parent_level> <topic> <step>.webp", **kwargs)
 
     # headmaster enters and walks to counter
     # subtitles "You enter the cafeteria and step to the counter."
@@ -389,14 +391,15 @@ label cafeteria_event_3(**kwargs):
 label cafeteria_event_4(**kwargs):
     $ begin_event(**kwargs)
 
-    $ char_obj = get_char_value(**kwargs)
+    $ parent_obj = get_char_value('parent_obj', **kwargs)
+    $ school_obj = get_char_value('school_obj', **kwargs)
     $ amount = get_value("amount", **kwargs)
     $ girl_1 = get_value("girl_1", **kwargs)
     $ girl_2 = get_value("girl_2", **kwargs)
     $ girl_3 = get_value("girl_3", **kwargs)
     $ topic = get_value("topic", **kwargs)
     
-    call show_image ("images/events/cafeteria/cafeteria_event_4 <level> <girl_1> <girl_2> <girl_3>.webp", **kwargs) from _call_show_image_cafeteria_event_4
+    call show_image ("images/events/cafeteria/cafeteria_event_4 <topic> <school_level> <parent_level> <girl_1> <girl_2> <girl_3>.webp", **kwargs) from _call_show_image_cafeteria_event_4
 
     $ image.show(0)
     headmaster_thought "It seems Adelaide is already putting the girls to work."
@@ -408,10 +411,10 @@ label cafeteria_event_4(**kwargs):
 label cafeteria_event_5(**kwargs):
     $ begin_event(**kwargs)
 
-    $ char_obj = get_char_value(**kwargs)
+    $ school_obj = get_char_value('school_obj', **kwargs)
     $ classes = get_value("classes", **kwargs)
 
-    $ image = Image_Series("images/events/cafeteria/cafeteria_event_5 <level> <classes> <step>.webp")
+    $ image = Image_Series("images/events/cafeteria/cafeteria_event_5 <school_level> <classes> <step>.webp")
 
     # Headmaster walks to empty table with his food
     $ image.show(0)

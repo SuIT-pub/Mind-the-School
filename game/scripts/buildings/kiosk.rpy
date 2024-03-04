@@ -11,7 +11,7 @@ init -1 python:
     }
 
     kiosk_bg_images = [
-        BGImage("images/background/kiosk/bg f <loli> <level> <nude> <variant>.webp", 1, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))), # show kiosk with students
+        BGImage("images/background/kiosk/bg f <loli> <school_level> <nude> <variant>.webp", 1, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))), # show kiosk with students
         BGImage("images/background/kiosk/bg 7.webp", 1, TimeCondition(daytime = 7)), # show kiosk at night empty
     ]
 
@@ -61,10 +61,10 @@ label .after_time_check (**kwargs):
     call call_available_event(kiosk_general_event) from kiosk_4
 
 label .after_general_check (**kwargs):
-    $ school_obj = get_school()
+    $ loli = get_random_loli()
 
-    call show_idle_image(school_obj, "images/background/kiosk/bg c.webp", kiosk_bg_images, 
-        loli = get_random_loli()
+    call show_idle_image("images/background/kiosk/bg c.webp", kiosk_bg_images, 
+        loli = loli,
     ) from kiosk_2
 
     call call_event_menu (
@@ -72,7 +72,7 @@ label .after_general_check (**kwargs):
         kiosk_events, 
         default_fallback,
         character.subtitles,
-        char_obj = school_obj,
+        context = loli,
     ) from kiosk_3
 
     jump kiosk
@@ -114,15 +114,15 @@ label first_week_kiosk_event (**kwargs):
 label kiosk_event_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ char_obj = get_char_value(**kwargs)
+    $ school_obj = get_char_value('school_obj', **kwargs)
     $ variant = get_value("variant", **kwargs)
     $ girl_name = get_value("girl_name", **kwargs)
 
 
-    call show_image("images/events/kiosk/kiosk_event_1 <girl_name> <level> <variant>.webp", **kwargs) from _call_show_image_1
+    call show_image("images/events/kiosk/kiosk_event_1 <girl_name> <school_level> <variant>.webp", **kwargs) from _call_show_image_1
     subtitles "For some, coffee is the only way to save the day."
 
-    $ change_stats_with_modifier(char_obj,
+    $ change_stats_with_modifier(school_obj,
         happiness = SMALL)
 
     $ end_event('new_daytime', **kwargs)
@@ -130,10 +130,10 @@ label kiosk_event_1 (**kwargs):
 label kiosk_event_2 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ char_obj = get_char_value(**kwargs)
+    $ school_obj = get_char_value('school_obj', **kwargs)
     $ girl_name = get_value("girl_name", **kwargs)
 
-    $ image = Image_Series("images/events/kiosk/kiosk_event_2 <girl_name> <level> <step>.webp", **kwargs)
+    $ image = Image_Series("images/events/kiosk/kiosk_event_2 <girl_name> <school_level> <step>.webp", **kwargs)
 
 
     $ image.show(0)
@@ -143,7 +143,7 @@ label kiosk_event_2 (**kwargs):
     $ image.show(2)
     subtitles "Luckily she doesn't notice her see-through blouse in all the excitement."
 
-    $ change_stats_with_modifier(char_obj,
+    $ change_stats_with_modifier(school_obj,
         happiness = DEC_TINY, inhibition = DEC_MEDIUM, corruption = TINY)
 
     $ end_event('new_daytime', **kwargs)
@@ -151,10 +151,10 @@ label kiosk_event_2 (**kwargs):
 label kiosk_event_3 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ char_obj = get_char_value(**kwargs)
+    $ school_obj = get_char_value('school_obj', **kwargs)
     $ topic = get_value("topic", **kwargs)
 
-    $ image = Image_Series("images/events/kiosk/kiosk_event_3 <level> <step>.webp", **kwargs)
+    $ image = Image_Series("images/events/kiosk/kiosk_event_3 <school_level> <step>.webp", **kwargs)
 
     $ image.show(0)
     sgirl "Hi, I want a Bento!" (name = "Miwa Igarashi")
@@ -190,7 +190,7 @@ label .leave (**kwargs):
         $ image.show(9)
         headmaster_thought "Mhh what kind of noise is that? Hmmm... I guess it's nothing serious."
 
-        $ change_stats_with_modifier(char_obj,
+        $ change_stats_with_modifier(school_obj,
             happiness = DEC_LARGE, charm = DEC_MEDIUM, reputation = DEC_SMALL)
         $ end_event('new_daytime', **kwargs)
         
@@ -203,7 +203,7 @@ label .leave (**kwargs):
         headmaster_thought "Mhh, things are worse than I thought. I can't believe the students have to go hungry."
         headmaster_thought "I should think about doing something about that."
 
-        $ change_stats_with_modifier(char_obj,
+        $ change_stats_with_modifier(school_obj,
             happiness = DEC_SMALL, charm = TINY)
     
         if get_progress("unlock_cafeteria") == -1:
@@ -219,7 +219,7 @@ label .leave (**kwargs):
         $ image.show(12)
         headmaster_thought "Poor girl..."
 
-        $ change_stats_with_modifier(char_obj,
+        $ change_stats_with_modifier(school_obj,
             happiness = DEC_MEDIUM, charm = DEC_SMALL)
         $ end_event('new_daytime', **kwargs)
 
@@ -247,7 +247,7 @@ label .help (**kwargs):
     $ image.show(22)
     sgirl "..." (name = "Miwa Igarashi")
 
-    $ change_stats_with_modifier(char_obj,
+    $ change_stats_with_modifier(school_obj,
         happiness = MEDIUM, reputation = MEDIUM, charm = DEC_TINY)
     jump new_daytime
 

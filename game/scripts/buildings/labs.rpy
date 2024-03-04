@@ -28,16 +28,18 @@ label .after_time_check (**kwargs):
     call call_available_event(labs_general_event) from labs_4
 
 label .after_general_check (**kwargs):
-    $ school_obj = get_school()
+    $ loli = get_random_loli()
 
-    call show_idle_image(school_obj, "images/background/labs/bg f.webp", labs_bg_images) from labs_2
+    call show_idle_image("images/background/labs/bg f.webp", labs_bg_images
+        loli = loli,
+    ) from labs_2
 
     call call_event_menu (
         "What to do at the Labs?", 
         labs_events, 
         default_fallback,
         character.subtitles,
-        char_obj = school_obj,
+        context = loli,
         fallback_text = "There is nothing to see here.",
     ) from labs_3
 

@@ -307,14 +307,7 @@ init -2 python:
             - The image path with the given keyword arguments replaced.
         """
 
-        char_obj = get_kwargs("char_obj", **kwargs)
-
         kwargs["loli_content"] = loli_content
-        if char_obj != None:
-            if not in_kwargs("name", **kwargs):
-                kwargs["name"] = char_obj.get_name()
-            if not in_kwargs("level", **kwargs):
-                kwargs["level"] = char_obj.get_level()
 
         # replace in string path each key from kwargs with corresponding value
         for key, value in kwargs.items():
@@ -326,7 +319,7 @@ init -2 python:
                 image_path = image_path.replace("<variant>", str(get_random_int(1, max_variant)))
 
         if in_kwargs("level", **kwargs):
-            image_path = get_available_level(image_path, get_kwargs("level", **kwargs))
+            image_path = get_available_level(image_path, **kwargs)
 
         if "<nude>" not in image_path:
             if renpy.loadable(image_path):
@@ -346,7 +339,7 @@ init -2 python:
 
         return nude_vision, image_path
             
-    def get_background(fallback: str, images: List[BGImage], char_obj: Char, **kwargs) -> Tuple[int, str]:
+    def get_background(fallback: str, images: List[BGImage], **kwargs) -> Tuple[int, str]:
         """
         Returns the image path of the background with the highest priority that can be used.
 
@@ -355,9 +348,7 @@ init -2 python:
             - The fallback image path.
         2. images: List[BGImage]
             - A list of all the background images.
-        3. char_obj: Char
-            - The character object to check the conditions with.
-        4. **kwargs
+        3. **kwargs
             - The keyword arguments to check the conditions with.
 
         ### Returns:
@@ -367,11 +358,7 @@ init -2 python:
             - The image path of the background with the highest priority that can be used.
         """
 
-        level = char_obj.get_level()
-        if "name" not in kwargs.keys():
-            kwargs["name"] = char_obj.get_name()
-        if "loli_content" not in kwargs.keys():
-            kwargs["loli_content"] = loli_content
+        kwargs["loli_content"] = loli_content
 
         output_image = None
         output_nude = 0
@@ -381,7 +368,7 @@ init -2 python:
             if not image.can_be_used(**kwargs):
                 continue
 
-            max_nude, output = image.get_image(level = level, **kwargs)
+            max_nude, output = image.get_image(**kwargs)
 
             if priority < image.get_priority() and max_nude >= 0:
                 output_image = output
@@ -394,7 +381,7 @@ init -2 python:
         else:
             return output_nude, output_image
 
-    def get_available_level(path: str, level: int) -> str:        
+    def get_available_level(path: str, **kwargs) -> str:        
         """
         Searches for the best available level for a given image path.
         It first searches for the next lower level. If there is no level below found whose image is available it starts searching for the next higher level.
@@ -410,18 +397,80 @@ init -2 python:
             - The image path with the best available level.
         """
 
-        old_image = path.replace("<level>", "~#~")
-        old_image = re.sub("<.+>", "0", old_image)
-        old_image = old_image.replace("~#~", "<level>")
+        old_image = path.replace("<level>", "~#~") 
+        old_image = path.replace("<school_level>", "~sc#~")
+        old_image = path.replace("<parent_level>", "~p#~") 
+        old_image = path.replace("<teacher_level>", "~t#~")
+        old_image = path.replace("<secretary_level>", "~s#~") 
 
-        for i in reversed(range(0, level + 1)):
-            image = old_image.replace("<level>", str(i))
-            if renpy.loadable(image):
-                return path.replace("<level>", str(i))
-        for i in range(0, 10):
-            image = old_image.replace("<level>", str(i))
-            if renpy.loadable(image):
-                return path.replace("<level>", str(i))
+        old_image = re.sub("<.+>", "0", old_image)
+
+        old_image = old_image.replace("~#~", "<level>")
+        old_image = old_image.replace("~sc#~", "<school_level>")
+        old_image = old_image.replace("~p#~", "<parent_level>")
+        old_image = old_image.replace("~t#~", "<teacher_level>")
+        old_image = old_image.replace("~s#~", "<secretary_level>")
+
+        if '<level>' in old_image and in_kwargs('level', **kwargs):
+            level = get_kwargs('level', None, **kwargs)
+            for i in reversed(range(0, level + 1)):
+                image = old_image.replace("<level>", str(i))
+                if renpy.loadable(image):
+                    path =  path.replace("<level>", str(i))
+                    break
+            else:
+                for i in range(0, 10):
+                    image = old_image.replace("<level>", str(i))
+                    if renpy.loadable(image):
+                        path = path.replace("<level>", str(i))
+
+        if '<school_level>' in old_image:
+            for i in reversed(range(0, get_character_by_key('school').get_level() + 1)):
+                image = old_image.replace("<school_level>", str(i))
+                if renpy.loadable(image):
+                    path =  path.replace("<school_level>", str(i))
+                    break
+            else:
+                for i in range(0, 10):
+                    image = old_image.replace("<school_level>", str(i))
+                    if renpy.loadable(image):
+                        path = path.replace("<school_level>", str(i))
+
+        if '<parent_level>' in old_image:
+            for i in reversed(range(0, get_character_by_key('parents').get_level() + 1)):
+                image = old_image.replace("<parent_level>", str(i))
+                if renpy.loadable(image):
+                    path =  path.replace("<parent_level>", str(i))
+                    break
+            else:
+                for i in range(0, 10):
+                    image = old_image.replace("<parent_level>", str(i))
+                    if renpy.loadable(image):
+                        path = path.replace("<parent_level>", str(i))
+
+        if '<teacher_level>' in old_image:
+            for i in reversed(range(0, get_character_by_key('teacher').get_level() + 1)):
+                image = old_image.replace("<teacher_level>", str(i))
+                if renpy.loadable(image):
+                    path =  path.replace("<teacher_level>", str(i))
+                    break
+            else:
+                for i in range(0, 10):
+                    image = old_image.replace("<teacher_level>", str(i))
+                    if renpy.loadable(image):
+                        path = path.replace("<teacher_level>", str(i))
+
+        if '<secretary_level>' in old_image:
+            for i in reversed(range(0, get_character_by_key('secretary').get_level() + 1)):
+                image = old_image.replace("<secretary_level>", str(i))
+                if renpy.loadable(image):
+                    path =  path.replace("<secretary_level>", str(i))
+                    break
+            else:
+                for i in range(0, 10):
+                    image = old_image.replace("<secretary_level>", str(i))
+                    if renpy.loadable(image):
+                        path = path.replace("<secretary_level>", str(i))
 
         return path
 
@@ -474,15 +523,11 @@ init -2 python:
         if 'loli' not in kwargs.keys():
             kwargs['loli'] = get_random_loli()
 
-        char_obj = get_kwargs('char_obj', None, **kwargs)
-        if char_obj != None and 'name' not in kwargs.keys():
-            kwargs['name'] = char_obj.get_name()
-
         for key, value in kwargs.items():
             image_path = image_path.replace(f"<{key}>", str(value))
 
-        if char_obj != None:
-            image_path = get_available_level(image_path, char_obj.get_level())
+        if 'level>' in image_path:
+            image_path = get_available_level(image_path, **kwargs)
 
         return image_path
 
@@ -506,10 +551,6 @@ init -2 python:
         if 'loli' not in kwargs.keys():
             kwargs['loli'] = get_random_loli()
 
-        char_obj = get_kwargs('char_obj', None, **kwargs)
-        if char_obj != None and 'name' not in kwargs.keys():
-            kwargs['name'] = char_obj.get_name()
-
         for key, value in kwargs.items():
             image_path = image_path.replace(f"<{key}>", str(value))
 
@@ -519,8 +560,8 @@ init -2 python:
             variant = get_random_int(0, get_image_max_value("<variant>", image_path, 0, 100))
             image_path = image_path.replace(f"<variant>", str(variant))
 
-        if char_obj != None:
-            image_path = get_available_level(image_path, char_obj.get_level())
+        if 'level>' in image_path:
+            image_path = get_available_level(image_path, **kwargs)
 
         return image_path, variant
     
@@ -543,9 +584,9 @@ label show_sfw_text(text):
         scene screen black_screen_text (text) with dissolveM
     return
 
-label show_idle_image(char_obj, fallback, bg_images, **kwargs):
+label show_idle_image(fallback, bg_images, **kwargs):
 
-    $ max_nude, image_path = get_background(fallback, bg_images, char_obj, **kwargs)
+    $ max_nude, image_path = get_background(fallback, bg_images, **kwargs)
 
     call show_image_with_nude_var (image_path, max_nude) from show_idle_image_1
 

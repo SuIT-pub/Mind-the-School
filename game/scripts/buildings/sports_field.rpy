@@ -14,8 +14,8 @@ init -1 python:
     }
 
     sports_field_bg_images = [
-        BGImage("images/background/sports field/bg c <level> <nude>.webp", 1, TimeCondition(daytime = "c")), # show sports field with students
-        BGImage("images/background/sports field/bg 3,6 <level> <nude>.webp", 1, TimeCondition(daytime = "3,6")), # show sports field with few students
+        BGImage("images/background/sports field/bg c <loli> <school_level> <nude>.webp", 1, TimeCondition(daytime = "c")), # show sports field with students
+        BGImage("images/background/sports field/bg 3,6 <loli> <school_level> <nude>.webp", 1, TimeCondition(daytime = "3,6")), # show sports field with few students
         BGImage("images/background/sports field/bg 7.webp", 1, TimeCondition(daytime = 7)), # show sports field at night empty
     ]
     
@@ -34,16 +34,18 @@ label .after_time_check (**kwargs):
     call call_available_event(sports_field_general_event) from sports_field_4
 
 label .after_general_check (**kwargs):
-    $ school_obj = get_random_school()
+    $ loli = get_random_loli()
 
-    call show_idle_image(school_obj, "images/background/sports field/bg 1.webp", sports_field_bg_images) from sports_field_2
+    call show_idle_image("images/background/sports field/bg 1.webp", sports_field_bg_images
+        loli = loli,
+    ) from sports_field_2
 
     call call_event_menu (
         "What to do on the sports field", 
         sports_field_events, 
         default_fallback,
         character.subtitles,
-        char_obj = school_obj,
+        context = loli,
     ) from sports_field_3
 
     jump sports_field

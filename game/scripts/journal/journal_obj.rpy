@@ -427,65 +427,6 @@ init -7 python:
             for effect in self._unlock_effects:
                 effect.apply()
 
-    # def get_visible_unlocked_objs_by_school(map: Dict[str, Journal_Obj], school: str | Char) -> List[str]:
-    #     """
-    #     Returns the names of the visible unlocked objects of the map by school.
-
-    #     ### Parameters:
-    #     1. map: Dict[str, Journal_Obj]
-    #         - Map of the objects.
-    #     2. school: str | Char
-    #         - School of the objects.
-
-    #     ### Returns:
-    #     1. List[str]
-    #         - Names of the visible unlocked objects of the map by school.
-    #     """
-
-    #     output = []
-
-    #     school_obj = school
-    #     if isinstance(school, str):
-    #         school_obj = get_character(school, charList['schools'])
-
-    #     for obj in map.values():
-    #         if (obj.is_visible(char_obj = school_obj) and
-    #             obj.is_unlocked(school) and
-    #             obj.get_name() not in output):
-    #                 output.append(obj.get_name())
-
-    #     return output
-
-    # def get_visible_locked_objs_by_school(map: Dict[str, Journal_Obj], school: str | Char) -> List[str]:
-    #     """
-    #     Returns the names of the visible locked objects of the map by school.
-
-    #     ### Parameters:
-    #     1. map: Dict[str, Journal_Obj]
-    #         - Map of the objects.
-    #     2. school: str | Char
-    #         - School of the objects.
-
-    #     ### Returns:
-    #     1. List[str]
-    #         - Names of the visible locked objects of the map by school.
-    #     """
-
-    #     output = []
-
-    #     school_obj = school
-    #     if isinstance(school, str):
-    #         school_obj = get_character(school, charList['schools'])
-
-    #     for obj in map.values():
-    #         if (obj.is_visible(char_obj = school_obj) and 
-    #         not obj.is_unlocked(school) and
-    #         obj.get_name() not in output):
-    #             output.append(obj.get_name())
-
-    #     return output
-
-    
     def get_visible_unlocked_objs(map: Dict[str, Journal_Obj]) -> List[str]:
         """
         Returns the names of the visible unlocked objects of all characters in map.

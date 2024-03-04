@@ -329,12 +329,15 @@ init python:
     ###########################################
     # Character and Level Value Gallery Handler
 
-    def set_char_value_with_level(char: Char, **kwargs) -> Tuple[Char, int]:
+    def set_char_value_with_level(char_name: str, char: Char, **kwargs) -> Tuple[Char, int]:
         """
         Sets a character value in the gallery database.
 
         ### Parameters:
-        1. char: Char
+        1. char_name: Char
+            - The name of the character to set the value under.
+            - possible values: school_obj, teacher_obj, parent_obj, secretary_obj
+        2. char: Char
             - The character to set the value under.
 
         ### Returns:
@@ -344,7 +347,7 @@ init python:
         """
 
         if char == None:
-            char_obj_key = get_kwargs("char_obj_key", None, **kwargs)
+            char_obj_key = get_kwargs(char_name + "_key", None, **kwargs)
             if char_obj_key == None:
                 return None
             char = get_character_by_key(char_obj_key)
@@ -354,17 +357,20 @@ init python:
         in_replay = get_kwargs('in_replay', False, **kwargs)
 
         if not in_replay:
-            register_value("char_obj_key", char.get_name())
-            register_value("level", char.get_level())
+            register_value(char_name + "_key", char.get_name())
+            register_value(char_name + "_level", char.get_level())
 
         return (char, char.get_level())
 
-    def set_char_value(char_objs: Char, **kwargs) -> Char:
+    def set_char_value(char_name: str, char_objs: Char, **kwargs) -> Char:
         """
         Sets a character value in the gallery database.
 
         ### Parameters:
-        1. char_obj: Char
+        1. char_name: Char
+            - The name of the character to set the value under.
+            - possible values: school_obj, teacher_obj, parent_obj, secretary_obj
+        2. char_obj: Char
             - The character to set the value under.
 
         ### Returns:
@@ -372,17 +378,18 @@ init python:
             - The character set in the database.
         """
 
-        (char_objs, level) = set_char_value_with_level(char_objs, **kwargs)
+        (char_objs, level) = set_char_value_with_level(char_name, char_objs, **kwargs)
 
         return char_objs
 
-    def get_char_value(char_name: str = 'char_obj', **kwargs) -> Char:
+    def get_char_value(char_name: str , **kwargs) -> Char:
         """
         Gets a character from kwargs and sets it in the gallery database.
 
         ### Parameters:
-        1. char_name: str (default: 'char_obj')
+        1. char_name: str
             - The name of the character to get from the kwargs.
+            - possible values: school_obj, teacher_obj, parent_obj, secretary_obj
         2. **kwargs: Any
             - The kwargs to get the value from.
 
@@ -392,15 +399,16 @@ init python:
         """
 
         char_obj = get_kwargs(char_name, None, **kwargs)
-        return set_char_value(char_obj, **kwargs)
+        return set_char_value(char_name, char_obj, **kwargs)
 
-    def get_char_value_with_level(char_name: str = 'char_obj', **kwargs) -> Tuple[Char, int]:
+    def get_char_value_with_level(char_name: str, **kwargs) -> Tuple[Char, int]:
         """
         Gets a character from kwargs and sets it in the gallery database.
 
         ### Parameters:
-        1. char_name: str (default: 'char_obj')
+        1. char_name: str
             - The name of the character to get from the kwargs.
+            - possible values: school_obj, teacher_obj, parent_obj, secretary_obj
         2. **kwargs: Any
             - The kwargs to get the value from.
 
@@ -411,7 +419,7 @@ init python:
         """
 
         char_obj = get_kwargs(char_name, None, **kwargs)
-        return set_char_value_with_level(char_obj, **kwargs)
+        return set_char_value_with_level(char_name, char_obj, **kwargs)
 
     ################
     # Replay Handler

@@ -14,8 +14,8 @@ init -1 python:
 
     office_building_bg_images = [
         BGImage("images/background/office building/bg c teacher.webp", 1, TimeCondition(daytime = "c"), ValueCondition('name', 'teacher')), # show headmasters/teachers office empty
-        BGImage("images/background/office building/bg c secretary <level> <nude>.webp", 1, TimeCondition(daytime = "c"), ValueCondition('name', 'secretary')), # show headmasters/teachers office with people
-        BGImage("images/background/office building/bg f <name> <level> <nude>.webp", 1, TimeCondition(daytime = "f")), # show headmasters/teachers office with people
+        BGImage("images/background/office building/bg c secretary <secretary_level> <nude>.webp", 1, TimeCondition(daytime = "c"), ValueCondition('name', 'secretary')), # show headmasters/teachers office with people
+        BGImage("images/background/office building/bg f <name> <teacher_level> <nude>.webp", 1, TimeCondition(daytime = "f")), # show headmasters/teachers office with people
         BGImage("images/background/office building/bg 7 <name>.webp", 1, TimeCondition(daytime = 7)), # show headmasters/teachers office empty at night
     ]
 
@@ -69,16 +69,14 @@ label .after_time_check (**kwargs):
 label .after_general_check (**kwargs):
     $ char = get_random_choice("teacher", "secretary")
 
-    $ char_obj = get_character(char, charList['staff'])
-
-    call show_idle_image(char_obj, "images/background/office building/bg f.webp", office_building_bg_images) from office_building_2
+    call show_idle_image("images/background/office building/bg f.webp", office_building_bg_images) from office_building_2
 
     call call_event_menu (
         "Hello Headmaster! How can I help you?" if char_obj.get_name() == "secretary" else "What do you do?", 
         office_building_events, 
         default_fallback,
-        character.secretary if char_obj.get_name() == "secretary" else character.subtitles,
-        char_obj = char_obj,
+        character.secretary if char == "secretary" else character.subtitles,
+        context = char,
     ) from office_building_3
 
     jump office_building
@@ -122,9 +120,10 @@ label first_week_office_building_event (**kwargs):
 label office_event_1 (**kwargs):
     $ begin_event(**kwargs);
 
-    $ char_obj = set_char_value(get_character_by_key("school"), **kwargs)
+    $ school_obj = get_char_value('school_obj', **kwargs)
+    $ teacher_obj = get_char_value('teacher_obj', **kwargs)
 
-    $ image = Image_Series("images/events/office/office_event_1 <level> <step>.webp", **kwargs)
+    $ image = Image_Series("images/events/office/office_event_1 <school_level> <step>.webp", **kwargs)
 
     $ image.show(0)
     subtitles "You notice a girl sitting in front of the teachers office."
@@ -132,9 +131,9 @@ label office_event_1 (**kwargs):
     $ image.show(1)
     subtitles "Apparently she is in need of counseling."
 
-    $ change_stats_with_modifier(char_obj,
+    $ change_stats_with_modifier(school_obj,
         happiness = TINY, reputation = TINY)
-    $ change_stats_with_modifier(get_character_by_key("teacher"),
+    $ change_stats_with_modifier(teacher_obj,
         happiness = TINY)
     
     $ end_event('new_daytime', **kwargs)
@@ -143,15 +142,16 @@ label office_event_1 (**kwargs):
 label office_event_2 (**kwargs):
     $ begin_event(**kwargs);
 
-    $ char_obj, teacher_level = set_char_value_with_level(get_character("teacher", charList['staff']), **kwargs)
-    $ get_value("teacher", **kwargs)
+    $ teacher_obj = get_char_value('teacher_obj', **kwargs)
+    $ school_obj = get_char_value('school_obj', **kwargs)
+    $ teacher = get_value("teacher", **kwargs)
 
-    call show_image(get_image("images/events/office/office_event_2 <teacher_level> <teacher>.webp", teacher_level = teacher_level, **kwargs)[1]) from _call_show_image_2
+    call show_image ("images/events/office/office_event_2 <teacher_level> <teacher>.webp", **kwargs) from _call_show_image_office_event_2
     subtitles "Even the teachers need a break from time to time."
 
-    $ change_stats_with_modifier(get_character_by_key("school"),
+    $ change_stats_with_modifier(school_obj,
         education = DEC_SMALL, reputation = DEC_TINY)
-    $ change_stats_with_modifier(char_obj,
+    $ change_stats_with_modifier(teacher_obj,
         happiness = TINY)
 
     $ end_event('new_daytime', **kwargs)
@@ -160,9 +160,10 @@ label office_event_2 (**kwargs):
 label office_event_3 (**kwargs):
     $ begin_event(**kwargs);
 
-    $ char_obj = set_char_value(get_character_by_key("school"), **kwargs)
+    $ school_obj = get_char_value('school_obj', **kwargs)
+    $ teacher_obj = get_char_value('teacher_obj', **kwargs)
 
-    $ image = Image_Series("images/events/office/office_event_3 <level> <step>.webp", **kwargs)
+    $ image = Image_Series("images/events/office/office_event_3 <school_level> <step>.webp", **kwargs)
 
     $ image.show(0)
     subtitles "You enter the office and see two students sitting there."
@@ -179,7 +180,7 @@ label .ignore (**kwargs):
     $ image.show(1)
     subtitles "You ignore them and continue you way."
 
-    $ change_stats_with_modifier(get_character_by_key("teacher"),
+    $ change_stats_with_modifier(teacher_obj,
         happiness = TINY)
 
     $ end_event('new_daytime', **kwargs)
@@ -217,9 +218,9 @@ label .policy (**kwargs):
     sgirl "..."
     headmaster "Now you both go back to class."
 
-    $ change_stats_with_modifier(char_obj,
+    $ change_stats_with_modifier(school_obj,
         charm = SMALL, happiness = DEC_SMALL)
-    $ change_stats_with_modifier(get_character_by_key("teacher"),
+    $ change_stats_with_modifier(teacher_obj,
         happiness = TINY)
 
     $ end_event('new_daytime', **kwargs)
@@ -239,9 +240,9 @@ label .care (**kwargs):
     $ image.show(8)
     sgirl "Thank you!"
 
-    $ change_stats_with_modifier(char_obj,
+    $ change_stats_with_modifier(school_obj,
         charm = DEC_SMALL, happiness = MEDIUM, inhibition = DEC_SMALL)
-    $ change_stats_with_modifier(get_character("teacher", charList['staff']),
+    $ change_stats_with_modifier(teacher_obj,
         happiness = DEC_SMALL)
 
     if get_progress("unlock_student_relationship") == -1:
