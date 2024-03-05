@@ -4,8 +4,27 @@ init python:
     old_event = ""
 
     def update_gallery_chooser(gallery_chooser_order: List[string], gallery_chooser: Dict[string, Any], gallery_dict: Dict[string, Any]) -> Dict[string, Any]:
+        """
+        A function used to update the gallery chooser based on the given order and dictionary
+
+        ### Parameters:
+        1. gallery_chooser_order: List[string]
+            - The order of the gallery chooser.
+        2. gallery_chooser: Dict[string, Any]
+            - The gallery chooser to update.
+        3. gallery_dict: Dict[string, Any]
+            - The dictionary to update the gallery chooser with.
+
+        ### Returns:
+        1. Dict[string, Any]
+            - The updated gallery chooser.
+        """
+
         reset = False
+        # iterates through the order to check if all values are still in scope and if not to replace them
         for topic in gallery_chooser_order:
+
+            # if the value is not in the dictionary or reset is true, then reset the list from this point on
             if gallery_chooser[topic] not in gallery_dict.keys() or reset:
                 values = list(gallery_dict.keys())
                 gallery_chooser[topic] = None
@@ -16,6 +35,25 @@ init python:
         return gallery_chooser
     
     def get_journal_type(page: int) -> str:
+        """
+        A function used to get the journal type for the given page
+
+        ### Parameters:
+        1. page: int
+            - The page number to get the journal type for.
+            - 0: Overview
+            - 1: Rules
+            - 2: Clubs
+            - 3: Buildings
+            - 4: Cheats
+            - 5: Credits
+            - 6: Gallery
+
+        ### Returns:
+        1. str
+            - The journal type for the given page.
+        """
+
         page -= 1
         types = ["overview", "rules", "clubs", "buildings", "cheats", "credits"]
         if page < 0 or page > 4:
@@ -23,6 +61,21 @@ init python:
         return types[page]
     
     def get_obj_type(page: int) -> str:
+        """
+        A function used to get the object type for the given page
+
+        ### Parameters:
+        1. page: int
+            - The page number to get the object type for.
+            - 0: Rules
+            - 1: Clubs
+            - 2: Buildings
+
+        ### Returns:
+        1. str
+            - The object type for the given page.
+        """
+
         page -= 2
         types = ["rule", "club", "building"]
         if page < 0 or page > 2:
@@ -30,6 +83,21 @@ init python:
         return types[page]
     
     def get_journal_map(page: int) -> Dict[str, Journal_Obj]:
+        """
+        A function used to get the journal map for the given page
+
+        ### Parameters:
+        1. page: int
+            - The page number to get the journal map for.
+            - 0: Rules
+            - 1: Clubs
+            - 2: Buildings
+
+        ### Returns:
+        - Dict[str, Journal_Obj]
+            - The journal map for the given page.
+        """
+
         page -= 2
         types = [rules, clubs, buildings]
         if page < 0 or page > 2:
@@ -41,9 +109,25 @@ init python:
 ############################
 
 label start_journal ():
+    # """
+    # A label used to start the journal screen
+    # """
+
     call open_journal (1, "") from start_journal_1
 
 label open_journal(page, display, char = "school"):
+    # """
+    # A label used to open the journal screen
+
+    # ### Parameters:
+    # 1. page: int
+    #     - The page number to display.
+    # 2. display: str
+    #     - The display type for the journal page.
+    # 3. char: str (default: "school")
+    #     - The character to display the journal for.
+    # """
+
     if page == 1:
         call screen journal_overview(display, char) with dissolveM
     elif page == 2:
@@ -60,6 +144,10 @@ label open_journal(page, display, char = "school"):
         call screen journal_gallery(display) with dissolveM
 
 label close_journal ():
+    # """
+    # A label used to close the journal screen
+    # """
+
     hide screen journal
     jump map_overview
 
@@ -111,6 +199,18 @@ style journal_pta_overview take buttons_idle:
 ############################
 
 screen journal_obj_list(page, display, journal_map):
+    # """
+    # A screen used to display the list of objects in the journal
+
+    # ### Parameters:
+    # 1. page: int
+    #     - The page number to display.
+    # 2. display: str
+    #     - The display type for the journal page.
+    # 3. journal_map: Dict[str, Journal_Obj]
+    #     - The map of objects to display in the journal.
+    # """
+
     $ journal_type = get_obj_type(page)
     $ locked_list = get_visible_locked_objs(journal_map)
     $ unlocked_list = get_visible_unlocked_objs(journal_map)
@@ -150,6 +250,24 @@ screen journal_obj_list(page, display, journal_map):
             xalign 1.0
 
 screen journal_foldable_list(is_showing, text, page, display, obj_list, default_style = "buttons_idle"):
+    # """
+    # A screen used to display a foldable list of items in the journal
+
+    # ### Parameters:
+    # 1. is_showing: bool
+    #     - Whether the list is currently showing.
+    # 2. text: str
+    #     - The text to display for the list.
+    # 3. page: int
+    #     - The page number to display.
+    # 4. display: str
+    #     - The display type for the journal page.
+    # 5. obj_list: List[str]
+    #     - The list of items to display in the journal.
+    # 6. default_style: str (default: "buttons_idle")
+    #     - The default style for the buttons in the list.
+    # """
+
     $ journal_map = get_journal_map(page)
     if is_showing:
         textbutton "hide [text]":
@@ -175,6 +293,33 @@ screen journal_foldable_list(is_showing, text, page, display, obj_list, default_
         image "journal/journal/left_list_separator.webp"
 
 screen journal_simple_list(page, display, display_list, default_style = "buttons_idle", **kwargs):
+    # """
+    # A screen used to display a simple list of items in the journal
+
+    # ### Parameters:
+    # 1. page: int
+    #     - The page number to display.
+    # 2. display: str
+    #     - The display type for the journal page.
+    # 3. display_list: Dict[str, str | List[str]]
+    #     - The list of items to display in the journal.
+    # 4. default_style: str (default: "buttons_idle")
+    #     - The default style for the buttons in the list.
+    # 5. **kwargs: Dict
+    #     - Additional keyword arguments to pass to the screen.
+    #     - possible kwargs:
+    #         - pos_x: int (default: 330)
+    #             - The x position of the list.
+    #         - pos_y: int (default: 300)
+    #             - The y position of the list.
+    #         - width: int (default: 560)
+    #             - The width of the list.
+    #         - height: int (default: 600)
+    #             - The height of the list.
+    #         - sort: bool (default: False)
+    #             - Whether to sort the list items.
+    # """
+
     $ pos_x = get_kwargs('pos_x', 330, **kwargs)
     $ pos_y = get_kwargs('pos_y', 300, **kwargs)
     $ width = get_kwargs('width', 560, **kwargs)
@@ -208,44 +353,19 @@ screen journal_simple_list(page, display, display_list, default_style = "buttons
             unscrollable "hide"
             xalign 1.0
 
-screen journal_simple_grid(page, display, display_list, default_style = "buttons_idle", **kwargs):
-    $ pos_x = get_kwargs('pos_x', 330, **kwargs)
-    $ pos_y = get_kwargs('pos_y', 300, **kwargs)
-    $ width = get_kwargs('width', 560, **kwargs)
-    $ height = get_kwargs('height', 600, **kwargs)
-    $ rows = len(display_list) - (len(display_list % 2)) / 2
-    frame:
-        background Solid("#0000")
-        area (pos_x, pos_y, width, height)
-
-        viewport id "SimpleList":
-            mousewheel True
-            draggable "touch"
-
-            vbox:
-                grid 2 rows:
-                    for elem in display_list.keys():
-                        $ elem_image = None
-                        $ elem_text = display_list[elem]
-                        if isinstance(elem_text, list):
-                            $ elem_image = elem_text[1]
-                            $ elem_text = elem_text[0]
-                        $ button_style = default_style
-                        if elem == display:
-                            $ button_style = "buttons_selected"
-                        textbutton elem_text:
-                            text_style button_style
-                            action [With(dissolveM), Call("open_journal", page, elem)]
-                    if len(display_list) % 2 == 1:
-                        null width 1
-                        null height 1
-                
-
-        vbar value YScrollValue("SimpleList"):
-            unscrollable "hide"
-            xalign 1.0
-
 screen journal_page_selector(page, display, char = "school"):
+    # """
+    # A screen used to display the page selector for the journal pages
+
+    # ### Parameters:
+    # 1. page: int
+    #     - The page number to display.
+    # 2. display: str
+    #     - The display type for the journal page.
+    # 3. char: str (default: "school")
+    #     - The character to display the page selector for.
+    # """
+
     imagemap:
         if page == 1:
             idle "journal/journal/1_[char]_idle.webp"
@@ -292,8 +412,8 @@ screen journal_page_selector(page, display, char = "school"):
                 hotspot (373, 80, 160, 67) action [With(dissolveM), Call("open_journal", page, display, "school")] tooltip "School"
             if char != "teacher":
                 hotspot (550, 80, 160, 67) action [With(dissolveM), Call("open_journal", page, display, "teacher")] tooltip "Teacher"
-            if char != "parents":
-                hotspot (725, 80, 160, 67) action [With(dissolveM), Call("open_journal", page, display, "parents")] tooltip "Parents"
+            if char != "parent":
+                hotspot (725, 80, 160, 67) action [With(dissolveM), Call("open_journal", page, display, "parent")] tooltip "Parents"
     
     if page == 1 or (page == 5 and display == 'stats'):
         if char == "school":
@@ -306,7 +426,7 @@ screen journal_page_selector(page, display, char = "school"):
                 xalign 0.3225 yalign 0.1
                 size 20
                 color "#000"
-        if char == "parents":
+        if char == "parent":
             text "Parents":
                 xalign 0.415 yalign 0.1
                 size 20
@@ -340,6 +460,20 @@ screen journal_page_selector(page, display, char = "school"):
             action [With(dissolveM), Call("open_journal", 7, "")]
 
 screen journal_desc(page, display, active_obj, with_title = False):
+    # """
+    # A screen used to display the description of the active object in the journal
+
+    # ### Parameters:
+    # 1. page: int
+    #     - The page number to display.
+    # 2. display: str
+    #     - The display type for the journal page.
+    # 3. active_obj: Journal_Obj
+    #     - The active object to display the description for.
+    # 4. with_title: bool (default: False)
+    #     - whether the description area should be moved down a bit to make space for the title
+    # """
+
     $ active_obj_desc = active_obj.get_description_str()
 
     $ action_text = "unlock"
@@ -385,6 +519,16 @@ screen journal_desc(page, display, active_obj, with_title = False):
             xalign 1.04
 
 screen journal_list_conditions(page, active_obj):
+    # """
+    # A screen used to display the conditions for the active object in the journal as a compact icon list
+
+    # ### Parameters:
+    # 1. page: int
+    #     - The page number to display.
+    # 2. active_obj: Journal_Obj
+    #     - The active object to display the conditions for.
+    # """
+
     $ action_text = "unlock"
     if active_obj.get_type() == "building" and active_obj.is_unlocked() and active_obj.has_higher_level():
         $ action_text = "upgrade"
@@ -420,6 +564,18 @@ screen journal_list_conditions(page, active_obj):
             ypos 328
 
 screen journal_vote_button(page, display, active_obj):
+    # """
+    # A screen used to display the vote button for the journal page
+
+    # ### Parameters:
+    # 1. page: int
+    #     - The page number to display.
+    # 2. display: str
+    #     - The display type for the journal page.
+    # 3. active_obj: Journal_Obj
+    #     - The active object to display the vote button for.
+    # """
+
     $ obj_type = get_obj_type(page)
     if (not active_obj.is_unlocked() or 
         (obj_type == 'building' and active_obj.can_be_upgraded())
@@ -439,7 +595,7 @@ screen journal_vote_button(page, display, active_obj):
                     condition_storage, 
                     get_character("teacher", charList["staff"]),
                     get_school(),
-                    get_character("parents", charList)
+                    get_character("parent", charList)
                 )
             $ locked_text = ""
             $ probability_text = str(clamp_value(round(probability, 2))) + "%"
@@ -469,6 +625,18 @@ screen journal_vote_button(page, display, active_obj):
             size 30
 
 screen journal_image(page, display, active_obj):
+    # """
+    # A screen used to display the image of the active object in the journal
+
+    # ### Parameters:
+    # 1. page: int
+    #     - The page number to display.
+    # 2. display: str
+    #     - The display type for the journal page.
+    # 3. active_obj: Journal_Obj
+    #     - The active object to display the image for.
+    # """
+
     $ active_obj_image, active_obj_variant = active_obj.get_image(variant = get_random_loli())
     $ active_obj_full_image, active_obj_variant = active_obj.get_full_image(variant = active_obj_variant)
 
@@ -486,6 +654,16 @@ screen journal_image(page, display, active_obj):
             xpos 985 yalign 0.65
 
 screen journal_cheats_stat(stat, char = "school"):
+    # """
+    # A screen used to display the stat modification Row in the stat list on the cheat journal
+
+    # ### Parameters:
+    # 1. stat: str
+    #     - the stat to be modified
+    # 2. char: str (default: "school")
+    #     - the character object for which to modify the stat
+    # """
+
     $ stat_name = str(stat)
     $ stat_text = stat_name.capitalize()
     $ stat_value = 0
@@ -550,7 +728,19 @@ screen journal_cheats_stat(stat, char = "school"):
             textbutton "Max" action Call("modify_stat", stat, 100, char) text_style "buttons_idle"
     null height 30
 
-screen max_image_from_journal(image_path):
+screen max_image_from_journal(image_path, jorunal, display):
+    # """
+    # A screen solely used to display the max size variant of journal images and then return to the original journal page
+
+    # ### Parameters:
+    # 1. image_path: str
+    #     - The path to the image to display.
+    # 2. journal: int
+    #     - The journal page to return to.
+    # 3. display: str
+    #     - The display type for the journal page.
+    # """
+
     tag interaction_overlay
     modal True
     image "[image_path]"
@@ -560,6 +750,10 @@ screen max_image_from_journal(image_path):
         action [With(dissolveM), Call("open_journal", journal, display)]
 
 screen journal_money_overview():
+    # """
+    # A screen used in the journal money overview to display the current budget and expenses of the school
+    # """
+
     $ stat_obj = money
     $ stat_desc = Stat_Data[stat_obj.get_name()].description
 
@@ -753,6 +947,16 @@ screen journal_money_overview():
 
 # Object Pages
 screen journal_page(page, display):
+    # """
+    # This screen is used to display the journal pages for rules, clubs and buildings
+
+    # ### Parameters:
+    # 1. page: int
+    #     - The page number to display.
+    # 2. display: str
+    #     - The display type for the journal page.
+    # """
+
     tag interaction_overlay
     modal True
     
@@ -817,6 +1021,16 @@ screen journal_page(page, display):
 
 # School Overview
 screen journal_overview(display, char = "school"):
+    # """
+    # This screen is used to display the school overview.
+
+    # ### Parameters:
+    # 1. display: str
+    #     - The display type for the school overview.
+    # 2. char: str (default: "school")
+    #     - The character to display the overview for.
+    # """
+
     tag interaction_overlay
     modal True
 
@@ -838,7 +1052,7 @@ screen journal_overview(display, char = "school"):
     $ object_overview = {
         'school': get_school(),
         'teacher': get_character('teacher', charList['staff']),
-        'parents': get_character('parents', charList)
+        'parent': get_character('parent', charList)
     }
 
     $ school_object = object_overview[char]
@@ -980,6 +1194,16 @@ screen journal_overview(display, char = "school"):
 
 # Cheats
 screen journal_cheats(display, char = "school"):
+    # """
+    # A screen to show cheats and debug options in journal
+
+    # ### Paramters:
+    # 1. display: str
+    #     - The current display page
+    # 2. char: str (default: "school")
+    #     - The character to show cheats for
+    # """
+
     tag interaction_overlay
     modal True
 
@@ -1412,6 +1636,14 @@ screen journal_cheats(display, char = "school"):
                 text tooltip
 
 screen journal_gallery(display):
+    # """
+    # Display the gallery of events and locations that the player has unlocked.
+
+    # ### Parameters:
+    # 1. display: str
+    #     - The display parameter is used to determine which event or location is currently selected.
+    # """
+
     tag interaction_overlay
     modal True
 
@@ -1437,18 +1669,28 @@ screen journal_gallery(display):
     $ location = ""
     $ event = ""
 
+    # separate location and event in display (schema: location.event)
     if '.' in display:
         $ location, event = display.split('.')
     else:
         $ location = display
 
-    if location == "":
+    # if no location is defined 
+    if location == "": 
+        # parse all available location keys to their corresponding buildings
         $ location_list = [get_building(location_name) for location_name in persistent.gallery.keys() if get_building(location_name) != None]
+
+        # map all the buildings with their corresponding names into a dict
         $ location_dict = {building.get_name(): building.get_title() for building in location_list}
 
+        # add the miscellaneous location separately as there is no corresponding building
+        # miscellaneous represents all events that are not bound to a location
         if 'misc' in persistent.gallery.keys():
             $ location_dict['misc'] = "Miscellaneous"
 
+        # check if there is any event that can be replayed
+        # if yes, display a list with all locations where events are available
+        # if no be sad and show that
         if len(location_dict) != 0:
             use journal_simple_list(7, location, location_dict, "buttons_idle", pos_x = 350, width = 500, sort = True)
             text "Please select a location.":
@@ -1466,12 +1708,13 @@ screen journal_gallery(display):
                 xmaximum 500
                 ymaximum 50
                 color "#000"
-    elif location != "":
+    elif location != "": # if a location is defined
         $ location_title = "Miscellaneous"
         $ building = get_building(location)
         if building != None:
             $ location_title = building.get_title()
         
+        # display a button that deletes all persistent data for all events registered in that location
         if debug_mode:
             textbutton "{color=#a00000}Reset Location{/color}":
                 text_style "journal_text"
@@ -1479,11 +1722,13 @@ screen journal_gallery(display):
                 ypos 260
                 action [With(dissolveM), Call('reset_event_gallery', location, "")]
 
+        # return button for returning to location overview
         textbutton "← [location_title]":
             xpos 350 ypos 300
             text_style "buttons_idle"
             action [With(dissolveM), Call("open_journal", 7, "")]
 
+        # if there is no event displayed, prompt the user to select one
         if event == "":
             text "Please select an event.":
                 xpos 989
@@ -1493,22 +1738,29 @@ screen journal_gallery(display):
                 ymaximum 50
                 color "#000"
 
+    # if location is selected, display a list of all possible events in that location
     if location != "":    
         $ event_list = [get_event_from_register(event_name) for event_name in persistent.gallery[location].keys() if get_event_from_register(event_name) != None]
         $ event_dict = {f"{location}.{event_obj.get_event()}": get_translation(event_obj.get_event()) for event_obj in event_list}
         use journal_simple_list(7, display, event_dict, "buttons_idle", pos_x = 400, pos_y = 350, width = 450, sort = True)
 
+    # if an event is selected, display eent information on right side
     if event != "":
+
+        # check if event has changed to trigger information reload
         if event != old_event:
             $ gallery_chooser = {}
             $ gallery_chooser_order = []
             $ old_event = event
+
+        # load existing data for user selection from last session
         if ('last_data' in persistent.gallery[location][event]['options'].keys() and 
             'last_order' in persistent.gallery[location][event]['options'].keys()
         ):
             $ gallery_chooser = persistent.gallery[location][event]['options']['last_data']
             $ gallery_chooser_order = persistent.gallery[location][event]['options']['last_order']
 
+        # displays a button that deletes all persistent data for this specific event
         if debug_mode:
             textbutton "{color=#a00000}Reset Event{/color}":
                 text_style "journal_text"
@@ -1516,8 +1768,10 @@ screen journal_gallery(display):
                 ypos 160
                 action [With(dissolveM), Call('reset_event_gallery', location, event)]
 
-
+        # retirve Event data from Event Register
         $ event_obj = get_event_from_register(event)
+
+        # display event title on top of page
         $ event_title = get_translation(event_obj.get_event())
         text event_title:
             xpos 989
@@ -1527,6 +1781,7 @@ screen journal_gallery(display):
             ymaximum 50
             color "#000"
 
+        # display event thumbnail if available
         $ thumbnail = Image("images/journal/empty_image_wide.webp")
         if renpy.loadable(event_obj.get_thumbnail()):
             $ thumbnail = im.Scale(event_obj.get_thumbnail(), 500, 281)
@@ -1536,8 +1791,11 @@ screen journal_gallery(display):
 
         $ disable_play = False
 
+        # load all variables requested by the event
         $ variant_names = [topic for topic in persistent.gallery[location][event]['order']]
         $ has_option = False
+
+        # display value overview for all possible values in all needed variables
         frame:
             area(989, 600, 500, 250)
             background Solid('#0000')
@@ -1545,44 +1803,60 @@ screen journal_gallery(display):
                 mousewheel True
                 draggable "touch"
                 hbox:
+                    # get the entire value tree from persistent data for this event
                     $ gallery_dict = persistent.gallery[location][event]['values']
+
+                    # iterate over all variables to display a selection list for each variable
                     for variant_name in variant_names:
+
+                        # get all possible values
                         $ values = list(gallery_dict.keys())
 
+                        # check if variable is new and add it to the data if missing
                         if variant_name not in gallery_chooser_order:
                             $ gallery_chooser_order.append(variant_name)
                             $ gallery_chooser[variant_name] = values[0]
 
+                        # get the currently selected value for the current variable
                         $ value = gallery_chooser[variant_name]
 
+                        # if value is not in current variable set because of differing sets on this tree path, select first value in list
                         if value not in values:
                             $ gallery_chooser[variant_name] = values[0]
 
+                        # get the gallery data tree starting from this variable so the next variable can work with that
                         $ gallery_dict = gallery_dict[gallery_chooser[variant_name]]
 
+                        # checks if there is more than one selection possible and only then displays a value list,
+                        # otherwise the only selection possible is selected by default and will not be displayed in the overview
                         if len(values) > 1:
+
+                            # get display title for variable
                             $ title = get_gallery_topic_title(location, event, variant_name) 
+
+                            # display list of values
                             frame:
                                 background Frame("gui/border.png", left=1, top=1, tile = True)
-                                # outlines [(1, "#000", 0, 0)] 
                                 vbox:
                                     text "[title]":
                                         bold True
                                         style "journal_text"
                                         size 30
 
+                                    # filters all possible values that have been filtered in the loli filter as those can only be seen, selected or viewed if the appropriate loli setting is activated
                                     $ filtered_values = [value for value in values if variant_name + '.' + str(value) not in loli_filter[loli_content]]
-                                    # $ filtered_values = []
 
+                                    # checks if any values are left after filtering and disables the replay possibility if there is none as the events need a full set of values to work properly
                                     if len(filtered_values) == 0:
                                         if gallery_chooser[variant_name] not in filtered_values:
                                             $ gallery_chooser[variant_name] = None
                                             $ update_gallery_chooser(gallery_chooser_order, gallery_chooser, persistent.gallery[location][event]['values'])
                                         $ disable_play = True
                                     else:
+                                        # iterates through all possible values and displays them for the user to select
                                         for value in sorted(filtered_values):
                                             $ has_option = True
-                                            $ value_text = get_translation(value)
+                                            $ value_text = get_gallery_value_title(variant_name, location, event, value)
                                             if value == gallery_chooser[variant_name]:
                                                 textbutton "[value_text]":
                                                     text_style "buttons_selected"
@@ -1600,6 +1874,7 @@ screen journal_gallery(display):
                 xalign 1.0
                 xoffset 15
 
+        # saves the current selection for this event in the persistent gallery data so the selection is maintained between sessions
         if not disable_play:
             $ persistent.gallery[location][event]['options']['last_data'] = gallery_chooser
             $ persistent.gallery[location][event]['options']['last_order'] = gallery_chooser_order
@@ -1610,6 +1885,7 @@ screen journal_gallery(display):
                 ypos 560
                 color "#000"
 
+        # displays the replay button if replay is possible
         if not disable_play:
             button:
                 text "Start Replay":
@@ -1643,6 +1919,14 @@ screen journal_gallery(display):
                 text tooltip
 
 screen journal_credits(display):
+    # """
+    # A screen used to display the credits in the journal
+
+    # ### Parameters:
+    # 1. display: str
+    #     - the display to be opened after the credits have been closed
+    # """
+
     tag interaction_overlay
     modal True
 
@@ -1664,6 +1948,7 @@ screen journal_credits(display):
     $ teacher_members = get_members("Teacher")
 
     # left side
+    # displays all patrons with teacher tier subscription on Patreon
     frame:
         # background Solid("#00000090")
         background Solid("#00000000")
@@ -1688,10 +1973,13 @@ screen journal_credits(display):
 
                         for member in teacher_members:
                             $ data = member.split(',')
+                            # shows 'Anonymous' if name has been blacklisted due to patrons wish
                             if data[0] == '*blacklisted*':
                                 text "{i}Anonymous{/i}":
                                     color "#00000060"
                                     size 25
+
+                            # displays an alias wished by the patron to keep his real name anonymous
                             elif data[0].startswith('*alias*'):
                                 $ alias = data[0][7:]
                                 text "{i}[alias]{/i}":
@@ -1707,12 +1995,14 @@ screen journal_credits(display):
                     xalign 1.0
 
     # right side
+    # displays all patrons with student tier subscription on Patreon
     frame:
         # background Solid("#00000090")
         background Solid("#00000000")
         area (960, 200, 500, 700)
 
         vbox:
+            # small image with link to patreon page
             text "Consider supporting the game:":
                     size 30
                     color "#000000"
@@ -1721,6 +2011,8 @@ screen journal_credits(display):
                 hover "journal/journal/patreon banner hover.webp"
                 action Call("open_patreon_link")
             null height 20
+
+            # patrons overview of student tier patrons
             hbox:
                 viewport id "credits students list":
                     mousewheel True
@@ -1773,6 +2065,16 @@ screen journal_credits(display):
 ############################
 
 label reset_event_gallery(location, event):
+    # """
+    # Clears the persistent data for a specific event or location in persistent.gallery
+    
+    # ### Parameters:
+    # 1. location: str
+    #     - the location to be resetted
+    # 2. event: str
+    #     - the event to be resetted
+    # """
+
     $ reset_gallery(location, event)
 
     if location not in persistent.gallery.keys():
@@ -1781,6 +2083,16 @@ label reset_event_gallery(location, event):
     call open_journal(7, location) from reset_event_gallery_1
 
 label reset_gallery_cheat(page, display):
+    # """
+    # Clears the persistent data for the entire gallery in persistent.gallery
+
+    # ### Parameters:
+    # 1. page: int
+    #     - the page to be opened after the reset
+    # 2. display: str
+    #     - the display to be opened after the reset
+    # """
+
     $ reset_gallery()
 
     $ renpy.notify("Reset gallery!")
@@ -1788,6 +2100,21 @@ label reset_gallery_cheat(page, display):
     call open_journal(page, display) from reset_gallery_cheat_1
 
 label start_gallery_replay(location, event, gallery_chooser, display):
+    # """
+    # Starts the replay of a specific event with the selected values
+
+    # ### Parameters:
+    # 1. location: str
+    #     - the location of the event
+    # 2. event: str
+    #     - the event to be replayed
+    # 3. gallery_chooser: dict
+    #     - the selected values for the event
+    # 4. display: str
+    #     - the display to be opened after the replay
+    # """
+
+    # prepare data for the kwargs
     $ is_in_replay = True
     $ gallery_chooser['in_replay'] = True
     $ gallery_chooser['journal_display'] = display
@@ -1798,28 +2125,85 @@ label start_gallery_replay(location, event, gallery_chooser, display):
     
     $ hide_all()
 
+    # call event
     $ renpy.call(event, **gallery_chooser)
 
 label set_time_cheat(page, display, **kwargs):
+    # """
+    # Sets the time to a specific date and time
+
+    # ### Parameters:
+    # 1. page: int
+    #     - the page to be opened after the time change
+    # 2. display: str
+    #     - the display to be opened after the time change
+    # 3. **kwargs: dict
+    #     - the time to be set
+    #     - day: int
+    #         - the day to be set
+    #     - month: int
+    #         - the month to be set
+    #     - year: int
+    #         - the year to be set
+    #     - daytime: int
+    #         - the daytime to be set
+    # """
+
     $ time.set_time(**kwargs)
 
+    # checks if the time set is before the actual start if the game
     if time.compare_now(10, 1, 2023, 2) == -1:
         $ time.set_time(day = 10, month = 1, year = 2023, daytime = 2)
 
     call open_journal(page, display) from set_time_cheat_1
 
 label change_time_cheat(page, display, **kwargs):
+    # """
+    # Adds a specific amount of time to the current time
+    #
+    # ### Parameters:
+    # 1. page: int
+    #     - the page to be opened after the time change
+    # 2. display: str
+    #     - the display to be opened after the time change
+    # 3. **kwargs: dict
+    #     - the time to be added
+    #     - day: int
+    #         - the days to be added
+    #     - month: int
+    #         - the months to be added
+    #     - year: int
+    #         - the years to be added
+    #     - daytime: int
+    #         - the daytime to be added
+    # """
+
     $ time.add_time(**kwargs)
 
+    # checks if the time set is before the actual start if the game
     if time.compare_today(10, 1, 2023) == -1:
         $ time.set_time(day = 10, month = 1, year = 2023, daytime = time.get_daytime())
 
+    # checks if the time set is before the actual start if the game
     if time.compare_now(10, 1, 2023, 2) == -1:
         $ time.set_time(day = 10, month = 1, year = 2023, daytime = 2)
 
     call open_journal(page, display) from change_time_cheat_1
 
 label switch_debug_mode(page, display, value = None):
+    # """
+    # Switches the debug mode on or off
+
+    # ### Parameters:
+    # 1. page: int
+    #     - the page to be opened after the time change
+    # 2. display: str
+    #     - the display to be opened after the time change
+    # 3. value: bool (default: None)
+    #     - the value to be set
+    #     - if value is None the debug mode is toggled
+    # """
+
     if debug_mode == None:
         $ debug_mode = True
     elif value == None:
@@ -1834,6 +2218,19 @@ label switch_debug_mode(page, display, value = None):
     call open_journal(page, display) from switch_debug_mode_1
 
 label switch_time_freeze(page, display, value = None):
+    # """
+    # Switches the time freeze on or off
+
+    # ### Parameters:
+    # 1. page: int
+    #     - the page to be opened after the time change
+    # 2. display: str
+    #     - the display to be opened after the time change
+    # 3. value: bool (default: None)
+    #     - the value to be set
+    #     - if value is None the time freeze is toggled
+    # """
+
     if time_freeze == None:
         $ time_freeze = True
     elif value == None:
@@ -1847,28 +2244,85 @@ label switch_time_freeze(page, display, value = None):
     call open_journal(page, display) from switch_time_freeze_1
 
 label open_patreon_link():
+    # """
+    # Opens the patreon page in the default browser
+    # """
+
     $ renpy.run(OpenURL(patreon))
     call open_journal(6, "") from open_patreon_link_1
 
 label set_journal_setting(page, display, setting, value):
+    # """
+    # Sets a specific setting in the journal
+
+    # ### Parameters:
+    # 1. page: int
+    #     - the page to be opened after the time change
+    # 2. display: str
+    #     - the display to be opened after the time change
+    # 3. setting: str
+    #     - the setting to be set
+    # 4. value: bool
+    #     - the value to be set
+    # """
+
     $ set_game_data("journal_setting_" + str(page) + "_" + setting, value)
     call open_journal(page, display) from set_journal_setting_1
 
 label call_max_image_from_journal(image_path, journal, display):
+    # """
+    # Calls the max_image screen with the given image path and opens the journal afterwards
+
+    # ### Parameters:
+    # 1. image_path: str
+    #     - the path to the image to be displayed
+    # 2. journal: int
+    #     - the page to be opened after the image is displayed
+    # 3. display: str
+    #     - the display to be opened after the image is displayed
+    # """
+
     hide screen school_overview_buttons
-    call screen max_image_from_journal(image_path) with dissolveM
+    call screen max_image_from_journal(image_path, journal, display) with dissolveM
 
 label switch_rule(rule_name):
+    # """
+    # Switches the unlock state of a rule
+
+    # ### Parameters:
+    # 1. rule_name: str
+    #     - the name of the rule to be switched
+    # """
+
     $ rule = get_rule(rule_name)
     $ rule.unlock(not rule.is_unlocked())
     call open_journal(5, "rules") from switch_rule_1
 
 label switch_club(club_name):
+    # """
+    # Switches the unlock state of a club
+
+    # ### Parameters:
+    # 1. club_name: str
+    #     - the name of the club to be switched
+    # """
+
     $ club = get_club(club_name)
     $ club.unlock(not club.is_unlocked())
     call open_journal(5, "clubs") from switch_club_1
 
-label switch_building(building_name, level_delta):
+label switch_building(building_name, level_delta = -1000):
+    # """
+    # Switches the unlock state of a building or upgrades it by a specific amount
+
+    # ### Parameters:
+    # 1. building_name: str
+    #     - the name of the building to be switched
+    # 2. level_delta: int (default: -1000)
+    #     - the amount to be added to the level of the building
+    #     - if level_delta is -1000 the building is unlocked or locked
+    # """
+
     $ building = get_building(building_name)
 
     if level_delta == -1000:
@@ -1877,22 +2331,59 @@ label switch_building(building_name, level_delta):
         $ building.set_level(building.get_level() + level_delta)
     call open_journal(5, "buildings") from switch_building_1
 
-label modify_stat(stat, amount, char):
-    $ school_obj = get_school()
+label modify_stat(stat, amount, char = "school"):
+    # """
+    # Modifies a specific stat of a character
+
+    # ### Parameters:
+    # 1. stat: str
+    #     - the stat to be modified
+    # 2. amount: int
+    #     - the amount to be added to the stat
+    # 3. char: str
+    #     - the character to be modified
+    #     - only needed when stat is not money
+    # """
+
+    $ char_obj = get_character_by_key(char)
     if stat == "money":
         $ money.change_value(amount)
     elif stat == "level":
-        $ school_obj.set_level(school_obj.get_level() + amount)
+        $ char_obj.set_level(char_obj.get_level() + amount)
     else:
-        $ school_obj.change_stat(stat, amount)
+        $ char_obj.change_stat(stat, amount)
     call open_journal(5, "stats", char) from modify_stat_1
 
 label add_to_proposal(data, page, display, action = "unlock"):
+    # """
+    # Adds a specific object to the proposal for voting
+
+    # ### Parameters:
+    # 1. data: object
+    #     - the object to be added to the proposal
+    # 2. page: int
+    #     - the page to be opened after the object is added to the proposal
+    # 3. display: str
+    #     - the display to be opened after the object is added to the proposal
+    # 4. action: str (default: "unlock")
+    #     - the action to be performed on the object
+    #     - if action is "unlock" the object is added to the proposal for unlocking
+    #     - if action is "upgrade" the object is added to the proposal for upgrading
+    # """
+
     $ proposal = PTAProposal(data, action)
     $ set_game_data("voteProposal", proposal)
     call open_journal(page, display) from add_to_proposal_1
 
 label add_rule_to_proposal(rule_name):
+    # """
+    # Adds a specific rule to the proposal for voting
+
+    # ### Parameters:
+    # 1. rule_name: str
+    #     - the name of the rule to be added to the proposal
+    # """
+
     $ rule = get_rule(rule_name)
     $ voteProposal = get_game_data("voteProposal")
     if voteProposal != None:
@@ -1907,6 +2398,14 @@ label add_rule_to_proposal(rule_name):
     call add_to_proposal(rule, 2, rule_name) from add_rule_to_proposal_2
 
 label add_club_to_proposal(club_name):
+    # """
+    # Adds a specific club to the proposal for voting
+
+    # ### Parameters:
+    # 1. club_name: str
+    #     - the name of the club to be added to the proposal
+    # """
+
     $ club = get_club(club_name)
     $ voteProposal = get_game_data("voteProposal")
     if voteProposal != None:
@@ -1921,6 +2420,14 @@ label add_club_to_proposal(club_name):
     call add_to_proposal(club, 3, club_name) from add_club_to_proposal_2
 
 label add_building_to_proposal(building_name):
+    # """
+    # Adds a specific building to the proposal for voting
+
+    # ### Parameters:
+    # 1. building_name: str
+    #     - the name of the building to be added to the proposal
+    # """
+
     $ building = get_building(building_name)
 
     $ action = "unlock"
