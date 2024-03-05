@@ -5,16 +5,12 @@
 init -1 python:
     gym_timed_event = TempEventStorage("gym_timed", "gym", Event(2, "gym.after_time_check"))
     gym_general_event = EventStorage("gym_general", "gym", Event(2, "gym.after_general_check"))
-    gym_events = {
-        "teacher":        EventStorage("go_teacher",     "gym", default_fallback, "There is nobody here."),
-        "students":       EventStorage("go_students",    "gym", default_fallback, "There is nobody here."),
-        "storage":        EventStorage("check_storage",  "gym", default_fallback, "There is nothing to do here."),
-        "peek_changing":  EventStorage("peek_changing",  "gym", default_fallback, "There is nobody here."),
-        "enter_changing": EventStorage("enter_changing", "gym", default_fallback, "There is nothing to do here."),
-        "check_pe":       EventStorage("check_pe",       "gym", default_fallback, "There is nothing to do here."),
-        "teach_pe":       EventStorage("teach_pe",       "gym", default_fallback, "There is nothing to do here."),
-        "steal":          EventStorage("steal_panties",  "gym", default_fallback, "There is nothing to do here."),
-    }
+    
+    gym_events = {}
+    add_storage(gym_events, EventStorage("enter_changing", "gym", default_fallback, "There is nothing to do here."))
+    add_storage(gym_events, EventStorage("go_students",    "gym", default_fallback, "There is nobody here."))
+    add_storage(gym_events, EventStorage("check_pe",       "gym", default_fallback, "There is nothing to do here."))
+    add_storage(gym_events, EventStorage("teach_pe",       "gym", default_fallback, "There is nothing to do here."))
 
     gym_bg_images = [
         BGImage("images/background/gym/bg c <loli> <school_level> <teacher_level> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")), # show gym with students
@@ -64,7 +60,7 @@ init 1 python:
     gym_events["enter_changing"].add_event(
         gym_event2,
     )
-    gym_events["students"].add_event(
+    gym_events["go_students"].add_event(
         gym_event1, 
         gym_event3,
     )

@@ -5,8 +5,7 @@
 init -1 python:
     bath_timed_event = TempEventStorage("bath_timed", "bath", Event(2, "bath.after_time_check"))
     bath_general_event = EventStorage("bath_general", "bath", Event(2, "bath.after_general_check"))
-    bath_events = {
-    }
+    bath_events = {}
 
     bath_bg_images = [
         BGImage("images/background/bath/bg 1,3 <loli> <level> <nude>.webp", 1, TimeCondition(daytime = "1,3")), # show bath with students

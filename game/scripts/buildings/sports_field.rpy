@@ -5,13 +5,7 @@
 init -1 python:
     sports_field_timed_event = TempEventStorage("sports_field", "sports_field", Event(1, "sports_field.after_time_check"))
     sports_field_general_event = EventStorage("sports_field",   "sports_field", Event(1, "sports_field.after_general_check"))
-    sports_field_events = {
-        "check_class":    EventStorage("check_class",    "sports_field", default_fallback, "There is nobody here."),
-        "teach_class":    EventStorage("teach_class",    "sports_field", default_fallback, "There is nobody here."),
-        "peek_changing":  EventStorage("peek_changing",  "sports_field", default_fallback, "There is nobody here."),
-        "enter_changing": EventStorage("enter_changing", "sports_field", default_fallback, "There is nobody here."),
-        "steal_changing": EventStorage("steal_changing", "sports_field", default_fallback, "There is nobody here."),
-    }
+    sports_field_events = {}
 
     sports_field_bg_images = [
         BGImage("images/background/sports field/bg c <loli> <school_level> <nude>.webp", 1, TimeCondition(daytime = "c")), # show sports field with students

@@ -5,9 +5,9 @@
 init -1 python:
     courtyard_timed_event = TempEventStorage("courtyard_timed", "courtyard", Event(2, "courtyard.after_time_check"))
     courtyard_general_event = EventStorage("courtyard_general", "courtyard", Event(2, "courtyard.after_general_check"))
-    courtyard_events = {
-        "patrol":       EventStorage("patrol", "courtyard", default_fallback, "There is nobody here."),
-    }
+    
+    courtyard_events = {}
+    add_storage(courtyard_events, EventStorage("patrol", "courtyard", default_fallback, "There is nobody here."))
 
     courtyard_bg_images = [
         BGImage("images/background/courtyard/bg 1,6 <loli> <school_level> <nude>.webp", 1, OR(TimeCondition(daytime = "1,6", weekday = "w"), TimeCondition(daytime = "f", weekday = "d"))), # show courtyard with a few students
@@ -153,7 +153,7 @@ label courtyard_event_1 (**kwargs):
 
     $ school_obj = get_char_value('school_obj', **kwargs)
 
-    $ image = Image_Series("images/events/courtyard/courtyard_event_1 <school_level> 1 <step>.webp", **kwargs)
+    $ image = Image_Series("images/events/courtyard/courtyard_event_1 <school_level> <step>.webp", **kwargs)
 
     $ image.show(0)
     subtitles "You walk along the courtyard when a gist of wind blows up the girls skirt in front of you."

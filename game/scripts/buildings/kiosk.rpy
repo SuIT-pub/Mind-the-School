@@ -5,10 +5,9 @@
 init -1 python:
     kiosk_timed_event = TempEventStorage("kiosk_timed", "kiosk", Event(2, "kiosk.after_time_check"))
     kiosk_general_event = EventStorage("kiosk_general", "kiosk", Event(2, "kiosk.after_general_check"))
-    kiosk_events = {
-        "snack":    EventStorage("get_snack",    "kiosk", default_fallback, "I don't want anything."),
-        "students": EventStorage("talk_student", "kiosk", default_fallback, "There is nobody here."),
-    }
+
+    kiosk_events = {}
+    add_storage(kiosk_events, EventStorage("get_snack",    "kiosk", default_fallback, "I don't want anything."))
 
     kiosk_bg_images = [
         BGImage("images/background/kiosk/bg f <loli> <school_level> <nude> <variant>.webp", 1, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))), # show kiosk with students
@@ -42,7 +41,7 @@ init 1 python:
         first_week_kiosk_event_event,
     )
 
-    kiosk_events["snack"].add_event(
+    kiosk_events["get_snack"].add_event(
         kiosk_event1, 
         kiosk_event2, 
         kiosk_event3,

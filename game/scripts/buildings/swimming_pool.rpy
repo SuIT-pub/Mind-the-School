@@ -5,13 +5,7 @@
 init -1 python:
     swimming_pool_timed_event = TempEventStorage("swimming_pool", "swimming_pool", Event(2, "swimming_pool.after_time_check"))
     swimming_pool_general_event = EventStorage("swimming_pool",   "swimming_pool", Event(2, "swimming_pool.after_general_check"))
-    swimming_pool_events = {
-        "check_class":    EventStorage("check_class",    "swimming_pool", default_fallback, "There is nobody here."),
-        "teach_class":    EventStorage("teach_class",    "swimming_pool", default_fallback, "There is nobody here."),
-        "peek_changing":  EventStorage("peek_changing",  "swimming_pool", default_fallback, "There is nobody here."),
-        "enter_changing": EventStorage("enter_changing", "swimming_pool", default_fallback, "There is nobody here."),
-        "steal_changing": EventStorage("steal_changing", "swimming_pool", default_fallback, "There is nobody here."),
-    }
+    swimming_pool_events = {}
 
     swimming_pool_bg_images = [
         BGImage("images/background/swimming pool/bg c <loli> <school_level> <nude>.webp", 1, TimeCondition(daytime = "c")), # show swimming pool with students

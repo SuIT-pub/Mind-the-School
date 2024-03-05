@@ -150,7 +150,7 @@ label load_rules ():
         ],
         '_unlock_conditions': ConditionStorage(
             ProgressCondition("unlock_school_jobs", 3, True),
-            PTAOverride('parents'),
+            PTAOverride('parent'),
         ),
         '_image_path': 'images/journal/rules/school_jobs.webp',
         '_image_path_alt': 'images/journal/rules/school_jobs.webp',
@@ -198,7 +198,7 @@ label load_rules ():
                     'We should focus on practical, real-life skills instead. I veto this proposal.'
                 ],
             },
-            'parents': {
+            'parent': {
                 'yes': [
                     'I fully support the introduction of theoretical sex education in our school curriculum.', 
                     'It\'s essential for our children to have a comprehensive understanding of the topic to make informed decisions about their health and relationships. That\'s why I vote yes.'
@@ -252,7 +252,7 @@ label load_rules ():
                 'no': 'I really don\'t think we should use digital stuff like porn in sex ed. We need to make sure it\'s safe and right for our age, and we should use trusted sources to teach us about sex. That\'s why I\'m saying no.',
                 'veto': 'I\'m really against using digital stuff like porn in sex ed. We should give the right info for our age and talk about it in a healthy way, not show explicit stuff to students. I veto this idea.',
             },
-            'parents': {
+            'parent': {
                 'yes': [
                     'I think including digital materials like pornography in sex education could offer a more realistic perspective for our children, aiding their understanding of the complexities and potential risks involved.', 
                     'Nevertheless, it\'s vital to make sure the content is suitable for their age and that the discussions are handled responsibly. Thus, I\'m in favor of this approach.'
@@ -291,7 +291,7 @@ label load_rules ():
                 'no': 'As a student of this school, I don\'t think using the human body as a teaching tool in sex education is the right approach. It might make some of us uncomfortable and distract from the main content. So, I\'m voting against this proposal.',
                 'veto': 'I\'m a student here, and I believe that using teachers\' bodies as reference material for theoretical sex education is not something I can support. I\'m against this decision and I\'m using my veto.',
             },
-            'parents': {
+            'parent': {
                 'yes': 'As a parent, I think it\'s important for my child to have access to comprehensive sexual education. Using teachers\' bodies as reference materials could help to make theoretical concepts more tangible and increase student engagement in class.',
                 'no': 'I\'m sorry, but I cannot agree with your decision. It is important for students to be aware of the risks associated with certain sexual activities, and teachers have an obligation to provide them with accurate information. Furthermore, using teachers\' bodies as reference material would hardly be appropriate in a theoretical class setting.',
                 'veto': 'As a parent, I strongly object to my child being exposed to their teacher\'s bodies during sexual education classes. Therefore I veto this decision.',

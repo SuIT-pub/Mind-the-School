@@ -5,10 +5,10 @@
 init -1 python:
     cafeteria_timed_event = TempEventStorage("cafeteria_timed", "cafeteria", Event(2, "cafeteria.after_time_check"))
     cafeteria_general_event = EventStorage("cafeteria_general", "cafeteria", Event(2, "cafeteria.after_general_check"))
-    cafeteria_events = {
-        "order_food":  EventStorage("order_food",  "cafeteria", default_fallback, "I'm not hungry."),
-        "eat_alone":   EventStorage("eat_alone",   "cafeteria", default_fallback, "I'm not hungry."),
-    }
+
+    cafeteria_events = {}
+    add_storage(cafeteria_events, EventStorage("order_food",  "cafeteria", default_fallback, "I'm not hungry."))
+    add_storage(cafeteria_events, EventStorage("eat_alone",   "cafeteria", default_fallback, "I'm not hungry."))
 
     cafeteria_bg_images = [
         BGImage("images/background/cafeteria/bg d <loli> <parent_level> <school_level> <variant> <nude>.webp", 1, TimeCondition(daytime = '3,6', weekday = 'd')),
@@ -24,35 +24,29 @@ init 1 python:
     cafeteria_event_1_event = Event(3, "cafeteria_event_1",
         TimeCondition(daytime = "d"),
         RandomListSelector("topic", "coffee", "tea", "warm milk"),
-        thumbnail = "")
+        thumbnail = "images/events/cafeteria/cafeteria_event_1 1 4.webp")
     
     cafeteria_event_2_event = Event(3, "cafeteria_event_2",
         TimeCondition(daytime = "1,6"),
         TimeSelector("time", "daytime"),
-        RandomListSelector("char_class", "parent", ("student", RuleCondition('school_jobs')))
-        ConditionSelector('char_obj', CompareCondition('char_class', 'parent'), 
-            get_character_by_key('parents'), 
-            get_character_by_key('school')
-        ),
+        RandomListSelector("char_class", "parent", ("school", RuleCondition('school_jobs'))),
         RandomListSelector("girl_name", 
             ("Adelaide Hall", CompareCondition('char_class', 'parent')),
-            (RandomListSelector('', 'Miwa Igarashi'), CompareCondition('char_class', 'student')),   
+            (RandomListSelector('', 'Miwa Igarashi'), CompareCondition('char_class', 'school')),   
         ),
         RandomListSelector('topic', (0.7, 'apron'), (0.1, 'underwear'), (0.07, 'bra'), 'breasts', 'nude'),
-        thumbnail = "")
+        thumbnail = "images/events/cafeteria/cafeteria_event_2 1 0.webp")
 
     cafeteria_event_3_event = Event(3, "cafeteria_event_3",
-        OR(
-            TimeCondition(weekday = "d", daytime = "f")
-        ),
+        TimeCondition(weekday = "d", daytime = "d"),
         NOT(RuleCondition('school_jobs')),
         ProgressSelector("unlock_school_jobs_value", "unlock_school_jobs"),
         ConditionSelector("unlock_school_jobs", CompareCondition("unlock_school_jobs_value", -1), 
             1, 
             ProgressSelector("", "unlock_school_jobs")
         ),
-        RandomListSelector('topic', (0.5, 'normal'), (0.3, 'tripped'), 'overwhelmed'),
-        thumbnail = "")
+        RandomListSelector('topic', (0.4, 'normal'), 'tripped', 'overwhelmed'),
+        thumbnail = "images/events/cafeteria/cafeteria_event_3 1 overwhelmed 19.webp")
 
     cafeteria_event_4_event = Event(3, "cafeteria_event_4",
         OR(
@@ -75,7 +69,7 @@ init 1 python:
             'Sakura Mori',
         ),
         RandomListSelector('topic', 'normal'),
-        thumbnail = "")
+        thumbnail = "images/events/cafeteria/cafeteria_event_4 normal 1 1 Miwa Igarashi Luna Clark None.webp")
 
     cafeteria_event_5_event = Event(3, "cafeteria_event_5",
         TimeCondition(weekday = "d", daytime = "f"),
@@ -193,9 +187,10 @@ label cafeteria_event_1(**kwargs):
 label cafeteria_event_2(**kwargs):
     $ begin_event(**kwargs)
 
-    $ char_obj, char_level = get_char_value_with_level('char_obj', **kwargs)
+    $ char_class = get_value('char_class', **kwargs)
+    $ char_obj, char_level = set_char_value_with_level(char_class + '_obj', get_character_by_key(char_class), **kwargs)
     $ time_ob = get_value('time', **kwargs)
-    $ girl_name = get_value('girl_name', **kwargs)
+    $ girl_name = get_value('girl_name', **kwargs).split(' ')[0]
     $ topic = get_value('topic', **kwargs)
 
     $ image = Image_Series("images/events/cafeteria/cafeteria_event_2 <level> <step>.webp", level = char_level, **kwargs)
@@ -219,8 +214,10 @@ label cafeteria_event_3(**kwargs):
 
     $ parent_obj = get_char_value('parent_obj', **kwargs)
     $ school_obj = get_char_value('school_obj', **kwargs)
-    $ unlock_school_jobs = get_stat_value('unlock_school_jobs', **kwargs)
     $ topic = get_value('topic', **kwargs)
+    if topic != 'overwhelmed':
+        $ kwargs['unlock_school_jobs'] = 1
+    $ unlock_school_jobs = get_stat_value('unlock_school_jobs', [2, 3], **kwargs)
 
     $ name = "Adelaide Hall"
 
@@ -260,10 +257,13 @@ label cafeteria_event_3(**kwargs):
         parent "You could say that. I'm a bit overwhelmed with work. " (name = name)
         parent "Today there just too much work to do for one person." (name = name)
 
+        $ log_val('unlock_school_jobs', unlock_school_jobs)
+
         if unlock_school_jobs != 2:
             $ unlock_school_jobs = set_progress('unlock_school_jobs', unlock_school_jobs)
             if unlock_school_jobs < 2:
                 $ school_job_progress = advance_progress('school_job_progress')
+            $ log_val('school_job_progress', school_job_progress)
 
             # Adelaide gives the order to the headmaster
             $ image.show(11)
@@ -273,8 +273,8 @@ label cafeteria_event_3(**kwargs):
 
             if school_job_progress >= 3 and unlock_school_jobs < 2:
                 $ set_progress('unlock_school_jobs', 2)
-        elif unlock_school_jobs == 2:
 
+        elif unlock_school_jobs == 2:
             # headmaster looks to be in thought
             $ image.show(13)
             headmaster "Mhh I see. I could help you out if you want."
@@ -336,7 +336,6 @@ label cafeteria_event_3(**kwargs):
             $ time.progress_time()
 
     elif topic == "tripped":
-
         # headmaster approaches counter
         $ image.show(0)
         headmaster "Hello, I would like to have a..."
@@ -401,7 +400,6 @@ label cafeteria_event_4(**kwargs):
     
     call show_image ("images/events/cafeteria/cafeteria_event_4 <topic> <school_level> <parent_level> <girl_1> <girl_2> <girl_3>.webp", **kwargs) from _call_show_image_cafeteria_event_4
 
-    $ image.show(0)
     headmaster_thought "It seems Adelaide is already putting the girls to work."
     if amount == "2 Girls" or amount == "3 Girls":
         headmaster_thought "I'm glad that so many girls are ready to help her."

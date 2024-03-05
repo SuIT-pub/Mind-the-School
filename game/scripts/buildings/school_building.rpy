@@ -5,16 +5,14 @@
 init -1 python:
     sb_timed_event = TempEventStorage("school_building", "school_building", Event(2, "school_building.after_time_check"))
     sb_general_event = EventStorage("school_building", "school_building", Event(2, "school_building.after_general_check"))
-    sb_events = {
-        "check_class": EventStorage("check_class",  "school_building", default_fallback, "There is nobody here."),
-        "teach_class": EventStorage("teach_class",  "school_building", default_fallback, "There is nobody here."),
-        "patrol":      EventStorage("patrol",       "school_building", default_fallback, "There is nobody here."),
-        "students":    EventStorage("talk_student", "school_building", default_fallback, "There is nobody here."),
-    }
-    sb_teach_events = {
-        "english": EventStorage("english", "school_building", default_fallback, "There is nobody here."),
-        "math":    EventStorage("math",    "school_building", default_fallback, "There is nobody here."),
-    }
+
+    sb_events = {}
+    add_storage(sb_events, EventStorage("teach_class",  "school_building", default_fallback, "There is nobody here."))
+    add_storage(sb_events, EventStorage("patrol",       "school_building", default_fallback, "There is nobody here."))
+
+    sb_teach_events = {}
+    add_storage(sb_teach_events, EventStorage("english", "school_building", default_fallback, "There is nobody here."))
+    add_storage(sb_teach_events, EventStorage("math",    "school_building", default_fallback, "There is nobody here."))
 
     sb_bg_images = [
         BGImage("images/background/school building/bg c <loli> <school_level> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")),

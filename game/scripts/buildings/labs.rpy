@@ -5,8 +5,7 @@
 init -1 python:
     labs_timed_event = TempEventStorage("labs_timed", "labs", Event(2, "labs.after_time_check"))
     labs_general_event = EventStorage("labs_general", "labs", Event(2, "labs.after_general_check"))
-    labs_events = {
-    }
+    labs_events = {}
 
     labs_bg_images = [
         BGImage("images/background/labs/bg c <level> <nude>.webp", 1, TimeCondition(daytime = "c")), # show corridor with few students
