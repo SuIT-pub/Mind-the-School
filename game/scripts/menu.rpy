@@ -86,8 +86,11 @@ init python:
 
         # remove events that have no applicable events
         for key in events.keys():
-            if (events[key].count_available_events(**kwargs) > 0 and key not in used):
-                output.append(EventEffect(events[key]))
+            storage = events[key]
+            if (storage.count_available_events(**kwargs) > 0 and key not in used):
+                effect = EventEffect(storage)
+                title = get_event_menu_title(storage.get_location(), storage.get_name())
+                output.append((title, effect))
                 used.append(key)
 
         return output

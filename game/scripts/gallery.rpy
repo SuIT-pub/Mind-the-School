@@ -107,15 +107,44 @@ init python:
             - The key if the title cannot be found.
         """
 
-        if (location in persistent.gallery.keys() and
-            event in persistent.gallery[location].keys() and
-            'options' in persistent.gallery[location][event].keys() and 
-            'titles' in persistent.gallery[location][event]['options'].keys() and
-            key in persistent.gallery[location][event]['options']['titles'].keys()
-        ):
-            return persistent.gallery[location][event]['options']['titles'][key]
+        title = get_translation(f"{location}_{event}_{key}")
+        if title == f"{location}_{event}_{key}":
+            title = get_translation(f"{event}_{key}")
+        if title == f"{event}_{key}":
+            title = get_translation(key)
+        
+        return title
 
-        return get_translation(key)
+    def get_gallery_value_title(title: str, location: str, event: str, key: str) -> str:
+        """
+        Gets a title for a value.
+        If the title cannot be found behind that key, the key is returned.
+
+        ### Parameters:
+        1. title: str
+            - The title to get the value from.
+        2. location: str
+            - The location of the gallery.
+        3. event: str
+            - The event of the gallery.
+        4. key: str
+            - The key to get the value from.
+
+        ### Returns:
+        1. str:
+            - The value found in the database.
+            - The key if the value cannot be found.
+        """
+
+        value = get_translation(f"{location}_{event}_{title}_{key}")
+        if value == f"{location}_{event}_{title}_{key}":
+            value = get_translation(f"{event}_{title}_{key}")
+        if value == f"{event}_{title}_{key}":
+            value = get_translation(f"{title}_{key}")
+        if value == f"{title}_{key}":
+            value = get_translation(key)
+        
+        return value
 
     #################
     # Gallery Manager

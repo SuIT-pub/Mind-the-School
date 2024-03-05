@@ -7,6 +7,41 @@ init -3 python:
     import time
     from typing import Any, Dict, List, Tuple, Union
     
+    def get_event_menu_title(location: str, option: str) -> str:
+        """
+        Returns the title of the event menu.
+
+        ### Parameters:
+        1. location: str
+            - The location of the event.
+        2. option: str
+            - The option of the event.
+
+        ### Returns:
+        1. str
+            - The title of the event menu.
+        """
+
+        title = get_translation(f"event_{location}_{option}")
+        if title == f"event_{location}_{option}":
+            title = get_translation(f"event_{option}")
+        if title == f"event_{option}":
+            title = get_translation(option)
+        return title
+
+    def add_storage(event_dict: Dict[str, EventStorage], event_storage: EventStorage):
+        """
+        Adds an event storage to the event dictionary.
+
+        ### Parameters:
+        1. event_dict: Dict[str, EventStorage]
+            - The event dictionary that the event storage is added to.
+        2. event_storage: EventStorage
+            - The event storage that is added to the event dictionary.
+        """
+
+        event_dict[event_storage.get_name()] = event_storage
+
     ###############
     # Event classes
 

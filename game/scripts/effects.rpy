@@ -265,12 +265,16 @@ init -1 python:
             - str calls the label.
         """
 
-        def __init__(self, event: Event):
+        def __init__(self, event: Event | EventStorage | str):
             super().__init__(event.get_name())
             self.event = event
 
         def __str__(self):
-            return f"{self.event.get_name()}"
+            if isinstance(self.event, Event):
+                return f"{self.event.get_name()}"
+            if isinstance(self.event, EventStorage):
+                return f"{self.event.get_name()}"
+            return self.event
 
         def apply(self, **kwargs):
             if isinstance(self.event, EventStorage):

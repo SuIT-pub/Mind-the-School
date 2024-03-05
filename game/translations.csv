@@ -13,41 +13,9 @@ charm,Charm
 money,Money
 reputation,Reputation
 class,Class
-amount,Amount
-girl_1,1.Girl
-girl_2,2.Girl
-girl_3,3.Girl
-patrol,Patrol
-teach_class,Teach Class
-check_class,Check Class
-peek_students,Peek Students
-look_around,Look Around
-male_enter,Enter male bath
-female_enter,Enter female bath
-female_peek,Peek into female bath
-mixed_enter,Enter mixed bath
-mixed_peek,Peek into mixed bath
-eat_alone,Eat Alone
-eat_student,Eat with Students
-eat_teacher,Eat with Teacher
-eat_look,Look Around
-talk_student,Talk to Student
-talk_teacher,Talk to Teacher
-go_teacher,Go to Teacher
-go_students,Go to Student
-check_storage,Check Storage
-peek_changing,Peek into Changing Room
-enter_changing,Enter Changing Room
-check_pe,Check P.E. Class
-teach_pe,Teach P.E. Class
-teach_class,Teach Class
-steal_panties,Steal Panties
-get_snack,Get a snack
-tutorial,About the school...
-paperwork,Do Paperwork
-learn,Learn subject
-check_rooms,Check Rooms
-oder_food,Order Food
+coffee,Coffee
+tea,Tea
+warm milk,Warm milk
 
 ############
 # Subjects
@@ -56,46 +24,93 @@ english,English
 math,Math
 
 ###############
+---------------
+###############
+
+###############
 # Event Names
 
+######
 # Bath
 
+###########
 # Cafeteria
+event_cafeteria_order_food,Order Food
+event_cafeteria_eat_alone,Eat Alone
+
 cafeteria_event_1,Get some Coffee
+
 cafeteria_event_2,Getting ready
+cafeteria_event_2_time,Time
+cafeteria_event_2_time_1,Morning
+cafeteria_event_2_time_6,Evening
+cafeteria_event_2_topic_apron,Apron
+cafeteria_event_2_topic_breasts,Breasts
+cafeteria_event_2_topic_nude,Nude
+
 cafeteria_event_3,A lot to do
+cafeteria_event_3_unlock_school_jobs,Help
+unlock_school_jobs_2,not helping
+unlock_school_jobs_100,helping
+
 cafeteria_event_4,Students at work
+cafeteria_event_4_amount,Amount
+cafeteria_event_4_girl_1,1.Girl
+cafeteria_event_4_girl_2,2.Girl
+cafeteria_event_4_girl_3,3.Girl
+
 cafeteria_event_5,Eating in silence
 
+###########
 # Courtyard
+event_courtyard_patrol,Patrol
+
 first_potion_courtyard_event,First Potion
 first_week_courtyard_event,First Week
 courtyard_event_1,Gist of Wind
 courtyard_event_2,Girl sitting alone
 courtyard_event_3,Girls taking a break
 
+#####
 # Gym
+event_gym_enter_changing,Enter Changing Room
+event_gym_go_students,Go to Students
+event_gym_check_pe,Check P.E. Class
+event_gym_teach_pe,Teach P.E. Class
+
 first_potion_gym_event,First Potion
 first_week_gym_event,First Week
 gym_event_1,Girls getting ready
 gym_event_2,Walk in Clothing Room
 gym_event_3,Missing her Sports Clothes
 
+#######
 # Kiosk
+event_kiosk_get_snack,Get a Snack
+
 first_potion_kiosk_event,First Potion
 first_week_kiosk_event,First Week
 kiosk_event_1,Coffee saves the day
 kiosk_event_2,Spilled drink
 kiosk_event_3,Expensive Bento
 
+#################
 # Office Building
+event_office_building_look_around,Look Around
+
 first_potion_office_building_event,First Potion
 first_week_office_building_event,First Week
 office_event_1,In need of counseling
 office_event_2,Teacher need a break
 office_event_3,Two students waiting
 
+#################
 # School Building
+event_school_building_teach_class,Teach Class
+event_school_building_patrol,Patrol
+event_school_building_english,English
+event_school_building_math,Math
+
 first_potion_sb_event,First Potion
 first_week_sb_event,First Week
 first_class_sb_event,First Class
@@ -103,7 +118,10 @@ sb_event_1,Couples kissing
 sb_event_2,Student tripping in class
 sb_event_3,Crying girl
 
+##################
 # School Dormitory
+event_school_dormitory_peek_students,Peek at Students
+
 first_potion_school_dormitory_event,First Potion
 first_week_school_dormitory_event,First Week
 sd_event_1,Homework is hard
