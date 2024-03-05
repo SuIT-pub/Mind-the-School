@@ -24,20 +24,20 @@ init python:
 
     def check_stats_compatibility():
         school = get_character_by_key("school")
-        parents = get_character_by_key("parents")
+        parent = get_character_by_key("parent")
         teacher = get_character_by_key("teacher")
         secretary = get_character_by_key("secretary")
 
         map(lambda: x._repair(), school.get_stats().values())
-        map(lambda: x._repair(), parents.get_stats().values())
+        map(lambda: x._repair(), parent.get_stats().values())
         map(lambda: x._repair(), teacher.get_stats().values())
         map(lambda: x._repair(), secretary.get_stats().values())
 
         if time.today_is_after_date(9, 1, 2023):
             if school.get_level() == 0:
                 school.set_level(1)
-            if parents.get_level() == 0:
-                parents.set_level(1)
+            if parent.get_level() == 0:
+                parent.set_level(1)
             if teacher.get_level() == 0:
                 teacher.set_level(1)
             if secretary.get_level() == 0:

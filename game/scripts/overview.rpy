@@ -597,7 +597,7 @@ label map_overview ():
 # building distributor. directs the building calls to the corresponding label
 label building(name=""):
     $ reset_stats(get_school())
-    $ reset_stats(get_character('parents', charList))
+    $ reset_stats(get_character('parent', charList))
     $ reset_stats(get_character('teacher', charList['staff']))
     $ _skipping = True
 
@@ -611,7 +611,7 @@ label building(name=""):
 
 label skip_time ():
     $ reset_stats(get_school())
-    $ reset_stats(get_character('parents', charList))
+    $ reset_stats(get_character('parent', charList))
     $ reset_stats(get_character('teacher', charList['staff']))
 
     call new_daytime from skip_time_1

@@ -42,7 +42,7 @@ init -6 python:
         if char_obj_list == None or len(char_obj_list) == 0:
             char_obj_list = [
                 get_character("teacher", charList["staff"]),
-                charList["parents"],
+                charList["parent"],
                 get_school(),
             ]
 
@@ -114,7 +114,7 @@ label pta_meeting (**kwargs):
     
     $ proposal = get_game_data('voteProposal')
     $ obj_school = get_school()
-    $ obj_parent = get_character("parents", charList)
+    $ obj_parent = get_character("parent", charList)
     $ obj_teacher = get_character("teacher", charList["staff"])
     $ obj_secretary = get_character("secretary", charList["staff"])
     
@@ -159,7 +159,7 @@ label pta_meeting (**kwargs):
         elif student_vote == 'veto':
             $ forNum = -3
             
-        $ parent_obj = charList["parents"]
+        $ parent_obj = charList["parent"]
         $ parent_vote = voteCharacter(
             obj.get_condition_storage(), 
             parent_obj, 

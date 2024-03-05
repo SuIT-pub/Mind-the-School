@@ -313,13 +313,16 @@ init -2 python:
         for key, value in kwargs.items():
             image_path = image_path.replace(f"<{key}>", str(value))
 
+        if 'level>' in image_path:
+            image_path = insert_level(image_path, **kwargs)
+
         if "<variant>" in image_path:
             max_variant = get_image_max_value("<variant>", image_path, 1)
             if max_variant >= 1:
                 image_path = image_path.replace("<variant>", str(get_random_int(1, max_variant)))
 
-        if in_kwargs("level", **kwargs):
-            image_path = get_available_level(image_path, **kwargs)
+        if '<level>' in image_path:
+            image_path = get_available_level(image_path, get_kwargs('level', 0, **kwargs))
 
         if "<nude>" not in image_path:
             if renpy.loadable(image_path):
@@ -381,7 +384,7 @@ init -2 python:
         else:
             return output_nude, output_image
 
-    def get_available_level(path: str, **kwargs) -> str:        
+    def get_available_level(path: str, level: int) -> str:        
         """
         Searches for the best available level for a given image path.
         It first searches for the next lower level. If there is no level below found whose image is available it starts searching for the next higher level.
@@ -397,22 +400,12 @@ init -2 python:
             - The image path with the best available level.
         """
 
-        old_image = path.replace("<level>", "~#~") 
-        old_image = path.replace("<school_level>", "~sc#~")
-        old_image = path.replace("<parent_level>", "~p#~") 
-        old_image = path.replace("<teacher_level>", "~t#~")
-        old_image = path.replace("<secretary_level>", "~s#~") 
-
+        old_image = path.replace("<level>", "~#~")
+        old_image = old_image.replace("<variant>", "1") 
         old_image = re.sub("<.+>", "0", old_image)
-
         old_image = old_image.replace("~#~", "<level>")
-        old_image = old_image.replace("~sc#~", "<school_level>")
-        old_image = old_image.replace("~p#~", "<parent_level>")
-        old_image = old_image.replace("~t#~", "<teacher_level>")
-        old_image = old_image.replace("~s#~", "<secretary_level>")
 
-        if '<level>' in old_image and in_kwargs('level', **kwargs):
-            level = get_kwargs('level', None, **kwargs)
+        if '<level>' in old_image:
             for i in reversed(range(0, level + 1)):
                 image = old_image.replace("<level>", str(i))
                 if renpy.loadable(image):
@@ -424,53 +417,32 @@ init -2 python:
                     if renpy.loadable(image):
                         path = path.replace("<level>", str(i))
 
-        if '<school_level>' in old_image:
-            for i in reversed(range(0, get_character_by_key('school').get_level() + 1)):
-                image = old_image.replace("<school_level>", str(i))
-                if renpy.loadable(image):
-                    path =  path.replace("<school_level>", str(i))
-                    break
-            else:
-                for i in range(0, 10):
-                    image = old_image.replace("<school_level>", str(i))
-                    if renpy.loadable(image):
-                        path = path.replace("<school_level>", str(i))
+        return path
 
-        if '<parent_level>' in old_image:
-            for i in reversed(range(0, get_character_by_key('parents').get_level() + 1)):
-                image = old_image.replace("<parent_level>", str(i))
-                if renpy.loadable(image):
-                    path =  path.replace("<parent_level>", str(i))
-                    break
-            else:
-                for i in range(0, 10):
-                    image = old_image.replace("<parent_level>", str(i))
-                    if renpy.loadable(image):
-                        path = path.replace("<parent_level>", str(i))
+    def insert_level(path: str, **kwargs) -> str:
+        """
+        Replaces the <level>-keyword in the given image path with the best available level.
 
-        if '<teacher_level>' in old_image:
-            for i in reversed(range(0, get_character_by_key('teacher').get_level() + 1)):
-                image = old_image.replace("<teacher_level>", str(i))
-                if renpy.loadable(image):
-                    path =  path.replace("<teacher_level>", str(i))
-                    break
-            else:
-                for i in range(0, 10):
-                    image = old_image.replace("<teacher_level>", str(i))
-                    if renpy.loadable(image):
-                        path = path.replace("<teacher_level>", str(i))
+        ### Parameters:
+        1. path: str
+            - The image path to replace the <level>-keyword in.
+        2. **kwargs
+            - The keyword arguments to replace in the image path.
+            - possible keywords: level, school_obj, teacher_obj, parent_obj, secretary_obj
 
-        if '<secretary_level>' in old_image:
-            for i in reversed(range(0, get_character_by_key('secretary').get_level() + 1)):
-                image = old_image.replace("<secretary_level>", str(i))
-                if renpy.loadable(image):
-                    path =  path.replace("<secretary_level>", str(i))
-                    break
-            else:
-                for i in range(0, 10):
-                    image = old_image.replace("<secretary_level>", str(i))
-                    if renpy.loadable(image):
-                        path = path.replace("<secretary_level>", str(i))
+        ### Returns:
+        1. str
+            - The image path with the levels inserted
+        """
+
+        if '<school_level>' in path:
+            path = path.replace("<school_level>", str(get_character_by_key('school').get_level()))
+        if 'teacher_level' in path:
+            path = path.replace("<teacher_level>", str(get_character_by_key('teacher').get_level()))
+        if 'parent_level' in path:
+            path = path.replace("<parent_level>", str(get_character_by_key('parent').get_level()))
+        if 'secretary_level' in path:
+            path = path.replace("<secretary_level>", str(get_character_by_key('secretary').get_level()))
 
         return path
 
@@ -501,6 +473,7 @@ init -2 python:
             image = old_image.replace(key, str(i))
             if not renpy.loadable(image):
                 return i - 1
+
         return end
 
     def refine_image(image_path: str, **kwargs) -> str:
@@ -527,7 +500,9 @@ init -2 python:
             image_path = image_path.replace(f"<{key}>", str(value))
 
         if 'level>' in image_path:
-            image_path = get_available_level(image_path, **kwargs)
+            image_path = insert_level(image_path, **kwargs)
+        if '<level>' in image_path:
+            image_path = get_available_level(image_path, get_kwargs('level', 0, **kwargs))
 
         return image_path
 
@@ -556,12 +531,16 @@ init -2 python:
 
         variant = get_kwargs('variant', 0, **kwargs)
 
-        if "<variant>" in image_path:
-            variant = get_random_int(0, get_image_max_value("<variant>", image_path, 0, 100))
-            image_path = image_path.replace(f"<variant>", str(variant))
-
         if 'level>' in image_path:
-            image_path = get_available_level(image_path, **kwargs)
+            image_path = insert_level(image_path, **kwargs)
+
+        if "<variant>" in image_path:
+            max_variant = get_image_max_value("<variant>", image_path, 1)
+            if max_variant >= 1:
+                image_path = image_path.replace("<variant>", str(get_random_int(1, max_variant)))
+
+        if '<level>' in image_path:
+            image_path = get_available_level(image_path, get_kwargs('level', 0, **kwargs))
 
         return image_path, variant
     

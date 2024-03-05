@@ -612,7 +612,7 @@ label first_week_epilogue (**kwargs):
     if not is_in_replay:
         $ set_level_for_char(1, "school", charList)
         $ set_level_for_char(1, "teacher", charList["staff"])
-        $ set_level_for_char(1, "parents", charList)
+        $ set_level_for_char(1, "parent", charList)
         $ set_level_for_char(5, "secretary", charList["staff"])
 
         $ set_all_buildings_blocked(False)

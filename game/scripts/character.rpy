@@ -534,19 +534,19 @@ init -6 python:
         ### Parameters:
         1. key: str
             - The key of the character to get
-            - school, parents, teacher, secretary
+            - school, parent, teacher, secretary
 
         ### Returns:
         1. Char
             - The character object from the map
             - None if the character does not exist
-            - possible keys: school, parents, teacher, secretary
+            - possible keys: school, parent, teacher, secretary
         """
 
         if key == "school":
             return get_school()
-        elif key == "parents":
-            return get_character("parents", charList)
+        elif key == "parent":
+            return get_character("parent", charList)
         elif key == "teacher":
             return get_character("teacher", charList['staff'])
         elif key == "secretary":
@@ -857,7 +857,7 @@ label load_schools ():
         }
     })
 
-    $ load_character("parents", "Parents", charList, {
+    $ load_character("parent", "Parents", charList, {
         'stats_objects': {
             "corruption": Stat(CORRUPTION, 0),
             "inhibition": Stat(INHIBITION, 100),

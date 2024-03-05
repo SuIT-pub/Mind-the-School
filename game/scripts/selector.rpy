@@ -717,7 +717,7 @@ init -3 python:
             - The key of the character.
             - The character is used to identify the character in the character dictionary.
             - See method get_character_by_key() in the character module for more information.
-            - possible keys: school, parents, teacher, secretary
+            - possible keys: school, parent, teacher, secretary
         """
 
         def __init__(self, key: str, char: str = 'school'):
