@@ -191,7 +191,6 @@ label first_potion_sb_event (**kwargs):
     headmaster_thought "Hmm, I can't wait to have this view on a regular basis, but that's gonna take some time."
 
     $ set_building_blocked("school_building")
-
     
     $ end_event('new_daytime', **kwargs)
 
@@ -201,30 +200,75 @@ label first_class_sb_event (**kwargs):
     $ school_obj = get_char_value('school_obj', **kwargs)
     $ school_class = get_value('class', **kwargs)
     
-    # $ image = Image_Series("/images/events/school building/first_class_sb_event <class> <nude> <step>.webp", **kwargs)
+    $ image = Image_Series("/images/events/school building/first_class_sb_event <class> <nude> <step>.webp", **kwargs)
 
-    show screen black_screen_text("first_class_sb_event\nClass:" + school_class)
-
+    $ image.show(0)
     headmaster "Hello, let me introduce myself again. I'm [headmaster_first_name] [headmaster_last_name], the new headmaster of this school."
+    $ image.show(1)
     headmaster "I'm actually a psychologist but I got myself a teaching license to help students like you to receive a better education."
     headmaster "Don't worry, you will still be taught by your regular teachers. I work mainly on school reform and will only occasionally teach a class."
+    $ image.show(2)
     headmaster "If you have any questions or issues, feel free to come to me. I always put heavy emphasis on the well-being of my students."
+    $ image.show(3)
     headmaster "Now I'd like to get to know you a bit better. Would you please all introduce yourself?"
 
     if school_class == "3A":
+        $ image.show(4)
         headmaster "Miss Ryan, would you like to start?"
+        $ image.show(5)
         teacher3 "Yes, of course."
         teacher3 "My name is Finola Ryan. I'm 28 years old and I'm a teacher for English and Geography. I am also the class teacher of 3A."
+
+        $ image.show(6)
+        headmaster "Great! Now please the rest of the class."
+
         # students introduce themselves
+        $ image.show(7)
+        sgirl "Hello, I am Gloria Goto. I'm 19 years old." (name="Gloria Goto")
+        $ image.show(8)
+        sgirl "Hi I am Luna Clark. I'm 18 years old." (name="Luna Clark")
+        $ image.show(9)
+        sgirl "Hi, my name is Elsie Johnson. I'm 21 years old." (name="Elsie Johnson")
+        $ image.show(10)
+        sgirl "H-Hi, I'm Easkey Tanaka. I'm 19 years old." (name="Easkey Tanaka")
+        $ image.show(11)
+        sgirl "I'm Kokoro Nakamura. I'm 20 years old." (name="Kokoro Nakamura")
+        $ image.show(12)
+        sgirl "Lin Kato. 20 years old." (name="Lin Kato")
+        $ image.show(13)
+        sgirl "Hello, I'm Miwa Igarashi. I'm 19 years old." (name="Miwa Igarashi")
+        $ image.show(14)
+        sgirl "Hi, I'm Aona Komuro. I'm 18 years old." (name="Aona Komuro")
+        $ image.show(15)
+        sgirl "Hi. Yuriko Oshima. I'm 22 years old." (name="Yuriko Oshima")
+        $ image.show(16)
+        sgirl "Hello, my name is Ishimaru Maki. I'm 19 years old." (name="Ishimaru Maki")
+        $ image.show(17)
+        sgirl "I'm Ikushi Ito. 20 years old." (name="Ikushi Ito")
+        $ image.show(18)
+        sgirl "Sakura Mori. 21." (name="Sakura Mori")
+        $ image.show(19)
+        sgirl "Hi. I'm Hatano Miwa. 19 years." (name="Hatano Miwa")
+        $ image.show(20)
+        sgirl "Hello. Soyoon Yamamoto. 18 years." (name="Soyoon Yamamoto")
+
+        $ image.show(21)
+        headmaster "Thank you all for introducing yourself. I'm looking forward to working with you."
+        headmaster "Now I'll return you back to Miss Ryan. Have a good day."
+
         $ set_game_data('first_class_3A', True)
         $ advance_progress('first_class')
         if loli_content == 0:
             $ set_progress('first_class', 3)
 
     elif school_class == "2A":
+        $ age = 1 * -5
         headmaster "Miss Anderson, would you like to start?"
         teacher1 "Yes, of course."
         teacher1 "My name is Lily Anderson. I'm 32 years old and I'm a teacher for Math and Sciences. I am also the class teacher of 2A."
+        
+        headmaster "Great! Now please the rest of the class."
+
         # students introduce themselves
         $ set_game_data('first_class_2A', True)
         $ advance_progress('first_class')
@@ -232,9 +276,13 @@ label first_class_sb_event (**kwargs):
             $ set_progress('first_class', 3)
 
     elif school_class == "1A":
+        $ age = 2 * -5
         headmaster "Miss Parker, would you like to start?"
         teacher5 "Yes, of course."
         teacher5 "My name is Zoe Parker. I'm 24 years old and I'm a teacher for Sport and Art. I am also the class teacher of 1A."
+        
+        headmaster "Great! Now please the rest of the class."
+
         # students introduce themselves
         $ set_game_data('first_class_1A', True)
         $ advance_progress('first_class')

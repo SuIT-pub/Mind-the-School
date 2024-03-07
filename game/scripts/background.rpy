@@ -367,11 +367,11 @@ init -2 python:
         output_nude = 0
         priority = -1
 
-        for image in images:
-            if not image.can_be_used(**kwargs):
+        for bgimage in images:
+            if not bgimage.can_be_used(**kwargs):
                 continue
 
-            max_nude, output = image.get_image(**kwargs)
+            max_nude, output = bgimage.get_image(**kwargs)
 
             if priority < image.get_priority() and max_nude >= 0:
                 output_image = output
@@ -407,14 +407,14 @@ init -2 python:
 
         if '<level>' in old_image:
             for i in reversed(range(0, level + 1)):
-                image = old_image.replace("<level>", str(i))
-                if renpy.loadable(image):
+                test_image = old_image.replace("<level>", str(i))
+                if renpy.loadable(test_image):
                     path =  path.replace("<level>", str(i))
                     break
             else:
                 for i in range(0, 10):
-                    image = old_image.replace("<level>", str(i))
-                    if renpy.loadable(image):
+                    test_image = old_image.replace("<level>", str(i))
+                    if renpy.loadable(test_image):
                         path = path.replace("<level>", str(i))
 
         return path
@@ -470,8 +470,8 @@ init -2 python:
         old_image = old_image.replace("~#~", key)
 
         for i in range(start, end):
-            image = old_image.replace(key, str(i))
-            if not renpy.loadable(image):
+            test_image = old_image.replace(key, str(i))
+            if not renpy.loadable(test_image):
                 return i - 1
 
         return end
@@ -643,8 +643,8 @@ label show_ext_image_with_nude_var(image_path, **kwargs):
     #     - The keyword arguments to replace in the image path.
     # """
 
-    $ nude, image = get_image(image_path, **kwargs)
-    call show_image_with_nude_var(image, nude) from show_ext_image_with_nude_var_1
+    $ nude, ext_image = get_image(image_path, **kwargs)
+    call show_image_with_nude_var(ext_image, nude) from show_ext_image_with_nude_var_1
     return
 
 label show_image_with_nude_var(image_path, limit = 0):

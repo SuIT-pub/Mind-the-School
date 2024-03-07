@@ -60,6 +60,11 @@ cafeteria_event_4_girl_2,2.Girl
 cafeteria_event_4_girl_3,3.Girl
 
 cafeteria_event_5,Eating in silence
+cafeteria_event_5_classes,Classes
+cafeteria_event_5_classes_1A 2A,1A & 2A
+cafeteria_event_5_classes_1A 2A 3A,1A & 2A & 3A
+cafeteria_event_5_classes_1A 3A,1A & 3A
+cafeteria_event_5_classes_2A 3A,2A & 3A
 
 ###########
 # Courtyard

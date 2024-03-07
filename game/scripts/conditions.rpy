@@ -2370,7 +2370,7 @@ init -6 python:
 
     class PTAOverride(Condition):
         """
-        A class for conditions that check if only one of the conditions is fulfilled.
+        A class for conditions that overrides all other conditions in the PTA voting.
         """
 
         def __init__(self, char: str = "", accept: bool = True):
@@ -2419,5 +2419,5 @@ init -6 python:
             """
 
             if self.char == "" or self.char == char_obj.get_name():
-                return 1000 if self.accept else -1000
+                return 5000 if self.accept else -5000
             return 0
