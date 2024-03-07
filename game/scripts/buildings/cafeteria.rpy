@@ -32,9 +32,12 @@ init 1 python:
         RandomListSelector("char_class", "parent", ("school", RuleCondition('school_jobs'))),
         RandomListSelector("girl_name", 
             ("Adelaide Hall", CompareCondition('char_class', 'parent')),
-            (RandomListSelector('', 'Miwa Igarashi'), CompareCondition('char_class', 'school')),   
+            (
+                RandomListSelector('', 'Miwa Igarashi', 'Luna Clark'), 
+                CompareCondition('char_class', 'school')
+            ),   
         ),
-        RandomListSelector('topic', (0.7, 'apron'), (0.1, 'underwear'), (0.07, 'bra'), 'breasts', 'nude'),
+        RandomListSelector('topic', (0.7, 'apron'), (0.2, 'breasts'), 'nude'),
         thumbnail = "images/events/cafeteria/cafeteria_event_2 1 0.webp")
 
     cafeteria_event_3_event = Event(3, "cafeteria_event_3",
@@ -193,7 +196,7 @@ label cafeteria_event_2(**kwargs):
     $ girl_name = get_value('girl_name', **kwargs).split(' ')[0]
     $ topic = get_value('topic', **kwargs)
 
-    $ image = Image_Series("images/events/cafeteria/cafeteria_event_2 <level> <step>.webp", level = char_level, **kwargs)
+    $ image = Image_Series("images/events/cafeteria/cafeteria_event_2 <level> <girl_name> <topic> <step>.webp", level = char_level, **kwargs)
 
     # headmaster walks into the cafeteria pantry where someone is changing clothes
     $ image.show(0)
@@ -412,13 +415,16 @@ label cafeteria_event_5(**kwargs):
     $ school_obj = get_char_value('school_obj', **kwargs)
     $ classes = get_value("classes", **kwargs)
 
-    $ image = Image_Series("images/events/cafeteria/cafeteria_event_5 <school_level> <classes> <step>.webp")
+    $ image = Image_Series("images/events/cafeteria/cafeteria_event_5 <school_level> <classes> <step>.webp", **kwargs)
 
     # Headmaster walks to empty table with his food
-    $ image.show(0)
+    call show_image ("images/events/cafeteria/cafeteria_event_5 <parent_level>.webp", **kwargs) from _call_show_image_cafeteria_event_5
     subtitles "You take your lunch, sit down at a table and observe your surroundings."
 
     # Headmaster looks around
+    $ image.show(0)
+    $ renpy.pause()
+
     $ image.show(1)
     headmaster_thought "It seems like the students are enjoying their lunch break."
 
