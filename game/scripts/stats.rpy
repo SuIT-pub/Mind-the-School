@@ -302,15 +302,15 @@ init -6 python:
 
             if (self.get_name() != INHIBITION):
                 if change < 0:
-                    text = "{color=#a00000}{size=15}(" + str(change) + "){/size}{/color}"
+                    text = "{color=#a00000}{size=15}" + str(change) + "{/size}{/color}"
                 elif change > 0:
-                    text = "{color=#00a000}{size=15}(+" + str(change) + "){/size}{/color}"
+                    text = "{color=#00a000}{size=15}+" + str(change) + "{/size}{/color}"
             else:
                 if change > 0:
-                    text = "{color=#a00000}{size=15}(+" + str(change) + "){/size}{/color}"
+                    text = "{color=#a00000}{size=15}+" + str(change) + "{/size}{/color}"
                 elif change < 0:
                     change = -change
-                    text = "{color=#00a000}{size=15}(-" + str(change) + "){/size}{/color}"
+                    text = "{color=#00a000}{size=15}-" + str(change) + "{/size}{/color}"
             return text
 
     class Stat_Data:

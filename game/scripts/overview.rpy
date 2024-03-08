@@ -14,7 +14,7 @@ init -1 python:
 ######################
 
 style stat_value:
-    size 20
+    size 25
 
 ##########################
 # ----- Map Screen ----- #
@@ -38,13 +38,13 @@ screen school_overview_stats ():
 
     grid 4 2:
         xalign 1.0 yalign 0.0
-        spacing 5
+        spacing 2
         hbox:
             textbutton get_stat_icon('happiness', True):
                 tooltip "Happiness"
                 action NullAction()
             null width 1
-            textbutton get_school_stat_value(HAPPINESS) + "\n " + get_school_stat_change(HAPPINESS):
+            textbutton get_school_stat_value(HAPPINESS) + "\n" + get_school_stat_change(HAPPINESS):
                 tooltip "Happiness"
                 text_style "stat_value"
                 action NullAction()
@@ -223,7 +223,7 @@ screen school_overview_buttons ():
     # Displays clickable buttons for the buildings leading to building distributor
     # """
 
-    # tag interaction_overlay
+    tag interaction_overlay
     # modal True
     
     # High School Building
@@ -655,6 +655,8 @@ label building(name=""):
     hide screen school_overview_map
     hide screen school_overview_stats
     hide screen school_overview_buttons
+
+    $ hide_all()
 
     call expression name from building_1
 

@@ -895,6 +895,8 @@ init -3 python:
 
         global seenEvents
 
+        hide_all()
+
         event_name = get_kwargs("event_name", "", **kwargs)
         in_replay = get_kwargs("in_replay", False, **kwargs)
 
