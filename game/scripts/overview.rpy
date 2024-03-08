@@ -13,10 +13,8 @@ init -1 python:
 # ----- Styles ----- #
 ######################
 
-style stat_name:
-    size 20
 style stat_value:
-    size 25
+    size 20
 
 ##########################
 # ----- Map Screen ----- #
@@ -25,43 +23,87 @@ style stat_value:
 ###################################
 # display the school map with stats
 screen school_overview_map ():
-    python:
-        """
-        Displays the school map
-        """
+    # """
+    # Displays the school map
+    # """
 
     add "background/bg school overview idle.webp"
 
 ##############################
 # display the stats on the map
 screen school_overview_stats ():
-    python:
-        """
-        Displays the stats on the map
-        """
+    # """
+    # Displays the stats on the map
+    # """
 
-    grid 4 4:
+    grid 4 2:
         xalign 1.0 yalign 0.0
         spacing 5
-        text "Happiness"      style "stat_name"
-        text "Charm"          style "stat_name"
-        text "Education     " style "stat_name"
-        text "Money"          style "stat_name"
-
-        text display_school_stat(HAPPINESS) style "stat_value"
-        text display_school_stat(CHARM) style "stat_value"
-        text display_school_stat(EDUCATION) style "stat_value"
-        text display_school_stat(MONEY) style "stat_value"
+        hbox:
+            textbutton get_stat_icon('happiness', True):
+                tooltip "Happiness"
+                action NullAction()
+            null width 1
+            textbutton get_school_stat_value(HAPPINESS) + "\n " + get_school_stat_change(HAPPINESS):
+                tooltip "Happiness"
+                text_style "stat_value"
+                action NullAction()
+        hbox:
+            textbutton get_stat_icon('charm', True):
+                tooltip "Charm"
+                action NullAction()
+            null width 1
+            textbutton get_school_stat_value(CHARM) + "\n" + get_school_stat_change(CHARM):
+                tooltip "Charm"
+                text_style "stat_value"
+                action NullAction()
+        hbox:
+            textbutton get_stat_icon('education', True):
+                tooltip "Education"
+                action NullAction()
+            null width 1
+            textbutton get_school_stat_value(EDUCATION) + "\n" + get_school_stat_change(EDUCATION):
+                tooltip "Education"
+                text_style "stat_value"
+                action NullAction()
+        hbox:
+            textbutton get_stat_icon('money', True):
+                tooltip "Money"
+                action NullAction()
+            null width 1
+            textbutton get_school_stat_value(MONEY) + "\n" + get_school_stat_change(MONEY):
+                tooltip "Money"
+                text_style "stat_value"
+                action NullAction()
 
         null
-        text "Corruption" style "stat_name"
-        text "Inhibition" style "stat_name"
-        text "Reputation" style "stat_name"
-        
-        null
-        text display_school_stat(CORRUPTION) style "stat_value"
-        text display_school_stat(INHIBITION) style "stat_value"
-        text display_school_stat(REPUTATION) style "stat_value"
+        hbox:
+            textbutton get_stat_icon('corruption', True):
+                tooltip "Corruption"
+                action NullAction()
+            null width 1
+            textbutton get_school_stat_value(CORRUPTION) + "\n" + get_school_stat_change(CORRUPTION):
+                tooltip "Corruption"
+                text_style "stat_value"
+                action NullAction()
+        hbox:
+            textbutton get_stat_icon('inhibition', True):
+                tooltip "Inhibition"
+                action NullAction()
+            null width 1
+            textbutton get_school_stat_value(INHIBITION) + "\n" + get_school_stat_change(INHIBITION):
+                tooltip "Inhibition"
+                text_style "stat_value"
+                action NullAction()
+        hbox:
+            textbutton get_stat_icon('reputation', True):
+                tooltip "Reputation"
+                action NullAction()
+            null width 1
+            textbutton get_school_stat_value(REPUTATION) + "\n" + get_school_stat_change(REPUTATION):
+                tooltip "Reputation"
+                text_style "stat_value"
+                action NullAction()
 
     vbox:
         xalign 1.0 ypos 150
@@ -93,14 +135,24 @@ screen school_overview_stats ():
             xalign 1.0
             size 30
 
+    $ tooltip = GetTooltip()
+
+    if tooltip:
+        nearrect:
+            focus "tooltip"
+            prefer_top True
+
+            frame:
+                xalign 0.5
+                text tooltip
+
 
 ##################################
 # display all buildings on the map
 screen school_overview_images ():
-    python:
-        """
-        Displays all buildings on the map
-        """
+    # """
+    # Displays all buildings on the map
+    # """
 
     add "background/bg school overview idle.webp"
 
@@ -167,13 +219,12 @@ screen school_overview_images ():
 ############################################################################
 # display clickable buttons for the buildings leading to building distributor
 screen school_overview_buttons ():
-    python:
-        """
-        Displays clickable buttons for the buildings leading to building distributor
-        """
+    # """
+    # Displays clickable buttons for the buildings leading to building distributor
+    # """
 
-    tag interaction_overlay
-    modal True
+    # tag interaction_overlay
+    # modal True
     
     # High School Building
     if is_building_available("school_building") or is_building_available("high_school_building"):
@@ -391,7 +442,7 @@ screen school_overview_buttons ():
             xalign 0.07 yalign 0.0
             action Call("start_journal")
 
-    $ tooltip = GetTooltip("school_overview_buttons")
+    $ tooltip = GetTooltip()
 
     if tooltip:
         nearrect:

@@ -723,10 +723,12 @@ label .skip:
 ##################################
 
 label new_week (**kwargs):
+    $ log("week")
     $ change_money_with_modifier(0, 'payroll_weekly')
     return
 
 label end_of_month (**kwargs):
+    $ log("month")
     $ change_money_with_modifier(0, 'payroll_monthly')
     # $ change_stat(MONEY, 1000)
 

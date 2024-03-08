@@ -373,10 +373,10 @@ init -2 python:
 
             max_nude, output = bgimage.get_image(**kwargs)
 
-            if priority < image.get_priority() and max_nude >= 0:
+            if priority < bgimage.get_priority() and max_nude >= 0:
                 output_image = output
                 output_nude = max_nude
-                priority = image.get_priority()
+                priority = bgimage.get_priority()
         
 
         if output_image == None:

@@ -1,44 +1,45 @@
 import os
 import shutil
 import subprocess
+from typing import Tuple
 import pyautogui
 
-def move_files(move_mode: str, source_file: str, dest_file: str) -> int:
+def move_files(move_mode: str, s_file: str, dest_file: str, overwrite: str) -> Tuple[int, str]:
     if os.path.exists(dest_file):
         # File already exists at destination
         
-        response = overwrite_setting
-        if overwrite_setting == '':
-            response = pyautogui.confirm(text = f"The file '{file}' already exists at the destination ({source_file}). \nWhat would you like to do?", title = "File already exists", buttons = ['Overwrite', 'Ignore', 'Overwrite all', 'Ignore all', 'Cancel'])
+        response = overwrite
+        if overwrite == '':
+            response = pyautogui.confirm(text = f"The file '{s_file}' already exists at the destination ({dest_file}). \nWhat would you like to do?", title = "File already exists", buttons = ['Overwrite', 'Ignore', 'Overwrite all', 'Ignore all', 'Cancel'])
 
         if response == 'Overwrite all':
             # Overwrite all occurrences
-            overwrite_setting = 'Overwrite all'
+            overwrite = 'Overwrite all'
 
         elif response == 'Ignore':
             # Ignore this occurrence only
-            return 1
+            return (1, overwrite)
         elif response == 'Ignore all':
             # Ignore all occurrences
-            overwrite_setting = 'Ignore all'
-            return 1
+            overwrite = 'Ignore all'
+            return (1, overwrite)
         elif response == 'Cancel':
             # Cancel operation
-            overwrite_setting = 'Cancel'
-            return 2
+            overwrite = 'Cancel'
+            return (2, overwrite)
 
-        if move_mode == 'Backup images' or move_mode == 'Copy new images to Extract' or move_mode == 'Return modified images':
-            shutil.copy2(source_file, dest_file)
+        if move_mode == 'Backup images' or move_mode == 'Copy new images to Extract' or move_mode == 'Return modified images' or move_mode == 'Backup to Extract':
+            shutil.copy2(s_file, dest_file)
         elif mode == 'Extract new images':
-            shutil.move(source_file, dest_file)
+            shutil.move(s_file, dest_file)
     else:
         # File doesn't exist at destination, copy it
         os.makedirs(os.path.dirname(dest_file), exist_ok=True)  # Create necessary directories
-        if move_mode == 'Backup images' or move_mode == 'Copy new images to Extract' or move_mode == 'Return modified images':
-            shutil.copy2(source_file, dest_file)
+        if move_mode == 'Backup images' or move_mode == 'Copy new images to Extract' or move_mode == 'Return modified images' or move_mode == 'Backup to Extract':
+            shutil.copy2(s_file, dest_file)
         elif move_mode == 'Extract new images':
-            shutil.move(source_file, dest_file)
-    return 0
+            shutil.move(s_file, dest_file)
+    return (0, overwrite)
 
 source_path = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../game/images'))
 
@@ -53,7 +54,7 @@ if mode == 'Cancel':
 elif mode == 'Extract new images':
     destination_path = os.path.abspath(os.path.join(source_path, '../../../Image Extracter/Mind the School Image Extract'))  # Destination folder 3 levels above the current directory
 elif mode == 'Copy new images to Extract':
-    destination_path = os.path.abspath(os.path.join(source_path, '../../../Image Extracter/Mind the School Image Extract'))  # Destination folder 3 levels above the current directory
+    destination_path = os.path.abspath(os.path.join(source_path, '../../../Image Extracter/Mind the School Image Extract'))
 elif mode == 'Backup images':
     destination_path = os.path.abspath(os.path.join(source_path, '../../../Image Extracter/Mind the School Image Backup'))  # Destination folder 3 levels above the current directory
     destination_path2 = os.path.abspath(os.path.join(source_path, '../../../Image Extracter/Mind the School Full Image Backup'))
@@ -64,8 +65,8 @@ elif mode == 'Return modified images':
 elif mode == 'Convert images':
     source_path = os.path.abspath(os.path.join(source_path, '../../../Image Extracter/Mind the School Image Extract'))
 elif mode == 'Backup to Extract':
-    source_path = os.path.abspath(os.path.join(source_path, '../../../Image Extracter/Mind the School Image Backup'))
     destination_path = os.path.abspath(os.path.join(source_path, '../../../Image Extracter/Mind the School Image Extract'))
+    source_path = os.path.abspath(os.path.join(source_path, '../../../Image Extracter/Mind the School Image Backup'))
 
 
 print("Source path: " + str(source_path))
@@ -91,7 +92,7 @@ for root, dirs, files in os.walk(source_path):
                 paths.append(source_file)
                 continue
 
-            result = move_files(mode, source_file, destination_file)
+            result, overwrite_setting = move_files(mode, source_file, destination_file, overwrite_setting)
 
             if result == 1:
                 continue
@@ -101,21 +102,22 @@ for root, dirs, files in os.walk(source_path):
                 count += 1
 
             if destination_path2 != "":
-                result = move_files(mode, source_file, destination_file2)
+                result, overwrite_setting = move_files(mode, source_file, destination_file2, overwrite_setting)
 
                 if result == 1:
                     continue
                 elif result == 2:
                     break
-                
+
     if overwrite_setting == 'Cancel':
         break
 
 if mode == 'Convert images':
     response = pyautogui.confirm(text = f"Would you like to convert lossy or lossless?", title = "Convert images", buttons = ['Lossy', 'Lossless', 'Cancel'])
     if response != 'Cancel':
-        for path in paths:
+        for i, path in enumerate(paths):
             nconvert_path = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'NConvert/nconvert.exe'))
+            print(f"Converting {i + 1}/{len(paths)}: {path}")
             if response == 'Lossless':
                 subprocess.run([nconvert_path, "-overwrite", "-out", "webp", "-q", "-1", path])
             else:

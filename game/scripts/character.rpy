@@ -503,6 +503,42 @@ init -6 python:
         else:
             return get_school().display_stat(stat)
 
+    def get_school_stat_value(stat: str) -> str:
+        """
+        Returns the mean value for a stat from all schools as string
+
+        ### Parameters:
+        1. stat: str
+            - The name of the stat whose mean value from all schools will be returned
+
+        ### Returns:
+        1. str
+            - The mean value of the stat from all schools as string
+        """
+
+        if stat == MONEY:
+            return re.sub("\..+", "", money.get_display_value())
+        else:
+            return get_school().get_display_value(stat)
+
+    def get_school_stat_change(stat: str) -> str:
+        """
+        Returns the mean change for a stat from all schools as string
+
+        ### Parameters:
+        1. stat: str
+            - The name of the stat whose mean change from all schools will be returned
+
+        ### Returns:
+        1. str
+            - The mean change of the stat from all schools as string
+        """
+
+        if stat == MONEY:
+            return money.get_display_change()
+        else:
+            return get_school().get_display_change(stat)
+
     ######################
     # General Char Handler
 

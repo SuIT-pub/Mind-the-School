@@ -149,6 +149,17 @@ init -6 python:
             """
 
             self.changed_value = value
+
+        def add_changed_value(self, value: num):
+            """
+            Adds the given value to the change of the stat.
+
+            ### Parameters:
+            1. value: num
+                - The value to add to the change of the stat.
+            """
+
+            self.changed_value += value
         
         def change_value(self, delta: num, level: int = 10):
             """
@@ -176,7 +187,7 @@ init -6 python:
 
             change_val = round(self.value - old_value, 2)
 
-            self.set_changed_value(change_val)
+            self.add_changed_value(change_val)
 
         def change_value_to(self, value: num, level: int = 10):
             """
@@ -267,6 +278,9 @@ init -6 python:
 
             stat_value = self.get_value() + 0
 
+            if self.get_name() == MONEY:
+                stat_value = int(stat_value)
+
             return str(stat_value)
 
         def get_display_change(self) -> str:
@@ -280,6 +294,9 @@ init -6 python:
 
             global change
             change = self.get_changed_value()
+
+            if self.get_name() == MONEY:
+                change = int(change)
 
             text = ""
 
@@ -500,6 +517,24 @@ init -6 python:
             return (self.get_description(level) + 
                 "\n-------------------------------------------------------\n" + 
                 self.description)
+
+    def get_stat_icon(stat: str, is_white: bool = False) -> str:
+        """
+        Returns the path to the icon image of the stat.
+
+        ### Parameters:
+        1. stat: str
+            - The type of the stat.
+
+        ### Returns:
+        1. str
+            - The path to the icon image of the stat.
+        """
+
+        if is_white:
+            return "{image=icons/stat_" + str(stat) + "_icon_white.webp}"
+        else:
+            return "{image=icons/stat_" + str(stat) + "_icon.webp}"
 
     def clamp_stat_value(value: num, stat: str, level: int, min: num = 0, max: num = 100) -> num:
         """
