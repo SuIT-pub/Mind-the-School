@@ -309,12 +309,40 @@ label first_class_sb_event (**kwargs):
 
     elif school_class == "1A":
         $ age = 2 * -5
+        $ image.show(4)
         headmaster "Miss Parker, would you like to start?"
+        $ image.show(5)
         teacher5 "Yes, of course."
         teacher5 "My name is Zoe Parker. I'm 24 years old and I'm a teacher for Sport and Art. I am also the class teacher of 1A."
         
+        $ image.show(6)
         headmaster "Great! Now please the rest of the class."
 
+        $ image.show(7)
+        $ character.sgirl(f"Hello. My name is Sidney Martinez. I am {18 + age} years old.", name="Sidney Martinez")
+        $ image.show(8)
+        $ character.sgirl(f"Eunji Han. {21 + age}.", name="Eunji Han")
+        $ image.show(9)
+        $ character.sgirl(f"Hi. I'm Karini Ono. I am {21 + age} years old.", name="Karini Ono")
+        $ image.show(10)
+        $ character.sgirl(f"Hello, my name is Fio Dubois. I'm {19 + age} years old.", name="Fio Dubois")
+        $ image.show(11)
+        $ character.sgirl(f"Hi. Patricia Müller. I'm {22 + age} years old.", name="Patricia Müller")
+        $ image.show(12)
+        $ character.sgirl(f"I'm Leonidou Papadopoulos. 20 years old.", name="Leonidou Papadopoulos")
+        $ image.show(13)
+        $ character.sgirl(f"H-Hi, I'm Elina Jansen. I'm {19 + age} years old.", name="Elina Jansen")
+        $ image.show(14)
+        $ character.sgirl(f"Hi, I'm Aiden O'Reilly. I'm {18 + age} years old.", name="Aiden O'Reilly")
+        $ image.show(15)
+        $ character.sgirl(f"Hello. Lorelyn Hosant. {18 + age} years.", name="Lorelyn Hosant")
+        $ image.show(16)
+        $ character.sgirl(f"Hello. I am Alice Fernandez. {19 + age}.", name="Alice Fernandez")
+
+        $ image.show(17)
+        headmaster "Thank you all for introducing yourself. I'm looking forward to working with you."
+        headmaster "Now I'll return you back to Miss Parker. Have a good day."
+        
         # students introduce themselves
         $ set_game_data('first_class_1A', True)
         $ advance_progress('first_class')
