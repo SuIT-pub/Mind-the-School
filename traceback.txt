@@ -1,32 +1,504 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
-After initialization, but before game start.
-  File "game/scripts/journal/journal.rpy", line 1921, in prepare_screen
-    screen journal_credits(display):
-  File "game/scripts/journal/journal.rpy", line 1921, in prepare
-    screen journal_credits(display):
-Exception: A screen named school_overview_map does not exist.
+While running game code:
+  File "game/scripts/intro.rpy", line 44, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 212, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/journal/journal.rpy", line 116, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 132, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 116, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 132, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 138, in script call
+    call screen journal_page(4, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 138, in script call
+    call screen journal_page(4, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 2447, in script call
+    call add_to_proposal(building, 4, building_name, action) from add_building_to_proposal_2
+  File "game/scripts/journal/journal.rpy", line 2376, in script call
+    call open_journal(page, display) from add_to_proposal_1
+  File "game/scripts/overview.rpy", line 607, in script call
+    call time_event_check from new_daytime_2
+  File "game/scripts/daily_check.rpy", line 106, in script call
+    call call_available_event(temp_time_check_events, 0, True, with_removal = True) from time_event_check_1
+  File "game/scripts/event.rpy", line 1014, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/daily_check.rpy", line 110, in script call
+    call call_available_event(time_check_events, 0, True) from time_event_check_2
+  File "game/scripts/event.rpy", line 1014, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 661, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/school_building.rpy", line 117, in script call
+    call call_available_event(sb_timed_event) from school_building_1
+  File "game/scripts/event.rpy", line 1014, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 120, in script call
+    call call_available_event(sb_general_event) from school_building_4
+  File "game/scripts/event.rpy", line 1014, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 129, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 165, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 661, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/school_building.rpy", line 117, in script call
+    call call_available_event(sb_timed_event) from school_building_1
+  File "game/scripts/event.rpy", line 1014, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 120, in script call
+    call call_available_event(sb_general_event) from school_building_4
+  File "game/scripts/event.rpy", line 1014, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 129, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 165, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 134, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 207, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 1042, in script call
+    $ renpy.call(event_obj, from_current="call_event_1", **kwargs)
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 661, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/school_building.rpy", line 117, in script call
+    call call_available_event(sb_timed_event) from school_building_1
+  File "game/scripts/event.rpy", line 1014, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 120, in script call
+    call call_available_event(sb_general_event) from school_building_4
+  File "game/scripts/event.rpy", line 1014, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 129, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 165, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 661, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/school_building.rpy", line 117, in script call
+    call call_available_event(sb_timed_event) from school_building_1
+  File "game/scripts/event.rpy", line 1014, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 120, in script call
+    call call_available_event(sb_general_event) from school_building_4
+  File "game/scripts/event.rpy", line 1014, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 129, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 165, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 134, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 207, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 1042, in script call
+    $ renpy.call(event_obj, from_current="call_event_1", **kwargs)
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 661, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/school_building.rpy", line 117, in script call
+    call call_available_event(sb_timed_event) from school_building_1
+  File "game/scripts/event.rpy", line 1014, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 120, in script call
+    call call_available_event(sb_general_event) from school_building_4
+  File "game/scripts/event.rpy", line 1014, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 129, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 165, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 134, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 207, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 1042, in script call
+    $ renpy.call(event_obj, from_current="call_event_1", **kwargs)
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 661, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/school_building.rpy", line 117, in script call
+    call call_available_event(sb_timed_event) from school_building_1
+  File "game/scripts/event.rpy", line 1014, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 120, in script call
+    call call_available_event(sb_general_event) from school_building_4
+  File "game/scripts/event.rpy", line 1014, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 129, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 165, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 661, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/school_building.rpy", line 117, in script call
+    call call_available_event(sb_timed_event) from school_building_1
+  File "game/scripts/event.rpy", line 1014, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 120, in script call
+    call call_available_event(sb_general_event) from school_building_4
+  File "game/scripts/event.rpy", line 1014, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 129, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 165, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 134, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 207, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 1042, in script call
+    $ renpy.call(event_obj, from_current="call_event_1", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 331, in script call
+    call show_idle_image(school_obj, "images/background/school building/bg f.webp", sb_bg_images,
+  File "game/scripts/background.rpy", line 566, in script
+    label show_idle_image(fallback, bg_images, **kwargs):
+TypeError: Too many arguments in call (expected 2, got 3).
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "F:\RenPy\renpy\bootstrap.py", line 275, in bootstrap
-    renpy.main.main()
-  File "F:\RenPy\renpy\main.py", line 670, in main
-    run(restart)
-  File "F:\RenPy\renpy\main.py", line 93, in run
-    renpy.display.screen.prepare_screens()
-  File "F:\RenPy\renpy\display\screen.py", line 1003, in prepare_screens
-    s.ast.prepare_screen()
-  File "game/scripts/journal/journal.rpy", line 1921, in prepare_screen
-    screen journal_credits(display):
-  File "game/scripts/journal/journal.rpy", line 1921, in prepare
-    screen journal_credits(display):
-  File "F:\RenPy\renpy\sl2\slast.py", line 2015, in prepare
-    raise Exception("A screen named {} does not exist.".format(self.target))
-Exception: A screen named school_overview_map does not exist.
+  File "game/scripts/intro.rpy", line 44, in script call
+    call skip_to_free_roam from intro_3
+  File "game/scripts/intro.rpy", line 212, in script call
+    call first_week_epilogue_final.skip from skip_to_free_roam_1
+  File "game/scripts/journal/journal.rpy", line 116, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 132, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 116, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/journal/journal.rpy", line 132, in script call
+    call screen journal_overview(display, char) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 138, in script call
+    call screen journal_page(4, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 138, in script call
+    call screen journal_page(4, display) with dissolveM
+  File "game/scripts/journal/journal.rpy", line 2447, in script call
+    call add_to_proposal(building, 4, building_name, action) from add_building_to_proposal_2
+  File "game/scripts/journal/journal.rpy", line 2376, in script call
+    call open_journal(page, display) from add_to_proposal_1
+  File "game/scripts/overview.rpy", line 607, in script call
+    call time_event_check from new_daytime_2
+  File "game/scripts/daily_check.rpy", line 106, in script call
+    call call_available_event(temp_time_check_events, 0, True, with_removal = True) from time_event_check_1
+  File "game/scripts/event.rpy", line 1014, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/daily_check.rpy", line 110, in script call
+    call call_available_event(time_check_events, 0, True) from time_event_check_2
+  File "game/scripts/event.rpy", line 1014, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 661, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/school_building.rpy", line 117, in script call
+    call call_available_event(sb_timed_event) from school_building_1
+  File "game/scripts/event.rpy", line 1014, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 120, in script call
+    call call_available_event(sb_general_event) from school_building_4
+  File "game/scripts/event.rpy", line 1014, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 129, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 165, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 661, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/school_building.rpy", line 117, in script call
+    call call_available_event(sb_timed_event) from school_building_1
+  File "game/scripts/event.rpy", line 1014, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 120, in script call
+    call call_available_event(sb_general_event) from school_building_4
+  File "game/scripts/event.rpy", line 1014, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 129, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 165, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 134, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 207, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 1042, in script call
+    $ renpy.call(event_obj, from_current="call_event_1", **kwargs)
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 661, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/school_building.rpy", line 117, in script call
+    call call_available_event(sb_timed_event) from school_building_1
+  File "game/scripts/event.rpy", line 1014, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 120, in script call
+    call call_available_event(sb_general_event) from school_building_4
+  File "game/scripts/event.rpy", line 1014, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 129, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 165, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 661, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/school_building.rpy", line 117, in script call
+    call call_available_event(sb_timed_event) from school_building_1
+  File "game/scripts/event.rpy", line 1014, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 120, in script call
+    call call_available_event(sb_general_event) from school_building_4
+  File "game/scripts/event.rpy", line 1014, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 129, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 165, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 134, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 207, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 1042, in script call
+    $ renpy.call(event_obj, from_current="call_event_1", **kwargs)
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 661, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/school_building.rpy", line 117, in script call
+    call call_available_event(sb_timed_event) from school_building_1
+  File "game/scripts/event.rpy", line 1014, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 120, in script call
+    call call_available_event(sb_general_event) from school_building_4
+  File "game/scripts/event.rpy", line 1014, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 129, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 165, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 134, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 207, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 1042, in script call
+    $ renpy.call(event_obj, from_current="call_event_1", **kwargs)
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 661, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/school_building.rpy", line 117, in script call
+    call call_available_event(sb_timed_event) from school_building_1
+  File "game/scripts/event.rpy", line 1014, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 120, in script call
+    call call_available_event(sb_general_event) from school_building_4
+  File "game/scripts/event.rpy", line 1014, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 129, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 165, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 670, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 642, in script call
+    call screen school_overview_buttons
+  File "game/scripts/overview.rpy", line 661, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/school_building.rpy", line 117, in script call
+    call call_available_event(sb_timed_event) from school_building_1
+  File "game/scripts/event.rpy", line 1014, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 120, in script call
+    call call_available_event(sb_general_event) from school_building_4
+  File "game/scripts/event.rpy", line 1014, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 129, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 165, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 134, in script call
+    call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+  File "game/scripts/menu.rpy", line 207, in script call
+    $ call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 1042, in script call
+    $ renpy.call(event_obj, from_current="call_event_1", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 331, in script call
+    call show_idle_image(school_obj, "images/background/school building/bg f.webp", sb_bg_images,
+  File "game/scripts/background.rpy", line 566, in script
+    label show_idle_image(fallback, bg_images, **kwargs):
+  File "F:\RenPy\renpy\ast.py", line 1081, in execute
+    values = apply_arguments(self.parameters, renpy.store._args, renpy.store._kwargs)
+  File "F:\RenPy\renpy\ast.py", line 296, in apply_arguments
+    return parameters.apply(args, kwargs, ignore_errors)
+  File "F:\RenPy\renpy\ast.py", line 250, in apply
+    raise TypeError(
+TypeError: Too many arguments in call (expected 2, got 3).
 
 Windows-10-10.0.19045 AMD64
 Ren'Py 8.1.3.23091805
 Mind the School 0.1.3
-Fri Mar  8 15:01:15 2024
+Sat Mar  9 10:29:23 2024

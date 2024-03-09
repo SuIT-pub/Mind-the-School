@@ -263,11 +263,43 @@ label first_class_sb_event (**kwargs):
 
     elif school_class == "2A":
         $ age = 1 * -5
+        $ image.show(4)
         headmaster "Miss Anderson, would you like to start?"
+        $ image.show(5)
         teacher1 "Yes, of course."
         teacher1 "My name is Lily Anderson. I'm 32 years old and I'm a teacher for Math and Sciences. I am also the class teacher of 2A."
         
+        $ image.show(6)
         headmaster "Great! Now please the rest of the class."
+
+        $ image.show(7)
+        $ character.sgirl(f"Hello. My name is Miela Frejadottir. I am {21 + age} years old.", name="Miela Frejadottir")
+        $ image.show(8)
+        $ character.sgirl(f"Hi. I'm Marie Rose. I am {18 + age} years old.", name="Marie Rose")
+        $ image.show(9)
+        $ character.sgirl(f"Hello. I am Amelie Mori. {19 + age}.", name="Amelie Mori")
+        $ image.show(10)
+        $ character.sgirl(f"Hi. Thanchanok Cooper. I'm {22 + age} years old.", name="Thanchanok Cooper")
+        $ image.show(11)
+        $ character.sgirl(f"Hello. Sofia Harada. {18 + age} years.", name="Sofia Harada")
+        $ image.show(12)
+        $ character.sgirl(f"H-Hi, I'm Saito Shiori. I'm {19 + age} years old.", name="Saito Shiori")
+        $ image.show(13)
+        $ character.sgirl(f"Hello, my name is Nina Abe. I'm {19 + age} years old.", name="Nina Abe")
+        $ image.show(14)
+        $ character.sgirl(f"Hi, I'm Yukari Hashiguchi. I'm {18 + age} years old.", name="Yukari Hashiguchi")
+        $ image.show(15)
+        $ character.sgirl(f"I'm Yuka Tanimoto. 20 years old.", name="Yuka Tanimoto")
+        $ image.show(16)
+        $ character.sgirl(f"Yamaoka Yuki. {21 + age}.", name="Yamaoka Yuka")
+        $ image.show(17)
+        $ character.sgirl(f"Hi. I'm Ivy Schmidt. {19 + age} years.", name="Ivy Schmidt")
+        $ image.show(18)
+        $ character.sgirl(f"Hi, my name is Hiroshi Suzuki. I'm {18 + age} years old.", name="Hiroshi Suzuki")
+
+        $ image.show(19)
+        headmaster "Thank you all for introducing yourself. I'm looking forward to working with you."
+        headmaster "Now I'll return you back to Miss Anderson. Have a good day."
 
         # students introduce themselves
         $ set_game_data('first_class_2A', True)
@@ -296,7 +328,7 @@ label teach_class_event (**kwargs):
     $ school_obj = get_character("school", charList)
     $ loli = get_kwargs('context', get_random_loli(), **kwargs)
     
-    call show_idle_image(school_obj, "images/background/school building/bg f.webp", sb_bg_images,
+    call show_idle_image("images/background/school building/bg f.webp", sb_bg_images,
         loli = loli,
     ) from teach_class_event_2
 
