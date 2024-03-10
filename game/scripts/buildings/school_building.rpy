@@ -67,6 +67,7 @@ init 1 python:
 
     sb_event4 = Event(3, "sb_event_4",
         TimeCondition(weekday = "d", daytime = "f"),
+        RandomListSelector('girl_name', 'Ikushi Ito')
         thumbnail = "images/events/school building/sb_event_4 0.webp")
 
     # Teaching events
@@ -620,9 +621,17 @@ label sb_event_4(**kwargs):
     $ begin_event(**kwargs)
 
     $ school_obj = get_char_value('school_obj', **kwargs)
+    $ girl_name = get_value('girl_name', **kwargs)
 
-    # you see a girl falling in the hallway
+    $ image = Image_Series("/images/events/school building/sb_event_4 <school_level> <girl_name> <step>.webp", **kwargs)
+
+    $ image.show(0)
+    $ renpy.pause()
+    
+    $ image.show(1)
     sgirl "AHH!"
+
+    $ image.show(2)
     subtitles "*CRASH*"
     sgirl "Ouch..."
 
@@ -634,38 +643,48 @@ label sb_event_4(**kwargs):
 
 label .leave (**kwargs):
 
-    # students run to fallen student helping her, headmaster standing further back observing it and then walking away
+    $ image.show(3)
     headmaster_thought "Hmm, the others already rush to help her. No need for me to get involved."
 
     $ end_event('new_daytime', **kwargs)
 
 label .help (**kwargs):
 
-    # headmaster quickly approaches girl and helps her up
+
+    $ image.show(4)
     headmaster "Are you okay? Here let me help you."
-    # girl smiles and thanks him
+    
+    $ image.show(5)
     sgirl "Thank you."
-    # headmaster looking worried
+    
     headmaster "Does anything hurt?"
-    # girl happy 
+    
+    $ image.show(6)
     sgirl "No, I'm fine."
-    # headmaster standing behind waving as girl walks off
+    
+    $ image.show(7)
     headmaster "Okay then. Be more careful next time."
-    # girl waves back
+    
+    $ image.show(8)
     sgirl "Yes, I will."
 
     $ end_event('new_daytime', **kwargs)
 
 label .panties (**kwargs):
 
-    # headmaster crouches in front of her
+    $ image.show(9)
     headmaster "Cute panties."
-    # girl jumps back
+    
+    $ image.show(10)
     sgirl "Eh?!"
-    # headmaster points down
-    headmaster "Oh, sorry. I didn't mean to embarrass you. But that bear is cute cute."
-    # girl jumps up
+    
+    $ image.show(11)
+    headmaster "Oh, sorry. I didn't mean to embarrass you. But that cat paw is cute."
+    
+    $ image.show(12)
     sgirl "Eeeek! Pervert!"
-    # girl runs off
+
+    $ image.show(13)
+    $ renpy.pause()
 
     $ end_event('new_daytime', **kwargs)
