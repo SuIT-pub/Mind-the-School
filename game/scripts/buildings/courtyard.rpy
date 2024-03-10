@@ -40,11 +40,17 @@ init 1 python:
     courtyard_event4 = Event(3, "courtyard_event_4",
         OR(TimeCondition(weekday = "d", daytime = "f"),
             TimeCondition(weekday = "w", daytime = "d")),
-        RandomListSelector('girl_name', "Gloria Goto", "Sakura Mori", "Ikushi Ito", "Ishimaru Maki",
+        RandomListSelector('girl_name', 
+            RandomListSelector('', 'Luna Clark', "Gloria Goto", "Ikushi Ito", "Ishimaru Maki"),
             (
-                RandomListSelector('', 'Luna Clark', 'Hiroshi Suzuki', 'Miela Frejadottir', 'Sofia Harada', 'Thanchanok Cooper'),
+                RandomListSelector('', 'Hiroshi Suzuki', 'Miela Frejadottir', 'Sofia Harada', 'Thanchanok Cooper'),
                 LoliContentCondition("1+")
-            )),
+            ),
+            (
+                RandomListSelector('', 'Sidney Martinez'),
+                LoliContentCondition("2")
+            )
+        ),
         thumbnail = "images/events/courtyard/courtyard_event_4 1.webp")
 
     courtyard_event5 = Event(3, "courtyard_event_5",
@@ -257,9 +263,15 @@ label courtyard_event_4(**kwargs):
     $ school_obj = get_char_value('school_obj', **kwargs)
     $ girl_name = get_value("girl_name", **kwargs)
 
-    # headmaster walks with umbrella
-    # Student comes running towards him
-    # Students runs past him, but headmaster gets a good view through the wet and see-through clothing
+    $ image = Image_Series("images/events/courtyard/courtyard_event_4 <school_level> <girl_name> <step>.webp", **kwargs)
+
+    $ image.show(0)
+    $ renpy.pause()
+    
+    $ image.show(1)
+    $ renpy.pause()
+    
+    $ image.show(2)
     headmaster "Interesting..."
 
     $ end_event("new_daytime", **kwargs)
