@@ -273,6 +273,9 @@ label courtyard_event_4(**kwargs):
     
     $ image.show(2)
     headmaster "Interesting..."
+    
+    $ change_stats_with_modifier(school_obj,
+        happiness = DEC_TINY, charm = DEC_TINY, inhibition = DEC_SMALL)
 
     $ end_event("new_daytime", **kwargs)
 
@@ -284,6 +287,9 @@ label courtyard_event_5(**kwargs):
     # headmaster walks by
     # students walk by talking with each other
     subtitles "You come across a group of students talking to each other."
+
+    $ change_stats_with_modifier(school_obj,
+        happiness = SMALL, charm = SMALL)
 
     $ end_event("new_daytime", **kwargs)
 
@@ -304,6 +310,9 @@ label courtyard_event_6(**kwargs):
     headmaster "Yes. Now run along and check the time next time so you don't arrive late!"
     # student runs off
     sgirl "Sorry!"
+
+    $ change_stats_with_modifier(school_obj,
+        charm = DEC_TINY, education = SMALL)
 
     $ end_event("new_daytime", **kwargs)
 

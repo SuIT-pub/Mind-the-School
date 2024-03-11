@@ -199,6 +199,7 @@ label first_class_sb_event (**kwargs):
     $ begin_event(**kwargs)
 
     $ school_obj = get_char_value('school_obj', **kwargs)
+    $ parent_obj = get_char_value('parent_obj', **kwargs)
     $ school_class = get_value('class', **kwargs)
     
     $ image = Image_Series("/images/events/school building/first_class_sb_event <class> <nude> <step>.webp", **kwargs)
@@ -347,6 +348,12 @@ label first_class_sb_event (**kwargs):
         # students introduce themselves
         $ set_game_data('first_class_1A', True)
         $ advance_progress('first_class')
+
+    $ change_stats_with_modifier(school_obj,
+        happiness = TINY, charm = SMALL, education = TINY)
+
+    $ change_stats_with_modifier(parent_obj,
+        happiness = TINY, charm = SMALL, education = TINY)
 
     $ end_event('new_daytime', **kwargs)
 
@@ -646,6 +653,9 @@ label .leave (**kwargs):
     $ image.show(3)
     headmaster_thought "Hmm, the others already rush to help her. No need for me to get involved."
 
+    $ change_stats_with_modifier(school_obj,
+        happiness = DEC_TINY, charm = DEC_TINY, education = TINY)
+
     $ end_event('new_daytime', **kwargs)
 
 label .help (**kwargs):
@@ -668,6 +678,9 @@ label .help (**kwargs):
     $ image.show(8)
     sgirl "Yes, I will."
 
+    $ change_stats_with_modifier(school_obj,
+        happiness = SMALL, charm = DEC_TINY, education = TINY)
+
     $ end_event('new_daytime', **kwargs)
 
 label .panties (**kwargs):
@@ -686,5 +699,8 @@ label .panties (**kwargs):
 
     $ image.show(13)
     $ renpy.pause()
+
+    $ change_stats_with_modifier(school_obj,
+        inhibition = DEC_SMALL, charm = DEC_SMALL, corruption = TINY)
 
     $ end_event('new_daytime', **kwargs)
