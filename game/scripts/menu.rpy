@@ -1,7 +1,7 @@
 init python:
     from typing import Tuple, Union, List
 
-    def call_custom_menu(with_leave: bool = True, *elements: Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool], **kwargs) -> None:
+    def call_custom_menu(with_leave: bool = True, *elements: str | Effect | List[Effect] | Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool], **kwargs) -> None:
         """
         Calls a custom menu with the given elements and the given text and person.
 
@@ -10,12 +10,27 @@ init python:
             - Whether or not to display a leave button.
         2. *elements : Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool]
             - The elements to display in the menu. Each element is a tuple of the form (title, event_label, active), (title, effect, active) or (title, effect_list, active). The active parameter is optional and defaults to True.
-
         """
-        filtered_elements = [tupleEl for tupleEl in elements if len(tupleEl) == 2 or tupleEl[2]]
+
+        in_event = get_kwargs('in_event', False, **kwargs)
+        in_replay = get_kwargs('in_replay', False, **kwargs)
+
+        if in_event and in_replay:
+            made_decisions = get_kwargs('made_decisions', [], **kwargs)
+            decision_data = get_kwargs('decision_data', {}, **kwargs)
+            possible_decisions = get_decision_possibilities(decision_data, made_decisions)
+            elements = [tupleEl for tupleEl in elements if str(tupleEl) in possible_decisions or (isinstance(tupleEl, Tuple) and str(tupleEl[1]) in possible_decisions)]
+            
+        filtered_elements = [tupleEl for tupleEl in elements if not isinstance(tupleEl, Tuple) or len(tupleEl) == 2 or tupleEl[2]]
+
+        if len(filtered_elements) == 0:
+            character.dev ("Oops something went wrong here. There seems to be nothing to choose from. Sry about that. I'll send you back to the map.")
+            character.dev (f"Error Code: [101]{kwargs['event_name']}:{';'.join([tag.split('.')[1] for tag in made_decisions])}")
+            renpy.jump("map_overview")
+
         renpy.call("call_menu", None, None, with_leave, *filtered_elements, **kwargs)
 
-    def call_custom_menu_with_text(text: str, person: Person, with_leave: bool = True, *elements: Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool], **kwargs) -> None:
+    def call_custom_menu_with_text(text: str, person: Person, with_leave: bool = True, *elements: str | Effect | List[Effect] | Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool], **kwargs) -> None:
         """
         Calls a custom menu with the given elements and the given text and person.
 
@@ -31,8 +46,24 @@ init python:
 
         """
 
+        in_event = get_kwargs('in_event', False, **kwargs)
+        in_replay = get_kwargs('in_replay', False, **kwargs)
 
-        filtered_elements = [tupleEl for tupleEl in elements if len(tupleEl) == 2 or tupleEl[2]]
+        if in_event and in_replay:
+            made_decisions = get_kwargs('made_decisions', [], **kwargs)
+            decision_data = get_kwargs('decision_data', {}, **kwargs)
+            possible_decisions = get_decision_possibilities(decision_data, made_decisions)
+            elements = [tupleEl for tupleEl in elements if str(tupleEl) in possible_decisions or (isinstance(tupleEl, Tuple) and str(tupleEl[1]) in possible_decisions)]
+
+        filtered_elements = [tupleEl for tupleEl in elements if not isinstance(tupleEl, Tuple) or len(tupleEl) == 2 or tupleEl[2]]
+
+        
+        if len(filtered_elements) == 0:
+            character.dev ("Oops something went wrong here. There seems to be nothing to choose from. Sry about that. I'll send you back to the map.")
+            character.dev (f"Error Code: [101]{kwargs['event_name']}:{';'.join([tag.split('.')[1] for tag in made_decisions])}")
+            renpy.jump("map_overview")
+
+
         renpy.call("call_menu", text, person, with_leave, *filtered_elements, **kwargs)
 
     def clean_events_for_menu(events: Dict[str, EventStorage], **kwargs) -> List[Tuple[str, EventEffect]]:
@@ -55,8 +86,11 @@ init python:
 
         # remove events that have no applicable events
         for key in events.keys():
-            if (events[key].count_available_events(**kwargs) > 0 and key not in used):
-                output.append((events[key].get_title(), EventEffect(events[key])))
+            storage = events[key]
+            if (storage.count_available_events(**kwargs) > 0 and key not in used):
+                effect = EventEffect(storage)
+                title = get_event_menu_title(storage.get_location(), storage.get_name())
+                output.append((title, effect))
                 used.append(key)
 
         return output
@@ -74,7 +108,7 @@ label call_menu(text, person, with_leave = True, *elements, **kwargs):
     #     - The person to display saying the text.
     # 3. with_leave : bool, (default True)
     #     - Whether or not to display a leave button.
-    # 4. *elements : Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool]
+    # 4. *elements : str | Effect | List[Effect] | Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool]
     #     - The elements to display in the menu. 
     #     - Each element is a tuple of the form (title, event_label, active), (title, effect, active) or (title, effect_list, active). 
     #     - The active parameter is optional and defaults to True.
@@ -82,7 +116,10 @@ label call_menu(text, person, with_leave = True, *elements, **kwargs):
 
     if not with_leave and len(elements) == 1:
         $ title, effects, _active = None, None, None
-        if len(elements[0]) == 2:
+        if not isinstance(elements[0], Tuple):
+            $ effects = elements[0]
+            $ title = get_translation(str(effects))
+        elif len(elements[0]) == 2:
             $ title, effects = elements[0]
         else:
             $ title, effects, _active = elements[0]
@@ -114,6 +151,11 @@ label call_event_menu(text, events, fallback, person = character.subtitles, **kw
     
     $ renpy.choice_for_skipping()
 
+    $ kwargs['school_obj'] = get_character_by_key('school')
+    $ kwargs['parent_obj'] = get_character_by_key('parent')
+    $ kwargs['teacher_obj'] = get_character_by_key('teacher')
+    $ kwargs['secretary_obj'] = get_character_by_key('secretary')
+
     $ event_list = clean_events_for_menu(events, **kwargs)
 
     if len(event_list) == 0:
@@ -138,9 +180,30 @@ label call_element(effects, **kwargs):
     hide screen custom_menu_choice
     hide screen image_with_nude_var
 
+    $ in_event = get_kwargs('in_event', False, **kwargs)
+    $ in_replay = get_kwargs('in_replay', False, **kwargs)
+
     if isinstance(effects, str):
+        if in_event:
+            if not in_replay:
+                $ register_decision(effects)
+            else:
+                if 'made_decisions' not in kwargs.keys():
+                    $ kwargs['made_decisions'] = [effects]
+                else:
+                    $ kwargs['made_decisions'].append(effects)
         $ renpy.call(effects, **kwargs)
 
+    if in_event and isinstance(effects, Effect):
+        if not in_replay:
+            $ register_decision(effects)
+        else:
+            if 'made_decisions' not in kwargs.keys():
+                $ kwargs['made_decisions'] = [effects]
+            else:
+                $ kwargs['made_decisions'].append(effects)
+        
+        $ register_decision(str(effects))
     $ call_effects(effects, **kwargs)
 
 # closes the current menu
@@ -211,7 +274,10 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
                 # display element
                 elif i < element_count:
                     $ title, effects, _active = None, None, None
-                    if len(elements[i]) == 2:
+                    if not isinstance(elements[i], Tuple):
+                        $ effects = elements[i]
+                        $ title = get_translation(str(effects))
+                    elif len(elements[i]) == 2:
                         $ title, effects = elements[i]
                     else:
                         $ title, effects, _active = elements[i]

@@ -136,7 +136,7 @@ init -2 python:
                     if '<variant>' in image_path:
                         variant = get_image_max_value("<variant>", image_path, 1)
                         if variant == 0:
-                            log_error(f"'{image_path}' has no variants!")
+                            log_error(203, f"'{image_path}' has no variants!")
                             self.steps.append(None)
                             continue
 
@@ -162,20 +162,20 @@ init -2 python:
             """
 
             if step < 0 or step >= len(self.steps):
-                log_val("image", self._image_path)
-                log_error(f"Step {step} is out of range! (Min: 0, Max: {len(self.steps) - 1}))")
+                log_error(201, f"Step {step} for {self._image_path} is out of range! (Min: 0, Max: {len(self.steps) - 1}))")
                 renpy.show("black_screen_text", [], None, f"Step {step} is out of range! (Min: 0, Max: {len(self.steps) - 1}))")
                 return
 
             image_step = self.steps[step]
             if image_step == None:
-                log_error(f"Step {step} is missing variants for {self._image_path}!")
+                log_error(202, f"Step {step} is missing variants for {self._image_path}!")
                 renpy.show("black_screen_text", [], None, f"Step {step} is missing variants for {self._image_path}!")
                 return
 
             (image_path, variant) = image_step.get_image(self._image_path, variant)
 
-            renpy.call("show_ready_image", image_path, display_type)   
+            if not sfw_mode:
+                renpy.call("show_ready_image", image_path, display_type)   
             return variant  
                 
     class BGImage(Image_Obj):
@@ -307,32 +307,28 @@ init -2 python:
             - The image path with the given keyword arguments replaced.
         """
 
-        char_obj = get_kwargs("char_obj", **kwargs)
-
         kwargs["loli_content"] = loli_content
-        if char_obj != None:
-            if not in_kwargs("name", **kwargs):
-                kwargs["name"] = char_obj.get_name()
-            if not in_kwargs("level", **kwargs):
-                kwargs["level"] = char_obj.get_level()
 
         # replace in string path each key from kwargs with corresponding value
         for key, value in kwargs.items():
             image_path = image_path.replace(f"<{key}>", str(value))
+
+        if 'level>' in image_path:
+            image_path = insert_level(image_path, **kwargs)
 
         if "<variant>" in image_path:
             max_variant = get_image_max_value("<variant>", image_path, 1)
             if max_variant >= 1:
                 image_path = image_path.replace("<variant>", str(get_random_int(1, max_variant)))
 
-        if in_kwargs("level", **kwargs):
-            image_path = get_available_level(image_path, get_kwargs("level", **kwargs))
+        if '<level>' in image_path:
+            image_path = get_available_level(image_path, get_kwargs('level', 0, **kwargs))
 
         if "<nude>" not in image_path:
             if renpy.loadable(image_path):
                 return 0, image_path
             else:
-                log_error(f"'{image_path}' could not be found!")
+                log_error(204, f"'{image_path}' could not be found!")
                 return -1, image_path
 
         for i in range(0, nude_vision):
@@ -341,12 +337,12 @@ init -2 python:
                 if i > 0:
                     return i - 1, image_path
                 elif i == 0:
-                    log(f"|ERROR| '{new_image_path}' is missing!")
+                    log_error(204, f" '{new_image_path}' could not be found!")
                     return -1, image_path
 
         return nude_vision, image_path
             
-    def get_background(fallback: str, images: List[BGImage], char_obj: Char, **kwargs) -> Tuple[int, str]:
+    def get_background(fallback: str, images: List[BGImage], **kwargs) -> Tuple[int, str]:
         """
         Returns the image path of the background with the highest priority that can be used.
 
@@ -355,9 +351,7 @@ init -2 python:
             - The fallback image path.
         2. images: List[BGImage]
             - A list of all the background images.
-        3. char_obj: Char
-            - The character object to check the conditions with.
-        4. **kwargs
+        3. **kwargs
             - The keyword arguments to check the conditions with.
 
         ### Returns:
@@ -367,26 +361,22 @@ init -2 python:
             - The image path of the background with the highest priority that can be used.
         """
 
-        level = char_obj.get_level()
-        if "name" not in kwargs.keys():
-            kwargs["name"] = char_obj.get_name()
-        if "loli_content" not in kwargs.keys():
-            kwargs["loli"] = loli_content
+        kwargs["loli_content"] = loli_content
 
         output_image = None
         output_nude = 0
         priority = -1
 
-        for image in images:
-            if not image.can_be_used(**kwargs):
+        for bgimage in images:
+            if not bgimage.can_be_used(**kwargs):
                 continue
 
-            max_nude, output = image.get_image(level = level, **kwargs)
+            max_nude, output = bgimage.get_image(**kwargs)
 
-            if priority < image.get_priority() and max_nude >= 0:
+            if priority < bgimage.get_priority() and max_nude >= 0:
                 output_image = output
                 output_nude = max_nude
-                priority = image.get_priority()
+                priority = bgimage.get_priority()
         
 
         if output_image == None:
@@ -411,17 +401,48 @@ init -2 python:
         """
 
         old_image = path.replace("<level>", "~#~")
+        old_image = old_image.replace("<variant>", "1") 
         old_image = re.sub("<.+>", "0", old_image)
         old_image = old_image.replace("~#~", "<level>")
 
-        for i in reversed(range(0, level + 1)):
-            image = old_image.replace("<level>", str(i))
-            if renpy.loadable(image):
-                return path.replace("<level>", str(i))
-        for i in range(0, 10):
-            image = old_image.replace("<level>", str(i))
-            if renpy.loadable(image):
-                return path.replace("<level>", str(i))
+        if '<level>' in old_image:
+            for i in reversed(range(0, level + 1)):
+                test_image = old_image.replace("<level>", str(i))
+                if renpy.loadable(test_image):
+                    path =  path.replace("<level>", str(i))
+                    break
+            else:
+                for i in range(0, 10):
+                    test_image = old_image.replace("<level>", str(i))
+                    if renpy.loadable(test_image):
+                        path = path.replace("<level>", str(i))
+
+        return path
+
+    def insert_level(path: str, **kwargs) -> str:
+        """
+        Replaces the <level>-keyword in the given image path with the best available level.
+
+        ### Parameters:
+        1. path: str
+            - The image path to replace the <level>-keyword in.
+        2. **kwargs
+            - The keyword arguments to replace in the image path.
+            - possible keywords: level, school_obj, teacher_obj, parent_obj, secretary_obj
+
+        ### Returns:
+        1. str
+            - The image path with the levels inserted
+        """
+
+        if '<school_level>' in path:
+            path = path.replace("<school_level>", str(get_character_by_key('school').get_level()))
+        if 'teacher_level' in path:
+            path = path.replace("<teacher_level>", str(get_character_by_key('teacher').get_level()))
+        if 'parent_level' in path:
+            path = path.replace("<parent_level>", str(get_character_by_key('parent').get_level()))
+        if 'secretary_level' in path:
+            path = path.replace("<secretary_level>", str(get_character_by_key('secretary').get_level()))
 
         return path
 
@@ -449,9 +470,10 @@ init -2 python:
         old_image = old_image.replace("~#~", key)
 
         for i in range(start, end):
-            image = old_image.replace(key, str(i))
-            if not renpy.loadable(image):
+            test_image = old_image.replace(key, str(i))
+            if not renpy.loadable(test_image):
                 return i - 1
+
         return end
 
     def refine_image(image_path: str, **kwargs) -> str:
@@ -471,16 +493,16 @@ init -2 python:
 
         if 'loli_content' not in kwargs.keys():
             kwargs['loli_content'] = loli_content
-
-        char_obj = get_kwargs('char_obj', None, **kwargs)
-        if char_obj != None and 'name' not in kwargs.keys():
-            kwargs['name'] = char_obj.get_name()
+        if 'loli' not in kwargs.keys():
+            kwargs['loli'] = get_random_loli()
 
         for key, value in kwargs.items():
             image_path = image_path.replace(f"<{key}>", str(value))
 
-        if char_obj != None:
-            image_path = get_available_level(image_path, char_obj.get_level())
+        if 'level>' in image_path:
+            image_path = insert_level(image_path, **kwargs)
+        if '<level>' in image_path:
+            image_path = get_available_level(image_path, get_kwargs('level', 0, **kwargs))
 
         return image_path
 
@@ -501,22 +523,26 @@ init -2 python:
 
         if 'loli_content' not in kwargs.keys():
             kwargs['loli_content'] = loli_content
-
-        char_obj = get_kwargs('char_obj', None, **kwargs)
-        if char_obj != None and 'name' not in kwargs.keys():
-            kwargs['name'] = char_obj.get_name()
+        if 'loli' not in kwargs.keys():
+            kwargs['loli'] = get_random_loli()
 
         for key, value in kwargs.items():
             image_path = image_path.replace(f"<{key}>", str(value))
 
+        variant = get_kwargs('variant', 0, **kwargs)
+
+        if 'level>' in image_path:
+            image_path = insert_level(image_path, **kwargs)
+
         if "<variant>" in image_path:
-            variant = get_image_max_value("<variant>", image_path, 0, 100)
-            image_path = image_path.replace(f"<variant>", str(variant))
+            max_variant = get_image_max_value("<variant>", image_path, 1)
+            if max_variant >= 1:
+                image_path = image_path.replace("<variant>", str(get_random_int(1, max_variant)))
 
-        if char_obj != None:
-            image_path = get_available_level(image_path, char_obj.get_level())
+        if '<level>' in image_path:
+            image_path = get_available_level(image_path, get_kwargs('level', 0, **kwargs))
 
-        return image_path
+        return image_path, variant
     
     def check_image(image_path: str) -> bool:
         """
@@ -532,15 +558,18 @@ init -2 python:
         """
         return renpy.loadable(image_path)
 
+label show_sfw_text(text):
+    if sfw_mode:
+        scene screen black_screen_text (text) with dissolveM
+    return
 
-label show_idle_image(char_obj, fallback, bg_images):
+label show_idle_image(fallback, bg_images, **kwargs):
 
-    $ max_nude, image_path = get_background(fallback, bg_images, char_obj)
+    $ max_nude, image_path = get_background(fallback, bg_images, **kwargs)
 
     call show_image_with_nude_var (image_path, max_nude) from show_idle_image_1
 
     return
-
 
 label show_image(path, display_type = SCENE, **kwargs):
     # """
@@ -573,7 +602,7 @@ label show_image_with_variant(path, display_type = SCENE, **kwargs):
     #     - The keyword arguments to replace in the image path.
     # """
 
-    $ image_path = refine_image_with_variant(path, **kwargs)
+    $ image_path, variant = refine_image_with_variant(path, **kwargs)
 
     call show_ready_image(image_path, display_type) from _call_show_ready_image_1
     return
@@ -599,7 +628,7 @@ label show_ready_image(path, display_type = SCENE):
             elif display_type == SCENE:
                 scene expression path with dissolveM
         else:
-            $ log_error("Image not found: " + path)
+            $ log_error(204, f"'{new_image_path}' could not be found!")
     return
 
 label show_ext_image_with_nude_var(image_path, **kwargs):
@@ -614,8 +643,8 @@ label show_ext_image_with_nude_var(image_path, **kwargs):
     #     - The keyword arguments to replace in the image path.
     # """
 
-    $ nude, image = get_image(image_path, **kwargs)
-    call show_image_with_nude_var(image, nude) from show_ext_image_with_nude_var_1
+    $ nude, ext_image = get_image(image_path, **kwargs)
+    call show_image_with_nude_var(ext_image, nude) from show_ext_image_with_nude_var_1
     return
 
 label show_image_with_nude_var(image_path, limit = 0):
@@ -640,8 +669,8 @@ label show_image_with_nude_var(image_path, limit = 0):
         for i in range(0, limit + 1):
             new_image_path = image_path.replace("<nude>", str(i))
             paths.append(new_image_path)
-            if len(paths) == 0 and not renpy.loadable(new_image_path):
-                log_error(f"'{image_path}' is missing nude versions!")
+            if len(paths) == 1 and not renpy.loadable(new_image_path):
+                log_error(205, f"'{image_path}' is missing nude version images!")
                 image_not_found = True
     
     if image_not_found:
@@ -667,7 +696,8 @@ screen image_with_nude_var(paths, limit = 2, nude = 0):
     
     $ path = paths[nude]
 
-    image "[path]"
+    if renpy.loadable(path):
+        image "[path]"
 
     if nude_vision != 0 and nude == limit and nude != 0:
         imagebutton:

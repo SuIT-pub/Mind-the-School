@@ -23,7 +23,7 @@ define gui.show_name = True
 
 ## The version of the game.
 
-define config.version = "0.1.2B"
+define config.version = "0.1.3"
 
 
 ## Text that is placed on the game's about screen. Place the text between the
@@ -158,6 +158,13 @@ define config.save_directory = "MindtheSchool-1679668774"
 define config.window_icon = "gui/window_icon.png"
 
 
+## Gallery #####################################################################
+##
+## The persistent variable that stores gallery images.
+
+default persistent.gallery = {}
+
+
 ## Build configuration #########################################################
 ##
 ## This section controls how Ren'Py turns your project into distribution files.
@@ -223,6 +230,9 @@ init python:
     build.classify("game/**.rpyc", "scripts")
 
     build.classify("game/members.csv", "data")
+    build.classify("game/translations.csv", "data")
+    build.classify("LICENSE", "data")
+    build.classify("README.md", "data")
 
     # Put images into the images archive.
     build.classify("game/**.jpg", "images")

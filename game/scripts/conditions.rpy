@@ -25,9 +25,9 @@ init -6 python:
         prefix = get_kwargs('prefix', "", **kwargs)
 
         if is_fulfilled:
-            prefix += "{color=#0f0}|{/color} "
+            prefix += "{color=#00a000}|{/color} "
         else:
-            prefix += "{color=#f00}|{/color} "
+            prefix += "{color=#a00000}|{/color} "
 
         kwargs['prefix'] = prefix
 
@@ -406,11 +406,12 @@ init -6 python:
         A class for conditions that check the stats of a character.
         """
 
-        def __init__(self, blocking: bool = False, **kwargs):
+        def __init__(self, blocking: bool = False, *, char_obj: str | Char = None, **kwargs):
             super().__init__(blocking)
             self.stats = kwargs
             self.display_in_list = True
             self.display_in_desc = True
+            self.char_obj = char_obj
             
         def is_fulfilled(self, **kwargs) -> bool:
             """
@@ -424,10 +425,15 @@ init -6 python:
             1. bool
                 - Whether the condition is fulfilled or not.
             """
+            char_obj = None
+            if hasattr(self, 'char_obj'):
+                char_obj = self.char_obj
 
-            char_obj = get_kwargs('char_obj', **kwargs)
+            if isinstance(char_obj, str):
+                char_obj = get_character_by_key(char_obj)
+
             if char_obj == None:
-                char_obj = get_character("high_school", charList["schools"])
+                char_obj = get_kwargs('char_obj', get_school(), **kwargs)
 
             for stat in self.stats.keys():
                 if not char_obj.check_stat(stat, self.stats[stat]):
@@ -460,9 +466,9 @@ init -6 python:
             for stat in self.stats.keys():
                 icon = "icons/stat_" + str(stat) + "_icon.webp"
                 if char_obj.check_stat(stat, self.stats[stat]):
-                    output.append(("{image=" + icon + "}", "{color=#0f0}" + str(self.stats[stat]) + "{/color}", Stat_Data[stat].get_title()))
+                    output.append(("{image=" + icon + "}", "{color=#00a000}" + str(self.stats[stat]) + "{/color}", Stat_Data[stat].get_title()))
                 else:
-                    output.append(("{image=" + icon + "}", "{color=#f00}" + str(self.stats[stat]) + "{/color}", Stat_Data[stat].get_title()))
+                    output.append(("{image=" + icon + "}", "{color=#a00000}" + str(self.stats[stat]) + "{/color}", Stat_Data[stat].get_title()))
             if len(output) == 0:
                 return ("","")
             elif len(output) == 1:
@@ -494,9 +500,9 @@ init -6 python:
                 stat_name = Stat_Data[stat].get_title()
 
                 if char_obj.check_stat(stat, self.stats[stat]):
-                    output.append(stat_name + ": {color=#0f0}" + str(self.stats[stat]) + "{/color}")
+                    output.append(stat_name + ": {color=#00a000}" + str(self.stats[stat]) + "{/color}")
                 else:
-                    output.append(stat_name + ": {color=#f00}" + str(self.stats[stat]) + "{/color}")
+                    output.append(stat_name + ": {color=#a00000}" + str(self.stats[stat]) + "{/color}")
 
             if len(output) == 0:
                 return ""
@@ -574,12 +580,8 @@ init -6 python:
             1. bool
                 - Whether the condition is fulfilled or not.
             """
-            char_obj = get_character("high_school", charList["schools"])
-            # char_obj = get_kwargs('char_obj', **kwargs)
-            # if char_obj == None:
-            #     return False
 
-            return get_rule(self.value).is_unlocked(char_obj.get_name())
+            return get_rule(self.value).is_unlocked()
 
         def to_list_text(self, **kwargs) -> Tuple[str, str, str]:
             """
@@ -606,9 +608,9 @@ init -6 python:
             """
 
             if self.is_fulfilled(**kwargs):
-                return "Rule {color=#0f0}" + get_rule(self.value).get_title() + "{/color} is unlocked"
+                return "Rule {color=#00a000}" + get_rule(self.value).get_title() + "{/color} is unlocked"
             else:
-                return "Rule {color=#f00}" + get_rule(self.value).get_title() + "{/color} is unlocked"
+                return "Rule {color=#a00000}" + get_rule(self.value).get_title() + "{/color} is unlocked"
 
         def get_name(self) -> str:
             """
@@ -623,7 +625,7 @@ init -6 python:
                 return ""
             return get_rule(self.value).get_title()
 
-        def get_diff(self, char_obj: Char) -> num:
+        def get_diff(self, _char_obj: Char) -> num:
             """
             Returns the difference between the condition and the given character.
             If the condition is fulfilled, the difference is 0.
@@ -638,7 +640,7 @@ init -6 python:
                 - The difference between the condition and the given character.
             """
 
-            if self.is_fulfilled(char_obj = char_obj):
+            if self.is_fulfilled():
                 return 0
             return -100
 
@@ -665,11 +667,7 @@ init -6 python:
                 - Whether the condition is fulfilled or not.
             """
 
-            char_obj = get_kwargs('char_obj', **kwargs)
-            if char_obj == None:
-                return False
-
-            return get_club(self.value).is_unlocked(char_obj.get_name())
+            return get_club(self.value).is_unlocked()
 
         def to_list_text(self, **kwargs) -> Tuple[str, str, str]:
             """
@@ -692,9 +690,9 @@ init -6 python:
             """
 
             if self.is_fulfilled(**kwargs):
-                return "Club {color=#0f0}" + get_club(self.value).get_title() + "{/color} is unlocked"
+                return "Club {color=#00a000}" + get_club(self.value).get_title() + "{/color} is unlocked"
             else:
-                return "Club {color=#f00}" + get_club(self.value).get_title() + "{/color} is unlocked"
+                return "Club {color=#a00000}" + get_club(self.value).get_title() + "{/color} is unlocked"
 
         def get_name(self) -> str:
             """
@@ -709,7 +707,7 @@ init -6 python:
                 return ""
             return get_club(self.value).title
 
-        def get_diff(self, char_obj: Char) -> num:
+        def get_diff(self, _char_obj: Char) -> num:
             """
             Returns the difference between the condition and the given character.
             If the condition is fulfilled, the difference is 0.
@@ -724,7 +722,7 @@ init -6 python:
                 - The difference between the condition and the given character.
             """
 
-            if self.is_fulfilled(char_obj.get_name()):
+            if self.is_fulfilled():
                 return 0
             return -100
 
@@ -751,14 +749,7 @@ init -6 python:
                 - Whether the condition is fulfilled or not.
             """
 
-            return get_building(self.value).is_unlocked(self.value)
-
-        def to_list_text(self, **kwargs) -> Tuple[str, str, str]:
-            """
-            Returns an empty tuple as the condition is not displayed in the display list.
-            """
-
-            return ("", "", "")
+            return get_building(self.value).is_unlocked()
 
         def to_desc_text(self, **kwargs) -> str:
             """
@@ -774,9 +765,9 @@ init -6 python:
             """
 
             if self.is_fulfilled(**kwargs):
-                return "Building {color=#0f0}" + get_building(self.value).get_title() + "{/color} is unlocked"
+                return "Building {color=#00a000}" + get_building(self.value).get_title() + "{/color} is unlocked"
             else:
-                return "Building {color=#f00}" + get_building(self.value).get_title() + "{/color} is unlocked"
+                return "Building {color=#a00000}" + get_building(self.value).get_title() + "{/color} is unlocked"
 
         def get_name(self) -> str:
             """
@@ -791,7 +782,7 @@ init -6 python:
                 return ""
             return get_building(self.value).title
 
-        def get_diff(self, char_obj: Char):
+        def get_diff(self, _char_obj: Char):
             """
             Returns the difference between the condition and the given character.
             If the condition is fulfilled, the difference is 0.
@@ -806,20 +797,85 @@ init -6 python:
                 - The difference between the condition and the given character.
             """
 
-            if self.is_fulfilled(char_obj.get_name()):
+            if self.is_fulfilled():
                 return 0
             return -100
+
+    class BuildingLevelCondition(Condition):
+        def __init__(self, name: str, level: int, blocking: bool = False):
+            super().__init__(blocking)
+            self.name = name
+            self.level = level
+            self.display_in_desc = True
+
+            def is_fulfilled(self, **kwargs) -> bool:
+                """
+                Returns whether the building level is active or not.
+
+                ### Parameters:
+                1. **kwargs
+                    - Additional arguments.
+
+                ### Returns:
+                1. bool
+                    - Whether the condition is fulfilled or not.
+                """
+
+                return get_building(self.name).get_level() == self.level
+
+            def to_desc_text(self, **kwargs) -> str:
+                """
+                Returns the description text for the condition that is displayed in the description.
+
+                ### Parameters:
+                1. **kwargs
+                    - Additional arguments.
+
+                ### Returns:
+                1. str
+                    - The condition text for the description.
+                """
+
+                if self.is_fulfilled(**kwargs):
+                    return "Building {color=#00a000}" + get_building(self.name).get_title() + "{/color} is at level {color=#00a000}" + str(self.level) + "{/color}"
+                else:
+                    return "Building {color=#a00000}" + get_building(self.name).get_title() + "{/color} is at level {color=#a00000}" + str(self.level) + "{/color}"
+
+            def get_name(self) -> str:
+                """
+                Returns the name of the Building in the condition.
+
+                ### Returns:
+                1. str
+                    - The name of the Building in the condition.
+                """
+
+                if self.name not in buildings.keys():
+                    return ""
+                return get_building(self.name).title
+
+            def get_diff(self, _char_obj: Char):
+                """
+                Returns the difference between the condition and the given character.
+                If the condition is fulfilled, the difference is 0.
+                Otherwise the difference is -100.
+                """
+
+                if self.is_fulfilled():
+                    return 0
+                return -100
 
     class LevelCondition(Condition):
         """
         A class for conditions that check the level of a character object.
         """
 
-        def __init__(self, value: int, blocking: bool = False):
+        def __init__(self, value: int, blocking: bool = False, *, char_obj: Char = None):
             super().__init__(blocking)
             self.value = value
             self.display_in_list = True
             self.display_in_desc = True
+            self.char_obj = char_obj
 
         def is_fulfilled(self, **kwargs):
             """
@@ -834,7 +890,12 @@ init -6 python:
                 - Whether the condition is fulfilled or not.
             """
 
-            char_obj = get_kwargs('char_obj', **kwargs)
+            char_obj = None
+            if hasattr(self, 'char_obj'):
+                char_obj = self.char_obj
+
+            if char_obj == None:
+                char_obj = get_kwargs('char_obj', **kwargs)
             if char_obj == None:
                 return False
 
@@ -854,9 +915,9 @@ init -6 python:
             """
 
             if self.is_fulfilled(**kwargs):
-                return "Level: {color=#0f0}" + self.value + "{/color}"
+                return "Level: {color=#00a000}" + self.value + "{/color}"
             else:
-                return "Level: {color=#f00}" + self.value + "{/color}"
+                return "Level: {color=#a00000}" + self.value + "{/color}"
 
         def to_list_text(self, **kwargs) -> Tuple[str, str, str]:
             """
@@ -873,9 +934,9 @@ init -6 python:
                 - The title is optional.
             """
             if self.is_fulfilled(**kwargs):
-                return ("{image=icons/stat_level_icon.webp}", "{color=#0f0}" + str(self.value) + "{/color}", "Level")
+                return ("{image=icons/stat_level_icon.webp}", "{color=#00a000}" + str(self.value) + "{/color}", "Level")
             else:
-                return ("{image=icons/stat_level_icon.webp}", "{color=#f00}" + str(self.value) + "{/color}", "Level")
+                return ("{image=icons/stat_level_icon.webp}", "{color=#a00000}" + str(self.value) + "{/color}", "Level")
 
         def get_name(self):
             """
@@ -955,9 +1016,9 @@ init -6 python:
             """
 
             if self.is_fulfilled():
-                return "Money: {color=#0f0}" + str(self.value) + "{/color}"
+                return "Money: {color=#00a000}" + str(self.value) + "{/color}"
             else:
-                return "Money: {color=#f00}" + str(self.value) + "{/color}"
+                return "Money: {color=#a00000}" + str(self.value) + "{/color}"
 
         def to_list_text(self, **kwargs) -> Tuple[str, str, str]:
             """
@@ -975,9 +1036,9 @@ init -6 python:
             """
 
             if self.is_fulfilled():
-                return ("{image=icons/stat_money_icon.webp}", "{color=#0f0}" + str(self.value) + "{/color}", "Money")
+                return ("{image=icons/stat_money_icon.webp}", "{color=#00a000}" + str(self.value) + "{/color}", "Money")
             else:
-                return ("{image=icons/stat_money_icon.webp}", "{color=#f00}" + str(self.value) + "{/color}", "Money")
+                return ("{image=icons/stat_money_icon.webp}", "{color=#a00000}" + str(self.value) + "{/color}", "Money")
 
         def get_name(self) -> str:
             """
@@ -1011,76 +1072,6 @@ init -6 python:
             if output > 0:
                 return 0
             return output
-
-    class SchoolCondition(Condition):
-        """
-        A class for conditions that check the school of a character object.
-        """
-
-        def __init__(self, school: str = "x", blocking: bool = True):
-            super().__init__(blocking)
-            self.school = school
-
-        def is_fulfilled(self, **kwargs):
-            """
-            Returns whether the characters school equals the school of the condition.
-
-            ### Parameters:
-            1. **kwargs
-                - Additional arguments.
-
-            ### Returns:
-            1. bool
-                - Whether the condition is fulfilled or not.
-            """
-
-            char_obj = get_kwargs('char_obj', **kwargs)
-            if char_obj == None:
-                return False
-            return self.school == "x" or char_obj.get_name() == self.school
-
-        def to_list_text(self, **kwargs) -> Tuple[str, str, str]:
-            """
-            Returns an empty tuple as the condition is not displayed in the display list.
-            """
-
-            return ("", "", "")
-
-        def to_desc_text(self, **kwargs) -> str:
-            """
-            Returns an empty string as the condition is not displayed in the description.
-            """
-
-            return ""
-
-        def get_name(self) -> str:
-            """
-            Returns the name of the school in the condition.
-
-            ### Returns:
-            1. str
-                - The name of the school in the condition.
-            """
-
-            char_obj = get_character(school, charList["schools"])
-            if char_obj == None:
-                return self.school
-            return char_obj.get_title()
-
-        def get_diff(self, char_obj: Char) -> num:
-            """
-            Returns the difference between the condition and the given character.
-            If the condition is fulfilled, the difference is 0.
-            Otherwise the difference is -100.
-
-            ### Parameters:
-            1. char_obj: Char
-                - The character to compare the condition to.
-            """
-
-            if char_obj.name == self.school:
-                return 0
-            return -100
 
     class LockCondition(Condition):
         """
@@ -1223,9 +1214,9 @@ init -6 python:
                 text += f"{time.get_daytime_name(self.daytime)}"
 
             if self.is_fulfilled(**kwargs):
-                return "Time is {color=#0f0}" + text + "{/color}"
+                return "Time is {color=#00a000}" + text + "{/color}"
             else:
-                return "Time is {color=#f00}" + text + "{/color}"
+                return "Time is {color=#a00000}" + text + "{/color}"
 
         def get_name(self) -> str:
             """
@@ -1249,10 +1240,10 @@ init -6 python:
                 - The difference between the condition and the current time.
             """
 
-            if self.is_fulfilled(None):
+            if self.is_fulfilled():
                 return 0
             return -100
-            
+
     class RandomCondition(Condition):
         """
         A class for conditions that are fulfilled randomly.
@@ -1266,7 +1257,7 @@ init -6 python:
             - The random value is generated between 0 and the limit.
         """
 
-        def __init__(self, amount: num, limit: num, blocking: bool = False):
+        def __init__(self, amount: num, limit: num = 100, blocking: bool = False):
             """
             The constructor for the RandomCondition class.
 
@@ -1346,29 +1337,24 @@ init -6 python:
         A class for conditions that check the game data for matching values.
 
         ### Attributes:
-        1. name: str
-            - The name of the condition.
-        2. key: str
+        1. key: str
             - The key of the game data.
-        3. value: val | bool
+        2. value: val | bool
             - The value the game data has to match.
         """
 
-        def __init__(self, name: str, key: str, value: val | bool, blocking: bool = False):
+        def __init__(self, key: str, value: val | bool, blocking: bool = False):
             """
             The constructor for the GameDataCondition class.
 
             ### Parameters:
-            1. name: str
-                - The name of the condition.
-            2. key: str
+            1. key: str
                 - The key of the game data.
-            3. value: val | bool
+            2. value: val | bool
                 - The value the game data has to match.
             """
 
             super().__init__(blocking)
-            self.name = name
             self.key = key
             self.value = value
             self.display_in_desc = True
@@ -1400,9 +1386,9 @@ init -6 python:
             """
 
             if self.is_fulfilled():
-                return self.name + " is {color=#0f0}" + str(self.value) + "{/color}"
+                return get_translation(self.key) + " is {color=#00a000}" + str(self.value) + "{/color}"
             else:
-                return self.name + " is {color=#f00}" + str(self.value) + "{/color}"
+                return get_translation(self.key) + " is {color=#a00000}" + str(self.value) + "{/color}"
 
         def to_list_text(self, **kwargs) -> Tuple[str, str, str]:
             """
@@ -1420,7 +1406,7 @@ init -6 python:
                 - The name of the condition.
             """
 
-            return self.name
+            return get_translation(self.key)
 
         def get_diff(self, _char_obj) -> num:
             """
@@ -1442,9 +1428,8 @@ init -6 python:
         A class for conditions that check the progress of an event series.
         """
 
-        def __init__(self, name: str, key: str, value: int, blocking: bool = False):
+        def __init__(self, key: str, value: int | str, blocking: bool = False):
             super().__init__(blocking)
-            self.name = name
             self.key = key
             self.value = value
             self.display_in_desc = True
@@ -1474,16 +1459,16 @@ init -6 python:
             """
 
             if self.is_fulfilled():
-                return "Progress-level of {color=#3645e9}" + self.name + "{/color} is {color=#0f0}" + str(self.value) + "{/color}"
+                return "Progress-level of {color=#3645e9}" + get_translation(self.key) + "{/color} is {color=#00a000}" + str(self.value) + "{/color}"
             else:
-                return "Progress-level of {color=#3645e9}" + self.name + "{/color} is {color=#f00}" + str(self.value) + "{/color}"
+                return "Progress-level of {color=#3645e9}" + get_translation(self.key) + "{/color} is {color=#a00000}" + str(self.value) + "{/color}"
 
         def get_name(self) -> str:
             """
             Returns the name of the condition.
             """
 
-            return self.name
+            return get_translation(self.key)
 
         def get_diff(self, _char_obj) -> num:
             """
@@ -1538,9 +1523,9 @@ init -6 python:
             """
 
             if self.is_fulfilled():
-                return self.key + " is {color=#0f0}" + str(self.value) + "{/color}"
+                return get_translation(self.key) + " is {color=#00a000}" + str(self.value) + "{/color}"
             else:
-                return self.key + " is {color=#f00}" + str(self.value) + "{/color}"
+                return get_translation(self.key) + " is {color=#a00000}" + str(self.value) + "{/color}"
 
         def get_name(self) -> str:
             """
@@ -1551,7 +1536,7 @@ init -6 python:
                 - The name of the condition.
             """
 
-            return self.key
+            return get_translation(self.key)
 
         def get_diff(self, _char_obj) -> num:
             """
@@ -1574,6 +1559,7 @@ init -6 python:
         """
 
         def __init__(self, key: str, value: val, blocking: bool = False):
+
             super().__init__(blocking)
             self.key = key
             self.value = value
@@ -1607,9 +1593,9 @@ init -6 python:
             """
 
             if self.is_fulfilled():
-                return self.key + " is {color=#0f0}" + self.value + "{/color}"
+                return get_translation(self.key) + " is {color=#00a000}" + self.value + "{/color}"
             else:
-                return self.key + " is {color=#f00}" + self.value + "{/color}"
+                return get_translation(self.key) + " is {color=#a00000}" + self.value + "{/color}"
 
         def get_name(self) -> str:
             """
@@ -1620,7 +1606,7 @@ init -6 python:
                 - The key of the value for kwargs.
             """
 
-            return self.key
+            return get_translation(self.key)
 
         def get_diff(self, _char_obj) -> num:
             """
@@ -1636,6 +1622,361 @@ init -6 python:
             if self.is_fulfilled():
                 return 0
             return -100
+
+    class NumCompareCondition(Condition):
+        """
+        A class for conditions that check the value of kwargs by checking if the value is inside a ranged value.
+        """
+
+        def __init__(self, key: str, value: val | Selector, operation: str, blocking: bool = False):
+            """
+            The constructor for the NumCompareCondition class.
+
+            ### Parameters:
+            1. key: str
+                - The key of the value for kwargs.
+            2. value: val | Selector
+                - The value that is used to compare the value of kwargs.
+                - If the value is a Selector, the value is rolled for every check.
+            3. operation: str
+                - The operation that is used to compare the value of kwargs and the given value.
+                - The following operations are available:
+                    - ">": The value of kwargs has to be larger than the given value.
+                    - ">=": The value of kwargs has to be larger than or equal to the given value.
+                    - "<": The value of kwargs has to be smaller than the given value.
+                    - "<=": The value of kwargs has to be smaller than or equal to the given value.
+                    - "==": The value of kwargs has to be equal to the given value.
+                    - "!=": The value of kwargs has to be not equal to the given value.
+            4. blocking: bool = False
+                - Whether the condition is blocking or not.
+            """
+
+            super().__init__(blocking)
+            self.key = key
+            self.value = value
+            self.operation = operation
+            self.display_in_desc = True
+            self.display_in_list = False
+
+        def is_fulfilled(self, **kwargs) -> bool:
+            """
+            Returns whether a certain value of kwargs is inside a ranged value.
+
+            ### Parameters:
+            1. **kwargs
+                - Additional arguments.
+
+            ### Returns:
+            1. bool
+                - Whether the condition is fulfilled or not.
+            """
+
+            if self.key not in kwargs.keys():
+                return False
+
+            value = self.value
+
+            if isinstance(self.value, Selector):
+                value = self.value.roll(**kwargs)
+
+            if self.operation == ">":
+                return kwargs[self.key] > value
+            elif self.operation == ">=":
+                return kwargs[self.key] >= value
+            elif self.operation == "<":
+                return kwargs[self.key] < value
+            elif self.operation == "<=":
+                return kwargs[self.key] <= value
+            elif self.operation == "==":
+                return kwargs[self.key] == value
+            elif self.operation == "!=":
+                return kwargs[self.key] != value
+            return False
+
+        def to_desc_text(self, **kwargs) -> str:
+            """
+            Returns the description text for the condition that is displayed in the description.
+
+            ### Returns:
+            1. str
+                - The condition text for the description.
+            """
+
+            if self.is_fulfilled():
+                return get_translation(self.key) + " " + self.operation + " {color=#00a000}" + self.value + "{/color}"
+            else:
+                return get_translation(self.key) + " " + self.operation + " {color=#a00000}" + self.value + "{/color}"
+
+        def get_name(self) -> str:
+            """
+            Returns the name of the condition.
+
+            ### Returns:
+            1. str
+                - The key of the value for kwargs.
+            """
+
+            return get_translation(self.key)
+
+        def get_diff(self, _char_obj) -> num:
+            """
+            Returns the difference between the condition and the value of kwargs.
+            If the condition is fulfilled, the difference is 0.
+            Otherwise the difference is -100.
+
+            ### Returns:
+            1. num
+                - The difference between the condition and the value of kwargs.
+            """
+
+            if self.key not in kwargs.keys():
+                return -100
+            value = self.value
+            if isinstance(self.value, Selector):
+                value = self.value.roll(**kwargs)
+            if self.operation == ">":
+                return kwargs[self.key] - value
+            elif self.operation == ">=":
+                return kwargs[self.key] - value
+            elif self.operation == "<":
+                return value - kwargs[self.key]
+            elif self.operation == "<=":
+                return value - kwargs[self.key]
+            elif self.operation == "==":
+                return 0 if kwargs[self.key] == value else -100
+            elif self.operation == "!=":
+                return 0 if kwargs[self.key] != value else -100
+            return -100
+
+    class CompareCondition(Condition):
+        def __init__(self, key: str, value: Any | Selector, blocking: bool = False):
+            """
+            The constructor for the CompareCondition class.
+
+            ### Parameters:
+            1. key: str
+                - The key of the value for kwargs.
+            2. value: Any | Selector
+                - The value that is used to compare the value of kwargs.
+                - If the value is a Selector, the value is rolled for every check.
+            3. blocking: bool (default: False)
+                - Whether the condition is blocking or not.
+            """
+
+            super().__init__(blocking)
+            self.key = key
+            self.value = value
+            self.display_in_desc = True
+            self.display_in_list = False
+
+        def is_fulfilled(self, **kwargs) -> bool:
+            """
+            Returns whether a certain value of kwargs is equal to a certain value.
+
+            ### Returns:
+            1. bool
+                - Whether the condition is fulfilled or not.
+            """
+
+            if self.key not in kwargs.keys():
+                return False
+
+            value = self.value
+
+            if isinstance(self.value, Selector):
+                value = self.value.roll(**kwargs)
+
+            return kwargs[self.key] == value
+
+        def to_desc_text(self, **kwargs) -> str:
+            """
+            Returns the description text for the condition that is displayed in the description.
+
+            ### Returns:
+            1. str
+                - The condition text for the description.
+            """
+
+            if self.is_fulfilled():
+                return get_translation(self.key) + " equals {color=#00a000}" + self.value + "{/color}"
+            else:
+                return get_translation(self.key) + " equals {color=#a00000}" + self.value + "{/color}"
+
+        def get_name(self) -> str:
+            """
+            Returns the name of the condition.
+
+            ### Returns:
+            1. str
+                - The key of the value for kwargs.
+            """
+
+            return get_translation(self.key)
+
+        def get_diff(self, _char_obj) -> num:
+            """
+            Returns the difference between the condition and the value of kwargs.
+            If the condition is fulfilled, the difference is 0.
+            Otherwise the difference is -100.
+
+            ### Parameters:
+            1. char_obj: Char
+                - The character to compare the condition to.
+
+            ### Returns:
+            1. num
+                - The difference between the condition and the value of kwargs.
+            """
+
+            if self.key not in kwargs.keys():
+                return -100
+            value = self.value
+            return 0 if kwargs[self.key] == value else -100
+
+    class KeyCompareCondition(Condition):
+        """
+        A class for conditions that check the value of kwargs by checking if the value is inside a ranged value.
+        """
+
+        def __init__(self, key_1: str, key_2: str, operation: str, blocking: bool = False):
+
+            super().__init__(blocking)
+            self.key_1 = key_1
+            self.key_2 = key_2
+            self.operation = operation
+            self.display_in_desc = True
+            self.display_in_list = False
+
+        def is_fulfilled(self, **kwargs) -> bool:
+            """
+            Returns whether a certain value of kwargs is inside a ranged value.
+
+            ### Parameters:
+            1. **kwargs
+                - Additional arguments.
+
+            ### Returns:
+            1. bool
+                - Whether the condition is fulfilled or not.
+            """
+
+            if self.key_1 not in kwargs.keys() or self.key_2 not in kwargs.keys():
+                return False
+
+            value_1 = kwargs[self.key_1]
+            value_2 = kwargs[self.key_2]
+
+            if isinstance(value_1, Selector):
+                value_1 = value_1.roll(**kwargs)
+            if isinstance(value_2, Selector):
+                value_2 = value_2.roll(**kwargs)
+
+            if self.operation == ">":
+                return value_1 > value_2
+            elif self.operation == ">=":
+                return value_1 >= value_2
+            elif self.operation == "<":
+                return value_1 < value_2
+            elif self.operation == "<=":
+                return value_1 <= value_2
+            elif self.operation == "==":
+                return value_1 == value_2
+            elif self.operation == "!=":
+                return value_1 != value_2
+            return False
+
+        def get_name(self) -> str:
+            """
+            Returns the name of the condition.
+
+            ### Returns:
+            1. str
+                - The key of the value for kwargs.
+            """
+
+            return f"{self.key_1} {self.operation} {self.key_2}"
+
+        def get_diff(self, char_obj: Char) -> num:
+            """
+            Returns the difference between the condition and the value of kwargs.
+            If the condition is fulfilled, the difference is 0.
+            Otherwise the difference is -100.
+
+            ### Returns:
+            1. num
+                - The difference between the condition and the value of kwargs.
+            """
+
+            if self.key_1 not in kwargs.keys() or self.key_2 not in kwargs.keys():
+                return -100
+            value_1 = kwargs[self.key_1]
+            value_2 = kwargs[self.key_2]
+            if isinstance(value_1, Selector):
+                value_1 = value_1.roll(**kwargs)
+            if isinstance(value_2, Selector):
+                value_2 = value_2.roll(**kwargs)
+            if self.operation == ">":
+                return value_1 - value_2
+            elif self.operation == ">=":
+                return value_1 - value_2
+            elif self.operation == "<":
+                return value_2 - value_1
+            elif self.operation == "<=":
+                return value_2 - value_1
+            elif self.operation == "==":
+                return 0 if value_1 == value_2 else -100
+            elif self.operation == "!=":
+                return 0 if value_1 != value_2 else -100
+            return -100
+
+    class LoliContentCondition(Condition):
+        """
+        A class for conditions that check the value of kwargs by checking if the value is inside a ranged value.
+        """
+
+        def __init__(self, value: int | str, blocking: bool = False):
+
+            super().__init__(blocking)
+            self.value = value
+
+        def is_fulfilled(self, **kwargs) -> bool:
+            """
+            Returns whether a certain value of kwargs is inside a ranged value.
+
+            ### Parameters:
+            1. **kwargs
+                - Additional arguments.
+
+            ### Returns:
+            1. bool
+                - Whether the condition is fulfilled or not.
+            """
+
+            return check_in_value(self.value, loli_content)
+
+        def get_name(self) -> str:
+            """
+            Returns the name of the condition.
+
+            ### Returns:
+            1. str
+                - The key of the value for kwargs.
+            """
+
+            return f"loli_content: {self.value}"
+
+        def get_diff(self, char_obj: Char) -> num:
+            """
+            Returns the difference between the condition and the value of kwargs.
+            If the condition is fulfilled, the difference is 0.
+            Otherwise the difference is -100.
+
+            ### Returns:
+            1. num
+                - The difference between the condition and the value of kwargs.
+            """
+
+            return 0 if self.is_fulfilled() else -100
 
     class AND(Condition):
         """
@@ -2026,3 +2367,57 @@ init -6 python:
             diff = condition.get_diff(char_obj)
 
             return clamp_value(100 - diff, -100, 100)
+
+    class PTAOverride(Condition):
+        """
+        A class for conditions that overrides all other conditions in the PTA voting.
+        """
+
+        def __init__(self, char: str = "", accept: bool = True):
+            super().__init__(False)
+            self.char = char
+            self.accept = accept
+
+        def is_fulfilled(self, **kwargs) -> bool:
+            """
+            Returns whether only one of the conditions is fulfilled.
+
+            ### Parameters:
+            1. **kwargs
+                - Additional arguments.
+
+            ### Returns:
+            1. bool
+                - Whether the condition is fulfilled or not.
+            """
+
+            return self.accept
+
+        def get_name(self) -> str:
+            """
+            Returns the name of the condition.
+            Logic conditions are displayed in a special way.
+
+            ### Returns:
+            1. str
+                - The name of the condition.
+            """
+
+            return f"PTAOverride({self.char}, {self.accept})"
+
+        def get_diff(self, char_obj: Char) -> num:
+            """
+            Returns the difference of the condition inverted.
+
+            ### Parameters:
+            1. char_obj: Char
+                - The character to compare the condition to.
+
+            ### Returns:
+            1. num
+                - The difference of the condition inverted.
+            """
+
+            if self.char == "" or self.char == char_obj.get_name():
+                return 5000 if self.accept else -5000
+            return 0

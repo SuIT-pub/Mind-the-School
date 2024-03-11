@@ -14,10 +14,9 @@ init -6 python:
             - The name of the school that the proposal is for.
         """
 
-        def __init__(self, journal_obj: Journal_Obj, action: str, school):
+        def __init__(self, journal_obj: Journal_Obj, action: str):
             self._journal_obj = journal_obj
             self._action = action
-            self._school = school
 
     def calculateProbabilitySum(conditions: ConditionStorage, *char_obj_list: Char) -> float:
         """
@@ -43,9 +42,9 @@ init -6 python:
         if char_obj_list == None or len(char_obj_list) == 0:
             char_obj_list = [
                 get_character("teacher", charList["staff"]),
-                charList["parents"],
+                charList["parent"],
+                get_school(),
             ]
-            char_obj_list.extend(get_all_schools())
 
         probability = 0.0
 
@@ -114,8 +113,8 @@ label pta_meeting (**kwargs):
     # """
     
     $ proposal = get_game_data('voteProposal')
-    $ obj_school = get_random_school()
-    $ obj_parent = get_character("parents", charList)
+    $ obj_school = get_school()
+    $ obj_parent = get_character("parent", charList)
     $ obj_teacher = get_character("teacher", charList["staff"])
     $ obj_secretary = get_character("secretary", charList["staff"])
     
@@ -132,8 +131,6 @@ label pta_meeting (**kwargs):
         $ obj_desc = obj.get_description()
         $ obj_action = proposal._action
 
-        $ obj_school = get_character(proposal._school, charList["schools"])
-
     $ obj_school_name = obj_school.get_name()
     $ obj_school_title = obj_school.get_title()
 
@@ -144,7 +141,6 @@ label pta_meeting (**kwargs):
         $ teacher_vote = voteCharacter(
             obj.get_condition_storage(), 
             teacher_obj,
-            # obj_school_name,
         )
         $ teacher_response = obj.get_vote_comments("teacher", teacher_vote)
         if teacher_vote == 'yes':
@@ -152,11 +148,10 @@ label pta_meeting (**kwargs):
         elif teacher_vote == 'veto':
             $ forNum = -3
             
-        $ school_obj = get_character(obj_school_name, charList["schools"])
+        $ school_obj = get_school()
         $ student_vote = voteCharacter(
             obj.get_condition_storage(), 
             school_obj,
-            # obj_school_name,
         )
         $ student_response = obj.get_vote_comments("student", student_vote)
         if student_vote == 'yes':
@@ -164,11 +159,10 @@ label pta_meeting (**kwargs):
         elif student_vote == 'veto':
             $ forNum = -3
             
-        $ parent_obj = charList["parents"]
+        $ parent_obj = charList["parent"]
         $ parent_vote = voteCharacter(
             obj.get_condition_storage(), 
             parent_obj, 
-            # obj_school_name,
         )
         $ parent_response = obj.get_vote_comments("parent", parent_vote)
         if parent_vote == 'yes':
@@ -179,8 +173,7 @@ label pta_meeting (**kwargs):
     
     $ image = Image_Series("images/events/pta/regular meeting/pta_1 <secretary_level> <teacher_level> <student_level> <parent_level> <step>.webp", 
         secretary_level = obj_secretary.get_level(),
-        teacher_level = obj_teacher.get_level(), 
-        school = obj_school_name, 
+        teacher_level = obj_teacher.get_level(),
         student_level = obj_school.get_level(), 
         parent_level = obj_parent.get_level()
     )
@@ -212,10 +205,10 @@ label pta_meeting (**kwargs):
     if proposal != None:
         $ image.show(4)
         if obj_type == "rule":
-            headmaster "Today I want to put to vote a change in the [obj_school_title]s ruleset."
+            headmaster "Today I want to put to vote a change in the schools ruleset."
             headmaster "I want to implement the Rule: [obj_title]."
         elif obj_type == "club":
-            headmaster "Today I want to put to vote if we want to open a new club at the [obj_school_title]."
+            headmaster "Today I want to put to vote if we want to open a new club at the school."
             headmaster "I want to open the [obj_title]."
         elif obj_type == "building" and obj_action == "unlock":
             headmaster "Today I want to put to vote if we want to restore the [obj_title]."
@@ -235,40 +228,64 @@ label pta_meeting (**kwargs):
         call show_image("images/events/pta/regular meeting/pta_2 <secretary_level> <teacher_level> <student_level> <parent_level> <teacher> <vote>.webp",
             secretary_level = obj_secretary.get_level(),
             teacher_level = obj_teacher.get_level(), 
-            school = obj_school_name, 
             student_level = obj_school.get_level(), 
             parent_level = obj_parent.get_level(),
             teacher = speaking_teacher,
             vote = teacher_vote
         ) from _call_show_image_3
-        teacher "[teacher_response]" (name = speaking_teacher)
+
+        if isinstance(teacher_response, str):
+            teacher "[teacher_response]" (name = speaking_teacher)
+        else:
+            $ i = 0
+            while i < len(teacher_response):
+                $ response_text = teacher_response[i]
+                teacher "[response_text]" (name = speaking_teacher)
+                $ i += 1
 
         call show_image("images/events/pta/regular meeting/pta_2 <secretary_level> <teacher_level> <student_level> <parent_level> <student> <vote>.webp",
             secretary_level = obj_secretary.get_level(),
-            teacher_level = obj_teacher.get_level(), 
-            school = obj_school_name, 
+            teacher_level = obj_teacher.get_level(),
             student_level = obj_school.get_level(), 
             parent_level = obj_parent.get_level(),
             student = speaking_student,
             vote = student_vote
         ) from _call_show_image_4
-        sgirl "[student_response]" (name = speaking_student)
+
+        if isinstance(student_response, str):
+            sgirl "[student_response]" (name = speaking_student)
+        else:
+            $ i = 0
+            while i < len(student_response):
+                $ response_text = student_response[i]
+                sgirl "[response_text]" (name = speaking_student)
+                $ i += 1
 
         call show_image("images/events/pta/regular meeting/pta_2 <secretary_level> <teacher_level> <student_level> <parent_level> <parent> <vote>.webp",
             secretary_level = obj_secretary.get_level(),
-            teacher_level = obj_teacher.get_level(), 
-            school = obj_school_name, 
+            teacher_level = obj_teacher.get_level(),
             student_level = obj_school.get_level(), 
             parent_level = obj_parent.get_level(),
             parent = speaking_parent,
             vote = parent_vote
         ) from _call_show_image_5
-        parent "[parent_response]" (name = speaking_parent)
+
+        if isinstance(parent_response, str):
+            parent "[parent_response]" (name = speaking_parent)
+        else:
+            $ i = 0
+            while i < len(parent_response):
+                $ response_text = parent_response[i]
+                parent "[response_text]" (name = speaking_parent)
+                $ i += 1
 
         $ image.show(7)
         if forNum >= 2:
             headmaster "The vote was successful. The [obj_title] will be implemented."
-            $ obj.unlock(obj_school_name, True, True)
+            if obj_action == "unlock":
+                $ obj.unlock(True, True)
+            if obj_action == "upgrade":
+                $ obj.upgrade(True, True)
         else:
             headmaster "The vote was unsuccessful. The [obj_title] will not be implemented."
 
@@ -281,6 +298,8 @@ label pta_meeting (**kwargs):
     jump new_daytime
     
 label first_pta_meeting (**kwargs):
+    $ begin_event(**kwargs)
+
     $ hide_all()
 
     call show_image("images/events/pta/first meeting/first pta meeting 0.webp") from first_pta_meeting_0
@@ -378,8 +397,9 @@ label first_pta_meeting (**kwargs):
 
     hide screen image_with_nude_var
     scene first pta meeting 6
+    $ secretary_name = get_name_str('secretary')
     secretary """
-        Hello everyone, I am [secretary_first_name] [secretary_last_name], the headmasters secretary and I will be in 
+        Hello everyone, I am [secretary_name], the headmasters secretary and I will be in 
         charge some organisational tasks like managing the schedule and lower beraucracy tasks.
 
         I already worked for the last headmaster and observed the decline of our school with my own eyes.
@@ -388,9 +408,17 @@ label first_pta_meeting (**kwargs):
     """
 
     scene first pta meeting 7
-    teacher2 """
-        Hello I am [teacher_2_first_name] [teacher_2_last_name] and today I represent the teachers of this school.
+    teacher2 "Hello I am Yulan Chen. I am the History and Politics teacher. I also represent the teachers in this school."
 
+    teacher1 "Hello Lily Anderson, I teach Math and Sciences at this school."
+
+    teacher3 "I am Finola Ryan, I teach English and History. Pleasure."
+
+    teacher4 "Chloe Garcia, I teach Arts and Music."
+
+    teacher5 "And I am Zoe Parker, I teach Physical Education and Health. A pleasure to meet you all."
+
+    teacher2 """
         First we are glad to have a new headmaster and we hope you bring this school back to what it once was.
         
         As you can see, we are way understaffed and we sometimes have to teach subjects we don't even specialize in.
@@ -399,30 +427,21 @@ label first_pta_meeting (**kwargs):
 
         Now our role during these meetings will be to ensure that new policies and ideas continue to benefit the 
         students.
-
-        That's all from our side. Thank you very much.
     """
     
     call show_image(f"images/events/pta/first meeting/first pta meeting 8 <nude>.webp", loli_content = 0) from first_pta_meeting_3
-    parent """
-        Hello, I am a concerned parent of one of the students attending this school and I speak for all parents when I 
-        say that we are worried about the recent changes. 
-        
-        However, we trust that you will handle your job competently and we will observe closely to ensure the 
-        well-being of our children.
-    """
+    parent "Hello, I am Adelaide Hall, a concerned parent of one of the students attending this school and I speak for all parents when I say that we are worried about the recent changes." (name = 'Adelaide Hall')
+    parent "However, we trust that you will handle your job competently and we will observe closely to ensure the well-being of our children." (name = 'Adelaide Hall')
     
-    $ pronoun = "I am"
-    if loli_content != 0:
-        $ pronoun = "we are"
+    parent "I am Nubia Davis. A Pleasure." (name = 'Nubia Davis')
 
+    parent "Yuki Yamamoto." (name = 'Yuki Yamamoto')
+
+    headmaster_thought "Oh quite the cold introduction..."
+    
     hide screen image_with_nude_var
     call show_image(f"images/events/pta/first meeting/first pta meeting 9 <loli_content> <nude>.webp", loli_content = 0) from first_pta_meeting_4
-    sgirl """
-        Hello, I am the student representative of this school and I am here to make sure that the students of this 
-        school are not let out of the decision making and to act as the Mouthpiece of the students issues and 
-        suggestions.
-    """
+    sgirl "Hello, I am Yuriko Oshima, the student representative of this school and I am here to make sure that the students of this school are not let out of the decision making and to act as the Mouthpiece of the students issues and suggestions." (name = 'Yuriko Oshima')
 
     hide screen image_with_nude_var
     scene first pta meeting 10 #
@@ -432,4 +451,4 @@ label first_pta_meeting (**kwargs):
     $ set_all_buildings_blocked(True)
     $ set_building_blocked("office_building", False)
     
-    jump new_daytime
+    $ end_event('new_daytime', **kwargs)
