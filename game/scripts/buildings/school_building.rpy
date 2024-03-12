@@ -49,26 +49,27 @@ init 1 python:
                     NOT(GameDataCondition('first_class_1A', True)),
                     LoliContentCondition('2')
                 ),
-            )
+            ), 
+            realtime = True
         ),
-        thumbnail = "")
+        thumbnail = "images/events/school building/first_class_sb_event 3A 0 2.webp")
 
     sb_event1 = Event(3, "sb_event_1",
         TimeCondition(daytime = "c", weekday = "d"),
-        thumbnail = "images/events/school building/sb_event_1 0.webp")
+        thumbnail = "images/events/school building/sb_event_1 1 1.webp")
 
     sb_event2 = Event(3, "sb_event_2",
         TimeCondition(daytime = "c", weekday = "d"),
-        thumbnail = "images/events/school building/sb_event_2 0.webp")
+        thumbnail = "images/events/school building/sb_event_2 1 0.webp")
     
     sb_event3 = Event(3, "sb_event_3",
         TimeCondition(daytime = "d"),
-        thumbnail = "images/events/school building/sb_event_3 0.webp")
+        thumbnail = "images/events/school building/sb_event_3 1 1.webp")
 
     sb_event4 = Event(3, "sb_event_4",
         TimeCondition(weekday = "d", daytime = "f"),
-        RandomListSelector('girl_name', 'Ikushi Ito')
-        thumbnail = "images/events/school building/sb_event_4 0.webp")
+        RandomListSelector('girl_name', 'Ikushi Ito'),
+        thumbnail = "images/events/school building/sb_event_4 1 Ikushi Ito 0.webp")
 
     # Teaching events
     sb_event_teach_class_event = Event(3, "teach_class_event",

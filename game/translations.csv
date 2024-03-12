@@ -75,6 +75,9 @@ first_week_courtyard_event,First Week
 courtyard_event_1,Gist of Wind
 courtyard_event_2,Girl sitting alone
 courtyard_event_3,Girls taking a break
+courtyard_event_4,Running in the Rain
+courtyard_event_5,Group of Girls
+courtyard_event_6,Break too long
 
 #####
 # Gym
@@ -118,10 +121,11 @@ event_school_building_math,Math
 
 first_potion_sb_event,First Potion
 first_week_sb_event,First Week
-first_class_sb_event,First Class
+first_class_sb_event,First Class Introduction
 sb_event_1,Couples kissing
 sb_event_2,Student tripping in class
-sb_event_3,Crying girl
+sb_event_3,Crying Girls
+sb_event_4,Student tripping in hallway
 
 ##################
 # School Dormitory
@@ -143,3 +147,4 @@ sd_event_3,Ready to bunk
 first_week_epilogue,First Week Epilogue
 first_week_epilogue_final,First Week Epilogue Final
 first_pta_meeting,First PTA Meeting
+tutorial_1,Tutorial

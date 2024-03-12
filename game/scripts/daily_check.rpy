@@ -19,7 +19,8 @@ init -1 python:
 
 init 1 python:
     tutorial_1_event = Event(2, "tutorial_1", 
-        TimeCondition(day = 2, month = 1, year = 2023, daytime = 1)
+        TimeCondition(day = 2, month = 1, year = 2023, daytime = 1),
+        thumbnail = "images/events/intro/intro tutorial 9.webp"
     )
 
     first_week_epilogue_event = Event(1, "first_week_epilogue", 
@@ -206,6 +207,9 @@ label tutorial_1 (**kwargs):
     $ begin_event(**kwargs)
 
     show screen black_error_screen_text ("")
+
+    if get_kwargs("in_replay", False, **kwargs):
+        jump .tutorial_2
 
     menu:
         "Play tutorial?"

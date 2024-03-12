@@ -339,7 +339,7 @@ init -6 python:
 
             return self.blocking
 
-        def to_list_text(self, **kwargs) -> Tuple[str, str] | List[Tuple[str, str]]:
+        def to_list_text(self, **kwargs) -> Tuple[str, str] | Tuple[str, str, str] | List[Tuple[str, str] | Tuple[str, str, str]]:
             """
             Returns the description text for the condition that is displayed in the display list.
 
@@ -441,7 +441,7 @@ init -6 python:
 
             return True
         
-        def to_list_text(self, **kwargs) -> Tuple[str, str, str] | List[Tuple[str, str, str]]:   
+        def to_list_text(self, **kwargs) -> Tuple[str, str] | Tuple[str, str, str] | List[Tuple[str, str] | Tuple[str, str, str]]:
             """
             Returns the description text for the condition that is displayed in the display list.
             If multiple stats are checked, the condition is displayed as a list.
@@ -451,7 +451,7 @@ init -6 python:
                 - Additional arguments.
 
             ### Returns:
-            1. Tuple[str, str, str] | List[Tuple[str, str, str]]
+            1. Tuple[str, str] | Tuple[str, str, str] | List[Tuple[str, str] | Tuple[str, str, str]]
                 - The condition text for the display list.
                 - The first element is the icon, the second element is the value and the third element is the title.
                 - The title is optional.

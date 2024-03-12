@@ -617,11 +617,11 @@ screen school_overview():
 # shows the map overview and then waits for input
 label map_overview ():
     # $ _skipping = False
-    # call load_stats from map_overview_1
-    # call load_schools from map_overview_2
-    # call load_rules from map_overview_3
-    # call load_buildings from map_overview_4
-    # call load_clubs from map_overview_5
+    call empty_label from map_overview_1
+    call empty_label from map_overview_2
+    call empty_label from map_overview_3
+    call empty_label from map_overview_4
+    call empty_label from map_overview_5
     
     $ hide_all()
 
@@ -668,3 +668,6 @@ label skip_time ():
     $ reset_stats(get_character('teacher', charList['staff']))
 
     call new_daytime from skip_time_1
+
+label empty_label ():
+    return
