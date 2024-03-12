@@ -178,6 +178,27 @@ init -2 python:
                 renpy.call("show_ready_image", image_path, display_type)   
             return variant  
                 
+    class BGStorage:
+        def __init__(self, fallback_image: str, *images: BGImage, **kwargs):
+            self.fallback_image = fallback_image
+            self.images = list(images)
+            self._kwargs = kwargs
+
+        def get_images(self) -> List[BGImage]:
+            return self.images
+
+        def get_fallback(self) -> str:
+            return self.fallback_image
+
+        def add_image(self, *image: BGImage):
+            self.images.extend(image)
+
+        def add_kwargs(self, **kwargs):
+            self._kwargs.update(kwargs)
+
+        def get_kwargs(self):
+            return self._kwargs
+
     class BGImage(Image_Obj):
         """
         A class to represent a background image.
@@ -563,9 +584,14 @@ label show_sfw_text(text):
         scene screen black_screen_text (text) with dissolveM
     return
 
-label show_idle_image(fallback, bg_images, **kwargs):
+label show_idle_image(bg_images, **kwargs):
 
-    $ max_nude, image_path = get_background(fallback, bg_images, **kwargs)
+    $ fallback = bg_images.get_fallback()
+    $ images = bg_images.get_images()
+
+    $ kwargs.update(bg_images.get_kwargs())
+
+    $ max_nude, image_path = get_background(fallback, images, **kwargs)
 
     call show_image_with_nude_var (image_path, max_nude) from show_idle_image_1
 

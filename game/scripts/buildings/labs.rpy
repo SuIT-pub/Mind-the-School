@@ -7,10 +7,10 @@ init -1 python:
     labs_general_event = EventStorage("labs_general", "labs", Event(2, "labs.after_general_check"))
     labs_events = {}
 
-    labs_bg_images = [
+    labs_bg_images = BGStorage("images/background/labs/bg f.webp",
         BGImage("images/background/labs/bg c <level> <nude>.webp", 1, TimeCondition(daytime = "c")), # show corridor with few students
         BGImage("images/background/labs/bg 7.webp", 1, TimeCondition(daytime = 7)), # show empty corridor at night
-    ]
+    )
 
 # init 1 python:
     
@@ -28,15 +28,13 @@ label .after_time_check (**kwargs):
 
 label .after_general_check (**kwargs):
     $ loli = get_random_loli()
-
-    call show_idle_image("images/background/labs/bg f.webp", labs_bg_images,
-        loli = loli,
-    ) from labs_2
+    $ labs_bg_images.add_kwargs(loli = loli)
 
     call call_event_menu (
         "What to do at the Labs?", 
         labs_events, 
         default_fallback,
+        labs_bg_images,
         character.subtitles,
         context = loli,
         fallback_text = "There is nothing to see here.",

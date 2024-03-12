@@ -10,12 +10,12 @@ init -1 python:
     add_storage(cafeteria_events, EventStorage("order_food",  "cafeteria", default_fallback, "I'm not hungry."))
     add_storage(cafeteria_events, EventStorage("eat_alone",   "cafeteria", default_fallback, "I'm not hungry."))
 
-    cafeteria_bg_images = [
+    cafeteria_bg_images = BGStorage("images/background/cafeteria/bg c.webp",
         BGImage("images/background/cafeteria/bg d <loli> <parent_level> <school_level> <variant> <nude>.webp", 1, TimeCondition(daytime = '3,6', weekday = 'd')),
         BGImage("images/background/cafeteria/bg d <loli> <parent_level> <school_level> <variant> <nude>.webp", 2, AND(TimeCondition(daytime = 'd', weekday = 'w'), RandomCondition(1, 1))),
         BGImage("images/background/cafeteria/bg c <parent_level> <nude>.webp", 1, OR(TimeCondition(daytime = 'c', weekday = 'd'), TimeCondition(daytime = 'd', weekday = 'w'))),
         BGImage("images/background/cafeteria/bg 7.webp", 1, TimeCondition(daytime = 7)), # show empty terrace at night
-    ]
+    )
     
 init 1 python:
     cafeteria_construction_event = Event(1, "cafeteria_construction",
@@ -112,15 +112,13 @@ label .after_time_check (**kwargs):
 
 label .after_general_check (**kwargs):
     $ loli = get_random_loli()
-
-    call show_idle_image("images/background/cafeteria/bg c.webp", cafeteria_bg_images,
-        loli = loli,
-    ) from cafeteria_2
+    $ cafeteria_bg_images.add_kwargs(loli = loli)
 
     call call_event_menu (
         "What to do at the Cafeteria?", 
         cafeteria_events,
         default_fallback,
+        cafeteria_bg_images,
         character.subtitles,
         context = loli,
     ) from cafeteria_3

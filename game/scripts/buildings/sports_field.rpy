@@ -7,11 +7,11 @@ init -1 python:
     sports_field_general_event = EventStorage("sports_field",   "sports_field", Event(1, "sports_field.after_general_check"))
     sports_field_events = {}
 
-    sports_field_bg_images = [
+    sports_field_bg_images = BGStorage("images/background/sports field/bg 1.webp",
         BGImage("images/background/sports field/bg c <loli> <school_level> <nude>.webp", 1, TimeCondition(daytime = "c")), # show sports field with students
         BGImage("images/background/sports field/bg 3,6 <loli> <school_level> <nude>.webp", 1, TimeCondition(daytime = "3,6")), # show sports field with few students
         BGImage("images/background/sports field/bg 7.webp", 1, TimeCondition(daytime = 7)), # show sports field at night empty
-    ]
+    )
     
 # init 1 python:
 
@@ -29,15 +29,13 @@ label .after_time_check (**kwargs):
 
 label .after_general_check (**kwargs):
     $ loli = get_random_loli()
-
-    call show_idle_image("images/background/sports field/bg 1.webp", sports_field_bg_images,
-        loli = loli,
-    ) from sports_field_2
+    $ sports_field_bg_images.add_kwargs(loli = loli)
 
     call call_event_menu (
         "What to do on the sports field", 
         sports_field_events, 
         default_fallback,
+        sports_field_bg_images
         character.subtitles,
         context = loli,
     ) from sports_field_3

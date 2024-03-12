@@ -329,8 +329,7 @@ init -1 python:
             if len(self.event) == 1:
                 self.event[0].call(**kwargs)
             else:
-                event_list = [(get_translation(e.get_event()), EventEffect(e)) for e in self.event]
-                renpy.call('call_menu', 'Select the Event.', character.subtitles, True, *event_list, from_current=False, **kwargs)
+                renpy.call('open_bg_image_menu', self.event, from_current=False, **kwargs)
 
     class ValueEffect(Effect):
         """
@@ -408,3 +407,12 @@ init -1 python:
 
         def apply(self, **kwargs):
             set_modifier(self.key, self.stat, self.modifier, char_obj = self.char_obj, collection = self.collection)
+
+label open_bg_image_menu(event, **kwargs):
+    $ bg_image = get_kwargs("bg_image", None, **kwargs)
+    if bg_image != None:
+        call show_idle_image(bg_image, **kwargs) from open_bg_image_menu_1
+
+    
+    $ event_list = [(get_translation(e.get_event()), EventEffect(e)) for e in event]
+    call call_menu ('Select the Event.', character.subtitles, True, *event_list, **kwargs)

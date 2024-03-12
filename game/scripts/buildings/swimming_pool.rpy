@@ -7,11 +7,11 @@ init -1 python:
     swimming_pool_general_event = EventStorage("swimming_pool",   "swimming_pool", Event(2, "swimming_pool.after_general_check"))
     swimming_pool_events = {}
 
-    swimming_pool_bg_images = [
+    swimming_pool_bg_images = BGStorage("images/background/swimming pool/bg 1.webp",
         BGImage("images/background/swimming pool/bg c <loli> <school_level> <nude>.webp", 1, TimeCondition(daytime = "c")), # show swimming pool with students
         BGImage("images/background/swimming pool/bg 3,6 <loli> <school_level> <nude>.webp", 1, TimeCondition(daytime = "3,6")), # show swimming pool with few students
         BGImage("images/background/swimming pool/bg 7.webp", 1, TimeCondition(daytime = 7)), # show swimming pool at night empty
-    ]
+    )
     
 # init 1 python:
 
@@ -29,15 +29,13 @@ label .after_time_check (**kwargs):
 
 label .after_general_check (**kwargs):
     $ loli = get_random_loli()
-
-    call show_idle_image("images/background/swimming pool/bg 1.webp", swimming_pool_bg_images,
-        loli = loli,
-    ) from swimming_pool_2
+    $ swimming_pool_bg_images.add_kwargs(loli = loli)
 
     call call_event_menu (
         "What to do at the swimming pool?", 
         swimming_pool_events, 
         default_fallback,
+        swimming_pool_bg_images,
         character.subtitles,
         context = loli,
     ) from swimming_pool_3

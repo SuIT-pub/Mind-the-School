@@ -9,11 +9,11 @@ init -1 python:
     courtyard_events = {}
     add_storage(courtyard_events, EventStorage("patrol", "courtyard", default_fallback, "There is nobody here."))
 
-    courtyard_bg_images = [
+    courtyard_bg_images = BGStorage("images/background/courtyard/bg c.webp",
         BGImage("images/background/courtyard/bg 1,6 <loli> <school_level> <nude>.webp", 1, OR(TimeCondition(daytime = "1,6", weekday = "w"), TimeCondition(daytime = "f", weekday = "d"))), # show courtyard with a few students
         BGImage("images/background/courtyard/bg 3 <loli> <school_level> <nude>.webp", 1, TimeCondition(daytime = 3)), # show courtyard full of students and teacher
         BGImage("images/background/courtyard/bg 7.webp", 1, TimeCondition(daytime = 7)), # show empty courtyard at night
-    ]    
+    )
 
 init 1 python:
     first_week_courtyard_event_event = Event(1, "first_week_courtyard_event",
@@ -90,15 +90,13 @@ label .after_time_check (**kwargs):
 
 label .after_general_check (**kwargs):
     $ loli = get_random_loli()
-
-    call show_idle_image("images/background/courtyard/bg c.webp", courtyard_bg_images, 
-        loli = loli
-    ) from courtyard_2
+    $ courtyard_bg_images.add_kwargs(loli = loli)
 
     call call_event_menu (
         "What to do at the Courtyard?", 
         courtyard_events, 
         default_fallback,
+        courtyard_bg_images,
         character.subtitles,
         context = loli,
         fallback_text = "There is nothing to see here."

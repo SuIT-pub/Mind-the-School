@@ -14,10 +14,10 @@ init -1 python:
     add_storage(sb_teach_events, EventStorage("english", "school_building", default_fallback, "There is nobody here."))
     add_storage(sb_teach_events, EventStorage("math",    "school_building", default_fallback, "There is nobody here."))
 
-    sb_bg_images = [
+    sb_bg_images = BGStorage("images/background/school building/bg f.webp",
         BGImage("images/background/school building/bg c <loli> <school_level> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")),
         BGImage("images/background/school building/bg 7.webp", 1, TimeCondition(daytime = 7)),
-    ]
+    )
 
 init 1 python:
 
@@ -123,15 +123,13 @@ label .after_time_check (**kwargs):
 
 label .after_general_check (**kwargs):
     $ loli = get_random_loli()
-
-    call show_idle_image("images/background/school building/bg f.webp", sb_bg_images,
-        loli = loli,
-    ) from school_building_2
+    $ sb_bg_images.add_kwargs(loli = loli)
 
     call call_event_menu (
         "What to do in the School?", 
         sb_events,
         default_fallback,
+        sb_bg_images,
         character.subtitles,
         context = loli,
     ) from school_building_3
@@ -364,15 +362,12 @@ label first_class_sb_event (**kwargs):
 label teach_class_event (**kwargs):
     $ school_obj = get_character("school", charList)
     $ loli = get_kwargs('context', get_random_loli(), **kwargs)
-    
-    call show_idle_image("images/background/school building/bg f.webp", sb_bg_images,
-        loli = loli,
-    ) from teach_class_event_2
-
+    $ bg_image = get_kwargs('bg_image', None, **kwargs)
     call call_event_menu (
         "What subject do you wanna teach?", 
         sb_teach_events,
         default_fallback,
+        bg_image,
         character.subtitles,
         context = loli,
         override_menu_exit = 'school_building',

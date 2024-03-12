@@ -7,11 +7,11 @@ init -1 python:
     bath_general_event = EventStorage("bath_general", "bath", Event(2, "bath.after_general_check"))
     bath_events = {}
 
-    bath_bg_images = [
+    bath_bg_images = BGStorage("images/background/bath/bg c.webp", 
         BGImage("images/background/bath/bg 1,3 <loli> <level> <nude>.webp", 1, TimeCondition(daytime = "1,3")), # show bath with students
         BGImage("images/background/bath/bg 6 <loli> <level> <nude>.webp", 1, TimeCondition(daytime = 6)), # show bath with students and/or teacher
         BGImage("images/background/bath/bg 7.webp", 1, TimeCondition(daytime = 7)), # show bath at night empty or with teachers
-    ]
+    )
     
 # init 1 python:
 
@@ -30,14 +30,13 @@ label .after_time_check (**kwargs):
 label .after_general_check (**kwargs):
     $ loli = get_random_loli()
 
-    call show_idle_image("images/background/bath/bg c.webp", bath_bg_images,
-        loli = loli
-    ) from bath_2
+    $ bath_bg_images.add_kwargs(loli = loli)
 
     call call_event_menu (
         "What to do in the Bath?",
         bath_events,
         default_fallback,
+        bath_bg_images,
         character.subtitles,
         context = loli
         fallback_text = "There is nothing to see here."

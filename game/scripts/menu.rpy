@@ -137,7 +137,7 @@ label call_menu(text, person, with_leave = True, *elements, **kwargs):
         call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
 
 # calls a menu specialized in use for events
-label call_event_menu(text, events, fallback, person = character.subtitles, **kwargs):
+label call_event_menu(text, events, fallback, bg_image, person = character.subtitles, **kwargs):
     # """
     # Refines a list of events and calls a menu with the given elements and the given text and person.
 
@@ -151,7 +151,11 @@ label call_event_menu(text, events, fallback, person = character.subtitles, **kw
     # 4. person : Person, (default character.subtitles)
     #     - The person to display saying the text.
     # """
-    
+
+    call show_idle_image(bg_image, **kwargs) from call_event_menu_3
+
+    $ kwargs.update({'bg_image': bg_image})
+
     $ renpy.choice_for_skipping()
 
     $ kwargs['school_obj'] = get_character_by_key('school')
@@ -221,6 +225,16 @@ label close_menu(**kwargs):
     if override != None:
         if isinstance(override, str):
             $ renpy.call(override)
+        elif isinstance(override, Event):
+            $ renpy.call(override.get_event())
+    $ override_kwargs = get_kwargs('override_menu_exit_with_kwargs', None, **kwargs)
+    if override_kwargs != None:
+        if isinstance(override_kwargs, str):
+            $ renpy.call(override_kwargs, **kwargs)
+        elif isinstance(override_kwargs, Event):
+            $ override_kwargs.call(**kwargs)
+        elif isinstance(override_kwargs, Effect):
+            $ override_kwargs.apply(**kwargs)
     jump map_overview
 
 style menu_text:
