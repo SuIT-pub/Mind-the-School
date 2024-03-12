@@ -210,12 +210,17 @@ label call_element(effects, **kwargs):
     $ call_effects(effects, **kwargs)
 
 # closes the current menu
-label close_menu():
+label close_menu(**kwargs):
     # """
     # Closes the current menu.
     # """
     hide screen custom_menu_choice
     hide screen image_with_nude_var
+
+    $ override = get_kwargs('override_menu_exit', None, **kwargs)
+    if override != None:
+        if isinstance(override, str):
+            $ renpy.call(override)
     jump map_overview
 
 style menu_text:
@@ -365,7 +370,7 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
                 if has_keyboard():
                     if show_shortcut():
                         $ l_text = " [Esc]"
-                    key "K_ESCAPE" action Jump("close_menu")
+                    key "K_ESCAPE" action Call("close_menu", **kwargs)
                 hbox:
                     xsize 1920
                     button:
@@ -376,5 +381,5 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
                             yalign 0.5
                         xsize 1185
                         xalign 0.5
-                        action Jump("close_menu")
+                        action Call("close_menu", **kwargs)
     

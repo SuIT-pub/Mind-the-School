@@ -375,6 +375,7 @@ label teach_class_event (**kwargs):
         default_fallback,
         character.subtitles,
         context = loli,
+        override_menu_exit = 'school_building',
     ) from teach_class_event_1
 
     jump school_building

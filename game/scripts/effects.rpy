@@ -310,7 +310,7 @@ init -1 python:
                 events = [event]
                 super().__init__(event.get_name())
             elif isinstance(event, EventStorage):
-                events = event.get_events(3)
+                events = event.get_events()
                 super().__init__(event.get_name())
             elif isinstance(event, list):
                 for e in event:
