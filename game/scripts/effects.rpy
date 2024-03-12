@@ -266,7 +266,10 @@ init -1 python:
         """
 
         def __init__(self, event: Event | EventStorage | str):
-            super().__init__(event.get_name())
+            name = event
+            if not isinstance(event, str):
+                name = event.get_name()
+            super().__init__(name)
             self.event = event
 
         def __str__(self):
@@ -288,6 +291,46 @@ init -1 python:
 
             if isinstance(self.event, str):
                 renpy.call(self.event, **kwargs)
+
+    class EventSelectEffect(Effect):
+        """
+        Calls an event from a list of events.
+
+        ### Attributes:
+        1. event_list: list[Event]
+            - List of events to be called.
+        """
+
+        def __init__(self, event: str | Event | EventStorage | List[Event | str]):
+            events = []
+            if isinstance(event, str):
+                events = [get_event_from_register(event)]
+                super().__init__(event)
+            elif isinstance(event, Event):
+                events = [event]
+                super().__init__(event.get_name())
+            elif isinstance(event, EventStorage):
+                events = event.get_events(3)
+                super().__init__(event.get_name())
+            elif isinstance(event, list):
+                for e in event:
+                    if isinstance(e, str):
+                        events.append(get_event_from_register(e))
+                    else:
+                        events.append(e)
+                super().__init__(events[0].get_name())
+
+            self.event = events
+
+        def __str__(self):
+            return f"{self.name}"
+
+        def apply(self, **kwargs):
+            if len(self.event) == 1:
+                self.event[0].call(**kwargs)
+            else:
+                event_list = [(get_translation(e.get_event()), EventEffect(e)) for e in self.event]
+                renpy.call('call_menu', 'Select the Event.', character.subtitles, True, *event_list, from_current=False, **kwargs)
 
     class ValueEffect(Effect):
         """

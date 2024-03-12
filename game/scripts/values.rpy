@@ -6,6 +6,7 @@ init -98 python:
     cheat_mode = False
     nude_vision = 2
     sfw_mode = False
+    event_selection_mode = True
     
     seenEvents = {}
     location_event_register = {}

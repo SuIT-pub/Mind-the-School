@@ -231,6 +231,33 @@ init -3 python:
         ##############
         # Event getter
 
+        def get_events(self, priority: int = 0) -> List[Event]:
+            """
+            Returns a list of all events.
+            If priority is 0, all events are returned.
+            Otherwise only the events with the given priority are returned.
+
+            ### Parameters:
+            1. priority: int (Default 0)
+                - The priority of the events that are returned.
+                - If priority is 0, all events are returned.
+
+            ### Returns:
+            1. List[Event]
+                - A list of all events.
+                - If priority is 1 all events with priority 1 are returned.
+                - If priority is 2 all events with priority 2 are returned.
+                - If priority is 3 all events with priority 3 are returned.
+            """
+
+            if priority == 1:
+                return list(self.events[1].values())
+            if priority == 2:
+                return list(self.events[2].values())
+            if priority == 3:
+                return list(self.events[3].values())
+            return list(self.events[1].values()) + list(self.events[2].values()) + list(self.events[3].values())
+
         def count_available_events(self, priority: int = 0, **kwargs) -> int:
             """
             Counts the number of events that are available.
@@ -835,6 +862,17 @@ init -3 python:
             """
 
             return self.priority
+
+        def get_name(self) -> str:
+            """
+            Returns the name of the event.
+
+            ### Returns:
+            1. str
+                - The name of the event.
+            """
+
+            return self.event
 
         ###############
         # Event handler

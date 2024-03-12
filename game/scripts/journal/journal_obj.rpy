@@ -279,7 +279,7 @@ init -7 python:
             """
 
             is_blocking = self._unlock_conditions.is_blocking(**kwargs)
-            return is_blocking
+            return is_blocking or self.is_unlocked()
 
         def can_be_unlocked(self, **kwargs) -> bool:
             """
@@ -445,8 +445,7 @@ init -7 python:
         school_obj = get_school()
 
         for obj in map.values():
-            if (obj.is_visible(char_obj = school_obj) and 
-            obj.is_unlocked() and
+            if (obj.is_unlocked() and
             obj.get_name() not in output):
                 output.append(obj.get_name())
                 continue

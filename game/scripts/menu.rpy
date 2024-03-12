@@ -88,7 +88,10 @@ init python:
         for key in events.keys():
             storage = events[key]
             if (storage.count_available_events(**kwargs) > 0 and key not in used):
-                effect = EventEffect(storage)
+                if event_selection_mode:
+                    effect = EventSelectEffect(storage)
+                else:
+                    effect = EventEffect(storage)
                 title = get_event_menu_title(storage.get_location(), storage.get_name())
                 output.append((title, effect))
                 used.append(key)

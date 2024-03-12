@@ -957,9 +957,6 @@ screen journal_page(page, display):
     #     - The display type for the journal page.
     # """
 
-    tag interaction_overlay
-    modal True
-    
     use school_overview_map
     use school_overview_stats
 
@@ -971,7 +968,7 @@ screen journal_page(page, display):
     $ journal_map = get_journal_map(page)
     $ active_obj = get_journal_obj(journal_map, display)
     
-    if display == "" or display != "" and not active_obj.is_visible(char_obj = get_school()):
+    if display == "" or (display != "" and not active_obj.is_visible(char_obj = get_school())):
         $ display = ""
         $ locked_list = get_visible_locked_objs(journal_map)
         $ unlocked_list = get_visible_unlocked_objs(journal_map)
@@ -1263,6 +1260,20 @@ screen journal_cheats(display, char = "school"):
                         button:
                             text debug_mode_text xalign 1.0
                             action [With(dissolveM), Call("switch_debug_mode", 5, display)]
+                            xsize 250
+                    null height 10
+                    # Event Selection
+                    hbox:
+                        button:
+                            text "SELECT EVENTS" xalign 0.0 style "journal_text"
+                            xsize 250
+
+                        $ event_select_text = "{color=#a00000}ACTIVATE{/color}"
+                        if event_selection_mode:
+                            $ event_select_text = "{color=#00a000}DEACTIVATE{/color}"
+                        button:
+                            text event_select_text xalign 1.0
+                            action [With(dissolveM), Call("switch_event_select_mode", 5, display)]
                             xsize 250
                     null height 10
                     # TIME
@@ -2216,6 +2227,33 @@ label switch_debug_mode(page, display, value = None):
     else:
         $ renpy.notify("Debug mode deactivated!")
     call open_journal(page, display) from switch_debug_mode_1
+
+label switch_event_select_mode(page, display, value = None):
+    # """
+    # Switches the debug mode on or off
+
+    # ### Parameters:
+    # 1. page: int
+    #     - the page to be opened after the time change
+    # 2. display: str
+    #     - the display to be opened after the time change
+    # 3. value: bool (default: None)
+    #     - the value to be set
+    #     - if value is None the debug mode is toggled
+    # """
+
+    if event_selection_mode == None:
+        $ event_selection_mode = True
+    elif value == None:
+        $ event_selection_mode = value
+    else:
+        $ event_selection_mode = not event_selection_mode
+
+    if event_selection_mode:
+        $ renpy.notify("Event selection mode activated!")
+    else:
+        $ renpy.notify("Event selection mode deactivated!")
+    call open_journal(page, display) from switch_event_select_mode_1
 
 label switch_time_freeze(page, display, value = None):
     # """
