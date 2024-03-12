@@ -47,7 +47,7 @@ init 1 python:
                 LoliContentCondition("1+")
             ),
             (
-                RandomListSelector('', 'Sidney Martinez'),
+                RandomListSelector('', 'Sidney Martinez', 'Karini Ono', 'Fio Dubois', "Aiden O'Reilly"),
                 LoliContentCondition("2")
             )
         ),
@@ -286,6 +286,7 @@ label courtyard_event_5(**kwargs):
 
     # headmaster walks by
     # students walk by talking with each other
+    call show_image("images/events/courtyard/courtyard_event_5 <school_level>.webp", **kwargs) from _courtyard_event_5_1
     subtitles "You come across a group of students talking to each other."
 
     $ change_stats_with_modifier(school_obj,
@@ -298,17 +299,30 @@ label courtyard_event_6(**kwargs):
 
     $ school_obj = get_char_value('school_obj', **kwargs)
 
+    $ image = Image_Series("images/events/courtyard/courtyard_event_6 <school_level> <step>.webp", **kwargs)
+
     # headmaster approaches a student sitting on the courtyard
+    $ image.show(0)
     headmaster "Excuse me, but what are you doing here?"
+
     # student looks up kinda surprised
+    $ image.show(1)
     sgirl "I'm taking my break sir."
+
     # headmaster looking rather angry
+    $ image.show(2)
     headmaster "Class already started. You should be in class."
+
     # student surprised
+    $ image.show(3)
     sgirl "Really?!"
+
     # headmaster nods
+    $ image.show(4)
     headmaster "Yes. Now run along and check the time next time so you don't arrive late!"
+    
     # student runs off
+    $ image.show(5)
     sgirl "Sorry!"
 
     $ change_stats_with_modifier(school_obj,
