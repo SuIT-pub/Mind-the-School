@@ -3,7 +3,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://github.com/SuIT-pub/Mind-the-School?tab=License-1-ov-file)
 [![GitHub Release](https://img.shields.io/github/v/release/SuIT-pub/Mind-the-School?style=flat-square&label=Release)](https://github.com/SuIT-pub/Mind-the-School/releases/latest)
-![Static Badge](https://img.shields.io/badge/-Wiki-grey?style=flat-square&logo=bookstack&logoColor=white&link=https%3A%2F%2Fsuitpub.alwaysdata.net)
+[![Static Badge](https://img.shields.io/badge/-Wiki-grey?style=flat-square&logo=bookstack&logoColor=white)](https://suitpub.alwaysdata.net)
 
 
 [![Discord](https://img.shields.io/discord/1105841057016598569?logo=Discord&logoColor=white&style=flat-square&label=Discord&link=http%3A%2F%2Ftiny.cc%2Fmindtheschooldiscord)](http://tiny.cc/mindtheschooldiscord)
