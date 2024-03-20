@@ -32,3 +32,5 @@ init -9:
     $ VETO = "veto"
 
     $ CHAR = "char_obj"
+
+    $ DEFAULT_NUDE = 2

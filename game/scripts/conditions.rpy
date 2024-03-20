@@ -264,19 +264,19 @@ init -6 python:
             - Whether the condition is displayed in the description or not.
 
         ### Methods:
-        1. is_fulfilled(self, **kwargs)
+        1. is_fulfilled(self, **kwargs) -> bool
             - Returns whether the condition is fulfilled or not.
-        2. is_blocking(self, **kwargs)
+        2. is_blocking(self, **kwargs) -> bool
             - Returns whether the condition is blocking or not.
-        3. is_set_blocking(self)
+        3. is_set_blocking(self) -> bool
             - Returns whether the condition is set to be blocking or not.
-        4. to_list_text(self, **kwargs)
+        4. to_list_text(self, **kwargs) -> Tuple[str, str] | Tuple[str, str, str] | List[Tuple[str, str] | Tuple[str, str, str]]
             - Returns the description text for the condition that is displayed in the display list.
-        5. to_desc_text(self, **kwargs)
+        5. to_desc_text(self, **kwargs) -> str
             - Returns the description text for the condition that is displayed in the description.
-        6. get_name(self)
+        6. get_name(self) -> str
             - Returns the name of the condition.
-        7. get_diff(self, char_obj: Char)
+        7. get_diff(self, char_obj: Char) -> int
             - Returns the difference between the condition and the given character.
 
         ### Parameters:
@@ -404,6 +404,28 @@ init -6 python:
     class StatCondition(Condition):
         """
         A class for conditions that check the stats of a character.
+
+        ### Attributes:
+        1. stats: Dict[str, int]
+            - The stats that are checked.
+        2. char_obj: Char
+            - The character object that is checked.
+
+        ### Methods:
+        1. is_fulfilled(self, **kwargs) -> bool
+            - Returns whether the stats of the character fulfill the condition.
+        2. to_list_text(self, **kwargs) -> Tuple[str, str] | Tuple[str, str, str] | List[Tuple[str, str] | Tuple[str, str, str]]
+            - Returns the description text for the condition that is displayed in the display list.
+        3. to_desc_text(self, **kwargs) -> str | List[str]
+            - Returns the description text for the condition that is displayed in the description.
+        4. get_name(self) -> str
+            - Returns the name of the condition.
+        5. get_diff(self, char_obj: Char) -> num
+            - Returns the difference between the condition and the given character.
+            - If the difference is lower than -20, the difference is multiplied by 10.
+            - If the difference is lower than -10, the difference is multiplied by 5.
+            - If the difference is lower than -5, the difference is multiplied by 2.
+            - Otherwise the difference is returned as is.
         """
 
         def __init__(self, blocking: bool = False, *, char_obj: str | Char = None, **kwargs):
@@ -561,6 +583,22 @@ init -6 python:
     class RuleCondition(Condition):
         """
         A class for conditions that check if the rules for a character object is active.
+
+        ### Attributes:
+        1. value: str
+            - The key of the rule that is checked.
+
+        ### Methods:
+        1. is_fulfilled(self, **kwargs) -> bool
+            - Returns whether the rule is active or not.
+        2. to_desc_text(self, **kwargs) -> str
+            - Returns the description text for the condition that is displayed in the description.
+        3. get_name(self) -> str
+            - Returns the name of the Rule in the condition.
+        4. get_diff(self, char_obj: Char) -> num
+            - Returns the difference between the condition and the given character.
+            - If the condition is fulfilled, the difference is 0.
+            - Otherwise the difference is -100.
         """
 
         def __init__(self, value: str, blocking: bool = False):
@@ -582,17 +620,6 @@ init -6 python:
             """
 
             return get_rule(self.value).is_unlocked()
-
-        def to_list_text(self, **kwargs) -> Tuple[str, str, str]:
-            """
-            Returns an empty tuple as the condition is not displayed in the display list.
-
-            ### Returns:
-            1. Tuple[str, str, str]
-                - An empty tuple.
-            """
-
-            return ("", "", "")
 
         def to_desc_text(self, **kwargs) -> str:
             """
@@ -647,6 +674,22 @@ init -6 python:
     class ClubCondition(Condition):
         """
         A class for conditions that check if the clubs for a character object is active.
+
+        ### Attributes:
+        1. value: str
+            - The key of the club that is checked.
+
+        ### Methods:
+        1. is_fulfilled(self, **kwargs) -> bool
+            - Returns whether the club is active or not.
+        2. to_desc_text(self, **kwargs) -> str
+            - Returns the description text for the condition that is displayed in the description.
+        3. get_name(self) -> str
+            - Returns the name of the Club in the condition.
+        4. get_diff(self, char_obj: Char) -> num
+            - Returns the difference between the condition and the given character.
+            - If the condition is fulfilled, the difference is 0.
+            - Otherwise the difference is -100.
         """
 
         def __init__(self, value: str, blocking: bool = False):
@@ -729,6 +772,22 @@ init -6 python:
     class BuildingCondition(Condition):
         """
         A class for conditions that check if the buildings for a character object is active.
+
+        ### Attributes:
+        1. value: str
+            - The key of the building that is checked.
+
+        ### Methods:
+        1. is_fulfilled(self, **kwargs) -> bool
+            - Returns whether the building is active or not.
+        2. to_desc_text(self, **kwargs) -> str
+            - Returns the description text for the condition that is displayed in the description.
+        3. get_name(self) -> str
+            - Returns the name of the Building in the condition.
+        4. get_diff(self, char_obj: Char) -> num
+            - Returns the difference between the condition and the given character.
+            - If the condition is fulfilled, the difference is 0.
+            - Otherwise the difference is -100.
         """
 
         def __init__(self, value: str, blocking: bool = False):
@@ -802,6 +861,28 @@ init -6 python:
             return -100
 
     class BuildingLevelCondition(Condition):
+        """
+        A class for conditions that check the level of a building.
+
+        ### Attributes:
+        1. name: str
+            - The key of the building that is checked.
+        2. level: int
+            - The level that is checked.
+
+        ### Methods:
+        1. is_fulfilled(self, **kwargs) -> bool
+            - Returns whether the building level is active or not.
+        2. to_desc_text(self, **kwargs) -> str
+            - Returns the description text for the condition that is displayed in the description.
+        3. get_name(self) -> str
+            - Returns the name of the Building in the condition.
+        4. get_diff(self, char_obj: Char) -> num
+            - Returns the difference between the condition and the given character.
+            - If the condition is fulfilled, the difference is 0.
+            - Otherwise the difference is -100.
+        """
+
         def __init__(self, name: str, level: int, blocking: bool = False):
             super().__init__(blocking)
             self.name = name
@@ -868,6 +949,27 @@ init -6 python:
     class LevelCondition(Condition):
         """
         A class for conditions that check the level of a character object.
+
+        ### Attributes:
+        1. value: int
+            - The level that is checked.
+        2. char_obj: Char
+            - The character object that is checked.
+            
+        ### Methods:
+        1. is_fulfilled(self, **kwargs) -> bool
+            - Returns whether the characters level fulfills the condition.
+        2. to_desc_text(self, **kwargs) -> str
+            - Returns the description text for the condition that is displayed in the description.
+        3. to_list_text(self, **kwargs) -> Tuple[str, str, str]
+            - Returns the description text for the condition that is displayed in the display list.
+        4. get_name(self) -> str
+            - Returns "Level".
+        5. get_diff(self, char_obj: Char) -> num
+            - Returns the difference between the condition and the given character.
+            - If the level difference is lower than -2, the difference is multiplied by 50.
+            - If the level difference is lower than -1, the difference is multiplied by 20.
+            - Otherwise the difference is returned as is.
         """
 
         def __init__(self, value: int, blocking: bool = False, *, char_obj: Char = None):
@@ -979,6 +1081,26 @@ init -6 python:
     class MoneyCondition(Condition):
         """
         A class for conditions that check the money.
+
+        ### Attributes:
+        1. value: int
+            - The money that is checked.
+
+        ### Methods:
+        1. is_fulfilled(self, **kwargs) -> bool
+            - Returns whether the budget is within the condition.
+        2. to_desc_text(self, **kwargs) -> str
+            - Returns the description text for the condition that is displayed in the description.
+        3. to_list_text(self, **kwargs) -> Tuple[str, str, str]
+            - Returns the description text for the condition that is displayed in the display list.
+        4. get_name(self) -> str
+            - Returns "Money".
+        5. get_diff(self, char_obj: Char) -> num
+            - Returns the difference between the condition and the given characters money.
+            - The difference is calculated as follows:
+                - The difference gets subtracted by 20 to create some kind of buffer.
+                - If the difference is lower than 0, the difference is returned as is.
+                - If the difference is larger than 0, the difference is returned as 0 to set it as fulfilled but not create a better chance for votes.
         """
 
         def __init__(self, value: num, blocking = False):
@@ -1078,6 +1200,14 @@ init -6 python:
         A class for conditions that lock the object it is used in.
         This class makes unlocking the object impossible.
         If is_blocking is set to True, the object is also hidden.
+
+        ### Methods:
+        1. is_fulfilled(self, **kwargs) -> bool
+            - Returns "False" as the condition is never fulfilled.
+        2. get_name(self) -> str
+            - Returns "lock".
+        3. get_diff(self, char_obj: Char) -> num
+            - Returns -100 as the condition is never fulfilled.
         """
 
         def __init__(self, is_blocking: bool = True):
@@ -1089,20 +1219,6 @@ init -6 python:
             """
 
             return False
-
-        def to_desc_text(self, **kwargs) -> str:
-            """
-            Returns an empty string as the condition is not displayed in the description.
-            """
-
-            return ""
-
-        def to_list_text(self, **kwargs) -> Tuple[str, str, str]:
-            """
-            Returns an empty tuple as the condition is not displayed in the display list.
-            """
-            
-            return ("", "", "")
 
         def get_name(self) -> str:
             """
@@ -1117,28 +1233,91 @@ init -6 python:
 
         def get_diff(self, _char_obj) -> num:
             """
-            Returns -100 as the condition is never fulfilled.
+            Returns -1000 as the condition is never fulfilled.
 
             ### Returns:
             1. num
-                - -100
+                - -1000
             """
 
-            return -100
+            return -1000
 
     class TimeCondition(Condition):
         """
         A class for conditions that check the time.
+
+        ### Attributes:
+        1. day: str
+            - The day that is checked.
+        2. week: str
+            - The week that is checked.
+        3. month: str
+            - The month that is checked.
+        4. year: str
+            - The year that is checked.
+        5. daytime: str
+            - The daytime that is checked.
+        6. weekday: str
+            - The weekday that is checked.
+        7. condition: str
+            - The condition that is checked.
+            - The condition can be "+", "-"
+            - if none is given, the condition is "="
+
+        ### Methods:
+        1. is_fulfilled(self, **kwargs) -> bool
+            - Returns whether the current time fulfills the condition.
+        2. to_desc_text(self, **kwargs) -> str
+            - Returns the description text for the condition that is displayed in the description.
+        3. get_name(self) -> str
+            - Returns the time conditions as name.
+        4. get_diff(self, char_obj: Char) -> num
+            - Returns the difference between the condition and the current time.
+            - If the condition is fulfilled, the difference is 0.
+            - Otherwise the difference is -100.
+
+        ### Parameters:
+        1. blocking: bool
+            - Whether the condition is blocking or not.
+        2. **kwargs
+            - Additional arguments.
+            - day: str
+                - The day that is checked.
+            - week: str
+                - The week that is checked.
+            - month: str
+                - The month that is checked.
+            - year: str
+                - The year that is checked.
+            - daytime: str
+                - The daytime that is checked.
+            - weekday: str
+                - The weekday that is checked.
+            - condition: str
+                - The condition that is checked.
+                - The condition can be "+", "-"
+                - if none is given, the condition is "="
+            - date: datetime
+                - The date that is checked.
+                - overrides the day, week, month and year.
         """
 
         def __init__(self, blocking: bool = True, **kwargs: str | int):
             super().__init__(blocking)
-            self.day     = "x" if 'day'     not in kwargs.keys() else kwargs['day'    ]
-            self.week    = "x" if 'week'    not in kwargs.keys() else kwargs['week'   ]
-            self.month   = "x" if 'month'   not in kwargs.keys() else kwargs['month'  ]
-            self.year    = "x" if 'year'    not in kwargs.keys() else kwargs['year'   ]
-            self.daytime = "x" if 'daytime' not in kwargs.keys() else kwargs['daytime']
-            self.weekday = "x" if 'weekday' not in kwargs.keys() else kwargs['weekday']
+            self.day       = "x" if 'day'       not in kwargs.keys() else kwargs['day'      ]
+            self.week      = "x" if 'week'      not in kwargs.keys() else kwargs['week'     ]
+            self.month     = "x" if 'month'     not in kwargs.keys() else kwargs['month'    ]
+            self.year      = "x" if 'year'      not in kwargs.keys() else kwargs['year'     ]
+            self.daytime   = "x" if 'daytime'   not in kwargs.keys() else kwargs['daytime'  ]
+            self.weekday   = "x" if 'weekday'   not in kwargs.keys() else kwargs['weekday'  ]
+            self.condition = ""  if 'condition' not in kwargs.keys() else kwargs['condition']
+            
+            if 'date' in kwargs.keys():
+                date = kwargs['date']
+                self.day    = str(date.get_day()) + str(condition)
+                self.month  = str(date.get_month()) + str(condition)
+                self.year   = str(date.get_year()) + str(condition)
+
             self.display_in_desc = True
 
         def is_fulfilled(self, **kwargs) -> bool:
@@ -1161,13 +1340,6 @@ init -6 python:
                 time.check_week   (self.week   ) and
                 time.check_daytime(self.daytime) and
                 time.check_weekday(self.weekday))
-
-        def to_list_text(self, **kwargs) -> Tuple[str, str, str]:
-            """
-            Returns an empty tuple as the condition is not displayed in the display list.
-            """
-            
-            return ("", "", "")
 
         def to_desc_text(self, **kwargs) -> str:
             """
@@ -1255,6 +1427,18 @@ init -6 python:
         2. limit: num
             - The limit of the random value.
             - The random value is generated between 0 and the limit.
+
+        ### Methods:
+        1. is_fulfilled(self, **kwargs) -> bool
+            - Returns whether the randomizer rolled a number lower than the amount.
+        2. to_desc_text(self, **kwargs) -> str
+            - Returns the description text for the condition that is displayed in the description.
+        3. to_list_text(self, **kwargs) -> Tuple[str, str, str]
+            - Returns the description text for the condition that is displayed in the display list.
+        4. get_name(self) -> str
+            - Returns the relation between the amount and the limit as name.
+        5. get_diff(self, _char_obj) -> num
+            - Returns the Probability as difference.
         """
 
         def __init__(self, amount: num, limit: num = 100, blocking: bool = False):
@@ -1341,6 +1525,18 @@ init -6 python:
             - The key of the game data.
         2. value: val | bool
             - The value the game data has to match.
+
+        ### Methods:
+        1. is_fulfilled(self, **kwargs) -> bool
+            - Returns whether the game data matches the needed value.
+        2. to_desc_text(self, **kwargs) -> str
+            - Returns the description text for the condition that is displayed in the description.
+        3. get_name(self) -> str
+            - Returns the name of the condition.
+        4. get_diff(self, _char_obj) -> num
+            - Returns the difference between the condition and the game data.
+            - If the condition is fulfilled, the difference is 0.
+            - Otherwise the difference is -100.
         """
 
         def __init__(self, key: str, value: val | bool, blocking: bool = False):
@@ -1390,13 +1586,6 @@ init -6 python:
             else:
                 return get_translation(self.key) + " is {color=#a00000}" + str(self.value) + "{/color}"
 
-        def to_list_text(self, **kwargs) -> Tuple[str, str, str]:
-            """
-            Returns the description text for the condition that is displayed in the display list.
-            """
-
-            return ("", "", "")
-
         def get_name(self) -> str:
             """
             Returns the name of the condition.
@@ -1426,6 +1615,24 @@ init -6 python:
     class ProgressCondition(Condition):
         """
         A class for conditions that check the progress of an event series.
+
+        ### Attributes:
+        1. key: str
+            - The key of the progress.
+        2. value: int | str
+            - The value the progress has to match.
+
+        ### Methods:
+        1. is_fulfilled(self, **kwargs) -> bool
+            - Returns whether an event series has reached the needed progress level.
+        2. to_desc_text(self, **kwargs) -> str
+            - Returns the description text for the condition that is displayed in the description.
+        3. get_name(self) -> str
+            - Returns the name of the condition.
+        4. get_diff(self, _char_obj) -> num
+            - Returns the difference between the condition and the progress.
+            - If the condition is fulfilled, the difference is 0.
+            - Otherwise the difference is -100.
         """
 
         def __init__(self, key: str, value: int | str, blocking: bool = False):
@@ -1488,6 +1695,26 @@ init -6 python:
     class ValueCondition(Condition):
         """
         A class for conditions that check the value of kwargs.
+
+        ### Attributes:
+        1. key: str
+            - The key of the value for kwargs.
+        2. value: val | bool
+            - The value that is used to compare the value of kwargs.
+            - If the value is a bool, the value of kwargs has to be True.
+            - If the value is a val, the value of kwargs has to be equal to the given value.
+
+        ### Methods:
+        1. is_fulfilled(self, **kwargs) -> bool
+            - Returns whether a certain value of kwargs matches the needed value.
+        2. to_desc_text(self, **kwargs) -> str
+            - Returns the description text for the condition that is displayed in the description.
+        3. get_name(self) -> str
+            - Returns the name of the condition.
+        4. get_diff(self, _char_obj) -> num
+            - Returns the difference between the condition and the value of kwargs.
+            - If the condition is fulfilled, the difference is 0.
+            - Otherwise the difference is -100.
         """
 
         def __init__(self, key: str, value: val | bool, blocking: bool = False):
@@ -1556,6 +1783,25 @@ init -6 python:
     class NumValueCondition(Condition):
         """
         A class for conditions that check the value of kwargs by checking if the value is inside a ranged value.
+
+        ### Attributes:
+        1. key: str
+            - The key of the value for kwargs.
+        2. value: val | Selector
+            - The value that is used to compare the value of kwargs.
+            - If the value is a Selector, the value is rolled for every check.
+        
+        ### Methods:
+        1. is_fulfilled(self, **kwargs) -> bool
+            - Returns whether a certain value of kwargs is inside a ranged value.
+        2. to_desc_text(self, **kwargs) -> str
+            - Returns the description text for the condition that is displayed in the description.
+        3. get_name(self) -> str
+            - Returns the name of the condition.
+        4. get_diff(self, _char_obj) -> num
+            - Returns the difference between the condition and the value of kwargs.
+            - If the condition is fulfilled, the difference is 0.
+            - Otherwise the difference is -100.
         """
 
         def __init__(self, key: str, value: val, blocking: bool = False):
@@ -1626,6 +1872,34 @@ init -6 python:
     class NumCompareCondition(Condition):
         """
         A class for conditions that check the value of kwargs by checking if the value is inside a ranged value.
+
+        ### Attributes:
+        1. key: str
+            - The key of the value for kwargs.
+        2. value: val | Selector
+            - The value that is used to compare the value of kwargs.
+            - If the value is a Selector, the value is rolled for every check.
+        3. operation: str
+            - The operation that is used to compare the value of kwargs and the given value.
+            - The following operations are available:
+                - ">": The value of kwargs has to be larger than the given value.
+                - ">=": The value of kwargs has to be larger than or equal to the given value.
+                - "<": The value of kwargs has to be smaller than the given value.
+                - "<=": The value of kwargs has to be smaller than or equal to the given value.
+                - "==": The value of kwargs has to be equal to the given value.
+                - "!=": The value of kwargs has to be not equal to the given value.
+
+        ### Methods:
+        1. is_fulfilled(self, **kwargs) -> bool
+            - Returns whether a certain value of kwargs is inside a ranged value.
+        2. to_desc_text(self, **kwargs) -> str
+            - Returns the description text for the condition that is displayed in the description.
+        3. get_name(self) -> str
+            - Returns the name of the condition.
+        4. get_diff(self, _char_obj) -> num
+            - Returns the difference between the condition and the value of kwargs.
+            - If the condition is fulfilled, the difference is 0.
+            - Otherwise the difference is -100.
         """
 
         def __init__(self, key: str, value: val | Selector, operation: str, blocking: bool = False):
@@ -1749,6 +2023,29 @@ init -6 python:
             return -100
 
     class CompareCondition(Condition):
+        """
+        A class for conditions that check the value of kwargs.
+
+        ### Attributes:
+        1. key: str
+            - The key of the value for kwargs.
+        2. value: val | Selector
+            - The value that is used to compare the value of kwargs.
+            - If the value is a Selector, the value is rolled for every check.
+
+        ### Methods:
+        1. is_fulfilled(self, **kwargs) -> bool
+            - Returns whether a certain value of kwargs is equal to a certain value.
+        2. to_desc_text(self, **kwargs) -> str
+            - Returns the description text for the condition that is displayed in the description.
+        3. get_name(self) -> str
+            - Returns the name of the condition.
+        4. get_diff(self, _char_obj) -> num
+            - Returns the difference between the condition and the value of kwargs.
+            - If the condition is fulfilled, the difference is 0.
+            - Otherwise the difference is -100.
+        """
+
         def __init__(self, key: str, value: Any | Selector, blocking: bool = False):
             """
             The constructor for the CompareCondition class.
@@ -1836,6 +2133,33 @@ init -6 python:
     class KeyCompareCondition(Condition):
         """
         A class for conditions that check the value of kwargs by checking if the value is inside a ranged value.
+
+        ### Attributes:
+        1. key_1: str
+            - The key of the value for kwargs.
+        2. key_2: str
+            - The key of the value for kwargs.
+        3. operation: str
+            - The operation that is used to compare the value of kwargs and the given value.
+            - The following operations are available:
+                - ">": The value of kwargs has to be larger than the given value.
+                - ">=": The value of kwargs has to be larger than or equal to the given value.
+                - "<": The value of kwargs has to be smaller than the given value.
+                - "<=": The value of kwargs has to be smaller than or equal to the given value.
+                - "==": The value of kwargs has to be equal to the given value.
+                - "!=": The value of kwargs has to be not equal to the given value.
+
+        ### Methods:
+        1. is_fulfilled(self, **kwargs) -> bool
+            - Returns whether a certain value of kwargs is inside a ranged value.
+        2. to_desc_text(self, **kwargs) -> str
+            - Returns the description text for the condition that is displayed in the description.
+        3. get_name(self) -> str
+            - Returns the name of the condition.
+        4. get_diff(self, _char_obj) -> num
+            - Returns the difference between the condition and the value of kwargs.
+            - If the condition is fulfilled, the difference is 0.
+            - Otherwise the difference is -100.
         """
 
         def __init__(self, key_1: str, key_2: str, operation: str, blocking: bool = False):
@@ -1932,9 +2256,36 @@ init -6 python:
     class LoliContentCondition(Condition):
         """
         A class for conditions that check the value of kwargs by checking if the value is inside a ranged value.
+
+        ### Attributes:
+        1. value: int | str
+            - The value that is used to compare the value of kwargs.
+            - If the value is a Selector, the value is rolled for every check.
+
+        ### Methods:
+        1. is_fulfilled(self, **kwargs) -> bool
+            - Returns whether a certain value of kwargs is inside a ranged value.
+        2. to_desc_text(self, **kwargs) -> str
+            - Returns the description text for the condition that is displayed in the description.
+        3. get_name(self) -> str
+            - Returns the name of the condition.
+        4. get_diff(self, _char_obj) -> num
+            - Returns the difference between the condition and the value of kwargs.
+            - If the condition is fulfilled, the difference is 0.
+            - Otherwise the difference is -100.
         """
 
         def __init__(self, value: int | str, blocking: bool = False):
+            """
+            The constructor for the LoliContentCondition class.
+
+            ### Parameters:
+            1. value: int | str
+                - The value that is used to compare the value of kwargs.
+                - If the value is a Selector, the value is rolled for every check.
+            2. blocking: bool (default: False)
+                - Whether the condition is blocking or not.
+            """
 
             super().__init__(blocking)
             self.value = value
@@ -1981,6 +2332,10 @@ init -6 python:
     class AND(Condition):
         """
         A class for conditions that check if all conditions are fulfilled.
+
+        ### Attributes:
+        1. *conditions: Condition
+            - A list of all conditions that have to be ful
         """
 
         def __init__(self, *conditions: Condition):

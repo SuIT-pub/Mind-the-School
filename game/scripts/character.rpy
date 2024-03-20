@@ -20,53 +20,54 @@ init -6 python:
             - The key is the name of the stat and the value is the stat object
 
         ### Methods:
-            1. _update(data: Dict[str, Any] = None) -> None
-                - Is used to supplement new attributes added in a new version for an older game save
-            2. get_name() -> str
-                - Returns the name of the character
-            3. get_title() -> str
-                - Returns the title of the character
-            4. check_stat_exists(stat: str) -> bool
-                - Checks if the stat exists in the character
-            5. get_stat_obj(stat: str) -> Stat
-                - Returns the stat object of the stat
-            6. set_stat(stat: str, value: num) -> None
-                - Sets the value of the stat
-            7. change_stat(stat: str, delta: num) -> None
-                - Changes the value of the stat by delta
-            8. get_stat_number(stat: str) -> num
-                - Returns the value of the stat
-            9. get_stat_string(stat: str) -> str
-                - Returns the value of the stat as a string
-            10. reset_changed_stats() -> None
-                - Resets the change of all the stats
-            11. get_stats() -> Dict[str, Stat]
-                - Returns the dictionary of all the stats
-            12. check_stat(stat: str, value: num | str) -> bool
-                - Checks if the stat equals the value
-                - value can be a number or a special string representing a set of values
-            13. get_level() -> int
-                - Returns the level of the character
-            14. get_level_str() -> str
-                - Returns the level of the character as a string
-            15. set_level(level: int) -> None
-                - Sets the level of the character
-            16. get_nearest_level_delta(level: int) -> int
-                - Returns the difference between the level and the nearest level
-            17. check_level(value: num | str, test_level: int = None) -> bool
-                - Checks if the level equals the value
-                - value can be a number or a special string representing a set of values
-            18. display_stat(stat: str) -> str
-                - Returns the stat as a string with the change
-            19. get_display_value(stat: str) -> str
-                - Returns the value of the stat as a string
-            20. get_display_change(stat: str) -> str
-                - Returns the change of the stat as a string
+        1. _update(data: Dict[str, Any] = None) -> None
+            - Is used to supplement new attributes added in a new version for an older game save
+        2. get_name() -> str
+            - Returns the name of the character
+        3. get_title() -> str
+            - Returns the title of the character
+        4. check_stat_exists(stat: str) -> bool
+            - Checks if the stat exists in the character
+        5. get_stat_obj(stat: str) -> Stat
+            - Returns the stat object of the stat
+        6. set_stat(stat: str, value: num) -> None
+            - Sets the value of the stat
+        7. change_stat(stat: str, delta: num) -> None
+            - Changes the value of the stat by delta
+        8. get_stat_number(stat: str) -> num
+            - Returns the value of the stat
+        9. get_stat_string(stat: str) -> str
+            - Returns the value of the stat as a string
+        10. reset_changed_stats() -> None
+            - Resets the change of all the stats
+        11. get_stats() -> Dict[str, Stat]
+            - Returns the dictionary of all the stats
+        12. check_stat(stat: str, value: num | str) -> bool
+            - Checks if the stat equals the value
+        13. display_stat(stat: str) -> str
+            - Returns the stat as a string with the change
+        14. get_display_value(stat: str) -> str
+            - Returns the value of the stat as a string
+        15. get_display_change(stat: str) -> str
+            - Returns the change of the stat as a string
+        16. get_level() -> int
+            - Returns the level of the character
+        17. get_level_str() -> str
+            - Returns the level of the character as a string
+        18. get_level_obj() -> Stat
+            - Returns the level object of the character
+        19. set_level(level: int) -> None
+            - Sets the level of the character
+        20. get_nearest_level_delta(level: int) -> int
+            - Returns the difference between level and the level of the current character
+        21. check_level(value: num | str, test_level: int = None) -> bool
+            - Checks if the level equals the value
+
         ### Parameters:
-            1. name: str
-                - The name of the character
-            2. title: str
-                - The title of the character
+        1. name: str
+            - The name of the character
+        2. title: str
+            - The title of the character
         """
 
         def __init__(self, name, title):

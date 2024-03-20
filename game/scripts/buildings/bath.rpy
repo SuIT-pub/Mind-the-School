@@ -3,6 +3,11 @@
 ##################################
 
 init -1 python:
+    def bath_events_available() -> bool:
+        return (bath_timed_event.has_available_highlight_events() or 
+            bath_general_event.has_available_highlight_events() or 
+            any(e.has_available_highlight_events() for e in bath_events.values()))
+
     bath_timed_event = TempEventStorage("bath_timed", "bath", Event(2, "bath.after_time_check"))
     bath_general_event = EventStorage("bath_general", "bath", Event(2, "bath.after_general_check"))
     bath_events = {}
@@ -36,8 +41,8 @@ label .after_general_check (**kwargs):
         "What to do in the Bath?",
         bath_events,
         default_fallback,
-        bath_bg_images,
         character.subtitles,
+        bg_image = bath_bg_images,
         context = loli
         fallback_text = "There is nothing to see here."
     ) from bath_3

@@ -3,6 +3,11 @@
 ##########################################
 
 init -1 python:
+    def sports_field_events_available() -> bool:
+        return (sports_field_timed_event.has_available_highlight_events() or
+            sports_field_general_event.has_available_highlight_events() or
+            any(e.has_available_highlight_events() for e in sports_field_events.values()))
+
     sports_field_timed_event = TempEventStorage("sports_field", "sports_field", Event(1, "sports_field.after_time_check"))
     sports_field_general_event = EventStorage("sports_field",   "sports_field", Event(1, "sports_field.after_general_check"))
     sports_field_events = {}
@@ -35,8 +40,8 @@ label .after_general_check (**kwargs):
         "What to do on the sports field", 
         sports_field_events, 
         default_fallback,
-        sports_field_bg_images
         character.subtitles,
+        bg_image = sports_field_bg_images,
         context = loli,
     ) from sports_field_3
 

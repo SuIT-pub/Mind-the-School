@@ -3,6 +3,11 @@
 ###################################################
 
 init -1 python:
+    def sd_events_available() -> bool:
+        return (sd_timed_event.has_available_highlight_events() or
+            sd_general_event.has_available_highlight_events() or
+            any(e.has_available_highlight_events() for e in sd_events.values()))
+
     sd_timed_event = TempEventStorage("school_dormitory", "school_dormitory", Event(2, "school_dormitory.after_time_check"))
     sd_general_event = EventStorage("school_dormitory",   "school_dormitory", Event(2, "school_dormitory.after_general_check"))
 
@@ -10,8 +15,7 @@ init -1 python:
     add_storage(sd_events, EventStorage("peek_students", "school_dormitory", default_fallback, "There is nobody here."))
 
     sd_bg_images = BGStorage("images/background/school dormitory/bg c.webp",
-        BGImage("images/background/school dormitory/bg f <loli> <school_level> <nude>.webp", 1, TimeCondition(daytime = "f")),
-        BGImage("images/background/school dormitory/bg f <loli> <school_level> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "w")),
+        BGImage("images/background/school dormitory/bg <loli> <school_level> <variant> <nude>.webp", 1, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))),
         BGImage("images/background/school dormitory/bg 7.webp", 1, TimeCondition(daytime = 7)),
     )
 
@@ -101,8 +105,8 @@ label .after_general_check (**kwargs):
         "What to do in the High School Dorm?", 
         sd_events, 
         default_fallback,
-        sd_bg_images,
         character.subtitles,
+        bg_image = sd_bg_images,
         context = loli,
     ) from school_dormitory_3
 

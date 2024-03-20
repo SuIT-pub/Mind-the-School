@@ -3,6 +3,11 @@
 #################################
 
 init -1 python:
+    def gym_events_available() -> bool:
+        return (gym_timed_event.has_available_highlight_events() or
+            gym_general_event.has_available_highlight_events() or
+            any(e.has_available_highlight_events() for e in gym_events.values()))
+
     gym_timed_event = TempEventStorage("gym_timed", "gym", Event(2, "gym.after_time_check"))
     gym_general_event = EventStorage("gym_general", "gym", Event(2, "gym.after_general_check"))
     
@@ -13,7 +18,7 @@ init -1 python:
     add_storage(gym_events, EventStorage("teach_pe",       "gym", default_fallback, "There is nothing to do here."))
 
     gym_bg_images = BGStorage("images/background/gym/bg f.webp",
-        BGImage("images/background/gym/bg c <loli> <school_level> <teacher_level> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")), # show gym with students
+        BGImage("images/background/gym/bg <loli> <school_level> <teacher_level> <variant> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")), # show gym with students
         BGImage("images/background/gym/bg 7.webp", 1, TimeCondition(daytime = 7)), # show gym at night empty
     )
     
@@ -51,6 +56,8 @@ init 1 python:
         TimeCondition(daytime = "c", weekday = "d"),
         thumbnail = "images/events/gym/gym_event_3 1 1 0.webp")    
 
+    gym_teach_pe_1_event = Event(3, "gym_teach_pe_1",
+        TimeCondition(daytime = "c", weekday = "d"))
 
     gym_timed_event.add_event(
         first_week_gym_event_event,
@@ -71,6 +78,7 @@ init 1 python:
     gym_events["teach_pe"].add_event(
         gym_event1, 
         gym_event3,
+
     )
 
 #################################
@@ -93,8 +101,8 @@ label .after_general_check (**kwargs):
         "What to do in the Gym?", 
         gym_events, 
         default_fallback,
-        gym_bg_images,
         character.subtitles,
+        bg_image = gym_bg_images,
         context = loli,
     ) from gym_3
 
@@ -154,6 +162,35 @@ label weekly_assembly (**kwargs):
     subtitles "todo: weekly assembly"
 
     return
+
+label gym_teach_pe_1 (**kwargs):
+    $ begin_event(**kwargs)
+
+    # headmaster changes clothing in changing room
+    # headmaster heads to gym
+
+    headmaster "Alright, let's get started with the P.E. class."
+
+    headmaster "First we start with a few warm up exercises and stretching. After that I planned for you to play a round of football."
+    headmaster "Okay now all in a big circle and let's start with some stretching. Follow my lead."
+    # class does some stretching (maybe animated)
+    headmaster "Good, now let's start with some running. We will do a few laps around the gym."
+    # class runs a few laps
+    headmaster "Alright, that's enough. Now let's play some football. I will be the referee."
+    headmaster "Please split into two teams and let's get started."
+    sgirl "I'm sorry but how do we identify the teams? We all wear the same uniform."
+    headmaster "Hmm, that's a good point. Unfortunately we don't have any bibs or anything like that."
+    headmaster "I guess you just will have to remember your team mates. So now your teams please."
+    # The students seperate into two groups
+    headmaster "Alright, let's get started. The right side has the kickoff."
+    # a few scenes of the girls playing football
+    headmaster "Alright, that's enough for today. I hope you all had fun. Don't forget to shower and change your clothes."
+    # class leaves the gym
+    
+    $ change_stats_with_modifier(get_school(), 
+        happiness = TINY, charm = SMALL, reputation = TINY, inhibition = DEC_TINY)
+
+    $ end_event('new_daytime', **kwargs)
 
 label gym_event_1 (**kwargs):
     $ begin_event(**kwargs)

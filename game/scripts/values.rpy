@@ -3,10 +3,10 @@ init -98 python:
     # 1 = slight loli content (Middle School age: 13-17, High School age: 18-22)
     # 2 = hard loli content (Elementary School age: 8-12, Middle School age: 13-17, High School age: 18-22)
     loli_content = 2
-    cheat_mode = False
+    cheat_mode = True
     nude_vision = 2
     sfw_mode = False
-    event_selection_mode = True
+    event_selection_mode = False
     
     seenEvents = {}
     location_event_register = {}
@@ -38,6 +38,8 @@ default is_in_replay = False
 default replay_data = {}
 
 default event_data = {}
+
+default overview_events_available = {}
 
 default default_names = {
     'headmaster': ('Mark', 'Benson'),
@@ -77,24 +79,30 @@ default character.headmaster_whisper = Character(
     #window_background = None,
     who_color = "#ffffff",
     what_color = "#ffffff",
-    what_size = 15,
+    what_size = 28,
+    what_italic = True,
     # what_outlines = [( 1, "#000000", 0, 0 )],
 )
 default character.headmaster_shout = Character(
     "[headmaster_first_name] [headmaster_last_name]",
-    #window_background = None,
-    who_color = "#ffffff",
-    what_color = "#ffffff",
-    what_size = 35,
-    # what_outlines=[( 1, "#000000", 0, 0 )],
-)
-default character.headmaster_thought = Character(
-    "[headmaster_first_name] [headmaster_last_name]",
+    who_suffix = " (shouting)",
     #window_background = None,
     who_color = "#ffffff",
     what_color = "#ffffff",
     what_size = 28,
-    italics = True,
+    what_bold = True,
+    # what_outlines=[( 1, "#000000", 0, 0 )],
+)
+default character.headmaster_thought = Character(
+    "[headmaster_first_name] [headmaster_last_name]",
+    who_suffix = " (thinking)",
+    #window_background = None,
+    who_color = "#ffffff",
+    what_color = "#ffffff",
+    what_size = 28,
+    what_italic = True,
+    what_prefix = "(  ",
+    what_suffix = "  )",
     # what_outlines = [( 1, "#000000", 0, 0 )],
 )
 default character.secretary = Character(
@@ -107,18 +115,22 @@ default character.secretary = Character(
 )
 default character.secretary_whisper = Character(
     "Emiko Langley",
+    who_suffix = " (whispering)",
     #window_background = None,
     who_color = "#c71585",
     what_color = "#ffffff",
-    what_size = 15,
+    what_size = 28,
+    what_italic = True,
     # what_outlines = [( 1, "#000000", 0, 0 )],
 )
 default character.secretary_shout = Character(
     "Emiko Langley",
+    who_suffix = " (shouting)",
     #window_background = None,
     who_color = "#c71585",
     what_color = "#ffffff",
-    what_size = 35,
+    what_size = 28,
+    what_bold = True,
     # what_outlines = [( 1, "#000000", 0, 0 )],
 )
 default character.teacher = Character(
@@ -228,16 +240,20 @@ default character.crowd = Character(
 )
 default character.crowd_whisper = Character(
     "Crowd",
+    who_suffix = " (whispering)",
     #window_background = None,
     what_color = "#ffd700",
-    what_size = 15,
+    what_size = 28,
+    what_italics = True,
     # what_outlines = [( 1, "#000000", 0, 0 )],
 )
 default character.crowd_shout = Character(
     "Crowd",
+    who_suffix = " (shouting)",
     #window_background = None,
     what_color = "#ffd700",
-    what_size = 35,
+    what_size = 28,
+    what_bold = True,
     # what_outlines = [( 1, "#000000", 0, 0 )],
 )
 default character.subtitles = Character(

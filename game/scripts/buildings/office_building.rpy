@@ -3,6 +3,11 @@
 #############################################
 
 init -1 python:
+    def office_building_events_available() -> bool:
+        return (office_building_timed_event.has_available_highlight_events() or
+            office_building_general_event.has_available_highlight_events() or
+            any(e.has_available_highlight_events() for e in office_building_events.values()))
+
     office_building_timed_event = TempEventStorage("office_building", "office_building", Event(2, "office_building.after_time_check"))
     office_building_general_event = EventStorage("office_building", "office_building", Event(2, "office_building.after_general_check"))
 
@@ -74,8 +79,8 @@ label .after_general_check (**kwargs):
         "Hello Headmaster! How can I help you?" if char == "secretary" else "What do you do?", 
         office_building_events, 
         default_fallback,
-        office_building_bg_images,
         character.secretary if char == "secretary" else character.subtitles,
+        bg_image = office_building_bg_images,
         context = char,
     ) from office_building_3
 

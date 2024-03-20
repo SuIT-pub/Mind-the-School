@@ -3,6 +3,11 @@
 #######################################
 
 init -1 python:
+    def courtyard_events_available() -> bool:
+        return (courtyard_timed_event.has_available_highlight_events() or
+            courtyard_general_event.has_available_highlight_events() or
+            any(e.has_available_highlight_events() for e in courtyard_events.values()))
+
     courtyard_timed_event = TempEventStorage("courtyard_timed", "courtyard", Event(2, "courtyard.after_time_check"))
     courtyard_general_event = EventStorage("courtyard_general", "courtyard", Event(2, "courtyard.after_general_check"))
     
@@ -10,8 +15,7 @@ init -1 python:
     add_storage(courtyard_events, EventStorage("patrol", "courtyard", default_fallback, "There is nobody here."))
 
     courtyard_bg_images = BGStorage("images/background/courtyard/bg c.webp",
-        BGImage("images/background/courtyard/bg 1,6 <loli> <school_level> <nude>.webp", 1, OR(TimeCondition(daytime = "1,6", weekday = "w"), TimeCondition(daytime = "f", weekday = "d"))), # show courtyard with a few students
-        BGImage("images/background/courtyard/bg 3 <loli> <school_level> <nude>.webp", 1, TimeCondition(daytime = 3)), # show courtyard full of students and teacher
+        BGImage("images/background/courtyard/bg <loli> <school_level> <teacher_level> <variant> <nude>.webp", 1, TimeCondition(daytime = "f")),
         BGImage("images/background/courtyard/bg 7.webp", 1, TimeCondition(daytime = 7)), # show empty courtyard at night
     )
 
@@ -96,8 +100,8 @@ label .after_general_check (**kwargs):
         "What to do at the Courtyard?", 
         courtyard_events, 
         default_fallback,
-        courtyard_bg_images,
         character.subtitles,
+        bg_image = courtyard_bg_images,
         context = loli,
         fallback_text = "There is nothing to see here."
     ) from courtyard_3

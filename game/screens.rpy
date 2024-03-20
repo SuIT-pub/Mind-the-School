@@ -103,7 +103,7 @@ label trigger_hide():
         call screen wait_hide
         $ quick_menu = True
         window show
-        $ renpy.rollback(checkpoints=2)
+        $ renpy.rollback(checkpoints = 2)
         $ hide_gui = False
         return
 
@@ -1093,23 +1093,6 @@ screen help():
                 use gamepad_help
 
 
-screen replay_gallery():
-
-    tag menu
-
-    use game_menu(_("Replay Gallery"), scroll="viewport"):
-
-        style_prefix "replay_gallery"
-
-        vbox:
-            spacing 23
-
-            for i in range(0, 19):
-                text "text [i]"
-            # for i in _replay_list:
-                # hbox:
-                #     textbutton i.name action Replay(i.name)
-
 screen keyboard_help():
 
     hbox:
@@ -1548,6 +1531,8 @@ screen quick_menu():
             textbutton _("Auto") action Preference("auto-forward", "toggle")
             textbutton _("Menu") action ShowMenu()
             textbutton _("Hide") action Call("trigger_hide")
+            if is_in_replay:
+                textbutton _("End Replay") action Function(end_event, "none", **replay_data)
 
 
 style window:

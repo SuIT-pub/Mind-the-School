@@ -258,7 +258,62 @@ init -3 python:
                 return list(self.events[3].values())
             return list(self.events[1].values()) + list(self.events[2].values()) + list(self.events[3].values())
 
+        def has_available_highlight_events(self, **kwargs) -> bool:
+            """
+            Returns True if there are any events with priority 1 or 2 that are available.
+
+            ### Returns:
+            1. bool
+                - True if there are any events with priority 1 or 2 that are available.
+                - False if there are no events with priority 1 or 2 that are available.
+            """
+
+            for event in self.events[1].values():
+                if event.is_available(**kwargs) and event.check_options(Highlight = True, **kwargs):
+                    return True
+            for event in self.events[2].values():
+                if event.is_available(**kwargs) and event.check_options(Highlight = True, **kwargs):
+                    return True
+            return False
+
+        def has_available_high_prio_events(self, **kwargs) -> bool:
+            """
+            Returns True if there are any events with priority 1 or 2 that are available.
+
+            ### Returns:
+            1. bool
+                - True if there are any events with priority 1 or 2 that are available.
+                - False if there are no events with priority 1 or 2 that are available.
+            """
+
+            for event in self.events[1].values():
+                if event.is_available(**kwargs):
+                    return True
+            for event in self.events[2].values():
+                if event.is_available(**kwargs):
+                    return True
+            return False
+
         def count_available_events(self, priority: int = 0, **kwargs) -> int:
+            """
+            Counts the number of events that are available.
+            If priority is 0, all events are counted.
+
+            ### Parameters:
+            1. priority: int (Default 0)
+                - The priority of the events that are counted.
+                - If priority is 0, all events are counted.
+
+            ### Returns:
+            1. int
+                - The number of events that are available.
+                - If priority is 1 a maximum of 1 is returned.
+                - If priority is 2 or 3 all available events of that priority are counted.
+            """
+
+            return self.count_available_events_and_prio(priority, **kwargs)[0]
+
+        def count_available_events_and_prio(self, priority: int = 0, **kwargs) -> Tuple[int, bool]:
             """
             Counts the number of events that are available.
             If priority is 0, all events are counted.
@@ -281,21 +336,60 @@ init -3 python:
             if priority == 0 or priority == 1:
                 for event in self.events[1].values():
                     if event.is_available(**kwargs):
-                        return 1
+                        return 1, True
             if priority == 0 or priority == 2:
                 output = 0
                 for event in self.events[2].values():
                     if event.is_available(**kwargs):
                         output += 1
                 if output != 0:
-                    return output
+                    return output, True
             if priority == 0 or priority == 3:
                 output = 0
                 for event in self.events[3].values():
                     if event.is_available(**kwargs):
                         output += 1
-                return output
-            return 0
+                return output, False
+            return 0, False
+
+        def count_available_events_and_highlight(self, priority: int = 0, **kwargs) -> Tuple[int, bool]:
+            """
+            Counts the number of events that are available.
+            If priority is 0, all events are counted.
+
+            ### Parameters:
+            1. priority: int (Default 0)
+                - The priority of the events that are counted.
+                - If priority is 0, all events are counted.
+
+            ### Returns:
+            1. int
+                - The number of events that are available.
+                - If priority is 1 a maximum of 1 is returned.
+                - If priority is 2 or 3 all available events of that priority are counted.
+            """
+
+            if "event_type" not in kwargs.keys():
+                kwargs["event_type"] = self.name
+
+            if priority == 0 or priority == 1:
+                for event in self.events[1].values():
+                    if event.is_available(**kwargs) and event.check_options(Highlight = True, **kwargs):
+                        return 1, True
+            if priority == 0 or priority == 2:
+                output = 0
+                for event in self.events[2].values():
+                    if event.is_available(**kwargs) and event.check_options(Highlight = True, **kwargs):
+                        output += 1
+                if output != 0:
+                    return output, True
+            if priority == 0 or priority == 3:
+                output = 0
+                for event in self.events[3].values():
+                    if event.is_available(**kwargs) and event.check_options(Highlight = True, **kwargs):
+                        output += 1
+                return output, False
+            return 0, False
 
         def count_available_events_with_fallback(self, priority: int = 0, **kwargs) -> int:
             """
@@ -315,11 +409,56 @@ init -3 python:
                 - If no events are available, 1 is returned.
             """
 
-            output = self.count_available_events(priority, **kwargs)
+            return self.count_available_events_with_fallback_and_prio(priority, **kwargs)[0]
+
+        
+        def count_available_events_with_fallback_and_prio(self, priority: int = 0, **kwargs) -> Tuple[int, bool]:
+            """
+            Counts the number of events that are available.
+            This method is the same as count_available_events except that if no events are available, 1 is returned representing the fallback event.
+
+            ### Parameters:
+            1. priority: int (Default 0)
+                - The priority of the events that are counted.
+                - If priority is 0, all events are counted.
+
+            ### Returns:
+            1. int
+                - The number of events that are available.
+                - If priority is 1 a maximum of 1 is returned.
+                - If priority is 2 or 3 all available events of that priority are counted.
+                - If no events are available, 1 is returned.
+            """
+
+            output, prio = self.count_available_events_and_prio(priority, **kwargs)
 
             if output == 0:
-                return 1
-            return output
+                return 1, False
+            return output, prio
+
+        def count_available_events_with_fallback_and_highlight(self, priority: int = 0, **kwargs) -> Tuple[int, bool]:
+            """
+            Counts the number of events that are available.
+            This method is the same as count_available_events except that if no events are available, 1 is returned representing the fallback event.
+
+            ### Parameters:
+            1. priority: int (Default 0)
+                - The priority of the events that are counted.
+                - If priority is 0, all events are counted.
+
+            ### Returns:
+            1. int
+                - The number of events that are available.
+                - If priority is 1 a maximum of 1 is returned.
+                - If priority is 2 or 3 all available events of that priority are counted.
+                - If no events are available, 1 is returned.
+            """
+
+            output, prio = self.count_available_events_and_highlight(priority, **kwargs)
+
+            if output == 0:
+                return 1, False
+            return output, prio
 
         def get_available_events(self, priority: int = 0, **kwargs) -> List[Event]:
             """
@@ -525,7 +664,52 @@ init -3 python:
         ##############
         # Event getter
 
+        def has_available_highlight_events(self, **kwargs) -> bool:
+            """
+            Returns True if there are any events with priority 1 or 2 that are available.
+
+            ### Returns:
+            1. bool
+                - True if there are any events with priority 1 or 2 that are available.
+                - False if there are no events with priority 1 or 2 that are available.
+            """
+
+            for event in self.events:
+                if event.is_available(**kwargs) and event.check_options(Highlight = True, **kwargs):
+                    return True
+            return False
+
+        def has_available_high_prio_events(self, **kwargs) -> bool:
+            """
+            Returns True if there are any events with priority 1 or 2 that are available.
+
+            ### Returns:
+            1. bool
+                - True if there are any events with priority 1 or 2 that are available.
+                - False if there are no events with priority 1 or 2 that are available.
+            """
+
+            for event in self.events:
+                if event.is_available(**kwargs):
+                    return True
+            return False
+
         def count_available_events(self, _priority = 0, **kwargs) -> int:
+            """
+            Counts the number of events that are available.
+
+            ### Parameters:
+            1. _priority: int (Default 0)
+                - This parameter is not used
+
+            ### Returns:
+            1. int
+                - The number of events that are available.
+            """
+
+            return self.count_available_events_and_prio(**kwargs)[0]
+
+        def count_available_events_and_prio(self, _priority = 0, **kwargs) -> Tuple[int, bool]:
             """
             Counts the number of events that are available.
 
@@ -547,9 +731,51 @@ init -3 python:
                 if (event.is_available(**kwargs)):
                     output += 1
 
-            return output
+            return output, output != 0
+
+        def count_available_events_and_highlight(self, _priority = 0, **kwargs) -> Tuple[int, bool]:
+            """
+            Counts the number of events that are available.
+
+            ### Parameters:
+            1. _priority: int (Default 0)
+                - This parameter is not used
+
+            ### Returns:
+            1. int
+                - The number of events that are available.
+            """
+
+            output = 0
+
+            if "event_type" not in kwargs.keys():
+                kwargs["event_type"] = self.name + "_timed"
+
+            for event in self.events:
+                if event.is_available(**kwargs) and event.check_options(Highlight = True, **kwargs):
+                    output += 1
+
+            return output, output != 0
+        
 
         def count_available_events_with_fallback(self, _priority = 0, **kwargs) -> int:
+            """
+            Counts the number of events that are available.
+            This method is the same as count_available_events except that if no events are available, 1 is returned representing the fallback event.
+
+            ### Parameters:
+            1. _priority: int (Default 0)
+                - This parameter is not used
+
+            ### Returns:
+            1. int
+                - The number of events that are available.
+                - If no events are available, 1 is returned.
+            """
+
+            return self.count_available_events_with_fallback_and_prio(**kwargs)[0]
+
+        def count_available_events_with_fallback_and_prio(self, _priority = 0, **kwargs) -> Tuple[int, bool]:
             """
             Counts the number of events that are available.
             This method is the same as count_available_events except that if no events are available, 1 is returned representing the fallback event.
@@ -574,8 +800,36 @@ init -3 python:
                     output += 1
 
             if output == 0:
-                return 1
-            return output
+                return 1, False
+            return output, True
+
+        def count_available_events_with_fallback_and_highlight(self, _priority = 0, **kwargs) -> Tuple[int, bool]:
+            """
+            Counts the number of events that are available.
+            This method is the same as count_available_events except that if no events are available, 1 is returned representing the fallback event.
+
+            ### Parameters:
+            1. _priority: int (Default 0)
+                - This parameter is not used
+
+            ### Returns:
+            1. int
+                - The number of events that are available.
+                - If no events are available, 1 is returned.
+            """
+
+            output = 0
+
+            if "event_type" not in kwargs.keys():
+                kwargs["event_type"] = self.name + "_timed"
+
+            for event in self.events:
+                if event.is_available(**kwargs) and event.check_options(Highlight = True, **kwargs):
+                    output += 1
+
+            if output == 0:
+                return 1, False
+            return output, True
 
         def get_available_events(self, _priority = 0, **kwargs) -> List[Event]:
             """
@@ -708,12 +962,13 @@ init -3 python:
             - Calls the event.
         """
 
-        def __init__(self, priority: int, event: str, *conditions: Condition | Selector, thumbnail: str = ""):
+        def __init__(self, priority: int, event: str, *conditions: Condition | Selector | Option, thumbnail: str = ""):
             self.event_id = str(event)
             self.event = event
             self.thumbnail = thumbnail
             self.conditions = [condition for condition in conditions if isinstance(condition, Condition)]
             self.values = SelectorSet(*[condition for condition in conditions if isinstance(condition, Selector)])
+            self.options = OptionSet(*[condition for condition in conditions if isinstance(condition, Option)])
 
             rerollSelectors.append(self.values)
 
@@ -773,6 +1028,14 @@ init -3 python:
 
             if not renpy.has_label(self.event):
                 log_error(302, "Event " + self.event_id + ": Label " + self.event + " is missing!")
+
+        def check_options(self, **kwargs) -> bool:
+            """
+            Checks if all options are available.
+            If an option is not available, it is removed from the event.
+            """
+
+            return self.options.check_options(**kwargs)
 
         #############################
         # Attribute getter and setter
@@ -929,6 +1192,8 @@ init -3 python:
         """
         This method is called at the start of an event after choices and topics have been chosen in the event.
         It prevents rollback to before this method and thus prevents changing choices and topics.
+        It also starts the Gallery_Manager if the event is not in replay which is used to track and register 
+        the used variables and decisions in the event.
         """
 
         global seenEvents
@@ -959,6 +1224,18 @@ init -3 python:
             renpy.call("show_sfw_text", event_name)
 
     def end_event(return_type: str = "new_daytime", **kwargs):
+        """
+        This method is called at the end of an event.
+        It returns to the map overview or calls a new daytime event.
+        In case of a replay, it returns to the journal.
+
+        ### Parameters:
+        1. return_type: str (Default "new_daytime")
+            - The type of the return.
+            - If return_type is "new_daytime", a new daytime event is called.
+            - If return_type is "new_day", a new day event is called.
+            - If return_type is "none", nothing is called.
+        """
 
         global is_in_replay
 

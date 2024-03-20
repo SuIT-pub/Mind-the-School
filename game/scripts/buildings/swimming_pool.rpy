@@ -3,6 +3,11 @@
 ###########################################
 
 init -1 python:
+    def swimming_pool_events_available() -> bool:
+        return (swimming_pool_timed_event.has_available_highlight_events() or
+            swimming_pool_general_event.has_available_highlight_events() or
+            any(e.has_available_highlight_events() for e in swimming_pool_events.values()))
+
     swimming_pool_timed_event = TempEventStorage("swimming_pool", "swimming_pool", Event(2, "swimming_pool.after_time_check"))
     swimming_pool_general_event = EventStorage("swimming_pool",   "swimming_pool", Event(2, "swimming_pool.after_general_check"))
     swimming_pool_events = {}
@@ -35,8 +40,8 @@ label .after_general_check (**kwargs):
         "What to do at the swimming pool?", 
         swimming_pool_events, 
         default_fallback,
-        swimming_pool_bg_images,
         character.subtitles,
+        bg_image = swimming_pool_bg_images,
         context = loli,
     ) from swimming_pool_3
 

@@ -3,6 +3,11 @@
 ##########################################
 
 init -1 python:
+    def tennis_court_events_available() -> bool:
+        return (tennis_court_timed_event.has_available_highlight_events() or
+            tennis_court_general_event.has_available_highlight_events() or
+            any(e.has_available_highlight_events() for e in tennis_court_events.values()))
+
     tennis_court_timed_event = TempEventStorage("tennis_court", "tennis_court", Event(2, "tennis_court.after_time_check"))
     tennis_court_general_event = EventStorage("tennis_court",   "tennis_court", Event(2, "tennis_court.after_general_check"))
     tennis_court_events = {}
@@ -38,8 +43,8 @@ label .after_general_check (**kwargs):
         "What to do at the tennis court?", 
         tennis_court_events, 
         default_fallback,
-        tennis_court_bg_images
         character.subtitles,
+        bg_image = tennis_court_bg_images,
         context = loli,
     ) from tennis_court_3
 

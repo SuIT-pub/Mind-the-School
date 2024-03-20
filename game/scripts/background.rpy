@@ -3,6 +3,12 @@ init -2 python:
     from typing import List, Tuple
     import re
 
+    image_code = -1
+    last_image_code = -1
+    last_image = ""
+    last_image_nude = 0
+    last_current_nude = 0
+
     class Image_Step:
         """
         A class to represent an image step.
@@ -115,6 +121,7 @@ init -2 python:
             super().__init__(image_path)
             self.steps = []
             self.create_steps(image_path)
+            self.alternative_keys = get_kwargs('alternative_keys', [], **kwargs)
 
         def create_steps(self, image_path: str):
             """
@@ -179,24 +186,108 @@ init -2 python:
             return variant  
                 
     class BGStorage:
+        """
+        A class to represent a background storage.
+        A background storage is a storage for background images.
+
+        ### Attributes:
+        1. fallback_image: str
+            - The fallback image path.
+        2. images: List[BGImage]
+            - A list of all the background images.
+        3. _kwargs: dict
+            - The keyword arguments to replace in the image path.
+
+        ### Methods:
+        1. get_images() -> List[BGImage]
+            - Returns a list of all the background images.
+        2. get_fallback() -> str
+            - Returns the fallback image path.
+        3. add_image(*image: BGImage)
+            - Adds a background image to the background storage.
+        4. add_kwargs(**kwargs)
+            - Adds keyword arguments to the background storage.
+        5. get_kwargs() -> dict
+            - Returns the keyword arguments of the background storage.
+
+        ### Parameters:
+        1. fallback_image: str
+            - The fallback image path.
+        2. *images: BGImage
+            - A list of all the background images.
+        3. **kwargs
+            - The keyword arguments to replace in the image path.
+        """
+
         def __init__(self, fallback_image: str, *images: BGImage, **kwargs):
             self.fallback_image = fallback_image
             self.images = list(images)
             self._kwargs = kwargs
 
         def get_images(self) -> List[BGImage]:
+            """
+            Returns a list of all the background images.
+
+            ### Returns:
+            1. List[BGImage]
+                - A list of all the background images.
+            """
+
             return self.images
 
         def get_fallback(self) -> str:
+            """
+            Returns the fallback image path.
+
+            ### Returns:
+            1. str
+                - The fallback image path.
+            """
+
             return self.fallback_image
 
+        def set_fallback(self, fallback_image: str):
+            """
+            Sets the fallback image path.
+
+            ### Parameters:
+            1. fallback_image: str
+                - The fallback image path.
+            """
+
+            self.fallback_image = fallback_image
+
         def add_image(self, *image: BGImage):
+            """
+            Adds a background image to the background storage.
+
+            ### Parameters:
+            1. *image: BGImage
+                - A list of all the background images to add.
+            """
+
             self.images.extend(image)
 
         def add_kwargs(self, **kwargs):
+            """
+            Adds keyword arguments to the background storage.
+
+            ### Parameters:
+            1. **kwargs
+                - The keyword arguments to add.
+            """
+
             self._kwargs.update(kwargs)
 
-        def get_kwargs(self):
+        def get_kwargs(self) -> Dict[str, Any]:
+            """
+            Returns the keyword arguments of the background storage.
+
+            ### Returns:
+            1. dict
+                - The keyword arguments of the background storage.
+            """
+
             return self._kwargs
 
     class BGImage(Image_Obj):
@@ -580,20 +671,49 @@ init -2 python:
         return renpy.loadable(image_path)
 
 label show_sfw_text(text):
+    # """
+    # Shows a text on black screen in sfw_mode is active
+
+    # ### Parameters:
+    # 1. text: str
+    #     - The text to show
+    # """
+
     if sfw_mode:
-        scene screen black_screen_text (text) with dissolveM
+        call screen black_screen_text (text) with dissolveM
     return
 
 label show_idle_image(bg_images, **kwargs):
+    # """
+    # Shows an idle image with the given background images and keyword arguments.
 
-    $ fallback = bg_images.get_fallback()
+    # ### Parameters:
+    # 1. bg_images: BGStorage
+    #     - The background images to show.
+    # 2. **kwargs
+    #     - The keyword arguments to replace in the image path.
+    # """
+
+    $ fallback_image = bg_images.get_fallback()
     $ images = bg_images.get_images()
 
     $ kwargs.update(bg_images.get_kwargs())
 
-    $ max_nude, image_path = get_background(fallback, images, **kwargs)
+    if last_image_code != image_code:
+        $ last_image_code = image_code
 
-    call show_image_with_nude_var (image_path, max_nude) from show_idle_image_1
+        $ max_nude, image_path = get_background(fallback_image, images, **kwargs)
+        $ current_nude = DEFAULT_NUDE
+
+        $ last_image = image_path
+        $ last_image_nude = max_nude
+        $ last_current_nude = current_nude
+    else:
+        $ max_nude = last_image_nude
+        $ image_path = last_image
+        $ current_nude = last_current_nude
+
+    call show_image_with_nude_var (image_path, max_nude, current_nude) from show_idle_image_1
 
     return
 
@@ -673,7 +793,7 @@ label show_ext_image_with_nude_var(image_path, **kwargs):
     call show_image_with_nude_var(ext_image, nude) from show_ext_image_with_nude_var_1
     return
 
-label show_image_with_nude_var(image_path, limit = 0):
+label show_image_with_nude_var(image_path, limit = 0, nude = DEFAULT_NUDE):
     # """
     # Is used to display an image with nude variants.
     # DO NOT USE THIS METHOD DIRECTLY! Use show_ext_image_with_nude_var instead!
@@ -702,11 +822,29 @@ label show_image_with_nude_var(image_path, limit = 0):
     if image_not_found:
         return
 
-    show screen image_with_nude_var(paths, limit) with dissolveM
+    call call_screen_image_with_nude_var (paths, limit, nude) from show_image_with_nude_var_1
 
     return
 
-screen image_with_nude_var(paths, limit = 2, nude = 0):
+label call_screen_image_with_nude_var (paths, limit = 2, nude = DEFAULT_NUDE):
+    # """
+    # Calls the screen image_with_nude_var with the given paths, limit and nude level.
+
+    # ### Parameters:
+    # 1. paths: List[str]
+    #     - A list of all the image paths.
+    # 2. limit: int (default 2)
+    #     - The highest nude level to show.
+    # 3. nude: int (default 2)
+    #     - The current nude level.
+    # """
+
+    $ last_current_nude = nude
+
+    show screen image_with_nude_var(paths, limit, nude) with dissolveM
+    return
+
+screen image_with_nude_var(paths, limit = 2, nude = DEFAULT_NUDE):
     # """
     # Shows the image with a button to switch between the different nude versions.
 
@@ -720,6 +858,12 @@ screen image_with_nude_var(paths, limit = 2, nude = 0):
     # """
     tag background
     
+    if len(paths) <= nude:
+        $ nude = len(paths) - 1
+
+    if limit < nude:
+        $ nude = limit
+
     $ path = paths[nude]
 
     if renpy.loadable(path):
@@ -730,20 +874,20 @@ screen image_with_nude_var(paths, limit = 2, nude = 0):
             auto "icons/sight_disabled_%s.webp"
             focus_mask None
             xalign 0.0 yalign 0.0
-            action Show("image_with_nude_var", dissolveM, paths, limit, 0)
+            action Call("call_screen_image_with_nude_var", paths, limit, 0)
 
     if nude == 0 and limit > 0:
         imagebutton:
             auto "icons/eye_target_%s.webp"
             focus_mask None
             xalign 0.0 yalign 0.0
-            action Show("image_with_nude_var", dissolveM, paths, limit, 1)
+            action Call("call_screen_image_with_nude_var", paths, limit, 1)
 
     if nude == 1 and limit > 1:
         imagebutton:
             auto "icons/fire_iris_%s.webp"
             focus_mask None
             xalign 0.0 yalign 0.0
-            action Show("image_with_nude_var", dissolveM, paths, limit, 2)
+            action Call("call_screen_image_with_nude_var", paths, limit, 2)
 
 

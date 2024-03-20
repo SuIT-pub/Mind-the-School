@@ -66,7 +66,7 @@ init python:
 
         renpy.call("call_menu", text, person, with_leave, *filtered_elements, **kwargs)
 
-    def clean_events_for_menu(events: Dict[str, EventStorage], **kwargs) -> List[Tuple[str, EventEffect]]:
+    def clean_events_for_menu(events: Dict[str, EventStorage], **kwargs) -> Tuple[List[Tuple[str, EventEffect]], List[str]]:
         """
         Cleans a list of events for use in a menu.
         It takes each EventStorage in events and checks if it has any applicable events. If it does, it adds it to the output list.
@@ -84,19 +84,24 @@ init python:
         output = []
         used = []
 
+        high_prio_events = []
+
         # remove events that have no applicable events
         for key in events.keys():
             storage = events[key]
-            if (storage.count_available_events(**kwargs) > 0 and key not in used):
+            amount, prio = storage.count_available_events_and_highlight(**kwargs)
+            if (amount > 0 and key not in used):
                 if event_selection_mode:
                     effect = EventSelectEffect(storage)
                 else:
                     effect = EventEffect(storage)
                 title = get_event_menu_title(storage.get_location(), storage.get_name())
+                if prio:
+                    high_prio_events.append(str(effect))
                 output.append((title, effect))
                 used.append(key)
 
-        return output
+        return output, high_prio_events
         
 
 # calls a menu with the given elements
@@ -137,7 +142,7 @@ label call_menu(text, person, with_leave = True, *elements, **kwargs):
         call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
 
 # calls a menu specialized in use for events
-label call_event_menu(text, events, fallback, bg_image, person = character.subtitles, **kwargs):
+label call_event_menu(text, events, fallback, person = character.subtitles, **kwargs):
     # """
     # Refines a list of events and calls a menu with the given elements and the given text and person.
 
@@ -152,9 +157,10 @@ label call_event_menu(text, events, fallback, bg_image, person = character.subti
     #     - The person to display saying the text.
     # """
 
-    call show_idle_image(bg_image, **kwargs) from call_event_menu_3
+    $ renpy.block_rollback()
 
-    $ kwargs.update({'bg_image': bg_image})
+    $ bg_image = get_kwargs('bg_image', None, **kwargs)
+    call show_idle_image(bg_image, **kwargs) from call_event_menu_3
 
     $ renpy.choice_for_skipping()
 
@@ -163,11 +169,13 @@ label call_event_menu(text, events, fallback, bg_image, person = character.subti
     $ kwargs['teacher_obj'] = get_character_by_key('teacher')
     $ kwargs['secretary_obj'] = get_character_by_key('secretary')
 
-    $ event_list = clean_events_for_menu(events, **kwargs)
+    $ event_list, high_prio = clean_events_for_menu(events, **kwargs)
 
     if len(event_list) == 0:
         call call_event(fallback, **kwargs) from call_event_menu_1
         jump map_overview
+
+    $ kwargs['marked'] = high_prio
 
     call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
 
@@ -271,6 +279,10 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
 
     $ element_count = len(elements)
 
+    $ marked_elements = get_kwargs('marked', [], **kwargs)
+
+    $ kwargs.pop('menu_selection', None)
+
     frame:
         background "#ffffff00"
         area(367, 0, 1185, 800)
@@ -303,12 +315,17 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
                         $ title, effects = elements[i]
                     else:
                         $ title, effects, _active = elements[i]
+                    $ raw_title = str(effects)
                     $ title_text = "[title]"
                     if has_keyboard() and count < 10:
                         if show_shortcut():
                             $ title_text = "[title] [[[count]]"
-                        key ("K_" + str(count)) action Call("call_element", effects, **kwargs)
-                        key ("K_KP" + str(count)) action Call("call_element", effects, **kwargs)
+                        key ("K_" + str(count)) action Call("call_element", effects, menu_selection = raw_title, **kwargs)
+                        key ("K_KP" + str(count)) action Call("call_element", effects, menu_selection = raw_title, **kwargs)
+
+                    if str(effects) in marked_elements:
+                        $ title_text = "{color=#a00000}●{/color}  " + title_text + "  {color=#a00000}●{/color}"
+
                     button:
                         background Frame("gui/button/choice_idle_background.png", 1, 1, True)
                         hover_background Frame("gui/button/choice_hover_background.png", 1, 1, True)
@@ -317,7 +334,7 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
                             yalign 0.5
                         xsize 1185
                         xalign 0.5
-                        action Call("call_element", effects, **kwargs)
+                        action Call("call_element", effects, menu_selection = raw_title, **kwargs)
                         
                     null height 30
                 $ count += 1

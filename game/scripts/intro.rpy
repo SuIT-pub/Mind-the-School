@@ -85,21 +85,23 @@ label .start:
     $ headmaster_last_name = get_name_last("headmaster")
     $ secretary_name = get_name_str("secretary")
 
-    show office secretary 1 smile with dissolveM
+    $ image = Image_Series("images/events/intro/intro <step>.webp")
+
+    $ image.show(3)
     secretary """Hello Mr. [headmaster_last_name], nice to meet you!
         My name is [secretary_name].
     """ (name="Secretary")
     secretary "From now on I'll be your secretary."
 
-    show office secretary 1 talk with dissolveM
+    $ image.show(0)
     secretary """I used to work for the previous headmaster, 
         so I know the school pretty well.
     """
 
-    show office secretary 3 big smile  with dissolveM
+    $ image.show(4)
     secretary "If you have any questions just come and ask me."
 
-    show office secretary 2 emotionless with dissolveM
+    $ image.show(5)
     secretary """
         Unfortunately, the last headmaster left this school in pretty bad shape.
 
@@ -108,10 +110,10 @@ label .start:
         This wasn't only bad for the students' education, but also for the school's reputation.
     """
 
-    show office secretary 3 big smile with dissolveM
+    $ image.show(4)
     secretary "So now it is your job to go on and fix this school!"
 
-    show office secretary 4 smile with dissolveM
+    $ image.show(6)
     secretary """
         You won't be handling all the details like hiring teachers or setting up schedules.
 
@@ -119,17 +121,17 @@ label .start:
         occasionally teach a class or two.
     """
 
-    show office secretary 1 emotionless with dissolveM
+    $ image.show(1)
     secretary """But new rules must be approved by the PTA which is made up of the school council, teachers and a 
         representative from the regional government.
     """
 
     call tutorial_menu from first_day_introduction_3
 
-    show office secretary 3 smile with dissolveM
+    $ image.show(2)
     secretary "Now you know the basics. You might want to hurry down to the gym for the weekly meeting."
 
-    show office secretary 3 big smile with dissolveM
+    $ image.show(4)
     secretary "I'm sure the students are eager to meet you."
 
     scene expression "events/intro/intro gym 2 [loli_content].webp" with dissolveM 
@@ -188,7 +190,7 @@ label .start:
     headmaster_shout "Thank you and let's have a great time together!"
     crowd_shout "*clapping*"
 
-    scene office secretary 3 big smile
+    $ image.show(4)
     secretary "Wow! That was a nice speech!"
     secretary "Now that we finished the introduction, let's start with the entry paperwork."
     headmaster "Alright."

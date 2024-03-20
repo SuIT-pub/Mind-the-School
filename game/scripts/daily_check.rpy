@@ -351,35 +351,37 @@ label first_week_epilogue (**kwargs):
 
     $ hide_all()
 
-    scene office secretary 1 big smile with dissolveM
+    $ image = Image_Series("images/events/first week/first_week_epilogue <step>.webp")
+
+    $ image.show(0)
     secretary "That was a good first meeting Mr. [headmaster_last_name]. "
     headmaster "Thank you! And please just call me [headmaster_first_name]. It's a bit awkward to be called so formal."
 
     # first week epilogue 2
-    show office secretary 1 big smile with dissolveM
+    $ image.show(0)
     secretary "Okay [headmaster_first_name]."
     headmaster "Good! Could you please call me a cab? I have to drive into town to prepare some things for my time at the school."
-    show office secretary 1 talk with dissolveM
+    $ image.show(1)
     secretary "I'll get right on it, but can I ask what you have planned?"
-    show office secretary 1 emotionless with dissolveM
+    $ image.show(2)
     headmaster "You can but I can't really answer that. Some of it is classified and the rest isn't secured yet."
     headmaster "If I'm successful, I'll let you know as soon as possible."
 
     # first week epilogue 3
-    scene office secretary 3 smile with dissolveM
+    $ image.show(3)
     secretary "Okay, I'll go call your cab."
     headmaster "Thank you very much."
     
     call screen black_screen_text ("20 minutes later")
 
     # first week epilogue 4
-    scene office secretary 2 smile with dissolveM
+    $ image.show(4)
     secretary "[headmaster_first_name]! Your cab just arrived!"
     headmaster "Perfect! I'll be off then. Expect me back early on Monday. I need all the time I can get."
 
     call screen black_screen_text ("Monday, 8 January 2023")
 
-    show first week epilogue 5  
+    show first week epilogue 5 
     # headmaster enters with two boxes
     secretary "Good Morning, welcome back!"
     secretary "These 2 Boxes got delivered just an hour ago!"
@@ -727,12 +729,10 @@ label .skip:
 ##################################
 
 label new_week (**kwargs):
-    $ log("week")
     $ change_money_with_modifier(0, 'payroll_weekly')
     return
 
 label end_of_month (**kwargs):
-    $ log("month")
     $ change_money_with_modifier(0, 'payroll_monthly')
     # $ change_stat(MONEY, 1000)
 

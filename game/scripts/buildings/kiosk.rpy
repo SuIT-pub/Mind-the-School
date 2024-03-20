@@ -3,6 +3,11 @@
 ###################################
 
 init -1 python:
+    def kiosk_events_available() -> bool:
+        return (kiosk_timed_event.has_available_highlight_events() or
+            kiosk_general_event.has_available_highlight_events() or
+            any(e.has_available_highlight_events() for e in kiosk_events.values()))
+
     kiosk_timed_event = TempEventStorage("kiosk_timed", "kiosk", Event(2, "kiosk.after_time_check"))
     kiosk_general_event = EventStorage("kiosk_general", "kiosk", Event(2, "kiosk.after_general_check"))
 
@@ -10,7 +15,7 @@ init -1 python:
     add_storage(kiosk_events, EventStorage("get_snack",    "kiosk", default_fallback, "I don't want anything."))
 
     kiosk_bg_images = BGStorage("images/background/kiosk/bg c.webp",
-        BGImage("images/background/kiosk/bg f <loli> <school_level> <nude> <variant>.webp", 1, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))), # show kiosk with students
+        BGImage("images/background/kiosk/bg <loli> <school_level> <variant> <nude>.webp", 1, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))), # show kiosk with students
         BGImage("images/background/kiosk/bg 7.webp", 1, TimeCondition(daytime = 7)), # show kiosk at night empty
     )
 
@@ -67,8 +72,8 @@ label .after_general_check (**kwargs):
         "What to do at the Kiosk?", 
         kiosk_events, 
         default_fallback,
-        kiosk_bg_images,
         character.subtitles,
+        bg_image = kiosk_bg_images,
         context = loli,
     ) from kiosk_3
 

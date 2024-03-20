@@ -3,6 +3,11 @@
 ##################################
 
 init -1 python:
+    def labs_events_available() -> bool:
+        return (labs_timed_event.has_available_highlight_events() or
+            labs_general_event.has_available_highlight_events() or
+            any(e.has_available_highlight_events() for e in labs_events.values()))
+
     labs_timed_event = TempEventStorage("labs_timed", "labs", Event(2, "labs.after_time_check"))
     labs_general_event = EventStorage("labs_general", "labs", Event(2, "labs.after_general_check"))
     labs_events = {}
@@ -34,8 +39,8 @@ label .after_general_check (**kwargs):
         "What to do at the Labs?", 
         labs_events, 
         default_fallback,
-        labs_bg_images,
         character.subtitles,
+        bg_image = labs_bg_images,
         context = loli,
         fallback_text = "There is nothing to see here.",
     ) from labs_3

@@ -3,6 +3,11 @@
 #######################################
 
 init -1 python:
+    def cafeteria_events_available() -> bool:
+        return (cafeteria_timed_event.has_available_highlight_events() or
+            cafeteria_general_event.has_available_highlight_events() or
+            any(e.has_available_highlight_events() for e in cafeteria_events.values()))
+
     cafeteria_timed_event = TempEventStorage("cafeteria_timed", "cafeteria", Event(2, "cafeteria.after_time_check"))
     cafeteria_general_event = EventStorage("cafeteria_general", "cafeteria", Event(2, "cafeteria.after_general_check"))
 
@@ -11,8 +16,7 @@ init -1 python:
     add_storage(cafeteria_events, EventStorage("eat_alone",   "cafeteria", default_fallback, "I'm not hungry."))
 
     cafeteria_bg_images = BGStorage("images/background/cafeteria/bg c.webp",
-        BGImage("images/background/cafeteria/bg d <loli> <parent_level> <school_level> <variant> <nude>.webp", 1, TimeCondition(daytime = '3,6', weekday = 'd')),
-        BGImage("images/background/cafeteria/bg d <loli> <parent_level> <school_level> <variant> <nude>.webp", 2, AND(TimeCondition(daytime = 'd', weekday = 'w'), RandomCondition(1, 1))),
+        BGImage("images/background/cafeteria/bg d <loli> <parent_level> <school_level> <variant> <nude>.webp", 1, OR(TimeCondition(daytime = '3,6', weekday = 'd'), TimeCondition(daytime = 'd', weekday = 'w'))),
         BGImage("images/background/cafeteria/bg c <parent_level> <nude>.webp", 1, OR(TimeCondition(daytime = 'c', weekday = 'd'), TimeCondition(daytime = 'd', weekday = 'w'))),
         BGImage("images/background/cafeteria/bg 7.webp", 1, TimeCondition(daytime = 7)), # show empty terrace at night
     )
@@ -81,7 +85,7 @@ init 1 python:
             (RandomListSelector('', '3A', '2A', '2A 3A'), LoliContentCondition(1)),
             (RandomListSelector('', '1A', '1A 2A', '1A 2A 3A', '1A 3A', '2A', '2A 3A', '3A'), LoliContentCondition(2))
         ),
-        thumbnail = "")
+        thumbnail = "images/events/cafeteria/cafeteria_event_5 1 3A 1.webp")
 
 
     cafeteria_general_event.add_event(
@@ -118,8 +122,8 @@ label .after_general_check (**kwargs):
         "What to do at the Cafeteria?", 
         cafeteria_events,
         default_fallback,
-        cafeteria_bg_images,
         character.subtitles,
+        bg_image = cafeteria_bg_images,
         context = loli,
     ) from cafeteria_3
 
@@ -261,13 +265,10 @@ label cafeteria_event_3(**kwargs):
         parent "You could say that. I'm a bit overwhelmed with work. " (name = name)
         parent "Today there just too much work to do for one person." (name = name)
 
-        $ log_val('unlock_school_jobs', unlock_school_jobs)
-
         if unlock_school_jobs != 2:
             $ unlock_school_jobs = set_progress('unlock_school_jobs', unlock_school_jobs)
             if unlock_school_jobs < 2:
                 $ school_job_progress = advance_progress('school_job_progress')
-            $ log_val('school_job_progress', school_job_progress)
 
             # Adelaide gives the order to the headmaster
             $ image.show(11)
@@ -401,7 +402,7 @@ label cafeteria_event_3(**kwargs):
         # Adelaide prepares the order
         parent "Sure, I'll get it for you right away." (name = name)
         # Adelaide gives the order to the headmaster
-        $ image.show(2)
+        $ image.show(1)
         parent "Here you go." (name = name)
         # headmaster takes the sandwich and coffee
         headmaster "Thank you."

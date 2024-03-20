@@ -90,8 +90,7 @@ screen show_building_idle (building):
 
 label tutorial_menu ():
 
-    scene office secretary 4 big smile with dissolveM
-
+    call show_image("images/events/intro/tutorial_event_1.webp") from _tutorial_menu_2
     menu:
         secretary "Do you have any questions?"
 

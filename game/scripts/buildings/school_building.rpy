@@ -3,6 +3,12 @@
 #############################################
 
 init -1 python:
+    def sb_events_available() -> bool:
+        return (sb_timed_event.has_available_highlight_events() or
+            sb_general_event.has_available_highlight_events() or
+            any(e.has_available_highlight_events() for e in sb_events.values()) or
+            any(e.has_available_highlight_events() for e in sb_teach_events.values()))
+
     sb_timed_event = TempEventStorage("school_building", "school_building", Event(2, "school_building.after_time_check"))
     sb_general_event = EventStorage("school_building", "school_building", Event(2, "school_building.after_general_check"))
 
@@ -11,11 +17,10 @@ init -1 python:
     add_storage(sb_events, EventStorage("patrol",       "school_building", default_fallback, "There is nobody here."))
 
     sb_teach_events = {}
-    add_storage(sb_teach_events, EventStorage("english", "school_building", default_fallback, "There is nobody here."))
     add_storage(sb_teach_events, EventStorage("math",    "school_building", default_fallback, "There is nobody here."))
 
     sb_bg_images = BGStorage("images/background/school building/bg f.webp",
-        BGImage("images/background/school building/bg c <loli> <school_level> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")),
+        BGImage("images/background/school building/bg <loli> <school_level> <variant> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")),
         BGImage("images/background/school building/bg 7.webp", 1, TimeCondition(daytime = 7)),
     )
 
@@ -63,7 +68,7 @@ init 1 python:
         thumbnail = "images/events/school building/sb_event_2 1 0.webp")
     
     sb_event3 = Event(3, "sb_event_3",
-        TimeCondition(daytime = "d"),
+        TimeCondition(weekday = "d", daytime = "d"),
         thumbnail = "images/events/school building/sb_event_3 1 1.webp")
 
     sb_event4 = Event(3, "sb_event_4",
@@ -76,8 +81,11 @@ init 1 python:
         TimeCondition(weekday = "d", daytime = "c"),
     )
 
-    sb_teach_english_1_event = Event(3, "sb_teach_english_1")
-    sb_teach_math_1_event = Event(3, "sb_teach_math_1")
+    sb_teach_math_1_event = Event(3, "sb_teach_math_1",
+        RandomListSelector('girl_name', 'Seraphina Clark', 'Hatano Miwa', 'Soyoon Yamamoto'),
+        RandomListSelector('topic', 'normal', 'sleeping', 'inattentive', 'scribbling'),
+    )
+    sb_teach_math_2_event = Event(3, "sb_teach_math_2")
 
     #################
     # Event insertion
@@ -100,12 +108,9 @@ init 1 python:
         sb_event4,
     )
 
-    sb_teach_events["english"].add_event(
-        sb_teach_english_1_event,
-        sb_event2,
-    )
     sb_teach_events["math"].add_event(
         sb_teach_math_1_event,
+        sb_teach_math_2_event,
         sb_event2,
     )
 
@@ -129,8 +134,8 @@ label .after_general_check (**kwargs):
         "What to do in the School?", 
         sb_events,
         default_fallback,
-        sb_bg_images,
         character.subtitles,
+        bg_image = sb_bg_images,
         context = loli,
     ) from school_building_3
 
@@ -229,7 +234,7 @@ label first_class_sb_event (**kwargs):
         $ image.show(8)
         sgirl "Hi I am Luna Clark. I'm 18 years old." (name="Luna Clark")
         $ image.show(9)
-        sgirl "Hi, my name is Elsie Johnson. I'm 21 years old." (name="Elsie Johnson")
+        sgirl "Hi I am Seraphina Clark. I'm also 18 years old." (name="Seraphina Clark")
         $ image.show(10)
         sgirl "H-Hi, I'm Easkey Tanaka. I'm 19 years old." (name="Easkey Tanaka")
         $ image.show(11)
@@ -249,11 +254,13 @@ label first_class_sb_event (**kwargs):
         $ image.show(18)
         sgirl "Sakura Mori. 21." (name="Sakura Mori")
         $ image.show(19)
-        sgirl "Hi. I'm Hatano Miwa. 19 years." (name="Hatano Miwa")
+        sgirl "Hi, my name is Elsie Johnson. I'm 21 years old." (name="Elsie Johnson")
         $ image.show(20)
+        sgirl "Hi. I'm Hatano Miwa. 19 years." (name="Hatano Miwa")
+        $ image.show(21)
         sgirl "Hello. Soyoon Yamamoto. 18 years." (name="Soyoon Yamamoto")
 
-        $ image.show(21)
+        $ image.show(22)
         headmaster "Thank you all for introducing yourself. I'm looking forward to working with you."
         headmaster "Now I'll return you back to Miss Ryan. Have a good day."
 
@@ -360,28 +367,150 @@ label first_class_sb_event (**kwargs):
 # Teaching events
 
 label teach_class_event (**kwargs):
-    $ school_obj = get_character("school", charList)
-    $ loli = get_kwargs('context', get_random_loli(), **kwargs)
-    $ bg_image = get_kwargs('bg_image', None, **kwargs)
     call call_event_menu (
         "What subject do you wanna teach?", 
         sb_teach_events,
         default_fallback,
-        bg_image,
         character.subtitles,
-        context = loli,
         override_menu_exit = 'school_building',
+        learning_difficulty = (get_school().check_stat(EDUCATION, '50-') and random.randint(1, 1) == 1),
+        **kwargs
     ) from teach_class_event_1
 
     jump school_building
 
-label sb_teach_english_1 (**kwargs):
-    subtitles "Todo: english subject"
-    jump new_daytime
-
 label sb_teach_math_1 (**kwargs):
-    subtitles "Todo: math subject"
-    jump new_daytime
+    $ begin_event(**kwargs)
+
+    $ girl_name = get_value('girl_name', **kwargs)
+    $ learning_difficulty = get_value('learning_difficulty', **kwargs)
+    $ topic = get_value('topic', **kwargs)
+
+    $ girl_first_name, girl_last_name = girl_name.split(' ')
+
+    # headmaster enters room
+    headmaster "Good morning everyone. Let's start with todays subject Math."
+
+    headmaster "Is there anything you want to reiterate from the last time?"
+
+    # Seraphina Clark, Hatano Miwa, Soyoon Yamamoto
+
+    if learning_difficulty:
+        sgirl "Yes, I'm sorry. I didn't understand the last topic." (name = girl_name)
+        headmaster "No problem. I'll explain it again."
+        headmaster "Imagine..."
+
+        show screen black_screen_text("15 minutes later.")
+
+        headmaster "Do you understand it better now?"
+        sgirl "Yes, thank you." (name = girl_name)
+        headmaster "Good. Now let's continue with the new topic."
+    else:
+        headmaster "Okay, then let's continue with the new topic."
+
+    show screen black_screen_text("30 minutes later.")
+
+    if topic == "sleeping":
+        # headmaster spots someone sleeping
+        # headmaster walks over
+        headmaster_shout "Good Morning Mrs. [girl_last_name]! I hope you had a good nap!"
+        # girl jumps up in shock
+        sgirl "I'm sorry, I didn't mean to fall asleep." (name = girl_name)
+        headmaster "It's okay, but please try to stay awake. It's important to understand the topic."
+        headmaster "As a punishment, you have to answer the next question."
+    elif topic == "inattentive":
+        # headmaster spots someone inattentive
+        headmaster "Mrs. [girl_last_name], would you please tell me what I just said?"
+        sgirl "I'm sorry, I didn't pay attention." (name = girl_name)
+        headmaster "Okay, then please answer the following question."
+    elif topic == "scribbling":
+        # headmaster spots someone scribbling
+        # headmaster sneakily walks over
+        # the girl notices him and stops
+        headmaster "Mrs. [girl_last_name], would you please answer the next question?"
+
+    if topic != "normal":
+        headmaster "So Mrs. [girl_last_name]. What is the solution of 2x² - 5x + 3 = 0?"
+        # a lot of confused faces
+        headmaster "No idea?"
+        # girl shakes head
+        headmaster "Anyone else?"
+    else:
+        headmaster "So let's solve the equation 2x² - 5x + 3 = 0."
+        headmaster "Does anyone know how to solve this?"
+        headmaster "Nobody?"
+
+    # no one knows
+    headmaster "Okay, then let's solve it together."
+    headmaster "To solve this equation, we can use the quadratic formula."
+    headmaster "The quadratic formula is x = (-b ± √(b² - 4ac)) / (2a)."
+    headmaster "Can someone tell me what a, b and c are?"
+    headmaster "Just imagine the equation as ax² + bx + c = 0."
+    headmaster "So what is a, b and c?"
+    # girl puts hand up and answers
+    sgirl "2, 5 and 3?" (name = girl_name)
+    headmaster "Correct. So now we insert these values into the quadratic formula."
+    headmaster "Now we get x = (-(-5) ± √((-5)² - 4*2*3)) / (2*2)."
+    headmaster "Now we simplify this."
+    headmaster "So we get x = (5 ± √(25 - 24)) / 4."
+    headmaster "And after that we get x = (5 ± √1) / 4."
+    headmaster "The √1 is 1, so we get x = (5 + 1) / 4 and x = (5 - 1) / 4."
+    headmaster "So we get x = 6 / 4 and x = 4 / 4."
+    headmaster "And the solution is x = 1.5 and x = 1."
+    headmaster "You see it's not that hard. There is a lot written down here but it all boils down to two things."
+    headmaster "First you have to remember the quadratic formula x = (-b ± √(b² - 4ac)) / (2a) also called the abc-formula."
+    headmaster "And secondly you have to remember where a, b and c come from. From the equation ax² + bx + c = 0."
+    headmaster "So if you remember these two things, you can solve every quadratic equation."
+    headmaster "Now lets solve some more equations."
+
+    show screen black_screen_text("30 minutes later.")
+
+    headmaster "That is all for today"
+
+    $ change_stats_with_modifier(school_obj,
+        charm = TINY, education = SMALL, happiness = DEC_TINY)
+    
+    $ end_event('new_daytime', **kwargs)
+
+label sb_teach_math_2 (**kwargs):
+    $ begin_event(**kwargs)
+
+    headmaster "Good morning everyone. Let's start with todays subject Math."
+
+    headmaster "Is there anything you want to reiterate from the last time?"
+
+    if learning_difficulty:
+        sgirl "Yes, I'm sorry. I didn't understand the last topic." (name = girl_name)
+        headmaster "No problem. I'll explain it again."
+        headmaster "Imagine..."
+
+        show screen black_screen_text("15 minutes later.")
+
+        headmaster "Do you understand it better now?"
+        sgirl "Yes, thank you." (name = girl_name)
+        headmaster "Good. Now let's continue."
+    else:
+        headmaster "Okay, then let's continue."
+
+    headmaster "Today I want you to train your equation solving skills."
+    headmaster "For that please open your books on page 42 and solve the equations 1 to 12."
+    headmaster "I'll go through the rows to make sure everyone understands the topic."
+    headmaster "If you have a question or don't understand something, please don't hesitate to ask."
+    # headmaster walks through the rows
+    # seraphina raises her hands and asks for help
+    # headmaster walks over to her and helps her
+    # because of seraphinas pose the headmaster can't help but look down her shirt
+    # headmaster helps her and then walks away
+    # seraphina is a bit blushed as she noticed the headmaster looking at her
+
+    show screen black_screen_text("1 hour later.")
+
+    headmaster "That is all for today. Thanks for your attention. See you next time."
+
+    $ change_stats_with_modifier(school_obj,
+        charm = TINY, education = SMALL, happiness = DEC_TINY, inhibition = DEC_SMALL)
+    
+    $ end_event('new_daytime', **kwargs)
 
 #######################
 # General Random Events
