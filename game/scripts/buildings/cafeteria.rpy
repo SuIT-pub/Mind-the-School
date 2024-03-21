@@ -443,17 +443,17 @@ label cafeteria_event_5(**kwargs):
     $ school_obj = get_char_value('school_obj', **kwargs)
     $ classes = get_value("classes", **kwargs)
 
-    $ image = Image_Series("images/events/cafeteria/cafeteria_event_5 <school_level> <classes> <step>.webp", **kwargs)
+    $ image = Image_Series("images/events/cafeteria/cafeteria_event_5 <school_level> <classes> <step>.webp", ['classes'], **kwargs)
 
     # Headmaster walks to empty table with his food
-    call show_image ("images/events/cafeteria/cafeteria_event_5 <parent_level>.webp", **kwargs) from _call_show_image_cafeteria_event_5
+    $ image.show(0)
     subtitles "You take your lunch, sit down at a table and observe your surroundings."
 
     # Headmaster looks around
-    $ image.show(0)
+    $ image.show(1)
     $ renpy.pause()
 
-    $ image.show(1)
+    $ image.show(2)
     headmaster_thought "It seems like the students are enjoying their lunch break."
 
     $ change_stats_with_modifier(school_obj,

@@ -382,13 +382,18 @@ label teach_class_event (**kwargs):
 label sb_teach_math_1 (**kwargs):
     $ begin_event(**kwargs)
 
+    $ school_obj = get_char_value('school_obj', **kwargs)
+    $ teacher_obj = get_char_value('teacher_obj', **kwargs)
     $ girl_name = get_value('girl_name', **kwargs)
     $ learning_difficulty = get_value('learning_difficulty', **kwargs)
     $ topic = get_value('topic', **kwargs)
 
     $ girl_first_name, girl_last_name = girl_name.split(' ')
 
+    $ image = Image_Series("/images/events/school building/sb_teach_math_1 <topic> <girl_name> <step>.webp", ['topic', 'girl_name'], **kwargs)
+
     # headmaster enters room
+    $ image.show(0)
     headmaster "Good morning everyone. Let's start with todays subject Math."
 
     headmaster "Is there anything you want to reiterate from the last time?"
@@ -474,6 +479,11 @@ label sb_teach_math_1 (**kwargs):
 
 label sb_teach_math_2 (**kwargs):
     $ begin_event(**kwargs)
+
+    $ school_obj = get_char_value('school_obj', **kwargs)
+    $ teacher_obj = get_char_value('teacher_obj', **kwargs)
+
+    $ image = Image_Series("/images/events/school building/sb_teach_math_2 <school_level> <step>.webp", **kwargs)
 
     headmaster "Good morning everyone. Let's start with todays subject Math."
 

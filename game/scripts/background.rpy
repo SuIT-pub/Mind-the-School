@@ -2,6 +2,7 @@ init -2 python:
     from abc import ABC, abstractmethod
     from typing import List, Tuple
     import re
+    import itertools
 
     image_code = -1
     last_image_code = -1
@@ -14,8 +15,8 @@ init -2 python:
         A class to represent an image step.
 
         ### Attributes:
-        1. step: int
-            - The step of the image.
+        1. image_path: str
+            - The image path of the image.
         2. variant: int
             - The variant of the image.
         
@@ -24,34 +25,34 @@ init -2 python:
             - Returns the image path with the step and variant replaced.
 
         ### Parameters:
-        1. step: int
-            - The step of the image.
+        1. image_path: str
+            - The image path of the image.
         2. variant: int (default 1)
             - The variant of the image.
         """
 
-        def __init__(self, step: int, variant = 1):
+        def __init__(self, image_path: str, variant: int = 1):
             """
             Constructs all the necessary attributes for the Image_Step object.
 
             ### Parameters:
-            1. step: int
-                - The step of the image.
+            1. image_path: str
+                - The image path of the image.
             2. variant: int (default 1)
                 - The variant of the image.
             """
 
-            self.step = step
+            log_val('image_path', image_path)
+
+            self.image_path = image_path
             self.variant = variant
 
-        def get_image(self, image_path: str, variant = -1) -> str:
+        def get_image(self, variant = -1) -> str:
             """
             Returns the image path with the step and variant replaced.
 
             ### Parameters:
-            1. image_path: str 
-                - The image path to replace the step and variant in.
-            2. variant: int (default -1)
+            1. variant: int (default -1)
                 - The variant to replace the variant in the image path with.
                 - If the variant is -1, a random variant will be chosen.
 
@@ -60,11 +61,9 @@ init -2 python:
                 - The image path with the step and variant replaced.
             """
 
-            image_path = image_path.replace("<step>", str(self.step))
-
             if variant < 1 or variant > self.variant:
                 variant = renpy.random.randint(1, self.variant)
-            image_path = image_path.replace("<variant>", str(variant))
+            image_path = self.image_path.replace("<variant>", str(variant))
 
             return image_path, variant
 
@@ -78,12 +77,12 @@ init -2 python:
             Constructs all the necessary attributes for the Image_Obj object.
 
             ### Parameters:
-            1. image_path: str
-                - The image path of the image object.
+            1. image_paths: List[str]
+                - A list of all the image paths.
             """
             self._image_path = image_path
 
-    class Image_Series(Image_Obj):
+    class Image_Series():
         """
         A class to represent an image series.
         An image series is a series of images that are similar, but have different steps and variants.
@@ -104,9 +103,11 @@ init -2 python:
             - The image path of the image series.
         2. **kwargs
             - The keyword arguments to replace in the image path.
+            - alternative_keys: List[str]
+                - A list of all the alternative keys to replace in the image path.
         """
 
-        def __init__(self, image_path: str, **kwargs):
+        def __init__(self, image_path: str, alternative_keys: List[str] = [], **kwargs):
             """
             Constructs all the necessary attributes for the Image_Series object.
 
@@ -117,37 +118,51 @@ init -2 python:
                 - The keyword arguments to replace in the image path.
             """
 
-            image_path = refine_image(image_path, **kwargs)
-            super().__init__(image_path)
+            self._image_paths = refine_image_with_alternatives(
+                image_path, 
+                alternative_keys,
+                **kwargs
+            )
             self.steps = []
-            self.create_steps(image_path)
-            self.alternative_keys = get_kwargs('alternative_keys', [], **kwargs)
+            log_val('series: image_paths', self._image_paths)
+            self.create_steps(self._image_paths)
 
-        def create_steps(self, image_path: str):
+        def create_steps(self, image_paths: List[str]):
             """
             Creates all the steps in the image series.
 
             ### Parameters:
-            1. image_path: str
-                - The image path of the image series.
+            1. image_paths: List[str]
+                - A list of all the possible image paths.
             """
 
-            if '<step>' in image_path:
-                max_steps = get_image_max_value('<step>', image_path, 0, 100)
+            if '<step>' in image_paths[0]:
+                max_steps = get_image_max_value_with_alternatives('<step>', image_paths, 0, 100)
+
+                log_val('max_steps', max_steps)
 
                 for i in range(0, max_steps + 1):
-                    image = image_path.replace('<step>', str(i))
+                    log_val('step', i)
+                    for image_path in image_paths:
+                        image_step = image_path.replace('<step>', str(i))
+                        log_val('image_step', image_step)
+                        variant = 1
 
-                    variant = 1
-
-                    if '<variant>' in image_path:
-                        variant = get_image_max_value("<variant>", image_path, 1)
-                        if variant == 0:
-                            log_error(203, f"'{image_path}' has no variants!")
-                            self.steps.append(None)
+                        if '<variant>' in image_step:
+                            variant = get_image_max_value_with_alternatives("<variant>", image_step, 1)
+                            log_val('variant', variant)
+                            if variant == 0:
+                                continue
+                        elif not renpy.loadable(image_step.replace('<nude>', '0')):
                             continue
+                        
 
-                    self.steps.append(Image_Step(i, variant))
+                        self.steps.append(Image_Step(image_step, variant))
+                        break
+                    else:
+                        log_error(203, f"'{image_paths[0]}' has no variants!")
+                        self.steps.append(None)
+
             return
 
         def show(self, step: int, display_type = SCENE, variant = -1) -> int:
@@ -169,17 +184,17 @@ init -2 python:
             """
 
             if step < 0 or step >= len(self.steps):
-                log_error(201, f"Step {step} for {self._image_path} is out of range! (Min: 0, Max: {len(self.steps) - 1}))")
+                log_error(201, f"Step {step} for {self._image_paths[0]} is out of range! (Min: 0, Max: {len(self.steps) - 1}))")
                 renpy.show("black_screen_text", [], None, f"Step {step} is out of range! (Min: 0, Max: {len(self.steps) - 1}))")
                 return
 
             image_step = self.steps[step]
             if image_step == None:
-                log_error(202, f"Step {step} is missing variants for {self._image_path}!")
-                renpy.show("black_screen_text", [], None, f"Step {step} is missing variants for {self._image_path}!")
+                log_error(202, f"Step {step} is missing variants for {self._image_paths[0]}!")
+                renpy.show("black_screen_text", [], None, f"Step {step} is missing variants for {self._image_paths[0]}!")
                 return
 
-            (image_path, variant) = image_step.get_image(self._image_path, variant)
+            (image_path, variant) = image_step.get_image(variant)
 
             if not sfw_mode:
                 renpy.call("show_ready_image", image_path, display_type)   
@@ -587,6 +602,84 @@ init -2 python:
                 return i - 1
 
         return end
+
+    def get_image_max_value_with_alternatives(key: str, image_paths: List[str], start: int = 0, end: int = 10) -> int:
+        """
+        Searches for the highest available value for a key in the given image path.
+
+        ### Parameters:
+        1. key: str
+            - The key to search for.
+        2. image_paths: List[str]
+            - A list of all the possible image paths.
+        3. start: int (default 0)
+            - The start value to search from.
+        4. end: int (default 10)
+            - The end value to search to.
+
+        ### Returns:
+        1. int
+            - The highest available value for the key in the given image path.
+        """
+
+        for i in range(start, end):
+            for image_path in image_paths:
+
+                old_image = image_path.replace(key, "~#~")
+                old_image = re.sub("<.+>", "0", old_image)
+                test_image = old_image.replace("~#~", str(i))
+
+                if renpy.loadable(test_image):
+                    break
+            else:
+                return i - 1
+
+        return end
+
+    def refine_image_with_alternatives(image_path: str, alternative_keys: List[str], **kwargs) -> List[str]:
+        """
+        Returns all possible image paths with possible alternatives in case an image is missing concrete values.
+        Images can use # instead.
+
+        ### Parameters:
+        1. image_path: str
+            - The image path to replace the keyword arguments in.
+        2. alternative_keys: List[str]
+            - A list of all the alternative keys to replace in the image path.
+        3. **kwargs
+            - The keyword arguments to replace in the image path.
+
+        ### Returns:
+        1. List[str]
+            - A list of all possible image paths with possible alternatives in case an image is missing concrete values.
+        """
+
+        combinations = [()]
+        for r in range(1, len(alternative_keys) + 1):
+            combinations.extend(itertools.combinations(alternative_keys, r))
+
+        output = []
+
+        if 'loli_content' not in kwargs.keys():
+            kwargs['loli_content'] = loli_content
+        if 'loli' not in kwargs.keys():
+            kwargs['loli'] = get_random_loli()
+
+        for combination in combinations:
+            new_image_path = image_path
+            for key in combination:
+                new_image_path = new_image_path.replace(f"<{key}>", "#")
+            for key, value in kwargs.items():
+                new_image_path = new_image_path.replace(f"<{key}>", str(value))
+                if 'level>' in image_path:
+                    new_image_path = insert_level(new_image_path, **kwargs)
+                if '<level>' in image_path:
+                    new_image_path = get_available_level(new_image_path, get_kwargs('level', 0, **kwargs))
+            output.append(new_image_path)
+
+        output.sort(key=lambda x: x.count("#"))
+
+        return output
 
     def refine_image(image_path: str, **kwargs) -> str:
         """
