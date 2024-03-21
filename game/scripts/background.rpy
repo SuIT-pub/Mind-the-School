@@ -67,21 +67,6 @@ init -2 python:
 
             return image_path, variant
 
-    class Image_Obj(ABC):
-        """
-        A class to represent an image object.
-        """
-
-        def __init__(self, image_path: str):
-            """
-            Constructs all the necessary attributes for the Image_Obj object.
-
-            ### Parameters:
-            1. image_paths: List[str]
-                - A list of all the image paths.
-            """
-            self._image_path = image_path
-
     class Image_Series():
         """
         A class to represent an image series.
@@ -305,7 +290,7 @@ init -2 python:
 
             return self._kwargs
 
-    class BGImage(Image_Obj):
+    class BGImage():
         """
         A class to represent a background image.
 
@@ -315,6 +300,8 @@ init -2 python:
         2. _priority: int
             - The priority of the background image.
             - The higher Priority will be used over the lower Priority.
+        3. _image_path: str
+            - The image path of the background image.
 
         ### Methods:
         1. can_be_used(**kwargs) -> bool
@@ -348,9 +335,9 @@ init -2 python:
                 - The conditions for the background image.
             """
 
-            super().__init__(image_path)
             self._conditions = list(conditions)
             self._priority = priority
+            self._image_path = image_path
 
         def can_be_used(self, **kwargs) -> bool:
             """
@@ -919,7 +906,7 @@ label show_image_with_nude_var(image_path, limit = 0, nude = DEFAULT_NUDE):
 
     return
 
-label call_screen_image_with_nude_var (paths, limit = 2, nude = DEFAULT_NUDE):
+label call_screen_image_with_nude_var(paths, limit = 2, nude = DEFAULT_NUDE):
     # """
     # Calls the screen image_with_nude_var with the given paths, limit and nude level.
 
@@ -982,5 +969,3 @@ screen image_with_nude_var(paths, limit = 2, nude = DEFAULT_NUDE):
             focus_mask None
             xalign 0.0 yalign 0.0
             action Call("call_screen_image_with_nude_var", paths, limit, 2)
-
-
