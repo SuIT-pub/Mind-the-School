@@ -1,4 +1,12 @@
-MIT License
+The application and the artwork in this repository are provided under different licenses. 
+
+The artwork, which is all located in this repository, 
+is under the Creative Commons Attribution 4.0 (CC BY 4.0) license.
+The application code and associated documentation is under the MIT license.
+
+-----
+
+### MIT License
 
 Copyright (c) 2023 SuIT-JI
 
@@ -19,6 +27,20 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+-----
+
+### Creative Commons Attribution 4.0 (CC BY 4.0)
+
+Copyright (c) 2023 SuIT-JI
+
+The artwork, which is all located in this repository, is under the 
+Creative Commons Attribution 4.0 (CC BY 4.0) license.
+
+You should have received a copy of the license along with this
+work. If not, see <https://creativecommons.org/licenses/by/4.0/>.
+
+
 
 Contact:
 - E-Mail: suit.it.pub@gmail.com
