@@ -55,7 +55,7 @@ init 1 python:
                 LoliContentCondition("2")
             )
         ),
-        thumbnail = "images/events/courtyard/courtyard_event_4 1.webp")
+        thumbnail = "images/events/courtyard/courtyard_event_4 1 Gloria Goto 1.webp")
 
     courtyard_event5 = Event(3, "courtyard_event_5",
         OR(TimeCondition(weekday = "d", daytime = "f"),
@@ -64,7 +64,7 @@ init 1 python:
 
     courtyard_event6 = Event(3, "courtyard_event_6",
         TimeCondition(weekday = "d", daytime = "2,4"),
-        thumbnail = "images/events/courtyard/courtyard_event_6 1.webp")
+        thumbnail = "images/events/courtyard/courtyard_event_6 1 0.webp")
 
     courtyard_timed_event.add_event(
         first_week_courtyard_event_event,
@@ -267,13 +267,7 @@ label courtyard_event_4(**kwargs):
 
     $ image = Image_Series("images/events/courtyard/courtyard_event_4 <school_level> <girl_name> <step>.webp", **kwargs)
 
-    $ image.show(0)
-    $ renpy.pause()
-    
-    $ image.show(1)
-    $ renpy.pause()
-    
-    $ image.show(2)
+    call Image_Series.show_image(image, 0, 1, 2)
     headmaster "Interesting..."
     
     $ change_stats_with_modifier(school_obj,

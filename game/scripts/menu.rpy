@@ -393,7 +393,7 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
                             action Show("custom_menu_choice", None, page + 1, page_limit, elements, **kwargs)
                     else:
                         null width 250 height 52
-
+            
             null height 30
 
             if with_leave:

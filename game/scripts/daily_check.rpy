@@ -35,7 +35,7 @@ init 1 python:
 
     first_pta_meeting_event = Event(1, "first_pta_meeting", 
         TimeCondition(day = 5, month = 1, year = 2023, daytime = 1),
-        thumbnail = "images/events/pta/first meeting/first pta meeting 0.webp"
+        thumbnail = "images/events/pta/first meeting/first pta meeting 0 0.webp"
     )
 
     pta_meeting_event = Event(2, "pta_meeting",

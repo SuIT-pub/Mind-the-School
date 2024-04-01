@@ -38,7 +38,7 @@ def move_files(move_mode: str, s_file: str, dest_file: str, overwrite: str) -> T
         if (move_mode == 'Backup images' or 
             move_mode == 'Copy new images to Extract' or 
             move_mode == 'Return modified images' or 
-            move_mode == 'Backup to Extract' or 
+            move_mode == 'Move Backup to Extract' or 
             move_mode == 'Move Images to Versioned Backup' or
             move_mode == 'Return Images from Versioned Backup' or
             move_mode == 'Return Videos'
@@ -52,7 +52,7 @@ def move_files(move_mode: str, s_file: str, dest_file: str, overwrite: str) -> T
         if (move_mode == 'Backup images' or 
             move_mode == 'Copy new images to Extract' or 
             move_mode == 'Return modified images' or 
-            move_mode == 'Backup to Extract' or 
+            move_mode == 'Move Backup to Extract' or 
             move_mode == 'Move Images to Versioned Backup' or
             move_mode == 'Return Images from Versioned Backup' or
             move_mode == 'Return Videos'
@@ -88,9 +88,10 @@ elif mode == 'Return modified images':
     file_target = ['.webp']
 elif mode == 'Convert images':
     source_path = os.path.abspath(os.path.join(source_path, '../../../Image Extracter/Mind the School Image Extract'))
-elif mode == 'Backup to Extract':
+elif mode == 'Move Backup to Extract':
     destination_path = os.path.abspath(os.path.join(source_path, '../../../Image Extracter/Mind the School Image Extract'))
     source_path = os.path.abspath(os.path.join(source_path, '../../../Image Extracter/Mind the School Image Backup'))
+    file_target = ['.png']
 elif mode == 'Return Videos':
     file_target = ['.webm']
     destination_path = source_path
@@ -107,7 +108,7 @@ elif mode == 'Move Images to Versioned Backup':
     if not os.path.exists(os.path.abspath(os.path.join(source_path, "../../../Versioned Image Backups/" + dest_choice + "/" + lossy_variant))):
         os.mkdir(os.path.abspath(os.path.join(source_path, "../../../Versioned Image Backups/" + dest_choice + "/" + lossy_variant)))
     destination_path = os.path.abspath(os.path.join(source_path, "../../../Versioned Image Backups/" + dest_choice + "/" + lossy_variant))
-    file_target = ['.webp', '.webm']
+    file_target = ['.png', '.webm', '.webp']
 elif mode == 'Return Images from Versioned Backup':
     versions = [name for name in os.listdir(os.path.abspath(os.path.join(source_path, "../../../Versioned Image Backups"))) if os.path.isdir(os.path.abspath(os.path.join(source_path, "../../../Versioned Image Backups/" + name)))]
     versions.append("Cancel")
@@ -121,7 +122,7 @@ elif mode == 'Return Images from Versioned Backup':
         os.mkdir(os.path.abspath(os.path.join(source_path, "../../../Versioned Image Backups/" + dest_choice + "/" + lossy_variant)))
     destination_path = source_path
     source_path = os.path.abspath(os.path.join(source_path, "../../../Versioned Image Backups/" + dest_choice + "/" + lossy_variant))
-    file_target = ['.webp']
+    file_target = ['.png', '.webm', '.webp']
 elif mode == 'Count':
     first_dest_choice = pyautogui.confirm(text = 'Where would you like to count the images from?', title = 'Count Images', buttons = ['Game', 'Image Extract', 'Image Backup', 'Versioned Backup', 'Cancel'])
     if first_dest_choice == "Cancel":

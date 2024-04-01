@@ -10,10 +10,10 @@ class Member:
 
     def __str__(self):
         if self.blacklist:
-            return '*blacklisted*,' + self.tier
+            return '*blacklisted*;' + self.tier
         if self.alias != '':
-            return '*alias*' + self.alias + ',' + self.tier
-        return self.name + ',' + self.tier
+            return '*alias*' + self.alias + ';' + self.tier
+        return self.name + ';' + self.tier
 
     def set_blacklist(self, is_blacklisted: bool):
         self.blacklist = is_blacklisted
@@ -22,7 +22,7 @@ class Member:
         self.alias = alias
 
 # Get the current directory
-current_dir = os.getcwd()
+current_dir = os.path.dirname(os.path.abspath(__file__))
 
 # Get the parent directory
 parent_dir = os.path.dirname(current_dir)
@@ -36,10 +36,10 @@ if not os.path.exists(game_folder):
 
 # Get a list of all CSV files in the current directory with 'Members' in the filename
 csv_files = [file for file in os.listdir(current_dir) if file.endswith('.csv') and 'Members' in file]
-
 # Sort the CSV files by modification time and get the youngest file
-youngest_file = min(csv_files, key=lambda x: os.path.getmtime(os.path.join(current_dir, x)))
+youngest_file = max(csv_files, key=lambda x: os.path.getmtime(os.path.join(current_dir, x)))
 
+print('Use ' + youngest_file + ' as the source file.')
 # Read the names from the second column onwards of the youngest file, ignoring the first row
 names = {}
 
@@ -61,7 +61,7 @@ with open(os.path.join(current_dir, 'blacklist.txt'), 'r') as file:
 # Read the aliases from the alias.csv file
 aliases = {}
 with open(os.path.join(current_dir, 'alias.csv'), 'r') as file:
-    csv_reader = csv.reader(file)
+    csv_reader = csv.reader(file, delimiter=';')
     next(csv_reader)
     for row in csv_reader:
         name = row[0].strip()

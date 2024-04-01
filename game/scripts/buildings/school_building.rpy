@@ -84,8 +84,10 @@ init 1 python:
     sb_teach_math_1_event = Event(3, "sb_teach_math_1",
         RandomListSelector('girl_name', 'Seraphina Clark', 'Hatano Miwa', 'Soyoon Yamamoto'),
         RandomListSelector('topic', 'normal', 'sleeping', 'inattentive', 'scribbling'),
-    )
-    sb_teach_math_2_event = Event(3, "sb_teach_math_2")
+        thumbnail = "images/events/school building/sb_teach_math_1 Seraphina Clark 1.webp")
+
+    sb_teach_math_2_event = Event(3, "sb_teach_math_2",
+        thumbnail = "images/events/school building/sb_teach_math_2 1 7.webp")
 
     #################
     # Event insertion
@@ -367,13 +369,18 @@ label first_class_sb_event (**kwargs):
 # Teaching events
 
 label teach_class_event (**kwargs):
+    $ loli = get_random_loli()
+    $ learning_difficulty_girl = get_random_choice('Seraphina Clark', 'Hatano Miwa', 'Soyoon Yamamoto')
+    $ learning_difficulty = get_school().check_stat(EDUCATION, '50-') and random.randint(1, 1) == 1
+
     call call_event_menu (
         "What subject do you wanna teach?", 
         sb_teach_events,
         default_fallback,
         character.subtitles,
         override_menu_exit = 'school_building',
-        learning_difficulty = (get_school().check_stat(EDUCATION, '50-') and random.randint(1, 1) == 1),
+        learning_difficulty = learning_difficulty,
+        learning_difficulty_girl = learning_difficulty_girl,
         **kwargs
     ) from teach_class_event_1
 
@@ -384,96 +391,133 @@ label sb_teach_math_1 (**kwargs):
 
     $ school_obj = get_char_value('school_obj', **kwargs)
     $ teacher_obj = get_char_value('teacher_obj', **kwargs)
-    $ girl_name = get_value('girl_name', **kwargs)
     $ learning_difficulty = get_value('learning_difficulty', **kwargs)
+    $ ld_girl_name = get_value('learning_difficulty_girl', **kwargs)
+    $ topic = get_value('topic', **kwargs)
+    $ girl_name = get_value('girl_name', **kwargs)
+
+
     $ topic = get_value('topic', **kwargs)
 
     $ girl_first_name, girl_last_name = girl_name.split(' ')
 
-    $ image = Image_Series("/images/events/school building/sb_teach_math_1 <topic> <girl_name> <step>.webp", ['topic', 'girl_name'], **kwargs)
+    $ image = Image_Series("/images/events/school building/sb_teach_math_1 <girl_name> <step>.webp", ['topic', 'girl_name'], **kwargs)
+    $ image2 = Image_Series("/images/events/school building/sb_teach_ld <subject> <ld_girl_name> <step>.webp", ['subject', 'ld_girl_name'], subject = 'Math', ld_girl_name = ld_girl_name, **kwargs)
 
     # headmaster enters room
     $ image.show(0)
     headmaster "Good morning everyone. Let's start with todays subject Math."
 
+    $ image2.show(0)
     headmaster "Is there anything you want to reiterate from the last time?"
 
-    # Seraphina Clark, Hatano Miwa, Soyoon Yamamoto
-
     if learning_difficulty:
-        sgirl "Yes, I'm sorry. I didn't understand the last topic." (name = girl_name)
+        $ image2.show(1)
+        sgirl "Yes, I'm sorry. I didn't understand the last topic." (name = ld_girl_name)
+        $ image2.show(2)
         headmaster "No problem. I'll explain it again."
+        $ image2.show(3)
+        headmaster "Imagine..."
+        $ image2.show(4)
         headmaster "Imagine..."
 
         show screen black_screen_text("15 minutes later.")
+        $ renpy.pause()
+        $ hide_all()
 
+        $ image2.show(5)
+        headmaster "That is all."
         headmaster "Do you understand it better now?"
-        sgirl "Yes, thank you." (name = girl_name)
+        $ image2.show(6)
+        sgirl "Yes, thank you." (name = ld_girl_name)
+        $ image2.show(7)
         headmaster "Good. Now let's continue with the new topic."
     else:
+        $ image2.show(7)
         headmaster "Okay, then let's continue with the new topic."
 
     show screen black_screen_text("30 minutes later.")
+    $ renpy.pause()
+    $ hide_all()
 
     if topic == "sleeping":
-        # headmaster spots someone sleeping
+        call Image_Series.show_image(image, 1, 2, 3, pause = True)
+        
         # headmaster walks over
+        $ image.show(4)
         headmaster_shout "Good Morning Mrs. [girl_last_name]! I hope you had a good nap!"
         # girl jumps up in shock
-        sgirl "I'm sorry, I didn't mean to fall asleep." (name = girl_name)
+        $ image.show(5)
+        sgirl "Eek! I'm sorry, I didn't mean to fall asleep." (name = girl_name)
+        $ image.show(6)
         headmaster "It's okay, but please try to stay awake. It's important to understand the topic."
+        $ image.show(7)
         headmaster "As a punishment, you have to answer the next question."
-    elif topic == "inattentive":
-        # headmaster spots someone inattentive
-        headmaster "Mrs. [girl_last_name], would you please tell me what I just said?"
-        sgirl "I'm sorry, I didn't pay attention." (name = girl_name)
-        headmaster "Okay, then please answer the following question."
-    elif topic == "scribbling":
-        # headmaster spots someone scribbling
-        # headmaster sneakily walks over
-        # the girl notices him and stops
-        headmaster "Mrs. [girl_last_name], would you please answer the next question?"
 
-    if topic != "normal":
-        headmaster "So Mrs. [girl_last_name]. What is the solution of 2x² - 5x + 3 = 0?"
+        call Image_Series.show_image(image, 8, 9, pause = False)
+        headmaster "So. What is the solution of 2x² - 5x + 3 = 0?"
         # a lot of confused faces
+        $ image.show(10)
         headmaster "No idea?"
         # girl shakes head
+        $ image.show(11)
         headmaster "Anyone else?"
     else:
+        $ image.show(8)
         headmaster "So let's solve the equation 2x² - 5x + 3 = 0."
+        $ image.show(9)
         headmaster "Does anyone know how to solve this?"
+        $ image.show(11)
         headmaster "Nobody?"
 
     # no one knows
+    $ image.show(12)
     headmaster "Okay, then let's solve it together."
     headmaster "To solve this equation, we can use the quadratic formula."
     headmaster "The quadratic formula is x = (-b ± √(b² - 4ac)) / (2a)."
+    $ image.show(13)
     headmaster "Can someone tell me what a, b and c are?"
+    headmaster "Nobody?"
+    $ image.show(14)
     headmaster "Just imagine the equation as ax² + bx + c = 0."
+    $ image.show(15)
     headmaster "So what is a, b and c?"
     # girl puts hand up and answers
-    sgirl "2, 5 and 3?" (name = girl_name)
+    $ image.show(16)
+    sgirl "2, -5 and 3?" (name = girl_name)
+    $ image.show(17)
     headmaster "Correct. So now we insert these values into the quadratic formula."
     headmaster "Now we get x = (-(-5) ± √((-5)² - 4*2*3)) / (2*2)."
-    headmaster "Now we simplify this."
+    $ image.show(18)
+    headmaster "We simplify this."
     headmaster "So we get x = (5 ± √(25 - 24)) / 4."
+    $ image.show(19)
     headmaster "And after that we get x = (5 ± √1) / 4."
+    $ image.show(20)
     headmaster "The √1 is 1, so we get x = (5 + 1) / 4 and x = (5 - 1) / 4."
+    $ image.show(21)
     headmaster "So we get x = 6 / 4 and x = 4 / 4."
+    $ image.show(22)
     headmaster "And the solution is x = 1.5 and x = 1."
+    $ image.show(23)
     headmaster "You see it's not that hard. There is a lot written down here but it all boils down to two things."
+    $ image.show(24)
     headmaster "First you have to remember the quadratic formula x = (-b ± √(b² - 4ac)) / (2a) also called the abc-formula."
     headmaster "And secondly you have to remember where a, b and c come from. From the equation ax² + bx + c = 0."
+    $ image.show(25)
     headmaster "So if you remember these two things, you can solve every quadratic equation."
-    headmaster "Now lets solve some more equations."
+    $ image.show(26)
+    headmaster "Now lets solve some more equations. Please open Page 44."
 
     show screen black_screen_text("30 minutes later.")
+    $ renpy.pause()
+    $ hide_all()
 
+    $ image.show(27)
     headmaster "That is all for today"
 
     $ change_stats_with_modifier(school_obj,
-        charm = TINY, education = SMALL, happiness = DEC_TINY)
+        charm = TINY, education = SMALL, happiness = DEC_TINY, reputation = TINY)
     
     $ end_event('new_daytime', **kwargs)
 
@@ -482,39 +526,86 @@ label sb_teach_math_2 (**kwargs):
 
     $ school_obj = get_char_value('school_obj', **kwargs)
     $ teacher_obj = get_char_value('teacher_obj', **kwargs)
+    $ learning_difficulty = get_value('learning_difficulty', **kwargs)
+    $ ld_girl_name = get_value('learning_difficulty_girl', **kwargs)
 
     $ image = Image_Series("/images/events/school building/sb_teach_math_2 <school_level> <step>.webp", **kwargs)
+    $ image2 = Image_Series("/images/events/school building/sb_teach_ld <subject> <ld_girl_name> <step>.webp", ['subject', 'ld_girl_name'], subject = 'Math', ld_girl_name = ld_girl_name, **kwargs)
 
+    $ image.show(0)
     headmaster "Good morning everyone. Let's start with todays subject Math."
 
+    $ image2.show(0)
     headmaster "Is there anything you want to reiterate from the last time?"
 
     if learning_difficulty:
-        sgirl "Yes, I'm sorry. I didn't understand the last topic." (name = girl_name)
+        $ image2.show(1)
+        sgirl "Yes, I'm sorry. I didn't understand the last topic." (name = ld_girl_name)
+        $ image2.show(2)
         headmaster "No problem. I'll explain it again."
+        $ image2.show(3)
         headmaster "Imagine..."
+        call Image_Series.show_image(image2, 4, pause = True)
 
         show screen black_screen_text("15 minutes later.")
+        $ renpy.pause()
+        $ hide_all()
 
+        $ image2.show(5)
+        headmaster "That is all."
         headmaster "Do you understand it better now?"
-        sgirl "Yes, thank you." (name = girl_name)
-        headmaster "Good. Now let's continue."
+        $ image2.show(6)
+        sgirl "Yes, thank you." (name = ld_girl_name)
+        $ image2.show(7)
+        headmaster "Good. Now let's continue with the new topic."
     else:
-        headmaster "Okay, then let's continue."
+        $ image2.show(7)
+        headmaster "Okay, then let's continue with the new topic."
 
+    $ image.show(1)
     headmaster "Today I want you to train your equation solving skills."
+    $ image.show(2)
     headmaster "For that please open your books on page 42 and solve the equations 1 to 12."
+    $ image.show(3)
     headmaster "I'll go through the rows to make sure everyone understands the topic."
     headmaster "If you have a question or don't understand something, please don't hesitate to ask."
     # headmaster walks through the rows
     # seraphina raises her hands and asks for help
     # headmaster walks over to her and helps her
+    call Image_Series.show_image(image, 4, 5, 6, 7, 8)
+    headmaster "Do you need some help?"
+    sgirl "Yes, I don't understand this equation." (name = "Seraphina Clark")
+    $ image.show(9)
+    headmaster "What is the problem?"
+    $ image.show(10)
+    sgirl "Well, I don't understand..."
+    $ image.show(11)
+    sgirl "And then..."
+    $ image.show(12)
+    headmaster "{i}(  Wow what a nice view down her shirt.  ){/i}" (name = '[headmaster_first_name] [headmaster_last_name] (thinking)')
+    $ image.show(13)
+    sgirl "Mr. [headmaster_last_name]?"
+    $ image.show(14)
+    headmaster "Yeah! I'm sorry. I'll help you."
+    headmaster "Now, do you remember the abc-formula?"
+    show screen black_screen_text('5 minutes later.')
+    $ renpy.pause()
+    $ hide_all()
+    $ image.show(15)
+    sgirl "Thank you Mr. [headmaster_last_name]."
+    $ image.show(16)
+    headmaster "You're welcome."
+    call Image_Series.show_image(image, 17, pause = True)
+
     # because of seraphinas pose the headmaster can't help but look down her shirt
     # headmaster helps her and then walks away
     # seraphina is a bit blushed as she noticed the headmaster looking at her
 
     show screen black_screen_text("1 hour later.")
+    $ renpy.pause()
+    $ hide_all()
 
+    $ image.show(18)
     headmaster "That is all for today. Thanks for your attention. See you next time."
 
     $ change_stats_with_modifier(school_obj,
@@ -768,10 +859,7 @@ label sb_event_4(**kwargs):
 
     $ image = Image_Series("/images/events/school building/sb_event_4 <school_level> <girl_name> <step>.webp", **kwargs)
 
-    $ image.show(0)
-    $ renpy.pause()
-    
-    $ image.show(1)
+    call Image_Series.show_image(image, 0, 1)
     sgirl "AHH!"
 
     $ image.show(2)
@@ -833,8 +921,7 @@ label .panties (**kwargs):
     $ image.show(12)
     sgirl "Eeeek! Pervert!"
 
-    $ image.show(13)
-    $ renpy.pause()
+    call Image_Series.show_image(image, 13, pause = True)
 
     $ change_stats_with_modifier(school_obj,
         inhibition = DEC_SMALL, charm = DEC_SMALL, corruption = TINY)

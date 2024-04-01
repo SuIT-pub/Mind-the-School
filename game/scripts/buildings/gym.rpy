@@ -57,7 +57,8 @@ init 1 python:
         thumbnail = "images/events/gym/gym_event_3 1 1 0.webp")    
 
     gym_teach_pe_1_event = Event(3, "gym_teach_pe_1",
-        TimeCondition(daytime = "c", weekday = "d"))
+        TimeCondition(daytime = "c", weekday = "d"),
+        thumbnail = "images/events/gym/gym_teach_pe_1 1 9.webp")
 
     gym_timed_event.add_event(
         first_week_gym_event_event,
@@ -78,7 +79,7 @@ init 1 python:
     gym_events["teach_pe"].add_event(
         gym_event1, 
         gym_event3,
-
+        gym_teach_pe_1_event,
     )
 
 #################################
@@ -163,28 +164,58 @@ label weekly_assembly (**kwargs):
 
     return
 
+image anim_gym_teach_pe_1_10 = Movie(play ="images/events/gym/gym_teach_pe_1 1 10.webm", start_image = "images/events/gym/gym_teach_pe_1 1 10.webp", loop = True)
+image anim_gym_teach_pe_1_11 = Movie(play ="images/events/gym/gym_teach_pe_1 1 11.webm", start_image = "images/events/gym/gym_teach_pe_1 1 11.webp", loop = True)
+image anim_gym_teach_pe_1_12 = Movie(play ="images/events/gym/gym_teach_pe_1 1 12.webm", start_image = "images/events/gym/gym_teach_pe_1 1 12.webp", loop = True)
+
 label gym_teach_pe_1 (**kwargs):
     $ begin_event(**kwargs)
 
     # headmaster changes clothing in changing room
     # headmaster heads to gym
 
+    $ school_obj = get_char_value('school_obj', **kwargs)
+
+    $ image = Image_Series("/images/events/gym/gym_teach_pe_1 <school_level> <step>.webp", **kwargs)
+
+    call Image_Series.show_image(image, 0, 1, 2, 3, 4, 5, 6, 7, 8, pause = True) from gym_teach_pe_1_1
+
+    $ image.show(9)
     headmaster "Alright, let's get started with the P.E. class."
 
     headmaster "First we start with a few warm up exercises and stretching. After that I planned for you to play a round of football."
-    headmaster "Okay now all in a big circle and let's start with some stretching. Follow my lead."
-    # class does some stretching (maybe animated)
-    headmaster "Good, now let's start with some running. We will do a few laps around the gym."
-    # class runs a few laps
+    headmaster "Okay now all follow my lead."
+    
+    scene anim_gym_teach_pe_1_10 with dissolveM
+    pause
+    scene anim_gym_teach_pe_1_11 with dissolveM
+    pause
+    scene anim_gym_teach_pe_1_12 with dissolveM
+    pause
+    
+    call Image_Series.show_image(image, 13, 14) from gym_teach_pe_1_2
     headmaster "Alright, that's enough. Now let's play some football. I will be the referee."
+    $ image.show(15)
     headmaster "Please split into two teams and let's get started."
-    sgirl "I'm sorry but how do we identify the teams? We all wear the same uniform."
+    $ image.show(16)
+    sgirl "I'm sorry but how do we identify the teams? We all wear the same uniform." (name = "Sakura Mori")
+    $ image.show(17)
     headmaster "Hmm, that's a good point. Unfortunately we don't have any bibs or anything like that."
+    $ image.show(18)
     headmaster "I guess you just will have to remember your team mates. So now your teams please."
     # The students seperate into two groups
+    call Image_Series.show_image(image, 19, 20) from gym_teach_pe_1_3   
     headmaster "Alright, let's get started. The right side has the kickoff."
-    # a few scenes of the girls playing football
-    headmaster "Alright, that's enough for today. I hope you all had fun. Don't forget to shower and change your clothes."
+    $ image.show(21)
+    headmaster "And... START!"
+    call Image_Series.show_image(image, 22, 23, 24, 25, 26, 27) from gym_teach_pe_1_4
+    
+    call screen black_screen_text("1 hour later")
+
+    $ image.show(28)
+    headmaster "Alright, that's enough for today. I hope you all had fun."
+    $ image.show(29)
+    headmaster "Don't forget to shower and change your clothes."
     # class leaves the gym
     
     $ change_stats_with_modifier(get_school(), 
@@ -237,7 +268,7 @@ label gym_event_1 (**kwargs):
     #         inhibition = DEC_SMALL, corruption = SMALL, charm = SMALL)
     if corruption > 5:
         $ image.show(1)
-        sgirl "Just give me a moment more to get ready for class. You like watching me doing whatever, right?" (name = "Aona Komuro")
+        sgirl "Just give me a moment more to get ready for class. You like watching me doing whatever, right?" (name="Aona Komuro")
 
         $ image.show(2)
         headmaster "As pretty as you are? I sure do!"
@@ -246,7 +277,7 @@ label gym_event_1 (**kwargs):
             inhibition = DEC_SMALL, corruption = TINY, charm = TINY)
     else:
         $ image.show(1)
-        sgirl "Are you getting ready for gym class too, Mr. [headmaster_last_name]?" (name = "Aona Komuro")
+        sgirl "Are you getting ready for gym class too, Mr. [headmaster_last_name]?" (name="Aona Komuro")
 
         $ change_stats_with_modifier(school_obj, 
             inhibition = DEC_TINY, corruption = TINY, charm = TINY)

@@ -1983,7 +1983,7 @@ screen journal_credits(display):
                         null height 20
 
                         for member in teacher_members:
-                            $ data = member.split(',')
+                            $ data = member.split(';')
                             # shows 'Anonymous' if name has been blacklisted due to patrons wish
                             if data[0] == '*blacklisted*':
                                 text "{i}Anonymous{/i}":
@@ -2037,7 +2037,7 @@ screen journal_credits(display):
                         null height 20
 
                         for member in student_members:
-                            $ data = member.split(',')
+                            $ data = member.split(';')
                             if data[0] == '*blacklisted*':
                                 text "{i}Anonymous{/i}":
                                     color "#00000060"

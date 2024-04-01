@@ -42,7 +42,7 @@ init 1 python:
             ),   
         ),
         RandomListSelector('topic', (0.7, 'apron'), (0.2, 'breasts'), 'nude'),
-        thumbnail = "images/events/cafeteria/cafeteria_event_2 1 0.webp")
+        thumbnail = "images/events/cafeteria/cafeteria_event_2 1 Adelaide Hall apron 0.webp")
 
     cafeteria_event_3_event = Event(3, "cafeteria_event_3",
         TimeCondition(weekday = "d", daytime = "d"),
@@ -148,13 +148,15 @@ label cafeteria_construction(**kwargs):
         $ begin_event()
 
         $ day_difference = get_day_difference(time, end_time)
+        call show_image ("images/events/cafeteria/cafeteria_construction 0.webp") from cafeteria_construction_1
         headmaster "The cafeteria is under construction. It will be finished in [day_difference] days."
 
         $ end_event('map_overview', **kwargs)
     else:
-        $ begin_event(**kwargs)
+        $ begin_event()
 
         $ set_progress("unlock_cafeteria", 3)
+        call show_image ("images/events/cafeteria/cafeteria_construction 1.webp") from cafeteria_construction_2
         headmaster "The cafeteria is finally finished. I can eat here now."
 
         $ end_event('next_daytime', **kwargs)
@@ -178,9 +180,7 @@ label cafeteria_event_1(**kwargs):
 
     # $ image.show(3)
     # $ renpy.pause()
-    $ image.show(4)
-    $ renpy.pause()
-    $ image.show(5)
+    call Image_Series.show_image(image, 4, 5)
     parent "Here you go." (name = 'Adelaide Hall')
     headmaster "Thank you."
 
@@ -245,11 +245,8 @@ label cafeteria_event_3(**kwargs):
         # view back to headmaster
         $ image.show(2)
         headmaster "Sure, no problem."
-        $ image.show(3)
-        $ image.show(4)
-        $ image.show(5)
         # Adelaide approaches headmaster looking rather exhausted
-        $ image.show(6)
+        call Image_Series.show_image(image, 3, 4, 5, 6)
         parent "Sorry for the wait. What would you like to have?" (name = name)
         # view back to headmaster
         $ image.show(7)
@@ -450,10 +447,7 @@ label cafeteria_event_5(**kwargs):
     subtitles "You take your lunch, sit down at a table and observe your surroundings."
 
     # Headmaster looks around
-    $ image.show(1)
-    $ renpy.pause()
-
-    $ image.show(2)
+    call Image_Series.show_image(image, 1, 2)
     headmaster_thought "It seems like the students are enjoying their lunch break."
 
     $ change_stats_with_modifier(school_obj,

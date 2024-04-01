@@ -33,4 +33,4 @@ init -9:
 
     $ CHAR = "char_obj"
 
-    $ DEFAULT_NUDE = 2
+    $ DEFAULT_NUDE = 0

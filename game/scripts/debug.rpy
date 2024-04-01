@@ -14,6 +14,7 @@ init python:
         """
 
         print(key + ": " + str(value) + "\n")
+        write_log_file(key + ": " + str(value))
 
     def log(msg: str):
         """
@@ -25,6 +26,8 @@ init python:
         """
 
         print(str(msg) + "\n")
+        write_log_file(msg)
+
         return
 
     def log_error(code: int, msg: str):
@@ -38,6 +41,7 @@ init python:
 
         print(f"|ERROR[{str(code)}]| {str(msg)}\n")
         # renpy.notify("|ERROR| " + str(msg))
+        write_log_file(f"|ERROR[{str(code)}]| {str(msg)}")
         return
 
 

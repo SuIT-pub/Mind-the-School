@@ -302,12 +302,13 @@ label first_pta_meeting (**kwargs):
 
     $ hide_all()
 
-    call show_image("images/events/pta/first meeting/first pta meeting 0.webp") from first_pta_meeting_0
+    $ image = Image_Series("images/events/pta/first meeting/first pta meeting <nude> <step>.webp", **kwargs)
 
+    $ image.show(0)
     subtitles "You enter the conference room."
     subtitles "All representatives already gathered and wait for you."
 
-    call show_image(f"images/events/pta/first meeting/first pta meeting 1 0 <nude>.webp") from first_pta_meeting_1
+    $ image.show(1)
     headmaster """
         Thank you all for gathering today.
 
@@ -316,8 +317,7 @@ label first_pta_meeting (**kwargs):
         I'm aware that many of you probably don't know me yet, but I hope to change that soon.
     """
 
-    hide screen image_with_nude_var
-    scene expression "events/pta/first meeting/first pta meeting 2 0.webp"
+    $ image.show(2)
     headmaster """
         During my first week, I've taken the time to find out about the current state of the school, and it's clear 
         that there's a lot of work to be done. 
@@ -326,7 +326,7 @@ label first_pta_meeting (**kwargs):
         institutions in the country. 
     """
 
-    scene expression "events/pta/first meeting/first pta meeting 3 0.webp"
+    $ image.show(3)
     headmaster """
         My theory on how to improve the education system has been criticised by established psychologists and teachers. 
         But I can guarantee its effectiveness.
@@ -341,7 +341,7 @@ label first_pta_meeting (**kwargs):
         To briefly summarise my theory. I want to use the parts of the human body that no system has used before.
     """
  
-    scene expression "events/pta/first meeting/first pta meeting 4 0.webp"
+    $ image.show(4)
     headmaster """
         The human body is a complex biological machine designed to survive in a harsh and dangerous ecosystem. So it 
         was originally built to learn new patterns and methods to give it a better chance of survival.
@@ -361,7 +361,7 @@ label first_pta_meeting (**kwargs):
         Problems that are the result of old educational methods and techniques.
     """
 
-    scene expression "events/pta/first meeting/first pta meeting 2 0.webp"
+    $ image.show(2)
     headmaster """
         One of the main problems is the increasing alienation of individuals in our society. Loneliness is becoming 
         more common, often due to social isolation caused by a lack of interpersonal skills and inadequate support from 
@@ -379,7 +379,7 @@ label first_pta_meeting (**kwargs):
         the best in the country.
     """
 
-    call show_image(f"images/events/pta/first meeting/first pta meeting 5 <loli_content> <nude>.webp", loli_content = 0) from first_pta_meeting_2
+    $ image.show(5)
     headmaster """
         If you want to know more about my theory, please read my book. I'll be happy to give it to you if you're 
         interested.
@@ -395,8 +395,7 @@ label first_pta_meeting (**kwargs):
         Now that I have finished my {i}small{/i} introduction, please introduce yourselves.
     """
 
-    hide screen image_with_nude_var
-    scene first pta meeting 6
+    $ image.show(6)
     $ secretary_name = get_name_str('secretary')
     secretary """
         Hello everyone, I am [secretary_name], the headmasters secretary and I will be in 
@@ -407,17 +406,22 @@ label first_pta_meeting (**kwargs):
         If you got any questions or issues for the headmaster, please contact me. Thanks.
     """
 
-    scene first pta meeting 7
+    $ image.show(7)
     teacher2 "Hello I am Yulan Chen. I am the History and Politics teacher. I also represent the teachers in this school."
 
+    $ image.show(8)
     teacher1 "Hello Lily Anderson, I teach Math and Sciences at this school."
 
+    $ image.show(9)
     teacher3 "I am Finola Ryan, I teach English and History. Pleasure."
 
+    $ image.show(10)
     teacher4 "Chloe Garcia, I teach Arts and Music."
 
+    $ image.show(11)
     teacher5 "And I am Zoe Parker, I teach Physical Education and Health. A pleasure to meet you all."
 
+    $ image.show(12)
     teacher2 """
         First we are glad to have a new headmaster and we hope you bring this school back to what it once was.
         
@@ -429,22 +433,22 @@ label first_pta_meeting (**kwargs):
         students.
     """
     
-    call show_image(f"images/events/pta/first meeting/first pta meeting 8 <nude>.webp", loli_content = 0) from first_pta_meeting_3
+    $ image.show(13)
     parent "Hello, I am Adelaide Hall, a concerned parent of one of the students attending this school and I speak for all parents when I say that we are worried about the recent changes." (name = 'Adelaide Hall')
     parent "However, we trust that you will handle your job competently and we will observe closely to ensure the well-being of our children." (name = 'Adelaide Hall')
     
+    $ image.show(14)
     parent "I am Nubia Davis. A Pleasure." (name = 'Nubia Davis')
 
+    $ image.show(15)
     parent "Yuki Yamamoto." (name = 'Yuki Yamamoto')
 
     headmaster_thought "Oh quite the cold introduction..."
     
-    hide screen image_with_nude_var
-    call show_image(f"images/events/pta/first meeting/first pta meeting 9 <loli_content> <nude>.webp", loli_content = 0) from first_pta_meeting_4
+    $ image.show(16)
     sgirl "Hello, I am Yuriko Oshima, the student representative of this school and I am here to make sure that the students of this school are not let out of the decision making and to act as the Mouthpiece of the students issues and suggestions." (name = 'Yuriko Oshima')
 
-    hide screen image_with_nude_var
-    scene first pta meeting 10 #
+    $ image.show(17)
     headmaster "Thank you all for your introductions. With that out of the way, let's wrap up this meeting."
     headmaster "I wish you a good weekend and I hope to see you all next friday."
 

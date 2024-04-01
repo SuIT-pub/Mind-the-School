@@ -1,5 +1,5 @@
 init -99 python:
-    from typing import TypeVar
+    from typing import TypeVar, Any, List, Tuple
     import collections.abc
     import re
 
@@ -49,16 +49,16 @@ init -99 python:
     # --- Mathematical Functions --- #
     ##################################
 
-    def max(*values: number) -> number:
+    def max(*values: num) -> num:
         """
         Returns the largest value
 
         ### Parameters:
-        1. *values: number
+        1. *values: int | float
             - The values to compare
 
         ### Returns:
-        1. number
+        1. int | float
             - The largest value
         """
 
@@ -69,16 +69,16 @@ init -99 python:
                 largest = value
         return largest
 
-    def min(*values: number) -> number:
+    def min(*values: num) -> num:
         """
         Returns the smallest value
 
         ### Parameters:
-        1. *values: number
+        1. *values: int | float
             - The values to compare
 
         ### Returns:
-        1. number
+        1. int | float
             - The smallest value
         """
 
@@ -790,6 +790,8 @@ init -99 python:
             result = choice[get_random_int(0, len(choice) - 1)]
             if isinstance(result, tuple):
                 return result[0]
+            if isinstance(result, Selector):
+                return result.get_value(**kwargs)
             return result
 
     def get_random_int(start: int, end: int) -> int:
@@ -816,6 +818,9 @@ init -99 python:
         ### Returns:
         1. int
             - the random value
+            - 0 is Class 3A
+            - 1 is Class 2A
+            - 2 is Class 1A
         """
         value = get_random_int(0, loli_content)
         return value
@@ -846,7 +851,7 @@ init -99 python:
         if tier == '':
             return lines
         else:
-            return [line for line in lines if line.split(',')[1].strip() == tier]
+            return [line for line in lines if line.split(';')[1].strip() == tier]
 
     def get_translations():
         """
@@ -859,7 +864,7 @@ init -99 python:
             translation_texts = {}
         file = renpy.open_file("translations.csv")
         lines = split_to_non_empty_list(file.read().decode(), "\r\n")
-        translation_texts = {line.split(',')[0]: line.split(',')[1] for line in lines if ',' in line}
+        translation_texts = {line.split(';')[0]: line.split(';')[1] for line in lines if ';' in line}
 
     
     def get_loli_filter():
@@ -914,3 +919,13 @@ init -99 python:
         """
 
         return persistent.shortcuts == 0
+
+    def write_log_file(msg: str):
+        with open('cus_log.txt', 'a') as log_file:
+            log_file.write(msg + '\n')
+        log_file.closed
+
+    def clear_log_file():
+        with open('cus_log.txt', 'w') as log_file:
+            log_file.write('')
+        log_file.closed

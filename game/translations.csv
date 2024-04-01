@@ -1,30 +1,32 @@
-location,Location
-girl_name,Girl
-topic,Topic
-dorm_room,Dorm Room
-shower,Shower
-variant,Variant
-teacher,Teacher
-education,Education
-inhibition,Inhibition
-corruption,Corruption
-happiness,Happiness
-charm,Charm
-money,Money
-reputation,Reputation
-class,Class
-coffee,Coffee
-tea,Tea
-warm milk,Warm milk
+location;Location
+girl_name;Girl
+topic;Topic
+dorm_room;Dorm Room
+shower;Shower
+variant;Variant
+teacher;Teacher
+education;Education
+inhibition;Inhibition
+corruption;Corruption
+happiness;Happiness
+charm;Charm
+money;Money
+reputation;Reputation
+class;Class
+coffee;Coffee
+tea;Tea
+warm milk;Warm milk
+normal;Normal
+sleeping;Sleeping
 
 ############
 # Subjects
 
-english,English
-math,Math
+english;English
+math;Math
 
 ###############
----------------
+#--------------
 ###############
 
 ###############
@@ -35,108 +37,123 @@ math,Math
 
 ###########
 # Cafeteria
-event_cafeteria_order_food,Order Food
-event_cafeteria_eat_alone,Eat Alone
+event_cafeteria_order_food;Order Food
+event_cafeteria_eat_alone;Eat Alone
 
-cafeteria_event_1,Get some Coffee
+cafeteria_event_1;Get some Coffee
 
-cafeteria_event_2,Getting ready
-cafeteria_event_2_time,Time
-cafeteria_event_2_time_1,Morning
-cafeteria_event_2_time_6,Evening
-cafeteria_event_2_topic_apron,Apron
-cafeteria_event_2_topic_breasts,Breasts
-cafeteria_event_2_topic_nude,Nude
+cafeteria_event_2;Getting ready
+cafeteria_event_2_time;Time
+cafeteria_event_2_time_1;Morning
+cafeteria_event_2_time_6;Evening
+cafeteria_event_2_topic_apron;Apron
+cafeteria_event_2_topic_breasts;Breasts
+cafeteria_event_2_topic_nude;Nude
 
-cafeteria_event_3,A lot to do
-cafeteria_event_3_unlock_school_jobs,Help
-unlock_school_jobs_2,not helping
-unlock_school_jobs_100,helping
+cafeteria_event_3;A lot to do
+cafeteria_event_3_unlock_school_jobs;Help
+unlock_school_jobs_2;not helping
+unlock_school_jobs_100;helping
 
-cafeteria_event_4,Students at work
-cafeteria_event_4_amount,Amount
-cafeteria_event_4_girl_1,1.Girl
-cafeteria_event_4_girl_2,2.Girl
-cafeteria_event_4_girl_3,3.Girl
+cafeteria_event_4;Students at work
+cafeteria_event_4_amount;Amount
+cafeteria_event_4_girl_1;1.Girl
+cafeteria_event_4_girl_2;2.Girl
+cafeteria_event_4_girl_3;3.Girl
 
-cafeteria_event_5,Eating in silence
-cafeteria_event_5_classes,Classes
-cafeteria_event_5_classes_1A 2A,1A & 2A
-cafeteria_event_5_classes_1A 2A 3A,1A & 2A & 3A
-cafeteria_event_5_classes_1A 3A,1A & 3A
-cafeteria_event_5_classes_2A 3A,2A & 3A
+cafeteria_event_5;Eating in silence
+cafeteria_event_5_classes;Classes
+cafeteria_event_5_classes_1A 2A;1A & 2A
+cafeteria_event_5_classes_1A 2A 3A;1A & 2A & 3A
+cafeteria_event_5_classes_1A 3A;1A & 3A
+cafeteria_event_5_classes_2A 3A;2A & 3A
 
 ###########
 # Courtyard
-event_courtyard_patrol,Patrol
+event_courtyard_patrol;Patrol
 
-first_potion_courtyard_event,First Potion
-first_week_courtyard_event,First Week
-courtyard_event_1,Gist of Wind
-courtyard_event_2,Girl sitting alone
-courtyard_event_3,Girls taking a break
-courtyard_event_4,Running in the Rain
-courtyard_event_5,Group of Girls
-courtyard_event_6,Break too long
+first_potion_courtyard_event;First Potion
+first_week_courtyard_event;First Week
+courtyard_event_1;Gist of Wind
+courtyard_event_2;Girl sitting alone
+courtyard_event_3;Girls taking a break
+courtyard_event_4;Running in the Rain
+courtyard_event_5;Group of Girls
+courtyard_event_6;Break too long
 
 #####
 # Gym
-event_gym_enter_changing,Enter Changing Room
-event_gym_go_students,Go to Students
-event_gym_check_pe,Check P.E. Class
-event_gym_teach_pe,Teach P.E. Class
+event_gym_enter_changing;Enter Changing Room
+event_gym_go_students;Go to Students
+event_gym_check_pe;Check P.E. Class
+event_gym_teach_pe;Teach P.E. Class
 
-first_potion_gym_event,First Potion
-first_week_gym_event,First Week
-gym_event_1,Girls getting ready
-gym_event_2,Walk in Clothing Room
-gym_event_3,Missing her Sports Clothes
+first_potion_gym_event;First Potion
+first_week_gym_event;First Week
+gym_event_1;Girls getting ready
+gym_event_1_topic_hair;Making hair
+gym_event_1_topic_ready;Getting Ready
+gym_event_1_topic_shoes;Tying Shoes
+
+gym_event_2;Walk in Clothing Room
+gym_event_2_topic_asses;Asses
+gym_event_2_topic_breasts;Breasts
+gym_event_2_topic_clothe;Clothes
+
+gym_event_3;Missing her Sports Clothes
+
+gym_teach_pe_1;Teaching P.E. - Football
 
 #######
 # Kiosk
-event_kiosk_get_snack,Get a Snack
+event_kiosk_get_snack;Get a Snack
 
-first_potion_kiosk_event,First Potion
-first_week_kiosk_event,First Week
-kiosk_event_1,Coffee saves the day
-kiosk_event_2,Spilled drink
-kiosk_event_3,Expensive Bento
+first_potion_kiosk_event;First Potion
+first_week_kiosk_event;First Week
+kiosk_event_1;Coffee saves the day
+kiosk_event_2;Spilled drink
+kiosk_event_3;Expensive Bento
 
 #################
 # Office Building
-event_office_building_look_around,Look Around
+event_office_building_look_around;Look Around
 
-first_potion_office_building_event,First Potion
-first_week_office_building_event,First Week
-office_event_1,In need of counseling
-office_event_2,Teacher need a break
-office_event_3,Two students waiting
+first_potion_office_building_event;First Potion
+first_week_office_building_event;First Week
+office_event_1;In need of counseling
+office_event_2;Teacher need a break
+office_event_3;Two students waiting
 
 #################
 # School Building
-event_school_building_teach_class,Teach Class
-event_school_building_patrol,Patrol
-event_school_building_english,English
-event_school_building_math,Math
+event_school_building_teach_class;Teach Class
+event_school_building_patrol;Patrol
+event_school_building_english;English
+event_school_building_math;Math
+learning_difficulty_girl;Needs Help
 
-first_potion_sb_event,First Potion
-first_week_sb_event,First Week
-first_class_sb_event,First Class Introduction
-teach_class_event,Teach subject selection
-sb_event_1,Couples kissing
-sb_event_2,Student tripping in class
-sb_event_3,Crying Girls
-sb_event_4,Student tripping in hallway
+first_potion_sb_event;First Potion
+first_week_sb_event;First Week
+first_class_sb_event;First Class Introduction
+teach_class_event;Teach subject selection
+sb_event_1;Couples kissing
+sb_event_2;Student tripping in class
+sb_event_3;Crying Girls
+sb_event_4;Student tripping in hallway
+
+sb_teach_math_1;Sleepy Math Class
+
+sb_teach_math_2;Math Excercises
 
 ##################
 # School Dormitory
-event_school_dormitory_peek_students,Peek at Students
+event_school_dormitory_peek_students;Peek at Students
 
-first_potion_school_dormitory_event,First Potion
-first_week_school_dormitory_event,First Week
-sd_event_1,Homework is hard
-sd_event_2,Walk in on Girl
-sd_event_3,Ready to bunk
+first_potion_school_dormitory_event;First Potion
+first_week_school_dormitory_event;First Week
+sd_event_1;Homework is hard
+sd_event_2;Walk in on Girl
+sd_event_3;Ready to bunk
 
 # Sports Field
 
@@ -145,7 +162,7 @@ sd_event_3,Ready to bunk
 # Tennis Court
 
 # Misc
-first_week_epilogue,First Week Epilogue
-first_week_epilogue_final,First Week Epilogue Final
-first_pta_meeting,First PTA Meeting
-tutorial_1,Tutorial
+first_week_epilogue;First Week Epilogue
+first_week_epilogue_final;First Week Epilogue Final
+first_pta_meeting;First PTA Meeting
+tutorial_1;Tutorial

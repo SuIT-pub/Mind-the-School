@@ -42,68 +42,68 @@ screen school_overview_stats ():
         hbox:
             textbutton get_stat_icon('happiness', True):
                 tooltip "Happiness"
-                action NullAction()
+                action Call("open_journal", 1, HAPPINESS)
             null width 1
             textbutton get_school_stat_value(HAPPINESS) + "\n" + get_school_stat_change(HAPPINESS):
                 tooltip "Happiness"
                 text_style "stat_value"
-                action NullAction()
+                action Call("open_journal", 1, HAPPINESS)
         hbox:
             textbutton get_stat_icon('charm', True):
                 tooltip "Charm"
-                action NullAction()
+                action Call("open_journal", 1, CHARM)
             null width 1
             textbutton get_school_stat_value(CHARM) + "\n" + get_school_stat_change(CHARM):
                 tooltip "Charm"
                 text_style "stat_value"
-                action NullAction()
+                action Call("open_journal", 1, CHARM)
         hbox:
             textbutton get_stat_icon('education', True):
                 tooltip "Education"
-                action NullAction()
+                action Call("open_journal", 1, EDUCATION)
             null width 1
             textbutton get_school_stat_value(EDUCATION) + "\n" + get_school_stat_change(EDUCATION):
                 tooltip "Education"
                 text_style "stat_value"
-                action NullAction()
+                action Call("open_journal", 1, EDUCATION)
         hbox:
             textbutton get_stat_icon('money', True):
                 tooltip "Money"
-                action NullAction()
+                action Call("open_journal", 1, MONEY)
             null width 1
             textbutton get_school_stat_value(MONEY) + "\n" + get_school_stat_change(MONEY):
                 tooltip "Money"
                 text_style "stat_value"
-                action NullAction()
+                action Call("open_journal", 1, MONEY)
 
         null
         hbox:
             textbutton get_stat_icon('corruption', True):
                 tooltip "Corruption"
-                action NullAction()
+                action Call("open_journal", 1, CORRUPTION)
             null width 1
             textbutton get_school_stat_value(CORRUPTION) + "\n" + get_school_stat_change(CORRUPTION):
                 tooltip "Corruption"
                 text_style "stat_value"
-                action NullAction()
+                action Call("open_journal", 1, CORRUPTION)
         hbox:
             textbutton get_stat_icon('inhibition', True):
                 tooltip "Inhibition"
-                action NullAction()
+                action Call("open_journal", 1, INHIBITION)
             null width 1
             textbutton get_school_stat_value(INHIBITION) + "\n" + get_school_stat_change(INHIBITION):
                 tooltip "Inhibition"
                 text_style "stat_value"
-                action NullAction()
+                action Call("open_journal", 1, INHIBITION)
         hbox:
             textbutton get_stat_icon('reputation', True):
                 tooltip "Reputation"
-                action NullAction()
+                action Call("open_journal", 1, REPUTATION)
             null width 1
             textbutton get_school_stat_value(REPUTATION) + "\n" + get_school_stat_change(REPUTATION):
                 tooltip "Reputation"
                 text_style "stat_value"
-                action NullAction()
+                action Call("open_journal", 1, REPUTATION)
 
     vbox:
         xalign 1.0 ypos 150

@@ -171,125 +171,21 @@ init -2 python:
             if step < 0 or step >= len(self.steps):
                 log_error(201, f"Step {step} for {self._image_paths[0]} is out of range! (Min: 0, Max: {len(self.steps) - 1}))")
                 renpy.show("black_screen_text", [], None, f"Step {step} is out of range! (Min: 0, Max: {len(self.steps) - 1}))")
-                return
+                return -1
 
             image_step = self.steps[step]
             if image_step == None:
                 log_error(202, f"Step {step} is missing variants for {self._image_paths[0]}!")
                 renpy.show("black_screen_text", [], None, f"Step {step} is missing variants for {self._image_paths[0]}!")
-                return
+                return -1
 
             (image_path, variant) = image_step.get_image(variant)
 
             if not sfw_mode:
                 renpy.call("show_ready_image", image_path, display_type)   
+
             return variant  
-                
-    class BGStorage:
-        """
-        A class to represent a background storage.
-        A background storage is a storage for background images.
-
-        ### Attributes:
-        1. fallback_image: str
-            - The fallback image path.
-        2. images: List[BGImage]
-            - A list of all the background images.
-        3. _kwargs: dict
-            - The keyword arguments to replace in the image path.
-
-        ### Methods:
-        1. get_images() -> List[BGImage]
-            - Returns a list of all the background images.
-        2. get_fallback() -> str
-            - Returns the fallback image path.
-        3. add_image(*image: BGImage)
-            - Adds a background image to the background storage.
-        4. add_kwargs(**kwargs)
-            - Adds keyword arguments to the background storage.
-        5. get_kwargs() -> dict
-            - Returns the keyword arguments of the background storage.
-
-        ### Parameters:
-        1. fallback_image: str
-            - The fallback image path.
-        2. *images: BGImage
-            - A list of all the background images.
-        3. **kwargs
-            - The keyword arguments to replace in the image path.
-        """
-
-        def __init__(self, fallback_image: str, *images: BGImage, **kwargs):
-            self.fallback_image = fallback_image
-            self.images = list(images)
-            self._kwargs = kwargs
-
-        def get_images(self) -> List[BGImage]:
-            """
-            Returns a list of all the background images.
-
-            ### Returns:
-            1. List[BGImage]
-                - A list of all the background images.
-            """
-
-            return self.images
-
-        def get_fallback(self) -> str:
-            """
-            Returns the fallback image path.
-
-            ### Returns:
-            1. str
-                - The fallback image path.
-            """
-
-            return self.fallback_image
-
-        def set_fallback(self, fallback_image: str):
-            """
-            Sets the fallback image path.
-
-            ### Parameters:
-            1. fallback_image: str
-                - The fallback image path.
-            """
-
-            self.fallback_image = fallback_image
-
-        def add_image(self, *image: BGImage):
-            """
-            Adds a background image to the background storage.
-
-            ### Parameters:
-            1. *image: BGImage
-                - A list of all the background images to add.
-            """
-
-            self.images.extend(image)
-
-        def add_kwargs(self, **kwargs):
-            """
-            Adds keyword arguments to the background storage.
-
-            ### Parameters:
-            1. **kwargs
-                - The keyword arguments to add.
-            """
-
-            self._kwargs.update(kwargs)
-
-        def get_kwargs(self) -> Dict[str, Any]:
-            """
-            Returns the keyword arguments of the background storage.
-
-            ### Returns:
-            1. dict
-                - The keyword arguments of the background storage.
-            """
-
-            return self._kwargs
-
+        
     class BGImage():
         """
         A class to represent a background image.
@@ -400,6 +296,111 @@ init -2 python:
             """
 
             return get_image(self._image_path, **kwargs)[0] != -1
+        
+    class BGStorage:
+        """
+        A class to represent a background storage.
+        A background storage is a storage for background images.
+
+        ### Attributes:
+        1. fallback_image: str
+            - The fallback image path.
+        2. images: List[BGImage]
+            - A list of all the background images.
+        3. _kwargs: dict
+            - The keyword arguments to replace in the image path.
+
+        ### Methods:
+        1. get_images() -> List[BGImage]
+            - Returns a list of all the background images.
+        2. get_fallback() -> str
+            - Returns the fallback image path.
+        3. add_image(*image: BGImage)
+            - Adds a background image to the background storage.
+        4. add_kwargs(**kwargs)
+            - Adds keyword arguments to the background storage.
+        5. get_kwargs() -> dict
+            - Returns the keyword arguments of the background storage.
+
+        ### Parameters:
+        1. fallback_image: str
+            - The fallback image path.
+        2. *images: BGImage
+            - A list of all the background images.
+        3. **kwargs
+            - The keyword arguments to replace in the image path.
+        """
+
+        def __init__(self, fallback_image: str, *images: BGImage, **kwargs):
+            self.fallback_image = fallback_image
+            self.images = list(images)
+            self._kwargs = kwargs
+
+        def get_images(self) -> List[BGImage]:
+            """
+            Returns a list of all the background images.
+
+            ### Returns:
+            1. List[BGImage]
+                - A list of all the background images.
+            """
+
+            return self.images
+
+        def get_fallback(self) -> str:
+            """
+            Returns the fallback image path.
+
+            ### Returns:
+            1. str
+                - The fallback image path.
+            """
+
+            return self.fallback_image
+
+        def set_fallback(self, fallback_image: str):
+            """
+            Sets the fallback image path.
+
+            ### Parameters:
+            1. fallback_image: str
+                - The fallback image path.
+            """
+
+            self.fallback_image = fallback_image
+
+        def add_image(self, *image: BGImage):
+            """
+            Adds a background image to the background storage.
+
+            ### Parameters:
+            1. *image: BGImage
+                - A list of all the background images to add.
+            """
+
+            self.images.extend(image)
+
+        def add_kwargs(self, **kwargs):
+            """
+            Adds keyword arguments to the background storage.
+
+            ### Parameters:
+            1. **kwargs
+                - The keyword arguments to add.
+            """
+
+            self._kwargs.update(kwargs)
+
+        def get_kwargs(self) -> Dict[str, Any]:
+            """
+            Returns the keyword arguments of the background storage.
+
+            ### Returns:
+            1. dict
+                - The keyword arguments of the background storage.
+            """
+
+            return self._kwargs
 
     def get_image(image_path: str, **kwargs) -> Tuple[int, str]:
         """
@@ -750,6 +751,43 @@ init -2 python:
         """
         return renpy.loadable(image_path)
 
+label Image_Series:
+    $ i = 0
+label .show_image(image_series, *steps, pause = False, display_type = SCENE, variant = -1):
+    # """
+    # Shows the images of the image series with the given steps.
+    # other than the show method, this method will show the images in a sequence and will pause after the last image if pause is set to True.
+
+    # ### Parameters:
+    # 1. image_series: Image_Series
+    #     - The image series to show the images of.
+    # 2. *steps: int
+    #     - The steps of the images to show.
+    # 3. pause: bool (default False)
+    #     - Whether to pause after the last image.
+    # 4. display_type: int (default SCENE)
+    #     - The display type of the image.
+    # 5. variant: int (default -1)
+    #     - The variant of the image to show.
+    #     - If the variant is -1, a random variant will be chosen.
+
+    # ### Returns:
+    # 1. variant: int
+    #     - The variant of the last image.
+    # """
+    $ i = 0
+    while i < len(steps):
+        $ log_val('i', i)
+        $ step = steps[i]
+        $ variant = image_series.show(step, display_type, variant)
+        if (pause and i == len(steps) - 1) or i < len(steps) - 1:
+            $ log('pause')
+            $ renpy.pause()
+        $ i += 1
+    return variant
+
+
+
 label show_sfw_text(text):
     # """
     # Shows a text on black screen in sfw_mode is active
@@ -773,7 +811,9 @@ label show_idle_image(bg_images, **kwargs):
     # 2. **kwargs
     #     - The keyword arguments to replace in the image path.
     # """
-
+    
+    if bg_images == None:
+        return
     $ fallback_image = bg_images.get_fallback()
     $ images = bg_images.get_images()
 
@@ -954,18 +994,18 @@ screen image_with_nude_var(paths, limit = 2, nude = DEFAULT_NUDE):
             auto "icons/sight_disabled_%s.webp"
             focus_mask None
             xalign 0.0 yalign 0.0
-            action Call("call_screen_image_with_nude_var", paths, limit, 0)
+            action Show("image_with_nude_var", dissolveM, paths, limit, 0)
 
     if nude == 0 and limit > 0:
         imagebutton:
             auto "icons/eye_target_%s.webp"
             focus_mask None
             xalign 0.0 yalign 0.0
-            action Call("call_screen_image_with_nude_var", paths, limit, 1)
+            action Show("image_with_nude_var", dissolveM, paths, limit, 1)
 
     if nude == 1 and limit > 1:
         imagebutton:
             auto "icons/fire_iris_%s.webp"
             focus_mask None
             xalign 0.0 yalign 0.0
-            action Call("call_screen_image_with_nude_var", paths, limit, 2)
+            action Show("image_with_nude_var", dissolveM, paths, limit, 2)
