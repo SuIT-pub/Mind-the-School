@@ -19,11 +19,13 @@ init -1 python:
 
 init 1 python:
     tutorial_1_event = Event(2, "tutorial_1", 
+        IntroCondition(),
         TimeCondition(day = 2, month = 1, year = 2023, daytime = 1),
         thumbnail = "images/events/intro/intro tutorial 9.webp"
     )
 
     first_week_epilogue_event = Event(1, "first_week_epilogue", 
+        IntroCondition(),
         TimeCondition(day = 5, month = 1, year = 2023, daytime = 2),
         thumbnail = "images/events/first week/first week epilogue 8.webp"
     )
@@ -34,6 +36,7 @@ init 1 python:
     )
 
     first_pta_meeting_event = Event(1, "first_pta_meeting", 
+        IntroCondition(),
         TimeCondition(day = 5, month = 1, year = 2023, daytime = 1),
         thumbnail = "images/events/pta/first meeting/first pta meeting 0 0.webp"
     )

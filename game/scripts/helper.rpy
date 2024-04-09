@@ -41,7 +41,7 @@ init -99 python:
             - The kwargs to get from
         """
 
-        if key in kwargs.keys():
+        if key in kwargs.keys() and kwargs[key] != None:
             return kwargs[key]
         return alt
 

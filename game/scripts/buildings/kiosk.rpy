@@ -21,13 +21,14 @@ init -1 python:
 
 init 1 python:
     first_week_kiosk_event_event = Event(1, "first_week_kiosk_event",
+        IntroCondition(),
         TimeCondition(day = "2-4", month = 1, year = 2023),
         thumbnail = "images/events/first week/first week kiosk 1.webp")
 
     kiosk_event1 = Event(3, "kiosk_event_1",
         RandomValueSelector("variant", 1, 2),
         RandomListSelector("girl_name", "Aona Komuro", "Ikushi Ito", "Gloria Goto", "Lin Kato"),
-        OR(TimeCondition(weekday = "d", daytime = "f"), TimeCondition(weekday="w", daytime = "d")),
+        OR(TimeCondition(weekday = "d", daytime = "1,3"), TimeCondition(weekday="w", daytime = "4-")),
         thumbnail = "images/events/kiosk/kiosk_event_1 Aona Komuro 1 1.webp")
 
     kiosk_event2 = Event(3, "kiosk_event_2",
@@ -42,7 +43,7 @@ init 1 python:
         RandomCondition(25, 100),
         thumbnail = "images/events/kiosk/kiosk_event_3 1 0.webp")
 
-    kiosk_timed_event.add_event(
+    kiosk_general_event.add_event(
         first_week_kiosk_event_event,
     )
 

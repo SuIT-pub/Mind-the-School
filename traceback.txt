@@ -1,180 +1,46 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
 While running game code:
-  File "game/scripts/intro.rpy", line 44, in script call
-    call skip_to_free_roam from intro_3
-  File "game/scripts/intro.rpy", line 214, in script call
-    call first_week_epilogue_final.skip from skip_to_free_roam_1
-  File "game/scripts/overview.rpy", line 727, in script call
-    call expression name from building_1
-  File "game/scripts/menu.rpy", line 180, in script call
-    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
-  File "game/scripts/journal/journal.rpy", line 116, in script call
-    call open_journal (1, "") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 116, in script call
-    call open_journal (1, "") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 116, in script call
-    call open_journal (1, "") from start_journal_1
-  [Previous line repeated 1 more time]
-  File "game/scripts/overview.rpy", line 727, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/office_building.rpy", line 66, in script call
-    call call_available_event(office_building_timed_event) from office_building_1
-  File "game/scripts/buildings/office_building.rpy", line 78, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 180, in script call
-    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
-  File "game/scripts/overview.rpy", line 727, in script call
-    call expression name from building_1
-  File "game/scripts/menu.rpy", line 180, in script call
-    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
-  File "game/scripts/overview.rpy", line 727, in script call
-    call expression name from building_1
-  File "game/scripts/menu.rpy", line 180, in script call
-    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
-  File "game/scripts/overview.rpy", line 727, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/office_building.rpy", line 66, in script call
-    call call_available_event(office_building_timed_event) from office_building_1
-  File "game/scripts/buildings/office_building.rpy", line 78, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 180, in script call
-    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
-  File "game/scripts/overview.rpy", line 727, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/office_building.rpy", line 66, in script call
-    call call_available_event(office_building_timed_event) from office_building_1
-  File "game/scripts/buildings/office_building.rpy", line 78, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 180, in script call
-    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
-  File "game/scripts/overview.rpy", line 727, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/office_building.rpy", line 66, in script call
-    call call_available_event(office_building_timed_event) from office_building_1
-  File "game/scripts/buildings/office_building.rpy", line 78, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 180, in script call
-    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
-  File "game/scripts/overview.rpy", line 727, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/office_building.rpy", line 66, in script call
-    call call_available_event(office_building_timed_event) from office_building_1
-  File "game/scripts/buildings/office_building.rpy", line 78, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 180, in script call
-    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
-  File "game/scripts/overview.rpy", line 727, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/office_building.rpy", line 66, in script call
-    call call_available_event(office_building_timed_event) from office_building_1
-  File "game/scripts/buildings/office_building.rpy", line 78, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 180, in script call
-    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
-  File "game/scripts/overview.rpy", line 727, in script call
-    call expression name from building_1
-  File "game/scripts/menu.rpy", line 175, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 1351, in script
-    $ event_obj.call(**kwargs)
-  File "game/scripts/event.rpy", line 1351, in <module>
-    $ event_obj.call(**kwargs)
-  File "game/scripts/event.rpy", line 1179, in call
-    if self.values != None:
-AttributeError: 'Event' object has no attribute 'values'
+  File "game/scripts/overview.rpy", line 639, in script call
+    call time_event_check from new_day_2
+  File "game/scripts/daily_check.rpy", line 111, in script call
+    call call_available_event(time_check_events, 0, True) from time_event_check_2
+  File "game/scripts/event.rpy", line 1306, in script
+    $ events_list = event_storage.get_available_events(priority, **kwargs)
+  File "game/scripts/event.rpy", line 1306, in <module>
+    $ events_list = event_storage.get_available_events(priority, **kwargs)
+  File "game/scripts/event.rpy", line 493, in get_available_events
+    if event.is_available(**kwargs):
+  File "game/scripts/event.rpy", line 1165, in is_available
+    if not condition.is_fulfilled(**kwargs):
+  File "game/scripts/conditions.rpy", line 2731, in is_fulfilled
+    if time.compare_today(10, 1, 2023) == -1 and is_intro:
+NameError: name 'is_intro' is not defined
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "game/scripts/intro.rpy", line 44, in script call
-    call skip_to_free_roam from intro_3
-  File "game/scripts/intro.rpy", line 214, in script call
-    call first_week_epilogue_final.skip from skip_to_free_roam_1
-  File "game/scripts/overview.rpy", line 727, in script call
-    call expression name from building_1
-  File "game/scripts/menu.rpy", line 180, in script call
-    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
-  File "game/scripts/journal/journal.rpy", line 116, in script call
-    call open_journal (1, "") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 116, in script call
-    call open_journal (1, "") from start_journal_1
-  File "game/scripts/journal/journal.rpy", line 116, in script call
-    call open_journal (1, "") from start_journal_1
-  [Previous line repeated 1 more time]
-  File "game/scripts/overview.rpy", line 727, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/office_building.rpy", line 66, in script call
-    call call_available_event(office_building_timed_event) from office_building_1
-  File "game/scripts/buildings/office_building.rpy", line 78, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 180, in script call
-    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
-  File "game/scripts/overview.rpy", line 727, in script call
-    call expression name from building_1
-  File "game/scripts/menu.rpy", line 180, in script call
-    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
-  File "game/scripts/overview.rpy", line 727, in script call
-    call expression name from building_1
-  File "game/scripts/menu.rpy", line 180, in script call
-    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
-  File "game/scripts/overview.rpy", line 727, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/office_building.rpy", line 66, in script call
-    call call_available_event(office_building_timed_event) from office_building_1
-  File "game/scripts/buildings/office_building.rpy", line 78, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 180, in script call
-    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
-  File "game/scripts/overview.rpy", line 727, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/office_building.rpy", line 66, in script call
-    call call_available_event(office_building_timed_event) from office_building_1
-  File "game/scripts/buildings/office_building.rpy", line 78, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 180, in script call
-    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
-  File "game/scripts/overview.rpy", line 727, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/office_building.rpy", line 66, in script call
-    call call_available_event(office_building_timed_event) from office_building_1
-  File "game/scripts/buildings/office_building.rpy", line 78, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 180, in script call
-    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
-  File "game/scripts/overview.rpy", line 727, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/office_building.rpy", line 66, in script call
-    call call_available_event(office_building_timed_event) from office_building_1
-  File "game/scripts/buildings/office_building.rpy", line 78, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 180, in script call
-    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
-  File "game/scripts/overview.rpy", line 727, in script call
-    call expression name from building_1
-  File "game/scripts/buildings/office_building.rpy", line 66, in script call
-    call call_available_event(office_building_timed_event) from office_building_1
-  File "game/scripts/buildings/office_building.rpy", line 78, in script call
-    call call_event_menu (
-  File "game/scripts/menu.rpy", line 180, in script call
-    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
-  File "game/scripts/overview.rpy", line 727, in script call
-    call expression name from building_1
-  File "game/scripts/menu.rpy", line 175, in script call
-    call call_event(fallback, **kwargs) from call_event_menu_1
-  File "game/scripts/event.rpy", line 1351, in script
-    $ event_obj.call(**kwargs)
+  File "game/scripts/overview.rpy", line 639, in script call
+    call time_event_check from new_day_2
+  File "game/scripts/daily_check.rpy", line 111, in script call
+    call call_available_event(time_check_events, 0, True) from time_event_check_2
+  File "game/scripts/event.rpy", line 1306, in script
+    $ events_list = event_storage.get_available_events(priority, **kwargs)
   File "D:\RenPy\renpy\ast.py", line 1138, in execute
     renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
   File "D:\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
     exec(bytecode, globals, locals)
-  File "game/scripts/event.rpy", line 1351, in <module>
-    $ event_obj.call(**kwargs)
-  File "game/scripts/event.rpy", line 1179, in call
-    if self.values != None:
-AttributeError: 'Event' object has no attribute 'values'
+  File "game/scripts/event.rpy", line 1306, in <module>
+    $ events_list = event_storage.get_available_events(priority, **kwargs)
+  File "game/scripts/event.rpy", line 493, in get_available_events
+    if event.is_available(**kwargs):
+  File "game/scripts/event.rpy", line 1165, in is_available
+    if not condition.is_fulfilled(**kwargs):
+  File "game/scripts/conditions.rpy", line 2731, in is_fulfilled
+    if time.compare_today(10, 1, 2023) == -1 and is_intro:
+NameError: name 'is_intro' is not defined
 
 Windows-10-10.0.22631 AMD64
 Ren'Py 8.1.3.23091805
 Mind the School 0.1.3
-Mon Apr  1 20:13:09 2024
+Wed Apr  3 18:22:58 2024

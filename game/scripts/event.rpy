@@ -967,6 +967,10 @@ init -3 python:
             self.event = event
             self.thumbnail = thumbnail
             self.conditions = [condition for condition in conditions if isinstance(condition, Condition)]
+
+            if not any(isinstance(condition, IntroCondition) for condition in self.conditions):
+                self.conditions.append(IntroCondition(False))
+
             self.values = SelectorSet(*[condition for condition in conditions if isinstance(condition, Selector)])
             self.options = OptionSet(*[condition for condition in conditions if isinstance(condition, Option)])
 

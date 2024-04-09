@@ -561,7 +561,7 @@ init -6 python:
         """
 
         if stat == CORRUPTION:
-            return clamp_value(value, min, max - level * (max / 10))
+            return clamp_value(value, min, level * (max / 10))
         elif stat == INHIBITION:
             return clamp_value(value, 100 - (level * (max / 10)), max)
         else:

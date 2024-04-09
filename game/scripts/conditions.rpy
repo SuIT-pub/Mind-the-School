@@ -2723,6 +2723,26 @@ init -6 python:
 
             return clamp_value(100 - diff, -100, 100)
 
+    class IntroCondition(Condition):
+        def __init__(self, is_intro: bool = True):
+            super().__init__(False)
+            self.is_intro = is_intro
+
+        def is_fulfilled(self, **kwargs) -> bool:
+            if ((time.compare_today(10, 1, 2023) == -1 and self.is_intro) or
+                (time.compare_today(10, 1, 2023) != -1 and not self.is_intro)):
+                return True
+            return False
+
+        def get_name(self):
+            return "IntroCondition"
+            
+        def get_diff(self) -> num:
+            """
+            Returns the difference of the condition inverted.
+            """
+            return 0
+
     class PTAOverride(Condition):
         """
         A class for conditions that overrides all other conditions in the PTA voting.

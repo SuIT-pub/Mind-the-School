@@ -190,9 +190,10 @@ init -3 python:
             - If False, the value will only be updated, when the update()-method is triggered.
         """
 
-        def __init__(self, key: str, *values: Any, realtime: bool = False):
+        def __init__(self, key: str, *values: Any, realtime: bool = False, alt: Any = None):
             super().__init__(realtime, key)
-            self._list = values
+            self._list = values 
+            self._alt = alt
 
         def roll(self, **kwargs) -> Any:
             """
@@ -200,6 +201,8 @@ init -3 python:
             """
 
             value = get_random_choice(*self._list, **kwargs)
+            if value == None:
+                value = self._alt
             while isinstance(value, Selector):
                 value = value.roll(**kwargs)
             return value

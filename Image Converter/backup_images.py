@@ -66,7 +66,7 @@ source_path = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__fil
 
 file_target = ['.png']
 
-mode = pyautogui.confirm(text = 'What would you like to do?', title = 'Backup Images', buttons = ['Backup images', 'Extract new images', 'Convert images', 'Return modified images', 'Move Backup to Extract', 'Versioned Backup', 'Return Videos', 'Count', 'Cancel'])
+mode = pyautogui.confirm(text = 'What would you like to do?', title = 'Backup Images', buttons = ['Backup images', 'Extract new images', 'Convert images', 'Return modified images', 'Move Backup to Extract', 'Versioned Backup', 'Return Videos', 'Count', 'Compare images', 'Cancel'])
 if mode == 'Versioned Backup':
     mode = pyautogui.confirm(text = 'What would you like to do?', title = 'Backup Images', buttons = ['Move Images to Versioned Backup', 'Return Images from Versioned Backup', 'Cancel'])
 
@@ -156,6 +156,17 @@ elif mode == 'Count':
             source_path = os.path.abspath(os.path.join(source_path, "../../../Versioned Image Backups/" + dest_choice))
 
     file_target = ['.png', '.webp', '.webm']
+elif mode == 'Compare images':
+    comp_mode = pyautogui.confirm(text = 'What would you like to compare?', title = 'Compare Images', buttons = ['game -> backup', 'backup -> game', 'Cancel'])
+    if comp_mode == 'Cancel':
+        exit()
+    if comp_mode == 'game -> backup':
+        destination_path = os.path.abspath(os.path.join(source_path, '../../../Image Extracter/Mind the School Image Backup'))
+        file_target = ['.webp']
+    elif comp_mode == 'backup -> game':
+        destination_path = source_path
+        source_path = os.path.abspath(os.path.join(source_path, '../../../Image Extracter/Mind the School Image Backup'))
+        file_target = ['.png']
 
 
 
@@ -177,7 +188,6 @@ vid_count = 0
 for root, dirs, files in os.walk(source_path):
     for file in files:
         if any(file.endswith(target) for target in file_target):
-
             if mode == 'Count':
                 if file.endswith('.webm'):
                     vid_count += 1
@@ -192,6 +202,21 @@ for root, dirs, files in os.walk(source_path):
 
             if mode == 'Convert images':
                 paths.append(source_file)
+                continue
+
+            if mode == 'Compare images':
+                estimated_destination_file = os.path.join(destination_path, os.path.relpath(source_file, source_path))
+                estimated_destination_file = estimated_destination_file.replace('.png', '.2')
+                estimated_destination_file = estimated_destination_file.replace('.webp', '.png')
+                estimated_destination_file = estimated_destination_file.replace('.2', '.webp')
+                if not os.path.exists(estimated_destination_file):
+                    source_file = source_file.replace('h:', 'H:')
+                    source_file = source_file.replace('H:\Dateien\OneDrive\RenPy Project\Mind the School\game\images\\', '')
+                    source_file = source_file.replace('H:\Dateien\OneDrive\RenPy Project\Image Extracter\Mind the School Image Backup\\', '')
+                    estimated_destination_file = estimated_destination_file.replace('h:', 'H:')
+                    estimated_destination_file = estimated_destination_file.replace('H:\Dateien\OneDrive\RenPy Project\Mind the School\game\images\\', '')
+                    estimated_destination_file = estimated_destination_file.replace('H:\Dateien\OneDrive\RenPy Project\Image Extracter\Mind the School Image Backup\\', '')
+                    print(f"Counterpart missing for: {source_file}\n    expected at {estimated_destination_file}")
                 continue
 
             result, overwrite_setting = move_files(mode, source_file, destination_file, overwrite_setting)

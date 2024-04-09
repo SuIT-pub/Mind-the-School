@@ -24,10 +24,12 @@ init -1 python:
     
 init 1 python:
     first_week_gym_event_event = Event(1, "first_week_gym_event",
+        IntroCondition(),
         TimeCondition(day = "2-4", month = 1, year = 2023),
         thumbnail = "images/events/first week/first week gym 1.webp")
 
     first_potion_gym_event_event = Event(1, "first_potion_gym_event",
+        IntroCondition(),
         TimeCondition(day = 9, month = 1, year = 2023),
         thumbnail = "images/events/first potion/first potion gym 1.webp")
 
@@ -60,7 +62,7 @@ init 1 python:
         TimeCondition(daytime = "c", weekday = "d"),
         thumbnail = "images/events/gym/gym_teach_pe_1 1 9.webp")
 
-    gym_timed_event.add_event(
+    gym_general_event.add_event(
         first_week_gym_event_event,
         first_potion_gym_event_event,
     )

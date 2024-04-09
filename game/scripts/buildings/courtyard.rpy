@@ -21,10 +21,12 @@ init -1 python:
 
 init 1 python:
     first_week_courtyard_event_event = Event(1, "first_week_courtyard_event",
+        IntroCondition(),
         TimeCondition(day = "2-4", month = 1, year = 2023),
         thumbnail = "images/events/first week/first week courtyard 1.webp")
     
     first_potion_courtyard_event_event = Event(1, "first_potion_courtyard_event",
+        IntroCondition(),
         TimeCondition(day = 9, month = 1, year = 2023),
         thumbnail = "images/events/first potion/first potion courtyard 1.webp")
 
@@ -38,7 +40,7 @@ init 1 python:
         thumbnail = "images/events/courtyard/courtyard_event_2 1 0.webp")
 
     courtyard_event3 = Event(3, "courtyard_event_3",
-        TimeCondition(daytime = "d"),
+        TimeCondition(daytime = "f", weekday = "d"),
         thumbnail = "images/events/courtyard/courtyard_event_3 1.webp")
 
     courtyard_event4 = Event(3, "courtyard_event_4",
@@ -66,7 +68,7 @@ init 1 python:
         TimeCondition(weekday = "d", daytime = "2,4"),
         thumbnail = "images/events/courtyard/courtyard_event_6 1 0.webp")
 
-    courtyard_timed_event.add_event(
+    courtyard_general_event.add_event(
         first_week_courtyard_event_event,
         first_potion_courtyard_event_event,
     )
@@ -267,7 +269,7 @@ label courtyard_event_4(**kwargs):
 
     $ image = Image_Series("images/events/courtyard/courtyard_event_4 <school_level> <girl_name> <step>.webp", **kwargs)
 
-    call Image_Series.show_image(image, 0, 1, 2)
+    call Image_Series.show_image(image, 0, 1, 2) from _call_Image_Series_show_image_3
     headmaster "Interesting..."
     
     $ change_stats_with_modifier(school_obj,

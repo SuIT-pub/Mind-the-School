@@ -21,10 +21,12 @@ init -1 python:
 
 init 1 python:    
     first_week_school_dormitory_event_event = Event(1, "first_week_school_dormitory_event",
+        IntroCondition(),
         TimeCondition(day = "2-4", month = 1, year = 2023),
         thumbnail = "images/events/first week/first week school dormitory 1.webp")
 
     first_potion_school_dormitory_event_event = Event(1, "first_potion_school_dormitory_event",
+        IntroCondition(),
         TimeCondition(day = 9, month = 1, year = 2023),
         thumbnail = "images/events/first potion/first potion school dormitory 3.webp")
 
@@ -77,7 +79,7 @@ init 1 python:
         thumbnail = "images/events/school dormitory/sd_event_3 normal 1 0.webp")
 
 
-    sd_timed_event.add_event(
+    sd_general_event.add_event(
         first_week_school_dormitory_event_event,
         first_potion_school_dormitory_event_event,
     )

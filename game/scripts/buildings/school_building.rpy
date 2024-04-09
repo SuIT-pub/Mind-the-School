@@ -29,10 +29,12 @@ init 1 python:
     ####################
     # Event construction
     first_week_sb_event = Event(1, "first_week_sb_event",
+        IntroCondition(),
         TimeCondition(day = "2-4", month = 1, year = 2023),
         thumbnail = "images/events/first week/first week school building 2.webp")
 
     first_potion_sb_event = Event(1, "first_potion_sb_event",
+        IntroCondition(),
         TimeCondition(day = 9, month = 1, year = 2023),
         thumbnail = "images/events/first potion/first potion school building 1.webp")
 
@@ -55,7 +57,8 @@ init 1 python:
                     LoliContentCondition('2')
                 ),
             ), 
-            realtime = True
+            realtime = True,
+            alt = '3A'
         ),
         thumbnail = "images/events/school building/first_class_sb_event 3A 0 2.webp")
 
@@ -68,11 +71,11 @@ init 1 python:
         thumbnail = "images/events/school building/sb_event_2 1 0.webp")
     
     sb_event3 = Event(3, "sb_event_3",
-        TimeCondition(weekday = "d", daytime = "d"),
+        TimeCondition(daytime = "d", weekday = "d"),
         thumbnail = "images/events/school building/sb_event_3 1 1.webp")
 
     sb_event4 = Event(3, "sb_event_4",
-        TimeCondition(weekday = "d", daytime = "f"),
+        TimeCondition(daytime = "f", weekday = "d"),
         RandomListSelector('girl_name', 'Ikushi Ito'),
         thumbnail = "images/events/school building/sb_event_4 1 Ikushi Ito 0.webp")
 
@@ -92,12 +95,9 @@ init 1 python:
     #################
     # Event insertion
 
-    sb_timed_event.add_event(
+    sb_general_event.add_event(
         first_week_sb_event, 
         first_potion_sb_event,
-    )
-
-    sb_general_event.add_event(
     )
 
     sb_events["teach_class"].add_event(
@@ -123,6 +123,7 @@ init 1 python:
 ###########################################
 
 label school_building ():
+    $ log_val('sb_timed_event', sb_timed_event.events)
     call call_available_event(sb_timed_event) from school_building_1
     
 label .after_time_check (**kwargs):
@@ -207,7 +208,7 @@ label first_class_sb_event (**kwargs):
     $ school_obj = get_char_value('school_obj', **kwargs)
     $ parent_obj = get_char_value('parent_obj', **kwargs)
     $ school_class = get_value('class', **kwargs)
-    
+
     $ image = Image_Series("/images/events/school building/first_class_sb_event <class> <nude> <step>.webp", **kwargs)
 
     $ image.show(0)
@@ -299,7 +300,7 @@ label first_class_sb_event (**kwargs):
         $ image.show(14)
         $ character.sgirl(f"Hi, I'm Yukari Hashiguchi. I'm {18 + age} years old.", name="Yukari Hashiguchi")
         $ image.show(15)
-        $ character.sgirl(f"I'm Yuka Tanimoto. 20 years old.", name="Yuka Tanimoto")
+        $ character.sgirl(f"I'm Yuka Tanimoto. {20 + age} years old.", name="Yuka Tanimoto")
         $ image.show(16)
         $ character.sgirl(f"Yamaoka Yuki. {21 + age}.", name="Yamaoka Yuka")
         $ image.show(17)
@@ -339,7 +340,7 @@ label first_class_sb_event (**kwargs):
         $ image.show(11)
         $ character.sgirl(f"Hi. Patricia Müller. I'm {22 + age} years old.", name="Patricia Müller")
         $ image.show(12)
-        $ character.sgirl(f"I'm Leonidou Papadopoulos. 20 years old.", name="Leonidou Papadopoulos")
+        $ character.sgirl(f"I'm Leonidou Papadopoulos. {20 + age} years old.", name="Leonidou Papadopoulos")
         $ image.show(13)
         $ character.sgirl(f"H-Hi, I'm Elina Jansen. I'm {19 + age} years old.", name="Elina Jansen")
         $ image.show(14)
@@ -441,7 +442,7 @@ label sb_teach_math_1 (**kwargs):
     $ hide_all()
 
     if topic == "sleeping":
-        call Image_Series.show_image(image, 1, 2, 3, pause = True)
+        call Image_Series.show_image(image, 1, 2, 3, pause = True) from _call_Image_Series_show_image_4
         
         # headmaster walks over
         $ image.show(4)
@@ -454,7 +455,7 @@ label sb_teach_math_1 (**kwargs):
         $ image.show(7)
         headmaster "As a punishment, you have to answer the next question."
 
-        call Image_Series.show_image(image, 8, 9, pause = False)
+        call Image_Series.show_image(image, 8, 9, pause = False) from _call_Image_Series_show_image_5
         headmaster "So. What is the solution of 2x² - 5x + 3 = 0?"
         # a lot of confused faces
         $ image.show(10)
@@ -545,7 +546,7 @@ label sb_teach_math_2 (**kwargs):
         headmaster "No problem. I'll explain it again."
         $ image2.show(3)
         headmaster "Imagine..."
-        call Image_Series.show_image(image2, 4, pause = True)
+        call Image_Series.show_image(image2, 4, pause = True) from _call_Image_Series_show_image_6
 
         show screen black_screen_text("15 minutes later.")
         $ renpy.pause()
@@ -572,7 +573,7 @@ label sb_teach_math_2 (**kwargs):
     # headmaster walks through the rows
     # seraphina raises her hands and asks for help
     # headmaster walks over to her and helps her
-    call Image_Series.show_image(image, 4, 5, 6, 7, 8)
+    call Image_Series.show_image(image, 4, 5, 6, 7, 8) from _call_Image_Series_show_image_7
     headmaster "Do you need some help?"
     sgirl "Yes, I don't understand this equation." (name = "Seraphina Clark")
     $ image.show(9)
@@ -595,7 +596,7 @@ label sb_teach_math_2 (**kwargs):
     sgirl "Thank you Mr. [headmaster_last_name]."
     $ image.show(16)
     headmaster "You're welcome."
-    call Image_Series.show_image(image, 17, pause = True)
+    call Image_Series.show_image(image, 17, pause = True) from _call_Image_Series_show_image_8
 
     # because of seraphinas pose the headmaster can't help but look down her shirt
     # headmaster helps her and then walks away
@@ -859,7 +860,7 @@ label sb_event_4(**kwargs):
 
     $ image = Image_Series("/images/events/school building/sb_event_4 <school_level> <girl_name> <step>.webp", **kwargs)
 
-    call Image_Series.show_image(image, 0, 1)
+    call Image_Series.show_image(image, 0, 1) from _call_Image_Series_show_image_9
     sgirl "AHH!"
 
     $ image.show(2)
@@ -921,7 +922,7 @@ label .panties (**kwargs):
     $ image.show(12)
     sgirl "Eeeek! Pervert!"
 
-    call Image_Series.show_image(image, 13, pause = True)
+    call Image_Series.show_image(image, 13, pause = True) from _call_Image_Series_show_image_10
 
     $ change_stats_with_modifier(school_obj,
         inhibition = DEC_SMALL, charm = DEC_SMALL, corruption = TINY)

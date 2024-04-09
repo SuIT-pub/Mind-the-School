@@ -152,8 +152,8 @@ label load_rules ():
             ProgressCondition("unlock_school_jobs", 3, True),
             PTAOverride('parent'),
         ),
-        '_image_path': 'images/journal/rules/school_jobs.webp',
-        '_image_path_alt': 'images/journal/rules/school_jobs.webp',
+        '_image_path': 'images/journal/rules/school_jobs_<level>.webp',
+        '_image_path_alt': 'images/journal/rules/school_jobs_1.webp',
     })
 
     #! locked, currently not implemented

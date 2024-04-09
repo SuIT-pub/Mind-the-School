@@ -57,7 +57,7 @@ init 1 python:
 
     cafeteria_event_4_event = Event(3, "cafeteria_event_4",
         OR(
-            TimeCondition(weekday = "d", daytime = "f"),
+            TimeCondition(weekday = "d", daytime = "1,6"),
             TimeCondition(weekday = "w", daytime = "d")
         ),
         RuleCondition('school_jobs'),
@@ -180,7 +180,7 @@ label cafeteria_event_1(**kwargs):
 
     # $ image.show(3)
     # $ renpy.pause()
-    call Image_Series.show_image(image, 4, 5)
+    call Image_Series.show_image(image, 4, 5) from _call_Image_Series_show_image
     parent "Here you go." (name = 'Adelaide Hall')
     headmaster "Thank you."
 
@@ -246,7 +246,7 @@ label cafeteria_event_3(**kwargs):
         $ image.show(2)
         headmaster "Sure, no problem."
         # Adelaide approaches headmaster looking rather exhausted
-        call Image_Series.show_image(image, 3, 4, 5, 6)
+        call Image_Series.show_image(image, 3, 4, 5, 6) from _call_Image_Series_show_image_1
         parent "Sorry for the wait. What would you like to have?" (name = name)
         # view back to headmaster
         $ image.show(7)
@@ -447,7 +447,7 @@ label cafeteria_event_5(**kwargs):
     subtitles "You take your lunch, sit down at a table and observe your surroundings."
 
     # Headmaster looks around
-    call Image_Series.show_image(image, 1, 2)
+    call Image_Series.show_image(image, 1, 2) from _call_Image_Series_show_image_2
     headmaster_thought "It seems like the students are enjoying their lunch break."
 
     $ change_stats_with_modifier(school_obj,

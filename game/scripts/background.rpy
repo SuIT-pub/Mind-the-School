@@ -852,6 +852,8 @@ label show_image(path, display_type = SCENE, **kwargs):
 
     $ image_path = refine_image(path, **kwargs)
 
+    $ log_val('image_path', image_path)
+
     call show_ready_image(image_path, display_type) from _call_show_ready_image
     return
 

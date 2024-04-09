@@ -23,20 +23,22 @@ init -1 python:
 
 init 1 python:    
     first_week_office_building_event_event = Event(1, "first_week_office_building_event",
+        IntroCondition(),
         TimeCondition(day = "2-4", month = 1, year = 2023),
         thumbnail = "images/events/first week/first week office building 1.webp")
     
     first_potion_office_building_event_event = Event(1, "first_potion_office_building_event",
+        IntroCondition(),
         TimeCondition(day = 9, month = 1, year = 2023),
         thumbnail = "images/events/first potion/first potion office 1.webp")
 
     office_event1 = Event(3, "office_event_1",
-        TimeCondition(weekday = "d", daytime = "d"),
+        TimeCondition(weekday = "d", daytime = "f"),
         thumbnail = "images/events/office/office_event_1 1 0.webp")
 
     office_event2 = Event(3, "office_event_2",
         RandomListSelector("teacher", "Finola Ryan", "Yulan Chen"),
-        TimeCondition(weekday = "d", daytime = "d"),
+        TimeCondition(weekday = "d", daytime = "f"),
         thumbnail = "images/events/office/office_event_2 1 Finola Ryan.webp")
 
     office_event3 = Event(3, "office_event_3",
@@ -45,7 +47,7 @@ init 1 python:
         thumbnail = "images/events/office/office_event_3 1 0.webp")
 
 
-    office_building_timed_event.add_event(
+    office_building_general_event.add_event(
         first_potion_office_building_event_event,
         first_week_office_building_event_event,
     )

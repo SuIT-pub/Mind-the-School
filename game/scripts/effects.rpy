@@ -415,4 +415,4 @@ label open_bg_image_menu(event, **kwargs):
 
     
     $ event_list = [(get_translation(e.get_event()), EventEffect(e)) for e in event]
-    call call_menu ('Select the Event.', character.subtitles, True, *event_list, **kwargs)
+    call call_menu ('Select the Event.', character.subtitles, True, *event_list, **kwargs) from _call_call_menu
