@@ -67,6 +67,20 @@ init -6 python:
             self.changed_value = 0
             self.image_path = "icons/stat_" + str(type) + "_icon.webp"
 
+        def _repair(self) -> bool:
+            if not hasattr(self, 'type') and hasattr(self, 'image_path'):
+                stat_type = re.sub(r'icons/stat_', '', self.image_path)
+                stat_type = re.sub(r'_icon.webp', '', stat_type)
+                self.type = stat_type
+                return True
+            return False
+
+        def get_image_path(self):
+            if self.image_path.endswith('.png'):
+                self.image_path = re.sub(r'\.png$', '.webp', self.image_path)
+            return self.image_path
+
+
         def get_name(self) -> str:
             """
             Returns the name of the stat.
@@ -75,6 +89,9 @@ init -6 python:
             1. str
                 - The name of the stat.
             """
+
+            if not hasattr(self, 'type'):
+                self.type = ""
 
             return self.type
 
@@ -132,6 +149,17 @@ init -6 python:
             """
 
             self.changed_value = value
+
+        def add_changed_value(self, value: num):
+            """
+            Adds the given value to the change of the stat.
+
+            ### Parameters:
+            1. value: num
+                - The value to add to the change of the stat.
+            """
+
+            self.changed_value += value
         
         def change_value(self, delta: num, level: int = 10):
             """
@@ -159,7 +187,7 @@ init -6 python:
 
             change_val = round(self.value - old_value, 2)
 
-            self.set_changed_value(change_val)
+            self.add_changed_value(change_val)
 
         def change_value_to(self, value: num, level: int = 10):
             """
@@ -250,6 +278,9 @@ init -6 python:
 
             stat_value = self.get_value() + 0
 
+            if self.get_name() == MONEY:
+                stat_value = int(stat_value)
+
             return str(stat_value)
 
         def get_display_change(self) -> str:
@@ -264,19 +295,22 @@ init -6 python:
             global change
             change = self.get_changed_value()
 
+            if self.get_name() == MONEY:
+                change = int(change)
+
             text = ""
 
-            if (self.type != INHIBITION):
+            if (self.get_name() != INHIBITION):
                 if change < 0:
-                    text = "{color=#ff0000}{size=15}(" + str(change) + "){/size}{/color}"
+                    text = "{color=#a00000}{size=15}" + str(change) + "{/size}{/color}"
                 elif change > 0:
-                    text = "{color=#00ff00}{size=15}(+" + str(change) + "){/size}{/color}"
+                    text = "{color=#00a000}{size=15}+" + str(change) + "{/size}{/color}"
             else:
                 if change > 0:
-                    text = "{color=#ff0000}{size=15}(+" + str(change) + "){/size}{/color}"
+                    text = "{color=#a00000}{size=15}+" + str(change) + "{/size}{/color}"
                 elif change < 0:
                     change = -change
-                    text = "{color=#00ff00}{size=15}(-" + str(change) + "){/size}{/color}"
+                    text = "{color=#00a000}{size=15}-" + str(change) + "{/size}{/color}"
             return text
 
     class Stat_Data:
@@ -415,16 +449,22 @@ init -6 python:
                 - The level of the stat for the given value.
             """
 
-            count = 0
-            for l in self.levels:
-                if value < l:
-                    return count - 1
-                count += 1
+            
+            closest_value = len(self.levels) - 1
+            for i, val in enumerate(self.levels):
+                if val >= value and val < self.levels[closest_value]:
+                    closest_value = i
 
-            if count >= len(self.levels):
-                return len(self.levels) - 1
+            # count = 0
+            # for l in self.levels:
+            #     if value <= l:
+            #         return count - 1
+            #     count += 1
 
-            return 0
+            # if count >= len(self.levels):
+            #     return len(self.levels) - 1
+
+            return closest_value
         
         def get_image(self, level: int) -> str:
             """
@@ -458,7 +498,7 @@ init -6 python:
 
             if level < len(self.descriptions) and level >= 0:
                 return self.descriptions[level]
-            return "Description missing for level:[level]"
+            return "Description missing for level:" + str(level)
 
         def get_full_description(self, level: int) -> str:
             """
@@ -477,6 +517,24 @@ init -6 python:
             return (self.get_description(level) + 
                 "\n-------------------------------------------------------\n" + 
                 self.description)
+
+    def get_stat_icon(stat: str, is_white: bool = False) -> str:
+        """
+        Returns the path to the icon image of the stat.
+
+        ### Parameters:
+        1. stat: str
+            - The type of the stat.
+
+        ### Returns:
+        1. str
+            - The path to the icon image of the stat.
+        """
+
+        if is_white:
+            return "{image=icons/stat_" + str(stat) + "_icon_white.webp}"
+        else:
+            return "{image=icons/stat_" + str(stat) + "_icon.webp}"
 
     def clamp_stat_value(value: num, stat: str, level: int, min: num = 0, max: num = 100) -> num:
         """
@@ -503,7 +561,7 @@ init -6 python:
         """
 
         if stat == CORRUPTION:
-            return clamp_value(value, min, max - level * (max / 10))
+            return clamp_value(value, min, level * (max / 10))
         elif stat == INHIBITION:
             return clamp_value(value, 100 - (level * (max / 10)), max)
         else:
@@ -549,7 +607,6 @@ init -6 python:
 
         if name not in stat_data.keys():
             stat_data[name] = Stat_Data(name, title)
-
         stat_data[name]._update(title, data)
 
     def get_stat_levels(value: str) -> num:
@@ -630,17 +687,17 @@ label load_stats ():
             " that presents their bodies in other ways.",
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         'descriptions': [
-            "The students hate to show skin.",
-            "The students don't like to show skin.",
-            "The students don't mind showing a little bit skin.",
-            "The students don't mind showing a little bit more skin.",
-            "The students like to show a bit of skin.",
-            "The students like to present their bodies.",
-            "The students show a bit more of their skin on a regular basis.",
-            "The students love to show a bit more skin.",
-            "The students love to show a lot of skin.",
-            "The students like to barely wear anything.",
             "The students love to be naked all the time.",
+            "The students like to barely wear anything.",
+            "The students love to show a lot of skin.",
+            "The students love to show a bit more skin.",
+            "The students show a bit more of their skin on a regular basis.",
+            "The students like to present their bodies.",
+            "The students like to show a bit of skin.",
+            "The students don't mind showing a little bit more skin.",
+            "The students don't mind showing a little bit skin.",
+            "The students don't like to show skin.",
+            "The students hate to show skin.",
         ],
         'images': [
             "images/journal/empty_image.webp",
@@ -729,7 +786,7 @@ label load_stats ():
 
     $ load_stat_data(CHARM, "Charm", {
         'description': "Charm describes how other people perceive a students as a person. " +
-            "The charm is influenced by factors like fitness, likability, how gentle they are and looks.\n" +
+            "The charm is influenced by factors like fitness, likability, looks and how gentle they are.\n" +
             "\nThe charm can be improved by working on the fitness, working on the character, " +
             "or by social interaction with other people.",
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
@@ -836,34 +893,10 @@ label load_stats ():
     })
 
     $ load_stat_data(MONEY, "Money", {
-        'description': "money",
-        'levels': [0, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000],
-        'descriptions': [
-            "level 0",
-            "level 1",
-            "level 2",
-            "level 3",
-            "level 4",
-            "level 5",
-            "level 6",
-            "level 7",
-            "level 8",
-            "level 9",
-            "level 10",
-        ],
-        'images': [
-            "images/journal/empty_image.webp",
-            "images/journal/empty_image.webp",
-            "images/journal/empty_image.webp",
-            "images/journal/empty_image.webp",
-            "images/journal/empty_image.webp",
-            "images/journal/empty_image.webp",
-            "images/journal/empty_image.webp",
-            "images/journal/empty_image.webp",
-            "images/journal/empty_image.webp",
-            "images/journal/empty_image.webp",
-            "images/journal/empty_image.webp",
-        ],
+        'description': "The money is used to purchase upgrade for the school and to pay for expenses.\n" +
+            "You have to pay for all of that with your own budget, but you get a monthly budget from the authorities.\n\n" +
+            "Of course, you don't get much. You have to make sure that you don't run out of money. "+
+            "You can also earn money by working in your office. Maybe you find another way...",
         'max_limit': 1000000000,
     })
     

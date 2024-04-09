@@ -1,7 +1,7 @@
 init python:
     from typing import Tuple, Union, List
 
-    def call_custom_menu(with_leave: bool = True, *elements: Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool], **kwargs) -> None:
+    def call_custom_menu(with_leave: bool = True, *elements: str | Effect | List[Effect] | Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool], **kwargs) -> None:
         """
         Calls a custom menu with the given elements and the given text and person.
 
@@ -10,12 +10,27 @@ init python:
             - Whether or not to display a leave button.
         2. *elements : Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool]
             - The elements to display in the menu. Each element is a tuple of the form (title, event_label, active), (title, effect, active) or (title, effect_list, active). The active parameter is optional and defaults to True.
-
         """
-        filtered_elements = [tupleEl for tupleEl in elements if len(tupleEl) == 2 or tupleEl[2]]
+
+        in_event = get_kwargs('in_event', False, **kwargs)
+        in_replay = get_kwargs('in_replay', False, **kwargs)
+
+        if in_event and in_replay:
+            made_decisions = get_kwargs('made_decisions', [], **kwargs)
+            decision_data = get_kwargs('decision_data', {}, **kwargs)
+            possible_decisions = get_decision_possibilities(decision_data, made_decisions)
+            elements = [tupleEl for tupleEl in elements if str(tupleEl) in possible_decisions or (isinstance(tupleEl, Tuple) and str(tupleEl[1]) in possible_decisions)]
+            
+        filtered_elements = [tupleEl for tupleEl in elements if not isinstance(tupleEl, Tuple) or len(tupleEl) == 2 or tupleEl[2]]
+
+        if len(filtered_elements) == 0:
+            character.dev ("Oops something went wrong here. There seems to be nothing to choose from. Sry about that. I'll send you back to the map.")
+            character.dev (f"Error Code: [101]{kwargs['event_name']}:{';'.join([tag.split('.')[1] for tag in made_decisions])}")
+            renpy.jump("map_overview")
+
         renpy.call("call_menu", None, None, with_leave, *filtered_elements, **kwargs)
 
-    def call_custom_menu_with_text(text: str, person: Person, with_leave: bool = True, *elements: Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool], **kwargs) -> None:
+    def call_custom_menu_with_text(text: str, person: Person, with_leave: bool = True, *elements: str | Effect | List[Effect] | Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool], **kwargs) -> None:
         """
         Calls a custom menu with the given elements and the given text and person.
 
@@ -31,11 +46,27 @@ init python:
 
         """
 
+        in_event = get_kwargs('in_event', False, **kwargs)
+        in_replay = get_kwargs('in_replay', False, **kwargs)
 
-        filtered_elements = [tupleEl for tupleEl in elements if len(tupleEl) == 2 or tupleEl[2]]
+        if in_event and in_replay:
+            made_decisions = get_kwargs('made_decisions', [], **kwargs)
+            decision_data = get_kwargs('decision_data', {}, **kwargs)
+            possible_decisions = get_decision_possibilities(decision_data, made_decisions)
+            elements = [tupleEl for tupleEl in elements if str(tupleEl) in possible_decisions or (isinstance(tupleEl, Tuple) and str(tupleEl[1]) in possible_decisions)]
+
+        filtered_elements = [tupleEl for tupleEl in elements if not isinstance(tupleEl, Tuple) or len(tupleEl) == 2 or tupleEl[2]]
+
+        
+        if len(filtered_elements) == 0:
+            character.dev ("Oops something went wrong here. There seems to be nothing to choose from. Sry about that. I'll send you back to the map.")
+            character.dev (f"Error Code: [101]{kwargs['event_name']}:{';'.join([tag.split('.')[1] for tag in made_decisions])}")
+            renpy.jump("map_overview")
+
+
         renpy.call("call_menu", text, person, with_leave, *filtered_elements, **kwargs)
 
-    def clean_events_for_menu(events: Dict[str, EventStorage], **kwargs) -> List[Tuple[str, EventEffect]]:
+    def clean_events_for_menu(events: Dict[str, EventStorage], **kwargs) -> Tuple[List[Tuple[str, EventEffect]], List[str]]:
         """
         Cleans a list of events for use in a menu.
         It takes each EventStorage in events and checks if it has any applicable events. If it does, it adds it to the output list.
@@ -53,13 +84,24 @@ init python:
         output = []
         used = []
 
+        high_prio_events = []
+
         # remove events that have no applicable events
         for key in events.keys():
-            if (events[key].count_available_events(**kwargs) > 0 and key not in used):
-                output.append((events[key].get_title(), EventEffect(events[key])))
+            storage = events[key]
+            amount, prio = storage.count_available_events_and_highlight(**kwargs)
+            if (amount > 0 and key not in used):
+                if event_selection_mode:
+                    effect = EventSelectEffect(storage)
+                else:
+                    effect = EventEffect(storage)
+                title = get_event_menu_title(storage.get_location(), storage.get_name())
+                if prio:
+                    high_prio_events.append(str(effect))
+                output.append((title, effect))
                 used.append(key)
 
-        return output
+        return output, high_prio_events
         
 
 # calls a menu with the given elements
@@ -74,7 +116,7 @@ label call_menu(text, person, with_leave = True, *elements, **kwargs):
     #     - The person to display saying the text.
     # 3. with_leave : bool, (default True)
     #     - Whether or not to display a leave button.
-    # 4. *elements : Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool]
+    # 4. *elements : str | Effect | List[Effect] | Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool]
     #     - The elements to display in the menu. 
     #     - Each element is a tuple of the form (title, event_label, active), (title, effect, active) or (title, effect_list, active). 
     #     - The active parameter is optional and defaults to True.
@@ -82,7 +124,10 @@ label call_menu(text, person, with_leave = True, *elements, **kwargs):
 
     if not with_leave and len(elements) == 1:
         $ title, effects, _active = None, None, None
-        if len(elements[0]) == 2:
+        if not isinstance(elements[0], Tuple):
+            $ effects = elements[0]
+            $ title = get_translation(str(effects))
+        elif len(elements[0]) == 2:
             $ title, effects = elements[0]
         else:
             $ title, effects, _active = elements[0]
@@ -111,14 +156,26 @@ label call_event_menu(text, events, fallback, person = character.subtitles, **kw
     # 4. person : Person, (default character.subtitles)
     #     - The person to display saying the text.
     # """
-    
+
+    $ renpy.block_rollback()
+
+    $ bg_image = get_kwargs('bg_image', None, **kwargs)
+    call show_idle_image(bg_image, **kwargs) from call_event_menu_3
+
     $ renpy.choice_for_skipping()
 
-    $ event_list = clean_events_for_menu(events, **kwargs)
+    $ kwargs['school_obj'] = get_character_by_key('school')
+    $ kwargs['parent_obj'] = get_character_by_key('parent')
+    $ kwargs['teacher_obj'] = get_character_by_key('teacher')
+    $ kwargs['secretary_obj'] = get_character_by_key('secretary')
+
+    $ event_list, high_prio = clean_events_for_menu(events, **kwargs)
 
     if len(event_list) == 0:
         call call_event(fallback, **kwargs) from call_event_menu_1
         jump map_overview
+
+    $ kwargs['marked'] = high_prio
 
     call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
 
@@ -138,18 +195,54 @@ label call_element(effects, **kwargs):
     hide screen custom_menu_choice
     hide screen image_with_nude_var
 
+    $ in_event = get_kwargs('in_event', False, **kwargs)
+    $ in_replay = get_kwargs('in_replay', False, **kwargs)
+
     if isinstance(effects, str):
+        if in_event:
+            if not in_replay:
+                $ register_decision(effects)
+            else:
+                if 'made_decisions' not in kwargs.keys():
+                    $ kwargs['made_decisions'] = [effects]
+                else:
+                    $ kwargs['made_decisions'].append(effects)
         $ renpy.call(effects, **kwargs)
 
+    if in_event and isinstance(effects, Effect):
+        if not in_replay:
+            $ register_decision(effects)
+        else:
+            if 'made_decisions' not in kwargs.keys():
+                $ kwargs['made_decisions'] = [effects]
+            else:
+                $ kwargs['made_decisions'].append(effects)
+        
+        $ register_decision(str(effects))
     $ call_effects(effects, **kwargs)
 
 # closes the current menu
-label close_menu():
+label close_menu(**kwargs):
     # """
     # Closes the current menu.
     # """
     hide screen custom_menu_choice
     hide screen image_with_nude_var
+
+    $ override = get_kwargs('override_menu_exit', None, **kwargs)
+    if override != None:
+        if isinstance(override, str):
+            $ renpy.call(override)
+        elif isinstance(override, Event):
+            $ renpy.call(override.get_event())
+    $ override_kwargs = get_kwargs('override_menu_exit_with_kwargs', None, **kwargs)
+    if override_kwargs != None:
+        if isinstance(override_kwargs, str):
+            $ renpy.call(override_kwargs, **kwargs)
+        elif isinstance(override_kwargs, Event):
+            $ override_kwargs.call(**kwargs)
+        elif isinstance(override_kwargs, Effect):
+            $ override_kwargs.apply(**kwargs)
     jump map_overview
 
 style menu_text:
@@ -186,6 +279,10 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
 
     $ element_count = len(elements)
 
+    $ marked_elements = get_kwargs('marked', [], **kwargs)
+
+    $ kwargs.pop('menu_selection', None)
+
     frame:
         background "#ffffff00"
         area(367, 0, 1185, 800)
@@ -211,16 +308,24 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
                 # display element
                 elif i < element_count:
                     $ title, effects, _active = None, None, None
-                    if len(elements[i]) == 2:
+                    if not isinstance(elements[i], Tuple):
+                        $ effects = elements[i]
+                        $ title = get_translation(str(effects))
+                    elif len(elements[i]) == 2:
                         $ title, effects = elements[i]
                     else:
                         $ title, effects, _active = elements[i]
+                    $ raw_title = str(effects)
                     $ title_text = "[title]"
                     if has_keyboard() and count < 10:
                         if show_shortcut():
                             $ title_text = "[title] [[[count]]"
-                        key ("K_" + str(count)) action Call("call_element", effects, **kwargs)
-                        key ("K_KP" + str(count)) action Call("call_element", effects, **kwargs)
+                        key ("K_" + str(count)) action Call("call_element", effects, menu_selection = raw_title, **kwargs)
+                        key ("K_KP" + str(count)) action Call("call_element", effects, menu_selection = raw_title, **kwargs)
+
+                    if str(effects) in marked_elements:
+                        $ title_text = "{color=#a00000}●{/color}  " + title_text + "  {color=#a00000}●{/color}"
+
                     button:
                         background Frame("gui/button/choice_idle_background.png", 1, 1, True)
                         hover_background Frame("gui/button/choice_hover_background.png", 1, 1, True)
@@ -229,7 +334,7 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
                             yalign 0.5
                         xsize 1185
                         xalign 0.5
-                        action Call("call_element", effects, **kwargs)
+                        action Call("call_element", effects, menu_selection = raw_title, **kwargs)
                         
                     null height 30
                 $ count += 1
@@ -288,7 +393,7 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
                             action Show("custom_menu_choice", None, page + 1, page_limit, elements, **kwargs)
                     else:
                         null width 250 height 52
-
+            
             null height 30
 
             if with_leave:
@@ -296,7 +401,7 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
                 if has_keyboard():
                     if show_shortcut():
                         $ l_text = " [Esc]"
-                    key "K_ESCAPE" action Jump("close_menu")
+                    key "K_ESCAPE" action Call("close_menu", **kwargs)
                 hbox:
                     xsize 1920
                     button:
@@ -307,5 +412,5 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
                             yalign 0.5
                         xsize 1185
                         xalign 0.5
-                        action Jump("close_menu")
+                        action Call("close_menu", **kwargs)
     

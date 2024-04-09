@@ -27,12 +27,10 @@ init -9:
     $ SHOW = "show"
     $ SCENE = "scene"
 
-    $ HIGH_SCHOOL = "high_school"
-    $ MIDDLE_SCHOOL = "middle_school"
-    $ ELEMENTARY_SCHOOL = "elementary_school"
-
     $ YES = "yes"
     $ NO = "no"
     $ VETO = "veto"
 
     $ CHAR = "char_obj"
+
+    $ DEFAULT_NUDE = 0

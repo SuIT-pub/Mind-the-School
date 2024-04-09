@@ -5,24 +5,12 @@
 screen show_building_hovered (building):
     use school_overview_images
 
-    if building == "High School Building" or building == "x":
-        add "background/bg school high school building hover.webp":
+    if building == "School Building" or building == "x":
+        add "background/bg school school building hover.webp":
             xpos 1171 ypos 262
-    if building == "High School Dormitory" or building == "x":
-        add "background/bg school high school dormitory hover.webp":
+    if building == "School Dormitory" or building == "x":
+        add "background/bg school school dormitory hover.webp":
             xpos 1257 ypos 613
-    if building == "Middle School Building" or building == "x":
-        add "background/bg school middle school building hover.webp":
-            xpos 725 ypos 103
-    if building == "Middle School Dormitory" or building == "x":
-        add "background/bg school middle school dormitory hover.webp":
-            xpos 666 ypos 476
-    if building == "Elementary School Building" or building == "x":
-        add "background/bg school elementary school building hover.webp":
-            xpos 826 ypos 178
-    if building == "Elementary School Dormitory" or building == "x":
-        add "background/bg school elementary school dormitory hover.webp":
-            xpos 446 ypos 196
     if building == "Labs" or building == "x":
         add "background/bg school labs hover.webp":
             xpos 644 ypos 356
@@ -57,24 +45,12 @@ screen show_building_hovered (building):
 screen show_building_idle (building):
     use school_overview_images
 
-    if building == "High School Building" or building == "x":
-        add "background/bg school high school building idle.webp":
+    if building == "School Building" or building == "x":
+        add "background/bg school school building idle.webp":
             xpos 1171 ypos 262
-    if building == "High School Dormitory" or building == "x":
-        add "background/bg school high school dormitory idle.webp":
+    if building == "School Dormitory" or building == "x":
+        add "background/bg school school dormitory idle.webp":
             xpos 1257 ypos 613
-    if building == "Middle School Building" or building == "x":
-        add "background/bg school middle school building idle.webp":
-            xpos 725 ypos 103
-    if building == "Middle School Dormitory" or building == "x":
-        add "background/bg school middle school dormitory idle.webp":
-            xpos 666 ypos 476
-    if building == "Elementary School Building" or building == "x":
-        add "background/bg school elementary school building idle.webp":
-            xpos 826 ypos 178
-    if building == "Elementary School Dormitory" or building == "x":
-        add "background/bg school elementary school dormitory idle.webp":
-            xpos 446 ypos 196
     if building == "Labs" or building == "x":
         add "background/bg school labs idle.webp":
             xpos 644 ypos 356
@@ -114,8 +90,7 @@ screen show_building_idle (building):
 
 label tutorial_menu ():
 
-    scene office secretary 4 big smile with dissolveM
-
+    call show_image("images/events/intro/tutorial_event_1.webp") from _tutorial_menu_2
     menu:
         secretary "Do you have any questions?"
 
@@ -134,25 +109,11 @@ label tutorial_map ():
         secretary "Unfortunately there are some buildings that have been taken out of service and became quite derelict."
         secretary "Funny, these buildings are greyed out... just like in a game."
 
-    show screen show_building_hovered("High School Building") with dissolveM
-    secretary "This is the High School Building. Here the students from age 18 to 22 attend their classes and clubs."
+    show screen show_building_hovered("School Building") with dissolveM
+    secretary "This is the School Building. Here the students from age 18 to 22 attend their classes and clubs."
 
-    show screen show_building_hovered("High School Dormitory") with dissolveM
-    secretary "This is the High School Dormitory where the High School students live."
-
-    if loli_content >= 1:
-        show screen show_building_hovered("Middle School Building") with dissolveM
-        secretary "This is the Middle School Building. Here the students from age 13 to 17 attend their classes and clubs."
-
-        show screen show_building_hovered("Middle School Dormitory") with dissolveM
-        secretary "This is the Middle School Dormitory where the Middle School students live."
-
-    if loli_content == 2:
-        show screen show_building_hovered("Elementary School Building") with dissolveM
-        secretary "This is the Elementary School Building. Here the students from age 8 to 12 attend their classes and clubs."
-
-        show screen show_building_hovered("Elementary School Dormitory") with dissolveM
-        secretary "This is the Elementary School Dormitory where the Elementary School students live."
+    show screen show_building_hovered("School Dormitory") with dissolveM
+    secretary "This is the School Dormitory where the High School students live."
 
     show screen show_building_hovered("Labs") with dissolveM
     secretary "This is the Labs Building containing classrooms specialized for biology, chemistry etc."

@@ -13,8 +13,6 @@ init -1 python:
 # ----- Styles ----- #
 ######################
 
-style stat_name:
-    size 20
 style stat_value:
     size 25
 
@@ -25,43 +23,87 @@ style stat_value:
 ###################################
 # display the school map with stats
 screen school_overview_map ():
-    python:
-        """
-        Displays the school map
-        """
+    # """
+    # Displays the school map
+    # """
 
     add "background/bg school overview idle.webp"
 
 ##############################
 # display the stats on the map
 screen school_overview_stats ():
-    python:
-        """
-        Displays the stats on the map
-        """
+    # """
+    # Displays the stats on the map
+    # """
 
-    grid 4 4:
+    grid 4 2:
         xalign 1.0 yalign 0.0
-        spacing 5
-        text "Happiness"      style "stat_name"
-        text "Charm"          style "stat_name"
-        text "Education     " style "stat_name"
-        text "Money"          style "stat_name"
-
-        text display_mean_stat(HAPPINESS) style "stat_value"
-        text display_mean_stat(CHARM) style "stat_value"
-        text display_mean_stat(EDUCATION) style "stat_value"
-        text display_mean_stat(MONEY) style "stat_value"
+        spacing 2
+        hbox:
+            textbutton get_stat_icon('happiness', True):
+                tooltip "Happiness"
+                action Call("open_journal", 1, HAPPINESS)
+            null width 1
+            textbutton get_school_stat_value(HAPPINESS) + "\n" + get_school_stat_change(HAPPINESS):
+                tooltip "Happiness"
+                text_style "stat_value"
+                action Call("open_journal", 1, HAPPINESS)
+        hbox:
+            textbutton get_stat_icon('charm', True):
+                tooltip "Charm"
+                action Call("open_journal", 1, CHARM)
+            null width 1
+            textbutton get_school_stat_value(CHARM) + "\n" + get_school_stat_change(CHARM):
+                tooltip "Charm"
+                text_style "stat_value"
+                action Call("open_journal", 1, CHARM)
+        hbox:
+            textbutton get_stat_icon('education', True):
+                tooltip "Education"
+                action Call("open_journal", 1, EDUCATION)
+            null width 1
+            textbutton get_school_stat_value(EDUCATION) + "\n" + get_school_stat_change(EDUCATION):
+                tooltip "Education"
+                text_style "stat_value"
+                action Call("open_journal", 1, EDUCATION)
+        hbox:
+            textbutton get_stat_icon('money', True):
+                tooltip "Money"
+                action Call("open_journal", 1, MONEY)
+            null width 1
+            textbutton get_school_stat_value(MONEY) + "\n" + get_school_stat_change(MONEY):
+                tooltip "Money"
+                text_style "stat_value"
+                action Call("open_journal", 1, MONEY)
 
         null
-        text "Corruption" style "stat_name"
-        text "Inhibition" style "stat_name"
-        text "Reputation" style "stat_name"
-        
-        null
-        text display_mean_stat(CORRUPTION) style "stat_value"
-        text display_mean_stat(INHIBITION) style "stat_value"
-        text display_mean_stat(REPUTATION) style "stat_value"
+        hbox:
+            textbutton get_stat_icon('corruption', True):
+                tooltip "Corruption"
+                action Call("open_journal", 1, CORRUPTION)
+            null width 1
+            textbutton get_school_stat_value(CORRUPTION) + "\n" + get_school_stat_change(CORRUPTION):
+                tooltip "Corruption"
+                text_style "stat_value"
+                action Call("open_journal", 1, CORRUPTION)
+        hbox:
+            textbutton get_stat_icon('inhibition', True):
+                tooltip "Inhibition"
+                action Call("open_journal", 1, INHIBITION)
+            null width 1
+            textbutton get_school_stat_value(INHIBITION) + "\n" + get_school_stat_change(INHIBITION):
+                tooltip "Inhibition"
+                text_style "stat_value"
+                action Call("open_journal", 1, INHIBITION)
+        hbox:
+            textbutton get_stat_icon('reputation', True):
+                tooltip "Reputation"
+                action Call("open_journal", 1, REPUTATION)
+            null width 1
+            textbutton get_school_stat_value(REPUTATION) + "\n" + get_school_stat_change(REPUTATION):
+                tooltip "Reputation"
+                text_style "stat_value"
+                action Call("open_journal", 1, REPUTATION)
 
     vbox:
         xalign 1.0 ypos 150
@@ -93,48 +135,36 @@ screen school_overview_stats ():
             xalign 1.0
             size 30
 
+    $ tooltip = GetTooltip()
+
+    if tooltip:
+        nearrect:
+            focus "tooltip"
+            prefer_top True
+
+            frame:
+                xalign 0.5
+                text tooltip
+
 
 ##################################
 # display all buildings on the map
 screen school_overview_images ():
-    python:
-        """
-        Displays all buildings on the map
-        """
+    # """
+    # Displays all buildings on the map
+    # """
 
     add "background/bg school overview idle.webp"
 
     # High School Building
-    if is_building_available("high_school_building"):
-        add "background/bg school high school building idle.webp":
+    if is_building_available("school_building"):
+        add "background/bg school school building idle.webp":
             xpos 1171 ypos 262
 
     # High School Dormitory
-    if is_building_available("high_school_dormitory"):
-        add "background/bg school high school dormitory idle.webp":
+    if is_building_available("school_dormitory"):
+        add "background/bg school school dormitory idle.webp":
             xpos 1257 ypos 613
-
-    if loli_content >= 1:
-        # Middle School Building
-        if is_building_available("middle_school_building"):
-            add "background/bg school middle school building idle.webp":
-                xpos 725 ypos 103
-
-        # Middle School Dormitory
-        if is_building_available("middle_school_dormitory"):
-            add "background/bg school middle school dormitory idle.webp":
-                xpos 666 ypos 476
-
-    if loli_content == 2:
-        # Elementary School Building
-        if is_building_available("elementary_school_building"):
-            add "background/bg school elementary school building idle.webp":
-                xpos 826 ypos 178
-        
-        # Elementary School Dormitory
-        if is_building_available("elementary_school_dormitory"):
-            add "background/bg school elementary school dormitory idle.webp":
-                xpos 446 ypos 196
 
     # Labs
     if is_building_available("labs"):
@@ -188,88 +218,98 @@ screen school_overview_images ():
 
 ############################################################################
 # display clickable buttons for the buildings leading to building distributor
-screen school_overview_buttons ():
-    python:
-        """
-        Displays clickable buttons for the buildings leading to building distributor
-        """
+screen school_overview_buttons (with_available_Events = False):
+    # """
+    # Displays clickable buttons for the buildings leading to building distributor
+    # """
 
     tag interaction_overlay
-    modal True
+    # modal True
     
     # High School Building
-    if is_building_available("high_school_building"):
-        $ hsb_text = ""
+    if is_building_available("school_building") or is_building_available("high_school_building"):
+        $ sb_text = ""
         if has_keyboard():  
             if show_shortcut():
-                $ hsb_text = " [[1]"
-            key "K_1" action Call("building", "high_school_building")
-            key "K_KP1" action Call("building", "high_school_building")
+                $ sb_text = " [[1]"
+            key "K_1" action Call("building", "school_building")
+            key "K_KP1" action Call("building", "school_building")
+        $ image_text = "background/bg school school building %s.webp"
+        if with_available_Events and overview_events_available['school_building']:
+            $ image_text = "background/bg school school building marked %s.webp"
         imagebutton:
-            auto "background/bg school high school building %s.webp"
-            hover "background/bg school high school building hover.webp"
-            tooltip "High School Building" + hsb_text
+            auto image_text
+            hover "background/bg school school building hover.webp"
+            tooltip "School Building" + sb_text
             focus_mask True
             xpos 1171 ypos 262
-            action Call("building", "high_school_building")
+            action Call("building", "school_building")
 
     # High School Dormitory
-    if is_building_available("high_school_dormitory"):
-        $ hsd_text = ""
+    if is_building_available("school_dormitory") or is_building_available("high_school_dormitory"):
+        $ sd_text = ""
         if has_keyboard():
             if show_shortcut():
-                $ hsd_text = " [[2]"
-            key "K_2" action Call("building", "high_school_dormitory")
-            key "K_KP2" action Call("building", "high_school_dormitory")
+                $ sd_text = " [[2]"
+            key "K_2" action Call("building", "school_dormitory")
+            key "K_KP2" action Call("building", "school_dormitory")
+        $ image_text = "background/bg school school dormitory %s.webp"
+        if with_available_Events and overview_events_available['school_dormitory']:
+            $ image_text = "background/bg school school dormitory marked %s.webp"
         imagebutton:
-            auto "background/bg school high school dormitory %s.webp"
-            tooltip "High School Dormitory" + hsd_text
+            auto image_text
+            hover "background/bg school school dormitory hover.webp"
+            tooltip "School Dormitory" + sd_text
             focus_mask True
             xpos 1257 ypos 613
-            action Call("building", "high_school_dormitory")
+            action Call("building", "school_dormitory")
 
-    if loli_content >= 1:
-        # Middle School Building
-        if is_building_available("middle_school_building"):
-            imagebutton:
-                auto "background/bg school middle school building %s.webp"
-                tooltip "Middle School Building"
-                focus_mask True
-                xpos 725 ypos 103
-                action Call("building", "middle_school_building")
+    # if loli_content >= 1:
+    #     # Middle School Building
+    #     if is_building_available("middle_school_building"):
+    #         imagebutton:
+    #             auto "background/bg school middle school building %s.webp"
+    #             tooltip "Middle School Building"
+    #             focus_mask True
+    #             xpos 725 ypos 103
+    #             action Call("building", "middle_school_building")
         
-        # Middle School Dormitory
-        if is_building_available("middle_school_dormitory"):
-            imagebutton:
-                auto "background/bg school middle school dormitory %s.webp"
-                tooltip "Middle School Dormitory"
-                focus_mask True
-                xpos 666 ypos 476
-                action Call("building", "middle_school_dormitory")
+    #     # Middle School Dormitory
+    #     if is_building_available("middle_school_dormitory"):
+    #         imagebutton:
+    #             auto "background/bg school middle school dormitory %s.webp"
+    #             tooltip "Middle School Dormitory"
+    #             focus_mask True
+    #             xpos 666 ypos 476
+    #             action Call("building", "middle_school_dormitory")
 
-    if loli_content == 2:
-        # Elementary School Building
-        if is_building_available("elementary_school_building"):
-            imagebutton:
-                auto "background/bg school elementary school building %s.webp"
-                tooltip "Elementary School Building"
-                focus_mask True
-                xpos 826 ypos 178
-                action Call("building", "elementary_school_building")
+    # if loli_content == 2:
+    #     # Elementary School Building
+    #     if is_building_available("elementary_school_building"):
+    #         imagebutton:
+    #             auto "background/bg school elementary school building %s.webp"
+    #             tooltip "Elementary School Building"
+    #             focus_mask True
+    #             xpos 826 ypos 178
+    #             action Call("building", "elementary_school_building")
 
-        # Elementary School Dormitory
-        if is_building_available("elementary_school_dormitory"):
-            imagebutton:
-                auto "background/bg school elementary school dormitory %s.webp"
-                tooltip "Elementary School Dormitory"
-                focus_mask True
-                xpos 446 ypos 196
-                action Call("building", "elementary_school_dormitory")
+    #     # Elementary School Dormitory
+    #     if is_building_available("elementary_school_dormitory"):
+    #         imagebutton:
+    #             auto "background/bg school elementary school dormitory %s.webp"
+    #             tooltip "Elementary School Dormitory"
+    #             focus_mask True
+    #             xpos 446 ypos 196
+    #             action Call("building", "elementary_school_dormitory")
 
     # Labs
     if is_building_available("labs"):
+        $ image_text = "background/bg school labs %s.webp"
+        if with_available_Events and overview_events_available['labs']:
+            $ image_text = "background/bg school labs marked %s.webp"
         imagebutton:
-            auto "background/bg school labs %s.webp"
+            auto image_text
+            hover "background/bg school labs hover.webp"
             tooltip "Labs"
             focus_mask True
             xpos 644 ypos 356
@@ -277,8 +317,12 @@ screen school_overview_buttons ():
 
     # Sports Field
     if is_building_available("sports_field"):
+        $ image_text = "background/bg school sports field %s.webp"
+        if with_available_Events and overview_events_available['sports_field']:
+            $ image_text = "background/bg school sports field marked %s.webp"
         imagebutton:
-            auto "background/bg school sports field %s.webp"
+            auto image_text
+            hover "background/bg school sports field hover.webp"
             tooltip "Sports Field"
             focus_mask True
             xpos 203 ypos -11
@@ -286,8 +330,12 @@ screen school_overview_buttons ():
 
     # Tennis Court
     if is_building_available("tennis_court"):
+        $ image_text = "background/bg school tennis court %s.webp"
+        if with_available_Events and overview_events_available['tennis_court']:
+            $ image_text = "background/bg school tennis court marked %s.webp"
         imagebutton:
-            auto "background/bg school tennis court %s.webp"
+            auto image_text
+            hover "background/bg school tennis court hover.webp"
             tooltip "Tennis Court"
             focus_mask True
             xpos 558 ypos 90
@@ -301,8 +349,12 @@ screen school_overview_buttons ():
                 $ g_text = " [[6]"
             key "K_6" action Call("building", "gym")
             key "K_KP6" action Call("building", "gym")
+        $ image_text = "background/bg school gym %s.webp"
+        if with_available_Events and overview_events_available['gym']:
+            $ image_text = "background/bg school gym marked %s.webp"
         imagebutton:
-            auto "background/bg school gym %s.webp"
+            auto image_text
+            hover "background/bg school gym hover.webp"
             tooltip "Gym" + g_text
             focus_mask True
             xpos 462 ypos 5
@@ -310,8 +362,12 @@ screen school_overview_buttons ():
 
     # Swimming Pool
     if is_building_available("swimming_pool"):
+        $ image_text = "background/bg school pool %s.webp"
+        if with_available_Events and overview_events_available['swimming_pool']:
+            $ image_text = "background/bg school pool marked %s.webp"
         imagebutton:
-            auto "background/bg school pool %s.webp"
+            auto image_text
+            hover "background/bg school pool hover.webp"
             tooltip "Swimming Pool"
             focus_mask True
             xpos 297 ypos 61
@@ -325,8 +381,12 @@ screen school_overview_buttons ():
                 $ cf_text = " [[7]"
             key "K_7" action Call("building", "cafeteria")
             key "K_KP7" action Call("building", "cafeteria")
+        $ image_text = "background/bg school cafeteria %s.webp"
+        if with_available_Events and overview_events_available['cafeteria']:
+            $ image_text = "background/bg school cafeteria marked %s.webp"
         imagebutton:
-            auto "background/bg school cafeteria %s.webp"
+            auto image_text
+            hover "background/bg school cafeteria hover.webp"
             tooltip "Cafeteria" + cf_text
             focus_mask True
             xpos 229 ypos 460
@@ -334,8 +394,12 @@ screen school_overview_buttons ():
 
     # Bath
     if is_building_available("bath"):
+        $ image_text = "background/bg school bath %s.webp"
+        if with_available_Events and overview_events_available['bath']:
+            $ image_text = "background/bg school bath marked %s.webp"
         imagebutton:
-            auto "background/bg school bath %s.webp"
+            auto image_text
+            hover "background/bg school bath hover.webp"
             tooltip "Bath"
             focus_mask True
             xpos 538 ypos 300
@@ -349,8 +413,12 @@ screen school_overview_buttons ():
                 $ k_text = " [[5]"
             key "K_5" action Call("building", "kiosk")
             key "K_KP5" action Call("building", "kiosk")
+        $ image_text = "background/bg school kiosk %s.webp"
+        if with_available_Events and overview_events_available['kiosk']:
+            $ image_text = "background/bg school kiosk marked %s.webp"
         imagebutton:
-            auto "background/bg school kiosk %s.webp"
+            auto image_text
+            hover "background/bg school kiosk hover.webp"
             tooltip "Kiosk" + k_text
             focus_mask True
             xpos 485 ypos 661
@@ -364,11 +432,15 @@ screen school_overview_buttons ():
                 $ c_text = " [[4]"
             key "K_4" action Call("building", "courtyard")
             key "K_KP4" action Call("building", "courtyard")
+        $ image_text = "background/bg school courtyard %s.webp"
+        if with_available_Events and overview_events_available['courtyard']:
+            $ image_text = "background/bg school courtyard marked %s.webp"
         imagebutton:
-            auto "background/bg school courtyard %s.webp"
+            auto image_text
+            hover "background/bg school courtyard hover.webp"
             tooltip "Courtyard" + c_text
             focus_mask True
-            xpos 604 ypos 228
+            xpos 602 ypos 229
             action Call("building", "courtyard")
 
     # Office Building
@@ -379,40 +451,45 @@ screen school_overview_buttons ():
                 $ o_text = " [[3]"
             key "K_3" action Call("building", "office_building")
             key "K_KP3" action Call("building", "office_building")
+        $ image_text = "background/bg school office building %s.webp"
+        if with_available_Events and overview_events_available['office_building']:
+            $ image_text = "background/bg school office building marked %s.webp"
         imagebutton:
-            auto "background/bg school office building %s.webp"
+            auto image_text
+            hover "background/bg school office building hover.webp"
             tooltip "Office Building" + o_text
             focus_mask True
             xpos 42 ypos 127
             action Call("building", "office_building")
     
-    $ s_text = ""
-    if has_keyboard():
-        if show_shortcut():
-            $ s_text = " [[Z]"
-        key "K_z" action Call("new_daytime")
-    # Skip Daytime
-    imagebutton:
-        auto "icons/time skip %s.webp"
-        tooltip "Skip Time" + s_text
-        focus_mask None
-        xalign 0.0 yalign 0.0
-        action Call("new_daytime")
+    if time.compare_today(10, 1, 2023) != -1:
+        $ s_text = ""
+        if has_keyboard():
+            if show_shortcut():
+                $ s_text = " [[Z]"
+            key "K_z" action Call("skip_time")
+        # Skip Daytime
+        imagebutton:
+            auto "icons/time skip %s.webp"
+            tooltip "Skip Time" + s_text
+            focus_mask None
+            xalign 0.0 yalign 0.0
+            action Call("skip_time")
 
-    $ j_text = ""
-    if has_keyboard():
-        if show_shortcut():
-            $ j_text = " [[J]"
-    key "K_j" action Call("start_journal")
-    # Open Journal
-    imagebutton:
-        auto "icons/journal_icon_%s.webp"
-        tooltip "Open Journal" + j_text
-        focus_mask None
-        xalign 0.07 yalign 0.0
-        action Call("start_journal")
+        $ j_text = ""
+        if has_keyboard():
+            if show_shortcut():
+                $ j_text = " [[J]"
+        key "K_j" action Call("start_journal")
+        # Open Journal
+        imagebutton:
+            auto "icons/journal_icon_%s.webp"
+            tooltip "Open Journal" + j_text
+            focus_mask None
+            xalign 0.07 yalign 0.0
+            action Call("start_journal")
 
-    $ tooltip = GetTooltip("school_overview_buttons")
+    $ tooltip = GetTooltip()
 
     if tooltip:
         nearrect:
@@ -440,7 +517,7 @@ screen black_error_screen_text(text_str):
     text text_str:
         xalign 0 yalign 0
         size 20
-        color "#ff0000"
+        color "#a00000"
 
 screen black_screen_text(text_str):
     python:
@@ -557,6 +634,7 @@ label new_day ():
     $ hide_all()
 
     call screen black_screen_text (f"{time.get_weekday()}, {time.day} {time.get_month_name()} {time.year}")
+    $ renpy.force_autosave()
     
     call time_event_check from new_day_2
 
@@ -571,6 +649,7 @@ label new_daytime ():
 
     if not time_freeze and time.progress_time():
         call screen black_screen_text (f"{time.get_weekday()}, {time.day} {time.get_month_name()} {time.year}")
+        $ renpy.force_autosave()
 
     call time_event_check from new_daytime_2
 
@@ -585,15 +664,21 @@ screen school_overview():
 # shows the map overview and then waits for input
 label map_overview ():
     # $ _skipping = False
-    call load_stats from map_overview_1
-    call load_schools from map_overview_2
-    call load_rules from map_overview_3
-    call load_buildings from map_overview_4
-    call load_clubs from map_overview_5
+    $ image_code = get_random_int(0, 1000000)
+    # $ renpy.pause(0)
+    call empty_label from map_overview_1
+    call empty_label from map_overview_2
+    call empty_label from map_overview_3
+    call empty_label from map_overview_4
+    call empty_label from map_overview_5
     
-    $ update_mean_stats()
-
     $ hide_all()
+
+    $ reroll_selectors()
+
+    # $ check_old_versions()
+
+    $ is_in_replay = False
 
     $ renpy.choice_for_skipping()
 
@@ -601,25 +686,54 @@ label map_overview ():
     # show screen school_overview_map
     show screen school_overview_stats
 
+    $ overview_events_available = {
+        'school_building': sb_events_available(),
+        'school_dormitory': sd_events_available(),
+        'labs': labs_events_available(),
+        'sports_field': sports_field_events_available(),
+        'tennis_court': tennis_court_events_available(),
+        'gym': gym_events_available(),
+        'swimming_pool': swimming_pool_events_available(),
+        'cafeteria': cafeteria_events_available(),
+        'bath': bath_events_available(),
+        'kiosk': kiosk_events_available(),
+        'courtyard': courtyard_events_available(),
+        'office_building': office_building_events_available()
+    }
+
     $ renpy.block_rollback()
 
-    call screen school_overview_buttons
+    call screen school_overview_buttons (True)
     # call screen school_overview with dissolveM
-
-
 
     subtitles_Empty ""
 
 #############################################################################
 # building distributor. directs the building calls to the corresponding label
 label building(name=""):
-    $ reset_stats(map = charList["schools"])
+    $ reset_stats(get_school())
+    $ reset_stats(get_character('parent', charList))
+    $ reset_stats(get_character('teacher', charList['staff']))
     $ _skipping = True
 
     hide screen school_overview_map
     hide screen school_overview_stats
     hide screen school_overview_buttons
 
+    $ hide_all()
+
+    # $ image_code = name + str(time.get_daytime_name()) + str(time.get_day()) + str(time.get_month_name()) + str(time.year)
+
     call expression name from building_1
 
     call map_overview from building_2
+
+label skip_time ():
+    $ reset_stats(get_school())
+    $ reset_stats(get_character('parent', charList))
+    $ reset_stats(get_character('teacher', charList['staff']))
+
+    call new_daytime from skip_time_1
+
+label empty_label ():
+    return

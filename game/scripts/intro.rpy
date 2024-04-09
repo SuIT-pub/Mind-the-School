@@ -18,12 +18,10 @@ label intro ():
     $ headmaster_first_name = renpy.input("First name of your Character: (Default \"Mark\")")
     $ headmaster_first_name = headmaster_first_name.strip() or "Mark"
 
-    $ set_game_data("headmaster_first_name", headmaster_first_name)
-
     $ headmaster_last_name = renpy.input("Last name of your Character: (Default \"Benson\")")
     $ headmaster_last_name = headmaster_last_name.strip() or "Benson"
 
-    $ set_game_data("headmaster_last_name", headmaster_last_name)
+    $ set_name("headmaster", headmaster_first_name, headmaster_last_name)
 
     $ school_config = "a High School."
     if loli_content == 1:
@@ -32,8 +30,6 @@ label intro ():
         $ school_config = "a High, Middle and Elementary School."
 
     $ school_config_noun = "school"
-    if loli_content > 0:
-        $ school_config_noun = "schools"
 
     show screen black_error_screen_text ("")
 
@@ -42,12 +38,15 @@ label intro ():
 
         "Yes. Play intro!":
             jump .start
-        "Skip to tutorial.":
-            call tutorial_1.tutorial_2 from intro_1
-        "Skip after intro.":
-            call tutorial_1.tutorial_3 from intro_2
+        "Skip intro.":
+            jump .jump_to_tutorial
         "Skip to free-roam. (Skips first week bonus stats.)":
             call skip_to_free_roam from intro_3
+
+label .jump_to_tutorial:
+    $ time.set_time(day = 1, month = 1, year = 2023, daytime = 1)
+
+    jump new_day
 
 label .start:
     hide screen black_error_screen_text
@@ -55,7 +54,7 @@ label .start:
     nv_text "Welcome to [school_name]!"
     nv_text "[school_name] is a school located deep in the woods, miles away from the nearest city."
     nv_text "This academy consists of [school_config]"
-    nv_text "Here it is where you, the new headmaster, will take on the task of managing the [school_config_noun] and restoring them back to their former glory."
+    nv_text "Here it is where you, the new headmaster, will take on the task of managing the school and restoring them back to their former glory."
 
     nvl clear
 
@@ -83,21 +82,26 @@ label .start:
     
     call screen black_screen_text ("Monday, 1 January 2023") with dissolveM
 
-    show office secretary 1 smile with dissolveM
+    $ headmaster_last_name = get_name_last("headmaster")
+    $ secretary_name = get_name_str("secretary")
+
+    $ image = Image_Series("images/events/intro/intro <step>.webp")
+
+    $ image.show(3)
     secretary """Hello Mr. [headmaster_last_name], nice to meet you!
-        My name is [secretary_first_name] [secretary_last_name].
+        My name is [secretary_name].
     """ (name="Secretary")
     secretary "From now on I'll be your secretary."
 
-    show office secretary 1 talk with dissolveM
+    $ image.show(0)
     secretary """I used to work for the previous headmaster, 
         so I know the school pretty well.
     """
 
-    show office secretary 3 big smile  with dissolveM
+    $ image.show(4)
     secretary "If you have any questions just come and ask me."
 
-    show office secretary 2 emotionless with dissolveM
+    $ image.show(5)
     secretary """
         Unfortunately, the last headmaster left this school in pretty bad shape.
 
@@ -106,10 +110,10 @@ label .start:
         This wasn't only bad for the students' education, but also for the school's reputation.
     """
 
-    show office secretary 3 big smile with dissolveM
+    $ image.show(4)
     secretary "So now it is your job to go on and fix this school!"
 
-    show office secretary 4 smile with dissolveM
+    $ image.show(6)
     secretary """
         You won't be handling all the details like hiring teachers or setting up schedules.
 
@@ -117,17 +121,17 @@ label .start:
         occasionally teach a class or two.
     """
 
-    show office secretary 1 emotionless with dissolveM
+    $ image.show(1)
     secretary """But new rules must be approved by the PTA which is made up of the school council, teachers and a 
         representative from the regional government.
     """
 
     call tutorial_menu from first_day_introduction_3
 
-    show office secretary 3 smile with dissolveM
+    $ image.show(2)
     secretary "Now you know the basics. You might want to hurry down to the gym for the weekly meeting."
 
-    show office secretary 3 big smile with dissolveM
+    $ image.show(4)
     secretary "I'm sure the students are eager to meet you."
 
     scene expression "events/intro/intro gym 2 [loli_content].webp" with dissolveM 
@@ -186,10 +190,12 @@ label .start:
     headmaster_shout "Thank you and let's have a great time together!"
     crowd_shout "*clapping*"
 
-    scene office secretary 3 big smile
+    $ image.show(4)
     secretary "Wow! That was a nice speech!"
     secretary "Now that we finished the introduction, let's start with the entry paperwork."
     headmaster "Alright."
+
+    $ time.set_time(day = 1, month = 1, year = 2023, daytime = 1)
 
     jump new_day
 
@@ -198,11 +204,9 @@ label .start:
 
 label skip_to_free_roam ():
     
-    $ set_level_for_char(1, "high_school", charList["schools"])
-    $ set_level_for_char(1, "middle_school", charList["schools"])
-    $ set_level_for_char(1, "elementary_school", charList["schools"])
+    $ set_level_for_char(1, "school", charList)
     $ set_level_for_char(1, "teacher", charList["staff"])
-    $ set_level_for_char(1, "parents", charList)
+    $ set_level_for_char(1, "parent", charList)
     $ set_level_for_char(5, "secretary", charList["staff"])
 
     $ time.set_time(day = 10, month = 1, year = 2023)

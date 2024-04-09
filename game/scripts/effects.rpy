@@ -30,6 +30,10 @@ init -1 python:
             self.name = name
 
         @abstractmethod
+        def __str__(self):
+            pass
+
+        @abstractmethod
         def apply(self, **kwargs):
             pass
 
@@ -42,15 +46,16 @@ init -1 python:
             super().__init__(name)
             self.rule = rule
 
-        def apply(self, **kwargs):
-            char_obj = get_kwargs("char_obj", "x", **kwargs)
+        def __str__(self):
+            return f"{self.rule}"
 
+        def apply(self, **kwargs):
             if isinstance(self.rule, str):
                 rule = get_rule(self.rule)
                 if rule != None:
-                    rule.unlock(char_obj.get_name())
+                    rule.unlock()
             else:
-                self.rule.unlock(char_obj.get_name())
+                self.rule.unlock()
 
     class ClubEffect(Effect):
         """
@@ -61,15 +66,16 @@ init -1 python:
             super().__init__(name)
             self.club = club
 
-        def apply(self, **kwargs):            
-            char_obj = get_kwargs("char_obj", "x", **kwargs)
+        def __str__(self):
+            return f"{self.club}"
 
+        def apply(self, **kwargs):
             if isinstance(self.club, str):
                 club = get_club(self.club)
                 if club != None:
-                    club.unlock(char_obj.get_name())
+                    club.unlock()
             else:
-                self.club.unlock(char_obj.get_name())
+                self.club.unlock()
 
     class BuildingEffect(Effect):
         """
@@ -79,6 +85,9 @@ init -1 python:
         def __init__(self, name: str, building: str | Building):
             super().__init__(name)
             self.building = building
+
+        def __str__(self):
+            return f"{self.building}"
 
         def apply(self, **kwargs):
             if isinstance(self.building, str):
@@ -105,6 +114,9 @@ init -1 python:
             super().__init__(name)
             self.mode = mode
             self.value = value
+
+        def __str__(self):
+            return f"{self.value}"
 
         def apply(self, **kwargs):
             char_obj = get_kwargs("char_obj", **kwargs)
@@ -136,6 +148,9 @@ init -1 python:
             self.stat = stat
             self.mode = mode
             self.value = value
+
+        def __str__(self):
+            return f"{self.value}"
 
         def apply(self, **kwargs):
             char_obj = get_kwargs("char_obj", **kwargs)
@@ -169,6 +184,9 @@ init -1 python:
             self.mode = mode
             self.value = value
 
+        def __str__(self):
+            return f"{self.value}"
+
         def apply(self, **kwargs):
             if self.mode == "SET":
                 money.change_value_to(self.value)
@@ -185,8 +203,11 @@ init -1 python:
         """
 
         def __init__(self, event: Event):
-            super().__init__(event.get_title())
+            super().__init__(event.get_name())
             self.event = event
+
+        def __str__(self):
+            return f"{self.event.get_name()}"
 
         def apply(self, **kwargs):
             add_temp_event(self.event)
@@ -202,6 +223,9 @@ init -1 python:
 
         def __init__(self, id: str):
             super().__init__(id)
+
+        def __str__(self):
+            return f"{self.id}"
 
         def apply(self, **kwargs):
             remove_temp_event(self.id)
@@ -223,6 +247,9 @@ init -1 python:
             self.building_name = building_name
             self.is_blocking = is_blocking
 
+        def __str__(self):
+            return f"{self.building_name}"
+
         def apply(self, **kwargs):
             set_building_blocked(self.building_name, self.is_blocking)
 
@@ -238,21 +265,71 @@ init -1 python:
             - str calls the label.
         """
 
-        def __init__(self, event: Event):
-            super().__init__(event.get_title())
+        def __init__(self, event: Event | EventStorage | str):
+            name = event
+            if not isinstance(event, str):
+                name = event.get_name()
+            super().__init__(name)
             self.event = event
+
+        def __str__(self):
+            if isinstance(self.event, Event):
+                return f"{self.event.get_name()}"
+            if isinstance(self.event, EventStorage):
+                return f"{self.event.get_name()}"
+            return self.event
 
         def apply(self, **kwargs):
             if isinstance(self.event, EventStorage):
                 self.event.call_available_event(**kwargs)
 
             if isinstance(self.event, Event):
-                event_obj = self.event.get_event()
-                for event in event_obj:
-                    renpy.call(event, **kwargs)
+                self.event.call(**kwargs)
+                # event_obj = self.event.get_event()
+                # for event in event_obj:
+                #     renpy.call(event, **kwargs)
 
             if isinstance(self.event, str):
                 renpy.call(self.event, **kwargs)
+
+    class EventSelectEffect(Effect):
+        """
+        Calls an event from a list of events.
+
+        ### Attributes:
+        1. event_list: list[Event]
+            - List of events to be called.
+        """
+
+        def __init__(self, event: str | Event | EventStorage | List[Event | str]):
+            events = []
+            if isinstance(event, str):
+                events = [get_event_from_register(event)]
+                super().__init__(event)
+            elif isinstance(event, Event):
+                events = [event]
+                super().__init__(event.get_name())
+            elif isinstance(event, EventStorage):
+                events = event.get_events()
+                super().__init__(event.get_name())
+            elif isinstance(event, list):
+                for e in event:
+                    if isinstance(e, str):
+                        events.append(get_event_from_register(e))
+                    else:
+                        events.append(e)
+                super().__init__(events[0].get_name())
+
+            self.event = events
+
+        def __str__(self):
+            return f"{self.name}"
+
+        def apply(self, **kwargs):
+            if len(self.event) == 1:
+                self.event[0].call(**kwargs)
+            else:
+                renpy.call('open_bg_image_menu', self.event, from_current=False, **kwargs)
 
     class ValueEffect(Effect):
         """
@@ -269,6 +346,9 @@ init -1 python:
             super().__init__(key)
             self.key = key
             self.value = value
+
+        def __str__(self):
+            return f"{self.value}"
 
         def apply(self, **kwargs):
             gameData[self.key] = self.value
@@ -289,7 +369,50 @@ init -1 python:
             self.key = key
             self.value = value
 
+        def __str__(self):
+            return f"{self.value}"
+
         def apply(self, **kwargs):
             if self.key not in gameData.keys():
                 gameData[self.key] = 0
             gameData[self.key] += self.value
+
+    class ModifierEffect(Effect):
+        """
+        Adds a modifier to a stat.
+
+        ### Attributes:
+        1. key: str
+            - Key of the modifier.
+        2. stat: str
+            - Name of the stat.
+        3. mod_obj: Modifier_Obj
+            - Modifier to be added.
+        4. char_obj: Char (Default None)
+            - Character to which the modifier will be added.
+        5. collection: str (Default "default")
+            - Collection of the modifier.
+        """
+
+        def __init__(self, key: str, stat: str, mod_obj: Modifier_Obj, char_obj: Char = None, collection: str = 'default'):
+            super().__init__(key)
+            self.key = key
+            self.stat = stat
+            self.modifier = mod_obj
+            self.char_obj = char_obj
+            self.collection = collection
+
+        def __str__(self):
+            return f"{self.key}"
+
+        def apply(self, **kwargs):
+            set_modifier(self.key, self.stat, self.modifier, char_obj = self.char_obj, collection = self.collection)
+
+label open_bg_image_menu(event, **kwargs):
+    $ bg_image = get_kwargs("bg_image", None, **kwargs)
+    if bg_image != None:
+        call show_idle_image(bg_image, **kwargs) from open_bg_image_menu_1
+
+    
+    $ event_list = [(get_translation(e.get_event()), EventEffect(e)) for e in event]
+    call call_menu ('Select the Event.', character.subtitles, True, *event_list, **kwargs) from _call_call_menu

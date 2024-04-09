@@ -1,4 +1,11 @@
 init -1 python:
+    def after_load_event_check(location: str, events: Dict[str, EventStorage], general_event: EventStorage, timed_event: TempEventStorage):
+        
+        timed_event.check_all_events()
+        general_event.check_all_events()
+        if events != None:
+            map(lambda x: x.check_all_events(), events.values())
+
     def add_temp_event(event: Event):
         temp_time_check_events.add_event(event)
     def remove_temp_event(event: Event):
@@ -7,80 +14,104 @@ init -1 python:
     after_temp_event_check = Event(2, "time_event_check.after_temp_event_check")
     after_event_check      = Event(2, "time_event_check.after_event_check")
 
-    temp_time_check_events = TempEventStorage("temp_time_check_events", "", after_temp_event_check)
-    time_check_events      = EventStorage("time_check_events", "", after_event_check)
+    temp_time_check_events = TempEventStorage("temp_time_check_events", "misc", after_temp_event_check)
+    time_check_events      = EventStorage("time_check_events", "misc", after_event_check)
 
-    # temp_check_events.add_event(Event("first_day_introduction", "first_day_introduction", 2,
-    #     TimeCondition(day = 1, month = 1, year = 2023, daytime = 1)
-    # ))
+init 1 python:
+    tutorial_1_event = Event(2, "tutorial_1", 
+        IntroCondition(),
+        TimeCondition(day = 2, month = 1, year = 2023, daytime = 1),
+        thumbnail = "images/events/intro/intro tutorial 9.webp"
+    )
 
-    temp_time_check_events.add_event(Event(1, 
-        "tutorial_1", 
-        TimeCondition(day = 2, month = 1, year = 2023, daytime = 1)
-    ))
+    first_week_epilogue_event = Event(1, "first_week_epilogue", 
+        IntroCondition(),
+        TimeCondition(day = 5, month = 1, year = 2023, daytime = 2),
+        thumbnail = "images/events/first week/first week epilogue 8.webp"
+    )
 
-    temp_time_check_events.add_event(Event(1, 
-        "first_week_epilogue", 
-        TimeCondition(day = 5, month = 1, year = 2023, daytime = 2)
-    ))
+    first_week_epilogue_final_event = Event(1, "first_week_epilogue_final", 
+        TimeCondition(day = 10, month = 1, year = 2023, daytime = 1),
+        thumbnail = "images/events/first week/first week epilogue final 3.webp"
+    )
 
-    temp_time_check_events.add_event(Event(1, 
-        "first_week_epilogue_final", 
-        TimeCondition(day = 10, month = 1, year = 2023, daytime = 1)
-    ))
+    first_pta_meeting_event = Event(1, "first_pta_meeting", 
+        IntroCondition(),
+        TimeCondition(day = 5, month = 1, year = 2023, daytime = 1),
+        thumbnail = "images/events/pta/first meeting/first pta meeting 0 0.webp"
+    )
 
-    # temp_check_events.add_event(Event("weekly_assembly_first", "weekly_assembly_first", 2,
-    #     TimeCondition(day = 1, month = 1, year = 2023, daytime = 1)
-    # ))
-
-    # temp_check_events.add_event(Event("weekly_assembly", "weekly_assembly", 2,
-    #     TimeCondition(weekday = 1, daytime = 1)
-    # ))
-
-    temp_time_check_events.add_event(Event(1, 
-        "first_pta_meeting", 
-        TimeCondition(day = 5, month = 1, year = 2023, daytime = 1)
-    ))
-
-    time_check_events.add_event(Event(2,
-        "pta_meeting",
+    pta_meeting_event = Event(2, "pta_meeting",
         TimeCondition(weekday = 5, daytime = 1)
-    ))
+    )
 
-    # temp_check_events.add_event(Event("pta_meeting2", "pta_meeting", 2,
-    #     TimeCondition(day = 19, daytime = 1)
-    # ))
+    new_week_event = Event(2, "new_week",
+        TimeCondition(weekday = 1, daytime = 1)
+    )
 
-    time_check_events.add_event(Event(2, 
-        "end_of_month",
-        TimeCondition(day = "1", daytime = "1")
-    ))
+    end_of_month_event = Event(2, "end_of_month",
+        TimeCondition(day = 1, daytime = 1)
+    )
 
-    temp_time_check_events.add_event(Event(1,
+    event_all_events_seen_event = Event(1,
         "event_all_events_seen",
-        GameDataCondition("all_events_seen", "all_events_seen", True)
-    ))
+        GameDataCondition("all_events_seen", True)
+    )
 
-    temp_time_check_events.add_event(Event(1,
+    event_reached_max_stats_event = Event(1,
         "event_reached_max_stats",
         StatCondition(inhibition = "90-", corruption = "5+")
-    ))
+    )
 
-    temp_time_check_events.check_all_events()
-    time_check_events.check_all_events()
+    intro_check_all_facilities_event = Event(2, "intro_check_all_facilities", 
+        TimeCondition(day = 2, month = 1, year = 2023, daytime = 1)
+    )
 
+    intro_check_all_first_potions_event = Event(1, "intro_check_all_first_potions", 
+        TimeCondition(day = 9, month = 1, year = 2023, daytime = 4)
+    )
+
+    game_over_happiness_event = Event(1, "game_over_happiness", 
+        StatCondition(happiness = "0-")
+    )
+
+    game_over_education_event = Event(1, "game_over_education", 
+        StatCondition(education = "0-")
+    )
+
+    game_over_reputation_event = Event(1, "game_over_reputation", 
+        StatCondition(reputation = "0-")
+    )
+
+    time_check_events.add_event(
+        tutorial_1_event, 
+        first_week_epilogue_event, 
+        first_week_epilogue_final_event, 
+        first_pta_meeting_event, 
+        pta_meeting_event, 
+        new_week_event,
+        end_of_month_event,
+        intro_check_all_facilities_event,
+        intro_check_all_first_potions_event,
+        game_over_happiness_event,
+        game_over_education_event,
+        game_over_reputation_event,
+    )
+    temp_time_check_events.add_event(
+        event_all_events_seen_event, 
+        event_reached_max_stats_event,
+    )
 
 label time_event_check ():
-
     hide screen school_overview_map
     hide screen school_overview_stats
     hide screen school_overview_buttons
 
-    call call_available_event(temp_time_check_events, with_removal = True) from time_event_check_1
+    call call_available_event(temp_time_check_events, 0, True, with_removal = True) from time_event_check_1
 
 label .after_temp_event_check (**kwargs):
 
-    call call_available_event(time_check_events) from time_event_check_2
+    call call_available_event(time_check_events, 0, True) from time_event_check_2
 
 label .after_event_check (**kwargs):
     return
@@ -88,6 +119,66 @@ label .after_event_check (**kwargs):
 ############################
 # ----- Intro Events ----- #
 ############################
+
+label game_over_happiness (**kwargs):
+    $ begin_event()
+
+    show screen black_error_screen_text ("")
+
+    nvl clear
+
+    nv_text "The students happiness plunged to an all-time low."
+    nv_text "The students are revolting and protesting against you, demanding the school board to fire you."
+    nv_text "The school board has no choice but to fire you."
+    nv_text "You are now unemployed and have to find a new job."
+
+    $ MainMenu(confirm=False)()
+
+label game_over_education (**kwargs):
+    $ begin_event()
+
+    show screen black_error_screen_text ("")
+
+    nvl clear
+
+    nv_text "The school board noticed the lack of education and the low grades of the students."
+    nv_text "They decided to fire you and hire a new headmaster."
+
+    $ MainMenu(confirm=False)()
+
+label game_over_reputation (**kwargs):
+    $ begin_event()
+
+    show screen black_error_screen_text ("")
+    
+    nvl clear
+
+    nv_text "Your bad reputation made it into the news."
+    nv_text "The school board put under pressure by the public, decided to fire you."
+
+    $ MainMenu(confirm=False)()
+
+label intro_check_all_facilities (**kwargs):
+    $ begin_event()
+
+    scene bg school overview idle
+    show screen school_overview_stats
+
+    headmaster_thought "Okay time to check all the facilities and see if they need improvement."
+    headmaster_thought "I should try to inspect all the locations until friday where I will have my first PTA meeting."
+
+    jump map_overview
+
+label intro_check_all_first_potions (**kwargs):
+    $ begin_event()
+
+    scene bg school overview idle
+    show screen school_overview_stats
+
+    headmaster_thought "By this time all the students should have eaten."
+    headmaster_thought "Time to go around campus and check on the students and the potion's effect."
+
+    jump map_overview
 
 label event_all_events_seen (**kwargs):
     $ begin_event()
@@ -100,7 +191,6 @@ label event_all_events_seen (**kwargs):
     dev "You can still continue playing. Some events have different variants that change every time you visit them."
 
     jump new_daytime
-
 
 label event_reached_max_stats (**kwargs):
     $ begin_event()
@@ -116,9 +206,13 @@ label event_reached_max_stats (**kwargs):
 
     jump new_daytime
 
-
 label tutorial_1 (**kwargs):
+    $ begin_event(**kwargs)
+
     show screen black_error_screen_text ("")
+
+    if get_kwargs("in_replay", False, **kwargs):
+        jump .tutorial_2
 
     menu:
         "Play tutorial?"
@@ -234,14 +328,16 @@ label .tutorial_3:
 
     hide screen black_error_screen_text
 
-    $ time.set_time(day = 2, month = 1, year = 2023, daytime = 1)
+    if 'kwargs' not in locals() and 'kwargs' not in globals():
+        $ kwargs = {}
+
+    $ end_event('none', **kwargs)
 
     # jump first_week_epilogue_final.skip
 
     # dev "[intro_dev_message]"
 
-
-    jump map_overview
+    return
 
 image anim_first_week_epilogue_17 = Movie(play ="images/events/first week/first week epilogue 17.webm", start_image = "images/events/first week/first week epilogue 17_1.webp", loop = True)
 image anim_first_week_epilogue_18 = Movie(play ="images/events/first week/first week epilogue 18.webm", start_image = "images/events/first week/first week epilogue 18_1.webp", loop = True)
@@ -254,39 +350,41 @@ image anim_first_week_epilogue_24 = Movie(play ="images/events/first week/first 
 
 label first_week_epilogue (**kwargs):
 
+    $ begin_event(**kwargs)
+
     $ hide_all()
 
-    scene office secretary 1 big smile with dissolveM
+    $ image = Image_Series("images/events/first week/first_week_epilogue <step>.webp")
+
+    $ image.show(0)
     secretary "That was a good first meeting Mr. [headmaster_last_name]. "
     headmaster "Thank you! And please just call me [headmaster_first_name]. It's a bit awkward to be called so formal."
 
     # first week epilogue 2
-    show office secretary 1 big smile with dissolveM
+    $ image.show(0)
     secretary "Okay [headmaster_first_name]."
     headmaster "Good! Could you please call me a cab? I have to drive into town to prepare some things for my time at the school."
-    show office secretary 1 talk with dissolveM
+    $ image.show(1)
     secretary "I'll get right on it, but can I ask what you have planned?"
-    show office secretary 1 emotionless with dissolveM
+    $ image.show(2)
     headmaster "You can but I can't really answer that. Some of it is classified and the rest isn't secured yet."
     headmaster "If I'm successful, I'll let you know as soon as possible."
 
     # first week epilogue 3
-    scene office secretary 3 smile with dissolveM
+    $ image.show(3)
     secretary "Okay, I'll go call your cab."
     headmaster "Thank you very much."
     
     call screen black_screen_text ("20 minutes later")
 
     # first week epilogue 4
-    scene office secretary 2 smile with dissolveM
+    $ image.show(4)
     secretary "[headmaster_first_name]! Your cab just arrived!"
     headmaster "Perfect! I'll be off then. Expect me back early on Monday. I need all the time I can get."
 
     call screen black_screen_text ("Monday, 8 January 2023")
 
-label .replay:
-
-    show first week epilogue 5  
+    show first week epilogue 5 
     # headmaster enters with two boxes
     secretary "Good Morning, welcome back!"
     secretary "These 2 Boxes got delivered just an hour ago!"
@@ -391,8 +489,6 @@ label .replay:
     show first week epilogue 27 with dissolveM
     # headmaster puts secretary on the couch
     headmaster_thought "Let's see how she feels after she rested. Gotta get her a blanket first though."
-
-    $ renpy.end_replay()
 
     call screen black_screen_text ("Tuesday, 9 January 2023")
 
@@ -522,25 +618,29 @@ label .replay:
 
     # for the rest of the day the strong effects can be observed throughout the campus
     
-    $ set_level_for_char(1, "high_school", charList["schools"])
-    $ set_level_for_char(1, "middle_school", charList["schools"])
-    $ set_level_for_char(1, "elementary_school", charList["schools"])
-    $ set_level_for_char(1, "teacher", charList["staff"])
-    $ set_level_for_char(1, "parents", charList)
-    $ set_level_for_char(5, "secretary", charList["staff"])
+    if not is_in_replay:
+        $ set_level_for_char(1, "school", charList)
+        $ set_level_for_char(1, "teacher", charList["staff"])
+        $ set_level_for_char(1, "parent", charList)
+        $ set_level_for_char(5, "secretary", charList["staff"])
 
-    $ set_all_buildings_blocked(False)
+        $ set_all_buildings_blocked(False)
 
-    $ set_building_blocked("kiosk")
+        $ set_building_blocked("kiosk")
 
-    $ time.set_time(day = 9, daytime = 3)
+        $ time.set_time(day = 9, daytime = 3)
 
-    jump new_daytime
+    $ end_event('new_daytime', **kwargs)
 
 label first_week_epilogue_final (**kwargs): 
+    $ begin_event(**kwargs)
+
     $ set_all_buildings_blocked(False)
 
     $ hide_all()
+    $ secretary_name = get_name_first('secretary')
+    $ headmaster_first_name = get_name_first('headmaster')
+    $ headmaster_last_name = get_name_last('headmaster')
 
     hide screen black_screen_text
 
@@ -570,12 +670,12 @@ label first_week_epilogue_final (**kwargs):
     show first week epilogue final 9 with dissolveM
     headmaster_thought "Hmm... that's an interesting effect. She doesn't remember anything that happened yesterday, but the long term effect seems to still be in place."
     show first week epilogue final 10 with dissolveM
-    headmaster_thought "[secretary_first_name] didn't seem to have any memory gaps whatsoever. I wonder if it has to do with the fact that the students go a diluted version."
+    headmaster_thought "[secretary_name] didn't seem to have any memory gaps whatsoever. I wonder if it has to do with the fact that the students go a diluted version."
 
     # secretary approaches from behind
     show first week epilogue final 11 with dissolveM
     secretary "Oh hello [headmaster_first_name]! How are you doing?"
-    headmaster "Oh hello [secretary_first_name]! I'm doing fine. I was just talking to one of the students."
+    headmaster "Oh hello [secretary_name]! I'm doing fine. I was just talking to one of the students."
     headmaster "She said she can't remember anything from yesterday after recess. Do you have any idea how this could have come about?"
     headmaster "I mean you didn't have this problem, did you?"
     show first week epilogue final 13 with dissolveM
@@ -607,6 +707,8 @@ label first_week_epilogue_final (**kwargs):
     show first week epilogue final 18 with dissolveM
     secretary "Good luck."
 
+    $ end_event('none', **kwargs)
+
 label .skip:
 
     hide screen black_error_screen_text
@@ -629,8 +731,12 @@ label .skip:
 # ----- Daily Check Events ----- #
 ##################################
 
+label new_week (**kwargs):
+    $ change_money_with_modifier(0, 'payroll_weekly')
+    return
+
 label end_of_month (**kwargs):
+    $ change_money_with_modifier(0, 'payroll_monthly')
+    # $ change_stat(MONEY, 1000)
 
-    $ change_stat(MONEY, 1000)
-
-    jump new_daytime
+    return

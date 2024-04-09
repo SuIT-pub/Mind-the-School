@@ -81,11 +81,23 @@ init -6 python:
             - checks if the current date and time is after the given date and time
         """
 
-        def __init__(self):
+        def __init__(self, input: str = ""):
+
             self.daytime = 0
             self.day = 1
             self.month = 1
             self.year = 2023
+            
+            input_list = input.split("-")
+            if len(input_list) == 3:
+                self.day = int(input_list[0])
+                self.month = int(input_list[1])
+                self.year = int(input_list[2])
+            elif len(input_list) == 4:
+                self.day = int(input_list[0])
+                self.month = int(input_list[1])
+                self.year = int(input_list[2])
+                self.daytime = int(input_list[3])
 
         def set_time(self, **kwargs: int):
             """
@@ -111,6 +123,9 @@ init -6 python:
                     - 6: Evening
                     - 7: Night
             """
+
+            if is_in_replay:
+                return
 
             if 'day' in kwargs.keys() and is_integer(kwargs['day']):
                 self.day = kwargs['day']
@@ -556,6 +571,46 @@ init -6 python:
             daytime_name = ["Morning", "Early Noon", "Noon", "Early Afternoon", "Afternoon", "Evening", "Night"]
             return daytime_name[daytime - 1]
 
+        def get_date_in(self, **kwargs) -> Tuple[int, int, int]:
+            """
+            Returns the date in the given time.
+
+            ### Parameters:
+            1. **kwargs: int
+                - day: int
+                    - the day in the month
+                    - from 1 - 28
+                - month: int
+                    - the month in the year
+                    - from 1 - 12
+                - year: int
+                    - the year
+
+            ### Returns:
+            1. Tuple[int, int, int]
+                - the date in the given time
+            """
+            
+            day = self.day
+            month = self.month
+            year = self.year
+
+            if 'day' in kwargs.keys() and is_integer(kwargs['day']):
+                day = day + int(kwargs['day'])
+            if 'month' in kwargs.keys() and is_integer(kwargs['month']):
+                month = month + int(kwargs['month'])
+            if 'year' in kwargs.keys() and is_integer(kwargs['year']):
+                year = year + int(kwargs['year'])
+
+            while day > 28:
+                day -= 28
+                month += 1
+            while month > 12:
+                month -= 12
+                year += 1
+
+            return (day, month, year)
+
         def today(self) -> str:
             """
             Returns the current date in the format "day.month.year".
@@ -578,6 +633,15 @@ init -6 python:
 
             return self.today() + "." + str(self.daytime)
 
+        def date_is_after_date(self, day1: int, month1: int, year1: int, day2: int, month2: int, year2: int) -> bool:
+            if year1 > year2:
+                return True
+            if month1 > month2:
+                return True
+            if day1 > day2:
+                return True
+            return False
+
         def today_is_after_date(self, day: int, month: int, year: int) -> bool:
             """
             Checks if the current date is after the given date.
@@ -597,11 +661,12 @@ init -6 python:
                 - True if the current date is after the given date
             """
 
-            if self.year > year:
+            return self.date_is_after_date(self.day, self.month, self.year, day, month, year)
+
+        def time_is_after_time(self, day1: int, month1: int, year1: int, time1: int, day2: int, month2: int, year2: int, time2: int) -> bool:
+            if self.date_is_after_date(day1, month1, year1, day2, month2, year2):
                 return True
-            if self.month > month:
-                return True
-            if self.day > day:
+            if time1 > time2:
                 return True
             return False
 
@@ -629,13 +694,228 @@ init -6 python:
                 - 7: Night
             """
 
-            if self.today_is_after_date(day, month, year):
-                return True
-            if self.daytime > time:
-                return True
-            return False
+            return time_is_after_time(self.day, self.month, self.year, self.daytime, day, month, year, time)
 
+        def compare_date(self, day1: int, month1: int, year1: int, day2: int, month2: int, year2: int) -> int:
+            """
+            Compares two dates.
 
+            ### Parameters:
+            1. day1: int
+                - the day in the month
+                - from 1 - 28
+            2. month1: int
+                - the month in the year
+                - from 1 - 12
+            3. year1: int
+                - the year
+            4. day2: int
+                - the day in the month
+                - from 1 - 28
+            5. month2: int
+                - the month in the year
+                - from 1 - 12
+            6. year2: int
+                - the year
 
+            ### Returns:
+            1. int
+                - 1 if the first date is after the second date
+                - -1 if the first date is before the second date
+                - 0 if the first date is equal to the second date
+            """
+            if year1 > year2:
+                return 1
+            if year1 < year2:
+                return -1
+            if month1 > month2:
+                return 1
+            if month1 < month2:
+                return -1
+            if day1 > day2:
+                return 1
+            if day1 < day2:
+                return -1
+            return 0
 
+        def compare_time(self, day1: int, month1: int, year1: int, time1: int, day2: int, month2: int, year2: int, time2: int) -> int:
+            """
+            Compares two dates and times.
 
+            ### Parameters:
+            1. day1: int
+                - the day in the month
+                - from 1 - 28
+            2. month1: int
+                - the month in the year
+                - from 1 - 12
+            3. year1: int
+                - the year
+            4. time1: int
+                - the time of the day
+                - 1: Morning
+                - 2: Early Noon
+                - 3: Noon
+                - 4: Early Afternoon
+                - 5: Afternoon
+                - 6: Evening
+                - 7: Night
+            5. day2: int
+                - the day in the month
+                - from 1 - 28
+            6. month2: int
+                - the month in the year
+                - from 1 - 12
+            7. year2: int
+                - the year
+            8. time2: int
+                - the time of the day
+                - 1: Morning
+                - 2: Early Noon
+                - 3: Noon
+                - 4: Early Afternoon
+                - 5: Afternoon
+                - 6: Evening
+                - 7: Night
+
+            ### Returns:
+            1. int
+                - 1 if the first date and time is after the second date and time
+                - -1 if the first date and time is before the second date and time
+                - 0 if the first date and time is equal to the second date and time
+            """
+
+            if self.compare_date(day1, month1, year1, day2, month2, year2) == 1:
+                return 1
+            if self.compare_date(day1, month1, year1, day2, month2, year2) == -1:
+                return -1
+            if time1 > time2:
+                return 1
+            if time1 < time2:
+                return -1
+            return 0
+
+        def compare_today(self, day: int, month: int, year: int) -> int:
+            """
+            Compares the current date with the given date.
+
+            ### Parameters:
+            1. day: int
+                - the day in the month
+                - from 1 - 28
+            2. month: int
+                - the month in the year
+                - from 1 - 12
+            3. year: int
+                - the year
+
+            ### Returns:
+            1. int
+                - 1 if the current date is after the given date
+                - -1 if the current date is before the given date
+                - 0 if the current date is equal to the given date
+            """
+
+            return self.compare_date(self.day, self.month, self.year, day, month, year)
+
+        def compare_now(self, day: int, month: int, year: int, time: int) -> int:
+            """
+            Compares the current date and time with the given date and time.
+
+            ### Parameters:
+            1. day: int
+                - the day in the month
+                - from 1 - 28
+            2. month: int
+                - the month in the year
+                - from 1 - 12
+            3. year: int
+                - the year
+            4. time: int
+                - the time of the day
+                - 1: Morning
+                - 2: Early Noon
+                - 3: Noon
+                - 4: Early Afternoon
+                - 5: Afternoon
+                - 6: Evening
+                - 7: Night
+
+            ### Returns:
+            1. int
+                - 1 if the current date and time is after the given date and time
+                - -1 if the current date and time is before the given date and time
+                - 0 if the current date and time is equal to the given date and time
+            """
+
+            return self.compare_time(self.day, self.month, self.year, self.daytime, day, month, year, time)
+
+        def day_to_string(self) -> str:
+            """
+            Returns the current day as a string.
+
+            ### Returns:
+            1. str
+                - the current day as a string
+            """
+
+            return f"{self.day}-{self.month}-{self.year}"
+
+    def compare_time(time1: Time, time2: Time) -> int:
+        """
+        Compares two dates and times.
+
+        ### Parameters:
+        1. time1: Time
+            - the first time
+        2. time2: Time
+            - the second time
+
+        ### Returns:
+        1. int
+            - 1 if the first date and time is after the second date and time
+            - -1 if the first date and time is before the second date and time
+            - 0 if the first date and time is equal to the second date and time
+        """
+
+        return time1.compare_now(time2.day, time2.month, time2.year, time2.daytime)
+
+    def compare_day(time1: Time, time2: Time) -> int:
+        """
+        Compares two dates.
+
+        ### Parameters:
+        1. time1: Time
+            - the first time
+        2. time2: Time
+            - the second time
+
+        ### Returns:
+        1. int
+            - 1 if the first date is after the second date
+            - -1 if the first date is before the second date
+            - 0 if the first date is equal to the second date
+        """
+
+        return time1.compare_today(time2.day, time2.month, time2.year)
+
+    def get_day_difference(time1: Time, time2: Time) -> int:
+        """
+        Returns the difference in days between two dates.
+
+        ### Parameters:
+        1. time1: Time
+            - the first time
+        2. time2: Time
+            - the second time
+
+        ### Returns:
+        1. int
+            - the difference in days between the two dates
+        """
+
+        day_diff = abs(time1.day - time2.day)
+        month_diff = abs(time1.month - time2.month)
+        year_diff = abs(time1.year - time2.year)
+
+        return day_diff + month_diff * 28 + year_diff * 336

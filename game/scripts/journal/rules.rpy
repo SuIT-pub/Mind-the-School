@@ -16,11 +16,7 @@ init -6 python:
 
         def __init__(self, name: str, title: str):
             super().__init__(name, title)
-            self._unlocked = {
-                "high_school": False,
-                "middle_school": False,
-                "elementary_school": False,
-            }
+            self._unlocked = False
 
         def _update(self, title: str, data: Dict[str, Any] = None) -> None:
             super()._update(title, data)
@@ -28,12 +24,18 @@ init -6 python:
                 self.__dict__.update(data)
                 
             if not hasattr(self, '_unlocked'):
-                self._unlocked = {
-                    "high_school": False,
-                    "middle_school": False,
-                    "elementary_school": False,
-                }
-                
+                self._unlocked = False
+
+            if not isinstance(self._unlocked, bool):
+                self._unlocked = self._unlocked['high_school'] or self._unlocked['middle_school'] or self._unlocked['elementary_school']
+
+        def is_valid(self):
+            """
+            Checks whether the rule is valid.
+            """
+
+            super().is_valid()
+
         def get_type(self) -> str:
             """
             Returns the type of the journal object.
@@ -67,7 +69,7 @@ init -6 python:
             return None
         return rules[rule_name]
 
-    def is_rule_unlocked(rule_name: str, school: str) -> bool:
+    def is_rule_unlocked(rule_name: str) -> bool:
         """
         Returns whether the rule with the given name is unlocked for the given school.
 
@@ -85,7 +87,7 @@ init -6 python:
 
         if rule_name not in rules.keys():
             return False
-        return rules[rule_name].is_unlocked(school)
+        return rules[rule_name].is_unlocked()
 
     def is_rule_visible(rule_name: str, **kwargs) -> bool:
         """
@@ -124,6 +126,8 @@ init -6 python:
 
         rules[name]._update(title, data)
 
+        rules[name].is_valid()
+
     def remove_rule(name: str):
         """
         Removes the rule with the given name.
@@ -139,13 +143,26 @@ init -6 python:
 label load_rules ():
     $ remove_rule("service_uniform")
 
+    $ load_rule("school_jobs", "School Jobs", {
+        '_description': [
+            "The students get an opportunity to work or help out in certain facilities of the school.",
+            "This not only helps the facilities to run more smoothly, but also gives the students a chance to learn new skills and to earn some money.",
+        ],
+        '_unlock_conditions': ConditionStorage(
+            ProgressCondition("unlock_school_jobs", 3, True),
+            PTAOverride('parent'),
+        ),
+        '_image_path': 'images/journal/rules/school_jobs_<level>.webp',
+        '_image_path_alt': 'images/journal/rules/school_jobs_1.webp',
+    })
+
     #! locked, currently not implemented
     $ load_rule("theoretical_sex_ed", "Theoretical Sex Education (TSE)", {
         '_description': [
             "Students get a new subject in which they deal with the topic of the human body and human reproduction. All on a theoretical basis, of course.",
         ],
         '_unlock_conditions': ConditionStorage(
-            StatCondition(inhibition = '95-', corruption = '10+'),
+            StatCondition(inhibition = '90-', corruption = '10+'),
             LevelCondition("1+", True),
             LockCondition(False),
         ),
@@ -153,19 +170,48 @@ label load_rules ():
         '_image_path_alt': 'images/journal/rules/theoretical_sex_ed.webp',
         '_vote_comments': {
             'teacher': {
-                'yes': 'I think it is important to teach the students about the human body and reproduction. It is a natural part of life and should be treated as such. So I vote yes.',
-                'no': 'Introducing theoretical sex education in schools could be problematic as it may interfere with family values and parents\' role in guiding their children on sensitive topics. That\'s why I vote against the introduction of theoretical sex education.',
-                'veto': 'I am appalled by the mere suggestion of introducing theoretical sex education in schools. This is an absurd notion that undermines the values and principles we strive to instill in our students, and it completely disregards the importance of parental guidance in such delicate matters. As a teacher, I vehemently veto any attempt to implement this nonsensical curriculum.',
+                'yes': [
+                    'I think it is important to teach the students about the human body and reproduction.', 
+                    'It is a natural part of life and should be treated as such. So I vote yes.'
+                ],
+                'no': [
+                    'Introducing theoretical sex education in schools could be problematic as it may interfere with family values and parents\' role in guiding their children on sensitive topics.', 
+                    'That\'s why I vote against the introduction of theoretical sex education.'
+                ],
+                'veto': [
+                    'I am appalled by the mere suggestion of introducing theoretical sex education in schools.', 
+                    'This is an absurd notion that undermines the values and principles we strive to instill in our students, and it completely disregards the importance of parental guidance in such delicate matters.', 
+                    'As a teacher, I vehemently veto any attempt to implement this nonsensical curriculum.'
+                ],
             },
             'student': {
-                'yes': 'As a student of this school, I strongly support the introduction of theoretical sex education. It is essential for students to have access to comprehensive and accurate information that can help them make informed decisions about their sexual health and well-being. Therefore, I vote yes on this proposal.',
-                'no': 'I believe that theoretical sex education goes against my personal beliefs and values. I would prefer to focus on different aspects of education that align more closely with my interests and priorities. Therefore, I vote no on this proposal.',
-                'veto': 'I believe introducing theoretical sex education is unnecessary and ridiculous. We should focus on practical, real-life skills instead. I veto this proposal.',
+                'yes': [
+                    'As a student of this school, I strongly support the introduction of theoretical sex education.', 
+                    'It is essential for students to have access to comprehensive and accurate information that can help them make informed decisions about their sexual health and well-being. Therefore, I vote yes on this proposal.'
+                ],
+                'no': [
+                    'I believe that theoretical sex education goes against my personal beliefs and values.', 
+                    'I would prefer to focus on different aspects of education that align more closely with my interests and priorities. Therefore, I vote no on this proposal.'
+                ],
+                'veto': [
+                    'I believe introducing theoretical sex education is unnecessary and ridiculous.', 
+                    'We should focus on practical, real-life skills instead. I veto this proposal.'
+                ],
             },
-            'parents': {
-                'yes': 'I fully support the introduction of theoretical sex education in our school curriculum. It\'s essential for our children to have a comprehensive understanding of the topic to make informed decisions about their health and relationships. That\'s why I vote yes.',
-                'no': 'I believe that theoretical sex education is not appropriate for our school, and it should be left to parents to discuss these matters at home. We should prioritize other subjects that are more important for our children\'s education. So I vote no',
-                'veto': 'I vehemently oppose the introduction of theoretical sex education in our school; it\'s a ridiculous notion that infringes upon our parental rights and values. Our children\'s education should focus on traditional subjects, leaving discussions about sex to families. I veto.',
+            'parent': {
+                'yes': [
+                    'I fully support the introduction of theoretical sex education in our school curriculum.', 
+                    'It\'s essential for our children to have a comprehensive understanding of the topic to make informed decisions about their health and relationships. That\'s why I vote yes.'
+                ],
+                'no': [
+                    'I believe that theoretical sex education is not appropriate for our school, and it should be left to parents to discuss these matters at home.', 
+                    'We should prioritize other subjects that are more important for our children\'s education. So I vote no.'
+                ],
+                'veto': [
+                    'I vehemently oppose the introduction of theoretical sex education in our school.', 
+                    'It\'s a ridiculous notion that infringes upon our parental rights and values.', 
+                    'Our children\'s education should focus on traditional subjects, leaving discussions about sex to families. I veto.'
+                ],
             },
         },
     })
@@ -185,19 +231,39 @@ label load_rules ():
         '_image_path_alt': 'images/journal/rules/theoretical_digital_sex_ed.webp',
         '_vote_comments': {
             'teacher': {
-                'yes': 'I believe incorporating digital materials like pornography into theoretical sex education can provide a more realistic view of the topic, helping students understand the complexities and potential risks associated with it. However, it\'s crucial to ensure age-appropriate content and a responsible approach to such discussions. So I vote yes.',
-                'no': 'I firmly oppose the use of digital material like pornography in theoretical sex education. It\'s important to maintain a safe and responsible learning environment, prioritizing age-appropriate and evidence-based resources to educate our students about sexuality. So I vote no.',
-                'veto': 'I strongly object to the use of digital material like pornography in theoretical sex education. We must focus on providing accurate, age-appropriate information and promoting healthy discussions rather than exposing our students to explicit content. I veto this decision.',
+                'yes': [
+                    'I believe incorporating digital materials like pornography into theoretical sex education can provide a more realistic view of the topic, helping students understand the complexities and potential risks associated with it.', 
+                    'However, it\'s crucial to ensure age-appropriate content and a responsible approach to such discussions. So I vote yes.'
+                ],
+                'no': [
+                    'I firmly oppose the use of digital material like pornography in theoretical sex education.', 
+                    'It\'s important to maintain a safe and responsible learning environment, prioritizing age-appropriate and evidence-based resources to educate our students about sexuality. So I vote no.'
+                ],
+                'veto': [
+                    'I strongly object to the use of digital material like pornography in theoretical sex education.', 
+                    'We must focus on providing accurate, age-appropriate information and promoting healthy discussions rather than exposing our students to explicit content. I veto this decision.'
+                ],
             },
             'student': {
-                'yes': 'I think using digital stuff like porn in sex ed could make it more real and help us see the complicated parts and the risks. But we need to be sure it\'s right for our age and talk about it in a responsible way. So yeah, I\'m saying yes.',
+                'yes': [
+                    'I think using digital stuff like porn in sex ed could make it more real and help us see the complicated parts and the risks.', 
+                    'But we need to be sure it\'s right for our age and talk about it in a responsible way. So yeah, I\'m saying yes.'
+                ],
                 'no': 'I really don\'t think we should use digital stuff like porn in sex ed. We need to make sure it\'s safe and right for our age, and we should use trusted sources to teach us about sex. That\'s why I\'m saying no.',
                 'veto': 'I\'m really against using digital stuff like porn in sex ed. We should give the right info for our age and talk about it in a healthy way, not show explicit stuff to students. I veto this idea.',
             },
-            'parents': {
-                'yes': 'I think including digital materials like pornography in sex education could offer a more realistic perspective for our children, aiding their understanding of the complexities and potential risks involved. Nevertheless, it\'s vital to make sure the content is suitable for their age and that the discussions are handled responsibly. Thus, I\'m in favor of this approach.',
-                'no': 'I\'m strongly against using digital material like pornography in sex education. We need to make sure our children learn about sexuality in a safe and responsible way, using age-appropriate and evidence-based resources. So, my vote is a definite no.',
-                'veto': 'I strongly oppose the inclusion of digital materials, such as pornography, in theoretical sex education. It\'s crucial that we concentrate on delivering accurate, age-appropriate information and encouraging healthy discussions, rather than exposing our children to explicit content. I firmly veto this decision.',
+            'parent': {
+                'yes': [
+                    'I think including digital materials like pornography in sex education could offer a more realistic perspective for our children, aiding their understanding of the complexities and potential risks involved.', 
+                    'Nevertheless, it\'s vital to make sure the content is suitable for their age and that the discussions are handled responsibly. Thus, I\'m in favor of this approach.'
+                ],
+                'no': [
+                    'I\'m strongly against using digital material like pornography in sex education.', 
+                    'We need to make sure our children learn about sexuality in a safe and responsible way, using age-appropriate and evidence-based resources. So, my vote is a definite no.'
+                ],
+                'veto': ['I strongly oppose the inclusion of digital materials, such as pornography, in theoretical sex education.', 
+                'It\'s crucial that we concentrate on delivering accurate, age-appropriate information and encouraging healthy discussions, rather than exposing our children to explicit content. I firmly veto this decision.'
+                ],
             },
         },
     })
@@ -208,7 +274,7 @@ label load_rules ():
             "The teacher volunteer to use their own bodies to give the students the best way to show them the human body.",
         ],
         '_unlock_conditions': ConditionStorage(
-            RuleCondition("theoretical_digital_material", blocking = True),
+            RuleCondition("theoretical_digital_material", True),
             StatCondition(inhibition = '85-'),
             LockCondition(),
         ),
@@ -225,7 +291,7 @@ label load_rules ():
                 'no': 'As a student of this school, I don\'t think using the human body as a teaching tool in sex education is the right approach. It might make some of us uncomfortable and distract from the main content. So, I\'m voting against this proposal.',
                 'veto': 'I\'m a student here, and I believe that using teachers\' bodies as reference material for theoretical sex education is not something I can support. I\'m against this decision and I\'m using my veto.',
             },
-            'parents': {
+            'parent': {
                 'yes': 'As a parent, I think it\'s important for my child to have access to comprehensive sexual education. Using teachers\' bodies as reference materials could help to make theoretical concepts more tangible and increase student engagement in class.',
                 'no': 'I\'m sorry, but I cannot agree with your decision. It is important for students to be aware of the risks associated with certain sexual activities, and teachers have an obligation to provide them with accurate information. Furthermore, using teachers\' bodies as reference material would hardly be appropriate in a theoretical class setting.',
                 'veto': 'As a parent, I strongly object to my child being exposed to their teacher\'s bodies during sexual education classes. Therefore I veto this decision.',
@@ -240,12 +306,12 @@ label load_rules ():
             "While it may be a bit shameful for the students, it also is a great way to build some confidence over their own bodies and to accept that every body is beautiful and should be displayed as such.",
         ],
         '_unlock_conditions': ConditionStorage(
-            RuleCondition("theoretical_teacher_material", blocking = True),
+            RuleCondition("theoretical_teacher_material", True),
             StatCondition(inhibition = '80-'),
             LockCondition(),
         ),
-        '_image_path': 'images/journal/rules/theoretical_student_sex_ed_<school>_<level>.webp',
-        '_image_path_alt': 'images/journal/rules/theoretical_student_sex_ed_high_school_3.webp',
+        '_image_path': 'images/journal/rules/theoretical_student_sex_ed_<level>.webp',
+        '_image_path_alt': 'images/journal/rules/theoretical_student_sex_ed_3.webp',
         '_vote_comments': {
             'teacher': {
                 'yes': 'I believe that using student bodies as reference materials in theoretical sex education is an excellent way to help young people better understand their bodies, how they work and how to take care of them. It can also provide a safe environment for students to ask questions without feeling ashamed or embarrassed.',
@@ -273,10 +339,10 @@ label load_rules ():
         ],
         '_unlock_conditions': ConditionStorage(
             LevelCondition("4+"),
-            RuleCondition("theoretical_sex_ed", blocking = True),
+            RuleCondition("theoretical_sex_ed", True),
             LockCondition(),
         ),
-        '_image_path': 'images/journal/rules/practical_sex_ed_<school>_<level>.webp',
+        '_image_path': 'images/journal/rules/practical_sex_ed_high_school_<level>.webp',
         '_image_path_alt': 'images/journal/rules/practical_sex_ed_high_school_6.webp',
         '_vote_comments': {
             'teacher': {
@@ -305,8 +371,8 @@ label load_rules ():
         ],
         '_unlock_conditions': ConditionStorage(
             LevelCondition("5+"),
-            RuleCondition("practical_sex_ed", blocking = True),
-            RuleCondition("theoretical_teacher_material", blocking = True),
+            RuleCondition("practical_sex_ed", True),
+            RuleCondition("theoretical_teacher_material", True),
             LockCondition(),
         ),
         '_image_path': 'images/journal/rules/practical_sex_ed_teacher_<level>.webp',
@@ -319,11 +385,11 @@ label load_rules ():
             "After learning from the teachers how to have sex, the students now learn how to learn the preferences of your sex partner.\nSo the students now get to experiment on each other.",
         ],
         '_unlock_conditions': ConditionStorage(
-            RuleCondition("practical_teacher_material", blocking = True),
-            RuleCondition("theoretical_student_material", blocking = True),
+            RuleCondition("practical_teacher_material", True),
+            RuleCondition("theoretical_student_material", True),
             LockCondition(),
         ),
-        '_image_path': 'images/journal/rules/practical_sex_ed_students_<school>_<level>.webp',
+        '_image_path': 'images/journal/rules/practical_sex_ed_students_high_school_<level>.webp',
         '_image_path_alt': 'images/journal/rules/practical_sex_ed_students_high_school_6.webp',
     })
 
@@ -333,7 +399,7 @@ label load_rules ():
             "Allows for students to have a relationship between each other and to openly show it.",
         ],
         '_unlock_conditions':ConditionStorage(
-            ProgressCondition("Unlock Student Relation", "unlock_student_relationship", 1, True),
+            ProgressCondition("unlock_student_relationship", 1, True),
             StatCondition(inhibition = "95-", corruption = "2+"),
         ),
         
@@ -362,8 +428,8 @@ label load_rules ():
             LevelCondition("3+"),
             LockCondition(False),
         ),
-        '_image_path': 'images/journal/rules/relaxed_uniform_<school>.webp',
-        '_image_path_alt': 'images/journal/rules/relaxed_uniform_high_school.webp',
+        '_image_path': 'images/journal/rules/relaxed_uniform.webp',
+        '_image_path_alt': 'images/journal/rules/relaxed_uniform.webp',
     })
 
     #! locked, currently not implemented
@@ -373,10 +439,10 @@ label load_rules ():
         ],
         '_unlock_conditions': ConditionStorage(
             LevelCondition("5+"),
-            RuleCondition("relaxed_uniform", blocking = True),
+            RuleCondition("relaxed_uniform", True),
         ),
-        '_image_path': 'images/journal/rules/sexy_uniform_<school>.webp',
-        '_image_path_alt': 'images/journal/rules/sexy_uniform_high_school.webp',
+        '_image_path': 'images/journal/rules/sexy_uniform.webp',
+        '_image_path_alt': 'images/journal/rules/sexy_uniform.webp',
     })
 
     #! locked, currently not implemented
@@ -386,10 +452,10 @@ label load_rules ():
         ],
         '_unlock_conditions': ConditionStorage(
             LevelCondition("8+"),
-            RuleCondition("sexy_uniform", blocking = True),
+            RuleCondition("sexy_uniform", True),
         ),
-        '_image_path': 'images/journal/rules/nude_uniform_<school>.webp',
-        '_image_path_alt': 'images/journal/rules/nude_uniform_high_school.webp',
+        '_image_path': 'images/journal/rules/nude_uniform.webp',
+        '_image_path_alt': 'images/journal/rules/nude_uniform.webp',
     })
 
     return

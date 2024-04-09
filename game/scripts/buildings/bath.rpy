@@ -3,24 +3,23 @@
 ##################################
 
 init -1 python:
-    bath_timed_event = EventStorage("bath", "", Event(2, "bath.after_time_check"))
-    bath_events = {
-        "male_enter":   EventStorage("male_enter",   "Enter the male bath",       default_fallback, "I don't want to take a bath."),
-        "female_enter": EventStorage("female_enter", "Enter the female bath",     default_fallback, "I don't want to take a bath."),
-        "female_peek":  EventStorage("female_peek",  "Peek into the female bath", default_fallback, "There is nobody here."       ),
-        "mixed_enter":  EventStorage("mixed_enter",  "Enter the mixed bath",      default_fallback, "I don't want to take a bath."),
-        "mixed_peek":   EventStorage("mixed_peek",   "Peek into the mixed bath",  default_fallback, "There is nobody here."       ),
-    }
+    def bath_events_available() -> bool:
+        return (bath_timed_event.has_available_highlight_events() or 
+            bath_general_event.has_available_highlight_events() or 
+            any(e.has_available_highlight_events() for e in bath_events.values()))
 
-    bath_timed_event.check_all_events()
-    map(lambda x: x.check_all_events(), bath_events.values())
+    bath_timed_event = TempEventStorage("bath_timed", "bath", Event(2, "bath.after_time_check"))
+    bath_general_event = EventStorage("bath_general", "bath", Event(2, "bath.after_general_check"))
+    bath_events = {}
 
-    bath_bg_images = [
-        BGImage("images/background/bath/bg 1,3 <level> <nude>.webp", 1, TimeCondition(daytime = "1,3")), # show bath with students
-        BGImage("images/background/bath/bg 6 <level> <nude>.webp", 1, TimeCondition(daytime = 6)), # show bath with students and/or teacher
+    bath_bg_images = BGStorage("images/background/bath/bg c.webp", 
+        BGImage("images/background/bath/bg 1,3 <loli> <level> <nude>.webp", 1, TimeCondition(daytime = "1,3")), # show bath with students
+        BGImage("images/background/bath/bg 6 <loli> <level> <nude>.webp", 1, TimeCondition(daytime = 6)), # show bath with students and/or teacher
         BGImage("images/background/bath/bg 7.webp", 1, TimeCondition(daytime = 7)), # show bath at night empty or with teachers
-    ]
+    )
     
+# init 1 python:
+
 ##################################
 
 #################################
@@ -28,21 +27,23 @@ init -1 python:
 #################################
 
 label bath ():
-
     call call_available_event(bath_timed_event) from bath_1
 
 label .after_time_check (**kwargs):
+    call call_available_event(bath_general_event) from bath_4
 
-    $ school_obj = get_random_school()
+label .after_general_check (**kwargs):
+    $ loli = get_random_loli()
 
-    call show_idle_image(school_obj, "images/background/bath/bg c.webp", bath_bg_images) from bath_2
+    $ bath_bg_images.add_kwargs(loli = loli)
 
     call call_event_menu (
         "What to do in the Bath?",
         bath_events,
         default_fallback,
         character.subtitles,
-        char_obj = school_obj,
+        bg_image = bath_bg_images,
+        context = loli
         fallback_text = "There is nothing to see here."
     ) from bath_3
 

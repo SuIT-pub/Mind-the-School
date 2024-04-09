@@ -1,6 +1,13 @@
 init -99 python:
-    from typing import TypeVar
+    from typing import TypeVar, Any, List, Tuple
+    import collections.abc
     import re
+
+    T = TypeVar('T')
+
+    ############################
+    # --- Kwargs Functions --- #
+    ############################
 
     def in_kwargs(key: str, **kwargs) -> bool:
         """
@@ -34,9 +41,53 @@ init -99 python:
             - The kwargs to get from
         """
 
-        if key in kwargs.keys():
+        if key in kwargs.keys() and kwargs[key] != None:
             return kwargs[key]
         return alt
+
+    ##################################
+    # --- Mathematical Functions --- #
+    ##################################
+
+    def max(*values: num) -> num:
+        """
+        Returns the largest value
+
+        ### Parameters:
+        1. *values: int | float
+            - The values to compare
+
+        ### Returns:
+        1. int | float
+            - The largest value
+        """
+
+        largest = None
+
+        for value in values:
+            if largest is None or value > largest:
+                largest = value
+        return largest
+
+    def min(*values: num) -> num:
+        """
+        Returns the smallest value
+
+        ### Parameters:
+        1. *values: int | float
+            - The values to compare
+
+        ### Returns:
+        1. int | float
+            - The smallest value
+        """
+
+        smallest = None
+
+        for value in values:
+            if smallest is None or value < smallest:
+                smallest = value
+        return smallest
 
     def clamp_value(value: num, min: num, max: num) -> num:
         """
@@ -236,6 +287,62 @@ init -99 python:
 
         return nearest
     
+    def compare_to(value1: num, value2: num) -> int:
+        """
+        Compares two values
+
+        ### Parameters:
+        1. value1: num
+            - The first value
+        2. value2: num
+            - The second value
+
+        ### Returns:
+        1. int
+            - 1 if value1 is greater than value2
+            - -1 if value1 is less than value2
+            - 0 if value1 is equal to value2
+        """
+
+        if value1 > value2:
+            return 1
+        elif value1 < value2:
+            return -1
+        else:
+            return 0
+    ##########################
+    # --- Dict Functions --- #
+    ##########################
+
+    def update_dict(original_dict, new_dict):
+        """
+        Updates a dictionary with another dictionary
+
+        ### Parameters:
+        1. original_dict: dict
+            - The dictionary to update
+        2. new_dict: dict
+            - The dictionary to update with
+
+        ### Returns:
+        1. dict
+            - The updated dictionary
+        """
+
+        for key, value in new_dict.items():
+            if isinstance(value, collections.Mapping):
+                temp = update_dict(original_dict.get(key, { }), value)
+                original_dict[key] = temp
+            elif isinstance(value, list):
+                original_dict[key] = (original_dict.get(key, []) + value)
+            else:
+                original_dict[key] = new_dict[key]
+        return original_dict
+
+    ##########################
+    # --- List Functions --- #
+    ##########################
+
     def remove_all_from_list(list_obj: List[Any], value: Any | List[Any]) -> List[Any]:
         """
         Removes all instances of a value from a list
@@ -258,6 +365,49 @@ init -99 python:
             while value in list_obj:
                 list_obj.remove(value)
         return list_obj
+
+    ############################
+    # --- String Functions --- #
+    ############################
+
+    def split_to_non_empty_list(s, delimiter) -> List[str]:
+        """
+        Splits a string into a list of non-empty strings
+
+        ### Parameters:
+        1. s: str
+            - The string to split
+        2. delimiter: str
+            - The delimiter to split by
+
+        ### Returns:
+        1. List[str]
+            - The list of non-empty strings
+        """
+
+        return list(filter(str.strip, s.split(delimiter)))
+
+    def get_translation(key: str) -> str:
+        """
+        Gets a translation from the translations.csv file
+
+        ### Parameters:
+        1. key: str
+            - The key to get the translation for
+
+        ### Returns:
+        1. str
+            - The translation
+            - If the key is not in the translations.csv file the key is returned
+        """
+
+        if key in translation_texts.keys():
+            return translation_texts[key]
+        return key
+
+    ##############################
+    # --- Dialogue Functions --- #
+    ##############################
 
     def random_say(*text: str | Tuple, **kwargs):
         """
@@ -325,27 +475,121 @@ init -99 python:
 
         return
 
-    def begin_event(name: str = ""):
+    ##########################
+    # --- Name Functions --- #
+    ##########################
+
+    def set_name(key: str, first_name: str, last_name: str):
         """
-        This method is called at the start of an event after choices and topics have been chosen in the event.
-        It prevents rollback to before this method and thus prevents changing choices and topics.
+        Sets a name in gameData
+
+        ### Parameters:
+        1. key: str
+            - The key to set
+        2. first_name: str
+            - The first name to set
+        3. last_name: str
+            - The last name to set
         """
 
-        global seenEvents
+        if is_in_replay:
+            return
 
-        if contains_game_data("seen_events"):
-            seenEvents = get_game_data("seen_events")
+        if "names" not in gameData.keys():
+            gameData["names"] = {}
+        gameData["names"][key] = (first_name, last_name)
 
-        log_val("all_events_seen", seenEvents)
+        if key == "headmaster":
+            headmaster_first_name = first_name
+            headmaster_last_name = last_name
 
-        if name != "" and name in seenEvents.keys():
-            seenEvents[name] = True
-            set_game_data("seen_events", seenEvents)
-            if all(seenEvents.values()):
-                set_game_data("all_events_seen", True)
+    def get_name(key: str) -> Tuple[str, str]:
+        """
+        Gets a name from gameData
 
-        renpy.block_rollback()
+        ### Parameters:
+        1. key: str
+            - The key to get
 
+        ### Returns:
+        1. Tuple[str, str]
+            - The name
+            - If the key is not in gameData (None, None) is returned
+        """
+
+        if "names" not in gameData.keys() or key not in gameData["names"].keys():
+            if key in default_names.keys():
+                return default_names[key]
+            else:
+                return (None, None)
+        return gameData["names"][key]
+
+    def get_name_str(key: str) -> str:
+        """
+        Gets a name from gameData as a string
+
+        ### Parameters:
+        1. key: str
+            - The key to get
+
+        ### Returns:
+        1. str
+            - The name
+            - If the key is not in gameData "" is returned
+        """
+
+        if "names" not in gameData.keys() or key not in gameData["names"].keys():
+            if key in default_names.keys():
+                return ' '.join(list(default_names[key]))
+            else:
+                return "first_name last_name"
+        return ' '.join(list(gameData["names"][key]))
+
+    def get_name_first(key: str) -> str:
+        """
+        Gets a first name from gameData
+
+        ### Parameters:
+        1. key: str
+            - The key to get
+
+        ### Returns:
+        1. str
+            - The first name
+            - If the key is not in gameData "" is returned
+        """
+
+        if "names" not in gameData.keys() or key not in gameData["names"].keys():
+            if key in default_names.keys():
+                return default_names[key][0]
+            else:
+                return "first_name"
+        return gameData["names"][key][0]
+
+    def get_name_last(key: str) -> str:
+        """
+        Gets a last name from gameData
+
+        ### Parameters:
+        1. key: str
+            - The key to get
+
+        ### Returns:
+        1. str
+            - The last name
+            - If the key is not in gameData "" is returned
+        """
+
+        if "names" not in gameData.keys() or key not in gameData["names"].keys():
+            if key in default_names.keys():
+                return default_names[key][1]
+            else:
+                return "last_name"
+        return gameData["names"][key][1]
+
+    ##############################
+    # --- GameData Functions --- #
+    ##############################
 
     def set_game_data(key: str, value: Any):
         """
@@ -358,72 +602,10 @@ init -99 python:
             - The value to set
         """
 
+        if is_in_replay:
+            return
+
         gameData[key] = value
-
-    def start_progress(key: str):
-        """
-        Starts an event chain
-
-        ### Parameters:
-        1. key: str
-            - The key for the event chain
-        """
-
-        if "progress" not in gameData.keys():
-            gameData["progress"] = {}
-        gameData["progress"][key] = 1
-
-    def advance_progress(key: str, delta: int = 1):
-        """
-        Advances an event chain
-
-        ### Parameters:
-        1. key: str
-            - The key for the event chain
-            - If the event chain does not exist it will be created
-        2. delta: int (default 1)
-            - The amount of advance for the event chain
-        """
-
-        if "progress" not in gameData.keys():
-            gameData["progress"] = {}
-        if key not in gameData["progress"].keys():
-            gameData["progress"][key] = 0
-        gameData["progress"][key] += delta
-
-    def set_progress(key: str, value: int):
-        """
-        Sets the progress of an event chain
-
-        ### Parameters:
-        1. key: str
-            - The key for the event chain
-            - If the event chain does not exist it will be created
-        2. value: int
-            - The value of progress to set the event chain to
-        """
-
-        if "progress" not in gameData.keys():
-            gameData["progress"] = {}
-        gameData["progress"][key] = value
-
-    def get_progress(key: str) -> int:
-        """
-        Gets the progress of an event chain
-
-        ### Parameters:
-        1. key: str
-            - The key for the event chain
-
-        ### Returns:
-        1. int
-            - The progress of the event chain
-            - if the event chain does not exist -1 is returned
-        """
-
-        if "progress" not in gameData.keys() or key not in gameData["progress"].keys():
-            return -1
-        return gameData["progress"][key]
 
     def get_game_data(key: str) -> Any:
         """
@@ -458,74 +640,111 @@ init -99 python:
 
         return key in gameData.keys()
 
-    def get_random_school() -> Char:
+    ##############################
+    # --- Progress Functions --- #
+    ##############################
+
+    def start_progress(key: str):
         """
-        Gets a random school
+        Starts an event chain
+
+        ### Parameters:
+        1. key: str
+            - The key for the event chain
+        """
+
+        if is_in_replay:
+            return -1
+
+        if "progress" not in gameData.keys():
+            gameData["progress"] = {}
+        gameData["progress"][key] = 1
+        return 1
+
+    def advance_progress(key: str, delta: int = 1):
+        """
+        Advances an event chain
+
+        ### Parameters:
+        1. key: str
+            - The key for the event chain
+            - If the event chain does not exist it will be created
+        2. delta: int (default 1)
+            - The amount of advance for the event chain
+        """
+
+        if is_in_replay:
+            return -1
+
+        if "progress" not in gameData.keys():
+            gameData["progress"] = {}
+        if key not in gameData["progress"].keys():
+            gameData["progress"][key] = 0
+        gameData["progress"][key] += delta
+
+
+        return gameData["progress"][key]
+
+    def set_progress(key: str, value: int):
+        """
+        Sets the progress of an event chain
+
+        ### Parameters:
+        1. key: str
+            - The key for the event chain
+            - If the event chain does not exist it will be created
+        2. value: int
+            - The value of progress to set the event chain to
+        """
+
+        if is_in_replay:
+            return value
+
+        if "progress" not in gameData.keys():
+            gameData["progress"] = {}
+        gameData["progress"][key] = value
+
+        return value
+
+    def get_progress(key: str) -> int:
+        """
+        Gets the progress of an event chain
+
+        ### Parameters:
+        1. key: str
+            - The key for the event chain
 
         ### Returns:
-        1. Char
-            - The random school
+        1. int
+            - The progress of the event chain
+            - if the event chain does not exist -1 is returned
         """
 
-        school = get_random_school_name()
-        return charList['schools'][school]
+        if "progress" not in gameData.keys() or key not in gameData["progress"].keys() or is_in_replay:
+            return -1
+        return gameData["progress"][key]
 
-    def get_random_school_name() -> str:
-        """
-        Gets a random school name
+    ################################
+    # --- Randomizer Functions --- #
+    ################################
 
-        ### Returns:
-        1. str
-            - The random school name
-            - If loli_content is set to 2, the name is selected from all schools
-            - If loli_content is set to 1, the name is selected from all but the elementary_school
-            - If loli_content is set to 0, only high_school is selected
-        """
-
-        if loli_content == 2:
-            return get_random_choice("high_school", "middle_school", "elementary_school")
-        elif loli_content == 1:
-            return get_random_choice("high_school", "middle_school")
-        else:
-            return "high_school"
-
-    def get_all_schools() -> List[Char]:
-        """
-        Gets a list of all schools
-
-        ### Returns:
-        1. List[Char]
-            - The list with all schools
-            - If loli_content is set to 2, all schools are contained in that list
-            - If loli_content is set to 1, all but the elementary_school are contained in that list
-            - If loli_content is set to 0, only high_school is contained
-        """
-
-        if loli_content == 2:
-            return [charList['schools']['high_school'], charList['schools']['middle_school'], charList['schools']['elementary_school']]
-        elif loli_content == 1:
-            return [charList['schools']['high_school'], charList['schools']['middle_school']]
-        else:
-            return [charList['schools']['high_school']]
-
-    T = TypeVar('T')
-
-    def get_random_choice(*choice: T | Tuple[float, T]) -> T:
+    def get_random_choice(*choice: T | Tuple[float, T] | Tuple[T, bool | Condition] | Tuple[float, T, bool | Condition], **kwargs) -> T:
         """
         Selects a random value from a set of values
 
         ### Parameters:
-        1. *choice: T | Tuple[float, T]
+        1. *choice: T | Tuple[float, T] | Tuple[float, T, bool | Condition]
             - The set of values to choose from
             - If a value is a tuple, the float acts as a weight that influences the probability of that value being chosen
             - The float value is a percentage in the range from 0.0 to 1.0
+            - If the tuple contains a bool, the value will only be chosen if the bool is True
+            - If the tuple contains a Condition, the value will only be chosen if the Condition is fulfilled
 
         ### Returns:
         1. T
             - value chosen
             - if the input value was a tuple, only the value of that tuple is returned and not the float
         """
-
         choice = list(choice)
         if any((isinstance(item, tuple) and (isinstance(item[0], float) or isinstance(item[0], int))) for item in choice):
             end_choice = []
@@ -535,18 +754,45 @@ init -99 python:
             total_weight = 100
 
             for x in tuples:
+                if len(x) == 3:
+                    if isinstance(x[2], bool) and not x[2]:
+                        continue
+                    elif isinstance(x[2], Condition) and not x[2].is_fulfilled(**kwargs):
+                        continue
+                elif len(x) == 2:
+                    if isinstance(x[1], bool):
+                        if x[1]:
+                            no_tuples.append(x[0])
+                        continue
+                    elif isinstance(x[1], Condition):
+                        if x[1].is_fulfilled(**kwargs):
+                            no_tuples.append(x[0])
+                        continue
+
                 weight = int(x[0] * 100)
                 end_choice.extend([x[1]] * weight)
                 total_weight -= weight
 
-            weights = int(total_weight / len(no_tuples))
+            if total_weight >= len(no_tuples):
+                weights = int(total_weight / len(no_tuples))
 
-            for x in no_tuples:
-                end_choice.extend([x] * weights)
+                for x in no_tuples:
+                    end_choice.extend([x] * weights)
 
             return end_choice[get_random_int(0, len(end_choice) - 1)]
         else:
-            return choice[get_random_int(0, len(choice) - 1)]
+            if any((isinstance(item, tuple) and isinstance(item[1], Condition) for item in choice)):
+                choice = list(filter(lambda x: not isinstance(x, tuple) or not isinstance(x[1], Condition) or x[1].is_fulfilled(**kwargs), choice))
+
+            if len(choice) == 0:
+                return None
+
+            result = choice[get_random_int(0, len(choice) - 1)]
+            if isinstance(result, tuple):
+                return result[0]
+            if isinstance(result, Selector):
+                return result.get_value(**kwargs)
+            return result
 
     def get_random_int(start: int, end: int) -> int:
         """
@@ -565,79 +811,23 @@ init -99 python:
 
         return random.randint(start, end)
 
-    def log_val(key: str, value: Any):
+    def get_random_loli() -> int:
         """
-        Prints a key and value
-
-        ### Parameters:
-        1. key: str
-            - The key to print
-        2. value: Any
-            - The value to print
-        """
-
-        print(key + ": " + str(value) + "\n")
-
-    def log(msg: str):
-        """
-        Prints a message
-
-        ### Parameters:
-        1. msg: str
-            - The message to print
-        """
-
-        print(str(msg) + "\n")
-
-    def log_error(msg: str):
-        """
-        Prints an error message
-
-        ### Parameters:
-        1. msg: str
-            - The message to print
-        """
-
-        print("|ERROR| " + str(msg) + "\n")
-        renpy.notify("|ERROR| " + str(msg))
-
-    def get_stat_from_char_kwargs(stat: str, **kwargs) -> float:
-        """
-        Gets a stat from a character stored in kwargs
-
-        ### Parameters:
-        1. stat: str
-            - The stat to get
-        2. **kwargs
-            - The kwargs to get the character from
+        Gets a random value representing the choice of loli_content
 
         ### Returns:
-        1. float
-            - The stat value
-            - If the character is not in kwargs -1 is returned
+        1. int
+            - the random value
+            - 0 is Class 3A
+            - 1 is Class 2A
+            - 2 is Class 1A
         """
+        value = get_random_int(0, loli_content)
+        return value
 
-        char_obj = get_kwargs("char_obj", **kwargs)
-        if char_obj == None:
-            return -1
-        return char_obj.get_stat_number(stat)
-
-    def get_stat_from_char(char_obj: Character, stat: str) -> float:
-        """
-        Gets a stat from a character
-
-        ### Parameters:
-        1. char_obj: Character
-            - The character to get the stat from
-        2. stat: str
-            - The stat to get
-
-        ### Returns:
-        1. float
-            - The stat value
-        """
-
-        return char_obj.get_stat_number(stat)
+    ###################################
+    # --- External Data Functions --- #
+    ###################################
 
     def get_members(tier: str = '') -> List[str]:
         """
@@ -661,24 +851,52 @@ init -99 python:
         if tier == '':
             return lines
         else:
-            return [line for line in lines if line.split(',')[1].strip() == tier]
+            return [line for line in lines if line.split(';')[1].strip() == tier]
 
-    def split_to_non_empty_list(s, delimiter) -> List[str]:
+    def get_translations():
         """
-        Splits a string into a list of non-empty strings
-
-        ### Parameters:
-        1. s: str
-            - The string to split
-        2. delimiter: str
-            - The delimiter to split by
-
-        ### Returns:
-        1. List[str]
-            - The list of non-empty strings
+        Gets the translations from the translations.csv file
         """
 
-        return list(filter(str.strip, s.split(delimiter)))
+        global translation_texts
+
+        if not renpy.loadable("translations.csv"):
+            translation_texts = {}
+        file = renpy.open_file("translations.csv")
+        lines = split_to_non_empty_list(file.read().decode(), "\r\n")
+        translation_texts = {line.split(';')[0]: line.split(';')[1] for line in lines if ';' in line}
+
+    
+    def get_loli_filter():
+        """
+        Gets the translations from the translations.csv file
+        """
+
+        global loli_filter
+
+        if not renpy.loadable("loli_filter"):
+            loli_filter = {0:[], 1:[], 2:[]}
+        file = renpy.open_file("loli_filter")
+        lines = split_to_non_empty_list(file.read().decode(), "\r\n")
+
+        if 0 not in loli_filter:
+            loli_filter[0] = []
+        if 1 not in loli_filter:
+            loli_filter[1] = []
+        if 2 not in loli_filter:
+            loli_filter[2] = []
+
+        for line in lines:
+            key, content_level = line.split(';', 1)
+            if int(content_level) >= 1:
+                loli_filter[0].append(key)
+            if int(content_level) == 2:
+                loli_filter[1].append(key)
+
+
+    ############################
+    # --- Ren'Py Functions --- #
+    ############################
 
     def has_keyboard() -> bool:
         """
@@ -702,3 +920,12 @@ init -99 python:
 
         return persistent.shortcuts == 0
 
+    def write_log_file(msg: str):
+        with open('cus_log.txt', 'a') as log_file:
+            log_file.write(msg + '\n')
+        log_file.closed
+
+    def clear_log_file():
+        with open('cus_log.txt', 'w') as log_file:
+            log_file.write('')
+        log_file.closed

@@ -103,7 +103,7 @@ label trigger_hide():
         call screen wait_hide
         $ quick_menu = True
         window show
-        $ renpy.rollback(checkpoints=2)
+        $ renpy.rollback(checkpoints = 2)
         $ hide_gui = False
         return
 
@@ -302,11 +302,14 @@ screen quick_menu():
             textbutton _("History") action ShowMenu('history')
             textbutton _("Skip") action Skip() alternate Skip(fast=True, confirm=True)
             textbutton _("Auto") action Preference("auto-forward", "toggle")
-            textbutton _("Save") action ShowMenu('save')
-            textbutton _("Q.Save") action QuickSave()
-            textbutton _("Q.Load") action QuickLoad()
+            if not is_in_replay:
+                textbutton _("Save") action ShowMenu('save')
+                textbutton _("Q.Save") action QuickSave()
+                textbutton _("Q.Load") action QuickLoad()
             textbutton _("Prefs") action ShowMenu('preferences')
             textbutton _("Hide") action Call("trigger_hide")
+            if is_in_replay:
+                textbutton _("End Replay") action Function(end_event, "none", **replay_data)
 
 
 ## This code ensures that the quick_menu screen is displayed in-game, whenever
@@ -359,12 +362,8 @@ screen navigation():
         textbutton _("Load") action ShowMenu("load")
 
         textbutton _("Preferences") action ShowMenu("preferences")
-
-        if _in_replay:
-
-            textbutton _("End Replay") action EndReplay(confirm=True)
-
-        elif not main_menu:
+        
+        if not main_menu:
 
             textbutton _("Main Menu") action MainMenu()
 
@@ -1532,6 +1531,8 @@ screen quick_menu():
             textbutton _("Auto") action Preference("auto-forward", "toggle")
             textbutton _("Menu") action ShowMenu()
             textbutton _("Hide") action Call("trigger_hide")
+            if is_in_replay:
+                textbutton _("End Replay") action Function(end_event, "none", **replay_data)
 
 
 style window:

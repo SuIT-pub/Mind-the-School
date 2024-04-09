@@ -3,47 +3,61 @@
 #############################################
 
 init -1 python:
-    office_building_timed_event = EventStorage("office_building", "", Event(2, "office_building.after_time_check"))
-    office_building_events = {
-        "look_around": EventStorage("look",      "Look around"),
-        "tutorial":    EventStorage("tutorial",  "About the school..."),
-        "paperwork":   EventStorage("paperwork", "Do paperwork"),
-        "messages":    EventStorage("messages",  "Check messages"),
-        "internet":    EventStorage("internet",  "Surf internet"),
-        "council":     EventStorage("council",   "Council work"),
-    }
-    
-    office_building_timed_event.add_event(Event(1,
-        ["first_week_office_building_event"],
-        TimeCondition(day = "2-4", month = 1, year = 2023),
-    ))
-    
-    office_building_timed_event.add_event(Event(1,
-        ["first_potion_office_building_event"],
-        TimeCondition(day = 9, month = 1, year = 2023),
-    ))
+    def office_building_events_available() -> bool:
+        return (office_building_timed_event.has_available_highlight_events() or
+            office_building_general_event.has_available_highlight_events() or
+            any(e.has_available_highlight_events() for e in office_building_events.values()))
 
-    office_building_events["look_around"].add_event(Event(3,
-        ["office_event_1", "office_event_2"],
-        TimeCondition(weekday = "d", daytime = "d"),
-    ))
+    office_building_timed_event = TempEventStorage("office_building", "office_building", Event(2, "office_building.after_time_check"))
+    office_building_general_event = EventStorage("office_building", "office_building", Event(2, "office_building.after_general_check"))
 
-    office_building_events["look_around"].add_event(Event(3,
-        ["office_event_3"],
-        TimeCondition(weekday = "d", daytime = "d"),
-        NOT(RuleCondition("student_student_relation")),
-    ))
+    office_building_events = {}
+    add_storage(office_building_events, EventStorage("look_around",   "office_building"))
 
-    office_building_timed_event.check_all_events()
-    map(lambda x: x.check_all_events(), office_building_events.values())
-
-    office_building_bg_images = [
+    office_building_bg_images = BGStorage("images/background/office building/bg f.webp",
         BGImage("images/background/office building/bg c teacher.webp", 1, TimeCondition(daytime = "c"), ValueCondition('name', 'teacher')), # show headmasters/teachers office empty
-        BGImage("images/background/office building/bg c secretary <level> <nude>.webp", 1, TimeCondition(daytime = "c"), ValueCondition('name', 'secretary')), # show headmasters/teachers office with people
+        BGImage("images/background/office building/bg c secretary <secretary_level> <nude>.webp", 1, TimeCondition(daytime = "c"), ValueCondition('name', 'secretary')), # show headmasters/teachers office with people
         BGImage("images/background/office building/bg f <name> <level> <nude>.webp", 1, TimeCondition(daytime = "f")), # show headmasters/teachers office with people
         BGImage("images/background/office building/bg 7 <name>.webp", 1, TimeCondition(daytime = 7)), # show headmasters/teachers office empty at night
-    ]
+    )
+
+init 1 python:    
+    first_week_office_building_event_event = Event(1, "first_week_office_building_event",
+        IntroCondition(),
+        TimeCondition(day = "2-4", month = 1, year = 2023),
+        thumbnail = "images/events/first week/first week office building 1.webp")
     
+    first_potion_office_building_event_event = Event(1, "first_potion_office_building_event",
+        IntroCondition(),
+        TimeCondition(day = 9, month = 1, year = 2023),
+        thumbnail = "images/events/first potion/first potion office 1.webp")
+
+    office_event1 = Event(3, "office_event_1",
+        TimeCondition(weekday = "d", daytime = "f"),
+        thumbnail = "images/events/office/office_event_1 1 0.webp")
+
+    office_event2 = Event(3, "office_event_2",
+        RandomListSelector("teacher", "Finola Ryan", "Yulan Chen"),
+        TimeCondition(weekday = "d", daytime = "f"),
+        thumbnail = "images/events/office/office_event_2 1 Finola Ryan.webp")
+
+    office_event3 = Event(3, "office_event_3",
+        TimeCondition(weekday = "d", daytime = "d"),
+        NOT(RuleCondition("student_student_relation")),
+        thumbnail = "images/events/office/office_event_3 1 0.webp")
+
+
+    office_building_general_event.add_event(
+        first_potion_office_building_event_event,
+        first_week_office_building_event_event,
+    )
+
+    office_building_events["look_around"].add_event(
+        office_event1, 
+        office_event2, 
+        office_event3,
+    )
+
 #############################################
 
 ###########################################
@@ -51,23 +65,25 @@ init -1 python:
 ###########################################
 
 label office_building ():
-
     call call_available_event(office_building_timed_event) from office_building_1
 
 label .after_time_check (**kwargs):
+    call call_available_event(office_building_general_event) from office_building_4
 
+label .after_general_check (**kwargs):
     $ char = get_random_choice("teacher", "secretary")
-
-    $ char_obj = get_character(char, charList['staff'])
-
-    call show_idle_image(char_obj, "images/background/office building/bg f.webp", office_building_bg_images) from office_building_2
+    $ office_building_bg_images.add_kwargs(
+        name = char,
+        level = get_character_by_key(char).get_level(),
+    )
 
     call call_event_menu (
-        "Hello Headmaster! How can I help you?" if char_obj.get_name() == "secretary" else "What do you do?", 
+        "Hello Headmaster! How can I help you?" if char == "secretary" else "What do you do?", 
         office_building_events, 
         default_fallback,
-        character.secretary if char_obj.get_name() == "secretary" else character.subtitles,
-        char_obj = char_obj,
+        character.secretary if char == "secretary" else character.subtitles,
+        bg_image = office_building_bg_images,
+        context = char,
     ) from office_building_3
 
     jump office_building
@@ -79,7 +95,8 @@ label .after_time_check (**kwargs):
 ###########################################
 
 label first_potion_office_building_event (**kwargs):
-
+    $ begin_event(**kwargs)
+    
     show first potion office 1 with dissolveM
     subtitles "You enter the teachers office."
     headmaster_thought "Ahh the teacher seem to be eating at the kiosk as well."
@@ -88,28 +105,32 @@ label first_potion_office_building_event (**kwargs):
 
     $ set_building_blocked("office_building")
 
-    jump new_daytime
+    $ end_event('new_daytime', **kwargs)
 
 # first week event
 label first_week_office_building_event (**kwargs):
-
+    $ begin_event(**kwargs)
+    
     show first week office building 1 with dissolveM
     subtitles "Mhh. The office is nothing special but at least not really run down."
     subtitles "I can work with that."
 
-    $ change_stat_for_all("education", 5, charList['schools'])
+    $ change_stat("education", 5, get_school())
     $ change_stat_for_all("happiness", 5, charList['staff'])
     $ change_stat_for_all("reputation", 5, charList['staff'])
 
     $ set_building_blocked("office_building")
 
-    jump new_day
+    $ end_event('new_day', **kwargs)
 
 # TODO: make images
 label office_event_1 (**kwargs):
-    $ image = Image_Series("images/events/office/office_event_1 <name> <level> <step>.webp", name = "high_school", **kwargs)
+    $ begin_event(**kwargs);
 
-    $ begin_event("office_event_1");
+    $ school_obj = get_char_value('school_obj', **kwargs)
+    $ teacher_obj = get_char_value('teacher_obj', **kwargs)
+
+    $ image = Image_Series("images/events/office/office_event_1 <school_level> <step>.webp", **kwargs)
 
     $ image.show(0)
     subtitles "You notice a girl sitting in front of the teachers office."
@@ -117,35 +138,39 @@ label office_event_1 (**kwargs):
     $ image.show(1)
     subtitles "Apparently she is in need of counseling."
 
-    $ change_stats_with_modifier(kwargs["char_obj"],
+    $ change_stats_with_modifier(school_obj,
         happiness = TINY, reputation = TINY)
-    $ change_stats_with_modifier(get_character("teacher", charList['staff']),
+    $ change_stats_with_modifier(teacher_obj,
         happiness = TINY)
     
-    jump new_daytime
+    $ end_event('new_daytime', **kwargs)
 
 # TODO: make images
 label office_event_2 (**kwargs):
+    $ begin_event(**kwargs);
 
-    $ kwargs["char_obj"] = get_character("teacher", charList['staff'])
+    $ teacher_obj = get_char_value('teacher_obj', **kwargs)
+    $ school_obj = get_char_value('school_obj', **kwargs)
+    $ teacher = get_value("teacher", **kwargs)
 
-    $ begin_event("office_event_2");
-    
-    call show_image(get_image("images/events/office/office_event_2 <level> <variant>.webp", **kwargs)[1]) from _call_show_image_2
+    call show_image ("images/events/office/office_event_2 <teacher_level> <teacher>.webp", **kwargs) from _call_show_image_office_event_2
     subtitles "Even the teachers need a break from time to time."
 
-    $ change_stats_with_modifier(kwargs["char_obj"],
+    $ change_stats_with_modifier(school_obj,
         education = DEC_SMALL, reputation = DEC_TINY)
-    $ change_stats_with_modifier(get_character("teacher", charList['staff']),
+    $ change_stats_with_modifier(teacher_obj,
         happiness = TINY)
 
-    jump new_daytime
+    $ end_event('new_daytime', **kwargs)
 
 # TODO: make images
 label office_event_3 (**kwargs):
-    $ image = Image_Series("images/events/office/office_event_3 <name> <level> <step>.webp", name = "high_school", **kwargs)
+    $ begin_event(**kwargs);
 
-    $ begin_event("office_event_3");
+    $ school_obj = get_char_value('school_obj', **kwargs)
+    $ teacher_obj = get_char_value('teacher_obj', **kwargs)
+
+    $ image = Image_Series("images/events/office/office_event_3 <school_level> <step>.webp", **kwargs)
 
     $ image.show(0)
     subtitles "You enter the office and see two students sitting there."
@@ -156,15 +181,21 @@ label office_event_3 (**kwargs):
     **kwargs)
 
 label .ignore (**kwargs):
+    
+    $ begin_event()
+    
     $ image.show(1)
     subtitles "You ignore them and continue you way."
 
-    $ change_stats_with_modifier(get_character("teacher", charList['staff']),
+    $ change_stats_with_modifier(teacher_obj,
         happiness = TINY)
 
-    jump new_daytime
+    $ end_event('new_daytime', **kwargs)
 
 label .talk (**kwargs):
+    
+    $ begin_event()
+    
     $ image.show(2)
     headmaster "Why are you sitting here?"
     $ image.show(3)
@@ -180,6 +211,9 @@ label .talk (**kwargs):
     **kwargs)
 
 label .policy (**kwargs):
+    
+    $ begin_event()
+    
     $ image.show(5)
     headmaster "Well, you know that relationships between students are not allowed."
     $ image.show(6)
@@ -191,14 +225,17 @@ label .policy (**kwargs):
     sgirl "..."
     headmaster "Now you both go back to class."
 
-    $ change_stats_with_modifier(kwargs["char_obj"],
+    $ change_stats_with_modifier(school_obj,
         charm = SMALL, happiness = DEC_SMALL)
-    $ change_stats_with_modifier(get_character("teacher", charList['staff']),
+    $ change_stats_with_modifier(teacher_obj,
         happiness = TINY)
 
-    jump new_daytime
+    $ end_event('new_daytime', **kwargs)
 
 label .care (**kwargs):
+    
+    $ begin_event()
+    
     $ image.show(7)
     headmaster "Okay, listen. You know relationships aren't allowed here at school."
     $ image.show(6)
@@ -210,14 +247,15 @@ label .care (**kwargs):
     $ image.show(8)
     sgirl "Thank you!"
 
-    $ change_stats_with_modifier(kwargs["char_obj"],
+    $ change_stats_with_modifier(school_obj,
         charm = DEC_SMALL, happiness = MEDIUM, inhibition = DEC_SMALL)
-    $ change_stats_with_modifier(get_character("teacher", charList['staff']),
+    $ change_stats_with_modifier(teacher_obj,
         happiness = DEC_SMALL)
 
     if get_progress("unlock_student_relationship") == -1:
         $ start_progress("unlock_student_relationship")
-
-    jump new_daytime
+        $ renpy.notify("Updated the Journal!")
+        
+    $ end_event('new_daytime', **kwargs)
 
 ###########################################
