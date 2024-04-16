@@ -1,5 +1,7 @@
 import os
 import csv
+from datetime import datetime
+import pytz
 
 class Member:
     def __init__(self, name: str, tier: str):
@@ -86,6 +88,12 @@ print("Filtered to {} names.".format(len(filtered_names)))
 
 # Write the names or aliases to the members.txt file in the game folder
 with open(os.path.join(game_folder, 'members.csv'), 'w') as file:
+    # Get current date and time in CET timezone
+    cet = pytz.timezone('CET')
+    current_time = datetime.now(cet)
+
+    # Write current date and time to the file
+    file.write('Last updated: ' + current_time.strftime('%d %B, %Y - %H:%M') + ' CET\n')
     for name in filtered_names:
         file.write(name + '\n')
 
