@@ -52,6 +52,7 @@ with open(os.path.join(current_dir, youngest_file), 'r') as file:
         if i == 0:
             name_index = row.index('Name')
             tier_index = row.index('Tier')
+            continue
         name = row[name_index].strip()
         tier = row[tier_index].strip()
         print(name + ", " + tier)
