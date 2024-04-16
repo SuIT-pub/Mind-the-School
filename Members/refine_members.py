@@ -45,10 +45,17 @@ names = {}
 
 with open(os.path.join(current_dir, youngest_file), 'r') as file:
     csv_reader = csv.reader(file)
-    next(csv_reader)  # Skip the first row (header)
-    for row in csv_reader:
-        name = row[0].strip()
-        names[name] = Member(name, row[11].strip())
+    # next(csv_reader)  # Skip the first row (header)
+    name_index = 0
+    tier_index = 10
+    for i, row in enumerate(csv_reader):
+        if i == 0:
+            name_index = row.index('Name')
+            tier_index = row.index('Tier')
+        name = row[name_index].strip()
+        tier = row[tier_index].strip()
+        print(name + ", " + tier)
+        names[name] = Member(name, tier)
 
 # Read the names from the blacklist.txt file
 blacklist = []
