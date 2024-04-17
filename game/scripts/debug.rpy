@@ -1,7 +1,7 @@
 default time_freeze = False
 default debug_mode = False
 
-init python:
+init -100 python:
     def log_val(key: str, value: Any):
         """
         Prints a key and value

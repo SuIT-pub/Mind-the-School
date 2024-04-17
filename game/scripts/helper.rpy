@@ -2,6 +2,7 @@ init -99 python:
     from typing import TypeVar, Any, List, Tuple
     import collections.abc
     import re
+    import requests
 
     T = TypeVar('T')
 
@@ -829,7 +830,17 @@ init -99 python:
     # --- External Data Functions --- #
     ###################################
 
-    def get_members(tier: str = '') -> List[str]:
+    def download_members():
+        global members
+
+        response = requests.get('https://raw.githubusercontent.com/SuIT-pub/Mind-the-School/master/game/members.csv')
+
+        log_val('response', response)
+        members = response.text
+
+        log_val('response_text', members)
+
+    def get_members(tier: str = '') -> Tuple[List[str],str]:
         """
         Gets a list of patreon members
         It retrieves the csv list from the members.csv and returns it as a list of strings after filtering it by tier
@@ -844,14 +855,22 @@ init -99 python:
             - The list of members
         """
 
-        if not renpy.loadable("members.csv"):
-            return []
-        file = renpy.open_file("members.csv")
-        lines = split_to_non_empty_list(file.read().decode(), "\r\n")
-        if tier == '':
-            return lines
+        time = ""
+        file = members
+        lines = []
+
+        if members == "" or members == "404: Not Found":
+            if not renpy.loadable("members.csv"):
+                return []
+            file = renpy.open_file("members.csv")
+            lines = split_to_non_empty_list(file.read().decode(), "\r\n")
         else:
-            return [line for line in lines if line.split(';')[1].strip() == tier]
+            lines = split_to_non_empty_list(file, "\n")
+        if tier == '':
+            return lines, time
+        else:
+            time = lines.pop(0)
+            return [line for line in lines if line.split(';')[1].strip() == tier], time
 
     def get_translations():
         """

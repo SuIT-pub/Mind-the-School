@@ -1955,8 +1955,8 @@ screen journal_credits(display):
         size 20
         color "#000"
 
-    $ student_members = get_members("Student")
-    $ teacher_members = get_members("Teacher")
+    $ (student_members, time_text) = get_members("Student")
+    $ (teacher_members, time_text) = get_members("Teacher")
 
     # left side
     # displays all patrons with teacher tier subscription on Patreon
@@ -1969,6 +1969,9 @@ screen journal_credits(display):
             text "Thanks to all patrons!":
                     size 40
                     color "#000000"
+            text time_text:
+                size 20
+                color "#8a8a8a"
             null height 20
             hbox:
                 viewport id "credits teachers list":
