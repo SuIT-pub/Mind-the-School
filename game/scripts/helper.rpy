@@ -833,10 +833,12 @@ init -99 python:
     def download_members():
         global members
 
-        response = requests.get('https://raw.githubusercontent.com/SuIT-pub/Mind-the-School/master/game/members.csv')
-
-        log_val('response', response)
-        members = response.text
+        try:
+            response = requests.get('https://raw.githubusercontent.com/SuIT-pub/Mind-the-School/master/game/members.csv')
+            members = response.text
+        except requests.exceptions.RequestException as e:  # This is the correct syntax
+            members = ""
+            log('Failed Download')
 
         log_val('response_text', members)
 
@@ -938,13 +940,3 @@ init -99 python:
         """
 
         return persistent.shortcuts == 0
-
-    def write_log_file(msg: str):
-        with open('cus_log.txt', 'a') as log_file:
-            log_file.write(msg + '\n')
-        log_file.closed
-
-    def clear_log_file():
-        with open('cus_log.txt', 'w') as log_file:
-            log_file.write('')
-        log_file.closed

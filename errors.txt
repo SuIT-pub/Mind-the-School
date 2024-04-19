@@ -2,8 +2,8 @@
 errors listed below, and try again.
 
 
-File "game/scripts/buildings/courtyard.rpy", line 42: is not terminated with a newline. (Check strings and parenthesis.)
-        courtyard_event3 = Event(3, "courtyard_event_3",
+File "game/scripts/debug.rpy", line 16: is not terminated with a newline. (Check strings and parenthesis.)
+            print(key + ": " + str(value) + "\n"
 
 Ren'Py Version: Ren'Py 8.1.3.23091805
-Wed Apr  3 18:45:58 2024
+Fri Apr 19 12:05:34 2024
