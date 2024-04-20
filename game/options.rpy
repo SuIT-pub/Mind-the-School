@@ -231,8 +231,7 @@ init python:
 
     build.classify("game/members.csv", "data")
     build.classify("game/translations.csv", "data")
-    build.classify("LICENSE", "data")
-    build.classify("README.md", "data")
+    build.classify("game/loli_filter", "data")
 
     # Put images into the images archive.
     build.classify("game/**.jpg", "images")
