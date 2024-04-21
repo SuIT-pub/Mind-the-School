@@ -23,7 +23,7 @@ define gui.show_name = True
 
 ## The version of the game.
 
-define config.version = "0.1.3A"
+define config.version = "0.1.3B"
 
 
 ## Text that is placed on the game's about screen. Place the text between the
@@ -249,6 +249,8 @@ init python:
 
     build.include_i686 = False
 
+    build.include_update = True
+
 init python:
     config.keymap["hide_windows"] = []
     
@@ -275,6 +277,8 @@ init python:
 ## by a slash.
 
 # define build.itch_project = "renpytom/test-project"
+
+
     
 
 define discord = 'http://tiny.cc/mindtheschooldiscord'
