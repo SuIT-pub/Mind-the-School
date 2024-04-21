@@ -863,15 +863,17 @@ init -99 python:
 
         if members == "" or members == "404: Not Found":
             if not renpy.loadable("members.csv"):
-                return []
+                return [], "Supporter list could not be loaded."
             file = renpy.open_file("members.csv")
             lines = split_to_non_empty_list(file.read().decode(), "\r\n")
         else:
             lines = split_to_non_empty_list(file, "\n")
+        if len(lines) == 0:
+            return [], "Supporter list could not be loaded."
+        time = lines.pop(0)
         if tier == '':
             return lines, time
         else:
-            time = lines.pop(0)
             return [line for line in lines if line.split(';')[1].strip() == tier], time
 
     def get_translations():
