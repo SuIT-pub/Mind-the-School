@@ -119,6 +119,7 @@ define config.window_show_transition = Dissolve(0.5 * (2.0 - persistent.transiti
 define config.window_hide_transition = Dissolve(0.5 * (2.0 - persistent.transition_speed))
 
 default persistent.shortcuts = 0
+default persistent.load_supporter = 1
 
 ## Preference defaults #########################################################
 

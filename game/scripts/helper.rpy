@@ -833,14 +833,15 @@ init -99 python:
     def download_members():
         global members
 
-        try:
-            response = requests.get('https://raw.githubusercontent.com/SuIT-pub/Mind-the-School/master/game/members.csv')
-            members = response.text
-        except requests.exceptions.RequestException as e:  # This is the correct syntax
+        if persistent.load_supporter == 1:
+            try:
+                response = requests.get('https://raw.githubusercontent.com/SuIT-pub/Mind-the-School/master/game/members.csv')
+                members = response.text
+            except requests.exceptions.RequestException as e:  # This is the correct syntax
+                members = ""
+                log('Failed Download')
+        else:
             members = ""
-            log('Failed Download')
-
-        log_val('response_text', members)
 
     def get_members(tier: str = '') -> Tuple[List[str],str]:
         """
