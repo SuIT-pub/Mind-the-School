@@ -232,6 +232,7 @@ init python:
 
     build.classify("game/members.csv", "data")
     build.classify("game/translations.csv", "data")
+    build.classify("game/loli_filter", "data")
     build.classify("LICENSE", "data")
     build.classify("README.md", "data")
 
