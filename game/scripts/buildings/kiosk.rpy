@@ -40,7 +40,7 @@ init 1 python:
         RandomListSelector("topic", "normal", (0.25, "kind"), (0.05, "slimy")),
         OR(TimeCondition(weekday = "d", daytime = "f"), TimeCondition(weekday="w", daytime = "d")),
         NOT(BuildingCondition("cafeteria")),
-        RandomCondition(25, 100),
+        RandomCondition(65, 100),
         thumbnail = "images/events/kiosk/kiosk_event_3 1 0.webp")
 
     kiosk_general_event.add_event(

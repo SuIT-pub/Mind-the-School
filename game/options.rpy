@@ -23,7 +23,7 @@ define gui.show_name = True
 
 ## The version of the game.
 
-define config.version = "0.1.3A"
+define config.version = "0.1.3B"
 
 
 ## Text that is placed on the game's about screen. Place the text between the
@@ -119,6 +119,7 @@ define config.window_show_transition = Dissolve(0.5 * (2.0 - persistent.transiti
 define config.window_hide_transition = Dissolve(0.5 * (2.0 - persistent.transition_speed))
 
 default persistent.shortcuts = 0
+default persistent.load_supporter = 1
 
 ## Preference defaults #########################################################
 
@@ -232,6 +233,8 @@ init python:
     build.classify("game/members.csv", "data")
     build.classify("game/translations.csv", "data")
     build.classify("game/loli_filter", "data")
+    build.classify("LICENSE", "data")
+    build.classify("README.md", "data")
 
     # Put images into the images archive.
     build.classify("game/**.jpg", "images")
@@ -246,6 +249,8 @@ init python:
     build.classify("game/**.mp3", "sounds")
 
     build.include_i686 = False
+
+    build.include_update = True
 
 init python:
     config.keymap["hide_windows"] = []
@@ -273,6 +278,8 @@ init python:
 ## by a slash.
 
 # define build.itch_project = "renpytom/test-project"
+
+
     
 
 define discord = 'http://tiny.cc/mindtheschooldiscord'

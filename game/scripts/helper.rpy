@@ -833,12 +833,15 @@ init -99 python:
     def download_members():
         global members
 
-        response = requests.get('https://raw.githubusercontent.com/SuIT-pub/Mind-the-School/master/game/members.csv')
-
-        log_val('response', response)
-        members = response.text
-
-        log_val('response_text', members)
+        if persistent.load_supporter == 1:
+            try:
+                response = requests.get('https://raw.githubusercontent.com/SuIT-pub/Mind-the-School/master/game/members.csv')
+                members = response.text
+            except requests.exceptions.RequestException as e:  # This is the correct syntax
+                members = ""
+                log('Failed Download')
+        else:
+            members = ""
 
     def get_members(tier: str = '') -> Tuple[List[str],str]:
         """
@@ -861,15 +864,17 @@ init -99 python:
 
         if members == "" or members == "404: Not Found":
             if not renpy.loadable("members.csv"):
-                return []
+                return [], "Supporter list could not be loaded."
             file = renpy.open_file("members.csv")
             lines = split_to_non_empty_list(file.read().decode(), "\r\n")
         else:
             lines = split_to_non_empty_list(file, "\n")
+        if len(lines) == 0:
+            return [], "Supporter list could not be loaded."
+        time = lines.pop(0)
         if tier == '':
             return lines, time
         else:
-            time = lines.pop(0)
             return [line for line in lines if line.split(';')[1].strip() == tier], time
 
     def get_translations():
@@ -938,13 +943,3 @@ init -99 python:
         """
 
         return persistent.shortcuts == 0
-
-    def write_log_file(msg: str):
-        with open('cus_log.txt', 'a') as log_file:
-            log_file.write(msg + '\n')
-        log_file.closed
-
-    def clear_log_file():
-        with open('cus_log.txt', 'w') as log_file:
-            log_file.write('')
-        log_file.closed

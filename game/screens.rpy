@@ -836,6 +836,11 @@ screen preferences():
                         textbutton _("Hidden") action SetField(persistent, "shortcuts", 1)
                         textbutton _("Disabled") action SetField(persistent, "shortcuts", 2)
 
+                    vbox:
+                        style_prefix "check"
+                        label _("Load Supporter")
+                        textbutton _("From Web") action SetField(persistent, "load_supporter", 1)
+                        textbutton _("Local only") action SetField(persistent, "load_supporter", 0)
                 
                 null height (4 * gui.pref_spacing)
 

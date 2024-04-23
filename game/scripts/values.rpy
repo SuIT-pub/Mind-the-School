@@ -18,8 +18,6 @@ init -98 python:
     loli_filter = {}
     get_loli_filter()
 
-    clear_log_file()
-    
     members = ""
     download_members()
 
