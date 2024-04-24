@@ -11,8 +11,11 @@ init -1 python:
     office_building_timed_event = TempEventStorage("office_building", "office_building", Event(2, "office_building.after_time_check"))
     office_building_general_event = EventStorage("office_building", "office_building", Event(2, "office_building.after_general_check"))
 
+    office_building_work_event = EventStorage("office_building", "office_building")
+
     office_building_events = {}
-    add_storage(office_building_events, EventStorage("look_around",   "office_building"))
+    add_storage(office_building_events, EventStorage("look_around", "office_building"))
+    add_storage(office_building_events, EventStorage("work",        "office_building"))
 
     office_building_bg_images = BGStorage("images/background/office building/bg f.webp",
         BGImage("images/background/office building/bg c teacher.webp", 1, TimeCondition(daytime = "c"), ValueCondition('name', 'teacher')), # show headmasters/teachers office empty
@@ -21,41 +24,58 @@ init -1 python:
         BGImage("images/background/office building/bg 7 <name>.webp", 1, TimeCondition(daytime = 7)), # show headmasters/teachers office empty at night
     )
 
-init 1 python:    
-    first_week_office_building_event_event = Event(1, "first_week_office_building_event",
-        IntroCondition(),
-        TimeCondition(day = "2-4", month = 1, year = 2023),
-        thumbnail = "images/events/first week/first week office building 1.webp")
-    
-    first_potion_office_building_event_event = Event(1, "first_potion_office_building_event",
-        IntroCondition(),
-        TimeCondition(day = 9, month = 1, year = 2023),
-        thumbnail = "images/events/first potion/first potion office 1.webp")
-
-    office_event1 = Event(3, "office_event_1",
-        TimeCondition(weekday = "d", daytime = "f"),
-        thumbnail = "images/events/office/office_event_1 1 0.webp")
-
-    office_event2 = Event(3, "office_event_2",
-        RandomListSelector("teacher", "Finola Ryan", "Yulan Chen"),
-        TimeCondition(weekday = "d", daytime = "f"),
-        thumbnail = "images/events/office/office_event_2 1 Finola Ryan.webp")
-
-    office_event3 = Event(3, "office_event_3",
-        TimeCondition(weekday = "d", daytime = "d"),
-        NOT(RuleCondition("student_student_relation")),
-        thumbnail = "images/events/office/office_event_3 1 0.webp")
-
-
-    office_building_general_event.add_event(
-        first_potion_office_building_event_event,
-        first_week_office_building_event_event,
+init 1 python:   
+    office_building_general_event.add_event( 
+        Event(1, "first_week_office_building_event",
+            IntroCondition(),
+            TimeCondition(day = "2-4", month = 1, year = 2023),
+            thumbnail = "images/events/first week/first week office building 1.webp"),
+        
+        Event(1, "first_potion_office_building_event",
+            IntroCondition(),
+            TimeCondition(day = 9, month = 1, year = 2023),
+            thumbnail = "images/events/first potion/first potion office 1.webp"),
     )
 
+
     office_building_events["look_around"].add_event(
-        office_event1, 
-        office_event2, 
-        office_event3,
+
+        Event(3, "office_event_1",
+            TimeCondition(weekday = "d", daytime = "f"),
+            thumbnail = "images/events/office/office_event_1 1 0.webp"),
+
+        Event(3, "office_event_2",
+            RandomListSelector("teacher", "Finola Ryan", "Yulan Chen"),
+            TimeCondition(weekday = "d", daytime = "f"),
+            thumbnail = "images/events/office/office_event_2 1 Finola Ryan.webp"),
+
+        Event(3, "office_event_3",
+            TimeCondition(weekday = "d", daytime = "d"),
+            NOT(RuleCondition("student_student_relation")),
+            thumbnail = "images/events/office/office_event_3 1 0.webp"),
+    )
+
+    
+    office_building_events["work"].add_event(
+        Event(3, "work_office_event",
+            TimeCondition(weekday = "d", daytime = "d")),
+    )
+
+    office_building_work_event.add_event(
+        Event(3, "work_office_money_event_1",
+            TimeCondition(weekday = "d", daytime = "d")),
+        Event(3, "work_office_education_event_1",
+            TimeCondition(weekday = "d", daytime = "d")),
+        Event(3, "work_office_session_event_1",
+            TimeCondition(weekday = "d", daytime = "d"),
+            ConditionSelector("first_naughty_session", ProgressCondition("unlocked_work_office_session_naughty"),
+                0,
+                RandomValueSelector("", 0, 1), 
+                True
+            ),
+            ProgressSelector("unlocked_naughty_sessions", "unlocked_work_office_session_naughty"),
+            RandomListSelector("girl_name", "Seraphina Clark", "Gloria Goto", "Lin Kato", "Miwa Igarashi"),
+        ),
     )
 
 #############################################
@@ -123,6 +143,81 @@ label first_week_office_building_event (**kwargs):
 
     $ end_event('new_day', **kwargs)
 
+label work_office_event (**kwargs):
+    call call_event_menu (
+        "What subject do you wanna teach?", 
+        office_building_work_event,
+        default_fallback,
+        character.subtitles,
+        override_menu_exit = 'office_building',
+        **kwargs
+    ) from work_office_event_1
+
+    jump office_building
+
+label work_office_money_event_1 (**kwargs):
+    $ begin_event(**kwargs)
+
+    subtitles "You work on checking the accounts of the school."
+    show screen black_screen_text("1h later.")
+    # headmaster is consumed by the terrible accounting done in the past
+    headmaster_thought "How can this be? This is a mess!"
+    headmaster_thought "I need to get this sorted out."
+    headmaster_thought "There is so much wrong with these accounts. It's gonna take ages to fix this."
+    headmaster_thought "At least I was able to find some money that was lost in the system."
+
+    $ change_money_with_modifier(get_random_int(100, 500))
+
+    $ end_event('new_daytime', **kwargs)
+
+label work_office_education_event_1 (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ school_obj = get_char_value('school_obj', **kwargs)
+    $ teacher_obj = get_char_value('teacher_obj', **kwargs)
+
+    subtitles "You work on optimizing the teaching material for the students."
+    show screen black_screen_text("1h later.")
+    headmaster_thought "I think I found a way to make the material more interesting for the students."
+
+    call change_stats_with_modifier(school_obj,
+        education = SMALL, happiness = TINY)
+    call change_stats_with_modifier(teacher_obj,
+        happiness = SMALL, education = SMALL)
+
+    $ end_event('new_daytime', **kwargs)
+
+label work_office_session_event_1 (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ school_obj = get_char_value('school_obj', **kwargs)
+    $ secretary_obj = get_char_value('secretary_obj', **kwargs)
+    $ first_naughty_session = get_value("first_naughty_session", **kwargs)
+    $ unlocked_naughty_sessions = get_value("unlocked_naughty_sessions", **kwargs)
+    $ girl_name = get_value("girl_name", **kwargs)
+
+
+
+    if unlocked_naughty_sessions != -1:
+        menu:
+            "Do you wanna call Emiko for a naughty session?"
+            "Call Emiko":
+                jump .naughty_session
+            "No":
+                jump .normal_session
+
+    if first_naughty_session == 1:
+        jump .first_naughty_session
+
+    jump .normal_session    
+
+label .first_naughty_session (**kwargs):
+    pass
+label .naughty_session (**kwargs):
+    pass
+label .normal_session (**kwargs):
+    pass
+
 # TODO: make images
 label office_event_1 (**kwargs):
     $ begin_event(**kwargs);
@@ -138,9 +233,9 @@ label office_event_1 (**kwargs):
     $ image.show(1)
     subtitles "Apparently she is in need of counseling."
 
-    $ change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier(school_obj,
         happiness = TINY, reputation = TINY)
-    $ change_stats_with_modifier(teacher_obj,
+    call change_stats_with_modifier(teacher_obj,
         happiness = TINY)
     
     $ end_event('new_daytime', **kwargs)
@@ -156,9 +251,9 @@ label office_event_2 (**kwargs):
     call show_image ("images/events/office/office_event_2 <teacher_level> <teacher>.webp", **kwargs) from _call_show_image_office_event_2
     subtitles "Even the teachers need a break from time to time."
 
-    $ change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier(school_obj,
         education = DEC_SMALL, reputation = DEC_TINY)
-    $ change_stats_with_modifier(teacher_obj,
+    call change_stats_with_modifier(teacher_obj,
         happiness = TINY)
 
     $ end_event('new_daytime', **kwargs)
@@ -187,7 +282,7 @@ label .ignore (**kwargs):
     $ image.show(1)
     subtitles "You ignore them and continue you way."
 
-    $ change_stats_with_modifier(teacher_obj,
+    call change_stats_with_modifier(teacher_obj,
         happiness = TINY)
 
     $ end_event('new_daytime', **kwargs)
@@ -225,9 +320,9 @@ label .policy (**kwargs):
     sgirl "..."
     headmaster "Now you both go back to class."
 
-    $ change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier(school_obj,
         charm = SMALL, happiness = DEC_SMALL)
-    $ change_stats_with_modifier(teacher_obj,
+    call change_stats_with_modifier(teacher_obj,
         happiness = TINY)
 
     $ end_event('new_daytime', **kwargs)
@@ -247,14 +342,14 @@ label .care (**kwargs):
     $ image.show(8)
     sgirl "Thank you!"
 
-    $ change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier(school_obj,
         charm = DEC_SMALL, happiness = MEDIUM, inhibition = DEC_SMALL)
-    $ change_stats_with_modifier(teacher_obj,
+    call change_stats_with_modifier(teacher_obj,
         happiness = DEC_SMALL)
 
     if get_progress("unlock_student_relationship") == -1:
         $ start_progress("unlock_student_relationship")
-        $ renpy.notify("Updated the Journal!")
+        $ add_notify_message("Added new rule to journal!")
         
     $ end_event('new_daytime', **kwargs)
 

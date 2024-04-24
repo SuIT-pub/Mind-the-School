@@ -43,7 +43,5 @@ init -100 python:
 
 
 label test_label():
-    if get_progress("unlock_cafeteria") == -1:
-        $ start_progress("unlock_cafeteria")
-        $ renpy.notify("Updated the Journal!")
+    call multi_notify_example
     return

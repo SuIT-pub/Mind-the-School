@@ -184,7 +184,7 @@ label cafeteria_event_1(**kwargs):
     parent "Here you go." (name = 'Adelaide Hall')
     headmaster "Thank you."
 
-    $ change_stats_with_modifier(parent_obj,
+    call change_stats_with_modifier(parent_obj,
         happiness = SMALL, charm = TINY)
 
     $ end_event('new_daytime', **kwargs)
@@ -212,7 +212,7 @@ label cafeteria_event_2(**kwargs):
     $ image.show(2)
     sgirl "Eh? Please leave, I'm changing."
 
-    $ change_stats_with_modifier(char_obj,
+    call change_stats_with_modifier(char_obj,
         happiness = DEC_TINY, inhibition = DEC_SMALL)
 
     $ end_event('new_daytime', **kwargs)
@@ -276,7 +276,7 @@ label cafeteria_event_3(**kwargs):
             if school_job_progress >= 3 and unlock_school_jobs < 2:
                 $ set_progress('unlock_school_jobs', 2)
 
-            $ change_stats_with_modifier(parent_obj,
+            call change_stats_with_modifier(parent_obj,
                 happiness = DEC_SMALL, charm = TINY)
 
             $ end_event('new_daytime', **kwargs)
@@ -340,9 +340,11 @@ label cafeteria_event_3(**kwargs):
 
             $ set_progress('unlock_school_jobs', 3)
 
+            $ add_notify_message("Added new rule to journal!")
+
             $ time.progress_time()
             
-            $ change_stats_with_modifier(parent_obj,
+            call change_stats_with_modifier(parent_obj,
                 happiness = MEDIUM, charm = SMALL, reputation = MEDIUM)
 
             $ end_event('new_daytime', **kwargs)
@@ -387,7 +389,7 @@ label cafeteria_event_3(**kwargs):
         $ image.show(11)
         subtitles "You spend the next hours working in the kitchen."
 
-        $ change_stats_with_modifier(parent_obj,
+        call change_stats_with_modifier(parent_obj,
             happiness = SMALL, charm = DEC_TINY, reputation = SMALL)
 
         $ end_event('new_daytime', **kwargs)
@@ -404,7 +406,7 @@ label cafeteria_event_3(**kwargs):
         # headmaster takes the sandwich and coffee
         headmaster "Thank you."
 
-        $ change_stats_with_modifier(parent_obj,
+        call change_stats_with_modifier(parent_obj,
             happiness = SMALL, charm = TINY)
 
         $ end_event('new_daytime', **kwargs)
@@ -426,10 +428,10 @@ label cafeteria_event_4(**kwargs):
     if amount == "2 Girls" or amount == "3 Girls":
         headmaster_thought "I'm glad that so many girls are ready to help her."
 
-    $ change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier(school_obj,
         happiness = SMALL, charm = MEDIUM, education = TINY)
 
-    $ change_stats_with_modifier(parent_obj,
+    call change_stats_with_modifier(parent_obj,
         happiness = MEDIUM, charm = TINY)
 
     $ end_event('new_daytime', **kwargs)
@@ -450,7 +452,7 @@ label cafeteria_event_5(**kwargs):
     call Image_Series.show_image(image, 1, 2) from _call_Image_Series_show_image_2
     headmaster_thought "It seems like the students are enjoying their lunch break."
 
-    $ change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier(school_obj,
         happiness = SMALL, charm = MEDIUM)
 
     $ end_event('new_daytime', **kwargs)

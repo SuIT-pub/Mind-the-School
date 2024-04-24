@@ -181,7 +181,7 @@ label .look (**kwargs):
     $ image.show(3)
     sgirl "PERVERT!"
 
-    $ change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier(school_obj,
         happiness = DEC_SMALL, reputation = DEC_TINY, inhibition = DEC_SMALL)
     
     $ end_event("new_daytime", **kwargs)
@@ -194,7 +194,7 @@ label .look_away (**kwargs):
     $ image.show(5)
     subtitles "The girl looks at you ashamed of the situation and runs away. Glad you didn't stare."
 
-    $ change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier(school_obj,
         happiness = TINY, reputation = TINY, inhibition = DEC_TINY)
     
     $ end_event("new_daytime", **kwargs)
@@ -234,7 +234,7 @@ label .talk (**kwargs):
     $ image.show(9)
     sgirl "Thanks, bye."
     
-    $ change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier(school_obj,
         happiness = DEC_TINY, reputation = TINY)
     $ end_event("new_daytime", **kwargs)
 label .leave (**kwargs):
@@ -244,7 +244,7 @@ label .leave (**kwargs):
     $ image.show(1)
     subtitles "You decide to leave her alone."
     
-    $ change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier(school_obj,
         happiness = DEC_MEDIUM, reputation = DEC_SMALL)
     $ end_event("new_daytime", **kwargs)
 
@@ -256,7 +256,7 @@ label courtyard_event_3 (**kwargs):
     call show_image ("images/events/courtyard/courtyard_event_3 <school_level>.webp", **kwargs) from _call_show_image
     subtitles "You notice a group of girls taking a break together."
 
-    $ change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier(school_obj,
         charm = SMALL, happiness = TINY, education = TINY, reputation = SMALL)
     
     $ end_event("new_daytime", **kwargs)
@@ -272,7 +272,7 @@ label courtyard_event_4(**kwargs):
     call Image_Series.show_image(image, 0, 1, 2) from _call_Image_Series_show_image_3
     headmaster "Interesting..."
     
-    $ change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier(school_obj,
         happiness = DEC_TINY, charm = DEC_TINY, inhibition = DEC_SMALL)
 
     $ end_event("new_daytime", **kwargs)
@@ -287,7 +287,7 @@ label courtyard_event_5(**kwargs):
     call show_image("images/events/courtyard/courtyard_event_5 <school_level>.webp", **kwargs) from _courtyard_event_5_1
     subtitles "You come across a group of students talking to each other."
 
-    $ change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier(school_obj,
         happiness = SMALL, charm = SMALL)
 
     $ end_event("new_daytime", **kwargs)
@@ -323,7 +323,7 @@ label courtyard_event_6(**kwargs):
     $ image.show(5)
     sgirl "Sorry!"
 
-    $ change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier(school_obj,
         charm = DEC_TINY, education = SMALL)
 
     $ end_event("new_daytime", **kwargs)
