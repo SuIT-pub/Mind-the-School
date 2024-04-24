@@ -781,7 +781,6 @@ label .show_image(image_series, *steps, pause = False, display_type = SCENE, var
         $ step = steps[i]
         $ variant = image_series.show(step, display_type, variant)
         if (pause and i == len(steps) - 1) or i < len(steps) - 1:
-            $ log('pause')
             $ renpy.pause()
         $ i += 1
     return variant

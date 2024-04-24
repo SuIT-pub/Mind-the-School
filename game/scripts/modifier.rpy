@@ -358,77 +358,6 @@ init -6 python:
         
         return value
 
-    def change_money_with_modifier(value: num, collection: str = 'default'):
-        """
-        Changes the money with the modifier.
-
-        ### Parameters:
-        1. value: num
-            - The value of the money. This is the value that is being changed.
-        2. collection: str (default 'default')
-            - The collection of modifiers. This is used to separate different collections of modifiers.
-        """
-
-        if is_in_replay:
-            return
-
-        if isinstance(value, str):
-            value = get_stat_levels(value)
-
-        value = apply_stat_modifier('money', value, None, collection)
-
-        change_stat('money', value)
-
-    def change_stat_with_modifier(stat: str, value: num, char_obj: Char, collection: str = 'default'):
-        """
-        Changes the stat with the modifier.
-
-        ### Parameters:
-        1. stat: str
-            - The stat that the modifier is changing.
-        2. value: num
-            - The value of the stat. This is the value that is being changed.
-        3. char_obj: Char
-            - The character that the modifier is being applied to. If None, then the modifier is applied to the game data.
-        4. collection: str (default 'default')
-            - The collection of modifiers. This is used to separate different collections of modifiers.
-        """
-
-        if is_in_replay:
-            return
-
-        if isinstance(value, str):
-            value = get_stat_levels(value)
-
-        value = apply_stat_modifier(stat, value, char_obj, collection)
-
-        char_obj.change_stat(stat, value)
-
-    def change_stats_with_modifier(char_obj: Char, collection: str = 'default', **kwargs):
-        """
-        Changes multiple stats with the modifier.
-
-        ### Parameters:
-        1. char_obj: Char
-            - The character that the modifier is being applied to. If None, then the modifier is applied to the game data.
-        2. collection: str (default 'default')
-            - The collection of modifiers. This is used to separate different collections of modifiers.
-        3. **kwargs:
-            - The stats that are being changed. The key is the stat, and the value is the value of the stat.
-        """
-
-        in_replay = get_kwargs('in_replay', False, **kwargs)
-
-        if char_obj == None or in_replay:
-            return
-
-        for stat in kwargs.keys():
-            if stat == "char_obj":
-                continue
-
-            # if stat in Stat_Data:
-            change_stat_with_modifier(stat, kwargs[stat], char_obj, collection)
-
     def sort_payroll_modifier(weekly: Dict[str, Modifier_Obj], monthly: Dict[str, Modifier_Obj]) -> Tuple[List[Tuple[str, int, int]], List[Tuple[str, int, int]], int, int]:
         """
         Sorts the payroll modifier into positive and negative income.
@@ -484,3 +413,101 @@ init -6 python:
         negative_income_list = [(key, value[0], value[1]) for key, value in negative_income.items()]
 
         return (positive_income_list, negative_income_list, net_weekly, net_monthly)
+
+label change_money_with_modifier(value, collection = 'default'):
+    # """
+    # Changes the money with the modifier.
+
+    # ### Parameters:
+    # 1. value: num
+    #     - The value of the money. This is the value that is being changed.
+    # 2. collection: str (default 'default')
+    #     - The collection of modifiers. This is used to separate different collections of modifiers.
+    # """
+
+    if is_in_replay:
+        return
+
+    if isinstance(value, str):
+        $ value = get_stat_levels(value)
+
+    $ value = apply_stat_modifier('money', value, None, collection)
+
+    $ change_stat('money', value)
+
+    return
+
+label change_stat_with_modifier(stat, value, char_obj, collection = 'default'):
+    # """
+    # Changes the stat with the modifier.
+
+    # ### Parameters:
+    # 1. stat: str
+    #     - The stat that the modifier is changing.
+    # 2. value: num
+    #     - The value of the stat. This is the value that is being changed.
+    # 3. char_obj: Char
+    #     - The character that the modifier is being applied to. If None, then the modifier is applied to the game data.
+    # 4. collection: str (default 'default')
+    #     - The collection of modifiers. This is used to separate different collections of modifiers.
+    # """
+
+    if is_in_replay:
+        return
+
+    if isinstance(value, str):
+        $ value = get_stat_levels(value)
+
+    $ value = apply_stat_modifier(stat, value, char_obj, collection)
+
+    $ char_obj.change_stat(stat, value)
+
+    $ stat_name = Stat_Data[stat].get_title()
+
+    $ notify_str = ""
+    if stat == "inhibition":
+        if value < 0:
+            $ notify_str = char_obj.get_title() + ": " + Stat_Data[stat].get_title() + " {color=#00a000}" + str(value) + "{/color}"
+        else:
+            $ notify_str = char_obj.get_title() + ": " + Stat_Data[stat].get_title() + " {color=#a00000}+" + str(value) + "{/color}"
+    else:
+        if value > 0:
+            $ notify_str = char_obj.get_title() + ": " + Stat_Data[stat].get_title() + " {color=#00a000}+" + str(value) + "{/color}"
+        else:
+            $ notify_str = char_obj.get_title() + ": " + Stat_Data[stat].get_title() + " {color=#a00000}" + str(value) + "{/color}"
+
+    $ log_val('notify_str', notify_str)
+
+    $ add_notify_message(notify_str)
+
+    return
+
+label change_stats_with_modifier(char_obj, collection = 'default', **kwargs):
+    # """
+    # Changes multiple stats with the modifier.
+
+    # ### Parameters:
+    # 1. char_obj: Char
+    #     - The character that the modifier is being applied to. If None, then the modifier is applied to the game data.
+    # 2. collection: str (default 'default')
+    #     - The collection of modifiers. This is used to separate different collections of modifiers.
+    # 3. **kwargs:
+    #     - The stats that are being changed. The key is the stat, and the value is the value of the stat.
+    # """
+
+    $ in_replay = get_kwargs('in_replay', False, **kwargs)
+
+    if char_obj == None or in_replay:
+        return
+
+    $ keys = list(kwargs.keys())
+
+    $ i = 0
+    while i < len(keys):
+        $ stat = keys[i]
+        $ i += 1
+        if stat != "char_obj":
+            # if stat in Stat_Data:
+            call change_stat_with_modifier(stat, kwargs[stat], char_obj, collection)
+
+    return

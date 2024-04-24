@@ -197,21 +197,21 @@ label sd_event_1 (**kwargs):
             sgirl "Yeah Mr. [headmaster_last_name], but would you please knock before entering next time?" (name = "Easkey Tanaka")
             $ image.show(3)
             headmaster "Ah yes... yes of course."
-            $ change_stats_with_modifier(school_obj,
-                HAPPINESS = DEC_TINY)
+            call change_stats_with_modifier(school_obj,
+                happiness = DEC_TINY)
             $ end_event(**kwargs)
         else:
             $ image.show(5)
             sgirl "Yeah Mr. [headmaster_last_name], you just surprised me." (name = "Easkey Tanaka")
             $ image.show(6)
             headmaster "Oh, sorry about that."
-            $ change_stats_with_modifier(school_obj,
-                HAPPINESS = DEC_TINY, education = MEDIUM)
+            call change_stats_with_modifier(school_obj,
+                happiness = DEC_TINY, education = MEDIUM)
             $ end_event(**kwargs)
     else:
         $ image.show(4)
         sgirl "hmm... This homework is hard. Why do I need to learn this anyway?" (name = "Easkey Tanaka")
-        $ change_stats_with_modifier(school_obj,
+        call change_stats_with_modifier(school_obj,
             education = SMALL)
         $ end_event(**kwargs)
 
@@ -230,17 +230,17 @@ label sd_event_2 (**kwargs):
     if topic == "ah":
         $ image.show(0)
         sgirl "Ah!" (name = girl_name)
-        $ change_stats_with_modifier(school_obj,
+        call change_stats_with_modifier(school_obj,
             happiness = DEC_TINY, inhibition = DEC_TINY)
     elif topic == "ahhh":
         $ image.show(0)
         sgirl "AHHH!!!" (name = girl_name)
-        $ change_stats_with_modifier(school_obj,
+        call change_stats_with_modifier(school_obj,
             happiness = DEC_TINY, inhibition = DEC_TINY, reputation = DEC_TINY)
     elif topic == "eeek":
         $ image.show(0)
         sgirl "Eek!" (name = girl_name)
-        $ change_stats_with_modifier(school_obj,
+        call change_stats_with_modifier(school_obj,
             happiness = DEC_LARGE, inhibition = DEC_TINY)
     elif topic in ["panties", "breasts"]:
         $ image.show(0)
@@ -249,7 +249,7 @@ label sd_event_2 (**kwargs):
             "Ah!!! Look away, please, I don't want guys seeing my [topic]!",
             "Eek! Stop! Don't stare at my [topic]!",
             person = character.sgirl, name = girl_name)
-        $ change_stats_with_modifier(school_obj,
+        call change_stats_with_modifier(school_obj,
             happiness = DEC_LARGE, inhibition = DEC_TINY, charm = MEDIUM)
     elif topic == "oh":
         $ image.show(0)
@@ -260,13 +260,13 @@ label sd_event_2 (**kwargs):
         sgirl "I-it's ok..." (name = girl_name)
         $ image.show(3)
         subtitles "You quickly make an exit."
-        $ change_stats_with_modifier(school_obj,
+        call change_stats_with_modifier(school_obj,
             inhibition = DEC_TINY, happiness = DEC_MEDIUM)
         $ end_event(**kwargs)
     # elif topic == "guys_stop":
     #     $ image.show(0)
     #     sgirl "Excuse me!\n Can you guys stop running in and out of here?!"
-    #     $ change_stats_with_modifier(school_obj,
+    #     call change_stats_with_modifier(school_obj,
     #         inhibition = DEC_TINY, morale = DEC_SMALL)
     # elif topic == "huh":
     #     $ image.show(0)
@@ -274,7 +274,7 @@ label sd_event_2 (**kwargs):
     #         ("Umm... What are you doing in here?", character.sgirl),
     #         ("Mr. [headmaster_last_name]? What are you doing in here?", character.sgirl),
     #     )
-    #     $ change_stats_with_modifier(school_obj,
+    #     call change_stats_with_modifier(school_obj,
     #         inhibition = DEC_TINY, morale = DEC_SMALL)
     # elif topic == "reason":
     #     $ image.show(0)
@@ -291,7 +291,7 @@ label sd_event_2 (**kwargs):
     #     sgirl "Oh, silly me, would you mind closing it on your way out?"
     #     $ image.show(5)
     #     headmaster "No problem."
-    #     $ change_stats_with_modifier(school_obj,
+    #     call change_stats_with_modifier(school_obj,
     #         charm = MEDIUM, inhibition = DEC_MEDIUM);
     #     jump new_daytime;
     # elif topic == "blush":
@@ -300,7 +300,7 @@ label sd_event_2 (**kwargs):
     #         ("Ah! What are you doing here?", character.sgirl),
     #         ("Oh! Mr. [headmaster_last_name]!"),
     #     )
-    #     $ change_stats_with_modifier(school_obj,
+    #     call change_stats_with_modifier(school_obj,
     #         charm = MEDIUM, inhibition = DEC_MEDIUM)
     # elif topic == "dressing":
     #     $ image.show(0)
@@ -308,7 +308,7 @@ label sd_event_2 (**kwargs):
     #         ("Umm, do you mind?", character.sgirl),
     #         ("I'm getting dressed! GET OUT!", character.sgirl),
     #     )
-    #     $ change_stats_with_modifier(school_obj,
+    #     call change_stats_with_modifier(school_obj,
     #         inhibition = DEC_TINY, charm = SMALL)
 
     
@@ -349,11 +349,11 @@ label sd_event_3 (**kwargs):
     headmaster "Bye!"
     
     if topic == "normal":
-        $ change_stats_with_modifier(school_obj, inhibition = DEC_SMALL)
+        call change_stats_with_modifier(school_obj, inhibition = DEC_SMALL)
     elif topic == "panties":
-        $ change_stats_with_modifier(school_obj, inhibition = DEC_MEDIUM)
+        call change_stats_with_modifier(school_obj, inhibition = DEC_MEDIUM)
     elif topic == "nude":
-        $ change_stats_with_modifier(school_obj, inhibition = DEC_LARGE)
+        call change_stats_with_modifier(school_obj, inhibition = DEC_LARGE)
 
     $ end_event(**kwargs)
 

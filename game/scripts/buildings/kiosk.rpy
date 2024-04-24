@@ -125,7 +125,7 @@ label kiosk_event_1 (**kwargs):
     call show_image("images/events/kiosk/kiosk_event_1 <girl_name> <school_level> <variant>.webp", **kwargs) from _call_show_image_1
     subtitles "For some, coffee is the only way to save the day."
 
-    $ change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier(school_obj,
         happiness = SMALL)
 
     $ end_event('new_daytime', **kwargs)
@@ -146,7 +146,7 @@ label kiosk_event_2 (**kwargs):
     $ image.show(2)
     subtitles "Luckily she doesn't notice her see-through blouse in all the excitement."
 
-    $ change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier(school_obj,
         happiness = DEC_TINY, inhibition = DEC_MEDIUM, corruption = TINY)
 
     $ end_event('new_daytime', **kwargs)
@@ -193,7 +193,7 @@ label .leave (**kwargs):
         $ image.show(9)
         headmaster_thought "Mhh what kind of noise is that? Hmmm... I guess it's nothing serious."
 
-        $ change_stats_with_modifier(school_obj,
+        call change_stats_with_modifier(school_obj,
             happiness = DEC_LARGE, charm = DEC_MEDIUM, reputation = DEC_SMALL)
         $ end_event('new_daytime', **kwargs)
         
@@ -206,12 +206,12 @@ label .leave (**kwargs):
         headmaster_thought "Mhh, things are worse than I thought. I can't believe the students have to go hungry."
         headmaster_thought "I should think about doing something about that."
 
-        $ change_stats_with_modifier(school_obj,
+        call change_stats_with_modifier(school_obj,
             happiness = DEC_SMALL, charm = TINY)
     
         if get_progress("unlock_cafeteria") == -1:
             $ start_progress("unlock_cafeteria")
-            $ renpy.notify("Updated the Journal!")
+            $ add_notify_message("Added new building to journal!")
 
         $ end_event('new_daytime', **kwargs)
     else:
@@ -222,7 +222,7 @@ label .leave (**kwargs):
         $ image.show(12)
         headmaster_thought "Poor girl..."
 
-        $ change_stats_with_modifier(school_obj,
+        call change_stats_with_modifier(school_obj,
             happiness = DEC_MEDIUM, charm = DEC_SMALL)
         $ end_event('new_daytime', **kwargs)
 
@@ -250,7 +250,7 @@ label .help (**kwargs):
     $ image.show(22)
     sgirl "..." (name = "Miwa Igarashi")
 
-    $ change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier(school_obj,
         happiness = MEDIUM, reputation = MEDIUM, charm = DEC_TINY)
     jump new_daytime
 

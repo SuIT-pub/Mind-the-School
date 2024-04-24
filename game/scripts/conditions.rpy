@@ -1635,7 +1635,7 @@ init -6 python:
             - Otherwise the difference is -100.
         """
 
-        def __init__(self, key: str, value: int | str, blocking: bool = False):
+        def __init__(self, key: str, value: int | str = "", blocking: bool = False):
             super().__init__(blocking)
             self.key = key
             self.value = value
@@ -1653,6 +1653,9 @@ init -6 python:
             1. bool
                 - Whether the condition is fulfilled or not.
             """
+
+            if self.value == "":
+                return get_progress(self.key) != -1
 
             return check_in_value(self.value, get_progress(self.key))
 
