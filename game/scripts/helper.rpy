@@ -648,6 +648,7 @@ init -99 python:
     def start_progress(key: str):
         """
         Starts an event chain
+        (Sets the progress to 1)
 
         ### Parameters:
         1. key: str

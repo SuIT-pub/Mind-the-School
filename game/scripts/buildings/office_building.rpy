@@ -66,16 +66,10 @@ init 1 python:
             TimeCondition(weekday = "d", daytime = "d")),
         Event(3, "work_office_education_event_1",
             TimeCondition(weekday = "d", daytime = "d")),
-        Event(3, "work_office_session_event_1",
+        Event(3, "work_office_session_event_naughty_1",
             TimeCondition(weekday = "d", daytime = "d"),
-            ConditionSelector("first_naughty_session", ProgressCondition("unlocked_work_office_session_naughty"),
-                0,
-                RandomValueSelector("", 0, 1), 
-                True
-            ),
-            ProgressSelector("unlocked_naughty_sessions", "unlocked_work_office_session_naughty"),
-            RandomListSelector("girl_name", "Seraphina Clark", "Gloria Goto", "Lin Kato", "Miwa Igarashi"),
-        ),
+            ProgressCondition("school sessions", "5+"),
+            ProgressSelector("naughty_sessions", "work_office_session_naughty")),
     )
 
 #############################################
@@ -187,36 +181,164 @@ label work_office_education_event_1 (**kwargs):
 
     $ end_event('new_daytime', **kwargs)
 
-label work_office_session_event_1 (**kwargs):
+image anim_work_office_session_event_naughty_1_1 = Movie(play ="images/events/office_building/office_event_naugthy_1 0 16.webm", start_image = "images/events/first week/office_event_naugthy_1 0 16.webp", image = "images/events/first week/office_event_naugthy_1 0 16.webp")
+image anim_work_office_session_event_naughty_1_2 = Movie(play ="images/events/office_building/office_event_naugthy_1 0 17.webm", start_image = "images/events/first week/office_event_naugthy_1 0 17.webp", image = "images/events/first week/office_event_naugthy_1 0 17.webp")
+image anim_work_office_session_event_naughty_1_3 = Movie(play ="images/events/office_building/office_event_naugthy_1 0 18.webm", start_image = "images/events/first week/office_event_naugthy_1 0 18.webp", image = "images/events/first week/office_event_naugthy_1 0 18.webp")
+image anim_work_office_session_event_naughty_1_4 = Movie(play ="images/events/office_building/office_event_naugthy_1 0 21.webm", start_image = "images/events/first week/office_event_naugthy_1 0 21.webp", image = "images/events/first week/office_event_naugthy_1 0 21.webp")
+label work_office_session_event_naughty_1 (**kwargs):
     $ begin_event(**kwargs)
 
     $ school_obj = get_char_value('school_obj', **kwargs)
     $ secretary_obj = get_char_value('secretary_obj', **kwargs)
-    $ first_naughty_session = get_value("first_naughty_session", **kwargs)
-    $ unlocked_naughty_sessions = get_value("unlocked_naughty_sessions", **kwargs)
-    $ girl_name = get_value("girl_name", **kwargs)
+    $ naughty_sessions = get_value("naughty_sessions", **kwargs)
 
+    if naughty_sessions == -1:
+        $ naughty_sessions = 0
 
+    $ image = Image_Series("images/events/office/office_event_naughty_1 <naughty_sessions> <step>.webp", **kwargs)
 
-    if unlocked_naughty_sessions != -1:
-        menu:
-            "Do you wanna call Emiko for a naughty session?"
-            "Call Emiko":
-                jump .naughty_session
-            "No":
-                jump .normal_session
+    if naughty_sessions == 0:
+        # secretary enters office
+        call Image_Series.show_image(image, 0, 1, 2) from _call_work_office_session_event_naughty_1_1
+        if time.check_daytime("3-"):
+            secretary "Good Morning [headmaster_first_name]."
+        else:
+            secretary "Hello [headmaster_first_name]."
 
-    if first_naughty_session == 1:
-        jump .first_naughty_session
+        secretary "I just wanted to remind you that you have a meeting with Yuriko Oshima in 30 minutes."
+        $ image.show(3)
+        headmaster "Oh, thank you for reminding me. I almost forgot. She asked for a counseling session, right?"
+        $ image.show(4)
+        secretary "Yes, she did."
+        $ image.show(5)
+        headmaster "Okay, I will prepare myself for that."
+        $ image.show(6)
+        headmaster "..."
+        $ image.show(7)
+        secretary "..."
+        $ image.show(8)
+        headmaster "Is there anything else?"
+        $ image.show(9)
+        secretary "You know... I really liked our time we had together last time."
+        $ image.show(10)
+        headmaster "What do you mean? Oh, you mean..."
+        $ image.show(11)
+        secretary "Yes, the fun we had with the potion. I really enjoyed it."
+        $ image.show(12)
+        secretary "So I thought we could... you know... there is still some time until the meeting."
+        $ image.show(13)
+        secretary "So maybe I could help you 'relax' a bit before that."
+        $ image.show(14)
+        headmaster "I see. I would very much like that."
+        $ image.show(15)
+        secretary "Then please lean back and let me take care of you."
+        
+        scene anim_work_office_session_event_naughty_1_1 with dissolveM
+        pause
 
-    jump .normal_session    
+        scene anim_work_office_session_event_naughty_1_2 with dissolveM
+        pause
 
-label .first_naughty_session (**kwargs):
-    pass
-label .naughty_session (**kwargs):
-    pass
-label .normal_session (**kwargs):
-    pass
+        scene anim_work_office_session_event_naughty_1_3 with dissolveM
+        pause
+
+        scene anim_work_office_session_event_naughty_1_4 with dissolveM
+        pause
+
+        # secretary starts giving blow and titjob
+        $ image.show(22)
+        subtitles "*Knock! Knock!*"
+        sgirl "Excuse me? Mr. [headmaster_last_name]?" (name = "Yuriko Oshima")
+        headmaster_whisper "Shit! Quick under the desk!"
+        headmaster "Yes come in."
+        # Yuriko Enters
+        headmaster "You're early."
+        sgirl "I apologize for that. Something came up in school and I need to leave earlier. So I thought, I'd come earlier." (name = "Yuriko Oshima")
+        sgirl "I wanted to ask your secretary first but I couldn't find her." (name = "Yuriko Oshima")
+        headmaster "Oh she is probably doing some rounds. You're really not able to take the session on the agreed time?"
+        sgirl "I don't think so..." (name = "Yuriko Oshima")
+        headmaster "Alright, then let's do it now."
+        headmaster "Okay what do you want to talk about today?"
+
+        sgirl "Well, Mr. [headmaster_last_name], I've been feeling really stressed lately." (name = "Yuriko Oshima")
+        headmaster "I see. Is there something specific that's been bothering you?"
+        sgirl "Yes, it's mainly the pressure to perform well academically. I feel like I'm constantly under scrutiny." (name = "Yuriko Oshima")
+        headmaster "I understand. Academic pressure can be overwhelming. Have you tried talking to your teachers about it?"
+        sgirl "I haven't yet. I guess I'm afraid they won't understand or think I'm just making excuses." (name = "Yuriko Oshima")
+        headmaster "I assure you, Yuriko, your feelings are valid. It's important to communicate your struggles with your teachers so they can support you."
+        sgirl "Thank you, Mr. [headmaster_last_name]. I'll try to gather the courage to talk to them." (name = "Yuriko Oshima")
+        headmaster "That's a good step forward. Remember, you're not alone in this. We're here to help you succeed."
+        headmaster "If it is too difficult for you to talk to your teachers, how about your friends? Maybe they can help you."
+        sgirl "It's... It's quite hard. I don't really have friends. I have Ellie, but I fear bothering her too much with my problems." (name = "Yuriko Oshima")
+        headmaster "Ellie?"
+        sgirl "Yes, Elsie Johnson. She's in my class. She's really nice and I really like her. But I don't want to be a burden to her." (name = "Yuriko Oshima")
+        headmaster "I see. It's important to have someone to talk to. Maybe you can try to open up to her."
+        headmaster "It's always good to be able to talk to someone you're close to. I'll be always here to help yoaaaaaah!"
+        # emiko starts handling your rod again
+        sgirl "Sry, is everything okay?" (name = "Yuriko Oshima")
+        headmaster "*cough* *cough* Yes, everything is fine. I just swallowed wrong."
+        headmaster "What I wanted to say is that you can always come to me if you need help but you understand that it is difficult in my position to provide a level of intimacy that you might need."
+        sgirl "Intimacy?" (name = "Yuriko Oshima")
+        # emiko grins at you and then continues
+        headmaster "Yes! You know humans don't work very well when being alone. We need to be close to others to feel good."
+        headmaster "It even isn't really enough to just have people you know around you. You need to have people you trust. A sort of intimate bonding."
+        headmaster "Even physical contact plays an important role in that. It's a way to show that you care about someone."
+        sgirl "Physical contact? I don't think I can go that far..." (name = "Yuriko Oshima") # Yuriko blushes
+        headmaster "Don't missunderstand. Even hugging someone can be a form of physical contact. It's not always about a sexual relationship."
+        headmaster "Even though having sex can be the closest form of intimacy. But it's not the only one and that is not what I meant in this case."
+        headmaster "That is why you really should try to talk to Elsie about your problems, your feelings and your fears. She might be able to help you."
+        headmaster "How about you do that, and the next time we talk about how it went? Would that be okay for you?"
+        sgirl "Yes, I think I can do that. Thank you, Mr. [headmaster_last_name]." (name = "Yuriko Oshima")
+        headmaster "You're welcome, Yuriko. Now I think that settles it for today. I hope I could help you a bit."
+        sgirl "Yes, you did. Thank you." (name = "Yuriko Oshima")
+        headmaster "Thank you for entrusting yourself to me."
+        headmaster "I have a lot to do, so unfortunately I can't accompany you to the door. So please just close the dorr behind you."
+        sgirl "Will do. Thank you." (name = "Yuriko Oshima")
+        headmaster "Have a nice day."
+        # Yuriko leaves
+        # emiko comes out from under the desk
+        secretary "That was close."
+        headmaster "Now I've got enough!"
+        secretary "What?"
+        # headmaster pushes her on the desk pulls up her skirt and pushes himself into her
+        secretary "Oh yes! Yes! Yes!"
+        headmaster "What were you thinking doing that with Yuriko sitting just in front of me!"
+        secretary "I'm sorry! *moan* I couldn't resist!"
+        headmaster "You will be punished for that!"
+        secretary "Yes, I deserve it!... But it was so hot! *moan*"
+        headmaster "I see that, you're as wet as a river!"
+        headmaster "I will make sure you will never forget this!"
+        headmaster "Take this!"
+        secretary "OH MY GOD! YES! YES! YES!"
+        # headmaster cums
+        secretary "Oh my god! That was amazing!"
+        headmaster "We're not finished!"
+        secretary "Huh?"
+        headmaster "Remember, this is your punishement."
+        headmaster "Now get on your knees and open your mouth!"
+        # headmaster deepthroats her
+        secretary "Hmmpf! *gag* *gag* *gag*"
+        headmaster "That's what you get for almost exposing us!"
+        secretary "I'm sorry! *gag* *gag* *gag*"
+        # headmaster cums in her throat
+        secretary "*cough* *cough* *cough*"
+        headmaster "Now clean yourself up and get back to work!"
+        secretary "Yes, Master."
+        # secretary collecting her stuff
+        headmaster_thought "Master? Maybe I overdid it a bit."
+        # shot of yuriko standing in front of the door blushed and then running away
+        # emiko leaves the office quite happy and finds yurikos scarf on the floor
+
+        $ start_progress('work_office_session_naughty')
+
+        call change_stats_with_modifier(school_obj,
+            inhibition = DEC_MEDIUM, corruption = MEDIUM, happiness = DEC_SMALL)
+        call change_stats_with_modifier(secretary_obj,
+            happiness = LARGE, corruption = LARGE, inhibition = DEC_MEDIUM)
+
+        $ end_event('new_daytime', **kwargs)
+    elif naughty_sessions == 1:
+        pass
 
 # TODO: make images
 label office_event_1 (**kwargs):
