@@ -29,7 +29,7 @@
 default notify_messages = []
 
 # Duration the full ATL takes
-default notify_duration = 2.4
+default notify_duration = 4
 
 # Max number we store for reviewing in the history screen
 default notify_history_length = 20
@@ -52,7 +52,7 @@ init -99 python:
         global notify_messages
         global notify_duration
 
-        max_start = time_lib.time() - 2.4
+        max_start = time_lib.time() - 4
 
         notify_messages = [n for n in notify_messages if n[1] > max_start]
 
@@ -67,7 +67,7 @@ init -99 python:
     def call_notify():
         global notify_messages
 
-        max_start = time_lib.time() - 2.4
+        max_start = time_lib.time() - 4
 
         for i in range(len(notify_messages)):
             

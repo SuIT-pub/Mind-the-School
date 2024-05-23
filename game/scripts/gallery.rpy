@@ -14,7 +14,7 @@ init python:
     ############################
     # Gallery Persistent handler
 
-    def prep_gallery(location: str, event: str, *key: str):
+    def prep_gallery(location: str, event: str, event_form: str, *key: str):
         """
         Prepares the gallery database for use.
         This is to ensure that the database is ready for use.
@@ -39,7 +39,7 @@ init python:
 
         # Check if event exists in persistent.gallery[location], if not, create it
         if event not in persistent.gallery[location].keys():
-            persistent.gallery[location][event] = {'values': {}, 'ranges': {}, 'options': {}, 'order': [], 'decisions': {}}
+            persistent.gallery[location][event] = {'values': {}, 'ranges': {}, 'options': {'event_form': event_form}, 'order': [], 'decisions': {}}
 
         if 'decisions' not in persistent.gallery[location][event].keys():
             persistent.gallery[location][event]['decisions'] = {}
@@ -180,14 +180,19 @@ init python:
 
         def __init__(self, **kwargs):
             event = get_kwargs('event_name', None, **kwargs)
+            log_val('event_name', event)
+            event_form = get_kwargs('event_form', 'event', **kwargs)
             if event == None:
                 return
             global gallery_manager
             gallery_manager = self
             self.event = event
-            self.location = get_event_from_register(event).get_location()
 
-            prep_gallery(self.location, event)
+            self.location = get_kwargs('location', 'misc', **kwargs)
+            if is_event_registered(event):
+                self.location = get_event_from_register(event).get_location()
+
+            prep_gallery(self.location, event, event_form)
             self.current_ranges = persistent.gallery[self.location][event]['ranges']
 
             self.original_data = {}
@@ -195,6 +200,19 @@ init python:
             self.order = []
             self.count = 0
             self.decisions = persistent.gallery[self.location][event]['decisions']
+
+        def set_option(self, key: str, value: Any):
+            """
+            Sets an option for the gallery database.
+
+            ### Parameters:
+            1. key: str
+                - The key to set the option under.
+            2. value: Any
+                - The value to set the option to.
+            """
+
+            persistent.gallery[self.location][self.event]['options'][key] = value
 
     ######################################################
     # Value and Decision registration into persistent data
@@ -241,6 +259,12 @@ init python:
             persistent.gallery[gallery_manager.location][gallery_manager.event]['values'], 
             gallery_manager.original_data
         )
+
+        if 'last_data' not in persistent.gallery[gallery_manager.location][gallery_manager.event]['options'].keys():
+            persistent.gallery[gallery_manager.location][gallery_manager.event]['options']['last_data'] = {}
+
+        if key not in persistent.gallery[gallery_manager.location][gallery_manager.event]['options']['last_data'].keys():
+            persistent.gallery[gallery_manager.location][gallery_manager.event]['options']['last_data'][key] = value
 
         gallery_manager.count = gallery_manager.count + 1
 
@@ -349,8 +373,7 @@ init python:
             - The value set in the database.
         """
 
-        in_replay = get_kwargs('in_replay', False, **kwargs)
-        if not in_replay:
+        if not is_replay(**kwargs):
             register_value(key, value)
 
         return value        
@@ -383,9 +406,7 @@ init python:
             if char == None:
                 return None
 
-        in_replay = get_kwargs('in_replay', False, **kwargs)
-
-        if not in_replay:
+        if not is_replay(**kwargs):
             register_value(char_name + "_key", char.get_name())
             register_value(char_name + "_level", char.get_level())
 
@@ -450,6 +471,26 @@ init python:
         char_obj = get_kwargs(char_name, None, **kwargs)
         return set_char_value_with_level(char_name, char_obj, **kwargs)
 
+    def get_frag_list(**kwargs) -> List[EventFragment]:
+
+        if is_replay(**kwargs):
+            return get_kwargs('replay_frag_list', [], **kwargs)
+
+        event_obj = get_kwargs('event_obj', None, **kwargs)
+        if event_obj == None:
+            return []
+
+        fragments = event_obj.select_fragments(**kwargs)
+
+        if not is_replay(**kwargs):
+            gallery_manager.set_option("Frag_Storage", [storage.get_name() for storage in event_obj.get_fragment_storages()])
+            
+            for i, storage in enumerate(event_obj.get_fragment_storages()):
+                Gallery_Manager(event_name = storage.get_name(), event_form = 'FragStorage', location = "FragStorage")
+                register_value("fragment", str(fragments[i]))
+
+
+        return fragments
     ################
     # Replay Handler
     
