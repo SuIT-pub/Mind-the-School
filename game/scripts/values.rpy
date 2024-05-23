@@ -11,6 +11,7 @@ init -98 python:
     seenEvents = {}
     location_event_register = {}
     event_register = {}
+    fragment_storage_register = {}
 
     translation_texts = {}
     get_translations()

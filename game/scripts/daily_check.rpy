@@ -102,6 +102,39 @@ init 1 python:
         event_reached_max_stats_event,
     )
 
+    
+    frag1 = FragmentStorage("TestFragStorage1")
+    frag2 = FragmentStorage("TestFragStorage2")
+    frag3 = FragmentStorage("TestFragStorage3")
+    frag4 = FragmentStorage("TestFragStorage4")
+
+    frag1.add_event(EventFragment(3, "test_event_frag_1",
+        RandomListSelector("test", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"),
+        RandomListSelector("test2", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10")))
+    frag1.add_event(EventFragment(3, "test_event_frag_1_1",
+        RandomListSelector("test", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"),
+        RandomListSelector("test2", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10")))
+    frag2.add_event(EventFragment(3, "test_event_frag_2",
+        RandomListSelector("test", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"),
+        RandomListSelector("test2", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10")))
+    frag2.add_event(EventFragment(3, "test_event_frag_2_1",
+        RandomListSelector("test", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"),
+        RandomListSelector("test2", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10")))
+    frag3.add_event(EventFragment(3, "test_event_frag_3",
+        RandomListSelector("test", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"),
+        RandomListSelector("test2", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10")))
+    frag3.add_event(EventFragment(3, "test_event_frag_3_1",
+        RandomListSelector("test", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"),
+        RandomListSelector("test2", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10")))
+    frag4.add_event(EventFragment(3, "test_event_frag_1",
+        RandomListSelector("test", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"),
+        RandomListSelector("test2", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10")))
+
+    test_event = EventComposite(0, "test_normal_test_event", [frag1, frag2, frag4],
+        RandomListSelector("test", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"),
+        RandomListSelector("test2", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"))
+
+
 label time_event_check ():
     hide screen school_overview_map
     hide screen school_overview_stats

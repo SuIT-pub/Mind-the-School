@@ -1,0 +1,170 @@
+{
+    "misc": {
+        "test_normal_test_event": {
+            "values": {
+                "2": {
+                    "9": {}
+                },
+                "9": {
+                    "5": {}
+                },
+                "4": {
+                    "4": {}
+                }
+            },
+            "ranges": {},
+            "options": {
+                "event_form": "composite",
+                "Frag_Storage": [
+                    "TestFragStorage1",
+                    "TestFragStorage2",
+                    "TestFragStorage4"
+                ],
+                "last_data": {
+                    "test2": "9",
+                    "test": "9"
+                }
+            },
+            "order": [
+                "test",
+                "test2"
+            ],
+            "decisions": {}
+        }
+    },
+    "FragStorage": {
+        "TestFragStorage1": {
+            "values": {
+                "test_event_frag_1_1": {},
+                "test_event_frag_1": {}
+            },
+            "ranges": {},
+            "options": {
+                "event_form": "FragStorage",
+                "last_data": {
+                    "fragment": "test_event_frag_1_1"
+                }
+            },
+            "order": [
+                "fragment"
+            ],
+            "decisions": {}
+        },
+        "TestFragStorage2": {
+            "values": {
+                "test_event_frag_2": {},
+                "test_event_frag_2_1": {}
+            },
+            "ranges": {},
+            "options": {
+                "event_form": "FragStorage",
+                "last_data": {
+                    "fragment": "test_event_frag_2"
+                }
+            },
+            "order": [
+                "fragment"
+            ],
+            "decisions": {}
+        },
+        "TestFragStorage4": {
+            "values": {
+                "test_event_frag_1": {}
+            },
+            "ranges": {},
+            "options": {
+                "event_form": "FragStorage",
+                "last_data": {
+                    "fragment": "test_event_frag_1"
+                }
+            },
+            "order": [
+                "fragment"
+            ],
+            "decisions": {}
+        }
+    },
+    "fragment": {
+        "test_event_frag_1_1": {
+            "values": {
+                "1": {}
+            },
+            "ranges": {},
+            "options": {
+                "event_form": "fragment",
+                "last_data": {
+                    "test": "1"
+                }
+            },
+            "order": [
+                "test"
+            ],
+            "decisions": {}
+        },
+        "test_event_frag_2": {
+            "values": {
+                "1": {
+                    "10": {}
+                }
+            },
+            "ranges": {},
+            "options": {
+                "event_form": "fragment",
+                "last_data": {
+                    "test2": "10"
+                }
+            },
+            "order": [
+                "test",
+                "test2"
+            ],
+            "decisions": {}
+        },
+        "test_event_frag_1": {
+            "values": {
+                "6": {
+                    "9": {},
+                    "4": {}
+                },
+                "4": {
+                    "5": {}
+                },
+                "2": {
+                    "2": {}
+                }
+            },
+            "ranges": {},
+            "options": {
+                "event_form": "fragment",
+                "last_data": {
+                    "test2": "9",
+                    "test": "6"
+                }
+            },
+            "order": [
+                "test",
+                "test2"
+            ],
+            "decisions": {}
+        },
+        "test_event_frag_2_1": {
+            "values": {
+                "6": {
+                    "2": {}
+                }
+            },
+            "ranges": {},
+            "options": {
+                "event_form": "fragment",
+                "last_data": {
+                    "test2": "2"
+                }
+            },
+            "order": [
+                "test",
+                "test2"
+            ],
+            "decisions": {}
+        }
+    }
+}

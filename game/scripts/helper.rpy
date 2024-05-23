@@ -891,7 +891,6 @@ init -99 python:
         lines = split_to_non_empty_list(file.read().decode(), "\r\n")
         translation_texts = {line.split(';')[0]: line.split(';')[1] for line in lines if ';' in line}
 
-    
     def get_loli_filter():
         """
         Gets the translations from the translations.csv file

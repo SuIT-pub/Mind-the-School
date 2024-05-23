@@ -13,7 +13,8 @@ init -100 python:
             - The value to print
         """
 
-        print(key + ": " + str(value) + "\n")
+        print(key + ": " + str(value))
+        return
 
     def log(msg: str):
         """
@@ -24,8 +25,7 @@ init -100 python:
             - The message to print
         """
 
-        print(str(msg) + "\n")
-
+        print(str(msg))
         return
 
     def log_error(code: int, msg: str):
@@ -37,11 +37,55 @@ init -100 python:
             - The message to print
         """
 
-        print(f"|ERROR[{str(code)}]| {str(msg)}\n")
-        # renpy.notify("|ERROR| " + str(msg))
+        print(f"|ERROR[{str(code)}]| {str(msg)}")
+        add_notify_message("|ERROR| " + str(msg))
         return
 
 
 label test_label():
-    call multi_notify_example
+    
+    $ test_event.call()
+
     return
+
+label test_event_frag_1(**kwargs):
+    $ begin_event(**kwargs)
+    $ get_value('test', **kwargs)
+    $ get_value('test2', **kwargs)
+    $ log("Test Event Fragment 1")
+    $ end_event("map_overview", **kwargs)
+
+label test_event_frag_1_1(**kwargs):
+    $ begin_event(**kwargs)
+    $ get_value('test', **kwargs)
+    $ get_value('test2', **kwargs)
+    $ log("Test Event Fragment 1.1")
+    $ end_event("map_overview", **kwargs)
+
+label test_event_frag_2(**kwargs):
+    $ begin_event(**kwargs)
+    $ get_value('test', **kwargs)
+    $ get_value('test2', **kwargs)
+    $ log("Test Event Fragment 2")
+    $ end_event("map_overview", **kwargs)
+
+label test_event_frag_2_1(**kwargs):
+    $ begin_event(**kwargs)
+    $ get_value('test', **kwargs)
+    $ get_value('test2', **kwargs)
+    $ log("Test Event Fragment 2.1")
+    $ end_event("map_overview", **kwargs)
+
+label test_event_frag_3(**kwargs):
+    $ begin_event(**kwargs)
+    $ get_value('test', **kwargs)
+    $ get_value('test2', **kwargs)
+    $ log("Test Event Fragment 3")
+    $ end_event("map_overview", **kwargs)
+
+label test_event_frag_3_1(**kwargs):
+    $ begin_event(**kwargs)
+    $ get_value('test', **kwargs)
+    $ get_value('test2', **kwargs)
+    $ log("Test Event Fragment 3.1")
+    $ end_event("map_overview", **kwargs)

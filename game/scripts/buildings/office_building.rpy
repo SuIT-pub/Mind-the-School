@@ -11,7 +11,8 @@ init -1 python:
     office_building_timed_event = TempEventStorage("office_building", "office_building", Event(2, "office_building.after_time_check"))
     office_building_general_event = EventStorage("office_building", "office_building", Event(2, "office_building.after_general_check"))
 
-    office_building_work_event = EventStorage("office_building", "office_building")
+    office_building_work_event = {}
+    add_storage(office_building_work_event, EventStorage("councelling", "office_building"))
 
     office_building_events = {}
     add_storage(office_building_events, EventStorage("look_around", "office_building"))
@@ -61,7 +62,7 @@ init 1 python:
             TimeCondition(weekday = "d", daytime = "d")),
     )
 
-    office_building_work_event.add_event(
+    office_building_work_event["councelling"].add_event(
         Event(3, "work_office_money_event_1",
             TimeCondition(weekday = "d", daytime = "d")),
         Event(3, "work_office_education_event_1",
@@ -160,7 +161,7 @@ label work_office_money_event_1 (**kwargs):
     headmaster_thought "There is so much wrong with these accounts. It's gonna take ages to fix this."
     headmaster_thought "At least I was able to find some money that was lost in the system."
 
-    $ change_money_with_modifier(get_random_int(100, 500))
+    call change_money_with_modifier(get_random_int(100, 500))
 
     $ end_event('new_daytime', **kwargs)
 
@@ -181,10 +182,10 @@ label work_office_education_event_1 (**kwargs):
 
     $ end_event('new_daytime', **kwargs)
 
-image anim_work_office_session_event_naughty_1_1 = Movie(play ="images/events/office_building/office_event_naugthy_1 0 16.webm", start_image = "images/events/first week/office_event_naugthy_1 0 16.webp", image = "images/events/first week/office_event_naugthy_1 0 16.webp")
-image anim_work_office_session_event_naughty_1_2 = Movie(play ="images/events/office_building/office_event_naugthy_1 0 17.webm", start_image = "images/events/first week/office_event_naugthy_1 0 17.webp", image = "images/events/first week/office_event_naugthy_1 0 17.webp")
-image anim_work_office_session_event_naughty_1_3 = Movie(play ="images/events/office_building/office_event_naugthy_1 0 18.webm", start_image = "images/events/first week/office_event_naugthy_1 0 18.webp", image = "images/events/first week/office_event_naugthy_1 0 18.webp")
-image anim_work_office_session_event_naughty_1_4 = Movie(play ="images/events/office_building/office_event_naugthy_1 0 21.webm", start_image = "images/events/first week/office_event_naugthy_1 0 21.webp", image = "images/events/first week/office_event_naugthy_1 0 21.webp")
+image anim_work_office_session_event_naughty_1_1 = Movie(play ="images/events/office/office_event_naughty_1 0 16.webm", start_image = "images/events/office/office_event_naughty_1 0 16.webp", image = "images/events/office/office_event_naughty_1 0 16.webp")
+image anim_work_office_session_event_naughty_1_2 = Movie(play ="images/events/office/office_event_naughty_1 0 17.webm", start_image = "images/events/office/office_event_naughty_1 0 17.webp", image = "images/events/office/office_event_naughty_1 0 17.webp")
+image anim_work_office_session_event_naughty_1_3 = Movie(play ="images/events/office/office_event_naughty_1 0 18.webm", start_image = "images/events/office/office_event_naughty_1 0 18.webp", image = "images/events/office/office_event_naughty_1 0 18.webp")
+image anim_work_office_session_event_naughty_1_4 = Movie(play ="images/events/office/office_event_naughty_1 0 21.webm", start_image = "images/events/office/office_event_naughty_1 0 21.webp", image = "images/events/office/office_event_naughty_1 0 21.webp")
 label work_office_session_event_naughty_1 (**kwargs):
     $ begin_event(**kwargs)
 
@@ -194,6 +195,7 @@ label work_office_session_event_naughty_1 (**kwargs):
 
     if naughty_sessions == -1:
         $ naughty_sessions = 0
+        $ kwargs["naughty_sessions"] = 0
 
     $ image = Image_Series("images/events/office/office_event_naughty_1 <naughty_sessions> <step>.webp", **kwargs)
 
@@ -248,16 +250,31 @@ label work_office_session_event_naughty_1 (**kwargs):
         # secretary starts giving blow and titjob
         $ image.show(22)
         subtitles "*Knock! Knock!*"
+        $ image.show(23) # TODO: make image
         sgirl "Excuse me? Mr. [headmaster_last_name]?" (name = "Yuriko Oshima")
+        $ image.show(24)
         headmaster_whisper "Shit! Quick under the desk!"
+        call Image_Series.show_image(image, 25, 26) from _call_work_office_session_event_naughty_1_2
         headmaster "Yes come in."
-        # Yuriko Enters
+        call Image_Series.show_image(image, 27, 28, 29) from _call_work_office_session_event_naughty_1_3
         headmaster "You're early."
+        $ image.show(30)
         sgirl "I apologize for that. Something came up in school and I need to leave earlier. So I thought, I'd come earlier." (name = "Yuriko Oshima")
+        $ image.show(31)
         sgirl "I wanted to ask your secretary first but I couldn't find her." (name = "Yuriko Oshima")
-        headmaster "Oh she is probably doing some rounds. You're really not able to take the session on the agreed time?"
+        call Image_Series.show_image(image, 32, 40) from _call_work_office_session_event_naughty_1_5
+        headmaster "Oh she is probably doing some rounds."
+        $ image.show(32)
+        headmaster "You're really not able to take the session on the agreed time?"
+        $ image.show(33)
         sgirl "I don't think so..." (name = "Yuriko Oshima")
-        headmaster "Alright, then let's do it now."
+        $ image.show(34)
+        headmaster "Alright, then let's do it now. Take a seat."
+        call Image_Series.show_image(image, 35, 36, 37, 38) from _call_work_office_session_event_naughty_1_4
+        sgirl "Are you okay? You look a bit flushed." (name = "Yuriko Oshima")
+        $ image.show(39)
+        headmaster "Yes, I'm fine. I just had a bit of a headache. But it's getting better."
+        $ image.show(40)
         headmaster "Okay what do you want to talk about today?"
 
         sgirl "Well, Mr. [headmaster_last_name], I've been feeling really stressed lately." (name = "Yuriko Oshima")

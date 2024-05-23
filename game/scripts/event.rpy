@@ -7,41 +7,6 @@ init -3 python:
     import time
     from typing import Any, Dict, List, Tuple, Union
     
-    def get_event_menu_title(location: str, option: str) -> str:
-        """
-        Returns the title of the event menu.
-
-        ### Parameters:
-        1. location: str
-            - The location of the event.
-        2. option: str
-            - The option of the event.
-
-        ### Returns:
-        1. str
-            - The title of the event menu.
-        """
-
-        title = get_translation(f"event_{location}_{option}")
-        if title == f"event_{location}_{option}":
-            title = get_translation(f"event_{option}")
-        if title == f"event_{option}":
-            title = get_translation(option)
-        return title
-
-    def add_storage(event_dict: Dict[str, EventStorage], event_storage: EventStorage):
-        """
-        Adds an event storage to the event dictionary.
-
-        ### Parameters:
-        1. event_dict: Dict[str, EventStorage]
-            - The event dictionary that the event storage is added to.
-        2. event_storage: EventStorage
-            - The event storage that is added to the event dictionary.
-        """
-
-        event_dict[event_storage.get_name()] = event_storage
-
     ###############
     # Event classes
 
@@ -215,8 +180,7 @@ init -3 python:
                     seenEvents[event.get_event()] = False
 
                 if event.get_id() not in self.events[event.get_priority()].keys():
-                    if self.location != "":
-                        self.register_event_for_location(event, self.location)
+                    self.register_event_for_location(event, self.location)    
                     self.events[event.get_priority()][event.get_id()] = event
 
         def remove_event(self, event_id: str):
@@ -256,7 +220,37 @@ init -3 python:
                 return list(self.events[2].values())
             if priority == 3:
                 return list(self.events[3].values())
+            log_val("self.events3", self.events[3].values())
+            log_val("self.events3 list", list(self.events[3].values()))
             return list(self.events[1].values()) + list(self.events[2].values()) + list(self.events[3].values())
+
+        def get_event_by_index(self, index: int, priority: int = 0) -> Event:
+            """
+            Returns an event by its index.
+            If priority is 0, all events are considered.
+            Otherwise only the events with the given priority are considered.
+
+            ### Parameters:
+            1. index: int
+                - The index of the event.
+            2. priority: int (Default 0)
+                - The priority of the events that are considered.
+                - If priority is 0, all events are considered.
+
+            ### Returns:
+            1. Event
+                - The event with the given index.
+            """
+
+            event_list = self.get_events(priority)
+
+            log_val("events", self.events)
+            log_val("event_list", event_list)
+
+            if index < 0 or index >= len(event_list):
+                return None
+            else:
+                return event_list[index]
 
         def has_available_highlight_events(self, **kwargs) -> bool:
             """
@@ -530,6 +524,50 @@ init -3 python:
                 return [self.fallback]
             return output
 
+        def get_one_possible_event(self, priority: int = 0, **kwargs) -> Event:
+            """
+            Returns a random event from the available events.
+            If no events are available, the fallback event is returned.
+
+            ### Parameters:
+            1. priority: int (Default 0)
+                - The priority of the events that are returned.
+                - If priority is 0, all events are returned.
+
+            ### Returns:
+            1. Event
+                - A random event from the available events.
+                - If no events are available, the fallback event is returned.
+            """
+
+            events = self.get_available_events(priority, **kwargs)
+            if len(events) == 0:
+                return None
+            return random.choice(events)
+
+        def get_one_possible_event_with_fallback(self, priority: int = 0, **kwargs) -> Event:
+            """
+            Returns a random event from the available events.
+            If no events are available, the fallback event is returned.
+
+            ### Parameters:
+            1. priority: int (Default 0)
+                - The priority of the events that are returned.
+                - If priority is 0, all events are returned.
+
+            ### Returns:
+            1. Event
+                - A random event from the available events.
+                - If no events are available, the fallback event is returned.
+            """
+
+            events = self.get_available_events_with_fallback(priority, **kwargs)
+            if len(events) == 0 and self.fallback == None:
+                return None
+            elif len(events) == 0:
+                return self.fallback
+            return random.choice(events)
+
         ##############
         # Event caller
 
@@ -559,6 +597,38 @@ init -3 python:
             for event in events:
                 kwargs["event_name"] = event.get_event()
                 event.call(**kwargs)
+
+    class FragmentStorage(EventStorage):
+        def __init__(self, name: str):
+            super().__init__(name, "fragment", None, "")
+            self.register_storage_as_fragment()
+        
+        def add_event(self, *events: EventFragment):
+            """
+            Adds an event to the EventStorage.
+            The event gets sorted automatically into the correct priority.
+
+            ### Parameters:
+            1. *events: Event
+                - The events that are added to the EventStorage.
+            """
+
+            for event in events:
+                if event.get_priority() == 3 and event.get_event() not in seenEvents.keys():
+                    seenEvents[event.get_event()] = False
+
+                if event.get_id() not in self.events[event.get_priority()].keys():
+                    self.register_event_for_location(event, 'fragment')
+                    self.events[event.get_priority()][event.get_id()] = event
+        
+        def register_storage_as_fragment(self):
+            """
+            Registers the EventStorage as a fragment.
+            This is used to make sure that the EventStorage is not saved in the save file.
+            """
+
+            if self.get_name() not in fragment_storage_register.keys():
+                fragment_storage_register[self.get_name()] = self
 
     class TempEventStorage(EventStorage):
         """
@@ -985,10 +1055,10 @@ init -3 python:
             self.event_type = ""
             # self.values = values
 
-            
-
             event_register[self.event_id] = self
             self.location = "misc"
+
+            self.event_form = "event"
 
         def __str__(self):
             return self.event_id
@@ -1015,6 +1085,9 @@ init -3 python:
 
             if not hasattr(self, 'values'):
                 self.values = []
+
+            if not hasattr(self, 'event_form'):
+                self.event_form = "event"
 
             self.__dict__.update(data)
 
@@ -1057,6 +1130,17 @@ init -3 python:
                 return "journal/empty_image_wide.webp"
 
             return self.thumbnail
+
+        def get_form(self) -> str:
+            """
+            Returns the form of the event.
+
+            ### Returns:
+            1. str
+                - The form of the event.
+            """
+
+            return self.event_form
 
         def get_id(self) -> str:
             """
@@ -1119,6 +1203,9 @@ init -3 python:
 
             return self.event
 
+        def get_event_label(self) -> str:
+            return self.get_event()
+
         def get_priority(self) -> int:
             """
             Returns the priority of the event.
@@ -1176,21 +1263,207 @@ init -3 python:
                 - The arguments that are passed to the event.
             """
 
-            events = self.get_event()
+            events = self.get_event_label()
             if "event_type" not in kwargs.keys():
                 kwargs["event_type"] = self.event_type
+
+            kwargs["event_form"] = self.event_form
 
             if self.values != None:
                 kwargs.update(self.values.get_values())
                 self.values.roll_values()
 
+            log_val('get_event', self.get_event())
+
             kwargs["event_name"] = self.get_event()
             kwargs["in_event"] = True
+            kwargs["event_obj"] = self
 
-            renpy.call("call_event", events, self.priority, **kwargs)
+            renpy.call("call_event", events, self.priority, self.get_event(), **kwargs)
+
+    class EventComposite(Event):
+        """
+        Subclass of Event.
+        This class represents a composite event that is made up of multiple events.
+        It takes a list of EventStorages and calls them in order.
+
+        ### Parameters:
+        1. priority: int
+            - The priority of the event.
+            - 1 = highest (the first 1 to occur is called blocking all other events)
+            - 2 = middle (all 2's are called after each other)
+            - 3 = lowest (selected random among 3's)
+        2. event: str
+            - The name of the event. This is used to call the event.
+        3. fragments: List[EventStorage]
+            - The fragments that are part of the composite event.
+        4. *conditions: Condition
+            - The conditions that need to be fulfilled for the event to be available.
+        5. thumbnail: str
+            - The thumbnail of the event.
+        """
+
+        def __init__(self, priority: int, event: str, fragments: List[FragmentStorage], *conditions: Condition | Selector | Option, thumbnail: str = ""):
+            super().__init__(priority, event, *conditions, thumbnail = thumbnail)
+
+            self.fragments = [fragment for fragment in fragments if isinstance(fragment, FragmentStorage)]
+            
+            self.event_form = "composite"
+
+        def _update(self, data: Dict[str, Any]):
+            super()._update(data)
+
+            if not hasattr(self, 'fragments'):
+                self.fragments = []
+            self.event_form = "composite"
+
+        def check_event(self):
+            super().check_event()
+
+            if len(self.fragments) == 0:
+                log_error(303, "Composite Event " + self.event_id + ": No fragments are added!")
+
+            if any(not isinstance(fragment, EventStorage) or isinstance(fragment, TempEventStorage) for fragment in self.fragments):
+                log_error(304, "Composite Event " + self.event_id + ": Fragments have to be EventStorages!")
+
+        def get_event(self) -> str:
+            return self.event
+
+        def get_event_label(self) -> str:
+            return self.event
+
+        def get_length(self) -> int:
+            """
+            Returns the number of fragments.
+
+            ### Returns:
+            1. int
+                - The number of fragments.
+            """
+
+            return len(self.fragments)
+
+        def get_fragment_storages(self):
+            """
+            Returns the fragments.
+
+            ### Returns:
+            1. List[EventStorage]
+                - The fragments.
+            """
+
+            return self.fragments
+
+        def call_fragment(self, index: int, events: Event = None, **kwargs):
+            """
+            Calls a fragment.
+            It selects the EventStorage at the index and gets one random event that fullfills the conditions from it.
+
+            ### Parameters:
+            1. **kwargs
+                - The arguments that are passed to the event.
+            """
+
+            if index >= len(self.fragments):
+                log_error(303, "Composite Event " + self.event_id + ": Index (" + str(index) + ") out of range!")
+                return
+
+            if events == None:
+                events = self.fragments[index].get_one_possible_event(**kwargs)
+            if events == None:
+                log_error(304, "Composite Event " + self.event_id + ": No events available in fragment at index " + str(index) + "!")
+                return
+
+            if "event_type" not in kwargs.keys():
+                kwargs["event_type"] = self.event_type
+
+            kwargs["event_form"] = "fragment"
+
+            if self.values != None:
+                kwargs.update(self.values.get_values())
+                self.values.roll_values()
+
+            kwargs["event_name"] = events.get_event()
+            kwargs["in_event"] = True
+            kwargs["event_obj"] = get_event_from_register(events.get_event())
+
+            kwargs["frag_index"] = index
+            kwargs["frag_parent"] = self
+
+            renpy.call("call_event", events.get_event_label(), self.priority, **kwargs)
+
+        def select_fragments(self, **kwargs) -> List[Event]:
+            """
+            Selects all fragments that are available.
+            It selects all fragments that have at least one event that fulfills the conditions.
+
+            ### Parameters:
+            1. **kwargs
+                - The arguments that are passed to the conditions.
+
+            ### Returns:
+            1. List[Event]
+                - A list of all fragments that are available.
+            """
+
+            output = []
+
+            for i in range(len(self.fragments)):
+                selected_event = self.fragments[i].get_one_possible_event(**kwargs)
+                if selected_event != None:
+                    output.append(selected_event)
+
+            return output
+
+    class EventFragment(Event):
+        def __init__(self, priority: int, event: str, *conditions: Condition | Selector | Option, thumbnail: str = ""):
+            super().__init__(priority, event, *conditions, thumbnail = thumbnail)
+
+            self.event_form = "fragment"
+            self.set_location("fragment")
+            
+        def _update(self, data: Dict[str, Any]):
+            super()._update(data)
+
+            self.event_form = "fragment"
 
     #####################
     # Event label handler
+
+    def get_event_menu_title(location: str, option: str) -> str:
+        """
+        Returns the title of the event menu.
+
+        ### Parameters:
+        1. location: str
+            - The location of the event.
+        2. option: str
+            - The option of the event.
+
+        ### Returns:
+        1. str
+            - The title of the event menu.
+        """
+
+        title = get_translation(f"event_{location}_{option}")
+        if title == f"event_{location}_{option}":
+            title = get_translation(f"event_{option}")
+        if title == f"event_{option}":
+            title = get_translation(option)
+        return title
+
+    def add_storage(event_dict: Dict[str, EventStorage], event_storage: EventStorage):
+        """
+        Adds an event storage to the event dictionary.
+
+        ### Parameters:
+        1. event_dict: Dict[str, EventStorage]
+            - The event dictionary that the event storage is added to.
+        2. event_storage: EventStorage
+            - The event storage that is added to the event dictionary.
+        """
+
+        event_dict[event_storage.get_name()] = event_storage
 
     def begin_event(**kwargs):
         """
@@ -1206,8 +1479,10 @@ init -3 python:
 
         event_name = get_kwargs("event_name", "", **kwargs)
         in_replay = get_kwargs("in_replay", False, **kwargs)
+        no_gallery = get_kwargs("no_gallery", False, **kwargs)
 
-        if event_name != "" and not in_replay:
+        gallery_manager = None
+        if event_name != "" and not in_replay and not no_gallery:
             gallery_manager = Gallery_Manager(**kwargs)
 
         if contains_game_data("seen_events"):
@@ -1245,6 +1520,15 @@ init -3 python:
 
         is_in_replay = False
 
+        frags = get_kwargs("frag_order", [], **kwargs)
+        frag_index = get_kwargs("frag_index", 0, **kwargs)
+
+        if len(frags) > 0 and frag_index + 1 < len(frags):
+            frag_parent = get_kwargs("frag_parent", None, **kwargs)
+            kwargs["frag_index"] = frag_index + 1
+            if frag_parent != None:
+                frag_parent.call_fragment(frag_index + 1, frags[frag_index + 1], **kwargs)
+
         in_replay = get_kwargs("in_replay", False, **kwargs)
         if in_replay:
             is_in_replay = False
@@ -1261,6 +1545,22 @@ init -3 python:
         else:
             renpy.jump("map_overview")
 
+    def is_event_registered(name: str) -> bool:
+        """
+        Checks if an event is registered.
+
+        ### Parameters:
+        1. name: str
+            - The name of the event
+
+        ### Returns:
+        1. bool
+            - True if the event is registered.
+            - False if the event is not registered.
+        """
+
+        return name in event_register.keys()
+
     def get_event_from_register(name: str) -> Event:
         """
         Gets an event from the event register
@@ -1275,8 +1575,28 @@ init -3 python:
             - If the event does not exist None is returned
         """
 
+        log_val("event_register", event_register)
+
         if name in event_register.keys():
             return event_register[name]
+        return None
+
+    def get_fragment_storage_from_register(id: str) -> EventStorage:
+        """
+        Gets an event storage from the event register
+
+        ### Parameters:
+        1. id: str
+            - The id of the event storage
+
+        ### Returns:
+        1. EventStorage
+            - The event storage
+            - If the event storage does not exist None is returned
+        """
+
+        if id in fragment_storage_register.keys():
+            return fragment_storage_register[id]
         return None
 #################
 
@@ -1314,7 +1634,7 @@ label call_available_event(event_storage, priority = 0, no_fallback = False, **k
     while(len(events_list) > i):
         $ continue_loop = False
         $ event_obj = events_list[i]
-        $ events = event_obj.get_event()
+        $ events = event_obj.get_event_label()
         if "event_type" not in kwargs.keys():
             $ kwargs["event_type"] = event_obj.event_type
 
@@ -1329,13 +1649,14 @@ label call_available_event(event_storage, priority = 0, no_fallback = False, **k
         if not continue_loop or event_obj.get_id() == event_storage.get_fallback().get_id():
             $ kwargs["event_name"] = event_obj.get_event()
             $ kwargs["in_event"] = True
+            $ kwargs["event_obj"] = event_obj
 
             $ renpy.call(events, **kwargs)
         $ i += 1
 
     return
 
-label call_event(event_obj, priority = 0, **kwargs):
+label call_event(event_obj_var, priority = 0, event_obj_name = "", **kwargs):
     # """
     # Calls all available events depending on the priority.
 
@@ -1349,24 +1670,28 @@ label call_event(event_obj, priority = 0, **kwargs):
     #     - If the event is a TempEventStorage, all events in the TempEventStorage are called.
     # """
 
-    if isinstance(event_obj, EventStorage):
-        $ event_obj.call_available_event(**kwargs)
-    if isinstance(event_obj, Event):
-        $ event_obj.call(**kwargs)
-    if isinstance(event_obj, str):
-        if renpy.has_label(event_obj):
+    if isinstance(event_obj_var, EventStorage):
+        $ event_obj_var.call_available_event(**kwargs)
+    if isinstance(event_obj_var, Event):
+        $ event_obj_var.call(**kwargs)
+    if isinstance(event_obj_var, str):
+        if renpy.has_label(event_obj_var):
             $ gallery_manager = None
-            $ kwargs["event_name"] = event_obj
+            if event_obj_name == "":
+                $ event_obj_name = event_obj_var
+            $ kwargs["event_name"] = event_obj_name
             $ kwargs["in_event"] = True
-            $ renpy.call(event_obj, from_current="call_event_1", **kwargs)
-    if isinstance(event_obj, list):
+            $ renpy.call(event_obj_var, from_current="call_event_1", **kwargs)
+    if isinstance(event_obj_var, list):
         $ i = 0
-        while(len(event_obj) > i):
-            if renpy.has_label(event_obj[i]):
+        while(len(event_obj_var) > i):
+            if renpy.has_label(event_obj_var[i]):
                 $ gallery_manager = None
-                $ kwargs["event_name"] = event_obj[i]
+                if event_obj_name == "":
+                    $ event_obj_name = event_obj_var[i]
+                $ kwargs["event_name"] = event_obj_name
                 $ kwargs["in_event"] = True
-                $ renpy.call(event_obj[i], from_current="call_event_2", **kwargs)
+                $ renpy.call(event_obj_var[i], from_current="call_event_2", **kwargs)
             $ i += 1
 
     return
@@ -1394,3 +1719,33 @@ label default_fallback_event (**kwargs):
 
     $ local_subtitles(text)
     jump map_overview
+
+label test_normal_test_event(**kwargs):
+    $ begin_event(**kwargs)
+
+    $ get_value('test', **kwargs)
+    $ get_value('test2', **kwargs)
+
+    call composite_event_runner(**kwargs)
+
+label composite_event_runner(**kwargs):
+
+    $ event_obj = get_kwargs('event_obj', None, **kwargs)
+    $ log_val('event_obj', event_obj)
+    if event_obj == None:
+        $ log_error(304, "Composite Event: No event object available!")
+        $ end_event("map_overview", **kwargs)
+
+    $ events = get_frag_list(**kwargs)
+
+    $ log_val('gallery', persistent.gallery)
+
+    if len(events) == 0:
+        $ log_error(304, "Composite Event " + event_obj.event_id + ": No events available in fragments!")
+        $ end_event("map_overview", **kwargs)
+
+    $ kwargs["frag_order"] = events
+
+    $ event_obj.call_fragment(0, events[0], **kwargs)
+        
+    $ end_event("map_overview", **kwargs)

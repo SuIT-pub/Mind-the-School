@@ -164,6 +164,7 @@ define config.window_icon = "gui/window_icon.png"
 ## The persistent variable that stores gallery images.
 
 default persistent.gallery = {}
+default persistent.fragment_gallery = {}
 
 
 ## Build configuration #########################################################
