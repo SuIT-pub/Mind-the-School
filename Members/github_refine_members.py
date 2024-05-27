@@ -47,7 +47,7 @@ def main():
 
     print(current_content)
     new_content = current_content + '\nNeue Zeile hinzugefügt durch Skript.'
-    time.sleep(5)
+    time.sleep(10)
 
     # Update die Datei im Repository
     update_file_content(FILE_PATH, new_content, sha, REPO_OWNER, REPO_NAME, COMMIT_MESSAGE)
