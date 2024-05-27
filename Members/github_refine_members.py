@@ -12,7 +12,7 @@ import json
 GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')  # Stelle sicher, dass du dein Token sicher speicherst
 REPO_OWNER = 'SuIT-pub'
 REPO_NAME = 'Mind-the-School'
-FILE_PATH = 'game/members copy.csv'
+FILE_PATH = 'game/members_copy.csv'
 COMMIT_MESSAGE = 'updated members.csv'
 HEADERS = {
     'Authorization': f'token {GITHUB_TOKEN}', 
@@ -45,6 +45,7 @@ def main():
     # Hole den aktuellen SHA-Wert der Datei
     sha = get_file_sha(FILE_PATH, REPO_OWNER, REPO_NAME)
 
+    print(sha)
     time.sleep(10)
 
     # Update die Datei im Repository
