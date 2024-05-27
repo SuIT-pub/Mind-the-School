@@ -15,8 +15,8 @@ COMMIT_MESSAGE = 'updated members.csv'
 
 def get_file_sha(file_path, repo_owner, repo_name):
     url = f'https://api.github.com/repos/{repo_owner}/{repo_name}/contents/{file_path}'
-    response = requests.get(url, headers={'Authorization': f'token {GITHUB_TOKEN}'})
     print(GITHUB_TOKEN)
+    response = requests.get(url, headers={'Authorization': f'token {GITHUB_TOKEN}'})
     response.raise_for_status()
     return response.json()['sha']
 
