@@ -19,7 +19,7 @@ def get_file_sha(file_path, repo_owner, repo_name):
     print(GITHUB_TOKEN)
     response = requests.get(url, headers={'Authorization': f'token {GITHUB_TOKEN}'})
     response.raise_for_status()
-    return response.json()['sha']
+    return response.json()['sha'], response.json()['content']
 
 def get_file_content(file_path):
     with open(file_path, 'r') as file:
@@ -39,15 +39,12 @@ def update_file_content(file_path, new_content, sha, repo_owner, repo_name, comm
 
 def main():
     # Hole den aktuellen SHA-Wert der Datei
-    sha = get_file_sha(FILE_PATH, REPO_OWNER, REPO_NAME)
+    sha, current_content = get_file_sha(FILE_PATH, REPO_OWNER, REPO_NAME)
 
-    # Lese die aktuelle Datei und modifiziere den Inhalt
-    current_content = get_file_content(FILE_PATH)
     print(current_content)
     new_content = current_content + '\nNeue Zeile hinzugefügt durch Skript.'
     time.sleep(5)
 
-    sha = get_file_sha(FILE_PATH, REPO_OWNER, REPO_NAME)
     # Update die Datei im Repository
     update_file_content(FILE_PATH, new_content, sha, REPO_OWNER, REPO_NAME, COMMIT_MESSAGE)
     print('Datei erfolgreich aktualisiert.')
