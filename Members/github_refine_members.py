@@ -25,10 +25,6 @@ def get_file_sha(file_path, repo_owner, repo_name):
     response.raise_for_status()
     return response.json()['sha']
 
-def get_file_content(file_path):
-    with open(file_path, 'r') as file:
-        return file.read()
-
 def update_file_content(file_path, new_content, sha, repo_owner, repo_name, commit_message):
     url = f'https://api.github.com/repos/{repo_owner}/{repo_name}/contents/{file_path}'
     encoded_content = base64.b64encode(new_content.encode()).decode()
@@ -37,7 +33,20 @@ def update_file_content(file_path, new_content, sha, repo_owner, repo_name, comm
         'content': encoded_content,
         'sha': sha
     }
-    response = requests.put(url, json=data, headers=HEADERS)
+    max_retries = 3
+    retry_count = 0
+    while retry_count < max_retries:
+        try:
+            response = requests.put(url, json=data, headers=HEADERS)
+            response.raise_for_status()
+            break
+        except requests.exceptions.HTTPError as e:
+            if e.response.status_code == 409:
+                # Conflict error, retry after a short delay
+                retry_count += 1
+                time.sleep(1)
+            else:
+                raise e
     response.raise_for_status()
     return response.json()
 
