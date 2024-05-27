@@ -33,32 +33,27 @@ def update_file_content(file_path, new_content, sha, repo_owner, repo_name, comm
         'content': encoded_content,
         'sha': sha
     }
-    max_retries = 3
-    retry_count = 0
-    while retry_count < max_retries:
-        try:
-            response = requests.put(url, json=data, headers=HEADERS)
-            response.raise_for_status()
-            break
-        except requests.exceptions.HTTPError as e:
-            if e.response.status_code == 409:
-                # Conflict error, retry after a short delay
-                retry_count += 1
-                time.sleep(1)
-            else:
-                raise e
+    response = requests.put(url, json=data, headers=HEADERS)
     response.raise_for_status()
     return response.json()
 
 def main():
     # Hole den aktuellen SHA-Wert der Datei
     sha = get_file_sha(FILE_PATH, REPO_OWNER, REPO_NAME)
-
+    
     print(sha)
     time.sleep(10)
-
-    # Update die Datei im Repository
-    update_file_content(FILE_PATH, "test", sha, REPO_OWNER, REPO_NAME, COMMIT_MESSAGE)
-    print('Datei erfolgreich aktualisiert.')
+    
+    # Hole den neuesten SHA-Wert der Datei
+    latest_sha = get_file_sha(FILE_PATH, REPO_OWNER, REPO_NAME)
+    
+    # Überprüfe, ob der SHA-Wert aktualisiert wurde
+    if sha != latest_sha:
+        print('Der SHA-Wert hat sich geändert. Aktualisiere den SHA-Wert und versuche es erneut.')
+        sha = latest_sha
+    else:
+        # Update die Datei im Repository
+        update_file_content(FILE_PATH, "test", sha, REPO_OWNER, REPO_NAME, COMMIT_MESSAGE)
+        print('Datei erfolgreich aktualisiert.')
 
 main()
