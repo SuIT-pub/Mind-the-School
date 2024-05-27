@@ -14,7 +14,10 @@ REPO_OWNER = 'SuIT-pub'
 REPO_NAME = 'Mind-the-School'
 FILE_PATH = 'game/members copy.csv'
 COMMIT_MESSAGE = 'updated members.csv'
-HEADERS = {'Authorization': f'token {GITHUB_TOKEN}', 'Accept': 'application/vnd.github.v3+json'}
+HEADERS = {
+    'Authorization': f'token {GITHUB_TOKEN}', 
+    'Accept': 'application/vnd.github.v3+json'
+    }
 
 def get_file_sha(file_path, repo_owner, repo_name):
     url = f'https://api.github.com/repos/{repo_owner}/{repo_name}/contents/{file_path}'
@@ -34,7 +37,7 @@ def update_file_content(file_path, new_content, sha, repo_owner, repo_name, comm
         'content': encoded_content,
         'sha': sha
     }
-    response = requests.put(url, data=json.dumps(data), headers=HEADERS)
+    response = requests.put(url, data=data, headers=HEADERS)
     response.raise_for_status()
     return response.json()
 
