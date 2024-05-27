@@ -476,8 +476,6 @@ label change_stat_with_modifier(stat, value, char_obj, collection = 'default'):
         else:
             $ notify_str = char_obj.get_title() + ": " + Stat_Data[stat].get_title() + " {color=#a00000}" + str(value) + "{/color}"
 
-    $ log_val('notify_str', notify_str)
-
     $ add_notify_message(notify_str)
 
     return

@@ -123,7 +123,6 @@ init 1 python:
 ###########################################
 
 label school_building ():
-    $ log_val('sb_timed_event', sb_timed_event.events)
     call call_available_event(sb_timed_event) from school_building_1
     
 label .after_time_check (**kwargs):

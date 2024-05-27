@@ -22,7 +22,6 @@ init python:
 
         reset = False
         # iterates through the order to check if all values are still in scope and if not to replace them
-        log_val("gallery_chooser_order", gallery_chooser_order)
         for topic in gallery_chooser_order:
             # if the value is not in the dictionary or reset is true, then reset the list from this point on
             if gallery_chooser[topic] not in gallery_dict.keys() or reset:
@@ -31,9 +30,6 @@ init python:
                 if len(values) != 0:
                     gallery_chooser[topic] = values[0]
                 reset = True
-            log_val("gallery_dict", gallery_dict)
-            log_val("gallery_chooser", gallery_chooser)
-            log_val("topic", topic)
             gallery_dict = gallery_dict[gallery_chooser[topic]]
         return gallery_chooser
     
@@ -1927,7 +1923,7 @@ screen journal_gallery(display):
                                                 if value == gallery_chooser[variant_name]:
                                                     textbutton "[value_text]":
                                                         text_style "buttons_selected"
-                                                        action Null()
+                                                        action NullAction()
                                                 else:
                                                     textbutton "[value_text]":
                                                         text_style "buttons_idle"
@@ -1942,9 +1938,14 @@ screen journal_gallery(display):
                     xoffset 15
 
             # saves the current selection for this event in the persistent gallery data so the selection is maintained between sessions
-            if not disable_play:
-                $ base_gallery['options']['last_data'] = gallery_chooser
-                $ base_gallery['options']['last_order'] = gallery_chooser_order
+            python:
+                if not disable_play:
+                    log("saved data")
+                    log_val("gallery_chooser", gallery_chooser)
+                    base_gallery['options']['last_data'] = gallery_chooser
+                    base_gallery['options']['last_order'] = gallery_chooser_order
+                    log_val("last_data", base_gallery['options']['last_data'])
+                    log_val("gallery", persistent.gallery['fragment']['test_event_frag_1'])
 
         if has_option and event_obj.get_form() != "composite":
             text "Variants":

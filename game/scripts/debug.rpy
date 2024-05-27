@@ -41,7 +41,6 @@ init -100 python:
         add_notify_message("|ERROR| " + str(msg))
         return
 
-
 label test_label():
     
     $ test_event.call()
@@ -50,42 +49,50 @@ label test_label():
 
 label test_event_frag_1(**kwargs):
     $ begin_event(**kwargs)
-    $ get_value('test', **kwargs)
-    $ get_value('test2', **kwargs)
-    $ log("Test Event Fragment 1")
+    $ get_value('1_test', **kwargs)
+    $ get_value('1_test2', **kwargs)
+    subtitles "Test Event Fragment 1"
     $ end_event("map_overview", **kwargs)
 
 label test_event_frag_1_1(**kwargs):
     $ begin_event(**kwargs)
-    $ get_value('test', **kwargs)
-    $ get_value('test2', **kwargs)
-    $ log("Test Event Fragment 1.1")
+    $ get_value('1_1_test', **kwargs)
+    $ get_value('1_1_test2', **kwargs)
+    subtitles "Test Event Fragment 1.1"
     $ end_event("map_overview", **kwargs)
 
 label test_event_frag_2(**kwargs):
     $ begin_event(**kwargs)
-    $ get_value('test', **kwargs)
-    $ get_value('test2', **kwargs)
-    $ log("Test Event Fragment 2")
+    $ get_value('2_test', **kwargs)
+    $ get_value('2_test2', **kwargs)
+    subtitles "Test Event Fragment 2"
     $ end_event("map_overview", **kwargs)
 
 label test_event_frag_2_1(**kwargs):
     $ begin_event(**kwargs)
-    $ get_value('test', **kwargs)
-    $ get_value('test2', **kwargs)
-    $ log("Test Event Fragment 2.1")
+    $ get_value('2_1_test', **kwargs)
+    $ get_value('2_1_test2', **kwargs)
+    subtitles "Test Event Fragment 2.1"
     $ end_event("map_overview", **kwargs)
 
 label test_event_frag_3(**kwargs):
     $ begin_event(**kwargs)
-    $ get_value('test', **kwargs)
-    $ get_value('test2', **kwargs)
-    $ log("Test Event Fragment 3")
+    $ get_value('3_test', **kwargs)
+    $ get_value('3_test2', **kwargs)
+    subtitles "Test Event Fragment 3"
     $ end_event("map_overview", **kwargs)
 
 label test_event_frag_3_1(**kwargs):
     $ begin_event(**kwargs)
-    $ get_value('test', **kwargs)
-    $ get_value('test2', **kwargs)
-    $ log("Test Event Fragment 3.1")
+    $ get_value('3_1_test', **kwargs)
+    $ get_value('3_1_test2', **kwargs)
+    subtitles "Test Event Fragment 3.1"
+    $ end_event("map_overview", **kwargs)
+
+label test_event_frag_4(**kwargs):
+    $ begin_event(**kwargs)
+    $ get_value('4_test', **kwargs)
+    $ get_value('4_test2', **kwargs)
+    $ log_val("kwargs", kwargs)
+    subtitles "Test Event Fragment 4"
     $ end_event("map_overview", **kwargs)

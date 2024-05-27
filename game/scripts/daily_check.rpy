@@ -102,38 +102,40 @@ init 1 python:
         event_reached_max_stats_event,
     )
 
-    
+    #############################################
+    # DEBUG TEST EVENTS
+
     frag1 = FragmentStorage("TestFragStorage1")
     frag2 = FragmentStorage("TestFragStorage2")
     frag3 = FragmentStorage("TestFragStorage3")
     frag4 = FragmentStorage("TestFragStorage4")
 
     frag1.add_event(EventFragment(3, "test_event_frag_1",
-        RandomListSelector("test", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"),
-        RandomListSelector("test2", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10")))
+        RandomListSelector("1_test", "1-1", "1-2", "1-3", "1-4", "1-5", "1-6", "1-7", "1-8", "1-9", "1-10"),
+        RandomListSelector("1_test2", "1-1", "1-2", "1-3", "1-4", "1-5", "1-6", "1-7", "1-8", "1-9", "1-10")))
     frag1.add_event(EventFragment(3, "test_event_frag_1_1",
-        RandomListSelector("test", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"),
-        RandomListSelector("test2", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10")))
+        RandomListSelector("1_1_test", "1.1-1", "1.1-2", "1.1-3", "1.1-4", "1.1-5", "1.1-6", "1.1-7", "1.1-8", "1.1-9", "1.1-10"),
+        RandomListSelector("1_1_test2", "1.1-1", "1.1-2", "1.1-3", "1.1-4", "1.1-5", "1.1-6", "1.1-7", "1.1-8", "1.1-9", "1.1-10")))
     frag2.add_event(EventFragment(3, "test_event_frag_2",
-        RandomListSelector("test", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"),
-        RandomListSelector("test2", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10")))
+        RandomListSelector("2_test", "2-1", "2-2", "2-3", "2-4", "2-5", "2-6", "2-7", "2-8", "2-9", "2-10"),
+        RandomListSelector("2_test2", "2-1", "2-2", "2-3", "2-4", "2-5", "2-6", "2-7", "2-8", "2-9", "2-10")))
     frag2.add_event(EventFragment(3, "test_event_frag_2_1",
-        RandomListSelector("test", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"),
-        RandomListSelector("test2", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10")))
+        RandomListSelector("2_1_test", "2.1-1", "2.1-2", "2.1-3", "2.1-4", "2.1-5", "2.1-6", "2.1-7", "2.1-8", "2.1-9", "2.1-10"),
+        RandomListSelector("2_1_test2", "2.1-1", "2.1-2", "2.1-3", "2.1-4", "2.1-5", "2.1-6", "2.1-7", "2.1-8", "2.1-9", "2.1-10")))
     frag3.add_event(EventFragment(3, "test_event_frag_3",
-        RandomListSelector("test", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"),
-        RandomListSelector("test2", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10")))
+        RandomListSelector("3_test", "3-1", "3-2", "3-3", "3-4", "3-5", "3-6", "3-7", "3-8", "3-9", "3-10"),
+        RandomListSelector("3_test2", "3-1", "3-2", "3-3", "3-4", "3-5", "3-6", "3-7", "3-8", "3-9", "3-10")))
     frag3.add_event(EventFragment(3, "test_event_frag_3_1",
-        RandomListSelector("test", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"),
-        RandomListSelector("test2", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10")))
-    frag4.add_event(EventFragment(3, "test_event_frag_1",
-        RandomListSelector("test", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"),
-        RandomListSelector("test2", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10")))
+        RandomListSelector("3_1_test", "3.1-1", "3.1-2", "3.1-3", "3.1-4", "3.1-5", "3.1-6", "3.1-7", "3.1-8", "3.1-9", "3.1-10"),
+        RandomListSelector("3_1_test2", "3.1-1", "3.1-2", "3.1-3", "3.1-4", "3.1-5", "3.1-6", "3.1-7", "3.1-8", "3.1-9", "3.1-10")))
+    frag4.add_event(EventFragment(3, "test_event_frag_4",
+        RandomListSelector("4_test", "4-1", "4-2", "4-3", "4-4", "4-5", "4-6", "4-7", "4-8", "4-9", "4-10"),
+        RandomListSelector("4_test2", "4-1", "4-2", "4-3", "4-4", "4-5", "4-6", "4-7", "4-8", "4-9", "4-10")))
 
     test_event = EventComposite(0, "test_normal_test_event", [frag1, frag2, frag4],
-        RandomListSelector("test", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"),
-        RandomListSelector("test2", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"))
-
+        RandomListSelector("test", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J"),
+        RandomListSelector("test2", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J"))
+    #############################################
 
 label time_event_check ():
     hide screen school_overview_map

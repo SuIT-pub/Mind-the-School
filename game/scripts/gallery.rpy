@@ -180,7 +180,6 @@ init python:
 
         def __init__(self, **kwargs):
             event = get_kwargs('event_name', None, **kwargs)
-            log_val('event_name', event)
             event_form = get_kwargs('event_form', 'event', **kwargs)
             if event == None:
                 return
