@@ -220,8 +220,6 @@ init -3 python:
                 return list(self.events[2].values())
             if priority == 3:
                 return list(self.events[3].values())
-            log_val("self.events3", self.events[3].values())
-            log_val("self.events3 list", list(self.events[3].values()))
             return list(self.events[1].values()) + list(self.events[2].values()) + list(self.events[3].values())
 
         def get_event_by_index(self, index: int, priority: int = 0) -> Event:
@@ -243,9 +241,6 @@ init -3 python:
             """
 
             event_list = self.get_events(priority)
-
-            log_val("events", self.events)
-            log_val("event_list", event_list)
 
             if index < 0 or index >= len(event_list):
                 return None
@@ -1273,8 +1268,6 @@ init -3 python:
                 kwargs.update(self.values.get_values())
                 self.values.roll_values()
 
-            log_val('get_event', self.get_event())
-
             kwargs["event_name"] = self.get_event()
             kwargs["in_event"] = True
             kwargs["event_obj"] = self
@@ -1379,9 +1372,9 @@ init -3 python:
 
             kwargs["event_form"] = "fragment"
 
-            if self.values != None:
-                kwargs.update(self.values.get_values())
-                self.values.roll_values()
+            if events.values != None:
+                kwargs.update(events.values.get_values())
+                events.values.roll_values()
 
             kwargs["event_name"] = events.get_event()
             kwargs["in_event"] = True
@@ -1527,6 +1520,7 @@ init -3 python:
             frag_parent = get_kwargs("frag_parent", None, **kwargs)
             kwargs["frag_index"] = frag_index + 1
             if frag_parent != None:
+                
                 frag_parent.call_fragment(frag_index + 1, frags[frag_index + 1], **kwargs)
 
         in_replay = get_kwargs("in_replay", False, **kwargs)
@@ -1574,8 +1568,6 @@ init -3 python:
             - The event
             - If the event does not exist None is returned
         """
-
-        log_val("event_register", event_register)
 
         if name in event_register.keys():
             return event_register[name]
@@ -1731,21 +1723,18 @@ label test_normal_test_event(**kwargs):
 label composite_event_runner(**kwargs):
 
     $ event_obj = get_kwargs('event_obj', None, **kwargs)
-    $ log_val('event_obj', event_obj)
     if event_obj == None:
         $ log_error(304, "Composite Event: No event object available!")
         $ end_event("map_overview", **kwargs)
 
     $ events = get_frag_list(**kwargs)
 
-    $ log_val('gallery', persistent.gallery)
-
     if len(events) == 0:
         $ log_error(304, "Composite Event " + event_obj.event_id + ": No events available in fragments!")
         $ end_event("map_overview", **kwargs)
 
     $ kwargs["frag_order"] = events
-
+    
     $ event_obj.call_fragment(0, events[0], **kwargs)
         
     $ end_event("map_overview", **kwargs)

@@ -42,8 +42,6 @@ init -2 python:
                 - The variant of the image.
             """
 
-            log_val('image_path', image_path)
-
             self.image_path = image_path
             self.variant = variant
 
@@ -109,7 +107,6 @@ init -2 python:
                 **kwargs
             )
             self.steps = []
-            log_val('series: image_paths', self._image_paths)
             self.create_steps(self._image_paths)
 
         def create_steps(self, image_paths: List[str]):
@@ -124,18 +121,13 @@ init -2 python:
             if '<step>' in image_paths[0]:
                 max_steps = get_image_max_value_with_alternatives('<step>', image_paths, 0, 100)
 
-                log_val('max_steps', max_steps)
-
                 for i in range(0, max_steps + 1):
-                    log_val('step', i)
                     for image_path in image_paths:
                         image_step = image_path.replace('<step>', str(i))
-                        log_val('image_step', image_step)
                         variant = 1
 
                         if '<variant>' in image_step:
                             variant = get_image_max_value_with_alternatives("<variant>", image_step, 1)
-                            log_val('variant', variant)
                             if variant == 0:
                                 continue
                         elif not renpy.loadable(image_step.replace('<nude>', '0')):
@@ -777,7 +769,6 @@ label .show_image(image_series, *steps, pause = False, display_type = SCENE, var
     # """
     $ i = 0
     while i < len(steps):
-        $ log_val('i', i)
         $ step = steps[i]
         $ variant = image_series.show(step, display_type, variant)
         if (pause and i == len(steps) - 1) or i < len(steps) - 1:
@@ -850,8 +841,6 @@ label show_image(path, display_type = SCENE, **kwargs):
     # """
 
     $ image_path = refine_image(path, **kwargs)
-
-    $ log_val('image_path', image_path)
 
     call show_ready_image(image_path, display_type) from _call_show_ready_image
     return
