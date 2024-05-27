@@ -14,7 +14,7 @@ FILE_PATH = 'game/members copy.csv'
 COMMIT_MESSAGE = 'updated members.csv'
 
 def get_file_sha(file_path, repo_owner, repo_name):
-    url = f'https://api.github.com/repos/{repo_owner}/{repo_name}/contents/{file_path}'
+    url = f'https://api.github.com/repos/{repo_owner}/{repo_name}/{file_path}'
     response = requests.get(url, headers={'Authorization': f'token {GITHUB_TOKEN}'})
     response.raise_for_status()
     return response.json()['sha']
@@ -24,7 +24,7 @@ def get_file_content(file_path):
         return file.read()
 
 def update_file_content(file_path, new_content, sha, repo_owner, repo_name, commit_message):
-    url = f'https://api.github.com/repos/{repo_owner}/{repo_name}/contents/{file_path}'
+    url = f'https://api.github.com/repos/{repo_owner}/{repo_name}/{file_path}'
     encoded_content = base64.b64encode(new_content.encode('utf-8')).decode('utf-8')
     data = {
         'message': commit_message,
