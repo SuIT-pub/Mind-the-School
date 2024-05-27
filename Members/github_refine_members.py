@@ -34,8 +34,7 @@ def update_file_content(file_path, new_content, sha, repo_owner, repo_name, comm
     encoded_content = base64.b64encode(new_content.encode()).decode()
     data = {
         'message': commit_message,
-        'content': encoded_content,
-        'sha': sha
+        'content': encoded_content
     }
     response = requests.put(url, json=data, headers=HEADERS)
     response.raise_for_status()
