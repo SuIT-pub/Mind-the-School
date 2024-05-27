@@ -44,6 +44,7 @@ def main():
 
     # Push the changes
     origin = repo.remote(name='origin')
+    origin.set_url(f'https://{GITHUB_TOKEN}@github.com/SuIT-pub/Mind-the-School.git')
     origin.push()
 
 
