@@ -7,9 +7,12 @@ import pytz
 import requests
 import base64
 import json
+import git
 
 # Setze diese Variablen mit deinen Informationen
 GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')  # Stelle sicher, dass du dein Token sicher speicherst
+CLONE_DIR = '/sandbox'
+REPO_URL = 'https://github.com/SuIT-pub/Mind-the-School.git'
 REPO_OWNER = 'SuIT-pub'
 REPO_NAME = 'Mind-the-School'
 FILE_PATH = 'game/members copy.csv'
@@ -19,38 +22,29 @@ HEADERS = {
     'Accept': 'application/vnd.github.v3+json'
     }
 
-def get_file_sha(file_path, repo_owner, repo_name):
-    url = f'https://api.github.com/repos/{repo_owner}/{repo_name}/contents/{file_path}'
-    response = requests.get(url, headers=HEADERS)
-    response.raise_for_status()
-    return response.json()['sha'], response.json()['content']
-
-def get_file_content(file_path):
-    with open(file_path, 'r') as file:
-        return file.read()
-
-def update_file_content(file_path, new_content, sha, repo_owner, repo_name, commit_message):
-    url = f'https://api.github.com/repos/{repo_owner}/{repo_name}/contents/{file_path}'
-    encoded_content = base64.b64encode(new_content.encode()).decode()
-    data = {
-        'message': commit_message,
-        'content': encoded_content,
-        'sha': sha
-    }
-    response = requests.put(url, json=data, headers=HEADERS)
-    response.raise_for_status()
-    return response.json()
-
 def main():
-    # Hole den aktuellen SHA-Wert der Datei
-    sha, current_content = get_file_sha(FILE_PATH, REPO_OWNER, REPO_NAME)
+    
+    # Clone the repository
+    if not os.path.exists(CLONE_DIR):
+        os.makedirs(CLONE_DIR)
+    repo = git.Repo.clone_from(REPO_URL, CLONE_DIR)
 
-    print(current_content)
-    new_content = current_content + '\nNeue Zeile hinzugefügt durch Skript.'
-    time.sleep(10)
+    # Path to the file in the local clone
+    file_path = os.path.join(CLONE_DIR, FILE_PATH)
 
-    # Update die Datei im Repository
-    update_file_content(FILE_PATH, new_content, sha, REPO_OWNER, REPO_NAME, COMMIT_MESSAGE)
-    print('Datei erfolgreich aktualisiert.')
+    # Modify the file
+    with open(file_path, 'w') as file:
+        file.write("New file content here")
+
+    # Add the file to the staging area
+    repo.index.add([file_path])
+
+    # Commit the changes
+    repo.index.commit(COMMIT_MESSAGE)
+
+    # Push the changes
+    origin = repo.remote(name='origin')
+    origin.push()
+
 
 main()
