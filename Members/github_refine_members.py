@@ -43,6 +43,7 @@ def main():
 
     # Lese die aktuelle Datei und modifiziere den Inhalt
     current_content = get_file_content(FILE_PATH)
+    print(current_content)
     new_content = current_content + '\nNeue Zeile hinzugefügt durch Skript.'
 
     time.sleep(5)
