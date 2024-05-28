@@ -367,6 +367,23 @@ init -99 python:
                 list_obj.remove(value)
         return list_obj
 
+    def is_in_list(elem: Any, list_obj: List[Any]) -> bool:
+        """
+        Checks if an element is in a list
+
+        ### Parameters:
+        1. elem: Any
+            - The element to check for
+        2. list_obj: List[Any]
+            - The list to check in
+
+        ### Returns:
+        1. bool
+            - True if the element is in the list, False otherwise
+        """
+
+        return elem in list_obj
+
     ############################
     # --- String Functions --- #
     ############################
