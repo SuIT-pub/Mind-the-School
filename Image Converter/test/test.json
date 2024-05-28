@@ -2,28 +2,33 @@
     "misc": {
         "test_normal_test_event": {
             "values": {
-                "2": {
-                    "9": {}
+                "F": {
+                    "J": {}
                 },
-                "9": {
-                    "5": {}
-                },
-                "4": {
-                    "4": {}
+                "C": {
+                    "B": {},
+                    "A": {}
                 }
             },
             "ranges": {},
             "options": {
                 "event_form": "composite",
+                "last_data": {
+                    "test": "F",
+                    "test2": "J"
+                },
                 "Frag_Storage": [
                     "TestFragStorage1",
                     "TestFragStorage2",
                     "TestFragStorage4"
                 ],
-                "last_data": {
-                    "test2": "9",
-                    "test": "9"
-                }
+                "last_order": [
+                    "test",
+                    "test2"
+                ],
+                "frag_order": [
+                    "test_event_frag_1_1"
+                ]
             },
             "order": [
                 "test",
@@ -52,14 +57,13 @@
         },
         "TestFragStorage2": {
             "values": {
-                "test_event_frag_2": {},
                 "test_event_frag_2_1": {}
             },
             "ranges": {},
             "options": {
                 "event_form": "FragStorage",
                 "last_data": {
-                    "fragment": "test_event_frag_2"
+                    "fragment": "test_event_frag_2_1"
                 }
             },
             "order": [
@@ -69,13 +73,13 @@
         },
         "TestFragStorage4": {
             "values": {
-                "test_event_frag_1": {}
+                "test_event_frag_4": {}
             },
             "ranges": {},
             "options": {
                 "event_form": "FragStorage",
                 "last_data": {
-                    "fragment": "test_event_frag_1"
+                    "fragment": "test_event_frag_4"
                 }
             },
             "order": [
@@ -87,82 +91,108 @@
     "fragment": {
         "test_event_frag_1_1": {
             "values": {
-                "1": {}
-            },
-            "ranges": {},
-            "options": {
-                "event_form": "fragment",
-                "last_data": {
-                    "test": "1"
-                }
-            },
-            "order": [
-                "test"
-            ],
-            "decisions": {}
-        },
-        "test_event_frag_2": {
-            "values": {
-                "1": {
-                    "10": {}
-                }
-            },
-            "ranges": {},
-            "options": {
-                "event_form": "fragment",
-                "last_data": {
-                    "test2": "10"
-                }
-            },
-            "order": [
-                "test",
-                "test2"
-            ],
-            "decisions": {}
-        },
-        "test_event_frag_1": {
-            "values": {
-                "6": {
-                    "9": {},
-                    "4": {}
+                "1.1-6": {
+                    "1.1-8": {}
                 },
-                "4": {
-                    "5": {}
-                },
-                "2": {
-                    "2": {}
+                "1.1-1": {
+                    "1.1-10": {}
                 }
             },
             "ranges": {},
             "options": {
                 "event_form": "fragment",
                 "last_data": {
-                    "test2": "9",
-                    "test": "6"
-                }
+                    "1_1_test": "1.1-6",
+                    "1_1_test2": "1.1-8"
+                },
+                "last_order": [
+                    "1_1_test",
+                    "1_1_test2"
+                ]
             },
             "order": [
-                "test",
-                "test2"
+                "1_1_test",
+                "1_1_test2"
             ],
             "decisions": {}
         },
         "test_event_frag_2_1": {
             "values": {
-                "6": {
-                    "2": {}
+                "2.1-8": {
+                    "2.1-9": {}
+                },
+                "2.1-9": {
+                    "2.1-3": {}
+                },
+                "2.1-10": {
+                    "2.1-9": {}
                 }
             },
             "ranges": {},
             "options": {
                 "event_form": "fragment",
                 "last_data": {
-                    "test2": "2"
+                    "2_1_test": "2.1-8",
+                    "2_1_test2": "2.1-9"
+                },
+                "last_order": [
+                    "2_1_test",
+                    "2_1_test2"
+                ]
+            },
+            "order": [
+                "2_1_test",
+                "2_1_test2"
+            ],
+            "decisions": {}
+        },
+        "test_event_frag_4": {
+            "values": {
+                "4-5": {
+                    "4-2": {}
+                },
+                "4-7": {
+                    "4-1": {}
+                },
+                "4-4": {
+                    "4-1": {}
+                }
+            },
+            "ranges": {},
+            "options": {
+                "event_form": "fragment",
+                "last_data": {
+                    "4_test": "4-5",
+                    "4_test2": "4-2"
                 }
             },
             "order": [
-                "test",
-                "test2"
+                "4_test",
+                "4_test2"
+            ],
+            "decisions": {}
+        },
+        "test_event_frag_1": {
+            "values": {
+                "1-4": {
+                    "1-1": {}
+                }
+            },
+            "ranges": {},
+            "options": {
+                "event_form": "fragment",
+                "last_data": {
+                    "1_test": "1-4",
+                    "1_test2": "1-1"
+                },
+                "last_order": [
+                    "1_test",
+                    "1_test2"
+                ]
+            },
+            "order": [
+                "1_test",
+                "1_test2"
             ],
             "decisions": {}
         }

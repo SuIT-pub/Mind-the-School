@@ -2,9 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/scripts/journal/journal.rpy", line 1970: 'text_style' is not a keyword argument or valid child of the button statement.
-    text_style "buttons_idle"
-              ^
+File "game/scripts/journal/journal.rpy", line 1768: screen expects a non-empty block.
+    if event == "":
+                   ^
 
 Ren'Py Version: Ren'Py 8.1.3.23091805
-Thu May 23 16:27:28 2024
+Tue May 28 08:18:21 2024

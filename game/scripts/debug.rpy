@@ -41,6 +41,15 @@ init -100 python:
         add_notify_message("|ERROR| " + str(msg))
         return
 
+    log_number = 0
+
+    def log_count(msg: str, start = False):
+        if start:
+            log_number = 0
+        
+        log_number += 1
+        log_val(msg, log_number)
+
 label test_label():
     
     $ test_event.call()

@@ -2,6 +2,12 @@ init python:
     gallery_chooser = {}
     gallery_chooser_order = []
     old_event = ""
+    
+    def journal_add_to_gallery_chooser(value: Any, elem: Any, list_obj: List[Any], dict_obj: Dict[str, Any]) -> Tuple[List[Any], Dict[str, Any]]:
+        if elem not in list_obj:
+            list_obj.append(elem)
+            dict_obj[elem] = value
+        return list_obj, dict_obj
 
     def update_gallery_chooser(gallery_chooser_order: List[string], gallery_chooser: Dict[string, Any], gallery_dict: Dict[string, Any]) -> Dict[string, Any]:
         """
@@ -1664,7 +1670,11 @@ screen journal_gallery(display):
 
     key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
 
+    
+
     use journal_page_selector(7, display)
+
+    
 
     text "Gallery":
         xalign 0.725 yalign 0.955
@@ -1682,7 +1692,6 @@ screen journal_gallery(display):
     if '.' in display:
         $ split_display = display.split('.')
     
-
     $ location = split_display[0]
     $ event = split_display[1] if len(split_display) > 1 else ""
 
@@ -1691,8 +1700,13 @@ screen journal_gallery(display):
     $ fragment_selection_index = int(split_display[3]) if len(split_display) > 3 and is_integer(split_display[3]) else 0
     $ fragment_selection_fragment = split_display[4] if len(split_display) > 4 else ""
 
+    python:
+        if get_event_from_register(fragment_selection_fragment) != None:
+            persistent.gallery[location][event]['options']['frag_order'][fragment_selection_index] = fragment_selection_fragment
+
     # if no location is defined 
     if location == "": 
+        
         # parse all available location keys to their corresponding buildings
         $ location_list = [get_building(location_name) for location_name in persistent.gallery.keys() if get_building(location_name) != None]
 
@@ -1725,6 +1739,8 @@ screen journal_gallery(display):
                 ymaximum 50
                 color "#000"
     elif location != "": # if a location is defined
+        
+
         $ location_title = "Miscellaneous"
         $ building = get_building(location)
         if building != None:
@@ -1763,7 +1779,7 @@ screen journal_gallery(display):
                 action [With(dissolveM), Call("open_journal", 7, '.'.join([location, event, "fragment_mode"]))]
 
     # if location is selected, display a list of all possible events in that location
-    if location != "":    
+    if location != "":
         if display_mode != "fragment_selection_mode":
             $ event_list = [get_event_from_register(event_name) for event_name in persistent.gallery[location].keys() if get_event_from_register(event_name) != None]
             $ event_dict = {f"{location}.{event_obj.get_event()}": get_translation(event_obj.get_event()) for event_obj in event_list}
@@ -1776,6 +1792,8 @@ screen journal_gallery(display):
 
     # if an event is selected, display event information on right side
     if event != "":
+        
+
         $ event_obj = get_event_from_register(event)
         $ top_border_offset = 0
 
@@ -1800,8 +1818,10 @@ screen journal_gallery(display):
         $ has_option = False
 
         if display_mode == "fragment_mode":
-            if 'frag_order' not in persistent.gallery[location][event]['options'].keys():
-                $ persistent.gallery[location][event]['options']['frag_order'] = []
+            
+            python:
+                if 'frag_order' not in persistent.gallery[location][event]['options'].keys():
+                    persistent.gallery[location][event]['options']['frag_order'] = []
 
             frame:
                 background Solid('#0000')
@@ -1811,9 +1831,8 @@ screen journal_gallery(display):
                     vbox:
                         for i, frag_storage_name in enumerate(persistent.gallery[location][event]['options']['Frag_Storage']):
                             if i >= len(persistent.gallery[location][event]['options']['frag_order']):
-                                $ frag_storage = get_fragment_storage_from_register(frag_storage_name)
-                                $ frag_event = frag_storage.get_event_by_index(0)
-                                $ persistent.gallery[location][event]['options']['frag_order'].append(frag_event.get_name())
+                                $ frag_event = list(persistent.gallery["FragStorage"][frag_storage_name]['values'].keys())[0]
+                                $ persistent.gallery[location][event]['options']['frag_order'].append(frag_event)
                             
                             $ curr_fragment = persistent.gallery[location][event]['options']['frag_order'][i]
                             $ frag_title = str(i) + ".: " + get_event_menu_title('fragment', curr_fragment)
@@ -1821,8 +1840,9 @@ screen journal_gallery(display):
                                 action [With(dissolveM), Call('open_journal', 7, '.'.join([location, event, "fragment_selection_mode", str(i), curr_fragment]))]
                     
         $ disable_play = False
-            
+        
         if display_mode == "value_mode" or display_mode == "fragment_selection_mode":
+            
             # check if event has changed to trigger information reload
             $ base_gallery = persistent.gallery[location][event]
             $ display_event = event
@@ -1851,7 +1871,7 @@ screen journal_gallery(display):
                     xpos 1280
                     ypos 160
                     action [With(dissolveM), Call('reset_event_gallery', display_location, display_event)]
-
+            
             # load all variables requested by the event
             $ variant_names = [topic for topic in base_gallery['order']]
             
@@ -1867,35 +1887,36 @@ screen journal_gallery(display):
                     hbox:
                         # get the entire value tree from persistent data for this event
                         $ gallery_dict = base_gallery['values']
-
+                        
                         # iterate over all variables to display a selection list for each variable
                         for variant_name in variant_names:
-
                             # get all possible values
                             $ values = list(gallery_dict.keys())
 
                             # check if variable is new and add it to the data if missing
                             python:
-                                if str(variant_name) not in gallery_chooser_order:
-                                    gallery_chooser_order.append(str(variant_name))
+                                if variant_name not in gallery_chooser_order:
+                                    gallery_chooser_order.append(variant_name)
                                     gallery_chooser[variant_name] = values[0]
 
                             # get the currently selected value for the current variable
                             $ value = gallery_chooser[variant_name]
-
+                            
                             # if value is not in current variable set because of differing sets on this tree path, select first value in list
-                            if value not in values:
-                                $ gallery_chooser[variant_name] = values[0]
+                            python:
+                                if value not in values:
+                                    gallery_chooser[variant_name] = values[0]
 
                             # get the gallery data tree starting from this variable so the next variable can work with that
                             $ gallery_dict = gallery_dict[gallery_chooser[variant_name]]
-
+                            
                             # checks if there is more than one selection possible and only then displays a value list,
                             # otherwise the only selection possible is selected by default and will not be displayed in the overview
                             if len(values) > 1:
 
                                 # get display title for variable
                                 $ title = get_gallery_topic_title(display_location, display_event, variant_name) 
+                                
 
                                 # display list of values
                                 frame:
@@ -1908,14 +1929,17 @@ screen journal_gallery(display):
 
                                         # filters all possible values that have been filtered in the loli filter as those can only be seen, selected or viewed if the appropriate loli setting is activated
                                         $ filtered_values = [value for value in values if variant_name + '.' + str(value) not in loli_filter[loli_content]]
-
+                                        
                                         # checks if any values are left after filtering and disables the replay possibility if there is none as the events need a full set of values to work properly
                                         if len(filtered_values) == 0:
-                                            if gallery_chooser[variant_name] not in filtered_values:
-                                                $ gallery_chooser[variant_name] = None
-                                                $ update_gallery_chooser(gallery_chooser_order, gallery_chooser, base_gallery['values'])
+                                            
+                                            python:
+                                                if gallery_chooser[variant_name] not in filtered_values:
+                                                    gallery_chooser[variant_name] = None
+                                                    update_gallery_chooser(gallery_chooser_order, gallery_chooser, base_gallery['values'])
                                             $ disable_play = True
                                         else:
+                                            
                                             # iterates through all possible values and displays them for the user to select
                                             for value in sorted(filtered_values):
                                                 $ has_option = True
@@ -1938,14 +1962,9 @@ screen journal_gallery(display):
                     xoffset 15
 
             # saves the current selection for this event in the persistent gallery data so the selection is maintained between sessions
-            python:
-                if not disable_play:
-                    log("saved data")
-                    log_val("gallery_chooser", gallery_chooser)
-                    base_gallery['options']['last_data'] = gallery_chooser
-                    base_gallery['options']['last_order'] = gallery_chooser_order
-                    log_val("last_data", base_gallery['options']['last_data'])
-                    log_val("gallery", persistent.gallery['fragment']['test_event_frag_1'])
+            if not disable_play:
+                $ base_gallery['options']['last_data'] = gallery_chooser
+                $ base_gallery['options']['last_order'] = gallery_chooser_order
 
         if has_option and event_obj.get_form() != "composite":
             text "Variants":
@@ -2015,6 +2034,9 @@ screen journal_gallery(display):
             frame:
                 xalign 0.5
                 text tooltip
+
+
+
 
 screen journal_credits(display):
     # """
