@@ -74,8 +74,8 @@ def get_patreon_data():
     response = requests.get(url, headers=PATREON_HEADER, params=params)
     response.raise_for_status()
     
-    print(f"Blacklist: {PATREON_BLACKLIST}")
-    print(f"Alias: {PATREON_ALIAS.replace("\r\n", "-")}")
+    blacklist = PATREON_BLACKLIST.split("\r\n")
+    alias = PATREON_ALIAS.split("\r\n")
 
     members = []
 
@@ -92,13 +92,37 @@ def get_patreon_data():
         
         members.append(Member(member['attributes']['full_name'], tier))
 
-    return response.json()
+    for blacklisted_name in blacklist:
+        if blacklisted_name in members:
+            members[blacklisted_name].set_blacklist(True)
+
+    for alias_name in alias:
+        name, alias = alias_name.split(";")
+        if name in members:
+            members[name].set_alias(alias)
+
+    filtered_names = []
+    for member in sorted(list(members.values()), key=lambda x: x.name):
+        filtered_names.append(str(member))
+
+    cet = pytz.timezone('CET')
+    current_time = datetime.now(cet)
+
+    # Write current date and time to the file
+    output = 'Last updated: ' + current_time.strftime('%d %B, %Y - %H:%M') + ' CET\n'
+
+    for name in filtered_names:
+        output += name + '\n'
+
+    print(output)
+
+    return output
 
 def main():
     # Hole den aktuellen SHA-Wert der Datei
     sha = get_file_sha(FILE_PATH, REPO_OWNER, REPO_NAME)
     
-    get_patreon_data()
+    output = get_patreon_data()
 
     # Hole den neuesten SHA-Wert der Datei
     latest_sha = get_file_sha(FILE_PATH, REPO_OWNER, REPO_NAME)
@@ -109,7 +133,7 @@ def main():
         sha = latest_sha
     else:
         # Update die Datei im Repository
-        update_file_content(FILE_PATH, "test", sha, REPO_OWNER, REPO_NAME, COMMIT_MESSAGE)
+        update_file_content(FILE_PATH, output, sha, REPO_OWNER, REPO_NAME, COMMIT_MESSAGE)
         print('Datei erfolgreich aktualisiert.')
 
 main()
