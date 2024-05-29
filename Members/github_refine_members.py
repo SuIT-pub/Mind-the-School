@@ -42,7 +42,7 @@ def main():
     sha = get_file_sha(FILE_PATH, REPO_OWNER, REPO_NAME)
     
     print(sha)
-    time.sleep(10)
+    time.sleep(20)
     
     # Hole den neuesten SHA-Wert der Datei
     latest_sha = get_file_sha(FILE_PATH, REPO_OWNER, REPO_NAME)
