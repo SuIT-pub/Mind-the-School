@@ -34,7 +34,7 @@ def update_file_content(file_path, new_content, sha, repo_owner, repo_name, comm
         'sha': sha
     }
     response = requests.put(url, json=data, headers=HEADERS)
-    response.raise_for_status()
+    # response.raise_for_status()
     return response.json()
 
 def main():
