@@ -6,6 +6,7 @@ on:
       artifact_path: 
         required: true 
         type: string
+  patreon: {}
         
 jobs:
   run-script:
