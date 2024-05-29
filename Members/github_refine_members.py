@@ -57,7 +57,7 @@ class Member:
             return '*blacklisted*;' + self.tier
         if self.alias != '':
             return '*alias*' + self.alias + ';' + self.tier
-        return self.name + ';' + self.tier
+        return self.name.strip() + ';' + self.tier
 
     def set_blacklist(self, is_blacklisted: bool):
         self.blacklist = is_blacklisted
@@ -126,7 +126,7 @@ def get_patreon_data():
     output = 'Last updated: ' + current_time.strftime('%d %B, %Y - %H:%M') + ' CET\n'
 
     for name in filtered_names:
-        output += name + '\n'
+        output += name.strip() + '\n'
 
     print(output)
 
