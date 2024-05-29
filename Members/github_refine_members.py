@@ -77,7 +77,7 @@ def get_patreon_data():
     blacklist = PATREON_BLACKLIST.split("\r\n")
     alias = PATREON_ALIAS.split("\r\n")
 
-    members = []
+    members = {}
 
     for member in response.json()['data']:
         patreon_status = member['attributes']['patron_status']
@@ -90,7 +90,9 @@ def get_patreon_data():
             elif entitlement['id'] == '10070157' and tier == 'Student':
                 tier = 'Teacher'
         
-        members.append(Member(member['attributes']['full_name'], tier))
+        name = member['attributes']['full_name']
+
+        members[name] = Member(name, tier)
 
     for blacklisted_name in blacklist:
         if blacklisted_name in members:
