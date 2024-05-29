@@ -75,7 +75,7 @@ def get_patreon_data():
     response.raise_for_status()
     
     print(f"Blacklist: {PATREON_BLACKLIST}")
-    print(f"Alias: {PATREON_ALIAS.replace("\n", "-")}")
+    print(f"Alias: {PATREON_ALIAS.replace("\r\n", "-")}")
 
     members = []
 
