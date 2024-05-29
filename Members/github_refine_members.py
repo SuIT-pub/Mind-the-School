@@ -71,15 +71,27 @@ def get_patreon_data():
         'include': 'currently_entitled_tiers',
         'fields[member]': 'full_name,patron_status'
     }
-    response = requests.get(url, headers=PATREON_HEADER, params=params)
-    response.raise_for_status()
-    
+    members_data = []
+
+    while True:
+        response = requests.get(url, headers=PATREON_HEADER, params=params)
+        response.raise_for_status()
+        data = response.json()
+
+        for member in data['data']:
+            members.append(member)
+
+        if 'next' in data['links']:
+            url = data['links']['next']
+        else:
+            break
+
     blacklist = PATREON_BLACKLIST.split("\r\n")
     alias = PATREON_ALIAS.split("\r\n")
 
     members = {}
 
-    for member in response.json()['data']:
+    for member in members_data:
         patreon_status = member['attributes']['patron_status']
         if patreon_status != 'active_patron':
             continue
