@@ -2,11 +2,6 @@ name: Update Patreon Members
 
 on:
   workflow_dispatch:  # Ermöglicht das manuelle Auslösen des Workflows
-    inputs:
-      artifact_path: 
-        required: true 
-        type: string
-  patreon: {}
         
 jobs:
   run-script:
