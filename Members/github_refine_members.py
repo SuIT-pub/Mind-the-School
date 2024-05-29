@@ -79,7 +79,7 @@ def get_patreon_data():
         data = response.json()
 
         for member in data['data']:
-            members.append(member)
+            members_data.append(member)
 
         if 'next' in data['links']:
             url = data['links']['next']
