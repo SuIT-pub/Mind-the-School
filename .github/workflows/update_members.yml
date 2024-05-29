@@ -25,5 +25,5 @@ jobs:
 
     - name: Run script
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.PATREON_MEMBER_DEPLOY }}
       run: python Members/github_refine_members.py  # Ersetze diesen Pfad mit dem Pfad zu deinem Python-Skript
