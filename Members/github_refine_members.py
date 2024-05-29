@@ -21,7 +21,7 @@ GITHUB_HEADER = {
 
 PATREON_TOKEN = os.getenv('PATREON_TOKEN')
 PATREON_HEADER = {
-    'Authorization': f'Bearer {PATREON_TOKEN}',
+    'authorization': f'Bearer {PATREON_TOKEN}',
 }
 
 def get_file_sha(file_path, repo_owner, repo_name):
