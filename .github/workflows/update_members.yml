@@ -27,6 +27,6 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.PATREON_MEMBER_DEPLOY }}
         PATREON_TOKEN: ${{ secrets.PATREON_TOKEN }}
-        PATREON_BLACKLIST: $PATREON_BLACKLIST
-        PATREON_ALIAS: $PATREON_ALIAS
+        PATREON_BLACKLIST: ${{ vars.PATREON_BLACKLIST }}
+        PATREON_ALIAS: ${{ vars.PATREON_ALIAS }}
       run: python Members/github_refine_members.py  # Ersetze diesen Pfad mit dem Pfad zu deinem Python-Skript
