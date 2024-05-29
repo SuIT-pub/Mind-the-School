@@ -19,6 +19,9 @@ GITHUB_HEADER = {
     'Accept': 'application/vnd.github.v3+json'
     }
 
+PATREON_BLACKLIST = os.getenv('PATREON_BLACKLIST')
+PATREON_ALIAS = os.getenv('PATREON_ALIAS')
+
 PATREON_TOKEN = os.getenv('PATREON_TOKEN')
 PATREON_HEADER = {
     'authorization': f'Bearer {PATREON_TOKEN}',
@@ -42,6 +45,26 @@ def update_file_content(file_path, new_content, sha, repo_owner, repo_name, comm
     # response.raise_for_status()
     return response.json()
 
+class Member:
+    def __init__(self, name: str, tier: str):
+        self.name = name
+        self.alias = ''
+        self.blacklist = False
+        self.tier = tier
+
+    def __str__(self):
+        if self.blacklist:
+            return '*blacklisted*;' + self.tier
+        if self.alias != '':
+            return '*alias*' + self.alias + ';' + self.tier
+        return self.name + ';' + self.tier
+
+    def set_blacklist(self, is_blacklisted: bool):
+        self.blacklist = is_blacklisted
+
+    def set_alias(self, alias: str):
+        self.alias = alias
+
 def get_patreon_data():
     url = 'https://www.patreon.com/api/oauth2/v2/campaigns/10492412/members'
     params = {
@@ -50,7 +73,25 @@ def get_patreon_data():
     }
     response = requests.get(url, headers=PATREON_HEADER, params=params)
     response.raise_for_status()
-    print(response.json())
+    
+    print(f"Blacklist: {PATREON_BLACKLIST}")
+    print(f"Alias: {PATREON_ALIAS}")
+
+    members = []
+
+    for member in response.json()['data']:
+        patreon_status = member['attributes']['patron_status']
+        if patreon_status != 'active_patron':
+            continue
+        tier = "free"
+        for entitlement in member['relationships']['currently_entitled_tiers']['data']:
+            if entitlement['id'] == '10070150' and tier == 'free':
+                tier = 'Student'
+            elif entitlement['id'] == '10070157' and tier == 'Student':
+                tier = 'Teacher'
+        
+        members.append(Member(member['attributes']['full_name'], tier))
+
     return response.json()
 
 def main():
