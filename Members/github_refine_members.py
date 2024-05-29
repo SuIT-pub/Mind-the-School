@@ -99,7 +99,7 @@ def get_patreon_data():
         for entitlement in member['relationships']['currently_entitled_tiers']['data']:
             if entitlement['id'] == '10070150' and tier == 'free':
                 tier = 'Student'
-            elif entitlement['id'] == '10070157' and tier == 'Student':
+            elif entitlement['id'] == '10070157':
                 tier = 'Teacher'
         
         name = member['attributes']['full_name']
@@ -117,7 +117,7 @@ def get_patreon_data():
 
     filtered_names = []
     for member in sorted(list(members.values()), key=lambda x: x.name):
-        filtered_names.append(str(member))
+        filtered_names.append(str(member).strip())
 
     cet = pytz.timezone('CET')
     current_time = datetime.now(cet)
