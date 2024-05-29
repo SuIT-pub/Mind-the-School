@@ -81,7 +81,7 @@ def get_patreon_data():
         for member in data['data']:
             members_data.append(member)
 
-        if 'next' in data['links']:
+        if 'links' in data.keys() and 'next' in data['links'].keys():
             url = data['links']['next']
         else:
             break
