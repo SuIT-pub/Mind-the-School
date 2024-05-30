@@ -12,7 +12,7 @@ import json
 GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')  # Stelle sicher, dass du dein Token sicher speicherst
 REPO_OWNER = 'SuIT-pub'
 REPO_NAME = 'Mind-the-School'
-FILE_PATH = 'game/members_copy.csv'
+FILE_PATH = 'game/members.csv'
 COMMIT_MESSAGE = 'updated members.csv'
 GITHUB_HEADER = {
     'Authorization': f'token {GITHUB_TOKEN}', 
