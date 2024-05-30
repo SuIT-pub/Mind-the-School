@@ -2,9 +2,8 @@ name: Update Patreon Members
 
 on:
   workflow_dispatch:  # Ermöglicht das manuelle Auslösen des Workflows
-  repository_dispatch:
-    types:
-      - webhook
+  schedule:
+    - cron: "0 0 * * *"
         
 jobs:
   run-script:
