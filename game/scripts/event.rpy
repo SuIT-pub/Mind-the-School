@@ -1515,12 +1515,14 @@ init -3 python:
 
         frags = get_kwargs("frag_order", [], **kwargs)
         frag_index = get_kwargs("frag_index", 0, **kwargs)
+        frag_parent = get_kwargs("frag_parent", None, **kwargs)
 
-        if len(frags) > 0 and frag_index + 1 < len(frags):
-            frag_parent = get_kwargs("frag_parent", None, **kwargs)
+        if len(frags) > 0 and frag_index + 1 < len(frags) and frag_index + 1 < len(frag_parent.fragments):
             kwargs["frag_index"] = frag_index + 1
+            if is_replay(**kwargs):
+                log_val('decision_data' + str(frag_index + 1), persistent.gallery['fragment'][frags[frag_index + 1].get_id()]['decisions'])
+                kwargs['decision_data'] = persistent.gallery['fragment'][frags[frag_index + 1].get_id()]['decisions']
             if frag_parent != None:
-                
                 frag_parent.call_fragment(frag_index + 1, frags[frag_index + 1], **kwargs)
 
         in_replay = get_kwargs("in_replay", False, **kwargs)

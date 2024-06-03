@@ -1788,7 +1788,7 @@ screen journal_gallery(display):
             $ event_frag_storage = persistent.gallery[location][event]['options']['Frag_Storage'][fragment_selection_index]
             $ event_list = [get_event_from_register(event_name) for event_name in persistent.gallery["FragStorage"][event_frag_storage]['values'].keys() if get_event_from_register(event_name) != None]
             $ event_dict = {'.'.join([location, event, "fragment_selection_mode", str(fragment_selection_index), event_obj.get_event()]): get_translation(event_obj.get_event()) for event_obj in event_list}
-            use journal_simple_list(7, display, event_dict, "buttons_idle", pos_x = 400, pos_y = 400, width = 450, height = 550, sort = True)
+            use journal_simple_list(7, display, event_dict, "buttons_idle", pos_x = 450, pos_y = 400, width = 400, height = 550, sort = True)
 
     # if an event is selected, display event information on right side
     if event != "":
@@ -1817,12 +1817,18 @@ screen journal_gallery(display):
 
         $ has_option = False
 
-        if display_mode == "fragment_mode":
-            
+        if event_obj.get_form() == "composite":            
             python:
                 if 'frag_order' not in persistent.gallery[location][event]['options'].keys():
                     persistent.gallery[location][event]['options']['frag_order'] = []
 
+            for i, frag_storage_name in enumerate(persistent.gallery[location][event]['options']['Frag_Storage']):
+                if i >= len(persistent.gallery[location][event]['options']['frag_order']):
+                    $ frag_event = list(persistent.gallery["FragStorage"][frag_storage_name]['values'].keys())[0]
+                    $ persistent.gallery[location][event]['options']['frag_order'].append(frag_event)
+
+        if display_mode == "fragment_mode":
+            
             frame:
                 background Solid('#0000')
                 area(989, 600, 500, 250)
@@ -1830,10 +1836,6 @@ screen journal_gallery(display):
                         
                     vbox:
                         for i, frag_storage_name in enumerate(persistent.gallery[location][event]['options']['Frag_Storage']):
-                            if i >= len(persistent.gallery[location][event]['options']['frag_order']):
-                                $ frag_event = list(persistent.gallery["FragStorage"][frag_storage_name]['values'].keys())[0]
-                                $ persistent.gallery[location][event]['options']['frag_order'].append(frag_event)
-                            
                             $ curr_fragment = persistent.gallery[location][event]['options']['frag_order'][i]
                             $ frag_title = str(i) + ".: " + get_event_menu_title('fragment', curr_fragment)
                             textbutton frag_title:
@@ -1851,6 +1853,7 @@ screen journal_gallery(display):
                 $ base_gallery = persistent.gallery['fragment'][fragment_selection_fragment]
                 $ display_event = fragment_selection_fragment
                 $ display_location = "fragment"
+                $ set_last_data
 
             if display_event != old_event:
                 $ gallery_chooser = {}
@@ -2004,13 +2007,22 @@ screen journal_gallery(display):
         if display_mode == "value_mode" or display_mode == "fragment_mode":
             # displays the replay button if replay is possible
             if not disable_play:
-                button:
-                    text "Start Replay":
-                        style "buttons_idle"
-                        size 50
-                    xpos 1000
-                    ypos 880
-                    action [Call('start_gallery_replay', location, event, gallery_chooser, display)]
+                if event_obj.get_form() == "composite":
+                    button:
+                        text "Start Replay":
+                            style "buttons_idle"
+                            size 50
+                        xpos 1000
+                        ypos 880
+                        action [Call('start_gallery_composite_replay', location, event, dict(gallery_chooser), list(persistent.gallery[location][event]['options']['frag_order']), display)]
+                else:
+                    button:
+                        text "Start Replay":
+                            style "buttons_idle"
+                            size 50
+                        xpos 1000
+                        ypos 880
+                        action [Call('start_gallery_replay', location, event, dict(gallery_chooser), display)]
             else:
                 button:
                     text "Replay not available":
@@ -2222,6 +2234,65 @@ label reset_gallery_cheat(page, display):
 
     call open_journal(page, display) from reset_gallery_cheat_1
 
+
+label start_gallery_composite_replay(location, event, gallery_chooser, fragments, display):
+    # """
+    # Starts the replay of a specific event with the selected values
+
+    # ### Parameters:
+    # 1. location: str
+    #     - the location of the event
+    # 2. event: str
+    #     - the event to be replayed
+    # 3. gallery_chooser: dict
+    #     - the selected values for the event
+    # 4. display: str
+    #     - the display to be opened after the replay
+    # """
+
+    # prepare data for the kwargs
+    $ is_in_replay = True
+    $ event_obj = get_event_from_register(event)
+
+    $ gallery_chooser['in_replay'] = True
+    $ gallery_chooser['journal_display'] = display
+    $ gallery_chooser['in_event'] = True
+
+    $ gallery_chooser['replay_frag_list'] = [get_event_from_register(event_name) for event_name in fragments if is_event_registered(event_name)]
+    $ gallery_chooser['frag_order'] = gallery_chooser['replay_frag_list']
+    $ gallery_chooser['frag_index'] = 0
+    $ gallery_chooser['frag_parent'] = event_obj
+
+    $ first_fragment = gallery_chooser['replay_frag_list'][0]
+
+    $ gallery_chooser['event_name'] = first_fragment.get_id()
+    $ gallery_chooser['event_obj'] = first_fragment
+    $ gallery_chooser['event_type'] = first_fragment.event_type
+    $ gallery_chooser['event_form'] = 'fragment'
+
+    $ log_val('decision_data', persistent.gallery['fragment'][first_fragment.get_id()])
+    $ gallery_chooser['decision_data'] = persistent.gallery['fragment'][first_fragment.get_id()]['decisions']
+
+    $ i = 0
+    while i < len(gallery_chooser['frag_order']):
+        $ frag_obj = gallery_chooser['frag_order'][i]
+        $ j = 0
+        $ last_data = get_last_data('fragment', frag_obj.get_id())
+        $ data_keys = list(last_data.keys())
+        while j < len(data_keys):
+            $ data_key = data_keys[j]
+            $ gallery_chooser[frag_obj.get_id() + '.' + data_key] = last_data[data_key]
+            $ j += 1
+        $ i += 1
+
+    $ replay_data = gallery_chooser
+    
+    $ hide_all()
+
+    # call event
+    $ renpy.call("call_event", first_fragment.get_event_label(), event_obj.priority, **gallery_chooser)
+
+
 label start_gallery_replay(location, event, gallery_chooser, display):
     # """
     # Starts the replay of a specific event with the selected values
@@ -2243,6 +2314,8 @@ label start_gallery_replay(location, event, gallery_chooser, display):
     $ gallery_chooser['journal_display'] = display
     $ gallery_chooser['in_event'] = True
     $ gallery_chooser['event_name'] = event
+
+    $ log_val('decision_data', persistent.gallery[location][event])
     $ gallery_chooser['decision_data'] = persistent.gallery[location][event]['decisions']
     $ replay_data = gallery_chooser
     
