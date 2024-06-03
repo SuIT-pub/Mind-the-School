@@ -1091,8 +1091,8 @@ init -3 python:
             Checks if the event is created correctly.
             If the event is not properly set up, an error message is printed. 
             It checks the following:
-            1. If the priority is valid
-            2. If all labels exist           
+            301. If the priority is valid
+            302. If all labels exist           
             """
 
             if self.priority < 1 or self.priority > 3:
@@ -1311,6 +1311,16 @@ init -3 python:
             self.event_form = "composite"
 
         def check_event(self):
+            """
+            Checks if the event is created correctly.
+            If the event is not properly set up, an error message is printed.
+            It checks the following:
+            301. If the priority is valid
+            302. If all labels exist
+            303. If there are fragments added
+            304. If the fragments are EventStorages
+            """
+
             super().check_event()
 
             if len(self.fragments) == 0:
@@ -1320,9 +1330,21 @@ init -3 python:
                 log_error(304, "Composite Event " + self.event_id + ": Fragments have to be EventStorages!")
 
         def get_event(self) -> str:
+            """
+            Returns the event.
+
+            ### Returns:
+            1. str
+                - The event.
+            """
+
             return self.event
 
         def get_event_label(self) -> str:
+            """
+            Returns the event label.
+            """
+
             return self.event
 
         def get_length(self) -> int:
@@ -1383,6 +1405,16 @@ init -3 python:
             kwargs["frag_index"] = index
             kwargs["frag_parent"] = self
 
+            if is_replay(**kwargs):
+                kwargs['decision_data'] = persistent.gallery['fragment'][events.get_id()]['decisions']
+                last_data = get_last_data('fragment', events.get_id())
+                data_keys = list(last_data.keys())
+                j = 0
+                while j < len(data_keys):
+                    data_key = data_keys[j]
+                    kwargs[data_key] = last_data[data_key]
+                    j += 1
+    
             renpy.call("call_event", events.get_event_label(), self.priority, **kwargs)
 
         def select_fragments(self, **kwargs) -> List[Event]:
@@ -1519,9 +1551,6 @@ init -3 python:
 
         if len(frags) > 0 and frag_index + 1 < len(frags) and frag_index + 1 < len(frag_parent.fragments):
             kwargs["frag_index"] = frag_index + 1
-            if is_replay(**kwargs):
-                log_val('decision_data' + str(frag_index + 1), persistent.gallery['fragment'][frags[frag_index + 1].get_id()]['decisions'])
-                kwargs['decision_data'] = persistent.gallery['fragment'][frags[frag_index + 1].get_id()]['decisions']
             if frag_parent != None:
                 frag_parent.call_fragment(frag_index + 1, frags[frag_index + 1], **kwargs)
 
@@ -1717,8 +1746,10 @@ label default_fallback_event (**kwargs):
 label test_normal_test_event(**kwargs):
     $ begin_event(**kwargs)
 
-    $ get_value('test', **kwargs)
-    $ get_value('test2', **kwargs)
+    $ test = get_value('test', **kwargs)
+    $ test2 = get_value('test2', **kwargs)
+
+    subtitles "Test Event [test] [test2]"
 
     call composite_event_runner(**kwargs)
 
@@ -1736,7 +1767,7 @@ label composite_event_runner(**kwargs):
         $ end_event("map_overview", **kwargs)
 
     $ kwargs["frag_order"] = events
-    
+
     $ event_obj.call_fragment(0, events[0], **kwargs)
         
     $ end_event("map_overview", **kwargs)
