@@ -1853,7 +1853,6 @@ screen journal_gallery(display):
                 $ base_gallery = persistent.gallery['fragment'][fragment_selection_fragment]
                 $ display_event = fragment_selection_fragment
                 $ display_location = "fragment"
-                $ set_last_data
 
             if display_event != old_event:
                 $ gallery_chooser = {}
@@ -2030,6 +2029,14 @@ screen journal_gallery(display):
                         size 30
                     xpos 1000
                     ypos 880
+        else:
+            button:
+                text "Return to\nMain Event":
+                    style "buttons_idle"
+                    size 40
+                xpos 1000
+                ypos 880
+                action [With(dissolveM), Call("open_journal", 7, '.'.join([location, event, "fragment_mode"]))]
 
     textbutton "Close":
         xalign 0.75
@@ -2259,38 +2266,32 @@ label start_gallery_composite_replay(location, event, gallery_chooser, fragments
     $ gallery_chooser['in_event'] = True
 
     $ gallery_chooser['replay_frag_list'] = [get_event_from_register(event_name) for event_name in fragments if is_event_registered(event_name)]
-    $ gallery_chooser['frag_order'] = gallery_chooser['replay_frag_list']
-    $ gallery_chooser['frag_index'] = 0
-    $ gallery_chooser['frag_parent'] = event_obj
 
-    $ first_fragment = gallery_chooser['replay_frag_list'][0]
+    $ gallery_chooser['event_name'] = event
+    $ gallery_chooser['event_obj'] = event_obj
+    $ gallery_chooser['event_type'] = event_obj.event_type
+    $ gallery_chooser['event_form'] = 'composite'
 
-    $ gallery_chooser['event_name'] = first_fragment.get_id()
-    $ gallery_chooser['event_obj'] = first_fragment
-    $ gallery_chooser['event_type'] = first_fragment.event_type
-    $ gallery_chooser['event_form'] = 'fragment'
+    $ gallery_chooser['decision_data'] = persistent.gallery[location][event]['decisions']
 
-    $ log_val('decision_data', persistent.gallery['fragment'][first_fragment.get_id()])
-    $ gallery_chooser['decision_data'] = persistent.gallery['fragment'][first_fragment.get_id()]['decisions']
-
-    $ i = 0
-    while i < len(gallery_chooser['frag_order']):
-        $ frag_obj = gallery_chooser['frag_order'][i]
-        $ j = 0
-        $ last_data = get_last_data('fragment', frag_obj.get_id())
-        $ data_keys = list(last_data.keys())
-        while j < len(data_keys):
-            $ data_key = data_keys[j]
-            $ gallery_chooser[frag_obj.get_id() + '.' + data_key] = last_data[data_key]
-            $ j += 1
-        $ i += 1
+    # $ i = 0
+    # while i < len(gallery_chooser['frag_order']):
+    #     $ frag_obj = gallery_chooser['frag_order'][i]
+    #     $ j = 0
+    #     $ last_data = get_last_data('fragment', frag_obj.get_id())
+    #     $ data_keys = list(last_data.keys())
+    #     while j < len(data_keys):
+    #         $ data_key = data_keys[j]
+    #         $ gallery_chooser[frag_obj.get_id() + '.' + data_key] = last_data[data_key]
+    #         $ j += 1
+    #     $ i += 1
 
     $ replay_data = gallery_chooser
     
     $ hide_all()
 
     # call event
-    $ renpy.call("call_event", first_fragment.get_event_label(), event_obj.priority, **gallery_chooser)
+    $ renpy.call("call_event", event_obj.get_event_label(), event_obj.priority, **gallery_chooser)
 
 
 label start_gallery_replay(location, event, gallery_chooser, display):
@@ -2315,7 +2316,6 @@ label start_gallery_replay(location, event, gallery_chooser, display):
     $ gallery_chooser['in_event'] = True
     $ gallery_chooser['event_name'] = event
 
-    $ log_val('decision_data', persistent.gallery[location][event])
     $ gallery_chooser['decision_data'] = persistent.gallery[location][event]['decisions']
     $ replay_data = gallery_chooser
     

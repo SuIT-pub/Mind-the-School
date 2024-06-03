@@ -81,6 +81,24 @@ init python:
             persistent.gallery = {}
 
     def get_gallery_values(location: str, event: str, values: Dict[str, Any], key: List[str]) -> List:
+        """
+        Gets a list of values from the gallery database.
+
+        ### Parameters:
+        1. location: str
+            - The location of the gallery.
+        2. event: str
+            - The event of the gallery.
+        3. values: Dict[str, Any]
+            - The values to get the list from.
+        4. key: List[str]
+            - The keys to get the list from.
+
+        ### Returns:
+        1. List:
+            - The list of values found in the database.
+        """
+
         current = persistent.gallery[location][event]['values']
         for k in key:
             if values[k] not in current.keys():
@@ -316,6 +334,22 @@ init python:
     # Stat Value Gallery Handler
 
     def set_stat_value(key: str, value: float, ranges: List[float], **kwargs) -> float:
+        """
+        Sets a value normalized to set values in the gallery database.
+        Values get changed to the next higher value in the ranges.
+
+        ### Parameters:
+        1. key: str
+            - The key to set the value under.
+        2. value: float
+            - The value to set.
+        3. ranges: List[float]
+            - The ranges to normalize the value.
+
+        ### Returns:
+        1. float:
+            - The value set in the database.
+        """
         
         global gallery_manager
 
@@ -327,6 +361,22 @@ init python:
         return set_value(key, value, **kwargs)
 
     def get_stat_value(key: str, ranges: List[float], alt: float = 100, **kwargs) -> float:
+        """
+        Gets a value normalized to set values in the gallery database.
+        Values get changed to the next higher value in the ranges.
+
+        ### Parameters:
+        1. key: str
+            - The key to get the value from.
+        2. ranges: List[float]
+            - The ranges to normalize the value.
+        3. alt: float (default: 100)
+            - The value to return if the key is not found.
+
+        ### Returns:
+        1. float:
+            - The value found in the database.
+        """
         
         global gallery_manager
 
@@ -520,6 +570,18 @@ init python:
         return set_char_value_with_level(char_name, char_obj, **kwargs)
 
     def get_frag_list(**kwargs) -> List[EventFragment]:
+        """
+        Gets a list of fragments from the event object.
+
+        ### Parameters:
+        1. **kwargs
+            - The kwargs to get the character from
+            - if is_replay is True, method only returns the list of fragments supplied by kwargs with key: replay_frag_list
+
+        ### Returns:
+        1. List[EventFragment]:
+            - The list of fragments from the event object.
+        """
 
         if is_replay(**kwargs):
             return get_kwargs('replay_frag_list', [], **kwargs)
@@ -539,25 +601,21 @@ init python:
 
         return fragments
 
-    def set_last_data(location: str, event: str):
-        gallery_data = persistsent.gallery[location][event]
-        last_data = {}
-        if ('last_data' in gallery_data['options'].keys() and 
-            gallery_data['options']['last_data'] != None
-        ):
-            last_data = gallery_data['options']['last_data']
-        data = gallery_data['values']
-        i = 0
-        for i, key in enumerate(gallery_data['order']):
-            if key in last_data.keys():
-                data = data[last_data[key]]
-            else:
-                new_key = data.keys()[0]
-                gallery_data['options']['last_data'][gallery_data['order'][i]] = new_key
-                data = data[new_key]
-
     def get_last_data(location: str, event: str) -> Dict[str, Any]:
-        # set_last_data(location, event)
+        """
+        Gets the last data from the gallery database.
+
+        ### Parameters:
+        1. location: str
+            - The location of the gallery.
+        2. event: str
+            - The event of the gallery.
+
+        ### Returns:
+        1. Dict[str, Any]:
+            - The last data from the gallery database.
+        """
+
         return persistent.gallery[location][event]['options']['last_data']
 
     ################
