@@ -53,14 +53,17 @@ init python:
             made_decisions = get_kwargs('made_decisions', [], **kwargs)
             decision_data = get_kwargs('decision_data', {}, **kwargs)
             possible_decisions = get_decision_possibilities(decision_data, made_decisions)
+            log_val('possible_decisions', possible_decisions)
+            log_val('elements', elements)
             elements = [tupleEl for tupleEl in elements if str(tupleEl) in possible_decisions or (isinstance(tupleEl, Tuple) and str(tupleEl[1]) in possible_decisions)]
 
         filtered_elements = [tupleEl for tupleEl in elements if not isinstance(tupleEl, Tuple) or len(tupleEl) == 2 or tupleEl[2]]
+        log_val('filtered_elements', filtered_elements)
 
         
         if len(filtered_elements) == 0:
             character.dev ("Oops something went wrong here. There seems to be nothing to choose from. Sry about that. I'll send you back to the map.")
-            character.dev (f"Error Code: [101]{kwargs['event_name']}:{';'.join([tag.split('.')[1] for tag in made_decisions])}")
+            # character.dev (f"Error Code: [101]{kwargs['event_name']}:{';'.join([tag.split('.')[1] for tag in made_decisions])}")
             renpy.jump("map_overview")
 
 

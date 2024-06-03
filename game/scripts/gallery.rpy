@@ -306,6 +306,8 @@ init python:
         current_level = decision_data
 
         for key in decisions:
+            if key not in current_level.keys():
+                continue
             current_level = current_level[key]
 
         return list(current_level.keys())
@@ -329,6 +331,17 @@ init python:
         global gallery_manager
 
         if gallery_manager == None:
+            if is_replay(**kwargs):
+                event_name = get_kwargs('event_name', None, **kwargs)
+                if event_name == None:
+                    return alt
+                event_obj = get_event_from_register(event_name)
+                if event_obj == None:
+                    return alt
+                if event_obj.get_form() == 'fragment':
+                    new_key = event_obj.get_id() + '.' + key
+                    return get_kwargs(new_key, get_kwargs(key, alt, **kwargs), **kwargs)
+        
             return get_kwargs(key, alt, **kwargs)
 
         gallery_manager.current_ranges[key] = ranges
@@ -353,6 +366,18 @@ init python:
             - The value found in the database.
         """
 
+        if is_replay(**kwargs):
+            event_name = get_kwargs('event_name', None, **kwargs)
+            if event_name == None:
+                return alt
+            event_obj = get_event_from_register(event_name)
+            if event_obj == None:
+                return alt
+            if event_obj.get_form() == 'fragment':
+                new_key = event_obj.get_id() + '.' + key
+                value = get_kwargs(new_key, get_kwargs(key, alt, **kwargs), **kwargs)
+                return set_value(key, value, **kwargs)                
+        
         value = get_kwargs(key, alt, **kwargs)
 
         return set_value(key, value, **kwargs)
@@ -372,7 +397,7 @@ init python:
             - The value set in the database.
         """
 
-        if not is_replay(**kwargs):
+        if not is_replay(**kwargs) and not get_kwargs('no_register', True, **kwargs):
             register_value(key, value)
 
         return value        
@@ -405,7 +430,7 @@ init python:
             if char == None:
                 return None
 
-        if not is_replay(**kwargs):
+        if not is_replay(**kwargs) and not get_kwargs('no_register', True, **kwargs):
             register_value(char_name + "_key", char.get_name())
             register_value(char_name + "_level", char.get_level())
 
@@ -447,6 +472,18 @@ init python:
             - The character set in the database.
         """
 
+        if is_replay(**kwargs):
+            event_name = get_kwargs('event_name', None, **kwargs)
+            if event_name == None:
+                return alt
+            event_obj = get_event_from_register(event_name)
+            if event_obj == None:
+                return alt
+            if event_obj.get_form() == 'fragment':
+                new_char_name = event_obj.get_id() + '.' + char_name
+                char_obj = get_kwargs(new_char_name, get_kwargs(char_name, None, **kwargs), **kwargs)
+                return set_char_value(char_name, char_obj, **kwargs)
+        
         char_obj = get_kwargs(char_name, None, **kwargs)
         return set_char_value(char_name, char_obj, **kwargs)
 
@@ -467,6 +504,18 @@ init python:
             - The level of the character.
         """
 
+        if is_replay(**kwargs):
+            event_name = get_kwargs('event_name', None, **kwargs)
+            if event_name == None:
+                return alt
+            event_obj = get_event_from_register(event_name)
+            if event_obj == None:
+                return alt
+            if event_obj.get_form() == 'fragment':
+                new_char_name = event_obj.get_id() + '.' + char_name
+                char_obj = get_kwargs(new_char_name, get_kwargs(char_name, None, **kwargs), **kwargs)
+                return set_char_value_with_level(char_name, char_obj, **kwargs)
+        
         char_obj = get_kwargs(char_name, None, **kwargs)
         return set_char_value_with_level(char_name, char_obj, **kwargs)
 
@@ -479,9 +528,8 @@ init python:
         if event_obj == None:
             return []
 
-        fragments = event_obj.select_fragments(**kwargs)
-
         if not is_replay(**kwargs):
+            fragments = event_obj.select_fragments(**kwargs)
             gallery_manager.set_option("Frag_Storage", [storage.get_name() for storage in event_obj.get_fragment_storages()])
             
             for i, storage in enumerate(event_obj.get_fragment_storages()):
@@ -490,6 +538,28 @@ init python:
 
 
         return fragments
+
+    def set_last_data(location: str, event: str):
+        gallery_data = persistsent.gallery[location][event]
+        last_data = {}
+        if ('last_data' in gallery_data['options'].keys() and 
+            gallery_data['options']['last_data'] != None
+        ):
+            last_data = gallery_data['options']['last_data']
+        data = gallery_data['values']
+        i = 0
+        for i, key in enumerate(gallery_data['order']):
+            if key in last_data.keys():
+                data = data[last_data[key]]
+            else:
+                new_key = data.keys()[0]
+                gallery_data['options']['last_data'][gallery_data['order'][i]] = new_key
+                data = data[new_key]
+
+    def get_last_data(location: str, event: str) -> Dict[str, Any]:
+        # set_last_data(location, event)
+        return persistent.gallery[location][event]['options']['last_data']
+
     ################
     # Replay Handler
     
