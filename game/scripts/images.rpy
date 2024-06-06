@@ -684,8 +684,8 @@ init -2 python:
         for key, value in kwargs.items():
             image_path = image_path.replace(f"<{key}>", str(value))
 
-        if 'level>' in image_path:
-            image_path = insert_level(image_path, **kwargs)
+        # if 'level>' in image_path:
+        #     image_path = insert_level(image_path, **kwargs)
         if '<level>' in image_path:
             image_path = get_available_level(image_path, get_kwargs('level', 0, **kwargs))
 
@@ -716,8 +716,8 @@ init -2 python:
 
         variant = get_kwargs('variant', 0, **kwargs)
 
-        if 'level>' in image_path:
-            image_path = insert_level(image_path, **kwargs)
+        # if 'level>' in image_path:
+        #     image_path = insert_level(image_path, **kwargs)
 
         if "<variant>" in image_path:
             max_variant = get_image_max_value("<variant>", image_path, 1)

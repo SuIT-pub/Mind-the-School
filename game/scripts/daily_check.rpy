@@ -21,67 +21,53 @@ init 1 python:
     tutorial_1_event = Event(2, "tutorial_1", 
         IntroCondition(),
         TimeCondition(day = 2, month = 1, year = 2023, daytime = 1),
-        thumbnail = "images/events/intro/intro tutorial 9.webp"
-    )
+        thumbnail = "images/events/intro/intro tutorial 9.webp")
 
     first_week_epilogue_event = Event(1, "first_week_epilogue", 
         IntroCondition(),
         TimeCondition(day = 5, month = 1, year = 2023, daytime = 2),
-        thumbnail = "images/events/first week/first week epilogue 8.webp"
-    )
+        thumbnail = "images/events/first week/first week epilogue 8.webp")
 
     first_week_epilogue_final_event = Event(1, "first_week_epilogue_final", 
         TimeCondition(day = 10, month = 1, year = 2023, daytime = 1),
-        thumbnail = "images/events/first week/first week epilogue final 3.webp"
-    )
+        thumbnail = "images/events/first week/first week epilogue final 3.webp")
 
     first_pta_meeting_event = Event(1, "first_pta_meeting", 
         IntroCondition(),
         TimeCondition(day = 5, month = 1, year = 2023, daytime = 1),
-        thumbnail = "images/events/pta/first meeting/first pta meeting 0 0.webp"
-    )
+        thumbnail = "images/events/pta/first meeting/first pta meeting 0 0.webp")
 
     pta_meeting_event = Event(2, "pta_meeting",
-        TimeCondition(weekday = 5, daytime = 1)
-    )
+        TimeCondition(weekday = 5, daytime = 1))
 
     new_week_event = Event(2, "new_week",
-        TimeCondition(weekday = 1, daytime = 1)
-    )
+        TimeCondition(weekday = 1, daytime = 1))
 
     end_of_month_event = Event(2, "end_of_month",
-        TimeCondition(day = 1, daytime = 1)
-    )
+        TimeCondition(day = 1, daytime = 1))
 
     event_all_events_seen_event = Event(1,
         "event_all_events_seen",
-        GameDataCondition("all_events_seen", True)
-    )
+        GameDataCondition("all_events_seen", True))
 
     event_reached_max_stats_event = Event(1,
         "event_reached_max_stats",
-        StatCondition(inhibition = "90-", corruption = "5+")
-    )
+        StatCondition(inhibition = "90-", corruption = "5+"))
 
     intro_check_all_facilities_event = Event(2, "intro_check_all_facilities", 
-        TimeCondition(day = 2, month = 1, year = 2023, daytime = 1)
-    )
+        TimeCondition(day = 2, month = 1, year = 2023, daytime = 1))
 
     intro_check_all_first_potions_event = Event(1, "intro_check_all_first_potions", 
-        TimeCondition(day = 9, month = 1, year = 2023, daytime = 4)
-    )
+        TimeCondition(day = 9, month = 1, year = 2023, daytime = 4))
 
     game_over_happiness_event = Event(1, "game_over_happiness", 
-        StatCondition(happiness = "0-")
-    )
+        StatCondition(happiness = "0-"))
 
     game_over_education_event = Event(1, "game_over_education", 
-        StatCondition(education = "0-")
-    )
+        StatCondition(education = "0-"))
 
     game_over_reputation_event = Event(1, "game_over_reputation", 
-        StatCondition(reputation = "0-")
-    )
+        StatCondition(reputation = "0-"))
 
     time_check_events.add_event(
         tutorial_1_event, 

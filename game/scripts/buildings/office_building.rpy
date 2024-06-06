@@ -43,16 +43,22 @@ init 1 python:
 
         Event(3, "office_event_1",
             TimeCondition(weekday = "d", daytime = "f"),
+            LevelSelector('school_level', 'school'),
+            LevelSelector('teacher_level', 'teacher'),
             thumbnail = "images/events/office/office_event_1 1 0.webp"),
 
         Event(3, "office_event_2",
             RandomListSelector("teacher", "Finola Ryan", "Yulan Chen"),
             TimeCondition(weekday = "d", daytime = "f"),
+            LevelSelector('teacher_level', 'teacher'),
+            LevelSelector('school_level', 'school'),
             thumbnail = "images/events/office/office_event_2 1 Finola Ryan.webp"),
 
         Event(3, "office_event_3",
             TimeCondition(weekday = "d", daytime = "d"),
             NOT(RuleCondition("student_student_relation")),
+            LevelSelector('school_level', 'school'),
+            LevelSelector('teacher_level', 'teacher'),
             thumbnail = "images/events/office/office_event_3 1 0.webp"),
     )
 
@@ -66,9 +72,13 @@ init 1 python:
         Event(3, "work_office_money_event_1",
             TimeCondition(weekday = "d", daytime = "d")),
         Event(3, "work_office_education_event_1",
-            TimeCondition(weekday = "d", daytime = "d")),
+            TimeCondition(weekday = "d", daytime = "d"),
+            LevelSelector('school_level', 'school'),
+            LevelSelector('teacher_level', 'teacher')),
         Event(3, "work_office_session_event_naughty_1",
             TimeCondition(weekday = "d", daytime = "d"),
+            LevelSelector('school_level', 'school'),
+            LevelSelector('secretary_level', 'secretary'),
             ProgressCondition("school sessions", "5+"),
             ProgressSelector("naughty_sessions", "work_office_session_naughty")),
     )
@@ -168,16 +178,16 @@ label work_office_money_event_1 (**kwargs):
 label work_office_education_event_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ school_obj = get_char_value('school_obj', **kwargs)
-    $ teacher_obj = get_char_value('teacher_obj', **kwargs)
+    $ school_level = get_value('school_level', **kwargs)
+    $ teacher_level = get_value('teacher_level', **kwargs)
 
     subtitles "You work on optimizing the teaching material for the students."
     show screen black_screen_text("1h later.")
     headmaster_thought "I think I found a way to make the material more interesting for the students."
 
-    call change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier('school',
         education = SMALL, happiness = TINY)
-    call change_stats_with_modifier(teacher_obj,
+    call change_stats_with_modifier('teacher',
         happiness = SMALL, education = SMALL)
 
     $ end_event('new_daytime', **kwargs)
@@ -189,8 +199,8 @@ image anim_work_office_session_event_naughty_1_4 = Movie(play ="images/events/of
 label work_office_session_event_naughty_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ school_obj = get_char_value('school_obj', **kwargs)
-    $ secretary_obj = get_char_value('secretary_obj', **kwargs)
+    $ school_level = get_value('school_level', **kwargs)
+    $ secretary_level = get_value('secretary_level', **kwargs)
     $ naughty_sessions = get_value("naughty_sessions", **kwargs)
 
     if naughty_sessions == -1:
@@ -348,21 +358,20 @@ label work_office_session_event_naughty_1 (**kwargs):
 
         $ start_progress('work_office_session_naughty')
 
-        call change_stats_with_modifier(school_obj,
+        call change_stats_with_modifier('school',
             inhibition = DEC_MEDIUM, corruption = MEDIUM, happiness = DEC_SMALL)
-        call change_stats_with_modifier(secretary_obj,
+        call change_stats_with_modifier('secretary',
             happiness = LARGE, corruption = LARGE, inhibition = DEC_MEDIUM)
 
         $ end_event('new_daytime', **kwargs)
     elif naughty_sessions == 1:
         pass
 
-# TODO: make images
 label office_event_1 (**kwargs):
     $ begin_event(**kwargs);
 
-    $ school_obj = get_char_value('school_obj', **kwargs)
-    $ teacher_obj = get_char_value('teacher_obj', **kwargs)
+    $ school_level = get_value('school_level', **kwargs)
+    $ teacher_level = get_value('teacher_level', **kwargs)
 
     $ image = Image_Series("images/events/office/office_event_1 <school_level> <step>.webp", **kwargs)
 
@@ -372,37 +381,35 @@ label office_event_1 (**kwargs):
     $ image.show(1)
     subtitles "Apparently she is in need of counseling."
 
-    call change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier('school',
         happiness = TINY, reputation = TINY)
-    call change_stats_with_modifier(teacher_obj,
+    call change_stats_with_modifier('teacher',
         happiness = TINY)
     
     $ end_event('new_daytime', **kwargs)
 
-# TODO: make images
 label office_event_2 (**kwargs):
     $ begin_event(**kwargs);
 
-    $ teacher_obj = get_char_value('teacher_obj', **kwargs)
-    $ school_obj = get_char_value('school_obj', **kwargs)
+    $ teacher_level = get_value('teacher_level', **kwargs)
+    $ school_level = get_value('school_level', **kwargs)
     $ teacher = get_value("teacher", **kwargs)
 
     call show_image ("images/events/office/office_event_2 <teacher_level> <teacher>.webp", **kwargs) from _call_show_image_office_event_2
     subtitles "Even the teachers need a break from time to time."
 
-    call change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier('school',
         education = DEC_SMALL, reputation = DEC_TINY)
-    call change_stats_with_modifier(teacher_obj,
+    call change_stats_with_modifier('teacher',
         happiness = TINY)
 
     $ end_event('new_daytime', **kwargs)
 
-# TODO: make images
 label office_event_3 (**kwargs):
     $ begin_event(**kwargs);
 
-    $ school_obj = get_char_value('school_obj', **kwargs)
-    $ teacher_obj = get_char_value('teacher_obj', **kwargs)
+    $ school_level = get_value('school_level', **kwargs)
+    $ teacher_level = get_value('teacher_level', **kwargs)
 
     $ image = Image_Series("images/events/office/office_event_3 <school_level> <step>.webp", **kwargs)
 
@@ -413,7 +420,6 @@ label office_event_3 (**kwargs):
         ("Ignore them", "office_event_3.ignore"),
         ("Ask why they are here", "office_event_3.talk"),
     **kwargs)
-
 label .ignore (**kwargs):
     
     $ begin_event()
@@ -421,11 +427,10 @@ label .ignore (**kwargs):
     $ image.show(1)
     subtitles "You ignore them and continue you way."
 
-    call change_stats_with_modifier(teacher_obj,
+    call change_stats_with_modifier('teacher',
         happiness = TINY)
 
     $ end_event('new_daytime', **kwargs)
-
 label .talk (**kwargs):
     
     $ begin_event()
@@ -443,7 +448,6 @@ label .talk (**kwargs):
         ("Tell about policy", "office_event_3.policy"),
         ("Take care of it for them", "office_event_3.care"),
     **kwargs)
-
 label .policy (**kwargs):
     
     $ begin_event()
@@ -459,13 +463,12 @@ label .policy (**kwargs):
     sgirl "..."
     headmaster "Now you both go back to class."
 
-    call change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier('school',
         charm = SMALL, happiness = DEC_SMALL)
-    call change_stats_with_modifier(teacher_obj,
+    call change_stats_with_modifier('teacher',
         happiness = TINY)
 
     $ end_event('new_daytime', **kwargs)
-
 label .care (**kwargs):
     
     $ begin_event()
@@ -481,9 +484,9 @@ label .care (**kwargs):
     $ image.show(8)
     sgirl "Thank you!"
 
-    call change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier('school',
         charm = DEC_SMALL, happiness = MEDIUM, inhibition = DEC_SMALL)
-    call change_stats_with_modifier(teacher_obj,
+    call change_stats_with_modifier('teacher',
         happiness = DEC_SMALL)
 
     if get_progress("unlock_student_relationship") == -1:

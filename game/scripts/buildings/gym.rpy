@@ -34,6 +34,7 @@ init 1 python:
         thumbnail = "images/events/first potion/first potion gym 1.webp")
 
     gym_event1 = Event(3, "gym_event_1",
+        LevelSelector("school_level", "school"),
         StatSelector("corruption", CORRUPTION, "school"),
         RandomListSelector("topic", "shoes", "hair", "ready"),
         DictSelector("topic_text", "topic", {
@@ -45,12 +46,14 @@ init 1 python:
         thumbnail = "images/events/gym/gym_event_1 1 hair 0.webp")
     
     gym_event2 = Event(3, "gym_event_2",
+        LevelSelector("school_level", "school"),
         StatSelector("inhibition", INHIBITION, "school"),
         RandomListSelector("topic", (0.75, "clothe"), "breasts", (0.15, "asses")),
         TimeCondition(daytime = "c", weekday = "d"),
         thumbnail = "images/events/gym/gym_event_2 1 clothe 0.webp")
 
     gym_event3 = Event(3, "gym_event_3",
+        LevelSelector("school_level", "school"),
         RandomValueSelector("variant", 1, 1),
         DictSelector("girl_name", "variant", {
             1: "Kokoro Nakamura",
@@ -60,6 +63,7 @@ init 1 python:
 
     gym_teach_pe_1_event = Event(3, "gym_teach_pe_1",
         TimeCondition(daytime = "c", weekday = "d"),
+        LevelSelector("school_level", "school"),
         thumbnail = "images/events/gym/gym_teach_pe_1 1 9.webp")
 
     gym_general_event.add_event(
@@ -173,10 +177,7 @@ image anim_gym_teach_pe_1_12 = Movie(play ="images/events/gym/gym_teach_pe_1 1 1
 label gym_teach_pe_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    # headmaster changes clothing in changing room
-    # headmaster heads to gym
-
-    $ school_obj = get_char_value('school_obj', **kwargs)
+    $ school_level = get_value('school_level', **kwargs)
 
     $ image = Image_Series("/images/events/gym/gym_teach_pe_1 <school_level> <step>.webp", **kwargs)
 
@@ -220,7 +221,7 @@ label gym_teach_pe_1 (**kwargs):
     headmaster "Don't forget to shower and change your clothes."
     # class leaves the gym
     
-    call change_stats_with_modifier(get_school(), 
+    call change_stats_with_modifier('school', 
         happiness = TINY, charm = SMALL, reputation = TINY, inhibition = DEC_TINY)
 
     $ end_event('new_daytime', **kwargs)
@@ -228,7 +229,7 @@ label gym_teach_pe_1 (**kwargs):
 label gym_event_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ school_obj = get_char_value('school_obj', **kwargs)
+    $ school_level = get_value('school_level', **kwargs)
     $ corruption = get_stat_value("corruption", [5, 100], **kwargs)
     $ topic_variant = get_value("topic", **kwargs)
     $ topic = get_value("topic_text", **kwargs)
@@ -275,20 +276,20 @@ label gym_event_1 (**kwargs):
         $ image.show(2)
         headmaster "As pretty as you are? I sure do!"
 
-        call change_stats_with_modifier(school_obj, 
+        call change_stats_with_modifier('school', 
             inhibition = DEC_SMALL, corruption = TINY, charm = TINY)
     else:
         $ image.show(1)
         sgirl "Are you getting ready for gym class too, Mr. [headmaster_last_name]?" (name="Aona Komuro")
 
-        call change_stats_with_modifier(school_obj, 
+        call change_stats_with_modifier('school', 
             inhibition = DEC_TINY, corruption = TINY, charm = TINY)
     $ end_event('new_daytime', **kwargs)
 
 label gym_event_2 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ school_obj = get_char_value('school_obj', **kwargs)
+    $ school_level = get_value('school_level', **kwargs)
     $ inhibition = get_stat_value("inhibition", [100], **kwargs)
     $ topic = get_value("topic", **kwargs)
 
@@ -311,7 +312,7 @@ label gym_event_2 (**kwargs):
     headmaster "Sorry, I didn't mean to intrude."
     $ image.show(4)
     subtitles "You run out as fast as you can."
-    call change_stats_with_modifier(school_obj, 
+    call change_stats_with_modifier('school', 
         inhibition = DEC_SMALL, happiness = DEC_MEDIUM, reputation = DEC_SMALL)
     # elif inhibition >= 60:
     #     show screen black_screen_text("gym_event_2\ntopic_[topic] inhibition >= 60")
@@ -341,7 +342,7 @@ label .sorry (**kwargs):
     
     sgirl "Okay..."
     headmaster_thought "I think she doesn't believe me..."
-    call change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier('school',
         happiness = DEC_MEDIUM, reputation = DEC_SMALL)
     $ end_event('new_daytime', **kwargs)
 label .escape (**kwargs):
@@ -351,14 +352,14 @@ label .escape (**kwargs):
     sgirl "Oh, I was just..."
     headmaster "It's okay. You couldn't possible know."
     subtitles "You leave the room and leave the girls behind dumbfounded."
-    call change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier('school',
         inhibition = DEC_MEDIUM, happiness = DEC_SMALL)
     $ end_event('new_daytime', **kwargs)
 
 label gym_event_3 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ school_obj = get_char_value('school_obj', **kwargs)
+    $ school_level = get_value('school_level', **kwargs)
     $ variant = get_value("variant", **kwargs)
     $ girl = get_value("girl_name", **kwargs)
 
@@ -387,6 +388,6 @@ label gym_event_3 (**kwargs):
     $ image.show(7)
     subtitles "She proceeded to take part on the P.E. class, almost dying of shame."
 
-    call change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier('school',
         inhibition = DEC_MEDIUM, happiness = DEC_LARGE, charm = TINY, education = TINY, reputation = DEC_SMALL)
     $ end_event('new_daytime', **kwargs)

@@ -1670,11 +1670,7 @@ screen journal_gallery(display):
 
     key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
 
-    $ log("test 1")
-
     use journal_page_selector(7, display)
-
-    $ log("test 2")
 
     text "Gallery":
         xalign 0.725 yalign 0.955
@@ -1686,36 +1682,36 @@ screen journal_gallery(display):
         size 60
         color "#000"
 
-    $ log("test 3")
+    $ log_val('gallery', persistent.gallery)
 
     # separate location and event in display (schema: location.event)
     $ split_display = [display, "", "value_mode", ""]
     if '.' in display:
         $ split_display = display.split('.')
     
-    $ log("test 4")
+    
 
     $ location = split_display[0]
     $ event = split_display[1] if len(split_display) > 1 else ""
 
-    $ log("test 5")
+    
 
     # value_mode, fragment_mode, fragment_selection_mode
     $ display_mode = split_display[2] if len(split_display) > 2 else "value_mode"
     $ fragment_selection_index = int(split_display[3]) if len(split_display) > 3 and is_integer(split_display[3]) else 0
     $ fragment_selection_fragment = split_display[4] if len(split_display) > 4 else ""
 
-    $ log("test 6")
+    
 
     python:
         if get_event_from_register(fragment_selection_fragment) != None:
             persistent.gallery[location][event]['options']['frag_order'][fragment_selection_index] = fragment_selection_fragment
 
-    $ log("test 7")
+    
 
     # if no location is defined 
     if location == "": 
-        $ log("test 8")
+        
         # parse all available location keys to their corresponding buildings
         $ location_list = [get_building(location_name) for location_name in persistent.gallery.keys() if get_building(location_name) != None]
 
@@ -1727,7 +1723,7 @@ screen journal_gallery(display):
         if 'misc' in persistent.gallery.keys():
             $ location_dict['misc'] = "Miscellaneous"
 
-        $ log("test 9")
+        
 
         # check if there is any event that can be replayed
         # if yes, display a list with all locations where events are available
@@ -1749,15 +1745,15 @@ screen journal_gallery(display):
                 xmaximum 500
                 ymaximum 50
                 color "#000"
-        $ log("test 10")
+        
     elif location != "": # if a location is defined
-        $ log("test 11")
+        
 
         $ location_title = "Miscellaneous"
         $ building = get_building(location)
         if building != None:
             $ location_title = building.get_title()
-        $ log("test 12")
+        
         # display a button that deletes all persistent data for all events registered in that location
         if debug_mode:
             textbutton "{color=#a00000}Reset Location{/color}":
@@ -1771,7 +1767,7 @@ screen journal_gallery(display):
             xpos 350 ypos 300
             text_style "buttons_idle"
             action [With(dissolveM), Call("open_journal", 7, "")]
-        $ log("test 13")
+        
         # if there is no event displayed, prompt the user to select one
         if event == "":
             text "Please select an event.":
@@ -1789,10 +1785,10 @@ screen journal_gallery(display):
                 xpos 350 ypos 350
                 text_style "buttons_idle"
                 action [With(dissolveM), Call("open_journal", 7, '.'.join([location, event, "fragment_mode"]))]
-        $ log("test 14")
+        
     # if location is selected, display a list of all possible events in that location
     if location != "":
-        $ log("test 15")
+        
         if display_mode != "fragment_selection_mode":
             $ event_list = [get_event_from_register(event_name) for event_name in persistent.gallery[location].keys() if get_event_from_register(event_name) != None]
             $ event_dict = {f"{location}.{event_obj.get_event()}": get_translation(event_obj.get_event()) for event_obj in event_list}
@@ -1802,10 +1798,10 @@ screen journal_gallery(display):
             $ event_list = [get_event_from_register(event_name) for event_name in persistent.gallery["FragStorage"][event_frag_storage]['values'].keys() if get_event_from_register(event_name) != None]
             $ event_dict = {'.'.join([location, event, "fragment_selection_mode", str(fragment_selection_index), event_obj.get_event()]): get_translation(event_obj.get_event()) for event_obj in event_list}
             use journal_simple_list(7, display, event_dict, "buttons_idle", pos_x = 450, pos_y = 400, width = 400, height = 550, sort = True)
-        $ log("test 16")
+        
     # if an event is selected, display event information on right side
     if event != "":
-        $ log("test 17")
+        
 
         $ event_obj = get_event_from_register(event)
         $ top_border_offset = 0
@@ -1819,7 +1815,7 @@ screen journal_gallery(display):
             xmaximum 500
             ymaximum 50
             color "#000"
-        $ log("test 18")
+        
         # display event thumbnail if available
         $ thumbnail = Image("images/journal/empty_image_wide.webp")
         if renpy.loadable(event_obj.get_thumbnail()):
@@ -1829,7 +1825,7 @@ screen journal_gallery(display):
             xpos 989 ypos 250
 
         $ has_option = False
-        $ log("test 19")
+        
         if event_obj.get_form() == "composite":            
             python:
                 if 'frag_order' not in persistent.gallery[location][event]['options'].keys():
@@ -1839,7 +1835,7 @@ screen journal_gallery(display):
                 if i >= len(persistent.gallery[location][event]['options']['frag_order']):
                     $ frag_event = list(persistent.gallery["FragStorage"][frag_storage_name]['values'].keys())[0]
                     $ persistent.gallery[location][event]['options']['frag_order'].append(frag_event)
-        $ log("test 20")
+        
         if display_mode == "fragment_mode":
             
             frame:
@@ -1853,11 +1849,11 @@ screen journal_gallery(display):
                             $ frag_title = str(i) + ".: " + get_event_menu_title('fragment', curr_fragment)
                             textbutton frag_title:
                                 action [With(dissolveM), Call('open_journal', 7, '.'.join([location, event, "fragment_selection_mode", str(i), curr_fragment]))]
-        $ log("test 21")
+        
         $ disable_play = False
         
         if display_mode == "value_mode" or display_mode == "fragment_selection_mode":
-            $ log("test 22")
+            
             # check if event has changed to trigger information reload
             $ base_gallery = persistent.gallery[location][event]
             $ display_event = event
@@ -1871,14 +1867,14 @@ screen journal_gallery(display):
                 $ gallery_chooser = {}
                 $ gallery_chooser_order = []
                 $ old_event = display_event
-            $ log("test 23")
+            
             # load existing data for user selection from last session
             if ('last_data' in base_gallery['options'].keys() and 
                 'last_order' in base_gallery['options'].keys()
             ):
                 $ gallery_chooser = base_gallery['options']['last_data']
                 $ gallery_chooser_order = base_gallery['options']['last_order']
-            $ log("test 24")
+            
             # displays a button that deletes all persistent data for this specific event
             if debug_mode:
                 textbutton "{color=#a00000}Reset Event{/color}":
@@ -1891,7 +1887,7 @@ screen journal_gallery(display):
             $ variant_names = [topic for topic in base_gallery['order']]
             
             $ event_obj = get_event_from_register(display_event)
-            $ log("test 25")
+            
             # display value overview for all possible values in all needed variables
             frame:
                 area(989, 600, 500, 250)
@@ -1900,7 +1896,7 @@ screen journal_gallery(display):
                     mousewheel True
                     draggable "touch"
                     hbox:
-                        $ log("test 26")
+                        
                         # get the entire value tree from persistent data for this event
                         $ gallery_dict = base_gallery['values']
                         $ log("test 26.1")
@@ -1909,13 +1905,13 @@ screen journal_gallery(display):
                             # get all possible values
                             $ log("test 26.2")
                             $ values = list(gallery_dict.keys())
-                            $ log("test 27")
+                            
                             # check if variable is new and add it to the data if missing
                             python:
                                 if variant_name not in gallery_chooser_order:
                                     gallery_chooser_order.append(variant_name)
                                     gallery_chooser[variant_name] = values[0]
-                            $ log("test 28")
+                            
                             # get the currently selected value for the current variable
                             $ value = gallery_chooser[variant_name]
                             
@@ -1923,23 +1919,23 @@ screen journal_gallery(display):
                             python:
                                 if value not in values:
                                     gallery_chooser[variant_name] = values[0]
-                            $ log("test 29")
+                            
                             # get the gallery data tree starting from this variable so the next variable can work with that
                             $ gallery_dict = gallery_dict[gallery_chooser[variant_name]]
                             
                             # checks if there is more than one selection possible and only then displays a value list,
                             # otherwise the only selection possible is selected by default and will not be displayed in the overview
                             if len(values) > 1:
-                                $ log("test 30")
+                                
                                 # get display title for variable
                                 $ title = get_gallery_topic_title(display_location, display_event, variant_name) 
-                                $ log("test 31")
+                                
 
                                 # display list of values
                                 frame:
                                     background Frame("gui/border.png", left=1, top=1, tile = True)
                                     vbox:
-                                        $ log("test 32")
+                                        
                                         text "[title]":
                                             bold True
                                             style "journal_text"
@@ -1947,17 +1943,17 @@ screen journal_gallery(display):
 
                                         # filters all possible values that have been filtered in the loli filter as those can only be seen, selected or viewed if the appropriate loli setting is activated
                                         $ filtered_values = [value for value in values if variant_name + '.' + str(value) not in loli_filter[loli_content]]
-                                        $ log("test 33")
+                                        
                                         # checks if any values are left after filtering and disables the replay possibility if there is none as the events need a full set of values to work properly
                                         if len(filtered_values) == 0:
-                                            $ log("test 34")
+                                            
                                             python:
                                                 if gallery_chooser[variant_name] not in filtered_values:
                                                     gallery_chooser[variant_name] = None
                                                     update_gallery_chooser(gallery_chooser_order, gallery_chooser, base_gallery['values'])
                                             $ disable_play = True
                                         else:
-                                            $ log("test 35")
+                                            
                                             # iterates through all possible values and displays them for the user to select
                                             for value in sorted(filtered_values):
                                                 $ has_option = True
@@ -1970,7 +1966,7 @@ screen journal_gallery(display):
                                                     textbutton "[value_text]":
                                                         text_style "buttons_idle"
                                                         action [With(dissolveM), SetDict(gallery_chooser, variant_name, value), SetVariable('gallery_chooser', update_gallery_chooser(gallery_chooser_order, gallery_chooser, base_gallery['values']))]
-                        $ log("test 36")
+                        
                 bar value XScrollValue("GallerySelectionOverview"):
                     unscrollable "hide"
                     yalign 1.0
@@ -1979,28 +1975,28 @@ screen journal_gallery(display):
                     unscrollable "hide"
                     xalign 1.0
                     xoffset 15
-            $ log("test 37")
+            
             # saves the current selection for this event in the persistent gallery data so the selection is maintained between sessions
             if not disable_play:
                 $ base_gallery['options']['last_data'] = gallery_chooser
                 $ base_gallery['options']['last_order'] = gallery_chooser_order
-        $ log("test 38")
+        
         if has_option and event_obj.get_form() != "composite":
-            $ log("test 39")
+            
             text "Variants":
                 xpos 989
                 ypos 560
                 color "#000"
         elif event_obj.get_form() == "composite" and display_mode in ["value_mode", "fragment_mode"]:
-            $ log("test 40")
+            
             # if display_mode == "value_mode" and not has_option:
             #     $ renpy.call("open_journal", 7, '.'.join([location, event, "fragment_mode"]))
-            $ log("test 41")
+            
             $ top_border_offset = 50
             hbox:
-                $ log("test 42")
+                
                 if display_mode == "value_mode":
-                    $ log("test 43")
+                    
                     textbutton "Values":
                         text_style "buttons_selected"
                         xpos 989
@@ -2013,7 +2009,7 @@ screen journal_gallery(display):
                         ypos 560
                         action [With(dissolveM), Call("open_journal", 7, '.'.join([location, event, "fragment_mode"]))]
                 else:
-                    $ log("test 44")
+                    
                     textbutton "Values":
                         text_style "buttons_idle"
                         xpos 989
@@ -2024,15 +2020,15 @@ screen journal_gallery(display):
                         xpos 1030
                         ypos 560
                         action NullAction()
-        $ log("test 45")
+        
 
         if display_mode == "value_mode" or display_mode == "fragment_mode":
-            $ log("test 46")
+            
             # displays the replay button if replay is possible
             if not disable_play:
-                $ log("test 47")
+                
                 if event_obj.get_form() == "composite":
-                    $ log("test 48")
+                    
                     button:
                         text "Start Replay":
                             style "buttons_idle"
@@ -2041,7 +2037,7 @@ screen journal_gallery(display):
                         ypos 880
                         action [Call('start_gallery_composite_replay', location, event, dict(gallery_chooser), list(persistent.gallery[location][event]['options']['frag_order']), display)]
                 else:
-                    $ log("test 49")
+                    
                     button:
                         text "Start Replay":
                             style "buttons_idle"
@@ -2050,7 +2046,7 @@ screen journal_gallery(display):
                         ypos 880
                         action [Call('start_gallery_replay', location, event, dict(gallery_chooser), display)]
             else:
-                $ log("test 50")
+                
                 button:
                     text "Replay not available":
                         style "buttons_inactive"
@@ -2058,7 +2054,7 @@ screen journal_gallery(display):
                     xpos 1000
                     ypos 880
         else:
-            $ log("test 51")
+            
             button:
                 text "Return to\nMain Event":
                     style "buttons_idle"
@@ -2066,7 +2062,7 @@ screen journal_gallery(display):
                 xpos 1000
                 ypos 880
                 action [With(dissolveM), Call("open_journal", 7, '.'.join([location, event, "fragment_mode"]))]
-    $ log("test 52")
+    
     textbutton "Close":
         xalign 0.75
         yalign 0.87

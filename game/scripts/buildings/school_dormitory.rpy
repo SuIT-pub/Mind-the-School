@@ -31,6 +31,7 @@ init 1 python:
         thumbnail = "images/events/first potion/first potion school dormitory 3.webp")
 
     sd_event1 = Event(3, "sd_event_1",
+        LevelSelector('school_level', 'school'),
         StatSelector('education', EDUCATION, "school"),
         StatSelector('inhibition', INHIBITION, "school"),
         OR(
@@ -41,6 +42,7 @@ init 1 python:
         thumbnail = "images/events/school dormitory/sd_event_1 1 0.webp")
 
     sd_event2 = Event(3, "sd_event_2",
+        LevelSelector('school_level', 'school'),
         RandomValueSelector('inhibition_limit', 30, 50),
         StatSelector('inhibition', INHIBITION, "school"),
         RandomListSelector('location', "dorm_room", "shower"),
@@ -73,11 +75,11 @@ init 1 python:
         thumbnail = "images/events/school dormitory/sd_event_2 ah dorm_room Aona Komuro 1 0.webp")
 
     sd_event3 = Event(3, "sd_event_3",
+        LevelSelector('school_level', 'school'),
         StatSelector('inhibition', INHIBITION, "school"),
         RandomListSelector('topic', "normal", (0.1, "panties"), (0.02, "nude")),
         TimeCondition(daytime = "6,7"),
         thumbnail = "images/events/school dormitory/sd_event_3 normal 1 0.webp")
-
 
     sd_general_event.add_event(
         first_week_school_dormitory_event_event,
@@ -120,8 +122,6 @@ label .after_general_check (**kwargs):
 # ----- School Dormitory Events ----- #
 #######################################
 
-
-# first week event
 label first_week_school_dormitory_event (**kwargs):
     
     $ begin_event(**kwargs)
@@ -151,7 +151,6 @@ label first_week_school_dormitory_event (**kwargs):
 
     $ end_event('new_day', **kwargs)
 
-
 label first_potion_school_dormitory_event (**kwargs):
 
     $ begin_event(**kwargs)
@@ -176,12 +175,10 @@ label first_potion_school_dormitory_event (**kwargs):
 
     $ end_event('new_daytime', **kwargs)
 
-
-# education < 80
 label sd_event_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ school_obj = get_char_value('school_obj', **kwargs)
+    $ school_level = get_value('school_level', **kwargs)
     $ inhibition = get_stat_value('inhibition', [89, 100], **kwargs)
     $ education = get_stat_value('education', [50, 100], **kwargs)
 
@@ -197,7 +194,7 @@ label sd_event_1 (**kwargs):
             sgirl "Yeah Mr. [headmaster_last_name], but would you please knock before entering next time?" (name = "Easkey Tanaka")
             $ image.show(3)
             headmaster "Ah yes... yes of course."
-            call change_stats_with_modifier(school_obj,
+            call change_stats_with_modifier('school',
                 happiness = DEC_TINY)
             $ end_event(**kwargs)
         else:
@@ -205,20 +202,20 @@ label sd_event_1 (**kwargs):
             sgirl "Yeah Mr. [headmaster_last_name], you just surprised me." (name = "Easkey Tanaka")
             $ image.show(6)
             headmaster "Oh, sorry about that."
-            call change_stats_with_modifier(school_obj,
+            call change_stats_with_modifier('school',
                 happiness = DEC_TINY, education = MEDIUM)
             $ end_event(**kwargs)
     else:
         $ image.show(4)
         sgirl "hmm... This homework is hard. Why do I need to learn this anyway?" (name = "Easkey Tanaka")
-        call change_stats_with_modifier(school_obj,
+        call change_stats_with_modifier('school',
             education = SMALL)
         $ end_event(**kwargs)
 
 label sd_event_2 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ school_obj = get_char_value('school_obj', **kwargs)
+    $ school_level = get_value('school_level', **kwargs)
     $ location = get_value('location', **kwargs)
     $ girl_name = get_value('girl_name', **kwargs)
     $ topic = get_value('topic', **kwargs)
@@ -230,17 +227,17 @@ label sd_event_2 (**kwargs):
     if topic == "ah":
         $ image.show(0)
         sgirl "Ah!" (name = girl_name)
-        call change_stats_with_modifier(school_obj,
+        call change_stats_with_modifier('school',
             happiness = DEC_TINY, inhibition = DEC_TINY)
     elif topic == "ahhh":
         $ image.show(0)
         sgirl "AHHH!!!" (name = girl_name)
-        call change_stats_with_modifier(school_obj,
+        call change_stats_with_modifier('school',
             happiness = DEC_TINY, inhibition = DEC_TINY, reputation = DEC_TINY)
     elif topic == "eeek":
         $ image.show(0)
         sgirl "Eek!" (name = girl_name)
-        call change_stats_with_modifier(school_obj,
+        call change_stats_with_modifier('school',
             happiness = DEC_LARGE, inhibition = DEC_TINY)
     elif topic in ["panties", "breasts"]:
         $ image.show(0)
@@ -249,7 +246,7 @@ label sd_event_2 (**kwargs):
             "Ah!!! Look away, please, I don't want guys seeing my [topic]!",
             "Eek! Stop! Don't stare at my [topic]!",
             person = character.sgirl, name = girl_name)
-        call change_stats_with_modifier(school_obj,
+        call change_stats_with_modifier('school',
             happiness = DEC_LARGE, inhibition = DEC_TINY, charm = MEDIUM)
     elif topic == "oh":
         $ image.show(0)
@@ -260,7 +257,7 @@ label sd_event_2 (**kwargs):
         sgirl "I-it's ok..." (name = girl_name)
         $ image.show(3)
         subtitles "You quickly make an exit."
-        call change_stats_with_modifier(school_obj,
+        call change_stats_with_modifier('school',
             inhibition = DEC_TINY, happiness = DEC_MEDIUM)
         $ end_event(**kwargs)
     # elif topic == "guys_stop":
@@ -334,7 +331,7 @@ label sd_event_2 (**kwargs):
 label sd_event_3 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ school_obj = get_char_value('school_obj', **kwargs)
+    $ school_level = get_value('school_level', **kwargs)
     $ topic = get_value('topic', **kwargs)
 
     $ image = Image_Series("images/events/school dormitory/sd_event_3 <topic> <school_level> <step>.webp", **kwargs)
@@ -349,16 +346,10 @@ label sd_event_3 (**kwargs):
     headmaster "Bye!"
     
     if topic == "normal":
-        call change_stats_with_modifier(school_obj, inhibition = DEC_SMALL)
+        call change_stats_with_modifier('school', inhibition = DEC_SMALL)
     elif topic == "panties":
-        call change_stats_with_modifier(school_obj, inhibition = DEC_MEDIUM)
+        call change_stats_with_modifier('school', inhibition = DEC_MEDIUM)
     elif topic == "nude":
-        call change_stats_with_modifier(school_obj, inhibition = DEC_LARGE)
+        call change_stats_with_modifier('school', inhibition = DEC_LARGE)
 
     $ end_event(**kwargs)
-
-
-
-
-
-
