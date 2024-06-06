@@ -1502,6 +1502,8 @@ init -3 python:
 
         hide_all()
 
+        log_val('kwargs', kwargs)
+
         event_name = get_kwargs("event_name", "", **kwargs)
         in_replay = get_kwargs("in_replay", False, **kwargs)
         no_gallery = get_kwargs("no_gallery", False, **kwargs)

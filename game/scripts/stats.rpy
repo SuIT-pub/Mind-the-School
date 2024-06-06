@@ -278,10 +278,26 @@ init -6 python:
 
             stat_value = self.get_value() + 0
 
+            stat_value = round(stat_value, 2)
+
             if self.get_name() == MONEY:
                 stat_value = int(stat_value)
 
-            return str(stat_value)
+            text = str(stat_value)
+            
+            level = get_school().get_level()
+            
+            limit_value = -1
+
+            if self.get_name() == CORRUPTION:
+                limit_value = clamp_value(100, 0, level * 10)
+            elif self.get_name() == INHIBITION:
+                limit_value = clamp_value(0, 100 - (level * 10), 100)
+
+            if stat_value == limit_value:
+                text = "{color=#c9cf05}" + str(stat_value) + "{/color}"
+
+            return text
 
         def get_display_change(self) -> str:
             """
@@ -295,10 +311,13 @@ init -6 python:
             global change
             change = self.get_changed_value()
 
+            change = round(change, 2)
+
             if self.get_name() == MONEY:
                 change = int(change)
 
             text = ""
+
 
             if (self.get_name() != INHIBITION):
                 if change < 0:
