@@ -437,7 +437,7 @@ label change_money_with_modifier(value, collection = 'default'):
 
     return
 
-label change_stat_with_modifier(stat, value, char_obj, collection = 'default'):
+label change_stat_with_modifier(stat, value, char_name, collection = 'default'):
     # """
     # Changes the stat with the modifier.
 
@@ -452,7 +452,9 @@ label change_stat_with_modifier(stat, value, char_obj, collection = 'default'):
     #     - The collection of modifiers. This is used to separate different collections of modifiers.
     # """
 
-    if is_in_replay:
+    $ char_obj = get_character_by_key(char_name)
+
+    if is_in_replay or char_obj == None:
         return
 
     if isinstance(value, str):

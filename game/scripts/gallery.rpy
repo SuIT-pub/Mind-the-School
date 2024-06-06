@@ -447,127 +447,15 @@ init python:
             - The value set in the database.
         """
 
-        if not is_replay(**kwargs) and not get_kwargs('no_register', True, **kwargs):
+        log_val("setting value", kwargs)
+        if not is_replay(**kwargs) and not get_kwargs('no_register', False, **kwargs):
+            log_val('registering ' + key, value)
             register_value(key, value)
 
         return value        
 
-    ###########################################
-    # Character and Level Value Gallery Handler
-
-    def set_char_value_with_level(char_name: str, char: Char, **kwargs) -> Tuple[Char, int]:
-        """
-        Sets a character value in the gallery database.
-
-        ### Parameters:
-        1. char_name: Char
-            - The name of the character to set the value under.
-            - possible values: school_obj, teacher_obj, parent_obj, secretary_obj
-        2. char: Char
-            - The character to set the value under.
-
-        ### Returns:
-        1. Tuple[Char, int]:
-            - The character set in the database.
-            - The level of the character.
-        """
-
-        if char == None:
-            char_obj_key = get_kwargs(char_name + "_key", None, **kwargs)
-            if char_obj_key == None:
-                return None
-            char = get_character_by_key(char_obj_key)
-            if char == None:
-                return None
-
-        if not is_replay(**kwargs) and not get_kwargs('no_register', True, **kwargs):
-            register_value(char_name + "_key", char.get_name())
-            register_value(char_name + "_level", char.get_level())
-
-        return (char, char.get_level())
-
-    def set_char_value(char_name: str, char_objs: Char, **kwargs) -> Char:
-        """
-        Sets a character value in the gallery database.
-
-        ### Parameters:
-        1. char_name: Char
-            - The name of the character to set the value under.
-            - possible values: school_obj, teacher_obj, parent_obj, secretary_obj
-        2. char_obj: Char
-            - The character to set the value under.
-
-        ### Returns:
-        1. Char:
-            - The character set in the database.
-        """
-
-        (char_objs, level) = set_char_value_with_level(char_name, char_objs, **kwargs)
-
-        return char_objs
-
-    def get_char_value(char_name: str , **kwargs) -> Char:
-        """
-        Gets a character from kwargs and sets it in the gallery database.
-
-        ### Parameters:
-        1. char_name: str
-            - The name of the character to get from the kwargs.
-            - possible values: school_obj, teacher_obj, parent_obj, secretary_obj
-        2. **kwargs: Any
-            - The kwargs to get the value from.
-
-        ### Returns:
-        1. Char:
-            - The character set in the database.
-        """
-
-        if is_replay(**kwargs):
-            event_name = get_kwargs('event_name', None, **kwargs)
-            if event_name == None:
-                return alt
-            event_obj = get_event_from_register(event_name)
-            if event_obj == None:
-                return alt
-            if event_obj.get_form() == 'fragment':
-                new_char_name = event_obj.get_id() + '.' + char_name
-                char_obj = get_kwargs(new_char_name, get_kwargs(char_name, None, **kwargs), **kwargs)
-                return set_char_value(char_name, char_obj, **kwargs)
-        
-        char_obj = get_kwargs(char_name, None, **kwargs)
-        return set_char_value(char_name, char_obj, **kwargs)
-
-    def get_char_value_with_level(char_name: str, **kwargs) -> Tuple[Char, int]:
-        """
-        Gets a character from kwargs and sets it in the gallery database.
-
-        ### Parameters:
-        1. char_name: str
-            - The name of the character to get from the kwargs.
-            - possible values: school_obj, teacher_obj, parent_obj, secretary_obj
-        2. **kwargs: Any
-            - The kwargs to get the value from.
-
-        ### Returns:
-        1. Tuple[Char, int]:
-            - The character set in the database.
-            - The level of the character.
-        """
-
-        if is_replay(**kwargs):
-            event_name = get_kwargs('event_name', None, **kwargs)
-            if event_name == None:
-                return alt
-            event_obj = get_event_from_register(event_name)
-            if event_obj == None:
-                return alt
-            if event_obj.get_form() == 'fragment':
-                new_char_name = event_obj.get_id() + '.' + char_name
-                char_obj = get_kwargs(new_char_name, get_kwargs(char_name, None, **kwargs), **kwargs)
-                return set_char_value_with_level(char_name, char_obj, **kwargs)
-        
-        char_obj = get_kwargs(char_name, None, **kwargs)
-        return set_char_value_with_level(char_name, char_obj, **kwargs)
+    ###############################
+    # Fragment Gallery Handler
 
     def get_frag_list(**kwargs) -> List[EventFragment]:
         """

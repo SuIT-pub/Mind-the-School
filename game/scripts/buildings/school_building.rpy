@@ -64,38 +64,34 @@ init 1 python:
 
     sb_event1 = Event(3, "sb_event_1",
         TimeCondition(daytime = "c", weekday = "d"),
+        LevelSelector('school_level', 'school'),
         thumbnail = "images/events/school building/sb_event_1 1 1.webp")
 
     sb_event2 = Event(3, "sb_event_2",
         TimeCondition(daytime = "c", weekday = "d"),
+        LevelSelector('school_level', 'school'),
         RandomCondition(50),
         thumbnail = "images/events/school building/sb_event_2 1 0.webp")
     
     sb_event3 = Event(3, "sb_event_3",
         TimeCondition(daytime = "d", weekday = "d"),
+        LevelSelector('school_level', 'school'),
         thumbnail = "images/events/school building/sb_event_3 1 1.webp")
 
     sb_event4 = Event(3, "sb_event_4",
         TimeCondition(daytime = "f", weekday = "d"),
+        LevelSelector('school_level', 'school'),
         RandomListSelector('girl_name', 'Ikushi Ito'),
         thumbnail = "images/events/school building/sb_event_4 1 Ikushi Ito 0.webp")
 
     # Teaching events
     sb_event_teach_class_event = Event(3, "teach_class_event",
-        TimeCondition(weekday = "d", daytime = "c"),
-    )
-
-    # sb_teach_math_1_event = Event(3, "sb_teach_math_1",
-    #     RandomListSelector('girl_name', 'Seraphina Clark', 'Hatano Miwa', 'Soyoon Yamamoto'),
-    #     RandomListSelector('topic', 'normal', 'sleeping', 'inattentive', 'scribbling'),
-    #     thumbnail = "images/events/school building/sb_teach_math_1 Seraphina Clark 1.webp")
-
-    # sb_teach_math_2_event = Event(3, "sb_teach_math_2",
-    #     thumbnail = "images/events/school building/sb_teach_math_2 1 7.webp")
+        TimeCondition(weekday = "d", daytime = "c"),)
 
     sb_teach_math_ld_storage = FragmentStorage('sb_teach_math_ld')
     sb_teach_math_ld_storage.add_event(
-        EventFragment(3, 'sb_teach_math_ld_1', ValueCondition('learning_difficulty', False)),
+        EventFragment(3, 'sb_teach_math_ld_1', 
+            ValueCondition('learning_difficulty', False)),
         EventFragment(3, 'sb_teach_math_ld_2', 
             RandomListSelector('ld_girl_name', 'Seraphina Clark', 'Hatano Miwa', 'Soyoon Yamamoto'),
             ValueCondition('learning_difficulty', True)),
@@ -110,7 +106,9 @@ init 1 python:
         EventFragment(3, 'sb_teach_math_main_2')
     )
 
-    sb_teach_math_event = EventComposite(3, 'sb_teach_math', [sb_teach_math_ld_storage, sb_teach_math_main_storage])
+    sb_teach_math_event = EventComposite(3, 'sb_teach_math', [sb_teach_math_ld_storage, sb_teach_math_main_storage],
+        LevelSelector('school_level', 'school'),
+    )
 
     #################
     # Event insertion
@@ -124,13 +122,16 @@ init 1 python:
         first_class_sb_event_event, 
         sb_event_teach_class_event,
     )
+
     sb_events["patrol"].add_event(
         sb_event1, 
         sb_event3,
         sb_event4,
     )
 
-    sb_teach_events["math"].add_event(sb_teach_math_event)
+    sb_teach_events["math"].add_event(
+        sb_teach_math_event
+    )
 
 ##################################################
 
@@ -220,8 +221,6 @@ label first_potion_sb_event (**kwargs):
 label first_class_sb_event (**kwargs):
     $ begin_event(**kwargs)
 
-    $ school_obj = get_char_value('school_obj', **kwargs)
-    $ parent_obj = get_char_value('parent_obj', **kwargs)
     $ school_class = get_value('class', **kwargs)
 
     $ image = Image_Series("/images/events/school building/first_class_sb_event <class> <nude> <step>.webp", **kwargs)
@@ -337,7 +336,7 @@ label first_class_sb_event (**kwargs):
         $ age = 2 * -5
         $ image.show(4)
         headmaster "Miss Parker, would you like to start?"
-        
+
         $ image.show(5)
         teacher5 "Yes, of course."
         teacher5 "My name is Zoe Parker. I'm 24 years old and I'm a teacher for Sport and Art. I am also the class teacher of 1A."
@@ -383,10 +382,10 @@ label first_class_sb_event (**kwargs):
         $ set_game_data('first_class_1A', True)
         $ advance_progress('first_class')
 
-    call change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier('school',
         happiness = TINY, charm = SMALL, education = TINY)
 
-    call change_stats_with_modifier(parent_obj,
+    call change_stats_with_modifier('teacher',
         happiness = TINY, charm = SMALL, education = TINY)
 
     $ end_event('new_daytime', **kwargs)
@@ -412,12 +411,13 @@ label teach_class_event (**kwargs):
 
     jump school_building
 
+#######
+## MATH
+
 label sb_teach_math (**kwargs):
     $ begin_event(**kwargs)
 
-    $ log_val('gallery', persistent.gallery)
-
-    $ get_char_value('school_obj', **kwargs)
+    $ get_value('school_level', **kwargs)
 
     # headmaster enters room
     call show_image ("/images/events/school building/sb_teach_math.webp", **kwargs) from _call_show_image_sb_teach_math_event_1
@@ -441,10 +441,9 @@ label sb_teach_math_ld_1 (**kwargs):
 label sb_teach_math_ld_2 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ school_obj = get_char_value('school_obj', no_register = True, **kwargs)
     $ ld_girl_name = get_value('ld_girl_name', **kwargs)
 
-    $ image = Image_Series("/images/events/school building/sb_teach_math_ld_2 <ld_girl_name> <step>.webp", ['ld_girl_name'], **kwargs)
+    $ image = Image_Series("/images/events/school building/sb_teach_math_ld_2 <ld_girl_name> <school_level> <step>.webp", ['ld_girl_name'], **kwargs)
 
     $ image.show(0)
     headmaster "Is there anything you want to reiterate from the last time?"
@@ -475,15 +474,13 @@ label sb_teach_math_ld_2 (**kwargs):
     $ image.show(7)
     headmaster "Good. Now let's continue with the new topic."
 
-    call change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier('school',
         charm = TINY, education = SMALL)
 
     $ end_event('map_overview', **kwargs)
 
 label sb_teach_math_ld_3 (**kwargs):
     $ begin_event(**kwargs)
-    
-    $ school_obj = get_char_value('school_obj', no_register = True, **kwargs)
     
     $ image = Image_Series("/images/events/school building/sb_teach_math_ld_3 <school_level> <step>.webp", **kwargs)
 
@@ -501,7 +498,7 @@ label .leave (**kwargs):
     $ image.show(2)
     subtitles "You decide to leave her alone."
     
-    call change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier('school',
         charm = DEC_TINY, education = TINY)
     $ end_event('new_daytime', **kwargs)
 label .help (**kwargs):
@@ -510,18 +507,18 @@ label .help (**kwargs):
     $ image.show(3)
     subtitles "You help her up."
     
-    call change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier('school',
         charm = DEC_TINY, happiness = SMALL, education = TINY)
     $ end_event('new_daytime', **kwargs)
 
 label sb_teach_math_main_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ school_obj = get_char_value('school_obj', no_register = True, **kwargs)
     $ main_girl_name = get_value('main_girl_name', **kwargs)
     $ main_topic = get_value('main_topic', **kwargs)
 
-    
+    $ girl_last_name = main_girl_name.split(" ")[1]
+
     show screen black_screen_text("30 minutes later.")
     $ renpy.pause()
     $ hide_all()
@@ -621,18 +618,15 @@ label sb_teach_math_main_1 (**kwargs):
     $ image.show(26)
     headmaster "That is all for today"
 
-    call change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier('school',
         charm = TINY, education = SMALL, happiness = DEC_TINY, reputation = TINY)
     
     $ end_event('new_daytime', **kwargs)
-
 
 label sb_teach_math_main_2 (**kwargs):
     $ begin_event(**kwargs)
 
     $ image = Image_Series("/images/events/school building/sb_teach_math_main_2 <school_level> <step>.webp", **kwargs)
-
-    $ school_obj = get_char_value('school_obj', no_register = True, **kwargs)
 
     $ image.show(0)
     headmaster "Today I want you to train your equation solving skills."
@@ -686,7 +680,7 @@ label sb_teach_math_main_2 (**kwargs):
     $ image.show(17)
     headmaster "That is all for today. Thanks for your attention. See you next time."
 
-    call change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier('school',
         charm = TINY, education = SMALL, happiness = DEC_TINY, inhibition = DEC_SMALL)
     
     $ end_event('new_daytime', **kwargs)
@@ -697,7 +691,7 @@ label sb_teach_math_main_2 (**kwargs):
 label sb_event_1 (**kwargs): # patrol, check class
     $ begin_event(**kwargs)
 
-    $ school_obj = get_char_value('school_obj', **kwargs)
+    $ school_level = get_value('school_level', **kwargs)
     
     $ image = Image_Series("/images/events/school building/sb_event_1 <school_level> <step>.webp", **kwargs)
 
@@ -719,7 +713,7 @@ label .leave (**kwargs):
     $ image.show(2)
     # call show_image("/images/events/school building/sb_event_1 <name> 3.webp", SCENE, **kwargs)
     subtitles "You decide to leave them and let them have their fun."
-    call change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier('school',
         charm = DEC_SMALL, education = TINY, corruption = TINY, inhibition = DEC_SMALL)
     
     $ end_event('new_daytime', **kwargs)
@@ -732,7 +726,7 @@ label .stop (**kwargs):
     # call show_image("/images/events/school building/sb_event_1 <name> 4.webp", SCENE, **kwargs)
     headmaster "Hey you! Stop that. You know that is against the rules!"
     sgirl "We're sorry!"
-    call change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier('school',
         charm = MEDIUM, happiness = DEC_SMALL, education = SMALL, reputation = TINY, inhibition = DEC_TINY)
     
     $ end_event('new_daytime', **kwargs)
@@ -740,7 +734,7 @@ label .stop (**kwargs):
 label sb_event_3 (**kwargs): # patrol
     $ begin_event(**kwargs)
 
-    $ school_obj = get_char_value('school_obj', **kwargs)
+    $ school_level = get_value('school_level', **kwargs)
     
     $ image = Image_Series("/images/events/school building/sb_event_3 <school_level> <step>.webp", **kwargs)
 
@@ -797,7 +791,7 @@ label .leave (**kwargs):
     $ image.show(8) # headmaster stands a bit further away looking back to her
     subtitles"You walk away with a heavy heart."
 
-    call change_stats_with_modifier(school_obj, 
+    call change_stats_with_modifier('school', 
         charm = TINY, happiness = DEC_LARGE, education = TINY, reputation = DEC_TINY)
     
     $ end_event('new_daytime', **kwargs)
@@ -832,7 +826,7 @@ label .get_to_bottom (**kwargs):
     $ image.show(14) # headmaster and girl walk to office
     subtitles "You support her back to your office and bring her something warm to drink."
 
-    call change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier('school',
         happiness = LARGE, reputation = TINY)
     
     $ end_event('new_daytime', **kwargs)
@@ -868,7 +862,7 @@ label .poor_thing (**kwargs):
 
     $ image.show(14) # headmaster helps girl up
     subtitles "You help her up and walk her to the dormitory."
-    call change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier('school',
         happiness = LARGE, reputation = TINY)
     
     $ end_event('new_daytime', **kwargs)
@@ -888,7 +882,7 @@ label .chin_up (**kwargs):
 
     $ image.show(23) # girl walks away
     subtitles "You help her up and she walks off."
-    call change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier('school',
         happiness = LARGE, reputation = TINY)
     
     $ end_event('new_daytime', **kwargs)
@@ -896,7 +890,7 @@ label .chin_up (**kwargs):
 label sb_event_4(**kwargs):
     $ begin_event(**kwargs)
 
-    $ school_obj = get_char_value('school_obj', **kwargs)
+    $ school_level = get_value('school_level', **kwargs)
     $ girl_name = get_value('girl_name', **kwargs)
 
     $ image = Image_Series("/images/events/school building/sb_event_4 <school_level> <girl_name> <step>.webp", **kwargs)
@@ -913,17 +907,15 @@ label sb_event_4(**kwargs):
         ("Help her up", "sb_event_4.help"),
         ("Point out her panties", "sb_event_4.panties"),
     **kwargs)
-
 label .leave (**kwargs):
 
     $ image.show(3)
     headmaster_thought "Hmm, the others already rush to help her. No need for me to get involved."
 
-    call change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier('school',
         happiness = DEC_TINY, charm = DEC_TINY, education = TINY)
 
     $ end_event('new_daytime', **kwargs)
-
 label .help (**kwargs):
 
 
@@ -944,11 +936,10 @@ label .help (**kwargs):
     $ image.show(8)
     sgirl "Yes, I will."
 
-    call change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier('school',
         happiness = SMALL, charm = DEC_TINY, education = TINY)
 
     $ end_event('new_daytime', **kwargs)
-
 label .panties (**kwargs):
 
     $ image.show(9)
@@ -965,7 +956,7 @@ label .panties (**kwargs):
 
     call Image_Series.show_image(image, 13, pause = True) from _call_Image_Series_show_image_10
 
-    call change_stats_with_modifier(school_obj,
+    call change_stats_with_modifier('school',
         inhibition = DEC_SMALL, charm = DEC_SMALL, corruption = TINY)
 
     $ end_event('new_daytime', **kwargs)
