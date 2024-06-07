@@ -1361,6 +1361,17 @@ screen journal_cheats(display, char = "school"):
                             text "{color=#a00000}RESET NOW{/color}" xalign 1.0
                             action [With(dissolveM), Call("reset_gallery_cheat", 5, display)]
                             xsize 250
+
+                    null height 10
+                    hbox:
+                        button:
+                            text "Dump Gallery Data" xalign 0.0 style "journal_text"
+                            xsize 250
+
+                        button:
+                            text "{color=#a00000}PRINT{/color}" xalign 1.0
+                            action [With(dissolveM), Call("dump_gallery_data", 5, display)]
+                            xsize 250
                 
                     
             vbar value YScrollValue("CheatStatList"):
@@ -1698,9 +1709,6 @@ screen journal_gallery(display):
     $ display_mode = split_display[2] if len(split_display) > 2 else "value_mode"
     $ fragment_selection_index = int(split_display[3]) if len(split_display) > 3 and is_integer(split_display[3]) else 0
     $ fragment_selection_fragment = split_display[4] if len(split_display) > 4 else ""
-
-    
-    $ log_val('fragment_selection_index', fragment_selection_index)
 
     python:
         if get_event_from_register(fragment_selection_fragment) != None:
@@ -2076,9 +2084,6 @@ screen journal_gallery(display):
                 xalign 0.5
                 text tooltip
 
-
-
-
 screen journal_credits(display):
     # """
     # A screen used to display the credits in the journal
@@ -2246,6 +2251,22 @@ label reset_event_gallery(location, event):
 
     call open_journal(7, location) from reset_event_gallery_1
 
+label dump_gallery_data(page, display):
+    # """
+    # Clears the persistent data for the entire gallery in persistent.gallery
+
+    # ### Parameters:
+    # 1. page: int
+    #     - the page to be opened after the reset
+    # 2. display: str
+    #     - the display to be opened after the reset
+    # """
+
+    $ log_val('Gallery Data', persistent.gallery)
+
+    $ renpy.notify("Dumped gallery data!")
+
+    call open_journal(page, display) from reset_gallery_cheat_1
 label reset_gallery_cheat(page, display):
     # """
     # Clears the persistent data for the entire gallery in persistent.gallery
@@ -2262,7 +2283,6 @@ label reset_gallery_cheat(page, display):
     $ renpy.notify("Reset gallery!")
 
     call open_journal(page, display) from reset_gallery_cheat_1
-
 
 label start_gallery_composite_replay(location, event, gallery_chooser, fragments, display):
     # """
@@ -2314,7 +2334,6 @@ label start_gallery_composite_replay(location, event, gallery_chooser, fragments
 
     # call event
     $ renpy.call("call_event", event_obj.get_event_label(), event_obj.priority, **gallery_chooser)
-
 
 label start_gallery_replay(location, event, gallery_chooser, display):
     # """
