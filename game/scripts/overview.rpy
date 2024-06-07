@@ -705,8 +705,6 @@ label map_overview ():
 
     $ renpy.block_rollback()
 
-    $ log_val('gallery', persistent.gallery)
-
     call screen school_overview_buttons (True)
     # call screen school_overview with dissolveM
 

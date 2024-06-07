@@ -1247,7 +1247,7 @@ screen journal_cheats(display, char = "school"):
                 mousewheel True
                 draggable "touch"
                 vbox:
-                    text "Changing game values can lead to unintended behaviour or a broken game save.\nProceed on your own risk.":
+                    text "Changing game values can lead to unintended behaviour or a broken game save.\nMost functions on this page are used for debugging during developement.\nProceed on your own risk.":
                         color "#000000"
                         size 20
 
@@ -2266,7 +2266,7 @@ label dump_gallery_data(page, display):
 
     $ renpy.notify("Dumped gallery data!")
 
-    call open_journal(page, display) from reset_gallery_cheat_1
+    call open_journal(page, display) from dump_gallery_data_1
 label reset_gallery_cheat(page, display):
     # """
     # Clears the persistent data for the entire gallery in persistent.gallery
