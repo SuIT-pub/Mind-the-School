@@ -1682,8 +1682,6 @@ screen journal_gallery(display):
         size 60
         color "#000"
 
-    $ log_val('gallery', persistent.gallery)
-
     # separate location and event in display (schema: location.event)
     $ split_display = [display, "", "value_mode", ""]
     if '.' in display:
@@ -1702,6 +1700,7 @@ screen journal_gallery(display):
     $ fragment_selection_fragment = split_display[4] if len(split_display) > 4 else ""
 
     
+    $ log_val('fragment_selection_index', fragment_selection_index)
 
     python:
         if get_event_from_register(fragment_selection_fragment) != None:
@@ -1831,10 +1830,10 @@ screen journal_gallery(display):
                 if 'frag_order' not in persistent.gallery[location][event]['options'].keys():
                     persistent.gallery[location][event]['options']['frag_order'] = []
 
-            for i, frag_storage_name in enumerate(persistent.gallery[location][event]['options']['Frag_Storage']):
-                if i >= len(persistent.gallery[location][event]['options']['frag_order']):
-                    $ frag_event = list(persistent.gallery["FragStorage"][frag_storage_name]['values'].keys())[0]
-                    $ persistent.gallery[location][event]['options']['frag_order'].append(frag_event)
+                for i, frag_storage_name in enumerate(persistent.gallery[location][event]['options']['Frag_Storage']):
+                    if i >= len(persistent.gallery[location][event]['options']['frag_order']):
+                        frag_event = list(persistent.gallery["FragStorage"][frag_storage_name]['values'].keys())[0]
+                        persistent.gallery[location][event]['options']['frag_order'].append(frag_event)
         
         if display_mode == "fragment_mode":
             
@@ -1899,11 +1898,9 @@ screen journal_gallery(display):
                         
                         # get the entire value tree from persistent data for this event
                         $ gallery_dict = base_gallery['values']
-                        $ log("test 26.1")
                         # iterate over all variables to display a selection list for each variable
                         for variant_name in variant_names:
                             # get all possible values
-                            $ log("test 26.2")
                             $ values = list(gallery_dict.keys())
                             
                             # check if variable is new and add it to the data if missing

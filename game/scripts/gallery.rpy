@@ -504,6 +504,9 @@ init python:
             - The last data from the gallery database.
         """
 
+        if 'last_data' not in persistent.gallery[location][event]['options'].keys():
+            persistent.gallery[location][event]['options']['last_data'] = {}
+
         return persistent.gallery[location][event]['options']['last_data']
 
     ################
