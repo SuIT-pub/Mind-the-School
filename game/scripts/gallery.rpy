@@ -447,9 +447,7 @@ init python:
             - The value set in the database.
         """
 
-        log_val("setting value", kwargs)
         if not is_replay(**kwargs) and not get_kwargs('no_register', False, **kwargs):
-            log_val('registering ' + key, value)
             register_value(key, value)
 
         return value        
