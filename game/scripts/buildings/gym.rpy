@@ -224,7 +224,7 @@ label gym_teach_pe_warm_up_1 (**kwargs):
     $ image.show(0)
     headmaster "Alright, let's get started with the P.E. class."
 
-    headmaster "First we start with a few warm up exercises and stretching. After that I planned for you to play a round of football."
+    headmaster "First we start with a few warm up exercises and stretching."
     headmaster "Okay now all follow my lead."
     
     scene anim_gym_teach_pe_warm_up_1_1 with dissolveM

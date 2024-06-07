@@ -1,97 +1,38 @@
 {
-    "school_building": {
-        "sb_event_3": {
-            "values": {},
-            "ranges": {},
-            "options": {
-                "event_form": "event"
+    "gym": {
+        "gym_teach_pe": {
+            "values": {
+                1: {}
             },
-            "order": [],
-            "decisions": {
-                "sb_event_3.what": {
-                    "sb_event_3.leave": {}
-                }
-            }
-        },
-        "sb_teach_math": {
-            "values": {},
             "ranges": {},
             "options": {
                 "event_form": "composite",
-                "Frag_Storage": [
-                    "sb_teach_math_ld",
-                    "sb_teach_math_main"
-                ]
-            },
-            "order": [],
-            "decisions": {}
-        }
-    },
-    "school_dormitory": {
-        "sd_event_1": {
-            "values": {},
-            "ranges": {
-                "inhibition": [
-                    89,
-                    100
-                ],
-                "education": [
-                    50,
-                    100
-                ]
-            },
-            "options": {
-                "event_form": "event",
-                "last_data": {},
-                "last_order": [],
-                "frag_order": []
-            },
-            "order": [],
-            "decisions": {}
-        },
-        "sd_event_2": {
-            "values": {
-                1: {
-                    "dorm_room": {
-                        "Lin Kato": {
-                            "ahhh": {
-                                1: {}
-                            }
-                        }
-                    }
-                }
-            },
-            "ranges": {},
-            "options": {
-                "event_form": "event",
                 "last_data": {
-                    "school_level": 1,
-                    "location": "dorm_room",
-                    "girl_name": "Lin Kato",
-                    "topic": "ahhh",
-                    "topic_set": 1
-                }
+                    "school_level": 1
+                },
+                "Frag_Storage": [
+                    "gym_teach_pe_intro",
+                    "gym_teach_pe_warm_up",
+                    "gym_teach_pe_main",
+                    "gym_teach_pe_end"
+                ]
             },
             "order": [
-                "school_level",
-                "location",
-                "girl_name",
-                "topic",
-                "topic_set"
+                "school_level"
             ],
             "decisions": {}
         }
     },
     "FragStorage": {
-        "sb_teach_math_ld": {
+        "gym_teach_pe_intro": {
             "values": {
-                "sb_teach_math_ld_2": {}
+                "gym_teach_pe_intro_1": {}
             },
             "ranges": {},
             "options": {
                 "event_form": "FragStorage",
                 "last_data": {
-                    "fragment": "sb_teach_math_ld_2"
+                    "fragment": "gym_teach_pe_intro_1"
                 }
             },
             "order": [
@@ -99,15 +40,47 @@
             ],
             "decisions": {}
         },
-        "sb_teach_math_main": {
+        "gym_teach_pe_warm_up": {
             "values": {
-                "sb_teach_math_main_1": {}
+                "gym_teach_pe_warm_up_1": {}
             },
             "ranges": {},
             "options": {
                 "event_form": "FragStorage",
                 "last_data": {
-                    "fragment": "sb_teach_math_main_1"
+                    "fragment": "gym_teach_pe_warm_up_1"
+                }
+            },
+            "order": [
+                "fragment"
+            ],
+            "decisions": {}
+        },
+        "gym_teach_pe_main": {
+            "values": {
+                "gym_teach_pe_main_1": {}
+            },
+            "ranges": {},
+            "options": {
+                "event_form": "FragStorage",
+                "last_data": {
+                    "fragment": "gym_teach_pe_main_1"
+                }
+            },
+            "order": [
+                "fragment"
+            ],
+            "decisions": {}
+        },
+        "gym_teach_pe_end": {
+            "values": {
+                "gym_teach_pe_end_1": {}
+            },
+            "ranges": {},
+            "options": {
+                "event_form": "FragStorage",
+                "last_data": {
+                    "fragment": "gym_teach_pe_end_1"
                 }
             },
             "order": [
@@ -117,7 +90,7 @@
         }
     },
     "fragment": {
-        "sb_teach_math_ld_2": {
+        "gym_teach_pe_intro_1": {
             "values": {},
             "ranges": {},
             "options": {
@@ -126,7 +99,25 @@
             "order": [],
             "decisions": {}
         },
-        "sb_teach_math_main_1": {
+        "gym_teach_pe_warm_up_1": {
+            "values": {},
+            "ranges": {},
+            "options": {
+                "event_form": "fragment"
+            },
+            "order": [],
+            "decisions": {}
+        },
+        "gym_teach_pe_main_1": {
+            "values": {},
+            "ranges": {},
+            "options": {
+                "event_form": "fragment"
+            },
+            "order": [],
+            "decisions": {}
+        },
+        "gym_teach_pe_end_1": {
             "values": {},
             "ranges": {},
             "options": {
