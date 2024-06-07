@@ -61,10 +61,36 @@ init 1 python:
         TimeCondition(daytime = "c", weekday = "d"),
         thumbnail = "images/events/gym/gym_event_3 1 1 0.webp")    
 
-    gym_teach_pe_1_event = Event(3, "gym_teach_pe_1",
+    gym_teach_pe_intro_storage = FragmentStorage("gym_teach_pe_intro")
+    gym_teach_pe_intro_storage.add_event(
+        EventFragment(3, "gym_teach_pe_intro_1"),
+    )
+
+    gym_teach_pe_warm_up_storage = FragmentStorage("gym_teach_pe_warm_up")
+    gym_teach_pe_warm_up_storage.add_event(
+        EventFragment(3, "gym_teach_pe_warm_up_1"),
+    )
+
+    gym_teach_pe_main_storage = FragmentStorage("gym_teach_pe_main")
+    gym_teach_pe_main_storage.add_event(
+        EventFragment(3, "gym_teach_pe_main_1"),
+    )
+
+    gym_teach_pe_end_storage = FragmentStorage("gym_teach_pe_end")
+    gym_teach_pe_end_storage.add_event(
+        EventFragment(3, "gym_teach_pe_end_1"),
+    )
+
+    gym_teach_pe_event = EventComposite(3, 'gym_teach_pe', 
+        [
+            gym_teach_pe_intro_storage,
+            gym_teach_pe_warm_up_storage, 
+            gym_teach_pe_main_storage, 
+            gym_teach_pe_end_storage
+        ],
         TimeCondition(daytime = "c", weekday = "d"),
         LevelSelector("school_level", "school"),
-        thumbnail = "images/events/gym/gym_teach_pe_1 1 9.webp")
+    )
 
     gym_general_event.add_event(
         first_week_gym_event_event,
@@ -85,7 +111,7 @@ init 1 python:
     gym_events["teach_pe"].add_event(
         gym_event1, 
         gym_event3,
-        gym_teach_pe_1_event,
+        gym_teach_pe_event,
     )
 
 #################################
@@ -170,61 +196,91 @@ label weekly_assembly (**kwargs):
 
     return
 
-image anim_gym_teach_pe_1_10 = Movie(play ="images/events/gym/gym_teach_pe_1 1 10.webm", start_image = "images/events/gym/gym_teach_pe_1 1 10.webp", loop = True)
-image anim_gym_teach_pe_1_11 = Movie(play ="images/events/gym/gym_teach_pe_1 1 11.webm", start_image = "images/events/gym/gym_teach_pe_1 1 11.webp", loop = True)
-image anim_gym_teach_pe_1_12 = Movie(play ="images/events/gym/gym_teach_pe_1 1 12.webm", start_image = "images/events/gym/gym_teach_pe_1 1 12.webp", loop = True)
-
-label gym_teach_pe_1 (**kwargs):
+label gym_teach_pe (**kwargs):
     $ begin_event(**kwargs)
 
-    $ school_level = get_value('school_level', **kwargs)
+    $ get_value('school_level', **kwargs)
 
-    $ image = Image_Series("/images/events/gym/gym_teach_pe_1 <school_level> <step>.webp", **kwargs)
+    call composite_event_runner(**kwargs)
 
-    call Image_Series.show_image(image, 0, 1, 2, 3, 4, 5, 6, 7, 8, pause = True) from gym_teach_pe_1_1
+label gym_teach_pe_intro_1 (**kwargs):
+    $ begin_event(**kwargs)
 
-    $ image.show(9)
+    $ image = Image_Series("/images/events/gym/gym_teach_pe_intro_1 <school_level> <step>.webp", **kwargs)
+
+    call Image_Series.show_image(image, 0, 1, 2, 3, 4, 5, 6, 7, 8, pause = True) from image_gym_teach_pe_intro_1_1
+
+    $ end_event('map_overview', **kwargs)
+
+image anim_gym_teach_pe_warm_up_1_1 = Movie(play ="images/events/gym/gym_teach_pe_warm_up_1 1 1.webm", start_image = "images/events/gym/gym_teach_pe_warm_up_1 1 1.webp", loop = True)
+image anim_gym_teach_pe_warm_up_1_2 = Movie(play ="images/events/gym/gym_teach_pe_warm_up_1 1 2.webm", start_image = "images/events/gym/gym_teach_pe_warm_up_1 1 2.webp", loop = True)
+image anim_gym_teach_pe_warm_up_1_3 = Movie(play ="images/events/gym/gym_teach_pe_warm_up_1 1 3.webm", start_image = "images/events/gym/gym_teach_pe_warm_up_1 1 3.webp", loop = True)
+
+label gym_teach_pe_warm_up_1 (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ image = Image_Series("/images/events/gym/gym_teach_pe_warm_up_1 <school_level> <step>.webp", **kwargs)
+
+    $ image.show(0)
     headmaster "Alright, let's get started with the P.E. class."
 
     headmaster "First we start with a few warm up exercises and stretching. After that I planned for you to play a round of football."
     headmaster "Okay now all follow my lead."
     
-    scene anim_gym_teach_pe_1_10 with dissolveM
+    scene anim_gym_teach_pe_warm_up_1_1 with dissolveM
     pause
-    scene anim_gym_teach_pe_1_11 with dissolveM
+    scene anim_gym_teach_pe_warm_up_1_2 with dissolveM
     pause
-    scene anim_gym_teach_pe_1_12 with dissolveM
+    scene anim_gym_teach_pe_warm_up_1_3 with dissolveM
     pause
     
-    call Image_Series.show_image(image, 13, 14) from gym_teach_pe_1_2
+    $ image.show(4)
+    headmaster "Alright, that's enough."
+    
+    call change_stats_with_modifier('school',
+        charm = SMALL, education = TINY)
+
+    $ end_event('map_overview', **kwargs)
+
+label gym_teach_pe_main_1 (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ image = Image_Series("/images/events/gym/gym_teach_pe_main_1 <school_level> <step>.webp", **kwargs)
+    
+    $ image.show(0)
     headmaster "Alright, that's enough. Now let's play some football. I will be the referee."
-    $ image.show(15)
+    $ image.show(1)
     headmaster "Please split into two teams and let's get started."
-    $ image.show(16)
+    $ image.show(2)
     sgirl "I'm sorry but how do we identify the teams? We all wear the same uniform." (name = "Sakura Mori")
-    $ image.show(17)
+    $ image.show(3)
     headmaster "Hmm, that's a good point. Unfortunately we don't have any bibs or anything like that."
-    $ image.show(18)
+    $ image.show(4)
     headmaster "I guess you just will have to remember your team mates. So now your teams please."
     # The students seperate into two groups
-    call Image_Series.show_image(image, 19, 20) from gym_teach_pe_1_3   
+    call Image_Series.show_image(image, 5, 6) from image_gym_teach_pe_main_1_2   
     headmaster "Alright, let's get started. The right side has the kickoff."
-    $ image.show(21)
+    $ image.show(7)
     headmaster "And... START!"
-    call Image_Series.show_image(image, 22, 23, 24, 25, 26, 27) from gym_teach_pe_1_4
+    call Image_Series.show_image(image, 8, 9, 10, 11, 12, 13) from image_gym_teach_pe_main_1_3
     
     call screen black_screen_text("1 hour later")
 
-    $ image.show(28)
+    $ image.show(14)
     headmaster "Alright, that's enough for today. I hope you all had fun."
-    $ image.show(29)
+    $ image.show(15)
     headmaster "Don't forget to shower and change your clothes."
     # class leaves the gym
     
     call change_stats_with_modifier('school', 
         happiness = TINY, charm = SMALL, reputation = TINY, inhibition = DEC_TINY)
 
-    $ end_event('new_daytime', **kwargs)
+    $ end_event('map_overview', **kwargs)
+
+label gym_teach_pe_end_1 (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ end_event('map_overview', **kwargs)
 
 label gym_event_1 (**kwargs):
     $ begin_event(**kwargs)
