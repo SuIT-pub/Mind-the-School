@@ -27,7 +27,7 @@ init -1 python:
 init 1 python:
 
     ####################
-    # Event construction
+    # Default Events
     first_week_sb_event = Event(1, "first_week_sb_event",
         IntroCondition(),
         TimeCondition(day = "2-4", month = 1, year = 2023),
@@ -83,11 +83,14 @@ init 1 python:
         LevelSelector('school_level', 'school'),
         RandomListSelector('girl_name', 'Ikushi Ito'),
         thumbnail = "images/events/school building/sb_event_4 1 Ikushi Ito 0.webp")
+    ####################
 
     # Teaching events
     sb_event_teach_class_event = Event(3, "teach_class_event",
         TimeCondition(weekday = "d", daytime = "c"),)
 
+    #################
+    # Math Teaching
     sb_teach_math_ld_storage = FragmentStorage('sb_teach_math_ld')
     sb_teach_math_ld_storage.add_event(
         EventFragment(3, 'sb_teach_math_ld_1', 
@@ -109,10 +112,10 @@ init 1 python:
     sb_teach_math_event = EventComposite(3, 'sb_teach_math', [sb_teach_math_ld_storage, sb_teach_math_main_storage],
         LevelSelector('school_level', 'school'),
     )
+    #################
 
     #################
     # Event insertion
-
     sb_general_event.add_event(
         first_week_sb_event, 
         first_potion_sb_event,
@@ -132,6 +135,7 @@ init 1 python:
     sb_teach_events["math"].add_event(
         sb_teach_math_event
     )
+    #################
 
 ##################################################
 
@@ -684,6 +688,7 @@ label sb_teach_math_main_2 (**kwargs):
         charm = TINY, education = SMALL, happiness = DEC_TINY, inhibition = DEC_SMALL)
     
     $ end_event('new_daytime', **kwargs)
+######
 
 #######################
 # General Random Events
