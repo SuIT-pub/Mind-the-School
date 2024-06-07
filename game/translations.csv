@@ -102,7 +102,12 @@ gym_event_2_topic_clothe;Clothes
 
 gym_event_3;Missing her Sports Clothes
 
-gym_teach_pe_1;Teaching P.E. - Football
+gym_teach_pe;Teaching P.E. Class
+
+gym_teach_pe_intro_1;Normal Preparing
+gym_teach_pe_warm_up_1;Classic Warm Up
+gym_teach_pe_main_1;Playing Football
+gym_teach_pe_end_1;Nothing
 
 #######
 # Kiosk
@@ -144,6 +149,21 @@ sb_event_4;Student tripping in hallway
 sb_teach_math_1;Sleepy Math Class
 
 sb_teach_math_2;Math Excercises
+
+sb_teach_math;Teaching Math
+
+sb_teach_math_ld_1;No Reiterating
+
+sb_teach_math_ld_2;Reiterating
+sb_teach_math_ld_2_ld_girl_name;Girl
+
+sb_teach_math_ld_3;Girl tripping
+
+sb_teach_math_main_1;Math Excercises
+sb_teach_math_main_1_main_girl_name;Girl
+sb_teach_math_main_1_main_topic;Topic
+
+sb_teach_math_main_2;Silent Work and Help
 
 ##################
 # School Dormitory

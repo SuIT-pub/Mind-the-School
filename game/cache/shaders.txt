@@ -2,8 +2,8 @@
 renpy.ftl
 <<<<<<< Updated upstream
 <<<<<<< HEAD
-renpy.solid
 renpy.texture
+renpy.solid
 >>>>>>> af4e58c649f1052620ede204b5714f6cf840c214
 renpy.dissolve renpy.geometry
 renpy.geometry renpy.solid
