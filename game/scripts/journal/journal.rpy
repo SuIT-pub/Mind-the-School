@@ -147,6 +147,8 @@ label open_journal(page, display, char = "school"):
         call screen journal_credits(display) with dissolveM
     elif page == 7:
         call screen journal_gallery(display) with dissolveM
+    elif page == 8:
+        call screen journal_goals(display) with dissolveM
 
 label close_journal ():
     # """
@@ -373,96 +375,118 @@ screen journal_page_selector(page, display, char = "school"):
 
     imagemap:
         if page == 1:
-            idle "journal/journal/1_[char]_idle.webp"
-            hover "journal/journal/1_hover.webp"
+            idle "journal/journal/1_idle.webp"
+            hover "journal/journal/hover.webp"
         elif page == 2:
             idle "journal/journal/2_idle.webp"
-            hover "journal/journal/2_hover.webp"
+            hover "journal/journal/hover.webp"
         elif page == 3:
             idle "journal/journal/3_idle.webp"
-            hover "journal/journal/3_hover.webp"
+            hover "journal/journal/hover.webp"
         elif page == 4:
             idle "journal/journal/4_idle.webp"
-            hover "journal/journal/4_hover.webp"
-        elif page == 5 and display == 'stats':
-            idle "journal/journal/5_stats_[char]_idle.webp"
-            hover "journal/journal/5_stats_hover.webp"
-        elif page == 5 and display != 'stats':
-            idle "journal/journal/5_idle.webp"
-            hover "journal/journal/5_hover.webp"
+            hover "journal/journal/hover.webp"
+        elif page == 5:
+            idle "journal/journal/idle.webp"
+            hover "journal/journal/hover.webp"
         elif page == 6:
             idle "journal/journal/6_idle.webp"
-            hover "journal/journal/6_hover.webp"
+            hover "journal/journal/hover.webp"
         elif page == 7:
             idle "journal/journal/7_idle.webp"
-            hover "journal/journal/7_hover.webp"
+            hover "journal/journal/hover.webp"
+        elif page == 8:
+            idle "journal/journal/8_idle.webp"
+            hover "journal/journal/hover.webp"
+
+    
 
         if page != 1:
             hotspot (144, 250, 168, 88) action [With(dissolveM), Call("open_journal", 1, "")] tooltip "School Overview"
-        if page < 2:
-            hotspot (1522, 617, 168, 88) action [With(dissolveM), Call("open_journal", 2, "")] tooltip "Rules"
-        if page > 2:
+        if page != 2:
             hotspot (144, 617, 168, 88) action  [With(dissolveM), Call("open_journal", 2, "")] tooltip "Rules"
-        if page < 3:
-            hotspot (1522, 722, 168, 88) action [With(dissolveM), Call("open_journal", 3, "")] tooltip "Clubs"
-        if page > 3:
+        if page != 3:
             hotspot (144, 722, 168, 88) action [With(dissolveM), Call("open_journal", 3, "")] tooltip "Clubs"
-        if page < 4:
-            hotspot (1522, 830, 168, 88) action [With(dissolveM), Call("open_journal", 4, "")] tooltip "Buildings"
-        if page > 4:
+        if page != 4:
             hotspot (144, 830, 168, 88) action [With(dissolveM), Call("open_journal", 4, "")] tooltip "Buildings"
-
-        if page == 1 or (page == 5 and display == 'stats'):
-            if char != "school":
-                hotspot (373, 80, 160, 67) action [With(dissolveM), Call("open_journal", page, display, "school")] tooltip "School"
-            if char != "teacher":
-                hotspot (550, 80, 160, 67) action [With(dissolveM), Call("open_journal", page, display, "teacher")] tooltip "Teacher"
-            if char != "parent":
-                hotspot (725, 80, 160, 67) action [With(dissolveM), Call("open_journal", page, display, "parent")] tooltip "Parents"
-    
+        if page != 6:
+            hotspot (1500, 246, 179, 87) action [With(dissolveM), Call("open_journal", 6, "")] tooltip "Credits"
+        if page != 7:
+            hotspot (1493, 356, 185, 87) action [With(dissolveM), Call("open_journal", 7, "")] tooltip "Replay"
+        if page != 8:
+            hotspot (154, 358, 166, 93) action [With(dissolveM), Call("open_journal", 8, "")] tooltip "Goals"
+            
     if page == 1 or (page == 5 and display == 'stats'):
         if char == "school":
+            image "journal/journal/school_hover.webp":
+                xpos 365
+                ypos 74
             text "School":
                 xalign 0.225 yalign 0.1
                 size 20
-                color "#000"
+                color "#fff"
+        else:
+            imagebutton:
+                idle "journal/journal/school_idle.webp"
+                hover "journal/journal/school_hover.webp"
+                xpos 365
+                ypos 74
+                tooltip "School"
+                action [With(dissolveM), Call("open_journal", page, display, "school")]
         if char == "teacher":
+            image "journal/journal/teacher_hover.webp":
+                xpos 541
+                ypos 75
             text "Teacher":
                 xalign 0.3225 yalign 0.1
                 size 20
-                color "#000"
+                color "#fff"
+        else:
+            imagebutton:
+                idle "journal/journal/teacher_idle.webp"
+                hover "journal/journal/teacher_hover.webp"
+                xpos 541
+                ypos 75
+                tooltip "Teacher"
+                action [With(dissolveM), Call("open_journal", page, display, "teacher")]
         if char == "parent":
+            image "journal/journal/parent_hover.webp":
+                xpos 718
+                ypos 76
             text "Parents":
                 xalign 0.415 yalign 0.1
                 size 20
-                color "#000"
+                color "#fff"
+        else:
+            imagebutton:
+                idle "journal/journal/parent_idle.webp"
+                hover "journal/journal/parent_hover.webp"
+                xpos 718
+                ypos 76
+                tooltip "Parents"
+                action [With(dissolveM), Call("open_journal", page, display, "parent")]
 
-    if cheat_mode and page != 5:
-        imagebutton:
-            idle "journal/journal/cheat_tag_idle.webp"
-            hover "journal/journal/cheat_tag_hover.webp"
-            tooltip "Cheats"
-            xpos 1268
-            ypos 70
-            action [With(dissolveM), Call("open_journal", 5, "")]
+    if cheat_mode:
+        if page != 5:
+            imagebutton:
+                idle "journal/journal/cheat_idle.webp"
+                hover "journal/journal/cheat_hover.webp"
+                tooltip "Cheats"
+                xpos 1501
+                ypos 715
+                action [With(dissolveM), Call("open_journal", 5, "")]
+        else:
+            image "journal/journal/cheat_hover.webp":
+                xpos 1501
+                ypos 715
 
-    if page != 6:
-        imagebutton:
-            idle "journal/journal/credit_tag_idle.webp"
-            hover "journal/journal/credit_tag_hover.webp"
-            tooltip "Credits"
-            xpos 338
-            ypos 953
-            action [With(dissolveM), Call("open_journal", 6, "")]
-
-    if page != 7:
-        imagebutton:
-            idle "journal/journal/gallery_tag_idle.webp"
-            hover "journal/journal/gallery_tag_hover.webp"
-            tooltip "Gallery"
-            xpos 1280
-            ypos 960
-            action [With(dissolveM), Call("open_journal", 7, "")]
+    imagebutton:
+        idle "journal/journal/close_idle.webp"
+        hover "journal/journal/close_hover.webp"
+        tooltip "Close Journal"
+        xpos 1509
+        ypos 836
+        action [With(dissolveM), Jump("map_overview")]
 
 screen journal_desc(page, display, active_obj, with_title = False):
     # """
@@ -1006,11 +1030,6 @@ screen journal_page(page, display):
 
         use journal_vote_button(page, display, active_obj)
 
-    textbutton "Close":
-        xalign 0.75
-        yalign 0.87
-        action [With(dissolveM), Jump("map_overview")]
-
     $ tooltip = GetTooltip()
     if tooltip:
         nearrect:
@@ -1158,7 +1177,7 @@ screen journal_overview(display, char = "school"):
             use journal_money_overview
         else:
             if active_stat_obj != None:
-                $ active_desc = active_stat_obj.get_full_description()
+                $ active_desc = active_stat_obj.get_full_description(char_obj = school_object)
                 $ active_image = active_stat_obj.get_image()
 
                 image "[active_image]":
@@ -1178,11 +1197,6 @@ screen journal_overview(display, char = "school"):
                     vbar value YScrollValue("OverviewDesc"):
                         unscrollable "hide"
                         xalign 1.05
-
-    textbutton "Close":
-        xalign 0.75
-        yalign 0.87
-        action [With(dissolveM), Jump("map_overview")]
 
     $ tooltip = GetTooltip()
     if tooltip:
@@ -1641,17 +1655,6 @@ screen journal_cheats(display, char = "school"):
                 text_style "buttons_idle"
                 action [With(dissolveM), Call("open_journal", 5, "buildings")]
 
-    text "Cheats": 
-        xalign 0.25 
-        yalign 0.2
-        size 60
-        color "#000"
-
-    textbutton "Close":
-        xalign 0.75
-        yalign 0.87
-        action [With(dissolveM), Jump("map_overview")]
-
     $ tooltip = GetTooltip()
     if tooltip:
         nearrect:
@@ -1682,11 +1685,6 @@ screen journal_gallery(display):
     key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
 
     use journal_page_selector(7, display)
-
-    text "Gallery":
-        xalign 0.725 yalign 0.955
-        size 20
-        color "#000"
 
     text "Gallery":
         xalign 0.25 yalign 0.2
@@ -1853,7 +1851,7 @@ screen journal_gallery(display):
                     vbox:
                         for i, frag_storage_name in enumerate(persistent.gallery[location][event]['options']['Frag_Storage']):
                             $ curr_fragment = persistent.gallery[location][event]['options']['frag_order'][i]
-                            $ frag_title = str(i) + ".: " + get_event_menu_title('fragment', curr_fragment)
+                            $ frag_title = str(i + 1) + ":  " + get_event_menu_title('fragment', curr_fragment) + " →"
                             textbutton frag_title:
                                 action [With(dissolveM), Call('open_journal', 7, '.'.join([location, event, "fragment_selection_mode", str(i), curr_fragment]))]
         
@@ -1987,15 +1985,18 @@ screen journal_gallery(display):
                 $ base_gallery['options']['last_order'] = gallery_chooser_order
         
         if has_option and event_obj.get_form() != "composite":
-            
             text "Variants":
                 xpos 989
                 ypos 560
                 color "#000"
         elif event_obj.get_form() == "composite" and display_mode in ["value_mode", "fragment_mode"]:
             
-            # if display_mode == "value_mode" and not has_option:
-            #     $ renpy.call("open_journal", 7, '.'.join([location, event, "fragment_mode"]))
+            if display_mode == "value_mode" and not has_option:
+                text "No values to choose :(":
+                    style "buttons_inactive"
+                    xpos 1000
+                    ypos 650
+                # action Call('open_journal', 7, '.'.join([location, event, "fragment_mode"]))
             
             $ top_border_offset = 50
             hbox:
@@ -2035,7 +2036,7 @@ screen journal_gallery(display):
                 if event_obj.get_form() == "composite":
                     
                     button:
-                        text "Start Replay":
+                        text "▶ Start Replay":
                             style "buttons_idle"
                             size 50
                         xpos 1000
@@ -2044,7 +2045,7 @@ screen journal_gallery(display):
                 else:
                     
                     button:
-                        text "Start Replay":
+                        text "▶ Start Replay":
                             style "buttons_idle"
                             size 50
                         xpos 1000
@@ -2059,21 +2060,14 @@ screen journal_gallery(display):
                     xpos 1000
                     ypos 880
         else:
-            
             button:
-                text "Return to\nMain Event":
+                text "← Return to Main Event":
                     style "buttons_idle"
                     size 40
                 xpos 1000
                 ypos 880
                 action [With(dissolveM), Call("open_journal", 7, '.'.join([location, event, "fragment_mode"]))]
-    
-    textbutton "Close":
-        xalign 0.75
-        yalign 0.87
-        action [With(dissolveM), Jump("map_overview")]
-
-    
+        
     $ tooltip = GetTooltip()
     if tooltip:
         nearrect:
@@ -2104,11 +2098,6 @@ screen journal_credits(display):
     key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
 
     use journal_page_selector(6, display)
-
-    text "Credits":
-        xalign 0.21 yalign 0.95
-        size 20
-        color "#000"
 
     $ (student_members, time_text) = get_members("Student")
     $ (teacher_members, time_text) = get_members("Teacher")
@@ -2214,10 +2203,94 @@ screen journal_credits(display):
                     unscrollable "hide"
                     xalign 1.0
 
-    textbutton "Close":
-        xalign 0.75
-        yalign 0.87
-        action [With(dissolveM), Jump("map_overview")]
+    $ tooltip = GetTooltip()
+    if tooltip:
+        nearrect:
+            focus "tooltip"
+            prefer_top True
+
+            frame:
+                xalign 0.5
+                text tooltip
+
+screen journal_goals(display):
+    tag interaction_overlay
+    modal True
+
+    use school_overview_map
+    use school_overview_stats
+
+    image "journal/journal/background.webp"
+
+    key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
+
+    use journal_page_selector(8, display, char)
+
+    text "Goals": 
+        xalign 0.25 
+        yalign 0.2
+        size 60
+        color "#000"
+
+    frame:
+        # background Solid("#00000090")
+        background Solid("#00000000")
+        area (330, 300, 560, 600)
+
+        hbox:
+            viewport id "goals text 1":
+                mousewheel True
+                draggable "touch"
+
+                vbox:
+                    text "This currently is a placeholder for the goals screen.":
+                        style "journal_text"
+                        size 25
+                    null height 20
+                    text "For now just visit the different locations and run through the different events to improve your stats.":
+                        style "journal_text"
+                        size 25
+                    text "You'll get notfied when you've seen all the different events. There will be no notification though on the different variants of the events.":
+                        style "journal_text"
+                        size 25
+                    null height 20
+                    text "You'll also get notified when you improved the stats to the point where there would be no new content with further improved stats.":
+                        style "journal_text"
+                        size 25
+                    text "This notification will only come on if all the stats have reached that point.":
+                        style "journal_text"
+                        size 25
+            vbar value YScrollValue("goals text 1"):
+                unscrollable "hide"
+                xalign 1.0
+
+    frame:
+        # background Solid("#00000090")
+        background Solid("#00000000")
+        area (960, 300, 560, 600)
+
+        hbox:
+            viewport id "goals text 2":
+                mousewheel True
+                draggable "touch"
+
+                vbox:
+                    text "Currently there are 2 Rules and 1 Building to unlock.":
+                        style "journal_text"
+                        size 25
+                    null height 20
+                    text "If you want more information, feel free to check out the Walkthrough on my Wiki Page:":
+                        style "journal_text"
+                        size 25
+                    textbutton "Walkthrough {image=icons/share.webp}":
+                        text_style "buttons_idle"
+                        action Call('open_wiki_page')
+
+                    
+
+            vbar value YScrollValue("goals text 2"):
+                unscrollable "hide"
+                xalign 1.0
 
     $ tooltip = GetTooltip()
     if tooltip:
@@ -2229,9 +2302,14 @@ screen journal_credits(display):
                 xalign 0.5
                 text tooltip
 
+
 ############################
 # Journal Methods
 ############################
+
+label open_wiki_page():
+    $ renpy.run(OpenURL(wiki))
+    call open_journal(8, "") from open_wiki_page_1
 
 label reset_event_gallery(location, event):
     # """

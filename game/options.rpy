@@ -285,3 +285,4 @@ init python:
 
 define discord = 'http://tiny.cc/mindtheschooldiscord'
 define patreon = 'http://tiny.cc/mindtheschoolpatreon'
+define wiki = 'https://suitpub.alwaysdata.net'

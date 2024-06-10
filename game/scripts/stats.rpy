@@ -232,6 +232,17 @@ init -6 python:
 
             return Stat_Data[self.type].get_image(self.get_level())
 
+        def get_stat_description(self, **kwargs) -> str:
+            """
+            Returns the description of the stat for overview in the journal. See Stat_Data for more information.
+
+            ### Returns:
+            1. str
+                - The description of the stat for overview in the journal.
+            """
+
+            return Stat_Data[self.type].get_stat_description(**kwargs)
+
         def get_description(self) -> str:
             """
             Returns the description of the stat for overview in the journal. See Stat_Data for more information.
@@ -243,7 +254,7 @@ init -6 python:
 
             return Stat_Data[self.type].get_description(self.get_level())
 
-        def get_full_description(self) -> str:
+        def get_full_description(self, **kwargs) -> str:
             """
             Returns the full description of the stat for the journal. See Stat_Data for more information.
 
@@ -253,7 +264,7 @@ init -6 python:
                 - The full description consists of the description for the current level and the general description of the stat.
             """
 
-            return Stat_Data[self.type].get_full_description(self.get_level())
+            return Stat_Data[self.type].get_full_description(self.get_level(), **kwargs)
 
         def display_stat(self) -> str:
             """
@@ -350,7 +361,7 @@ init -6 python:
             - The images of the stat. Depending on the level of the stat, a different image is used.
         5. descriptions: List[str]
             - The descriptions of the stat. Depending on the level of the stat, a different description is used.
-        6. description: str
+        6. description: List[str | Tuple[str, Condition]]
             - The general description of the stat.
         7. min_limit: num
             - The minimum limit of the stat.
@@ -502,6 +513,26 @@ init -6 python:
                 return self.images[level]
             return "images/journal/empty_image.webp"
 
+        def get_stat_description(self, **kwargs) -> str:
+            """
+            Returns the description of the stat for overview in the journal.
+
+            ### Returns:
+            1. str
+                - The description of the stat for overview in the journal.
+            """
+
+            if (isinstance(self.description, str)):
+                return self.description
+            output = ""
+            for i, desc in enumerate(self.description):
+                if isinstance(desc, str):
+                    output += desc + "\n"
+                elif isinstance(desc, Tuple) and isinstance(desc[0], str) and isinstance(desc[1], Condition):
+                    if desc[1].is_fulfilled(**kwargs):
+                        output += desc[0] + "\n"
+            return output
+
         def get_description(self, level: int) -> str:
             """
             Returns the description of the stat for the given level.
@@ -519,7 +550,7 @@ init -6 python:
                 return self.descriptions[level]
             return "Description missing for level:" + str(level)
 
-        def get_full_description(self, level: int) -> str:
+        def get_full_description(self, level: int, **kwargs) -> str:
             """
             Returns the full description of the stat for the given level.
             The full description consists of the description for the current level and the general description of the stat.
@@ -535,7 +566,7 @@ init -6 python:
 
             return (self.get_description(level) + 
                 "\n-------------------------------------------------------\n" + 
-                self.description)
+                self.get_stat_description(**kwargs))
 
     def get_stat_icon(stat: str, is_white: bool = False) -> str:
         """
@@ -585,7 +616,6 @@ init -6 python:
             return clamp_value(value, 100 - (level * (max / 10)), max)
         else:
             return clamp_value(value, min, max)
-
 
     def clamp_value(value: num, min: num = 0, max: num = 100) -> num:
         """
@@ -666,10 +696,11 @@ init -6 python:
 label load_stats ():
     
     $ load_stat_data(CORRUPTION, "Corruption", {
-        'description': "The corruption level is a measure of how corrupt the" +
+        'description': ["The corruption level is a measure of how corrupt the" +
             " students' minds are and how open they are to sexual activity.\n" +
             "\nThe level can be increased by performing sexual activities with" +
             " the students or by using indirect measures like drugs etc.",
+            ("\nThis stat is currently capped and cannot be further decreased until the level of the school is increased.", StatLimitCondition(CORRUPTION))],
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         'descriptions': [
             "There is rarely anything more pure than these students.",
@@ -700,10 +731,11 @@ label load_stats ():
     })
 
     $ load_stat_data(INHIBITION, "Inhibition", {
-        'description': "The inhibition level shows how the students feel in their own bodies.\n" +
+        'description': ["The inhibition level shows how the students feel in their own bodies.\n" +
             "The better they feel in their own bodies the more they open up and the less they feel embarrassed about showing their bodies.\n" +
-            "\n The level can be increased by bringing the student in embarrassing situations that leaves them exposed or" +
+            "\nThe level can be increased by bringing the student in embarrassing situations that leaves them exposed or" +
             " that presents their bodies in other ways.",
+            ("\nThis stat is currently capped and cannot be further decreased until the level of the school is increased.", StatLimitCondition(INHIBITION))],
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         'descriptions': [
             "The students love to be naked all the time.",
