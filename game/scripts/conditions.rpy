@@ -580,6 +580,51 @@ init -6 python:
                     output += diff
             return output
 
+    class StatLimitCondition(Condition):
+        def __init__(self, stat: str, char_obj: str | Char = None, **kwargs):
+            super().__init__(**kwargs)
+            self._stat = stat
+            self._char_obj = char_obj
+            self.display_in_list = False
+            self.display_in_desc = False
+
+        def is_fulfilled(self, **kwargs) -> bool:
+            char_obj = None
+            if hasattr(self, '_char_obj'):
+                char_obj = self._char_obj
+
+            if isinstance(char_obj, str):
+                char_obj = get_character_by_key(char_obj)
+
+            if char_obj == None:
+                char_obj = get_kwargs('char_obj', get_school(), **kwargs)
+
+            
+            if self._stat == CORRUPTION:
+                limit_value = clamp_value(100, 0, char_obj.get_level() * 10)
+            elif self._stat == INHIBITION:
+                limit_value = clamp_value(0, 100 - (char_obj.get_level() * 10), 100)
+            else:
+                return False
+
+            stat_value = get_stat_for_char(self._stat, char_obj)
+
+            if stat_value == limit_value:
+                return True
+
+        def get_name(self) -> str:
+            if self._stat == CORRUPTION:
+                return "Corruption limit"
+            elif self._stat == INHIBITION:
+                return "Inhibition limit"
+            return ""
+
+        def get_diff(self, char_obj: Char) -> num:
+            if self.is_fulfilled(char_obj = char_obj):
+                return 0
+            return -100
+
+
     class RuleCondition(Condition):
         """
         A class for conditions that check if the rules for a character object is active.

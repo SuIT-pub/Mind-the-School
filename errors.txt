@@ -2,11 +2,9 @@
 errors listed below, and try again.
 
 
-The label reset_gallery_cheat_1 is defined twice, at File "game/scripts/journal/journal.rpy", line 2269:
-    call open_journal(page, display) from reset_gallery_cheat_1
-and File "game/scripts/journal/journal.rpy", line 2285:
-    call open_journal(page, display) from reset_gallery_cheat_1
-
+File "game/scripts/journal/journal.rpy", line 2291: is not terminated with a newline. (Check strings and parenthesis.)
+(Perhaps you left out a " at the end of the first line.)
+                vbar value YScrollValue("goals text 12):
 
 Ren'Py Version: Ren'Py 8.1.3.23091805
-Fri Jun  7 13:52:46 2024
+Mon Jun 10 15:28:11 2024
