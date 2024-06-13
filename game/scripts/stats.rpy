@@ -306,7 +306,7 @@ init -6 python:
                 limit_value = clamp_value(0, 100 - (level * 10), 100)
 
             if stat_value == limit_value:
-                text = "{color=#c9cf05}" + str(stat_value) + "{/color}"
+                text = "{color=#e4900c}" + str(stat_value) + "{/color}"
 
             return text
 

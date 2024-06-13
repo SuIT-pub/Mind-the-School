@@ -741,6 +741,9 @@ init -6 python:
         if 'elementary_school_dormitory' in buildings.keys():
             buildings.pop("elementary_school_dormitory")
 
+        if 'tennis_court' in buildings.keys():
+            buildings.pop("tennis_court")
+
     ########################################
 
 ############################
@@ -834,13 +837,33 @@ label load_buildings ():
     })
 
     #! locked, currently not implemented
-    $ load_building("tennis_court", "Tennis Court", {
+    $ load_building("beach", "Beach", {
         '_description': [
             [
-                "Something only a reputable school can have.\nA tennis court. Of course only used for playing tennis.",
+                "A beautiful beach for the students to relax and have fun.",
             ],
             [
-                "Something only a reputable school can have.\nA tennis court. Of course only used for playing tennis.",
+                "A beautiful beach for the students to relax and have fun.",
+            ],
+        ],
+        '_max_level': 1,
+        '_unlock_conditions': ConditionStorage(
+            MoneyCondition(1000),
+            LockCondition()
+        ),
+        '_upgrade_conditions':[],
+    }, {
+        '_level': 0,
+    })
+
+    #! locked, currently not implemented
+    $ load_building("staff_lodges", "Staff Lodges", {
+        '_description': [
+            [
+                "The lodges where the staff members can stay.",
+            ],
+            [
+                "The lodges where the staff members can stay.",
             ],
         ],
         '_max_level': 1,
