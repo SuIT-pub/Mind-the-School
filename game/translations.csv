@@ -129,6 +129,11 @@ office_event_1;In need of counseling
 office_event_2;Teacher need a break
 office_event_3;Two students waiting
 
+event_office_building_work;Work
+event_office_building_money;Make some Money
+event_office_building_counselling;Hold counselling sessions
+
+
 #################
 # School Building
 event_school_building_teach_class;Teach Class
