@@ -1,0 +1,63 @@
+Mon Jun 10 17:06:22 2024
+Windows-10-10.0.22631
+Ren'Py 8.1.3.23091805
+ 
+
+Bootstrap to the start of init.init. took 0.02s
+Early init. took 0.00s
+Loader init. took 1.44s
+Loading error handling. took 0.06s
+Loading script. took 1.30s
+Loading save slot metadata. took 518.00s
+Loading persistent. took 0.01s
+ - Init at game/scripts/values.rpy:1 took 0.39163 s.
+
+Full traceback:
+  File "game/screens.rpy", line 322, in script
+    style quick_button is default
+  File "D:\RenPy\renpy\execution.py", line 61, in check_infinite_loop
+    raise Exception("Possible infinite loop.")
+Exception: Possible infinite loop.
+
+While running game code:
+  File "game/screens.rpy", line 322, in script
+    style quick_button is default
+Exception: Possible infinite loop.
+DPI scale factor: 1.000000
+nvdrs: Loaded, about to disable thread optimizations.
+nvdrs: Disabled thread optimizations.
+Interface start. took 0.76s
+
+Initializing gl2 renderer:
+primary display bounds: (0, 0, 1920, 1080)
+swap interval: 1 frames
+Windowed mode.
+Vendor: "b'NVIDIA Corporation'"
+Renderer: b'NVIDIA GeForce RTX 3060/PCIe/SSE2'
+Version: b'4.6.0 NVIDIA 552.44'
+Display Info: None
+Screen sizes: virtual=(1920, 1080) physical=(1920, 1009) drawable=(1920, 1009)
+Maximum texture size: 4096x4096
+Resetting cache.
+Bootstrap to the start of init.init. took 669.50s
+Early init. took 0.00s
+Loader init. took 0.11s
+Loading error handling. took 0.03s
+
+Full traceback:
+  File "D:\RenPy\renpy\bootstrap.py", line 275, in bootstrap
+    renpy.main.main()
+  File "D:\RenPy\renpy\main.py", line 492, in main
+    renpy.game.script.load_script() # sets renpy.game.script.
+  File "D:\RenPy\renpy\script.py", line 310, in load_script
+    self.load_appropriate_file(".rpyc", [ "_ren.py", ".rpy" ], dir, fn, initcode)
+  File "D:\RenPy\renpy\script.py", line 888, in load_appropriate_file
+    self.finish_load(stmts, initcode, filename=lastfn) # type: ignore
+  File "D:\RenPy\renpy\script.py", line 525, in finish_load
+    check_name(node)
+  File "D:\RenPy\renpy\script.py", line 501, in check_name
+    raise ScriptError("Name %s is defined twice, at %s:%d and %s:%d." %
+ScriptError: Name ('game/scripts/event.rpy', 1706538778, 1) is defined twice, at game/scripts/event.rpy:1 and game/scripts/event-Cren-PC.rpyc:1.
+
+While loading the script.
+ScriptError: Name ('game/scripts/event.rpy', 1706538778, 1) is defined twice, at game/scripts/event.rpy:1 and game/scripts/event-Cren-PC.rpyc:1.
