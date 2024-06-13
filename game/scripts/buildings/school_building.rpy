@@ -94,23 +94,29 @@ init 1 python:
     sb_teach_math_ld_storage = FragmentStorage('sb_teach_math_ld')
     sb_teach_math_ld_storage.add_event(
         EventFragment(3, 'sb_teach_math_ld_1', 
-            ValueCondition('learning_difficulty', False)),
+            ValueCondition('learning_difficulty', False),
+            thumbnail = "images/events/school building/sb_teach_math_ld_1 1.webp"),
         EventFragment(3, 'sb_teach_math_ld_2', 
             RandomListSelector('ld_girl_name', 'Seraphina Clark', 'Hatano Miwa', 'Soyoon Yamamoto'),
-            ValueCondition('learning_difficulty', True)),
-        EventFragment(3, 'sb_teach_math_ld_3')
+            ValueCondition('learning_difficulty', True),
+            thumbnail = "images/events/school building/sb_teach_math_ld_2 1 Seraphina Clark 1.webp"),
+        EventFragment(3, 'sb_teach_math_ld_3',
+            thumbnail = "images/events/school building/sb_teach_math_ld_3 0.webp")
     )
 
     sb_teach_math_main_storage = FragmentStorage('sb_teach_math_main')
     sb_teach_math_main_storage.add_event(
         EventFragment(3, 'sb_teach_math_main_1',
             RandomListSelector('main_girl_name', 'Seraphina Clark', 'Hatano Miwa', 'Soyoon Yamamoto'),
-            RandomListSelector('main_topic', 'normal', 'sleeping')),
-        EventFragment(3, 'sb_teach_math_main_2')
+            RandomListSelector('main_topic', 'normal', 'sleeping'),
+            thumbnail = "images/events/school building/sb_teach_math_main_1 Seraphina Clark 1 0.webp"),
+        EventFragment(3, 'sb_teach_math_main_2',
+            thumbnail = "images/events/school building/sb_teach_math_main_2 1 7.webp",)
     )
 
     sb_teach_math_event = EventComposite(3, 'sb_teach_math', [sb_teach_math_ld_storage, sb_teach_math_main_storage],
         LevelSelector('school_level', 'school'),
+        thumbnail = "images/events/school building/sb_teach_math_main_1 # 1 18.webp"
     )
     #################
 
