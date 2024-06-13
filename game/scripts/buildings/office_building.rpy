@@ -12,7 +12,8 @@ init -1 python:
     office_building_general_event = EventStorage("office_building", "office_building", Event(2, "office_building.after_general_check"))
 
     office_building_work_event = {}
-    add_storage(office_building_work_event, EventStorage("councelling", "office_building"))
+    add_storage(office_building_work_event, EventStorage("counselling", "office_building"))
+    add_storage(office_building_work_event, EventStorage("money",       "office_building"))
 
     office_building_events = {}
     add_storage(office_building_events, EventStorage("look_around", "office_building"))
@@ -68,9 +69,12 @@ init 1 python:
             TimeCondition(weekday = "d", daytime = "d")),
     )
 
-    office_building_work_event["councelling"].add_event(
+    office_building_work_event["money"].add_event(
         Event(3, "work_office_money_event_1",
             TimeCondition(weekday = "d", daytime = "d")),
+    )
+
+    office_building_work_event["counselling"].add_event(
         Event(3, "work_office_education_event_1",
             TimeCondition(weekday = "d", daytime = "d"),
             LevelSelector('school_level', 'school'),
