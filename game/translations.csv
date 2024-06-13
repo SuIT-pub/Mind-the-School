@@ -130,7 +130,8 @@ office_event_2;Teacher need a break
 office_event_3;Two students waiting
 
 event_office_building_work;Work
-event_office_building_money;Make some Money
+event_office_building_money;Make some money
+event_office_building_money;Improve teaching material
 event_office_building_counselling;Hold counselling sessions
 
 
