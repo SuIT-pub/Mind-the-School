@@ -560,6 +560,7 @@ init -3 python:
         ### Methods:
         1. roll() -> Any
             - Returns the value from the Event Progress Database.
+            - If the index is not found in the Event Progress Database, -1 will be returned.
 
         ### Parameters:
         1. key: str

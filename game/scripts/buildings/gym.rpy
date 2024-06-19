@@ -63,26 +63,26 @@ init 1 python:
 
     gym_teach_pe_intro_storage = FragmentStorage("gym_teach_pe_intro")
     gym_teach_pe_intro_storage.add_event(
-        EventFragment(3, "gym_teach_pe_intro_1"),
-        thumbnail = "images/events/gym/gym_teach_pe_intro_1 1 7.webp",
+        EventFragment(3, "gym_teach_pe_intro_1",
+        thumbnail = "images/events/gym/gym_teach_pe_intro_1 1 7.webp"),
     )
 
     gym_teach_pe_warm_up_storage = FragmentStorage("gym_teach_pe_warm_up")
     gym_teach_pe_warm_up_storage.add_event(
-        EventFragment(3, "gym_teach_pe_warm_up_1"),
-        thumbnail = "images/events/gym/gym_teach_pe_warm_up_1 1 2.webp",
+        EventFragment(3, "gym_teach_pe_warm_up_1",
+        thumbnail = "images/events/gym/gym_teach_pe_warm_up_1 1 2.webp"),
     )
 
     gym_teach_pe_main_storage = FragmentStorage("gym_teach_pe_main")
     gym_teach_pe_main_storage.add_event(
-        EventFragment(3, "gym_teach_pe_main_1"),
-        thumbnail = "images/events/gym/gym_teach_pe_main_1 1 9.webp",
+        EventFragment(3, "gym_teach_pe_main_1",
+        thumbnail = "images/events/gym/gym_teach_pe_main_1 1 9.webp"),
     )
 
     gym_teach_pe_end_storage = FragmentStorage("gym_teach_pe_end")
     gym_teach_pe_end_storage.add_event(
-        EventFragment(3, "gym_teach_pe_end_1"),
-        thumbnail = "images/events/gym/gym_teach_pe_main_1 1 14.webp",
+        EventFragment(3, "gym_teach_pe_end_1",
+        thumbnail = "images/events/gym/gym_teach_pe_main_1 1 14.webp"),
     )
 
     gym_teach_pe_event = EventComposite(3, 'gym_teach_pe', 

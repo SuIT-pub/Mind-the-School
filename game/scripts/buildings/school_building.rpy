@@ -414,8 +414,6 @@ label teach_class_event (**kwargs):
         default_fallback,
         character.subtitles,
         override_menu_exit = 'school_building',
-        learning_difficulty = learning_difficulty,
-        learning_difficulty_girl = learning_difficulty_girl,
         **kwargs
     ) from teach_class_event_1
 

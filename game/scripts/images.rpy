@@ -119,7 +119,7 @@ init -2 python:
             """
 
             if '<step>' in image_paths[0]:
-                max_steps = get_image_max_value_with_alternatives('<step>', image_paths, 0, 100)
+                max_steps = get_image_max_value_with_alternatives('<step>', image_paths, 0, 1000)
 
                 for i in range(0, max_steps + 1):
                     for image_path in image_paths:
@@ -601,7 +601,8 @@ init -2 python:
         1. int
             - The highest available value for the key in the given image path.
         """
-
+        log_val('image_paths', image_paths)
+        
         for i in range(start, end):
             for image_path in image_paths:
 
@@ -609,9 +610,14 @@ init -2 python:
                 old_image = re.sub("<.+>", "0", old_image)
                 test_image = old_image.replace("~#~", str(i))
 
+                log_val("image_path", image_path)
+                log_val("old_image", old_image)
+                log_val("test_image", test_image)
+
                 if renpy.loadable(test_image):
                     break
             else:
+                log('break')
                 return i - 1
 
         return end
