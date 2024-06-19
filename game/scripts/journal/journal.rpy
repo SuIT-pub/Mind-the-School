@@ -707,7 +707,7 @@ screen journal_cheats_stat(stat, char = "school"):
         $ stat_value = char_obj.get_display_value(stat)
 
     hbox:
-        text "{image=icons/stat_[stat_name]_icon.webp}"
+        text get_stat_icon(stat_name, white = False)
         text " [stat_text]" style "journal_text" yalign 0.5
     hbox:
         if stat != MONEY:
@@ -1116,7 +1116,7 @@ screen journal_overview(display, char = "school"):
                         $ button_style = "buttons_selected"
                     $ money_text = money.display_stat()
 
-                    text "{image=icons/stat_money_icon.webp}"
+                    text get_stat_icon("money", white = False)
                     textbutton "  Money:":
                         yalign 0.5 
                         text_style button_style
@@ -1135,7 +1135,7 @@ screen journal_overview(display, char = "school"):
                         $ button_style = "buttons_selected"
                     $ level_text = school_object.level.display_stat()
 
-                    text "{image=icons/stat_level_icon.webp}"
+                    text get_stat_icon("level", white = False)
                     textbutton "  Level:":
                         yalign 0.5 
                         text_style button_style
@@ -1153,7 +1153,7 @@ screen journal_overview(display, char = "school"):
                     if stat_key == display:
                         $ button_style = "buttons_selected"
                     hbox:
-                        text "{image=[stat_icon]}"
+                        text get_stat_icon(stat_key, white = False)
                         textbutton "  [stat_title]:":
                             yalign 0.5 
                             text_style button_style

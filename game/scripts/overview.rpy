@@ -13,8 +13,13 @@ init -1 python:
 # ----- Styles ----- #
 ######################
 
-style stat_value:
+style stat_overview:
+    outlines [(2, "222222", 1, 1)]
+
+style stat_value take stat_overview:
     size 25
+
+
 
 ##########################
 # ----- Map Screen ----- #
@@ -40,8 +45,9 @@ screen school_overview_stats ():
         xalign 1.0 yalign 0.0
         spacing 2
         hbox:
-            textbutton get_stat_icon('happiness', True):
+            textbutton get_stat_icon('happiness'):
                 tooltip "Happiness"
+                text_style "stat_overview"
                 action Call("open_journal", 1, HAPPINESS)
             null width 1
             textbutton get_school_stat_value(HAPPINESS) + "\n" + get_school_stat_change(HAPPINESS):
@@ -49,8 +55,9 @@ screen school_overview_stats ():
                 text_style "stat_value"
                 action Call("open_journal", 1, HAPPINESS)
         hbox:
-            textbutton get_stat_icon('charm', True):
+            textbutton get_stat_icon('charm'):
                 tooltip "Charm"
+                text_style "stat_overview"
                 action Call("open_journal", 1, CHARM)
             null width 1
             textbutton get_school_stat_value(CHARM) + "\n" + get_school_stat_change(CHARM):
@@ -58,8 +65,9 @@ screen school_overview_stats ():
                 text_style "stat_value"
                 action Call("open_journal", 1, CHARM)
         hbox:
-            textbutton get_stat_icon('education', True):
+            textbutton get_stat_icon('education'):
                 tooltip "Education"
+                text_style "stat_overview"
                 action Call("open_journal", 1, EDUCATION)
             null width 1
             textbutton get_school_stat_value(EDUCATION) + "\n" + get_school_stat_change(EDUCATION):
@@ -67,8 +75,9 @@ screen school_overview_stats ():
                 text_style "stat_value"
                 action Call("open_journal", 1, EDUCATION)
         hbox:
-            textbutton get_stat_icon('money', True):
+            textbutton get_stat_icon('money'):
                 tooltip "Money"
+                text_style "stat_overview"
                 action Call("open_journal", 1, MONEY)
             null width 1
             textbutton get_school_stat_value(MONEY) + "\n" + get_school_stat_change(MONEY):
@@ -78,8 +87,9 @@ screen school_overview_stats ():
 
         null
         hbox:
-            textbutton get_stat_icon('corruption', True):
+            textbutton get_stat_icon('corruption'):
                 tooltip "Corruption"
+                text_style "stat_overview"
                 action Call("open_journal", 1, CORRUPTION)
             null width 1
             textbutton get_school_stat_value(CORRUPTION) + "\n" + get_school_stat_change(CORRUPTION):
@@ -87,8 +97,9 @@ screen school_overview_stats ():
                 text_style "stat_value"
                 action Call("open_journal", 1, CORRUPTION)
         hbox:
-            textbutton get_stat_icon('inhibition', True):
+            textbutton get_stat_icon('inhibition'):
                 tooltip "Inhibition"
+                text_style "stat_overview"
                 action Call("open_journal", 1, INHIBITION)
             null width 1
             textbutton get_school_stat_value(INHIBITION) + "\n" + get_school_stat_change(INHIBITION):
@@ -96,8 +107,9 @@ screen school_overview_stats ():
                 text_style "stat_value"
                 action Call("open_journal", 1, INHIBITION)
         hbox:
-            textbutton get_stat_icon('reputation', True):
+            textbutton get_stat_icon('reputation'):
                 tooltip "Reputation"
+                text_style "stat_overview"
                 action Call("open_journal", 1, REPUTATION)
             null width 1
             textbutton get_school_stat_value(REPUTATION) + "\n" + get_school_stat_change(REPUTATION):
@@ -116,7 +128,7 @@ screen school_overview_stats ():
             auto "icons/time skip %s.webp"
             tooltip "Skip Time" + s_text
             focus_mask None
-            xalign 0.0 yalign 0.0
+            xalign 0.995 yalign 0.4
             action Call("skip_time")
 
     vbox:
@@ -135,40 +147,23 @@ screen school_overview_stats ():
         elif time.check_weekday("w"):
             $ daysegment = "{color=#ba6413}Weekend{/color}"
 
-        if time.compare_today(10, 1, 2023) != -1:
-            button:
-                text "[time.day] [monthstr] [time.year]":
-                    size 30
-                xalign 1.0
-                action Call("skip_time")
-            button:
-                text "[daystr]":
-                    size 35
-                xalign 1.0
-                action Call("skip_time")
-            button:
-                text "[daytimestr]":
-                    size 30
-                xalign 1.0
-                action Call("skip_time")
-            button:
-                text "[daysegment]":
-                    size 30
-                xalign 1.0
-                action Call("skip_time")
-        else:
-            text "[time.day] [monthstr] [time.year]":
-                xalign 1.0
-                size 30
-            text "[daystr]":
-                xalign 1.0
-                size 35
-            text "[daytimestr]":
-                xalign 1.0
-                size 30
-            text "[daysegment]":
-                xalign 1.0
-                size 30
+        text "[time.day] [monthstr] [time.year]":
+            xalign 1.0
+            size 30
+            style "stat_overview"
+        text "[daystr]":
+            xalign 1.0
+            size 35
+            style "stat_overview"
+        text "[daytimestr]":
+            xalign 1.0
+            size 30
+            style "stat_overview"
+        text "[daysegment]":
+            xalign 1.0
+            size 30
+            style "stat_overview"
+
 
     $ tooltip = GetTooltip()
 
@@ -489,7 +484,7 @@ screen school_overview_buttons (with_available_Events = False):
             auto "icons/journal_icon_%s.webp"
             tooltip "Open Journal" + j_text
             focus_mask None
-            xalign 0.07 yalign 0.0
+            xalign 1.0 yalign 0.6
             action Call("start_journal")
 
     $ tooltip = GetTooltip()

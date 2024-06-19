@@ -241,7 +241,7 @@ label work_office_session_event_first_naughty (**kwargs):
     $ school_level = get_value('school_level', **kwargs)
     $ secretary_level = get_value('secretary_level', **kwargs)
 
-    $ image = Image_Series("images/events/office/office_event_first_naughty <naughty_sessions> <step>.webp", **kwargs)
+    $ image = Image_Series("images/events/office/office_event_first_naughty 0 <step>.webp", **kwargs)
 
     # secretary enters office
     call Image_Series.show_image(image, 0, 1, 2) from _call_work_office_session_event_first_naughty_1
@@ -414,7 +414,7 @@ label work_office_session_event_first_naughty (**kwargs):
     headmaster "Take this!"
     scene anim_work_office_session_event_first_naughty_68 with dissolveM
     secretary "OH MY GOD! YES! YES! YES!" (interact = False)
-    pause 2.6
+    pause 3.0
     scene anim_work_office_session_event_first_naughty_69 with dissolveM
     # headmaster cums
     secretary "Oh my god! That was amazing!"

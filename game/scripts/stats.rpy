@@ -65,12 +65,12 @@ init -6 python:
             self.type = type
             self.value = value
             self.changed_value = 0
-            self.image_path = "icons/stat_" + str(type) + "_icon.webp"
+            self.image_path = "icons/" + str(type) + "_icon_50.webp"
 
         def _repair(self) -> bool:
             if not hasattr(self, 'type') and hasattr(self, 'image_path'):
-                stat_type = re.sub(r'icons/stat_', '', self.image_path)
-                stat_type = re.sub(r'_icon.webp', '', stat_type)
+                stat_type = re.sub(r'icons/', '', self.image_path)
+                stat_type = re.sub(r'_icon_50.webp', '', stat_type)
                 self.type = stat_type
                 return True
             return False
@@ -568,7 +568,7 @@ init -6 python:
                 "\n-------------------------------------------------------\n" + 
                 self.get_stat_description(**kwargs))
 
-    def get_stat_icon(stat: str, is_white: bool = False) -> str:
+    def get_stat_icon(stat: str, *, small: bool = True, white: bool = True) -> str:
         """
         Returns the path to the icon image of the stat.
 
@@ -581,10 +581,10 @@ init -6 python:
             - The path to the icon image of the stat.
         """
 
-        if is_white:
-            return "{image=icons/stat_" + str(stat) + "_icon_white.webp}"
-        else:
-            return "{image=icons/stat_" + str(stat) + "_icon.webp}"
+        size = "50" if small else "511"
+        color = "white" if white else "black"
+
+        return "{image=icons/" + str(stat) + "_icon_" + size + "_" + color + ".webp}"
 
     def clamp_stat_value(value: num, stat: str, level: int, min: num = 0, max: num = 100) -> num:
         """
