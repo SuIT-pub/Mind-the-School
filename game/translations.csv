@@ -131,9 +131,14 @@ office_event_3;Two students waiting
 
 event_office_building_work;Work
 event_office_building_money;Make some money
-event_office_building_money;Improve teaching material
+event_office_building_education;Improve teaching material
 event_office_building_counselling;Hold counselling sessions
+event_office_building_reputation;Improve school reputation
 
+work_office_money_event_1;Make money generic
+work_office_education_event_1;Improve teaching material generic
+work_office_reputation_event_1;Improve school reputation generic
+work_office_session_event_naughty_1;First time naughty during counselling
 
 #################
 # School Building
@@ -154,7 +159,7 @@ sb_event_4;Student tripping in hallway
 
 sb_teach_math_1;Sleepy Math Class
 
-sb_teach_math_2;Math Excercises
+sb_teach_math_2;Math Exercises
 
 sb_teach_math;Teaching Math
 
@@ -165,7 +170,7 @@ sb_teach_math_ld_2_ld_girl_name;Girl
 
 sb_teach_math_ld_3;Girl tripping
 
-sb_teach_math_main_1;Math Excercises
+sb_teach_math_main_1;Math Exercises
 sb_teach_math_main_1_main_girl_name;Girl
 sb_teach_math_main_1_main_topic;Topic
 

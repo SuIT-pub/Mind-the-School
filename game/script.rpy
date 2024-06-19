@@ -133,5 +133,6 @@ label after_load:
     $ after_load_event_check('school_dormitory', sd_events, sd_general_event, sd_timed_event)
     $ after_load_event_check('sports_field', sports_field_events, sports_field_general_event, sports_field_timed_event)
     $ after_load_event_check('swimming_pool', swimming_pool_events, swimming_pool_general_event, swimming_pool_timed_event)
-    $ after_load_event_check('tennis_court', tennis_court_events, tennis_court_general_event, tennis_court_timed_event)
+    $ after_load_event_check('beach', beach_events, beach_general_event, beach_timed_event)
+    $ after_load_event_check('staff_lodges', staff_lodges_events, staff_lodges_general_event, staff_lodges_timed_event)
     #################

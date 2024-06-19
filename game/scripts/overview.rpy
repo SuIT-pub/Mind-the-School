@@ -105,22 +105,26 @@ screen school_overview_stats ():
                 text_style "stat_value"
                 action Call("open_journal", 1, REPUTATION)
 
+    if time.compare_today(10, 1, 2023) != -1:
+        $ s_text = ""
+        if has_keyboard():
+            if show_shortcut():
+                $ s_text = " [[Z]"
+            key "K_z" action Call("skip_time")
+        # Skip Daytime
+        imagebutton:
+            auto "icons/time skip %s.webp"
+            tooltip "Skip Time" + s_text
+            focus_mask None
+            xalign 0.0 yalign 0.0
+            action Call("skip_time")
+
     vbox:
         xalign 1.0 ypos 150
 
         $ daytimestr = time.get_daytime_name()
         $ daystr = time.get_weekday()
         $ monthstr = time.get_month_name()
-        text "[time.day] [monthstr] [time.year]":
-            xalign 1.0
-            size 30
-        text "[daystr]":
-            xalign 1.0
-            size 35
-        text "[daytimestr]":
-            xalign 1.0
-            size 30
-
         $ daysegment = ""
         if time.check_daytime("n"):
             $ daysegment = "{color=#1b26c0}Night{/color}"
@@ -131,9 +135,40 @@ screen school_overview_stats ():
         elif time.check_weekday("w"):
             $ daysegment = "{color=#ba6413}Weekend{/color}"
 
-        text "[daysegment]":
-            xalign 1.0
-            size 30
+        if time.compare_today(10, 1, 2023) != -1:
+            button:
+                text "[time.day] [monthstr] [time.year]":
+                    size 30
+                xalign 1.0
+                action Call("skip_time")
+            button:
+                text "[daystr]":
+                    size 35
+                xalign 1.0
+                action Call("skip_time")
+            button:
+                text "[daytimestr]":
+                    size 30
+                xalign 1.0
+                action Call("skip_time")
+            button:
+                text "[daysegment]":
+                    size 30
+                xalign 1.0
+                action Call("skip_time")
+        else:
+            text "[time.day] [monthstr] [time.year]":
+                xalign 1.0
+                size 30
+            text "[daystr]":
+                xalign 1.0
+                size 35
+            text "[daytimestr]":
+                xalign 1.0
+                size 30
+            text "[daysegment]":
+                xalign 1.0
+                size 30
 
     $ tooltip = GetTooltip()
 
@@ -159,67 +194,67 @@ screen school_overview_images ():
     # High School Building
     if is_building_available("school_building"):
         add "background/school_building.webp":
-            xpos 413 ypos 436
+            xpos 563 ypos 620
 
     # High School Dormitory
     if is_building_available("school_dormitory"):
         add "background/school_dormitory.webp":
-            xpos 850 ypos 287
+            xpos 1202 ypos 410
 
     # Labs
     if is_building_available("labs"):
         add "background/labs.webp":
-            xpos 507 ypos 118
+            xpos 722 ypos 176
 
     # Sports Field
     if is_building_available("sports_field"):
         add "background/sports_field.webp":
-            xpos 167 ypos 87
+            xpos 241 ypos 130
 
     # Beach
     if is_building_available("beach"):
         add "background/beach.webp":
-            xpos 677 ypos 554
+            xpos 952 ypos 728
 
     # Gym
     if is_building_available("gym"):
         add "background/gym.webp":
-            xpos 95 ypos 200
+            xpos 140 ypos 289
 
     # Swimming Pool
     if is_building_available("swimming_pool"):
         add "background/swimming_pool.webp":
-            xpos 241 ypos 245
+            xpos 354 ypos 348
 
     # Cafeteria
     if is_building_available("cafeteria"):
         add "background/cafeteria.webp":
-            xpos 583 ypos 332
+            xpos 825 ypos 473
 
     # Bath
     if is_building_available("bath"):
         add "background/bath.webp":
-            xpos 308 ypos 0
+            xpos 441 ypos -19
 
     # Kiosk
     if is_building_available("kiosk"):
         add "background/kiosk.webp":
-            xpos 186 ypos 357
+            xpos 269 ypos 510
 
     # Courtyard
     if is_building_available("courtyard"):
         add "background/courtyard.webp":
-            xpos 315 ypos 328
+            xpos 452 ypos 490
 
     # Office Building
     if is_building_available("office_building"):
         add "background/office_building.webp":
-            xpos 689 ypos 44
+            xpos 976 ypos 70
 
     # Staff Lodges
     if is_building_available("staff_lodges"):
         add "background/staff_lodges.webp":
-            xpos -19 ypos 437
+            xpos -19 ypos 624
 
 ############################################################################
 # display clickable buttons for the buildings leading to building distributor
@@ -247,7 +282,7 @@ screen school_overview_buttons (with_available_Events = False):
             hover "background/school_building_white.webp"
             tooltip "School Building" + sb_text
             focus_mask True
-            xpos 413 ypos 436
+            xpos 563 ypos 620
             action Call("building", "school_building")
 
     # High School Dormitory
@@ -266,7 +301,7 @@ screen school_overview_buttons (with_available_Events = False):
             hover "background/school_dormitory_white.webp"
             tooltip "School Dormitory" + sd_text
             focus_mask True
-            xpos 850 ypos 287
+            xpos 1202 ypos 410
             action Call("building", "school_dormitory")
 
     # Labs
@@ -279,7 +314,7 @@ screen school_overview_buttons (with_available_Events = False):
             hover "background/labs_white.webp"
             tooltip "Labs"
             focus_mask True
-            xpos 507 ypos 118
+            xpos 722 ypos 176
             action Call("building", "labs")
 
     # Sports Field
@@ -292,7 +327,7 @@ screen school_overview_buttons (with_available_Events = False):
             hover "background/sports_field_white.webp"
             tooltip "Sports Field"
             focus_mask True
-            xpos 167 ypos 87
+            xpos 241 ypos 130
             action Call("building", "sports_field")
 
     # Beach
@@ -305,7 +340,7 @@ screen school_overview_buttons (with_available_Events = False):
             hover "background/beach_white.webp"
             tooltip "Beach"
             focus_mask True
-            xpos 677 ypos 554
+            xpos 952 ypos 728
             action Call("building", "beach")
 
     # Staff Lodges
@@ -318,7 +353,7 @@ screen school_overview_buttons (with_available_Events = False):
             hover "background/staff_lodges_white.webp"
             tooltip "Staff Lodges"
             focus_mask True
-            xpos -19 ypos 437
+            xpos -19 ypos 624
             action Call("building", "staff_lodges")
 
     # Gym
@@ -337,7 +372,7 @@ screen school_overview_buttons (with_available_Events = False):
             hover "background/gym_white.webp"
             tooltip "Gym" + g_text
             focus_mask True
-            xpos 95 ypos 200
+            xpos 140 ypos 289
             action Call("building", "gym")
 
     # Swimming Pool
@@ -350,7 +385,7 @@ screen school_overview_buttons (with_available_Events = False):
             hover "background/swimming_pool_white.webp"
             tooltip "Swimming Pool"
             focus_mask True
-            xpos 241 ypos 245
+            xpos 354 ypos 348
             action Call("building", "swimming_pool")
 
     # Cafeteria
@@ -369,7 +404,7 @@ screen school_overview_buttons (with_available_Events = False):
             hover "background/cafeteria_white.webp"
             tooltip "Cafeteria" + cf_text
             focus_mask True
-            xpos 583 ypos 332
+            xpos 825 ypos 473
             action Call("building", "cafeteria")
 
     # Bath
@@ -382,7 +417,7 @@ screen school_overview_buttons (with_available_Events = False):
             hover "background/bath_white.webp"
             tooltip "Bath"
             focus_mask True
-            xpos 308 ypos 0
+            xpos 441 ypos -19
             action Call("building", "bath")
 
     # Kiosk
@@ -401,7 +436,7 @@ screen school_overview_buttons (with_available_Events = False):
             hover "background/kiosk_white.webp"
             tooltip "Kiosk" + k_text
             focus_mask True
-            xpos 186 ypos 357
+            xpos 269 ypos 510
             action Call("building", "kiosk")
 
     # Courtyard
@@ -420,7 +455,7 @@ screen school_overview_buttons (with_available_Events = False):
             hover "background/courtyard_white.webp"
             tooltip "Courtyard" + c_text
             focus_mask True
-            xpos 315 ypos 328
+            xpos 452 ypos 490
             action Call("building", "courtyard")
 
     # Office Building
@@ -439,22 +474,10 @@ screen school_overview_buttons (with_available_Events = False):
             hover "background/office_building_white.webp"
             tooltip "Office Building" + o_text
             focus_mask True
-            xpos 689 ypos 44
+            xpos 976 ypos 70
             action Call("building", "office_building")
     
-    if time.compare_today(10, 1, 2023) != -1:
-        $ s_text = ""
-        if has_keyboard():
-            if show_shortcut():
-                $ s_text = " [[Z]"
-            key "K_z" action Call("skip_time")
-        # Skip Daytime
-        imagebutton:
-            auto "icons/time skip %s.webp"
-            tooltip "Skip Time" + s_text
-            focus_mask None
-            xalign 0.0 yalign 0.0
-            action Call("skip_time")
+    
 
         $ j_text = ""
         if has_keyboard():
