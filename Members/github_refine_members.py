@@ -124,19 +124,39 @@ def get_patreon_data():
 
     # Write current date and time to the file
     output = 'Last updated: ' + current_time.strftime('%d %B, %Y - %H:%M') + ' CET\n'
+    trimmed_output = ''
 
     for name in filtered_names:
         output += name.strip() + '\n'
+        trimmed_output += name.strip() + '\n'
 
     print(output)
 
-    return output
+    return output, trimmed_output
+
+def is_different(old_content: str) -> bool:
+    try:
+        response = requests.get('https://raw.githubusercontent.com/SuIT-pub/Mind-the-School/master/game/members.csv')
+        members = response.text
+    except requests.exceptions.RequestException as e:  # This is the correct syntax
+        members = ""
+        print('Failed Download')
+        exit()
+    members = members.split("\n")
+    del members[0]
+    members = "\n".join(members)
+    print('members:' + members)
+    return old_content != members
 
 def main():
     # Hole den aktuellen SHA-Wert der Datei
     sha = get_file_sha(FILE_PATH, REPO_OWNER, REPO_NAME)
     
-    output = get_patreon_data()
+    output, trimmed_output = get_patreon_data()
+
+    if not is_different(trimmed_output):
+        print("Member-list is unchanged. Stopping operation.")
+        return
 
     # Hole den neuesten SHA-Wert der Datei
     latest_sha = get_file_sha(FILE_PATH, REPO_OWNER, REPO_NAME)
@@ -145,9 +165,9 @@ def main():
     if sha != latest_sha:
         print('Der SHA-Wert hat sich geändert. Aktualisiere den SHA-Wert und versuche es erneut.')
         sha = latest_sha
-    else:
-        # Update die Datei im Repository
-        update_file_content(FILE_PATH, output, sha, REPO_OWNER, REPO_NAME, COMMIT_MESSAGE)
-        print('Datei erfolgreich aktualisiert.')
+    
+    # Update die Datei im Repository
+    update_file_content(FILE_PATH, output, sha, REPO_OWNER, REPO_NAME, COMMIT_MESSAGE)
+    print('Datei erfolgreich aktualisiert.')
 
 main()
