@@ -768,6 +768,7 @@ label load_buildings ():
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(),
         '_upgrade_conditions':[],
+        '_image_path': 'images/journal/buildings/school_building <level>.webp',
     }, {
         '_level': 1,
     })

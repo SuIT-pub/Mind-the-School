@@ -139,7 +139,7 @@ screen notify_container():
 
     fixed:
 
-        pos (0, 0)
+        pos (0, 10)
 
         vbox:
 
