@@ -469,14 +469,14 @@ label change_stat_with_modifier(stat, value, char_name, collection = 'default'):
     $ notify_str = ""
     if stat == "inhibition":
         if value < 0:
-            $ notify_str = char_obj.get_title() + ": " + Stat_Data[stat].get_title() + " {color=#00a000}" + str(value) + "{/color}"
+            $ notify_str = char_obj.get_title() + ": " + get_stat_icon(Stat_Data[stat].get_title(), size = ICON_XSMALL) + " {color=#00a000}" + str(value) + "{/color}"
         else:
-            $ notify_str = char_obj.get_title() + ": " + Stat_Data[stat].get_title() + " {color=#a00000}+" + str(value) + "{/color}"
+            $ notify_str = char_obj.get_title() + ": " + get_stat_icon(Stat_Data[stat].get_title(), size = ICON_XSMALL) + " {color=#a00000}+" + str(value) + "{/color}"
     else:
         if value > 0:
-            $ notify_str = char_obj.get_title() + ": " + Stat_Data[stat].get_title() + " {color=#00a000}+" + str(value) + "{/color}"
+            $ notify_str = char_obj.get_title() + ": " + get_stat_icon(Stat_Data[stat].get_title(), size = ICON_XSMALL) + " {color=#00a000}+" + str(value) + "{/color}"
         else:
-            $ notify_str = char_obj.get_title() + ": " + Stat_Data[stat].get_title() + " {color=#a00000}" + str(value) + "{/color}"
+            $ notify_str = char_obj.get_title() + ": " + get_stat_icon(Stat_Data[stat].get_title(), size = ICON_XSMALL) + " {color=#a00000}" + str(value) + "{/color}"
 
     $ add_notify_message(notify_str)
 

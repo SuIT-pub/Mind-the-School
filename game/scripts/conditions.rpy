@@ -486,11 +486,16 @@ init -6 python:
 
             output = []
             for stat in self.stats.keys():
-                icon = "icons/stat_" + str(stat) + "_icon.webp"
                 if char_obj.check_stat(stat, self.stats[stat]):
-                    output.append(("{image=" + icon + "}", "{color=#00a000}" + str(self.stats[stat]) + "{/color}", Stat_Data[stat].get_title()))
+                    output.append((
+                        get_stat_icon(stat, white = False), 
+                        "{color=#00a000}" + str(self.stats[stat]) + "{/color}", Stat_Data[stat].get_title()
+                    ))
                 else:
-                    output.append(("{image=" + icon + "}", "{color=#a00000}" + str(self.stats[stat]) + "{/color}", Stat_Data[stat].get_title()))
+                    output.append((
+                        get_stat_icon(stat, white = False), 
+                        "{color=#a00000}" + str(self.stats[stat]) + "{/color}", Stat_Data[stat].get_title()
+                    ))
             if len(output) == 0:
                 return ("","")
             elif len(output) == 1:
@@ -1081,9 +1086,15 @@ init -6 python:
                 - The title is optional.
             """
             if self.is_fulfilled(**kwargs):
-                return ("{image=icons/stat_level_icon.webp}", "{color=#00a000}" + str(self.value) + "{/color}", "Level")
+                return (
+                    get_stat_icon("level", white = False), 
+                    "{color=#00a000}" + str(self.value) + "{/color}", "Level"
+                )
             else:
-                return ("{image=icons/stat_level_icon.webp}", "{color=#a00000}" + str(self.value) + "{/color}", "Level")
+                return (
+                    get_stat_icon("level", white = False), 
+                    "{color=#a00000}" + str(self.value) + "{/color}", "Level"
+                )
 
         def get_name(self):
             """
@@ -1203,9 +1214,15 @@ init -6 python:
             """
 
             if self.is_fulfilled():
-                return ("{image=icons/stat_money_icon.webp}", "{color=#00a000}" + str(self.value) + "{/color}", "Money")
+                return (
+                    get_stat_icon("money", white = False), 
+                    "{color=#00a000}" + str(self.value) + "{/color}", "Money"
+                )
             else:
-                return ("{image=icons/stat_money_icon.webp}", "{color=#a00000}" + str(self.value) + "{/color}", "Money")
+                return (
+                    get_stat_icon("money", white = False), 
+                    "{color=#a00000}" + str(self.value) + "{/color}", "Money"
+                )
 
         def get_name(self) -> str:
             """

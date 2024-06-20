@@ -17,7 +17,13 @@ style stat_overview:
     outlines [(2, "222222", 1, 1)]
 
 style stat_value take stat_overview:
+style stat_overview:
+    outlines [(2, "222222", 1, 1)]
+
+style stat_value take stat_overview:
     size 25
+
+
 
 
 
@@ -45,7 +51,7 @@ screen school_overview_stats ():
         xalign 1.0 yalign 0.0
         spacing 2
         hbox:
-            textbutton get_stat_icon('happiness', True):
+            textbutton get_stat_icon('happiness'):
                 tooltip "Happiness"
                 text_style "stat_overview"
                 action Call("open_journal", 1, HAPPINESS)
@@ -55,7 +61,7 @@ screen school_overview_stats ():
                 text_style "stat_value"
                 action Call("open_journal", 1, HAPPINESS)
         hbox:
-            textbutton get_stat_icon('charm', True):
+            textbutton get_stat_icon('charm'):
                 tooltip "Charm"
                 text_style "stat_overview"
                 action Call("open_journal", 1, CHARM)
@@ -65,7 +71,7 @@ screen school_overview_stats ():
                 text_style "stat_value"
                 action Call("open_journal", 1, CHARM)
         hbox:
-            textbutton get_stat_icon('education', True):
+            textbutton get_stat_icon('education'):
                 tooltip "Education"
                 text_style "stat_overview"
                 action Call("open_journal", 1, EDUCATION)
@@ -75,7 +81,7 @@ screen school_overview_stats ():
                 text_style "stat_value"
                 action Call("open_journal", 1, EDUCATION)
         hbox:
-            textbutton get_stat_icon('money', True):
+            textbutton get_stat_icon('money'):
                 tooltip "Money"
                 text_style "stat_overview"
                 action Call("open_journal", 1, MONEY)
@@ -87,7 +93,7 @@ screen school_overview_stats ():
 
         null
         hbox:
-            textbutton get_stat_icon('corruption', True):
+            textbutton get_stat_icon('corruption'):
                 tooltip "Corruption"
                 text_style "stat_overview"
                 action Call("open_journal", 1, CORRUPTION)
@@ -97,7 +103,7 @@ screen school_overview_stats ():
                 text_style "stat_value"
                 action Call("open_journal", 1, CORRUPTION)
         hbox:
-            textbutton get_stat_icon('inhibition', True):
+            textbutton get_stat_icon('inhibition'):
                 tooltip "Inhibition"
                 text_style "stat_overview"
                 action Call("open_journal", 1, INHIBITION)
@@ -107,7 +113,7 @@ screen school_overview_stats ():
                 text_style "stat_value"
                 action Call("open_journal", 1, INHIBITION)
         hbox:
-            textbutton get_stat_icon('reputation', True):
+            textbutton get_stat_icon('reputation'):
                 tooltip "Reputation"
                 text_style "stat_overview"
                 action Call("open_journal", 1, REPUTATION)
@@ -128,7 +134,7 @@ screen school_overview_stats ():
             auto "icons/time skip %s.webp"
             tooltip "Skip Time" + s_text
             focus_mask None
-            xalign 1.0 yalign 0.32
+            xalign 0.995 yalign 0.4
             action Call("skip_time")
 
     vbox:
@@ -484,7 +490,7 @@ screen school_overview_buttons (with_available_Events = False):
             auto "icons/journal_icon_%s.webp"
             tooltip "Open Journal" + j_text
             focus_mask None
-            xalign 0.07 yalign 0.0
+            xalign 1.0 yalign 0.6
             action Call("start_journal")
 
     $ tooltip = GetTooltip()
