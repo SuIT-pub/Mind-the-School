@@ -141,8 +141,11 @@ def is_different(old_content: str) -> bool:
     except requests.exceptions.RequestException as e:  # This is the correct syntax
         members = ""
         print('Failed Download')
-    members = "\n".join(members.split("\n").pop(0))
-    print('members:' + str(members))
+        exit()
+    members = members.split("\n")
+    del members[0]
+    members = "\n".join(members)
+    print('members:' + members)
     return old_content != members
 
 def main():
@@ -151,7 +154,7 @@ def main():
     
     output, trimmed_output = get_patreon_data()
 
-    if is_different(trimmed_output):
+    if not is_different(trimmed_output):
         print("Member-list is unchanged. Stopping operation.")
         return
 
