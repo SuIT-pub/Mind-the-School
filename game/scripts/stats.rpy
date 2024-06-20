@@ -568,7 +568,7 @@ init -6 python:
                 "\n-------------------------------------------------------\n" + 
                 self.get_stat_description(**kwargs))
 
-    def get_stat_icon(stat: str, *, small: bool = True, white: bool = True) -> str:
+    def get_stat_icon(stat: str, *, size: str = ICON_SMALL, white: bool = True) -> str:
         """
         Returns the path to the icon image of the stat.
 
@@ -581,7 +581,6 @@ init -6 python:
             - The path to the icon image of the stat.
         """
 
-        size = "50" if small else "511"
         color = "white" if white else "black"
 
         return "{image=icons/" + str(stat) + "_icon_" + size + "_" + color + ".webp}"
