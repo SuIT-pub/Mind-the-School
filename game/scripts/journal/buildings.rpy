@@ -769,6 +769,7 @@ label load_buildings ():
         '_unlock_conditions': ConditionStorage(),
         '_upgrade_conditions':[],
         '_image_path': 'images/journal/buildings/school_building <level>.webp',
+        '_image_path_alt': 'images/journal/buildings/school_building 1.webp',
     }, {
         '_level': 1,
     })
@@ -786,6 +787,8 @@ label load_buildings ():
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(),
         '_upgrade_conditions':[],
+        '_image_path': 'images/journal/buildings/school_dormitory <level>.webp',
+        '_image_path_alt': 'images/journal/buildings/school_dormitory 1.webp',
     }, {
         '_level': 1,
     })
@@ -890,6 +893,8 @@ label load_buildings ():
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(),
         '_upgrade_conditions':[],
+        '_image_path': 'images/journal/buildings/gym <level>.webp',
+        '_image_path_alt': 'images/journal/buildings/gym 1.webp',
     }, {
         '_level': 1,
     })
@@ -1025,6 +1030,8 @@ label load_buildings ():
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(),
         '_upgrade_conditions':[],
+        '_image_path': 'images/journal/buildings/kiosk <level>.webp',
+        '_image_path_alt': 'images/journal/buildings/kiosk 1.webp',
     }, {
         '_level': 1,
     })
@@ -1042,6 +1049,8 @@ label load_buildings ():
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(),
         '_upgrade_conditions':[],
+        '_image_path': 'images/journal/buildings/courtyard <level>.webp',
+        '_image_path_alt': 'images/journal/buildings/courtyard 1.webp',
     }, {
         '_level': 1,
     })
@@ -1059,6 +1068,8 @@ label load_buildings ():
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(),
         '_upgrade_conditions':[],
+        '_image_path': 'images/journal/buildings/office <level>.webp',
+        '_image_path_alt': 'images/journal/buildings/office 1.webp',
     }, {
         '_level': 1,
     })

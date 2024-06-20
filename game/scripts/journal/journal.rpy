@@ -757,7 +757,7 @@ screen journal_cheats_stat(stat, char = "school"):
             textbutton "Max" action Call("modify_stat", stat, 100, char) text_style "buttons_idle"
     null height 30
 
-screen max_image_from_journal(image_path, jorunal, display):
+screen max_image_from_journal(image_path, journal, display):
     # """
     # A screen solely used to display the max size variant of journal images and then return to the original journal page
 
@@ -1632,7 +1632,7 @@ screen journal_cheats(display, char = "school"):
                 button:
                     xalign 0.63 yalign 0.65
                     image "[active_building_image]"
-                    action Call("call_max_image_from_journal", active_building_full_image, 4, display)
+                    action Call("call_max_image_from_journal", active_building_full_image, 5, display)
             else:
                 image "[active_building_image]": 
                     xalign 0.629 yalign 0.647
@@ -2612,6 +2612,22 @@ label set_journal_setting(page, display, setting, value):
     call open_journal(page, display) from set_journal_setting_1
 
 label call_max_image_from_journal(image_path, journal, display):
+    # """
+    # Calls the max_image screen with the given image path and opens the journal afterwards
+
+    # ### Parameters:
+    # 1. image_path: str
+    #     - the path to the image to be displayed
+    # 2. journal: int
+    #     - the page to be opened after the image is displayed
+    # 3. display: str
+    #     - the display to be opened after the image is displayed
+    # """
+
+    hide screen school_overview_buttons
+    call screen max_image_from_journal(image_path, journal, display) with dissolveM
+
+label call_max_image_from_cheats(image_path, journal, display):
     # """
     # Calls the max_image screen with the given image path and opens the journal afterwards
 

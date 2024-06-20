@@ -17,13 +17,7 @@ style stat_overview:
     outlines [(2, "222222", 1, 1)]
 
 style stat_value take stat_overview:
-style stat_overview:
-    outlines [(2, "222222", 1, 1)]
-
-style stat_value take stat_overview:
     size 25
-
-
 
 
 
