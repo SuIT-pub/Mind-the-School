@@ -1,3 +1,6 @@
+<div align="center">
+  <img src="https://iili.io/dHIFL3G.png" width="1600" height="250"/>
+</div>
 
 # Mind the School
 
