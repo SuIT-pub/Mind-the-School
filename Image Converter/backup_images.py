@@ -1,4 +1,5 @@
 import os
+import pathlib
 import shutil
 import subprocess
 from typing import Tuple
@@ -44,7 +45,7 @@ def move_files(move_mode: str, s_file: str, dest_file: str, overwrite: str) -> T
             move_mode == 'Return Videos'
         ):
             shutil.copy2(s_file, dest_file)
-        elif mode == 'Extract new images':
+        elif move_mode == 'Extract new images':
             shutil.move(s_file, dest_file)
     else:
         # File doesn't exist at destination, copy it
@@ -67,13 +68,13 @@ def main():
 
     file_target = ['.png']
 
-    mode = pyautogui.confirm(text = 'What would you like to do?', title = 'Backup Images', buttons = ['Backup images', 'Extract new images', 'Convert images', 'Return modified images', 'Move Backup to Extract', 'Versioned Backup', 'Return Videos', 'Count', 'Compare images', 'Cancel'])
+    mode = pyautogui.confirm(text = 'What would you like to do?', title = 'Backup Images', buttons = ['Backup images', 'Extract new images', 'Convert images', 'Return modified images', 'Clean Extract', 'Move Backup to Extract', 'Versioned Backup', 'Return Videos', 'Count', 'Compare images', 'Close'])
     if mode == 'Versioned Backup':
         mode = pyautogui.confirm(text = 'What would you like to do?', title = 'Backup Images', buttons = ['Move Images to Versioned Backup', 'Return Images from Versioned Backup', 'Cancel'])
 
     destination_path = os.path.abspath(os.path.join(source_path, '../../../Image Extracter/Mind the School Image Backup'))  # Destination folder 3 levels above the current directory
     destination_path2 = ""
-    if mode == 'Cancel':
+    if mode == 'Close':
         exit()
     elif mode == 'Extract new images':
         destination_path = os.path.abspath(os.path.join(source_path, '../../../Image Extracter/Mind the School Image Extract'))  # Destination folder 3 levels above the current directory
@@ -168,6 +169,16 @@ def main():
             destination_path = source_path
             source_path = os.path.abspath(os.path.join(source_path, '../../../Image Extracter/Mind the School Image Backup'))
             file_target = ['.png']
+    elif mode == 'Clean Extract':
+        clean_confirm = pyautogui.confirm(text = 'Do you really want to purge everything in the Extract Folder?', title = 'Compare Images', buttons = ['YES', 'NO'])
+        if clean_confirm == 'NO':
+            return
+        clean_dir = os.path.abspath(os.path.join(source_path, '../../../Image Extracter/Mind the School Image Extract'))
+        dirs = [name for name in os.listdir(clean_dir) if os.path.isdir(os.path.join(clean_dir, name))]
+        for dir in dirs:
+            shutil.rmtree(os.path.join(clean_dir, dir))
+        pyautogui.alert(text = "Purged extract folder!", title = "Done", button = "OK")
+        return      
 
 
 
@@ -266,7 +277,7 @@ def main():
         pyautogui.alert(text = "Moved all " + str(count) + " images to Versioned Backup!", title = "Done", button = "OK")
     elif mode == 'Return Images from Versioned Backup':
         pyautogui.alert(text = "Returned all " + str(count) + " images from Versioned Backup!", title = "Done", button = "OK")
-    elif mode == 'Reurn Videos':
+    elif mode == 'Return Videos':
         pyautogui.alert(text = "Returned all " + str(count) + " videos!", title = "Done", button = "OK")
     elif mode == 'Count':
         pyautogui.alert(text = "Images: " + str(count) + "\nVideos: " + str(vid_count) + "\nIn " + first_dest_choice, title = "Count", button = "OK")

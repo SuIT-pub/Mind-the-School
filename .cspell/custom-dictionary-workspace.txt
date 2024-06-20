@@ -1,12 +1,15 @@
 # Custom Dictionary Words
 abstractmethod
+Dateien
 daysegment
+Extracter
 Flaticon
 keydown
 nconvert
 noalt
 Oshima
 pagekeys
+pyautogui
 quicksaved
 readlines
 renpytom
