@@ -34,3 +34,7 @@ init -9:
     $ CHAR = "char_obj"
 
     $ DEFAULT_NUDE = 0
+
+    $ ICON_XSMALL = "20"
+    $ ICON_SMALL = "50"
+    $ ICON_LARGE = "511"

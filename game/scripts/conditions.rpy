@@ -1220,7 +1220,7 @@ init -6 python:
                 )
             else:
                 return (
-                    get_stat_icon(money, white = False), 
+                    get_stat_icon("money", white = False), 
                     "{color=#a00000}" + str(self.value) + "{/color}", "Money"
                 )
 
