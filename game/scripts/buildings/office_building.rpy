@@ -180,9 +180,14 @@ label work_office_event (**kwargs):
 label work_office_reputation_event_1 (**kwargs):
     $ begin_event(**kwargs)
 
+    $ image = Image_Series("images/events/office/office_reputation_event_1 <school_level> <step>.webp", ['school_level'], **kwargs)
+
+    $ image.show(0)
     subtitles "You decided to to some PR work, trying to improve the schools and your reputation."
     show screen black_screen_text("1h later.")
+    $ image.show(1)
     headmaster_thought "I think I found a way to make the school more appealing to the public."
+    $ image.show(2)
     headmaster_thought "I hope this will help to improve the reputation of the school."
 
     call change_stats_with_modifier('school', reputation = SMALL)
@@ -455,6 +460,9 @@ label work_office_session_event_first_naughty (**kwargs):
         happiness = LARGE, corruption = LARGE, inhibition = DEC_MEDIUM)
 
     $ end_event('new_daytime', **kwargs)
+
+label work_office_session_event_1(**kwargs):
+    pass
 
 label office_event_1 (**kwargs):
     $ begin_event(**kwargs);
