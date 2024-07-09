@@ -29,13 +29,25 @@
 default notify_messages = []
 
 # Duration the full ATL takes
-default notify_duration = 4
+default notify_duration = 8
 
 # Max number we store for reviewing in the history screen
 default notify_history_length = 20
 
+default stat_notifications = {}
+
 init -99 python:
     import time as time_lib
+
+    def add_stat_notification(char: str, stat: str, value: int):
+        key = char + ":" + stat
+        if key not in stat_notifications:
+            stat_notifications[key] = 0
+        stat_notifications[key] += value
+
+    def reset_stat_notifications():
+        global stat_notifications
+        stat_notifications = {}
 
     def add_notify_message(msg=None):
         if not msg:
@@ -68,6 +80,22 @@ init -99 python:
         global notify_messages
 
         max_start = time_lib.time() - 4
+
+        for key in stat_notifications.keys():
+            value = stat_notifications[key]
+            char, stat = key.split(":")
+            char_name = char
+            char_obj = get_character_by_key(char)
+            if char_obj != None:
+                char_name = char_obj.get_title()
+
+            notify_str = char_name + ": " + get_stat_icon(Stat_Data[stat].get_title(), size = ICON_XSMALL)
+            notify_val = " {color=#00a000}" + "{:.2f}".format(value) + "{/color}"
+            if ((value > 0 and stat == "inhibition") or (value < 0 and stat != "inhibition")):
+                notify_val = " {color=#a00000}" + "{:.2f}".format(value) + "{/color}"
+            add_notify_message(notify_str + " " + notify_val)
+
+        reset_stat_notifications()
 
         for i in range(len(notify_messages)):
             
@@ -112,7 +140,7 @@ transform notify_appear():
 
     linear 0.2 yzoom 1.0 alpha 1.0
 
-    pause 2.0
+    pause 4.0
 
     linear 0.2 yzoom 0.0 alpha 0.0
 
