@@ -258,10 +258,10 @@ init -3 python:
             """
 
             for event in self.events[1].values():
-                if event.is_available(**kwargs) and event.check_options(Highlight = True, **kwargs):
+                if event.is_highlighted(**kwargs):
                     return True
             for event in self.events[2].values():
-                if event.is_available(**kwargs) and event.check_options(Highlight = True, **kwargs):
+                if event.is_highlighted(**kwargs):
                     return True
             return False
 
@@ -987,10 +987,15 @@ init -3 python:
             - 3 = lowest (selected random among 3's)
         2. event: str
             - The name of the event. This is used to call the event.
-        3. values: SelectorSet
-            - The values that are passed to the event.
-        4. *conditions: Condition
-            - The conditions that need to be fulfilled for the event to be available.
+        3. *conditions: Condition | Selector | Option
+            - A list of conditions, Selectors or Options
+            - The conditions need to be fulfilled for the event to be available.
+            - The Selectors are used to store values that can be used in the event.
+            - The Options are used to apply options to the event
+        4. thumbnail: str (Default "")
+            - The thumbnail of the event.
+        5. register_self: bool (Default True)
+            - If True, the event is registered in the event_register.
 
         ### Attributes:
         1. event_id: str
@@ -1027,7 +1032,7 @@ init -3 python:
             - Calls the event.
         """
 
-        def __init__(self, priority: int, event: str, *conditions: Condition | Selector | Option, thumbnail: str = ""):
+        def __init__(self, priority: int, event: str, *conditions: Condition | Selector | Option, thumbnail: str = "", register_self = True):
             self.event_id = str(event)
             self.event = event
             self.thumbnail = thumbnail
@@ -1050,7 +1055,8 @@ init -3 python:
             self.event_type = ""
             # self.values = values
 
-            event_register[self.event_id] = self
+            if register_self:
+                event_register[self.event_id] = self
             self.location = "misc"
 
             self.event_form = "event"
@@ -1108,6 +1114,9 @@ init -3 python:
             """
 
             return self.options.check_options(**kwargs)
+
+        def is_highlighted(self, **kwargs) -> bool:
+            return self.is_available(**kwargs) and self.check_options(Highlight = True, **kwargs)
 
         #############################
         # Attribute getter and setter
@@ -1440,17 +1449,51 @@ init -3 python:
 
             return output
 
+    class EventSelect(Event):
+        def __init__(self, priority: int, event: str, text: str, event_list: Dict[str, EventStorage], *conditions: Condition | Selector | Option, thumbnail: str = "", override_menu_exit: str = "map_overview", fallback: str = None, person: Person = None):
+            super().__init__(priority, event, *conditions, thumbnail = thumbnail)
+
+            self.text = text
+            self.event_list = event_list
+            self.override_menu_exit = override_menu_exit
+            self.fallback = fallback or default_fallback
+            self.person = person or character.subtitles
+            self.event_form = "select"
+            self.set_location("select")
+
+            
+        def _update(self, data: Dict[str, Any]):
+            super()._update(data)
+
+            self.event_form = "select"
+
+        def get_event_label(self) -> str:
+            return 'select_event_runner'
+        
+        def is_highlighted(self, **kwargs) -> bool:
+            return any(e.has_available_highlight_events() for e in self.event_list.values())
+        
+        def call(self, **kwargs):
+            renpy.call(
+                "call_event", 
+                self.get_event_label(), 
+                self.priority, 
+                self.get_event_label(), 
+                from_current="event_select_call_1",
+                select_text = self.text,
+                select_event_list = self.event_list, 
+                select_override_menu_exit = self.override_menu_exit,
+                select_fallback = self.fallback,
+                select_person = self.person,
+            **kwargs)
+
+
     class EventFragment(Event):
         def __init__(self, priority: int, event: str, *conditions: Condition | Selector | Option, thumbnail: str = ""):
             super().__init__(priority, event, *conditions, thumbnail = thumbnail)
 
             self.event_form = "fragment"
             self.set_location("fragment")
-            
-        def _update(self, data: Dict[str, Any]):
-            super()._update(data)
-
-            self.event_form = "fragment"
 
     #####################
     # Event label handler
@@ -1752,6 +1795,26 @@ label test_normal_test_event(**kwargs):
     subtitles "Test Event [test] [test2]"
 
     call composite_event_runner(**kwargs)
+
+label select_event_runner(**kwargs):
+
+    $ text = get_kwargs('select_text', "What do you want to do?", **kwargs)
+    $ event_list = get_kwargs('select_event_list', None, **kwargs)
+    $ override_menu_exit = get_kwargs('select_override_menu_exit', 'map_overview', **kwargs)
+    $ fallback = get_kwargs('select_fallback', default_fallback, **kwargs)
+    $ person = get_kwargs('select_person', character.subtitles, **kwargs)
+
+    if len(event_list) != 0:
+        call call_event_menu (
+            text, 
+            event_list,
+            fallback,
+            person,
+            override_menu_exit = override_menu_exit,
+            **kwargs
+        ) from select_event_runner_1
+
+    call expression override_menu_exit from select_event_runner_2
 
 label composite_event_runner(**kwargs):
 
