@@ -164,6 +164,7 @@ label load_rules ():
         '_unlock_conditions': ConditionStorage(
             StatCondition(inhibition = '90-', corruption = '10+'),
             LevelCondition("1+", True),
+            ProgressCondition("start_sex_ed", "1+", True),
             LockCondition(False),
         ),
         '_image_path': 'images/journal/rules/theoretical_sex_ed.webp',
@@ -396,7 +397,7 @@ label load_rules ():
     # * implemented
     $ load_rule("student_student_relation", "Students Relations", {
         '_description': [
-            "Allows for students to have a relationship between each other and to openly show it.",
+            "This rule allows for students to have a relationship between each other and to openly show it.",
         ],
         '_unlock_conditions':ConditionStorage(
             ProgressCondition("unlock_student_relationship", 1, True),
@@ -410,7 +411,7 @@ label load_rules ():
     #! locked, currently not implemented
     $ load_rule("student_teacher_relation", "Students-Teacher Relations", {
         '_description': [
-            "Allows for teacher to engage in a relationship with students.",
+            "This rule allows for teacher to engage in a relationship with students.",
         ],
         '_unlock_conditions': ConditionStorage(
             StatCondition(corruption = '10+'),
