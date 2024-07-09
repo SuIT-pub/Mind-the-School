@@ -401,6 +401,48 @@ init python:
     ###############################
     # General Value Gallery Handler
 
+    def get_level(key: str, **kwargs) -> int:
+        """
+        Gets a level from the gallery database.
+
+        ### Parameters:
+        1. key: str
+            - The key to get the level from.
+        2. alt: int (default: 0)
+            - The value to return if the key is not found.
+
+        ### Returns:
+        1. int:
+            - The level found in the database.
+        """
+
+        key = key.replace('_level', '')
+
+        level = get_character_by_key(key).get_level()
+
+        if is_replay(**kwargs):
+            event_name = get_kwargs('event_name', None, **kwargs)
+            if event_name == None:
+                return 0
+            event_obj = get_event_from_register(event_name)
+            if event_obj == None:
+                return 0
+            if event_obj.get_form() == 'fragment':
+                new_key = event_obj.get_id() + '.' + key + '_level'
+                value = get_kwargs(
+                    new_key, 
+                    get_kwargs(
+                        key + '_level', 
+                        get_character_by_key(key).get_level()
+                        , **kwargs), 
+                    **kwargs
+                )
+                return set_value(key + '_level', value, **kwargs)                
+
+            level = get_kwargs(key + '_level', level, **kwargs)
+
+        return set_value(key + '_level', level, **kwargs)
+
     def get_value(key: str, alt: Any = None, **kwargs) -> Any:
         """
         Gets a value from the gallery database.
