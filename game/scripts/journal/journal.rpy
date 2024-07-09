@@ -1070,6 +1070,11 @@ screen journal_overview(display, char = "school"):
         size 60
         color "#000"
 
+    text "Click on any stat to get more information on it.":
+        style "journal_text_small"
+        xalign 0.25
+        yalign 0.26
+
     $ object_overview = {
         'school': get_school(),
         'teacher': get_character('teacher', charList['staff']),
@@ -1800,7 +1805,8 @@ screen journal_gallery(display):
             use journal_simple_list(7, display, event_dict, "buttons_idle", pos_x = 400, pos_y = 350, width = 450, sort = True)
         else: 
             $ event_frag_storage = persistent.gallery[location][event]['options']['Frag_Storage'][fragment_selection_index]
-            $ event_list = [get_event_from_register(event_name) for event_name in persistent.gallery["FragStorage"][event_frag_storage]['values'].keys() if get_event_from_register(event_name) != None]
+            $ base_event_data = persistent.gallery[location][event]['options']['last_data']
+            $ event_list = [get_event_from_register(event_name) for event_name in persistent.gallery["FragStorage"][event_frag_storage]['values'].keys() if get_event_from_register(event_name) != None and get_event_from_register(event_name).is_available(**base_event_data)]
             $ event_dict = {'.'.join([location, event, "fragment_selection_mode", str(fragment_selection_index), event_obj.get_event()]): get_translation(event_obj.get_event()) for event_obj in event_list}
             use journal_simple_list(7, display, event_dict, "buttons_idle", pos_x = 450, pos_y = 400, width = 400, height = 550, sort = True)
         
