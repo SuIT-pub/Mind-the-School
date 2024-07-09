@@ -81,13 +81,27 @@ init -6 python:
             - checks if the current date and time is after the given date and time
         """
 
-        def __init__(self, input: str = ""):
+        def __init__(self, input: str | Time = ""):
 
             self.daytime = 0
             self.day = 1
             self.month = 1
             self.year = 2023
             
+            if isinstance(input, Time):
+                self.day = input.day
+                self.month = input.month
+                self.year = input.year
+                self.daytime = input.daytime
+                return
+
+            if input == "now":
+                self.day = time.day
+                self.month = time.month
+                self.year = time.year
+                self.daytime = time.daytime
+                return
+
             input_list = input.split("-")
             if len(input_list) == 3:
                 self.day = int(input_list[0])
