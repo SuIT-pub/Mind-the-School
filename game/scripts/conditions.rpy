@@ -1478,6 +1478,35 @@ init -6 python:
                 return 0
             return -100
 
+    class TimerCondition(Condition):
+        def __init__(self, id: str, **kwargs):
+            super().__init__(False)
+            self.id = id
+            self.day       = "x" if 'day'       not in kwargs.keys() else kwargs['day'    ]
+            self.month     = "x" if 'month'     not in kwargs.keys() else kwargs['month'  ]
+            self.year      = "x" if 'year'      not in kwargs.keys() else kwargs['year'   ]
+            self.daytime   = "x" if 'daytime'   not in kwargs.keys() else kwargs['daytime']
+
+        def is_fulfilled(self, **kwargs) -> bool:
+            if not contains_game_data(self.id):
+                return False
+
+            timer = get_game_data(self.id)
+            if not isinstance(timer, Time):
+                return False
+
+            aim = Time(timer).add_time(day = self.day, month = self.month, year = self.year, daytime = self.daytime)
+            return compare_time(aim, time) >= 0
+
+        def get_name(self) -> str:
+            return f"Timer {self.id}: {self.day}:{self.month}:{self.year}:{self.daytime}"
+
+        def get_diff(self, _char_obj) -> num:
+            if self.is_fulfilled():
+                return 0
+            return -100
+
+
     class RandomCondition(Condition):
         """
         A class for conditions that are fulfilled randomly.
