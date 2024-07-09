@@ -464,30 +464,16 @@ label change_stat_with_modifier(stat, value, char_name, collection = 'default'):
 
     $ char_obj.change_stat(stat, value)
 
-    $ stat_name = Stat_Data[stat].get_title()
-
-    $ notify_str = ""
-    if stat == "inhibition":
-        if value < 0:
-            $ notify_str = char_obj.get_title() + ": " + get_stat_icon(Stat_Data[stat].get_title(), size = ICON_XSMALL) + " {color=#00a000}" + str(value) + "{/color}"
-        else:
-            $ notify_str = char_obj.get_title() + ": " + get_stat_icon(Stat_Data[stat].get_title(), size = ICON_XSMALL) + " {color=#a00000}+" + str(value) + "{/color}"
-    else:
-        if value > 0:
-            $ notify_str = char_obj.get_title() + ": " + get_stat_icon(Stat_Data[stat].get_title(), size = ICON_XSMALL) + " {color=#00a000}+" + str(value) + "{/color}"
-        else:
-            $ notify_str = char_obj.get_title() + ": " + get_stat_icon(Stat_Data[stat].get_title(), size = ICON_XSMALL) + " {color=#a00000}" + str(value) + "{/color}"
-
-    $ add_notify_message(notify_str)
+    $ add_stat_notification(char_name, stat, value)
 
     return
 
-label change_stats_with_modifier(char_obj, collection = 'default', **kwargs):
+label change_stats_with_modifier(char_name, collection = 'default', **kwargs):
     # """
     # Changes multiple stats with the modifier.
 
     # ### Parameters:
-    # 1. char_obj: Char
+    # 1. char_obj: str
     #     - The character that the modifier is being applied to. If None, then the modifier is applied to the game data.
     # 2. collection: str (default 'default')
     #     - The collection of modifiers. This is used to separate different collections of modifiers.
@@ -497,7 +483,7 @@ label change_stats_with_modifier(char_obj, collection = 'default', **kwargs):
 
     $ in_replay = get_kwargs('in_replay', False, **kwargs)
 
-    if char_obj == None or in_replay:
+    if char_name == "" or in_replay:
         return
 
     $ keys = list(kwargs.keys())
@@ -506,8 +492,6 @@ label change_stats_with_modifier(char_obj, collection = 'default', **kwargs):
     while i < len(keys):
         $ stat = keys[i]
         $ i += 1
-        if stat != "char_obj":
-            # if stat in Stat_Data:
-            call change_stat_with_modifier(stat, kwargs[stat], char_obj, collection)
+        call change_stat_with_modifier(stat, kwargs[stat], char_name, collection)
 
     return
