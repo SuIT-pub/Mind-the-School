@@ -69,6 +69,10 @@ init 1 python:
     game_over_reputation_event = Event(1, "game_over_reputation", 
         StatCondition(reputation = "0-"))
 
+    aona_sports_bra_event_1_event = Event(1, "aona_sports_bra_event_1", 
+        ProgressCondition("aona_sports_bra", 1),
+        TimeCondition(daytime = 6))
+
     time_check_events.add_event(
         tutorial_1_event, 
         first_week_epilogue_event, 
@@ -761,3 +765,229 @@ label end_of_month (**kwargs):
     # $ change_stat(MONEY, 1000)
 
     return
+
+label aona_sports_bra_event_1 (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ inhibition = get_stat_value('inhibition', [90, 100], **kwargs)
+
+    subtitles "*Knock* *Knock*"
+    headmaster "Come in!"
+    secretary "Excuse me Mr. [headmaster_last_name], Mrs. Komuro is here to see you."
+    headmaster "Ah yes, thank you! I'll come out!"
+    headmaster "Mrs. Langley, I'll be out with Mrs. Komuro for a few hours."
+    secretary "Okay, can I ask what you have planned?"
+    headmaster "Mrs. Komuro unfortunately is missing a sports bra and I'm going to take her get one in the next city."
+    headmaster "She struggles a bit during sports lessons and I want to help her out."
+    # secretary looks up and down on Aona
+    secretary "Oh yeah, I see what you mean. She is quite big."
+    # Aona blushes
+    headmaster "Yes, she is. I'll be back in a few hours."
+    # scene change to inside the car
+    headmaster "So Aona, how are you doing?"
+    sgirl "I'm doing fine Mr. [headmaster_last_name]." (name='Aona Komuro')
+    headmaster "I'm glad to hear that. I'm sorry that I didn't notice earlier that you were struggling."
+    sgirl "I don't really talk about it. I'm a bit embarrassed about it." (name = "Aona Komuro")
+    headmaster "I understand. But you don't have to be embarrassed. It's a natural thing."
+    sgirl "The other girls are sometimes a bit jealous of me because of my breasts." (name = "Aona Komuro")
+    sgirl "But I hate my breasts. They're too big and I can't do anything about it." (name = "Aona Komuro")
+    headmaster "I understand. I'm sure you have other struggles because of them, don't you?"
+    sgirl "Yes, the worst thing is the constant back pain. I can't even sit properly in class." (name = "Aona Komuro")
+    headmaster "Oh that is no good. A healthy back is important for your general health."
+    headmaster "Ah look, we're almost there. That looks like a good store for sporting equipment."
+    sgirl "Are you sure? That's quite an expensive store. I don't want to be a burden." (name = "Aona Komuro")
+
+    $ cost = 100
+
+    if money.get_value() < 100:
+        $ cost = money.get_value()
+
+    $ kwargs["expense"] = cost
+
+    $ call_custom_menu(False, 
+        ("Buy expensive bra (-400)", "aona_sports_bra_event_1.expensive_bra", money.check_stat('400+')),
+        (f"Buy cheap bra (-{cost})", "aona_sports_bra_event_1.cheap_bra"), 
+    **kwargs)
+
+label .expensive_bra (**kwargs):
+
+    $ kwargs["expense"] = 400
+
+    headmaster "Don't worry about it. Good quality clothing is important."
+    headmaster "And a good quality bra will for sure be worth it for you."
+    sgirl "Thank you very much!" (name = "Aona Komuro")
+    headmaster "You're welcome. Let's go in."
+
+    call .continuation_1 (**kwargs)
+
+label .cheap_bra (**kwargs):
+
+    headmaster "Are you sure? I think a good quality bra is important."
+    sgirl "I don't want to be a burden." (name = "Aona Komuro")
+    headmaster "Alright, don't want you to feel guilty."
+    headmaster "How about that one over there?"
+    sgirl "That looks good. Thank you very much!" (name = "Aona Komuro")
+    headmaster "You're welcome. Let's go in."
+
+    call .continuation_1 (**kwargs)
+
+label .continuation_1 (**kwargs):
+    
+    # scene change to inside the store
+    headmaster "Hello! I'm looking for a sports bra for this young lady."
+    store_clerk "Hello! We have a wide selection of sports bras. What are you looking for?"
+    headmaster "She needs a bra that works good for her."
+    # clerk looks at Aona
+    store_clerk "I understand. I'll show you some options."
+    # they walk to the sports bra section
+    store_clerk "How about this one?"
+    sgirl "That looks good. Can I try it on?" (name = "Aona Komuro")
+    store_clerk "Of course! The changing rooms are over there."
+    # aona goes into the changing room
+    store_clerk "If you need more help, just call me."
+    headmaster "Will do!"
+
+    $ call_custom_menu(False,
+        ("Wait", "aona_sports_bra_event_1.wait_1"),
+        ("Look for a bra for yourself", "aona_sports_bra_event_1.bra_for_self"),
+        ("Peek into the changing room", "aona_sports_bra_event_1.peek_1"),
+    **kwargs)
+
+label .bra_for_self (**kwargs):
+
+    headmaster "Hmm, what kind of bras do they have here?"
+    headmaster "Oh that one looks interesting. Maybe I'll get her to pick that one."
+    $ kwargs['bra_for_self'] = True
+
+    call .wait_1 (**kwargs)
+
+label .peek_1 (**kwargs):
+
+    headmaster_thought "Maybe I can sneak a look."
+    # looks from neighbouring cabin in from top
+    headmaster_thought "Nice."
+    
+    call .wait_1 (**kwargs)
+
+label .wait_1 (**kwargs):
+
+    $ bra = get_kwargs('bra_for_self', False, **kwargs)
+
+    # aona comes back out
+    sgirl "This one fits quite well. I would like to take it." (name = "Aona Komuro")
+
+    $ call_custom_menu(False,
+        ("Buy bra", "aona_sports_bra_event_1.buy_bra"),
+        ("Ask to try on your pick", "aona_sports_bra_event_1.try_alt_bra", bra),
+    **kwargs)
+
+label .try_alt_bra (**kwargs):
+
+    headmaster "I found this one, I think that would be a good choice."
+    sgirl "Sure, I'll try it out." (name = "Aona Komuro")
+
+    $ call_custom_menu(False,
+        ("Peek", "aona_sports_bra_event_1.peek_2"),
+        ("Wait", "aona_sports_bra_event_1.wait_2"),
+    **kwargs)
+
+label .peek_2 (**kwargs):
+    
+    headmaster_thought "I'll take a look."
+    # looks from neighbouring cabin in from top
+    headmaster_thought "Nice."
+    
+    call .wait_2 (**kwargs)
+
+label .wait_2 (**kwargs):
+
+    sgirl "Uhm sir? I think this one is a bit too skimpy for me." (name = "Aona Komuro")
+    sgirl "I don't think I can wear that." (name = "Aona Komuro")
+    headmaster "Do you care to show what you mean?"
+    if inhibition >= 96:
+        sgirl "Sorry, but I wouldn't feel comfortable doing that." (name = "Aona Komuro")
+        headmaster "I understand. I'll take it back then."
+        headmaster "Could you give me the other bra then? I'll quickly go pay for it."
+        call .sneak_bra (**kwargs)
+    else:
+        sgirl "Uhm, okay..." (name = "Aona Komuro")
+        # aona steps out of the cabin
+        headmaster "Oh, I see what you mean. But I think it suits you very well."
+        headmaster "I mean it has a good support and has great ventilation, especially good for running."
+        headmaster "Also, if I am allowed to say so, it looks very good on you and sure would provide a good boost in self confidence."
+        if inhibition >= 91:
+            sgirl "I understand, but I don't feel comfortable with it." (name = "Aona Komuro")
+            headmaster "I understand. I'll take it back then."
+            headmaster "Could you give me the other bra then? I'll quickly go pay for it."
+            call .sneak_bra (**kwargs)
+        else:
+            sgirl "Oh thank you for saying that, I guess I could take it." (name = "Aona Komuro")
+            headmaster "Wonderful, let's take it then."
+            $ kwargs["skimpy_bra"] = True
+    
+    call .buy_bra (**kwargs)
+
+label .sneak_bra (**kwargs):
+
+    $ call_custom_menu_with_text("Do you want to still buy the skimpy bra?", character.subtitles, False,
+        ("Yes", "aona_sports_bra_event_1.sneak_bra_true"),
+        ("No", "aona_sports_bra_event_1.sneak_buy_bra"),
+    **kwargs)
+
+label .sneak_bra_true (**kwargs):
+    $ kwargs["skimpy_bra"] = True
+    $ kwargs["volunteered"] = False
+    call .buy_bra (**kwargs)
+
+label .buy_bra (**kwargs):
+
+    $ cost = get_kwargs('expense', 100, **kwargs)
+
+    headmaster "I'll quickly go pay for it."
+    # headmaster goes to the cashier
+    headmaster "Hello! I would like to buy this bras. For my student over there."
+    cashier "Sure, that will be [cost] then."
+    headmaster "Sure, here you go!"
+    cashier "Thank you very much!"
+    # headmaster goes back to Aona
+    headmaster "Alright that is done. Let's go back to the school."
+    sgirl "Thank you very much Mr. [headmaster_last_name]!" (name = "Aona Komuro")
+    headmaster "You're welcome. I'm glad I could help you out."
+    # back in car
+    headmaster "You know, I had a thought about your back problems."
+    headmaster "Have you tried massages or physiotherapy?"
+    sgirl "Not really, I'm a bit embarrassed about it and my health insurance doesn't cover that." (name = "Aona Komuro")
+    headmaster "I see... You know, in my studies about the human physiology I learned a lot about the human body."
+    headmaster "Which also includes the back and how to treat it."
+    headmaster "If you like I could give you a massage."
+    sgirl "Oh, I don't know..." (name = "Aona Komuro")
+    headmaster "Don't worry, I'm a professional. I know what I'm doing."
+    sgirl "Yeah, but I don't think that would be good. I wouldn't feel comfortable with that." (name = "Aona Komuro")
+    headmaster "I understand. But if you ever change your mind, just let me know."
+    sgirl "Yes, I will. Thank you very much!" (name = "Aona Komuro")
+    subtitles "The rest of the drive, Aona and the headmaster talked about different things concerning her back issues and her breasts."
+    # Back at the school
+    headmaster "Alright, we're back. I hope the bra will help you out."
+    sgirl "Thank you very much Mr. [headmaster_last_name]!" (name = "Aona Komuro")
+    headmaster "You're welcome. Have a good night! Don't stay up for too long, it's quite late already."
+    sgirl "Yes, I will! Good night!" (name = "Aona Komuro")
+    headmaster "Good night, see you at the next P.E. lesson."
+    headmaster_thought "I hope that bra will help her out. She really needs it."
+    headmaster_thought "But during that drive, it seems the girls are still missing some crucial information about their own bodies."
+    headmaster_thought "I mean how conservative have the teacher here been? That's just unacceptable."
+
+    $ bra = 0
+
+    if get_kwargs('skimpy_bra', False, **kwargs):
+        $ bra = 1
+        if get_kwargs('volunteered', False, **kwargs):
+            $ bra = 2
+
+    $ set_game_data("aona_skimpy_sports_bra", bra)
+
+    $ advance_progress("aona_sports_bra")
+
+    call change_stats_with_modifier('school',
+        happiness = MEDIUM, charm = TINY, reputation = MEDIUM, inhibition = DEC_SMALL)
+
+    $ end_event('new_daytime', **kwargs)
