@@ -85,9 +85,14 @@ init 1 python:
         thumbnail = "images/events/school building/sb_event_4 1 Ikushi Ito 0.webp")
     ####################
 
+    # sb_event_teach_class_event = Event(3, "teach_class_event",
+    #     TimeCondition(weekday = "d", daytime = "c"),)
+
     # Teaching events
-    sb_event_teach_class_event = Event(3, "teach_class_event",
-        TimeCondition(weekday = "d", daytime = "c"),)
+    sb_event_teach_class_event = EventSelect(3, "teach_class_event", "What subject do you wanna teach?", sb_teach_events,
+        TimeCondition(weekday = "d", daytime = "c"),
+        override_menu_exit = 'school_building',
+    )
 
     #################
     # Math Teaching
@@ -399,25 +404,6 @@ label first_class_sb_event (**kwargs):
         happiness = TINY, charm = SMALL, education = TINY)
 
     $ end_event('new_daytime', **kwargs)
-
-#################
-# Teaching events
-
-label teach_class_event (**kwargs):
-    $ loli = get_random_loli()
-    # $ learning_difficulty_girl = get_random_choice('Seraphina Clark', 'Hatano Miwa', 'Soyoon Yamamoto')
-    # $ learning_difficulty = get_school().check_stat(EDUCATION, '50-') and random.randint(1, 1) == 1
-
-    call call_event_menu (
-        "What subject do you wanna teach?", 
-        sb_teach_events,
-        default_fallback,
-        character.subtitles,
-        override_menu_exit = 'school_building',
-        **kwargs
-    ) from teach_class_event_1
-
-    jump school_building
 
 #######
 ## MATH
