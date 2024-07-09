@@ -161,6 +161,21 @@ init -6 python:
 
             self.changed_value += value
         
+        def check_stat(self, value: str | int) -> bool:
+            """
+            Checks if the value is in the range of the stat.
+
+            ### Parameters:
+            1. value: str | int
+                - The value to check.
+
+            ### Returns:
+            1. bool
+                - True if the value is in the range of the stat. False otherwise
+            """
+
+            return check_in_value(value, self.get_value())
+
         def change_value(self, delta: num, level: int = 10):
             """
             Changes the value of the stat by the given delta.
@@ -837,8 +852,10 @@ label load_stats ():
     $ load_stat_data(CHARM, "Charm", {
         'description': "Charm describes how other people perceive a students as a person. " +
             "The charm is influenced by factors like fitness, likability, looks and how gentle they are.\n" +
+            "Their behavior and social interaction also play a big role in the charm of a student.\n"
             "\nThe charm can be improved by working on the fitness, working on the character, " +
-            "or by social interaction with other people.",
+            "or by social interaction with other people.\n" + 
+            "Clumsy and unruly behavior can lower the charm of a student.",
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         'descriptions': [
             "The students are the extreme opposite of charming.",
