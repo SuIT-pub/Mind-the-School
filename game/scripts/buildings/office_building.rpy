@@ -6,7 +6,8 @@ init -1 python:
     def office_building_events_available() -> bool:
         return (office_building_timed_event.has_available_highlight_events() or
             office_building_general_event.has_available_highlight_events() or
-            any(e.has_available_highlight_events() for e in office_building_events.values()))
+            any(e.has_available_highlight_events() for e in office_building_events.values()) or
+            any(e.has_available_highlight_events() for e in office_building_work_event.values()))
 
     office_building_timed_event = TempEventStorage("office_building", "office_building", Event(2, "office_building.after_time_check"))
     office_building_general_event = EventStorage("office_building", "office_building", Event(2, "office_building.after_general_check"))
@@ -18,8 +19,9 @@ init -1 python:
     add_storage(office_building_work_event, EventStorage("reputation",  "office_building"))
 
     office_building_events = {}
-    add_storage(office_building_events, EventStorage("look_around", "office_building"))
-    add_storage(office_building_events, EventStorage("work",        "office_building"))
+    add_storage(office_building_events, EventStorage("look_around",    "office_building"))
+    add_storage(office_building_events, EventStorage("work",           "office_building"))
+    add_storage(office_building_events, EventStorage("call_secretary", "office_building"))
 
     office_building_bg_images = BGStorage("images/background/office building/bg f.webp",
         BGImage("images/background/office building/bg c teacher.webp", 1, TimeCondition(daytime = "c"), ValueCondition('name', 'teacher')), # show headmasters/teachers office empty
@@ -65,6 +67,11 @@ init 1 python:
             thumbnail = "images/events/office/office_event_3 1 0.webp"),
     )
 
+    office_building_events["call_secretary"].add_event(
+        Event(2, "office_call_secretary_1",
+            NOT(ProgressCondition('start_sex_ed')),
+            TimerCondition('start_sex_ed_timer_1', day = 3))
+    )
     
     office_building_events["work"].add_event(
         Event(3, "work_office_event",
@@ -87,16 +94,15 @@ init 1 python:
     )
 
     office_building_work_event["counselling"].add_event(
-        Event(3, "work_office_education_event_1",
+        Event(3, "work_office_session_event_1",
             TimeCondition(weekday = "d", daytime = "d"),
-            LevelSelector('school_level', 'school'),
-            LevelSelector('teacher_level', 'teacher')),
+            RandomListSelector("girl_name", "Yuriko Oshima", "Elsie Johnson", "Easkey Tanaka")),
         Event(3, "work_office_session_event_first_naughty",
             TimeCondition(weekday = "d", daytime = "d"),
             LevelSelector('school_level', 'school'),
             LevelSelector('secretary_level', 'secretary'),
-            ProgressCondition("school sessions", "5+"),
-            ProgressCondition("work_office_session_naughty", "-1"),
+            ProgressCondition("counselling sessions", "3+"),
+            NOT(ProgressCondition("work_office_session_naughty")),
         )
     )
 
@@ -180,7 +186,7 @@ label work_office_event (**kwargs):
 label work_office_reputation_event_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ image = Image_Series("images/events/office/office_reputation_event_1 <school_level> <step>.webp", ['school_level'], **kwargs)
+    $ image = Image_Series("images/events/office/office_reputation_event_1 <step>.webp", **kwargs)
 
     $ image.show(0)
     subtitles "You decided to to some PR work, trying to improve the schools and your reputation."
@@ -197,12 +203,17 @@ label work_office_reputation_event_1 (**kwargs):
 label work_office_money_event_1 (**kwargs):
     $ begin_event(**kwargs)
 
+    $ image = Image_Series('images/events/office/office_money_event_1 <step>.webp', **kwargs)
+
+    $ image.show(0)
     subtitles "You work on checking the accounts of the school."
     show screen black_screen_text("1h later.")
     # headmaster is consumed by the terrible accounting done in the past
+    $ image.show(1)
     headmaster_thought "How can this be? This is a mess!"
     headmaster_thought "I need to get this sorted out."
     headmaster_thought "There is so much wrong with these accounts. It's gonna take ages to fix this."
+    $ image.show(2)
     headmaster_thought "At least I was able to find some money that was lost in the system."
 
     call change_money_with_modifier(get_random_int(100, 500))
@@ -212,11 +223,12 @@ label work_office_money_event_1 (**kwargs):
 label work_office_education_event_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ school_level = get_value('school_level', **kwargs)
-    $ teacher_level = get_value('teacher_level', **kwargs)
+    $ image = Image_Series("images/events/office/office_education_event_1 <step>.webp", **kwargs)
 
+    $ image.show(0)
     subtitles "You work on optimizing the teaching material for the students."
     show screen black_screen_text("1h later.")
+    $ image.show(1)
     headmaster_thought "I think I found a way to make the material more interesting for the students."
 
     call change_stats_with_modifier('school',
@@ -462,7 +474,87 @@ label work_office_session_event_first_naughty (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label work_office_session_event_1(**kwargs):
-    pass
+    $ begin_event(**kwargs)
+
+    $ girl_name = get_value('girl_name', **kwargs)
+    $ get_level('school_level', **kwargs)
+    $ get_level('secretary_level', **kwargs)
+
+    $ girl_first_name, girl_last_name = split_name(girl_name)
+
+    $ image = Image_Series("images/events/office/work_office_session_event_1 <girl_name> <school_level> <secretary_level> <step>.webp", ['girl_name', 'school_level', 'secretary_level'], **kwargs)
+
+    $ image.show(0)
+    subtitles_Empty "*Knock* *Knock*"
+    $ image.show(1)
+    headmaster "Yes?"
+    $ image.show(2)
+    secretary "[headmaster_first_name], Mrs. [girl_last_name] is here for here counselling session."
+    $ image.show(3)
+    headmaster "Thank you. Please let her in."
+    $ image.show(4)
+    sgirl "Hello Mr. [headmaster_last_name]." (name = girl_name)
+    $ image.show(5)
+    headmaster "Hello [girl_first_name]. Please take a seat."
+    $ image.show(4)
+    sgirl "Thank you."
+    $ image.show(6)
+    headmaster "Now where did we stop last time?"
+    show screen black_screen_text("1h later.")
+    $ image.show(6)
+    headmaster "I think we made some progress this time. How do you feel about it?"
+    $ image.show(7)
+    sgirl "I feel better. Thank you for your help."
+    $ image.show(8)
+    headmaster "You're welcome. I'm always here to help you."
+    $ image.show(9)
+    sgirl "Thank you. I'll see you next time."
+    $ image.show(10)
+    headmaster "Goodbye."
+
+    $ advance_progress('counselling sessions')
+
+    call change_stats_with_modifier('school',
+        happiness = MEDIUM, education = SMALL)
+
+    $ end_event('new_daytime', **kwargs)
+
+label office_call_secretary_1 (**kwargs):
+    $ begin_event(**kwargs)
+
+    subtitles "You call the secretary."
+    secretary "Hello, [headmaster_first_name]. How can I help you?"
+    headmaster "I need your opinion on something."
+    secretary "Sure, what is it?"
+    headmaster "I'm thinking of introducing sex education classes in the curriculum. What do you think?"
+    secretary "I think it's a great idea. It's important for students to be educated about such topics."
+    secretary "But do you think the rest of the staff and also the students would agree?"
+    headmaster "You're right that will be quite the hurdle, I guess I need to make sure they are ready for it before suggesting it."
+    headmaster "Thank you for your input."
+    secretary "You're welcome. Is there anything else?"
+    headmaster "No, that's all. Thank you."
+    secretary "You're welcome. Have a nice day."
+    headmaster_thought "Maybe I should start work on some teaching material for the sex ed classes."
+    headmaster_thought "Perhaps also introductory material on the subject."
+
+    $ start_progress('start_sex_ed')
+    $ remove_game_data('start_sex_ed_timer_1')
+
+    $ end_event('new_daytime', **kwargs)
+
+label office_prepare_sex_ed_material(**kwargs):
+    $ begin_event(**kwargs)
+
+    subtitles "You start working on the teaching material for the new sex ed classes"
+    headmaster_thought "Hmm, what should I include here?"
+    headmaster_thought "I think the material needs to be informative but also very visual and engaging."
+    headmaster_thought "I guess if I distribute the this before the weekend after introducing the new classes, the students would have time to read it and maybe already take some example out of it."
+    headmaster_thought "So I guess the introductory material should include information about clothing, hygiene, and the importance of consent and their psychological impacts."
+    headmaster_thought "I think that including some references to visual material should be enough for now."
+
+    $ advance_progress('start_sex_ed')
+
+    $ end_event('new_daytime', **kwargs)
 
 label office_event_1 (**kwargs):
     $ begin_event(**kwargs);
