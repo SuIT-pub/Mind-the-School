@@ -605,6 +605,24 @@ init -99 python:
                 return "last_name"
         return gameData["names"][key][1]
 
+    def split_name(name: str) -> Tuple[str, str]:
+        """
+        Splits a name into a first and last name
+
+        ### Parameters:
+        1. name: str
+            - The name to split
+
+        ### Returns:
+        1. Tuple[str, str]
+            - The first and last name
+        """
+
+        split = name.split(' ')
+        if len(split) == 1:
+            return (split[0], "")
+        return (split[0], ' '.join(split[1:]))
+
     ##############################
     # --- GameData Functions --- #
     ##############################
@@ -657,6 +675,17 @@ init -99 python:
         """
 
         return key in gameData.keys()
+
+    def remove_game_data(key: str):
+        """
+        Removes a key from gameData
+
+        ### Parameters:
+        1. key: str
+            - The key to remove
+        """
+
+        del gameData[key]
 
     ##############################
     # --- Progress Functions --- #
