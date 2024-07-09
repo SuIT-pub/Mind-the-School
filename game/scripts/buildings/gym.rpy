@@ -6,7 +6,8 @@ init -1 python:
     def gym_events_available() -> bool:
         return (gym_timed_event.has_available_highlight_events() or
             gym_general_event.has_available_highlight_events() or
-            any(e.has_available_highlight_events() for e in gym_events.values()))
+            any(e.has_available_highlight_events() for e in gym_events.values())
+        )
 
     gym_timed_event = TempEventStorage("gym_timed", "gym", Event(2, "gym.after_time_check"))
     gym_general_event = EventStorage("gym_general", "gym", Event(2, "gym.after_general_check"))
@@ -64,7 +65,10 @@ init 1 python:
     gym_teach_pe_intro_storage = FragmentStorage("gym_teach_pe_intro")
     gym_teach_pe_intro_storage.add_event(
         EventFragment(3, "gym_teach_pe_intro_1",
-        thumbnail = "images/events/gym/gym_teach_pe_intro_1 1 7.webp"),
+            thumbnail = "images/events/gym/gym_teach_pe_intro_1 1 7.webp"),
+        EventFragment(1, "gym_teach_pe_intro_aona_bra",
+            ProgressCondition("aona_sports_bra", 2),
+            GameDataSelector("skimpy_bra", "aona_skimpy_sports_bra")),
     )
 
     gym_teach_pe_warm_up_storage = FragmentStorage("gym_teach_pe_warm_up")
@@ -76,7 +80,16 @@ init 1 python:
     gym_teach_pe_main_storage = FragmentStorage("gym_teach_pe_main")
     gym_teach_pe_main_storage.add_event(
         EventFragment(3, "gym_teach_pe_main_1",
-        thumbnail = "images/events/gym/gym_teach_pe_main_1 1 9.webp"),
+            thumbnail = "images/events/gym/gym_teach_pe_main_1 1 9.webp"),
+        EventFragment(3, "gym_teach_pe_main_2"),
+        EventFragment(3, "gym_teach_pe_main_aona_bra",
+            NOT(ProgressCondition("aona_sports_bra")),
+            MoneyCondition(100)
+        ),
+        EventFragment(1, "gym_teach_pe_main_aona_bra_2",
+            ProgressCondition("aona_sports_bra", 2),
+            GameDataSelector("skimpy_bra", "aona_skimpy_sports_bra")
+        ),
     )
 
     gym_teach_pe_end_storage = FragmentStorage("gym_teach_pe_end")
@@ -217,6 +230,52 @@ label gym_teach_pe_intro_1 (**kwargs):
 
     $ end_event('map_overview', **kwargs)
 
+label gym_teach_pe_intro_aona_bra (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ bra = get_value('skimpy_bra', **kwargs)
+
+    sgirl "And the headmaster really took you to the city to buy a sports bra?" (name = "Miwa Igarashi")
+    sgirl "Yes, he did. He said it was important for my health and performance." (name = "Aona Komuro")
+    sgirl "It's great that he cares so much about us." (name = "Aona Komuro")
+    sgirl "Yes, I didn't think he would be that nice." (name = "Miwa Igarashi")
+    sgirl "Didn't he take care of you too?" (name = "Aona Komuro")
+    sgirl "Yeah you're right." (name = "Miwa Igarashi")
+    # Aona puts on the bra
+    sgirl "What do you think?" (name = "Aona Komuro")
+    if bra >= 1:
+        sgirl "It's a bit skimpy, isn't it?" (name = "Miwa Igarashi")
+        if bra == 2:
+            sgirl "Yeah, but I think it is quite comfortable and Mr. [headmaster_last_name] said it was good for my health." (name = "Aona Komuro")
+            sgirl "I guess you're right. I mean it really does look good on you." (name = "Miwa Igarashi")
+            sgirl "Thank you." (name = "Aona Komuro")
+
+            call change_stats_with_modifier('school',
+                happiness = SMALL, inhibition = DEC_SMALL)
+        else:
+            sgirl "It does? Oh no, the headmaster bought the wrong one!" (name = "Aona Komuro")
+            sgirl "What do you mean?" (name = "Miwa Igarashi")
+            sgirl "He showed me another one to the one I wanted to buy, saying it would be good for my health, but I said I didn't like it." (name = "Aona Komuro")
+            sgirl "Quite perverted by him, isn't it?" (name = "Miwa Igarashi")
+            sgirl "I don't know, but I think it's quite comfortable." (name = "Aona Komuro")
+            sgirl "Maybe it was a genuine mistake." (name = "Aona Komuro")
+            sgirl "What do you do now?" (name = "Miwa Igarashi")
+            sgirl "I don't know. I guess I have to wear it now. I don't want to have to run with these giant things again." (name = "Aona Komuro")
+            sgirl "I guess you're right." (name = "Miwa Igarashi")
+            
+            call change_stats_with_modifier('school',
+                happiness = DEC_SMALL, inhibition = DEC_MEDIUM)
+    else:
+        sgirl "Yeah, it looks really nice on you." (name = "Miwa Igarashi")
+        sgirl "Yeah, doesn't it? And it's quite comfortable too." (name = "Aona Komuro")
+        sgirl "Amazing!" (name = "Miwa Igarashi")
+
+        call change_stats_with_modifier('school',
+            happiness = MEDIUM, inhibition = DEC_TINY)
+
+    $ end_event('map_overview', **kwargs)
+
+
 image anim_gym_teach_pe_warm_up_1_1 = Movie(play ="images/events/gym/gym_teach_pe_warm_up_1 1 1.webm", start_image = "images/events/gym/gym_teach_pe_warm_up_1 1 1.webp", loop = True)
 image anim_gym_teach_pe_warm_up_1_2 = Movie(play ="images/events/gym/gym_teach_pe_warm_up_1 1 2.webm", start_image = "images/events/gym/gym_teach_pe_warm_up_1 1 2.webp", loop = True)
 image anim_gym_teach_pe_warm_up_1_3 = Movie(play ="images/events/gym/gym_teach_pe_warm_up_1 1 3.webm", start_image = "images/events/gym/gym_teach_pe_warm_up_1 1 3.webp", loop = True)
@@ -247,7 +306,7 @@ label gym_teach_pe_warm_up_1 (**kwargs):
 
     $ end_event('map_overview', **kwargs)
 
-label gym_teach_pe_main_1 (**kwargs):
+label gym_teach_pe_main_1 (**kwargs): # Football
     $ begin_event(**kwargs)
 
     $ image = Image_Series("/images/events/gym/gym_teach_pe_main_1 <school_level> <step>.webp", **kwargs)
@@ -262,7 +321,7 @@ label gym_teach_pe_main_1 (**kwargs):
     headmaster "Hmm, that's a good point. Unfortunately we don't have any bibs or anything like that."
     $ image.show(4)
     headmaster "I guess you just will have to remember your team mates. So now your teams please."
-    # The students seperate into two groups
+    # The students separate into two groups
     call Image_Series.show_image(image, 5, 6) from image_gym_teach_pe_main_1_2   
     headmaster "Alright, let's get started. The right side has the kickoff."
     $ image.show(7)
@@ -281,6 +340,129 @@ label gym_teach_pe_main_1 (**kwargs):
         happiness = TINY, charm = SMALL, reputation = TINY, inhibition = DEC_TINY)
 
     $ end_event('map_overview', **kwargs)
+
+label gym_teach_pe_main_2 (**kwargs): # Yoga
+    $ begin_event(**kwargs)
+
+    $ image = Image_Series("/images/events/gym/gym_teach_pe_main_2 <school_level> <step>.webp", **kwargs)
+
+    $ image.show(0)
+    headmaster "Alright, today I planned to do some yoga with you."
+    $ image.show(1)
+    headmaster "It's a great way to relax and to improve your flexibility."
+    headmaster "It's also a great way to improve your balance and to strengthen your muscles."
+    $ image.show(2)
+    headmaster "I hope to give you a good introduction to it so you can do it at home too."
+    headmaster "Regular yoga practice can help you to improve your posture and to reduce stress."
+    headmaster "It can also help you to improve your concentration and to improve your mood."
+    $ image.show(3)
+    headmaster "Now please all get a yoga mat and let's get started."
+    # students get a yoga mat
+    headmaster "Okay, now we'll just do some simple exercises to get started."
+    headmaster "Please take care not to overdo it and to listen to your body."
+    headmaster "If something hurts, please stop immediately."
+    headmaster "And only stretch as far as you can without pain."
+    # first form
+    # second form, a student struggles
+    headmaster "Don't be frustrated if you can't do it perfectly. It's all about practice."
+    headmaster "If you're not flexible enough, just do what you can and if you repeat it often enough, you will get better."
+    # third form
+    # fourth form, a student is struggling
+    # headmaster goes to the student and helps her
+    # fifth form
+    headmaster "Alright, that's enough for today. I hope you all had fun."
+    headmaster "I hope you all had a good time and that you learned something new."
+    headmaster "Don't forget to shower and change your clothes."
+
+    call change_stats_with_modifier('school',
+        happiness = TINY, charm = MEDIUM, inhibition = DEC_TINY)
+
+    $ end_event('map_overview', **kwargs)
+
+    
+label gym_teach_pe_main_aona_bra (**kwargs): # Running
+    $ begin_event(**kwargs)
+
+    headmaster "Alright, today we will do some running."
+    sgirl "Do we have to? Couldn't we do something else?" (name = "Aona Komuro")
+    headmaster "Yes, it's important to keep your body in shape."
+    headmaster "It's also a great way to improve your stamina and to improve your cardiovascular health."
+    sgirl "But I don't like running." (name = "Aona Komuro")
+    headmaster "Why that?"
+    sgirl "Well my breasts are bouncing around and it's uncomfortable." (name = "Aona Komuro")
+    headmaster "Don't you have a sports bra?"
+    sgirl "No, I don't." (name = "Aona Komuro")
+    headmaster "Hmm, that's quite unfortunate. A state test is coming up and you need to be in shape for it."
+    headmaster "That one consists of several running tests."
+    headmaster "Unfortunately I can't make an exception for you, so please bear with it for today."
+    sgirl "..." (name = "Aona Komuro")
+    headmaster "Alright, now please line up and let's get started. Today we will be doing sprints."
+    # images and animations of the girls running, Aona Komuro is struggling possibly holding her breasts
+    headmaster "Alright, that's enough for today."
+    headmaster "Don't forget to shower and change your clothes."
+    # class leaves the gym
+    headmaster "Aona, can you stay for a moment?"
+    sgirl "Yes, Mr. [headmaster_last_name]?" (name = "Aona Komuro")
+    headmaster "I'm sorry but you need to get a sports bra. It's important for your health and for your performance."
+    sgirl "But I don't have the money for it. Sport bras are terribly expensive for my ... size." (name = "Aona Komuro")
+    headmaster "I see."
+    headmaster "Hmm, I can't just give out money because of the Accounting, but I can get you one if you like."
+    sgirl "Really? That would be great!" (name = "Aona Komuro")
+    headmaster "Alright, let's do it like that, I'm sure I can just write it off as a business expense."
+    headmaster "I'd just order it for online, but I guess you need to try it on to see if it fits."
+    headmaster "And because there is no shop nearby, I would take you to the city after school. Would that be okay for you?"
+    sgirl "Yes, that would be great!" (name = "Aona Komuro")
+    sgirl "Thank you so much, Mr. [headmaster_last_name]!" (name = "Aona Komuro")
+    headmaster "Not for that! I became your headmaster to help you all to become the best version of yourself."
+    headmaster "And if it means spending a few bucks on a sports bra, then so be it."
+    headmaster "Alright, now go and get changed. Come to my office after school, so we can go to the city."
+    sgirl "Yes, Mr. [headmaster_last_name]!" (name = "Aona Komuro")
+
+    $ start_progress("aona_sports_bra")
+
+    call change_stats_with_modifier('school',
+        happiness = TINY, charm = SMALL, reputation = TINY, inhibition = DEC_TINY)
+
+    $ end_event('map_overview', **kwargs)
+
+label gym_teach_pe_main_aona_bra_2 (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ bra = get_value('skimpy_bra', **kwargs)
+
+    headmaster "Alright, today we will do some running."
+    sgirl "*MOAN*" (name = "Students")
+    headmaster "Yes, Yes! I know, but you know the state test is coming up and you need to be in shape for it."
+    headmaster "So now please line up and let's get started. Today we will be doing 12 minute runs."
+    headmaster "And go!"
+    # images
+    headmaster "Alright, that's enough for today. Please shower and change your clothes."
+    if bra == 1:
+        sgirl "Mr. [headmaster_last_name], I'm sorry but you bought the wrong bra." (name = "Aona Komuro")
+        headmaster "What do you mean?" (name = "Aona Komuro")
+        sgirl "This is the bra you offered me, which I didn't want to buy." (name = "Aona Komuro")
+        headmaster "Oh I'm sorry. I must've swapped them by accident."
+        headmaster "But why are you wearing it then?"
+        sgirl "I didn't want to run without a bra again, so I didn't have a choice." (name = "Aona Komuro")
+        headmaster "I see. But how did you feel in it? I mean, it looked like you were much more comfortable than before."
+        sgirl "Yes, it worked really well. It was quite comfortable and I didn't have any problems with my breasts." (name = "Aona Komuro")
+        headmaster "And nobody cared, did they?"
+        sgirl "Well... no." (name = "Aona Komuro")
+        headmaster "So how about you try it on for a few more days and see how it goes?"
+        sgirl "Okay, I will." (name = "Aona Komuro")
+        headmaster "Alright, now go and get changed. You wouldn't want to miss your break, would you?"
+        sgirl "No, thanks."
+
+        call change_stats_with_modifier('school',
+            happiness = TINY, charm = SMALL, inhibition = DEC_SMALL)
+    else:
+        call change_stats_with_modifier('school',
+            happiness = SMALL, charm = SMALL, inhibition = DEC_SMALL)
+    
+    $ advance_progress("aona_sports_bra")
+
+    $ end_event('map_overview', **kwargs)
+
 
 label gym_teach_pe_end_1 (**kwargs):
     $ begin_event(**kwargs)
