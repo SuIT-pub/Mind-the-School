@@ -73,9 +73,13 @@ init 1 python:
             TimerCondition('start_sex_ed_timer_1', day = 3))
     )
     
+    office_work_office_event_event = EventSelect(3, "work_office_event", "What do you want to work on?", office_building_work_event,
+        TimeCondition(weekday = "d", daytime = "d"),
+        override_menu_exit = 'office_building',
+    )
+
     office_building_events["work"].add_event(
-        Event(3, "work_office_event",
-            TimeCondition(weekday = "d", daytime = "d")),
+        office_work_office_event_event,
     )
 
     office_building_work_event["money"].add_event(
@@ -170,18 +174,6 @@ label first_week_office_building_event (**kwargs):
     $ set_building_blocked("office_building")
 
     $ end_event('new_day', **kwargs)
-
-label work_office_event (**kwargs):
-    call call_event_menu (
-        "What subject do you wanna teach?", 
-        office_building_work_event,
-        default_fallback,
-        character.subtitles,
-        override_menu_exit = 'office_building',
-        **kwargs
-    ) from work_office_event_1
-
-    jump office_building
 
 label work_office_reputation_event_1 (**kwargs):
     $ begin_event(**kwargs)
