@@ -769,7 +769,7 @@ label end_of_month (**kwargs):
 label aona_sports_bra_event_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ inhibition = get_stat_value('inhibition', [90, 100], **kwargs)
+    $ inhibition = get_stat_value('inhibition', [90, 95, 100], **kwargs)
 
     subtitles "*Knock* *Knock*"
     headmaster "Come in!"
