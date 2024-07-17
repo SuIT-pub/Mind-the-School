@@ -383,40 +383,68 @@ label gym_teach_pe_main_2 (**kwargs): # Yoga
 label gym_teach_pe_main_aona_bra (**kwargs): # Running
     $ begin_event(**kwargs)
 
+    $ image = Image_Series("/images/events/gym/gym_teach_pe_main_aona_bra <step>.webp", **kwargs)
+
+    $ image.show(0)
     headmaster "Alright, today we will do some running."
+    $ image.show(1)
     sgirl "Do we have to? Couldn't we do something else?" (name = "Aona Komuro")
+    $ image.show(2)
     headmaster "Yes, it's important to keep your body in shape."
     headmaster "It's also a great way to improve your stamina and to improve your cardiovascular health."
+    $ image.show(1)
     sgirl "But I don't like running." (name = "Aona Komuro")
+    $ image.show(3)
     headmaster "Why that?"
-    sgirl "Well my breasts are bouncing around and it's uncomfortable." (name = "Aona Komuro")
+    $ image.show(4)
+    sgirl "Well my... Chest hurts because of... you know why." (name = "Aona Komuro")
+    $ image.show(5)
     headmaster "Don't you have a sports bra?"
+    $ image.show(6)
     sgirl "No, I don't." (name = "Aona Komuro")
-    headmaster "Hmm, that's quite unfortunate. A state test is coming up and you need to be in shape for it."
-    headmaster "That one consists of several running tests."
+    $ image.show(7)
+    headmaster "Hmm, that's quite unfortunate. A state test is coming up and you need to be in shape for it because there will be several running tests."
     headmaster "Unfortunately I can't make an exception for you, so please bear with it for today."
+    $ image.show(8)
     sgirl "..." (name = "Aona Komuro")
+    $ image.show(9)
     headmaster "Alright, now please line up and let's get started. Today we will be doing sprints."
+    call Image_Series.show_image(image, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22) from image_gym_teach_pe_main_aona_bra_1
     # images and animations of the girls running, Aona Komuro is struggling possibly holding her breasts
+    
+    call screen black_screen_text("1 hour later")
+
+    $ image.show(23)
     headmaster "Alright, that's enough for today."
     headmaster "Don't forget to shower and change your clothes."
     # class leaves the gym
+    $ image.show(24)
     headmaster "Aona, can you stay for a moment?"
+    $ image.show(25)
     sgirl "Yes, Mr. [headmaster_last_name]?" (name = "Aona Komuro")
+    $ image.show(26)
     headmaster "I'm sorry but you need to get a sports bra. It's important for your health and for your performance."
-    sgirl "But I don't have the money for it. Sport bras are terribly expensive for my ... size." (name = "Aona Komuro")
+    $ image.show(27)
+    sgirl "I know... But I don't have the money for it. Sport bras are terribly expensive for my ... size." (name = "Aona Komuro")
+    $ image.show(28)
     headmaster "I see."
+    $ image.show(29)
     headmaster "Hmm, I can't just give out money because of the Accounting, but I can get you one if you like."
+    $ image.show(30)
     sgirl "Really? That would be great!" (name = "Aona Komuro")
+    $ image.show(31)
     headmaster "Alright, let's do it like that, I'm sure I can just write it off as a business expense."
-    headmaster "I'd just order it for online, but I guess you need to try it on to see if it fits."
-    headmaster "And because there is no shop nearby, I would take you to the city after school. Would that be okay for you?"
+    headmaster "There is no shop nearby, but I could take you to the city after school. Would that be okay for you?"
+    $ image.show(30)
     sgirl "Yes, that would be great!" (name = "Aona Komuro")
     sgirl "Thank you so much, Mr. [headmaster_last_name]!" (name = "Aona Komuro")
+    $ image.show(31)
     headmaster "Not for that! I became your headmaster to help you all to become the best version of yourself."
     headmaster "And if it means spending a few bucks on a sports bra, then so be it."
-    headmaster "Alright, now go and get changed. Come to my office after school, so we can go to the city."
+    headmaster "Alright, now go and get changed. Come to my office after school, we'll then drive."
+    $ image.show(30)
     sgirl "Yes, Mr. [headmaster_last_name]!" (name = "Aona Komuro")
+    $ image.show(32)
 
     $ start_progress("aona_sports_bra")
 
