@@ -406,7 +406,7 @@ init -1 python:
             return f"{self.key}"
 
         def apply(self, **kwargs):
-            set_modifier(self.key, self.stat, self.modifier, char_obj = self.char_obj, collection = self.collection)
+            set_modifier(self.key, self.modifier, self.stat, char_obj = self.char_obj, collection = self.collection)
 
 label open_bg_image_menu(event, **kwargs):
     $ bg_image = get_kwargs("bg_image", None, **kwargs)

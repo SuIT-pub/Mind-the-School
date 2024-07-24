@@ -629,6 +629,33 @@ init -6 python:
                 return 0
             return -100
 
+    class ProficiencyCondition(Condition):
+        def __init__(self, proficiency: str, *, xp: int | str = -1, level: int | str = -1):
+            super().__init__(True)
+            self._proficiency = proficiency
+            self._xp = xp
+            self._level = level
+
+        def is_fulfilled(self, **kwargs) -> bool:
+            if self._xp != -1:
+                curr_xp = get_headmaster_proficiency_xp(self._proficiency)
+                if not check_in_value(self._xp, curr_xp):
+                    return False
+
+            if self._level != -1:
+                curr_level = get_headmaster_proficiency_level(self._proficiency)
+                if not check_in_value(self._level, curr_level):
+                    return False
+
+            return self._proficiency in headmaster_proficiencies.keys()
+
+        def get_name(self) -> str:
+            return self._proficiency + "_" + str(self._xp) + "_" + str(self._level)
+
+        def get_diff(self, _char_obj: Char) -> num:
+            if self.is_fulfilled():
+                return 0
+            return -100
 
     class RuleCondition(Condition):
         """
@@ -1505,7 +1532,6 @@ init -6 python:
             if self.is_fulfilled():
                 return 0
             return -100
-
 
     class RandomCondition(Condition):
         """
