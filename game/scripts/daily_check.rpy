@@ -14,8 +14,8 @@ init -1 python:
     after_temp_event_check = Event(2, "time_event_check.after_temp_event_check")
     after_event_check      = Event(2, "time_event_check.after_event_check")
 
-    temp_time_check_events = TempEventStorage("temp_time_check_events", "misc", after_temp_event_check)
-    time_check_events      = EventStorage("time_check_events", "misc", after_event_check)
+    temp_time_check_events = TempEventStorage("temp_time_check_events", "misc", fallback = after_temp_event_check)
+    time_check_events      = EventStorage("time_check_events", "misc", fallback = after_event_check)
 
 init 1 python:
     tutorial_1_event = Event(2, "tutorial_1", 
@@ -811,13 +811,13 @@ label aona_sports_bra_event_1 (**kwargs):
 
     $ kwargs["expense"] = cost
 
-    $ cost_text = f"Buy cheap bra (-{cost})"
+    $ cost_text = "Buy cheap bra ({color=#a00000}-" + cost + "{/color})"
 
     if cost == 0:
         $ cost_text = "Buy cheap bra"
 
     $ call_custom_menu(False, 
-        ("Buy expensive bra (-400)", "aona_sports_bra_event_1.expensive_bra", money.check_stat('400+')),
+        ("Buy expensive bra ({color=#a00000}-400${/color})", "aona_sports_bra_event_1.expensive_bra", money.check_stat('400+')),
         (cost_text, "aona_sports_bra_event_1.cheap_bra"), 
     **kwargs)
 

@@ -8,11 +8,11 @@ init -1 python:
             sd_general_event.has_available_highlight_events() or
             any(e.has_available_highlight_events() for e in sd_events.values()))
 
-    sd_timed_event = TempEventStorage("school_dormitory", "school_dormitory", Event(2, "school_dormitory.after_time_check"))
-    sd_general_event = EventStorage("school_dormitory",   "school_dormitory", Event(2, "school_dormitory.after_general_check"))
+    sd_timed_event = TempEventStorage("school_dormitory", "school_dormitory", fallback = Event(2, "school_dormitory.after_time_check"))
+    sd_general_event = EventStorage("school_dormitory",   "school_dormitory", fallback = Event(2, "school_dormitory.after_general_check"))
 
     sd_events = {}
-    add_storage(sd_events, EventStorage("peek_students", "school_dormitory", default_fallback, "There is nobody here."))
+    add_storage(sd_events, EventStorage("peek_students", "school_dormitory", fallback_text = "There is nobody here."))
 
     sd_bg_images = BGStorage("images/background/school dormitory/bg c.webp",
         BGImage("images/background/school dormitory/bg <loli> <school_level> <variant> <nude>.webp", 1, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))),

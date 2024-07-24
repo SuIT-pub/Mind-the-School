@@ -134,6 +134,7 @@ event_office_building_money;Make some money
 event_office_building_education;Improve teaching material
 event_office_building_counselling;Hold counselling sessions
 event_office_building_reputation;Improve school reputation
+event_office_building_learn;Learn subject ({color=#a00000}-500${/color})
 
 work_office_money_event_1;Make money generic
 work_office_education_event_1;Improve teaching material generic

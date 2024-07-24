@@ -63,7 +63,7 @@ init -3 python:
             - Checks if all events are created correctly.
         """
 
-        def __init__(self, name: str, location: str, fallback: Event = None, fallback_text: str = "There is nothing to do here."):
+        def __init__(self, name: str, location: str, *options: Option, fallback: Event = None, fallback_text: str = "There is nothing to do here."):
             self.name = name
             self.fallback = fallback if fallback != None else default_fallback
             self.fallback_text = fallback_text
@@ -73,6 +73,8 @@ init -3 python:
                 3: {},
             }
             self.location = location
+            options = list(options)
+            self.options = {option.get_name(): option for option in options if isinstance(option, Option)}
 
         def _update(self):
             """
@@ -81,6 +83,9 @@ init -3 python:
 
             if not hasattr(self, 'fallback_text'):
                 self.fallback_text = "There is nothing to do here."
+
+            if not hasattr(self, 'options'):
+                self.options = {}
 
         def check_all_events(self):
             """
@@ -113,6 +118,17 @@ init -3 python:
                 location_event_register[location] = set()
 
             location_event_register[location].add(event)
+
+        def check_all_options(self, **kwargs):
+            for key in self.options.keys():
+                if not self.options[key].check_option(**kwargs):
+                    return False
+            return True
+        
+        def check_for_option(self, name: str, **kwargs):
+            if name not in self.options.keys():
+                return False
+            return self.options[name].check_option(**kwargs)
 
         ###################
         # Attribute getters
@@ -594,8 +610,8 @@ init -3 python:
                 event.call(**kwargs)
 
     class FragmentStorage(EventStorage):
-        def __init__(self, name: str):
-            super().__init__(name, "fragment", None, "")
+        def __init__(self, name: str, *options: Option):
+            super().__init__(name, "fragment", *options, None, "")
             self.register_storage_as_fragment()
         
         def add_event(self, *events: EventFragment):
@@ -642,8 +658,8 @@ init -3 python:
             - The events that are stored in the EventStorage. The events are stored in a list.
         """
 
-        def __init__(self, name: str, location: str = "", fallback: Event = None, fallback_text: str = "How did you end up here? That shouldn't have happened. Better notify the dev about this."):
-            super().__init__(name, location, fallback, fallback_text)
+        def __init__(self, name: str, location: str, *options: Option, fallback: Event = None, fallback_text: str = "How did you end up here? That shouldn't have happened. Better notify the dev about this."):
+            super().__init__(name, location, *options, fallback = fallback, fallback_text = fallback_text)
             self.events = []
 
         def _update(self):

@@ -8,8 +8,8 @@ init -1 python:
             bath_general_event.has_available_highlight_events() or 
             any(e.has_available_highlight_events() for e in bath_events.values()))
 
-    bath_timed_event = TempEventStorage("bath_timed", "bath", Event(2, "bath.after_time_check"))
-    bath_general_event = EventStorage("bath_general", "bath", Event(2, "bath.after_general_check"))
+    bath_timed_event = TempEventStorage("bath_timed", "bath", fallback = Event(2, "bath.after_time_check"))
+    bath_general_event = EventStorage("bath_general", "bath", fallback = Event(2, "bath.after_general_check"))
     bath_events = {}
 
     bath_bg_images = BGStorage("images/background/bath/bg c.webp", 
