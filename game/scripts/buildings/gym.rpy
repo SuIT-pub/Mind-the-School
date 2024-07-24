@@ -250,7 +250,7 @@ label gym_teach_pe_intro_aona_bra (**kwargs):
             sgirl "I guess you're right. I mean it really does look good on you." (name = "Miwa Igarashi")
             sgirl "Thank you." (name = "Aona Komuro")
 
-            call change_stats_with_modifier('school',
+            call change_stats_with_modifier('school', 'pe',
                 happiness = SMALL, inhibition = DEC_SMALL)
         else:
             sgirl "It does? Oh no, the headmaster bought the wrong one!" (name = "Aona Komuro")
@@ -263,14 +263,14 @@ label gym_teach_pe_intro_aona_bra (**kwargs):
             sgirl "I don't know. I guess I have to wear it now. I don't want to have to run with these giant things again." (name = "Aona Komuro")
             sgirl "I guess you're right." (name = "Miwa Igarashi")
             
-            call change_stats_with_modifier('school',
+            call change_stats_with_modifier('school', 'pe',
                 happiness = DEC_SMALL, inhibition = DEC_MEDIUM)
     else:
         sgirl "Yeah, it looks really nice on you." (name = "Miwa Igarashi")
         sgirl "Yeah, doesn't it? And it's quite comfortable too." (name = "Aona Komuro")
         sgirl "Amazing!" (name = "Miwa Igarashi")
 
-        call change_stats_with_modifier('school',
+        call change_stats_with_modifier('school', 'pe',
             happiness = MEDIUM, inhibition = DEC_TINY)
 
     $ end_event('map_overview', **kwargs)
@@ -301,7 +301,7 @@ label gym_teach_pe_warm_up_1 (**kwargs):
     $ image.show(4)
     headmaster "Alright, that's enough."
     
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier('school', 'pe',
         charm = SMALL, education = TINY)
 
     $ end_event('map_overview', **kwargs)
@@ -336,7 +336,7 @@ label gym_teach_pe_main_1 (**kwargs): # Football
     headmaster "Don't forget to shower and change your clothes."
     # class leaves the gym
     
-    call change_stats_with_modifier('school', 
+    call change_stats_with_modifier('school',  'pe',
         happiness = TINY, charm = SMALL, reputation = TINY, inhibition = DEC_TINY)
 
     $ end_event('map_overview', **kwargs)
@@ -374,7 +374,7 @@ label gym_teach_pe_main_2 (**kwargs): # Yoga
     headmaster "I hope you all had a good time and that you learned something new."
     headmaster "Don't forget to shower and change your clothes."
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier('school', 'pe',
         happiness = TINY, charm = MEDIUM, inhibition = DEC_TINY)
 
     $ end_event('map_overview', **kwargs)
@@ -448,7 +448,7 @@ label gym_teach_pe_main_aona_bra (**kwargs): # Running
 
     $ start_progress("aona_sports_bra")
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier('school', 'pe',
         happiness = TINY, charm = SMALL, reputation = TINY, inhibition = DEC_TINY)
 
     $ end_event('map_overview', **kwargs)
@@ -481,10 +481,10 @@ label gym_teach_pe_main_aona_bra_2 (**kwargs):
         headmaster "Alright, now go and get changed. You wouldn't want to miss your break, would you?"
         sgirl "No, thanks."
 
-        call change_stats_with_modifier('school',
+        call change_stats_with_modifier('school', 'pe',
             happiness = TINY, charm = SMALL, inhibition = DEC_SMALL)
     else:
-        call change_stats_with_modifier('school',
+        call change_stats_with_modifier('school', 'pe',
             happiness = SMALL, charm = SMALL, inhibition = DEC_SMALL)
     
     $ advance_progress("aona_sports_bra")

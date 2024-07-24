@@ -741,8 +741,7 @@ label load_stats ():
             "images/journal/empty_image.webp",
             "images/journal/empty_image.webp",
             "images/journal/empty_image.webp",
-        ]
-    })
+        ]})
 
     $ load_stat_data(INHIBITION, "Inhibition", {
         'description': ["The inhibition level shows how the students feel in their own bodies.\n" +
@@ -776,8 +775,7 @@ label load_stats ():
             "images/journal/empty_image.webp",
             "images/journal/empty_image.webp",
             "images/journal/empty_image.webp",
-        ]
-    })
+        ]})
 
     $ load_stat_data(HAPPINESS, "Happiness", {
         'description': "Happiness describes how happy the students are to be at this school.\n" + 
@@ -811,8 +809,7 @@ label load_stats ():
             "images/journal/empty_image.webp",
             "images/journal/empty_image.webp",
             "images/journal/empty_image.webp",
-        ]
-    })
+        ]})
 
     $ load_stat_data(EDUCATION, "Education", {
         'description': "Education measures how good the students are at school.\n" +
@@ -846,8 +843,7 @@ label load_stats ():
             "images/journal/empty_image.webp",
             "images/journal/empty_image.webp",
             "images/journal/empty_image.webp",
-        ]
-    })
+        ]})
 
     $ load_stat_data(CHARM, "Charm", {
         'description': "Charm describes how other people perceive a students as a person. " +
@@ -882,8 +878,7 @@ label load_stats ():
             "images/journal/empty_image.webp",
             "images/journal/empty_image.webp",
             "images/journal/empty_image.webp",
-        ]
-    })
+        ]})
 
     $ load_stat_data(REPUTATION, "Reputation", {
         'description': "This displays the reputation of you and the school. " +
@@ -915,8 +910,7 @@ label load_stats ():
             "images/journal/empty_image.webp",
             "images/journal/empty_image.webp",
             "images/journal/empty_image.webp",
-        ]
-    })
+        ]})
 
     $ load_stat_data(LEVEL, "Level", {
         'description': "The level of the school represents the overall " +
@@ -956,14 +950,12 @@ label load_stats ():
             "images/journal/empty_image.webp",
             "images/journal/empty_image.webp",
         ],
-        'max_limit': 10,
-    })
+        'max_limit': 10,})
 
     $ load_stat_data(MONEY, "Money", {
         'description': "The money is used to purchase upgrade for the school and to pay for expenses.\n" +
             "You have to pay for all of that with your own budget, but you get a monthly budget from the authorities.\n\n" +
             "Of course, you don't get much. You have to make sure that you don't run out of money. "+
             "You can also earn money by working in your office. Maybe you find another way...",
-        'max_limit': 1000000000,
-    })
+        'max_limit': 1000000000,})
     

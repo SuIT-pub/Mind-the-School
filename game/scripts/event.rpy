@@ -1474,6 +1474,11 @@ init -3 python:
             return any(e.has_available_highlight_events() for e in self.event_list.values())
         
         def call(self, **kwargs):
+            
+            if self.values != None:
+                kwargs.update(self.values.get_values())
+                self.values.roll_values()
+
             renpy.call(
                 "call_event", 
                 self.get_event_label(), 
@@ -1803,6 +1808,8 @@ label select_event_runner(**kwargs):
     $ override_menu_exit = get_kwargs('select_override_menu_exit', 'map_overview', **kwargs)
     $ fallback = get_kwargs('select_fallback', default_fallback, **kwargs)
     $ person = get_kwargs('select_person', character.subtitles, **kwargs)
+
+    $ log_val('event_kwargs', kwargs)
 
     if len(event_list) != 0:
         call call_event_menu (

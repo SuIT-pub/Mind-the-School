@@ -771,10 +771,17 @@ label aona_sports_bra_event_1 (**kwargs):
 
     $ inhibition = get_stat_value('inhibition', [90, 95, 100], **kwargs)
 
+    $ image = Image_Series("images/events/misc/aona_sports_bra_event_1 <secretary_level> <step>.webp", ['secretary_level'], **kwargs)
+
+    $ image.show(0)
     subtitles "*Knock* *Knock*"
+    $ image.show(1)
     headmaster "Come in!"
+    $ image.show(2)
     secretary "Excuse me Mr. [headmaster_last_name], Mrs. Komuro is here to see you."
+    $ image.show(3)
     headmaster "Ah yes, thank you! I'll come out!"
+    call Image_Series.show_image(image, 4, 5) from image_aona_sports_bra_event_1_1
     headmaster "Mrs. Langley, I'll be out with Mrs. Komuro for a few hours."
     secretary "Okay, can I ask what you have planned?"
     headmaster "Mrs. Komuro unfortunately is missing a sports bra and I'm going to take her get one in the next city."
@@ -804,9 +811,14 @@ label aona_sports_bra_event_1 (**kwargs):
 
     $ kwargs["expense"] = cost
 
+    $ cost_text = f"Buy cheap bra (-{cost})"
+
+    if cost == 0:
+        $ cost_text = "Buy cheap bra"
+
     $ call_custom_menu(False, 
         ("Buy expensive bra (-400)", "aona_sports_bra_event_1.expensive_bra", money.check_stat('400+')),
-        (f"Buy cheap bra (-{cost})", "aona_sports_bra_event_1.cheap_bra"), 
+        (cost_text, "aona_sports_bra_event_1.cheap_bra"), 
     **kwargs)
 
 label .expensive_bra (**kwargs):

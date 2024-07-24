@@ -91,6 +91,7 @@ init 1 python:
     # Teaching events
     sb_event_teach_class_event = EventSelect(3, "teach_class_event", "What subject do you wanna teach?", sb_teach_events,
         TimeCondition(weekday = "d", daytime = "c"),
+        KwargsSelector(show_proficiency_modifier = True),
         override_menu_exit = 'school_building',
     )
 
@@ -121,6 +122,7 @@ init 1 python:
 
     sb_teach_math_event = EventComposite(3, 'sb_teach_math', [sb_teach_math_ld_storage, sb_teach_math_main_storage],
         LevelSelector('school_level', 'school'),
+        ProficiencyCondition('math'),
         thumbnail = "images/events/school building/sb_teach_math_main_1 # 1 18.webp"
     )
     #################
@@ -468,8 +470,8 @@ label sb_teach_math_ld_2 (**kwargs):
     $ image.show(7)
     headmaster "Good. Now let's continue with the new topic."
 
-    call change_stats_with_modifier('school',
-        charm = TINY, education = SMALL)
+    call change_stats_with_modifier('school', 'math'
+        education = TINY)
 
     $ end_event('map_overview', **kwargs)
 
@@ -492,8 +494,8 @@ label .leave (**kwargs):
     $ image.show(2)
     subtitles "You decide to leave her alone."
     
-    call change_stats_with_modifier('school',
-        charm = DEC_TINY, education = TINY)
+    call change_stats_with_modifier('school', 'math',
+        charm = DEC_TINY, happiness = DEC_TINY)
     $ end_event('new_daytime', **kwargs)
 label .help (**kwargs):
     $ begin_event()
@@ -501,8 +503,8 @@ label .help (**kwargs):
     $ image.show(3)
     subtitles "You help her up."
     
-    call change_stats_with_modifier('school',
-        charm = DEC_TINY, happiness = SMALL, education = TINY)
+    call change_stats_with_modifier('school', 'math',
+        charm = DEC_TINY, happiness = TINY)
     $ end_event('new_daytime', **kwargs)
 
 label sb_teach_math_main_1 (**kwargs):
@@ -612,8 +614,8 @@ label sb_teach_math_main_1 (**kwargs):
     $ image.show(26)
     headmaster "That is all for today"
 
-    call change_stats_with_modifier('school',
-        charm = TINY, education = SMALL, happiness = DEC_TINY, reputation = TINY)
+    call change_stats_with_modifier('school', 'math',
+        education = SMALL, reputation = TINY)
     
     $ end_event('new_daytime', **kwargs)
 
@@ -674,8 +676,8 @@ label sb_teach_math_main_2 (**kwargs):
     $ image.show(17)
     headmaster "That is all for today. Thanks for your attention. See you next time."
 
-    call change_stats_with_modifier('school',
-        charm = TINY, education = SMALL, happiness = DEC_TINY, inhibition = DEC_SMALL)
+    call change_stats_with_modifier('school', 'math',
+        education = SMALL, happiness = DEC_TINY, inhibition = DEC_TINY)
     
     $ end_event('new_daytime', **kwargs)
 ######

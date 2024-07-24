@@ -10,6 +10,8 @@ label start ():
     call load_clubs from start_4
     call load_rules from start_5
 
+    call check_missing_proficiencies from start_6
+
     $ fix_modifier()
 
     jump ask_age
@@ -48,13 +50,13 @@ init python:
         if (get_building('cafeteria').is_unlocked() and 
             get_modifier('weekly_cost_cafeteria', 'money', None, 'payroll_weekly') == None
         ):
-            set_modifier('weekly_cost_cafeteria', 'money', Modifier_Obj('Cafeteria', "+", -100), collection = 'payroll_weekly')
+            set_modifier('weekly_cost_cafeteria', Modifier_Obj('Cafeteria', "+", -100), 'money', collection = 'payroll_weekly')
 
         if get_modifier('monthly_budget', 'money', None, 'payroll_monthly') == None:
-            set_modifier('monthly_budget', 'money', Modifier_Obj('Budget', "+", 1000), collection = 'payroll_monthly')
+            set_modifier('monthly_budget', Modifier_Obj('Budget', "+", 1000), 'money', collection = 'payroll_monthly')
 
         if get_modifier('teacher_pay', 'money', None, 'payroll_weekly') == None:
-            set_modifier('teacher_pay', 'money', Modifier_Obj('Teacher', "+", -150), collection = 'payroll_weekly')
+            set_modifier('teacher_pay', Modifier_Obj('Teacher', "+", -150), 'money', collection = 'payroll_weekly')
 
     def fix_schools():
         old_character = get_character("school_mean_values", charList)
@@ -94,18 +96,44 @@ init python:
             gameData.pop('headmaster_first_name')
             gameData.pop('headmaster_last_name')
 
+label check_missing_proficiencies:
+    if len(headmaster_proficiencies.keys()) >= 2:
+        return
+
+    $ menu_setting = config.menu_include_disabled
+
+    $ config.menu_include_disabled = True
+
+    if get_headmaster_proficiency_level('pe') == 0:
+        $ set_headmaster_proficiency_level('pe', 100)
+
+    while len(headmaster_proficiencies.keys()) < 2:
+        menu:
+            "The headmaster has no proficiencies set. Please assign a proficiency to the headmaster.\nP.E. is pre-selected do to his backstory."
+
+            "Math" if ("math" not in headmaster_proficiencies.keys()):
+                $ set_headmaster_proficiency_level('math', 100)
+
+            "P.E." if ("pe" not in headmaster_proficiencies.keys()):
+                $ set_headmaster_proficiency_level('pe', 100)
+
 
 
     ###########################################
 
 
 label after_load:
+    $ log('\n\n\n####################################################################################################\n####################################################################################################\n')
+
     call load_stats from after_load_1
     call load_schools from after_load_2
     call load_rules from after_load_3
     call load_buildings from after_load_4
     call load_clubs from after_load_5
     
+    call check_missing_proficiencies from after_load_6
+
+
     #####################################
     # check for version incompatibilities
     $ check_old_versions()

@@ -70,9 +70,14 @@ init -3 python:
 
             for selector in self._selectors:
                 selector.update(**kwargs)
-                key = selector.get_name()
-                value = selector.get_value(**kwargs)
-                kwargs[key] = value
+                if isinstance(selector, KwargsSelector):
+                    values = selector.get_value(**kwargs)
+                    for key in values.keys():
+                        kwargs[key] = values[key]
+                else:
+                    key = selector.get_name()
+                    value = selector.get_value(**kwargs)
+                    kwargs[key] = value
 
         def get_values(self) -> List[Tuple[str, Any]]:
             """
@@ -90,9 +95,14 @@ init -3 python:
             kwargs = {}
 
             for selector in self._selectors:
-                key = selector.get_name()
-                value = selector.get_value(**kwargs)
-                kwargs[key] = value
+                if isinstance(selector, KwargsSelector):
+                    values = selector.get_value(**kwargs)
+                    for key in values.keys():
+                        kwargs[key] = values[key]
+                else:
+                    key = selector.get_name()
+                    value = selector.get_value(**kwargs)
+                    kwargs[key] = value
 
             return kwargs
             
@@ -546,6 +556,35 @@ init -3 python:
             """
 
             return get_game_data(self._index)
+
+    class KwargsSelector(Selector):
+        """
+        A Selector-class that supplies fixed values to the event.
+        KwargsSelector is a child of Selector and inherits all of its attributes and methods.
+
+        ### Attributes:
+        1. _kwargs: Dict
+            - A dictionary that contains the values to be supplied to the event.
+
+        ### Methods:
+        1. roll() -> Any
+            - Returns the supplied values.
+
+        ### Parameters:
+        1. kwargs: Dict
+            - A dictionary that contains the values to be supplied to the event.
+        """
+
+        def __init__(self, **kwargs):
+            super().__init__(True, "None")
+            self._kwargs = kwargs
+
+        def roll(self, **kwargs) -> Any:
+            """
+            Returns the supplied values.
+            """
+            return self._kwargs
+
 
     class ProgressSelector(Selector):
         """

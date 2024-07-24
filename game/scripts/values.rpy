@@ -22,7 +22,6 @@ init -98 python:
     members = ""
     download_members()
 
-
 default intro_dev_message = "This version of the game only includes content up to day 10, when free roaming begins. You can still play and roam from there, but there will be no content."
 
 default hide_gui = False
@@ -45,6 +44,9 @@ default replay_data = {}
 default event_data = {}
 
 default overview_events_available = {}
+
+default available_proficiencies = ['math', 'pe']
+default headmaster_proficiencies = {}
 
 init -99:
     default default_names = {

@@ -95,8 +95,19 @@ init python:
                 else:
                     effect = EventEffect(storage)
                 title = get_event_menu_title(storage.get_location(), storage.get_name())
+
+                # mark effect as high priority
                 if prio:
                     high_prio_events.append(str(effect))
+
+                # if the event has a proficiency modifier, show it in the title
+                if get_kwargs('show_proficiency_modifier', False, **kwargs):
+                    modifier = get_headmaster_proficiency_multiplier(storage.get_name())
+                    if modifier > 0 and modifier < 1:
+                        title = title + " (x{color=#a00000}" + f'{modifier:.1f}' + "{/color})"
+                    elif modifier >= 1:
+                        title = title + " (x{color=#00a000}" + f'{modifier:.1f}' + "{/color})"
+
                 output.append((title, effect))
                 used.append(key)
 

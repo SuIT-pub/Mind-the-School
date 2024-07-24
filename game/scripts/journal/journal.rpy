@@ -1086,6 +1086,8 @@ screen journal_overview(display, char = "school"):
 
     $ pta_proposal = get_game_data('voteProposal')
 
+    $ log_val('modifier', get_game_data('stat_modifier'))
+
     if display == "":
         $ display = "money"
 
