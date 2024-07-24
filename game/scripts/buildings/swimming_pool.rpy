@@ -8,8 +8,8 @@ init -1 python:
             swimming_pool_general_event.has_available_highlight_events() or
             any(e.has_available_highlight_events() for e in swimming_pool_events.values()))
 
-    swimming_pool_timed_event = TempEventStorage("swimming_pool", "swimming_pool", Event(2, "swimming_pool.after_time_check"))
-    swimming_pool_general_event = EventStorage("swimming_pool",   "swimming_pool", Event(2, "swimming_pool.after_general_check"))
+    swimming_pool_timed_event = TempEventStorage("swimming_pool", "swimming_pool", fallback = Event(2, "swimming_pool.after_time_check"))
+    swimming_pool_general_event = EventStorage("swimming_pool",   "swimming_pool", fallback = Event(2, "swimming_pool.after_general_check"))
     swimming_pool_events = {}
 
     swimming_pool_bg_images = BGStorage("images/background/swimming pool/bg 1.webp",

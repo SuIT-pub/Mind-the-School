@@ -8,8 +8,8 @@ init -1 python:
             beach_general_event.has_available_highlight_events() or 
             any(e.has_available_highlight_events() for e in beach_events.values()))
 
-    beach_timed_event = TempEventStorage("beach_timed", "beach", Event(2, "beach.after_time_check"))
-    beach_general_event = EventStorage("beach_general", "beach", Event(2, "beach.after_general_check"))
+    beach_timed_event = TempEventStorage("beach_timed", "beach", fallback = Event(2, "beach.after_time_check"))
+    beach_general_event = EventStorage("beach_general", "beach", fallback = Event(2, "beach.after_general_check"))
     beach_events = {}
 
     beach_bg_images = BGStorage("images/background/beach/bg c.webp", 

@@ -9,8 +9,8 @@ init -1 python:
             any(e.has_available_highlight_events() for e in office_building_events.values()) or
             any(e.has_available_highlight_events() for e in office_building_work_event.values()))
 
-    office_building_timed_event = TempEventStorage("office_building", "office_building", Event(2, "office_building.after_time_check"))
-    office_building_general_event = EventStorage("office_building", "office_building", Event(2, "office_building.after_general_check"))
+    office_building_timed_event   = TempEventStorage("office_building", "office_building", fallback = Event(2, "office_building.after_time_check"))
+    office_building_general_event =     EventStorage("office_building", "office_building", fallback = Event(2, "office_building.after_general_check"))
 
     office_building_work_event = {}
     add_storage(office_building_work_event, EventStorage("counselling", "office_building"))
@@ -21,7 +21,10 @@ init -1 python:
     office_building_events = {}
     add_storage(office_building_events, EventStorage("look_around",    "office_building"))
     add_storage(office_building_events, EventStorage("work",           "office_building"))
+    add_storage(office_building_events, EventStorage("learn",          "office_building", ShowBlockedOption()))
     add_storage(office_building_events, EventStorage("call_secretary", "office_building"))
+
+    office_building_subject_learn_events = {}
 
     office_building_bg_images = BGStorage("images/background/office building/bg f.webp",
         BGImage("images/background/office building/bg c teacher.webp", 1, TimeCondition(daytime = "c"), ValueCondition('name', 'teacher')), # show headmasters/teachers office empty
@@ -81,6 +84,12 @@ init 1 python:
     office_building_events["work"].add_event(
         office_work_office_event_event,
     )
+
+    office_building_events["learn"].add_event(EventSelect(3, "learn_subject_event", "What subject do you wanna learn?", office_building_subject_learn_events,
+        TimeCondition(daytime = 1),
+        MoneyCondition("5000+"),
+        override_menu_exit = 'office_building',
+    ))
 
     office_building_work_event["money"].add_event(
         Event(3, "work_office_money_event_1",

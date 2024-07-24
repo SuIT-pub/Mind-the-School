@@ -8,8 +8,8 @@ init -1 python:
             sports_field_general_event.has_available_highlight_events() or
             any(e.has_available_highlight_events() for e in sports_field_events.values()))
 
-    sports_field_timed_event = TempEventStorage("sports_field", "sports_field", Event(1, "sports_field.after_time_check"))
-    sports_field_general_event = EventStorage("sports_field",   "sports_field", Event(1, "sports_field.after_general_check"))
+    sports_field_timed_event = TempEventStorage("sports_field", "sports_field", fallback = Event(1, "sports_field.after_time_check"))
+    sports_field_general_event = EventStorage("sports_field",   "sports_field", fallback = Event(1, "sports_field.after_general_check"))
     sports_field_events = {}
 
     sports_field_bg_images = BGStorage("images/background/sports field/bg 1.webp",

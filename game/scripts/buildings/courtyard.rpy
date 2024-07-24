@@ -8,11 +8,11 @@ init -1 python:
             courtyard_general_event.has_available_highlight_events() or
             any(e.has_available_highlight_events() for e in courtyard_events.values()))
 
-    courtyard_timed_event = TempEventStorage("courtyard_timed", "courtyard", Event(2, "courtyard.after_time_check"))
-    courtyard_general_event = EventStorage("courtyard_general", "courtyard", Event(2, "courtyard.after_general_check"))
+    courtyard_timed_event = TempEventStorage("courtyard_timed", "courtyard", fallback = Event(2, "courtyard.after_time_check"))
+    courtyard_general_event = EventStorage("courtyard_general", "courtyard", fallback = Event(2, "courtyard.after_general_check"))
     
     courtyard_events = {}
-    add_storage(courtyard_events, EventStorage("patrol", "courtyard", default_fallback, "There is nobody here."))
+    add_storage(courtyard_events, EventStorage("patrol", "courtyard", fallback_text = "There is nobody here."))
 
     courtyard_bg_images = BGStorage("images/background/courtyard/bg c.webp",
         BGImage("images/background/courtyard/bg <loli> <school_level> <teacher_level> <variant> <nude>.webp", 1, TimeCondition(daytime = "f")),

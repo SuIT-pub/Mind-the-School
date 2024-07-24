@@ -8,8 +8,8 @@ init -1 python:
             labs_general_event.has_available_highlight_events() or
             any(e.has_available_highlight_events() for e in labs_events.values()))
 
-    labs_timed_event = TempEventStorage("labs_timed", "labs", Event(2, "labs.after_time_check"))
-    labs_general_event = EventStorage("labs_general", "labs", Event(2, "labs.after_general_check"))
+    labs_timed_event = TempEventStorage("labs_timed", "labs", fallback = Event(2, "labs.after_time_check"))
+    labs_general_event = EventStorage("labs_general", "labs", fallback = Event(2, "labs.after_general_check"))
     labs_events = {}
 
     labs_bg_images = BGStorage("images/background/labs/bg f.webp",

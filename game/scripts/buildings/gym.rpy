@@ -9,14 +9,14 @@ init -1 python:
             any(e.has_available_highlight_events() for e in gym_events.values())
         )
 
-    gym_timed_event = TempEventStorage("gym_timed", "gym", Event(2, "gym.after_time_check"))
-    gym_general_event = EventStorage("gym_general", "gym", Event(2, "gym.after_general_check"))
+    gym_timed_event = TempEventStorage("gym_timed", "gym", fallback = Event(2, "gym.after_time_check"))
+    gym_general_event = EventStorage("gym_general", "gym", fallback = Event(2, "gym.after_general_check"))
     
     gym_events = {}
-    add_storage(gym_events, EventStorage("enter_changing", "gym", default_fallback, "There is nothing to do here."))
-    add_storage(gym_events, EventStorage("go_students",    "gym", default_fallback, "There is nobody here."))
-    add_storage(gym_events, EventStorage("check_pe",       "gym", default_fallback, "There is nothing to do here."))
-    add_storage(gym_events, EventStorage("teach_pe",       "gym", default_fallback, "There is nothing to do here."))
+    add_storage(gym_events, EventStorage("enter_changing", "gym", fallback_text = "There is nothing to do here."))
+    add_storage(gym_events, EventStorage("go_students",    "gym", fallback_text = "There is nobody here."))
+    add_storage(gym_events, EventStorage("check_pe",       "gym", fallback_text = "There is nothing to do here."))
+    add_storage(gym_events, EventStorage("teach_pe",       "gym", fallback_text = "There is nothing to do here."))
 
     gym_bg_images = BGStorage("images/background/gym/bg f.webp",
         BGImage("images/background/gym/bg <loli> <school_level> <teacher_level> <variant> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")), # show gym with students

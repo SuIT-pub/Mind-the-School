@@ -8,8 +8,8 @@ init -1 python:
             staff_lodges_general_event.has_available_highlight_events() or 
             any(e.has_available_highlight_events() for e in staff_lodges_events.values()))
 
-    staff_lodges_timed_event = TempEventStorage("staff_lodges_timed", "staff_lodges", Event(2, "staff_lodges.after_time_check"))
-    staff_lodges_general_event = EventStorage("staff_lodges_general", "staff_lodges", Event(2, "staff_lodges.after_general_check"))
+    staff_lodges_timed_event = TempEventStorage("staff_lodges_timed", "staff_lodges", fallback = Event(2, "staff_lodges.after_time_check"))
+    staff_lodges_general_event = EventStorage("staff_lodges_general", "staff_lodges", fallback = Event(2, "staff_lodges.after_general_check"))
     staff_lodges_events = {}
 
     staff_lodges_bg_images = BGStorage("images/background/staff_lodges/bg c.webp", 

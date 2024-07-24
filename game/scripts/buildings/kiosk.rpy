@@ -8,11 +8,11 @@ init -1 python:
             kiosk_general_event.has_available_highlight_events() or
             any(e.has_available_highlight_events() for e in kiosk_events.values()))
 
-    kiosk_timed_event = TempEventStorage("kiosk_timed", "kiosk", Event(2, "kiosk.after_time_check"))
-    kiosk_general_event = EventStorage("kiosk_general", "kiosk", Event(2, "kiosk.after_general_check"))
+    kiosk_timed_event = TempEventStorage("kiosk_timed", "kiosk", fallback = Event(2, "kiosk.after_time_check"))
+    kiosk_general_event = EventStorage("kiosk_general", "kiosk", fallback = Event(2, "kiosk.after_general_check"))
 
     kiosk_events = {}
-    add_storage(kiosk_events, EventStorage("get_snack",    "kiosk", default_fallback, "I don't want anything."))
+    add_storage(kiosk_events, EventStorage("get_snack",    "kiosk", fallback_text = "I don't want anything."))
 
     kiosk_bg_images = BGStorage("images/background/kiosk/bg c.webp",
         BGImage("images/background/kiosk/bg <loli> <school_level> <variant> <nude>.webp", 1, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))), # show kiosk with students

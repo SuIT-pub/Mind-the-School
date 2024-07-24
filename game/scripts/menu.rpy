@@ -85,16 +85,21 @@ init python:
 
         high_prio_events = []
 
+        blocked_events = []
+
         # remove events that have no applicable events
         for key in events.keys():
             storage = events[key]
             amount, prio = storage.count_available_events_and_highlight(**kwargs)
-            if (amount > 0 and key not in used):
+            title = get_event_menu_title(storage.get_location(), storage.get_name())
+            log_val('title', title)
+            log_val('show_blocked', storage.check_for_option('ShowBlocked'))
+            if (amount > 0 and key not in used and not storage.check_for_option('ShowBlocked')):
+                log('normal')
                 if event_selection_mode:
                     effect = EventSelectEffect(storage)
                 else:
                     effect = EventEffect(storage)
-                title = get_event_menu_title(storage.get_location(), storage.get_name())
 
                 # mark effect as high priority
                 if prio:
@@ -110,8 +115,13 @@ init python:
 
                 output.append((title, effect))
                 used.append(key)
+            elif get_kwargs('show_blocked_events', False, **kwargs) or storage.check_for_option('ShowBlocked'):
+                log('special')
+                output.append((title, title))
+                used.append(key)
+                blocked_events.append(title)
 
-        return output, high_prio_events
+        return output, high_prio_events, blocked_events
         
 
 # calls a menu with the given elements
@@ -179,13 +189,14 @@ label call_event_menu(text, events, fallback, person = character.subtitles, **kw
     $ kwargs['teacher_obj'] = get_character_by_key('teacher')
     $ kwargs['secretary_obj'] = get_character_by_key('secretary')
 
-    $ event_list, high_prio = clean_events_for_menu(events, **kwargs)
+    $ event_list, high_prio, blocked_elements = clean_events_for_menu(events, **kwargs)
 
     if len(event_list) == 0:
         call call_event(fallback, **kwargs) from call_event_menu_1
         jump map_overview
 
     $ kwargs['marked'] = high_prio
+    $ kwargs['blocked'] = blocked_elements
 
     call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
 
@@ -259,6 +270,8 @@ style menu_text:
     color "#fff"
     textalign 0.5
     size 30
+style blocked_menu_text take menu_text:
+    color "#aaa"
 style menu_text_left take menu_text:
     textalign 0.0
 style menu_text_right take menu_text:
@@ -290,6 +303,8 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
     $ element_count = len(elements)
 
     $ marked_elements = get_kwargs('marked', [], **kwargs)
+
+    $ blocked_elements = get_kwargs('blocked', [], **kwargs)
 
     $ kwargs.pop('menu_selection', None)
 
@@ -330,21 +345,32 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
                     if has_keyboard() and count < 10:
                         if show_shortcut():
                             $ title_text = "[title] [[[count]]"
-                        key ("K_" + str(count)) action Call("call_element", effects, menu_selection = raw_title, **kwargs)
-                        key ("K_KP" + str(count)) action Call("call_element", effects, menu_selection = raw_title, **kwargs)
+                        if str(effects) not in blocked_elements:
+                            key ("K_" + str(count)) action Call("call_element", effects, menu_selection = raw_title, **kwargs)
+                            key ("K_KP" + str(count)) action Call("call_element", effects, menu_selection = raw_title, **kwargs)
 
                     if str(effects) in marked_elements:
                         $ title_text = "{color=#a00000}●{/color}  " + title_text + "  {color=#a00000}●{/color}"
 
-                    button:
-                        background Frame("gui/button/choice_idle_background.png", 1, 1, True)
-                        hover_background Frame("gui/button/choice_hover_background.png", 1, 1, True)
-                        text title_text style "menu_text":
+                    if str(effects) in blocked_elements:
+                        button:
+                            background Frame("gui/button/choice_blocked_background.png", 1, 1, True)
+                            text title_text style "blocked_menu_text":
+                                xalign 0.5
+                                yalign 0.5
+                            xsize 1185
                             xalign 0.5
-                            yalign 0.5
-                        xsize 1185
-                        xalign 0.5
-                        action Call("call_element", effects, menu_selection = raw_title, **kwargs)
+                            action NullAction()
+                    else:
+                        button:
+                            background Frame("gui/button/choice_idle_background.png", 1, 1, True)
+                            hover_background Frame("gui/button/choice_hover_background.png", 1, 1, True)
+                            text title_text style "menu_text":
+                                xalign 0.5
+                                yalign 0.5
+                            xsize 1185
+                            xalign 0.5
+                            action Call("call_element", effects, menu_selection = raw_title, **kwargs)
                         
                     null height 30
                 $ count += 1

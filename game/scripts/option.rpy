@@ -44,10 +44,20 @@ init -6 python:
             super().__init__("NoHighlight")
 
         def check_option(self, **kwargs):
-            if "highlight" in kwargs:
+            if "Highlight" in kwargs:
                 return not kwargs["Highlight"]
-            if "nohighlight" in kwargs:
+            if "NoHighlight" in kwargs:
                 return kwargs["NoHighlight"]
+            return True
+
+    class ShowBlockedOption(Option):
+        def __init__(self):
+            super().__init__("ShowBlocked")
+
+        def check_option(self, **kwargs):
+            log('showblocked')
+            if "ShowBlocked" in kwargs:
+                return kwargs["ShowBlocked"]
             return True
 
 

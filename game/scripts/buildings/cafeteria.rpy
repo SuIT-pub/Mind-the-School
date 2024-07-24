@@ -8,12 +8,12 @@ init -1 python:
             cafeteria_general_event.has_available_highlight_events() or
             any(e.has_available_highlight_events() for e in cafeteria_events.values()))
 
-    cafeteria_timed_event = TempEventStorage("cafeteria_timed", "cafeteria", Event(2, "cafeteria.after_time_check"))
-    cafeteria_general_event = EventStorage("cafeteria_general", "cafeteria", Event(2, "cafeteria.after_general_check"))
+    cafeteria_timed_event = TempEventStorage("cafeteria_timed", "cafeteria", fallback = Event(2, "cafeteria.after_time_check"))
+    cafeteria_general_event = EventStorage("cafeteria_general", "cafeteria", fallback = Event(2, "cafeteria.after_general_check"))
 
     cafeteria_events = {}
-    add_storage(cafeteria_events, EventStorage("order_food",  "cafeteria", default_fallback, "I'm not hungry."))
-    add_storage(cafeteria_events, EventStorage("eat_alone",   "cafeteria", default_fallback, "I'm not hungry."))
+    add_storage(cafeteria_events, EventStorage("order_food",  "cafeteria", fallback_text = "I'm not hungry."))
+    add_storage(cafeteria_events, EventStorage("eat_alone",   "cafeteria", fallback_text = "I'm not hungry."))
 
     cafeteria_bg_images = BGStorage("images/background/cafeteria/bg c.webp",
         BGImage("images/background/cafeteria/bg d <loli> <parent_level> <school_level> <variant> <nude>.webp", 1, OR(TimeCondition(daytime = '3,6', weekday = 'd'), TimeCondition(daytime = 'd', weekday = 'w'))),
