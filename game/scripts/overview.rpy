@@ -542,6 +542,41 @@ screen black_screen_text(text_str):
         xpos 0 ypos 0
         xsize 1920 ysize 1080
         action Return()
+
+
+screen black_screen_text_with_subtitle(text_str, subtitle_str):
+    python:
+        """
+        Displays a black screen with white text
+
+        # Parameters:
+        1. text_str: str
+            - the text to be displayed
+        """
+
+    add "black"
+    
+    key "K_SPACE" action Return()
+    key "K_ESCAPE" action Return()
+    key "K_KP_ENTER" action Return()
+    key "K_SELECT" action Return()
+
+    vbox:
+        yalign 0.5
+        xsize 1920
+
+        text text_str:
+            xalign 0.5
+            size 60
+        null height 10
+        text subtitle_str:
+            xalign 0.5
+            size 40
+    
+    button:
+        xpos 0 ypos 0
+        xsize 1920 ysize 1080
+        action Return()
 #########################
 # ----- Map Logic ----- #
 #########################

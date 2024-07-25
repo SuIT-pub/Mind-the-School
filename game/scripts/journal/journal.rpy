@@ -1167,6 +1167,23 @@ screen journal_overview(display, char = "school"):
                             action [With(dissolveM), Call("open_journal", 1, stat_obj.get_name(), char)]
                         text " [stat_value]" style "journal_text" yalign 0.5
 
+                null height 20
+
+                text "Subject Proficiency" style "journal_text" size 40
+
+                null height 20
+
+                $ subject_levels = get_headmaster_proficiency_levels()
+                $ subject_xp = get_headmaster_proficiency_xps()
+
+                for key in subject_levels.keys():
+                    $ subject = get_translation(key)
+                    $ level = subject_levels[key]
+                    $ xp = subject_xp[key]
+                    text "{b}[subject]{/b}:" style "journal_text" size 28
+                    text "    Lvl. [level] {size=20}([xp] / 100){/size}" style "journal_text" yalign 0.5 size 25
+                    null height 5
+
         vbar value YScrollValue("Overview"):
             unscrollable "hide"
             xalign 1.0

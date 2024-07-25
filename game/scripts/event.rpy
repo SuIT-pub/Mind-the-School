@@ -1560,6 +1560,10 @@ init -3 python:
         It prevents rollback to before this method and thus prevents changing choices and topics.
         It also starts the Gallery_Manager if the event is not in replay which is used to track and register 
         the used variables and decisions in the event.
+
+        # Options:
+            1. no_gallery = True
+                - Gallery_Manager will not be initiated and event will not be registered into the gallery
         """
 
         global seenEvents

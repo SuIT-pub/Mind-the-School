@@ -444,6 +444,29 @@ init -6 python:
 
         return (positive_income_list, negative_income_list, net_weekly, net_monthly)
 
+
+label change_money(value):
+    # """
+    # Changes the money with the modifier.
+
+    # ### Parameters:
+    # 1. value: num
+    #     - The value of the money. This is the value that is being changed.
+    # 2. collection: str (default 'default')
+    #     - The collection of modifiers. This is used to separate different collections of modifiers.
+    # """
+
+    if is_in_replay:
+        return
+
+    if isinstance(value, str):
+        $ value = get_stat_levels(value)
+
+    $ change_stat('money', value)
+
+    return
+
+
 label change_money_with_modifier(value, collection = 'default'):
     # """
     # Changes the money with the modifier.

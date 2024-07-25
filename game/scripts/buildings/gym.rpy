@@ -84,7 +84,7 @@ init 1 python:
         EventFragment(3, "gym_teach_pe_main_2"),
         EventFragment(3, "gym_teach_pe_main_aona_bra",
             NOT(ProgressCondition("aona_sports_bra")),
-            MoneyCondition(100)
+            MoneyCondition("100+")
         ),
         EventFragment(1, "gym_teach_pe_main_aona_bra_2",
             ProgressCondition("aona_sports_bra", 2),
