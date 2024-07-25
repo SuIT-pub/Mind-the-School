@@ -25,7 +25,7 @@ init python:
 
         if len(filtered_elements) == 0:
             character.dev ("Oops something went wrong here. There seems to be nothing to choose from. Sry about that. I'll send you back to the map.")
-            character.dev (f"Error Code: [101]{kwargs['event_name']}:{';'.join([tag.split('.')[1] for tag in made_decisions])}")
+            # character.dev (f"Error Code: [101]{kwargs['event_name']}:{';'.join([tag.split('.')[1] for tag in made_decisions])}")
             renpy.jump("map_overview")
 
         renpy.call("call_menu", None, None, with_leave, *filtered_elements, **kwargs)
@@ -94,7 +94,7 @@ init python:
             title = get_event_menu_title(storage.get_location(), storage.get_name())
             log_val('title', title)
             log_val('show_blocked', storage.check_for_option('ShowBlocked'))
-            if (amount > 0 and key not in used and not storage.check_for_option('ShowBlocked')):
+            if (amount > 0 and key not in used):
                 log('normal')
                 if event_selection_mode:
                     effect = EventSelectEffect(storage)

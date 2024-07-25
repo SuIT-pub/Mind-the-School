@@ -473,7 +473,7 @@ init -3 python:
         """
         
         def __init__(self, key: str, value: Any):
-            super.__init__(True, key)
+            super().__init__(True, key)
             self._value = value
 
         def roll(self, **kwargs) -> Any:

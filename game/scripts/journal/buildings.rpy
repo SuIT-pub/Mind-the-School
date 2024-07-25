@@ -808,12 +808,12 @@ label load_buildings ():
         ],
         '_max_level': 2,
         '_unlock_conditions': ConditionStorage(
-            MoneyCondition(1000),
+            MoneyCondition("1000+"),
             LockCondition()
         ),
         '_upgrade_conditions':[
             ConditionStorage(
-                MoneyCondition(2000),
+                MoneyCondition("2000+"),
             ),
         ],
     }, {
@@ -832,7 +832,7 @@ label load_buildings ():
         ],
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(
-            MoneyCondition(1000),
+            MoneyCondition("1000+"),
             LockCondition(),
         ),
         '_upgrade_conditions':[],
@@ -852,7 +852,7 @@ label load_buildings ():
         ],
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(
-            MoneyCondition(1000),
+            MoneyCondition("1000+"),
             LockCondition()
         ),
         '_upgrade_conditions':[],
@@ -872,7 +872,7 @@ label load_buildings ():
         ],
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(
-            MoneyCondition(1000),
+            MoneyCondition("1000+"),
             LockCondition()
         ),
         '_upgrade_conditions':[],
@@ -911,7 +911,7 @@ label load_buildings ():
         ],
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(
-            MoneyCondition(1000),
+            MoneyCondition("1000+"),
             LockCondition()
         ),
         '_upgrade_conditions':[],
@@ -958,7 +958,7 @@ label load_buildings ():
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(
             ProgressCondition("unlock_cafeteria", 1, True),
-            MoneyCondition(1500),
+            MoneyCondition("1500+"),
             # LockCondition(False),
         ),
         '_unlock_effects': [
@@ -967,13 +967,13 @@ label load_buildings ():
         ],
         '_upgrade_conditions':[
             ConditionStorage(
-                MoneyCondition(3000),
+                MoneyCondition("3000+"),
             ),
             ConditionStorage(
-                MoneyCondition(5000),
+                MoneyCondition("5000+"),
             ),
             ConditionStorage(
-                MoneyCondition(10000),
+                MoneyCondition("10000+"),
             ),
         ],
         '_upgrade_effects': {
@@ -1009,7 +1009,7 @@ label load_buildings ():
         ],
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(
-            MoneyCondition(1000),
+            MoneyCondition("1000+"),
             LockCondition()
         ),
         '_upgrade_conditions':[],

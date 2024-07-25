@@ -25,6 +25,8 @@ init -1 python:
     add_storage(office_building_events, EventStorage("call_secretary", "office_building"))
 
     office_building_subject_learn_events = {}
+    add_storage(office_building_subject_learn_events, EventStorage("math", "office_building", fallback_text = "There is nobody here."))
+    add_storage(office_building_subject_learn_events, EventStorage("pe",   "office_building", fallback_text = "There is nobody here."))
 
     office_building_bg_images = BGStorage("images/background/office building/bg f.webp",
         BGImage("images/background/office building/bg c teacher.webp", 1, TimeCondition(daytime = "c"), ValueCondition('name', 'teacher')), # show headmasters/teachers office empty
@@ -85,9 +87,14 @@ init 1 python:
         office_work_office_event_event,
     )
 
+    office_building_subject_learn_events['math'].add_event(
+        Event(3, "learn_office_event_1", ProficiencyCondition("math", level = "10-"), ValueSelector('subject', 'math')))
+    office_building_subject_learn_events['pe'].add_event(
+        Event(3, "learn_office_event_1", ProficiencyCondition("pe", level = "10-"), ValueSelector('subject', 'pe')))
+
     office_building_events["learn"].add_event(EventSelect(3, "learn_subject_event", "What subject do you wanna learn?", office_building_subject_learn_events,
         TimeCondition(daytime = 1),
-        MoneyCondition("5000+"),
+        MoneyCondition("500+"),
         override_menu_exit = 'office_building',
     ))
 
@@ -151,9 +158,9 @@ label .after_general_check (**kwargs):
 
 ###########################################
 
-###########################################
-# ----- High School Building Events ----- #
-###########################################
+######################################
+# ----- Office Building Events ----- #
+######################################
 
 label first_potion_office_building_event (**kwargs):
     $ begin_event(**kwargs)
@@ -238,6 +245,36 @@ label work_office_education_event_1 (**kwargs):
         happiness = SMALL, education = SMALL)
 
     $ end_event('new_daytime', **kwargs)
+
+label learn_office_event_1 (**kwargs):
+    $ begin_event(no_gallery = True, **kwargs)
+
+    $ subject = get_kwargs('subject', **kwargs)
+
+    $ text = get_translation(subject)
+
+    show screen black_screen_text("You spend the entire day learning more about [text].")
+    $ renpy.pause()
+
+    $ curr_xp = get_headmaster_proficiency_xp(subject)
+    $ curr_lvl = get_headmaster_proficiency_level(subject)
+    $ delta = math.ceil(int(100 / (curr_lvl * 10)))
+    if curr_lvl < 1:
+        $ delta = 20
+    $ missing = math.floor(get_headmaster_proficiency_xp_until_level(subject))
+    $ subtitle = f"XP: {curr_xp:.0f}% -> " + "{color=#00a000}" + f"{(curr_xp + delta):.0f}%" + "{/color}"
+
+    if delta >= missing:
+        $ delta = missing
+        show screen black_screen_text_with_subtitle("[text]: Lvl. " + str(curr_lvl) + " -> {color=#00a000}" + str(curr_lvl + 1) + "{/color}", "XP: {color=#00a000}100% Level Up!{/color}")
+    else:
+        show screen black_screen_text_with_subtitle("[text]: Lvl. " + str(curr_lvl), subtitle)
+    $ renpy.pause()
+
+    $ change_headmaster_proficiency_xp(subject, delta)
+    call change_money(-500)
+
+    $ end_event('new_day', **kwargs)
 
 image anim_work_office_session_event_first_naughty_1  = Movie(play ="images/events/office/office_event_first_naughty 0 16.webm", start_image = "images/events/office/office_event_first_naughty 0 16.webp", image = "images/events/office/office_event_first_naughty 0 16.webp")
 image anim_work_office_session_event_first_naughty_2  = Movie(play ="images/events/office/office_event_first_naughty 0 17.webm", start_image = "images/events/office/office_event_first_naughty 0 17.webp", image = "images/events/office/office_event_first_naughty 0 17.webp")
@@ -370,7 +407,7 @@ label work_office_session_event_first_naughty (**kwargs):
     headmaster "I'll be always here to help yoaaaaaah!"
     # emiko starts handling your rod again
     $ image.show(50)
-    sgirl "Sry, is everything okay?" (name = "Yuriko Oshima")
+    sgirl "Sir, is everything okay?" (name = "Yuriko Oshima")
     $ image.show(51)
     headmaster "*cough* *cough* Yes, everything is fine. I just swallowed wrong."
     $ image.show(52)

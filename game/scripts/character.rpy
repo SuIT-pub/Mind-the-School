@@ -769,7 +769,7 @@ init -6 python:
             for keys in map.keys():
                 map[keys].reset_changed_stats()
 
-    ###################
+    ####################
     # Char Level Handler
 
     def get_level_for_char(char: str | Char, map: Dict[str, Char | Dict[str, Any]] = None) -> int:
@@ -878,6 +878,9 @@ init -6 python:
         if name in map.keys():
             del(map[name])
 
+    #############
+    # Proficiency
+
     def exists_headmaster_proficiency(subject: str) -> bool:
         return subject in headmaster_proficiencies.keys()
 
@@ -898,10 +901,13 @@ init -6 python:
     def get_headmaster_proficiency_levels() -> Dict[str, int]:
         return {subject: get_headmaster_proficiency_level(subject) for subject in headmaster_proficiencies.keys()}
 
+    def get_headmaster_proficiency_xps() -> Dict[str, int]:
+        return {subject: get_headmaster_proficiency_xp(subject) for subject in headmaster_proficiencies.keys()}
+
     def get_headmaster_proficiency_xp(subject: str) -> int:
         if subject not in headmaster_proficiencies.keys():
             return 0
-        return headmaster_proficiencies[subject] / 100
+        return headmaster_proficiencies[subject] % 100
 
     def get_headmaster_proficiency_xp_until_level(subject: str) -> int:
         if subject not in headmaster_proficiencies.keys():
