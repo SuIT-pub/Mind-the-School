@@ -647,8 +647,6 @@ init -6 python:
                 if not check_in_value(self._level, curr_level):
                     return False
 
-            log('proficient')
-
             return self._proficiency in headmaster_proficiencies.keys()
 
         def get_name(self) -> str:

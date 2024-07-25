@@ -1829,8 +1829,6 @@ label select_event_runner(**kwargs):
     $ fallback = get_kwargs('select_fallback', default_fallback, **kwargs)
     $ person = get_kwargs('select_person', character.subtitles, **kwargs)
 
-    $ log_val('event_kwargs', kwargs)
-
     if len(event_list) != 0:
         call call_event_menu (
             text, 
