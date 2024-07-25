@@ -142,6 +142,8 @@ work_office_education_event_1;Improve teaching material generic
 work_office_reputation_event_1;Improve school reputation generic
 work_office_session_event_naughty_1;First time naughty during counselling
 
+work_office_session_event_first_naughty;First time naughty
+
 #################
 # School Building
 event_school_building_teach_class;Teach Class

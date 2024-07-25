@@ -92,10 +92,7 @@ init python:
             storage = events[key]
             amount, prio = storage.count_available_events_and_highlight(**kwargs)
             title = get_event_menu_title(storage.get_location(), storage.get_name())
-            log_val('title', title)
-            log_val('show_blocked', storage.check_for_option('ShowBlocked'))
             if (amount > 0 and key not in used):
-                log('normal')
                 if event_selection_mode:
                     effect = EventSelectEffect(storage)
                 else:
@@ -116,7 +113,6 @@ init python:
                 output.append((title, effect))
                 used.append(key)
             elif get_kwargs('show_blocked_events', False, **kwargs) or storage.check_for_option('ShowBlocked'):
-                log('special')
                 output.append((title, title))
                 used.append(key)
                 blocked_events.append(title)

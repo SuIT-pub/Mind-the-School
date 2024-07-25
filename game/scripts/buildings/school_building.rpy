@@ -456,9 +456,7 @@ label sb_teach_math_ld_2 (**kwargs):
     $ image.show(4)
     headmaster "Imagine..."
 
-    show screen black_screen_text("15 minutes later.")
-    $ renpy.pause()
-    $ hide_all()
+    call screen black_screen_text("15 minutes later.")
 
     $ image.show(5)
     headmaster "That is all."
@@ -515,9 +513,7 @@ label sb_teach_math_main_1 (**kwargs):
 
     $ girl_last_name = main_girl_name.split(" ")[1]
 
-    show screen black_screen_text("30 minutes later.")
-    $ renpy.pause()
-    $ hide_all()
+    call screen black_screen_text("30 minutes later.")
 
     $ image = Image_Series("/images/events/school building/sb_teach_math_main_1 <main_girl_name> <school_level> <step>.webp", ['main_girl_name'], **kwargs)
 
@@ -607,9 +603,7 @@ label sb_teach_math_main_1 (**kwargs):
     $ image.show(25)
     headmaster "Now lets solve some more equations. Please open Page 44."
 
-    show screen black_screen_text("30 minutes later.")
-    $ renpy.pause()
-    $ hide_all()
+    call screen black_screen_text("30 minutes later.")
 
     $ image.show(26)
     headmaster "That is all for today"
@@ -657,9 +651,7 @@ label sb_teach_math_main_2 (**kwargs):
     headmaster "Yeah! I'm sorry. I'll help you."
     headmaster "Now, do you remember the abc-formula?"
 
-    show screen black_screen_text('5 minutes later.')
-    $ renpy.pause()
-    $ hide_all()
+    call screen black_screen_text('5 minutes later.')
 
     $ image.show(14)
     sgirl "Thank you Mr. [headmaster_last_name]."
@@ -669,9 +661,7 @@ label sb_teach_math_main_2 (**kwargs):
 
     call Image_Series.show_image(image, 16, pause = True) from _call_sb_teach_math_main_2_2
 
-    show screen black_screen_text("1 hour later.")
-    $ renpy.pause()
-    $ hide_all()
+    call screen black_screen_text("1 hour later.")
 
     $ image.show(17)
     headmaster "That is all for today. Thanks for your attention. See you next time."

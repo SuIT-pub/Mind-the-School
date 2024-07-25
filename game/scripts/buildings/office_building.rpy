@@ -123,6 +123,7 @@ init 1 python:
             LevelSelector('secretary_level', 'secretary'),
             ProgressCondition("counselling sessions", "3+"),
             NOT(ProgressCondition("work_office_session_naughty")),
+            thumbnail = "images/events/office/office_event_first_naughty 0 62.webp"
         )
     )
 
@@ -198,7 +199,7 @@ label work_office_reputation_event_1 (**kwargs):
 
     $ image.show(0)
     subtitles "You decided to to some PR work, trying to improve the schools and your reputation."
-    show screen black_screen_text("1h later.")
+    call screen black_screen_text("1h later.")
     $ image.show(1)
     headmaster_thought "I think I found a way to make the school more appealing to the public."
     $ image.show(2)
@@ -215,7 +216,7 @@ label work_office_money_event_1 (**kwargs):
 
     $ image.show(0)
     subtitles "You work on checking the accounts of the school."
-    show screen black_screen_text("1h later.")
+    call screen black_screen_text("1h later.")
     # headmaster is consumed by the terrible accounting done in the past
     $ image.show(1)
     headmaster_thought "How can this be? This is a mess!"
@@ -235,7 +236,7 @@ label work_office_education_event_1 (**kwargs):
 
     $ image.show(0)
     subtitles "You work on optimizing the teaching material for the students."
-    show screen black_screen_text("1h later.")
+    call screen black_screen_text("1h later.")
     $ image.show(1)
     headmaster_thought "I think I found a way to make the material more interesting for the students."
 
@@ -253,8 +254,7 @@ label learn_office_event_1 (**kwargs):
 
     $ text = get_translation(subject)
 
-    show screen black_screen_text("You spend the entire day learning more about [text].")
-    $ renpy.pause()
+    call screen black_screen_text("You spend the entire day learning more about [text].")
 
     $ curr_xp = get_headmaster_proficiency_xp(subject)
     $ curr_lvl = get_headmaster_proficiency_level(subject)
@@ -266,10 +266,9 @@ label learn_office_event_1 (**kwargs):
 
     if delta >= missing:
         $ delta = missing
-        show screen black_screen_text_with_subtitle("[text]: Lvl. " + str(curr_lvl) + " -> {color=#00a000}" + str(curr_lvl + 1) + "{/color}", "XP: {color=#00a000}100% Level Up!{/color}")
+        call screen black_screen_text_with_subtitle("[text]: Lvl. " + str(curr_lvl) + " -> {color=#00a000}" + str(curr_lvl + 1) + "{/color}", "XP: {color=#00a000}100% Level Up!{/color}")
     else:
-        show screen black_screen_text_with_subtitle("[text]: Lvl. " + str(curr_lvl), subtitle)
-    $ renpy.pause()
+        call screen black_screen_text_with_subtitle("[text]: Lvl. " + str(curr_lvl), subtitle)
 
     $ change_headmaster_proficiency_xp(subject, delta)
     call change_money(-500)
@@ -520,7 +519,7 @@ label work_office_session_event_1(**kwargs):
 
     $ girl_first_name, girl_last_name = split_name(girl_name)
 
-    $ image = Image_Series("images/events/office/work_office_session_event_1 <girl_name> <school_level> <secretary_level> <step>.webp", ['girl_name', 'school_level', 'secretary_level'], **kwargs)
+    $ image = Image_Series("images/events/office/office_session_event_1 <girl_name> <school_level> <secretary_level> <step>.webp", ['girl_name', 'school_level', 'secretary_level'], **kwargs)
 
     $ image.show(0)
     subtitles_Empty "*Knock* *Knock*"
@@ -538,7 +537,7 @@ label work_office_session_event_1(**kwargs):
     sgirl "Thank you."
     $ image.show(6)
     headmaster "Now where did we stop last time?"
-    show screen black_screen_text("1h later.")
+    call screen black_screen_text("1h later.")
     $ image.show(6)
     headmaster "I think we made some progress this time. How do you feel about it?"
     $ image.show(7)

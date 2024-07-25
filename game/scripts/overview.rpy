@@ -752,6 +752,8 @@ label building(name=""):
     $ reset_stats(get_character('teacher', charList['staff']))
     $ _skipping = True
 
+    $ notify_messages = []
+
     hide screen school_overview_map
     hide screen school_overview_stats
     hide screen school_overview_buttons
