@@ -55,7 +55,6 @@ init -6 python:
             super().__init__("ShowBlocked")
 
         def check_option(self, **kwargs):
-            log('showblocked')
             if "ShowBlocked" in kwargs:
                 return kwargs["ShowBlocked"]
             return True
