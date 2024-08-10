@@ -233,42 +233,77 @@ label gym_teach_pe_intro_1 (**kwargs):
 label gym_teach_pe_intro_aona_bra (**kwargs):
     $ begin_event(**kwargs)
 
-    $ bra = get_value('skimpy_bra', **kwargs)
+    $ bra = get_value('aona_skimpy_sports_bra', **kwargs)
+    $ skimpy = bra != 0
 
-    sgirl "And the headmaster really took you to the city to buy a sports bra?" (name = "Miwa Igarashi")
-    sgirl "Yes, he did. He said it was important for my health and performance." (name = "Aona Komuro")
-    sgirl "It's great that he cares so much about us." (name = "Aona Komuro")
-    sgirl "Yes, I didn't think he would be that nice." (name = "Miwa Igarashi")
-    sgirl "Didn't he take care of you too?" (name = "Aona Komuro")
-    sgirl "Yeah you're right." (name = "Miwa Igarashi")
+    $ image = Image_Series("/images/events/gym/gym_teach_pe_intro_aona_bra <skimpy> <step>.webp", [skimpy], skimpy = skimpy, **kwargs)
+
+    $ miwa = Character("Miwa Igarashi", kind = sgirl)
+    $ aona = Character("Miwa Igarashi", kind = sgirl)
+
+    $ image.show(0)
+    miwa "And the headmaster really took you to the city to buy a sports bra?"
+    $ image.show(1)
+    aona "Yes, he did. He said it was important for my health and performance."
+    $ image.show(2)
+    aona "It's great that he cares so much about us."
+    $ image.show(3)
+    miwa "Yes, I didn't think he would be that nice."
+    $ image.show(4)
+    aona "Didn't you talk to him as well?"
+    $ image.show(5)
+    miwa "Yeah you're right. He was very empathetic."
     # Aona puts on the bra
-    sgirl "What do you think?" (name = "Aona Komuro")
+    call Image_Series.show_image(image, 6, 7, 8, 9) from image_gym_teach_pe_intro_aona_bra_1
+    aona "What do you think?"
     if bra >= 1:
-        sgirl "It's a bit skimpy, isn't it?" (name = "Miwa Igarashi")
+        $ image.show(10)
+        miwa "It's a bit skimpy, isn't it?"
         if bra == 2:
-            sgirl "Yeah, but I think it is quite comfortable and Mr. [headmaster_last_name] said it was good for my health." (name = "Aona Komuro")
-            sgirl "I guess you're right. I mean it really does look good on you." (name = "Miwa Igarashi")
-            sgirl "Thank you." (name = "Aona Komuro")
+            $ image.show(24)
+            aona "Yeah, but I think it is quite comfortable and Mr. [headmaster_last_name] said it was good for my health."
+            $ image.show(25)
+            miwa "I guess you're right. I mean it really does look good on you."
+            $ image.show(26)
+            aona "Thank you."
 
             call change_stats_with_modifier('school', 'pe',
                 happiness = SMALL, inhibition = DEC_SMALL)
         else:
-            sgirl "It does? Oh no, the headmaster bought the wrong one!" (name = "Aona Komuro")
-            sgirl "What do you mean?" (name = "Miwa Igarashi")
-            sgirl "He showed me another one to the one I wanted to buy, saying it would be good for my health, but I said I didn't like it." (name = "Aona Komuro")
-            sgirl "Quite perverted by him, isn't it?" (name = "Miwa Igarashi")
-            sgirl "I don't know, but I think it's quite comfortable." (name = "Aona Komuro")
-            sgirl "Maybe it was a genuine mistake." (name = "Aona Komuro")
-            sgirl "What do you do now?" (name = "Miwa Igarashi")
-            sgirl "I don't know. I guess I have to wear it now. I don't want to have to run with these giant things again." (name = "Aona Komuro")
-            sgirl "I guess you're right." (name = "Miwa Igarashi")
+            $ image.show(12)
+            aona "Yeah unfortunately, the headmaster bought the wrong one!"
+            $ image.show(13)
+            miwa "What do you mean?"
+            $ image.show(14)
+            aona "He showed me another one to the one I wanted to buy, saying it would be good for my health, but I said I didn't like it."
+            $ image.show(15)
+            miwa "Quite perverted by him, isn't it?"
+            $ image.show(16)
+            aona "I don't know, but I think it's quite comfortable."
+            $ image.show(17)
+            aona "Maybe it was a genuine mistake."
+            $ image.show(18)
+            miwa "What do you do now?"
+            $ image.show(19)
+            aona "I don't know. I guess I have to wear it now. I don't want to have to run with these giant things again."
+            $ image.show(20)
+            miwa "I guess you're right."
+            miwa "But I still think these look really nice on you."
+            $ image.show(21)
+            aona "Really?"
+            $ image.show(22)
+            miwa "Yes, really."
+            $ image.show(23)
+            aona "Mhh, thank you."
             
             call change_stats_with_modifier('school', 'pe',
                 happiness = DEC_SMALL, inhibition = DEC_MEDIUM)
     else:
-        sgirl "Yeah, it looks really nice on you." (name = "Miwa Igarashi")
-        sgirl "Yeah, doesn't it? And it's quite comfortable too." (name = "Aona Komuro")
-        sgirl "Amazing!" (name = "Miwa Igarashi")
+        $ image.show(10)
+        miwa "Yeah, it looks really nice on you."
+        $ image.show(11)
+        aona "Yeah, doesn't it? And it's quite comfortable too."
+        miwa "Amazing!"
 
         call change_stats_with_modifier('school', 'pe',
             happiness = MEDIUM, inhibition = DEC_TINY)
