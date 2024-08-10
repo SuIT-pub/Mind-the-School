@@ -719,7 +719,7 @@ label map_overview ():
 
     show school_map
     # show screen school_overview_map
-    show screen school_overview_stats
+    show screen school_overview_stats 
 
     $ overview_events_available = {
         'school_building': sb_events_available(),
