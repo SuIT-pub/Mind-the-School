@@ -963,6 +963,35 @@ init -99 python:
             if int(content_level) == 2:
                 loli_filter[1].append(key)
 
+    def get_file_max_value(key: str, file_path: str, start: int = 0, end: int = 10) -> int:
+        """
+        Searches for the highest available value for a key in the given image path.
+
+        ### Parameters:
+        1. key: str
+            - The key to search for.
+        2. file_path: str
+            - The file path to search in.
+        3. start: int (default 0)
+            - The start value to search from.
+        4. end: int (default 10)
+            - The end value to search to.
+
+        ### Returns:
+        1. int
+            - The highest available value for the key in the given image path.
+        """
+
+        old_file = file_path.replace(key, "~#~")
+        old_file = re.sub("<.+>", "0", old_file)
+        old_file = old_file.replace("~#~", key)
+
+        for i in range(start, end):
+            test_file = old_file.replace(key, str(i))
+            if not renpy.loadable(test_file):
+                return i - 1
+
+        return end
 
     ############################
     # --- Ren'Py Functions --- #
