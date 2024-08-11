@@ -28,6 +28,9 @@ init -1 python:
     add_storage(office_building_subject_learn_events, EventStorage("math", "office_building", fallback_text = "There is nobody here."))
     add_storage(office_building_subject_learn_events, EventStorage("pe",   "office_building", fallback_text = "There is nobody here."))
 
+    office_building_call_secretary_events = {}
+    add_storage(office_building_call_secretary_events, EventStorage("naughty_sandbox", "office_building", fallback_text = "There is nobody here."))
+
     office_building_bg_images = BGStorage("images/background/office building/bg f.webp",
         BGImage("images/background/office building/bg c teacher.webp", 1, TimeCondition(daytime = "c"), ValueCondition('name', 'teacher')), # show headmasters/teachers office empty
         BGImage("images/background/office building/bg c secretary <secretary_level> <nude>.webp", 1, TimeCondition(daytime = "c"), ValueCondition('name', 'secretary')), # show headmasters/teachers office with people
@@ -72,12 +75,23 @@ init 1 python:
             thumbnail = "images/events/office/office_event_3 1 0.webp"),
     )
 
+    office_call_secretary_event_event = EventSelect(3, "call_secretary_event", "What do you want to do?", office_building_call_secretary_events,
+        override_menu_exit = 'office_building',
+    )
+
+    office_building_call_secretary_events["naughty_sandbox"].add_event(
+        Event(3, "office_call_secretary_naughty_sandbox",
+            ProgressCondition("work_office_session_naughty"),
+        )
+    )
+
     office_building_events["call_secretary"].add_event(
         Event(2, "office_call_secretary_1",
             NOT(ProgressCondition('start_sex_ed')),
-            TimerCondition('start_sex_ed_timer_1', day = 3))
+            TimerCondition('start_sex_ed_timer_1', day = 3)),
+        office_call_secretary_event_event,
     )
-    
+
     office_work_office_event_event = EventSelect(3, "work_office_event", "What do you want to work on?", office_building_work_event,
         TimeCondition(weekday = "d", daytime = "d"),
         override_menu_exit = 'office_building',
@@ -578,6 +592,108 @@ label office_call_secretary_1 (**kwargs):
     $ remove_game_data('start_sex_ed_timer_1')
 
     $ end_event('new_daytime', **kwargs)
+
+label office_call_secretary_naughty_sandbox (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ level = get_level('secretary', **kwargs)
+    # $ level = get_kwargs('level', 5, **kwargs)
+
+    $ image = Image_Series("images/events/office/office_call_secretary_naughty_sandbox <level> <step>.webp", ['level'], level = level, **kwargs)
+
+    $ image.show(0)
+    subtitles "You call the secretary."
+    $ image.show(1)
+    secretary "Yes, [headmaster_first_name]? How can I help you?"
+    $ image.show(2)
+    headmaster "Interested in a little fun?"
+    $ image.show(3)
+    secretary "I'm always up for some fun."
+
+    $ kwargs['naughty_location'] = 'desk'
+    $ kwargs['naughty_position'] = 'handjob'
+    $ kwargs['naughty_clothing'] = 'full_casual'
+    $ kwargs['naughty_variant'] = 0
+    $ kwargs['no_gallery'] = True
+    $ kwargs['override_menu_exit_with_kwargs'] = "office_call_secretary_naughty_sandbox.start"
+
+    # $ path = f"anim_office_secretary_desk_handjob_full_casual_0 {level}.webm"
+    # while (not renpy.loadable(path)):
+    #     $ level -= 1
+    #     if level == 0:
+    #         $ log_error(401, "Level search could find no viable movie file for 'anim_office_secretary_desk_handjob_full_casual_0 <level>.webm'")
+    #         $ end_event('map_overview', **kwargs)
+    #     $ path = f"anim_office_secretary_desk_handjob_full_casual_0 {level}.webm"
+
+    $ kwargs['naughty_level'] = level
+
+    call .start( **kwargs)
+
+label .start (**kwargs):
+
+    $ location = get_kwargs('naughty_location', **kwargs)
+    $ position = get_kwargs('naughty_position', **kwargs)
+    $ clothing = get_kwargs('naughty_clothing', **kwargs)
+    $ variant = get_kwargs('naughty_variant', **kwargs)
+    $ key = f"{location}_{position}_{clothing}_{variant}"
+
+    $ file = f"anim_office_secretary_{location}_{position}_{clothing}_<variant> {level}.webm"
+    $ max_variant = get_file_max_value('variant', file, 0, 100)
+
+    # play movies
+    $ log_val('location', location)
+    $ log_val('position', position)
+    $ log_val('clothing', clothing)
+    $ log_val('variant', variant)
+    $ log('------------------')
+
+
+    if max_variant > 0:
+        call screen naughty_scene_icons("position", "clothing", "location", "variant")
+    else:
+        call screen naughty_scene_icons("position", "clothing", "location")
+    if _return == "change_location":
+        call .change_location (**kwargs)
+    elif _return == "change_position":
+        call .change_position (**kwargs)
+    elif _return == "change_clothing":
+        call .change_clothing (**kwargs)
+    elif _return == "change_variant":
+        call .change_variant (**kwargs)
+    elif _return == "stop":
+        $ end_event('new_daytime', **kwargs)
+
+label .change_location (**kwargs):
+    $ call_custom_menu_with_text("Where do you want to move to?", character.secretary, False,
+        ("Desk", ChangeKwargsEffect('naughty_location', 'desk')),
+        ("Floor", ChangeKwargsEffect('naughty_location', 'floor')),
+    **kwargs)
+
+label .change_position (**kwargs):
+    $ call_custom_menu_with_text("What do you want to do next?", character.secretary, False,
+        ("Handjob", ChangeKwargsEffect('naughty_position', 'handjob')),
+        ("Blowjob", ChangeKwargsEffect('naughty_position', 'blowjob')),
+    **kwargs)
+
+label .change_clothing (**kwargs):
+    $ call_custom_menu_with_text("What do you want me to wear?", character.secretary, False,
+        ("Full casual", ChangeKwargsEffect('naughty_clothing', 'full_casual')),
+        ("Underwear", ChangeKwargsEffect('naughty_clothing', 'underwear')),
+    **kwargs)
+
+label .change_variant (**kwargs):
+    $ location = get_kwargs('naughty_location', **kwargs)
+    $ position = get_kwargs('naughty_position', **kwargs)
+    $ clothing = get_kwargs('naughty_clothing', **kwargs)
+    $ variant = get_kwargs('naughty_variant', **kwargs)
+
+    $ file = f"anim_office_secretary_{location}_{position}_{clothing}_<variant> {level}.webm"
+    $ max_variant = get_file_max_value('variant', file, 0, 100)
+    $ variant += 1
+    if variant > max_variant:
+        $ variant = 0
+    $ kwargs['naughty_variant'] = variant
+    call .start(**kwargs)
 
 label office_prepare_sex_ed_material(**kwargs):
     $ begin_event(**kwargs)
