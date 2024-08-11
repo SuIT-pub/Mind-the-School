@@ -123,6 +123,8 @@ label trigger_hide():
 screen say(who, what):
     style_prefix "say"
 
+    zorder 1
+
     window:   
         if renpy.android or renpy.ios:
             if persistent.display_textbox == 0:
