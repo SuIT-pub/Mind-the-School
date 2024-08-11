@@ -233,13 +233,13 @@ label gym_teach_pe_intro_1 (**kwargs):
 label gym_teach_pe_intro_aona_bra (**kwargs):
     $ begin_event(**kwargs)
 
-    $ bra = get_value('aona_skimpy_sports_bra', **kwargs)
+    $ bra = get_value('skimpy_bra', **kwargs)
     $ skimpy = bra != 0
 
-    $ image = Image_Series("/images/events/gym/gym_teach_pe_intro_aona_bra <skimpy> <step>.webp", [skimpy], skimpy = skimpy, **kwargs)
+    $ image = Image_Series("/images/events/gym/gym_teach_pe_intro_aona_bra <skimpy> <step>.webp", ['skimpy'], skimpy = skimpy, **kwargs)
 
-    $ miwa = Character("Miwa Igarashi", kind = sgirl)
-    $ aona = Character("Miwa Igarashi", kind = sgirl)
+    $ miwa = Character("Miwa Igarashi", kind = character.sgirl)
+    $ aona = Character("Aona Komuro", kind = character.sgirl)
 
     $ image.show(0)
     miwa "And the headmaster really took you to the city to buy a sports bra?"
@@ -529,7 +529,7 @@ label gym_teach_pe_main_aona_bra_2 (**kwargs):
         $ image.show(20)
         headmaster "So how about you try it on for a few more days and see how it goes?"
         $ image.show(21)
-        sgirl "Okay, I will." (name = "Aona Komuro")
+        sgirl "Mhh... Okay, I'll try it for now." (name = "Aona Komuro")
         $ image.show(22)
         headmaster "Alright, now go and get changed. You wouldn't want to miss your break, would you?"
         $ image.show(21)
