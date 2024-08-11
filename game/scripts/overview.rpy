@@ -577,6 +577,38 @@ screen black_screen_text_with_subtitle(text_str, subtitle_str):
         xpos 0 ypos 0
         xsize 1920 ysize 1080
         action Return()
+
+screen naughty_scene_icons(*icons):
+    if "clothing" in icons:
+        imagebutton:
+            idle "icons/change_clothing_idle.webp"
+            hover "icons/change_clothing_hover.webp"
+            xalign 1.0 yalign 0.0
+            action Return("change_clothing")
+    if "position" in icons:
+        imagebutton:
+            idle "icons/change_position_idle.webp"
+            hover "icons/change_position_hover.webp"
+            xalign 1.0 yalign 0.2
+            action Return("change_position")
+    if "location" in icons:
+        imagebutton:
+            idle "icons/change_location_idle.webp"
+            hover "icons/change_location_hover.webp"
+            xalign 1.0 yalign 0.4
+            action Return("change_location")
+    if "variant" in icons:
+        imagebutton:
+            idle "icons/change_variant_idle.webp"
+            hover "icons/change_variant_hover.webp"
+            xalign 1.0 yalign 0.6
+            action Return("change_variant")
+    imagebutton:
+        idle "icons/stop_idle.webp"
+        hover "icons/stop_hover.webp"
+        xalign 1.0 yalign 1.0
+        action Return("stop")
+
 #########################
 # ----- Map Logic ----- #
 #########################
