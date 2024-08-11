@@ -30,7 +30,7 @@ init python:
 
         renpy.call("call_menu", None, None, with_leave, *filtered_elements, **kwargs)
 
-    def call_custom_menu_with_text(text: str, person: Person, with_leave: bool = True, *elements: str | Effect | List[Effect] | Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool], **kwargs) -> None:
+    def call_custom_menu_with_text(text: str, person: Person = character.subtitles, with_leave: bool = True, *elements: str | Effect | List[Effect] | Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool], **kwargs) -> None:
         """
         Calls a custom menu with the given elements and the given text and person.
 
@@ -48,8 +48,9 @@ init python:
 
         in_event = get_kwargs('in_event', False, **kwargs)
         in_replay = get_kwargs('in_replay', False, **kwargs)
+        no_gallery = get_kwargs("no_gallery", False, **kwargs)
 
-        if in_event and in_replay:
+        if in_event and in_replay and not no_gallery:
             made_decisions = get_kwargs('made_decisions', [], **kwargs)
             decision_data = get_kwargs('decision_data', {}, **kwargs)
             possible_decisions = get_decision_possibilities(decision_data, made_decisions)
@@ -149,13 +150,18 @@ label call_menu(text, person, with_leave = True, *elements, **kwargs):
             $ title, effects, _active = elements[0]
         $ renpy.call("call_element", effects, **kwargs)
 
-    if text != None and person != None:
-        $ person ("[text]", interact=False)
-    else:
-        subtitles_Empty "" (interact=False)
+    $ p_text = Character(kind = person)
 
-    while (True):
-        call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+    if text != None and person != None:
+        p_text "[text]" (interact = False)
+    elif text != None:
+        subtitles_Empty "[text]" (interact = False)
+    else:
+        subtitles_Empty "" (interact = False)
+
+    show screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+    $ renpy.pause(hard = True)
+        
 
 # calls a menu specialized in use for events
 label call_event_menu(text, events, fallback, person = character.subtitles, **kwargs):
@@ -199,7 +205,7 @@ label call_event_menu(text, events, fallback, person = character.subtitles, **kw
     jump new_daytime
 
 # calls the effect of a selected choice
-label call_element(effects, **kwargs):
+label call_element(key, effects, **kwargs):
     # """
     # Calls the effect of a selected choice in the menu.
 
@@ -214,29 +220,49 @@ label call_element(effects, **kwargs):
 
     $ in_event = get_kwargs('in_event', False, **kwargs)
     $ in_replay = get_kwargs('in_replay', False, **kwargs)
+    $ no_gallery = get_kwargs("no_gallery", False, **kwargs)
 
-    if isinstance(effects, str):
-        if in_event:
-            if not in_replay:
-                $ register_decision(effects)
-            else:
-                if 'made_decisions' not in kwargs.keys():
-                    $ kwargs['made_decisions'] = [effects]
-                else:
-                    $ kwargs['made_decisions'].append(effects)
-        $ renpy.call(effects, **kwargs)
+    $ log_val('element_kwargs', kwargs)
 
-    if in_event and isinstance(effects, Effect):
+    if not no_gallery and in_event:
         if not in_replay:
-            $ register_decision(effects)
+            $ register_decision(key)
         else:
             if 'made_decisions' not in kwargs.keys():
-                $ kwargs['made_decisions'] = [effects]
+                $ kwargs['made_decisions'] = [key]
             else:
-                $ kwargs['made_decisions'].append(effects)
-        
-        $ register_decision(str(effects))
-    $ call_effects(effects, **kwargs)
+                $ kwargs['made_decisions'].append(key)
+
+    if isinstance(effects, str):
+        $ renpy.call(effects, **kwargs)
+
+    if isinstance(effects, Effect):
+        $ kwargs = call_effects(effects, **kwargs)
+        $ log_val('element_kwargs', kwargs)
+
+    if isinstance(effects, List) and all(isinstance(effect, Effect) for effect in effects):
+        $ i = 0
+        while (i < len(effects)):
+            $ kwargs = call_effects(effects[i], **kwargs)
+            $ i += 1
+
+    $ override = get_kwargs('override_menu_exit', None, **kwargs)
+    if override != None:
+        if isinstance(override, str):
+            $ renpy.call(override)
+        elif isinstance(override, Event):
+            $ renpy.call(override.get_event())
+
+    $ override_kwargs = get_kwargs('override_menu_exit_with_kwargs', None, **kwargs)
+    if override_kwargs != None:
+        if isinstance(override_kwargs, str):
+            $ renpy.call(override_kwargs, **kwargs)
+        elif isinstance(override_kwargs, Event):
+            $ override_kwargs.call(**kwargs)
+        elif isinstance(override_kwargs, Effect):
+            $ override_kwargs.apply(**kwargs)
+
+    return
 
 # closes the current menu
 label close_menu(**kwargs):
@@ -292,7 +318,7 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
     #     - Any additional keyword arguments are passed to the effects of the selected element.
     # """
 
-    tag menu_choice
+    # tag menu_choice
 
     $ renpy.choice_for_skipping()
 
@@ -303,6 +329,8 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
     $ blocked_elements = get_kwargs('blocked', [], **kwargs)
 
     $ kwargs.pop('menu_selection', None)
+
+    $ log_val('menu_kwargs', kwargs)
 
     frame:
         background "#ffffff00"
@@ -366,7 +394,7 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
                                 yalign 0.5
                             xsize 1185
                             xalign 0.5
-                            action Call("call_element", effects, menu_selection = raw_title, **kwargs)
+                            action Call("call_element", title, effects, menu_selection = raw_title, **kwargs)
                         
                     null height 30
                 $ count += 1

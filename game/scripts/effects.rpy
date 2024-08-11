@@ -11,7 +11,9 @@ init -1 python:
         """
 
         for effect in effects:
-            effect.apply(**kwargs)
+            kwargs = effect.apply(**kwargs)
+
+        return kwargs
 
     class Effect(ABC):
         """
@@ -56,6 +58,7 @@ init -1 python:
                     rule.unlock()
             else:
                 self.rule.unlock()
+            return kwargs
 
     class ClubEffect(Effect):
         """
@@ -76,6 +79,7 @@ init -1 python:
                     club.unlock()
             else:
                 self.club.unlock()
+            return kwargs
 
     class BuildingEffect(Effect):
         """
@@ -96,6 +100,7 @@ init -1 python:
                     building.unlock()
             else:
                 self.building.unlock()
+            return kwargs
 
     class LevelEffect(Effect):
         """
@@ -127,6 +132,7 @@ init -1 python:
                 char_obj.set_level(self.value)
             if self.mode == "ADD":
                 char_obj.set_level(char_obj.get_level() + self.value)
+            return kwargs
 
     class StatEffect(Effect):
         """
@@ -165,6 +171,7 @@ init -1 python:
                 stat_obj.change_value_to(self.value, char_obj.get_level())
             if self.mode == "ADD":
                 stat_obj.change_value(self.value, char_obj.get_level())
+            return kwargs
 
     class MoneyEffect(Effect):
         """
@@ -192,6 +199,7 @@ init -1 python:
                 money.change_value_to(self.value)
             if self.mode == "ADD":
                 money.change_value(self.value)
+            return kwargs
 
     class AddTempTimeEventEffect(Effect):
         """
@@ -211,6 +219,7 @@ init -1 python:
 
         def apply(self, **kwargs):
             add_temp_event(self.event)
+            return kwargs
 
     class RemoveTempTimeEventEffect(Effect):
         """
@@ -229,6 +238,7 @@ init -1 python:
 
         def apply(self, **kwargs):
             remove_temp_event(self.id)
+            return kwargs
 
     class BlockBuildingEffect(Effect):
         """
@@ -252,6 +262,7 @@ init -1 python:
 
         def apply(self, **kwargs):
             set_building_blocked(self.building_name, self.is_blocking)
+            return kwargs
 
     class EventEffect(Effect):
         """
@@ -352,6 +363,7 @@ init -1 python:
 
         def apply(self, **kwargs):
             gameData[self.key] = self.value
+            return kwargs
 
     class ProgressEffect(Effect):
         """
@@ -376,6 +388,7 @@ init -1 python:
             if self.key not in gameData.keys():
                 gameData[self.key] = 0
             gameData[self.key] += self.value
+            return kwargs
 
     class ModifierEffect(Effect):
         """
@@ -407,6 +420,20 @@ init -1 python:
 
         def apply(self, **kwargs):
             set_modifier(self.key, self.modifier, self.stat, char_obj = self.char_obj, collection = self.collection)
+            return kwargs
+
+    class ChangeKwargsEffect(Effect):
+        def __init__(self, key: str, value: Any):
+            super().__init__(key)
+            self.key = key
+            self.value = value
+
+        def __str__(self):
+            return f"{self.key}"
+
+        def apply(self, **kwargs):
+            kwargs[self.key] = self.value
+            return kwargs
 
 label open_bg_image_menu(event, **kwargs):
     $ bg_image = get_kwargs("bg_image", None, **kwargs)
