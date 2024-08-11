@@ -493,27 +493,46 @@ label gym_teach_pe_main_aona_bra_2 (**kwargs):
 
     $ bra = get_value('skimpy_bra', **kwargs)
 
+    $ image = Image_Series("/images/events/gym/gym_teach_pe_main_aona_bra_2 <step>.webp", **kwargs)
+
+    $ image.show(0)
     headmaster "Alright, today we will do some running."
     sgirl "*MOAN*" (name = "Students")
-    headmaster "Yes, Yes! I know, but you know the state test is coming up and you need to be in shape for it."
-    headmaster "So now please line up and let's get started. Today we will be doing 12 minute runs."
+    $ image.show(1)
+    headmaster "Yes, Yes! I know! I know! But you know the state test is coming up and you need to be in shape for it."
+    $ image.show(2)
+    headmaster "So now please line up and let's get started. Today we will be doing laps."
     headmaster "And go!"
-    # images
+    call Image_Series.show_image(image, 3, 4, 5, 6, 7) from image_gym_teach_pe_main_aona_bra_2_1
     headmaster "Alright, that's enough for today. Please shower and change your clothes."
+    call Image_Series.show_image(image, 8, pause = True) from image_gym_teach_pe_main_aona_bra_2_2
     if bra == 1:
+        call Image_Series.show_image(image, 9, 10, 11) from image_gym_teach_pe_main_aona_bra_2_3
         sgirl "Mr. [headmaster_last_name], I'm sorry but you bought the wrong bra." (name = "Aona Komuro")
-        headmaster "What do you mean?" (name = "Aona Komuro")
+        $ image.show(12)
+        headmaster "What do you mean?"
+        $ image.show(13)
         sgirl "This is the bra you offered me, which I didn't want to buy." (name = "Aona Komuro")
+        $ image.show(14)
         headmaster "Oh I'm sorry. I must've swapped them by accident."
         headmaster "But why are you wearing it then?"
+        $ image.show(15)
         sgirl "I didn't want to run without a bra again, so I didn't have a choice." (name = "Aona Komuro")
+        $ image.show(16)
         headmaster "I see. But how did you feel in it? I mean, it looked like you were much more comfortable than before."
-        sgirl "Yes, it worked really well. It was quite comfortable and I didn't have any problems with my breasts." (name = "Aona Komuro")
+        $ image.show(17)
+        sgirl "Well to be honest, it worked really well. It was quite comfortable and I didn't have any problems with my breasts." (name = "Aona Komuro")
+        $ image.show(18)
         headmaster "And nobody cared, did they?"
+        $ image.show(19)
         sgirl "Well... no." (name = "Aona Komuro")
+        $ image.show(20)
         headmaster "So how about you try it on for a few more days and see how it goes?"
+        $ image.show(21)
         sgirl "Okay, I will." (name = "Aona Komuro")
+        $ image.show(22)
         headmaster "Alright, now go and get changed. You wouldn't want to miss your break, would you?"
+        $ image.show(21)
         sgirl "No, thanks."
 
         call change_stats_with_modifier('school', 'pe',
