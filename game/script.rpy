@@ -57,8 +57,18 @@ init python:
 
         if get_modifier('teacher_pay', 'money', None, 'payroll_weekly') == None:
             set_modifier('teacher_pay', Modifier_Obj('Teacher', "+", -150), 'money', collection = 'payroll_weekly')
-
+    
     def fix_schools():
+
+        fix_thinking_characters(character.headmaster_thought)
+        fix_shouting_characters(character.headmaster_shout)
+        fix_whisper_characters(character.headmaster_whisper)
+        fix_shouting_characters(character.secretary_shout)
+        fix_whisper_characters(character.secretary_whisper)
+        fix_shouting_characters(character.crowd_shout)
+        fix_whisper_characters(character.crowd_whisper)
+
+
         old_character = get_character("school_mean_values", charList)
         if old_character != None:
             max_level = 0
@@ -89,6 +99,24 @@ init python:
                 "reputation": Stat(REPUTATION, 7),
             }
         })
+
+    def fix_whisper_characters(person: Person):
+        person.who_suffix = " (whispering)"
+        fix_characters(person)
+
+    def fix_shouting_characters(person: Person):
+        person.who_suffix = " (shouting)"
+        fix_characters(person)
+
+    def fix_thinking_characters(person: Person):
+        person.who_suffix = " (thinking)"
+        fix_characters(person)
+    
+    def fix_characters(person: Person):
+        person.what_size = 28
+        person.what_italic = True
+        person.what_prefix = "(  {i}"
+        person.what_suffix = "{/i}  )"
 
     def check_old_versions():
         if 'headmaster_first_name' in gameData.keys() and 'headmaster_last_name' in gameData.keys():
