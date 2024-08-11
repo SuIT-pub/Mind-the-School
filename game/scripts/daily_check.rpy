@@ -86,6 +86,7 @@ init 1 python:
         game_over_happiness_event,
         game_over_education_event,
         game_over_reputation_event,
+        aona_sports_bra_event_1_event
     )
     temp_time_check_events.add_event(
         event_all_events_seen_event, 
@@ -773,6 +774,8 @@ label aona_sports_bra_event_1 (**kwargs):
 
     $ image = Image_Series("images/events/misc/aona_sports_bra_event_1 <secretary_level> <step>.webp", ['secretary_level'], **kwargs)
 
+    $ store_clerk = Character("Store Clerk", kind = character.vendor)
+
     $ image.show(0)
     subtitles "*Knock* *Knock*"
     $ image.show(1)
@@ -945,9 +948,11 @@ label .wait_2 (**kwargs):
 
 label .sneak_bra (**kwargs):
 
-    $ call_custom_menu_with_text("Do you want to still buy the skimpy bra?", character.subtitles, False,
-        ("Yes", "aona_sports_bra_event_1.sneak_bra_true"),
-        ("No", "aona_sports_bra_event_1.sneak_buy_bra"),
+    $ log_val('character', character.subtitles)
+
+    $ call_custom_menu_with_text("Do you want to swap the bra with the skimpy variant?", character.subtitles, False,
+        ("Swap", "aona_sports_bra_event_1.sneak_bra_true"),
+        ("Don't swap", "aona_sports_bra_event_1.sneak_buy_bra"),
     **kwargs)
 
 label .sneak_bra_true (**kwargs):
@@ -963,11 +968,11 @@ label .buy_bra (**kwargs):
     # headmaster goes to the cashier
     headmaster "Okay! I would like to buy this bras. For my student over there."
     $ image.show(75)
-    cashier "Sure, that will be 100 then."
+    store_clerk "Sure, that will be 100 then."
     $ image.show(76)
     headmaster "Sure, here you go!"
     $ image.show(77)
-    cashier "Thank you very much!"
+    store_clerk "Thank you very much!"
     # headmaster goes back to Aona
     $ image.show(78)
     headmaster "Alright that is done. Let's go back to the school."
