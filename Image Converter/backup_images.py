@@ -78,6 +78,15 @@ def main():
         exit()
     elif mode == 'Extract new images':
         destination_path = os.path.abspath(os.path.join(source_path, '../../../Image Extracter/Mind the School Image Extract'))  # Destination folder 3 levels above the current directory
+        purge = pyautogui.confirm(text = 'Purge extract folder?', title = 'Copy to extract', buttons = ['Yes', 'No', 'Cancel'])
+        if purge == 'Yes':
+            clean_dir = os.path.abspath(os.path.join(source_path, '../../../Image Extracter/Mind the School Image Extract'))
+            dirs = [name for name in os.listdir(clean_dir) if os.path.isdir(os.path.join(clean_dir, name))]
+            for dir in dirs:
+                shutil.rmtree(os.path.join(clean_dir, dir))
+            pyautogui.alert(text = "Purged extract folder!", title = "Done", button = "OK")
+        elif purge == "Cancel":
+            return
     elif mode == 'Copy new images to Extract':
         destination_path = os.path.abspath(os.path.join(source_path, '../../../Image Extracter/Mind the School Image Extract'))
     elif mode == 'Backup images':
