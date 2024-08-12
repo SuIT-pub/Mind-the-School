@@ -4,6 +4,7 @@ Dateien
 daysegment
 Extracter
 Flaticon
+getattr
 keydown
 nconvert
 noalt
@@ -14,6 +15,7 @@ quicksaved
 readlines
 renpytom
 repr
+setattr
 traceback
 Traceback
 unscrollable

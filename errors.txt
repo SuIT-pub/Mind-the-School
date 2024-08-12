@@ -2,9 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/scripts/overview.rpy", line 581: expected ',' not found.
-    screen naughty_scene_icons(*icons: str):
-                                     ^
+File "game/screens.rpy", line 409: expected a keyword argument, colon, or end of line.
+    image myxray = XRay("gui/top.png", "gui/botton.png", 200, 100)
+                 ^
 
 Ren'Py Version: Ren'Py 8.1.3.23091805
-Sun Aug 11 20:26:44 2024
+Mon Aug 12 22:13:36 2024
