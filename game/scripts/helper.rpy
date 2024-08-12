@@ -982,12 +982,12 @@ init -99 python:
             - The highest available value for the key in the given image path.
         """
 
-        old_file = file_path.replace(key, "~#~")
+        old_file = file_path.replace(f"<{key}>", "~#~")
         old_file = re.sub("<.+>", "0", old_file)
-        old_file = old_file.replace("~#~", key)
+        old_file = old_file.replace("~#~", f"<{key}>")
 
         for i in range(start, end):
-            test_file = old_file.replace(key, str(i))
+            test_file = old_file.replace(f"<{key}>", str(i))
             if not renpy.loadable(test_file):
                 return i - 1
 
