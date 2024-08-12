@@ -2,45 +2,176 @@
 # ----- SCREENS -----#
 ######################
 
-screen show_building_hovered (building):
-    use school_overview_images
+screen show_building_button(building, display, show_type, x, y):
+    if display == building or display == "x" or building in display or (isinstance(display, dict) and building in display.keys()):
+        if isinstance(display, dict):
+            $ show_type = display[building]
+        $ image_text = f"background/{building}.webp"
+        if show_type == "red":
+            $ image_text = f"background/{building}_red.webp"
+        elif show_type == "white":
+            $ image_text = f"background/{building}_white.webp"
+        add image_text:
+            xpos x ypos y
 
-    if building == "School Building" or building == "x":
-        add "background/bg school school building hover.webp":
-            xpos 1171 ypos 262
-    if building == "School Dormitory" or building == "x":
-        add "background/bg school school dormitory hover.webp":
-            xpos 1257 ypos 613
-    if building == "Labs" or building == "x":
-        add "background/bg school labs hover.webp":
-            xpos 644 ypos 356
-    if building == "Sports Field" or building == "x":
-        add "background/bg school sports field hover.webp":
-            xpos 203 ypos -11
-    if building == "Tennis Court" or building == "x":
-        add "background/bg school tennis court hover.webp":
-            xpos 558 ypos 90
-    if building == "Gym" or building == "x":
-        add "background/bg school gym hover.webp":
-            xpos 462 ypos 5
-    if building == "Pool" or building == "x":
-        add "background/bg school pool hover.webp":
-            xpos 297 ypos 61
-    if building == "Cafeteria" or building == "x":
-        add "background/bg school cafeteria hover.webp":
-            xpos 229 ypos 460
-    if building == "Kiosk" or building == "x":
-        add "background/bg school kiosk hover.webp":
-            xpos 485 ypos 661
-    if building == "Courtyard" or building == "x":
-        add "background/bg school courtyard hover.webp":
-            xpos 604 ypos 228
-    if building == "Office Building" or building == "x":
-        add "background/bg school office building hover.webp":
-            xpos 42 ypos 127
-    if building == "Bath" or building == "x":
-        add "background/bg school bath hover.webp":
-            xpos 557 ypos 319
+screen show_rectangle(xpos, ypos, width, height):
+    frame:
+        area(xpos, ypos, width, height)
+
+
+screen show_building_buttons (building, *additions, show_type = "normal", frames = []):
+    # """
+    # Shows a mockup map of the school with buttons for each building.
+
+    # # Parameters:
+    # 1. building: str | List[str] | Dict[str, str]
+    #     - The building to highlight.
+    #     - If a list is passed, all buildings in the list will be highlighted.
+    #     - If a dictionary is passed, the keys are the buildings to highlight and the values are the show_type for each building.
+    # 2. *additions: str
+    #     - Additional elements to show.
+    #     - "stats": Show the stats on the right side.
+    #     - "time": Show the time on the top right.
+    #     - "time_skip_idle": Show the time skip button in idle state.
+    #     - "time_skip_hover": Show the time skip button in hover state.
+    #     - "journal_idle": Show the journal button in idle state.
+    #     - "journal_hover": Show the journal button in hover state.
+    # 3. show_type: str (default: "normal")
+    #     - The type of button to show.
+    #     - "normal": The default button.
+    #     - "red": A red button.
+    #     - "white": A white button.
+    # 4. frames: List[Tuple[int, int, int, int]]
+    #     - A list of rectangles to show on the map.
+    #     - Each tuple is a rectangle with the format (xpos, ypos, width, height).
+    # """
+    # use school_overview_images
+
+    add "background/school_map.webp"
+
+    use show_building_button("school_building",  building, show_type,  563, 620)
+    use show_building_button("school_dormitory", building, show_type, 1202, 410)
+    use show_building_button("labs",             building, show_type,  722, 176)
+    use show_building_button("sports_field",     building, show_type,  241, 130)
+    use show_building_button("beach",            building, show_type,  952, 728)
+    use show_building_button("staff_lodges",     building, show_type,  -19, 624)
+    use show_building_button("gym",              building, show_type,  140, 289)
+    use show_building_button("swimming_pool",    building, show_type,  354, 348)
+    use show_building_button("cafeteria",        building, show_type,  825, 473)
+    use show_building_button("bath",             building, show_type,  441, -19)
+    use show_building_button("kiosk",            building, show_type,  269, 510)
+    use show_building_button("courtyard",        building, show_type,  452, 490)
+    use show_building_button("office_building",  building, show_type,  976,  70)
+
+    for rect in frames:
+        use show_rectangle(*rect)
+
+    if "stats" in additions:
+        grid 4 2:
+            xalign 1.0 yalign 0.0
+            spacing 2
+            hbox:
+                textbutton get_stat_icon('happiness'):
+                    text_style "stat_overview"
+                    action NullAction()
+                null width 1
+                textbutton get_school_stat_value(HAPPINESS) + "\n" + get_school_stat_change(HAPPINESS):
+                    text_style "stat_value"
+                    action NullAction()
+            hbox:
+                textbutton get_stat_icon('charm'):
+                    text_style "stat_overview"
+                    action NullAction()
+                null width 1
+                textbutton get_school_stat_value(CHARM) + "\n" + get_school_stat_change(CHARM):
+                    text_style "stat_value"
+                    action NullAction()
+            hbox:
+                textbutton get_stat_icon('education'):
+                    text_style "stat_overview"
+                    action NullAction()
+                null width 1
+                textbutton get_school_stat_value(EDUCATION) + "\n" + get_school_stat_change(EDUCATION):
+                    text_style "stat_value"
+                    action NullAction()
+            hbox:
+                textbutton get_stat_icon('money'):
+                    text_style "stat_overview"
+                    action NullAction()
+                null width 1
+                textbutton get_school_stat_value(MONEY) + "\n" + get_school_stat_change(MONEY):
+                    text_style "stat_value"
+                    action NullAction()
+
+            null
+            hbox:
+                textbutton get_stat_icon('corruption'):
+                    text_style "stat_overview"
+                    action NullAction()
+                null width 1
+                textbutton get_school_stat_value(CORRUPTION) + "\n" + get_school_stat_change(CORRUPTION):
+                    text_style "stat_value"
+                    action NullAction()
+            hbox:
+                textbutton get_stat_icon('inhibition'):
+                    text_style "stat_overview"
+                    action NullAction()
+                null width 1
+                textbutton get_school_stat_value(INHIBITION) + "\n" + get_school_stat_change(INHIBITION):
+                    text_style "stat_value"
+                    action NullAction()
+            hbox:
+                textbutton get_stat_icon('reputation'):
+                    text_style "stat_overview"
+                    action NullAction()
+                null width 1
+                textbutton get_school_stat_value(REPUTATION) + "\n" + get_school_stat_change(REPUTATION):
+                    text_style "stat_value"
+                    action NullAction()
+
+    if "time" in additions:
+        vbox:
+            xalign 1.0 ypos 150
+
+            $ daytimestr = time.get_daytime_name()
+            $ daystr = time.get_weekday()
+            $ monthstr = time.get_month_name()
+            $ daysegment = ""
+            if time.check_daytime("n"):
+                $ daysegment = "{color=#1b26c0}Night{/color}"
+            elif time.check_weekday("d") and time.check_daytime("c"):
+                $ daysegment = "{color=#ab0000}Class{/color}"
+            elif time.check_weekday("d") and time.check_daytime("f"):
+                $ daysegment = "{color=#0eab00}Free-Time{/color}"
+            elif time.check_weekday("w"):
+                $ daysegment = "{color=#ba6413}Weekend{/color}"
+
+            text "[time.day] [monthstr] [time.year]":
+                xalign 1.0
+                size 30
+                style "stat_overview"
+            text "[daystr]":
+                xalign 1.0
+                size 35
+                style "stat_overview"
+            text "[daytimestr]":
+                xalign 1.0
+                size 30
+                style "stat_overview"
+            text "[daysegment]":
+                xalign 1.0
+                size 30
+                style "stat_overview"
+
+    if "time_skip_idle" in additions:
+        add "icons/time skip idle.webp" xalign 0.995 yalign 0.4
+    if "time_skip_hover" in additions:
+        add "icons/time skip hover.webp" xalign 0.995 yalign 0.4
+    
+    if "journal_idle" in additions:
+        add "icons/journal_icon_idle.webp" xalign 1.0 yalign 0.6
+    if "journal_hover" in additions:
+        add "icons/journal_icon_hover.webp" xalign 1.0 yalign 0.6
 
 screen show_building_idle (building):
     use school_overview_images
