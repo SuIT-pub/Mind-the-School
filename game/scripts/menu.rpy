@@ -148,7 +148,7 @@ label call_menu(text, person, with_leave = True, *elements, **kwargs):
             $ title, effects = elements[0]
         else:
             $ title, effects, _active = elements[0]
-        $ renpy.call("call_element", effects, **kwargs)
+        $ renpy.call("call_element", title, effects, **kwargs)
 
     $ p_text = Character(kind = person)
 
@@ -222,8 +222,6 @@ label call_element(key, effects, **kwargs):
     $ in_replay = get_kwargs('in_replay', False, **kwargs)
     $ no_gallery = get_kwargs("no_gallery", False, **kwargs)
 
-    $ log_val('element_kwargs', kwargs)
-
     if not no_gallery and in_event:
         if not in_replay:
             $ register_decision(key)
@@ -238,7 +236,6 @@ label call_element(key, effects, **kwargs):
 
     if isinstance(effects, Effect):
         $ kwargs = call_effects(effects, **kwargs)
-        $ log_val('element_kwargs', kwargs)
 
     if isinstance(effects, List) and all(isinstance(effect, Effect) for effect in effects):
         $ i = 0
@@ -329,8 +326,6 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
     $ blocked_elements = get_kwargs('blocked', [], **kwargs)
 
     $ kwargs.pop('menu_selection', None)
-
-    $ log_val('menu_kwargs', kwargs)
 
     frame:
         background "#ffffff00"
