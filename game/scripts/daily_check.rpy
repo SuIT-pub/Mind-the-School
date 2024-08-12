@@ -46,18 +46,18 @@ init 1 python:
     end_of_month_event = Event(2, "end_of_month",
         TimeCondition(day = 1, daytime = 1))
 
-    event_all_events_seen_event = Event(1,
+    event_all_events_seen_event = Event(2,
         "event_all_events_seen",
         GameDataCondition("all_events_seen", True))
 
-    event_reached_max_stats_event = Event(1,
+    event_reached_max_stats_event = Event(2,
         "event_reached_max_stats",
         StatCondition(inhibition = "90-", corruption = "5+"))
 
     intro_check_all_facilities_event = Event(2, "intro_check_all_facilities", 
         TimeCondition(day = 2, month = 1, year = 2023, daytime = 1))
 
-    intro_check_all_first_potions_event = Event(1, "intro_check_all_first_potions", 
+    intro_check_all_first_potions_event = Event(2, "intro_check_all_first_potions", 
         TimeCondition(day = 9, month = 1, year = 2023, daytime = 4))
 
     game_over_happiness_event = Event(1, "game_over_happiness", 
@@ -72,6 +72,10 @@ init 1 python:
     aona_sports_bra_event_1_event = Event(1, "aona_sports_bra_event_1", 
         ProgressCondition("aona_sports_bra", 1),
         TimeCondition(daytime = 6))
+
+    map_tutorial_event = Event(2, "map_tutorial", 
+        NOT(ProgressCondition("map_tutorial")), 
+        OR(IntroCondition(True), IntroCondition(False)))
 
     time_check_events.add_event(
         tutorial_1_event, 
@@ -145,6 +149,33 @@ label .after_event_check (**kwargs):
 ############################
 # ----- Intro Events ----- #
 ############################
+
+label map_tutorial (**kwargs):
+    $ begin_event(**kwargs)
+
+    show screen show_building_buttons ('x', 'stats', 'time', 'time_skip_idle', 'journal_hover', show_type = "normal")
+    subtitles "Hello and welcome to the map tutorial."
+    subtitles "You are now probably seeing the map for the first time."
+    subtitles "This map is an overview over the entire school campus."
+    subtitles "The map consists of basically 3 parts."
+    subtitles "One part consists of all the locations you can visit on the campus. These locations are where the events and bulk of the gameplay happens."
+    subtitles "These are all the buildings you can visit. A bit crowded I know but you'll figure it out eventually ;)"
+    subtitles "If a building is marked red, it means that there is a 'special' or time/condition-locked event available."
+    subtitles "The second part is the data area. This area shows you the current stats of your school and the current time."
+    subtitles "The stats show the current stats and also how the stats changed during your last interaction."
+    subtitles "If a stat is marked yellow, it means that stat is currently capped and you can't increase it further until you progress the school level."
+    subtitles "The stats are clickable and lead to the description for that stat in the journal."
+    subtitles "The time is rather self explanatory. You have years, 12 months with 28 days each."
+    subtitles "Additionally each day consists of 7 parts. Morning, Early Noon, Noon, Early Afternoon, Afternoon, Evening and Night."
+    subtitles "In addition, there is also a display that shows the current timetable. Free-time, Class, Weekend and Night."
+    subtitles "The third part is the control area. Here you have two buttons."
+    subtitles "One button forwards the time by one day segment."
+    subtitles "And one opens the journal. Where you get all the information about your school, goals and where you also manage everything."
+    subtitles "That's all for this tutorial. If you want to see me again, just look for me in the journal."
+
+    $ start_progress('map_tutorial')
+
+    $ end_event("map_overview")
 
 label game_over_happiness (**kwargs):
     $ begin_event()
