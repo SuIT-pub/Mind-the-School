@@ -1,13 +1,4 @@
-﻿label ask_age ():
-    menu:
-        "This Game contains sexual content and is not suitable for consumption by underage people.\nPlease confirm you are not underage in your country."
-
-        "Yes I am above 18.":
-            jump intro
-        "No unfortunately I am underage.":
-            return
-
-label intro ():
+﻿label intro ():
     subtitles "All characters and events in this game, even those based on real people, are entirely fictional."
 
     $ school_name = renpy.input("Please name your School: (Default: \"Windstor School\")")

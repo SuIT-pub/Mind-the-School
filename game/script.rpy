@@ -14,10 +14,18 @@ label start ():
 
     $ fix_modifier()
 
-    jump ask_age
+    jump intro
 
     return
+label splashscreen:
+    menu:
+        "This game is not suitable for children or those who are easily disturbed.\n\nBy playing this game you agree that you are 18 years of age or older and are not offended by adult content."
 
+        "I am 18 years of age or older.":
+            return
+        "I am not 18 years of age or older.":
+            $ renpy.quit()
+    return
 init python:
     
     ###########################################
@@ -50,13 +58,13 @@ init python:
         if (get_building('cafeteria').is_unlocked() and 
             get_modifier('weekly_cost_cafeteria', 'money', None, 'payroll_weekly') == None
         ):
-            set_modifier('weekly_cost_cafeteria', Modifier_Obj('Cafeteria', "+", -100), 'money', collection = 'payroll_weekly')
+            set_modifier('weekly_cost_cafeteria', Modifier_Obj('Cafeteria', "+", -100), stat = 'money', collection = 'payroll_weekly')
 
         if get_modifier('monthly_budget', 'money', None, 'payroll_monthly') == None:
-            set_modifier('monthly_budget', Modifier_Obj('Budget', "+", 1000), 'money', collection = 'payroll_monthly')
+            set_modifier('monthly_budget', Modifier_Obj('Budget', "+", 1000), stat = 'money', collection = 'payroll_monthly')
 
         if get_modifier('teacher_pay', 'money', None, 'payroll_weekly') == None:
-            set_modifier('teacher_pay', Modifier_Obj('Teacher', "+", -150), 'money', collection = 'payroll_weekly')
+            set_modifier('teacher_pay', Modifier_Obj('Teacher', "+", -150), stat = 'money', collection = 'payroll_weekly')
     
     def fix_schools():
 
