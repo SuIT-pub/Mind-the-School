@@ -61,12 +61,10 @@ init -3 python:
 
             self._selectors.extend(selector)
 
-        def roll_values(self):
+        def roll_values(self, **kwargs):
             """
             Rerolls the values of each stored Selector and caches them in the corresponding Selector.
             """
-
-            kwargs = {}
 
             for selector in self._selectors:
                 selector.update(**kwargs)
@@ -79,7 +77,7 @@ init -3 python:
                     value = selector.get_value(**kwargs)
                     kwargs[key] = value
 
-        def get_values(self) -> List[Tuple[str, Any]]:
+        def get_values(self, **kwargs) -> List[Tuple[str, Any]]:
             """
             Returns a list of tuples containing the name and the value of the values.
 
@@ -89,10 +87,8 @@ init -3 python:
                 - The return value is formatted in a way, that it can be used to directly update the kwargs of an event.
             """
 
-            if len(self._selectors) > 0 and (self._selectors[0].get_value() is None or self._selectors[0].get_value() == None):
-                self.roll_values()
-
-            kwargs = {}
+            if len(self._selectors) > 0 and (self._selectors[0].get_value(**kwargs) is None or self._selectors[0].get_value(**kwargs) == None):
+                self.roll_values(**kwargs)
 
             for selector in self._selectors:
                 if isinstance(selector, KwargsSelector):
@@ -194,6 +190,7 @@ init -3 python:
         2. values: Any
             - A list of values that can be chosen from.
             - The list can contain everything the get_random_choice()-function can handle.
+            - If the list contains a Selector and the Selector has been chosen, the Selector will be rolled and the resulting value will be used.
         3. realtime: bool (default: False)
             - A boolean that determines whether the value should be updated on retrieving the value or not.
             - If True, the value will be updated on retrieval.
@@ -286,8 +283,10 @@ init -3 python:
             - The condition that determines which value will be chosen.
         3. true_value: Any
             - The value that will be chosen if the condition is fulfilled.
+            - If the value is a Selector, the Selector will recursively roll its value and then return the resulting value
         4. false_value: Any
             - The value that will be chosen if the condition is not fulfilled.
+            - If the value is a Selector, the Selector will recursively roll its value and then return the resulting value
         5. realtime: bool (default: False)
             - A boolean that determines whether the value should be updated on retrieving the value or not.
             - If True, the value will be updated on retrieval.
@@ -317,12 +316,14 @@ init -3 python:
         StatSelector is a child of Selector and inherits all of its attributes and methods.
 
         ### Attributes:
-        1. _stat: str
+        1. _stat: str | Selector
             - The name of the stat.
-        2. _char: str
+            - if the stat is a Selector, the Selector will recursively roll its value and then return the resulting value
+        2. _char: str | Selector
             - The key of the character.
             - The character is used to identify the character in the character dictionary.
             - See method get_character_by_key() in the character module for more information.
+            - if the character is a Selector, the Selector will recursively roll its value and then return the resulting value
 
         ### Methods:
         1. roll() -> Any
@@ -345,7 +346,7 @@ init -3 python:
             - Realtime should be set to True, otherwise the event could work with out of date stat information
         """
 
-        def __init__(self, key: str, stat: str, char: str, realtime: bool = True):
+        def __init__(self, key: str, stat: str | Selector, char: str | Selector, realtime: bool = True):
             super().__init__(realtime, key)
             self._stat = stat
             self._char = char
@@ -355,7 +356,10 @@ init -3 python:
             Returns the value of the stat.
             """
 
-            return get_character_by_key(self._char).get_stat_number(self._stat)
+            char = self._char if not isinstance(self._char, Selector) else self._char.get_value(**kwargs)
+            stat = self._stat if not isinstance(self._stat, Selector) else self._stat.get_value(**kwargs)
+
+            return get_character_by_key(char).get_stat_number(stat)
 
     class LevelSelector(Selector):
         """
@@ -387,7 +391,7 @@ init -3 python:
             - Realtime should be set to True, otherwise the event could work with out of date stat information
         """
 
-        def __init__(self, key: str, char: str):
+        def __init__(self, key: str, char: str | Selector):
             super().__init__(True, key)
             self._char = char
 
@@ -396,7 +400,9 @@ init -3 python:
             Returns the value of the level.
             """
 
-            return get_character_by_key(self._char).get_level()
+            char = self._char if not isinstance(self._char, Selector) else self._char.get_value(**kwargs)
+
+            return get_character_by_key(char).get_level()
 
     class TimeSelector(Selector):
         """
@@ -452,6 +458,45 @@ init -3 python:
             else:
                 return time.day_to_string()
 
+    class NumClampSelector(Selector):
+        """
+        A Selector-class that sets a value between a minimum and a maximum value.
+        NumClampSelector is a child of Selector and inherits all of its attributes and methods.
+
+        ### Attributes:
+        1. _value: int | float | Selector
+            - The value to be inserted.
+            - If the value is a Selector, the Selector will recursively roll its value and then return the resulting value
+        2. _min_value: int | float | str | Selector
+            - The minimum value that can be rolled. (inclusive)
+            - If the value is a Selector, the Selector will recursively roll its value and then return the resulting value
+        3. _max_value: int | float | str | Selector
+            - The maximum value that can be rolled. (inclusive)
+            - If the value is a Selector, the Selector will recursively roll its value and then return the resulting value
+        """
+
+        def __init__(self, key: str, value: int | float | Selector, *, min_value: int | float | str | Selector = -1, max_value: int | float | str | Selector = -1):
+            super().__init__(True, key)
+            self._value = value
+            self._min_value = min_value
+            self._max_value = max_value
+
+        def roll(self, **kwargs) -> Any:
+            value = self._value if not isinstance(self._value, Selector) else self._value.get_value(**kwargs)
+            min_value = self._min_value if not isinstance(self._min_value, Selector) else self._min_value.get_value(**kwargs)
+            max_value = self._max_value if not isinstance(self._max_value, Selector) else self._max_value.get_value(**kwargs)
+
+            value = float(value) if isinstance(value, str) and value.is_float() else -1
+            min_value = float(min_value) if isinstance(min_value, str) and min_value.is_float() else -1
+            max_value = float(max_value) if isinstance(max_value, str) and max_value.is_float() else -1
+
+            min_value = min_value if min_value != -1 else value
+            max_value = max_value if max_value != -1 else value
+
+            value = clamp_value(value, min_value, max_value)
+
+            return value
+
     class ValueSelector(Selector):
         """
         A Selector-class that sets a value on initialisation for insertion into the event
@@ -459,7 +504,8 @@ init -3 python:
 
         ### Attributes:
         1. _value: Any
-            -The value to be inserted.
+            - The value to be inserted.
+            - If the value is a Selector, the Selector will recursively roll its value and then return the resulting value
 
         ### Methods:
         1. roll() -> Any
@@ -476,12 +522,57 @@ init -3 python:
             super().__init__(True, key)
             self._value = value
 
+        
+
         def roll(self, **kwargs) -> Any:
             """
             Returns the value.
             """
 
-            return self._value
+            value = self._value
+
+            if isinstance(value, Selector):
+                value = value.get_value(**kwargs)
+
+            return value
+
+    class KwargsValueSelector(Selector):
+        """
+        A Selector-class that gets a value from the supplied kwargs via key and returns it
+        KwargsValueSelector is a child of Selector and inherits all of its attributes and methods.
+
+        ### Attributes:
+        1. _key: str | Selector
+            - The key of the value in the kwargs.
+
+        ### Methods:
+        1. roll() -> Any
+            - Returns the value.
+
+        ### Parameters:
+        1. key: str
+            -The key of the value.
+        2. kwargs_key: str | Selector
+            - The key of the value in the kwargs.
+        """
+        
+        def __init__(self, key: str, kwargs_key: str | Selector):
+            super().__init__(True, key)
+            self._key = kwargs_key
+
+        
+
+        def roll(self, **kwargs) -> Any:
+            """
+            Returns the value.
+            """
+
+            key = self._key
+
+            if isinstance(key, Selector):
+                key = key.get_value(**kwargs)
+
+            return get_kwargs(key, None, **kwargs)
 
     class DictSelector(Selector):
         """
@@ -521,7 +612,11 @@ init -3 python:
             if self._index not in kwargs or kwargs[self._index] not in self._dict:
                 return None
 
-            return self._dict[kwargs[self._index]]
+            value = self._dict[kwargs[self._index]]
+            if isinstance(value, Selector):
+                return value.get_value(**kwargs)
+
+            return value
 
     class GameDataSelector(Selector):
         """
@@ -592,9 +687,10 @@ init -3 python:
         ProgressSelector is a child of Selector and inherits all of its attributes and methods.
 
         ### Attributes:
-        1. _index: str
+        1. _index: str | Selector
             - The key for the Event Progress Database from where the the value is determined.
             - This parameter takes the value in get_progress(_index) and uses it as the value for the Selector.
+            - If the index is a Selector, the Selector will recursively roll its value and then return the resulting value
 
         ### Methods:
         1. roll() -> Any
@@ -610,7 +706,7 @@ init -3 python:
             - This parameter takes the value in get_progress(_index) and uses it as the value for the Selector.
         """
 
-        def __init__(self, key: str, index: str):
+        def __init__(self, key: str, index: str | Selector):
             super().__init__(True, key)
             self._index = index
 
@@ -619,7 +715,9 @@ init -3 python:
             Returns the progress of the Event Progress Database.
             """
 
-            return get_progress(self._index)
+            index = self._index if not isinstance(self._index, Selector) else self._index.get_value(**kwargs)
+
+            return get_progress(index)
 
     class RuleUnlockedSelector(Selector):
         """
@@ -627,8 +725,9 @@ init -3 python:
         RuleUnlockedSelector is a child of Selector and inherits all of its attributes and methods.
 
         ### Attributes:
-        1. _rule: Rule
+        1. _rule: str | Selector
             - The rule that is checked for being unlocked.
+            - if the rule is a Selector, the Selector will recursively roll its value and then return the resulting value
 
         ### Methods:
         1. roll() -> Any
@@ -643,12 +742,17 @@ init -3 python:
             - The rule is used to identify the rule in the rule dictionary.
         """
 
-        def __init__(self, key: str, rule: str):
+        def __init__(self, key: str, rule: str | Selector):
             super().__init__(True, key)
-            self._rule = get_rule(rule)
+            self._rule = rule
 
         def roll(self, **kwargs) -> Any:
-            return self._rule.is_unlocked()
+
+            rule = get_rule(self._rule) if not isinstance(self._rule, Selector) else get_rule(self._rule.get_value(**kwargs))
+            if rule == None:
+                return None           
+
+            return rule.is_unlocked()
 
     class ClubUnlockedSelector(Selector):
         """
@@ -656,7 +760,7 @@ init -3 python:
         ClubUnlockedSelector is a child of Selector and inherits all of its attributes and methods.
 
         ### Attributes:
-        1. _club: Club
+        1. _club: str | Selector
             - The club that is checked for being unlocked.
 
         ### Methods:
@@ -672,12 +776,16 @@ init -3 python:
             - The club is used to identify the club in the club dictionary.
         """
 
-        def __init__(self, key: str, club: str):
+        def __init__(self, key: str, club: str | Selector):
             super().__init__(True, key)
-            self._club = get_club(club)
+            self._club = club
 
         def roll(self, **kwargs) -> Any:
-            return self._club.is_unlocked()
+
+            club = get_club(self._club) if not isinstance(self._club, Selector) else get_club(self._club.get_value(**kwargs))
+            if club == None:
+                return None
+            return club.is_unlocked()
 
     class BuildingUnlockedSelector(Selector):
         """
@@ -685,7 +793,7 @@ init -3 python:
         BuildingUnlockedSelector is a child of Selector and inherits all of its attributes and methods.
 
         ### Attributes:
-        1. _building: Building
+        1. _building: str | Selector
             - The building that is checked for being unlocked.
 
         ### Methods:
@@ -703,10 +811,14 @@ init -3 python:
 
         def __init__(self, key: str, building: str):
             super().__init__(True, key)
-            self._building = get_building(building)
+            self._building = building
 
         def roll(self, **kwargs) -> Any:
-            return self._building.is_unlocked()
+
+            building = get_building(self._building) if not isinstance(self._building, Selector) else get_building(self._building.get_value(**kwargs))
+            if building == None:
+                return None
+            return building.is_unlocked()
 
     class BuildingLevelSelector(Selector):
         """
@@ -714,7 +826,7 @@ init -3 python:
         BuildingLevelSelector is a child of Selector and inherits all of its attributes and methods.
 
         ### Attributes:
-        1. _building: Building
+        1. _building: str | Selector
             - The building that is checked for being unlocked.
 
         ### Methods:
@@ -730,12 +842,16 @@ init -3 python:
             - The building is used to identify the building in the building dictionary.
         """
 
-        def __init__(self, key: str, building: str):
+        def __init__(self, key: str, building: str | Selector):
             super().__init__(True, key)
-            self._building = get_building(building)
+            self._building = building
 
         def roll(self, **kwargs) -> Any:
-            return self._building.get_level()
+
+            building = get_building(self._building) if not isinstance(self._building, Selector) else get_building(self._building.get_value(**kwargs))
+            if building == None:
+                return 0
+            return building.get_level()
 
     class CharacterSelector(Selector):
         """
@@ -763,9 +879,12 @@ init -3 python:
             - possible keys: school, parent, teacher, secretary
         """
 
-        def __init__(self, key: str, char: str = 'school'):
+        def __init__(self, key: str, char: str | Selector = 'school'):
             super().__init__(True, key)
             self._char = char
 
         def roll(self, **kwargs) -> Any:
-            return get_character_by_key(self._char)
+
+            char = self._char if not isinstance(self._char, Selector) else self._char.get_value(**kwargs)
+
+            return get_character_by_key(char)

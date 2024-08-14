@@ -474,18 +474,18 @@ screen school_overview_buttons (with_available_Events = False):
     
     
 
-        $ j_text = ""
-        if has_keyboard():
-            if show_shortcut():
-                $ j_text = " [[J]"
-        key "K_j" action Call("start_journal")
-        # Open Journal
-        imagebutton:
-            auto "icons/journal_icon_%s.webp"
-            tooltip "Open Journal" + j_text
-            focus_mask None
-            xalign 1.0 yalign 0.6
-            action Call("start_journal")
+    $ j_text = ""
+    if has_keyboard():
+        if show_shortcut():
+            $ j_text = " [[J]"
+    key "K_j" action Call("start_journal")
+    # Open Journal
+    imagebutton:
+        auto "icons/journal_icon_%s.webp"
+        tooltip "Open Journal" + j_text
+        focus_mask None
+        xalign 1.0 yalign 0.6
+        action Call("start_journal")
 
     $ tooltip = GetTooltip()
 

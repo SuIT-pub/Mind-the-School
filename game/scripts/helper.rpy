@@ -623,6 +623,12 @@ init -99 python:
             return (split[0], "")
         return (split[0], ' '.join(split[1:]))
 
+    def split_name_first(name: str) -> str:
+        return split_name(name)[0]
+
+    def split_name_last(name: str) -> str:
+        return split_name(name)[1]
+
     ##############################
     # --- GameData Functions --- #
     ##############################

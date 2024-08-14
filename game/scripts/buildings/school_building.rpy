@@ -19,7 +19,7 @@ init -1 python:
     sb_teach_events = {}
     add_storage(sb_teach_events, EventStorage("math",    "school_building", fallback_text = "There is nobody here."))
 
-    sb_bg_images = BGStorage("images/background/school building/bg f.webp",
+    sb_bg_images = BGStorage("images/background/school building/bg f.webp", ValueSelector('loli', 0),
         BGImage("images/background/school building/bg <loli> <school_level> <variant> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")),
         BGImage("images/background/school building/bg 7.webp", 1, TimeCondition(daytime = 7)),
     )
@@ -163,9 +163,6 @@ label .after_time_check (**kwargs):
     call call_available_event(sb_general_event) from school_building_4
 
 label .after_general_check (**kwargs):
-    $ loli = get_random_loli()
-    $ sb_bg_images.add_kwargs(loli = loli)
-
     call call_event_menu (
         "What to do in the School?", 
         sb_events,

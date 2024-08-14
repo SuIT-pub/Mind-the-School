@@ -14,7 +14,7 @@ init -1 python:
     kiosk_events = {}
     add_storage(kiosk_events, EventStorage("get_snack",    "kiosk", fallback_text = "I don't want anything."))
 
-    kiosk_bg_images = BGStorage("images/background/kiosk/bg c.webp",
+    kiosk_bg_images = BGStorage("images/background/kiosk/bg c.webp", ValueSelector('loli', 0),
         BGImage("images/background/kiosk/bg <loli> <school_level> <variant> <nude>.webp", 1, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))), # show kiosk with students
         BGImage("images/background/kiosk/bg 7.webp", 1, TimeCondition(daytime = 7)), # show kiosk at night empty
     )
@@ -69,9 +69,6 @@ label .after_time_check (**kwargs):
     call call_available_event(kiosk_general_event) from kiosk_4
 
 label .after_general_check (**kwargs):
-    $ loli = get_random_loli()
-    $ kiosk_bg_images.add_kwargs(loli = loli)
-
     call call_event_menu (
         "What to do at the Kiosk?", 
         kiosk_events, 

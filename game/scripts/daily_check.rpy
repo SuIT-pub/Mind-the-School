@@ -153,14 +153,32 @@ label .after_event_check (**kwargs):
 label map_tutorial (**kwargs):
     $ begin_event(**kwargs)
 
-    show screen show_building_buttons ('x', 'stats', 'time', 'time_skip_idle', 'journal_hover', show_type = "normal")
+    $ red_example = {
+        "school_building": "normal", 
+        "school_dormitory": "normal",
+        "labs": "normal",
+        "sports_field": "normal",  
+        "beach": "normal",
+        "staff_lodges": "normal", 
+        "gym": "normal",
+        "swimming_pool": "normal",
+        "cafeteria": "normal",
+        "bath": "normal",
+        "kiosk": "normal",
+        "courtyard": "red",
+        "office_building": "normal",
+    }
+
+    show screen show_building_buttons ('x', 'stats', 'time', 'time_skip_idle', 'journal_idle', show_type = "normal")
     subtitles "Hello and welcome to the map tutorial."
     subtitles "You are now probably seeing the map for the first time."
     subtitles "This map is an overview over the entire school campus."
     subtitles "The map consists of basically 3 parts."
     subtitles "One part consists of all the locations you can visit on the campus. These locations are where the events and bulk of the gameplay happens."
     subtitles "These are all the buildings you can visit. A bit crowded I know but you'll figure it out eventually ;)"
+    show screen show_building_buttons (red_example, 'stats', 'time', 'time_skip_idle', 'journal_idle', show_type = "normal")
     subtitles "If a building is marked red, it means that there is a 'special' or time/condition-locked event available."
+    show screen show_building_buttons ('x', 'stats', 'time', 'time_skip_idle', 'journal_idle', show_type = "normal", frames = [(1270, 0, 650, 350)])
     subtitles "The second part is the data area. This area shows you the current stats of your school and the current time."
     subtitles "The stats show the current stats and also how the stats changed during your last interaction."
     subtitles "If a stat is marked yellow, it means that stat is currently capped and you can't increase it further until you progress the school level."
@@ -168,6 +186,7 @@ label map_tutorial (**kwargs):
     subtitles "The time is rather self explanatory. You have years, 12 months with 28 days each."
     subtitles "Additionally each day consists of 7 parts. Morning, Early Noon, Noon, Early Afternoon, Afternoon, Evening and Night."
     subtitles "In addition, there is also a display that shows the current timetable. Free-time, Class, Weekend and Night."
+    show screen show_building_buttons ('x', 'stats', 'time', 'time_skip_idle', 'journal_idle', show_type = "normal", frames = [(1270, 0, 650, 350)])
     subtitles "The third part is the control area. Here you have two buttons."
     subtitles "One button forwards the time by one day segment."
     subtitles "And one opens the journal. Where you get all the information about your school, goals and where you also manage everything."
@@ -285,8 +304,6 @@ label .tutorial_2:
     dev "Hello, I'm Suit-Kun and welcome to Mind the School. I'm going to explain a few things about the game."
     dev "The game is a simple event-driven sandbox management game. This means that you visit the available locations, an event happens and you get stat points or other effects."
     dev "Then, after fulfilling certain conditions, you can unlock new rules, clubs or buildings for your school."
-    if loli_content > 0:
-        dev "There are several schools on campus. Each school has its own rules and clubs. So you have to unlock new things for each school individually."
     dev "Now for the game elements."
     dev "In the background you can see a map of the campus."
     dev "Your lovely secretary has probably already shown you the various facilities, so I'll just show you the overlay."

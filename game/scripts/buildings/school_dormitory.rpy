@@ -14,7 +14,7 @@ init -1 python:
     sd_events = {}
     add_storage(sd_events, EventStorage("peek_students", "school_dormitory", fallback_text = "There is nobody here."))
 
-    sd_bg_images = BGStorage("images/background/school dormitory/bg c.webp",
+    sd_bg_images = BGStorage("images/background/school dormitory/bg c.webp", ValueSelector('loli', 0),
         BGImage("images/background/school dormitory/bg <loli> <school_level> <variant> <nude>.webp", 1, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))),
         BGImage("images/background/school dormitory/bg 7.webp", 1, TimeCondition(daytime = 7)),
     )
@@ -102,9 +102,6 @@ label .after_time_check (**kwargs):
     call call_available_event(sd_general_event) from school_dormitory_4
 
 label .after_general_check (**kwargs):
-    $ loli = get_random_loli()
-    $ sd_bg_images.add_kwargs(loli = loli)
-
     call call_event_menu (
         "What to do in the High School Dorm?", 
         sd_events, 

@@ -14,7 +14,7 @@ init -1 python:
     courtyard_events = {}
     add_storage(courtyard_events, EventStorage("patrol", "courtyard", fallback_text = "There is nobody here."))
 
-    courtyard_bg_images = BGStorage("images/background/courtyard/bg c.webp",
+    courtyard_bg_images = BGStorage("images/background/courtyard/bg c.webp", ValueSelector('loli', 0),
         BGImage("images/background/courtyard/bg <loli> <school_level> <teacher_level> <variant> <nude>.webp", 1, TimeCondition(daytime = "f")),
         BGImage("images/background/courtyard/bg 7.webp", 1, TimeCondition(daytime = 7)), # show empty courtyard at night
     )
