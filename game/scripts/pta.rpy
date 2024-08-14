@@ -170,22 +170,18 @@ label pta_meeting (**kwargs):
         elif parent_vote == 'veto':
             $ forNum = -3
 
-    
-    $ image = Image_Series("images/events/pta/regular meeting/pta_1 <secretary_level> <teacher_level> <student_level> <parent_level> <step>.webp", 
-        secretary_level = obj_secretary.get_level(),
-        teacher_level = obj_teacher.get_level(),
-        student_level = obj_school.get_level(), 
-        parent_level = obj_parent.get_level()
-    )
+    $ secretary_level = obj_secretary.get_level()
+    $ school_level = obj_school.get_level()
+    $ parent_level = obj_parent.get_level()
+    $ teacher_level = obj_teacher.get_level()
 
-    # $ speaking_teacher = get_random_choice("Lily Anderson", "Yulan Chen", "Finola Ryan", "Chloe Garcia", "Zoe Parker")
-    # $ speaking_parent = get_random_choice("Yuki Yamamoto", "Adelaide Hall", "Nubia Davis")
+    $ image = Image_Series("images/events/pta/regular meeting/pta <secretary_level> <level> <step>.webp", secretary_level = secretary_level, level = school_level, **kwargs)
 
-    $ speaking_teacher = "Yulan Chen"
-    $ speaking_parent = "Adelaide Hall"
+    $ speaking_teacher = get_random_choice("Lily Anderson", "Yulan Chen", "Finola Ryan", "Chloe Garcia", "Zoe Parker")
+    $ speaking_parent = get_random_choice("Yuki Yamamoto", "Adelaide Hall", "Nubia Davis")
     $ speaking_student = get_random_choice("Yuriko Oshima")
 
-    $ begin_event()
+    $ begin_event(no_gallery = True, **kwargs)
 
     $ image.show(0)
     subtitles "You enter the conference room."
@@ -225,15 +221,8 @@ label pta_meeting (**kwargs):
         $ image.show(6)
         headmaster "Please cast your vote now."
 
-        call show_image("images/events/pta/regular meeting/pta_2 <secretary_level> <teacher_level> <student_level> <parent_level> <teacher> <vote>.webp",
-            secretary_level = obj_secretary.get_level(),
-            teacher_level = obj_teacher.get_level(), 
-            student_level = obj_school.get_level(), 
-            parent_level = obj_parent.get_level(),
-            teacher = speaking_teacher,
-            vote = teacher_vote
-        ) from _call_show_image_3
 
+        call show_image ("images/events/pta/regular meeting/pta_vote <level> <name>.webp", name = split_name_first(speaking_teacher), level = teacher_level, **kwargs) from _call_pta_meeting_1
         if isinstance(teacher_response, str):
             teacher "[teacher_response]" (name = speaking_teacher)
         else:
@@ -243,15 +232,7 @@ label pta_meeting (**kwargs):
                 teacher "[response_text]" (name = speaking_teacher)
                 $ i += 1
 
-        call show_image("images/events/pta/regular meeting/pta_2 <secretary_level> <teacher_level> <student_level> <parent_level> <student> <vote>.webp",
-            secretary_level = obj_secretary.get_level(),
-            teacher_level = obj_teacher.get_level(),
-            student_level = obj_school.get_level(), 
-            parent_level = obj_parent.get_level(),
-            student = speaking_student,
-            vote = student_vote
-        ) from _call_show_image_4
-
+        call show_image ("images/events/pta/regular meeting/pta_vote <level> <name>.webp", name = split_name_first(speaking_student), level = school_level, **kwargs) from _call_pta_meeting_2
         if isinstance(student_response, str):
             sgirl "[student_response]" (name = speaking_student)
         else:
@@ -261,15 +242,7 @@ label pta_meeting (**kwargs):
                 sgirl "[response_text]" (name = speaking_student)
                 $ i += 1
 
-        call show_image("images/events/pta/regular meeting/pta_2 <secretary_level> <teacher_level> <student_level> <parent_level> <parent> <vote>.webp",
-            secretary_level = obj_secretary.get_level(),
-            teacher_level = obj_teacher.get_level(),
-            student_level = obj_school.get_level(), 
-            parent_level = obj_parent.get_level(),
-            parent = speaking_parent,
-            vote = parent_vote
-        ) from _call_show_image_5
-
+        call show_image ("images/events/pta/regular meeting/pta_vote <level> <name>.webp", name = split_name_first(speaking_parent), level = parent_level, **kwargs) from _call_pta_meeting_3
         if isinstance(parent_response, str):
             parent "[parent_response]" (name = speaking_parent)
         else:
