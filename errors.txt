@@ -11,6 +11,7 @@ errors listed below, and try again.
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 File "game/scripts/modifier.rpy", line 493: expected statement.
     log_val("modifier key", keys[i])
                                     ^
@@ -87,3 +88,11 @@ File "game/screens.rpy", line 409: expected a keyword argument, colon, or end of
 Ren'Py Version: Ren'Py 8.1.3.23091805
 Mon Aug 12 22:13:36 2024
 >>>>>>> 75536a8 (generated files from compilation)
+=======
+File "game/scripts/selector.rpy", line 478: invalid syntax
+        def __init__(self, key: str, value: int | float | Selector, *, min_value = -1: int | float | str | Selector, max_value: int | float | str | Selector = -1):
+                                                                                      ^
+
+Ren'Py Version: Ren'Py 8.1.3.23091805
+Tue Aug 13 17:02:26 2024
+>>>>>>> f004c58 (extended BackgroundImage functionality)

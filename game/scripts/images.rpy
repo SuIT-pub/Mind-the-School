@@ -210,7 +210,7 @@ init -2 python:
             - The conditions for the background image.
         """
 
-        def __init__(self, image_path: str, priority: int, *conditions: Condition):
+        def __init__(self, image_path: str, priority: int, *conditions: Condition | Selector):
             """
             Constructs all the necessary attributes for the BGImage object.
 
@@ -223,7 +223,8 @@ init -2 python:
                 - The conditions for the background image.
             """
 
-            self._conditions = list(conditions)
+            self._conditions = [condition for condition in conditions if isinstance(condition, Condition)]
+            self._selectors = SelectorSet(*[selector for selector in conditions if isinstance(selector, Selector)])
             self._priority = priority
             self._image_path = image_path
 
@@ -240,8 +241,11 @@ init -2 python:
                 - Whether the background image can be used.
             """
 
-            for condition in self._conditions:
+            if self._selectors != None:
+                kwargs.update(self._selectors.get_values())
+                self._selectors.roll_values()
 
+            for condition in self._conditions:
                 if condition.is_fulfilled(**kwargs):
                     continue
                 return False
@@ -259,7 +263,7 @@ init -2 python:
 
             return self._priority
 
-        def get_image(self, **kwargs) -> str:
+        def get_image(self, **kwargs) -> Tuple[int, str]:
             """
             Returns the image path of the background image.
 
@@ -268,9 +272,15 @@ init -2 python:
                 - The keyword arguments to replace in the image path.
 
             ### Returns:
-            1. str
+            1. nude: int
+                - The highest available nude-level.
+            2. image_path: str
                 - The image path of the background image.
             """
+            
+            if self._selectors != None:
+                kwargs.update(self._selectors.get_values())
+                self._selectors.roll_values()
 
             return get_image(self._image_path, **kwargs)
 
@@ -287,7 +297,7 @@ init -2 python:
                 - Whether the image path of the background image can be found in the game files.
             """
 
-            return get_image(self._image_path, **kwargs)[0] != -1
+            return self.get_image(self._image_path, **kwargs)[0] != -1
         
     class BGStorage:
         """
@@ -323,9 +333,11 @@ init -2 python:
             - The keyword arguments to replace in the image path.
         """
 
-        def __init__(self, fallback_image: str, *images: BGImage, **kwargs):
+        def __init__(self, fallback_image: str, *images: BGImage | Selector, **kwargs):
             self.fallback_image = fallback_image
-            self.images = list(images)
+            
+            self._selectors = SelectorSet(*[image for image in images if isinstance(image, Selector)])
+            self.images = [image for image in images if isinstance(image, BGImage)]
             self._kwargs = kwargs
 
         def get_images(self) -> List[BGImage]:
@@ -338,6 +350,23 @@ init -2 python:
             """
 
             return self.images
+
+        def get_selector_values(self, **kwargs) -> Dict[str, Any]:
+            """
+            Returns the values of the selectors in the background storage.
+
+            ### Returns:
+            1. dict
+                - The values of the selectors in the background storage.
+            """
+
+            if self._selectors == None:
+                return {}
+
+            values = self._selectors.get_values(**kwargs)
+            self._selectors.roll_values(**kwargs)
+
+            return values
 
         def get_fallback(self) -> str:
             """
@@ -479,6 +508,8 @@ init -2 python:
                 continue
 
             max_nude, output = bgimage.get_image(**kwargs)
+            if max_nude == -1:
+                continue
 
             if priority < bgimage.get_priority() and max_nude >= 0:
                 output_image = output
@@ -806,8 +837,10 @@ label show_idle_image(bg_images, **kwargs):
         return
     $ fallback_image = bg_images.get_fallback()
     $ images = bg_images.get_images()
-
     $ kwargs.update(bg_images.get_kwargs())
+
+    $ selector_values = bg_images.get_selector_values(**kwargs)
+    $ kwargs.update(selector_values)
 
     if last_image_code != image_code:
         $ last_image_code = image_code

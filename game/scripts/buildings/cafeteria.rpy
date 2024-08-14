@@ -15,7 +15,7 @@ init -1 python:
     add_storage(cafeteria_events, EventStorage("order_food",  "cafeteria", fallback_text = "I'm not hungry."))
     add_storage(cafeteria_events, EventStorage("eat_alone",   "cafeteria", fallback_text = "I'm not hungry."))
 
-    cafeteria_bg_images = BGStorage("images/background/cafeteria/bg c.webp",
+    cafeteria_bg_images = BGStorage("images/background/cafeteria/bg c.webp", ValueSelector('loli', 0),
         BGImage("images/background/cafeteria/bg d <loli> <parent_level> <school_level> <variant> <nude>.webp", 1, OR(TimeCondition(daytime = '3,6', weekday = 'd'), TimeCondition(daytime = 'd', weekday = 'w'))),
         BGImage("images/background/cafeteria/bg c <parent_level> <nude>.webp", 1, OR(TimeCondition(daytime = 'c', weekday = 'd'), TimeCondition(daytime = 'd', weekday = 'w'))),
         BGImage("images/background/cafeteria/bg 7.webp", 1, TimeCondition(daytime = 7)), # show empty terrace at night
@@ -123,9 +123,6 @@ label .after_time_check (**kwargs):
     call call_available_event(cafeteria_general_event) from cafeteria_4
 
 label .after_general_check (**kwargs):
-    $ loli = get_random_loli()
-    $ cafeteria_bg_images.add_kwargs(loli = loli)
-
     call call_event_menu (
         "What to do at the Cafeteria?", 
         cafeteria_events,

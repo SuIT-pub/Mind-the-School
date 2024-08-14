@@ -18,7 +18,7 @@ init -1 python:
     add_storage(gym_events, EventStorage("check_pe",       "gym", fallback_text = "There is nothing to do here."))
     add_storage(gym_events, EventStorage("teach_pe",       "gym", fallback_text = "There is nothing to do here."))
 
-    gym_bg_images = BGStorage("images/background/gym/bg f.webp",
+    gym_bg_images = BGStorage("images/background/gym/bg f.webp", ValueSelector('loli', 0),
         BGImage("images/background/gym/bg <loli> <school_level> <teacher_level> <variant> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")), # show gym with students
         BGImage("images/background/gym/bg 7.webp", 1, TimeCondition(daytime = 7)), # show gym at night empty
     )
@@ -145,9 +145,6 @@ label .after_time_check (**kwargs):
     call call_available_event(gym_general_event) from gym_4
 
 label .after_general_check (**kwargs):
-    $ loli = get_random_loli()
-    $ gym_bg_images.add_kwargs(loli = loli)
-
     call call_event_menu (
         "What to do in the Gym?", 
         gym_events, 
