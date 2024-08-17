@@ -1611,8 +1611,6 @@ init -3 python:
 
         global is_in_replay
 
-        is_in_replay = False
-
         frags = get_kwargs("frag_order", [], **kwargs)
         frag_index = get_kwargs("frag_index", 0, **kwargs)
         frag_parent = get_kwargs("frag_parent", None, **kwargs)
@@ -1621,6 +1619,8 @@ init -3 python:
             kwargs["frag_index"] = frag_index + 1
             if frag_parent != None:
                 frag_parent.call_fragment(frag_index + 1, frags[frag_index + 1], **kwargs)
+
+        is_in_replay = False
 
         in_replay = get_kwargs("in_replay", False, **kwargs)
         if in_replay:
