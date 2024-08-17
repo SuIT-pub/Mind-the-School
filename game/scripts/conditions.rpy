@@ -297,7 +297,6 @@ init -6 python:
             self.display_in_list = False
             self.display_in_desc = False
 
-        @abstractmethod
         def is_fulfilled(self, **kwargs) -> bool:
             """
             Returns whether the condition is fulfilled or not.
@@ -310,8 +309,22 @@ init -6 python:
             1. bool
                 - Whether the condition is fulfilled or not.
             """
+            
+            check_in_replay = get_kwargs('check_in_replay', False, **kwargs)
 
-            pass
+            if check_in_replay:
+                return True
+
+            global is_in_replay
+
+            in_replay = get_kwargs('in_replay', False, **kwargs)
+            in_journal_gallery = get_kwargs('in_journal_gallery', False, **kwargs)
+
+            if is_in_replay or in_replay or in_journal_gallery:
+                return True
+
+            return False
+
 
         def is_blocking(self, **kwargs) -> bool:
             """
@@ -447,6 +460,10 @@ init -6 python:
             1. bool
                 - Whether the condition is fulfilled or not.
             """
+
+            if super().is_fulfilled(**kwargs):
+                return True
+
             char_obj = None
             if hasattr(self, 'char_obj'):
                 char_obj = self.char_obj
@@ -594,6 +611,10 @@ init -6 python:
             self.display_in_desc = False
 
         def is_fulfilled(self, **kwargs) -> bool:
+            
+            if super().is_fulfilled(**kwargs):
+                return True
+
             char_obj = None
             if hasattr(self, '_char_obj'):
                 char_obj = self._char_obj
@@ -637,17 +658,26 @@ init -6 python:
             self._level = level
 
         def is_fulfilled(self, **kwargs) -> bool:
+            
+            if super().is_fulfilled(**kwargs):
+                return True
+
+            if self._xp == -1 and self._level == -1:
+                return self._proficiency in headmaster_proficiencies.keys()
+            
+            output = True
             if self._xp != -1:
                 curr_xp = get_headmaster_proficiency_xp(self._proficiency)
                 if not check_in_value(self._xp, curr_xp):
-                    return False
-
+                    output = False
             if self._level != -1:
                 curr_level = get_headmaster_proficiency_level(self._proficiency)
+                log_val('curr_level', curr_level)
+                log_val('level', self._level)
                 if not check_in_value(self._level, curr_level):
-                    return False
+                    output = False
 
-            return self._proficiency in headmaster_proficiencies.keys()
+            return output
 
         def get_name(self) -> str:
             return self._proficiency + "_" + str(self._xp) + "_" + str(self._level)
@@ -695,6 +725,9 @@ init -6 python:
             1. bool
                 - Whether the condition is fulfilled or not.
             """
+
+            if super().is_fulfilled(**kwargs):
+                return True
 
             return get_rule(self.value).is_unlocked()
 
@@ -786,6 +819,9 @@ init -6 python:
             1. bool
                 - Whether the condition is fulfilled or not.
             """
+
+            if super().is_fulfilled(**kwargs):
+                return True
 
             return get_club(self.value).is_unlocked()
 
@@ -885,6 +921,9 @@ init -6 python:
                 - Whether the condition is fulfilled or not.
             """
 
+            if super().is_fulfilled(**kwargs):
+                return True
+
             return get_building(self.value).is_unlocked()
 
         def to_desc_text(self, **kwargs) -> str:
@@ -979,6 +1018,9 @@ init -6 python:
                     - Whether the condition is fulfilled or not.
                 """
 
+            if super().is_fulfilled(**kwargs):
+                return True
+
                 return get_building(self.name).get_level() == self.level
 
             def to_desc_text(self, **kwargs) -> str:
@@ -1068,6 +1110,9 @@ init -6 python:
             1. bool
                 - Whether the condition is fulfilled or not.
             """
+
+            if super().is_fulfilled(**kwargs):
+                return True
 
             char_obj = None
             if hasattr(self, 'char_obj'):
@@ -1205,6 +1250,9 @@ init -6 python:
                 - Whether the condition is fulfilled or not.
             """
 
+            if super().is_fulfilled(**kwargs):
+                return True
+
             return check_in_value(self.value, money.get_value())
 
         def to_desc_text(self, **kwargs) -> str:
@@ -1315,6 +1363,9 @@ init -6 python:
             """
             Returns "False" as the condition is never fulfilled.
             """
+
+            if super().is_fulfilled(**kwargs):
+                return True
 
             return False
 
@@ -1431,6 +1482,9 @@ init -6 python:
                 - Whether the condition is fulfilled or not.
             """
 
+            if super().is_fulfilled(**kwargs):
+                return True
+
             return (
                 time.check_day    (self.day    ) and
                 time.check_month  (self.month  ) and
@@ -1524,6 +1578,10 @@ init -6 python:
             self.daytime   = "x" if 'daytime'   not in kwargs.keys() else kwargs['daytime']
 
         def is_fulfilled(self, **kwargs) -> bool:
+            
+            if super().is_fulfilled(**kwargs):
+                return True
+
             if not contains_game_data(self.id):
                 return False
 
@@ -1594,6 +1652,9 @@ init -6 python:
             1. bool
                 - Whether the condition is fulfilled or not.
             """
+            if super().is_fulfilled(**kwargs):
+                return True
+
 
             return get_random_int(0, self.limit) < self.amount
 
@@ -1694,6 +1755,9 @@ init -6 python:
                 - Whether the condition is fulfilled or not.
             """
 
+            if super().is_fulfilled(**kwargs):
+                return True
+
             if self.key not in gameData.keys():
                 return False
             return gameData[self.key] == self.value
@@ -1780,6 +1844,9 @@ init -6 python:
                 - Whether the condition is fulfilled or not.
             """
 
+            if super().is_fulfilled(**kwargs):
+                return True
+
             if self.value == "":
                 return get_progress(self.key) != -1
 
@@ -1864,6 +1931,9 @@ init -6 python:
             1. bool
                 - Whether the condition is fulfilled or not.
             """
+
+            if super().is_fulfilled(**kwargs):
+                return True
 
             if self.key not in kwargs.keys():
                 return False
@@ -1953,6 +2023,9 @@ init -6 python:
             1. bool
                 - Whether the condition is fulfilled or not.
             """
+
+            if super().is_fulfilled(**kwargs):
+                return True
 
             if self.key not in kwargs.keys():
                 return False
@@ -2073,6 +2146,9 @@ init -6 python:
             1. bool
                 - Whether the condition is fulfilled or not.
             """
+
+            if super().is_fulfilled(**kwargs):
+                return True
 
             if self.key not in kwargs.keys():
                 return False
@@ -2204,6 +2280,9 @@ init -6 python:
                 - Whether the condition is fulfilled or not.
             """
 
+            if super().is_fulfilled(**kwargs):
+                return True
+
             if self.key not in kwargs.keys():
                 return False
 
@@ -2312,6 +2391,9 @@ init -6 python:
             1. bool
                 - Whether the condition is fulfilled or not.
             """
+
+            if super().is_fulfilled(**kwargs):
+                return True
 
             if self.key_1 not in kwargs.keys() or self.key_2 not in kwargs.keys():
                 return False
@@ -2432,6 +2514,9 @@ init -6 python:
                 - Whether the condition is fulfilled or not.
             """
 
+            if super().is_fulfilled(**kwargs):
+                return True
+
             return check_in_value(self.value, loli_content)
 
         def get_name(self) -> str:
@@ -2484,6 +2569,9 @@ init -6 python:
             1. bool
                 - Whether the condition is fulfilled or not.
             """
+
+            if super().is_fulfilled(**kwargs):
+                return True
 
             for condition in self.conditions:
                 if condition.is_fulfilled(**kwargs):
@@ -2560,6 +2648,9 @@ init -6 python:
             1. bool
                 - Whether the condition is fulfilled or not.
             """
+
+            if super().is_fulfilled(**kwargs):
+                return True
 
             for condition in self.conditions:
                 if condition.is_fulfilled(**kwargs):
@@ -2644,6 +2735,9 @@ init -6 python:
                 - Whether the condition is fulfilled or not.
             """
 
+            if super().is_fulfilled(**kwargs):
+                return True
+
             for condition in self.conditions:
                 if condition.is_fulfilled(**kwargs):
                     return False
@@ -2726,6 +2820,9 @@ init -6 python:
                 - Whether the condition is fulfilled or not.
             """
 
+            if super().is_fulfilled(**kwargs):
+                return True
+
             return not self.condition.is_fulfilled(**kwargs)
 
         def to_desc_text(self, **kwargs) -> str | List[str]:
@@ -2795,6 +2892,9 @@ init -6 python:
                 - Whether the condition is fulfilled or not.
             """
 
+            if super().is_fulfilled(**kwargs):
+                return True
+
             is_true = False
             
             for condition in self.conditions:
@@ -2858,6 +2958,10 @@ init -6 python:
             self.is_intro = is_intro
 
         def is_fulfilled(self, **kwargs) -> bool:
+            
+            if super().is_fulfilled(**kwargs):
+                return True
+
             if ((time.compare_today(10, 1, 2023) == -1 and self.is_intro) or
                 (time.compare_today(10, 1, 2023) != -1 and not self.is_intro)):
                 return True
@@ -2895,6 +2999,9 @@ init -6 python:
                 - Whether the condition is fulfilled or not.
             """
 
+            if super().is_fulfilled(**kwargs):
+                return True
+
             return self.accept
 
         def get_name(self) -> str:
@@ -2925,3 +3032,74 @@ init -6 python:
             if self.char == "" or self.char == char_obj.get_name():
                 return 5000 if self.accept else -5000
             return 0
+
+    class CheckReplay(Condition):
+        """
+        A class for conditions that check if the condition is not fulfilled.
+        """
+
+        def __init__(self, condition: Condition):
+            super().__init__(False)
+            self.condition = condition
+            self.display_in_desc = True
+
+        def is_fulfilled(self, **kwargs) -> bool:
+            """
+            Returns whether the condition is not fulfilled.
+
+            ### Parameters:
+            1. **kwargs
+                - Additional arguments.
+
+            ### Returns:
+            1. bool
+                - Whether the condition is fulfilled or not.
+            """
+
+            kwargs['check_in_replay'] = True
+
+            return self.condition.is_fulfilled(**kwargs)
+
+        def to_desc_text(self, **kwargs) -> str | List[str]:
+            """
+            Returns the description text for the condition that is displayed in the description.
+            Logic conditions are displayed in a special way.
+
+            ### Returns:
+            1. str | List[str]
+                - The condition text for the description.
+            """
+
+            desc_text = self.condition.to_desc_text(**kwargs)
+            if isinstance(desc_text, str):
+                return "{color=#616161}NOT{/color} " + desc_text
+            else:
+                return "\n".join(["{color=#616161}NOT{/color} " + desc for desc in desc_text])
+
+        def get_name(self) -> str:
+            """
+            Returns the name of the condition with a "NOT_" prefix.
+
+            ### Returns:
+            1. str
+                - The name of the condition.
+            """
+
+            return "NOT_" + self.condition.get_name()
+
+        def get_diff(self, char_obj: Char) -> num:
+            """
+            Returns the difference of the added condition inverted.
+
+            ### Parameters:
+            1. char_obj: Char
+                - The character to compare the condition to.
+
+            ### Returns:
+            1. num
+                - The difference of the added condition inverted.
+            """
+
+            diff = self.condition.get_diff(char_obj)
+
+            return clamp_value(100 - diff, -100, 100)
