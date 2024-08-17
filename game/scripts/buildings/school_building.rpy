@@ -18,6 +18,7 @@ init -1 python:
 
     sb_teach_events = {}
     add_storage(sb_teach_events, EventStorage("math",    "school_building", fallback_text = "There is nobody here."))
+    add_storage(sb_teach_events, EventStorage("history", "school_building", fallback_text = "There is nobody here."))
 
     sb_bg_images = BGStorage("images/background/school building/bg f.webp", ValueSelector('loli', 0),
         BGImage("images/background/school building/bg <loli> <school_level> <variant> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")),
@@ -83,6 +84,11 @@ init 1 python:
         LevelSelector('school_level', 'school'),
         RandomListSelector('girl_name', 'Ikushi Ito'),
         thumbnail = "images/events/school building/sb_event_4 1 Ikushi Ito 0.webp")
+
+    sb_event5 = Event(3, "sb_event_5",
+        TimeCondition(daytime = "c", weekday = "d"),
+        RandomListSelector('girls', 'Ikushi Ito', 'Soyoon Yamamoto', 'Yuriko Oshima'),
+        thumbnail = "images/events/school building/sb_event_5 1 Soyoon Yamamoto 11.webp")
     ####################
 
     # sb_event_teach_class_event = Event(3, "teach_class_event",
@@ -127,6 +133,26 @@ init 1 python:
     )
     #################
 
+    sb_teach_history_intro_storage = FragmentStorage('sb_teach_history_intro')
+    sb_teach_history_intro_storage.add_event(
+        EventFragment(3, 'sb_teach_history_intro_f_revolution_1',
+            CheckReplay(ValueCondition('topic', 'french revolution')))
+    )
+
+    sb_teach_history_main_storage = FragmentStorage('sb_teach_history_main')
+    sb_teach_history_main_storage.add_event(
+        EventFragment(3, 'sb_teach_history_main_f_revolution_1',
+            CheckReplay(ValueCondition('topic', 'french revolution'))),
+        EventFragment(3, 'sb_teach_history_main_f_revolution_2',
+            CheckReplay(ValueCondition('topic', 'french revolution')))
+    )
+
+    sb_teach_history_event = EventComposite(3, 'sb_teach_history', [sb_teach_history_intro_storage, sb_teach_history_main_storage],
+        LevelSelector('school_level', 'school'),
+        RandomListSelector('topic', 'french revolution'),
+        ProficiencyCondition('history'),
+    )
+
     #################
     # Event insertion
     sb_general_event.add_event(
@@ -143,11 +169,17 @@ init 1 python:
         sb_event1, 
         sb_event3,
         sb_event4,
+        sb_event5,
     )
 
     sb_teach_events["math"].add_event(
         sb_teach_math_event
     )
+
+    sb_teach_events["history"].add_event(
+        sb_teach_history_event
+    )
+
     #################
 
 ##################################################
@@ -403,6 +435,153 @@ label first_class_sb_event (**kwargs):
         happiness = TINY, charm = SMALL, education = TINY)
 
     $ end_event('new_daytime', **kwargs)
+
+##########
+## HISTORY
+
+label sb_teach_history (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ get_value('school_level', **kwargs)
+    $ get_value('topic', **kwargs)
+
+    # headmaster enters room
+    call show_image ("/images/events/school building/sb_teach_history.webp", **kwargs) from _call_show_image_sb_teach_history_event_1
+    headmaster "Good morning everyone. Let's start with todays subject History."
+
+    call composite_event_runner(**kwargs)
+
+label sb_teach_history_intro_f_revolution_1 (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ image = Image_Series("/images/events/school building/sb_teach_history_intro_f_revolution_1 <step>.webp", **kwargs)
+
+    $ image.show(0)
+    headmaster "Today we're going to continue learning about one of the most significant events in world history - the French Revolution."
+    $ image.show(1)
+    headmaster "This event, which took place from 1789 to 1799, had a profound impact on modern society and politics."
+    $ image.show(2)
+    headmaster "To set the stage, let's quickly review what was happening in France before the Revolution."
+    $ image.show(3)
+    headmaster "In the late 18th century, France was ruled by an absolute monarch, King Louis XVI."
+    $ image.show(4)
+    headmaster "The country was deeply in debt due to expensive wars and lavish spending on royal projects."
+    $ image.show(5)
+    headmaster "Meanwhile, the common people of France - including peasants, artisans, and merchants - were struggling with poverty, inequality, and limited social mobility."
+
+    call change_stats_with_modifier('school', 'history',
+        education = TINY)
+
+    $ end_event('map_overview', **kwargs)
+
+label sb_teach_history_main_f_revolution_1 (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ sakura = Character ("Sakura Mori", kind=character.sgirl)
+    $ luna = Character ("Luna Clark", kind=character.sgirl)
+    $ easkey = Character ("Easkey Tanaka", kind=character.sgirl)
+
+    $ image = Image_Series("/images/events/school building/sb_teach_history_main_f_revolution_1 <school_level> <step>.webp", ['school_level'], **kwargs)
+
+    $ image.show(0)
+    headmaster "Now today we talk about the causes of the Revolution."
+    $ image.show(1)
+    headmaster "Okay I want you to open your books on page 23 and inform yourself about the causes of the French Revolution."
+    $ image.show(2)
+    headmaster "If you got any questions, feel free to ask."
+    headmaster "I'll give you 20min to read the text and then we'll discuss it together."
+    $ image.show(3)
+    headmaster "Now please begin."
+    call screen black_screen_text("20 minutes later.")
+    $ image.show(4)
+    headmaster "Okay time is up."
+    $ image.show(5)
+    headmaster "So, who can tell me what the main causes of the French Revolution were?"
+    # sakura raises her hand
+    call Image_Series.show_image(image, 6, 7) from _call_show_image_sb_teach_history_main_f_revolution_1_event_1
+    headmaster "Sakura?"
+    
+    $ image.show(8)
+    sakura "One of the main causes was the financial crisis in France."
+    $ image.show(9)
+    sakura "The country was deeply in debt due to expensive wars and lavish spending by the royal family."
+    $ image.show(10)
+    sakura "The common people were heavily taxed to pay off this debt, which led to widespread poverty and discontent."
+
+    $ image.show(11)
+    headmaster "Yes, that's correct. The financial crisis was a major factor in the Revolution. What else?"
+    # Luna raises her hand
+    $ image.show(12)
+    headmaster "Luna?"
+
+    $ image.show(13)
+    luna "Another important cause was the social inequality."
+
+    $ image.show(14)
+    headmaster "Could you elaborate on that?"
+
+    $ image.show(15)
+    luna "Sure. In the 18th century, French society was divided into three estates: the clergy, the nobility, and the common people."
+    $ image.show(16)
+    luna "The clergy and nobility enjoyed special privileges and exemptions from taxes, while the common people bore the brunt of the tax burden."
+    $ image.show(15)
+    luna "This unequal distribution of wealth and power created resentment and social unrest among the lower classes."
+
+    $ image.show(17)
+    headmaster "Very good Luna."
+    $ image.show(18)
+    headmaster "There was another cause that was very important. Easkey, can you tell us what it was?"
+
+    $ image.show(19)
+    easkey "Huh? I... Uh... I-I think it was... Uhm..."
+    $ image.show(20)
+    easkey "I think it was the lack of representation of the common people in government decisions."
+
+    $ image.show(21)
+    headmaster "Exactly. The Third Estate, which represented the common people, had little say in government decisions despite making up the majority of the population."
+    $ image.show(22)
+    headmaster "This lack of political representation and voice in government led to growing discontent and demands for reform."
+    $ image.show(23)
+    headmaster "These were just a few of the causes of the French Revolution. It was a complex and multifaceted event with many contributing factors."
+    $ image.show(24)
+    headmaster "But understanding these causes is crucial to understanding the Revolution and its impact on history."
+
+    $ image.show(25)
+    headmaster "Unfortunately, that's all for today. Please read the text on page 24 for homework."
+    headmaster "We'll continue our discussion another time."
+
+    call change_stats_with_modifier('school', 'history',
+        education = SMALL)
+
+    $ end_event('new_daytime', **kwargs)
+
+label sb_teach_history_main_f_revolution_2 (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ image = Image_Series("/images/events/school building/sb_teach_history_main_f_revolution_2 <school_level> <step>.webp", ['school_level'], **kwargs)
+
+    $ image.show(0)
+    headmaster "Today we will talk about the early stages of the French Revolution."
+    $ image.show(1)
+    headmaster "More accurately, I want you to inform yourself and write a short essay until next time."
+    $ image.show(2)
+    headmaster "I want you to focus on three events. The national assembly, the tennis court oath and the storming of the bastille."
+    $ image.show(3)
+    headmaster "You get until the end of the lesson to work on it."
+    $ image.show(4)
+    headmaster "If you're not finished by then, please finish it by the end of the week. I'll get Mrs. Ryan to collect them."
+    $ image.show(5)
+    headmaster "Now please start."
+    call screen black_screen_text("40 minutes later.")
+    $ image.show(6)
+    headmaster "Okay, class is over. Please don't forget to finish your essay until the end of the week."
+
+    call change_stats_with_modifier('school', 'history',
+        education = TINY, happiness = DEC_TINY)
+
+    $ end_event('new_daytime', **kwargs)
+
+##########
 
 #######
 ## MATH
@@ -667,7 +846,8 @@ label sb_teach_math_main_2 (**kwargs):
         education = SMALL, happiness = DEC_TINY, inhibition = DEC_TINY)
     
     $ end_event('new_daytime', **kwargs)
-######
+
+#######
 
 #######################
 # General Random Events
@@ -944,3 +1124,44 @@ label .panties (**kwargs):
         inhibition = DEC_SMALL, charm = DEC_SMALL, corruption = TINY)
 
     $ end_event('new_daytime', **kwargs)
+
+label sb_event_5 (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ school_level = get_level('school_level', **kwargs)
+    $ girls = get_value('girls', **kwargs)
+
+    $ image = Image_Series("/images/events/school building/sb_event_5 <school_level> <girls> <step>.webp", ['school_level', 'girls'], **kwargs)
+
+    $ girl_char = Character(girls, kind=character.sgirl)
+
+    call Image_Series.show_image(image, 0, 1, 2) from _call_show_image_sb_event_5_event_1
+    # headmaster walks through hallway
+    subtitles "*thump*"
+    $ image.show(3)
+    headmaster "Huh?"
+    $ image.show(4)
+    headmaster_thought "Hmm, is someone in the classroom?"
+    headmaster_thought "That class should have physical education right now."
+    $ image.show(5)
+    headmaster_thought "I should check that out."
+    # headmaster opens door
+    # you see three girls changing clothes
+    call Image_Series.show_image(image, 6, 7, 8) from _call_show_image_sb_event_5_event_2
+    girl_char "Huh?!"
+    # headmaster closes door
+    call Image_Series.show_image(image, 7, 9, 10) from _call_show_image_sb_event_5_event_3
+    headmaster "I'm sorry! I didn't mean to barge into you changing."
+    headmaster "But I have to ask, why are you here? Should you be in the gym for class?"
+    $ image.show(11)
+    girl_char "We like to change clothes here. The changing rooms in the gym are too small and uncomfortable."
+    $ image.show(10)
+    headmaster "I understand. But please hurry up. You'll be late for class."
+    $ image.show(11)
+    girl_char "Yes, sir."
+
+    call change_stats_with_modifier('school',
+        inhibition = DEC_TINY)
+
+    $ end_event('new_daytime', **kwargs)
+

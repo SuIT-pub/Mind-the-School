@@ -150,6 +150,9 @@ label check_missing_proficiencies:
             "Math" if ("math" not in headmaster_proficiencies.keys()):
                 $ set_headmaster_proficiency_level('math', 100)
 
+            "History" if ("history" not in headmaster_proficiencies.keys()):
+                $ set_headmaster_proficiency_level('history', 100)
+
             "P.E." if ("pe" not in headmaster_proficiencies.keys()):
                 $ set_headmaster_proficiency_level('pe', 100)
 
