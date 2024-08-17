@@ -917,7 +917,7 @@ init -6 python:
     def get_headmaster_proficiency_multiplier(subject: str) -> float:
         if get_headmaster_proficiency_level(subject) > 0:
             return get_headmaster_proficiency_level(subject)
-        return get_headmaster_proficiency_xp(subject) % 100
+        return get_headmaster_proficiency_xp(subject) / 100
 
 label load_schools ():
     # """
