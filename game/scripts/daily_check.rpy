@@ -71,7 +71,8 @@ init 1 python:
 
     aona_sports_bra_event_1_event = Event(1, "aona_sports_bra_event_1", 
         ProgressCondition("aona_sports_bra", 1),
-        TimeCondition(daytime = 6))
+        TimeCondition(daytime = 6),
+        thumbnail = "images/events/misc/aona_sports_bra_event_1 # 23.webp")
 
     map_tutorial_event = Event(2, "map_tutorial", 
         NOT(ProgressCondition("map_tutorial")), 
