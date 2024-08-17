@@ -1823,9 +1823,9 @@ screen journal_gallery(display):
         else: 
             $ event_frag_storage = persistent.gallery[location][event]['options']['Frag_Storage'][fragment_selection_index]
             $ base_event_data = persistent.gallery[location][event]['options']['last_data']
-            $ event_list = [get_event_from_register(event_name) for event_name in persistent.gallery["FragStorage"][event_frag_storage]['values'].keys() if get_event_from_register(event_name) != None and get_event_from_register(event_name).is_available(**base_event_data)]
+            $ event_list = [get_event_from_register(event_name) for event_name in persistent.gallery["FragStorage"][event_frag_storage]['values'].keys() if get_event_from_register(event_name) != None and get_event_from_register(event_name).is_available(in_journal_gallery = True, **base_event_data)]
             $ event_dict = {'.'.join([location, event, "fragment_selection_mode", str(fragment_selection_index), event_obj.get_event()]): get_translation(event_obj.get_event()) for event_obj in event_list}
-            use journal_simple_list(7, display, event_dict, "buttons_idle", pos_x = 450, pos_y = 400, width = 400, height = 550, sort = True)
+            use journal_simple_list(7, display, event_dict, "buttons_idle", pos_x = 450, pos_y = 400, width = 450, height = 550, sort = True)
         
     # if an event is selected, display event information on right side
     if event != "":
@@ -1868,16 +1868,20 @@ screen journal_gallery(display):
             
             frame:
                 background Solid('#0000')
-                area(989, 600, 500, 250)
+                area(989, 600, 500, 270)
                 viewport id "GalleryFragmentSelectionOverview":
                         
                     vbox:
                         for i, frag_storage_name in enumerate(persistent.gallery[location][event]['options']['Frag_Storage']):
                             $ curr_fragment = persistent.gallery[location][event]['options']['frag_order'][i]
-                            $ frag_title = str(i + 1) + ":  " + get_event_menu_title('fragment', curr_fragment) + " →"
+                            $ frag_title = str(i + 1) + ": " + get_event_menu_title('fragment', curr_fragment) + " →"
                             textbutton frag_title:
                                 action [With(dissolveM), Call('open_journal', 7, '.'.join([location, event, "fragment_selection_mode", str(i), curr_fragment]))]
-        
+    
+                vbar value YScrollValue("GalleryFragmentSelectionOverview"):
+                    unscrollable "hide"
+                    xalign 1.0
+                    xoffset 15
         $ disable_play = False
         
         if display_mode == "value_mode" or display_mode == "fragment_selection_mode":
