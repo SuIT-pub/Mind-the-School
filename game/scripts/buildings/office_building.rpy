@@ -25,8 +25,9 @@ init -1 python:
     add_storage(office_building_events, EventStorage("call_secretary", "office_building"))
 
     office_building_subject_learn_events = {}
-    add_storage(office_building_subject_learn_events, EventStorage("math", "office_building", fallback_text = "There is nobody here."))
-    add_storage(office_building_subject_learn_events, EventStorage("pe",   "office_building", fallback_text = "There is nobody here."))
+    add_storage(office_building_subject_learn_events, EventStorage("math",    "office_building", fallback_text = "There is nobody here."))
+    add_storage(office_building_subject_learn_events, EventStorage("history", "office_building", fallback_text = "There is nobody here."))
+    add_storage(office_building_subject_learn_events, EventStorage("pe",      "office_building", fallback_text = "There is nobody here."))
 
     office_building_call_secretary_events = {}
     add_storage(office_building_call_secretary_events, EventStorage("naughty_sandbox", "office_building", fallback_text = "There is nobody here."))
@@ -35,7 +36,7 @@ init -1 python:
         RandomListSelector('name', 'teacher', 'secretary'), 
         LevelSelector('level', KwargsValueSelector('', 'name')),
         BGImage("images/background/office building/bg c teacher.webp", 1, AND(TimeCondition(daytime = "c"), ValueCondition('name', 'teacher'))), # show headmasters/teachers office empty
-        BGImage("images/background/office building/bg <name> <level> <nude>.webp", 1, NOT(TimeCondition(daytime = "7"))), # show headmasters/teachers office with people
+        BGImage("images/background/office building/bg <name> <level> <variant> <nude>.webp", 1, NOT(TimeCondition(daytime = "7"))), # show headmasters/teachers office with people
         BGImage("images/background/office building/bg 7 <name>.webp", 1, TimeCondition(daytime = 7)), # show headmasters/teachers office empty at night
     )
 
@@ -104,6 +105,8 @@ init 1 python:
 
     office_building_subject_learn_events['math'].add_event(
         Event(3, "learn_office_event_1", ProficiencyCondition("math", level = "10-"), ValueSelector('subject', 'math')))
+    office_building_subject_learn_events['history'].add_event(
+        Event(3, "learn_office_event_1", ProficiencyCondition("history", level = "10-"), ValueSelector('subject', 'history')))
     office_building_subject_learn_events['pe'].add_event(
         Event(3, "learn_office_event_1", ProficiencyCondition("pe", level = "10-"), ValueSelector('subject', 'pe')))
 
@@ -273,10 +276,12 @@ label learn_office_event_1 (**kwargs):
 
     $ curr_xp = get_headmaster_proficiency_xp(subject)
     $ curr_lvl = get_headmaster_proficiency_level(subject)
-    $ delta = math.ceil(int(100 / (curr_lvl * 10)))
-    if curr_lvl < 1:
-        $ delta = 20
+    $ delta = 20
+    if curr_lvl > 0:
+        $ delta = math.ceil(int(100 / (curr_lvl * 10)))
     $ missing = math.floor(get_headmaster_proficiency_xp_until_level(subject))
+    if missing == -1:
+        $ missing = 100
     $ subtitle = f"XP: {curr_xp:.0f}% -> " + "{color=#00a000}" + f"{(curr_xp + delta):.0f}%" + "{/color}"
 
     if delta >= missing:
