@@ -81,7 +81,6 @@ init 1 python:
     gym_teach_pe_main_storage.add_event(
         EventFragment(3, "gym_teach_pe_main_1",
             thumbnail = "images/events/gym/gym_teach_pe_main_1 1 9.webp"),
-        EventFragment(3, "gym_teach_pe_main_2"),
         EventFragment(3, "gym_teach_pe_main_aona_bra",
             NOT(ProgressCondition("aona_sports_bra")),
             MoneyCondition("100+")
@@ -214,7 +213,7 @@ label weekly_assembly (**kwargs):
 label gym_teach_pe (**kwargs):
     $ begin_event(**kwargs)
 
-    $ get_value('school_level', **kwargs)
+    $ get_level('school_level', **kwargs)
 
     call composite_event_runner(**kwargs)
 
