@@ -12,6 +12,7 @@ errors listed below, and try again.
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 File "game/scripts/modifier.rpy", line 493: expected statement.
     log_val("modifier key", keys[i])
                                     ^
@@ -96,3 +97,10 @@ File "game/scripts/selector.rpy", line 478: invalid syntax
 Ren'Py Version: Ren'Py 8.1.3.23091805
 Tue Aug 13 17:02:26 2024
 >>>>>>> f004c58 (extended BackgroundImage functionality)
+=======
+File "game/scripts/conditions.rpy", line 651: invalid syntax
+                if not check
+
+Ren'Py Version: Ren'Py 8.1.3.23091805
+Sat Aug 17 16:31:22 2024
+>>>>>>> 22a8d8c (small layout changes)

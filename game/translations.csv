@@ -25,6 +25,7 @@ sleeping;Sleeping
 english;English
 math;Mathematics
 pe;Physical Education
+history;History
 
 ###############
 #--------------
@@ -106,8 +107,14 @@ gym_event_3;Missing her Sports Clothes
 gym_teach_pe;Teaching P.E. Class
 
 gym_teach_pe_intro_1;Normal Preparing
+gym_teach_pe_intro_aona_bra;Aona's new Bra
+
 gym_teach_pe_warm_up_1;Classic Warm Up
+
 gym_teach_pe_main_1;Playing Football
+gym_teach_pe_main_aona_bra;Running 1
+gym_teach_pe_main_aona_bra_2;Aona's new Bra
+
 gym_teach_pe_end_1;Nothing
 
 #######
@@ -161,6 +168,12 @@ sb_event_2;Student tripping in class
 sb_event_3;Crying Girl
 sb_event_4;Student tripping in hallway
 
+sb_event_5;Girls changing in classroom
+sb_event_5_girls;Girls
+sb_event_5_girls_Ikushi Ito;Var 1
+sb_event_5_girls_Soyoon Yamamoto;Var 2
+sb_event_5_girls_Yuriko Oshima;Var 3
+
 sb_teach_math_1;Sleepy Math Class
 
 sb_teach_math_2;Math Exercises
@@ -179,6 +192,15 @@ sb_teach_math_main_1_main_girl_name;Girl
 sb_teach_math_main_1_main_topic;Topic
 
 sb_teach_math_main_2;Silent Work and Help
+
+sb_teach_history;Teaching History
+sb_teach_history_school_level;School
+sb_teach_history_topic;Topic
+sb_teach_history_topic_french revolution;French Revolution
+
+sb_teach_history_intro_f_revolution_1;Intro
+sb_teach_history_main_f_revolution_1;Revolution Causes
+sb_teach_history_main_f_revolution_2;Essay
 
 ##################
 # School Dormitory
@@ -201,3 +223,4 @@ first_week_epilogue;First Week Epilogue
 first_week_epilogue_final;First Week Epilogue Final
 first_pta_meeting;First PTA Meeting
 tutorial_1;Tutorial
+aona_sports_bra_event_1;Bra shopping with Aona
