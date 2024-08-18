@@ -18,6 +18,17 @@ tea;Tea
 warm milk;Warm milk
 normal;Normal
 sleeping;Sleeping
+full_casual_5;Full Casual Lvl. 5
+full_casual_6;Full Casual Lvl. 6
+underwear;Underwear
+nude;Nude
+handjob;Handjob
+blowjob;Blowjob
+missionary;Missionary
+doggy;Doggy Style
+cowgirl;Cowgirl
+desk;Desk
+floor;Floor
 
 ############
 # Subjects
@@ -130,6 +141,7 @@ kiosk_event_3;Expensive Bento
 #################
 # Office Building
 event_office_building_look_around;Look Around
+event_office_building_call_secretary;Call Secretary
 
 first_potion_office_building_event;First Potion
 first_week_office_building_event;First Week
@@ -150,6 +162,11 @@ work_office_reputation_event_1;Improve school reputation generic
 work_office_session_event_naughty_1;First time naughty during counselling
 
 work_office_session_event_first_naughty;First time naughty
+
+call_secretary_event;Call Secretary
+
+naughty_sandbox;Be naughty
+
 
 #################
 # School Building
