@@ -87,10 +87,10 @@ init 1 python:
         )
     )
 
+        # Event(2, "office_call_secretary_1",
+        #     NOT(ProgressCondition('start_sex_ed')),
+        #     TimerCondition('start_sex_ed_timer_1', day = 3)),
     office_building_events["call_secretary"].add_event(
-        Event(2, "office_call_secretary_1",
-            NOT(ProgressCondition('start_sex_ed')),
-            TimerCondition('start_sex_ed_timer_1', day = 3)),
         office_call_secretary_event_event,
     )
 
@@ -599,6 +599,9 @@ label office_call_secretary_1 (**kwargs):
 
     $ end_event('new_daytime', **kwargs)
 
+#################
+# Naughty Sandbox
+
 # desk - handjob
 image anim_office_secretary_desk_handjob_full_casual_5_0 = Movie(play ="images/events/office/anim_office_secretary_desk_handjob_full_casual_5_0.webm", start_image = "images/events/office/anim_office_secretary_desk_handjob_full_casual_5_0.webp", image = "images/events/office/anim_office_secretary_desk_handjob_full_casual_5_0.webp")
 image anim_office_secretary_desk_handjob_full_casual_5_1 = Movie(play ="images/events/office/anim_office_secretary_desk_handjob_full_casual_5_1.webm", start_image = "images/events/office/anim_office_secretary_desk_handjob_full_casual_5_1.webp", image = "images/events/office/anim_office_secretary_desk_handjob_full_casual_5_1.webp")
@@ -663,11 +666,61 @@ image anim_office_secretary_desk_doggy_nude_1 = Movie(play ="images/events/offic
 image anim_office_secretary_desk_doggy_nude_2 = Movie(play ="images/events/office/anim_office_secretary_desk_doggy_nude_2.webm", start_image = "images/events/office/anim_office_secretary_desk_doggy_nude_2.webp", image = "images/events/office/anim_office_secretary_desk_doggy_nude_2.webp")
 image anim_office_secretary_desk_doggy_nude_3 = Movie(play ="images/events/office/anim_office_secretary_desk_doggy_nude_3.webm", start_image = "images/events/office/anim_office_secretary_desk_doggy_nude_3.webp", image = "images/events/office/anim_office_secretary_desk_doggy_nude_3.webp")
 
+# floor - handjob
+image anim_office_secretary_floor_handjob_full_casual_5_0 = Movie(play ="images/events/office/anim_office_secretary_floor_handjob_full_casual_5_0.webm", start_image = "images/events/office/anim_office_secretary_floor_handjob_full_casual_5_0.webp", image = "images/events/office/anim_office_secretary_floor_handjob_full_casual_5_0.webp")
+image anim_office_secretary_floor_handjob_full_casual_5_1 = Movie(play ="images/events/office/anim_office_secretary_floor_handjob_full_casual_5_1.webm", start_image = "images/events/office/anim_office_secretary_floor_handjob_full_casual_5_1.webp", image = "images/events/office/anim_office_secretary_floor_handjob_full_casual_5_1.webp")
+image anim_office_secretary_floor_handjob_full_casual_6_0 = Movie(play ="images/events/office/anim_office_secretary_floor_handjob_full_casual_6_0.webm", start_image = "images/events/office/anim_office_secretary_floor_handjob_full_casual_6_0.webp", image = "images/events/office/anim_office_secretary_floor_handjob_full_casual_6_0.webp")
+image anim_office_secretary_floor_handjob_full_casual_6_1 = Movie(play ="images/events/office/anim_office_secretary_floor_handjob_full_casual_6_1.webm", start_image = "images/events/office/anim_office_secretary_floor_handjob_full_casual_6_1.webp", image = "images/events/office/anim_office_secretary_floor_handjob_full_casual_6_1.webp")
+image anim_office_secretary_floor_handjob_underwear_0 = Movie(play ="images/events/office/anim_office_secretary_floor_handjob_underwear_0.webm", start_image = "images/events/office/anim_office_secretary_floor_handjob_underwear_0.webp", image = "images/events/office/anim_office_secretary_floor_handjob_underwear_0.webp")
+image anim_office_secretary_floor_handjob_underwear_1 = Movie(play ="images/events/office/anim_office_secretary_floor_handjob_underwear_1.webm", start_image = "images/events/office/anim_office_secretary_floor_handjob_underwear_1.webp", image = "images/events/office/anim_office_secretary_floor_handjob_underwear_1.webp")
+image anim_office_secretary_floor_handjob_nude_0 = Movie(play ="images/events/office/anim_office_secretary_floor_handjob_nude_0.webm", start_image = "images/events/office/anim_office_secretary_floor_handjob_nude_0.webp", image = "images/events/office/anim_office_secretary_floor_handjob_nude_0.webp")
+image anim_office_secretary_floor_handjob_nude_1 = Movie(play ="images/events/office/anim_office_secretary_floor_handjob_nude_1.webm", start_image = "images/events/office/anim_office_secretary_floor_handjob_nude_1.webp", image = "images/events/office/anim_office_secretary_floor_handjob_nude_1.webp")
+
+# floor - blowjob
+image anim_office_secretary_floor_blowjob_full_casual_5_0 = Movie(play ="images/events/office/anim_office_secretary_floor_blowjob_full_casual_5_0.webm", start_image = "images/events/office/anim_office_secretary_floor_blowjob_full_casual_5_0.webp", image = "images/events/office/anim_office_secretary_floor_blowjob_full_casual_5_0.webp")
+image anim_office_secretary_floor_blowjob_full_casual_5_1 = Movie(play ="images/events/office/anim_office_secretary_floor_blowjob_full_casual_5_1.webm", start_image = "images/events/office/anim_office_secretary_floor_blowjob_full_casual_5_1.webp", image = "images/events/office/anim_office_secretary_floor_blowjob_full_casual_5_1.webp")
+image anim_office_secretary_floor_blowjob_full_casual_5_2 = Movie(play ="images/events/office/anim_office_secretary_floor_blowjob_full_casual_5_2.webm", start_image = "images/events/office/anim_office_secretary_floor_blowjob_full_casual_5_2.webp", image = "images/events/office/anim_office_secretary_floor_blowjob_full_casual_5_2.webp")
+image anim_office_secretary_floor_blowjob_full_casual_6_0 = Movie(play ="images/events/office/anim_office_secretary_floor_blowjob_full_casual_6_0.webm", start_image = "images/events/office/anim_office_secretary_floor_blowjob_full_casual_6_0.webp", image = "images/events/office/anim_office_secretary_floor_blowjob_full_casual_6_0.webp")
+image anim_office_secretary_floor_blowjob_full_casual_6_1 = Movie(play ="images/events/office/anim_office_secretary_floor_blowjob_full_casual_6_1.webm", start_image = "images/events/office/anim_office_secretary_floor_blowjob_full_casual_6_1.webp", image = "images/events/office/anim_office_secretary_floor_blowjob_full_casual_6_1.webp")
+image anim_office_secretary_floor_blowjob_full_casual_6_2 = Movie(play ="images/events/office/anim_office_secretary_floor_blowjob_full_casual_6_2.webm", start_image = "images/events/office/anim_office_secretary_floor_blowjob_full_casual_6_2.webp", image = "images/events/office/anim_office_secretary_floor_blowjob_full_casual_6_2.webp")
+image anim_office_secretary_floor_blowjob_underwear_0 = Movie(play ="images/events/office/anim_office_secretary_floor_blowjob_underwear_0.webm", start_image = "images/events/office/anim_office_secretary_floor_blowjob_underwear_0.webp", image = "images/events/office/anim_office_secretary_floor_blowjob_underwear_0.webp")
+image anim_office_secretary_floor_blowjob_underwear_1 = Movie(play ="images/events/office/anim_office_secretary_floor_blowjob_underwear_1.webm", start_image = "images/events/office/anim_office_secretary_floor_blowjob_underwear_1.webp", image = "images/events/office/anim_office_secretary_floor_blowjob_underwear_1.webp")
+image anim_office_secretary_floor_blowjob_underwear_2 = Movie(play ="images/events/office/anim_office_secretary_floor_blowjob_underwear_2.webm", start_image = "images/events/office/anim_office_secretary_floor_blowjob_underwear_2.webp", image = "images/events/office/anim_office_secretary_floor_blowjob_underwear_2.webp")
+image anim_office_secretary_floor_blowjob_nude_0 = Movie(play ="images/events/office/anim_office_secretary_floor_blowjob_nude_0.webm", start_image = "images/events/office/anim_office_secretary_floor_blowjob_nude_0.webp", image = "images/events/office/anim_office_secretary_floor_blowjob_nude_0.webp")
+image anim_office_secretary_floor_blowjob_nude_1 = Movie(play ="images/events/office/anim_office_secretary_floor_blowjob_nude_1.webm", start_image = "images/events/office/anim_office_secretary_floor_blowjob_nude_1.webp", image = "images/events/office/anim_office_secretary_floor_blowjob_nude_1.webp")
+image anim_office_secretary_floor_blowjob_nude_2 = Movie(play ="images/events/office/anim_office_secretary_floor_blowjob_nude_2.webm", start_image = "images/events/office/anim_office_secretary_floor_blowjob_nude_2.webp", image = "images/events/office/anim_office_secretary_floor_blowjob_nude_2.webp")
+
+# floor - missionary
+image anim_office_secretary_floor_missionary_full_casual_5_0 = Movie(play ="images/events/office/anim_office_secretary_floor_missionary_full_casual_5_0.webm", start_image = "images/events/office/anim_office_secretary_floor_missionary_full_casual_5_0.webp", image = "images/events/office/anim_office_secretary_floor_missionary_full_casual_5_0.webp")
+image anim_office_secretary_floor_missionary_full_casual_5_1 = Movie(play ="images/events/office/anim_office_secretary_floor_missionary_full_casual_5_1.webm", start_image = "images/events/office/anim_office_secretary_floor_missionary_full_casual_5_1.webp", image = "images/events/office/anim_office_secretary_floor_missionary_full_casual_5_1.webp")
+image anim_office_secretary_floor_missionary_full_casual_5_2 = Movie(play ="images/events/office/anim_office_secretary_floor_missionary_full_casual_5_2.webm", start_image = "images/events/office/anim_office_secretary_floor_missionary_full_casual_5_2.webp", image = "images/events/office/anim_office_secretary_floor_missionary_full_casual_5_2.webp")
+image anim_office_secretary_floor_missionary_full_casual_6_0 = Movie(play ="images/events/office/anim_office_secretary_floor_missionary_full_casual_6_0.webm", start_image = "images/events/office/anim_office_secretary_floor_missionary_full_casual_6_0.webp", image = "images/events/office/anim_office_secretary_floor_missionary_full_casual_6_0.webp")
+image anim_office_secretary_floor_missionary_full_casual_6_1 = Movie(play ="images/events/office/anim_office_secretary_floor_missionary_full_casual_6_1.webm", start_image = "images/events/office/anim_office_secretary_floor_missionary_full_casual_6_1.webp", image = "images/events/office/anim_office_secretary_floor_missionary_full_casual_6_1.webp")
+image anim_office_secretary_floor_missionary_full_casual_6_2 = Movie(play ="images/events/office/anim_office_secretary_floor_missionary_full_casual_6_2.webm", start_image = "images/events/office/anim_office_secretary_floor_missionary_full_casual_6_2.webp", image = "images/events/office/anim_office_secretary_floor_missionary_full_casual_6_2.webp")
+image anim_office_secretary_floor_missionary_underwear_0 = Movie(play ="images/events/office/anim_office_secretary_floor_missionary_underwear_0.webm", start_image = "images/events/office/anim_office_secretary_floor_missionary_underwear_0.webp", image = "images/events/office/anim_office_secretary_floor_missionary_underwear_0.webp")
+image anim_office_secretary_floor_missionary_underwear_1 = Movie(play ="images/events/office/anim_office_secretary_floor_missionary_underwear_1.webm", start_image = "images/events/office/anim_office_secretary_floor_missionary_underwear_1.webp", image = "images/events/office/anim_office_secretary_floor_missionary_underwear_1.webp")
+image anim_office_secretary_floor_missionary_underwear_2 = Movie(play ="images/events/office/anim_office_secretary_floor_missionary_underwear_2.webm", start_image = "images/events/office/anim_office_secretary_floor_missionary_underwear_2.webp", image = "images/events/office/anim_office_secretary_floor_missionary_underwear_2.webp")
+image anim_office_secretary_floor_missionary_nude_0 = Movie(play ="images/events/office/anim_office_secretary_floor_missionary_nude_0.webm", start_image = "images/events/office/anim_office_secretary_floor_missionary_nude_0.webp", image = "images/events/office/anim_office_secretary_floor_missionary_nude_0.webp")
+image anim_office_secretary_floor_missionary_nude_1 = Movie(play ="images/events/office/anim_office_secretary_floor_missionary_nude_1.webm", start_image = "images/events/office/anim_office_secretary_floor_missionary_nude_1.webp", image = "images/events/office/anim_office_secretary_floor_missionary_nude_1.webp")
+image anim_office_secretary_floor_missionary_nude_2 = Movie(play ="images/events/office/anim_office_secretary_floor_missionary_nude_2.webm", start_image = "images/events/office/anim_office_secretary_floor_missionary_nude_2.webp", image = "images/events/office/anim_office_secretary_floor_missionary_nude_2.webp")
+
+# floor - cowgirl
+image anim_office_secretary_floor_cowgirl_full_casual_5_0 = Movie(play ="images/events/office/anim_office_secretary_floor_cowgirl_full_casual_5_0.webm", start_image = "images/events/office/anim_office_secretary_floor_cowgirl_full_casual_5_0.webp", image = "images/events/office/anim_office_secretary_floor_cowgirl_full_casual_5_0.webp")
+image anim_office_secretary_floor_cowgirl_full_casual_5_1 = Movie(play ="images/events/office/anim_office_secretary_floor_cowgirl_full_casual_5_1.webm", start_image = "images/events/office/anim_office_secretary_floor_cowgirl_full_casual_5_1.webp", image = "images/events/office/anim_office_secretary_floor_cowgirl_full_casual_5_1.webp")
+image anim_office_secretary_floor_cowgirl_full_casual_5_2 = Movie(play ="images/events/office/anim_office_secretary_floor_cowgirl_full_casual_5_2.webm", start_image = "images/events/office/anim_office_secretary_floor_cowgirl_full_casual_5_2.webp", image = "images/events/office/anim_office_secretary_floor_cowgirl_full_casual_5_2.webp")
+image anim_office_secretary_floor_cowgirl_full_casual_6_0 = Movie(play ="images/events/office/anim_office_secretary_floor_cowgirl_full_casual_6_0.webm", start_image = "images/events/office/anim_office_secretary_floor_cowgirl_full_casual_6_0.webp", image = "images/events/office/anim_office_secretary_floor_cowgirl_full_casual_6_0.webp")
+image anim_office_secretary_floor_cowgirl_full_casual_6_1 = Movie(play ="images/events/office/anim_office_secretary_floor_cowgirl_full_casual_6_1.webm", start_image = "images/events/office/anim_office_secretary_floor_cowgirl_full_casual_6_1.webp", image = "images/events/office/anim_office_secretary_floor_cowgirl_full_casual_6_1.webp")
+image anim_office_secretary_floor_cowgirl_full_casual_6_2 = Movie(play ="images/events/office/anim_office_secretary_floor_cowgirl_full_casual_6_2.webm", start_image = "images/events/office/anim_office_secretary_floor_cowgirl_full_casual_6_2.webp", image = "images/events/office/anim_office_secretary_floor_cowgirl_full_casual_6_2.webp")
+image anim_office_secretary_floor_cowgirl_underwear_0 = Movie(play ="images/events/office/anim_office_secretary_floor_cowgirl_underwear_0.webm", start_image = "images/events/office/anim_office_secretary_floor_cowgirl_underwear_0.webp", image = "images/events/office/anim_office_secretary_floor_cowgirl_underwear_0.webp")
+image anim_office_secretary_floor_cowgirl_underwear_1 = Movie(play ="images/events/office/anim_office_secretary_floor_cowgirl_underwear_1.webm", start_image = "images/events/office/anim_office_secretary_floor_cowgirl_underwear_1.webp", image = "images/events/office/anim_office_secretary_floor_cowgirl_underwear_1.webp")
+image anim_office_secretary_floor_cowgirl_underwear_2 = Movie(play ="images/events/office/anim_office_secretary_floor_cowgirl_underwear_2.webm", start_image = "images/events/office/anim_office_secretary_floor_cowgirl_underwear_2.webp", image = "images/events/office/anim_office_secretary_floor_cowgirl_underwear_2.webp")
+image anim_office_secretary_floor_cowgirl_nude_0 = Movie(play ="images/events/office/anim_office_secretary_floor_cowgirl_nude_0.webm", start_image = "images/events/office/anim_office_secretary_floor_cowgirl_nude_0.webp", image = "images/events/office/anim_office_secretary_floor_cowgirl_nude_0.webp")
+image anim_office_secretary_floor_cowgirl_nude_1 = Movie(play ="images/events/office/anim_office_secretary_floor_cowgirl_nude_1.webm", start_image = "images/events/office/anim_office_secretary_floor_cowgirl_nude_1.webp", image = "images/events/office/anim_office_secretary_floor_cowgirl_nude_1.webp")
+image anim_office_secretary_floor_cowgirl_nude_2 = Movie(play ="images/events/office/anim_office_secretary_floor_cowgirl_nude_2.webm", start_image = "images/events/office/anim_office_secretary_floor_cowgirl_nude_2.webp", image = "images/events/office/anim_office_secretary_floor_cowgirl_nude_2.webp")
 label office_call_secretary_naughty_sandbox (**kwargs):
     $ begin_event(**kwargs)
 
     $ level = get_level('secretary', **kwargs)
-    # $ level = get_kwargs('level', 5, **kwargs)
 
     $ image = Image_Series("images/events/office/office_call_secretary_naughty_sandbox <secretary> <step>.webp", ['secretary'], secretary = level, **kwargs)
 
@@ -679,119 +732,31 @@ label office_call_secretary_naughty_sandbox (**kwargs):
     headmaster "Interested in a little fun?"
     $ image.show(3)
     secretary "I'm always up for some fun."
-
-    $ kwargs['naughty_location'] = 'desk'
-    $ kwargs['naughty_position'] = 'handjob'
-    $ kwargs['naughty_clothing'] = 'full_casual_5'
-    $ kwargs['naughty_variant'] = 0
-    $ kwargs['no_gallery'] = True
-    $ kwargs['override_menu_exit'] = None
-    $ kwargs['override_menu_exit_with_kwargs'] = "office_call_secretary_naughty_sandbox.start"
-    $ kwargs['naughty_level'] = level
-    $ kwargs['naughty_map'] = {
+    
+    $ naughty_map = {
         'desk': {
             'handjob':    ['full_casual_5', 'full_casual_6', 'underwear', 'nude'],
             'blowjob':    ['full_casual_5', 'full_casual_6', 'underwear', 'nude'],
             'missionary': ['full_casual_5', 'full_casual_6', 'underwear', 'nude'],
             'doggy':      ['full_casual_5', 'full_casual_6', 'underwear', 'nude'],
+        },
+        'floor': {
+            'handjob':    ['full_casual_5', 'full_casual_6', 'underwear', 'nude'],
+            'blowjob':    ['full_casual_5', 'full_casual_6', 'underwear', 'nude'],
+            'missionary': ['full_casual_5', 'full_casual_6', 'underwear', 'nude'],
+            'cowgirl':    ['full_casual_5', 'full_casual_6', 'underwear', 'nude'],
         }
     }
 
-    call .start( **kwargs)
-
-label .start (**kwargs):
-
-    $ location = get_kwargs('naughty_location', **kwargs)
-    $ position = get_kwargs('naughty_position', **kwargs)
-    $ clothing = get_kwargs('naughty_clothing', **kwargs)
-    $ variant = get_kwargs('naughty_variant', **kwargs)
-    $ mapping = get_kwargs('naughty_map', **kwargs)
-
-    if position not in mapping[location]:
-        $ position = list(mapping[location].keys())[0]
-
-    if clothing not in mapping[location][position]:
-        $ clothing = mapping[location][position][0]
-
-    $ file = f"images/events/office/anim_office_secretary_{location}_{position}_{clothing}_<variant>.webm"
-    $ max_variant = get_file_max_value('variant', file, 0, 100)
-    
-    if variant > max_variant:
-        $ variant = 0
-
-    # play movies
-
-    $ movie = f"anim_office_secretary_{location}_{position}_{clothing}_{variant}"
-
-    scene expression movie with dissolveM
-
-    $ icons = []
-
-    if len(mapping.keys()) > 1:
-        $ icons.append("location")
-
-    if len(mapping[location].keys()) > 1:
-        $ icons.append("position")
-
-    if len(mapping[location][position]) > 1:
-        $ icons.append("clothing")
-
-    if max_variant > 0:
-        $ icons.append("variant")
-
-    call screen naughty_scene_icons(*icons)
-    if _return == "change_location":
-        call .change_location (**kwargs)
-    elif _return == "change_position":
-        call .change_position (**kwargs)
-    elif _return == "change_clothing":
-        call .change_clothing (**kwargs)
-    elif _return == "change_variant":
-        call .change_variant (**kwargs)
-    elif _return == "stop":
-        $ end_event('new_daytime', **kwargs)
-
-label .change_location (**kwargs):
-    $ call_custom_menu_with_text("Where do you want to move to?", character.secretary, False,
-        ("Desk", ChangeKwargsEffect('naughty_location', 'desk')),
+    call start_sandbox (
+        naughty_map = naughty_map,
+        level = level,
+        file_preset = "images/events/office/anim_office_secretary_<location>_<position>_<clothing>_<variant>.webm",
+        movie_preset = "anim_office_secretary_<location>_<position>_<clothing>_<variant>",
+        character = character.secretary,
     **kwargs)
 
-label .change_position (**kwargs):
-    $ location = get_kwargs('naughty_location', **kwargs)
-    $ mapping = get_kwargs('naughty_map', **kwargs)
-    $ call_custom_menu_with_text("What do you want to do next?", character.secretary, False,
-        ("Handjob",         ChangeKwargsEffect('naughty_position', 'handjob'        ), 'handjob'         in mapping[location].keys()),
-        ("Blowjob",         ChangeKwargsEffect('naughty_position', 'blowjob'        ), 'blowjob'         in mapping[location].keys()),
-        ("Missionary",      ChangeKwargsEffect('naughty_position', 'missionary'     ), 'missionary'      in mapping[location].keys()),
-        ("Doggy",           ChangeKwargsEffect('naughty_position', 'doggy'          ), 'doggy'           in mapping[location].keys()),
-        ("Cowgirl",         ChangeKwargsEffect('naughty_position', 'cowgirl'        ), 'cowgirl'         in mapping[location].keys()),
-        ("Reverse Cowgirl", ChangeKwargsEffect('naughty_position', 'reverse cowgirl'), 'reverse cowgirl' in mapping[location].keys()),
-    **kwargs)
-
-label .change_clothing (**kwargs):
-    $ location = get_kwargs('naughty_location', **kwargs)
-    $ position = get_kwargs('naughty_position', **kwargs)
-    $ mapping = get_kwargs('naughty_map', **kwargs)
-    $ call_custom_menu_with_text("What do you want me to wear?", character.secretary, False,
-        ("Full casual Lvl. 5", ChangeKwargsEffect('naughty_clothing', 'full_casual_5'), 'full_casual_5' in mapping[location][position] and level >= 5),
-        ("Full casual Lvl. 6", ChangeKwargsEffect('naughty_clothing', 'full_casual_6'), 'full_casual_6' in mapping[location][position] and level >= 6),
-        ("Underwear",          ChangeKwargsEffect('naughty_clothing', 'underwear'    ), 'underwear'     in mapping[location][position]),
-        ("Nude",               ChangeKwargsEffect('naughty_clothing', 'nude'         ), 'nude'          in mapping[location][position]),
-    **kwargs)
-
-label .change_variant (**kwargs):
-    $ location = get_kwargs('naughty_location', **kwargs)
-    $ position = get_kwargs('naughty_position', **kwargs)
-    $ clothing = get_kwargs('naughty_clothing', **kwargs)
-    $ variant = get_kwargs('naughty_variant', **kwargs)
-
-    $ file = f"images/events/office/anim_office_secretary_{location}_{position}_{clothing}_<variant>.webm"
-    $ max_variant = get_file_max_value('variant', file, 0, 100)
-    $ variant += 1
-    if variant > max_variant:
-        $ variant = 0
-    $ kwargs['naughty_variant'] = variant
-    call .start(**kwargs)
+#################
 
 label office_prepare_sex_ed_material(**kwargs):
     $ begin_event(**kwargs)

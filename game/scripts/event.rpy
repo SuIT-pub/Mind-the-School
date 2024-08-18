@@ -1787,6 +1787,8 @@ label call_event(event_obj_var, priority = 0, event_obj_name = "", **kwargs):
 
     return
 
+##############
+
 #######################
 # Default event handler
 
@@ -1859,3 +1861,155 @@ label composite_event_runner(**kwargs):
     $ event_obj.call_fragment(0, events[0], **kwargs)
         
     $ end_event("map_overview", **kwargs)
+
+#######################
+
+###############
+# Movie Sandbox
+
+label start_sandbox (**kwargs):
+    # """
+    # This label starts the sandbox movie mode
+    #
+    # ### Parameters:
+    # 1. naughty_map: Dict[str, Dict[str, List[str]]]
+    #     - A mapping that defines what actions can be performed in what locations and what clothing can be worn.
+    #    - The first key is the location, the second key is the position, and the value is a list of clothing options.
+    # 2. level: int
+    #     - The level of the character during the act.
+    # 3. file_preset: str
+    #     - The preset for the file name. It should contain the following placeholders: <location>, <position>, <clothing>, <variant>.
+    # 4. movie_preset: str
+    #     - The preset for the movie name. It should contain the following placeholders: <location>, <position>, <clothing>, <variant>.
+    # 5. character: Character
+    #     - The character that is involved in the act.
+    # 6. kwargs: Dict[str, Any]
+    #     - Additional keyword arguments.
+    # """
+
+    $ naughty_map = get_kwargs('naughty_map', **kwargs)
+    $ level = get_kwargs('level', **kwargs)
+
+    $ kwargs['naughty_location'] = list(naughty_map.keys())[0]
+    $ kwargs['naughty_position'] = list(naughty_map[get_kwargs('naughty_location', **kwargs)].keys())[0]
+    $ kwargs['naughty_clothing'] = naughty_map[get_kwargs('naughty_location', **kwargs)][get_kwargs('naughty_position', **kwargs)][0]
+    $ kwargs['naughty_variant'] = 0
+    $ kwargs['no_gallery'] = True
+    $ kwargs['override_menu_exit'] = None
+    $ kwargs['override_menu_exit_with_kwargs'] = "start_sandbox.start"
+    $ kwargs['naughty_level'] = level
+
+
+    call .start( **kwargs)
+
+label .start (**kwargs):
+
+    $ location = get_kwargs('naughty_location', **kwargs)
+    $ position = get_kwargs('naughty_position', **kwargs)
+    $ clothing = get_kwargs('naughty_clothing', **kwargs)
+    $ variant = get_kwargs('naughty_variant', **kwargs)
+    $ mapping = get_kwargs('naughty_map', **kwargs)
+
+    if position not in mapping[location]:
+        $ position = list(mapping[location].keys())[0]
+
+    if clothing not in mapping[location][position]:
+        $ clothing = mapping[location][position][0]
+
+    $ file = get_kwargs('file_preset', **kwargs).replace('<location>', location).replace('<position>', position).replace('<clothing>', clothing)
+    # $ file = f"images/events/office/anim_office_secretary_{location}_{position}_{clothing}_<variant>.webm"
+    $ max_variant = get_file_max_value('variant', file, 0, 100)
+    
+    if variant > max_variant:
+        $ variant = 0
+
+    # play movies
+
+    $ movie = get_kwargs('movie_preset', **kwargs).replace('<location>', location).replace('<position>', position).replace('<clothing>', clothing).replace('<variant>', str(variant))
+    # $ movie = f"anim_office_secretary_{location}_{position}_{clothing}_{variant}"
+
+    scene expression movie with dissolveM
+
+    $ icons = []
+
+    if len(mapping.keys()) > 1:
+        $ icons.append("location")
+
+    if len(mapping[location].keys()) > 1:
+        $ icons.append("position")
+
+    if len(mapping[location][position]) > 1:
+        $ icons.append("clothing")
+
+    if max_variant > 0:
+        $ icons.append("variant")
+
+    call screen naughty_scene_icons(*icons)
+    if _return == "change_location":
+        call .change_location (**kwargs)
+    elif _return == "change_position":
+        call .change_position (**kwargs)
+    elif _return == "change_clothing":
+        call .change_clothing (**kwargs)
+    elif _return == "change_variant":
+        call .change_variant (**kwargs)
+    elif _return == "stop":
+        $ end_event('new_daytime', **kwargs)
+
+label .change_location (**kwargs):
+    $ elements = []
+
+    python:
+        for location in mapping.keys():
+            elements.append((get_translation(location), ChangeKwargsEffect('naughty_location', location)))
+
+    $ call_custom_menu_with_text("Where do you want to move to?", get_kwargs('character', character.subtitles, **kwargs), False, *elements, **kwargs)
+
+label .change_position (**kwargs):
+    $ location = get_kwargs('naughty_location', **kwargs)
+    $ mapping = get_kwargs('naughty_map', **kwargs)
+
+    $ elements = []
+    python:
+        for position in mapping[location].keys():
+            elements.append((get_translation(position), ChangeKwargsEffect('naughty_position', position)))
+
+    $ call_custom_menu_with_text("What do you want to do next?", get_kwargs('character', character.subtitles, **kwargs), False, *elements, **kwargs)
+
+label .change_clothing (**kwargs):
+    $ location = get_kwargs('naughty_location', **kwargs)
+    $ position = get_kwargs('naughty_position', **kwargs)
+    $ mapping = get_kwargs('naughty_map', **kwargs)
+
+    $ elements = []
+    python:
+        for clothing in mapping[location][position]:
+            # check if clothing string ends with "_[number]" and if yes extract the number
+            if clothing[-1].isdigit():
+                clothing_level = int(clothing.split('_')[-1])
+                log_val('clothing_level', clothing_level)
+                log_val('level', level)
+                if level < clothing_level:
+                    log('skipping')
+                    continue
+
+            elements.append((get_translation(clothing), ChangeKwargsEffect('naughty_clothing', clothing)))
+
+    $ call_custom_menu_with_text("What do you want me to wear?", get_kwargs('character', character.subtitles, **kwargs), False, *elements, **kwargs)
+
+label .change_variant (**kwargs):
+    $ location = get_kwargs('naughty_location', **kwargs)
+    $ position = get_kwargs('naughty_position', **kwargs)
+    $ clothing = get_kwargs('naughty_clothing', **kwargs)
+    $ variant = get_kwargs('naughty_variant', **kwargs)
+
+    $ file = get_kwargs('file_preset', **kwargs).replace('<location>', location).replace('<position>', position).replace('<clothing>', clothing)
+    # $ file = f"images/events/office/anim_office_secretary_{location}_{position}_{clothing}_<variant>.webm"
+    $ max_variant = get_file_max_value('variant', file, 0, 100)
+    $ variant += 1
+    if variant > max_variant:
+        $ variant = 0
+    $ kwargs['naughty_variant'] = variant
+    call .start(**kwargs)
+
+###############
