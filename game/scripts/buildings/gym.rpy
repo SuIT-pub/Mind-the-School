@@ -164,16 +164,16 @@ label .after_general_check (**kwargs):
 label first_potion_gym_event (**kwargs):
     $ begin_event(**kwargs)
     
-    show first potion gym 1 with dissolveM
+    scene first potion gym 1 with dissolveM
     subtitles "You enter the Gym and see a group of students and teacher in a yoga session."
 
-    show first potion gym 2 with dissolveM
+    scene first potion gym 2 with dissolveM
     headmaster_thought "Oh that is a sport session I can get behind!"
 
-    show first potion gym 3 with dissolveM
+    scene first potion gym 3 with dissolveM
     headmaster_thought "Mhh, yes very flexible!"
 
-    show first potion gym 4 with dissolveM
+    scene first potion gym 4 with dissolveM
     headmaster_thought "Oh they seem to really get into it!"
 
     $ set_building_blocked("gym")
@@ -186,13 +186,13 @@ label first_week_gym_event (**kwargs):
     
     $ begin_event(**kwargs)
     
-    show first week gym 1 with dissolveM
+    scene first week gym 1 with dissolveM
     headmaster_thought "Okay, now the Gym. I have been here shortly for my introduction speech but I haven't had the chance to get a thorough look."
 
-    show first week gym 2 with dissolveM
+    scene first week gym 2 with dissolveM
     headmaster_thought "Mhh, doesn't look to shabby..."
     
-    show first week gym 3 with dissolveM
+    scene first week gym 3 with dissolveM
     headmaster_thought "Seems to be decently stocked."
     headmaster_thought "The material is well maintained. I guess it's alright."
 

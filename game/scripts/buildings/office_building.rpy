@@ -184,10 +184,10 @@ label .after_general_check (**kwargs):
 label first_potion_office_building_event (**kwargs):
     $ begin_event(**kwargs)
     
-    show first potion office 1 with dissolveM
+    scene first potion office 1 with dissolveM
     subtitles "You enter the teachers office."
     headmaster_thought "Ahh the teacher seem to be eating at the kiosk as well."
-    show first potion office 2 with dissolveM
+    scene first potion office 2 with dissolveM
     headmaster_thought "Not that I have a problem with it. Quite the opposite. That makes some things a bit easier."
 
     $ set_building_blocked("office_building")
@@ -198,7 +198,7 @@ label first_potion_office_building_event (**kwargs):
 label first_week_office_building_event (**kwargs):
     $ begin_event(**kwargs)
     
-    show first week office building 1 with dissolveM
+    scene first week office building 1 with dissolveM
     subtitles "Mhh. The office is nothing special but at least not really run down."
     subtitles "I can work with that."
 

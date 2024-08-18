@@ -90,21 +90,21 @@ label .after_general_check (**kwargs):
 label first_week_kiosk_event (**kwargs):
     $ begin_event(**kwargs)
 
-    show first week kiosk 1 with dissolveM
+    scene first week kiosk 1 with dissolveM
     headmaster_thought "Now, somewhere here should be the kiosk..."
-    show first week kiosk 2 with dissolveM
+    scene first week kiosk 2 with dissolveM
     headmaster_thought "Hmm, why is it so crowded?"
 
-    show first week kiosk 3 with dissolveM
+    scene first week kiosk 3 with dissolveM
     headmaster "Excuse me, did something happen? Why is it so crowded here?"
     
-    show first week kiosk 4 with dissolveM
+    scene first week kiosk 4 with dissolveM
     sgirl "What do you mean? It's always this full. We can't get food anywhere else than here." (name = "Lin Kato")
     
-    show first week kiosk 3 with dissolveM
+    scene first week kiosk 3 with dissolveM
     headmaster "Oh I understand... Thanks."
 
-    show first week kiosk 5 with dissolveM
+    scene first week kiosk 5 with dissolveM
     headmaster_thought "This is not acceptable. Did the former headmaster really close the kiosk?"
     headmaster_thought "That can't be right..."
 

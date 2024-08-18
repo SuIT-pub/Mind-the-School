@@ -109,6 +109,21 @@ init python:
             return []
         return types[page]
 
+    
+
+init -1 python:
+    journal_events = EventStorage("journal_events", "misc", fallback = Event(2, "start_journal.after_check"))
+
+init 1 python:
+    
+    journal_tutorial_event = Event(1, "journal_tutorial",
+        NOT(ProgressCondition('journal_tutorial')))
+
+    journal_events.add_event(
+        journal_tutorial_event
+    )
+
+
 ############################
 # Journal Intro
 ############################
@@ -118,7 +133,12 @@ label start_journal ():
     # A label used to start the journal screen
     # """
 
+    call call_available_event(journal_events) from start_journal_2
+
+label .after_check (**kwargs):
+
     call open_journal (1, "") from start_journal_1
+
 
 label open_journal(page, display, char = "school"):
     # """
@@ -1817,7 +1837,7 @@ screen journal_gallery(display):
     if location != "":
         
         if display_mode != "fragment_selection_mode":
-            $ event_list = [get_event_from_register(event_name) for event_name in persistent.gallery[location].keys() if get_event_from_register(event_name) != None]
+            $ event_list = [get_event_from_register(event_name) for event_name in persistent.gallery[location].keys() if get_event_from_register(event_name) != None and renpy.has_label(get_event_from_register(event_name).get_event_label())]
             $ event_dict = {f"{location}.{event_obj.get_event()}": get_translation(event_obj.get_event()) for event_obj in event_list}
             use journal_simple_list(7, display, event_dict, "buttons_idle", pos_x = 400, pos_y = 350, width = 450, sort = True)
         else: 

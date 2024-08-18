@@ -125,14 +125,15 @@ label .start:
     $ image.show(4)
     secretary "I'm sure the students are eager to meet you."
 
-    scene expression "events/intro/intro gym 2 [loli_content].webp" with dissolveM 
+    
+    call show_image ("images/events/intro/intro gym 2 0.webp") from _call_show_image_tutorial_1
     subtitles "You leave the office with the secretary and head for the Gym."
     
     #show inside gym with students walking towards their position in gym or talking to each other in groups by school
     subtitles "As you enter the hall, you are greeted by students standing all around the hall."
     
     #show move up stairs with secretary in front and clear view of butt
-    show intro gym 3 1 with dissolveM
+    call show_image ("images/events/intro/intro gym 3 1.webp") from _call_show_image_tutorial_2
     subtitles "As you and your secretary make your way to the stage, all the students begin to form neat rows."
     secretary_whisper "The students in the left are from the high school."
     if loli_content >= 1:
@@ -140,16 +141,16 @@ label .start:
     if loli_content == 2:
         secretary_whisper "And to the right are the elementary school students."
 
-    scene intro gym 3 2 with dissolveM
+    call show_image ("images/events/intro/intro gym 3 2.webp") from _call_show_image_tutorial_3
     headmaster_thought "Wow she has a nice butt. I can't wait to make it mine."
     
     #show secretary stand at podium with hands on podium
-    scene intro gym 4 with dissolveM
+    call show_image ("images/events/intro/intro gym 4.webp") from _call_show_image_tutorial_4
     secretary_shout "Good Morning Students!"
     crowd_shout "Good Morning!"
 
     #show crowd from behind Secretary (students standing in clear rows)
-    show expression "events/intro/intro gym 5 [loli_content].webp" with dissolveM
+    call show_image ("images/events/intro/intro gym 5 0.webp") from _call_show_image_tutorial_5
     secretary_shout "It is with great pleasure, that I introduce you to your new Headmaster."
     secretary_shout "He will be starting today and we're all very excited to see the positive changes he will bring!"
 
@@ -159,14 +160,13 @@ label .start:
     subtitles "You walk to the podium."
 
     #show view of stage from front with headmaster standing at podium with hands on podium
-    show intro gym 7
-    hide expression "events/intro/intro gym 5 [loli_content].webp" with dissolveM
+    call show_image ("images/events/intro/intro gym 7.webp") from _call_show_image_tutorial_6
     headmaster_shout "Greetings to you all. I am honored to stand here today."
     headmaster_shout "When I came here, I saw the condition of this school and the mishaps of your former headmaster."
     headmaster_shout "I guarantee I won't repeat the same mistakes and I will bring this school back to its former glory and beyond."
 
     #show view of crowd from slightly behind but other side, headmaster hand on chest
-    show expression "events/intro/intro gym 8 [loli_content].webp" with dissolveM
+    call show_image ("images/events/intro/intro gym 8 0.webp") from _call_show_image_tutorial_7
     headmaster_shout "Now a little about me. My name is [headmaster_first_name] [headmaster_last_name] and I come from the country."
     headmaster_shout "I taught in various schools and was also the headmaster of a school in the capitol."
 

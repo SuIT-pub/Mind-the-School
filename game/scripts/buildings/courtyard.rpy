@@ -125,13 +125,13 @@ label .after_general_check (**kwargs):
 label first_potion_courtyard_event (**kwargs):
     $ begin_event(**kwargs)
     
-    show first potion courtyard 1 with dissolveM
+    scene first potion courtyard 1 with dissolveM
     subtitles "You walk around in the courtyard."
 
-    show first potion courtyard 2 with dissolveM
+    scene first potion courtyard 2 with dissolveM
     subtitles "The first thing you notice is the group of students sunbathing in the middle of the yard."
     
-    show first potion courtyard 3 with dissolveM
+    scene first potion courtyard 3 with dissolveM
     subtitles "Normally that wouldn't be such a weird thing, if they weren't in only their underwear."
     headmaster_thought "I certainly enjoy the view. Unfortunately it only lasts for today until the serum finishes settling in their bodies."
 
@@ -143,18 +143,18 @@ label first_potion_courtyard_event (**kwargs):
 label first_week_courtyard_event (**kwargs):
     $ begin_event(**kwargs)
     
-    show first week courtyard 1 with dissolveM
+    scene first week courtyard 1 with dissolveM
     subtitles "You walk through the courtyard."
 
     headmaster_thought "Hmm, the courtyard looks really bad..."
     
-    show first week courtyard 2 with dissolveM
+    scene first week courtyard 2 with dissolveM
     headmaster_thought "Tt seems most of the appliances here are out of order."
 
-    show first week courtyard 3 with dissolveM
+    scene first week courtyard 3 with dissolveM
     headmaster_thought "For example the public toilet is broken."
 
-    show first week courtyard 4 with dissolveM
+    scene first week courtyard 4 with dissolveM
     headmaster_thought "At least the courtyard doesn't need immediate fixing."
 
     $ change_stat("happiness", 5, get_school())
@@ -256,7 +256,6 @@ label courtyard_event_3 (**kwargs):
     $ begin_event(**kwargs)
     
     $ school_level = get_value('school_level', **kwargs)
-    
     call show_image ("images/events/courtyard/courtyard_event_3 <school_level>.webp", **kwargs) from _call_show_image
     subtitles "You notice a group of girls taking a break together."
 

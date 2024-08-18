@@ -156,9 +156,29 @@ label check_missing_proficiencies:
             "P.E." if ("pe" not in headmaster_proficiencies.keys()):
                 $ set_headmaster_proficiency_level('pe', 100)
 
-
-
     ###########################################
+
+label ask_for_tutorials:
+    
+    menu:
+        "Show tutorials?"
+
+        "Yes please.":
+            jump .finish_asking_for_tutorials
+        "No, I know what I'm doing.":
+            jump .disable_tutorials
+
+label .disable_tutorials:
+    $ start_progress('map_tutorial')
+    $ start_progress('journal_tutorial')
+
+    jump .finish_asking_for_tutorials
+
+label .finish_asking_for_tutorials:
+
+    $ start_progress('asked_for_tutorials')
+
+    jump after_load.after_ask_for_tutorials
 
 
 label after_load:
@@ -172,6 +192,10 @@ label after_load:
     
     call check_missing_proficiencies from after_load_6
 
+    if get_progress('asked_for_tutorials') == -1:
+        jump ask_for_tutorials
+
+label .after_ask_for_tutorials:
 
     #####################################
     # check for version incompatibilities
