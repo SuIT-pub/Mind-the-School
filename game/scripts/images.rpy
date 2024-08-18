@@ -101,6 +101,8 @@ init -2 python:
                 - The keyword arguments to replace in the image path.
             """
 
+            self._step_start = get_kwargs('step_start', 0, **kwargs)
+
             self._image_paths = refine_image_with_alternatives(
                 image_path, 
                 alternative_keys,
@@ -119,9 +121,9 @@ init -2 python:
             """
 
             if '<step>' in image_paths[0]:
-                max_steps = get_image_max_value_with_alternatives('<step>', image_paths, 0, 1000)
+                max_steps = get_image_max_value_with_alternatives('<step>', image_paths, self._step_start, 1000)
 
-                for i in range(0, max_steps + 1):
+                for i in range(self._step_start, max_steps + 1):
                     for image_path in image_paths:
                         image_step = image_path.replace('<step>', str(i))
                         variant = 1
@@ -160,12 +162,12 @@ init -2 python:
                 - The variant of the image.
             """
 
-            if step < 0 or step >= len(self.steps):
-                log_error(201, f"Step {step} for {self._image_paths[0]} is out of range! (Min: 0, Max: {len(self.steps) - 1}))")
-                renpy.show("black_screen_text", [], None, f"Step {step} is out of range! (Min: 0, Max: {len(self.steps) - 1}))")
+            if step < self._step_start or step >= len(self.steps) + self._step_start:
+                log_error(201, f"Step {step} for {self._image_paths[0]} is out of range! (Min: {self._step_start}, Max: {len(self.steps) - 1 + self._step_start}))")
+                renpy.show("black_screen_text", [], None, f"Step {step} is out of range! (Min: {self._step_start}, Max: {len(self.steps) - 1 + self._step_start}))")
                 return -1
 
-            image_step = self.steps[step]
+            image_step = self.steps[step - self._step_start]
             if image_step == None:
                 log_error(202, f"Step {step} is missing variants for {self._image_paths[0]}!")
                 renpy.show("black_screen_text", [], None, f"Step {step} is missing variants for {self._image_paths[0]}!")

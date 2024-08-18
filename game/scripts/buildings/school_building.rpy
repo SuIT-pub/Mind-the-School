@@ -219,25 +219,25 @@ label .after_general_check (**kwargs):
 label first_week_sb_event (**kwargs):
     $ begin_event(**kwargs)
 
-    show first week school building 1 with dissolveM
+    scene first week school building 1 with dissolveM
     subtitles """You enter the main building of the high school.
         
         Well, you don't really need to enter the building to get an idea of the state it's in."""
         
-    show first week school building 2 with dissolveM
+    scene first week school building 2 with dissolveM
     headmaster_thought """Despite my fear, the building seems to be rather well maintained.
 
         It could be a bit cleaner but the corridor seems rather well.
 
         Let's see the classrooms."""
     
-    show first week school building 3 with dissolveM
+    scene first week school building 3 with dissolveM
     headmaster_thought "Oh not bad as well. "
 
-    show first week school building 4 with dissolveM
+    scene first week school building 4 with dissolveM
     headmaster_thought "Hmm I think there should be a class right now, let's check."
 
-    show first week school building 6 with dissolveM
+    scene first week school building 6 with dissolveM
     headmaster_thought "Hmm looks like a normal class, but I think the students have no material?"
     headmaster_thought "Yeah, not one school girl has even one book."
     headmaster_thought "I guess the former headmaster cut back on those"
@@ -252,10 +252,10 @@ label first_potion_sb_event (**kwargs):
 
     $ begin_event(**kwargs)
     
-    show first potion school building 1 with dissolveM
+    scene first potion school building 1 with dissolveM
     headmaster_thought "Let's see how classes are today."
     
-    show first potion school building 2 with dissolveM
+    scene first potion school building 2 with dissolveM
     subtitles "You look into a classroom and the first thing you notice is that almost everyone has opened up or at least partially removed their clothes."
     subtitles "Apparently the teachers also took a drink."
     headmaster_thought "Hmm, I can't wait to have this view on a regular basis, but that's gonna take some time."

@@ -1048,13 +1048,13 @@ init -3 python:
             - Calls the event.
         """
 
-        def __init__(self, priority: int, event: str, *conditions: Condition | Selector | Option, thumbnail: str = "", register_self = True):
+        def __init__(self, priority: int, event: str, *conditions: Condition | Selector | Option, thumbnail: str = "", register_self = True, override_intro = False):
             self.event_id = str(event)
             self.event = event
             self.thumbnail = thumbnail
             self.conditions = [condition for condition in conditions if isinstance(condition, Condition)]
 
-            if not any(isinstance(condition, IntroCondition) for condition in self.conditions):
+            if not any(isinstance(condition, IntroCondition) for condition in self.conditions) and not override_intro:
                 self.conditions.append(IntroCondition(False))
 
             self.values = SelectorSet(*[condition for condition in conditions if isinstance(condition, Selector)])
@@ -1076,6 +1076,7 @@ init -3 python:
             self.location = "misc"
 
             self.event_form = "event"
+            self._invalid = False
 
         def __str__(self):
             return self.event_id
@@ -1119,9 +1120,11 @@ init -3 python:
 
             if self.priority < 1 or self.priority > 3:
                 log_error(301, "Event " + self.event_id + ": Priority " + str(self.priority) + " is not valid!")
+                self._invalid = True
 
             if not renpy.has_label(self.event):
                 log_error(302, "Event " + self.event_id + ": Label " + self.event + " is missing!")
+                self._invalid = True
 
         def check_options(self, **kwargs) -> bool:
             """
@@ -1265,6 +1268,9 @@ init -3 python:
                 - True if all conditions are fulfilled.
                 - False if at least one condition is not fulfilled.
             """
+
+            if self._invalid:
+                return False
 
             for condition in self.conditions:
                 if not condition.is_fulfilled(**kwargs):

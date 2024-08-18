@@ -123,22 +123,22 @@ label first_week_school_dormitory_event (**kwargs):
     
     $ begin_event(**kwargs)
     
-    show first week school dormitory 1 with dissolveM
+    scene first week school dormitory 1 with dissolveM
     headmaster_thought "The dormitory looks alright."
 
-    show first week school dormitory 2 with dissolveM
+    scene first week school dormitory 2 with dissolveM
     headmaster_thought "As far as I know, the students have to share a communal bathroom."
     headmaster_thought "Private bathrooms would be nice for the students, but for one I don't think we really need that and then it would need a lot of rebuilding. So that should be last on the list."
     
-    show first week school dormitory 3 with dissolveM
+    scene first week school dormitory 3 with dissolveM
     headmaster_thought "Let's see if someone would let me see their room so I can check the state of these."
     
-    show first week school dormitory 4 with dissolveM
+    scene first week school dormitory 4 with dissolveM
     headmaster "Hello? I'm Mr. [headmaster_last_name] the new Headmaster. Can I come in? I'm here to inspect the building."
     subtitles "..."
     headmaster "Hello?"
 
-    show first week school dormitory 5 with dissolveM
+    scene first week school dormitory 5 with dissolveM
     headmaster_thought "Hmm nobody seems to be here. Nevermind. I just let my Secretary give me a report."
 
     $ change_stat("inhibition", -3, get_school())
@@ -152,17 +152,17 @@ label first_potion_school_dormitory_event (**kwargs):
 
     $ begin_event(**kwargs)
     
-    show first potion school dormitory 1 with dissolveM
+    scene first potion school dormitory 1 with dissolveM
     subtitles "You enter the dormitory of the high school."
     headmaster_thought "Mhh, where does the noise come from?"
 
-    show first potion school dormitory 2 with dissolveM
+    scene first potion school dormitory 2 with dissolveM
     headmaster_thought "Ah I think there are some students in the room over there."
 
-    show first potion school dormitory 3 with dissolveM
+    scene first potion school dormitory 3 with dissolveM
     headmaster_thought "Ahh party games!"
 
-    show first potion school dormitory 4 with dissolveM
+    scene first potion school dormitory 4 with dissolveM
     if time.check_daytime("c"):
         headmaster_thought "Normally I would scold them for skipping class but today is a special day so I gladly enjoy this view."
     else:

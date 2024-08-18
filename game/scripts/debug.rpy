@@ -52,4 +52,6 @@ init -100 python:
 
 label test_label():
     
+    call map_tutorial()
+
     return

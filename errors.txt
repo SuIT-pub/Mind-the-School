@@ -2,8 +2,159 @@
 errors listed below, and try again.
 
 
-File "game/scripts/conditions.rpy", line 651: invalid syntax
-                if not check
+File "game/scripts/journal/journal.rpy", line 148: Line with id journal_tutorial_15ca4a05 appears twice. The other line is game/scripts/buildings/tutorial.rpy:339
+
+File "game/scripts/journal/journal.rpy", line 149: Line with id journal_tutorial_6c776c1c appears twice. The other line is game/scripts/buildings/tutorial.rpy:340
+
+File "game/scripts/journal/journal.rpy", line 150: Line with id journal_tutorial_8cbb750e appears twice. The other line is game/scripts/buildings/tutorial.rpy:341
+
+File "game/scripts/journal/journal.rpy", line 151: Line with id journal_tutorial_6852b356 appears twice. The other line is game/scripts/buildings/tutorial.rpy:342
+
+File "game/scripts/journal/journal.rpy", line 152: Line with id journal_tutorial_d4380e54 appears twice. The other line is game/scripts/buildings/tutorial.rpy:343
+
+File "game/scripts/journal/journal.rpy", line 153: Line with id journal_tutorial_6ba3cc12 appears twice. The other line is game/scripts/buildings/tutorial.rpy:344
+
+File "game/scripts/journal/journal.rpy", line 154: Line with id journal_tutorial_66689656 appears twice. The other line is game/scripts/buildings/tutorial.rpy:345
+
+File "game/scripts/journal/journal.rpy", line 155: Line with id journal_tutorial_a86e256f appears twice. The other line is game/scripts/buildings/tutorial.rpy:346
+
+File "game/scripts/journal/journal.rpy", line 157: Line with id journal_tutorial_43630087 appears twice. The other line is game/scripts/buildings/tutorial.rpy:348
+
+File "game/scripts/journal/journal.rpy", line 158: Line with id journal_tutorial_3c05538b appears twice. The other line is game/scripts/buildings/tutorial.rpy:349
+
+File "game/scripts/journal/journal.rpy", line 159: Line with id journal_tutorial_44316410 appears twice. The other line is game/scripts/buildings/tutorial.rpy:350
+
+File "game/scripts/journal/journal.rpy", line 161: Line with id journal_tutorial_7ff6a6e6 appears twice. The other line is game/scripts/buildings/tutorial.rpy:352
+
+File "game/scripts/journal/journal.rpy", line 162: Line with id journal_tutorial_e358aa5b appears twice. The other line is game/scripts/buildings/tutorial.rpy:353
+
+File "game/scripts/journal/journal.rpy", line 163: Line with id journal_tutorial_256ed5b8 appears twice. The other line is game/scripts/buildings/tutorial.rpy:354
+
+File "game/scripts/journal/journal.rpy", line 165: Line with id journal_tutorial_77c21f75 appears twice. The other line is game/scripts/buildings/tutorial.rpy:356
+
+File "game/scripts/journal/journal.rpy", line 166: Line with id journal_tutorial_d077257c appears twice. The other line is game/scripts/buildings/tutorial.rpy:357
+
+File "game/scripts/journal/journal.rpy", line 168: Line with id journal_tutorial_8c3b6ad7 appears twice. The other line is game/scripts/buildings/tutorial.rpy:359
+
+File "game/scripts/journal/journal.rpy", line 170: Line with id journal_tutorial_3b5c7f57 appears twice. The other line is game/scripts/buildings/tutorial.rpy:361
+
+File "game/scripts/journal/journal.rpy", line 171: Line with id journal_tutorial_4a859448 appears twice. The other line is game/scripts/buildings/tutorial.rpy:362
+
+File "game/scripts/journal/journal.rpy", line 173: Line with id journal_tutorial_63c2c14a appears twice. The other line is game/scripts/buildings/tutorial.rpy:364
+
+File "game/scripts/journal/journal.rpy", line 174: Line with id journal_tutorial_895f51d8 appears twice. The other line is game/scripts/buildings/tutorial.rpy:365
+
+File "game/scripts/journal/journal.rpy", line 175: Line with id journal_tutorial_6213f42a appears twice. The other line is game/scripts/buildings/tutorial.rpy:366
+
+File "game/scripts/journal/journal.rpy", line 177: Line with id journal_tutorial_e5c46c4d appears twice. The other line is game/scripts/buildings/tutorial.rpy:368
+
+File "game/scripts/journal/journal.rpy", line 179: Line with id journal_tutorial_d0323b18 appears twice. The other line is game/scripts/buildings/tutorial.rpy:370
+
+File "game/scripts/journal/journal.rpy", line 180: Line with id journal_tutorial_6041ca5f appears twice. The other line is game/scripts/buildings/tutorial.rpy:371
+
+File "game/scripts/journal/journal.rpy", line 182: Line with id journal_tutorial_a7f15988 appears twice. The other line is game/scripts/buildings/tutorial.rpy:373
+
+File "game/scripts/journal/journal.rpy", line 184: Line with id journal_tutorial_ac47a07b appears twice. The other line is game/scripts/buildings/tutorial.rpy:375
+
+File "game/scripts/journal/journal.rpy", line 186: Line with id journal_tutorial_61e834f7 appears twice. The other line is game/scripts/buildings/tutorial.rpy:377
+
+File "game/scripts/journal/journal.rpy", line 187: Line with id journal_tutorial_748dcd8a appears twice. The other line is game/scripts/buildings/tutorial.rpy:378
+
+File "game/scripts/journal/journal.rpy", line 189: Line with id journal_tutorial_5676d175 appears twice. The other line is game/scripts/buildings/tutorial.rpy:380
+
+File "game/scripts/journal/journal.rpy", line 191: Line with id journal_tutorial_8a4ad535 appears twice. The other line is game/scripts/buildings/tutorial.rpy:382
+
+File "game/scripts/journal/journal.rpy", line 192: Line with id journal_tutorial_936fa5ed appears twice. The other line is game/scripts/buildings/tutorial.rpy:383
+
+File "game/scripts/journal/journal.rpy", line 194: Line with id journal_tutorial_31b73a62 appears twice. The other line is game/scripts/buildings/tutorial.rpy:385
+
+File "game/scripts/journal/journal.rpy", line 195: Line with id journal_tutorial_2a7472d7 appears twice. The other line is game/scripts/buildings/tutorial.rpy:386
+
+File "game/scripts/journal/journal.rpy", line 197: Line with id journal_tutorial_cf57719b appears twice. The other line is game/scripts/buildings/tutorial.rpy:388
+
+File "game/scripts/journal/journal.rpy", line 198: Line with id journal_tutorial_f6bf067d appears twice. The other line is game/scripts/buildings/tutorial.rpy:389
+
+File "game/scripts/journal/journal.rpy", line 200: Line with id journal_tutorial_061b9044 appears twice. The other line is game/scripts/buildings/tutorial.rpy:391
+
+File "game/scripts/journal/journal.rpy", line 201: Line with id journal_tutorial_950195d6 appears twice. The other line is game/scripts/buildings/tutorial.rpy:392
+
+File "game/scripts/journal/journal.rpy", line 202: Line with id journal_tutorial_d83eb385 appears twice. The other line is game/scripts/buildings/tutorial.rpy:393
+
+File "game/scripts/journal/journal.rpy", line 203: Line with id journal_tutorial_fcba8807 appears twice. The other line is game/scripts/buildings/tutorial.rpy:394
+
+File "game/scripts/journal/journal.rpy", line 204: Line with id journal_tutorial_08ad4b34 appears twice. The other line is game/scripts/buildings/tutorial.rpy:395
+
+File "game/scripts/journal/journal.rpy", line 205: Line with id journal_tutorial_1e3b68dd appears twice. The other line is game/scripts/buildings/tutorial.rpy:396
+
+File "game/scripts/journal/journal.rpy", line 207: Line with id journal_tutorial_ed6b8429 appears twice. The other line is game/scripts/buildings/tutorial.rpy:398
+
+File "game/scripts/journal/journal.rpy", line 208: Line with id journal_tutorial_629c638e appears twice. The other line is game/scripts/buildings/tutorial.rpy:399
+
+File "game/scripts/journal/journal.rpy", line 210: Line with id journal_tutorial_8e9f61b5 appears twice. The other line is game/scripts/buildings/tutorial.rpy:401
+
+File "game/scripts/journal/journal.rpy", line 211: Line with id journal_tutorial_85e2a82e appears twice. The other line is game/scripts/buildings/tutorial.rpy:402
+
+File "game/scripts/journal/journal.rpy", line 213: Line with id journal_tutorial_a45fa525 appears twice. The other line is game/scripts/buildings/tutorial.rpy:404
+
+File "game/scripts/journal/journal.rpy", line 214: Line with id journal_tutorial_6b91fe3b appears twice. The other line is game/scripts/buildings/tutorial.rpy:405
+
+File "game/scripts/journal/journal.rpy", line 216: Line with id journal_tutorial_a9f26307 appears twice. The other line is game/scripts/buildings/tutorial.rpy:407
+
+File "game/scripts/journal/journal.rpy", line 218: Line with id journal_tutorial_90272301 appears twice. The other line is game/scripts/buildings/tutorial.rpy:409
+
+File "game/scripts/journal/journal.rpy", line 219: Line with id journal_tutorial_48dd8f6d appears twice. The other line is game/scripts/buildings/tutorial.rpy:410
+
+File "game/scripts/journal/journal.rpy", line 220: Line with id journal_tutorial_1b4c382e appears twice. The other line is game/scripts/buildings/tutorial.rpy:411
+
+File "game/scripts/journal/journal.rpy", line 221: Line with id journal_tutorial_0d175072 appears twice. The other line is game/scripts/buildings/tutorial.rpy:412
+
+File "game/scripts/journal/journal.rpy", line 222: Line with id journal_tutorial_f59ecbee appears twice. The other line is game/scripts/buildings/tutorial.rpy:413
+
+File "game/scripts/journal/journal.rpy", line 223: Line with id journal_tutorial_3efbb144 appears twice. The other line is game/scripts/buildings/tutorial.rpy:414
+
+File "game/scripts/journal/journal.rpy", line 224: Line with id journal_tutorial_a18ed796 appears twice. The other line is game/scripts/buildings/tutorial.rpy:415
+
+File "game/scripts/journal/journal.rpy", line 226: Line with id journal_tutorial_e242c6a4 appears twice. The other line is game/scripts/buildings/tutorial.rpy:417
+
+File "game/scripts/journal/journal.rpy", line 228: Line with id journal_tutorial_6a4903a6 appears twice. The other line is game/scripts/buildings/tutorial.rpy:419
+
+File "game/scripts/journal/journal.rpy", line 230: Line with id journal_tutorial_3ed3cb38 appears twice. The other line is game/scripts/buildings/tutorial.rpy:421
+
+File "game/scripts/journal/journal.rpy", line 232: Line with id journal_tutorial_806f9928 appears twice. The other line is game/scripts/buildings/tutorial.rpy:423
+
+File "game/scripts/journal/journal.rpy", line 233: Line with id journal_tutorial_6ad04dc3 appears twice. The other line is game/scripts/buildings/tutorial.rpy:424
+
+File "game/scripts/journal/journal.rpy", line 234: Line with id journal_tutorial_c19db9d0 appears twice. The other line is game/scripts/buildings/tutorial.rpy:425
+
+File "game/scripts/journal/journal.rpy", line 235: Line with id journal_tutorial_59937ae9 appears twice. The other line is game/scripts/buildings/tutorial.rpy:426
+
+File "game/scripts/journal/journal.rpy", line 237: Line with id journal_tutorial_65a4d655 appears twice. The other line is game/scripts/buildings/tutorial.rpy:428
+
+File "game/scripts/journal/journal.rpy", line 239: Line with id journal_tutorial_faf89b96 appears twice. The other line is game/scripts/buildings/tutorial.rpy:430
+
+File "game/scripts/journal/journal.rpy", line 241: Line with id journal_tutorial_5fdf6cd3 appears twice. The other line is game/scripts/buildings/tutorial.rpy:432
+
+File "game/scripts/journal/journal.rpy", line 242: Line with id journal_tutorial_80f76fa9 appears twice. The other line is game/scripts/buildings/tutorial.rpy:433
+
+File "game/scripts/journal/journal.rpy", line 243: Line with id journal_tutorial_d6f75c73 appears twice. The other line is game/scripts/buildings/tutorial.rpy:434
+
+File "game/scripts/journal/journal.rpy", line 245: Line with id journal_tutorial_241ffad6 appears twice. The other line is game/scripts/buildings/tutorial.rpy:436
+
+File "game/scripts/journal/journal.rpy", line 247: Line with id journal_tutorial_8050269d appears twice. The other line is game/scripts/buildings/tutorial.rpy:438
+
+File "game/scripts/journal/journal.rpy", line 248: Line with id journal_tutorial_2274d7cc appears twice. The other line is game/scripts/buildings/tutorial.rpy:439
+
+File "game/scripts/journal/journal.rpy", line 250: Line with id journal_tutorial_b08ac21a appears twice. The other line is game/scripts/buildings/tutorial.rpy:441
+
+File "game/scripts/journal/journal.rpy", line 251: Line with id journal_tutorial_28e0a1b9 appears twice. The other line is game/scripts/buildings/tutorial.rpy:442
+
+File "game/scripts/journal/journal.rpy", line 253: Line with id journal_tutorial_b52b7fac appears twice. The other line is game/scripts/buildings/tutorial.rpy:444
+
+File "game/scripts/journal/journal.rpy", line 254: Line with id journal_tutorial_33d8be45 appears twice. The other line is game/scripts/buildings/tutorial.rpy:445
+
+File "game/scripts/journal/journal.rpy", line 255: Line with id journal_tutorial_0e62a287 appears twice. The other line is game/scripts/buildings/tutorial.rpy:446
+
+File "game/scripts/journal/journal.rpy", line 256: Line with id journal_tutorial_afbcbf19 appears twice. The other line is game/scripts/buildings/tutorial.rpy:447
 
 Ren'Py Version: Ren'Py 8.1.3.23091805
-Sat Aug 17 16:31:22 2024
+Sun Aug 18 21:18:02 2024
