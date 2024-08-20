@@ -1,21 +1,30 @@
 # Custom Dictionary Words
 abstractmethod
+bgimage
 Dateien
+datetime
 daysegment
+developement
 Extracter
 Flaticon
 getattr
+itertools
 keydown
 nconvert
 noalt
+notfied
 Oshima
 pagekeys
+Paramters
 pyautogui
 quicksaved
 readlines
 renpytom
 repr
+resetted
 setattr
+Sooo
+soooo
 traceback
 Traceback
 unscrollable
@@ -32,3 +41,4 @@ yoffset
 ypadding
 Yuki
 Yuriko
+yzoom

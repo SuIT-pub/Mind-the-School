@@ -91,6 +91,14 @@ init 1 python:
         thumbnail = "images/events/school building/sb_event_5 1 Soyoon Yamamoto 11.webp")
     ####################
 
+    sb_action_tutorial_event = Event(2, "action_tutorial",
+        NOT(ProgressCondition('action_tutorial')),
+        ValueSelector('return_label', 'school_building'))
+
+
+
+    ####################
+
     # sb_event_teach_class_event = Event(3, "teach_class_event",
     #     TimeCondition(weekday = "d", daytime = "c"),)
 
@@ -155,6 +163,10 @@ init 1 python:
 
     #################
     # Event insertion
+    # sb_timed_event.add_event(
+    # )
+
+        # sb_action_tutorial_event,
     sb_general_event.add_event(
         first_week_sb_event, 
         first_potion_sb_event,
