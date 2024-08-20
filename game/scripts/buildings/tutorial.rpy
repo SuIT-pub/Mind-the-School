@@ -452,4 +452,34 @@ label journal_tutorial (**kwargs):
 
     call start_journal.after_check()
 
+label action_tutorial (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ log_val('kwargs', kwargs)
+
+    $ return_label = get_kwargs('return_label', 'map_overview', **kwargs)
+
+    dev "Test Event: Return to [return_label]"
+
+    # $ start_progress('action_tutorial')
+
+    $ end_event('none', **kwargs)
+
+    call expression return_label
+
+
+label sandbox_tutorial (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ log_val('kwargs', kwargs)
+
+    $ return_label = get_kwargs('return_label', 'map_overview', **kwargs)
+
+    dev "Test Event: Return to [return_label]"
+
+    # $ start_progress('action_tutorial')
+
+    $ end_event('none', **kwargs)
+
+    call expression return_label
 #####################

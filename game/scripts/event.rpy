@@ -1403,7 +1403,7 @@ init -3 python:
         def call_fragment(self, index: int, events: Event = None, **kwargs):
             """
             Calls a fragment.
-            It selects the EventStorage at the index and gets one random event that fullfills the conditions from it.
+            It selects the EventStorage at the index and gets one random event that fulfills the conditions from it.
 
             ### Parameters:
             1. **kwargs
@@ -1748,6 +1748,10 @@ label call_available_event(event_storage, priority = 0, no_fallback = False, **k
             $ kwargs["in_event"] = True
             $ kwargs["event_obj"] = event_obj
 
+            if event_obj.values != None:
+                $ kwargs.update(event_obj.values.get_values())
+                $ event_obj.values.roll_values()
+
             $ renpy.call(events, **kwargs)
         $ i += 1
 
@@ -1873,6 +1877,17 @@ label composite_event_runner(**kwargs):
 ###############
 # Movie Sandbox
 
+init -1 python:
+    sandbox_after_event_check      = Event(2, "start_sandbox.after_check")
+    sandbox_check_events = EventStorage("sandbox_check_events", "misc", fallback = sandbox_after_event_check)
+
+init 1 python:
+    sandbox_tutorial_event = Event(1, 'sandbox_tutorial',
+        ValueSelector('return_label', 'start_sandbox.after_check'))
+
+    sandbox_check_events.add_event(sandbox_tutorial_event)
+
+
 label start_sandbox (**kwargs):
     # """
     # This label starts the sandbox movie mode
@@ -1892,6 +1907,14 @@ label start_sandbox (**kwargs):
     # 6. kwargs: Dict[str, Any]
     #     - Additional keyword arguments.
     # """
+
+    $ sandbox_data = kwargs
+
+    call call_available_event(sandbox_check_events, **kwargs)
+
+label .after_check (**kwargs):
+
+    $ kwargs = sandbox_data
 
     $ naughty_map = get_kwargs('naughty_map', **kwargs)
     $ level = get_kwargs('level', **kwargs)

@@ -17,6 +17,8 @@ init -1 python:
     temp_time_check_events = TempEventStorage("temp_time_check_events", "misc", fallback = after_temp_event_check)
     time_check_events      = EventStorage("time_check_events", "misc", fallback = after_event_check)
 
+    
+
 init 1 python:
     first_week_epilogue_event = Event(1, "first_week_epilogue", 
         IntroCondition(),
