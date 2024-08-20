@@ -178,6 +178,8 @@ init -3 python:
 
             return "EventStorage"
 
+        ###################
+
         ###############
         # Event Handler
 
@@ -207,6 +209,8 @@ init -3 python:
             del self.events[1][event_id]
             del self.events[2][event_id]
             del self.events[3][event_id]
+
+        ###############
 
         ##############
         # Event getter
@@ -580,6 +584,8 @@ init -3 python:
             return random.choice(events)
 
         ##############
+
+        ##############
         # Event caller
 
         def call_available_event(self, priority: int = 0, **kwargs):
@@ -608,6 +614,8 @@ init -3 python:
             for event in events:
                 kwargs["event_name"] = event.get_event()
                 event.call(**kwargs)
+
+        ##############
 
     class FragmentStorage(EventStorage):
         def __init__(self, name: str, *options: Option):
@@ -1251,6 +1259,8 @@ init -3 python:
 
             return self.event
 
+        #############################
+
         ###############
         # Event handler
 
@@ -1276,6 +1286,8 @@ init -3 python:
                 if not condition.is_fulfilled(**kwargs):
                     return False
             return True
+
+        ###############
 
         ##############
         # Event caller
@@ -1304,6 +1316,8 @@ init -3 python:
             kwargs["event_obj"] = self
 
             renpy.call("call_event", events, self.priority, self.get_event(), **kwargs)
+
+        ##############
 
     class EventComposite(Event):
         """
@@ -1514,13 +1528,14 @@ init -3 python:
                 select_person = self.person,
             **kwargs)
 
-
     class EventFragment(Event):
         def __init__(self, priority: int, event: str, *conditions: Condition | Selector | Option, thumbnail: str = ""):
             super().__init__(priority, event, *conditions, thumbnail = thumbnail)
 
             self.event_form = "fragment"
             self.set_location("fragment")
+
+    ###############
 
     #####################
     # Event label handler
@@ -1695,7 +1710,8 @@ init -3 python:
         if id in fragment_storage_register.keys():
             return fragment_storage_register[id]
         return None
-#################
+
+    #####################
 
 ##############
 # Event caller
