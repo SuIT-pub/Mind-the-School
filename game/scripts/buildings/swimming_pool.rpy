@@ -18,7 +18,17 @@ init -1 python:
         BGImage("images/background/swimming pool/bg 7.webp", 1, TimeCondition(daytime = 7)), # show swimming pool at night empty
     )
     
-# init 1 python:
+init 1 python:
+    
+    swimming_pool_action_tutorial_event = Event(2, "action_tutorial",
+        NOT(ProgressCondition('action_tutorial')),
+        ValueSelector('return_label', 'swimming_pool'),
+        override_location = "misc")
+
+    swimming_pool_general_event.add_event(
+        swimming_pool_action_tutorial_event
+    )
+
 
 ###########################################
 

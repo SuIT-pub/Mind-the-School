@@ -46,7 +46,13 @@ init 1 python:
         RandomCondition(65, 100),
         thumbnail = "images/events/kiosk/kiosk_event_3 1 0.webp")
 
+    kiosk_action_tutorial_event = Event(2, "action_tutorial",
+        NOT(ProgressCondition('action_tutorial')),
+        ValueSelector('return_label', 'kiosk'),
+        override_location = "misc")
+
     kiosk_general_event.add_event(
+        kiosk_action_tutorial_event,
         first_week_kiosk_event_event,
     )
 

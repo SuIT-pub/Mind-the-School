@@ -95,8 +95,13 @@ init 1 python:
         ),
         thumbnail = "images/events/cafeteria/cafeteria_event_5 1 3A 1.webp")
 
+    cafeteria_action_tutorial_event = Event(2, "action_tutorial",
+        NOT(ProgressCondition('action_tutorial')),
+        ValueSelector('return_label', 'cafeteria'),
+        override_location = "misc")
 
     cafeteria_general_event.add_event(
+        cafeteria_action_tutorial_event,
         cafeteria_construction_event
     )
     cafeteria_events["order_food"].add_event(

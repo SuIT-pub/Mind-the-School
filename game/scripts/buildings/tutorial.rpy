@@ -459,9 +459,31 @@ label action_tutorial (**kwargs):
 
     $ return_label = get_kwargs('return_label', 'map_overview', **kwargs)
 
-    dev "Test Event: Return to [return_label]"
+    $ image = Image_Series("/images/events/misc/action_tutorial <step>.webp", **kwargs)
 
-    # $ start_progress('action_tutorial')
+    $ image.show(0)
+    dev "Hello and welcome to yet another tutorial."
+    dev "This time we talk about the activity selection."
+    dev "Each time you enter a location, you'll get an overview over the available activities."
+    dev "Those activities are the events you can play in the location at the current time under the current circumstances."
+    dev "Meaning that some events are only available at certain times or when certain conditions are met."
+    dev "After you select an activity, you'll play through a random event that is based on the selected activity."
+    dev "When you're playing on Desktop and didn't deactivate the setting, you can also navigate through this menu via the keyboard."
+    dev "The corresponding keys are displayed inside the brackets next to the activity name."
+
+    dev "Sometimes activities are marked red. This means that there is some kind of a special event available."
+    dev "Those events are usually time-locked or condition-locked and are often only available for a limited time."
+
+    $ image.show(1)
+    dev "Maybe you noticed the eye symbol in the top left corner of the screen."
+    dev "This is a special extra for you peeps. Currently it's always usable but will be locked behind an item in the future."
+    dev "This button is visible in all activity selection menus and in some events."
+
+    dev "That's all from me again."
+    dev "If you need my help again, you can replay this tutorial in the replay gallery."
+    dev "Bye."
+
+    $ start_progress('action_tutorial')
 
     $ end_event('none', **kwargs)
 

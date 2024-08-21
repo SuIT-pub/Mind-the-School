@@ -112,6 +112,9 @@ init -3 python:
                 - The location that the event is registered for.
             """
 
+            if event.override_location != None:
+                location = event.override_location
+
             event.set_location(location)
 
             if location not in location_event_register.keys():
@@ -1056,7 +1059,7 @@ init -3 python:
             - Calls the event.
         """
 
-        def __init__(self, priority: int, event: str, *conditions: Condition | Selector | Option, thumbnail: str = "", register_self = True, override_intro = False):
+        def __init__(self, priority: int, event: str, *conditions: Condition | Selector | Option, thumbnail: str = "", register_self = True, override_intro = False, override_location = None):
             self.event_id = str(event)
             self.event = event
             self.thumbnail = thumbnail
@@ -1082,6 +1085,9 @@ init -3 python:
             if register_self:
                 event_register[self.event_id] = self
             self.location = "misc"
+            self.override_location = override_location
+            if self.override_location != None:
+                self.location = override_location
 
             self.event_form = "event"
             self._invalid = False

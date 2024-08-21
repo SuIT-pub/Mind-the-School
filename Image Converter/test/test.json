@@ -2,7 +2,7 @@
     "gym": {
         "gym_teach_pe": {
             "values": {
-                1: {}
+                "1": {}
             },
             "ranges": {},
             "options": {

@@ -18,7 +18,17 @@ init -1 python:
         BGImage("images/background/bath/bg 7.webp", 1, TimeCondition(daytime = 7)), # show bath at night empty or with teachers
     )
     
-# init 1 python:
+init 1 python:
+    
+    bath_action_tutorial_event = Event(2, "action_tutorial",
+        NOT(ProgressCondition('action_tutorial')),
+        ValueSelector('return_label', 'bath'),
+        override_location = "misc")
+
+    bath_general_event.add_event(
+        bath_action_tutorial_event
+    )
+
 
 ##################################
 

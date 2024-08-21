@@ -93,7 +93,8 @@ init 1 python:
 
     sb_action_tutorial_event = Event(2, "action_tutorial",
         NOT(ProgressCondition('action_tutorial')),
-        ValueSelector('return_label', 'school_building'))
+        ValueSelector('return_label', 'school_building'),
+        override_location = "misc")
 
 
 
@@ -166,8 +167,8 @@ init 1 python:
     # sb_timed_event.add_event(
     # )
 
-        # sb_action_tutorial_event,
     sb_general_event.add_event(
+        sb_action_tutorial_event,
         first_week_sb_event, 
         first_potion_sb_event,
     )

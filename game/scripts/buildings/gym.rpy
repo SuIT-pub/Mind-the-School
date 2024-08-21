@@ -62,6 +62,11 @@ init 1 python:
         TimeCondition(daytime = "c", weekday = "d"),
         thumbnail = "images/events/gym/gym_event_3 1 1 0.webp")    
 
+    gym_action_tutorial_event = Event(2, "action_tutorial",
+        NOT(ProgressCondition('action_tutorial')),
+        ValueSelector('return_label', 'gym'),
+        override_location = "misc")
+
     gym_teach_pe_intro_storage = FragmentStorage("gym_teach_pe_intro")
     gym_teach_pe_intro_storage.add_event(
         EventFragment(3, "gym_teach_pe_intro_1",
@@ -110,6 +115,7 @@ init 1 python:
     )
 
     gym_general_event.add_event(
+        gym_action_tutorial_event,
         first_week_gym_event_event,
         first_potion_gym_event_event,
     )
