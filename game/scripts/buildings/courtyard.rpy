@@ -74,7 +74,13 @@ init 1 python:
         LevelSelector('school_level', 'school'),
         thumbnail = "images/events/courtyard/courtyard_event_6 1 0.webp")
 
+    courtyard_action_tutorial_event = Event(2, "action_tutorial",
+        NOT(ProgressCondition('action_tutorial')),
+        ValueSelector('return_label', 'courtyard'),
+        override_location = "misc")
+
     courtyard_general_event.add_event(
+        courtyard_action_tutorial_event,
         first_week_courtyard_event_event,
         first_potion_courtyard_event_event,
     )

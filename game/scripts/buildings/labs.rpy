@@ -17,7 +17,17 @@ init -1 python:
         BGImage("images/background/labs/bg 7.webp", 1, TimeCondition(daytime = 7)), # show empty corridor at night
     )
 
-# init 1 python:
+init 1 python:
+    
+    labs_action_tutorial_event = Event(2, "action_tutorial",
+        NOT(ProgressCondition('action_tutorial')),
+        ValueSelector('return_label', 'labs'),
+        override_location = "misc")
+
+    labs_general_event.add_event(
+        labs_action_tutorial_event
+    )
+
     
 ##################################
 

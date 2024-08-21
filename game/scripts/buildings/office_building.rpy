@@ -41,6 +41,7 @@ init -1 python:
     )
 
 init 1 python:   
+    
     office_building_general_event.add_event( 
         Event(1, "first_week_office_building_event",
             IntroCondition(),
@@ -51,6 +52,11 @@ init 1 python:
             IntroCondition(),
             TimeCondition(day = 9, month = 1, year = 2023),
             thumbnail = "images/events/first potion/first potion office 1.webp"),
+
+        Event(2, "action_tutorial",
+            NOT(ProgressCondition('action_tutorial')),
+            ValueSelector('return_label', 'office_building'),
+            override_location = "misc")
     )
 
 
@@ -86,7 +92,7 @@ init 1 python:
             ProgressCondition("work_office_session_naughty"),
         )
     )
-
+    
         # Event(2, "office_call_secretary_1",
         #     NOT(ProgressCondition('start_sex_ed')),
         #     TimerCondition('start_sex_ed_timer_1', day = 3)),
@@ -144,6 +150,7 @@ init 1 python:
             thumbnail = "images/events/office/office_event_first_naughty 0 62.webp"
         )
     )
+
 
 #############################################
 

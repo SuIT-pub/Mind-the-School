@@ -18,7 +18,17 @@ init -1 python:
         BGImage("images/background/sports field/bg 7.webp", 1, TimeCondition(daytime = 7)), # show sports field at night empty
     )
     
-# init 1 python:
+init 1 python:
+    
+    sports_field_action_tutorial_event = Event(2, "action_tutorial",
+        NOT(ProgressCondition('action_tutorial')),
+        ValueSelector('return_label', 'sports_field'),
+        override_location = "misc")
+
+    sports_field_general_event.add_event(
+        sports_field_action_tutorial_event
+    )
+
 
 ##########################################
 

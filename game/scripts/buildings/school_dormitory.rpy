@@ -81,7 +81,13 @@ init 1 python:
         TimeCondition(daytime = "6,7"),
         thumbnail = "images/events/school dormitory/sd_event_3 normal 1 0.webp")
 
+    sd_action_tutorial_event = Event(2, "action_tutorial",
+        NOT(ProgressCondition('action_tutorial')),
+        ValueSelector('return_label', 'school_dormitory'),
+        override_location = "misc")
+
     sd_general_event.add_event(
+        sd_action_tutorial_event,
         first_week_school_dormitory_event_event,
         first_potion_school_dormitory_event_event,
     )
