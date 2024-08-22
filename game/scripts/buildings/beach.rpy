@@ -23,7 +23,8 @@ init 1 python:
     beach_action_tutorial_event = Event(2, "action_tutorial",
         NOT(ProgressCondition('action_tutorial')),
         ValueSelector('return_label', 'beach'),
-        override_location = "misc")
+        NoHighlightOption(),
+        override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
 
     beach_general_event.add_event(
         beach_action_tutorial_event
@@ -53,7 +54,6 @@ label .after_general_check (**kwargs):
         default_fallback,
         character.subtitles,
         bg_image = beach_bg_images,
-        context = loli
         fallback_text = "There is nothing to see here."
     ) from beach_3
 

@@ -65,7 +65,8 @@ init 1 python:
     gym_action_tutorial_event = Event(2, "action_tutorial",
         NOT(ProgressCondition('action_tutorial')),
         ValueSelector('return_label', 'gym'),
-        override_location = "misc")
+        NoHighlightOption(),
+        override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
 
     gym_teach_pe_intro_storage = FragmentStorage("gym_teach_pe_intro")
     gym_teach_pe_intro_storage.add_event(
@@ -156,7 +157,6 @@ label .after_general_check (**kwargs):
         default_fallback,
         character.subtitles,
         bg_image = gym_bg_images,
-        context = loli,
     ) from gym_3
 
     jump gym

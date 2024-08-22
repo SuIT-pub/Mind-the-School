@@ -159,8 +159,9 @@ label call_menu(text, person, with_leave = True, *elements, **kwargs):
     else:
         subtitles_Empty "" (interact = False)
 
-    show screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
-    $ renpy.pause(hard = True)
+    while (True):
+        show screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+        $ renpy.pause(hard = True)
         
 
 # calls a menu specialized in use for events
@@ -243,9 +244,13 @@ label call_element(key, effects, **kwargs):
             $ kwargs = call_effects(effects[i], **kwargs)
             $ i += 1
 
+    $ log_val('kwargs', kwargs)
+
     $ override = get_kwargs('override_menu_exit', None, **kwargs)
+    $ log_val('override', override)
     if override != None:
         if isinstance(override, str):
+            $ log('going to call override')
             $ renpy.call(override)
         elif isinstance(override, Event):
             $ renpy.call(override.get_event())
@@ -365,8 +370,8 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
                         if show_shortcut():
                             $ title_text = "[title] [[[count]]"
                         if str(effects) not in blocked_elements:
-                            key ("K_" + str(count)) action Call("call_element", effects, menu_selection = raw_title, **kwargs)
-                            key ("K_KP" + str(count)) action Call("call_element", effects, menu_selection = raw_title, **kwargs)
+                            key ("K_" + str(count)) action Call("call_element", title, effects, menu_selection = raw_title, **kwargs)
+                            key ("K_KP" + str(count)) action Call("call_element", title, effects, menu_selection = raw_title, **kwargs)
 
                     if str(effects) in marked_elements:
                         $ title_text = "{color=#a00000}●{/color}  " + title_text + "  {color=#a00000}●{/color}"

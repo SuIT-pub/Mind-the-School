@@ -56,7 +56,8 @@ init 1 python:
         Event(2, "action_tutorial",
             NOT(ProgressCondition('action_tutorial')),
             ValueSelector('return_label', 'office_building'),
-            override_location = "misc")
+            NoHighlightOption(),
+            override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
     )
 
 
@@ -90,7 +91,7 @@ init 1 python:
     office_building_call_secretary_events["naughty_sandbox"].add_event(
         Event(3, "office_call_secretary_naughty_sandbox",
             ProgressCondition("work_office_session_naughty"),
-        )
+            thumbnail = "images/events/office/office_call_secretary_naughty_sandbox 6 3.webp")
     )
     
         # Event(2, "office_call_secretary_1",
@@ -124,23 +125,27 @@ init 1 python:
 
     office_building_work_event["money"].add_event(
         Event(3, "work_office_money_event_1",
-            TimeCondition(weekday = "d", daytime = "d")),
+            TimeCondition(weekday = "d", daytime = "d"),
+            thumbnail = "images/events/office/office_money_event_1 1.webp"),
     )
 
     office_building_work_event["education"].add_event(
         Event(3, "work_office_education_event_1",
-            TimeCondition(weekday = "d", daytime = "d")),
+            TimeCondition(weekday = "d", daytime = "d"),
+            thumbnail = "images/events/office/office_education_event_1 0.webp"),
     )
 
     office_building_work_event["reputation"].add_event(
         Event(3, "work_office_reputation_event_1",
-            TimeCondition(weekday = "d", daytime = "d")),
+            TimeCondition(weekday = "d", daytime = "d"),
+            thumbnail = "images/events/office/office_reputation_event_1 1.webp"),
     )
 
     office_building_work_event["counselling"].add_event(
         Event(3, "work_office_session_event_1",
             TimeCondition(weekday = "d", daytime = "d"),
-            RandomListSelector("girl_name", "Yuriko Oshima", "Elsie Johnson", "Easkey Tanaka")),
+            RandomListSelector("girl_name", "Yuriko Oshima", "Elsie Johnson", "Easkey Tanaka"),
+            thumbnail = "images/events/office/office_session_event_1 Easkey Tanaka 1 # 4.webp"),
         Event(3, "work_office_session_event_first_naughty",
             TimeCondition(weekday = "d", daytime = "d"),
             LevelSelector('school_level', 'school'),

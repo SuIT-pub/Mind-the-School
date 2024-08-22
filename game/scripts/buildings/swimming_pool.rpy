@@ -23,7 +23,8 @@ init 1 python:
     swimming_pool_action_tutorial_event = Event(2, "action_tutorial",
         NOT(ProgressCondition('action_tutorial')),
         ValueSelector('return_label', 'swimming_pool'),
-        override_location = "misc")
+        NoHighlightOption(),
+        override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
 
     swimming_pool_general_event.add_event(
         swimming_pool_action_tutorial_event
@@ -43,16 +44,12 @@ label .after_time_check (**kwargs):
     call call_available_event(swimming_pool_general_event) from swimming_pool_4
 
 label .after_general_check (**kwargs):
-    $ loli = get_random_loli()
-    $ swimming_pool_bg_images.add_kwargs(loli = loli)
-
     call call_event_menu (
         "What to do at the swimming pool?", 
         swimming_pool_events, 
         default_fallback,
         character.subtitles,
         bg_image = swimming_pool_bg_images,
-        context = loli,
     ) from swimming_pool_3
 
     jump swimming_pool

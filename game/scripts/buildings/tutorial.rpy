@@ -497,9 +497,40 @@ label sandbox_tutorial (**kwargs):
 
     $ return_label = get_kwargs('return_label', 'map_overview', **kwargs)
 
-    dev "Test Event: Return to [return_label]"
+    $ image = Image_Series("/images/events/misc/sandbox_tutorial <step>.webp", **kwargs)
 
-    # $ start_progress('action_tutorial')
+    $ image.show(0)
+    dev "Hey hey. It's me again."
+    dev "This time I want to introduce to you the Movie Sandbox."
+    dev "The Movie Sandbox allows you to watch this event however you want."
+    dev "You decide the location, the position, the clothing and the camera angle."
+    dev "The usage is quite simple. All the buttons you need are those 5 at the right side of the screen."
+    dev "Maybe also the Hide-Button in the quick menu at the bottom :D"
+    dev "So let's start with the buttons."
+
+    $ image.show(1)
+    dev "The first button allows you to change the clothing of the character."
+    dev "Some clothing is locked behind certain conditions and some are only available in certain locations."
+    dev "But as long as the button is visible, you can change the clothing."
+
+    $ image.show(2)
+    dev "The second button allows you to change the position of the character."
+
+    $ image.show(3)
+    dev "The third button allows you to change the location."
+
+    $ image.show(4)
+    dev "And the fourth one switches between all available camera angles."
+
+    dev "If any of these buttons are not visible, it means that there is no option to change to in the current configuration."
+
+    $ image.show(5)
+    dev "The last button in the bottom right corner ends the sandbox mode and returns you to the map."
+
+    dev "That's pretty much everything. If you have any questions, just replay this tutorial in the replay gallery."
+    dev "Then lot's of fun with the sandbox ;) Bye."
+
+    $ start_progress('sandbox_tutorial')
 
     $ end_event('none', **kwargs)
 

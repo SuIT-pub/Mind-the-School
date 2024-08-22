@@ -4,8 +4,8 @@ init -6 python:
     from typing import Union, List
 
     class OptionSet:
-        def __init__(self, *options: Option):
-            self.options = {option.get_name(): option for option in set(options)}
+        def __init__(self, *options_list: Option):
+            self.options = {option_obj.get_name(): option_obj for option_obj in options_list}
 
         def check_options(self, **kwargs) -> bool:
             if len(self.options) == 0:

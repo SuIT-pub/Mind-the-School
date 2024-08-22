@@ -74,7 +74,7 @@ init 1 python:
     map_tutorial_event = Event(2, "map_tutorial", 
         NOT(ProgressCondition("map_tutorial")), 
         OR(IntroCondition(True), IntroCondition(False)),
-        override_intro = True)
+        override_intro = True, thumbnail = "images/events/misc/map_tutorial.webp")
 
     time_check_events.add_event(
         first_week_epilogue_event, 

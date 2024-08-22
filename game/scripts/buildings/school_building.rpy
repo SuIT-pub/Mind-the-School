@@ -94,7 +94,8 @@ init 1 python:
     sb_action_tutorial_event = Event(2, "action_tutorial",
         NOT(ProgressCondition('action_tutorial')),
         ValueSelector('return_label', 'school_building'),
-        override_location = "misc")
+        NoHighlightOption(),
+        override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
 
 
 
@@ -115,11 +116,9 @@ init 1 python:
     sb_teach_math_ld_storage = FragmentStorage('sb_teach_math_ld')
     sb_teach_math_ld_storage.add_event(
         EventFragment(3, 'sb_teach_math_ld_1', 
-            ValueCondition('learning_difficulty', False),
             thumbnail = "images/events/school building/sb_teach_math_ld_1 1.webp"),
         EventFragment(3, 'sb_teach_math_ld_2', 
             RandomListSelector('ld_girl_name', 'Seraphina Clark', 'Hatano Miwa', 'Soyoon Yamamoto'),
-            ValueCondition('learning_difficulty', True),
             thumbnail = "images/events/school building/sb_teach_math_ld_2 1 Seraphina Clark 1.webp"),
         EventFragment(3, 'sb_teach_math_ld_3',
             thumbnail = "images/events/school building/sb_teach_math_ld_3 0.webp")
@@ -132,7 +131,7 @@ init 1 python:
             RandomListSelector('main_topic', 'normal', 'sleeping'),
             thumbnail = "images/events/school building/sb_teach_math_main_1 Seraphina Clark 1 0.webp"),
         EventFragment(3, 'sb_teach_math_main_2',
-            thumbnail = "images/events/school building/sb_teach_math_main_2 1 7.webp",)
+            thumbnail = "images/events/school building/sb_teach_math_main_2 1 7.webp")
     )
 
     sb_teach_math_event = EventComposite(3, 'sb_teach_math', [sb_teach_math_ld_storage, sb_teach_math_main_storage],
@@ -160,6 +159,7 @@ init 1 python:
         LevelSelector('school_level', 'school'),
         RandomListSelector('topic', 'french revolution'),
         ProficiencyCondition('history'),
+        thumbnail = "images/events/school building/sb_teach_history_main_f_revolution_1 1 2.webp"
     )
 
     #################
@@ -214,7 +214,6 @@ label .after_general_check (**kwargs):
         default_fallback,
         character.subtitles,
         bg_image = sb_bg_images,
-        context = loli,
     ) from school_building_3
 
     jump school_building
@@ -657,7 +656,7 @@ label sb_teach_math_ld_2 (**kwargs):
     $ image.show(7)
     headmaster "Good. Now let's continue with the new topic."
 
-    call change_stats_with_modifier('school', 'math'
+    call change_stats_with_modifier('school', 'math',
         education = TINY)
 
     $ end_event('map_overview', **kwargs)

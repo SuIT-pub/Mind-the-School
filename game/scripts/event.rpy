@@ -1905,7 +1905,8 @@ init -1 python:
 
 init 1 python:
     sandbox_tutorial_event = Event(1, 'sandbox_tutorial',
-        ValueSelector('return_label', 'start_sandbox.after_check'))
+        ValueSelector('return_label', 'start_sandbox.after_check'),
+        thumbnail = "images/events/misc/sandbox_tutorial 0.webp")
 
     sandbox_check_events.add_event(sandbox_tutorial_event)
 
@@ -1968,17 +1969,13 @@ label .start (**kwargs):
         $ clothing = mapping[location][position][0]
 
     $ file = get_kwargs('file_preset', **kwargs).replace('<location>', location).replace('<position>', position).replace('<clothing>', clothing)
-    # $ file = f"images/events/office/anim_office_secretary_{location}_{position}_{clothing}_<variant>.webm"
     $ max_variant = get_file_max_value('variant', file, 0, 100)
     
     if variant > max_variant:
         $ variant = 0
 
     # play movies
-
     $ movie = get_kwargs('movie_preset', **kwargs).replace('<location>', location).replace('<position>', position).replace('<clothing>', clothing).replace('<variant>', str(variant))
-    # $ movie = f"anim_office_secretary_{location}_{position}_{clothing}_{variant}"
-
     scene expression movie with dissolveM
 
     $ icons = []
@@ -2055,7 +2052,6 @@ label .change_variant (**kwargs):
     $ variant = get_kwargs('naughty_variant', **kwargs)
 
     $ file = get_kwargs('file_preset', **kwargs).replace('<location>', location).replace('<position>', position).replace('<clothing>', clothing)
-    # $ file = f"images/events/office/anim_office_secretary_{location}_{position}_{clothing}_<variant>.webm"
     $ max_variant = get_file_max_value('variant', file, 0, 100)
     $ variant += 1
     if variant > max_variant:
