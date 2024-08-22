@@ -1,26 +1,218 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
 While running game code:
-  File "game/scripts/buildings/sports_field.rpy", line 21, in script
-    init 1 python:
-  File "game/scripts/buildings/sports_field.rpy", line 29, in <module>
-    sf_action_tutorial_event
-NameError: name 'sf_action_tutorial_event' is not defined
+  File "game/scripts/overview.rpy", line 704, in script call
+    call time_event_check from new_day_2
+  File "game/scripts/overview.rpy", line 803, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 105, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/overview.rpy", line 803, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/office_building.rpy", line 167, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
+  File "game/scripts/overview.rpy", line 803, in script call
+    call expression name from building_1
+  File "game/scripts/overview.rpy", line 704, in script call
+    call time_event_check from new_day_2
+  File "game/scripts/overview.rpy", line 719, in script call
+    call time_event_check from new_daytime_2
+  File "game/scripts/overview.rpy", line 803, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 105, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/overview.rpy", line 803, in script call
+    call expression name from building_1
+  File "game/scripts/overview.rpy", line 803, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/office_building.rpy", line 167, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
+  File "game/scripts/overview.rpy", line 803, in script call
+    call expression name from building_1
+  File "game/scripts/overview.rpy", line 719, in script call
+    call time_event_check from new_daytime_2
+  File "game/scripts/overview.rpy", line 803, in script call
+    call expression name from building_1
+  File "game/scripts/menu.rpy", line 125, in script call
+    label call_menu(text, person, with_leave = True, *elements, **kwargs):
+  File "game/script.rpy", line 192, in script call
+    call check_missing_proficiencies (override_menu_exit = 'after_load.after_missing_proficiencies') from after_load_6
+  File "game/script.rpy", line 146, in script call
+    $ call_custom_menu_with_text("The headmaster has no proficiencies set. Please assign a proficiency to the headmaster.\nP.E. is pre-selected do to his backstory.", character.subtitles, False,
+  File "game/scripts/menu.rpy", line 164, in script call
+    $ renpy.pause(hard = True)
+  File "game/scripts/menu.rpy", line 254, in script call
+    $ renpy.call(override)
+  File "game/script.rpy", line 156, in script call
+    $ call_custom_menu_with_text("Show tutorials?", character.subtitles, False,
+  File "game/scripts/menu.rpy", line 164, in script call
+    $ renpy.pause(hard = True)
+  File "game/scripts/menu.rpy", line 239, in script call
+    $ kwargs = call_effects(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 730, in script call
+    call time_event_check from call_after_load_entry_1
+  File "game/scripts/daily_check.rpy", line 143, in script call
+    call call_available_event(time_check_events, 0, True) from time_event_check_2
+  File "game/scripts/event.rpy", line 1777, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/overview.rpy", line 780, in script call
+    call screen school_overview_buttons (True)
+  File "game/scripts/journal/journal.rpy", line 137, in script call
+    call call_available_event(journal_events) from start_journal_2
+  File "game/scripts/event.rpy", line 1777, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/journal/journal.rpy", line 141, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/overview.rpy", line 780, in script call
+    call screen school_overview_buttons (True)
+  File "game/scripts/overview.rpy", line 812, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 780, in script call
+    call screen school_overview_buttons (True)
+  File "game/scripts/overview.rpy", line 803, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/school_building.rpy", line 205, in script call
+    call call_available_event(sb_timed_event) from school_building_1
+  File "game/scripts/event.rpy", line 1777, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 208, in script call
+    call call_available_event(sb_general_event) from school_building_4
+  File "game/scripts/event.rpy", line 1777, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 211, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 204, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 164, in script call
+    $ renpy.pause(hard = True)
+  File "game/scripts/menu.rpy", line 239, in script call
+    $ kwargs = call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 1807, in script call
+    $ renpy.call(event_obj_var, from_current="call_event_1", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 446, in script call
+    call change_stats_with_modifier('teacher',
+  File "game/scripts/modifier.rpy", line 548, in script call
+    call change_stat_with_modifier(stat, kwargs[stat], char_name, collection)
+  File "game/scripts/modifier.rpy", line 518, in script
+    $ char_obj.change_stat(stat, value)
+  File "game/scripts/modifier.rpy", line 518, in <module>
+    $ char_obj.change_stat(stat, value)
+  File "game/scripts/character.rpy", line 206, in change_stat
+    stat_obj.change_value(delta, self.get_level())
+  File "game/scripts/stats.rpy", line 190, in change_value
+    minLimit = Stat_Data[self.type].get_min_limit()
+AttributeError: 'Stat' object has no attribute 'type'
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "game/scripts/buildings/sports_field.rpy", line 21, in script
-    init 1 python:
-  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 1138, in execute
+  File "game/scripts/overview.rpy", line 704, in script call
+    call time_event_check from new_day_2
+  File "game/scripts/overview.rpy", line 803, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 105, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/overview.rpy", line 803, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/office_building.rpy", line 167, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
+  File "game/scripts/overview.rpy", line 803, in script call
+    call expression name from building_1
+  File "game/scripts/overview.rpy", line 704, in script call
+    call time_event_check from new_day_2
+  File "game/scripts/overview.rpy", line 719, in script call
+    call time_event_check from new_daytime_2
+  File "game/scripts/overview.rpy", line 803, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/courtyard.rpy", line 105, in script call
+    call call_available_event(courtyard_timed_event) from courtyard_1
+  File "game/scripts/overview.rpy", line 803, in script call
+    call expression name from building_1
+  File "game/scripts/overview.rpy", line 803, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/office_building.rpy", line 167, in script call
+    call call_available_event(office_building_timed_event) from office_building_1
+  File "game/scripts/overview.rpy", line 803, in script call
+    call expression name from building_1
+  File "game/scripts/overview.rpy", line 719, in script call
+    call time_event_check from new_daytime_2
+  File "game/scripts/overview.rpy", line 803, in script call
+    call expression name from building_1
+  File "game/scripts/menu.rpy", line 125, in script call
+    label call_menu(text, person, with_leave = True, *elements, **kwargs):
+  File "game/script.rpy", line 192, in script call
+    call check_missing_proficiencies (override_menu_exit = 'after_load.after_missing_proficiencies') from after_load_6
+  File "game/script.rpy", line 146, in script call
+    $ call_custom_menu_with_text("The headmaster has no proficiencies set. Please assign a proficiency to the headmaster.\nP.E. is pre-selected do to his backstory.", character.subtitles, False,
+  File "game/scripts/menu.rpy", line 164, in script call
+    $ renpy.pause(hard = True)
+  File "game/scripts/menu.rpy", line 254, in script call
+    $ renpy.call(override)
+  File "game/script.rpy", line 156, in script call
+    $ call_custom_menu_with_text("Show tutorials?", character.subtitles, False,
+  File "game/scripts/menu.rpy", line 164, in script call
+    $ renpy.pause(hard = True)
+  File "game/scripts/menu.rpy", line 239, in script call
+    $ kwargs = call_effects(effects, **kwargs)
+  File "game/scripts/overview.rpy", line 730, in script call
+    call time_event_check from call_after_load_entry_1
+  File "game/scripts/daily_check.rpy", line 143, in script call
+    call call_available_event(time_check_events, 0, True) from time_event_check_2
+  File "game/scripts/event.rpy", line 1777, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/overview.rpy", line 780, in script call
+    call screen school_overview_buttons (True)
+  File "game/scripts/journal/journal.rpy", line 137, in script call
+    call call_available_event(journal_events) from start_journal_2
+  File "game/scripts/event.rpy", line 1777, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/journal/journal.rpy", line 141, in script call
+    call open_journal (1, "") from start_journal_1
+  File "game/scripts/overview.rpy", line 780, in script call
+    call screen school_overview_buttons (True)
+  File "game/scripts/overview.rpy", line 812, in script call
+    call new_daytime from skip_time_1
+  File "game/scripts/overview.rpy", line 780, in script call
+    call screen school_overview_buttons (True)
+  File "game/scripts/overview.rpy", line 803, in script call
+    call expression name from building_1
+  File "game/scripts/buildings/school_building.rpy", line 205, in script call
+    call call_available_event(sb_timed_event) from school_building_1
+  File "game/scripts/event.rpy", line 1777, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 208, in script call
+    call call_available_event(sb_general_event) from school_building_4
+  File "game/scripts/event.rpy", line 1777, in script call
+    $ renpy.call(events, **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 211, in script call
+    call call_event_menu (
+  File "game/scripts/menu.rpy", line 204, in script call
+    call call_menu (text, person, True, *event_list, **kwargs) from call_event_menu_2
+  File "game/scripts/menu.rpy", line 164, in script call
+    $ renpy.pause(hard = True)
+  File "game/scripts/menu.rpy", line 239, in script call
+    $ kwargs = call_effects(effects, **kwargs)
+  File "game/scripts/event.rpy", line 1807, in script call
+    $ renpy.call(event_obj_var, from_current="call_event_1", **kwargs)
+  File "game/scripts/buildings/school_building.rpy", line 446, in script call
+    call change_stats_with_modifier('teacher',
+  File "game/scripts/modifier.rpy", line 548, in script call
+    call change_stat_with_modifier(stat, kwargs[stat], char_name, collection)
+  File "game/scripts/modifier.rpy", line 518, in script
+    $ char_obj.change_stat(stat, value)
+  File "D:\RenPy\renpy\ast.py", line 1138, in execute
     renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
-  File "C:\Users\bigma\Documents\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
+  File "D:\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
     exec(bytecode, globals, locals)
-  File "game/scripts/buildings/sports_field.rpy", line 29, in <module>
-    sf_action_tutorial_event
-NameError: name 'sf_action_tutorial_event' is not defined
+  File "game/scripts/modifier.rpy", line 518, in <module>
+    $ char_obj.change_stat(stat, value)
+  File "game/scripts/character.rpy", line 206, in change_stat
+    stat_obj.change_value(delta, self.get_level())
+  File "game/scripts/stats.rpy", line 190, in change_value
+    minLimit = Stat_Data[self.type].get_min_limit()
+AttributeError: 'Stat' object has no attribute 'type'
 
 Windows-10-10.0.22631 AMD64
 Ren'Py 8.1.3.23091805
 Mind the School 0.1.4
-Wed Aug 21 08:36:52 2024
+Wed Aug 21 19:35:23 2024

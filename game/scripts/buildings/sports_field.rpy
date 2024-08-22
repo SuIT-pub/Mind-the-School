@@ -23,7 +23,8 @@ init 1 python:
     sports_field_action_tutorial_event = Event(2, "action_tutorial",
         NOT(ProgressCondition('action_tutorial')),
         ValueSelector('return_label', 'sports_field'),
-        override_location = "misc")
+        NoHighlightOption(),
+        override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
 
     sports_field_general_event.add_event(
         sports_field_action_tutorial_event
@@ -49,7 +50,6 @@ label .after_general_check (**kwargs):
         default_fallback,
         character.subtitles,
         bg_image = sports_field_bg_images,
-        context = loli,
     ) from sports_field_3
 
     jump sports_field

@@ -77,7 +77,8 @@ init 1 python:
     courtyard_action_tutorial_event = Event(2, "action_tutorial",
         NOT(ProgressCondition('action_tutorial')),
         ValueSelector('return_label', 'courtyard'),
-        override_location = "misc")
+        NoHighlightOption(),
+        override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
 
     courtyard_general_event.add_event(
         courtyard_action_tutorial_event,
@@ -116,7 +117,6 @@ label .after_general_check (**kwargs):
         default_fallback,
         character.subtitles,
         bg_image = courtyard_bg_images,
-        context = loli,
         fallback_text = "There is nothing to see here."
     ) from courtyard_3
 

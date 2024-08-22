@@ -3,7 +3,7 @@ init -98 python:
     # 1 = slight loli content (Middle School age: 13-17, High School age: 18-22)
     # 2 = hard loli content (Elementary School age: 8-12, Middle School age: 13-17, High School age: 18-22)
     loli_content = 0
-    cheat_mode = False
+    cheat_mode = True
     nude_vision = 2
     sfw_mode = False
     event_selection_mode = False

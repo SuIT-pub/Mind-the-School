@@ -725,6 +725,12 @@ screen school_overview():
     use school_overview_stats
     use school_overview_buttons
 
+label after_load_entry():
+
+    call time_event_check from call_after_load_entry_1
+
+    jump map_overview
+
 #################################################
 # shows the map overview and then waits for input
 label map_overview ():

@@ -156,14 +156,15 @@ event_office_building_counselling;Hold counselling sessions
 event_office_building_reputation;Improve school reputation
 event_office_building_learn;Learn subject ({color=#a00000}-500${/color})
 
-work_office_money_event_1;Make money generic
-work_office_education_event_1;Improve teaching material generic
-work_office_reputation_event_1;Improve school reputation generic
-work_office_session_event_naughty_1;First time naughty during counselling
+work_office_money_event_1;Make money
+work_office_education_event_1;Improve teaching material
+work_office_reputation_event_1;Improve school reputation
+work_office_session_event_1;Normal counselling session
 
 work_office_session_event_first_naughty;First time naughty
 
 call_secretary_event;Call Secretary
+office_call_secretary_naughty_sandbox;Secretary Naughty Time
 
 naughty_sandbox;Be naughty
 
@@ -243,3 +244,4 @@ aona_sports_bra_event_1;Bra shopping with Aona
 journal_tutorial;Journal Tutorial
 map_tutorial;Map Tutorial
 action_tutorial;Activity Selection Tutorial
+sandbox_tutorial;Movie Sandbox Tutorial

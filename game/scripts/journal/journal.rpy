@@ -117,7 +117,8 @@ init -1 python:
 init 1 python:
     
     journal_tutorial_event = Event(1, "journal_tutorial",
-        NOT(ProgressCondition('journal_tutorial')))
+        NOT(ProgressCondition('journal_tutorial')),
+        thumbnail = "images/events/misc/journal_tutorial 0.webp")
 
     journal_events.add_event(
         journal_tutorial_event
@@ -2326,9 +2327,20 @@ screen journal_goals(display):
                         style "journal_text"
                         size 25
                     null height 20
+                    text "Please keep in mind, the events are randomized according to the location and the current level.":
+                        style "journal_text"
+                        size 25
+                    text "Some events have a positive and some a negative effect. If you don't like this rng component, well that's just how it is.":
+                        style "journal_text"
+                        size 25
+                    text "Life is not fair and so it only makes sense to have some events reflect that.":
+                        style "journal_text"
+                        size 25
+                    null height 40
                     text "If you want more information, feel free to check out the Walkthrough on my Wiki Page:":
                         style "journal_text"
                         size 25
+                    null height 20
                     textbutton "Walkthrough {image=icons/share.webp}":
                         text_style "buttons_idle"
                         action Call('open_wiki_page')

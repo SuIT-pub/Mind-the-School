@@ -435,6 +435,22 @@ init -1 python:
             kwargs[self.key] = self.value
             return kwargs
 
+    class SetProficiencyEffect(Effect):
+        def __init__(self, subject: str, *, level = 0, xp = 0):
+            super().__init__(subject)
+            self.level = level
+            self.xp = xp
+
+        def __str__(self):
+            return f"set_proficiency_{self.level}_{self.xp}"
+
+        def apply(self, **kwargs):
+            if self.level > 0:
+                set_headmaster_proficiency_level(self.name, self.level * 100)
+            if self.xp > 0:
+                set_headmaster_proficiency_xp(self.name, self.xp)
+            return kwargs
+
 label open_bg_image_menu(event, **kwargs):
     $ bg_image = get_kwargs("bg_image", None, **kwargs)
     if bg_image != None:

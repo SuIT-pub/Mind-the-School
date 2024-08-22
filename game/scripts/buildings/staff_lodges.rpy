@@ -23,7 +23,8 @@ init 1 python:
     staff_lodges_action_tutorial_event = Event(2, "action_tutorial",
         NOT(ProgressCondition('action_tutorial')),
         ValueSelector('return_label', 'staff_lodges'),
-        override_location = "misc")
+        NoHighlightOption(),
+        override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
 
     staff_lodges_general_event.add_event(
         staff_lodges_action_tutorial_event
@@ -43,17 +44,12 @@ label .after_time_check (**kwargs):
     call call_available_event(staff_lodges_general_event) from staff_lodges_4
 
 label .after_general_check (**kwargs):
-    $ loli = get_random_loli()
-
-    $ staff_lodges_bg_images.add_kwargs(loli = loli)
-
     call call_event_menu (
         "What to do at the Staff Lodges?",
         staff_lodges_events,
         default_fallback,
         character.subtitles,
         bg_image = staff_lodges_bg_images,
-        context = loli
         fallback_text = "There is nothing to see here."
     ) from staff_lodges_3
 
