@@ -545,6 +545,6 @@ label change_stats_with_modifier(char_name, collection = 'default', **kwargs):
     while i < len(keys):
         $ stat = keys[i]
         $ i += 1
-        call change_stat_with_modifier(stat, kwargs[stat], char_name, collection)
+        call change_stat_with_modifier(stat, kwargs[stat], char_name, collection) from _call_change_stat_with_modifier
 
     return

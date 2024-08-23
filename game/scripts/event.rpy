@@ -1853,7 +1853,7 @@ label test_normal_test_event(**kwargs):
 
     subtitles "Test Event [test] [test2]"
 
-    call composite_event_runner(**kwargs)
+    call composite_event_runner(**kwargs) from _call_composite_event_runner_3
 
 label select_event_runner(**kwargs):
 
@@ -1906,6 +1906,7 @@ init -1 python:
 init 1 python:
     sandbox_tutorial_event = Event(1, 'sandbox_tutorial',
         ValueSelector('return_label', 'start_sandbox.after_check'),
+        TutorialCondition(),
         thumbnail = "images/events/misc/sandbox_tutorial 0.webp")
 
     sandbox_check_events.add_event(sandbox_tutorial_event)
@@ -1933,7 +1934,7 @@ label start_sandbox (**kwargs):
 
     $ sandbox_data = kwargs
 
-    call call_available_event(sandbox_check_events, **kwargs)
+    call call_available_event(sandbox_check_events, **kwargs) from _call_call_available_event
 
 label .after_check (**kwargs):
 
@@ -1952,7 +1953,7 @@ label .after_check (**kwargs):
     $ kwargs['naughty_level'] = level
 
 
-    call .start( **kwargs)
+    call .start( **kwargs) from _call_start_sandbox_start
 
 label .start (**kwargs):
 
@@ -1994,13 +1995,13 @@ label .start (**kwargs):
 
     call screen naughty_scene_icons(*icons)
     if _return == "change_location":
-        call .change_location (**kwargs)
+        call .change_location (**kwargs) from _call_start_sandbox_change_location
     elif _return == "change_position":
-        call .change_position (**kwargs)
+        call .change_position (**kwargs) from _call_start_sandbox_change_position
     elif _return == "change_clothing":
-        call .change_clothing (**kwargs)
+        call .change_clothing (**kwargs) from _call_start_sandbox_change_clothing
     elif _return == "change_variant":
-        call .change_variant (**kwargs)
+        call .change_variant (**kwargs) from _call_start_sandbox_change_variant
     elif _return == "stop":
         $ end_event('new_daytime', **kwargs)
 
@@ -2057,6 +2058,6 @@ label .change_variant (**kwargs):
     if variant > max_variant:
         $ variant = 0
     $ kwargs['naughty_variant'] = variant
-    call .start(**kwargs)
+    call .start(**kwargs) from _call_start_sandbox_start_1
 
 ###############

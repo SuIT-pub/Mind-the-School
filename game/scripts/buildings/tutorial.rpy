@@ -450,7 +450,7 @@ label journal_tutorial (**kwargs):
 
     $ end_event('none', **kwargs)
 
-    call start_journal.after_check()
+    call start_journal.after_check() from _call_start_journal_after_check
 
 label action_tutorial (**kwargs):
     $ begin_event(**kwargs)
@@ -487,7 +487,7 @@ label action_tutorial (**kwargs):
 
     $ end_event('none', **kwargs)
 
-    call expression return_label
+    call expression return_label from _call_expression
 
 
 label sandbox_tutorial (**kwargs):
@@ -534,5 +534,5 @@ label sandbox_tutorial (**kwargs):
 
     $ end_event('none', **kwargs)
 
-    call expression return_label
+    call expression return_label from _call_expression_1
 #####################

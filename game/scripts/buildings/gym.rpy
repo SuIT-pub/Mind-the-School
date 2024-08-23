@@ -66,6 +66,7 @@ init 1 python:
         NOT(ProgressCondition('action_tutorial')),
         ValueSelector('return_label', 'gym'),
         NoHighlightOption(),
+        TutorialCondition(),
         override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
 
     gym_teach_pe_intro_storage = FragmentStorage("gym_teach_pe_intro")
@@ -89,7 +90,7 @@ init 1 python:
             thumbnail = "images/events/gym/gym_teach_pe_main_1 1 9.webp"),
         EventFragment(3, "gym_teach_pe_main_aona_bra",
             NOT(ProgressCondition("aona_sports_bra")),
-            MoneyCondition("100+")
+            MoneyCondition("200+")
         ),
         EventFragment(1, "gym_teach_pe_main_aona_bra_2",
             ProgressCondition("aona_sports_bra", 2),
@@ -133,8 +134,6 @@ init 1 python:
         gym_event3,
     )
     gym_events["teach_pe"].add_event(
-        gym_event1, 
-        gym_event3,
         gym_teach_pe_event,
     )
 
@@ -221,7 +220,7 @@ label gym_teach_pe (**kwargs):
 
     $ get_level('school_level', **kwargs)
 
-    call composite_event_runner(**kwargs)
+    call composite_event_runner(**kwargs) from _call_composite_event_runner
 
 label gym_teach_pe_intro_1 (**kwargs):
     $ begin_event(**kwargs)
@@ -270,7 +269,7 @@ label gym_teach_pe_intro_aona_bra (**kwargs):
             aona "Thank you."
 
             call change_stats_with_modifier('school', 'pe',
-                happiness = SMALL, inhibition = DEC_SMALL)
+                happiness = SMALL, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_17
         else:
             $ image.show(12)
             aona "Yeah unfortunately, the headmaster bought the wrong one!"
@@ -299,7 +298,7 @@ label gym_teach_pe_intro_aona_bra (**kwargs):
             aona "Mhh, thank you."
             
             call change_stats_with_modifier('school', 'pe',
-                happiness = DEC_SMALL, inhibition = DEC_MEDIUM)
+                happiness = DEC_SMALL, inhibition = DEC_MEDIUM) from _call_change_stats_with_modifier_18
     else:
         $ image.show(10)
         miwa "Yeah, it looks really nice on you."
@@ -308,7 +307,7 @@ label gym_teach_pe_intro_aona_bra (**kwargs):
         miwa "Amazing!"
 
         call change_stats_with_modifier('school', 'pe',
-            happiness = MEDIUM, inhibition = DEC_TINY)
+            happiness = MEDIUM, inhibition = DEC_TINY) from _call_change_stats_with_modifier_19
 
     $ end_event('map_overview', **kwargs)
 
@@ -339,7 +338,7 @@ label gym_teach_pe_warm_up_1 (**kwargs):
     headmaster "Alright, that's enough."
     
     call change_stats_with_modifier('school', 'pe',
-        charm = SMALL, education = TINY)
+        charm = SMALL, education = TINY) from _call_change_stats_with_modifier_20
 
     $ end_event('map_overview', **kwargs)
 
@@ -374,7 +373,7 @@ label gym_teach_pe_main_1 (**kwargs): # Football
     # class leaves the gym
     
     call change_stats_with_modifier('school',  'pe',
-        happiness = TINY, charm = SMALL, reputation = TINY, inhibition = DEC_TINY)
+        happiness = TINY, charm = SMALL, reputation = TINY, inhibition = DEC_TINY) from _call_change_stats_with_modifier_21
 
     $ end_event('map_overview', **kwargs)
 
@@ -412,11 +411,10 @@ label gym_teach_pe_main_2 (**kwargs): # Yoga
     headmaster "Don't forget to shower and change your clothes."
 
     call change_stats_with_modifier('school', 'pe',
-        happiness = TINY, charm = MEDIUM, inhibition = DEC_TINY)
+        happiness = TINY, charm = MEDIUM, inhibition = DEC_TINY) from _call_change_stats_with_modifier_22
 
     $ end_event('map_overview', **kwargs)
 
-    
 label gym_teach_pe_main_aona_bra (**kwargs): # Running
     $ begin_event(**kwargs)
 
@@ -486,7 +484,7 @@ label gym_teach_pe_main_aona_bra (**kwargs): # Running
     $ start_progress("aona_sports_bra")
 
     call change_stats_with_modifier('school', 'pe',
-        happiness = TINY, charm = SMALL, reputation = TINY, inhibition = DEC_TINY)
+        happiness = TINY, charm = SMALL, reputation = TINY, inhibition = DEC_TINY) from _call_change_stats_with_modifier_23
 
     $ end_event('map_overview', **kwargs)
 
@@ -538,10 +536,10 @@ label gym_teach_pe_main_aona_bra_2 (**kwargs):
         sgirl "No, thanks."
 
         call change_stats_with_modifier('school', 'pe',
-            happiness = TINY, charm = SMALL, inhibition = DEC_SMALL)
+            happiness = TINY, charm = SMALL, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_24
     else:
         call change_stats_with_modifier('school', 'pe',
-            happiness = SMALL, charm = SMALL, inhibition = DEC_SMALL)
+            happiness = SMALL, charm = SMALL, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_25
     
     $ advance_progress("aona_sports_bra")
 
@@ -604,13 +602,13 @@ label gym_event_1 (**kwargs):
         headmaster "As pretty as you are? I sure do!"
 
         call change_stats_with_modifier('school', 
-            inhibition = DEC_SMALL, corruption = TINY, charm = TINY)
+            inhibition = DEC_SMALL, corruption = TINY, charm = TINY) from _call_change_stats_with_modifier_26
     else:
         $ image.show(1)
         sgirl "Are you getting ready for gym class too, Mr. [headmaster_last_name]?" (name="Aona Komuro")
 
         call change_stats_with_modifier('school', 
-            inhibition = DEC_TINY, corruption = TINY, charm = TINY)
+            inhibition = DEC_TINY, corruption = TINY, charm = TINY) from _call_change_stats_with_modifier_27
     $ end_event('new_daytime', **kwargs)
 
 label gym_event_2 (**kwargs):
@@ -640,7 +638,7 @@ label gym_event_2 (**kwargs):
     $ image.show(4)
     subtitles "You run out as fast as you can."
     call change_stats_with_modifier('school', 
-        inhibition = DEC_SMALL, happiness = DEC_MEDIUM, reputation = DEC_SMALL)
+        inhibition = DEC_SMALL, happiness = DEC_SMALL, reputation = DEC_SMALL) from _call_change_stats_with_modifier_28
     # elif inhibition >= 60:
     #     show screen black_screen_text("gym_event_2\ntopic_[topic] inhibition >= 60")
 
@@ -670,7 +668,7 @@ label .sorry (**kwargs):
     sgirl "Okay..."
     headmaster_thought "I think she doesn't believe me..."
     call change_stats_with_modifier('school',
-        happiness = DEC_MEDIUM, reputation = DEC_SMALL)
+        happiness = DEC_MEDIUM, reputation = DEC_SMALL) from _call_change_stats_with_modifier_29
     $ end_event('new_daytime', **kwargs)
 label .escape (**kwargs):
     
@@ -680,7 +678,7 @@ label .escape (**kwargs):
     headmaster "It's okay. You couldn't possible know."
     subtitles "You leave the room and leave the girls behind dumbfounded."
     call change_stats_with_modifier('school',
-        inhibition = DEC_MEDIUM, happiness = DEC_SMALL)
+        inhibition = DEC_MEDIUM, happiness = DEC_SMALL) from _call_change_stats_with_modifier_30
     $ end_event('new_daytime', **kwargs)
 
 label gym_event_3 (**kwargs):
@@ -716,5 +714,5 @@ label gym_event_3 (**kwargs):
     subtitles "She proceeded to take part on the P.E. class, almost dying of shame."
 
     call change_stats_with_modifier('school',
-        inhibition = DEC_MEDIUM, happiness = DEC_LARGE, charm = TINY, education = TINY, reputation = DEC_SMALL)
+        inhibition = DEC_MEDIUM, happiness = DEC_SMALL, charm = TINY, education = TINY, reputation = DEC_SMALL) from _call_change_stats_with_modifier_31
     $ end_event('new_daytime', **kwargs)

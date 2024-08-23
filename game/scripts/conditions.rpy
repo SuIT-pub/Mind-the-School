@@ -687,6 +687,21 @@ init -6 python:
                 return 0
             return -100
 
+    class TutorialCondition(Condition):
+        def __init__(self):
+            super().__init__(True)
+
+        def is_fulfilled(self, **kwargs) -> bool:
+            return persistent.tutorial
+
+        def get_name(self) -> str:
+            return "Is_tutorial_active"
+
+        def get_diff(self, _char_obj: Char) -> num:
+            if self.is_fulfilled():
+                return 0
+            return -100
+
     class RuleCondition(Condition):
         """
         A class for conditions that check if the rules for a character object is active.
@@ -1328,7 +1343,7 @@ init -6 python:
             """
 
             obj_stat = money.get_value()
-            diff = get_value_diff(self.stats[stat], obj_stat)
+            diff = get_value_diff(self.value, obj_stat)
 
             if diff < -20:
                 return diff * 20

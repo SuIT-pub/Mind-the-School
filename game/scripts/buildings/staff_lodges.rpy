@@ -24,6 +24,7 @@ init 1 python:
         NOT(ProgressCondition('action_tutorial')),
         ValueSelector('return_label', 'staff_lodges'),
         NoHighlightOption(),
+        TutorialCondition(),
         override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
 
     staff_lodges_general_event.add_event(

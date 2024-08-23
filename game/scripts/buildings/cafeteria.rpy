@@ -99,6 +99,7 @@ init 1 python:
         NOT(ProgressCondition('action_tutorial')),
         ValueSelector('return_label', 'cafeteria'),
         NoHighlightOption(),
+        TutorialCondition(),
         override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
 
     cafeteria_general_event.add_event(
@@ -194,7 +195,7 @@ label cafeteria_event_1(**kwargs):
     headmaster "Thank you."
 
     call change_stats_with_modifier('parent',
-        happiness = SMALL, charm = TINY)
+        happiness = SMALL, charm = TINY) from _call_change_stats_with_modifier
 
     $ end_event('new_daytime', **kwargs)
 
@@ -222,7 +223,7 @@ label cafeteria_event_2(**kwargs):
     sgirl "Eh? Please leave, I'm changing."
 
     call change_stats_with_modifier(char_class,
-        happiness = DEC_TINY, inhibition = DEC_SMALL)
+        happiness = DEC_TINY, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_1
 
     $ end_event('new_daytime', **kwargs)
 
@@ -285,7 +286,7 @@ label cafeteria_event_3(**kwargs):
                 $ set_progress('unlock_school_jobs', 2)
 
             call change_stats_with_modifier('parent',
-                happiness = DEC_SMALL, charm = TINY)
+                happiness = DEC_SMALL, charm = TINY) from _call_change_stats_with_modifier_2
 
             $ end_event('new_daytime', **kwargs)
 
@@ -353,7 +354,7 @@ label cafeteria_event_3(**kwargs):
             $ time.progress_time()
             
             call change_stats_with_modifier('parent',
-                happiness = MEDIUM, charm = SMALL, reputation = MEDIUM)
+                happiness = MEDIUM, charm = SMALL, reputation = MEDIUM) from _call_change_stats_with_modifier_3
 
             $ end_event('new_daytime', **kwargs)
 
@@ -398,7 +399,7 @@ label cafeteria_event_3(**kwargs):
         subtitles "You spend the next hours working in the kitchen."
 
         call change_stats_with_modifier('parent',
-            happiness = SMALL, charm = DEC_TINY, reputation = SMALL)
+            happiness = SMALL, charm = DEC_TINY, reputation = SMALL) from _call_change_stats_with_modifier_4
 
         $ end_event('new_daytime', **kwargs)
 
@@ -415,7 +416,7 @@ label cafeteria_event_3(**kwargs):
         headmaster "Thank you."
 
         call change_stats_with_modifier('parent',
-            happiness = SMALL, charm = TINY)
+            happiness = SMALL, charm = TINY) from _call_change_stats_with_modifier_5
 
         $ end_event('new_daytime', **kwargs)
 
@@ -437,10 +438,10 @@ label cafeteria_event_4(**kwargs):
         headmaster_thought "I'm glad that so many girls are ready to help her."
 
     call change_stats_with_modifier('school',
-        happiness = SMALL, charm = MEDIUM, education = TINY)
+        happiness = SMALL, charm = MEDIUM, education = TINY) from _call_change_stats_with_modifier_6
 
     call change_stats_with_modifier('parent',
-        happiness = MEDIUM, charm = TINY)
+        happiness = MEDIUM, charm = TINY) from _call_change_stats_with_modifier_7
 
     $ end_event('new_daytime', **kwargs)
 
@@ -461,7 +462,7 @@ label cafeteria_event_5(**kwargs):
     headmaster_thought "It seems like the students are enjoying their lunch break."
 
     call change_stats_with_modifier('school',
-        happiness = SMALL, charm = MEDIUM)
+        happiness = SMALL, charm = MEDIUM) from _call_change_stats_with_modifier_8
 
     $ end_event('new_daytime', **kwargs)
 

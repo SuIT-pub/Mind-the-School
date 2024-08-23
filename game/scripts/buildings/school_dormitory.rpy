@@ -85,6 +85,7 @@ init 1 python:
         NOT(ProgressCondition('action_tutorial')),
         ValueSelector('return_label', 'school_dormitory'),
         NoHighlightOption(),
+        TutorialCondition(),
         override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
 
     sd_general_event.add_event(
@@ -198,7 +199,7 @@ label sd_event_1 (**kwargs):
             $ image.show(3)
             headmaster "Ah yes... yes of course."
             call change_stats_with_modifier('school',
-                happiness = DEC_TINY)
+                happiness = DEC_TINY) from _call_change_stats_with_modifier_73
             $ end_event(**kwargs)
         else:
             $ image.show(5)
@@ -206,13 +207,13 @@ label sd_event_1 (**kwargs):
             $ image.show(6)
             headmaster "Oh, sorry about that."
             call change_stats_with_modifier('school',
-                happiness = DEC_TINY, education = MEDIUM)
+                happiness = DEC_TINY, education = MEDIUM) from _call_change_stats_with_modifier_74
             $ end_event(**kwargs)
     else:
         $ image.show(4)
         sgirl "hmm... This homework is hard. Why do I need to learn this anyway?" (name = "Easkey Tanaka")
         call change_stats_with_modifier('school',
-            education = SMALL)
+            education = SMALL) from _call_change_stats_with_modifier_75
         $ end_event(**kwargs)
 
 label sd_event_2 (**kwargs):
@@ -231,17 +232,17 @@ label sd_event_2 (**kwargs):
         $ image.show(0)
         sgirl "Ah!" (name = girl_name)
         call change_stats_with_modifier('school',
-            happiness = DEC_TINY, inhibition = DEC_TINY)
+            happiness = DEC_TINY, inhibition = DEC_TINY) from _call_change_stats_with_modifier_76
     elif topic == "ahhh":
         $ image.show(0)
         sgirl "AHHH!!!" (name = girl_name)
         call change_stats_with_modifier('school',
-            happiness = DEC_TINY, inhibition = DEC_TINY, reputation = DEC_TINY)
+            happiness = DEC_TINY, inhibition = DEC_TINY, reputation = DEC_TINY) from _call_change_stats_with_modifier_77
     elif topic == "eeek":
         $ image.show(0)
         sgirl "Eek!" (name = girl_name)
         call change_stats_with_modifier('school',
-            happiness = DEC_LARGE, inhibition = DEC_TINY)
+            happiness = DEC_LARGE, inhibition = DEC_TINY) from _call_change_stats_with_modifier_78
     elif topic in ["panties", "breasts"]:
         $ image.show(0)
         $ random_say(
@@ -250,7 +251,7 @@ label sd_event_2 (**kwargs):
             "Eek! Stop! Don't stare at my [topic]!",
             person = character.sgirl, name = girl_name)
         call change_stats_with_modifier('school',
-            happiness = DEC_LARGE, inhibition = DEC_TINY, charm = MEDIUM)
+            happiness = DEC_LARGE, inhibition = DEC_TINY, charm = MEDIUM) from _call_change_stats_with_modifier_79
     elif topic == "oh":
         $ image.show(0)
         sgirl "Oh!" (name = girl_name)
@@ -261,7 +262,7 @@ label sd_event_2 (**kwargs):
         $ image.show(3)
         subtitles "You quickly make an exit."
         call change_stats_with_modifier('school',
-            inhibition = DEC_TINY, happiness = DEC_MEDIUM)
+            inhibition = DEC_TINY, happiness = DEC_MEDIUM) from _call_change_stats_with_modifier_80
         $ end_event(**kwargs)
     # elif topic == "guys_stop":
     #     $ image.show(0)
@@ -349,10 +350,10 @@ label sd_event_3 (**kwargs):
     headmaster "Bye!"
     
     if topic == "normal":
-        call change_stats_with_modifier('school', inhibition = DEC_SMALL)
+        call change_stats_with_modifier('school', inhibition = DEC_SMALL) from _call_change_stats_with_modifier_81
     elif topic == "panties":
-        call change_stats_with_modifier('school', inhibition = DEC_MEDIUM)
+        call change_stats_with_modifier('school', inhibition = DEC_MEDIUM) from _call_change_stats_with_modifier_82
     elif topic == "nude":
-        call change_stats_with_modifier('school', inhibition = DEC_LARGE)
+        call change_stats_with_modifier('school', inhibition = DEC_LARGE) from _call_change_stats_with_modifier_83
 
     $ end_event(**kwargs)

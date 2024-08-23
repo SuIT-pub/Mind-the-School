@@ -78,6 +78,7 @@ init 1 python:
         NOT(ProgressCondition('action_tutorial')),
         ValueSelector('return_label', 'courtyard'),
         NoHighlightOption(),
+        TutorialCondition(),
         override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
 
     courtyard_general_event.add_event(
@@ -193,7 +194,7 @@ label .look (**kwargs):
     sgirl "PERVERT!"
 
     call change_stats_with_modifier('school',
-        happiness = DEC_SMALL, reputation = DEC_TINY, inhibition = DEC_SMALL)
+        happiness = DEC_SMALL, reputation = DEC_TINY, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_9
     
     $ end_event("new_daytime", **kwargs)
 label .look_away (**kwargs):
@@ -206,7 +207,7 @@ label .look_away (**kwargs):
     subtitles "The girl looks at you ashamed of the situation and runs away. Glad you didn't stare."
 
     call change_stats_with_modifier('school',
-        happiness = TINY, reputation = TINY, inhibition = DEC_TINY)
+        happiness = TINY, reputation = TINY, inhibition = DEC_TINY) from _call_change_stats_with_modifier_10
     
     $ end_event("new_daytime", **kwargs)
 
@@ -245,7 +246,7 @@ label .talk (**kwargs):
     sgirl "Thanks, bye."
     
     call change_stats_with_modifier('school',
-        happiness = DEC_TINY, reputation = TINY)
+        happiness = DEC_TINY, reputation = TINY) from _call_change_stats_with_modifier_11
     $ end_event("new_daytime", **kwargs)
 label .leave (**kwargs):
     
@@ -255,7 +256,7 @@ label .leave (**kwargs):
     subtitles "You decide to leave her alone."
     
     call change_stats_with_modifier('school',
-        happiness = DEC_MEDIUM, reputation = DEC_SMALL)
+        happiness = DEC_MEDIUM, reputation = DEC_SMALL) from _call_change_stats_with_modifier_12
     $ end_event("new_daytime", **kwargs)
 
 label courtyard_event_3 (**kwargs):
@@ -266,7 +267,7 @@ label courtyard_event_3 (**kwargs):
     subtitles "You notice a group of girls taking a break together."
 
     call change_stats_with_modifier('school',
-        charm = SMALL, happiness = TINY, education = TINY, reputation = SMALL)
+        charm = SMALL, happiness = TINY, education = TINY, reputation = SMALL) from _call_change_stats_with_modifier_13
     
     $ end_event("new_daytime", **kwargs)
 
@@ -282,7 +283,7 @@ label courtyard_event_4(**kwargs):
     headmaster "Interesting..."
     
     call change_stats_with_modifier('school',
-        happiness = DEC_TINY, charm = DEC_TINY, inhibition = DEC_SMALL)
+        happiness = DEC_TINY, charm = DEC_TINY, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_14
 
     $ end_event("new_daytime", **kwargs)
 
@@ -297,7 +298,7 @@ label courtyard_event_5(**kwargs):
     subtitles "You come across a group of students talking to each other."
 
     call change_stats_with_modifier('school',
-        happiness = SMALL, charm = SMALL)
+        happiness = SMALL, charm = SMALL) from _call_change_stats_with_modifier_15
 
     $ end_event("new_daytime", **kwargs)
 
@@ -333,7 +334,7 @@ label courtyard_event_6(**kwargs):
     sgirl "Sorry!"
 
     call change_stats_with_modifier('school',
-        charm = DEC_TINY, education = SMALL)
+        charm = DEC_TINY, education = SMALL) from _call_change_stats_with_modifier_16
 
     $ end_event("new_daytime", **kwargs)
 

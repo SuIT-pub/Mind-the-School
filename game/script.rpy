@@ -10,12 +10,9 @@ label start ():
     call load_clubs from start_4
     call load_rules from start_5
 
-    call check_missing_proficiencies (override_menu_exit = 'start.after_missing_proficiencies') from start_6
-
-label .after_missing_proficiencies:
     $ fix_modifier()
 
-    jump intro
+    call intro
 label splashscreen:
     menu:
         "This game is not suitable for children or those who are easily disturbed.\n\nBy playing this game you agree that you are 18 years of age or older and are not offended by adult content."
@@ -24,7 +21,6 @@ label splashscreen:
             return
         "I am not 18 years of age or older.":
             $ renpy.quit()
-    return
 init python:
     
     ###########################################
@@ -131,52 +127,7 @@ init python:
             gameData.pop('headmaster_first_name')
             gameData.pop('headmaster_last_name')
 
-label check_missing_proficiencies (**kwargs):
-    $ log_val('proficiencies', headmaster_proficiencies.keys())
-    if len(headmaster_proficiencies.keys()) >= 2:
-        return
-
-    $ hide_all()
-
-    if get_headmaster_proficiency_level('pe') == 0:
-        $ set_headmaster_proficiency_level('pe', 100)
-
-    $ call_custom_menu_with_text("The headmaster has no proficiencies set. Please assign a proficiency to the headmaster.\nP.E. is pre-selected due to his backstory.", character.subtitles, False, 
-        ('Math', SetProficiencyEffect('math', level = 1), "math" not in headmaster_proficiencies.keys()),
-        ('History', SetProficiencyEffect('history', level = 1), "history" not in headmaster_proficiencies.keys()), 
-    **kwargs)
-        
-
     ###########################################
-
-label ask_for_tutorials:
-    
-    $ call_custom_menu_with_text("Show tutorials?", character.subtitles, False, 
-        ('Yes please.', EventEffect('ask_for_tutorials.finish_asking_for_tutorials')),
-        ('No, I know what I\'m doing', EventEffect('ask_for_tutorials.disable_tutorials')))
-
-    # menu:
-    #     "Show tutorials?"
-
-    #     "Yes please.":
-    #         jump .finish_asking_for_tutorials
-    #     "No, I know what I'm doing.":
-    #         jump .disable_tutorials
-
-label .disable_tutorials (**kwargs):
-    $ start_progress('map_tutorial')
-    $ start_progress('journal_tutorial')
-    $ start_progress('action_tutorial')
-    $ start_progress('sandbox_tutorial')
-
-    jump .finish_asking_for_tutorials
-
-label .finish_asking_for_tutorials (**kwargs):
-
-    $ start_progress('asked_for_tutorials')
-
-    jump after_load.after_ask_for_tutorials
-
 
 label after_load:
     $ log('\n\n\n####################################################################################################\n####################################################################################################\n')
@@ -187,15 +138,6 @@ label after_load:
     call load_buildings from after_load_4
     call load_clubs from after_load_5
     
-    call check_missing_proficiencies (override_menu_exit = 'after_load.after_missing_proficiencies') from after_load_6
-
-label .after_missing_proficiencies:
-    
-    if get_progress('asked_for_tutorials') == -1:
-        jump ask_for_tutorials
-
-label .after_ask_for_tutorials:
-
     #####################################
     # check for version incompatibilities
     $ check_old_versions()
@@ -227,4 +169,4 @@ label .after_ask_for_tutorials:
     $ after_load_event_check('staff_lodges', staff_lodges_events, staff_lodges_general_event, staff_lodges_timed_event)
     #################
 
-    jump after_load_entry
+    return
