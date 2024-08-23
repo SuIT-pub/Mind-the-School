@@ -95,6 +95,7 @@ init 1 python:
         NOT(ProgressCondition('action_tutorial')),
         ValueSelector('return_label', 'school_building'),
         NoHighlightOption(),
+        TutorialCondition(),
         override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
 
 
@@ -441,10 +442,10 @@ label first_class_sb_event (**kwargs):
         $ advance_progress('first_class')
 
     call change_stats_with_modifier('school',
-        happiness = TINY, charm = SMALL, education = TINY)
+        happiness = TINY, charm = SMALL, education = TINY) from _call_change_stats_with_modifier_53
 
     call change_stats_with_modifier('teacher',
-        happiness = TINY, charm = SMALL, education = TINY)
+        happiness = TINY, charm = SMALL, education = TINY) from _call_change_stats_with_modifier_54
 
     $ end_event('new_daytime', **kwargs)
 
@@ -461,7 +462,7 @@ label sb_teach_history (**kwargs):
     call show_image ("/images/events/school building/sb_teach_history.webp", **kwargs) from _call_show_image_sb_teach_history_event_1
     headmaster "Good morning everyone. Let's start with todays subject History."
 
-    call composite_event_runner(**kwargs)
+    call composite_event_runner(**kwargs) from _call_composite_event_runner_1
 
 label sb_teach_history_intro_f_revolution_1 (**kwargs):
     $ begin_event(**kwargs)
@@ -482,7 +483,7 @@ label sb_teach_history_intro_f_revolution_1 (**kwargs):
     headmaster "Meanwhile, the common people of France - including peasants, artisans, and merchants - were struggling with poverty, inequality, and limited social mobility."
 
     call change_stats_with_modifier('school', 'history',
-        education = TINY)
+        education = TINY) from _call_change_stats_with_modifier_55
 
     $ end_event('map_overview', **kwargs)
 
@@ -563,7 +564,7 @@ label sb_teach_history_main_f_revolution_1 (**kwargs):
     headmaster "We'll continue our discussion another time."
 
     call change_stats_with_modifier('school', 'history',
-        education = SMALL)
+        education = SMALL) from _call_change_stats_with_modifier_56
 
     $ end_event('new_daytime', **kwargs)
 
@@ -589,7 +590,7 @@ label sb_teach_history_main_f_revolution_2 (**kwargs):
     headmaster "Okay, class is over. Please don't forget to finish your essay until the end of the week."
 
     call change_stats_with_modifier('school', 'history',
-        education = TINY, happiness = DEC_TINY)
+        education = TINY, happiness = DEC_TINY) from _call_change_stats_with_modifier_57
 
     $ end_event('new_daytime', **kwargs)
 
@@ -607,7 +608,7 @@ label sb_teach_math (**kwargs):
     call show_image ("/images/events/school building/sb_teach_math.webp", **kwargs) from _call_show_image_sb_teach_math_event_1
     headmaster "Good morning everyone. Let's start with todays subject Math."
 
-    call composite_event_runner(**kwargs)
+    call composite_event_runner(**kwargs) from _call_composite_event_runner_2
 
 label sb_teach_math_ld_1 (**kwargs):
     $ begin_event(**kwargs)
@@ -657,7 +658,7 @@ label sb_teach_math_ld_2 (**kwargs):
     headmaster "Good. Now let's continue with the new topic."
 
     call change_stats_with_modifier('school', 'math',
-        education = TINY)
+        education = TINY) from _call_change_stats_with_modifier_58
 
     $ end_event('map_overview', **kwargs)
 
@@ -681,7 +682,7 @@ label .leave (**kwargs):
     subtitles "You decide to leave her alone."
     
     call change_stats_with_modifier('school', 'math',
-        charm = DEC_TINY, happiness = DEC_TINY)
+        charm = DEC_TINY, happiness = DEC_TINY) from _call_change_stats_with_modifier_59
     $ end_event('new_daytime', **kwargs)
 label .help (**kwargs):
     $ begin_event()
@@ -690,7 +691,7 @@ label .help (**kwargs):
     subtitles "You help her up."
     
     call change_stats_with_modifier('school', 'math',
-        charm = DEC_TINY, happiness = TINY)
+        charm = DEC_TINY, happiness = TINY) from _call_change_stats_with_modifier_60
     $ end_event('new_daytime', **kwargs)
 
 label sb_teach_math_main_1 (**kwargs):
@@ -797,7 +798,7 @@ label sb_teach_math_main_1 (**kwargs):
     headmaster "That is all for today"
 
     call change_stats_with_modifier('school', 'math',
-        education = SMALL, reputation = TINY)
+        education = SMALL, reputation = TINY) from _call_change_stats_with_modifier_61
     
     $ end_event('new_daytime', **kwargs)
 
@@ -855,7 +856,7 @@ label sb_teach_math_main_2 (**kwargs):
     headmaster "That is all for today. Thanks for your attention. See you next time."
 
     call change_stats_with_modifier('school', 'math',
-        education = SMALL, happiness = DEC_TINY, inhibition = DEC_TINY)
+        education = SMALL, happiness = DEC_TINY, inhibition = DEC_TINY) from _call_change_stats_with_modifier_62
     
     $ end_event('new_daytime', **kwargs)
 
@@ -890,7 +891,7 @@ label .leave (**kwargs):
     # call show_image("/images/events/school building/sb_event_1 <name> 3.webp", SCENE, **kwargs)
     subtitles "You decide to leave them and let them have their fun."
     call change_stats_with_modifier('school',
-        charm = DEC_SMALL, education = TINY, corruption = TINY, inhibition = DEC_SMALL)
+        charm = DEC_SMALL, education = TINY, corruption = TINY, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_63
     
     $ end_event('new_daytime', **kwargs)
 label .stop (**kwargs):
@@ -903,7 +904,7 @@ label .stop (**kwargs):
     headmaster "Hey you! Stop that. You know that is against the rules!"
     sgirl "We're sorry!"
     call change_stats_with_modifier('school',
-        charm = MEDIUM, happiness = DEC_SMALL, education = SMALL, reputation = TINY, inhibition = DEC_TINY)
+        charm = MEDIUM, happiness = DEC_SMALL, education = SMALL, reputation = TINY, inhibition = DEC_TINY) from _call_change_stats_with_modifier_64
     
     $ end_event('new_daytime', **kwargs)
 
@@ -968,7 +969,7 @@ label .leave (**kwargs):
     subtitles"You walk away with a heavy heart."
 
     call change_stats_with_modifier('school', 
-        charm = TINY, happiness = DEC_LARGE, education = TINY, reputation = DEC_TINY)
+        charm = TINY, happiness = DEC_LARGE, education = TINY, reputation = DEC_TINY) from _call_change_stats_with_modifier_65
     
     $ end_event('new_daytime', **kwargs)
 label .get_to_bottom (**kwargs):
@@ -1003,7 +1004,7 @@ label .get_to_bottom (**kwargs):
     subtitles "You support her back to your office and bring her something warm to drink."
 
     call change_stats_with_modifier('school',
-        happiness = LARGE, reputation = TINY)
+        happiness = LARGE, reputation = TINY) from _call_change_stats_with_modifier_66
     
     $ end_event('new_daytime', **kwargs)
 label .send_class (**kwargs):
@@ -1039,7 +1040,7 @@ label .poor_thing (**kwargs):
     $ image.show(14) # headmaster helps girl up
     subtitles "You help her up and walk her to the dormitory."
     call change_stats_with_modifier('school',
-        happiness = LARGE, reputation = TINY)
+        happiness = LARGE, reputation = TINY) from _call_change_stats_with_modifier_67
     
     $ end_event('new_daytime', **kwargs)
 label .chin_up (**kwargs):
@@ -1059,7 +1060,7 @@ label .chin_up (**kwargs):
     $ image.show(23) # girl walks away
     subtitles "You help her up and she walks off."
     call change_stats_with_modifier('school',
-        happiness = LARGE, reputation = TINY)
+        happiness = LARGE, reputation = TINY) from _call_change_stats_with_modifier_68
     
     $ end_event('new_daytime', **kwargs)
 
@@ -1089,7 +1090,7 @@ label .leave (**kwargs):
     headmaster_thought "Hmm, the others already rush to help her. No need for me to get involved."
 
     call change_stats_with_modifier('school',
-        happiness = DEC_TINY, charm = DEC_TINY, education = TINY)
+        happiness = DEC_TINY, charm = DEC_TINY, education = TINY) from _call_change_stats_with_modifier_69
 
     $ end_event('new_daytime', **kwargs)
 label .help (**kwargs):
@@ -1113,7 +1114,7 @@ label .help (**kwargs):
     sgirl "Yes, I will."
 
     call change_stats_with_modifier('school',
-        happiness = SMALL, charm = DEC_TINY, education = TINY)
+        happiness = SMALL, charm = DEC_TINY, education = TINY) from _call_change_stats_with_modifier_70
 
     $ end_event('new_daytime', **kwargs)
 label .panties (**kwargs):
@@ -1133,7 +1134,7 @@ label .panties (**kwargs):
     call Image_Series.show_image(image, 13, pause = True) from _call_Image_Series_show_image_10
 
     call change_stats_with_modifier('school',
-        inhibition = DEC_SMALL, charm = DEC_SMALL, corruption = TINY)
+        inhibition = DEC_SMALL, charm = DEC_SMALL, corruption = TINY) from _call_change_stats_with_modifier_71
 
     $ end_event('new_daytime', **kwargs)
 
@@ -1173,7 +1174,7 @@ label sb_event_5 (**kwargs):
     girl_char "Yes, sir."
 
     call change_stats_with_modifier('school',
-        inhibition = DEC_TINY)
+        inhibition = DEC_TINY) from _call_change_stats_with_modifier_72
 
     $ end_event('new_daytime', **kwargs)
 

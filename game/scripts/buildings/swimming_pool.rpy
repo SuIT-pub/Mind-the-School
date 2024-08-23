@@ -24,6 +24,7 @@ init 1 python:
         NOT(ProgressCondition('action_tutorial')),
         ValueSelector('return_label', 'swimming_pool'),
         NoHighlightOption(),
+        TutorialCondition(),
         override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
 
     swimming_pool_general_event.add_event(

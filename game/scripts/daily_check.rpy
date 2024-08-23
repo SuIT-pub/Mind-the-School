@@ -71,9 +71,17 @@ init 1 python:
         TimeCondition(daytime = 6),
         thumbnail = "images/events/misc/aona_sports_bra_event_1 # 23.webp")
 
+    check_prof_event = Event(2, "check_missing_proficiencies",
+        NOT(OR(
+            ProficiencyCondition('math'), 
+            ProficiencyCondition('history')
+        ))
+    )
+
     map_tutorial_event = Event(2, "map_tutorial", 
         NOT(ProgressCondition("map_tutorial")), 
         OR(IntroCondition(True), IntroCondition(False)),
+        TutorialCondition(),
         override_intro = True, thumbnail = "images/events/misc/map_tutorial.webp")
 
     time_check_events.add_event(
@@ -91,6 +99,7 @@ init 1 python:
         aona_sports_bra_event_1_event,
         map_tutorial_event
     )
+        # check_prof_event,
     temp_time_check_events.add_event(
         event_all_events_seen_event, 
         event_reached_max_stats_event,
@@ -632,16 +641,30 @@ label .skip:
 
     jump map_overview
 
+label check_missing_proficiencies:
+    # $ begin_event(no_gallery = True, **kwargs)
+
+    $ hide_all()
+
+    if get_headmaster_proficiency_level('pe') == 0:
+        $ set_headmaster_proficiency_level('pe', 100)
+
+    $ call_custom_menu_with_text("The headmaster has no proficiencies set. Please assign a proficiency to the headmaster.\nP.E. is pre-selected due to his backstory.", character.subtitles, False, 
+        ('Math', SetProficiencyEffect('math', level = 1), "math" not in headmaster_proficiencies.keys()),
+        ('History', SetProficiencyEffect('history', level = 1), "history" not in headmaster_proficiencies.keys()), 
+    override_menu_exit = "map_overview")
+        
+
 ##################################
 # ----- Daily Check Events ----- #
 ##################################
 
 label new_week (**kwargs):
-    call change_money_with_modifier(0, 'payroll_weekly')
+    call change_money_with_modifier(0, 'payroll_weekly') from _call_change_money_with_modifier_1
     return
 
 label end_of_month (**kwargs):
-    call change_money_with_modifier(0, 'payroll_monthly')
+    call change_money_with_modifier(0, 'payroll_monthly') from _call_change_money_with_modifier_2
     # $ change_stat(MONEY, 1000)
 
     return
@@ -731,7 +754,6 @@ label aona_sports_bra_event_1 (**kwargs):
         ("Look for a bra for yourself", "aona_sports_bra_event_1.bra_for_self"),
         ("Peek into the changing room", "aona_sports_bra_event_1.peek_1"),
     **kwargs)
-
 label .bra_for_self (**kwargs):
 
     $ image.show(35)
@@ -740,8 +762,7 @@ label .bra_for_self (**kwargs):
     headmaster "Oh that one looks interesting. Maybe I'll get her to pick that one."
     $ kwargs['bra_for_self'] = True
 
-    call .wait_1 (**kwargs)
-
+    call .wait_1 (**kwargs) from _call_aona_sports_bra_event_1_wait_1
 label .peek_1 (**kwargs):
 
     $ image.show(37)
@@ -752,8 +773,7 @@ label .peek_1 (**kwargs):
     call Image_Series.show_image(image, 45, 46, 47, 48, 49, 50, 51) from image_aona_sports_bra_event_1_6
     headmaster_thought "Better get back now..."
     
-    call .wait_1 (**kwargs)
-
+    call .wait_1 (**kwargs) from _call_aona_sports_bra_event_1_wait_1_1
 label .wait_1 (**kwargs):
 
     $ bra = get_kwargs('bra_for_self', False, **kwargs)
@@ -765,7 +785,6 @@ label .wait_1 (**kwargs):
         ("Buy bra", "aona_sports_bra_event_1.buy_bra"),
         ("Ask to try on your pick", "aona_sports_bra_event_1.try_alt_bra", bra),
     **kwargs)
-
 label .try_alt_bra (**kwargs):
 
     $ image.show(55)
@@ -776,7 +795,6 @@ label .try_alt_bra (**kwargs):
         ("Peek", "aona_sports_bra_event_1.peek_2"),
         ("Wait", "aona_sports_bra_event_1.wait_2"),
     **kwargs)
-
 label .peek_2 (**kwargs):
     
     $ image.show(56)
@@ -785,8 +803,7 @@ label .peek_2 (**kwargs):
     call Image_Series.show_image(image, 57, 58, 59, 60, 61, 62) from image_aona_sports_bra_event_1_8
     headmaster_thought "Nice."
     
-    call .wait_2 (**kwargs)
-
+    call .wait_2 (**kwargs) from _call_aona_sports_bra_event_1_wait_2
 label .wait_2 (**kwargs):
 
     $ image.show(63)
@@ -799,7 +816,7 @@ label .wait_2 (**kwargs):
         $ image.show(65)
         headmaster "I understand. I'll take it back then."
         headmaster "Could you give me the other bra then? I'll quickly go pay for it."
-        call .sneak_bra (**kwargs)
+        call .sneak_bra (**kwargs) from _call_aona_sports_bra_event_1_sneak_bra
     else:
         sgirl "Uhm, okay..." (name = "Aona Komuro")
         # aona steps out of the cabin
@@ -815,7 +832,7 @@ label .wait_2 (**kwargs):
             $ image.show(70)
             headmaster "I understand. I'll take it back then."
             headmaster "Could you give me the other bra then? I'll quickly go pay for it."
-            call .sneak_bra (**kwargs)
+            call .sneak_bra (**kwargs) from _call_aona_sports_bra_event_1_sneak_bra_1
         else:
             $ image.show(71)
             sgirl "Oh thank you for saying that, I guess I could take it." (name = "Aona Komuro")
@@ -823,8 +840,7 @@ label .wait_2 (**kwargs):
             headmaster "Wonderful, let's take it then."
             $ kwargs["skimpy_bra"] = True
     
-    call .buy_bra (**kwargs)
-
+    call .buy_bra (**kwargs) from _call_aona_sports_bra_event_1_buy_bra
 label .sneak_bra (**kwargs):
 
     $ log_val('character', character.subtitles)
@@ -833,12 +849,10 @@ label .sneak_bra (**kwargs):
         ("Swap", "aona_sports_bra_event_1.sneak_bra_true"),
         ("Don't swap", "aona_sports_bra_event_1.sneak_buy_bra"),
     **kwargs)
-
 label .sneak_bra_true (**kwargs):
     $ kwargs["skimpy_bra"] = True
     $ kwargs["volunteered"] = False
-    call .buy_bra (**kwargs)
-
+    call .buy_bra (**kwargs) from _call_aona_sports_bra_event_1_buy_bra_1
 label .buy_bra (**kwargs):
 
     $ image.show(73)
@@ -916,6 +930,6 @@ label .buy_bra (**kwargs):
     $ change_stat(MONEY, -100)
 
     call change_stats_with_modifier('school',
-        happiness = MEDIUM, charm = TINY, reputation = MEDIUM, inhibition = DEC_SMALL)
+        happiness = MEDIUM, charm = TINY, reputation = MEDIUM, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_84
 
     $ end_event('new_daytime', **kwargs)

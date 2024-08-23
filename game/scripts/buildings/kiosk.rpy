@@ -50,6 +50,7 @@ init 1 python:
         NOT(ProgressCondition('action_tutorial')),
         ValueSelector('return_label', 'kiosk'),
         NoHighlightOption(),
+        TutorialCondition(),
         override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
 
     kiosk_general_event.add_event(
@@ -132,7 +133,7 @@ label kiosk_event_1 (**kwargs):
     subtitles "For some, coffee is the only way to save the day."
 
     call change_stats_with_modifier('school',
-        happiness = SMALL)
+        happiness = SMALL) from _call_change_stats_with_modifier_32
 
     $ end_event('new_daytime', **kwargs)
 
@@ -153,7 +154,7 @@ label kiosk_event_2 (**kwargs):
     subtitles "Luckily she doesn't notice her see-through blouse in all the excitement."
 
     call change_stats_with_modifier('school',
-        happiness = DEC_TINY, inhibition = DEC_MEDIUM, corruption = TINY)
+        happiness = DEC_TINY, inhibition = DEC_MEDIUM, corruption = TINY) from _call_change_stats_with_modifier_33
 
     $ end_event('new_daytime', **kwargs)
 
@@ -178,7 +179,7 @@ label kiosk_event_3 (**kwargs):
 
     $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
         ("Leave alone", "kiosk_event_3.leave"),
-        ("Help her out", "kiosk_event_3.help"), 
+        ("Help her out  ({color=#a00000}-50${/color})", "kiosk_event_3.help"), 
     **kwargs)
 label .leave (**kwargs):
     
@@ -199,7 +200,7 @@ label .leave (**kwargs):
         headmaster_thought "Mhh what kind of noise is that? Hmmm... I guess it's nothing serious."
 
         call change_stats_with_modifier('school',
-            happiness = DEC_LARGE, charm = DEC_MEDIUM, reputation = DEC_SMALL)
+            happiness = DEC_MEDIUM, charm = DEC_MEDIUM, reputation = DEC_SMALL) from _call_change_stats_with_modifier_34
         $ end_event('new_daytime', **kwargs)
         
     elif kwargs["topic"] == "kind":
@@ -212,7 +213,7 @@ label .leave (**kwargs):
         headmaster_thought "I should think about doing something about that."
 
         call change_stats_with_modifier('school',
-            happiness = DEC_SMALL, charm = TINY)
+            happiness = SMALL, charm = TINY) from _call_change_stats_with_modifier_35
     
         if get_progress("unlock_cafeteria") == -1:
             $ start_progress("unlock_cafeteria")
@@ -228,7 +229,7 @@ label .leave (**kwargs):
         headmaster_thought "Poor girl..."
 
         call change_stats_with_modifier('school',
-            happiness = DEC_MEDIUM, charm = DEC_SMALL)
+            happiness = DEC_TINY, charm = DEC_SMALL) from _call_change_stats_with_modifier_36
         $ end_event('new_daytime', **kwargs)
 label .help (**kwargs):
     
@@ -254,8 +255,10 @@ label .help (**kwargs):
     $ image.show(22)
     sgirl "..." (name = "Miwa Igarashi")
 
+    call change_money_with_modifier(-50) from _call_change_money_with_modifier_38
+
     call change_stats_with_modifier('school',
-        happiness = MEDIUM, reputation = MEDIUM, charm = DEC_TINY)
+        happiness = MEDIUM, reputation = MEDIUM, charm = DEC_TINY) from _call_change_stats_with_modifier_37
     jump new_daytime
 
 ############################

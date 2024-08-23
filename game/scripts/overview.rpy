@@ -734,6 +734,13 @@ label after_load_entry():
 #################################################
 # shows the map overview and then waits for input
 label map_overview ():
+    if len(headmaster_proficiencies.keys()) < 2:
+        if persistent.tutorial:
+            subtitles "Tutorials are currently deactivated. To enable them, go to the settings."
+        else:
+            subtitles "Tutorials are currently activated. To deactivate them, go to the settings."
+        call check_missing_proficiencies from map_overview_6
+    
     # $ _skipping = False
     $ image_code = get_random_int(0, 1000000)
     # $ renpy.pause(0)
@@ -780,7 +787,7 @@ label map_overview ():
     call screen school_overview_buttons (True)
     # call screen school_overview with dissolveM
 
-    subtitles_Empty ""
+    $ renpy.pause(hard = True)
 
 #############################################################################
 # building distributor. directs the building calls to the corresponding label

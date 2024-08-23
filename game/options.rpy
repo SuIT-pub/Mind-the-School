@@ -76,6 +76,8 @@ default persistent.transition_speed = 1.75
 
 default persistent.display_textbox = 0
 
+default persistent.tutorial = True
+
 ## Entering or exiting the game menu.
 
 define config.enter_transition = dissolve
