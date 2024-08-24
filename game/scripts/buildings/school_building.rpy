@@ -798,7 +798,7 @@ label sb_teach_math_main_1 (**kwargs):
     headmaster "That is all for today"
 
     call change_stats_with_modifier('school', 'math',
-        education = SMALL, reputation = TINY) from _call_change_stats_with_modifier_61
+        education = SMALL, reputation = TINY, happiness = TINY) from _call_change_stats_with_modifier_61
     
     $ end_event('new_daytime', **kwargs)
 
@@ -856,7 +856,7 @@ label sb_teach_math_main_2 (**kwargs):
     headmaster "That is all for today. Thanks for your attention. See you next time."
 
     call change_stats_with_modifier('school', 'math',
-        education = SMALL, happiness = DEC_TINY, inhibition = DEC_TINY) from _call_change_stats_with_modifier_62
+        education = SMALL, happiness = TINY, inhibition = DEC_TINY) from _call_change_stats_with_modifier_62
     
     $ end_event('new_daytime', **kwargs)
 
@@ -1090,7 +1090,7 @@ label .leave (**kwargs):
     headmaster_thought "Hmm, the others already rush to help her. No need for me to get involved."
 
     call change_stats_with_modifier('school',
-        happiness = DEC_TINY, charm = DEC_TINY, education = TINY) from _call_change_stats_with_modifier_69
+        happiness = DEC_TINY, charm = SMALL, education = TINY) from _call_change_stats_with_modifier_69
 
     $ end_event('new_daytime', **kwargs)
 label .help (**kwargs):

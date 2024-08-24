@@ -262,8 +262,10 @@ init -6 python:
 
             if unlock:
                 advance_progress("unlock_" + self.get_name())
+                log_val('time', time.day_to_string())
                 new_time = Time(time.day_to_string())
                 new_time.add_time(day = self._construction_time)
+                log_val('new_time', new_time.day_to_string())
                 set_game_data(self.get_name() + "_construction_end", new_time.day_to_string())
                 self._level = 1
             else:

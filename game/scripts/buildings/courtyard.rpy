@@ -156,7 +156,7 @@ label first_week_courtyard_event (**kwargs):
     headmaster_thought "Hmm, the courtyard looks really bad..."
     
     scene first week courtyard 2 with dissolveM
-    headmaster_thought "Tt seems most of the appliances here are out of order."
+    headmaster_thought "It seems most of the appliances here are out of order."
 
     scene first week courtyard 3 with dissolveM
     headmaster_thought "For example the public toilet is broken."
@@ -283,7 +283,7 @@ label courtyard_event_4(**kwargs):
     headmaster "Interesting..."
     
     call change_stats_with_modifier('school',
-        happiness = DEC_TINY, charm = DEC_TINY, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_14
+        happiness = DEC_TINY, charm = TINY, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_14
 
     $ end_event("new_daytime", **kwargs)
 
