@@ -613,7 +613,6 @@ init -3 python:
             if "event_type" not in kwargs.keys():
                 kwargs["event_type"] = self.name
 
-
             for event in events:
                 kwargs["event_name"] = event.get_event()
                 event.call(**kwargs)

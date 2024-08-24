@@ -5,7 +5,7 @@ import subprocess
 from typing import Tuple
 import pyautogui
 
-def move_files(move_mode: str, s_file: str, dest_file: str, overwrite: str) -> Tuple[int, str]:
+def move_files(move_mode: str, s_file: str, dest_file: str, overwrite: str, version_mode: str) -> Tuple[int, str]:
     if os.path.exists(dest_file):
         # File already exists at destination
         
@@ -47,7 +47,7 @@ def move_files(move_mode: str, s_file: str, dest_file: str, overwrite: str) -> T
             shutil.copy2(s_file, dest_file)
         elif move_mode == 'Extract new images':
             shutil.move(s_file, dest_file)
-    else:
+    elif version_mode != 'Only existing':
         # File doesn't exist at destination, copy it
         os.makedirs(os.path.dirname(dest_file), exist_ok=True)  # Create necessary directories
         if (move_mode == 'Backup images' or 
@@ -68,6 +68,7 @@ def main():
 
     file_target = ['.png']
     end_file_target = ['.png']
+    version_mode = ""
 
     mode = pyautogui.confirm(text = 'What would you like to do?', title = 'Backup Images', buttons = ['Backup images', 'Extract new images', 'Convert images', 'Return modified images', 'Clean Extract', 'Move Backup to Extract', 'Versioned Backup', 'Return Videos', 'Count', 'Compare images', 'Close'])
     if mode == 'Versioned Backup':
@@ -122,6 +123,10 @@ def main():
         destination_path = os.path.abspath(os.path.join(source_path, "../../../Versioned Image Backups/" + dest_choice + "/" + lossy_variant))
         file_target = ['.png', '.webm', '.webp']
     elif mode == 'Return Images from Versioned Backup':
+        versions_mode = pyautogui.confirm(text = 'Return all or only existing images?', title = 'Versioned Backup', buttons = ['All', 'Only existing', 'Cancel'])
+        if versions_mode == "Cancel":
+            return
+        version_mode = versions_mode
         versions = [name for name in os.listdir(os.path.abspath(os.path.join(source_path, "../../../Versioned Image Backups"))) if os.path.isdir(os.path.abspath(os.path.join(source_path, "../../../Versioned Image Backups/" + name)))]
         versions.append("Cancel")
         dest_choice = pyautogui.confirm(text = 'Where would you like to move the images from?', title = 'Versioned Backup', buttons = versions)
@@ -280,7 +285,7 @@ def main():
                             print(f"Counterpart missing for: {source_file}\n    expected at {estimated_destination_file}")
                     continue
 
-                result, overwrite_setting = move_files(mode, source_file, destination_file, overwrite_setting)
+                result, overwrite_setting = move_files(mode, source_file, destination_file, overwrite_setting, version_mode)
 
                 if result == 1:
                     continue
@@ -290,7 +295,7 @@ def main():
                     count += 1
 
                 if destination_path2 != "":
-                    result, overwrite_setting = move_files(mode, source_file, destination_file2, overwrite_setting)
+                    result, overwrite_setting = move_files(mode, source_file, destination_file2, overwrite_setting, version_mode)
 
                     if result == 1:
                         continue

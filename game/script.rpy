@@ -12,7 +12,7 @@ label start ():
 
     $ fix_modifier()
 
-    call intro
+    call intro from _call_intro
 label splashscreen:
     menu:
         "This game is not suitable for children or those who are easily disturbed.\n\nBy playing this game you agree that you are 18 years of age or older and are not offended by adult content."

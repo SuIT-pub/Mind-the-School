@@ -419,7 +419,7 @@ init -1 python:
             return f"{self.key}"
 
         def apply(self, **kwargs):
-            set_modifier(self.key, self.modifier, self.stat, char_obj = self.char_obj, collection = self.collection)
+            set_modifier(self.key, self.modifier, stat = self.stat, char_obj = self.char_obj, collection = self.collection)
             return kwargs
 
     class ChangeKwargsEffect(Effect):

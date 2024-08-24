@@ -875,6 +875,17 @@ init -6 python:
 
             return f"{self.day}-{self.month}-{self.year}"
 
+        def get_days_total(self) -> int:
+            """
+            Returns the total number of days in the current date.
+
+            ### Returns:
+            1. int
+                - the total number of days in the current date
+            """
+
+            return self.day + (self.month - 1) * 28 + (self.year - 2023) * 336
+
     def compare_time(time1: Time, time2: Time) -> int:
         """
         Compares two dates and times.
@@ -928,8 +939,6 @@ init -6 python:
             - the difference in days between the two dates
         """
 
-        day_diff = abs(time1.day - time2.day)
-        month_diff = abs(time1.month - time2.month)
-        year_diff = abs(time1.year - time2.year)
+        # get the difference in days between the two dates 
+        return abs(time1.get_days_total() - time2.get_days_total())
 
-        return day_diff + month_diff * 28 + year_diff * 336
