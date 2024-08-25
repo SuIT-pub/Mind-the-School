@@ -15,10 +15,10 @@
     $ set_name("headmaster", headmaster_first_name, headmaster_last_name)
 
     $ school_config = "a High School."
-    if loli_content == 1:
-        $ school_config = "a High and Middle School."
-    if loli_content == 2:
-        $ school_config = "a High, Middle and Elementary School."
+    # if loli_content == 1:
+    #     $ school_config = "a High and Middle School."
+    # if loli_content == 2:
+    #     $ school_config = "a High, Middle and Elementary School."
 
     $ school_config_noun = "school"
 
@@ -136,10 +136,10 @@ label .start:
     call show_image ("images/events/intro/intro gym 3 1.webp") from _call_show_image_tutorial_2
     subtitles "As you and your secretary make your way to the stage, all the students begin to form neat rows."
     secretary_whisper "The students in the left are from the high school."
-    if loli_content >= 1:
-        secretary_whisper "The students in the center are from the middle school."
-    if loli_content == 2:
-        secretary_whisper "And to the right are the elementary school students."
+    # if loli_content >= 1:
+    #     secretary_whisper "The students in the center are from the middle school."
+    # if loli_content == 2:
+    #     secretary_whisper "And to the right are the elementary school students."
 
     call show_image ("images/events/intro/intro gym 3 2.webp") from _call_show_image_tutorial_3
     headmaster_thought "Wow she has a nice butt. I can't wait to make it mine."
@@ -155,7 +155,6 @@ label .start:
     secretary_shout "He will be starting today and we're all very excited to see the positive changes he will bring!"
 
     #show view from slightly behind crowd towards stage (secretary pointing towards headmaster)
-    # show expression "events/intro/intro gym 6 [loli_content].webp"
     secretary_shout "But without further ado... Greet your new Headmaster Mr. [headmaster_last_name]!"
     subtitles "You walk to the podium."
 
@@ -171,12 +170,10 @@ label .start:
     headmaster_shout "I taught in various schools and was also the headmaster of a school in the capitol."
 
     #show headmaster rasing finger
-    # scene expression "events/intro/intro gym 9 [loli_content].webp"
     headmaster_shout "I want to make it clear that I will not tolerate misbehavior! {b}BUT{/b} I am a fair person."
     headmaster_shout "No one will be punished if they don't deserve it, and I will do everything I can to make sure that you all have a nice and safe place to grow and learn!"
 
     #show headmaster with wide open arms
-    # scene expression "events/intro/intro gym 10 [loli_content].webp"
     headmaster_shout "If you ever have any problems, ideas or questions, feel free to come to me anytime. I will help wherever I can!"
     headmaster_shout "Thank you and let's have a great time together!"
     crowd_shout "*clapping*"
