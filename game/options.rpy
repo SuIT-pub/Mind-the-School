@@ -204,7 +204,7 @@ init python:
     build.classify('**/thumbs.db', None)
     build.classify("game/**.rpy", None)
     build.classify("game/saves", None)
-    build.classify("game/loli_patch.rpyc", None)
+    build.classify("game/classes_patch.rpyc", None)
     build.classify("game/cheat_patch.rpyc", None)
     build.classify("event backup/**", None)
     build.classify("*android.json", None)

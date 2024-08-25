@@ -109,9 +109,6 @@ label .after_time_check (**kwargs):
     call call_available_event(courtyard_general_event) from courtyard_4
 
 label .after_general_check (**kwargs):
-    $ loli = get_random_loli()
-    $ courtyard_bg_images.add_kwargs(loli = loli)
-
     call call_event_menu (
         "What to do at the Courtyard?", 
         courtyard_events, 
