@@ -111,6 +111,10 @@ init -2 python:
             self.steps = []
             self.create_steps(self._image_paths)
 
+        def update(self):
+            if not hasattr(self, '_step_start'):
+                self._step_start = 0
+
         def create_steps(self, image_paths: List[str]):
             """
             Creates all the steps in the image series.
@@ -161,6 +165,8 @@ init -2 python:
             1. variant: int
                 - The variant of the image.
             """
+
+            self.update()
 
             if step < self._step_start or step >= len(self.steps) + self._step_start:
                 log_error(201, f"Step {step} for {self._image_paths[0]} is out of range! (Min: {self._step_start}, Max: {len(self.steps) - 1 + self._step_start}))")
