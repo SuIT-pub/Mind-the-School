@@ -23,7 +23,7 @@ define gui.show_name = True
 
 ## The version of the game.
 
-define config.version = "0.1.4"
+define config.version = "0.1.4A"
 
 
 ## Text that is placed on the game's about screen. Place the text between the
@@ -201,6 +201,7 @@ init python:
     build.classify('**.psd', None)
     build.classify('**/.**', None)
     build.classify('**/#**', None)
+    build.classify('**/**.ini', None)
     build.classify('**/thumbs.db', None)
     build.classify("game/**.rpy", None)
     build.classify("game/saves", None)
