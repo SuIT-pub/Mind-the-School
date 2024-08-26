@@ -18,9 +18,12 @@ label splashscreen:
         "This game is not suitable for children or those who are easily disturbed.\n\nBy playing this game you agree that you are 18 years of age or older and are not offended by adult content."
 
         "I am 18 years of age or older.":
-            return
+            pass
         "I am not 18 years of age or older.":
             $ renpy.quit()
+
+    subtitles "The game downloads the current list of {a=https://www.patreon.com/suitji}Patreon{/a} supporters every time the game starts. The file's size is max 1KB. If you don't want the game to download this file, you can disable it in the options menu."
+    subtitles "For everyone with an old save-game from the previous version:\nYou can still open the game with the old save-game. If you encounter an error after loading because of a missing image, just press 'Ignore' and the game will continue normally."
 init python:
     
     ###########################################
