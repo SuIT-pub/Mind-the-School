@@ -927,7 +927,7 @@ label .buy_bra (**kwargs):
 
     $ advance_progress("aona_sports_bra")
 
-    $ change_stat(MONEY, -100)
+    $ change_stat(MONEY, -200)
 
     call change_stats_with_modifier('school',
         happiness = MEDIUM, charm = TINY, reputation = MEDIUM, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_84

@@ -258,7 +258,7 @@ label .help (**kwargs):
     call change_money_with_modifier(-50) from _call_change_money_with_modifier_38
 
     call change_stats_with_modifier('school',
-        happiness = MEDIUM, reputation = MEDIUM, charm = DEC_TINY) from _call_change_stats_with_modifier_37
+        happiness = MEDIUM, reputation = MEDIUM) from _call_change_stats_with_modifier_37
     jump new_daytime
 
 ############################
