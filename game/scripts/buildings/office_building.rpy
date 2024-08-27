@@ -171,19 +171,12 @@ label .after_time_check (**kwargs):
     call call_available_event(office_building_general_event) from office_building_4
 
 label .after_general_check (**kwargs):
-    # $ char = get_random_choice("teacher", "secretary")
-    # $ office_building_bg_images.add_kwargs(
-    #     name = char,
-    #     level = get_character_by_key(char).get_level(),
-    # )
-
     call call_event_menu (
-        "Hello Headmaster! How can I help you?" if char == "secretary" else "What do you do?", 
+        "What do you do?", 
         office_building_events, 
         default_fallback,
-        character.secretary if char == "secretary" else character.subtitles,
+        character.subtitles,
         bg_image = office_building_bg_images,
-        context = char,
     ) from office_building_3
 
     jump office_building
@@ -308,6 +301,7 @@ label learn_office_event_1 (**kwargs):
 
     $ end_event('new_day', **kwargs)
 
+# First naughty
 image anim_work_office_session_event_first_naughty_1  = Movie(play ="images/events/office/office_event_first_naughty 0 16.webm", start_image = "images/events/office/office_event_first_naughty 0 16.webp", image = "images/events/office/office_event_first_naughty 0 16.webp")
 image anim_work_office_session_event_first_naughty_2  = Movie(play ="images/events/office/office_event_first_naughty 0 17.webm", start_image = "images/events/office/office_event_first_naughty 0 17.webp", image = "images/events/office/office_event_first_naughty 0 17.webp")
 image anim_work_office_session_event_first_naughty_3  = Movie(play ="images/events/office/office_event_first_naughty 0 18.webm", start_image = "images/events/office/office_event_first_naughty 0 18.webp", image = "images/events/office/office_event_first_naughty 0 18.webp")
@@ -599,16 +593,76 @@ label office_call_secretary_1 (**kwargs):
     headmaster "I'm thinking of introducing sex education classes in the curriculum. What do you think?"
     secretary "I think it's a great idea. It's important for students to be educated about such topics."
     secretary "But do you think the rest of the staff and also the students would agree?"
-    headmaster "You're right that will be quite the hurdle, I guess I need to make sure they are ready for it before suggesting it."
-    headmaster "Thank you for your input."
+    headmaster "Hmm, I guess you're right. That will be quite the hurdle, I think I need to make sure they are ready for it before suggesting it."
+    headmaster "Do you have any suggestions on how to approach this?"
+    secretary "I think you should start by talking to the staff and getting their input."
+    secretary "To actually convince them, you could prepare some teaching material and introductory material on the subject."
+    secretary "That way they can see what you have in mind and how you plan to approach it."
+    headmaster "That's a good idea. Thank you for your input."
     secretary "You're welcome. Is there anything else?"
     headmaster "No, that's all. Thank you."
     secretary "You're welcome. Have a nice day."
-    headmaster_thought "Maybe I should start work on some teaching material for the sex ed classes."
-    headmaster_thought "Perhaps also introductory material on the subject."
+    headmaster_thought "Then, maybe I should start work on some teaching material for the sex ed classes."
 
     $ start_progress('start_sex_ed')
-    $ remove_game_data('start_sex_ed_timer_1')
+
+    $ end_event('new_daytime', **kwargs)
+
+label office_teacher_sex_ed_introduction_1(**kwargs):
+    $ begin_event(**kwargs)
+
+    headmaster_thought "Hmm, now how do I start this."
+    headmaster_thought "My main problem is that the teacher will have reservations about introducing sex ed classes."
+    headmaster_thought "So the best way to overcome this, would be to show them the importance of it."
+    headmaster_thought "I should talk to each one of them and present them the effects of not giving the students proper sexual education."
+    headmaster_thought "If I can relate to them in their own expertise, I guess that would be even better."
+    headmaster_thought "But first I should meet up with them and find out what they think in general about the idea of introducing sex ed classes"
+
+    headmaster "Emiko?"
+    secretary "Yes, [headmaster_first_name]?"
+    headmaster "Can you please schedule a meeting with all the teachers for tomorrow?"
+    secretary "Sure, I'll take care of it. At what time?"
+    headmaster "First thing in the morning. I want to discuss the introduction of the sex ed classes with them."
+    secretary "Got it. I'll send out the invites right away."
+    headmaster "Thank you, Emiko."
+
+    $ advance_progress('start_sex_ed')
+
+    $ end_event('new_daytime', **kwargs)
+
+label office_teacher_sex_ed_introduction_2 (**kwargs):
+    $ begin_event(**kwargs)
+
+    headmaster "I thank you all for coming on such short notice."
+    headmaster "Since I became the new headmaster, I was closely observing the school and the students."
+    headmaster "The school is nothing short but disappointing and the students and their achievements are a direct image of that."
+    headmaster "But what shocked me most was the social behaviour of the students."
+    headmaster "The students are surprisingly tame. But when it comes to their behaviour related to their bodies and looks, they are quite the opposite."
+    headmaster "I heard of bullying and exclusion towards certain students because of their looks or their overall body form."
+    headmaster "I think that this is a direct result of the lack of proper sexual education."
+    headmaster "The students became too ignorant. I think they simply don't know why bodies are different and why they are changing."
+    headmaster "So they did what most people do when they don't understand something. They fear it. And in conclusion they bully or fight it."
+    headmaster "I think that we need to change that. We need to educate the students about their bodies and the bodies of others."
+    headmaster "And for that reason I plan to add Sexual Education to the schools curriculum."
+    
+    # teacher reactions
+
+    $ advance_progress('start_sex_ed')
+
+    $ end_event('new_daytime')
+
+
+label office_prepare_sex_ed_material(**kwargs):
+    $ begin_event(**kwargs)
+
+    subtitles "You start working on the teaching material for the new sex ed classes"
+    headmaster_thought "Hmm, what should I include here?"
+    headmaster_thought "I think the material needs to be informative but also very visual and engaging."
+    headmaster_thought "I guess if I distribute the this before the weekend after introducing the new classes, the students would have time to read it and maybe already take some example out of it."
+    headmaster_thought "So I guess the introductory material should include information about clothing, hygiene, and the importance of consent and their psychological impacts."
+    headmaster_thought "I think that including some references to visual material should be enough for now."
+
+    $ advance_progress('start_sex_ed')
 
     $ end_event('new_daytime', **kwargs)
 
@@ -770,20 +824,6 @@ label office_call_secretary_naughty_sandbox (**kwargs):
     **kwargs) from _call_start_sandbox
 
 #################
-
-label office_prepare_sex_ed_material(**kwargs):
-    $ begin_event(**kwargs)
-
-    subtitles "You start working on the teaching material for the new sex ed classes"
-    headmaster_thought "Hmm, what should I include here?"
-    headmaster_thought "I think the material needs to be informative but also very visual and engaging."
-    headmaster_thought "I guess if I distribute the this before the weekend after introducing the new classes, the students would have time to read it and maybe already take some example out of it."
-    headmaster_thought "So I guess the introductory material should include information about clothing, hygiene, and the importance of consent and their psychological impacts."
-    headmaster_thought "I think that including some references to visual material should be enough for now."
-
-    $ advance_progress('start_sex_ed')
-
-    $ end_event('new_daytime', **kwargs)
 
 label office_event_1 (**kwargs):
     $ begin_event(**kwargs);

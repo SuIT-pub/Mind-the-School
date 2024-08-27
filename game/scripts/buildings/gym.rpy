@@ -145,10 +145,8 @@ init 1 python:
 
 label gym ():
     call call_available_event(gym_timed_event) from gym_1
-
 label .after_time_check (**kwargs):
     call call_available_event(gym_general_event) from gym_4
-
 label .after_general_check (**kwargs):
     call call_event_menu (
         "What to do in the Gym?", 

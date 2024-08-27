@@ -242,7 +242,7 @@ label sd_event_2 (**kwargs):
         $ image.show(0)
         sgirl "Eek!" (name = girl_name)
         call change_stats_with_modifier('school',
-            happiness = DEC_LARGE, inhibition = DEC_TINY) from _call_change_stats_with_modifier_78
+            happiness = DEC_MEDIUM, inhibition = DEC_TINY) from _call_change_stats_with_modifier_78
     elif topic in ["panties", "breasts"]:
         $ image.show(0)
         $ random_say(
@@ -251,7 +251,7 @@ label sd_event_2 (**kwargs):
             "Eek! Stop! Don't stare at my [topic]!",
             person = character.sgirl, name = girl_name)
         call change_stats_with_modifier('school',
-            happiness = DEC_LARGE, inhibition = DEC_TINY, charm = MEDIUM) from _call_change_stats_with_modifier_79
+            happiness = DEC_MEDIUM, inhibition = DEC_TINY, charm = MEDIUM) from _call_change_stats_with_modifier_79
     elif topic == "oh":
         $ image.show(0)
         sgirl "Oh!" (name = girl_name)

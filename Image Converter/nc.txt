@@ -1,2 +1,0 @@
-intro-tutorial-4.jpg
-### -out webp -q 80

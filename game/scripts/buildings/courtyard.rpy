@@ -253,7 +253,7 @@ label .leave (**kwargs):
     subtitles "You decide to leave her alone."
     
     call change_stats_with_modifier('school',
-        happiness = DEC_MEDIUM, reputation = DEC_SMALL) from _call_change_stats_with_modifier_12
+        happiness = DEC_SMALL, reputation = DEC_SMALL) from _call_change_stats_with_modifier_12
     $ end_event("new_daytime", **kwargs)
 
 label courtyard_event_3 (**kwargs):

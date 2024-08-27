@@ -45,10 +45,6 @@ label .after_time_check (**kwargs):
     call call_available_event(bath_general_event) from bath_4
 
 label .after_general_check (**kwargs):
-    $ loli = get_random_loli()
-
-    $ bath_bg_images.add_kwargs(loli = loli)
-
     call call_event_menu (
         "What to do in the Bath?",
         bath_events,
