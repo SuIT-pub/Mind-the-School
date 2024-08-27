@@ -52,6 +52,6 @@ init -100 python:
 
 label test_label():
     
-    call map_tutorial() from _call_map_tutorial
+    $ log_val('test', get_mod_list())
 
     return

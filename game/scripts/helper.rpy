@@ -999,6 +999,11 @@ init -99 python:
 
         return end
 
+    def get_mod_list():
+        # get list of folders in /mods
+        return [s for s in renpy.list_files() if s.startswith("mods/") and s.endswith("metadata")]
+
+
     ############################
     # --- Ren'Py Functions --- #
     ############################
