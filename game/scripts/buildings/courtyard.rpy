@@ -3,6 +3,7 @@
 #######################################
 
 init -1 python:
+    set_current_mod('base')
     def courtyard_events_available() -> bool:
         return (courtyard_timed_event.has_available_highlight_events() or
             courtyard_general_event.has_available_highlight_events() or
@@ -20,6 +21,7 @@ init -1 python:
     )
 
 init 1 python:
+    set_current_mod('base')
     first_week_courtyard_event_event = Event(1, "first_week_courtyard_event",
         IntroCondition(),
         TimeCondition(day = "2-4", month = 1, year = 2023),

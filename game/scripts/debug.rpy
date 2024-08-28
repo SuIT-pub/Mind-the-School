@@ -52,6 +52,12 @@ init -100 python:
 
 label test_label():
     
-    $ log_val('test', get_mod_list())
+    $ pattern = Pattern('test', 'images/test_image <step>.png', key = 'version_0_1_5')
+
+    $ image = Image_Series_Pattern(pattern)
+
+    $ image.show(0)
+
+    subtitles "test"
 
     return

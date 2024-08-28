@@ -3,6 +3,7 @@
 #############################################
 
 init -1 python:
+    set_current_mod('base')
     def office_building_events_available() -> bool:
         return (office_building_timed_event.has_available_highlight_events() or
             office_building_general_event.has_available_highlight_events() or
@@ -40,7 +41,8 @@ init -1 python:
         BGImage("images/background/office building/bg 7 <name>.webp", 1, TimeCondition(daytime = 7)), # show headmasters/teachers office empty at night
     )
 
-init 1 python:   
+init 1 python: 
+    set_current_mod('base')  
     
     office_building_general_event.add_event( 
         Event(1, "first_week_office_building_event",

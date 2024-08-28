@@ -3,6 +3,7 @@
 ###################################################
 
 init -1 python:
+    set_current_mod('base')
     def sd_events_available() -> bool:
         return (sd_timed_event.has_available_highlight_events() or
             sd_general_event.has_available_highlight_events() or
@@ -19,7 +20,8 @@ init -1 python:
         BGImage("images/background/school dormitory/bg 7.webp", 1, TimeCondition(daytime = 7)),
     )
 
-init 1 python:    
+init 1 python:
+    set_current_mod('base')    
     first_week_school_dormitory_event_event = Event(1, "first_week_school_dormitory_event",
         IntroCondition(),
         TimeCondition(day = "2-4", month = 1, year = 2023),

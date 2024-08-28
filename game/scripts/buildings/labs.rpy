@@ -3,6 +3,7 @@
 ##################################
 
 init -1 python:
+    set_current_mod('base')
     def labs_events_available() -> bool:
         return (labs_timed_event.has_available_highlight_events() or
             labs_general_event.has_available_highlight_events() or
@@ -18,6 +19,7 @@ init -1 python:
     )
 
 init 1 python:
+    set_current_mod('base')
     
     labs_action_tutorial_event = Event(2, "action_tutorial",
         NOT(ProgressCondition('action_tutorial')),
