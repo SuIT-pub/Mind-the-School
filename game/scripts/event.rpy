@@ -196,6 +196,9 @@ init -3 python:
                 - The events that are added to the EventStorage.
             """
 
+            if not is_mod_active(active_mod_key):
+                return
+
             for event in events:
                 if event.get_priority() == 3 and event.get_event() not in seenEvents.keys():
                     seenEvents[event.get_event()] = False
@@ -203,6 +206,27 @@ init -3 python:
                 if event.get_id() not in self.events[event.get_priority()].keys():
                     self.register_event_for_location(event, self.location)    
                     self.events[event.get_priority()][event.get_id()] = event
+
+        def overwrite_event(self, *event: Event):
+            """
+            Adds an event to the EventStorage.
+            Overwrites the event if it already exists.
+            The event gets sorted automatically into the correct priority.
+
+            ### Parameters:
+            1. *events: Event
+                - The events that are added to the EventStorage.
+            """
+
+            if not is_mod_active(active_mod_key):
+                return
+
+            for event in events:
+                if event.get_priority() == 3 and event.get_event() not in seenEvents.keys():
+                    seenEvents[event.get_event()] = False
+
+                self.register_event_for_location(event, self.location)    
+                self.events[event.get_priority()][event.get_id()] = event
 
         def remove_event(self, event_id: str):
             """
@@ -1058,7 +1082,7 @@ init -3 python:
             - Calls the event.
         """
 
-        def __init__(self, priority: int, event: str, *conditions: Condition | Selector | Option, thumbnail: str = "", register_self = True, override_intro = False, override_location = None):
+        def __init__(self, priority: int, event: str, *conditions: Condition | Selector | Option | Pattern, thumbnail: str = "", register_self = True, override_intro = False, override_location = None):
             self.event_id = str(event)
             self.event = event
             self.thumbnail = thumbnail
@@ -1069,6 +1093,8 @@ init -3 python:
 
             self.values = SelectorSet(*[condition for condition in conditions if isinstance(condition, Selector)])
             self.options = OptionSet(*[condition for condition in conditions if isinstance(condition, Option)])
+
+            self.patterns = {pattern.get_name(): pattern for pattern in conditions if isinstance(pattern, Pattern)}
 
             rerollSelectors.append(self.values)
 
@@ -1081,7 +1107,7 @@ init -3 python:
             self.event_type = ""
             # self.values = values
 
-            if register_self:
+            if register_self and is_mod_active(active_mod_key):
                 event_register[self.event_id] = self
             self.location = "misc"
             self.override_location = override_location
@@ -1119,6 +1145,9 @@ init -3 python:
 
             if not hasattr(self, 'event_form'):
                 self.event_form = "event"
+
+            if not hasattr(self, 'patterns'):
+                self.patterns = {}
 
             self.__dict__.update(data)
 
@@ -1225,6 +1254,12 @@ init -3 python:
 
             self.event_type = event_type
 
+        def set_pattern(self, name: str, pattern: Pattern):
+            self.patterns[name] = pattern
+
+        def get_pattern(self) -> Dict[str, Pattern]:
+            return self.patterns
+
         def get_event(self) -> str:
             """
             Returns the events depending on the priority.
@@ -1319,6 +1354,8 @@ init -3 python:
             kwargs["event_name"] = self.get_event()
             kwargs["in_event"] = True
             kwargs["event_obj"] = self
+
+            kwargs['image_patterns'] = self.patterns
 
             renpy.call("call_event", events, self.priority, self.get_event(), **kwargs)
 
@@ -1450,10 +1487,16 @@ init -3 python:
 
             kwargs["event_name"] = events.get_event()
             kwargs["in_event"] = True
-            kwargs["event_obj"] = get_event_from_register(events.get_event())
+
+            event_obj = get_event_from_register(events.get_event())
+
+            kwargs["event_obj"] = event_obj
+
+            kwargs['image_patterns'] = event_obj.get_pattern()
 
             kwargs["frag_index"] = index
             kwargs["frag_parent"] = self
+            kwargs["is_fragment"] = True
 
             if is_replay(**kwargs):
                 kwargs['decision_data'] = persistent.gallery['fragment'][events.get_id()]['decisions']
@@ -1577,10 +1620,13 @@ init -3 python:
         2. event_storage: EventStorage
             - The event storage that is added to the event dictionary.
         """
+        
+        if not is_mod_active(active_mod_key):
+            return
 
         event_dict[event_storage.get_name()] = event_storage
 
-    def begin_event(**kwargs):
+    def begin_event(version: str = "1", **kwargs):
         """
         This method is called at the start of an event after choices and topics have been chosen in the event.
         It prevents rollback to before this method and thus prevents changing choices and topics.
@@ -1599,10 +1645,11 @@ init -3 python:
         event_name = get_kwargs("event_name", "", **kwargs)
         in_replay = get_kwargs("in_replay", False, **kwargs)
         no_gallery = get_kwargs("no_gallery", False, **kwargs)
+        is_fragment = get_kwargs("is_fragment", False, **kwargs)
 
         gallery_manager = None
         if event_name != "" and not in_replay and not no_gallery:
-            gallery_manager = Gallery_Manager(**kwargs)
+            gallery_manager = Gallery_Manager(version = version, **kwargs)
 
         if contains_game_data("seen_events"):
             seenEvents = get_game_data("seen_events")
@@ -1616,7 +1663,8 @@ init -3 python:
         if in_replay:
             char_obj = None
 
-        renpy.block_rollback()
+        if not is_fragment:
+            renpy.block_rollback()
 
         if event_name != "":
             renpy.call("show_sfw_text", event_name)
@@ -1768,6 +1816,8 @@ label call_available_event(event_storage, priority = 0, no_fallback = False, **k
             $ kwargs["event_name"] = event_obj.get_event()
             $ kwargs["in_event"] = True
             $ kwargs["event_obj"] = event_obj
+            $ kwargs['image_patterns'] = event_obj.patterns
+
 
             if event_obj.values != None:
                 $ kwargs.update(event_obj.values.get_values())

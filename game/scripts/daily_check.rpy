@@ -1,4 +1,5 @@
 init -1 python:
+    set_current_mod('base')
     def after_load_event_check(location: str, events: Dict[str, EventStorage], general_event: EventStorage, timed_event: TempEventStorage):
         
         timed_event.check_all_events()
@@ -20,6 +21,7 @@ init -1 python:
     
 
 init 1 python:
+    set_current_mod('base')
     first_week_epilogue_event = Event(1, "first_week_epilogue", 
         IntroCondition(),
         TimeCondition(day = 5, month = 1, year = 2023, daytime = 2),

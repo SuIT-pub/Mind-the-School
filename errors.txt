@@ -2,9 +2,29 @@
 errors listed below, and try again.
 
 
-File "game/script.rpy", line 25: Say menuitems and captions may not exist in the same menu.
-    subtitles "The game downloads the current list of {a=https://www.patreon.com/suitji}patreon{/a} supporters every time the game starts. The file's size is max 1KB. If you don't want the game to download this file, you can disable it in the options menu."
-                                                                                                                                                                                                                                                                 ^
+The label _call_show_image_sb_event_5_event_1 is defined twice, at File "game/scripts/buildings/school_building.rpy", line 1158:
+    call Image_Series.show_image(image, 0, 1, 2) from _call_show_image_sb_event_5_event_1
+and File "game/scripts/buildings/school_building.rpy", line 1203:
+    call Image_Series.show_image(image, 0, 1, 2) from _call_show_image_sb_event_5_event_1
+
+
+The label _call_show_image_sb_event_5_event_2 is defined twice, at File "game/scripts/buildings/school_building.rpy", line 1170:
+    call Image_Series.show_image(image, 6, 7, 8) from _call_show_image_sb_event_5_event_2
+and File "game/scripts/buildings/school_building.rpy", line 1215:
+    call Image_Series.show_image(image, 6, 7, 8) from _call_show_image_sb_event_5_event_2
+
+
+The label _call_show_image_sb_event_5_event_3 is defined twice, at File "game/scripts/buildings/school_building.rpy", line 1173:
+    call Image_Series.show_image(image, 7, 9, 10) from _call_show_image_sb_event_5_event_3
+and File "game/scripts/buildings/school_building.rpy", line 1218:
+    call Image_Series.show_image(image, 7, 9, 10) from _call_show_image_sb_event_5_event_3
+
+
+The label _call_change_stats_with_modifier_72 is defined twice, at File "game/scripts/buildings/school_building.rpy", line 1183:
+    call change_stats_with_modifier('school',
+and File "game/scripts/buildings/school_building.rpy", line 1228:
+    call change_stats_with_modifier('school',
+
 
 Ren'Py Version: Ren'Py 8.1.3.23091805
-Mon Aug 26 13:44:24 2024
+Wed Aug 28 14:26:30 2024

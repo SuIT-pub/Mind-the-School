@@ -3,6 +3,7 @@
 ##################################
 
 init -1 python:
+    set_current_mod('base')
     def bath_events_available() -> bool:
         return (bath_timed_event.has_available_highlight_events() or 
             bath_general_event.has_available_highlight_events() or 
@@ -19,7 +20,7 @@ init -1 python:
     )
     
 init 1 python:
-    
+    set_current_mod('base')
     bath_action_tutorial_event = Event(2, "action_tutorial",
         NOT(ProgressCondition('action_tutorial')),
         ValueSelector('return_label', 'bath'),

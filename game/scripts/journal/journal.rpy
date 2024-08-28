@@ -1284,6 +1284,7 @@ screen journal_cheats(display, char = "school"):
     $ options = {
         "general": "General",
         "stats": "Stats",
+        "mods": "Mods",
         "rules": "Rules",
         "clubs": "Clubs",
         "buildings": "Buildings",
@@ -1465,6 +1466,45 @@ screen journal_cheats(display, char = "school"):
                     use journal_cheats_stat(REPUTATION, char)
                     
             vbar value YScrollValue("CheatStatList"):
+                unscrollable "hide"
+                xalign 1.0
+    elif display == "mods":
+        frame:
+            background Solid("#0000")
+            area (950, 200, 560, 690)
+
+            viewport id "CheatModList":
+                mousewheel True
+                draggable "touch"
+
+                vbox:
+                    text "After activating or deactivating mod, you have to refresh the game.\nWorks only in developer mode.":
+                        color "#000000"
+                        size 20
+
+                    null height 20
+
+                    for mod_key in persistent.modList.keys():
+                        $ mod = persistent.modList[mod_key]
+                        if not mod['available']:
+                            continue
+
+                        $ mod_name = mod['name']
+                        $ mod_unlock_text = "{color=#a00000}ACTIVATE{/color}"
+                        if mod['active']:
+                            $ mod_unlock_text = "{color=#00a000}DEACTIVATE{/color}"
+                        text mod_name:
+                            style "buttons_idle"
+                        if mod_name != 'Base Mod':
+                            hbox:
+                                null width 100
+                                button:
+                                    text mod_unlock_text
+                                    action [With(dissolveM), Call("switch_mod", mod_key, not persistent.modList[mod_key]['active'])]
+                        null height 10
+                    
+
+            vbar value YScrollValue("CheatModList"):
                 unscrollable "hide"
                 xalign 1.0
     elif display.startswith("rules"):
@@ -2367,6 +2407,11 @@ screen journal_goals(display):
 # Journal Methods
 ############################
 
+label switch_mod(mod_key, state):
+    $ persistent.modList[mod_key]['active'] = state
+    call open_journal(5, 'mods') from call_open_journal_switch_mod_1
+
+
 label open_wiki_page():
     $ renpy.run(OpenURL(wiki))
     call open_journal(8, "") from open_wiki_page_1
@@ -2451,6 +2496,7 @@ label start_gallery_composite_replay(location, event, gallery_chooser, fragments
     $ gallery_chooser['event_obj'] = event_obj
     $ gallery_chooser['event_type'] = event_obj.event_type
     $ gallery_chooser['event_form'] = 'composite'
+    $ gallery_chooser['image_patterns'] = event_obj.get_pattern()
 
     $ gallery_chooser['decision_data'] = persistent.gallery[location][event]['decisions']
 
@@ -2494,6 +2540,10 @@ label start_gallery_replay(location, event, gallery_chooser, display):
     $ gallery_chooser['journal_display'] = display
     $ gallery_chooser['in_event'] = True
     $ gallery_chooser['event_name'] = event
+
+    $ event_obj = get_event_from_register(event)
+
+    $ gallery_chooser['image_patterns'] = event_obj.get_pattern()
 
     $ gallery_chooser['decision_data'] = persistent.gallery[location][event]['decisions']
     $ replay_data = gallery_chooser

@@ -1,3 +1,53 @@
+init -4 python:
+    def overwrite_event_image(event_key: str, pattern_key: str, pattern: Pattern):
+        if not is_mod_active(active_mod_key):
+            return
+
+        pattern._key = active_mod_key
+
+        event = get_event_from_register(event_key)
+        if event == None:
+            log_error(501, f"Event '{event_key}' could not be found!")
+            return
+        event.set_pattern(pattern_key, pattern)
+
+    def convert_pattern(pattern_key: str, **kwargs) -> Image_Series:
+        patterns = get_kwargs('image_patterns', {}, **kwargs)
+        if pattern_key not in patterns.keys():
+            log_error(502, f"Pattern '{pattern_key}' could not be found!")
+            return None
+        return Image_Series_Pattern(patterns[pattern_key], **kwargs)
+
+    def show_pattern(pattern_key: str, **kwargs):
+        patterns = get_kwargs('image_patterns', {}, **kwargs)
+        if pattern_key not in patterns.keys():
+            log_error(502, f"Pattern '{pattern_key}' could not be found!")
+            return None
+        renpy.call('show_image', patterns[pattern_key].get_path(), **kwargs)
+
+    class Pattern:
+        def __init__(self, name: str, pattern: str, alternative_keys: List[str] = [], *, key: str = 'base'):
+            self._name = name
+            self._key = key
+            self._pattern = pattern
+            self._alternative_keys = alternative_keys
+
+        def get_name(self) -> str:
+            return self._name
+
+        def get_key(self) -> str:
+            return self._key
+
+        def get_pattern(self) -> str:
+            return self._pattern
+
+        def get_path(self) -> str:
+            return get_mod_path(self._key) + self._pattern
+
+        def get_alternative_keys(self) -> List[str]:
+            return self._alternative_keys
+
+
 init -2 python:
     from abc import ABC, abstractmethod
     from typing import List, Tuple
@@ -186,6 +236,11 @@ init -2 python:
 
             return variant  
         
+    
+    class Image_Series_Pattern(Image_Series):
+        def __init__(self, pattern: Pattern, **kwargs):
+            super().__init__(pattern.get_path(), pattern.get_alternative_keys(), **kwargs)
+
     class BGImage():
         """
         A class to represent a background image.
@@ -235,6 +290,7 @@ init -2 python:
             self._selectors = SelectorSet(*[selector for selector in conditions if isinstance(selector, Selector)])
             self._priority = priority
             self._image_path = image_path
+            self._path_prefix = ""
 
         def can_be_used(self, **kwargs) -> bool:
             """
@@ -271,6 +327,17 @@ init -2 python:
 
             return self._priority
 
+        def set_path_prefix(self, path_prefix: str):
+            """
+            Sets the path prefix of the background image.
+
+            ### Parameters:
+            1. path_prefix: str
+                - The path prefix of the background image.
+            """
+
+            self._path_prefix = path_prefix
+
         def get_image(self, **kwargs) -> Tuple[int, str]:
             """
             Returns the image path of the background image.
@@ -290,7 +357,7 @@ init -2 python:
                 kwargs.update(self._selectors.get_values())
                 self._selectors.roll_values()
 
-            return get_image(self._image_path, **kwargs)
+            return get_image(self._path_prefix + self._image_path, **kwargs)
 
         def can_get_image(self, **kwargs) -> bool:
             """
@@ -305,7 +372,7 @@ init -2 python:
                 - Whether the image path of the background image can be found in the game files.
             """
 
-            return self.get_image(self._image_path, **kwargs)[0] != -1
+            return self.get_image(self._path_prefix + self._image_path, **kwargs)[0] != -1
         
     class BGStorage:
         """
@@ -406,6 +473,12 @@ init -2 python:
             1. *image: BGImage
                 - A list of all the background images to add.
             """
+            
+            if not is_mod_active(active_mod_key):
+                return
+
+            for i in image:
+                i.set_path_prefix(get_mod_path(active_mod_key))
 
             self.images.extend(image)
 

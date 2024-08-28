@@ -137,7 +137,9 @@ default preferences.text_cps = 0
 default preferences.afm_time = 15
 
 
-default persistent.mod_list = {}
+default persistent.modList = {
+    'base': {'key': 'base', 'version': '1', 'name': 'Base Mod', 'description': 'The base mod for the game.', 'author': 'SuIT-Ji', 'active': True, 'path': ''},
+}
 
 ## Save directory ##############################################################
 ##
