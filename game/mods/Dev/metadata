@@ -3,7 +3,12 @@
     "version": "dev",
     "path": "/Dev",
     "name": "Development",
+<<<<<<< HEAD
     "description": "Development Branch. aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
     "author": "SuIT-Ji",
     "translations": ["translations.csv"]
+=======
+    "description": "Development Branch",
+    "author": "SuIT-Ji"
+>>>>>>> 67b5f1c (added more functionality for mod framework)
 }

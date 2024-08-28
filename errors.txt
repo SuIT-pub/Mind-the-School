@@ -9,6 +9,9 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 67b5f1c (added more functionality for mod framework)
 =======
 >>>>>>> 03a914a (added subject proficiencies for headmaster)
 =======
@@ -58,10 +61,13 @@ Tue Jul  9 13:30:03 2024
 >>>>>>> f3d3292 (small changes and fxes in preparation for release)
 =======
 >>>>>>> 0308013 (added more functionality for mod framework)
+<<<<<<< HEAD
 =======
 >>>>>>> 0308013 (added more functionality for mod framework)
 =======
 >>>>>>> 53c85f3 (Clean up with regions)
+=======
+>>>>>>> 67b5f1c (added more functionality for mod framework)
 ﻿I'm sorry, but errors were detected in your script. Please correct the
 errors listed below, and try again.
 
@@ -70,6 +76,9 @@ errors listed below, and try again.
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 67b5f1c (added more functionality for mod framework)
 The label image_gym_teach_pe_main_1_2 is defined twice, at File "game/scripts/buildings/gym.rpy", line 325:
     call Image_Series.show_image(image, 5, 6) from image_gym_teach_pe_main_1_2   
 and File "game/scripts/buildings/gym.rpy", line 412:
@@ -350,8 +359,11 @@ Ren'Py Version: Ren'Py 8.1.3.23091805
 Mon Sep  9 10:59:22 2024
 >>>>>>> 3a02c16bafe769a29d6b1556d42dcb619dc8a08c
 =======
+<<<<<<< HEAD
 =======
 >>>>>>> 0308013 (added more functionality for mod framework)
+=======
+>>>>>>> 67b5f1c (added more functionality for mod framework)
 The label _call_show_image_sb_event_5_event_1 is defined twice, at File "game/scripts/buildings/school_building.rpy", line 1158:
     call Image_Series.show_image(image, 0, 1, 2) from _call_show_image_sb_event_5_event_1
 and File "game/scripts/buildings/school_building.rpy", line 1203:
@@ -378,6 +390,7 @@ and File "game/scripts/buildings/school_building.rpy", line 1228:
 
 Ren'Py Version: Ren'Py 8.1.3.23091805
 Wed Aug 28 14:26:30 2024
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> 0308013 (added more functionality for mod framework)
 =======
@@ -448,3 +461,6 @@ File "game/scripts/pta.rpy", line 78: expected an indented block
 Ren'Py Version: Ren'Py 8.1.3.23091805
 Thu Nov  7 09:24:08 2024
 >>>>>>> 2b00490 (removed debug messages and updated compiler outputs)
+=======
+>>>>>>> 0308013 (added more functionality for mod framework)
+>>>>>>> 67b5f1c (added more functionality for mod framework)

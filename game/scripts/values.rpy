@@ -84,6 +84,7 @@ default available_proficiencies = ['math', 'pe']
 default headmaster_proficiencies = {}
 
 init -99:
+
     default default_names = {
         'headmaster': ('Mark', 'Benson'),
         'secretary': ('Emiko', 'Langley'),

@@ -11,8 +11,11 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 8b40d23 (MTS-231/Interim/starting work on modding framework)
+=======
+>>>>>>> 67b5f1c (added more functionality for mod framework)
 renpy.geometry renpy.texture
 renpy.ftl
 =======
@@ -188,17 +191,28 @@ renpy.texture
 =======
 <<<<<<< HEAD
 >>>>>>> af4e58c649f1052620ede204b5714f6cf840c214
+=======
+>>>>>>> 0308013 (added more functionality for mod framework)
 renpy.geometry renpy.texture
-renpy.dissolve renpy.geometry
-renpy.alpha renpy.geometry renpy.texture
-renpy.geometry renpy.solid
+>>>>>>> af4e58c649f1052620ede204b5714f6cf840c214
 >>>>>>> Stashed changes
-<<<<<<< Updated upstream
-renpy.ftl
-renpy.dissolve renpy.dissolve
-renpy.alpha renpy.texture
-renpy.texture
+renpy.dissolve renpy.geometry
 >>>>>>> 09542ff3758f226971a8c438289acab48ed5dd7d
+renpy.alpha renpy.texture
+<<<<<<< HEAD
+renpy.dissolve renpy.dissolve
+renpy.alpha renpy.geometry renpy.texture
+=======
 renpy.solid
+<<<<<<< HEAD
 >>>>>>> e7805b9 (MTS-231/Interim/starting work on modding framework)
+<<<<<<< HEAD
 >>>>>>> 8b40d23 (MTS-231/Interim/starting work on modding framework)
+=======
+=======
+renpy.geometry renpy.solid
+renpy.ftl
+<<<<<<< Updated upstream
+renpy.texture
+>>>>>>> 0308013 (added more functionality for mod framework)
+>>>>>>> 67b5f1c (added more functionality for mod framework)
