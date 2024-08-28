@@ -311,6 +311,7 @@ init -99 python:
             return -1
         else:
             return 0
+    
     ##########################
     # --- Dict Functions --- #
     ##########################
@@ -999,10 +1000,101 @@ init -99 python:
 
         return end
 
-    def get_mod_list():
-        # get list of folders in /mods
-        return [s for s in renpy.list_files() if s.startswith("mods/") and s.endswith("metadata")]
+    ###################
+    # --- Modding --- #
+    ###################
 
+    def get_mod_list():
+        import json
+        
+        # get list of folders in /mods
+        metadata_list = [s for s in renpy.list_files() if s.startswith("mods/") and s.endswith("metadata")]
+
+        repair_mod_list()
+        available_keys = ['base']
+
+        for metadata in metadata_list:
+            json_string = renpy.open_file(metadata, "utf-8").read()
+            mod_json_obj = json.loads(json_string) 
+
+            available_keys.append(mod_json_obj['key'])
+
+            mod = {}
+
+            if mod_json_obj['key'] in persistent.modList.keys():
+                mod = persistent.modList[mod_json_obj['key']]
+                if mod['version'] != mod_json_obj['version']:
+                    mod['active'] = False
+                    mod.update(mod_json_obj)
+                    persistent.modList[mod_json_obj['key']] = mod
+            else:
+                mod = mod_json_obj
+                mod['active'] = False
+                persistent.modList[mod_json_obj['key']] = mod
+
+        for key in list(persistent.modList.keys()):
+            if key not in available_keys:
+                persistent.modList[key]['available'] = False
+                persistent.modList[key]['active'] = False
+            else:
+                persistent.modList[key]['available'] = True
+
+        return persistent.modList
+
+    def repair_mod_list():
+        if len(persistent.modList.keys()) == 0:
+            persistent.modList['base'] = {
+                'key': 'base', 
+                'version': '1', 
+                'name': 'Base Mod', 
+                'description': 'The base mod for the game.', 
+                'author': 'SuIT-Ji', 
+                'active': True, 
+                'available': True,
+                'path': ''
+            }
+
+        if 'available' not in persistent.modList['base']:
+            persistent.modList['base']['available'] = True
+
+    def is_mod_active(key: str) -> bool:
+        
+        repair_mod_list()
+
+        if key in persistent.modList.keys():
+            return persistent.modList[key]['active']
+        return False
+
+    def mod_exists(key: str) -> bool:
+        return key in persistent.modList.keys()
+
+    def set_current_mod(key: str):
+        global active_mod_key
+        active_mod_key = key
+
+    def get_mod_path(key: str) -> str:
+        if key in persistent.modList.keys():
+            path = persistent.modList[key]['path']
+            if path != "":
+                if not path.endswith('/'):
+                    path += '/'
+                if not path.startswith('mods/'):
+                    if not path.startswith('/'):
+                        path = 'mods/' + path
+                    else:
+                        path = 'mods' + path
+            return path
+
+    def get_current_mod_path() -> str:
+        return get_mod_path(active_mod_key)
+
+    def activate_mod(key: str):
+        if key in persistent.modList.keys():
+            persistent.modList[key]['active'] = True
+
+    def deactivate_mod(key: str):
+        if key in persistent.modList.keys():
+            persistent.modList[key]['active'] = False
 
     ############################
     # --- Ren'Py Functions --- #

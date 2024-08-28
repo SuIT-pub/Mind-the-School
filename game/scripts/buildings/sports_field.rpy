@@ -3,6 +3,7 @@
 ##########################################
 
 init -1 python:
+    set_current_mod('base')
     def sports_field_events_available() -> bool:
         return (sports_field_timed_event.has_available_highlight_events() or
             sports_field_general_event.has_available_highlight_events() or
@@ -19,6 +20,7 @@ init -1 python:
     )
     
 init 1 python:
+    set_current_mod('base')
     
     sports_field_action_tutorial_event = Event(2, "action_tutorial",
         NOT(ProgressCondition('action_tutorial')),

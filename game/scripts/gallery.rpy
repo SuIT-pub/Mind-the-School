@@ -205,11 +205,23 @@ init python:
             gallery_manager = self
             self.event = event
 
+            self.version = get_kwargs('version', "1", **kwargs)
+
             self.location = get_kwargs('location', 'misc', **kwargs)
             if is_event_registered(event):
                 self.location = get_event_from_register(event).get_location()
 
+
+
             prep_gallery(self.location, event, event_form)
+
+            if 'version' not in persistent.gallery[self.location][event]['options'].keys():
+                persistent.gallery[self.location][event]['options']['version'] = self.version
+
+            if self.version != persistent.gallery[self.location][event]['options']['version']:
+                reset_gallery(self.location, event)
+                prep_gallery(self.location, event, event_form)
+
             self.current_ranges = persistent.gallery[self.location][event]['ranges']
 
             self.original_data = {}

@@ -22,6 +22,9 @@ init -98 python:
     members = ""
     download_members()
 
+    get_mod_list()
+    active_mod_key = ''
+
 default intro_dev_message = "This version of the game only includes content up to day 10, when free roaming begins. You can still play and roam from there, but there will be no content."
 
 default hide_gui = False
@@ -49,6 +52,7 @@ default available_proficiencies = ['math', 'pe']
 default headmaster_proficiencies = {}
 
 init -99:
+
     default default_names = {
         'headmaster': ('Mark', 'Benson'),
         'secretary': ('Emiko', 'Langley'),

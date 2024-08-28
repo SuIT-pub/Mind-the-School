@@ -3,6 +3,7 @@
 ###########################################
 
 init -1 python:
+    set_current_mod('base')
     def swimming_pool_events_available() -> bool:
         return (swimming_pool_timed_event.has_available_highlight_events() or
             swimming_pool_general_event.has_available_highlight_events() or
@@ -19,6 +20,7 @@ init -1 python:
     )
     
 init 1 python:
+    set_current_mod('base')
     
     swimming_pool_action_tutorial_event = Event(2, "action_tutorial",
         NOT(ProgressCondition('action_tutorial')),
