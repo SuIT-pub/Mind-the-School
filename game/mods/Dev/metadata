@@ -1,6 +1,10 @@
 {
     "key": "dev",
     "version": "dev",
+<<<<<<< HEAD
+=======
+    "path": "/Dev",
+>>>>>>> 0308013 (added more functionality for mod framework)
     "name": "Development",
     "description": "Development Branch",
     "author": "SuIT-Ji"
