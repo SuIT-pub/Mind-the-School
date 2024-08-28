@@ -2609,6 +2609,11 @@ label switch_mod(mod_key, state):
     call open_journal(5, 'mods') from call_open_journal_switch_mod_1
 
 
+label switch_mod(mod_key, state):
+    $ persistent.modList[mod_key]['active'] = state
+    call open_journal(5, 'mods') from call_open_journal_switch_mod_1
+
+
 label open_wiki_page():
     $ renpy.run(OpenURL(wiki))
     call open_journal(8, "") from open_wiki_page_1

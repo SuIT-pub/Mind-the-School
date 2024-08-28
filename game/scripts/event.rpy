@@ -1504,6 +1504,8 @@ init -3 python:
 
             kwargs['image_patterns'] = self.patterns
 
+            kwargs['image_patterns'] = self.patterns
+
             renpy.call("call_event", events, self.select_type, self.get_event(), **kwargs)
 
         ##############
