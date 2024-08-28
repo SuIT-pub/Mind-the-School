@@ -3,6 +3,7 @@
 #############################################
 
 init -1 python:
+    set_current_mod('base')
     def sb_events_available() -> bool:
         return (sb_timed_event.has_available_highlight_events() or
             sb_general_event.has_available_highlight_events() or
@@ -26,6 +27,7 @@ init -1 python:
     )
 
 init 1 python:
+    set_current_mod('base')
 
     ####################
     # Default Events
@@ -88,6 +90,7 @@ init 1 python:
     sb_event5 = Event(3, "sb_event_5",
         TimeCondition(daytime = "c", weekday = "d"),
         RandomListSelector('girls', 'Ikushi Ito', 'Soyoon Yamamoto', 'Yuriko Oshima'),
+        Pattern('main', "/images/events/school building/sb_event_5 <school_level> <girls> <step>.webp", alternative_keys = ['school_level', 'girls']),
         thumbnail = "images/events/school building/sb_event_5 1 Soyoon Yamamoto 11.webp")
     ####################
 
@@ -145,7 +148,8 @@ init 1 python:
     sb_teach_history_intro_storage = FragmentStorage('sb_teach_history_intro')
     sb_teach_history_intro_storage.add_event(
         EventFragment(3, 'sb_teach_history_intro_f_revolution_1',
-            CheckReplay(ValueCondition('topic', 'french revolution')))
+            CheckReplay(ValueCondition('topic', 'french revolution')),
+            Pattern("main", "/images/events/school building/sb_teach_history_intro_f_revolution_1 <step>.webp"))
     )
 
     sb_teach_history_main_storage = FragmentStorage('sb_teach_history_main')
@@ -160,6 +164,7 @@ init 1 python:
         LevelSelector('school_level', 'school'),
         RandomListSelector('topic', 'french revolution'),
         ProficiencyCondition('history'),
+        Pattern("main", "/images/events/school building/sb_teach_history.webp"),
         thumbnail = "images/events/school building/sb_teach_history_main_f_revolution_1 1 2.webp"
     )
 
@@ -459,7 +464,8 @@ label sb_teach_history (**kwargs):
     $ get_value('topic', **kwargs)
 
     # headmaster enters room
-    call show_image ("/images/events/school building/sb_teach_history.webp", **kwargs) from _call_show_image_sb_teach_history_event_1
+    # call show_image ("/images/events/school building/sb_teach_history.webp", **kwargs) from _call_show_image_sb_teach_history_event_1
+    $ show_pattern("main", **kwargs)
     headmaster "Good morning everyone. Let's start with todays subject History."
 
     call composite_event_runner(**kwargs) from _call_composite_event_runner_1
@@ -467,7 +473,8 @@ label sb_teach_history (**kwargs):
 label sb_teach_history_intro_f_revolution_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ image = Image_Series("/images/events/school building/sb_teach_history_intro_f_revolution_1 <step>.webp", **kwargs)
+    $ image = convert_pattern('main', **kwargs)
+    # $ image = Image_Series("/images/events/school building/sb_teach_history_intro_f_revolution_1 <step>.webp", **kwargs)
 
     $ image.show(0)
     headmaster "Today we're going to continue learning about one of the most significant events in world history - the French Revolution."
@@ -1139,12 +1146,14 @@ label .panties (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label sb_event_5 (**kwargs):
-    $ begin_event(**kwargs)
+    $ begin_event("1", **kwargs)
+
+    $ log_val('kwargs', kwargs)
 
     $ school_level = get_level('school_level', **kwargs)
     $ girls = get_value('girls', **kwargs)
 
-    $ image = Image_Series("/images/events/school building/sb_event_5 <school_level> <girls> <step>.webp", ['school_level', 'girls'], **kwargs)
+    $ image = convert_pattern('main', **kwargs)
 
     $ girl_char = Character(girls, kind=character.sgirl)
 
@@ -1177,4 +1186,3 @@ label sb_event_5 (**kwargs):
         inhibition = DEC_TINY) from _call_change_stats_with_modifier_72
 
     $ end_event('new_daytime', **kwargs)
-

@@ -3,6 +3,7 @@
 ##########################################
 
 init -1 python:
+    set_current_mod('base')
     def staff_lodges_events_available() -> bool:
         return (staff_lodges_timed_event.has_available_highlight_events() or 
             staff_lodges_general_event.has_available_highlight_events() or 
@@ -19,6 +20,7 @@ init -1 python:
     )
     
 init 1 python:
+    set_current_mod('base')
     
     staff_lodges_action_tutorial_event = Event(2, "action_tutorial",
         NOT(ProgressCondition('action_tutorial')),
