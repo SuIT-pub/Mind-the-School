@@ -194,16 +194,11 @@ renpy.texture
 =======
 >>>>>>> 0308013 (added more functionality for mod framework)
 renpy.geometry renpy.texture
->>>>>>> af4e58c649f1052620ede204b5714f6cf840c214
->>>>>>> Stashed changes
+renpy.ftl
 renpy.dissolve renpy.geometry
->>>>>>> 09542ff3758f226971a8c438289acab48ed5dd7d
-renpy.alpha renpy.texture
-<<<<<<< HEAD
-renpy.dissolve renpy.dissolve
-renpy.alpha renpy.geometry renpy.texture
 =======
 renpy.solid
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> e7805b9 (MTS-231/Interim/starting work on modding framework)
 <<<<<<< HEAD
@@ -212,7 +207,23 @@ renpy.solid
 =======
 renpy.geometry renpy.solid
 renpy.ftl
+=======
+>>>>>>> c844caf (extracted images out of events for new modding system)
 <<<<<<< Updated upstream
+>>>>>>> af4e58c649f1052620ede204b5714f6cf840c214
+renpy.geometry renpy.solid
+>>>>>>> 09542ff3758f226971a8c438289acab48ed5dd7d
+renpy.dissolve renpy.dissolve
+<<<<<<< HEAD
+renpy.alpha renpy.texture
 renpy.texture
+<<<<<<< HEAD
 >>>>>>> 0308013 (added more functionality for mod framework)
+<<<<<<< HEAD
 >>>>>>> 67b5f1c (added more functionality for mod framework)
+=======
+=======
+renpy.alpha renpy.geometry renpy.texture
+>>>>>>> Stashed changes
+>>>>>>> c844caf (extracted images out of events for new modding system)
+>>>>>>> c0b6d96 (extracted images out of events for new modding system)

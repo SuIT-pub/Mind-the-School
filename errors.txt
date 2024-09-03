@@ -10,20 +10,26 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 67b5f1c (added more functionality for mod framework)
+=======
+>>>>>>> c0b6d96 (extracted images out of events for new modding system)
 =======
 >>>>>>> 03a914a (added subject proficiencies for headmaster)
 =======
 >>>>>>> 0fbf1ce (more fixes and changes to stats)
 =======
 >>>>>>> c844caf (extracted images out of events for new modding system)
+<<<<<<< HEAD
 =======
 >>>>>>> c844caf (extracted images out of events for new modding system)
 =======
 >>>>>>> 00ee58e (rebuilt pta system)
 =======
 >>>>>>> 307d4ab (Added quest system)
+=======
+>>>>>>> c0b6d96 (extracted images out of events for new modding system)
 ﻿I'm sorry, but errors were detected in your script. Please correct the
 errors listed below, and try again.
 
@@ -33,9 +39,23 @@ errors listed below, and try again.
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 File "game/scripts/pta.rpy", line 176: invalid syntax
             pta_vote_theoretical_sex_ed_1_event,
              ^
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+File "game/scripts/modifier.rpy", line 493: expected statement.
+    log_val("modifier key", keys[i])
+                                    ^
+>>>>>>> c0b6d96 (extracted images out of events for new modding system)
 
 Ren'Py Version: Ren'Py 8.1.3.23091805
 <<<<<<< HEAD
@@ -394,14 +414,18 @@ Wed Aug 28 14:26:30 2024
 <<<<<<< HEAD
 >>>>>>> 0308013 (added more functionality for mod framework)
 =======
+<<<<<<< HEAD
 =======
 >>>>>>> c844caf (extracted images out of events for new modding system)
+=======
+>>>>>>> c0b6d96 (extracted images out of events for new modding system)
 File "game/scripts/buildings/office_building.rpy", line 160: invalid syntax
                 thumbnail = "images/events/office/office_session_event_1 Easkey Tanaka 1 # 4.webp"),
                  ^
 
 Ren'Py Version: Ren'Py 8.1.3.23091805
 Fri Aug 30 14:37:12 2024
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> c844caf (extracted images out of events for new modding system)
 =======
@@ -464,3 +488,6 @@ Thu Nov  7 09:24:08 2024
 =======
 >>>>>>> 0308013 (added more functionality for mod framework)
 >>>>>>> 67b5f1c (added more functionality for mod framework)
+=======
+>>>>>>> c844caf (extracted images out of events for new modding system)
+>>>>>>> c0b6d96 (extracted images out of events for new modding system)
