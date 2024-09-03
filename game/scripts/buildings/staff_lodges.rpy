@@ -27,6 +27,7 @@ init 1 python:
         ValueSelector('return_label', 'staff_lodges'),
         NoHighlightOption(),
         TutorialCondition(),
+        Pattern("main", "/images/events/misc/action_tutorial <step>.webp"),
         override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
 
     staff_lodges_general_event.add_event(

@@ -1,5 +1,17 @@
 init -4 python:
     def overwrite_event_image(event_key: str, pattern_key: str, pattern: Pattern):
+        """
+        Overwrites the image pattern of an event.
+
+        ### Parameters:
+        1. event_key: str
+            - The key of the event to overwrite.
+        2. pattern_key: str
+            - The key of the pattern to overwrite.
+        3. pattern: Pattern
+            - The new pattern to use for the event.
+        """
+
         if not is_mod_active(active_mod_key):
             return
 
@@ -12,6 +24,17 @@ init -4 python:
         event.set_pattern(pattern_key, pattern)
 
     def convert_pattern(pattern_key: str, **kwargs) -> Image_Series:
+        """
+        Converts a pattern to an image series.
+
+        ### Parameters:
+        1. pattern_key: str
+            - The key of the pattern to convert.
+        2. **kwargs
+            - The keyword arguments to replace in the image path.
+            - the patterns are also stored in the kwargs under the key 'image_patterns'
+        """
+
         patterns = get_kwargs('image_patterns', {}, **kwargs)
         if pattern_key not in patterns.keys():
             log_error(502, f"Pattern '{pattern_key}' could not be found!")
@@ -19,6 +42,17 @@ init -4 python:
         return Image_Series_Pattern(patterns[pattern_key], **kwargs)
 
     def show_pattern(pattern_key: str, **kwargs):
+        """
+        Shows an image from a pattern.
+
+        ### Parameters:
+        1. pattern_key: str
+            - The key of the pattern to show.
+        2. **kwargs
+            - The keyword arguments to replace in the image path.
+            - the patterns are also stored in the kwargs under the key 'image_patterns'
+        """
+
         patterns = get_kwargs('image_patterns', {}, **kwargs)
         if pattern_key not in patterns.keys():
             log_error(502, f"Pattern '{pattern_key}' could not be found!")
@@ -26,25 +60,103 @@ init -4 python:
         renpy.call('show_image', patterns[pattern_key].get_path(), **kwargs)
 
     class Pattern:
-        def __init__(self, name: str, pattern: str, alternative_keys: List[str] = [], *, key: str = 'base'):
+        """
+        A class to represent an image pattern.
+        This class can be used to store multiple image paths in an event object to enable them to be overwritten by mods.
+
+        ### Attributes:
+        1. _name: str
+            - The name of the pattern.
+        2. _key: str
+            - The key of the pattern.
+        3. _pattern: str
+            - The pattern of the image.
+        4. _alternative_keys: List[str]
+            - A list of all the alternative keys to replace in the image path.
+
+        ### Methods:
+        1. get_name() -> str
+            - Returns the name of the pattern.
+        2. get_key() -> str
+            - Returns the key of the pattern.
+        3. get_pattern() -> str
+            - Returns the pattern of the image.
+        4. get_path() -> str
+            - Returns the path of the pattern.
+        5. get_alternative_keys() -> List[str]
+            - Returns a list of all the alternative keys to replace in the image path.
+
+        ### Parameters:
+        1. name: str
+            - The name of the pattern.
+        2. pattern: str
+            - The pattern of the image.
+        3. alternative_keys: List[str] (default [])
+            - A list of all the alternative keys to replace in the image path.
+        4. key: str (default 'base')
+            - The key of the pattern.
+        """
+
+        def __init__(self, name: str, pattern: str, *alternative_keys: str, key: str = 'base'):
             self._name = name
             self._key = key
             self._pattern = pattern
-            self._alternative_keys = alternative_keys
+            self._alternative_keys = list(alternative_keys)
 
         def get_name(self) -> str:
+            """
+            Returns the name of the pattern.
+
+            ### Returns:
+            1. str
+                - The name of the pattern.
+            """
+
             return self._name
 
         def get_key(self) -> str:
+            """
+            Returns the key of the pattern.
+
+            ### Returns:
+            1. str
+                - The key of the pattern.
+            """
+
             return self._key
 
         def get_pattern(self) -> str:
+            """
+            Returns the pattern of the image.
+
+            ### Returns:
+            1. str
+                - The pattern of the image.
+            """
+
             return self._pattern
 
         def get_path(self) -> str:
+            """
+            Returns the path of the pattern.
+            The path is the path based on the key combined with the pattern.
+
+            ### Returns:
+            1. str
+                - The path of the pattern.
+            """
+
             return get_mod_path(self._key) + self._pattern
 
         def get_alternative_keys(self) -> List[str]:
+            """
+            Returns a list of all the alternative keys to replace in the image path.
+
+            ### Returns:
+            1. List[str]
+                - A list of all the alternative keys to replace in the image path.
+            """
+
             return self._alternative_keys
 
 
@@ -236,6 +348,27 @@ init -2 python:
 
             return variant  
         
+        def show_video(self, step: int, pause = False, variant = -1) -> str:
+            self.update()
+
+            if step < self._step_start or step >= len(self.steps) + self._step_start:
+                log_error(201, f"Step {step} for {self._image_paths[0]} is out of range! (Min: {self._step_start}, Max: {len(self.steps) - 1 + self._step_start}))")
+                renpy.show("black_screen_text", [], None, f"Step {step} is out of range! (Min: {self._step_start}, Max: {len(self.steps) - 1 + self._step_start}))")
+                return -1
+
+            image_step = self.steps[step - self._step_start]
+            if image_step == None:
+                log_error(202, f"Step {step} is missing variants for {self._image_paths[0]}!")
+                renpy.show("black_screen_text", [], None, f"Step {step} is missing variants for {self._image_paths[0]}!")
+                return -1
+
+            (image_path, variant) = image_step.get_image(variant)
+
+            name = "anim_" + image_path.split('/')[-1].split('.')[0].replace(' ', '_')
+
+            renpy.call("show_video_label", name, pause)
+
+            return
     
     class Image_Series_Pattern(Image_Series):
         def __init__(self, pattern: Pattern, **kwargs):
@@ -854,6 +987,15 @@ init -2 python:
             - If the image is available at that path
         """
         return renpy.loadable(image_path)
+
+label show_video_label(name, pause):
+    $ hide_all()
+    scene expression name with dissolveM
+
+    if pause:
+        $ renpy.pause()
+
+    return
 
 label Image_Series:
     $ i = 0

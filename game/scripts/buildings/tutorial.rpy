@@ -333,7 +333,7 @@ label map_tutorial (**kwargs):
 label journal_tutorial (**kwargs):
     $ begin_event(**kwargs)
 
-    $ image = Image_Series("/images/events/misc/journal_tutorial <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     dev "Welcome. You just opened the Journal for the first time."
@@ -459,7 +459,7 @@ label action_tutorial (**kwargs):
 
     $ return_label = get_kwargs('return_label', 'map_overview', **kwargs)
 
-    $ image = Image_Series("/images/events/misc/action_tutorial <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     dev "Hello and welcome to yet another tutorial."
@@ -489,7 +489,6 @@ label action_tutorial (**kwargs):
 
     call expression return_label from _call_expression
 
-
 label sandbox_tutorial (**kwargs):
     $ begin_event(**kwargs)
 
@@ -497,7 +496,7 @@ label sandbox_tutorial (**kwargs):
 
     $ return_label = get_kwargs('return_label', 'map_overview', **kwargs)
 
-    $ image = Image_Series("/images/events/misc/sandbox_tutorial <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     dev "Hey hey. It's me again."

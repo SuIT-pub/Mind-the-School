@@ -1956,6 +1956,7 @@ init 1 python:
     sandbox_tutorial_event = Event(1, 'sandbox_tutorial',
         ValueSelector('return_label', 'start_sandbox.after_check'),
         TutorialCondition(),
+        Pattern("main", "/images/events/misc/sandbox_tutorial <step>.webp"),
         thumbnail = "images/events/misc/sandbox_tutorial 0.webp")
 
     sandbox_check_events.add_event(sandbox_tutorial_event)

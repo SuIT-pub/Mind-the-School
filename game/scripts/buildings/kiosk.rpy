@@ -25,6 +25,7 @@ init 1 python:
     first_week_kiosk_event_event = Event(1, "first_week_kiosk_event",
         IntroCondition(),
         TimeCondition(day = "2-4", month = 1, year = 2023),
+        Pattern("main", "images/events/first week/first week kiosk <step>.webp"),
         thumbnail = "images/events/first week/first week kiosk 1.webp")
 
     kiosk_event1 = Event(3, "kiosk_event_1",
@@ -32,13 +33,17 @@ init 1 python:
         RandomValueSelector("variant", 1, 2),
         RandomListSelector("girl_name", "Aona Komuro", "Ikushi Ito", "Gloria Goto", "Lin Kato"),
         OR(TimeCondition(weekday = "d", daytime = "1,3"), TimeCondition(weekday="w", daytime = "4-")),
+        Pattern("main", "images/events/kiosk/kiosk_event_1 <girl_name> <school_level> <variant>.webp"),
         thumbnail = "images/events/kiosk/kiosk_event_1 Aona Komuro 1 1.webp")
 
-    kiosk_event2 = Event(3, "kiosk_event_2",
-        LevelSelector('school_level', 'school'),
-        RandomListSelector("girl_name", "Hatano Miwa", "Kokoro Nakamura", "Soyoon Yamamoto"),
-        OR(TimeCondition(weekday = "d", daytime = "f"), TimeCondition(weekday="w", daytime = "d")),
-        thumbnail = "images/events/kiosk/kiosk_event_2 Hatano Miwa 1 0.webp")
+    kiosk_events["get_snack"].add_event( 
+        Event(3, "kiosk_event_2",
+            LevelSelector('school_level', 'school'),
+            RandomListSelector("girl_name", "Hatano Miwa", "Kokoro Nakamura", "Soyoon Yamamoto"),
+            OR(TimeCondition(weekday = "d", daytime = "f"), TimeCondition(weekday="w", daytime = "d")),
+            Pattern("main", "images/events/kiosk/kiosk_event_2 <girl_name> <school_level> <step>.webp"),
+            thumbnail = "images/events/kiosk/kiosk_event_2 Hatano Miwa 1 0.webp")
+    )
 
     kiosk_event3 = Event(3, "kiosk_event_3",
         LevelSelector('school_level', 'school'),
@@ -46,6 +51,7 @@ init 1 python:
         OR(TimeCondition(weekday = "d", daytime = "f"), TimeCondition(weekday="w", daytime = "d")),
         NOT(BuildingCondition("cafeteria")),
         RandomCondition(65, 100),
+        Pattern("main", "images/events/kiosk/kiosk_event_3 <school_level> <step>.webp"),
         thumbnail = "images/events/kiosk/kiosk_event_3 1 0.webp")
 
     kiosk_action_tutorial_event = Event(2, "action_tutorial",
@@ -53,6 +59,7 @@ init 1 python:
         ValueSelector('return_label', 'kiosk'),
         NoHighlightOption(),
         TutorialCondition(),
+        Pattern("main", "/images/events/misc/action_tutorial <step>.webp"),
         override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
 
     kiosk_general_event.add_event(
@@ -99,21 +106,23 @@ label .after_general_check (**kwargs):
 label first_week_kiosk_event (**kwargs):
     $ begin_event(**kwargs)
 
-    scene first week kiosk 1 with dissolveM
+    $ image = convert_pattern("main", step_start = 1, **kwargs)
+
+    $ image.show(1)
     headmaster_thought "Now, somewhere here should be the kiosk..."
-    scene first week kiosk 2 with dissolveM
+    $ image.show(2)
     headmaster_thought "Hmm, why is it so crowded?"
 
-    scene first week kiosk 3 with dissolveM
+    $ image.show(3)
     headmaster "Excuse me, did something happen? Why is it so crowded here?"
     
-    scene first week kiosk 4 with dissolveM
+    $ image.show(4)
     sgirl "What do you mean? It's always this full. We can't get food anywhere else than here." (name = "Lin Kato")
     
-    scene first week kiosk 3 with dissolveM
+    $ image.show(3)
     headmaster "Oh I understand... Thanks."
 
-    scene first week kiosk 5 with dissolveM
+    $ image.show(5)
     headmaster_thought "This is not acceptable. Did the former headmaster really close the kiosk?"
     headmaster_thought "That can't be right..."
 
@@ -131,7 +140,7 @@ label kiosk_event_1 (**kwargs):
     $ girl_name = get_value("girl_name", **kwargs)
 
 
-    call show_image("images/events/kiosk/kiosk_event_1 <girl_name> <school_level> <variant>.webp", **kwargs) from _call_show_image_1
+    $ show_pattern("main", **kwargs)
     subtitles "For some, coffee is the only way to save the day."
 
     call change_stats_with_modifier('school',
@@ -142,11 +151,10 @@ label kiosk_event_1 (**kwargs):
 label kiosk_event_2 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ school_level = get_value('school_level', **kwargs)
+    $ get_value('school_level', **kwargs)
     $ girl_name = get_value("girl_name", **kwargs)
 
-    $ image = Image_Series("images/events/kiosk/kiosk_event_2 <girl_name> <school_level> <step>.webp", **kwargs)
-
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     sgirl "*AHHH*" (name = girl_name)
@@ -166,7 +174,7 @@ label kiosk_event_3 (**kwargs):
     $ school_level = get_value('school_level', **kwargs)
     $ topic = get_value("topic", **kwargs)
 
-    $ image = Image_Series("images/events/kiosk/kiosk_event_3 <school_level> <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     sgirl "Hi, I want a Bento!" (name = "Miwa Igarashi")
