@@ -25,10 +25,12 @@ init 1 python:
     first_week_epilogue_event = Event(1, "first_week_epilogue", 
         IntroCondition(),
         TimeCondition(day = 5, month = 1, year = 2023, daytime = 2),
+        Pattern("main", "images/events/first week/first week epilogue <step>.webp"),
         thumbnail = "images/events/first week/first week epilogue 8.webp")
 
     first_week_epilogue_final_event = Event(1, "first_week_epilogue_final", 
         TimeCondition(day = 10, month = 1, year = 2023, daytime = 1),
+        Pattern("main", "/images/events/first week/first week epilogue final <step>.webp"),
         thumbnail = "images/events/first week/first week epilogue final 3.webp")
 
     first_pta_meeting_event = Event(1, "first_pta_meeting", 
@@ -73,6 +75,7 @@ init 1 python:
     aona_sports_bra_event_1_event = Event(1, "aona_sports_bra_event_1", 
         ProgressCondition("aona_sports_bra", 1),
         TimeCondition(daytime = 6),
+        Pattern("main", "images/events/misc/aona_sports_bra_event_1 <secretary_level> <step>.webp", 'secretary_level'),
         thumbnail = "images/events/misc/aona_sports_bra_event_1 # 23.webp")
 
     check_prof_event = Event(2, "check_missing_proficiencies",
@@ -80,8 +83,7 @@ init 1 python:
         NOT(OR(
             ProficiencyCondition('math'), 
             ProficiencyCondition('history')
-        ))
-    )
+        )))
 
     map_tutorial_event = Event(2, "map_tutorial", 
         NOT(ProgressCondition("map_tutorial")), 
@@ -112,37 +114,6 @@ init 1 python:
 
     #############################################
     # DEBUG TEST EVENTS
-
-    frag1 = FragmentStorage("TestFragStorage1")
-    frag2 = FragmentStorage("TestFragStorage2")
-    frag3 = FragmentStorage("TestFragStorage3")
-    frag4 = FragmentStorage("TestFragStorage4")
-
-    frag1.add_event(EventFragment(3, "test_event_frag_1",
-        RandomListSelector("1_test", "1-1", "1-2", "1-3", "1-4", "1-5", "1-6", "1-7", "1-8", "1-9", "1-10"),
-        RandomListSelector("1_test2", "1-1", "1-2", "1-3", "1-4", "1-5", "1-6", "1-7", "1-8", "1-9", "1-10")))
-    frag1.add_event(EventFragment(3, "test_event_frag_1_1",
-        RandomListSelector("1_1_test", "1.1-1", "1.1-2", "1.1-3", "1.1-4", "1.1-5", "1.1-6", "1.1-7", "1.1-8", "1.1-9", "1.1-10"),
-        RandomListSelector("1_1_test2", "1.1-1", "1.1-2", "1.1-3", "1.1-4", "1.1-5", "1.1-6", "1.1-7", "1.1-8", "1.1-9", "1.1-10")))
-    frag2.add_event(EventFragment(3, "test_event_frag_2",
-        RandomListSelector("2_test", "2-1", "2-2", "2-3", "2-4", "2-5", "2-6", "2-7", "2-8", "2-9", "2-10"),
-        RandomListSelector("2_test2", "2-1", "2-2", "2-3", "2-4", "2-5", "2-6", "2-7", "2-8", "2-9", "2-10")))
-    frag2.add_event(EventFragment(3, "test_event_frag_2_1",
-        RandomListSelector("2_1_test", "2.1-1", "2.1-2", "2.1-3", "2.1-4", "2.1-5", "2.1-6", "2.1-7", "2.1-8", "2.1-9", "2.1-10"),
-        RandomListSelector("2_1_test2", "2.1-1", "2.1-2", "2.1-3", "2.1-4", "2.1-5", "2.1-6", "2.1-7", "2.1-8", "2.1-9", "2.1-10")))
-    frag3.add_event(EventFragment(3, "test_event_frag_3",
-        RandomListSelector("3_test", "3-1", "3-2", "3-3", "3-4", "3-5", "3-6", "3-7", "3-8", "3-9", "3-10"),
-        RandomListSelector("3_test2", "3-1", "3-2", "3-3", "3-4", "3-5", "3-6", "3-7", "3-8", "3-9", "3-10")))
-    frag3.add_event(EventFragment(3, "test_event_frag_3_1",
-        RandomListSelector("3_1_test", "3.1-1", "3.1-2", "3.1-3", "3.1-4", "3.1-5", "3.1-6", "3.1-7", "3.1-8", "3.1-9", "3.1-10"),
-        RandomListSelector("3_1_test2", "3.1-1", "3.1-2", "3.1-3", "3.1-4", "3.1-5", "3.1-6", "3.1-7", "3.1-8", "3.1-9", "3.1-10")))
-    frag4.add_event(EventFragment(3, "test_event_frag_4",
-        RandomListSelector("4_test", "4-1", "4-2", "4-3", "4-4", "4-5", "4-6", "4-7", "4-8", "4-9", "4-10"),
-        RandomListSelector("4_test2", "4-1", "4-2", "4-3", "4-4", "4-5", "4-6", "4-7", "4-8", "4-9", "4-10")))
-
-    test_event = EventComposite(0, "test_normal_test_event", [frag1, frag2, frag4],
-        RandomListSelector("test", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J"),
-        RandomListSelector("test2", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J"))
     #############################################
 
 label time_event_check ():
@@ -280,7 +251,7 @@ label first_week_epilogue (**kwargs):
 
     $ hide_all()
 
-    $ image = Image_Series("images/events/first week/first week epilogue <step>.webp")
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     secretary "That was a good first meeting Mr. [headmaster_last_name]. "
@@ -559,7 +530,7 @@ label first_week_epilogue_final (**kwargs):
     $ headmaster_first_name = get_name_first('headmaster')
     $ headmaster_last_name = get_name_last('headmaster')
 
-    $ image = Image_Series("/images/events/first week/first week epilogue final <step>.webp", step_start = 1, **kwargs)
+    $ image = convert_pattern("main", step_start = 1, **kwargs)
 
     hide screen black_screen_text
 
@@ -680,7 +651,7 @@ label aona_sports_bra_event_1 (**kwargs):
 
     $ inhibition = get_stat_value('inhibition', [90, 95, 100], **kwargs)
 
-    $ image = Image_Series("images/events/misc/aona_sports_bra_event_1 <secretary_level> <step>.webp", ['secretary_level'], **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     $ store_clerk = Character("Store Clerk", kind = character.vendor)
 
