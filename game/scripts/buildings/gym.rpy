@@ -29,11 +29,13 @@ init 1 python:
     first_week_gym_event_event = Event(1, "first_week_gym_event",
         IntroCondition(),
         TimeCondition(day = "2-4", month = 1, year = 2023),
+        Pattern("main", "images/events/first week/first week gym <step>.webp"),
         thumbnail = "images/events/first week/first week gym 1.webp")
 
     first_potion_gym_event_event = Event(1, "first_potion_gym_event",
         IntroCondition(),
         TimeCondition(day = 9, month = 1, year = 2023),
+        Pattern("main", "images/events/first potion/first potion gym <step>.webp"),
         thumbnail = "images/events/first potion/first potion gym 1.webp")
 
     gym_event1 = Event(3, "gym_event_1",
@@ -46,6 +48,7 @@ init 1 python:
             "ready": "getting ready",
         }),
         TimeCondition(daytime = "c", weekday = "d"),
+        Pattern("main", "/images/events/gym/gym_event_1 <school_level> <topic> <step>.webp"),
         thumbnail = "images/events/gym/gym_event_1 1 hair 0.webp")
     
     gym_event2 = Event(3, "gym_event_2",
@@ -53,6 +56,7 @@ init 1 python:
         StatSelector("inhibition", INHIBITION, "school"),
         RandomListSelector("topic", (0.75, "clothe"), "breasts", (0.15, "asses")),
         TimeCondition(daytime = "c", weekday = "d"),
+        Pattern("main", "/images/events/gym/gym_event_2 <school_level> <topic> <step>.webp"),
         thumbnail = "images/events/gym/gym_event_2 1 clothe 0.webp")
 
     gym_event3 = Event(3, "gym_event_3",
@@ -62,6 +66,7 @@ init 1 python:
             1: "Kokoro Nakamura",
         }),
         TimeCondition(daytime = "c", weekday = "d"),
+        Pattern("main", "/images/events/gym/gym_event_3 <school_level> <variant> <step>.webp"),
         thumbnail = "images/events/gym/gym_event_3 1 1 0.webp")    
 
     gym_action_tutorial_event = Event(2, "action_tutorial",
@@ -69,41 +74,46 @@ init 1 python:
         ValueSelector('return_label', 'gym'),
         NoHighlightOption(),
         TutorialCondition(),
+        Pattern("main", "/images/events/misc/action_tutorial <step>.webp"),
         override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
 
     gym_teach_pe_intro_storage = FragmentStorage("gym_teach_pe_intro")
     gym_teach_pe_intro_storage.add_event(
         EventFragment(3, "gym_teach_pe_intro_1",
+            Pattern("main", "/images/events/gym/gym_teach_pe_intro_1 <school_level> <step>.webp"),
             thumbnail = "images/events/gym/gym_teach_pe_intro_1 1 7.webp"),
         EventFragment(1, "gym_teach_pe_intro_aona_bra",
             ProgressCondition("aona_sports_bra", 2),
-            GameDataSelector("skimpy_bra", "aona_skimpy_sports_bra")),
+            GameDataSelector("skimpy_bra", "aona_skimpy_sports_bra"),
+            Pattern("main", "/images/events/gym/gym_teach_pe_intro_aona_bra <skimpy> <step>.webp", 'skimpy')),
     )
 
     gym_teach_pe_warm_up_storage = FragmentStorage("gym_teach_pe_warm_up")
     gym_teach_pe_warm_up_storage.add_event(
         EventFragment(3, "gym_teach_pe_warm_up_1",
-        thumbnail = "images/events/gym/gym_teach_pe_warm_up_1 1 2.webp"),
+            Pattern("main", "/images/events/gym/gym_teach_pe_warm_up_1 <school_level> <step>.webp"),
+            thumbnail = "images/events/gym/gym_teach_pe_warm_up_1 1 2.webp"),
     )
 
     gym_teach_pe_main_storage = FragmentStorage("gym_teach_pe_main")
     gym_teach_pe_main_storage.add_event(
         EventFragment(3, "gym_teach_pe_main_1",
+            Pattern("main", "/images/events/gym/gym_teach_pe_main_1 <school_level> <step>.webp"),
             thumbnail = "images/events/gym/gym_teach_pe_main_1 1 9.webp"),
         EventFragment(3, "gym_teach_pe_main_aona_bra",
             NOT(ProgressCondition("aona_sports_bra")),
-            MoneyCondition("200+")
-        ),
+            MoneyCondition("200+"),
+            Pattern("main", "/images/events/gym/gym_teach_pe_main_aona_bra <step>.webp")),
         EventFragment(1, "gym_teach_pe_main_aona_bra_2",
             ProgressCondition("aona_sports_bra", 2),
-            GameDataSelector("skimpy_bra", "aona_skimpy_sports_bra")
-        ),
+            GameDataSelector("skimpy_bra", "aona_skimpy_sports_bra"),
+            Pattern("main", "/images/events/gym/gym_teach_pe_main_aona_bra_2 <step>.webp")),
     )
 
     gym_teach_pe_end_storage = FragmentStorage("gym_teach_pe_end")
     gym_teach_pe_end_storage.add_event(
         EventFragment(3, "gym_teach_pe_end_1",
-        thumbnail = "images/events/gym/gym_teach_pe_main_1 1 14.webp"),
+            thumbnail = "images/events/gym/gym_teach_pe_main_1 1 14.webp"),
     )
 
     gym_teach_pe_event = EventComposite(3, 'gym_teach_pe', 
@@ -169,35 +179,37 @@ label .after_general_check (**kwargs):
 label first_potion_gym_event (**kwargs):
     $ begin_event(**kwargs)
     
-    scene first potion gym 1 with dissolveM
+    $ image = convert_pattern("main", step_start = 1, **kwargs)
+
+    $ image.show(1)
     subtitles "You enter the Gym and see a group of students and teacher in a yoga session."
 
-    scene first potion gym 2 with dissolveM
+    $ image.show(2)
     headmaster_thought "Oh that is a sport session I can get behind!"
 
-    scene first potion gym 3 with dissolveM
+    $ image.show(3)
     headmaster_thought "Mhh, yes very flexible!"
 
-    scene first potion gym 4 with dissolveM
+    $ image.show(4)
     headmaster_thought "Oh they seem to really get into it!"
 
     $ set_building_blocked("gym")
 
     $ end_event('new_daytime', **kwargs)
 
-
 # first week event
 label first_week_gym_event (**kwargs):
-    
     $ begin_event(**kwargs)
+
+    $ image = convert_pattern("main", step_start = 1, **kwargs)
     
-    scene first week gym 1 with dissolveM
+    $ image.show(1)
     headmaster_thought "Okay, now the Gym. I have been here shortly for my introduction speech but I haven't had the chance to get a thorough look."
 
-    scene first week gym 2 with dissolveM
+    $ image.show(2)
     headmaster_thought "Mhh, doesn't look to shabby..."
     
-    scene first week gym 3 with dissolveM
+    $ image.show(3)
     headmaster_thought "Seems to be decently stocked."
     headmaster_thought "The material is well maintained. I guess it's alright."
 
@@ -225,7 +237,7 @@ label gym_teach_pe (**kwargs):
 label gym_teach_pe_intro_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ image = Image_Series("/images/events/gym/gym_teach_pe_intro_1 <school_level> <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     call Image_Series.show_image(image, 0, 1, 2, 3, 4, 5, 6, 7, 8, pause = True) from image_gym_teach_pe_intro_1_1
 
@@ -237,7 +249,7 @@ label gym_teach_pe_intro_aona_bra (**kwargs):
     $ bra = get_value('skimpy_bra', **kwargs)
     $ skimpy = bra != 0
 
-    $ image = Image_Series("/images/events/gym/gym_teach_pe_intro_aona_bra <skimpy> <step>.webp", ['skimpy'], skimpy = skimpy, **kwargs)
+    $ image = convert_pattern("main", skimpy = skimpy, **kwargs)
 
     $ miwa = Character("Miwa Igarashi", kind = character.sgirl)
     $ aona = Character("Aona Komuro", kind = character.sgirl)
@@ -312,14 +324,13 @@ label gym_teach_pe_intro_aona_bra (**kwargs):
     $ end_event('map_overview', **kwargs)
 
 
-image anim_gym_teach_pe_warm_up_1_1 = Movie(play ="images/events/gym/gym_teach_pe_warm_up_1 1 1.webm", start_image = "images/events/gym/gym_teach_pe_warm_up_1 1 1.webp", loop = True)
-image anim_gym_teach_pe_warm_up_1_2 = Movie(play ="images/events/gym/gym_teach_pe_warm_up_1 1 2.webm", start_image = "images/events/gym/gym_teach_pe_warm_up_1 1 2.webp", loop = True)
-image anim_gym_teach_pe_warm_up_1_3 = Movie(play ="images/events/gym/gym_teach_pe_warm_up_1 1 3.webm", start_image = "images/events/gym/gym_teach_pe_warm_up_1 1 3.webp", loop = True)
-
+image anim_gym_teach_pe_warm_up_1_1_1 = Movie(play ="images/events/gym/gym_teach_pe_warm_up_1 1 1.webm", start_image = "images/events/gym/gym_teach_pe_warm_up_1 1 1.webp", loop = True)
+image anim_gym_teach_pe_warm_up_1_1_2 = Movie(play ="images/events/gym/gym_teach_pe_warm_up_1 1 2.webm", start_image = "images/events/gym/gym_teach_pe_warm_up_1 1 2.webp", loop = True)
+image anim_gym_teach_pe_warm_up_1_1_3 = Movie(play ="images/events/gym/gym_teach_pe_warm_up_1 1 3.webm", start_image = "images/events/gym/gym_teach_pe_warm_up_1 1 3.webp", loop = True)
 label gym_teach_pe_warm_up_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ image = Image_Series("/images/events/gym/gym_teach_pe_warm_up_1 <school_level> <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     headmaster "Alright, let's get started with the P.E. class."
@@ -327,12 +338,9 @@ label gym_teach_pe_warm_up_1 (**kwargs):
     headmaster "First we start with a few warm up exercises and stretching."
     headmaster "Okay now all follow my lead."
     
-    scene anim_gym_teach_pe_warm_up_1_1 with dissolveM
-    pause
-    scene anim_gym_teach_pe_warm_up_1_2 with dissolveM
-    pause
-    scene anim_gym_teach_pe_warm_up_1_3 with dissolveM
-    pause
+    $ image.show_video(1, True)
+    $ image.show_video(2, True)
+    $ image.show_video(3, True)
     
     $ image.show(4)
     headmaster "Alright, that's enough."
@@ -345,7 +353,7 @@ label gym_teach_pe_warm_up_1 (**kwargs):
 label gym_teach_pe_main_1 (**kwargs): # Football
     $ begin_event(**kwargs)
 
-    $ image = Image_Series("/images/events/gym/gym_teach_pe_main_1 <school_level> <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
     
     $ image.show(0)
     headmaster "Alright, that's enough. Now let's play some football. I will be the referee."
@@ -418,7 +426,7 @@ label gym_teach_pe_main_2 (**kwargs): # Yoga
 label gym_teach_pe_main_aona_bra (**kwargs): # Running
     $ begin_event(**kwargs)
 
-    $ image = Image_Series("/images/events/gym/gym_teach_pe_main_aona_bra <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     headmaster "Alright, today we will do some running."
@@ -493,7 +501,7 @@ label gym_teach_pe_main_aona_bra_2 (**kwargs):
 
     $ bra = get_value('skimpy_bra', **kwargs)
 
-    $ image = Image_Series("/images/events/gym/gym_teach_pe_main_aona_bra_2 <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     headmaster "Alright, today we will do some running."
@@ -559,7 +567,7 @@ label gym_event_1 (**kwargs):
     $ topic_variant = get_value("topic", **kwargs)
     $ topic = get_value("topic_text", **kwargs)
 
-    $ image = Image_Series("/images/events/gym/gym_event_1 <school_level> <topic> <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     subtitles "In the Gym, you see a girl getting ready for P.E."
@@ -618,7 +626,7 @@ label gym_event_2 (**kwargs):
     $ inhibition = get_stat_value("inhibition", [100], **kwargs)
     $ topic = get_value("topic", **kwargs)
 
-    $ image = Image_Series("/images/events/gym/gym_event_2 <school_level> <topic> <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     if topic == "breasts":
@@ -691,8 +699,7 @@ label gym_event_3 (**kwargs):
     $ girl_name = girl.split(" ")[0]
     $ girl_full_name = girl
 
-    $ image = Image_Series("/images/events/gym/gym_event_3 <school_level> <variant> <step>.webp", **kwargs)
-
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     headmaster "Sorry but that top doesn't conform to the uniform policy."

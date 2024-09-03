@@ -48,18 +48,21 @@ init 1 python:
         Event(1, "first_week_office_building_event",
             IntroCondition(),
             TimeCondition(day = "2-4", month = 1, year = 2023),
+            Pattern("main", "images/events/first week/first week office building <step>.webp"),
             thumbnail = "images/events/first week/first week office building 1.webp"),
         
         Event(1, "first_potion_office_building_event",
             IntroCondition(),
             TimeCondition(day = 9, month = 1, year = 2023),
+            Pattern("main", "images/events/first potion/first potion office <step>.webp"),
             thumbnail = "images/events/first potion/first potion office 1.webp"),
 
         Event(2, "action_tutorial",
             NOT(ProgressCondition('action_tutorial')),
             ValueSelector('return_label', 'office_building'),
             NoHighlightOption(),
-        TutorialCondition(),
+            TutorialCondition(),
+            Pattern("main", "/images/events/misc/action_tutorial <step>.webp"),
             override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
     )
 
@@ -70,6 +73,7 @@ init 1 python:
             TimeCondition(weekday = "d", daytime = "f"),
             LevelSelector('school_level', 'school'),
             LevelSelector('teacher_level', 'teacher'),
+            Pattern("main", "images/events/office/office_event_1 <school_level> <step>.webp"),
             thumbnail = "images/events/office/office_event_1 1 0.webp"),
 
         Event(3, "office_event_2",
@@ -77,6 +81,7 @@ init 1 python:
             TimeCondition(weekday = "d", daytime = "f"),
             LevelSelector('teacher_level', 'teacher'),
             LevelSelector('school_level', 'school'),
+            Pattern("main", "images/events/office/office_event_2 <teacher_level> <teacher>.webp"),
             thumbnail = "images/events/office/office_event_2 1 Finola Ryan.webp"),
 
         Event(3, "office_event_3",
@@ -84,6 +89,7 @@ init 1 python:
             NOT(RuleCondition("student_student_relation")),
             LevelSelector('school_level', 'school'),
             LevelSelector('teacher_level', 'teacher'),
+            Pattern("main", "images/events/office/office_event_3 <school_level> <step>.webp"),
             thumbnail = "images/events/office/office_event_3 1 0.webp"),
     )
 
@@ -94,6 +100,7 @@ init 1 python:
     office_building_call_secretary_events["naughty_sandbox"].add_event(
         Event(3, "office_call_secretary_naughty_sandbox",
             ProgressCondition("work_office_session_naughty"),
+            Pattern("main", "images/events/office/office_call_secretary_naughty_sandbox <secretary> <step>.webp", 'secretary'),
             thumbnail = "images/events/office/office_call_secretary_naughty_sandbox 6 3.webp")
     )
     
@@ -106,8 +113,7 @@ init 1 python:
 
     office_work_office_event_event = EventSelect(3, "work_office_event", "What do you want to work on?", office_building_work_event,
         TimeCondition(weekday = "d", daytime = "d"),
-        override_menu_exit = 'office_building',
-    )
+        override_menu_exit = 'office_building')
 
     office_building_events["work"].add_event(
         office_work_office_event_event,
@@ -123,24 +129,26 @@ init 1 python:
     office_building_events["learn"].add_event(EventSelect(3, "learn_subject_event", "What subject do you wanna learn?", office_building_subject_learn_events,
         TimeCondition(daytime = 1),
         MoneyCondition("500+"),
-        override_menu_exit = 'office_building',
-    ))
+        override_menu_exit = 'office_building'))
 
     office_building_work_event["money"].add_event(
         Event(3, "work_office_money_event_1",
             TimeCondition(weekday = "d", daytime = "d"),
+            Pattern("main", 'images/events/office/office_money_event_1 <step>.webp'),
             thumbnail = "images/events/office/office_money_event_1 1.webp"),
     )
 
     office_building_work_event["education"].add_event(
         Event(3, "work_office_education_event_1",
             TimeCondition(weekday = "d", daytime = "d"),
+            Pattern("main", "images/events/office/office_education_event_1 <step>.webp"),
             thumbnail = "images/events/office/office_education_event_1 0.webp"),
     )
 
     office_building_work_event["reputation"].add_event(
         Event(3, "work_office_reputation_event_1",
             TimeCondition(weekday = "d", daytime = "d"),
+            Pattern("main", "images/events/office/office_reputation_event_1 <step>.webp"),
             thumbnail = "images/events/office/office_reputation_event_1 1.webp"),
     )
 
@@ -148,6 +156,7 @@ init 1 python:
         Event(3, "work_office_session_event_1",
             TimeCondition(weekday = "d", daytime = "d"),
             RandomListSelector("girl_name", "Yuriko Oshima", "Elsie Johnson", "Easkey Tanaka"),
+            Pattern("main", "images/events/office/office_session_event_1 <girl_name> <school_level> <secretary_level> <step>.webp", 'girl_name', 'school_level', 'secretary_level'),
             thumbnail = "images/events/office/office_session_event_1 Easkey Tanaka 1 # 4.webp"),
         Event(3, "work_office_session_event_first_naughty",
             TimeCondition(weekday = "d", daytime = "d"),
@@ -155,8 +164,8 @@ init 1 python:
             LevelSelector('secretary_level', 'secretary'),
             ProgressCondition("counselling sessions", "3+"),
             NOT(ProgressCondition("work_office_session_naughty")),
-            thumbnail = "images/events/office/office_event_first_naughty 0 62.webp"
-        )
+            Pattern("main", "images/events/office/office_event_first_naughty 0 <step>.webp"),
+            thumbnail = "images/events/office/office_event_first_naughty 0 62.webp")
     )
 
 
@@ -192,10 +201,12 @@ label .after_general_check (**kwargs):
 label first_potion_office_building_event (**kwargs):
     $ begin_event(**kwargs)
     
-    scene first potion office 1 with dissolveM
+    $ image = convert_pattern("main", step_start = 1, **kwargs)
+
+    $ image.show(1)
     subtitles "You enter the teachers office."
     headmaster_thought "Ahh the teacher seem to be eating at the kiosk as well."
-    scene first potion office 2 with dissolveM
+    $ image.show(2)
     headmaster_thought "Not that I have a problem with it. Quite the opposite. That makes some things a bit easier."
 
     $ set_building_blocked("office_building")
@@ -206,7 +217,7 @@ label first_potion_office_building_event (**kwargs):
 label first_week_office_building_event (**kwargs):
     $ begin_event(**kwargs)
     
-    scene first week office building 1 with dissolveM
+    $ show_pattern("main", step_start = 1, **kwargs)
     subtitles "Mhh. The office is nothing special but at least not really run down."
     subtitles "I can work with that."
 
@@ -221,7 +232,7 @@ label first_week_office_building_event (**kwargs):
 label work_office_reputation_event_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ image = Image_Series("images/events/office/office_reputation_event_1 <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     subtitles "You decided to to some PR work, trying to improve the schools and your reputation."
@@ -238,7 +249,7 @@ label work_office_reputation_event_1 (**kwargs):
 label work_office_money_event_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ image = Image_Series('images/events/office/office_money_event_1 <step>.webp', **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     subtitles "You work on checking the accounts of the school."
@@ -258,7 +269,7 @@ label work_office_money_event_1 (**kwargs):
 label work_office_education_event_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ image = Image_Series("images/events/office/office_education_event_1 <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     subtitles "You work on optimizing the teaching material for the students."
@@ -304,27 +315,27 @@ label learn_office_event_1 (**kwargs):
     $ end_event('new_day', **kwargs)
 
 # First naughty
-image anim_work_office_session_event_first_naughty_1  = Movie(play ="images/events/office/office_event_first_naughty 0 16.webm", start_image = "images/events/office/office_event_first_naughty 0 16.webp", image = "images/events/office/office_event_first_naughty 0 16.webp")
-image anim_work_office_session_event_first_naughty_2  = Movie(play ="images/events/office/office_event_first_naughty 0 17.webm", start_image = "images/events/office/office_event_first_naughty 0 17.webp", image = "images/events/office/office_event_first_naughty 0 17.webp")
-image anim_work_office_session_event_first_naughty_3  = Movie(play ="images/events/office/office_event_first_naughty 0 18.webm", start_image = "images/events/office/office_event_first_naughty 0 18.webp", image = "images/events/office/office_event_first_naughty 0 18.webp")
-image anim_work_office_session_event_first_naughty_4  = Movie(play ="images/events/office/office_event_first_naughty 0 21.webm", start_image = "images/events/office/office_event_first_naughty 0 21.webp", image = "images/events/office/office_event_first_naughty 0 21.webp")
-image anim_work_office_session_event_first_naughty_64 = Movie(play ="images/events/office/office_event_first_naughty 0 64.webm", start_image = "images/events/office/office_event_first_naughty 0 64.webp", image = "images/events/office/office_event_first_naughty 0 64.webp")
-image anim_work_office_session_event_first_naughty_65 = Movie(play ="images/events/office/office_event_first_naughty 0 65.webm", start_image = "images/events/office/office_event_first_naughty 0 65.webp", image = "images/events/office/office_event_first_naughty 0 65.webp")
-image anim_work_office_session_event_first_naughty_66 = Movie(play ="images/events/office/office_event_first_naughty 0 66.webm", start_image = "images/events/office/office_event_first_naughty 0 66.webp", image = "images/events/office/office_event_first_naughty 0 66.webp")
-image anim_work_office_session_event_first_naughty_67 = Movie(play ="images/events/office/office_event_first_naughty 0 67.webm", start_image = "images/events/office/office_event_first_naughty 0 67.webp", image = "images/events/office/office_event_first_naughty 0 67.webp")
-image anim_work_office_session_event_first_naughty_68 = Movie(play ="images/events/office/office_event_first_naughty 0 68.webm", start_image = "images/events/office/office_event_first_naughty 0 68.webp", image = "images/events/office/office_event_first_naughty 0 68.webp")
-image anim_work_office_session_event_first_naughty_69 = Movie(play ="images/events/office/office_event_first_naughty 0 69.webm", start_image = "images/events/office/office_event_first_naughty 0 69.webp", image = "images/events/office/office_event_first_naughty 0 69.webp")
-image anim_work_office_session_event_first_naughty_72 = Movie(play ="images/events/office/office_event_first_naughty 0 72.webm", start_image = "images/events/office/office_event_first_naughty 0 72.webp", image = "images/events/office/office_event_first_naughty 0 72.webp")
-image anim_work_office_session_event_first_naughty_73 = Movie(play ="images/events/office/office_event_first_naughty 0 73.webm", start_image = "images/events/office/office_event_first_naughty 0 73.webp", image = "images/events/office/office_event_first_naughty 0 73.webp")
-image anim_work_office_session_event_first_naughty_74 = Movie(play ="images/events/office/office_event_first_naughty 0 74.webm", start_image = "images/events/office/office_event_first_naughty 0 74.webp", image = "images/events/office/office_event_first_naughty 0 74.webp")
-image anim_work_office_session_event_first_naughty_75 = Movie(play ="images/events/office/office_event_first_naughty 0 75.webm", start_image = "images/events/office/office_event_first_naughty 0 75.webp", image = "images/events/office/office_event_first_naughty 0 75.webp")
+image anim_office_event_first_naughty_0_16 = Movie(play ="images/events/office/office_event_first_naughty 0 16.webm", start_image = "images/events/office/office_event_first_naughty 0 16.webp", image = "images/events/office/office_event_first_naughty 0 16.webp")
+image anim_office_event_first_naughty_0_17 = Movie(play ="images/events/office/office_event_first_naughty 0 17.webm", start_image = "images/events/office/office_event_first_naughty 0 17.webp", image = "images/events/office/office_event_first_naughty 0 17.webp")
+image anim_office_event_first_naughty_0_18 = Movie(play ="images/events/office/office_event_first_naughty 0 18.webm", start_image = "images/events/office/office_event_first_naughty 0 18.webp", image = "images/events/office/office_event_first_naughty 0 18.webp")
+image anim_office_event_first_naughty_0_21 = Movie(play ="images/events/office/office_event_first_naughty 0 21.webm", start_image = "images/events/office/office_event_first_naughty 0 21.webp", image = "images/events/office/office_event_first_naughty 0 21.webp")
+image anim_office_event_first_naughty_0_64 = Movie(play ="images/events/office/office_event_first_naughty 0 64.webm", start_image = "images/events/office/office_event_first_naughty 0 64.webp", image = "images/events/office/office_event_first_naughty 0 64.webp")
+image anim_office_event_first_naughty_0_65 = Movie(play ="images/events/office/office_event_first_naughty 0 65.webm", start_image = "images/events/office/office_event_first_naughty 0 65.webp", image = "images/events/office/office_event_first_naughty 0 65.webp")
+image anim_office_event_first_naughty_0_66 = Movie(play ="images/events/office/office_event_first_naughty 0 66.webm", start_image = "images/events/office/office_event_first_naughty 0 66.webp", image = "images/events/office/office_event_first_naughty 0 66.webp")
+image anim_office_event_first_naughty_0_67 = Movie(play ="images/events/office/office_event_first_naughty 0 67.webm", start_image = "images/events/office/office_event_first_naughty 0 67.webp", image = "images/events/office/office_event_first_naughty 0 67.webp")
+image anim_office_event_first_naughty_0_68 = Movie(play ="images/events/office/office_event_first_naughty 0 68.webm", start_image = "images/events/office/office_event_first_naughty 0 68.webp", image = "images/events/office/office_event_first_naughty 0 68.webp")
+image anim_office_event_first_naughty_0_69 = Movie(play ="images/events/office/office_event_first_naughty 0 69.webm", start_image = "images/events/office/office_event_first_naughty 0 69.webp", image = "images/events/office/office_event_first_naughty 0 69.webp")
+image anim_office_event_first_naughty_0_72 = Movie(play ="images/events/office/office_event_first_naughty 0 72.webm", start_image = "images/events/office/office_event_first_naughty 0 72.webp", image = "images/events/office/office_event_first_naughty 0 72.webp")
+image anim_office_event_first_naughty_0_73 = Movie(play ="images/events/office/office_event_first_naughty 0 73.webm", start_image = "images/events/office/office_event_first_naughty 0 73.webp", image = "images/events/office/office_event_first_naughty 0 73.webp")
+image anim_office_event_first_naughty_0_74 = Movie(play ="images/events/office/office_event_first_naughty 0 74.webm", start_image = "images/events/office/office_event_first_naughty 0 74.webp", image = "images/events/office/office_event_first_naughty 0 74.webp")
+image anim_office_event_first_naughty_0_75 = Movie(play ="images/events/office/office_event_first_naughty 0 75.webm", start_image = "images/events/office/office_event_first_naughty 0 75.webp", image = "images/events/office/office_event_first_naughty 0 75.webp")
 label work_office_session_event_first_naughty (**kwargs):
     $ begin_event(**kwargs)
 
     $ school_level = get_value('school_level', **kwargs)
     $ secretary_level = get_value('secretary_level', **kwargs)
 
-    $ image = Image_Series("images/events/office/office_event_first_naughty 0 <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     # secretary enters office
     call Image_Series.show_image(image, 0, 1, 2) from _call_work_office_session_event_first_naughty_1
@@ -361,17 +372,13 @@ label work_office_session_event_first_naughty (**kwargs):
     $ image.show(15)
     secretary "Then please lean back and let me take care of you."
     
-    scene anim_work_office_session_event_first_naughty_1 with dissolveM
-    pause
+    $ image.show_video(16, True)
 
-    scene anim_work_office_session_event_first_naughty_2 with dissolveM
-    pause
+    $ image.show_video(17, True)
 
-    scene anim_work_office_session_event_first_naughty_3 with dissolveM
-    pause
+    $ image.show_video(18, True)
 
-    scene anim_work_office_session_event_first_naughty_4 with dissolveM
-    pause
+    $ image.show_video(21, True)
 
     # secretary starts giving blow and titjob
     $ image.show(22)
@@ -482,23 +489,25 @@ label work_office_session_event_first_naughty (**kwargs):
     secretary "What?"
     call Image_Series.show_image(image, 62, 63, pause = True) from _call_work_office_session_event_first_naughty_8
     
-    scene anim_work_office_session_event_first_naughty_64 with dissolveM
+    
+    $ image.show_video(64)
     pause 1.0
-    scene anim_work_office_session_event_first_naughty_65 with dissolveM
+
+    $ image.show_video(65)
     secretary "Oh yes! Yes! Yes!"
     headmaster "What were you thinking doing that with Yuriko sitting just in front of me!"
     secretary "I'm sorry! *moan* I couldn't resist!"
-    scene anim_work_office_session_event_first_naughty_66 with dissolveM
+    $ image.show_video(66)
     headmaster "You will be punished for that!"
     secretary "Yes, I deserve it!... But it was so hot! *moan*"
     headmaster "I see that, you're as wet as a river!"
-    scene anim_work_office_session_event_first_naughty_67 with dissolveM
+    $ image.show_video(67)
     headmaster "I will make sure you will never forget this!"
     headmaster "Take this!"
-    scene anim_work_office_session_event_first_naughty_68 with dissolveM
+    $ image.show_video(68)
     secretary "OH MY GOD! YES! YES! YES!" (interact = False)
     pause 3.0
-    scene anim_work_office_session_event_first_naughty_69 with dissolveM
+    $ image.show_video(69)
     # headmaster cums
     secretary "Oh my god! That was amazing!"
     $ image.show(70)
@@ -508,15 +517,15 @@ label work_office_session_event_first_naughty (**kwargs):
     $ image.show(71)
     headmaster "Now get on your knees and open your mouth!"
     # headmaster deepthroats her
-    scene anim_work_office_session_event_first_naughty_72 with dissolveM
+    $ image.show_video(72)
     secretary "Hmmpf! *gag* *gag* *gag*"
     headmaster "That's what you get for almost exposing us!"
-    scene anim_work_office_session_event_first_naughty_73 with dissolveM
+    $ image.show_video(73)
     secretary "I'm sorry! *gag* *gag* *gag*"
     # headmaster cums in her throat
-    scene anim_work_office_session_event_first_naughty_74 with dissolveM
+    $ image.show_video(74)
     pause 5.3
-    scene anim_work_office_session_event_first_naughty_75 with dissolveM
+    $ image.show_video(75)
     secretary "*cough* *cough* *cough*"
     $ image.show(76)
     headmaster "Now clean yourself up and get back to work!"
@@ -548,7 +557,7 @@ label work_office_session_event_1(**kwargs):
 
     $ girl_first_name, girl_last_name = split_name(girl_name)
 
-    $ image = Image_Series("images/events/office/office_session_event_1 <girl_name> <school_level> <secretary_level> <step>.webp", ['girl_name', 'school_level', 'secretary_level'], **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     subtitles_Empty "*Knock* *Knock*"
@@ -652,7 +661,6 @@ label office_teacher_sex_ed_introduction_2 (**kwargs):
     $ advance_progress('start_sex_ed')
 
     $ end_event('new_daytime')
-
 
 label office_prepare_sex_ed_material(**kwargs):
     $ begin_event(**kwargs)
@@ -791,7 +799,7 @@ label office_call_secretary_naughty_sandbox (**kwargs):
 
     $ level = get_level('secretary', **kwargs)
 
-    $ image = Image_Series("images/events/office/office_call_secretary_naughty_sandbox <secretary> <step>.webp", ['secretary'], secretary = level, **kwargs)
+    $ image = convert_pattern("main", secretary = level, **kwargs)
 
     $ image.show(0)
     subtitles "You call the secretary."
@@ -833,7 +841,7 @@ label office_event_1 (**kwargs):
     $ school_level = get_value('school_level', **kwargs)
     $ teacher_level = get_value('teacher_level', **kwargs)
 
-    $ image = Image_Series("images/events/office/office_event_1 <school_level> <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     subtitles "You notice a girl sitting in front of the teachers office."
@@ -855,7 +863,7 @@ label office_event_2 (**kwargs):
     $ school_level = get_value('school_level', **kwargs)
     $ teacher = get_value("teacher", **kwargs)
 
-    call show_image ("images/events/office/office_event_2 <teacher_level> <teacher>.webp", **kwargs) from _call_show_image_office_event_2
+    $ show_pattern("main", **kwargs)
     subtitles "Even the teachers need a break from time to time."
 
     call change_stats_with_modifier('school',
@@ -871,7 +879,7 @@ label office_event_3 (**kwargs):
     $ school_level = get_value('school_level', **kwargs)
     $ teacher_level = get_value('teacher_level', **kwargs)
 
-    $ image = Image_Series("images/events/office/office_event_3 <school_level> <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     subtitles "You enter the office and see two students sitting there."

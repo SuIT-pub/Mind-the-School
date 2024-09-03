@@ -99,7 +99,7 @@ init 1 python:
             (RandomListSelector('', '3A', '2A', '2A 3A'), LoliContentCondition(1)),
             (RandomListSelector('', '1A', '1A 2A', '1A 2A 3A', '1A 3A', '2A', '2A 3A', '3A'), LoliContentCondition(2))
         ),
-        Pattern("main", "images/events/cafeteria/cafeteria_event_5 <school_level> <classes> <step>.webp", ['classes']),
+        Pattern("main", "images/events/cafeteria/cafeteria_event_5 <school_level> <classes> <step>.webp", 'classes'),
         thumbnail = "images/events/cafeteria/cafeteria_event_5 1 3A 1.webp")
 
     cafeteria_action_tutorial_event = Event(2, "action_tutorial",
@@ -107,6 +107,7 @@ init 1 python:
         ValueSelector('return_label', 'cafeteria'),
         NoHighlightOption(),
         TutorialCondition(),
+        Pattern("main", "/images/events/misc/action_tutorial <step>.webp"),
         override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
 
     cafeteria_general_event.add_event(

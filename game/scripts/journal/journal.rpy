@@ -119,6 +119,7 @@ init 1 python:
     journal_tutorial_event = Event(1, "journal_tutorial",
         NOT(ProgressCondition('journal_tutorial')),
         TutorialCondition(),
+        Pattern("main", "/images/events/misc/journal_tutorial <step>.webp"),
         thumbnail = "images/events/misc/journal_tutorial 0.webp")
 
     journal_events.add_event(

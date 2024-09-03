@@ -882,39 +882,131 @@ init -6 python:
     # Proficiency
 
     def exists_headmaster_proficiency(subject: str) -> bool:
+        """
+        Checks if the headmaster proficiency exists
+
+        ### Parameters:
+        1. subject: str
+            - The subject to check
+        """
+
         return subject in headmaster_proficiencies.keys()
 
     def set_headmaster_proficiency_level(subject: str, experience: int):
+        """
+        Sets the headmaster proficiency level
+
+        ### Parameters:
+        1. subject: str
+            - The subject to set the level for
+        2. experience: int
+            - The experience to set the level to
+        """
+
         headmaster_proficiencies[subject] = experience
         set_modifier("headmaster_proficiency_" + subject, Modifier_Obj("headmaster_proficiency_" + subject, "*", get_headmaster_proficiency_multiplier(subject)), stat = "all", collection = subject)
 
     def change_headmaster_proficiency_xp(subject: str, delta: int):
+        """
+        Changes the headmaster proficiency xp
+
+        ### Parameters:
+        1. subject: str
+            - The subject to change the xp for
+        2. delta: int
+            - The value to change the xp by
+        """
+
         if subject not in headmaster_proficiencies.keys():
             headmaster_proficiencies[subject] = 0
         set_headmaster_proficiency_level(subject, headmaster_proficiencies[subject] + delta)
 
     def get_headmaster_proficiency_level(subject: str) -> int:
+        """
+        Returns the headmaster proficiency level
+
+        ### Parameters:
+        1. subject: str
+            - The subject to get the level for
+
+        ### Returns:
+        1. int
+            - The level of the headmaster proficiency
+        """
+
         if subject not in headmaster_proficiencies.keys():
             return 0
         return  math.floor(headmaster_proficiencies[subject] / 100)
 
     def get_headmaster_proficiency_levels() -> Dict[str, int]:
+        """
+        Returns the headmaster proficiency levels
+
+        ### Returns:
+        1. Dict[str, int]
+            - The dictionary of the headmaster proficiency levels
+        """
+
         return {subject: get_headmaster_proficiency_level(subject) for subject in headmaster_proficiencies.keys()}
 
     def get_headmaster_proficiency_xps() -> Dict[str, int]:
+        """
+        Returns the headmaster proficiency xps
+
+        ### Returns:
+        1. Dict[str, int]
+            - The dictionary of the headmaster proficiency
+        """
+
         return {subject: get_headmaster_proficiency_xp(subject) for subject in headmaster_proficiencies.keys()}
 
     def get_headmaster_proficiency_xp(subject: str) -> int:
+        """
+        Returns the headmaster proficiency xp
+
+        ### Parameters:
+        1. subject: str
+            - The subject to get the xp for
+
+        ### Returns:
+        1. int
+            - The xp of the headmaster proficiency
+        """
+
         if subject not in headmaster_proficiencies.keys():
             return 0
         return headmaster_proficiencies[subject] % 100
 
     def get_headmaster_proficiency_xp_until_level(subject: str) -> int:
+        """
+        Returns the headmaster proficiency xp needed until the next level
+
+        ### Parameters:
+        1. subject: str
+            - The subject to get the xp for
+
+        ### Returns:
+        1. int
+            - The xp needed until the next level
+        """
+
         if subject not in headmaster_proficiencies.keys():
             return -1
         return 100 - get_headmaster_proficiency_xp(subject)
 
     def get_headmaster_proficiency_multiplier(subject: str) -> float:
+        """
+        Returns the headmaster proficiency multiplier
+
+        ### Parameters:
+        1. subject: str
+            - The subject to get the multiplier for
+
+        ### Returns:
+        1. float
+            - The multiplier of the headmaster proficiency
+        """
+
         if get_headmaster_proficiency_level(subject) > 0:
             return get_headmaster_proficiency_level(subject)
         return get_headmaster_proficiency_xp(subject) / 100
