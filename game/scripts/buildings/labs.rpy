@@ -26,6 +26,7 @@ init 1 python:
         ValueSelector('return_label', 'labs'),
         NoHighlightOption(),
         TutorialCondition(),
+        Pattern("main", "/images/events/misc/action_tutorial <step>.webp"),
         override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
 
     labs_general_event.add_event(

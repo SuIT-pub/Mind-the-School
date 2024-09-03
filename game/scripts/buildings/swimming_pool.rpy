@@ -27,6 +27,7 @@ init 1 python:
         ValueSelector('return_label', 'swimming_pool'),
         NoHighlightOption(),
         TutorialCondition(),
+        Pattern("main", "/images/events/misc/action_tutorial <step>.webp"),
         override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
 
     swimming_pool_general_event.add_event(
