@@ -164,8 +164,7 @@ label load_rules ():
         '_unlock_conditions': ConditionStorage(
             StatCondition(inhibition = '90-', corruption = '10+'),
             LevelCondition("1+", True),
-            ProgressCondition("start_sex_ed", "1+", True),
-            LockCondition(False),
+            ProgressCondition("start_sex_ed", "3+", True),
         ),
         '_image_path': 'images/journal/rules/theoretical_sex_ed.webp',
         '_image_path_alt': 'images/journal/rules/theoretical_sex_ed.webp',

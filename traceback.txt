@@ -2,6 +2,7 @@
 
 While running game code:
 <<<<<<< HEAD
+<<<<<<< HEAD
   File "game/script.rpy", line 15, in script call
     call intro from _call_intro
   File "game/scripts/overview.rpy", line 737, in script
@@ -3315,10 +3316,22 @@ AttributeError: 'IntroCondition' object has no attribute 'is_fullfilled'
     $ image.show(0)
 AttributeError: 'NoneType' object has no attribute 'show'
 >>>>>>> 0308013 (added more functionality for mod framework)
+=======
+  File "game/scripts/values.rpy", line 1, in script
+    init -98 python:
+  File "game/scripts/values.rpy", line 25, in <module>
+    get_mod_list()
+  File "game/scripts/helper.rpy", line 1013, in get_mod_list
+    repair_mod_list()
+  File "game/scripts/helper.rpy", line 1045, in repair_mod_list
+    if len(persistent.modList.keys()) == 0:
+AttributeError: 'NoneType' object has no attribute 'keys'
+>>>>>>> 493e9f9 (MTS-240/added more events)
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
+<<<<<<< HEAD
 <<<<<<< HEAD
   File "game/script.rpy", line 15, in script call
     call intro from _call_intro
@@ -6641,15 +6654,29 @@ Mon Sep  9 13:05:59 2024
   File "game/scripts/buildings/cafeteria.rpy", line 169, in script
     $ image.show(0)
   File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 1138, in execute
+=======
+  File "game/scripts/values.rpy", line 1, in script
+    init -98 python:
+  File "D:\RenPy\renpy\ast.py", line 1138, in execute
+>>>>>>> 493e9f9 (MTS-240/added more events)
     renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
-  File "C:\Users\bigma\Documents\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
+  File "D:\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
     exec(bytecode, globals, locals)
-  File "game/scripts/buildings/cafeteria.rpy", line 169, in <module>
-    $ image.show(0)
-AttributeError: 'NoneType' object has no attribute 'show'
+  File "game/scripts/values.rpy", line 25, in <module>
+    get_mod_list()
+  File "game/scripts/helper.rpy", line 1013, in get_mod_list
+    repair_mod_list()
+  File "game/scripts/helper.rpy", line 1045, in repair_mod_list
+    if len(persistent.modList.keys()) == 0:
+AttributeError: 'NoneType' object has no attribute 'keys'
 
-Windows-10-10.0.22631 AMD64
+Windows-10-10.0.22631 
 Ren'Py 8.1.3.23091805
+<<<<<<< HEAD
 Mind the School 0.1.4A_1
 Wed Aug 28 15:30:54 2024
 >>>>>>> 0308013 (added more functionality for mod framework)
+=======
+Mind the School 0.1.5
+Wed Sep  4 17:35:46 2024
+>>>>>>> 493e9f9 (MTS-240/added more events)
