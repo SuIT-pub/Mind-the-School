@@ -36,14 +36,12 @@ init 1 python:
         Pattern("main", "images/events/kiosk/kiosk_event_1 <girl_name> <school_level> <variant>.webp"),
         thumbnail = "images/events/kiosk/kiosk_event_1 Aona Komuro 1 1.webp")
 
-    kiosk_events["get_snack"].add_event( 
-        Event(3, "kiosk_event_2",
-            LevelSelector('school_level', 'school'),
-            RandomListSelector("girl_name", "Hatano Miwa", "Kokoro Nakamura", "Soyoon Yamamoto"),
-            OR(TimeCondition(weekday = "d", daytime = "f"), TimeCondition(weekday="w", daytime = "d")),
-            Pattern("main", "images/events/kiosk/kiosk_event_2 <girl_name> <school_level> <step>.webp"),
-            thumbnail = "images/events/kiosk/kiosk_event_2 Hatano Miwa 1 0.webp")
-    )
+    kiosk_event2 = Event(3, "kiosk_event_2",
+        LevelSelector('school_level', 'school'),
+        RandomListSelector("girl_name", "Hatano Miwa", "Kokoro Nakamura", "Soyoon Yamamoto"),
+        OR(TimeCondition(weekday = "d", daytime = "f"), TimeCondition(weekday="w", daytime = "d")),
+        Pattern("main", "images/events/kiosk/kiosk_event_2 <girl_name> <school_level> <step>.webp"),
+        thumbnail = "images/events/kiosk/kiosk_event_2 Hatano Miwa 1 0.webp")
 
     kiosk_event3 = Event(3, "kiosk_event_3",
         LevelSelector('school_level', 'school'),

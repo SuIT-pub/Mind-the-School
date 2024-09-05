@@ -615,7 +615,7 @@ label office_call_secretary_1 (**kwargs):
     secretary "You're welcome. Have a nice day."
     headmaster_thought "Then, maybe I should start work on some teaching material for the sex ed classes."
 
-    $ start_progress('start_sex_ed')
+    $ start_progress('start_sex_ed') # 0 -> 1
 
     $ end_event('new_daytime', **kwargs)
 
@@ -637,12 +637,18 @@ label office_teacher_sex_ed_introduction_1(**kwargs):
     secretary "Got it. I'll send out the invites right away."
     headmaster "Thank you, Emiko."
 
-    $ advance_progress('start_sex_ed')
+    $ advance_progress('start_sex_ed') # 1 -> 2
 
     $ end_event('new_daytime', **kwargs)
 
 label office_teacher_sex_ed_introduction_2 (**kwargs):
     $ begin_event(**kwargs)
+
+    $ finola = Character("Finola Ryan",   kind = character.teacher)
+    $ chloe  = Character("Chloe Garcia",  kind = character.teacher)
+    $ lily   = Character("Lily Anderson", kind = character.teacher)
+    $ yulan  = Character("Yulan Chen",    kind = character.teacher)
+    $ zoe    = Character("Zoe Parker",    kind = character.teacher)
 
     headmaster "I thank you all for coming on such short notice."
     headmaster "Since I became the new headmaster, I was closely observing the school and the students."
@@ -656,9 +662,48 @@ label office_teacher_sex_ed_introduction_2 (**kwargs):
     headmaster "I think that we need to change that. We need to educate the students about their bodies and the bodies of others."
     headmaster "And for that reason I plan to add Sexual Education to the schools curriculum."
     
-    # teacher reactions
+    finola "I disagree. I believe that sexual education is not something that should be taught in school. It is a private matter between adults!"
 
-    $ advance_progress('start_sex_ed')
+    headmaster "I appreciate your concerns, but we cannot ignore the fact that our students are going through puberty and they need to know how their bodies work."
+    headmaster "We will provide them with accurate information about sex and relationships without promoting any particular sexual orientation or gender identity."
+
+    chloe "But what if some of our students get too excited during the lessons? It's completely inappropriate!"
+
+    headmaster "I agree that we need to be sensitive to their emotions, but I am certain that this will only enhance their understanding of sexuality and relationships."
+    headmaster "Our research on other schools that have implemented similar programmes has shown that they have seen positive results in terms of decreased rates of teen pregnancy, STIs and sexual assault."
+
+    lily "But it'll make our students more promiscuous!"
+
+    headmaster "That's a common misconception about sex education. Research has shown that teaching young people about sexual health can actually prevent them from engaging in risky behaviour."
+    headmaster "We can empower our students to make informed decisions about their bodies and relationships by providing accurate information and setting clear boundaries."
+
+    yulan "We have to consider the possibility that some students won't be interested. I want to know if they will be forced to attend these classes."
+
+    headmaster "Yes. This subject will be added to the normal curriculum. This is a topic that simply cannot be made optional."
+    headmaster "It is our duty to provide all students with accurate information so that they can make informed choices about their bodies and relationships."
+
+    zoe "I'm not fully convinced. But what if some students don't listen and still engage in risky behaviour?"
+
+    headmaster "That's a valid concern, but we will provide them with accurate information so that they can make informed choices about their bodies."
+    headmaster "If they choose to engage in risky behaviour despite this knowledge, they will have to take responsibility for their actions."
+    headmaster "We will do our best to provide them with the necessary tools and resources."
+
+    headmaster "I understand that this is a sensitive topic, but I believe that it is our responsibility to provide our students with the knowledge and skills they need to make informed decisions about their bodies and relationships."
+    headmaster "We are running out of time, so I have a proposal."
+    headmaster "I will work out a plan for the introduction of the new subject."
+    headmaster "I'll include the specific topics that will be covered, the teaching methods that will be used, and the resources that will be available to the students."
+
+    headmaster "I will then present this plan to you all for your feedback and suggestions."
+    headmaster "I want to make sure that we are all on the same page and that we can move forward together."
+
+    finola "I still have my doubts, but I'm willing to give it a chance."
+    chloe "Yeah, let's see what you come up with."
+
+    headmaster "Thank you all for your time. I'll keep you updated on the progress."
+
+    $ add_notify_message("Added new rule to journal!")
+
+    $ advance_progress('start_sex_ed') # 2 -> 3
 
     $ end_event('new_daytime')
 
