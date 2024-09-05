@@ -50,7 +50,7 @@ screen school_overview_stats ():
                 text_style "stat_overview"
                 action Call("open_journal", 1, HAPPINESS)
             null width 1
-            textbutton get_school_stat_value(HAPPINESS) + "\n" + get_school_stat_change(HAPPINESS):
+            textbutton get_character_stat_value(HAPPINESS) + "\n" + get_character_stat_change(HAPPINESS):
                 tooltip "Happiness"
                 text_style "stat_value"
                 action Call("open_journal", 1, HAPPINESS)
@@ -60,7 +60,7 @@ screen school_overview_stats ():
                 text_style "stat_overview"
                 action Call("open_journal", 1, CHARM)
             null width 1
-            textbutton get_school_stat_value(CHARM) + "\n" + get_school_stat_change(CHARM):
+            textbutton get_character_stat_value(CHARM) + "\n" + get_character_stat_change(CHARM):
                 tooltip "Charm"
                 text_style "stat_value"
                 action Call("open_journal", 1, CHARM)
@@ -70,7 +70,7 @@ screen school_overview_stats ():
                 text_style "stat_overview"
                 action Call("open_journal", 1, EDUCATION)
             null width 1
-            textbutton get_school_stat_value(EDUCATION) + "\n" + get_school_stat_change(EDUCATION):
+            textbutton get_character_stat_value(EDUCATION) + "\n" + get_character_stat_change(EDUCATION):
                 tooltip "Education"
                 text_style "stat_value"
                 action Call("open_journal", 1, EDUCATION)
@@ -80,7 +80,7 @@ screen school_overview_stats ():
                 text_style "stat_overview"
                 action Call("open_journal", 1, MONEY)
             null width 1
-            textbutton get_school_stat_value(MONEY) + "\n" + get_school_stat_change(MONEY):
+            textbutton get_character_stat_value(MONEY) + "\n" + get_character_stat_change(MONEY):
                 tooltip "Money"
                 text_style "stat_value"
                 action Call("open_journal", 1, MONEY)
@@ -92,7 +92,7 @@ screen school_overview_stats ():
                 text_style "stat_overview"
                 action Call("open_journal", 1, CORRUPTION)
             null width 1
-            textbutton get_school_stat_value(CORRUPTION) + "\n" + get_school_stat_change(CORRUPTION):
+            textbutton get_character_stat_value(CORRUPTION) + "\n" + get_character_stat_change(CORRUPTION):
                 tooltip "Corruption"
                 text_style "stat_value"
                 action Call("open_journal", 1, CORRUPTION)
@@ -102,7 +102,7 @@ screen school_overview_stats ():
                 text_style "stat_overview"
                 action Call("open_journal", 1, INHIBITION)
             null width 1
-            textbutton get_school_stat_value(INHIBITION) + "\n" + get_school_stat_change(INHIBITION):
+            textbutton get_character_stat_value(INHIBITION) + "\n" + get_character_stat_change(INHIBITION):
                 tooltip "Inhibition"
                 text_style "stat_value"
                 action Call("open_journal", 1, INHIBITION)
@@ -112,7 +112,7 @@ screen school_overview_stats ():
                 text_style "stat_overview"
                 action Call("open_journal", 1, REPUTATION)
             null width 1
-            textbutton get_school_stat_value(REPUTATION) + "\n" + get_school_stat_change(REPUTATION):
+            textbutton get_character_stat_value(REPUTATION) + "\n" + get_character_stat_change(REPUTATION):
                 tooltip "Reputation"
                 text_style "stat_value"
                 action Call("open_journal", 1, REPUTATION)
@@ -792,9 +792,7 @@ label map_overview ():
 #############################################################################
 # building distributor. directs the building calls to the corresponding label
 label building(name=""):
-    $ reset_stats(get_school())
-    $ reset_stats(get_character('parent', charList))
-    $ reset_stats(get_character('teacher', charList['staff']))
+    $ reset_stats(get_character())
     $ _skipping = True
 
     $ notify_messages = []
@@ -812,9 +810,7 @@ label building(name=""):
     call map_overview from building_2
 
 label skip_time ():
-    $ reset_stats(get_school())
-    $ reset_stats(get_character('parent', charList))
-    $ reset_stats(get_character('teacher', charList['staff']))
+    $ reset_stats(get_character())
 
     call new_daytime from skip_time_1
 

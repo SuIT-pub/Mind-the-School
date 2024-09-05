@@ -787,14 +787,26 @@ init -2 python:
             - The image path with the levels inserted
         """
 
-        if '<school_level>' in path:
-            path = path.replace("<school_level>", str(get_character_by_key('school').get_level()))
-        if 'teacher_level' in path:
-            path = path.replace("<teacher_level>", str(get_character_by_key('teacher').get_level()))
-        if 'parent_level' in path:
-            path = path.replace("<parent_level>", str(get_character_by_key('parent').get_level()))
-        if 'secretary_level' in path:
-            path = path.replace("<secretary_level>", str(get_character_by_key('secretary').get_level()))
+        in_event = get_kwargs('in_event', False, **kwargs)
+
+        if in_event:
+            if '<school_level>' in path:
+                path = path.replace("<school_level>", str(get_level('school', **kwargs)))
+            if '<teacher_level>' in path:
+                path = path.replace("<teacher_level>", str(get_level('teacher', **kwargs)))
+            if '<parent_level>' in path:
+                path = path.replace("<parent_level>", str(get_level('parent', **kwargs)))
+            if '<secretary_level>' in path:
+                path = path.replace("<secretary_level>", str(get_level('secretary', **kwargs)))
+        else:
+            if '<school_level>' in path:
+                path = path.replace("<school_level>", str(get_character_level('school')))
+            if '<teacher_level>' in path:
+                path = path.replace("<teacher_level>", str(get_character_level('teacher')))
+            if '<parent_level>' in path:
+                path = path.replace("<parent_level>", str(get_character_level('parent')))
+            if '<secretary_level>' in path:
+                path = path.replace("<secretary_level>", str(get_character_level('secretary')))
 
         return path
 
@@ -1029,8 +1041,6 @@ label .show_image(image_series, *steps, pause = False, display_type = SCENE, var
             $ renpy.pause()
         $ i += 1
     return variant
-
-
 
 label show_sfw_text(text):
     # """

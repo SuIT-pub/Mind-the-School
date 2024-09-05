@@ -115,23 +115,21 @@ init -1 python:
             - SET sets the level to the value.
         """
 
-        def __init__(self, name: str, value: int, mode: str = "ADD"):
+        def __init__(self, name: str, key: str, value: int, mode: str = "ADD"):
             super().__init__(name)
             self.mode = mode
             self.value = value
+            self.key = key
 
         def __str__(self):
             return f"{self.value}"
 
         def apply(self, **kwargs):
-            char_obj = get_kwargs("char_obj", **kwargs)
-            if char_obj == None:
-                return
-
+            char_obj = get_character()
             if self.mode == "SET":
-                char_obj.set_level(self.value)
+                char_obj.set_level(self.key, self.value)
             if self.mode == "ADD":
-                char_obj.set_level(char_obj.get_level() + self.value)
+                char_obj.set_level(self.key, char_obj.get_level(self.key) + self.value)
             return kwargs
 
     class StatEffect(Effect):
@@ -159,9 +157,7 @@ init -1 python:
             return f"{self.value}"
 
         def apply(self, **kwargs):
-            char_obj = get_kwargs("char_obj", **kwargs)
-            if char_obj == None:
-                return
+            char_obj = get_character()
 
             stat_obj = char_obj.get_stat(self.stat)
             if stat_obj == None:

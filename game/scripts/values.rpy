@@ -32,9 +32,9 @@ default hide_gui = False
 default rules = {}
 default buildings = {}
 default clubs = {}
-default charList = {
-    'staff': {},
-}
+default charList = None
+
+default chara = None
 
 default money = Stat(MONEY, 1000)
 default time = Time()

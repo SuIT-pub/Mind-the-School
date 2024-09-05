@@ -192,10 +192,10 @@ label .start:
 
 label skip_to_free_roam ():
     
-    $ set_level_for_char(1, "school", charList)
-    $ set_level_for_char(1, "teacher", charList["staff"])
-    $ set_level_for_char(1, "parent", charList)
-    $ set_level_for_char(5, "secretary", charList["staff"])
+    $ set_character_level("school", 1)
+    $ set_character_level("teacher", 1)
+    $ set_character_level("parent", 1)
+    $ set_character_level("secretary", 5)
 
     $ time.set_time(day = 10, month = 1, year = 2023)
 

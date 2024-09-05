@@ -134,7 +134,7 @@ init -6 python:
 
         return output
 
-    def prepare_for_modifier(key: str, stat: str = "all", char_obj: Char = None, collection: str | List[str] = 'default'):
+    def prepare_for_modifier(key: str, stat: str = "all", collection: str | List[str] = 'default'):
         """
         Prepares the game data for a modifier. This is used to make sure that the game data is ready for a modifier to be added.
 
@@ -154,17 +154,12 @@ init -6 python:
         modifier_list = get_modifier_collection(collection)
 
         for modifier in modifier_list:
-            if char_obj != None:
-                if char_obj.get_name() not in modifier.keys():
-                    modifier[char_obj.get_name()] = {}
-                modifier = modifier[char_obj.get_name()]
-
             if stat not in modifier.keys():
                 modifier[stat] = {}
 
             modifier[stat][key] = None
 
-    def set_modifier(key: str, mod_obj: Modifier_Obj, *, stat: str = "all", char_obj: Char = None, collection: str | List[str] = 'default'):
+    def set_modifier(key: str, mod_obj: Modifier_Obj, *, stat: str = "all", collection: str | List[str] = 'default'):
         """
         Sets a modifier in the game data.
 
@@ -183,17 +178,14 @@ init -6 python:
             - If a list of collections is given, then the modifier is added to multiple collections.
         """
 
-        prepare_for_modifier(key, stat, char_obj, collection)
+        prepare_for_modifier(key, stat, collection)
 
         modifier_list = get_modifier_collection(collection)
 
         for modifier in modifier_list:
-            if char_obj != None:
-                modifier[char_obj.get_name()][stat][key] = mod_obj
-            else:
-                modifier[stat][key] = mod_obj
+            modifier[stat][key] = mod_obj
 
-    def remove_modifier(key: str, stat: str = "all", char_obj: Char = None, collection: str = 'default'):
+    def remove_modifier(key: str, stat: str = "all", collection: str = 'default'):
         """
         Removes a modifier from the game data.
 
@@ -215,10 +207,6 @@ init -6 python:
 
         modifier = modifier_list[0]
         remove_modifier = modifier
-        if char_obj != None:
-            if char_obj.get_name() not in remove_modifier.keys():
-                return
-            remove_modifier = remove_modifier[char_obj.get_name()]
         if stat not in remove_modifier.keys():
             return
         if key not in remove_modifier[stat].keys():
@@ -226,7 +214,7 @@ init -6 python:
         
         remove_modifier[stat][key] = None
 
-    def get_modifier(key: str, stat: str = "all", char_obj: Char = None, collection: str = 'default') -> Modifier_Obj:
+    def get_modifier(key: str, stat: str = "all", collection: str = 'default') -> Modifier_Obj:
         """
         Gets a modifier from the game data or from the character.
 
@@ -251,16 +239,12 @@ init -6 python:
             return None
 
         for modifier in modifier_list:
-            if char_obj != None and char_obj.get_name() in modifier.keys():
-                if stat in modifier[char_obj.get_name()].keys() and key in modifier[char_obj.get_name()][stat].keys():
-                    return modifier[char_obj.get_name()][stat][key]
-            else:
-                if stat in modifier.keys() and key in modifier[stat].keys():
-                    return modifier[stat][key]
+            if stat in modifier.keys() and key in modifier[stat].keys():
+                return modifier[stat][key]
 
         return None
 
-    def get_modifier_lists(stat: str, char_obj: Char = None, collection: str | List[str] = 'default') -> Dict[str, Modifier_Obj | Dict[str, Modifier_Obj]]:
+    def get_modifier_lists(stat: str, collection: str | List[str] = 'default') -> Dict[str, Modifier_Obj | Dict[str, Modifier_Obj]]:
         """
         Gets a list of modifiers from the game data or from the character.
 
@@ -285,14 +269,6 @@ init -6 python:
         output = {}
 
         for modifier in modifier_list:
-            if char_obj != None and char_obj.get_name() in modifier.keys():
-                if stat in modifier[char_obj.get_name()].keys():
-                    output = update_dict(output, modifier[char_obj.get_name()][stat])
-                    # output.append(modifier[char_obj.get_name()][stat])
-                if stat != 'all' and 'all' in modifier[char_obj.get_name()].keys():
-                    output = update_dict(output, modifier[char_obj.get_name()]['all'])
-                    # output.append(modifier[char_obj.get_name()]['all'])
-            else:
                 if stat in modifier.keys():
                     output = update_dict(output, modifier[stat])
                     # output.append(modifier[stat])
@@ -302,7 +278,7 @@ init -6 python:
 
         return output
 
-    def get_total_modifier_change(mod_obj: Modifier_Obj, base_value: num, char_obj: Char = None, collection: str = 'default') -> float:
+    def get_total_modifier_change(mod_obj: Modifier_Obj, base_value: num, collection: str = 'default') -> float:
         """
         Gets the total change in the stat based on the modifier.
         DOES NOT USE THIS METHOD! Use change_stats_with_modifier() instead.
@@ -329,7 +305,7 @@ init -6 python:
 
         return value
 
-    def get_total_stat_modifier_change(stat: str, base_value: num, char_obj: Char = None, collection: str = 'default') -> float:
+    def get_total_stat_modifier_change(stat: str, base_value: num, collection: str = 'default') -> float:
         """
         Gets the total change in the stat based on all of the modifiers.
         DOES NOT USE THIS METHOD! Use change_stats_with_modifier() instead.
@@ -350,21 +326,14 @@ init -6 python:
         """
 
         modifier = get_modifier_lists(stat, None, collection)
-        modifier_char = None
-        if char_obj != None:
-            modifier_char = get_modifier_lists(stat, char_obj, collection)
-
         value = 0
         if modifier != None:
             for key in modifier.keys():
                 value += get_total_modifier_change(modifier[key], base_value, None, collection)
-        if modifier_char != None:
-            for key in modifier_char.keys():
-                value += get_total_modifier_change(modifier_char[key], base_value, char_obj, collection)
 
         return value
 
-    def apply_stat_modifier(stat: str, value: num, char_obj: Char = None, collection: str = 'default') -> float:
+    def apply_stat_modifier(stat: str, value: num, collection: str = 'default') -> float:
         """
         Applies the stat modifier to the value.
         DOES NOT USE THIS METHOD! Use change_stats_with_modifier() instead.
@@ -384,7 +353,7 @@ init -6 python:
             - The total change in the stat.
         """
 
-        value = value + get_total_stat_modifier_change(stat, value, char_obj, collection)
+        value = value + get_total_stat_modifier_change(stat, value, collection)
         
         return value
 
@@ -490,7 +459,7 @@ label change_money_with_modifier(value, collection = 'default'):
 
     return
 
-label change_stat_with_modifier(stat, value, char_name, collection = 'default'):
+label change_stat_with_modifier(stat, value, collection = 'default'):
     # """
     # Changes the stat with the modifier.
 
@@ -505,23 +474,21 @@ label change_stat_with_modifier(stat, value, char_name, collection = 'default'):
     #     - The collection of modifiers. This is used to separate different collections of modifiers.
     # """
 
-    $ char_obj = get_character_by_key(char_name)
-
-    if is_in_replay or char_obj == None:
+    if is_in_replay:
         return
 
     if isinstance(value, str):
         $ value = get_stat_levels(value)
 
-    $ value = apply_stat_modifier(stat, value, char_obj, collection)
+    $ value = apply_stat_modifier(stat, value, collection)
 
     $ char_obj.change_stat(stat, value)
 
-    $ add_stat_notification(char_name, stat, value)
+    $ add_stat_notification(stat, value)
 
     return
 
-label change_stats_with_modifier(char_name, collection = 'default', **kwargs):
+label change_stats_with_modifier(collection = 'default', **kwargs):
     # """
     # Changes multiple stats with the modifier.
 
@@ -536,7 +503,7 @@ label change_stats_with_modifier(char_name, collection = 'default', **kwargs):
 
     $ in_replay = get_kwargs('in_replay', False, **kwargs)
 
-    if char_name == "" or in_replay:
+    if in_replay:
         return
 
     $ keys = list(kwargs.keys())
@@ -545,6 +512,6 @@ label change_stats_with_modifier(char_name, collection = 'default', **kwargs):
     while i < len(keys):
         $ stat = keys[i]
         $ i += 1
-        call change_stat_with_modifier(stat, kwargs[stat], char_name, collection) from _call_change_stat_with_modifier
+        call change_stat_with_modifier(stat, kwargs[stat], collection) from _call_change_stat_with_modifier
 
     return

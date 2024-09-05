@@ -83,7 +83,12 @@ init -6 python:
 
             self.name = name
             self.title = title
-            self.level = Stat("level", 0)
+            self.level = {
+                school: Stat("level", 0),
+                parent: Stat("level", 0),
+                teacher: Stat("level", 0),
+                secretary: Stat("level", 0),
+            }
             self.stats_objects = {}
             
         def _update(self, data: Dict[str, Any] = None):
@@ -98,8 +103,13 @@ init -6 python:
             if data != None:
                 self.__dict__.update(data)
 
-            if not hasattr(self, 'level'):
-                self.level = Stat("level", 0)
+            if not hasattr(self, 'level') or not isinstance(self.level, dict):
+                self.level = {
+                    school: Stat("level", 0),
+                    parent: Stat("level", 0),
+                    teacher: Stat("level", 0),
+                    secretary: Stat("level", 0),
+                }
             if not hasattr(self, 'stats_objects'):
                 self.stats_objects = {}
 
@@ -357,7 +367,7 @@ init -6 python:
         ###############
         # Level handler
 
-        def get_level(self) -> int:
+        def get_level(self, key: str) -> int:
             """
             Returns the level of the character
 
@@ -366,9 +376,12 @@ init -6 python:
                 - The level of the character
             """
 
-            return self.level.get_value()
+            if key not in self.level.keys():
+                return -1
 
-        def get_level_str(self) -> str:
+            return self.level[key].get_value()
+
+        def get_level_str(self, key: str) -> str:
             """
             Returns the level of the character as a string
 
@@ -377,9 +390,9 @@ init -6 python:
                 - The level of the character as a string
             """
 
-            return str(self.get_level())
+            return str(self.get_level(key))
 
-        def get_level_obj(self) -> Stat:
+        def get_level_obj(self, key: str) -> Stat:
             """
             Returns the level object of the character
 
@@ -388,9 +401,12 @@ init -6 python:
                 - The level object of the character
             """
 
-            return self.level
+            if key not in self.level.keys():
+                return None
 
-        def set_level(self, level: int):
+            return self.level[key]
+
+        def set_level(self, key: str, level: int):
             """
             Sets the level of the character
 
@@ -402,10 +418,13 @@ init -6 python:
             if is_in_replay:
                 return
 
-            level = clamp_value(level, 0, 10)
-            self.level.set_value(level)
+            if key not in self.level.keys():
+                return
 
-        def get_nearest_level_delta(self, level: int) -> int:
+            level = clamp_value(level, 0, 10)
+            self.level[key].set_value(level)
+
+        def get_nearest_level_delta(self, key: str, level: int) -> int:
             """
             Returns the difference between level and the level of the current character
 
@@ -418,11 +437,14 @@ init -6 python:
                 - The difference between level and the level of the current character
             """
 
+            if key not in self.level.keys():
+                return -1000
+
             for i in range(self.get_level(), 11):
                 if self.check_level(level, i):
-                    return self.get_level() - i
+                    return self.get_level(key) - i
 
-        def check_level(self, value: num | str, test_level: int = None) -> bool:
+        def check_level(self, key: str, value: num | str, test_level: int = None) -> bool:
             """
             Checks if the level equals the value
 
@@ -440,110 +462,22 @@ init -6 python:
                 - False if the level does not equal the value
             """
 
+            if key not in self.level.keys():
+                return False
+
             if value == "x":
                 return True
 
             if test_level == None:
-                test_level = self.get_level()
+                test_level = self.get_level(key)
 
             return get_value_diff(value, test_level) >= 0
     #################
 
-    #####################
-    # School Char Handler
-
-    def get_school() -> Char:
-        """
-        Gets a random school
-
-        ### Returns:
-        1. Char
-            - The random school
-        """
-        
-        if 'school' not in charList.keys():
-            fix_schools()
-
-        return charList['school']
-
-    def get_school_stat(stat: str) -> num:
-        """
-        Gets the mean value of a stat from the mean school character
-
-        ### Parameters:
-        1. stat: str
-            - The stat name for which the mean value is searched
-
-        ### Returns:
-        1. num
-            - The mean value of the stat for all schools
-        """
-
-        if stat == MONEY:
-            return money.get_value()
-        elif stat == LEVEL:
-            return get_level_for_char(stat, get_school())
-        else:
-            return get_stat_for_char(stat, get_school())
-
-    def display_school_stat(stat: str) -> str:
-        """
-        Returns the mean value for a stat from all schools as string with the change
-
-        ### Parameters:
-        1. stat: str
-            - The name of the stat whose mean value with the change from all schools will be returned
-
-        ### Returns:
-        1. str
-            - The mean value of the stat from all schools as string with the change
-        """
-
-        if stat == MONEY:
-            return money.display_stat()
-        else:
-            return get_school().display_stat(stat)
-
-    def get_school_stat_value(stat: str) -> str:
-        """
-        Returns the mean value for a stat from all schools as string
-
-        ### Parameters:
-        1. stat: str
-            - The name of the stat whose mean value from all schools will be returned
-
-        ### Returns:
-        1. str
-            - The mean value of the stat from all schools as string
-        """
-
-        if stat == MONEY:
-            return re.sub("\..+", "", money.get_display_value())
-        else:
-            return get_school().get_display_value(stat)
-
-    def get_school_stat_change(stat: str) -> str:
-        """
-        Returns the mean change for a stat from all schools as string
-
-        ### Parameters:
-        1. stat: str
-            - The name of the stat whose mean change from all schools will be returned
-
-        ### Returns:
-        1. str
-            - The mean change of the stat from all schools as string
-        """
-
-        if stat == MONEY:
-            return money.get_display_change()
-        else:
-            return get_school().get_display_change(stat)
-
     ######################
     # General Char Handler
 
-    def get_character(name: str, map: Dict[str, Char | Dict[str, Any]]) -> Char:
+    def get_character() -> Char:
         """
         Returns the character object from the map
 
@@ -559,324 +493,61 @@ init -6 python:
             - None if the character does not exist
         """
 
-        if name not in map.keys():
-            return None
+        global chara
 
-        return map[name]
+        return chara
 
-    def get_character_by_key(key: str) -> Char:
-        """
-        Returns the character object from the map
-
-        ### Parameters:
-        1. key: str
-            - The key of the character to get
-            - school, parent, teacher, secretary
-
-        ### Returns:
-        1. Char
-            - The character object from the map
-            - None if the character does not exist
-            - possible keys: school, parent, teacher, secretary
-        """
-
-        if key == "school":
-            return get_school()
-        elif key == "parent":
-            return get_character("parent", charList)
-        elif key == "teacher":
-            return get_character("teacher", charList['staff'])
-        elif key == "secretary":
-            return get_character("secretary", charList['staff'])
-        return None
-
-    ###################
-    # Char Stat Handler
-
-    def get_stat_obj_for_char(stat: str, char: str | Char, map: Dict[str, Char | Dict[str, Any]] = None) -> Stat:
-        """
-        Returns the stat object for the character
-
-        ### Parameters:
-        1. stat: str
-            - The name of the stat to get
-        2. char: str | Char
-            - The name of the character or the character itself to get the stat from
-            - If there is no character in map with the name, -1 is returned
-        3. map: Dict[str, Char | Dict[str, Any]] (default None)
-            - The map of characters to get the character from
-            - If None and the name of the character is used instead of the Character-Object itself, -1 is returned
-
-        ### Returns:
-        1. Stat
-            - The stat object for the character
-            - None if the stat does not exist
-        """
-
-        if isinstance(char, Char):
-            return char.get_stat_obj(stat)
-        elif map != None and char in map.keys():
-            return map[char].get_stat_obj(stat)
-        return None
-
-    def get_stat_for_char(stat: str, char: str | Char = "", map: Dict[str, Char | Dict[str, Any]] = None) -> num:
-        """
-        Returns the stat value for the character
-
-        ### Parameters:
-        1. stat: str
-            - The name of the stat to get
-        2. char: str | Char (default "")
-            - The name of the character to get the stat from
-            - If "" or there is no character in map with the name, -1 is returned
-        3. map: Dict[str, Char | Dict[str, Any]] (default None)
-            - The map of characters to get the character from
-            - If None, the name of the character is used instead of the Character-Object itself, -1 is returned
-
-        ### Returns:
-        1. num
-            - The value of the stat
-            - -1 if the stat does not exist
-        """
-
+    def get_character_stat(stat: str) -> num:
         if stat == MONEY:
             return money.get_value()
-
-        if isinstance(char, Char):
-            return char.get_stat_number(stat)
-        elif map != None and char in map.keys():
-            return map[char].get_stat_number(stat)
-        return -1
-
-    def set_stat_for_all(stat: str, value: num, map: Dict[str, Char | Dict[str, Any]]):
-        """
-        Sets the stat value for all characters in the map
-
-        ### Parameters:
-        1. stat: str
-            - The name of the stat to set
-        2. value: num
-            - The value to set the stat to
-        3. map: Dict[str, Char | Dict[str, Any]]
-            - The map of characters to set the stat for
-        """
-
-        for character in map.keys():
-            map[character].set_stat(stat, value)
-
-    def set_stat_for_char(stat: str, value: num, char: str | Char, map: Dict[str, Char | Dict[str, Any]] = None):
-        """
-        Sets the stat value for a character
-
-        ### Parameters:
-        1. stat: str
-            - The name of the stat to set
-        2. value: num
-            - The value to set the stat to
-        3. char: str | Char
-            - The name of the character or the character itself to set the stat for
-            - If there is no character in map with the name, -1 is returned
-        4. map: Dict[str, Char | Dict[str, Any]] (default None)
-            - The map of characters to get the character from
-            - If None and the name of the character is used instead of the Character-Object itself, -1 is returned
-        """
-
-        if isinstance(char, Char):
-            char.set_stat(stat, value)
-        elif map != None and char in map.keys():
-            map[char].set_stat(stat, value)
-
-    def change_stat(stat: str, change: num, name: str | Char = "", map: Dict[str, Char | Dict[str, Any]] = None):
-        """
-        Changes the stat value for a character or the money value if the stat is MONEY
-
-        ### Parameters:
-        1. stat: str
-            - The name of the stat to change
-        2. change: num
-            - The value to change the stat by
-        3. name: str | Char (default "")
-            - The name of the character or the character itself to change the stat for
-            - If there is no character in map with the name, -1 is returned
-            - This parameter is ignored is stat is MONEY
-        4. map: Dict[str, Char | Dict[str, Any]] (default None)
-            - The map of characters to get the character from
-            - If None and the name of the character is used instead of the Character-Object itself, -1 is returned
-            - This parameter is ignored is stat is MONEY
-        """
-
-        if stat == MONEY:
-            money.change_value(change)
         else:
-            change_stat_for_char(stat, change, name, map)
+            return get_character().get_stat_number(stat)
 
-    def change_stat_for_all(stat: str, delta: num, map: Dict[str, Char | Dict[str, Any]]):
-        """
-        Changes the stat value for all characters in the map
+    def display_character_stat(stat: str) -> str:
+        if stat == MONEY:
+            return money.display_stat()
+        else:
+            return get_character().display_stat(stat)
 
-        ### Parameters:
-        1. stat: str
-            - The name of the stat to change
-        2. delta: num
-            - The value to change the stat by
-        3. map: Dict[str, Char | Dict[str, Any]]
-            - The map of characters to change the stat for
-        """
+    def get_character_stat_value(stat: str) -> str:
+        if stat == MONEY:
+            return re.sub("\..+", "", money.get_display_value())
+        else:
+            return get_character().get_display_value(stat)
 
-        for character in map.keys():
-            map[character].change_stat(stat, delta)
+    def get_character_stat_change(stat: str) -> str:
+        if stat == MONEY:
+            return money.get_display_change()
+        else:
+            return get_character().get_display_change(stat)
 
-    def change_stat_for_char(stat: str, value: num, char: str | Char, map: Dict[str, Char | Dict[str, Any]] = None):
-        """
-        Changes the stat value for a character
+    def get_character_stat_obj(stat: str) -> Stat:
+        if stat == MONEY:
+            return money
+        else:
+            return get_character().get_stat_obj(stat)
 
-        ### Parameters:
-        1. stat: str
-            - The name of the stat to change
-        2. value: num
-            - The value to change the stat by
-        3. char: str | Char
-            - The name of the character or the character itself to change the stat for
-            - If there is no character in map with the name, -1 is returned
-        """
+    def set_character_stat(stat: str, value: num):
+        if stat == MONEY:
+            money.set_value(value)
+        else:
+            get_character().set_stat(stat, value)
 
-        if isinstance(char, Char):
-            char.change_stat(stat, value)
-        elif map != None and char in map.keys():
-            map[char].change_stat(stat, value)
+    def change_character_stat(stat: str, delta: num):
+        if stat == MONEY:
+            money.change_value(delta)
+        else:
+            get_character().change_stat(stat, delta)
 
-    def reset_stats(char: str | Char = "", map: Dict[str, Char | Dict[str, Any]] = None):
-        """
-        Resets the change of all the stats
-
-        ### Parameters:
-        1. char: str | Char (default "")
-            - The name of the character or the character itself to reset the stats for
-            - If there is no character in map with the name, -1 is returned
-            - If "", the stats for all characters in map are reset
-        2. map: Dict[str, Char | Dict[str, Any]] (default None)
-            - The map of characters to get the character from
-            - If None and the name of the character is used instead of the Character-Object itself, -1 is returned
-        """
-
+    def reset_character_stats():
         money.reset_change()
-        
-        if isinstance(char, Char):
-            char.reset_changed_stats()
-        elif map != None and char in map.keys():
-            map[char].reset_changed_stats()
-        elif map != None:
-            for keys in map.keys():
-                map[keys].reset_changed_stats()
+        get_character().reset_changed_stats()
 
-    ####################
-    # Char Level Handler
+    def get_character_level(key: str) -> int:
+        return get_character().get_level(key)
 
-    def get_level_for_char(char: str | Char, map: Dict[str, Char | Dict[str, Any]] = None) -> int:
-        """
-        Returns the level of the character
-
-        ### Parameters:
-        1. char: str | Char
-            - The name of the character to get the level from
-            - If there is no character in map with the name, -1 is returned
-        2. map: Dict[str, Char | Dict[str, Any]] (default None)
-            - The map of characters to get the character from
-            - If None and the name of the character is used instead of the Character-Object itself, -1 is returned
-
-        ### Returns:
-        1. int
-            - The level of the character
-            - -1 if the character does not exist
-        """
-
-        if isinstance(char, Char):
-            return char.get_level()
-        if map != None and char in map.keys():
-            return map[char].get_level()
-        return -1
-
-    def set_level_for_char(value: int, char: str | Char, map: Dict[str, Char | Dict[str, Any]] = None):
-        """
-        Sets the level of the character
-
-        ### Parameters:
-        1. value: int
-            - The value to set the level to
-        2. char: str | Char
-            - The name of the character or the character itself to set the level for
-            - If there is no character in map with the name, -1 is returned
-        3. map: Dict[str, Char | Dict[str, Any]] (default None)
-            - The map of characters to get the character from
-            - If None and the name of the character is used instead of the Character-Object itself, -1 is returned
-        """
-
-        if is_in_replay:
-            return
-
-        if isinstance(char, Char):
-            char.set_level(value)
-        elif map != None and char in map.keys():
-            map[char].set_level(value)
-
-    #####################
-    # Char Object Handler
-
-    def load_character(name: str, title: str, map: Dict[str, Char | Dict[str, Any]], start_data: Dict[str, Any], runtime_data: Dict[str, Any] = None):
-        """
-        Loads a character into the game
-
-        ### Parameters:
-        1. name: str
-            - The name of the character
-            - The name refers to the id representing the character. The actual name of the character is in title
-        2. title: str
-            - The title of the character
-            - The title is the actual name of the character
-        3. map: Dict[str, Char | Dict[str, Any]]
-            - The map of characters to load the character into
-        4. start_data: Dict[str, Any]
-            - The data to initialize the character with
-        5. runtime_data: Dict[str, Any] (default None)
-            - The data that can be updated after the first initialization of the character
-        """
-
-        if name not in map.keys():
-            map[name] = Char(name, title)
-            map[name].__dict__.update(start_data)
-
-        map[name]._update(runtime_data)
-
-    def update_character(char: str | Char, data: Dict[str, Any], map: Dict[str, Char | Dict[str, Any]] = None):
-        """
-        Updates the character with the data
-
-        ### Parameters:
-        1. char: str | Char
-            - The name of the character or the character itself to update
-            - If there is no character in map with the name, -1 is returned
-        2. data: Dict[str, Any]
-            - The data to update the character with
-        """
-
-        if isinstance(char, Char):
-            char._update(data)
-        elif map != None and char in map.keys():
-            map[char]._update(data)
-
-    def remove_character(name: str, map: Dict[str, Char | Dict[str, Any]]):
-        """
-        Removes the character from the map
-
-        ### Parameters:
-        1. name: str
-            - The name of the character to remove
-        2. map: Dict[str, Char | Dict[str, Any]]
-            - The map of characters to remove the character from
-        """
-
-        if name in map.keys():
-            del(map[name])
+    def set_character_level(key: str, level: int):
+        get_character().set_level(key, level)
 
     #############
     # Proficiency
@@ -1011,47 +682,90 @@ init -6 python:
             return get_headmaster_proficiency_level(subject)
         return get_headmaster_proficiency_xp(subject) / 100
 
+    #####################
+    # Char Object Handler
+
+    def load_character(name: str, title: str, start_data: Dict[str, Any], runtime_data: Dict[str, Any] = None):
+        """
+        Loads a character into the game
+
+        ### Parameters:
+        1. name: str
+            - The name of the character
+            - The name refers to the id representing the character. The actual name of the character is in title
+        2. title: str
+            - The title of the character
+            - The title is the actual name of the character
+        3. map: Dict[str, Char | Dict[str, Any]]
+            - The map of characters to load the character into
+        4. start_data: Dict[str, Any]
+            - The data to initialize the character with
+        5. runtime_data: Dict[str, Any] (default None)
+            - The data that can be updated after the first initialization of the character
+        """
+
+        global chara
+
+        if chara == None:
+            chara = Char(name, title)
+            chara.__dict__.update(start_data)
+
+        chara._update(runtime_data)
+
+    def update_character(data: Dict[str, Any]):
+        """
+        Updates the character with the data
+
+        ### Parameters:
+        1. char: str | Char
+            - The name of the character or the character itself to update
+            - If there is no character in map with the name, -1 is returned
+        2. data: Dict[str, Any]
+            - The data to update the character with
+        """
+
+        global chara
+
+        chara._update(data)
+
 label load_schools ():
     # """
     # Loads and updates all the Character-Objects for the game
     # """
-
-    $ load_character("secretary", "Secretary", charList['staff'], {
-        'stats_objects': {
-            "corruption": Stat(CORRUPTION, 35),
-            "inhibition": Stat(INHIBITION, 50),
-            "happiness": Stat(HAPPINESS, 57),
-            "education": Stat(EDUCATION, 28),
-            "charm": Stat(CHARM, 35),
-            "reputation": Stat(REPUTATION, 79),
-        }
-    })
-
-    $ load_character("parent", "Parents", charList, {
-        'stats_objects': {
-            "corruption": Stat(CORRUPTION, 0),
-            "inhibition": Stat(INHIBITION, 100),
-            "happiness": Stat(HAPPINESS, 15),
-            "education": Stat(EDUCATION, 15),
-            "charm": Stat(CHARM, 28),
-            "reputation": Stat(REPUTATION, 38),
-        }
-    })
-
-    $ load_character("teacher", "Teacher", charList['staff'], {
-        'stats_objects': {
-            "corruption": Stat(CORRUPTION, 0),
-            "inhibition": Stat(INHIBITION, 100),
-            "happiness": Stat(HAPPINESS, 13),
-            "education": Stat(EDUCATION, 35),
-            "charm": Stat(CHARM, 14),
-            "reputation": Stat(REPUTATION, 17),
-        }
-    })
-
+    
     #############################################
     # compatibility with version 0.1.2
-    # loading of school is included
     $ fix_schools()
 
+    if charList != None and "school" in charList.keys():
+        $ chara = charList["school"]
+        $ merge_charas()
+        $ charList = None
+    else:
+        $ load_character("school", "School", {
+            'stats_objects': {
+                "corruption": Stat(CORRUPTION, 0),
+                "inhibition": Stat(INHIBITION, 100),
+                "happiness": Stat(HAPPINESS, 12),
+                "education": Stat(EDUCATION, 9),
+                "charm": Stat(CHARM, 8),
+                "reputation": Stat(REPUTATION, 7),
+            }
+        })
+
     return
+
+init -99 python:
+    def merge_charas():
+        global chara
+
+        if charList == None:
+            return
+
+        if "staff" in charList.keys():
+            if "teacher" in charList["staff"].keys():
+                chara.set_level("teacher", charList["staff"]["teacher"].get_level())
+            if "secretary" in charList["staff"].keys():
+                chara.set_level("secretary", charList["staff"]["secretary"].get_level())
+        if "parent" in charList.keys():
+            chara.set_level("parent", charList["parent"].get_level())

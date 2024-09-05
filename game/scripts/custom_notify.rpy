@@ -39,8 +39,8 @@ default stat_notifications = {}
 init -99 python:
     import time as time_lib
 
-    def add_stat_notification(char: str, stat: str, value: int):
-        key = char + ":" + stat
+    def add_stat_notification(char: stat: str, value: int):
+        key = stat
         if key not in stat_notifications:
             stat_notifications[key] = 0
         stat_notifications[key] += value

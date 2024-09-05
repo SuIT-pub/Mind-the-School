@@ -441,12 +441,11 @@ init -6 python:
             - Otherwise the difference is returned as is.
         """
 
-        def __init__(self, blocking: bool = False, *, char_obj: str | Char = None, **kwargs):
+        def __init__(self, blocking: bool = False, **kwargs):
             super().__init__(blocking)
             self.stats = kwargs
             self.display_in_list = True
             self.display_in_desc = True
-            self.char_obj = char_obj
             
         def is_fulfilled(self, **kwargs) -> bool:
             """
@@ -464,18 +463,8 @@ init -6 python:
             if super().is_fulfilled(**kwargs):
                 return True
 
-            char_obj = None
-            if hasattr(self, 'char_obj'):
-                char_obj = self.char_obj
-
-            if isinstance(char_obj, str):
-                char_obj = get_character_by_key(char_obj)
-
-            if char_obj == None:
-                char_obj = get_kwargs('char_obj', get_school(), **kwargs)
-
             for stat in self.stats.keys():
-                if not char_obj.check_stat(stat, self.stats[stat]):
+                if not get_character().check_stat(stat, self.stats[stat]):
                     return False
 
             return True
@@ -497,13 +486,9 @@ init -6 python:
                 - Multiple conditions can be returned as a list.
             """
 
-            char_obj = get_kwargs('char_obj', **kwargs)
-            if char_obj == None:
-                return ("","")
-
             output = []
             for stat in self.stats.keys():
-                if char_obj.check_stat(stat, self.stats[stat]):
+                if get_character().check_stat(stat, self.stats[stat]):
                     output.append((
                         get_stat_icon(stat, white = False), 
                         "{color=#00a000}" + str(self.stats[stat]) + "{/color}", Stat_Data[stat].get_title()
@@ -535,15 +520,11 @@ init -6 python:
                 - Multiple conditions can be returned as a list.
             """
 
-            char_obj = get_kwargs('char_obj', **kwargs)
-            if char_obj == None:
-                return ""
-
             output = []
             for stat in self.stats.keys():
                 stat_name = Stat_Data[stat].get_title()
 
-                if char_obj.check_stat(stat, self.stats[stat]):
+                if get_character().check_stat(stat, self.stats[stat]):
                     output.append(stat_name + ": {color=#00a000}" + str(self.stats[stat]) + "{/color}")
                 else:
                     output.append(stat_name + ": {color=#a00000}" + str(self.stats[stat]) + "{/color}")
@@ -568,7 +549,7 @@ init -6 python:
 
             return ', '.join([Stat_Data[key].get_title() for key in self.stats.keys()])
 
-        def get_diff(self, char_obj: Char) -> num:
+        def get_diff(self) -> num:
             """
             Returns the difference between the condition and the given character.
             If the condition difference is lower than -20, the difference is multiplied by 10.
@@ -603,10 +584,9 @@ init -6 python:
             return output
 
     class StatLimitCondition(Condition):
-        def __init__(self, stat: str, char_obj: str | Char = None, **kwargs):
+        def __init__(self, stat: str, **kwargs):
             super().__init__(**kwargs)
             self._stat = stat
-            self._char_obj = char_obj
             self.display_in_list = False
             self.display_in_desc = False
 
@@ -615,17 +595,6 @@ init -6 python:
             if super().is_fulfilled(**kwargs):
                 return True
 
-            char_obj = None
-            if hasattr(self, '_char_obj'):
-                char_obj = self._char_obj
-
-            if isinstance(char_obj, str):
-                char_obj = get_character_by_key(char_obj)
-
-            if char_obj == None:
-                char_obj = get_kwargs('char_obj', get_school(), **kwargs)
-
-            
             if self._stat == CORRUPTION:
                 limit_value = clamp_value(100, 0, char_obj.get_level() * 10)
             elif self._stat == INHIBITION:
@@ -633,7 +602,7 @@ init -6 python:
             else:
                 return False
 
-            stat_value = get_stat_for_char(self._stat, char_obj)
+            stat_value = get_character_stat(self._stat)
 
             if stat_value == limit_value:
                 return True
@@ -645,8 +614,8 @@ init -6 python:
                 return "Inhibition limit"
             return ""
 
-        def get_diff(self, char_obj: Char) -> num:
-            if self.is_fulfilled(char_obj = char_obj):
+        def get_diff(self) -> num:
+            if self.is_fulfilled():
                 return 0
             return -100
 
@@ -1106,12 +1075,12 @@ init -6 python:
             - Otherwise the difference is returned as is.
         """
 
-        def __init__(self, value: int, blocking: bool = False, *, char_obj: Char = None):
+        def __init__(self, value: int, blocking: bool = False, level_key: str):
             super().__init__(blocking)
             self.value = value
             self.display_in_list = True
             self.display_in_desc = True
-            self.char_obj = char_obj
+            self.level_key = level_key
 
         def is_fulfilled(self, **kwargs):
             """
@@ -1129,16 +1098,7 @@ init -6 python:
             if super().is_fulfilled(**kwargs):
                 return True
 
-            char_obj = None
-            if hasattr(self, 'char_obj'):
-                char_obj = self.char_obj
-
-            if char_obj == None:
-                char_obj = get_kwargs('char_obj', **kwargs)
-            if char_obj == None:
-                return False
-
-            return char_obj.check_level(self.value)
+            return get_character().check_level(self.level_key, self.value)
 
         def to_desc_text(self, **kwargs) -> str:
             """
@@ -1194,7 +1154,7 @@ init -6 python:
 
             return "Level"
 
-        def get_diff(self, char_obj: Char) -> num:
+        def get_diff(self) -> num:
             """
             Returns the difference between the condition and the given characters level.
             If the level difference is lower than -2, the difference is multiplied by 50.
@@ -1212,7 +1172,7 @@ init -6 python:
 
             # return char_obj.get_nearest_level_delta(self.value) * 20
 
-            obj_level = char_obj.get_level()
+            obj_level = get_character_level(self.level_key)
             diff = get_value_diff(self.value, obj_level)
 
             if diff < -2:

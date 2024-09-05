@@ -143,7 +143,7 @@ label .after_check (**kwargs):
     call open_journal (1, "") from start_journal_1
 
 
-label open_journal(page, display, char = "school"):
+label open_journal(page, display):
     # """
     # A label used to open the journal screen
 
@@ -157,7 +157,7 @@ label open_journal(page, display, char = "school"):
     # """
 
     if page == 1:
-        call screen journal_overview(display, char) with dissolveM
+        call screen journal_overview(display) with dissolveM
     elif page == 2:
         call screen journal_page(2, display) with dissolveM
     elif page == 3:
@@ -165,7 +165,7 @@ label open_journal(page, display, char = "school"):
     elif page == 4:
         call screen journal_page(4, display) with dissolveM
     elif page == 5:
-        call screen journal_cheats(display, char) with dissolveM
+        call screen journal_cheats(display) with dissolveM
     elif page == 6:
         call screen journal_credits(display) with dissolveM
     elif page == 7:
@@ -383,7 +383,7 @@ screen journal_simple_list(page, display, display_list, default_style = "buttons
             unscrollable "hide"
             xalign 1.0
 
-screen journal_page_selector(page, display, char = "school"):
+screen journal_page_selector(page, display):
     # """
     # A screen used to display the page selector for the journal pages
 
@@ -439,56 +439,6 @@ screen journal_page_selector(page, display, char = "school"):
         if page != 8:
             hotspot (154, 358, 166, 93) action [With(dissolveM), Call("open_journal", 8, "")] tooltip "Goals"
             
-    if page == 1 or (page == 5 and display == 'stats'):
-        if char == "school":
-            image "journal/journal/school_hover.webp":
-                xpos 365
-                ypos 74
-            text "School":
-                xalign 0.225 yalign 0.1
-                size 20
-                color "#fff"
-        else:
-            imagebutton:
-                idle "journal/journal/school_idle.webp"
-                hover "journal/journal/school_hover.webp"
-                xpos 365
-                ypos 74
-                tooltip "School"
-                action [With(dissolveM), Call("open_journal", page, display, "school")]
-        if char == "teacher":
-            image "journal/journal/teacher_hover.webp":
-                xpos 541
-                ypos 75
-            text "Teacher":
-                xalign 0.3225 yalign 0.1
-                size 20
-                color "#fff"
-        else:
-            imagebutton:
-                idle "journal/journal/teacher_idle.webp"
-                hover "journal/journal/teacher_hover.webp"
-                xpos 541
-                ypos 75
-                tooltip "Teacher"
-                action [With(dissolveM), Call("open_journal", page, display, "teacher")]
-        if char == "parent":
-            image "journal/journal/parent_hover.webp":
-                xpos 718
-                ypos 76
-            text "Parents":
-                xalign 0.415 yalign 0.1
-                size 20
-                color "#fff"
-        else:
-            imagebutton:
-                idle "journal/journal/parent_idle.webp"
-                hover "journal/journal/parent_hover.webp"
-                xpos 718
-                ypos 76
-                tooltip "Parents"
-                action [With(dissolveM), Call("open_journal", page, display, "parent")]
-
     if cheat_mode:
         if page != 5:
             imagebutton:
@@ -645,9 +595,7 @@ screen journal_vote_button(page, display, active_obj):
             else:
                 $ probability = calculateProbabilitySum(
                     condition_storage, 
-                    get_character("teacher", charList["staff"]),
                     get_school(),
-                    get_character("parent", charList)
                 )
             $ locked_text = ""
             $ probability_text = str(clamp_value(round(probability, 2))) + "%"
@@ -705,7 +653,7 @@ screen journal_image(page, display, active_obj):
         image "[active_obj_image]": 
             xpos 985 yalign 0.65
 
-screen journal_cheats_stat(stat, char = "school"):
+screen journal_cheats_stat(stat):
     # """
     # A screen used to display the stat modification Row in the stat list on the cheat journal
 
@@ -720,12 +668,13 @@ screen journal_cheats_stat(stat, char = "school"):
     $ stat_text = stat_name.capitalize()
     $ stat_value = 0
 
-    $ char_obj = get_character_by_key(char)
+    $ char_obj = get_character()
 
     if stat == MONEY:
         $ stat_value = money.get_display_value()
-    elif stat == LEVEL:
-        $ stat_value = get_level_for_char(char_obj)
+    elif stat.startswith("level_"):
+        $ level_key = stat.splie('_')[1]
+        $ stat_value = char_obj.get_level(level_key)
     else:
         $ stat_value = char_obj.get_display_value(stat)
 
@@ -734,24 +683,24 @@ screen journal_cheats_stat(stat, char = "school"):
         text " [stat_text]" style "journal_text" yalign 0.5
     hbox:
         if stat != MONEY:
-            textbutton "Min" action Call("modify_stat", stat, -100, char) text_style "buttons_idle"
+            textbutton "Min" action Call("modify_stat", stat, -100) text_style "buttons_idle"
             null width 20
 
         if stat == MONEY:
-            textbutton "1000" action Call("modify_stat", stat, -1000, char) text_style "buttons_idle"
+            textbutton "1000" action Call("modify_stat", stat, -1000) text_style "buttons_idle"
             null width 30
-        elif stat == LEVEL:
-            textbutton "5" action Call("modify_stat", stat, -5, char) text_style "buttons_idle"
+        elif stat.startswith("level_"):
+            textbutton "5" action Call("modify_stat", stat, -5) text_style "buttons_idle"
             null width 40
         else:
-            textbutton "10" action Call("modify_stat", stat, -10, char) text_style "buttons_idle"
+            textbutton "10" action Call("modify_stat", stat, -10) text_style "buttons_idle"
             null width 20
 
         if stat == MONEY:
-            textbutton "-" action Call("modify_stat", stat, -100, char) text_style "buttons_idle"
+            textbutton "-" action Call("modify_stat", stat, -100) text_style "buttons_idle"
             null width 65
         else:
-            textbutton "-" action Call("modify_stat", stat, -1, char) text_style "buttons_idle"
+            textbutton "-" action Call("modify_stat", stat, -1) text_style "buttons_idle"
             null width 15
 
         button:
@@ -760,24 +709,24 @@ screen journal_cheats_stat(stat, char = "school"):
 
         if stat == MONEY:
             null width 65
-            textbutton "+" action Call("modify_stat", stat, 100, char) text_style "buttons_idle"
+            textbutton "+" action Call("modify_stat", stat, 100) text_style "buttons_idle"
         else:
             null width 15
-            textbutton "+" action Call("modify_stat", stat, 1, char) text_style "buttons_idle"
+            textbutton "+" action Call("modify_stat", stat, 1) text_style "buttons_idle"
 
         if stat == MONEY:
             null width 30
-            textbutton "1000" action Call("modify_stat", stat, 1000, char) text_style "buttons_idle"
-        elif stat == LEVEL:
+            textbutton "1000" action Call("modify_stat", stat, 1000) text_style "buttons_idle"
+        elif stat.startswith("level_"):
             null width 40
-            textbutton "5" action Call("modify_stat", stat, 5, char) text_style "buttons_idle"
+            textbutton "5" action Call("modify_stat", stat, 5) text_style "buttons_idle"
         else:
             null width 20
-            textbutton "10" action Call("modify_stat", stat, 10, char) text_style "buttons_idle"
+            textbutton "10" action Call("modify_stat", stat, 10) text_style "buttons_idle"
 
         if stat != MONEY:
             null width 30
-            textbutton "Max" action Call("modify_stat", stat, 100, char) text_style "buttons_idle"
+            textbutton "Max" action Call("modify_stat", stat, 100) text_style "buttons_idle"
     null height 30
 
 screen max_image_from_journal(image_path, journal, display):
@@ -1098,14 +1047,8 @@ screen journal_overview(display, char = "school"):
         xalign 0.25
         yalign 0.26
 
-    $ object_overview = {
-        'school': get_school(),
-        'teacher': get_character('teacher', charList['staff']),
-        'parent': get_character('parent', charList)
-    }
-
-    $ school_object = object_overview[char]
-    $ school_stats = school_object.get_stats()
+    $ character_object = get_character()
+    $ character_stats = character_object.get_stats()
 
     $ pta_proposal = get_game_data('voteProposal')
 
@@ -1153,27 +1096,54 @@ screen journal_overview(display, char = "school"):
 
                 null height 20
 
-                text "[school_object.title]" style "journal_text" size 40
+                text "[character_object.title]" style "journal_text" size 40
 
                 null height 20
 
+                $ button_style = "buttons_idle"
+                if "level" == display:
+                    $ button_style = "buttons_selected"
+                $ school_level_text = character_object.get_level_obj("school").display_stat()
+                $ teacher_level_text = character_object.get_level_obj("teacher").display_stat()
+                $ parents_level_text = character_object.get_level_obj("parent").display_stat()
+                $ secretary_level_text = character_object.get_level_obj("secretary").display_stat()
+                
                 hbox:
-                    $ button_style = "buttons_idle"
-                    if "level" == display:
-                        $ button_style = "buttons_selected"
-                    $ level_text = school_object.level.display_stat()
-
                     text get_stat_icon("level", white = False)
-                    textbutton "  Level:":
+                    textbutton "  School Level:":
                         yalign 0.5 
                         text_style button_style
-                        action [With(dissolveM), Call("open_journal", 1, "level", char)]
-                    text "[level_text]" style "journal_text" yalign 0.5
+                        action [With(dissolveM), Call("open_journal", 1, "level")]
+                    text "[school_level_text]" style "journal_text" yalign 0.5
+
+                hbox:
+                    text get_stat_icon("level", white = False)
+                    textbutton "  Teacher Level:":
+                        yalign 0.5 
+                        text_style button_style
+                        action [With(dissolveM), Call("open_journal", 1, "level")]
+                    text "[teacher_level_text]" style "journal_text" yalign 0.5
+
+                hbox:
+                    text get_stat_icon("level", white = False)
+                    textbutton "  Parents Level:":
+                        yalign 0.5 
+                        text_style button_style
+                        action [With(dissolveM), Call("open_journal", 1, "level")]
+                    text "[parents_level_text]" style "journal_text" yalign 0.5
+
+                hbox:
+                    text get_stat_icon("level", white = False)
+                    textbutton "  Secretary Level:":
+                        yalign 0.5 
+                        text_style button_style
+                        action [With(dissolveM), Call("open_journal", 1, "level")]
+                    text "[secretary_level_text]" style "journal_text" yalign 0.5
 
                 null height 20
 
-                for stat_key in school_stats.keys():
-                    $ stat_obj = school_object.get_stat_obj(stat_key)
+                for stat_key in character_stats.keys():
+                    $ stat_obj = get_character_stat_obj(stat_key)
                     $ stat_icon = stat_obj.get_image_path()
                     $ stat_value = stat_obj.display_stat()
                     $ stat_title = Stat_Data[stat_obj.get_name()].get_title()
@@ -1185,7 +1155,7 @@ screen journal_overview(display, char = "school"):
                         textbutton "  [stat_title]:":
                             yalign 0.5 
                             text_style button_style
-                            action [With(dissolveM), Call("open_journal", 1, stat_obj.get_name(), char)]
+                            action [With(dissolveM), Call("open_journal", 1, stat_obj.get_name())]
                         text " [stat_value]" style "journal_text" yalign 0.5
 
                 null height 20
@@ -1212,17 +1182,17 @@ screen journal_overview(display, char = "school"):
     if display != "":
         $ active_stat_obj = None
         if display == "level":
-            $ active_stat_obj = school_object.get_level_obj()
+            $ active_stat_obj = character_object.get_level_obj()
         elif display == "money":
             $ active_stat_obj = money
-        elif school_object.check_stat_exists(display):
-            $ active_stat_obj = school_object.get_stat_obj(display)
+        elif character_object.check_stat_exists(display):
+            $ active_stat_obj = character_object.get_stat_obj(display)
 
         if display == "money":
             use journal_money_overview
         else:
             if active_stat_obj != None:
-                $ active_desc = active_stat_obj.get_full_description(char_obj = school_object)
+                $ active_desc = active_stat_obj.get_full_description(char_obj = character_object)
                 $ active_image = active_stat_obj.get_image()
 
                 image "[active_image]":
@@ -1450,21 +1420,24 @@ screen journal_cheats(display, char = "school"):
                         color "#000000"
                         size 20
                     # MONEY
-                    use journal_cheats_stat(MONEY, char)
+                    use journal_cheats_stat(MONEY)
                     # LEVEL
-                    use journal_cheats_stat(LEVEL, char)
+                    use journal_cheats_stat("level_school")
+                    use journal_cheats_stat("level_parent")
+                    use journal_cheats_stat("level_teacher")
+                    use journal_cheats_stat("level_secretary")
                     # CORRUPTION
-                    use journal_cheats_stat(CORRUPTION, char)
+                    use journal_cheats_stat(CORRUPTION)
                     # INHIBITION
-                    use journal_cheats_stat(INHIBITION, char)
+                    use journal_cheats_stat(INHIBITION)
                     # HAPPINESS
-                    use journal_cheats_stat(HAPPINESS, char)
+                    use journal_cheats_stat(HAPPINESS)
                     # EDUCATION
-                    use journal_cheats_stat(EDUCATION, char)
+                    use journal_cheats_stat(EDUCATION)
                     # CHARM
-                    use journal_cheats_stat(CHARM, char)
+                    use journal_cheats_stat(CHARM)
                     # REPUTATION
-                    use journal_cheats_stat(REPUTATION, char)
+                    use journal_cheats_stat(REPUTATION)
                     
             vbar value YScrollValue("CheatStatList"):
                 unscrollable "hide"
@@ -2800,7 +2773,7 @@ label switch_building(building_name, level_delta = -1000):
         $ building.set_level(building.get_level() + level_delta)
     call open_journal(5, "buildings") from switch_building_1
 
-label modify_stat(stat, amount, char = "school"):
+label modify_stat(stat, amount):
     # """
     # Modifies a specific stat of a character
 
@@ -2814,11 +2787,12 @@ label modify_stat(stat, amount, char = "school"):
     #     - only needed when stat is not money
     # """
 
-    $ char_obj = get_character_by_key(char)
+    $ char_obj = get_character()
     if stat == "money":
         $ money.change_value(amount)
-    elif stat == "level":
-        $ char_obj.set_level(char_obj.get_level() + amount)
+    elif stat.startswith('level_'):
+        $ level_key = stat.split('_')[1]
+        $ char_obj.set_level(level_key, char_obj.get_level(level_key) + amount)
     else:
         $ char_obj.change_stat(stat, amount)
     call open_journal(5, "stats", char) from modify_stat_1

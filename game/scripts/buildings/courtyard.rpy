@@ -35,7 +35,6 @@ init 1 python:
         thumbnail = "images/events/first potion/first potion courtyard 1.webp")
 
     courtyard_event1 = Event(3, "courtyard_event_1",
-        LevelSelector('school_level', 'school'),
         RandomValueSelector('variant', 1, 1),
         OR(TimeCondition(daytime = "f", weekday = "d"), TimeCondition(daytime = "d", weekday = "w")),
         Pattern("main", "images/events/courtyard/courtyard_event_1 <school_level> <step>.webp"),
@@ -43,20 +42,17 @@ init 1 python:
 
     courtyard_event2 = Event(3, "courtyard_event_2",
         OR(TimeCondition(daytime = "f", weekday = "d"), TimeCondition(daytime = "d", weekday = "w")),
-        LevelSelector('school_level', 'school'),
         Pattern("main", "images/events/courtyard/courtyard_event_2 <school_level> <step>.webp"),
         thumbnail = "images/events/courtyard/courtyard_event_2 1 0.webp")
 
     courtyard_event3 = Event(3, "courtyard_event_3",
         TimeCondition(daytime = "f", weekday = "d"),
-        LevelSelector('school_level', 'school'),
         Pattern("main", "images/events/courtyard/courtyard_event_3 <school_level>.webp"),
         thumbnail = "images/events/courtyard/courtyard_event_3 1.webp")
 
     courtyard_event4 = Event(3, "courtyard_event_4",
         OR(TimeCondition(weekday = "d", daytime = "f"),
             TimeCondition(weekday = "w", daytime = "d")),
-        LevelSelector('school_level', 'school'),
         RandomListSelector('girl_name', 
             RandomListSelector('', 'Luna Clark', "Gloria Goto", "Ikushi Ito", "Ishimaru Maki"),
             (
@@ -74,13 +70,11 @@ init 1 python:
     courtyard_event5 = Event(3, "courtyard_event_5",
         OR(TimeCondition(weekday = "d", daytime = "f"),
             TimeCondition(weekday = "w", daytime = "d")),
-        LevelSelector('school_level', 'school'),
         Pattern("main", "images/events/courtyard/courtyard_event_5 <school_level>.webp"),
         thumbnail = "images/events/courtyard/courtyard_event_5 1.webp")
 
     courtyard_event6 = Event(3, "courtyard_event_6",
         TimeCondition(weekday = "d", daytime = "2,4"),
-        LevelSelector('school_level', 'school'),
         Pattern("main", "images/events/courtyard/courtyard_event_6 <school_level> <step>.webp"),
         thumbnail = "images/events/courtyard/courtyard_event_6 1 0.webp")
 
@@ -176,7 +170,7 @@ label first_week_courtyard_event (**kwargs):
     $ image.show(4)
     headmaster_thought "At least the courtyard doesn't need immediate fixing."
 
-    $ change_stat("happiness", 5, get_school())
+    $ change_character_stat(HAPPINESS, 5)
 
     $ set_building_blocked("courtyard")
 
@@ -184,8 +178,6 @@ label first_week_courtyard_event (**kwargs):
 
 label courtyard_event_1 (**kwargs):
     $ begin_event(**kwargs)
-
-    $ school_level = get_value('school_level', **kwargs)
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -205,7 +197,7 @@ label .look (**kwargs):
     $ image.show(3)
     sgirl "PERVERT!"
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = DEC_SMALL, reputation = DEC_TINY, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_9
     
     $ end_event("new_daytime", **kwargs)
@@ -218,15 +210,13 @@ label .look_away (**kwargs):
     $ image.show(5)
     subtitles "The girl looks at you ashamed of the situation and runs away. Glad you didn't stare."
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = TINY, reputation = TINY, inhibition = DEC_TINY) from _call_change_stats_with_modifier_10
     
     $ end_event("new_daytime", **kwargs)
 
 label courtyard_event_2 (**kwargs):
     $ begin_event(**kwargs)
-
-    $ school_level = get_value('school_level', **kwargs)
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -257,7 +247,7 @@ label .talk (**kwargs):
     $ image.show(9)
     sgirl "Thanks, bye."
     
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = DEC_TINY, reputation = TINY) from _call_change_stats_with_modifier_11
     $ end_event("new_daytime", **kwargs)
 label .leave (**kwargs):
@@ -267,18 +257,17 @@ label .leave (**kwargs):
     $ image.show(1)
     subtitles "You decide to leave her alone."
     
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = DEC_SMALL, reputation = DEC_SMALL) from _call_change_stats_with_modifier_12
     $ end_event("new_daytime", **kwargs)
 
 label courtyard_event_3 (**kwargs):
     $ begin_event(**kwargs)
     
-    $ school_level = get_value('school_level', **kwargs)
     $ show_pattern("main", **kwargs)
     subtitles "You notice a group of girls taking a break together."
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         charm = SMALL, happiness = TINY, education = TINY, reputation = SMALL) from _call_change_stats_with_modifier_13
     
     $ end_event("new_daytime", **kwargs)
@@ -286,7 +275,6 @@ label courtyard_event_3 (**kwargs):
 label courtyard_event_4(**kwargs):
     $ begin_event(**kwargs)
 
-    $ school_level = get_value('school_level', **kwargs)
     $ girl_name = get_value("girl_name", **kwargs)
 
     $ image = Image_Series("main", **kwargs)
@@ -294,7 +282,7 @@ label courtyard_event_4(**kwargs):
     call Image_Series.show_image(image, 0, 1, 2) from _call_Image_Series_show_image_3
     headmaster "Interesting..."
     
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = DEC_TINY, charm = TINY, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_14
 
     $ end_event("new_daytime", **kwargs)
@@ -302,22 +290,18 @@ label courtyard_event_4(**kwargs):
 label courtyard_event_5(**kwargs):
     $ begin_event(**kwargs)
 
-    $ school_level = get_value('school_level', **kwargs)
-
     # headmaster walks by
     # students walk by talking with each other
     $ show_pattern("main", **kwargs)
     subtitles "You come across a group of students talking to each other."
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = SMALL, charm = SMALL) from _call_change_stats_with_modifier_15
 
     $ end_event("new_daytime", **kwargs)
 
 label courtyard_event_6(**kwargs):
     $ begin_event(**kwargs)
-
-    $ school_level = get_value('school_level', **kwargs)
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -345,7 +329,7 @@ label courtyard_event_6(**kwargs):
     $ image.show(5)
     sgirl "Sorry!"
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         charm = DEC_TINY, education = SMALL) from _call_change_stats_with_modifier_16
 
     $ end_event("new_daytime", **kwargs)

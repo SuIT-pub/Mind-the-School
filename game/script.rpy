@@ -86,37 +86,23 @@ init python:
         fix_shouting_characters(character.crowd_shout)
         fix_whisper_characters(character.crowd_whisper)
 
-
-        old_character = get_character("school_mean_values", charList)
-        if old_character != None:
+        if charList != None and "school_man_values" in charList.keys():
+            old_character = charList["school_mean_values"]
             max_level = 0
-            high_school = get_character("high_school", charList['schools'])
-            middle_school = get_character("middle_school", charList['schools'])
-            elementary_school = get_character("elementary_school", charList['schools'])
-            if high_school != None:
-                max_level = max(max_level, high_school.get_level())
+            if charList['schools'] != None and "high_school" in charList['schools'].keys():
+                max_level = max(max_level, charList['schools']['high_school'].get_level())
 
             old_character.name = "school"
             old_character.title = "School"
-            old_character.level = Stat("level", max_level)
-            charList["school"] = old_character
+            old_character._update()
+            old_character.level['school'] = Stat("level", max_level)
+            chara = old_character
             charList.pop("school_mean_values")
         if 'schools' in charList:
             charList['schools'].pop("high_school")
             charList['schools'].pop("middle_school")
             charList['schools'].pop("elementary_school")
             charList.pop('schools')
-
-        load_character("school", "School", charList, {
-            'stats_objects': {
-                "corruption": Stat(CORRUPTION, 0),
-                "inhibition": Stat(INHIBITION, 100),
-                "happiness": Stat(HAPPINESS, 12),
-                "education": Stat(EDUCATION, 9),
-                "charm": Stat(CHARM, 8),
-                "reputation": Stat(REPUTATION, 7),
-            }
-        })
 
     def fix_whisper_characters(person: Person):
         """

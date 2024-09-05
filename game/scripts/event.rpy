@@ -1626,7 +1626,7 @@ init -3 python:
 
         event_dict[event_storage.get_name()] = event_storage
 
-    def begin_event(version: str = "1", **kwargs):
+    def begin_event(version: str = "2", **kwargs):
         """
         This method is called at the start of an event after choices and topics have been chosen in the event.
         It prevents rollback to before this method and thus prevents changing choices and topics.
@@ -1646,6 +1646,7 @@ init -3 python:
         in_replay = get_kwargs("in_replay", False, **kwargs)
         no_gallery = get_kwargs("no_gallery", False, **kwargs)
         is_fragment = get_kwargs("is_fragment", False, **kwargs)
+        no_level = get_kwargs("no_level", False, **kwargs)
 
         gallery_manager = None
         if event_name != "" and not in_replay and not no_gallery:

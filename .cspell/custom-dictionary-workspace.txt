@@ -1,6 +1,7 @@
 # Custom Dictionary Words
 abstractmethod
 bgimage
+chara
 Dateien
 datetime
 daysegment

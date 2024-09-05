@@ -204,6 +204,7 @@ init python:
             global gallery_manager
             gallery_manager = self
             self.event = event
+            self.registered_keys = []
 
             self.version = get_kwargs('version', "1", **kwargs)
 
@@ -260,6 +261,9 @@ init python:
         global gallery_manager
 
         if gallery_manager == None:
+            return
+
+        if key in gallery_manager.registered_keys:
             return
 
         if key in gallery_manager.current_ranges.keys() and is_float(value):
@@ -430,7 +434,7 @@ init python:
 
         key = key.replace('_level', '')
 
-        level = get_character_by_key(key).get_level()
+        level = get_character_level(key)
 
         if is_replay(**kwargs):
             event_name = get_kwargs('event_name', None, **kwargs)
