@@ -1042,6 +1042,10 @@ init -99 python:
         return persistent.modList
 
     def repair_mod_list():
+
+        if persistent.modList == None:
+            persistent.modList = {}
+
         if len(persistent.modList.keys()) == 0:
             persistent.modList['base'] = {
                 'key': 'base', 
