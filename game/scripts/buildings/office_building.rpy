@@ -707,16 +707,79 @@ label office_teacher_sex_ed_introduction_2 (**kwargs):
 
     $ end_event('new_daytime')
 
-label office_prepare_sex_ed_material(**kwargs):
+label office_teacher_sex_ed_introduction_3 (**kwargs):
     $ begin_event(**kwargs)
 
-    subtitles "You start working on the teaching material for the new sex ed classes"
-    headmaster_thought "Hmm, what should I include here?"
-    headmaster_thought "I think the material needs to be informative but also very visual and engaging."
-    headmaster_thought "I guess if I distribute the this before the weekend after introducing the new classes, the students would have time to read it and maybe already take some example out of it."
-    headmaster_thought "So I guess the introductory material should include information about clothing, hygiene, and the importance of consent and their psychological impacts."
-    headmaster_thought "I think that including some references to visual material should be enough for now."
+    headmaster_thought "Now let's start working on the information material for the teachers. This needs to be perfect, so the teachers will be convinced."
+    headmaster_thought "So what do I need to include in the material?"
+    headmaster_thought "I think I should start with the basics. What is sexual education and why is it important?"
+    headmaster_thought "Add some case studies and statistics to show the impact of sexual education on students."
+    headmaster_thought "And maybe some examples of how other schools have successfully implemented sexual education programs."
+    headmaster_thought "Then continue with the topics that will be covered in the classes and the teaching methods that will be used."
+    headmaster_thought "That will include the resources that will be available to the students and the teachers."
+    headmaster_thought "And finally, I should include a section on how the teachers can support the students and answer their questions."
+    headmaster_thought "I think that should cover everything. Now I just need to put it all together."
+    call screen black_screen_text("1h later.")
+    headmaster_thought "Now that's done. I think I should present it to the teachers and get their feedback."
+    
+    $ advance_progress('start_sex_ed')
 
+    $ end_event('new_daytime', **kwargs)
+
+label office_teacher_sex_ed_introduction_4 (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ finola = Character("Finola Ryan",   kind = character.teacher)
+    $ chloe  = Character("Chloe Garcia",  kind = character.teacher)
+    $ lily   = Character("Lily Anderson", kind = character.teacher)
+    $ yulan  = Character("Yulan Chen",    kind = character.teacher)
+    $ zoe    = Character("Zoe Parker",    kind = character.teacher)
+
+    headmaster "Good morning, teachers. Today, I would like to present to you the importance of sexual education and the comprehensive program we are planning to implement."
+    headmaster "I understand that there may be concerns and reservations about introducing this topic, but I believe it is crucial for the well-being and development of our students."
+    headmaster "Let's start with the basics. What is sexual education and why is it important?"
+    headmaster "Sexual education is a comprehensive program that provides students with accurate and age-appropriate information about human sexuality, relationships, and reproductive health."
+    headmaster "Now, you may wonder why it is important. Well, it equips students with the knowledge and skills they need to make informed decisions about their bodies, relationships, and sexual health."
+    headmaster "Without proper sexual education, students may rely on misinformation or peer pressure, which can lead to risky behaviors and negative consequences."
+    headmaster "But by providing accurate information, we can empower our students to develop healthy attitudes towards their bodies and relationships."
+    headmaster "Now, let's dive deeper. Allow me to share some case studies and statistics to address your concerns and demonstrate the potential benefits of sexual education."
+    headmaster "Research has shown that comprehensive sexual education programs can have a positive impact on students' knowledge, attitudes, and behaviors."
+    headmaster "For example, a study conducted by XYZ University found that schools with comprehensive sexual education programs had lower rates of teen pregnancy and sexually transmitted infections (STIs)."
+    headmaster "Another study by ABC Institute showed that students who received sexual education were more likely to delay sexual activity and use contraception when they did become sexually active."
+    headmaster "These case studies and statistics demonstrate the effectiveness of sexual education in promoting healthy behaviors and reducing negative outcomes."
+    headmaster "Now, let's take a look at some successful implementations of sexual education programs in other schools."
+    headmaster "I understand that you may have concerns about how this program will be implemented. However, there are many schools across the country that have successfully introduced sexual education programs."
+    headmaster "For instance, XYZ High School in Cityville implemented a comprehensive sexual education curriculum that included interactive classroom activities, guest speakers, and access to resources."
+    headmaster "They reported positive outcomes such as increased knowledge, improved communication skills, and reduced rates of teen pregnancy and STIs."
+    headmaster "By sharing these success stories, I hope to address your concerns and show that sexual education can make a positive difference in students' lives."
+    headmaster "Now, let's move on to the topics that will be covered in the classes and the teaching methods that will be used."
+    headmaster "I understand that you may have questions about the content and teaching methods. The sexual education classes will cover a range of topics, including but not limited to: human anatomy and reproductive systems, consent and healthy relationships, contraception and STI prevention, gender and sexual orientation, and communication skills."
+    headmaster "As for the teaching methods, they will be interactive and engaging, incorporating a variety of strategies such as group discussions, role-playing, multimedia presentations, and guest speakers."
+    headmaster "These methods will ensure that students actively participate in their learning and have opportunities to ask questions and share their perspectives."
+    headmaster "Now, let's talk about the resources that will be available to both the students and the teachers."
+    headmaster "I understand that you may have concerns about the resources and support available. Given our narrow budget, we will make the most of the limited resources we have to support students' learning."
+    headmaster "While we may not have access to extensive textbooks or online materials, we will ensure that the information provided is accurate and age-appropriate."
+    headmaster "In addition, we will collaborate with local health organizations and community centers to provide guest speakers and workshops on sexual education."
+    headmaster "Furthermore, we have plans to renovate our school library to provide students with a comfortable space for learning and research."
+    headmaster "The renovated library will be equipped with a variety of resources, including books, magazines, and reference materials."
+    headmaster "We will also create dedicated areas for studying and quiet reading to enhance the learning environment."
+    headmaster "By improving our library facilities, we aim to encourage students to utilize this valuable resource for their academic needs."
+    headmaster "As for teacher support, we will explore free online training programs and workshops to enhance your knowledge and skills in delivering sexual education effectively."
+    headmaster "Your dedication and creativity in delivering the curriculum will be crucial in overcoming the resource limitations."
+    headmaster "Lastly, I would like to emphasize the importance of your role as teachers in creating a safe and inclusive learning environment for students to discuss sensitive topics related to sexual education."
+    headmaster "Your support and guidance will be instrumental in addressing their concerns and providing accurate information, even with limited resources."
+    headmaster "By working together and making the most of what we have, we can ensure that our students receive the necessary knowledge and skills to make informed decisions and navigate their sexual health and relationships."
+    headmaster "Thank you for your attention. I hope that this presentation has addressed some of your concerns and that we can move forward together in implementing comprehensive sexual education."
+    
+    finola "Thank you for the presentation, Headmaster. I can see the potential benefits of sexual education, but I would like some time to think about it and discuss it with my colleagues."
+    chloe "I agree. It's an important topic, but we need to consider the concerns of parents and the community as well. Perhaps you could bring it up at the next PTA meeting and gather more feedback."
+    lily "I appreciate the effort you've put into this presentation, Headmaster. However, I think it would be beneficial to involve parents in the decision-making process. Let's discuss it further at the next PTA meeting."
+    yulan "I'm impressed with the research and success stories you've shared, Headmaster. However, I believe it's important to address any potential backlash or resistance from parents. Let's bring it up at the next PTA meeting and have a thorough discussion."
+    zoe "Thank you for the detailed presentation, Headmaster. I can see the value of sexual education, but I think it's important to involve parents and the students in the decision-making process. Let's discuss it further at the next PTA meeting."
+
+    headmaster "Thank you for your feedback. That will be all for today then."
+    headmaster "I wish you all a good day and we'll see each other at the next PTA meeting."
+    
     $ advance_progress('start_sex_ed')
 
     $ end_event('new_daytime', **kwargs)
