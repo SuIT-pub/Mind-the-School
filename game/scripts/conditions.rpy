@@ -3047,3 +3047,19 @@ init -6 python:
             diff = self.condition.get_diff(char_obj)
 
             return clamp_value(100 - diff, -100, 100)
+
+    class JournalVoteCondition(Condition):
+        def __init__(self, journal_obj: name):
+            super().__init__(False)
+            self._journal_obj = journal_obj
+
+        def is_fulfilled(self, **kwargs) -> bool:
+            if super().is_fulfilled(**kwargs):
+                return True
+
+            vote_obj = get_game_data('voteProposal')
+            
+            if vote_obj == None:
+                return False
+
+            return self._journal_obj == vote_obj.get_name()

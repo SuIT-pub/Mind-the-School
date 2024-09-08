@@ -2,6 +2,7 @@
     "key": "dev",
     "version": "dev",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "name": "Development",
 <<<<<<< HEAD
     "description": "Development Branch. aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -13,6 +14,8 @@
 >>>>>>> 67b5f1c (added more functionality for mod framework)
 =======
     "path": "/Dev",
+=======
+>>>>>>> 2dcab4a (added new pta stuff)
     "name": "Development",
     "description": "Development Branch",
     "author": "SuIT-Ji"
