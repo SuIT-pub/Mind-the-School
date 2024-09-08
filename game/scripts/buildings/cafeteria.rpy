@@ -470,7 +470,8 @@ label cafeteria_event_5(**kwargs):
     subtitles "You take your lunch, sit down at a table and observe your surroundings."
 
     # Headmaster looks around
-    call Image_Series.show_image(image, 1, 2) from _call_Image_Series_show_image_2
+    call empty_label from _call_Image_Series_show_image_2
+    $ image.show(1)
     headmaster_thought "It seems like the students are enjoying their lunch break."
 
     call change_stats_with_modifier('school',
