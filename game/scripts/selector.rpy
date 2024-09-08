@@ -888,3 +888,12 @@ init -3 python:
             char = self._char if not isinstance(self._char, Selector) else self._char.get_value(**kwargs)
 
             return get_character_by_key(char)
+
+    class PTAVoteSelector(Selector):
+        def __init__(self, key: str, journal_obj: Journal_Obj, char: str):
+            super().__init__(True, key)
+            self._journal_obj = journal_obj
+            self._char = char
+
+        def roll(self, **kwargs) -> Any:
+            return voteCharacter(self._journal_obj.get_condition_storage(), get_character_by_key(self._char))
