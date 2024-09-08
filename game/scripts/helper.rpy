@@ -1026,10 +1026,12 @@ init -99 python:
                 if mod['version'] != mod_json_obj['version']:
                     mod['active'] = False
                     mod.update(mod_json_obj)
+                    mod['path'] = metadata.replace("metadata", "")
                     persistent.modList[mod_json_obj['key']] = mod
             else:
                 mod = mod_json_obj
                 mod['active'] = False
+                mod['path'] = metadata.replace("metadata", "")
                 persistent.modList[mod_json_obj['key']] = mod
 
         for key in list(persistent.modList.keys()):
@@ -1078,16 +1080,8 @@ init -99 python:
 
     def get_mod_path(key: str) -> str:
         if key in persistent.modList.keys():
-            path = persistent.modList[key]['path']
-            if path != "":
-                if not path.endswith('/'):
-                    path += '/'
-                if not path.startswith('mods/'):
-                    if not path.startswith('/'):
-                        path = 'mods/' + path
-                    else:
-                        path = 'mods' + path
-            return path
+            return persistent.modList[key]['path']
+        return ""
 
     def get_current_mod_path() -> str:
         return get_mod_path(active_mod_key)

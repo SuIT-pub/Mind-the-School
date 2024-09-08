@@ -1,7 +1,6 @@
 {
     "key": "dev",
     "version": "dev",
-    "path": "/Dev",
     "name": "Development",
     "description": "Development Branch",
     "author": "SuIT-Ji"
