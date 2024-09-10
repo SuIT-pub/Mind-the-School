@@ -1492,7 +1492,7 @@ init -3 python:
 
             kwargs["event_obj"] = event_obj
 
-            kwargs['image_patterns'] = event_obj.get_pattern()
+            kwargs['frag_image_patterns'] = event_obj.get_pattern()
 
             kwargs["frag_index"] = index
             kwargs["frag_parent"] = self
