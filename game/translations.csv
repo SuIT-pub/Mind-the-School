@@ -18,12 +18,25 @@ tea;Tea
 warm milk;Warm milk
 normal;Normal
 sleeping;Sleeping
+full_casual_5;Full Casual Lvl. 5
+full_casual_6;Full Casual Lvl. 6
+underwear;Underwear
+nude;Nude
+handjob;Handjob
+blowjob;Blowjob
+missionary;Missionary
+doggy;Doggy Style
+cowgirl;Cowgirl
+desk;Desk
+floor;Floor
 
 ############
 # Subjects
 
 english;English
-math;Math
+math;Mathematics
+pe;Physical Education
+history;History
 
 ###############
 #--------------
@@ -102,7 +115,18 @@ gym_event_2_topic_clothe;Clothes
 
 gym_event_3;Missing her Sports Clothes
 
-gym_teach_pe_1;Teaching P.E. - Football
+gym_teach_pe;Teaching P.E. Class
+
+gym_teach_pe_intro_1;Normal Preparing
+gym_teach_pe_intro_aona_bra;Aona's new Bra
+
+gym_teach_pe_warm_up_1;Classic Warm Up
+
+gym_teach_pe_main_1;Playing Football
+gym_teach_pe_main_aona_bra;Running 1
+gym_teach_pe_main_aona_bra_2;Aona's new Bra
+
+gym_teach_pe_end_1;Nothing
 
 #######
 # Kiosk
@@ -117,12 +141,33 @@ kiosk_event_3;Expensive Bento
 #################
 # Office Building
 event_office_building_look_around;Look Around
+event_office_building_call_secretary;Call Secretary
 
 first_potion_office_building_event;First Potion
 first_week_office_building_event;First Week
 office_event_1;In need of counseling
 office_event_2;Teacher need a break
 office_event_3;Two students waiting
+
+event_office_building_work;Work
+event_office_building_money;Make some money
+event_office_building_education;Improve teaching material
+event_office_building_counselling;Hold counselling sessions
+event_office_building_reputation;Improve school reputation
+event_office_building_learn;Learn subject ({color=#a00000}-500${/color})
+
+work_office_money_event_1;Make money
+work_office_education_event_1;Improve teaching material
+work_office_reputation_event_1;Improve school reputation
+work_office_session_event_1;Normal counselling session
+
+work_office_session_event_first_naughty;First time naughty
+
+call_secretary_event;Call Secretary
+office_call_secretary_naughty_sandbox;Secretary Naughty Time
+
+naughty_sandbox;Be naughty
+
 
 #################
 # School Building
@@ -141,9 +186,39 @@ sb_event_2;Student tripping in class
 sb_event_3;Crying Girl
 sb_event_4;Student tripping in hallway
 
+sb_event_5;Girls changing in classroom
+sb_event_5_girls;Girls
+sb_event_5_girls_Ikushi Ito;Var 1
+sb_event_5_girls_Soyoon Yamamoto;Var 2
+sb_event_5_girls_Yuriko Oshima;Var 3
+
 sb_teach_math_1;Sleepy Math Class
 
-sb_teach_math_2;Math Excercises
+sb_teach_math_2;Math Exercises
+
+sb_teach_math;Teaching Math
+
+sb_teach_math_ld_1;No Reiterating
+
+sb_teach_math_ld_2;Reiterating
+sb_teach_math_ld_2_ld_girl_name;Girl
+
+sb_teach_math_ld_3;Girl tripping
+
+sb_teach_math_main_1;Math Exercises
+sb_teach_math_main_1_main_girl_name;Girl
+sb_teach_math_main_1_main_topic;Topic
+
+sb_teach_math_main_2;Silent Work and Help
+
+sb_teach_history;Teaching History
+sb_teach_history_school_level;School
+sb_teach_history_topic;Topic
+sb_teach_history_topic_french revolution;French Revolution
+
+sb_teach_history_intro_f_revolution_1;Intro
+sb_teach_history_main_f_revolution_1;Revolution Causes
+sb_teach_history_main_f_revolution_2;Essay
 
 ##################
 # School Dormitory
@@ -165,4 +240,8 @@ sd_event_3;Ready to bunk
 first_week_epilogue;First Week Epilogue
 first_week_epilogue_final;First Week Epilogue Final
 first_pta_meeting;First PTA Meeting
-tutorial_1;Tutorial
+aona_sports_bra_event_1;Bra shopping with Aona
+journal_tutorial;Journal Tutorial
+map_tutorial;Map Tutorial
+action_tutorial;Activity Selection Tutorial
+sandbox_tutorial;Movie Sandbox Tutorial

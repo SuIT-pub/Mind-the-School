@@ -8,14 +8,14 @@ init -1 python:
             cafeteria_general_event.has_available_highlight_events() or
             any(e.has_available_highlight_events() for e in cafeteria_events.values()))
 
-    cafeteria_timed_event = TempEventStorage("cafeteria_timed", "cafeteria", Event(2, "cafeteria.after_time_check"))
-    cafeteria_general_event = EventStorage("cafeteria_general", "cafeteria", Event(2, "cafeteria.after_general_check"))
+    cafeteria_timed_event = TempEventStorage("cafeteria_timed", "cafeteria", fallback = Event(2, "cafeteria.after_time_check"))
+    cafeteria_general_event = EventStorage("cafeteria_general", "cafeteria", fallback = Event(2, "cafeteria.after_general_check"))
 
     cafeteria_events = {}
-    add_storage(cafeteria_events, EventStorage("order_food",  "cafeteria", default_fallback, "I'm not hungry."))
-    add_storage(cafeteria_events, EventStorage("eat_alone",   "cafeteria", default_fallback, "I'm not hungry."))
+    add_storage(cafeteria_events, EventStorage("order_food",  "cafeteria", fallback_text = "I'm not hungry."))
+    add_storage(cafeteria_events, EventStorage("eat_alone",   "cafeteria", fallback_text = "I'm not hungry."))
 
-    cafeteria_bg_images = BGStorage("images/background/cafeteria/bg c.webp",
+    cafeteria_bg_images = BGStorage("images/background/cafeteria/bg c.webp", ValueSelector('loli', 0),
         BGImage("images/background/cafeteria/bg d <loli> <parent_level> <school_level> <variant> <nude>.webp", 1, OR(TimeCondition(daytime = '3,6', weekday = 'd'), TimeCondition(daytime = 'd', weekday = 'w'))),
         BGImage("images/background/cafeteria/bg c <parent_level> <nude>.webp", 1, OR(TimeCondition(daytime = 'c', weekday = 'd'), TimeCondition(daytime = 'd', weekday = 'w'))),
         BGImage("images/background/cafeteria/bg 7.webp", 1, TimeCondition(daytime = 7)), # show empty terrace at night
@@ -34,6 +34,10 @@ init 1 python:
         TimeCondition(daytime = "1,6"),
         TimeSelector("time", "daytime"),
         RandomListSelector("char_class", "parent", ("school", RuleCondition('school_jobs'))),
+        ConditionSelector("level", CompareCondition("char_class", "parent"), 
+            LevelSelector("", "parent"), 
+            LevelSelector("", "school")
+        ),
         RandomListSelector("girl_name", 
             ("Adelaide Hall", CompareCondition('char_class', 'parent')),
             (
@@ -47,6 +51,7 @@ init 1 python:
     cafeteria_event_3_event = Event(3, "cafeteria_event_3",
         TimeCondition(weekday = "d", daytime = "d"),
         NOT(RuleCondition('school_jobs')),
+        LevelSelector("parent_level", "parent"),
         ProgressSelector("unlock_school_jobs_value", "unlock_school_jobs"),
         ConditionSelector("unlock_school_jobs", CompareCondition("unlock_school_jobs_value", -1), 
             1, 
@@ -61,6 +66,8 @@ init 1 python:
             TimeCondition(weekday = "w", daytime = "d")
         ),
         RuleCondition('school_jobs'),
+        LevelSelector("parent_level", "parent"),
+        LevelSelector("school_level", "school"),
         RandomListSelector("amount", "1 Girl", "2 Girls", "3 Girls"),
         RandomListSelector("girl_1", 'Miwa Igarashi'),
         RandomListSelector("girl_2",
@@ -80,6 +87,7 @@ init 1 python:
 
     cafeteria_event_5_event = Event(3, "cafeteria_event_5",
         TimeCondition(weekday = "d", daytime = "f"),
+        LevelSelector("school_level", "school"),
         RandomListSelector('classes', 
             ('3A', LoliContentCondition(0)),
             (RandomListSelector('', '3A', '2A', '2A 3A'), LoliContentCondition(1)),
@@ -87,8 +95,15 @@ init 1 python:
         ),
         thumbnail = "images/events/cafeteria/cafeteria_event_5 1 3A 1.webp")
 
+    cafeteria_action_tutorial_event = Event(2, "action_tutorial",
+        NOT(ProgressCondition('action_tutorial')),
+        ValueSelector('return_label', 'cafeteria'),
+        NoHighlightOption(),
+        TutorialCondition(),
+        override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
 
     cafeteria_general_event.add_event(
+        cafeteria_action_tutorial_event,
         cafeteria_construction_event
     )
     cafeteria_events["order_food"].add_event(
@@ -115,16 +130,12 @@ label .after_time_check (**kwargs):
     call call_available_event(cafeteria_general_event) from cafeteria_4
 
 label .after_general_check (**kwargs):
-    $ loli = get_random_loli()
-    $ cafeteria_bg_images.add_kwargs(loli = loli)
-
     call call_event_menu (
         "What to do at the Cafeteria?", 
         cafeteria_events,
         default_fallback,
         character.subtitles,
         bg_image = cafeteria_bg_images,
-        context = loli,
     ) from cafeteria_3
 
     jump cafeteria
@@ -164,7 +175,6 @@ label cafeteria_construction(**kwargs):
 label cafeteria_event_1(**kwargs):
     $ begin_event(**kwargs)
 
-    $ parent_obj = get_char_value('parent_obj', **kwargs)
     $ topic = get_value("topic", **kwargs)
 
     $ image = Image_Series("images/events/cafeteria/cafeteria_event_1 <parent_level> <step>.webp", **kwargs)
@@ -184,8 +194,8 @@ label cafeteria_event_1(**kwargs):
     parent "Here you go." (name = 'Adelaide Hall')
     headmaster "Thank you."
 
-    $ change_stats_with_modifier(parent_obj,
-        happiness = SMALL, charm = TINY)
+    call change_stats_with_modifier('parent',
+        happiness = SMALL, charm = TINY) from _call_change_stats_with_modifier
 
     $ end_event('new_daytime', **kwargs)
 
@@ -193,12 +203,12 @@ label cafeteria_event_2(**kwargs):
     $ begin_event(**kwargs)
 
     $ char_class = get_value('char_class', **kwargs)
-    $ char_obj, char_level = set_char_value_with_level(char_class + '_obj', get_character_by_key(char_class), **kwargs)
+    $ get_value('level', **kwargs)
     $ time_ob = get_value('time', **kwargs)
     $ girl_name = get_value('girl_name', **kwargs).split(' ')[0]
     $ topic = get_value('topic', **kwargs)
 
-    $ image = Image_Series("images/events/cafeteria/cafeteria_event_2 <level> <girl_name> <topic> <step>.webp", level = char_level, **kwargs)
+    $ image = Image_Series("images/events/cafeteria/cafeteria_event_2 <level> <girl_name> <topic> <step>.webp", **kwargs)
 
     # headmaster walks into the cafeteria pantry where someone is changing clothes
     $ image.show(0)
@@ -212,16 +222,15 @@ label cafeteria_event_2(**kwargs):
     $ image.show(2)
     sgirl "Eh? Please leave, I'm changing."
 
-    $ change_stats_with_modifier(char_obj,
-        happiness = DEC_TINY, inhibition = DEC_SMALL)
+    call change_stats_with_modifier(char_class,
+        happiness = DEC_TINY, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_1
 
     $ end_event('new_daytime', **kwargs)
 
 label cafeteria_event_3(**kwargs):
     $ begin_event(**kwargs)
 
-    $ parent_obj = get_char_value('parent_obj', **kwargs)
-    $ school_obj = get_char_value('school_obj', **kwargs)
+    $ get_value('parent_level', **kwargs)
     $ topic = get_value('topic', **kwargs)
     if topic != 'overwhelmed':
         $ kwargs['unlock_school_jobs'] = 1
@@ -276,8 +285,8 @@ label cafeteria_event_3(**kwargs):
             if school_job_progress >= 3 and unlock_school_jobs < 2:
                 $ set_progress('unlock_school_jobs', 2)
 
-            $ change_stats_with_modifier(parent_obj,
-                happiness = DEC_SMALL, charm = TINY)
+            call change_stats_with_modifier('parent',
+                happiness = DEC_SMALL, charm = TINY) from _call_change_stats_with_modifier_2
 
             $ end_event('new_daytime', **kwargs)
 
@@ -340,10 +349,12 @@ label cafeteria_event_3(**kwargs):
 
             $ set_progress('unlock_school_jobs', 3)
 
+            $ add_notify_message("Added new rule to journal!")
+
             $ time.progress_time()
             
-            $ change_stats_with_modifier(parent_obj,
-                happiness = MEDIUM, charm = SMALL, reputation = MEDIUM)
+            call change_stats_with_modifier('parent',
+                happiness = MEDIUM, charm = SMALL, reputation = MEDIUM) from _call_change_stats_with_modifier_3
 
             $ end_event('new_daytime', **kwargs)
 
@@ -387,8 +398,8 @@ label cafeteria_event_3(**kwargs):
         $ image.show(11)
         subtitles "You spend the next hours working in the kitchen."
 
-        $ change_stats_with_modifier(parent_obj,
-            happiness = SMALL, charm = DEC_TINY, reputation = SMALL)
+        call change_stats_with_modifier('parent',
+            happiness = SMALL, charm = DEC_TINY, reputation = SMALL) from _call_change_stats_with_modifier_4
 
         $ end_event('new_daytime', **kwargs)
 
@@ -404,16 +415,16 @@ label cafeteria_event_3(**kwargs):
         # headmaster takes the sandwich and coffee
         headmaster "Thank you."
 
-        $ change_stats_with_modifier(parent_obj,
-            happiness = SMALL, charm = TINY)
+        call change_stats_with_modifier('parent',
+            happiness = SMALL, charm = TINY) from _call_change_stats_with_modifier_5
 
         $ end_event('new_daytime', **kwargs)
 
 label cafeteria_event_4(**kwargs):
     $ begin_event(**kwargs)
 
-    $ parent_obj = get_char_value('parent_obj', **kwargs)
-    $ school_obj = get_char_value('school_obj', **kwargs)
+    $ parent_level = get_value('parent_level', **kwargs)
+    $ school_level = get_value('school_level', **kwargs)
     $ amount = get_value("amount", **kwargs)
     $ girl_1 = get_value("girl_1", **kwargs)
     $ girl_2 = get_value("girl_2", **kwargs)
@@ -426,18 +437,18 @@ label cafeteria_event_4(**kwargs):
     if amount == "2 Girls" or amount == "3 Girls":
         headmaster_thought "I'm glad that so many girls are ready to help her."
 
-    $ change_stats_with_modifier(school_obj,
-        happiness = SMALL, charm = MEDIUM, education = TINY)
+    call change_stats_with_modifier('school',
+        happiness = SMALL, charm = MEDIUM, education = TINY) from _call_change_stats_with_modifier_6
 
-    $ change_stats_with_modifier(parent_obj,
-        happiness = MEDIUM, charm = TINY)
+    call change_stats_with_modifier('parent',
+        happiness = MEDIUM, charm = TINY) from _call_change_stats_with_modifier_7
 
     $ end_event('new_daytime', **kwargs)
 
 label cafeteria_event_5(**kwargs):
     $ begin_event(**kwargs)
 
-    $ school_obj = get_char_value('school_obj', **kwargs)
+    $ school_level = get_value('school_level', **kwargs)
     $ classes = get_value("classes", **kwargs)
 
     $ image = Image_Series("images/events/cafeteria/cafeteria_event_5 <school_level> <classes> <step>.webp", ['classes'], **kwargs)
@@ -447,11 +458,12 @@ label cafeteria_event_5(**kwargs):
     subtitles "You take your lunch, sit down at a table and observe your surroundings."
 
     # Headmaster looks around
-    call Image_Series.show_image(image, 1, 2) from _call_Image_Series_show_image_2
+    call empty_label from _call_Image_Series_show_image_2
+    $ image.show(1)
     headmaster_thought "It seems like the students are enjoying their lunch break."
 
-    $ change_stats_with_modifier(school_obj,
-        happiness = SMALL, charm = MEDIUM)
+    call change_stats_with_modifier('school',
+        happiness = SMALL, charm = MEDIUM) from _call_change_stats_with_modifier_8
 
     $ end_event('new_daytime', **kwargs)
 

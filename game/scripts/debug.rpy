@@ -13,7 +13,8 @@ init -100 python:
             - The value to print
         """
 
-        print(key + ": " + str(value) + "\n")
+        print(key + ": " + str(value))
+        return
 
     def log(msg: str):
         """
@@ -24,8 +25,7 @@ init -100 python:
             - The message to print
         """
 
-        print(str(msg) + "\n")
-
+        print(str(msg))
         return
 
     def log_error(code: int, msg: str):
@@ -37,13 +37,21 @@ init -100 python:
             - The message to print
         """
 
-        print(f"|ERROR[{str(code)}]| {str(msg)}\n")
-        # renpy.notify("|ERROR| " + str(msg))
+        print(f"|ERROR[{str(code)}]| {str(msg)}")
+        add_notify_message("|ERROR| " + str(msg))
         return
 
+    log_number = 0
+
+    def log_count(msg: str, start = False):
+        if start:
+            log_number = 0
+        
+        log_number += 1
+        log_val(msg, log_number)
 
 label test_label():
-    if get_progress("unlock_cafeteria") == -1:
-        $ start_progress("unlock_cafeteria")
-        $ renpy.notify("Updated the Journal!")
+    
+    call map_tutorial() from _call_map_tutorial
+
     return

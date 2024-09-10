@@ -5,7 +5,7 @@ import subprocess
 from typing import Tuple
 import pyautogui
 
-def move_files(move_mode: str, s_file: str, dest_file: str, overwrite: str) -> Tuple[int, str]:
+def move_files(move_mode: str, s_file: str, dest_file: str, overwrite: str, version_mode: str) -> Tuple[int, str]:
     if os.path.exists(dest_file):
         # File already exists at destination
         
@@ -47,7 +47,7 @@ def move_files(move_mode: str, s_file: str, dest_file: str, overwrite: str) -> T
             shutil.copy2(s_file, dest_file)
         elif move_mode == 'Extract new images':
             shutil.move(s_file, dest_file)
-    else:
+    elif version_mode != 'Only existing':
         # File doesn't exist at destination, copy it
         os.makedirs(os.path.dirname(dest_file), exist_ok=True)  # Create necessary directories
         if (move_mode == 'Backup images' or 
@@ -67,6 +67,8 @@ def main():
     source_path = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../game/images'))
 
     file_target = ['.png']
+    end_file_target = ['.png']
+    version_mode = ""
 
     mode = pyautogui.confirm(text = 'What would you like to do?', title = 'Backup Images', buttons = ['Backup images', 'Extract new images', 'Convert images', 'Return modified images', 'Clean Extract', 'Move Backup to Extract', 'Versioned Backup', 'Return Videos', 'Count', 'Compare images', 'Close'])
     if mode == 'Versioned Backup':
@@ -121,6 +123,10 @@ def main():
         destination_path = os.path.abspath(os.path.join(source_path, "../../../Versioned Image Backups/" + dest_choice + "/" + lossy_variant))
         file_target = ['.png', '.webm', '.webp']
     elif mode == 'Return Images from Versioned Backup':
+        versions_mode = pyautogui.confirm(text = 'Return all or only existing images?', title = 'Versioned Backup', buttons = ['All', 'Only existing', 'Cancel'])
+        if versions_mode == "Cancel":
+            return
+        version_mode = versions_mode
         versions = [name for name in os.listdir(os.path.abspath(os.path.join(source_path, "../../../Versioned Image Backups"))) if os.path.isdir(os.path.abspath(os.path.join(source_path, "../../../Versioned Image Backups/" + name)))]
         versions.append("Cancel")
         dest_choice = pyautogui.confirm(text = 'Where would you like to move the images from?', title = 'Versioned Backup', buttons = versions)
@@ -168,16 +174,46 @@ def main():
 
         file_target = ['.png', '.webp', '.webm']
     elif mode == 'Compare images':
-        comp_mode = pyautogui.confirm(text = 'What would you like to compare?', title = 'Compare Images', buttons = ['game -> backup', 'backup -> game', 'Cancel'])
+        comp_mode = pyautogui.confirm(text = 'What would you like to compare?', title = 'Compare Images', buttons = ['game -> backup', 'backup -> game', 'game -> (full) backup', 'Cancel'])
         if comp_mode == 'Cancel':
             return
         if comp_mode == 'game -> backup':
             destination_path = os.path.abspath(os.path.join(source_path, '../../../Image Extracter/Mind the School Image Backup'))
             file_target = ['.webp']
+            end_file_target = ['.png']
+        elif comp_mode == 'game -> (full) backup':
+            destination_path = os.path.abspath(os.path.join(source_path, '../../../Image Extracter/Mind the School Image Backup'))
+            destination_path2 = os.path.abspath(os.path.join(source_path, '../../../Image Extracter/Mind the School Full Image Backup'))
+            file_target = ['.webp']
+            end_file_target = ['.png']
         elif comp_mode == 'backup -> game':
             destination_path = source_path
             source_path = os.path.abspath(os.path.join(source_path, '../../../Image Extracter/Mind the School Image Backup'))
             file_target = ['.png']
+            end_file_target = ['.webp']
+        elif comp_mode == "Versioned Backup":
+
+            versions = [name for name in os.listdir(os.path.abspath(os.path.join(source_path, "../../../Versioned Image Backups"))) if os.path.isdir(os.path.abspath(os.path.join(source_path, "../../../Versioned Image Backups/" + name)))]
+            versions.append("Cancel")
+            dest_choice = pyautogui.confirm(text = 'What version would you like to compare the game to?', title = 'Versioned Backup', buttons = versions)
+            if dest_choice == "Cancel":
+                return
+
+            lossy_folders = [name for name in os.listdir(os.path.abspath(os.path.join(source_path, "../../../Versioned Image Backups/" + dest_choice))) if os.path.isdir(os.path.abspath(os.path.join(source_path, "../../../Versioned Image Backups/" + dest_choice + "/" + name)))]
+
+            if 'lossy' in lossy_folders and 'lossless' in lossy_folders:
+                lossy_variant = pyautogui.confirm(text = 'Would you like to compare lossy or lossless?', title = 'Compare images', buttons = ['lossless', 'lossy', 'Cancel'])
+                if lossy_variant == "Cancel":
+                    exit()
+                destination_path = os.path.abspath(os.path.join(source_path, "../../../Versioned Image Backups/" + dest_choice + "/" + lossy_variant))
+            elif 'lossy' in lossy_folders:
+                destination_path = os.path.abspath(os.path.join(source_path, "../../../Versioned Image Backups/" + dest_choice + "/lossy"))
+            elif 'lossless' in lossy_folders:
+                destination_path = os.path.abspath(os.path.join(source_path, "../../../Versioned Image Backups/" + dest_choice + "/lossless"))
+            else:
+                destination_path = os.path.abspath(os.path.join(source_path, "../../../Versioned Image Backups/" + dest_choice))
+            file_target = ['.webp']
+            end_file_target = 'compare_versioned'
     elif mode == 'Clean Extract':
         clean_confirm = pyautogui.confirm(text = 'Do you really want to purge everything in the Extract Folder?', title = 'Compare Images', buttons = ['YES', 'NO'])
         if clean_confirm == 'NO':
@@ -227,20 +263,29 @@ def main():
 
                 if mode == 'Compare images':
                     estimated_destination_file = os.path.join(destination_path, os.path.relpath(source_file, source_path))
-                    estimated_destination_file = estimated_destination_file.replace('.png', '.2')
-                    estimated_destination_file = estimated_destination_file.replace('.webp', '.png')
-                    estimated_destination_file = estimated_destination_file.replace('.2', '.webp')
+                    if not end_file_target == 'compare_versioned':
+                        estimated_destination_file = estimated_destination_file.replace('.png', '.2')
+                        estimated_destination_file = estimated_destination_file.replace('.webp', '.png')
+                        estimated_destination_file = estimated_destination_file.replace('.2', '.webp')
+                    estimated_destination_file2 = destination_path2
+                    if destination_path2 != "":
+                        estimated_destination_file2 = os.path.join(destination_path2, os.path.relpath(source_file, source_path))
+                        if not end_file_target == 'compare_versioned':
+                            estimated_destination_file2 = estimated_destination_file2.replace('.png', '.2')
+                            estimated_destination_file2 = estimated_destination_file2.replace('.webp', '.png')
+                            estimated_destination_file2 = estimated_destination_file2.replace('.2', '.webp')
                     if not os.path.exists(estimated_destination_file):
-                        source_file = source_file.replace('h:', 'H:')
-                        source_file = source_file.replace('H:\Dateien\OneDrive\RenPy Project\Mind the School\game\images\\', '')
-                        source_file = source_file.replace('H:\Dateien\OneDrive\RenPy Project\Image Extracter\Mind the School Image Backup\\', '')
-                        estimated_destination_file = estimated_destination_file.replace('h:', 'H:')
-                        estimated_destination_file = estimated_destination_file.replace('H:\Dateien\OneDrive\RenPy Project\Mind the School\game\images\\', '')
-                        estimated_destination_file = estimated_destination_file.replace('H:\Dateien\OneDrive\RenPy Project\Image Extracter\Mind the School Image Backup\\', '')
-                        print(f"Counterpart missing for: {source_file}\n    expected at {estimated_destination_file}")
+                        if (destination_path2 == "" or not os.path.exists(estimated_destination_file2)):
+                            source_file = source_file.replace('h:', 'H:')
+                            source_file = source_file.replace('H:\Dateien\OneDrive\RenPy Project\Mind the School\game\images\\', '')
+                            source_file = source_file.replace('H:\Dateien\OneDrive\RenPy Project\Image Extracter\Mind the School Image Backup\\', '')
+                            estimated_destination_file = estimated_destination_file.replace('h:', 'H:')
+                            estimated_destination_file = estimated_destination_file.replace('H:\Dateien\OneDrive\RenPy Project\Mind the School\game\images\\', '')
+                            estimated_destination_file = estimated_destination_file.replace('H:\Dateien\OneDrive\RenPy Project\Image Extracter\Mind the School Image Backup\\', '')
+                            print(f"Counterpart missing for: {source_file}\n    expected at {estimated_destination_file}")
                     continue
 
-                result, overwrite_setting = move_files(mode, source_file, destination_file, overwrite_setting)
+                result, overwrite_setting = move_files(mode, source_file, destination_file, overwrite_setting, version_mode)
 
                 if result == 1:
                     continue
@@ -250,7 +295,7 @@ def main():
                     count += 1
 
                 if destination_path2 != "":
-                    result, overwrite_setting = move_files(mode, source_file, destination_file2, overwrite_setting)
+                    result, overwrite_setting = move_files(mode, source_file, destination_file2, overwrite_setting, version_mode)
 
                     if result == 1:
                         continue
@@ -266,7 +311,8 @@ def main():
             for i, path in enumerate(paths):
                 nconvert_path = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'NConvert/nconvert.exe'))
                 print(f"\n\nConverting {i + 1}/{len(paths)}: {path}\n---------------------------------")
-                if response == 'Lossless':
+                if response == 'Lossless' or not '\\events\\' in path:
+                    print('overriding quality')
                     subprocess.run([nconvert_path, "-overwrite", "-out", "webp", "-q", "-1", path])
                 else:
                     subprocess.run([nconvert_path, "-overwrite", "-out", "webp", "-q", "90", path])

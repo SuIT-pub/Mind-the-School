@@ -2,6 +2,12 @@ init python:
     gallery_chooser = {}
     gallery_chooser_order = []
     old_event = ""
+    
+    def journal_add_to_gallery_chooser(value: Any, elem: Any, list_obj: List[Any], dict_obj: Dict[str, Any]) -> Tuple[List[Any], Dict[str, Any]]:
+        if elem not in list_obj:
+            list_obj.append(elem)
+            dict_obj[elem] = value
+        return list_obj, dict_obj
 
     def update_gallery_chooser(gallery_chooser_order: List[string], gallery_chooser: Dict[string, Any], gallery_dict: Dict[string, Any]) -> Dict[string, Any]:
         """
@@ -23,7 +29,6 @@ init python:
         reset = False
         # iterates through the order to check if all values are still in scope and if not to replace them
         for topic in gallery_chooser_order:
-
             # if the value is not in the dictionary or reset is true, then reset the list from this point on
             if gallery_chooser[topic] not in gallery_dict.keys() or reset:
                 values = list(gallery_dict.keys())
@@ -104,6 +109,23 @@ init python:
             return []
         return types[page]
 
+    
+
+init -1 python:
+    journal_events = EventStorage("journal_events", "misc", fallback = Event(2, "start_journal.after_check"))
+
+init 1 python:
+    
+    journal_tutorial_event = Event(1, "journal_tutorial",
+        NOT(ProgressCondition('journal_tutorial')),
+        TutorialCondition(),
+        thumbnail = "images/events/misc/journal_tutorial 0.webp")
+
+    journal_events.add_event(
+        journal_tutorial_event
+    )
+
+
 ############################
 # Journal Intro
 ############################
@@ -113,7 +135,12 @@ label start_journal ():
     # A label used to start the journal screen
     # """
 
+    call call_available_event(journal_events) from start_journal_2
+
+label .after_check (**kwargs):
+
     call open_journal (1, "") from start_journal_1
+
 
 label open_journal(page, display, char = "school"):
     # """
@@ -142,6 +169,8 @@ label open_journal(page, display, char = "school"):
         call screen journal_credits(display) with dissolveM
     elif page == 7:
         call screen journal_gallery(display) with dissolveM
+    elif page == 8:
+        call screen journal_goals(display) with dissolveM
 
 label close_journal ():
     # """
@@ -368,96 +397,118 @@ screen journal_page_selector(page, display, char = "school"):
 
     imagemap:
         if page == 1:
-            idle "journal/journal/1_[char]_idle.webp"
-            hover "journal/journal/1_hover.webp"
+            idle "journal/journal/1_idle.webp"
+            hover "journal/journal/hover.webp"
         elif page == 2:
             idle "journal/journal/2_idle.webp"
-            hover "journal/journal/2_hover.webp"
+            hover "journal/journal/hover.webp"
         elif page == 3:
             idle "journal/journal/3_idle.webp"
-            hover "journal/journal/3_hover.webp"
+            hover "journal/journal/hover.webp"
         elif page == 4:
             idle "journal/journal/4_idle.webp"
-            hover "journal/journal/4_hover.webp"
-        elif page == 5 and display == 'stats':
-            idle "journal/journal/5_stats_[char]_idle.webp"
-            hover "journal/journal/5_stats_hover.webp"
-        elif page == 5 and display != 'stats':
-            idle "journal/journal/5_idle.webp"
-            hover "journal/journal/5_hover.webp"
+            hover "journal/journal/hover.webp"
+        elif page == 5:
+            idle "journal/journal/idle.webp"
+            hover "journal/journal/hover.webp"
         elif page == 6:
             idle "journal/journal/6_idle.webp"
-            hover "journal/journal/6_hover.webp"
+            hover "journal/journal/hover.webp"
         elif page == 7:
             idle "journal/journal/7_idle.webp"
-            hover "journal/journal/7_hover.webp"
+            hover "journal/journal/hover.webp"
+        elif page == 8:
+            idle "journal/journal/8_idle.webp"
+            hover "journal/journal/hover.webp"
+
+    
 
         if page != 1:
             hotspot (144, 250, 168, 88) action [With(dissolveM), Call("open_journal", 1, "")] tooltip "School Overview"
-        if page < 2:
-            hotspot (1522, 617, 168, 88) action [With(dissolveM), Call("open_journal", 2, "")] tooltip "Rules"
-        if page > 2:
+        if page != 2:
             hotspot (144, 617, 168, 88) action  [With(dissolveM), Call("open_journal", 2, "")] tooltip "Rules"
-        if page < 3:
-            hotspot (1522, 722, 168, 88) action [With(dissolveM), Call("open_journal", 3, "")] tooltip "Clubs"
-        if page > 3:
+        if page != 3:
             hotspot (144, 722, 168, 88) action [With(dissolveM), Call("open_journal", 3, "")] tooltip "Clubs"
-        if page < 4:
-            hotspot (1522, 830, 168, 88) action [With(dissolveM), Call("open_journal", 4, "")] tooltip "Buildings"
-        if page > 4:
+        if page != 4:
             hotspot (144, 830, 168, 88) action [With(dissolveM), Call("open_journal", 4, "")] tooltip "Buildings"
-
-        if page == 1 or (page == 5 and display == 'stats'):
-            if char != "school":
-                hotspot (373, 80, 160, 67) action [With(dissolveM), Call("open_journal", page, display, "school")] tooltip "School"
-            if char != "teacher":
-                hotspot (550, 80, 160, 67) action [With(dissolveM), Call("open_journal", page, display, "teacher")] tooltip "Teacher"
-            if char != "parent":
-                hotspot (725, 80, 160, 67) action [With(dissolveM), Call("open_journal", page, display, "parent")] tooltip "Parents"
-    
+        if page != 6:
+            hotspot (1500, 246, 179, 87) action [With(dissolveM), Call("open_journal", 6, "")] tooltip "Credits"
+        if page != 7:
+            hotspot (1493, 356, 185, 87) action [With(dissolveM), Call("open_journal", 7, "")] tooltip "Replay"
+        if page != 8:
+            hotspot (154, 358, 166, 93) action [With(dissolveM), Call("open_journal", 8, "")] tooltip "Goals"
+            
     if page == 1 or (page == 5 and display == 'stats'):
         if char == "school":
+            image "journal/journal/school_hover.webp":
+                xpos 365
+                ypos 74
             text "School":
                 xalign 0.225 yalign 0.1
                 size 20
-                color "#000"
+                color "#fff"
+        else:
+            imagebutton:
+                idle "journal/journal/school_idle.webp"
+                hover "journal/journal/school_hover.webp"
+                xpos 365
+                ypos 74
+                tooltip "School"
+                action [With(dissolveM), Call("open_journal", page, display, "school")]
         if char == "teacher":
+            image "journal/journal/teacher_hover.webp":
+                xpos 541
+                ypos 75
             text "Teacher":
                 xalign 0.3225 yalign 0.1
                 size 20
-                color "#000"
+                color "#fff"
+        else:
+            imagebutton:
+                idle "journal/journal/teacher_idle.webp"
+                hover "journal/journal/teacher_hover.webp"
+                xpos 541
+                ypos 75
+                tooltip "Teacher"
+                action [With(dissolveM), Call("open_journal", page, display, "teacher")]
         if char == "parent":
+            image "journal/journal/parent_hover.webp":
+                xpos 718
+                ypos 76
             text "Parents":
                 xalign 0.415 yalign 0.1
                 size 20
-                color "#000"
+                color "#fff"
+        else:
+            imagebutton:
+                idle "journal/journal/parent_idle.webp"
+                hover "journal/journal/parent_hover.webp"
+                xpos 718
+                ypos 76
+                tooltip "Parents"
+                action [With(dissolveM), Call("open_journal", page, display, "parent")]
 
-    if cheat_mode and page != 5:
-        imagebutton:
-            idle "journal/journal/cheat_tag_idle.webp"
-            hover "journal/journal/cheat_tag_hover.webp"
-            tooltip "Cheats"
-            xpos 1268
-            ypos 70
-            action [With(dissolveM), Call("open_journal", 5, "")]
+    if cheat_mode:
+        if page != 5:
+            imagebutton:
+                idle "journal/journal/cheat_idle.webp"
+                hover "journal/journal/cheat_hover.webp"
+                tooltip "Cheats"
+                xpos 1501
+                ypos 715
+                action [With(dissolveM), Call("open_journal", 5, "")]
+        else:
+            image "journal/journal/cheat_hover.webp":
+                xpos 1501
+                ypos 715
 
-    if page != 6:
-        imagebutton:
-            idle "journal/journal/credit_tag_idle.webp"
-            hover "journal/journal/credit_tag_hover.webp"
-            tooltip "Credits"
-            xpos 338
-            ypos 953
-            action [With(dissolveM), Call("open_journal", 6, "")]
-
-    if page != 7:
-        imagebutton:
-            idle "journal/journal/gallery_tag_idle.webp"
-            hover "journal/journal/gallery_tag_hover.webp"
-            tooltip "Gallery"
-            xpos 1280
-            ypos 960
-            action [With(dissolveM), Call("open_journal", 7, "")]
+    imagebutton:
+        idle "journal/journal/close_idle.webp"
+        hover "journal/journal/close_hover.webp"
+        tooltip "Close Journal"
+        xpos 1509
+        ypos 836
+        action [With(dissolveM), Jump("map_overview")]
 
 screen journal_desc(page, display, active_obj, with_title = False):
     # """
@@ -678,7 +729,7 @@ screen journal_cheats_stat(stat, char = "school"):
         $ stat_value = char_obj.get_display_value(stat)
 
     hbox:
-        text "{image=icons/stat_[stat_name]_icon.webp}"
+        text get_stat_icon(stat_name, white = False)
         text " [stat_text]" style "journal_text" yalign 0.5
     hbox:
         if stat != MONEY:
@@ -728,7 +779,7 @@ screen journal_cheats_stat(stat, char = "school"):
             textbutton "Max" action Call("modify_stat", stat, 100, char) text_style "buttons_idle"
     null height 30
 
-screen max_image_from_journal(image_path, jorunal, display):
+screen max_image_from_journal(image_path, journal, display):
     # """
     # A screen solely used to display the max size variant of journal images and then return to the original journal page
 
@@ -1001,11 +1052,6 @@ screen journal_page(page, display):
 
         use journal_vote_button(page, display, active_obj)
 
-    textbutton "Close":
-        xalign 0.75
-        yalign 0.87
-        action [With(dissolveM), Jump("map_overview")]
-
     $ tooltip = GetTooltip()
     if tooltip:
         nearrect:
@@ -1045,6 +1091,11 @@ screen journal_overview(display, char = "school"):
         yalign 0.2
         size 60
         color "#000"
+
+    text "Click on any stat to get more information on it.":
+        style "journal_text_small"
+        xalign 0.25
+        yalign 0.26
 
     $ object_overview = {
         'school': get_school(),
@@ -1092,7 +1143,7 @@ screen journal_overview(display, char = "school"):
                         $ button_style = "buttons_selected"
                     $ money_text = money.display_stat()
 
-                    text "{image=icons/stat_money_icon.webp}"
+                    text get_stat_icon("money", white = False)
                     textbutton "  Money:":
                         yalign 0.5 
                         text_style button_style
@@ -1111,7 +1162,7 @@ screen journal_overview(display, char = "school"):
                         $ button_style = "buttons_selected"
                     $ level_text = school_object.level.display_stat()
 
-                    text "{image=icons/stat_level_icon.webp}"
+                    text get_stat_icon("level", white = False)
                     textbutton "  Level:":
                         yalign 0.5 
                         text_style button_style
@@ -1129,12 +1180,29 @@ screen journal_overview(display, char = "school"):
                     if stat_key == display:
                         $ button_style = "buttons_selected"
                     hbox:
-                        text "{image=[stat_icon]}"
+                        text get_stat_icon(stat_key, white = False)
                         textbutton "  [stat_title]:":
                             yalign 0.5 
                             text_style button_style
                             action [With(dissolveM), Call("open_journal", 1, stat_obj.get_name(), char)]
                         text " [stat_value]" style "journal_text" yalign 0.5
+
+                null height 20
+
+                text "Subject Proficiency" style "journal_text" size 40
+
+                null height 20
+
+                $ subject_levels = get_headmaster_proficiency_levels()
+                $ subject_xp = get_headmaster_proficiency_xps()
+
+                for key in subject_levels.keys():
+                    $ subject = get_translation(key)
+                    $ level = subject_levels[key]
+                    $ xp = subject_xp[key]
+                    text "{b}[subject]{/b}:" style "journal_text" size 28
+                    text "    Lvl. [level] {size=20}([xp] / 100){/size}" style "journal_text" yalign 0.5 size 25
+                    null height 5
 
         vbar value YScrollValue("Overview"):
             unscrollable "hide"
@@ -1153,7 +1221,7 @@ screen journal_overview(display, char = "school"):
             use journal_money_overview
         else:
             if active_stat_obj != None:
-                $ active_desc = active_stat_obj.get_full_description()
+                $ active_desc = active_stat_obj.get_full_description(char_obj = school_object)
                 $ active_image = active_stat_obj.get_image()
 
                 image "[active_image]":
@@ -1173,11 +1241,6 @@ screen journal_overview(display, char = "school"):
                     vbar value YScrollValue("OverviewDesc"):
                         unscrollable "hide"
                         xalign 1.05
-
-    textbutton "Close":
-        xalign 0.75
-        yalign 0.87
-        action [With(dissolveM), Jump("map_overview")]
 
     $ tooltip = GetTooltip()
     if tooltip:
@@ -1242,7 +1305,7 @@ screen journal_cheats(display, char = "school"):
                 mousewheel True
                 draggable "touch"
                 vbox:
-                    text "Changing game values can lead to unintended behaviour or a broken game save.\nProceed on your own risk.":
+                    text "Changing game values can lead to unintended behaviour or a broken game save.\nMost functions on this page are used for debugging during developement.\nProceed on your own risk.":
                         color "#000000"
                         size 20
 
@@ -1355,6 +1418,17 @@ screen journal_cheats(display, char = "school"):
                         button:
                             text "{color=#a00000}RESET NOW{/color}" xalign 1.0
                             action [With(dissolveM), Call("reset_gallery_cheat", 5, display)]
+                            xsize 250
+
+                    null height 10
+                    hbox:
+                        button:
+                            text "Dump Gallery Data" xalign 0.0 style "journal_text"
+                            xsize 250
+
+                        button:
+                            text "{color=#a00000}PRINT{/color}" xalign 1.0
+                            action [With(dissolveM), Call("dump_gallery_data", 5, display)]
                             xsize 250
                 
                     
@@ -1602,7 +1676,7 @@ screen journal_cheats(display, char = "school"):
                 button:
                     xalign 0.63 yalign 0.65
                     image "[active_building_image]"
-                    action Call("call_max_image_from_journal", active_building_full_image, 4, display)
+                    action Call("call_max_image_from_journal", active_building_full_image, 5, display)
             else:
                 image "[active_building_image]": 
                     xalign 0.629 yalign 0.647
@@ -1624,17 +1698,6 @@ screen journal_cheats(display, char = "school"):
                 xalign 0.55 yalign 0.87
                 text_style "buttons_idle"
                 action [With(dissolveM), Call("open_journal", 5, "buildings")]
-
-    text "Cheats": 
-        xalign 0.25 
-        yalign 0.2
-        size 60
-        color "#000"
-
-    textbutton "Close":
-        xalign 0.75
-        yalign 0.87
-        action [With(dissolveM), Jump("map_overview")]
 
     $ tooltip = GetTooltip()
     if tooltip:
@@ -1668,26 +1731,36 @@ screen journal_gallery(display):
     use journal_page_selector(7, display)
 
     text "Gallery":
-        xalign 0.725 yalign 0.955
-        size 20
-        color "#000"
-
-    text "Gallery":
         xalign 0.25 yalign 0.2
         size 60
         color "#000"
 
-    $ location = ""
-    $ event = ""
-
     # separate location and event in display (schema: location.event)
+    $ split_display = [display, "", "value_mode", ""]
     if '.' in display:
-        $ location, event = display.split('.')
-    else:
-        $ location = display
+        $ split_display = display.split('.')
+    
+    
+
+    $ location = split_display[0]
+    $ event = split_display[1] if len(split_display) > 1 else ""
+
+    
+
+    # value_mode, fragment_mode, fragment_selection_mode
+    $ display_mode = split_display[2] if len(split_display) > 2 else "value_mode"
+    $ fragment_selection_index = int(split_display[3]) if len(split_display) > 3 and is_integer(split_display[3]) else 0
+    $ fragment_selection_fragment = split_display[4] if len(split_display) > 4 else ""
+
+    python:
+        if get_event_from_register(fragment_selection_fragment) != None:
+            persistent.gallery[location][event]['options']['frag_order'][fragment_selection_index] = fragment_selection_fragment
+
+    
 
     # if no location is defined 
     if location == "": 
+        
         # parse all available location keys to their corresponding buildings
         $ location_list = [get_building(location_name) for location_name in persistent.gallery.keys() if get_building(location_name) != None]
 
@@ -1698,6 +1771,8 @@ screen journal_gallery(display):
         # miscellaneous represents all events that are not bound to a location
         if 'misc' in persistent.gallery.keys():
             $ location_dict['misc'] = "Miscellaneous"
+
+        
 
         # check if there is any event that can be replayed
         # if yes, display a list with all locations where events are available
@@ -1719,7 +1794,10 @@ screen journal_gallery(display):
                 xmaximum 500
                 ymaximum 50
                 color "#000"
+        
     elif location != "": # if a location is defined
+        
+
         $ location_title = "Miscellaneous"
         $ building = get_building(location)
         if building != None:
@@ -1738,7 +1816,7 @@ screen journal_gallery(display):
             xpos 350 ypos 300
             text_style "buttons_idle"
             action [With(dissolveM), Call("open_journal", 7, "")]
-
+        
         # if there is no event displayed, prompt the user to select one
         if event == "":
             text "Please select an event.":
@@ -1748,39 +1826,35 @@ screen journal_gallery(display):
                 xmaximum 500
                 ymaximum 50
                 color "#000"
-
+        elif display_mode == "fragment_selection_mode":
+            $ event_obj = get_event_from_register(event)
+            $ event_title = get_translation(event_obj.get_id())
+            # return button for returning to location overview
+            textbutton "  ← [event_title]":
+                xpos 350 ypos 350
+                text_style "buttons_idle"
+                action [With(dissolveM), Call("open_journal", 7, '.'.join([location, event, "fragment_mode"]))]
+        
     # if location is selected, display a list of all possible events in that location
-    if location != "":    
-        $ event_list = [get_event_from_register(event_name) for event_name in persistent.gallery[location].keys() if get_event_from_register(event_name) != None]
-        $ event_dict = {f"{location}.{event_obj.get_event()}": get_translation(event_obj.get_event()) for event_obj in event_list}
-        use journal_simple_list(7, display, event_dict, "buttons_idle", pos_x = 400, pos_y = 350, width = 450, sort = True)
-
-    # if an event is selected, display eent information on right side
+    if location != "":
+        
+        if display_mode != "fragment_selection_mode":
+            $ event_list = [get_event_from_register(event_name) for event_name in persistent.gallery[location].keys() if get_event_from_register(event_name) != None and renpy.has_label(get_event_from_register(event_name).get_event_label())]
+            $ event_dict = {f"{location}.{event_obj.get_event()}": get_translation(event_obj.get_event()) for event_obj in event_list}
+            use journal_simple_list(7, display, event_dict, "buttons_idle", pos_x = 400, pos_y = 350, width = 450, sort = True)
+        else: 
+            $ event_frag_storage = persistent.gallery[location][event]['options']['Frag_Storage'][fragment_selection_index]
+            $ base_event_data = persistent.gallery[location][event]['options']['last_data']
+            $ event_list = [get_event_from_register(event_name) for event_name in persistent.gallery["FragStorage"][event_frag_storage]['values'].keys() if get_event_from_register(event_name) != None and get_event_from_register(event_name).is_available(in_journal_gallery = True, **base_event_data)]
+            $ event_dict = {'.'.join([location, event, "fragment_selection_mode", str(fragment_selection_index), event_obj.get_event()]): get_translation(event_obj.get_event()) for event_obj in event_list}
+            use journal_simple_list(7, display, event_dict, "buttons_idle", pos_x = 450, pos_y = 400, width = 450, height = 550, sort = True)
+        
+    # if an event is selected, display event information on right side
     if event != "":
+        
 
-        # check if event has changed to trigger information reload
-        if event != old_event:
-            $ gallery_chooser = {}
-            $ gallery_chooser_order = []
-            $ old_event = event
-
-        # load existing data for user selection from last session
-        if ('last_data' in persistent.gallery[location][event]['options'].keys() and 
-            'last_order' in persistent.gallery[location][event]['options'].keys()
-        ):
-            $ gallery_chooser = persistent.gallery[location][event]['options']['last_data']
-            $ gallery_chooser_order = persistent.gallery[location][event]['options']['last_order']
-
-        # displays a button that deletes all persistent data for this specific event
-        if debug_mode:
-            textbutton "{color=#a00000}Reset Event{/color}":
-                text_style "journal_text"
-                xpos 1280
-                ypos 160
-                action [With(dissolveM), Call('reset_event_gallery', location, event)]
-
-        # retirve Event data from Event Register
         $ event_obj = get_event_from_register(event)
+        $ top_border_offset = 0
 
         # display event title on top of page
         $ event_title = get_translation(event_obj.get_event())
@@ -1791,7 +1865,7 @@ screen journal_gallery(display):
             xmaximum 500
             ymaximum 50
             color "#000"
-
+        
         # display event thumbnail if available
         $ thumbnail = Image("images/journal/empty_image_wide.webp")
         if renpy.loadable(event_obj.get_thumbnail()):
@@ -1800,125 +1874,249 @@ screen journal_gallery(display):
         image thumbnail:
             xpos 989 ypos 250
 
-        $ disable_play = False
-
-        # load all variables requested by the event
-        $ variant_names = [topic for topic in persistent.gallery[location][event]['order']]
         $ has_option = False
+        
+        if event_obj.get_form() == "composite":            
+            python:
+                if 'frag_order' not in persistent.gallery[location][event]['options'].keys():
+                    persistent.gallery[location][event]['options']['frag_order'] = []
 
-        # display value overview for all possible values in all needed variables
-        frame:
-            area(989, 600, 500, 250)
-            background Solid('#0000')
-            viewport id "GallerySelectionOverview":
-                mousewheel True
-                draggable "touch"
-                hbox:
-                    # get the entire value tree from persistent data for this event
-                    $ gallery_dict = persistent.gallery[location][event]['values']
+                for i, frag_storage_name in enumerate(persistent.gallery[location][event]['options']['Frag_Storage']):
+                    if i >= len(persistent.gallery[location][event]['options']['frag_order']):
+                        frag_event = list(persistent.gallery["FragStorage"][frag_storage_name]['values'].keys())[0]
+                        persistent.gallery[location][event]['options']['frag_order'].append(frag_event)
+        
+        if display_mode == "fragment_mode":
+            
+            frame:
+                background Solid('#0000')
+                area(989, 600, 500, 270)
+                viewport id "GalleryFragmentSelectionOverview":
+                        
+                    vbox:
+                        for i, frag_storage_name in enumerate(persistent.gallery[location][event]['options']['Frag_Storage']):
+                            $ curr_fragment = persistent.gallery[location][event]['options']['frag_order'][i]
+                            $ frag_title = str(i + 1) + ": " + get_event_menu_title('fragment', curr_fragment) + " →"
+                            textbutton frag_title:
+                                action [With(dissolveM), Call('open_journal', 7, '.'.join([location, event, "fragment_selection_mode", str(i), curr_fragment]))]
+    
+                vbar value YScrollValue("GalleryFragmentSelectionOverview"):
+                    unscrollable "hide"
+                    xalign 1.0
+                    xoffset 15
+        $ disable_play = False
+        
+        if display_mode == "value_mode" or display_mode == "fragment_selection_mode":
+            
+            # check if event has changed to trigger information reload
+            $ base_gallery = persistent.gallery[location][event]
+            $ display_event = event
+            $ display_location = location
+            if display_mode == "fragment_selection_mode":
+                $ base_gallery = persistent.gallery['fragment'][fragment_selection_fragment]
+                $ display_event = fragment_selection_fragment
+                $ display_location = "fragment"
 
-                    # iterate over all variables to display a selection list for each variable
-                    for variant_name in variant_names:
+            if display_event != old_event:
+                $ gallery_chooser = {}
+                $ gallery_chooser_order = []
+                $ old_event = display_event
+            
+            # load existing data for user selection from last session
+            if ('last_data' in base_gallery['options'].keys() and 
+                'last_order' in base_gallery['options'].keys()
+            ):
+                $ gallery_chooser = base_gallery['options']['last_data']
+                $ gallery_chooser_order = base_gallery['options']['last_order']
+            
+            # displays a button that deletes all persistent data for this specific event
+            if debug_mode:
+                textbutton "{color=#a00000}Reset Event{/color}":
+                    text_style "journal_text"
+                    xpos 1280
+                    ypos 160
+                    action [With(dissolveM), Call('reset_event_gallery', display_location, display_event)]
+            
+            # load all variables requested by the event
+            $ variant_names = [topic for topic in base_gallery['order']]
+            
+            $ event_obj = get_event_from_register(display_event)
+            
+            # display value overview for all possible values in all needed variables
+            frame:
+                area(989, 600, 500, 250)
+                background Solid('#0000')
+                viewport id "GallerySelectionOverview":
+                    mousewheel True
+                    draggable "touch"
+                    hbox:
+                        
+                        # get the entire value tree from persistent data for this event
+                        $ gallery_dict = base_gallery['values']
+                        # iterate over all variables to display a selection list for each variable
+                        for variant_name in variant_names:
+                            # get all possible values
+                            $ values = list(gallery_dict.keys())
+                            
+                            # check if variable is new and add it to the data if missing
+                            python:
+                                if variant_name not in gallery_chooser_order:
+                                    gallery_chooser_order.append(variant_name)
+                                    gallery_chooser[variant_name] = values[0]
+                            
+                            # get the currently selected value for the current variable
+                            $ value = gallery_chooser[variant_name]
+                            
+                            # if value is not in current variable set because of differing sets on this tree path, select first value in list
+                            python:
+                                if value not in values:
+                                    gallery_chooser[variant_name] = values[0]
+                            
+                            # get the gallery data tree starting from this variable so the next variable can work with that
+                            $ gallery_dict = gallery_dict[gallery_chooser[variant_name]]
+                            
+                            # checks if there is more than one selection possible and only then displays a value list,
+                            # otherwise the only selection possible is selected by default and will not be displayed in the overview
+                            if len(values) > 1:
+                                
+                                # get display title for variable
+                                $ title = get_gallery_topic_title(display_location, display_event, variant_name) 
+                                
 
-                        # get all possible values
-                        $ values = list(gallery_dict.keys())
+                                # display list of values
+                                frame:
+                                    background Frame("gui/border.png", left=1, top=1, tile = True)
+                                    vbox:
+                                        
+                                        text "[title]":
+                                            bold True
+                                            style "journal_text"
+                                            size 30
 
-                        # check if variable is new and add it to the data if missing
-                        if variant_name not in gallery_chooser_order:
-                            $ gallery_chooser_order.append(variant_name)
-                            $ gallery_chooser[variant_name] = values[0]
-
-                        # get the currently selected value for the current variable
-                        $ value = gallery_chooser[variant_name]
-
-                        # if value is not in current variable set because of differing sets on this tree path, select first value in list
-                        if value not in values:
-                            $ gallery_chooser[variant_name] = values[0]
-
-                        # get the gallery data tree starting from this variable so the next variable can work with that
-                        $ gallery_dict = gallery_dict[gallery_chooser[variant_name]]
-
-                        # checks if there is more than one selection possible and only then displays a value list,
-                        # otherwise the only selection possible is selected by default and will not be displayed in the overview
-                        if len(values) > 1:
-
-                            # get display title for variable
-                            $ title = get_gallery_topic_title(location, event, variant_name) 
-
-                            # display list of values
-                            frame:
-                                background Frame("gui/border.png", left=1, top=1, tile = True)
-                                vbox:
-                                    text "[title]":
-                                        bold True
-                                        style "journal_text"
-                                        size 30
-
-                                    # filters all possible values that have been filtered in the loli filter as those can only be seen, selected or viewed if the appropriate loli setting is activated
-                                    $ filtered_values = [value for value in values if variant_name + '.' + str(value) not in loli_filter[loli_content]]
-
-                                    # checks if any values are left after filtering and disables the replay possibility if there is none as the events need a full set of values to work properly
-                                    if len(filtered_values) == 0:
-                                        if gallery_chooser[variant_name] not in filtered_values:
-                                            $ gallery_chooser[variant_name] = None
-                                            $ update_gallery_chooser(gallery_chooser_order, gallery_chooser, persistent.gallery[location][event]['values'])
-                                        $ disable_play = True
-                                    else:
-                                        # iterates through all possible values and displays them for the user to select
-                                        for value in sorted(filtered_values):
-                                            $ has_option = True
-                                            $ value_text = get_gallery_value_title(variant_name, location, event, value)
-                                            if value == gallery_chooser[variant_name]:
-                                                textbutton "[value_text]":
-                                                    text_style "buttons_selected"
-                                                    action Null()
-                                            else:
-                                                textbutton "[value_text]":
-                                                    text_style "buttons_idle"
-                                                    action [With(dissolveM), SetDict(gallery_chooser, variant_name, value), SetVariable('gallery_chooser', update_gallery_chooser(gallery_chooser_order, gallery_chooser, persistent.gallery[location][event]['values']))]
-            bar value XScrollValue("GallerySelectionOverview"):
-                unscrollable "hide"
-                yalign 1.0
-                yoffset 15
-            vbar value YScrollValue("GallerySelectionOverview"):
-                unscrollable "hide"
-                xalign 1.0
-                xoffset 15
-
-        # saves the current selection for this event in the persistent gallery data so the selection is maintained between sessions
-        if not disable_play:
-            $ persistent.gallery[location][event]['options']['last_data'] = gallery_chooser
-            $ persistent.gallery[location][event]['options']['last_order'] = gallery_chooser_order
-
-        if has_option:            
+                                        # filters all possible values that have been filtered in the loli filter as those can only be seen, selected or viewed if the appropriate loli setting is activated
+                                        $ filtered_values = [value for value in values if variant_name + '.' + str(value) not in loli_filter[loli_content]]
+                                        
+                                        # checks if any values are left after filtering and disables the replay possibility if there is none as the events need a full set of values to work properly
+                                        if len(filtered_values) == 0:
+                                            
+                                            python:
+                                                if gallery_chooser[variant_name] not in filtered_values:
+                                                    gallery_chooser[variant_name] = None
+                                                    update_gallery_chooser(gallery_chooser_order, gallery_chooser, base_gallery['values'])
+                                            $ disable_play = True
+                                        else:
+                                            
+                                            # iterates through all possible values and displays them for the user to select
+                                            for value in sorted(filtered_values):
+                                                $ has_option = True
+                                                $ value_text = get_gallery_value_title(variant_name, display_location, display_event, value)
+                                                if value == gallery_chooser[variant_name]:
+                                                    textbutton "[value_text]":
+                                                        text_style "buttons_selected"
+                                                        action NullAction()
+                                                else:
+                                                    textbutton "[value_text]":
+                                                        text_style "buttons_idle"
+                                                        action [With(dissolveM), SetDict(gallery_chooser, variant_name, value), SetVariable('gallery_chooser', update_gallery_chooser(gallery_chooser_order, gallery_chooser, base_gallery['values']))]
+                        
+                bar value XScrollValue("GallerySelectionOverview"):
+                    unscrollable "hide"
+                    yalign 1.0
+                    yoffset 15
+                vbar value YScrollValue("GallerySelectionOverview"):
+                    unscrollable "hide"
+                    xalign 1.0
+                    xoffset 15
+            
+            # saves the current selection for this event in the persistent gallery data so the selection is maintained between sessions
+            if not disable_play:
+                $ base_gallery['options']['last_data'] = gallery_chooser
+                $ base_gallery['options']['last_order'] = gallery_chooser_order
+        
+        if has_option and event_obj.get_form() != "composite":
             text "Variants":
                 xpos 989
                 ypos 560
                 color "#000"
+        elif event_obj.get_form() == "composite" and display_mode in ["value_mode", "fragment_mode"]:
+            
+            if display_mode == "value_mode" and not has_option:
+                text "No values to choose :(":
+                    style "buttons_inactive"
+                    xpos 1000
+                    ypos 650
+                # action Call('open_journal', 7, '.'.join([location, event, "fragment_mode"]))
+            
+            $ top_border_offset = 50
+            hbox:
+                
+                if display_mode == "value_mode":
+                    
+                    textbutton "Values":
+                        text_style "buttons_selected"
+                        xpos 989
+                        ypos 560
+                        action NullAction()
 
-        # displays the replay button if replay is possible
-        if not disable_play:
-            button:
-                text "Start Replay":
-                    style "buttons_idle"
-                    size 50
-                xpos 1000
-                ypos 880
-                action [Call('start_gallery_replay', location, event, gallery_chooser, display)]
+                    textbutton "Fragments":
+                        text_style "buttons_idle"
+                        xpos 1030
+                        ypos 560
+                        action [With(dissolveM), Call("open_journal", 7, '.'.join([location, event, "fragment_mode"]))]
+                else:
+                    
+                    textbutton "Values":
+                        text_style "buttons_idle"
+                        xpos 989
+                        ypos 560
+                        action [With(dissolveM), Call("open_journal", 7, '.'.join([location, event, "value_mode"]))]
+                    textbutton "Fragments":
+                        text_style "buttons_selected"
+                        xpos 1030
+                        ypos 560
+                        action NullAction()
+        
+
+        if display_mode == "value_mode" or display_mode == "fragment_mode":
+            
+            # displays the replay button if replay is possible
+            if not disable_play:
+                
+                if event_obj.get_form() == "composite":
+                    
+                    button:
+                        text "▶ Start Replay":
+                            style "buttons_idle"
+                            size 50
+                        xpos 1000
+                        ypos 880
+                        action [Call('start_gallery_composite_replay', location, event, dict(gallery_chooser), list(persistent.gallery[location][event]['options']['frag_order']), display)]
+                else:
+                    
+                    button:
+                        text "▶ Start Replay":
+                            style "buttons_idle"
+                            size 50
+                        xpos 1000
+                        ypos 880
+                        action [Call('start_gallery_replay', location, event, dict(gallery_chooser), display)]
+            else:
+                
+                button:
+                    text "Replay not available":
+                        style "buttons_inactive"
+                        size 30
+                    xpos 1000
+                    ypos 880
         else:
             button:
-                text "Replay not available":
-                    style "buttons_inactive"
-                    size 30
+                text "← Return to Main Event":
+                    style "buttons_idle"
+                    size 40
                 xpos 1000
                 ypos 880
-
-    textbutton "Close":
-        xalign 0.75
-        yalign 0.87
-        action [With(dissolveM), Jump("map_overview")]
-
-    
+                action [With(dissolveM), Call("open_journal", 7, '.'.join([location, event, "fragment_mode"]))]
+        
     $ tooltip = GetTooltip()
     if tooltip:
         nearrect:
@@ -1949,11 +2147,6 @@ screen journal_credits(display):
     key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
 
     use journal_page_selector(6, display)
-
-    text "Credits":
-        xalign 0.21 yalign 0.95
-        size 20
-        color "#000"
 
     $ (student_members, time_text) = get_members("Student")
     $ (teacher_members, time_text) = get_members("Teacher")
@@ -2059,10 +2252,105 @@ screen journal_credits(display):
                     unscrollable "hide"
                     xalign 1.0
 
-    textbutton "Close":
-        xalign 0.75
-        yalign 0.87
-        action [With(dissolveM), Jump("map_overview")]
+    $ tooltip = GetTooltip()
+    if tooltip:
+        nearrect:
+            focus "tooltip"
+            prefer_top True
+
+            frame:
+                xalign 0.5
+                text tooltip
+
+screen journal_goals(display):
+    tag interaction_overlay
+    modal True
+
+    use school_overview_map
+    use school_overview_stats
+
+    image "journal/journal/background.webp"
+
+    key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
+
+    use journal_page_selector(8, display, char)
+
+    text "Goals": 
+        xalign 0.25 
+        yalign 0.2
+        size 60
+        color "#000"
+
+    frame:
+        # background Solid("#00000090")
+        background Solid("#00000000")
+        area (330, 300, 560, 600)
+
+        hbox:
+            viewport id "goals text 1":
+                mousewheel True
+                draggable "touch"
+
+                vbox:
+                    text "This currently is a placeholder for the goals screen.":
+                        style "journal_text"
+                        size 25
+                    null height 20
+                    text "For now just visit the different locations and run through the different events to improve your stats.":
+                        style "journal_text"
+                        size 25
+                    text "You'll get notfied when you've seen all the different events. There will be no notification though on the different variants of the events.":
+                        style "journal_text"
+                        size 25
+                    null height 20
+                    text "You'll also get notified when you improved the stats to the point where there would be no new content with further improved stats.":
+                        style "journal_text"
+                        size 25
+                    text "This notification will only come on if all the stats have reached that point.":
+                        style "journal_text"
+                        size 25
+            vbar value YScrollValue("goals text 1"):
+                unscrollable "hide"
+                xalign 1.0
+
+    frame:
+        # background Solid("#00000090")
+        background Solid("#00000000")
+        area (960, 300, 560, 600)
+
+        hbox:
+            viewport id "goals text 2":
+                mousewheel True
+                draggable "touch"
+
+                vbox:
+                    text "Currently there are 2 Rules and 1 Building to unlock.":
+                        style "journal_text"
+                        size 25
+                    null height 20
+                    text "Please keep in mind, the events are randomized according to the location and the current level.":
+                        style "journal_text"
+                        size 25
+                    text "Some events have a positive and some a negative effect. If you don't like this rng component, well that's just how it is.":
+                        style "journal_text"
+                        size 25
+                    text "Life is not fair and so it only makes sense to have some events reflect that.":
+                        style "journal_text"
+                        size 25
+                    null height 40
+                    text "If you want more information, feel free to check out the Walkthrough on my Wiki Page:":
+                        style "journal_text"
+                        size 25
+                    null height 20
+                    textbutton "Walkthrough {image=icons/share.webp}":
+                        text_style "buttons_idle"
+                        action Call('open_wiki_page')
+
+                    
+
+            vbar value YScrollValue("goals text 2"):
+                unscrollable "hide"
+                xalign 1.0
 
     $ tooltip = GetTooltip()
     if tooltip:
@@ -2074,9 +2362,14 @@ screen journal_credits(display):
                 xalign 0.5
                 text tooltip
 
+
 ############################
 # Journal Methods
 ############################
+
+label open_wiki_page():
+    $ renpy.run(OpenURL(wiki))
+    call open_journal(8, "") from open_wiki_page_1
 
 label reset_event_gallery(location, event):
     # """
@@ -2096,6 +2389,22 @@ label reset_event_gallery(location, event):
 
     call open_journal(7, location) from reset_event_gallery_1
 
+label dump_gallery_data(page, display):
+    # """
+    # Clears the persistent data for the entire gallery in persistent.gallery
+
+    # ### Parameters:
+    # 1. page: int
+    #     - the page to be opened after the reset
+    # 2. display: str
+    #     - the display to be opened after the reset
+    # """
+
+    $ log_val('Gallery Data', persistent.gallery)
+
+    $ renpy.notify("Dumped gallery data!")
+
+    call open_journal(page, display) from dump_gallery_data_1
 label reset_gallery_cheat(page, display):
     # """
     # Clears the persistent data for the entire gallery in persistent.gallery
@@ -2112,6 +2421,57 @@ label reset_gallery_cheat(page, display):
     $ renpy.notify("Reset gallery!")
 
     call open_journal(page, display) from reset_gallery_cheat_1
+
+label start_gallery_composite_replay(location, event, gallery_chooser, fragments, display):
+    # """
+    # Starts the replay of a specific event with the selected values
+
+    # ### Parameters:
+    # 1. location: str
+    #     - the location of the event
+    # 2. event: str
+    #     - the event to be replayed
+    # 3. gallery_chooser: dict
+    #     - the selected values for the event
+    # 4. display: str
+    #     - the display to be opened after the replay
+    # """
+
+    # prepare data for the kwargs
+    $ is_in_replay = True
+    $ event_obj = get_event_from_register(event)
+
+    $ gallery_chooser['in_replay'] = True
+    $ gallery_chooser['journal_display'] = display
+    $ gallery_chooser['in_event'] = True
+
+    $ gallery_chooser['replay_frag_list'] = [get_event_from_register(event_name) for event_name in fragments if is_event_registered(event_name)]
+
+    $ gallery_chooser['event_name'] = event
+    $ gallery_chooser['event_obj'] = event_obj
+    $ gallery_chooser['event_type'] = event_obj.event_type
+    $ gallery_chooser['event_form'] = 'composite'
+
+    $ gallery_chooser['decision_data'] = persistent.gallery[location][event]['decisions']
+
+    # $ i = 0
+    # while i < len(gallery_chooser['frag_order']):
+    #     $ frag_obj = gallery_chooser['frag_order'][i]
+    #     $ j = 0
+    #     $ last_data = get_last_data('fragment', frag_obj.get_id())
+    #     $ data_keys = list(last_data.keys())
+    #     while j < len(data_keys):
+    #         $ data_key = data_keys[j]
+    #         $ gallery_chooser[frag_obj.get_id() + '.' + data_key] = last_data[data_key]
+    #         $ j += 1
+    #     $ i += 1
+
+    $ replay_data = gallery_chooser
+    
+    $ hide_all()
+
+    # call event
+    $ renpy.call("call_event", event_obj.get_event_label(), event_obj.priority, **gallery_chooser)
 
 label start_gallery_replay(location, event, gallery_chooser, display):
     # """
@@ -2134,6 +2494,7 @@ label start_gallery_replay(location, event, gallery_chooser, display):
     $ gallery_chooser['journal_display'] = display
     $ gallery_chooser['in_event'] = True
     $ gallery_chooser['event_name'] = event
+
     $ gallery_chooser['decision_data'] = persistent.gallery[location][event]['decisions']
     $ replay_data = gallery_chooser
     
@@ -2311,6 +2672,22 @@ label set_journal_setting(page, display, setting, value):
     call open_journal(page, display) from set_journal_setting_1
 
 label call_max_image_from_journal(image_path, journal, display):
+    # """
+    # Calls the max_image screen with the given image path and opens the journal afterwards
+
+    # ### Parameters:
+    # 1. image_path: str
+    #     - the path to the image to be displayed
+    # 2. journal: int
+    #     - the page to be opened after the image is displayed
+    # 3. display: str
+    #     - the display to be opened after the image is displayed
+    # """
+
+    hide screen school_overview_buttons
+    call screen max_image_from_journal(image_path, journal, display) with dissolveM
+
+label call_max_image_from_cheats(image_path, journal, display):
     # """
     # Calls the max_image screen with the given image path and opens the journal afterwards
 

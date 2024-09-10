@@ -367,6 +367,23 @@ init -99 python:
                 list_obj.remove(value)
         return list_obj
 
+    def is_in_list(elem: Any, list_obj: List[Any]) -> bool:
+        """
+        Checks if an element is in a list
+
+        ### Parameters:
+        1. elem: Any
+            - The element to check for
+        2. list_obj: List[Any]
+            - The list to check in
+
+        ### Returns:
+        1. bool
+            - True if the element is in the list, False otherwise
+        """
+
+        return elem in list_obj
+
     ############################
     # --- String Functions --- #
     ############################
@@ -588,6 +605,30 @@ init -99 python:
                 return "last_name"
         return gameData["names"][key][1]
 
+    def split_name(name: str) -> Tuple[str, str]:
+        """
+        Splits a name into a first and last name
+
+        ### Parameters:
+        1. name: str
+            - The name to split
+
+        ### Returns:
+        1. Tuple[str, str]
+            - The first and last name
+        """
+
+        split = name.split(' ')
+        if len(split) == 1:
+            return (split[0], "")
+        return (split[0], ' '.join(split[1:]))
+
+    def split_name_first(name: str) -> str:
+        return split_name(name)[0]
+
+    def split_name_last(name: str) -> str:
+        return split_name(name)[1]
+
     ##############################
     # --- GameData Functions --- #
     ##############################
@@ -641,6 +682,17 @@ init -99 python:
 
         return key in gameData.keys()
 
+    def remove_game_data(key: str):
+        """
+        Removes a key from gameData
+
+        ### Parameters:
+        1. key: str
+            - The key to remove
+        """
+
+        del gameData[key]
+
     ##############################
     # --- Progress Functions --- #
     ##############################
@@ -648,6 +700,7 @@ init -99 python:
     def start_progress(key: str):
         """
         Starts an event chain
+        (Sets the progress to 1)
 
         ### Parameters:
         1. key: str
@@ -890,7 +943,6 @@ init -99 python:
         lines = split_to_non_empty_list(file.read().decode(), "\r\n")
         translation_texts = {line.split(';')[0]: line.split(';')[1] for line in lines if ';' in line}
 
-    
     def get_loli_filter():
         """
         Gets the translations from the translations.csv file
@@ -917,6 +969,35 @@ init -99 python:
             if int(content_level) == 2:
                 loli_filter[1].append(key)
 
+    def get_file_max_value(key: str, file_path: str, start: int = 0, end: int = 10) -> int:
+        """
+        Searches for the highest available value for a key in the given image path.
+
+        ### Parameters:
+        1. key: str
+            - The key to search for.
+        2. file_path: str
+            - The file path to search in.
+        3. start: int (default 0)
+            - The start value to search from.
+        4. end: int (default 10)
+            - The end value to search to.
+
+        ### Returns:
+        1. int
+            - The highest available value for the key in the given image path.
+        """
+
+        old_file = file_path.replace(f"<{key}>", "~#~")
+        old_file = re.sub("<.+>", "0", old_file)
+        old_file = old_file.replace("~#~", f"<{key}>")
+
+        for i in range(start, end):
+            test_file = old_file.replace(f"<{key}>", str(i))
+            if not renpy.loadable(test_file):
+                return i - 1
+
+        return end
 
     ############################
     # --- Ren'Py Functions --- #

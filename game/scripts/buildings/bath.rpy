@@ -8,8 +8,8 @@ init -1 python:
             bath_general_event.has_available_highlight_events() or 
             any(e.has_available_highlight_events() for e in bath_events.values()))
 
-    bath_timed_event = TempEventStorage("bath_timed", "bath", Event(2, "bath.after_time_check"))
-    bath_general_event = EventStorage("bath_general", "bath", Event(2, "bath.after_general_check"))
+    bath_timed_event = TempEventStorage("bath_timed", "bath", fallback = Event(2, "bath.after_time_check"))
+    bath_general_event = EventStorage("bath_general", "bath", fallback = Event(2, "bath.after_general_check"))
     bath_events = {}
 
     bath_bg_images = BGStorage("images/background/bath/bg c.webp", 
@@ -18,7 +18,19 @@ init -1 python:
         BGImage("images/background/bath/bg 7.webp", 1, TimeCondition(daytime = 7)), # show bath at night empty or with teachers
     )
     
-# init 1 python:
+init 1 python:
+    
+    bath_action_tutorial_event = Event(2, "action_tutorial",
+        NOT(ProgressCondition('action_tutorial')),
+        ValueSelector('return_label', 'bath'),
+        NoHighlightOption(),
+        TutorialCondition(),
+        override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
+
+    bath_general_event.add_event(
+        bath_action_tutorial_event
+    )
+
 
 ##################################
 
@@ -33,17 +45,12 @@ label .after_time_check (**kwargs):
     call call_available_event(bath_general_event) from bath_4
 
 label .after_general_check (**kwargs):
-    $ loli = get_random_loli()
-
-    $ bath_bg_images.add_kwargs(loli = loli)
-
     call call_event_menu (
         "What to do in the Bath?",
         bath_events,
         default_fallback,
         character.subtitles,
         bg_image = bath_bg_images,
-        context = loli
         fallback_text = "There is nothing to see here."
     ) from bath_3
 

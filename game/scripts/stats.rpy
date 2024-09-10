@@ -65,12 +65,12 @@ init -6 python:
             self.type = type
             self.value = value
             self.changed_value = 0
-            self.image_path = "icons/stat_" + str(type) + "_icon.webp"
+            self.image_path = "icons/" + str(type) + "_icon_50.webp"
 
         def _repair(self) -> bool:
             if not hasattr(self, 'type') and hasattr(self, 'image_path'):
-                stat_type = re.sub(r'icons/stat_', '', self.image_path)
-                stat_type = re.sub(r'_icon.webp', '', stat_type)
+                stat_type = re.sub(r'icons/', '', self.image_path)
+                stat_type = re.sub(r'_icon_50.webp', '', stat_type)
                 self.type = stat_type
                 return True
             return False
@@ -161,6 +161,21 @@ init -6 python:
 
             self.changed_value += value
         
+        def check_stat(self, value: str | int) -> bool:
+            """
+            Checks if the value is in the range of the stat.
+
+            ### Parameters:
+            1. value: str | int
+                - The value to check.
+
+            ### Returns:
+            1. bool
+                - True if the value is in the range of the stat. False otherwise
+            """
+
+            return check_in_value(value, self.get_value())
+
         def change_value(self, delta: num, level: int = 10):
             """
             Changes the value of the stat by the given delta.
@@ -232,6 +247,17 @@ init -6 python:
 
             return Stat_Data[self.type].get_image(self.get_level())
 
+        def get_stat_description(self, **kwargs) -> str:
+            """
+            Returns the description of the stat for overview in the journal. See Stat_Data for more information.
+
+            ### Returns:
+            1. str
+                - The description of the stat for overview in the journal.
+            """
+
+            return Stat_Data[self.type].get_stat_description(**kwargs)
+
         def get_description(self) -> str:
             """
             Returns the description of the stat for overview in the journal. See Stat_Data for more information.
@@ -243,7 +269,7 @@ init -6 python:
 
             return Stat_Data[self.type].get_description(self.get_level())
 
-        def get_full_description(self) -> str:
+        def get_full_description(self, **kwargs) -> str:
             """
             Returns the full description of the stat for the journal. See Stat_Data for more information.
 
@@ -253,7 +279,7 @@ init -6 python:
                 - The full description consists of the description for the current level and the general description of the stat.
             """
 
-            return Stat_Data[self.type].get_full_description(self.get_level())
+            return Stat_Data[self.type].get_full_description(self.get_level(), **kwargs)
 
         def display_stat(self) -> str:
             """
@@ -278,10 +304,26 @@ init -6 python:
 
             stat_value = self.get_value() + 0
 
+            stat_value = round(stat_value, 2)
+
             if self.get_name() == MONEY:
                 stat_value = int(stat_value)
 
-            return str(stat_value)
+            text = str(stat_value)
+            
+            level = get_school().get_level()
+            
+            limit_value = -1
+
+            if self.get_name() == CORRUPTION:
+                limit_value = clamp_value(100, 0, level * 10)
+            elif self.get_name() == INHIBITION:
+                limit_value = clamp_value(0, 100 - (level * 10), 100)
+
+            if stat_value == limit_value:
+                text = "{color=#e4900c}" + str(stat_value) + "{/color}"
+
+            return text
 
         def get_display_change(self) -> str:
             """
@@ -295,10 +337,13 @@ init -6 python:
             global change
             change = self.get_changed_value()
 
+            change = round(change, 2)
+
             if self.get_name() == MONEY:
                 change = int(change)
 
             text = ""
+
 
             if (self.get_name() != INHIBITION):
                 if change < 0:
@@ -331,7 +376,7 @@ init -6 python:
             - The images of the stat. Depending on the level of the stat, a different image is used.
         5. descriptions: List[str]
             - The descriptions of the stat. Depending on the level of the stat, a different description is used.
-        6. description: str
+        6. description: List[str | Tuple[str, Condition]]
             - The general description of the stat.
         7. min_limit: num
             - The minimum limit of the stat.
@@ -483,6 +528,26 @@ init -6 python:
                 return self.images[level]
             return "images/journal/empty_image.webp"
 
+        def get_stat_description(self, **kwargs) -> str:
+            """
+            Returns the description of the stat for overview in the journal.
+
+            ### Returns:
+            1. str
+                - The description of the stat for overview in the journal.
+            """
+
+            if (isinstance(self.description, str)):
+                return self.description
+            output = ""
+            for i, desc in enumerate(self.description):
+                if isinstance(desc, str):
+                    output += desc + "\n"
+                elif isinstance(desc, Tuple) and isinstance(desc[0], str) and isinstance(desc[1], Condition):
+                    if desc[1].is_fulfilled(**kwargs):
+                        output += desc[0] + "\n"
+            return output
+
         def get_description(self, level: int) -> str:
             """
             Returns the description of the stat for the given level.
@@ -500,7 +565,7 @@ init -6 python:
                 return self.descriptions[level]
             return "Description missing for level:" + str(level)
 
-        def get_full_description(self, level: int) -> str:
+        def get_full_description(self, level: int, **kwargs) -> str:
             """
             Returns the full description of the stat for the given level.
             The full description consists of the description for the current level and the general description of the stat.
@@ -516,9 +581,9 @@ init -6 python:
 
             return (self.get_description(level) + 
                 "\n-------------------------------------------------------\n" + 
-                self.description)
+                self.get_stat_description(**kwargs))
 
-    def get_stat_icon(stat: str, is_white: bool = False) -> str:
+    def get_stat_icon(stat: str, *, size: str = ICON_SMALL, white: bool = True) -> str:
         """
         Returns the path to the icon image of the stat.
 
@@ -531,10 +596,9 @@ init -6 python:
             - The path to the icon image of the stat.
         """
 
-        if is_white:
-            return "{image=icons/stat_" + str(stat) + "_icon_white.webp}"
-        else:
-            return "{image=icons/stat_" + str(stat) + "_icon.webp}"
+        color = "white" if white else "black"
+
+        return "{image=icons/" + str(stat) + "_icon_" + size + "_" + color + ".webp}"
 
     def clamp_stat_value(value: num, stat: str, level: int, min: num = 0, max: num = 100) -> num:
         """
@@ -566,7 +630,6 @@ init -6 python:
             return clamp_value(value, 100 - (level * (max / 10)), max)
         else:
             return clamp_value(value, min, max)
-
 
     def clamp_value(value: num, min: num = 0, max: num = 100) -> num:
         """
@@ -647,10 +710,11 @@ init -6 python:
 label load_stats ():
     
     $ load_stat_data(CORRUPTION, "Corruption", {
-        'description': "The corruption level is a measure of how corrupt the" +
+        'description': ["The corruption level is a measure of how corrupt the" +
             " students' minds are and how open they are to sexual activity.\n" +
             "\nThe level can be increased by performing sexual activities with" +
             " the students or by using indirect measures like drugs etc.",
+            ("\nThis stat is currently capped and cannot be further decreased until the level of the school is increased.", StatLimitCondition(CORRUPTION))],
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         'descriptions': [
             "There is rarely anything more pure than these students.",
@@ -677,14 +741,14 @@ label load_stats ():
             "images/journal/empty_image.webp",
             "images/journal/empty_image.webp",
             "images/journal/empty_image.webp",
-        ]
-    })
+        ]})
 
     $ load_stat_data(INHIBITION, "Inhibition", {
-        'description': "The inhibition level shows how the students feel in their own bodies.\n" +
+        'description': ["The inhibition level shows how the students feel in their own bodies.\n" +
             "The better they feel in their own bodies the more they open up and the less they feel embarrassed about showing their bodies.\n" +
-            "\n The level can be increased by bringing the student in embarrassing situations that leaves them exposed or" +
+            "\nThe level can be increased by bringing the student in embarrassing situations that leaves them exposed or" +
             " that presents their bodies in other ways.",
+            ("\nThis stat is currently capped and cannot be further decreased until the level of the school is increased.", StatLimitCondition(INHIBITION))],
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         'descriptions': [
             "The students love to be naked all the time.",
@@ -711,8 +775,7 @@ label load_stats ():
             "images/journal/empty_image.webp",
             "images/journal/empty_image.webp",
             "images/journal/empty_image.webp",
-        ]
-    })
+        ]})
 
     $ load_stat_data(HAPPINESS, "Happiness", {
         'description': "Happiness describes how happy the students are to be at this school.\n" + 
@@ -746,8 +809,7 @@ label load_stats ():
             "images/journal/empty_image.webp",
             "images/journal/empty_image.webp",
             "images/journal/empty_image.webp",
-        ]
-    })
+        ]})
 
     $ load_stat_data(EDUCATION, "Education", {
         'description': "Education measures how good the students are at school.\n" +
@@ -781,14 +843,15 @@ label load_stats ():
             "images/journal/empty_image.webp",
             "images/journal/empty_image.webp",
             "images/journal/empty_image.webp",
-        ]
-    })
+        ]})
 
     $ load_stat_data(CHARM, "Charm", {
         'description': "Charm describes how other people perceive a students as a person. " +
             "The charm is influenced by factors like fitness, likability, looks and how gentle they are.\n" +
+            "Their behavior and social interaction also play a big role in the charm of a student.\n"
             "\nThe charm can be improved by working on the fitness, working on the character, " +
-            "or by social interaction with other people.",
+            "or by social interaction with other people.\n" + 
+            "Clumsy and unruly behavior can lower the charm of a student.",
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         'descriptions': [
             "The students are the extreme opposite of charming.",
@@ -815,8 +878,7 @@ label load_stats ():
             "images/journal/empty_image.webp",
             "images/journal/empty_image.webp",
             "images/journal/empty_image.webp",
-        ]
-    })
+        ]})
 
     $ load_stat_data(REPUTATION, "Reputation", {
         'description': "This displays the reputation of you and the school. " +
@@ -848,8 +910,7 @@ label load_stats ():
             "images/journal/empty_image.webp",
             "images/journal/empty_image.webp",
             "images/journal/empty_image.webp",
-        ]
-    })
+        ]})
 
     $ load_stat_data(LEVEL, "Level", {
         'description': "The level of the school represents the overall " +
@@ -889,14 +950,12 @@ label load_stats ():
             "images/journal/empty_image.webp",
             "images/journal/empty_image.webp",
         ],
-        'max_limit': 10,
-    })
+        'max_limit': 10,})
 
     $ load_stat_data(MONEY, "Money", {
         'description': "The money is used to purchase upgrade for the school and to pay for expenses.\n" +
             "You have to pay for all of that with your own budget, but you get a monthly budget from the authorities.\n\n" +
             "Of course, you don't get much. You have to make sure that you don't run out of money. "+
             "You can also earn money by working in your office. Maybe you find another way...",
-        'max_limit': 1000000000,
-    })
+        'max_limit': 1000000000,})
     

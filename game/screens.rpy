@@ -123,6 +123,8 @@ label trigger_hide():
 screen say(who, what):
     style_prefix "say"
 
+    zorder 1
+
     window:   
         if renpy.android or renpy.ios:
             if persistent.display_textbox == 0:
@@ -409,6 +411,83 @@ screen main_menu():
     frame:
         style "main_menu_frame"
 
+    frame:
+        background Solid("#8885")
+        area (1070, 20, 310, 95)
+        padding (5, 5)
+
+        hbox:
+            button:
+                add "gui/wiki.png": 
+                    xsize 80
+                    ysize 80
+                action Call("open_wiki_link_from_menu")
+            button:
+                add "gui/discord.png": 
+                    xsize 105
+                    ysize 80
+                action Call("open_discord_link_from_menu")
+            button:
+                add "gui/patreon.png": 
+                    xsize 80
+                    ysize 80
+                action Call("open_patreon_link_from_menu")
+
+
+
+    frame:
+        background Solid("#00000088")
+        area (1400, 20, 500, 800)
+        padding (10, 10)
+        viewport id "ChangelogMenu":
+            mousewheel True
+            draggable "touch"
+
+            vbox:
+                text "Changelog:" style "main_menu_changelog_title"
+                null height 15
+                text "Version 0.1.4C" style "main_menu_changelog_subtitle"
+                text "• Added Changelog in Main Menu" style "main_menu_changelog_text"
+                text "• Added Social Media Buttons in Main Menu" style "main_menu_changelog_text"
+                text "• Disabled Cafeteria Upgrade" style "main_menu_changelog_text"
+                text "• Fixed wrong label used in Aona Bra Event" style "main_menu_changelog_text"
+                text "• Fixed missing image in one of Cafeteria Events" style "main_menu_changelog_text"
+                null height 8
+                text "Version 0.1.4B" style "main_menu_changelog_subtitle"
+                text "• fixed error preventing some from entering office" style "main_menu_changelog_text"
+                text "• some more refinement" style "main_menu_changelog_text"
+                null height 8
+                text "Version 0.1.4A" style "main_menu_changelog_subtitle"
+                text "• fixed error when loading old savegame saved during event" style "main_menu_changelog_text"
+                null height 8
+                text "Version 0.1.4" style "main_menu_changelog_subtitle"
+                text "• added {b}1242{/b} images, totalling all images to 2370" style "main_menu_changelog_text"
+                text "• added {b}128{/b} new animations. Most are in Movie Sandbox" style "main_menu_changelog_text"
+                text "• added about 10 new regular events" style "main_menu_changelog_text"
+                text "• added about 5 new work events" style "main_menu_changelog_text"
+                text "• added some repeatable naughty time with secretary" style "main_menu_changelog_text"
+                text "• improved notification system" style "main_menu_changelog_text"
+                text "• improved image system" style "main_menu_changelog_text"
+                text "• improved gallery system" style "main_menu_changelog_text"
+                text "• Introduced Subject Proficiencies for Headmaster" style "main_menu_changelog_text"
+                text "• Introduced new Subject - History" style "main_menu_changelog_text"
+                text "• Introduced Sandbox Movie System" style "main_menu_changelog_text"
+                text "• Reworked entire tutorial" style "main_menu_changelog_text"
+                text "• Reworked entire school map" style "main_menu_changelog_text"
+                text "• Reworked entire journal" style "main_menu_changelog_text"
+                text "• Buffed stat gain" style "main_menu_changelog_text"
+                text "• Nerved stat loss" style "main_menu_changelog_text"
+                text "• Tons of background stuff for level up planned in 0.1.5" style "main_menu_changelog_text"
+                text "• Tons of improvement to existing game code" style "main_menu_changelog_text"
+                null height 15
+                text "Changelog for older versions can be found in the {a=https://suitpub.alwaysdata.net/books/changelog}wiki{/a}" style "main_menu_changelog_subtitle"
+
+        vbar value YScrollValue("ChangelogMenu"):
+            unscrollable "hide"
+            xalign 1.0
+            xoffset 10
+            xsize 5
+
     ## The use statement includes another screen inside this one. The actual
     ## contents of the main menu are in the navigation screen.
     use navigation
@@ -449,10 +528,21 @@ style main_menu_text:
 
 style main_menu_title:
     properties gui.text_properties("title")
+    outlines [ (absolute(2), "#000", absolute(0), absolute(0)) ]
 
 style main_menu_version:
     properties gui.text_properties("version")
+    outlines [ (absolute(2), "#000", absolute(0), absolute(0)) ]
 
+style main_menu_changelog:
+    outlines [ (absolute(2), "#000", absolute(0), absolute(0)) ]
+style main_menu_changelog_title is main_menu_changelog:
+    size 40
+    underline True
+style main_menu_changelog_subtitle is main_menu_changelog:
+    size 25
+style main_menu_changelog_text is main_menu_changelog:
+    size 18
 
 ## Game Menu screen ############################################################
 ##
@@ -619,7 +709,7 @@ screen about():
             text _("{a=https://icons8.com/icon/82787/externer-link}External Link{/a} Icon by {a=https://icons8.com}Icons8{/a}")
             text _("Icons by {a=https://game-icons.net/}Game-icons.net{/a}")
             text _("Notepad Png vectors by {a=https://lovepik.com/images/png-notepad.html}Lovepik.com{/a}")
-            text _("Journal icons created by {a=https://www.flaticon.com/free-icons/journal}Freepik - Flaticon{/a}")
+            text _("Journal and Main Menu icons created by {a=https://www.flaticon.com/}Flaticon{/a}")
 
 
 style about_label is gui_label
@@ -827,8 +917,8 @@ screen preferences():
 
             null height (4 * gui.pref_spacing)
 
-            if not renpy.android and not renpy.ios:
-                hbox:
+            hbox:
+                if not renpy.android and not renpy.ios:
                     vbox:
                         style_prefix "check"
                         label _("Keyboard Shortcuts")
@@ -836,13 +926,19 @@ screen preferences():
                         textbutton _("Hidden") action SetField(persistent, "shortcuts", 1)
                         textbutton _("Disabled") action SetField(persistent, "shortcuts", 2)
 
-                    vbox:
-                        style_prefix "check"
-                        label _("Load Supporter")
-                        textbutton _("From Web") action SetField(persistent, "load_supporter", 1)
-                        textbutton _("Local only") action SetField(persistent, "load_supporter", 0)
-                
-                null height (4 * gui.pref_spacing)
+                vbox:
+                    style_prefix "check"
+                    label _("Load Supporter")
+                    textbutton _("From Web") action SetField(persistent, "load_supporter", 1)
+                    textbutton _("Local only") action SetField(persistent, "load_supporter", 0)
+
+                vbox:
+                    style_prefix "check"
+                    label _("Tutorial")
+                    textbutton _("Enabled") action SetField(persistent, "tutorial", True) 
+                    textbutton _("Disabled") action SetField(persistent, "tutorial", False) 
+
+            null height (4 * gui.pref_spacing)
 
 
             hbox:

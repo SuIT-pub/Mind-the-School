@@ -14,7 +14,7 @@ init python:
     ############################
     # Gallery Persistent handler
 
-    def prep_gallery(location: str, event: str, *key: str):
+    def prep_gallery(location: str, event: str, event_form: str, *key: str):
         """
         Prepares the gallery database for use.
         This is to ensure that the database is ready for use.
@@ -39,7 +39,7 @@ init python:
 
         # Check if event exists in persistent.gallery[location], if not, create it
         if event not in persistent.gallery[location].keys():
-            persistent.gallery[location][event] = {'values': {}, 'ranges': {}, 'options': {}, 'order': [], 'decisions': {}}
+            persistent.gallery[location][event] = {'values': {}, 'ranges': {}, 'options': {'event_form': event_form}, 'order': [], 'decisions': {}}
 
         if 'decisions' not in persistent.gallery[location][event].keys():
             persistent.gallery[location][event]['decisions'] = {}
@@ -81,6 +81,24 @@ init python:
             persistent.gallery = {}
 
     def get_gallery_values(location: str, event: str, values: Dict[str, Any], key: List[str]) -> List:
+        """
+        Gets a list of values from the gallery database.
+
+        ### Parameters:
+        1. location: str
+            - The location of the gallery.
+        2. event: str
+            - The event of the gallery.
+        3. values: Dict[str, Any]
+            - The values to get the list from.
+        4. key: List[str]
+            - The keys to get the list from.
+
+        ### Returns:
+        1. List:
+            - The list of values found in the database.
+        """
+
         current = persistent.gallery[location][event]['values']
         for k in key:
             if values[k] not in current.keys():
@@ -180,14 +198,18 @@ init python:
 
         def __init__(self, **kwargs):
             event = get_kwargs('event_name', None, **kwargs)
+            event_form = get_kwargs('event_form', 'event', **kwargs)
             if event == None:
                 return
             global gallery_manager
             gallery_manager = self
             self.event = event
-            self.location = get_event_from_register(event).get_location()
 
-            prep_gallery(self.location, event)
+            self.location = get_kwargs('location', 'misc', **kwargs)
+            if is_event_registered(event):
+                self.location = get_event_from_register(event).get_location()
+
+            prep_gallery(self.location, event, event_form)
             self.current_ranges = persistent.gallery[self.location][event]['ranges']
 
             self.original_data = {}
@@ -195,6 +217,19 @@ init python:
             self.order = []
             self.count = 0
             self.decisions = persistent.gallery[self.location][event]['decisions']
+
+        def set_option(self, key: str, value: Any):
+            """
+            Sets an option for the gallery database.
+
+            ### Parameters:
+            1. key: str
+                - The key to set the option under.
+            2. value: Any
+                - The value to set the option to.
+            """
+
+            persistent.gallery[self.location][self.event]['options'][key] = value
 
     ######################################################
     # Value and Decision registration into persistent data
@@ -242,6 +277,12 @@ init python:
             gallery_manager.original_data
         )
 
+        if 'last_data' not in persistent.gallery[gallery_manager.location][gallery_manager.event]['options'].keys():
+            persistent.gallery[gallery_manager.location][gallery_manager.event]['options']['last_data'] = {}
+
+        if key not in persistent.gallery[gallery_manager.location][gallery_manager.event]['options']['last_data'].keys():
+            persistent.gallery[gallery_manager.location][gallery_manager.event]['options']['last_data'][key] = value
+
         gallery_manager.count = gallery_manager.count + 1
 
     def register_decision(key: str):
@@ -283,6 +324,8 @@ init python:
         current_level = decision_data
 
         for key in decisions:
+            if key not in current_level.keys():
+                continue
             current_level = current_level[key]
 
         return list(current_level.keys())
@@ -291,6 +334,22 @@ init python:
     # Stat Value Gallery Handler
 
     def set_stat_value(key: str, value: float, ranges: List[float], **kwargs) -> float:
+        """
+        Sets a value normalized to set values in the gallery database.
+        Values get changed to the next higher value in the ranges.
+
+        ### Parameters:
+        1. key: str
+            - The key to set the value under.
+        2. value: float
+            - The value to set.
+        3. ranges: List[float]
+            - The ranges to normalize the value.
+
+        ### Returns:
+        1. float:
+            - The value set in the database.
+        """
         
         global gallery_manager
 
@@ -302,10 +361,37 @@ init python:
         return set_value(key, value, **kwargs)
 
     def get_stat_value(key: str, ranges: List[float], alt: float = 100, **kwargs) -> float:
+        """
+        Gets a value normalized to set values in the gallery database.
+        Values get changed to the next higher value in the ranges.
+
+        ### Parameters:
+        1. key: str
+            - The key to get the value from.
+        2. ranges: List[float]
+            - The ranges to normalize the value.
+        3. alt: float (default: 100)
+            - The value to return if the key is not found.
+
+        ### Returns:
+        1. float:
+            - The value found in the database.
+        """
         
         global gallery_manager
 
         if gallery_manager == None:
+            if is_replay(**kwargs):
+                event_name = get_kwargs('event_name', None, **kwargs)
+                if event_name == None:
+                    return alt
+                event_obj = get_event_from_register(event_name)
+                if event_obj == None:
+                    return alt
+                if event_obj.get_form() == 'fragment':
+                    new_key = event_obj.get_id() + '.' + key
+                    return get_kwargs(new_key, get_kwargs(key, alt, **kwargs), **kwargs)
+        
             return get_kwargs(key, alt, **kwargs)
 
         gallery_manager.current_ranges[key] = ranges
@@ -314,6 +400,48 @@ init python:
 
     ###############################
     # General Value Gallery Handler
+
+    def get_level(key: str, **kwargs) -> int:
+        """
+        Gets a level from the gallery database.
+
+        ### Parameters:
+        1. key: str
+            - The key to get the level from.
+        2. alt: int (default: 0)
+            - The value to return if the key is not found.
+
+        ### Returns:
+        1. int:
+            - The level found in the database.
+        """
+
+        key = key.replace('_level', '')
+
+        level = get_character_by_key(key).get_level()
+
+        if is_replay(**kwargs):
+            event_name = get_kwargs('event_name', None, **kwargs)
+            if event_name == None:
+                return 0
+            event_obj = get_event_from_register(event_name)
+            if event_obj == None:
+                return 0
+            if event_obj.get_form() == 'fragment':
+                new_key = event_obj.get_id() + '.' + key + '_level'
+                value = get_kwargs(
+                    new_key, 
+                    get_kwargs(
+                        key + '_level', 
+                        get_character_by_key(key).get_level()
+                        , **kwargs), 
+                    **kwargs
+                )
+                return set_value(key + '_level', value, **kwargs)                
+
+            level = get_kwargs(key + '_level', level, **kwargs)
+
+        return set_value(key + '_level', level, **kwargs)
 
     def get_value(key: str, alt: Any = None, **kwargs) -> Any:
         """
@@ -330,6 +458,18 @@ init python:
             - The value found in the database.
         """
 
+        if is_replay(**kwargs):
+            event_name = get_kwargs('event_name', None, **kwargs)
+            if event_name == None:
+                return alt
+            event_obj = get_event_from_register(event_name)
+            if event_obj == None:
+                return alt
+            if event_obj.get_form() == 'fragment':
+                new_key = event_obj.get_id() + '.' + key
+                value = get_kwargs(new_key, get_kwargs(key, alt, **kwargs), **kwargs)
+                return set_value(key, value, **kwargs)                
+        
         value = get_kwargs(key, alt, **kwargs)
 
         return set_value(key, value, **kwargs)
@@ -349,106 +489,65 @@ init python:
             - The value set in the database.
         """
 
-        in_replay = get_kwargs('in_replay', False, **kwargs)
-        if not in_replay:
+        if not is_replay(**kwargs) and not get_kwargs('no_register', False, **kwargs):
             register_value(key, value)
 
         return value        
 
-    ###########################################
-    # Character and Level Value Gallery Handler
+    ###############################
+    # Fragment Gallery Handler
 
-    def set_char_value_with_level(char_name: str, char: Char, **kwargs) -> Tuple[Char, int]:
+    def get_frag_list(**kwargs) -> List[EventFragment]:
         """
-        Sets a character value in the gallery database.
+        Gets a list of fragments from the event object.
 
         ### Parameters:
-        1. char_name: Char
-            - The name of the character to set the value under.
-            - possible values: school_obj, teacher_obj, parent_obj, secretary_obj
-        2. char: Char
-            - The character to set the value under.
+        1. **kwargs
+            - The kwargs to get the character from
+            - if is_replay is True, method only returns the list of fragments supplied by kwargs with key: replay_frag_list
 
         ### Returns:
-        1. Tuple[Char, int]:
-            - The character set in the database.
-            - The level of the character.
+        1. List[EventFragment]:
+            - The list of fragments from the event object.
         """
 
-        if char == None:
-            char_obj_key = get_kwargs(char_name + "_key", None, **kwargs)
-            if char_obj_key == None:
-                return None
-            char = get_character_by_key(char_obj_key)
-            if char == None:
-                return None
+        if is_replay(**kwargs):
+            return get_kwargs('replay_frag_list', [], **kwargs)
 
-        in_replay = get_kwargs('in_replay', False, **kwargs)
+        event_obj = get_kwargs('event_obj', None, **kwargs)
+        if event_obj == None:
+            return []
 
-        if not in_replay:
-            register_value(char_name + "_key", char.get_name())
-            register_value(char_name + "_level", char.get_level())
+        if not is_replay(**kwargs):
+            fragments = event_obj.select_fragments(**kwargs)
+            gallery_manager.set_option("Frag_Storage", [storage.get_name() for storage in event_obj.get_fragment_storages()])
+            
+            for i, storage in enumerate(event_obj.get_fragment_storages()):
+                Gallery_Manager(event_name = storage.get_name(), event_form = 'FragStorage', location = "FragStorage")
+                register_value("fragment", str(fragments[i]))
 
-        return (char, char.get_level())
 
-    def set_char_value(char_name: str, char_objs: Char, **kwargs) -> Char:
+        return fragments
+
+    def get_last_data(location: str, event: str) -> Dict[str, Any]:
         """
-        Sets a character value in the gallery database.
+        Gets the last data from the gallery database.
 
         ### Parameters:
-        1. char_name: Char
-            - The name of the character to set the value under.
-            - possible values: school_obj, teacher_obj, parent_obj, secretary_obj
-        2. char_obj: Char
-            - The character to set the value under.
+        1. location: str
+            - The location of the gallery.
+        2. event: str
+            - The event of the gallery.
 
         ### Returns:
-        1. Char:
-            - The character set in the database.
+        1. Dict[str, Any]:
+            - The last data from the gallery database.
         """
 
-        (char_objs, level) = set_char_value_with_level(char_name, char_objs, **kwargs)
+        if 'last_data' not in persistent.gallery[location][event]['options'].keys():
+            persistent.gallery[location][event]['options']['last_data'] = {}
 
-        return char_objs
-
-    def get_char_value(char_name: str , **kwargs) -> Char:
-        """
-        Gets a character from kwargs and sets it in the gallery database.
-
-        ### Parameters:
-        1. char_name: str
-            - The name of the character to get from the kwargs.
-            - possible values: school_obj, teacher_obj, parent_obj, secretary_obj
-        2. **kwargs: Any
-            - The kwargs to get the value from.
-
-        ### Returns:
-        1. Char:
-            - The character set in the database.
-        """
-
-        char_obj = get_kwargs(char_name, None, **kwargs)
-        return set_char_value(char_name, char_obj, **kwargs)
-
-    def get_char_value_with_level(char_name: str, **kwargs) -> Tuple[Char, int]:
-        """
-        Gets a character from kwargs and sets it in the gallery database.
-
-        ### Parameters:
-        1. char_name: str
-            - The name of the character to get from the kwargs.
-            - possible values: school_obj, teacher_obj, parent_obj, secretary_obj
-        2. **kwargs: Any
-            - The kwargs to get the value from.
-
-        ### Returns:
-        1. Tuple[Char, int]:
-            - The character set in the database.
-            - The level of the character.
-        """
-
-        char_obj = get_kwargs(char_name, None, **kwargs)
-        return set_char_value_with_level(char_name, char_obj, **kwargs)
+        return persistent.gallery[location][event]['options']['last_data']
 
     ################
     # Replay Handler

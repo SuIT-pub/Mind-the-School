@@ -23,7 +23,7 @@ define gui.show_name = True
 
 ## The version of the game.
 
-define config.version = "0.1.3B"
+define config.version = "0.1.4C"
 
 
 ## Text that is placed on the game's about screen. Place the text between the
@@ -75,6 +75,8 @@ default dissolveM = Dissolve(0.5 * (2.0 - persistent.transition_speed))
 default persistent.transition_speed = 1.75
 
 default persistent.display_textbox = 0
+
+default persistent.tutorial = True
 
 ## Entering or exiting the game menu.
 
@@ -164,6 +166,7 @@ define config.window_icon = "gui/window_icon.png"
 ## The persistent variable that stores gallery images.
 
 default persistent.gallery = {}
+default persistent.fragment_gallery = {}
 
 
 ## Build configuration #########################################################
@@ -198,10 +201,11 @@ init python:
     build.classify('**.psd', None)
     build.classify('**/.**', None)
     build.classify('**/#**', None)
+    build.classify('**/**.ini', None)
     build.classify('**/thumbs.db', None)
     build.classify("game/**.rpy", None)
     build.classify("game/saves", None)
-    build.classify("game/loli_patch.rpyc", None)
+    build.classify("game/classes_patch.rpyc", None)
     build.classify("game/cheat_patch.rpyc", None)
     build.classify("event backup/**", None)
     build.classify("*android.json", None)
@@ -284,3 +288,4 @@ init python:
 
 define discord = 'http://tiny.cc/mindtheschooldiscord'
 define patreon = 'http://tiny.cc/mindtheschoolpatreon'
+define wiki = 'https://suitpub.alwaysdata.net'

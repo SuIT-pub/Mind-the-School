@@ -8,13 +8,13 @@ init -1 python:
             sd_general_event.has_available_highlight_events() or
             any(e.has_available_highlight_events() for e in sd_events.values()))
 
-    sd_timed_event = TempEventStorage("school_dormitory", "school_dormitory", Event(2, "school_dormitory.after_time_check"))
-    sd_general_event = EventStorage("school_dormitory",   "school_dormitory", Event(2, "school_dormitory.after_general_check"))
+    sd_timed_event = TempEventStorage("school_dormitory", "school_dormitory", fallback = Event(2, "school_dormitory.after_time_check"))
+    sd_general_event = EventStorage("school_dormitory",   "school_dormitory", fallback = Event(2, "school_dormitory.after_general_check"))
 
     sd_events = {}
-    add_storage(sd_events, EventStorage("peek_students", "school_dormitory", default_fallback, "There is nobody here."))
+    add_storage(sd_events, EventStorage("peek_students", "school_dormitory", fallback_text = "There is nobody here."))
 
-    sd_bg_images = BGStorage("images/background/school dormitory/bg c.webp",
+    sd_bg_images = BGStorage("images/background/school dormitory/bg c.webp", ValueSelector('loli', 0),
         BGImage("images/background/school dormitory/bg <loli> <school_level> <variant> <nude>.webp", 1, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))),
         BGImage("images/background/school dormitory/bg 7.webp", 1, TimeCondition(daytime = 7)),
     )
@@ -31,6 +31,7 @@ init 1 python:
         thumbnail = "images/events/first potion/first potion school dormitory 3.webp")
 
     sd_event1 = Event(3, "sd_event_1",
+        LevelSelector('school_level', 'school'),
         StatSelector('education', EDUCATION, "school"),
         StatSelector('inhibition', INHIBITION, "school"),
         OR(
@@ -41,6 +42,7 @@ init 1 python:
         thumbnail = "images/events/school dormitory/sd_event_1 1 0.webp")
 
     sd_event2 = Event(3, "sd_event_2",
+        LevelSelector('school_level', 'school'),
         RandomValueSelector('inhibition_limit', 30, 50),
         StatSelector('inhibition', INHIBITION, "school"),
         RandomListSelector('location', "dorm_room", "shower"),
@@ -73,13 +75,21 @@ init 1 python:
         thumbnail = "images/events/school dormitory/sd_event_2 ah dorm_room Aona Komuro 1 0.webp")
 
     sd_event3 = Event(3, "sd_event_3",
+        LevelSelector('school_level', 'school'),
         StatSelector('inhibition', INHIBITION, "school"),
         RandomListSelector('topic', "normal", (0.1, "panties"), (0.02, "nude")),
         TimeCondition(daytime = "6,7"),
         thumbnail = "images/events/school dormitory/sd_event_3 normal 1 0.webp")
 
+    sd_action_tutorial_event = Event(2, "action_tutorial",
+        NOT(ProgressCondition('action_tutorial')),
+        ValueSelector('return_label', 'school_dormitory'),
+        NoHighlightOption(),
+        TutorialCondition(),
+        override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
 
     sd_general_event.add_event(
+        sd_action_tutorial_event,
         first_week_school_dormitory_event_event,
         first_potion_school_dormitory_event_event,
     )
@@ -100,16 +110,12 @@ label .after_time_check (**kwargs):
     call call_available_event(sd_general_event) from school_dormitory_4
 
 label .after_general_check (**kwargs):
-    $ loli = get_random_loli()
-    $ sd_bg_images.add_kwargs(loli = loli)
-
     call call_event_menu (
         "What to do in the High School Dorm?", 
         sd_events, 
         default_fallback,
         character.subtitles,
         bg_image = sd_bg_images,
-        context = loli,
     ) from school_dormitory_3
 
     jump school_dormitory
@@ -120,28 +126,26 @@ label .after_general_check (**kwargs):
 # ----- School Dormitory Events ----- #
 #######################################
 
-
-# first week event
 label first_week_school_dormitory_event (**kwargs):
     
     $ begin_event(**kwargs)
     
-    show first week school dormitory 1 with dissolveM
+    scene first week school dormitory 1 with dissolveM
     headmaster_thought "The dormitory looks alright."
 
-    show first week school dormitory 2 with dissolveM
+    scene first week school dormitory 2 with dissolveM
     headmaster_thought "As far as I know, the students have to share a communal bathroom."
     headmaster_thought "Private bathrooms would be nice for the students, but for one I don't think we really need that and then it would need a lot of rebuilding. So that should be last on the list."
     
-    show first week school dormitory 3 with dissolveM
+    scene first week school dormitory 3 with dissolveM
     headmaster_thought "Let's see if someone would let me see their room so I can check the state of these."
     
-    show first week school dormitory 4 with dissolveM
+    scene first week school dormitory 4 with dissolveM
     headmaster "Hello? I'm Mr. [headmaster_last_name] the new Headmaster. Can I come in? I'm here to inspect the building."
     subtitles "..."
     headmaster "Hello?"
 
-    show first week school dormitory 5 with dissolveM
+    scene first week school dormitory 5 with dissolveM
     headmaster_thought "Hmm nobody seems to be here. Nevermind. I just let my Secretary give me a report."
 
     $ change_stat("inhibition", -3, get_school())
@@ -151,22 +155,21 @@ label first_week_school_dormitory_event (**kwargs):
 
     $ end_event('new_day', **kwargs)
 
-
 label first_potion_school_dormitory_event (**kwargs):
 
     $ begin_event(**kwargs)
     
-    show first potion school dormitory 1 with dissolveM
+    scene first potion school dormitory 1 with dissolveM
     subtitles "You enter the dormitory of the high school."
     headmaster_thought "Mhh, where does the noise come from?"
 
-    show first potion school dormitory 2 with dissolveM
+    scene first potion school dormitory 2 with dissolveM
     headmaster_thought "Ah I think there are some students in the room over there."
 
-    show first potion school dormitory 3 with dissolveM
+    scene first potion school dormitory 3 with dissolveM
     headmaster_thought "Ahh party games!"
 
-    show first potion school dormitory 4 with dissolveM
+    scene first potion school dormitory 4 with dissolveM
     if time.check_daytime("c"):
         headmaster_thought "Normally I would scold them for skipping class but today is a special day so I gladly enjoy this view."
     else:
@@ -176,12 +179,10 @@ label first_potion_school_dormitory_event (**kwargs):
 
     $ end_event('new_daytime', **kwargs)
 
-
-# education < 80
 label sd_event_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ school_obj = get_char_value('school_obj', **kwargs)
+    $ school_level = get_value('school_level', **kwargs)
     $ inhibition = get_stat_value('inhibition', [89, 100], **kwargs)
     $ education = get_stat_value('education', [50, 100], **kwargs)
 
@@ -197,28 +198,28 @@ label sd_event_1 (**kwargs):
             sgirl "Yeah Mr. [headmaster_last_name], but would you please knock before entering next time?" (name = "Easkey Tanaka")
             $ image.show(3)
             headmaster "Ah yes... yes of course."
-            $ change_stats_with_modifier(school_obj,
-                HAPPINESS = DEC_TINY)
+            call change_stats_with_modifier('school',
+                happiness = DEC_TINY) from _call_change_stats_with_modifier_73
             $ end_event(**kwargs)
         else:
             $ image.show(5)
             sgirl "Yeah Mr. [headmaster_last_name], you just surprised me." (name = "Easkey Tanaka")
             $ image.show(6)
             headmaster "Oh, sorry about that."
-            $ change_stats_with_modifier(school_obj,
-                HAPPINESS = DEC_TINY, education = MEDIUM)
+            call change_stats_with_modifier('school',
+                happiness = DEC_TINY, education = MEDIUM) from _call_change_stats_with_modifier_74
             $ end_event(**kwargs)
     else:
         $ image.show(4)
         sgirl "hmm... This homework is hard. Why do I need to learn this anyway?" (name = "Easkey Tanaka")
-        $ change_stats_with_modifier(school_obj,
-            education = SMALL)
+        call change_stats_with_modifier('school',
+            education = SMALL) from _call_change_stats_with_modifier_75
         $ end_event(**kwargs)
 
 label sd_event_2 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ school_obj = get_char_value('school_obj', **kwargs)
+    $ school_level = get_value('school_level', **kwargs)
     $ location = get_value('location', **kwargs)
     $ girl_name = get_value('girl_name', **kwargs)
     $ topic = get_value('topic', **kwargs)
@@ -230,18 +231,18 @@ label sd_event_2 (**kwargs):
     if topic == "ah":
         $ image.show(0)
         sgirl "Ah!" (name = girl_name)
-        $ change_stats_with_modifier(school_obj,
-            happiness = DEC_TINY, inhibition = DEC_TINY)
+        call change_stats_with_modifier('school',
+            happiness = DEC_TINY, inhibition = DEC_TINY) from _call_change_stats_with_modifier_76
     elif topic == "ahhh":
         $ image.show(0)
         sgirl "AHHH!!!" (name = girl_name)
-        $ change_stats_with_modifier(school_obj,
-            happiness = DEC_TINY, inhibition = DEC_TINY, reputation = DEC_TINY)
+        call change_stats_with_modifier('school',
+            happiness = DEC_TINY, inhibition = DEC_TINY, reputation = DEC_TINY) from _call_change_stats_with_modifier_77
     elif topic == "eeek":
         $ image.show(0)
         sgirl "Eek!" (name = girl_name)
-        $ change_stats_with_modifier(school_obj,
-            happiness = DEC_LARGE, inhibition = DEC_TINY)
+        call change_stats_with_modifier('school',
+            happiness = DEC_MEDIUM, inhibition = DEC_TINY) from _call_change_stats_with_modifier_78
     elif topic in ["panties", "breasts"]:
         $ image.show(0)
         $ random_say(
@@ -249,8 +250,8 @@ label sd_event_2 (**kwargs):
             "Ah!!! Look away, please, I don't want guys seeing my [topic]!",
             "Eek! Stop! Don't stare at my [topic]!",
             person = character.sgirl, name = girl_name)
-        $ change_stats_with_modifier(school_obj,
-            happiness = DEC_LARGE, inhibition = DEC_TINY, charm = MEDIUM)
+        call change_stats_with_modifier('school',
+            happiness = DEC_MEDIUM, inhibition = DEC_TINY, charm = MEDIUM) from _call_change_stats_with_modifier_79
     elif topic == "oh":
         $ image.show(0)
         sgirl "Oh!" (name = girl_name)
@@ -260,13 +261,13 @@ label sd_event_2 (**kwargs):
         sgirl "I-it's ok..." (name = girl_name)
         $ image.show(3)
         subtitles "You quickly make an exit."
-        $ change_stats_with_modifier(school_obj,
-            inhibition = DEC_TINY, happiness = DEC_MEDIUM)
+        call change_stats_with_modifier('school',
+            inhibition = DEC_TINY, happiness = DEC_MEDIUM) from _call_change_stats_with_modifier_80
         $ end_event(**kwargs)
     # elif topic == "guys_stop":
     #     $ image.show(0)
     #     sgirl "Excuse me!\n Can you guys stop running in and out of here?!"
-    #     $ change_stats_with_modifier(school_obj,
+    #     call change_stats_with_modifier(school_obj,
     #         inhibition = DEC_TINY, morale = DEC_SMALL)
     # elif topic == "huh":
     #     $ image.show(0)
@@ -274,7 +275,7 @@ label sd_event_2 (**kwargs):
     #         ("Umm... What are you doing in here?", character.sgirl),
     #         ("Mr. [headmaster_last_name]? What are you doing in here?", character.sgirl),
     #     )
-    #     $ change_stats_with_modifier(school_obj,
+    #     call change_stats_with_modifier(school_obj,
     #         inhibition = DEC_TINY, morale = DEC_SMALL)
     # elif topic == "reason":
     #     $ image.show(0)
@@ -291,7 +292,7 @@ label sd_event_2 (**kwargs):
     #     sgirl "Oh, silly me, would you mind closing it on your way out?"
     #     $ image.show(5)
     #     headmaster "No problem."
-    #     $ change_stats_with_modifier(school_obj,
+    #     call change_stats_with_modifier(school_obj,
     #         charm = MEDIUM, inhibition = DEC_MEDIUM);
     #     jump new_daytime;
     # elif topic == "blush":
@@ -300,7 +301,7 @@ label sd_event_2 (**kwargs):
     #         ("Ah! What are you doing here?", character.sgirl),
     #         ("Oh! Mr. [headmaster_last_name]!"),
     #     )
-    #     $ change_stats_with_modifier(school_obj,
+    #     call change_stats_with_modifier(school_obj,
     #         charm = MEDIUM, inhibition = DEC_MEDIUM)
     # elif topic == "dressing":
     #     $ image.show(0)
@@ -308,7 +309,7 @@ label sd_event_2 (**kwargs):
     #         ("Umm, do you mind?", character.sgirl),
     #         ("I'm getting dressed! GET OUT!", character.sgirl),
     #     )
-    #     $ change_stats_with_modifier(school_obj,
+    #     call change_stats_with_modifier(school_obj,
     #         inhibition = DEC_TINY, charm = SMALL)
 
     
@@ -334,7 +335,7 @@ label sd_event_2 (**kwargs):
 label sd_event_3 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ school_obj = get_char_value('school_obj', **kwargs)
+    $ school_level = get_value('school_level', **kwargs)
     $ topic = get_value('topic', **kwargs)
 
     $ image = Image_Series("images/events/school dormitory/sd_event_3 <topic> <school_level> <step>.webp", **kwargs)
@@ -349,16 +350,10 @@ label sd_event_3 (**kwargs):
     headmaster "Bye!"
     
     if topic == "normal":
-        $ change_stats_with_modifier(school_obj, inhibition = DEC_SMALL)
+        call change_stats_with_modifier('school', inhibition = DEC_SMALL) from _call_change_stats_with_modifier_81
     elif topic == "panties":
-        $ change_stats_with_modifier(school_obj, inhibition = DEC_MEDIUM)
+        call change_stats_with_modifier('school', inhibition = DEC_MEDIUM) from _call_change_stats_with_modifier_82
     elif topic == "nude":
-        $ change_stats_with_modifier(school_obj, inhibition = DEC_LARGE)
+        call change_stats_with_modifier('school', inhibition = DEC_LARGE) from _call_change_stats_with_modifier_83
 
     $ end_event(**kwargs)
-
-
-
-
-
-

@@ -12,10 +12,18 @@ label start ():
 
     $ fix_modifier()
 
-    jump ask_age
+    call intro from _call_intro
+label splashscreen:
+    menu:
+        "This game is not suitable for children or those who are easily disturbed.\n\nBy playing this game you agree that you are 18 years of age or older and are not offended by adult content."
 
-    return
+        "I am 18 years of age or older.":
+            pass
+        "I am not 18 years of age or older.":
+            $ renpy.quit()
 
+    subtitles "The game downloads the current list of {a=https://www.patreon.com/suitji}Patreon{/a} supporters every time the game starts. The file's size is max 1KB. If you don't want the game to download this file, you can disable it in the options menu."
+    subtitles "For everyone with an old save-game from the previous version:\nYou can still open the game with the old save-game. If you encounter an error after loading because of a missing image, just press 'Ignore' and the game will continue normally."
 init python:
     
     ###########################################
@@ -48,15 +56,25 @@ init python:
         if (get_building('cafeteria').is_unlocked() and 
             get_modifier('weekly_cost_cafeteria', 'money', None, 'payroll_weekly') == None
         ):
-            set_modifier('weekly_cost_cafeteria', 'money', Modifier_Obj('Cafeteria', "+", -100), collection = 'payroll_weekly')
+            set_modifier('weekly_cost_cafeteria', Modifier_Obj('Cafeteria', "+", -100), stat = 'money', collection = 'payroll_weekly')
 
         if get_modifier('monthly_budget', 'money', None, 'payroll_monthly') == None:
-            set_modifier('monthly_budget', 'money', Modifier_Obj('Budget', "+", 1000), collection = 'payroll_monthly')
+            set_modifier('monthly_budget', Modifier_Obj('Budget', "+", 1000), stat = 'money', collection = 'payroll_monthly')
 
         if get_modifier('teacher_pay', 'money', None, 'payroll_weekly') == None:
-            set_modifier('teacher_pay', 'money', Modifier_Obj('Teacher', "+", -150), collection = 'payroll_weekly')
-
+            set_modifier('teacher_pay', Modifier_Obj('Teacher', "+", -150), stat = 'money', collection = 'payroll_weekly')
+    
     def fix_schools():
+
+        fix_thinking_characters(character.headmaster_thought)
+        fix_shouting_characters(character.headmaster_shout)
+        fix_whisper_characters(character.headmaster_whisper)
+        fix_shouting_characters(character.secretary_shout)
+        fix_whisper_characters(character.secretary_whisper)
+        fix_shouting_characters(character.crowd_shout)
+        fix_whisper_characters(character.crowd_whisper)
+
+
         old_character = get_character("school_mean_values", charList)
         if old_character != None:
             max_level = 0
@@ -88,18 +106,35 @@ init python:
             }
         })
 
+    def fix_whisper_characters(person: Person):
+        person.who_suffix = " (whispering)"
+        fix_characters(person)
+
+    def fix_shouting_characters(person: Person):
+        person.who_suffix = " (shouting)"
+        fix_characters(person)
+
+    def fix_thinking_characters(person: Person):
+        person.who_suffix = " (thinking)"
+        fix_characters(person)
+    
+    def fix_characters(person: Person):
+        person.what_size = 28
+        person.what_italic = True
+        person.what_prefix = "(  {i}"
+        person.what_suffix = "{/i}  )"
+
     def check_old_versions():
         if 'headmaster_first_name' in gameData.keys() and 'headmaster_last_name' in gameData.keys():
             set_name("headmaster", gameData['headmaster_first_name'], gameData['headmaster_last_name'])
             gameData.pop('headmaster_first_name')
             gameData.pop('headmaster_last_name')
 
-
-
     ###########################################
 
-
 label after_load:
+    $ log('\n\n\n####################################################################################################\n####################################################################################################\n')
+
     call load_stats from after_load_1
     call load_schools from after_load_2
     call load_rules from after_load_3
@@ -133,5 +168,34 @@ label after_load:
     $ after_load_event_check('school_dormitory', sd_events, sd_general_event, sd_timed_event)
     $ after_load_event_check('sports_field', sports_field_events, sports_field_general_event, sports_field_timed_event)
     $ after_load_event_check('swimming_pool', swimming_pool_events, swimming_pool_general_event, swimming_pool_timed_event)
-    $ after_load_event_check('tennis_court', tennis_court_events, tennis_court_general_event, tennis_court_timed_event)
+    $ after_load_event_check('beach', beach_events, beach_general_event, beach_timed_event)
+    $ after_load_event_check('staff_lodges', staff_lodges_events, staff_lodges_general_event, staff_lodges_timed_event)
     #################
+
+    return
+
+label open_patreon_link_from_menu():
+    # """
+    # Opens the patreon page in the default browser
+    # """
+
+    $ renpy.run(OpenURL(patreon))
+    call screen main_menu
+
+
+label open_discord_link_from_menu():
+    # """
+    # Opens the patreon page in the default browser
+    # """
+
+    $ renpy.run(OpenURL(discord))
+    call screen main_menu
+
+
+label open_wiki_link_from_menu():
+    # """
+    # Opens the patreon page in the default browser
+    # """
+
+    $ renpy.run(OpenURL(wiki))
+    call screen main_menu

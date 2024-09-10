@@ -297,7 +297,6 @@ init -6 python:
             self.display_in_list = False
             self.display_in_desc = False
 
-        @abstractmethod
         def is_fulfilled(self, **kwargs) -> bool:
             """
             Returns whether the condition is fulfilled or not.
@@ -310,8 +309,22 @@ init -6 python:
             1. bool
                 - Whether the condition is fulfilled or not.
             """
+            
+            check_in_replay = get_kwargs('check_in_replay', False, **kwargs)
 
-            pass
+            if check_in_replay:
+                return True
+
+            global is_in_replay
+
+            in_replay = get_kwargs('in_replay', False, **kwargs)
+            in_journal_gallery = get_kwargs('in_journal_gallery', False, **kwargs)
+
+            if is_in_replay or in_replay or in_journal_gallery:
+                return True
+
+            return False
+
 
         def is_blocking(self, **kwargs) -> bool:
             """
@@ -447,6 +460,10 @@ init -6 python:
             1. bool
                 - Whether the condition is fulfilled or not.
             """
+
+            if super().is_fulfilled(**kwargs):
+                return True
+
             char_obj = None
             if hasattr(self, 'char_obj'):
                 char_obj = self.char_obj
@@ -486,11 +503,16 @@ init -6 python:
 
             output = []
             for stat in self.stats.keys():
-                icon = "icons/stat_" + str(stat) + "_icon.webp"
                 if char_obj.check_stat(stat, self.stats[stat]):
-                    output.append(("{image=" + icon + "}", "{color=#00a000}" + str(self.stats[stat]) + "{/color}", Stat_Data[stat].get_title()))
+                    output.append((
+                        get_stat_icon(stat, white = False), 
+                        "{color=#00a000}" + str(self.stats[stat]) + "{/color}", Stat_Data[stat].get_title()
+                    ))
                 else:
-                    output.append(("{image=" + icon + "}", "{color=#a00000}" + str(self.stats[stat]) + "{/color}", Stat_Data[stat].get_title()))
+                    output.append((
+                        get_stat_icon(stat, white = False), 
+                        "{color=#a00000}" + str(self.stats[stat]) + "{/color}", Stat_Data[stat].get_title()
+                    ))
             if len(output) == 0:
                 return ("","")
             elif len(output) == 1:
@@ -580,6 +602,106 @@ init -6 python:
                     output += diff
             return output
 
+    class StatLimitCondition(Condition):
+        def __init__(self, stat: str, char_obj: str | Char = None, **kwargs):
+            super().__init__(**kwargs)
+            self._stat = stat
+            self._char_obj = char_obj
+            self.display_in_list = False
+            self.display_in_desc = False
+
+        def is_fulfilled(self, **kwargs) -> bool:
+            
+            if super().is_fulfilled(**kwargs):
+                return True
+
+            char_obj = None
+            if hasattr(self, '_char_obj'):
+                char_obj = self._char_obj
+
+            if isinstance(char_obj, str):
+                char_obj = get_character_by_key(char_obj)
+
+            if char_obj == None:
+                char_obj = get_kwargs('char_obj', get_school(), **kwargs)
+
+            
+            if self._stat == CORRUPTION:
+                limit_value = clamp_value(100, 0, char_obj.get_level() * 10)
+            elif self._stat == INHIBITION:
+                limit_value = clamp_value(0, 100 - (char_obj.get_level() * 10), 100)
+            else:
+                return False
+
+            stat_value = get_stat_for_char(self._stat, char_obj)
+
+            if stat_value == limit_value:
+                return True
+
+        def get_name(self) -> str:
+            if self._stat == CORRUPTION:
+                return "Corruption limit"
+            elif self._stat == INHIBITION:
+                return "Inhibition limit"
+            return ""
+
+        def get_diff(self, char_obj: Char) -> num:
+            if self.is_fulfilled(char_obj = char_obj):
+                return 0
+            return -100
+
+    class ProficiencyCondition(Condition):
+        def __init__(self, proficiency: str, *, xp: int | str = -1, level: int | str = -1):
+            super().__init__(True)
+            self._proficiency = proficiency
+            self._xp = xp
+            self._level = level
+
+        def is_fulfilled(self, **kwargs) -> bool:
+            
+            if super().is_fulfilled(**kwargs):
+                return True
+
+            if self._xp == -1 and self._level == -1:
+                return self._proficiency in headmaster_proficiencies.keys()
+            
+            output = True
+            if self._xp != -1:
+                curr_xp = get_headmaster_proficiency_xp(self._proficiency)
+                if not check_in_value(self._xp, curr_xp):
+                    output = False
+            if self._level != -1:
+                curr_level = get_headmaster_proficiency_level(self._proficiency)
+                log_val('curr_level', curr_level)
+                log_val('level', self._level)
+                if not check_in_value(self._level, curr_level):
+                    output = False
+
+            return output
+
+        def get_name(self) -> str:
+            return self._proficiency + "_" + str(self._xp) + "_" + str(self._level)
+
+        def get_diff(self, _char_obj: Char) -> num:
+            if self.is_fulfilled():
+                return 0
+            return -100
+
+    class TutorialCondition(Condition):
+        def __init__(self):
+            super().__init__(True)
+
+        def is_fulfilled(self, **kwargs) -> bool:
+            return persistent.tutorial
+
+        def get_name(self) -> str:
+            return "Is_tutorial_active"
+
+        def get_diff(self, _char_obj: Char) -> num:
+            if self.is_fulfilled():
+                return 0
+            return -100
+
     class RuleCondition(Condition):
         """
         A class for conditions that check if the rules for a character object is active.
@@ -618,6 +740,9 @@ init -6 python:
             1. bool
                 - Whether the condition is fulfilled or not.
             """
+
+            if super().is_fulfilled(**kwargs):
+                return True
 
             return get_rule(self.value).is_unlocked()
 
@@ -709,6 +834,9 @@ init -6 python:
             1. bool
                 - Whether the condition is fulfilled or not.
             """
+
+            if super().is_fulfilled(**kwargs):
+                return True
 
             return get_club(self.value).is_unlocked()
 
@@ -808,6 +936,9 @@ init -6 python:
                 - Whether the condition is fulfilled or not.
             """
 
+            if super().is_fulfilled(**kwargs):
+                return True
+
             return get_building(self.value).is_unlocked()
 
         def to_desc_text(self, **kwargs) -> str:
@@ -902,6 +1033,9 @@ init -6 python:
                     - Whether the condition is fulfilled or not.
                 """
 
+            if super().is_fulfilled(**kwargs):
+                return True
+
                 return get_building(self.name).get_level() == self.level
 
             def to_desc_text(self, **kwargs) -> str:
@@ -992,6 +1126,9 @@ init -6 python:
                 - Whether the condition is fulfilled or not.
             """
 
+            if super().is_fulfilled(**kwargs):
+                return True
+
             char_obj = None
             if hasattr(self, 'char_obj'):
                 char_obj = self.char_obj
@@ -1036,9 +1173,15 @@ init -6 python:
                 - The title is optional.
             """
             if self.is_fulfilled(**kwargs):
-                return ("{image=icons/stat_level_icon.webp}", "{color=#00a000}" + str(self.value) + "{/color}", "Level")
+                return (
+                    get_stat_icon("level", white = False), 
+                    "{color=#00a000}" + str(self.value) + "{/color}", "Level"
+                )
             else:
-                return ("{image=icons/stat_level_icon.webp}", "{color=#a00000}" + str(self.value) + "{/color}", "Level")
+                return (
+                    get_stat_icon("level", white = False), 
+                    "{color=#a00000}" + str(self.value) + "{/color}", "Level"
+                )
 
         def get_name(self):
             """
@@ -1103,7 +1246,7 @@ init -6 python:
                 - If the difference is larger than 0, the difference is returned as 0 to set it as fulfilled but not create a better chance for votes.
         """
 
-        def __init__(self, value: num, blocking = False):
+        def __init__(self, value: num | str, blocking = False):
             super().__init__(blocking)
             self.value = value
             self.display_in_list = True
@@ -1122,7 +1265,10 @@ init -6 python:
                 - Whether the condition is fulfilled or not.
             """
 
-            return money.get_value() >= self.value
+            if super().is_fulfilled(**kwargs):
+                return True
+
+            return check_in_value(self.value, money.get_value())
 
         def to_desc_text(self, **kwargs) -> str:
             """
@@ -1158,9 +1304,15 @@ init -6 python:
             """
 
             if self.is_fulfilled():
-                return ("{image=icons/stat_money_icon.webp}", "{color=#00a000}" + str(self.value) + "{/color}", "Money")
+                return (
+                    get_stat_icon("money", white = False), 
+                    "{color=#00a000}" + str(self.value) + "{/color}", "Money"
+                )
             else:
-                return ("{image=icons/stat_money_icon.webp}", "{color=#a00000}" + str(self.value) + "{/color}", "Money")
+                return (
+                    get_stat_icon("money", white = False), 
+                    "{color=#a00000}" + str(self.value) + "{/color}", "Money"
+                )
 
         def get_name(self) -> str:
             """
@@ -1190,10 +1342,19 @@ init -6 python:
                 - The difference between the condition and the given characters money.
             """
 
-            output = -20 + (money.get_value() - self.value)
-            if output > 0:
-                return 0
-            return output
+            obj_stat = money.get_value()
+            diff = get_value_diff(self.value, obj_stat)
+
+            if diff < -20:
+                return diff * 20
+            elif diff < -10:
+                return diff * 10
+            elif diff < 0:
+                return diff * 5
+            elif diff > 5:
+                return diff * 2
+            else:
+                return diff
 
     class LockCondition(Condition):
         """
@@ -1217,6 +1378,9 @@ init -6 python:
             """
             Returns "False" as the condition is never fulfilled.
             """
+
+            if super().is_fulfilled(**kwargs):
+                return True
 
             return False
 
@@ -1333,6 +1497,9 @@ init -6 python:
                 - Whether the condition is fulfilled or not.
             """
 
+            if super().is_fulfilled(**kwargs):
+                return True
+
             return (
                 time.check_day    (self.day    ) and
                 time.check_month  (self.month  ) and
@@ -1416,6 +1583,38 @@ init -6 python:
                 return 0
             return -100
 
+    class TimerCondition(Condition):
+        def __init__(self, id: str, **kwargs):
+            super().__init__(False)
+            self.id = id
+            self.day       = "x" if 'day'       not in kwargs.keys() else kwargs['day'    ]
+            self.month     = "x" if 'month'     not in kwargs.keys() else kwargs['month'  ]
+            self.year      = "x" if 'year'      not in kwargs.keys() else kwargs['year'   ]
+            self.daytime   = "x" if 'daytime'   not in kwargs.keys() else kwargs['daytime']
+
+        def is_fulfilled(self, **kwargs) -> bool:
+            
+            if super().is_fulfilled(**kwargs):
+                return True
+
+            if not contains_game_data(self.id):
+                return False
+
+            timer = get_game_data(self.id)
+            if not isinstance(timer, Time):
+                return False
+
+            aim = Time(timer).add_time(day = self.day, month = self.month, year = self.year, daytime = self.daytime)
+            return compare_time(aim, time) >= 0
+
+        def get_name(self) -> str:
+            return f"Timer {self.id}: {self.day}:{self.month}:{self.year}:{self.daytime}"
+
+        def get_diff(self, _char_obj) -> num:
+            if self.is_fulfilled():
+                return 0
+            return -100
+
     class RandomCondition(Condition):
         """
         A class for conditions that are fulfilled randomly.
@@ -1468,6 +1667,9 @@ init -6 python:
             1. bool
                 - Whether the condition is fulfilled or not.
             """
+            if super().is_fulfilled(**kwargs):
+                return True
+
 
             return get_random_int(0, self.limit) < self.amount
 
@@ -1568,6 +1770,9 @@ init -6 python:
                 - Whether the condition is fulfilled or not.
             """
 
+            if super().is_fulfilled(**kwargs):
+                return True
+
             if self.key not in gameData.keys():
                 return False
             return gameData[self.key] == self.value
@@ -1635,7 +1840,7 @@ init -6 python:
             - Otherwise the difference is -100.
         """
 
-        def __init__(self, key: str, value: int | str, blocking: bool = False):
+        def __init__(self, key: str, value: int | str = "", blocking: bool = False):
             super().__init__(blocking)
             self.key = key
             self.value = value
@@ -1653,6 +1858,12 @@ init -6 python:
             1. bool
                 - Whether the condition is fulfilled or not.
             """
+
+            if super().is_fulfilled(**kwargs):
+                return True
+
+            if self.value == "":
+                return get_progress(self.key) != -1
 
             return check_in_value(self.value, get_progress(self.key))
 
@@ -1735,6 +1946,9 @@ init -6 python:
             1. bool
                 - Whether the condition is fulfilled or not.
             """
+
+            if super().is_fulfilled(**kwargs):
+                return True
 
             if self.key not in kwargs.keys():
                 return False
@@ -1824,6 +2038,9 @@ init -6 python:
             1. bool
                 - Whether the condition is fulfilled or not.
             """
+
+            if super().is_fulfilled(**kwargs):
+                return True
 
             if self.key not in kwargs.keys():
                 return False
@@ -1944,6 +2161,9 @@ init -6 python:
             1. bool
                 - Whether the condition is fulfilled or not.
             """
+
+            if super().is_fulfilled(**kwargs):
+                return True
 
             if self.key not in kwargs.keys():
                 return False
@@ -2075,6 +2295,9 @@ init -6 python:
                 - Whether the condition is fulfilled or not.
             """
 
+            if super().is_fulfilled(**kwargs):
+                return True
+
             if self.key not in kwargs.keys():
                 return False
 
@@ -2183,6 +2406,9 @@ init -6 python:
             1. bool
                 - Whether the condition is fulfilled or not.
             """
+
+            if super().is_fulfilled(**kwargs):
+                return True
 
             if self.key_1 not in kwargs.keys() or self.key_2 not in kwargs.keys():
                 return False
@@ -2303,6 +2529,9 @@ init -6 python:
                 - Whether the condition is fulfilled or not.
             """
 
+            if super().is_fulfilled(**kwargs):
+                return True
+
             return check_in_value(self.value, loli_content)
 
         def get_name(self) -> str:
@@ -2355,6 +2584,9 @@ init -6 python:
             1. bool
                 - Whether the condition is fulfilled or not.
             """
+
+            if super().is_fulfilled(**kwargs):
+                return True
 
             for condition in self.conditions:
                 if condition.is_fulfilled(**kwargs):
@@ -2431,6 +2663,9 @@ init -6 python:
             1. bool
                 - Whether the condition is fulfilled or not.
             """
+
+            if super().is_fulfilled(**kwargs):
+                return True
 
             for condition in self.conditions:
                 if condition.is_fulfilled(**kwargs):
@@ -2515,6 +2750,9 @@ init -6 python:
                 - Whether the condition is fulfilled or not.
             """
 
+            if super().is_fulfilled(**kwargs):
+                return True
+
             for condition in self.conditions:
                 if condition.is_fulfilled(**kwargs):
                     return False
@@ -2597,6 +2835,9 @@ init -6 python:
                 - Whether the condition is fulfilled or not.
             """
 
+            if super().is_fulfilled(**kwargs):
+                return True
+
             return not self.condition.is_fulfilled(**kwargs)
 
         def to_desc_text(self, **kwargs) -> str | List[str]:
@@ -2666,6 +2907,9 @@ init -6 python:
                 - Whether the condition is fulfilled or not.
             """
 
+            if super().is_fulfilled(**kwargs):
+                return True
+
             is_true = False
             
             for condition in self.conditions:
@@ -2729,6 +2973,10 @@ init -6 python:
             self.is_intro = is_intro
 
         def is_fulfilled(self, **kwargs) -> bool:
+            
+            if super().is_fulfilled(**kwargs):
+                return True
+
             if ((time.compare_today(10, 1, 2023) == -1 and self.is_intro) or
                 (time.compare_today(10, 1, 2023) != -1 and not self.is_intro)):
                 return True
@@ -2766,6 +3014,9 @@ init -6 python:
                 - Whether the condition is fulfilled or not.
             """
 
+            if super().is_fulfilled(**kwargs):
+                return True
+
             return self.accept
 
         def get_name(self) -> str:
@@ -2796,3 +3047,74 @@ init -6 python:
             if self.char == "" or self.char == char_obj.get_name():
                 return 5000 if self.accept else -5000
             return 0
+
+    class CheckReplay(Condition):
+        """
+        A class for conditions that check if the condition is not fulfilled.
+        """
+
+        def __init__(self, condition: Condition):
+            super().__init__(False)
+            self.condition = condition
+            self.display_in_desc = True
+
+        def is_fulfilled(self, **kwargs) -> bool:
+            """
+            Returns whether the condition is not fulfilled.
+
+            ### Parameters:
+            1. **kwargs
+                - Additional arguments.
+
+            ### Returns:
+            1. bool
+                - Whether the condition is fulfilled or not.
+            """
+
+            kwargs['check_in_replay'] = True
+
+            return self.condition.is_fulfilled(**kwargs)
+
+        def to_desc_text(self, **kwargs) -> str | List[str]:
+            """
+            Returns the description text for the condition that is displayed in the description.
+            Logic conditions are displayed in a special way.
+
+            ### Returns:
+            1. str | List[str]
+                - The condition text for the description.
+            """
+
+            desc_text = self.condition.to_desc_text(**kwargs)
+            if isinstance(desc_text, str):
+                return "{color=#616161}NOT{/color} " + desc_text
+            else:
+                return "\n".join(["{color=#616161}NOT{/color} " + desc for desc in desc_text])
+
+        def get_name(self) -> str:
+            """
+            Returns the name of the condition with a "NOT_" prefix.
+
+            ### Returns:
+            1. str
+                - The name of the condition.
+            """
+
+            return "NOT_" + self.condition.get_name()
+
+        def get_diff(self, char_obj: Char) -> num:
+            """
+            Returns the difference of the added condition inverted.
+
+            ### Parameters:
+            1. char_obj: Char
+                - The character to compare the condition to.
+
+            ### Returns:
+            1. num
+                - The difference of the added condition inverted.
+            """
+
+            diff = self.condition.get_diff(char_obj)
+
+            return clamp_value(100 - diff, -100, 100)

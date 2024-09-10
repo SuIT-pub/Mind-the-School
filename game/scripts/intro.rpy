@@ -1,13 +1,4 @@
-﻿label ask_age ():
-    menu:
-        "This Game contains sexual content and is not suitable for consumption by underage people.\nPlease confirm you are not underage in your country."
-
-        "Yes I am above 18.":
-            jump intro
-        "No unfortunately I am underage.":
-            return
-
-label intro ():
+﻿label intro ():
     subtitles "All characters and events in this game, even those based on real people, are entirely fictional."
 
     $ school_name = renpy.input("Please name your School: (Default: \"Windstor School\")")
@@ -24,10 +15,10 @@ label intro ():
     $ set_name("headmaster", headmaster_first_name, headmaster_last_name)
 
     $ school_config = "a High School."
-    if loli_content == 1:
-        $ school_config = "a High and Middle School."
-    if loli_content == 2:
-        $ school_config = "a High, Middle and Elementary School."
+    # if loli_content == 1:
+    #     $ school_config = "a High and Middle School."
+    # if loli_content == 2:
+    #     $ school_config = "a High, Middle and Elementary School."
 
     $ school_config_noun = "school"
 
@@ -134,58 +125,55 @@ label .start:
     $ image.show(4)
     secretary "I'm sure the students are eager to meet you."
 
-    scene expression "events/intro/intro gym 2 [loli_content].webp" with dissolveM 
+    
+    call show_image ("images/events/intro/intro gym 2 0.webp") from _call_show_image_tutorial_1
     subtitles "You leave the office with the secretary and head for the Gym."
     
     #show inside gym with students walking towards their position in gym or talking to each other in groups by school
     subtitles "As you enter the hall, you are greeted by students standing all around the hall."
     
     #show move up stairs with secretary in front and clear view of butt
-    show intro gym 3 1 with dissolveM
+    call show_image ("images/events/intro/intro gym 3 1.webp") from _call_show_image_tutorial_2
     subtitles "As you and your secretary make your way to the stage, all the students begin to form neat rows."
     secretary_whisper "The students in the left are from the high school."
-    if loli_content >= 1:
-        secretary_whisper "The students in the center are from the middle school."
-    if loli_content == 2:
-        secretary_whisper "And to the right are the elementary school students."
+    # if loli_content >= 1:
+    #     secretary_whisper "The students in the center are from the middle school."
+    # if loli_content == 2:
+    #     secretary_whisper "And to the right are the elementary school students."
 
-    scene intro gym 3 2 with dissolveM
+    call show_image ("images/events/intro/intro gym 3 2.webp") from _call_show_image_tutorial_3
     headmaster_thought "Wow she has a nice butt. I can't wait to make it mine."
     
     #show secretary stand at podium with hands on podium
-    scene intro gym 4 with dissolveM
+    call show_image ("images/events/intro/intro gym 4.webp") from _call_show_image_tutorial_4
     secretary_shout "Good Morning Students!"
     crowd_shout "Good Morning!"
 
     #show crowd from behind Secretary (students standing in clear rows)
-    show expression "events/intro/intro gym 5 [loli_content].webp" with dissolveM
+    call show_image ("images/events/intro/intro gym 5 0.webp") from _call_show_image_tutorial_5
     secretary_shout "It is with great pleasure, that I introduce you to your new Headmaster."
     secretary_shout "He will be starting today and we're all very excited to see the positive changes he will bring!"
 
     #show view from slightly behind crowd towards stage (secretary pointing towards headmaster)
-    # show expression "events/intro/intro gym 6 [loli_content].webp"
     secretary_shout "But without further ado... Greet your new Headmaster Mr. [headmaster_last_name]!"
     subtitles "You walk to the podium."
 
     #show view of stage from front with headmaster standing at podium with hands on podium
-    show intro gym 7
-    hide expression "events/intro/intro gym 5 [loli_content].webp" with dissolveM
+    call show_image ("images/events/intro/intro gym 7.webp") from _call_show_image_tutorial_6
     headmaster_shout "Greetings to you all. I am honored to stand here today."
     headmaster_shout "When I came here, I saw the condition of this school and the mishaps of your former headmaster."
     headmaster_shout "I guarantee I won't repeat the same mistakes and I will bring this school back to its former glory and beyond."
 
     #show view of crowd from slightly behind but other side, headmaster hand on chest
-    show expression "events/intro/intro gym 8 [loli_content].webp" with dissolveM
+    call show_image ("images/events/intro/intro gym 8 0.webp") from _call_show_image_tutorial_7
     headmaster_shout "Now a little about me. My name is [headmaster_first_name] [headmaster_last_name] and I come from the country."
     headmaster_shout "I taught in various schools and was also the headmaster of a school in the capitol."
 
     #show headmaster rasing finger
-    # scene expression "events/intro/intro gym 9 [loli_content].webp"
     headmaster_shout "I want to make it clear that I will not tolerate misbehavior! {b}BUT{/b} I am a fair person."
     headmaster_shout "No one will be punished if they don't deserve it, and I will do everything I can to make sure that you all have a nice and safe place to grow and learn!"
 
     #show headmaster with wide open arms
-    # scene expression "events/intro/intro gym 10 [loli_content].webp"
     headmaster_shout "If you ever have any problems, ideas or questions, feel free to come to me anytime. I will help wherever I can!"
     headmaster_shout "Thank you and let's have a great time together!"
     crowd_shout "*clapping*"

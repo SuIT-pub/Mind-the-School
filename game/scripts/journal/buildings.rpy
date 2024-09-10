@@ -262,8 +262,10 @@ init -6 python:
 
             if unlock:
                 advance_progress("unlock_" + self.get_name())
+                log_val('time', time.day_to_string())
                 new_time = Time(time.day_to_string())
                 new_time.add_time(day = self._construction_time)
+                log_val('new_time', new_time.day_to_string())
                 set_game_data(self.get_name() + "_construction_end", new_time.day_to_string())
                 self._level = 1
             else:
@@ -741,6 +743,9 @@ init -6 python:
         if 'elementary_school_dormitory' in buildings.keys():
             buildings.pop("elementary_school_dormitory")
 
+        if 'tennis_court' in buildings.keys():
+            buildings.pop("tennis_court")
+
     ########################################
 
 ############################
@@ -765,6 +770,8 @@ label load_buildings ():
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(),
         '_upgrade_conditions':[],
+        '_image_path': 'images/journal/buildings/school_building <level>.webp',
+        '_image_path_alt': 'images/journal/buildings/school_building 1.webp',
     }, {
         '_level': 1,
     })
@@ -782,6 +789,8 @@ label load_buildings ():
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(),
         '_upgrade_conditions':[],
+        '_image_path': 'images/journal/buildings/school_dormitory <level>.webp',
+        '_image_path_alt': 'images/journal/buildings/school_dormitory 1.webp',
     }, {
         '_level': 1,
     })
@@ -801,12 +810,12 @@ label load_buildings ():
         ],
         '_max_level': 2,
         '_unlock_conditions': ConditionStorage(
-            MoneyCondition(1000),
+            MoneyCondition("1000+"),
             LockCondition()
         ),
         '_upgrade_conditions':[
             ConditionStorage(
-                MoneyCondition(2000),
+                MoneyCondition("2000+"),
             ),
         ],
     }, {
@@ -825,7 +834,7 @@ label load_buildings ():
         ],
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(
-            MoneyCondition(1000),
+            MoneyCondition("1000+"),
             LockCondition(),
         ),
         '_upgrade_conditions':[],
@@ -834,18 +843,38 @@ label load_buildings ():
     })
 
     #! locked, currently not implemented
-    $ load_building("tennis_court", "Tennis Court", {
+    $ load_building("beach", "Beach", {
         '_description': [
             [
-                "Something only a reputable school can have.\nA tennis court. Of course only used for playing tennis.",
+                "A beautiful beach for the students to relax and have fun.",
             ],
             [
-                "Something only a reputable school can have.\nA tennis court. Of course only used for playing tennis.",
+                "A beautiful beach for the students to relax and have fun.",
             ],
         ],
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(
-            MoneyCondition(1000),
+            MoneyCondition("1000+"),
+            LockCondition()
+        ),
+        '_upgrade_conditions':[],
+    }, {
+        '_level': 0,
+    })
+
+    #! locked, currently not implemented
+    $ load_building("staff_lodges", "Staff Lodges", {
+        '_description': [
+            [
+                "The lodges where the staff members can stay.",
+            ],
+            [
+                "The lodges where the staff members can stay.",
+            ],
+        ],
+        '_max_level': 1,
+        '_unlock_conditions': ConditionStorage(
+            MoneyCondition("1000+"),
             LockCondition()
         ),
         '_upgrade_conditions':[],
@@ -866,6 +895,8 @@ label load_buildings ():
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(),
         '_upgrade_conditions':[],
+        '_image_path': 'images/journal/buildings/gym <level>.webp',
+        '_image_path_alt': 'images/journal/buildings/gym 1.webp',
     }, {
         '_level': 1,
     })
@@ -882,7 +913,7 @@ label load_buildings ():
         ],
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(
-            MoneyCondition(1000),
+            MoneyCondition("1000+"),
             LockCondition()
         ),
         '_upgrade_conditions':[],
@@ -929,7 +960,7 @@ label load_buildings ():
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(
             ProgressCondition("unlock_cafeteria", 1, True),
-            MoneyCondition(1500),
+            MoneyCondition("1500+"),
             # LockCondition(False),
         ),
         '_unlock_effects': [
@@ -938,13 +969,14 @@ label load_buildings ():
         ],
         '_upgrade_conditions':[
             ConditionStorage(
-                MoneyCondition(3000),
+                MoneyCondition("3000+"),
+                LockCondition(True),
             ),
             ConditionStorage(
-                MoneyCondition(5000),
+                MoneyCondition("5000+"),
             ),
             ConditionStorage(
-                MoneyCondition(10000),
+                MoneyCondition("10000+"),
             ),
         ],
         '_upgrade_effects': {
@@ -980,7 +1012,7 @@ label load_buildings ():
         ],
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(
-            MoneyCondition(1000),
+            MoneyCondition("1000+"),
             LockCondition()
         ),
         '_upgrade_conditions':[],
@@ -1001,6 +1033,8 @@ label load_buildings ():
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(),
         '_upgrade_conditions':[],
+        '_image_path': 'images/journal/buildings/kiosk <level>.webp',
+        '_image_path_alt': 'images/journal/buildings/kiosk 1.webp',
     }, {
         '_level': 1,
     })
@@ -1018,6 +1052,8 @@ label load_buildings ():
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(),
         '_upgrade_conditions':[],
+        '_image_path': 'images/journal/buildings/courtyard <level>.webp',
+        '_image_path_alt': 'images/journal/buildings/courtyard 1.webp',
     }, {
         '_level': 1,
     })
@@ -1035,6 +1071,8 @@ label load_buildings ():
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(),
         '_upgrade_conditions':[],
+        '_image_path': 'images/journal/buildings/office <level>.webp',
+        '_image_path_alt': 'images/journal/buildings/office 1.webp',
     }, {
         '_level': 1,
     })
