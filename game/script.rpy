@@ -173,3 +173,29 @@ label after_load:
     #################
 
     return
+
+label open_patreon_link_from_menu():
+    # """
+    # Opens the patreon page in the default browser
+    # """
+
+    $ renpy.run(OpenURL(patreon))
+    call screen main_menu
+
+
+label open_discord_link_from_menu():
+    # """
+    # Opens the patreon page in the default browser
+    # """
+
+    $ renpy.run(OpenURL(discord))
+    call screen main_menu
+
+
+label open_wiki_link_from_menu():
+    # """
+    # Opens the patreon page in the default browser
+    # """
+
+    $ renpy.run(OpenURL(wiki))
+    call screen main_menu

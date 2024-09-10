@@ -1,39 +1,32 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
 While running game code:
-  File "renpy/common/00keymap.rpy", line 485, in script
-    python hide:
-  File "renpy/common/00keymap.rpy", line 485, in <module>
-    python hide:
-  File "renpy/common/00keymap.rpy", line 509, in _execute_python_hide
-    renpy.save("_reload-1", "reload save game")
-Exception: Could not pickle <module 'time' (built-in)>. (perhaps renpy.game.log.log[0].stores['store']['time'] = <module 'time' (built-in)>)
+  File "game/script.rpy", line 15, in script call
+    call intro from _call_intro
+  File "game/scripts/overview.rpy", line 737, in script
+    if len(headmaster_proficiencies.keys()) < 2 and (IntroCondition(False)).is_fullfilled():
+  File "game/scripts/overview.rpy", line 737, in <module>
+    if len(headmaster_proficiencies.keys()) < 2 and (IntroCondition(False)).is_fullfilled():
+AttributeError: 'IntroCondition' object has no attribute 'is_fullfilled'
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "renpy/common/00keymap.rpy", line 485, in script
-    python hide:
-  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 1138, in execute
-    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
-  File "C:\Users\bigma\Documents\RenPy\renpy\python.py", line 1122, in py_exec_bytecode
-    exec(bytecode, globals, locals)
-  File "renpy/common/00keymap.rpy", line 485, in <module>
-    python hide:
-  File "renpy/common/00keymap.rpy", line 509, in _execute_python_hide
-    renpy.save("_reload-1", "reload save game")
-  File "C:\Users\bigma\Documents\RenPy\renpy\loadsave.py", line 432, in save
-    reraise(t, e, tb)
-  File "/home/tom/ab/renpy-build-fix/tmp/install.linux-x86_64/lib/python3.9/site-packages/future/utils/__init__.py", line 444, in raise_
-  File "C:\Users\bigma\Documents\RenPy\renpy\loadsave.py", line 413, in save
-    dump((roots, renpy.game.log), logf)
-  File "C:\Users\bigma\Documents\RenPy\renpy\compat\pickle.py", line 103, in dump
-    pickle.dump(o, f, pickle.HIGHEST_PROTOCOL if highest else PROTOCOL)
-  File "C:\Users\bigma\Documents\RenPy\renpy\python.py", line 1219, in module_pickle
-    raise Exception("Could not pickle {!r}.".format(module))
-Exception: Could not pickle <module 'time' (built-in)>. (perhaps renpy.game.log.log[0].stores['store']['time'] = <module 'time' (built-in)>)
+  File "game/script.rpy", line 15, in script call
+    call intro from _call_intro
+  File "game/scripts/overview.rpy", line 737, in script
+    if len(headmaster_proficiencies.keys()) < 2 and (IntroCondition(False)).is_fullfilled():
+  File "C:\Users\bigma\Documents\RenPy\renpy\ast.py", line 2133, in execute
+    if renpy.python.py_eval(condition):
+  File "C:\Users\bigma\Documents\RenPy\renpy\python.py", line 1153, in py_eval
+    return py_eval_bytecode(code, globals, locals)
+  File "C:\Users\bigma\Documents\RenPy\renpy\python.py", line 1146, in py_eval_bytecode
+    return eval(bytecode, globals, locals)
+  File "game/scripts/overview.rpy", line 737, in <module>
+    if len(headmaster_proficiencies.keys()) < 2 and (IntroCondition(False)).is_fullfilled():
+AttributeError: 'IntroCondition' object has no attribute 'is_fullfilled'
 
 Windows-10-10.0.22631 AMD64
 Ren'Py 8.1.3.23091805
-Mind the School 0.1.4A
-Mon Aug 26 13:44:57 2024
+Mind the School 0.1.4C
+Mon Sep  9 13:05:59 2024
