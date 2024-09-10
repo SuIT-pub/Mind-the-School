@@ -273,8 +273,8 @@ init 1 python:
 # region Intro Events ----- #
 #############################
 
-label first_pta_meeting (**kwargs):
-    $ begin_event(**kwargs)
+# endregion
+##############
 
     $ hide_all()
 

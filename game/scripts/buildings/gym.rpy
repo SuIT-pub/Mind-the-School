@@ -355,6 +355,14 @@ label gym_teach_pe_end_1 (**kwargs):
 #########################
 # region Regular Events #
 
+# endregion
+##############
+# endregion
+##########################
+
+#########################
+# region Regular Events #
+
 label gym_event_1 (**kwargs):
     $ begin_event(**kwargs)
 

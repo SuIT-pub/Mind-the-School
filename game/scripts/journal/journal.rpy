@@ -2609,10 +2609,16 @@ label switch_mod(mod_key, state):
     call open_journal(5, 'mods') from call_open_journal_switch_mod_1
 
 
-label switch_mod(mod_key, state):
-    $ persistent.modList[mod_key]['active'] = state
-    call open_journal(5, 'mods') from call_open_journal_switch_mod_1
+####################
+# region Open Link #
 
+label open_patreon_link():
+    # """
+    # Opens the patreon page in the default browser
+    # """
+
+    $ renpy.run(OpenURL(patreon))
+    call open_journal(6, "") from open_patreon_link_1
 
 label open_wiki_page():
     $ renpy.run(OpenURL(wiki))
