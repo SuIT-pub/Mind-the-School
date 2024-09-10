@@ -252,6 +252,15 @@ init 1 python:
         pta_end_meeting_1_event
     )
 
+    $ show_pattern("vote", level = get_character_by_key("parent").get_level(), name = split_name_first(speaking_parent), **kwargs)
+    if isinstance(parent_response, str):
+        parent "[parent_response]" (name = speaking_parent)
+    else:
+        $ i = 0
+        while i < len(parent_response):
+            $ response_text = parent_response[i]
+            parent "[response_text]" (name = speaking_parent)
+            $ i += 1
 
     time_check_events.add_event(
         pta_meeting_event, 

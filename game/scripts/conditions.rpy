@@ -3052,14 +3052,50 @@ init -6 python:
         def __init__(self, journal_obj: name):
             super().__init__(False)
             self._journal_obj = journal_obj
+            global registered_vote_events
+
+            registered_vote_events.append(journal_obj)
 
         def is_fulfilled(self, **kwargs) -> bool:
             if super().is_fulfilled(**kwargs):
                 return True
 
-            vote_obj = get_game_data('voteProposal')
-            
-            if vote_obj == None:
+            vote_proposal = get_game_data('voteProposal')
+            if vote_proposal == None:
                 return False
 
+            vote_obj = vote_proposal._journal_obj
+
             return self._journal_obj == vote_obj.get_name()
+
+        def get_name(self) -> str:
+            return f"JournalVoteCondition({self._journal_obj})"
+
+        def get_diff(self, _char_obj) -> num:
+            if self.is_fulfilled():
+                return 100
+            return 0
+
+    class JournalNRVoteCondition(Condition):
+        def __init__(self):
+            super().__init__(False)
+
+        def is_fulfilled(self, **kwargs) -> bool:
+            if super().is_fulfilled(**kwargs):
+                return True
+
+            vote_proposal = get_game_data('voteProposal')
+            if vote_proposal == None:
+                return False
+
+            vote_obj = vote_proposal._journal_obj
+
+            return vote_obj.get_name() not in registered_vote_events
+
+        def get_name(self) -> str:
+            return "JournalNRVoteCondition"
+
+        def get_diff(self, _char_obj) -> num:
+            if self.is_fulfilled():
+                return 100
+            return 0
