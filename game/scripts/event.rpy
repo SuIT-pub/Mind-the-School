@@ -7,8 +7,9 @@ init -3 python:
     import time
     from typing import Any, Dict, List, Tuple, Union
     
-    ###############
-    # Event classes
+    ########################
+    # region Event classes #
+    ########################
 
     class EventStorage:
         """
@@ -1583,10 +1584,12 @@ init -3 python:
             self.event_form = "fragment"
             self.set_location("fragment")
 
-    ###############
+    # endregion
+    ########################
 
-    #####################
-    # Event label handler
+    ##############################
+    # region Event label handler #
+    ##############################
 
     def get_event_menu_title(location: str, option: str) -> str:
         """
@@ -1764,10 +1767,12 @@ init -3 python:
             return fragment_storage_register[id]
         return None
 
-    #####################
+    # endregion
+    ##############################
 
-##############
-# Event caller
+#######################
+# region Event caller #
+#######################
 
 label call_available_event(event_storage, priority = 0, no_fallback = False, **kwargs):
     # """
@@ -1868,10 +1873,12 @@ label call_event(event_obj_var, priority = 0, event_obj_name = "", **kwargs):
 
     return
 
-##############
-
+# endregion
 #######################
-# Default event handler
+
+################################
+# region Default event handler #
+################################
 
 label default_fallback_event (**kwargs):
 
@@ -1943,10 +1950,12 @@ label composite_event_runner(**kwargs):
         
     $ end_event("map_overview", **kwargs)
 
-#######################
+# endregion
+################################
 
-###############
-# Movie Sandbox
+########################
+# region Movie Sandbox #
+########################
 
 init -1 python:
     sandbox_after_event_check      = Event(2, "start_sandbox.after_check")
@@ -1960,7 +1969,6 @@ init 1 python:
         thumbnail = "images/events/misc/sandbox_tutorial 0.webp")
 
     sandbox_check_events.add_event(sandbox_tutorial_event)
-
 
 label start_sandbox (**kwargs):
     # """
@@ -2110,4 +2118,36 @@ label .change_variant (**kwargs):
     $ kwargs['naughty_variant'] = variant
     call .start(**kwargs) from _call_start_sandbox_start_1
 
-###############
+screen naughty_scene_icons(*icons):
+    if "clothing" in icons:
+        imagebutton:
+            idle "icons/change_clothing_idle.webp"
+            hover "icons/change_clothing_hover.webp"
+            xalign 1.0 yalign 0.0
+            action Return("change_clothing")
+    if "position" in icons:
+        imagebutton:
+            idle "icons/change_position_idle.webp"
+            hover "icons/change_position_hover.webp"
+            xalign 1.0 yalign 0.2
+            action Return("change_position")
+    if "location" in icons:
+        imagebutton:
+            idle "icons/change_location_idle.webp"
+            hover "icons/change_location_hover.webp"
+            xalign 1.0 yalign 0.4
+            action Return("change_location")
+    if "variant" in icons:
+        imagebutton:
+            idle "icons/change_variant_idle.webp"
+            hover "icons/change_variant_hover.webp"
+            xalign 1.0 yalign 0.6
+            action Return("change_variant")
+    imagebutton:
+        idle "icons/stop_idle.webp"
+        hover "icons/stop_hover.webp"
+        xalign 1.0 yalign 1.0
+        action Return("stop")
+
+# endregion
+########################

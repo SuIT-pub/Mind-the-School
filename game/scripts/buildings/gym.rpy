@@ -1,6 +1,6 @@
-#################################
-# ----- Gym Event Handler ----- #
-#################################
+##################################
+# region Gym Event Handler ----- #
+##################################
 
 init -1 python:
     set_current_mod('base')
@@ -149,11 +149,12 @@ init 1 python:
         gym_teach_pe_event,
     )
 
-#################################
+# endregion
+##################################
 
-###############################
-# ----- Gym Entry Point ----- #
-###############################
+################################
+# region Gym Entry Point ----- #
+################################
 
 label gym ():
     call call_available_event(gym_timed_event) from gym_1
@@ -170,11 +171,15 @@ label .after_general_check (**kwargs):
 
     jump gym
 
-###############################
+# endregion
+################################
 
-##########################
-# ----- Gym Events ----- #
-##########################
+###########################
+# region Gym Events ----- #
+###########################
+
+######################
+# region Intro Event #
 
 label first_potion_gym_event (**kwargs):
     $ begin_event(**kwargs)
@@ -219,13 +224,11 @@ label first_week_gym_event (**kwargs):
 
     $ end_event('new_daytime', **kwargs)
 
-#############################
-# weekly assembly entry point
-label weekly_assembly (**kwargs):
+# endregion
+######################
 
-    subtitles "todo: weekly assembly"
-
-    return
+##########################
+# region Teach P.E Event #
 
 label gym_teach_pe (**kwargs):
     $ begin_event(**kwargs)
@@ -234,6 +237,8 @@ label gym_teach_pe (**kwargs):
 
     call composite_event_runner(**kwargs) from _call_composite_event_runner
 
+################
+# region INTRO #
 label gym_teach_pe_intro_1 (**kwargs):
     $ begin_event(**kwargs)
 
@@ -323,6 +328,11 @@ label gym_teach_pe_intro_aona_bra (**kwargs):
 
     $ end_event('map_overview', **kwargs)
 
+# endregion
+################
+
+##################
+# region WARM UP #
 
 image anim_gym_teach_pe_warm_up_1_1_1 = Movie(play ="images/events/gym/gym_teach_pe_warm_up_1 1 1.webm", start_image = "images/events/gym/gym_teach_pe_warm_up_1 1 1.webp", loop = True)
 image anim_gym_teach_pe_warm_up_1_1_2 = Movie(play ="images/events/gym/gym_teach_pe_warm_up_1 1 2.webm", start_image = "images/events/gym/gym_teach_pe_warm_up_1 1 2.webp", loop = True)
@@ -349,6 +359,12 @@ label gym_teach_pe_warm_up_1 (**kwargs):
         charm = SMALL, education = TINY) from _call_change_stats_with_modifier_20
 
     $ end_event('map_overview', **kwargs)
+
+# endregion
+##################
+
+###############
+# region MAIN #
 
 label gym_teach_pe_main_1 (**kwargs): # Football
     $ begin_event(**kwargs)
@@ -553,11 +569,24 @@ label gym_teach_pe_main_aona_bra_2 (**kwargs):
 
     $ end_event('map_overview', **kwargs)
 
+# endregion
+###############
+
+##############
+# region END #
 
 label gym_teach_pe_end_1 (**kwargs):
     $ begin_event(**kwargs)
 
     $ end_event('map_overview', **kwargs)
+
+# endregion
+##############
+# endregion
+##########################
+
+#########################
+# region Regular Events #
 
 label gym_event_1 (**kwargs):
     $ begin_event(**kwargs)
@@ -723,3 +752,9 @@ label gym_event_3 (**kwargs):
     call change_stats_with_modifier('school',
         inhibition = DEC_MEDIUM, happiness = DEC_SMALL, charm = TINY, education = TINY, reputation = DEC_SMALL) from _call_change_stats_with_modifier_31
     $ end_event('new_daytime', **kwargs)
+
+# endregion
+#########################
+
+# endregion
+###########################

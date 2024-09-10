@@ -1,6 +1,11 @@
 init -6 python:
     from typing import Dict, Any
     import math
+
+    ########################
+    # region CLASSES ----- #
+    ########################
+
     class Char:
         """
         A character object that contains all the stats and information about a character
@@ -119,8 +124,8 @@ init -6 python:
 
             return stat in self.stats_objects.keys()
 
-        ##################
-        # Attribute getter
+        ###########################
+        # region Attribute getter #
 
         def get_name(self) -> str:
             """
@@ -164,8 +169,11 @@ init -6 python:
                 return None
             return self.stats_objects[stat]
 
-        ##############
-        # Stat handler
+        # endregion
+        ###########################
+
+        #######################
+        # region Stat handler #
 
         def set_stat(self, stat: str, value: num):
             """
@@ -354,8 +362,11 @@ init -6 python:
 
             return stat_obj.get_display_change()
     
-        ###############
-        # Level handler
+        # endregion
+        #######################
+
+        ########################
+        # region Level handler #
 
         def get_level(self) -> int:
             """
@@ -447,10 +458,15 @@ init -6 python:
                 test_level = self.get_level()
 
             return get_value_diff(value, test_level) >= 0
-    #################
+    
+        # endregion
+        ########################
 
-    #####################
-    # School Char Handler
+    # endregion
+    ########################
+
+    ##############################
+    # region School Char Handler #
 
     def get_school() -> Char:
         """
@@ -540,8 +556,11 @@ init -6 python:
         else:
             return get_school().get_display_change(stat)
 
-    ######################
-    # General Char Handler
+    # endregion
+    ##############################
+
+    ###############################
+    # region General Char Handler #
 
     def get_character(name: str, map: Dict[str, Char | Dict[str, Any]]) -> Char:
         """
@@ -590,8 +609,11 @@ init -6 python:
             return get_character("secretary", charList['staff'])
         return None
 
-    ###################
-    # Char Stat Handler
+    # endregion
+    ###############################
+
+    ############################
+    # region Char Stat Handler #
 
     def get_stat_obj_for_char(stat: str, char: str | Char, map: Dict[str, Char | Dict[str, Any]] = None) -> Stat:
         """
@@ -769,8 +791,11 @@ init -6 python:
             for keys in map.keys():
                 map[keys].reset_changed_stats()
 
-    ####################
-    # Char Level Handler
+    # endregion
+    ############################
+
+    #############################
+    # region Char Level Handler #
 
     def get_level_for_char(char: str | Char, map: Dict[str, Char | Dict[str, Any]] = None) -> int:
         """
@@ -819,8 +844,11 @@ init -6 python:
         elif map != None and char in map.keys():
             map[char].set_level(value)
 
-    #####################
-    # Char Object Handler
+    # endregion
+    #############################
+
+    ##############################
+    # region Char Object Handler #
 
     def load_character(name: str, title: str, map: Dict[str, Char | Dict[str, Any]], start_data: Dict[str, Any], runtime_data: Dict[str, Any] = None):
         """
@@ -878,8 +906,11 @@ init -6 python:
         if name in map.keys():
             del(map[name])
 
-    #############
-    # Proficiency
+    # endregion
+    ##############################
+
+    ######################
+    # region Proficiency #
 
     def exists_headmaster_proficiency(subject: str) -> bool:
         """
@@ -1010,6 +1041,9 @@ init -6 python:
         if get_headmaster_proficiency_level(subject) > 0:
             return get_headmaster_proficiency_level(subject)
         return get_headmaster_proficiency_xp(subject) / 100
+
+    # endregion
+    ######################
 
 label load_schools ():
     # """

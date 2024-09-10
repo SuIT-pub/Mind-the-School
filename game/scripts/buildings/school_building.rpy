@@ -1,6 +1,6 @@
-#############################################
-# ----- School Building Event Handler ----- #
-#############################################
+##############################################
+# region School Building Event Handler ----- #
+##############################################
 
 init -1 python:
     set_current_mod('base')
@@ -208,11 +208,12 @@ init 1 python:
 
     #################
 
-##################################################
+# endregion
+##############################################
 
-###########################################
-# ----- School Building Entry Point ----- #
-###########################################
+############################################
+# region School Building Entry Point ----- #
+############################################
 
 label school_building ():
     call call_available_event(sb_timed_event) from school_building_1
@@ -231,14 +232,15 @@ label .after_general_check (**kwargs):
 
     jump school_building
 
-################################################
+#endregion
+############################################
 
-######################################
-# ----- School Building Events ----- #
-######################################
+#######################################
+# region School Building Events ----- #
+#######################################
 
-#####################
-# Introduction Events
+#######################
+# region Intro Events #
 
 # first week event
 label first_week_sb_event (**kwargs):
@@ -465,8 +467,14 @@ label first_class_sb_event (**kwargs):
 
     $ end_event('new_daytime', **kwargs)
 
-##########
-## HISTORY
+# endregion
+#######################
+
+###############################
+# region Teach Subject Events #
+
+##################
+# region HISTORY #
 
 label sb_teach_history (**kwargs):
     $ begin_event(**kwargs)
@@ -480,6 +488,9 @@ label sb_teach_history (**kwargs):
     headmaster "Good morning everyone. Let's start with todays subject History."
 
     call composite_event_runner(**kwargs) from _call_composite_event_runner_1
+
+################
+# region INTRO #
 
 label sb_teach_history_intro_f_revolution_1 (**kwargs):
     $ begin_event(**kwargs)
@@ -504,6 +515,12 @@ label sb_teach_history_intro_f_revolution_1 (**kwargs):
         education = TINY) from _call_change_stats_with_modifier_55
 
     $ end_event('map_overview', **kwargs)
+
+# endregion
+################
+
+###############
+# region MAIN #
 
 label sb_teach_history_main_f_revolution_1 (**kwargs):
     $ begin_event(**kwargs)
@@ -612,10 +629,14 @@ label sb_teach_history_main_f_revolution_2 (**kwargs):
 
     $ end_event('new_daytime', **kwargs)
 
-##########
+# endregion
+###############
 
-#######
-## MATH
+# endregion
+##################
+
+###############
+# region MATH #
 
 label sb_teach_math (**kwargs):
     $ begin_event(**kwargs)
@@ -627,6 +648,9 @@ label sb_teach_math (**kwargs):
     headmaster "Good morning everyone. Let's start with todays subject Math."
 
     call composite_event_runner(**kwargs) from _call_composite_event_runner_2
+
+################
+# region INTRO #
 
 label sb_teach_math_ld_1 (**kwargs):
     $ begin_event(**kwargs)
@@ -711,6 +735,12 @@ label .help (**kwargs):
     call change_stats_with_modifier('school', 'math',
         charm = DEC_TINY, happiness = TINY) from _call_change_stats_with_modifier_60
     $ end_event('new_daytime', **kwargs)
+
+# endregion
+################
+
+###############
+# region MAIN #
 
 label sb_teach_math_main_1 (**kwargs):
     $ begin_event(**kwargs)
@@ -878,10 +908,17 @@ label sb_teach_math_main_2 (**kwargs):
     
     $ end_event('new_daytime', **kwargs)
 
-#######
+# endregion
+###############
 
-#######################
-# General Random Events
+# endregion
+###############
+
+# endregion
+###############################
+
+#########################
+# region Regular Events #
 
 label sb_event_1 (**kwargs): # patrol, check class
     $ begin_event(**kwargs)
@@ -1197,3 +1234,9 @@ label sb_event_5 (**kwargs):
         inhibition = DEC_TINY) from _call_change_stats_with_modifier_72
 
     $ end_event('new_daytime', **kwargs)
+
+# endregion
+#########################
+
+# endregion
+#######################################

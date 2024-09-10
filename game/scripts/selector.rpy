@@ -680,7 +680,6 @@ init -3 python:
             """
             return self._kwargs
 
-
     class ProgressSelector(Selector):
         """
         A Selector-class that chooses a value from the Event Progress Database.

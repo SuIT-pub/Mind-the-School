@@ -6,9 +6,9 @@ init -99 python:
 
     T = TypeVar('T')
 
-    ############################
-    # --- Kwargs Functions --- #
-    ############################
+    ###############################
+    # region Kwargs Functions --- #
+    ###############################
 
     def in_kwargs(key: str, **kwargs) -> bool:
         """
@@ -46,9 +46,12 @@ init -99 python:
             return kwargs[key]
         return alt
 
-    ##################################
-    # --- Mathematical Functions --- #
-    ##################################
+    # endregion
+    ###############################
+
+    #####################################
+    # region Mathematical Functions --- #
+    #####################################
 
     def max(*values: num) -> num:
         """
@@ -312,9 +315,12 @@ init -99 python:
         else:
             return 0
     
-    ##########################
-    # --- Dict Functions --- #
-    ##########################
+    # endregion
+    #####################################
+
+    #############################
+    # region Dict Functions --- #
+    #############################
 
     def update_dict(original_dict, new_dict):
         """
@@ -341,9 +347,12 @@ init -99 python:
                 original_dict[key] = new_dict[key]
         return original_dict
 
-    ##########################
-    # --- List Functions --- #
-    ##########################
+    # endregion
+    #############################
+
+    #############################
+    # region List Functions --- #
+    #############################
 
     def remove_all_from_list(list_obj: List[Any], value: Any | List[Any]) -> List[Any]:
         """
@@ -385,9 +394,12 @@ init -99 python:
 
         return elem in list_obj
 
-    ############################
-    # --- String Functions --- #
-    ############################
+    # endregion
+    #############################
+
+    ###############################
+    # region String Functions --- #
+    ###############################
 
     def split_to_non_empty_list(s, delimiter) -> List[str]:
         """
@@ -424,9 +436,12 @@ init -99 python:
             return translation_texts[key]
         return key
 
-    ##############################
-    # --- Dialogue Functions --- #
-    ##############################
+    # endregion
+    ###############################
+
+    #################################
+    # region Dialogue Functions --- #
+    #################################
 
     def random_say(*text: str | Tuple, **kwargs):
         """
@@ -494,9 +509,12 @@ init -99 python:
 
         return
 
-    ##########################
-    # --- Name Functions --- #
-    ##########################
+    # endregion
+    #################################
+
+    #############################
+    # region Name Functions --- #
+    #############################
 
     def set_name(key: str, first_name: str, last_name: str):
         """
@@ -630,9 +648,12 @@ init -99 python:
     def split_name_last(name: str) -> str:
         return split_name(name)[1]
 
-    ##############################
-    # --- GameData Functions --- #
-    ##############################
+    # endregion
+    #############################
+
+    #################################
+    # region GameData Functions --- #
+    #################################
 
     def set_game_data(key: str, value: Any):
         """
@@ -694,9 +715,12 @@ init -99 python:
 
         del gameData[key]
 
-    ##############################
-    # --- Progress Functions --- #
-    ##############################
+    # endregion
+    #################################
+
+    #################################
+    # region Progress Functions --- #
+    #################################
 
     def start_progress(key: str):
         """
@@ -779,9 +803,12 @@ init -99 python:
             return -1
         return gameData["progress"][key]
 
-    ################################
-    # --- Randomizer Functions --- #
-    ################################
+    # endregion
+    #################################
+
+    ###################################
+    # region Randomizer Functions --- #
+    ###################################
 
     def get_random_choice(*choice: T | Tuple[float, T] | Tuple[T, bool | Condition] | Tuple[float, T, bool | Condition], **kwargs) -> T:
         """
@@ -880,9 +907,12 @@ init -99 python:
         value = get_random_int(0, loli_content)
         return value
 
+    # endregion
     ###################################
-    # --- External Data Functions --- #
-    ###################################
+
+    ######################################
+    # region External Data Functions --- #
+    ######################################
 
     def download_members():
         global members
@@ -1000,9 +1030,12 @@ init -99 python:
 
         return end
 
-    ###################
-    # --- Modding --- #
-    ###################
+    # endregion
+    ######################################
+
+    ######################
+    # region Modding --- #
+    ######################
 
     def get_mod_list():
         import json
@@ -1094,9 +1127,12 @@ init -99 python:
         if key in persistent.modList.keys():
             persistent.modList[key]['active'] = False
 
-    ############################
-    # --- Ren'Py Functions --- #
-    ############################
+    # endregion
+    ######################
+
+    ###############################
+    # region Ren'Py Functions --- #
+    ###############################
 
     def has_keyboard() -> bool:
         """
@@ -1119,3 +1155,6 @@ init -99 python:
         """
 
         return persistent.shortcuts == 0
+
+    # endregion
+    ###############################

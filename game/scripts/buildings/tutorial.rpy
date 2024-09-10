@@ -1,6 +1,6 @@
-######################
-# ----- SCREENS -----#
-######################
+#######################
+# region SCREENS -----#
+#######################
 
 screen show_building_button(building, display, show_type, x, y):
     if display == building or display == "x" or building in display or (isinstance(display, dict) and building in display.keys()):
@@ -173,11 +173,12 @@ screen show_building_buttons (building, *additions, show_type = "normal", frames
     if "journal_hover" in additions:
         add "icons/journal_icon_hover.webp" xalign 1.0 yalign 0.6
 
-######################
+# endregion
+#######################
 
-#####################
-# ----- LABEL ----- #
-#####################
+######################
+# region LABEL ----- #
+######################
 
 label tutorial_menu ():
 
@@ -534,4 +535,6 @@ label sandbox_tutorial (**kwargs):
     $ end_event('none', **kwargs)
 
     call expression return_label from _call_expression_1
-#####################
+
+# endregion
+######################

@@ -1,6 +1,6 @@
-#######################################
-# ----- Cafeteria Event Handler ----- #
-#######################################
+########################################
+# region Cafeteria Event Handler ----- #
+########################################
 
 init -1 python:
     set_current_mod('base')
@@ -124,12 +124,12 @@ init 1 python:
         cafeteria_event_5_event, 
     )
 
+# endregion
+########################################
 
-#######################################
-
-#####################################
-# ----- Cafeteria Entry Point ----- #
-#####################################
+######################################
+# region Cafeteria Entry Point ----- #
+######################################
 
 label cafeteria ():
     call call_available_event(cafeteria_timed_event) from cafeteria_1
@@ -148,11 +148,12 @@ label .after_general_check (**kwargs):
 
     jump cafeteria
 
-#####################################
+# endregion
+######################################
 
-################################
-# ----- Cafeteria Events ----- #
-################################
+#################################
+# region Cafeteria Events ----- #
+#################################
 
 label cafeteria_construction(**kwargs):
     show screen black_screen_text("cafeteria_construction")
@@ -183,6 +184,9 @@ label cafeteria_construction(**kwargs):
         headmaster "The cafeteria is finally finished. I can eat here now."
 
         $ end_event('next_daytime', **kwargs)
+
+#########################
+# region Regular Events #
 
 label cafeteria_event_1(**kwargs):
     $ begin_event(**kwargs)
@@ -479,4 +483,8 @@ label cafeteria_event_5(**kwargs):
 
     $ end_event('new_daytime', **kwargs)
 
-################################
+# endregion
+#########################
+
+# endregion
+#################################
