@@ -144,21 +144,6 @@ init -7 python:
         def get_type(self) -> str:
             pass
 
-        def get_description(self, level: int = -1) -> List[str]:
-            """
-            Returns the descriptions of the object.
-
-            ### Parameters:
-            1. level: int (Default -1)
-                - Level of the building.
-
-            ### Returns:
-            1. List[str]
-                - Descriptions of the object.
-            """
-
-            return self._description
-
         def get_description_str(self, level: int = -1) -> str:
             """
             Returns the descriptions of the object as a string.
@@ -417,6 +402,9 @@ init -7 python:
             if char not in self._vote_comments.keys():
                 return f"{vote}\n{self._default_comments[result]}"
             else:
+                if isinstance(self._vote_comments[char][result], list):
+                    return [vote] + self._vote_comments[char][result]
+
                 return f"{vote}\n{self._vote_comments[char][result]}"
 
         def apply_effects(self):

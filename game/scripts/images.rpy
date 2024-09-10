@@ -23,6 +23,18 @@ init -4 python:
             return
         event.set_pattern(pattern_key, pattern)
 
+    def get_pattern_from_kwargs(pattern_key: str, **kwargs) -> Pattern:
+        patterns = get_kwargs('frag_image_patterns', {}, **kwargs)
+        if pattern_key in patterns.keys():
+            return patterns[pattern_key]
+
+        patterns = get_kwargs('image_patterns', {}, **kwargs)
+        if pattern_key not in patterns.keys():
+            log_error(502, f"Pattern '{pattern_key}' could not be found!")
+            return None
+
+        return patterns[pattern_key]
+
     def convert_pattern(pattern_key: str, **kwargs) -> Image_Series:
         """
         Converts a pattern to an image series.
@@ -35,11 +47,7 @@ init -4 python:
             - the patterns are also stored in the kwargs under the key 'image_patterns'
         """
 
-        patterns = get_kwargs('image_patterns', {}, **kwargs)
-        if pattern_key not in patterns.keys():
-            log_error(502, f"Pattern '{pattern_key}' could not be found!")
-            return None
-        return Image_Series_Pattern(patterns[pattern_key], **kwargs)
+        return Image_Series_Pattern(get_pattern_from_kwargs(pattern_key, **kwargs), **kwargs)
 
     def show_pattern(pattern_key: str, **kwargs):
         """
@@ -53,11 +61,10 @@ init -4 python:
             - the patterns are also stored in the kwargs under the key 'image_patterns'
         """
 
-        patterns = get_kwargs('image_patterns', {}, **kwargs)
-        if pattern_key not in patterns.keys():
-            log_error(502, f"Pattern '{pattern_key}' could not be found!")
-            return None
-        renpy.call('show_image', patterns[pattern_key].get_path(), **kwargs)
+        pattern = get_pattern_from_kwargs(pattern_key, **kwargs)
+        if pattern == None:
+            return
+        renpy.call('show_image', pattern.get_path(), **kwargs)
 
     class Pattern:
         """

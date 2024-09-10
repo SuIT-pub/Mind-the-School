@@ -532,11 +532,13 @@ init python:
 
         if not is_replay(**kwargs):
             fragments = event_obj.select_fragments(**kwargs)
-            gallery_manager.set_option("Frag_Storage", [storage.get_name() for storage in event_obj.get_fragment_storages()])
+            if gallery_manager != None:
+                gallery_manager.set_option("Frag_Storage", [storage.get_name() for storage in event_obj.get_fragment_storages()])
             
             for i, storage in enumerate(event_obj.get_fragment_storages()):
-                Gallery_Manager(event_name = storage.get_name(), event_form = 'FragStorage', location = "FragStorage")
-                register_value("fragment", str(fragments[i]))
+                if gallery_manager != None:
+                    Gallery_Manager(event_name = storage.get_name(), event_form = 'FragStorage', location = "FragStorage")
+                    register_value("fragment", str(fragments[i]))
 
 
         return fragments

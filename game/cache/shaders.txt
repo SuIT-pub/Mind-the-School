@@ -1,76 +1,20 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-renpy.geometry renpy.texture
-=======
->>>>>>> af4e58c649f1052620ede204b5714f6cf840c214
-renpy.geometry renpy.texture
-renpy.geometry renpy.solid
-renpy.texture
-renpy.solid
->>>>>>> 740867fb26a218537cb73ebff7f865150d387c4f
-renpy.ftl
-=======
-renpy.dissolve renpy.dissolve
-renpy.alpha renpy.geometry renpy.texture
-<<<<<<< HEAD
-renpy.solid
-renpy.geometry renpy.solid
->>>>>>> 09542ff3758f226971a8c438289acab48ed5dd7d
-<<<<<<< HEAD
->>>>>>> af4e58c649f1052620ede204b5714f6cf840c214
-renpy.dissolve renpy.geometry
-renpy.alpha renpy.texture
 >>>>>>> Stashed changes
 renpy.texture
-<<<<<<< Updated upstream
-=======
+>>>>>>> e7805b9 (MTS-231/Interim/starting work on modding framework)
 =======
-<<<<<<< HEAD
->>>>>>> af4e58c649f1052620ede204b5714f6cf840c214
-=======
->>>>>>> 0308013 (added more functionality for mod framework)
-renpy.geometry renpy.texture
-renpy.ftl
+renpy.geometry renpy.solid
+>>>>>>> c844caf (extracted images out of events for new modding system)
 renpy.dissolve renpy.geometry
-=======
 renpy.solid
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> e7805b9 (MTS-231/Interim/starting work on modding framework)
-=======
-renpy.geometry renpy.solid
+>>>>>>> 0308013 (added more functionality for mod framework)
+<<<<<<< HEAD
 renpy.ftl
-=======
->>>>>>> c844caf (extracted images out of events for new modding system)
-<<<<<<< Updated upstream
-=======
->>>>>>> 493e9f9 (MTS-240/added more events)
->>>>>>> af4e58c649f1052620ede204b5714f6cf840c214
-renpy.geometry renpy.texture
-renpy.geometry renpy.solid
-renpy.texture
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 0308013 (added more functionality for mod framework)
-=======
-=======
-renpy.solid
-renpy.ftl
-=======
-renpy.dissolve renpy.dissolve
->>>>>>> 493e9f9 (MTS-240/added more events)
 renpy.alpha renpy.geometry renpy.texture
-=======
->>>>>>> 740867fb26a218537cb73ebff7f865150d387c4f
 renpy.alpha renpy.texture
-<<<<<<< Updated upstream
-renpy.dissolve renpy.geometry
 >>>>>>> 09542ff3758f226971a8c438289acab48ed5dd7d
-<<<<<<< HEAD
->>>>>>> Stashed changes
-<<<<<<< HEAD
->>>>>>> c844caf (extracted images out of events for new modding system)
-=======
->>>>>>> 740867fb26a218537cb73ebff7f865150d387c4f
+>>>>>>> 493e9f9 (MTS-240/added more events)
+>>>>>>> af4e58c649f1052620ede204b5714f6cf840c214
+renpy.geometry renpy.texture
+>>>>>>> 740867fb26a218537cb73ebff7f865150d387c4f
+renpy.dissolve renpy.dissolve
+<<<<<<< Updated upstream

@@ -738,6 +738,13 @@ label office_teacher_sex_ed_introduction_4 (**kwargs):
     headmaster "Good morning, teachers. Today, I would like to present to you the importance of sexual education and the comprehensive program we are planning to implement."
     headmaster "I understand that there may be concerns and reservations about introducing this topic, but I believe it is crucial for the well-being and development of our students."
     headmaster "Let's start with the basics. What is sexual education and why is it important?"
+
+    $ call_custom_menu_with_text("Do you want to read the entire presentation?", character.subtitles, False,
+        ("Read full presentation", "office_teacher_sex_ed_introduction_4.presentation"),
+        ("Skip presentation", "office_teacher_sex_ed_introduction_4.skipped_presentation"), 
+    **kwargs)
+
+label .presentation (**kwargs):
     headmaster "Sexual education is a comprehensive program that provides students with accurate and age-appropriate information about human sexuality, relationships, and reproductive health."
     headmaster "Now, you may wonder why it is important. Well, it equips students with the knowledge and skills they need to make informed decisions about their bodies, relationships, and sexual health."
     headmaster "Without proper sexual education, students may rely on misinformation or peer pressure, which can lead to risky behaviors and negative consequences."
@@ -768,6 +775,15 @@ label office_teacher_sex_ed_introduction_4 (**kwargs):
     headmaster "Your dedication and creativity in delivering the curriculum will be crucial in overcoming the resource limitations."
     headmaster "Lastly, I would like to emphasize the importance of your role as teachers in creating a safe and inclusive learning environment for students to discuss sensitive topics related to sexual education."
     headmaster "Your support and guidance will be instrumental in addressing their concerns and providing accurate information, even with limited resources."
+
+    call .end_presentation (**kwargs) from call_end_presentation_sex_ed_intro_1
+label .skipped_presentation (**kwargs):
+
+    call screen black_screen_text("30 Minutes later.")
+
+    call .end_presentation (**kwargs) from call_end_presentation_sex_ed_intro_2
+label .end_presentation (**kwargs):
+
     headmaster "By working together and making the most of what we have, we can ensure that our students receive the necessary knowledge and skills to make informed decisions and navigate their sexual health and relationships."
     headmaster "Thank you for your attention. I hope that this presentation has addressed some of your concerns and that we can move forward together in implementing comprehensive sexual education."
     
@@ -780,6 +796,14 @@ label office_teacher_sex_ed_introduction_4 (**kwargs):
     headmaster "Thank you for your feedback. That will be all for today then."
     headmaster "I wish you all a good day and we'll see each other at the next PTA meeting."
     
+    # headmaster returns to office, secretary enters
+
+    secretary "[headmaster_first_name], how did the presentation go?"
+    headmaster "It went well. The teachers had some concerns, but I think we're on the right track."
+    headmaster "I probably just need to guide their thoughts in the right direction for them to support me at the pta meeting."
+    headmaster "I don't expect much opposition from the student council, so I think we're good."
+    headmaster "The parents should be no problem when the teachers and students agree to the change."
+
     $ advance_progress('start_sex_ed')
 
     $ end_event('new_daytime', **kwargs)

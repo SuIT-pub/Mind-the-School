@@ -890,10 +890,22 @@ init -3 python:
             return get_character_by_key(char)
 
     class PTAVoteSelector(Selector):
-        def __init__(self, key: str, journal_obj: Journal_Obj, char: str):
+        def __init__(self, key: str, char: str):
             super().__init__(True, key)
-            self._journal_obj = journal_obj
             self._char = char
 
         def roll(self, **kwargs) -> Any:
-            return voteCharacter(self._journal_obj.get_condition_storage(), get_character_by_key(self._char))
+            vote_proposal = get_game_data('voteProposal')
+            if vote_proposal == None:
+                return None
+
+            vote_obj = proposal._journal_obj
+
+            return voteCharacter(vote_obj.get_condition_storage(), get_character_by_key(self._char))
+
+    class PTAObjectSelector(Selector):
+        def __init__(self, key: str):
+            super().__init__(True, key)
+
+        def roll(self, **kwargs) -> Any:
+            return get_game_data('voteProposal')
