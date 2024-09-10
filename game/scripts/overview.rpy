@@ -128,7 +128,7 @@ screen school_overview_stats ():
             auto "icons/time skip %s.webp"
             tooltip "Skip Time" + s_text
             focus_mask None
-            xalign 1.0 yalign 0.32
+            xalign 0.995 yalign 0.4
             action Call("skip_time")
 
     vbox:
