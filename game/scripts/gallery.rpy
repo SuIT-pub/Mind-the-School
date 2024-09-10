@@ -1,18 +1,9 @@
 init python:
     gallery_manager = None
 
-    # if persistent.gallery is None:
-    #     persistent.gallery = {}
-
-    # def merge_endings(old, new, current):
-    #     current = update_dict(current, old)
-    #     current = update_dict(current, new)
-    #     return current
-
-    # renpy.register_persistent('gallery', merge_endings)
-
-    ############################
-    # Gallery Persistent handler
+    #####################################
+    # region Gallery Persistent handler #
+    #####################################
 
     def prep_gallery(location: str, event: str, event_form: str, *key: str):
         """
@@ -164,8 +155,12 @@ init python:
         
         return value
 
-    #################
-    # Gallery Manager
+    # endregion
+    #####################################
+
+    ##########################
+    # region Gallery Manager #
+    ##########################
 
     class Gallery_Manager:
         """
@@ -243,8 +238,11 @@ init python:
 
             persistent.gallery[self.location][self.event]['options'][key] = value
 
-    ######################################################
-    # Value and Decision registration into persistent data
+    # endregion
+    ##########################
+
+    ###############################################################
+    # region Value and Decision registration into persistent data #
 
     def register_value(key: str, value: number | string):
         """
@@ -315,8 +313,12 @@ init python:
             gallery_manager.decisions[key] = {}
         gallery_manager.decisions = gallery_manager.decisions[key]
 
-    #################################
-    # Persistent data Decision getter
+    # endregion
+    ###############################################################
+
+    ##########################################
+    # region Persistent data Decision getter #
+    ##########################################
 
     def get_decision_possibilities(decision_data: Dict[str, Any], decisions: List[str]) -> List[str]:
         """
@@ -342,8 +344,12 @@ init python:
 
         return list(current_level.keys())
 
-    ############################
-    # Stat Value Gallery Handler
+    # endregion
+    ##########################################
+
+    #####################################
+    # region Stat Value Gallery Handler #
+    #####################################
 
     def set_stat_value(key: str, value: float, ranges: List[float], **kwargs) -> float:
         """
@@ -410,8 +416,12 @@ init python:
 
         return get_value(key, alt, **kwargs)
 
-    ###############################
-    # General Value Gallery Handler
+    # endregion
+    #####################################
+
+    ########################################
+    # region General Value Gallery Handler #
+    ########################################
 
     def get_level(key: str, **kwargs) -> int:
         """
@@ -506,8 +516,12 @@ init python:
 
         return value        
 
-    ###############################
-    # Fragment Gallery Handler
+    # endregion
+    ########################################
+
+    ###################################
+    # region Fragment Gallery Handler #
+    ###################################
 
     def get_frag_list(**kwargs) -> List[EventFragment]:
         """
@@ -563,8 +577,12 @@ init python:
 
         return persistent.gallery[location][event]['options']['last_data']
 
-    ################
-    # Replay Handler
+    # endregion
+    ###################################
+
+    #########################
+    # region Replay Handler #
+    #########################
     
     def is_replay(**kwargs):
         """
@@ -580,3 +598,6 @@ init python:
         """
 
         return get_kwargs("in_replay", False, **kwargs)
+
+    # endregion
+    #########################

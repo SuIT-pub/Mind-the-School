@@ -1,13 +1,9 @@
-############################
-# ----- PYTHON BLOCK ----- #
-############################
-
 init -6 python:
     import re
 
-    #######################
-    # ----- CLASSES ----- #
-    #######################
+    ########################
+    # region CLASSES ----- #
+    ########################
 
     class Building(Journal_Obj):
         """
@@ -510,11 +506,12 @@ init -6 python:
                 else:
                     return self.get_upgrade_conditions(level).get_desc_conditions_desc(**kwargs)
 
-    #######################
+    # endregion
+    ########################
 
-    ########################################
-    # ----- Buildings Global Methods ----- #
-    ########################################
+    #########################################
+    # region Buildings Global Methods ----- #
+    #########################################
 
     ##################
     # Building Handler
@@ -746,13 +743,12 @@ init -6 python:
         if 'tennis_court' in buildings.keys():
             buildings.pop("tennis_court")
 
-    ########################################
+    # endregion
+    #########################################
 
-############################
-
-#####################
-# ----- LABEL ----- #
-#####################
+######################
+# region LABEL ----- #
+######################
 
 label load_buildings ():
     $ compatibility_check()
@@ -1079,4 +1075,5 @@ label load_buildings ():
 
     return
 
-#####################
+# endregion
+######################

@@ -18,8 +18,6 @@ init -1 python:
     temp_time_check_events = TempEventStorage("temp_time_check_events", "misc", fallback = after_temp_event_check)
     time_check_events      = EventStorage("time_check_events", "misc", fallback = after_event_check)
 
-    
-
 init 1 python:
     set_current_mod('base')
     first_week_epilogue_event = Event(1, "first_week_epilogue", 
@@ -112,6 +110,10 @@ init 1 python:
     # DEBUG TEST EVENTS
     #############################################
 
+############################
+# region Daily Check ----- #
+############################
+
 label time_event_check ():
     hide screen school_overview_map
     hide screen school_overview_stats
@@ -126,9 +128,12 @@ label .after_temp_event_check (**kwargs):
 label .after_event_check (**kwargs):
     return
 
+# endregion
 ############################
-# ----- Intro Events ----- #
-############################
+
+#############################
+# region Intro Events ----- #
+#############################
 
 label game_over_happiness (**kwargs):
     $ begin_event()
@@ -626,11 +631,13 @@ label check_missing_proficiencies:
         ('Math', SetProficiencyEffect('math', level = 1), "math" not in headmaster_proficiencies.keys()),
         ('History', SetProficiencyEffect('history', level = 1), "history" not in headmaster_proficiencies.keys()), 
     override_menu_exit = "map_overview")
-        
 
-##################################
-# ----- Daily Check Events ----- #
-##################################
+# endregion
+#############################
+
+###################################
+# region Daily Check Events ----- #
+###################################
 
 label new_week (**kwargs):
     call change_money_with_modifier(0, 'payroll_weekly') from _call_change_money_with_modifier_1
@@ -906,3 +913,6 @@ label .buy_bra (**kwargs):
         happiness = MEDIUM, charm = TINY, reputation = MEDIUM, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_84
 
     $ end_event('new_daytime', **kwargs)
+
+# endregion
+###################################

@@ -1,6 +1,6 @@
-#############################################
-# ----- Office Building Event Handler ----- #
-#############################################
+##############################################
+# region Office Building Event Handler ----- #
+##############################################
 
 init -1 python:
     set_current_mod('base')
@@ -168,12 +168,12 @@ init 1 python:
             thumbnail = "images/events/office/office_event_first_naughty 0 62.webp")
     )
 
+# endregion
+##############################################
 
-#############################################
-
-###########################################
-# ----- Office Building Entry Point ----- #
-###########################################
+############################################
+# region Office Building Entry Point ----- #
+############################################
 
 label office_building ():
     call call_available_event(office_building_timed_event) from office_building_1
@@ -192,11 +192,15 @@ label .after_general_check (**kwargs):
 
     jump office_building
 
-###########################################
+# endregion
+############################################
 
-######################################
-# ----- Office Building Events ----- #
-######################################
+#######################################
+# region Office Building Events ----- #
+#######################################
+
+#######################
+# region Intro Events #
 
 label first_potion_office_building_event (**kwargs):
     $ begin_event(**kwargs)
@@ -228,6 +232,12 @@ label first_week_office_building_event (**kwargs):
     $ set_building_blocked("office_building")
 
     $ end_event('new_day', **kwargs)
+
+# endregion
+#######################
+
+######################
+# region Work Events #
 
 label work_office_reputation_event_1 (**kwargs):
     $ begin_event(**kwargs)
@@ -314,7 +324,58 @@ label learn_office_event_1 (**kwargs):
 
     $ end_event('new_day', **kwargs)
 
-# First naughty
+label work_office_session_event_1(**kwargs):
+    $ begin_event(**kwargs)
+
+    $ girl_name = get_value('girl_name', **kwargs)
+    $ get_level('school_level', **kwargs)
+    $ get_level('secretary_level', **kwargs)
+
+    $ girl_first_name, girl_last_name = split_name(girl_name)
+
+    $ image = convert_pattern("main", **kwargs)
+
+    $ image.show(0)
+    subtitles_Empty "*Knock* *Knock*"
+    $ image.show(1)
+    headmaster "Yes?"
+    $ image.show(2)
+    secretary "[headmaster_first_name], Mrs. [girl_last_name] is here for here counselling session."
+    $ image.show(3)
+    headmaster "Thank you. Please let her in."
+    $ image.show(4)
+    sgirl "Hello Mr. [headmaster_last_name]." (name = girl_name)
+    $ image.show(5)
+    headmaster "Hello [girl_first_name]. Please take a seat."
+    $ image.show(4)
+    sgirl "Thank you."
+    $ image.show(6)
+    headmaster "Now where did we stop last time?"
+    call screen black_screen_text("1h later.")
+    $ image.show(6)
+    headmaster "I think we made some progress this time. How do you feel about it?"
+    $ image.show(7)
+    sgirl "I feel better. Thank you for your help."
+    $ image.show(8)
+    headmaster "You're welcome. I'm always here to help you."
+    $ image.show(9)
+    sgirl "Thank you. I'll see you next time."
+    $ image.show(10)
+    headmaster "Goodbye."
+
+    $ advance_progress('counselling sessions')
+
+    call change_stats_with_modifier('school',
+        happiness = MEDIUM, education = SMALL) from _call_change_stats_with_modifier_43
+
+    $ end_event('new_daytime', **kwargs)
+
+# endregion
+######################
+
+########################
+# region First naughty #
+
 image anim_office_event_first_naughty_0_16 = Movie(play ="images/events/office/office_event_first_naughty 0 16.webm", start_image = "images/events/office/office_event_first_naughty 0 16.webp", image = "images/events/office/office_event_first_naughty 0 16.webp")
 image anim_office_event_first_naughty_0_17 = Movie(play ="images/events/office/office_event_first_naughty 0 17.webm", start_image = "images/events/office/office_event_first_naughty 0 17.webp", image = "images/events/office/office_event_first_naughty 0 17.webp")
 image anim_office_event_first_naughty_0_18 = Movie(play ="images/events/office/office_event_first_naughty 0 18.webm", start_image = "images/events/office/office_event_first_naughty 0 18.webp", image = "images/events/office/office_event_first_naughty 0 18.webp")
@@ -548,51 +609,11 @@ label work_office_session_event_first_naughty (**kwargs):
 
     $ end_event('new_daytime', **kwargs)
 
-label work_office_session_event_1(**kwargs):
-    $ begin_event(**kwargs)
+# endregion
+########################
 
-    $ girl_name = get_value('girl_name', **kwargs)
-    $ get_level('school_level', **kwargs)
-    $ get_level('secretary_level', **kwargs)
-
-    $ girl_first_name, girl_last_name = split_name(girl_name)
-
-    $ image = convert_pattern("main", **kwargs)
-
-    $ image.show(0)
-    subtitles_Empty "*Knock* *Knock*"
-    $ image.show(1)
-    headmaster "Yes?"
-    $ image.show(2)
-    secretary "[headmaster_first_name], Mrs. [girl_last_name] is here for here counselling session."
-    $ image.show(3)
-    headmaster "Thank you. Please let her in."
-    $ image.show(4)
-    sgirl "Hello Mr. [headmaster_last_name]." (name = girl_name)
-    $ image.show(5)
-    headmaster "Hello [girl_first_name]. Please take a seat."
-    $ image.show(4)
-    sgirl "Thank you."
-    $ image.show(6)
-    headmaster "Now where did we stop last time?"
-    call screen black_screen_text("1h later.")
-    $ image.show(6)
-    headmaster "I think we made some progress this time. How do you feel about it?"
-    $ image.show(7)
-    sgirl "I feel better. Thank you for your help."
-    $ image.show(8)
-    headmaster "You're welcome. I'm always here to help you."
-    $ image.show(9)
-    sgirl "Thank you. I'll see you next time."
-    $ image.show(10)
-    headmaster "Goodbye."
-
-    $ advance_progress('counselling sessions')
-
-    call change_stats_with_modifier('school',
-        happiness = MEDIUM, education = SMALL) from _call_change_stats_with_modifier_43
-
-    $ end_event('new_daytime', **kwargs)
+##############################
+# region Sex Ed Introduction #
 
 label office_call_secretary_1 (**kwargs):
     $ begin_event(**kwargs)
@@ -808,8 +829,11 @@ label .end_presentation (**kwargs):
 
     $ end_event('new_daytime', **kwargs)
 
-#################
-# Naughty Sandbox
+# endregion
+##############################
+
+##########################
+# region Naughty Sandbox #
 
 # desk - handjob
 image anim_office_secretary_desk_handjob_full_casual_5_0 = Movie(play ="images/events/office/anim_office_secretary_desk_handjob_full_casual_5_0.webm", start_image = "images/events/office/anim_office_secretary_desk_handjob_full_casual_5_0.webp", image = "images/events/office/anim_office_secretary_desk_handjob_full_casual_5_0.webp")
@@ -965,7 +989,11 @@ label office_call_secretary_naughty_sandbox (**kwargs):
         character = character.secretary,
     **kwargs) from _call_start_sandbox
 
-#################
+# endregion
+##########################
+
+#########################
+# region Regular Events #
 
 label office_event_1 (**kwargs):
     $ begin_event(**kwargs);
@@ -1095,4 +1123,8 @@ label .care (**kwargs):
         
     $ end_event('new_daytime', **kwargs)
 
-###########################################
+# endregion
+#########################
+
+# endregion
+#######################################

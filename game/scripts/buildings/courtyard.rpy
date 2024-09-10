@@ -1,6 +1,6 @@
-#######################################
-# ----- Courtyard Event Handler ----- #
-#######################################
+########################################
+# region Courtyard Event Handler ----- #
+########################################
 
 init -1 python:
     set_current_mod('base')
@@ -107,11 +107,12 @@ init 1 python:
         courtyard_event6,
     )
 
-#######################################
+# endregion
+########################################
 
-#####################################
-# ----- Courtyard Entry Point ----- #
-#####################################
+######################################
+# region Courtyard Entry Point ----- #
+######################################
 
 label courtyard ():
     call call_available_event(courtyard_timed_event) from courtyard_1
@@ -131,11 +132,15 @@ label .after_general_check (**kwargs):
 
     jump courtyard
 
-#####################################
+# endregion
+######################################
 
-################################
-# ----- Courtyard Events ----- #
-################################
+#################################
+# region Courtyard Events ----- #
+#################################
+
+#######################
+# region Intro Events #
 
 label first_potion_courtyard_event (**kwargs):
     $ begin_event(**kwargs)
@@ -181,6 +186,12 @@ label first_week_courtyard_event (**kwargs):
     $ set_building_blocked("courtyard")
 
     $ end_event("new_day", **kwargs)
+
+# endregion
+#######################
+
+#########################
+# region Regular Events #
 
 label courtyard_event_1 (**kwargs):
     $ begin_event(**kwargs)
@@ -350,4 +361,8 @@ label courtyard_event_6(**kwargs):
 
     $ end_event("new_daytime", **kwargs)
 
-################################
+# endregion
+#########################
+
+# endregion
+#################################

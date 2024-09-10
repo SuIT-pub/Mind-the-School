@@ -37,7 +37,6 @@ init -6 python:
         @abstractmethod
         def check_option(self, **kwargs) -> bool:
             pass
-        
 
     class NoHighlightOption(Option):
         def __init__(self):
@@ -58,5 +57,3 @@ init -6 python:
             if "ShowBlocked" in kwargs:
                 return kwargs["ShowBlocked"]
             return True
-
-

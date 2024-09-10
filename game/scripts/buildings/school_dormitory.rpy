@@ -1,6 +1,6 @@
-###################################################
-# ----- High School Dormitory Event Handler ----- #
-###################################################
+####################################################
+# region High School Dormitory Event Handler ----- #
+####################################################
 
 init -1 python:
     set_current_mod('base')
@@ -105,12 +105,13 @@ init 1 python:
 
     # sd_events["peek_students"].add_event(sd_event2)
     sd_events["peek_students"].add_event(sd_event1, sd_event2, sd_event3)
-    
+
+# endregion
 ###################################################
 
-############################################
-# ----- School Dormitory Entry Point ----- #
-############################################
+#############################################
+# region School Dormitory Entry Point ----- #
+#############################################
 
 label school_dormitory ():
     call call_available_event(sd_timed_event) from school_dormitory_1
@@ -129,11 +130,15 @@ label .after_general_check (**kwargs):
 
     jump school_dormitory
 
-#################################################
+# endregion
+#############################################
 
-#######################################
-# ----- School Dormitory Events ----- #
-#######################################
+########################################
+# region School Dormitory Events ----- #
+########################################
+
+#######################
+# region Intro Events #
 
 label first_week_school_dormitory_event (**kwargs):
     $ begin_event(**kwargs)
@@ -189,6 +194,12 @@ label first_potion_school_dormitory_event (**kwargs):
     $ set_building_blocked("school_dormitory")
 
     $ end_event('new_daytime', **kwargs)
+
+# endregion
+#######################
+
+#########################
+# region Regular Events #
 
 label sd_event_1 (**kwargs):
     $ begin_event(**kwargs)
@@ -368,3 +379,9 @@ label sd_event_3 (**kwargs):
         call change_stats_with_modifier('school', inhibition = DEC_LARGE) from _call_change_stats_with_modifier_83
 
     $ end_event(**kwargs)
+
+# endregion
+#########################
+
+# endregion
+########################################
