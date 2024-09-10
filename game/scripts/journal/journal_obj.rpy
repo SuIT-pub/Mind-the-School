@@ -2,6 +2,10 @@ init -7 python:
     import re
     from abc import ABC, abstractmethod
 
+    ########################
+    # region CLASSES ----- #
+    ########################
+
     class Journal_Obj(ABC):
         """
         Abstract class for all journal objects.
@@ -415,6 +419,13 @@ init -7 python:
             for effect in self._unlock_effects:
                 effect.apply()
 
+    # endregion
+    ########################
+
+    ############################################
+    # region General JOURNAL_OBJ methods ----- #
+    ############################################
+
     def get_visible_unlocked_objs(map: Dict[str, Journal_Obj]) -> List[str]:
         """
         Returns the names of the visible unlocked objects of all characters in map.
@@ -522,35 +533,6 @@ init -7 python:
 
         return output
 
-    # def get_unlockable_objs_by_school(school: str | Char) -> List[str]:
-    #     """
-    #     Returns the names of all the objects that can be unlocked for a specific school.
-
-    #     ### Parameters:
-    #     1. school: str | Char
-    #         - The school for which the objects should be unlockable
-
-    #     ### Returns:
-    #     1. List[str]
-    #         - Names of the unlockable objects for the school.
-    #     """
-
-    #     output = []
-
-    #     school_obj = school
-    #     if isinstance(school, str):
-    #         school_obj = get_character(school, charList['schools'])
-
-    #     for obj in map.values():
-    #         unlock = obj.can_be_unlocked(char_obj = school_obj)
-    #         unlocked = obj.is_unlocked(school)
-
-    #         if (unlock and not unlocked and obj.get_name() not in output):
-    #             output.append(obj.get_name())
-    #             continue
-
-    #     return output
-
     def get_journal_obj(map: Dict[str, Journal_Obj], name: str) -> Journal_Obj:
         """
         Returns the object with the given name from the map.
@@ -571,3 +553,5 @@ init -7 python:
             return map[name]
         return None
 
+    # endregion
+    ############################################

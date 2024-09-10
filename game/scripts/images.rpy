@@ -1,4 +1,9 @@
 init -4 python:
+
+    ########################
+    # region Image Pattern #
+    ########################
+
     def overwrite_event_image(event_key: str, pattern_key: str, pattern: Pattern):
         """
         Overwrites the image pattern of an event.
@@ -166,6 +171,8 @@ init -4 python:
 
             return self._alternative_keys
 
+    # endregion
+    ########################
 
 init -2 python:
     from abc import ABC, abstractmethod
@@ -178,6 +185,14 @@ init -2 python:
     last_image = ""
     last_image_nude = 0
     last_current_nude = 0
+
+    ########################
+    # region CLASSES ----- #
+    ########################
+
+    #######################
+    # region Image Series #
+    #######################
 
     class Image_Step:
         """
@@ -380,6 +395,13 @@ init -2 python:
     class Image_Series_Pattern(Image_Series):
         def __init__(self, pattern: Pattern, **kwargs):
             super().__init__(pattern.get_path(), pattern.get_alternative_keys(), **kwargs)
+
+    # endregion
+    #######################
+
+    ############################
+    # region Background Images #
+    ############################
 
     class BGImage():
         """
@@ -644,6 +666,20 @@ init -2 python:
 
             return self._kwargs
 
+    # endregion
+    ############################
+
+    # endregion
+    ########################
+
+    ########################
+    # region METHODS ----- #
+    ########################
+
+    #######################
+    # region Image Getter #
+    #######################
+
     def get_image(image_path: str, **kwargs) -> Tuple[int, str]:
         """
         Returns the image path with the given keyword arguments replaced.
@@ -743,6 +779,13 @@ init -2 python:
         else:
             return output_nude, output_image
 
+    # endregion
+    #######################
+
+    ################
+    # region Level #
+    ################
+
     def get_available_level(path: str, level: int) -> str:        
         """
         Searches for the best available level for a given image path.
@@ -804,6 +847,13 @@ init -2 python:
             path = path.replace("<secretary_level>", str(get_character_by_key('secretary').get_level()))
 
         return path
+
+    # endregion
+    ################
+
+    #######################
+    # region value tester #
+    #######################
 
     def get_image_max_value(key: str, image_path: str, start: int = 0, end: int = 10) -> int:
         """
@@ -867,6 +917,13 @@ init -2 python:
                 return i - 1
 
         return end
+
+    # endregion
+    #######################
+
+    #######################
+    # region Refine Image #
+    #######################
 
     def refine_image_with_alternatives(image_path: str, alternative_keys: List[str], **kwargs) -> List[str]:
         """
@@ -981,6 +1038,13 @@ init -2 python:
 
         return image_path, variant
     
+    # endregion
+    #######################
+
+    ###################################
+    # region Check Image availability #
+    ###################################
+
     def check_image(image_path: str) -> bool:
         """
         Checks if the image at the image path is available and ready to load
@@ -994,6 +1058,16 @@ init -2 python:
             - If the image is available at that path
         """
         return renpy.loadable(image_path)
+
+    # endregion
+    ###################################
+
+    # endregion
+    ########################
+
+#####################################
+# region IMAGE DISPLAY LABEL #
+#####################################
 
 label show_video_label(name, pause):
     $ hide_all()
@@ -1037,7 +1111,132 @@ label .show_image(image_series, *steps, pause = False, display_type = SCENE, var
         $ i += 1
     return variant
 
+label show_image(path, display_type = SCENE, **kwargs):
+    # """
+    # Shows an image with the given path and keyword arguments.
 
+    # ### Parameters:
+    # 1. path: str
+    #     - The image path to show.
+    # 2. display_type: int (default SCENE)
+    #     - The display type of the image.
+    # 3. **kwargs
+    #     - The keyword arguments to replace in the image path.
+    # """
+
+    $ image_path = refine_image(path, **kwargs)
+
+    call show_ready_image(image_path, display_type) from _call_show_ready_image
+    return
+
+screen black_error_screen_text(text_str):
+    python:
+        """
+        Displays a black screen with red text
+        Would be used for error messages
+
+        # Parameters:
+        1. text_str: str
+            - the text to be displayed
+        """
+
+    add "black"
+    zorder -1
+    
+    text text_str:
+        xalign 0 yalign 0
+        size 20
+        color "#a00000"
+
+screen black_screen_text(text_str):
+    python:
+        """
+        Displays a black screen with white text
+
+        # Parameters:
+        1. text_str: str
+            - the text to be displayed
+        """
+
+    add "black"
+    
+    key "K_SPACE" action Return()
+    key "K_ESCAPE" action Return()
+    key "K_KP_ENTER" action Return()
+    key "K_SELECT" action Return()
+
+    text text_str:
+        xalign 0.5 yalign 0.5
+        size 60
+
+    button:
+        xpos 0 ypos 0
+        xsize 1920 ysize 1080
+        action Return()
+
+screen black_screen_text_with_subtitle(text_str, subtitle_str):
+    python:
+        """
+        Displays a black screen with white text
+
+        # Parameters:
+        1. text_str: str
+            - the text to be displayed
+        """
+
+    add "black"
+    
+    key "K_SPACE" action Return()
+    key "K_ESCAPE" action Return()
+    key "K_KP_ENTER" action Return()
+    key "K_SELECT" action Return()
+
+    vbox:
+        yalign 0.5
+        xsize 1920
+
+        text text_str:
+            xalign 0.5
+            size 60
+        null height 10
+        text subtitle_str:
+            xalign 0.5
+            size 40
+    
+    button:
+        xpos 0 ypos 0
+        xsize 1920 ysize 1080
+        action Return()
+
+label say_with_image (image_series, step, text, person_name, person):
+    # """
+    # Prints a text with an image
+    # Mainly used for the "random_say" method
+
+    # ### Parameters:
+    # 1. image_series: Image_Series
+    #     - The image series to use
+    # 2. step: int
+    #     - The step of the image series to use
+    # 3. text: str
+    #     - The text to print
+    # 4. person_name: str
+    #     - The name of the person to print
+    # 5. person: ADVCharacter
+    #     - The character who says the text
+    # """
+
+    $ image_series.show(step)
+    $ person(text, name = person_name)
+
+    return
+
+# endregion
+#####################################
+
+#############################
+# region show image methods #
+#############################
 
 label show_sfw_text(text):
     # """
@@ -1088,24 +1287,6 @@ label show_idle_image(bg_images, **kwargs):
 
     call show_image_with_nude_var (image_path, max_nude, current_nude) from show_idle_image_1
 
-    return
-
-label show_image(path, display_type = SCENE, **kwargs):
-    # """
-    # Shows an image with the given path and keyword arguments.
-
-    # ### Parameters:
-    # 1. path: str
-    #     - The image path to show.
-    # 2. display_type: int (default SCENE)
-    #     - The display type of the image.
-    # 3. **kwargs
-    #     - The keyword arguments to replace in the image path.
-    # """
-
-    $ image_path = refine_image(path, **kwargs)
-
-    call show_ready_image(image_path, display_type) from _call_show_ready_image
     return
 
 label show_image_with_variant(path, display_type = SCENE, **kwargs):
@@ -1262,3 +1443,6 @@ screen image_with_nude_var(paths, limit = 2, nude = DEFAULT_NUDE):
             focus_mask None
             xalign 0.0 yalign 0.0
             action Show("image_with_nude_var", dissolveM, paths, limit, 2)
+
+# endregion
+#############################

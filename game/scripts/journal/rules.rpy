@@ -1,5 +1,10 @@
 init -6 python:
     import re
+
+    ########################
+    # region CLASSES ----- #
+    ########################
+
     class Rule(Journal_Obj):
         """
         A subclass of Journal_Obj that represents a rule.
@@ -48,8 +53,12 @@ init -6 python:
 
             return "rule"
 
-    #############################################
-    # Rules Global Methods
+    # endregion
+    ########################
+
+    #####################################
+    # region Rules Global Methods ----- #
+    #####################################
     
     def get_rule(rule_name: str) -> Rule:
         """
@@ -139,6 +148,12 @@ init -6 python:
 
         if name in rules.keys():
             del(rules[name])
+
+    # endregion
+    #####################################
+
+#######################
+# region LABELS ----- #
 
 label load_rules ():
     $ remove_rule("service_uniform")
@@ -413,3 +428,6 @@ label load_rules ():
     })
 
     return
+
+# endregion
+#######################

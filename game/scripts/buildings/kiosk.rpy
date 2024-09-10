@@ -1,6 +1,6 @@
-###################################
-# ----- Kiosk Event Handler ----- #
-###################################
+####################################
+# region Kiosk Event Handler ----- #
+####################################
 
 init -1 python:
     set_current_mod('base')
@@ -71,11 +71,12 @@ init 1 python:
         kiosk_event3,
     )
 
-###################################
+# endregion
+####################################
 
-#################################
-# ----- Kiosk Entry Point ----- #
-#################################
+##################################
+# region Kiosk Entry Point ----- #
+##################################
 
 label kiosk ():
     call call_available_event(kiosk_timed_event) from kiosk_1
@@ -94,11 +95,15 @@ label .after_general_check (**kwargs):
 
     jump kiosk
 
-#################################
+# endregion
+##################################
 
-############################
-# ----- Kiosk Events ----- #
-############################
+#############################
+# region Kiosk Events ----- #
+#############################
+
+#######################
+# region Intro Events #
 
 # first week event
 label first_week_kiosk_event (**kwargs):
@@ -129,6 +134,12 @@ label first_week_kiosk_event (**kwargs):
     $ set_building_blocked("kiosk")
 
     $ end_event('new_day', **kwargs)
+
+# endregion
+#######################
+
+#########################
+# region Regular Events #
 
 label kiosk_event_1 (**kwargs):
     $ begin_event(**kwargs)
@@ -269,4 +280,8 @@ label .help (**kwargs):
         happiness = MEDIUM, reputation = MEDIUM) from _call_change_stats_with_modifier_37
     jump new_daytime
 
-############################
+# endregion
+#########################
+
+# endregion
+#############################

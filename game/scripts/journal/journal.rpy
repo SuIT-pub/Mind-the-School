@@ -109,7 +109,8 @@ init python:
             return []
         return types[page]
 
-    
+#########################
+# region Journal Events #
 
 init -1 python:
     journal_events = EventStorage("journal_events", "misc", fallback = Event(2, "start_journal.after_check"))
@@ -126,10 +127,12 @@ init 1 python:
         journal_tutorial_event
     )
 
+# endregion
+#########################
 
-############################
-# Journal Intro
-############################
+########################
+# region Journal Entry #
+########################
 
 label start_journal ():
     # """
@@ -181,9 +184,12 @@ label close_journal ():
     hide screen journal
     jump map_overview
 
-############################
-# Journal Styles
-############################
+# endregion
+########################
+
+#########################
+# region Journal Styles #
+#########################
 
 style journal_desc:
     color "#000"
@@ -224,9 +230,12 @@ style buttons_active take buttons_idle:
 style journal_pta_overview take buttons_idle:
     size 25
 
-############################
-# Journal Sub-screens
-############################
+# endregion
+########################
+
+##############################
+# region Journal Sub-screens #
+##############################
 
 screen journal_obj_list(page, display, journal_map):
     # """
@@ -991,11 +1000,12 @@ screen journal_money_overview():
             unscrollable "hide"
             xalign 1.035
 
+# endregion
+##############################
 
-
-############################
-# Main Journals
-############################
+########################
+# region Main Journals #
+########################
 
 # Object Pages
 screen journal_page(page, display):
@@ -1750,6 +1760,7 @@ screen journal_cheats(display, char = "school"):
                 xalign 0.5
                 text tooltip
 
+# Gallery
 screen journal_gallery(display):
     # """
     # Display the gallery of events and locations that the player has unlocked.
@@ -2168,6 +2179,7 @@ screen journal_gallery(display):
                 xalign 0.5
                 text tooltip
 
+# Credits
 screen journal_credits(display):
     # """
     # A screen used to display the credits in the journal
@@ -2303,6 +2315,7 @@ screen journal_credits(display):
                 xalign 0.5
                 text tooltip
 
+# Goals
 screen journal_goals(display):
     tag interaction_overlay
     modal True
@@ -2403,19 +2416,33 @@ screen journal_goals(display):
                 xalign 0.5
                 text tooltip
 
+# endregion
+########################
 
-############################
-# Journal Methods
-############################
+##########################
+# region Journal Methods #
+##########################
 
-label switch_mod(mod_key, state):
-    $ persistent.modList[mod_key]['active'] = state
-    call open_journal(5, 'mods') from call_open_journal_switch_mod_1
+####################
+# region Open Link #
 
+label open_patreon_link():
+    # """
+    # Opens the patreon page in the default browser
+    # """
+
+    $ renpy.run(OpenURL(patreon))
+    call open_journal(6, "") from open_patreon_link_1
 
 label open_wiki_page():
     $ renpy.run(OpenURL(wiki))
     call open_journal(8, "") from open_wiki_page_1
+
+# endregion
+####################
+
+##################
+# region Gallery #
 
 label reset_event_gallery(location, event):
     # """
@@ -2451,6 +2478,7 @@ label dump_gallery_data(page, display):
     $ renpy.notify("Dumped gallery data!")
 
     call open_journal(page, display) from dump_gallery_data_1
+
 label reset_gallery_cheat(page, display):
     # """
     # Clears the persistent data for the entire gallery in persistent.gallery
@@ -2554,67 +2582,67 @@ label start_gallery_replay(location, event, gallery_chooser, display):
     # call event
     $ renpy.call(event, **gallery_chooser)
 
-label set_time_cheat(page, display, **kwargs):
+# endregion
+##################
+
+#########################
+# region Journal Helper #
+
+label set_journal_setting(page, display, setting, value):
     # """
-    # Sets the time to a specific date and time
+    # Sets a specific setting in the journal
 
     # ### Parameters:
     # 1. page: int
     #     - the page to be opened after the time change
     # 2. display: str
     #     - the display to be opened after the time change
-    # 3. **kwargs: dict
-    #     - the time to be set
-    #     - day: int
-    #         - the day to be set
-    #     - month: int
-    #         - the month to be set
-    #     - year: int
-    #         - the year to be set
-    #     - daytime: int
-    #         - the daytime to be set
+    # 3. setting: str
+    #     - the setting to be set
+    # 4. value: bool
+    #     - the value to be set
     # """
 
-    $ time.set_time(**kwargs)
+    $ set_game_data("journal_setting_" + str(page) + "_" + setting, value)
+    call open_journal(page, display) from set_journal_setting_1
 
-    # checks if the time set is before the actual start if the game
-    if time.compare_now(10, 1, 2023, 2) == -1:
-        $ time.set_time(day = 10, month = 1, year = 2023, daytime = 2)
-
-    call open_journal(page, display) from set_time_cheat_1
-
-label change_time_cheat(page, display, **kwargs):
+label call_max_image_from_journal(image_path, journal, display):
     # """
-    # Adds a specific amount of time to the current time
-    #
+    # Calls the max_image screen with the given image path and opens the journal afterwards
+
     # ### Parameters:
-    # 1. page: int
-    #     - the page to be opened after the time change
-    # 2. display: str
-    #     - the display to be opened after the time change
-    # 3. **kwargs: dict
-    #     - the time to be added
-    #     - day: int
-    #         - the days to be added
-    #     - month: int
-    #         - the months to be added
-    #     - year: int
-    #         - the years to be added
-    #     - daytime: int
-    #         - the daytime to be added
+    # 1. image_path: str
+    #     - the path to the image to be displayed
+    # 2. journal: int
+    #     - the page to be opened after the image is displayed
+    # 3. display: str
+    #     - the display to be opened after the image is displayed
     # """
 
-    $ time.add_time(**kwargs)
+    hide screen school_overview_buttons
+    call screen max_image_from_journal(image_path, journal, display) with dissolveM
 
-    # checks if the time set is before the actual start if the game
-    if time.compare_today(10, 1, 2023) == -1:
-        $ time.set_time(day = 10, month = 1, year = 2023, daytime = time.get_daytime())
+label call_max_image_from_cheats(image_path, journal, display):
+    # """
+    # Calls the max_image screen with the given image path and opens the journal afterwards
 
-    # checks if the time set is before the actual start if the game
-    if time.compare_now(10, 1, 2023, 2) == -1:
-        $ time.set_time(day = 10, month = 1, year = 2023, daytime = 2)
+    # ### Parameters:
+    # 1. image_path: str
+    #     - the path to the image to be displayed
+    # 2. journal: int
+    #     - the page to be opened after the image is displayed
+    # 3. display: str
+    #     - the display to be opened after the image is displayed
+    # """
 
-    call open_journal(page, display) from change_time_cheat_1
+    hide screen school_overview_buttons
+    call screen max_image_from_journal(image_path, journal, display) with dissolveM
+
+# endregion
+#########################
+
+########################
+# region Cheat Methods #
 
 label switch_debug_mode(page, display, value = None):
     # """
@@ -2696,63 +2724,71 @@ label switch_time_freeze(page, display, value = None):
         $ renpy.notify("Time is not frozen anymore!")
     call open_journal(page, display) from switch_time_freeze_1
 
-label open_patreon_link():
+label set_time_cheat(page, display, **kwargs):
     # """
-    # Opens the patreon page in the default browser
-    # """
-
-    $ renpy.run(OpenURL(patreon))
-    call open_journal(6, "") from open_patreon_link_1
-
-label set_journal_setting(page, display, setting, value):
-    # """
-    # Sets a specific setting in the journal
+    # Sets the time to a specific date and time
 
     # ### Parameters:
     # 1. page: int
     #     - the page to be opened after the time change
     # 2. display: str
     #     - the display to be opened after the time change
-    # 3. setting: str
-    #     - the setting to be set
-    # 4. value: bool
-    #     - the value to be set
+    # 3. **kwargs: dict
+    #     - the time to be set
+    #     - day: int
+    #         - the day to be set
+    #     - month: int
+    #         - the month to be set
+    #     - year: int
+    #         - the year to be set
+    #     - daytime: int
+    #         - the daytime to be set
     # """
 
-    $ set_game_data("journal_setting_" + str(page) + "_" + setting, value)
-    call open_journal(page, display) from set_journal_setting_1
+    $ time.set_time(**kwargs)
 
-label call_max_image_from_journal(image_path, journal, display):
+    # checks if the time set is before the actual start if the game
+    if time.compare_now(10, 1, 2023, 2) == -1:
+        $ time.set_time(day = 10, month = 1, year = 2023, daytime = 2)
+
+    call open_journal(page, display) from set_time_cheat_1
+
+label change_time_cheat(page, display, **kwargs):
     # """
-    # Calls the max_image screen with the given image path and opens the journal afterwards
-
+    # Adds a specific amount of time to the current time
+    #
     # ### Parameters:
-    # 1. image_path: str
-    #     - the path to the image to be displayed
-    # 2. journal: int
-    #     - the page to be opened after the image is displayed
-    # 3. display: str
-    #     - the display to be opened after the image is displayed
+    # 1. page: int
+    #     - the page to be opened after the time change
+    # 2. display: str
+    #     - the display to be opened after the time change
+    # 3. **kwargs: dict
+    #     - the time to be added
+    #     - day: int
+    #         - the days to be added
+    #     - month: int
+    #         - the months to be added
+    #     - year: int
+    #         - the years to be added
+    #     - daytime: int
+    #         - the daytime to be added
     # """
 
-    hide screen school_overview_buttons
-    call screen max_image_from_journal(image_path, journal, display) with dissolveM
+    $ time.add_time(**kwargs)
 
-label call_max_image_from_cheats(image_path, journal, display):
-    # """
-    # Calls the max_image screen with the given image path and opens the journal afterwards
+    # checks if the time set is before the actual start if the game
+    if time.compare_today(10, 1, 2023) == -1:
+        $ time.set_time(day = 10, month = 1, year = 2023, daytime = time.get_daytime())
 
-    # ### Parameters:
-    # 1. image_path: str
-    #     - the path to the image to be displayed
-    # 2. journal: int
-    #     - the page to be opened after the image is displayed
-    # 3. display: str
-    #     - the display to be opened after the image is displayed
-    # """
+    # checks if the time set is before the actual start if the game
+    if time.compare_now(10, 1, 2023, 2) == -1:
+        $ time.set_time(day = 10, month = 1, year = 2023, daytime = 2)
 
-    hide screen school_overview_buttons
-    call screen max_image_from_journal(image_path, journal, display) with dissolveM
+    call open_journal(page, display) from change_time_cheat_1
+
+label switch_mod(mod_key, state):
+    $ persistent.modList[mod_key]['active'] = state
+    call open_journal(5, 'mods') from call_open_journal_switch_mod_1
 
 label switch_rule(rule_name):
     # """
@@ -2822,6 +2858,12 @@ label modify_stat(stat, amount, char = "school"):
     else:
         $ char_obj.change_stat(stat, amount)
     call open_journal(5, "stats", char) from modify_stat_1
+
+# endregion
+########################
+
+#########################
+# region Propose Object #
 
 label add_to_proposal(data, page, display, action = "unlock"):
     # """
@@ -2914,3 +2956,9 @@ label add_building_to_proposal(building_name):
             Call("open_journal", 4, building_name))
 
     call add_to_proposal(building, 4, building_name, action) from add_building_to_proposal_2
+
+# endregion
+#########################
+
+# endregion
+##########################
