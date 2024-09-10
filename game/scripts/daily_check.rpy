@@ -38,9 +38,6 @@ init 1 python:
         TimeCondition(day = 5, month = 1, year = 2023, daytime = 1),
         thumbnail = "images/events/pta/first meeting/first pta meeting 0 0.webp")
 
-    pta_meeting_event = Event(2, "pta_meeting",
-        TimeCondition(weekday = 5, daytime = 1))
-
     new_week_event = Event(2, "new_week",
         TimeCondition(weekday = 1, daytime = 1))
 
@@ -94,8 +91,7 @@ init 1 python:
     time_check_events.add_event(
         first_week_epilogue_event, 
         first_week_epilogue_final_event, 
-        first_pta_meeting_event, 
-        pta_meeting_event, 
+        first_pta_meeting_event,  
         new_week_event,
         end_of_month_event,
         intro_check_all_facilities_event,
