@@ -27,6 +27,7 @@ errors listed below, and try again.
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 File "game/scripts/modifier.rpy", line 493: expected statement.
     log_val("modifier key", keys[i])
                                     ^
@@ -375,3 +376,11 @@ File "game/scripts/buildings/office_building.rpy", line 160: invalid syntax
 Ren'Py Version: Ren'Py 8.1.3.23091805
 Fri Aug 30 14:37:12 2024
 >>>>>>> c844caf (extracted images out of events for new modding system)
+=======
+File "game/scripts/buildings/office_building.rpy", line 160: invalid syntax
+                thumbnail = "images/events/office/office_session_event_1 Easkey Tanaka 1 # 4.webp"),
+                 ^
+
+Ren'Py Version: Ren'Py 8.1.3.23091805
+Fri Aug 30 14:37:12 2024
+>>>>>>> 740867fb26a218537cb73ebff7f865150d387c4f
