@@ -734,7 +734,7 @@ label after_load_entry():
 #################################################
 # shows the map overview and then waits for input
 label map_overview ():
-    if len(headmaster_proficiencies.keys()) < 2:
+    if len(headmaster_proficiencies.keys()) < 2 and (IntroCondition(False)).is_fulfilled():
         if persistent.tutorial:
             subtitles "Tutorials are currently deactivated. To enable them, go to the settings."
         else:

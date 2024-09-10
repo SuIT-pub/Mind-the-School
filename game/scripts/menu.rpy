@@ -50,11 +50,13 @@ init python:
         in_replay = get_kwargs('in_replay', False, **kwargs)
         no_gallery = get_kwargs("no_gallery", False, **kwargs)
 
+        disabled_elements = [element for element in elements if isinstance(element, str) and not check_for_label_existence(element)]
+
         if in_event and in_replay and not no_gallery:
             made_decisions = get_kwargs('made_decisions', [], **kwargs)
             decision_data = get_kwargs('decision_data', {}, **kwargs)
             possible_decisions = get_decision_possibilities(decision_data, made_decisions)
-            elements = [tupleEl for tupleEl in elements if str(tupleEl) in possible_decisions or (isinstance(tupleEl, Tuple) and str(tupleEl[1]) in possible_decisions)]
+            elements = [tupleEl for tupleEl in elements if (str(tupleEl) in possible_decisions or (isinstance(tupleEl, Tuple) and str(tupleEl[1]) in possible_decisions)) and not str(tupleEl) in disabled_elements]
 
         filtered_elements = [tupleEl for tupleEl in elements if not isinstance(tupleEl, Tuple) or len(tupleEl) == 2 or tupleEl[2]]
         
@@ -65,6 +67,24 @@ init python:
 
 
         renpy.call("call_menu", text, person, with_leave, *filtered_elements, **kwargs)
+
+    def check_for_label_existence(label: str) -> bool:
+        """
+        Checks if a label exists in the script.
+
+        ### Parameters
+        1. label : str
+            - The label to check for.
+
+        ### Returns
+        1. bool
+            - True if the label exists, False otherwise.
+        """
+
+        label_exists = renpy.has_label(label)
+        if not label_exists:
+            log_error(102, f"Label '{label}' does not exist.")
+        return label_exists            
 
     def clean_events_for_menu(events: Dict[str, EventStorage], **kwargs) -> Tuple[List[Tuple[str, EventEffect]], List[str]]:
         """

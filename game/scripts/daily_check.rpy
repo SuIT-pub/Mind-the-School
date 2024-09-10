@@ -52,9 +52,11 @@ init 1 python:
         StatCondition(inhibition = "90-", corruption = "5+"))
 
     intro_check_all_facilities_event = Event(2, "intro_check_all_facilities", 
+        IntroCondition(),
         TimeCondition(day = 2, month = 1, year = 2023, daytime = 1))
 
     intro_check_all_first_potions_event = Event(2, "intro_check_all_first_potions", 
+        IntroCondition(),
         TimeCondition(day = 9, month = 1, year = 2023, daytime = 4))
 
     game_over_happiness_event = Event(1, "game_over_happiness", 
@@ -72,6 +74,7 @@ init 1 python:
         thumbnail = "images/events/misc/aona_sports_bra_event_1 # 23.webp")
 
     check_prof_event = Event(2, "check_missing_proficiencies",
+        NOT(IntroCondition(True)),
         NOT(OR(
             ProficiencyCondition('math'), 
             ProficiencyCondition('history')
@@ -199,22 +202,23 @@ label game_over_reputation (**kwargs):
 label intro_check_all_facilities (**kwargs):
     $ begin_event()
 
-    scene bg school overview idle
-    show screen school_overview_stats
+    scene school_map
 
     headmaster_thought "Okay time to check all the facilities and see if they need improvement."
     headmaster_thought "I should try to inspect all the locations until friday where I will have my first PTA meeting."
+    headmaster_thought "Hmm, I will probably not be able to check all facilities until then. Better decide which ones are the most important."
+    subtitles "You get different stat bonuses depending on which locations you decide to visit until friday."
 
     jump map_overview
 
 label intro_check_all_first_potions (**kwargs):
     $ begin_event()
 
-    scene bg school overview idle
-    show screen school_overview_stats
+    scene school_map
 
     headmaster_thought "By this time all the students should have eaten."
     headmaster_thought "Time to go around campus and check on the students and the potion's effect."
+    headmaster_thought "The immediate effect will probably only last for today, so better decide which locations to visit."
 
     jump map_overview
 
@@ -847,7 +851,7 @@ label .sneak_bra (**kwargs):
 
     $ call_custom_menu_with_text("Do you want to swap the bra with the skimpy variant?", character.subtitles, False,
         ("Swap", "aona_sports_bra_event_1.sneak_bra_true"),
-        ("Don't swap", "aona_sports_bra_event_1.sneak_buy_bra"),
+        ("Don't swap", "aona_sports_bra_event_1.buy_bra"),
     **kwargs)
 label .sneak_bra_true (**kwargs):
     $ kwargs["skimpy_bra"] = True

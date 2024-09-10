@@ -970,6 +970,7 @@ label load_buildings ():
         '_upgrade_conditions':[
             ConditionStorage(
                 MoneyCondition("3000+"),
+                LockCondition(True),
             ),
             ConditionStorage(
                 MoneyCondition("5000+"),
