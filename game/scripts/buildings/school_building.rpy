@@ -1196,8 +1196,6 @@ label .panties (**kwargs):
 label sb_event_5 (**kwargs):
     $ begin_event("1", **kwargs)
 
-    $ log_val('kwargs', kwargs)
-
     $ school_level = get_level('school_level', **kwargs)
     $ girls = get_value('girls', **kwargs)
 

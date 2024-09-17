@@ -436,6 +436,23 @@ init -99 python:
             return translation_texts[key]
         return key
 
+    def set_text_color(text: str, color: str) -> str:
+        """
+        Sets the color of a text
+
+        ### Parameters:
+        1. text: str
+            - The text to color
+        2. color: str
+            - The color to set
+
+        ### Returns:
+        1. str
+            - The colored text
+        """
+
+        return "{" + "color=" + color + "}" + text + "{/color}"
+
     # endregion
     ###############################
 
@@ -714,6 +731,42 @@ init -99 python:
         """
 
         del gameData[key]
+
+    def set_setting(key: str, value: Any):
+        """
+        Sets a setting in gameData
+
+        ### Parameters:
+        1. key: str
+            - The key to set
+        2. value: Any
+            - The value to set
+        """
+
+        if is_in_replay:
+            return
+
+        if "settings" not in gameData.keys():
+            gameData["settings"] = {}
+        gameData["settings"][key] = value
+
+    def get_setting(key: str) -> Any:
+        """
+        Gets a setting from gameData
+
+        ### Parameters:
+        1. key: str
+            - The key to get
+
+        ### Returns:
+        1. Any
+            - The value from gameData
+            - If the key does not exist None is returned
+        """
+
+        if "settings" in gameData.keys() and key in gameData["settings"].keys():
+            return gameData["settings"][key]
+        return None
 
     # endregion
     #################################

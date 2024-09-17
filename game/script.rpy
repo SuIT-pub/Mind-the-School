@@ -9,8 +9,10 @@ label start ():
     call load_buildings from start_3
     call load_clubs from start_4
     call load_rules from start_5
+    call load_quests from start_6
 
     $ fix_modifier()
+    $ fix_quests()
 
     call intro from _call_intro
 label splashscreen:
@@ -54,6 +56,21 @@ init python:
                 teacher.set_level(1)
             if secretary.get_level() == 0:
                 secretary.set_level(5)
+
+    def fix_quests():
+        # event_seen = get_game_data("seen_events")
+        # if event_seen == None:
+        #     event_seen = {}
+        # if get_kwargs("gym_teach_pe_main_aona_bra", False, **event_seen):
+        #     get_quest("School", "aonas_new_bra").activate()
+        #     get_goal("School", "aonas_new_bra", "aona_bra_event_1").force_complete()
+        # if get_kwargs("aona_sports_bra_event_1", False, **event_seen):
+        #     get_quest("School", "aonas_new_bra").activate()
+        #     get_goal("School", "aonas_new_bra", "aona_bra_event_2").force_complete()
+        # if get_kwargs("aona_sports_bra_event_2", False, **event_seen):
+        #     get_quest("School", "aonas_new_bra").activate()
+        #     get_goal("School", "aonas_new_bra", "aona_bra_event_3").force_complete()
+        update_quest("event")
 
     def fix_modifier():
         """
@@ -172,6 +189,7 @@ label after_load:
     call load_rules from after_load_3
     call load_buildings from after_load_4
     call load_clubs from after_load_5
+    call load_quests from after_load_6
     
     #####################################
     # check for version incompatibilities
@@ -180,6 +198,7 @@ label after_load:
     $ check_stats_compatibility()
 
     $ fix_modifier()
+    $ fix_quests()
     ####################################
 
     if contains_game_data("names") and "headmaster" in get_game_data("names"):

@@ -258,10 +258,8 @@ init -6 python:
 
             if unlock:
                 advance_progress("unlock_" + self.get_name())
-                log_val('time', time.day_to_string())
                 new_time = Time(time.day_to_string())
                 new_time.add_time(day = self._construction_time)
-                log_val('new_time', new_time.day_to_string())
                 set_game_data(self.get_name() + "_construction_end", new_time.day_to_string())
                 self._level = 1
             else:
@@ -269,6 +267,8 @@ init -6 python:
 
             if unlock and apply_effects:
                 self.apply_effects()
+
+            update_quest("journal_unlock", name = self._name, type = self.get_type())
 
         def upgrade(self, apply_effects: bool = False):
             """
@@ -289,6 +289,8 @@ init -6 python:
 
             if apply_effects:
                 self.apply_upgrade_effects()
+
+            update_quest("journal_upgrade", name = self._name, type = self.get_type(), old_level = self._level - 1, new_level = self._level)
 
         def apply_upgrade_effects(self, level: int = -1):
             """

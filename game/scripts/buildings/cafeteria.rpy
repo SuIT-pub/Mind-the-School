@@ -164,8 +164,6 @@ label cafeteria_construction(**kwargs):
     $ end_time = Time(get_game_data("cafeteria_construction_end"))
     $ time_comparison = compare_time(time, end_time)
 
-    $ log_val('kwargs', kwargs)
-
     $ image = convert_pattern("main", **kwargs)
 
     if time_comparison == -1:
@@ -182,6 +180,8 @@ label cafeteria_construction(**kwargs):
         $ set_progress("unlock_cafeteria", 3)
         $ image.show(1)
         headmaster "The cafeteria is finally finished. I can eat here now."
+
+        $ update_quest("trigger", name = "cafeteria_opening")
 
         $ end_event('next_daytime', **kwargs)
 

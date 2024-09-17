@@ -384,7 +384,7 @@ init -6 python:
                 - Multiple conditions can be returned as a list.
             """
 
-            return ""
+            return self.get_name()
 
         @abstractmethod
         def get_name(self) -> str:
@@ -535,9 +535,15 @@ init -6 python:
                 - Multiple conditions can be returned as a list.
             """
 
-            char_obj = get_kwargs('char_obj', **kwargs)
+            char_obj = None
+            if hasattr(self, 'char_obj'):
+                char_obj = self.char_obj
+
+            if isinstance(char_obj, str):
+                char_obj = get_character_by_key(char_obj)
+
             if char_obj == None:
-                return ""
+                char_obj = get_kwargs('char_obj', get_school(), **kwargs)
 
             output = []
             for stat in self.stats.keys():
@@ -672,8 +678,6 @@ init -6 python:
                     output = False
             if self._level != -1:
                 curr_level = get_headmaster_proficiency_level(self._proficiency)
-                log_val('curr_level', curr_level)
-                log_val('level', self._level)
                 if not check_in_value(self._level, curr_level):
                     output = False
 

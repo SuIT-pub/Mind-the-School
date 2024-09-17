@@ -139,6 +139,8 @@ init -6 python:
             delta = round(self.value - old_value, 2)
             self.set_changed_value(delta)
 
+            update_quest("stats")
+
         def set_changed_value(self, value: num):
             """
             Sets the change of the stat to the given value.
@@ -203,6 +205,8 @@ init -6 python:
             change_val = round(self.value - old_value, 2)
 
             self.add_changed_value(change_val)
+
+            update_quest("stats")
 
         def change_value_to(self, value: num, level: int = 10):
             """
