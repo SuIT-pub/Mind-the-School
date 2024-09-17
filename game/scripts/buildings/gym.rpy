@@ -578,7 +578,7 @@ label gym_teach_pe_main_aona_bra_2 (**kwargs):
 label gym_teach_pe_end_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ end_event('map_overview', **kwargs)
+    $ end_event('new_daytime', **kwargs)
 
 # endregion
 ##############

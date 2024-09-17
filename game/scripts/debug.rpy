@@ -51,13 +51,5 @@ init -100 python:
         log_val(msg, log_number)
 
 label test_label():
-    
-    $ pattern = Pattern('test', 'images/test_image <step>.png', key = 'version_0_1_5')
-
-    $ image = Image_Series_Pattern(pattern)
-
-    $ image.show(0)
-
-    subtitles "test"
 
     return

@@ -8,7 +8,6 @@ init -98 python:
     sfw_mode = False
     event_selection_mode = False
 
-    seenEvents = {}
     location_event_register = {}
     event_register = {}
     fragment_storage_register = {}
@@ -36,6 +35,8 @@ default charList = {
     'staff': {},
 }
 
+default quests = {}
+
 default money = Stat(MONEY, 1000)
 default time = Time()
 default stat_data = {}
@@ -52,7 +53,6 @@ default available_proficiencies = ['math', 'pe']
 default headmaster_proficiencies = {}
 
 init -99:
-
     default default_names = {
         'headmaster': ('Mark', 'Benson'),
         'secretary': ('Emiko', 'Langley'),

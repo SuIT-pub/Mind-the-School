@@ -202,7 +202,7 @@ label event_all_events_seen (**kwargs):
     
     $ renpy.choice_for_skipping()
 
-    show thanks 1 with dissolveM
+    call show_image ("images/events/endscreen/thanks 1.webp", **kwargs) from _call_show_image_event_all_seen_1
     dev "Thank you for playing, you found all events, that are currently in this version."
     dev "You can still continue playing. Some events have different variants that change every time you visit them."
 
@@ -214,7 +214,7 @@ label event_reached_max_stats (**kwargs):
     
     $ renpy.choice_for_skipping()
 
-    show thanks 1 with dissolveM
+    call show_image ("images/events/endscreen/thanks 1.webp", **kwargs) from _call_show_image_event_reached_max_stats_1
     dev "Thank you for playing, you reached a stat level that pretty much maxes out your experience."
     dev "You can still continue to play, but raising your stats beyond this point will not have any effect."
     dev "With your current stat level, you will be able to unlock all there is to see in this version."
@@ -823,8 +823,6 @@ label .wait_2 (**kwargs):
     call .buy_bra (**kwargs) from _call_aona_sports_bra_event_1_buy_bra
 label .sneak_bra (**kwargs):
 
-    $ log_val('character', character.subtitles)
-
     $ call_custom_menu_with_text("Do you want to swap the bra with the skimpy variant?", character.subtitles, False,
         ("Swap", "aona_sports_bra_event_1.sneak_bra_true"),
         ("Don't swap", "aona_sports_bra_event_1.buy_bra"),
@@ -905,7 +903,7 @@ label .buy_bra (**kwargs):
 
     $ set_game_data("aona_skimpy_sports_bra", bra)
 
-    $ advance_progress("aona_sports_bra")
+    $ advance_progress("aona_sports_bra") # 1 -> 2
 
     $ change_stat(MONEY, -200)
 

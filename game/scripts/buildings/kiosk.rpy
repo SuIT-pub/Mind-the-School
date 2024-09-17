@@ -204,7 +204,7 @@ label .leave (**kwargs):
     
     $ begin_event()
     
-    if kwargs["topic"] == "slimy":
+    if topic == "slimy":
         $ image.show(4)
         vendor "You know what? I think I could help you."
         $ image.show(5)
@@ -222,7 +222,7 @@ label .leave (**kwargs):
             happiness = DEC_MEDIUM, charm = DEC_MEDIUM, reputation = DEC_SMALL) from _call_change_stats_with_modifier_34
         $ end_event('new_daytime', **kwargs)
         
-    elif kwargs["topic"] == "kind":
+    elif topic == "kind":
         $ image.show(10)
         vendor "I'm sorry to hear that... You know what? This one is on the house."
         $ image.show(11)
@@ -230,6 +230,8 @@ label .leave (**kwargs):
         $ image.show(12)
         headmaster_thought "Mhh, things are worse than I thought. I can't believe the students have to go hungry."
         headmaster_thought "I should think about doing something about that."
+
+        $ update_quest("trigger", name = "kiosk_observe_kindness")
 
         call change_stats_with_modifier('school',
             happiness = SMALL, charm = TINY) from _call_change_stats_with_modifier_35

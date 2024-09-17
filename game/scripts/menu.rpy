@@ -111,6 +111,8 @@ init python:
             # character.dev (f"Error Code: [101]{kwargs['event_name']}:{';'.join([tag.split('.')[1] for tag in made_decisions])}")
             renpy.jump("map_overview")
 
+        renpy.force_autosave(True)
+
         renpy.call("call_menu", None, None, with_leave, *filtered_elements, **kwargs)
 
     def call_custom_menu_with_text(text: str, person: Person = character.subtitles, with_leave: bool = True, *elements: str | Effect | List[Effect] | Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool], **kwargs) -> None:
@@ -148,6 +150,7 @@ init python:
             # character.dev (f"Error Code: [101]{kwargs['event_name']}:{';'.join([tag.split('.')[1] for tag in made_decisions])}")
             renpy.jump("map_overview")
 
+        renpy.force_autosave(True)
 
         renpy.call("call_menu", text, person, with_leave, *filtered_elements, **kwargs)
 
@@ -279,7 +282,7 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
     #     - Any additional keyword arguments are passed to the effects of the selected element.
     # """
 
-    # tag menu_choice
+    tag menu_choice
 
     $ renpy.choice_for_skipping()
 
@@ -472,13 +475,9 @@ label call_element(key, effects, **kwargs):
             $ kwargs = call_effects(effects[i], **kwargs)
             $ i += 1
 
-    $ log_val('kwargs', kwargs)
-
     $ override = get_kwargs('override_menu_exit', None, **kwargs)
-    $ log_val('override', override)
     if override != None:
         if isinstance(override, str):
-            $ log('going to call override')
             $ renpy.call(override)
         elif isinstance(override, Event):
             $ renpy.call(override.get_event())
