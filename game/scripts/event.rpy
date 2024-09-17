@@ -7,6 +7,46 @@ init -3 python:
     import time
     from typing import Any, Dict, List, Tuple, Union
     
+    seenEvents = {}
+
+    def register_seen_event(event: str):
+        global seenEvents
+        if seenEvents == None:
+            seenEvents = {}
+        if event not in seenEvents.keys():
+            seenEvents[event] = False
+
+    def set_event_seen(event_name: str):
+        if not is_event_registered(event_name):
+            return
+
+        global seenEvents
+
+        seen_events = get_game_data("seen_events")
+        if seen_events == None:
+            seen_events = {}
+        for event, seen in seen_events.items():
+            if event in seenEvents:
+                seenEvents[event] = seenEvents[event] or seen
+            else:
+                seenEvents[event] = seen
+        
+        seenEvents[event_name] = True
+        set_game_data("seen_events", seenEvents)
+
+        if all(seenEvents.values()):
+            set_game_data("all_events_seen", True)
+
+    def get_event_seen(event_name: str) -> bool:
+        if not is_event_registered(event_name):
+            return False
+
+        global seenEvents
+
+        if event_name not in seenEvents.keys():
+            return False
+        return seenEvents[event_name]
+
     ########################
     # region Event classes #
     ########################
@@ -201,8 +241,7 @@ init -3 python:
                 return
 
             for event in events:
-                if event.get_priority() == 3 and event.get_event() not in seenEvents.keys():
-                    seenEvents[event.get_event()] = False
+                register_seen_event(event.get_event())
 
                 if event.get_id() not in self.events[event.get_priority()].keys():
                     self.register_event_for_location(event, self.location)    
@@ -223,8 +262,7 @@ init -3 python:
                 return
 
             for event in events:
-                if event.get_priority() == 3 and event.get_event() not in seenEvents.keys():
-                    seenEvents[event.get_event()] = False
+                register_seen_event(event.get_event())
 
                 self.register_event_for_location(event, self.location)    
                 self.events[event.get_priority()][event.get_id()] = event
@@ -660,8 +698,7 @@ init -3 python:
             """
 
             for event in events:
-                if event.get_priority() == 3 and event.get_event() not in seenEvents.keys():
-                    seenEvents[event.get_event()] = False
+                register_seen_event(event.get_event())
 
                 if event.get_id() not in self.events[event.get_priority()].keys():
                     self.register_event_for_location(event, 'fragment')
@@ -1654,20 +1691,17 @@ init -3 python:
         if event_name != "" and not in_replay and not no_gallery:
             gallery_manager = Gallery_Manager(version = version, **kwargs)
 
-        if contains_game_data("seen_events"):
-            seenEvents = get_game_data("seen_events")
-
-        if event_name != "" and event_name in seenEvents.keys():
-            seenEvents[event_name] = True
-            set_game_data("seen_events", seenEvents)
-            if all(seenEvents.values()):
-                set_game_data("all_events_seen", True)
+        if not in_replay:
+            set_event_seen(event_name)
 
         if in_replay:
             char_obj = None
 
         if not is_fragment:
             renpy.block_rollback()
+
+        if not in_replay:
+            update_quest("event", **kwargs)
 
         if event_name != "":
             renpy.call("show_sfw_text", event_name)
@@ -1999,11 +2033,13 @@ label .after_check (**kwargs):
     $ kwargs = sandbox_data
 
     $ naughty_map = get_kwargs('naughty_map', **kwargs)
+    $ cum_map = get_kwargs('cum_map', **kwargs)
     $ level = get_kwargs('level', **kwargs)
 
     $ kwargs['naughty_location'] = list(naughty_map.keys())[0]
     $ kwargs['naughty_position'] = list(naughty_map[get_kwargs('naughty_location', **kwargs)].keys())[0]
     $ kwargs['naughty_clothing'] = naughty_map[get_kwargs('naughty_location', **kwargs)][get_kwargs('naughty_position', **kwargs)][0]
+    $ kwargs['is_cumming'] = False
     $ kwargs['naughty_variant'] = 0
     $ kwargs['no_gallery'] = True
     $ kwargs['override_menu_exit'] = None
@@ -2019,7 +2055,10 @@ label .start (**kwargs):
     $ position = get_kwargs('naughty_position', **kwargs)
     $ clothing = get_kwargs('naughty_clothing', **kwargs)
     $ variant = get_kwargs('naughty_variant', **kwargs)
+    $ is_cumming = get_kwargs('is_cumming', **kwargs)
     $ mapping = get_kwargs('naughty_map', **kwargs)
+    $ cum_map = get_kwargs('cum_map', **kwargs)
+
 
     if position not in mapping[location]:
         $ position = list(mapping[location].keys())[0]
@@ -2027,15 +2066,36 @@ label .start (**kwargs):
     if clothing not in mapping[location][position]:
         $ clothing = mapping[location][position][0]
 
-    $ file = get_kwargs('file_preset', **kwargs).replace('<location>', location).replace('<position>', position).replace('<clothing>', clothing)
+    $ file_preset = get_kwargs('file_preset', **kwargs)
+    if is_cumming:
+        $ file_preset = file_preset.replace('.webm', '_cum.webm')
+
+    $ file = file_preset.replace('<location>', location).replace('<position>', position).replace('<clothing>', clothing)
     $ max_variant = get_file_max_value('variant', file, 0, 100)
     
     if variant > max_variant:
         $ variant = 0
 
+    $ movie_preset = get_kwargs('movie_preset', **kwargs)
+    if is_cumming:
+        $ movie_preset = movie_preset + "_cum_idle"
+
+    $ movie = movie_preset.replace('<location>', location).replace('<position>', position).replace('<clothing>', clothing).replace('<variant>', str(variant))
+
+    if is_cumming:
+        $ idle_movie = movie.replace('cum_idle', 'cum')
+        $ idle_file = file.replace('cum', 'cum_idle').replace('<variant>', str(variant))
+        $ hide_all()
+        $ log_val('idle_movie', idle_movie)
+        # $ renpy.movie_cutscene(idle_file, None, 0)
+        scene expression idle_movie with dissolveM
+        $ renpy.pause(cum_map[location][position][clothing])
+        $ hide_all()
+
     # play movies
-    $ movie = get_kwargs('movie_preset', **kwargs).replace('<location>', location).replace('<position>', position).replace('<clothing>', clothing).replace('<variant>', str(variant))
+    $ log_val('movie', movie)
     scene expression movie with dissolveM
+    
 
     $ icons = []
 
@@ -2051,6 +2111,12 @@ label .start (**kwargs):
     if max_variant > 0:
         $ icons.append("variant")
 
+    if location in cum_map.keys() and position in cum_map[location].keys() and clothing in cum_map[location][position].keys() and not is_cumming:
+        $ icons.append("cumming")
+
+    if location in cum_map.keys() and position in cum_map[location].keys() and clothing in cum_map[location][position].keys() and is_cumming:
+        $ icons.append("return")
+
     call screen naughty_scene_icons(*icons)
     if _return == "change_location":
         call .change_location (**kwargs) from _call_start_sandbox_change_location
@@ -2060,11 +2126,17 @@ label .start (**kwargs):
         call .change_clothing (**kwargs) from _call_start_sandbox_change_clothing
     elif _return == "change_variant":
         call .change_variant (**kwargs) from _call_start_sandbox_change_variant
+    elif _return == "cum":
+        call .trigger_cum (**kwargs) from _call_start_sandbox_trigger_cum
+    elif _return == "return":
+        call .return_cum (**kwargs) from _call_start_sandbox_return_cum
     elif _return == "stop":
         $ end_event('new_daytime', **kwargs)
 
 label .change_location (**kwargs):
     $ elements = []
+
+    $ kwargs['is_cumming'] = False
 
     python:
         for location in mapping.keys():
@@ -2075,6 +2147,8 @@ label .change_location (**kwargs):
 label .change_position (**kwargs):
     $ location = get_kwargs('naughty_location', **kwargs)
     $ mapping = get_kwargs('naughty_map', **kwargs)
+
+    $ kwargs['is_cumming'] = False
 
     $ elements = []
     python:
@@ -2087,6 +2161,8 @@ label .change_clothing (**kwargs):
     $ location = get_kwargs('naughty_location', **kwargs)
     $ position = get_kwargs('naughty_position', **kwargs)
     $ mapping = get_kwargs('naughty_map', **kwargs)
+
+    $ kwargs['is_cumming'] = False
 
     $ elements = []
     python:
@@ -2110,6 +2186,8 @@ label .change_variant (**kwargs):
     $ clothing = get_kwargs('naughty_clothing', **kwargs)
     $ variant = get_kwargs('naughty_variant', **kwargs)
 
+    $ kwargs['is_cumming'] = False
+
     $ file = get_kwargs('file_preset', **kwargs).replace('<location>', location).replace('<position>', position).replace('<clothing>', clothing)
     $ max_variant = get_file_max_value('variant', file, 0, 100)
     $ variant += 1
@@ -2117,6 +2195,32 @@ label .change_variant (**kwargs):
         $ variant = 0
     $ kwargs['naughty_variant'] = variant
     call .start(**kwargs) from _call_start_sandbox_start_1
+
+label .trigger_cum (**kwargs):
+    $ location = get_kwargs('naughty_location', **kwargs)
+    $ position = get_kwargs('naughty_position', **kwargs)
+    $ clothing = get_kwargs('naughty_clothing', **kwargs)
+    $ variant = get_kwargs('naughty_variant', **kwargs)
+    $ kwargs["is_cumming"] = True
+
+    $ file = get_kwargs('file_preset', **kwargs).replace('<location>', location).replace('<position>', position).replace('<clothing>', clothing).replace('.webm', '_cum.webm')
+    $ max_variant = get_file_max_value('variant', file, 0, 100)
+    if variant > max_variant:
+        $ variant = max_variant
+    call .start(**kwargs) from _call_start_sandbox_start_2
+
+label .return_cum (**kwargs):
+    $ location = get_kwargs('naughty_location', **kwargs)
+    $ position = get_kwargs('naughty_position', **kwargs)
+    $ clothing = get_kwargs('naughty_clothing', **kwargs)
+    $ variant = get_kwargs('naughty_variant', **kwargs)
+    $ kwargs["is_cumming"] = False
+
+    $ file = get_kwargs('file_preset', **kwargs).replace('<location>', location).replace('<position>', position).replace('<clothing>', clothing)
+    $ max_variant = get_file_max_value('variant', file, 0, 100)
+    if variant > max_variant:
+        $ variant = max_variant
+    call .start(**kwargs) from _call_start_sandbox_start_3
 
 screen naughty_scene_icons(*icons):
     if "clothing" in icons:
@@ -2143,6 +2247,18 @@ screen naughty_scene_icons(*icons):
             hover "icons/change_variant_hover.webp"
             xalign 1.0 yalign 0.6
             action Return("change_variant")
+    if "cumming" in icons:
+        imagebutton:
+            idle "icons/cum_idle.webp"
+            hover "icons/cum_hover.webp"
+            xalign 1.0 yalign 0.8
+            action Return("cum")
+    if "return" in icons:
+        imagebutton:
+            idle "icons/return_idle.webp"
+            hover "icons/return_hover.webp"
+            xalign 1.0 yalign 0.8
+            action Return("return")
     imagebutton:
         idle "icons/stop_idle.webp"
         hover "icons/stop_hover.webp"

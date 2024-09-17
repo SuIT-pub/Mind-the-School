@@ -300,7 +300,7 @@ label courtyard_event_4(**kwargs):
     $ school_level = get_value('school_level', **kwargs)
     $ girl_name = get_value("girl_name", **kwargs)
 
-    $ image = Image_Series("main", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     call Image_Series.show_image(image, 0, 1, 2) from _call_Image_Series_show_image_3
     headmaster "Interesting..."

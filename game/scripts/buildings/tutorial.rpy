@@ -456,8 +456,6 @@ label journal_tutorial (**kwargs):
 label action_tutorial (**kwargs):
     $ begin_event(**kwargs)
 
-    $ log_val('kwargs', kwargs)
-
     $ return_label = get_kwargs('return_label', 'map_overview', **kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -492,8 +490,6 @@ label action_tutorial (**kwargs):
 
 label sandbox_tutorial (**kwargs):
     $ begin_event(**kwargs)
-
-    $ log_val('kwargs', kwargs)
 
     $ return_label = get_kwargs('return_label', 'map_overview', **kwargs)
 

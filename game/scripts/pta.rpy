@@ -265,7 +265,7 @@ label first_pta_meeting (**kwargs):
 
         To briefly summarise my theory. I want to use the parts of the human body that no system has used before.
     """
- 
+
     $ image.show(4)
     headmaster """
         The human body is a complex biological machine designed to survive in a harsh and dangerous ecosystem. So it 
@@ -705,6 +705,8 @@ label pta_end_meeting_1 (**kwargs):
             if vote_action == "upgrade":
                 $ vote_object.upgrade(True)
                 $ add_notify_message(f"{obj_title} has been upgraded.")
+
+        $ set_game_data('voteProposal', None)
 
     $ image.show(7)
     headmaster "It seems like that's all we have for today."
