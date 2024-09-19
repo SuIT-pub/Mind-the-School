@@ -1250,7 +1250,7 @@ init -6 python:
                 - If the difference is larger than 0, the difference is returned as 0 to set it as fulfilled but not create a better chance for votes.
         """
 
-        def __init__(self, value: num | str, blocking = False):
+        def __init__(self, value: num, blocking = False):
             super().__init__(blocking)
             self.value = value
             self.display_in_list = True
@@ -1272,7 +1272,7 @@ init -6 python:
             if super().is_fulfilled(**kwargs):
                 return True
 
-            return check_in_value(self.value, money.get_value())
+            return self.value <= money.get_value()
 
         def to_desc_text(self, **kwargs) -> str:
             """
@@ -1345,20 +1345,9 @@ init -6 python:
             1. num
                 - The difference between the condition and the given characters money.
             """
-
-            obj_stat = money.get_value()
-            diff = get_value_diff(self.value, obj_stat)
-
-            if diff < -20:
-                return diff * 20
-            elif diff < -10:
-                return diff * 10
-            elif diff < 0:
-                return diff * 5
-            elif diff > 5:
-                return diff * 2
-            else:
-                return diff
+            if self.is_fulfilled():
+                return 0
+            return -100
 
     class LockCondition(Condition):
         """
