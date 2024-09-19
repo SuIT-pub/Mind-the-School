@@ -1084,6 +1084,10 @@ init -3 python:
             - The thumbnail of the event.
         5. register_self: bool (Default True)
             - If True, the event is registered in the event_register.
+        6. override_intro: bool (Default False)
+            - If True, the intro condition is ignored.
+        7. override_location: str (Default None)
+            - If set, the location of the event is set to this value.
 
         ### Attributes:
         1. event_id: str
@@ -1120,19 +1124,19 @@ init -3 python:
             - Calls the event.
         """
 
-        def __init__(self, priority: int, event: str, *conditions: Condition | Selector | Option | Pattern, thumbnail: str = "", register_self = True, override_intro = False, override_location = None):
+        def __init__(self, priority: int, event: str, *options: Condition | Selector | Option | Pattern, thumbnail: str = "", register_self = True, override_intro = False, override_location = None):
             self.event_id = str(event)
             self.event = event
             self.thumbnail = thumbnail
-            self.conditions = [condition for condition in conditions if isinstance(condition, Condition)]
+            self.conditions = [condition for condition in options if isinstance(condition, Condition)]
 
             if not any(isinstance(condition, IntroCondition) for condition in self.conditions) and not override_intro:
                 self.conditions.append(IntroCondition(False))
 
-            self.values = SelectorSet(*[condition for condition in conditions if isinstance(condition, Selector)])
-            self.options = OptionSet(*[condition for condition in conditions if isinstance(condition, Option)])
+            self.values = SelectorSet(*[condition for condition in options if isinstance(condition, Selector)])
+            self.options = OptionSet(*[condition for condition in options if isinstance(condition, Option)])
 
-            self.patterns = {pattern.get_name(): pattern for pattern in conditions if isinstance(pattern, Pattern)}
+            self.patterns = {pattern.get_name(): pattern for pattern in options if isinstance(pattern, Pattern)}
 
             rerollSelectors.append(self.values)
 
@@ -1385,8 +1389,11 @@ init -3 python:
 
             kwargs["event_form"] = self.event_form
 
+            if "values" not in kwargs.keys():
+                kwargs["values"] = {}
+
             if self.values != None:
-                kwargs.update(self.values.get_values())
+                kwargs["values"].update(self.values.get_values())
                 self.values.roll_values()
 
             kwargs["event_name"] = self.get_event()
@@ -1519,8 +1526,11 @@ init -3 python:
 
             kwargs["event_form"] = "fragment"
 
+            if "values" not in kwargs.keys():
+                kwargs["values"] = {}
+
             if events.values != None:
-                kwargs.update(events.values.get_values())
+                kwargs["values"].update(events.values.get_values())
                 events.values.roll_values()
 
             kwargs["event_name"] = events.get_event()
@@ -1541,9 +1551,13 @@ init -3 python:
                 last_data = get_last_data('fragment', events.get_id())
                 data_keys = list(last_data.keys())
                 j = 0
+
+                if "values" not in kwargs.keys():
+                    kwargs["values"] = {}
+
                 while j < len(data_keys):
                     data_key = data_keys[j]
-                    kwargs[data_key] = last_data[data_key]
+                    kwargs["values"][data_key] = last_data[data_key]
                     j += 1
     
             renpy.call("call_event", events.get_event_label(), self.priority, **kwargs)
@@ -1597,6 +1611,9 @@ init -3 python:
         
         def call(self, **kwargs):
             
+            if "values" not in kwargs.keys():
+                kwargs["values"] = {}
+
             if self.values != None:
                 kwargs.update(self.values.get_values())
                 self.values.roll_values()
@@ -1681,6 +1698,8 @@ init -3 python:
         global seenEvents
 
         hide_all()
+
+        log_val('kwargs', kwargs)
 
         event_name = get_kwargs("event_name", "", **kwargs)
         in_replay = get_kwargs("in_replay", False, **kwargs)
@@ -1857,9 +1876,11 @@ label call_available_event(event_storage, priority = 0, no_fallback = False, **k
             $ kwargs["event_obj"] = event_obj
             $ kwargs['image_patterns'] = event_obj.patterns
 
+            if "values" not in kwargs.keys():
+                $ kwargs["values"] = {}
 
             if event_obj.values != None:
-                $ kwargs.update(event_obj.values.get_values())
+                $ kwargs["values"].update(event_obj.values.get_values())
                 $ event_obj.values.roll_values()
 
             $ renpy.call(events, **kwargs)

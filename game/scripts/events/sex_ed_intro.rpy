@@ -4,7 +4,9 @@ init 1 python:
     office_call_secretary_1_event = Event(1, "office_call_secretary_1",
         NOT(ProgressCondition('start_sex_ed')),
         ProgressCondition('aona_sports_bra', '2+'),
+        LevelCondition('secretary', 6),
         TimeCondition(daytime = "6-"),
+        Pattern("main", "images/events/office/office_call_secretary_1/<step>.webp"),
     )
 
     office_building_events["call_secretary"].add_event(
@@ -51,22 +53,40 @@ init 1 python:
 label office_call_secretary_1 (**kwargs):
     $ begin_event(**kwargs)
 
+    $ image = convert_pattern("main", **kwargs)
+
+    $ image.show(0)
     subtitles "You call the secretary."
+
+    call Image_Series.show_image(image, 1, 2, 3) from _call_show_image_office_call_secretary_1_1
     secretary "Hello, [headmaster_first_name]. How can I help you?"
+    $ image.show(4)
     headmaster "I need your opinion on something."
+    $ image.show(3)
     secretary "Sure, what is it?"
+    $ image.show(5)
     headmaster "I'm thinking of introducing sex education classes in the curriculum. What do you think?"
+    $ image.show(6)
     secretary "I think it's a great idea. It's important for students to be educated about such topics."
+    $ image.show(7)
     secretary "But do you think the rest of the staff and also the students would agree?"
+    $ image.show(8)
     headmaster "Hmm, I guess you're right. That will be quite the hurdle, I think I need to make sure they are ready for it before suggesting it."
+    $ image.show(9)
     headmaster "Do you have any suggestions on how to approach this?"
+    $ image.show(10)
     secretary "I think you should start by talking to the staff and getting their input."
     secretary "To actually convince them, you could prepare some teaching material and introductory material on the subject."
     secretary "That way they can see what you have in mind and how you plan to approach it."
+    $ image.show(11)
     headmaster "That's a good idea. Thank you for your input."
+    $ image.show(12)
     secretary "You're welcome. Is there anything else?"
+    $ image.show(11)
     headmaster "No, that's all. Thank you."
+    $ image.show(13)
     secretary "You're welcome. Have a nice day."
+    $ image.show(14)
     headmaster_thought "Then, maybe I should start work on some teaching material for the sex ed classes."
 
 
@@ -194,49 +214,23 @@ label office_teacher_sex_ed_introduction_4 (**kwargs):
     headmaster "I understand that there may be concerns and reservations about introducing this topic, but I believe it is crucial for the well-being and development of our students."
     headmaster "Let's start with the basics. What is sexual education and why is it important?"
 
-    $ call_custom_menu_with_text("Do you want to read the entire presentation?", character.subtitles, False,
-        ("Read full presentation", "office_teacher_sex_ed_introduction_4.presentation"),
-        ("Skip presentation", "office_teacher_sex_ed_introduction_4.skipped_presentation"), 
-    **kwargs)
-label .presentation (**kwargs):
-    headmaster "Sexual education is a comprehensive program that provides students with accurate and age-appropriate information about human sexuality, relationships, and reproductive health."
-    headmaster "Now, you may wonder why it is important. Well, it equips students with the knowledge and skills they need to make informed decisions about their bodies, relationships, and sexual health."
+    call screen black_screen_text("15 Minutes later.")
+
     headmaster "Without proper sexual education, students may rely on misinformation or peer pressure, which can lead to risky behaviors and negative consequences."
-    headmaster "But by providing accurate information, we can empower our students to develop healthy attitudes towards their bodies and relationships."
-    headmaster "Now, let's dive deeper. Allow me to share some case studies and statistics to address your concerns and demonstrate the potential benefits of sexual education."
-    headmaster "Research has shown that comprehensive sexual education programs can have a positive impact on students' knowledge, attitudes, and behaviors."
-    headmaster "For example, a study conducted by XYZ University found that schools with comprehensive sexual education programs had lower rates of teen pregnancy and sexually transmitted infections (STIs)."
-    headmaster "Another study by ABC Institute showed that students who received sexual education were more likely to delay sexual activity and use contraception when they did become sexually active."
+
+    call screen black_screen_text("15 Minutes later.")
+
     headmaster "These case studies and statistics demonstrate the effectiveness of sexual education in promoting healthy behaviors and reducing negative outcomes."
-    headmaster "Now, let's take a look at some successful implementations of sexual education programs in other schools."
-    headmaster "I understand that you may have concerns about how this program will be implemented. However, there are many schools across the country that have successfully introduced sexual education programs."
-    headmaster "For instance, XYZ High School in Cityville implemented a comprehensive sexual education curriculum that included interactive classroom activities, guest speakers, and access to resources."
-    headmaster "They reported positive outcomes such as increased knowledge, improved communication skills, and reduced rates of teen pregnancy and STIs."
-    headmaster "By sharing these success stories, I hope to address your concerns and show that sexual education can make a positive difference in students' lives."
-    headmaster "Now, let's move on to the topics that will be covered in the classes and the teaching methods that will be used."
-    headmaster "I understand that you may have questions about the content and teaching methods. The sexual education classes will cover a range of topics, including but not limited to: human anatomy and reproductive systems, consent and healthy relationships, contraception and STI prevention, gender and sexual orientation, and communication skills."
-    headmaster "As for the teaching methods, they will be interactive and engaging, incorporating a variety of strategies such as group discussions, role-playing, multimedia presentations, and guest speakers."
-    headmaster "These methods will ensure that students actively participate in their learning and have opportunities to ask questions and share their perspectives."
+
+    call screen black_screen_text("15 Minutes later.")
+
     headmaster "Now, let's talk about the resources that will be available to both the students and the teachers."
-    headmaster "I understand that you may have concerns about the resources and support available. Given our narrow budget, we will make the most of the limited resources we have to support students' learning."
-    headmaster "While we may not have access to extensive textbooks or online materials, we will ensure that the information provided is accurate and age-appropriate."
-    headmaster "In addition, we will collaborate with local health organizations and community centers to provide guest speakers and workshops on sexual education."
-    headmaster "Furthermore, we have plans to renovate our school library to provide students with a comfortable space for learning and research."
-    headmaster "The renovated library will be equipped with a variety of resources, including books, magazines, and reference materials."
-    headmaster "We will also create dedicated areas for studying and quiet reading to enhance the learning environment."
-    headmaster "By improving our library facilities, we aim to encourage students to utilize this valuable resource for their academic needs."
-    headmaster "As for teacher support, we will explore free online training programs and workshops to enhance your knowledge and skills in delivering sexual education effectively."
-    headmaster "Your dedication and creativity in delivering the curriculum will be crucial in overcoming the resource limitations."
-    headmaster "Lastly, I would like to emphasize the importance of your role as teachers in creating a safe and inclusive learning environment for students to discuss sensitive topics related to sexual education."
+
+    call screen black_screen_text("15 Minutes later.")
+
     headmaster "Your support and guidance will be instrumental in addressing their concerns and providing accurate information, even with limited resources."
 
-    call .end_presentation (**kwargs) from call_end_presentation_sex_ed_intro_1
-label .skipped_presentation (**kwargs):
-
-    call screen black_screen_text("30 Minutes later.")
-
-    call .end_presentation (**kwargs) from call_end_presentation_sex_ed_intro_2
-label .end_presentation (**kwargs):
+    call screen black_screen_text("15 Minutes later.")
 
     headmaster "By working together and making the most of what we have, we can ensure that our students receive the necessary knowledge and skills to make informed decisions and navigate their sexual health and relationships."
     headmaster "Thank you for your attention. I hope that this presentation has addressed some of your concerns and that we can move forward together in implementing comprehensive sexual education."

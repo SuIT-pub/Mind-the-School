@@ -31,6 +31,7 @@ init 1 python:
     cafeteria_event_1_event = Event(3, "cafeteria_event_1",
         TimeCondition(daytime = "d"),
         RandomListSelector("topic", "coffee", "tea", "warm milk"),
+        Pattern("main", "images/events/cafeteria/cafeteria_event_1/<parent_level> <step>.webp"),
         thumbnail = "images/events/cafeteria/cafeteria_event_1 1 4.webp")
     
     cafeteria_event_2_event = Event(3, "cafeteria_event_2",
@@ -193,7 +194,7 @@ label cafeteria_event_1(**kwargs):
 
     $ topic = get_value("topic", **kwargs)
 
-    $ image = Image_Series("images/events/cafeteria/cafeteria_event_1 <parent_level> <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     parent "Hello Mr. [headmaster_last_name] and welcome! What can I help you with?" (name = 'Adelaide Hall')
