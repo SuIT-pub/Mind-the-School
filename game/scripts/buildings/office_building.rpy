@@ -130,7 +130,7 @@ init 1 python:
 
     office_building_events["learn"].add_event(EventSelect(3, "learn_subject_event", "What subject do you wanna learn?", office_building_subject_learn_events,
         TimeCondition(daytime = 1),
-        MoneyCondition("500+"),
+        MoneyCondition(500),
         override_menu_exit = 'office_building'))
 
     office_building_work_event["money"].add_event(

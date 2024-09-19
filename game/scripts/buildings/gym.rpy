@@ -102,7 +102,7 @@ init 1 python:
             thumbnail = "images/events/gym/gym_teach_pe_main_1 1 9.webp"),
         EventFragment(3, "gym_teach_pe_main_aona_bra",
             NOT(ProgressCondition("aona_sports_bra")),
-            MoneyCondition("200+"),
+            MoneyCondition(200),
             Pattern("main", "/images/events/gym/gym_teach_pe_main_aona_bra <step>.webp")),
         EventFragment(1, "gym_teach_pe_main_aona_bra_2",
             ProgressCondition("aona_sports_bra", 2),

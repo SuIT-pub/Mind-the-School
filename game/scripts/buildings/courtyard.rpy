@@ -56,19 +56,8 @@ init 1 python:
     courtyard_event4 = Event(3, "courtyard_event_4",
         OR(TimeCondition(weekday = "d", daytime = "f"),
             TimeCondition(weekday = "w", daytime = "d")),
-        LevelSelector('school_level', 'school'),
-        RandomListSelector('girl_name', 
-            RandomListSelector('', 'Luna Clark', "Gloria Goto", "Ikushi Ito", "Ishimaru Maki"),
-            (
-                RandomListSelector('', 'Hiroshi Suzuki', 'Miela Frejadottir', 'Sofia Harada', 'Thanchanok Cooper'),
-                LoliContentCondition("1+")
-            ),
-            (
-                RandomListSelector('', 'Sidney Martinez', 'Karini Ono', 'Fio Dubois', "Aiden O'Reilly"),
-                LoliContentCondition("2")
-            )
-        ),
-        Pattern("main", "images/events/courtyard/courtyard_event_4 <school_level> <girl_name> <step>.webp"),
+        RandomListSelector('girl_name', 'Luna Clark', "Gloria Goto", "Ikushi Ito", "Ishimaru Maki"),
+        Pattern("main", "images/events/courtyard/courtyard_event_4/<school_level> <girl_name> <step>.webp"),
         thumbnail = "images/events/courtyard/courtyard_event_4 1 Gloria Goto 1.webp")
 
     courtyard_event5 = Event(3, "courtyard_event_5",
