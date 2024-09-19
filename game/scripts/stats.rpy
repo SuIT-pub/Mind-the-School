@@ -711,6 +711,46 @@ init -6 python:
         else:
             return round(random.uniform(0.1, 0.8), 2) * neg
 
+    def reserve_money(key: str, value: int) -> bool:
+        """
+        Reserves the given value of money for the given key.
+
+        ### Parameters:
+        1. key: str
+            - The key to reserve the money for.
+        2. value: int
+            - The value of money to reserve.
+        """
+
+        global money
+
+        if money.get_value() < value:
+            return False
+
+        if key not in reserved_money.keys():
+            reserved_money[key] = 0
+        reserved_money[key] += value
+
+        money.change_value(-value)
+        return True
+
+    def release_money(key: str) -> bool:
+
+        global money
+
+        if key not in reserved_money.keys():
+            return False
+        money.change_value(reserved_money[key])
+        del reserved_money[key]
+        return True
+
+    def spend_reserved_money(key: str) -> bool:
+        global money
+
+        if key not in reserved_money.keys():
+            return False
+        del reserved_money[key]
+
 label load_stats ():
     
     $ load_stat_data(CORRUPTION, "Corruption", {

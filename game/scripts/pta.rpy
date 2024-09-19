@@ -32,7 +32,7 @@ init -6 python:
     # region Probability calculations #
     ###################################
 
-    def calculateProbabilitySum(conditions: ConditionStorage, *char_obj_list: Char) -> float:
+    def calculateProbabilitySum(conditions: ConditionStorage, *char_obj_list: Char, is_in_pta = False) -> float:
         """
         Calculates the probability of a character voting yes for a proposal.
 
@@ -55,20 +55,20 @@ init -6 python:
 
         if char_obj_list == None or len(char_obj_list) == 0:
             char_obj_list = [
-                get_character("teacher", charList["staff"]),
-                charList["parent"],
-                get_school(),
+                get_character_by_key("teacher"),
+                get_character_by_key("parent"),
+                get_character_by_key("school"),
             ]
 
-        probability = 0.0
-
+        overall_probability = 1.0
         for char_obj in char_obj_list:
-            calc = calculateProbability(conditions, char_obj)
-            probability += calc
+            overall_probability *= calculateProbability(conditions, char_obj) / 100.0
+        
+        # Convert back to percentage
+        overall_probability *= 100.0
+        return overall_probability
 
-        return probability / len(char_obj_list)
-
-    def calculateProbability(conditions: ConditionStorage, char_obj: Char) -> float:
+    def calculateProbability(conditions: ConditionStorage, char_obj: Char, is_in_pta = False) -> float:
         """
         Calculates the probability of a character voting yes for a proposal.
 
@@ -88,6 +88,8 @@ init -6 python:
         voteConditions = conditions.get_conditions()
         probability = 100.0
         for condition in voteConditions:
+            if is_in_pta and isinstance(condition, MoneyCondition):
+                continue
             probability += condition.get_diff(char_obj)
         return probability
 
@@ -115,7 +117,7 @@ init -6 python:
             - Can be "yes", "no" or "veto"
         """
 
-        probability = calculateProbability(conditions, char_obj)
+        probability = calculateProbability(conditions, char_obj, is_in_pta = True)
         vote = renpy.random.random() * 100
         voteDiff = probability - vote
 
@@ -417,6 +419,47 @@ label pta_discussion_1 (**kwargs):
 
     $ end_event('new_daytime', **kwargs)
 
+label pta_discussion_sex_ed_intro_1 (**kwargs):
+    $ begin_event(no_gallery = True, **kwargs)
+
+    $ finola = Character("Finola Ryan",   kind = character.teacher)
+    $ chloe  = Character("Chloe Garcia",  kind = character.teacher)
+    $ lily   = Character("Lily Anderson", kind = character.teacher)
+    $ yulan  = Character("Yulan Chen",    kind = character.teacher)
+    $ zoe    = Character("Zoe Parker",    kind = character.teacher)
+
+    $ adelaide = Character("Adelaide Hall", kind = character.parent)
+    $ nubia    = Character("Nubia Davis",   kind = character.parent)
+    $ yuki     = Character("Yuki Yamamoto", kind = character.parent)
+
+    $ yuriko = Character("Yuriko Oshima", kind = character.sgirl)
+
+    headmaster "Nobody? Alright then, I would like to discuss the introduction of sexual education in our curriculum."
+    yuriko "What? No way! That's totally unnecessary!"
+    adelaide "I agree! This is not something that should be taught in school!"
+    headmaster "I believe it is important for our students to be educated about this topic. It is crucial for their development and well-being."
+    yuki "But what about the parents? We should be the ones to teach our children about these things!"
+    headmaster "I understand your concerns, but many parents may not feel comfortable discussing these topics with their children."
+    headmaster "Also, no offense, but some parents may not have the right information to share with their children."
+    headmaster "I may not be at this school for long, but I have seen enough to know that our students are struggling with these issues."
+    chloe "With that I have to agree. I normally wouldn't support this, but I can also see the effects of the lack of sexual education."
+    finola "And I think it is the responsibility of all of us to ensure that our students receive accurate information."
+    yuriko "But is it really necessary? That topic is so embarrassing and uncomfortable!"
+    headmaster "That is even more reason to teach it! If we don't, our students will rely on misinformation and peer pressure."
+    headmaster "This is a topic that cannot be ignored. You students will come across it sooner or later, and you have to know how to deal with it."
+    headmaster "And if you don't learn it here, you will learn it from the wrong sources. And that then will become dangerous."
+    yuki "But what if some students get too excited during the lessons? It's completely inappropriate!"
+    headmaster "I understand your concerns, but I assure you that we will handle this topic with sensitivity and care."
+    nubia "Alright, I need time to think about this, but I will agree to have it put to vote after some time to consider it."
+    adelaide "I agree."
+    yuki "I guess I can see the benefits, but I still have my doubts."
+
+    yuriko "Fine! But I still think it's unnecessary!"
+
+    $ advance_progress('start_sex_ed') # 5 -> 6
+
+    $ end_event('new_daytime', **kwargs)
+
 # endregion
 #####################
 
@@ -431,9 +474,9 @@ label pta_vote_nothing_1 (**kwargs):
 label pta_vote_school_jobs (**kwargs):
     $ begin_event(no_gallery = True, **kwargs)
 
-    $ parent_vote = get_kwargs("vote_parent", **kwargs)
-    $ teacher_vote = get_kwargs("vote_teacher", **kwargs)
-    $ student_vote = get_kwargs("vote_student", **kwargs)
+    $ parent_vote  = get_value("vote_parent", **kwargs)
+    $ teacher_vote = get_value("vote_teacher", **kwargs)
+    $ student_vote = get_value("vote_student", **kwargs)
     $ end_choice = get_end_choice(parent_vote, teacher_vote, student_vote)
 
     headmaster "Today I want to put to vote if we want to allow students to work here at the school."
@@ -479,63 +522,48 @@ label pta_vote_school_jobs (**kwargs):
     else:
         headmaster "The proposal is rejected due to the majority of votes against it."
 
+    call pta_vote_result(parent_vote, teacher_vote, student_vote, get_value("vote_proposal", **kwargs)) from _call_pta_vote_result_school_jobs_1
+
     $ end_event('new_daytime', **kwargs)
 
 label pta_vote_theoretical_sex_ed_1 (**kwargs):
     $ begin_event(no_gallery = True, **kwargs)
 
-    $ parent_vote = get_kwargs("vote_parent", **kwargs)
-    $ teacher_vote = get_kwargs("vote_teacher", **kwargs)
-    $ student_vote = get_kwargs("vote_student", **kwargs)
+    $ parent_vote =  get_value("vote_parent", **kwargs)
+    $ teacher_vote = get_value("vote_teacher", **kwargs)
+    $ student_vote = get_value("vote_student", **kwargs)
     $ end_choice = get_end_choice(parent_vote, teacher_vote, student_vote)
 
-    headmaster "The topic for today's vote is the expansion of the Theoretical Sex Education class to include digital reference materials, such as educational videos about reproduction."
-    headmaster "I believe that these materials will enhance the learning experience and help students make informed decisions about their health and relationships."
+    headmaster "As previously announced, I would like to put to vote the introduction of theoretical sex education in our curriculum."
+    headmaster "We already discussed the importance of this topic and the benefits it can bring to our students."
+    headmaster "Now I hope you have made up your minds and are ready to cast your votes."
 
-    headmaster "Please cast your vote now."
+    headmaster "So when there are no further questions, please cast your vote now."
 
     # teacher comment on vote
     if teacher_vote == 'yes':
-        teacher "I think it is important to teach the students about the human body and reproduction."
-        teacher "It is a natural part of life and should be treated as such. So I vote yes."
-    elif teacher_vote == 'veto':
-        teacher "I am appalled by the mere suggestion of introducing theoretical sex education in schools."
-        teacher "This is an absurd notion that undermines the values and principles we strive to instill in our students, and it completely disregards the importance of parental guidance in such delicate matters."
-        teacher "As a teacher, I vehemently veto any attempt to implement this nonsensical curriculum."
+        teacher "We teachers had a discussion about this topic and we came to the conclusion that theoretical sex education is important for the students."
+        teacher "So we support the introduction of this subject in our curriculum."
     else:
-        teacher "Introducing theoretical sex education in schools could be problematic as it may interfere with family values and parents\' role in guiding their children on sensitive topics."
-        teacher "That\'s why I vote against the introduction of theoretical sex education."
+        teacher "We teachers discussed this topic and we still have concerns about the introduction, so we will vote against it for now."
 
     # student comment on vote
     if student_vote == 'yes':
-        sgirl "As a student of this school, I strongly support the introduction of theoretical sex education."
-        sgirl "It is essential for students to have access to comprehensive and accurate information that can help them make informed decisions about their sexual health and well-being. Therefore, I vote yes on this proposal."
-    elif student_vote == 'veto':
-        sgirl "I believe introducing theoretical sex education is unnecessary and ridiculous."
-        sgirl "We should focus on practical, real-life skills instead. I veto this proposal."
+        sgirl "After thinking about it, I believe that it could be beneficial for us besides being embarrassing. So I vote yes."
     else:
-        sgirl "I believe that theoretical sex education goes against my personal beliefs and values."
-        sgirl "I would prefer to focus on different aspects of education that align more closely with my interests and priorities. Therefore, I vote no on this proposal."
+        sgirl "I still think the topic is embarrassing and unnecessary, so I vote no."
 
-    # parent comment on vote
-    if parent_vote == 'yes':
-        parent "I fully support the introduction of theoretical sex education in our school curriculum."
-        parent "It\'s essential for our children to have a comprehensive understanding of the topic to make informed decisions about their health and relationships. That\'s why I vote yes."
-    elif parent_vote == 'veto':
-        parent "I vehemently oppose the introduction of theoretical sex education in our school."
-        parent "It\'s a ridiculous notion that infringes upon our parental rights and values."
-        parent "Our children\'s education should focus on traditional subjects, leaving discussions about sex to families. I veto."
-    else:
-        parent "I believe that theoretical sex education is not appropriate for our school, and it should be left to parents to discuss these matters at home."
-        parent "We should prioritize other subjects that are more important for our children\'s education. So I vote no."
+    parent "We believe that the introduction of theoretical sex education is not appropriate and should be discussed at home."
+    parent "For this reason, we vote against the proposal."
 
     if end_choice == 'yes':
         headmaster "With the majority of votes in favor, the proposal is accepted."
-        headmaster "The students will be allowed to work here at the school."
-    elif end_choice == 'veto':
-        headmaster "The proposal is rejected due to a veto by one of the representatives."
+        headmaster "Theoretical Sexual Education will be introduced into the curriculum."
+        headmaster "I will call for a school assembly this afternoon to inform the students about the change and to distribute information material for the students and faculty members to prepare themselves over the weekend."
     else:
         headmaster "The proposal is rejected due to the majority of votes against it."
+
+    call pta_vote_result("no", teacher_vote, student_vote, get_value("vote_proposal", **kwargs)) from _call_pta_vote_result_theoretical_sex_ed_1
 
     $ end_event('new_daytime', **kwargs)
 
@@ -592,25 +620,28 @@ label pta_vote_student_relationships_1 (**kwargs):
         headmaster "The proposal is rejected due to a veto by one of the representatives."
     else:
         headmaster "The proposal is rejected due to the majority of votes against it."
-
+    
+    call pta_vote_result(parent_vote, teacher_vote, student_vote, get_value("vote_proposal", **kwargs)) from _call_pta_vote_result_student_relationships_1
+    
     $ end_event('new_daytime', **kwargs)
 
 label pta_vote_unregistered_1 (**kwargs):
     $ begin_event(no_gallery = True, **kwargs)
 
     $ vote_proposal = get_value("vote_proposal", **kwargs)
-    $ vote_object = proposal._journal_obj
-    $ vote_action = proposal._action
+    $ vote_object = vote_proposal._journal_obj
+    $ vote_action = vote_proposal._action
     
     $ speaking_teacher = get_value("speaking_teacher", **kwargs)
     $ speaking_parent = get_value("speaking_parent", **kwargs)
     $ speaking_student = get_value("speaking_student", **kwargs)
 
-    $ parent_vote = get_kwargs("vote_parent", **kwargs)
-    $ teacher_vote = get_kwargs("vote_teacher", **kwargs)
-    $ student_vote = get_kwargs("vote_student", **kwargs)
+    $ parent_vote  = get_value("vote_parent", **kwargs)
+    $ teacher_vote = get_value("vote_teacher", **kwargs)
+    $ student_vote = get_value("vote_student", **kwargs)
     $ end_choice = get_end_choice(parent_vote, teacher_vote, student_vote)
 
+    $ log_val('kwargs', kwargs)
 
     $ teacher_response = vote_object.get_vote_comments("teacher", teacher_vote)
     $ student_response = vote_object.get_vote_comments("student", student_vote)
@@ -674,6 +705,8 @@ label pta_vote_unregistered_1 (**kwargs):
             parent "[response_text]" (name = speaking_parent)
             $ i += 1
 
+    call pta_vote_result(parent_vote, teacher_vote, student_vote, vote_proposal) from _call_pta_vote_result_unregistered_1
+
     $ end_event('new_daytime', **kwargs)
 
 # endregion
@@ -687,27 +720,6 @@ label pta_end_meeting_1 (**kwargs):
 
     $ image = convert_pattern("base", **kwargs)
 
-    $ vote_proposal = get_value("vote_proposal", **kwargs)
-    if vote_proposal != None:
-        $ vote_object = proposal._journal_obj
-        $ vote_action = proposal._action
-        $ obj_title = vote_object.get_title()
-
-        $ parent_vote = get_kwargs("vote_parent", **kwargs)
-        $ teacher_vote = get_kwargs("vote_teacher", **kwargs)
-        $ student_vote = get_kwargs("vote_student", **kwargs)
-        $ end_choice = get_end_choice(parent_vote, teacher_vote, student_vote)
-
-        if end_choice == 'yes':
-            if vote_action == "unlock":
-                $ vote_object.unlock(True, True)
-                $ add_notify_message(f"{obj_title} has been unlocked.")
-            if vote_action == "upgrade":
-                $ vote_object.upgrade(True)
-                $ add_notify_message(f"{obj_title} has been upgraded.")
-
-        $ set_game_data('voteProposal', None)
-
     $ image.show(7)
     headmaster "It seems like that's all we have for today."
     headmaster "I thank you all for coming."
@@ -716,6 +728,31 @@ label pta_end_meeting_1 (**kwargs):
 
 # endregion
 ##############
+
+label pta_vote_result (parent_vote, teacher_vote, student_vote, proposal):
+    $ vote_object = proposal._journal_obj
+    $ vote_action = proposal._action
+    $ obj_title = vote_object.get_title()
+    $ end_choice = get_end_choice(parent_vote, teacher_vote, student_vote)
+
+    if end_choice == 'yes':
+        if vote_action == "unlock":
+            $ vote_object.unlock(True, True)
+            $ add_notify_message(f"{obj_title} has been unlocked.")
+        if vote_action == "upgrade":
+            $ vote_object.upgrade(True)
+            $ add_notify_message(f"{obj_title} has been upgraded.")
+
+        
+        $ money_conditions = [condition for condition in vote_object.get_conditions() if isinstance(condition, MoneyCondition)]
+        python:
+            for condition in money_conditions:
+                spend_reserved_money("vote_" + condition.get_name() + "_" + vote_object.get_name())
+
+    $ release_money("vote_" + condition.get_name() + "_" + vote_object.get_name())
+    $ set_game_data('voteProposal', None)
+
+    return
 
 # endregion
 ###############################
