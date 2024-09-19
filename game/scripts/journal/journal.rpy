@@ -30,13 +30,13 @@ init python:
         # iterates through the order to check if all values are still in scope and if not to replace them
         for topic in gallery_chooser_order:
             # if the value is not in the dictionary or reset is true, then reset the list from this point on
-            if gallery_chooser[topic] not in gallery_dict.keys() or reset:
+            if gallery_chooser["values"][topic] not in gallery_dict.keys() or reset:
                 values = list(gallery_dict.keys())
-                gallery_chooser[topic] = None
+                gallery_chooser["values"][topic] = None
                 if len(values) != 0:
-                    gallery_chooser[topic] = values[0]
+                    gallery_chooser["values"][topic] = values[0]
                 reset = True
-            gallery_dict = gallery_dict[gallery_chooser[topic]]
+            gallery_dict = gallery_dict[gallery_chooser["values"][topic]]
         return gallery_chooser
     
     def get_journal_type(page: int) -> str:
@@ -938,11 +938,15 @@ screen journal_money_overview():
                             xsize 300
                         null width 5
                         button:
-                            text "{b}{color=[weekly_net_color]}[net_weekly]{/color}{/b}" style "journal_text_small"
+                            text "{b}{color=[weekly_net_color]}[net_weekly]{/color}{/b}":
+                                style "journal_text_small"
+                                xalign 1.0
                             xsize 95
                         null width 5
                         button:
-                            text "{b}{color=[monthly_net_color]}[net_monthly]{/color}{/b}" style "journal_text_small"
+                            text "{b}{color=[monthly_net_color]}[net_monthly]{/color}{/b}":
+                                style "journal_text_small"
+                                xalign 1.0
                             xsize 95
 
                 null height 3
@@ -976,14 +980,18 @@ screen journal_money_overview():
                                 else:
                                     null width 5
                                     button:
-                                        text "{color=[weekly_color]}[weekly]{/color}" style "journal_text_small"
+                                        text "{color=[weekly_color]}[weekly]{/color}":
+                                            style "journal_text_small"
+                                            xalign 1.0
                                         xsize 95
                                 if monthly == 0:
                                     null width 100
                                 else:
                                     null width 5
                                     button:
-                                        text "{color=[monthly_color]}[monthly]{/color}" style "journal_text_small"
+                                        text "{color=[monthly_color]}[monthly]{/color}":
+                                            style "journal_text_small"
+                                            xalign 1.0
                                         xsize 95
                         $ table_variant = 3 - table_variant
                         null height -2
@@ -993,6 +1001,7 @@ screen journal_money_overview():
                     for name, weekly, monthly in negative_income_list:
                         $ weekly_color = "#00a000"
                         $ monthly_color = "#00a000"
+                        $ reserved_color = "#CCCC00"
 
                         if weekly < 0:
                             $ weekly_color = "#a00000"
@@ -1016,14 +1025,18 @@ screen journal_money_overview():
                                 else:
                                     null width 5
                                     button:
-                                        text "{color=[weekly_color]}[weekly]{/color}" style "journal_text_small"
+                                        text "{color=[weekly_color]}[weekly]{/color}":
+                                            style "journal_text_small"
+                                            xalign 1.0
                                         xsize 95
                                 if monthly == 0:
                                     null width 100
                                 else:
                                     null width 5
                                     button:
-                                        text "{color=[monthly_color]}[monthly]{/color}" style "journal_text_small"
+                                        text "{color=[monthly_color]}[monthly]{/color}":
+                                            style "journal_text_small"
+                                            xalign 1.0
                                         xsize 95
                         $ table_variant = 3 - table_variant
                         null height -2
@@ -1038,12 +1051,34 @@ screen journal_money_overview():
                             xsize 300
                         null width 5
                         button:
-                            text "{b}{color=[weekly_net_color]}[net_weekly]{/color}{/b}" style "journal_text_small"
+                            text "{b}{color=[weekly_net_color]}[net_weekly]{/color}{/b}":
+                                style "journal_text_small"
+                                xalign 1.0
                             xsize 95
                         null width 5
                         button:
-                            text "{b}{color=[monthly_net_color]}[net_monthly]{/color}{/b}" style "journal_text_small"
+                            text "{b}{color=[monthly_net_color]}[net_monthly]{/color}{/b}":
+                                style "journal_text_small"
+                                xalign 1.0
                             xsize 95
+                if reserved_money != None and len(reserved_money.keys()) != 0:
+                    null height 5
+
+                    $ reserved_total = sum(reserved_money.values())
+
+                    frame:
+                        background Frame("gui/Payroll_Table_3.webp", left=1, top=1, tile = False)
+                        left_padding 0
+                        hbox:
+                            button:
+                                text "{b}Reserved Money{/b}" style "journal_text_small"
+                                xsize 300
+                            null width 5
+                            button:
+                                text "{b}{color=[reserved_color]}[reserved_total]{/color}{/b}":
+                                    style "journal_text_small"
+                                    xalign 1.0
+                                xsize 195
 
         vbar value YScrollValue("MoneyOverview"):
             unscrollable "hide"
@@ -1892,15 +1927,17 @@ screen journal_gallery(display):
     if location == "": 
         
         # parse all available location keys to their corresponding buildings
-        $ location_list = [get_building(location_name) for location_name in persistent.gallery.keys() if get_building(location_name) != None]
+        # $ location_list = [get_building(location_name) for location_name in persistent.gallery.keys() if get_building(location_name) != None]
 
-        # map all the buildings with their corresponding names into a dict
-        $ location_dict = {building.get_name(): building.get_title() for building in location_list}
+        # # map all the buildings with their corresponding names into a dict
+        # $ location_dict = {building.get_name(): building.get_title() for building in location_list}
+        $ exclude_keys = ['FragStorage', 'fragment']
+        $ location_dict = {key: get_translation(key) for key in persistent.gallery.keys() if key not in exclude_keys}
 
         # add the miscellaneous location separately as there is no corresponding building
         # miscellaneous represents all events that are not bound to a location
-        if 'misc' in persistent.gallery.keys():
-            $ location_dict['misc'] = "Miscellaneous"
+        # if 'misc' in persistent.gallery.keys():
+        #     $ location_dict['misc'] = "Miscellaneous"
 
         
 
@@ -2048,7 +2085,7 @@ screen journal_gallery(display):
                 $ display_location = "fragment"
 
             if display_event != old_event:
-                $ gallery_chooser = {}
+                $ gallery_chooser = {"values": {}}
                 $ gallery_chooser_order = []
                 $ old_event = display_event
             
@@ -2056,7 +2093,7 @@ screen journal_gallery(display):
             if ('last_data' in base_gallery['options'].keys() and 
                 'last_order' in base_gallery['options'].keys()
             ):
-                $ gallery_chooser = base_gallery['options']['last_data']
+                $ gallery_chooser["values"] = base_gallery['options']['last_data']
                 $ gallery_chooser_order = base_gallery['options']['last_order']
             
             # displays a button that deletes all persistent data for this specific event
@@ -2092,18 +2129,18 @@ screen journal_gallery(display):
                             python:
                                 if variant_name not in gallery_chooser_order:
                                     gallery_chooser_order.append(variant_name)
-                                    gallery_chooser[variant_name] = values[0]
+                                    gallery_chooser["values"][variant_name] = values[0]
                             
                             # get the currently selected value for the current variable
-                            $ value = gallery_chooser[variant_name]
+                            $ value = gallery_chooser["values"][variant_name]
                             
                             # if value is not in current variable set because of differing sets on this tree path, select first value in list
                             python:
                                 if value not in values:
-                                    gallery_chooser[variant_name] = values[0]
+                                    gallery_chooser["values"][variant_name] = values[0]
                             
                             # get the gallery data tree starting from this variable so the next variable can work with that
-                            $ gallery_dict = gallery_dict[gallery_chooser[variant_name]]
+                            $ gallery_dict = gallery_dict[gallery_chooser["values"][variant_name]]
                             
                             # checks if there is more than one selection possible and only then displays a value list,
                             # otherwise the only selection possible is selected by default and will not be displayed in the overview
@@ -2130,8 +2167,8 @@ screen journal_gallery(display):
                                         if len(filtered_values) == 0:
                                             
                                             python:
-                                                if gallery_chooser[variant_name] not in filtered_values:
-                                                    gallery_chooser[variant_name] = None
+                                                if gallery_chooser["values"][variant_name] not in filtered_values:
+                                                    gallery_chooser["values"][variant_name] = None
                                                     update_gallery_chooser(gallery_chooser_order, gallery_chooser, base_gallery['values'])
                                             $ disable_play = True
                                         else:
@@ -2140,14 +2177,14 @@ screen journal_gallery(display):
                                             for value in sorted(filtered_values):
                                                 $ has_option = True
                                                 $ value_text = get_gallery_value_title(variant_name, display_location, display_event, value)
-                                                if value == gallery_chooser[variant_name]:
+                                                if value == gallery_chooser["values"][variant_name]:
                                                     textbutton "[value_text]":
                                                         text_style "buttons_selected"
                                                         action NullAction()
                                                 else:
                                                     textbutton "[value_text]":
                                                         text_style "buttons_idle"
-                                                        action [With(dissolveM), SetDict(gallery_chooser, variant_name, value), SetVariable('gallery_chooser', update_gallery_chooser(gallery_chooser_order, gallery_chooser, base_gallery['values']))]
+                                                        action [With(dissolveM), SetDict(gallery_chooser["values"], variant_name, value), SetVariable('gallery_chooser', update_gallery_chooser(gallery_chooser_order, gallery_chooser, base_gallery['values']))]
                         
                 bar value XScrollValue("GallerySelectionOverview"):
                     unscrollable "hide"
@@ -2160,7 +2197,7 @@ screen journal_gallery(display):
             
             # saves the current selection for this event in the persistent gallery data so the selection is maintained between sessions
             if not disable_play:
-                $ base_gallery['options']['last_data'] = gallery_chooser
+                $ base_gallery['options']['last_data'] = gallery_chooser["values"]
                 $ base_gallery['options']['last_order'] = gallery_chooser_order
         
         if has_option and event_obj.get_form() != "composite":
@@ -2422,7 +2459,7 @@ screen journal_goals(display):
     button:
         xalign 0.45
         yalign 0.15
-        image "images/icons/info.png"
+        image "images/icons/info.webp"
         action Function(set_setting, "journal_goals_show_note_setting", not get_setting("journal_goals_show_note_setting"))
         tooltip note_tooltip
 
@@ -2433,21 +2470,6 @@ screen journal_goals(display):
         if show_completed == None:
             show_completed = False
             set_setting("journal_goals_show_completed", False)
-
-    if show_completed:
-        button:
-            xalign 0.38
-            yalign 0.25
-            text "Hide Completed Quests":
-                style "journal_desc"
-            action [With(dissolveM), Function(set_setting, "journal_goals_show_completed", False), Call("open_journal", 8, display)]
-    else:
-        button:
-            xalign 0.38
-            yalign 0.25
-            text "Show Completed Quests":
-                style "journal_desc"
-            action [With(dissolveM), Function(set_setting, "journal_goals_show_completed", True), Call("open_journal", 8, display)]
 
     frame:
         # background Solid("#00000090")
@@ -2479,6 +2501,21 @@ screen journal_goals(display):
         vbar value YScrollValue("GoalList"):
             unscrollable "hide"
             xalign 1.04
+
+    if show_completed:
+        button:
+            xalign 0.38
+            yalign 0.25
+            text "Hide Completed Quests":
+                style "journal_desc"
+            action [With(dissolveM), Function(set_setting, "journal_goals_show_completed", False)]
+    else:
+        button:
+            xalign 0.38
+            yalign 0.25
+            text "Show Completed Quests":
+                style "journal_desc"
+            action [With(dissolveM), Function(set_setting, "journal_goals_show_completed", True)]
 
     if display != "":
 
@@ -3018,6 +3055,20 @@ label add_to_proposal(data, page, display, action = "unlock"):
     #     - if action is "unlock" the object is added to the proposal for unlocking
     #     - if action is "upgrade" the object is added to the proposal for upgrading
     # """
+
+    $ currentProposal = get_game_data("voteProposal")
+
+    if currentProposal != None:
+        $ vote_obj = currentProposal._journal_obj
+        $ money_conditions = [condition for condition in vote_obj.get_conditions() if isinstance(condition, MoneyCondition)]
+        python:
+            for condition in money_conditions:
+                release_money("vote_" + condition.get_name() + "_" + vote_obj.get_name())
+
+    $ money_conditions = [condition for condition in data.get_conditions() if isinstance(condition, MoneyCondition)]
+    python:
+        for condition in money_conditions:
+            reserve_money("vote_" + condition.get_name() + "_" + data.get_name(), condition.value)
 
     $ proposal = PTAProposal(data, action)
     $ set_game_data("voteProposal", proposal)

@@ -38,6 +38,9 @@ default charList = {
 default quests = {}
 
 default money = Stat(MONEY, 1000)
+
+default reserved_money = {}
+
 default time = Time()
 default stat_data = {}
 
