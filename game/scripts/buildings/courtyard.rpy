@@ -55,7 +55,11 @@ init 1 python:
             TimeCondition(weekday = "w", daytime = "d")),
         RandomListSelector('girl_name', 'Luna Clark', "Gloria Goto", "Ikushi Ito", "Ishimaru Maki"),
         Pattern("main", "images/events/courtyard/courtyard_event_4/<school_level> <girl_name> <step>.webp"),
+<<<<<<< HEAD
         thumbnail = "images/events/courtyard/courtyard_event_4/1 Gloria Goto 1.webp")
+=======
+        thumbnail = "images/events/courtyard/courtyard_event_4 1 Gloria Goto 1.webp")
+>>>>>>> 265294d (put event values a level deeper to prevent overlaps)
 
     courtyard_event5 = Event(3, "courtyard_event_5",
         OR(TimeCondition(weekday = "d", daytime = "f"),
