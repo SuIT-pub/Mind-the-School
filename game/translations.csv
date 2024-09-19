@@ -33,6 +33,15 @@ rule;Rules
 club;Clubs
 building;Buildings
 
+cafeteria;Cafeteria
+courtyard;Courtyard
+gym;Gym
+kiosk;Kiosk
+misc;Miscellaneous
+office_building;Office Building
+school_building;School Building
+school_dormitory;School Dormitory
+
 ############
 # Subjects
 

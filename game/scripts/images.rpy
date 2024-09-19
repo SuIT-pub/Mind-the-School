@@ -290,7 +290,7 @@ init -2 python:
             self._image_paths = refine_image_with_alternatives(
                 image_path, 
                 alternative_keys,
-                **kwargs
+                **kwargs["values"]
             )
             self.steps = []
             self.create_steps(self._image_paths)
