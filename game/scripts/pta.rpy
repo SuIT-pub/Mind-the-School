@@ -468,6 +468,47 @@ label pta_discussion_1 (**kwargs):
 
     $ end_event('new_daytime', **kwargs)
 
+label pta_discussion_sex_ed_intro_1 (**kwargs):
+    $ begin_event(no_gallery = True, **kwargs)
+
+    $ finola = Character("Finola Ryan",   kind = character.teacher)
+    $ chloe  = Character("Chloe Garcia",  kind = character.teacher)
+    $ lily   = Character("Lily Anderson", kind = character.teacher)
+    $ yulan  = Character("Yulan Chen",    kind = character.teacher)
+    $ zoe    = Character("Zoe Parker",    kind = character.teacher)
+
+    $ adelaide = Character("Adelaide Hall", kind = character.parent)
+    $ nubia    = Character("Nubia Davis",   kind = character.parent)
+    $ yuki     = Character("Yuki Yamamoto", kind = character.parent)
+
+    $ yuriko = Character("Yuriko Oshima", kind = character.sgirl)
+
+    headmaster "Nobody? Alright then, I would like to discuss the introduction of sexual education in our curriculum."
+    yuriko "What? No way! That's totally unnecessary!"
+    adelaide "I agree! This is not something that should be taught in school!"
+    headmaster "I believe it is important for our students to be educated about this topic. It is crucial for their development and well-being."
+    yuki "But what about the parents? We should be the ones to teach our children about these things!"
+    headmaster "I understand your concerns, but many parents may not feel comfortable discussing these topics with their children."
+    headmaster "Also, no offense, but some parents may not have the right information to share with their children."
+    headmaster "I may not be at this school for long, but I have seen enough to know that our students are struggling with these issues."
+    chloe "With that I have to agree. I normally wouldn't support this, but I can also see the effects of the lack of sexual education."
+    finola "And I think it is the responsibility of all of us to ensure that our students receive accurate information."
+    yuriko "But is it really necessary? That topic is so embarrassing and uncomfortable!"
+    headmaster "That is even more reason to teach it! If we don't, our students will rely on misinformation and peer pressure."
+    headmaster "This is a topic that cannot be ignored. You students will come across it sooner or later, and you have to know how to deal with it."
+    headmaster "And if you don't learn it here, you will learn it from the wrong sources. And that then will become dangerous."
+    yuki "But what if some students get too excited during the lessons? It's completely inappropriate!"
+    headmaster "I understand your concerns, but I assure you that we will handle this topic with sensitivity and care."
+    nubia "Alright, I need time to think about this, but I will agree to have it put to vote after some time to consider it."
+    adelaide "I agree."
+    yuki "I guess I can see the benefits, but I still have my doubts."
+
+    yuriko "Fine! But I still think it's unnecessary!"
+
+    $ advance_progress('start_sex_ed') # 5 -> 6
+
+    $ end_event('new_daytime', **kwargs)
+
 # endregion
 #####################
 
@@ -531,6 +572,8 @@ label pta_vote_school_jobs (**kwargs):
         headmaster "The proposal is rejected due to the majority of votes against it."
 
     call pta_vote_result(parent_vote, teacher_vote, student_vote, get_value("vote_proposal", **kwargs)) from _call_pta_vote_result_school_jobs_1
+
+    call pta_vote_result("no", teacher_vote, student_vote, get_value("vote_proposal", **kwargs)) from _call_pta_vote_result_theoretical_sex_ed_1
 
     $ end_event('new_daytime', **kwargs)
 
