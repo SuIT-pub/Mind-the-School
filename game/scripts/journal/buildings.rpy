@@ -1,13 +1,9 @@
-############################
-# ----- PYTHON BLOCK ----- #
-############################
-
 init -6 python:
     import re
 
-    #######################
-    # ----- CLASSES ----- #
-    #######################
+    ########################
+    # region CLASSES ----- #
+    ########################
 
     class Building(Journal_Obj):
         """
@@ -262,10 +258,8 @@ init -6 python:
 
             if unlock:
                 advance_progress("unlock_" + self.get_name())
-                log_val('time', time.day_to_string())
                 new_time = Time(time.day_to_string())
                 new_time.add_time(day = self._construction_time)
-                log_val('new_time', new_time.day_to_string())
                 set_game_data(self.get_name() + "_construction_end", new_time.day_to_string())
                 self._level = 1
             else:
@@ -273,6 +267,8 @@ init -6 python:
 
             if unlock and apply_effects:
                 self.apply_effects()
+
+            update_quest("journal_unlock", name = self._name, type = self.get_type())
 
         def upgrade(self, apply_effects: bool = False):
             """
@@ -293,6 +289,8 @@ init -6 python:
 
             if apply_effects:
                 self.apply_upgrade_effects()
+
+            update_quest("journal_upgrade", name = self._name, type = self.get_type(), old_level = self._level - 1, new_level = self._level)
 
         def apply_upgrade_effects(self, level: int = -1):
             """
@@ -510,11 +508,12 @@ init -6 python:
                 else:
                     return self.get_upgrade_conditions(level).get_desc_conditions_desc(**kwargs)
 
-    #######################
+    # endregion
+    ########################
 
-    ########################################
-    # ----- Buildings Global Methods ----- #
-    ########################################
+    #########################################
+    # region Buildings Global Methods ----- #
+    #########################################
 
     ##################
     # Building Handler
@@ -746,13 +745,12 @@ init -6 python:
         if 'tennis_court' in buildings.keys():
             buildings.pop("tennis_court")
 
-    ########################################
+    # endregion
+    #########################################
 
-############################
-
-#####################
-# ----- LABEL ----- #
-#####################
+######################
+# region LABEL ----- #
+######################
 
 label load_buildings ():
     $ compatibility_check()
@@ -810,12 +808,12 @@ label load_buildings ():
         ],
         '_max_level': 2,
         '_unlock_conditions': ConditionStorage(
-            MoneyCondition("1000+"),
+            MoneyCondition(1000),
             LockCondition()
         ),
         '_upgrade_conditions':[
             ConditionStorage(
-                MoneyCondition("2000+"),
+                MoneyCondition(2000),
             ),
         ],
     }, {
@@ -834,7 +832,7 @@ label load_buildings ():
         ],
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(
-            MoneyCondition("1000+"),
+            MoneyCondition(1000),
             LockCondition(),
         ),
         '_upgrade_conditions':[],
@@ -854,7 +852,7 @@ label load_buildings ():
         ],
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(
-            MoneyCondition("1000+"),
+            MoneyCondition(1000),
             LockCondition()
         ),
         '_upgrade_conditions':[],
@@ -874,7 +872,7 @@ label load_buildings ():
         ],
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(
-            MoneyCondition("1000+"),
+            MoneyCondition(1000),
             LockCondition()
         ),
         '_upgrade_conditions':[],
@@ -913,7 +911,7 @@ label load_buildings ():
         ],
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(
-            MoneyCondition("1000+"),
+            MoneyCondition(1000),
             LockCondition()
         ),
         '_upgrade_conditions':[],
@@ -960,37 +958,33 @@ label load_buildings ():
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(
             ProgressCondition("unlock_cafeteria", 1, True),
-            MoneyCondition("1500+"),
+            MoneyCondition(1500),
             # LockCondition(False),
         ),
         '_unlock_effects': [
             ModifierEffect('weekly_cost_cafeteria', 'money', Modifier_Obj('Cafeteria', "+", -100), collection = 'payroll_weekly'),
-            MoneyEffect('Unlock_Cafeteria_Cost', -1500),
         ],
         '_upgrade_conditions':[
             ConditionStorage(
-                MoneyCondition("3000+"),
+                MoneyCondition(3000),
                 LockCondition(True),
             ),
             ConditionStorage(
-                MoneyCondition("5000+"),
+                MoneyCondition(5000),
             ),
             ConditionStorage(
-                MoneyCondition("10000+"),
+                MoneyCondition(10000),
             ),
         ],
         '_upgrade_effects': {
             2: [
                 ModifierEffect('weekly_cost_cafeteria', 'money', Modifier_Obj('Cafeteria', "+", -250), collection = 'payroll_weekly'),
-                MoneyEffect('Unlock_Cafeteria_Cost', -3000),
             ],
             3: [
                 ModifierEffect('weekly_cost_cafeteria', 'money', Modifier_Obj('Cafeteria', "+", -500), collection = 'payroll_weekly'),
-                MoneyEffect('Unlock_Cafeteria_Cost', -5000),
             ],
             4: [
                 ModifierEffect('weekly_cost_cafeteria', 'money', Modifier_Obj('Cafeteria', "+", -800), collection = 'payroll_weekly'),
-                MoneyEffect('Unlock_Cafeteria_Cost', -10000),
             ],
         },
         '_image_path': 'images/journal/buildings/cafeteria <level> 0.webp',
@@ -1012,7 +1006,7 @@ label load_buildings ():
         ],
         '_max_level': 1,
         '_unlock_conditions': ConditionStorage(
-            MoneyCondition("1000+"),
+            MoneyCondition(1000),
             LockCondition()
         ),
         '_upgrade_conditions':[],
@@ -1079,4 +1073,5 @@ label load_buildings ():
 
     return
 
-#####################
+# endregion
+######################

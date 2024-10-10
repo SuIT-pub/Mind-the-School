@@ -1,8 +1,9 @@
-##################################
-# ----- Bath Event Handler ----- #
-##################################
+###################################
+# region Bath Event Handler ----- #
+###################################
 
 init -1 python:
+    set_current_mod('base')
     def bath_events_available() -> bool:
         return (bath_timed_event.has_available_highlight_events() or 
             bath_general_event.has_available_highlight_events() or 
@@ -19,24 +20,25 @@ init -1 python:
     )
     
 init 1 python:
-    
+    set_current_mod('base')
     bath_action_tutorial_event = Event(2, "action_tutorial",
         NOT(ProgressCondition('action_tutorial')),
         ValueSelector('return_label', 'bath'),
         NoHighlightOption(),
         TutorialCondition(),
+        Pattern("main", "/images/events/misc/action_tutorial <step>.webp"),
         override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
 
     bath_general_event.add_event(
         bath_action_tutorial_event
     )
 
+# endregion
+###################################
 
 ##################################
-
-#################################
-# ----- Kiosk Entry Point ----- #
-#################################
+# region Kiosk Entry Point ----- #
+##################################
 
 label bath ():
     call call_available_event(bath_timed_event) from bath_1
@@ -56,11 +58,14 @@ label .after_general_check (**kwargs):
 
     jump bath
 
+# endregion
 ##################################
 
-###########################
-# ----- Bath Events ----- #
-###########################
+############################
+# region Bath Events ----- #
+############################
 
 
-###########################
+
+#endregion
+############################

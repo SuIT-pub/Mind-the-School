@@ -6,9 +6,9 @@ init -99 python:
 
     T = TypeVar('T')
 
-    ############################
-    # --- Kwargs Functions --- #
-    ############################
+    ###############################
+    # region Kwargs Functions --- #
+    ###############################
 
     def in_kwargs(key: str, **kwargs) -> bool:
         """
@@ -46,9 +46,12 @@ init -99 python:
             return kwargs[key]
         return alt
 
-    ##################################
-    # --- Mathematical Functions --- #
-    ##################################
+    # endregion
+    ###############################
+
+    #####################################
+    # region Mathematical Functions --- #
+    #####################################
 
     def max(*values: num) -> num:
         """
@@ -311,9 +314,13 @@ init -99 python:
             return -1
         else:
             return 0
-    ##########################
-    # --- Dict Functions --- #
-    ##########################
+    
+    # endregion
+    #####################################
+
+    #############################
+    # region Dict Functions --- #
+    #############################
 
     def update_dict(original_dict, new_dict):
         """
@@ -340,9 +347,12 @@ init -99 python:
                 original_dict[key] = new_dict[key]
         return original_dict
 
-    ##########################
-    # --- List Functions --- #
-    ##########################
+    # endregion
+    #############################
+
+    #############################
+    # region List Functions --- #
+    #############################
 
     def remove_all_from_list(list_obj: List[Any], value: Any | List[Any]) -> List[Any]:
         """
@@ -384,9 +394,12 @@ init -99 python:
 
         return elem in list_obj
 
-    ############################
-    # --- String Functions --- #
-    ############################
+    # endregion
+    #############################
+
+    ###############################
+    # region String Functions --- #
+    ###############################
 
     def split_to_non_empty_list(s, delimiter) -> List[str]:
         """
@@ -423,9 +436,29 @@ init -99 python:
             return translation_texts[key]
         return key
 
-    ##############################
-    # --- Dialogue Functions --- #
-    ##############################
+    def set_text_color(text: str, color: str) -> str:
+        """
+        Sets the color of a text
+
+        ### Parameters:
+        1. text: str
+            - The text to color
+        2. color: str
+            - The color to set
+
+        ### Returns:
+        1. str
+            - The colored text
+        """
+
+        return "{" + "color=" + color + "}" + text + "{/color}"
+
+    # endregion
+    ###############################
+
+    #################################
+    # region Dialogue Functions --- #
+    #################################
 
     def random_say(*text: str | Tuple, **kwargs):
         """
@@ -493,9 +526,12 @@ init -99 python:
 
         return
 
-    ##########################
-    # --- Name Functions --- #
-    ##########################
+    # endregion
+    #################################
+
+    #############################
+    # region Name Functions --- #
+    #############################
 
     def set_name(key: str, first_name: str, last_name: str):
         """
@@ -629,9 +665,12 @@ init -99 python:
     def split_name_last(name: str) -> str:
         return split_name(name)[1]
 
-    ##############################
-    # --- GameData Functions --- #
-    ##############################
+    # endregion
+    #############################
+
+    #################################
+    # region GameData Functions --- #
+    #################################
 
     def set_game_data(key: str, value: Any):
         """
@@ -693,9 +732,48 @@ init -99 python:
 
         del gameData[key]
 
-    ##############################
-    # --- Progress Functions --- #
-    ##############################
+    def set_setting(key: str, value: Any):
+        """
+        Sets a setting in gameData
+
+        ### Parameters:
+        1. key: str
+            - The key to set
+        2. value: Any
+            - The value to set
+        """
+
+        if is_in_replay:
+            return
+
+        if "settings" not in gameData.keys():
+            gameData["settings"] = {}
+        gameData["settings"][key] = value
+
+    def get_setting(key: str) -> Any:
+        """
+        Gets a setting from gameData
+
+        ### Parameters:
+        1. key: str
+            - The key to get
+
+        ### Returns:
+        1. Any
+            - The value from gameData
+            - If the key does not exist None is returned
+        """
+
+        if "settings" in gameData.keys() and key in gameData["settings"].keys():
+            return gameData["settings"][key]
+        return None
+
+    # endregion
+    #################################
+
+    #################################
+    # region Progress Functions --- #
+    #################################
 
     def start_progress(key: str):
         """
@@ -778,9 +856,12 @@ init -99 python:
             return -1
         return gameData["progress"][key]
 
-    ################################
-    # --- Randomizer Functions --- #
-    ################################
+    # endregion
+    #################################
+
+    ###################################
+    # region Randomizer Functions --- #
+    ###################################
 
     def get_random_choice(*choice: T | Tuple[float, T] | Tuple[T, bool | Condition] | Tuple[float, T, bool | Condition], **kwargs) -> T:
         """
@@ -879,9 +960,12 @@ init -99 python:
         value = get_random_int(0, loli_content)
         return value
 
+    # endregion
     ###################################
-    # --- External Data Functions --- #
-    ###################################
+
+    ######################################
+    # region External Data Functions --- #
+    ######################################
 
     def download_members():
         global members
@@ -999,9 +1083,109 @@ init -99 python:
 
         return end
 
-    ############################
-    # --- Ren'Py Functions --- #
-    ############################
+    # endregion
+    ######################################
+
+    ######################
+    # region Modding --- #
+    ######################
+
+    def get_mod_list():
+        import json
+        
+        # get list of folders in /mods
+        metadata_list = [s for s in renpy.list_files() if s.startswith("mods/") and s.endswith("metadata")]
+
+        repair_mod_list()
+        available_keys = ['base']
+
+        for metadata in metadata_list:
+            json_string = renpy.open_file(metadata, "utf-8").read()
+            mod_json_obj = json.loads(json_string) 
+
+            available_keys.append(mod_json_obj['key'])
+
+            mod = {}
+
+            if mod_json_obj['key'] in persistent.modList.keys():
+                mod = persistent.modList[mod_json_obj['key']]
+                if mod['version'] != mod_json_obj['version']:
+                    mod['active'] = False
+                    mod.update(mod_json_obj)
+                    mod['path'] = metadata.replace("metadata", "")
+                    persistent.modList[mod_json_obj['key']] = mod
+            else:
+                mod = mod_json_obj
+                mod['active'] = False
+                mod['path'] = metadata.replace("metadata", "")
+                persistent.modList[mod_json_obj['key']] = mod
+
+        for key in list(persistent.modList.keys()):
+            if key not in available_keys:
+                persistent.modList[key]['available'] = False
+                persistent.modList[key]['active'] = False
+            else:
+                persistent.modList[key]['available'] = True
+
+        return persistent.modList
+
+    def repair_mod_list():
+
+        if persistent.modList == None:
+            persistent.modList = {}
+
+        if len(persistent.modList.keys()) == 0:
+            persistent.modList['base'] = {
+                'key': 'base', 
+                'version': '1', 
+                'name': 'Base Mod', 
+                'description': 'The base mod for the game.', 
+                'author': 'SuIT-Ji', 
+                'active': True, 
+                'available': True,
+                'path': ''
+            }
+
+        if 'available' not in persistent.modList['base']:
+            persistent.modList['base']['available'] = True
+
+    def is_mod_active(key: str) -> bool:
+        
+        repair_mod_list()
+
+        if key in persistent.modList.keys():
+            return persistent.modList[key]['active']
+        return False
+
+    def mod_exists(key: str) -> bool:
+        return key in persistent.modList.keys()
+
+    def set_current_mod(key: str):
+        global active_mod_key
+        active_mod_key = key
+
+    def get_mod_path(key: str) -> str:
+        if key in persistent.modList.keys():
+            return persistent.modList[key]['path']
+        return ""
+
+    def get_current_mod_path() -> str:
+        return get_mod_path(active_mod_key)
+
+    def activate_mod(key: str):
+        if key in persistent.modList.keys():
+            persistent.modList[key]['active'] = True
+
+    def deactivate_mod(key: str):
+        if key in persistent.modList.keys():
+            persistent.modList[key]['active'] = False
+
+    # endregion
+    ######################
+
+    ###############################
+    # region Ren'Py Functions --- #
+    ###############################
 
     def has_keyboard() -> bool:
         """
@@ -1024,3 +1208,6 @@ init -99 python:
         """
 
         return persistent.shortcuts == 0
+
+    # endregion
+    ###############################

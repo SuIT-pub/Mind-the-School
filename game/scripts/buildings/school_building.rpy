@@ -1,8 +1,9 @@
-#############################################
-# ----- School Building Event Handler ----- #
-#############################################
+##############################################
+# region School Building Event Handler ----- #
+##############################################
 
 init -1 python:
+    set_current_mod('base')
     def sb_events_available() -> bool:
         return (sb_timed_event.has_available_highlight_events() or
             sb_general_event.has_available_highlight_events() or
@@ -26,17 +27,20 @@ init -1 python:
     )
 
 init 1 python:
+    set_current_mod('base')
 
     ####################
     # Default Events
     first_week_sb_event = Event(1, "first_week_sb_event",
         IntroCondition(),
         TimeCondition(day = "2-4", month = 1, year = 2023),
+        Pattern("main", "images/events/first week/first week school building <step>.webp"),
         thumbnail = "images/events/first week/first week school building 2.webp")
 
     first_potion_sb_event = Event(1, "first_potion_sb_event",
         IntroCondition(),
         TimeCondition(day = 9, month = 1, year = 2023),
+        Pattern("main", "images/events/first potion/first potion school building <step>.webp"),
         thumbnail = "images/events/first potion/first potion school building 1.webp")
 
     first_class_sb_event_event = Event(1, "first_class_sb_event",
@@ -61,33 +65,32 @@ init 1 python:
             realtime = True,
             alt = '3A'
         ),
+        Pattern("main", "/images/events/school building/first_class_sb_event <class> <nude> <step>.webp"),
         thumbnail = "images/events/school building/first_class_sb_event 3A 0 2.webp")
 
     sb_event1 = Event(3, "sb_event_1",
         TimeCondition(daytime = "c", weekday = "d"),
         LevelSelector('school_level', 'school'),
+        Pattern("main", "/images/events/school building/sb_event_1 <school_level> <step>.webp"),
         thumbnail = "images/events/school building/sb_event_1 1 1.webp")
 
-    sb_event2 = Event(3, "sb_event_2",
-        TimeCondition(daytime = "c", weekday = "d"),
-        LevelSelector('school_level', 'school'),
-        RandomCondition(50),
-        thumbnail = "images/events/school building/sb_event_2 1 0.webp")
-    
     sb_event3 = Event(3, "sb_event_3",
         TimeCondition(daytime = "d", weekday = "d"),
         LevelSelector('school_level', 'school'),
+        Pattern("main", "/images/events/school building/sb_event_3 <school_level> <step>.webp"),
         thumbnail = "images/events/school building/sb_event_3 1 1.webp")
 
     sb_event4 = Event(3, "sb_event_4",
         TimeCondition(daytime = "f", weekday = "d"),
         LevelSelector('school_level', 'school'),
         RandomListSelector('girl_name', 'Ikushi Ito'),
+        Pattern("main", "/images/events/school building/sb_event_4 <school_level> <girl_name> <step>.webp"),
         thumbnail = "images/events/school building/sb_event_4 1 Ikushi Ito 0.webp")
 
     sb_event5 = Event(3, "sb_event_5",
         TimeCondition(daytime = "c", weekday = "d"),
         RandomListSelector('girls', 'Ikushi Ito', 'Soyoon Yamamoto', 'Yuriko Oshima'),
+        Pattern('main', "/images/events/school building/sb_event_5 <school_level> <girls> <step>.webp", 'school_level', 'girls'),
         thumbnail = "images/events/school building/sb_event_5 1 Soyoon Yamamoto 11.webp")
     ####################
 
@@ -96,6 +99,7 @@ init 1 python:
         ValueSelector('return_label', 'school_building'),
         NoHighlightOption(),
         TutorialCondition(),
+        Pattern("main", "/images/events/misc/action_tutorial <step>.webp"),
         override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
 
 
@@ -109,19 +113,21 @@ init 1 python:
     sb_event_teach_class_event = EventSelect(3, "teach_class_event", "What subject do you wanna teach?", sb_teach_events,
         TimeCondition(weekday = "d", daytime = "c"),
         KwargsSelector(show_proficiency_modifier = True),
-        override_menu_exit = 'school_building',
-    )
+        override_menu_exit = 'school_building')
 
     #################
     # Math Teaching
     sb_teach_math_ld_storage = FragmentStorage('sb_teach_math_ld')
     sb_teach_math_ld_storage.add_event(
         EventFragment(3, 'sb_teach_math_ld_1', 
+            Pattern("main", "/images/events/school building/sb_teach_math_ld_1 <step>.webp"),
             thumbnail = "images/events/school building/sb_teach_math_ld_1 1.webp"),
         EventFragment(3, 'sb_teach_math_ld_2', 
             RandomListSelector('ld_girl_name', 'Seraphina Clark', 'Hatano Miwa', 'Soyoon Yamamoto'),
+            Pattern("main", "/images/events/school building/sb_teach_math_ld_2 <ld_girl_name> <school_level> <step>.webp", 'ld_girl_name'),
             thumbnail = "images/events/school building/sb_teach_math_ld_2 1 Seraphina Clark 1.webp"),
         EventFragment(3, 'sb_teach_math_ld_3',
+            Pattern("main", "/images/events/school building/sb_teach_math_ld_3 <school_level> <step>.webp"),
             thumbnail = "images/events/school building/sb_teach_math_ld_3 0.webp")
     )
 
@@ -130,36 +136,42 @@ init 1 python:
         EventFragment(3, 'sb_teach_math_main_1',
             RandomListSelector('main_girl_name', 'Seraphina Clark', 'Hatano Miwa', 'Soyoon Yamamoto'),
             RandomListSelector('main_topic', 'normal', 'sleeping'),
+            Pattern("main", "/images/events/school building/sb_teach_math_main_1 <main_girl_name> <school_level> <step>.webp", 'main_girl_name'),
             thumbnail = "images/events/school building/sb_teach_math_main_1 Seraphina Clark 1 0.webp"),
         EventFragment(3, 'sb_teach_math_main_2',
+            Pattern("main", "/images/events/school building/sb_teach_math_main_2 <school_level> <step>.webp"),
             thumbnail = "images/events/school building/sb_teach_math_main_2 1 7.webp")
     )
 
     sb_teach_math_event = EventComposite(3, 'sb_teach_math', [sb_teach_math_ld_storage, sb_teach_math_main_storage],
         LevelSelector('school_level', 'school'),
         ProficiencyCondition('math'),
-        thumbnail = "images/events/school building/sb_teach_math_main_1 # 1 18.webp"
-    )
+        Pattern("main", "/images/events/school building/sb_teach_math.webp"),
+        thumbnail = "images/events/school building/sb_teach_math_main_1 # 1 18.webp")
     #################
 
     sb_teach_history_intro_storage = FragmentStorage('sb_teach_history_intro')
     sb_teach_history_intro_storage.add_event(
         EventFragment(3, 'sb_teach_history_intro_f_revolution_1',
-            CheckReplay(ValueCondition('topic', 'french revolution')))
+            CheckReplay(ValueCondition('topic', 'french revolution')),
+            Pattern("main", "/images/events/school building/sb_teach_history_intro_f_revolution_1 <step>.webp"))
     )
 
     sb_teach_history_main_storage = FragmentStorage('sb_teach_history_main')
     sb_teach_history_main_storage.add_event(
         EventFragment(3, 'sb_teach_history_main_f_revolution_1',
-            CheckReplay(ValueCondition('topic', 'french revolution'))),
+            CheckReplay(ValueCondition('topic', 'french revolution')),
+            Pattern("main", "/images/events/school building/sb_teach_history_main_f_revolution_1 <school_level> <step>.webp", 'school_level')),
         EventFragment(3, 'sb_teach_history_main_f_revolution_2',
-            CheckReplay(ValueCondition('topic', 'french revolution')))
+            CheckReplay(ValueCondition('topic', 'french revolution')),
+            Pattern("main", "/images/events/school building/sb_teach_history_main_f_revolution_2 <school_level> <step>.webp", 'school_level'))
     )
 
     sb_teach_history_event = EventComposite(3, 'sb_teach_history', [sb_teach_history_intro_storage, sb_teach_history_main_storage],
         LevelSelector('school_level', 'school'),
         RandomListSelector('topic', 'french revolution'),
         ProficiencyCondition('history'),
+        Pattern("main", "/images/events/school building/sb_teach_history.webp"),
         thumbnail = "images/events/school building/sb_teach_history_main_f_revolution_1 1 2.webp"
     )
 
@@ -196,11 +208,12 @@ init 1 python:
 
     #################
 
-##################################################
+# endregion
+##############################################
 
-###########################################
-# ----- School Building Entry Point ----- #
-###########################################
+############################################
+# region School Building Entry Point ----- #
+############################################
 
 label school_building ():
     call call_available_event(sb_timed_event) from school_building_1
@@ -219,38 +232,41 @@ label .after_general_check (**kwargs):
 
     jump school_building
 
-################################################
+#endregion
+############################################
 
-######################################
-# ----- School Building Events ----- #
-######################################
+#######################################
+# region School Building Events ----- #
+#######################################
 
-#####################
-# Introduction Events
+#######################
+# region Intro Events #
 
 # first week event
 label first_week_sb_event (**kwargs):
     $ begin_event(**kwargs)
 
-    scene first week school building 1 with dissolveM
+    $ image = convert_pattern("main", step_start = 1, **kwargs)
+    
+    $ image.show(1)
     subtitles """You enter the main building of the high school.
         
         Well, you don't really need to enter the building to get an idea of the state it's in."""
         
-    scene first week school building 2 with dissolveM
+    $ image.show(2)
     headmaster_thought """Despite my fear, the building seems to be rather well maintained.
 
         It could be a bit cleaner but the corridor seems rather well.
 
         Let's see the classrooms."""
     
-    scene first week school building 3 with dissolveM
+    $ image.show(3)
     headmaster_thought "Oh not bad as well. "
 
-    scene first week school building 4 with dissolveM
+    $ image.show(4)
     headmaster_thought "Hmm I think there should be a class right now, let's check."
 
-    scene first week school building 6 with dissolveM
+    $ image.show(6)
     headmaster_thought "Hmm looks like a normal class, but I think the students have no material?"
     headmaster_thought "Yeah, not one school girl has even one book."
     headmaster_thought "I guess the former headmaster cut back on those"
@@ -265,10 +281,12 @@ label first_potion_sb_event (**kwargs):
 
     $ begin_event(**kwargs)
     
-    scene first potion school building 1 with dissolveM
+    $ image = convert_pattern("main", step_start = 1, **kwargs)
+
+    $ image.show(1)
     headmaster_thought "Let's see how classes are today."
     
-    scene first potion school building 2 with dissolveM
+    $ image.show(2)
     subtitles "You look into a classroom and the first thing you notice is that almost everyone has opened up or at least partially removed their clothes."
     subtitles "Apparently the teachers also took a drink."
     headmaster_thought "Hmm, I can't wait to have this view on a regular basis, but that's gonna take some time."
@@ -282,7 +300,7 @@ label first_class_sb_event (**kwargs):
 
     $ school_class = get_value('class', **kwargs)
 
-    $ image = Image_Series("/images/events/school building/first_class_sb_event <class> <nude> <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     headmaster "Hello, let me introduce myself again. I'm [headmaster_first_name] [headmaster_last_name], the new headmaster of this school."
@@ -449,8 +467,14 @@ label first_class_sb_event (**kwargs):
 
     $ end_event('new_daytime', **kwargs)
 
-##########
-## HISTORY
+# endregion
+#######################
+
+###############################
+# region Teach Subject Events #
+
+##################
+# region HISTORY #
 
 label sb_teach_history (**kwargs):
     $ begin_event(**kwargs)
@@ -459,15 +483,20 @@ label sb_teach_history (**kwargs):
     $ get_value('topic', **kwargs)
 
     # headmaster enters room
-    call show_image ("/images/events/school building/sb_teach_history.webp", **kwargs) from _call_show_image_sb_teach_history_event_1
+    # call show_image ("/images/events/school building/sb_teach_history.webp", **kwargs) from _call_show_image_sb_teach_history_event_1
+    $ show_pattern("main", **kwargs)
     headmaster "Good morning everyone. Let's start with todays subject History."
 
     call composite_event_runner(**kwargs) from _call_composite_event_runner_1
 
+################
+# region INTRO #
+
 label sb_teach_history_intro_f_revolution_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ image = Image_Series("/images/events/school building/sb_teach_history_intro_f_revolution_1 <step>.webp", **kwargs)
+    $ image = convert_pattern('main', **kwargs)
+    # $ image = Image_Series("/images/events/school building/sb_teach_history_intro_f_revolution_1 <step>.webp", **kwargs)
 
     $ image.show(0)
     headmaster "Today we're going to continue learning about one of the most significant events in world history - the French Revolution."
@@ -487,6 +516,12 @@ label sb_teach_history_intro_f_revolution_1 (**kwargs):
 
     $ end_event('map_overview', **kwargs)
 
+# endregion
+################
+
+###############
+# region MAIN #
+
 label sb_teach_history_main_f_revolution_1 (**kwargs):
     $ begin_event(**kwargs)
 
@@ -494,7 +529,7 @@ label sb_teach_history_main_f_revolution_1 (**kwargs):
     $ luna = Character ("Luna Clark", kind=character.sgirl)
     $ easkey = Character ("Easkey Tanaka", kind=character.sgirl)
 
-    $ image = Image_Series("/images/events/school building/sb_teach_history_main_f_revolution_1 <school_level> <step>.webp", ['school_level'], **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     headmaster "Now today we talk about the causes of the Revolution."
@@ -571,7 +606,7 @@ label sb_teach_history_main_f_revolution_1 (**kwargs):
 label sb_teach_history_main_f_revolution_2 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ image = Image_Series("/images/events/school building/sb_teach_history_main_f_revolution_2 <school_level> <step>.webp", ['school_level'], **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     headmaster "Today we will talk about the early stages of the French Revolution."
@@ -594,10 +629,14 @@ label sb_teach_history_main_f_revolution_2 (**kwargs):
 
     $ end_event('new_daytime', **kwargs)
 
-##########
+# endregion
+###############
 
-#######
-## MATH
+# endregion
+##################
+
+###############
+# region MATH #
 
 label sb_teach_math (**kwargs):
     $ begin_event(**kwargs)
@@ -605,15 +644,18 @@ label sb_teach_math (**kwargs):
     $ get_value('school_level', **kwargs)
 
     # headmaster enters room
-    call show_image ("/images/events/school building/sb_teach_math.webp", **kwargs) from _call_show_image_sb_teach_math_event_1
+    $ show_pattern("main", **kwargs)
     headmaster "Good morning everyone. Let's start with todays subject Math."
 
     call composite_event_runner(**kwargs) from _call_composite_event_runner_2
 
+################
+# region INTRO #
+
 label sb_teach_math_ld_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ image = Image_Series("/images/events/school building/sb_teach_math_ld_1 <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     headmaster "Is there anything you want to reiterate from the last time?"
@@ -628,7 +670,7 @@ label sb_teach_math_ld_2 (**kwargs):
 
     $ ld_girl_name = get_value('ld_girl_name', **kwargs)
 
-    $ image = Image_Series("/images/events/school building/sb_teach_math_ld_2 <ld_girl_name> <school_level> <step>.webp", ['ld_girl_name'], **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     headmaster "Is there anything you want to reiterate from the last time?"
@@ -665,7 +707,7 @@ label sb_teach_math_ld_2 (**kwargs):
 label sb_teach_math_ld_3 (**kwargs):
     $ begin_event(**kwargs)
     
-    $ image = Image_Series("/images/events/school building/sb_teach_math_ld_3 <school_level> <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     subtitles "A student tripped while handing out assignments in class."
@@ -694,6 +736,12 @@ label .help (**kwargs):
         charm = DEC_TINY, happiness = TINY) from _call_change_stats_with_modifier_60
     $ end_event('new_daytime', **kwargs)
 
+# endregion
+################
+
+###############
+# region MAIN #
+
 label sb_teach_math_main_1 (**kwargs):
     $ begin_event(**kwargs)
 
@@ -704,7 +752,7 @@ label sb_teach_math_main_1 (**kwargs):
 
     call screen black_screen_text("30 minutes later.")
 
-    $ image = Image_Series("/images/events/school building/sb_teach_math_main_1 <main_girl_name> <school_level> <step>.webp", ['main_girl_name'], **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     if main_topic == "sleeping":
         call Image_Series.show_image(image, 0, 1, 2, pause = True) from _call_sb_teach_math_main_1_1
@@ -805,7 +853,7 @@ label sb_teach_math_main_1 (**kwargs):
 label sb_teach_math_main_2 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ image = Image_Series("/images/events/school building/sb_teach_math_main_2 <school_level> <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     headmaster "Today I want you to train your equation solving skills."
@@ -860,17 +908,24 @@ label sb_teach_math_main_2 (**kwargs):
     
     $ end_event('new_daytime', **kwargs)
 
-#######
+# endregion
+###############
 
-#######################
-# General Random Events
+# endregion
+###############
+
+# endregion
+###############################
+
+#########################
+# region Regular Events #
 
 label sb_event_1 (**kwargs): # patrol, check class
     $ begin_event(**kwargs)
 
     $ school_level = get_value('school_level', **kwargs)
     
-    $ image = Image_Series("/images/events/school building/sb_event_1 <school_level> <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     subtitles "You walk through the corridors of the high school."
@@ -913,7 +968,7 @@ label sb_event_3 (**kwargs): # patrol
 
     $ school_level = get_value('school_level', **kwargs)
     
-    $ image = Image_Series("/images/events/school building/sb_event_3 <school_level> <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0) # walk with girl sitting
     subtitles "As you walk through the corridors of the high school, you notice a student sitting in the corner of the hallway."
@@ -1070,7 +1125,7 @@ label sb_event_4(**kwargs):
     $ school_level = get_value('school_level', **kwargs)
     $ girl_name = get_value('girl_name', **kwargs)
 
-    $ image = Image_Series("/images/events/school building/sb_event_4 <school_level> <girl_name> <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     call Image_Series.show_image(image, 0, 1) from _call_Image_Series_show_image_9
     sgirl "AHH!"
@@ -1139,12 +1194,12 @@ label .panties (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label sb_event_5 (**kwargs):
-    $ begin_event(**kwargs)
+    $ begin_event("1", **kwargs)
 
     $ school_level = get_level('school_level', **kwargs)
     $ girls = get_value('girls', **kwargs)
 
-    $ image = Image_Series("/images/events/school building/sb_event_5 <school_level> <girls> <step>.webp", ['school_level', 'girls'], **kwargs)
+    $ image = convert_pattern('main', **kwargs)
 
     $ girl_char = Character(girls, kind=character.sgirl)
 
@@ -1178,3 +1233,8 @@ label sb_event_5 (**kwargs):
 
     $ end_event('new_daytime', **kwargs)
 
+# endregion
+#########################
+
+# endregion
+#######################################

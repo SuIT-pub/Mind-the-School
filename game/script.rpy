@@ -9,8 +9,10 @@ label start ():
     call load_buildings from start_3
     call load_clubs from start_4
     call load_rules from start_5
+    call load_quests from start_6
 
     $ fix_modifier()
+    $ fix_quests()
 
     call intro from _call_intro
 label splashscreen:
@@ -31,6 +33,10 @@ init python:
     ###########################################
 
     def check_stats_compatibility():
+        """
+        Check if the stats are compatible with the current version
+        """
+
         school = get_character_by_key("school")
         parent = get_character_by_key("parent")
         teacher = get_character_by_key("teacher")
@@ -51,7 +57,26 @@ init python:
             if secretary.get_level() == 0:
                 secretary.set_level(5)
 
+    def fix_quests():
+        # event_seen = get_game_data("seen_events")
+        # if event_seen == None:
+        #     event_seen = {}
+        # if get_kwargs("gym_teach_pe_main_aona_bra", False, **event_seen):
+        #     get_quest("School", "aonas_new_bra").activate()
+        #     get_goal("School", "aonas_new_bra", "aona_bra_event_1").force_complete()
+        # if get_kwargs("aona_sports_bra_event_1", False, **event_seen):
+        #     get_quest("School", "aonas_new_bra").activate()
+        #     get_goal("School", "aonas_new_bra", "aona_bra_event_2").force_complete()
+        # if get_kwargs("aona_sports_bra_event_2", False, **event_seen):
+        #     get_quest("School", "aonas_new_bra").activate()
+        #     get_goal("School", "aonas_new_bra", "aona_bra_event_3").force_complete()
+        update_quest("event")
+
     def fix_modifier():
+        """
+        Fix the modifiers for the new version
+        """
+
         # add weekly cost for cafeteria if not already added
         if (get_building('cafeteria').is_unlocked() and 
             get_modifier('weekly_cost_cafeteria', 'money', None, 'payroll_weekly') == None
@@ -65,6 +90,10 @@ init python:
             set_modifier('teacher_pay', Modifier_Obj('Teacher', "+", -150), stat = 'money', collection = 'payroll_weekly')
     
     def fix_schools():
+        """
+        Fix the schools for the new version
+        Merges the multiple schools from 0.1.2 into one school
+        """
 
         fix_thinking_characters(character.headmaster_thought)
         fix_shouting_characters(character.headmaster_shout)
@@ -107,24 +136,44 @@ init python:
         })
 
     def fix_whisper_characters(person: Person):
+        """
+        Fix the whispering characters for the new version
+        """
+
         person.who_suffix = " (whispering)"
         fix_characters(person)
 
     def fix_shouting_characters(person: Person):
+        """
+        Fix the shouting characters for the new version
+        """
+
         person.who_suffix = " (shouting)"
         fix_characters(person)
 
     def fix_thinking_characters(person: Person):
+        """
+        Fix the thinking characters for the new version
+        """
+
         person.who_suffix = " (thinking)"
         fix_characters(person)
     
     def fix_characters(person: Person):
+        """
+        Fix the characters for the new version
+        """
+
         person.what_size = 28
         person.what_italic = True
         person.what_prefix = "(  {i}"
         person.what_suffix = "{/i}  )"
 
     def check_old_versions():
+        """
+        Check for old versions and apply the necessary fixes
+        """
+
         if 'headmaster_first_name' in gameData.keys() and 'headmaster_last_name' in gameData.keys():
             set_name("headmaster", gameData['headmaster_first_name'], gameData['headmaster_last_name'])
             gameData.pop('headmaster_first_name')
@@ -140,6 +189,7 @@ label after_load:
     call load_rules from after_load_3
     call load_buildings from after_load_4
     call load_clubs from after_load_5
+    call load_quests from after_load_6
     
     #####################################
     # check for version incompatibilities
@@ -148,6 +198,7 @@ label after_load:
     $ check_stats_compatibility()
 
     $ fix_modifier()
+    $ fix_quests()
     ####################################
 
     if contains_game_data("names") and "headmaster" in get_game_data("names"):

@@ -1,5 +1,3 @@
-######################
-# Map overview methods
 init -1 python:
     def hide_all():
         """
@@ -9,9 +7,9 @@ init -1 python:
         for s in renpy.display.screen.screens_by_name:
             renpy.hide_screen(s)
 
-######################
-# ----- Styles ----- #
-######################
+#######################
+# region Styles ----- #
+#######################
 
 style stat_overview:
     outlines [(2, "222222", 1, 1)]
@@ -19,11 +17,17 @@ style stat_overview:
 style stat_value take stat_overview:
     size 25
 
+# endregion
+#######################
 
+###########################
+# region Map Screen ----- #
+###########################
 
-##########################
-# ----- Map Screen ----- #
-##########################
+screen school_overview():
+    use school_overview_map
+    use school_overview_stats
+    use school_overview_buttons
 
 ###################################
 # display the school map with stats
@@ -498,148 +502,14 @@ screen school_overview_buttons (with_available_Events = False):
                 xalign 0.5
                 text tooltip
 
-screen black_error_screen_text(text_str):
-    python:
-        """
-        Displays a black screen with red text
-        Would be used for error messages
+# endregion
+###########################
 
-        # Parameters:
-        1. text_str: str
-            - the text to be displayed
-        """
+###############################
+# region Map Overview Entries #
+###############################
 
-    add "black"
-    zorder -1
-    
-    text text_str:
-        xalign 0 yalign 0
-        size 20
-        color "#a00000"
-
-screen black_screen_text(text_str):
-    python:
-        """
-        Displays a black screen with white text
-
-        # Parameters:
-        1. text_str: str
-            - the text to be displayed
-        """
-
-    add "black"
-    
-    key "K_SPACE" action Return()
-    key "K_ESCAPE" action Return()
-    key "K_KP_ENTER" action Return()
-    key "K_SELECT" action Return()
-
-    text text_str:
-        xalign 0.5 yalign 0.5
-        size 60
-
-    button:
-        xpos 0 ypos 0
-        xsize 1920 ysize 1080
-        action Return()
-
-
-screen black_screen_text_with_subtitle(text_str, subtitle_str):
-    python:
-        """
-        Displays a black screen with white text
-
-        # Parameters:
-        1. text_str: str
-            - the text to be displayed
-        """
-
-    add "black"
-    
-    key "K_SPACE" action Return()
-    key "K_ESCAPE" action Return()
-    key "K_KP_ENTER" action Return()
-    key "K_SELECT" action Return()
-
-    vbox:
-        yalign 0.5
-        xsize 1920
-
-        text text_str:
-            xalign 0.5
-            size 60
-        null height 10
-        text subtitle_str:
-            xalign 0.5
-            size 40
-    
-    button:
-        xpos 0 ypos 0
-        xsize 1920 ysize 1080
-        action Return()
-
-screen naughty_scene_icons(*icons):
-    if "clothing" in icons:
-        imagebutton:
-            idle "icons/change_clothing_idle.webp"
-            hover "icons/change_clothing_hover.webp"
-            xalign 1.0 yalign 0.0
-            action Return("change_clothing")
-    if "position" in icons:
-        imagebutton:
-            idle "icons/change_position_idle.webp"
-            hover "icons/change_position_hover.webp"
-            xalign 1.0 yalign 0.2
-            action Return("change_position")
-    if "location" in icons:
-        imagebutton:
-            idle "icons/change_location_idle.webp"
-            hover "icons/change_location_hover.webp"
-            xalign 1.0 yalign 0.4
-            action Return("change_location")
-    if "variant" in icons:
-        imagebutton:
-            idle "icons/change_variant_idle.webp"
-            hover "icons/change_variant_hover.webp"
-            xalign 1.0 yalign 0.6
-            action Return("change_variant")
-    imagebutton:
-        idle "icons/stop_idle.webp"
-        hover "icons/stop_hover.webp"
-        xalign 1.0 yalign 1.0
-        action Return("stop")
-
-#########################
-# ----- Map Logic ----- #
-#########################
-
-
-label say_with_image (image_series, step, text, person_name, person):
-    # """
-    # Prints a text with an image
-    # Mainly used for the "random_say" method
-
-    # ### Parameters:
-    # 1. image_series: Image_Series
-    #     - The image series to use
-    # 2. step: int
-    #     - The step of the image series to use
-    # 3. text: str
-    #     - The text to print
-    # 4. person_name: str
-    #     - The name of the person to print
-    # 5. person: ADVCharacter
-    #     - The character who says the text
-    # """
-
-    $ image_series.show(step)
-    $ person(text, name = person_name)
-
-    return
-
-####################################################
 # goes to map overview while moving the time forward
-
 label set_day_and_time(day, month, year, daytime):
     # """
     # sets the day and time and then goes to map overview
@@ -720,18 +590,12 @@ label new_daytime ():
 
     jump map_overview
 
-screen school_overview():
-    use school_overview_map
-    use school_overview_stats
-    use school_overview_buttons
-
 label after_load_entry():
 
     call time_event_check from call_after_load_entry_1
 
     jump map_overview
 
-#################################################
 # shows the map overview and then waits for input
 label map_overview ():
     if len(headmaster_proficiencies.keys()) < 2 and (IntroCondition(False)).is_fulfilled():
@@ -789,8 +653,13 @@ label map_overview ():
 
     $ renpy.pause(hard = True)
 
-#############################################################################
-# building distributor. directs the building calls to the corresponding label
+# endregion
+###############################
+
+###############################
+# region Map Overview targets #
+###############################
+
 label building(name=""):
     $ reset_stats(get_school())
     $ reset_stats(get_character('parent', charList))
@@ -820,3 +689,6 @@ label skip_time ():
 
 label empty_label ():
     return
+
+# endregion
+###############################

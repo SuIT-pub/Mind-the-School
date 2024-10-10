@@ -1,8 +1,9 @@
-##########################################
-# ----- Staff Lodges Event Handler ----- #
-##########################################
+###########################################
+# region Staff Lodges Event Handler ----- #
+###########################################
 
 init -1 python:
+    set_current_mod('base')
     def staff_lodges_events_available() -> bool:
         return (staff_lodges_timed_event.has_available_highlight_events() or 
             staff_lodges_general_event.has_available_highlight_events() or 
@@ -19,24 +20,26 @@ init -1 python:
     )
     
 init 1 python:
+    set_current_mod('base')
     
     staff_lodges_action_tutorial_event = Event(2, "action_tutorial",
         NOT(ProgressCondition('action_tutorial')),
         ValueSelector('return_label', 'staff_lodges'),
         NoHighlightOption(),
         TutorialCondition(),
+        Pattern("main", "/images/events/misc/action_tutorial <step>.webp"),
         override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
 
     staff_lodges_general_event.add_event(
         staff_lodges_action_tutorial_event
     )
 
+# endregion
+###########################################
 
-##################################
-
-########################################
-# ----- Staff Lodges Entry Point ----- #
-########################################
+#########################################
+# region Staff Lodges Entry Point ----- #
+#########################################
 
 label staff_lodges ():
     call call_available_event(staff_lodges_timed_event) from staff_lodges_1
@@ -56,11 +59,14 @@ label .after_general_check (**kwargs):
 
     jump staff_lodges
 
-##################################
+# endregion
+#########################################
 
-###################################
-# ----- Staff Lodges Events ----- #
-###################################
+####################################
+# region Staff Lodges Events ----- #
+####################################
 
 
-###########################
+
+# endregion
+####################################

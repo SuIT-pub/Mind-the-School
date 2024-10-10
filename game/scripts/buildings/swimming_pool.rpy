@@ -1,8 +1,9 @@
-###########################################
-# ----- Swimming Pool Event Handler ----- #
-###########################################
+############################################
+# region Swimming Pool Event Handler ----- #
+############################################
 
 init -1 python:
+    set_current_mod('base')
     def swimming_pool_events_available() -> bool:
         return (swimming_pool_timed_event.has_available_highlight_events() or
             swimming_pool_general_event.has_available_highlight_events() or
@@ -19,24 +20,26 @@ init -1 python:
     )
     
 init 1 python:
+    set_current_mod('base')
     
     swimming_pool_action_tutorial_event = Event(2, "action_tutorial",
         NOT(ProgressCondition('action_tutorial')),
         ValueSelector('return_label', 'swimming_pool'),
         NoHighlightOption(),
         TutorialCondition(),
+        Pattern("main", "/images/events/misc/action_tutorial <step>.webp"),
         override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
 
     swimming_pool_general_event.add_event(
         swimming_pool_action_tutorial_event
     )
 
+# endregion
+############################################
 
-###########################################
-
-#########################################
-# ----- Swimming Pool Entry Point ----- #
-#########################################
+##########################################
+# region Swimming Pool Entry Point ----- #
+##########################################
 
 label swimming_pool ():
     call call_available_event(swimming_pool_timed_event) from swimming_pool_1
@@ -55,12 +58,14 @@ label .after_general_check (**kwargs):
 
     jump swimming_pool
 
-#########################################
+# endregion
+##########################################
 
-####################################
-# ----- Swimming Pool Events ----- #
-####################################
+#####################################
+# region Swimming Pool Events ----- #
+#####################################
 
 
 
-####################################
+# endregion
+#####################################

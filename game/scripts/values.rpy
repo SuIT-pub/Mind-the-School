@@ -8,7 +8,6 @@ init -98 python:
     sfw_mode = False
     event_selection_mode = False
 
-    seenEvents = {}
     location_event_register = {}
     event_register = {}
     fragment_storage_register = {}
@@ -22,6 +21,9 @@ init -98 python:
     members = ""
     download_members()
 
+    get_mod_list()
+    active_mod_key = ''
+
 default intro_dev_message = "This version of the game only includes content up to day 10, when free roaming begins. You can still play and roam from there, but there will be no content."
 
 default hide_gui = False
@@ -33,7 +35,12 @@ default charList = {
     'staff': {},
 }
 
+default quests = {}
+
 default money = Stat(MONEY, 1000)
+
+default reserved_money = {}
+
 default time = Time()
 default stat_data = {}
 

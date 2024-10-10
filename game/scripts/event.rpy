@@ -7,8 +7,49 @@ init -3 python:
     import time
     from typing import Any, Dict, List, Tuple, Union
     
-    ###############
-    # Event classes
+    seenEvents = {}
+
+    def register_seen_event(event: str):
+        global seenEvents
+        if seenEvents == None:
+            seenEvents = {}
+        if event not in seenEvents.keys():
+            seenEvents[event] = False
+
+    def set_event_seen(event_name: str):
+        if not is_event_registered(event_name):
+            return
+
+        global seenEvents
+
+        seen_events = get_game_data("seen_events")
+        if seen_events == None:
+            seen_events = {}
+        for event, seen in seen_events.items():
+            if event in seenEvents:
+                seenEvents[event] = seenEvents[event] or seen
+            else:
+                seenEvents[event] = seen
+        
+        seenEvents[event_name] = True
+        set_game_data("seen_events", seenEvents)
+
+        if all(seenEvents.values()):
+            set_game_data("all_events_seen", True)
+
+    def get_event_seen(event_name: str) -> bool:
+        if not is_event_registered(event_name):
+            return False
+
+        global seenEvents
+
+        if event_name not in seenEvents.keys():
+            return False
+        return seenEvents[event_name]
+
+    ########################
+    # region Event classes #
+    ########################
 
     class EventStorage:
         """
@@ -196,13 +237,35 @@ init -3 python:
                 - The events that are added to the EventStorage.
             """
 
+            if not is_mod_active(active_mod_key):
+                return
+
             for event in events:
-                if event.get_priority() == 3 and event.get_event() not in seenEvents.keys():
-                    seenEvents[event.get_event()] = False
+                register_seen_event(event.get_event())
 
                 if event.get_id() not in self.events[event.get_priority()].keys():
                     self.register_event_for_location(event, self.location)    
                     self.events[event.get_priority()][event.get_id()] = event
+
+        def overwrite_event(self, *event: Event):
+            """
+            Adds an event to the EventStorage.
+            Overwrites the event if it already exists.
+            The event gets sorted automatically into the correct priority.
+
+            ### Parameters:
+            1. *events: Event
+                - The events that are added to the EventStorage.
+            """
+
+            if not is_mod_active(active_mod_key):
+                return
+
+            for event in events:
+                register_seen_event(event.get_event())
+
+                self.register_event_for_location(event, self.location)    
+                self.events[event.get_priority()][event.get_id()] = event
 
         def remove_event(self, event_id: str):
             """
@@ -635,8 +698,7 @@ init -3 python:
             """
 
             for event in events:
-                if event.get_priority() == 3 and event.get_event() not in seenEvents.keys():
-                    seenEvents[event.get_event()] = False
+                register_seen_event(event.get_event())
 
                 if event.get_id() not in self.events[event.get_priority()].keys():
                     self.register_event_for_location(event, 'fragment')
@@ -1022,6 +1084,10 @@ init -3 python:
             - The thumbnail of the event.
         5. register_self: bool (Default True)
             - If True, the event is registered in the event_register.
+        6. override_intro: bool (Default False)
+            - If True, the intro condition is ignored.
+        7. override_location: str (Default None)
+            - If set, the location of the event is set to this value.
 
         ### Attributes:
         1. event_id: str
@@ -1058,17 +1124,19 @@ init -3 python:
             - Calls the event.
         """
 
-        def __init__(self, priority: int, event: str, *conditions: Condition | Selector | Option, thumbnail: str = "", register_self = True, override_intro = False, override_location = None):
+        def __init__(self, priority: int, event: str, *options: Condition | Selector | Option | Pattern, thumbnail: str = "", register_self = True, override_intro = False, override_location = None):
             self.event_id = str(event)
             self.event = event
             self.thumbnail = thumbnail
-            self.conditions = [condition for condition in conditions if isinstance(condition, Condition)]
+            self.conditions = [condition for condition in options if isinstance(condition, Condition)]
 
             if not any(isinstance(condition, IntroCondition) for condition in self.conditions) and not override_intro:
                 self.conditions.append(IntroCondition(False))
 
-            self.values = SelectorSet(*[condition for condition in conditions if isinstance(condition, Selector)])
-            self.options = OptionSet(*[condition for condition in conditions if isinstance(condition, Option)])
+            self.values = SelectorSet(*[condition for condition in options if isinstance(condition, Selector)])
+            self.options = OptionSet(*[condition for condition in options if isinstance(condition, Option)])
+
+            self.patterns = {pattern.get_name(): pattern for pattern in options if isinstance(pattern, Pattern)}
 
             rerollSelectors.append(self.values)
 
@@ -1081,7 +1149,7 @@ init -3 python:
             self.event_type = ""
             # self.values = values
 
-            if register_self:
+            if register_self and is_mod_active(active_mod_key):
                 event_register[self.event_id] = self
             self.location = "misc"
             self.override_location = override_location
@@ -1119,6 +1187,9 @@ init -3 python:
 
             if not hasattr(self, 'event_form'):
                 self.event_form = "event"
+
+            if not hasattr(self, 'patterns'):
+                self.patterns = {}
 
             self.__dict__.update(data)
 
@@ -1225,6 +1296,12 @@ init -3 python:
 
             self.event_type = event_type
 
+        def set_pattern(self, name: str, pattern: Pattern):
+            self.patterns[name] = pattern
+
+        def get_pattern(self) -> Dict[str, Pattern]:
+            return self.patterns
+
         def get_event(self) -> str:
             """
             Returns the events depending on the priority.
@@ -1312,13 +1389,18 @@ init -3 python:
 
             kwargs["event_form"] = self.event_form
 
+            if "values" not in kwargs.keys():
+                kwargs["values"] = {}
+
             if self.values != None:
-                kwargs.update(self.values.get_values())
+                kwargs["values"].update(self.values.get_values())
                 self.values.roll_values()
 
             kwargs["event_name"] = self.get_event()
             kwargs["in_event"] = True
             kwargs["event_obj"] = self
+
+            kwargs['image_patterns'] = self.patterns
 
             renpy.call("call_event", events, self.priority, self.get_event(), **kwargs)
 
@@ -1444,25 +1526,38 @@ init -3 python:
 
             kwargs["event_form"] = "fragment"
 
+            if "values" not in kwargs.keys():
+                kwargs["values"] = {}
+
             if events.values != None:
-                kwargs.update(events.values.get_values())
+                kwargs["values"].update(events.values.get_values())
                 events.values.roll_values()
 
             kwargs["event_name"] = events.get_event()
             kwargs["in_event"] = True
-            kwargs["event_obj"] = get_event_from_register(events.get_event())
+
+            event_obj = get_event_from_register(events.get_event())
+
+            kwargs["event_obj"] = event_obj
+
+            kwargs['frag_image_patterns'] = event_obj.get_pattern()
 
             kwargs["frag_index"] = index
             kwargs["frag_parent"] = self
+            kwargs["is_fragment"] = True
 
             if is_replay(**kwargs):
                 kwargs['decision_data'] = persistent.gallery['fragment'][events.get_id()]['decisions']
                 last_data = get_last_data('fragment', events.get_id())
                 data_keys = list(last_data.keys())
                 j = 0
+
+                if "values" not in kwargs.keys():
+                    kwargs["values"] = {}
+
                 while j < len(data_keys):
                     data_key = data_keys[j]
-                    kwargs[data_key] = last_data[data_key]
+                    kwargs["values"][data_key] = last_data[data_key]
                     j += 1
     
             renpy.call("call_event", events.get_event_label(), self.priority, **kwargs)
@@ -1516,6 +1611,9 @@ init -3 python:
         
         def call(self, **kwargs):
             
+            if "values" not in kwargs.keys():
+                kwargs["values"] = {}
+
             if self.values != None:
                 kwargs.update(self.values.get_values())
                 self.values.roll_values()
@@ -1540,10 +1638,12 @@ init -3 python:
             self.event_form = "fragment"
             self.set_location("fragment")
 
-    ###############
+    # endregion
+    ########################
 
-    #####################
-    # Event label handler
+    ##############################
+    # region Event label handler #
+    ##############################
 
     def get_event_menu_title(location: str, option: str) -> str:
         """
@@ -1577,10 +1677,13 @@ init -3 python:
         2. event_storage: EventStorage
             - The event storage that is added to the event dictionary.
         """
+        
+        if not is_mod_active(active_mod_key):
+            return
 
         event_dict[event_storage.get_name()] = event_storage
 
-    def begin_event(**kwargs):
+    def begin_event(version: str = "1", **kwargs):
         """
         This method is called at the start of an event after choices and topics have been chosen in the event.
         It prevents rollback to before this method and thus prevents changing choices and topics.
@@ -1596,27 +1699,28 @@ init -3 python:
 
         hide_all()
 
+        log_val('kwargs', kwargs)
+
         event_name = get_kwargs("event_name", "", **kwargs)
         in_replay = get_kwargs("in_replay", False, **kwargs)
         no_gallery = get_kwargs("no_gallery", False, **kwargs)
+        is_fragment = get_kwargs("is_fragment", False, **kwargs)
 
         gallery_manager = None
         if event_name != "" and not in_replay and not no_gallery:
-            gallery_manager = Gallery_Manager(**kwargs)
+            gallery_manager = Gallery_Manager(version = version, **kwargs)
 
-        if contains_game_data("seen_events"):
-            seenEvents = get_game_data("seen_events")
-
-        if event_name != "" and event_name in seenEvents.keys():
-            seenEvents[event_name] = True
-            set_game_data("seen_events", seenEvents)
-            if all(seenEvents.values()):
-                set_game_data("all_events_seen", True)
+        if not in_replay:
+            set_event_seen(event_name)
 
         if in_replay:
             char_obj = None
 
-        renpy.block_rollback()
+        if not is_fragment:
+            renpy.block_rollback()
+
+        if not in_replay:
+            update_quest("event", **kwargs)
 
         if event_name != "":
             renpy.call("show_sfw_text", event_name)
@@ -1716,10 +1820,12 @@ init -3 python:
             return fragment_storage_register[id]
         return None
 
-    #####################
+    # endregion
+    ##############################
 
-##############
-# Event caller
+#######################
+# region Event caller #
+#######################
 
 label call_available_event(event_storage, priority = 0, no_fallback = False, **kwargs):
     # """
@@ -1768,9 +1874,13 @@ label call_available_event(event_storage, priority = 0, no_fallback = False, **k
             $ kwargs["event_name"] = event_obj.get_event()
             $ kwargs["in_event"] = True
             $ kwargs["event_obj"] = event_obj
+            $ kwargs['image_patterns'] = event_obj.patterns
+
+            if "values" not in kwargs.keys():
+                $ kwargs["values"] = {}
 
             if event_obj.values != None:
-                $ kwargs.update(event_obj.values.get_values())
+                $ kwargs["values"].update(event_obj.values.get_values())
                 $ event_obj.values.roll_values()
 
             $ renpy.call(events, **kwargs)
@@ -1818,10 +1928,12 @@ label call_event(event_obj_var, priority = 0, event_obj_name = "", **kwargs):
 
     return
 
-##############
-
+# endregion
 #######################
-# Default event handler
+
+################################
+# region Default event handler #
+################################
 
 label default_fallback_event (**kwargs):
 
@@ -1893,10 +2005,12 @@ label composite_event_runner(**kwargs):
         
     $ end_event("map_overview", **kwargs)
 
-#######################
+# endregion
+################################
 
-###############
-# Movie Sandbox
+########################
+# region Movie Sandbox #
+########################
 
 init -1 python:
     sandbox_after_event_check      = Event(2, "start_sandbox.after_check")
@@ -1906,10 +2020,10 @@ init 1 python:
     sandbox_tutorial_event = Event(1, 'sandbox_tutorial',
         ValueSelector('return_label', 'start_sandbox.after_check'),
         TutorialCondition(),
+        Pattern("main", "/images/events/misc/sandbox_tutorial <step>.webp"),
         thumbnail = "images/events/misc/sandbox_tutorial 0.webp")
 
     sandbox_check_events.add_event(sandbox_tutorial_event)
-
 
 label start_sandbox (**kwargs):
     # """
@@ -1940,11 +2054,13 @@ label .after_check (**kwargs):
     $ kwargs = sandbox_data
 
     $ naughty_map = get_kwargs('naughty_map', **kwargs)
+    $ cum_map = get_kwargs('cum_map', **kwargs)
     $ level = get_kwargs('level', **kwargs)
 
     $ kwargs['naughty_location'] = list(naughty_map.keys())[0]
     $ kwargs['naughty_position'] = list(naughty_map[get_kwargs('naughty_location', **kwargs)].keys())[0]
     $ kwargs['naughty_clothing'] = naughty_map[get_kwargs('naughty_location', **kwargs)][get_kwargs('naughty_position', **kwargs)][0]
+    $ kwargs['is_cumming'] = False
     $ kwargs['naughty_variant'] = 0
     $ kwargs['no_gallery'] = True
     $ kwargs['override_menu_exit'] = None
@@ -1960,7 +2076,10 @@ label .start (**kwargs):
     $ position = get_kwargs('naughty_position', **kwargs)
     $ clothing = get_kwargs('naughty_clothing', **kwargs)
     $ variant = get_kwargs('naughty_variant', **kwargs)
+    $ is_cumming = get_kwargs('is_cumming', **kwargs)
     $ mapping = get_kwargs('naughty_map', **kwargs)
+    $ cum_map = get_kwargs('cum_map', **kwargs)
+
 
     if position not in mapping[location]:
         $ position = list(mapping[location].keys())[0]
@@ -1968,15 +2087,36 @@ label .start (**kwargs):
     if clothing not in mapping[location][position]:
         $ clothing = mapping[location][position][0]
 
-    $ file = get_kwargs('file_preset', **kwargs).replace('<location>', location).replace('<position>', position).replace('<clothing>', clothing)
+    $ file_preset = get_kwargs('file_preset', **kwargs)
+    if is_cumming:
+        $ file_preset = file_preset.replace('.webm', '_cum.webm')
+
+    $ file = file_preset.replace('<location>', location).replace('<position>', position).replace('<clothing>', clothing)
     $ max_variant = get_file_max_value('variant', file, 0, 100)
     
     if variant > max_variant:
         $ variant = 0
 
+    $ movie_preset = get_kwargs('movie_preset', **kwargs)
+    if is_cumming:
+        $ movie_preset = movie_preset + "_cum_idle"
+
+    $ movie = movie_preset.replace('<location>', location).replace('<position>', position).replace('<clothing>', clothing).replace('<variant>', str(variant))
+
+    if is_cumming:
+        $ idle_movie = movie.replace('cum_idle', 'cum')
+        $ idle_file = file.replace('cum', 'cum_idle').replace('<variant>', str(variant))
+        $ hide_all()
+        $ log_val('idle_movie', idle_movie)
+        # $ renpy.movie_cutscene(idle_file, None, 0)
+        scene expression idle_movie with dissolveM
+        $ renpy.pause(cum_map[location][position][clothing])
+        $ hide_all()
+
     # play movies
-    $ movie = get_kwargs('movie_preset', **kwargs).replace('<location>', location).replace('<position>', position).replace('<clothing>', clothing).replace('<variant>', str(variant))
+    $ log_val('movie', movie)
     scene expression movie with dissolveM
+    
 
     $ icons = []
 
@@ -1992,6 +2132,12 @@ label .start (**kwargs):
     if max_variant > 0:
         $ icons.append("variant")
 
+    if location in cum_map.keys() and position in cum_map[location].keys() and clothing in cum_map[location][position].keys() and not is_cumming:
+        $ icons.append("cumming")
+
+    if location in cum_map.keys() and position in cum_map[location].keys() and clothing in cum_map[location][position].keys() and is_cumming:
+        $ icons.append("return")
+
     call screen naughty_scene_icons(*icons)
     if _return == "change_location":
         call .change_location (**kwargs) from _call_start_sandbox_change_location
@@ -2001,11 +2147,17 @@ label .start (**kwargs):
         call .change_clothing (**kwargs) from _call_start_sandbox_change_clothing
     elif _return == "change_variant":
         call .change_variant (**kwargs) from _call_start_sandbox_change_variant
+    elif _return == "cum":
+        call .trigger_cum (**kwargs) from _call_start_sandbox_trigger_cum
+    elif _return == "return":
+        call .return_cum (**kwargs) from _call_start_sandbox_return_cum
     elif _return == "stop":
         $ end_event('new_daytime', **kwargs)
 
 label .change_location (**kwargs):
     $ elements = []
+
+    $ kwargs['is_cumming'] = False
 
     python:
         for location in mapping.keys():
@@ -2016,6 +2168,8 @@ label .change_location (**kwargs):
 label .change_position (**kwargs):
     $ location = get_kwargs('naughty_location', **kwargs)
     $ mapping = get_kwargs('naughty_map', **kwargs)
+
+    $ kwargs['is_cumming'] = False
 
     $ elements = []
     python:
@@ -2028,6 +2182,8 @@ label .change_clothing (**kwargs):
     $ location = get_kwargs('naughty_location', **kwargs)
     $ position = get_kwargs('naughty_position', **kwargs)
     $ mapping = get_kwargs('naughty_map', **kwargs)
+
+    $ kwargs['is_cumming'] = False
 
     $ elements = []
     python:
@@ -2051,6 +2207,8 @@ label .change_variant (**kwargs):
     $ clothing = get_kwargs('naughty_clothing', **kwargs)
     $ variant = get_kwargs('naughty_variant', **kwargs)
 
+    $ kwargs['is_cumming'] = False
+
     $ file = get_kwargs('file_preset', **kwargs).replace('<location>', location).replace('<position>', position).replace('<clothing>', clothing)
     $ max_variant = get_file_max_value('variant', file, 0, 100)
     $ variant += 1
@@ -2059,4 +2217,74 @@ label .change_variant (**kwargs):
     $ kwargs['naughty_variant'] = variant
     call .start(**kwargs) from _call_start_sandbox_start_1
 
-###############
+label .trigger_cum (**kwargs):
+    $ location = get_kwargs('naughty_location', **kwargs)
+    $ position = get_kwargs('naughty_position', **kwargs)
+    $ clothing = get_kwargs('naughty_clothing', **kwargs)
+    $ variant = get_kwargs('naughty_variant', **kwargs)
+    $ kwargs["is_cumming"] = True
+
+    $ file = get_kwargs('file_preset', **kwargs).replace('<location>', location).replace('<position>', position).replace('<clothing>', clothing).replace('.webm', '_cum.webm')
+    $ max_variant = get_file_max_value('variant', file, 0, 100)
+    if variant > max_variant:
+        $ variant = max_variant
+    call .start(**kwargs) from _call_start_sandbox_start_2
+
+label .return_cum (**kwargs):
+    $ location = get_kwargs('naughty_location', **kwargs)
+    $ position = get_kwargs('naughty_position', **kwargs)
+    $ clothing = get_kwargs('naughty_clothing', **kwargs)
+    $ variant = get_kwargs('naughty_variant', **kwargs)
+    $ kwargs["is_cumming"] = False
+
+    $ file = get_kwargs('file_preset', **kwargs).replace('<location>', location).replace('<position>', position).replace('<clothing>', clothing)
+    $ max_variant = get_file_max_value('variant', file, 0, 100)
+    if variant > max_variant:
+        $ variant = max_variant
+    call .start(**kwargs) from _call_start_sandbox_start_3
+
+screen naughty_scene_icons(*icons):
+    if "clothing" in icons:
+        imagebutton:
+            idle "icons/change_clothing_idle.webp"
+            hover "icons/change_clothing_hover.webp"
+            xalign 1.0 yalign 0.0
+            action Return("change_clothing")
+    if "position" in icons:
+        imagebutton:
+            idle "icons/change_position_idle.webp"
+            hover "icons/change_position_hover.webp"
+            xalign 1.0 yalign 0.2
+            action Return("change_position")
+    if "location" in icons:
+        imagebutton:
+            idle "icons/change_location_idle.webp"
+            hover "icons/change_location_hover.webp"
+            xalign 1.0 yalign 0.4
+            action Return("change_location")
+    if "variant" in icons:
+        imagebutton:
+            idle "icons/change_variant_idle.webp"
+            hover "icons/change_variant_hover.webp"
+            xalign 1.0 yalign 0.6
+            action Return("change_variant")
+    if "cumming" in icons:
+        imagebutton:
+            idle "icons/cum_idle.webp"
+            hover "icons/cum_hover.webp"
+            xalign 1.0 yalign 0.8
+            action Return("cum")
+    if "return" in icons:
+        imagebutton:
+            idle "icons/return_idle.webp"
+            hover "icons/return_hover.webp"
+            xalign 1.0 yalign 0.8
+            action Return("return")
+    imagebutton:
+        idle "icons/stop_idle.webp"
+        hover "icons/stop_hover.webp"
+        xalign 1.0 yalign 1.0
+        action Return("stop")
+
+# endregion
+########################

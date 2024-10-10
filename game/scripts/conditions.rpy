@@ -384,7 +384,7 @@ init -6 python:
                 - Multiple conditions can be returned as a list.
             """
 
-            return ""
+            return self.get_name()
 
         @abstractmethod
         def get_name(self) -> str:
@@ -535,9 +535,15 @@ init -6 python:
                 - Multiple conditions can be returned as a list.
             """
 
-            char_obj = get_kwargs('char_obj', **kwargs)
+            char_obj = None
+            if hasattr(self, 'char_obj'):
+                char_obj = self.char_obj
+
+            if isinstance(char_obj, str):
+                char_obj = get_character_by_key(char_obj)
+
             if char_obj == None:
-                return ""
+                char_obj = get_kwargs('char_obj', get_school(), **kwargs)
 
             output = []
             for stat in self.stats.keys():
@@ -672,8 +678,6 @@ init -6 python:
                     output = False
             if self._level != -1:
                 curr_level = get_headmaster_proficiency_level(self._proficiency)
-                log_val('curr_level', curr_level)
-                log_val('level', self._level)
                 if not check_in_value(self._level, curr_level):
                     output = False
 
@@ -1246,7 +1250,7 @@ init -6 python:
                 - If the difference is larger than 0, the difference is returned as 0 to set it as fulfilled but not create a better chance for votes.
         """
 
-        def __init__(self, value: num | str, blocking = False):
+        def __init__(self, value: num, blocking = False):
             super().__init__(blocking)
             self.value = value
             self.display_in_list = True
@@ -1268,7 +1272,7 @@ init -6 python:
             if super().is_fulfilled(**kwargs):
                 return True
 
-            return check_in_value(self.value, money.get_value())
+            return self.value <= money.get_value()
 
         def to_desc_text(self, **kwargs) -> str:
             """
@@ -1341,20 +1345,9 @@ init -6 python:
             1. num
                 - The difference between the condition and the given characters money.
             """
-
-            obj_stat = money.get_value()
-            diff = get_value_diff(self.value, obj_stat)
-
-            if diff < -20:
-                return diff * 20
-            elif diff < -10:
-                return diff * 10
-            elif diff < 0:
-                return diff * 5
-            elif diff > 5:
-                return diff * 2
-            else:
-                return diff
+            if self.is_fulfilled():
+                return 0
+            return -100
 
     class LockCondition(Condition):
         """
@@ -3118,3 +3111,55 @@ init -6 python:
             diff = self.condition.get_diff(char_obj)
 
             return clamp_value(100 - diff, -100, 100)
+
+    class JournalVoteCondition(Condition):
+        def __init__(self, journal_obj: name):
+            super().__init__(False)
+            self._journal_obj = journal_obj
+            global registered_vote_events
+
+            registered_vote_events.append(journal_obj)
+
+        def is_fulfilled(self, **kwargs) -> bool:
+            if super().is_fulfilled(**kwargs):
+                return True
+
+            vote_proposal = get_game_data('voteProposal')
+            if vote_proposal == None:
+                return False
+
+            vote_obj = vote_proposal._journal_obj
+
+            return self._journal_obj == vote_obj.get_name()
+
+        def get_name(self) -> str:
+            return f"JournalVoteCondition({self._journal_obj})"
+
+        def get_diff(self, _char_obj) -> num:
+            if self.is_fulfilled():
+                return 100
+            return 0
+
+    class JournalNRVoteCondition(Condition):
+        def __init__(self):
+            super().__init__(False)
+
+        def is_fulfilled(self, **kwargs) -> bool:
+            if super().is_fulfilled(**kwargs):
+                return True
+
+            vote_proposal = get_game_data('voteProposal')
+            if vote_proposal == None:
+                return False
+
+            vote_obj = vote_proposal._journal_obj
+
+            return vote_obj.get_name() not in registered_vote_events
+
+        def get_name(self) -> str:
+            return "JournalNRVoteCondition"
+
+        def get_diff(self, _char_obj) -> num:
+            if self.is_fulfilled():
+                return 100
+            return 0

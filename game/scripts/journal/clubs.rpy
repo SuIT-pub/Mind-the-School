@@ -1,5 +1,10 @@
 init -6 python:
     import re
+
+    ########################
+    # region CLASSES ----- #
+    ########################
+
     class Club(Journal_Obj):
         """
         A sub-class of Journal_Obj.
@@ -48,8 +53,12 @@ init -6 python:
 
             return "club"
 
-    #############################################
-    # Clubs Global Methods
+    # endregion
+    ########################
+
+    ####################################
+    # region Clubs Global Methods -----#
+    ####################################
     
     def get_club(club: str) -> Club:
         """
@@ -139,6 +148,13 @@ init -6 python:
 
         if name in clubs.keys():
             del(clubs[name])
+
+    # endregion
+    ####################################
+
+######################
+# region LABEL ----- #
+######################
 
 label load_clubs ():
 
@@ -299,3 +315,6 @@ label load_clubs ():
     })
 
     return
+
+# endregion
+######################

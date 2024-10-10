@@ -1,6 +1,6 @@
-######################
-# ----- SCREENS -----#
-######################
+#######################
+# region SCREENS -----#
+#######################
 
 screen show_building_button(building, display, show_type, x, y):
     if display == building or display == "x" or building in display or (isinstance(display, dict) and building in display.keys()):
@@ -173,11 +173,12 @@ screen show_building_buttons (building, *additions, show_type = "normal", frames
     if "journal_hover" in additions:
         add "icons/journal_icon_hover.webp" xalign 1.0 yalign 0.6
 
-######################
+# endregion
+#######################
 
-#####################
-# ----- LABEL ----- #
-#####################
+######################
+# region LABEL ----- #
+######################
 
 label tutorial_menu ():
 
@@ -333,7 +334,7 @@ label map_tutorial (**kwargs):
 label journal_tutorial (**kwargs):
     $ begin_event(**kwargs)
 
-    $ image = Image_Series("/images/events/misc/journal_tutorial <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     dev "Welcome. You just opened the Journal for the first time."
@@ -455,11 +456,9 @@ label journal_tutorial (**kwargs):
 label action_tutorial (**kwargs):
     $ begin_event(**kwargs)
 
-    $ log_val('kwargs', kwargs)
-
     $ return_label = get_kwargs('return_label', 'map_overview', **kwargs)
 
-    $ image = Image_Series("/images/events/misc/action_tutorial <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     dev "Hello and welcome to yet another tutorial."
@@ -489,15 +488,12 @@ label action_tutorial (**kwargs):
 
     call expression return_label from _call_expression
 
-
 label sandbox_tutorial (**kwargs):
     $ begin_event(**kwargs)
 
-    $ log_val('kwargs', kwargs)
-
     $ return_label = get_kwargs('return_label', 'map_overview', **kwargs)
 
-    $ image = Image_Series("/images/events/misc/sandbox_tutorial <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     dev "Hey hey. It's me again."
@@ -535,4 +531,6 @@ label sandbox_tutorial (**kwargs):
     $ end_event('none', **kwargs)
 
     call expression return_label from _call_expression_1
-#####################
+
+# endregion
+######################

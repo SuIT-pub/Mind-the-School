@@ -1,8 +1,9 @@
-##################################
-# ----- Labs Event Handler ----- #
-##################################
+###################################
+# region Labs Event Handler ----- #
+###################################
 
 init -1 python:
+    set_current_mod('base')
     def labs_events_available() -> bool:
         return (labs_timed_event.has_available_highlight_events() or
             labs_general_event.has_available_highlight_events() or
@@ -18,24 +19,26 @@ init -1 python:
     )
 
 init 1 python:
+    set_current_mod('base')
     
     labs_action_tutorial_event = Event(2, "action_tutorial",
         NOT(ProgressCondition('action_tutorial')),
         ValueSelector('return_label', 'labs'),
         NoHighlightOption(),
         TutorialCondition(),
+        Pattern("main", "/images/events/misc/action_tutorial <step>.webp"),
         override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
 
     labs_general_event.add_event(
         labs_action_tutorial_event
     )
 
-    
-##################################
+# endregion
+###################################
 
-################################
-# ----- Labs Entry Point ----- #
-################################
+#################################
+# region Labs Entry Point ----- #
+#################################
 
 label labs ():
     call call_available_event(labs_timed_event) from labs_1
@@ -55,12 +58,14 @@ label .after_general_check (**kwargs):
 
     jump labs
 
-################################
+# endregion
+#################################
 
-###########################
-# ----- Labs Events ----- #
-###########################
+############################
+# region Labs Events ----- #
+############################
 
 
 
-###########################
+# endregion
+############################

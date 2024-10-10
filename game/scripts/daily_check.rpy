@@ -1,4 +1,5 @@
 init -1 python:
+    set_current_mod('base')
     def after_load_event_check(location: str, events: Dict[str, EventStorage], general_event: EventStorage, timed_event: TempEventStorage):
         
         timed_event.check_all_events()
@@ -17,25 +18,23 @@ init -1 python:
     temp_time_check_events = TempEventStorage("temp_time_check_events", "misc", fallback = after_temp_event_check)
     time_check_events      = EventStorage("time_check_events", "misc", fallback = after_event_check)
 
-    
-
 init 1 python:
+    set_current_mod('base')
     first_week_epilogue_event = Event(1, "first_week_epilogue", 
         IntroCondition(),
         TimeCondition(day = 5, month = 1, year = 2023, daytime = 2),
+        Pattern("main", "images/events/first week/first week epilogue <step>.webp"),
         thumbnail = "images/events/first week/first week epilogue 8.webp")
 
     first_week_epilogue_final_event = Event(1, "first_week_epilogue_final", 
         TimeCondition(day = 10, month = 1, year = 2023, daytime = 1),
+        Pattern("main", "/images/events/first week/first week epilogue final <step>.webp"),
         thumbnail = "images/events/first week/first week epilogue final 3.webp")
 
     first_pta_meeting_event = Event(1, "first_pta_meeting", 
         IntroCondition(),
         TimeCondition(day = 5, month = 1, year = 2023, daytime = 1),
         thumbnail = "images/events/pta/first meeting/first pta meeting 0 0.webp")
-
-    pta_meeting_event = Event(2, "pta_meeting",
-        TimeCondition(weekday = 5, daytime = 1))
 
     new_week_event = Event(2, "new_week",
         TimeCondition(weekday = 1, daytime = 1))
@@ -71,6 +70,7 @@ init 1 python:
     aona_sports_bra_event_1_event = Event(1, "aona_sports_bra_event_1", 
         ProgressCondition("aona_sports_bra", 1),
         TimeCondition(daytime = 6),
+        Pattern("main", "images/events/misc/aona_sports_bra_event_1 <secretary_level> <step>.webp", 'secretary_level'),
         thumbnail = "images/events/misc/aona_sports_bra_event_1 # 23.webp")
 
     check_prof_event = Event(2, "check_missing_proficiencies",
@@ -78,8 +78,7 @@ init 1 python:
         NOT(OR(
             ProficiencyCondition('math'), 
             ProficiencyCondition('history')
-        ))
-    )
+        )))
 
     map_tutorial_event = Event(2, "map_tutorial", 
         NOT(ProgressCondition("map_tutorial")), 
@@ -90,8 +89,7 @@ init 1 python:
     time_check_events.add_event(
         first_week_epilogue_event, 
         first_week_epilogue_final_event, 
-        first_pta_meeting_event, 
-        pta_meeting_event, 
+        first_pta_meeting_event,  
         new_week_event,
         end_of_month_event,
         intro_check_all_facilities_event,
@@ -110,38 +108,11 @@ init 1 python:
 
     #############################################
     # DEBUG TEST EVENTS
-
-    frag1 = FragmentStorage("TestFragStorage1")
-    frag2 = FragmentStorage("TestFragStorage2")
-    frag3 = FragmentStorage("TestFragStorage3")
-    frag4 = FragmentStorage("TestFragStorage4")
-
-    frag1.add_event(EventFragment(3, "test_event_frag_1",
-        RandomListSelector("1_test", "1-1", "1-2", "1-3", "1-4", "1-5", "1-6", "1-7", "1-8", "1-9", "1-10"),
-        RandomListSelector("1_test2", "1-1", "1-2", "1-3", "1-4", "1-5", "1-6", "1-7", "1-8", "1-9", "1-10")))
-    frag1.add_event(EventFragment(3, "test_event_frag_1_1",
-        RandomListSelector("1_1_test", "1.1-1", "1.1-2", "1.1-3", "1.1-4", "1.1-5", "1.1-6", "1.1-7", "1.1-8", "1.1-9", "1.1-10"),
-        RandomListSelector("1_1_test2", "1.1-1", "1.1-2", "1.1-3", "1.1-4", "1.1-5", "1.1-6", "1.1-7", "1.1-8", "1.1-9", "1.1-10")))
-    frag2.add_event(EventFragment(3, "test_event_frag_2",
-        RandomListSelector("2_test", "2-1", "2-2", "2-3", "2-4", "2-5", "2-6", "2-7", "2-8", "2-9", "2-10"),
-        RandomListSelector("2_test2", "2-1", "2-2", "2-3", "2-4", "2-5", "2-6", "2-7", "2-8", "2-9", "2-10")))
-    frag2.add_event(EventFragment(3, "test_event_frag_2_1",
-        RandomListSelector("2_1_test", "2.1-1", "2.1-2", "2.1-3", "2.1-4", "2.1-5", "2.1-6", "2.1-7", "2.1-8", "2.1-9", "2.1-10"),
-        RandomListSelector("2_1_test2", "2.1-1", "2.1-2", "2.1-3", "2.1-4", "2.1-5", "2.1-6", "2.1-7", "2.1-8", "2.1-9", "2.1-10")))
-    frag3.add_event(EventFragment(3, "test_event_frag_3",
-        RandomListSelector("3_test", "3-1", "3-2", "3-3", "3-4", "3-5", "3-6", "3-7", "3-8", "3-9", "3-10"),
-        RandomListSelector("3_test2", "3-1", "3-2", "3-3", "3-4", "3-5", "3-6", "3-7", "3-8", "3-9", "3-10")))
-    frag3.add_event(EventFragment(3, "test_event_frag_3_1",
-        RandomListSelector("3_1_test", "3.1-1", "3.1-2", "3.1-3", "3.1-4", "3.1-5", "3.1-6", "3.1-7", "3.1-8", "3.1-9", "3.1-10"),
-        RandomListSelector("3_1_test2", "3.1-1", "3.1-2", "3.1-3", "3.1-4", "3.1-5", "3.1-6", "3.1-7", "3.1-8", "3.1-9", "3.1-10")))
-    frag4.add_event(EventFragment(3, "test_event_frag_4",
-        RandomListSelector("4_test", "4-1", "4-2", "4-3", "4-4", "4-5", "4-6", "4-7", "4-8", "4-9", "4-10"),
-        RandomListSelector("4_test2", "4-1", "4-2", "4-3", "4-4", "4-5", "4-6", "4-7", "4-8", "4-9", "4-10")))
-
-    test_event = EventComposite(0, "test_normal_test_event", [frag1, frag2, frag4],
-        RandomListSelector("test", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J"),
-        RandomListSelector("test2", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J"))
     #############################################
+
+############################
+# region Daily Check ----- #
+############################
 
 label time_event_check ():
     hide screen school_overview_map
@@ -157,9 +128,12 @@ label .after_temp_event_check (**kwargs):
 label .after_event_check (**kwargs):
     return
 
+# endregion
 ############################
-# ----- Intro Events ----- #
-############################
+
+#############################
+# region Intro Events ----- #
+#############################
 
 label game_over_happiness (**kwargs):
     $ begin_event()
@@ -228,7 +202,7 @@ label event_all_events_seen (**kwargs):
     
     $ renpy.choice_for_skipping()
 
-    show thanks 1 with dissolveM
+    call show_image ("images/events/endscreen/thanks 1.webp", **kwargs) from _call_show_image_event_all_seen_1
     dev "Thank you for playing, you found all events, that are currently in this version."
     dev "You can still continue playing. Some events have different variants that change every time you visit them."
 
@@ -240,7 +214,7 @@ label event_reached_max_stats (**kwargs):
     
     $ renpy.choice_for_skipping()
 
-    show thanks 1 with dissolveM
+    call show_image ("images/events/endscreen/thanks 1.webp", **kwargs) from _call_show_image_event_reached_max_stats_1
     dev "Thank you for playing, you reached a stat level that pretty much maxes out your experience."
     dev "You can still continue to play, but raising your stats beyond this point will not have any effect."
     dev "With your current stat level, you will be able to unlock all there is to see in this version."
@@ -278,7 +252,7 @@ label first_week_epilogue (**kwargs):
 
     $ hide_all()
 
-    $ image = Image_Series("images/events/first week/first week epilogue <step>.webp")
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     secretary "That was a good first meeting Mr. [headmaster_last_name]. "
@@ -557,7 +531,7 @@ label first_week_epilogue_final (**kwargs):
     $ headmaster_first_name = get_name_first('headmaster')
     $ headmaster_last_name = get_name_last('headmaster')
 
-    $ image = Image_Series("/images/events/first week/first week epilogue final <step>.webp", step_start = 1, **kwargs)
+    $ image = convert_pattern("main", step_start = 1, **kwargs)
 
     hide screen black_screen_text
 
@@ -657,11 +631,13 @@ label check_missing_proficiencies:
         ('Math', SetProficiencyEffect('math', level = 1), "math" not in headmaster_proficiencies.keys()),
         ('History', SetProficiencyEffect('history', level = 1), "history" not in headmaster_proficiencies.keys()), 
     override_menu_exit = "map_overview")
-        
 
-##################################
-# ----- Daily Check Events ----- #
-##################################
+# endregion
+#############################
+
+###################################
+# region Daily Check Events ----- #
+###################################
 
 label new_week (**kwargs):
     call change_money_with_modifier(0, 'payroll_weekly') from _call_change_money_with_modifier_1
@@ -678,7 +654,7 @@ label aona_sports_bra_event_1 (**kwargs):
 
     $ inhibition = get_stat_value('inhibition', [90, 95, 100], **kwargs)
 
-    $ image = Image_Series("images/events/misc/aona_sports_bra_event_1 <secretary_level> <step>.webp", ['secretary_level'], **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     $ store_clerk = Character("Store Clerk", kind = character.vendor)
 
@@ -847,8 +823,6 @@ label .wait_2 (**kwargs):
     call .buy_bra (**kwargs) from _call_aona_sports_bra_event_1_buy_bra
 label .sneak_bra (**kwargs):
 
-    $ log_val('character', character.subtitles)
-
     $ call_custom_menu_with_text("Do you want to swap the bra with the skimpy variant?", character.subtitles, False,
         ("Swap", "aona_sports_bra_event_1.sneak_bra_true"),
         ("Don't swap", "aona_sports_bra_event_1.buy_bra"),
@@ -929,7 +903,7 @@ label .buy_bra (**kwargs):
 
     $ set_game_data("aona_skimpy_sports_bra", bra)
 
-    $ advance_progress("aona_sports_bra")
+    $ advance_progress("aona_sports_bra") # 1 -> 2
 
     $ change_stat(MONEY, -200)
 
@@ -937,3 +911,6 @@ label .buy_bra (**kwargs):
         happiness = MEDIUM, charm = TINY, reputation = MEDIUM, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_84
 
     $ end_event('new_daytime', **kwargs)
+
+# endregion
+###################################

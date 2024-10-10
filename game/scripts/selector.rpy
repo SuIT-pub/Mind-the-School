@@ -680,7 +680,6 @@ init -3 python:
             """
             return self._kwargs
 
-
     class ProgressSelector(Selector):
         """
         A Selector-class that chooses a value from the Event Progress Database.
@@ -888,3 +887,24 @@ init -3 python:
             char = self._char if not isinstance(self._char, Selector) else self._char.get_value(**kwargs)
 
             return get_character_by_key(char)
+
+    class PTAVoteSelector(Selector):
+        def __init__(self, key: str, char: str):
+            super().__init__(True, key)
+            self._char = char
+
+        def roll(self, **kwargs) -> Any:
+            vote_proposal = get_game_data('voteProposal')
+            if vote_proposal == None:
+                return None
+
+            vote_obj = proposal._journal_obj
+
+            return voteCharacter(vote_obj.get_condition_storage(), get_character_by_key(self._char))
+
+    class PTAObjectSelector(Selector):
+        def __init__(self, key: str):
+            super().__init__(True, key)
+
+        def roll(self, **kwargs) -> Any:
+            return get_game_data('voteProposal')

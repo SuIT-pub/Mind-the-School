@@ -99,6 +99,7 @@ label trigger_hide():
     if not hide_gui:
         $ hide_gui = True
         window hide
+        hide screen custom_menu_choice
         $ quick_menu = False
         call screen wait_hide
         $ quick_menu = True

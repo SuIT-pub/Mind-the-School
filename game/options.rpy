@@ -23,7 +23,7 @@ define gui.show_name = True
 
 ## The version of the game.
 
-define config.version = "0.1.4C"
+define config.version = "0.1.5"
 
 
 ## Text that is placed on the game's about screen. Place the text between the
@@ -136,6 +136,10 @@ default preferences.text_cps = 0
 
 default preferences.afm_time = 15
 
+
+default persistent.modList = {
+    'base': {'key': 'base', 'version': '1', 'name': 'Base Mod', 'description': 'The base mod for the game.', 'author': 'SuIT-Ji', 'active': True, 'path': ''},
+}
 
 ## Save directory ##############################################################
 ##

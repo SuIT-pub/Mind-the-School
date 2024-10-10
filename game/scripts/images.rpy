@@ -1,3 +1,179 @@
+init -4 python:
+
+    ########################
+    # region Image Pattern #
+    ########################
+
+    def overwrite_event_image(event_key: str, pattern_key: str, pattern: Pattern):
+        """
+        Overwrites the image pattern of an event.
+
+        ### Parameters:
+        1. event_key: str
+            - The key of the event to overwrite.
+        2. pattern_key: str
+            - The key of the pattern to overwrite.
+        3. pattern: Pattern
+            - The new pattern to use for the event.
+        """
+
+        if not is_mod_active(active_mod_key):
+            return
+
+        pattern._key = active_mod_key
+
+        event = get_event_from_register(event_key)
+        if event == None:
+            log_error(501, f"Event '{event_key}' could not be found!")
+            return
+        event.set_pattern(pattern_key, pattern)
+
+    def get_pattern_from_kwargs(pattern_key: str, **kwargs) -> Pattern:
+        patterns = get_kwargs('frag_image_patterns', {}, **kwargs)
+        if pattern_key in patterns.keys():
+            return patterns[pattern_key]
+
+        patterns = get_kwargs('image_patterns', {}, **kwargs)
+        if pattern_key not in patterns.keys():
+            log_error(502, f"Pattern '{pattern_key}' could not be found!")
+            return None
+
+        return patterns[pattern_key]
+
+    def convert_pattern(pattern_key: str, **kwargs) -> Image_Series:
+        """
+        Converts a pattern to an image series.
+
+        ### Parameters:
+        1. pattern_key: str
+            - The key of the pattern to convert.
+        2. **kwargs
+            - The keyword arguments to replace in the image path.
+            - the patterns are also stored in the kwargs under the key 'image_patterns'
+        """
+
+        return Image_Series_Pattern(get_pattern_from_kwargs(pattern_key, **kwargs), **kwargs)
+
+    def show_pattern(pattern_key: str, **kwargs):
+        """
+        Shows an image from a pattern.
+
+        ### Parameters:
+        1. pattern_key: str
+            - The key of the pattern to show.
+        2. **kwargs
+            - The keyword arguments to replace in the image path.
+            - the patterns are also stored in the kwargs under the key 'image_patterns'
+        """
+
+        pattern = get_pattern_from_kwargs(pattern_key, **kwargs)
+        if pattern == None:
+            return
+        renpy.call('show_image', pattern.get_path(), **kwargs)
+
+    class Pattern:
+        """
+        A class to represent an image pattern.
+        This class can be used to store multiple image paths in an event object to enable them to be overwritten by mods.
+
+        ### Attributes:
+        1. _name: str
+            - The name of the pattern.
+        2. _key: str
+            - The key of the pattern.
+        3. _pattern: str
+            - The pattern of the image.
+        4. _alternative_keys: List[str]
+            - A list of all the alternative keys to replace in the image path.
+
+        ### Methods:
+        1. get_name() -> str
+            - Returns the name of the pattern.
+        2. get_key() -> str
+            - Returns the key of the pattern.
+        3. get_pattern() -> str
+            - Returns the pattern of the image.
+        4. get_path() -> str
+            - Returns the path of the pattern.
+        5. get_alternative_keys() -> List[str]
+            - Returns a list of all the alternative keys to replace in the image path.
+
+        ### Parameters:
+        1. name: str
+            - The name of the pattern.
+        2. pattern: str
+            - The pattern of the image.
+        3. alternative_keys: List[str] (default [])
+            - A list of all the alternative keys to replace in the image path.
+        4. key: str (default 'base')
+            - The key of the pattern.
+        """
+
+        def __init__(self, name: str, pattern: str, *alternative_keys: str, key: str = 'base'):
+            self._name = name
+            self._key = key
+            self._pattern = pattern
+            self._alternative_keys = list(alternative_keys)
+
+        def get_name(self) -> str:
+            """
+            Returns the name of the pattern.
+
+            ### Returns:
+            1. str
+                - The name of the pattern.
+            """
+
+            return self._name
+
+        def get_key(self) -> str:
+            """
+            Returns the key of the pattern.
+
+            ### Returns:
+            1. str
+                - The key of the pattern.
+            """
+
+            return self._key
+
+        def get_pattern(self) -> str:
+            """
+            Returns the pattern of the image.
+
+            ### Returns:
+            1. str
+                - The pattern of the image.
+            """
+
+            return self._pattern
+
+        def get_path(self) -> str:
+            """
+            Returns the path of the pattern.
+            The path is the path based on the key combined with the pattern.
+
+            ### Returns:
+            1. str
+                - The path of the pattern.
+            """
+
+            return get_mod_path(self._key) + self._pattern
+
+        def get_alternative_keys(self) -> List[str]:
+            """
+            Returns a list of all the alternative keys to replace in the image path.
+
+            ### Returns:
+            1. List[str]
+                - A list of all the alternative keys to replace in the image path.
+            """
+
+            return self._alternative_keys
+
+    # endregion
+    ########################
+
 init -2 python:
     from abc import ABC, abstractmethod
     from typing import List, Tuple
@@ -9,6 +185,14 @@ init -2 python:
     last_image = ""
     last_image_nude = 0
     last_current_nude = 0
+
+    ########################
+    # region CLASSES ----- #
+    ########################
+
+    #######################
+    # region Image Series #
+    #######################
 
     class Image_Step:
         """
@@ -106,7 +290,7 @@ init -2 python:
             self._image_paths = refine_image_with_alternatives(
                 image_path, 
                 alternative_keys,
-                **kwargs
+                **kwargs["values"]
             )
             self.steps = []
             self.create_steps(self._image_paths)
@@ -186,6 +370,39 @@ init -2 python:
 
             return variant  
         
+        def show_video(self, step: int, pause = False, variant = -1) -> str:
+            self.update()
+
+            if step < self._step_start or step >= len(self.steps) + self._step_start:
+                log_error(201, f"Step {step} for {self._image_paths[0]} is out of range! (Min: {self._step_start}, Max: {len(self.steps) - 1 + self._step_start}))")
+                renpy.show("black_screen_text", [], None, f"Step {step} is out of range! (Min: {self._step_start}, Max: {len(self.steps) - 1 + self._step_start}))")
+                return -1
+
+            image_step = self.steps[step - self._step_start]
+            if image_step == None:
+                log_error(202, f"Step {step} is missing variants for {self._image_paths[0]}!")
+                renpy.show("black_screen_text", [], None, f"Step {step} is missing variants for {self._image_paths[0]}!")
+                return -1
+
+            (image_path, variant) = image_step.get_image(variant)
+
+            name = "anim_" + image_path.split('/')[-1].split('.')[0].replace(' ', '_')
+
+            renpy.call("show_video_label", name, pause)
+
+            return
+    
+    class Image_Series_Pattern(Image_Series):
+        def __init__(self, pattern: Pattern, **kwargs):
+            super().__init__(pattern.get_path(), pattern.get_alternative_keys(), **kwargs)
+
+    # endregion
+    #######################
+
+    ############################
+    # region Background Images #
+    ############################
+
     class BGImage():
         """
         A class to represent a background image.
@@ -235,6 +452,7 @@ init -2 python:
             self._selectors = SelectorSet(*[selector for selector in conditions if isinstance(selector, Selector)])
             self._priority = priority
             self._image_path = image_path
+            self._path_prefix = ""
 
         def can_be_used(self, **kwargs) -> bool:
             """
@@ -271,6 +489,17 @@ init -2 python:
 
             return self._priority
 
+        def set_path_prefix(self, path_prefix: str):
+            """
+            Sets the path prefix of the background image.
+
+            ### Parameters:
+            1. path_prefix: str
+                - The path prefix of the background image.
+            """
+
+            self._path_prefix = path_prefix
+
         def get_image(self, **kwargs) -> Tuple[int, str]:
             """
             Returns the image path of the background image.
@@ -290,7 +519,7 @@ init -2 python:
                 kwargs.update(self._selectors.get_values())
                 self._selectors.roll_values()
 
-            return get_image(self._image_path, **kwargs)
+            return get_image(self._path_prefix + self._image_path, **kwargs)
 
         def can_get_image(self, **kwargs) -> bool:
             """
@@ -305,7 +534,7 @@ init -2 python:
                 - Whether the image path of the background image can be found in the game files.
             """
 
-            return self.get_image(self._image_path, **kwargs)[0] != -1
+            return self.get_image(self._path_prefix + self._image_path, **kwargs)[0] != -1
         
     class BGStorage:
         """
@@ -406,6 +635,12 @@ init -2 python:
             1. *image: BGImage
                 - A list of all the background images to add.
             """
+            
+            if not is_mod_active(active_mod_key):
+                return
+
+            for i in image:
+                i.set_path_prefix(get_mod_path(active_mod_key))
 
             self.images.extend(image)
 
@@ -430,6 +665,20 @@ init -2 python:
             """
 
             return self._kwargs
+
+    # endregion
+    ############################
+
+    # endregion
+    ########################
+
+    ########################
+    # region METHODS ----- #
+    ########################
+
+    #######################
+    # region Image Getter #
+    #######################
 
     def get_image(image_path: str, **kwargs) -> Tuple[int, str]:
         """
@@ -530,6 +779,13 @@ init -2 python:
         else:
             return output_nude, output_image
 
+    # endregion
+    #######################
+
+    ################
+    # region Level #
+    ################
+
     def get_available_level(path: str, level: int) -> str:        
         """
         Searches for the best available level for a given image path.
@@ -591,6 +847,13 @@ init -2 python:
             path = path.replace("<secretary_level>", str(get_character_by_key('secretary').get_level()))
 
         return path
+
+    # endregion
+    ################
+
+    #######################
+    # region value tester #
+    #######################
 
     def get_image_max_value(key: str, image_path: str, start: int = 0, end: int = 10) -> int:
         """
@@ -654,6 +917,13 @@ init -2 python:
                 return i - 1
 
         return end
+
+    # endregion
+    #######################
+
+    #######################
+    # region Refine Image #
+    #######################
 
     def refine_image_with_alternatives(image_path: str, alternative_keys: List[str], **kwargs) -> List[str]:
         """
@@ -768,6 +1038,13 @@ init -2 python:
 
         return image_path, variant
     
+    # endregion
+    #######################
+
+    ###################################
+    # region Check Image availability #
+    ###################################
+
     def check_image(image_path: str) -> bool:
         """
         Checks if the image at the image path is available and ready to load
@@ -781,6 +1058,25 @@ init -2 python:
             - If the image is available at that path
         """
         return renpy.loadable(image_path)
+
+    # endregion
+    ###################################
+
+    # endregion
+    ########################
+
+#####################################
+# region IMAGE DISPLAY LABEL #
+#####################################
+
+label show_video_label(name, pause):
+    $ hide_all()
+    scene expression name with dissolveM
+
+    if pause:
+        $ renpy.pause()
+
+    return
 
 label Image_Series:
     $ i = 0
@@ -815,7 +1111,132 @@ label .show_image(image_series, *steps, pause = False, display_type = SCENE, var
         $ i += 1
     return variant
 
+label show_image(path, display_type = SCENE, **kwargs):
+    # """
+    # Shows an image with the given path and keyword arguments.
 
+    # ### Parameters:
+    # 1. path: str
+    #     - The image path to show.
+    # 2. display_type: int (default SCENE)
+    #     - The display type of the image.
+    # 3. **kwargs
+    #     - The keyword arguments to replace in the image path.
+    # """
+
+    $ image_path = refine_image(path, **kwargs)
+
+    call show_ready_image(image_path, display_type) from _call_show_ready_image
+    return
+
+screen black_error_screen_text(text_str):
+    python:
+        """
+        Displays a black screen with red text
+        Would be used for error messages
+
+        # Parameters:
+        1. text_str: str
+            - the text to be displayed
+        """
+
+    add "black"
+    zorder -1
+    
+    text text_str:
+        xalign 0 yalign 0
+        size 20
+        color "#a00000"
+
+screen black_screen_text(text_str):
+    python:
+        """
+        Displays a black screen with white text
+
+        # Parameters:
+        1. text_str: str
+            - the text to be displayed
+        """
+
+    add "black"
+    
+    key "K_SPACE" action Return()
+    key "K_ESCAPE" action Return()
+    key "K_KP_ENTER" action Return()
+    key "K_SELECT" action Return()
+
+    text text_str:
+        xalign 0.5 yalign 0.5
+        size 60
+
+    button:
+        xpos 0 ypos 0
+        xsize 1920 ysize 1080
+        action Return()
+
+screen black_screen_text_with_subtitle(text_str, subtitle_str):
+    python:
+        """
+        Displays a black screen with white text
+
+        # Parameters:
+        1. text_str: str
+            - the text to be displayed
+        """
+
+    add "black"
+    
+    key "K_SPACE" action Return()
+    key "K_ESCAPE" action Return()
+    key "K_KP_ENTER" action Return()
+    key "K_SELECT" action Return()
+
+    vbox:
+        yalign 0.5
+        xsize 1920
+
+        text text_str:
+            xalign 0.5
+            size 60
+        null height 10
+        text subtitle_str:
+            xalign 0.5
+            size 40
+    
+    button:
+        xpos 0 ypos 0
+        xsize 1920 ysize 1080
+        action Return()
+
+label say_with_image (image_series, step, text, person_name, person):
+    # """
+    # Prints a text with an image
+    # Mainly used for the "random_say" method
+
+    # ### Parameters:
+    # 1. image_series: Image_Series
+    #     - The image series to use
+    # 2. step: int
+    #     - The step of the image series to use
+    # 3. text: str
+    #     - The text to print
+    # 4. person_name: str
+    #     - The name of the person to print
+    # 5. person: ADVCharacter
+    #     - The character who says the text
+    # """
+
+    $ image_series.show(step)
+    $ person(text, name = person_name)
+
+    return
+
+# endregion
+#####################################
+
+#############################
+# region show image methods #
+#############################
 
 label show_sfw_text(text):
     # """
@@ -866,24 +1287,6 @@ label show_idle_image(bg_images, **kwargs):
 
     call show_image_with_nude_var (image_path, max_nude, current_nude) from show_idle_image_1
 
-    return
-
-label show_image(path, display_type = SCENE, **kwargs):
-    # """
-    # Shows an image with the given path and keyword arguments.
-
-    # ### Parameters:
-    # 1. path: str
-    #     - The image path to show.
-    # 2. display_type: int (default SCENE)
-    #     - The display type of the image.
-    # 3. **kwargs
-    #     - The keyword arguments to replace in the image path.
-    # """
-
-    $ image_path = refine_image(path, **kwargs)
-
-    call show_ready_image(image_path, display_type) from _call_show_ready_image
     return
 
 label show_image_with_variant(path, display_type = SCENE, **kwargs):
@@ -1040,3 +1443,6 @@ screen image_with_nude_var(paths, limit = 2, nude = DEFAULT_NUDE):
             focus_mask None
             xalign 0.0 yalign 0.0
             action Show("image_with_nude_var", dissolveM, paths, limit, 2)
+
+# endregion
+#############################

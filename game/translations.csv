@@ -29,6 +29,18 @@ doggy;Doggy Style
 cowgirl;Cowgirl
 desk;Desk
 floor;Floor
+rule;Rules
+club;Clubs
+building;Buildings
+
+cafeteria;Cafeteria
+courtyard;Courtyard
+gym;Gym
+kiosk;Kiosk
+misc;Miscellaneous
+office_building;Office Building
+school_building;School Building
+school_dormitory;School Dormitory
 
 ############
 # Subjects
@@ -245,3 +257,11 @@ journal_tutorial;Journal Tutorial
 map_tutorial;Map Tutorial
 action_tutorial;Activity Selection Tutorial
 sandbox_tutorial;Movie Sandbox Tutorial
+
+#########
+# QUESTS
+
+aonas_new_bra;Aona's New Bra
+unlock_cafeteria;Unlock Cafeteria
+all_events;All Events
+ObserveAllEvents;Observe All Events
