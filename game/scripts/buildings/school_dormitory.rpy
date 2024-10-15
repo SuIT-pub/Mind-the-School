@@ -1,33 +1,34 @@
-###################################################
-# ----- High School Dormitory Event Handler ----- #
-###################################################
+####################################################
+# region High School Dormitory Event Handler ----- #
+####################################################
 
 init -1 python:
-    def sd_events_available() -> bool:
-        return (sd_timed_event.has_available_highlight_events() or
-            sd_general_event.has_available_highlight_events() or
-            any(e.has_available_highlight_events() for e in sd_events.values()))
-
+    set_current_mod('base')
+    
     sd_timed_event = TempEventStorage("school_dormitory", "school_dormitory", fallback = Event(2, "school_dormitory.after_time_check"))
     sd_general_event = EventStorage("school_dormitory",   "school_dormitory", fallback = Event(2, "school_dormitory.after_general_check"))
+    register_highlighting(sd_timed_event, sd_general_event)
 
     sd_events = {}
     add_storage(sd_events, EventStorage("peek_students", "school_dormitory", fallback_text = "There is nobody here."))
 
-    sd_bg_images = BGStorage("images/background/school dormitory/bg c.webp", ValueSelector('loli', 0),
-        BGImage("images/background/school dormitory/bg <loli> <school_level> <variant> <nude>.webp", 1, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))),
-        BGImage("images/background/school dormitory/bg 7.webp", 1, TimeCondition(daytime = 7)),
+    sd_bg_images = BGStorage("images/background/school dormitory/c.webp",
+        BGImage("images/background/school dormitory/<school_level> <variant> <nude>.webp", 1, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))),
+        BGImage("images/background/school dormitory/n.webp", 1, TimeCondition(daytime = 7)),
     )
 
-init 1 python:    
+init 1 python:
+    set_current_mod('base')    
     first_week_school_dormitory_event_event = Event(1, "first_week_school_dormitory_event",
         IntroCondition(),
         TimeCondition(day = "2-4", month = 1, year = 2023),
+        Pattern("main", "images/events/first week/first week school dormitory <step>.webp"),
         thumbnail = "images/events/first week/first week school dormitory 1.webp")
 
     first_potion_school_dormitory_event_event = Event(1, "first_potion_school_dormitory_event",
         IntroCondition(),
         TimeCondition(day = 9, month = 1, year = 2023),
+        Pattern("main", "images/events/first potion/first potion school dormitory <step>.webp"),
         thumbnail = "images/events/first potion/first potion school dormitory 3.webp")
 
     sd_event1 = Event(3, "sd_event_1",
@@ -39,6 +40,7 @@ init 1 python:
             TimeCondition(weekday = "d", daytime = "n"), 
             TimeCondition(weekday = "w")
         ),
+        Pattern("main", "images/events/school dormitory/sd_event_1 <school_level> <step>.webp"),
         thumbnail = "images/events/school dormitory/sd_event_1 1 0.webp")
 
     sd_event2 = Event(3, "sd_event_2",
@@ -72,6 +74,8 @@ init 1 python:
             TimeCondition(weekday = "d", daytime = "n"), 
             TimeCondition(weekday = "w")
         ),
+        Pattern("main", "images/events/school dormitory/sd_event_2 <topic> <location> <girl_name> <school_level> <step>.webp"),
+        Pattern("end", "images/events/school dormitory/sd_event_2 <location> <step>.webp"),
         thumbnail = "images/events/school dormitory/sd_event_2 ah dorm_room Aona Komuro 1 0.webp")
 
     sd_event3 = Event(3, "sd_event_3",
@@ -79,29 +83,23 @@ init 1 python:
         StatSelector('inhibition', INHIBITION, "school"),
         RandomListSelector('topic', "normal", (0.1, "panties"), (0.02, "nude")),
         TimeCondition(daytime = "6,7"),
+        Pattern("main", "images/events/school dormitory/sd_event_3 <topic> <school_level> <step>.webp"),
         thumbnail = "images/events/school dormitory/sd_event_3 normal 1 0.webp")
 
-    sd_action_tutorial_event = Event(2, "action_tutorial",
-        NOT(ProgressCondition('action_tutorial')),
-        ValueSelector('return_label', 'school_dormitory'),
-        NoHighlightOption(),
-        TutorialCondition(),
-        override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
-
     sd_general_event.add_event(
-        sd_action_tutorial_event,
         first_week_school_dormitory_event_event,
         first_potion_school_dormitory_event_event,
     )
 
     # sd_events["peek_students"].add_event(sd_event2)
     sd_events["peek_students"].add_event(sd_event1, sd_event2, sd_event3)
-    
+
+# endregion
 ###################################################
 
-############################################
-# ----- School Dormitory Entry Point ----- #
-############################################
+#############################################
+# region School Dormitory Entry Point ----- #
+#############################################
 
 label school_dormitory ():
     call call_available_event(sd_timed_event) from school_dormitory_1
@@ -120,32 +118,37 @@ label .after_general_check (**kwargs):
 
     jump school_dormitory
 
-#################################################
+# endregion
+#############################################
 
-#######################################
-# ----- School Dormitory Events ----- #
-#######################################
+########################################
+# region School Dormitory Events ----- #
+########################################
+
+#######################
+# region Intro Events #
 
 label first_week_school_dormitory_event (**kwargs):
-    
     $ begin_event(**kwargs)
+
+    $ image = convert_pattern("main", step_start = 1, **kwargs)
     
-    scene first week school dormitory 1 with dissolveM
+    $ image.show(1)
     headmaster_thought "The dormitory looks alright."
 
-    scene first week school dormitory 2 with dissolveM
+    $ image.show(2)
     headmaster_thought "As far as I know, the students have to share a communal bathroom."
     headmaster_thought "Private bathrooms would be nice for the students, but for one I don't think we really need that and then it would need a lot of rebuilding. So that should be last on the list."
     
-    scene first week school dormitory 3 with dissolveM
+    $ image.show(3)
     headmaster_thought "Let's see if someone would let me see their room so I can check the state of these."
     
-    scene first week school dormitory 4 with dissolveM
+    $ image.show(4)
     headmaster "Hello? I'm Mr. [headmaster_last_name] the new Headmaster. Can I come in? I'm here to inspect the building."
     subtitles "..."
     headmaster "Hello?"
 
-    scene first week school dormitory 5 with dissolveM
+    $ image.show(5)
     headmaster_thought "Hmm nobody seems to be here. Nevermind. I just let my Secretary give me a report."
 
     $ change_stat("inhibition", -3, get_school())
@@ -156,20 +159,21 @@ label first_week_school_dormitory_event (**kwargs):
     $ end_event('new_day', **kwargs)
 
 label first_potion_school_dormitory_event (**kwargs):
-
     $ begin_event(**kwargs)
+
+    $ image = convert_pattern("main", step_start = 1, **kwargs)
     
-    scene first potion school dormitory 1 with dissolveM
+    $ image.show(1)
     subtitles "You enter the dormitory of the high school."
     headmaster_thought "Mhh, where does the noise come from?"
 
-    scene first potion school dormitory 2 with dissolveM
+    $ image.show(2)
     headmaster_thought "Ah I think there are some students in the room over there."
 
-    scene first potion school dormitory 3 with dissolveM
+    $ image.show(3)
     headmaster_thought "Ahh party games!"
 
-    scene first potion school dormitory 4 with dissolveM
+    $ image.show(4)
     if time.check_daytime("c"):
         headmaster_thought "Normally I would scold them for skipping class but today is a special day so I gladly enjoy this view."
     else:
@@ -179,6 +183,12 @@ label first_potion_school_dormitory_event (**kwargs):
 
     $ end_event('new_daytime', **kwargs)
 
+# endregion
+#######################
+
+#########################
+# region Regular Events #
+
 label sd_event_1 (**kwargs):
     $ begin_event(**kwargs)
 
@@ -186,7 +196,7 @@ label sd_event_1 (**kwargs):
     $ inhibition = get_stat_value('inhibition', [89, 100], **kwargs)
     $ education = get_stat_value('education', [50, 100], **kwargs)
 
-    $ image = Image_Series("images/events/school dormitory/sd_event_1 <school_level> <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     if education > 50:
         $ image.show(0)
@@ -225,8 +235,8 @@ label sd_event_2 (**kwargs):
     $ topic = get_value('topic', **kwargs)
     $ topic_set = get_value('topic_set', **kwargs)
 
-    $ image = Image_Series("images/events/school dormitory/sd_event_2 <topic> <location> <girl_name> <school_level> <step>.webp", **kwargs)
-    $ image2 = Image_Series("images/events/school dormitory/sd_event_2 <location> <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
+    $ image2 = convert_pattern("end", **kwargs)
 
     if topic == "ah":
         $ image.show(0)
@@ -338,7 +348,7 @@ label sd_event_3 (**kwargs):
     $ school_level = get_value('school_level', **kwargs)
     $ topic = get_value('topic', **kwargs)
 
-    $ image = Image_Series("images/events/school dormitory/sd_event_3 <topic> <school_level> <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     # if inhibition >= 80:
     $ image.show(0)
@@ -357,3 +367,9 @@ label sd_event_3 (**kwargs):
         call change_stats_with_modifier('school', inhibition = DEC_LARGE) from _call_change_stats_with_modifier_83
 
     $ end_event(**kwargs)
+
+# endregion
+#########################
+
+# endregion
+########################################

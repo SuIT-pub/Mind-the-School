@@ -46,10 +46,22 @@ init -99 python:
         stat_notifications[key] += value
 
     def reset_stat_notifications():
+        """
+        Reset the stat notifications
+        """
+
         global stat_notifications
         stat_notifications = {}
 
-    def add_notify_message(msg=None):
+    def add_notify_message(msg: str = None):
+        """
+        Add a message to the notification list
+
+        ### Parameters:
+        1. msg: str
+            - The message to add
+        """
+
         if not msg:
             return
 

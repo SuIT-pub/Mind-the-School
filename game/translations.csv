@@ -29,6 +29,18 @@ doggy;Doggy Style
 cowgirl;Cowgirl
 desk;Desk
 floor;Floor
+rule;Rules
+club;Clubs
+building;Buildings
+
+cafeteria;Cafeteria
+courtyard;Courtyard
+gym;Gym
+kiosk;Kiosk
+misc;Miscellaneous
+office_building;Office Building
+school_building;School Building
+school_dormitory;School Dormitory
 
 ############
 # Subjects
@@ -188,9 +200,9 @@ sb_event_4;Student tripping in hallway
 
 sb_event_5;Girls changing in classroom
 sb_event_5_girls;Girls
-sb_event_5_girls_Ikushi Ito;Var 1
-sb_event_5_girls_Soyoon Yamamoto;Var 2
-sb_event_5_girls_Yuriko Oshima;Var 3
+sb_event_5_girls_Ikushi Ito;Ikushi, Gloria, Luna
+sb_event_5_girls_Soyoon Yamamoto;Soyoon, Lin, Aona
+sb_event_5_girls_Yuriko Oshima;Yuriko, Kokoro, Elsie
 
 sb_teach_math_1;Sleepy Math Class
 
@@ -245,3 +257,11 @@ journal_tutorial;Journal Tutorial
 map_tutorial;Map Tutorial
 action_tutorial;Activity Selection Tutorial
 sandbox_tutorial;Movie Sandbox Tutorial
+
+#########
+# QUESTS
+
+aonas_new_bra;Aona's New Bra
+unlock_cafeteria;Unlock Cafeteria
+all_events;All Events
+ObserveAllEvents;Observe All Events
