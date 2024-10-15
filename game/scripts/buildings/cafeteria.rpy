@@ -32,11 +32,7 @@ init 1 python:
         TimeCondition(daytime = "d"),
         RandomListSelector("topic", "coffee", "tea", "warm milk"),
         Pattern("main", "images/events/cafeteria/cafeteria_event_1/<parent_level> <step>.webp"),
-<<<<<<< HEAD
         thumbnail = "images/events/cafeteria/cafeteria_event_1/1 4.webp")
-=======
-        thumbnail = "images/events/cafeteria/cafeteria_event_1 1 4.webp")
->>>>>>> 265294d (put event values a level deeper to prevent overlaps)
     
     cafeteria_event_2_event = Event(3, "cafeteria_event_2",
         TimeCondition(daytime = "1,6"),

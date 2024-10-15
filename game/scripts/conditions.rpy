@@ -2332,8 +2332,8 @@ init -6 python:
             if "values" in kwargs.keys():
                 kwargs = kwargs["values"]
 
-            value_1 = kwargs[self.key_1]
-            value_2 = kwargs[self.key_2]
+            value_1 = kwargs["values"][self.key_1]
+            value_2 = kwargs["values"][self.key_2]
 
             if isinstance(value_1, Selector):
                 value_1 = value_1.roll(**kwargs)
@@ -3049,6 +3049,10 @@ init -6 python:
             return clamp_value(100 - diff, -100, 100)
 
     class JournalVoteCondition(Condition):
+        """
+        A class for conditions that check if a Journal Object is currently scheduled for voting.
+        """
+
         def __init__(self, journal_obj: name):
             super().__init__(False)
             self._journal_obj = journal_obj
@@ -3057,6 +3061,14 @@ init -6 python:
             registered_vote_events.append(journal_obj)
 
         def is_fulfilled(self, **kwargs) -> bool:
+            """
+            Returns whether the Journal Object is currently scheduled for voting.
+
+            ### Returns:
+            1. bool
+                - Whether the condition is fulfilled or not.
+            """
+
             if super().is_fulfilled(**kwargs):
                 return True
 
@@ -3071,12 +3083,21 @@ init -6 python:
         def get_name(self) -> str:
             return f"JournalVoteCondition({self._journal_obj})"
 
-        def get_diff(self, _char_obj) -> num:
-            if self.is_fulfilled():
-                return 100
-            return 0
-
     class JournalNRVoteCondition(Condition):
+        """
+        A class for conditions that check if a Journal Object has never been scheduled for voting.
+
+        ### Methods:
+        1. is_fulfilled(self, **kwargs) -> bool
+            - Returns whether the Journal Object has never been scheduled for voting.
+        2. get_name(self) -> str
+            - Returns "JournalNRVoteCondition".
+
+        ### Returns:
+        1. bool
+            - Whether the condition is fulfilled or not.
+        """
+
         def __init__(self):
             super().__init__(False)
 
@@ -3094,8 +3115,3 @@ init -6 python:
 
         def get_name(self) -> str:
             return "JournalNRVoteCondition"
-
-        def get_diff(self, _char_obj) -> num:
-            if self.is_fulfilled():
-                return 100
-            return 0
