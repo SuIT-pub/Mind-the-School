@@ -130,6 +130,9 @@ init -6 python:
             - The data of the rule to be loaded.
         """
 
+        if not is_mod_active(active_mod_key):
+            return
+
         if name not in rules.keys():
             rules[name] = Rule(name, title)
 
@@ -156,6 +159,8 @@ init -6 python:
 # region LABELS ----- #
 
 label load_rules ():
+    $ set_current_mod('base')
+
     $ remove_rule("service_uniform")
 
     $ load_rule("school_jobs", "School Jobs", {

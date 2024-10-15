@@ -67,24 +67,12 @@ init 1 python:
     game_over_reputation_event = Event(1, "game_over_reputation", 
         StatCondition(reputation = "0-"))
 
-    aona_sports_bra_event_1_event = Event(1, "aona_sports_bra_event_1", 
-        ProgressCondition("aona_sports_bra", 1),
-        TimeCondition(daytime = 6),
-        Pattern("main", "images/events/misc/aona_sports_bra_event_1 <secretary_level> <step>.webp", 'secretary_level'),
-        thumbnail = "images/events/misc/aona_sports_bra_event_1 # 23.webp")
-
     check_prof_event = Event(2, "check_missing_proficiencies",
         NOT(IntroCondition(True)),
         NOT(OR(
             ProficiencyCondition('math'), 
             ProficiencyCondition('history')
         )))
-
-    map_tutorial_event = Event(2, "map_tutorial", 
-        NOT(ProgressCondition("map_tutorial")), 
-        OR(IntroCondition(True), IntroCondition(False)),
-        TutorialCondition(),
-        override_intro = True, thumbnail = "images/events/misc/map_tutorial.webp")
 
     time_check_events.add_event(
         first_week_epilogue_event, 
@@ -97,8 +85,6 @@ init 1 python:
         game_over_happiness_event,
         game_over_education_event,
         game_over_reputation_event,
-        aona_sports_bra_event_1_event,
-        map_tutorial_event
     )
         # check_prof_event,
     temp_time_check_events.add_event(
@@ -600,7 +586,6 @@ label first_week_epilogue_final (**kwargs):
     secretary "Good luck."
 
     $ end_event('none', **kwargs)
-
 label .skip:
 
     hide screen black_error_screen_text
@@ -648,269 +633,6 @@ label end_of_month (**kwargs):
     # $ change_stat(MONEY, 1000)
 
     return
-
-label aona_sports_bra_event_1 (**kwargs):
-    $ begin_event(**kwargs)
-
-    $ inhibition = get_stat_value('inhibition', [90, 95, 100], **kwargs)
-
-    $ image = convert_pattern("main", **kwargs)
-
-    $ store_clerk = Character("Store Clerk", kind = character.vendor)
-
-    $ image.show(0)
-    subtitles "*Knock* *Knock*"
-    $ image.show(1)
-    headmaster "Come in!"
-    $ image.show(2)
-    secretary "Excuse me Mr. [headmaster_last_name], Mrs. Komuro is here to see you."
-    $ image.show(3)
-    headmaster "Ah yes, thank you! I'll come out!"
-    call Image_Series.show_image(image, 4, 5) from image_aona_sports_bra_event_1_1
-    headmaster "Mrs. Langley, I'll be out with Mrs. Komuro for a few hours."
-    $ image.show(6)
-    secretary "Okay, can I ask what you have planned?"
-    $ image.show(7)
-    headmaster "Mrs. Komuro unfortunately is missing a sports bra and I'm going to take her get one in the next city."
-    $ image.show(8)
-    headmaster "She struggles a bit during sports lessons and I want to help her out."
-    # secretary looks up and down on Aona
-    $ image.show(9)
-    secretary "Oh yeah, I see what you mean. She is quite big."
-    # Aona blushes
-    $ image.show(10)
-    headmaster "Yes, she is. I'll be back in a few hours."
-    # scene change to inside the car
-    call Image_Series.show_image(image, 11, 12, 13) from image_aona_sports_bra_event_1_2
-    headmaster "So Aona, how are you doing?"
-    $ image.show(14)
-    sgirl "I'm doing fine Mr. [headmaster_last_name]." (name='Aona Komuro')
-    $ image.show(15)
-    headmaster "I'm glad to hear that. I'm sorry that I didn't notice earlier that you were struggling."
-    $ image.show(16)
-    sgirl "I don't really talk about it. I'm a bit embarrassed about it." (name = "Aona Komuro")
-    $ image.show(17)
-    headmaster "I understand. But you don't have to be embarrassed. It's a natural thing."
-    $ image.show(18)
-    sgirl "The other girls are sometimes a bit jealous of me because of my breasts." (name = "Aona Komuro")
-    $ image.show(19)
-    sgirl "But I hate my breasts. They're too big and I can't do anything about it." (name = "Aona Komuro")
-    $ image.show(20)
-    headmaster "I understand. I'm sure you have other struggles because of them, don't you?"
-    $ image.show(21)
-    sgirl "Yes, the worst thing is the constant back pain. I can't even sit properly in class." (name = "Aona Komuro")
-    $ image.show(22)
-    headmaster "Oh that is no good. A healthy back is important for your general health."
-    $ image.show(23)
-    headmaster "Ah look. We've arrived. Let's head in."
-    
-    call Image_Series.show_image(image, 24, 25) from image_aona_sports_bra_event_1_3
-    store_clerk "Hello! How can I help you?"
-    # scene change to inside the store
-    $ image.show(26)
-    headmaster "Hello! I'm looking for a sports bra for this young lady."
-    $ image.show(25)
-    store_clerk "Sure I can help you with that."
-    # clerk looks at Aona
-    call Image_Series.show_image(image, 27, 28, 29) from image_aona_sports_bra_event_1_4
-    store_clerk "Alright. I'll show you some options."
-    # they walk to the sports bra section
-    $ image.show(30)
-    store_clerk "Let's see what we have here."
-    $ image.show(31)
-    store_clerk "How about this one?"
-    $ image.show(32)
-    sgirl "That looks good. Can I try it on?" (name = "Aona Komuro")
-    $ image.show(33)
-    store_clerk "Of course! The changing rooms are over there."
-    $ image.show(33)
-    # aona goes into the changing room
-    $ image.show(34)
-    store_clerk "If you need more help, just call me."
-    sgirl "Will do!" (name = "Aona Komuro")
-
-    $ call_custom_menu(False,
-        ("Wait", "aona_sports_bra_event_1.wait_1"),
-        ("Look for a bra for yourself", "aona_sports_bra_event_1.bra_for_self"),
-        ("Peek into the changing room", "aona_sports_bra_event_1.peek_1"),
-    **kwargs)
-label .bra_for_self (**kwargs):
-
-    $ image.show(35)
-    headmaster "Hmm, what kind of bras do they have here?"
-    $ image.show(36)
-    headmaster "Oh that one looks interesting. Maybe I'll get her to pick that one."
-    $ kwargs['bra_for_self'] = True
-
-    call .wait_1 (**kwargs) from _call_aona_sports_bra_event_1_wait_1
-label .peek_1 (**kwargs):
-
-    $ image.show(37)
-    headmaster_thought "Maybe I can sneak a look."
-    # looks from neighbouring cabin in from top
-    call Image_Series.show_image(image, 37, 38, 39, 40, 41, 42, 43, 44) from image_aona_sports_bra_event_1_5
-    headmaster_thought "Nice."
-    call Image_Series.show_image(image, 45, 46, 47, 48, 49, 50, 51) from image_aona_sports_bra_event_1_6
-    headmaster_thought "Better get back now..."
-    
-    call .wait_1 (**kwargs) from _call_aona_sports_bra_event_1_wait_1_1
-label .wait_1 (**kwargs):
-
-    $ bra = get_kwargs('bra_for_self', False, **kwargs)
-
-    call Image_Series.show_image(image, 52, 53, 54) from image_aona_sports_bra_event_1_7
-    sgirl "This one fits quite well. I would like to take it." (name = "Aona Komuro")
-
-    $ call_custom_menu(False,
-        ("Buy bra", "aona_sports_bra_event_1.buy_bra"),
-        ("Ask to try on your pick", "aona_sports_bra_event_1.try_alt_bra", bra),
-    **kwargs)
-label .try_alt_bra (**kwargs):
-
-    $ image.show(55)
-    headmaster "I found this one, I think that would be a good choice."
-    sgirl "Sure, I'll try it out." (name = "Aona Komuro")
-
-    $ call_custom_menu(False,
-        ("Peek", "aona_sports_bra_event_1.peek_2"),
-        ("Wait", "aona_sports_bra_event_1.wait_2"),
-    **kwargs)
-label .peek_2 (**kwargs):
-    
-    $ image.show(56)
-    headmaster_thought "I'll take a look."
-    # looks from neighbouring cabin in from top
-    call Image_Series.show_image(image, 57, 58, 59, 60, 61, 62) from image_aona_sports_bra_event_1_8
-    headmaster_thought "Nice."
-    
-    call .wait_2 (**kwargs) from _call_aona_sports_bra_event_1_wait_2
-label .wait_2 (**kwargs):
-
-    $ image.show(63)
-    sgirl "Uhm sir? I think this one is a bit too skimpy for me." (name = "Aona Komuro")
-    sgirl "I don't think I can wear that." (name = "Aona Komuro")
-    $ image.show(64)
-    headmaster "Do you care to show what you mean?"
-    if inhibition >= 96:
-        sgirl "Sorry, but I wouldn't feel comfortable doing that." (name = "Aona Komuro")
-        $ image.show(65)
-        headmaster "I understand. I'll take it back then."
-        headmaster "Could you give me the other bra then? I'll quickly go pay for it."
-        call .sneak_bra (**kwargs) from _call_aona_sports_bra_event_1_sneak_bra
-    else:
-        sgirl "Uhm, okay..." (name = "Aona Komuro")
-        # aona steps out of the cabin
-        $ image.show(66)
-        headmaster "Oh, I see what you mean. But I think it suits you very well."
-        $ image.show(67)
-        headmaster "I mean it has a good support and has great ventilation, especially good for running."
-        $ image.show(68)
-        headmaster "Also, if I am allowed to say so, it looks very good on you and sure would provide a good boost in self confidence."
-        if inhibition >= 91:
-            $ image.show(69)
-            sgirl "I understand, but I don't feel comfortable with it." (name = "Aona Komuro")
-            $ image.show(70)
-            headmaster "I understand. I'll take it back then."
-            headmaster "Could you give me the other bra then? I'll quickly go pay for it."
-            call .sneak_bra (**kwargs) from _call_aona_sports_bra_event_1_sneak_bra_1
-        else:
-            $ image.show(71)
-            sgirl "Oh thank you for saying that, I guess I could take it." (name = "Aona Komuro")
-            $ image.show(72)
-            headmaster "Wonderful, let's take it then."
-            $ kwargs["skimpy_bra"] = True
-    
-    call .buy_bra (**kwargs) from _call_aona_sports_bra_event_1_buy_bra
-label .sneak_bra (**kwargs):
-
-    $ call_custom_menu_with_text("Do you want to swap the bra with the skimpy variant?", character.subtitles, False,
-        ("Swap", "aona_sports_bra_event_1.sneak_bra_true"),
-        ("Don't swap", "aona_sports_bra_event_1.buy_bra"),
-    **kwargs)
-label .sneak_bra_true (**kwargs):
-    $ kwargs["skimpy_bra"] = True
-    $ kwargs["volunteered"] = False
-    call .buy_bra (**kwargs) from _call_aona_sports_bra_event_1_buy_bra_1
-label .buy_bra (**kwargs):
-
-    $ image.show(73)
-    headmaster "I'll quickly go pay for it."
-    $ image.show(74)
-    # headmaster goes to the cashier
-    headmaster "Okay! I would like to buy this bras. For my student over there."
-    $ image.show(75)
-    store_clerk "Sure, that will be 100 then."
-    $ image.show(76)
-    headmaster "Sure, here you go!"
-    $ image.show(77)
-    store_clerk "Thank you very much!"
-    # headmaster goes back to Aona
-    $ image.show(78)
-    headmaster "Alright that is done. Let's go back to the school."
-    $ image.show(79)
-    sgirl "Thank you very much Mr. [headmaster_last_name]!" (name = "Aona Komuro")
-    $ image.show(80)
-    headmaster "You're welcome. I'm glad I could help you out."
-    # back in car
-    call Image_Series.show_image(image, 81, 82) from image_aona_sports_bra_event_1_9
-    headmaster "You know, I had a thought about your back problems."
-    $ image.show(83)
-    headmaster "Have you tried massages or physiotherapy?"
-    $ image.show(84)
-    sgirl "Not really, I'm a bit embarrassed about it and my health insurance doesn't cover that." (name = "Aona Komuro")
-    $ image.show(85)
-    headmaster "I see... You know, in my studies about the human physiology I learned a lot about the human body."
-    $ image.show(86)
-    headmaster "Which also includes the back and how to treat it."
-    $ image.show(85)
-    headmaster "Sooo... if you'd like, I could give you a hand with your back pain."
-    $ image.show(87)
-    sgirl "Oh, I don't know..." (name = "Aona Komuro")
-    $ image.show(88)
-    headmaster "Don't worry, I'm a professional. I know what I'm doing."
-    $ image.show(87)
-    sgirl "Yeah, but I don't think that would be good. I wouldn't feel comfortable with that." (name = "Aona Komuro")
-    $ image.show(88)
-    headmaster "I understand. But if you ever change your mind, just let me know."
-    $ image.show(87)
-    sgirl "I'll think about it!" (name = "Aona Komuro")
-    $ image.show(89)
-    subtitles "The rest of the drive, Aona and the headmaster talked about different things concerning her back issues and her breasts."
-    # Back at the school
-    $ image.show(90)
-    headmaster "Alright, we're back. I hope the bra will help you out."
-    $ image.show(91)
-    sgirl "Thank you very much Mr. [headmaster_last_name]!" (name = "Aona Komuro")
-    $ image.show(90)
-    headmaster "You're welcome. Have a good night! Don't stay up for too long, it's quite late already."
-    $ image.show(91)
-    sgirl "Yes, I will! Good night!" (name = "Aona Komuro")
-    $ image.show(90)
-    headmaster "Good night, see you at the next P.E. lesson."
-    $ image.show(92)
-    headmaster_thought "I hope that bra will help her out. She really needs it."
-    $ image.show(93)
-    headmaster_thought "But during that drive, it seems the girls are still missing some crucial information about their own bodies."
-    call Image_Series.show_image(image, 94, 95) from image_aona_sports_bra_event_1_10
-    headmaster_thought "I mean how conservative have the teacher here been? That's just unacceptable."
-
-    $ bra = 0
-
-    if get_kwargs('skimpy_bra', False, **kwargs):
-        $ bra = 1
-        if get_kwargs('volunteered', False, **kwargs):
-            $ bra = 2
-
-    $ set_game_data("aona_skimpy_sports_bra", bra)
-
-    $ advance_progress("aona_sports_bra") # 1 -> 2
-
-    $ change_stat(MONEY, -200)
-
-    call change_stats_with_modifier('school',
-        happiness = MEDIUM, charm = TINY, reputation = MEDIUM, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_84
-
-    $ end_event('new_daytime', **kwargs)
 
 # endregion
 ###################################

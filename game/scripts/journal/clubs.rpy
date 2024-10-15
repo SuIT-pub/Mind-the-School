@@ -130,6 +130,9 @@ init -6 python:
             - The data of the club.
         """
 
+        if not is_mod_active(active_mod_key):
+            return
+
         if name not in clubs.keys():
             clubs[name] = Club(name, title)
 
@@ -157,6 +160,7 @@ init -6 python:
 ######################
 
 label load_clubs ():
+    $ set_current_mod('base')
 
     #! locked, currently not implemented
     $ load_club("masturbation_club", "Masturbation Club", {

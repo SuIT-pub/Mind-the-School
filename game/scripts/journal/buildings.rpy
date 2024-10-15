@@ -695,6 +695,9 @@ init -6 python:
             - starting_data contains data that should not be changed in the building during runtime.
         """
 
+        if not is_mod_active(active_mod_key):
+            return
+
         if name not in buildings.keys():
             buildings[name] = Building(name, title)
             buildings[name]._update(title, starting_data)
@@ -753,6 +756,8 @@ init -6 python:
 ######################
 
 label load_buildings ():
+    $ set_current_mod('base')
+
     $ compatibility_check()
 
     # unlocked

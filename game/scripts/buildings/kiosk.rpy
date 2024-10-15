@@ -4,20 +4,17 @@
 
 init -1 python:
     set_current_mod('base')
-    def kiosk_events_available() -> bool:
-        return (kiosk_timed_event.has_available_highlight_events() or
-            kiosk_general_event.has_available_highlight_events() or
-            any(e.has_available_highlight_events() for e in kiosk_events.values()))
-
+    
     kiosk_timed_event = TempEventStorage("kiosk_timed", "kiosk", fallback = Event(2, "kiosk.after_time_check"))
     kiosk_general_event = EventStorage("kiosk_general", "kiosk", fallback = Event(2, "kiosk.after_general_check"))
+    register_highlighting(kiosk_timed_event, kiosk_general_event)
 
     kiosk_events = {}
     add_storage(kiosk_events, EventStorage("get_snack",    "kiosk", fallback_text = "I don't want anything."))
 
-    kiosk_bg_images = BGStorage("images/background/kiosk/bg c.webp", ValueSelector('loli', 0),
-        BGImage("images/background/kiosk/bg <loli> <school_level> <variant> <nude>.webp", 1, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))), # show kiosk with students
-        BGImage("images/background/kiosk/bg 7.webp", 1, TimeCondition(daytime = 7)), # show kiosk at night empty
+    kiosk_bg_images = BGStorage("images/background/kiosk/c.webp",
+        BGImage("images/background/kiosk/<school_level> <variant> <nude>.webp", 1, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))), # show kiosk with students
+        BGImage("images/background/kiosk/n.webp", 1, TimeCondition(daytime = 7)), # show kiosk at night empty
     )
 
 init 1 python:
@@ -33,15 +30,15 @@ init 1 python:
         RandomValueSelector("variant", 1, 2),
         RandomListSelector("girl_name", "Aona Komuro", "Ikushi Ito", "Gloria Goto", "Lin Kato"),
         OR(TimeCondition(weekday = "d", daytime = "1,3"), TimeCondition(weekday="w", daytime = "4-")),
-        Pattern("main", "images/events/kiosk/kiosk_event_1 <girl_name> <school_level> <variant>.webp"),
-        thumbnail = "images/events/kiosk/kiosk_event_1 Aona Komuro 1 1.webp")
+        Pattern("main", "images/events/kiosk/kiosk_event_1/<girl_name> <school_level> <variant>.webp"),
+        thumbnail = "images/events/kiosk/kiosk_event_1/Aona Komuro 1 1.webp")
 
     kiosk_event2 = Event(3, "kiosk_event_2",
         LevelSelector('school_level', 'school'),
         RandomListSelector("girl_name", "Hatano Miwa", "Kokoro Nakamura", "Soyoon Yamamoto"),
         OR(TimeCondition(weekday = "d", daytime = "f"), TimeCondition(weekday="w", daytime = "d")),
-        Pattern("main", "images/events/kiosk/kiosk_event_2 <girl_name> <school_level> <step>.webp"),
-        thumbnail = "images/events/kiosk/kiosk_event_2 Hatano Miwa 1 0.webp")
+        Pattern("main", "images/events/kiosk/kiosk_event_2/<girl_name> <school_level> <step>.webp"),
+        thumbnail = "images/events/kiosk/kiosk_event_2/Hatano Miwa 1 0.webp")
 
     kiosk_event3 = Event(3, "kiosk_event_3",
         LevelSelector('school_level', 'school'),
@@ -52,16 +49,7 @@ init 1 python:
         Pattern("main", "images/events/kiosk/kiosk_event_3 <school_level> <step>.webp"),
         thumbnail = "images/events/kiosk/kiosk_event_3 1 0.webp")
 
-    kiosk_action_tutorial_event = Event(2, "action_tutorial",
-        NOT(ProgressCondition('action_tutorial')),
-        ValueSelector('return_label', 'kiosk'),
-        NoHighlightOption(),
-        TutorialCondition(),
-        Pattern("main", "/images/events/misc/action_tutorial <step>.webp"),
-        override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
-
     kiosk_general_event.add_event(
-        kiosk_action_tutorial_event,
         first_week_kiosk_event_event,
     )
 

@@ -2,6 +2,7 @@
     "key": "dev",
     "version": "dev",
     "name": "Development",
-    "description": "Development Branch",
-    "author": "SuIT-Ji"
+    "description": "Development Branch. aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "author": "SuIT-Ji",
+    "translations": ["translations.csv"]
 }

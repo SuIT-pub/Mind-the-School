@@ -4,20 +4,17 @@
 
 init -1 python:
     set_current_mod('base')
-    def sd_events_available() -> bool:
-        return (sd_timed_event.has_available_highlight_events() or
-            sd_general_event.has_available_highlight_events() or
-            any(e.has_available_highlight_events() for e in sd_events.values()))
-
+    
     sd_timed_event = TempEventStorage("school_dormitory", "school_dormitory", fallback = Event(2, "school_dormitory.after_time_check"))
     sd_general_event = EventStorage("school_dormitory",   "school_dormitory", fallback = Event(2, "school_dormitory.after_general_check"))
+    register_highlighting(sd_timed_event, sd_general_event)
 
     sd_events = {}
     add_storage(sd_events, EventStorage("peek_students", "school_dormitory", fallback_text = "There is nobody here."))
 
-    sd_bg_images = BGStorage("images/background/school dormitory/bg c.webp", ValueSelector('loli', 0),
-        BGImage("images/background/school dormitory/bg <loli> <school_level> <variant> <nude>.webp", 1, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))),
-        BGImage("images/background/school dormitory/bg 7.webp", 1, TimeCondition(daytime = 7)),
+    sd_bg_images = BGStorage("images/background/school dormitory/c.webp",
+        BGImage("images/background/school dormitory/<school_level> <variant> <nude>.webp", 1, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))),
+        BGImage("images/background/school dormitory/n.webp", 1, TimeCondition(daytime = 7)),
     )
 
 init 1 python:
@@ -89,16 +86,7 @@ init 1 python:
         Pattern("main", "images/events/school dormitory/sd_event_3 <topic> <school_level> <step>.webp"),
         thumbnail = "images/events/school dormitory/sd_event_3 normal 1 0.webp")
 
-    sd_action_tutorial_event = Event(2, "action_tutorial",
-        NOT(ProgressCondition('action_tutorial')),
-        ValueSelector('return_label', 'school_dormitory'),
-        NoHighlightOption(),
-        TutorialCondition(),
-        Pattern("main", "/images/events/misc/action_tutorial <step>.webp"),
-        override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
-
     sd_general_event.add_event(
-        sd_action_tutorial_event,
         first_week_school_dormitory_event_event,
         first_potion_school_dormitory_event_event,
     )

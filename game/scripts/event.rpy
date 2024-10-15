@@ -8,6 +8,52 @@ init -3 python:
     from typing import Any, Dict, List, Tuple, Union
     
     seenEvents = {}
+    highlight_register = {}
+
+    ###########################
+    # region Register Methods #
+
+    def register_highlighting(*storages: EventStorage):
+        for storage in storages:
+            if storage.get_location() == "fragment":
+                continue
+            if storage.get_location() not in highlight_register.keys():
+                highlight_register[storage.get_location()] = {}
+            highlight_register[storage.get_location()][storage.get_name()] = storage
+
+    def is_highlight_for_location_available(location: str) -> bool:
+        if location not in highlight_register.keys():
+            return False
+        return any(storage.has_available_highlight_events() for storage in highlight_register[location].values())
+
+    def is_event_for_location_available(location: str) -> bool:
+        if location not in highlight_register.keys():
+            return False
+        return any(storage.has_available_events() for storage in highlight_register[location].values())
+
+    def update_available_highlights():
+        for location in highlight_register.keys():
+            overview_highlight_available[location] = is_highlight_for_location_available(location)
+
+    def update_available_events():
+        for location in highlight_register.keys():
+            overview_events_available[location] = is_event_for_location_available(location)
+
+    def get_available_highlight(location: str) -> bool:
+        if location not in overview_highlight_available.keys():
+            return False
+        return overview_highlight_available[location]
+
+    def get_available_event(location: str) -> bool:
+        if location not in overview_events_available.keys():
+            return False
+        return overview_events_available[location]
+
+    # endregion
+    ###########################
+
+    ######################
+    # region Seen Events #
 
     def register_seen_event(event: str):
         global seenEvents
@@ -46,6 +92,9 @@ init -3 python:
         if event_name not in seenEvents.keys():
             return False
         return seenEvents[event_name]
+
+    # endregion
+    ######################
 
     ########################
     # region Event classes #
@@ -369,6 +418,9 @@ init -3 python:
                     return True
             return False
 
+        def has_available_events(self, priority: int = 0, **kwargs) -> bool:
+            return self.count_available_events(priority, **kwargs) > 0
+
         def count_available_events(self, priority: int = 0, **kwargs) -> int:
             """
             Counts the number of events that are available.
@@ -486,7 +538,6 @@ init -3 python:
 
             return self.count_available_events_with_fallback_and_prio(priority, **kwargs)[0]
 
-        
         def count_available_events_with_fallback_and_prio(self, priority: int = 0, **kwargs) -> Tuple[int, bool]:
             """
             Counts the number of events that are available.
@@ -847,6 +898,9 @@ init -3 python:
                     return True
             return False
 
+        def has_available_events(self, _priority = 0, **kwargs) -> bool:
+            return self.count_available_events(_priority, **kwargs) > 0
+
         def count_available_events(self, _priority = 0, **kwargs) -> int:
             """
             Counts the number of events that are available.
@@ -1148,6 +1202,8 @@ init -3 python:
             self.priority = priority 
             self.event_type = ""
             # self.values = values
+
+            change_mod_event_count(active_mod_key, 1)
 
             if register_self and is_mod_active(active_mod_key):
                 event_register[self.event_id] = self
@@ -1681,6 +1737,8 @@ init -3 python:
         if not is_mod_active(active_mod_key):
             return
 
+        register_highlighting(event_storage)
+
         event_dict[event_storage.get_name()] = event_storage
 
     def begin_event(version: str = "1", **kwargs):
@@ -1699,12 +1757,28 @@ init -3 python:
 
         hide_all()
 
-        log_val('kwargs', kwargs)
-
         event_name = get_kwargs("event_name", "", **kwargs)
         in_replay = get_kwargs("in_replay", False, **kwargs)
         no_gallery = get_kwargs("no_gallery", False, **kwargs)
         is_fragment = get_kwargs("is_fragment", False, **kwargs)
+
+        if in_replay:
+            event = get_kwargs('event_name', None, **kwargs)
+            event_form = get_kwargs('event_form', 'event', **kwargs)
+            location = get_kwargs('location', 'misc', **kwargs)
+            if is_event_registered(event):
+                location = get_event_from_register(event).get_location()
+
+            if 'version' not in persistent.gallery[location][event]['options'].keys():
+                persistent.gallery[location][event]['options']['version'] = "1"
+            
+            if version != persistent.gallery[location][event]['options']['version']:
+                reset_gallery(location, event)
+                
+                if location not in persistent.gallery.keys():
+                    location = ""
+
+                renpy.call("failed_replay_invalid_gallery", location)
 
         gallery_manager = None
         if event_name != "" and not in_replay and not no_gallery:
@@ -2016,15 +2090,6 @@ init -1 python:
     sandbox_after_event_check      = Event(2, "start_sandbox.after_check")
     sandbox_check_events = EventStorage("sandbox_check_events", "misc", fallback = sandbox_after_event_check)
 
-init 1 python:
-    sandbox_tutorial_event = Event(1, 'sandbox_tutorial',
-        ValueSelector('return_label', 'start_sandbox.after_check'),
-        TutorialCondition(),
-        Pattern("main", "/images/events/misc/sandbox_tutorial <step>.webp"),
-        thumbnail = "images/events/misc/sandbox_tutorial 0.webp")
-
-    sandbox_check_events.add_event(sandbox_tutorial_event)
-
 label start_sandbox (**kwargs):
     # """
     # This label starts the sandbox movie mode
@@ -2107,14 +2172,12 @@ label .start (**kwargs):
         $ idle_movie = movie.replace('cum_idle', 'cum')
         $ idle_file = file.replace('cum', 'cum_idle').replace('<variant>', str(variant))
         $ hide_all()
-        $ log_val('idle_movie', idle_movie)
         # $ renpy.movie_cutscene(idle_file, None, 0)
         scene expression idle_movie with dissolveM
         $ renpy.pause(cum_map[location][position][clothing])
         $ hide_all()
 
     # play movies
-    $ log_val('movie', movie)
     scene expression movie with dissolveM
     
 
@@ -2191,10 +2254,7 @@ label .change_clothing (**kwargs):
             # check if clothing string ends with "_[number]" and if yes extract the number
             if clothing[-1].isdigit():
                 clothing_level = int(clothing.split('_')[-1])
-                log_val('clothing_level', clothing_level)
-                log_val('level', level)
                 if level < clothing_level:
-                    log('skipping')
                     continue
 
             elements.append((get_translation(clothing), ChangeKwargsEffect('naughty_clothing', clothing)))
@@ -2288,3 +2348,12 @@ screen naughty_scene_icons(*icons):
 
 # endregion
 ########################
+
+label failed_replay_invalid_gallery (display_journal):
+    dev "Sorry, it seems the event you want to replay has been reworked and the gallery in the data is not valid anymore."
+    dev "The gallery data for this event will now be reset, so it will continue to work in the future."
+    dev "Unfortunately you'll have to unlock the event and it's variants again."
+    dev "I apologize for the inconvenience!"
+
+    $ is_in_replay = False
+    $ renpy.call("open_journal", 7, display_journal, from_current = False)

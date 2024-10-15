@@ -176,6 +176,48 @@ screen show_building_buttons (building, *additions, show_type = "normal", frames
 # endregion
 #######################
 
+init 1 python:
+    set_current_mod('base')
+    action_tutorial_event = Event(2, "action_tutorial",
+        NOT(ProgressCondition('action_tutorial')),
+        ValueSelector('return_label', 'bath'),
+        NoHighlightOption(),
+        TutorialCondition(),
+        Pattern("main", "/images/events/misc/action_tutorial/<step>.webp"),
+        override_location = "misc", thumbnail = "images/events/misc/action_tutorial/0.webp")
+
+    bath_general_event.add_event(action_tutorial_event)
+    beach_general_event.add_event(action_tutorial_event)
+    cafeteria_general_event.add_event(action_tutorial_event)
+    courtyard_general_event.add_event(action_tutorial_event)
+    gym_general_event.add_event(action_tutorial_event)
+    kiosk_general_event.add_event(action_tutorial_event)
+    labs_general_event.add_event(action_tutorial_event)
+    office_building_general_event.add_event(action_tutorial_event)
+    sb_general_event.add_event(action_tutorial_event)
+    sd_general_event.add_event(action_tutorial_event)
+    sports_field_general_event.add_event(action_tutorial_event)
+    staff_lodges_general_event.add_event(action_tutorial_event)
+    swimming_pool_general_event.add_event(action_tutorial_event)
+
+    journal_events.add_event(Event(1, "journal_tutorial",
+        NOT(ProgressCondition('journal_tutorial')),
+        TutorialCondition(),
+        Pattern("main", "/images/events/misc/journal_tutorial/<step>.webp"),
+        thumbnail = "images/events/misc/journal_tutorial/0.webp"))
+
+    sandbox_check_events.add_event(Event(1, 'sandbox_tutorial',
+        ValueSelector('return_label', 'start_sandbox.after_check'),
+        TutorialCondition(),
+        Pattern("main", "/images/events/misc/sandbox_tutorial/<step>.webp"),
+        thumbnail = "images/events/misc/sandbox_tutorial/0.webp"))    
+
+    time_check_events.add_event(Event(2, "map_tutorial", 
+        NOT(ProgressCondition("map_tutorial")), 
+        OR(IntroCondition(True), IntroCondition(False)),
+        TutorialCondition(),
+        override_intro = True, thumbnail = "images/events/misc/map_tutorial.webp"))
+
 ######################
 # region LABEL ----- #
 ######################

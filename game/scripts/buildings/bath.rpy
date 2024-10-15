@@ -4,13 +4,11 @@
 
 init -1 python:
     set_current_mod('base')
-    def bath_events_available() -> bool:
-        return (bath_timed_event.has_available_highlight_events() or 
-            bath_general_event.has_available_highlight_events() or 
-            any(e.has_available_highlight_events() for e in bath_events.values()))
 
     bath_timed_event = TempEventStorage("bath_timed", "bath", fallback = Event(2, "bath.after_time_check"))
     bath_general_event = EventStorage("bath_general", "bath", fallback = Event(2, "bath.after_general_check"))
+    register_highlighting(bath_timed_event, bath_general_event)
+
     bath_events = {}
 
     bath_bg_images = BGStorage("images/background/bath/bg c.webp", 
@@ -21,17 +19,6 @@ init -1 python:
     
 init 1 python:
     set_current_mod('base')
-    bath_action_tutorial_event = Event(2, "action_tutorial",
-        NOT(ProgressCondition('action_tutorial')),
-        ValueSelector('return_label', 'bath'),
-        NoHighlightOption(),
-        TutorialCondition(),
-        Pattern("main", "/images/events/misc/action_tutorial <step>.webp"),
-        override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
-
-    bath_general_event.add_event(
-        bath_action_tutorial_event
-    )
 
 # endregion
 ###################################
