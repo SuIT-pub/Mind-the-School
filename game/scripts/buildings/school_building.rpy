@@ -4,14 +4,10 @@
 
 init -1 python:
     set_current_mod('base')
-    def sb_events_available() -> bool:
-        return (sb_timed_event.has_available_highlight_events() or
-            sb_general_event.has_available_highlight_events() or
-            any(e.has_available_highlight_events() for e in sb_events.values()) or
-            any(e.has_available_highlight_events() for e in sb_teach_events.values()))
-
+    
     sb_timed_event   = TempEventStorage("school_building", "school_building", fallback = Event(2, "school_building.after_time_check"))
     sb_general_event =     EventStorage("school_building", "school_building", fallback = Event(2, "school_building.after_general_check"))
+    register_highlighting(sb_timed_event, sb_general_event)
 
     sb_events = {}
     add_storage(sb_events, EventStorage("teach_class",  "school_building", fallback_text = "There is nobody here."))
@@ -21,9 +17,14 @@ init -1 python:
     add_storage(sb_teach_events, EventStorage("math",    "school_building", fallback_text = "There is nobody here."))
     add_storage(sb_teach_events, EventStorage("history", "school_building", fallback_text = "There is nobody here."))
 
-    sb_bg_images = BGStorage("images/background/school building/bg f.webp", ValueSelector('loli', 0),
-        BGImage("images/background/school building/bg <loli> <school_level> <variant> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")),
-        BGImage("images/background/school building/bg 7.webp", 1, TimeCondition(daytime = 7)),
+    sb_teach_math_ld_storage = FragmentStorage('sb_teach_math_ld')
+    sb_teach_math_main_storage = FragmentStorage('sb_teach_math_main')
+    sb_teach_history_intro_storage = FragmentStorage('sb_teach_history_intro')
+    sb_teach_history_main_storage = FragmentStorage('sb_teach_history_main')
+
+    sb_bg_images = BGStorage("images/background/school building/f.webp",
+        BGImage("images/background/school building/<school_level> <nude> <variant>.webp", 1, TimeCondition(daytime = "c", weekday = "d")),
+        BGImage("images/background/school building/n.webp", 1, TimeCondition(daytime = 7)),
     )
 
 init 1 python:
@@ -46,33 +47,15 @@ init 1 python:
     first_class_sb_event_event = Event(1, "first_class_sb_event",
         TimeCondition(weekday = "d", daytime = "c"),
         ProgressCondition('first_class', '2-'),
-        RandomListSelector('class', 
-            ('3A', NOT(GameDataCondition('first_class_3A', True))),
-            (
-                '2A', 
-                AND(
-                    NOT(GameDataCondition('first_class_2A', True)),
-                    LoliContentCondition('1+')
-                ),
-            ),
-            (
-                '1A', 
-                AND(
-                    NOT(GameDataCondition('first_class_1A', True)),
-                    LoliContentCondition('2')
-                ),
-            ), 
-            realtime = True,
-            alt = '3A'
-        ),
-        Pattern("main", "/images/events/school building/first_class_sb_event <class> <nude> <step>.webp"),
-        thumbnail = "images/events/school building/first_class_sb_event 3A 0 2.webp")
+        RandomListSelector('class', '3A'),
+        Pattern("main", "/images/events/school building/first_class_sb_event/<class> <nude> <step>.webp"),
+        thumbnail = "images/events/school building/first_class_sb_event/3A 0 2.webp")
 
     sb_event1 = Event(3, "sb_event_1",
         TimeCondition(daytime = "c", weekday = "d"),
         LevelSelector('school_level', 'school'),
-        Pattern("main", "/images/events/school building/sb_event_1 <school_level> <step>.webp"),
-        thumbnail = "images/events/school building/sb_event_1 1 1.webp")
+        Pattern("main", "/images/events/school building/sb_event_1/<school_level> <step>.webp"),
+        thumbnail = "images/events/school building/sb_event_1/1 1.webp")
 
     sb_event3 = Event(3, "sb_event_3",
         TimeCondition(daytime = "d", weekday = "d"),
@@ -94,21 +77,7 @@ init 1 python:
         thumbnail = "images/events/school building/sb_event_5 1 Soyoon Yamamoto 11.webp")
     ####################
 
-    sb_action_tutorial_event = Event(2, "action_tutorial",
-        NOT(ProgressCondition('action_tutorial')),
-        ValueSelector('return_label', 'school_building'),
-        NoHighlightOption(),
-        TutorialCondition(),
-        Pattern("main", "/images/events/misc/action_tutorial <step>.webp"),
-        override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
-
-
-
     ####################
-
-    # sb_event_teach_class_event = Event(3, "teach_class_event",
-    #     TimeCondition(weekday = "d", daytime = "c"),)
-
     # Teaching events
     sb_event_teach_class_event = EventSelect(3, "teach_class_event", "What subject do you wanna teach?", sb_teach_events,
         TimeCondition(weekday = "d", daytime = "c"),
@@ -117,7 +86,7 @@ init 1 python:
 
     #################
     # Math Teaching
-    sb_teach_math_ld_storage = FragmentStorage('sb_teach_math_ld')
+    
     sb_teach_math_ld_storage.add_event(
         EventFragment(3, 'sb_teach_math_ld_1', 
             Pattern("main", "/images/events/school building/sb_teach_math_ld_1 <step>.webp"),
@@ -131,7 +100,6 @@ init 1 python:
             thumbnail = "images/events/school building/sb_teach_math_ld_3 0.webp")
     )
 
-    sb_teach_math_main_storage = FragmentStorage('sb_teach_math_main')
     sb_teach_math_main_storage.add_event(
         EventFragment(3, 'sb_teach_math_main_1',
             RandomListSelector('main_girl_name', 'Seraphina Clark', 'Hatano Miwa', 'Soyoon Yamamoto'),
@@ -143,21 +111,23 @@ init 1 python:
             thumbnail = "images/events/school building/sb_teach_math_main_2 1 7.webp")
     )
 
-    sb_teach_math_event = EventComposite(3, 'sb_teach_math', [sb_teach_math_ld_storage, sb_teach_math_main_storage],
-        LevelSelector('school_level', 'school'),
-        ProficiencyCondition('math'),
-        Pattern("main", "/images/events/school building/sb_teach_math.webp"),
-        thumbnail = "images/events/school building/sb_teach_math_main_1 # 1 18.webp")
+    sb_teach_events["math"].add_event(
+        EventComposite(3, 'sb_teach_math', [sb_teach_math_ld_storage, sb_teach_math_main_storage],
+            LevelSelector('school_level', 'school'),
+            ProficiencyCondition('math'),
+            Pattern("main", "/images/events/school building/sb_teach_math.webp"),
+            thumbnail = "images/events/school building/sb_teach_math_main_1 # 1 18.webp"))
     #################
 
-    sb_teach_history_intro_storage = FragmentStorage('sb_teach_history_intro')
+    ####################
+    # History Teaching
+
     sb_teach_history_intro_storage.add_event(
         EventFragment(3, 'sb_teach_history_intro_f_revolution_1',
             CheckReplay(ValueCondition('topic', 'french revolution')),
             Pattern("main", "/images/events/school building/sb_teach_history_intro_f_revolution_1 <step>.webp"))
     )
 
-    sb_teach_history_main_storage = FragmentStorage('sb_teach_history_main')
     sb_teach_history_main_storage.add_event(
         EventFragment(3, 'sb_teach_history_main_f_revolution_1',
             CheckReplay(ValueCondition('topic', 'french revolution')),
@@ -166,22 +136,20 @@ init 1 python:
             CheckReplay(ValueCondition('topic', 'french revolution')),
             Pattern("main", "/images/events/school building/sb_teach_history_main_f_revolution_2 <school_level> <step>.webp", 'school_level'))
     )
-
-    sb_teach_history_event = EventComposite(3, 'sb_teach_history', [sb_teach_history_intro_storage, sb_teach_history_main_storage],
-        LevelSelector('school_level', 'school'),
-        RandomListSelector('topic', 'french revolution'),
-        ProficiencyCondition('history'),
-        Pattern("main", "/images/events/school building/sb_teach_history.webp"),
-        thumbnail = "images/events/school building/sb_teach_history_main_f_revolution_1 1 2.webp"
-    )
+    
+    sb_teach_events["history"].add_event(
+        EventComposite(3, 'sb_teach_history', [sb_teach_history_intro_storage, sb_teach_history_main_storage],
+            LevelSelector('school_level', 'school'),
+            RandomListSelector('topic', 'french revolution'),
+            ProficiencyCondition('history'),
+            Pattern("main", "/images/events/school building/sb_teach_history.webp"),
+            thumbnail = "images/events/school building/sb_teach_history_main_f_revolution_1 1 2.webp"))
+    ####################
 
     #################
     # Event insertion
-    # sb_timed_event.add_event(
-    # )
 
     sb_general_event.add_event(
-        sb_action_tutorial_event,
         first_week_sb_event, 
         first_potion_sb_event,
     )
@@ -196,14 +164,6 @@ init 1 python:
         sb_event3,
         sb_event4,
         sb_event5,
-    )
-
-    sb_teach_events["math"].add_event(
-        sb_teach_math_event
-    )
-
-    sb_teach_events["history"].add_event(
-        sb_teach_history_event
     )
 
     #################

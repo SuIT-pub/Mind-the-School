@@ -46,6 +46,11 @@ init -99 python:
             return kwargs[key]
         return alt
 
+    def get_kwargs_value(key: str, alt = None, **kwargs) -> Any:
+        if "values" in kwargs.keys():
+            return get_kwargs(key, get_kwargs(key, alt, **kwargs), **kwargs["values"])
+        return get_kwargs(key, alt, **kwargs)
+
     # endregion
     ###############################
 
@@ -214,6 +219,8 @@ init -99 python:
             - True if the value is in the value range, False otherwise
         """
 
+        value_range = re.sub(r'\s+', '', str(value_range))
+
         split = str(value_range).split(',')
 
         nearest = None
@@ -229,7 +236,9 @@ init -99 python:
                             return True
                     else:
                         val_list = split_val.split('-')
-                        if value < int(val_list[0]) or value > int(val_list[1]):
+                        smaller_value = int(val_list[0]) if int(val_list[0]) < int(val_list[1]) else int(val_list[1])
+                        larger_value = int(val_list[0]) if int(val_list[0]) > int(val_list[1]) else int(val_list[1])
+                        if value < int(smaller_value) or value > int(larger_value):
                             continue
                         else:
                             return True
@@ -315,6 +324,20 @@ init -99 python:
         else:
             return 0
     
+    def get_element(value: num | str | Selector, **kwargs) -> Any:
+        output = value
+        while isinstance(output, Selector):
+            output = output.roll(**kwargs)
+        return output
+
+    def get_element_num(value: num | str | Selector, **kwargs) -> num:
+        output = value
+        while isinstance(output, Selector):
+            output = output.roll(**kwargs)
+        if not is_float(output):
+            return -1
+        return float(output)
+
     # endregion
     #####################################
 
@@ -1021,11 +1044,29 @@ init -99 python:
 
         global translation_texts
 
-        if not renpy.loadable("translations.csv"):
-            translation_texts = {}
-        file = renpy.open_file("translations.csv")
-        lines = split_to_non_empty_list(file.read().decode(), "\r\n")
-        translation_texts = {line.split(';')[0]: line.split(';')[1] for line in lines if ';' in line}
+        translation_texts = {}
+
+        paths = []
+
+        for mod in get_active_mods():
+            if 'translations' in mod.keys():
+                if isinstance(mod['translations'], str):
+                    paths.extend(mod['path'] + mod['translations'])
+                else:
+                    paths.extend([mod['path'] + translation for translation in mod['translations']])
+
+        for path in paths:
+            if not renpy.loadable(path):
+                continue
+
+            file = renpy.open_file(path)
+            lines = split_to_non_empty_list(file.read().decode(), "\r\n")
+
+            for line in lines:
+                if line.count(';') != 1:
+                    continue
+                key, value = line.split(';')
+                translation_texts[key] = value
 
     def get_loli_filter():
         """
@@ -1111,16 +1152,25 @@ init -99 python:
                 mod = persistent.modList[mod_json_obj['key']]
                 if mod['version'] != mod_json_obj['version']:
                     mod['active'] = False
-                    mod.update(mod_json_obj)
-                    mod['path'] = metadata.replace("metadata", "")
-                    persistent.modList[mod_json_obj['key']] = mod
+                mod.update(mod_json_obj)
+                mod['path'] = metadata.replace("metadata", "")
+                mod['translations'] = []
+                mod['event_count'] = 0
+                if 'translations' in mod_json_obj.keys():
+                    mod['translations'] = mod_json_obj['translations']
+                persistent.modList[mod_json_obj['key']] = mod
             else:
                 mod = mod_json_obj
                 mod['active'] = False
                 mod['path'] = metadata.replace("metadata", "")
+                mod['translations'] = []
+                mod['event_count'] = 0
+                if 'translations' in mod_json_obj.keys():
+                    mod['translations'] = mod_json_obj['translations']
                 persistent.modList[mod_json_obj['key']] = mod
 
         for key in list(persistent.modList.keys()):
+            persistent.modList[key]['event_count'] = 0
             if key not in available_keys:
                 persistent.modList[key]['available'] = False
                 persistent.modList[key]['active'] = False
@@ -1143,11 +1193,15 @@ init -99 python:
                 'author': 'SuIT-Ji', 
                 'active': True, 
                 'available': True,
-                'path': ''
+                'path': '',
+                'translations': ['translations.csv'],
             }
 
         if 'available' not in persistent.modList['base']:
             persistent.modList['base']['available'] = True
+
+        if 'translations' not in persistent.modList['base']:
+            persistent.modList['base']['translations'] = ['translations.csv']
 
     def is_mod_active(key: str) -> bool:
         
@@ -1179,6 +1233,15 @@ init -99 python:
     def deactivate_mod(key: str):
         if key in persistent.modList.keys():
             persistent.modList[key]['active'] = False
+
+    def get_active_mods() -> List[Dict[str, Any]]:
+        return [mod for mod in persistent.modList.values() if mod['active']]
+
+    def change_mod_event_count(key: str, delta: int):
+        if key in persistent.modList.keys():
+            if not 'event_count' in persistent.modList[key]:
+                persistent.modList[key]['event_count'] = 0
+            persistent.modList[key]['event_count'] += delta
 
     # endregion
     ######################

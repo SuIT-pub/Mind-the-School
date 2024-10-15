@@ -206,7 +206,7 @@ init python:
             if is_event_registered(event):
                 self.location = get_event_from_register(event).get_location()
 
-
+            self.already_registered_values = []
 
             prep_gallery(self.location, event, event_form)
 
@@ -259,6 +259,11 @@ init python:
 
         if gallery_manager == None:
             return
+
+        if key in gallery_manager.already_registered_values:
+            return
+
+        gallery_manager.already_registered_values.append(key)
 
         if key in gallery_manager.current_ranges.keys() and is_float(value):
             closest_value = 100
@@ -506,7 +511,6 @@ init python:
         
         if "values" in kwargs.keys():
             value = get_kwargs(key, alt, **kwargs["values"])
-            log_val('value', value)
         else:
             value = alt
 
@@ -544,7 +548,6 @@ init python:
         
         if "values" in kwargs.keys():
             value = get_kwargs(key, alt, **kwargs["values"])
-            log_val('value', value)
         else:
             value = alt
 

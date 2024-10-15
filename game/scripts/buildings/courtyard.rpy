@@ -4,20 +4,17 @@
 
 init -1 python:
     set_current_mod('base')
-    def courtyard_events_available() -> bool:
-        return (courtyard_timed_event.has_available_highlight_events() or
-            courtyard_general_event.has_available_highlight_events() or
-            any(e.has_available_highlight_events() for e in courtyard_events.values()))
-
+    
     courtyard_timed_event = TempEventStorage("courtyard_timed", "courtyard", fallback = Event(2, "courtyard.after_time_check"))
     courtyard_general_event = EventStorage("courtyard_general", "courtyard", fallback = Event(2, "courtyard.after_general_check"))
+    register_highlighting(courtyard_timed_event, courtyard_general_event)
     
     courtyard_events = {}
     add_storage(courtyard_events, EventStorage("patrol", "courtyard", fallback_text = "There is nobody here."))
 
-    courtyard_bg_images = BGStorage("images/background/courtyard/bg c.webp", ValueSelector('loli', 0),
-        BGImage("images/background/courtyard/bg <loli> <school_level> <teacher_level> <variant> <nude>.webp", 1, TimeCondition(daytime = "f")),
-        BGImage("images/background/courtyard/bg 7.webp", 1, TimeCondition(daytime = 7)), # show empty courtyard at night
+    courtyard_bg_images = BGStorage("images/background/courtyard/c.webp",
+        BGImage("images/background/courtyard/<school_level> <nude> <variant>.webp", 1, TimeCondition(daytime = "f")),
+        BGImage("images/background/courtyard/n.webp", 1, TimeCondition(daytime = 7)), # show empty courtyard at night
     )
 
 init 1 python:
@@ -50,22 +47,22 @@ init 1 python:
     courtyard_event3 = Event(3, "courtyard_event_3",
         TimeCondition(daytime = "f", weekday = "d"),
         LevelSelector('school_level', 'school'),
-        Pattern("main", "images/events/courtyard/courtyard_event_3 <school_level>.webp"),
-        thumbnail = "images/events/courtyard/courtyard_event_3 1.webp")
+        Pattern("main", "images/events/courtyard/courtyard_event_3/<school_level> <step>.webp"),
+        thumbnail = "images/events/courtyard/courtyard_event_3/1 0.webp")
 
     courtyard_event4 = Event(3, "courtyard_event_4",
         OR(TimeCondition(weekday = "d", daytime = "f"),
             TimeCondition(weekday = "w", daytime = "d")),
         RandomListSelector('girl_name', 'Luna Clark', "Gloria Goto", "Ikushi Ito", "Ishimaru Maki"),
         Pattern("main", "images/events/courtyard/courtyard_event_4/<school_level> <girl_name> <step>.webp"),
-        thumbnail = "images/events/courtyard/courtyard_event_4 1 Gloria Goto 1.webp")
+        thumbnail = "images/events/courtyard/courtyard_event_4/1 Gloria Goto 1.webp")
 
     courtyard_event5 = Event(3, "courtyard_event_5",
         OR(TimeCondition(weekday = "d", daytime = "f"),
             TimeCondition(weekday = "w", daytime = "d")),
         LevelSelector('school_level', 'school'),
-        Pattern("main", "images/events/courtyard/courtyard_event_5 <school_level>.webp"),
-        thumbnail = "images/events/courtyard/courtyard_event_5 1.webp")
+        Pattern("main", "images/events/courtyard/courtyard_event_5/<school_level>.webp"),
+        thumbnail = "images/events/courtyard/courtyard_event_5/1.webp")
 
     courtyard_event6 = Event(3, "courtyard_event_6",
         TimeCondition(weekday = "d", daytime = "2,4"),
@@ -73,16 +70,7 @@ init 1 python:
         Pattern("main", "images/events/courtyard/courtyard_event_6 <school_level> <step>.webp"),
         thumbnail = "images/events/courtyard/courtyard_event_6 1 0.webp")
 
-    courtyard_action_tutorial_event = Event(2, "action_tutorial",
-        NOT(ProgressCondition('action_tutorial')),
-        ValueSelector('return_label', 'courtyard'),
-        NoHighlightOption(),
-        TutorialCondition(),
-        Pattern("main", "/images/events/misc/action_tutorial <step>.webp"),
-        override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
-
     courtyard_general_event.add_event(
-        courtyard_action_tutorial_event,
         first_week_courtyard_event_event,
         first_potion_courtyard_event_event,
     )
@@ -275,7 +263,8 @@ label courtyard_event_3 (**kwargs):
     $ begin_event(**kwargs)
     
     $ school_level = get_value('school_level', **kwargs)
-    $ show_pattern("main", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
+    call Image_Series.show_image(image, 0, 1) from _call_show_image_courtyard_event_3_1
     subtitles "You notice a group of girls taking a break together."
 
     call change_stats_with_modifier('school',

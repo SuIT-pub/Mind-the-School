@@ -4,13 +4,11 @@
 
 init -1 python:
     set_current_mod('base')
-    def beach_events_available() -> bool:
-        return (beach_timed_event.has_available_highlight_events() or 
-            beach_general_event.has_available_highlight_events() or 
-            any(e.has_available_highlight_events() for e in beach_events.values()))
-
+    
     beach_timed_event = TempEventStorage("beach_timed", "beach", fallback = Event(2, "beach.after_time_check"))
     beach_general_event = EventStorage("beach_general", "beach", fallback = Event(2, "beach.after_general_check"))
+    register_highlighting(beach_timed_event, beach_general_event)
+
     beach_events = {}
 
     beach_bg_images = BGStorage("images/background/beach/bg c.webp", 
@@ -21,18 +19,6 @@ init -1 python:
     
 init 1 python:
     set_current_mod('base')
-    
-    beach_action_tutorial_event = Event(2, "action_tutorial",
-        NOT(ProgressCondition('action_tutorial')),
-        ValueSelector('return_label', 'beach'),
-        NoHighlightOption(),
-        TutorialCondition(),
-        Pattern("main", "/images/events/misc/action_tutorial <step>.webp"),
-        override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
-
-    beach_general_event.add_event(
-        beach_action_tutorial_event
-    )
 
 # endregion
 ####################################

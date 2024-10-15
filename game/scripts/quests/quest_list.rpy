@@ -1,6 +1,17 @@
 init 1 python:
 
     def load_quest(quest: Quest):
+        """
+        Loads a quest into the game.
+
+        ### Parameters:
+        1. quest: Quest
+            - The quest to be loaded
+        """
+        
+        if not is_mod_active(active_mod_key):
+            return
+
         global quests
         global quests_register
         category = quest.get_category()
@@ -12,25 +23,92 @@ init 1 python:
             quests[category][quest.get_key()].update_data(quest)
 
     def activate_quest(category: str, key: str):
+        """
+        Activates a quest for the player.
+
+        ### Parameters:
+        1. category: str
+            - The category of the quest.
+        2. key: str
+            - The key of the quest.
+        """
+
         if category in quests and key in quests[category]:
             quests[category][key].activate()
             add_notify_message(f"New Quest added for {get_translation(category)}!")
 
     def activate_goal(category: str, key: str, goal_key: str):
+        """
+        Activates a goal for a quest.
+
+        ### Parameters:
+        1. category: str
+            - The category of the quest.
+        2. key: str
+            - The key of the quest.
+        3. goal_key: str
+            - The key of the goal.
+        """
+
         if category in quests and key in quests[category]:
             quests[category][key].activate_goal(goal_key)
 
-    def get_quest(category: str, key: str):
+    def get_quest(category: str, key: str) -> Quest:
+        """
+        Returns a quest by its category and key.
+
+        ### Parameters:
+        1. category: str
+            - The category of the quest.
+        2. key: str
+            - The key of the quest.
+
+        ### Returns:
+        1. Quest: 
+            - The quest with the given category and key.
+            - None if the quest doesn't exist.
+        """
+
         if category in quests and key in quests[category]:
             return quests[category][key]
         return None
 
-    def get_quests(category: str):
+    def get_quests(category: str) -> Dict[str, Quest]:
+        """
+        Returns all quests of a category.
+
+        ### Parameters:
+        1. category: str
+            - The category of the quests.
+
+        ### Returns:
+        1. Dict[str, Quest]:
+            - A dictionary of quests with their keys as the keys.
+            - None if the category doesn't exist.
+        """
+
         if category in quests:
             return quests[category]
         return None
 
-    def get_goal(category: str, key: str, goal_key: str):
+    def get_goal(category: str, key: str, goal_key: str) -> Goal:
+        """
+        Returns a goal of a quest by its category, key, and goal key.
+
+        ### Parameters:
+        1. category: str
+            - The category of the quest.
+        2. key: str
+            - The key of the quest.
+        3. goal_key: str
+            - The key of the goal.
+
+        ### Returns:
+        1. Goal:
+            - The goal with the given category, key, and goal key.
+            - None if the goal doesn't exist.
+        """
+
         if category in quests and key in quests[category]:
             return quests[category][key].get_goal(goal_key)
         return None
@@ -52,6 +130,46 @@ init 1 python:
                 quest.update(key, **kwargs)
 
 label load_quests:
+    $ set_current_mod('base')
+
+    ########################
+    # region Normal Quests #
+
+    $ load_quest(
+        Quest(
+            "aonas_new_bra",
+            "School",
+            "Aona seems to be struggling during P.E. classes. Maybe you can help her out? Find out what's the Problem!",
+            "images/events/misc/aona_sports_bra_event_1 # 23.webp",
+            "Aona got her new bra and is now ready for P.E. classes!",
+            Goal(
+                "aona_bra_event_1",
+                "Teach some P.E. until you find out, what's the Problem.",
+                EventTask("gym_teach_pe_main_aona_bra", check_history = True),
+                trigger_activate = True,
+                activate_next = True
+            ),
+            Goal(
+                "aona_bra_event_2",
+                "Drive Aona to the Shop.",
+                EventTask("aona_sports_bra_event_1", check_history = True),
+                activate_next = True
+            ),
+            Goal(
+                "aona_bra_event_3",
+                "Check if Aona is happy with her new bra.",
+                EventTask("gym_teach_pe_main_aona_bra_2", check_history = True)
+            ),
+            premature_visibility = True
+        )
+    )
+
+    # endregion
+    ########################
+
+    ########################
+    # region Helper Quests #
+
     $ load_quest(
         Quest(
             "all_events",
@@ -180,38 +298,6 @@ label load_quests:
             premature_visibility = True
         )
     )
-
-    $ load_quest(
-        Quest(
-            "aonas_new_bra",
-            "School",
-            "Aona seems to be struggling during P.E. classes. Maybe you can help her out? Find out what's the Problem!",
-            "images/events/misc/aona_sports_bra_event_1 # 23.webp",
-            "Aona got her new bra and is now ready for P.E. classes!",
-            Goal(
-                "aona_bra_event_1",
-                "Teach some P.E. until you find out, what's the Problem.",
-                EventTask("gym_teach_pe_main_aona_bra", check_history = True),
-                trigger_activate = True,
-                activate_next = True
-            ),
-            Goal(
-                "aona_bra_event_2",
-                "Drive Aona to the Shop.",
-                EventTask("aona_sports_bra_event_1", check_history = True),
-                activate_next = True
-            ),
-            Goal(
-                "aona_bra_event_3",
-                "Check if Aona is happy with her new bra.",
-                EventTask("gym_teach_pe_main_aona_bra_2", check_history = True)
-            ),
-            premature_visibility = True
-        )
-    )
-
-    ########################
-    # region Helper Quests #
 
     $ load_quest(
         Quest(

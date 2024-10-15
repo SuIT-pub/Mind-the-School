@@ -4,13 +4,11 @@
 
 init -1 python:
     set_current_mod('base')
-    def swimming_pool_events_available() -> bool:
-        return (swimming_pool_timed_event.has_available_highlight_events() or
-            swimming_pool_general_event.has_available_highlight_events() or
-            any(e.has_available_highlight_events() for e in swimming_pool_events.values()))
-
+    
     swimming_pool_timed_event = TempEventStorage("swimming_pool", "swimming_pool", fallback = Event(2, "swimming_pool.after_time_check"))
     swimming_pool_general_event = EventStorage("swimming_pool",   "swimming_pool", fallback = Event(2, "swimming_pool.after_general_check"))
+    register_highlighting(swimming_pool_timed_event, swimming_pool_general_event)
+
     swimming_pool_events = {}
 
     swimming_pool_bg_images = BGStorage("images/background/swimming pool/bg 1.webp", ValueSelector('loli', 0),
@@ -21,18 +19,6 @@ init -1 python:
     
 init 1 python:
     set_current_mod('base')
-    
-    swimming_pool_action_tutorial_event = Event(2, "action_tutorial",
-        NOT(ProgressCondition('action_tutorial')),
-        ValueSelector('return_label', 'swimming_pool'),
-        NoHighlightOption(),
-        TutorialCondition(),
-        Pattern("main", "/images/events/misc/action_tutorial <step>.webp"),
-        override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
-
-    swimming_pool_general_event.add_event(
-        swimming_pool_action_tutorial_event
-    )
 
 # endregion
 ############################################
