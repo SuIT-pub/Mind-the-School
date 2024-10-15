@@ -1,5 +1,5 @@
 ﻿################################################################################
-## Initialization
+# region Initialization
 ################################################################################
 
 init 0:
@@ -7,8 +7,10 @@ init 0:
 
 init offset = -1
 
+# endregion
+
 ################################################################################
-## Styles
+# region Styles
 ################################################################################
 
 style default:
@@ -80,8 +82,10 @@ style frame:
 style hide_text:
     color "#00000000"
 
+# endregion
+
 ################################################################################
-## In-game screens
+# region In-game screens
 ################################################################################
 
 screen wait_hide():
@@ -108,8 +112,10 @@ label trigger_hide():
         $ hide_gui = False
         return
 
-## Say screen ##################################################################
-##h
+# endregion
+
+# region Say screen ##################################################################
+##
 ## The say screen is used to display dialogue to the player. It takes two
 ## parameters, who and what, which are the name of the speaking character and
 ## the text to be displayed, respectively. (The who parameter can be None if no
@@ -214,7 +220,9 @@ style say_dialogue:
 
     adjust_spacing False
 
-## Input screen ################################################################
+# endregion
+
+# region Input screen ################################################################
 ##
 ## This screen is used to display renpy.input. The prompt parameter is used to
 ## pass a text prompt in.
@@ -248,8 +256,9 @@ style input:
     xalign gui.dialogue_text_xalign
     xmaximum gui.dialogue_width
 
+# endregion
 
-## Choice screen ###############################################################
+# region Choice screen ################################################################
 ##
 ## This screen is used to display the in-game choices presented by the menu
 ## statement. The one parameter, items, is a list of objects, each with caption
@@ -282,8 +291,9 @@ style choice_button is default:
 style choice_button_text is default:
     properties gui.button_text_properties("choice_button")
 
+# endregion
 
-## Quick Menu screen ###########################################################
+# region Quick Menu screen ###########################################################
 ##
 ## The quick menu is displayed in-game to provide easy access to the out-of-game
 ## menus.
@@ -332,12 +342,13 @@ style quick_button_text:
     outlines [(1, "#000", 0, 0)] 
     properties gui.button_text_properties("quick_button")
 
+# endregion
 
 ################################################################################
-## Main and Game Menu Screens
+# region Main and Game Menu Screens
 ################################################################################
 
-## Navigation screen ###########################################################
+#region Navigation screen ###########################################################
 ##
 ## This screen is included in the main and game menus, and provides navigation
 ## to other menus, and to start the game.
@@ -352,37 +363,44 @@ screen navigation():
 
         spacing gui.navigation_spacing
 
+        if main_menu and refresh_game:
+            text "Please restart the game!":
+                style "mod_menu_description"
+                color "#a00000"
+                size 24
+
         if main_menu:
-
-            textbutton _("Start") action Start()
-
+            if not refresh_game:
+                textbutton _("Start") action Start()
+            else:
+                textbutton _("Start")
         else:
-
             textbutton _("History") action ShowMenu("history")
-
             textbutton _("Save") action ShowMenu("save")
 
-        textbutton _("Load") action ShowMenu("load")
-
+        if not refresh_game or not main_menu:
+            textbutton _("Load") action ShowMenu("load")
+        else:
+            textbutton _("Load")
         textbutton _("Preferences") action ShowMenu("preferences")
         
-        if not main_menu:
+        if main_menu:
+            textbutton _("Mod Manager") action ShowMenu("mod_manager")
 
+        if not main_menu:
             textbutton _("Main Menu") action MainMenu()
 
         textbutton _("About") action ShowMenu("about")
 
         if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
-
             ## Help isn't necessary or relevant to mobile devices.
             textbutton _("Help") action ShowMenu("help")
 
         if renpy.variant("pc"):
-
             ## The quit button is banned on iOS and unnecessary on Android and
             ## Web.
             textbutton _("Quit") action Quit(confirm=not main_menu)
-
+    
 
 style navigation_button is gui_button
 style navigation_button_text is gui_button_text
@@ -394,8 +412,9 @@ style navigation_button:
 style navigation_button_text:
     properties gui.button_text_properties("navigation_button")
 
+# endregion
 
-## Main Menu screen ############################################################
+#region Main Menu screen ############################################################
 ##
 ## Used to display the main menu when Ren'Py starts.
 ##
@@ -447,39 +466,13 @@ screen main_menu():
             vbox:
                 text "Changelog:" style "main_menu_changelog_title"
                 null height 15
-                text "Version 0.1.4C" style "main_menu_changelog_subtitle"
-                text "• Added Changelog in Main Menu" style "main_menu_changelog_text"
-                text "• Added Social Media Buttons in Main Menu" style "main_menu_changelog_text"
-                text "• Disabled Cafeteria Upgrade" style "main_menu_changelog_text"
-                text "• Fixed wrong label used in Aona Bra Event" style "main_menu_changelog_text"
-                text "• Fixed missing image in one of Cafeteria Events" style "main_menu_changelog_text"
-                null height 8
-                text "Version 0.1.4B" style "main_menu_changelog_subtitle"
-                text "• fixed error preventing some from entering office" style "main_menu_changelog_text"
-                text "• some more refinement" style "main_menu_changelog_text"
-                null height 8
-                text "Version 0.1.4A" style "main_menu_changelog_subtitle"
-                text "• fixed error when loading old savegame saved during event" style "main_menu_changelog_text"
-                null height 8
-                text "Version 0.1.4" style "main_menu_changelog_subtitle"
-                text "• added {b}1242{/b} images, totalling all images to 2370" style "main_menu_changelog_text"
-                text "• added {b}128{/b} new animations. Most are in Movie Sandbox" style "main_menu_changelog_text"
-                text "• added about 10 new regular events" style "main_menu_changelog_text"
-                text "• added about 5 new work events" style "main_menu_changelog_text"
-                text "• added some repeatable naughty time with secretary" style "main_menu_changelog_text"
-                text "• improved notification system" style "main_menu_changelog_text"
-                text "• improved image system" style "main_menu_changelog_text"
-                text "• improved gallery system" style "main_menu_changelog_text"
-                text "• Introduced Subject Proficiencies for Headmaster" style "main_menu_changelog_text"
-                text "• Introduced new Subject - History" style "main_menu_changelog_text"
-                text "• Introduced Sandbox Movie System" style "main_menu_changelog_text"
-                text "• Reworked entire tutorial" style "main_menu_changelog_text"
-                text "• Reworked entire school map" style "main_menu_changelog_text"
-                text "• Reworked entire journal" style "main_menu_changelog_text"
-                text "• Buffed stat gain" style "main_menu_changelog_text"
-                text "• Nerved stat loss" style "main_menu_changelog_text"
-                text "• Tons of background stuff for level up planned in 0.1.5" style "main_menu_changelog_text"
-                text "• Tons of improvement to existing game code" style "main_menu_changelog_text"
+                text "Version 0.1.5" style "main_menu_changelog_subtitle"
+                text "• WIP" style "main_menu_changelog_text"
+                
+                # null height 8
+                # text "Version 0.1.4B" style "main_menu_changelog_subtitle"
+                # text "• fixed error preventing some from entering office" style "main_menu_changelog_text"
+                
                 null height 15
                 text "Changelog for older versions can be found in the {a=https://suitpub.alwaysdata.net/books/changelog}wiki{/a}" style "main_menu_changelog_subtitle"
 
@@ -545,7 +538,9 @@ style main_menu_changelog_subtitle is main_menu_changelog:
 style main_menu_changelog_text is main_menu_changelog:
     size 18
 
-## Game Menu screen ############################################################
+# endregion
+
+# region Game Menu screen ############################################################
 ##
 ## This lays out the basic common structure of a game menu screen. It's called
 ## with the screen title, and displays the background, title, and navigation.
@@ -672,8 +667,9 @@ style return_button:
     yalign 1.0
     yoffset -45
 
+# endregion
 
-## About screen ################################################################
+# region About screen ################################################################
 ##
 ## This screen gives credit and copyright information about the game and Ren'Py.
 ##
@@ -720,7 +716,9 @@ style about_text is gui_text
 style about_label_text:
     size gui.label_text_size
 
-## Load and Save screens #######################################################
+# endregion
+
+# region Load and Save screens #######################################################
 ##
 ## These screens are responsible for letting the player save the game and load
 ## it again. Since they share nearly everything in common, both are implemented
@@ -735,13 +733,11 @@ screen save():
 
     use file_slots(_("Save"))
 
-
 screen load():
 
     tag menu
 
     use file_slots(_("Load"))
-
 
 screen file_slots(title):
 
@@ -827,7 +823,6 @@ screen file_slots(title):
 
                 textbutton _(">") action FilePageNext()
 
-
 style page_label is gui_label
 style page_label_text is gui_label_text
 style page_button is gui_button
@@ -859,8 +854,9 @@ style slot_button:
 style slot_button_text:
     properties gui.button_text_properties("slot_button")
 
+# endregion
 
-## Preferences screen ##########################################################
+# region Preferences screen ##########################################################
 ##
 ## The preferences screen allows the player to configure the game to better suit
 ## themselves.
@@ -998,7 +994,6 @@ screen preferences():
                             action Preference("all mute", "toggle")
                             style "mute_all_button"
 
-
 style pref_label is gui_label
 style pref_label_text is gui_label_text
 style pref_vbox is vbox
@@ -1069,8 +1064,9 @@ style slider_button_text:
 style slider_vbox:
     xsize 675
 
+# endregion
 
-## History screen ##############################################################
+#region History screen ##############################################################
 ##
 ## This is a screen that displays the dialogue history to the player. While
 ## there isn't anything special about this screen, it does have to access the
@@ -1115,11 +1111,9 @@ screen history():
         if not _history_list:
             label _("The dialogue history is empty.")
 
-
 ## This determines what tags are allowed to be displayed on the history screen.
 
 define gui.history_allow_tags = { "alt", "noalt", "rt", "rb", "art" }
-
 
 style history_window is empty
 
@@ -1159,8 +1153,9 @@ style history_label:
 style history_label_text:
     xalign 0.5
 
+# endregion
 
-## Help screen #################################################################
+# region Help screen #################################################################
 ##
 ## A screen that gives information about key and mouse bindings. It uses other
 ## screens (keyboard_help, mouse_help, and gamepad_help) to display the actual
@@ -1172,7 +1167,7 @@ screen help():
 
     default device = "keyboard"
 
-    use game_menu(_("Help"), scroll="viewport"):
+    use game_menu(_("Mods"), scroll="viewport"):
 
         style_prefix "help"
 
@@ -1180,7 +1175,6 @@ screen help():
             spacing 23
 
             hbox:
-
                 textbutton _("Keyboard") action SetScreenVariable("device", "keyboard")
                 textbutton _("Mouse") action SetScreenVariable("device", "mouse")
 
@@ -1193,7 +1187,6 @@ screen help():
                 use mouse_help
             elif device == "gamepad":
                 use gamepad_help
-
 
 screen keyboard_help():
 
@@ -1245,7 +1238,6 @@ screen keyboard_help():
         label "Shift+A"
         text _("Opens the accessibility menu.")
 
-
 screen mouse_help():
 
     hbox:
@@ -1267,7 +1259,6 @@ screen mouse_help():
     hbox:
         label _("Mouse Wheel Down")
         text _("Rolls forward to later dialogue.")
-
 
 screen gamepad_help():
 
@@ -1298,7 +1289,6 @@ screen gamepad_help():
 
     textbutton _("Calibrate") action GamepadCalibrate()
 
-
 style help_button is gui_button
 style help_button_text is gui_button_text
 style help_label is gui_label
@@ -1321,14 +1311,123 @@ style help_label_text:
     xalign 1.0
     text_align 1.0
 
+# endregion
 
+# region Mod screen #################################################################
+##
+## A screen that gives information about active mods and allows the player to
+## enable or disable them.
+
+init -99 python:
+    refresh_game = False
+
+screen mod_manager():
+
+    tag menu
+
+    default device = "keyboard"
+
+    use game_menu(_("Mod Manager"), scroll="viewport"):
+
+        vbox:
+            text "After activating or deactivating any mods, you have to restart the game to apply changes.":
+                style "mod_menu_description"
+                color "#fff"
+            null height 20
+
+            if refresh_game:
+                text "Please restart the game to apply changes!":
+                    style "mod_menu_description"
+                    color "#a00000"
+                    size 24
+                null height 20
+
+            for mod_key in persistent.modList.keys():
+                $ mod = persistent.modList[mod_key]
+                if not mod['available']:
+                    continue
+
+                $ mod_name = mod['name']
+                $ mod_author = "by " + mod['author']
+                $ mod_version = "Version " + mod['version']
+                # null width 1600
+                hbox:
+                    text mod_name:
+                        style "mod_menu_title"
+                    null width 5
+                    text mod_author:
+                        style "mod_menu_author"
+                        yalign 1.0
+                    null width 50
+                    text mod_version:
+                        style "mod_menu_version"
+                        yalign 1.0
+                
+                null height 5
+
+                $ mod_description = mod['description']
+                text mod_description:
+                    style "mod_menu_description"
+                    xpos 20
+                
+                null height 5
+
+                $ mod_stats = "Events: " + str(mod['event_count']) + "    Translation files: " + str(len(mod['translations']))
+                text mod_stats:
+                    style "mod_menu_description"
+                    xpos 20
+
+                if mod['key'] != "base":
+                    null height 5
+                    if not mod['active']:
+                        text "This mod is not enabled!":
+                            style "mod_menu_description"
+                            xpos 20
+
+                        button:
+                            xpos 20
+                            text _("Enable Mod"):
+                                style "mod_menu_button"
+                            action [Function(activate_mod, mod['key']), SetVariable("refresh_game", True)]
+                    else:
+                        button:
+                            xpos 20
+                            text _("Disable Mod"):
+                                style "mod_menu_button"
+                            action [Function(deactivate_mod, mod['key']), SetVariable("refresh_game", True)]
+
+                null height 20
+
+
+
+
+style mod_menu_title:
+    properties gui.button_text_properties("help_button")
+    size 32
+style mod_menu_author:
+    properties gui.button_text_properties("help_button")
+    size 18
+    color "#888"
+style mod_menu_version:
+    properties gui.button_text_properties("help_button")
+    size 24
+    color "#aaa"
+style mod_menu_description:
+    properties gui.button_text_properties("help_button")
+    size 18
+    color "#ccc"
+style mod_menu_button:
+    properties gui.button_properties("help_button")
+    size 24
+
+# endregion
 
 ################################################################################
-## Additional screens
+# region Additional screens
 ################################################################################
 
 
-## Confirm screen ##############################################################
+# region Confirm screen ##############################################################
 ##
 ## The confirm screen is called when Ren'Py wants to ask the player a yes or no
 ## question.
@@ -1390,8 +1489,9 @@ style confirm_button:
 style confirm_button_text:
     properties gui.button_text_properties("confirm_button")
 
+# endregion
 
-## Skip indicator screen #######################################################
+# region Skip indicator screen #######################################################
 ##
 ## The skip_indicator screen is displayed to indicate that skipping is in
 ## progress.
@@ -1414,7 +1514,6 @@ screen skip_indicator():
             text "▸" at delayed_blink(0.2, 1.0) style "skip_triangle"
             text "▸" at delayed_blink(0.4, 1.0) style "skip_triangle"
 
-
 ## This transform is used to blink the arrows one after another.
 transform delayed_blink(delay, cycle):
     alpha .5
@@ -1427,7 +1526,6 @@ transform delayed_blink(delay, cycle):
         linear .2 alpha 0.5
         pause (cycle - .4)
         repeat
-
 
 style skip_frame is empty
 style skip_text is gui_text
@@ -1446,8 +1544,9 @@ style skip_triangle:
     ## glyph in it.
     font "DejaVuSans.ttf"
 
+# endregion
 
-## Notify screen ###############################################################
+# region Notify screen ###############################################################
 ##
 ## The notify screen is used to show the player a message. (For example, when
 ## the game is quicksaved or a screenshot has been taken.)
@@ -1464,14 +1563,12 @@ screen notify(message):
 
     timer 3.25 action Hide('notify')
 
-
 transform notify_appear:
     on show:
         alpha 0
         linear .25 alpha 1.0
     on hide:
         linear .5 alpha 0.0
-
 
 style notify_frame is empty
 style notify_text is gui_text
@@ -1485,8 +1582,9 @@ style notify_frame:
 style notify_text:
     properties gui.text_properties("notify")
 
+# endregion
 
-## NVL screen ##################################################################
+# region NVL screen ##################################################################
 ##
 ## This screen is used for NVL-mode dialogue and menus.
 ##
@@ -1524,7 +1622,6 @@ screen nvl(dialogue, items=None):
 
     add SideImage() xalign 0.0 yalign 1.0
 
-
 screen nvl_dialogue(dialogue):
 
     for d in dialogue:
@@ -1542,7 +1639,6 @@ screen nvl_dialogue(dialogue):
 
                 text d.what:
                     id d.what_id
-
 
 ## This controls the maximum number of NVL-mode entries that can be displayed at
 ## once.
@@ -1603,10 +1699,11 @@ style nvl_button:
 style nvl_button_text:
     properties gui.button_text_properties("nvl_button")
 
-
+# endregion
+# endregion
 
 ################################################################################
-## Mobile Variants
+# region Mobile Variants
 ################################################################################
 
 style pref_vbox:
@@ -1716,3 +1813,5 @@ style slider_vbox:
 style slider_slider:
     variant "small"
     xsize 900
+
+# endregion

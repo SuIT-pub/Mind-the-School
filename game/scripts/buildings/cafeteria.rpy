@@ -4,24 +4,24 @@
 
 init -1 python:
     set_current_mod('base')
-    def cafeteria_events_available() -> bool:
-        return (cafeteria_timed_event.has_available_highlight_events() or
-            cafeteria_general_event.has_available_highlight_events() or
-            any(e.has_available_highlight_events() for e in cafeteria_events.values()))
-
+    
     cafeteria_timed_event = TempEventStorage("cafeteria_timed", "cafeteria", fallback = Event(2, "cafeteria.after_time_check"))
     cafeteria_general_event = EventStorage("cafeteria_general", "cafeteria", fallback = Event(2, "cafeteria.after_general_check"))
+    register_highlighting(cafeteria_timed_event, cafeteria_general_event)
 
     cafeteria_events = {}
     add_storage(cafeteria_events, EventStorage("order_food",  "cafeteria", fallback_text = "I'm not hungry."))
     add_storage(cafeteria_events, EventStorage("eat_alone",   "cafeteria", fallback_text = "I'm not hungry."))
 
-    cafeteria_bg_images = BGStorage("images/background/cafeteria/bg c.webp", ValueSelector('loli', 0),
-        BGImage("images/background/cafeteria/bg d <loli> <parent_level> <school_level> <variant> <nude>.webp", 1, OR(TimeCondition(daytime = '3,6', weekday = 'd'), TimeCondition(daytime = 'd', weekday = 'w'))),
-        BGImage("images/background/cafeteria/bg c <parent_level> <nude>.webp", 1, OR(TimeCondition(daytime = 'c', weekday = 'd'), TimeCondition(daytime = 'd', weekday = 'w'))),
-        BGImage("images/background/cafeteria/bg 7.webp", 1, TimeCondition(daytime = 7)), # show empty terrace at night
-    )
-    
+    cafeteria_bg_images = BGStorage("images/background/cafeteria/c.webp", 
+        BGImage("images/background/cafeteria/<school_level> <variant> <nude>.webp", 1, 
+            OR(TimeCondition(daytime = '3,6', weekday = 'd'), TimeCondition(daytime = 'd', weekday = 'w'))),
+        BGImage("images/background/cafeteria/<parent_level> <nude>.webp", 1, 
+            OR(TimeCondition(daytime = 'c', weekday = 'd'), TimeCondition(daytime = 'd', weekday = 'w'))),
+        BGImage("images/background/cafeteria/n.webp", 1, 
+            TimeCondition(daytime = 7)))
+
+        
 init 1 python:
     set_current_mod('base')
     cafeteria_construction_event = Event(1, "cafeteria_construction",
@@ -32,7 +32,7 @@ init 1 python:
         TimeCondition(daytime = "d"),
         RandomListSelector("topic", "coffee", "tea", "warm milk"),
         Pattern("main", "images/events/cafeteria/cafeteria_event_1/<parent_level> <step>.webp"),
-        thumbnail = "images/events/cafeteria/cafeteria_event_1 1 4.webp")
+        thumbnail = "images/events/cafeteria/cafeteria_event_1/1 4.webp")
     
     cafeteria_event_2_event = Event(3, "cafeteria_event_2",
         TimeCondition(daytime = "1,6"),
@@ -103,16 +103,7 @@ init 1 python:
         Pattern("main", "images/events/cafeteria/cafeteria_event_5 <school_level> <classes> <step>.webp", 'classes'),
         thumbnail = "images/events/cafeteria/cafeteria_event_5 1 3A 1.webp")
 
-    cafeteria_action_tutorial_event = Event(2, "action_tutorial",
-        NOT(ProgressCondition('action_tutorial')),
-        ValueSelector('return_label', 'cafeteria'),
-        NoHighlightOption(),
-        TutorialCondition(),
-        Pattern("main", "/images/events/misc/action_tutorial <step>.webp"),
-        override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
-
     cafeteria_general_event.add_event(
-        cafeteria_action_tutorial_event,
         cafeteria_construction_event
     )
     cafeteria_events["order_food"].add_event(

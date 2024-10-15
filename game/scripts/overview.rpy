@@ -274,7 +274,9 @@ screen school_overview_buttons (with_available_Events = False):
             key "K_1" action Call("building", "school_building")
             key "K_KP1" action Call("building", "school_building")
         $ image_text = "background/school_building.webp"
-        if with_available_Events and overview_events_available['school_building']:
+        if not get_available_event('school_building'):
+            $ image_text = "background/school_building_empty.webp"
+        if with_available_Events and get_available_highlight('school_building'):
             $ image_text = "background/school_building_red.webp"
         imagebutton:
             idle image_text
@@ -293,7 +295,9 @@ screen school_overview_buttons (with_available_Events = False):
             key "K_2" action Call("building", "school_dormitory")
             key "K_KP2" action Call("building", "school_dormitory")
         $ image_text = "background/school_dormitory.webp"
-        if with_available_Events and overview_events_available['school_dormitory']:
+        if not get_available_event('school_dormitory'):
+            $ image_text = "background/school_dormitory_empty.webp"
+        if with_available_Events and get_available_highlight('school_dormitory'):
             $ image_text = "background/school_dormitory_red.webp"
         imagebutton:
             idle image_text
@@ -306,7 +310,9 @@ screen school_overview_buttons (with_available_Events = False):
     # Labs
     if is_building_available("labs"):
         $ image_text = "background/labs.webp"
-        if with_available_Events and overview_events_available['labs']:
+        if not get_available_event('labs'):
+            $ image_text = "background/labs_empty.webp"
+        if with_available_Events and get_available_highlight('labs'):
             $ image_text = "background/labs_red.webp"
         imagebutton:
             idle image_text
@@ -319,7 +325,9 @@ screen school_overview_buttons (with_available_Events = False):
     # Sports Field
     if is_building_available("sports_field"):
         $ image_text = "background/sports_field.webp"
-        if with_available_Events and overview_events_available['sports_field']:
+        if not get_available_event('sports_field'):
+            $ image_text = "background/sports_field_empty.webp"
+        if with_available_Events and get_available_highlight('sports_field'):
             $ image_text = "background/sports_field_red.webp"
         imagebutton:
             idle image_text
@@ -332,7 +340,9 @@ screen school_overview_buttons (with_available_Events = False):
     # Beach
     if is_building_available("beach"):
         $ image_text = "background/beach.webp"
-        if with_available_Events and overview_events_available['beach']:
+        if not get_available_event('beach'):
+            $ image_text = "background/beach_empty.webp"
+        if with_available_Events and get_available_highlight('beach'):
             $ image_text = "background/beach_red.webp"
         imagebutton:
             idle image_text
@@ -345,7 +355,9 @@ screen school_overview_buttons (with_available_Events = False):
     # Staff Lodges
     if is_building_available("staff_lodges"):
         $ image_text = "background/staff_lodges.webp"
-        if with_available_Events and overview_events_available['staff_lodges']:
+        if not get_available_event('staff_lodges'):
+            $ image_text = "background/staff_lodges_empty.webp"
+        if with_available_Events and get_available_highlight('staff_lodges'):
             $ image_text = "background/staff_lodges_red.webp"
         imagebutton:
             idle image_text
@@ -364,7 +376,9 @@ screen school_overview_buttons (with_available_Events = False):
             key "K_6" action Call("building", "gym")
             key "K_KP6" action Call("building", "gym")
         $ image_text = "background/gym.webp"
-        if with_available_Events and overview_events_available['gym']:
+        if not get_available_event('gym'):
+            $ image_text = "background/gym_empty.webp"
+        if with_available_Events and get_available_highlight('gym'):
             $ image_text = "background/gym_red.webp"
         imagebutton:
             idle image_text
@@ -377,7 +391,9 @@ screen school_overview_buttons (with_available_Events = False):
     # Swimming Pool
     if is_building_available("swimming_pool"):
         $ image_text = "background/swimming_pool.webp"
-        if with_available_Events and overview_events_available['swimming_pool']:
+        if not get_available_event('swimming_pool'):
+            $ image_text = "background/swimming_pool_empty.webp"
+        if with_available_Events and get_available_highlight('swimming_pool'):
             $ image_text = "background/swimming_pool_red.webp"
         imagebutton:
             idle image_text
@@ -396,7 +412,9 @@ screen school_overview_buttons (with_available_Events = False):
             key "K_7" action Call("building", "cafeteria")
             key "K_KP7" action Call("building", "cafeteria")
         $ image_text = "background/cafeteria.webp"
-        if with_available_Events and overview_events_available['cafeteria']:
+        if not get_available_event('cafeteria'):
+            $ image_text = "background/cafeteria_empty.webp"
+        if with_available_Events and get_available_highlight('cafeteria'):
             $ image_text = "background/cafeteria_red.webp"
         imagebutton:
             idle image_text
@@ -409,7 +427,9 @@ screen school_overview_buttons (with_available_Events = False):
     # Bath
     if is_building_available("bath"):
         $ image_text = "background/bath.webp"
-        if with_available_Events and overview_events_available['bath']:
+        if not get_available_event('bath'):
+            $ image_text = "background/bath_empty.webp"
+        if with_available_Events and get_available_highlight('bath'):
             $ image_text = "background/bath_red.webp"
         imagebutton:
             idle image_text
@@ -428,7 +448,9 @@ screen school_overview_buttons (with_available_Events = False):
             key "K_5" action Call("building", "kiosk")
             key "K_KP5" action Call("building", "kiosk")
         $ image_text = "background/kiosk.webp"
-        if with_available_Events and overview_events_available['kiosk']:
+        if not get_available_event('kiosk'):
+            $ image_text = "background/kiosk_empty.webp"
+        if with_available_Events and get_available_highlight('kiosk'):
             $ image_text = "background/kiosk_red.webp"
         imagebutton:
             idle image_text
@@ -447,7 +469,9 @@ screen school_overview_buttons (with_available_Events = False):
             key "K_4" action Call("building", "courtyard")
             key "K_KP4" action Call("building", "courtyard")
         $ image_text = "background/courtyard.webp"
-        if with_available_Events and overview_events_available['courtyard']:
+        if not get_available_event('courtyard'):
+            $ image_text = "background/courtyard_empty.webp"
+        if with_available_Events and get_available_highlight('courtyard'):
             $ image_text = "background/courtyard_red.webp"
         imagebutton:
             idle image_text
@@ -466,7 +490,9 @@ screen school_overview_buttons (with_available_Events = False):
             key "K_3" action Call("building", "office_building")
             key "K_KP3" action Call("building", "office_building")
         $ image_text = "background/office_building.webp"
-        if with_available_Events and overview_events_available['office_building']:
+        if not get_available_event('office_building'):
+            $ image_text = "background/office_building_empty.webp"
+        if with_available_Events and get_available_highlight('office_building'):
             $ image_text = "background/office_building_red.webp"
         imagebutton:
             idle image_text
@@ -630,21 +656,9 @@ label map_overview ():
     # show screen school_overview_map
     show screen school_overview_stats 
 
-    $ overview_events_available = {
-        'school_building': sb_events_available(),
-        'school_dormitory': sd_events_available(),
-        'labs': labs_events_available(),
-        'sports_field': sports_field_events_available(),
-        'gym': gym_events_available(),
-        'swimming_pool': swimming_pool_events_available(),
-        'cafeteria': cafeteria_events_available(),
-        'bath': bath_events_available(),
-        'kiosk': kiosk_events_available(),
-        'courtyard': courtyard_events_available(),
-        'office_building': office_building_events_available(),
-        'beach': beach_events_available(),
-        'staff_lodges': staff_lodges_events_available()
-    }
+    $ update_available_highlights()
+
+    $ update_available_events()
 
     $ renpy.block_rollback()
 

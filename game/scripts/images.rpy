@@ -1,4 +1,5 @@
 init -4 python:
+    from typing import List, Dict, Any, Tuple
 
     ########################
     # region Image Pattern #
@@ -67,8 +68,10 @@ init -4 python:
         """
 
         pattern = get_pattern_from_kwargs(pattern_key, **kwargs)
+        log_val('pattern', pattern)
         if pattern == None:
             return
+        log_val('path', pattern.get_path())
         renpy.call('show_image', pattern.get_path(), **kwargs)
 
     class Pattern:
@@ -78,24 +81,20 @@ init -4 python:
 
         ### Attributes:
         1. _name: str
-            - The name of the pattern.
-        2. _key: str
             - The key of the pattern.
-        3. _pattern: str
+        2. _pattern: str
             - The pattern of the image.
-        4. _alternative_keys: List[str]
+        3. _alternative_keys: List[str]
             - A list of all the alternative keys to replace in the image path.
 
         ### Methods:
         1. get_name() -> str
-            - Returns the name of the pattern.
-        2. get_key() -> str
             - Returns the key of the pattern.
-        3. get_pattern() -> str
+        2. get_pattern() -> str
             - Returns the pattern of the image.
-        4. get_path() -> str
+        3. get_path() -> str
             - Returns the path of the pattern.
-        5. get_alternative_keys() -> List[str]
+        4. get_alternative_keys() -> List[str]
             - Returns a list of all the alternative keys to replace in the image path.
 
         ### Parameters:
@@ -105,13 +104,10 @@ init -4 python:
             - The pattern of the image.
         3. alternative_keys: List[str] (default [])
             - A list of all the alternative keys to replace in the image path.
-        4. key: str (default 'base')
-            - The key of the pattern.
         """
 
-        def __init__(self, name: str, pattern: str, *alternative_keys: str, key: str = 'base'):
+        def __init__(self, name: str, pattern: str, *alternative_keys: str):
             self._name = name
-            self._key = key
             self._pattern = pattern
             self._alternative_keys = list(alternative_keys)
 
@@ -125,17 +121,6 @@ init -4 python:
             """
 
             return self._name
-
-        def get_key(self) -> str:
-            """
-            Returns the key of the pattern.
-
-            ### Returns:
-            1. str
-                - The key of the pattern.
-            """
-
-            return self._key
 
         def get_pattern(self) -> str:
             """
@@ -158,7 +143,7 @@ init -4 python:
                 - The path of the pattern.
             """
 
-            return get_mod_path(self._key) + self._pattern
+            return get_mod_path(active_mod_key) + self._pattern
 
         def get_alternative_keys(self) -> List[str]:
             """
@@ -287,10 +272,15 @@ init -2 python:
 
             self._step_start = get_kwargs('step_start', 0, **kwargs)
 
+            self._video_prefix = get_kwargs('video_prefix', 'anim_', **kwargs)
+
+            log_val('image_path', image_path)
+
             self._image_paths = refine_image_with_alternatives(
                 image_path, 
                 alternative_keys,
-                **kwargs["values"]
+                is_image_series = True,
+                **kwargs
             )
             self.steps = []
             self.create_steps(self._image_paths)
@@ -386,7 +376,7 @@ init -2 python:
 
             (image_path, variant) = image_step.get_image(variant)
 
-            name = "anim_" + image_path.split('/')[-1].split('.')[0].replace(' ', '_')
+            name = self._video_prefix + image_path.split('/')[-1].split('.')[0].replace(' ', '_')
 
             renpy.call("show_video_label", name, pause)
 
@@ -394,6 +384,7 @@ init -2 python:
     
     class Image_Series_Pattern(Image_Series):
         def __init__(self, pattern: Pattern, **kwargs):
+            log_val('pattern', pattern.get_path())
             super().__init__(pattern.get_path(), pattern.get_alternative_keys(), **kwargs)
 
     # endregion
@@ -435,7 +426,7 @@ init -2 python:
             - The conditions for the background image.
         """
 
-        def __init__(self, image_path: str, priority: int, *conditions: Condition | Selector):
+        def __init__(self, image_path: str, priority: int, *conditions: Condition | Selector, alternative_keys: List[string] = []):
             """
             Constructs all the necessary attributes for the BGImage object.
 
@@ -453,6 +444,10 @@ init -2 python:
             self._priority = priority
             self._image_path = image_path
             self._path_prefix = ""
+            
+            self._combinations = [()]
+            for i in range(1, len(alternative_keys) + 1):
+                combinations.extend(itertools.combinations(alternative_keys, i))
 
         def can_be_used(self, **kwargs) -> bool:
             """
@@ -519,7 +514,18 @@ init -2 python:
                 kwargs.update(self._selectors.get_values())
                 self._selectors.roll_values()
 
-            return get_image(self._path_prefix + self._image_path, **kwargs)
+            for combination in self._combinations:
+                new_image_path = self._image_path
+
+                for key in combination:
+                    new_image_path = new_image_path.replace(f"<{key}>", "#")
+
+                (nude, image_path) = get_image(self._path_prefix + new_image_path, **kwargs)
+
+                if nude != -1:
+                    return nude, image_path
+
+            return -1, self._path_prefix + self._image_path
 
         def can_get_image(self, **kwargs) -> bool:
             """
@@ -573,6 +579,10 @@ init -2 python:
         def __init__(self, fallback_image: str, *images: BGImage | Selector, **kwargs):
             self.fallback_image = fallback_image
             
+            for i in images:
+                if isinstance(i, BGImage):
+                    i.set_path_prefix(get_mod_path(active_mod_key))
+
             self._selectors = SelectorSet(*[image for image in images if isinstance(image, Selector)])
             self.images = [image for image in images if isinstance(image, BGImage)]
             self._kwargs = kwargs
@@ -643,6 +653,9 @@ init -2 python:
                 i.set_path_prefix(get_mod_path(active_mod_key))
 
             self.images.extend(image)
+
+        def add_selector(self, *selector: Selector):
+            self._selectors.add_selector(*selector)
 
         def add_kwargs(self, **kwargs):
             """
@@ -786,7 +799,7 @@ init -2 python:
     # region Level #
     ################
 
-    def get_available_level(path: str, level: int) -> str:        
+    def get_available_level(path: str, level: int, register_value: bool = False) -> str:        
         """
         Searches for the best available level for a given image path.
         It first searches for the next lower level. If there is no level below found whose image is available it starts searching for the next higher level.
@@ -807,17 +820,24 @@ init -2 python:
         old_image = re.sub("<.+>", "0", old_image)
         old_image = old_image.replace("~#~", "<level>")
 
+        final_level = level
+
         if '<level>' in old_image:
             for i in reversed(range(0, level + 1)):
                 test_image = old_image.replace("<level>", str(i))
                 if renpy.loadable(test_image):
                     path =  path.replace("<level>", str(i))
+                    final_level = i
                     break
             else:
                 for i in range(0, 10):
                     test_image = old_image.replace("<level>", str(i))
                     if renpy.loadable(test_image):
                         path = path.replace("<level>", str(i))
+                        final_level = i
+
+        if register_value:
+            register_value('level', final_level)
 
         return path
 
@@ -947,7 +967,13 @@ init -2 python:
         for r in range(1, len(alternative_keys) + 1):
             combinations.extend(itertools.combinations(alternative_keys, r))
 
+        is_image_series = get_kwargs('is_image_series', False, **kwargs)
+        is_replay = get_kwargs('is_replay', False, **kwargs)
+
         output = []
+
+        if 'values' in kwargs.keys():
+            kwargs = kwargs['values']
 
         if 'loli_content' not in kwargs.keys():
             kwargs['loli_content'] = loli_content
@@ -956,14 +982,38 @@ init -2 python:
 
         for combination in combinations:
             new_image_path = image_path
+
             for key in combination:
                 new_image_path = new_image_path.replace(f"<{key}>", "#")
+
+            if '<school_level>' in new_image_path:
+                if is_image_series and not is_replay:
+                    register_value('school_level', get_character_by_key('school').get_level())
+                new_image_path = new_image_path.replace("<school_level>", str(get_character_by_key('school').get_level()))
+
+            if 'teacher_level' in new_image_path:
+                if is_image_series and not is_replay:
+                    register_value('teacher_level', get_character_by_key('teacher').get_level())
+                new_image_path = new_image_path.replace("<teacher_level>", str(get_character_by_key('teacher').get_level()))
+            
+            if 'parent_level' in new_image_path:
+                if is_image_series and not is_replay:
+                    register_value('parent_level', get_character_by_key('parent').get_level())
+                new_image_path = new_image_path.replace("<parent_level>", str(get_character_by_key('parent').get_level()))
+            
+            if 'secretary_level' in new_image_path:
+                if is_image_series and not is_replay:
+                    register_value('secretary_level', get_character_by_key('secretary').get_level())
+                new_image_path = new_image_path.replace("<secretary_level>", str(get_character_by_key('secretary').get_level()))
+            
+            if '<level>' in image_path:
+                new_image_path = get_available_level(new_image_path, get_kwargs('level', 0, **kwargs)) 
+            
             for key, value in kwargs.items():
                 new_image_path = new_image_path.replace(f"<{key}>", str(value))
-                if 'level>' in image_path:
-                    new_image_path = insert_level(new_image_path, **kwargs)
-                if '<level>' in image_path:
-                    new_image_path = get_available_level(new_image_path, get_kwargs('level', 0, **kwargs))
+                if is_image_series and not is_replay:
+                    register_value(key, value)
+            
             output.append(new_image_path)
 
         output.sort(key=lambda x: x.count("#"))
@@ -985,18 +1035,44 @@ init -2 python:
             - The image path with the given keyword arguments replaced.
         """
 
+        is_image_series = get_kwargs('is_image_series', False, **kwargs)
+        is_replay = get_kwargs('is_replay', False, **kwargs)
+
+        if 'values' in kwargs.keys():
+            kwargs = kwargs['values']
+
         if 'loli_content' not in kwargs.keys():
             kwargs['loli_content'] = loli_content
         if 'loli' not in kwargs.keys():
             kwargs['loli'] = get_random_loli()
 
+        if '<school_level>' in image_path:
+            if is_image_series and not is_replay:
+                register_value('school_level', get_character_by_key('school').get_level())
+            image_path = image_path.replace("<school_level>", str(get_character_by_key('school').get_level()))
+        
+        if 'teacher_level' in image_path:
+            if is_image_series and not is_replay:
+                register_value('teacher_level', get_character_by_key('teacher').get_level())
+            image_path = image_path.replace("<teacher_level>", str(get_character_by_key('teacher').get_level()))
+        
+        if 'parent_level' in image_path:
+            if is_image_series and not is_replay:
+                register_value('parent_level', get_character_by_key('parent').get_level())
+            image_path = image_path.replace("<parent_level>", str(get_character_by_key('parent').get_level()))
+        
+        if 'secretary_level' in image_path:
+            if is_image_series and not is_replay:
+                register_value('secretary_level', get_character_by_key('secretary').get_level())
+            image_path = image_path.replace("<secretary_level>", str(get_character_by_key('secretary').get_level()))
+        
+        if '<level>' in image_path:
+            image_path = get_available_level(image_path, get_kwargs('level', 0, **kwargs)) 
+
         for key, value in kwargs.items():
             image_path = image_path.replace(f"<{key}>", str(value))
-
-        # if 'level>' in image_path:
-        #     image_path = insert_level(image_path, **kwargs)
-        if '<level>' in image_path:
-            image_path = get_available_level(image_path, get_kwargs('level', 0, **kwargs))
+            if is_image_series and not is_replay:
+                register_value(key, value)
 
         return image_path
 
@@ -1015,13 +1091,44 @@ init -2 python:
             - The image path with the given keyword arguments replaced.
         """
 
+        is_image_series = get_kwargs('is_image_series', False, **kwargs)
+        is_replay = get_kwargs('is_replay', False, **kwargs)
+
+        if 'values' in kwargs.keys():
+            kwargs = kwargs['values']
+
         if 'loli_content' not in kwargs.keys():
             kwargs['loli_content'] = loli_content
         if 'loli' not in kwargs.keys():
             kwargs['loli'] = get_random_loli()
 
+        if '<school_level>' in image_path:
+            if is_image_series and not is_replay:
+                register_value('school_level', get_character_by_key('school').get_level())
+            image_path = image_path.replace("<school_level>", str(get_character_by_key('school').get_level()))
+        
+        if 'teacher_level' in image_path:
+            if is_image_series and not is_replay:
+                register_value('teacher_level', get_character_by_key('teacher').get_level())
+            image_path = image_path.replace("<teacher_level>", str(get_character_by_key('teacher').get_level()))
+        
+        if 'parent_level' in image_path:
+            if is_image_series and not is_replay:
+                register_value('parent_level', get_character_by_key('parent').get_level())
+            image_path = image_path.replace("<parent_level>", str(get_character_by_key('parent').get_level()))
+        
+        if 'secretary_level' in image_path:
+            if is_image_series and not is_replay:
+                register_value('secretary_level', get_character_by_key('secretary').get_level())
+            image_path = image_path.replace("<secretary_level>", str(get_character_by_key('secretary').get_level()))
+        
+        if '<level>' in image_path:
+            image_path = get_available_level(image_path, get_kwargs('level', 0, **kwargs)) 
+
         for key, value in kwargs.items():
             image_path = image_path.replace(f"<{key}>", str(value))
+            if is_image_series and not is_replay:
+                register_value(key, value)
 
         variant = get_kwargs('variant', 0, **kwargs)
 
@@ -1032,9 +1139,6 @@ init -2 python:
             max_variant = get_image_max_value("<variant>", image_path, 1)
             if max_variant >= 1:
                 image_path = image_path.replace("<variant>", str(get_random_int(1, max_variant)))
-
-        if '<level>' in image_path:
-            image_path = get_available_level(image_path, get_kwargs('level', 0, **kwargs))
 
         return image_path, variant
     
@@ -1124,7 +1228,11 @@ label show_image(path, display_type = SCENE, **kwargs):
     #     - The keyword arguments to replace in the image path.
     # """
 
+    $ log_val('kwargs', kwargs)
+
     $ image_path = refine_image(path, **kwargs)
+
+    $ log_val('refined path', image_path)
 
     call show_ready_image(image_path, display_type) from _call_show_ready_image
     return

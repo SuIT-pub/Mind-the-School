@@ -157,10 +157,12 @@ init -6 python:
 # region PTA Event Registry ----- #
 ###################################
 
-init 1 python:
+init -1 python:
     pta_discussion_storage = FragmentStorage("pta_discussion")
     pta_vote_storage = FragmentStorage("pta_vote")
     pta_end_storage = FragmentStorage("pta_end")
+
+init 1 python:
 
     pta_meeting_event = EventComposite(2, "pta_meeting", [pta_discussion_storage, pta_vote_storage, pta_end_storage], 
         TimeCondition(weekday = 5, daytime = 1),
@@ -181,9 +183,6 @@ init 1 python:
     pta_vote_school_jobs_event = EventFragment(2, "pta_vote_school_jobs",
         JournalVoteCondition("school_jobs"))
 
-    pta_vote_theoretical_sex_ed_1_event = EventFragment(2, "pta_vote_theoretical_sex_ed_1",
-        JournalVoteCondition("theoretical_sex_ed"))
-
     pta_vote_student_relationships_event = EventFragment(2, "pta_vote_student_relationships_1",
         JournalVoteCondition("student_student_relation"))
 
@@ -201,7 +200,6 @@ init 1 python:
         pta_vote_unregistered_1_event,
         pta_vote_nothing_1_event,
         pta_vote_school_jobs_event,
-        pta_vote_theoretical_sex_ed_1_event,
         pta_vote_student_relationships_event
     )
 
@@ -419,47 +417,6 @@ label pta_discussion_1 (**kwargs):
 
     $ end_event('new_daytime', **kwargs)
 
-label pta_discussion_sex_ed_intro_1 (**kwargs):
-    $ begin_event(no_gallery = True, **kwargs)
-
-    $ finola = Character("Finola Ryan",   kind = character.teacher)
-    $ chloe  = Character("Chloe Garcia",  kind = character.teacher)
-    $ lily   = Character("Lily Anderson", kind = character.teacher)
-    $ yulan  = Character("Yulan Chen",    kind = character.teacher)
-    $ zoe    = Character("Zoe Parker",    kind = character.teacher)
-
-    $ adelaide = Character("Adelaide Hall", kind = character.parent)
-    $ nubia    = Character("Nubia Davis",   kind = character.parent)
-    $ yuki     = Character("Yuki Yamamoto", kind = character.parent)
-
-    $ yuriko = Character("Yuriko Oshima", kind = character.sgirl)
-
-    headmaster "Nobody? Alright then, I would like to discuss the introduction of sexual education in our curriculum."
-    yuriko "What? No way! That's totally unnecessary!"
-    adelaide "I agree! This is not something that should be taught in school!"
-    headmaster "I believe it is important for our students to be educated about this topic. It is crucial for their development and well-being."
-    yuki "But what about the parents? We should be the ones to teach our children about these things!"
-    headmaster "I understand your concerns, but many parents may not feel comfortable discussing these topics with their children."
-    headmaster "Also, no offense, but some parents may not have the right information to share with their children."
-    headmaster "I may not be at this school for long, but I have seen enough to know that our students are struggling with these issues."
-    chloe "With that I have to agree. I normally wouldn't support this, but I can also see the effects of the lack of sexual education."
-    finola "And I think it is the responsibility of all of us to ensure that our students receive accurate information."
-    yuriko "But is it really necessary? That topic is so embarrassing and uncomfortable!"
-    headmaster "That is even more reason to teach it! If we don't, our students will rely on misinformation and peer pressure."
-    headmaster "This is a topic that cannot be ignored. You students will come across it sooner or later, and you have to know how to deal with it."
-    headmaster "And if you don't learn it here, you will learn it from the wrong sources. And that then will become dangerous."
-    yuki "But what if some students get too excited during the lessons? It's completely inappropriate!"
-    headmaster "I understand your concerns, but I assure you that we will handle this topic with sensitivity and care."
-    nubia "Alright, I need time to think about this, but I will agree to have it put to vote after some time to consider it."
-    adelaide "I agree."
-    yuki "I guess I can see the benefits, but I still have my doubts."
-
-    yuriko "Fine! But I still think it's unnecessary!"
-
-    $ advance_progress('start_sex_ed') # 5 -> 6
-
-    $ end_event('new_daytime', **kwargs)
-
 # endregion
 #####################
 
@@ -523,47 +480,6 @@ label pta_vote_school_jobs (**kwargs):
         headmaster "The proposal is rejected due to the majority of votes against it."
 
     call pta_vote_result(parent_vote, teacher_vote, student_vote, get_value("vote_proposal", **kwargs)) from _call_pta_vote_result_school_jobs_1
-
-    $ end_event('new_daytime', **kwargs)
-
-label pta_vote_theoretical_sex_ed_1 (**kwargs):
-    $ begin_event(no_gallery = True, **kwargs)
-
-    $ parent_vote =  get_value("vote_parent", **kwargs)
-    $ teacher_vote = get_value("vote_teacher", **kwargs)
-    $ student_vote = get_value("vote_student", **kwargs)
-    $ end_choice = get_end_choice(parent_vote, teacher_vote, student_vote)
-
-    headmaster "As previously announced, I would like to put to vote the introduction of theoretical sex education in our curriculum."
-    headmaster "We already discussed the importance of this topic and the benefits it can bring to our students."
-    headmaster "Now I hope you have made up your minds and are ready to cast your votes."
-
-    headmaster "So when there are no further questions, please cast your vote now."
-
-    # teacher comment on vote
-    if teacher_vote == 'yes':
-        teacher "We teachers had a discussion about this topic and we came to the conclusion that theoretical sex education is important for the students."
-        teacher "So we support the introduction of this subject in our curriculum."
-    else:
-        teacher "We teachers discussed this topic and we still have concerns about the introduction, so we will vote against it for now."
-
-    # student comment on vote
-    if student_vote == 'yes':
-        sgirl "After thinking about it, I believe that it could be beneficial for us besides being embarrassing. So I vote yes."
-    else:
-        sgirl "I still think the topic is embarrassing and unnecessary, so I vote no."
-
-    parent "We believe that the introduction of theoretical sex education is not appropriate and should be discussed at home."
-    parent "For this reason, we vote against the proposal."
-
-    if end_choice == 'yes':
-        headmaster "With the majority of votes in favor, the proposal is accepted."
-        headmaster "Theoretical Sexual Education will be introduced into the curriculum."
-        headmaster "I will call for a school assembly this afternoon to inform the students about the change and to distribute information material for the students and faculty members to prepare themselves over the weekend."
-    else:
-        headmaster "The proposal is rejected due to the majority of votes against it."
-
-    call pta_vote_result("no", teacher_vote, student_vote, get_value("vote_proposal", **kwargs)) from _call_pta_vote_result_theoretical_sex_ed_1
 
     $ end_event('new_daytime', **kwargs)
 
@@ -640,8 +556,6 @@ label pta_vote_unregistered_1 (**kwargs):
     $ teacher_vote = get_value("vote_teacher", **kwargs)
     $ student_vote = get_value("vote_student", **kwargs)
     $ end_choice = get_end_choice(parent_vote, teacher_vote, student_vote)
-
-    $ log_val('kwargs', kwargs)
 
     $ teacher_response = vote_object.get_vote_comments("teacher", teacher_vote)
     $ student_response = vote_object.get_vote_comments("student", student_vote)

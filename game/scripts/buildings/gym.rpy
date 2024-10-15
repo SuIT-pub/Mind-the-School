@@ -4,14 +4,10 @@
 
 init -1 python:
     set_current_mod('base')
-    def gym_events_available() -> bool:
-        return (gym_timed_event.has_available_highlight_events() or
-            gym_general_event.has_available_highlight_events() or
-            any(e.has_available_highlight_events() for e in gym_events.values())
-        )
-
+    
     gym_timed_event = TempEventStorage("gym_timed", "gym", fallback = Event(2, "gym.after_time_check"))
     gym_general_event = EventStorage("gym_general", "gym", fallback = Event(2, "gym.after_general_check"))
+    register_highlighting(gym_timed_event, gym_general_event)
     
     gym_events = {}
     add_storage(gym_events, EventStorage("enter_changing", "gym", fallback_text = "There is nothing to do here."))
@@ -19,9 +15,14 @@ init -1 python:
     add_storage(gym_events, EventStorage("check_pe",       "gym", fallback_text = "There is nothing to do here."))
     add_storage(gym_events, EventStorage("teach_pe",       "gym", fallback_text = "There is nothing to do here."))
 
-    gym_bg_images = BGStorage("images/background/gym/bg f.webp", ValueSelector('loli', 0),
-        BGImage("images/background/gym/bg <loli> <school_level> <teacher_level> <variant> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")), # show gym with students
-        BGImage("images/background/gym/bg 7.webp", 1, TimeCondition(daytime = 7)), # show gym at night empty
+    gym_teach_pe_intro_storage = FragmentStorage("gym_teach_pe_intro")
+    gym_teach_pe_warm_up_storage = FragmentStorage("gym_teach_pe_warm_up")
+    gym_teach_pe_main_storage = FragmentStorage("gym_teach_pe_main")
+    gym_teach_pe_end_storage = FragmentStorage("gym_teach_pe_end")
+
+    gym_bg_images = BGStorage("images/background/gym/f.webp", 
+        BGImage("images/background/gym/<school_level> <variant> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")), # show gym with students
+        BGImage("images/background/gym/n.webp", 1, TimeCondition(daytime = 7)), # show gym at night empty
     )
     
 init 1 python:
@@ -69,48 +70,25 @@ init 1 python:
         Pattern("main", "/images/events/gym/gym_event_3 <school_level> <variant> <step>.webp"),
         thumbnail = "images/events/gym/gym_event_3 1 1 0.webp")    
 
-    gym_action_tutorial_event = Event(2, "action_tutorial",
-        NOT(ProgressCondition('action_tutorial')),
-        ValueSelector('return_label', 'gym'),
-        NoHighlightOption(),
-        TutorialCondition(),
-        Pattern("main", "/images/events/misc/action_tutorial <step>.webp"),
-        override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
-
-    gym_teach_pe_intro_storage = FragmentStorage("gym_teach_pe_intro")
+    
     gym_teach_pe_intro_storage.add_event(
         EventFragment(3, "gym_teach_pe_intro_1",
             Pattern("main", "/images/events/gym/gym_teach_pe_intro_1 <school_level> <step>.webp"),
             thumbnail = "images/events/gym/gym_teach_pe_intro_1 1 7.webp"),
-        EventFragment(1, "gym_teach_pe_intro_aona_bra",
-            ProgressCondition("aona_sports_bra", 2),
-            GameDataSelector("skimpy_bra", "aona_skimpy_sports_bra"),
-            Pattern("main", "/images/events/gym/gym_teach_pe_intro_aona_bra <skimpy> <step>.webp", 'skimpy')),
     )
 
-    gym_teach_pe_warm_up_storage = FragmentStorage("gym_teach_pe_warm_up")
     gym_teach_pe_warm_up_storage.add_event(
         EventFragment(3, "gym_teach_pe_warm_up_1",
             Pattern("main", "/images/events/gym/gym_teach_pe_warm_up_1 <school_level> <step>.webp"),
             thumbnail = "images/events/gym/gym_teach_pe_warm_up_1 1 2.webp"),
     )
 
-    gym_teach_pe_main_storage = FragmentStorage("gym_teach_pe_main")
     gym_teach_pe_main_storage.add_event(
         EventFragment(3, "gym_teach_pe_main_1",
             Pattern("main", "/images/events/gym/gym_teach_pe_main_1 <school_level> <step>.webp"),
             thumbnail = "images/events/gym/gym_teach_pe_main_1 1 9.webp"),
-        EventFragment(3, "gym_teach_pe_main_aona_bra",
-            NOT(ProgressCondition("aona_sports_bra")),
-            MoneyCondition(200),
-            Pattern("main", "/images/events/gym/gym_teach_pe_main_aona_bra <step>.webp")),
-        EventFragment(1, "gym_teach_pe_main_aona_bra_2",
-            ProgressCondition("aona_sports_bra", 2),
-            GameDataSelector("skimpy_bra", "aona_skimpy_sports_bra"),
-            Pattern("main", "/images/events/gym/gym_teach_pe_main_aona_bra_2 <step>.webp")),
     )
 
-    gym_teach_pe_end_storage = FragmentStorage("gym_teach_pe_end")
     gym_teach_pe_end_storage.add_event(
         EventFragment(3, "gym_teach_pe_end_1",
             thumbnail = "images/events/gym/gym_teach_pe_main_1 1 14.webp"),
@@ -129,7 +107,6 @@ init 1 python:
     )
 
     gym_general_event.add_event(
-        gym_action_tutorial_event,
         first_week_gym_event_event,
         first_potion_gym_event_event,
     )
@@ -248,86 +225,6 @@ label gym_teach_pe_intro_1 (**kwargs):
 
     $ end_event('map_overview', **kwargs)
 
-label gym_teach_pe_intro_aona_bra (**kwargs):
-    $ begin_event(**kwargs)
-
-    $ bra = get_value('skimpy_bra', **kwargs)
-    $ skimpy = bra != 0
-
-    $ image = convert_pattern("main", skimpy = skimpy, **kwargs)
-
-    $ miwa = Character("Miwa Igarashi", kind = character.sgirl)
-    $ aona = Character("Aona Komuro", kind = character.sgirl)
-
-    $ image.show(0)
-    miwa "And the headmaster really took you to the city to buy a sports bra?"
-    $ image.show(1)
-    aona "Yes, he did. He said it was important for my health and performance."
-    $ image.show(2)
-    aona "It's great that he cares so much about us."
-    $ image.show(3)
-    miwa "Yes, I didn't think he would be that nice."
-    $ image.show(4)
-    aona "Didn't you talk to him as well?"
-    $ image.show(5)
-    miwa "Yeah you're right. He was very empathetic."
-    # Aona puts on the bra
-    call Image_Series.show_image(image, 6, 7, 8, 9) from image_gym_teach_pe_intro_aona_bra_1
-    aona "What do you think?"
-    if bra >= 1:
-        $ image.show(10)
-        miwa "It's a bit skimpy, isn't it?"
-        if bra == 2:
-            $ image.show(24)
-            aona "Yeah, but I think it is quite comfortable and Mr. [headmaster_last_name] said it was good for my health."
-            $ image.show(25)
-            miwa "I guess you're right. I mean it really does look good on you."
-            $ image.show(26)
-            aona "Thank you."
-
-            call change_stats_with_modifier('school', 'pe',
-                happiness = SMALL, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_17
-        else:
-            $ image.show(12)
-            aona "Yeah unfortunately, the headmaster bought the wrong one!"
-            $ image.show(13)
-            miwa "What do you mean?"
-            $ image.show(14)
-            aona "He showed me another one to the one I wanted to buy, saying it would be good for my health, but I said I didn't like it."
-            $ image.show(15)
-            miwa "Quite perverted by him, isn't it?"
-            $ image.show(16)
-            aona "I don't know, but I think it's quite comfortable."
-            $ image.show(17)
-            aona "Maybe it was a genuine mistake."
-            $ image.show(18)
-            miwa "What do you do now?"
-            $ image.show(19)
-            aona "I don't know. I guess I have to wear it now. I don't want to have to run with these giant things again."
-            $ image.show(20)
-            miwa "I guess you're right."
-            miwa "But I still think these look really nice on you."
-            $ image.show(21)
-            aona "Really?"
-            $ image.show(22)
-            miwa "Yes, really."
-            $ image.show(23)
-            aona "Mhh, thank you."
-            
-            call change_stats_with_modifier('school', 'pe',
-                happiness = DEC_SMALL, inhibition = DEC_MEDIUM) from _call_change_stats_with_modifier_18
-    else:
-        $ image.show(10)
-        miwa "Yeah, it looks really nice on you."
-        $ image.show(11)
-        aona "Yeah, doesn't it? And it's quite comfortable too."
-        miwa "Amazing!"
-
-        call change_stats_with_modifier('school', 'pe',
-            happiness = MEDIUM, inhibition = DEC_TINY) from _call_change_stats_with_modifier_19
-
-    $ end_event('map_overview', **kwargs)
-
 # endregion
 ################
 
@@ -436,136 +333,6 @@ label gym_teach_pe_main_2 (**kwargs): # Yoga
 
     call change_stats_with_modifier('school', 'pe',
         happiness = TINY, charm = MEDIUM, inhibition = DEC_TINY) from _call_change_stats_with_modifier_22
-
-    $ end_event('map_overview', **kwargs)
-
-label gym_teach_pe_main_aona_bra (**kwargs): # Running
-    $ begin_event(**kwargs)
-
-    $ image = convert_pattern("main", **kwargs)
-
-    $ image.show(0)
-    headmaster "Alright, today we will do some running."
-    $ image.show(1)
-    sgirl "Do we have to? Couldn't we do something else?" (name = "Aona Komuro")
-    $ image.show(2)
-    headmaster "Yes, it's important to keep your body in shape."
-    headmaster "It's also a great way to improve your stamina and to improve your cardiovascular health."
-    $ image.show(1)
-    sgirl "But I don't like running." (name = "Aona Komuro")
-    $ image.show(3)
-    headmaster "Why that?"
-    $ image.show(4)
-    sgirl "Well my... Chest hurts because of... you know why." (name = "Aona Komuro")
-    $ image.show(5)
-    headmaster "Don't you have a sports bra?"
-    $ image.show(6)
-    sgirl "No, I don't." (name = "Aona Komuro")
-    $ image.show(7)
-    headmaster "Hmm, that's quite unfortunate. A state test is coming up and you need to be in shape for it because there will be several running tests."
-    headmaster "Unfortunately I can't make an exception for you, so please bear with it for today."
-    $ image.show(8)
-    sgirl "..." (name = "Aona Komuro")
-    $ image.show(9)
-    headmaster "Alright, now please line up and let's get started. Today we will be doing sprints."
-    call Image_Series.show_image(image, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22) from image_gym_teach_pe_main_aona_bra_1
-    # images and animations of the girls running, Aona Komuro is struggling possibly holding her breasts
-    
-    call screen black_screen_text("1 hour later")
-
-    $ image.show(23)
-    headmaster "Alright, that's enough for today."
-    headmaster "Don't forget to shower and change your clothes."
-    # class leaves the gym
-    $ image.show(24)
-    headmaster "Aona, can you stay for a moment?"
-    $ image.show(25)
-    sgirl "Yes, Mr. [headmaster_last_name]?" (name = "Aona Komuro")
-    $ image.show(26)
-    headmaster "I'm sorry but you need to get a sports bra. It's important for your health and for your performance."
-    $ image.show(27)
-    sgirl "I know... But I don't have the money for it. Sport bras are terribly expensive for my ... size." (name = "Aona Komuro")
-    $ image.show(28)
-    headmaster "I see."
-    $ image.show(29)
-    headmaster "Hmm, I can't just give out money because of the Accounting, but I can get you one if you like."
-    $ image.show(30)
-    sgirl "Really? That would be great!" (name = "Aona Komuro")
-    $ image.show(31)
-    headmaster "Alright, let's do it like that, I'm sure I can just write it off as a business expense."
-    headmaster "There is no shop nearby, but I could take you to the city after school. Would that be okay for you?"
-    $ image.show(30)
-    sgirl "Yes, that would be great!" (name = "Aona Komuro")
-    sgirl "Thank you so much, Mr. [headmaster_last_name]!" (name = "Aona Komuro")
-    $ image.show(31)
-    headmaster "Not for that! I became your headmaster to help you all to become the best version of yourself."
-    headmaster "And if it means spending a few bucks on a sports bra, then so be it."
-    headmaster "Alright, now go and get changed. Come to my office after school, we'll then drive."
-    $ image.show(30)
-    sgirl "Yes, Mr. [headmaster_last_name]!" (name = "Aona Komuro")
-    $ image.show(32)
-
-    $ start_progress("aona_sports_bra")
-
-    call change_stats_with_modifier('school', 'pe',
-        happiness = TINY, charm = SMALL, reputation = TINY, inhibition = DEC_TINY) from _call_change_stats_with_modifier_23
-
-    $ end_event('map_overview', **kwargs)
-
-label gym_teach_pe_main_aona_bra_2 (**kwargs):
-    $ begin_event(**kwargs)
-
-    $ bra = get_value('skimpy_bra', **kwargs)
-
-    $ image = convert_pattern("main", **kwargs)
-
-    $ image.show(0)
-    headmaster "Alright, today we will do some running."
-    sgirl "*MOAN*" (name = "Students")
-    $ image.show(1)
-    headmaster "Yes, Yes! I know! I know! But you know the state test is coming up and you need to be in shape for it."
-    $ image.show(2)
-    headmaster "So now please line up and let's get started. Today we will be doing laps."
-    headmaster "And go!"
-    call Image_Series.show_image(image, 3, 4, 5, 6, 7) from image_gym_teach_pe_main_aona_bra_2_1
-    headmaster "Alright, that's enough for today. Please shower and change your clothes."
-    call Image_Series.show_image(image, 8, pause = True) from image_gym_teach_pe_main_aona_bra_2_2
-    if bra == 1:
-        call Image_Series.show_image(image, 9, 10, 11) from image_gym_teach_pe_main_aona_bra_2_3
-        sgirl "Mr. [headmaster_last_name], I'm sorry but you bought the wrong bra." (name = "Aona Komuro")
-        $ image.show(12)
-        headmaster "What do you mean?"
-        $ image.show(13)
-        sgirl "This is the bra you offered me, which I didn't want to buy." (name = "Aona Komuro")
-        $ image.show(14)
-        headmaster "Oh I'm sorry. I must've swapped them by accident."
-        headmaster "But why are you wearing it then?"
-        $ image.show(15)
-        sgirl "I didn't want to run without a bra again, so I didn't have a choice." (name = "Aona Komuro")
-        $ image.show(16)
-        headmaster "I see. But how did you feel in it? I mean, it looked like you were much more comfortable than before."
-        $ image.show(17)
-        sgirl "Well to be honest, it worked really well. It was quite comfortable and I didn't have any problems with my breasts." (name = "Aona Komuro")
-        $ image.show(18)
-        headmaster "And nobody cared, did they?"
-        $ image.show(19)
-        sgirl "Well... no." (name = "Aona Komuro")
-        $ image.show(20)
-        headmaster "So how about you try it on for a few more days and see how it goes?"
-        $ image.show(21)
-        sgirl "Mhh... Okay, I'll try it for now." (name = "Aona Komuro")
-        $ image.show(22)
-        headmaster "Alright, now go and get changed. You wouldn't want to miss your break, would you?"
-        $ image.show(21)
-        sgirl "No, thanks."
-
-        call change_stats_with_modifier('school', 'pe',
-            happiness = TINY, charm = SMALL, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_24
-    else:
-        call change_stats_with_modifier('school', 'pe',
-            happiness = SMALL, charm = SMALL, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_25
-    
-    $ advance_progress("aona_sports_bra")
 
     $ end_event('map_overview', **kwargs)
 

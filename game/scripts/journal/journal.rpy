@@ -115,18 +115,6 @@ init python:
 init -1 python:
     journal_events = EventStorage("journal_events", "misc", fallback = Event(2, "start_journal.after_check"))
 
-init 1 python:
-    
-    journal_tutorial_event = Event(1, "journal_tutorial",
-        NOT(ProgressCondition('journal_tutorial')),
-        TutorialCondition(),
-        Pattern("main", "/images/events/misc/journal_tutorial <step>.webp"),
-        thumbnail = "images/events/misc/journal_tutorial 0.webp")
-
-    journal_events.add_event(
-        journal_tutorial_event
-    )
-
 # endregion
 #########################
 
