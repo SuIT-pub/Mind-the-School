@@ -605,6 +605,7 @@ init -6 python:
             output = 0
             for stat in self.stats.keys():
                 obj_stat = char_obj.get_stat_number(stat)
+
                 diff = get_value_diff(self.stats[stat], obj_stat)
 
                 if diff < -20:
@@ -3036,6 +3037,44 @@ init -6 python:
             diff = self.condition.get_diff(char_obj)
 
             return clamp_value(100 - diff, -100, 100)
+
+    class EventSeenCondition(Condition):
+        """
+        A class for conditions that check if an event has been seen.
+        """
+
+        def __init__(self, seen: bool = False):
+            super().__init__(False)
+            self.seen = seen
+
+        def is_fulfilled(self, **kwargs) -> bool:
+            """
+            Returns whether the event has been seen.
+
+            ### Parameters:
+            1. **kwargs
+                - Additional arguments.
+
+            ### Returns:
+            1. bool
+                - Whether the condition is fulfilled or not.
+            """
+
+            if super().is_fulfilled(**kwargs):
+                return True
+
+            return self.seen == get_event_seen(get_kwargs('event_name', **kwargs))
+
+        def get_name(self) -> str:
+            """
+            Returns the name of the condition.
+
+            ### Returns:
+            1. str
+                - The name of the condition.
+            """
+
+            return f"EventSeenCondition({self.event})"
 
     class JournalVoteCondition(Condition):
         """

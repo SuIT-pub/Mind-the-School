@@ -2,9 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/screens.rpy", line 1388: 'action' is not a keyword argument or valid child of the text statement.
-    action Function(activate_mod, mod['key'])
-          ^
+File "game/scripts/pta.rpy", line 681: expected an indented block
+    release_money("vote_" + condition.get_name() + "_" + vote_object.get_name())
+     ^
 
 Ren'Py Version: Ren'Py 8.1.3.23091805
-Mon Oct 14 12:34:30 2024
+Wed Oct 30 13:03:24 2024
