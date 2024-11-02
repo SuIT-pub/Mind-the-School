@@ -456,7 +456,6 @@ init -6 python:
 
             if test_level == None:
                 test_level = self.get_level()
-
             return get_value_diff(value, test_level) >= 0
     
         # endregion

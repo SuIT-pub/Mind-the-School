@@ -182,9 +182,10 @@ label load_rules ():
             "Students get a new subject in which they deal with the topic of the human body and human reproduction. All on a theoretical basis, of course.",
         ],
         '_unlock_conditions': ConditionStorage(
-            StatCondition(inhibition = '90', corruption = '10'),
+            StatCondition(inhibition = '90-', corruption = '10+'),
             ProgressCondition("start_sex_ed", "6", True),
-            PTAOverride('parent', False),
+            # PTAOverride('parent', False),
+            # PTAOverride('teacher', True),
         ),
         '_image_path': 'images/journal/rules/theoretical_sex_ed.webp',
         '_image_path_alt': 'images/journal/rules/theoretical_sex_ed.webp',
