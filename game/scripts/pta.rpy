@@ -61,12 +61,19 @@ init -6 python:
             ]
 
         overall_probability = 1.0
-        for char_obj in char_obj_list:
-            overall_probability *= calculateProbability(conditions, char_obj) / 100.0
+
+        probabilities = [calculateProbability(conditions, char_obj) / 100 for char_obj in char_obj_list]
+
+        combined_complement = 1
+        for p in probabilities:
+            combined_complement *= (1 - p)
+        
+        # Calculate the overall probability
+        overall_probability = 1 - combined_complement
         
         # Convert back to percentage
-        overall_probability *= 100.0
-        return overall_probability
+        return overall_probability * 100
+        
 
     def calculateProbability(conditions: ConditionStorage, char_obj: Char, is_in_pta = False) -> float:
         """
@@ -88,6 +95,13 @@ init -6 python:
         voteConditions = conditions.get_conditions()
         probability = 100.0
         for condition in voteConditions:
+            if isinstance(condition, PTAOverride):
+                if condition.char == char_obj.get_name():
+                    if condition.accept:
+                        return 100.0
+                    else:
+                        return 0.0
+
             if is_in_pta and isinstance(condition, MoneyCondition):
                 continue
             probability += condition.get_diff(char_obj)
@@ -649,6 +663,8 @@ label pta_vote_result (parent_vote, teacher_vote, student_vote, proposal):
     $ obj_title = vote_object.get_title()
     $ end_choice = get_end_choice(parent_vote, teacher_vote, student_vote)
 
+    $ money_conditions = [condition for condition in vote_object.get_conditions() if isinstance(condition, MoneyCondition)]
+
     if end_choice == 'yes':
         if vote_action == "unlock":
             $ vote_object.unlock(True, True)
@@ -657,13 +673,12 @@ label pta_vote_result (parent_vote, teacher_vote, student_vote, proposal):
             $ vote_object.upgrade(True)
             $ add_notify_message(f"{obj_title} has been upgraded.")
 
-        
-        $ money_conditions = [condition for condition in vote_object.get_conditions() if isinstance(condition, MoneyCondition)]
         python:
             for condition in money_conditions:
                 spend_reserved_money("vote_" + condition.get_name() + "_" + vote_object.get_name())
-
-    $ release_money("vote_" + condition.get_name() + "_" + vote_object.get_name())
+    python:
+        for condition in money_conditions:
+            release_money("vote_" + condition.get_name() + "_" + vote_object.get_name())
     $ set_game_data('voteProposal', None)
 
     return
