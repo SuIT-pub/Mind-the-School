@@ -3048,6 +3048,44 @@ init -6 python:
 
             return clamp_value(100 - diff, -100, 100)
 
+    class EventSeenCondition(Condition):
+        """
+        A class for conditions that check if an event has been seen.
+        """
+
+        def __init__(self, seen: bool = False):
+            super().__init__(False)
+            self.seen = seen
+
+        def is_fulfilled(self, **kwargs) -> bool:
+            """
+            Returns whether the event has been seen.
+
+            ### Parameters:
+            1. **kwargs
+                - Additional arguments.
+
+            ### Returns:
+            1. bool
+                - Whether the condition is fulfilled or not.
+            """
+
+            if super().is_fulfilled(**kwargs):
+                return True
+
+            return self.seen == get_event_seen(get_kwargs('event_name', **kwargs))
+
+        def get_name(self) -> str:
+            """
+            Returns the name of the condition.
+
+            ### Returns:
+            1. str
+                - The name of the condition.
+            """
+
+            return f"EventSeenCondition({self.event})"
+
     class JournalVoteCondition(Condition):
         """
         A class for conditions that check if a Journal Object is currently scheduled for voting.

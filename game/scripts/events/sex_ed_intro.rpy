@@ -167,7 +167,10 @@ label office_call_secretary_1 (**kwargs):
     secretary "I think it's a great idea. It's important for students to be educated about such topics."
     secretary "But do you think the rest of the staff and also the students would agree?"
     $ image.show(8)
-    headmaster "Hmm, I guess you're right. That will be quite the hurdle, I think I need to make sure they are ready for it before suggesting it."
+    headmaster """
+    Hmm, I guess you're right. That will be quite the hurdle, I think I need to make sure they are ready 
+    for it before suggesting it.
+    """
     $ image.show(9)
     headmaster "Do you have any suggestions on how to approach this?"
     secretary "I think you should start by talking to the staff and getting their input."
