@@ -364,7 +364,7 @@ screen navigation():
         spacing gui.navigation_spacing
 
         if main_menu and refresh_game:
-            text "Please restart the game!":
+            text "Mod changes detected!\nPlease restart the game!":
                 style "mod_menu_description"
                 color "#a00000"
                 size 24
