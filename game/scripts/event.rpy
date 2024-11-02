@@ -292,9 +292,9 @@ init -3 python:
             for event in events:
                 register_seen_event(event.get_event())
 
-                if event.get_id() not in self.events[event.get_priority()].keys():
+                if event.get_id() not in self.events[event.get_select_type()].keys():
                     self.register_event_for_location(event, self.location)    
-                    self.events[event.get_priority()][event.get_id()] = event
+                    self.events[event.get_select_type()][event.get_id()] = event
 
         def overwrite_event(self, *event: Event):
             """
@@ -314,7 +314,7 @@ init -3 python:
                 register_seen_event(event.get_event())
 
                 self.register_event_for_location(event, self.location)    
-                self.events[event.get_priority()][event.get_id()] = event
+                self.events[event.get_select_type()][event.get_id()] = event
 
         def remove_event(self, event_id: str):
             """
@@ -608,24 +608,35 @@ init -3 python:
             if "event_type" not in kwargs.keys():
                 kwargs["event_type"] = self.name
 
+            log_val('select_type', priority)
+
             if priority == 0 or priority == 1:
-                for event in self.events[1].values():
-                    if event.is_available(**kwargs):
-                        return [event]
+                events = get_highest_priority_available_events(*self.events[1].values(), **kwargs)
+                log_val('output', events)
+                if len(events) != 0:
+                    return [events[0]]
+                # for event in self.events[1].values():
+                #     if event.is_available(**kwargs):
+                #         return [event]
 
             if priority == 0 or priority == 2:
-                output = []
-                for event in self.events[2].values():
-                    if event.is_available(**kwargs):
-                        output.append(event)
+                output = get_highest_priority_available_events(*self.events[2].values(), **kwargs)
+                log_val('output', output)
                 if len(output) != 0:
                     return output
+                # output = []
+                # for event in self.events[2].values():
+                #     if event.is_available(**kwargs):
+                #         output.append(event)
+                # if len(output) != 0:
+                #     return output
 
             if priority == 0 or priority == 3:
-                output = []
-                for event in self.events[3].values():
-                    if event.is_available(**kwargs):
-                        output.append(event)
+                output = get_highest_priority_available_events(*self.events[3].values(), **kwargs)
+                log_val('output', events)
+                # for event in self.events[3].values():
+                #     if event.is_available(**kwargs):
+                #         output.append(event)
                 if len(output) != 0:
                     return [random.choice(output)]
 
@@ -673,6 +684,7 @@ init -3 python:
             """
 
             events = self.get_available_events(priority, **kwargs)
+            log_val('events', events)
             if len(events) == 0:
                 return None
             return random.choice(events)
@@ -751,9 +763,9 @@ init -3 python:
             for event in events:
                 register_seen_event(event.get_event())
 
-                if event.get_id() not in self.events[event.get_priority()].keys():
+                if event.get_id() not in self.events[event.get_select_type()].keys():
                     self.register_event_for_location(event, 'fragment')
-                    self.events[event.get_priority()][event.get_id()] = event
+                    self.events[event.get_select_type()][event.get_id()] = event
         
         def register_storage_as_fragment(self):
             """
@@ -1170,27 +1182,50 @@ init -3 python:
             - Returns the events depending on the priority.
         5. get_event_count() -> int
             - Returns the number of events stored.
-        6. get_priority() -> int
-            - Returns the priority of the event.
+        6. get_select_type() -> int
+            - Returns the select type of the event.
         7. is_available(**kwargs) -> bool
             - Returns True if all conditions are fulfilled.
         8. call(**kwargs)
             - Calls the event.
         """
 
-        def __init__(self, priority: int, event: str, *options: Condition | Selector | Option | Pattern, thumbnail: str = "", register_self = True, override_intro = False, override_location = None):
+        def __init__(self, select_type: int, event: str, *options: Condition | Selector | Option | Pattern, thumbnail: str = "", register_self = True, override_intro = False, override_location = None):
             self.event_id = str(event)
             self.event = event
             self.thumbnail = thumbnail
-            self.conditions = [condition for condition in options if isinstance(condition, Condition)]
 
-            if not any(isinstance(condition, IntroCondition) for condition in self.conditions) and not override_intro:
+            self.conditions = []
+            self.values = SelectorSet()
+            self.options = OptionSet()
+            self.patterns = {}
+            self.priority = 1
+
+            has_intro_condition = False
+            for value in options:
+                if isinstance(value, Condition):
+                    if isinstance(value, IntroCondition):
+                        has_intro_condition = True
+                    self.conditions.append(value)
+                elif isinstance(value, Selector):
+                    self.values.add_selector(value)
+                elif isinstance(value, Option):
+                    if isinstance(value, PriorityOption):
+                        self.priority = value.priority
+                    else:
+                        self.options.add_option(value)
+                elif isinstance(value, Pattern):
+                    self.patterns[value.get_name()] = value
+
+            # self.conditions = [condition for condition in options if isinstance(condition, Condition)]
+
+            if not has_intro_condition and not override_intro:
                 self.conditions.append(IntroCondition(False))
 
-            self.values = SelectorSet(*[condition for condition in options if isinstance(condition, Selector)])
-            self.options = OptionSet(*[condition for condition in options if isinstance(condition, Option)])
+            # self.values = SelectorSet(*[condition for condition in options if isinstance(condition, Selector)])
+            # self.options = OptionSet(*[condition for condition in options if isinstance(condition, Option)])
 
-            self.patterns = {pattern.get_name(): pattern for pattern in options if isinstance(pattern, Pattern)}
+            # self.patterns = {pattern.get_name(): pattern for pattern in options if isinstance(pattern, Pattern)}
 
             rerollSelectors.append(self.values)
 
@@ -1199,7 +1234,8 @@ init -3 python:
             # 1 = highest (the first 1 to occur is called blocking all other events)
             # 2 = middle (all 2's are called after each other)
             # 3 = lowest (selected random among 3's)
-            self.priority = priority 
+            self.select_type = select_type
+
             self.event_type = ""
             # self.values = values
 
@@ -1233,7 +1269,10 @@ init -3 python:
                 self.conditions = []
 
             if not hasattr(self, 'priority'):
-                self.priority = 3
+                self.priority = 1
+
+            if not hasattr(self, 'select_type'):
+                self.select_type = 3
 
             if not hasattr(self, 'event_type'):
                 self.event_type = ""
@@ -1258,8 +1297,8 @@ init -3 python:
             302. If all labels exist           
             """
 
-            if self.priority < 1 or self.priority > 3:
-                log_error(301, "Event " + self.event_id + ": Priority " + str(self.priority) + " is not valid!")
+            if self.select_type < 1 or self.select_type > 3:
+                log_error(301, "Event " + self.event_id + ": Select Type " + str(self.select_type) + " is not valid!")
                 self._invalid = True
 
             if not renpy.has_label(self.event):
@@ -1375,6 +1414,17 @@ init -3 python:
         def get_event_label(self) -> str:
             return self.get_event()
 
+        def get_select_type(self) -> int:
+            """
+            Returns the select type of the event.
+
+            ### Returns:
+            1. int
+                - The select type of the event.
+            """
+
+            return self.select_type
+
         def get_priority(self) -> int:
             """
             Returns the priority of the event.
@@ -1458,7 +1508,7 @@ init -3 python:
 
             kwargs['image_patterns'] = self.patterns
 
-            renpy.call("call_event", events, self.priority, self.get_event(), **kwargs)
+            renpy.call("call_event", events, self.select_type, self.get_event(), **kwargs)
 
         ##############
 
@@ -1616,7 +1666,7 @@ init -3 python:
                     kwargs["values"][data_key] = last_data[data_key]
                     j += 1
     
-            renpy.call("call_event", events.get_event_label(), self.priority, **kwargs)
+            renpy.call("call_event", events.get_event_label(), self.select_type, **kwargs)
 
         def select_fragments(self, **kwargs) -> List[Event]:
             """
@@ -1636,8 +1686,11 @@ init -3 python:
 
             for i in range(len(self.fragments)):
                 selected_event = self.fragments[i].get_one_possible_event(**kwargs)
+                log_val('i', i)
                 if selected_event != None:
                     output.append(selected_event)
+                else:
+                    log_error(304, "Composite Event " + self.event_id + ": No events available in fragment at index " + str(i) + "!")
 
             return output
 
@@ -1677,7 +1730,7 @@ init -3 python:
             renpy.call(
                 "call_event", 
                 self.get_event_label(), 
-                self.priority, 
+                self.select_type, 
                 self.get_event_label(), 
                 from_current="event_select_call_1",
                 select_text = self.text,
@@ -1688,14 +1741,39 @@ init -3 python:
             **kwargs)
 
     class EventFragment(Event):
-        def __init__(self, priority: int, event: str, *conditions: Condition | Selector | Option, thumbnail: str = ""):
-            super().__init__(priority, event, *conditions, thumbnail = thumbnail)
+        def __init__(self, select_type: int, event: str, *conditions: Condition | Selector | Option, thumbnail: str = ""):
+            super().__init__(select_type, event, *conditions, thumbnail = thumbnail)
 
             self.event_form = "fragment"
             self.set_location("fragment")
 
     # endregion
     ########################
+
+    def get_highest_priority_events(*events: Event) -> List[Event]:
+        curr_priority = 1
+        output = []
+        for event in events:
+            if event.get_priority() == curr_priority:
+                output.append(event)
+            elif event.get_priority() > curr_priority:
+                curr_priority = event.get_priority()
+                output = [event]
+
+        return output
+
+    def get_highest_priority_available_events(*events: Event, **kwargs) -> List[Event]:
+        curr_priority = 1
+        output = []
+        for event in events:
+            if event.is_available(**kwargs):
+                if event.get_priority() == curr_priority:
+                    output.append(event)
+                elif event.get_priority() > curr_priority:
+                    curr_priority = event.get_priority()
+                    output = [event]
+
+        return output
 
     ##############################
     # region Event label handler #

@@ -12,6 +12,9 @@ init -6 python:
                 return True
             return all(option.check_option(**kwargs) for option in self.options.values())
 
+        def add_option(self, option: Option):
+            self.options[option.get_name()] = option
+
         def get_options(self) -> List[Option]:
             return list(self.options.values())
 
@@ -56,4 +59,14 @@ init -6 python:
         def check_option(self, **kwargs):
             if "ShowBlocked" in kwargs:
                 return kwargs["ShowBlocked"]
+            return True
+
+    class PriorityOption(Option):
+        def __init__(self, priority: int):
+            super().__init__("Priority")
+            self.priority = priority
+
+        def check_option(self, **kwargs):
+            if "Priority" in kwargs:
+                return kwargs["Priority"] == self.priority
             return True
