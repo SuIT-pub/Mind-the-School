@@ -599,6 +599,9 @@ label new_day ():
     
     call time_event_check from new_day_2
 
+    $ update_quest("daytime_change")
+    $ update_quest("day_change")
+
     jump map_overview
 
 label new_daytime ():
@@ -613,6 +616,8 @@ label new_daytime ():
         $ renpy.force_autosave()
 
     call time_event_check from new_daytime_2
+
+    $ update_quest("daytime_change")
 
     jump map_overview
 
@@ -652,9 +657,13 @@ label map_overview ():
 
     $ call_notify()
 
+    $ update_quest("map")
+
     show school_map
     # show screen school_overview_map
     show screen school_overview_stats 
+
+    $ log('###########################################')
 
     $ update_available_highlights()
 
