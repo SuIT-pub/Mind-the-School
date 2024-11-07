@@ -1274,7 +1274,7 @@ init -6 python:
             if not isinstance(value, str):
                 value = str(value) + "+"
 
-            return check_in_value(self.value, money.get_value())
+            return self.value <= money.get_value()
 
         def to_desc_text(self, **kwargs) -> str:
             """
@@ -1330,6 +1330,11 @@ init -6 python:
             """
 
             return "Money"
+
+        def get_diff(self, char_obj: str | Char = None) -> num:
+            if self.is_fulfilled():
+                return 0
+            return -5000
 
     class LockCondition(Condition):
         """
@@ -1507,7 +1512,7 @@ init -6 python:
 
             if self.daytime != "x":
                 if text != "":
-                    text = " "
+                    text += " "
                 text += f"{time.get_daytime_name(self.daytime)}"
 
             if self.is_fulfilled(**kwargs):
@@ -2324,11 +2329,11 @@ init -6 python:
             if super().is_fulfilled(**kwargs):
                 return True
 
-            if "values" not in kwargs.keys() or self.key_1 not in kwargs["values"].keys() or self.key_2 not in kwargs["values"].keys():
-                return False
+            if "values" in kwargs.keys():
+                kwargs = kwargs["values"]
 
-            value_1 = kwargs["values"][self.key_1]
-            value_2 = kwargs["values"][self.key_2]
+            value_1 = kwargs[self.key_1]
+            value_2 = kwargs[self.key_2]
 
             if isinstance(value_1, Selector):
                 value_1 = value_1.roll(**kwargs)
@@ -2910,7 +2915,7 @@ init -6 python:
         A class for conditions that overrides all other conditions in the PTA voting.
         """
 
-        def __init__(self, char: str = "", accept: bool = True):
+        def __init__(self, char: str = "", accept: str = "yes"):
             super().__init__(False)
             self.char = char
             self.accept = accept
@@ -2931,7 +2936,7 @@ init -6 python:
             if super().is_fulfilled(**kwargs):
                 return True
 
-            return self.accept
+            return self.accept == "yes"
 
         def get_name(self) -> str:
             """
@@ -2964,7 +2969,12 @@ init -6 python:
                 char_obj = get_school()
 
             if self.char == "" or self.char == char_obj.get_name():
-                return 5000 if self.accept else -5000
+                if self.accept == "yes":
+                    return 5000
+                elif self.accept == "no":
+                    return -100
+                else:
+                    return -5000
             return 0
 
     class CheckReplay(Condition):
@@ -3044,7 +3054,7 @@ init -6 python:
         """
 
         def __init__(self, seen: bool = False):
-            super().__init__(False)
+            super().__init__(True)
             self.seen = seen
 
         def is_fulfilled(self, **kwargs) -> bool:
