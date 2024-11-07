@@ -52,6 +52,13 @@ init -6 python:
                 return kwargs["NoHighlight"]
             return True
 
+    class ForceHighlightOption(Option):
+        def __init__(self):
+            super().__init__("ForceHighlight")
+
+        def check_option(self, **kwargs):
+            return True
+        
     class ShowBlockedOption(Option):
         def __init__(self):
             super().__init__("ShowBlocked")

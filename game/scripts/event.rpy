@@ -392,13 +392,7 @@ init -3 python:
                 - False if there are no events with priority 1 or 2 that are available.
             """
 
-            for event in self.events[1].values():
-                if event.is_highlighted(**kwargs):
-                    return True
-            for event in self.events[2].values():
-                if event.is_highlighted(**kwargs):
-                    return True
-            return False
+            return any(event.is_highlighted(**kwargs) for priority in self.events.values() for event in priority.values())
 
         def has_available_high_prio_events(self, **kwargs) -> bool:
             """
@@ -512,10 +506,13 @@ init -3 python:
                     return output, True
             if priority == 0 or priority == 3:
                 output = 0
+                with_highlight = False
                 for event in self.events[3].values():
+                    if event.force_highlight:
+                        with_highlight = True
                     if event.is_available(**kwargs) and event.check_options(Highlight = True, **kwargs):
                         output += 1
-                return output, False
+                return output, with_highlight
             return 0, False
 
         def count_available_events_with_fallback(self, priority: int = 0, **kwargs) -> int:
@@ -608,11 +605,8 @@ init -3 python:
             if "event_type" not in kwargs.keys():
                 kwargs["event_type"] = self.name
 
-            log_val('select_type', priority)
-
             if priority == 0 or priority == 1:
                 events = get_highest_priority_available_events(*self.events[1].values(), **kwargs)
-                log_val('output', events)
                 if len(events) != 0:
                     return [events[0]]
                 # for event in self.events[1].values():
@@ -621,7 +615,6 @@ init -3 python:
 
             if priority == 0 or priority == 2:
                 output = get_highest_priority_available_events(*self.events[2].values(), **kwargs)
-                log_val('output', output)
                 if len(output) != 0:
                     return output
                 # output = []
@@ -633,7 +626,6 @@ init -3 python:
 
             if priority == 0 or priority == 3:
                 output = get_highest_priority_available_events(*self.events[3].values(), **kwargs)
-                log_val('output', events)
                 # for event in self.events[3].values():
                 #     if event.is_available(**kwargs):
                 #         output.append(event)
@@ -684,7 +676,6 @@ init -3 python:
             """
 
             events = self.get_available_events(priority, **kwargs)
-            log_val('events', events)
             if len(events) == 0:
                 return None
             return random.choice(events)
@@ -1200,6 +1191,7 @@ init -3 python:
             self.options = OptionSet()
             self.patterns = {}
             self.priority = 1
+            self.force_highlight = False
 
             has_intro_condition = False
             for value in options:
@@ -1210,6 +1202,8 @@ init -3 python:
                 elif isinstance(value, Selector):
                     self.values.add_selector(value)
                 elif isinstance(value, Option):
+                    if isinstance(value, ForceHighlightOption):
+                        self.force_highlight = True
                     if isinstance(value, PriorityOption):
                         self.priority = value.priority
                     else:
@@ -1314,7 +1308,7 @@ init -3 python:
             return self.options.check_options(**kwargs)
 
         def is_highlighted(self, **kwargs) -> bool:
-            return self.is_available(**kwargs) and self.check_options(Highlight = True, **kwargs)
+            return self.is_available(**kwargs) and (self.select_type != 3 or self.force_highlight) and self.check_options(Highlight = True, parent_event = self, **kwargs)
 
         #############################
         # Attribute getter and setter
@@ -1469,6 +1463,8 @@ init -3 python:
 
             if self._invalid:
                 return False
+
+            kwargs["event_name"] = self.get_name()
 
             for condition in self.conditions:
                 if not condition.is_fulfilled(**kwargs):
@@ -1686,7 +1682,6 @@ init -3 python:
 
             for i in range(len(self.fragments)):
                 selected_event = self.fragments[i].get_one_possible_event(**kwargs)
-                log_val('i', i)
                 if selected_event != None:
                     output.append(selected_event)
                 else:
@@ -1832,6 +1827,7 @@ init -3 python:
         """
 
         global seenEvents
+        global gallery_manager
 
         hide_all()
 
@@ -1910,6 +1906,8 @@ init -3 python:
             display_journal = get_kwargs("journal_display", "", **kwargs)
             renpy.call("open_journal", 7, display_journal, from_current = False)
             return
+        
+        update_quest("event_end", **kwargs)
 
         if return_type == "new_daytime":
             renpy.jump("new_daytime")
