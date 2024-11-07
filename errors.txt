@@ -9,6 +9,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 03a914a (added subject proficiencies for headmaster)
 =======
@@ -21,10 +22,13 @@
 >>>>>>> 00ee58e (rebuilt pta system)
 =======
 >>>>>>> 307d4ab (Added quest system)
+=======
+>>>>>>> 2b004905d406797a67db2fa166cece12473e91e7
 ﻿I'm sorry, but errors were detected in your script. Please correct the
 errors listed below, and try again.
 
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -448,3 +452,11 @@ File "game/scripts/pta.rpy", line 78: expected an indented block
 Ren'Py Version: Ren'Py 8.1.3.23091805
 Thu Nov  7 09:24:08 2024
 >>>>>>> 2b00490 (removed debug messages and updated compiler outputs)
+=======
+File "game/scripts/pta.rpy", line 78: expected an indented block
+            prob = 1.0
+             ^
+
+Ren'Py Version: Ren'Py 8.1.3.23091805
+Thu Nov  7 09:24:08 2024
+>>>>>>> 2b004905d406797a67db2fa166cece12473e91e7
