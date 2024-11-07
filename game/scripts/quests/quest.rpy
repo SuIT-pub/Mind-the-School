@@ -104,6 +104,8 @@ init -97 python:
                 if new_goals[goal.get_key()]._premature_visibility and not new_goals[goal.get_key()]._active and self.show_prematurely():
                     new_goals[goal.get_key()].activate()
             self._goals = new_goals
+            self._premature_visibility = quest.show_prematurely()
+            self._active = quest._active if quest._active else self._active
 
         def update(self, key: str, **kwargs):
             """
@@ -438,6 +440,7 @@ init -98 python:
                 else:
                     new_task = self._tasks[f"{task.get_type()}_{task.get_key()}"]
                     new_task.update_data(task)
+                    new_task.register(self)
                     new_tasks.append(new_task)
             self._tasks = {f"{task.get_type()}_{task.get_key()}": task for task in new_tasks}
             self._activate_next = goal._activate_next
@@ -486,6 +489,8 @@ init -98 python:
             """
 
             for task in self._tasks.values():
+                if task._goal == None:
+                    task.register(self)
                 task.force_complete()
             self.complete()
 
@@ -573,7 +578,13 @@ init -98 python:
                 - The progresses of the tasks in the goal.
             """
 
-            progress = [task.get_progress() for task in self._tasks.values()]
+            progress = []
+            for task in self._tasks.values():
+                task_progress = task.get_progress()
+                if isinstance(task_progress, list):
+                    progress.extend(task_progress)
+                else:
+                    progress.append(task_progress)
             return progress
 
         def get_tasks(self) -> List[Task]:
@@ -953,6 +964,7 @@ init -99 python:
             """
 
             if self._condition.is_fulfilled(**kwargs):
+                log("Stat condition complete")
                 self.complete()
 
     class TriggerTask(Task):
@@ -1258,6 +1270,33 @@ init -99 python:
             """
 
             pass
+
+    class OptionalTask(Task):
+
+        def __init__(self, key: str, task: Task):
+            super().__init__(key, "Optional_" + task.get_key())
+            self._task = task
+            self._complete = True
+
+        def update_data(self, task: OptionalTask):
+            if isinstance(task._task, type(self._task)):
+                self._task.update_data(task._task)
+            else:
+                self._task = task._task
+
+        def get_progress(self) -> str:
+
+            progress = self._task.get_progress()
+
+            if isinstance(progress, list):
+                for i in range(len(progress)):
+                    progress[i] = "( " + progress[i] + " )"
+                return progress
+            else:
+                return "( " + str(self._task.get_progress()) + " )"
+
+        def update(self, **kwargs):
+            self._task.update(**kwargs)
 
     # endregion
     ################
