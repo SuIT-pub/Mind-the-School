@@ -48,7 +48,7 @@ init 1 python:
         RandomValueSelector('inhibition_limit', 30, 50),
         StatSelector('inhibition', INHIBITION, "school"),
         RandomListSelector('location', "dorm_room", "shower"),
-        ConditionSelector("topic_set", KeyCompareCondition("inhibition", "inhibition_limit", ">="), 1, 2),
+        ConditionSelector("topic_set", KeyCompareCondition("inhibition", "inhibition_limit", ">="), 1, 2, realtime = True),
         RandomListSelector('topic', 
             (
                 RandomListSelector('', "ah", "ahhh", "oh", "eeek", (0.05, "panties"), (0.02, "breasts")), 
