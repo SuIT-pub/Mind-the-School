@@ -42,14 +42,6 @@ init 1 python:
     end_of_month_event = Event(2, "end_of_month",
         TimeCondition(day = 1, daytime = 1))
 
-    event_all_events_seen_event = Event(2,
-        "event_all_events_seen",
-        GameDataCondition("all_events_seen", True))
-
-    event_reached_max_stats_event = Event(2,
-        "event_reached_max_stats",
-        StatCondition(inhibition = "90-", corruption = "5+"))
-
     intro_check_all_facilities_event = Event(2, "intro_check_all_facilities", 
         IntroCondition(),
         TimeCondition(day = 2, month = 1, year = 2023, daytime = 1))
@@ -86,12 +78,7 @@ init 1 python:
         game_over_education_event,
         game_over_reputation_event,
     )
-        # check_prof_event,
-    temp_time_check_events.add_event(
-        event_all_events_seen_event, 
-        event_reached_max_stats_event,
-    )
-
+    
     #############################################
     # DEBUG TEST EVENTS
     #############################################
@@ -181,32 +168,6 @@ label intro_check_all_first_potions (**kwargs):
     headmaster_thought "The immediate effect will probably only last for today, so better decide which locations to visit."
 
     jump map_overview
-
-label event_all_events_seen (**kwargs):
-    $ begin_event()
-    $ hide_all()
-    
-    $ renpy.choice_for_skipping()
-
-    call show_image ("images/events/endscreen/thanks 1.webp", **kwargs) from _call_show_image_event_all_seen_1
-    dev "Thank you for playing, you found all events, that are currently in this version."
-    dev "You can still continue playing. Some events have different variants that change every time you visit them."
-
-    jump new_daytime
-
-label event_reached_max_stats (**kwargs):
-    $ begin_event()
-    $ hide_all()
-    
-    $ renpy.choice_for_skipping()
-
-    call show_image ("images/events/endscreen/thanks 1.webp", **kwargs) from _call_show_image_event_reached_max_stats_1
-    dev "Thank you for playing, you reached a stat level that pretty much maxes out your experience."
-    dev "You can still continue to play, but raising your stats beyond this point will not have any effect."
-    dev "With your current stat level, you will be able to unlock all there is to see in this version."
-    dev "Thanks for playing!"
-
-    jump new_daytime
 
 label .tutorial_3:
 
