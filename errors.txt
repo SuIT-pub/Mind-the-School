@@ -29,6 +29,7 @@ errors listed below, and try again.
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 File "game/scripts/pta.rpy", line 176: invalid syntax
             pta_vote_theoretical_sex_ed_1_event,
              ^
@@ -439,3 +440,11 @@ File "game/scripts/pta.rpy", line 681: expected an indented block
 Ren'Py Version: Ren'Py 8.1.3.23091805
 Wed Oct 30 13:03:24 2024
 >>>>>>> a70c1d3 (Updated Sex Ed Event Chain)
+=======
+File "game/scripts/pta.rpy", line 78: expected an indented block
+            prob = 1.0
+             ^
+
+Ren'Py Version: Ren'Py 8.1.3.23091805
+Thu Nov  7 09:24:08 2024
+>>>>>>> 2b00490 (removed debug messages and updated compiler outputs)
