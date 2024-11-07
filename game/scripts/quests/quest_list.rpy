@@ -120,6 +120,7 @@ init 1 python:
         ### Parameters:
         1. key: str
             - The key of the quest.
+            - globally available keys: "event", "event_end", "trigger", "journal_unlock", "journal_upgrade", "schedule_voting", "stats", "map", "day_change", "daytime_change"
         2. **kwargs: dict
             - The parameters to be passed to the update method of the task.
         """
@@ -140,7 +141,7 @@ label load_quests:
             "aonas_new_bra",
             "School",
             "Aona seems to be struggling during P.E. classes. Maybe you can help her out? Find out what's the Problem!",
-            "images/events/misc/aona_sports_bra_event_1 # 23.webp",
+            "images/events/misc/aona_sports_bra_event_1/# 23.webp",
             "Aona got her new bra and is now ready for P.E. classes!",
             Goal(
                 "aona_bra_event_1",
@@ -153,12 +154,14 @@ label load_quests:
                 "aona_bra_event_2",
                 "Drive Aona to the Shop.",
                 EventTask("aona_sports_bra_event_1", check_history = True),
-                activate_next = True
+                activate_next = True,
+                trigger_activate = True,
             ),
             Goal(
                 "aona_bra_event_3",
                 "Check if Aona is happy with her new bra.",
-                EventTask("gym_teach_pe_main_aona_bra_2", check_history = True)
+                EventTask("gym_teach_pe_main_aona_bra_2", check_history = True),
+                trigger_activate = True,
             ),
             premature_visibility = True
         )
@@ -170,10 +173,29 @@ label load_quests:
     ########################
     # region Helper Quests #
 
+    # Max Stats
+    $ load_quest(
+        Quest(
+            "max_stats",
+            "MaxGame",
+            "This is an overview of what values for certain stats you need to reach to have seen everything in the game. \nProgressing the stats further won't make a difference in the current version.\nThis quest is only for giving you an overview, of what stats you still have missed.",
+            "images/journal/journal/test_image.webp",
+            "You have reached the maximum stats!",
+            Goal(
+                "max_stats",
+                "Stats",
+                ConditionTask("stats", "max_stats", StatCondition(inhibition = "90-", corruption = "5+")),
+                premature_visibility = True
+            ),
+            premature_visibility = True
+        )
+    )
+
+    # All Events
     $ load_quest(
         Quest(
             "all_events",
-            "ObserveAllEvents",
+            "MaxGame",
             "This is an overview of all events that exist in the game. This quest is only for giving you an overview, of what events you still have missed.\n\nIt however doesn't track the different variants and decision possibilities of the events, since many events can differ from their last run.\n\nThis quest also only tracks the events you can see during the free roam phase after the introduction finished.",
             "images/journal/journal/test_image.webp",
             "You have seen all events!",
@@ -299,6 +321,7 @@ label load_quests:
         )
     )
 
+    # Unlock Cafeteria
     $ load_quest(
         Quest(
             "unlock_cafeteria",
@@ -328,6 +351,7 @@ label load_quests:
         )
     )
 
+    # Unlock School Jobs
     $ load_quest(
         Quest(
             "unlock_school_jobs",
@@ -336,10 +360,16 @@ label load_quests:
             "images/journal/rules/school_jobs_1_full.webp",
             "The school jobs rule is now unlocked!",
             Goal(
+                "unlock_school_jobs_0",
+                "Unlock the Cafeteria.",
+                JournalUnlockTask("cafeteria"),
+                premature_visibility = True,
+                activate_next = True
+            ),
+            Goal(
                 "unlock_school_jobs_1",
                 "Order some Food in the Cafeteria and observe Adelaide getting a bit overwhelmed.",
                 EventValueTask("cafeteria_event_3", min_seen = 3, topic = "overwhelmed"),
-                premature_visibility = True,
                 activate_next = True
             ),
             Goal(
@@ -349,9 +379,11 @@ label load_quests:
                 JournalUnlockTask("school_jobs"),
                 activate_next = True
             ),
+            premature_visibility = True
         )
     )
 
+    # Unlock Student Relations
     $ load_quest(
         Quest(
             "unlock_student_relations",
@@ -379,8 +411,77 @@ label load_quests:
                 JournalUnlockTask("student_student_relation"),
                 activate_next = True
             ),
+            premature_visibility = True
         )
     )
 
     # endregion
     ########################
+
+    #####################################
+    # region Quests Intro Sex Education #
+
+    $ load_quest(
+        Quest(
+            "start_sex_ed",
+            "School",
+            "It is time to start teaching the school girls about their bodies, sexuality and reproduction.\nLet's try to add theoretical sex education to the schools curriculum.",
+            "images/events/misc/aona_sports_bra_event_1/# 23.webp",
+            "Theoretical Sex Education is now part of the schools curriculum. How do we proceed now?",
+            Goal(
+                "start_sex_ed_1",
+                "Talk with Aona on your way back from shopping and find out about some problem at the school.",
+                EventTask("aona_sports_bra_event_1", check_history = True),
+                premature_visibility = True,
+                trigger_activate = True,
+                activate_next = True
+            ),
+            Goal(
+                "start_sex_ed_2",
+                "The knowledge about that topic is definitely lacking. Let's ask Emiko for opinion.",
+                EventTask("office_call_secretary_1", check_history = True),
+                trigger_activate = True,
+                activate_next = True
+            ),
+            Goal(
+                "start_sex_ed_3",
+                "Emiko suggested talking to the teachers about the topic. But how would I approach them about it. I should think about it a bit.",
+                EventTask("office_teacher_sex_ed_introduction_1", check_history = True),
+                activate_next = True
+            ),
+            Goal(
+                "start_sex_ed_4",
+                "I called for a meeting with the teachers first thing in the morning. I hope they are open to the idea.",
+                ConditionTask("daytime_change", "is_morning", TimeCondition(daytime = 1)),
+                EventTask("office_teacher_sex_ed_introduction_2", check_history = True),
+                activate_next = True
+            ),
+            Goal(
+                "start_sex_ed_5",
+                "The teachers were relatively negative about the topic. But I convinced them to reevaluate their opinions after I present them with convincing data.\nLet's start working on it.",
+                EventTask("office_teacher_sex_ed_introduction_3", check_history = True),
+                activate_next = True
+            ),
+            Goal(
+                "start_sex_ed_6",
+                "I'm prepared to present the teachers with the data. Let's see how they react.",
+                EventTask("office_teacher_sex_ed_introduction_4", check_history = True),
+                activate_next = True
+            ),
+            Goal(
+                "start_sex_ed_7",
+                "I managed to convince the teachers to give it a try. But they set the condition to first discuss it with the PTA.",
+                OptionalTask("daytime_change", ConditionTask("daytime_change", "friday_pta", TimeCondition(weekday = 5, daytime = 1))),
+                EventTask("pta_discussion_sex_ed_intro_1", check_history = True),
+                activate_next = True
+            ),
+            Goal(
+                "start_sex_ed_8",
+                "The PTA asked for a bit of time to think about it. I could work on pushing their opinions a bit more until that.",
+                OptionalTask("stat", ConditionTask("stat", "sex_ed_stats", StatCondition(char_obj = "school", corruption = "10+", inhibition = "90-"))),
+                ScheduleVotingTask("theoretical_sex_ed", "unlock"),
+                JournalUnlockTask("theoretical_sex_ed"),
+                activate_next = True
+            ),
+        )
+    )
