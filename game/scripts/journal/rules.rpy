@@ -184,8 +184,8 @@ label load_rules ():
         '_unlock_conditions': ConditionStorage(
             StatCondition(inhibition = '90-', corruption = '10+'),
             ProgressCondition("start_sex_ed", "6", True),
-            # PTAOverride('parent', False),
-            # PTAOverride('teacher', True),
+            PTAOverride('parent', "no"),
+            PTAOverride('teacher', "yes"),
         ),
         '_image_path': 'images/journal/rules/theoretical_sex_ed.webp',
         '_image_path_alt': 'images/journal/rules/theoretical_sex_ed.webp',
