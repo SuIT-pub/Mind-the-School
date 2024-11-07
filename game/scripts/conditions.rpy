@@ -2332,8 +2332,8 @@ init -6 python:
             if "values" in kwargs.keys():
                 kwargs = kwargs["values"]
 
-            value_1 = kwargs["values"][self.key_1]
-            value_2 = kwargs["values"][self.key_2]
+            value_1 = kwargs[self.key_1]
+            value_2 = kwargs[self.key_2]
 
             if isinstance(value_1, Selector):
                 value_1 = value_1.roll(**kwargs)
@@ -3054,7 +3054,7 @@ init -6 python:
         """
 
         def __init__(self, seen: bool = False):
-            super().__init__(False)
+            super().__init__(True)
             self.seen = seen
 
         def is_fulfilled(self, **kwargs) -> bool:
