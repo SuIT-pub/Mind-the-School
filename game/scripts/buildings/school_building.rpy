@@ -113,6 +113,7 @@ init 1 python:
 
     sb_teach_events["math"].add_event(
         EventComposite(3, 'sb_teach_math', [sb_teach_math_ld_storage, sb_teach_math_main_storage],
+            TimeCondition(weekday = "d", daytime = "c"),
             LevelSelector('school_level', 'school'),
             ProficiencyCondition('math'),
             Pattern("main", "/images/events/school building/sb_teach_math.webp"),
@@ -139,6 +140,7 @@ init 1 python:
     
     sb_teach_events["history"].add_event(
         EventComposite(3, 'sb_teach_history', [sb_teach_history_intro_storage, sb_teach_history_main_storage],
+            TimeCondition(weekday = "d", daytime = "c"),
             LevelSelector('school_level', 'school'),
             RandomListSelector('topic', 'french revolution'),
             ProficiencyCondition('history'),
