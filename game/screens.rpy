@@ -4,6 +4,7 @@
 
 init 0:
     $ set_dissolve()
+    $ changelog_shown = True
 
 init offset = -1
 
@@ -371,9 +372,9 @@ screen navigation():
 
         if main_menu:
             if not refresh_game:
-                textbutton _("Start") action Start()
+                textbutton _("New Game") action Start()
             else:
-                textbutton _("Start")
+                textbutton _("New Game")
         else:
             textbutton _("History") action ShowMenu("history")
             textbutton _("Save") action ShowMenu("save")
@@ -428,8 +429,8 @@ screen main_menu():
     add gui.main_menu_background
 
     ## This empty frame darkens the main menu.
-    frame:
-        style "main_menu_frame"
+    # frame:
+    #     style "main_menu_frame"
 
     frame:
         background Solid("#8885")
@@ -442,39 +443,52 @@ screen main_menu():
                     xsize 80
                     ysize 80
                 action Call("open_wiki_link_from_menu")
+                tooltip _("Wiki")
             button:
                 add "gui/discord.png": 
                     xsize 105
                     ysize 80
                 action Call("open_discord_link_from_menu")
+                tooltip _("Discord")
             button:
                 add "gui/patreon.png": 
                     xsize 80
                     ysize 80
                 action Call("open_patreon_link_from_menu")
+                tooltip _("Patreon")
 
-
+    python:
+        changelog_height = 800
+        if not changelog_shown:
+            changelog_height = 72
 
     frame:
         background Solid("#00000088")
-        area (1400, 20, 500, 800)
+        area (1400, 20, 500, changelog_height)
         padding (10, 10)
         viewport id "ChangelogMenu":
             mousewheel True
             draggable "touch"
 
             vbox:
-                text "Changelog:" style "main_menu_changelog_title"
-                null height 15
-                text "Version 0.1.5" style "main_menu_changelog_subtitle"
-                text "• WIP" style "main_menu_changelog_text"
-                
-                # null height 8
-                # text "Version 0.1.4B" style "main_menu_changelog_subtitle"
-                # text "• fixed error preventing some from entering office" style "main_menu_changelog_text"
-                
-                null height 15
-                text "Changelog for older versions can be found in the {a=https://suitpub.alwaysdata.net/books/changelog}wiki{/a}" style "main_menu_changelog_subtitle"
+                hbox:
+                    text "Changelog:" style "main_menu_changelog_title"
+                    null width 150
+                    if not changelog_shown:
+                        textbutton "Show" action SetVariable("changelog_shown", True)
+                    else:
+                        textbutton "Hide" action SetVariable("changelog_shown", False)
+                if changelog_shown:
+                    null height 15
+                    text "Version 0.1.5" style "main_menu_changelog_subtitle"
+                    text "• WIP" style "main_menu_changelog_text"
+                    
+                    # null height 8
+                    # text "Version 0.1.4B" style "main_menu_changelog_subtitle"
+                    # text "• fixed error preventing some from entering office" style "main_menu_changelog_text"
+                    
+                    null height 15
+                    text "Changelog for older versions can be found in the {a=https://suitpub.alwaysdata.net/books/changelog}wiki{/a}" style "main_menu_changelog_subtitle"
 
         vbar value YScrollValue("ChangelogMenu"):
             unscrollable "hide"
@@ -484,10 +498,43 @@ screen main_menu():
 
     ## The use statement includes another screen inside this one. The actual
     ## contents of the main menu are in the navigation screen.
-    use navigation
+    # use navigation
+
+    # settings panel
+    frame:
+        background Solid("#8885")
+        area (0, 985, 210, 95)
+        padding (5, 5)
+
+        hbox:
+            button:
+                add "gui/settings.png": 
+                    xsize 80
+                    ysize 80
+                action ShowMenu("preferences")
+                tooltip _("Preferences")
+            button:
+                add "gui/mod_manager.png": 
+                    xsize 105
+                    ysize 80
+                action ShowMenu("mod_manager")
+                tooltip _("Mod Manager")
+
+    frame:
+        background Solid("#8880")
+        area (400, 100, 800, 100)
+        
+        hbox:
+            button:
+                text "New Game" style "main_menu_board"
+                action Start()
+            null width 100
+            button:
+                text "Load Game" style "main_menu_board"
+                action ShowMenu("load")
+
 
     if gui.show_name:
-
         vbox:
             style "main_menu_vbox"
 
@@ -497,6 +544,21 @@ screen main_menu():
             text "[config.version]":
                 style "main_menu_version"
 
+    $ tooltip = GetTooltip()
+
+    if tooltip:
+        nearrect:
+            focus "tooltip"
+            prefer_top True
+
+            frame:
+                xalign 0.5
+                text tooltip
+
+style main_menu_board:
+    size 35
+    font "eraser.regular.ttf"
+    hover_color "#a00000"
 
 style main_menu_frame is empty
 style main_menu_vbox is vbox
@@ -522,10 +584,12 @@ style main_menu_text:
 
 style main_menu_title:
     properties gui.text_properties("title")
+    font "eraser.regular.ttf"
     outlines [ (absolute(2), "#000", absolute(0), absolute(0)) ]
 
 style main_menu_version:
     properties gui.text_properties("version")
+    font "eraser.regular.ttf"
     outlines [ (absolute(2), "#000", absolute(0), absolute(0)) ]
 
 style main_menu_changelog:
