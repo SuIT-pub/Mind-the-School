@@ -2282,6 +2282,9 @@ screen journal_gallery(display):
                 xalign 0.5
                 text tooltip
 
+
+image pBannerI = im.Scale("images/journal/journal/patreon banner idle.webp", 500, 262)
+image pBannerH = im.Scale("images/journal/journal/patreon banner hover.webp", 500, 262)
 # Credits
 screen journal_credits(display):
     # """
@@ -2370,8 +2373,8 @@ screen journal_credits(display):
                     size 30
                     color "#000000"
             imagebutton:
-                idle "journal/journal/patreon banner idle.webp"
-                hover "journal/journal/patreon banner hover.webp"
+                idle "pBannerI"
+                hover "pBannerH"
                 action Call("open_patreon_link")
             null height 20
 
@@ -2552,8 +2555,13 @@ screen journal_goals(display):
                             action Function(set_setting, f"show_goal_{goal.get_key()}", not display_goal)
 
                         if display_goal:
-                            for progress in goal.get_progress():
-                                $ progress_text = f"    {progress}"
+                            $ progress_list = goal.get_progress()
+                            if isinstance(progress_list, list):
+                                for progress in progress_list:
+                                    $ progress_text = f"    {progress}"
+                                    text progress_text style "journal_desc_small"
+                            else:
+                                $ progress_text = f"    {progress_list}"
                                 text progress_text style "journal_desc_small"
 
                     if quest.all_active_done():
