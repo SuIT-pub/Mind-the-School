@@ -68,10 +68,8 @@ init -4 python:
         """
 
         pattern = get_pattern_from_kwargs(pattern_key, **kwargs)
-        log_val('pattern', pattern)
         if pattern == None:
             return
-        log_val('path', pattern.get_path())
         renpy.call('show_image', pattern.get_path(), **kwargs)
 
     class Pattern:
@@ -274,8 +272,6 @@ init -2 python:
 
             self._video_prefix = get_kwargs('video_prefix', 'anim_', **kwargs)
 
-            log_val('image_path', image_path)
-
             self._image_paths = refine_image_with_alternatives(
                 image_path, 
                 alternative_keys,
@@ -384,7 +380,6 @@ init -2 python:
     
     class Image_Series_Pattern(Image_Series):
         def __init__(self, pattern: Pattern, **kwargs):
-            log_val('pattern', pattern.get_path())
             super().__init__(pattern.get_path(), pattern.get_alternative_keys(), **kwargs)
 
     # endregion
@@ -1228,11 +1223,7 @@ label show_image(path, display_type = SCENE, **kwargs):
     #     - The keyword arguments to replace in the image path.
     # """
 
-    $ log_val('kwargs', kwargs)
-
     $ image_path = refine_image(path, **kwargs)
-
-    $ log_val('refined path', image_path)
 
     call show_ready_image(image_path, display_type) from _call_show_ready_image
     return
