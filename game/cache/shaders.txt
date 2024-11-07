@@ -1,201 +1,27 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-renpy.geometry renpy.texture
-=======
->>>>>>> Stashed changes
-renpy.alpha renpy.texture
-<<<<<<< HEAD
->>>>>>> 2b004905d406797a67db2fa166cece12473e91e7
-renpy.ftl
->>>>>>> af4e58c649f1052620ede204b5714f6cf840c214
-renpy.geometry renpy.solid
-renpy.dissolve renpy.dissolve
->>>>>>> 493e9f9 (MTS-240/added more events)
+>>>>>>> 00ee58e (rebuilt pta system)
 >>>>>>> 0308013 (added more functionality for mod framework)
-renpy.geometry renpy.texture
 renpy.alpha renpy.geometry renpy.texture
+renpy.dissolve renpy.dissolve
 renpy.solid
-=======
->>>>>>> e7805b9 (MTS-231/Interim/starting work on modding framework)
->>>>>>> 09542ff3758f226971a8c438289acab48ed5dd7d
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> af4e58c649f1052620ede204b5714f6cf840c214
-renpy.dissolve renpy.geometry
+renpy.ftl
 renpy.alpha renpy.texture
-=======
->>>>>>> 00ee58e (rebuilt pta system)
+>>>>>>> 2b00490 (removed debug messages and updated compiler outputs)
+>>>>>>> af4e58c649f1052620ede204b5714f6cf840c214
 >>>>>>> Stashed changes
-renpy.texture
->>>>>>> e7805b9 (MTS-231/Interim/starting work on modding framework)
-=======
+>>>>>>> 307d4ab (Added quest system)
+>>>>>>> 32f8fe1 (Add translations, update version, and clean up code structure)
 renpy.geometry renpy.solid
->>>>>>> c844caf (extracted images out of events for new modding system)
-renpy.dissolve renpy.geometry
-=======
->>>>>>> 307d4ab (Added quest system)
-renpy.solid
->>>>>>> Stashed changes
-renpy.geometry renpy.texture
-<<<<<<< Updated upstream
-=======
->>>>>>> 265294d (put event values a level deeper to prevent overlaps)
-renpy.dissolve renpy.geometry
-renpy.alpha renpy.geometry renpy.texture
+>>>>>>> 2b004905d406797a67db2fa166cece12473e91e7
+>>>>>>> 09542ff3758f226971a8c438289acab48ed5dd7d
+=======
+<<<<<<< HEAD
 >>>>>>> 740867fb26a218537cb73ebff7f865150d387c4f
-renpy.geometry renpy.solid
->>>>>>> 0308013 (added more functionality for mod framework)
-renpy.ftl
 renpy.texture
 >>>>>>> e7805b9 (MTS-231/Interim/starting work on modding framework)
-renpy.alpha renpy.texture
->>>>>>> Stashed changes
-<<<<<<< Updated upstream
-renpy.geometry renpy.texture
->>>>>>> af4e58c649f1052620ede204b5714f6cf840c214
-renpy.dissolve renpy.dissolve
 >>>>>>> 493e9f9 (MTS-240/added more events)
->>>>>>> 09542ff3758f226971a8c438289acab48ed5dd7d
-<<<<<<< HEAD
-<<<<<<< HEAD
-renpy.ftl
-renpy.alpha renpy.geometry renpy.texture
-<<<<<<< HEAD
-renpy.alpha renpy.texture
->>>>>>> 09542ff3758f226971a8c438289acab48ed5dd7d
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> Stashed changes
->>>>>>> c844caf (extracted images out of events for new modding system)
-=======
-=======
-<<<<<<< HEAD
->>>>>>> af4e58c649f1052620ede204b5714f6cf840c214
-=======
->>>>>>> 0308013 (added more functionality for mod framework)
-renpy.geometry renpy.texture
-renpy.ftl
-renpy.dissolve renpy.geometry
-=======
-renpy.solid
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> e7805b9 (MTS-231/Interim/starting work on modding framework)
-=======
-renpy.geometry renpy.solid
-renpy.ftl
-=======
->>>>>>> c844caf (extracted images out of events for new modding system)
-<<<<<<< Updated upstream
-=======
->>>>>>> 493e9f9 (MTS-240/added more events)
->>>>>>> af4e58c649f1052620ede204b5714f6cf840c214
-renpy.geometry renpy.texture
-renpy.geometry renpy.solid
-renpy.texture
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 0308013 (added more functionality for mod framework)
-=======
-=======
-renpy.solid
-renpy.ftl
-=======
-renpy.dissolve renpy.dissolve
->>>>>>> 493e9f9 (MTS-240/added more events)
-renpy.alpha renpy.geometry renpy.texture
-renpy.alpha renpy.texture
+>>>>>>> c844caf (extracted images out of events for new modding system)
+>>>>>>> 265294d (put event values a level deeper to prevent overlaps)
 <<<<<<< Updated upstream
 renpy.dissolve renpy.geometry
->>>>>>> 09542ff3758f226971a8c438289acab48ed5dd7d
-<<<<<<< HEAD
->>>>>>> Stashed changes
->>>>>>> c844caf (extracted images out of events for new modding system)
-=======
->>>>>>> 493e9f9 (MTS-240/added more events)
->>>>>>> af4e58c649f1052620ede204b5714f6cf840c214
+>>>>>>> a70c1d3 (Updated Sex Ed Event Chain)
 renpy.geometry renpy.texture
->>>>>>> 740867fb26a218537cb73ebff7f865150d387c4f
-renpy.dissolve renpy.dissolve
-<<<<<<< Updated upstream
->>>>>>> 00ee58e (rebuilt pta system)
-=======
-renpy.texture
->>>>>>> af4e58c649f1052620ede204b5714f6cf840c214
->>>>>>> 493e9f9 (MTS-240/added more events)
-=======
->>>>>>> c844caf (extracted images out of events for new modding system)
-renpy.alpha renpy.texture
->>>>>>> e7805b9 (MTS-231/Interim/starting work on modding framework)
->>>>>>> 0308013 (added more functionality for mod framework)
->>>>>>> 307d4ab (Added quest system)
-=======
->>>>>>> c844caf (extracted images out of events for new modding system)
-=======
-renpy.solid
->>>>>>> 265294d (put event values a level deeper to prevent overlaps)
-=======
-renpy.dissolve renpy.dissolve
-=======
->>>>>>> 493e9f9 (MTS-240/added more events)
-renpy.alpha renpy.geometry renpy.texture
->>>>>>> a70c1d3 (Updated Sex Ed Event Chain)
-=======
->>>>>>> Stashed changes
->>>>>>> 2b00490 (removed debug messages and updated compiler outputs)
-renpy.alpha renpy.texture
-<<<<<<< HEAD
-renpy.ftl
->>>>>>> af4e58c649f1052620ede204b5714f6cf840c214
-renpy.geometry renpy.solid
-renpy.dissolve renpy.dissolve
->>>>>>> 493e9f9 (MTS-240/added more events)
->>>>>>> 0308013 (added more functionality for mod framework)
-renpy.geometry renpy.texture
-renpy.alpha renpy.geometry renpy.texture
-renpy.solid
-=======
->>>>>>> e7805b9 (MTS-231/Interim/starting work on modding framework)
->>>>>>> 09542ff3758f226971a8c438289acab48ed5dd7d
->>>>>>> 740867fb26a218537cb73ebff7f865150d387c4f
-<<<<<<< Updated upstream
->>>>>>> c844caf (extracted images out of events for new modding system)
-renpy.dissolve renpy.geometry
-<<<<<<< HEAD
-renpy.dissolve renpy.dissolve
->>>>>>> 740867fb26a218537cb73ebff7f865150d387c4f
-renpy.ftl
->>>>>>> Stashed changes
-=======
-renpy.geometry renpy.solid
->>>>>>> 0308013 (added more functionality for mod framework)
-<<<<<<< HEAD
-renpy.solid
->>>>>>> 09542ff3758f226971a8c438289acab48ed5dd7d
->>>>>>> e7805b9 (MTS-231/Interim/starting work on modding framework)
-<<<<<<< HEAD
-renpy.geometry renpy.solid
->>>>>>> 32f8fe1 (Add translations, update version, and clean up code structure)
-=======
->>>>>>> a70c1d3 (Updated Sex Ed Event Chain)
-=======
-renpy.texture
->>>>>>> 2b00490 (removed debug messages and updated compiler outputs)
-=======
->>>>>>> 740867fb26a218537cb73ebff7f865150d387c4f
-<<<<<<< Updated upstream
->>>>>>> c844caf (extracted images out of events for new modding system)
-renpy.dissolve renpy.geometry
-renpy.texture
->>>>>>> 2b004905d406797a67db2fa166cece12473e91e7
