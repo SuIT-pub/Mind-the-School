@@ -258,6 +258,17 @@ map_tutorial;Map Tutorial
 action_tutorial;Activity Selection Tutorial
 sandbox_tutorial;Movie Sandbox Tutorial
 
+##############
+# Sex Ed Intro
+office_call_secretary_1;Ask Emiko for help
+office_teacher_sex_ed_introduction_1;How to approach teacher
+office_teacher_sex_ed_introduction_2;Teachers opinions on Sex Ed
+office_teacher_sex_ed_introduction_3;Preparing the presentation
+office_teacher_sex_ed_introduction_4;Presenting Sex Ed
+pta_discussion_sex_ed_intro_1;Discussing Sex Ed
+pta_vote_theoretical_sex_ed_1;Vote for Sex Ed
+theoretical_sex_ed_assembly_1;Announcing Sex Ed
+
 #########
 # QUESTS
 
@@ -265,3 +276,4 @@ aonas_new_bra;Aona's New Bra
 unlock_cafeteria;Unlock Cafeteria
 all_events;All Events
 ObserveAllEvents;Observe All Events
+start_sex_ed;Theoretical Sex Education
