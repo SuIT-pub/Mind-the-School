@@ -66,24 +66,28 @@ init 1 python:
             TimeCondition(daytime = "d", weekday = "w"),
             EventSeenCondition(),
             PriorityOption(99),
+            ForceHighlightOption(),
             Pattern("main", "images/events/sex_ed_intro/sex_ed_intro_mini_courtyard_1/<step>.webp")),
         Event(3, "sex_ed_intro_mini_courtyard_2",
             ProgressCondition('start_sex_ed', 8),
             TimeCondition(daytime = "d", weekday = "w"),
             EventSeenCondition(),
             PriorityOption(99),
+            ForceHighlightOption(),
             Pattern("main", "images/events/sex_ed_intro/sex_ed_intro_mini_courtyard_2/<step>.webp")),
         Event(3, "sex_ed_intro_mini_courtyard_3",
             ProgressCondition('start_sex_ed', 8),
             TimeCondition(daytime = "d", weekday = "w"),
             EventSeenCondition(),
             PriorityOption(99),
+            ForceHighlightOption(),
             Pattern("main", "images/events/sex_ed_intro/sex_ed_intro_mini_courtyard_3/<step>.webp")),
         Event(3, "sex_ed_intro_mini_courtyard_4",
             ProgressCondition('start_sex_ed', 8),
             TimeCondition(daytime = "d", weekday = "w"),
             EventSeenCondition(),
             PriorityOption(99),
+            ForceHighlightOption(),
             Pattern("main", "images/events/sex_ed_intro/sex_ed_intro_mini_courtyard_4/<step>.webp")),
     )
     sd_general_event.add_event(
@@ -92,12 +96,14 @@ init 1 python:
             TimeCondition(daytime = "d", weekday = "w"),
             EventSeenCondition(),
             PriorityOption(99),
+            ForceHighlightOption(),
             Pattern("main", "images/events/sex_ed_intro/sex_ed_intro_mini_sd_1/<step>.webp")),
         Event(3, "sex_ed_intro_mini_sd_2",
             ProgressCondition('start_sex_ed', 8),
             TimeCondition(daytime = "d", weekday = "w"),
             EventSeenCondition(),
             PriorityOption(99),
+            ForceHighlightOption(),
             Pattern("main", "images/events/sex_ed_intro/sex_ed_intro_mini_sd_2/<step>.webp")),
     )
     sb_general_event.add_event(
@@ -106,24 +112,28 @@ init 1 python:
             TimeCondition(daytime = "d", weekday = "w"),
             EventSeenCondition(),
             PriorityOption(99),
+            ForceHighlightOption(),
             Pattern("main", "images/events/sex_ed_intro/sex_ed_intro_mini_sb_1/<step>.webp")),
         Event(3, "sex_ed_intro_mini_sb_2",
             ProgressCondition('start_sex_ed', 8),
             TimeCondition(daytime = "d", weekday = "w"),
             EventSeenCondition(),
             PriorityOption(99),
+            ForceHighlightOption(),
             Pattern("main", "images/events/sex_ed_intro/sex_ed_intro_mini_sb_2/<step>.webp")),
         Event(3, "sex_ed_intro_mini_sb_3",
             ProgressCondition('start_sex_ed', 8),
             TimeCondition(daytime = "d", weekday = "w"),
             EventSeenCondition(),
             PriorityOption(99),
+            ForceHighlightOption(),
             Pattern("main", "images/events/sex_ed_intro/sex_ed_intro_mini_sb_3/<step>.webp")),
         Event(3, "sex_ed_intro_mini_sb_4",
             ProgressCondition('start_sex_ed', 8),
             TimeCondition(daytime = "d", weekday = "w"),
             EventSeenCondition(),
             PriorityOption(99),
+            ForceHighlightOption(),
             Pattern("main", "images/events/sex_ed_intro/sex_ed_intro_mini_sb_4/<step>.webp")),
     )
 
@@ -181,7 +191,7 @@ label office_call_secretary_1 (**kwargs):
 
     $ end_event('new_daytime', **kwargs)
 
-label office_teacher_sex_ed_introduction_1(**kwargs):
+label office_teacher_sex_ed_introduction_1 (**kwargs):
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -357,8 +367,6 @@ label office_teacher_sex_ed_introduction_2 (**kwargs):
 
     $ image.show(0)
     headmaster "Thank you all for your time. I'll keep you updated on the progress."
-
-    $ add_notify_message("Added new rule to journal!")
 
     $ advance_progress('start_sex_ed') # 2 -> 3
 
@@ -606,6 +614,8 @@ label pta_discussion_sex_ed_intro_1 (**kwargs):
 
     $ image.show(19)
     yuriko "Fine! But I still think it's unnecessary!"
+    
+    $ add_notify_message("Added new rule to journal!")
 
     $ advance_progress('start_sex_ed') # 5 -> 6
 
@@ -819,19 +829,19 @@ label sex_ed_intro_mini_courtyard_3 (**kwargs):
     $ image.show(1)
     headmaster "Hello, everyone. What are you discussing?"
     $ image.show(2)
-    student1 "Hi, Headmaster. We're talking about the section on healthy relationships."
+    sgirl "Hi, Headmaster. We're talking about the section on healthy relationships." #1
     $ image.show(3)
     headmaster "That's a very important topic. What are your thoughts so far?"
     $ image.show(4)
-    student2 "We think it's really helpful. It's making us think about how we treat each other."
+    sgirl "We think it's really helpful. It's making us think about how we treat each other." #2
     $ image.show(5)
     headmaster "I'm glad to hear that. Understanding healthy relationships is crucial for your well-being."
     $ image.show(6)
-    student1 "Thank you for providing this material, Headmaster."
+    sgirl "Thank you for providing this material, Headmaster." #3
     $ image.show(7)
     headmaster "You're welcome. Keep discussing and learning from each other."
     $ image.show(8)
-    student2 "We will. Thank you!"
+    sgirl "We will. Thank you!" #2
 
     $ end_event('new_daytime', **kwargs)
 
@@ -847,9 +857,9 @@ label sex_ed_intro_mini_courtyard_4 (**kwargs):
     $ image.show(0)
     subtitles "You see the students sitting in the courtyard, discussing the material."
     $ image.show(1)
-    sgirl "I don't get it. Why do we need to learn about this stuff?"
+    sgirl "I don't get it. Why do we need to learn about this stuff?" #1
     $ image.show(2)
-    sgirl2 "Yeah, it's so awkward and embarrassing."
+    sgirl "Yeah, it's so awkward and embarrassing." #2
     $ image.show(3)
     headmaster "Hello, everyone. I heard your concerns. I understand that this topic may be uncomfortable for some of you."
     $ image.show(4)
@@ -861,9 +871,9 @@ label sex_ed_intro_mini_courtyard_4 (**kwargs):
     $ image.show(7)
     headmaster "I hope that by learning about these topics, you will feel more confident and empowered to make healthy choices."
     $ image.show(8)
-    sgirl "Hmm, I never thought about it that way before."
+    sgirl "Hmm, I never thought about it that way before." #1
     $ image.show(9)
-    sgirl2 "Yeah, I guess it does make sense."
+    sgirl "Yeah, I guess it does make sense." #2
     $ image.show(10)
     headmaster "I'm glad you're starting to see the importance of sexual education. If you have any questions, feel free to ask."
 
@@ -945,19 +955,19 @@ label sex_ed_intro_mini_sb_4 (**kwargs):
     $ image.show(1)
     headmaster "Hello, everyone. How's the reading going?"
     $ image.show(2)
-    student1 "Hello, Headmaster. It's going well, but we have some questions."
+    sgirl "Hello, Headmaster. It's going well, but we have some questions." #1
     $ image.show(3)
     headmaster "I'm glad to hear that. What questions do you have?"
     $ image.show(4)
-    student2 "We were wondering about the section on consent. Can you explain it a bit more?"
+    sgirl "We were wondering about the section on consent. Can you explain it a bit more?" #2
     $ image.show(5)
     headmaster "Of course. Consent is about making sure that both parties agree to any activity. It's important to communicate clearly and respect each other's boundaries."
     $ image.show(6)
-    student1 "That makes sense. Thank you for explaining."
+    sgirl "That makes sense. Thank you for explaining." #1
     $ image.show(7)
     headmaster "You're welcome. If you have any more questions, feel free to ask."
     $ image.show(8)
-    student2 "We will. Thank you, Headmaster."
+    sgirl "We will. Thank you, Headmaster." #2
 
     $ end_event('new_daytime', **kwargs)
 
