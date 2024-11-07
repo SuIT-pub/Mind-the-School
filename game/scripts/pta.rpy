@@ -1,5 +1,6 @@
 init -6 python:
     import re
+    from itertools import product
 
     registered_vote_events = []
 
@@ -62,20 +63,44 @@ init -6 python:
 
         overall_probability = 1.0
 
-        probabilities = [calculateProbability(conditions, char_obj) / 100 for char_obj in char_obj_list]
+        probabilities = [calculateProbabilityValue(conditions, char_obj) / 100 for char_obj in char_obj_list]
 
-        combined_complement = 1
-        for p in probabilities:
-            combined_complement *= (1 - p)
-        
-        # Calculate the overall probability
-        overall_probability = 1 - combined_complement
-        
-        # Convert back to percentage
-        return overall_probability * 100
-        
+        transformed_probabilities = [(p + 1) / 2 if p >= -1 else 0 for p in probabilities]
 
-    def calculateProbability(conditions: ConditionStorage, char_obj: Char, is_in_pta = False) -> float:
+        n = len(transformed_probabilities)
+        majority_count = (n // 2) + 1  # Number of approvals for a majority
+        
+        total_probability = 0.0
+        
+        # Iterate through all combinations of approvals and rejections
+        for outcome in product([0, 1], repeat=n):
+            if sum(outcome) >= majority_count:  # If majority reached
+                prob = 1.0
+                # Calculate the probability of this specific combination
+                for i in range(n):
+                    if outcome[i] == 1:
+                        prob *= transformed_probabilities[i]  # Consent
+                    else:
+                        prob *= (1 - transformed_probabilities[i])  # Rejection
+                total_probability += prob
+
+        return total_probability * 100
+
+    def calculateProbabilityValue(conditions: ConditionStorage, char_obj: Char, is_in_pta = False) -> float:
+
+        probability = calculateProbability(conditions, char_obj, is_in_pta)
+
+        if isinstance(probability, str):
+            if probability == 'yes':
+                return 100.0
+            elif probability == 'no':
+                return -100.0
+            elif probability == 'veto':
+                return -5000.0
+        else:
+            return probability
+
+    def calculateProbability(conditions: ConditionStorage, char_obj: Char, is_in_pta = False) -> float | str:
         """
         Calculates the probability of a character voting yes for a proposal.
 
@@ -97,10 +122,7 @@ init -6 python:
         for condition in voteConditions:
             if isinstance(condition, PTAOverride):
                 if condition.char == char_obj.get_name():
-                    if condition.accept:
-                        return 100.0
-                    else:
-                        return 0.0
+                    return condition.accept
 
             if is_in_pta and isinstance(condition, MoneyCondition):
                 continue
@@ -132,15 +154,21 @@ init -6 python:
         """
 
         probability = calculateProbability(conditions, char_obj, is_in_pta = True)
-        vote = renpy.random.random() * 100
-        voteDiff = probability - vote
 
-        if probability >= 100 or voteDiff >= 0:
-            return 'yes'
-        elif probability <= 0 or voteDiff <= -50:
-            return 'veto'
+        voteDiff = 0
+
+        if isinstance(probability, str):
+            return probability
         else:
-            return 'no'
+            vote = renpy.random.random() * 100
+            voteDiff = probability - vote
+
+            if probability >= 100 or voteDiff >= 0:
+                return 'yes'
+            elif probability <= 0 and voteDiff <= -50:
+                return 'veto'
+            else:
+                return 'no'
 
     def get_end_choice(*votes: str) -> str:
         """
@@ -500,9 +528,9 @@ label pta_vote_school_jobs (**kwargs):
 label pta_vote_student_relationships_1 (**kwargs):
     $ begin_event(no_gallery = True, **kwargs)
 
-    $ parent_vote = get_kwargs("vote_parent", **kwargs)
-    $ teacher_vote = get_kwargs("vote_teacher", **kwargs)
-    $ student_vote = get_kwargs("vote_student", **kwargs)
+    $ parent_vote = get_value("vote_parent", **kwargs)
+    $ teacher_vote = get_value("vote_teacher", **kwargs)
+    $ student_vote = get_value("vote_student", **kwargs)
     $ end_choice = get_end_choice(parent_vote, teacher_vote, student_vote)
 
     headmaster "The topic for today's vote is whether to allow students to have relationships with each other."
