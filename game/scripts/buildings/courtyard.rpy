@@ -19,24 +19,15 @@ init -1 python:
 
 init 1 python:
     set_current_mod('base')
-    first_week_courtyard_event_event = Event(1, "first_week_courtyard_event",
-        IntroCondition(),
-        TimeCondition(day = "2-4", month = 1, year = 2023),
-        Pattern("main", "images/events/first week/first week courtyard <step>.webp"),
-        thumbnail = "images/events/first week/first week courtyard 1.webp")
-    
-    first_potion_courtyard_event_event = Event(1, "first_potion_courtyard_event",
-        IntroCondition(),
-        TimeCondition(day = 9, month = 1, year = 2023),
-        Pattern("main", "images/events/first potion/first potion courtyard <step>.webp"),
-        thumbnail = "images/events/first potion/first potion courtyard 1.webp")
 
     courtyard_event1 = Event(3, "courtyard_event_1",
+        LevelCondition('1-3', char_obj = 'school'),
         LevelSelector('school_level', 'school'),
+        RandomListSelector('girl_name', 'Easkey Tanaka'),
         RandomValueSelector('variant', 1, 1),
         OR(TimeCondition(daytime = "f", weekday = "d"), TimeCondition(daytime = "d", weekday = "w")),
-        Pattern("main", "images/events/courtyard/courtyard_event_1 <school_level> <step>.webp"),
-        thumbnail = "images/events/courtyard/courtyard_event_1 1 1 0.webp")
+        Pattern("main", "images/events/courtyard/courtyard_event_1/<girl_name> <school_level> <step>.webp"),
+        thumbnail = "images/events/courtyard/courtyard_event_1/Easkey Tanaka 1 0.webp")
 
     courtyard_event2 = Event(3, "courtyard_event_2",
         OR(TimeCondition(daytime = "f", weekday = "d"), TimeCondition(daytime = "d", weekday = "w")),
@@ -67,13 +58,15 @@ init 1 python:
     courtyard_event6 = Event(3, "courtyard_event_6",
         TimeCondition(weekday = "d", daytime = "2,4"),
         LevelSelector('school_level', 'school'),
-        Pattern("main", "images/events/courtyard/courtyard_event_6 <school_level> <step>.webp"),
-        thumbnail = "images/events/courtyard/courtyard_event_6 1 0.webp")
+        RandomListSelector('girl_name', "Seraphina Clark"),
+        Pattern("main", "images/events/courtyard/courtyard_event_6/<girl_name> <school_level> <step>.webp"),
+        thumbnail = "images/events/courtyard/courtyard_event_6/Seraphina Clark 1 0.webp")
 
-    courtyard_general_event.add_event(
-        first_week_courtyard_event_event,
-        first_potion_courtyard_event_event,
-    )
+    courtyard_event7 = Event(3, "courtyard_event_7",
+        TimeCondition(daytime = "f", weekday = "d"),)
+
+    courtyard_event8 = Event(3, "courtyard_event_8",
+        TimeCondition(daytime = "f", weekday = "d"),)
 
     courtyard_events["patrol"].add_event(
         courtyard_event1, 
@@ -116,62 +109,11 @@ label .after_general_check (**kwargs):
 # region Courtyard Events ----- #
 #################################
 
-#######################
-# region Intro Events #
-
-label first_potion_courtyard_event (**kwargs):
-    $ begin_event(**kwargs)
-    
-    $ image = convert_pattern("main", step_start = 1, **kwargs)
-
-    $ image.show(1)
-    subtitles "You walk around in the courtyard."
-
-    $ image.show(2)
-    subtitles "The first thing you notice is the group of students sunbathing in the middle of the yard."
-    
-    $ image.show(3)
-    subtitles "Normally that wouldn't be such a weird thing, if they weren't in only their underwear."
-    headmaster_thought "I certainly enjoy the view. Unfortunately it only lasts for today until the serum finishes settling in their bodies."
-
-    $ set_building_blocked("courtyard")
-
-    $ end_event("new_daytime", **kwargs)
-
-# first week event
-label first_week_courtyard_event (**kwargs):
-    $ begin_event(**kwargs)
-    
-    $ image = convert_pattern("main", step_start = 1, **kwargs)
-
-    $ image.show(1)
-    subtitles "You walk through the courtyard."
-
-    headmaster_thought "Hmm, the courtyard looks really bad..."
-    
-    $ image.show(2)
-    headmaster_thought "It seems most of the appliances here are out of order."
-
-    $ image.show(3)
-    headmaster_thought "For example the public toilet is broken."
-
-    $ image.show(4)
-    headmaster_thought "At least the courtyard doesn't need immediate fixing."
-
-    $ change_stat("happiness", 5, get_school())
-
-    $ set_building_blocked("courtyard")
-
-    $ end_event("new_day", **kwargs)
-
-# endregion
-#######################
-
 #########################
 # region Regular Events #
 
 label courtyard_event_1 (**kwargs):
-    $ begin_event(**kwargs)
+    $ begin_event("2", **kwargs)
 
     $ school_level = get_value('school_level', **kwargs)
 
@@ -304,7 +246,7 @@ label courtyard_event_5(**kwargs):
     $ end_event("new_daytime", **kwargs)
 
 label courtyard_event_6(**kwargs):
-    $ begin_event(**kwargs)
+    $ begin_event("2", **kwargs)
 
     $ school_level = get_value('school_level', **kwargs)
 
@@ -336,6 +278,46 @@ label courtyard_event_6(**kwargs):
 
     call change_stats_with_modifier('school',
         charm = DEC_TINY, education = SMALL) from _call_change_stats_with_modifier_16
+
+    $ end_event("new_daytime", **kwargs)
+
+label courtyard_event_7(**kwargs):
+    $ begin_event(**kwargs)
+
+    $ image = convert_pattern("main", **kwargs)
+
+    $ image.show(0)
+    # You walk through the courtyard and find a girl lying on their stomach. She didn't notice her skirt was up.
+    headmaster "Nice!"
+    # headmaster walks away
+    # girl looks up fixes her skirt and looks around suspiciously
+
+    call change_stats_with_modifier('school',
+        charm = TINY, inhibition = DEC_SMALL
+    ) from _call_courtyard_event_7_1
+
+    $ end_event("new_daytime", **kwargs)
+
+label courtyard_event_8(**kwargs):
+    $ begin_event(**kwargs)
+
+    $ image = convert_pattern("main", **kwargs)
+
+    $ image.show(0)
+    # You find a girl playing the guitar. You sit down and listen to her play.
+    # She looks up and smiles at you.
+    # You smile back and she continues playing.
+    # You sit there for a while and listen to her play.
+    # She finishes her song and you clap.
+    headmaster "That was beautiful!"
+    sgirl "Thank you, I was just practicing."
+    headmaster "You're really good. Keep it up!"
+    sgirl "Thanks, I will."
+    # headmaster leaves
+
+    call change_stats_with_modifier('school',
+        charm = SMALL, happiness = MEDIUM
+    ) from _call_courtyard_event_8_1
 
     $ end_event("new_daytime", **kwargs)
 

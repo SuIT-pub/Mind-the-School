@@ -42,18 +42,6 @@ init -1 python:
 init 1 python: 
     set_current_mod('base')  
     
-    office_building_general_event.add_event( 
-        Event(1, "first_week_office_building_event",
-            IntroCondition(),
-            TimeCondition(day = "2-4", month = 1, year = 2023),
-            Pattern("main", "images/events/first week/first week office building <step>.webp"),
-            thumbnail = "images/events/first week/first week office building 1.webp"),
-        Event(1, "first_potion_office_building_event",
-            IntroCondition(),
-            TimeCondition(day = 9, month = 1, year = 2023),
-            Pattern("main", "images/events/first potion/first potion office <step>.webp"),
-            thumbnail = "images/events/first potion/first potion office 1.webp"),)
-
     office_building_events["look_around"].add_event(
         Event(3, "office_event_1",
             TimeCondition(weekday = "d", daytime = "f"),
@@ -66,8 +54,8 @@ init 1 python:
             TimeCondition(weekday = "d", daytime = "f"),
             LevelSelector('teacher_level', 'teacher'),
             LevelSelector('school_level', 'school'),
-            Pattern("main", "images/events/office/office_event_2 <teacher_level> <teacher>.webp"),
-            thumbnail = "images/events/office/office_event_2 1 Finola Ryan.webp"),
+            Pattern("main", "images/events/office/office_event_2/<teacher_level> <teacher>.webp"),
+            thumbnail = "images/events/office/office_event_2/1 Finola Ryan.webp"),
         Event(3, "office_event_3",
             TimeCondition(weekday = "d", daytime = "d"),
             NOT(RuleCondition("student_student_relation")),
