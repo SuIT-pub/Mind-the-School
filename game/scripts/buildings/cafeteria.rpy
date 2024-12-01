@@ -50,8 +50,8 @@ init 1 python:
             ),   
         ),
         RandomListSelector('topic', (0.7, 'apron'), (0.2, 'breasts'), 'nude'),
-        Pattern("main", "images/events/cafeteria/cafeteria_event_2 <level> <girl_name> <topic> <step>.webp"),
-        thumbnail = "images/events/cafeteria/cafeteria_event_2 1 Adelaide Hall apron 0.webp")
+        Pattern("main", "images/events/cafeteria/cafeteria_event_2/<girl_name> <topic> <level> <step>.webp", "level"),
+        thumbnail = "images/events/cafeteria/cafeteria_event_2/Adelaide Hall apron 1 0.webp")
 
     cafeteria_event_3_event = Event(3, "cafeteria_event_3",
         TimeCondition(weekday = "d", daytime = "d"),
@@ -95,13 +95,17 @@ init 1 python:
     cafeteria_event_5_event = Event(3, "cafeteria_event_5",
         TimeCondition(weekday = "d", daytime = "f"),
         LevelSelector("school_level", "school"),
-        RandomListSelector('classes', 
-            ('3A', LoliContentCondition(0)),
-            (RandomListSelector('', '3A', '2A', '2A 3A'), LoliContentCondition(1)),
-            (RandomListSelector('', '1A', '1A 2A', '1A 2A 3A', '1A 3A', '2A', '2A 3A', '3A'), LoliContentCondition(2))
-        ),
-        Pattern("main", "images/events/cafeteria/cafeteria_event_5 <school_level> <classes> <step>.webp", 'classes'),
-        thumbnail = "images/events/cafeteria/cafeteria_event_5 1 3A 1.webp")
+        Pattern("main", "images/events/cafeteria/cafeteria_event_5/<school_level> <step>.webp", 'classes'),
+        thumbnail = "images/events/cafeteria/cafeteria_event_5/1 1.webp")
+
+    cafeteria_event_6_event = Event(3, "cafeteria_event_6",
+        TimeCondition(weekday = "d", daytime = "f"),)
+
+    cafeteria_event_7_event = Event(3, "cafeteria_event_7",
+        TimeCondition(weekday = "d", daytime = "f"),)
+
+    cafeteria_event_8_event = Event(3, "cafeteria_event_8",
+        TimeCondition(weekday = "d", daytime = "7"),)
 
     cafeteria_general_event.add_event(
         cafeteria_construction_event
@@ -208,13 +212,11 @@ label cafeteria_event_1(**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label cafeteria_event_2(**kwargs):
-    $ begin_event(**kwargs)
+    $ begin_event("2", **kwargs)
 
     $ char_class = get_value('char_class', **kwargs)
-    $ get_value('level', **kwargs)
     $ time_ob = get_value('time', **kwargs)
     $ girl_name = get_value('girl_name', **kwargs).split(' ')[0]
-    $ topic = get_value('topic', **kwargs)
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -454,10 +456,7 @@ label cafeteria_event_4(**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label cafeteria_event_5(**kwargs):
-    $ begin_event(**kwargs)
-
-    $ school_level = get_value('school_level', **kwargs)
-    $ classes = get_value("classes", **kwargs)
+    $ begin_event("2", **kwargs)
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -471,9 +470,56 @@ label cafeteria_event_5(**kwargs):
     headmaster_thought "It seems like the students are enjoying their lunch break."
 
     call change_stats_with_modifier('school',
-        happiness = SMALL, charm = MEDIUM) from _call_change_stats_with_modifier_8
+        happiness = SMALL, charm = MEDIUM) from _call_cafeteria_event_5_1
 
     $ end_event('new_daytime', **kwargs)
+
+label cafeteria_event_6(**kwargs):
+    $ begin_event(**kwargs)
+
+    $ image = convert_pattern("main", **kwargs)
+
+    $ image.show(0)
+    subtitles "The food seems to be at least somewhat tasty."
+    $ image.show(1)
+
+    call change_stats_with_modifier('school',
+        happiness = SMALL
+    ) from _call_cafeteria_event_6_1
+
+label cafeteria_event_7(**kwargs):
+    $ begin_event(**kwargs)
+
+    $ image = convert_pattern("main", **kwargs)
+
+    $ luna = Character("Luna Clark", kind = character.sgirl)
+    $ seraphina = Character("Seraphina Clark", kind = character.sgirl)
+
+    $ image.show(0)
+    headmaster "What are you girls doing here at this time?"
+
+    luna "Oh hello Mr. [headmaster_last_name]. We are baking a cake."
+    seraphina "Yeah. We already got permission from Mrs. Hall."
+
+    headmaster "Oh I see. That's nice! But I have one question."
+    headmaster "Why are you only wearing underwear below your aprons?"
+
+    luna "We do? Eeeek! I forgot!"
+    seraphina "Well we didn't want to get our clothes dirty."
+    luna "Please don't look!"
+
+    headmaster "I see. Well, that's reasonable I guess."
+    headmaster "I'll leave you to it then. Remember to clean up afterwards."
+
+    luna "*whimper*"
+    seraphina "Yes, we will. Thank you Mr. [headmaster_last_name]."
+    seraphina "Now calm down Luna. There is nothing to it."
+    luna "But he saw our underwear!"
+    seraphina "So what? Calm down."
+
+    call change_stats_with_modifier('school',
+        happiness = DEC_SMALL
+    ) from _call_cafeteria_event_7_1
 
 # endregion
 #########################

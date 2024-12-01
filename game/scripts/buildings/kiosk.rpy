@@ -19,11 +19,6 @@ init -1 python:
 
 init 1 python:
     set_current_mod('base')
-    first_week_kiosk_event_event = Event(1, "first_week_kiosk_event",
-        IntroCondition(),
-        TimeCondition(day = "2-4", month = 1, year = 2023),
-        Pattern("main", "images/events/first week/first week kiosk <step>.webp"),
-        thumbnail = "images/events/first week/first week kiosk 1.webp")
 
     kiosk_event1 = Event(3, "kiosk_event_1",
         LevelSelector('school_level', 'school'),
@@ -48,10 +43,6 @@ init 1 python:
         RandomCondition(65, 100),
         Pattern("main", "images/events/kiosk/kiosk_event_3 <school_level> <step>.webp"),
         thumbnail = "images/events/kiosk/kiosk_event_3 1 0.webp")
-
-    kiosk_general_event.add_event(
-        first_week_kiosk_event_event,
-    )
 
     kiosk_events["get_snack"].add_event(
         kiosk_event1, 
@@ -89,42 +80,6 @@ label .after_general_check (**kwargs):
 #############################
 # region Kiosk Events ----- #
 #############################
-
-#######################
-# region Intro Events #
-
-# first week event
-label first_week_kiosk_event (**kwargs):
-    $ begin_event(**kwargs)
-
-    $ image = convert_pattern("main", step_start = 1, **kwargs)
-
-    $ image.show(1)
-    headmaster_thought "Now, somewhere here should be the kiosk..."
-    $ image.show(2)
-    headmaster_thought "Hmm, why is it so crowded?"
-
-    $ image.show(3)
-    headmaster "Excuse me, did something happen? Why is it so crowded here?"
-    
-    $ image.show(4)
-    sgirl "What do you mean? It's always this full. We can't get food anywhere else than here." (name = "Lin Kato")
-    
-    $ image.show(3)
-    headmaster "Oh I understand... Thanks."
-
-    $ image.show(5)
-    headmaster_thought "This is not acceptable. Did the former headmaster really close the kiosk?"
-    headmaster_thought "That can't be right..."
-
-    $ change_stat("reputation", 5, get_school())
-
-    $ set_building_blocked("kiosk")
-
-    $ end_event('new_day', **kwargs)
-
-# endregion
-#######################
 
 #########################
 # region Regular Events #

@@ -27,17 +27,6 @@ init -1 python:
     
 init 1 python:
     set_current_mod('base')
-    first_week_gym_event_event = Event(1, "first_week_gym_event",
-        IntroCondition(),
-        TimeCondition(day = "2-4", month = 1, year = 2023),
-        Pattern("main", "images/events/first week/first week gym <step>.webp"),
-        thumbnail = "images/events/first week/first week gym 1.webp")
-
-    first_potion_gym_event_event = Event(1, "first_potion_gym_event",
-        IntroCondition(),
-        TimeCondition(day = 9, month = 1, year = 2023),
-        Pattern("main", "images/events/first potion/first potion gym <step>.webp"),
-        thumbnail = "images/events/first potion/first potion gym 1.webp")
 
     gym_event1 = Event(3, "gym_event_1",
         LevelSelector("school_level", "school"),
@@ -70,47 +59,6 @@ init 1 python:
         Pattern("main", "/images/events/gym/gym_event_3 <school_level> <variant> <step>.webp"),
         thumbnail = "images/events/gym/gym_event_3 1 1 0.webp")    
 
-    
-    gym_teach_pe_intro_storage.add_event(
-        EventFragment(3, "gym_teach_pe_intro_1",
-            Pattern("main", "/images/events/gym/gym_teach_pe_intro_1 <school_level> <step>.webp"),
-            thumbnail = "images/events/gym/gym_teach_pe_intro_1 1 7.webp"),
-    )
-
-    gym_teach_pe_warm_up_storage.add_event(
-        EventFragment(3, "gym_teach_pe_warm_up_1",
-            Pattern("main", "/images/events/gym/gym_teach_pe_warm_up_1 <school_level> <step>.webp"),
-            thumbnail = "images/events/gym/gym_teach_pe_warm_up_1 1 2.webp"),
-    )
-
-    gym_teach_pe_main_storage.add_event(
-        EventFragment(3, "gym_teach_pe_main_1",
-            Pattern("main", "/images/events/gym/gym_teach_pe_main_1 <school_level> <step>.webp"),
-            thumbnail = "images/events/gym/gym_teach_pe_main_1 1 9.webp"),
-    )
-
-    gym_teach_pe_end_storage.add_event(
-        EventFragment(3, "gym_teach_pe_end_1",
-            thumbnail = "images/events/gym/gym_teach_pe_main_1 1 14.webp"),
-    )
-
-    gym_teach_pe_event = EventComposite(3, 'gym_teach_pe', 
-        [
-            gym_teach_pe_intro_storage,
-            gym_teach_pe_warm_up_storage, 
-            gym_teach_pe_main_storage, 
-            gym_teach_pe_end_storage
-        ],
-        TimeCondition(daytime = "c", weekday = "d"),
-        LevelSelector("school_level", "school"),
-        thumbnail = "images/events/gym/gym_teach_pe_main_1 1 10.webp"
-    )
-
-    gym_general_event.add_event(
-        first_week_gym_event_event,
-        first_potion_gym_event_event,
-    )
-
     gym_events["enter_changing"].add_event(
         gym_event2,
     )
@@ -122,9 +70,7 @@ init 1 python:
         gym_event1, 
         gym_event3,
     )
-    gym_events["teach_pe"].add_event(
-        gym_teach_pe_event,
-    )
+    
 
 # endregion
 ##################################
@@ -154,203 +100,6 @@ label .after_general_check (**kwargs):
 ###########################
 # region Gym Events ----- #
 ###########################
-
-######################
-# region Intro Event #
-
-label first_potion_gym_event (**kwargs):
-    $ begin_event(**kwargs)
-    
-    $ image = convert_pattern("main", step_start = 1, **kwargs)
-
-    $ image.show(1)
-    subtitles "You enter the Gym and see a group of students and teacher in a yoga session."
-
-    $ image.show(2)
-    headmaster_thought "Oh that is a sport session I can get behind!"
-
-    $ image.show(3)
-    headmaster_thought "Mhh, yes very flexible!"
-
-    $ image.show(4)
-    headmaster_thought "Oh they seem to really get into it!"
-
-    $ set_building_blocked("gym")
-
-    $ end_event('new_daytime', **kwargs)
-
-# first week event
-label first_week_gym_event (**kwargs):
-    $ begin_event(**kwargs)
-
-    $ image = convert_pattern("main", step_start = 1, **kwargs)
-    
-    $ image.show(1)
-    headmaster_thought "Okay, now the Gym. I have been here shortly for my introduction speech but I haven't had the chance to get a thorough look."
-
-    $ image.show(2)
-    headmaster_thought "Mhh, doesn't look to shabby..."
-    
-    $ image.show(3)
-    headmaster_thought "Seems to be decently stocked."
-    headmaster_thought "The material is well maintained. I guess it's alright."
-
-    $ change_stat("charm", 5, get_school())
-
-    $ set_building_blocked("gym")
-
-    $ end_event('new_daytime', **kwargs)
-
-# endregion
-######################
-
-##########################
-# region Teach P.E Event #
-
-label gym_teach_pe (**kwargs):
-    $ begin_event(**kwargs)
-
-    $ get_level('school_level', **kwargs)
-
-    call composite_event_runner(**kwargs) from _call_composite_event_runner
-
-################
-# region INTRO #
-label gym_teach_pe_intro_1 (**kwargs):
-    $ begin_event(**kwargs)
-
-    $ image = convert_pattern("main", **kwargs)
-
-    call Image_Series.show_image(image, 0, 1, 2, 3, 4, 5, 6, 7, 8, pause = True) from image_gym_teach_pe_intro_1_1
-
-    $ end_event('map_overview', **kwargs)
-
-# endregion
-################
-
-##################
-# region WARM UP #
-
-image anim_gym_teach_pe_warm_up_1_1_1 = Movie(play ="images/events/gym/gym_teach_pe_warm_up_1 1 1.webm", start_image = "images/events/gym/gym_teach_pe_warm_up_1 1 1.webp", loop = True)
-image anim_gym_teach_pe_warm_up_1_1_2 = Movie(play ="images/events/gym/gym_teach_pe_warm_up_1 1 2.webm", start_image = "images/events/gym/gym_teach_pe_warm_up_1 1 2.webp", loop = True)
-image anim_gym_teach_pe_warm_up_1_1_3 = Movie(play ="images/events/gym/gym_teach_pe_warm_up_1 1 3.webm", start_image = "images/events/gym/gym_teach_pe_warm_up_1 1 3.webp", loop = True)
-label gym_teach_pe_warm_up_1 (**kwargs):
-    $ begin_event(**kwargs)
-
-    $ image = convert_pattern("main", **kwargs)
-
-    $ image.show(0)
-    headmaster "Alright, let's get started with the P.E. class."
-
-    headmaster "First we start with a few warm up exercises and stretching."
-    headmaster "Okay now all follow my lead."
-    
-    $ image.show_video(1, True)
-    $ image.show_video(2, True)
-    $ image.show_video(3, True)
-    
-    $ image.show(4)
-    headmaster "Alright, that's enough."
-    
-    call change_stats_with_modifier('school', 'pe',
-        charm = SMALL, education = TINY) from _call_change_stats_with_modifier_20
-
-    $ end_event('map_overview', **kwargs)
-
-# endregion
-##################
-
-###############
-# region MAIN #
-
-label gym_teach_pe_main_1 (**kwargs): # Football
-    $ begin_event(**kwargs)
-
-    $ image = convert_pattern("main", **kwargs)
-    
-    $ image.show(0)
-    headmaster "Alright, that's enough. Now let's play some football. I will be the referee."
-    $ image.show(1)
-    headmaster "Please split into two teams and let's get started."
-    $ image.show(2)
-    sgirl "I'm sorry but how do we identify the teams? We all wear the same uniform." (name = "Sakura Mori")
-    $ image.show(3)
-    headmaster "Hmm, that's a good point. Unfortunately we don't have any bibs or anything like that."
-    $ image.show(4)
-    headmaster "I guess you just will have to remember your team mates. So now your teams please."
-    # The students separate into two groups
-    call Image_Series.show_image(image, 5, 6) from image_gym_teach_pe_main_1_2   
-    headmaster "Alright, let's get started. The right side has the kickoff."
-    $ image.show(7)
-    headmaster "And... START!"
-    call Image_Series.show_image(image, 8, 9, 10, 11, 12, 13) from image_gym_teach_pe_main_1_3
-    
-    call screen black_screen_text("1 hour later")
-
-    $ image.show(14)
-    headmaster "Alright, that's enough for today. I hope you all had fun."
-    $ image.show(15)
-    headmaster "Don't forget to shower and change your clothes."
-    # class leaves the gym
-    
-    call change_stats_with_modifier('school',  'pe',
-        happiness = TINY, charm = SMALL, reputation = TINY, inhibition = DEC_TINY) from _call_change_stats_with_modifier_21
-
-    $ end_event('map_overview', **kwargs)
-
-label gym_teach_pe_main_2 (**kwargs): # Yoga
-    $ begin_event(**kwargs)
-
-    $ image = Image_Series("/images/events/gym/gym_teach_pe_main_2 <school_level> <step>.webp", **kwargs)
-
-    $ image.show(0)
-    headmaster "Alright, today I planned to do some yoga with you."
-    $ image.show(1)
-    headmaster "It's a great way to relax and to improve your flexibility."
-    headmaster "It's also a great way to improve your balance and to strengthen your muscles."
-    $ image.show(2)
-    headmaster "I hope to give you a good introduction to it so you can do it at home too."
-    headmaster "Regular yoga practice can help you to improve your posture and to reduce stress."
-    headmaster "It can also help you to improve your concentration and to improve your mood."
-    $ image.show(3)
-    headmaster "Now please all get a yoga mat and let's get started."
-    # students get a yoga mat
-    headmaster "Okay, now we'll just do some simple exercises to get started."
-    headmaster "Please take care not to overdo it and to listen to your body."
-    headmaster "If something hurts, please stop immediately."
-    headmaster "And only stretch as far as you can without pain."
-    # first form
-    # second form, a student struggles
-    headmaster "Don't be frustrated if you can't do it perfectly. It's all about practice."
-    headmaster "If you're not flexible enough, just do what you can and if you repeat it often enough, you will get better."
-    # third form
-    # fourth form, a student is struggling
-    # headmaster goes to the student and helps her
-    # fifth form
-    headmaster "Alright, that's enough for today. I hope you all had fun."
-    headmaster "I hope you all had a good time and that you learned something new."
-    headmaster "Don't forget to shower and change your clothes."
-
-    call change_stats_with_modifier('school', 'pe',
-        happiness = TINY, charm = MEDIUM, inhibition = DEC_TINY) from _call_change_stats_with_modifier_22
-
-    $ end_event('map_overview', **kwargs)
-
-# endregion
-###############
-
-##############
-# region END #
-
-label gym_teach_pe_end_1 (**kwargs):
-    $ begin_event(**kwargs)
-
-    $ end_event('new_daytime', **kwargs)
-
-# endregion
-##############
-# endregion
-##########################
 
 #########################
 # region Regular Events #
