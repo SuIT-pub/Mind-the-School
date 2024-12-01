@@ -42,6 +42,10 @@ office_building;Office Building
 school_building;School Building
 school_dormitory;School Dormitory
 
+class_3a;Class 3A
+parents;Parents
+staff;Staff
+
 ############
 # Subjects
 
@@ -258,6 +262,7 @@ map_tutorial;Map Tutorial
 action_tutorial;Activity Selection Tutorial
 sandbox_tutorial;Movie Sandbox Tutorial
 
+
 ##############
 # Sex Ed Intro
 office_call_secretary_1;Ask Emiko for help
@@ -277,3 +282,34 @@ unlock_cafeteria;Unlock Cafeteria
 all_events;All Events
 ObserveAllEvents;Observe All Events
 start_sex_ed;Theoretical Sex Education
+max_stats;Max Stats
+unlock_school_jobs;Unlock School Jobs
+unlock_student_relations;Unlock Student-Relationships
+
+#################
+# Character Names
+
+aona_komuro;Aona Komuro
+easkey_tanaka;Easkey Tanaka
+elsie_johnson;Elsie Johnson
+gloria_goto;Gloria Goto
+luna_clark;Luna Clark
+seraphina_clark;Seraphina Clark
+hatano_miwa;Hatano Miwa
+ikushi_ito;Ikushi Ito
+ishimaru_maki;Ishimaru Maki
+kokoro_nakamura;Kokoro Nakamura
+lin_kato;Lin Kato
+miwa_igarashi;Miwa Igarashi
+sakura_mori;Sakura Mori
+soyoon_yamamoto;Soyoon Yamamoto
+yuriko_oshima;Yuriko Oshima
+adelaide_hall;Adelaide Hall
+nubia_davis;Nubia Davis
+yuki_yamamoto;Yuki Yamamoto
+chloe_garcia;Chloe Garcia
+emiko_langley;Emiko Langley
+finola_ryan;Finola Ryan
+lily_anderson;Lily Anderson
+yulan_chen;Yulan Chen
+zoe_parker;Zoe Parker
