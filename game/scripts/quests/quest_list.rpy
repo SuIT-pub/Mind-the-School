@@ -479,7 +479,6 @@ label load_quests:
                 "start_sex_ed_8",
                 "The PTA asked for a bit of time to think about it. I could work on pushing their opinions a bit more until that.",
                 OptionalTask("stat", ConditionTask("stat", "sex_ed_stats", StatCondition(char_obj = "school", corruption = "10+", inhibition = "90-"))),
-                ScheduleVotingTask("theoretical_sex_ed", "unlock"),
                 JournalUnlockTask("theoretical_sex_ed"),
                 activate_next = True
             ),
