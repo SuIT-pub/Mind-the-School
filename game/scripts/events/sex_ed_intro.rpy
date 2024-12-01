@@ -150,6 +150,17 @@ init 1 python:
             Pattern("main", "images/events/sex_ed_intro/sex_ed_intro_mini_sb_4/<step>.webp")),
     )
 
+    temp_time_check_events.add_event(
+        Event(1, "first_sex_ed_day",
+            ProgressCondition('start_sex_ed', 8),
+            TimeCondition(daytime = 1, weekday = 1),
+        ),
+        Event(1, "first_sex_ed_class_1",
+            ProgressCondition('start_sex_ed', 8),
+            TimeCondition(daytime = 1, weekday = 2),
+        ),
+    )
+
 
 ##############################
 # region Sex Ed Introduction #
@@ -718,7 +729,10 @@ label theoretical_sex_ed_assembly_1 (**kwargs):
     headmaster """
     I ask you to carefully read through the material over the weekend and if you have any questions, please raise those 
     in the next class.
+    """
 
+    $ image.show(9)
+    headmaster """
     They include the topics that will be covered in the classes and the teaching methods that will be used.
 
     They include visual material and extra information on the effects and benefits of sexual education.
@@ -726,12 +740,12 @@ label theoretical_sex_ed_assembly_1 (**kwargs):
     I hope they will help you understand the topic and give you inspiration not only for the lessons but also to 
     improve the relationship with your peers.
     """
-    $ image.show(9)
+    $ image.show(10)
     headmaster """
     Next week, we will start with the first lessons. I will be present in the first lesson to answer any questions you 
     may have.
     """
-    $ image.show(10)
+    $ image.show(11)
     headmaster "That will be all for today. I wish you all a good evening and a good weekend."
 
     $ advance_progress('start_sex_ed') # 7 -> 8
@@ -921,13 +935,13 @@ label sex_ed_intro_mini_sb_3 (**kwargs):
     $ image.show(1)
     headmaster_thought "It's good to see them engaging with the content."
     $ image.show(2)
-    sgirl "I never thought about it that way before. This material is really eye-opening."
+    sgirl "Headmaster! I never thought about these topics that way before. This material is really eye-opening."
     $ image.show(3)
     sgirl "Yeah, it's making me rethink a lot of things."
     $ image.show(4)
     headmaster "I'm glad to see you all are finding the material useful."
     $ image.show(5)
-    sgirl "Yes, Headmaster. It's very informative."
+    sgirl "Yes. It's very informative."
     $ image.show(6)
     headmaster "Great! Keep up the good work and don't hesitate to ask if you have any questions."
     $ image.show(7)
@@ -951,7 +965,8 @@ label sex_ed_intro_mini_sb_4 (**kwargs):
     $ image.show(4)
     sgirl "We were wondering about the section on consent. Can you explain it a bit more?" #2
     $ image.show(5)
-    headmaster "Of course. Consent is about making sure that both parties agree to any activity. It's important to communicate clearly and respect each other's boundaries."
+    headmaster "Of course. Consent is a complex topic but I can give you a short overview."
+    headmaster "Consent is about making sure that both parties agree to any activity. It's important to communicate clearly and respect each other's boundaries."
     $ image.show(6)
     sgirl "That makes sense. Thank you for explaining." #1
     $ image.show(7)
@@ -962,6 +977,106 @@ label sex_ed_intro_mini_sb_4 (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 # endregion
+
+label first_sex_ed_day(**kwargs):
+    $ begin_event(**kwargs)
+
+    headmaster_thought "Big day today. The first sexual education class. I hope the students are ready for it."
+    headmaster_thought "Hmm, I see the students again modified their uniforms slightly. Looks good on them."
+    headmaster_thought "Well, I guess I should go to the classroom now."
+
+    $ get_character_by_key("school").set_level(2)
+    $ get_character_by_key("parent").set_level(2)
+    $ get_character_by_key("teacher").set_level(2)
+
+    call change_stats_with_modifier('school',
+        inhibition = DEC_TINY, happiness = TINY
+    ) from _call_first_sex_ed_day_1
+
+    $ end_event("new_daytime", **kwargs)
+
+label first_sex_ed_class_1 (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ image = convert_pattern("main", **kwargs)
+
+    $ image.show(0)
+    headmaster "Good morning, today you will have your first class in sexual education."
+    headmaster "I know many of you are nervous or uncomfortable about this topic, but I assure you it is important."
+    headmaster "For that reason I want to make sure to keep this topic as transparent as possible."
+    headmaster "So that is why I am here today. Today will be no normal class, instead I hope you have worked through the material."
+    headmaster "If you have, I want you to ask me questions and issues you have with the material or with the topic in general, so we can discuss then together and give you a good introduction."
+    headmaster "So, who has questions?"
+    headmaster "Nobody? Don't be shy."
+    headmaster "Well that actually is a good entry point into why this topic is necessary."
+    headmaster "Sexual education is not only about learning about your bodies and learning how intercourse works."
+    headmaster "It is also about learning about relationships, consent, and respect. It is about making informed decisions and understanding your own and others' boundaries."
+    headmaster "Learning to recognise what the other person feels comfortable with and what not. Learning about empathy."
+    headmaster "My aim is to help you have healthier relationships with each other. That way everyone will have a happier life."
+    headmaster "So with that, does anyone want to ask a question?"
+    headmaster "No? Would you rather we collect answers anonymously and discuss them together?"
+    subtitles "*energetic nodding from the students*"
+    headmaster "Alright. Then please prepare a few questions. I will collect them in 10 minutes and then we will go through them one by one."
+    call screen black_screen_text("10 minutes later.")
+    headmaster "Alright, let's see what you have prepared."
+    headmaster "Let's start with the first question."
+
+    headmaster "\"What is consent?\""
+    headmaster "That is a good question. Consent can become a complex topic as it is not only about saying yes or no. For that reason you will learn more about it in future lessons."
+    headmaster "But basically it is about making sure that all parties agree to any activity and that it's important to communicate clearly and respect each other's boundaries."
+    headmaster "Miss Ryan, do you take notes, so you know what topics to prioritize in the future?"
+    finola "Yes, Mr. [headmaster_last_name]. I'm already on it."
+    headmaster "Excellent!"
+    headmaster "Then let's move on to the next question."
+
+    headmaster "\"What are the types of birth control?\""
+    headmaster "That is a good question. There are many types of birth control, such as condoms, birth control pills, and intrauterine devices."
+    headmaster "But all of them have certain aspects that have to be considered. Some of them also should be discussed with the partner because of them."
+    headmaster "That topic will be covered in future lessons as well for that reason."
+    headmaster "Next question!"
+
+    headmaster "\"Is it normal to feel nervous about these topics?\""
+    headmaster "Absolutely! It is completely normal to feel nervous or uncomfortable about these topics. It is a sensitive topic and it is okay to feel that way."
+    headmaster "Moreover, until now you have not been taught about these topics and have been kept afar from them. So it is not only normal, but also expected."
+    headmaster "One more reason for us to be doing this, since you will come across these topics sooner or later. So better to be prepared."
+
+    headmaster "\"How can I build self-confidence and self-respect?\""
+    headmaster "That is a good question. Building self-confidence and self-respect is an important part of sexual education."
+    headmaster "To build self-confidence it helps to put yourself in situations where you can succeed and to set realistic goals for yourself."
+    headmaster "But it is also important to put yourself in situations where you can fail and learn from it. Or put yourself in uncomfortable situations, try out new things."
+    headmaster "Be a bit more daring and try out new things. For example wearing something more daring and seeing how you feel about it."
+
+    headmaster "\"What should I do if I have questions about my own body?\""
+    headmaster "You can just come talk to me or your teachers. We will help you as good as we can. I also hold counselling sessions."
+    headmaster "There you can come talk to me for any problems or insecurities you have. It's all confidential and I will help you as good as I can."
+    headmaster "If you want or need some counselling, just talk to my Secretary Ms. Langley and she will schedule an appointment for you."
+
+    headmaster "Now unfortunately the lesson has ended but there are still a lot of questions left."
+    headmaster "I'll just leave them with Miss Ryan and she will make sure to answer them in the next lessons."
+    headmaster "I hope you had a good introduction and look forward to the next lessons."
+    # How do I tell someone my boundaries?
+    # What should I do if someone doesn't respect my boundaries?
+    # How can I tell if someone is uncomfortable?
+    # What makes a relationship healthy?
+    # How can I help a friend in a bad relationship?
+    # What should I do if I see or experience sexual harassment?
+    # How can I talk to my parents about this stuff?
+    # Where can I get more information or help?
+    # How do I know if I'm ready for a relationship?
+    # What should I do if my partner pressures me into something I'm not comfortable with?
+    # How can I support a friend who is questioning their sexual orientation?
+    # What are the signs of an abusive relationship?
+    # How can I build self-confidence and self-respect?
+    # What should I do if I have questions about my own body?
+    # How can I handle peer pressure related to sex and relationships?
+    # What resources are available at school if I need help or advice?
+
+    call change_stats_with_modifier('school',
+        education = MEDIUM, inhibition = DEC_SMALL, corruption = TINY, happiness = TINY
+    ) from _call_first_sex_ed_class_1_1
+
+    $ end_event('new_daytime', **kwargs)
+
 
 # endregion
 ##############################
