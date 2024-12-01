@@ -1247,6 +1247,18 @@ screen black_error_screen_text(text_str):
         size 20
         color "#a00000"
 
+init python:
+    def screen_return():
+        return True
+
+label black_screen_text(title, subtitle = ""):
+    if renpy.get_skipping() == None:
+        if subtitle == "":
+            call screen black_screen_text(title) with dissolveM
+        else:
+            call screen black_screen_text_with_subtitle(title, subtitle) with dissolveM
+        
+    return
 screen black_screen_text(text_str):
     python:
         """
@@ -1268,6 +1280,8 @@ screen black_screen_text(text_str):
         xalign 0.5 yalign 0.5
         size 60
 
+    if renpy.get_skipping() != None:
+        $ screen_return()
     button:
         xpos 0 ypos 0
         xsize 1920 ysize 1080
@@ -1301,7 +1315,8 @@ screen black_screen_text_with_subtitle(text_str, subtitle_str):
         text subtitle_str:
             xalign 0.5
             size 40
-    
+    if renpy.get_skipping() != None:
+        $ screen_return()
     button:
         xpos 0 ypos 0
         xsize 1920 ysize 1080
