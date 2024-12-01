@@ -2215,15 +2215,17 @@ init -6 python:
             if super().is_fulfilled(**kwargs):
                 return True
 
-            if "values" not in kwargs.keys() or self.key not in kwargs["values"].keys():
+            if "values" in kwargs.keys():
+                kwargs = kwargs["values"]
+
+            if self.key not in kwargs.keys():
                 return False
 
             value = self.value
-
             if isinstance(self.value, Selector):
                 value = self.value.roll(**kwargs)
 
-            return kwargs["values"][self.key] == value
+            return kwargs[self.key] == value
 
         def to_desc_text(self, **kwargs) -> str:
             """
