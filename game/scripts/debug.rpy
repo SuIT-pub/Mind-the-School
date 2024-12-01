@@ -51,5 +51,5 @@ init -100 python:
         log_val(msg, log_number)
 
 label test_label():
-
+    call screen journal_character("") with dissolveM
     return
