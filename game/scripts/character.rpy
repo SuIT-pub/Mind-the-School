@@ -1044,6 +1044,88 @@ init -6 python:
     # endregion
     ######################
 
+    class PersonObj():
+        def __init__(self, name: str, char: Char, description: List[str | Tuple[str, Condition]], portraits: Dict[str, str | Tuple[str, Condition]] = {}, thumbnail = ""):
+            self.name = name
+            self.description = description
+            self.portraits = portraits
+            self.character = char
+            if thumbnail == "":
+                self.thumbnail = f"images/characters/{self.name}/level_1.webp"
+            else:
+                self.thumbnail = thumbnail
+
+        def _update(self, data: PersonObj):
+            
+            if not hasattr(data, 'name'):
+                self.name = ""
+            if not hasattr(data, 'description'):
+                self.description = []
+            if not hasattr(data, 'portraits'):
+                self.portraits = {}
+            if not hasattr(data, 'thumbnail'):
+                self.thumbnail = ""
+
+            if data != None:
+                self.name = data.name
+                self.description = data.description
+                self.portraits = data.portraits
+
+        def get_name(self) -> str:
+            return self.name
+
+        def get_description(self, **kwargs) -> List[str]:
+            output = []
+            for desc in self.description:
+                if isinstance(desc, str):
+                    output.append(desc)
+                elif desc[1].is_fulfilled(**kwargs):
+                    if isinstance(desc[0], list):
+                        output.extend(desc[0])
+                    else:
+                        output.append(desc[0])
+            return output
+
+        def get_description_str(self, **kwargs) -> str:
+            return "\n".join(self.get_description(**kwargs))
+
+        def get_portraits(self) -> Dict[str, str]:
+            output = {f"Level {level}": f"images/characters/{self.name}/level_{level}.webp" for level in range(1, self.character.get_level() + 1) if renpy.loadable(f"images/characters/{self.name}/level_{level}.webp")}
+
+            if renpy.loadable(f"images/characters/{self.name}/nude.webp"):
+                output["nude"] = f"images/characters/{self.name}/nude.webp" 
+
+            for portrait_key in self.portraits.keys():
+                portrait = self.portraits[portrait_key]
+                if isinstance(portrait, str):
+                    output[portrait_key] = f"images/characters/{self.name}/{portrait}.webp"
+                elif portrait[1].is_fulfilled(**kwargs):
+                    if "images/" not in portrait[0]:
+                        output[portrait_key] = f"images/characters/{self.name}/{portrait[0]}.webp"
+                    else:
+                        output[portrait_key] = portrait[0]
+
+            return output
+
+        def get_thumbnail(self) -> str:
+            log_val('thumbnail', self.thumbnail)
+            if not renpy.loadable(self.thumbnail):
+                return "images/journal/empty_image.webp"
+            return self.thumbnail
+
+        def set_thumbnail(self, thumbnail: str):
+            self.thumbnail = thumbnail
+
+    def load_person(key: str, person: PersonObj):
+        if key not in person_storage.keys():
+            person_storage[key] = {}
+
+        if person.name not in person_storage[key].keys():
+            person_storage[key][person.name] = person
+        else:
+            person_storage[key][person.name]._update(person)
+
+
 label load_schools ():
     # """
     # Loads and updates all the Character-Objects for the game
@@ -1088,3 +1170,164 @@ label load_schools ():
     $ fix_schools()
 
     return
+
+init -99 python:
+    load_character_labels = []
+    def register_character_loading(label: str):
+        load_character_labels.append(label)
+
+label load_characters ():
+    $ school_char = get_character_by_key('school')
+    $ parent_char = get_character_by_key('parent')
+    $ teacher_char = get_character_by_key('teacher')
+    $ secretary_char = get_character_by_key('secretary')
+
+    $ load_person("class_3a", PersonObj("aona_komuro", school_char, [
+            (["• Height: 172.5 cm", "• Bra Size 75F (DDD)", "• B-W-H: 89-74-98 cm", "• Waist-to-Hips: 0.756"],
+                GameDataCondition("aona_komuro_sizes_known", True)),
+        ]
+    ))
+    $ load_person("class_3a", PersonObj("easkey_tanaka", school_char, [
+            (["• Height: 168.8 cm", "• Bra Size 65DD (E)", "• B-W-H: 78-68-98 cm", "• Waist-to-Hips: 0.689"],
+                GameDataCondition("easkey_tanaka_sizes_known", True)),
+            ("In a relationship with Sakura Mori", GameDataCondition("easkey_sakura_relationship_known", True)),
+        ],
+    ))
+    $ load_person("class_3a", PersonObj("elsie_johnson", school_char, [
+            (["• Height: 168.0 cm", "• Bra Size 65D", "• B-W-H: 76-63-105 cm", "• Waist-to-Hips: 0.689"],
+                GameDataCondition("elsie_johnson_sizes_known", True)),
+            ("In a relationship with Yuriko Oshima", GameDataCondition("elsie_yuriko_relationship_known", True)),
+        ],
+    ))
+    $ load_person("class_3a", PersonObj("gloria_goto", school_char, [
+            (["• Height: 160.4 cm", "• Bra Size 65C", "• B-W-H: 73-57-82 cm", "• Waist-to-Hips: 0.693"],
+                GameDataCondition("gloria_goto_sizes_known", True)),
+        ],
+    ))
+    $ load_person("class_3a", PersonObj("luna_clark", school_char, [
+            (["• Height: 144.8 cm", "• Bra Size 55D", "• B-W-H: 65-48-81 cm", "• Waist-to-Hips: 0.587"],
+                GameDataCondition("luna_clark_sizes_known", True)),
+            "Twin sister of Seraphina Clark.",
+            "More shy and reserved than her sister.",
+            "A bit of a trickster.",
+        ],
+    ))
+    $ load_person("class_3a", PersonObj("seraphina_clark", school_char, [
+            (["• Height: 144.8 cm", "• Bra Size 55DD (E)", "• B-W-H: 68-48-81 cm", "• Waist-to-Hips: 0.587"],
+                GameDataCondition("seraphina_clark_sizes_known", True)),
+            "Twin sister of Luna Clark.", 
+            "More active and open than her sister.",
+            "A bit of a jokester.",
+        ],
+    ))
+    $ load_person("class_3a", PersonObj("hatano_miwa", school_char, [
+            (["• Height: 165.7 cm", "• Bra Size 70A", "• B-W-H: 73-63-87 cm", "• Waist-to-Hips: 0.725"],
+                GameDataCondition("hatano_miwa_sizes_known", True)),
+        ],
+    ))
+    $ load_person("class_3a", PersonObj("ikushi_ito", school_char, [
+            (["• Height: 164.3 cm", "• Bra Size 65G (DDDD)", "• B-W-H: 82-62-92 cm", "• Waist-to-Hips: 0.678"],
+                GameDataCondition("ikushi_ito_sizes_known", True)),
+        ],
+    ))
+    $ load_person("class_3a", PersonObj("ishimaru_maki", school_char, [
+            (["• Height: 170.8 cm", "• Bra Size 70B", "• B-W-H: 75-68-91 cm", "• Waist-to-Hips: 0.743"],
+                GameDataCondition("ishimaru_maki_sizes_known", True)),
+        ],
+    ))
+    $ load_person("class_3a", PersonObj("kokoro_nakamura", school_char, [
+            (["• Height: 163.4 cm", "• Bra Size 70B", "• B-W-H: 76-66-89 cm", "• Waist-to-Hips: 0.739"],
+                GameDataCondition("kokoro_nakamura_sizes_known", True)),
+        ],
+    ))
+    $ load_person("class_3a", PersonObj("lin_kato", school_char, [
+            (["• Height: 167.6 cm", "• Bra Size 65B", "• B-W-H: 70-63-94 cm", "• Waist-to-Hips: 0.663"],
+                GameDataCondition("lin_kato_sizes_known", True)),
+        ],
+    ))
+    $ load_person("class_3a", PersonObj("miwa_igarashi", school_char, [
+            (["• Height: 158.9 cm", "• Bra Size 65B", "• B-W-H: 69-62-84 cm", "• Waist-to-Hips: 0.739"],
+                GameDataCondition("miwa_igarashi_sizes_known", True)),
+            ("Likes dancing.", GameDataCondition("miwa_igarashi_likes_dancing", True)),
+        ],
+    ))
+    $ load_person("class_3a", PersonObj("sakura_mori", school_char, [
+            (["• Height: 163.7 cm", "• Bra Size 65C", "• B-W-H: 74-65-88 cm", "• Waist-to-Hips: 0.737"],
+                GameDataCondition("sakura_mori_sizes_known", True)),
+            ("In a relationship with Easkey Tanaka.", GameDataCondition("easkey_sakura_relationship_known", True)),
+        ],
+    ))
+    $ load_person("class_3a", PersonObj("soyoon_yamamoto", school_char, [
+            (["• Height: 161.0 cm", "• Bra Size 60C", "• B-W-H: 68-91-92 cm", "• Waist-to-Hips: 0.664"],
+                GameDataCondition("soyoon_yamamoto_sizes_known", True)),
+            "Daughter of Yuki Yamamoto.",
+        ],
+    ))
+    $ load_person("class_3a", PersonObj("yuriko_oshima", school_char, [
+            (["• Height: 159.5 cm", "• Bra Size 65C", "• B-W-H: 72-65-85 cm", "• Waist-to-Hips: 0.768"],
+                GameDataCondition("gloria_goto_sizes_known", True)),
+            ("Is in a relationship with Elsie Johnson", GameDataCondition("elsie_yuriko_relationship_known", True)),
+            ("Mostly a loner and slight depressive tendencies.", GameDataCondition("yuriko_personality_known", True)),
+        ],
+    ))
+
+    $ load_person("parents", PersonObj("adelaide_hall", parent_char, [
+            (["• Height: 157.8 cm", "• Bra Size 55J", "• B-W-H: 80-60-93 cm", "• Waist-to-Hips: 0.645"],
+                GameDataCondition("adelaide_hall_sizes_known", True)),
+            ("Works in Cafeteria as Kitchen Mother", BuildingCondition("cafeteria")),
+        ],
+    ))
+    $ load_person("parents", PersonObj("nubia_davis", parent_char, [
+            (["• Height: 169.3.8 cm", "• Bra Size 75DD (E)", "• B-W-H: 88-68-97 cm", "• Waist-to-Hips: 0.697"],
+                GameDataCondition("nubia_davis_sizes_known", True)),
+        ],
+    ))
+    $ load_person("parents", PersonObj("yuki_yamamoto", parent_char, [
+            (["• Height: 170.9 cm", "• Bra Size 65DD (E)", "• B-W-H: 77-67-94 cm", "• Waist-to-Hips: 0.713"],
+                GameDataCondition("yuki_yamamoto_sizes_known", True)),
+            "Mother of Soyoon Yamamoto.",
+        ],
+    ))
+
+    $ load_person("staff", PersonObj("chloe_garcia", teacher_char, [
+            (["• Height: 168.8 cm", "• Bra Size 65C", "• B-W-H: 72-61-91 cm", "• Waist-to-Hips: 0.675"],
+                GameDataCondition("chloe_garcia_sizes_known", True)),
+            "Subjects: Art, Music",
+        ],
+    ))
+    $ load_person("staff", PersonObj("emiko_langley", secretary_char, [
+            (["• Height: 180.7 cm", "• Bra Size 75F (DDD)", "• B-W-H: 91-66-99 cm", "• Waist-to-Hips: 0.665"],
+                GameDataCondition("emiko_langley_sizes_known", True)),
+            "Secretary",
+        ],
+        thumbnail = "images/characters/emiko_langley/level_5.webp"
+    ))
+    $ load_person("staff", PersonObj("finola_ryan", teacher_char, [
+            (["• Height: 169.0 cm", "• Bra Size 65DD (E)", "• B-W-H: 78-65-88 cm", "• Waist-to-Hips: 0.745"],
+                GameDataCondition("finola_ryan_sizes_known", True)),
+            "Subjects: English, History",
+        ],
+    ))
+    $ load_person("staff", PersonObj("lily_anderson", teacher_char, [
+            (["• Height: 167.0 cm", "• Bra Size 70B", "• B-W-H: 76-64-90 cm", "• Waist-to-Hips: 0.705"],
+                GameDataCondition("lily_anderson_sizes_known", True)),
+            "Subjects: Math, Sciences",
+        ],
+    ))
+    $ load_person("staff", PersonObj("yulan_chen", teacher_char, [
+            (["• Height: 167.0 cm", "• Bra Size 65F (DDD)", "• B-W-H: 81-67-90 cm", "• Waist-to-Hips: 0.751"],
+                GameDataCondition("yulan_chen_sizes_known", True)),
+            "Subjects: History, Politics",
+        ],
+    ))
+    $ load_person("staff", PersonObj("zoe_parker", teacher_char, [
+            (["• Height: 167.3 cm", "• Bra Size 65C", "• B-W-H: 73-63-91 cm", "• Waist-to-Hips: 0.692"],
+                GameDataCondition("adelaide_hall_sizes_known", True)),
+            "Subjects: Physical Education, Health",
+        ],
+    ))
+
+    $ i = 0
+    while (i < len(load_character_labels)):
+        call expression load_character_labels[i]
+        $ i += 1

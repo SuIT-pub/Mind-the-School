@@ -36,6 +36,8 @@ default charList = {
     'staff': {},
 }
 
+default person_storage = {}
+
 default quests = {}
 
 default money = Stat(MONEY, 1000)

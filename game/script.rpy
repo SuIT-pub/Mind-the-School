@@ -6,6 +6,7 @@ label start ():
 
     call load_stats from start_1
     call load_schools from start_2
+    call load_characters from start_7
     call load_buildings from start_3
     call load_clubs from start_4
     call load_rules from start_5
@@ -24,7 +25,7 @@ label splashscreen:
         "I am not 18 years of age or older.":
             $ renpy.quit()
 
-    subtitles "The game downloads the current list of {a=https://www.patreon.com/suitji}Patreon{/a} supporters every time the game starts. The file's size is max 1KB. If you don't want the game to download this file, you can disable it in the options menu."
+    subtitles "The game downloads the current list of {a=[patreon]}Patreon{/a} supporters every time the game starts. The file's size is max 1KB. If you don't want the game to download this file, you can disable it in the options menu."
     subtitles "For everyone with an old save-game from the previous version:\nYou can still open the game with the old save-game. If you encounter an error after loading because of a missing image, just press 'Ignore' and the game will continue normally."
 init python:
     
@@ -186,6 +187,7 @@ label after_load:
 
     call load_stats from after_load_1
     call load_schools from after_load_2
+    call load_characters from after_load_7
     call load_rules from after_load_3
     call load_buildings from after_load_4
     call load_clubs from after_load_5

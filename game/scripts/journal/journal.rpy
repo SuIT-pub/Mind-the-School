@@ -163,6 +163,8 @@ label open_journal(page, display, char = "school"):
         call screen journal_gallery(display) with dissolveM
     elif page == 8:
         call screen journal_goals(display) with dissolveM
+    elif page == 9:
+        call screen journal_character(display) with dissolveM
 
 label close_journal ():
     # """
@@ -424,6 +426,9 @@ screen journal_page_selector(page, display, char = "school"):
             hover "journal/journal/hover.webp"
         elif page == 8:
             idle "journal/journal/8_idle.webp"
+            hover "journal/journal/hover.webp"
+        elif page == 9:
+            idle "journal/journal/idle.webp"
             hover "journal/journal/hover.webp"
 
         $ key_text = ""
@@ -2575,6 +2580,212 @@ screen journal_goals(display):
                 unscrollable "hide"
                 xalign 1.04
 
+
+    $ tooltip = GetTooltip()
+    if tooltip:
+        nearrect:
+            focus "tooltip"
+            prefer_top True
+
+            frame:
+                xalign 0.5
+                text tooltip
+
+screen journal_character(display):
+
+    tag interaction_overlay
+    modal True
+
+    use school_overview_map
+    use school_overview_stats
+
+    image "journal/journal/background.webp"
+
+    use journal_page_selector(9, display, char)
+
+    key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
+
+    $ display_values = display.split(':')
+
+    $ char_key = ""
+    $ char_name = ""
+    $ char_image = 0
+
+
+    if len(display_values) >= 1:
+        $ char_key = display_values[0]
+    if len(display_values) >= 2:
+        $ char_name = display_values[1]
+    if len(display_values) >= 3:
+        $ char_image = int(display_values[2])
+
+    $ log_val('display_values', display_values)
+    $ log_val('char_key', char_key)
+    $ log_val('char_name', char_name)
+
+    if char_name == "":
+        # left side
+        # displays all patrons with teacher tier subscription on Patreon
+        frame:
+            background Solid("#00000000")
+            area (350, 200, 500, 750)
+
+            vbox:
+                text "Characters":
+                    size 40
+                    color "#000000"
+                null height 20
+                hbox:
+                    viewport id "journal_character_keys":
+                        mousewheel True
+                        draggable "touch"
+
+                        vbox:
+                            for character_key in person_storage.keys():
+                                $ button_style = "buttons_idle"
+                                if character_key == char_key:
+                                    $ button_style = "buttons_selected"
+                                $ key_title = get_translation(character_key)
+                                textbutton key_title:
+                                    text_style button_style
+                                    action [With(dissolveM), Call("open_journal", 9, character_key)]
+                    vbar value YScrollValue("journal_character_keys"):
+                        unscrollable "hide"
+                        xalign 1.0
+
+        if char_key != "":
+            frame:
+                background Solid("#00000000")
+                area (960, 200, 500, 700)
+
+                viewport id "journal_character_values":
+                    mousewheel True
+                    draggable "touch"
+                    $ grid_rows = int((len(person_storage[char_key].keys()) + 1) / 2)
+
+                    grid 2 grid_rows:
+                        spacing 4
+
+                        for character_name in person_storage[char_key].keys():
+                            $ name_title = get_translation(character_name)
+
+                            button:
+                                xsize 240
+                                vbox:
+                                    image person_storage[char_key][character_name].get_thumbnail():
+                                        xsize 240
+                                        ysize 427
+                                    text name_title:
+                                        xsize 240
+                                        style "buttons_idle"
+                                action [With(dissolveM), Call("open_journal", 9, f"{char_key}:{character_name}:-1")]
+                vbar value YScrollValue("journal_character_values"):
+                    unscrollable "hide"
+                    xalign 1.05
+
+    else:
+        $ character = person_storage[char_key][char_name]
+        $ character_images = character.get_portraits()
+        $ character_images_length = len(character_images.keys())
+        $ character_thumbnail = character.get_thumbnail()
+
+        if char_image == -1:
+            $ char_images_keys = character_images.keys()
+            $ i = 0
+            for key in char_images_keys:
+                if character_images[key] == character_thumbnail:
+                    $ char_image = i
+                    break
+                $ i += 1
+
+        if char_image < 0:
+            $ char_image = 0
+
+        if char_image >= character_images_length:
+            $ char_image = character_images_length - 1
+
+        $ character_images_key = list(character_images.keys())[char_image]
+        $ character_image = character_images[character_images_key]
+
+        frame:
+            background Solid("#00000000")
+            area (350, 150, 500, 800)
+
+            vbox:
+                hbox:
+                    xsize 500
+                    textbutton "<- Return":
+                        xalign 0.0
+                        text_style "buttons_idle"
+                        action [With(dissolveM), Call("open_journal", 9, f"{char_key}")]
+                    
+                    $ idle_image = "images/icons/favorite_disabled.png"
+                    $ hover_image = "images/icons/favorite_enabled.png"
+                    if character_image == character_thumbnail:
+                        $ idle_image = "images/icons/favorite_enabled.png"
+                        $ hover_image = "images/icons/favorite_disabled.png"
+
+                    imagebutton:
+                        idle idle_image
+                        hover hover_image
+                        xsize 50
+                        ysize 50
+                        xalign 1.0
+                        action Function(character.set_thumbnail, character_image)
+
+                hbox:
+                    xsize 500
+                    hbox:
+                        xalign 0.5
+                        if char_image != 0:
+                            textbutton "<":
+                                xsize 50
+                                text_style "buttons_idle"
+                                action [With(dissolveM), Call("open_journal", 9, f"{char_key}:{char_name}:{char_image - 1}")]
+                        else:
+                            null width 50
+                        button:
+                            xsize 300
+                            text character_images_key:
+                                xalign 0.5
+                                style "journal_text"
+                        if char_image < character_images_length - 1:
+                            textbutton ">":
+                                xsize 50
+                                text_style "buttons_idle"
+                                action [With(dissolveM), Call("open_journal", 9, f"{char_key}:{char_name}:{char_image + 1}")]
+                        else:
+                            null width 50
+
+                null height 20
+
+                image character_image:
+                    xsize 393
+                    ysize 700
+                    xalign 0.5
+
+        frame:
+            background Solid("#00000000")
+            area (960, 200, 500, 700)
+
+            vbox:
+                text get_translation(character.get_name()):
+                    size 40
+                    color "#000000"
+                
+                null height 20
+
+                viewport id "journal_character_description":
+                    mousewheel True
+                    draggable "touch"
+
+                    $ character_description = character.get_description_str()
+                    text character_description:
+                        style "journal_text"
+
+                vbar value YScrollValue("journal_character_description"):
+                    unscrollable "hide"
+                    xalign 1.05
 
     $ tooltip = GetTooltip()
     if tooltip:
