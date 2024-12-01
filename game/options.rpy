@@ -23,7 +23,7 @@ define gui.show_name = True
 
 ## The version of the game.
 
-define config.version = "0.1.5"
+define config.version = "0.2.0"
 
 
 ## Text that is placed on the game's about screen. Place the text between the
@@ -290,6 +290,6 @@ init python:
 
     
 
-define discord = 'http://tiny.cc/mindtheschooldiscord'
-define patreon = 'http://tiny.cc/mindtheschoolpatreon'
-define wiki = 'https://suitpub.alwaysdata.net'
+define discord = 'https://discord.suit-ji.com'
+define patreon = 'https://patreon.suit-ji.com'
+define wiki    = 'https://wiki.suit-ji.com'

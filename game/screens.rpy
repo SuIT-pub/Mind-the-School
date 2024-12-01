@@ -480,7 +480,7 @@ screen main_menu():
                         textbutton "Hide" action SetVariable("changelog_shown", False)
                 if changelog_shown:
                     null height 15
-                    text "Version 0.1.5" style "main_menu_changelog_subtitle"
+                    text "Version 0.2.0" style "main_menu_changelog_subtitle"
                     text "• WIP" style "main_menu_changelog_text"
                     
                     # null height 8
