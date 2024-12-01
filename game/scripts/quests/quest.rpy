@@ -117,6 +117,9 @@ init -97 python:
             """
 
             for goal in self._goals.values():
+                if goal._quest == None:
+                    goal.set_quest(self)
+
                 if not goal.is_completed():
                     goal.update(key, **kwargs)
 
@@ -417,6 +420,9 @@ init -98 python:
             """
 
             for task in self._tasks.values():
+                if task._goal == None:
+                    task.register(self)
+
                 if task.get_type() == key and not task.is_complete():
                     task.update(**kwargs)
 
