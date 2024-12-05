@@ -1,6 +1,6 @@
-######################
-# ----- SCREENS -----#
-######################
+#######################
+# region SCREENS -----#
+#######################
 
 screen show_building_button(building, display, show_type, x, y):
     if display == building or display == "x" or building in display or (isinstance(display, dict) and building in display.keys()):
@@ -173,11 +173,54 @@ screen show_building_buttons (building, *additions, show_type = "normal", frames
     if "journal_hover" in additions:
         add "icons/journal_icon_hover.webp" xalign 1.0 yalign 0.6
 
-######################
+# endregion
+#######################
 
-#####################
-# ----- LABEL ----- #
-#####################
+init 1 python:
+    set_current_mod('base')
+    action_tutorial_event = Event(2, "action_tutorial",
+        NOT(ProgressCondition('action_tutorial')),
+        ValueSelector('return_label', 'bath'),
+        NoHighlightOption(),
+        TutorialCondition(),
+        Pattern("main", "/images/events/misc/action_tutorial/<step>.webp"),
+        override_location = "misc", thumbnail = "images/events/misc/action_tutorial/0.webp")
+
+    bath_general_event.add_event(action_tutorial_event)
+    beach_general_event.add_event(action_tutorial_event)
+    cafeteria_general_event.add_event(action_tutorial_event)
+    courtyard_general_event.add_event(action_tutorial_event)
+    gym_general_event.add_event(action_tutorial_event)
+    kiosk_general_event.add_event(action_tutorial_event)
+    labs_general_event.add_event(action_tutorial_event)
+    office_building_general_event.add_event(action_tutorial_event)
+    sb_general_event.add_event(action_tutorial_event)
+    sd_general_event.add_event(action_tutorial_event)
+    sports_field_general_event.add_event(action_tutorial_event)
+    staff_lodges_general_event.add_event(action_tutorial_event)
+    swimming_pool_general_event.add_event(action_tutorial_event)
+
+    journal_events.add_event(Event(1, "journal_tutorial",
+        NOT(ProgressCondition('journal_tutorial')),
+        TutorialCondition(),
+        Pattern("main", "/images/events/misc/journal_tutorial/<step>.webp"),
+        thumbnail = "images/events/misc/journal_tutorial/0.webp"))
+
+    sandbox_check_events.add_event(Event(1, 'sandbox_tutorial',
+        ValueSelector('return_label', 'start_sandbox.after_check'),
+        TutorialCondition(),
+        Pattern("main", "/images/events/misc/sandbox_tutorial/<step>.webp"),
+        thumbnail = "images/events/misc/sandbox_tutorial/0.webp"))    
+
+    time_check_events.add_event(Event(2, "map_tutorial", 
+        NOT(ProgressCondition("map_tutorial")), 
+        OR(IntroCondition(True), IntroCondition(False)),
+        TutorialCondition(),
+        override_intro = True, thumbnail = "images/events/misc/map_tutorial.webp"))
+
+######################
+# region LABEL ----- #
+######################
 
 label tutorial_menu ():
 
@@ -333,7 +376,7 @@ label map_tutorial (**kwargs):
 label journal_tutorial (**kwargs):
     $ begin_event(**kwargs)
 
-    $ image = Image_Series("/images/events/misc/journal_tutorial <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     dev "Welcome. You just opened the Journal for the first time."
@@ -455,11 +498,9 @@ label journal_tutorial (**kwargs):
 label action_tutorial (**kwargs):
     $ begin_event(**kwargs)
 
-    $ log_val('kwargs', kwargs)
-
     $ return_label = get_kwargs('return_label', 'map_overview', **kwargs)
 
-    $ image = Image_Series("/images/events/misc/action_tutorial <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     dev "Hello and welcome to yet another tutorial."
@@ -489,15 +530,12 @@ label action_tutorial (**kwargs):
 
     call expression return_label from _call_expression
 
-
 label sandbox_tutorial (**kwargs):
     $ begin_event(**kwargs)
 
-    $ log_val('kwargs', kwargs)
-
     $ return_label = get_kwargs('return_label', 'map_overview', **kwargs)
 
-    $ image = Image_Series("/images/events/misc/sandbox_tutorial <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     dev "Hey hey. It's me again."
@@ -535,4 +573,6 @@ label sandbox_tutorial (**kwargs):
     $ end_event('none', **kwargs)
 
     call expression return_label from _call_expression_1
-#####################
+
+# endregion
+######################
