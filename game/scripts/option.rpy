@@ -12,6 +12,9 @@ init -6 python:
                 return True
             return all(option.check_option(**kwargs) for option in self.options.values())
 
+        def add_option(self, option: Option):
+            self.options[option.get_name()] = option
+
         def get_options(self) -> List[Option]:
             return list(self.options.values())
 
@@ -37,7 +40,6 @@ init -6 python:
         @abstractmethod
         def check_option(self, **kwargs) -> bool:
             pass
-        
 
     class NoHighlightOption(Option):
         def __init__(self):
@@ -50,6 +52,13 @@ init -6 python:
                 return kwargs["NoHighlight"]
             return True
 
+    class ForceHighlightOption(Option):
+        def __init__(self):
+            super().__init__("ForceHighlight")
+
+        def check_option(self, **kwargs):
+            return True
+        
     class ShowBlockedOption(Option):
         def __init__(self):
             super().__init__("ShowBlocked")
@@ -59,4 +68,12 @@ init -6 python:
                 return kwargs["ShowBlocked"]
             return True
 
+    class PriorityOption(Option):
+        def __init__(self, priority: int):
+            super().__init__("Priority")
+            self.priority = priority
 
+        def check_option(self, **kwargs):
+            if "Priority" in kwargs:
+                return kwargs["Priority"] == self.priority
+            return True

@@ -1,5 +1,10 @@
 init -6 python:
     import re
+
+    ########################
+    # region CLASSES ----- #
+    ########################
+
     class Club(Journal_Obj):
         """
         A sub-class of Journal_Obj.
@@ -48,8 +53,12 @@ init -6 python:
 
             return "club"
 
-    #############################################
-    # Clubs Global Methods
+    # endregion
+    ########################
+
+    ####################################
+    # region Clubs Global Methods -----#
+    ####################################
     
     def get_club(club: str) -> Club:
         """
@@ -121,6 +130,9 @@ init -6 python:
             - The data of the club.
         """
 
+        if not is_mod_active(active_mod_key):
+            return
+
         if name not in clubs.keys():
             clubs[name] = Club(name, title)
 
@@ -140,7 +152,15 @@ init -6 python:
         if name in clubs.keys():
             del(clubs[name])
 
+    # endregion
+    ####################################
+
+######################
+# region LABEL ----- #
+######################
+
 label load_clubs ():
+    $ set_current_mod('base')
 
     #! locked, currently not implemented
     $ load_club("masturbation_club", "Masturbation Club", {
@@ -299,3 +319,6 @@ label load_clubs ():
     })
 
     return
+
+# endregion
+######################

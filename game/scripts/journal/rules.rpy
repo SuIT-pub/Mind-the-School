@@ -1,5 +1,10 @@
 init -6 python:
     import re
+
+    ########################
+    # region CLASSES ----- #
+    ########################
+
     class Rule(Journal_Obj):
         """
         A subclass of Journal_Obj that represents a rule.
@@ -48,8 +53,12 @@ init -6 python:
 
             return "rule"
 
-    #############################################
-    # Rules Global Methods
+    # endregion
+    ########################
+
+    #####################################
+    # region Rules Global Methods ----- #
+    #####################################
     
     def get_rule(rule_name: str) -> Rule:
         """
@@ -121,6 +130,9 @@ init -6 python:
             - The data of the rule to be loaded.
         """
 
+        if not is_mod_active(active_mod_key):
+            return
+
         if name not in rules.keys():
             rules[name] = Rule(name, title)
 
@@ -140,7 +152,15 @@ init -6 python:
         if name in rules.keys():
             del(rules[name])
 
+    # endregion
+    #####################################
+
+#######################
+# region LABELS ----- #
+
 label load_rules ():
+    $ set_current_mod('base')
+
     $ remove_rule("service_uniform")
 
     $ load_rule("school_jobs", "School Jobs", {
@@ -163,58 +183,12 @@ label load_rules ():
         ],
         '_unlock_conditions': ConditionStorage(
             StatCondition(inhibition = '90-', corruption = '10+'),
-            LevelCondition("1+", True),
-            ProgressCondition("start_sex_ed", "1+", True),
-            LockCondition(False),
+            ProgressCondition("start_sex_ed", "6", True),
+            PTAOverride('parent', "no"),
+            PTAOverride('teacher', "yes"),
         ),
         '_image_path': 'images/journal/rules/theoretical_sex_ed.webp',
         '_image_path_alt': 'images/journal/rules/theoretical_sex_ed.webp',
-        '_vote_comments': {
-            'teacher': {
-                'yes': [
-                    'I think it is important to teach the students about the human body and reproduction.', 
-                    'It is a natural part of life and should be treated as such. So I vote yes.'
-                ],
-                'no': [
-                    'Introducing theoretical sex education in schools could be problematic as it may interfere with family values and parents\' role in guiding their children on sensitive topics.', 
-                    'That\'s why I vote against the introduction of theoretical sex education.'
-                ],
-                'veto': [
-                    'I am appalled by the mere suggestion of introducing theoretical sex education in schools.', 
-                    'This is an absurd notion that undermines the values and principles we strive to instill in our students, and it completely disregards the importance of parental guidance in such delicate matters.', 
-                    'As a teacher, I vehemently veto any attempt to implement this nonsensical curriculum.'
-                ],
-            },
-            'student': {
-                'yes': [
-                    'As a student of this school, I strongly support the introduction of theoretical sex education.', 
-                    'It is essential for students to have access to comprehensive and accurate information that can help them make informed decisions about their sexual health and well-being. Therefore, I vote yes on this proposal.'
-                ],
-                'no': [
-                    'I believe that theoretical sex education goes against my personal beliefs and values.', 
-                    'I would prefer to focus on different aspects of education that align more closely with my interests and priorities. Therefore, I vote no on this proposal.'
-                ],
-                'veto': [
-                    'I believe introducing theoretical sex education is unnecessary and ridiculous.', 
-                    'We should focus on practical, real-life skills instead. I veto this proposal.'
-                ],
-            },
-            'parent': {
-                'yes': [
-                    'I fully support the introduction of theoretical sex education in our school curriculum.', 
-                    'It\'s essential for our children to have a comprehensive understanding of the topic to make informed decisions about their health and relationships. That\'s why I vote yes.'
-                ],
-                'no': [
-                    'I believe that theoretical sex education is not appropriate for our school, and it should be left to parents to discuss these matters at home.', 
-                    'We should prioritize other subjects that are more important for our children\'s education. So I vote no.'
-                ],
-                'veto': [
-                    'I vehemently oppose the introduction of theoretical sex education in our school.', 
-                    'It\'s a ridiculous notion that infringes upon our parental rights and values.', 
-                    'Our children\'s education should focus on traditional subjects, leaving discussions about sex to families. I veto.'
-                ],
-            },
-        },
     })
 
     #! locked, currently not implemented
@@ -460,3 +434,6 @@ label load_rules ():
     })
 
     return
+
+# endregion
+#######################
