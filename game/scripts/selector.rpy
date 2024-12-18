@@ -125,6 +125,9 @@ init -3 python:
             self._value = None
             self._realtime = realtime
 
+        def __str__(self):
+            return get_name()
+
         def update(self, **kwargs):
             """
             Updates the value of the Selector.
@@ -641,16 +644,20 @@ init -3 python:
             - This parameter takes the value in get_game_data(_index) and uses it as the value for the Selector.
         """
 
-        def __init__(self, key: str, index: str):
+        def __init__(self, key: str, index: str, alt: Any = None):
             super().__init__(True, key)
             self._index = index
+            self._alt = alt
 
         def roll(self, **kwargs) -> Any:
             """
             Returns the value from the GameData Storage.
             """
 
-            return get_game_data(self._index)
+            output = get_game_data(self._index)
+            if output == None:
+                return self._alt
+            return output
 
     class KwargsSelector(Selector):
         """
@@ -679,7 +686,6 @@ init -3 python:
             Returns the supplied values.
             """
             return self._kwargs
-
 
     class ProgressSelector(Selector):
         """
@@ -888,3 +894,24 @@ init -3 python:
             char = self._char if not isinstance(self._char, Selector) else self._char.get_value(**kwargs)
 
             return get_character_by_key(char)
+
+    class PTAVoteSelector(Selector):
+        def __init__(self, key: str, char: str):
+            super().__init__(True, key)
+            self._char = char
+
+        def roll(self, **kwargs) -> Any:
+            vote_proposal = get_game_data('voteProposal')
+            if vote_proposal == None:
+                return None
+
+            vote_obj = proposal._journal_obj
+
+            return voteCharacter(vote_obj.get_condition_storage(), get_character_by_key(self._char))
+
+    class PTAObjectSelector(Selector):
+        def __init__(self, key: str):
+            super().__init__(True, key)
+
+        def roll(self, **kwargs) -> Any:
+            return get_game_data('voteProposal')

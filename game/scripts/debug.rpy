@@ -51,7 +51,5 @@ init -100 python:
         log_val(msg, log_number)
 
 label test_label():
-    
-    call map_tutorial() from _call_map_tutorial
-
+    call screen journal_character("") with dissolveM
     return
