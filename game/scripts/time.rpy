@@ -325,8 +325,8 @@ init -6 python:
 
             ### Parameters:
             1. day: int
-                - the day in the month
-                - from 1 - 28 or "d" or "w"
+                - the day in the week
+                - from 1 - 7
 
             ### Returns:
             1. str

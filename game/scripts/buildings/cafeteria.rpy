@@ -1,34 +1,38 @@
-#######################################
-# ----- Cafeteria Event Handler ----- #
-#######################################
+########################################
+# region Cafeteria Event Handler ----- #
+########################################
 
 init -1 python:
-    def cafeteria_events_available() -> bool:
-        return (cafeteria_timed_event.has_available_highlight_events() or
-            cafeteria_general_event.has_available_highlight_events() or
-            any(e.has_available_highlight_events() for e in cafeteria_events.values()))
-
+    set_current_mod('base')
+    
     cafeteria_timed_event = TempEventStorage("cafeteria_timed", "cafeteria", fallback = Event(2, "cafeteria.after_time_check"))
     cafeteria_general_event = EventStorage("cafeteria_general", "cafeteria", fallback = Event(2, "cafeteria.after_general_check"))
+    register_highlighting(cafeteria_timed_event, cafeteria_general_event)
 
     cafeteria_events = {}
     add_storage(cafeteria_events, EventStorage("order_food",  "cafeteria", fallback_text = "I'm not hungry."))
     add_storage(cafeteria_events, EventStorage("eat_alone",   "cafeteria", fallback_text = "I'm not hungry."))
 
-    cafeteria_bg_images = BGStorage("images/background/cafeteria/bg c.webp", ValueSelector('loli', 0),
-        BGImage("images/background/cafeteria/bg d <loli> <parent_level> <school_level> <variant> <nude>.webp", 1, OR(TimeCondition(daytime = '3,6', weekday = 'd'), TimeCondition(daytime = 'd', weekday = 'w'))),
-        BGImage("images/background/cafeteria/bg c <parent_level> <nude>.webp", 1, OR(TimeCondition(daytime = 'c', weekday = 'd'), TimeCondition(daytime = 'd', weekday = 'w'))),
-        BGImage("images/background/cafeteria/bg 7.webp", 1, TimeCondition(daytime = 7)), # show empty terrace at night
-    )
-    
+    cafeteria_bg_images = BGStorage("images/background/cafeteria/c.webp", 
+        BGImage("images/background/cafeteria/<school_level> <variant> <nude>.webp", 1, 
+            OR(TimeCondition(daytime = '3,6', weekday = 'd'), TimeCondition(daytime = 'd', weekday = 'w'))),
+        BGImage("images/background/cafeteria/<parent_level> <nude>.webp", 1, 
+            OR(TimeCondition(daytime = 'c', weekday = 'd'), TimeCondition(daytime = 'd', weekday = 'w'))),
+        BGImage("images/background/cafeteria/n.webp", 1, 
+            TimeCondition(daytime = 7)))
+
+        
 init 1 python:
+    set_current_mod('base')
     cafeteria_construction_event = Event(1, "cafeteria_construction",
-        ProgressCondition("unlock_cafeteria", "2"))
+        ProgressCondition("unlock_cafeteria", "2"),
+        Pattern("main", "images/events/cafeteria/cafeteria_construction <step>.webp"))
 
     cafeteria_event_1_event = Event(3, "cafeteria_event_1",
         TimeCondition(daytime = "d"),
         RandomListSelector("topic", "coffee", "tea", "warm milk"),
-        thumbnail = "images/events/cafeteria/cafeteria_event_1 1 4.webp")
+        Pattern("main", "images/events/cafeteria/cafeteria_event_1/<parent_level> <step>.webp"),
+        thumbnail = "images/events/cafeteria/cafeteria_event_1/1 4.webp")
     
     cafeteria_event_2_event = Event(3, "cafeteria_event_2",
         TimeCondition(daytime = "1,6"),
@@ -46,7 +50,8 @@ init 1 python:
             ),   
         ),
         RandomListSelector('topic', (0.7, 'apron'), (0.2, 'breasts'), 'nude'),
-        thumbnail = "images/events/cafeteria/cafeteria_event_2 1 Adelaide Hall apron 0.webp")
+        Pattern("main", "images/events/cafeteria/cafeteria_event_2/<girl_name> <topic> <level> <step>.webp", "level"),
+        thumbnail = "images/events/cafeteria/cafeteria_event_2/Adelaide Hall apron 1 0.webp")
 
     cafeteria_event_3_event = Event(3, "cafeteria_event_3",
         TimeCondition(weekday = "d", daytime = "d"),
@@ -58,6 +63,7 @@ init 1 python:
             ProgressSelector("", "unlock_school_jobs")
         ),
         RandomListSelector('topic', (0.4, 'normal'), 'tripped', 'overwhelmed'),
+        Pattern("main", "images/events/cafeteria/cafeteria_event_3 <parent_level> <topic> <step>.webp"),
         thumbnail = "images/events/cafeteria/cafeteria_event_3 1 overwhelmed 19.webp")
 
     cafeteria_event_4_event = Event(3, "cafeteria_event_4",
@@ -83,27 +89,25 @@ init 1 python:
             'Sakura Mori',
         ),
         RandomListSelector('topic', 'normal'),
+        Pattern("main", "images/events/cafeteria/cafeteria_event_4 <topic> <school_level> <parent_level> <girl_1> <girl_2> <girl_3>.webp"),
         thumbnail = "images/events/cafeteria/cafeteria_event_4 normal 1 1 Miwa Igarashi Luna Clark None.webp")
 
     cafeteria_event_5_event = Event(3, "cafeteria_event_5",
         TimeCondition(weekday = "d", daytime = "f"),
         LevelSelector("school_level", "school"),
-        RandomListSelector('classes', 
-            ('3A', LoliContentCondition(0)),
-            (RandomListSelector('', '3A', '2A', '2A 3A'), LoliContentCondition(1)),
-            (RandomListSelector('', '1A', '1A 2A', '1A 2A 3A', '1A 3A', '2A', '2A 3A', '3A'), LoliContentCondition(2))
-        ),
-        thumbnail = "images/events/cafeteria/cafeteria_event_5 1 3A 1.webp")
+        Pattern("main", "images/events/cafeteria/cafeteria_event_5/<school_level> <step>.webp", 'classes'),
+        thumbnail = "images/events/cafeteria/cafeteria_event_5/1 1.webp")
 
-    cafeteria_action_tutorial_event = Event(2, "action_tutorial",
-        NOT(ProgressCondition('action_tutorial')),
-        ValueSelector('return_label', 'cafeteria'),
-        NoHighlightOption(),
-        TutorialCondition(),
-        override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
+    cafeteria_event_6_event = Event(3, "cafeteria_event_6",
+        TimeCondition(weekday = "d", daytime = "f"),)
+
+    cafeteria_event_7_event = Event(3, "cafeteria_event_7",
+        TimeCondition(weekday = "d", daytime = "f"),)
+
+    cafeteria_event_8_event = Event(3, "cafeteria_event_8",
+        TimeCondition(weekday = "d", daytime = "7"),)
 
     cafeteria_general_event.add_event(
-        cafeteria_action_tutorial_event,
         cafeteria_construction_event
     )
     cafeteria_events["order_food"].add_event(
@@ -116,12 +120,12 @@ init 1 python:
         cafeteria_event_5_event, 
     )
 
+# endregion
+########################################
 
-#######################################
-
-#####################################
-# ----- Cafeteria Entry Point ----- #
-#####################################
+######################################
+# region Cafeteria Entry Point ----- #
+######################################
 
 label cafeteria ():
     call call_available_event(cafeteria_timed_event) from cafeteria_1
@@ -140,11 +144,12 @@ label .after_general_check (**kwargs):
 
     jump cafeteria
 
-#####################################
+# endregion
+######################################
 
-################################
-# ----- Cafeteria Events ----- #
-################################
+#################################
+# region Cafeteria Events ----- #
+#################################
 
 label cafeteria_construction(**kwargs):
     show screen black_screen_text("cafeteria_construction")
@@ -155,11 +160,13 @@ label cafeteria_construction(**kwargs):
     $ end_time = Time(get_game_data("cafeteria_construction_end"))
     $ time_comparison = compare_time(time, end_time)
 
+    $ image = convert_pattern("main", **kwargs)
+
     if time_comparison == -1:
         $ begin_event()
 
         $ day_difference = get_day_difference(time, end_time)
-        call show_image ("images/events/cafeteria/cafeteria_construction 0.webp") from cafeteria_construction_1
+        $ image.show(0)
         headmaster "The cafeteria is under construction. It will be finished in [day_difference] days."
 
         $ end_event('map_overview', **kwargs)
@@ -167,17 +174,22 @@ label cafeteria_construction(**kwargs):
         $ begin_event()
 
         $ set_progress("unlock_cafeteria", 3)
-        call show_image ("images/events/cafeteria/cafeteria_construction 1.webp") from cafeteria_construction_2
+        $ image.show(1)
         headmaster "The cafeteria is finally finished. I can eat here now."
 
+        $ update_quest("trigger", name = "cafeteria_opening")
+
         $ end_event('next_daytime', **kwargs)
+
+#########################
+# region Regular Events #
 
 label cafeteria_event_1(**kwargs):
     $ begin_event(**kwargs)
 
     $ topic = get_value("topic", **kwargs)
 
-    $ image = Image_Series("images/events/cafeteria/cafeteria_event_1 <parent_level> <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     parent "Hello Mr. [headmaster_last_name] and welcome! What can I help you with?" (name = 'Adelaide Hall')
@@ -200,15 +212,13 @@ label cafeteria_event_1(**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label cafeteria_event_2(**kwargs):
-    $ begin_event(**kwargs)
+    $ begin_event("2", **kwargs)
 
     $ char_class = get_value('char_class', **kwargs)
-    $ get_value('level', **kwargs)
     $ time_ob = get_value('time', **kwargs)
     $ girl_name = get_value('girl_name', **kwargs).split(' ')[0]
-    $ topic = get_value('topic', **kwargs)
 
-    $ image = Image_Series("images/events/cafeteria/cafeteria_event_2 <level> <girl_name> <topic> <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     # headmaster walks into the cafeteria pantry where someone is changing clothes
     $ image.show(0)
@@ -240,7 +250,7 @@ label cafeteria_event_3(**kwargs):
 
     $ school_job_progress = get_progress('school_job_progress')
 
-    $ image = Image_Series("images/events/cafeteria/cafeteria_event_3 <parent_level> <topic> <step>.webp", **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     # headmaster enters and walks to counter
     # subtitles "You enter the cafeteria and step to the counter."
@@ -431,7 +441,7 @@ label cafeteria_event_4(**kwargs):
     $ girl_3 = get_value("girl_3", **kwargs)
     $ topic = get_value("topic", **kwargs)
     
-    call show_image ("images/events/cafeteria/cafeteria_event_4 <topic> <school_level> <parent_level> <girl_1> <girl_2> <girl_3>.webp", **kwargs) from _call_show_image_cafeteria_event_4
+    $ show_pattern("main", **kwargs)
 
     headmaster_thought "It seems Adelaide is already putting the girls to work."
     if amount == "2 Girls" or amount == "3 Girls":
@@ -446,12 +456,9 @@ label cafeteria_event_4(**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label cafeteria_event_5(**kwargs):
-    $ begin_event(**kwargs)
+    $ begin_event("2", **kwargs)
 
-    $ school_level = get_value('school_level', **kwargs)
-    $ classes = get_value("classes", **kwargs)
-
-    $ image = Image_Series("images/events/cafeteria/cafeteria_event_5 <school_level> <classes> <step>.webp", ['classes'], **kwargs)
+    $ image = convert_pattern("main", **kwargs)
 
     # Headmaster walks to empty table with his food
     $ image.show(0)
@@ -463,8 +470,59 @@ label cafeteria_event_5(**kwargs):
     headmaster_thought "It seems like the students are enjoying their lunch break."
 
     call change_stats_with_modifier('school',
-        happiness = SMALL, charm = MEDIUM) from _call_change_stats_with_modifier_8
+        happiness = SMALL, charm = MEDIUM) from _call_cafeteria_event_5_1
 
     $ end_event('new_daytime', **kwargs)
 
-################################
+label cafeteria_event_6(**kwargs):
+    $ begin_event(**kwargs)
+
+    $ image = convert_pattern("main", **kwargs)
+
+    $ image.show(0)
+    subtitles "The food seems to be at least somewhat tasty."
+    $ image.show(1)
+
+    call change_stats_with_modifier('school',
+        happiness = SMALL
+    ) from _call_cafeteria_event_6_1
+
+label cafeteria_event_7(**kwargs):
+    $ begin_event(**kwargs)
+
+    $ image = convert_pattern("main", **kwargs)
+
+    $ luna = Character("Luna Clark", kind = character.sgirl)
+    $ seraphina = Character("Seraphina Clark", kind = character.sgirl)
+
+    $ image.show(0)
+    headmaster "What are you girls doing here at this time?"
+
+    luna "Oh hello Mr. [headmaster_last_name]. We are baking a cake."
+    seraphina "Yeah. We already got permission from Mrs. Hall."
+
+    headmaster "Oh I see. That's nice! But I have one question."
+    headmaster "Why are you only wearing underwear below your aprons?"
+
+    luna "We do? Eeeek! I forgot!"
+    seraphina "Well we didn't want to get our clothes dirty."
+    luna "Please don't look!"
+
+    headmaster "I see. Well, that's reasonable I guess."
+    headmaster "I'll leave you to it then. Remember to clean up afterwards."
+
+    luna "*whimper*"
+    seraphina "Yes, we will. Thank you Mr. [headmaster_last_name]."
+    seraphina "Now calm down Luna. There is nothing to it."
+    luna "But he saw our underwear!"
+    seraphina "So what? Calm down."
+
+    call change_stats_with_modifier('school',
+        happiness = DEC_SMALL
+    ) from _call_cafeteria_event_7_1
+
+# endregion
+#########################
+
+# endregion
+#################################

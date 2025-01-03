@@ -8,19 +8,22 @@ init -98 python:
     sfw_mode = False
     event_selection_mode = False
 
-    seenEvents = {}
     location_event_register = {}
     event_register = {}
     fragment_storage_register = {}
-
-    translation_texts = {}
-    get_translations()
 
     loli_filter = {}
     get_loli_filter()
 
     members = ""
     download_members()
+
+    get_mod_list()
+    active_mod_key = ''
+    
+    translation_texts = {}
+    get_translations()
+
 
 default intro_dev_message = "This version of the game only includes content up to day 10, when free roaming begins. You can still play and roam from there, but there will be no content."
 
@@ -33,7 +36,14 @@ default charList = {
     'staff': {},
 }
 
+default person_storage = {}
+
+default quests = {}
+
 default money = Stat(MONEY, 1000)
+
+default reserved_money = {}
+
 default time = Time()
 default stat_data = {}
 
@@ -43,7 +53,34 @@ default replay_data = {}
 
 default event_data = {}
 
-default overview_events_available = {}
+default overview_events_available = {
+    'school_building':  False,
+    'school_dormitory': False,
+    'labs':             False,
+    'sports_field':     False,
+    'gym':              False,
+    'swimming_pool':    False,
+    'cafeteria':        False,
+    'bath':             False,
+    'kiosk':            False,
+    'courtyard':        False,
+    'office_building':  False,
+    'beach':            False,
+    'staff_lodges':     False}
+default overview_highlight_available = {
+    'school_building':  False,
+    'school_dormitory': False,
+    'labs':             False,
+    'sports_field':     False,
+    'gym':              False,
+    'swimming_pool':    False,
+    'cafeteria':        False,
+    'bath':             False,
+    'kiosk':            False,
+    'courtyard':        False,
+    'office_building':  False,
+    'beach':            False,
+    'staff_lodges':     False}
 
 default available_proficiencies = ['math', 'pe']
 default headmaster_proficiencies = {}
