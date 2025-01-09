@@ -103,6 +103,7 @@ init -6 python:
             self.conditions = list(conditions)
             self.list_conditions = []
             self.desc_conditions = []
+            self.ignores = []
             self.is_locked = False
 
             for condition in self.conditions:
@@ -112,6 +113,8 @@ init -6 python:
                     self.list_conditions.append(condition)
                 if condition.display_in_desc:
                     self.desc_conditions.append(condition)
+                if isinstance(condition, PTAOverride) and condition.accept == 'ignore':
+                    self.ignores.append(condition.char)                    
 
         def get_is_locked(self) -> bool:
             """
@@ -352,7 +355,7 @@ init -6 python:
 
             return self.blocking
 
-        def to_list_text(self, **kwargs) -> Tuple[str, str] | Tuple[str, str, str] | List[Tuple[str, str] | Tuple[str, str, str]]:
+        def to_list_text(self, **kwargs):
             """
             Returns the description text for the condition that is displayed in the display list.
 
@@ -370,7 +373,7 @@ init -6 python:
 
             return ("", "")
 
-        def to_desc_text(self, **kwargs) -> str | List[str]:
+        def to_desc_text(self, **kwargs) -> Union[str, List[str]]:
             """
             Returns the description text for the condition that is displayed in the description.
 
@@ -398,7 +401,7 @@ init -6 python:
 
             pass
 
-        def get_diff(self, char_obj: str | Char) -> num:
+        def get_diff(self, char_obj: Union[str, Char]):
             """
             Returns the difference between the condition and the given character.
 
@@ -434,7 +437,7 @@ init -6 python:
             - Returns the description text for the condition that is displayed in the description.
         4. get_name(self) -> str
             - Returns the name of the condition.
-        5. get_diff(self, char_obj: str | Char = None) -> num
+        5. get_diff(self, char_obj: Union[str, Char] = None) -> num
             - Returns the difference between the condition and the given character.
             - If the difference is lower than -20, the difference is multiplied by 10.
             - If the difference is lower than -10, the difference is multiplied by 5.
@@ -442,12 +445,15 @@ init -6 python:
             - Otherwise the difference is returned as is.
         """
 
-        def __init__(self, blocking: bool = False, *, char_obj: str | Char = None, **kwargs: str | Selector):
+        def __init__(self, blocking: bool = False, *, char_obj = None, **kwargs):
             super().__init__(blocking)
             self.stats = kwargs
             self.display_in_list = True
             self.display_in_desc = True
+
             self.char_obj = char_obj
+            if isinstance(char_obj, str):
+                self.char_obj = get_character_by_key(char_obj)
             
         def is_fulfilled(self, **kwargs) -> bool:
             """
@@ -475,6 +481,9 @@ init -6 python:
             if char_obj == None:
                 char_obj = get_kwargs('char_obj', get_school(), **kwargs)
 
+            if self.char_obj != None and self.char_obj != char_obj:
+                return True
+
             for stat in self.stats.keys():
                 stat_key = get_element(stat)
                 if not char_obj.check_stat(stat, self.stats[stat]):
@@ -482,7 +491,7 @@ init -6 python:
 
             return True
         
-        def to_list_text(self, **kwargs) -> Tuple[str, str] | Tuple[str, str, str] | List[Tuple[str, str] | Tuple[str, str, str]]:
+        def to_list_text(self, **kwargs) -> Union[Tuple[str, str], Tuple[str, str, str], List[Tuple[str, str], Tuple[str, str, str]]]:
             """
             Returns the description text for the condition that is displayed in the display list.
             If multiple stats are checked, the condition is displayed as a list.
@@ -524,7 +533,7 @@ init -6 python:
             else:
                 return output
 
-        def to_desc_text(self, **kwargs) -> str | List[str]:
+        def to_desc_text(self, **kwargs) -> Union[str, List[str]]:
             """
             Returns the description text for the condition that is displayed in the description.
             If multiple stats are checked, the condition is displayed as a list.
@@ -578,7 +587,7 @@ init -6 python:
 
             return ', '.join([Stat_Data[key].get_title() for key in self.stats.keys()])
 
-        def get_diff(self, char_obj: str | Char = None) -> num:
+        def get_diff(self, char_obj: Union[str, Char] = None) -> num:
             """
             Returns the difference between the condition and the given character.
             If the condition difference is lower than -20, the difference is multiplied by 10.
@@ -602,8 +611,12 @@ init -6 python:
             if char_obj == None:
                 char_obj = get_school()
 
-            output = 0
+            if self.char_obj != None and self.char_obj != char_obj:
+                return 0
+
+            output = 100
             for stat in self.stats.keys():
+
                 obj_stat = char_obj.get_stat_number(stat)
 
                 diff = get_value_diff(self.stats[stat], obj_stat)
@@ -638,7 +651,7 @@ init -6 python:
             - Returns the name of the condition.
         """
 
-        def __init__(self, stat: str, char_obj: str | Char = None, **kwargs):
+        def __init__(self, stat: str, char_obj: Union[str, Char] = None, **kwargs):
             super().__init__(**kwargs)
             self._stat = stat
             self._char_obj = char_obj
@@ -722,7 +735,7 @@ init -6 python:
             - Returns the name of the condition.
         """
 
-        def __init__(self, proficiency: str, *, xp: int | str = -1, level: int | str = -1):
+        def __init__(self, proficiency: str, *, xp: Union[int, str] = -1, level: Union[int, str] = -1):
             super().__init__(True)
             self._proficiency = proficiency
             self._xp = xp
@@ -1027,7 +1040,7 @@ init -6 python:
             - Returns the name of the Building in the condition.
         """
 
-        def __init__(self, name: str, level: str | int, blocking: bool = False):
+        def __init__(self, name: str, level: Union[str, int], blocking: bool = False):
             super().__init__(blocking)
             self.name = name
             self.level = level
@@ -1101,14 +1114,14 @@ init -6 python:
             - Returns the description text for the condition that is displayed in the display list.
         4. get_name(self) -> str
             - Returns "Level".
-        5. get_diff(self, char_obj: str | Char = None) -> num
+        5. get_diff(self, char_obj: Union[str, Char] = None) -> num
             - Returns the difference between the condition and the given character.
             - If the level difference is lower than -2, the difference is multiplied by 50.
             - If the level difference is lower than -1, the difference is multiplied by 20.
             - Otherwise the difference is returned as is.
         """
 
-        def __init__(self, value: str | int, blocking: bool = False, *, char_obj: str | Char = None):
+        def __init__(self, value: Union[str, int], blocking: bool = False, *, char_obj: Union[str, Char] = None):
             super().__init__(blocking)
             self.value = value
             self.display_in_list = True
@@ -1197,7 +1210,7 @@ init -6 python:
 
             return "Level"
 
-        def get_diff(self, char_obj: str | Char = None) -> num:
+        def get_diff(self, char_obj: Union[str, Char] = None) -> num:
             """
             Returns the difference between the condition and the given characters level.
             If the level difference is lower than -2, the difference is multiplied by 50.
@@ -1248,7 +1261,7 @@ init -6 python:
             - Returns "Money".
         """
 
-        def __init__(self, value: str | num, blocking = False):
+        def __init__(self, value: Union[str, num], blocking = False):
             super().__init__(blocking)
             self.value = value
             self.display_in_list = True
@@ -1331,7 +1344,7 @@ init -6 python:
 
             return "Money"
 
-        def get_diff(self, char_obj: str | Char = None) -> num:
+        def get_diff(self, char_obj: Union[str, Char] = None) -> num:
             if self.is_fulfilled():
                 return 0
             return -5000
@@ -1429,7 +1442,7 @@ init -6 python:
                 - overrides the day, week, month and year.
         """
 
-        def __init__(self, blocking: bool = True, **kwargs: str | int):
+        def __init__(self, blocking: bool = True, **kwargs: Union[str, int]):
             super().__init__(blocking)
             self.day       = "x" if 'day'       not in kwargs.keys() else kwargs['day'      ]
             self.week      = "x" if 'week'      not in kwargs.keys() else kwargs['week'     ]
@@ -1798,7 +1811,7 @@ init -6 python:
             - Returns the name of the condition.
         """
 
-        def __init__(self, key: str, value: int | str = "", blocking: bool = False):
+        def __init__(self, key: str, value: Union[int, str] = "", blocking: bool = False):
             super().__init__(blocking)
             self.key = key
             self.value = value
@@ -1939,7 +1952,7 @@ init -6 python:
             - Returns the name of the condition.
         """
 
-        def __init__(self, key: str, value: num | str | Selector, blocking: bool = False):
+        def __init__(self, key: str, value: Union[num, str, Selector], blocking: bool = False):
 
             super().__init__(blocking)
             self.key = key
@@ -2035,7 +2048,7 @@ init -6 python:
             - For the not equal operator the difference is 0 if the value of kwargs is not equal to the given value, otherwise it is -100.
         """
 
-        def __init__(self, key: str, value: num | Selector, operation: str, blocking: bool = False):
+        def __init__(self, key: str, value: Union[int, Selector], operation: str, blocking: bool = False):
             """
             The constructor for the NumCompareCondition class.
 
@@ -2183,7 +2196,7 @@ init -6 python:
             - Otherwise the difference is -100.
         """
 
-        def __init__(self, key: str, value: Any | Selector, blocking: bool = False):
+        def __init__(self, key: str, value: Union[Any, Selector], blocking: bool = False):
             """
             The constructor for the CompareCondition class.
 
@@ -2420,7 +2433,7 @@ init -6 python:
             - Returns the name of the condition.
         """
 
-        def __init__(self, value: int | str, blocking: bool = False):
+        def __init__(self, value: Union[int, str], blocking: bool = False):
             """
             The constructor for the LoliContentCondition class.
 
@@ -2531,7 +2544,7 @@ init -6 python:
 
             return output
 
-        def get_diff(self, char_obj: str | Char = None):
+        def get_diff(self, char_obj: Union[str, Char] = None):
             """
             Returns the added difference of all conditions.
 
@@ -2579,7 +2592,7 @@ init -6 python:
 
             return False
 
-        def to_desc_text(self, **kwargs) -> str | List[str]:
+        def to_desc_text(self, **kwargs) -> Union[str, List[str]]:
             """
             Returns the description text for the condition that is displayed in the description.
             Logic conditions are displayed in a special way.
@@ -2609,7 +2622,7 @@ init -6 python:
 
             return output
 
-        def get_diff(self, char_obj: str | Char = None) -> num:
+        def get_diff(self, char_obj: Union[str, Char] = None) -> num:
             """
             Returns the difference of the condition with the lowest difference.
 
@@ -2665,7 +2678,7 @@ init -6 python:
 
             return True
 
-        def to_desc_text(self, **kwargs) -> str | List[str]:
+        def to_desc_text(self, **kwargs) -> Union[str, List[str]]:
             """
             Returns the description text for the condition that is displayed in the description.
             Logic conditions are displayed in a special way.
@@ -2695,7 +2708,7 @@ init -6 python:
 
             return output
 
-        def get_diff(self, char_obj: str | Char = None) -> num:
+        def get_diff(self, char_obj: Union[str, Char] = None) -> num:
             """
             Returns the difference of the condition with the lowest difference.
 
@@ -2746,7 +2759,7 @@ init -6 python:
 
             return not self.condition.is_fulfilled(**kwargs)
 
-        def to_desc_text(self, **kwargs) -> str | List[str]:
+        def to_desc_text(self, **kwargs) -> Union[str, List[str]]:
             """
             Returns the description text for the condition that is displayed in the description.
             Logic conditions are displayed in a special way.
@@ -2773,7 +2786,7 @@ init -6 python:
 
             return "NOT_" + self.condition.get_name()
 
-        def get_diff(self, char_obj: str | Char) -> num:
+        def get_diff(self, char_obj: Union[str, Char]) -> num:
             """
             Returns the difference of the added condition inverted.
 
@@ -2856,7 +2869,7 @@ init -6 python:
 
             return output
 
-        def get_diff(self, char_obj: str | Char) -> num:
+        def get_diff(self, char_obj: Union[str, Char]) -> num:
             """
             Returns the difference of the condition inverted.
 
@@ -2938,7 +2951,7 @@ init -6 python:
             if super().is_fulfilled(**kwargs):
                 return True
 
-            return self.accept == "yes"
+            return self.accept == "yes" or self.accept == "ignore"
 
         def get_name(self) -> str:
             """
@@ -2952,7 +2965,7 @@ init -6 python:
 
             return f"PTAOverride({self.char}, {self.accept})"
 
-        def get_diff(self, char_obj: str | Char) -> num:
+        def get_diff(self, char_obj: Union[str, Char]) -> num:
             """
             Returns the difference of the condition inverted.
 
@@ -3006,7 +3019,7 @@ init -6 python:
 
             return self.condition.is_fulfilled(**kwargs)
 
-        def to_desc_text(self, **kwargs) -> str | List[str]:
+        def to_desc_text(self, **kwargs) -> Union[str, List[str]]:
             """
             Returns the description text for the condition that is displayed in the description.
             Logic conditions are displayed in a special way.
@@ -3033,7 +3046,7 @@ init -6 python:
 
             return "NOT_" + self.condition.get_name()
 
-        def get_diff(self, char_obj: str | Char) -> num:
+        def get_diff(self, char_obj: Union[str, Char]) -> num:
             """
             Returns the difference of the added condition inverted.
 

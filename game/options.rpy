@@ -4,6 +4,8 @@
 ## them. Lines beginning with a single '#' mark are commented-out code, and you
 ## may want to uncomment them when appropriate.
 
+define build.itch_project = "Suit-Ji/mind-the-school"
+
 
 ## Basics ######################################################################
 
@@ -23,7 +25,7 @@ define gui.show_name = True
 
 ## The version of the game.
 
-define config.version = "0.2.0"
+define config.version = "0.2.0B"
 
 
 ## Text that is placed on the game's about screen. Place the text between the
@@ -170,6 +172,7 @@ define config.window_icon = "gui/window_icon.png"
 ## The persistent variable that stores gallery images.
 
 default persistent.gallery = {}
+default persistent.gallery_version = ""
 default persistent.fragment_gallery = {}
 
 
@@ -240,7 +243,6 @@ init python:
 
     build.classify("game/members.csv", "data")
     build.classify("game/translations.csv", "data")
-    build.classify("game/loli_filter", "data")
     build.classify("LICENSE", "data")
     build.classify("README.md", "data")
 
@@ -256,9 +258,8 @@ init python:
     build.classify("game/**.wav", "sounds")
     build.classify("game/**.mp3", "sounds")
 
-    build.include_i686 = False
 
-    build.include_update = True
+    build.include_i686 = False
 
 init python:
     config.keymap["hide_windows"] = []

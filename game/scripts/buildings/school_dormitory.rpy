@@ -23,20 +23,20 @@ init 1 python:
 
     sd_event1 = Event(3, "sd_event_1",
         LevelSelector('school_level', 'school'),
-        StatSelector('education', EDUCATION, "school"),
-        StatSelector('inhibition', INHIBITION, "school"),
+        StatSelector('education', EDUCATION, "school", [89, 100]),
+        StatSelector('inhibition', INHIBITION, "school", [50, 100]),
         OR(
             TimeCondition(weekday = "d", daytime = "f"), 
             TimeCondition(weekday = "d", daytime = "n"), 
             TimeCondition(weekday = "w")
         ),
-        Pattern("main", "images/events/school dormitory/sd_event_1 <school_level> <step>.webp"),
-        thumbnail = "images/events/school dormitory/sd_event_1 1 0.webp")
+        Pattern("main", "images/events/school dormitory/sd_event_1/sd_event_1 <school_level> <step>.webp"),
+        thumbnail = "images/events/school dormitory/sd_event_1/sd_event_1 1 0.webp")
 
     sd_event2 = Event(3, "sd_event_2",
         LevelSelector('school_level', 'school'),
         RandomValueSelector('inhibition_limit', 30, 50),
-        StatSelector('inhibition', INHIBITION, "school"),
+        StatSelector('inhibition', INHIBITION, "school", []),
         RandomListSelector('location', "dorm_room", "shower"),
         ConditionSelector("topic_set", KeyCompareCondition("inhibition", "inhibition_limit", ">="), 1, 2, realtime = True),
         RandomListSelector('topic', 
@@ -51,11 +51,11 @@ init 1 python:
         ),
         RandomListSelector('girl_name',
             (
-                RandomListSelector('', "Aona Komuro", "Lin Kato", "Gloria Goto"), 
+                RandomListSelector('', "aona_komuro", "lin_kato", "gloria_goto"), 
                 ValueCondition("location", "dorm_room")
             ),
             (
-                RandomListSelector('', "Sakura Mori", "Elsie Johnson", "Ishimaru Maki"), 
+                RandomListSelector('', "sakura_mori", "elsie_johnson", "ishimaru_maki"), 
                 ValueCondition("location", "shower")
             ),
         ),
@@ -64,26 +64,34 @@ init 1 python:
             TimeCondition(weekday = "d", daytime = "n"), 
             TimeCondition(weekday = "w")
         ),
-        Pattern("main", "images/events/school dormitory/sd_event_2 <topic> <location> <girl_name> <school_level> <step>.webp"),
-        Pattern("end", "images/events/school dormitory/sd_event_2 <location> <step>.webp"),
-        thumbnail = "images/events/school dormitory/sd_event_2 ah dorm_room Aona Komuro 1 0.webp")
+        LevelCondition("5-", "school"),
+        Pattern("main", "images/events/school dormitory/sd_event_2/sd_event_2 <topic> <location> <girl_name> <school_level> <step>.webp", "school_level"),
+        Pattern("end", "images/events/school dormitory/sd_event_2/sd_event_2 <location> <step>.webp"),
+        thumbnail = "images/events/school dormitory/sd_event_2/sd_event_2 ah dorm_room aona_komuro 1 0.webp")
 
     sd_event3 = Event(3, "sd_event_3",
         LevelSelector('school_level', 'school'),
-        StatSelector('inhibition', INHIBITION, "school"),
         RandomListSelector('topic', "normal", (0.1, "panties"), (0.02, "nude")),
         TimeCondition(daytime = "6,7"),
-        Pattern("main", "images/events/school dormitory/sd_event_3 <topic> <school_level> <step>.webp"),
-        thumbnail = "images/events/school dormitory/sd_event_3 normal 1 0.webp")
+        LevelCondition("2-", "school"),
+        Pattern("main", "images/events/school dormitory/sd_event_3/sd_event_3 <topic> <school_level> <step>.webp", "school_level"),
+        thumbnail = "images/events/school dormitory/sd_event_3/sd_event_3 normal # 0.webp")
 
     sd_event4 = Event(3, "sd_event_4",
-        TimeCondition(daytime = "f"),)
+        TimeCondition(daytime = "f"),
+        LevelCondition("5-", "school"),
+        Pattern("main", "images/events/school dormitory/sd_event_4/sd_event_4 <school_level> <step>.webp", "school_level"),
+        thumbnail = "images/events/school dormitory/sd_event_4/sd_event_4 1 0.webp"
+    )
 
     sd_event5 = Event(3, "sd_event_5",
-        TimeCondition(daytime = "f"),)
+        TimeCondition(daytime = "1,6,7"),
+        Pattern("main", "images/events/school dormitory/sd_event_5/sd_event_5 <school_level> <step>.webp", "school_level"),
+        thumbnail = "images/events/school dormitory/sd_event_5/sd_event_5 1 1.webp"
+    )
 
-    sd_events["peek_students"].add_event(sd_event1, sd_event2, sd_event3)
-    # sd_events["look_around"].add_event(sd_event4)
+    sd_events["peek_students"].add_event(sd_event1, sd_event2, sd_event3, sd_event5)
+    sd_events["look_around"].add_event(sd_event4)
 
 # endregion
 ###################################################
@@ -126,16 +134,18 @@ label sd_event_1 (**kwargs):
     $ inhibition = get_stat_value('inhibition', [89, 100], **kwargs)
     $ education = get_stat_value('education', [50, 100], **kwargs)
 
+    $ easkey = get_person("class_3a", "easkey_tanaka").get_character()
+
     $ image = convert_pattern("main", **kwargs)
 
     if education > 50:
         $ image.show(0)
-        sgirl "Umm, hello!" (name = "Easkey Tanaka")
+        easkey "Umm, hello!"
         $ image.show(1)
         headmaster "Hello there, is everything okay?"
         if inhibition >= 90:
             $ image.show(2)
-            sgirl "Yeah Mr. [headmaster_last_name], but would you please knock before entering next time?" (name = "Easkey Tanaka")
+            easkey "Yeah Mr. [headmaster_last_name], but would you please knock before entering next time?"
             $ image.show(3)
             headmaster "Ah yes... yes of course."
             call change_stats_with_modifier('school',
@@ -143,7 +153,7 @@ label sd_event_1 (**kwargs):
             $ end_event(**kwargs)
         else:
             $ image.show(5)
-            sgirl "Yeah Mr. [headmaster_last_name], you just surprised me." (name = "Easkey Tanaka")
+            easkey "Yeah Mr. [headmaster_last_name], you just surprised me."
             $ image.show(6)
             headmaster "Oh, sorry about that."
             call change_stats_with_modifier('school',
@@ -151,7 +161,7 @@ label sd_event_1 (**kwargs):
             $ end_event(**kwargs)
     else:
         $ image.show(4)
-        sgirl "hmm... This homework is hard. Why do I need to learn this anyway?" (name = "Easkey Tanaka")
+        easkey "hmm... This homework is hard. Why do I need to learn this anyway?"
         call change_stats_with_modifier('school',
             education = SMALL) from _call_change_stats_with_modifier_75
         $ end_event(**kwargs)
@@ -165,22 +175,24 @@ label sd_event_2 (**kwargs):
     $ topic = get_value('topic', **kwargs)
     $ topic_set = get_value('topic_set', **kwargs)
 
+    $ girl = get_person("class_3a", girl_name).get_character()
+
     $ image = convert_pattern("main", **kwargs)
     $ image2 = convert_pattern("end", **kwargs)
 
     if topic == "ah":
         $ image.show(0)
-        sgirl "Ah!" (name = girl_name)
+        girl "Ah!"
         call change_stats_with_modifier('school',
             happiness = DEC_TINY, inhibition = DEC_TINY) from _call_change_stats_with_modifier_76
     elif topic == "ahhh":
         $ image.show(0)
-        sgirl "AHHH!!!" (name = girl_name)
+        girl "AHHH!!!"
         call change_stats_with_modifier('school',
             happiness = DEC_TINY, inhibition = DEC_TINY, reputation = DEC_TINY) from _call_change_stats_with_modifier_77
     elif topic == "eeek":
         $ image.show(0)
-        sgirl "Eek!" (name = girl_name)
+        girl "Eek!"
         call change_stats_with_modifier('school',
             happiness = DEC_MEDIUM, inhibition = DEC_TINY) from _call_change_stats_with_modifier_78
     elif topic in ["panties", "breasts"]:
@@ -194,19 +206,19 @@ label sd_event_2 (**kwargs):
             happiness = DEC_MEDIUM, inhibition = DEC_TINY, charm = MEDIUM) from _call_change_stats_with_modifier_79
     elif topic == "oh":
         $ image.show(0)
-        sgirl "Oh!" (name = girl_name)
+        girl "Oh!"
         $ image.show(1)
         headmaster "I'm terribly sorry."
         $ image.show(2)
-        sgirl "I-it's ok..." (name = girl_name)
-        $ image.show(3)
+        girl "I-it's ok..."
+        $ image2.show(1)
         subtitles "You quickly make an exit."
         call change_stats_with_modifier('school',
             inhibition = DEC_TINY, happiness = DEC_MEDIUM) from _call_change_stats_with_modifier_80
         $ end_event(**kwargs)
     # elif topic == "guys_stop":
     #     $ image.show(0)
-    #     sgirl "Excuse me!\n Can you guys stop running in and out of here?!"
+    #     girl "Excuse me!\n Can you guys stop running in and out of here?!"
     #     call change_stats_with_modifier(school_obj,
     #         inhibition = DEC_TINY, morale = DEC_SMALL)
     # elif topic == "huh":
@@ -219,17 +231,17 @@ label sd_event_2 (**kwargs):
     #         inhibition = DEC_TINY, morale = DEC_SMALL)
     # elif topic == "reason":
     #     $ image.show(0)
-    #     sgirl "Hey Mr. [headmaster_last_name]!"
+    #     girl "Hey Mr. [headmaster_last_name]!"
     #     $ image.show(1)
     #     headmaster "Hello there!"
     #     $ image.show(2)
     #     if get_random_int(0, 1000) == 0:
-    #         sgirl "General Kenobi!"
-    #     sgirl "Any particular reason I get a visit?"
+    #         girl "General Kenobi!"
+    #     girl "Any particular reason I get a visit?"
     #     $ image.show(3)
     #     headmaster "Oh no, I just saw an open door and..."
     #     $ image.show(4)
-    #     sgirl "Oh, silly me, would you mind closing it on your way out?"
+    #     girl "Oh, silly me, would you mind closing it on your way out?"
     #     $ image.show(5)
     #     headmaster "No problem."
     #     call change_stats_with_modifier(school_obj,
@@ -278,14 +290,15 @@ label sd_event_3 (**kwargs):
     $ school_level = get_value('school_level', **kwargs)
     $ topic = get_value('topic', **kwargs)
 
+    $ soyoon = get_person("class_3a", "soyoon_yamamoto").get_character()
+
     $ image = convert_pattern("main", **kwargs)
 
-    # if inhibition >= 80:
     $ image.show(0)
     subtitles "Looks like some of the students are ready to bunk."
     headmaster "I'm sorry, I didn't realize..."
     $ image.show(1)
-    sgirl "Mm- Mr. [headmaster_last_name]"
+    soyoon "Mm- Mr. [headmaster_last_name]"
     $ image.show(0)
     headmaster "Bye!"
     
@@ -303,32 +316,157 @@ label sd_event_4 (**kwargs):
 
     $ image = convert_pattern("main", **kwargs)
 
-    # girl reading in the dorm notices you
-    # she gets red in the face and quickly hides her book
-    # she then hastily leaves the room
+    call Image_Series.show_image(image, 0, 1, 2, 3, 4) from _call_sd_event_4_1
     headmaster_thought "That was strange..."
 
     call change_stats_with_modifier('school',
         corruption = SMALL
-    ) from _call_sd_event_4_1
+    ) from _call_sd_event_4_2
 
     $ end_event(**kwargs)
 
+define anim_sde5_path = "images/events/school dormitory/sd_event_5/sd_event_5 "
+image anim_sd_event_5_7_5   = Movie(play = anim_sde5_path + "7 5.webm",   start_image = anim_sde5_path + "7 5.webp", loop = True)
+image anim_sd_event_5_7_6   = Movie(play = anim_sde5_path + "7 6.webm",   start_image = anim_sde5_path + "7 6.webp", loop = True)
+image anim_sd_event_5_7_7   = Movie(play = anim_sde5_path + "7 7.webm",   start_image = anim_sde5_path + "7 7.webp", loop = True)
+image anim_sd_event_5_7_8   = Movie(play = anim_sde5_path + "7 8.webm",   start_image = anim_sde5_path + "7 8.webp")
+image anim_sd_event_5_7_9   = Movie(play = anim_sde5_path + "7 9.webm",   start_image = anim_sde5_path + "7 9.webp")
+image anim_sd_event_5_7_10  = Movie(play = anim_sde5_path + "7 10.webm",  start_image = anim_sde5_path + "7 10.webp", loop = True)
+image anim_sd_event_5_8_5   = Movie(play = anim_sde5_path + "8 5.webm",   start_image = anim_sde5_path + "8 5.webp", loop = True)
+image anim_sd_event_5_8_6   = Movie(play = anim_sde5_path + "8 6.webm",   start_image = anim_sde5_path + "8 6.webp", loop = True)
+image anim_sd_event_5_8_7   = Movie(play = anim_sde5_path + "8 7.webm",   start_image = anim_sde5_path + "8 7.webp", loop = True)
+image anim_sd_event_5_8_8   = Movie(play = anim_sde5_path + "8 8.webm",   start_image = anim_sde5_path + "8 8.webp", loop = True)
+image anim_sd_event_5_8_9   = Movie(play = anim_sde5_path + "8 9.webm",   start_image = anim_sde5_path + "8 9.webp", loop = True)
+image anim_sd_event_5_8_10  = Movie(play = anim_sde5_path + "8 10.webm",  start_image = anim_sde5_path + "8 10.webp", loop = True)
+image anim_sd_event_5_8_11  = Movie(play = anim_sde5_path + "8 11.webm",  start_image = anim_sde5_path + "8 11.webp")
+image anim_sd_event_5_8_12  = Movie(play = anim_sde5_path + "8 12.webm",  start_image = anim_sde5_path + "8 12.webp", loop = True)
+image anim_sd_event_5_9_5   = Movie(play = anim_sde5_path + "9 5.webm",   start_image = anim_sde5_path + "9 5.webp", loop = True)
+image anim_sd_event_5_9_6   = Movie(play = anim_sde5_path + "9 6.webm",   start_image = anim_sde5_path + "9 6.webp", loop = True)
+image anim_sd_event_5_9_7   = Movie(play = anim_sde5_path + "9 7.webm",   start_image = anim_sde5_path + "9 7.webp", loop = True)
+image anim_sd_event_5_9_8   = Movie(play = anim_sde5_path + "9 8.webm",   start_image = anim_sde5_path + "9 8.webp", loop = True)
+image anim_sd_event_5_9_9   = Movie(play = anim_sde5_path + "9 9.webm",   start_image = anim_sde5_path + "9 9.webp", loop = True)
+image anim_sd_event_5_9_10  = Movie(play = anim_sde5_path + "9 10.webm",  start_image = anim_sde5_path + "9 10.webp", loop = True)
+image anim_sd_event_5_9_11  = Movie(play = anim_sde5_path + "9 11.webm",  start_image = anim_sde5_path + "9 11.webp")
+image anim_sd_event_5_9_12  = Movie(play = anim_sde5_path + "9 12.webm",  start_image = anim_sde5_path + "9 12.webp", loop = True)
+image anim_sd_event_5_10_5  = Movie(play = anim_sde5_path + "10 5.webm",  start_image = anim_sde5_path + "10 5.webp", loop = True)
+image anim_sd_event_5_10_6  = Movie(play = anim_sde5_path + "10 6.webm",  start_image = anim_sde5_path + "10 6.webp", loop = True)
+image anim_sd_event_5_10_7  = Movie(play = anim_sde5_path + "10 7.webm",  start_image = anim_sde5_path + "10 7.webp", loop = True)
+image anim_sd_event_5_10_8  = Movie(play = anim_sde5_path + "10 8.webm",  start_image = anim_sde5_path + "10 8.webp", loop = True)
+image anim_sd_event_5_10_9  = Movie(play = anim_sde5_path + "10 9.webm",  start_image = anim_sde5_path + "10 9.webp", loop = True)
+image anim_sd_event_5_10_10 = Movie(play = anim_sde5_path + "10 10.webm", start_image = anim_sde5_path + "10 10.webp", loop = True)
+image anim_sd_event_5_10_11 = Movie(play = anim_sde5_path + "10 11.webm", start_image = anim_sde5_path + "10 11.webp")
+image anim_sd_event_5_10_12 = Movie(play = anim_sde5_path + "10 12.webm", start_image = anim_sde5_path + "10 12.webp", loop = True)
 label sd_event_5 (**kwargs):
     $ begin_event(**kwargs)
 
+    $ luna = get_person("class_3a", "luna_clark").get_character()
+    $ seraphina = get_person("class_3a", "seraphina_clark").get_character()
+
+    $ school_level = get_level('school_level', **kwargs)
     $ image = convert_pattern("main", **kwargs)
 
-    headmaster_thought "Hmm, an open door?"
-    # headmaster peeks into room
-    # headmaster sees girl changing
+    $ image.show(0)
+    subtitles "You peek into a room."
+    $ image.show(1)
+    headmaster_thought "Oh the siblings are changing."
+    $ image.show(2)
+    headmaster_thought "But nice view!"
+
+    $ call_custom_menu_with_text("Continue watching?", character.subtitles, False,
+        ("Leave", "sd_event_5.leave"),
+        ("Stay watching", "sd_event_5.stay"), 
+    **kwargs)
+
+label .leave (**kwargs):
+    $ begin_event()
+
+    headmaster_thought "Well better head off. Wouldn't want to get caught."
 
     call change_stats_with_modifier('school',
-        inhibition = DEC_SMALL
-    ) from _call_sd_event_5_1
+        inhibition = DEC_TINY
+    ) from _call_sd_event_5_leave_1
 
-    $ end_event(**kwargs)
+    $ end_event("new_daytime", **kwargs)
 
+label .stay (**kwargs):
+    $ begin_event()
+
+    if school_level >= 8:
+        $ image.show(3)
+        luna "Oh Mr. [headmaster_last_name], you're watching?"
+        $ image.show(4)
+        seraphina "Why not join us?"
+        $ image.show_video(5)
+        seraphina "Ahh, you're so big!"
+        $ image.show_video(6, pause = True)
+        $ image.show_video(7, pause = True)
+        $ image.show_video(8, pause = True)
+        $ image.show_video(9, pause = True)
+        $ image.show_video(10, pause = True)
+        $ image.show_video(11)
+        $ renpy.pause(5.3333)
+        $ image.show_video(12)
+        luna "Mr. [headmaster_last_name], that was amazing!"
+
+        call change_stats_with_modifier('school',
+            inhibition = DEC_SMALL, corruption = SMALL, charm = TINY, happiness = SMALL
+        ) from _call_sd_event_5_stay_6
+    elif school_level >= 7:
+        $ image.show(3)
+        luna "Oh Mr. [headmaster_last_name], you're watching?"
+        $ image.show(4)
+        seraphina "Do you like what you see?"
+        luna "Why not make it fair and show us yours?"
+        $ image.show_video(5)
+        seraphina "Wow Mr. [headmaster_last_name], you're quite big!"
+        $ image.show_video(6)
+        seraphina "Hmm, you like that?"
+        $ image.show_video(7, pause = True)
+        $ image.show_video(8)
+        $ renpy.pause(7.61)
+        $ image.show_video(9)
+        $ renpy.pause(5.3333)
+        $ image.show_video(10, pause = True)
+        luna "Thanks for the meal!"
+
+        call change_stats_with_modifier('school',
+            inhibition = DEC_SMALL, corruption = SMALL, charm = TINY, happiness = SMALL
+        ) from _call_sd_event_5_stay_5
+    elif school_level >= 5:
+        $ image.show(3)
+        seraphina "Oh Mr. [headmaster_last_name], you're watching?"
+        $ image.show(4)
+        luna "Do you like what you see?"
+        $ image.show(5)
+        seraphina "Here let us show you more."
+        
+        call change_stats_with_modifier('school',
+            inhibition = DEC_SMALL, charm = TINY, happiness = TINY
+        ) from _call_sd_event_5_stay_4
+    elif school_level >= 3:
+        $ image.show(3)
+        seraphina "Oh Mr. [headmaster_last_name]!"
+        $ image.show(4)
+        luna "What are you doing here?"
+        $ image.show(5)
+        seraphina "Could you please leave?"
+        headmaster "Oh, sorry!"
+
+        call change_stats_with_modifier('school',
+            inhibition = DEC_SMALL, reputation = DEC_SMALL, happiness = DEC_TINY
+        ) from _call_sd_event_5_stay_3
+    else:
+        call Image_Series.show_image(image, 3, 4) from _call_sd_event_5_stay_1
+        seraphina "Mr. [headmaster_last_name]!"
+        $ image.show(5)
+        luna "Get out!"
+
+        call change_stats_with_modifier('school',
+            inhibition = DEC_TINY, reputation = DEC_SMALL, happiness = DEC_SMALL
+        ) from _call_sd_event_5_stay_2
+
+    $ end_event("new_daytime", **kwargs)
+    
 # endregion
 #########################
 

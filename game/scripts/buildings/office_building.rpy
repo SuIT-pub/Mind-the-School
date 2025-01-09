@@ -45,24 +45,19 @@ init 1 python:
     office_building_events["look_around"].add_event(
         Event(3, "office_event_1",
             TimeCondition(weekday = "d", daytime = "f"),
-            LevelSelector('school_level', 'school'),
-            LevelSelector('teacher_level', 'teacher'),
-            Pattern("main", "images/events/office/office_event_1 <school_level> <step>.webp"),
-            thumbnail = "images/events/office/office_event_1 1 0.webp"),
+            Pattern("main", "images/events/office/office_event_1/office_event_1 <school_level> <step>.webp"),
+            thumbnail = "images/events/office/office_event_1/office_event_1 1 0.webp"),
         Event(3, "office_event_2",
-            RandomListSelector("teacher", "Finola Ryan", "Yulan Chen"),
+            RandomListSelector("teacher", "finola_ryan", "yulan_chen"),
             TimeCondition(weekday = "d", daytime = "f"),
-            LevelSelector('teacher_level', 'teacher'),
-            LevelSelector('school_level', 'school'),
-            Pattern("main", "images/events/office/office_event_2/<teacher_level> <teacher>.webp"),
-            thumbnail = "images/events/office/office_event_2/1 Finola Ryan.webp"),
+            Pattern("main", "images/events/office/office_event_2/office_event_2 <teacher_level> <teacher>.webp"),
+            thumbnail = "images/events/office/office_event_2/office_event_2 1 finola_ryan.webp"),
         Event(3, "office_event_3",
             TimeCondition(weekday = "d", daytime = "d"),
+            LevelCondition("1-5", "school"),
             NOT(RuleCondition("student_student_relation")),
-            LevelSelector('school_level', 'school'),
-            LevelSelector('teacher_level', 'teacher'),
-            Pattern("main", "images/events/office/office_event_3 <school_level> <step>.webp"),
-            thumbnail = "images/events/office/office_event_3 1 0.webp"),)
+            Pattern("main", "images/events/office/office_event_3/office_event_3 <school_level> <step>.webp"),
+            thumbnail = "images/events/office/office_event_3/office_event_3 1 0.webp"),)
 
     office_call_secretary_event_event = EventSelect(3, "call_secretary_event", "What do you want to do?", office_building_call_secretary_events,
         override_menu_exit = 'office_building',)
@@ -70,8 +65,8 @@ init 1 python:
     office_building_call_secretary_events["naughty_sandbox"].add_event(
         Event(3, "office_call_secretary_naughty_sandbox",
             ProgressCondition("work_office_session_naughty"),
-            Pattern("main", "images/events/office/office_call_secretary_naughty_sandbox/<secretary_level> <step>.webp", 'secretary_level'),
-            thumbnail = "images/events/office/office_call_secretary_naughty_sandbox/6 3.webp"))
+            Pattern("main", "images/events/office/office_call_secretary_naughty_sandbox/office_call_secretary_naughty_sandbox <secretary_level> <step>.webp", 'secretary_level'),
+            thumbnail = "images/events/office/office_call_secretary_naughty_sandbox/office_call_secretary_naughty_sandbox 6 3.webp"))
     
     office_building_events["call_secretary"].add_event(
         office_call_secretary_event_event,)
@@ -99,35 +94,35 @@ init 1 python:
     office_building_work_event["money"].add_event(
         Event(3, "work_office_money_event_1",
             TimeCondition(weekday = "d", daytime = "d"),
-            Pattern("main", 'images/events/office/office_money_event_1/<step>.webp'),
-            thumbnail = "images/events/office/office_money_event_1/1.webp"),)
+            Pattern("main", 'images/events/office/office_money_event_1/office_money_event_1 <step>.webp'),
+            thumbnail = "images/events/office/office_money_event_1/office_money_event_1 1.webp"),)
 
     office_building_work_event["education"].add_event(
         Event(3, "work_office_education_event_1",
             TimeCondition(weekday = "d", daytime = "d"),
-            Pattern("main", "images/events/office/office_education_event_1/<step>.webp"),
-            thumbnail = "images/events/office/office_education_event_1/0.webp"),)
+            Pattern("main", "images/events/office/office_education_event_1/office_education_event_1 <step>.webp"),
+            thumbnail = "images/events/office/office_education_event_1/office_education_event_1 0.webp"),)
 
     office_building_work_event["reputation"].add_event(
         Event(3, "work_office_reputation_event_1",
             TimeCondition(weekday = "d", daytime = "d"),
-            Pattern("main", "images/events/office/office_reputation_event_1/<step>.webp"),
-            thumbnail = "images/events/office/office_reputation_event_1/1.webp"),)
+            Pattern("main", "images/events/office/office_reputation_event_1/office_reputation_event_1 <step>.webp"),
+            thumbnail = "images/events/office/office_reputation_event_1/office_reputation_event_1 1.webp"),)
 
     office_building_work_event["counselling"].add_event(
         Event(3, "work_office_session_event_1",
             TimeCondition(weekday = "d", daytime = "d"),
-            RandomListSelector("girl_name", "Yuriko Oshima", "Elsie Johnson", "Easkey Tanaka"),
-            Pattern("main", "images/events/office/office_session_event_1 <girl_name> <school_level> <secretary_level> <step>.webp", 'girl_name', 'school_level', 'secretary_level'),
-            thumbnail = "images/events/office/office_session_event_1 Easkey Tanaka 1 # 4.webp"),
+            RandomListSelector("girl_name", "yuriko_oshima", "elsie_johnson", "easkey_tanaka"),
+            Pattern("main", "images/events/office/office_session_event_1/office_session_event_1 <girl_name> <school_level> <secretary_level> <step>.webp", 'girl_name', 'school_level', 'secretary_level'),
+            thumbnail = "images/events/office/office_session_event_1/office_session_event_1 easkey_tanaka 1 # 4.webp"),
         Event(3, "work_office_session_event_first_naughty",
             TimeCondition(weekday = "d", daytime = "d"),
             LevelSelector('school_level', 'school'),
             LevelSelector('secretary_level', 'secretary'),
             ProgressCondition("counselling sessions", "3+"),
             NOT(ProgressCondition("work_office_session_naughty")),
-            Pattern("main", "images/events/office/office_event_first_naughty/0 <step>.webp"),
-            thumbnail = "images/events/office/office_event_first_naughty/0 62.webp"))
+            Pattern("main", "images/events/office/office_event_first_naughty/office_event_first_naughty 0 <step>.webp"),
+            thumbnail = "images/events/office/office_event_first_naughty/office_event_first_naughty 0 62.webp"))
 
 # endregion
 ##############################################
@@ -155,47 +150,6 @@ label .after_general_check (**kwargs):
 
 # endregion
 ############################################
-
-#######################################
-# region Office Building Events ----- #
-#######################################
-
-#######################
-# region Intro Events #
-
-label first_potion_office_building_event (**kwargs):
-    $ begin_event(**kwargs)
-    
-    $ image = convert_pattern("main", step_start = 1, **kwargs)
-
-    $ image.show(1)
-    subtitles "You enter the teachers office."
-    headmaster_thought "Ahh the teacher seem to be eating at the kiosk as well."
-    $ image.show(2)
-    headmaster_thought "Not that I have a problem with it. Quite the opposite. That makes some things a bit easier."
-
-    $ set_building_blocked("office_building")
-
-    $ end_event('new_daytime', **kwargs)
-
-# first week event
-label first_week_office_building_event (**kwargs):
-    $ begin_event(**kwargs)
-    
-    $ show_pattern("main", step_start = 1, **kwargs)
-    subtitles "Mhh. The office is nothing special but at least not really run down."
-    subtitles "I can work with that."
-
-    $ change_stat("education", 5, get_school())
-    $ change_stat_for_all("happiness", 5, charList['staff'])
-    $ change_stat_for_all("reputation", 5, charList['staff'])
-
-    $ set_building_blocked("office_building")
-
-    $ end_event('new_day', **kwargs)
-
-# endregion
-#######################
 
 ######################
 # region Work Events #
@@ -258,7 +212,7 @@ label work_office_education_event_1 (**kwargs):
 label learn_office_event_1 (**kwargs):
     $ begin_event(no_gallery = True, **kwargs)
 
-    $ subject = get_kwargs('subject', **kwargs)
+    $ subject = get_value('subject', **kwargs)
 
     $ text = get_translation(subject)
 
@@ -292,7 +246,11 @@ label work_office_session_event_1(**kwargs):
     $ get_level('school_level', **kwargs)
     $ get_level('secretary_level', **kwargs)
 
-    $ girl_first_name, girl_last_name = split_name(girl_name)
+    $ girl_person = get_person("class_3a", girl_name)
+    $ girl = girl_person.get_character()
+
+    $ girl_first_name = girl_person.get_first_name()
+    $ girl_last_name = girl_person.get_last_name()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -337,28 +295,30 @@ label work_office_session_event_1(**kwargs):
 ########################
 # region First naughty #
 
-define anim_oefn_path = "images/events/office/office_event_first_naughty/"
-image anim_oefn_0_16 = Movie(play = anim_oefn_path + "0 16.webm", start_image = anim_oefn_path + "0 16.webp", image = anim_oefn_path + "0 16.webp")
-image anim_oefn_0_17 = Movie(play = anim_oefn_path + "0 17.webm", start_image = anim_oefn_path + "0 17.webp", image = anim_oefn_path + "0 17.webp")
-image anim_oefn_0_18 = Movie(play = anim_oefn_path + "0 18.webm", start_image = anim_oefn_path + "0 18.webp", image = anim_oefn_path + "0 18.webp")
-image anim_oefn_0_21 = Movie(play = anim_oefn_path + "0 21.webm", start_image = anim_oefn_path + "0 21.webp", image = anim_oefn_path + "0 21.webp")
-image anim_oefn_0_64 = Movie(play = anim_oefn_path + "0 64.webm", start_image = anim_oefn_path + "0 64.webp", image = anim_oefn_path + "0 64.webp")
-image anim_oefn_0_65 = Movie(play = anim_oefn_path + "0 65.webm", start_image = anim_oefn_path + "0 65.webp", image = anim_oefn_path + "0 65.webp")
-image anim_oefn_0_66 = Movie(play = anim_oefn_path + "0 66.webm", start_image = anim_oefn_path + "0 66.webp", image = anim_oefn_path + "0 66.webp")
-image anim_oefn_0_67 = Movie(play = anim_oefn_path + "0 67.webm", start_image = anim_oefn_path + "0 67.webp", image = anim_oefn_path + "0 67.webp")
-image anim_oefn_0_68 = Movie(play = anim_oefn_path + "0 68.webm", start_image = anim_oefn_path + "0 68.webp", image = anim_oefn_path + "0 68.webp")
-image anim_oefn_0_69 = Movie(play = anim_oefn_path + "0 69.webm", start_image = anim_oefn_path + "0 69.webp", image = anim_oefn_path + "0 69.webp")
-image anim_oefn_0_72 = Movie(play = anim_oefn_path + "0 72.webm", start_image = anim_oefn_path + "0 72.webp", image = anim_oefn_path + "0 72.webp")
-image anim_oefn_0_73 = Movie(play = anim_oefn_path + "0 73.webm", start_image = anim_oefn_path + "0 73.webp", image = anim_oefn_path + "0 73.webp")
-image anim_oefn_0_74 = Movie(play = anim_oefn_path + "0 74.webm", start_image = anim_oefn_path + "0 74.webp", image = anim_oefn_path + "0 74.webp")
-image anim_oefn_0_75 = Movie(play = anim_oefn_path + "0 75.webm", start_image = anim_oefn_path + "0 75.webp", image = anim_oefn_path + "0 75.webp")
+define anim_oefn_path = "images/events/office/office_event_first_naughty/office_event_first_naughty 0 "
+image anim_office_event_first_naughty_0_16 = Movie(play = anim_oefn_path + "16.webm", start_image = anim_oefn_path + "16.webp", image = anim_oefn_path + "16.webp")
+image anim_office_event_first_naughty_0_17 = Movie(play = anim_oefn_path + "17.webm", start_image = anim_oefn_path + "17.webp", image = anim_oefn_path + "17.webp")
+image anim_office_event_first_naughty_0_18 = Movie(play = anim_oefn_path + "18.webm", start_image = anim_oefn_path + "18.webp", image = anim_oefn_path + "18.webp")
+image anim_office_event_first_naughty_0_21 = Movie(play = anim_oefn_path + "21.webm", start_image = anim_oefn_path + "21.webp", image = anim_oefn_path + "21.webp")
+image anim_office_event_first_naughty_0_64 = Movie(play = anim_oefn_path + "64.webm", start_image = anim_oefn_path + "64.webp", image = anim_oefn_path + "64.webp")
+image anim_office_event_first_naughty_0_65 = Movie(play = anim_oefn_path + "65.webm", start_image = anim_oefn_path + "65.webp", image = anim_oefn_path + "65.webp")
+image anim_office_event_first_naughty_0_66 = Movie(play = anim_oefn_path + "66.webm", start_image = anim_oefn_path + "66.webp", image = anim_oefn_path + "66.webp")
+image anim_office_event_first_naughty_0_67 = Movie(play = anim_oefn_path + "67.webm", start_image = anim_oefn_path + "67.webp", image = anim_oefn_path + "67.webp")
+image anim_office_event_first_naughty_0_68 = Movie(play = anim_oefn_path + "68.webm", start_image = anim_oefn_path + "68.webp", image = anim_oefn_path + "68.webp")
+image anim_office_event_first_naughty_0_69 = Movie(play = anim_oefn_path + "69.webm", start_image = anim_oefn_path + "69.webp", image = anim_oefn_path + "69.webp")
+image anim_office_event_first_naughty_0_72 = Movie(play = anim_oefn_path + "72.webm", start_image = anim_oefn_path + "72.webp", image = anim_oefn_path + "72.webp")
+image anim_office_event_first_naughty_0_73 = Movie(play = anim_oefn_path + "73.webm", start_image = anim_oefn_path + "73.webp", image = anim_oefn_path + "73.webp")
+image anim_office_event_first_naughty_0_74 = Movie(play = anim_oefn_path + "74.webm", start_image = anim_oefn_path + "74.webp", image = anim_oefn_path + "74.webp")
+image anim_office_event_first_naughty_0_75 = Movie(play = anim_oefn_path + "75.webm", start_image = anim_oefn_path + "75.webp", image = anim_oefn_path + "75.webp")
 label work_office_session_event_first_naughty (**kwargs):
     $ begin_event(**kwargs)
 
     $ school_level = get_value('school_level', **kwargs)
     $ secretary_level = get_value('secretary_level', **kwargs)
 
-    $ image = convert_pattern("main", video_prefix = "anim_oefn_", **kwargs)
+    $ yuriko = get_person("class_3a", "yuriko_oshima").get_character()
+
+    $ image = convert_pattern("main", video_prefix = "anim_", **kwargs)
 
     # secretary enters office
     call Image_Series.show_image(image, 0, 1, 2) from _call_work_office_session_event_first_naughty_1
@@ -407,7 +367,7 @@ label work_office_session_event_first_naughty (**kwargs):
     $ image.show(22)
     subtitles "*Knock! Knock!*"
     $ image.show(23)
-    sgirl "Excuse me? Mr. [headmaster_last_name]?" (name = "Yuriko Oshima")
+    yuriko "Excuse me? Mr. [headmaster_last_name]?"
     $ image.show(24)
     headmaster_whisper "Shit! Quick under the desk!"
     call Image_Series.show_image(image, 25, 26) from _call_work_office_session_event_first_naughty_2
@@ -415,48 +375,48 @@ label work_office_session_event_first_naughty (**kwargs):
     call Image_Series.show_image(image, 27, 28, 29) from _call_work_office_session_event_first_naughty_3
     headmaster "You're early."
     $ image.show(30)
-    sgirl "I apologize for that. Something came up in school and I need to leave earlier. So I thought, I'd come earlier." (name = "Yuriko Oshima")
+    yuriko "I apologize for that. Something came up in school and I need to leave earlier. So I thought, I'd come earlier."
     $ image.show(31)
-    sgirl "I wanted to ask your secretary first but I couldn't find her." (name = "Yuriko Oshima")
+    yuriko "I wanted to ask your secretary first but I couldn't find her."
     call Image_Series.show_image(image, 32, 40) from _call_work_office_session_event_first_naughty_5
     headmaster "Oh she is probably doing some rounds."
     $ image.show(32)
     headmaster "You're really not able to take the session on the agreed time?"
     $ image.show(33)
-    sgirl "I don't think so..." (name = "Yuriko Oshima")
+    yuriko "I don't think so..."
     $ image.show(34)
     headmaster "Alright, then let's do it now. Take a seat."
     call Image_Series.show_image(image, 35, 36, 37, 38) from _call_work_office_session_event_first_naughty_4
-    sgirl "Are you okay? You look a bit flushed." (name = "Yuriko Oshima")
+    yuriko "Are you okay? You look a bit flushed."
     call Image_Series.show_image(image, 39, 40) from _call_work_office_session_event_first_naughty_6
     headmaster "Yes, I'm fine. I just had a bit of a headache. But it's getting better."
     $ image.show(41)
     headmaster "Okay what do you want to talk about today?"
 
     $ image.show(42)
-    sgirl "Well, Mr. [headmaster_last_name], I've been feeling really stressed lately." (name = "Yuriko Oshima")
+    yuriko "Well, Mr. [headmaster_last_name], I've been feeling really stressed lately."
     $ image.show(43)
     headmaster "I see. Is there something specific that's been bothering you?"
     $ image.show(44)
-    sgirl "Yes, it's mainly the pressure to perform well academically. I feel like I'm constantly under scrutiny." (name = "Yuriko Oshima")
+    yuriko "Yes, it's mainly the pressure to perform well academically. I feel like I'm constantly under scrutiny."
     $ image.show(45)
     headmaster "I understand. Academic pressure can be overwhelming. Have you tried talking to your teachers about it?"
     $ image.show(44)
-    sgirl "I haven't yet. I guess I'm afraid they won't understand or think I'm just making excuses." (name = "Yuriko Oshima")
+    yuriko "I haven't yet. I guess I'm afraid they won't understand or think I'm just making excuses."
     $ image.show(43)
     headmaster "I assure you, Yuriko, your feelings are valid. It's important to communicate your struggles with your teachers so they can support you."
     $ image.show(46)
-    sgirl "Thank you, Mr. [headmaster_last_name]. I'll try to gather the courage to talk to them." (name = "Yuriko Oshima")
+    yuriko "Thank you, Mr. [headmaster_last_name]. I'll try to gather the courage to talk to them."
     $ image.show(47)
     headmaster "That's a good step forward. Remember, you're not alone in this. We're here to help you succeed."
     $ image.show(43)
     headmaster "If it is too difficult for you to talk to your teachers, how about your friends? Maybe they can help you."
     $ image.show(44)
-    sgirl "It's... It's quite hard. I don't really have friends. I have Ellie, but I fear bothering her too much with my problems." (name = "Yuriko Oshima")
+    yuriko "It's... It's quite hard. I don't really have friends. I have Ellie, but I fear bothering her too much with my problems."
     $ image.show(48)
     headmaster "Ellie?"
     $ image.show(42)
-    sgirl "Yes, Elsie Johnson. She's in my class. She's really nice and I really like her. But I don't want to be a burden to her." (name = "Yuriko Oshima")
+    yuriko "Yes, Elsie Johnson. She's in my class. She's really nice and I really like her. But I don't want to be a burden to her."
     $ image.show(45)
     headmaster "I see. It's important to have someone to talk to. Maybe you can try to open up to her."
     $ image.show(43)
@@ -465,13 +425,13 @@ label work_office_session_event_first_naughty (**kwargs):
     headmaster "I'll be always here to help yoaaaaaah!"
     # emiko starts handling your rod again
     $ image.show(50)
-    sgirl "Sir, is everything okay?" (name = "Yuriko Oshima")
+    yuriko "Sir, is everything okay?"
     $ image.show(51)
     headmaster "*cough* *cough* Yes, everything is fine. I just swallowed wrong."
     $ image.show(52)
     headmaster "What I wanted to say is that you can always come to me if you need help but you understand that it is difficult in my position to provide a level of intimacy that you might need."
     $ image.show(50)
-    sgirl "Intimacy?" (name = "Yuriko Oshima")
+    yuriko "Intimacy?"
     # emiko grins at you and then continues
     $ image.show(40)
     pause
@@ -482,7 +442,7 @@ label work_office_session_event_first_naughty (**kwargs):
     headmaster "It even isn't really enough to just have people you know around you. You need to have people you trust. A sort of intimate bonding."
     headmaster "Even physical contact plays an important role in that. It's a way to show that you care about someone."
     $ image.show(54)
-    sgirl "Physical contact? I don't think I can go that far..." (name = "Yuriko Oshima") # Yuriko blushes
+    yuriko "Physical contact? I don't think I can go that far..." # Yuriko blushes
     $ image.show(55)
     headmaster "Don't misunderstand. Even hugging someone can be a form of physical contact. It's not always about a sexual relationship."
     $ image.show(56)
@@ -491,16 +451,16 @@ label work_office_session_event_first_naughty (**kwargs):
     $ image.show(55)
     headmaster "How about you do that, and the next time we talk about how it went? Would that be okay for you?"
     $ image.show(57)
-    sgirl "Yes, I think I can do that. Thank you, Mr. [headmaster_last_name]." (name = "Yuriko Oshima")
+    yuriko "Yes, I think I can do that. Thank you, Mr. [headmaster_last_name]."
     $ image.show(56)
     headmaster "You're welcome, Yuriko. Now I think that settles it for today. I hope I could help you a bit."
     $ image.show(46)
-    sgirl "Yes, you did. Thank you." (name = "Yuriko Oshima")
+    yuriko "Yes, you did. Thank you."
     $ image.show(56)
     headmaster "Thank you for entrusting yourself to me."
     headmaster "I have a lot to do, so unfortunately I can't accompany you to the door. So please just close the door behind you."
     $ image.show(31)
-    sgirl "Will do. Thank you." (name = "Yuriko Oshima")
+    yuriko "Will do. Thank you."
     $ image.show(58)
     headmaster "Have a nice day."
     # Yuriko leaves
@@ -750,10 +710,7 @@ label office_call_secretary_naughty_sandbox (**kwargs):
 # region Regular Events #
 
 label office_event_1 (**kwargs):
-    $ begin_event(**kwargs);
-
-    $ school_level = get_value('school_level', **kwargs)
-    $ teacher_level = get_value('teacher_level', **kwargs)
+    $ begin_event("2", **kwargs);
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -771,10 +728,8 @@ label office_event_1 (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label office_event_2 (**kwargs):
-    $ begin_event(**kwargs);
+    $ begin_event("2", **kwargs);
 
-    $ teacher_level = get_value('teacher_level', **kwargs)
-    $ school_level = get_value('school_level', **kwargs)
     $ teacher = get_value("teacher", **kwargs)
 
     $ show_pattern("main", **kwargs)
@@ -788,10 +743,9 @@ label office_event_2 (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label office_event_3 (**kwargs):
-    $ begin_event(**kwargs);
+    $ begin_event("2", **kwargs);
 
-    $ school_level = get_value('school_level', **kwargs)
-    $ teacher_level = get_value('teacher_level', **kwargs)
+    $ yuriko = get_person("class_3a", "yuriko_oshima").get_character()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -820,11 +774,11 @@ label .talk (**kwargs):
     $ image.show(2)
     headmaster "Why are you sitting here?"
     $ image.show(3)
-    sgirl "We were called here by the teacher."
+    yuriko "We were called here by the teacher."
     $ image.show(2)
     headmaster "Do you know why?"
     $ image.show(4)
-    sgirl "Probably because we are a couple."
+    yuriko "Probably because we are a couple."
 
     $ call_custom_menu(False, 
         ("Tell about policy", "office_event_3.policy"),
@@ -837,12 +791,12 @@ label .policy (**kwargs):
     $ image.show(5)
     headmaster "Well, you know that relationships between students are not allowed."
     $ image.show(6)
-    sgirl "But what does the school care about our relationship?"
+    yuriko "But what does the school care about our relationship?"
     $ image.show(5)
     headmaster "It's a measure to keep you focused on your education."
     headmaster "At least hold yourself back until you are done with school."
     $ image.show(2)
-    sgirl "..."
+    yuriko "..."
     headmaster "Now you both go back to class."
 
     call change_stats_with_modifier('school',
@@ -858,7 +812,7 @@ label .care (**kwargs):
     $ image.show(7)
     headmaster "Okay, listen. You know relationships aren't allowed here at school."
     $ image.show(6)
-    sgirl "But..."
+    yuriko "But..."
     $ image.show(7)
     headmaster "BUT, I don't like this rule either. So I will take care of it for you."
     headmaster "I think I will abandon this rule in the future."

@@ -47,8 +47,8 @@ init 1 python:
         Event(1, "first_week_office_building_event",
             IntroCondition(),
             TimeCondition(day = "2-4", month = 1, year = 2023),
-            Pattern("main", "images/events/first week/first week office building <step>.webp"),
-            thumbnail = "images/events/first week/first week office building 1.webp"),
+            Pattern("main", "images/events/first week/first week office building.webp"),
+            thumbnail = "images/events/first week/first week office building.webp"),
         Event(1, "first_potion_office_building_event",
             IntroCondition(),
             TimeCondition(day = 9, month = 1, year = 2023),
@@ -194,6 +194,8 @@ label first_week_gym_event (**kwargs):
 label first_week_kiosk_event (**kwargs):
     $ begin_event(**kwargs)
 
+    $ lin = get_person("class_3a", "lin_kato").get_character()
+
     $ image = convert_pattern("main", step_start = 1, **kwargs)
 
     $ image.show(1)
@@ -205,7 +207,7 @@ label first_week_kiosk_event (**kwargs):
     headmaster "Excuse me, did something happen? Why is it so crowded here?"
     
     $ image.show(4)
-    sgirl "What do you mean? It's always this full. We can't get food anywhere else than here." (name = "Lin Kato")
+    lin "What do you mean? It's always this full. We can't get food anywhere else than here."
     
     $ image.show(3)
     headmaster "Oh I understand... Thanks."
@@ -222,6 +224,43 @@ label first_week_kiosk_event (**kwargs):
 
 # endregion
 #######################
+
+########################
+# region Office Events #
+
+label first_potion_office_building_event (**kwargs):
+    $ begin_event(**kwargs)
+    
+    $ image = convert_pattern("main", step_start = 1, **kwargs)
+
+    $ image.show(1)
+    subtitles "You enter the teachers office."
+    headmaster_thought "Ahh the teacher seem to be eating at the kiosk as well."
+    $ image.show(2)
+    headmaster_thought "Not that I have a problem with it. Quite the opposite. That makes some things a bit easier."
+
+    $ set_building_blocked("office_building")
+
+    $ end_event('new_daytime', **kwargs)
+
+# first week event
+label first_week_office_building_event (**kwargs):
+    $ begin_event(**kwargs)
+    
+    $ show_pattern("main", **kwargs)
+    subtitles "Mhh. The office is nothing special but at least not really run down."
+    subtitles "I can work with that."
+
+    $ change_stat("education", 5, get_school())
+    $ change_stat_for_all("happiness", 5, charList['staff'])
+    $ change_stat_for_all("reputation", 5, charList['staff'])
+
+    $ set_building_blocked("office_building")
+
+    $ end_event('new_day', **kwargs)
+
+# endregion
+########################
 
 #################################
 # region School Building Events #

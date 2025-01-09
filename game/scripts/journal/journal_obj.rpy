@@ -148,6 +148,21 @@ init -7 python:
         def get_type(self) -> str:
             pass
 
+        def get_description(self, level: int = -1) -> List[str]:
+            """
+            Returns the description of the object.
+
+            ### Parameters:
+            1. level: int (Default -1)
+                - Level of the building.
+
+            ### Returns:
+            1. List[str]
+                - Descriptions of the object.
+            """
+
+            return self._description
+
         def get_description_str(self, level: int = -1) -> str:
             """
             Returns the descriptions of the object as a string.
@@ -399,6 +414,9 @@ init -7 python:
                 - Vote comments of the object.
             """
             
+            if result == 'ignore':
+                result = YES
+
             vote = "{color=#00a000}Votes For{/color}"
             if result == NO:
                 vote = "{color=#a00000}Votes Against{/color}"
@@ -419,6 +437,7 @@ init -7 python:
             """
 
             for effect in self._unlock_effects:
+                log_val("Applying effect", effect)
                 effect.apply()
 
     # endregion
@@ -553,6 +572,18 @@ init -7 python:
         
         if name in map.keys():
             return map[name]
+        return None
+
+    def find_journal_obj(name: str) -> str:
+        obj = get_journal_obj(rules, name)
+        if obj is not None:
+            return obj
+        obj = get_journal_obj(buildings, name)
+        if obj is not None:
+            return obj
+        obj = get_journal_obj(clubs, name)
+        if obj is not None:
+            return obj
         return None
 
     # endregion

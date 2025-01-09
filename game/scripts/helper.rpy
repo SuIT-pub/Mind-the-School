@@ -51,6 +51,13 @@ init -99 python:
             return get_kwargs(key, get_kwargs(key, alt, **kwargs), **kwargs["values"])
         return get_kwargs(key, alt, **kwargs)
 
+    def load_kwargs_values(data, **kwargs):
+        if "values" not in data.keys():
+            data["values"] = {}
+        for key, value in kwargs.items():
+            data["values"][key] = value
+        return data
+
     # endregion
     ###############################
 
@@ -1058,10 +1065,8 @@ init -99 python:
         for path in paths:
             if not renpy.loadable(path):
                 continue
-
             file = renpy.open_file(path)
             lines = split_to_non_empty_list(file.read().decode(), "\r\n")
-
             for line in lines:
                 if line.count(';') != 1:
                     continue
@@ -1131,6 +1136,52 @@ init -99 python:
     # region Modding --- #
     ######################
 
+    import os
+
+    def register_mod(key: str, name: str, version: str, path: str, **kwargs):
+
+        global persistent
+
+        kwargs['key'] = key
+        kwargs['name'] = name
+        kwargs['version'] = version
+
+        if path and not path.endswith('/'):
+            path += '/'
+
+        kwargs['path'] = path
+
+        available_keys.append(key)
+
+        mod = {}
+
+        modList = persistent.modList
+
+        if key in modList.keys():
+            mod = modList[key]
+            if mod['version'] != version:
+                mod['active'] = False
+            mod.update(kwargs)
+            mod['path'] = f"mods/{path}"
+            mod['translations'] = []
+            mod['event_count'] = 0
+            if 'translations' in kwargs.keys():
+                mod['translations'] = kwargs['translations']
+            modList[key] = mod
+        else:
+            mod = kwargs
+            mod['active'] = False
+            mod['path'] = f"mods/{path}"
+            mod['translations'] = []
+            mod['event_count'] = 0
+            if 'translations' in kwargs.keys():
+                mod['translations'] = kwargs['translations']
+            modList[key] = mod
+
+        persistent.modList = modList
+
+        return modList
+
     def get_mod_list():
         import json
         
@@ -1139,9 +1190,16 @@ init -99 python:
 
         repair_mod_list()
         available_keys = ['base']
+        return persistent.modList
 
         for metadata in metadata_list:
-            json_string = renpy.open_file(metadata, "utf-8").read()
+            # json_string = renpy.open_file(metadata, "utf-8").read()
+            json_string = ""
+            
+            path = os.path.normpath(os.path.join(config.basedir, "game", metadata))
+
+            with open(path,"r") as metafile:
+                json_string = metafile.read()
             mod_json_obj = json.loads(json_string) 
 
             available_keys.append(mod_json_obj['key'])
@@ -1169,14 +1227,6 @@ init -99 python:
                     mod['translations'] = mod_json_obj['translations']
                 persistent.modList[mod_json_obj['key']] = mod
 
-        for key in list(persistent.modList.keys()):
-            persistent.modList[key]['event_count'] = 0
-            if key not in available_keys:
-                persistent.modList[key]['available'] = False
-                persistent.modList[key]['active'] = False
-            else:
-                persistent.modList[key]['available'] = True
-
         return persistent.modList
 
     def repair_mod_list():
@@ -1194,6 +1244,7 @@ init -99 python:
                 'active': True, 
                 'available': True,
                 'path': '',
+                'event_count': 0,
                 'translations': ['translations.csv'],
             }
 
@@ -1202,6 +1253,10 @@ init -99 python:
 
         if 'translations' not in persistent.modList['base']:
             persistent.modList['base']['translations'] = ['translations.csv']
+
+        for key in persistent.modList.keys():
+            persistent.modList[key]['event_count'] = 0
+
 
     def is_mod_active(key: str) -> bool:
         
@@ -1229,6 +1284,7 @@ init -99 python:
     def activate_mod(key: str):
         if key in persistent.modList.keys():
             persistent.modList[key]['active'] = True
+            log_json("activated mod", persistent.modList[key])
 
     def deactivate_mod(key: str):
         if key in persistent.modList.keys():
@@ -1238,10 +1294,21 @@ init -99 python:
         return [mod for mod in persistent.modList.values() if mod['active']]
 
     def change_mod_event_count(key: str, delta: int):
+
+        global mod_count
+
+        if key not in mod_count.keys():
+            mod_count[key] = 0
+        mod_count[key] += delta
+
         if key in persistent.modList.keys():
             if not 'event_count' in persistent.modList[key]:
                 persistent.modList[key]['event_count'] = 0
             persistent.modList[key]['event_count'] += delta
+
+    def register_start_method(label: str):
+        if is_mod_active(active_mod_key):
+            start_methods.append(label)
 
     # endregion
     ######################
@@ -1274,3 +1341,14 @@ init -99 python:
 
     # endregion
     ###############################
+
+init -96 python:
+    def finishing_mod_list():    
+        for key in list(persistent.modList.keys()):
+            persistent.modList[key]['event_count'] = 0
+            if key not in available_keys:
+                persistent.modList[key]['available'] = False
+                persistent.modList[key]['active'] = False
+            else:
+                persistent.modList[key]['available'] = True
+    finishing_mod_list()

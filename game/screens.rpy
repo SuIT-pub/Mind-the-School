@@ -480,15 +480,110 @@ screen main_menu():
                         textbutton "Hide" action SetVariable("changelog_shown", False)
                 if changelog_shown:
                     null height 15
-                    text "Version 0.2.0" style "main_menu_changelog_subtitle"
-                    text "• WIP" style "main_menu_changelog_text"
+                    text "Version 0.2.0B" style "main_menu_changelog_title"
+                    null height 15
+                    text "• Fixed missing thumbnails for quest" style "main_menu_changelog_text"
+                    text "• Fixed tutorials repeating and not returning to correct screen" style "main_menu_changelog_text"
+                    text "• Fixed missing animations during P.E. teaching warm-up" style "main_menu_changelog_text"
+                    text "• Fixed a missing image in school dorm \"Walk in on Girl\"-Event" style "main_menu_changelog_text"
+                    text "• Created a temporary fix for certain Buildings or Rules having their probabilities incorrectly calculated by making it 100% by default." style "main_menu_changelog_text"
+                    null height 20
+                    text "Version 0.2.0A_1" style "main_menu_changelog_title"
+                    null height 15
+                    text "• More fixes for probability calculation" style "main_menu_changelog_text"
+                    null height 20
+                    text "Version 0.2.0A" style "main_menu_changelog_title"
+                    null height 15
+                    text "• Fixed a bug preventing the player from queueing the rule to progress to level 4 and higher" style "main_menu_changelog_text"
+                    text "• Small changes to probability calculation for unlockables" style "main_menu_changelog_text"
+                    text "    • Calculation is still a work in progress" style "main_menu_changelog_text"
+                    text "• Fix for Mods not being registered correctly" style "main_menu_changelog_text"
+                    null height 20
+                    text "Version 0.2.0" style "main_menu_changelog_title"
+                    null height 15
+                    text "Stats" style "main_menu_changelog_subtitle"
+                    text "• 3445 more images" style "main_menu_changelog_text"
+                    text "• 54 more animations" style "main_menu_changelog_text"
+                    text "• 18 new events" style "main_menu_changelog_text"
+                    null height 15
+                    text "New Features" style "main_menu_changelog_subtitle"
+                    text "• Implemented a Modding Framework" style "main_menu_changelog_text"
+                    text "• Implemented a new Quest System" style "main_menu_changelog_text"
+                    text "• Implemented a Character Overview" style "main_menu_changelog_text"
+                    text "• Reworked Main Menu" style "main_menu_changelog_text"
+                    null height 15
+                    text "Changes" style "main_menu_changelog_subtitle"
+                    text "• Reworked the Journal Design" style "main_menu_changelog_text"
+                    text "• Improved the Map" style "main_menu_changelog_text"
+                    text "• PTA event system has been improved" style "main_menu_changelog_text"
+                    null height 15
+                    text "Events" style "main_menu_changelog_subtitle"
+                    text "• Added event chain for transitioning the school to level 2" style "main_menu_changelog_text"
+                    text "• 13 new events in transition event chain" style "main_menu_changelog_text"
+                    text "• 2 new events in cafeteria" style "main_menu_changelog_text"
+                    text "• 1 new events in courtyard" style "main_menu_changelog_text"
+                    text "• 2 new events in school dormitory" style "main_menu_changelog_text"
+                    text "• fully reworked all 71 regular events and created variants for these events for all school levels up to level 10" style "main_menu_changelog_text"
+                    text "    • some events now have a spicy animation on the higher levels ;)" style "main_menu_changelog_text"
+                    text "    • This was done to conform these events to my new (and hopefully last) workflow for rendering images, which allowed me in the first time to render the events for all levels" style "main_menu_changelog_text"
+                    text "• Events can now have priority over other events" style "main_menu_changelog_text"
+                    null height 15
+                    text "Gallery" style "main_menu_changelog_subtitle"
+                    text "• Due to reworking all events, the existing replay gallery data will be wiped" style "main_menu_changelog_text"
+                    text "• Added versioning for gallery and individual events" style "main_menu_changelog_text"
+                    null height 15
+                    text "Modding" style "main_menu_changelog_subtitle"
+                    text "• A new modding framework has been added" style "main_menu_changelog_text"
+                    text "• The modding framework allows for the creation of new events, characters, and more" style "main_menu_changelog_text"
+                    text "• A manual on how to create a Mod can be found {a=https://wiki.suit-ji.com/shelves/modding}here{/a} (WIP)" style "main_menu_changelog_text"
+                    text "• Added a Mod Manager on the Main Menu for activating and deactivating mods" style "main_menu_changelog_text"
+                    null height 15
+                    text "Quests" style "main_menu_changelog_subtitle"
+                    text "• A quest system has been implemented for you clueless folks" style "main_menu_changelog_text"
+                    text "• The new quest overview can be found in the journal" style "main_menu_changelog_text"
+                    text "• The overview shows quests for solving current event chains" style "main_menu_changelog_text"
+                    text "• By clicking the small info button in the quest overview more quests can be displayed" style "main_menu_changelog_text"
+                    text "    • These quests are for helping people on how to unlock certain stuff or to give a general overview over what events have been seen." style "main_menu_changelog_text"
+                    text "• !!! Some quests might not update correctly or have display issues when opening savegames from old versions" style "main_menu_changelog_text"
+                    null height 15
+                    text "Character Overview" style "main_menu_changelog_subtitle"
+                    text "• A character overview can now be found in the journal. (Thanks to Shojua for suggesting this idea on my {a=https://discord.suit-ji.com}Discord Server{/a})" style "main_menu_changelog_text"
+                    text "    • If you have ideas yourself, leave your suggestion on the discord. If you don't have discord, feel free to hit me up directly." style "main_menu_changelog_text"
+                    text "• The Overview shows you a list for all regular in-game characters" style "main_menu_changelog_text"
+                    text "• When clicking on a character a detailed overview over that character together with a small image gallery is shown." style "main_menu_changelog_text"
+                    text "• By marking an image as favorite, that image will be shown as thumbnail in the overview" style "main_menu_changelog_text"
+                    null height 15
+                    text "Main Menu" style "main_menu_changelog_subtitle"
+                    text "• Main Menu has been made nicer." style "main_menu_changelog_text"
+                    text "• An animated background has been added" style "main_menu_changelog_text"
+                    null height 15
+                    text "School Map" style "main_menu_changelog_subtitle"
+                    text "• The school map has now changed highlighting" style "main_menu_changelog_text"
+                    text "• Locations that have an event are now highlighted with a marker" style "main_menu_changelog_text"
+                    text "• Pin-Style markers have been added to better show the location of the different facilities" style "main_menu_changelog_text"
+                    null height 15
+                    text "Misc" style "main_menu_changelog_subtitle"
+                    text "• New rules have been added to allow experiencing the higher levels of the school by allowing the players to raise the school levels without cheating" style "main_menu_changelog_text"
+                    text "• Tons of bugfixes" style "main_menu_changelog_text"
+                    null height 15
+                    text "Note for using existing save games from 0.1.4 and older:" style "main_menu_changelog_subtitle"
+                    text "I made sure to keep all the save files created from 0.1.2 and upwards compatible." style "main_menu_changelog_text"
+                    text "The old saves should have no problems loading. For the selection of the new proficiencies, you'll get a prompt to select one. If you don't select one, the game will crash. If you select one, everything should work as intended." style "main_menu_changelog_text"
+                    text "IMPORTANT! It is possible that you get an error while loading, telling you that it couldn't load an image file. In that case, you can just click on ignore. You'll get a missing background in the proficiency selection but after that, everything should then work properly. Also if the school map looks a bit buggy after loading, that should fix itself after entering a location or opening the journal." style "main_menu_changelog_text"
+                    text "All that are just visual bugs, occur only directly after loading an old game and won't influence or corrupt the game itself." style "main_menu_changelog_text"
+                    text "If you occur bugs not listed here, please hit me up wherever you like, but preferably on discord 🙂" style "main_menu_changelog_text"
+
+
+
+
+
                     
                     # null height 8
                     # text "Version 0.1.4B" style "main_menu_changelog_subtitle"
                     # text "• fixed error preventing some from entering office" style "main_menu_changelog_text"
                     
                     null height 15
-                    text "Changelog for older versions can be found in the {a=https://suitpub.alwaysdata.net/books/changelog}wiki{/a}" style "main_menu_changelog_subtitle"
+                    text "Changelog for older versions can be found in the {a=https://wiki.suit-ji.com/books/changelog}wiki{/a}" style "main_menu_changelog_subtitle"
 
         vbar value YScrollValue("ChangelogMenu"):
             unscrollable "hide"
@@ -1394,7 +1489,7 @@ screen mod_manager():
     use game_menu(_("Mod Manager"), scroll="viewport"):
 
         vbox:
-            text "After activating or deactivating any mods, you have to restart the game to apply changes.":
+            text "After activating or deactivating any mods, you have to restart the game to apply changes.\nOnly install mods you trust. Mods can contain malicious code.\nI am not responsible for any damage caused by third-party mods.":
                 style "mod_menu_description"
                 color "#fff"
             null height 20
@@ -1407,13 +1502,20 @@ screen mod_manager():
                 null height 20
 
             for mod_key in persistent.modList.keys():
-                $ mod = persistent.modList[mod_key]
+                python:
+                    mod = persistent.modList[mod_key]
+                    # if not mod['available']:
+                        # continue
+
+                    if mod_key not in mod_count.keys():
+                        mod_count[mod_key] = 0
+
+                    mod_name = mod['name']
+                    mod_author = "by " + mod['author']
+                    mod_version = "Version " + mod['version']
+
                 if not mod['available']:
                     continue
-
-                $ mod_name = mod['name']
-                $ mod_author = "by " + mod['author']
-                $ mod_version = "Version " + mod['version']
                 # null width 1600
                 hbox:
                     text mod_name:
@@ -1436,7 +1538,7 @@ screen mod_manager():
                 
                 null height 5
 
-                $ mod_stats = "Events: " + str(mod['event_count']) + "    Translation files: " + str(len(mod['translations']))
+                $ mod_stats = "Events: " + str(mod_count[mod_key]) + "    Translation files: " + str(len(mod['translations']))
                 text mod_stats:
                     style "mod_menu_description"
                     xpos 20

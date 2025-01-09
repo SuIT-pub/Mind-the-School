@@ -27,14 +27,14 @@ init 1 python:
         Event(1, "office_teacher_sex_ed_introduction_1",
             ProgressCondition('start_sex_ed', 1),
             TimeCondition(daytime = "d", weekday = "d"),
-            Pattern("main", "images/events/sex_ed_intro/office_teacher_sex_ed_introduction_1/<step>.webp"),
-            thumbnail = "images/events/sex_ed_intro/office_teacher_sex_ed_introduction_1/4.webp",
+            Pattern("main", "images/events/sex_ed_intro/office_teacher_sex_ed_introduction_1/office_teacher_sex_ed_introduction_1 <step>.webp"),
+            thumbnail = "images/events/sex_ed_intro/office_teacher_sex_ed_introduction_1/office_teacher_sex_ed_introduction_1 4.webp",
         ),
         Event(1, "office_teacher_sex_ed_introduction_3",
             ProgressCondition('start_sex_ed', 3),
             TimeCondition(daytime = "d"),
-            Pattern("main", "images/events/sex_ed_intro/office_teacher_sex_ed_introduction_3/<step>.webp"),
-            thumbnail = "images/events/sex_ed_intro/office_teacher_sex_ed_introduction_3/3.webp",
+            Pattern("main", "images/events/sex_ed_intro/office_teacher_sex_ed_introduction_3/office_teacher_sex_ed_introduction_3 <step>.webp"),
+            thumbnail = "images/events/sex_ed_intro/office_teacher_sex_ed_introduction_3/office_teacher_sex_ed_introduction_3 3.webp",
         )
     )
 
@@ -42,36 +42,36 @@ init 1 python:
         ProgressCondition('start_sex_ed', 2),
         EventSeenCondition(),
         TimeCondition(daytime = "1", weekday = "1-4"),
-        Pattern("main", "images/events/sex_ed_intro/office_teacher_sex_ed_introduction_2/<step>.webp"),
-        thumbnail = "images/events/sex_ed_intro/office_teacher_sex_ed_introduction_2/4.webp",
+        Pattern("main", "images/events/sex_ed_intro/office_teacher_sex_ed_introduction_2/office_teacher_sex_ed_introduction_2 <step>.webp"),
+        thumbnail = "images/events/sex_ed_intro/office_teacher_sex_ed_introduction_2/office_teacher_sex_ed_introduction_2 4.webp",
 
     ))
 
     office_building_events["schedule_meeting"].add_event(Event(1, "office_teacher_sex_ed_introduction_4",
         ProgressCondition('start_sex_ed', 4),
         TimeCondition(daytime = "f", weekday = "d"),
-        Pattern("main", "images/events/sex_ed_intro/office_teacher_sex_ed_introduction_4/<step>.webp"),
-        thumbnail = "images/events/sex_ed_intro/office_teacher_sex_ed_introduction_4/4.webp",
+        Pattern("main", "images/events/sex_ed_intro/office_teacher_sex_ed_introduction_4/office_teacher_sex_ed_introduction_4 <step>.webp"),
+        thumbnail = "images/events/sex_ed_intro/office_teacher_sex_ed_introduction_4/office_teacher_sex_ed_introduction_4 4.webp",
     ))
 
     # PTA discussions
     pta_discussion_storage.add_event(EventFragment(1, "pta_discussion_sex_ed_intro_1",
         ProgressCondition('start_sex_ed', 5),
-        Pattern("main", "images/events/sex_ed_intro/pta_discussion_sex_ed_intro_1/<step>.webp"),
-        thumbnail = "images/events/sex_ed_intro/pta_discussion_sex_ed_intro_1/10.webp",
+        Pattern("main", "images/events/sex_ed_intro/pta_discussion_sex_ed_intro_1/pta_discussion_sex_ed_intro_1 <step>.webp"),
+        thumbnail = "images/events/sex_ed_intro/pta_discussion_sex_ed_intro_1/pta_discussion_sex_ed_intro_1 10.webp",
     ))
 
     pta_vote_storage.add_event(EventFragment(2, "pta_vote_theoretical_sex_ed_1",
         JournalVoteCondition("theoretical_sex_ed"),
-        Pattern("main", "images/events/sex_ed_intro/pta_vote_theoretical_sex_ed_1/<step>.webp"),
-        thumbnail = "images/events/sex_ed_intro/pta_vote_theoretical_sex_ed_1/10.webp",
+        Pattern("main", "images/events/sex_ed_intro/pta_vote_theoretical_sex_ed_1/pta_vote_theoretical_sex_ed_1 <step>.webp"),
+        thumbnail = "images/events/sex_ed_intro/pta_vote_theoretical_sex_ed_1/pta_vote_theoretical_sex_ed_1 10.webp",
     ))
 
     temp_time_check_events.add_event(Event(1, "theoretical_sex_ed_assembly_1",
         ProgressCondition('start_sex_ed', 7),
         TimeCondition(daytime = "6", weekday = "5"),
-        Pattern("main", "images/events/sex_ed_intro/theoretical_sex_ed_assembly_1/<step>.webp"),
-    ))
+        Pattern("main", "images/events/sex_ed_intro/theoretical_sex_ed_assembly_1/theoretical_sex_ed_assembly_1 <step>.webp")),
+    )
 
     courtyard_general_event.add_event(
         Event(3, "sex_ed_intro_mini_courtyard_1",
@@ -80,28 +80,7 @@ init 1 python:
             EventSeenCondition(),
             PriorityOption(99),
             ForceHighlightOption(),
-            Pattern("main", "images/events/sex_ed_intro/sex_ed_intro_mini_courtyard_1/<step>.webp")),
-        Event(3, "sex_ed_intro_mini_courtyard_2",
-            ProgressCondition('start_sex_ed', 8),
-            TimeCondition(daytime = "d", weekday = "w"),
-            EventSeenCondition(),
-            PriorityOption(99),
-            ForceHighlightOption(),
-            Pattern("main", "images/events/sex_ed_intro/sex_ed_intro_mini_courtyard_2/<step>.webp")),
-        Event(3, "sex_ed_intro_mini_courtyard_3",
-            ProgressCondition('start_sex_ed', 8),
-            TimeCondition(daytime = "d", weekday = "w"),
-            EventSeenCondition(),
-            PriorityOption(99),
-            ForceHighlightOption(),
-            Pattern("main", "images/events/sex_ed_intro/sex_ed_intro_mini_courtyard_3/<step>.webp")),
-        Event(3, "sex_ed_intro_mini_courtyard_4",
-            ProgressCondition('start_sex_ed', 8),
-            TimeCondition(daytime = "d", weekday = "w"),
-            EventSeenCondition(),
-            PriorityOption(99),
-            ForceHighlightOption(),
-            Pattern("main", "images/events/sex_ed_intro/sex_ed_intro_mini_courtyard_4/<step>.webp")),
+            Pattern("main", "images/events/sex_ed_intro/mini_courtyard_1/mini_courtyard_1 <step>.webp")),
     )
     sd_general_event.add_event(
         Event(3, "sex_ed_intro_mini_sd_1",
@@ -110,54 +89,25 @@ init 1 python:
             EventSeenCondition(),
             PriorityOption(99),
             ForceHighlightOption(),
-            Pattern("main", "images/events/sex_ed_intro/sex_ed_intro_mini_sd_1/<step>.webp")),
+            Pattern("main", "images/events/sex_ed_intro/mini_sd_1/mini_sd_1 <step>.webp")),
         Event(3, "sex_ed_intro_mini_sd_2",
             ProgressCondition('start_sex_ed', 8),
             TimeCondition(daytime = "d", weekday = "w"),
             EventSeenCondition(),
             PriorityOption(99),
             ForceHighlightOption(),
-            Pattern("main", "images/events/sex_ed_intro/sex_ed_intro_mini_sd_2/<step>.webp")),
+            Pattern("main", "images/events/sex_ed_intro/mini_sd_2/mini_sd_2 <step>.webp")),
     )
-    sb_general_event.add_event(
-        Event(3, "sex_ed_intro_mini_sb_1",
-            ProgressCondition('start_sex_ed', 8),
-            TimeCondition(daytime = "d", weekday = "w"),
-            EventSeenCondition(),
-            PriorityOption(99),
-            ForceHighlightOption(),
-            Pattern("main", "images/events/sex_ed_intro/sex_ed_intro_mini_sb_1/<step>.webp")),
-        Event(3, "sex_ed_intro_mini_sb_2",
-            ProgressCondition('start_sex_ed', 8),
-            TimeCondition(daytime = "d", weekday = "w"),
-            EventSeenCondition(),
-            PriorityOption(99),
-            ForceHighlightOption(),
-            Pattern("main", "images/events/sex_ed_intro/sex_ed_intro_mini_sb_2/<step>.webp")),
-        Event(3, "sex_ed_intro_mini_sb_3",
-            ProgressCondition('start_sex_ed', 8),
-            TimeCondition(daytime = "d", weekday = "w"),
-            EventSeenCondition(),
-            PriorityOption(99),
-            ForceHighlightOption(),
-            Pattern("main", "images/events/sex_ed_intro/sex_ed_intro_mini_sb_3/<step>.webp")),
-        Event(3, "sex_ed_intro_mini_sb_4",
-            ProgressCondition('start_sex_ed', 8),
-            TimeCondition(daytime = "d", weekday = "w"),
-            EventSeenCondition(),
-            PriorityOption(99),
-            ForceHighlightOption(),
-            Pattern("main", "images/events/sex_ed_intro/sex_ed_intro_mini_sb_4/<step>.webp")),
-    )
-
     temp_time_check_events.add_event(
         Event(1, "first_sex_ed_day",
             ProgressCondition('start_sex_ed', 8),
             TimeCondition(daytime = 1, weekday = 1),
+            Pattern("main", "images/events/sex_ed_intro/first_sex_ed_day/first_sex_ed_day <step>.webp"),
         ),
         Event(1, "first_sex_ed_class_1",
             ProgressCondition('start_sex_ed', 8),
-            TimeCondition(daytime = 1, weekday = 2),
+            TimeCondition(daytime = 2, weekday = 1),
+            Pattern("main", "images/events/sex_ed_intro/first_sex_ed_class_1/first_sex_ed_class_1 <step>.webp"),
         ),
     )
 
@@ -239,11 +189,11 @@ label office_teacher_sex_ed_introduction_1 (**kwargs):
 label office_teacher_sex_ed_introduction_2 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ finola = Character("Finola Ryan",   kind = character.teacher)
-    $ chloe  = Character("Chloe Garcia",  kind = character.teacher)
-    $ lily   = Character("Lily Anderson", kind = character.teacher)
-    $ yulan  = Character("Yulan Chen",    kind = character.teacher)
-    $ zoe    = Character("Zoe Parker",    kind = character.teacher)
+    $ finola = get_person("staff", "finola_ryan").get_character()
+    $ chloe  = get_person("staff", "chloe_garcia").get_character()
+    $ lily   = get_person("staff", "lily_anderson").get_character()
+    $ yulan  = get_person("staff", "yulan_chen").get_character()
+    $ zoe    = get_person("staff", "zoe_parker").get_character()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -427,11 +377,11 @@ label office_teacher_sex_ed_introduction_3 (**kwargs):
 label office_teacher_sex_ed_introduction_4 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ finola = Character("Finola Ryan",   kind = character.teacher)
-    $ chloe  = Character("Chloe Garcia",  kind = character.teacher)
-    $ lily   = Character("Lily Anderson", kind = character.teacher)
-    $ yulan  = Character("Yulan Chen",    kind = character.teacher)
-    $ zoe    = Character("Zoe Parker",    kind = character.teacher)
+    $ finola = get_person("staff", "finola_ryan").get_character()
+    $ chloe  = get_person("staff", "chloe_garcia").get_character()
+    $ lily   = get_person("staff", "lily_anderson").get_character()
+    $ yulan  = get_person("staff", "yulan_chen").get_character()
+    $ zoe    = get_person("staff", "zoe_parker").get_character()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -540,17 +490,17 @@ label .end_presentation (**kwargs):
 label pta_discussion_sex_ed_intro_1 (**kwargs):
     $ begin_event(no_gallery = True, **kwargs)
 
-    $ finola = Character("Finola Ryan",   kind = character.teacher)
-    $ chloe  = Character("Chloe Garcia",  kind = character.teacher)
-    $ lily   = Character("Lily Anderson", kind = character.teacher)
-    $ yulan  = Character("Yulan Chen",    kind = character.teacher)
-    $ zoe    = Character("Zoe Parker",    kind = character.teacher)
+    $ finola = get_person("staff", "finola_ryan").get_character()
+    $ chloe  = get_person("staff", "chloe_garcia").get_character()
+    $ lily   = get_person("staff", "lily_anderson").get_character()
+    $ yulan  = get_person("staff", "yulan_chen").get_character()
+    $ zoe    = get_person("staff", "zoe_parker").get_character()
 
-    $ adelaide = Character("Adelaide Hall", kind = character.parent)
-    $ nubia    = Character("Nubia Davis",   kind = character.parent)
-    $ yuki     = Character("Yuki Yamamoto", kind = character.parent)
+    $ adelaide = get_person("parents", "adelaide_hall").get_character()
+    $ nubia    = get_person("parents", "nubia_davis").get_character()
+    $ yuki     = get_person("parents", "yuki_yamamoto").get_character()
 
-    $ yuriko = Character("Yuriko Oshima", kind = character.sgirl)
+    $ yuriko = get_person("class_3a", "yuriko_oshima").get_character()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -615,6 +565,9 @@ label pta_discussion_sex_ed_intro_1 (**kwargs):
 
     $ image.show(19)
     yuriko "Fine! But I still think it's unnecessary!"
+
+    $ image.show(3)
+    headmaster "Great! Then let's move onto the next topic."
     
     $ add_notify_message("Added new rule to journal!")
 
@@ -762,7 +715,7 @@ label sex_ed_intro_mini_sd_1 (**kwargs):
     $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
-    subtitles "You peek through the window."
+    subtitles "You peek through the door."
     $ image.show(1)
     headmaster_thought "Looks like the students are really reading through the material."
 
@@ -780,7 +733,7 @@ label sex_ed_intro_mini_sd_2 (**kwargs):
     $ image.show(2)
     subtitles "*KNOCK* *KNOCK*"
     $ image.show(3)
-    headmaster "Hello. Ah I was wondering where that noise was coming from."
+    headmaster "Hello? Ah I was wondering where that noise was coming from."
     $ image.show(4)
     sgirl "Oh, hello Headmaster. We're sorry for the noise."
     $ image.show(5)
@@ -809,180 +762,17 @@ label sex_ed_intro_mini_courtyard_1 (**kwargs):
 
     $ end_event('new_daytime', **kwargs)
 
-label sex_ed_intro_mini_courtyard_2 (**kwargs):
-    $ begin_event(**kwargs)
-
-    $ image = convert_pattern("main", **kwargs)
-
-    $ image.show(0)
-    subtitles "You walk through the park and notice a group of students sitting on the grass, reading the material."
-    $ image.show(1)
-    headmaster_thought "It's nice to see them taking the time to read through the material in such a relaxed setting."
-    $ image.show(2)
-    headmaster_thought "I hope they find it informative and helpful."
-
-    $ end_event('new_daytime', **kwargs)
-
-label sex_ed_intro_mini_courtyard_3 (**kwargs):
-    $ begin_event(**kwargs)
-
-    $ image = convert_pattern("main", **kwargs)
-
-    $ image.show(0)
-    subtitles "You see the students sitting in the courtyard, discussing the material."
-    $ image.show(1)
-    headmaster "Hello, everyone. What are you discussing?"
-    $ image.show(2)
-    sgirl "Hi, Headmaster. We're talking about the section on healthy relationships." #1
-    $ image.show(3)
-    headmaster "That's a very important topic. What are your thoughts so far?"
-    $ image.show(4)
-    sgirl "We think it's really helpful. It's making us think about how we treat each other." #2
-    $ image.show(5)
-    headmaster "I'm glad to hear that. Understanding healthy relationships is crucial for your well-being."
-    $ image.show(6)
-    sgirl "Thank you for providing this material, Headmaster." #3
-    $ image.show(7)
-    headmaster "You're welcome. Keep discussing and learning from each other."
-    $ image.show(8)
-    sgirl "We will. Thank you!" #2
-
-    $ end_event('new_daytime', **kwargs)
-
-label sex_ed_intro_mini_courtyard_4 (**kwargs):
-    $ begin_event(**kwargs)
-
-    $ image = convert_pattern("main", **kwargs)
-
-    # you see the students sitting in the courtyard discussing the material
-    # the students struggle to understand the importance of sex ed and are hit with incomprehension
-    # headmaster joins and explains the importance
-
-    $ image.show(0)
-    subtitles "You see the students sitting in the courtyard, discussing the material."
-    $ image.show(1)
-    sgirl "I don't get it. Why do we need to learn about this stuff?" #1
-    $ image.show(2)
-    sgirl "Yeah, it's so awkward and embarrassing." #2
-    $ image.show(3)
-    headmaster "Hello, everyone. I heard your concerns. I understand that this topic may be uncomfortable for some of you."
-    $ image.show(4)
-    headmaster "But it is important for you to understand your bodies and how they work."
-    $ image.show(5)
-    headmaster "Sexual education is not just about sex but also about relationships, consent, and respect."
-    $ image.show(6)
-    headmaster "It's about making informed decisions and understanding your own and others' boundaries."
-    $ image.show(7)
-    headmaster "I hope that by learning about these topics, you will feel more confident and empowered to make healthy choices."
-    $ image.show(8)
-    sgirl "Hmm, I never thought about it that way before." #1
-    $ image.show(9)
-    sgirl "Yeah, I guess it does make sense." #2
-    $ image.show(10)
-    headmaster "I'm glad you're starting to see the importance of sexual education. If you have any questions, feel free to ask."
-
-    $ end_event('new_daytime', **kwargs)
-
-label sex_ed_intro_mini_cafeteria_1 (**kwargs):
-    $ begin_event(**kwargs)
-
-    $ image = convert_pattern("main", **kwargs)
-
-    $ image.show(0)
-    subtitles "You walk into the cafeteria and see students discussing the material over lunch."
-    $ image.show(1)
-    headmaster_thought "It's great to see them having open discussions about the topic."
-    $ image.show(2)
-    headmaster_thought "I hope this leads to a more understanding and supportive environment."
-
-    $ end_event('new_daytime', **kwargs)
-
-label sex_ed_intro_mini_sb_1 (**kwargs):
-    $ begin_event(**kwargs)
-
-    $ image = convert_pattern("main", **kwargs)
-
-    $ image.show(0)
-    subtitles "You walk into the class room and see students creating artwork inspired by the material."
-    $ image.show(1)
-    headmaster_thought "Art is a wonderful way to express their thoughts and feelings about the topic."
-    $ image.show(2)
-    headmaster_thought "I should encourage them to display their work around the school."
-
-    $ end_event('new_daytime', **kwargs)
-
-label sex_ed_intro_mini_sb_2 (**kwargs):
-    $ begin_event(**kwargs)
-
-    $ image = convert_pattern("main", **kwargs)
-
-    $ image.show(0)
-    subtitles "You pass by a classroom and see students gathered around a laptop, watching an educational video."
-    $ image.show(1)
-    headmaster_thought "Looks like they're using the resources provided to enhance their understanding."
-    $ image.show(2)
-    headmaster_thought "I should check in later to see if they have any questions."
-
-    $ end_event('new_daytime', **kwargs)
-
-label sex_ed_intro_mini_sb_3 (**kwargs):
-    $ begin_event(**kwargs)
-
-    $ image = convert_pattern("main", **kwargs)
-
-    $ image.show(0)
-    subtitles "You enter the classroom and see a group of students discussing the material."
-    $ image.show(1)
-    headmaster_thought "It's good to see them engaging with the content."
-    $ image.show(2)
-    sgirl "Headmaster! I never thought about these topics that way before. This material is really eye-opening."
-    $ image.show(3)
-    sgirl "Yeah, it's making me rethink a lot of things."
-    $ image.show(4)
-    headmaster "I'm glad to see you all are finding the material useful."
-    $ image.show(5)
-    sgirl "Yes. It's very informative."
-    $ image.show(6)
-    headmaster "Great! Keep up the good work and don't hesitate to ask if you have any questions."
-    $ image.show(7)
-    sgirl "Thank you, Headmaster."
-
-    $ end_event('new_daytime', **kwargs)
-
-label sex_ed_intro_mini_sb_4 (**kwargs):
-    $ begin_event(**kwargs)
-
-    $ image = convert_pattern("main", **kwargs)
-
-    $ image.show(0)
-    subtitles "You enter the library and see a group of students reading the material."
-    $ image.show(1)
-    headmaster "Hello, everyone. How's the reading going?"
-    $ image.show(2)
-    sgirl "Hello, Headmaster. It's going well, but we have some questions." #1
-    $ image.show(3)
-    headmaster "I'm glad to hear that. What questions do you have?"
-    $ image.show(4)
-    sgirl "We were wondering about the section on consent. Can you explain it a bit more?" #2
-    $ image.show(5)
-    headmaster "Of course. Consent is a complex topic but I can give you a short overview."
-    headmaster "Consent is about making sure that both parties agree to any activity. It's important to communicate clearly and respect each other's boundaries."
-    $ image.show(6)
-    sgirl "That makes sense. Thank you for explaining." #1
-    $ image.show(7)
-    headmaster "You're welcome. If you have any more questions, feel free to ask."
-    $ image.show(8)
-    sgirl "We will. Thank you, Headmaster." #2
-
-    $ end_event('new_daytime', **kwargs)
-
 # endregion
 
 label first_sex_ed_day(**kwargs):
     $ begin_event(**kwargs)
 
+    $ image = convert_pattern("main", **kwargs)
+
+    $ image.show(0)
     headmaster_thought "Big day today. The first sexual education class. I hope the students are ready for it."
-    headmaster_thought "Hmm, I see the students again modified their uniforms slightly. Looks good on them."
+    $ image.show(1)
+    headmaster_thought "Hmm, I see the students are going more chill with their uniforms now. Looks good on them."
     headmaster_thought "Well, I guess I should go to the classroom now."
 
     $ get_character_by_key("school").set_level(2)
@@ -998,81 +788,120 @@ label first_sex_ed_day(**kwargs):
 label first_sex_ed_class_1 (**kwargs):
     $ begin_event(**kwargs)
 
+    $ finola = get_person("staff", "finola_ryan").get_character()
+
     $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     headmaster "Good morning, today you will have your first class in sexual education."
+    $ image.show(1)
+    headmaster_thought "Oh wow, even Finola has gotten more relaxed with her outfit. Not much, but it's a start."
+    $ image.show(2)
     headmaster "I know many of you are nervous or uncomfortable about this topic, but I assure you it is important."
     headmaster "For that reason I want to make sure to keep this topic as transparent as possible."
+    $ image.show(3)
     headmaster "So that is why I am here today. Today will be no normal class, instead I hope you have worked through the material."
     headmaster "If you have, I want you to ask me questions and issues you have with the material or with the topic in general, so we can discuss then together and give you a good introduction."
+    $ image.show(4)
     headmaster "So, who has questions?"
+    $ image.show(5)
     headmaster "Nobody? Don't be shy."
+    $ image.show(6)
     headmaster "Well that actually is a good entry point into why this topic is necessary."
+    $ image.show(7)
     headmaster "Sexual education is not only about learning about your bodies and learning how intercourse works."
     headmaster "It is also about learning about relationships, consent, and respect. It is about making informed decisions and understanding your own and others' boundaries."
     headmaster "Learning to recognise what the other person feels comfortable with and what not. Learning about empathy."
+    $ image.show(8)
     headmaster "My aim is to help you have healthier relationships with each other. That way everyone will have a happier life."
     headmaster "So with that, does anyone want to ask a question?"
+    $ image.show(9)
     headmaster "No? Would you rather we collect answers anonymously and discuss them together?"
+    $ image.show(10)
     subtitles "*energetic nodding from the students*"
+    $ image.show(11)
     headmaster "Alright. Then please prepare a few questions. I will collect them in 10 minutes and then we will go through them one by one."
     call screen black_screen_text("10 minutes later.")
+    $ image.show(12)
     headmaster "Alright, let's see what you have prepared."
+    $ image.show(13)
     headmaster "Let's start with the first question."
 
+    $ image.show(14)
     headmaster "\"What is consent?\""
+    $ image.show(15)
     headmaster "That is a good question. Consent can become a complex topic as it is not only about saying yes or no. For that reason you will learn more about it in future lessons."
     headmaster "But basically it is about making sure that all parties agree to any activity and that it's important to communicate clearly and respect each other's boundaries."
+    $ image.show(16)
     headmaster "Miss Ryan, do you take notes, so you know what topics to prioritize in the future?"
+    $ image.show(17)
     finola "Yes, Mr. [headmaster_last_name]. I'm already on it."
+    $ image.show(18)
     headmaster "Excellent!"
     headmaster "Then let's move on to the next question."
 
+    $ image.show(14)
     headmaster "\"What are the types of birth control?\""
+    $ image.show(19)
     headmaster "That is a good question. There are many types of birth control, such as condoms, birth control pills, and intrauterine devices."
     headmaster "But all of them have certain aspects that have to be considered. Some of them also should be discussed with the partner because of them."
     headmaster "That topic will be covered in future lessons as well for that reason."
     headmaster "Next question!"
 
+    $ image.show(14)
     headmaster "\"Is it normal to feel nervous about these topics?\""
+    $ image.show(15)
     headmaster "Absolutely! It is completely normal to feel nervous or uncomfortable about these topics. It is a sensitive topic and it is okay to feel that way."
     headmaster "Moreover, until now you have not been taught about these topics and have been kept afar from them. So it is not only normal, but also expected."
     headmaster "One more reason for us to be doing this, since you will come across these topics sooner or later. So better to be prepared."
 
+    $ image.show(14)
     headmaster "\"How can I build self-confidence and self-respect?\""
+    $ image.show(19)
     headmaster "That is a good question. Building self-confidence and self-respect is an important part of sexual education."
     headmaster "To build self-confidence it helps to put yourself in situations where you can succeed and to set realistic goals for yourself."
     headmaster "But it is also important to put yourself in situations where you can fail and learn from it. Or put yourself in uncomfortable situations, try out new things."
     headmaster "Be a bit more daring and try out new things. For example wearing something more daring and seeing how you feel about it."
 
+    $ image.show(14)
     headmaster "\"What should I do if I have questions about my own body?\""
+    $ image.show(15)
     headmaster "You can just come talk to me or your teachers. We will help you as good as we can. I also hold counselling sessions."
     headmaster "There you can come talk to me for any problems or insecurities you have. It's all confidential and I will help you as good as I can."
     headmaster "If you want or need some counselling, just talk to my Secretary Ms. Langley and she will schedule an appointment for you."
+    headmaster "Okay, we don't have much time left. So let's take one more question."
 
-    headmaster "Now unfortunately the lesson has ended but there are still a lot of questions left."
-    headmaster "I'll just leave them with Miss Ryan and she will make sure to answer them in the next lessons."
-    headmaster "I hope you had a good introduction and look forward to the next lessons."
-    # How do I tell someone my boundaries?
-    # What should I do if someone doesn't respect my boundaries?
-    # How can I tell if someone is uncomfortable?
-    # What makes a relationship healthy?
-    # How can I help a friend in a bad relationship?
-    # What should I do if I see or experience sexual harassment?
-    # How can I talk to my parents about this stuff?
-    # Where can I get more information or help?
-    # How do I know if I'm ready for a relationship?
-    # What should I do if my partner pressures me into something I'm not comfortable with?
-    # How can I support a friend who is questioning their sexual orientation?
-    # What are the signs of an abusive relationship?
-    # How can I build self-confidence and self-respect?
-    # What should I do if I have questions about my own body?
-    # How can I handle peer pressure related to sex and relationships?
-    # What resources are available at school if I need help or advice?
-
+    $ image.show(14)
+    headmaster "\"What is masturbation?\""
+    $ image.show(20)
+    headmaster "Oh wow, I guess lessons are really needed for you."
+    $ image.show(21)
+    headmaster "But that is a really good and important question. Masturbation is a normal and healthy part of human sexuality."
+    headmaster "It is a way to explore your body and learn what feels good to you. It is also a way to relieve stress and tension."
+    $ image.show(22)
+    headmaster "Since it is the first lessons, I won't dive too deep into it."
+    $ image.show(23)
+    headmaster "But Masturbation is the practice of touching or rubbing your own genitals for sexual pleasure."
+    $ image.show(24)
+    headmaster "There are many ways of doing it and it is completely normal and healthy."
+    headmaster "You should not feel ashamed about it and actually try it out. It is an important part of your sexual development."
+    $ image.show(25)
+    headmaster "Mrs. Ryan, you masturbate, don't you?"
+    $ image.show(26)
+    finola "Mr. [headmaster_last_name]!"
+    $ image.show(27)
+    finola "..."
+    $ image.show(28)
+    finola "Yes, I do."
+    $ image.show(29)
+    headmaster "See, even Mrs. Ryan does it. So it is completely normal and healthy."
+    $ image.show(30)
+    headmaster "Now since I am male and Mrs. Ryan isn't. Please direct your questions about masturbation to her."
+    $ image.show(31)
+    headmaster "But that is all for today. I hope you have a good day and I hope you learned something new today."
+    
     call change_stats_with_modifier('school',
-        education = MEDIUM, inhibition = DEC_SMALL, corruption = TINY, happiness = TINY
+        education = MEDIUM, inhibition = DEC_SMALL, corruption = SMALL, happiness = TINY
     ) from _call_first_sex_ed_class_1_1
 
     $ end_event('new_daytime', **kwargs)

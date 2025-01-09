@@ -72,6 +72,11 @@ init -3 python:
                     values = selector.get_value(**kwargs)
                     for key in values.keys():
                         kwargs[key] = values[key]
+                elif isinstance(selector, StatSelector):
+                    key = selector.get_name()
+                    value = selector.get_value(**kwargs)
+                    kwargs[key + "_range"] = selector._range
+                    kwargs[key] = value
                 else:
                     key = selector.get_name()
                     value = selector.get_value(**kwargs)
@@ -349,10 +354,11 @@ init -3 python:
             - Realtime should be set to True, otherwise the event could work with out of date stat information
         """
 
-        def __init__(self, key: str, stat: str | Selector, char: str | Selector, realtime: bool = True):
+        def __init__(self, key: str, stat: str | Selector, char: str | Selector, stat_range: List[int], realtime: bool = True):
             super().__init__(realtime, key)
             self._stat = stat
             self._char = char
+            self._range = stat_range
 
         def roll(self, **kwargs) -> Any:
             """

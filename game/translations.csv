@@ -32,6 +32,10 @@ floor;Floor
 rule;Rules
 club;Clubs
 building;Buildings
+school_level;Level
+parent_level;Level
+teacher_level;Level
+secretary_level;Level
 
 cafeteria;Cafeteria
 courtyard;Courtyard
@@ -45,6 +49,9 @@ school_dormitory;School Dormitory
 class_3a;Class 3A
 parents;Parents
 staff;Staff
+
+look_around;Look Around
+schedule_meeting;Schedule a Meeting
 
 ############
 # Subjects
@@ -70,6 +77,7 @@ event_cafeteria_order_food;Order Food
 event_cafeteria_eat_alone;Eat Alone
 
 cafeteria_event_1;Get some Coffee
+cafeteria_event_1_parent_level;Level
 
 cafeteria_event_2;Getting ready
 cafeteria_event_2_time;Time
@@ -81,6 +89,7 @@ cafeteria_event_2_topic_nude;Nude
 
 cafeteria_event_3;A lot to do
 cafeteria_event_3_unlock_school_jobs;Help
+cafeteria_event_3_parent_level;Level
 unlock_school_jobs_2;not helping
 unlock_school_jobs_100;helping
 
@@ -89,13 +98,14 @@ cafeteria_event_4_amount;Amount
 cafeteria_event_4_girl_1;1.Girl
 cafeteria_event_4_girl_2;2.Girl
 cafeteria_event_4_girl_3;3.Girl
+cafeteria_event_4_parent_level;Level
 
 cafeteria_event_5;Eating in silence
-cafeteria_event_5_classes;Classes
-cafeteria_event_5_classes_1A 2A;1A & 2A
-cafeteria_event_5_classes_1A 2A 3A;1A & 2A & 3A
-cafeteria_event_5_classes_1A 3A;1A & 3A
-cafeteria_event_5_classes_2A 3A;2A & 3A
+cafeteria_event_5_school_level;Level
+
+cafeteria_event_6;Tasty food (kinda)
+
+cafeteria_event_7;Secretly making cake
 
 ###########
 # Courtyard
@@ -104,11 +114,14 @@ event_courtyard_patrol;Patrol
 first_potion_courtyard_event;First Potion
 first_week_courtyard_event;First Week
 courtyard_event_1;Gust of Wind
+courtyard_event_1_school_level;Level
+
 courtyard_event_2;Girl sitting alone
 courtyard_event_3;Girls taking a break
 courtyard_event_4;Running in the Rain
 courtyard_event_5;Group of Girls
 courtyard_event_6;Break too long
+courtyard_event_7;Exposed butt!
 
 #####
 # Gym
@@ -204,9 +217,9 @@ sb_event_4;Student tripping in hallway
 
 sb_event_5;Girls changing in classroom
 sb_event_5_girls;Girls
-sb_event_5_girls_Ikushi Ito;Ikushi, Gloria, Luna
-sb_event_5_girls_Soyoon Yamamoto;Soyoon, Lin, Aona
-sb_event_5_girls_Yuriko Oshima;Yuriko, Kokoro, Elsie
+sb_event_5_girls_ikushi_ito;Ikushi, Gloria, Luna
+sb_event_5_girls_soyoon_yamamoto;Soyoon, Lin, Aona
+sb_event_5_girls_yuriko_oshima;Yuriko, Kokoro, Elsie
 
 sb_teach_math_1;Sleepy Math Class
 
@@ -245,6 +258,8 @@ first_week_school_dormitory_event;First Week
 sd_event_1;Homework is hard
 sd_event_2;Walk in on Girl
 sd_event_3;Ready to bunk
+sd_event_4;Reading... something?
+sd_event_5;Twins changing
 
 # Sports Field
 
@@ -273,6 +288,11 @@ office_teacher_sex_ed_introduction_4;Presenting Sex Ed
 pta_discussion_sex_ed_intro_1;Discussing Sex Ed
 pta_vote_theoretical_sex_ed_1;Vote for Sex Ed
 theoretical_sex_ed_assembly_1;Announcing Sex Ed
+sex_ed_intro_mini_sd_1;Learning in Dorm Room
+sex_ed_intro_mini_sd_2;Modifying Uniform
+sex_ed_intro_mini_courtyard_1;Discussing Sex Ed Material
+first_sex_ed_day;First day after Sex Ed Introduction
+first_sex_ed_class_1;First Sex Ed Class
 
 #########
 # QUESTS

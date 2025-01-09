@@ -423,7 +423,7 @@ init -98 python:
                 if task._goal == None:
                     task.register(self)
 
-                if task.get_type() == key and not task.is_complete():
+                if (task.get_type() == key or key == "x") and not task.is_complete():
                     task.update(**kwargs)
 
         def update_data(self, goal: Goal):
@@ -895,7 +895,10 @@ init -99 python:
             """
 
             event_name = get_kwargs('event_name', **kwargs)
-            if event_name == self._event and all([kwargs.get(key, None) == value for key, value in self._kwargs.items()]):
+            values = kwargs
+            if "values" in kwargs.keys():
+                values = kwargs["values"]
+            if event_name == self._event and all([values.get(key, None) == value for key, value in self._kwargs.items()]):
                 self._seen += 1
             if self._seen >= self._min_seen:
                 self.complete()
@@ -970,7 +973,6 @@ init -99 python:
             """
 
             if self._condition.is_fulfilled(**kwargs):
-                log("Stat condition complete")
                 self.complete()
 
     class TriggerTask(Task):
@@ -1092,6 +1094,11 @@ init -99 python:
 
             if get_kwargs('name', **kwargs) == self._journal_obj:
                 self.complete()
+                return
+            journal_obj = find_journal_obj(self._journal_obj)
+            if journal_obj != None and journal_obj.is_unlocked():
+                self.complete()
+                return
 
     class JournalUpgradeTask(Task):
         """
@@ -1156,6 +1163,11 @@ init -99 python:
 
             if get_kwargs('name', **kwargs) == self._journal_obj and get_kwargs('new_level', **kwargs) >= self._target_level:
                 self.complete()
+                return
+            journal_obj = find_journal_obj(self._journal_obj)
+            if journal_obj != None and journal_obj.get_level() >= self._target_level:
+                self.complete()
+                return
 
     class ScheduleVotingTask(Task):
         """

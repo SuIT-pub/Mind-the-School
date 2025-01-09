@@ -23,47 +23,55 @@ init 1 python:
     courtyard_event1 = Event(3, "courtyard_event_1",
         LevelCondition('1-3', char_obj = 'school'),
         LevelSelector('school_level', 'school'),
-        RandomListSelector('girl_name', 'Easkey Tanaka'),
+        RandomListSelector('girl_name', 'easkey_tanaka'),
         RandomValueSelector('variant', 1, 1),
         OR(TimeCondition(daytime = "f", weekday = "d"), TimeCondition(daytime = "d", weekday = "w")),
-        Pattern("main", "images/events/courtyard/courtyard_event_1/<girl_name> <school_level> <step>.webp"),
-        thumbnail = "images/events/courtyard/courtyard_event_1/Easkey Tanaka 1 0.webp")
+        Pattern("main", "images/events/courtyard/courtyard_event_1/courtyard_event_1 <girl_name> <school_level> <step>.webp"),
+        thumbnail = "images/events/courtyard/courtyard_event_1/courtyard_event_1 easkey_tanaka 1 0.webp")
 
     courtyard_event2 = Event(3, "courtyard_event_2",
         OR(TimeCondition(daytime = "f", weekday = "d"), TimeCondition(daytime = "d", weekday = "w")),
         LevelSelector('school_level', 'school'),
-        Pattern("main", "images/events/courtyard/courtyard_event_2 <school_level> <step>.webp"),
-        thumbnail = "images/events/courtyard/courtyard_event_2 1 0.webp")
+        Pattern("main", "images/events/courtyard/courtyard_event_2/courtyard_event_2 <school_level> <step>.webp"),
+        thumbnail = "images/events/courtyard/courtyard_event_2/courtyard_event_2 1 0.webp")
 
     courtyard_event3 = Event(3, "courtyard_event_3",
         TimeCondition(daytime = "f", weekday = "d"),
         LevelSelector('school_level', 'school'),
-        Pattern("main", "images/events/courtyard/courtyard_event_3/<school_level> <step>.webp"),
-        thumbnail = "images/events/courtyard/courtyard_event_3/1 0.webp")
+        Pattern("main", "images/events/courtyard/courtyard_event_3/courtyard_event_3 <school_level> <step>.webp"),
+        thumbnail = "images/events/courtyard/courtyard_event_3/courtyard_event_3 1 0.webp")
 
     courtyard_event4 = Event(3, "courtyard_event_4",
         OR(TimeCondition(weekday = "d", daytime = "f"),
             TimeCondition(weekday = "w", daytime = "d")),
-        RandomListSelector('girl_name', 'Luna Clark', "Gloria Goto", "Ikushi Ito", "Ishimaru Maki"),
-        Pattern("main", "images/events/courtyard/courtyard_event_4/<school_level> <girl_name> <step>.webp"),
-        thumbnail = "images/events/courtyard/courtyard_event_4/1 Gloria Goto 1.webp")
+        LevelCondition("3-", "school"),
+        RandomListSelector('girl_name', 'luna_clark', "gloria_goto", "ikushi_ito", "ishimaru_maki"),
+        Pattern("main", "images/events/courtyard/courtyard_event_4/courtyard_event_4 <school_level> <girl_name> <step>.webp"),
+        thumbnail = "images/events/courtyard/courtyard_event_4/courtyard_event_4 1 gloria_goto 1.webp")
 
     courtyard_event5 = Event(3, "courtyard_event_5",
         OR(TimeCondition(weekday = "d", daytime = "f"),
             TimeCondition(weekday = "w", daytime = "d")),
         LevelSelector('school_level', 'school'),
-        Pattern("main", "images/events/courtyard/courtyard_event_5/<school_level>.webp"),
-        thumbnail = "images/events/courtyard/courtyard_event_5/1.webp")
+        Pattern("main", "images/events/courtyard/courtyard_event_5/courtyard_event_5 <school_level>.webp"),
+        thumbnail = "images/events/courtyard/courtyard_event_5/courtyard_event_5 1.webp")
 
     courtyard_event6 = Event(3, "courtyard_event_6",
         TimeCondition(weekday = "d", daytime = "2,4"),
         LevelSelector('school_level', 'school'),
-        RandomListSelector('girl_name', "Seraphina Clark"),
-        Pattern("main", "images/events/courtyard/courtyard_event_6/<girl_name> <school_level> <step>.webp"),
-        thumbnail = "images/events/courtyard/courtyard_event_6/Seraphina Clark 1 0.webp")
+        RandomListSelector('girl_name', 'seraphina_clark'),
+        Pattern("main", "images/events/courtyard/courtyard_event_6/courtyard_event_6 <girl_name> <school_level> <step>.webp"),
+        thumbnail = "images/events/courtyard/courtyard_event_6/courtyard_event_6 seraphina_clark 1 0.webp")
 
     courtyard_event7 = Event(3, "courtyard_event_7",
-        TimeCondition(daytime = "f", weekday = "d"),)
+        OR(
+            TimeCondition(daytime = "f", weekday = "d"),
+            TimeCondition(daytime = "d", weekday = "w"),
+        ),
+        RandomListSelector("girl_name", "easkey_tanaka", "elsie_johnson", "seraphina_clark", "soyoon_yamamoto"),
+        Pattern("main", "images/events/courtyard/courtyard_event_7/courtyard_event_7 <girl_name> <school_level> <step>.webp"),
+        thumbnail = "images/events/courtyard/courtyard_event_7/courtyard_event_7 easkey_tanaka 1 0.webp"
+    )
 
     courtyard_event8 = Event(3, "courtyard_event_8",
         TimeCondition(daytime = "f", weekday = "d"),)
@@ -75,6 +83,7 @@ init 1 python:
         courtyard_event4,
         courtyard_event5,
         courtyard_event6,
+        courtyard_event7,
     )
 
 # endregion
@@ -160,6 +169,8 @@ label courtyard_event_2 (**kwargs):
 
     $ image = convert_pattern("main", **kwargs)
 
+    $ yuriko = get_person("class_3a", "yuriko_oshima").get_character()
+
     $ image.show(0)
     subtitles "You notice a girl sitting alone in the courtyard, apparently left out by the others."
     $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
@@ -173,19 +184,19 @@ label .talk (**kwargs):
     $ image.show(2)
     headmaster "Hey, are you alright?"
     $ image.show(3)
-    sgirl "Oh, hi. I'm fine, just a bit tired."
+    yuriko "Oh, hi. I'm fine, just a bit tired."
     $ image.show(4)
     headmaster "You look a bit lonely. Why don't you join the others?"
     $ image.show(5)
-    sgirl "I don't really like them. They are all so... shallow."
+    yuriko "I don't really like them. They are all so... shallow."
     $ image.show(6)
     headmaster "I see. Well, I'm sure you'll find some friends eventually."
     $ image.show(7)
-    sgirl "..."
+    yuriko "..."
     $ image.show(8)
     headmaster "If you need anything, just ask me. See you later."
     $ image.show(9)
-    sgirl "Thanks, bye."
+    yuriko "Thanks, bye."
     
     call change_stats_with_modifier('school',
         happiness = DEC_TINY, reputation = TINY) from _call_change_stats_with_modifier_11
@@ -206,6 +217,7 @@ label courtyard_event_3 (**kwargs):
     
     $ school_level = get_value('school_level', **kwargs)
     $ image = convert_pattern("main", **kwargs)
+
     call Image_Series.show_image(image, 0, 1) from _call_show_image_courtyard_event_3_1
     subtitles "You notice a group of girls taking a break together."
 
@@ -215,10 +227,7 @@ label courtyard_event_3 (**kwargs):
     $ end_event("new_daytime", **kwargs)
 
 label courtyard_event_4(**kwargs):
-    $ begin_event(**kwargs)
-
-    $ school_level = get_value('school_level', **kwargs)
-    $ girl_name = get_value("girl_name", **kwargs)
+    $ begin_event("2", **kwargs)
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -250,6 +259,8 @@ label courtyard_event_6(**kwargs):
 
     $ school_level = get_value('school_level', **kwargs)
 
+    $ seraphina = get_person("class_3a", "seraphina_clark").get_character()
+
     $ image = convert_pattern("main", **kwargs)
 
     # headmaster approaches a student sitting on the courtyard
@@ -258,7 +269,7 @@ label courtyard_event_6(**kwargs):
 
     # student looks up kinda surprised
     $ image.show(1)
-    sgirl "I'm taking my break sir."
+    seraphina "I'm taking my break sir."
 
     # headmaster looking rather angry
     $ image.show(2)
@@ -266,7 +277,7 @@ label courtyard_event_6(**kwargs):
 
     # student surprised
     $ image.show(3)
-    sgirl "Really?!"
+    seraphina "Really?!"
 
     # headmaster nods
     $ image.show(4)
@@ -274,7 +285,7 @@ label courtyard_event_6(**kwargs):
     
     # student runs off
     $ image.show(5)
-    sgirl "Sorry!"
+    seraphina "Sorry!"
 
     call change_stats_with_modifier('school',
         charm = DEC_TINY, education = SMALL) from _call_change_stats_with_modifier_16
@@ -287,10 +298,9 @@ label courtyard_event_7(**kwargs):
     $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
-    # You walk through the courtyard and find a girl lying on their stomach. She didn't notice her skirt was up.
+    call Image_Series.show_image(image, 0, 1, 2, 3) from _call_show_image_courtyard_event_7_1
     headmaster "Nice!"
-    # headmaster walks away
-    # girl looks up fixes her skirt and looks around suspiciously
+    call Image_Series.show_image(image, 4, 5, 6, 7, 8, 9, pause = True) from _call_show_image_courtyard_event_7_2
 
     call change_stats_with_modifier('school',
         charm = TINY, inhibition = DEC_SMALL
@@ -303,6 +313,8 @@ label courtyard_event_8(**kwargs):
 
     $ image = convert_pattern("main", **kwargs)
 
+    $ ishimaru = get_person("class_3a", "ishimaru_maki").get_character()
+
     $ image.show(0)
     # You find a girl playing the guitar. You sit down and listen to her play.
     # She looks up and smiles at you.
@@ -310,9 +322,9 @@ label courtyard_event_8(**kwargs):
     # You sit there for a while and listen to her play.
     # She finishes her song and you clap.
     headmaster "That was beautiful!"
-    sgirl "Thank you, I was just practicing."
+    ishimaru "Thank you, I was just practicing."
     headmaster "You're really good. Keep it up!"
-    sgirl "Thanks, I will."
+    ishimaru "Thanks, I will."
     # headmaster leaves
 
     call change_stats_with_modifier('school',

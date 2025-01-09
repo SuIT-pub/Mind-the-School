@@ -1,5 +1,5 @@
 init -6 python:
-    from typing import Dict, Any
+    from typing import Dict, Any, Union, Tuple
     import math
 
     ########################
@@ -35,11 +35,11 @@ init -6 python:
             - Checks if the stat exists in the character
         5. get_stat_obj(stat: str) -> Stat
             - Returns the stat object of the stat
-        6. set_stat(stat: str, value: num) -> None
+        6. set_stat(stat: str, value) -> None
             - Sets the value of the stat
-        7. change_stat(stat: str, delta: num) -> None
+        7. change_stat(stat: str, delta) -> None
             - Changes the value of the stat by delta
-        8. get_stat_number(stat: str) -> num
+        8. get_stat_number(stat: str)
             - Returns the value of the stat
         9. get_stat_string(stat: str) -> str
             - Returns the value of the stat as a string
@@ -47,7 +47,7 @@ init -6 python:
             - Resets the change of all the stats
         11. get_stats() -> Dict[str, Stat]
             - Returns the dictionary of all the stats
-        12. check_stat(stat: str, value: num | str) -> bool
+        12. check_stat(stat: str, value | str) -> bool
             - Checks if the stat equals the value
         13. display_stat(stat: str) -> str
             - Returns the stat as a string with the change
@@ -65,7 +65,7 @@ init -6 python:
             - Sets the level of the character
         20. get_nearest_level_delta(level: int) -> int
             - Returns the difference between level and the level of the current character
-        21. check_level(value: num | str, test_level: int = None) -> bool
+        21. check_level(value | str, test_level: int = None) -> bool
             - Checks if the level equals the value
 
         ### Parameters:
@@ -107,6 +107,9 @@ init -6 python:
                 self.level = Stat("level", 0)
             if not hasattr(self, 'stats_objects'):
                 self.stats_objects = {}
+
+        def __str__(self):
+            return self.get_name()
 
         def check_stat_exists(self, stat: str) -> bool:
             """
@@ -151,7 +154,7 @@ init -6 python:
 
             return self.title
 
-        def get_stat_obj(self, stat: str) -> Stat:
+        def get_stat_obj(self, stat: str):
             """
             Returns the stat object of the stat
 
@@ -175,14 +178,14 @@ init -6 python:
         #######################
         # region Stat handler #
 
-        def set_stat(self, stat: str, value: num):
+        def set_stat(self, stat: str, value):
             """
             Sets the value of the stat
 
             ### Parameters:
             1. stat: str
                 - The name of the stat to set
-            2. value: num
+            2. value
                 - The value to set the stat to
             """
 
@@ -194,14 +197,14 @@ init -6 python:
                 return
             stat_obj.set_value(value, self.get_level())
 
-        def change_stat(self, stat: str, delta: num):
+        def change_stat(self, stat: str, delta):
             """
             Changes the value of the stat by delta
 
             ### Parameters:
             1. stat: str
                 - The name of the stat to change
-            2. delta: num
+            2. delta
                 - The value to change the stat by
             """
 
@@ -213,7 +216,7 @@ init -6 python:
                 return
             stat_obj.change_value(delta, self.get_level())
 
-        def get_stat_number(self, stat: str) -> num:
+        def get_stat_number(self, stat: str):
             """
             Returns the value of the stat
 
@@ -266,7 +269,7 @@ init -6 python:
 
                 stat_obj.reset_change()
 
-        def get_stats(self) -> Dict[str, Stat]:
+        def get_stats(self):
             """
             Returns the dictionary of all the stats
 
@@ -277,14 +280,14 @@ init -6 python:
 
             return self.stats_objects
 
-        def check_stat(self, stat: str, value: num | str) -> bool:
+        def check_stat(self, stat: str, value) -> bool:
             """
             Checks if the stat equals the value
 
             ### Parameters:
             1. stat: str
                 - The name of the stat to check
-            2. value: num | str
+            2. value | str
                 - The value to check the stat against
                 - value can be a number or a special string representing a set of values
 
@@ -390,7 +393,7 @@ init -6 python:
 
             return str(self.get_level())
 
-        def get_level_obj(self) -> Stat:
+        def get_level_obj(self):
             """
             Returns the level object of the character
 
@@ -433,12 +436,12 @@ init -6 python:
                 if self.check_level(level, i):
                     return self.get_level() - i
 
-        def check_level(self, value: num | str, test_level: int = None) -> bool:
+        def check_level(self, value, test_level: int = None) -> bool:
             """
             Checks if the level equals the value
 
             ### Parameters:
-            1. value: num | str
+            1. value | str
                 - The value to check the level against
                 - value can be a number or a special string representing a set of values
             2. test_level: int (default None)
@@ -481,7 +484,7 @@ init -6 python:
 
         return charList['school']
 
-    def get_school_stat(stat: str) -> num:
+    def get_school_stat(stat: str):
         """
         Gets the mean value of a stat from the mean school character
 
@@ -561,7 +564,7 @@ init -6 python:
     ###############################
     # region General Char Handler #
 
-    def get_character(name: str, map: Dict[str, Char | Dict[str, Any]]) -> Char:
+    def get_character(name: str, map: Dict[str, Union[Char, Dict[str, Any]]]) -> Char:
         """
         Returns the character object from the map
 
@@ -614,7 +617,7 @@ init -6 python:
     ############################
     # region Char Stat Handler #
 
-    def get_stat_obj_for_char(stat: str, char: str | Char, map: Dict[str, Char | Dict[str, Any]] = None) -> Stat:
+    def get_stat_obj_for_char(stat: str, char: Union[str, Char], map: Dict[str, Union[Char, Dict[str, Any]]] = None):
         """
         Returns the stat object for the character
 
@@ -640,7 +643,7 @@ init -6 python:
             return map[char].get_stat_obj(stat)
         return None
 
-    def get_stat_for_char(stat: str, char: str | Char = "", map: Dict[str, Char | Dict[str, Any]] = None) -> num:
+    def get_stat_for_char(stat: str, char: Union[str, Char] = "", map: Dict[str, Union[Char, Dict[str, Any]]] = None):
         """
         Returns the stat value for the character
 
@@ -669,14 +672,14 @@ init -6 python:
             return map[char].get_stat_number(stat)
         return -1
 
-    def set_stat_for_all(stat: str, value: num, map: Dict[str, Char | Dict[str, Any]]):
+    def set_stat_for_all(stat: str, value, map: Dict[str, Union[Char, Dict[str, Any]]]):
         """
         Sets the stat value for all characters in the map
 
         ### Parameters:
         1. stat: str
             - The name of the stat to set
-        2. value: num
+        2. value
             - The value to set the stat to
         3. map: Dict[str, Char | Dict[str, Any]]
             - The map of characters to set the stat for
@@ -685,14 +688,14 @@ init -6 python:
         for character in map.keys():
             map[character].set_stat(stat, value)
 
-    def set_stat_for_char(stat: str, value: num, char: str | Char, map: Dict[str, Char | Dict[str, Any]] = None):
+    def set_stat_for_char(stat: str, value, char: Union[str, Char], map: Dict[str, Union[Char, Dict[str, Any]]] = None):
         """
         Sets the stat value for a character
 
         ### Parameters:
         1. stat: str
             - The name of the stat to set
-        2. value: num
+        2. value
             - The value to set the stat to
         3. char: str | Char
             - The name of the character or the character itself to set the stat for
@@ -707,14 +710,14 @@ init -6 python:
         elif map != None and char in map.keys():
             map[char].set_stat(stat, value)
 
-    def change_stat(stat: str, change: num, name: str | Char = "", map: Dict[str, Char | Dict[str, Any]] = None):
+    def change_stat(stat: str, change, name: Union[str, Char] = "", map: Dict[str, Union[Char, Dict[str, Any]]] = None):
         """
         Changes the stat value for a character or the money value if the stat is MONEY
 
         ### Parameters:
         1. stat: str
             - The name of the stat to change
-        2. change: num
+        2. change
             - The value to change the stat by
         3. name: str | Char (default "")
             - The name of the character or the character itself to change the stat for
@@ -731,14 +734,14 @@ init -6 python:
         else:
             change_stat_for_char(stat, change, name, map)
 
-    def change_stat_for_all(stat: str, delta: num, map: Dict[str, Char | Dict[str, Any]]):
+    def change_stat_for_all(stat: str, delta, map: Dict[str, Union[Char, Dict[str, Any]]]):
         """
         Changes the stat value for all characters in the map
 
         ### Parameters:
         1. stat: str
             - The name of the stat to change
-        2. delta: num
+        2. delta
             - The value to change the stat by
         3. map: Dict[str, Char | Dict[str, Any]]
             - The map of characters to change the stat for
@@ -747,14 +750,14 @@ init -6 python:
         for character in map.keys():
             map[character].change_stat(stat, delta)
 
-    def change_stat_for_char(stat: str, value: num, char: str | Char, map: Dict[str, Char | Dict[str, Any]] = None):
+    def change_stat_for_char(stat: str, value, char: Union[str, Char], map: Dict[str, Union[Char, Dict[str, Any]]] = None):
         """
         Changes the stat value for a character
 
         ### Parameters:
         1. stat: str
             - The name of the stat to change
-        2. value: num
+        2. value
             - The value to change the stat by
         3. char: str | Char
             - The name of the character or the character itself to change the stat for
@@ -766,7 +769,7 @@ init -6 python:
         elif map != None and char in map.keys():
             map[char].change_stat(stat, value)
 
-    def reset_stats(char: str | Char = "", map: Dict[str, Char | Dict[str, Any]] = None):
+    def reset_stats(char: Union[str, Char] = "", map: Dict[str, Union[Char, Dict[str, Any]]] = None):
         """
         Resets the change of all the stats
 
@@ -796,7 +799,7 @@ init -6 python:
     #############################
     # region Char Level Handler #
 
-    def get_level_for_char(char: str | Char, map: Dict[str, Char | Dict[str, Any]] = None) -> int:
+    def get_level_for_char(char: Union[str, Char], map: Dict[str, Union[Char, Dict[str, Any]]] = None) -> int:
         """
         Returns the level of the character
 
@@ -820,7 +823,7 @@ init -6 python:
             return map[char].get_level()
         return -1
 
-    def set_level_for_char(value: int, char: str | Char, map: Dict[str, Char | Dict[str, Any]] = None):
+    def set_level_for_char(value: int, char: Union[str, Char], map: Dict[str, Union[Char, Dict[str, Any]]] = None):
         """
         Sets the level of the character
 
@@ -849,7 +852,7 @@ init -6 python:
     ##############################
     # region Char Object Handler #
 
-    def load_character(name: str, title: str, map: Dict[str, Char | Dict[str, Any]], start_data: Dict[str, Any], runtime_data: Dict[str, Any] = None):
+    def load_character(name: str, title: str, map: Dict[str, Union[Char, Dict[str, Any]]], start_data: Dict[str, Any], runtime_data: Dict[str, Any] = None):
         """
         Loads a character into the game
 
@@ -874,7 +877,7 @@ init -6 python:
 
         map[name]._update(runtime_data)
 
-    def update_character(char: str | Char, data: Dict[str, Any], map: Dict[str, Char | Dict[str, Any]] = None):
+    def update_character(char: Union[str, Char], data: Dict[str, Any], map: Dict[str, Union[Char, Dict[str, Any]]] = None):
         """
         Updates the character with the data
 
@@ -891,7 +894,7 @@ init -6 python:
         elif map != None and char in map.keys():
             map[char]._update(data)
 
-    def remove_character(name: str, map: Dict[str, Char | Dict[str, Any]]):
+    def remove_character(name: str, map: Dict[str, Union[Char, Dict[str, Any]]]):
         """
         Removes the character from the map
 
@@ -1045,8 +1048,10 @@ init -6 python:
     ######################
 
     class PersonObj():
-        def __init__(self, name: str, char: Char, description: List[str | Tuple[str, Condition]], portraits: Dict[str, str | Tuple[str, Condition]] = {}, thumbnail = ""):
+        def __init__(self, name: str, first_name: str, last_name: str, char: Char, description: List[Union[str, Tuple[str, Condition]]], portraits: Dict[str, Union[str, Tuple[str, Condition]]] = {}, thumbnail = ""):
             self.name = name
+            self.first_name = first_name
+            self.last_name = last_name
             self.description = description
             self.portraits = portraits
             self.character = char
@@ -1055,10 +1060,14 @@ init -6 python:
             else:
                 self.thumbnail = thumbnail
 
-        def _update(self, data: PersonObj):
+        def _update(self, data):
             
             if not hasattr(data, 'name'):
                 self.name = ""
+            if not hasattr(data, 'first_name'):
+                self.first_name = ""
+            if not hasattr(data, 'last_name'):
+                self.last_name = ""
             if not hasattr(data, 'description'):
                 self.description = []
             if not hasattr(data, 'portraits'):
@@ -1068,6 +1077,8 @@ init -6 python:
 
             if data != None:
                 self.name = data.name
+                self.first_name = data.first_name
+                self.last_name = data.last_name
                 self.description = data.description
                 self.portraits = data.portraits
 
@@ -1077,13 +1088,19 @@ init -6 python:
         def get_description(self, **kwargs) -> List[str]:
             output = []
             for desc in self.description:
-                if isinstance(desc, str):
-                    output.append(desc)
-                elif desc[1].is_fulfilled(**kwargs):
-                    if isinstance(desc[0], list):
-                        output.extend(desc[0])
+                data = desc
+                if isinstance(desc, Tuple):
+                    if desc[1].is_fulfilled(**kwargs):
+                        continue
                     else:
-                        output.append(desc[0])
+                        data = desc[0]
+                
+                if isinstance(data, str):
+                    output.append(data)
+                elif isinstance(data, list):
+                    output.extend(data)
+                else:
+                    output.append(data)
             return output
 
         def get_description_str(self, **kwargs) -> str:
@@ -1108,13 +1125,51 @@ init -6 python:
             return output
 
         def get_thumbnail(self) -> str:
-            log_val('thumbnail', self.thumbnail)
             if not renpy.loadable(self.thumbnail):
                 return "images/journal/empty_image.webp"
             return self.thumbnail
 
+        def get_first_name(self) -> str:
+            if self.first_name == "":
+                if self.last_name != "":
+                    return self.last_name
+                return self.name 
+
+            return self.first_name
+        def get_last_name(self) -> str:
+            if self.last_name == "":
+                if self.first_name != "":
+                    return self.first_name
+                return self.name
+
+            return self.last_name
+        def get_full_name(self) -> str:
+            if self.first_name == "" and self.last_name != "":
+                return self.last_name
+            if self.last_name == "" and self.first_name != "":
+                return self.first_name
+
+            return f"{self.first_name} {self.last_name}"
+
         def set_thumbnail(self, thumbnail: str):
             self.thumbnail = thumbnail
+
+        def get_character(self) -> Character:
+            return Character(self.get_full_name(), kind = character.sgirl, retain = False)
+
+    def find_person(name: str):
+        for key in person_storage.keys():
+            if name in person_storage[key].keys():
+
+                return person_storage[key][name]
+        return None
+
+    def get_person(key: str, name: str):
+        if key not in person_storage.keys():
+            return None
+        if name not in person_storage[key].keys():
+            return None
+        return person_storage[key][name]
 
     def load_person(key: str, person: PersonObj):
         if key not in person_storage.keys():
@@ -1182,152 +1237,134 @@ label load_characters ():
     $ teacher_char = get_character_by_key('teacher')
     $ secretary_char = get_character_by_key('secretary')
 
-    $ load_person("class_3a", PersonObj("aona_komuro", school_char, [
-            (["• Height: 172.5 cm", "• Bra Size 75F (DDD)", "• B-W-H: 89-74-98 cm", "• Waist-to-Hips: 0.756"],
-                GameDataCondition("aona_komuro_sizes_known", True)),
+    $ load_person("NoView", PersonObj("default", "", "Person", school_char, []))
+    $ load_person("NoView", PersonObj("default_school", "", "School Girl", school_char, []))
+    $ load_person("NoView", PersonObj("default_parent", "", "Parent", parent_char, []))
+    $ load_person("NoView", PersonObj("default_teacher", "", "Teacher", teacher_char, []))
+    $ load_person("NoView", PersonObj("default_secretary", "", "Secretary", secretary_char, []))
+
+    $ load_person("class_3a", PersonObj("aona_komuro", "Aona", "Komuro", school_char, [
+            ["• Height: 172.5 cm", "• Bra Size 75F (DDD)", "• B-W-H: 89-74-98 cm", "• Waist-to-Hips: 0.756"],
         ]
     ))
-    $ load_person("class_3a", PersonObj("easkey_tanaka", school_char, [
-            (["• Height: 168.8 cm", "• Bra Size 65DD (E)", "• B-W-H: 78-68-98 cm", "• Waist-to-Hips: 0.689"],
-                GameDataCondition("easkey_tanaka_sizes_known", True)),
-            ("In a relationship with Sakura Mori", GameDataCondition("easkey_sakura_relationship_known", True)),
+    $ load_person("class_3a", PersonObj("easkey_tanaka", "Easkey", "Tanaka", school_char, [
+            ["• Height: 168.8 cm", "• Bra Size 65DD (E)", "• B-W-H: 78-68-98 cm", "• Waist-to-Hips: 0.689"],
+            "In a relationship with Sakura Mori",
         ],
     ))
-    $ load_person("class_3a", PersonObj("elsie_johnson", school_char, [
-            (["• Height: 168.0 cm", "• Bra Size 65D", "• B-W-H: 76-63-105 cm", "• Waist-to-Hips: 0.689"],
-                GameDataCondition("elsie_johnson_sizes_known", True)),
-            ("In a relationship with Yuriko Oshima", GameDataCondition("elsie_yuriko_relationship_known", True)),
+    $ load_person("class_3a", PersonObj("elsie_johnson", "Elsie", "Johnson", school_char, [
+            ["• Height: 168.0 cm", "• Bra Size 65D", "• B-W-H: 76-63-105 cm", "• Waist-to-Hips: 0.689"],
+            "In a relationship with Yuriko Oshima",
         ],
     ))
-    $ load_person("class_3a", PersonObj("gloria_goto", school_char, [
-            (["• Height: 160.4 cm", "• Bra Size 65C", "• B-W-H: 73-57-82 cm", "• Waist-to-Hips: 0.693"],
-                GameDataCondition("gloria_goto_sizes_known", True)),
+    $ load_person("class_3a", PersonObj("gloria_goto", "Gloria", "Goto", school_char, [
+            ["• Height: 160.4 cm", "• Bra Size 65C", "• B-W-H: 73-57-82 cm", "• Waist-to-Hips: 0.693"],
         ],
     ))
-    $ load_person("class_3a", PersonObj("luna_clark", school_char, [
-            (["• Height: 144.8 cm", "• Bra Size 55D", "• B-W-H: 65-48-81 cm", "• Waist-to-Hips: 0.587"],
-                GameDataCondition("luna_clark_sizes_known", True)),
+    $ load_person("class_3a", PersonObj("luna_clark", "Luna", "Clark", school_char, [
+            ["• Height: 144.8 cm", "• Bra Size 55D", "• B-W-H: 65-48-81 cm", "• Waist-to-Hips: 0.587"],
             "Twin sister of Seraphina Clark.",
             "More shy and reserved than her sister.",
             "A bit of a trickster.",
         ],
     ))
-    $ load_person("class_3a", PersonObj("seraphina_clark", school_char, [
-            (["• Height: 144.8 cm", "• Bra Size 55DD (E)", "• B-W-H: 68-48-81 cm", "• Waist-to-Hips: 0.587"],
-                GameDataCondition("seraphina_clark_sizes_known", True)),
+    $ load_person("class_3a", PersonObj("seraphina_clark", "Seraphina", "Clark", school_char, [
+            ["• Height: 144.8 cm", "• Bra Size 55DD (E)", "• B-W-H: 68-48-81 cm", "• Waist-to-Hips: 0.587"],
             "Twin sister of Luna Clark.", 
             "More active and open than her sister.",
             "A bit of a jokester.",
         ],
     ))
-    $ load_person("class_3a", PersonObj("hatano_miwa", school_char, [
-            (["• Height: 165.7 cm", "• Bra Size 70A", "• B-W-H: 73-63-87 cm", "• Waist-to-Hips: 0.725"],
-                GameDataCondition("hatano_miwa_sizes_known", True)),
+    $ load_person("class_3a", PersonObj("hatano_miwa", "Hatano", "Miwa", school_char, [
+            ["• Height: 165.7 cm", "• Bra Size 70A", "• B-W-H: 73-63-87 cm", "• Waist-to-Hips: 0.725"],
         ],
     ))
-    $ load_person("class_3a", PersonObj("ikushi_ito", school_char, [
-            (["• Height: 164.3 cm", "• Bra Size 65G (DDDD)", "• B-W-H: 82-62-92 cm", "• Waist-to-Hips: 0.678"],
-                GameDataCondition("ikushi_ito_sizes_known", True)),
+    $ load_person("class_3a", PersonObj("ikushi_ito", "Ikushi", "Ito", school_char, [
+            ["• Height: 164.3 cm", "• Bra Size 65G (DDDD)", "• B-W-H: 82-62-92 cm", "• Waist-to-Hips: 0.678"],
         ],
     ))
-    $ load_person("class_3a", PersonObj("ishimaru_maki", school_char, [
-            (["• Height: 170.8 cm", "• Bra Size 70B", "• B-W-H: 75-68-91 cm", "• Waist-to-Hips: 0.743"],
-                GameDataCondition("ishimaru_maki_sizes_known", True)),
+    $ load_person("class_3a", PersonObj("ishimaru_maki", "Ishimaru", "Maki", school_char, [
+            ["• Height: 170.8 cm", "• Bra Size 70B", "• B-W-H: 75-68-91 cm", "• Waist-to-Hips: 0.743"],
         ],
     ))
-    $ load_person("class_3a", PersonObj("kokoro_nakamura", school_char, [
-            (["• Height: 163.4 cm", "• Bra Size 70B", "• B-W-H: 76-66-89 cm", "• Waist-to-Hips: 0.739"],
-                GameDataCondition("kokoro_nakamura_sizes_known", True)),
+    $ load_person("class_3a", PersonObj("kokoro_nakamura", "Kokoro", "Nakamura", school_char, [
+            ["• Height: 163.4 cm", "• Bra Size 70B", "• B-W-H: 76-66-89 cm", "• Waist-to-Hips: 0.739"],
         ],
     ))
-    $ load_person("class_3a", PersonObj("lin_kato", school_char, [
-            (["• Height: 167.6 cm", "• Bra Size 65B", "• B-W-H: 70-63-94 cm", "• Waist-to-Hips: 0.663"],
-                GameDataCondition("lin_kato_sizes_known", True)),
+    $ load_person("class_3a", PersonObj("lin_kato", "Lin", "Kato", school_char, [
+            ["• Height: 167.6 cm", "• Bra Size 65B", "• B-W-H: 70-63-94 cm", "• Waist-to-Hips: 0.663"],
         ],
     ))
-    $ load_person("class_3a", PersonObj("miwa_igarashi", school_char, [
-            (["• Height: 158.9 cm", "• Bra Size 65B", "• B-W-H: 69-62-84 cm", "• Waist-to-Hips: 0.739"],
-                GameDataCondition("miwa_igarashi_sizes_known", True)),
-            ("Likes dancing.", GameDataCondition("miwa_igarashi_likes_dancing", True)),
+    $ load_person("class_3a", PersonObj("miwa_igarashi", "Miwa", "Igarashi", school_char, [
+            ["• Height: 158.9 cm", "• Bra Size 65B", "• B-W-H: 69-62-84 cm", "• Waist-to-Hips: 0.739"],
+            "Likes dancing.",
         ],
     ))
-    $ load_person("class_3a", PersonObj("sakura_mori", school_char, [
-            (["• Height: 163.7 cm", "• Bra Size 65C", "• B-W-H: 74-65-88 cm", "• Waist-to-Hips: 0.737"],
-                GameDataCondition("sakura_mori_sizes_known", True)),
-            ("In a relationship with Easkey Tanaka.", GameDataCondition("easkey_sakura_relationship_known", True)),
+    $ load_person("class_3a", PersonObj("sakura_mori", "Sakura", "Mori", school_char, [
+            ["• Height: 163.7 cm", "• Bra Size 65C", "• B-W-H: 74-65-88 cm", "• Waist-to-Hips: 0.737"],
+            "In a relationship with Easkey Tanaka.",
         ],
     ))
-    $ load_person("class_3a", PersonObj("soyoon_yamamoto", school_char, [
-            (["• Height: 161.0 cm", "• Bra Size 60C", "• B-W-H: 68-91-92 cm", "• Waist-to-Hips: 0.664"],
-                GameDataCondition("soyoon_yamamoto_sizes_known", True)),
+    $ load_person("class_3a", PersonObj("soyoon_yamamoto", "Soyoon", "Yamamoto", school_char, [
+            ["• Height: 161.0 cm", "• Bra Size 60C", "• B-W-H: 68-91-92 cm", "• Waist-to-Hips: 0.664"],
             "Daughter of Yuki Yamamoto.",
         ],
     ))
-    $ load_person("class_3a", PersonObj("yuriko_oshima", school_char, [
-            (["• Height: 159.5 cm", "• Bra Size 65C", "• B-W-H: 72-65-85 cm", "• Waist-to-Hips: 0.768"],
-                GameDataCondition("gloria_goto_sizes_known", True)),
-            ("Is in a relationship with Elsie Johnson", GameDataCondition("elsie_yuriko_relationship_known", True)),
-            ("Mostly a loner and slight depressive tendencies.", GameDataCondition("yuriko_personality_known", True)),
+    $ load_person("class_3a", PersonObj("yuriko_oshima", "Yuriko", "Oshima", school_char, [
+            ["• Height: 159.5 cm", "• Bra Size 65C", "• B-W-H: 72-65-85 cm", "• Waist-to-Hips: 0.768"],
+            "Is in a relationship with Elsie Johnson",
+            "Mostly a loner and slight depressive tendencies.",
         ],
     ))
 
-    $ load_person("parents", PersonObj("adelaide_hall", parent_char, [
-            (["• Height: 157.8 cm", "• Bra Size 55J", "• B-W-H: 80-60-93 cm", "• Waist-to-Hips: 0.645"],
-                GameDataCondition("adelaide_hall_sizes_known", True)),
-            ("Works in Cafeteria as Kitchen Mother", BuildingCondition("cafeteria")),
+    $ load_person("parents", PersonObj("adelaide_hall", "Adelaide", "Hall", parent_char, [
+            ["• Height: 157.8 cm", "• Bra Size 55J", "• B-W-H: 80-60-93 cm", "• Waist-to-Hips: 0.645"],
+            "Works in Cafeteria as Kitchen Mother",
         ],
     ))
-    $ load_person("parents", PersonObj("nubia_davis", parent_char, [
-            (["• Height: 169.3.8 cm", "• Bra Size 75DD (E)", "• B-W-H: 88-68-97 cm", "• Waist-to-Hips: 0.697"],
-                GameDataCondition("nubia_davis_sizes_known", True)),
+    $ load_person("parents", PersonObj("nubia_davis", "Nubia", "Davis", parent_char, [
+            ["• Height: 169.3.8 cm", "• Bra Size 75DD (E)", "• B-W-H: 88-68-97 cm", "• Waist-to-Hips: 0.697"],
         ],
     ))
-    $ load_person("parents", PersonObj("yuki_yamamoto", parent_char, [
-            (["• Height: 170.9 cm", "• Bra Size 65DD (E)", "• B-W-H: 77-67-94 cm", "• Waist-to-Hips: 0.713"],
-                GameDataCondition("yuki_yamamoto_sizes_known", True)),
+    $ load_person("parents", PersonObj("yuki_yamamoto", "Yuki", "Yamamoto", parent_char, [
+            ["• Height: 170.9 cm", "• Bra Size 65DD (E)", "• B-W-H: 77-67-94 cm", "• Waist-to-Hips: 0.713"],
             "Mother of Soyoon Yamamoto.",
         ],
     ))
 
-    $ load_person("staff", PersonObj("chloe_garcia", teacher_char, [
-            (["• Height: 168.8 cm", "• Bra Size 65C", "• B-W-H: 72-61-91 cm", "• Waist-to-Hips: 0.675"],
-                GameDataCondition("chloe_garcia_sizes_known", True)),
+    $ load_person("staff", PersonObj("chloe_garcia", "Chloe", "Garcia", teacher_char, [
+            ["• Height: 168.8 cm", "• Bra Size 65C", "• B-W-H: 72-61-91 cm", "• Waist-to-Hips: 0.675"],
             "Subjects: Art, Music",
         ],
     ))
-    $ load_person("staff", PersonObj("emiko_langley", secretary_char, [
-            (["• Height: 180.7 cm", "• Bra Size 75F (DDD)", "• B-W-H: 91-66-99 cm", "• Waist-to-Hips: 0.665"],
-                GameDataCondition("emiko_langley_sizes_known", True)),
+    $ load_person("staff", PersonObj("emiko_langley", "Emiko", "Langley", secretary_char, [
+            ["• Height: 180.7 cm", "• Bra Size 75F (DDD)", "• B-W-H: 91-66-99 cm", "• Waist-to-Hips: 0.665"],
             "Secretary",
         ],
         thumbnail = "images/characters/emiko_langley/level_5.webp"
     ))
-    $ load_person("staff", PersonObj("finola_ryan", teacher_char, [
-            (["• Height: 169.0 cm", "• Bra Size 65DD (E)", "• B-W-H: 78-65-88 cm", "• Waist-to-Hips: 0.745"],
-                GameDataCondition("finola_ryan_sizes_known", True)),
+    $ load_person("staff", PersonObj("finola_ryan", "Finola", "Ryan", teacher_char, [
+            ["• Height: 169.0 cm", "• Bra Size 65DD (E)", "• B-W-H: 78-65-88 cm", "• Waist-to-Hips: 0.745"],
             "Subjects: English, History",
         ],
     ))
-    $ load_person("staff", PersonObj("lily_anderson", teacher_char, [
-            (["• Height: 167.0 cm", "• Bra Size 70B", "• B-W-H: 76-64-90 cm", "• Waist-to-Hips: 0.705"],
-                GameDataCondition("lily_anderson_sizes_known", True)),
+    $ load_person("staff", PersonObj("lily_anderson", "Lily", "Anderson", teacher_char, [
+            ["• Height: 167.0 cm", "• Bra Size 70B", "• B-W-H: 76-64-90 cm", "• Waist-to-Hips: 0.705"],
             "Subjects: Math, Sciences",
         ],
     ))
-    $ load_person("staff", PersonObj("yulan_chen", teacher_char, [
-            (["• Height: 167.0 cm", "• Bra Size 65F (DDD)", "• B-W-H: 81-67-90 cm", "• Waist-to-Hips: 0.751"],
-                GameDataCondition("yulan_chen_sizes_known", True)),
+    $ load_person("staff", PersonObj("yulan_chen", "Yulan", "Chen", teacher_char, [
+            ["• Height: 167.0 cm", "• Bra Size 65F (DDD)", "• B-W-H: 81-67-90 cm", "• Waist-to-Hips: 0.751"],
             "Subjects: History, Politics",
         ],
     ))
-    $ load_person("staff", PersonObj("zoe_parker", teacher_char, [
-            (["• Height: 167.3 cm", "• Bra Size 65C", "• B-W-H: 73-63-91 cm", "• Waist-to-Hips: 0.692"],
-                GameDataCondition("adelaide_hall_sizes_known", True)),
+    $ load_person("staff", PersonObj("zoe_parker", "Zoe", "Parker", teacher_char, [
+            ["• Height: 167.3 cm", "• Bra Size 65C", "• B-W-H: 73-63-91 cm", "• Waist-to-Hips: 0.692"],
             "Subjects: Physical Education, Health",
         ],
     ))
 
     $ i = 0
     while (i < len(load_character_labels)):
-        call expression load_character_labels[i]
+        call expression load_character_labels[i] from _call_expression_4
         $ i += 1

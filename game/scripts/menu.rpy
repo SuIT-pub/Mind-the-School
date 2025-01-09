@@ -84,7 +84,7 @@ init python:
     # region Call Menu Methods #
     ############################
 
-    def call_custom_menu(with_leave: bool = True, *elements: str | Effect | List[Effect] | Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool], **kwargs) -> None:
+    def call_custom_menu(with_leave: bool = True, *elements: Union[str, Effect, List[Effect], Tuple[str, Union[str, Effect, List[Effect]], bool]], **kwargs) -> None:
         """
         Calls a custom menu with the given elements and the given text and person.
 
@@ -115,7 +115,7 @@ init python:
 
         renpy.call("call_menu", None, None, with_leave, *filtered_elements, **kwargs)
 
-    def call_custom_menu_with_text(text: str, person: Person = character.subtitles, with_leave: bool = True, *elements: str | Effect | List[Effect] | Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool], **kwargs) -> None:
+    def call_custom_menu_with_text(text: str, person: Character = character.subtitles, with_leave: bool = True, *elements: Union[str, Effect, List[Effect], Tuple[str, Union[str, Effect, List[Effect]]], Tuple[str, Union[str, Effect, List[Effect]], bool]], **kwargs) -> None:
         """
         Calls a custom menu with the given elements and the given text and person.
 
@@ -190,7 +190,7 @@ label call_menu(text, person, with_leave = True, *elements, **kwargs):
             $ title, effects, _active = elements[0]
         $ renpy.call("call_element", title, effects, **kwargs)
 
-    $ p_text = Character(kind = person)
+    $ p_text = Character(kind = person, retain = False)
 
     if text != None and person != None:
         p_text "[text]" (interact = False)
