@@ -120,12 +120,22 @@ init 1 python:
 label office_call_secretary_1 (**kwargs):
     $ begin_event(**kwargs)
 
+    $ image = convert_pattern("main", **kwargs)
+
+    $ image.show(0)
     subtitles "You call the secretary."
+
+    call Image_Series.show_image(image, 1, 2, 3) from _call_show_image_office_call_secretary_1_1
     secretary "Hello, [headmaster_first_name]. How can I help you?"
+    $ image.show(4)
     headmaster "I need your opinion on something."
+    $ image.show(3)
     secretary "Sure, what is it?"
+    $ image.show(5)
     headmaster "I'm thinking of introducing sex education classes in the curriculum. What do you think?"
+    $ image.show(6)
     secretary "I think it's a great idea. It's important for students to be educated about such topics."
+    $ image.show(7)
     secretary "But do you think the rest of the staff and also the students would agree?"
     $ image.show(8)
     headmaster """
@@ -134,15 +144,21 @@ label office_call_secretary_1 (**kwargs):
     """
     $ image.show(9)
     headmaster "Do you have any suggestions on how to approach this?"
+    $ image.show(10)
     secretary "I think you should start by talking to the staff and getting their input."
     secretary """
     To actually convince them, you could prepare some teaching material and introductory material on the subject.
     """
     secretary "That way they can see what you have in mind and how you plan to approach it."
+    $ image.show(11)
     headmaster "That's a good idea. Thank you for your input."
+    $ image.show(12)
     secretary "You're welcome. Is there anything else?"
+    $ image.show(11)
     headmaster "No, that's all. Thank you."
+    $ image.show(13)
     secretary "You're welcome. Have a nice day."
+    $ image.show(14)
     headmaster_thought "Then, maybe I should start work on some teaching material for the sex ed classes."
 
     $ start_progress('start_sex_ed') # 0 -> 1
@@ -402,27 +418,34 @@ label office_teacher_sex_ed_introduction_4 (**kwargs):
 
     call screen black_screen_text("15 Minutes later.")
 
-    headmaster "Without proper sexual education, students may rely on misinformation or peer pressure, which can lead to risky behaviors and negative consequences."
+    $ image.show(3)
+    headmaster """
+    Without proper sexual education, students may rely on misinformation or peer pressure, which can lead to risky 
+    behaviors and negative consequences.
+    """
 
     call screen black_screen_text("15 Minutes later.")
 
-    headmaster "These case studies and statistics demonstrate the effectiveness of sexual education in promoting healthy behaviors and reducing negative outcomes."
+    $ image.show(4)
+    headmaster """
+    These case studies and statistics demonstrate the effectiveness of sexual education in promoting healthy behaviors 
+    and reducing negative outcomes.
+    """
 
     call screen black_screen_text("15 Minutes later.")
 
+    $ image.show(5)
     headmaster "Now, let's talk about the resources that will be available to both the students and the teachers."
 
     call screen black_screen_text("15 Minutes later.")
 
-    headmaster "Your support and guidance will be instrumental in addressing their concerns and providing accurate information, even with limited resources."
+    $ image.show(6)
+    headmaster """
+    Your support and guidance will be instrumental in addressing their concerns and providing accurate information, 
+    even with limited resources.
+    """
 
-    call .end_presentation (**kwargs) from call_end_presentation_sex_ed_intro_1
-label .skipped_presentation (**kwargs):
-
-    call screen black_screen_text("30 Minutes later.")
-
-    call .end_presentation (**kwargs) from call_end_presentation_sex_ed_intro_2
-label .end_presentation (**kwargs):
+    call screen black_screen_text("15 Minutes later.")
 
     $ image.show(7)
     headmaster """

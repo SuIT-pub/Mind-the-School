@@ -556,8 +556,6 @@ label pta_vote_school_jobs (**kwargs):
 
     call pta_vote_result(parent_vote, teacher_vote, student_vote, get_value("vote_proposal", **kwargs)) from _call_pta_vote_result_school_jobs_1
 
-    call pta_vote_result("no", teacher_vote, student_vote, get_value("vote_proposal", **kwargs)) from _call_pta_vote_result_theoretical_sex_ed_1
-
     $ end_event('new_daytime', **kwargs)
 
 label pta_vote_student_relationships_1 (**kwargs):
