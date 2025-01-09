@@ -2,6 +2,15 @@ default time_freeze = False
 default debug_mode = False
 
 init -100 python:
+    import pprint
+
+    def log_separator():
+        print("##################################################")
+
+    def log_json(key: str, value: Dict[string, Any]):
+        print(key + ":", end="")
+        pprint.pprint(value, compact = False)
+
     def log_val(key: str, value: Any):
         """
         Prints a key and value
@@ -51,5 +60,4 @@ init -100 python:
         log_val(msg, log_number)
 
 label test_label():
-    call screen journal_character("") with dissolveM
     return

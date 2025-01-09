@@ -55,17 +55,24 @@ init -6 python:
             return 0.0
 
         if char_obj_list == None or len(char_obj_list) == 0:
-            char_obj_list = [
-                get_character_by_key("teacher"),
-                get_character_by_key("parent"),
-                get_character_by_key("school"),
-            ]
+            char_obj_list = [get_character_by_key("school")]
+
+            # if "teacher" not in conditions.ignores:
+            #     char_obj_list.append(get_character_by_key("teacher"))
+            # if "parent" not in conditions.ignores:
+            #     char_obj_list.append(get_character_by_key("parent"))
+            # if "school" not in conditions.ignores:
+            #     char_obj_list.append(get_character_by_key("school"))
 
         overall_probability = 1.0
 
         probabilities = [calculateProbabilityValue(conditions, char_obj) / 100 for char_obj in char_obj_list]
 
+        log_val("probabilities", probabilities) # [0.0]
+
         transformed_probabilities = [(p + 1) / 2 if p >= -1 else 0 for p in probabilities]
+
+        log_val("transformed_probabilities", transformed_probabilities) # [0.5]
 
         n = len(transformed_probabilities)
         majority_count = (n // 2) + 1  # Number of approvals for a majority
@@ -84,6 +91,8 @@ init -6 python:
                         prob *= (1 - transformed_probabilities[i])  # Rejection
                 total_probability += prob
 
+        log_val("total_probability", total_probability * 100) # 50.0
+
         return total_probability * 100
 
     def calculateProbabilityValue(conditions: ConditionStorage, char_obj: Char, is_in_pta = False) -> float:
@@ -97,7 +106,10 @@ init -6 python:
                 return -100.0
             elif probability == 'veto':
                 return -5000.0
+            elif probability == 'ignore':
+                return 0.0
         else:
+            log("returns probability without change")
             return probability
 
     def calculateProbability(conditions: ConditionStorage, char_obj: Char, is_in_pta = False) -> float | str:
@@ -120,13 +132,16 @@ init -6 python:
         voteConditions = conditions.get_conditions()
         probability = 100.0
         for condition in voteConditions:
+            log_val("condition", condition.get_name())
             if isinstance(condition, PTAOverride):
                 if condition.char == char_obj.get_name():
                     return condition.accept
 
             if is_in_pta and isinstance(condition, MoneyCondition):
                 continue
+            log_val("diff", condition.get_diff(char_obj))
             probability += condition.get_diff(char_obj)
+        log_val("probability after diff", probability)
         return probability
 
     # endregion
@@ -153,15 +168,22 @@ init -6 python:
             - Can be "yes", "no" or "veto"
         """
 
+        log_separator()
+        log_val("char_obj", str(char_obj))
+
         probability = calculateProbability(conditions, char_obj, is_in_pta = True)
 
         voteDiff = 0
+
+        log_val("probability", probability)
 
         if isinstance(probability, str):
             return probability
         else:
             vote = renpy.random.random() * 100
+            log_val("vote", vote)
             voteDiff = probability - vote
+            log_val("voteDiff", voteDiff)
 
             if probability >= 100 or voteDiff >= 0:
                 return 'yes'
@@ -187,7 +209,7 @@ init -6 python:
 
         if 'veto' in votes:
             return 'veto'
-        elif votes.count('yes') >= len(votes) / 2:
+        elif votes.count('yes') + votes.count('ignore') >= len(votes) / 2:
             return 'yes'
         else:
             return 'no'
@@ -212,7 +234,7 @@ init 1 python:
         PTAVoteSelector("vote_parent", "parent"),
         PTAVoteSelector("vote_teacher", "teacher"),
         PTAVoteSelector("vote_student", "school"),
-        Pattern("base", "images/events/pta/regular meeting/pta <secretary_level> <school_level> <step>.webp"))
+        Pattern("base", "images/events/pta/regular meeting/pta <secretaryLevel> <schoolLevel> <step>.webp"))
 
     # PTA discussions
     pta_discussion_1_event = EventFragment(2, "pta_discussion_1")
@@ -222,11 +244,11 @@ init 1 python:
     )
 
     # PTA votes
-    pta_vote_school_jobs_event = EventFragment(2, "pta_vote_school_jobs",
-        JournalVoteCondition("school_jobs"))
+    # pta_vote_school_jobs_event = EventFragment(2, "pta_vote_school_jobs",
+    #     JournalVoteCondition("school_jobs"))
 
-    pta_vote_student_relationships_event = EventFragment(2, "pta_vote_student_relationships_1",
-        JournalVoteCondition("student_student_relation"))
+    # pta_vote_student_relationships_event = EventFragment(2, "pta_vote_student_relationships_1",
+    #     JournalVoteCondition("student_student_relation"))
 
     pta_vote_unregistered_1_event = EventFragment(2, "pta_vote_unregistered_1",
         JournalNRVoteCondition(),
@@ -241,8 +263,6 @@ init 1 python:
     pta_vote_storage.add_event(
         pta_vote_unregistered_1_event,
         pta_vote_nothing_1_event,
-        pta_vote_school_jobs_event,
-        pta_vote_student_relationships_event
     )
 
     # PTA end meeting
@@ -434,6 +454,10 @@ label first_pta_meeting (**kwargs):
 label pta_meeting (**kwargs):
     $ begin_event(no_gallery = True, **kwargs)
 
+    $ schoolLevel = get_level("school_level")
+    $ secretaryLevel = get_level("secretary_level")
+
+    $ kwargs = load_kwargs_values(kwargs, schoolLevel = schoolLevel, secretaryLevel = secretaryLevel)
     $ image = convert_pattern("base", **kwargs)
 
     $ image.show(0)
@@ -631,7 +655,8 @@ label pta_vote_unregistered_1 (**kwargs):
     $ image.show(6)
     headmaster "Please cast your vote now."
     
-    $ show_pattern("vote", level = get_character_by_key("teacher").get_level(), name = split_name_first(speaking_teacher), **kwargs)
+    $ kwargs = load_kwargs_values(kwargs, level = get_character_by_key("teacher").get_level(), name = split_name_first(speaking_teacher))
+    $ show_pattern("vote", **kwargs)
     if isinstance(teacher_response, str):
         teacher "[teacher_response]" (name = speaking_teacher)
     else:
@@ -641,7 +666,8 @@ label pta_vote_unregistered_1 (**kwargs):
             teacher "[response_text]" (name = speaking_teacher)
             $ i += 1
 
-    $ show_pattern("vote", level = get_character_by_key("school").get_level(), name = split_name_first(speaking_student), **kwargs)
+    $ kwargs = load_kwargs_values(kwargs, level = get_character_by_key("school").get_level(), name = split_name_first(speaking_student))
+    $ show_pattern("vote", **kwargs)
     if isinstance(student_response, str):
         sgirl "[student_response]" (name = speaking_student)
     else:
@@ -651,7 +677,8 @@ label pta_vote_unregistered_1 (**kwargs):
             sgirl "[response_text]" (name = speaking_student)
             $ i += 1
 
-    $ show_pattern("vote", level = get_character_by_key("parent").get_level(), name = split_name_first(speaking_parent), **kwargs)
+    $ kwargs = load_kwargs_values(kwargs, level = get_character_by_key("parent").get_level(), name = split_name_first(speaking_parent))
+    $ show_pattern("vote", **kwargs)
     if isinstance(parent_response, str):
         parent "[parent_response]" (name = speaking_parent)
     else:
@@ -686,15 +713,24 @@ label pta_end_meeting_1 (**kwargs):
 ##############
 
 label pta_vote_result (parent_vote, teacher_vote, student_vote, proposal):
+
+    $ log_val("parent_vote", parent_vote)
+    $ log_val("teacher_vote", teacher_vote)
+    $ log_val("student_vote", student_vote)
+
     $ vote_object = proposal._journal_obj
     $ vote_action = proposal._action
     $ obj_title = vote_object.get_title()
     $ end_choice = get_end_choice(parent_vote, teacher_vote, student_vote)
 
+    $ log("applying vote result for " + obj_title)
+    $ log_val("end_choice", end_choice)
+
     $ money_conditions = [condition for condition in vote_object.get_conditions() if isinstance(condition, MoneyCondition)]
 
     if end_choice == 'yes':
         if vote_action == "unlock":
+            $ log("unlocking")
             $ vote_object.unlock(True, True)
             $ add_notify_message(f"{obj_title} has been unlocked.")
         if vote_action == "upgrade":

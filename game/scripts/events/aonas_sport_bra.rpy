@@ -5,26 +5,27 @@ init 1 python:
         EventFragment(1, "gym_teach_pe_intro_aona_bra",
             ProgressCondition("aona_sports_bra", 2),
             GameDataSelector("skimpy_bra", "aona_skimpy_sports_bra", "False"),
-            Pattern("main", "/images/events/gym/gym_teach_pe_intro_aona_bra/<skimpy> <step>.webp", 'skimpy')),
+            Pattern("main", "/images/events/gym/gym_teach_pe_intro_aona_bra/gym_teach_pe_intro_aona_bra <skimpy> <step>.webp", 'skimpy')),
     )
 
     gym_teach_pe_main_storage.add_event(
         EventFragment(3, "gym_teach_pe_main_aona_bra",
             NOT(ProgressCondition("aona_sports_bra")),
             MoneyCondition(200),
-            Pattern("main", "/images/events/gym/gym_teach_pe_main_aona_bra/<step>.webp")),
+            ProgressCondition("first_class", 3),
+            Pattern("main", "/images/events/gym/gym_teach_pe_main_aona_bra/gym_teach_pe_main_aona_bra <step>.webp")),
         EventFragment(1, "gym_teach_pe_main_aona_bra_2",
             ProgressCondition("aona_sports_bra", 2),
             GameDataSelector("skimpy_bra", "aona_skimpy_sports_bra"),
-            Pattern("main", "/images/events/gym/gym_teach_pe_main_aona_bra_2/<step>.webp")),
+            Pattern("main", "/images/events/gym/gym_teach_pe_main_aona_bra_2/gym_teach_pe_main_aona_bra_2 <step>.webp")),
     )
 
     time_check_events.add_event(
         Event(1, "aona_sports_bra_event_1", 
             ProgressCondition("aona_sports_bra", 1),
             TimeCondition(daytime = 6),
-            Pattern("main", "images/events/misc/aona_sports_bra_event_1/<secretary_level> <step>.webp", 'secretary_level'),
-            thumbnail = "images/events/misc/aona_sports_bra_event_1/# 23.webp"),
+            Pattern("main", "images/events/misc/aona_sports_bra_event_1/aona_sports_bra_event_1 <secretary_level> <step>.webp", 'secretary_level'),
+            thumbnail = "images/events/misc/aona_sports_bra_event_1/aona_sports_bra_event_1 # 23.webp"),
     )
 
 label gym_teach_pe_intro_aona_bra (**kwargs):
@@ -33,10 +34,13 @@ label gym_teach_pe_intro_aona_bra (**kwargs):
     $ bra = get_value('skimpy_bra', **kwargs)
     $ skimpy = bra != 0
 
+    $ log_val("skimpy", str(skimpy))
+
+    $ kwargs = load_kwargs_values(kwargs, skimpy = str(skimpy))
     $ image = convert_pattern("main", skimpy = skimpy, **kwargs)
 
-    $ miwa = Character("Miwa Igarashi", kind = character.sgirl)
-    $ aona = Character("Aona Komuro", kind = character.sgirl)
+    $ miwa = get_person("class_3a", "miwa_igarashi").get_character()
+    $ aona = get_person("class_3a", "aona_komuro").get_character()
 
     $ image.show(0)
     miwa "And the headmaster really took you to the city to buy a sports bra?"
@@ -109,6 +113,8 @@ label gym_teach_pe_intro_aona_bra (**kwargs):
 
 label gym_teach_pe_main_aona_bra (**kwargs): # Running
     $ begin_event(**kwargs)
+
+    $ aona = get_person("class_3a", "aona_komuro").get_character()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -183,13 +189,15 @@ label gym_teach_pe_main_aona_bra (**kwargs): # Running
 label gym_teach_pe_main_aona_bra_2 (**kwargs):
     $ begin_event(**kwargs)
 
+    $ aona = get_person("class_3a", "aona_komuro").get_character()
+
     $ bra = get_value('skimpy_bra', **kwargs)
 
     $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
     headmaster "Alright, today we will do some running."
-    sgirl "*MOAN*" (name = "Students")
+    sgirl "*MOAN*" (name = "Students", retain = False)
     $ image.show(1)
     headmaster "Yes, Yes! I know! I know! But you know the state test is coming up and you need to be in shape for it."
     $ image.show(2)
@@ -200,32 +208,32 @@ label gym_teach_pe_main_aona_bra_2 (**kwargs):
     call Image_Series.show_image(image, 8, pause = True) from image_gym_teach_pe_main_aona_bra_2_2
     if bra == 1:
         call Image_Series.show_image(image, 9, 10, 11) from image_gym_teach_pe_main_aona_bra_2_3
-        sgirl "Mr. [headmaster_last_name], I'm sorry but you bought the wrong bra." (name = "Aona Komuro")
+        aona "Mr. [headmaster_last_name], I'm sorry but you bought the wrong bra."
         $ image.show(12)
         headmaster "What do you mean?"
         $ image.show(13)
-        sgirl "This is the bra you offered me, which I didn't want to buy." (name = "Aona Komuro")
+        aona "This is the bra you offered me, which I didn't want to buy."
         $ image.show(14)
         headmaster "Oh I'm sorry. I must've swapped them by accident."
         headmaster "But why are you wearing it then?"
         $ image.show(15)
-        sgirl "I didn't want to run without a bra again, so I didn't have a choice." (name = "Aona Komuro")
+        aona "I didn't want to run without a bra again, so I didn't have a choice."
         $ image.show(16)
         headmaster "I see. But how did you feel in it? I mean, it looked like you were much more comfortable than before."
         $ image.show(17)
-        sgirl "Well to be honest, it worked really well. It was quite comfortable and I didn't have any problems with my breasts." (name = "Aona Komuro")
+        aona "Well to be honest, it worked really well. It was quite comfortable and I didn't have any problems with my breasts."
         $ image.show(18)
         headmaster "And nobody cared, did they?"
         $ image.show(19)
-        sgirl "Well... no." (name = "Aona Komuro")
+        aona "Well... no."
         $ image.show(20)
         headmaster "So how about you try it on for a few more days and see how it goes?"
         $ image.show(21)
-        sgirl "Mhh... Okay, I'll try it for now." (name = "Aona Komuro")
+        aona "Mhh... Okay, I'll try it for now."
         $ image.show(22)
         headmaster "Alright, now go and get changed. You wouldn't want to miss your break, would you?"
         $ image.show(21)
-        sgirl "No, thanks."
+        aona "No, thanks."
 
         call change_stats_with_modifier('school', 'pe',
             happiness = TINY, charm = SMALL, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_24
@@ -242,9 +250,11 @@ label aona_sports_bra_event_1 (**kwargs):
 
     $ inhibition = get_stat_value('inhibition', [90, 95, 100], **kwargs)
 
+    $ aona = get_person("class_3a", "aona_komuro").get_character()
+
     $ image = convert_pattern("main", **kwargs)
 
-    $ store_clerk = Character("Store Clerk", kind = character.vendor)
+    $ store_clerk = Character("Store Clerk", kind = character.vendor, retain = False)
 
     $ image.show(0)
     subtitles "*Knock* *Knock*"
@@ -272,21 +282,21 @@ label aona_sports_bra_event_1 (**kwargs):
     call Image_Series.show_image(image, 11, 12, 13) from image_aona_sports_bra_event_1_2
     headmaster "So Aona, how are you doing?"
     $ image.show(14)
-    sgirl "I'm doing fine Mr. [headmaster_last_name]." (name='Aona Komuro')
+    aona "I'm doing fine Mr. [headmaster_last_name]."
     $ image.show(15)
     headmaster "I'm glad to hear that. I'm sorry that I didn't notice earlier that you were struggling."
     $ image.show(16)
-    sgirl "I don't really talk about it. I'm a bit embarrassed about it." (name = "Aona Komuro")
+    aona "I don't really talk about it. I'm a bit embarrassed about it."
     $ image.show(17)
     headmaster "I understand. But you don't have to be embarrassed. It's a natural thing."
     $ image.show(18)
-    sgirl "The other girls are sometimes a bit jealous of me because of my breasts." (name = "Aona Komuro")
+    aona "The other girls are sometimes a bit jealous of me because of my breasts."
     $ image.show(19)
-    sgirl "But I hate my breasts. They're too big and I can't do anything about it." (name = "Aona Komuro")
+    aona "But I hate my breasts. They're too big and I can't do anything about it."
     $ image.show(20)
     headmaster "I understand. I'm sure you have other struggles because of them, don't you?"
     $ image.show(21)
-    sgirl "Yes, the worst thing is the constant back pain. I can't even sit properly in class." (name = "Aona Komuro")
+    aona "Yes, the worst thing is the constant back pain. I can't even sit properly in class."
     $ image.show(22)
     headmaster "Oh that is no good. A healthy back is important for your general health."
     $ image.show(23)
@@ -308,14 +318,14 @@ label aona_sports_bra_event_1 (**kwargs):
     $ image.show(31)
     store_clerk "How about this one?"
     $ image.show(32)
-    sgirl "That looks good. Can I try it on?" (name = "Aona Komuro")
+    aona "That looks good. Can I try it on?"
     $ image.show(33)
     store_clerk "Of course! The changing rooms are over there."
     $ image.show(33)
     # aona goes into the changing room
     $ image.show(34)
     store_clerk "If you need more help, just call me."
-    sgirl "Will do!" (name = "Aona Komuro")
+    aona "Will do!"
 
     $ call_custom_menu(False,
         ("Wait", "aona_sports_bra_event_1.wait_1"),
@@ -347,7 +357,7 @@ label .wait_1 (**kwargs):
     $ bra = get_kwargs('bra_for_self', False, **kwargs)
 
     call Image_Series.show_image(image, 52, 53, 54) from image_aona_sports_bra_event_1_7
-    sgirl "This one fits quite well. I would like to take it." (name = "Aona Komuro")
+    aona "This one fits quite well. I would like to take it."
 
     $ call_custom_menu(False,
         ("Buy bra", "aona_sports_bra_event_1.buy_bra"),
@@ -357,7 +367,7 @@ label .try_alt_bra (**kwargs):
 
     $ image.show(55)
     headmaster "I found this one, I think that would be a good choice."
-    sgirl "Sure, I'll try it out." (name = "Aona Komuro")
+    aona "Sure, I'll try it out."
 
     $ call_custom_menu(False,
         ("Peek", "aona_sports_bra_event_1.peek_2"),
@@ -375,18 +385,18 @@ label .peek_2 (**kwargs):
 label .wait_2 (**kwargs):
 
     $ image.show(63)
-    sgirl "Uhm sir? I think this one is a bit too skimpy for me." (name = "Aona Komuro")
-    sgirl "I don't think I can wear that." (name = "Aona Komuro")
+    aona "Uhm sir? I think this one is a bit too skimpy for me."
+    aona "I don't think I can wear that."
     $ image.show(64)
     headmaster "Do you care to show what you mean?"
     if inhibition >= 96:
-        sgirl "Sorry, but I wouldn't feel comfortable doing that." (name = "Aona Komuro")
+        aona "Sorry, but I wouldn't feel comfortable doing that."
         $ image.show(65)
         headmaster "I understand. I'll take it back then."
         headmaster "Could you give me the other bra then? I'll quickly go pay for it."
         call .sneak_bra (**kwargs) from _call_aona_sports_bra_event_1_sneak_bra
     else:
-        sgirl "Uhm, okay..." (name = "Aona Komuro")
+        aona "Uhm, okay..."
         # aona steps out of the cabin
         $ image.show(66)
         headmaster "Oh, I see what you mean. But I think it suits you very well."
@@ -396,14 +406,14 @@ label .wait_2 (**kwargs):
         headmaster "Also, if I am allowed to say so, it looks very good on you and sure would provide a good boost in self confidence."
         if inhibition >= 91:
             $ image.show(69)
-            sgirl "I understand, but I don't feel comfortable with it." (name = "Aona Komuro")
+            aona "I understand, but I don't feel comfortable with it."
             $ image.show(70)
             headmaster "I understand. I'll take it back then."
             headmaster "Could you give me the other bra then? I'll quickly go pay for it."
             call .sneak_bra (**kwargs) from _call_aona_sports_bra_event_1_sneak_bra_1
         else:
             $ image.show(71)
-            sgirl "Oh thank you for saying that, I guess I could take it." (name = "Aona Komuro")
+            aona "Oh thank you for saying that, I guess I could take it."
             $ image.show(72)
             headmaster "Wonderful, let's take it then."
             $ kwargs["skimpy_bra"] = True
@@ -436,7 +446,7 @@ label .buy_bra (**kwargs):
     $ image.show(78)
     headmaster "Alright that is done. Let's go back to the school."
     $ image.show(79)
-    sgirl "Thank you very much Mr. [headmaster_last_name]!" (name = "Aona Komuro")
+    aona "Thank you very much Mr. [headmaster_last_name]!"
     $ image.show(80)
     headmaster "You're welcome. I'm glad I could help you out."
     # back in car
@@ -445,7 +455,7 @@ label .buy_bra (**kwargs):
     $ image.show(83)
     headmaster "Have you tried massages or physiotherapy?"
     $ image.show(84)
-    sgirl "Not really, I'm a bit embarrassed about it and my health insurance doesn't cover that." (name = "Aona Komuro")
+    aona "Not really, I'm a bit embarrassed about it and my health insurance doesn't cover that."
     $ image.show(85)
     headmaster "I see... You know, in my studies about the human physiology I learned a lot about the human body."
     $ image.show(86)
@@ -453,26 +463,26 @@ label .buy_bra (**kwargs):
     $ image.show(85)
     headmaster "Sooo... if you'd like, I could give you a hand with your back pain."
     $ image.show(87)
-    sgirl "Oh, I don't know..." (name = "Aona Komuro")
+    aona "Oh, I don't know..."
     $ image.show(88)
     headmaster "Don't worry, I'm a professional. I know what I'm doing."
     $ image.show(87)
-    sgirl "Yeah, but I don't think that would be good. I wouldn't feel comfortable with that." (name = "Aona Komuro")
+    aona "Yeah, but I don't think that would be good. I wouldn't feel comfortable with that."
     $ image.show(88)
     headmaster "I understand. But if you ever change your mind, just let me know."
     $ image.show(87)
-    sgirl "I'll think about it!" (name = "Aona Komuro")
+    aona "I'll think about it!"
     $ image.show(89)
     subtitles "The rest of the drive, Aona and the headmaster talked about different things concerning her back issues and her breasts."
     # Back at the school
     $ image.show(90)
     headmaster "Alright, we're back. I hope the bra will help you out."
     $ image.show(91)
-    sgirl "Thank you very much Mr. [headmaster_last_name]!" (name = "Aona Komuro")
+    aona "Thank you very much Mr. [headmaster_last_name]!"
     $ image.show(90)
     headmaster "You're welcome. Have a good night! Don't stay up for too long, it's quite late already."
     $ image.show(91)
-    sgirl "Yes, I will! Good night!" (name = "Aona Komuro")
+    aona "Yes, I will! Good night!"
     $ image.show(90)
     headmaster "Good night, see you at the next P.E. lesson."
     $ image.show(92)

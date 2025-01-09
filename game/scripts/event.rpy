@@ -1465,6 +1465,11 @@ init -3 python:
                 return False
 
             kwargs["event_name"] = self.get_name()
+            
+            if "values" not in kwargs.keys():
+                kwargs["values"] = {}
+
+            kwargs["values"].update(self.values.get_values())
 
             for condition in self.conditions:
                 if not condition.is_fulfilled(**kwargs):
@@ -1493,6 +1498,8 @@ init -3 python:
 
             if "values" not in kwargs.keys():
                 kwargs["values"] = {}
+
+
 
             if self.values != None:
                 kwargs["values"].update(self.values.get_values())
@@ -1700,12 +1707,38 @@ init -3 python:
             self.person = person or character.subtitles
             self.event_form = "select"
             self.set_location("select")
-
             
         def _update(self, data: Dict[str, Any]):
             super()._update(data)
 
             self.event_form = "select"
+
+        def is_available(self, **kwargs) -> bool:
+            """
+            Checks if the event is available.
+            If all conditions are fulfilled, True is returned.
+
+            ### Parameters:
+            1. **kwargs
+                - The arguments that are passed to the conditions.
+
+            ### Returns:
+            1. bool
+                - True if all conditions are fulfilled.
+                - False if at least one condition is not fulfilled.
+            """
+
+            if self._invalid:
+                return False
+
+            if not super().is_available(**kwargs):
+                return False
+            
+            for storage in self.event_list.values():
+                if storage.has_available_events(**kwargs):
+                    return True
+
+            return False
 
         def get_event_label(self) -> str:
             return 'select_event_runner'
@@ -1915,6 +1948,8 @@ init -3 python:
             renpy.jump("new_day")
         elif return_type == "none":
             return
+        elif return_type == "custom":
+            renpy.call(get_value_ng('return_label', 'map_overview', **kwargs))
         else:
             renpy.jump("map_overview")
 

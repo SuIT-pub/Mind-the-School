@@ -15,6 +15,13 @@ label start ():
     $ fix_modifier()
     $ fix_quests()
 
+
+
+    $ i = 0
+    while i < len(start_methods):
+        call expression start_methods[i] from _call_expression_2
+        $ i += 1
+
     call intro from _call_intro
 label splashscreen:
     menu:
@@ -202,6 +209,11 @@ label after_load:
     $ fix_modifier()
     $ fix_quests()
     ####################################
+
+    $ i = 0
+    while i < len(start_methods):
+        call expression start_methods[i] from _call_expression_3
+        $ i += 1
 
     if contains_game_data("names") and "headmaster" in get_game_data("names"):
         $ headmaster_first_name = get_game_data("names")["headmaster"][0]

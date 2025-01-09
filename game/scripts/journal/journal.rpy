@@ -554,6 +554,24 @@ screen journal_page_selector(page, display, char = "school"):
                 xpos 1501
                 ypos 715
 
+    
+    if has_keyboard():  
+        key "K_9" action [With(dissolveM), Call("open_journal", 9, "")]
+        key "K_KP9" action [With(dissolveM), Call("open_journal", 9, "")]
+    if page != 9:
+        $ text = ("Characters" + key_text).replace("x", "9")
+        imagebutton:
+            idle "journal/journal/char_idle.webp"
+            hover "journal/journal/char_hover.webp"
+            tooltip text
+            xpos 144
+            ypos 456
+            action [With(dissolveM), Call("open_journal", 9, "")]
+    else:
+        image "journal/journal/char_hover.webp":
+            xpos 144
+            ypos 456
+
     $ text = ("Close Journal" + key_text).replace("x", "ESC")
 
     imagebutton:
@@ -687,11 +705,10 @@ screen journal_vote_button(page, display, active_obj):
             if obj_type == 'building':
                 $ probability = calculateProbabilitySum(condition_storage)
             else:
+                $ log_separator()
+                $ log_val('display', display)
                 $ probability = calculateProbabilitySum(
-                    condition_storage, 
-                    get_character("teacher", charList["staff"]),
-                    get_school(),
-                    get_character("parent", charList)
+                    condition_storage
                 )
             $ locked_text = ""
             $ probability_text = str(clamp_value(round(probability, 2))) + "%"
@@ -1914,7 +1931,11 @@ screen journal_gallery(display):
         if get_event_from_register(fragment_selection_fragment) != None:
             persistent.gallery[location][event]['options']['frag_order'][fragment_selection_index] = fragment_selection_fragment
 
-    
+    if location != "" and location not in persistent.gallery.keys():
+        $ location = ""
+        $ event = ""
+    elif event != "" and event not in persistent.gallery[location].keys():
+        $ event = ""    
 
     # if no location is defined 
     if location == "": 
@@ -2619,10 +2640,6 @@ screen journal_character(display):
     if len(display_values) >= 3:
         $ char_image = int(display_values[2])
 
-    $ log_val('display_values', display_values)
-    $ log_val('char_key', char_key)
-    $ log_val('char_name', char_name)
-
     if char_name == "":
         # left side
         # displays all patrons with teacher tier subscription on Patreon
@@ -2642,6 +2659,8 @@ screen journal_character(display):
 
                         vbox:
                             for character_key in person_storage.keys():
+                                if character_key == "NoView":
+                                    continue
                                 $ button_style = "buttons_idle"
                                 if character_key == char_key:
                                     $ button_style = "buttons_selected"
@@ -2719,11 +2738,11 @@ screen journal_character(display):
                         text_style "buttons_idle"
                         action [With(dissolveM), Call("open_journal", 9, f"{char_key}")]
                     
-                    $ idle_image = "images/icons/favorite_disabled.png"
-                    $ hover_image = "images/icons/favorite_enabled.png"
+                    $ idle_image = "images/icons/favorite_disabled.webp"
+                    $ hover_image = "images/icons/favorite_enabled.webp"
                     if character_image == character_thumbnail:
-                        $ idle_image = "images/icons/favorite_enabled.png"
-                        $ hover_image = "images/icons/favorite_disabled.png"
+                        $ idle_image = "images/icons/favorite_enabled.webp"
+                        $ hover_image = "images/icons/favorite_disabled.webp"
 
                     imagebutton:
                         idle idle_image
@@ -2853,8 +2872,6 @@ label dump_gallery_data(page, display):
     # 2. display: str
     #     - the display to be opened after the reset
     # """
-
-    $ log_val('Gallery Data', persistent.gallery)
 
     $ renpy.notify("Dumped gallery data!")
 

@@ -921,12 +921,13 @@ init -2 python:
 
         for i in range(start, end):
             for image_path in image_paths:
-
                 old_image = image_path.replace(key, "~#~")
                 old_image = re.sub("<.+>", "0", old_image)
                 test_image = old_image.replace("~#~", str(i))
 
-                if renpy.loadable(test_image):
+                image_dir = test_image.rsplit('/', 1)[0]
+
+                if renpy.loadable(test_image, directory = image_dir):
                     break
             else:
                 return i - 1
@@ -1442,7 +1443,7 @@ label show_ready_image(path, display_type = SCENE):
             elif display_type == SCENE:
                 scene expression path with dissolveM
         else:
-            $ log_error(204, f"'{new_image_path}' could not be found!")
+            $ log_error(204, f"'{path}' could not be found!")
     return
 
 label show_ext_image_with_nude_var(image_path, **kwargs):

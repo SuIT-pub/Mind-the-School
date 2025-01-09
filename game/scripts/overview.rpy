@@ -657,7 +657,7 @@ label map_overview ():
 
     $ call_notify()
 
-    $ update_quest("map")
+    $ update_all_quests()
 
     show school_map
     # show screen school_overview_map

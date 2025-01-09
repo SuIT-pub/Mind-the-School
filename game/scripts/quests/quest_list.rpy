@@ -130,6 +130,9 @@ init 1 python:
             for quest in quests_list:
                 quest.update(key, **kwargs)
 
+    def update_all_quests(**kwargs):
+        update_quest("x", **kwargs)
+
 label load_quests:
     $ set_current_mod('base')
 
@@ -141,7 +144,7 @@ label load_quests:
             "aonas_new_bra",
             "School",
             "Aona seems to be struggling during P.E. classes. Maybe you can help her out? Find out what's the Problem!",
-            "images/events/misc/aona_sports_bra_event_1/# 23.webp",
+            "images/events/misc/aona_sports_bra_event_1/aona_sports_bra_event_1 # 23.webp",
             "Aona got her new bra and is now ready for P.E. classes!",
             Goal(
                 "aona_bra_event_1",
@@ -207,6 +210,8 @@ label load_quests:
                 EventTask("cafeteria_event_3", check_history = True),
                 EventTask("cafeteria_event_4", check_history = True),
                 EventTask("cafeteria_event_5", check_history = True),
+                EventTask("cafeteria_event_6", check_history = True),
+                EventTask("cafeteria_event_7", check_history = True),
                 premature_visibility = True
             ),
             Goal(
@@ -218,6 +223,7 @@ label load_quests:
                 EventTask("courtyard_event_4", check_history = True),
                 EventTask("courtyard_event_5", check_history = True),
                 EventTask("courtyard_event_6", check_history = True),
+                EventTask("courtyard_event_7", check_history = True),
                 premature_visibility = True
             ),
             Goal(
@@ -265,6 +271,8 @@ label load_quests:
                 EventTask("sd_event_1", check_history = True),
                 EventTask("sd_event_2", check_history = True),
                 EventTask("sd_event_3", check_history = True),
+                EventTask("sd_event_4", check_history = True),
+                EventTask("sd_event_5", check_history = True),
                 premature_visibility = True
             ),
             Goal(
@@ -277,7 +285,6 @@ label load_quests:
                 EventTask("gym_teach_pe_warm_up_1", check_history = True),
                 LabelTask("all_events_teaching_gym_main", "-- Main Fragments"),
                 EventTask("gym_teach_pe_main_1", check_history = True),
-                EventTask("gym_teach_pe_main_2", check_history = True),
                 EventTask("gym_teach_pe_main_aona_bra", check_history = True),
                 LabelTask("all_events_teaching_gym_main", "-- End Fragments"),
                 EventTask("gym_teach_pe_end_1", check_history = True),
@@ -303,6 +310,33 @@ label load_quests:
                 LabelTask("all_events_teaching_history_main", "-- Main Fragments"),
                 EventTask("sb_teach_history_main_f_revolution_1", check_history = True),
                 EventTask("sb_teach_history_main_f_revolution_2", check_history = True),
+                premature_visibility = True
+            ),
+            Goal(
+                "all_event_aonas_new_bra",
+                "Aona's New Bra Events",
+                EventTask("gym_teach_pe_intro_aona_bra", check_history = True),
+                EventTask("gym_teach_pe_main_aona_bra", check_history = True),
+                EventTask("gym_teach_pe_main_aona_bra_2", check_history = True),
+                EventTask("aona_sports_bra_event_1", check_history = True),
+                premature_visibility = True
+            ),
+            Goal(
+                "all_event_sex_ed_intro",
+                "Sex Education Introduction Events",
+                EventTask("office_call_secretary_1", check_history = True),
+                EventTask("office_teacher_sex_ed_introduction_1", check_history = True),
+                EventTask("office_teacher_sex_ed_introduction_2", check_history = True),
+                EventTask("office_teacher_sex_ed_introduction_3", check_history = True),
+                EventTask("office_teacher_sex_ed_introduction_4", check_history = True),
+                EventTask("pta_discussion_sex_ed_intro_1", check_history = True),
+                EventTask("pta_vote_theoretical_sex_ed_1", check_history = True),
+                EventTask("theoretical_sex_ed_assembly_1", check_history = True),
+                EventTask("sex_ed_intro_mini_sd_1", check_history = True),
+                EventTask("sex_ed_intro_mini_sd_2", check_history = True),
+                EventTask("sex_ed_intro_mini_courtyard_1", check_history = True),
+                EventTask("first_sex_ed_day", check_history = True),
+                EventTask("first_sex_ed_class_1", check_history = True),
                 premature_visibility = True
             ),
             Goal(
@@ -426,7 +460,7 @@ label load_quests:
             "start_sex_ed",
             "School",
             "It is time to start teaching the school girls about their bodies, sexuality and reproduction.\nLet's try to add theoretical sex education to the schools curriculum.",
-            "images/events/misc/aona_sports_bra_event_1/# 23.webp",
+            "images/events/sex_ed_intro/mini_sd_2/mini_sd_2 5.webp",
             "Theoretical Sex Education is now part of the schools curriculum. How do we proceed now?",
             Goal(
                 "start_sex_ed_1",
@@ -482,5 +516,23 @@ label load_quests:
                 JournalUnlockTask("theoretical_sex_ed"),
                 activate_next = True
             ),
+            Goal(
+                "start_sex_ed_9",
+                "The PTA agreed to give it a try. Gonna make an announcement to the school.",
+                EventTask("theoretical_sex_ed_assembly_1", check_history = True),
+            ),
+            Goal(
+                "start_sex_ed_10",
+                "The announcement is done. Let's see how the students react to it.",
+                OptionalTask("event", EventTask("sex_ed_intro_mini_sd_1")),
+                OptionalTask("event", EventTask("sex_ed_intro_mini_sd_2")),
+                OptionalTask("event", EventTask("sex_ed_intro_mini_courtyard_1")),
+                EventTask("first_sex_ed_day", check_history = True),
+            ),
+            Goal(
+                "Well the change seems well received. Now on to the first lesson.",
+                EventTask("first_sex_ed_class_1", check_history = True),
+            ),
+            premature_visibility = True
         )
     )

@@ -30,7 +30,6 @@ init 1 python:
 
     gym_event1 = Event(3, "gym_event_1",
         LevelSelector("school_level", "school"),
-        StatSelector("corruption", CORRUPTION, "school"),
         RandomListSelector("topic", "shoes", "hair", "ready"),
         DictSelector("topic_text", "topic", {
             "shoes": "putting on my shoes",
@@ -38,26 +37,23 @@ init 1 python:
             "ready": "getting ready",
         }),
         TimeCondition(daytime = "c", weekday = "d"),
-        Pattern("main", "/images/events/gym/gym_event_1 <school_level> <topic> <step>.webp"),
-        thumbnail = "images/events/gym/gym_event_1 1 hair 0.webp")
+        Pattern("main", "/images/events/gym/gym_event_1/gym_event_1 <school_level> <step>.webp"),
+        thumbnail = "images/events/gym/gym_event_1/gym_event_1 1 0.webp")
     
     gym_event2 = Event(3, "gym_event_2",
-        LevelSelector("school_level", "school"),
-        StatSelector("inhibition", INHIBITION, "school"),
-        RandomListSelector("topic", (0.75, "clothe"), "breasts", (0.15, "asses")),
         TimeCondition(daytime = "c", weekday = "d"),
-        Pattern("main", "/images/events/gym/gym_event_2 <school_level> <topic> <step>.webp"),
-        thumbnail = "images/events/gym/gym_event_2 1 clothe 0.webp")
+        LevelCondition("5-", "school"),
+        LevelSelector("school_level", "school"),
+        RandomListSelector("topic", (0.75, "clothe"), "breasts", (0.15, "asses")),
+        Pattern("main", "/images/events/gym/gym_event_2/gym_event_2 <school_level> <topic> <step>.webp"),
+        thumbnail = "images/events/gym/gym_event_2/gym_event_2 1 clothe 0.webp")
 
     gym_event3 = Event(3, "gym_event_3",
-        LevelSelector("school_level", "school"),
-        RandomValueSelector("variant", 1, 1),
-        DictSelector("girl_name", "variant", {
-            1: "Kokoro Nakamura",
-        }),
         TimeCondition(daytime = "c", weekday = "d"),
-        Pattern("main", "/images/events/gym/gym_event_3 <school_level> <variant> <step>.webp"),
-        thumbnail = "images/events/gym/gym_event_3 1 1 0.webp")    
+        LevelCondition("3-", "school"),
+        LevelSelector("school_level", "school"),
+        Pattern("main", "/images/events/gym/gym_event_3/gym_event_3 <school_level> <step>.webp"),
+        thumbnail = "images/events/gym/gym_event_3/gym_event_3 1 0.webp")    
 
     gym_events["enter_changing"].add_event(
         gym_event2,
@@ -104,71 +100,114 @@ label .after_general_check (**kwargs):
 #########################
 # region Regular Events #
 
+define anim_ge1_path = "images/events/gym/gym_event_1/gym_event_1 "
+
+image anim_gym_event_1_7_3 = Movie(play = anim_ge1_path + "7 3.webm", start_image = anim_ge1_path + "7 3.webp", loop = True)
+image anim_gym_event_1_8_3 = Movie(play = anim_ge1_path + "8 3.webm", start_image = anim_ge1_path + "8 3.webp", loop = True)
+image anim_gym_event_1_8_4 = Movie(play = anim_ge1_path + "8 4.webm", start_image = anim_ge1_path + "8 4.webp")
+image anim_gym_event_1_8_5 = Movie(play = anim_ge1_path + "8 5.webm", start_image = anim_ge1_path + "8 5.webp")
+image anim_gym_event_1_8_6 = Movie(play = anim_ge1_path + "8 6.webm", start_image = anim_ge1_path + "8 6.webp", loop = True)
+image anim_gym_event_1_9_3 = Movie(play = anim_ge1_path + "9 3.webm", start_image = anim_ge1_path + "9 3.webp", loop = True)
+image anim_gym_event_1_9_4 = Movie(play = anim_ge1_path + "9 4.webm", start_image = anim_ge1_path + "9 4.webp", loop = True)
+image anim_gym_event_1_9_5 = Movie(play = anim_ge1_path + "9 5.webm", start_image = anim_ge1_path + "9 5.webp", loop = True)
+image anim_gym_event_1_9_6 = Movie(play = anim_ge1_path + "9 6.webm", start_image = anim_ge1_path + "9 6.webp", loop = True)
+image anim_gym_event_1_9_7 = Movie(play = anim_ge1_path + "9 7.webm", start_image = anim_ge1_path + "9 7.webp")
+image anim_gym_event_1_9_8 = Movie(play = anim_ge1_path + "9 8.webm", start_image = anim_ge1_path + "9 8.webp", loop = True)
+image anim_gym_event_1_10_3 = Movie(play = anim_ge1_path + "10 3.webm", start_image = anim_ge1_path + "10 3.webp", loop = True)
+image anim_gym_event_1_10_4 = Movie(play = anim_ge1_path + "10 4.webm", start_image = anim_ge1_path + "10 4.webp", loop = True)
+image anim_gym_event_1_10_5 = Movie(play = anim_ge1_path + "10 5.webm", start_image = anim_ge1_path + "10 5.webp", loop = True)
+image anim_gym_event_1_10_6 = Movie(play = anim_ge1_path + "10 6.webm", start_image = anim_ge1_path + "10 6.webp", loop = True)
+image anim_gym_event_1_10_7 = Movie(play = anim_ge1_path + "10 7.webm", start_image = anim_ge1_path + "10 7.webp", loop = True)
+image anim_gym_event_1_10_8 = Movie(play = anim_ge1_path + "10 8.webm", start_image = anim_ge1_path + "10 8.webp")
+image anim_gym_event_1_10_9 = Movie(play = anim_ge1_path + "10 9.webm", start_image = anim_ge1_path + "10 9.webp")
+image anim_gym_event_1_10_10 = Movie(play = anim_ge1_path + "10 10.webm", start_image = anim_ge1_path + "10 10.webp", loop = True)
 label gym_event_1 (**kwargs):
-    $ begin_event(**kwargs)
+    $ begin_event("3", **kwargs)
 
     $ school_level = get_value('school_level', **kwargs)
-    $ corruption = get_stat_value("corruption", [5, 100], **kwargs)
-    $ topic_variant = get_value("topic", **kwargs)
-    $ topic = get_value("topic_text", **kwargs)
 
-    $ image = convert_pattern("main", **kwargs)
+    $ aona = get_person("class_3a", "aona_komuro").get_character()
+
+    $ image = convert_pattern("main", video_prefix = "anim_", **kwargs)
 
     $ image.show(0)
     subtitles "In the Gym, you see a girl getting ready for P.E."
-
-    # if corruption >= 80:
-    #     show screen black_screen_text("gym_event_1\ncorruption >= 80")
-    #     sgirl "Im [topic] right now, how about a quick make out session before class starts? We got a few minutes for that." (name = girls[school_name][0])
-    #     headmaster "For a girl as pretty as you? Of course I do!"
-    #     subtitles "After she is ready, you spend a few minutes making out with her."
-    #     call change_stats_with_modifier(school_obj, 
-    #         inhibition = DEC_LARGE, corruption = MEDIUM, charm = SMALL)
-    # elif corruption >= 60:
-    #     show screen black_screen_text("gym_event_1\ncorruption >= 60")
-    #     sgirl "Im [topic] now, how about a proper good luck kiss before class?" (name = girls[school_name][0])
-    #     headmaster "That sounds like a very good measure!"
-    #     subtitles "After she is ready, you french kiss her for a minute."
-    #     call change_stats_with_modifier(school_obj, 
-    #         inhibition = DEC_MEDIUM, corruption = MEDIUM, charm = SMALL)
-    # elif corruption >= 40:
-    #     show screen black_screen_text("gym_event_1\ncorruption >= 40")
-    #     sgirl "just [topic] for P.E.\n Say, do you wish we would just run around nude all day?" (name = girls[school_name][0])
-    #     sgirl "We just might if you asked us to." (name = girls[school_name][1])
-    #     # tease headmaster -> run off
-    #     sgirl "*giggle*" (name="School Girls")
-    #     call change_stats_with_modifier(school_obj, 
-    #         inhibition = DEC_SMALL, corruption = MEDIUM, charm = SMALL)
-    # elif corruption >= 20:
-    #     show screen black_screen_text("gym_event_1\ncorruption >= 20")
-    #     sgirl "Just [topic] for P.E.\n Say, do you wish we would just run around in underwear all day?" (name = girls[school_name][0])
-    #     sgirl "We just might if you asked us to." (name = girls[school_name][1])
-    #     # tease headmaster -> run off
-    #     sgirl "*giggle*" (name="School Girls")
-    #     call change_stats_with_modifier(school_obj, 
-    #         inhibition = DEC_SMALL, corruption = SMALL, charm = SMALL)
-    if corruption > 5:
+    
+    if school_level == 10:
         $ image.show(1)
-        sgirl "Just give me a moment more to get ready for class. You like watching me doing whatever, right?" (name="Aona Komuro")
-
+        aona "Im making my hair right now, how about a quick pre-workout before class starts? We got a few minutes for that."
         $ image.show(2)
-        headmaster "As pretty as you are? I sure do!"
-
-        call change_stats_with_modifier('school', 
-            inhibition = DEC_SMALL, corruption = TINY, charm = TINY) from _call_change_stats_with_modifier_26
+        headmaster "For a girl as pretty as you? Of course I do!"
+        $ image.show_video(3, pause = True)
+        $ image.show_video(4, pause = True)
+        $ image.show_video(5, pause = True)
+        $ image.show_video(6, pause = True)
+        $ image.show_video(7, pause = True)
+        $ image.show_video(8)
+        $ renpy.pause(5.33)
+        $ image.show_video(9)
+        $ renpy.pause(5.33)
+        $ image.show_video(10)
+        aona "That was an amazing warmup, Mr. [headmaster_last_name]!"
+        call change_stats_with_modifier(school_obj, 
+            inhibition = DEC_LARGE, corruption = LARGE, charm = SMALL) from _call_change_stats_with_modifier_26
+    elif school_level == 9:
+        $ image.show(1)
+        aona "Im making my hair right now, how about a quick pre-workout before class starts? We got a few minutes for that."
+        $ image.show(2)
+        headmaster "For a girl as pretty as you? Of course I do!"
+        $ image.show_video(3, pause = True)
+        $ image.show_video(4, pause = True)
+        $ image.show_video(5, pause = True)
+        $ image.show_video(6, pause = True)
+        $ image.show_video(7)
+        $ renpy.pause(5.33)
+        $ image.show_video(8)
+        aona "That was an amazing warmup, Mr. [headmaster_last_name]!"
+        call change_stats_with_modifier(school_obj, 
+            inhibition = DEC_LARGE, corruption = LARGE, charm = SMALL) from _call_change_stats_with_modifier_29
+    elif school_level == 8:
+        $ image.show(1)
+        aona "Im making my hair right now, how about a quick snack before class starts? We got a few minutes for that."
+        $ image.show(2)
+        headmaster "For a girl as pretty as you? Of course I do!"
+        $ image.show_video(3, pause = True)
+        $ image.show_video(4)
+        $ renpy.pause(5.33)
+        $ image.show_video(5)
+        $ renpy.pause(1)
+        $ image.show_video(6)
+        aona "Thanks for the snack, Mr. [headmaster_last_name]!"
+        call change_stats_with_modifier(school_obj, 
+            inhibition = DEC_LARGE, corruption = MEDIUM, charm = SMALL) from _call_change_stats_with_modifier_30
+    elif school_level == 7:
+        $ image.show(1)
+        aona "Im fixing my hair right now, how about a proper good luck kiss before class?"
+        $ image.show(2)
+        headmaster "That sounds like a very good measure!"
+        $ image.show_video(3, pause = True)
+        call change_stats_with_modifier(school_obj, 
+            inhibition = DEC_MEDIUM, corruption = MEDIUM, charm = SMALL) from _call_change_stats_with_modifier_85
+    elif school_level >= 5:
+        $ image.show(1)
+        aona "Just fixing my hair for P.E.\n Say, do you wish we would just run around nude all day?"
+        $ image.show(2)
+        aona "We just might if you asked us to."
+        $ image.show(3)
+        aona "*giggle*" (name="School Girls")
+        call change_stats_with_modifier(school_obj, 
+            inhibition = DEC_SMALL, corruption = SMALL, charm = SMALL) from _call_change_stats_with_modifier_86
     else:
         $ image.show(1)
-        sgirl "Are you getting ready for gym class too, Mr. [headmaster_last_name]?" (name="Aona Komuro")
+        aona "Are you getting ready for gym class too, Mr. [headmaster_last_name]?"
 
         call change_stats_with_modifier('school', 
             inhibition = DEC_TINY, corruption = TINY, charm = TINY) from _call_change_stats_with_modifier_27
     $ end_event('new_daytime', **kwargs)
 
 label gym_event_2 (**kwargs):
-    $ begin_event(**kwargs)
+    $ begin_event("2", **kwargs)
 
-    $ school_level = get_value('school_level', **kwargs)
-    $ inhibition = get_stat_value("inhibition", [100], **kwargs)
     $ topic = get_value("topic", **kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -181,89 +220,70 @@ label gym_event_2 (**kwargs):
     else:
         subtitles "You walk in on some girls changing their clothes before P.E."
     
-    # if inhibition >= 80:
     $ image.show(1)
     subtitles "It took a few seconds for them to realize what is happening."
     $ image.show(2)
-    sgirl "*scream*" (name="School Girls")
+    sgirl "*scream*" (name="School Girls", retain = False)
     $ image.show(3)
     headmaster "Sorry, I didn't mean to intrude."
     $ image.show(4)
     subtitles "You run out as fast as you can."
     call change_stats_with_modifier('school', 
         inhibition = DEC_SMALL, happiness = DEC_SMALL, reputation = DEC_SMALL) from _call_change_stats_with_modifier_28
-    # elif inhibition >= 60:
-    #     show screen black_screen_text("gym_event_2\ntopic_[topic] inhibition >= 60")
 
-    #     $ call_custom_menu_with_text("Oops... Nice view but they don't seem too happy about me being here.", character.headmaster_thought, False,
-    #         ("I'm sorry, I didn't know I was in the girls locker room", "gym_event_2.sorry"),
-    #         ("Oh pardon me but I'm conducting a walk through of all escape routes in case there's a fire.", "gym_event_2.escape"),
-    #     **kwargs)
-    # elif inhibition >= 30:
-    #     show screen black_screen_text("gym_event_2\ntopic_[topic] inhibition >= 30")
-    #     subtitles "<GIRL NAME> is down to bra und panties, but her bra doesn't seem to fit her."
-    #     headmaster "Be sure to wear good fitting bras to keep being as perky as you are and to keep your breasts healthy."
-    #     call change_stats_with_modifier(school_obj,
-    #         inhibition = DEC_SMALL, happiness = DEC_SMALL)
-    # else:
-    # show screen black_screen_text("gym_event_2\ntopic_[topic] inhibition < 30")
-    # sgirl "Ahh!"
-    # headmaster "Sorry, is everything alright?"
-    # sgirl "Yes, I was just surprised."
-    # call change_stats_with_modifier(school_obj,
-    #     inhibition = DEC_MEDIUM)
-
-    $ end_event('new_daytime', **kwargs)
-label .sorry (**kwargs):
-    
-    $ begin_event()
-    
-    sgirl "Okay..."
-    headmaster_thought "I think she doesn't believe me..."
-    call change_stats_with_modifier('school',
-        happiness = DEC_MEDIUM, reputation = DEC_SMALL) from _call_change_stats_with_modifier_29
-    $ end_event('new_daytime', **kwargs)
-label .escape (**kwargs):
-    
-    $ begin_event()
-    
-    sgirl "Oh, I was just..."
-    headmaster "It's okay. You couldn't possible know."
-    subtitles "You leave the room and leave the girls behind dumbfounded."
-    call change_stats_with_modifier('school',
-        inhibition = DEC_MEDIUM, happiness = DEC_SMALL) from _call_change_stats_with_modifier_30
     $ end_event('new_daytime', **kwargs)
 
 label gym_event_3 (**kwargs):
-    $ begin_event(**kwargs)
-
-    $ school_level = get_value('school_level', **kwargs)
-    $ variant = get_value("variant", **kwargs)
-    $ girl = get_value("girl_name", **kwargs)
-
-    $ girl_name = girl.split(" ")[0]
-    $ girl_full_name = girl
+    $ begin_event("2", **kwargs)
 
     $ image = convert_pattern("main", **kwargs)
 
+    $ kokoro = get_person("class_3a", "kokoro_nakamura").get_character()
+    $ zoe = get_person("staff", "zoe_parker").get_character()
+
     $ image.show(0)
-    headmaster "Sorry but that top doesn't conform to the uniform policy."
+    headmaster "Miss Nakamura! I'm sorry but that top doesn't conform to the uniform policy."
     $ image.show(1)
-    sgirl "Whaa... But my normal uniform is in the wash!" (name = girl_full_name)
+    kokoro "Whaa... But my normal uniform is in the wash!"
     $ image.show(2)
-    headmaster "That's unfortunate but you can't keep wearing this for P.E. as it is bad for the hygiene and could lead to injuries."
+    headmaster "That's unfortunate but you can't keep wearing this for P.E. It is bad for the hygiene."
     headmaster "The sport clothing is made of special materials that are designed to be worn during sports and have antibacterial properties."
+    headmaster "I'm sorry but you will have to take of your top."
     $ image.show(3)
-    sgirl "But I don't have anything else!" (name = girl_full_name)
+    kokoro "But..."
     $ image.show(4)
-    headmaster "I'm sorry but you will have to take of your top then."
+    headmaster "Miss Nakamura!"
     $ image.show(5)
-    sgirl "But..." (name = girl_full_name)
-    headmaster "I'm sorry but I can't make an exception. Better keep your timetable in mind next time."
+    kokoro "O-Okay!"
     $ image.show(6)
-    subtitles "[girl_name] takes of her top and is now only wearing her bra."
     $ image.show(7)
-    subtitles "She proceeded to take part on the P.E. class, almost dying of shame."
+    headmaster "Miss Nakamura, what is that? You are wearing a laced bra as well?!"
+    $ image.show(8)
+    kokoro "I-I'm sorry, my clothing is..."
+    $ image.show(9)
+    headmaster "This one is even worse! Laced bras are a hazard during sports and can cause injuries!"
+    headmaster "You will have to take that off as well!"
+    $ image.show(10)
+    kokoro "But..."
+    $ image.show(11)
+    zoe "Mr. [headmaster_last_name], don't you think that is a bit too much?"
+    $ image.show(12)
+    headmaster "Miss Parker, I'm sorry but I can't allow this. She has to learn that the rules are there for a reason."
+    $ image.show(13)
+    headmaster "Miss Nakamura, you will have to take off your bra."
+    $ image.show(14)
+    kokoro "But..."
+    $ image.show(15)
+    headmaster "No buts, Miss Nakamura!"
+    $ image.show(16)
+    kokoro "*whimper*"
+    call Image_Series.show_image(image, 17, 18) from _call_gym_event_3_1
+    kokoro "*sob*"
+    $ image.show(19)
+    headmaster "Good, now continue with the class."
+    $ image.show(20)
+    zoe "..."
+    call Image_Series.show_image(image, 21, pause = True) from _call_gym_event_3_2
 
     call change_stats_with_modifier('school',
         inhibition = DEC_MEDIUM, happiness = DEC_SMALL, charm = TINY, education = TINY, reputation = DEC_SMALL) from _call_change_stats_with_modifier_31

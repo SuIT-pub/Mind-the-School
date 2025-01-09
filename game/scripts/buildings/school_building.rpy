@@ -36,33 +36,30 @@ init 1 python:
         TimeCondition(weekday = "d", daytime = "c"),
         ProgressCondition('first_class', '2-'),
         RandomListSelector('class', '3A'),
-        Pattern("main", "/images/events/school building/first_class_sb_event/<class> <nude> <step>.webp"),
-        thumbnail = "images/events/school building/first_class_sb_event/3A 0 2.webp")
+        Pattern("main", "/images/events/school building/first_class_sb_event/first_class_sb_event <class> <nude> <step>.webp"),
+        thumbnail = "images/events/school building/first_class_sb_event/first_class_sb_event 3A 0 2.webp")
 
     sb_event1 = Event(3, "sb_event_1",
         TimeCondition(daytime = "c", weekday = "d"),
         LevelSelector('school_level', 'school'),
-        Pattern("main", "/images/events/school building/sb_event_1/<school_level> <step>.webp"),
-        thumbnail = "images/events/school building/sb_event_1/1 1.webp")
+        Pattern("main", "/images/events/school building/sb_event_1/sb_event_1 <school_level> <step>.webp"),
+        thumbnail = "images/events/school building/sb_event_1/sb_event_1 1 1.webp")
 
     sb_event3 = Event(3, "sb_event_3",
         TimeCondition(daytime = "d", weekday = "d"),
-        LevelSelector('school_level', 'school'),
-        Pattern("main", "/images/events/school building/sb_event_3 <school_level> <step>.webp"),
-        thumbnail = "images/events/school building/sb_event_3 1 1.webp")
+        Pattern("main", "/images/events/school building/sb_event_3/sb_event_3 <school_level> <step>.webp"),
+        thumbnail = "images/events/school building/sb_event_3/sb_event_3 1 1.webp")
 
     sb_event4 = Event(3, "sb_event_4",
         TimeCondition(daytime = "f", weekday = "d"),
-        LevelSelector('school_level', 'school'),
-        RandomListSelector('girl_name', 'Ikushi Ito'),
-        Pattern("main", "/images/events/school building/sb_event_4 <school_level> <girl_name> <step>.webp"),
-        thumbnail = "images/events/school building/sb_event_4 1 Ikushi Ito 0.webp")
+        Pattern("main", "/images/events/school building/sb_event_4/sb_event_4 <school_level> <step>.webp"),
+        thumbnail = "images/events/school building/sb_event_4/sb_event_4 1 0.webp")
 
     sb_event5 = Event(3, "sb_event_5",
         TimeCondition(daytime = "c", weekday = "d"),
-        RandomListSelector('girls', 'Ikushi Ito', 'Soyoon Yamamoto', 'Yuriko Oshima'),
-        Pattern('main', "/images/events/school building/sb_event_5 <school_level> <girls> <step>.webp", 'school_level', 'girls'),
-        thumbnail = "images/events/school building/sb_event_5 1 Soyoon Yamamoto 11.webp")
+        RandomListSelector('girls', 'ikushi_ito', 'soyoon_yamamoto', 'yuriko_oshima'),
+        Pattern('main', "/images/events/school building/sb_event_5/sb_event_5 <school_level> <girls> <step>.webp", 'school_level', 'girls'),
+        thumbnail = "images/events/school building/sb_event_5/sb_event_5 1 soyoon_yamamoto 11.webp")
     ####################
 
     #################
@@ -116,6 +113,8 @@ label sb_event_1 (**kwargs): # patrol, check class
 
     $ school_level = get_value('school_level', **kwargs)
     
+    $ sakura = get_person("class_3a", "sakura_mori").get_character()
+
     $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
@@ -148,28 +147,28 @@ label .stop (**kwargs):
     $ image.show(3)
     # call show_image("/images/events/school building/sb_event_1 <name> 4.webp", SCENE, **kwargs)
     headmaster "Hey you! Stop that. You know that is against the rules!"
-    sgirl "We're sorry!"
+    sakura "We're sorry!"
     call change_stats_with_modifier('school',
         charm = MEDIUM, happiness = DEC_SMALL, education = SMALL, reputation = TINY, inhibition = DEC_TINY) from _call_change_stats_with_modifier_64
     
     $ end_event('new_daytime', **kwargs)
 
 label sb_event_3 (**kwargs): # patrol
-    $ begin_event(**kwargs)
+    $ begin_event("2", **kwargs)
 
-    $ school_level = get_value('school_level', **kwargs)
-    
+    $ miwa = get_person("class_3a", "miwa_igarashi").get_character()
+
     $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0) # walk with girl sitting
     subtitles "As you walk through the corridors of the high school, you notice a student sitting in the corner of the hallway."
-    sgirl "*sniffle*"
+    miwa "*sniffle*"
 
     $ image.show(1) # stand next to her asking
     headmaster "Are you okay?"
     
     $ image.show(2) # girl answers without looking up
-    sgirl "I'm fine. It's just... No I'm fine."
+    miwa "I'm fine. It's just... No I'm fine."
 
     $ call_custom_menu(False,
         ("What is going on?", "sb_event_3.what"),
@@ -183,13 +182,13 @@ label .what (**kwargs):
     headmaster "What is going on? I can see there is something bothering you."
 
     $ image.show(4) # girl still doesn't look
-    sgirl "I really don't want to talk about it. I'd like to be alone right now."
+    miwa "I really don't want to talk about it. I'd like to be alone right now."
 
     $ image.show(5) # headmaster asks looking straight
     headmaster "Did someone do this to you?"
 
     $ image.show(6) # girl looks away, headmaster looks at her
-    sgirl "..."
+    miwa "..."
 
     $ call_custom_menu(False, 
         ("Leave her alone", "sb_event_3.leave"), 
@@ -209,7 +208,7 @@ label .leave (**kwargs):
     headmaster "But if you need anything, you can always come to me. My door is always open."
 
     $ image.show(2) # image 2 but with girl not talking
-    sgirl "..."
+    miwa "..."
 
     $ image.show(8) # headmaster stands a bit further away looking back to her
     subtitles"You walk away with a heavy heart."
@@ -226,25 +225,25 @@ label .get_to_bottom (**kwargs):
     headmaster "I really want to help you. Please tell me what is going on."
 
     $ image.show(10) # headmaster looks girl doesn't answer
-    sgirl "..."
+    miwa "..."
     
     $ image.show(9) # headmaster rests head against wall talking
     headmaster "Please listen."
 
     $ image.show(10) # headmaster rests head against wall talking
-    sgirl "..."
+    miwa "..."
     $ image.show(9) # headmaster rests head against wall talking
     headmaster "Whatever happened to you, if some someone did or said anything."
 
     $ image.show(11) # girl buries head deeper into arms
-    sgirl "*sniffle*"
+    miwa "*sniffle*"
     subtitles "She slowly and silently starts crying."
 
     $ image.show(12) # headmaster looks to girl
     headmaster "Let's go to my office, shall we? There it is more private and nobody will bother us. You can then decide what you want to share. Is that okay?"
 
     $ image.show(13) # girl looks to headmaster
-    sgirl "I- I... yes... thank-"
+    miwa "I- I... yes... thank-"
 
     $ image.show(14) # headmaster and girl walk to office
     subtitles "You support her back to your office and bring her something warm to drink."
@@ -261,13 +260,13 @@ label .send_class (**kwargs):
     headmaster "Then you better get back to class."
 
     $ image.show(16) # girl looks up
-    sgirl "B- But... I..."
+    miwa "B- But... I..."
 
     $ image.show(17) # headmaster looks back
     headmaster "Yes?"
 
     $ image.show(18) # girl again buries head in arms
-    sgirl "I d-don't..."
+    miwa "I d-don't..."
 
     $ call_custom_menu(False, 
         ("Poor thing", "sb_event_3.poor_thing"), 
@@ -281,7 +280,7 @@ label .poor_thing (**kwargs):
     headmaster "Look, maybe you should just take the day off. I'll notify your teacher."
 
     $ image.show(20) # girl looks to headmaster
-    sgirl "Yes... thank you..."
+    miwa "Yes... thank you..."
 
     $ image.show(14) # headmaster helps girl up
     subtitles "You help her up and walk her to the dormitory."
@@ -297,11 +296,11 @@ label .chin_up (**kwargs):
     headmaster "Now, now, it can't be that bad. I'm sure whatever caused those tears will soon be forgotten."
 
     $ image.show(21) # girl says nothing
-    sgirl "..."
+    miwa "..."
 
     $ image.show(22) # headmaster stands up
     headmaster "Now, run along. Just tell the teachers you needed a breath of air. I'll take care of the rest."
-    sgirl "Ok..."
+    miwa "Ok..."
 
     $ image.show(23) # girl walks away
     subtitles "You help her up and she walks off."
@@ -311,10 +310,9 @@ label .chin_up (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label sb_event_4(**kwargs):
-    $ begin_event(**kwargs)
+    $ begin_event("2", **kwargs)
 
-    $ school_level = get_value('school_level', **kwargs)
-    $ girl_name = get_value('girl_name', **kwargs)
+    $ ikushi = get_person("class_3a", "ikushi_ito").get_character()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -323,12 +321,11 @@ label sb_event_4(**kwargs):
 
     $ image.show(2)
     subtitles "*CRASH*"
-    sgirl "Ouch..."
+    ikushi "Ouch..."
 
     $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
         ("Leave her alone", "sb_event_4.leave"),
         ("Help her up", "sb_event_4.help"),
-        ("Point out her panties", "sb_event_4.panties"),
     **kwargs)
 label .leave (**kwargs):
 
@@ -346,53 +343,35 @@ label .help (**kwargs):
     headmaster "Are you okay? Here let me help you."
     
     $ image.show(5)
-    sgirl "Thank you."
+    ikushi "Thank you."
     
     headmaster "Does anything hurt?"
     
     $ image.show(6)
-    sgirl "No, I'm fine."
+    ikushi "No, I'm fine."
     
     $ image.show(7)
     headmaster "Okay then. Be more careful next time."
     
     $ image.show(8)
-    sgirl "Yes, I will."
+    ikushi "Yes, I will."
 
     call change_stats_with_modifier('school',
         happiness = SMALL, charm = DEC_TINY, education = TINY) from _call_change_stats_with_modifier_70
 
-    $ end_event('new_daytime', **kwargs)
-label .panties (**kwargs):
-
-    $ image.show(9)
-    headmaster "Cute panties."
-    
-    $ image.show(10)
-    sgirl "Eh?!"
-    
-    $ image.show(11)
-    headmaster "Oh, sorry. I didn't mean to embarrass you. But that cat paw is cute."
-    
-    $ image.show(12)
-    sgirl "Eeeek! Pervert!"
-
-    call Image_Series.show_image(image, 13, pause = True) from _call_Image_Series_show_image_10
-
-    call change_stats_with_modifier('school',
-        inhibition = DEC_SMALL, charm = DEC_SMALL, corruption = TINY) from _call_change_stats_with_modifier_71
+    call empty_label() from _call_Image_Series_show_image_10
+    call empty_label() from _call_change_stats_with_modifier_71
 
     $ end_event('new_daytime', **kwargs)
 
 label sb_event_5 (**kwargs):
-    $ begin_event("1", **kwargs)
+    $ begin_event("2", **kwargs)
 
-    $ school_level = get_level('school_level', **kwargs)
     $ girls = get_value('girls', **kwargs)
 
     $ image = convert_pattern('main', **kwargs)
 
-    $ girl_char = Character(girls, kind=character.sgirl)
+    $ girl_char = get_person('class_3a', girls).get_character()
 
     call Image_Series.show_image(image, 0, 1, 2) from _call_show_image_sb_event_5_event_1
     # headmaster walks through hallway

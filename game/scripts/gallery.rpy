@@ -1,4 +1,8 @@
+init -99 python:
+    gallery_version = "2"
+
 init python:
+
     gallery_manager = None
 
     #####################################
@@ -383,7 +387,7 @@ init python:
 
             return get_kwargs(key, alt, **kwargs["values"])
 
-        gallery_manager.current_ranges[key] = ranges
+        gallery_manager.current_ranges[key] = get_value_ng(key + "_range", ranges, **kwargs)
 
         return set_value(key, value, **kwargs)
 
@@ -425,7 +429,7 @@ init python:
         
             return get_kwargs(key, alt, **kwargs)
 
-        gallery_manager.current_ranges[key] = ranges
+        gallery_manager.current_ranges[key] = get_value_ng(key + "_range", ranges, **kwargs)
 
         return get_value(key, alt, **kwargs)
 
@@ -478,6 +482,31 @@ init python:
                 level = get_kwargs(key + '_level', level, **kwargs["values"])
 
         return set_value(key + '_level', level, **kwargs)
+
+    def get_person_value(key: str, alt: Any = None, **kwargs) -> PersonObj:
+        char_key = get_value(key, alt, **kwargs)
+
+        if char_key == "school":
+            return get_person("NoView", "default_school")
+        elif char_key == "parent":
+            return get_person("NoView", "default_parent")
+        elif char_key == "teacher":
+            return get_person("NoView", "default_teacher")
+        elif char_key == "secretary":
+            return get_person("NoView", "default_secretary")
+        elif char_key == None or not isinstance(char_key, str):
+            return get_person("NoView", "default")
+
+        char_person = find_person(char_key)
+
+        if char_person == None:
+            return get_person("NoView", "default")
+
+        return char_person
+
+    def get_person_char(key: str, alt: Any = None, **kwargs) -> Character:
+        char_person = get_person_value(key, alt, **kwargs)
+        return char_person.get_character()
 
     def get_value_ng(key: str, alt: Any = None, **kwargs) -> Any:
         """
@@ -655,6 +684,13 @@ init python:
         """
 
         return get_kwargs("in_replay", False, **kwargs)
+
+    def check_gallery_version():
+        if persistent.gallery_version == None or gallery_version != persistent.gallery_version:
+            persistent.gallery_version = gallery_version
+            reset_gallery()
+
+    check_gallery_version()
 
     # endregion
     #########################

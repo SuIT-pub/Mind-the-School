@@ -10,6 +10,7 @@ init -1 python:
     register_highlighting(cafeteria_timed_event, cafeteria_general_event)
 
     cafeteria_events = {}
+    add_storage(cafeteria_events, EventStorage("look_around",  "cafeteria", fallback_text = "Nothing to see here."))
     add_storage(cafeteria_events, EventStorage("order_food",  "cafeteria", fallback_text = "I'm not hungry."))
     add_storage(cafeteria_events, EventStorage("eat_alone",   "cafeteria", fallback_text = "I'm not hungry."))
 
@@ -26,32 +27,35 @@ init 1 python:
     set_current_mod('base')
     cafeteria_construction_event = Event(1, "cafeteria_construction",
         ProgressCondition("unlock_cafeteria", "2"),
-        Pattern("main", "images/events/cafeteria/cafeteria_construction <step>.webp"))
+        Pattern("main", "images/events/cafeteria/cafeteria_construction/cafeteria_construction <step>.webp"))
 
     cafeteria_event_1_event = Event(3, "cafeteria_event_1",
         TimeCondition(daytime = "d"),
         RandomListSelector("topic", "coffee", "tea", "warm milk"),
-        Pattern("main", "images/events/cafeteria/cafeteria_event_1/<parent_level> <step>.webp"),
-        thumbnail = "images/events/cafeteria/cafeteria_event_1/1 4.webp")
+        Pattern("main", "images/events/cafeteria/cafeteria_event_1/cafeteria_event_1 <parent_level> <step>.webp"),
+        thumbnail = "images/events/cafeteria/cafeteria_event_1/cafeteria_event_1 1 4.webp")
     
     cafeteria_event_2_event = Event(3, "cafeteria_event_2",
         TimeCondition(daytime = "1,6"),
         TimeSelector("time", "daytime"),
-        RandomListSelector("char_class", "parent", ("school", RuleCondition('school_jobs'))),
+        RandomListSelector("char_class", "parent", ("school", RuleCondition('school_jobs')), realtime = True),
         ConditionSelector("level", CompareCondition("char_class", "parent"), 
             LevelSelector("", "parent"), 
-            LevelSelector("", "school")
+            LevelSelector("", "school"),
+            realtime = True
         ),
         RandomListSelector("girl_name", 
-            ("Adelaide Hall", CompareCondition('char_class', 'parent')),
+            ("adelaide_hall", CompareCondition('char_class', 'parent')),
             (
-                RandomListSelector('', 'Miwa Igarashi', 'Luna Clark'), 
+                RandomListSelector('', 'miwa_igarashi', 'luna_clark'), 
                 CompareCondition('char_class', 'school')
             ),   
+            realtime = True
         ),
         RandomListSelector('topic', (0.7, 'apron'), (0.2, 'breasts'), 'nude'),
-        Pattern("main", "images/events/cafeteria/cafeteria_event_2/<girl_name> <topic> <level> <step>.webp", "level"),
-        thumbnail = "images/events/cafeteria/cafeteria_event_2/Adelaide Hall apron 1 0.webp")
+        NumCompareCondition("level", 3, "<="),
+        Pattern("main", "images/events/cafeteria/cafeteria_event_2/cafeteria_event_2 <girl_name> <topic> <level> <step>.webp", "level"),
+        thumbnail = "images/events/cafeteria/cafeteria_event_2/cafeteria_event_2 adelaide_hall apron 1 0.webp")
 
     cafeteria_event_3_event = Event(3, "cafeteria_event_3",
         TimeCondition(weekday = "d", daytime = "d"),
@@ -63,8 +67,8 @@ init 1 python:
             ProgressSelector("", "unlock_school_jobs")
         ),
         RandomListSelector('topic', (0.4, 'normal'), 'tripped', 'overwhelmed'),
-        Pattern("main", "images/events/cafeteria/cafeteria_event_3 <parent_level> <topic> <step>.webp"),
-        thumbnail = "images/events/cafeteria/cafeteria_event_3 1 overwhelmed 19.webp")
+        Pattern("main", "images/events/cafeteria/cafeteria_event_3/cafeteria_event_3 <parent_level> <topic> <step>.webp"),
+        thumbnail = "images/events/cafeteria/cafeteria_event_3/cafeteria_event_3 1 overwhelmed 19.webp")
 
     cafeteria_event_4_event = Event(3, "cafeteria_event_4",
         OR(
@@ -72,40 +76,43 @@ init 1 python:
             TimeCondition(weekday = "w", daytime = "d")
         ),
         RuleCondition('school_jobs'),
+        LevelCondition("1-6", "school"),
         LevelSelector("parent_level", "parent"),
         LevelSelector("school_level", "school"),
         RandomListSelector("amount", "1 Girl", "2 Girls", "3 Girls"),
-        RandomListSelector("girl_1", 'Miwa Igarashi'),
+        RandomListSelector("girl_1", 'miwa_igarashi'),
         RandomListSelector("girl_2",
             (1, "None", NOT(OR(
                 CompareCondition('amount', "2 Girls"),
                 CompareCondition('amount', '3 Girls')
             ))),
-            'Elsie Johnson',
-            'Luna Clark',
+            'elsie_johnson',
+            'luna_clark',
         ),
         RandomListSelector('girl_3',
             (1, 'None', NOT(CompareCondition('amount', '3 Girls'))),
-            'Sakura Mori',
+            'sakura_mori',
         ),
         RandomListSelector('topic', 'normal'),
-        Pattern("main", "images/events/cafeteria/cafeteria_event_4 <topic> <school_level> <parent_level> <girl_1> <girl_2> <girl_3>.webp"),
-        thumbnail = "images/events/cafeteria/cafeteria_event_4 normal 1 1 Miwa Igarashi Luna Clark None.webp")
+        Pattern("main", "images/events/cafeteria/cafeteria_event_4/cafeteria_event_4 <school_level> <girl_1> <girl_2> <girl_3>.webp"),
+        thumbnail = "images/events/cafeteria/cafeteria_event_4/cafeteria_event_4 1 miwa_igarashi luna_clark None.webp")
 
     cafeteria_event_5_event = Event(3, "cafeteria_event_5",
         TimeCondition(weekday = "d", daytime = "f"),
         LevelSelector("school_level", "school"),
-        Pattern("main", "images/events/cafeteria/cafeteria_event_5/<school_level> <step>.webp", 'classes'),
-        thumbnail = "images/events/cafeteria/cafeteria_event_5/1 1.webp")
+        Pattern("main", "images/events/cafeteria/cafeteria_event_5/cafeteria_event_5 <school_level> <step>.webp", 'classes'),
+        thumbnail = "images/events/cafeteria/cafeteria_event_5/cafeteria_event_5 1 1.webp")
 
     cafeteria_event_6_event = Event(3, "cafeteria_event_6",
-        TimeCondition(weekday = "d", daytime = "f"),)
+        TimeCondition(weekday = "d", daytime = "3,6"),
+        Pattern("main", "images/events/cafeteria/cafeteria_event_6/cafeteria_event_6 <school_level> <step>.webp"),
+        thumbnail = "images/events/cafeteria/cafeteria_event_6/cafeteria_event_6 2.webp")
 
     cafeteria_event_7_event = Event(3, "cafeteria_event_7",
-        TimeCondition(weekday = "d", daytime = "f"),)
-
-    cafeteria_event_8_event = Event(3, "cafeteria_event_8",
-        TimeCondition(weekday = "d", daytime = "7"),)
+        TimeCondition(weekday = "d", daytime = "6,7"),
+        LevelCondition("1-3", "school"),
+        Pattern("main", "images/events/cafeteria/cafeteria_event_7/cafeteria_event_7 <step>.webp"),
+        thumbnail = "images/events/cafeteria/cafeteria_event_7/cafeteria_event_7 4.webp")
 
     cafeteria_general_event.add_event(
         cafeteria_construction_event
@@ -118,6 +125,10 @@ init 1 python:
     )
     cafeteria_events["eat_alone"].add_event(
         cafeteria_event_5_event, 
+    )
+    cafeteria_events["look_around"].add_event(
+        cafeteria_event_6_event,
+        cafeteria_event_7_event,
     )
 
 # endregion
@@ -190,20 +201,22 @@ label cafeteria_event_1(**kwargs):
     $ topic = get_value("topic", **kwargs)
 
     $ image = convert_pattern("main", **kwargs)
+    
+    $ adelaide = find_person("adelaide_hall").get_character()
 
     $ image.show(0)
-    parent "Hello Mr. [headmaster_last_name] and welcome! What can I help you with?" (name = 'Adelaide Hall')
+    adelaide "Hello Mr. [headmaster_last_name] and welcome! What can I help you with?"
 
     $ image.show(1)
     headmaster "I would like to have a [topic]."
 
     $ image.show(2)
-    parent "Sure, I'll get it for you right away." (name = 'Adelaide Hall')
+    adelaide "Sure, I'll get it for you right away."
 
     # $ image.show(3)
     # $ renpy.pause()
     call Image_Series.show_image(image, 4, 5) from _call_Image_Series_show_image
-    parent "Here you go." (name = 'Adelaide Hall')
+    adelaide "Here you go."
     headmaster "Thank you."
 
     call change_stats_with_modifier('parent',
@@ -216,21 +229,25 @@ label cafeteria_event_2(**kwargs):
 
     $ char_class = get_value('char_class', **kwargs)
     $ time_ob = get_value('time', **kwargs)
-    $ girl_name = get_value('girl_name', **kwargs).split(' ')[0]
+    $ girl_name = get_value('girl_name', **kwargs)
 
     $ image = convert_pattern("main", **kwargs)
+
+    $ girl_person = find_person(girl_name)
+    $ girl = girl_person.get_character()
+    $ girl_first_name = girl_person.get_first_name()
 
     # headmaster walks into the cafeteria pantry where someone is changing clothes
     $ image.show(0)
     if time_ob == 1:
-        headmaster_thought "It seems [girl_name] is getting ready for work."
+        headmaster_thought "It seems [girl_first_name] is getting ready for work."
     else:
-        headmaster_thought "Ah, [girl_name] is finishing up her work."
+        headmaster_thought "Ah, [girl_first_name] is finishing up her work."
 
     $ image.show(1)
     headmaster "I'm sorry, I didn't mean to disturb you."
     $ image.show(2)
-    sgirl "Eh? Please leave, I'm changing."
+    girl "Eh? Please leave, I'm changing."
 
     call change_stats_with_modifier(char_class,
         happiness = DEC_TINY, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_1
@@ -246,7 +263,7 @@ label cafeteria_event_3(**kwargs):
         $ kwargs['unlock_school_jobs'] = 1
     $ unlock_school_jobs = get_stat_value('unlock_school_jobs', [2, 3], **kwargs)
 
-    $ name = "Adelaide Hall"
+    $ person = get_person("parents", "adelaide_hall").get_character()
 
     $ school_job_progress = get_progress('school_job_progress')
 
@@ -260,26 +277,26 @@ label cafeteria_event_3(**kwargs):
         headmaster "Hello, I would like to have a..."
         # Adelaide is seen working multiple tasks
         $ image.show(1)
-        parent "Sorry, I'm a bit busy. Could you wait a little bit please?" (name = name)
+        person "Sorry, I'm a bit busy. Could you wait a little bit please?"
         # view back to headmaster
         $ image.show(2)
         headmaster "Sure, no problem."
         # Adelaide approaches headmaster looking rather exhausted
         call Image_Series.show_image(image, 3, 4, 5, 6) from _call_Image_Series_show_image_1
-        parent "Sorry for the wait. What would you like to have?" (name = name)
+        person "Sorry for the wait. What would you like to have?"
         # view back to headmaster
         $ image.show(7)
         headmaster "I'd like to have a sandwich and a coffee please."
         # Adelaide prepares the order
         $ image.show(8)
-        parent "Sure, I'll get it for you right away." (name = name)
+        person "Sure, I'll get it for you right away."
         # view back to headmaster
         $ image.show(9)
         headmaster "A busy day today?"
         # Adelaide pauses to talk with the headmaster
         $ image.show(10)
-        parent "You could say that. I'm a bit overwhelmed with work. " (name = name)
-        parent "Today there just too much work to do for one person." (name = name)
+        person "You could say that. I'm a bit overwhelmed with work. "
+        person "Today there just too much work to do for one person."
 
         if unlock_school_jobs != 2:
             $ unlock_school_jobs = set_progress('unlock_school_jobs', unlock_school_jobs)
@@ -288,7 +305,7 @@ label cafeteria_event_3(**kwargs):
 
             # Adelaide gives the order to the headmaster
             $ image.show(11)
-            parent "Well anyway, here is your order. Have a nice day." (name = name)
+            person "Well anyway, here is your order. Have a nice day."
             $ image.show(12)
             headmaster "Thank you, you too."
 
@@ -306,13 +323,13 @@ label cafeteria_event_3(**kwargs):
             headmaster "Mhh I see. I could help you out if you want."
             # Adelaide looks happy
             $ image.show(14)
-            parent "Really? That would be great. I would really appreciate it." (name = name)
+            person "Really? That would be great. I would really appreciate it."
             # headmaster goes behind the counter
             $ image.show(15)
             headmaster "No problem. What do you want me to do?"
             # Adelaide gives headmaster a task
             $ image.show(16)
-            parent "Well, I need someone to help me with the dishes. Could you do that?" (name = name)
+            person "Well, I need someone to help me with the dishes. Could you do that?"
             # headmaster thumbs up
             $ image.show(17)
             headmaster "Sure, I can do that."
@@ -326,7 +343,7 @@ label cafeteria_event_3(**kwargs):
 
             # Adelaide approaches headmaster rather exhausted
             $ image.show(19)
-            parent "Thank you so much for your help. I really appreciate it." (name = name)
+            person "Thank you so much for your help. I really appreciate it."
 
             # Headmaster looks exhausted as well
             $ image.show(20)
@@ -336,7 +353,7 @@ label cafeteria_event_3(**kwargs):
             $ image.show(21)
             headmaster "You know, what do you think about hiring some students to help you out?"
             $ image.show(22)
-            parent "You mean part time. Wouldn't that distract them from their studies?" (name = name)
+            person "You mean part time. Wouldn't that distract them from their studies?"
             $ image.show(21)
             headmaster "Maybe, but I think it would be a good opportunity for them to learn some responsibility."
             headmaster "And it would give them some experience for their future. Also I'm sure you both would profit from that."
@@ -352,7 +369,7 @@ label cafeteria_event_3(**kwargs):
             headmaster "Great, I'm looking forward to it."
             # Adelaide gives headmaster a sandwich and a coffee
             $ image.show(25)
-            parent "Thank you so much for your help. Also I made your sandwich and coffee. You definitely earned it." (name = name)
+            person "Thank you so much for your help. Also I made your sandwich and coffee. You definitely earned it."
             # Headmaster takes the sandwich and coffee
             $ image.show(26)
             headmaster "Oh thank you I completely forgot about that."
@@ -374,14 +391,14 @@ label cafeteria_event_3(**kwargs):
         headmaster "Hello, I would like to have a..."
         # Adelaide is seen falling behind the counter
         $ image.show(1)
-        parent "Ahh!" (name = name)
+        person "Ahh!"
         subtitles "*CRASH*"
         # headmaster looks over the counter
         $ image.show(2)
         headmaster "Oh no! Are you okay?"
         # Adelaide lying behind counter
         $ image.show(3)
-        parent "Yes, I'm fine. I just tripped over my own feet." (name = name)
+        person "Yes, I'm fine. I just tripped over my own feet."
         # headmaster leaps over counter
         $ image.show(4)
         headmaster "Here, let me help you."
@@ -390,7 +407,7 @@ label cafeteria_event_3(**kwargs):
         headmaster "Does anything hurt?"
         # adelaide rubs her ankle
         $ image.show(6)
-        parent "Yes, my ankle hurts a bit." (name = name)
+        person "Yes, my ankle hurts a bit."
         # headmaster takes a look at the ankle
         $ image.show(7)
         headmaster "Let me take a look at it."
@@ -398,12 +415,12 @@ label cafeteria_event_3(**kwargs):
         headmaster "It seems like you sprained your ankle. You should go to the nurse's office and get it checked out."
         # adelaide tries to stand up
         $ image.show(9)
-        parent "I don't think it's that bad. I can still walk." (name = name)
+        person "I don't think it's that bad. I can still walk."
         # headmaster helps adelaide up
         $ image.show(10)
         headmaster "No I insist. I'll take care of the kitchen while you're away."
         # adelaide looks at headmaster
-        parent "Okay, thank you." (name = name)
+        person "Okay, thank you."
         # headmaster works in the kitchen
         $ image.show(11)
         subtitles "You spend the next hours working in the kitchen."
@@ -418,10 +435,10 @@ label cafeteria_event_3(**kwargs):
         $ image.show(0)
         headmaster "Hello, I would like to have a coffee please."
         # Adelaide prepares the order
-        parent "Sure, I'll get it for you right away." (name = name)
+        person "Sure, I'll get it for you right away."
         # Adelaide gives the order to the headmaster
         $ image.show(1)
-        parent "Here you go." (name = name)
+        person "Here you go."
         # headmaster takes the sandwich and coffee
         headmaster "Thank you."
 
@@ -487,39 +504,58 @@ label cafeteria_event_6(**kwargs):
         happiness = SMALL
     ) from _call_cafeteria_event_6_1
 
+    $ end_event('new_daytime', **kwargs)
+
 label cafeteria_event_7(**kwargs):
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
 
-    $ luna = Character("Luna Clark", kind = character.sgirl)
-    $ seraphina = Character("Seraphina Clark", kind = character.sgirl)
+    $ luna = get_person("class_3a", "luna_clark").get_character()
+    $ seraphina = get_person("class_3a", "seraphina_clark").get_character()
 
     $ image.show(0)
     headmaster "What are you girls doing here at this time?"
 
+    $ image.show(1)
     luna "Oh hello Mr. [headmaster_last_name]. We are baking a cake."
+    $ image.show(2)
     seraphina "Yeah. We already got permission from Mrs. Hall."
 
+    $ image.show(3)
     headmaster "Oh I see. That's nice! But I have one question."
+    $ image.show(4)
     headmaster "Why are you only wearing underwear below your aprons?"
 
-    luna "We do? Eeeek! I forgot!"
+    $ image.show(5)
+    luna "We do?"
+    $ image.show(6)
+    luna "Eeeek! I forgot!"
+    $ image.show(7)
     seraphina "Well we didn't want to get our clothes dirty."
+    $ image.show(8)
     luna "Please don't look!"
 
+    $ image.show(9)
     headmaster "I see. Well, that's reasonable I guess."
+    $ image.show(10)
     headmaster "I'll leave you to it then. Remember to clean up afterwards."
 
     luna "*whimper*"
+    $ image.show(11)
     seraphina "Yes, we will. Thank you Mr. [headmaster_last_name]."
+    $ image.show(12)
     seraphina "Now calm down Luna. There is nothing to it."
+    $ image.show(13)
     luna "But he saw our underwear!"
+    $ image.show(14)
     seraphina "So what? Calm down."
 
     call change_stats_with_modifier('school',
-        happiness = DEC_SMALL
+        happiness = DEC_TINY, inhibition = DEC_SMALL
     ) from _call_cafeteria_event_7_1
+
+    $ end_event('new_daytime', **kwargs)
 
 # endregion
 #########################

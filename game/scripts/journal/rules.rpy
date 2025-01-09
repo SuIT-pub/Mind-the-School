@@ -59,7 +59,7 @@ init -6 python:
     #####################################
     # region Rules Global Methods ----- #
     #####################################
-    
+
     def get_rule(rule_name: str) -> Rule:
         """
         Returns the rule with the given name.
@@ -163,6 +163,198 @@ label load_rules ():
 
     $ remove_rule("service_uniform")
 
+    $ load_rule("level_3", "Level 3", {
+        '_description': [
+            "!!! THIS IS A TEMPORARY RULE. IT WILL BE REMOVED IN THE FUTURE !!!",
+            "!!! It is highly recommended to save the game and back it up before unlocking this rule. !!!",
+            "Progress the school to level 3.",
+            "This rule is only temporary to allow players to progress the school to higher levels.",
+            "This rule will be removed in the future and replaced by proper level transition events.",
+        ],
+        '_unlock_conditions': ConditionStorage(
+            LevelCondition("2", True),
+            StatCondition(char_obj = "school", inhibition = '80-', corruption = '20+'),
+            PTAOverride('parent', "ignore"),
+            PTAOverride('teacher', "ignore"),
+        ),
+        '_image_path': 'images/journal/rules/Level_3.webp',
+        '_image_path_alt': 'images/journal/rules/Level_3.webp',
+        '_unlock_effects': [
+            LevelEffect("set_school_level_3", 3, "SET", "school"),
+            LevelEffect("set_parent_level_3", 3, "SET", "parent"),
+            LevelEffect("set_teacher_level_3", 3, "SET", "teacher"),
+            LevelEffect("set_secretary_level_7", 7, "SET", "secretary"),
+        ]
+    })
+
+    $ load_rule("level_4", "Level 4", {
+        '_description': [
+            "!!! THIS IS A TEMPORARY RULE. IT WILL BE REMOVED IN THE FUTURE !!!",
+            "!!! It is highly recommended to save the game and back it up before unlocking this rule. !!!",
+            "Progress the school to level 4.",
+            "This rule is only temporary to allow players to progress the school to higher levels.",
+            "This rule will be removed in the future and replaced by proper level transition events.",
+        ],
+        '_unlock_conditions': ConditionStorage(
+            LevelCondition("3", True),
+            StatCondition(char_obj = "school", inhibition = '70-', corruption = '30+'),
+            PTAOverride('parent', "ignore"),
+            PTAOverride('teacher', "ignore"),
+        ),
+        '_image_path': 'images/journal/rules/Level_4.webp',
+        '_image_path_alt': 'images/journal/rules/Level_4.webp',
+        '_unlock_effects': [
+            LevelEffect("set_school_level_4", 4, "SET", "school"),
+            LevelEffect("set_parent_level_4", 4, "SET", "parent"),
+            LevelEffect("set_teacher_level_4", 4, "SET", "teacher"),
+            LevelEffect("set_secretary_level_8", 8, "SET", "secretary"),
+        ]
+    })
+
+    $ load_rule("level_5", "Level 5", {
+        '_description': [
+            "!!! THIS IS A TEMPORARY RULE. IT WILL BE REMOVED IN THE FUTURE !!!",
+            "!!! It is highly recommended to save the game and back it up before unlocking this rule. !!!",
+            "Progress the school to level 5.",
+            "This rule is only temporary to allow players to progress the school to higher levels.",
+            "This rule will be removed in the future and replaced by proper level transition events.",
+        ],
+        '_unlock_conditions': ConditionStorage(
+            LevelCondition("4", True),
+            StatCondition(char_obj = "school", inhibition = '60-', corruption = '40+'),
+            PTAOverride('parent', "ignore"),
+            PTAOverride('teacher', "ignore"),
+        ),
+        '_image_path': 'images/journal/rules/Level_5.webp',
+        '_image_path_alt': 'images/journal/rules/Level_5.webp',
+        '_unlock_effects': [
+            LevelEffect("set_school_level_5", 5, "SET", "school"),
+            LevelEffect("set_parent_level_5", 5, "SET", "parent"),
+            LevelEffect("set_teacher_level_5", 5, "SET", "teacher"),
+            LevelEffect("set_secretary_level_9", 9, "SET", "secretary"),
+        ]
+    })
+
+    $ load_rule("level_6", "Level 6", {
+        '_description': [
+            "!!! THIS IS A TEMPORARY RULE. IT WILL BE REMOVED IN THE FUTURE !!!",
+            "!!! It is highly recommended to save the game and back it up before unlocking this rule. !!!",
+            "Progress the school to level 6.",
+            "This rule is only temporary to allow players to progress the school to higher levels.",
+            "This rule will be removed in the future and replaced by proper level transition events.",
+        ],
+        '_unlock_conditions': ConditionStorage(
+            LevelCondition("5", True),
+            StatCondition(char_obj = "school", inhibition = '50-', corruption = '50+'),
+            PTAOverride('parent', "ignore"),
+            PTAOverride('teacher', "ignore"),
+        ),
+        '_image_path': 'images/journal/rules/Level_6.webp',
+        '_image_path_alt': 'images/journal/rules/Level_6.webp',
+        '_unlock_effects': [
+            LevelEffect("set_school_level_6", 6, "SET", "school"),
+            LevelEffect("set_parent_level_6", 6, "SET", "parent"),
+            LevelEffect("set_teacher_level_6", 6, "SET", "teacher"),
+            LevelEffect("set_secretary_level_10", 10, "SET", "secretary"),
+        ]
+    })
+
+    $ load_rule("level_7", "Level 7", {
+        '_description': [
+            "!!! THIS IS A TEMPORARY RULE. IT WILL BE REMOVED IN THE FUTURE !!!",
+            "!!! It is highly recommended to save the game and back it up before unlocking this rule. !!!",
+            "Progress the school to level 7.",
+            "This rule is only temporary to allow players to progress the school to higher levels.",
+            "This rule will be removed in the future and replaced by proper level transition events.",
+        ],
+        '_unlock_conditions': ConditionStorage(
+            LevelCondition("6", True),
+            StatCondition(char_obj = "school", inhibition = '40-', corruption = '60+'),
+            PTAOverride('parent', "ignore"),
+            PTAOverride('teacher', "ignore"),
+        ),
+        '_image_path': 'images/journal/rules/Level_7.webp',
+        '_image_path_alt': 'images/journal/rules/Level_7.webp',
+        '_unlock_effects': [
+            LevelEffect("set_school_level_7", 7, "SET", "school"),
+            LevelEffect("set_parent_level_7", 7, "SET", "parent"),
+            LevelEffect("set_teacher_level_7", 7, "SET", "teacher"),
+            LevelEffect("set_secretary_level_10", 10, "SET", "secretary"),
+        ]
+    })
+
+    $ load_rule("level_8", "Level 8", {
+        '_description': [
+            "!!! THIS IS A TEMPORARY RULE. IT WILL BE REMOVED IN THE FUTURE !!!",
+            "!!! It is highly recommended to save the game and back it up before unlocking this rule. !!!",
+            "Progress the school to level 8.",
+            "This rule is only temporary to allow players to progress the school to higher levels.",
+            "This rule will be removed in the future and replaced by proper level transition events.",
+        ],
+        '_unlock_conditions': ConditionStorage(
+            LevelCondition("7", True),
+            StatCondition(char_obj = "school", inhibition = '30-', corruption = '70+'),
+            PTAOverride('parent', "ignore"),
+            PTAOverride('teacher', "ignore"),
+        ),
+        '_image_path': 'images/journal/rules/Level_8.webp',
+        '_image_path_alt': 'images/journal/rules/Level_8.webp',
+        '_unlock_effects': [
+            LevelEffect("set_school_level_8", 8, "SET", "school"),
+            LevelEffect("set_parent_level_8", 8, "SET", "parent"),
+            LevelEffect("set_teacher_level_8", 8, "SET", "teacher"),
+            LevelEffect("set_secretary_level_10", 10, "SET", "secretary"),
+        ]
+    })
+
+    $ load_rule("level_9", "Level 9", {
+        '_description': [
+            "!!! THIS IS A TEMPORARY RULE. IT WILL BE REMOVED IN THE FUTURE !!!",
+            "!!! It is highly recommended to save the game and back it up before unlocking this rule. !!!",
+            "Progress the school to level 9.",
+            "This rule is only temporary to allow players to progress the school to higher levels.",
+            "This rule will be removed in the future and replaced by proper level transition events.",
+        ],
+        '_unlock_conditions': ConditionStorage(
+            LevelCondition("8", True),
+            StatCondition(char_obj = "school", inhibition = '20-', corruption = '80+'),
+            PTAOverride('parent', "ignore"),
+            PTAOverride('teacher', "ignore"),
+        ),
+        '_image_path': 'images/journal/rules/Level_9.webp',
+        '_image_path_alt': 'images/journal/rules/Level_9.webp',
+        '_unlock_effects': [
+            LevelEffect("set_school_level_9", 9, "SET", "school"),
+            LevelEffect("set_parent_level_9", 9, "SET", "parent"),
+            LevelEffect("set_teacher_level_9", 9, "SET", "teacher"),
+            LevelEffect("set_secretary_level_10", 10, "SET", "secretary"),
+        ]
+    })
+
+    $ load_rule("level_10", "Level 10", {
+        '_description': [
+            "!!! THIS IS A TEMPORARY RULE. IT WILL BE REMOVED IN THE FUTURE !!!",
+            "!!! It is highly recommended to save the game and back it up before unlocking this rule. !!!",
+            "Progress the school to level 10.",
+            "This rule is only temporary to allow players to progress the school to higher levels.",
+            "This rule will be removed in the future and replaced by proper level transition events.",
+        ],
+        '_unlock_conditions': ConditionStorage(
+            LevelCondition("9", True),
+            StatCondition(char_obj = "school", inhibition = '10-', corruption = '90+'),
+            PTAOverride('parent', "ignore"),
+            PTAOverride('teacher', "ignore"),
+        ),
+        '_image_path': 'images/journal/rules/Level_10.webp',
+        '_image_path_alt': 'images/journal/rules/Level_10.webp',
+        '_unlock_effects': [
+            LevelEffect("set_school_level_10", 10, "SET", "school"),
+            LevelEffect("set_parent_level_10", 10, "SET", "parent"),
+            LevelEffect("set_teacher_level_10", 10, "SET", "teacher"),
+            LevelEffect("set_secretary_level_10", 10, "SET", "secretary"),
+        ]
+    })
+
     $ load_rule("school_jobs", "School Jobs", {
         '_description': [
             "The students get an opportunity to work or help out in certain facilities of the school.",
@@ -176,13 +368,12 @@ label load_rules ():
         '_image_path_alt': 'images/journal/rules/school_jobs_1.webp',
     })
 
-    #! locked, currently not implemented
     $ load_rule("theoretical_sex_ed", "Theoretical Sex Education (TSE)", {
         '_description': [
             "Students get a new subject in which they deal with the topic of the human body and human reproduction. All on a theoretical basis, of course.",
         ],
         '_unlock_conditions': ConditionStorage(
-            StatCondition(inhibition = '90-', corruption = '10+'),
+            StatCondition(char_obj = "school", inhibition = '90-', corruption = '10+'),
             ProgressCondition("start_sex_ed", "6", True),
             PTAOverride('parent', "no"),
             PTAOverride('teacher', "yes"),
@@ -200,7 +391,7 @@ label load_rules ():
             LevelCondition("2+"),
             StatCondition(inhibition = '90-'),
             RuleCondition("theoretical_sex_ed", True),
-            # LockCondition(),
+            LockCondition(),
         ),
         '_image_path': 'images/journal/rules/theoretical_digital_sex_ed.webp',
         '_image_path_alt': 'images/journal/rules/theoretical_digital_sex_ed.webp',
