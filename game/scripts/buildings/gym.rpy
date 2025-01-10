@@ -149,7 +149,7 @@ label gym_event_1 (**kwargs):
         $ renpy.pause(5.33)
         $ image.show_video(10)
         aona "That was an amazing warmup, Mr. [headmaster_last_name]!"
-        call change_stats_with_modifier(school_obj, 
+        call change_stats_with_modifier('school', 
             inhibition = DEC_LARGE, corruption = LARGE, charm = SMALL) from _call_change_stats_with_modifier_26
     elif school_level == 9:
         $ image.show(1)
@@ -164,7 +164,7 @@ label gym_event_1 (**kwargs):
         $ renpy.pause(5.33)
         $ image.show_video(8)
         aona "That was an amazing warmup, Mr. [headmaster_last_name]!"
-        call change_stats_with_modifier(school_obj, 
+        call change_stats_with_modifier('school', 
             inhibition = DEC_LARGE, corruption = LARGE, charm = SMALL) from _call_change_stats_with_modifier_29
     elif school_level == 8:
         $ image.show(1)
@@ -178,7 +178,7 @@ label gym_event_1 (**kwargs):
         $ renpy.pause(1)
         $ image.show_video(6)
         aona "Thanks for the snack, Mr. [headmaster_last_name]!"
-        call change_stats_with_modifier(school_obj, 
+        call change_stats_with_modifier('school', 
             inhibition = DEC_LARGE, corruption = MEDIUM, charm = SMALL) from _call_change_stats_with_modifier_30
     elif school_level == 7:
         $ image.show(1)
@@ -186,7 +186,7 @@ label gym_event_1 (**kwargs):
         $ image.show(2)
         headmaster "That sounds like a very good measure!"
         $ image.show_video(3, pause = True)
-        call change_stats_with_modifier(school_obj, 
+        call change_stats_with_modifier('school', 
             inhibition = DEC_MEDIUM, corruption = MEDIUM, charm = SMALL) from _call_change_stats_with_modifier_85
     elif school_level >= 5:
         $ image.show(1)
@@ -195,7 +195,7 @@ label gym_event_1 (**kwargs):
         aona "We just might if you asked us to."
         $ image.show(3)
         aona "*giggle*" (name="School Girls")
-        call change_stats_with_modifier(school_obj, 
+        call change_stats_with_modifier('school', 
             inhibition = DEC_SMALL, corruption = SMALL, charm = SMALL) from _call_change_stats_with_modifier_86
     else:
         $ image.show(1)
