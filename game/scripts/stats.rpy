@@ -139,6 +139,8 @@ init -6 python:
             delta = round(self.value - old_value, 2)
             self.set_changed_value(delta)
 
+            update_quest("stats")
+
         def set_changed_value(self, value: num):
             """
             Sets the change of the stat to the given value.
@@ -203,6 +205,8 @@ init -6 python:
             change_val = round(self.value - old_value, 2)
 
             self.add_changed_value(change_val)
+
+            update_quest("stats")
 
         def change_value_to(self, value: num, level: int = 10):
             """
@@ -706,6 +710,46 @@ init -6 python:
             return round(random.uniform(3.0, 7.0), 2) * neg
         else:
             return round(random.uniform(0.1, 0.8), 2) * neg
+
+    def reserve_money(key: str, value: int) -> bool:
+        """
+        Reserves the given value of money for the given key.
+
+        ### Parameters:
+        1. key: str
+            - The key to reserve the money for.
+        2. value: int
+            - The value of money to reserve.
+        """
+
+        global money
+
+        if money.get_value() < value:
+            return False
+
+        if key not in reserved_money.keys():
+            reserved_money[key] = 0
+        reserved_money[key] += value
+
+        money.change_value(-value)
+        return True
+
+    def release_money(key: str) -> bool:
+
+        global money
+
+        if key not in reserved_money.keys():
+            return False
+        money.change_value(reserved_money[key])
+        del reserved_money[key]
+        return True
+
+    def spend_reserved_money(key: str) -> bool:
+        global money
+
+        if key not in reserved_money.keys():
+            return False
+        del reserved_money[key]
 
 label load_stats ():
     

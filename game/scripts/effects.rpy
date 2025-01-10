@@ -44,7 +44,7 @@ init -1 python:
         Unlocks a rule.
         """
 
-        def __init__(self, name: str, rule: str | Rule):
+        def __init__(self, name: str, rule: Union[str, Rule]):
             super().__init__(name)
             self.rule = rule
 
@@ -115,21 +115,33 @@ init -1 python:
             - SET sets the level to the value.
         """
 
-        def __init__(self, name: str, value: int, mode: str = "ADD"):
+        def __init__(self, name: str, value: int, mode: str = "ADD", char_obj: Char = None):
             super().__init__(name)
             self.mode = mode
             self.value = value
+
+            if isinstance(char_obj, str):
+                char_obj = get_character_by_key(char_obj)
+
+            self.char_obj = char_obj
 
         def __str__(self):
             return f"{self.value}"
 
         def apply(self, **kwargs):
-            char_obj = get_kwargs("char_obj", **kwargs)
+            log("Applying Level Effect")
+            char_obj = self.char_obj
+            if char_obj == None:
+                char_obj = get_kwargs("char_obj", **kwargs)
             if char_obj == None:
                 return
 
+            log_val("Char Obj", char_obj.get_name())
+
             if self.mode == "SET":
+                log_val("current level", char_obj.get_level())
                 char_obj.set_level(self.value)
+                log_val("new level", char_obj.get_level())
             if self.mode == "ADD":
                 char_obj.set_level(char_obj.get_level() + self.value)
             return kwargs

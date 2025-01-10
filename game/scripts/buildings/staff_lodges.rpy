@@ -1,15 +1,14 @@
-##########################################
-# ----- Staff Lodges Event Handler ----- #
-##########################################
+###########################################
+# region Staff Lodges Event Handler ----- #
+###########################################
 
 init -1 python:
-    def staff_lodges_events_available() -> bool:
-        return (staff_lodges_timed_event.has_available_highlight_events() or 
-            staff_lodges_general_event.has_available_highlight_events() or 
-            any(e.has_available_highlight_events() for e in staff_lodges_events.values()))
-
+    set_current_mod('base')
+    
     staff_lodges_timed_event = TempEventStorage("staff_lodges_timed", "staff_lodges", fallback = Event(2, "staff_lodges.after_time_check"))
     staff_lodges_general_event = EventStorage("staff_lodges_general", "staff_lodges", fallback = Event(2, "staff_lodges.after_general_check"))
+    register_highlighting(staff_lodges_timed_event, staff_lodges_general_event)
+
     staff_lodges_events = {}
 
     staff_lodges_bg_images = BGStorage("images/background/staff_lodges/bg c.webp", ValueSelector('loli', 0),
@@ -19,24 +18,14 @@ init -1 python:
     )
     
 init 1 python:
-    
-    staff_lodges_action_tutorial_event = Event(2, "action_tutorial",
-        NOT(ProgressCondition('action_tutorial')),
-        ValueSelector('return_label', 'staff_lodges'),
-        NoHighlightOption(),
-        TutorialCondition(),
-        override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
+    set_current_mod('base')
 
-    staff_lodges_general_event.add_event(
-        staff_lodges_action_tutorial_event
-    )
+# endregion
+###########################################
 
-
-##################################
-
-########################################
-# ----- Staff Lodges Entry Point ----- #
-########################################
+#########################################
+# region Staff Lodges Entry Point ----- #
+#########################################
 
 label staff_lodges ():
     call call_available_event(staff_lodges_timed_event) from staff_lodges_1
@@ -56,11 +45,14 @@ label .after_general_check (**kwargs):
 
     jump staff_lodges
 
-##################################
+# endregion
+#########################################
 
-###################################
-# ----- Staff Lodges Events ----- #
-###################################
+####################################
+# region Staff Lodges Events ----- #
+####################################
 
 
-###########################
+
+# endregion
+####################################

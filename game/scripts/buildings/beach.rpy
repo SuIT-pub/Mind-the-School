@@ -1,15 +1,14 @@
-###################################
-# ----- Beach Event Handler ----- #
-###################################
+####################################
+# region Beach Event Handler ----- #
+####################################
 
 init -1 python:
-    def beach_events_available() -> bool:
-        return (beach_timed_event.has_available_highlight_events() or 
-            beach_general_event.has_available_highlight_events() or 
-            any(e.has_available_highlight_events() for e in beach_events.values()))
-
+    set_current_mod('base')
+    
     beach_timed_event = TempEventStorage("beach_timed", "beach", fallback = Event(2, "beach.after_time_check"))
     beach_general_event = EventStorage("beach_general", "beach", fallback = Event(2, "beach.after_general_check"))
+    register_highlighting(beach_timed_event, beach_general_event)
+
     beach_events = {}
 
     beach_bg_images = BGStorage("images/background/beach/bg c.webp", 
@@ -19,24 +18,14 @@ init -1 python:
     )
     
 init 1 python:
-    
-    beach_action_tutorial_event = Event(2, "action_tutorial",
-        NOT(ProgressCondition('action_tutorial')),
-        ValueSelector('return_label', 'beach'),
-        NoHighlightOption(),
-        TutorialCondition(),
-        override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
+    set_current_mod('base')
 
-    beach_general_event.add_event(
-        beach_action_tutorial_event
-    )
-
+# endregion
+####################################
 
 ##################################
-
-#################################
-# ----- Beach Entry Point ----- #
-#################################
+# region Beach Entry Point ----- #
+##################################
 
 label beach ():
     call call_available_event(beach_timed_event) from beach_1
@@ -56,11 +45,14 @@ label .after_general_check (**kwargs):
 
     jump beach
 
+# endregion
 ##################################
 
-############################
-# ----- Beach Events ----- #
-############################
+#############################
+# region Beach Events ----- #
+#############################
 
 
-###########################
+
+# endregion
+#############################

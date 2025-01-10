@@ -7,8 +7,98 @@ init -3 python:
     import time
     from typing import Any, Dict, List, Tuple, Union
     
-    ###############
-    # Event classes
+    seenEvents = {}
+    highlight_register = {}
+
+    ###########################
+    # region Register Methods #
+
+    def register_highlighting(*storages: EventStorage):
+        for storage in storages:
+            if storage.get_location() == "fragment":
+                continue
+            if storage.get_location() not in highlight_register.keys():
+                highlight_register[storage.get_location()] = {}
+            highlight_register[storage.get_location()][storage.get_name()] = storage
+
+    def is_highlight_for_location_available(location: str) -> bool:
+        if location not in highlight_register.keys():
+            return False
+        return any(storage.has_available_highlight_events() for storage in highlight_register[location].values())
+
+    def is_event_for_location_available(location: str) -> bool:
+        if location not in highlight_register.keys():
+            return False
+        return any(storage.has_available_events() for storage in highlight_register[location].values())
+
+    def update_available_highlights():
+        for location in highlight_register.keys():
+            overview_highlight_available[location] = is_highlight_for_location_available(location)
+
+    def update_available_events():
+        for location in highlight_register.keys():
+            overview_events_available[location] = is_event_for_location_available(location)
+
+    def get_available_highlight(location: str) -> bool:
+        if location not in overview_highlight_available.keys():
+            return False
+        return overview_highlight_available[location]
+
+    def get_available_event(location: str) -> bool:
+        if location not in overview_events_available.keys():
+            return False
+        return overview_events_available[location]
+
+    # endregion
+    ###########################
+
+    ######################
+    # region Seen Events #
+
+    def register_seen_event(event: str):
+        global seenEvents
+        if seenEvents == None:
+            seenEvents = {}
+        if event not in seenEvents.keys():
+            seenEvents[event] = False
+
+    def set_event_seen(event_name: str):
+        if not is_event_registered(event_name):
+            return
+
+        global seenEvents
+
+        seen_events = get_game_data("seen_events")
+        if seen_events == None:
+            seen_events = {}
+        for event, seen in seen_events.items():
+            if event in seenEvents:
+                seenEvents[event] = seenEvents[event] or seen
+            else:
+                seenEvents[event] = seen
+        
+        seenEvents[event_name] = True
+        set_game_data("seen_events", seenEvents)
+
+        if all(seenEvents.values()):
+            set_game_data("all_events_seen", True)
+
+    def get_event_seen(event_name: str) -> bool:
+        if not is_event_registered(event_name):
+            return False
+
+        global seenEvents
+
+        if event_name not in seenEvents.keys():
+            return False
+        return seenEvents[event_name]
+
+    # endregion
+    ######################
+
+    ########################
+    # region Event classes #
+    ########################
 
     class EventStorage:
         """
@@ -196,13 +286,35 @@ init -3 python:
                 - The events that are added to the EventStorage.
             """
 
-            for event in events:
-                if event.get_priority() == 3 and event.get_event() not in seenEvents.keys():
-                    seenEvents[event.get_event()] = False
+            if not is_mod_active(active_mod_key):
+                return
 
-                if event.get_id() not in self.events[event.get_priority()].keys():
+            for event in events:
+                register_seen_event(event.get_event())
+
+                if event.get_id() not in self.events[event.get_select_type()].keys():
                     self.register_event_for_location(event, self.location)    
-                    self.events[event.get_priority()][event.get_id()] = event
+                    self.events[event.get_select_type()][event.get_id()] = event
+
+        def overwrite_event(self, *event: Event):
+            """
+            Adds an event to the EventStorage.
+            Overwrites the event if it already exists.
+            The event gets sorted automatically into the correct priority.
+
+            ### Parameters:
+            1. *events: Event
+                - The events that are added to the EventStorage.
+            """
+
+            if not is_mod_active(active_mod_key):
+                return
+
+            for event in events:
+                register_seen_event(event.get_event())
+
+                self.register_event_for_location(event, self.location)    
+                self.events[event.get_select_type()][event.get_id()] = event
 
         def remove_event(self, event_id: str):
             """
@@ -280,13 +392,7 @@ init -3 python:
                 - False if there are no events with priority 1 or 2 that are available.
             """
 
-            for event in self.events[1].values():
-                if event.is_highlighted(**kwargs):
-                    return True
-            for event in self.events[2].values():
-                if event.is_highlighted(**kwargs):
-                    return True
-            return False
+            return any(event.is_highlighted(**kwargs) for priority in self.events.values() for event in priority.values())
 
         def has_available_high_prio_events(self, **kwargs) -> bool:
             """
@@ -305,6 +411,9 @@ init -3 python:
                 if event.is_available(**kwargs):
                     return True
             return False
+
+        def has_available_events(self, priority: int = 0, **kwargs) -> bool:
+            return self.count_available_events(priority, **kwargs) > 0
 
         def count_available_events(self, priority: int = 0, **kwargs) -> int:
             """
@@ -397,10 +506,13 @@ init -3 python:
                     return output, True
             if priority == 0 or priority == 3:
                 output = 0
+                with_highlight = False
                 for event in self.events[3].values():
+                    if event.force_highlight:
+                        with_highlight = True
                     if event.is_available(**kwargs) and event.check_options(Highlight = True, **kwargs):
                         output += 1
-                return output, False
+                return output, with_highlight
             return 0, False
 
         def count_available_events_with_fallback(self, priority: int = 0, **kwargs) -> int:
@@ -423,7 +535,6 @@ init -3 python:
 
             return self.count_available_events_with_fallback_and_prio(priority, **kwargs)[0]
 
-        
         def count_available_events_with_fallback_and_prio(self, priority: int = 0, **kwargs) -> Tuple[int, bool]:
             """
             Counts the number of events that are available.
@@ -495,23 +606,29 @@ init -3 python:
                 kwargs["event_type"] = self.name
 
             if priority == 0 or priority == 1:
-                for event in self.events[1].values():
-                    if event.is_available(**kwargs):
-                        return [event]
+                events = get_highest_priority_available_events(*self.events[1].values(), **kwargs)
+                if len(events) != 0:
+                    return [events[0]]
+                # for event in self.events[1].values():
+                #     if event.is_available(**kwargs):
+                #         return [event]
 
             if priority == 0 or priority == 2:
-                output = []
-                for event in self.events[2].values():
-                    if event.is_available(**kwargs):
-                        output.append(event)
+                output = get_highest_priority_available_events(*self.events[2].values(), **kwargs)
                 if len(output) != 0:
                     return output
+                # output = []
+                # for event in self.events[2].values():
+                #     if event.is_available(**kwargs):
+                #         output.append(event)
+                # if len(output) != 0:
+                #     return output
 
             if priority == 0 or priority == 3:
-                output = []
-                for event in self.events[3].values():
-                    if event.is_available(**kwargs):
-                        output.append(event)
+                output = get_highest_priority_available_events(*self.events[3].values(), **kwargs)
+                # for event in self.events[3].values():
+                #     if event.is_available(**kwargs):
+                #         output.append(event)
                 if len(output) != 0:
                     return [random.choice(output)]
 
@@ -635,12 +752,11 @@ init -3 python:
             """
 
             for event in events:
-                if event.get_priority() == 3 and event.get_event() not in seenEvents.keys():
-                    seenEvents[event.get_event()] = False
+                register_seen_event(event.get_event())
 
-                if event.get_id() not in self.events[event.get_priority()].keys():
+                if event.get_id() not in self.events[event.get_select_type()].keys():
                     self.register_event_for_location(event, 'fragment')
-                    self.events[event.get_priority()][event.get_id()] = event
+                    self.events[event.get_select_type()][event.get_id()] = event
         
         def register_storage_as_fragment(self):
             """
@@ -784,6 +900,9 @@ init -3 python:
                 if event.is_available(**kwargs):
                     return True
             return False
+
+        def has_available_events(self, _priority = 0, **kwargs) -> bool:
+            return self.count_available_events(_priority, **kwargs) > 0
 
         def count_available_events(self, _priority = 0, **kwargs) -> int:
             """
@@ -1022,6 +1141,10 @@ init -3 python:
             - The thumbnail of the event.
         5. register_self: bool (Default True)
             - If True, the event is registered in the event_register.
+        6. override_intro: bool (Default False)
+            - If True, the intro condition is ignored.
+        7. override_location: str (Default None)
+            - If set, the location of the event is set to this value.
 
         ### Attributes:
         1. event_id: str
@@ -1050,25 +1173,53 @@ init -3 python:
             - Returns the events depending on the priority.
         5. get_event_count() -> int
             - Returns the number of events stored.
-        6. get_priority() -> int
-            - Returns the priority of the event.
+        6. get_select_type() -> int
+            - Returns the select type of the event.
         7. is_available(**kwargs) -> bool
             - Returns True if all conditions are fulfilled.
         8. call(**kwargs)
             - Calls the event.
         """
 
-        def __init__(self, priority: int, event: str, *conditions: Condition | Selector | Option, thumbnail: str = "", register_self = True, override_intro = False, override_location = None):
+        def __init__(self, select_type: int, event: str, *options: Condition | Selector | Option | Pattern, thumbnail: str = "", register_self = True, override_intro = False, override_location = None):
             self.event_id = str(event)
             self.event = event
             self.thumbnail = thumbnail
-            self.conditions = [condition for condition in conditions if isinstance(condition, Condition)]
 
-            if not any(isinstance(condition, IntroCondition) for condition in self.conditions) and not override_intro:
+            self.conditions = []
+            self.values = SelectorSet()
+            self.options = OptionSet()
+            self.patterns = {}
+            self.priority = 1
+            self.force_highlight = False
+
+            has_intro_condition = False
+            for value in options:
+                if isinstance(value, Condition):
+                    if isinstance(value, IntroCondition):
+                        has_intro_condition = True
+                    self.conditions.append(value)
+                elif isinstance(value, Selector):
+                    self.values.add_selector(value)
+                elif isinstance(value, Option):
+                    if isinstance(value, ForceHighlightOption):
+                        self.force_highlight = True
+                    if isinstance(value, PriorityOption):
+                        self.priority = value.priority
+                    else:
+                        self.options.add_option(value)
+                elif isinstance(value, Pattern):
+                    self.patterns[value.get_name()] = value
+
+            # self.conditions = [condition for condition in options if isinstance(condition, Condition)]
+
+            if not has_intro_condition and not override_intro:
                 self.conditions.append(IntroCondition(False))
 
-            self.values = SelectorSet(*[condition for condition in conditions if isinstance(condition, Selector)])
-            self.options = OptionSet(*[condition for condition in conditions if isinstance(condition, Option)])
+            # self.values = SelectorSet(*[condition for condition in options if isinstance(condition, Selector)])
+            # self.options = OptionSet(*[condition for condition in options if isinstance(condition, Option)])
+
+            # self.patterns = {pattern.get_name(): pattern for pattern in options if isinstance(pattern, Pattern)}
 
             rerollSelectors.append(self.values)
 
@@ -1077,11 +1228,14 @@ init -3 python:
             # 1 = highest (the first 1 to occur is called blocking all other events)
             # 2 = middle (all 2's are called after each other)
             # 3 = lowest (selected random among 3's)
-            self.priority = priority 
+            self.select_type = select_type
+
             self.event_type = ""
             # self.values = values
 
-            if register_self:
+            change_mod_event_count(active_mod_key, 1)
+
+            if register_self and is_mod_active(active_mod_key):
                 event_register[self.event_id] = self
             self.location = "misc"
             self.override_location = override_location
@@ -1109,7 +1263,10 @@ init -3 python:
                 self.conditions = []
 
             if not hasattr(self, 'priority'):
-                self.priority = 3
+                self.priority = 1
+
+            if not hasattr(self, 'select_type'):
+                self.select_type = 3
 
             if not hasattr(self, 'event_type'):
                 self.event_type = ""
@@ -1119,6 +1276,9 @@ init -3 python:
 
             if not hasattr(self, 'event_form'):
                 self.event_form = "event"
+
+            if not hasattr(self, 'patterns'):
+                self.patterns = {}
 
             self.__dict__.update(data)
 
@@ -1131,8 +1291,8 @@ init -3 python:
             302. If all labels exist           
             """
 
-            if self.priority < 1 or self.priority > 3:
-                log_error(301, "Event " + self.event_id + ": Priority " + str(self.priority) + " is not valid!")
+            if self.select_type < 1 or self.select_type > 3:
+                log_error(301, "Event " + self.event_id + ": Select Type " + str(self.select_type) + " is not valid!")
                 self._invalid = True
 
             if not renpy.has_label(self.event):
@@ -1148,7 +1308,7 @@ init -3 python:
             return self.options.check_options(**kwargs)
 
         def is_highlighted(self, **kwargs) -> bool:
-            return self.is_available(**kwargs) and self.check_options(Highlight = True, **kwargs)
+            return self.is_available(**kwargs) and (self.select_type != 3 or self.force_highlight) and self.check_options(Highlight = True, parent_event = self, **kwargs)
 
         #############################
         # Attribute getter and setter
@@ -1225,6 +1385,12 @@ init -3 python:
 
             self.event_type = event_type
 
+        def set_pattern(self, name: str, pattern: Pattern):
+            self.patterns[name] = pattern
+
+        def get_pattern(self) -> Dict[str, Pattern]:
+            return self.patterns
+
         def get_event(self) -> str:
             """
             Returns the events depending on the priority.
@@ -1241,6 +1407,17 @@ init -3 python:
 
         def get_event_label(self) -> str:
             return self.get_event()
+
+        def get_select_type(self) -> int:
+            """
+            Returns the select type of the event.
+
+            ### Returns:
+            1. int
+                - The select type of the event.
+            """
+
+            return self.select_type
 
         def get_priority(self) -> int:
             """
@@ -1287,6 +1464,13 @@ init -3 python:
             if self._invalid:
                 return False
 
+            kwargs["event_name"] = self.get_name()
+            
+            if "values" not in kwargs.keys():
+                kwargs["values"] = {}
+
+            kwargs["values"].update(self.values.get_values())
+
             for condition in self.conditions:
                 if not condition.is_fulfilled(**kwargs):
                     return False
@@ -1312,15 +1496,22 @@ init -3 python:
 
             kwargs["event_form"] = self.event_form
 
+            if "values" not in kwargs.keys():
+                kwargs["values"] = {}
+
+
+
             if self.values != None:
-                kwargs.update(self.values.get_values())
+                kwargs["values"].update(self.values.get_values())
                 self.values.roll_values()
 
             kwargs["event_name"] = self.get_event()
             kwargs["in_event"] = True
             kwargs["event_obj"] = self
 
-            renpy.call("call_event", events, self.priority, self.get_event(), **kwargs)
+            kwargs['image_patterns'] = self.patterns
+
+            renpy.call("call_event", events, self.select_type, self.get_event(), **kwargs)
 
         ##############
 
@@ -1444,28 +1635,41 @@ init -3 python:
 
             kwargs["event_form"] = "fragment"
 
+            if "values" not in kwargs.keys():
+                kwargs["values"] = {}
+
             if events.values != None:
-                kwargs.update(events.values.get_values())
+                kwargs["values"].update(events.values.get_values())
                 events.values.roll_values()
 
             kwargs["event_name"] = events.get_event()
             kwargs["in_event"] = True
-            kwargs["event_obj"] = get_event_from_register(events.get_event())
+
+            event_obj = get_event_from_register(events.get_event())
+
+            kwargs["event_obj"] = event_obj
+
+            kwargs['frag_image_patterns'] = event_obj.get_pattern()
 
             kwargs["frag_index"] = index
             kwargs["frag_parent"] = self
+            kwargs["is_fragment"] = True
 
             if is_replay(**kwargs):
                 kwargs['decision_data'] = persistent.gallery['fragment'][events.get_id()]['decisions']
                 last_data = get_last_data('fragment', events.get_id())
                 data_keys = list(last_data.keys())
                 j = 0
+
+                if "values" not in kwargs.keys():
+                    kwargs["values"] = {}
+
                 while j < len(data_keys):
                     data_key = data_keys[j]
-                    kwargs[data_key] = last_data[data_key]
+                    kwargs["values"][data_key] = last_data[data_key]
                     j += 1
     
-            renpy.call("call_event", events.get_event_label(), self.priority, **kwargs)
+            renpy.call("call_event", events.get_event_label(), self.select_type, **kwargs)
 
         def select_fragments(self, **kwargs) -> List[Event]:
             """
@@ -1487,6 +1691,8 @@ init -3 python:
                 selected_event = self.fragments[i].get_one_possible_event(**kwargs)
                 if selected_event != None:
                     output.append(selected_event)
+                else:
+                    log_error(304, "Composite Event " + self.event_id + ": No events available in fragment at index " + str(i) + "!")
 
             return output
 
@@ -1501,12 +1707,38 @@ init -3 python:
             self.person = person or character.subtitles
             self.event_form = "select"
             self.set_location("select")
-
             
         def _update(self, data: Dict[str, Any]):
             super()._update(data)
 
             self.event_form = "select"
+
+        def is_available(self, **kwargs) -> bool:
+            """
+            Checks if the event is available.
+            If all conditions are fulfilled, True is returned.
+
+            ### Parameters:
+            1. **kwargs
+                - The arguments that are passed to the conditions.
+
+            ### Returns:
+            1. bool
+                - True if all conditions are fulfilled.
+                - False if at least one condition is not fulfilled.
+            """
+
+            if self._invalid:
+                return False
+
+            if not super().is_available(**kwargs):
+                return False
+            
+            for storage in self.event_list.values():
+                if storage.has_available_events(**kwargs):
+                    return True
+
+            return False
 
         def get_event_label(self) -> str:
             return 'select_event_runner'
@@ -1516,6 +1748,9 @@ init -3 python:
         
         def call(self, **kwargs):
             
+            if "values" not in kwargs.keys():
+                kwargs["values"] = {}
+
             if self.values != None:
                 kwargs.update(self.values.get_values())
                 self.values.roll_values()
@@ -1523,7 +1758,7 @@ init -3 python:
             renpy.call(
                 "call_event", 
                 self.get_event_label(), 
-                self.priority, 
+                self.select_type, 
                 self.get_event_label(), 
                 from_current="event_select_call_1",
                 select_text = self.text,
@@ -1534,16 +1769,43 @@ init -3 python:
             **kwargs)
 
     class EventFragment(Event):
-        def __init__(self, priority: int, event: str, *conditions: Condition | Selector | Option, thumbnail: str = ""):
-            super().__init__(priority, event, *conditions, thumbnail = thumbnail)
+        def __init__(self, select_type: int, event: str, *conditions: Condition | Selector | Option, thumbnail: str = ""):
+            super().__init__(select_type, event, *conditions, thumbnail = thumbnail)
 
             self.event_form = "fragment"
             self.set_location("fragment")
 
-    ###############
+    # endregion
+    ########################
 
-    #####################
-    # Event label handler
+    def get_highest_priority_events(*events: Event) -> List[Event]:
+        curr_priority = 1
+        output = []
+        for event in events:
+            if event.get_priority() == curr_priority:
+                output.append(event)
+            elif event.get_priority() > curr_priority:
+                curr_priority = event.get_priority()
+                output = [event]
+
+        return output
+
+    def get_highest_priority_available_events(*events: Event, **kwargs) -> List[Event]:
+        curr_priority = 1
+        output = []
+        for event in events:
+            if event.is_available(**kwargs):
+                if event.get_priority() == curr_priority:
+                    output.append(event)
+                elif event.get_priority() > curr_priority:
+                    curr_priority = event.get_priority()
+                    output = [event]
+
+        return output
+
+    ##############################
+    # region Event label handler #
+    ##############################
 
     def get_event_menu_title(location: str, option: str) -> str:
         """
@@ -1577,10 +1839,15 @@ init -3 python:
         2. event_storage: EventStorage
             - The event storage that is added to the event dictionary.
         """
+        
+        if not is_mod_active(active_mod_key):
+            return
+
+        register_highlighting(event_storage)
 
         event_dict[event_storage.get_name()] = event_storage
 
-    def begin_event(**kwargs):
+    def begin_event(version: str = "1", **kwargs):
         """
         This method is called at the start of an event after choices and topics have been chosen in the event.
         It prevents rollback to before this method and thus prevents changing choices and topics.
@@ -1593,30 +1860,48 @@ init -3 python:
         """
 
         global seenEvents
+        global gallery_manager
 
         hide_all()
 
         event_name = get_kwargs("event_name", "", **kwargs)
         in_replay = get_kwargs("in_replay", False, **kwargs)
         no_gallery = get_kwargs("no_gallery", False, **kwargs)
+        is_fragment = get_kwargs("is_fragment", False, **kwargs)
+
+        if in_replay:
+            event = get_kwargs('event_name', None, **kwargs)
+            event_form = get_kwargs('event_form', 'event', **kwargs)
+            location = get_kwargs('location', 'misc', **kwargs)
+            if is_event_registered(event):
+                location = get_event_from_register(event).get_location()
+
+            if 'version' not in persistent.gallery[location][event]['options'].keys():
+                persistent.gallery[location][event]['options']['version'] = "1"
+            
+            if version != persistent.gallery[location][event]['options']['version']:
+                reset_gallery(location, event)
+                
+                if location not in persistent.gallery.keys():
+                    location = ""
+
+                renpy.call("failed_replay_invalid_gallery", location)
 
         gallery_manager = None
         if event_name != "" and not in_replay and not no_gallery:
-            gallery_manager = Gallery_Manager(**kwargs)
+            gallery_manager = Gallery_Manager(version = version, **kwargs)
 
-        if contains_game_data("seen_events"):
-            seenEvents = get_game_data("seen_events")
-
-        if event_name != "" and event_name in seenEvents.keys():
-            seenEvents[event_name] = True
-            set_game_data("seen_events", seenEvents)
-            if all(seenEvents.values()):
-                set_game_data("all_events_seen", True)
+        if not in_replay:
+            set_event_seen(event_name)
 
         if in_replay:
             char_obj = None
 
-        renpy.block_rollback()
+        if not is_fragment:
+            renpy.block_rollback()
+
+        if not in_replay:
+            update_quest("event", **kwargs)
 
         if event_name != "":
             renpy.call("show_sfw_text", event_name)
@@ -1654,6 +1939,8 @@ init -3 python:
             display_journal = get_kwargs("journal_display", "", **kwargs)
             renpy.call("open_journal", 7, display_journal, from_current = False)
             return
+        
+        update_quest("event_end", **kwargs)
 
         if return_type == "new_daytime":
             renpy.jump("new_daytime")
@@ -1661,6 +1948,8 @@ init -3 python:
             renpy.jump("new_day")
         elif return_type == "none":
             return
+        elif return_type == "custom":
+            renpy.call(get_value_ng('return_label', 'map_overview', **kwargs))
         else:
             renpy.jump("map_overview")
 
@@ -1716,10 +2005,12 @@ init -3 python:
             return fragment_storage_register[id]
         return None
 
-    #####################
+    # endregion
+    ##############################
 
-##############
-# Event caller
+#######################
+# region Event caller #
+#######################
 
 label call_available_event(event_storage, priority = 0, no_fallback = False, **kwargs):
     # """
@@ -1768,9 +2059,13 @@ label call_available_event(event_storage, priority = 0, no_fallback = False, **k
             $ kwargs["event_name"] = event_obj.get_event()
             $ kwargs["in_event"] = True
             $ kwargs["event_obj"] = event_obj
+            $ kwargs['image_patterns'] = event_obj.patterns
+
+            if "values" not in kwargs.keys():
+                $ kwargs["values"] = {}
 
             if event_obj.values != None:
-                $ kwargs.update(event_obj.values.get_values())
+                $ kwargs["values"].update(event_obj.values.get_values())
                 $ event_obj.values.roll_values()
 
             $ renpy.call(events, **kwargs)
@@ -1818,10 +2113,12 @@ label call_event(event_obj_var, priority = 0, event_obj_name = "", **kwargs):
 
     return
 
-##############
-
+# endregion
 #######################
-# Default event handler
+
+################################
+# region Default event handler #
+################################
 
 label default_fallback_event (**kwargs):
 
@@ -1893,23 +2190,16 @@ label composite_event_runner(**kwargs):
         
     $ end_event("map_overview", **kwargs)
 
-#######################
+# endregion
+################################
 
-###############
-# Movie Sandbox
+########################
+# region Movie Sandbox #
+########################
 
 init -1 python:
     sandbox_after_event_check      = Event(2, "start_sandbox.after_check")
     sandbox_check_events = EventStorage("sandbox_check_events", "misc", fallback = sandbox_after_event_check)
-
-init 1 python:
-    sandbox_tutorial_event = Event(1, 'sandbox_tutorial',
-        ValueSelector('return_label', 'start_sandbox.after_check'),
-        TutorialCondition(),
-        thumbnail = "images/events/misc/sandbox_tutorial 0.webp")
-
-    sandbox_check_events.add_event(sandbox_tutorial_event)
-
 
 label start_sandbox (**kwargs):
     # """
@@ -1940,11 +2230,13 @@ label .after_check (**kwargs):
     $ kwargs = sandbox_data
 
     $ naughty_map = get_kwargs('naughty_map', **kwargs)
+    $ cum_map = get_kwargs('cum_map', **kwargs)
     $ level = get_kwargs('level', **kwargs)
 
     $ kwargs['naughty_location'] = list(naughty_map.keys())[0]
     $ kwargs['naughty_position'] = list(naughty_map[get_kwargs('naughty_location', **kwargs)].keys())[0]
     $ kwargs['naughty_clothing'] = naughty_map[get_kwargs('naughty_location', **kwargs)][get_kwargs('naughty_position', **kwargs)][0]
+    $ kwargs['is_cumming'] = False
     $ kwargs['naughty_variant'] = 0
     $ kwargs['no_gallery'] = True
     $ kwargs['override_menu_exit'] = None
@@ -1960,7 +2252,10 @@ label .start (**kwargs):
     $ position = get_kwargs('naughty_position', **kwargs)
     $ clothing = get_kwargs('naughty_clothing', **kwargs)
     $ variant = get_kwargs('naughty_variant', **kwargs)
+    $ is_cumming = get_kwargs('is_cumming', **kwargs)
     $ mapping = get_kwargs('naughty_map', **kwargs)
+    $ cum_map = get_kwargs('cum_map', **kwargs)
+
 
     if position not in mapping[location]:
         $ position = list(mapping[location].keys())[0]
@@ -1968,15 +2263,34 @@ label .start (**kwargs):
     if clothing not in mapping[location][position]:
         $ clothing = mapping[location][position][0]
 
-    $ file = get_kwargs('file_preset', **kwargs).replace('<location>', location).replace('<position>', position).replace('<clothing>', clothing)
+    $ file_preset = get_kwargs('file_preset', **kwargs)
+    if is_cumming:
+        $ file_preset = file_preset.replace('.webm', '_cum.webm')
+
+    $ file = file_preset.replace('<location>', location).replace('<position>', position).replace('<clothing>', clothing)
     $ max_variant = get_file_max_value('variant', file, 0, 100)
     
     if variant > max_variant:
         $ variant = 0
 
+    $ movie_preset = get_kwargs('movie_preset', **kwargs)
+    if is_cumming:
+        $ movie_preset = movie_preset + "_cum_idle"
+
+    $ movie = movie_preset.replace('<location>', location).replace('<position>', position).replace('<clothing>', clothing).replace('<variant>', str(variant))
+
+    if is_cumming:
+        $ idle_movie = movie.replace('cum_idle', 'cum')
+        $ idle_file = file.replace('cum', 'cum_idle').replace('<variant>', str(variant))
+        $ hide_all()
+        # $ renpy.movie_cutscene(idle_file, None, 0)
+        scene expression idle_movie with dissolveM
+        $ renpy.pause(cum_map[location][position][clothing])
+        $ hide_all()
+
     # play movies
-    $ movie = get_kwargs('movie_preset', **kwargs).replace('<location>', location).replace('<position>', position).replace('<clothing>', clothing).replace('<variant>', str(variant))
     scene expression movie with dissolveM
+    
 
     $ icons = []
 
@@ -1992,6 +2306,12 @@ label .start (**kwargs):
     if max_variant > 0:
         $ icons.append("variant")
 
+    if location in cum_map.keys() and position in cum_map[location].keys() and clothing in cum_map[location][position].keys() and not is_cumming:
+        $ icons.append("cumming")
+
+    if location in cum_map.keys() and position in cum_map[location].keys() and clothing in cum_map[location][position].keys() and is_cumming:
+        $ icons.append("return")
+
     call screen naughty_scene_icons(*icons)
     if _return == "change_location":
         call .change_location (**kwargs) from _call_start_sandbox_change_location
@@ -2001,11 +2321,17 @@ label .start (**kwargs):
         call .change_clothing (**kwargs) from _call_start_sandbox_change_clothing
     elif _return == "change_variant":
         call .change_variant (**kwargs) from _call_start_sandbox_change_variant
+    elif _return == "cum":
+        call .trigger_cum (**kwargs) from _call_start_sandbox_trigger_cum
+    elif _return == "return":
+        call .return_cum (**kwargs) from _call_start_sandbox_return_cum
     elif _return == "stop":
         $ end_event('new_daytime', **kwargs)
 
 label .change_location (**kwargs):
     $ elements = []
+
+    $ kwargs['is_cumming'] = False
 
     python:
         for location in mapping.keys():
@@ -2016,6 +2342,8 @@ label .change_location (**kwargs):
 label .change_position (**kwargs):
     $ location = get_kwargs('naughty_location', **kwargs)
     $ mapping = get_kwargs('naughty_map', **kwargs)
+
+    $ kwargs['is_cumming'] = False
 
     $ elements = []
     python:
@@ -2029,16 +2357,15 @@ label .change_clothing (**kwargs):
     $ position = get_kwargs('naughty_position', **kwargs)
     $ mapping = get_kwargs('naughty_map', **kwargs)
 
+    $ kwargs['is_cumming'] = False
+
     $ elements = []
     python:
         for clothing in mapping[location][position]:
             # check if clothing string ends with "_[number]" and if yes extract the number
             if clothing[-1].isdigit():
                 clothing_level = int(clothing.split('_')[-1])
-                log_val('clothing_level', clothing_level)
-                log_val('level', level)
                 if level < clothing_level:
-                    log('skipping')
                     continue
 
             elements.append((get_translation(clothing), ChangeKwargsEffect('naughty_clothing', clothing)))
@@ -2051,6 +2378,8 @@ label .change_variant (**kwargs):
     $ clothing = get_kwargs('naughty_clothing', **kwargs)
     $ variant = get_kwargs('naughty_variant', **kwargs)
 
+    $ kwargs['is_cumming'] = False
+
     $ file = get_kwargs('file_preset', **kwargs).replace('<location>', location).replace('<position>', position).replace('<clothing>', clothing)
     $ max_variant = get_file_max_value('variant', file, 0, 100)
     $ variant += 1
@@ -2059,4 +2388,83 @@ label .change_variant (**kwargs):
     $ kwargs['naughty_variant'] = variant
     call .start(**kwargs) from _call_start_sandbox_start_1
 
-###############
+label .trigger_cum (**kwargs):
+    $ location = get_kwargs('naughty_location', **kwargs)
+    $ position = get_kwargs('naughty_position', **kwargs)
+    $ clothing = get_kwargs('naughty_clothing', **kwargs)
+    $ variant = get_kwargs('naughty_variant', **kwargs)
+    $ kwargs["is_cumming"] = True
+
+    $ file = get_kwargs('file_preset', **kwargs).replace('<location>', location).replace('<position>', position).replace('<clothing>', clothing).replace('.webm', '_cum.webm')
+    $ max_variant = get_file_max_value('variant', file, 0, 100)
+    if variant > max_variant:
+        $ variant = max_variant
+    call .start(**kwargs) from _call_start_sandbox_start_2
+
+label .return_cum (**kwargs):
+    $ location = get_kwargs('naughty_location', **kwargs)
+    $ position = get_kwargs('naughty_position', **kwargs)
+    $ clothing = get_kwargs('naughty_clothing', **kwargs)
+    $ variant = get_kwargs('naughty_variant', **kwargs)
+    $ kwargs["is_cumming"] = False
+
+    $ file = get_kwargs('file_preset', **kwargs).replace('<location>', location).replace('<position>', position).replace('<clothing>', clothing)
+    $ max_variant = get_file_max_value('variant', file, 0, 100)
+    if variant > max_variant:
+        $ variant = max_variant
+    call .start(**kwargs) from _call_start_sandbox_start_3
+
+screen naughty_scene_icons(*icons):
+    if "clothing" in icons:
+        imagebutton:
+            idle "icons/change_clothing_idle.webp"
+            hover "icons/change_clothing_hover.webp"
+            xalign 1.0 yalign 0.0
+            action Return("change_clothing")
+    if "position" in icons:
+        imagebutton:
+            idle "icons/change_position_idle.webp"
+            hover "icons/change_position_hover.webp"
+            xalign 1.0 yalign 0.2
+            action Return("change_position")
+    if "location" in icons:
+        imagebutton:
+            idle "icons/change_location_idle.webp"
+            hover "icons/change_location_hover.webp"
+            xalign 1.0 yalign 0.4
+            action Return("change_location")
+    if "variant" in icons:
+        imagebutton:
+            idle "icons/change_variant_idle.webp"
+            hover "icons/change_variant_hover.webp"
+            xalign 1.0 yalign 0.6
+            action Return("change_variant")
+    if "cumming" in icons:
+        imagebutton:
+            idle "icons/cum_idle.webp"
+            hover "icons/cum_hover.webp"
+            xalign 1.0 yalign 0.8
+            action Return("cum")
+    if "return" in icons:
+        imagebutton:
+            idle "icons/return_idle.webp"
+            hover "icons/return_hover.webp"
+            xalign 1.0 yalign 0.8
+            action Return("return")
+    imagebutton:
+        idle "icons/stop_idle.webp"
+        hover "icons/stop_hover.webp"
+        xalign 1.0 yalign 1.0
+        action Return("stop")
+
+# endregion
+########################
+
+label failed_replay_invalid_gallery (display_journal):
+    dev "Sorry, it seems the event you want to replay has been reworked and the gallery in the data is not valid anymore."
+    dev "The gallery data for this event will now be reset, so it will continue to work in the future."
+    dev "Unfortunately you'll have to unlock the event and it's variants again."
+    dev "I apologize for the inconvenience!"
+
+    $ is_in_replay = False
+    $ renpy.call("open_journal", 7, display_journal, from_current = False)

@@ -1,18 +1,13 @@
+init -99 python:
+    gallery_version = "2"
+
 init python:
+
     gallery_manager = None
 
-    # if persistent.gallery is None:
-    #     persistent.gallery = {}
-
-    # def merge_endings(old, new, current):
-    #     current = update_dict(current, old)
-    #     current = update_dict(current, new)
-    #     return current
-
-    # renpy.register_persistent('gallery', merge_endings)
-
-    ############################
-    # Gallery Persistent handler
+    #####################################
+    # region Gallery Persistent handler #
+    #####################################
 
     def prep_gallery(location: str, event: str, event_form: str, *key: str):
         """
@@ -164,8 +159,12 @@ init python:
         
         return value
 
-    #################
-    # Gallery Manager
+    # endregion
+    #####################################
+
+    ##########################
+    # region Gallery Manager #
+    ##########################
 
     class Gallery_Manager:
         """
@@ -205,11 +204,23 @@ init python:
             gallery_manager = self
             self.event = event
 
+            self.version = get_kwargs('version', "1", **kwargs)
+
             self.location = get_kwargs('location', 'misc', **kwargs)
             if is_event_registered(event):
                 self.location = get_event_from_register(event).get_location()
 
+            self.already_registered_values = []
+
             prep_gallery(self.location, event, event_form)
+
+            if 'version' not in persistent.gallery[self.location][event]['options'].keys():
+                persistent.gallery[self.location][event]['options']['version'] = self.version
+
+            if self.version != persistent.gallery[self.location][event]['options']['version']:
+                reset_gallery(self.location, event)
+                prep_gallery(self.location, event, event_form)
+
             self.current_ranges = persistent.gallery[self.location][event]['ranges']
 
             self.original_data = {}
@@ -231,8 +242,11 @@ init python:
 
             persistent.gallery[self.location][self.event]['options'][key] = value
 
-    ######################################################
-    # Value and Decision registration into persistent data
+    # endregion
+    ##########################
+
+    ###############################################################
+    # region Value and Decision registration into persistent data #
 
     def register_value(key: str, value: number | string):
         """
@@ -249,6 +263,11 @@ init python:
 
         if gallery_manager == None:
             return
+
+        if key in gallery_manager.already_registered_values:
+            return
+
+        gallery_manager.already_registered_values.append(key)
 
         if key in gallery_manager.current_ranges.keys() and is_float(value):
             closest_value = 100
@@ -303,8 +322,12 @@ init python:
             gallery_manager.decisions[key] = {}
         gallery_manager.decisions = gallery_manager.decisions[key]
 
-    #################################
-    # Persistent data Decision getter
+    # endregion
+    ###############################################################
+
+    ##########################################
+    # region Persistent data Decision getter #
+    ##########################################
 
     def get_decision_possibilities(decision_data: Dict[str, Any], decisions: List[str]) -> List[str]:
         """
@@ -330,8 +353,12 @@ init python:
 
         return list(current_level.keys())
 
-    ############################
-    # Stat Value Gallery Handler
+    # endregion
+    ##########################################
+
+    #####################################
+    # region Stat Value Gallery Handler #
+    #####################################
 
     def set_stat_value(key: str, value: float, ranges: List[float], **kwargs) -> float:
         """
@@ -354,9 +381,13 @@ init python:
         global gallery_manager
 
         if gallery_manager == None:
-            return get_kwargs(key, alt, **kwargs)
 
-        gallery_manager.current_ranges[key] = ranges
+            if "values" not in kwargs.keys():
+                return alt
+
+            return get_kwargs(key, alt, **kwargs["values"])
+
+        gallery_manager.current_ranges[key] = get_value_ng(key + "_range", ranges, **kwargs)
 
         return set_value(key, value, **kwargs)
 
@@ -381,6 +412,7 @@ init python:
         global gallery_manager
 
         if gallery_manager == None:
+
             if is_replay(**kwargs):
                 event_name = get_kwargs('event_name', None, **kwargs)
                 if event_name == None:
@@ -390,16 +422,23 @@ init python:
                     return alt
                 if event_obj.get_form() == 'fragment':
                     new_key = event_obj.get_id() + '.' + key
-                    return get_kwargs(new_key, get_kwargs(key, alt, **kwargs), **kwargs)
+                                
+                    if "values" not in kwargs.keys():
+                        return alt
+                    return get_kwargs(new_key, get_kwargs(key, alt, **kwargs["values"]), **kwargs["values"])
         
             return get_kwargs(key, alt, **kwargs)
 
-        gallery_manager.current_ranges[key] = ranges
+        gallery_manager.current_ranges[key] = get_value_ng(key + "_range", ranges, **kwargs)
 
         return get_value(key, alt, **kwargs)
 
-    ###############################
-    # General Value Gallery Handler
+    # endregion
+    #####################################
+
+    ########################################
+    # region General Value Gallery Handler #
+    ########################################
 
     def get_level(key: str, **kwargs) -> int:
         """
@@ -439,9 +478,72 @@ init python:
                 )
                 return set_value(key + '_level', value, **kwargs)                
 
-            level = get_kwargs(key + '_level', level, **kwargs)
+            if "values" in kwargs.keys():
+                level = get_kwargs(key + '_level', level, **kwargs["values"])
 
         return set_value(key + '_level', level, **kwargs)
+
+    def get_person_value(key: str, alt: Any = None, **kwargs) -> PersonObj:
+        char_key = get_value(key, alt, **kwargs)
+
+        if char_key == "school":
+            return get_person("NoView", "default_school")
+        elif char_key == "parent":
+            return get_person("NoView", "default_parent")
+        elif char_key == "teacher":
+            return get_person("NoView", "default_teacher")
+        elif char_key == "secretary":
+            return get_person("NoView", "default_secretary")
+        elif char_key == None or not isinstance(char_key, str):
+            return get_person("NoView", "default")
+
+        char_person = find_person(char_key)
+
+        if char_person == None:
+            return get_person("NoView", "default")
+
+        return char_person
+
+    def get_person_char(key: str, alt: Any = None, **kwargs) -> Character:
+        char_person = get_person_value(key, alt, **kwargs)
+        return char_person.get_character()
+
+    def get_value_ng(key: str, alt: Any = None, **kwargs) -> Any:
+        """
+        Gets a value from the gallery database.
+
+        ### Parameters:
+        1. key: str
+            - The key to get the value from.
+        2. alt: Any (default: None)
+            - The value to return if the key is not found.
+
+        ### Returns:
+        1. Any:
+            - The value found in the database.
+        """
+
+        if is_replay(**kwargs):
+            event_name = get_kwargs('event_name', None, **kwargs)
+            if event_name == None:
+                return alt
+            event_obj = get_event_from_register(event_name)
+            if event_obj == None:
+                return alt
+            if event_obj.get_form() == 'fragment':
+                new_key = event_obj.get_id() + '.' + key
+                if "values" in kwargs.keys():
+                    value = get_kwargs(new_key, get_kwargs(key, alt, **kwargs["values"]), **kwargs["values"])
+                else:
+                    value = alt
+                return value
+        
+        if "values" in kwargs.keys():
+            value = get_kwargs(key, alt, **kwargs["values"])
+        else:
+            value = alt
+
+        return value
 
     def get_value(key: str, alt: Any = None, **kwargs) -> Any:
         """
@@ -467,10 +569,16 @@ init python:
                 return alt
             if event_obj.get_form() == 'fragment':
                 new_key = event_obj.get_id() + '.' + key
-                value = get_kwargs(new_key, get_kwargs(key, alt, **kwargs), **kwargs)
+                if "values" in kwargs.keys():
+                    value = get_kwargs(new_key, get_kwargs(key, alt, **kwargs["values"]), **kwargs["values"])
+                else:
+                    value = alt
                 return set_value(key, value, **kwargs)                
         
-        value = get_kwargs(key, alt, **kwargs)
+        if "values" in kwargs.keys():
+            value = get_kwargs(key, alt, **kwargs["values"])
+        else:
+            value = alt
 
         return set_value(key, value, **kwargs)
 
@@ -494,8 +602,12 @@ init python:
 
         return value        
 
-    ###############################
-    # Fragment Gallery Handler
+    # endregion
+    ########################################
+
+    ###################################
+    # region Fragment Gallery Handler #
+    ###################################
 
     def get_frag_list(**kwargs) -> List[EventFragment]:
         """
@@ -520,11 +632,13 @@ init python:
 
         if not is_replay(**kwargs):
             fragments = event_obj.select_fragments(**kwargs)
-            gallery_manager.set_option("Frag_Storage", [storage.get_name() for storage in event_obj.get_fragment_storages()])
+            if gallery_manager != None:
+                gallery_manager.set_option("Frag_Storage", [storage.get_name() for storage in event_obj.get_fragment_storages()])
             
             for i, storage in enumerate(event_obj.get_fragment_storages()):
-                Gallery_Manager(event_name = storage.get_name(), event_form = 'FragStorage', location = "FragStorage")
-                register_value("fragment", str(fragments[i]))
+                if gallery_manager != None:
+                    Gallery_Manager(event_name = storage.get_name(), event_form = 'FragStorage', location = "FragStorage")
+                    register_value("fragment", str(fragments[i]))
 
 
         return fragments
@@ -549,8 +663,12 @@ init python:
 
         return persistent.gallery[location][event]['options']['last_data']
 
-    ################
-    # Replay Handler
+    # endregion
+    ###################################
+
+    #########################
+    # region Replay Handler #
+    #########################
     
     def is_replay(**kwargs):
         """
@@ -566,3 +684,13 @@ init python:
         """
 
         return get_kwargs("in_replay", False, **kwargs)
+
+    def check_gallery_version():
+        if persistent.gallery_version == None or gallery_version != persistent.gallery_version:
+            persistent.gallery_version = gallery_version
+            reset_gallery()
+
+    check_gallery_version()
+
+    # endregion
+    #########################

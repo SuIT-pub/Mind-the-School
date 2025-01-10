@@ -72,6 +72,11 @@ init -3 python:
                     values = selector.get_value(**kwargs)
                     for key in values.keys():
                         kwargs[key] = values[key]
+                elif isinstance(selector, StatSelector):
+                    key = selector.get_name()
+                    value = selector.get_value(**kwargs)
+                    kwargs[key + "_range"] = selector._range
+                    kwargs[key] = value
                 else:
                     key = selector.get_name()
                     value = selector.get_value(**kwargs)
@@ -124,6 +129,9 @@ init -3 python:
             self._key = key
             self._value = None
             self._realtime = realtime
+
+        def __str__(self):
+            return get_name()
 
         def update(self, **kwargs):
             """
@@ -346,10 +354,11 @@ init -3 python:
             - Realtime should be set to True, otherwise the event could work with out of date stat information
         """
 
-        def __init__(self, key: str, stat: str | Selector, char: str | Selector, realtime: bool = True):
+        def __init__(self, key: str, stat: str | Selector, char: str | Selector, stat_range: List[int], realtime: bool = True):
             super().__init__(realtime, key)
             self._stat = stat
             self._char = char
+            self._range = stat_range
 
         def roll(self, **kwargs) -> Any:
             """
@@ -641,16 +650,20 @@ init -3 python:
             - This parameter takes the value in get_game_data(_index) and uses it as the value for the Selector.
         """
 
-        def __init__(self, key: str, index: str):
+        def __init__(self, key: str, index: str, alt: Any = None):
             super().__init__(True, key)
             self._index = index
+            self._alt = alt
 
         def roll(self, **kwargs) -> Any:
             """
             Returns the value from the GameData Storage.
             """
 
-            return get_game_data(self._index)
+            output = get_game_data(self._index)
+            if output == None:
+                return self._alt
+            return output
 
     class KwargsSelector(Selector):
         """
@@ -679,7 +692,6 @@ init -3 python:
             Returns the supplied values.
             """
             return self._kwargs
-
 
     class ProgressSelector(Selector):
         """
@@ -888,3 +900,24 @@ init -3 python:
             char = self._char if not isinstance(self._char, Selector) else self._char.get_value(**kwargs)
 
             return get_character_by_key(char)
+
+    class PTAVoteSelector(Selector):
+        def __init__(self, key: str, char: str):
+            super().__init__(True, key)
+            self._char = char
+
+        def roll(self, **kwargs) -> Any:
+            vote_proposal = get_game_data('voteProposal')
+            if vote_proposal == None:
+                return None
+
+            vote_obj = proposal._journal_obj
+
+            return voteCharacter(vote_obj.get_condition_storage(), get_character_by_key(self._char))
+
+    class PTAObjectSelector(Selector):
+        def __init__(self, key: str):
+            super().__init__(True, key)
+
+        def roll(self, **kwargs) -> Any:
+            return get_game_data('voteProposal')

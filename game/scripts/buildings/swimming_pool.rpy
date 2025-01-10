@@ -1,15 +1,14 @@
-###########################################
-# ----- Swimming Pool Event Handler ----- #
-###########################################
+############################################
+# region Swimming Pool Event Handler ----- #
+############################################
 
 init -1 python:
-    def swimming_pool_events_available() -> bool:
-        return (swimming_pool_timed_event.has_available_highlight_events() or
-            swimming_pool_general_event.has_available_highlight_events() or
-            any(e.has_available_highlight_events() for e in swimming_pool_events.values()))
-
+    set_current_mod('base')
+    
     swimming_pool_timed_event = TempEventStorage("swimming_pool", "swimming_pool", fallback = Event(2, "swimming_pool.after_time_check"))
     swimming_pool_general_event = EventStorage("swimming_pool",   "swimming_pool", fallback = Event(2, "swimming_pool.after_general_check"))
+    register_highlighting(swimming_pool_timed_event, swimming_pool_general_event)
+
     swimming_pool_events = {}
 
     swimming_pool_bg_images = BGStorage("images/background/swimming pool/bg 1.webp", ValueSelector('loli', 0),
@@ -19,24 +18,14 @@ init -1 python:
     )
     
 init 1 python:
-    
-    swimming_pool_action_tutorial_event = Event(2, "action_tutorial",
-        NOT(ProgressCondition('action_tutorial')),
-        ValueSelector('return_label', 'swimming_pool'),
-        NoHighlightOption(),
-        TutorialCondition(),
-        override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
+    set_current_mod('base')
 
-    swimming_pool_general_event.add_event(
-        swimming_pool_action_tutorial_event
-    )
+# endregion
+############################################
 
-
-###########################################
-
-#########################################
-# ----- Swimming Pool Entry Point ----- #
-#########################################
+##########################################
+# region Swimming Pool Entry Point ----- #
+##########################################
 
 label swimming_pool ():
     call call_available_event(swimming_pool_timed_event) from swimming_pool_1
@@ -55,12 +44,14 @@ label .after_general_check (**kwargs):
 
     jump swimming_pool
 
-#########################################
+# endregion
+##########################################
 
-####################################
-# ----- Swimming Pool Events ----- #
-####################################
+#####################################
+# region Swimming Pool Events ----- #
+#####################################
 
 
 
-####################################
+# endregion
+#####################################

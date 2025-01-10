@@ -8,19 +8,29 @@ init -98 python:
     sfw_mode = False
     event_selection_mode = False
 
-    seenEvents = {}
     location_event_register = {}
     event_register = {}
     fragment_storage_register = {}
-
-    translation_texts = {}
-    get_translations()
 
     loli_filter = {}
     get_loli_filter()
 
     members = ""
     download_members()
+
+    # get_mod_list()
+    
+    repair_mod_list()
+    available_keys = ['base']
+    active_mod_key = ''
+    mod_count = {}
+
+    translation_texts = {}
+
+    start_methods = []
+
+init -95 python:
+    get_translations()
 
 default intro_dev_message = "This version of the game only includes content up to day 10, when free roaming begins. You can still play and roam from there, but there will be no content."
 
@@ -33,7 +43,14 @@ default charList = {
     'staff': {},
 }
 
+default person_storage = {}
+
+default quests = {}
+
 default money = Stat(MONEY, 1000)
+
+default reserved_money = {}
+
 default time = Time()
 default stat_data = {}
 
@@ -43,7 +60,34 @@ default replay_data = {}
 
 default event_data = {}
 
-default overview_events_available = {}
+default overview_events_available = {
+    'school_building':  False,
+    'school_dormitory': False,
+    'labs':             False,
+    'sports_field':     False,
+    'gym':              False,
+    'swimming_pool':    False,
+    'cafeteria':        False,
+    'bath':             False,
+    'kiosk':            False,
+    'courtyard':        False,
+    'office_building':  False,
+    'beach':            False,
+    'staff_lodges':     False}
+default overview_highlight_available = {
+    'school_building':  False,
+    'school_dormitory': False,
+    'labs':             False,
+    'sports_field':     False,
+    'gym':              False,
+    'swimming_pool':    False,
+    'cafeteria':        False,
+    'bath':             False,
+    'kiosk':            False,
+    'courtyard':        False,
+    'office_building':  False,
+    'beach':            False,
+    'staff_lodges':     False}
 
 default available_proficiencies = ['math', 'pe']
 default headmaster_proficiencies = {}
@@ -73,6 +117,7 @@ init -99:
         what_color = "#ffffff",
         what_size = 28,
         # what_outlines = [( 1, "#000000", 0, 0 )],
+        retain = False,
     )
     define character.headmaster = Character(
         "[headmaster_first_name] [headmaster_last_name]",
@@ -81,6 +126,7 @@ init -99:
         what_color = "#ffffff",
         what_size = 28,
         # what_outlines = [( 1, "#000000", 0, 0 )],
+        retain = False,
     )
     define character.headmaster_whisper = Character(
         "[headmaster_first_name] [headmaster_last_name]",
@@ -90,6 +136,7 @@ init -99:
         what_size = 28,
         what_italic = True,
         # what_outlines = [( 1, "#000000", 0, 0 )],
+        retain = False,
     )
     define character.headmaster_shout = Character(
         "[headmaster_first_name] [headmaster_last_name]",
@@ -100,6 +147,7 @@ init -99:
         what_size = 28,
         what_bold = True,
         # what_outlines=[( 1, "#000000", 0, 0 )],
+        retain = False,
     )
     define character.headmaster_thought = Character(
         "[headmaster_first_name] [headmaster_last_name]",
@@ -112,6 +160,7 @@ init -99:
         what_prefix = "(  ",
         what_suffix = "  )",
         # what_outlines = [( 1, "#000000", 0, 0 )],
+        retain = False,
     )
     define character.secretary = Character(
         "Emiko Langley",
@@ -120,6 +169,7 @@ init -99:
         what_color = "#ffffff",
         what_size = 28,
         # what_outlines = [( 1, "#000000", 0, 0 )],
+        retain = False,
     )
     define character.secretary_whisper = Character(
         "Emiko Langley",
@@ -130,6 +180,7 @@ init -99:
         what_size = 28,
         what_italic = True,
         # what_outlines = [( 1, "#000000", 0, 0 )],
+        retain = False,
     )
     define character.secretary_shout = Character(
         "Emiko Langley",
@@ -140,6 +191,7 @@ init -99:
         what_size = 28,
         what_bold = True,
         # what_outlines = [( 1, "#000000", 0, 0 )],
+        retain = False,
     )
     define character.teacher = Character(
         "Teacher", 
@@ -148,6 +200,7 @@ init -99:
         what_color = "#ffffff",
         what_size = 28,
         # what_outlines = [( 1, "#000000", 0, 0 )],
+        retain = False,
     )
     define character.teacher1 = Character(
         "Lily Anderson",
@@ -156,6 +209,7 @@ init -99:
         what_color = "#ffffff",
         what_size = 28,
         # what_outlines = [( 1, "#000000", 0, 0 )],
+        retain = False,
     )
     define character.teacher2 = Character(
         "Yulan Chen",
@@ -164,6 +218,7 @@ init -99:
         what_color = "#ffffff",
         what_size = 28,
         # what_outlines = [( 1, "#000000", 0, 0 )],
+        retain = False,
     )
     define character.teacher3 = Character(
         "Finola Ryan",
@@ -172,6 +227,7 @@ init -99:
         what_color = "#ffffff",
         what_size = 28,
         # what_outlines = [( 1, "#000000", 0, 0 )],
+        retain = False,
     )
     define character.teacher4 = Character(
         "Chloe Garcia",
@@ -180,6 +236,7 @@ init -99:
         what_color = "#ffffff",
         what_size = 28,
         # what_outlines = [( 1, "#000000", 0, 0 )],
+        retain = False,
     )
     define character.teacher5 = Character(
         "Zoe Parker",
@@ -188,6 +245,7 @@ init -99:
         what_color = "#ffffff",
         what_size = 28,
         # what_outlines = [( 1, "#000000", 0, 0 )],
+        retain = False,
     )
 
     define character.vendor = Character(
@@ -197,6 +255,7 @@ init -99:
         what_color = "#ffffff",
         what_size = 28,
         # what_outlines = [( 1, "#000000", 0, 0)],
+        retain = False,
     )
 
     define character.parent = Character(
@@ -206,6 +265,7 @@ init -99:
         what_color = "#ffffff",
         what_size = 28,
         # what_outlines = [( 1, "#000000", 0, 0)],
+        retain = False,
     )
     define character.examiner = Character(
         "Examiner",
@@ -214,6 +274,7 @@ init -99:
         what_color = "#ffffff",
         what_size = 28,
         # what_outlines = [( 1, "#000000", 0, 0 )],
+        retain = False,
     )
     define character.regional = Character(
         "Region Manager",
@@ -222,6 +283,7 @@ init -99:
         what_color = "#ffffff",
         what_size = 28,
         # what_outlines = [( 1, "#000000", 0, 0 )],
+        retain = False,
     )
     define character.sgirl = Character(
         "School Girl",
@@ -230,6 +292,7 @@ init -99:
         what_color = "#ffffff",
         what_size = 28,
         # what_outlines = [( 1, "#000000", 0, 0 )],
+        retain = False,
     )
     define character.sboy = Character(
         "School Boy",
@@ -238,6 +301,7 @@ init -99:
         what_color = "#ffffff",
         what_size = 28,
         # what_outlines = [( 1, "#000000", 0, 0 )],
+        retain = False,
     )
     define character.crowd = Character(
         "Crowd",
@@ -245,6 +309,7 @@ init -99:
         what_color = "#ffd700",
         what_size = 28,
         # what_outlines = [( 1, "#000000", 0, 0 )],
+        retain = False,
     )
     define character.crowd_whisper = Character(
         "Crowd",
@@ -254,6 +319,7 @@ init -99:
         what_size = 28,
         what_italics = True,
         # what_outlines = [( 1, "#000000", 0, 0 )],
+        retain = False,
     )
     define character.crowd_shout = Character(
         "Crowd",
@@ -263,6 +329,7 @@ init -99:
         what_size = 28,
         what_bold = True,
         # what_outlines = [( 1, "#000000", 0, 0 )],
+        retain = False,
     )
     define character.subtitles = Character(
         None,
@@ -270,6 +337,7 @@ init -99:
         what_color = "#ffffff",
         what_size = 28,
         # what_outlines = [( 1, "#000000", 0, 0 )],
+        retain = False,
         what_xalign = 0.5,
         what_textalign = 0,
         what_layout = 'subtitle'
@@ -280,6 +348,7 @@ init -99:
         what_color = "#ffffff",
         what_size = 28,
         # what_outlines = [( 1, "#000000", 0, 0 )],
+        retain = False,
         what_xalign = 0.5,
         what_textalign = 0,
         what_layout = 'subtitle'

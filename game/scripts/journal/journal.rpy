@@ -30,13 +30,13 @@ init python:
         # iterates through the order to check if all values are still in scope and if not to replace them
         for topic in gallery_chooser_order:
             # if the value is not in the dictionary or reset is true, then reset the list from this point on
-            if gallery_chooser[topic] not in gallery_dict.keys() or reset:
+            if gallery_chooser["values"][topic] not in gallery_dict.keys() or reset:
                 values = list(gallery_dict.keys())
-                gallery_chooser[topic] = None
+                gallery_chooser["values"][topic] = None
                 if len(values) != 0:
-                    gallery_chooser[topic] = values[0]
+                    gallery_chooser["values"][topic] = values[0]
                 reset = True
-            gallery_dict = gallery_dict[gallery_chooser[topic]]
+            gallery_dict = gallery_dict[gallery_chooser["values"][topic]]
         return gallery_chooser
     
     def get_journal_type(page: int) -> str:
@@ -109,26 +109,18 @@ init python:
             return []
         return types[page]
 
-    
+#########################
+# region Journal Events #
 
 init -1 python:
     journal_events = EventStorage("journal_events", "misc", fallback = Event(2, "start_journal.after_check"))
 
-init 1 python:
-    
-    journal_tutorial_event = Event(1, "journal_tutorial",
-        NOT(ProgressCondition('journal_tutorial')),
-        TutorialCondition(),
-        thumbnail = "images/events/misc/journal_tutorial 0.webp")
+# endregion
+#########################
 
-    journal_events.add_event(
-        journal_tutorial_event
-    )
-
-
-############################
-# Journal Intro
-############################
+########################
+# region Journal Entry #
+########################
 
 label start_journal ():
     # """
@@ -171,6 +163,8 @@ label open_journal(page, display, char = "school"):
         call screen journal_gallery(display) with dissolveM
     elif page == 8:
         call screen journal_goals(display) with dissolveM
+    elif page == 9:
+        call screen journal_character(display) with dissolveM
 
 label close_journal ():
     # """
@@ -180,13 +174,19 @@ label close_journal ():
     hide screen journal
     jump map_overview
 
-############################
-# Journal Styles
-############################
+# endregion
+########################
+
+#########################
+# region Journal Styles #
+#########################
 
 style journal_desc:
     color "#000"
     size 20
+style journal_desc_small:
+    color "#000"
+    size 15
 
 style journal_text:
     color "#000"
@@ -223,9 +223,12 @@ style buttons_active take buttons_idle:
 style journal_pta_overview take buttons_idle:
     size 25
 
-############################
-# Journal Sub-screens
-############################
+# endregion
+########################
+
+##############################
+# region Journal Sub-screens #
+##############################
 
 screen journal_obj_list(page, display, journal_map):
     # """
@@ -265,60 +268,64 @@ screen journal_obj_list(page, display, journal_map):
             draggable "touch"
 
             vbox:
-                
-                $ journal_settings = get_game_data("journal_setting_" + str(page) + "_locked " + journal_type)
-                use journal_foldable_list((journal_settings == None or journal_settings), "locked " + journal_type, page, display, locked_list)
+                $ obj_list = [(get_journal_obj(journal_map, obj_name).get_title(), get_journal_obj(journal_map, obj_name).get_name()) for obj_name in locked_list]
+                use journal_foldable_list("Locked " + get_translation(journal_type), page, display, obj_list, "journal_setting_" + str(page) + "_locked " + journal_type)
                 
                 null height 20
 
-                $ journal_settings = get_game_data("journal_setting_" + str(page) + "_unlocked " + journal_type)
-                use journal_foldable_list((journal_settings == None or journal_settings), "unlocked " + journal_type, page, display, unlocked_list, "buttons_active")
+                $ obj_list2 = [(get_journal_obj(journal_map, obj_name).get_title(), get_journal_obj(journal_map, obj_name).get_name()) for obj_name in unlocked_list]
+                use journal_foldable_list("Unlocked " + get_translation(journal_type), page, display, obj_list2, "journal_setting_" + str(page) + "_unlocked " + journal_type, "buttons_active")
 
         vbar value YScrollValue("[journal_type]List"):
             unscrollable "hide"
             xalign 1.0
 
-screen journal_foldable_list(is_showing, text, page, display, obj_list, default_style = "buttons_idle"):
+screen journal_foldable_list(text, page, display, obj_list, setting_key, default_style = "buttons_idle"):
     # """
     # A screen used to display a foldable list of items in the journal
 
     # ### Parameters:
-    # 1. is_showing: bool
-    #     - Whether the list is currently showing.
-    # 2. text: str
+    # 1. text: str
     #     - The text to display for the list.
-    # 3. page: int
+    # 2. page: int
     #     - The page number to display.
-    # 4. display: str
+    # 3. display: str
     #     - The display type for the journal page.
-    # 5. obj_list: List[str]
+    # 4. obj_list: List[(str, display)]
     #     - The list of items to display in the journal.
+    # 5. setting_key
+    #     - The key to use for the game data setting.
     # 6. default_style: str (default: "buttons_idle")
     #     - The default style for the buttons in the list.
     # """
 
+    python:
+
+        journal_settings = get_setting(setting_key)
+
+        if journal_settings == None:
+            journal_settings = True
+            set_setting(setting_key, True)
+
     $ journal_map = get_journal_map(page)
-    if is_showing:
-        textbutton "hide [text]":
+    if journal_settings:
+        textbutton "[text]":
             text_style "buttons_idle"
             yalign 0.5
-            action [With(dissolveM), Call("set_journal_setting", page, display, text, False)]
+            action [With(dissolveM), Function(set_setting, setting_key, False)]
         image "journal/journal/left_list_separator.webp"
-        for obj_name in obj_list:
-            $ obj = get_journal_obj(journal_map, obj_name)
-            if obj is not None:
-                $ obj_title = obj.get_title()
-                $ button_style = default_style
-                if obj_name == display:
-                    $ button_style = "buttons_selected"
-                textbutton obj_title:
-                    text_style button_style
-                    action [With(dissolveM), Call("open_journal", page, obj_name)]
+        for (title, dest_display) in obj_list:
+            $ button_style = default_style
+            if dest_display == display:
+                $ button_style = "buttons_selected"
+            textbutton title:
+                text_style button_style
+                action [With(dissolveM), Call("open_journal", page, dest_display)]
     else:
-        textbutton "show [text]":
+        textbutton "[text]":
             text_style "buttons_inactive"
             yalign 0.5
-            action [With(dissolveM), Call("set_journal_setting", page, display, text, True)]
+            action [With(dissolveM), Function(set_setting, setting_key, True)]
         image "journal/journal/left_list_separator.webp"
 
 screen journal_simple_list(page, display, display_list, default_style = "buttons_idle", **kwargs):
@@ -420,26 +427,63 @@ screen journal_page_selector(page, display, char = "school"):
         elif page == 8:
             idle "journal/journal/8_idle.webp"
             hover "journal/journal/hover.webp"
+        elif page == 9:
+            idle "journal/journal/idle.webp"
+            hover "journal/journal/hover.webp"
 
-    
+        $ key_text = ""
+
+        if has_keyboard():  
+            if show_shortcut():
+                $ key_text = " [[x]"
+            if page != 1:
+                key "K_1" action [With(dissolveM), Call("open_journal", 1, "")]
+                key "K_KP1" action [With(dissolveM), Call("open_journal", 1, "")]
+            if page != 8:
+                key "K_2" action [With(dissolveM), Call("open_journal", 8, "")]
+                key "K_KP2" action [With(dissolveM), Call("open_journal", 8, "")]
+            if page != 2:
+                key "K_3" action [With(dissolveM), Call("open_journal", 2, "")]
+                key "K_KP3" action [With(dissolveM), Call("open_journal", 2, "")]
+            if page != 3:
+                key "K_4" action [With(dissolveM), Call("open_journal", 3, "")]
+                key "K_KP4" action [With(dissolveM), Call("open_journal", 3, "")]
+            if page != 4:
+                key "K_5" action [With(dissolveM), Call("open_journal", 4, "")]
+                key "K_KP5" action [With(dissolveM), Call("open_journal", 4, "")]
+            if page != 6:
+                key "K_6" action [With(dissolveM), Call("open_journal", 6, "")]
+                key "K_KP6" action [With(dissolveM), Call("open_journal", 6, "")]
+            if page != 7:
+                key "K_7" action [With(dissolveM), Call("open_journal", 7, "")]
+                key "K_KP7" action [With(dissolveM), Call("open_journal", 7, "")]
 
         if page != 1:
-            hotspot (144, 250, 168, 88) action [With(dissolveM), Call("open_journal", 1, "")] tooltip "School Overview"
+            $ text = ("School Overview" + key_text).replace("x", "1")
+            hotspot (144, 250, 168, 88) action [With(dissolveM), Call("open_journal", 1, "")] tooltip text
         if page != 2:
-            hotspot (144, 617, 168, 88) action  [With(dissolveM), Call("open_journal", 2, "")] tooltip "Rules"
+            $ text = ("Rules" + key_text).replace("x", "3")
+            hotspot (144, 617, 168, 88) action  [With(dissolveM), Call("open_journal", 2, "")] tooltip text
         if page != 3:
-            hotspot (144, 722, 168, 88) action [With(dissolveM), Call("open_journal", 3, "")] tooltip "Clubs"
+            $ text = ("Clubs" + key_text).replace("x", "4")
+            hotspot (144, 722, 168, 88) action [With(dissolveM), Call("open_journal", 3, "")] tooltip text
         if page != 4:
-            hotspot (144, 830, 168, 88) action [With(dissolveM), Call("open_journal", 4, "")] tooltip "Buildings"
+            $ text = ("Buildings" + key_text).replace("x", "5")
+            hotspot (144, 830, 168, 88) action [With(dissolveM), Call("open_journal", 4, "")] tooltip text
         if page != 6:
-            hotspot (1500, 246, 179, 87) action [With(dissolveM), Call("open_journal", 6, "")] tooltip "Credits"
+            $ text = ("Credits" + key_text).replace("x", "6")
+            hotspot (1500, 246, 179, 87) action [With(dissolveM), Call("open_journal", 6, "")] tooltip text
         if page != 7:
-            hotspot (1493, 356, 185, 87) action [With(dissolveM), Call("open_journal", 7, "")] tooltip "Replay"
+            $ text = ("Replay" + key_text).replace("x", "7")
+            hotspot (1493, 356, 185, 87) action [With(dissolveM), Call("open_journal", 7, "")] tooltip text
         if page != 8:
-            hotspot (154, 358, 166, 93) action [With(dissolveM), Call("open_journal", 8, "")] tooltip "Goals"
+            $ text = ("Goals" + key_text).replace("x", "2")
+            hotspot (154, 358, 166, 93) action [With(dissolveM), Call("open_journal", 8, "")] tooltip text
             
     if page == 1 or (page == 5 and display == 'stats'):
         if char == "school":
+            if has_keyboard():
+                key "K_TAB" action [With(dissolveM), Call("open_journal", page, display, "teacher")]
             image "journal/journal/school_hover.webp":
                 xpos 365
                 ypos 74
@@ -456,6 +500,8 @@ screen journal_page_selector(page, display, char = "school"):
                 tooltip "School"
                 action [With(dissolveM), Call("open_journal", page, display, "school")]
         if char == "teacher":
+            if has_keyboard():
+                key "K_TAB" action [With(dissolveM), Call("open_journal", page, display, "parent")]
             image "journal/journal/teacher_hover.webp":
                 xpos 541
                 ypos 75
@@ -472,6 +518,8 @@ screen journal_page_selector(page, display, char = "school"):
                 tooltip "Teacher"
                 action [With(dissolveM), Call("open_journal", page, display, "teacher")]
         if char == "parent":
+            if has_keyboard():
+                key "K_TAB" action [With(dissolveM), Call("open_journal", page, display, "school")]
             image "journal/journal/parent_hover.webp":
                 xpos 718
                 ypos 76
@@ -489,11 +537,15 @@ screen journal_page_selector(page, display, char = "school"):
                 action [With(dissolveM), Call("open_journal", page, display, "parent")]
 
     if cheat_mode:
+        if has_keyboard():  
+            key "K_8" action [With(dissolveM), Call("open_journal", 5, "")]
+            key "K_KP8" action [With(dissolveM), Call("open_journal", 5, "")]
         if page != 5:
+            $ text = ("Cheats" + key_text).replace("x", "8")
             imagebutton:
                 idle "journal/journal/cheat_idle.webp"
                 hover "journal/journal/cheat_hover.webp"
-                tooltip "Cheats"
+                tooltip text
                 xpos 1501
                 ypos 715
                 action [With(dissolveM), Call("open_journal", 5, "")]
@@ -502,15 +554,35 @@ screen journal_page_selector(page, display, char = "school"):
                 xpos 1501
                 ypos 715
 
+    
+    if has_keyboard():  
+        key "K_9" action [With(dissolveM), Call("open_journal", 9, "")]
+        key "K_KP9" action [With(dissolveM), Call("open_journal", 9, "")]
+    if page != 9:
+        $ text = ("Characters" + key_text).replace("x", "9")
+        imagebutton:
+            idle "journal/journal/char_idle.webp"
+            hover "journal/journal/char_hover.webp"
+            tooltip text
+            xpos 144
+            ypos 456
+            action [With(dissolveM), Call("open_journal", 9, "")]
+    else:
+        image "journal/journal/char_hover.webp":
+            xpos 144
+            ypos 456
+
+    $ text = ("Close Journal" + key_text).replace("x", "ESC")
+
     imagebutton:
         idle "journal/journal/close_idle.webp"
         hover "journal/journal/close_hover.webp"
-        tooltip "Close Journal"
+        tooltip text
         xpos 1509
         ypos 836
         action [With(dissolveM), Jump("map_overview")]
 
-screen journal_desc(page, display, active_obj, with_title = False):
+screen journal_desc(**kwargs):
     # """
     # A screen used to display the description of the active object in the journal
 
@@ -525,41 +597,32 @@ screen journal_desc(page, display, active_obj, with_title = False):
     #     - whether the description area should be moved down a bit to make space for the title
     # """
 
-    $ active_obj_desc = active_obj.get_description_str()
+    $ top_description = get_kwargs('top_description', "", **kwargs)
+    $ description = get_kwargs('description', "", **kwargs)
+    $ description_list_title = get_kwargs('description_list_title', "", **kwargs)
+    $ description_list = get_kwargs('description_list', [], **kwargs)
 
-    $ action_text = "unlock"
-    $ obj_type = active_obj.get_type()
-    if obj_type == "building" and active_obj.is_unlocked()  and active_obj.has_higher_level():
-        $ action_text = "upgrade"
+    $ (xpos, ypos, width, height) = get_kwargs('size', (989, 200, 500, 250), **kwargs)
 
-    $ active_obj_desc_conditions_desc = active_obj.get_desc_conditions_desc(cond_type = action_text, char_obj = get_school(), blocking = True)
-    $ condition_storage = active_obj.get_condition_storage()
-    if obj_type == 'building' and active_obj.can_be_upgraded(char_obj = get_school()):
-        $ condition_storage = active_obj.get_upgrade_conditions(active_obj.get_level())
-        
     frame:
         background Solid("#0000")
-        if with_title:
-            area (989, 250, 500, 200)
-        else:
-            area (989, 200, 500, 250)
+        area (xpos, ypos, width, height)
         viewport id "RuleDesc":
             mousewheel True
             draggable "touch"
 
             vbox:
-                if condition_storage.get_is_locked():
-                    text "This object isn't currently implemented and only acts as a preview of what's to come." style "journal_desc"
-                    text "All values and contents are subject to change." style "journal_desc"
-                    text "----------------------------------------" style "journal_desc"
+                if top_description != "":
+                    text top_description style "journal_desc"
                     null height 40
 
-                text active_obj_desc style "journal_desc"
+                text description style "journal_desc"
 
-                if len(active_obj_desc_conditions_desc) != 0:
+                if len(description_list) != 0:
                     null height 40
-                    text "{u}To unlock you need:{/u}" style "journal_desc"
-                    for desc in active_obj_desc_conditions_desc:
+                    if description_list_title != "":
+                        text description_list_title style "journal_desc"
+                    for desc in description_list:
                         textbutton desc:
                             text_style "journal_desc"
                             yalign 0.5
@@ -642,11 +705,10 @@ screen journal_vote_button(page, display, active_obj):
             if obj_type == 'building':
                 $ probability = calculateProbabilitySum(condition_storage)
             else:
+                $ log_separator()
+                $ log_val('display', display)
                 $ probability = calculateProbabilitySum(
-                    condition_storage, 
-                    get_character("teacher", charList["staff"]),
-                    get_school(),
-                    get_character("parent", charList)
+                    condition_storage
                 )
             $ locked_text = ""
             $ probability_text = str(clamp_value(round(probability, 2))) + "%"
@@ -675,7 +737,7 @@ screen journal_vote_button(page, display, active_obj):
             color "#008800"
             size 30
 
-screen journal_image(page, display, active_obj):
+screen journal_image(page, display, j_image, full_image, x_pos = 985, y_pos = 474, height = 350, wide = False):
     # """
     # A screen used to display the image of the active object in the journal
 
@@ -688,21 +750,28 @@ screen journal_image(page, display, active_obj):
     #     - The active object to display the image for.
     # """
 
-    $ active_obj_image, active_obj_variant = active_obj.get_image(variant = get_random_loli())
-    $ active_obj_full_image, active_obj_variant = active_obj.get_full_image(variant = active_obj_variant)
+    if not renpy.loadable(j_image):
+        $ j_image = "images/journal/empty_image.webp"
+        if wide:
+            $ j_image = "images/journal/empty_image_wide.webp"
+        $ full_image = None
 
-    if not renpy.loadable(active_obj_image):
-        $ active_obj_image = "images/journal/empty_image.webp"
-        $ active_obj_full_image = None
+    $ width = height
+    if wide:
+        $ width = int(height / 9 * 16)
 
-    if active_obj_full_image != None and renpy.loadable(active_obj_full_image):
+    if full_image != None and renpy.loadable(full_image):
         button:
-            xpos 985 yalign 0.65
-            image "[active_obj_image]"
-            action [With(dissolveM), Call("call_max_image_from_journal", active_obj_full_image, page, display)]
+            xpos x_pos ypos y_pos
+            add j_image: 
+                xsize width
+                ysize height
+            action [With(dissolveM), Call("call_max_image_from_journal", full_image, page, display)]
     else:
-        image "[active_obj_image]": 
-            xpos 985 yalign 0.65
+        add j_image: 
+            xsize width
+            ysize height
+            xpos x_pos ypos y_pos
 
 screen journal_cheats_stat(stat, char = "school"):
     # """
@@ -879,11 +948,15 @@ screen journal_money_overview():
                             xsize 300
                         null width 5
                         button:
-                            text "{b}{color=[weekly_net_color]}[net_weekly]{/color}{/b}" style "journal_text_small"
+                            text "{b}{color=[weekly_net_color]}[net_weekly]{/color}{/b}":
+                                style "journal_text_small"
+                                xalign 1.0
                             xsize 95
                         null width 5
                         button:
-                            text "{b}{color=[monthly_net_color]}[net_monthly]{/color}{/b}" style "journal_text_small"
+                            text "{b}{color=[monthly_net_color]}[net_monthly]{/color}{/b}":
+                                style "journal_text_small"
+                                xalign 1.0
                             xsize 95
 
                 null height 3
@@ -917,14 +990,18 @@ screen journal_money_overview():
                                 else:
                                     null width 5
                                     button:
-                                        text "{color=[weekly_color]}[weekly]{/color}" style "journal_text_small"
+                                        text "{color=[weekly_color]}[weekly]{/color}":
+                                            style "journal_text_small"
+                                            xalign 1.0
                                         xsize 95
                                 if monthly == 0:
                                     null width 100
                                 else:
                                     null width 5
                                     button:
-                                        text "{color=[monthly_color]}[monthly]{/color}" style "journal_text_small"
+                                        text "{color=[monthly_color]}[monthly]{/color}":
+                                            style "journal_text_small"
+                                            xalign 1.0
                                         xsize 95
                         $ table_variant = 3 - table_variant
                         null height -2
@@ -934,6 +1011,7 @@ screen journal_money_overview():
                     for name, weekly, monthly in negative_income_list:
                         $ weekly_color = "#00a000"
                         $ monthly_color = "#00a000"
+                        $ reserved_color = "#CCCC00"
 
                         if weekly < 0:
                             $ weekly_color = "#a00000"
@@ -957,14 +1035,18 @@ screen journal_money_overview():
                                 else:
                                     null width 5
                                     button:
-                                        text "{color=[weekly_color]}[weekly]{/color}" style "journal_text_small"
+                                        text "{color=[weekly_color]}[weekly]{/color}":
+                                            style "journal_text_small"
+                                            xalign 1.0
                                         xsize 95
                                 if monthly == 0:
                                     null width 100
                                 else:
                                     null width 5
                                     button:
-                                        text "{color=[monthly_color]}[monthly]{/color}" style "journal_text_small"
+                                        text "{color=[monthly_color]}[monthly]{/color}":
+                                            style "journal_text_small"
+                                            xalign 1.0
                                         xsize 95
                         $ table_variant = 3 - table_variant
                         null height -2
@@ -979,22 +1061,45 @@ screen journal_money_overview():
                             xsize 300
                         null width 5
                         button:
-                            text "{b}{color=[weekly_net_color]}[net_weekly]{/color}{/b}" style "journal_text_small"
+                            text "{b}{color=[weekly_net_color]}[net_weekly]{/color}{/b}":
+                                style "journal_text_small"
+                                xalign 1.0
                             xsize 95
                         null width 5
                         button:
-                            text "{b}{color=[monthly_net_color]}[net_monthly]{/color}{/b}" style "journal_text_small"
+                            text "{b}{color=[monthly_net_color]}[net_monthly]{/color}{/b}":
+                                style "journal_text_small"
+                                xalign 1.0
                             xsize 95
+                if reserved_money != None and len(reserved_money.keys()) != 0:
+                    null height 5
+
+                    $ reserved_total = sum(reserved_money.values())
+
+                    frame:
+                        background Frame("gui/Payroll_Table_3.webp", left=1, top=1, tile = False)
+                        left_padding 0
+                        hbox:
+                            button:
+                                text "{b}Reserved Money{/b}" style "journal_text_small"
+                                xsize 300
+                            null width 5
+                            button:
+                                text "{b}{color=[reserved_color]}[reserved_total]{/color}{/b}":
+                                    style "journal_text_small"
+                                    xalign 1.0
+                                xsize 195
 
         vbar value YScrollValue("MoneyOverview"):
             unscrollable "hide"
             xalign 1.035
 
+# endregion
+##############################
 
-
-############################
-# Main Journals
-############################
+########################
+# region Main Journals #
+########################
 
 # Object Pages
 screen journal_page(page, display):
@@ -1033,7 +1138,7 @@ screen journal_page(page, display):
 
     use journal_page_selector(page, display)
 
-    $ page_title = get_obj_type(page).capitalize()
+    $ page_title = get_translation(get_obj_type(page))
 
     text page_title: 
         xalign 0.25 
@@ -1044,9 +1149,36 @@ screen journal_page(page, display):
     use journal_obj_list(page, display, journal_map)
 
     if display != "":
-        use journal_image(page, display, active_obj)
+        
+        $ image, variant = active_obj.get_image(variant = get_random_loli())
+        $ full_image, variant = active_obj.get_full_image(variant = variant)
 
-        use journal_desc(page, display, active_obj)
+        use journal_image(page, display, image, full_image)
+
+        $ descriptions = {}
+
+        $ descriptions['description'] = active_obj.get_description_str()
+
+        $ action_text = "unlock"
+        $ obj_type = active_obj.get_type()
+        if obj_type == "building" and active_obj.is_unlocked()  and active_obj.has_higher_level():
+            $ action_text = "upgrade"
+
+        $ descriptions['description_list'] = active_obj.get_desc_conditions_desc(cond_type = action_text, char_obj = get_school(), blocking = True)
+        if len(descriptions['description_list']) != 0:
+            $ descriptions['description_list_title'] = "{u}To unlock you need:{/u}"
+
+
+        $ condition_storage = active_obj.get_condition_storage()
+        if obj_type == 'building' and active_obj.can_be_upgraded(char_obj = get_school()):
+            $ condition_storage = active_obj.get_upgrade_conditions(active_obj.get_level())
+        
+        if condition_storage.get_is_locked():
+            $ descriptions['top_description'] = ("This object isn't currently implemented and only acts as a preview of what's to come.\n" +
+                "All values and contents are subject to change.\n" +
+                "----------------------------------------")
+
+        use journal_desc(**descriptions)
 
         use journal_list_conditions(page, active_obj)
 
@@ -1284,6 +1416,7 @@ screen journal_cheats(display, char = "school"):
     $ options = {
         "general": "General",
         "stats": "Stats",
+        "mods": "Mods",
         "rules": "Rules",
         "clubs": "Clubs",
         "buildings": "Buildings",
@@ -1467,6 +1600,45 @@ screen journal_cheats(display, char = "school"):
             vbar value YScrollValue("CheatStatList"):
                 unscrollable "hide"
                 xalign 1.0
+    elif display == "mods":
+        frame:
+            background Solid("#0000")
+            area (950, 200, 560, 690)
+
+            viewport id "CheatModList":
+                mousewheel True
+                draggable "touch"
+
+                vbox:
+                    text "After activating or deactivating mod, you have to refresh the game.\nWorks only in developer mode.":
+                        color "#000000"
+                        size 20
+
+                    null height 20
+
+                    for mod_key in persistent.modList.keys():
+                        $ mod = persistent.modList[mod_key]
+                        if not mod['available']:
+                            continue
+
+                        $ mod_name = mod['name']
+                        $ mod_unlock_text = "{color=#a00000}ACTIVATE{/color}"
+                        if mod['active']:
+                            $ mod_unlock_text = "{color=#00a000}DEACTIVATE{/color}"
+                        text mod_name:
+                            style "buttons_idle"
+                        if mod_name != 'Base Mod':
+                            hbox:
+                                null width 100
+                                button:
+                                    text mod_unlock_text
+                                    action [With(dissolveM), Call("switch_mod", mod_key, not persistent.modList[mod_key]['active'])]
+                        null height 10
+                    
+
+            vbar value YScrollValue("CheatModList"):
+                unscrollable "hide"
+                xalign 1.0
     elif display.startswith("rules"):
         $ rule_keywords = display.split(":")
         if len(rule_keywords) == 1:
@@ -1508,23 +1680,9 @@ screen journal_cheats(display, char = "school"):
                     xalign 1.0
         else:
             $ active_rule = get_rule(rule_keywords[1])
-            $ active_rule_name = active_rule.get_name()
-            $ active_rule_title = active_rule.get_title()
-            $ active_rule_desc = active_rule.get_description_str()
-            $ active_rule_image, variation = active_rule.get_image()
-            $ active_rule_full_image, variation = active_rule.get_full_image(variant = variation)
 
-            if active_rule_full_image != None:
-                button:
-                    xalign 0.63 yalign 0.65
-                    image "[active_rule_image]"
-                    action [With(dissolveM), Call("call_max_image_from_journal", active_rule_full_image, 5, display)]
-            else:
-                image "[active_rule_image]": 
-                    xalign 0.629 yalign 0.647
-        
-            $ active_rule_desc_conditions_desc = active_rule.get_desc_conditions_desc(char_obj = get_school())
-        
+            # title
+            $ active_rule_title = active_rule.get_title()
             text active_rule_title:
                 xpos 989
                 ypos 200
@@ -1533,7 +1691,21 @@ screen journal_cheats(display, char = "school"):
                 ymaximum 50
                 color "#000"
 
-            use journal_desc(page, display, active_rule, True)
+            # image
+            $ active_rule_image, variation = active_rule.get_image()
+            $ active_rule_full_image, variation = active_rule.get_full_image(variant = variation)
+            use journal_image(5, display, active_rule_image, active_rule_full_image)
+
+            # description
+            $ descriptions = {
+                'description': active_rule.get_description_str(),
+                'description_list': active_rule.get_desc_conditions_desc(char_obj = get_school())
+            }
+
+            if len(descriptions['description_list']) != 0:
+                $ descriptions['description_list_title'] = "{u}To unlock you need:{/u}"
+
+            use journal_desc(size = (989, 250, 500, 200), **descriptions)
 
             use journal_list_conditions(page, active_rule)
 
@@ -1579,30 +1751,32 @@ screen journal_cheats(display, char = "school"):
                     xalign 1.0
         else:
             $ active_club = get_club(club_keywords[1])
-            $ active_club_name = active_club.get_name()
-            $ active_club_title = active_club.get_title()
-            $ active_club_desc = active_club.get_description_str()
-            $ active_club_desc_conditions_desc = active_club.get_desc_conditions_desc(char_obj = get_school())
-            $ active_club_image, variation = active_club.get_image()
-            $ active_club_full_image, variation = active_club.get_full_image(variant = variation)
 
-            if active_club_full_image != None:
-                button:
-                    xalign 0.63 yalign 0.65
-                    image "[active_club_image]"
-                    action [With(dissolveM), Call("call_max_image_from_journal", active_club_full_image, 5, display)]
-            else:
-                image "[active_club_image]": 
-                    xalign 0.629 yalign 0.647
-            
+            # title
+            $ active_club_title = active_club.get_title()
             text active_club_title:
                 xpos 989
                 ypos 200
+                size 30
                 xmaximum 500
                 ymaximum 50
                 color "#000"
 
-            use journal_desc(page, display, active_club, True)
+            # image
+            $ active_club_image, variation = active_club.get_image()
+            $ active_club_full_image, variation = active_club.get_full_image(variant = variation)
+            use journal_image(5, display, active_club_image, active_club_full_image)
+
+            # description
+            $ descriptions = {
+                'description': active_club.get_description_str(),
+                'description_list': active_club.get_desc_conditions_desc(char_obj = get_school())
+            }
+
+            if len(descriptions['description_list']) != 0:
+                $ descriptions['description_list_title'] = "{u}To unlock you need:{/u}"
+
+            use journal_desc(size = (989, 250, 500, 200), **descriptions)
 
             use journal_list_conditions(page, active_club)
 
@@ -1665,32 +1839,32 @@ screen journal_cheats(display, char = "school"):
                     xalign 1.0
         else:
             $ active_building = get_building(building_keywords[1])
-            $ active_building_name = active_building.get_name()
-            $ active_building_title = active_building.get_title()
-            $ active_building_desc = active_building.get_description_str()
-            
-            $ active_building_image, variation = active_building.get_image()
-            $ active_building_full_image, variation = active_building.get_full_image(variant = variation)
 
-            if active_building_full_image != None:
-                button:
-                    xalign 0.63 yalign 0.65
-                    image "[active_building_image]"
-                    action Call("call_max_image_from_journal", active_building_full_image, 5, display)
-            else:
-                image "[active_building_image]": 
-                    xalign 0.629 yalign 0.647
-        
-            $ active_building_desc_conditions_desc = active_building.get_desc_conditions_desc(char_obj = get_school())
-        
+            # title
+            $ active_building_title = active_building.get_title()
             text active_building_title:
                 xpos 989
                 ypos 200
+                size 30
                 xmaximum 500
                 ymaximum 50
                 color "#000"
 
-            use journal_desc(page, display, active_building, True)
+            # image
+            $ active_building_image, variation = active_building.get_image()
+            $ active_building_full_image, variation = active_building.get_full_image(variant = variation)
+            use journal_image(5, display, active_building_image, active_building_full_image)
+
+            # description
+            $ descriptions = {
+                'description': active_building.get_description_str(),
+                'description_list': active_building.get_desc_conditions_desc(char_obj = get_school())
+            }
+
+            if len(descriptions['description_list']) != 0:
+                $ descriptions['description_list_title'] = "{u}To unlock you need:{/u}"
+
+            use journal_desc(size = (989, 250, 500, 200), **descriptions)
 
             use journal_list_conditions(page, active_building)
 
@@ -1709,6 +1883,7 @@ screen journal_cheats(display, char = "school"):
                 xalign 0.5
                 text tooltip
 
+# Gallery
 screen journal_gallery(display):
     # """
     # Display the gallery of events and locations that the player has unlocked.
@@ -1756,21 +1931,27 @@ screen journal_gallery(display):
         if get_event_from_register(fragment_selection_fragment) != None:
             persistent.gallery[location][event]['options']['frag_order'][fragment_selection_index] = fragment_selection_fragment
 
-    
+    if location != "" and location not in persistent.gallery.keys():
+        $ location = ""
+        $ event = ""
+    elif event != "" and event not in persistent.gallery[location].keys():
+        $ event = ""    
 
     # if no location is defined 
     if location == "": 
         
         # parse all available location keys to their corresponding buildings
-        $ location_list = [get_building(location_name) for location_name in persistent.gallery.keys() if get_building(location_name) != None]
+        # $ location_list = [get_building(location_name) for location_name in persistent.gallery.keys() if get_building(location_name) != None]
 
-        # map all the buildings with their corresponding names into a dict
-        $ location_dict = {building.get_name(): building.get_title() for building in location_list}
+        # # map all the buildings with their corresponding names into a dict
+        # $ location_dict = {building.get_name(): building.get_title() for building in location_list}
+        $ exclude_keys = ['FragStorage', 'fragment']
+        $ location_dict = {key: get_translation(key) for key in persistent.gallery.keys() if key not in exclude_keys}
 
         # add the miscellaneous location separately as there is no corresponding building
         # miscellaneous represents all events that are not bound to a location
-        if 'misc' in persistent.gallery.keys():
-            $ location_dict['misc'] = "Miscellaneous"
+        # if 'misc' in persistent.gallery.keys():
+        #     $ location_dict['misc'] = "Miscellaneous"
 
         
 
@@ -1918,7 +2099,7 @@ screen journal_gallery(display):
                 $ display_location = "fragment"
 
             if display_event != old_event:
-                $ gallery_chooser = {}
+                $ gallery_chooser = {"values": {}}
                 $ gallery_chooser_order = []
                 $ old_event = display_event
             
@@ -1926,7 +2107,7 @@ screen journal_gallery(display):
             if ('last_data' in base_gallery['options'].keys() and 
                 'last_order' in base_gallery['options'].keys()
             ):
-                $ gallery_chooser = base_gallery['options']['last_data']
+                $ gallery_chooser["values"] = base_gallery['options']['last_data']
                 $ gallery_chooser_order = base_gallery['options']['last_order']
             
             # displays a button that deletes all persistent data for this specific event
@@ -1962,18 +2143,18 @@ screen journal_gallery(display):
                             python:
                                 if variant_name not in gallery_chooser_order:
                                     gallery_chooser_order.append(variant_name)
-                                    gallery_chooser[variant_name] = values[0]
+                                    gallery_chooser["values"][variant_name] = values[0]
                             
                             # get the currently selected value for the current variable
-                            $ value = gallery_chooser[variant_name]
+                            $ value = gallery_chooser["values"][variant_name]
                             
                             # if value is not in current variable set because of differing sets on this tree path, select first value in list
                             python:
                                 if value not in values:
-                                    gallery_chooser[variant_name] = values[0]
+                                    gallery_chooser["values"][variant_name] = values[0]
                             
                             # get the gallery data tree starting from this variable so the next variable can work with that
-                            $ gallery_dict = gallery_dict[gallery_chooser[variant_name]]
+                            $ gallery_dict = gallery_dict[gallery_chooser["values"][variant_name]]
                             
                             # checks if there is more than one selection possible and only then displays a value list,
                             # otherwise the only selection possible is selected by default and will not be displayed in the overview
@@ -2000,8 +2181,8 @@ screen journal_gallery(display):
                                         if len(filtered_values) == 0:
                                             
                                             python:
-                                                if gallery_chooser[variant_name] not in filtered_values:
-                                                    gallery_chooser[variant_name] = None
+                                                if gallery_chooser["values"][variant_name] not in filtered_values:
+                                                    gallery_chooser["values"][variant_name] = None
                                                     update_gallery_chooser(gallery_chooser_order, gallery_chooser, base_gallery['values'])
                                             $ disable_play = True
                                         else:
@@ -2010,14 +2191,14 @@ screen journal_gallery(display):
                                             for value in sorted(filtered_values):
                                                 $ has_option = True
                                                 $ value_text = get_gallery_value_title(variant_name, display_location, display_event, value)
-                                                if value == gallery_chooser[variant_name]:
+                                                if value == gallery_chooser["values"][variant_name]:
                                                     textbutton "[value_text]":
                                                         text_style "buttons_selected"
                                                         action NullAction()
                                                 else:
                                                     textbutton "[value_text]":
                                                         text_style "buttons_idle"
-                                                        action [With(dissolveM), SetDict(gallery_chooser, variant_name, value), SetVariable('gallery_chooser', update_gallery_chooser(gallery_chooser_order, gallery_chooser, base_gallery['values']))]
+                                                        action [With(dissolveM), SetDict(gallery_chooser["values"], variant_name, value), SetVariable('gallery_chooser', update_gallery_chooser(gallery_chooser_order, gallery_chooser, base_gallery['values']))]
                         
                 bar value XScrollValue("GallerySelectionOverview"):
                     unscrollable "hide"
@@ -2030,7 +2211,7 @@ screen journal_gallery(display):
             
             # saves the current selection for this event in the persistent gallery data so the selection is maintained between sessions
             if not disable_play:
-                $ base_gallery['options']['last_data'] = gallery_chooser
+                $ base_gallery['options']['last_data'] = gallery_chooser["values"]
                 $ base_gallery['options']['last_order'] = gallery_chooser_order
         
         if has_option and event_obj.get_form() != "composite":
@@ -2127,6 +2308,10 @@ screen journal_gallery(display):
                 xalign 0.5
                 text tooltip
 
+
+image pBannerI = im.Scale("images/journal/journal/patreon banner idle.webp", 500, 262)
+image pBannerH = im.Scale("images/journal/journal/patreon banner hover.webp", 500, 262)
+# Credits
 screen journal_credits(display):
     # """
     # A screen used to display the credits in the journal
@@ -2214,8 +2399,8 @@ screen journal_credits(display):
                     size 30
                     color "#000000"
             imagebutton:
-                idle "journal/journal/patreon banner idle.webp"
-                hover "journal/journal/patreon banner hover.webp"
+                idle "pBannerI"
+                hover "pBannerH"
                 action Call("open_patreon_link")
             null height 20
 
@@ -2262,6 +2447,7 @@ screen journal_credits(display):
                 xalign 0.5
                 text tooltip
 
+# Goals
 screen journal_goals(display):
     tag interaction_overlay
     modal True
@@ -2281,76 +2467,140 @@ screen journal_goals(display):
         size 60
         color "#000"
 
+    python:
+        show_note = get_setting("journal_goals_show_note_setting")
+        note_tooltip = "Show quests as a hint"
+        if show_note:
+            note_tooltip = "Don't show quests as a hint"
+
+    button:
+        xalign 0.45
+        yalign 0.15
+        image "images/icons/info.webp"
+        action Function(set_setting, "journal_goals_show_note_setting", not get_setting("journal_goals_show_note_setting"))
+        tooltip note_tooltip
+
+    python:
+
+        show_completed = get_setting("journal_goals_show_completed")
+
+        if show_completed == None:
+            show_completed = False
+            set_setting("journal_goals_show_completed", False)
+
     frame:
         # background Solid("#00000090")
         background Solid("#00000000")
         area (330, 300, 560, 600)
 
-        hbox:
-            viewport id "goals text 1":
+        viewport id "GoalList":
+            mousewheel True
+            draggable "touch"
+
+            vbox:
+                $ category_num = 0
+                $ categories = list(quests.keys())
+                $ categories.sort(key=lambda x: get_translation(x))
+
+                for category in categories:
+                    $ quests_list = [quest for quest in quests[category].keys() if (quests[category][quest].is_active() or (quests[category][quest].show_prematurely() and get_setting("journal_goals_show_note_setting"))) and (show_completed or not quests[category][quest].all_active_done())]
+                    $ quest_list = [(get_translation(quest) if not quests[category][quest].all_active_done() else set_text_color(get_translation(quest), "#00a000"), f"{category}-?-{quest}") for quest in quests_list]
+                    $ quest_list.sort(key=lambda x: x[0])
+                    if len(quest_list) > 0:
+                        $ category_num += 1
+                        if display == "":
+                            $ display = quest_list[0][1]
+                        use journal_foldable_list(get_translation(category), 8, display, quest_list, f"quests_{category}_foldable_setting")
+
+                if category_num == 0:
+                    text "There are currently no quests :(" style "journal_text"
+
+        vbar value YScrollValue("GoalList"):
+            unscrollable "hide"
+            xalign 1.04
+
+    if show_completed:
+        button:
+            xalign 0.38
+            yalign 0.25
+            text "Hide Completed Quests":
+                style "journal_desc"
+            action [With(dissolveM), Function(set_setting, "journal_goals_show_completed", False)]
+    else:
+        button:
+            xalign 0.38
+            yalign 0.25
+            text "Show Completed Quests":
+                style "journal_desc"
+            action [With(dissolveM), Function(set_setting, "journal_goals_show_completed", True)]
+
+    if display != "":
+
+        $ category, quest_key = display.split('-?-')
+        $ quest = get_quest(category, quest_key)
+
+        $ quest_description = quest.get_description()
+
+        use journal_image(8, display, quest.get_thumbnail(), quest.get_thumbnail().replace('.webp', '_full.webp'), y_pos = 200, height = 280, wide = True)
+
+        frame:
+            # background Solid("#00000090")
+            background Solid("#00000000")
+            area (960, 480, 500, 500)
+            
+            viewport id "ProgressList":
                 mousewheel True
                 draggable "touch"
 
                 vbox:
-                    text "This currently is a placeholder for the goals screen.":
-                        style "journal_text"
-                        size 25
+                    null height 10 
+                    text quest_description style "journal_desc"
+
                     null height 20
-                    text "For now just visit the different locations and run through the different events to improve your stats.":
-                        style "journal_text"
-                        size 25
-                    text "You'll get notfied when you've seen all the different events. There will be no notification though on the different variants of the events.":
-                        style "journal_text"
-                        size 25
-                    null height 20
-                    text "You'll also get notified when you improved the stats to the point where there would be no new content with further improved stats.":
-                        style "journal_text"
-                        size 25
-                    text "This notification will only come on if all the stats have reached that point.":
-                        style "journal_text"
-                        size 25
-            vbar value YScrollValue("goals text 1"):
+
+                    for i, goal in quest.get_active_goals().items():
+                        $ goal_finished = "☐"
+                        if goal.is_completed():
+                            $ goal_finished = "☑"
+                        $ goal_text = f"{goal_finished}  {i}. {goal.get_description()}"
+
+                        python:
+                            display_goal = get_setting(f"show_goal_{goal.get_key()}")
+
+                            if display_goal == None:
+                                display_goal = True
+                                set_setting(f"show_goal_{goal.get_key()}", True)
+
+                            arrow = "▲  " if display_goal else "▼  "
+
+                            goal_text = arrow + goal_text
+
+                        button:
+                            text goal_text: 
+                                style "journal_desc"
+                            action Function(set_setting, f"show_goal_{goal.get_key()}", not display_goal)
+
+                        if display_goal:
+                            $ progress_list = goal.get_progress()
+                            if isinstance(progress_list, list):
+                                for progress in progress_list:
+                                    $ progress_text = f"    {progress}"
+                                    text progress_text style "journal_desc_small"
+                            else:
+                                $ progress_text = f"    {progress_list}"
+                                text progress_text style "journal_desc_small"
+
+                    if quest.all_active_done():
+                        null height 30
+
+                        $ final_text = quest.get_finished_description()
+
+                        text final_text style "journal_text"
+
+            vbar value YScrollValue("ProgressList"):
                 unscrollable "hide"
-                xalign 1.0
+                xalign 1.04
 
-    frame:
-        # background Solid("#00000090")
-        background Solid("#00000000")
-        area (960, 300, 560, 600)
-
-        hbox:
-            viewport id "goals text 2":
-                mousewheel True
-                draggable "touch"
-
-                vbox:
-                    text "Currently there are 2 Rules and 1 Building to unlock.":
-                        style "journal_text"
-                        size 25
-                    null height 20
-                    text "Please keep in mind, the events are randomized according to the location and the current level.":
-                        style "journal_text"
-                        size 25
-                    text "Some events have a positive and some a negative effect. If you don't like this rng component, well that's just how it is.":
-                        style "journal_text"
-                        size 25
-                    text "Life is not fair and so it only makes sense to have some events reflect that.":
-                        style "journal_text"
-                        size 25
-                    null height 40
-                    text "If you want more information, feel free to check out the Walkthrough on my Wiki Page:":
-                        style "journal_text"
-                        size 25
-                    null height 20
-                    textbutton "Walkthrough {image=icons/share.webp}":
-                        text_style "buttons_idle"
-                        action Call('open_wiki_page')
-
-                    
-
-            vbar value YScrollValue("goals text 2"):
-                unscrollable "hide"
-                xalign 1.0
 
     $ tooltip = GetTooltip()
     if tooltip:
@@ -2362,14 +2612,237 @@ screen journal_goals(display):
                 xalign 0.5
                 text tooltip
 
+screen journal_character(display):
 
-############################
-# Journal Methods
-############################
+    tag interaction_overlay
+    modal True
+
+    use school_overview_map
+    use school_overview_stats
+
+    image "journal/journal/background.webp"
+
+    use journal_page_selector(9, display, char)
+
+    key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
+
+    $ display_values = display.split(':')
+
+    $ char_key = ""
+    $ char_name = ""
+    $ char_image = 0
+
+
+    if len(display_values) >= 1:
+        $ char_key = display_values[0]
+    if len(display_values) >= 2:
+        $ char_name = display_values[1]
+    if len(display_values) >= 3:
+        $ char_image = int(display_values[2])
+
+    if char_name == "":
+        # left side
+        # displays all patrons with teacher tier subscription on Patreon
+        frame:
+            background Solid("#00000000")
+            area (350, 200, 500, 750)
+
+            vbox:
+                text "Characters":
+                    size 40
+                    color "#000000"
+                null height 20
+                hbox:
+                    viewport id "journal_character_keys":
+                        mousewheel True
+                        draggable "touch"
+
+                        vbox:
+                            for character_key in person_storage.keys():
+                                if character_key == "NoView":
+                                    continue
+                                $ button_style = "buttons_idle"
+                                if character_key == char_key:
+                                    $ button_style = "buttons_selected"
+                                $ key_title = get_translation(character_key)
+                                textbutton key_title:
+                                    text_style button_style
+                                    action [With(dissolveM), Call("open_journal", 9, character_key)]
+                    vbar value YScrollValue("journal_character_keys"):
+                        unscrollable "hide"
+                        xalign 1.0
+
+        if char_key != "":
+            frame:
+                background Solid("#00000000")
+                area (960, 200, 500, 700)
+
+                viewport id "journal_character_values":
+                    mousewheel True
+                    draggable "touch"
+                    $ grid_rows = int((len(person_storage[char_key].keys()) + 1) / 2)
+
+                    grid 2 grid_rows:
+                        spacing 4
+
+                        for character_name in person_storage[char_key].keys():
+                            $ name_title = get_translation(character_name)
+
+                            button:
+                                xsize 240
+                                vbox:
+                                    image person_storage[char_key][character_name].get_thumbnail():
+                                        xsize 240
+                                        ysize 427
+                                    text name_title:
+                                        xsize 240
+                                        style "buttons_idle"
+                                action [With(dissolveM), Call("open_journal", 9, f"{char_key}:{character_name}:-1")]
+                vbar value YScrollValue("journal_character_values"):
+                    unscrollable "hide"
+                    xalign 1.05
+
+    else:
+        $ character = person_storage[char_key][char_name]
+        $ character_images = character.get_portraits()
+        $ character_images_length = len(character_images.keys())
+        $ character_thumbnail = character.get_thumbnail()
+
+        if char_image == -1:
+            $ char_images_keys = character_images.keys()
+            $ i = 0
+            for key in char_images_keys:
+                if character_images[key] == character_thumbnail:
+                    $ char_image = i
+                    break
+                $ i += 1
+
+        if char_image < 0:
+            $ char_image = 0
+
+        if char_image >= character_images_length:
+            $ char_image = character_images_length - 1
+
+        $ character_images_key = list(character_images.keys())[char_image]
+        $ character_image = character_images[character_images_key]
+
+        frame:
+            background Solid("#00000000")
+            area (350, 150, 500, 800)
+
+            vbox:
+                hbox:
+                    xsize 500
+                    textbutton "<- Return":
+                        xalign 0.0
+                        text_style "buttons_idle"
+                        action [With(dissolveM), Call("open_journal", 9, f"{char_key}")]
+                    
+                    $ idle_image = "images/icons/favorite_disabled.webp"
+                    $ hover_image = "images/icons/favorite_enabled.webp"
+                    if character_image == character_thumbnail:
+                        $ idle_image = "images/icons/favorite_enabled.webp"
+                        $ hover_image = "images/icons/favorite_disabled.webp"
+
+                    imagebutton:
+                        idle idle_image
+                        hover hover_image
+                        xsize 50
+                        ysize 50
+                        xalign 1.0
+                        action Function(character.set_thumbnail, character_image)
+
+                hbox:
+                    xsize 500
+                    hbox:
+                        xalign 0.5
+                        if char_image != 0:
+                            textbutton "<":
+                                xsize 50
+                                text_style "buttons_idle"
+                                action [With(dissolveM), Call("open_journal", 9, f"{char_key}:{char_name}:{char_image - 1}")]
+                        else:
+                            null width 50
+                        button:
+                            xsize 300
+                            text character_images_key:
+                                xalign 0.5
+                                style "journal_text"
+                        if char_image < character_images_length - 1:
+                            textbutton ">":
+                                xsize 50
+                                text_style "buttons_idle"
+                                action [With(dissolveM), Call("open_journal", 9, f"{char_key}:{char_name}:{char_image + 1}")]
+                        else:
+                            null width 50
+
+                null height 20
+
+                image character_image:
+                    xsize 393
+                    ysize 700
+                    xalign 0.5
+
+        frame:
+            background Solid("#00000000")
+            area (960, 200, 500, 700)
+
+            vbox:
+                text get_translation(character.get_name()):
+                    size 40
+                    color "#000000"
+                
+                null height 20
+
+                viewport id "journal_character_description":
+                    mousewheel True
+                    draggable "touch"
+
+                    $ character_description = character.get_description_str()
+                    text character_description:
+                        style "journal_text"
+
+                vbar value YScrollValue("journal_character_description"):
+                    unscrollable "hide"
+                    xalign 1.05
+
+    $ tooltip = GetTooltip()
+    if tooltip:
+        nearrect:
+            focus "tooltip"
+            prefer_top True
+
+            frame:
+                xalign 0.5
+                text tooltip
+
+# endregion
+########################
+
+##########################
+# region Journal Methods #
+##########################
+
+####################
+# region Open Link #
+
+label open_patreon_link():
+    # """
+    # Opens the patreon page in the default browser
+    # """
+
+    $ renpy.run(OpenURL(patreon))
+    call open_journal(6, "") from open_patreon_link_1
 
 label open_wiki_page():
     $ renpy.run(OpenURL(wiki))
     call open_journal(8, "") from open_wiki_page_1
+
+# endregion
+####################
+
+##################
+# region Gallery #
 
 label reset_event_gallery(location, event):
     # """
@@ -2400,11 +2873,10 @@ label dump_gallery_data(page, display):
     #     - the display to be opened after the reset
     # """
 
-    $ log_val('Gallery Data', persistent.gallery)
-
     $ renpy.notify("Dumped gallery data!")
 
     call open_journal(page, display) from dump_gallery_data_1
+
 label reset_gallery_cheat(page, display):
     # """
     # Clears the persistent data for the entire gallery in persistent.gallery
@@ -2451,6 +2923,7 @@ label start_gallery_composite_replay(location, event, gallery_chooser, fragments
     $ gallery_chooser['event_obj'] = event_obj
     $ gallery_chooser['event_type'] = event_obj.event_type
     $ gallery_chooser['event_form'] = 'composite'
+    $ gallery_chooser['image_patterns'] = event_obj.get_pattern()
 
     $ gallery_chooser['decision_data'] = persistent.gallery[location][event]['decisions']
 
@@ -2495,6 +2968,10 @@ label start_gallery_replay(location, event, gallery_chooser, display):
     $ gallery_chooser['in_event'] = True
     $ gallery_chooser['event_name'] = event
 
+    $ event_obj = get_event_from_register(event)
+
+    $ gallery_chooser['image_patterns'] = event_obj.get_pattern()
+
     $ gallery_chooser['decision_data'] = persistent.gallery[location][event]['decisions']
     $ replay_data = gallery_chooser
     
@@ -2503,67 +2980,67 @@ label start_gallery_replay(location, event, gallery_chooser, display):
     # call event
     $ renpy.call(event, **gallery_chooser)
 
-label set_time_cheat(page, display, **kwargs):
+# endregion
+##################
+
+#########################
+# region Journal Helper #
+
+label set_journal_setting(page, display, setting, value):
     # """
-    # Sets the time to a specific date and time
+    # Sets a specific setting in the journal
 
     # ### Parameters:
     # 1. page: int
     #     - the page to be opened after the time change
     # 2. display: str
     #     - the display to be opened after the time change
-    # 3. **kwargs: dict
-    #     - the time to be set
-    #     - day: int
-    #         - the day to be set
-    #     - month: int
-    #         - the month to be set
-    #     - year: int
-    #         - the year to be set
-    #     - daytime: int
-    #         - the daytime to be set
+    # 3. setting: str
+    #     - the setting to be set
+    # 4. value: bool
+    #     - the value to be set
     # """
 
-    $ time.set_time(**kwargs)
+    $ set_setting("journal_setting_" + str(page) + "_" + setting, value)
+    call open_journal(page, display) from set_journal_setting_1
 
-    # checks if the time set is before the actual start if the game
-    if time.compare_now(10, 1, 2023, 2) == -1:
-        $ time.set_time(day = 10, month = 1, year = 2023, daytime = 2)
-
-    call open_journal(page, display) from set_time_cheat_1
-
-label change_time_cheat(page, display, **kwargs):
+label call_max_image_from_journal(image_path, journal, display):
     # """
-    # Adds a specific amount of time to the current time
-    #
+    # Calls the max_image screen with the given image path and opens the journal afterwards
+
     # ### Parameters:
-    # 1. page: int
-    #     - the page to be opened after the time change
-    # 2. display: str
-    #     - the display to be opened after the time change
-    # 3. **kwargs: dict
-    #     - the time to be added
-    #     - day: int
-    #         - the days to be added
-    #     - month: int
-    #         - the months to be added
-    #     - year: int
-    #         - the years to be added
-    #     - daytime: int
-    #         - the daytime to be added
+    # 1. image_path: str
+    #     - the path to the image to be displayed
+    # 2. journal: int
+    #     - the page to be opened after the image is displayed
+    # 3. display: str
+    #     - the display to be opened after the image is displayed
     # """
 
-    $ time.add_time(**kwargs)
+    hide screen school_overview_buttons
+    call screen max_image_from_journal(image_path, journal, display) with dissolveM
 
-    # checks if the time set is before the actual start if the game
-    if time.compare_today(10, 1, 2023) == -1:
-        $ time.set_time(day = 10, month = 1, year = 2023, daytime = time.get_daytime())
+label call_max_image_from_cheats(image_path, journal, display):
+    # """
+    # Calls the max_image screen with the given image path and opens the journal afterwards
 
-    # checks if the time set is before the actual start if the game
-    if time.compare_now(10, 1, 2023, 2) == -1:
-        $ time.set_time(day = 10, month = 1, year = 2023, daytime = 2)
+    # ### Parameters:
+    # 1. image_path: str
+    #     - the path to the image to be displayed
+    # 2. journal: int
+    #     - the page to be opened after the image is displayed
+    # 3. display: str
+    #     - the display to be opened after the image is displayed
+    # """
 
-    call open_journal(page, display) from change_time_cheat_1
+    hide screen school_overview_buttons
+    call screen max_image_from_journal(image_path, journal, display) with dissolveM
+
+# endregion
+#########################
+
+########################
+# region Cheat Methods #
 
 label switch_debug_mode(page, display, value = None):
     # """
@@ -2645,63 +3122,71 @@ label switch_time_freeze(page, display, value = None):
         $ renpy.notify("Time is not frozen anymore!")
     call open_journal(page, display) from switch_time_freeze_1
 
-label open_patreon_link():
+label set_time_cheat(page, display, **kwargs):
     # """
-    # Opens the patreon page in the default browser
-    # """
-
-    $ renpy.run(OpenURL(patreon))
-    call open_journal(6, "") from open_patreon_link_1
-
-label set_journal_setting(page, display, setting, value):
-    # """
-    # Sets a specific setting in the journal
+    # Sets the time to a specific date and time
 
     # ### Parameters:
     # 1. page: int
     #     - the page to be opened after the time change
     # 2. display: str
     #     - the display to be opened after the time change
-    # 3. setting: str
-    #     - the setting to be set
-    # 4. value: bool
-    #     - the value to be set
+    # 3. **kwargs: dict
+    #     - the time to be set
+    #     - day: int
+    #         - the day to be set
+    #     - month: int
+    #         - the month to be set
+    #     - year: int
+    #         - the year to be set
+    #     - daytime: int
+    #         - the daytime to be set
     # """
 
-    $ set_game_data("journal_setting_" + str(page) + "_" + setting, value)
-    call open_journal(page, display) from set_journal_setting_1
+    $ time.set_time(**kwargs)
 
-label call_max_image_from_journal(image_path, journal, display):
+    # checks if the time set is before the actual start if the game
+    if time.compare_now(10, 1, 2023, 2) == -1:
+        $ time.set_time(day = 10, month = 1, year = 2023, daytime = 2)
+
+    call open_journal(page, display) from set_time_cheat_1
+
+label change_time_cheat(page, display, **kwargs):
     # """
-    # Calls the max_image screen with the given image path and opens the journal afterwards
-
+    # Adds a specific amount of time to the current time
+    #
     # ### Parameters:
-    # 1. image_path: str
-    #     - the path to the image to be displayed
-    # 2. journal: int
-    #     - the page to be opened after the image is displayed
-    # 3. display: str
-    #     - the display to be opened after the image is displayed
+    # 1. page: int
+    #     - the page to be opened after the time change
+    # 2. display: str
+    #     - the display to be opened after the time change
+    # 3. **kwargs: dict
+    #     - the time to be added
+    #     - day: int
+    #         - the days to be added
+    #     - month: int
+    #         - the months to be added
+    #     - year: int
+    #         - the years to be added
+    #     - daytime: int
+    #         - the daytime to be added
     # """
 
-    hide screen school_overview_buttons
-    call screen max_image_from_journal(image_path, journal, display) with dissolveM
+    $ time.add_time(**kwargs)
 
-label call_max_image_from_cheats(image_path, journal, display):
-    # """
-    # Calls the max_image screen with the given image path and opens the journal afterwards
+    # checks if the time set is before the actual start if the game
+    if time.compare_today(10, 1, 2023) == -1:
+        $ time.set_time(day = 10, month = 1, year = 2023, daytime = time.get_daytime())
 
-    # ### Parameters:
-    # 1. image_path: str
-    #     - the path to the image to be displayed
-    # 2. journal: int
-    #     - the page to be opened after the image is displayed
-    # 3. display: str
-    #     - the display to be opened after the image is displayed
-    # """
+    # checks if the time set is before the actual start if the game
+    if time.compare_now(10, 1, 2023, 2) == -1:
+        $ time.set_time(day = 10, month = 1, year = 2023, daytime = 2)
 
-    hide screen school_overview_buttons
-    call screen max_image_from_journal(image_path, journal, display) with dissolveM
+    call open_journal(page, display) from change_time_cheat_1
+
+label switch_mod(mod_key, state):
+    $ persistent.modList[mod_key]['active'] = state
+    call open_journal(5, 'mods') from call_open_journal_switch_mod_1
 
 label switch_rule(rule_name):
     # """
@@ -2772,6 +3257,12 @@ label modify_stat(stat, amount, char = "school"):
         $ char_obj.change_stat(stat, amount)
     call open_journal(5, "stats", char) from modify_stat_1
 
+# endregion
+########################
+
+#########################
+# region Propose Object #
+
 label add_to_proposal(data, page, display, action = "unlock"):
     # """
     # Adds a specific object to the proposal for voting
@@ -2789,8 +3280,23 @@ label add_to_proposal(data, page, display, action = "unlock"):
     #     - if action is "upgrade" the object is added to the proposal for upgrading
     # """
 
+    $ currentProposal = get_game_data("voteProposal")
+
+    if currentProposal != None:
+        $ vote_obj = currentProposal._journal_obj
+        $ money_conditions = [condition for condition in vote_obj.get_conditions() if isinstance(condition, MoneyCondition)]
+        python:
+            for condition in money_conditions:
+                release_money("vote_" + condition.get_name() + "_" + vote_obj.get_name())
+
+    $ money_conditions = [condition for condition in data.get_conditions() if isinstance(condition, MoneyCondition)]
+    python:
+        for condition in money_conditions:
+            reserve_money("vote_" + condition.get_name() + "_" + data.get_name(), condition.value)
+
     $ proposal = PTAProposal(data, action)
     $ set_game_data("voteProposal", proposal)
+    $ update_quest("schedule_voting", proposal = proposal)
     call open_journal(page, display) from add_to_proposal_1
 
 label add_rule_to_proposal(rule_name):
@@ -2863,3 +3369,9 @@ label add_building_to_proposal(building_name):
             Call("open_journal", 4, building_name))
 
     call add_to_proposal(building, 4, building_name, action) from add_building_to_proposal_2
+
+# endregion
+#########################
+
+# endregion
+##########################

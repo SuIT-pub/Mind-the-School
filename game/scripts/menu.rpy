@@ -1,72 +1,9 @@
 init python:
     from typing import Tuple, Union, List
 
-    def call_custom_menu(with_leave: bool = True, *elements: str | Effect | List[Effect] | Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool], **kwargs) -> None:
-        """
-        Calls a custom menu with the given elements and the given text and person.
-
-        ### Parameters
-        1. with_leave : bool, (default True)
-            - Whether or not to display a leave button.
-        2. *elements : Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool]
-            - The elements to display in the menu. Each element is a tuple of the form (title, event_label, active), (title, effect, active) or (title, effect_list, active). The active parameter is optional and defaults to True.
-        """
-
-        in_event = get_kwargs('in_event', False, **kwargs)
-        in_replay = get_kwargs('in_replay', False, **kwargs)
-
-        if in_event and in_replay:
-            made_decisions = get_kwargs('made_decisions', [], **kwargs)
-            decision_data = get_kwargs('decision_data', {}, **kwargs)
-            possible_decisions = get_decision_possibilities(decision_data, made_decisions)
-            elements = [tupleEl for tupleEl in elements if str(tupleEl) in possible_decisions or (isinstance(tupleEl, Tuple) and str(tupleEl[1]) in possible_decisions)]
-            
-        filtered_elements = [tupleEl for tupleEl in elements if not isinstance(tupleEl, Tuple) or len(tupleEl) == 2 or tupleEl[2]]
-
-        if len(filtered_elements) == 0:
-            character.dev ("Oops something went wrong here. There seems to be nothing to choose from. Sry about that. I'll send you back to the map.")
-            # character.dev (f"Error Code: [101]{kwargs['event_name']}:{';'.join([tag.split('.')[1] for tag in made_decisions])}")
-            renpy.jump("map_overview")
-
-        renpy.call("call_menu", None, None, with_leave, *filtered_elements, **kwargs)
-
-    def call_custom_menu_with_text(text: str, person: Person = character.subtitles, with_leave: bool = True, *elements: str | Effect | List[Effect] | Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool], **kwargs) -> None:
-        """
-        Calls a custom menu with the given elements and the given text and person.
-
-        ### Parameters
-        1. text : str
-            - The text to display below the menu.
-        2. person : Person
-            - The person to display saying the text.
-        3. with_leave : bool, (default True)
-            - Whether or not to display a leave button.
-        4. *elements : Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool]
-            - The elements to display in the menu. Each element is a tuple of the form (title, event_label, active), (title, effect, active) or (title, effect_list, active). The active parameter is optional and defaults to True.
-
-        """
-
-        in_event = get_kwargs('in_event', False, **kwargs)
-        in_replay = get_kwargs('in_replay', False, **kwargs)
-        no_gallery = get_kwargs("no_gallery", False, **kwargs)
-
-        disabled_elements = [element for element in elements if isinstance(element, str) and not check_for_label_existence(element)]
-
-        if in_event and in_replay and not no_gallery:
-            made_decisions = get_kwargs('made_decisions', [], **kwargs)
-            decision_data = get_kwargs('decision_data', {}, **kwargs)
-            possible_decisions = get_decision_possibilities(decision_data, made_decisions)
-            elements = [tupleEl for tupleEl in elements if (str(tupleEl) in possible_decisions or (isinstance(tupleEl, Tuple) and str(tupleEl[1]) in possible_decisions)) and not str(tupleEl) in disabled_elements]
-
-        filtered_elements = [tupleEl for tupleEl in elements if not isinstance(tupleEl, Tuple) or len(tupleEl) == 2 or tupleEl[2]]
-        
-        if len(filtered_elements) == 0:
-            character.dev ("Oops something went wrong here. There seems to be nothing to choose from. Sry about that. I'll send you back to the map.")
-            # character.dev (f"Error Code: [101]{kwargs['event_name']}:{';'.join([tag.split('.')[1] for tag in made_decisions])}")
-            renpy.jump("map_overview")
-
-
-        renpy.call("call_menu", text, person, with_leave, *filtered_elements, **kwargs)
+    ###############################
+    # region Menu Data Refinement #
+    ###############################
 
     def check_for_label_existence(label: str) -> bool:
         """
@@ -139,7 +76,90 @@ init python:
                 blocked_events.append(title)
 
         return output, high_prio_events, blocked_events
+
+    # endregion
+    ###############################
+
+    ############################
+    # region Call Menu Methods #
+    ############################
+
+    def call_custom_menu(with_leave: bool = True, *elements: Union[str, Effect, List[Effect], Tuple[str, Union[str, Effect, List[Effect]], bool]], **kwargs) -> None:
+        """
+        Calls a custom menu with the given elements and the given text and person.
+
+        ### Parameters
+        1. with_leave : bool, (default True)
+            - Whether or not to display a leave button.
+        2. *elements : Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool]
+            - The elements to display in the menu. Each element is a tuple of the form (title, event_label, active), (title, effect, active) or (title, effect_list, active). The active parameter is optional and defaults to True.
+        """
+
+        in_event = get_kwargs('in_event', False, **kwargs)
+        in_replay = get_kwargs('in_replay', False, **kwargs)
+
+        if in_event and in_replay:
+            made_decisions = get_kwargs('made_decisions', [], **kwargs)
+            decision_data = get_kwargs('decision_data', {}, **kwargs)
+            possible_decisions = get_decision_possibilities(decision_data, made_decisions)
+            elements = [tupleEl for tupleEl in elements if str(tupleEl) in possible_decisions or (isinstance(tupleEl, Tuple) and str(tupleEl[1]) in possible_decisions)]
+            
+        filtered_elements = [tupleEl for tupleEl in elements if not isinstance(tupleEl, Tuple) or len(tupleEl) == 2 or tupleEl[2]]
+
+        if len(filtered_elements) == 0:
+            character.dev ("Oops something went wrong here. There seems to be nothing to choose from. Sry about that. I'll send you back to the map.")
+            # character.dev (f"Error Code: [101]{kwargs['event_name']}:{';'.join([tag.split('.')[1] for tag in made_decisions])}")
+            renpy.jump("map_overview")
+
+        renpy.force_autosave(True)
+
+        renpy.call("call_menu", None, None, with_leave, *filtered_elements, **kwargs)
+
+    def call_custom_menu_with_text(text: str, person: Character = character.subtitles, with_leave: bool = True, *elements: Union[str, Effect, List[Effect], Tuple[str, Union[str, Effect, List[Effect]]], Tuple[str, Union[str, Effect, List[Effect]], bool]], **kwargs) -> None:
+        """
+        Calls a custom menu with the given elements and the given text and person.
+
+        ### Parameters
+        1. text : str
+            - The text to display below the menu.
+        2. person : Person
+            - The person to display saying the text.
+        3. with_leave : bool, (default True)
+            - Whether or not to display a leave button.
+        4. *elements : Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool]
+            - The elements to display in the menu. Each element is a tuple of the form (title, event_label, active), (title, effect, active) or (title, effect_list, active). The active parameter is optional and defaults to True.
+
+        """
+
+        in_event = get_kwargs('in_event', False, **kwargs)
+        in_replay = get_kwargs('in_replay', False, **kwargs)
+        no_gallery = get_kwargs("no_gallery", False, **kwargs)
+
+        disabled_elements = [element for element in elements if isinstance(element, str) and not check_for_label_existence(element)]
+
+        if in_event and in_replay and not no_gallery:
+            made_decisions = get_kwargs('made_decisions', [], **kwargs)
+            decision_data = get_kwargs('decision_data', {}, **kwargs)
+            possible_decisions = get_decision_possibilities(decision_data, made_decisions)
+            elements = [tupleEl for tupleEl in elements if (str(tupleEl) in possible_decisions or (isinstance(tupleEl, Tuple) and str(tupleEl[1]) in possible_decisions)) and not str(tupleEl) in disabled_elements]
+
+        filtered_elements = [tupleEl for tupleEl in elements if not isinstance(tupleEl, Tuple) or len(tupleEl) == 2 or tupleEl[2]]
         
+        if len(filtered_elements) == 0:
+            character.dev ("Oops something went wrong here. There seems to be nothing to choose from. Sry about that. I'll send you back to the map.")
+            # character.dev (f"Error Code: [101]{kwargs['event_name']}:{';'.join([tag.split('.')[1] for tag in made_decisions])}")
+            renpy.jump("map_overview")
+
+        renpy.force_autosave(True)
+
+        renpy.call("call_menu", text, person, with_leave, *filtered_elements, **kwargs)
+
+    # endregion
+    ############################
+
+###########################
+# region Call Menu Labels #
+###########################
 
 # calls a menu with the given elements
 label call_menu(text, person, with_leave = True, *elements, **kwargs):
@@ -170,7 +190,7 @@ label call_menu(text, person, with_leave = True, *elements, **kwargs):
             $ title, effects, _active = elements[0]
         $ renpy.call("call_element", title, effects, **kwargs)
 
-    $ p_text = Character(kind = person)
+    $ p_text = Character(kind = person, retain = False)
 
     if text != None and person != None:
         p_text "[text]" (interact = False)
@@ -182,7 +202,6 @@ label call_menu(text, person, with_leave = True, *elements, **kwargs):
     while (True):
         show screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
         $ renpy.pause(hard = True)
-        
 
 # calls a menu specialized in use for events
 label call_event_menu(text, events, fallback, person = character.subtitles, **kwargs):
@@ -225,90 +244,12 @@ label call_event_menu(text, events, fallback, person = character.subtitles, **kw
 
     jump new_daytime
 
-# calls the effect of a selected choice
-label call_element(key, effects, **kwargs):
-    # """
-    # Calls the effect of a selected choice in the menu.
+# endregion
+###########################
 
-    # ### Parameters
-    # 1. effects : str | Effect | List[Effect]
-    #     - The effect to call.
-    #     - if effects is a string, it is interpreted as an event label.
-    # """
-
-    hide screen custom_menu_choice
-    hide screen image_with_nude_var
-
-    $ in_event = get_kwargs('in_event', False, **kwargs)
-    $ in_replay = get_kwargs('in_replay', False, **kwargs)
-    $ no_gallery = get_kwargs("no_gallery", False, **kwargs)
-
-    if not no_gallery and in_event:
-        if not in_replay:
-            $ register_decision(key)
-        else:
-            if 'made_decisions' not in kwargs.keys():
-                $ kwargs['made_decisions'] = [key]
-            else:
-                $ kwargs['made_decisions'].append(key)
-
-    if isinstance(effects, str):
-        $ renpy.call(effects, **kwargs)
-
-    if isinstance(effects, Effect):
-        $ kwargs = call_effects(effects, **kwargs)
-
-    if isinstance(effects, List) and all(isinstance(effect, Effect) for effect in effects):
-        $ i = 0
-        while (i < len(effects)):
-            $ kwargs = call_effects(effects[i], **kwargs)
-            $ i += 1
-
-    $ log_val('kwargs', kwargs)
-
-    $ override = get_kwargs('override_menu_exit', None, **kwargs)
-    $ log_val('override', override)
-    if override != None:
-        if isinstance(override, str):
-            $ log('going to call override')
-            $ renpy.call(override)
-        elif isinstance(override, Event):
-            $ renpy.call(override.get_event())
-
-    $ override_kwargs = get_kwargs('override_menu_exit_with_kwargs', None, **kwargs)
-    if override_kwargs != None:
-        if isinstance(override_kwargs, str):
-            $ renpy.call(override_kwargs, **kwargs)
-        elif isinstance(override_kwargs, Event):
-            $ override_kwargs.call(**kwargs)
-        elif isinstance(override_kwargs, Effect):
-            $ override_kwargs.apply(**kwargs)
-
-    return
-
-# closes the current menu
-label close_menu(**kwargs):
-    # """
-    # Closes the current menu.
-    # """
-    hide screen custom_menu_choice
-    hide screen image_with_nude_var
-
-    $ override = get_kwargs('override_menu_exit', None, **kwargs)
-    if override != None:
-        if isinstance(override, str):
-            $ renpy.call(override)
-        elif isinstance(override, Event):
-            $ renpy.call(override.get_event())
-    $ override_kwargs = get_kwargs('override_menu_exit_with_kwargs', None, **kwargs)
-    if override_kwargs != None:
-        if isinstance(override_kwargs, str):
-            $ renpy.call(override_kwargs, **kwargs)
-        elif isinstance(override_kwargs, Event):
-            $ override_kwargs.call(**kwargs)
-        elif isinstance(override_kwargs, Effect):
-            $ override_kwargs.apply(**kwargs)
-    jump map_overview
+###########################
+# region CUSTOM MENU BEEF #
+###########################
 
 style menu_text:
     color "#fff"
@@ -321,6 +262,7 @@ style menu_text_left take menu_text:
 style menu_text_right take menu_text:
     textalign 1.0
 
+# the Menu itself
 screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwargs):
     # """
     # Displays a menu with the given elements.
@@ -340,7 +282,7 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
     #     - Any additional keyword arguments are passed to the effects of the selected element.
     # """
 
-    # tag menu_choice
+    tag menu_choice
 
     $ renpy.choice_for_skipping()
 
@@ -493,4 +435,87 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
                         xsize 1185
                         xalign 0.5
                         action Call("close_menu", **kwargs)
-    
+
+# calls the effect of a selected choice
+label call_element(key, effects, **kwargs):
+    # """
+    # Calls the effect of a selected choice in the menu.
+
+    # ### Parameters
+    # 1. effects : str | Effect | List[Effect]
+    #     - The effect to call.
+    #     - if effects is a string, it is interpreted as an event label.
+    # """
+
+    hide screen custom_menu_choice
+    hide screen image_with_nude_var
+
+    $ in_event = get_kwargs('in_event', False, **kwargs)
+    $ in_replay = get_kwargs('in_replay', False, **kwargs)
+    $ no_gallery = get_kwargs("no_gallery", False, **kwargs)
+
+    if not no_gallery and in_event:
+        if not in_replay:
+            $ register_decision(key)
+        else:
+            if 'made_decisions' not in kwargs.keys():
+                $ kwargs['made_decisions'] = [key]
+            else:
+                $ kwargs['made_decisions'].append(key)
+
+    if isinstance(effects, str):
+        $ renpy.call(effects, **kwargs)
+
+    if isinstance(effects, Effect):
+        $ kwargs = call_effects(effects, **kwargs)
+
+    if isinstance(effects, List) and all(isinstance(effect, Effect) for effect in effects):
+        $ i = 0
+        while (i < len(effects)):
+            $ kwargs = call_effects(effects[i], **kwargs)
+            $ i += 1
+
+    $ override = get_kwargs('override_menu_exit', None, **kwargs)
+    if override != None:
+        if isinstance(override, str):
+            $ renpy.call(override)
+        elif isinstance(override, Event):
+            $ renpy.call(override.get_event())
+
+    $ override_kwargs = get_kwargs('override_menu_exit_with_kwargs', None, **kwargs)
+    if override_kwargs != None:
+        if isinstance(override_kwargs, str):
+            $ renpy.call(override_kwargs, **kwargs)
+        elif isinstance(override_kwargs, Event):
+            $ override_kwargs.call(**kwargs)
+        elif isinstance(override_kwargs, Effect):
+            $ override_kwargs.apply(**kwargs)
+
+    return
+
+# closes the current menu
+label close_menu(**kwargs):
+    # """
+    # Closes the current menu.
+    # """
+    hide screen custom_menu_choice
+    hide screen image_with_nude_var
+
+    $ override = get_kwargs('override_menu_exit', None, **kwargs)
+    if override != None:
+        if isinstance(override, str):
+            $ renpy.call(override)
+        elif isinstance(override, Event):
+            $ renpy.call(override.get_event())
+    $ override_kwargs = get_kwargs('override_menu_exit_with_kwargs', None, **kwargs)
+    if override_kwargs != None:
+        if isinstance(override_kwargs, str):
+            $ renpy.call(override_kwargs, **kwargs)
+        elif isinstance(override_kwargs, Event):
+            $ override_kwargs.call(**kwargs)
+        elif isinstance(override_kwargs, Effect):
+            $ override_kwargs.apply(**kwargs)
+    jump map_overview
+
+# endregion
+###########################

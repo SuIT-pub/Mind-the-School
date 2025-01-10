@@ -1,5 +1,3 @@
-######################
-# Map overview methods
 init -1 python:
     def hide_all():
         """
@@ -9,9 +7,9 @@ init -1 python:
         for s in renpy.display.screen.screens_by_name:
             renpy.hide_screen(s)
 
-######################
-# ----- Styles ----- #
-######################
+#######################
+# region Styles ----- #
+#######################
 
 style stat_overview:
     outlines [(2, "222222", 1, 1)]
@@ -19,11 +17,17 @@ style stat_overview:
 style stat_value take stat_overview:
     size 25
 
+# endregion
+#######################
 
+###########################
+# region Map Screen ----- #
+###########################
 
-##########################
-# ----- Map Screen ----- #
-##########################
+screen school_overview():
+    use school_overview_map
+    use school_overview_stats
+    use school_overview_buttons
 
 ###################################
 # display the school map with stats
@@ -270,7 +274,9 @@ screen school_overview_buttons (with_available_Events = False):
             key "K_1" action Call("building", "school_building")
             key "K_KP1" action Call("building", "school_building")
         $ image_text = "background/school_building.webp"
-        if with_available_Events and overview_events_available['school_building']:
+        if not get_available_event('school_building'):
+            $ image_text = "background/school_building_empty.webp"
+        if with_available_Events and get_available_highlight('school_building'):
             $ image_text = "background/school_building_red.webp"
         imagebutton:
             idle image_text
@@ -289,7 +295,9 @@ screen school_overview_buttons (with_available_Events = False):
             key "K_2" action Call("building", "school_dormitory")
             key "K_KP2" action Call("building", "school_dormitory")
         $ image_text = "background/school_dormitory.webp"
-        if with_available_Events and overview_events_available['school_dormitory']:
+        if not get_available_event('school_dormitory'):
+            $ image_text = "background/school_dormitory_empty.webp"
+        if with_available_Events and get_available_highlight('school_dormitory'):
             $ image_text = "background/school_dormitory_red.webp"
         imagebutton:
             idle image_text
@@ -302,7 +310,9 @@ screen school_overview_buttons (with_available_Events = False):
     # Labs
     if is_building_available("labs"):
         $ image_text = "background/labs.webp"
-        if with_available_Events and overview_events_available['labs']:
+        if not get_available_event('labs'):
+            $ image_text = "background/labs_empty.webp"
+        if with_available_Events and get_available_highlight('labs'):
             $ image_text = "background/labs_red.webp"
         imagebutton:
             idle image_text
@@ -315,7 +325,9 @@ screen school_overview_buttons (with_available_Events = False):
     # Sports Field
     if is_building_available("sports_field"):
         $ image_text = "background/sports_field.webp"
-        if with_available_Events and overview_events_available['sports_field']:
+        if not get_available_event('sports_field'):
+            $ image_text = "background/sports_field_empty.webp"
+        if with_available_Events and get_available_highlight('sports_field'):
             $ image_text = "background/sports_field_red.webp"
         imagebutton:
             idle image_text
@@ -328,7 +340,9 @@ screen school_overview_buttons (with_available_Events = False):
     # Beach
     if is_building_available("beach"):
         $ image_text = "background/beach.webp"
-        if with_available_Events and overview_events_available['beach']:
+        if not get_available_event('beach'):
+            $ image_text = "background/beach_empty.webp"
+        if with_available_Events and get_available_highlight('beach'):
             $ image_text = "background/beach_red.webp"
         imagebutton:
             idle image_text
@@ -341,7 +355,9 @@ screen school_overview_buttons (with_available_Events = False):
     # Staff Lodges
     if is_building_available("staff_lodges"):
         $ image_text = "background/staff_lodges.webp"
-        if with_available_Events and overview_events_available['staff_lodges']:
+        if not get_available_event('staff_lodges'):
+            $ image_text = "background/staff_lodges_empty.webp"
+        if with_available_Events and get_available_highlight('staff_lodges'):
             $ image_text = "background/staff_lodges_red.webp"
         imagebutton:
             idle image_text
@@ -360,7 +376,9 @@ screen school_overview_buttons (with_available_Events = False):
             key "K_6" action Call("building", "gym")
             key "K_KP6" action Call("building", "gym")
         $ image_text = "background/gym.webp"
-        if with_available_Events and overview_events_available['gym']:
+        if not get_available_event('gym'):
+            $ image_text = "background/gym_empty.webp"
+        if with_available_Events and get_available_highlight('gym'):
             $ image_text = "background/gym_red.webp"
         imagebutton:
             idle image_text
@@ -373,7 +391,9 @@ screen school_overview_buttons (with_available_Events = False):
     # Swimming Pool
     if is_building_available("swimming_pool"):
         $ image_text = "background/swimming_pool.webp"
-        if with_available_Events and overview_events_available['swimming_pool']:
+        if not get_available_event('swimming_pool'):
+            $ image_text = "background/swimming_pool_empty.webp"
+        if with_available_Events and get_available_highlight('swimming_pool'):
             $ image_text = "background/swimming_pool_red.webp"
         imagebutton:
             idle image_text
@@ -392,7 +412,9 @@ screen school_overview_buttons (with_available_Events = False):
             key "K_7" action Call("building", "cafeteria")
             key "K_KP7" action Call("building", "cafeteria")
         $ image_text = "background/cafeteria.webp"
-        if with_available_Events and overview_events_available['cafeteria']:
+        if not get_available_event('cafeteria'):
+            $ image_text = "background/cafeteria_empty.webp"
+        if with_available_Events and get_available_highlight('cafeteria'):
             $ image_text = "background/cafeteria_red.webp"
         imagebutton:
             idle image_text
@@ -405,7 +427,9 @@ screen school_overview_buttons (with_available_Events = False):
     # Bath
     if is_building_available("bath"):
         $ image_text = "background/bath.webp"
-        if with_available_Events and overview_events_available['bath']:
+        if not get_available_event('bath'):
+            $ image_text = "background/bath_empty.webp"
+        if with_available_Events and get_available_highlight('bath'):
             $ image_text = "background/bath_red.webp"
         imagebutton:
             idle image_text
@@ -424,7 +448,9 @@ screen school_overview_buttons (with_available_Events = False):
             key "K_5" action Call("building", "kiosk")
             key "K_KP5" action Call("building", "kiosk")
         $ image_text = "background/kiosk.webp"
-        if with_available_Events and overview_events_available['kiosk']:
+        if not get_available_event('kiosk'):
+            $ image_text = "background/kiosk_empty.webp"
+        if with_available_Events and get_available_highlight('kiosk'):
             $ image_text = "background/kiosk_red.webp"
         imagebutton:
             idle image_text
@@ -443,7 +469,9 @@ screen school_overview_buttons (with_available_Events = False):
             key "K_4" action Call("building", "courtyard")
             key "K_KP4" action Call("building", "courtyard")
         $ image_text = "background/courtyard.webp"
-        if with_available_Events and overview_events_available['courtyard']:
+        if not get_available_event('courtyard'):
+            $ image_text = "background/courtyard_empty.webp"
+        if with_available_Events and get_available_highlight('courtyard'):
             $ image_text = "background/courtyard_red.webp"
         imagebutton:
             idle image_text
@@ -462,7 +490,9 @@ screen school_overview_buttons (with_available_Events = False):
             key "K_3" action Call("building", "office_building")
             key "K_KP3" action Call("building", "office_building")
         $ image_text = "background/office_building.webp"
-        if with_available_Events and overview_events_available['office_building']:
+        if not get_available_event('office_building'):
+            $ image_text = "background/office_building_empty.webp"
+        if with_available_Events and get_available_highlight('office_building'):
             $ image_text = "background/office_building_red.webp"
         imagebutton:
             idle image_text
@@ -498,148 +528,14 @@ screen school_overview_buttons (with_available_Events = False):
                 xalign 0.5
                 text tooltip
 
-screen black_error_screen_text(text_str):
-    python:
-        """
-        Displays a black screen with red text
-        Would be used for error messages
+# endregion
+###########################
 
-        # Parameters:
-        1. text_str: str
-            - the text to be displayed
-        """
+###############################
+# region Map Overview Entries #
+###############################
 
-    add "black"
-    zorder -1
-    
-    text text_str:
-        xalign 0 yalign 0
-        size 20
-        color "#a00000"
-
-screen black_screen_text(text_str):
-    python:
-        """
-        Displays a black screen with white text
-
-        # Parameters:
-        1. text_str: str
-            - the text to be displayed
-        """
-
-    add "black"
-    
-    key "K_SPACE" action Return()
-    key "K_ESCAPE" action Return()
-    key "K_KP_ENTER" action Return()
-    key "K_SELECT" action Return()
-
-    text text_str:
-        xalign 0.5 yalign 0.5
-        size 60
-
-    button:
-        xpos 0 ypos 0
-        xsize 1920 ysize 1080
-        action Return()
-
-
-screen black_screen_text_with_subtitle(text_str, subtitle_str):
-    python:
-        """
-        Displays a black screen with white text
-
-        # Parameters:
-        1. text_str: str
-            - the text to be displayed
-        """
-
-    add "black"
-    
-    key "K_SPACE" action Return()
-    key "K_ESCAPE" action Return()
-    key "K_KP_ENTER" action Return()
-    key "K_SELECT" action Return()
-
-    vbox:
-        yalign 0.5
-        xsize 1920
-
-        text text_str:
-            xalign 0.5
-            size 60
-        null height 10
-        text subtitle_str:
-            xalign 0.5
-            size 40
-    
-    button:
-        xpos 0 ypos 0
-        xsize 1920 ysize 1080
-        action Return()
-
-screen naughty_scene_icons(*icons):
-    if "clothing" in icons:
-        imagebutton:
-            idle "icons/change_clothing_idle.webp"
-            hover "icons/change_clothing_hover.webp"
-            xalign 1.0 yalign 0.0
-            action Return("change_clothing")
-    if "position" in icons:
-        imagebutton:
-            idle "icons/change_position_idle.webp"
-            hover "icons/change_position_hover.webp"
-            xalign 1.0 yalign 0.2
-            action Return("change_position")
-    if "location" in icons:
-        imagebutton:
-            idle "icons/change_location_idle.webp"
-            hover "icons/change_location_hover.webp"
-            xalign 1.0 yalign 0.4
-            action Return("change_location")
-    if "variant" in icons:
-        imagebutton:
-            idle "icons/change_variant_idle.webp"
-            hover "icons/change_variant_hover.webp"
-            xalign 1.0 yalign 0.6
-            action Return("change_variant")
-    imagebutton:
-        idle "icons/stop_idle.webp"
-        hover "icons/stop_hover.webp"
-        xalign 1.0 yalign 1.0
-        action Return("stop")
-
-#########################
-# ----- Map Logic ----- #
-#########################
-
-
-label say_with_image (image_series, step, text, person_name, person):
-    # """
-    # Prints a text with an image
-    # Mainly used for the "random_say" method
-
-    # ### Parameters:
-    # 1. image_series: Image_Series
-    #     - The image series to use
-    # 2. step: int
-    #     - The step of the image series to use
-    # 3. text: str
-    #     - The text to print
-    # 4. person_name: str
-    #     - The name of the person to print
-    # 5. person: ADVCharacter
-    #     - The character who says the text
-    # """
-
-    $ image_series.show(step)
-    $ person(text, name = person_name)
-
-    return
-
-####################################################
 # goes to map overview while moving the time forward
-
 label set_day_and_time(day, month, year, daytime):
     # """
     # sets the day and time and then goes to map overview
@@ -703,6 +599,9 @@ label new_day ():
     
     call time_event_check from new_day_2
 
+    $ update_quest("daytime_change")
+    $ update_quest("day_change")
+
     jump map_overview
 
 label new_daytime ():
@@ -718,12 +617,9 @@ label new_daytime ():
 
     call time_event_check from new_daytime_2
 
-    jump map_overview
+    $ update_quest("daytime_change")
 
-screen school_overview():
-    use school_overview_map
-    use school_overview_stats
-    use school_overview_buttons
+    jump map_overview
 
 label after_load_entry():
 
@@ -731,7 +627,6 @@ label after_load_entry():
 
     jump map_overview
 
-#################################################
 # shows the map overview and then waits for input
 label map_overview ():
     if len(headmaster_proficiencies.keys()) < 2 and (IntroCondition(False)).is_fulfilled():
@@ -762,25 +657,17 @@ label map_overview ():
 
     $ call_notify()
 
+    $ update_all_quests()
+
     show school_map
     # show screen school_overview_map
     show screen school_overview_stats 
 
-    $ overview_events_available = {
-        'school_building': sb_events_available(),
-        'school_dormitory': sd_events_available(),
-        'labs': labs_events_available(),
-        'sports_field': sports_field_events_available(),
-        'gym': gym_events_available(),
-        'swimming_pool': swimming_pool_events_available(),
-        'cafeteria': cafeteria_events_available(),
-        'bath': bath_events_available(),
-        'kiosk': kiosk_events_available(),
-        'courtyard': courtyard_events_available(),
-        'office_building': office_building_events_available(),
-        'beach': beach_events_available(),
-        'staff_lodges': staff_lodges_events_available()
-    }
+    $ log('###########################################')
+
+    $ update_available_highlights()
+
+    $ update_available_events()
 
     $ renpy.block_rollback()
 
@@ -789,8 +676,13 @@ label map_overview ():
 
     $ renpy.pause(hard = True)
 
-#############################################################################
-# building distributor. directs the building calls to the corresponding label
+# endregion
+###############################
+
+###############################
+# region Map Overview targets #
+###############################
+
 label building(name=""):
     $ reset_stats(get_school())
     $ reset_stats(get_character('parent', charList))
@@ -820,3 +712,6 @@ label skip_time ():
 
 label empty_label ():
     return
+
+# endregion
+###############################

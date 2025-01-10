@@ -2,6 +2,10 @@ init -7 python:
     import re
     from abc import ABC, abstractmethod
 
+    ########################
+    # region CLASSES ----- #
+    ########################
+
     class Journal_Obj(ABC):
         """
         Abstract class for all journal objects.
@@ -146,7 +150,7 @@ init -7 python:
 
         def get_description(self, level: int = -1) -> List[str]:
             """
-            Returns the descriptions of the object.
+            Returns the description of the object.
 
             ### Parameters:
             1. level: int (Default -1)
@@ -252,6 +256,8 @@ init -7 python:
 
             if self._unlocked and apply_effects:
                 self.apply_effects()
+
+            update_quest("journal_unlock", name = self._name, type = self.get_type())
         
         def is_unlocked(self) -> bool:
             """
@@ -408,6 +414,9 @@ init -7 python:
                 - Vote comments of the object.
             """
             
+            if result == 'ignore':
+                result = YES
+
             vote = "{color=#00a000}Votes For{/color}"
             if result == NO:
                 vote = "{color=#a00000}Votes Against{/color}"
@@ -417,6 +426,9 @@ init -7 python:
             if char not in self._vote_comments.keys():
                 return f"{vote}\n{self._default_comments[result]}"
             else:
+                if isinstance(self._vote_comments[char][result], list):
+                    return [vote] + self._vote_comments[char][result]
+
                 return f"{vote}\n{self._vote_comments[char][result]}"
 
         def apply_effects(self):
@@ -425,7 +437,15 @@ init -7 python:
             """
 
             for effect in self._unlock_effects:
+                log_val("Applying effect", effect)
                 effect.apply()
+
+    # endregion
+    ########################
+
+    ############################################
+    # region General JOURNAL_OBJ methods ----- #
+    ############################################
 
     def get_visible_unlocked_objs(map: Dict[str, Journal_Obj]) -> List[str]:
         """
@@ -534,35 +554,6 @@ init -7 python:
 
         return output
 
-    # def get_unlockable_objs_by_school(school: str | Char) -> List[str]:
-    #     """
-    #     Returns the names of all the objects that can be unlocked for a specific school.
-
-    #     ### Parameters:
-    #     1. school: str | Char
-    #         - The school for which the objects should be unlockable
-
-    #     ### Returns:
-    #     1. List[str]
-    #         - Names of the unlockable objects for the school.
-    #     """
-
-    #     output = []
-
-    #     school_obj = school
-    #     if isinstance(school, str):
-    #         school_obj = get_character(school, charList['schools'])
-
-    #     for obj in map.values():
-    #         unlock = obj.can_be_unlocked(char_obj = school_obj)
-    #         unlocked = obj.is_unlocked(school)
-
-    #         if (unlock and not unlocked and obj.get_name() not in output):
-    #             output.append(obj.get_name())
-    #             continue
-
-    #     return output
-
     def get_journal_obj(map: Dict[str, Journal_Obj], name: str) -> Journal_Obj:
         """
         Returns the object with the given name from the map.
@@ -583,3 +574,17 @@ init -7 python:
             return map[name]
         return None
 
+    def find_journal_obj(name: str) -> str:
+        obj = get_journal_obj(rules, name)
+        if obj is not None:
+            return obj
+        obj = get_journal_obj(buildings, name)
+        if obj is not None:
+            return obj
+        obj = get_journal_obj(clubs, name)
+        if obj is not None:
+            return obj
+        return None
+
+    # endregion
+    ############################################

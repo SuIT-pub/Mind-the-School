@@ -4,6 +4,8 @@
 ## them. Lines beginning with a single '#' mark are commented-out code, and you
 ## may want to uncomment them when appropriate.
 
+define build.itch_project = "Suit-Ji/mind-the-school"
+
 
 ## Basics ######################################################################
 
@@ -23,7 +25,7 @@ define gui.show_name = True
 
 ## The version of the game.
 
-define config.version = "0.1.4C"
+define config.version = "0.2.0B"
 
 
 ## Text that is placed on the game's about screen. Place the text between the
@@ -137,6 +139,10 @@ default preferences.text_cps = 0
 default preferences.afm_time = 15
 
 
+default persistent.modList = {
+    'base': {'key': 'base', 'version': '1', 'name': 'Base Mod', 'description': 'The base mod for the game.', 'author': 'SuIT-Ji', 'active': True, 'path': ''},
+}
+
 ## Save directory ##############################################################
 ##
 ## Controls the platform-specific place Ren'Py will place the save files for
@@ -166,6 +172,7 @@ define config.window_icon = "gui/window_icon.png"
 ## The persistent variable that stores gallery images.
 
 default persistent.gallery = {}
+default persistent.gallery_version = ""
 default persistent.fragment_gallery = {}
 
 
@@ -236,7 +243,6 @@ init python:
 
     build.classify("game/members.csv", "data")
     build.classify("game/translations.csv", "data")
-    build.classify("game/loli_filter", "data")
     build.classify("LICENSE", "data")
     build.classify("README.md", "data")
 
@@ -252,9 +258,8 @@ init python:
     build.classify("game/**.wav", "sounds")
     build.classify("game/**.mp3", "sounds")
 
-    build.include_i686 = False
 
-    build.include_update = True
+    build.include_i686 = False
 
 init python:
     config.keymap["hide_windows"] = []
@@ -286,6 +291,6 @@ init python:
 
     
 
-define discord = 'http://tiny.cc/mindtheschooldiscord'
-define patreon = 'http://tiny.cc/mindtheschoolpatreon'
-define wiki = 'https://suitpub.alwaysdata.net'
+define discord = 'https://discord.suit-ji.com'
+define patreon = 'https://patreon.suit-ji.com'
+define wiki    = 'https://wiki.suit-ji.com'

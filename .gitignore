@@ -1,7 +1,7 @@
 game/images/
 game/videos/
 game/saves/
-game/chache/
+game/cache/
 **.rpy.bak
 **.bak
 log.txt
@@ -17,3 +17,7 @@ game/scripts/test.py
 Test/**
 log.txt
 Image Converter/test/**
+errors.txt
+traceback.txt
+**/images/
+**/images/**

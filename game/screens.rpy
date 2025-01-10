@@ -1,14 +1,17 @@
 ﻿################################################################################
-## Initialization
+# region Initialization
 ################################################################################
 
 init 0:
     $ set_dissolve()
+    $ changelog_shown = True
 
 init offset = -1
 
+# endregion
+
 ################################################################################
-## Styles
+# region Styles
 ################################################################################
 
 style default:
@@ -80,8 +83,10 @@ style frame:
 style hide_text:
     color "#00000000"
 
+# endregion
+
 ################################################################################
-## In-game screens
+# region In-game screens
 ################################################################################
 
 screen wait_hide():
@@ -99,6 +104,7 @@ label trigger_hide():
     if not hide_gui:
         $ hide_gui = True
         window hide
+        hide screen custom_menu_choice
         $ quick_menu = False
         call screen wait_hide
         $ quick_menu = True
@@ -107,8 +113,10 @@ label trigger_hide():
         $ hide_gui = False
         return
 
-## Say screen ##################################################################
-##h
+# endregion
+
+# region Say screen ##################################################################
+##
 ## The say screen is used to display dialogue to the player. It takes two
 ## parameters, who and what, which are the name of the speaking character and
 ## the text to be displayed, respectively. (The who parameter can be None if no
@@ -213,7 +221,9 @@ style say_dialogue:
 
     adjust_spacing False
 
-## Input screen ################################################################
+# endregion
+
+# region Input screen ################################################################
 ##
 ## This screen is used to display renpy.input. The prompt parameter is used to
 ## pass a text prompt in.
@@ -247,8 +257,9 @@ style input:
     xalign gui.dialogue_text_xalign
     xmaximum gui.dialogue_width
 
+# endregion
 
-## Choice screen ###############################################################
+# region Choice screen ################################################################
 ##
 ## This screen is used to display the in-game choices presented by the menu
 ## statement. The one parameter, items, is a list of objects, each with caption
@@ -281,8 +292,9 @@ style choice_button is default:
 style choice_button_text is default:
     properties gui.button_text_properties("choice_button")
 
+# endregion
 
-## Quick Menu screen ###########################################################
+# region Quick Menu screen ###########################################################
 ##
 ## The quick menu is displayed in-game to provide easy access to the out-of-game
 ## menus.
@@ -331,12 +343,13 @@ style quick_button_text:
     outlines [(1, "#000", 0, 0)] 
     properties gui.button_text_properties("quick_button")
 
+# endregion
 
 ################################################################################
-## Main and Game Menu Screens
+# region Main and Game Menu Screens
 ################################################################################
 
-## Navigation screen ###########################################################
+#region Navigation screen ###########################################################
 ##
 ## This screen is included in the main and game menus, and provides navigation
 ## to other menus, and to start the game.
@@ -351,37 +364,44 @@ screen navigation():
 
         spacing gui.navigation_spacing
 
+        if main_menu and refresh_game:
+            text "Mod changes detected!\nPlease restart the game!":
+                style "mod_menu_description"
+                color "#a00000"
+                size 24
+
         if main_menu:
-
-            textbutton _("Start") action Start()
-
+            if not refresh_game:
+                textbutton _("New Game") action Start()
+            else:
+                textbutton _("New Game")
         else:
-
             textbutton _("History") action ShowMenu("history")
-
             textbutton _("Save") action ShowMenu("save")
 
-        textbutton _("Load") action ShowMenu("load")
-
+        if not refresh_game or not main_menu:
+            textbutton _("Load") action ShowMenu("load")
+        else:
+            textbutton _("Load")
         textbutton _("Preferences") action ShowMenu("preferences")
         
-        if not main_menu:
+        if main_menu:
+            textbutton _("Mod Manager") action ShowMenu("mod_manager")
 
+        if not main_menu:
             textbutton _("Main Menu") action MainMenu()
 
         textbutton _("About") action ShowMenu("about")
 
         if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
-
             ## Help isn't necessary or relevant to mobile devices.
             textbutton _("Help") action ShowMenu("help")
 
         if renpy.variant("pc"):
-
             ## The quit button is banned on iOS and unnecessary on Android and
             ## Web.
             textbutton _("Quit") action Quit(confirm=not main_menu)
-
+    
 
 style navigation_button is gui_button
 style navigation_button_text is gui_button_text
@@ -393,8 +413,9 @@ style navigation_button:
 style navigation_button_text:
     properties gui.button_text_properties("navigation_button")
 
+# endregion
 
-## Main Menu screen ############################################################
+#region Main Menu screen ############################################################
 ##
 ## Used to display the main menu when Ren'Py starts.
 ##
@@ -408,8 +429,8 @@ screen main_menu():
     add gui.main_menu_background
 
     ## This empty frame darkens the main menu.
-    frame:
-        style "main_menu_frame"
+    # frame:
+    #     style "main_menu_frame"
 
     frame:
         background Solid("#8885")
@@ -422,65 +443,147 @@ screen main_menu():
                     xsize 80
                     ysize 80
                 action Call("open_wiki_link_from_menu")
+                tooltip _("Wiki")
             button:
                 add "gui/discord.png": 
                     xsize 105
                     ysize 80
                 action Call("open_discord_link_from_menu")
+                tooltip _("Discord")
             button:
                 add "gui/patreon.png": 
                     xsize 80
                     ysize 80
                 action Call("open_patreon_link_from_menu")
+                tooltip _("Patreon")
 
-
+    python:
+        changelog_height = 800
+        if not changelog_shown:
+            changelog_height = 72
 
     frame:
         background Solid("#00000088")
-        area (1400, 20, 500, 800)
+        area (1400, 20, 500, changelog_height)
         padding (10, 10)
         viewport id "ChangelogMenu":
             mousewheel True
             draggable "touch"
 
             vbox:
-                text "Changelog:" style "main_menu_changelog_title"
-                null height 15
-                text "Version 0.1.4C" style "main_menu_changelog_subtitle"
-                text "• Added Changelog in Main Menu" style "main_menu_changelog_text"
-                text "• Added Social Media Buttons in Main Menu" style "main_menu_changelog_text"
-                text "• Disabled Cafeteria Upgrade" style "main_menu_changelog_text"
-                text "• Fixed wrong label used in Aona Bra Event" style "main_menu_changelog_text"
-                text "• Fixed missing image in one of Cafeteria Events" style "main_menu_changelog_text"
-                null height 8
-                text "Version 0.1.4B" style "main_menu_changelog_subtitle"
-                text "• fixed error preventing some from entering office" style "main_menu_changelog_text"
-                text "• some more refinement" style "main_menu_changelog_text"
-                null height 8
-                text "Version 0.1.4A" style "main_menu_changelog_subtitle"
-                text "• fixed error when loading old savegame saved during event" style "main_menu_changelog_text"
-                null height 8
-                text "Version 0.1.4" style "main_menu_changelog_subtitle"
-                text "• added {b}1242{/b} images, totalling all images to 2370" style "main_menu_changelog_text"
-                text "• added {b}128{/b} new animations. Most are in Movie Sandbox" style "main_menu_changelog_text"
-                text "• added about 10 new regular events" style "main_menu_changelog_text"
-                text "• added about 5 new work events" style "main_menu_changelog_text"
-                text "• added some repeatable naughty time with secretary" style "main_menu_changelog_text"
-                text "• improved notification system" style "main_menu_changelog_text"
-                text "• improved image system" style "main_menu_changelog_text"
-                text "• improved gallery system" style "main_menu_changelog_text"
-                text "• Introduced Subject Proficiencies for Headmaster" style "main_menu_changelog_text"
-                text "• Introduced new Subject - History" style "main_menu_changelog_text"
-                text "• Introduced Sandbox Movie System" style "main_menu_changelog_text"
-                text "• Reworked entire tutorial" style "main_menu_changelog_text"
-                text "• Reworked entire school map" style "main_menu_changelog_text"
-                text "• Reworked entire journal" style "main_menu_changelog_text"
-                text "• Buffed stat gain" style "main_menu_changelog_text"
-                text "• Nerved stat loss" style "main_menu_changelog_text"
-                text "• Tons of background stuff for level up planned in 0.1.5" style "main_menu_changelog_text"
-                text "• Tons of improvement to existing game code" style "main_menu_changelog_text"
-                null height 15
-                text "Changelog for older versions can be found in the {a=https://suitpub.alwaysdata.net/books/changelog}wiki{/a}" style "main_menu_changelog_subtitle"
+                hbox:
+                    text "Changelog:" style "main_menu_changelog_title"
+                    null width 150
+                    if not changelog_shown:
+                        textbutton "Show" action SetVariable("changelog_shown", True)
+                    else:
+                        textbutton "Hide" action SetVariable("changelog_shown", False)
+                if changelog_shown:
+                    null height 15
+                    text "Version 0.2.0B" style "main_menu_changelog_title"
+                    null height 15
+                    text "• Fixed missing thumbnails for quest" style "main_menu_changelog_text"
+                    text "• Fixed tutorials repeating and not returning to correct screen" style "main_menu_changelog_text"
+                    text "• Fixed missing animations during P.E. teaching warm-up" style "main_menu_changelog_text"
+                    text "• Fixed a missing image in school dorm \"Walk in on Girl\"-Event" style "main_menu_changelog_text"
+                    text "• Created a temporary fix for certain Buildings or Rules having their probabilities incorrectly calculated by making it 100% by default." style "main_menu_changelog_text"
+                    null height 20
+                    text "Version 0.2.0A_1" style "main_menu_changelog_title"
+                    null height 15
+                    text "• More fixes for probability calculation" style "main_menu_changelog_text"
+                    null height 20
+                    text "Version 0.2.0A" style "main_menu_changelog_title"
+                    null height 15
+                    text "• Fixed a bug preventing the player from queueing the rule to progress to level 4 and higher" style "main_menu_changelog_text"
+                    text "• Small changes to probability calculation for unlockables" style "main_menu_changelog_text"
+                    text "    • Calculation is still a work in progress" style "main_menu_changelog_text"
+                    text "• Fix for Mods not being registered correctly" style "main_menu_changelog_text"
+                    null height 20
+                    text "Version 0.2.0" style "main_menu_changelog_title"
+                    null height 15
+                    text "Stats" style "main_menu_changelog_subtitle"
+                    text "• 3445 more images" style "main_menu_changelog_text"
+                    text "• 54 more animations" style "main_menu_changelog_text"
+                    text "• 18 new events" style "main_menu_changelog_text"
+                    null height 15
+                    text "New Features" style "main_menu_changelog_subtitle"
+                    text "• Implemented a Modding Framework" style "main_menu_changelog_text"
+                    text "• Implemented a new Quest System" style "main_menu_changelog_text"
+                    text "• Implemented a Character Overview" style "main_menu_changelog_text"
+                    text "• Reworked Main Menu" style "main_menu_changelog_text"
+                    null height 15
+                    text "Changes" style "main_menu_changelog_subtitle"
+                    text "• Reworked the Journal Design" style "main_menu_changelog_text"
+                    text "• Improved the Map" style "main_menu_changelog_text"
+                    text "• PTA event system has been improved" style "main_menu_changelog_text"
+                    null height 15
+                    text "Events" style "main_menu_changelog_subtitle"
+                    text "• Added event chain for transitioning the school to level 2" style "main_menu_changelog_text"
+                    text "• 13 new events in transition event chain" style "main_menu_changelog_text"
+                    text "• 2 new events in cafeteria" style "main_menu_changelog_text"
+                    text "• 1 new events in courtyard" style "main_menu_changelog_text"
+                    text "• 2 new events in school dormitory" style "main_menu_changelog_text"
+                    text "• fully reworked all 71 regular events and created variants for these events for all school levels up to level 10" style "main_menu_changelog_text"
+                    text "    • some events now have a spicy animation on the higher levels ;)" style "main_menu_changelog_text"
+                    text "    • This was done to conform these events to my new (and hopefully last) workflow for rendering images, which allowed me in the first time to render the events for all levels" style "main_menu_changelog_text"
+                    text "• Events can now have priority over other events" style "main_menu_changelog_text"
+                    null height 15
+                    text "Gallery" style "main_menu_changelog_subtitle"
+                    text "• Due to reworking all events, the existing replay gallery data will be wiped" style "main_menu_changelog_text"
+                    text "• Added versioning for gallery and individual events" style "main_menu_changelog_text"
+                    null height 15
+                    text "Modding" style "main_menu_changelog_subtitle"
+                    text "• A new modding framework has been added" style "main_menu_changelog_text"
+                    text "• The modding framework allows for the creation of new events, characters, and more" style "main_menu_changelog_text"
+                    text "• A manual on how to create a Mod can be found {a=https://wiki.suit-ji.com/shelves/modding}here{/a} (WIP)" style "main_menu_changelog_text"
+                    text "• Added a Mod Manager on the Main Menu for activating and deactivating mods" style "main_menu_changelog_text"
+                    null height 15
+                    text "Quests" style "main_menu_changelog_subtitle"
+                    text "• A quest system has been implemented for you clueless folks" style "main_menu_changelog_text"
+                    text "• The new quest overview can be found in the journal" style "main_menu_changelog_text"
+                    text "• The overview shows quests for solving current event chains" style "main_menu_changelog_text"
+                    text "• By clicking the small info button in the quest overview more quests can be displayed" style "main_menu_changelog_text"
+                    text "    • These quests are for helping people on how to unlock certain stuff or to give a general overview over what events have been seen." style "main_menu_changelog_text"
+                    text "• !!! Some quests might not update correctly or have display issues when opening savegames from old versions" style "main_menu_changelog_text"
+                    null height 15
+                    text "Character Overview" style "main_menu_changelog_subtitle"
+                    text "• A character overview can now be found in the journal. (Thanks to Shojua for suggesting this idea on my {a=https://discord.suit-ji.com}Discord Server{/a})" style "main_menu_changelog_text"
+                    text "    • If you have ideas yourself, leave your suggestion on the discord. If you don't have discord, feel free to hit me up directly." style "main_menu_changelog_text"
+                    text "• The Overview shows you a list for all regular in-game characters" style "main_menu_changelog_text"
+                    text "• When clicking on a character a detailed overview over that character together with a small image gallery is shown." style "main_menu_changelog_text"
+                    text "• By marking an image as favorite, that image will be shown as thumbnail in the overview" style "main_menu_changelog_text"
+                    null height 15
+                    text "Main Menu" style "main_menu_changelog_subtitle"
+                    text "• Main Menu has been made nicer." style "main_menu_changelog_text"
+                    text "• An animated background has been added" style "main_menu_changelog_text"
+                    null height 15
+                    text "School Map" style "main_menu_changelog_subtitle"
+                    text "• The school map has now changed highlighting" style "main_menu_changelog_text"
+                    text "• Locations that have an event are now highlighted with a marker" style "main_menu_changelog_text"
+                    text "• Pin-Style markers have been added to better show the location of the different facilities" style "main_menu_changelog_text"
+                    null height 15
+                    text "Misc" style "main_menu_changelog_subtitle"
+                    text "• New rules have been added to allow experiencing the higher levels of the school by allowing the players to raise the school levels without cheating" style "main_menu_changelog_text"
+                    text "• Tons of bugfixes" style "main_menu_changelog_text"
+                    null height 15
+                    text "Note for using existing save games from 0.1.4 and older:" style "main_menu_changelog_subtitle"
+                    text "I made sure to keep all the save files created from 0.1.2 and upwards compatible." style "main_menu_changelog_text"
+                    text "The old saves should have no problems loading. For the selection of the new proficiencies, you'll get a prompt to select one. If you don't select one, the game will crash. If you select one, everything should work as intended." style "main_menu_changelog_text"
+                    text "IMPORTANT! It is possible that you get an error while loading, telling you that it couldn't load an image file. In that case, you can just click on ignore. You'll get a missing background in the proficiency selection but after that, everything should then work properly. Also if the school map looks a bit buggy after loading, that should fix itself after entering a location or opening the journal." style "main_menu_changelog_text"
+                    text "All that are just visual bugs, occur only directly after loading an old game and won't influence or corrupt the game itself." style "main_menu_changelog_text"
+                    text "If you occur bugs not listed here, please hit me up wherever you like, but preferably on discord 🙂" style "main_menu_changelog_text"
+
+
+
+
+
+                    
+                    # null height 8
+                    # text "Version 0.1.4B" style "main_menu_changelog_subtitle"
+                    # text "• fixed error preventing some from entering office" style "main_menu_changelog_text"
+                    
+                    null height 15
+                    text "Changelog for older versions can be found in the {a=https://wiki.suit-ji.com/books/changelog}wiki{/a}" style "main_menu_changelog_subtitle"
 
         vbar value YScrollValue("ChangelogMenu"):
             unscrollable "hide"
@@ -490,10 +593,43 @@ screen main_menu():
 
     ## The use statement includes another screen inside this one. The actual
     ## contents of the main menu are in the navigation screen.
-    use navigation
+    # use navigation
+
+    # settings panel
+    frame:
+        background Solid("#8885")
+        area (0, 985, 210, 95)
+        padding (5, 5)
+
+        hbox:
+            button:
+                add "gui/settings.png": 
+                    xsize 80
+                    ysize 80
+                action ShowMenu("preferences")
+                tooltip _("Preferences")
+            button:
+                add "gui/mod_manager.png": 
+                    xsize 105
+                    ysize 80
+                action ShowMenu("mod_manager")
+                tooltip _("Mod Manager")
+
+    frame:
+        background Solid("#8880")
+        area (400, 100, 800, 100)
+        
+        hbox:
+            button:
+                text "New Game" style "main_menu_board"
+                action Start()
+            null width 100
+            button:
+                text "Load Game" style "main_menu_board"
+                action ShowMenu("load")
+
 
     if gui.show_name:
-
         vbox:
             style "main_menu_vbox"
 
@@ -503,6 +639,21 @@ screen main_menu():
             text "[config.version]":
                 style "main_menu_version"
 
+    $ tooltip = GetTooltip()
+
+    if tooltip:
+        nearrect:
+            focus "tooltip"
+            prefer_top True
+
+            frame:
+                xalign 0.5
+                text tooltip
+
+style main_menu_board:
+    size 35
+    font "eraser.regular.ttf"
+    hover_color "#a00000"
 
 style main_menu_frame is empty
 style main_menu_vbox is vbox
@@ -528,10 +679,12 @@ style main_menu_text:
 
 style main_menu_title:
     properties gui.text_properties("title")
+    font "eraser.regular.ttf"
     outlines [ (absolute(2), "#000", absolute(0), absolute(0)) ]
 
 style main_menu_version:
     properties gui.text_properties("version")
+    font "eraser.regular.ttf"
     outlines [ (absolute(2), "#000", absolute(0), absolute(0)) ]
 
 style main_menu_changelog:
@@ -544,7 +697,9 @@ style main_menu_changelog_subtitle is main_menu_changelog:
 style main_menu_changelog_text is main_menu_changelog:
     size 18
 
-## Game Menu screen ############################################################
+# endregion
+
+# region Game Menu screen ############################################################
 ##
 ## This lays out the basic common structure of a game menu screen. It's called
 ## with the screen title, and displays the background, title, and navigation.
@@ -671,8 +826,9 @@ style return_button:
     yalign 1.0
     yoffset -45
 
+# endregion
 
-## About screen ################################################################
+# region About screen ################################################################
 ##
 ## This screen gives credit and copyright information about the game and Ren'Py.
 ##
@@ -719,7 +875,9 @@ style about_text is gui_text
 style about_label_text:
     size gui.label_text_size
 
-## Load and Save screens #######################################################
+# endregion
+
+# region Load and Save screens #######################################################
 ##
 ## These screens are responsible for letting the player save the game and load
 ## it again. Since they share nearly everything in common, both are implemented
@@ -734,13 +892,11 @@ screen save():
 
     use file_slots(_("Save"))
 
-
 screen load():
 
     tag menu
 
     use file_slots(_("Load"))
-
 
 screen file_slots(title):
 
@@ -826,7 +982,6 @@ screen file_slots(title):
 
                 textbutton _(">") action FilePageNext()
 
-
 style page_label is gui_label
 style page_label_text is gui_label_text
 style page_button is gui_button
@@ -858,8 +1013,9 @@ style slot_button:
 style slot_button_text:
     properties gui.button_text_properties("slot_button")
 
+# endregion
 
-## Preferences screen ##########################################################
+# region Preferences screen ##########################################################
 ##
 ## The preferences screen allows the player to configure the game to better suit
 ## themselves.
@@ -997,7 +1153,6 @@ screen preferences():
                             action Preference("all mute", "toggle")
                             style "mute_all_button"
 
-
 style pref_label is gui_label
 style pref_label_text is gui_label_text
 style pref_vbox is vbox
@@ -1068,8 +1223,9 @@ style slider_button_text:
 style slider_vbox:
     xsize 675
 
+# endregion
 
-## History screen ##############################################################
+#region History screen ##############################################################
 ##
 ## This is a screen that displays the dialogue history to the player. While
 ## there isn't anything special about this screen, it does have to access the
@@ -1114,11 +1270,9 @@ screen history():
         if not _history_list:
             label _("The dialogue history is empty.")
 
-
 ## This determines what tags are allowed to be displayed on the history screen.
 
 define gui.history_allow_tags = { "alt", "noalt", "rt", "rb", "art" }
-
 
 style history_window is empty
 
@@ -1158,8 +1312,9 @@ style history_label:
 style history_label_text:
     xalign 0.5
 
+# endregion
 
-## Help screen #################################################################
+# region Help screen #################################################################
 ##
 ## A screen that gives information about key and mouse bindings. It uses other
 ## screens (keyboard_help, mouse_help, and gamepad_help) to display the actual
@@ -1171,7 +1326,7 @@ screen help():
 
     default device = "keyboard"
 
-    use game_menu(_("Help"), scroll="viewport"):
+    use game_menu(_("Mods"), scroll="viewport"):
 
         style_prefix "help"
 
@@ -1179,7 +1334,6 @@ screen help():
             spacing 23
 
             hbox:
-
                 textbutton _("Keyboard") action SetScreenVariable("device", "keyboard")
                 textbutton _("Mouse") action SetScreenVariable("device", "mouse")
 
@@ -1192,7 +1346,6 @@ screen help():
                 use mouse_help
             elif device == "gamepad":
                 use gamepad_help
-
 
 screen keyboard_help():
 
@@ -1244,7 +1397,6 @@ screen keyboard_help():
         label "Shift+A"
         text _("Opens the accessibility menu.")
 
-
 screen mouse_help():
 
     hbox:
@@ -1266,7 +1418,6 @@ screen mouse_help():
     hbox:
         label _("Mouse Wheel Down")
         text _("Rolls forward to later dialogue.")
-
 
 screen gamepad_help():
 
@@ -1297,7 +1448,6 @@ screen gamepad_help():
 
     textbutton _("Calibrate") action GamepadCalibrate()
 
-
 style help_button is gui_button
 style help_button_text is gui_button_text
 style help_label is gui_label
@@ -1320,14 +1470,130 @@ style help_label_text:
     xalign 1.0
     text_align 1.0
 
+# endregion
 
+# region Mod screen #################################################################
+##
+## A screen that gives information about active mods and allows the player to
+## enable or disable them.
+
+init -99 python:
+    refresh_game = False
+
+screen mod_manager():
+
+    tag menu
+
+    default device = "keyboard"
+
+    use game_menu(_("Mod Manager"), scroll="viewport"):
+
+        vbox:
+            text "After activating or deactivating any mods, you have to restart the game to apply changes.\nOnly install mods you trust. Mods can contain malicious code.\nI am not responsible for any damage caused by third-party mods.":
+                style "mod_menu_description"
+                color "#fff"
+            null height 20
+
+            if refresh_game:
+                text "Please restart the game to apply changes!":
+                    style "mod_menu_description"
+                    color "#a00000"
+                    size 24
+                null height 20
+
+            for mod_key in persistent.modList.keys():
+                python:
+                    mod = persistent.modList[mod_key]
+                    # if not mod['available']:
+                        # continue
+
+                    if mod_key not in mod_count.keys():
+                        mod_count[mod_key] = 0
+
+                    mod_name = mod['name']
+                    mod_author = "by " + mod['author']
+                    mod_version = "Version " + mod['version']
+
+                if not mod['available']:
+                    continue
+                # null width 1600
+                hbox:
+                    text mod_name:
+                        style "mod_menu_title"
+                    null width 5
+                    text mod_author:
+                        style "mod_menu_author"
+                        yalign 1.0
+                    null width 50
+                    text mod_version:
+                        style "mod_menu_version"
+                        yalign 1.0
+                
+                null height 5
+
+                $ mod_description = mod['description']
+                text mod_description:
+                    style "mod_menu_description"
+                    xpos 20
+                
+                null height 5
+
+                $ mod_stats = "Events: " + str(mod_count[mod_key]) + "    Translation files: " + str(len(mod['translations']))
+                text mod_stats:
+                    style "mod_menu_description"
+                    xpos 20
+
+                if mod['key'] != "base":
+                    null height 5
+                    if not mod['active']:
+                        text "This mod is not enabled!":
+                            style "mod_menu_description"
+                            xpos 20
+
+                        button:
+                            xpos 20
+                            text _("Enable Mod"):
+                                style "mod_menu_button"
+                            action [Function(activate_mod, mod['key']), SetVariable("refresh_game", True)]
+                    else:
+                        button:
+                            xpos 20
+                            text _("Disable Mod"):
+                                style "mod_menu_button"
+                            action [Function(deactivate_mod, mod['key']), SetVariable("refresh_game", True)]
+
+                null height 20
+
+
+
+
+style mod_menu_title:
+    properties gui.button_text_properties("help_button")
+    size 32
+style mod_menu_author:
+    properties gui.button_text_properties("help_button")
+    size 18
+    color "#888"
+style mod_menu_version:
+    properties gui.button_text_properties("help_button")
+    size 24
+    color "#aaa"
+style mod_menu_description:
+    properties gui.button_text_properties("help_button")
+    size 18
+    color "#ccc"
+style mod_menu_button:
+    properties gui.button_properties("help_button")
+    size 24
+
+# endregion
 
 ################################################################################
-## Additional screens
+# region Additional screens
 ################################################################################
 
 
-## Confirm screen ##############################################################
+# region Confirm screen ##############################################################
 ##
 ## The confirm screen is called when Ren'Py wants to ask the player a yes or no
 ## question.
@@ -1389,8 +1655,9 @@ style confirm_button:
 style confirm_button_text:
     properties gui.button_text_properties("confirm_button")
 
+# endregion
 
-## Skip indicator screen #######################################################
+# region Skip indicator screen #######################################################
 ##
 ## The skip_indicator screen is displayed to indicate that skipping is in
 ## progress.
@@ -1413,7 +1680,6 @@ screen skip_indicator():
             text "▸" at delayed_blink(0.2, 1.0) style "skip_triangle"
             text "▸" at delayed_blink(0.4, 1.0) style "skip_triangle"
 
-
 ## This transform is used to blink the arrows one after another.
 transform delayed_blink(delay, cycle):
     alpha .5
@@ -1426,7 +1692,6 @@ transform delayed_blink(delay, cycle):
         linear .2 alpha 0.5
         pause (cycle - .4)
         repeat
-
 
 style skip_frame is empty
 style skip_text is gui_text
@@ -1445,8 +1710,9 @@ style skip_triangle:
     ## glyph in it.
     font "DejaVuSans.ttf"
 
+# endregion
 
-## Notify screen ###############################################################
+# region Notify screen ###############################################################
 ##
 ## The notify screen is used to show the player a message. (For example, when
 ## the game is quicksaved or a screenshot has been taken.)
@@ -1463,14 +1729,12 @@ screen notify(message):
 
     timer 3.25 action Hide('notify')
 
-
 transform notify_appear:
     on show:
         alpha 0
         linear .25 alpha 1.0
     on hide:
         linear .5 alpha 0.0
-
 
 style notify_frame is empty
 style notify_text is gui_text
@@ -1484,8 +1748,9 @@ style notify_frame:
 style notify_text:
     properties gui.text_properties("notify")
 
+# endregion
 
-## NVL screen ##################################################################
+# region NVL screen ##################################################################
 ##
 ## This screen is used for NVL-mode dialogue and menus.
 ##
@@ -1523,7 +1788,6 @@ screen nvl(dialogue, items=None):
 
     add SideImage() xalign 0.0 yalign 1.0
 
-
 screen nvl_dialogue(dialogue):
 
     for d in dialogue:
@@ -1541,7 +1805,6 @@ screen nvl_dialogue(dialogue):
 
                 text d.what:
                     id d.what_id
-
 
 ## This controls the maximum number of NVL-mode entries that can be displayed at
 ## once.
@@ -1602,10 +1865,11 @@ style nvl_button:
 style nvl_button_text:
     properties gui.button_text_properties("nvl_button")
 
-
+# endregion
+# endregion
 
 ################################################################################
-## Mobile Variants
+# region Mobile Variants
 ################################################################################
 
 style pref_vbox:
@@ -1715,3 +1979,5 @@ style slider_vbox:
 style slider_slider:
     variant "small"
     xsize 900
+
+# endregion

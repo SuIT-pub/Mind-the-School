@@ -1,15 +1,14 @@
-##################################
-# ----- Labs Event Handler ----- #
-##################################
+###################################
+# region Labs Event Handler ----- #
+###################################
 
 init -1 python:
-    def labs_events_available() -> bool:
-        return (labs_timed_event.has_available_highlight_events() or
-            labs_general_event.has_available_highlight_events() or
-            any(e.has_available_highlight_events() for e in labs_events.values()))
-
+    set_current_mod('base')
+    
     labs_timed_event = TempEventStorage("labs_timed", "labs", fallback = Event(2, "labs.after_time_check"))
     labs_general_event = EventStorage("labs_general", "labs", fallback = Event(2, "labs.after_general_check"))
+    register_highlighting(labs_timed_event, labs_general_event)
+
     labs_events = {}
 
     labs_bg_images = BGStorage("images/background/labs/bg f.webp",
@@ -18,24 +17,14 @@ init -1 python:
     )
 
 init 1 python:
+    set_current_mod('base')
     
-    labs_action_tutorial_event = Event(2, "action_tutorial",
-        NOT(ProgressCondition('action_tutorial')),
-        ValueSelector('return_label', 'labs'),
-        NoHighlightOption(),
-        TutorialCondition(),
-        override_location = "misc", thumbnail = "images/events/misc/action_tutorial 0.webp")
+# endregion
+###################################
 
-    labs_general_event.add_event(
-        labs_action_tutorial_event
-    )
-
-    
-##################################
-
-################################
-# ----- Labs Entry Point ----- #
-################################
+#################################
+# region Labs Entry Point ----- #
+#################################
 
 label labs ():
     call call_available_event(labs_timed_event) from labs_1
@@ -55,12 +44,14 @@ label .after_general_check (**kwargs):
 
     jump labs
 
-################################
+# endregion
+#################################
 
-###########################
-# ----- Labs Events ----- #
-###########################
+############################
+# region Labs Events ----- #
+############################
 
 
 
-###########################
+# endregion
+############################
