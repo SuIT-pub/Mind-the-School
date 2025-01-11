@@ -68,6 +68,7 @@ init 1 python:
             TimeCondition(daytime = "f", weekday = "d"),
             TimeCondition(daytime = "d", weekday = "w"),
         ),
+        LevelCondition("5-", "school"),
         RandomListSelector("girl_name", "easkey_tanaka", "elsie_johnson", "seraphina_clark", "soyoon_yamamoto"),
         Pattern("main", "images/events/courtyard/courtyard_event_7/courtyard_event_7 <girl_name> <school_level> <step>.webp"),
         thumbnail = "images/events/courtyard/courtyard_event_7/courtyard_event_7 easkey_tanaka 1 0.webp"

@@ -170,6 +170,7 @@ label load_rules ():
             "Progress the school to level 3.",
             "This rule is only temporary to allow players to progress the school to higher levels.",
             "This rule will be removed in the future and replaced by proper level transition events.",
+            "Not all events are available at higher levels.",
         ],
         '_unlock_conditions': ConditionStorage(
             LevelCondition("2", True),
@@ -194,6 +195,7 @@ label load_rules ():
             "Progress the school to level 4.",
             "This rule is only temporary to allow players to progress the school to higher levels.",
             "This rule will be removed in the future and replaced by proper level transition events.",
+            "Not all events are available at higher levels.",
         ],
         '_unlock_conditions': ConditionStorage(
             LevelCondition("3", True),
@@ -218,6 +220,7 @@ label load_rules ():
             "Progress the school to level 5.",
             "This rule is only temporary to allow players to progress the school to higher levels.",
             "This rule will be removed in the future and replaced by proper level transition events.",
+            "Not all events are available at higher levels.",
         ],
         '_unlock_conditions': ConditionStorage(
             LevelCondition("4", True),
@@ -242,6 +245,7 @@ label load_rules ():
             "Progress the school to level 6.",
             "This rule is only temporary to allow players to progress the school to higher levels.",
             "This rule will be removed in the future and replaced by proper level transition events.",
+            "Not all events are available at higher levels.",
         ],
         '_unlock_conditions': ConditionStorage(
             LevelCondition("5", True),
@@ -266,6 +270,7 @@ label load_rules ():
             "Progress the school to level 7.",
             "This rule is only temporary to allow players to progress the school to higher levels.",
             "This rule will be removed in the future and replaced by proper level transition events.",
+            "Not all events are available at higher levels.",
         ],
         '_unlock_conditions': ConditionStorage(
             LevelCondition("6", True),
@@ -290,6 +295,7 @@ label load_rules ():
             "Progress the school to level 8.",
             "This rule is only temporary to allow players to progress the school to higher levels.",
             "This rule will be removed in the future and replaced by proper level transition events.",
+            "Not all events are available at higher levels.",
         ],
         '_unlock_conditions': ConditionStorage(
             LevelCondition("7", True),
@@ -314,6 +320,7 @@ label load_rules ():
             "Progress the school to level 9.",
             "This rule is only temporary to allow players to progress the school to higher levels.",
             "This rule will be removed in the future and replaced by proper level transition events.",
+            "Not all events are available at higher levels.",
         ],
         '_unlock_conditions': ConditionStorage(
             LevelCondition("8", True),
@@ -338,6 +345,7 @@ label load_rules ():
             "Progress the school to level 10.",
             "This rule is only temporary to allow players to progress the school to higher levels.",
             "This rule will be removed in the future and replaced by proper level transition events.",
+            "Not all events are available at higher levels.",
         ],
         '_unlock_conditions': ConditionStorage(
             LevelCondition("9", True),
