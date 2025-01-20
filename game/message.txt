@@ -1,2 +1,2 @@
-[TIME|2025-01-20 13:35|Europe/Berlin]: Release of Version 0.2.0C for public
+[TIME|2025-01-20 13:35|Europe/Berlin] - Release of Version 0.2.0C for public
 [LINK|Wiki|https://wiki.suit-ji.com]
