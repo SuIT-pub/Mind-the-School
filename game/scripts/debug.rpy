@@ -11,7 +11,7 @@ init -100 python:
         print(key + ":", end="")
         pprint.pprint(value, compact = False)
 
-    def log_val(key: str, value: Any):
+    def log_val(key: str, *values: Any):
         """
         Prints a key and value
 
@@ -21,6 +21,8 @@ init -100 python:
         2. value: Any
             - The value to print
         """
+
+        value = ", ".join(map(str, values))
 
         print(key + ": " + str(value))
         return

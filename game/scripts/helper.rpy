@@ -997,6 +997,54 @@ init -99 python:
     # region External Data Functions --- #
     ######################################
 
+    
+    def download_message():
+        global message
+
+        if persistent.load_supporter == 1:
+            log("Load message from web.")
+            try:
+                response = requests.get('https://raw.githubusercontent.com/SuIT-pub/Mind-the-School/master/game/message.txt')
+                message = response.text
+            except requests.exceptions.RequestException as e:  # This is the correct syntax
+                message = "Wasn't able to load notifications. Please check your internet connection."
+                log('Failed Message Download')
+        else:
+            message = "Can't load notifications. Please turn on internet connection in settings.\nGame will not upload any data, only download."
+
+        refine_downloaded_message()
+
+    def refine_downloaded_message():
+        global message
+        try:
+            time_pattern = re.compile(r'\[TIME\|(.+?)\|(.+?)\]')
+
+            def replace_time(match):
+                time_str, timezone = match.groups()
+                device_timezone = get_device_timezone()
+                converted_time = convert_timezone(time_str + ":00", timezone, str(device_timezone))
+                converted_time += f" {get_device_timezone()}"
+                return converted_time
+
+            message = time_pattern.sub(replace_time, message)
+        except Exception as e:
+            log(f"Error processing time pattern: {e}")
+
+        try:
+            link_pattern = re.compile(r'\[LINK\|(.+?)\|(.+?)\]')
+
+            def replace_link(match):
+                text, link = match.groups()
+                return f"{{a={link}}}{text}{{/a}}"
+
+            message = link_pattern.sub(replace_link, message)
+        except Exception as e:
+            log(f"Error processing link pattern: {e}")
+
+        bracket_pattern_1 = re.compile(r'(\[TIME\||\])')
+        message = bracket_pattern_1.sub("", message)
+
+
     def download_members():
         global members
 
@@ -1006,7 +1054,7 @@ init -99 python:
                 members = response.text
             except requests.exceptions.RequestException as e:  # This is the correct syntax
                 members = ""
-                log('Failed Download')
+                log('Failed Member Download')
         else:
             members = ""
 
@@ -1284,7 +1332,6 @@ init -99 python:
     def activate_mod(key: str):
         if key in persistent.modList.keys():
             persistent.modList[key]['active'] = True
-            log_json("activated mod", persistent.modList[key])
 
     def deactivate_mod(key: str):
         if key in persistent.modList.keys():
@@ -1341,6 +1388,58 @@ init -99 python:
 
     # endregion
     ###############################
+
+    import datetime
+    import pytz
+    import time as python_time
+
+    def convert_timezone(time_str, from_tz, to_tz, time_format="%Y-%m-%d %H:%M:%S"):
+        """
+        Convert time from one timezone to another.
+        
+        :param time_str: Time string in the given format (e.g., "2025-01-20 15:00:00")
+        :param from_tz: Source timezone (e.g., "UTC")
+        :param to_tz: Target timezone (e.g., "America/New_York")
+        :param time_format: Format of the time string
+        :return: Converted time string
+        """
+        # Parse the time string into a datetime object
+        from_zone = pytz.timezone(from_tz)
+        to_zone = pytz.timezone(to_tz)
+        time_obj = datetime.datetime.strptime(time_str, time_format)
+
+        # Localize the datetime object to the source timezone
+        localized_time = from_zone.localize(time_obj)
+
+        # Convert to the target timezone
+        converted_time = localized_time.astimezone(to_zone)
+
+        # Return the converted time as a string
+        return converted_time.strftime(time_format)
+
+    def get_device_timezone():
+        """
+        Get the device's local timezone using pytz.
+        """
+        # Get the local timezone name from the system
+        local_timezone_name = python_time.tzname[0]
+        
+        try:
+            # Convert the timezone name to a pytz timezone object
+            local_timezone = pytz.timezone(local_timezone_name)
+        except Exception:
+            # Fallback to UTC if timezone conversion fails
+            local_timezone = pytz.utc
+
+        return local_timezone
+
+    def get_local_time():
+        """
+        Get the current local time as a string.
+        """
+        local_timezone = get_device_timezone()
+        now = datetime.datetime.now(local_timezone)
+        return now.strftime("%Y-%m-%d %H:%M:%S")
 
 init -96 python:
     def finishing_mod_list():    

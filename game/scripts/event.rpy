@@ -1868,6 +1868,7 @@ init -3 python:
         in_replay = get_kwargs("in_replay", False, **kwargs)
         no_gallery = get_kwargs("no_gallery", False, **kwargs)
         is_fragment = get_kwargs("is_fragment", False, **kwargs)
+        is_decision_call = get_kwargs("is_decision_call", False, **kwargs)
 
         if in_replay:
             event = get_kwargs('event_name', None, **kwargs)
@@ -1876,20 +1877,22 @@ init -3 python:
             if is_event_registered(event):
                 location = get_event_from_register(event).get_location()
 
-            if 'version' not in persistent.gallery[location][event]['options'].keys():
-                persistent.gallery[location][event]['options']['version'] = "1"
-            
-            if version != persistent.gallery[location][event]['options']['version']:
-                reset_gallery(location, event)
+            if not is_decision_call:
+                if 'version' not in persistent.gallery[location][event]['options'].keys():
+                    persistent.gallery[location][event]['options']['version'] = "1"
                 
-                if location not in persistent.gallery.keys():
-                    location = ""
+                if version != persistent.gallery[location][event]['options']['version']:
+                    reset_gallery(location, event)
+                    
+                    if location not in persistent.gallery.keys():
+                        location = ""
 
-                renpy.call("failed_replay_invalid_gallery", location)
+                    renpy.call("failed_replay_invalid_gallery", location)
 
-        gallery_manager = None
-        if event_name != "" and not in_replay and not no_gallery:
-            gallery_manager = Gallery_Manager(version = version, **kwargs)
+        if not is_decision_call:
+            gallery_manager = None
+            if event_name != "" and not in_replay and not no_gallery:
+                gallery_manager = Gallery_Manager(version = version, **kwargs)
 
         if not in_replay:
             set_event_seen(event_name)

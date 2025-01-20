@@ -1,5 +1,5 @@
 init -99 python:
-    gallery_version = "2"
+    gallery_version = "3"
 
 init python:
 

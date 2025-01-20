@@ -106,7 +106,9 @@ init -4 python:
 
         def __init__(self, name: str, pattern: str, *alternative_keys: str):
             self._name = name
-            self._pattern = pattern
+            path = get_mod_path(active_mod_key) + pattern
+
+            self._pattern = path
             self._alternative_keys = list(alternative_keys)
 
         def get_name(self) -> str:

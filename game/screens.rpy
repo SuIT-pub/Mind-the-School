@@ -462,6 +462,15 @@ screen main_menu():
         if not changelog_shown:
             changelog_height = 72
 
+    if message != "":
+        frame:
+            background Solid("#00000088")
+            area (20, 20, 1030, 60)
+            padding (10, 5)
+            vbox:
+                text message style "main_menu_changelog_text"
+
+
     frame:
         background Solid("#00000088")
         area (1400, 20, 500, changelog_height)
@@ -479,6 +488,17 @@ screen main_menu():
                     else:
                         textbutton "Hide" action SetVariable("changelog_shown", False)
                 if changelog_shown:
+                    null height 15
+                    text "Version 0.2.0C" style "main_menu_changelog_title"
+                    null height 15
+                    text "• Fixed Event in School Dorm and Building showing for level it is not planned for" style "main_menu_changelog_text"
+                    text "• Fixed Replay Gallery crashing to map overview, when handling decisions during replay" style "main_menu_changelog_text"
+                    text "• Added live notifications to main menu" style "main_menu_changelog_text"
+                    null height 15
+                    text "Version 0.2.0B_1" style "main_menu_changelog_title"
+                    null height 15
+                    text "• Fixed Event in Courtyard showing for level it is not planned for" style "main_menu_changelog_text"
+                    text "• Fixed error in gym after level 6 has been reached" style "main_menu_changelog_text"
                     null height 15
                     text "Version 0.2.0B" style "main_menu_changelog_title"
                     null height 15

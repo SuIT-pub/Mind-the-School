@@ -97,13 +97,19 @@ init python:
 
         in_event = get_kwargs('in_event', False, **kwargs)
         in_replay = get_kwargs('in_replay', False, **kwargs)
+        no_gallery = get_kwargs("no_gallery", False, **kwargs)
+
+        if not no_gallery and in_event:
+            kwargs['is_decision_call'] = True
+
+        disabled_elements = [element for element in elements if isinstance(element, str) and not check_for_label_existence(element)]
 
         if in_event and in_replay:
             made_decisions = get_kwargs('made_decisions', [], **kwargs)
             decision_data = get_kwargs('decision_data', {}, **kwargs)
             possible_decisions = get_decision_possibilities(decision_data, made_decisions)
-            elements = [tupleEl for tupleEl in elements if str(tupleEl) in possible_decisions or (isinstance(tupleEl, Tuple) and str(tupleEl[1]) in possible_decisions)]
-            
+            elements = [tupleEl for tupleEl in elements if (str(tupleEl) in possible_decisions or (isinstance(tupleEl, Tuple) and str(tupleEl[0]) in possible_decisions)) and not str(tupleEl) in disabled_elements]
+
         filtered_elements = [tupleEl for tupleEl in elements if not isinstance(tupleEl, Tuple) or len(tupleEl) == 2 or tupleEl[2]]
 
         if len(filtered_elements) == 0:
@@ -130,10 +136,12 @@ init python:
             - The elements to display in the menu. Each element is a tuple of the form (title, event_label, active), (title, effect, active) or (title, effect_list, active). The active parameter is optional and defaults to True.
 
         """
-
         in_event = get_kwargs('in_event', False, **kwargs)
         in_replay = get_kwargs('in_replay', False, **kwargs)
         no_gallery = get_kwargs("no_gallery", False, **kwargs)
+
+        if not no_gallery and in_event:
+            kwargs['is_decision_call'] = True
 
         disabled_elements = [element for element in elements if isinstance(element, str) and not check_for_label_existence(element)]
 
@@ -141,10 +149,10 @@ init python:
             made_decisions = get_kwargs('made_decisions', [], **kwargs)
             decision_data = get_kwargs('decision_data', {}, **kwargs)
             possible_decisions = get_decision_possibilities(decision_data, made_decisions)
-            elements = [tupleEl for tupleEl in elements if (str(tupleEl) in possible_decisions or (isinstance(tupleEl, Tuple) and str(tupleEl[1]) in possible_decisions)) and not str(tupleEl) in disabled_elements]
+            elements = [tupleEl for tupleEl in elements if (str(tupleEl) in possible_decisions or (isinstance(tupleEl, Tuple) and str(tupleEl[0]) in possible_decisions)) and not str(tupleEl) in disabled_elements]
 
         filtered_elements = [tupleEl for tupleEl in elements if not isinstance(tupleEl, Tuple) or len(tupleEl) == 2 or tupleEl[2]]
-        
+
         if len(filtered_elements) == 0:
             character.dev ("Oops something went wrong here. There seems to be nothing to choose from. Sry about that. I'll send you back to the map.")
             # character.dev (f"Error Code: [101]{kwargs['event_name']}:{';'.join([tag.split('.')[1] for tag in made_decisions])}")
@@ -188,6 +196,7 @@ label call_menu(text, person, with_leave = True, *elements, **kwargs):
             $ title, effects = elements[0]
         else:
             $ title, effects, _active = elements[0]
+
         $ renpy.call("call_element", title, effects, **kwargs)
 
     $ p_text = Character(kind = person, retain = False)

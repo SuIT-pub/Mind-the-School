@@ -136,7 +136,7 @@ label courtyard_event_1 (**kwargs):
         ("Look away", "courtyard_event_1.look_away"),
     **kwargs)
 label .look (**kwargs):
-    $ begin_event()
+    $ begin_event(**kwargs)
     
     $ image.show(1)
     subtitles "You take the chance to stare directly ahead and burn that image into your brain and retina."
@@ -151,7 +151,7 @@ label .look (**kwargs):
     $ end_event("new_daytime", **kwargs)
 label .look_away (**kwargs):
     
-    $ begin_event()
+    $ begin_event(**kwargs)
     
     $ image.show(4)
     subtitles "You quickly look away, but the image is already burned into your brain."
@@ -180,7 +180,7 @@ label courtyard_event_2 (**kwargs):
     **kwargs)
 label .talk (**kwargs):
     
-    $ begin_event()
+    $ begin_event(**kwargs)
     
     $ image.show(2)
     headmaster "Hey, are you alright?"
@@ -204,7 +204,7 @@ label .talk (**kwargs):
     $ end_event("new_daytime", **kwargs)
 label .leave (**kwargs):
     
-    $ begin_event()
+    $ begin_event(**kwargs)
     
     $ image.show(1)
     subtitles "You decide to leave her alone."

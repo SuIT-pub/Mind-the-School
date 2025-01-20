@@ -68,11 +68,7 @@ init -6 python:
 
         probabilities = [calculateProbabilityValue(conditions, char_obj) / 100 for char_obj in char_obj_list]
 
-        log_val("probabilities", probabilities) # [0.0]
-
         transformed_probabilities = [(p + 1) / 2 if p >= -1 else 0 for p in probabilities]
-
-        log_val("transformed_probabilities", transformed_probabilities) # [0.5]
 
         n = len(transformed_probabilities)
         majority_count = (n // 2) + 1  # Number of approvals for a majority
@@ -90,8 +86,6 @@ init -6 python:
                     else:
                         prob *= (1 - transformed_probabilities[i])  # Rejection
                 total_probability += prob
-
-        log_val("total_probability", total_probability * 100) # 50.0
 
         return total_probability * 100
 
@@ -132,16 +126,13 @@ init -6 python:
         voteConditions = conditions.get_conditions()
         probability = 100.0
         for condition in voteConditions:
-            log_val("condition", condition.get_name())
             if isinstance(condition, PTAOverride):
                 if condition.char == char_obj.get_name():
                     return condition.accept
 
             if is_in_pta and isinstance(condition, MoneyCondition):
                 continue
-            log_val("diff", condition.get_diff(char_obj))
             probability += condition.get_diff(char_obj)
-        log_val("probability after diff", probability)
         return probability
 
     # endregion
@@ -169,21 +160,15 @@ init -6 python:
         """
 
         log_separator()
-        log_val("char_obj", str(char_obj))
-
         probability = calculateProbability(conditions, char_obj, is_in_pta = True)
 
         voteDiff = 0
-
-        log_val("probability", probability)
 
         if isinstance(probability, str):
             return probability
         else:
             vote = renpy.random.random() * 100
-            log_val("vote", vote)
             voteDiff = probability - vote
-            log_val("voteDiff", voteDiff)
 
             if probability >= 100 or voteDiff >= 0:
                 return 'yes'
@@ -714,23 +699,15 @@ label pta_end_meeting_1 (**kwargs):
 
 label pta_vote_result (parent_vote, teacher_vote, student_vote, proposal):
 
-    $ log_val("parent_vote", parent_vote)
-    $ log_val("teacher_vote", teacher_vote)
-    $ log_val("student_vote", student_vote)
-
     $ vote_object = proposal._journal_obj
     $ vote_action = proposal._action
     $ obj_title = vote_object.get_title()
     $ end_choice = get_end_choice(parent_vote, teacher_vote, student_vote)
 
-    $ log("applying vote result for " + obj_title)
-    $ log_val("end_choice", end_choice)
-
     $ money_conditions = [condition for condition in vote_object.get_conditions() if isinstance(condition, MoneyCondition)]
 
     if end_choice == 'yes':
         if vote_action == "unlock":
-            $ log("unlocking")
             $ vote_object.unlock(True, True)
             $ add_notify_message(f"{obj_title} has been unlocked.")
         if vote_action == "upgrade":

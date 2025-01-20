@@ -57,6 +57,7 @@ init 1 python:
 
     sb_event5 = Event(3, "sb_event_5",
         TimeCondition(daytime = "c", weekday = "d"),
+        LevelCondition("5-", "school"),
         RandomListSelector('girls', 'ikushi_ito', 'soyoon_yamamoto', 'yuriko_oshima'),
         Pattern('main', "/images/events/school building/sb_event_5/sb_event_5 <school_level> <girls> <step>.webp", 'school_level', 'girls'),
         thumbnail = "images/events/school building/sb_event_5/sb_event_5 1 soyoon_yamamoto 11.webp")
@@ -129,7 +130,7 @@ label sb_event_1 (**kwargs): # patrol, check class
     **kwargs)
 label .leave (**kwargs):
     
-    $ begin_event()
+    $ begin_event(**kwargs)
     
     # show screen black_screen_text("sb_event_1.leave")
     $ image.show(2)
@@ -141,7 +142,7 @@ label .leave (**kwargs):
     $ end_event('new_daytime', **kwargs)
 label .stop (**kwargs):
     
-    $ begin_event()
+    $ begin_event(**kwargs)
     
     # show screen black_screen_text("sb_event_1.stop")
     $ image.show(3)
@@ -176,7 +177,7 @@ label sb_event_3 (**kwargs): # patrol
     **kwargs)
 label .what (**kwargs):
     
-    $ begin_event()
+    $ begin_event(**kwargs)
     
     $ image.show(3) # headmaster sits next to her
     headmaster "What is going on? I can see there is something bothering you."
@@ -196,7 +197,7 @@ label .what (**kwargs):
     **kwargs)
 label .leave (**kwargs):
     
-    $ begin_event()
+    $ begin_event(**kwargs)
     
     $ image.show(6)
     subtitles"You hesitate for a moment, but then decide to leave her alone."
@@ -219,7 +220,7 @@ label .leave (**kwargs):
     $ end_event('new_daytime', **kwargs)
 label .get_to_bottom (**kwargs):
     
-    $ begin_event()
+    $ begin_event(**kwargs)
     
     $ image.show(3) # headmaster looks to girl
     headmaster "I really want to help you. Please tell me what is going on."
@@ -254,7 +255,7 @@ label .get_to_bottom (**kwargs):
     $ end_event('new_daytime', **kwargs)
 label .send_class (**kwargs):
     
-    $ begin_event()
+    $ begin_event(**kwargs)
     
     $ image.show(15) # headmaster starts walking away
     headmaster "Then you better get back to class."
@@ -274,7 +275,7 @@ label .send_class (**kwargs):
     **kwargs)
 label .poor_thing (**kwargs):
 
-    $ begin_event()
+    $ begin_event(**kwargs)
     
     $ image.show(19) # headmaster squats next to her
     headmaster "Look, maybe you should just take the day off. I'll notify your teacher."
@@ -290,7 +291,7 @@ label .poor_thing (**kwargs):
     $ end_event('new_daytime', **kwargs)
 label .chin_up (**kwargs):
     
-    $ begin_event()
+    $ begin_event(**kwargs)
     
     $ image.show(19) # headmaster squats next to her
     headmaster "Now, now, it can't be that bad. I'm sure whatever caused those tears will soon be forgotten."

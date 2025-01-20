@@ -706,7 +706,6 @@ screen journal_vote_button(page, display, active_obj):
                 $ probability = calculateProbabilitySum(condition_storage)
             else:
                 $ log_separator()
-                $ log_val('display', display)
                 $ probability = calculateProbabilitySum(
                     condition_storage
                 )
@@ -2872,6 +2871,8 @@ label dump_gallery_data(page, display):
     # 2. display: str
     #     - the display to be opened after the reset
     # """
+
+    $ log_json("gallery_data", persistent.gallery)
 
     $ renpy.notify("Dumped gallery data!")
 

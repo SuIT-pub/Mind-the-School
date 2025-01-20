@@ -437,7 +437,6 @@ init -7 python:
             """
 
             for effect in self._unlock_effects:
-                log_val("Applying effect", effect)
                 effect.apply()
 
     # endregion

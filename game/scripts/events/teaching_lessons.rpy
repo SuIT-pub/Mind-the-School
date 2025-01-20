@@ -456,7 +456,7 @@ label sb_teach_math_ld_3 (**kwargs):
         ("Help her up", "sb_teach_math_ld_3.help"), 
     **kwargs)
 label .leave (**kwargs):
-    $ begin_event()
+    $ begin_event(**kwargs)
     
     $ image.show(2)
     subtitles "You decide to leave her alone."
@@ -465,7 +465,7 @@ label .leave (**kwargs):
         charm = DEC_TINY, happiness = DEC_TINY) from _call_change_stats_with_modifier_59
     $ end_event('new_daytime', **kwargs)
 label .help (**kwargs):
-    $ begin_event()
+    $ begin_event(**kwargs)
     
     $ image.show(3)
     subtitles "You help her up."

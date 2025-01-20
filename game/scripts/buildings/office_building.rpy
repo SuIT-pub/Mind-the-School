@@ -758,7 +758,7 @@ label office_event_3 (**kwargs):
     **kwargs)
 label .ignore (**kwargs):
     
-    $ begin_event()
+    $ begin_event(**kwargs)
     
     $ image.show(1)
     subtitles "You ignore them and continue you way."
@@ -769,7 +769,7 @@ label .ignore (**kwargs):
     $ end_event('new_daytime', **kwargs)
 label .talk (**kwargs):
     
-    $ begin_event()
+    $ begin_event(**kwargs)
     
     $ image.show(2)
     headmaster "Why are you sitting here?"
@@ -786,7 +786,7 @@ label .talk (**kwargs):
     **kwargs)
 label .policy (**kwargs):
     
-    $ begin_event()
+    $ begin_event(**kwargs)
     
     $ image.show(5)
     headmaster "Well, you know that relationships between students are not allowed."
@@ -807,7 +807,7 @@ label .policy (**kwargs):
     $ end_event('new_daytime', **kwargs)
 label .care (**kwargs):
     
-    $ begin_event()
+    $ begin_event(**kwargs)
     
     $ image.show(7)
     headmaster "Okay, listen. You know relationships aren't allowed here at school."

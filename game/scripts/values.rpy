@@ -18,6 +18,9 @@ init -98 python:
     members = ""
     download_members()
 
+    message = ""
+    download_message()
+
     # get_mod_list()
     
     repair_mod_list()

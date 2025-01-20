@@ -129,19 +129,14 @@ init -1 python:
             return f"{self.value}"
 
         def apply(self, **kwargs):
-            log("Applying Level Effect")
             char_obj = self.char_obj
             if char_obj == None:
                 char_obj = get_kwargs("char_obj", **kwargs)
             if char_obj == None:
                 return
 
-            log_val("Char Obj", char_obj.get_name())
-
             if self.mode == "SET":
-                log_val("current level", char_obj.get_level())
                 char_obj.set_level(self.value)
-                log_val("new level", char_obj.get_level())
             if self.mode == "ADD":
                 char_obj.set_level(char_obj.get_level() + self.value)
             return kwargs

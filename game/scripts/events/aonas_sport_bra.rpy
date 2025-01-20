@@ -34,8 +34,6 @@ label gym_teach_pe_intro_aona_bra (**kwargs):
     $ bra = get_value('skimpy_bra', **kwargs)
     $ skimpy = bra != 0
 
-    $ log_val("skimpy", str(skimpy))
-
     $ kwargs = load_kwargs_values(kwargs, skimpy = str(skimpy))
     $ image = convert_pattern("main", skimpy = skimpy, **kwargs)
 

@@ -150,7 +150,7 @@ label kiosk_event_3 (**kwargs):
     **kwargs)
 label .leave (**kwargs):
     
-    $ begin_event()
+    $ begin_event(**kwargs)
     
     if topic == "slimy":
         $ image.show(4)
@@ -202,7 +202,7 @@ label .leave (**kwargs):
         $ end_event('new_daytime', **kwargs)
 label .help (**kwargs):
     
-    $ begin_event()
+    $ begin_event(**kwargs)
     
     $ image.show(14)
     headmaster "What's the matter here?"

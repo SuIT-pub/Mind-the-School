@@ -378,7 +378,7 @@ label sd_event_5 (**kwargs):
     **kwargs)
 
 label .leave (**kwargs):
-    $ begin_event()
+    $ begin_event(**kwargs)
 
     headmaster_thought "Well better head off. Wouldn't want to get caught."
 
@@ -389,7 +389,7 @@ label .leave (**kwargs):
     $ end_event("new_daytime", **kwargs)
 
 label .stay (**kwargs):
-    $ begin_event()
+    $ begin_event(**kwargs)
 
     if school_level >= 8:
         $ image.show(3)
