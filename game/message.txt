@@ -1,2 +1,1 @@
-[TIME|2025-01-20 13:35|UTC] - Release of Version 0.2.0C for public
-[LINK|Wiki|https://wiki.suit-ji.com]
+[TIME|2025-01-22 08:25|UTC] - Release of Version 0.2.0C for public
