@@ -1012,10 +1012,9 @@ init -99 python:
         else:
             message = "Can't load notifications. Please turn on internet connection in settings.\nGame will not upload any data, only download."
 
-        refine_downloaded_message()
+        message = refine_downloaded_message(message)
 
-    def refine_downloaded_message():
-        global message
+    def refine_downloaded_message(text):
         try:
             time_pattern = re.compile(r'\[TIME\|(.+?)\|(.+?)\]')
 
@@ -1026,7 +1025,7 @@ init -99 python:
                 converted_time += f" {get_device_timezone()}"
                 return converted_time
 
-            message = time_pattern.sub(replace_time, message)
+            text = time_pattern.sub(replace_time, text)
         except Exception as e:
             log(f"Error processing time pattern: {e}")
 
@@ -1037,13 +1036,14 @@ init -99 python:
                 text, link = match.groups()
                 return f"{{a={link}}}{text}{{/a}}"
 
-            message = link_pattern.sub(replace_link, message)
+            text = link_pattern.sub(replace_link, text)
         except Exception as e:
             log(f"Error processing link pattern: {e}")
 
         bracket_pattern_1 = re.compile(r'(\[TIME\||\])')
-        message = bracket_pattern_1.sub("", message)
+        text = bracket_pattern_1.sub("", text)
 
+        return text
 
     def download_members():
         global members
@@ -1051,7 +1051,7 @@ init -99 python:
         if persistent.load_supporter == 1:
             try:
                 response = requests.get('https://raw.githubusercontent.com/SuIT-pub/Mind-the-School/master/game/members.csv')
-                members = response.text
+                members = refine_downloaded_message(response.text)
             except requests.exceptions.RequestException as e:  # This is the correct syntax
                 members = ""
                 log('Failed Member Download')
@@ -1080,7 +1080,7 @@ init -99 python:
         if members == "" or members == "404: Not Found":
             if not renpy.loadable("members.csv"):
                 return [], "Supporter list could not be loaded."
-            file = renpy.open_file("members.csv")
+            file = refine_downloaded_message(renpy.open_file("members.csv"))
             lines = split_to_non_empty_list(file.read().decode(), "\r\n")
         else:
             lines = split_to_non_empty_list(file, "\n")

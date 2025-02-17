@@ -491,9 +491,10 @@ screen main_menu():
                     null height 15
                     text "Version 0.2.0C" style "main_menu_changelog_title"
                     null height 15
-                    text "• Fixed Event in School Dorm and Building showing for level it is not planned for" style "main_menu_changelog_text"
-                    text "• Fixed Replay Gallery crashing to map overview, when handling decisions during replay" style "main_menu_changelog_text"
                     text "• Added live notifications to main menu" style "main_menu_changelog_text"
+                    text "• Fixed Replay Gallery crashing to map overview, when handling decisions during replay" style "main_menu_changelog_text"
+                    text "• Fixed Event in School Dorm and Building showing for level it is not planned for" style "main_menu_changelog_text"
+                    text "• Fixed missing images in a School Dorm Event" style "main_menu_changelog_text"
                     null height 15
                     text "Version 0.2.0B_1" style "main_menu_changelog_title"
                     null height 15

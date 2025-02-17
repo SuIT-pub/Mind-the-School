@@ -143,22 +143,22 @@ label sd_event_1 (**kwargs):
         easkey "Umm, hello!"
         $ image.show(1)
         headmaster "Hello there, is everything okay?"
-        if inhibition >= 90:
-            $ image.show(2)
-            easkey "Yeah Mr. [headmaster_last_name], but would you please knock before entering next time?"
-            $ image.show(3)
-            headmaster "Ah yes... yes of course."
-            call change_stats_with_modifier('school',
-                happiness = DEC_TINY) from _call_change_stats_with_modifier_73
-            $ end_event(**kwargs)
-        else:
-            $ image.show(5)
-            easkey "Yeah Mr. [headmaster_last_name], you just surprised me."
-            $ image.show(6)
-            headmaster "Oh, sorry about that."
-            call change_stats_with_modifier('school',
-                happiness = DEC_TINY, education = MEDIUM) from _call_change_stats_with_modifier_74
-            $ end_event(**kwargs)
+        # if inhibition >= 90:
+        $ image.show(2)
+        easkey "Yeah Mr. [headmaster_last_name], but would you please knock before entering next time?"
+        $ image.show(3)
+        headmaster "Ah yes... yes of course."
+        call change_stats_with_modifier('school',
+            happiness = DEC_TINY) from _call_change_stats_with_modifier_73
+        $ end_event(**kwargs)
+        # else:
+        #     $ image.show(5)
+        #     easkey "Yeah Mr. [headmaster_last_name], you just surprised me."
+        #     $ image.show(6)
+        #     headmaster "Oh, sorry about that."
+        #     call change_stats_with_modifier('school',
+        #         happiness = DEC_TINY, education = MEDIUM) from _call_change_stats_with_modifier_74
+        #     $ end_event(**kwargs)
     else:
         $ image.show(4)
         easkey "hmm... This homework is hard. Why do I need to learn this anyway?"

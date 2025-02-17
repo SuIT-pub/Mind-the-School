@@ -311,7 +311,7 @@ def main():
             for i, path in enumerate(paths):
                 nconvert_path = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'NConvert/nconvert.exe'))
                 print(f"\n\nConverting {i + 1}/{len(paths)}: {path}\n---------------------------------")
-                if response == 'Lossless' or (not '\\events\\' in path and not '\\background\\' in path and not '\\characters\\' in path):
+                if response == 'Lossless' or (not '\\events\\' in path and not '\\background\\' in path and not '\\characters\\' in path and not '\\mods\\' in path):
                     print('overriding quality')
                     subprocess.run([nconvert_path, "-overwrite", "-out", "webp", "-q", "-1", path])
                 else:
