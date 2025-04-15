@@ -21,4 +21,5 @@ errors.txt
 traceback.txt
 **/images/
 **/images/**
-docs/processed_python/**
+docs/
+docs/**
