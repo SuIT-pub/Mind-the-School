@@ -6,6 +6,7 @@ aonas
 Ashkon
 astimezone
 bgimage
+cooldown
 Dateien
 datetime
 daysegment
@@ -25,6 +26,7 @@ gtpewu
 hikikomori
 Hvemborg
 İleri
+Ishi's
 itertools
 Jaber
 kdtk

@@ -10,6 +10,7 @@ init -1 python:
     register_highlighting(sb_timed_event, sb_general_event)
 
     sb_events = {}
+    add_storage(sb_events, EventStorage("check_class",  "school_building", fallback_text = "There is nobody here."))
     add_storage(sb_events, EventStorage("teach_class",  "school_building", fallback_text = "There is nobody here."))
     add_storage(sb_events, EventStorage("patrol",       "school_building", fallback_text = "There is nobody here."))
 

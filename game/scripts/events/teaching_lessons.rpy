@@ -679,6 +679,16 @@ label gym_teach_pe_intro_1 (**kwargs):
 
     $ end_event('map_overview', **kwargs)
 
+# TODO: implement
+label gym_teach_pe_intro_2 (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ image = convert_pattern("main", **kwargs)
+
+    # show more general images of headmaster preparing
+
+    $ end_event('map_overview', **kwargs)
+
 # endregion
 ################
 

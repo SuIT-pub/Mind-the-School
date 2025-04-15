@@ -17,7 +17,7 @@ class Editor(renpy.editor.Editor):
         DIR = os.path.abspath(os.path.dirname(__file__))
 
         if renpy.windows:
-            code = "Code.cmd"
+            code = "cursor.cmd"
         elif renpy.macintosh:
             DIR = os.path.abspath("/Applications")
             code = os.path.join(
@@ -30,7 +30,7 @@ class Editor(renpy.editor.Editor):
                 "code",
             )
         else:
-            code = "code"
+            code = "cursor"
 
         return code
 
@@ -48,7 +48,7 @@ class Editor(renpy.editor.Editor):
     def end(self, **kwargs):
         self.args.reverse()
         
-        code = 'C:\\Program Files\\Microsoft VS Code Insiders\\bin\\code-insiders.cmd'
+        code = 'D:\\cursor\\resources\\app\\bin\\cursor.cmd'
         args = [code, "-g"] + self.args
         args = [renpy.exports.fsencode(i) for i in args]
 

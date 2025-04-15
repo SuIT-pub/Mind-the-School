@@ -25,7 +25,7 @@ define gui.show_name = True
 
 ## The version of the game.
 
-define config.version = "0.2.0C"
+define config.version = "0.2.1"
 
 
 ## Text that is placed on the game's about screen. Place the text between the
@@ -73,8 +73,8 @@ define config.has_voice = False
 ## Each variable should be set to a transition, or None to indicate that no
 ## transition should be used.
 
-default dissolveM = Dissolve(0.5 * (2.0 - persistent.transition_speed))
 default persistent.transition_speed = 1.75
+default dissolveM = Dissolve(0.5 * (2.0 - persistent.transition_speed))
 
 default persistent.display_textbox = 0
 
@@ -224,7 +224,7 @@ init python:
     ## Files matching documentation patterns are duplicated in a mac app
     ## build, so they appear in both the app and the zip file.
 
-    build.documentation('*.html')
+    build.documentation('docs/html/**')
     build.classify('*.txt', None)
     build.classify('*.docx', None)
     build.classify('*.xlsx', None)
@@ -236,11 +236,15 @@ init python:
     build.archive("images", "all")
     build.archive("sounds", "all")
     build.archive("data", "all")
+    build.archive("mods", "all")
 
     # Put script files into the scripts archive.
     build.classify("game/**.ttf", "scripts")
-    build.classify("game/**.rpyc", "scripts")
+    build.classify("game/*.rpyc", "scripts")
+    build.classify("game/scripts/**.rpyc", "scripts")
+    build.classify("game/python-packages/**", "scripts")
 
+    build.classify("game/**.rpym", "data")
     build.classify("game/members.csv", "data")
     build.classify("game/translations.csv", "data")
     build.classify("game/loli_filter", "data")
@@ -258,6 +262,8 @@ init python:
     build.classify("game/**.ogg", "sounds")
     build.classify("game/**.wav", "sounds")
     build.classify("game/**.mp3", "sounds")
+
+    build.classify("game/mods/**", "mods")
 
 
     build.include_i686 = False

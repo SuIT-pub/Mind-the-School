@@ -21,6 +21,11 @@ init -6 python:
         def get_option(self, name: str) -> Union[Option, None]:
             return self.options.get(name, None)
 
+        def has_option(self, name: str) -> bool:
+            return name in self.options.keys()
+
+    empty_option_set = OptionSet()
+
     class Option(ABC):
         def __init__(self, name: str):
             self.name = name
@@ -40,6 +45,9 @@ init -6 python:
         @abstractmethod
         def check_option(self, **kwargs) -> bool:
             pass
+
+        def get_values(self) -> Dict[str, Any]:
+            return {}
 
     class NoHighlightOption(Option):
         def __init__(self):
@@ -77,3 +85,32 @@ init -6 python:
             if "Priority" in kwargs:
                 return kwargs["Priority"] == self.priority
             return True
+
+    class FragmentRepeatOption(Option):
+        def __init__(self, number: int, repeatable: bool):
+            super().__init__("FragmentRepeat")
+            self.number = number
+            self.repeatable = repeatable
+
+        def check_option(self, **kwargs):
+            return True
+
+        def get_values(self) -> Dict[str, Any]:
+            if (isinstance(self.number, Selector)):
+                return {
+                    "number": self.number.roll(),
+                    "repeatable": self.repeatable
+                }
+
+            return {
+                "number": self.number,
+                "repeatable": self.repeatable
+            }
+
+    class FragmentRerollOption(Option):
+        def __init__(self):
+            super().__init__("FragmentReroll")
+
+        def check_option(self, **kwargs):
+            return True
+

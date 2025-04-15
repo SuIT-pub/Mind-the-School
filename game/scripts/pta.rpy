@@ -35,12 +35,11 @@ init -6 python:
 
     def calculateProbabilitySum(conditions: ConditionStorage, *char_obj_list: Char, is_in_pta = False) -> float:
         """
-        Calculates the probability of a character voting yes for a proposal.
+        Calculates the overall probability of a proposal being accepted.
 
         ### Parameters:
         1. conditions: ConditionStorage
             - The conditions that decide the success of the proposal.
-            - These are used to calculate the probability depending on the difference from expected values
         2. char_obj_list: Char
             - The characters that should vote on the proposal.
             - If None, the default characters will be used.
@@ -50,47 +49,41 @@ init -6 python:
             - The probability of the proposal being accepted.
             - The range goes from 0.0 to 100.0
         """
-
         if conditions == None:
             return 0.0
 
         if char_obj_list == None or len(char_obj_list) == 0:
-            char_obj_list = [get_character_by_key("school")]
+            char_obj_list = []
+            if "teacher" not in conditions.ignores:
+                char_obj_list.append(get_character_by_key("teacher"))
+            if "parent" not in conditions.ignores:
+                char_obj_list.append(get_character_by_key("parent"))
+            if "school" not in conditions.ignores:
+                char_obj_list.append(get_character_by_key("school"))
 
-            # if "teacher" not in conditions.ignores:
-            #     char_obj_list.append(get_character_by_key("teacher"))
-            # if "parent" not in conditions.ignores:
-            #     char_obj_list.append(get_character_by_key("parent"))
-            # if "school" not in conditions.ignores:
-            #     char_obj_list.append(get_character_by_key("school"))
+        if len(char_obj_list) == 0:
+            return 100.0  # If no one votes, proposal passes automatically
 
-        overall_probability = 1.0
+        # Calculate individual probabilities
+        probabilities = []
+        for char_obj in char_obj_list:
+            prob = calculateProbabilityValue(conditions, char_obj, is_in_pta)
+            if prob == -5000:  # Veto
+                return 0.0
+            probabilities.append(max(0.0, min(100.0, prob)))
 
-        probabilities = [calculateProbabilityValue(conditions, char_obj) / 100 for char_obj in char_obj_list]
-
-        transformed_probabilities = [(p + 1) / 2 if p >= -1 else 0 for p in probabilities]
-
-        n = len(transformed_probabilities)
-        majority_count = (n // 2) + 1  # Number of approvals for a majority
+        # Calculate average probability, weighted by number of voters needed
+        majority_needed = (len(probabilities) // 2) + 1
+        total_prob = sum(probabilities) / len(probabilities)
         
-        total_probability = 0.0
-        
-        # Iterate through all combinations of approvals and rejections
-        for outcome in product([0, 1], repeat=n):
-            if sum(outcome) >= majority_count:  # If majority reached
-                prob = 1.0
-                # Calculate the probability of this specific combination
-                for i in range(n):
-                    if outcome[i] == 1:
-                        prob *= transformed_probabilities[i]  # Consent
-                    else:
-                        prob *= (1 - transformed_probabilities[i])  # Rejection
-                total_probability += prob
-
-        return total_probability * 100
+        # Scale based on how many votes are needed vs available
+        scaling_factor = majority_needed / len(probabilities)
+        return max(0.0, min(100.0, total_prob * (1.0 / scaling_factor)))
 
     def calculateProbabilityValue(conditions: ConditionStorage, char_obj: Char, is_in_pta = False) -> float:
-
+        """
+        Converts the probability or override string to a numeric value.
+        """
         probability = calculateProbability(conditions, char_obj, is_in_pta)
 
         if isinstance(probability, str):
@@ -101,9 +94,8 @@ init -6 python:
             elif probability == 'veto':
                 return -5000.0
             elif probability == 'ignore':
-                return 0.0
+                return 50.0  # Neutral stance
         else:
-            log("returns probability without change")
             return probability
 
     def calculateProbability(conditions: ConditionStorage, char_obj: Char, is_in_pta = False) -> float | str:
@@ -113,27 +105,42 @@ init -6 python:
         ### Parameters:
         1. conditions: ConditionStorage
             - The conditions that decide the success of the proposal.
-            - These are used to calculate the probability depending on the difference from expected values
         2. char_obj: Char
             - The character that should vote on the proposal.
 
         ### Returns:
-        1. float
-            - The probability of the proposal being accepted.
-            - The range goes from 0.0 to 100.0
+        1. float | str
+            - The probability of the proposal being accepted or an override string
+            - Float range goes from -100.0 to 100.0
+            - String can be "yes", "no", "veto" or "ignore"
         """
-
         voteConditions = conditions.get_conditions()
-        probability = 100.0
+        
+        # Check for overrides first
         for condition in voteConditions:
             if isinstance(condition, PTAOverride):
                 if condition.char == char_obj.get_name():
                     return condition.accept
 
+        # Calculate base probability
+        probability = 50.0  # Start at neutral
+        total_weight = 0.0
+        
+        for condition in voteConditions:
             if is_in_pta and isinstance(condition, MoneyCondition):
                 continue
-            probability += condition.get_diff(char_obj)
-        return probability
+            
+            diff = condition.get_diff(char_obj)
+            # Weight more extreme differences more heavily
+            weight = abs(diff) / 100.0
+            probability += diff * weight
+            total_weight += weight
+
+        if total_weight > 0:
+            # Normalize probability
+            probability = 50.0 + ((probability - 50.0) / total_weight)
+        
+        return max(-100.0, min(100.0, probability))
 
     # endregion
     ###################################
@@ -149,7 +156,6 @@ init -6 python:
         ### Parameters:
         1. conditions: ConditionStorage
             - The conditions that decide the success of the proposal.
-            - These are used to calculate the probability depending on the difference from expected values
         2. char_obj: Char
             - The character that should vote on the proposal.
 
@@ -158,24 +164,25 @@ init -6 python:
             - The vote of the character.
             - Can be "yes", "no" or "veto"
         """
-
-        log_separator()
         probability = calculateProbability(conditions, char_obj, is_in_pta = True)
-
-        voteDiff = 0
 
         if isinstance(probability, str):
             return probability
-        else:
-            vote = renpy.random.random() * 100
-            voteDiff = probability - vote
 
-            if probability >= 100 or voteDiff >= 0:
-                return 'yes'
-            elif probability <= 0 and voteDiff <= -50:
-                return 'veto'
-            else:
-                return 'no'
+        # Normalize probability to 0-100 range
+        normalized_prob = (probability + 100.0) / 2.0
+        
+        # Random roll
+        roll = renpy.random.random() * 100.0
+        
+        # Strong negative opinions can lead to veto
+        if probability <= -50.0 and roll > normalized_prob + 25.0:
+            return 'veto'
+        # Regular voting threshold
+        elif roll <= normalized_prob:
+            return 'yes'
+        else:
+            return 'no'
 
     def get_end_choice(*votes: str) -> str:
         """

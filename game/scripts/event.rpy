@@ -675,7 +675,12 @@ init -3 python:
                 - If no events are available, the fallback event is returned.
             """
 
+            repeatable = get_kwargs("repeatable", False, **kwargs)
+            used_events = get_kwargs("used_events_repeatable", [], **kwargs)
+
             events = self.get_available_events(priority, **kwargs)
+            if not repeatable:
+                events = [event for event in events if event not in used_events]
             if len(events) == 0:
                 return None
             return random.choice(events)
@@ -739,6 +744,17 @@ init -3 python:
     class FragmentStorage(EventStorage):
         def __init__(self, name: str, *options: Option):
             super().__init__(name, "fragment", *options, None, "")
+
+            # FragmentRepeatOption handling
+            self.repeat_amount = 1
+            self.repeat_repeatable = False # determines if a fragment can occur multiple times during repeating
+            for option in options:
+                if isinstance(option, FragmentRepeatOption):
+                    option_data = option.get_values()
+                    self.repeat_amount = get_kwargs("number", 1, **option_data)
+                    self.repeat_repeatable = get_kwargs("repeatable", False, **option_data)
+                    break
+
             self.register_storage_as_fragment()
         
         def add_event(self, *events: EventFragment):
@@ -1211,19 +1227,10 @@ init -3 python:
                 elif isinstance(value, Pattern):
                     self.patterns[value.get_name()] = value
 
-            # self.conditions = [condition for condition in options if isinstance(condition, Condition)]
-
             if not has_intro_condition and not override_intro:
                 self.conditions.append(IntroCondition(False))
 
-            # self.values = SelectorSet(*[condition for condition in options if isinstance(condition, Selector)])
-            # self.options = OptionSet(*[condition for condition in options if isinstance(condition, Option)])
-
-            # self.patterns = {pattern.get_name(): pattern for pattern in options if isinstance(pattern, Pattern)}
-
             rerollSelectors.append(self.values)
-
-            # self.conditions = list(conditions)
 
             # 1 = highest (the first 1 to occur is called blocking all other events)
             # 2 = middle (all 2's are called after each other)
@@ -1231,7 +1238,6 @@ init -3 python:
             self.select_type = select_type
 
             self.event_type = ""
-            # self.values = values
 
             change_mod_event_count(active_mod_key, 1)
 
@@ -1542,6 +1548,11 @@ init -3 python:
 
             self.fragments = [fragment for fragment in fragments if isinstance(fragment, FragmentStorage)]
             
+            if self.values == None:
+                self.has_fragment_reroll_option = []
+            else:
+                self.has_fragment_reroll_option = [selector for selector in self.values._selectors if selector.get_option_set().has_option("FragmentReroll")]
+
             self.event_form = "composite"
 
         def _update(self, data: Dict[str, Any]):
@@ -1638,6 +1649,10 @@ init -3 python:
             if "values" not in kwargs.keys():
                 kwargs["values"] = {}
 
+            for selector in self.has_fragment_reroll_option:
+                if not selector._realtime:
+                    selector.update(**kwargs)
+
             if events.values != None:
                 kwargs["values"].update(events.values.get_values())
                 events.values.roll_values()
@@ -1688,11 +1703,29 @@ init -3 python:
             output = []
 
             for i in range(len(self.fragments)):
-                selected_event = self.fragments[i].get_one_possible_event(**kwargs)
-                if selected_event != None:
-                    output.append(selected_event)
+                repeatable = self.fragments[i].repeat_repeatable
+                repeat_count = self.fragments[i].repeat_amount
+                kwargs["repeatable"] = repeatable
+                if repeat_count == 1:
+                    kwargs["used_events_repeatable"] = output
+                    selected_event = self.fragments[i].get_one_possible_event(**kwargs)
+
+                    if selected_event != None:
+                        output.append(selected_event)
+                    else:
+                        log_error(304, "Composite Event " + self.event_id + ": No events available in fragment at index " + str(i) + "!")
                 else:
-                    log_error(304, "Composite Event " + self.event_id + ": No events available in fragment at index " + str(i) + "!")
+                    count = 0
+                    for j in range(repeat_count):
+                        kwargs["used_events_repeatable"] = output
+                        selected_event = self.fragments[i].get_one_possible_event(**kwargs)
+
+                        if selected_event != None:
+                            output.append(selected_event)
+                            count += 1
+
+                    if count == 0:
+                        log_error(304, "Composite Event " + self.event_id + ": Not all events could be selected in fragment at index " + str(i) + "!")
 
             return output
 
