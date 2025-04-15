@@ -367,9 +367,9 @@ label new_yoga_outfit_5 (**kwargs):
 
     $ image.show(45)
     $ call_custom_menu_with_text("Okay, which outfit will I choose?", character.headmaster, False,
-        ("Option 1", (ValueEffect("yoga_outfit_set", 1), EventEffect("new_yoga_outfit_5.after_decision"))),
-        ("Option 2", (ValueEffect("yoga_outfit_set", 2), EventEffect("new_yoga_outfit_5.after_decision"))),
-        ("Option 3", (ValueEffect("yoga_outfit_set", 3), EventEffect("new_yoga_outfit_5.after_decision"))),
+        MenuElement("Option 1", "Option 1", ValueEffect("yoga_outfit_set", 1), EventEffect("new_yoga_outfit_5.after_decision")),
+        MenuElement("Option 2", "Option 2", ValueEffect("yoga_outfit_set", 2), EventEffect("new_yoga_outfit_5.after_decision")),
+        MenuElement("Option 3", "Option 3", ValueEffect("yoga_outfit_set", 3), EventEffect("new_yoga_outfit_5.after_decision")),
     **kwargs)
 label .after_decision (**kwargs):
     $ yoga_set = get_game_data("yoga_outfit_set")

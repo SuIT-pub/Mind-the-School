@@ -2371,7 +2371,7 @@ label .change_location (**kwargs):
 
     python:
         for location in mapping.keys():
-            elements.append((get_translation(location), ChangeKwargsEffect('naughty_location', location)))
+            elements.append(MenuElement(location, get_translation(location), ChangeKwargsEffect('naughty_location', location)))
 
     $ call_custom_menu_with_text("Where do you want to move to?", get_kwargs('character', character.subtitles, **kwargs), False, *elements, **kwargs)
 
@@ -2384,7 +2384,7 @@ label .change_position (**kwargs):
     $ elements = []
     python:
         for position in mapping[location].keys():
-            elements.append((get_translation(position), ChangeKwargsEffect('naughty_position', position)))
+            elements.append(MenuElement(position, get_translation(position), ChangeKwargsEffect('naughty_position', position)))
 
     $ call_custom_menu_with_text("What do you want to do next?", get_kwargs('character', character.subtitles, **kwargs), False, *elements, **kwargs)
 
@@ -2404,7 +2404,7 @@ label .change_clothing (**kwargs):
                 if level < clothing_level:
                     continue
 
-            elements.append((get_translation(clothing), ChangeKwargsEffect('naughty_clothing', clothing)))
+            elements.append(MenuElement(clothing, get_translation(clothing), ChangeKwargsEffect('naughty_clothing', clothing)))
 
     $ call_custom_menu_with_text("What do you want me to wear?", get_kwargs('character', character.subtitles, **kwargs), False, *elements, **kwargs)
 

@@ -574,8 +574,8 @@ label check_missing_proficiencies:
         $ set_headmaster_proficiency_level('pe', 100)
 
     $ call_custom_menu_with_text("The headmaster has no proficiencies set. Please assign a proficiency to the headmaster.\nP.E. is pre-selected due to his backstory.", character.subtitles, False, 
-        ('Math', SetProficiencyEffect('math', level = 1), "math" not in headmaster_proficiencies.keys()),
-        ('History', SetProficiencyEffect('history', level = 1), "history" not in headmaster_proficiencies.keys()), 
+        MenuElement("Math", SetProficiencyEffect('math', level = 1), "math" not in headmaster_proficiencies.keys()),
+        MenuElement("History", SetProficiencyEffect('history', level = 1), "history" not in headmaster_proficiencies.keys()), 
     override_menu_exit = "map_overview")
 
 # endregion

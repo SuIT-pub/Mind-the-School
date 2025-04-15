@@ -126,8 +126,8 @@ label sb_event_1 (**kwargs): # patrol, check class
     subtitles "You come across a couple making out in the hallway."
 
     $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
-        ("Leave and let them have fun", "sb_event_1.leave"),
-        ("Stop them", "sb_event_1.stop", not is_rule_unlocked("student_student_relation")), 
+        MenuElement("Leave and let them have fun", "Leave and let them have fun", EventEffect("sb_event_1.leave")),
+        MenuElement("Stop them", "Stop them", EventEffect("sb_event_1.stop"), not is_rule_unlocked("student_student_relation")), 
     **kwargs)
 label .leave (**kwargs):
     
@@ -173,8 +173,8 @@ label sb_event_3 (**kwargs): # patrol
     miwa "I'm fine. It's just... No I'm fine."
 
     $ call_custom_menu(False,
-        ("What is going on?", "sb_event_3.what"),
-        ("If it's nothing, go back to class", "sb_event_3.send_class", (time.check_daytime("c") and time.check_weekday("d")) or is_replay(**kwargs)), 
+        MenuElement("What is going on?", "What is going on?", EventEffect("sb_event_3.what")),
+        MenuElement("If it's nothing, go back to class", "If it's nothing, go back to class", EventEffect("sb_event_3.send_class"), (time.check_daytime("c") and time.check_weekday("d")) or is_replay(**kwargs)), 
     **kwargs)
 label .what (**kwargs):
     
@@ -193,8 +193,8 @@ label .what (**kwargs):
     miwa "..."
 
     $ call_custom_menu(False, 
-        ("Leave her alone", "sb_event_3.leave"), 
-        ("Get to the bottom of this", "sb_event_3.get_to_bottom"), 
+        MenuElement("Leave her alone", "Leave her alone", EventEffect("sb_event_3.leave")), 
+        MenuElement("Get to the bottom of this", "Get to the bottom of this", EventEffect("sb_event_3.get_to_bottom")), 
     **kwargs)
 label .leave (**kwargs):
     
@@ -271,8 +271,8 @@ label .send_class (**kwargs):
     miwa "I d-don't..."
 
     $ call_custom_menu(False, 
-        ("Poor thing", "sb_event_3.poor_thing"), 
-        ("Chin up", "sb_event_3.chin_up"), 
+        MenuElement("Poor thing", "Poor thing", EventEffect("sb_event_3.poor_thing")), 
+        MenuElement("Chin up", "Chin up", EventEffect("sb_event_3.chin_up")), 
     **kwargs)
 label .poor_thing (**kwargs):
 
@@ -326,8 +326,8 @@ label sb_event_4(**kwargs):
     ikushi "Ouch..."
 
     $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
-        ("Leave her alone", "sb_event_4.leave"),
-        ("Help her up", "sb_event_4.help"),
+        MenuElement("Leave her alone", "Leave her alone", EventEffect("sb_event_4.leave")),
+        MenuElement("Help her up", "Help her up", EventEffect("sb_event_4.help")),
     **kwargs)
 label .leave (**kwargs):
 

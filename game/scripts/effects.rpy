@@ -464,5 +464,5 @@ label open_bg_image_menu(event, **kwargs):
         call show_idle_image(bg_image, **kwargs) from open_bg_image_menu_1
 
     
-    $ event_list = [(get_translation(e.get_event()), EventEffect(e)) for e in event]
+    $ event_list = [MenuElement(e.get_event(), get_translation(e.get_event()), EventEffect(e)) for e in event]
     call call_menu ('Select the Event.', character.subtitles, True, *event_list, **kwargs) from _call_call_menu

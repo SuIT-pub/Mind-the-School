@@ -326,9 +326,9 @@ label aona_sports_bra_event_1 (**kwargs):
     aona "Will do!"
 
     $ call_custom_menu(False,
-        ("Wait", "aona_sports_bra_event_1.wait_1"),
-        ("Look for a bra for yourself", "aona_sports_bra_event_1.bra_for_self"),
-        ("Peek into the changing room", "aona_sports_bra_event_1.peek_1"),
+        MenuElement("Wait", "Wait", EventEffect("aona_sports_bra_event_1.wait_1")),
+        MenuElement("Look for a bra for yourself", "Look for a bra for yourself", EventEffect("aona_sports_bra_event_1.bra_for_self")),
+        MenuElement("Peek into the changing room", "Peek into the changing room", EventEffect("aona_sports_bra_event_1.peek_1")),
     **kwargs)
 label .bra_for_self (**kwargs):
 
@@ -358,8 +358,8 @@ label .wait_1 (**kwargs):
     aona "This one fits quite well. I would like to take it."
 
     $ call_custom_menu(False,
-        ("Buy bra", "aona_sports_bra_event_1.buy_bra"),
-        ("Ask to try on your pick", "aona_sports_bra_event_1.try_alt_bra", bra),
+        MenuElement("Buy bra", "Buy bra", EventEffect("aona_sports_bra_event_1.buy_bra")),
+        MenuElement("Ask to try on your pick", "Ask to try on your pick", EventEffect("aona_sports_bra_event_1.try_alt_bra"), bra),
     **kwargs)
 label .try_alt_bra (**kwargs):
 
@@ -368,8 +368,8 @@ label .try_alt_bra (**kwargs):
     aona "Sure, I'll try it out."
 
     $ call_custom_menu(False,
-        ("Peek", "aona_sports_bra_event_1.peek_2"),
-        ("Wait", "aona_sports_bra_event_1.wait_2"),
+        MenuElement("Peek", "Peek", EventEffect("aona_sports_bra_event_1.peek_2")),
+        MenuElement("Wait", "Wait", EventEffect("aona_sports_bra_event_1.wait_2")),
     **kwargs)
 label .peek_2 (**kwargs):
     
@@ -420,8 +420,8 @@ label .wait_2 (**kwargs):
 label .sneak_bra (**kwargs):
 
     $ call_custom_menu_with_text("Do you want to swap the bra with the skimpy variant?", character.subtitles, False,
-        ("Swap", "aona_sports_bra_event_1.sneak_bra_true"),
-        ("Don't swap", "aona_sports_bra_event_1.buy_bra"),
+        MenuElement("Swap", "Swap", EventEffect("aona_sports_bra_event_1.sneak_bra_true")),
+        MenuElement("Don't swap", "Don't swap", EventEffect("aona_sports_bra_event_1.buy_bra")),
     **kwargs)
 label .sneak_bra_true (**kwargs):
     $ kwargs["skimpy_bra"] = True

@@ -62,4 +62,17 @@ init -100 python:
         log_val(msg, log_number)
 
 label test_label():
-    return
+
+    $ hide_all()
+
+    call show_image("images/events/new_yoga_outfits/new_yoga_outfit_5/new_yoga_outfit_5 # 45.png")
+
+    $ call_custom_menu(False, 
+        MenuElement("Outfit 1", "Outfit 1", ChangeKwargsEffect("Outfit", 1), EventEffect("test_label.test"), overwrite_position = ( 330, 950)),
+        MenuElement("Outfit 2", "Outfit 2", ChangeKwargsEffect("Outfit", 2), EventEffect("test_label.test"), overwrite_position = ( 800, 950)),
+        MenuElement("Outfit 3", "Outfit 3", ChangeKwargsEffect("Outfit", 3), EventEffect("test_label.test"), overwrite_position = (1250, 950)),
+    )
+label .test(**kwargs):
+    $ add_notify_message("Test successful! " + str(kwargs["Outfit"]))
+
+    jump map_overview

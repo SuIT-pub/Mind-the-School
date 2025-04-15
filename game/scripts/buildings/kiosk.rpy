@@ -145,8 +145,8 @@ label kiosk_event_3 (**kwargs):
     miwa "But I can't afford that!"
 
     $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
-        ("Leave alone", "kiosk_event_3.leave"),
-        ("Help her out  ({color=#a00000}-50${/color})", "kiosk_event_3.help"), 
+        MenuElement("Leave alone", "Leave alone", EventEffect("kiosk_event_3.leave")),
+        MenuElement("Help her out  ({color=#a00000}-50${/color})", "Help her out  ({color=#a00000}-50${/color})", EventEffect("kiosk_event_3.help")), 
     **kwargs)
 label .leave (**kwargs):
     
