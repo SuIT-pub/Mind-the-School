@@ -753,8 +753,8 @@ label office_event_3 (**kwargs):
     subtitles "You enter the office and see two students sitting there."
     
     $ call_custom_menu(False, 
-        ("Ignore them", "office_event_3.ignore"),
-        ("Ask why they are here", "office_event_3.talk"),
+        MenuElement("Ignore them", "Ignore them", EventEffect("office_event_3.ignore")),
+        MenuElement("Ask why they are here", "Ask why they are here", EventEffect("office_event_3.talk")),
     **kwargs)
 label .ignore (**kwargs):
     
@@ -781,8 +781,8 @@ label .talk (**kwargs):
     yuriko "Probably because we are a couple."
 
     $ call_custom_menu(False, 
-        ("Tell about policy", "office_event_3.policy"),
-        ("Take care of it for them", "office_event_3.care"),
+        MenuElement("Tell about policy", "Tell about policy", EventEffect("office_event_3.policy")),
+        MenuElement("Take care of it for them", "Take care of it for them", EventEffect("office_event_3.care")),
     **kwargs)
 label .policy (**kwargs):
     

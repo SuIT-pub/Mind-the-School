@@ -373,8 +373,8 @@ label sd_event_5 (**kwargs):
     headmaster_thought "But nice view!"
 
     $ call_custom_menu_with_text("Continue watching?", character.subtitles, False,
-        ("Leave", "sd_event_5.leave"),
-        ("Stay watching", "sd_event_5.stay"), 
+        MenuElement("Leave", "Leave", EventEffect("sd_event_5.leave")),
+        MenuElement("Stay watching", "Stay watching", EventEffect("sd_event_5.stay")), 
     **kwargs)
 
 label .leave (**kwargs):

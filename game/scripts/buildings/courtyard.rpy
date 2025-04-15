@@ -132,8 +132,8 @@ label courtyard_event_1 (**kwargs):
     $ image.show(0)
     subtitles "You walk along the courtyard when a gist of wind blows up the girls skirt in front of you."
     $ call_custom_menu_with_text("How do you react?", character.subtitles, False,
-        ("Look", "courtyard_event_1.look"),
-        ("Look away", "courtyard_event_1.look_away"),
+        MenuElement("Look", "Look", EventEffect("courtyard_event_1.look")),
+        MenuElement("Look away", "Look away", EventEffect("courtyard_event_1.look_away")),
     **kwargs)
 label .look (**kwargs):
     $ begin_event(**kwargs)
@@ -175,8 +175,8 @@ label courtyard_event_2 (**kwargs):
     $ image.show(0)
     subtitles "You notice a girl sitting alone in the courtyard, apparently left out by the others."
     $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
-        ("Talk to her", "courtyard_event_2.talk"),
-        ("Leave her alone", "courtyard_event_2.leave"),
+        MenuElement("Talk to her", "Talk to her", EventEffect("courtyard_event_2.talk")),
+        MenuElement("Leave her alone", "Leave her alone", EventEffect("courtyard_event_2.leave")),
     **kwargs)
 label .talk (**kwargs):
     
