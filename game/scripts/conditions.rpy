@@ -3663,3 +3663,25 @@ init -6 python:
                 str: The string "JournalNRVoteCondition".
             """
             return "JournalNRVoteCondition"
+
+    class BoolCondition(Condition):
+        """
+        A condition class that always returns a boolean value.
+
+        This class is useful for conditions that are always true or false,
+        regardless of the game state. It inherits from the base Condition class
+        and provides specific implementation for the is_fulfilled and get_name methods.
+        
+        Attributes:
+            value (bool): The boolean value to return for the condition.
+        """
+        def __init__(self, value: bool, *options: Option):
+            super().__init__(True, *options)
+            self.value = value
+
+        def is_fulfilled(self, **kwargs) -> bool:
+            return self.value
+
+        def get_name(self) -> str:
+            return f"BoolCondition({self.value})"
+            

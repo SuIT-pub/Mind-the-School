@@ -452,8 +452,8 @@ label sb_teach_math_ld_3 (**kwargs):
 
     $ image.show(1)
     $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
-        ("Leave alone", "sb_teach_math_ld_3.leave"),
-        ("Help her up", "sb_teach_math_ld_3.help"), 
+        MenuElement("Leave alone", "Leave alone", EventEffect("sb_teach_math_ld_3.leave")),
+        MenuElement("Help her up", "Help her up", EventEffect("sb_teach_math_ld_3.help")), 
     **kwargs)
 label .leave (**kwargs):
     $ begin_event(**kwargs)
