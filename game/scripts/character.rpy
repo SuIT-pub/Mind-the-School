@@ -1171,6 +1171,13 @@ init -6 python:
             return None
         return person_storage[key][name]
 
+    def get_person_char(key: str, name: str):
+        if key not in person_storage.keys():
+            return None
+        if name not in person_storage[key].keys():
+            return None
+        return person_storage[key][name].get_character()
+
     def load_person(key: str, person: PersonObj):
         if key not in person_storage.keys():
             person_storage[key] = {}

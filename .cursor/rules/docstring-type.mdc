@@ -1,0 +1,6 @@
+---
+description: Always use this type of documentation.
+globs: 
+alwaysApply: false
+---
+Use Googles Docstring style for any form of documentation.

@@ -833,6 +833,23 @@ label .care (**kwargs):
         
     $ end_event('new_daytime', **kwargs)
 
+label office_event_4 (**kwargs):
+    $ begin_event(**kwargs);
+
+    # view of headmaster working and dozing off
+    #headmaster wakes up with great view of Emiko's underboobs.
+    secretary "Ah, [headmaster_first_name]! You're awake!"
+    headmaster "What? Oh, yes. Why am I here?"
+    secretary "I found you sleeping here. You should take a break."
+    headmaster "I'm fine, really."
+    secretary "No, you look exhausted. You need to rest."
+    headmaster "..."
+    secretary "Just keep your eyes closed for a while. I'll be here."
+    # headmaster dozes off again
+
+    $ end_event('new_daytime', **kwargs)
+    
+
 # endregion
 #########################
 

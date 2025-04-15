@@ -1,0 +1,7 @@
+docs/processed_python/**
+game/cache/**
+game/saves/**
+game/videos/**
+game/images/**
+game/scripts/test.py
+

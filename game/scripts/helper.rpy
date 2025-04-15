@@ -798,6 +798,20 @@ init -99 python:
             return gameData["settings"][key]
         return None
 
+    def set_timer(key: str, new_time: str | Time = "", **kwargs):
+        if isinstance(new_time, str) and new_time != "":
+            if new_time == "today":
+                new_time = Time(time.day_to_string())
+            else:
+                new_time = Time(new_time)
+        if new_time == "":
+            new_time = Time()
+            new_time.set_time(**kwargs)
+
+        set_game_data("timer_" + key, new_time.day_to_string())
+
+    
+
     # endregion
     #################################
 
