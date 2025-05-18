@@ -205,6 +205,28 @@ init -99:
         # what_outlines = [( 1, "#000000", 0, 0 )],
         retain = False,
     )
+    define character.teacher_shout = Character(
+        "Teacher", 
+        who_suffix = " (shouting)",
+        #window_background = None,
+        who_color = "#00ced1",
+        what_color = "#ffffff",
+        what_size = 28,
+        what_bold = True,
+        # what_outlines = [( 1, "#000000", 0, 0 )],
+        retain = False,
+    )
+    define character.teacher_whisper = Character(
+        "Teacher", 
+        who_suffix = " (whispering)",
+        #window_background = None,
+        who_color = "#00ced1",
+        what_color = "#ffffff",
+        what_size = 28,
+        what_italic = True,
+        # what_outlines = [( 1, "#000000", 0, 0 )],
+        retain = False,
+    )
     define character.teacher1 = Character(
         "Lily Anderson",
         #window_background = None,

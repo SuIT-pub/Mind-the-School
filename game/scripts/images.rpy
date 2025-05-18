@@ -55,6 +55,24 @@ init -4 python:
 
         return Image_Series_Pattern(get_pattern_from_kwargs(pattern_key, **kwargs), **kwargs)
 
+    def convert_pattern_with_data(pattern_key: str, data: Dict[str, Any], **kwargs) -> Image_Series:
+        """
+        Converts a pattern to an image series.
+
+        ### Parameters:
+        1. pattern_key: str
+            - The key of the pattern to convert.
+        2. **kwargs
+            - The keyword arguments to replace in the image path.
+            - the patterns are also stored in the kwargs under the key 'image_patterns'
+        """
+
+        if len(data.keys()) > 0:
+            for key, value in data.items():
+                kwargs = set_kwargs(key, value, **kwargs)
+
+        return Image_Series_Pattern(get_pattern_from_kwargs(pattern_key, **kwargs), **kwargs)
+
     def show_pattern(pattern_key: str, **kwargs):
         """
         Shows an image from a pattern.
@@ -357,6 +375,10 @@ init -2 python:
                 renpy.call("show_ready_image", image_path, display_type)   
 
             return variant  
+
+        def show_black(self, display_type = SCENE):
+            renpy.call("show_ready_image", "/images/misc/misc_black_background.webp", display_type)   
+            return
         
         def show_video(self, step: int, pause = False, variant = -1) -> str:
             self.update()
@@ -515,7 +537,7 @@ init -2 python:
                 new_image_path = self._image_path
 
                 for key in combination:
-                    new_image_path = new_image_path.replace(f"<{key}>", "#")
+                    new_image_path = new_image_path.replace(f"<{key}>", "$")
 
                 (nude, image_path) = get_image(self._path_prefix + new_image_path, **kwargs)
 
@@ -982,7 +1004,7 @@ init -2 python:
             new_image_path = image_path
 
             for key in combination:
-                new_image_path = new_image_path.replace(f"<{key}>", "#")
+                new_image_path = new_image_path.replace(f"<{key}>", "$")
 
             if '<school_level>' in new_image_path:
                 if is_image_series and not is_replay:
@@ -1014,7 +1036,7 @@ init -2 python:
             
             output.append(new_image_path)
 
-        output.sort(key=lambda x: x.count("#"))
+        output.sort(key=lambda x: x.count("$"))
 
         return output
 

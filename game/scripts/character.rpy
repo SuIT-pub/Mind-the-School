@@ -1154,8 +1154,27 @@ init -6 python:
         def set_thumbnail(self, thumbnail: str):
             self.thumbnail = thumbnail
 
-        def get_character(self) -> Character:
-            return Character(self.get_full_name(), kind = character.sgirl, retain = False)
+        def get_character(self, char_type: string = "") -> Character:
+
+            char_kind = character.subtitles
+
+            if self.character == get_character_by_key('school'):
+                char_kind = character.sgirl
+            elif self.character == get_character_by_key('parent'):
+                char_kind = character.parent
+            elif self.character == get_character_by_key('teacher'):
+                char_kind = character.teacher
+            elif self.character == get_character_by_key('secretary'):
+                char_kind = character.secretary
+
+            if char_type == "shout":
+                return Character(self.get_full_name(), kind = char_kind, retain = False, who_suffix = " (shouting)", what_bold = True)
+            elif char_type == "whisper":
+                return Character(self.get_full_name(), kind = char_kind, retain = False, who_suffix = " (whispering)", what_italic = True)
+            elif char_type == "thought":
+                return Character(self.get_full_name(), kind = char_kind, retain = False, who_suffix = " (thinking)", what_italic = True, what_prefix = "(  ", what_suffix = "  )")
+            else:
+                return Character(self.get_full_name(), kind = char_kind, retain = False)
 
     def find_person(name: str):
         for key in person_storage.keys():
@@ -1165,16 +1184,50 @@ init -6 python:
         return None
 
     def get_person(key: str, name: str):
+        """
+        Returns the person object with the given key and name
+
+        ### Parameters:
+        1. key: str
+            - The key of the person
+            - Possible keys: "class_3a", "staff", "parents"
+        2. name: str
+            - The name of the person
+
+        ### Returns:
+        1. PersonObj
+            - The person object with the given key and name
+        """
+
         if key not in person_storage.keys():
+            log_error(601, f"Person with key {key} not found")
             return None
         if name not in person_storage[key].keys():
+            log_error(602, f"Person with name {name} not found")
             return None
         return person_storage[key][name]
 
-    def get_person_char(key: str, name: str):
+    def get_person_char_with_key(key: str, name: str):
+        """
+        Returns the character object of the person with the given key and name
+
+        ### Parameters:
+        1. key: str
+            - The key of the person
+            - Possible keys: "class_3a", "staff", "parents"
+        2. name: str
+            - The name of the person
+
+        ### Returns:
+        1. Character
+            - The character object of the person with the given key and name
+        """
+
         if key not in person_storage.keys():
+            log_error(601, f"Person with key {key} not found")
             return None
         if name not in person_storage[key].keys():
+            log_error(602, f"Person with name {name} not found")
             return None
         return person_storage[key][name].get_character()
 

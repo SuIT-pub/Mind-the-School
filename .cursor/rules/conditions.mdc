@@ -1,0 +1,256 @@
+---
+description: The conditions system in @conditions.rpy provides a flexible framework for defining and checking game conditions. This system is fundamental for controlling game flow, unlocking content, and validating game state.
+globs: 
+alwaysApply: false
+---
+# Conditions System Documentation
+
+The conditions system in [conditions.rpy](mdc:game/scripts/conditions.rpy) provides a flexible framework for defining and checking game conditions. This system is fundamental for controlling game flow, unlocking content, and validating game state.
+
+## Core Components
+
+### ConditionStorage
+A container class that manages collections of conditions. Key features:
+- Separates conditions into list and description display categories
+- Tracks locked conditions
+- Handles condition fulfillment checking
+- Manages condition blocking states
+
+### Base Condition Class
+The abstract `Condition` class serves as the foundation for all condition types:
+- `blocking`: Controls whether condition blocks content when unfulfilled
+- `display_in_list`: Controls visibility in UI lists
+- `display_in_desc`: Controls visibility in descriptions
+- Supports option sets for additional configuration
+
+### Key Methods
+All conditions implement these core methods:
+- `is_fulfilled(**kwargs)`: Checks if condition is met
+- `is_blocking(**kwargs)`: Checks if condition blocks progression
+- `to_list_text(**kwargs)`: Generates UI list display text
+- `to_desc_text(**kwargs)`: Generates description display text
+- `get_name()`: Returns condition identifier
+- `get_diff(char_obj)`: Calculates fulfillment difference
+
+## Using Conditions in Events
+
+### Event Definition Pattern
+Events use conditions to control when and how they can be triggered. Based on [new_yoga_outfits.rpy](mdc:game/scripts/events/new_yoga_outfits.rpy), conditions can be used to:
+
+1. **Control Event Availability**
+```python
+Event(priority, "event_name",
+    # Add conditions that determine when event can trigger
+    condition1(),
+    condition2(),
+    condition3()
+)
+```
+
+2. **Create Event Sequences**
+- Chain events using progress conditions
+- Space out content using timer conditions
+- Gate content based on game state or requirements
+
+### Event Flow Management
+Events typically follow these patterns:
+
+1. **Sequential Content**
+```python
+# Start tracking a new progress sequence
+$ start_progress("sequence_name")  # 0 -> 1
+
+# Later events advance the progress
+$ advance_progress("sequence_name")  # Increment progress counter
+```
+
+2. **Time-Based Content**
+```python
+# Set a timer for delayed content
+$ set_timer("event_name", "today")
+
+# Other events can check against this timer
+```
+
+3. **State Tracking**
+```python
+# Events can check and modify game state
+$ get_game_data("state_variable")
+$ set_game_data("state_variable", new_value)
+```
+
+## Best Practices
+
+1. **Event Sequencing**
+   - Use progress tracking for sequential content
+   - Chain events logically
+   - Consider player progression pace
+
+2. **Time Management**
+   - Space out content appropriately
+   - Consider gameplay pacing
+   - Use time conditions for realistic scheduling
+
+3. **State Control**
+   - Track relevant game states
+   - Use conditions to validate state changes
+   - Consider state persistence
+
+4. **Content Gating**
+   - Gate content based on meaningful requirements
+   - Combine multiple conditions when appropriate
+   - Consider player experience and progression
+
+## Integration Guidelines
+
+1. **Event Creation**
+   - Choose appropriate conditions for desired behavior
+   - Consider event priority and timing
+   - Plan for sequence progression
+
+2. **Progress Management**
+   - Track progress systematically
+   - Update progress at appropriate points
+   - Consider save/load behavior
+
+3. **State Handling**
+   - Use clear state variable names
+   - Document state changes
+   - Consider state dependencies
+
+4. **Testing**
+   - Verify condition combinations work as expected
+   - Test event sequences
+   - Validate state changes
+
+## Common Patterns
+
+1. **Event Chains**
+   - Use progress conditions to create sequences
+   - Space events using time conditions
+   - Track completion states
+
+2. **Conditional Content**
+   - Gate content based on requirements
+   - Check multiple conditions
+   - Handle edge cases
+
+3. **State-Based Events**
+   - React to game state changes
+   - Track multiple state variables
+   - Handle state transitions
+
+## Integration Examples
+
+### Event Definition
+```python
+new_yoga_outfit_1_event = EventFragment(3, "new_yoga_outfit_1",
+    RandomCondition(50, 100),
+    LevelCondition("2,3", "school"),
+    NOT(ProgressCondition("yoga_classes"))
+)
+```
+
+### Progress Management
+```python
+# Start tracking progress
+$ start_progress("yoga_classes")  # 0 -> 1
+
+# Advance progress
+$ advance_progress("yoga_classes")  # 1 -> 2
+```
+
+### Timer Usage
+```python
+# Set timer
+$ set_timer("event_name", "today")
+
+# Check timer
+TimerCondition("event_name", day = 4)
+```
+
+## Usage Guidelines
+
+1. **Creating Conditions**
+   - Inherit from base `Condition` class
+   - Implement required abstract methods
+   - Set appropriate display flags
+
+2. **Managing Conditions**
+   - Use `ConditionStorage` for organizing related conditions
+   - Configure blocking behavior appropriately
+   - Consider UI display requirements
+
+3. **Best Practices**
+   - Use descriptive names for conditions
+   - Document threshold values and requirements
+   - Consider replay mode behavior
+   - Handle character-specific conditions carefully
+
+## Integration
+The conditions system integrates with:
+- Character stats system
+- UI display components
+- Game progression logic
+- Replay mode functionality
+
+## Available Conditions
+
+Reference to all conditions defined in [conditions.rpy](mdc:game/scripts/conditions.rpy):
+
+### Logical Operators
+- `AND`: Requires all sub-conditions to be fulfilled
+- `OR`: Requires at least one sub-condition to be fulfilled
+- `NOT`: Inverts the result of its sub-condition
+- `XOR`: Requires exactly one sub-condition to be fulfilled
+- `NOR`: Requires none of the sub-conditions to be fulfilled
+
+### Game State Conditions
+- `StatCondition`: Check character stat values
+- `StatLimitCondition`: Check if stats are within limits
+- `ProficiencyCondition`: Check skill proficiency levels
+- `MoneyCondition`: Check money requirements
+- `GameDataCondition`: Check game data values
+- `ProgressCondition`: Check progress in sequences
+- `ValueCondition`: Check arbitrary value states
+- `NumValueCondition`: Compare numeric values
+- `BoolCondition`: Check boolean flags
+
+### Time and Progression
+- `TimeCondition`: Check specific time/day requirements
+- `TimerCondition`: Check time elapsed since events
+- `RandomCondition`: Random chance checks
+- `EventSeenCondition`: Check if events were seen
+
+### Location and Level
+- `BuildingCondition`: Check building states
+- `BuildingLevelCondition`: Check building levels
+- `LevelCondition`: Check entity levels
+
+### Special States
+- `LockCondition`: Lock/gate content
+- `TutorialCondition`: Tutorial state checks
+- `RuleCondition`: Check rule states
+- `ClubCondition`: Check club-related states
+- `IntroCondition`: Check introduction states
+- `PTAOverride`: Override PTA voting behavior
+- `CheckReplay`: Force replay mode evaluation
+
+### Comparison
+- `NumCompareCondition`: Compare numbers
+- `CompareCondition`: Compare values
+- `KeyCompareCondition`: Compare by keys
+
+### Content Control
+- `LoliContentCondition`: Content restriction checks
+- `JournalVoteCondition`: Check journal votes
+- `JournalNRVoteCondition`: Check non-repeatable votes
+
+
+
+
+
+
+
+
+

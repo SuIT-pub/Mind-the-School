@@ -334,6 +334,8 @@ label courtyard_event_8(**kwargs):
 
     $ end_event("new_daytime", **kwargs)
 
+    
+
 # endregion
 #########################
 

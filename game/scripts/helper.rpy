@@ -46,6 +46,12 @@ init -99 python:
             return kwargs[key]
         return alt
 
+    def set_kwargs_value(key: str, value: Any, **kwargs):
+        if "values" not in kwargs.keys():
+            kwargs["values"] = {}
+        kwargs["values"][key] = value
+        return kwargs
+
     def get_kwargs_value(key: str, alt = None, **kwargs) -> Any:
         if "values" in kwargs.keys():
             return get_kwargs(key, get_kwargs(key, alt, **kwargs), **kwargs["values"])
@@ -424,6 +430,18 @@ init -99 python:
 
         return elem in list_obj
 
+    def get_next_in_list(list_obj: List[Any], value: Any) -> Any:
+        """
+        Returns the next element in a list
+        """
+
+        index = list_obj.index(value)
+
+        if index + 1 == len(list_obj):
+            return list_obj[0]
+        else:
+            return list_obj[index + 1]
+
     # endregion
     #############################
 
@@ -718,7 +736,7 @@ init -99 python:
 
         gameData[key] = value
 
-    def get_game_data(key: str) -> Any:
+    def get_game_data(key: str = None) -> Any:
         """
         Gets a value from gameData
 
@@ -731,6 +749,9 @@ init -99 python:
             - The value from gameData
             - If the key does not exist None is returned
         """
+
+        if key == None:
+            return gameData
 
         if key in gameData.keys():
             return gameData[key]
@@ -799,6 +820,9 @@ init -99 python:
         return None
 
     def set_timer(key: str, new_time: str | Time = "", **kwargs):
+        if is_in_replay:
+            return
+
         if isinstance(new_time, str) and new_time != "":
             if new_time == "today":
                 new_time = Time(time.day_to_string())
@@ -808,7 +832,7 @@ init -99 python:
             new_time = Time()
             new_time.set_time(**kwargs)
 
-        set_game_data("timer_" + key, new_time.day_to_string())
+        set_game_data("timer_" + key, new_time)
 
     
 

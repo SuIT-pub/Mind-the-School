@@ -1,0 +1,245 @@
+---
+description: Documentation for implementing events in the game system. Covers the three core component types (conditions, selectors, and options) defined in their respective files (conditions.rpy, selector.rpy, option.rpy) and how to combine them in Event definitions. Includes practical examples and best practices for event creation and organization.
+globs: 
+alwaysApply: false
+---
+## Event System Implementation Guide
+
+Documentation for implementing events in the game system. Covers the three core component types (conditions, selectors, and options) defined in their respective files (conditions.rpy, selector.rpy, option.rpy) and how to combine them in Event definitions. Includes practical examples and best practices for event creation and organization.
+
+## Event Storage Types
+
+Events are typically stored in different storage types:
+
+1. `EventStorage` - Standard storage for regular events
+   - Manages events by priority levels
+   - Provides fallback events when no others are available
+   - Handles event registration and location tracking
+   - Used for most regular game events
+
+2. `FragmentStorage` - For event fragments that are part of a sequence
+   - Specialized storage for event fragments
+   - Can specify repeat options for fragments
+   - Often used with composite events
+   - Fragments are played in sequence or randomly based on configuration
+
+3. `TempEventStorage` - For temporary/one-time events
+   - Events are removed after being called
+   - Includes blocking mechanism to prevent duplicate calls
+   - Useful for one-off events or temporary story elements
+
+Example from [game/scripts/events/truth_or_dare.rpy](mdc:game/scripts/events/truth_or_dare.rpy):
+```python
+truth_or_dare_storage = FragmentStorage("truth_or_dare", 
+    FragmentRepeatOption(RandomValueSelector("", 2, 6, True), False))
+```
+
+## Event Types
+
+### 1. Basic Events (`Event` class)
+- Core event type for most game scenarios
+- Can have conditions, selectors, options, and patterns
+- Three priority levels that determine execution order
+- Example:
+```python
+basic_event = Event(3, "event_label",
+    TimeCondition(daytime = "c"),
+    LevelCondition("2,3"),
+    Pattern("main", "images/events/event_<step>.webp"))
+```
+
+### 2. Fragment Events (`EventFragment` class)
+- Smaller event pieces that form part of a larger sequence
+- Used within FragmentStorage
+- Often part of composite events
+- Good for breaking down complex scenes into manageable pieces
+- Example:
+```python
+fragment_event = EventFragment(2, "fragment_label",
+    TimeCondition(...),
+    Pattern("main", "images/fragments/frag_<step>.webp"))
+```
+
+### 3. Composite Events (`EventComposite` class)
+- Combines multiple fragment events into a larger sequence
+- Can manage multiple FragmentStorages
+- Useful for complex scenes with multiple possible paths
+- Can include selectors to manage state across fragments
+- Example from truth_or_dare.rpy:
+```python
+truth_or_dare_event_4 = EventComposite(3, "truth_or_dare_4", 
+    [truth_or_dare_storage, truth_or_dare_end_storage], 
+    TimeCondition(weekday = "d", daytime = "n"),
+    ProgressCondition("truth_or_dare", 3),
+    IterativeListSelector("girls", "ikushi_ito", "lin_kato", "miwa_igarashi"),
+    Pattern("base", "images/events/truth_or_dare/truth_or_dare_4/truth_or_dare_4 <school_level> <step>.webp"))
+```
+
+### 4. Selection Events (`EventSelect` class)
+- Presents a choice of multiple possible events
+- Allows user interaction to choose event path
+- Can include custom text and fallback options
+- Example:
+```python
+select_event = EventSelect(2, "select_event",
+    "What would you like to do?",
+    {"option1": event_storage1, "option2": event_storage2},
+    TimeCondition(...),
+    override_menu_exit = "map_overview")
+```
+
+## Event Components
+
+1. Conditions:
+- Control when events are available
+- Can be combined with NOT() for inverse conditions
+- Common types: 
+  - TimeCondition: Controls event availability based on time/day
+  - LevelCondition: Requires specific level progress
+  - ProgressCondition: Checks story/quest progress
+  - Custom conditions can be created for specific needs
+
+2. Selectors:
+- Used to store and manage values used in events
+- Examples:
+  - ValueSelector: Basic value storage
+  - RandomValueSelector: Random value generation
+  - IterativeListSelector: Cycles through list of values
+  - Can be used to track state between fragments
+
+3. Options:
+- Configure event behavior
+- Examples:
+  - FragmentRepeatOption: Controls fragment repetition
+  - FragmentRerollOption: Allows rerolling of fragment values
+  - PriorityOption: Modifies event priority
+  - ForceHighlightOption: Forces event highlighting
+
+4. Image Patterns:
+- Define image paths with variable substitution
+- Use placeholders like <step>, <school_level>
+- Supports dynamic image loading based on game state
+- Example: `Pattern("main", "images/events/.../event <step>.webp")`
+
+## Adding Events to Storage
+
+Events must be added to appropriate storage containers:
+```python
+storage_name["category"].add_event(event1, event2, ...)
+```
+
+Example:
+```python
+courtyard_events["patrol"].add_event(truth_or_dare_event_1)
+```
+
+## Event Priority System
+
+Events are processed based on their priority level:
+1. Priority 1 (Highest)
+   - First event found blocks all others
+   - Used for critical story events
+   - Only one event of this priority will run
+
+2. Priority 2 (Middle)
+   - Multiple events can run sequentially
+   - Good for related events that should all trigger
+   - All available events of this priority will run
+
+3. Priority 3 (Lowest)
+   - One event randomly selected from available events
+   - Used for variety in regular gameplay
+   - Good for random encounters or optional content
+
+### Core Components
+
+Events in the system are built using three main component types, each defined in their own file:
+
+1. **Selectors** (`game/scripts/selector.rpy`):
+   - Responsible for dynamic value generation and selection
+   - Used to provide values to events at runtime
+   - Includes various selector types for different data sources (stats, time, levels, etc.)
+   - See `selector.rpy` for all available selector implementations
+
+2. **Conditions** (`game/scripts/conditions.rpy`):
+   - Define requirements for event availability
+   - Used to control when events can be triggered
+   - Various condition types for different checks
+   - See `conditions.rpy` for all available condition implementations
+
+3. **Options** (`game/scripts/option.rpy`):
+   - Configure event behavior and presentation
+   - Different option types for various event configurations
+   - See `option.rpy` for all available option implementations
+
+### Event Definition Structure
+
+Events are defined by passing conditions, selectors, and options directly to the Event constructor. The Event class handles organizing these components internally:
+
+```python
+Event(
+    priority,           # Event priority (integer)
+    "event_label",     # The Ren'Py label to call
+    *conditions,       # Conditions from conditions.rpy
+    *selectors,       # Selectors from selector.rpy
+    *options          # Options from option.rpy
+)
+```
+
+### Example Event Definition
+
+Here's a real example from new_yoga_outfits.rpy showing the correct usage:
+
+```python
+new_yoga_outfit_10_event = Event(3, "new_yoga_outfit_10",
+    TimeCondition(weekday="d", daytime="c"),
+    ProgressCondition("yoga_classes", 9),
+    TimerCondition("new_yoga_outfit_9", day=4),
+    GameDataSelector("yoga_outfit_set", "yoga_outfit_set", 1),
+    Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_10/new_yoga_outfit_10 <school_level> <yoga_outfit_set> <step>.webp"),
+    thumbnail="images/events/new_yoga_outfits/new_yoga_outfit_10/thumbnail.webp"
+)
+```
+
+### Component Integration
+
+1. **Using Selectors**:
+   - Pass selector instances directly to Event constructor
+   - Values are generated at runtime
+   - Can be used for dynamic content and conditions
+
+2. **Using Conditions**:
+   - Pass condition instances directly to Event constructor
+   - All conditions must be met for event availability
+   - Can be combined for complex requirements
+
+3. **Using Options**:
+   - Pass option instances directly to Event constructor
+   - Configure event behavior and presentation
+   - Multiple options can be combined
+
+### Best Practices
+
+1. **Organization**:
+   - Keep related events in dedicated files
+   - Import needed components from the three core files
+   - Group events by theme or functionality
+
+2. **Component Selection**:
+   - Choose appropriate selectors for dynamic values
+   - Use conditions to control event timing
+   - Apply options to customize behavior
+
+3. **Maintenance**:
+   - Reference the core files for available components
+   - Keep event definitions clean and documented
+   - Group related events together
+
+
+
+
+
+
+
+
+
