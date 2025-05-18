@@ -1891,7 +1891,7 @@ init -3 python:
             1. no_gallery = True
                 - Gallery_Manager will not be initiated and event will not be registered into the gallery
         """
-
+        log("begin_event")
         global seenEvents
         global gallery_manager
 
@@ -1938,6 +1938,8 @@ init -3 python:
 
         if not in_replay:
             update_quest("event", **kwargs)
+
+        log("end begin_event")
 
         if event_name != "":
             renpy.call("show_sfw_text", event_name)

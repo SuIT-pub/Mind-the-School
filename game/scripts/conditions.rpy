@@ -1084,7 +1084,7 @@ init -6 python:
             """
             if self.value not in buildings.keys():
                 return ""
-            return get_building(self.value).title
+            return get_building(self.value).get_title()
 
     class BuildingLevelCondition(Condition):
         """A condition class that checks if a building has reached a specific level.
@@ -1709,15 +1709,29 @@ init -6 python:
             if super().is_fulfilled(**kwargs):
                 return True
 
-            if not contains_game_data(self.id):
+            if not contains_game_data("timer_" + self.id):
+                log_error(311, f"TimerCondition id (timer_{self.id}) is not valid")
                 return False
 
-            timer = get_game_data(self.id)
+            log_val("timer_" + self.id, get_game_data("timer_" + self.id))
+
+            timer = get_game_data("timer_" + self.id)
+
             if not isinstance(timer, Time):
+                log_error(312, f"TimerCondition timer (timer_{self.id}) is not a Time object")
                 return False
 
-            aim = Time(timer).add_time(day = self.day, month = self.month, year = self.year, daytime = self.daytime)
-            return compare_time(aim, time) >= 0
+            aim = Time(timer)
+            aim.add_time(day = self.day, month = self.month, year = self.year, daytime = self.daytime)
+
+            log_val("aim", aim.day_to_string())
+            log_val("time", time.day_to_string())
+
+            compare = compare_time(aim, time)
+
+            log_val("compare", compare)
+
+            return compare <= 0
 
         def get_name(self) -> str:
             """Gets a string representation of the timer requirements.

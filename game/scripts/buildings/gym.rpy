@@ -14,6 +14,7 @@ init -1 python:
     add_storage(gym_events, EventStorage("go_students",    "gym", fallback_text = "There is nobody here."))
     add_storage(gym_events, EventStorage("check_pe",       "gym", fallback_text = "There is nothing to do here."))
     add_storage(gym_events, EventStorage("teach_pe",       "gym", fallback_text = "There is nothing to do here."))
+    add_storage(gym_events, EventStorage("relax",          "gym", fallback_text = "There is nothing to do here."))
 
     gym_teach_pe_intro_storage = FragmentStorage("gym_teach_pe_intro")
     gym_teach_pe_warm_up_storage = FragmentStorage("gym_teach_pe_warm_up")
@@ -55,6 +56,18 @@ init 1 python:
         Pattern("main", "/images/events/gym/gym_event_3/gym_event_3 <school_level> <step>.webp"),
         thumbnail = "images/events/gym/gym_event_3/gym_event_3 1 0.webp")    
 
+    gym_event4 = Event(3, "gym_event_4",
+        TimeCondition(daytime = "c", weekday = "d"),
+        LevelCondition("2-5", "school"),
+        Pattern("main", "/images/events/gym/gym_event_4/gym_event_4 <step>.webp"),
+        thumbnail = "images/events/gym/gym_event_4/gym_event_4 0.webp")
+
+    gym_event5 = Event(3, "gym_event_5",
+        TimeCondition(daytime = "c", weekday = "d"),
+        LevelCondition("2-5", "school"),
+        Pattern("main", "/images/events/gym/gym_event_5/gym_event_5 <school_level> <step>.webp"),
+        thumbnail = "images/events/gym/gym_event_5/gym_event_5 5 0.webp")
+
     gym_events["enter_changing"].add_event(
         gym_event2,
     )
@@ -65,6 +78,10 @@ init 1 python:
     gym_events["check_pe"].add_event(
         gym_event1, 
         gym_event3,
+    )
+    gym_events["relax"].add_event(
+        gym_event4,
+        gym_event5,
     )
     
 
@@ -288,6 +305,46 @@ label gym_event_3 (**kwargs):
     call change_stats_with_modifier('school',
         inhibition = DEC_MEDIUM, happiness = DEC_SMALL, charm = TINY, education = TINY, reputation = DEC_SMALL) from _call_change_stats_with_modifier_31
     $ end_event('new_daytime', **kwargs)
+
+label gym_event_4 (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ ishimaru = get_person_char_with_key("class_3a", "ishimaru_maki")
+    $ easkey = get_person_char_with_key("class_3a", "easkey_tanaka")
+
+    $ image = convert_pattern("main", **kwargs)
+
+    # two girls bump into each other in the locker room
+    call Image_Series.show_image(image, 0, 1, 2) from _call_gym_event_4_1
+    easkey "Huh!?" #1
+    $ image.show(3)
+    ishimaru "Oh! I'm sorry!" #2
+    $ image.show(4)
+    easkey "It's okay..." #1
+    # girls feel awkward
+    $ image.show(5)
+    easkey "..." #2
+    $ image.show(6)
+    ishimaru "okay, bye!" #1
+    $ image.show(7)
+    easkey "Bye!" #2
+
+    $ end_event('new_daytime', **kwargs)
+
+label gym_event_5 (**kwargs):
+    $ begin_event("2", **kwargs)
+
+    $ image = convert_pattern("main", **kwargs)
+
+    $ image.show(0)
+    sgirl "Haaa..., I wish I could get a massage right now..." #1
+    $ image.show(1)
+    sgirl "My muscles are so tight..." #1
+    $ image.show(2)
+    sgirl "Oh yeah that would be awesome!" #2
+
+    $ end_event('new_daytime', **kwargs)
+    
 
 # endregion
 #########################

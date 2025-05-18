@@ -276,6 +276,9 @@ init python:
                     closest_value = val
             value = closest_value
 
+        log_val("value", value)
+        log_json("gallery_manager.data", gallery_manager.data)
+
         if value not in gallery_manager.data.keys():
             gallery_manager.data[value] = {}
 

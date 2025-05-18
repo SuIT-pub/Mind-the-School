@@ -1,0 +1,189 @@
+---
+description: The selector system in @selector.rpy provides a framework for dynamic value generation in events. Selectors are used to generate or retrieve values that can be used as parameters in events.
+globs: 
+alwaysApply: false
+---
+# Selector System Documentation
+
+The selector system in [selector.rpy](mdc:game/scripts/selector.rpy) provides a framework for dynamic value generation in events. Selectors are used to generate or retrieve values that can be used as parameters in events.
+
+## Core Components
+
+### SelectorSet
+A container class that manages collections of selectors:
+- Handles multiple selectors for an event
+- Manages value rolling and caching
+- Provides unified value retrieval interface
+
+### Base Selector Class
+The abstract `Selector` class serves as the foundation for all selector types:
+- `realtime`: Controls whether values update on each retrieval
+- `key`: Identifies the selector's value in event kwargs
+- Supports option sets for additional configuration
+
+### Key Methods
+All selectors implement these core methods:
+- `roll(**kwargs)`: Generates new value
+- `update(**kwargs)`: Forces value update
+- `get_value(**kwargs)`: Retrieves current value
+- `get_name()`: Returns selector identifier
+
+## Value Generation Types
+
+### Static Values
+- `ValueSelector`: Fixed value insertion
+- `KwargsSelector`: Supply fixed values to event
+- `DictSelector`: Choose from dictionary by index
+
+### Dynamic Values
+- `RandomListSelector`: Random choice from list
+- `IterativeListSelector`: Sequential list traversal
+- `RandomValueSelector`: Random number in range
+- `NumClampSelector`: Clamp value within range
+
+### Game State
+- `StatSelector`: Character stat values
+- `LevelSelector`: Character level values
+- `TimeSelector`: Time-related values
+- `ProgressSelector`: Event progress values
+- `GameDataSelector`: Game data values
+
+### Conditional
+- `ConditionSelector`: Value based on condition
+- `RuleUnlockedSelector`: Rule state check
+- `ClubUnlockedSelector`: Club state check
+- `BuildingUnlockedSelector`: Building state check
+- `BuildingLevelSelector`: Building level check
+
+### Character Related
+- `CharacterSelector`: Character object selection
+- `PTAVoteSelector`: PTA voting values
+- `PTAObjectSelector`: PTA object selection
+
+## Usage Patterns
+
+### Event Integration
+Based on actual event implementations, selectors are commonly used to create dynamic events:
+
+1. **Basic Event Structure**
+```python
+Event(priority, "event_name",
+    # Time conditions
+    TimeCondition(daytime = "1,6"),
+    # Time selection
+    TimeSelector("time", "daytime"),
+    # Pattern for images
+    Pattern("main", "images/events/<category>/<event>/<variables>.webp")
+)
+```
+
+2. **Random Selection with Conditions**
+```python
+# Select from list with conditions
+RandomListSelector("key", 
+    ("value1", some_condition()),     # Value with condition
+    ("value2", another_condition()),  # Another conditional value
+    "default_value",                  # Default with no condition
+    realtime = True                   # Update each time
+)
+
+# Nested random selection
+RandomListSelector("key",
+    ("option1", condition1()),
+    (
+        RandomListSelector('', 'option2', 'option3'), 
+        condition2()
+    )
+)
+```
+
+3. **Conditional Value Selection**
+```python
+# Select value based on condition
+ConditionSelector("key",
+    CompareCondition("value1", "value2"),  # Condition to check
+    selector_if_true,                      # Selector to use if true
+    selector_if_false,                     # Selector to use if false
+    realtime = True                        # Update each time
+)
+```
+
+4. **Pattern with Dynamic Values**
+```python
+Pattern("main", 
+    "images/events/<category>/<event>/<character> <type> <level> <step>.webp",
+    "level"  # Optional parameter for specific variable
+)
+```
+
+### Complex Example
+```python
+Event(priority, "event_name",
+    # Time setup
+    TimeCondition(daytime = "1,6"),
+    TimeSelector("time", "daytime"),
+    
+    # Character selection
+    RandomListSelector("character", 
+        ("char1", condition1()),
+        ("char2", condition2())
+    ),
+    
+    # Level handling
+    ConditionSelector("level",
+        CompareCondition("var1", "var2"),
+        LevelSelector("", "entity1"),
+        LevelSelector("", "entity2")
+    ),
+    
+    # Dynamic pattern
+    Pattern("main", 
+        "images/<category>/<event>/<character> <level> <step>.webp", 
+        "level"
+    )
+)
+```
+
+## Best Practices
+
+1. **Selector Configuration**
+   - Use `realtime = True` when values need to update each check
+   - Provide default values for conditional selections
+   - Consider nesting selectors for complex logic
+
+2. **Pattern Management**
+   - Structure image paths consistently
+   - Use variables for dynamic elements
+   - Consider fallback options
+
+3. **Condition Integration**
+   - Combine conditions with selectors for dynamic behavior
+   - Use comparison conditions for value checks
+   - Chain conditions for complex logic
+
+4. **Value Organization**
+   - Group related selectors in events
+   - Use clear, descriptive keys
+   - Consider value dependencies
+
+## Integration Tips
+
+1. **Event Design**
+   - Plan dynamic elements first
+   - Consider all possible states
+   - Test edge cases
+
+2. **Value Selection**
+   - Use conditions to guide selection
+   - Provide fallback options
+   - Consider update timing
+
+3. **Pattern Structure**
+   - Use consistent variable naming
+   - Plan for all variations
+   - Handle missing assets
+
+
+
+
+

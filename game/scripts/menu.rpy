@@ -175,7 +175,7 @@ init python:
             made_decisions = get_kwargs('made_decisions', [], **kwargs)
             decision_data = get_kwargs('decision_data', {}, **kwargs)
             possible_decisions = get_decision_possibilities(decision_data, made_decisions)
-            elements = [element for elements in elements if element.get_key() in possible_decisions and not element.get_key() in disabled_elements]
+            elements = [element for element in elements if element.get_key() in possible_decisions and not element.get_key() in disabled_elements]
 
         filtered_elements = [element for element in elements if element.check_conditions(**kwargs)]
 
@@ -267,9 +267,15 @@ label call_menu(text, person, with_leave = True, *elements, **kwargs):
         p_text "[text]" (interact = False)
     elif text != None:
         subtitles "[text]" (interact = False)
+    else:
+        $ log("Show empty subtitles")
+        subtitles_Empty "" (interact = False)
 
     while (True):
-        show screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+        if text == None:
+            call screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
+        else:
+            show screen custom_menu_choice(1, 7, list(elements), with_leave, **kwargs)
         $ renpy.pause(hard = True)
 
 # calls a menu specialized in use for events

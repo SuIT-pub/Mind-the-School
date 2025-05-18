@@ -6,7 +6,7 @@ init 1 python:
         LevelCondition("2,3", "school"),
         NOT(ProgressCondition("yoga_classes")),
         Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_1/new_yoga_outfit_1 <school_level> <step>.webp"),
-        thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_1/thumbnail.webp")
+        thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_1/new_yoga_outfit_1 2 1.webp")
 
     pta_discussion_storage.add_event(new_yoga_outfit_1_event)
 
@@ -14,13 +14,13 @@ init 1 python:
         TimeCondition(weekday = "d", daytime = "c"),
         ProgressCondition("yoga_classes", 1),
         Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_2/new_yoga_outfit_2 <school_level> <step>.webp"),
-        thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_2/thumbnail.webp")
+        thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_2/new_yoga_outfit_2 2 0.webp")
 
     new_yoga_outfit_3_event = Event(3, "new_yoga_outfit_3",
         TimeCondition(weekday = "d", daytime = "c"),
         ProgressCondition("yoga_classes", 2),
         Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_3/new_yoga_outfit_3 <school_level> <step>.webp"),
-        thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_3/thumbnail.webp")
+        thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_3/new_yoga_outfit_3 2 0.webp")
 
     gym_events["check_pe"].add_event(new_yoga_outfit_2_event, new_yoga_outfit_3_event)
 
@@ -29,54 +29,55 @@ init 1 python:
         ProgressCondition("yoga_classes", 3),
         TimerCondition("new_yoga_outfit_3", day = 4),
         Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_4/new_yoga_outfit_4 <school_level> <step>.webp"),
-        thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_4/thumbnail.webp")
+        thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_4/new_yoga_outfit_4 3 5.webp")
 
     sb_events["check_class"].add_event(new_yoga_outfit_4_event)
 
-    new_yoga_outfit_5_event = Event(3, "new_yoga_outfit_5",
+    new_yoga_outfit_5_event = Event(1, "new_yoga_outfit_5",
         TimeCondition(weekday = "d", daytime = "6"),
         ProgressCondition("yoga_classes", 4),
         Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_5/new_yoga_outfit_5 <school_level> <step>.webp", "school_level"),
-        thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_5/thumbnail.webp")
+        thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_5/new_yoga_outfit_5 3 2.webp")
 
-    new_yoga_outfit_6_event = Event(3, "new_yoga_outfit_6",
+    new_yoga_outfit_6_event = Event(2, "new_yoga_outfit_6",
         TimeCondition(weekday = "d", daytime = "f"),
         ProgressCondition("yoga_classes", 5),
         Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_6/new_yoga_outfit_6 <school_level> <step>.webp"),
-        thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_6/thumbnail.webp")
+        thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_6/new_yoga_outfit_6 2 2.webp")
 
-    new_yoga_outfit_7_event = Event(3, "new_yoga_outfit_7",
+    office_building_general_event.add_event(new_yoga_outfit_5_event, new_yoga_outfit_6_event)
+
+    new_yoga_outfit_7_event = Event(2, "new_yoga_outfit_7",
         TimeCondition(weekday = "d", daytime = "f"),
         ProgressCondition("yoga_classes", 6),
-        RandomCondition(50, 100),
         TimerCondition("new_yoga_outfit_6", day = 4),
         Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_7/new_yoga_outfit_7 <school_level> <step>.webp"),
-        thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_7/thumbnail.webp")
+        thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_7/new_yoga_outfit_7 2 3.webp")
 
-    office_building_general_event.add_event(new_yoga_outfit_5_event, new_yoga_outfit_6_event, new_yoga_outfit_7_event)
+    sb_general_event.add_event(new_yoga_outfit_7_event)
 
-    new_yoga_outfit_8_event = Event(3, "new_yoga_outfit_8",
+    new_yoga_outfit_8_event = Event(2, "new_yoga_outfit_8",
         TimeCondition(weekday = "1", daytime = "2"),
         ProgressCondition("yoga_classes", 7),
-        Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_8/new_yoga_outfit_8 <school_level> <step>.webp"),
-        thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_8/thumbnail.webp")
+        Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_8/new_yoga_outfit_8 <step>.webp"),
+        thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_8/new_yoga_outfit_8 1.webp")
 
 
-    new_yoga_outfit_9_event = Event(3, "new_yoga_outfit_9",
+    new_yoga_outfit_9_event = Event(1, "new_yoga_outfit_9",
         TimeCondition(weekday = "2", daytime = "3"),
         ProgressCondition("yoga_classes", 8),
-        Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_9/new_yoga_outfit_9 <school_level> <step>.webp"),
-        thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_9/thumbnail.webp")
+        Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_9/new_yoga_outfit_9 <school_level> <step>.webp", "school_level"),
+        thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_9/new_yoga_outfit_9 3 8.webp")
 
-    time_check_events.add_event(new_yoga_outfit_8_event, new_yoga_outfit_9_event    )
+    time_check_events.add_event(new_yoga_outfit_8_event, new_yoga_outfit_9_event)
 
     new_yoga_outfit_10_event = Event(3, "new_yoga_outfit_10",
         TimeCondition(weekday = "d", daytime = "c"),
         ProgressCondition("yoga_classes", 9),
         TimerCondition("new_yoga_outfit_9", day = 4),
         GameDataSelector("yoga_outfit_set", "yoga_outfit_set", 1),
-        Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_10/new_yoga_outfit_10 <school_level> <yoga_outfit_set> <step>.webp"),
-        thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_10/thumbnail.webp")
+        Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_10/new_yoga_outfit_10 <school_level> <yoga_outfit_set> <step>.webp", "school_level", "yoga_outfit_set"),
+        thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_10/new_yoga_outfit_10 2 $ 0.webp")
 
     gym_events["check_pe"].add_event(new_yoga_outfit_10_event)
 
@@ -84,7 +85,7 @@ init 1 python:
 label new_yoga_outfit_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ zoe = get_person_char("staff", "zoe_parker")
+    $ zoe = get_person_char_with_key("staff", "zoe_parker")
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -102,7 +103,9 @@ label new_yoga_outfit_1 (**kwargs):
 label new_yoga_outfit_2 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ zoe = get_person_char("staff", "zoe_parker")
+    $ log_json("kwargs", kwargs)
+
+    $ zoe = get_person_char_with_key("staff", "zoe_parker")
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -121,7 +124,7 @@ label new_yoga_outfit_2 (**kwargs):
     call Image_Series.show_image(image, 5, 6, 7) from _call_show_image_new_yoga_outfit_2_event_1
     headmaster_thought "Hmm Zoe seems to be quite knowledgeable about yoga. I wonder if she practices it herself."
 
-    $ advance_progress("yoga_classes") # 1 -> 2
+    $ set_progress("yoga_classes", 2) # 1 -> 2
 
     $ end_event("new_daytime", **kwargs)
 
@@ -129,8 +132,8 @@ label new_yoga_outfit_2 (**kwargs):
 label new_yoga_outfit_3 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ zoe = get_person_char("staff", "zoe_parker")
-    $ sakura = get_person_char("students", "sakura_mori")
+    $ zoe = get_person_char_with_key("staff", "zoe_parker")
+    $ sakura = get_person_char_with_key("class_3a", "sakura_mori")
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -192,7 +195,9 @@ label new_yoga_outfit_3 (**kwargs):
 
     $ set_timer("new_yoga_outfit_3", "today")
 
-    $ advance_progress("yoga_classes") # 2 -> 3 
+    $ log_json("game_data", get_game_data())
+
+    $ set_progress("yoga_classes", 3) # 2 -> 3 
 
     $ end_event("new_daytime", **kwargs)
 
@@ -200,9 +205,9 @@ label new_yoga_outfit_3 (**kwargs):
 label new_yoga_outfit_4 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ seraphina = get_person_char("students", "seraphina_clark")
-    $ hatano = get_person_char("students", "hatano_miwa")
-    $ elsie = get_person_char("students", "elsie_johnson")
+    $ seraphina = get_person_char_with_key("class_3a", "seraphina_clark")
+    $ hatano = get_person_char_with_key("class_3a", "hatano_miwa")
+    $ elsie = get_person_char_with_key("class_3a", "elsie_johnson")
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -227,7 +232,7 @@ label new_yoga_outfit_4 (**kwargs):
     $ image.show(9)
     headmaster "Thanks! I'll leave you to your classes now."
 
-    $ advance_progress("yoga_classes") # 3 -> 4
+    $ set_progress("yoga_classes", 4) # 3 -> 4
 
     $ end_event("new_daytime", **kwargs)
 
@@ -235,9 +240,9 @@ label new_yoga_outfit_4 (**kwargs):
 label new_yoga_outfit_5 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ seraphina = get_person_char("students", "seraphina_clark")
-    $ hatano = get_person_char("students", "hatano_miwa")
-    $ elsie = get_person_char("students", "elsie_johnson")
+    $ seraphina = get_person_char_with_key("class_3a", "seraphina_clark")
+    $ hatano = get_person_char_with_key("class_3a", "hatano_miwa")
+    $ elsie = get_person_char_with_key("class_3a", "elsie_johnson")
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -316,6 +321,7 @@ label new_yoga_outfit_5 (**kwargs):
     # headmaster leaves
 
     call screen black_screen_text("A few minutes later...")
+    $ image.show_black()
     hatano "Mr. [headmaster_last_name]!"
 
     # headmaster comes back in
@@ -334,6 +340,7 @@ label new_yoga_outfit_5 (**kwargs):
     # headmaster leaves
 
     call screen black_screen_text("A few minutes later...")
+    $ image.show_black()
     seraphina "We're ready!"
 
     # headmaster comes back in
@@ -366,91 +373,134 @@ label new_yoga_outfit_5 (**kwargs):
     hatano "Sure!"
 
     $ image.show(45)
-    $ call_custom_menu_with_text("Okay, which outfit will I choose?", character.headmaster, False,
-        MenuElement("Option 1", "Option 1", ValueEffect("yoga_outfit_set", 1), EventEffect("new_yoga_outfit_5.after_decision")),
-        MenuElement("Option 2", "Option 2", ValueEffect("yoga_outfit_set", 2), EventEffect("new_yoga_outfit_5.after_decision")),
-        MenuElement("Option 3", "Option 3", ValueEffect("yoga_outfit_set", 3), EventEffect("new_yoga_outfit_5.after_decision")),
+    headmaster "Okay, which outfit will I choose?"
+
+    $ call_custom_menu(False,
+        MenuElement("Outfit 1", "Outfit 1", ValueEffect("yoga_outfit_set", 1), EventEffect("new_yoga_outfit_5.after_decision"), overwrite_position = ( 330, 950)),
+        MenuElement("Outfit 2", "Outfit 2", ValueEffect("yoga_outfit_set", 2), EventEffect("new_yoga_outfit_5.after_decision"), overwrite_position = ( 800, 950)),
+        MenuElement("Outfit 3", "Outfit 3", ValueEffect("yoga_outfit_set", 3), EventEffect("new_yoga_outfit_5.after_decision"), overwrite_position = (1250, 950)),
     **kwargs)
 label .after_decision (**kwargs):
     $ yoga_set = get_game_data("yoga_outfit_set")
 
+    $ image.show(46)
     headmaster "Okay, I've made my decision."
+    $ image.show(47)
     if yoga_set == 1:
         headmaster "We'll go with the first set."
+        $ image.show(48)
         hatano "Awesome!"
 
     elif yoga_set == 2:
         headmaster "We'll go with the second set."
-        elsie "I like that choice!"
+        $ image.show(49)
+        seraphina "Great!"
         
     elif yoga_set == 3:
         headmaster "We'll go with the third set."
-        seraphina "Great!"
+        $ image.show(50)
+        elsie "I like that choice!"
 
+    $ image.show(51)
     headmaster "Thank you for your help. You can change back now."
     headmaster "I'll then go order the outfits."
 
     # headmaster leaves the office
 
+    $ image.show(52)
     headmaster_thought "Hmm, do we even have the sizes for all the students?"
 
+    $ image.show(53)
     headmaster "Emiko, do we have the body sizes for the students in the database?"
+    $ image.show(54)
     secretary "Let me check that for you."
+    $ image.show(55)
     secretary "Yes, we have them, but they're a bit outdated."
+    $ image.show(56)
     headmaster "Hmm, that won't do."
 
-    $ advance_progress("yoga_classes") # 4 -> 5
+    $ set_progress("yoga_classes", 5) # 4 -> 5
 
     $ end_event("new_daytime", **kwargs)
 
-# Office Building: Anytime
+# Office Building: Free-Time
 label new_yoga_outfit_6 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ zoe = get_person_char("staff", "zoe_parker")
+    $ zoe = get_person_char_with_key("staff", "zoe_parker")
 
+    $ image = convert_pattern("main", **kwargs)
+
+    $ image.show(0)
     headmaster "Mrs. Parker!"
+    $ image.show(1)
     zoe "Yes?"
+    $ image.show(2)
     headmaster "I was just in the process of ordering the new yoga uniforms you asked for."
+    $ image.show(3)
     zoe "Oh, great!"
+    $ image.show(4)
     headmaster "I got a few students together to make a selection and we decided for one, but one problem I found was that the sizes in the database are outdated."
+    $ image.show(5)
     zoe "Oh, I see."
+    $ image.show(6)
     headmaster "Since these outfits are skin tight, I want to make sure that they fit perfectly."
     headmaster "So I was thinking that would be a great opportunity to do a general health checkup for the students."
+    $ image.show(7)
     zoe "That is a great idea!"
+    $ image.show(8)
     headmaster "The question however is, who will do the checkup? Well I could do it, since I obtained a license for it, to help with my studies."
+    $ image.show(9)
     zoe "I don't think the girls would be comfortable with that."
+    $ image.show(10)
     headmaster "I see. Do you have any suggestions?"
+    $ image.show(11)
     zoe "I don't have a license for it as well, but I know someone we could ask for help."
+    $ image.show(12)
     zoe "I'm friends with a nurse who works at the hospital in the next town. I could ask her if she could help us out."
+    $ image.show(13)
     headmaster "That sounds good, but we have to mind the budget."
+    $ image.show(14)
     zoe "I can ask her, maybe she'll do it for free."
+    $ image.show(15)
     headmaster "That would be great!"
+    $ image.show(16)
     zoe "I'll ask her right away."
 
     $ set_timer("new_yoga_outfit_6", "today")
 
-    $ advance_progress("yoga_classes") # 5 -> 6
+    $ set_progress("yoga_classes", 6) # 5 -> 6
 
     $ end_event("new_daytime", **kwargs)
 
-# Office Building: Anytime
+# School Building: Anytime
 label new_yoga_outfit_7 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ zoe = get_person_char("staff", "zoe_parker")
+    $ zoe = get_person_char_with_key("staff", "zoe_parker")
 
+    $ image = convert_pattern("main", **kwargs)
+
+    call Image_Series.show_image(image, 0, 1) from _call_show_image_new_yoga_outfit_7_event_1
     zoe "Mr. [headmaster_last_name], I have great news!"
+    $ image.show(2)
     headmaster "What is it?"
+    $ image.show(3)
     zoe "The nurse agreed to help us out for free this time!"
+    $ image.show(4)
     headmaster "That's great!"
+    $ image.show(3)
     zoe "She'll come by Tuesday next week to do the checkups."
+    $ image.show(5)
     headmaster "That's perfect!"
+    $ image.show(6)
     zoe "But she said, if you want to do it more often, we'll have to pay her."
+    $ image.show(5)
     headmaster "I understand. We'll see how it goes."
+    $ image.show(3)
     zoe "No problem, Mr. [headmaster_last_name]."
 
-    $ advance_progress("yoga_classes") # 6 -> 7
+    $ set_progress("yoga_classes", 7) # 6 -> 7
 
     $ end_event("new_daytime", **kwargs)
 
@@ -458,12 +508,18 @@ label new_yoga_outfit_7 (**kwargs):
 label new_yoga_outfit_8 (**kwargs):
     $ begin_event(**kwargs)
 
+    $ image = convert_pattern("main", **kwargs)
+
+    $ image.show(0)
     headmaster "Good morning class."
+    $ image.show(1)
     headmaster "I want to announce, that we will be conducting a general health checkup for the students tomorrow during second class."
+    $ image.show(2)
     headmaster "Attendance is mandatory, so please make sure to be in the gym by that time."
+    $ image.show(3)
     headmaster "Thank you."
 
-    $ advance_progress("yoga_classes") # 7 -> 8
+    $ set_progress("yoga_classes", 8) # 7 -> 8
 
     $ end_event("new_daytime", **kwargs)
 
@@ -472,63 +528,97 @@ label new_yoga_outfit_9 (**kwargs):
     $ begin_event(**kwargs)
 
     $ nurse = Character("Nurse", kind = character.vendor, retain = False)
-    $ yuriko = get_person_char("staff", "yuriko_oshima")
+    $ yuriko = get_person_char_with_key("class_3a", "yuriko_oshima")
 
+    $ image = convert_pattern("main", **kwargs)
+
+    $ image.show(0)
     headmaster "Good morning everyone!"
-    headmaster "I want to introduce you to Nurse [nurse_last_name]. She will be conducting the health checkups today."
+    $ image.show(1)
+    headmaster "I want to introduce you to Nurse Nguyen. She will be conducting the health checkups today."
+    $ image.show(2)
     headmaster "These checkups are to make sure that you're all healthy and fit."
     headmaster "Please follow her instructions and answer her questions truthfully."
     headmaster "For these checkups, you will have to take off your clothes, so the nurse can do a thorough examination."
 
+    $ image.show(3)
     yuriko "What we have to get naked in front of you!?"
 
+    $ image.show(4)
     headmaster "No, please rest assured, I'm just here to make the announcement."
     headmaster "I will be leaving shortly, so you can rest assured that your privacy is protected."
-
-    headmaster "Mrs. [nurse_last_name] is a trained professional and she will treat you with the utmost respect."
+    $ image.show(5)
+    headmaster "Mrs. Nguyen is a trained professional and she will treat you with the utmost respect."
     headmaster "If you have any questions or concerns, please don't hesitate to ask her."
 
+    $ image.show(6)
     headmaster "Alright, I'll now leave you in her capable hands. Good luck!"
+    $ image.show(7)
     nurse "Thank you, Mr. [headmaster_last_name]."
+    $ image.show(8)
     nurse "Now please everyone, take off your clothes and stand in line."
-    # headmaster leaves
+    call Image_Series.show_image(image, 9, pause = True) from _call_show_image_new_yoga_outfit_9_event_1
 
     call screen black_screen_text("A few hours later...")
 
+    $ image.show(10)
     nurse "Mr. [headmaster_last_name], I have finished the checkups."
+    $ image.show(11)
     headmaster "That's great! How are my students doing?"
+    $ image.show(12)
     nurse "For the most part, they're doing great. But I have some concerns about a few of them."
+    $ image.show(13)
     nurse "It is nothing serious and I already talked to them about it. I think you need to be doing these checkups more often."
     nurse "Otherwise I'm worried, that any creeping health issues might be overlooked."
+    $ image.show(14)
     headmaster "I understand. Would you be willing to come by more often?"
+    $ image.show(15)
     nurse "I would, but I can't do it that often, and I would have to charge you for it."
+    $ image.show(16)
     nurse "I have quite a long commute to get here, and I have to take time off from my regular job."
     nurse "As far as I understood from what zoe told me, you have a license yourself. Why don't you do it?"
+    $ image.show(17)
     headmaster "I thought about it myself, but I worry the students wouldn't be comfortable with it."
+    $ image.show(18)
     nurse "Hmm, I understand, but I think health comes first. I can come by once in a while, but I think it would be best, if you hire a school nurse."
+    $ image.show(19)
     headmaster "I understand. I'll see what I can do."
     headmaster "Until then, I have your number, and I thank you for your help."
+    $ image.show(20)
     nurse "No problem, Mr. [headmaster_last_name]."
     nurse "I'll be on my way then. Have a great day!"
+    $ image.show(21)
     nurse "Oh and I left the checkup results with your secretary."
+    $ image.show(22)
     headmaster "Thank you! Have a great day!"
 
     # headmaster leaves office
-    headmaster "Emiko, can you please bring me the checkup results?"
+    $ image.show(23)
+    headmaster "Emiko, can you please give me the checkup results?"
+    $ image.show(24)
     secretary "Sure, I'll have it in a minute."
+    $ image.show(25)
     secretary "Here you are [headmaster_first_name]."
+    $ image.show(26)
     headmaster "Thank you!"
+    $ image.show(27)
     headmaster "Now let's see, what we have here."
+    $ image.show(28)
     headmaster "Oh the nurse really did a thorough job. I'm impressed."
+    $ image.show(29)
     headmaster "Didn't expect her to also make photos of the students."
-    # headmaster goes through all the results
+    headmaster_thought "Nice!"
+    call screen black_screen_text("A few minutes later...")
+    $ image.show(30)
     headmaster "So far so good."
+    $ image.show(31)
     headmaster "Now that that's done, I finally can order the new yoga outfits."
+    $ image.show(32)
     headmaster "And concerning the health checkups, I guess I have to talk with the PTA about that."
 
     $ set_timer("new_yoga_outfit_9", "today")
 
-    $ advance_progress("yoga_classes") # 8 -> 9
+    $ set_progress("yoga_classes", 9) # 8 -> 9
 
     $ end_event("new_daytime", **kwargs)
 
@@ -536,28 +626,44 @@ label new_yoga_outfit_9 (**kwargs):
 label new_yoga_outfit_10 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ zoe = get_person_char("staff", "zoe_parker")
-    $ miwa = get_person_char("students", "miwa_igarashi")
+    $ zoe = get_person_char_with_key("staff", "zoe_parker")
+    $ miwa = get_person_char_with_key("class_3a", "miwa_igarashi")
 
+    $ image = convert_pattern("main", **kwargs)
+
+    call Image_Series.show_image(image, 0, 1, 2, 3, 4, 5) from _call_show_image_new_yoga_outfit_10_event_1
     headmaster "Good morning class."
+    $ image.show(6)
     headmaster "I have great news!"
+    $ image.show(7)
     headmaster "The new yoga outfits have arrived!"
-
+    
+    $ image.show(8)
     zoe "That's great!"
+    $ image.show(9)
     headmaster "I want to thank you all for your patience."
+    $ image.show(10)
     zoe "How about you girls quickly go and try them on?"
+    $ image.show(11)
     headmaster "That's a great idea!"
 
+    call Image_Series.show_image(image, 12) from _call_show_image_new_yoga_outfit_10_event_2
+    call screen black_screen_text("A few minutes later...")
+
+    $ image.show(13)
     zoe "Wow! You all look great!"
     zoe "How do they feel?"
-
+    $ image.show(14)
     miwa "They're great!"
+    $ image.show(15)
     headmaster "I'm glad to hear that! I hope you enjoy using them."
 
+    $ image.show(16)
     zoe "Then let's quickly put them to use!"
 
+    call Image_Series.show_image(image, 17, 18, 19, 20, 21) from _call_show_image_new_yoga_outfit_10_event_3
     # class processes with the yoga class
 
-    $ advance_progress("yoga_classes") # 9 -> 10
+    $ set_progress("yoga_classes", 10) # 9 -> 10
 
     $ end_event("new_daytime", **kwargs)
