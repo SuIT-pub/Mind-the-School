@@ -1207,7 +1207,7 @@ init -6 python:
             return None
         return person_storage[key][name]
 
-    def get_person_char_with_key(key: str, name: str):
+    def get_person_char_with_key(key: str, name: str, char_type: string = ""):
         """
         Returns the character object of the person with the given key and name
 
@@ -1229,7 +1229,7 @@ init -6 python:
         if name not in person_storage[key].keys():
             log_error(602, f"Person with name {name} not found")
             return None
-        return person_storage[key][name].get_character()
+        return person_storage[key][name].get_character(char_type)
 
     def load_person(key: str, person: PersonObj):
         if key not in person_storage.keys():

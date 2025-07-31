@@ -643,7 +643,6 @@ init python:
                     Gallery_Manager(event_name = storage.get_name(), event_form = 'FragStorage', location = "FragStorage")
                     register_value("fragment", str(fragments[i]))
 
-
         return fragments
 
     def get_last_data(location: str, event: str) -> Dict[str, Any]:

@@ -345,8 +345,19 @@ init -6 python:
                 - True if the building can be upgraded.
             """
 
-            conditions = self.get_upgrade_conditions(self._level)
-            return conditions != None and conditions.is_fulfilled(**kwargs)
+            if not self.has_higher_level():
+                return False
+
+            storages = self.get_condition_storages(self._level + 1)
+
+            if storages == None:
+                return False
+
+            for condition_storage in storages.values():
+                if not condition_storage.is_fulfilled(**kwargs):
+                    return False
+
+            return True
 
         def has_higher_level(self) -> bool:
             """
@@ -359,7 +370,32 @@ init -6 python:
 
             return self._level < self._max_level
 
-        def get_upgrade_conditions(self, level: int) -> ConditionStorage:
+        def get_all_coming_conditions(self) -> List[Condition]:
+
+            if not self.has_higher_level() and self.is_unlocked():
+                return []
+
+            output = []
+
+            storages = []
+
+            if not self.is_unlocked():
+                storages = self.get_condition_storages()
+            else:
+                storages = self.get_all_upgrade_conditions_storage(self._level + 1)
+
+            for storage in storages:
+                output.extend(storage.get_conditions())
+
+            return output
+
+        def get_all_upgrade_conditions_storage(self, level: int) -> List[ConditionStorage]:
+            if level > len(self._upgrade_conditions) or level <= 0:
+                return []
+
+            return list(self._upgrade_conditions[level - 1].values())
+
+        def get_upgrade_conditions(self, level: int, condition_type: str = "") -> ConditionStorage:
             """
             Returns the ConditionStorage object that represents the conditions for upgrading the building to the specified level.
 
@@ -375,8 +411,52 @@ init -6 python:
 
             if level > len(self._upgrade_conditions) or level <= 0:
                 return None
-            return self._upgrade_conditions[level - 1]
+
+            if condition_type not in self._upgrade_conditions[level - 1].keys():
+                storage = ConditionStorage()
+                for key in self._upgrade_conditions[level - 1].keys():
+                    if condition_type == "" or condition_type == key:
+                        storage.add_storage(self._upgrade_conditions[level - 1][key])
+                return storage
+
+            return self._upgrade_conditions[level - 1][condition_type]
         
+        def calculate_upgrade_vote_probability(self, **kwargs) -> float:
+            """
+            Calculates the probability of the upgrade vote.
+
+            ### Parameters:
+            1. **kwargs
+                - The values for the variables used in the conditions.
+
+            ### Returns:
+            1. float
+                - The probability of the upgrade vote.
+            """
+
+            probabilities = []
+
+            for condition_storage in self.get_all_upgrade_conditions_storage(self._level + 1).values():
+                probabilities.append(condition_storage.calculate_probability(**kwargs))
+
+            return sum(probabilities) / len(probabilities)
+
+        
+        def get_upgrade_vote_character(self, condition_type: str, **kwargs) -> str:
+            if condition_type not in self.get_condition_storages().keys():
+                return "ignore"
+            
+            conditions = self.get_all_upgrade_conditions_storage(self._level + 1)[condition_type].get_conditions()
+            if condition_type != "misc":
+                conditions.extend(self.get_all_upgrade_conditions_storage(self._level + 1)["misc"].get_conditions())
+                
+            for condition in conditions:
+                if not condition.is_fulfilled(**kwargs):
+                    return "no"
+
+            return "yes"
+
+
         def get_list_conditions(self, cond_type: str = UNLOCK, level: int = -1) -> List[Condition]:
             """
             Returns a list of Condition objects that represent the conditions for unlocking or upgrading the building.
@@ -401,13 +481,10 @@ init -6 python:
                 level = self._level
 
             if cond_type == UNLOCK:
-                return self._unlock_conditions.get_list_conditions()
-            if cond_type == UPGRADE:
-                upgrade_conditions = self.get_upgrade_conditions(level)
-                if upgrade_conditions == None:
-                    return []
-                else:
-                    return self.get_upgrade_conditions(level).get_list_conditions()
+                return self.get_condition_storage().get_list_conditions()
+            elif cond_type == UPGRADE:
+                return self.get_upgrade_conditions(level).get_list_conditions()
+            return []
         
         def get_list_conditions_list(self, cond_type: str = UNLOCK, level: int = -1, **kwargs) -> List[Tuple[str, str]]:
             """
@@ -434,14 +511,11 @@ init -6 python:
                 level = self._level
 
             if cond_type == UNLOCK:
-                return self._unlock_conditions.get_list_conditions_list(**kwargs)
-            if cond_type == UPGRADE:
-                upgrade_conditions = self.get_upgrade_conditions(level)
-                if upgrade_conditions == None:
-                    return []
-                else:
-                    return self.get_upgrade_conditions(level).get_list_conditions_list(**kwargs)
-
+                return self.get_condition_storage().get_list_conditions_list(**kwargs)
+            elif cond_type == UPGRADE:
+                return self.get_upgrade_conditions(level).get_list_conditions_list(**kwargs)
+            return []
+        
         def get_desc_conditions(self, cond_type: str = UNLOCK, level: int = -1) -> List[Condition]:
             """
             Returns a list of Condition objects that represent the conditions for unlocking or upgrading the building.
@@ -467,13 +541,11 @@ init -6 python:
                 level = self._level
 
             if cond_type == UNLOCK:
-                return self._unlock_conditions.get_desc_conditions()
-            if cond_type == UPGRADE:
-                upgrade_conditions = self.get_upgrade_conditions(level)
-                if upgrade_conditions == None:
-                    return []
-                else:
-                    return self.get_upgrade_conditions(level).get_desc_conditions()
+                return self.get_condition_storage().get_desc_conditions()
+            elif cond_type == UPGRADE:
+                return self.get_upgrade_conditions(level).get_desc_conditions()
+
+            return []
 
         def get_desc_conditions_desc(self, cond_type: str = UNLOCK, level: int = -1, **kwargs) -> List[str]:
             """
@@ -500,13 +572,11 @@ init -6 python:
                 level = self._level
 
             if cond_type == UNLOCK:
-                return self._unlock_conditions.get_desc_conditions_desc(**kwargs)
-            if cond_type == UPGRADE:
-                upgrade_conditions = self.get_upgrade_conditions(level)
-                if upgrade_conditions == None:
-                    return []
-                else:
-                    return self.get_upgrade_conditions(level).get_desc_conditions_desc(**kwargs)
+                return self.get_condition_storage().get_desc_conditions_desc(**kwargs)
+            elif cond_type == UPGRADE:
+                return self.get_upgrade_conditions(level).get_desc_conditions_desc(**kwargs)
+
+            return []
 
     # endregion
     ########################
@@ -771,7 +841,7 @@ label load_buildings ():
             ],
         ],
         '_max_level': 1,
-        '_unlock_conditions': ConditionStorage(),
+        '_unlock_conditions': {},
         '_upgrade_conditions':[],
         '_image_path': 'images/journal/buildings/school_building <level>.webp',
         '_image_path_alt': 'images/journal/buildings/school_building 1.webp',
@@ -790,7 +860,7 @@ label load_buildings ():
             ],
         ],
         '_max_level': 1,
-        '_unlock_conditions': ConditionStorage(),
+        '_unlock_conditions': {},
         '_upgrade_conditions':[],
         '_image_path': 'images/journal/buildings/school_dormitory <level>.webp',
         '_image_path_alt': 'images/journal/buildings/school_dormitory 1.webp',
@@ -812,15 +882,13 @@ label load_buildings ():
             ],
         ],
         '_max_level': 2,
-        '_unlock_conditions': ConditionStorage(
-            MoneyCondition(1000),
-            LockCondition()
-        ),
-        '_upgrade_conditions':[
-            ConditionStorage(
-                MoneyCondition(2000),
-            ),
-        ],
+        '_unlock_conditions': {
+            'misc': ConditionStorage(LockCondition()),
+            'feasibility': ConditionStorage(MoneyCondition(1000)),
+        },
+        '_upgrade_conditions':[{
+            'feasibility': ConditionStorage(MoneyCondition(2000)),
+        }],
     }, {
         '_level': 0,
     })
@@ -836,10 +904,10 @@ label load_buildings ():
             ],
         ],
         '_max_level': 1,
-        '_unlock_conditions': ConditionStorage(
-            MoneyCondition(1000),
-            LockCondition(),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(LockCondition()),
+            'feasibility': ConditionStorage(MoneyCondition(1000)),
+        },
         '_upgrade_conditions':[],
     }, {
         '_level': 0,
@@ -856,10 +924,10 @@ label load_buildings ():
             ],
         ],
         '_max_level': 1,
-        '_unlock_conditions': ConditionStorage(
-            MoneyCondition(1000),
-            LockCondition()
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(LockCondition()),
+            'feasibility': ConditionStorage(MoneyCondition(1000)),
+        },
         '_upgrade_conditions':[],
     }, {
         '_level': 0,
@@ -876,10 +944,10 @@ label load_buildings ():
             ],
         ],
         '_max_level': 1,
-        '_unlock_conditions': ConditionStorage(
-            MoneyCondition(1000),
-            LockCondition()
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(LockCondition()),
+            'feasibility': ConditionStorage(MoneyCondition(1000)),
+        },
         '_upgrade_conditions':[],
     }, {
         '_level': 0,
@@ -896,7 +964,7 @@ label load_buildings ():
             ],
         ],
         '_max_level': 1,
-        '_unlock_conditions': ConditionStorage(),
+        '_unlock_conditions': {},
         '_upgrade_conditions':[],
         '_image_path': 'images/journal/buildings/gym <level>.webp',
         '_image_path_alt': 'images/journal/buildings/gym 1.webp',
@@ -915,10 +983,10 @@ label load_buildings ():
             ],
         ],
         '_max_level': 1,
-        '_unlock_conditions': ConditionStorage(
-            MoneyCondition(1000),
-            LockCondition()
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(LockCondition()),
+            'feasibility': ConditionStorage(MoneyCondition(1000)),
+        },
         '_upgrade_conditions':[],
     }, {
         '_level': 0,
@@ -961,25 +1029,24 @@ label load_buildings ():
             ],
         ],
         '_max_level': 1,
-        '_unlock_conditions': ConditionStorage(
-            ProgressCondition("unlock_cafeteria", 1, True),
-            MoneyCondition(1500),
-            # LockCondition(False),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(ProgressCondition("unlock_cafeteria", 1, True)),
+            'feasibility': ConditionStorage(MoneyCondition(1500)),
+        },
         '_unlock_effects': [
             ModifierEffect('weekly_cost_cafeteria', 'money', Modifier_Obj('Cafeteria', "+", -100), collection = 'payroll_weekly'),
         ],
         '_upgrade_conditions':[
-            ConditionStorage(
-                MoneyCondition(3000),
-                LockCondition(True),
-            ),
-            ConditionStorage(
-                MoneyCondition(5000),
-            ),
-            ConditionStorage(
-                MoneyCondition(10000),
-            ),
+            {
+                'misc': ConditionStorage(LockCondition(True)),
+                'feasibility': ConditionStorage(MoneyCondition(3000)),
+            },
+            {
+                'feasibility': ConditionStorage(MoneyCondition(5000)),
+            },
+            {
+                'feasibility': ConditionStorage(MoneyCondition(10000)),
+            },
         ],
         '_upgrade_effects': {
             2: [
@@ -1010,10 +1077,10 @@ label load_buildings ():
             ],
         ],
         '_max_level': 1,
-        '_unlock_conditions': ConditionStorage(
-            MoneyCondition(1000),
-            LockCondition()
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(LockCondition()),
+            'feasibility': ConditionStorage(MoneyCondition(1000)),
+        },
         '_upgrade_conditions':[],
     }, {
         '_level': 0,
@@ -1030,7 +1097,7 @@ label load_buildings ():
             ],
         ],
         '_max_level': 1,
-        '_unlock_conditions': ConditionStorage(),
+        '_unlock_conditions': {},
         '_upgrade_conditions':[],
         '_image_path': 'images/journal/buildings/kiosk <level>.webp',
         '_image_path_alt': 'images/journal/buildings/kiosk 1.webp',
@@ -1049,7 +1116,7 @@ label load_buildings ():
             ],
         ],
         '_max_level': 1,
-        '_unlock_conditions': ConditionStorage(),
+        '_unlock_conditions': {},
         '_upgrade_conditions':[],
         '_image_path': 'images/journal/buildings/courtyard <level>.webp',
         '_image_path_alt': 'images/journal/buildings/courtyard 1.webp',
@@ -1068,7 +1135,7 @@ label load_buildings ():
             ],
         ],
         '_max_level': 1,
-        '_unlock_conditions': ConditionStorage(),
+        '_unlock_conditions': {},
         '_upgrade_conditions':[],
         '_image_path': 'images/journal/buildings/office <level>.webp',
         '_image_path_alt': 'images/journal/buildings/office 1.webp',

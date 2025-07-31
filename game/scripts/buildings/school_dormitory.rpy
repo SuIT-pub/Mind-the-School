@@ -467,6 +467,7 @@ label .stay (**kwargs):
 
     $ end_event("new_daytime", **kwargs)
     
+
 # endregion
 #########################
 

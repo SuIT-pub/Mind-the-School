@@ -167,10 +167,9 @@ label load_clubs ():
         '_description': [
             "Here students cum together (pun intended) to collectively masturbate and explore new ways to satisfy themselves.\nA nice place for students to socialize and to get some time out from the stressful school life.",
         ],
-        '_unlock_conditions': ConditionStorage(
-            # LevelCondition("5+"),
-            LockCondition(),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(LockCondition()),
+        },
         '_image_path': 'images/journal/clubs/masturbation_club.webp',
         '_image_path_alt': 'images/journal/clubs/masturbation_club.webp',
     })
@@ -180,10 +179,9 @@ label load_clubs ():
         '_description': [
             "The club to celebrate the art that is the human body. Here students come together to engage in the thrill seeking activity of presenting their nude bodies in public.",
         ],
-        '_unlock_conditions': ConditionStorage(
-            # LevelCondition("5+"),
-            LockCondition(),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(LockCondition()),
+        },
         '_image_path': 'images/journal/clubs/exhibitionism_club.webp',
         '_image_path_alt': 'images/journal/clubs/exhibitionism_club.webp',
     })
@@ -193,10 +191,9 @@ label load_clubs ():
         '_description': [
             "Here students engage costume crafting and cosplaying.",
         ],
-        '_unlock_conditions': ConditionStorage(
-            # LevelCondition("2+"),
-            LockCondition(),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(LockCondition()),
+        },
         '_image_path': 'images/journal/clubs/cosplay_club.webp',
         '_image_path_alt': 'images/journal/clubs/cosplay_club.webp',
     })
@@ -206,10 +203,9 @@ label load_clubs ():
         '_description': [
             "A sports club for training cheerleading and for exploring new ways to cheer and motivate the teams.",
         ],
-        '_unlock_conditions': ConditionStorage(
-            LevelCondition("2+"),
-            LockCondition(False),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(LockCondition(False)),
+        },
         '_image_path': 'images/journal/clubs/cheerleading_club_<variant>_<level>.webp',
         '_image_path_alt': 'images/journal/clubs/cheerleading_club_0_2.webp',
     })
@@ -219,10 +215,9 @@ label load_clubs ():
         '_description': [
             "An Arts and Crafts Club for shooting Porn and Erotica.\nWhile it starts as an amateur film shooting club, there for sure are ways to make money with it.",
         ],
-        '_unlock_conditions': ConditionStorage(
-            # LevelCondition("8+"),
-            LockCondition(),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(LockCondition()),
+        },
     })
 
     #! locked, currently not implemented
@@ -230,10 +225,9 @@ label load_clubs ():
         '_description': [
             "Like in the masturbation club, the students meet here to have fun together in engaging in orgies and other sexual activities and to search for new ways to reach new levels of euphoria.",
         ],
-        '_unlock_conditions': ConditionStorage(
-            # LevelCondition("7+"),
-            LockCondition(),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(LockCondition()),
+        },
     })
 
     #! locked, currently not implemented
@@ -242,10 +236,9 @@ label load_clubs ():
             "This club specializes in finding and testing ways to optimize and find new ways to achieve optimal customer satisfaction.",
             "This club may also cooperate with other clubs to host certain events.",
         ],
-        '_unlock_conditions': ConditionStorage(
-            # LevelCondition("5+"),
-            LockCondition(),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(LockCondition()),
+        },
     })
 
     #! locked, currently not implemented
@@ -253,9 +246,9 @@ label load_clubs ():
         '_description': [
             "The swimming club provides ways for students to train their condition and also to train their gracefulness in the water.",
         ],
-        '_unlock_conditions': ConditionStorage(
-            LockCondition(),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(LockCondition()),
+        },
     })
 
     #! locked, currently not implemented
@@ -263,9 +256,9 @@ label load_clubs ():
         '_description': [
             "A club where students engage in various sporty activities like track and field or long jump.",
         ],
-        '_unlock_conditions': ConditionStorage(
-            LockCondition(),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(LockCondition()),
+        },
     })
 
     #! locked, currently not implemented
@@ -273,9 +266,9 @@ label load_clubs ():
         '_description': [
             "Here students dedicate the free time to their hobby of reading various books and stories.",
         ],
-        '_unlock_conditions': ConditionStorage(
-            LockCondition(),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(LockCondition()),
+        },
     })
 
     #! locked, currently not implemented
@@ -283,9 +276,9 @@ label load_clubs ():
         '_description': [
             "A musical club where students came together to form bands and to create possibilities to perform on the big stage.",
         ],
-        '_unlock_conditions': ConditionStorage(
-            LockCondition(),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(LockCondition()),
+        },
     })
 
     #! locked, currently not implemented
@@ -293,9 +286,9 @@ label load_clubs ():
         '_description': [
             "A club where various games are played, developed and tested.",
         ],
-        '_unlock_conditions': ConditionStorage(
-            LockCondition(),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(LockCondition()),
+        },
     })
 
     #! locked, currently not implemented
@@ -303,9 +296,9 @@ label load_clubs ():
         '_description': [
             "A club where students let out their artistic personalities in many different ways. Here they can paint, sculpt or something else they want to do to present themselves.",
         ],
-        '_unlock_conditions': ConditionStorage(
-            LockCondition(),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(LockCondition()),
+        },
     })
 
     #! locked, currently not implemented
@@ -313,9 +306,9 @@ label load_clubs ():
         '_description': [
             "This club is dedicated to show different activities that can be done out in the nature, like camping or hiking, canoeing. Everything outside- and nature-related.",
         ],
-        '_unlock_conditions': ConditionStorage(
-            LockCondition(),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(LockCondition()),
+        },
     })
 
     return

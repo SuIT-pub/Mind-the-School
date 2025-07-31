@@ -520,7 +520,7 @@ label cafeteria_event_7(**kwargs):
     $ image.show(1)
     luna "Oh hello Mr. [headmaster_last_name]. We are baking a cake."
     $ image.show(2)
-    seraphina "Yeah. We already got permission from Mrs. Hall."
+    seraphina "Yeah. We already got permission from Ms. Hall."
 
     $ image.show(3)
     headmaster "Oh I see. That's nice! But I have one question."
@@ -556,6 +556,17 @@ label cafeteria_event_7(**kwargs):
     ) from _call_cafeteria_event_7_1
 
     $ end_event('new_daytime', **kwargs)
+
+
+# In a momentary lapse, one student accidentally knocks over her water bottle near another girl, causing both of them to slip in the spreading puddle on the floor. As they help each other up and brush off their clothes (which were momentarily revealed), there's an awkward but harmless exchange about how close they came to flashing everyone.
+label cafeteria_event_8(**kwargs):
+    $ begin_event(**kwargs)
+
+    $ image = convert_pattern("main", **kwargs)
+
+    # water bottle falls from tablet
+    # other girl slips in the puddle, pulling the first girl down with her, while falling the water bottle of the other girl spills all over their clothes
+
 
 # endregion
 #########################

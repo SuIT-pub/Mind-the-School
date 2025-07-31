@@ -16,11 +16,6 @@ init -1 python:
     add_storage(gym_events, EventStorage("teach_pe",       "gym", fallback_text = "There is nothing to do here."))
     add_storage(gym_events, EventStorage("relax",          "gym", fallback_text = "There is nothing to do here."))
 
-    gym_teach_pe_intro_storage = FragmentStorage("gym_teach_pe_intro")
-    gym_teach_pe_warm_up_storage = FragmentStorage("gym_teach_pe_warm_up")
-    gym_teach_pe_main_storage = FragmentStorage("gym_teach_pe_main")
-    gym_teach_pe_end_storage = FragmentStorage("gym_teach_pe_end")
-
     gym_bg_images = BGStorage("images/background/gym/f.webp", 
         BGImage("images/background/gym/<school_level> <variant> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")), # show gym with students
         BGImage("images/background/gym/n.webp", 1, TimeCondition(daytime = 7)), # show gym at night empty
@@ -329,6 +324,9 @@ label gym_event_4 (**kwargs):
     $ image.show(7)
     easkey "Bye!" #2
 
+    call change_stats_with_modifier('school',
+        inhibition = DEC_SMALL, corruption = TINY) from _stats_gym_event_4_1
+
     $ end_event('new_daytime', **kwargs)
 
 label gym_event_5 (**kwargs):
@@ -342,6 +340,9 @@ label gym_event_5 (**kwargs):
     sgirl "My muscles are so tight..." #1
     $ image.show(2)
     sgirl "Oh yeah that would be awesome!" #2
+
+    call change_stats_with_modifier('school',
+        inhibition = DEC_TINY, happiness = DEC_TINY) from _stats_gym_event_5_1
 
     $ end_event('new_daytime', **kwargs)
     

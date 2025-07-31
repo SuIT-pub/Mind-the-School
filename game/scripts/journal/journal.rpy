@@ -701,14 +701,10 @@ screen journal_vote_button(page, display, active_obj):
             $ probability = 0
             if obj_type == 'building' and active_obj.can_be_upgraded():
                 $ condition_storage = active_obj.get_upgrade_conditions(active_obj.get_level())
+                $ probability = active_obj.calculate_upgrade_vote_probability()
                 $ action_text = "upgrade"
-            if obj_type == 'building':
-                $ probability = calculateProbabilitySum(condition_storage)
             else:
-                $ log_separator()
-                $ probability = calculateProbabilitySum(
-                    condition_storage
-                )
+                $ probability = active_obj.calculate_vote_probability()
             $ locked_text = ""
             $ probability_text = str(clamp_value(round(probability, 2))) + "%"
             if condition_storage.get_is_locked():
@@ -3285,12 +3281,12 @@ label add_to_proposal(data, page, display, action = "unlock"):
 
     if currentProposal != None:
         $ vote_obj = currentProposal._journal_obj
-        $ money_conditions = [condition for condition in vote_obj.get_conditions() if isinstance(condition, MoneyCondition)]
+        $ money_conditions = [condition for condition in vote_obj.get_all_coming_conditions() if isinstance(condition, MoneyCondition)]
         python:
             for condition in money_conditions:
                 release_money("vote_" + condition.get_name() + "_" + vote_obj.get_name())
 
-    $ money_conditions = [condition for condition in data.get_conditions() if isinstance(condition, MoneyCondition)]
+    $ money_conditions = [condition for condition in data.get_all_coming_conditions() if isinstance(condition, MoneyCondition)]
     python:
         for condition in money_conditions:
             reserve_money("vote_" + condition.get_name() + "_" + data.get_name(), condition.value)

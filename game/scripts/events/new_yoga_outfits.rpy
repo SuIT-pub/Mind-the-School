@@ -214,7 +214,7 @@ label new_yoga_outfit_4 (**kwargs):
     call Image_Series.show_image(image, 0, 1) from _call_show_image_new_yoga_outfit_4_event_1
     headmaster "Good morning! I'm sorry for the interruption. It won't take long."
     $ image.show(2)
-    headmaster "Mrs. Parker has requested new outfits for the yoga classes. So now I'm in the process of picking them."
+    headmaster "Ms. Parker has requested new outfits for the yoga classes. So now I'm in the process of picking them."
     headmaster "But I want to make sure that the students are comfortable in them. So I would like to ask for your opinion."
     $ image.show(3) 
     headmaster "I need a few volunteers to try them on and give me some feedback. Who would like to help me out?"
@@ -432,7 +432,7 @@ label new_yoga_outfit_6 (**kwargs):
     $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
-    headmaster "Mrs. Parker!"
+    headmaster "Ms. Parker!"
     $ image.show(1)
     zoe "Yes?"
     $ image.show(2)
@@ -548,7 +548,7 @@ label new_yoga_outfit_9 (**kwargs):
     headmaster "No, please rest assured, I'm just here to make the announcement."
     headmaster "I will be leaving shortly, so you can rest assured that your privacy is protected."
     $ image.show(5)
-    headmaster "Mrs. Nguyen is a trained professional and she will treat you with the utmost respect."
+    headmaster "Ms. Nguyen is a trained professional and she will treat you with the utmost respect."
     headmaster "If you have any questions or concerns, please don't hesitate to ask her."
 
     $ image.show(6)

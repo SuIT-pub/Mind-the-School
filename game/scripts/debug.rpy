@@ -65,7 +65,7 @@ label test_label():
 
     $ hide_all()
 
-    call show_image("images/events/new_yoga_outfits/new_yoga_outfit_5/new_yoga_outfit_5 # 45.png")
+    call show_image("images/events/new_yoga_outfits/new_yoga_outfit_5/new_yoga_outfit_5 # 45.webp")
 
     $ call_custom_menu(False, 
         MenuElement("Outfit 1", "Outfit 1", ChangeKwargsEffect("Outfit", 1), EventEffect("test_label.test"), overwrite_position = ( 330, 950)),
