@@ -77,7 +77,7 @@ init -7 python:
             self._description = [""]
             self._image_path_alt = "images/journal/empty_image.webp"
             self._image_path = "images/journal/empty_image.webp"
-            self._unlock_conditions = ConditionStorage()
+            self._unlock_conditions = {}
             self._vote_comments = {}
             self._default_comments = {
                 "yes": "I vote yes.",
@@ -96,7 +96,7 @@ init -7 python:
             if hasattr(self, '_image_path'):
                 self._image_path = "images/journal/empty_image.webp"
             if hasattr(self, '_unlock_conditions'):
-                self._unlock_conditions = ConditionStorage()
+                self._unlock_conditions = {}
             if hasattr(self, '_vote_comments'):
                 self._vote_comments = {}
             if hasattr(self, '_default_comments'):
@@ -115,7 +115,7 @@ init -7 python:
                 log_error(402, f"|Journal_Obj:{self._name}| Title is missing!")
             if not isinstance(self._description, list):
                 log_error(403, f"|Journal_Obj:{self._name}| Description is not a list!")
-            if self._unlock_conditions is None or not isinstance(self._unlock_conditions, ConditionStorage):
+            if self._unlock_conditions is None:
                 log_error(404, f"|Journal_Obj:{self._name}| Unlock conditions are missing!")
             
             
@@ -284,8 +284,8 @@ init -7 python:
                 - Whether the object is visible.
             """
 
-            is_blocking = self._unlock_conditions.is_blocking(**kwargs)
-            return is_blocking or self.is_unlocked()
+            is_blocking = self.are_conditions_blocking(**kwargs)
+            return not is_blocking or self.is_unlocked()
 
         def can_be_unlocked(self, **kwargs) -> bool:
             """
@@ -295,10 +295,44 @@ init -7 python:
             1. bool
                 - Whether the object can be unlocked.
             """
+            
+            for condition_storage in self.get_condition_storages().values():
+                if not condition_storage.is_fulfilled(**kwargs):
+                    return False
+            return True
 
-            return self._unlock_conditions.is_fulfilled(**kwargs)
+        def are_conditions_blocking(self, **kwargs) -> bool:
+            for condition_storage in self.get_condition_storages().values():
+                if condition_storage.is_blocking(**kwargs):
+                    return True
+            return False
 
-        def get_condition_storage(self) -> ConditionStorage:
+        def calculate_vote_probability(self, **kwargs) -> float:
+
+            probabilities = []
+
+            for condition_storage in self.get_condition_storages().values():
+                probabilities.append(condition_storage.calculate_probability(**kwargs))
+
+            return sum(probabilities) / len(probabilities)
+
+        def get_vote_character(self, condition_type: str, **kwargs) -> str:
+            if condition_type not in self.get_condition_storages().keys():
+                return "ignore"
+            
+            conditions = self.get_condition_storage(condition_type).get_conditions()
+            if condition_type != "misc":
+                conditions.extend(self.get_condition_storage("misc").get_conditions())
+            for condition in conditions:
+                if not condition.is_fulfilled(**kwargs):
+                    return "no"
+
+            return "yes"
+
+        def get_condition_storages(self) -> Dict[str, ConditionStorage]:
+            return self._unlock_conditions
+
+        def get_condition_storage(self, condition_type: str = "") -> ConditionStorage:
             """
             Returns the condition storage of the object.
 
@@ -307,9 +341,33 @@ init -7 python:
                 - Condition storage of the object.
             """
 
-            return self._unlock_conditions
+            if condition_type not in self._unlock_conditions.keys():
+                storage = ConditionStorage()
+                for key in self._unlock_conditions.keys():
+                    if condition_type == "" or condition_type == key:
+                        storage.add_storage(self._unlock_conditions[key])
+                return storage
 
-        def get_conditions(self) -> List[Condition]:
+            return self._unlock_conditions[condition_type]
+
+        def get_all_coming_conditions(self) -> List[Condition]:
+            return self.get_all_conditions()
+
+        def get_all_conditions(self) -> List[Condition]:
+            """
+            Returns all conditions of the object.
+
+            ### Returns:
+            1. List[Condition]
+                - All conditions of the object.
+            """
+
+            output = []
+            for condition_storage in self.get_condition_storages().values():
+                output.extend(condition_storage.get_conditions())
+            return output
+
+        def get_conditions(self, condition_type: str) -> List[Condition]:
             """
             Returns the conditions of the object.
 
@@ -318,7 +376,10 @@ init -7 python:
                 - Conditions of the object.
             """
 
-            return self._unlock_conditions.get_conditions()
+            if condition_type not in self._unlock_conditions.keys():
+                return []
+
+            return self._unlock_conditions[condition_type].get_conditions()
 
         def get_list_conditions(self, cond_type: str = UNLOCK, level: int = -1) -> List[Condition]:
             """
@@ -337,7 +398,12 @@ init -7 python:
                 - List conditions of the object.
             """
 
-            return self._unlock_conditions.get_list_conditions()
+            output = []
+
+            for condition_storage in self.get_condition_storages().values():
+                output.extend(condition_storage.get_list_conditions())
+
+            return output
 
         def get_list_conditions_list(self, cond_type: str = UNLOCK, level: int = -1, **kwargs) -> List[Tuple[str, str]]:
             """
@@ -357,9 +423,14 @@ init -7 python:
                 - The tuples are in the format (condition icon, condition value).
             """
 
-            return self._unlock_conditions.get_list_conditions_list(**kwargs)
+            output = []
 
-        def get_desc_conditions(self, cond_type: str = UNLOCK, level: int = -1) -> List[Condition]:
+            for condition_storage in self.get_condition_storages().values():
+                output.extend(condition_storage.get_list_conditions_list(**kwargs))
+
+            return output
+
+        def get_desc_conditions(self, condition_type: str, cond_type: str = UNLOCK, level: int = -1) -> List[Condition]:
             """
             Returns the description conditions of the object.
 
@@ -376,9 +447,14 @@ init -7 python:
                 - Description conditions of the object.
             """
 
-            return self._unlock_conditions.get_desc_conditions()
+            output = []
+
+            for condition_storage in self.get_condition_storages().values():
+                output.extend(condition_storage.get_desc_conditions())
+
+            return output
         
-        def get_desc_conditions_desc(self, cond_type: str = UNLOCK, level: int = -1, **kwargs) -> List[str]:
+        def get_desc_conditions_desc(self, condition_type: str = "", cond_type: str = UNLOCK, level: int = -1, **kwargs) -> List[str]:
             """
             Returns the description conditions of the object as a list of strings.
 
@@ -395,7 +471,13 @@ init -7 python:
                 - Description conditions of the object as a list of strings.
             """
 
-            return self._unlock_conditions.get_desc_conditions_desc(**kwargs)
+            output = []
+
+            for key in self.get_condition_storages().keys():
+                if condition_type == "" or condition_type == key:
+                    output.extend(self.get_condition_storage(key).get_desc_conditions_desc(**kwargs))
+
+            return output
         
         def get_vote_comments(self, char: str, result: str) -> str:
             """

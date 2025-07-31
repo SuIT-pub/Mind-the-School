@@ -1621,7 +1621,7 @@ init -3 python:
 
             return self.fragments
 
-        def call_fragment(self, index: int, events: Event = None, **kwargs):
+        def call_fragment(self, events: Event = None, **kwargs):
             """
             Calls a fragment.
             It selects the EventStorage at the index and gets one random event that fulfills the conditions from it.
@@ -1631,15 +1631,15 @@ init -3 python:
                 - The arguments that are passed to the event.
             """
 
-            if index >= len(self.fragments):
-                log_error(303, "Composite Event " + self.event_id + ": Index (" + str(index) + ") out of range!")
-                return
+            # if events == None and index >= len(self.fragments):
+            #     log_error(303, "Composite Event " + self.event_id + ": Index (" + str(index) + ") out of range!")
+            #     return
 
-            if events == None:
-                events = self.fragments[index].get_one_possible_event(**kwargs)
-            if events == None:
-                log_error(304, "Composite Event " + self.event_id + ": No events available in fragment at index " + str(index) + "!")
-                return
+            # if events == None:
+            #     events = self.fragments[index].get_one_possible_event(**kwargs)
+            # if events == None:
+            #     log_error(304, "Composite Event " + self.event_id + ": No events available in fragment at index " + str(index) + "!")
+            #     return
 
             if "event_type" not in kwargs.keys():
                 kwargs["event_type"] = self.event_type
@@ -1666,7 +1666,7 @@ init -3 python:
 
             kwargs['frag_image_patterns'] = event_obj.get_pattern()
 
-            kwargs["frag_index"] = index
+            # kwargs["frag_index"] = index
             kwargs["frag_parent"] = self
             kwargs["is_fragment"] = True
 
@@ -1703,29 +1703,26 @@ init -3 python:
             output = []
 
             for i in range(len(self.fragments)):
+                log_val("selecting fragment", self.fragments[i].get_name())
                 repeatable = self.fragments[i].repeat_repeatable
                 repeat_count = self.fragments[i].repeat_amount
                 kwargs["repeatable"] = repeatable
-                if repeat_count == 1:
+
+                count = 0
+                for j in range(repeat_count):
                     kwargs["used_events_repeatable"] = output
                     selected_event = self.fragments[i].get_one_possible_event(**kwargs)
 
+                    log_val("selected event", selected_event.get_name())
+
                     if selected_event != None:
                         output.append(selected_event)
-                    else:
-                        log_error(304, "Composite Event " + self.event_id + ": No events available in fragment at index " + str(i) + "!")
-                else:
-                    count = 0
-                    for j in range(repeat_count):
-                        kwargs["used_events_repeatable"] = output
-                        selected_event = self.fragments[i].get_one_possible_event(**kwargs)
+                        count += 1
 
-                        if selected_event != None:
-                            output.append(selected_event)
-                            count += 1
+                if count == 0:
+                    log_error(304, "Composite Event " + self.event_id + ": Not all events could be selected in fragment at index " + str(i) + "!")
 
-                    if count == 0:
-                        log_error(304, "Composite Event " + self.event_id + ": Not all events could be selected in fragment at index " + str(i) + "!")
+            log_val("output", output)
 
             return output
 
@@ -1964,10 +1961,10 @@ init -3 python:
         frag_index = get_kwargs("frag_index", 0, **kwargs)
         frag_parent = get_kwargs("frag_parent", None, **kwargs)
 
-        if len(frags) > 0 and frag_index + 1 < len(frags) and frag_index + 1 < len(frag_parent.fragments):
+        if len(frags) > 0 and frag_index + 1 < len(frags):
             kwargs["frag_index"] = frag_index + 1
             if frag_parent != None:
-                frag_parent.call_fragment(frag_index + 1, frags[frag_index + 1], **kwargs)
+                frag_parent.call_fragment(frags[frag_index + 1], **kwargs)
 
         is_in_replay = False
 
@@ -2224,7 +2221,7 @@ label composite_event_runner(**kwargs):
 
     $ kwargs["frag_order"] = events
 
-    $ event_obj.call_fragment(0, events[0], **kwargs)
+    $ event_obj.call_fragment(events[0], **kwargs)
         
     $ end_event("map_overview", **kwargs)
 

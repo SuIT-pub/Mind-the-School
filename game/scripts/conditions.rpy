@@ -85,13 +85,19 @@ init -6 python:
                 *conditions: Variable number of Condition objects to store.
             """
             
-            self.conditions = list(conditions)
+            self.conditions = []
             self.list_conditions = []
             self.desc_conditions = []
             self.ignores = []
             self.is_locked = False
 
-            for condition in self.conditions:
+            for condition in conditions:
+                self.add_condition(condition)
+
+        def add_condition(self, condition: Condition):
+            if condition not in self.conditions:
+                self.conditions.append(condition)
+
                 if isinstance(condition, LockCondition):
                     self.is_locked = True
                 if condition.display_in_list:
@@ -99,7 +105,11 @@ init -6 python:
                 if condition.display_in_desc:
                     self.desc_conditions.append(condition)
                 if isinstance(condition, PTAOverride) and condition.accept == 'ignore':
-                    self.ignores.append(condition.char)                    
+                    self.ignores.append(condition.char)
+
+        def add_storage(self, storage: ConditionStorage):
+            for condition in storage.conditions:
+                self.add_condition(condition)
 
         def get_is_locked(self) -> bool:
             """Returns whether any stored conditions are lock conditions.
@@ -206,6 +216,12 @@ init -6 python:
             """
 
             return self.conditions
+
+        def calculate_probability(self, **kwargs) -> float:
+            probabilities = []
+            for condition in self.conditions:
+                probabilities.append(condition.calculate_probability(**kwargs))
+            return sum(probabilities) / len(probabilities)
 
         def is_fulfilled(self, **kwargs) -> bool:
             """Checks if all stored conditions are fulfilled.
@@ -402,7 +418,7 @@ init -6 python:
 
             pass
 
-        def get_diff(self, char_obj: Union[str, Char]) -> int:
+        def get_diff(self, **kwargs) -> int:
             """Calculates how far a character is from fulfilling this condition.
 
             Computes a numerical score representing how close a character is to
@@ -419,9 +435,21 @@ init -6 python:
                 Subclasses may return other values to indicate partial fulfillment.
             """
 
-            if self.is_fulfilled(char_obj = char_obj):
+            kwargs = set_kwargs_value('char_obj', get_school(), **kwargs)
+
+            if self.is_fulfilled(**kwargs):
                 return 0
             return -100
+
+        def calculate_probability(self, **kwargs) -> float:
+            # calculate probability based on the get_diff-method. get_diff returns 0 if fulfilled, -100 if not
+            diff = self.get_diff(**kwargs)
+            if diff >= 0:
+                return 1.0
+            elif diff == -100:
+                return 0.0
+            else:
+                return clamp_value(0.0, 1.0, 1.0 - (diff / 100))
 
     class StatCondition(Condition):
         """A condition class that evaluates character statistics against specified thresholds.

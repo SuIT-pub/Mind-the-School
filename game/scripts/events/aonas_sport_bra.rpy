@@ -1,4 +1,4 @@
-init 1 python: 
+init 2 python: 
     set_current_mod('base')
 
     gym_teach_pe_intro_storage.add_event(
@@ -52,6 +52,7 @@ label gym_teach_pe_intro_aona_bra (**kwargs):
     aona "Didn't you talk to him as well?"
     $ image.show(5)
     miwa "Yeah you're right. He was very empathetic."
+
     # Aona puts on the bra
     call Image_Series.show_image(image, 6, 7, 8, 9) from image_gym_teach_pe_intro_aona_bra_1
     aona "What do you think?"
@@ -259,15 +260,15 @@ label aona_sports_bra_event_1 (**kwargs):
     $ image.show(1)
     headmaster "Come in!"
     $ image.show(2)
-    secretary "Excuse me Mr. [headmaster_last_name], Mrs. Komuro is here to see you."
+    secretary "Excuse me Mr. [headmaster_last_name], Ms. Komuro is here to see you."
     $ image.show(3)
     headmaster "Ah yes, thank you! I'll come out!"
     call Image_Series.show_image(image, 4, 5) from image_aona_sports_bra_event_1_1
-    headmaster "Mrs. Langley, I'll be out with Mrs. Komuro for a few hours."
+    headmaster "Ms. Langley, I'll be out with Ms. Komuro for a few hours."
     $ image.show(6)
     secretary "Okay, can I ask what you have planned?"
     $ image.show(7)
-    headmaster "Mrs. Komuro unfortunately is missing a sports bra and I'm going to take her get one in the next city."
+    headmaster "Ms. Komuro unfortunately is missing a sports bra and I'm going to take her get one in the next city."
     $ image.show(8)
     headmaster "She struggles a bit during sports lessons and I want to help her out."
     # secretary looks up and down on Aona

@@ -17,11 +17,16 @@ init -1 python:
     sb_teach_events = {}
     add_storage(sb_teach_events, EventStorage("math",    "school_building", fallback_text = "There is nobody here."))
     add_storage(sb_teach_events, EventStorage("history", "school_building", fallback_text = "There is nobody here."))
+    add_storage(sb_teach_events, EventStorage("history", "school_building", fallback_text = "There is nobody here."))
 
     sb_teach_math_ld_storage = FragmentStorage('sb_teach_math_ld')
     sb_teach_math_main_storage = FragmentStorage('sb_teach_math_main')
     sb_teach_history_intro_storage = FragmentStorage('sb_teach_history_intro')
     sb_teach_history_main_storage = FragmentStorage('sb_teach_history_main')
+
+    sb_teach_sex_ed_intro_storage = FragmentStorage('sb_teach_sex_ed_intro')
+    sb_teach_sex_ed_main_storage = FragmentStorage('sb_teach_sex_ed_main')
+    sb_teach_sex_ed_qa_storage = FragmentStorage('sb_teach_sex_ed_qa')
 
     sb_bg_images = BGStorage("images/background/school building/f.webp",
         BGImage("images/background/school building/<school_level> <nude> <variant>.webp", 1, TimeCondition(daytime = "c", weekday = "d")),
@@ -62,6 +67,19 @@ init 1 python:
         RandomListSelector('girls', 'ikushi_ito', 'soyoon_yamamoto', 'yuriko_oshima'),
         Pattern('main', "/images/events/school building/sb_event_5/sb_event_5 <school_level> <girls> <step>.webp", 'school_level', 'girls'),
         thumbnail = "images/events/school building/sb_event_5/sb_event_5 1 soyoon_yamamoto 11.webp")
+
+    sb_event6 = Event(3, "sb_event_6",
+        TimeCondition(daytime = "f", weekday = "d"),
+        LevelCondition("2", "school"),
+        Pattern('main', "/images/events/school building/sb_event_6/sb_event_6 <step>.webp"),
+        thumbnail = "images/events/school building/sb_event_6/sb_event_6 3.webp")
+
+    sb_event7 = Event(3, "sb_event_7",
+        TimeCondition(daytime = "f", weekday = "d"),
+        LevelCondition("3", "school"),
+        Pattern('main', "/images/events/school building/sb_event_7/sb_event_7 <step>.webp"),
+        thumbnail = "images/events/school building/sb_event_7/sb_event_7 1.webp")
+
     ####################
 
     #################
@@ -72,6 +90,8 @@ init 1 python:
         sb_event3,
         sb_event4,
         sb_event5,
+        sb_event6,
+        sb_event7,
     )
 
     #################
@@ -404,6 +424,67 @@ label sb_event_5 (**kwargs):
         inhibition = DEC_TINY) from _call_change_stats_with_modifier_72
 
     $ end_event('new_daytime', **kwargs)
+
+label sb_event_6 (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ miwa = get_person("class_3a", "miwa_igarashi").get_character()
+    $ aona = get_person("class_3a", "aona_komuro").get_character()
+
+    $ image = convert_pattern('main', **kwargs)
+
+    call Image_Series.show_image(image, 0, 1) from _call_show_image_sb_event_6_event_1
+    aona "Ewww, look at your tiny tits! No wonder you're so shy."
+    miwa "..."
+    $ image.show(2)
+    aona "Don't be embarrassed, it's not like anyone would want to touch those things anyway."
+    # aona pokes miwas chest
+    $ image.show(3)
+    miwa "Shut up! At least I don't have to worry about spilling out of my clothes all the time."
+    $ image.show(4)
+    aona "Well maybe if you had some actual breasts, people would pay more attention to you. As it is..."
+    call Image_Series.show_image(image, 5, 6, 7) from _call_show_image_sb_event_6_event_2
+    # aona turns around and walks away
+    # miwa looks at herself dejectedly before hurrying off in the opposite direction
+
+    call change_stats_with_modifier('school',
+        happiness = DEC_SMALL, charm = DEC_TINY) from _stats_sb_event_6_1
+
+    $ end_event('new_daytime', **kwargs)
+
+label sb_event_7 (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ miwa = get_person("class_3a", "miwa_igarashi").get_character()
+    $ aona = get_person("class_3a", "aona_komuro").get_character()
+
+    $ image = convert_pattern('main', **kwargs)
+
+    # miwa sits alone on a bench during lunch break
+    # aona saunters over to miwa, wearing a low cut top that shows plenty of cleavage.
+    # she plops down next to her.
+    call Image_Series.show_image(image, 0, 1, 2) from _call_show_image_sb_event_7_event_1
+    aona "Hey, why so glum?"
+    # aona points at her breasts
+    $ image.show(3)
+    aona "Just feeling insecure about these?"
+    # miwa looks away
+    # aona leans closer
+    $ image.show(4)
+    aona "Seriously though... your tits are like two raisins compared to mine."
+    $ image.show(5)
+    aona "Maybe you should get some implants or something! That'd sure make up for your lack of personality."
+    # miwa glares at aona, face red
+    $ image.show(6)
+    aona "Anyway, I'm off to find some real women to talk to. Catch you later, flat chest."
+    # aona stunds up and walks away
+    # miwa watches her go before slumping back, feeling miserable and alone.
+
+    call change_stats_with_modifier('school',
+        happiness = DEC_SMALL, charm = DEC_TINY) from _stats_sb_event_7_1
+
+    $ end_event('new_daytime', **kwargs)
+
 
 # endregion
 #########################

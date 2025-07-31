@@ -172,12 +172,10 @@ label load_rules ():
             "This rule will be removed in the future and replaced by proper level transition events.",
             "Not all events are available at higher levels.",
         ],
-        '_unlock_conditions': ConditionStorage(
-            LevelCondition("2", True),
-            StatCondition(char_obj = "school", inhibition = '80-', corruption = '20+'),
-            PTAOverride('parent', "ignore"),
-            PTAOverride('teacher', "ignore"),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(LevelCondition("2", True)),
+            'social': ConditionStorage(StatCondition(inhibition = '80-', corruption = '20+')),
+        },
         '_image_path': 'images/journal/rules/Level_3.webp',
         '_image_path_alt': 'images/journal/rules/Level_3.webp',
         '_unlock_effects': [
@@ -197,12 +195,10 @@ label load_rules ():
             "This rule will be removed in the future and replaced by proper level transition events.",
             "Not all events are available at higher levels.",
         ],
-        '_unlock_conditions': ConditionStorage(
-            LevelCondition("3", True),
-            StatCondition(char_obj = "school", inhibition = '70-', corruption = '30+'),
-            PTAOverride('parent', "ignore"),
-            PTAOverride('teacher', "ignore"),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(LevelCondition("3", True)),
+            'social': ConditionStorage(StatCondition(char_obj = "school", inhibition = '70-', corruption = '30+')),
+        },
         '_image_path': 'images/journal/rules/Level_4.webp',
         '_image_path_alt': 'images/journal/rules/Level_4.webp',
         '_unlock_effects': [
@@ -222,12 +218,10 @@ label load_rules ():
             "This rule will be removed in the future and replaced by proper level transition events.",
             "Not all events are available at higher levels.",
         ],
-        '_unlock_conditions': ConditionStorage(
-            LevelCondition("4", True),
-            StatCondition(char_obj = "school", inhibition = '60-', corruption = '40+'),
-            PTAOverride('parent', "ignore"),
-            PTAOverride('teacher', "ignore"),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(LevelCondition("4", True)),
+            'social': ConditionStorage(StatCondition(char_obj = "school", inhibition = '60-', corruption = '40+')),
+        },
         '_image_path': 'images/journal/rules/Level_5.webp',
         '_image_path_alt': 'images/journal/rules/Level_5.webp',
         '_unlock_effects': [
@@ -247,12 +241,10 @@ label load_rules ():
             "This rule will be removed in the future and replaced by proper level transition events.",
             "Not all events are available at higher levels.",
         ],
-        '_unlock_conditions': ConditionStorage(
-            LevelCondition("5", True),
-            StatCondition(char_obj = "school", inhibition = '50-', corruption = '50+'),
-            PTAOverride('parent', "ignore"),
-            PTAOverride('teacher', "ignore"),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(LevelCondition("5", True)),
+            'social': ConditionStorage(StatCondition(char_obj = "school", inhibition = '50-', corruption = '50+')),
+        },
         '_image_path': 'images/journal/rules/Level_6.webp',
         '_image_path_alt': 'images/journal/rules/Level_6.webp',
         '_unlock_effects': [
@@ -272,12 +264,10 @@ label load_rules ():
             "This rule will be removed in the future and replaced by proper level transition events.",
             "Not all events are available at higher levels.",
         ],
-        '_unlock_conditions': ConditionStorage(
-            LevelCondition("6", True),
-            StatCondition(char_obj = "school", inhibition = '40-', corruption = '60+'),
-            PTAOverride('parent', "ignore"),
-            PTAOverride('teacher', "ignore"),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(LevelCondition("6", True)),
+            'social': ConditionStorage(StatCondition(char_obj = "school", inhibition = '40-', corruption = '60+')),
+        },
         '_image_path': 'images/journal/rules/Level_7.webp',
         '_image_path_alt': 'images/journal/rules/Level_7.webp',
         '_unlock_effects': [
@@ -297,12 +287,10 @@ label load_rules ():
             "This rule will be removed in the future and replaced by proper level transition events.",
             "Not all events are available at higher levels.",
         ],
-        '_unlock_conditions': ConditionStorage(
-            LevelCondition("7", True),
-            StatCondition(char_obj = "school", inhibition = '30-', corruption = '70+'),
-            PTAOverride('parent', "ignore"),
-            PTAOverride('teacher', "ignore"),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(LevelCondition("7", True)),
+            'social': ConditionStorage(StatCondition(char_obj = "school", inhibition = '30-', corruption = '70+')),
+        },
         '_image_path': 'images/journal/rules/Level_8.webp',
         '_image_path_alt': 'images/journal/rules/Level_8.webp',
         '_unlock_effects': [
@@ -322,12 +310,10 @@ label load_rules ():
             "This rule will be removed in the future and replaced by proper level transition events.",
             "Not all events are available at higher levels.",
         ],
-        '_unlock_conditions': ConditionStorage(
-            LevelCondition("8", True),
-            StatCondition(char_obj = "school", inhibition = '20-', corruption = '80+'),
-            PTAOverride('parent', "ignore"),
-            PTAOverride('teacher', "ignore"),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(LevelCondition("8", True)),
+            'social': ConditionStorage(StatCondition(char_obj = "school", inhibition = '20-', corruption = '80+')),
+        },
         '_image_path': 'images/journal/rules/Level_9.webp',
         '_image_path_alt': 'images/journal/rules/Level_9.webp',
         '_unlock_effects': [
@@ -347,12 +333,10 @@ label load_rules ():
             "This rule will be removed in the future and replaced by proper level transition events.",
             "Not all events are available at higher levels.",
         ],
-        '_unlock_conditions': ConditionStorage(
-            LevelCondition("9", True),
-            StatCondition(char_obj = "school", inhibition = '10-', corruption = '90+'),
-            PTAOverride('parent', "ignore"),
-            PTAOverride('teacher', "ignore"),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(LevelCondition("9", True)),
+            'social': ConditionStorage(StatCondition(char_obj = "school", inhibition = '10-', corruption = '90+')),
+        },
         '_image_path': 'images/journal/rules/Level_10.webp',
         '_image_path_alt': 'images/journal/rules/Level_10.webp',
         '_unlock_effects': [
@@ -368,10 +352,9 @@ label load_rules ():
             "The students get an opportunity to work or help out in certain facilities of the school.",
             "This not only helps the facilities to run more smoothly, but also gives the students a chance to learn new skills and to earn some money.",
         ],
-        '_unlock_conditions': ConditionStorage(
-            ProgressCondition("unlock_school_jobs", 3, True),
-            PTAOverride('parent'),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(ProgressCondition("unlock_school_jobs", 3, True)),
+        },
         '_image_path': 'images/journal/rules/school_jobs_<level>.webp',
         '_image_path_alt': 'images/journal/rules/school_jobs_1.webp',
     })
@@ -380,12 +363,11 @@ label load_rules ():
         '_description': [
             "Students get a new subject in which they deal with the topic of the human body and human reproduction. All on a theoretical basis, of course.",
         ],
-        '_unlock_conditions': ConditionStorage(
-            StatCondition(char_obj = "school", inhibition = '90-', corruption = '10+'),
-            ProgressCondition("start_sex_ed", "6", True),
-            PTAOverride('parent', "no"),
-            PTAOverride('teacher', "yes"),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(ProgressCondition("start_sex_ed", "6", True)),
+            'social': ConditionStorage(StatCondition(char_obj = "school", inhibition = '90-', corruption = '10+')),
+            'academic': ConditionStorage(PTAOverride('parent', "no")),
+        },
         '_image_path': 'images/journal/rules/theoretical_sex_ed.webp',
         '_image_path_alt': 'images/journal/rules/theoretical_sex_ed.webp',
     })
@@ -395,12 +377,10 @@ label load_rules ():
         '_description': [
             "The Theoretical Sex Education-Class gets expanded by using digital reference material like educational videos about reproduction.",
         ],
-        '_unlock_conditions': ConditionStorage(
-            LevelCondition("2+"),
-            StatCondition(inhibition = '90-'),
-            RuleCondition("theoretical_sex_ed", True),
-            LockCondition(),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(LevelCondition("2+"), RuleCondition("theoretical_sex_ed", True), LockCondition()),
+            'social': ConditionStorage(StatCondition(inhibition = '90-')),
+        },
         '_image_path': 'images/journal/rules/theoretical_digital_sex_ed.webp',
         '_image_path_alt': 'images/journal/rules/theoretical_digital_sex_ed.webp',
         '_vote_comments': {
@@ -447,11 +427,10 @@ label load_rules ():
         '_description': [
             "The teacher volunteer to use their own bodies to give the students the best way to show them the human body.",
         ],
-        '_unlock_conditions': ConditionStorage(
-            RuleCondition("theoretical_digital_material", True),
-            StatCondition(inhibition = '85-'),
-            LockCondition(),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(RuleCondition("theoretical_digital_material", True), LockCondition()),
+            'social': ConditionStorage(StatCondition(inhibition = '85-')),
+        },
         '_image_path': 'images/journal/rules/theoretical_teacher_sex_ed_<level>.webp',
         '_image_path_alt': 'images/journal/rules/theoretical_teacher_sex_ed_3.webp',
         '_vote_comments': {
@@ -479,11 +458,10 @@ label load_rules ():
             "The students learn about the human body, and the differences each individual has, by presenting them with their own bodies.",
             "While it may be a bit shameful for the students, it also is a great way to build some confidence over their own bodies and to accept that every body is beautiful and should be displayed as such.",
         ],
-        '_unlock_conditions': ConditionStorage(
-            RuleCondition("theoretical_teacher_material", True),
-            StatCondition(inhibition = '80-'),
-            LockCondition(),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(RuleCondition("theoretical_teacher_material", True), LockCondition()),
+            'social': ConditionStorage(StatCondition(inhibition = '80-')),
+        },
         '_image_path': 'images/journal/rules/theoretical_student_sex_ed_<level>.webp',
         '_image_path_alt': 'images/journal/rules/theoretical_student_sex_ed_3.webp',
         '_vote_comments': {
@@ -511,11 +489,9 @@ label load_rules ():
             "Everyone who wanted some hands-on experience during Sex Ed now has the chance!",
             "In the Practical Sex Ed-Classes students now get the chance to experiment actively by exploring ways of masturbation. Even though it's still limited to self-pleasuring out of safety concerns.",
         ],
-        '_unlock_conditions': ConditionStorage(
-            LevelCondition("4+"),
-            RuleCondition("theoretical_sex_ed", True),
-            LockCondition(),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(LevelCondition("4+"), RuleCondition("theoretical_sex_ed", True), LockCondition()),
+        },
         '_image_path': 'images/journal/rules/practical_sex_ed_high_school_<level>.webp',
         '_image_path_alt': 'images/journal/rules/practical_sex_ed_high_school_6.webp',
         '_vote_comments': {
@@ -543,12 +519,9 @@ label load_rules ():
             "The teachers once again volunteer to help give the students the best learning experience as possible.",
             "Now the students get the opportunity to sexually experiment with their teacher. Nobody can teach sex better than someone in bed with years of hands-on experience.",
         ],
-        '_unlock_conditions': ConditionStorage(
-            LevelCondition("5+"),
-            RuleCondition("practical_sex_ed", True),
-            RuleCondition("theoretical_teacher_material", True),
-            LockCondition(),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(LevelCondition("5+"), RuleCondition("practical_sex_ed", True), RuleCondition("theoretical_teacher_material", True), LockCondition()),
+        },
         '_image_path': 'images/journal/rules/practical_sex_ed_teacher_<level>.webp',
         '_image_path_alt': 'images/journal/rules/practical_sex_ed_teacher_5.webp',
     })
@@ -558,11 +531,9 @@ label load_rules ():
         '_description': [
             "After learning from the teachers how to have sex, the students now learn how to learn the preferences of your sex partner.\nSo the students now get to experiment on each other.",
         ],
-        '_unlock_conditions': ConditionStorage(
-            RuleCondition("practical_teacher_material", True),
-            RuleCondition("theoretical_student_material", True),
-            LockCondition(),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(RuleCondition("practical_teacher_material", True), RuleCondition("theoretical_student_material", True), LockCondition()),
+        },
         '_image_path': 'images/journal/rules/practical_sex_ed_students_high_school_<level>.webp',
         '_image_path_alt': 'images/journal/rules/practical_sex_ed_students_high_school_6.webp',
     })
@@ -572,10 +543,10 @@ label load_rules ():
         '_description': [
             "This rule allows for students to have a relationship between each other and to openly show it.",
         ],
-        '_unlock_conditions':ConditionStorage(
-            ProgressCondition("unlock_student_relationship", 1, True),
-            StatCondition(inhibition = "95-", corruption = "2+"),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(ProgressCondition("unlock_student_relationship", 1, True)),
+            'social': ConditionStorage(StatCondition(inhibition = "95-", corruption = "2+")),
+        },
         
         '_image_path': 'images/journal/rules/student_student_relation <level> 0.webp',
         '_image_path_alt': 'images/journal/rules/student_student_relation <level> 1.webp',
@@ -586,11 +557,10 @@ label load_rules ():
         '_description': [
             "This rule allows for teacher to engage in a relationship with students.",
         ],
-        '_unlock_conditions': ConditionStorage(
-            StatCondition(corruption = '10+'),
-            RuleCondition("student_student_relation", blocking = True),
-            LockCondition(False),
-        ),
+        '_unlock_conditions': {
+            'social': ConditionStorage(StatCondition(corruption = '10+')),
+            'misc': ConditionStorage(RuleCondition("student_student_relation", blocking = True), LockCondition(False)),
+        },
     })
 
     #! locked, currently not implemented
@@ -598,10 +568,9 @@ label load_rules ():
         '_description': [
             "The students are free to be more relaxed about how to wear the uniform.",
         ],
-        '_unlock_conditions': ConditionStorage(
-            LevelCondition("3+"),
-            LockCondition(False),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(LevelCondition("3+"), LockCondition(False)),
+        },
         '_image_path': 'images/journal/rules/relaxed_uniform.webp',
         '_image_path_alt': 'images/journal/rules/relaxed_uniform.webp',
     })
@@ -611,10 +580,9 @@ label load_rules ():
         '_description': [
             "A new uniform rule with a minimum amount of skin that has to be shown",
         ],
-        '_unlock_conditions': ConditionStorage(
-            LevelCondition("5+"),
-            RuleCondition("relaxed_uniform", True),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(LevelCondition("5+"), RuleCondition("relaxed_uniform", True)),
+        },
         '_image_path': 'images/journal/rules/sexy_uniform.webp',
         '_image_path_alt': 'images/journal/rules/sexy_uniform.webp',
     })
@@ -624,10 +592,9 @@ label load_rules ():
         '_description': [
             "The best uniform there is with covering as little as possible.",
         ],
-        '_unlock_conditions': ConditionStorage(
-            LevelCondition("8+"),
-            RuleCondition("sexy_uniform", True),
-        ),
+        '_unlock_conditions': {
+            'misc': ConditionStorage(LevelCondition("8+"), RuleCondition("sexy_uniform", True)),
+        },
         '_image_path': 'images/journal/rules/nude_uniform.webp',
         '_image_path_alt': 'images/journal/rules/nude_uniform.webp',
     })

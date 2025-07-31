@@ -139,6 +139,7 @@ label load_quests:
     ########################
     # region Normal Quests #
 
+    # Aona's New Bra
     $ load_quest(
         Quest(
             "aonas_new_bra",
@@ -165,6 +166,124 @@ label load_quests:
                 "Check if Aona is happy with her new bra.",
                 EventTask("gym_teach_pe_main_aona_bra_2", check_history = True),
                 trigger_activate = True,
+            ),
+            premature_visibility = True
+        )
+    )
+
+    $ load_quest(
+        Quest(
+            "truth_or_dare",
+            "School",
+            "Some students seem to be playing some kind of game with each other. You should find out what it is. Best you snoop around a bit.",
+            "images/events/truth_or_dare/truth_or_dare_4/card/truth_or_dare_4_card ikushi_ito 4 1.webp",
+            "Great, now you can enjoy a nice show in the evening.",
+            Goal(
+                "truth_or_dare_1",
+                "I wonder what that runner was about...",
+                EventTask("truth_or_dare_1", check_history = True),
+                premature_visibility = True,
+                trigger_activate = True,
+                activate_next = True
+            ),
+            Goal(
+                "truth_or_dare_2",
+                "The girls were talking about some kind of game in the halls. I should listen around a bit.",
+                EventTask("truth_or_dare_2", check_history = True),
+                activate_next = True,
+                trigger_activate = True
+            ),
+            Goal(
+                "truth_or_dare_3",
+                "They seems to continue playing very soon. Now to find out where and when...",
+                EventTask("truth_or_dare_3", check_history = True),
+                activate_next = True,
+                trigger_activate = True
+            ),
+            Goal(
+                "truth_or_dare_4",
+                "They regularly play this at night in the dorm. I should snoop a bit. Sounds interesting.",
+                EventTask("truth_or_dare_4", check_history = True),
+                trigger_activate = True
+            ),
+            premature_visibility = True
+        )
+    )
+
+    $ load_quest(
+        Quest(
+            "yoga_outfit",
+            "School",
+            "Ms. Parker want's to hold yoga classes during P.E.. I should definitely support her.",
+            "images/journal/journal/test_image.webp",
+            "The new yoga outfits look very nice, and yoga is a really good way to stay fit.",
+            Goal(
+                "yoga_outfit_1",
+                "Parker announced her yoga classes. I should stop by and check how she does.",
+                EventTask("new_yoga_outfit_1", check_history = True),
+                activate_next = True,
+                trigger_activate = True
+            ),
+            Goal(
+                "yoga_outfit_2",
+                "I should have a look at her yoga classes, and see how she's doing.",
+                EventTask("new_yoga_outfit_2", check_history = True),
+                activate_next = True,
+                trigger_activate = True
+            ),
+            Goal(
+                "yoga_outfit_3",
+                "Parker seems to be doing a great job. I should check back later.",
+                EventTask("new_yoga_outfit_3", check_history = True),
+                activate_next = True,
+                trigger_activate = True
+            ),
+            Goal(
+                "yoga_outfit_4",
+                "Ms. Parker asked for proper yoga outfits. The current ones seem to be a bit too tight. But I need to find the right. Maybe some students like to help with that.",
+                EventTask("new_yoga_outfit_4", check_history = True),
+                activate_next = True,
+                trigger_activate = True
+            ),
+            Goal(
+                "yoga_outfit_5",
+                "I've found a few volunteers to try on my samples. They should come to my office later.",
+                EventTask("new_yoga_outfit_5", check_history = True),
+                activate_next = True,
+                trigger_activate = True
+            ),
+            Goal(
+                "yoga_outfit_6",
+                "Now I have an outfit, but I have no idea, what size to order. I should talk to Ms. Parker.",
+                EventTask("new_yoga_outfit_6", check_history = True),
+                activate_next = True,
+                trigger_activate = True
+            ),
+            Goal(
+                "yoga_outfit_7",
+                "Ms. Parker agreed to ask her friend to help with the checkups. I should wait for her to come by.",
+                EventTask("new_yoga_outfit_7", check_history = True),
+                activate_next = True,
+                trigger_activate = True
+            ),
+            Goal(
+                "yoga_outfit_8",
+                "The nurse agreed to do a general health checkup. I should now go to the classes and announce the checkup-day.",
+                EventTask("new_yoga_outfit_8", check_history = True),
+                activate_next = True,
+                trigger_activate = True
+            ),
+            Goal(
+                "yoga_outfit_9",
+                "Okay, checkup-day starts on Tuesday during morning classes.",
+                EventTask("new_yoga_outfit_9", check_history = True),
+                activate_next = True,
+                trigger_activate = True
+            ),
+            Goal(
+                "yoga_outfit_10",
+                "Now with the results and the outfits ordered, I can finally give them to the students.",
+                EventTask("new_yoga_outfit_10", check_history = True),
             ),
             premature_visibility = True
         )
@@ -248,6 +367,7 @@ label load_quests:
                 EventTask("office_event_1", check_history = True),
                 EventTask("office_event_2", check_history = True),
                 EventTask("office_event_3", check_history = True),
+                EventTask("office_event_4", check_history = True),
                 EventTask("work_office_session_event_first_naughty", check_history = True),
                 EventTask("work_office_session_event_1", check_history = True),
                 EventTask("work_office_reputation_event_1", check_history = True),
@@ -263,6 +383,8 @@ label load_quests:
                 EventTask("sb_event_3", check_history = True),
                 EventTask("sb_event_4", check_history = True),
                 EventTask("sb_event_5", check_history = True),
+                EventTask("sb_event_6", check_history = True),
+                EventTask("sb_event_7", check_history = True),
                 premature_visibility = True
             ),
             Goal(
@@ -276,11 +398,49 @@ label load_quests:
                 premature_visibility = True
             ),
             Goal(
+                "all_events_truth_or_dare",
+                "Truth or Dare Events",
+                EventTask("truth_or_dare_1", check_history = True),
+                EventTask("truth_or_dare_2", check_history = True),
+                EventTask("truth_or_dare_3", check_history = True),
+                LabelTask("all_events_truth_or_dare_truth", "-- Truth Fragments"),
+                EventTask("truth_or_dare_truth_1", check_history = True),
+                EventTask("truth_or_dare_truth_2", check_history = True),
+                EventTask("truth_or_dare_truth_3", check_history = True),
+                EventTask("truth_or_dare_truth_4", check_history = True),
+                EventTask("truth_or_dare_truth_5", check_history = True),
+                EventTask("truth_or_dare_truth_6", check_history = True),
+                LabelTask("all_events_truth_or_dare_dare", "-- Dare Fragments"),
+                EventTask("truth_or_dare_dare_1", check_history = True),
+                EventTask("truth_or_dare_dare_2", check_history = True),
+                EventTask("truth_or_dare_dare_3", check_history = True),
+                EventTask("truth_or_dare_dare_4", check_history = True),
+                EventTask("truth_or_dare_dare_5", check_history = True),
+                EventTask("truth_or_dare_dare_6", check_history = True),
+                premature_visibility = True
+            ),
+            Goal(
+                "all_events_teaching_sex_ed",
+                "Sex Education Teaching Events",
+                LabelTask("all_events_teaching_sex_ed_intro", "-- Intro Fragments"),
+                EventTask("sb_teach_sex_ed_intro_anatomy", check_history = True),
+                EventTask("sb_teach_sex_ed_intro_sex_curiosity", check_history = True),
+                LabelTask("all_events_teaching_sex_ed_main", "-- Main Fragments"),
+                EventTask("sb_teach_sex_ed_main_anatomy_1", check_history = True),
+                EventTask("sb_teach_sex_ed_main_sex_curiosity_1", check_history = True),
+                LabelTask("all_events_teaching_sex_ed_qa", "-- Q&A Fragments"),
+                EventTask("sb_teach_sex_ed_qa_1", check_history = True),
+                EventTask("sb_teach_sex_ed_qa_2", check_history = True),
+                premature_visibility = True
+            ),
+            Goal(
                 "all_events_teaching_pe",
                 "P.E. Teaching Events",
                 LabelTask("all_events_teaching_gym_intro", "-- Intro Fragments"),
                 EventTask("gym_teach_pe_intro_1", check_history = True),
                 EventTask("gym_teach_pe_intro_aona_bra", check_history = True),
+                LabelTask("all_events_teaching_gym_entrance", "-- Entrance Fragments"),
+                EventTask("gym_teach_pe_entrance_1", check_history = True),
                 LabelTask("all_events_teaching_gym_warm_up", "-- Warm Up Fragments"),
                 EventTask("gym_teach_pe_warm_up_1", check_history = True),
                 LabelTask("all_events_teaching_gym_main", "-- Main Fragments"),
@@ -310,6 +470,13 @@ label load_quests:
                 LabelTask("all_events_teaching_history_main", "-- Main Fragments"),
                 EventTask("sb_teach_history_main_f_revolution_1", check_history = True),
                 EventTask("sb_teach_history_main_f_revolution_2", check_history = True),
+                premature_visibility = True
+            ),
+            Goal(
+                "all_events_teaching_english",
+                "English Teaching Events",
+                LabelTask("all_events_teaching_english_intro", "-- Intro Fragments"),
+                EventTask("sb_teach_english_intro_1", check_history = True),
                 premature_visibility = True
             ),
             Goal(

@@ -57,7 +57,12 @@ init 1 python:
             LevelCondition("1-5", "school"),
             NOT(RuleCondition("student_student_relation")),
             Pattern("main", "images/events/office/office_event_3/office_event_3 <school_level> <step>.webp"),
-            thumbnail = "images/events/office/office_event_3/office_event_3 1 0.webp"),)
+            thumbnail = "images/events/office/office_event_3/office_event_3 1 0.webp"),
+        Event(3, "office_event_4",
+            TimeCondition(weekday = "d", daytime = "d"),
+            Pattern("main", "images/events/office/office_event_4/office_event_4 <secretary_level> <step>.webp", "secretary_level"),
+            thumbnail = "images/events/office/office_event_4/office_event_4 5 0.webp"),
+    )
 
     office_call_secretary_event_event = EventSelect(3, "call_secretary_event", "What do you want to do?", office_building_call_secretary_events,
         override_menu_exit = 'office_building',)
@@ -259,7 +264,7 @@ label work_office_session_event_1(**kwargs):
     $ image.show(1)
     headmaster "Yes?"
     $ image.show(2)
-    secretary "[headmaster_first_name], Mrs. [girl_last_name] is here for here counselling session."
+    secretary "[headmaster_first_name], Ms. [girl_last_name] is here for here counselling session."
     $ image.show(3)
     headmaster "Thank you. Please let her in."
     $ image.show(4)
@@ -836,16 +841,29 @@ label .care (**kwargs):
 label office_event_4 (**kwargs):
     $ begin_event(**kwargs);
 
+    $ image = convert_pattern("main", **kwargs)
+
     # view of headmaster working and dozing off
     #headmaster wakes up with great view of Emiko's underboobs.
+    
+    call Image_Series.show_image(image, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9) from _call_show_image_office_event_4_1
     secretary "Ah, [headmaster_first_name]! You're awake!"
+    $ image.show(10)
     headmaster "What? Oh, yes. Why am I here?"
+    $ image.show(11)
     secretary "I found you sleeping here. You should take a break."
+    $ image.show(10)
     headmaster "I'm fine, really."
+    $ image.show(11)
     secretary "No, you look exhausted. You need to rest."
     headmaster "..."
+    $ image.show(10)
     secretary "Just keep your eyes closed for a while. I'll be here."
+    call Image_Series.show_image(image, 8, 7, 6, 5, 12) from _call_show_image_office_event_4_2
     # headmaster dozes off again
+
+    call change_stats_with_modifier('school',
+        happiness = SMALL, education = TINY) from _stats_office_event_4_1
 
     $ end_event('new_daytime', **kwargs)
     

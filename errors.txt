@@ -2,9 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/scripts/images.rpy", line 380: invalid syntax
-            renpy.call("show_ready_image", , display_type)   
-                                            ^
+File "game/scripts/quests/quest_list.rpy", line 220: invalid syntax
+                Goal(
+                 ^
 
 Ren'Py Version: Ren'Py 8.1.3.23091805
-Sun May 18 13:11:19 2025
+Wed Jul 30 15:22:44 2025

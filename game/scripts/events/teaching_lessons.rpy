@@ -1,3 +1,12 @@
+init -1 python:
+    set_current_mod('base')
+    
+    gym_teach_pe_intro_storage = FragmentStorage("gym_teach_pe_intro")
+    gym_teach_pe_entrance_storage = FragmentStorage("gym_teach_pe_entrance")
+    gym_teach_pe_warm_up_storage = FragmentStorage("gym_teach_pe_warm_up")
+    gym_teach_pe_main_storage = FragmentStorage("gym_teach_pe_main")
+    gym_teach_pe_end_storage = FragmentStorage("gym_teach_pe_end")
+
 init 1 python:
     set_current_mod('base')
 
@@ -7,6 +16,45 @@ init 1 python:
         TimeCondition(weekday = "d", daytime = "c"),
         KwargsSelector(show_proficiency_modifier = True),
         override_menu_exit = 'school_building')
+
+    ###########################
+    # region Theoretical Sex Ed
+
+    sb_teach_sex_ed_intro_storage.add_event(
+        EventFragment(3, 'sb_teach_sex_ed_intro_anatomy',
+            CheckReplay(ValueCondition('topic', 'anatomy')),
+            Pattern("main", "/images/events/teaching/sex_ed/intro_1/teaching_sex_ed_intro_1 <step>.webp")),
+        EventFragment(3, 'sb_teach_sex_ed_intro_sex_curiosity',
+            CheckReplay(ValueCondition('topic', 'sex_curiosity')),
+            Pattern("main", "/images/events/teaching/sex_ed/intro_2/teaching_sex_ed_intro_2 <step>.webp"))
+    )
+
+    sb_teach_sex_ed_main_storage.add_event(
+        EventFragment(3, 'sb_teach_sex_ed_main_anatomy_1',
+            CheckReplay(ValueCondition('topic', 'anatomy')),
+            Pattern("main", "/images/events/teaching/sex_ed/main/anatomy_1/teaching_sex_ed_main_anatomy_1 <step>.webp")),
+        EventFragment(3, 'sb_teach_sex_ed_main_sex_curiosity_1',
+            CheckReplay(ValueCondition('topic', 'sex_curiosity')),
+            Pattern("main", "/images/events/teaching/sex_ed/main/sex_curiosity_1/teaching_sex_ed_main_sex_curiosity_1 <step>.webp"))
+    )
+
+    sb_teach_sex_ed_qa_storage.add_event(
+        EventFragment(3, 'sb_teach_sex_ed_qa_1',
+            Pattern("main", "/images/events/teaching/sex_ed/qa_1/teaching_sex_ed_qa_1 <step>.webp")),
+        EventFragment(3, 'sb_teach_sex_ed_qa_2',
+            Pattern("main", "/images/events/teaching/sex_ed/qa_2/teaching_sex_ed_qa_2 <step>.webp"))
+    )
+
+    sb_teach_sex_ed_event = EventComposite(3, 'sb_teach_sex_ed', [sb_teach_sex_ed_intro_storage, sb_teach_sex_ed_main_storage, sb_teach_sex_ed_qa_storage],
+        TimeCondition(weekday = "d", daytime = "c"),
+        LevelSelector('school_level', 'school'),
+        ProficiencyCondition('sex_ed'),
+        RandomListSelector('topic', 'anatomy', 'sex_curiosity'),
+        Pattern("main", "/images/events/teaching/sex_ed/sb_teach_sex_ed.webp"),
+        thumbnail = "/images/events/teaching/sex_ed/main_1/teaching_sex_ed_main_1 1 10.webp")
+
+    # endregion
+    ###########################
 
     ######################
     # region Math Teaching
@@ -77,40 +125,48 @@ init 1 python:
 
     ######################
     # region P.E. Teaching
+
     gym_teach_pe_intro_storage.add_event(
-        EventFragment(3, "gym_teach_pe_intro_1",
-            Pattern("main", "/images/events/teaching/pe/intro_1/teaching_pe_intro_1 <school_level> <step>.webp", "school_level"),
-            thumbnail = "images/events/teaching/pe/intro_1/teaching_pe_intro_1 1 7.webp"),
+        EventFragment(3, "gym_teach_pe_intro_2",
+            Pattern("main", "/images/events/teaching/pe/intro/intro_1/teaching_pe_intro_2 <step>.webp"),
+            thumbnail = "images/events/teaching/pe/intro/intro_1/teaching_pe_intro_2 5.webp"),
+    )
+
+    gym_teach_pe_entrance_storage.add_event(
+        EventFragment(3, "gym_teach_pe_entrance_1",
+            Pattern("main", "/images/events/teaching/pe/entrance/entrance_1/teaching_pe_entrance_1 <school_level> <step>.webp", "school_level"),
+            thumbnail = "images/events/teaching/pe/entrance/entrance_1/teaching_pe_entrance_1 1 7.webp"),
     )
 
     gym_teach_pe_warm_up_storage.add_event(
         EventFragment(3, "gym_teach_pe_warm_up_1",
-            Pattern("main", "/images/events/teaching/pe/warm_up_1/teaching_pe_warm_up_1 <school_level> <step>.webp"),
-            thumbnail = "images/events/teaching/pe/warm_up_1/teaching_pe_warm_up_1 1 2.webp"),
+            Pattern("main", "/images/events/teaching/pe/warm_up/warm_up_1/teaching_pe_warm_up_1 <school_level> <step>.webp"),
+            thumbnail = "images/events/teaching/pe/warm_up/warm_up_1/teaching_pe_warm_up_1 1 2.webp"),
     )
 
     gym_teach_pe_main_storage.add_event(
         EventFragment(3, "gym_teach_pe_main_1",
-            Pattern("main", "/images/events/teaching/pe/main_1/teaching_pe_main_1 <school_level> <step>.webp"),
-            thumbnail = "images/events/teaching/pe/main_1/teaching_pe_main_1 1 9.webp"),
+            Pattern("main", "/images/events/teaching/pe/main/main_1/teaching_pe_main_1 <school_level> <step>.webp"),
+            thumbnail = "images/events/teaching/pe/main/main_1/teaching_pe_main_1 1 9.webp"),
     )
 
     gym_teach_pe_end_storage.add_event(
         EventFragment(3, "gym_teach_pe_end_1",
-            thumbnail = "images/events/teaching/pe/main_1/teaching_pe_main_1 1 14.webp"),
+            thumbnail = "images/events/teaching/pe/end/end_1/teaching_pe_end_1 1 14.webp"),
     )
 
     gym_teach_pe_event = EventComposite(3, 'gym_teach_pe', 
         [
             gym_teach_pe_intro_storage,
+            gym_teach_pe_entrance_storage,
             gym_teach_pe_warm_up_storage, 
             gym_teach_pe_main_storage, 
             gym_teach_pe_end_storage
         ],
         TimeCondition(daytime = "c", weekday = "d"),
-        LevelCondition("1", "school"),
+        LevelCondition("1-3", "school"),
         LevelSelector("school_level", "school"),
-        thumbnail = "images/events/teaching/pe/main_1/teaching_pe_main_1 1 10.webp"
+        thumbnail = "images/events/teaching/pe/intro/intro_1/teaching_pe_intro_1 1 7.webp"
     )
 
     # endregion
@@ -206,6 +262,123 @@ label first_class_sb_event (**kwargs):
 
 ###############################
 # region Teach Subject Events #
+
+########################
+# region SEX EDUCATION #
+
+label sb_teach_sex_ed (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ get_value('school_level', **kwargs)
+
+    $ get_value('topic', **kwargs)
+
+    $ show_pattern("main", **kwargs)
+    headmaster "Good morning everyone. Let's start with todays subject Sex Education."
+
+    call composite_event_runner(**kwargs) from _call_composite_event_sex_ed_3
+
+################
+# region INTRO #
+
+label sb_teach_sex_ed_intro_anatomy (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ show_pattern("main", **kwargs)
+    headmaster "Good afternoon, class. Today we'll be discussing human anatomy in the context of sexual health and development."
+
+    $ end_event('map_overview', **kwargs)
+
+label sb_teach_sex_ed_intro_sex_curiosity (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ show_pattern("main", **kwargs)
+    headmaster "I know many of you may have questions about sex and relationships. Today we'll explore some common curiosities in an open, respectful environment."
+
+    $ end_event('map_overview', **kwargs)
+
+# endregion
+################
+
+################
+# region MAIN #
+
+label sb_teach_sex_ed_main_anatomy_1 (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ image = convert_pattern("main", **kwargs)
+
+    headmaster "As you can see here, both males and females have external genitalia that serve important functions for reproduction and pleasure."
+    headmaster "In girls, these include the labia minora and majora surrounding the vulva..."
+    headmaster "...and in boys, it's their penis."
+    # notice a student raising their hand
+    headmaster "Yes, Gloria?"
+    gloria "Why do we need both clitoris and vagina if they're for pleasure?"
+
+    headmaster "Excellent question! The clitoris is highly sensitive and designed specifically for sexual arousal."
+    headmaster "Meanwhile, the vagina has multiple purposes - it protects reproductive organs during childbirth, allows menstrual flow to exit the body..."
+    headmaster "...and also enables pleasurable intercourse when engaged with a partner."
+
+    headmaster "Boys' anatomy includes not only their penis but also testes containing sperm and seminal vesicles that produce semen."
+    headmaster "Girls have ovaries producing eggs for fertilization by sperm during sex."
+
+    $ end_event('map_overview', **kwargs)
+
+label sb_teach_sex_ed_main_sex_curiosity_1 (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ image = convert_pattern("main", **kwargs)
+
+    headmaster "Who here has heard rumors or myths about certain sexual acts but isn't sure what's true?"
+    # a few students raise their hands
+    headmaster "Let's examine these together. For instance, some claim that anal sex always hurts...but for many people it can be pleasurable when done safely and with the right partner."
+    
+    aona "My friend says girls only want boys to penetrate them during sex?"
+    headmaster "That's an oversimplification. While penetration is a common aspect of sexual intimacy, women often crave emotional connection as much as physical pleasure from their partners."
+    headmaster "Communication about desires and boundaries is key."
+
+    headmaster "Remember, it's natural to have questions about sex - but make sure you're getting accurate information rather than relying on rumors or untrustworthy sources online."
+    headmaster "If you ever need advice, consider talking to a parent, teacher...or even me."
+
+    $ end_event('map_overview', **kwargs)
+
+# endregion
+################
+
+################
+# region Q&A #
+
+label sb_teach_sex_ed_qa_1 (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ image = convert_pattern("main", **kwargs)
+
+    kokoro "Do girls always get wet when they're excited?"
+    headmaster "No, arousal can manifest in various ways besides vaginal lubrication. "
+    headmaster "Some may experience tingling or warmth while others might not exhibit any external signs of excitement at all."
+    kokoro "What about the difference between orgasm and just feeling good during sex?"
+    headmaster "While both sensations are pleasurable, an orgasm typically involves a sudden peak of intense pleasure, often accompanied by physical contractions."
+    headmaster "It's like reaching the climax in a story - everything builds up to that momentary release."
+
+    $ end_event('map_overview', **kwargs)
+
+label sb_teach_sex_ed_qa_2 (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ image = convert_pattern("main", **kwargs)
+
+    luna "How often do teens usually have sex?"
+    headmaster "There's no one-size-fits-all answer here. Frequency depends on individual development and relationship dynamics."
+    headmaster "What matters most is that both partners are comfortable with the pace and fully consensual in their sexual activities."
+    headmaster "But, for most teens, it's usually multiple times a month."
+
+    $ end_event('map_overview', **kwargs)
+
+# endregion
+################
+
+# endregion
+########################
 
 ##################
 # region HISTORY #
@@ -351,7 +524,7 @@ label sb_teach_history_main_f_revolution_2 (**kwargs):
     $ image.show(3)
     headmaster "You get until the end of the lesson to work on it."
     $ image.show(4)
-    headmaster "If you're not finished by then, please finish it by the end of the week. I'll get Mrs. Ryan to collect them."
+    headmaster "If you're not finished by then, please finish it by the end of the week. I'll get Ms. Ryan to collect them."
     $ image.show(5)
     headmaster "Now please start."
     call screen black_screen_text("40 minutes later.")
@@ -501,7 +674,7 @@ label sb_teach_math_main_1 (**kwargs):
         
         # headmaster walks over
         $ image.show(3)
-        headmaster_shout "Good Morning Mrs. [girl_last_name]! I hope you had a good nap!"
+        headmaster_shout "Good Morning Ms. [girl_last_name]! I hope you had a good nap!"
         
         $ image.show(4)
         girl "Eek! I'm sorry, I didn't mean to fall asleep."
@@ -662,7 +835,7 @@ label sb_teach_math_main_2 (**kwargs):
 # region P.E. #
 
 label gym_teach_pe (**kwargs):
-    $ begin_event(**kwargs)
+    $ begin_event("2", **kwargs)
 
     $ get_level('school_level', **kwargs)
 
@@ -670,51 +843,92 @@ label gym_teach_pe (**kwargs):
 
 ################
 # region INTRO #
+
 label gym_teach_pe_intro_1 (**kwargs):
-    $ begin_event(**kwargs)
+    $ begin_event("2", **kwargs)
 
     $ image = convert_pattern("main", **kwargs)
 
-    call Image_Series.show_image(image, 0, 1, 2, 3, 4, 5, 6, 7, 8, pause = True) from image_gym_teach_pe_intro_1_1
+    call Image_Series.show_image(image, 0, 1, 2, 3, 4, 5, 6, 7, pause = True) from image_gym_teach_pe_intro_1_1
 
     $ end_event('map_overview', **kwargs)
 
-# TODO: implement
 label gym_teach_pe_intro_2 (**kwargs):
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
 
-    # show more general images of headmaster preparing
+    call Image_Series.show_image(image, 0, 1, 2, 3, 4, 5, pause = True) from image_gym_teach_pe_intro_2_1
 
     $ end_event('map_overview', **kwargs)
 
 # endregion
 ################
 
-##################
-# region WARM UP #
+###################
+# region ENTRANCE #
 
-define anim_gtpewu1_path = "/images/events/teaching/pe/warm_up_1/teaching_pe_warm_up_1 "
-image anim_teaching_pe_warm_up_1_1_1 = Movie(play = anim_gtpewu1_path + "1 1.webm", start_image = anim_gtpewu1_path + "1 1.webp", loop = True)
-image anim_teaching_pe_warm_up_1_1_2 = Movie(play = anim_gtpewu1_path + "1 2.webm", start_image = anim_gtpewu1_path + "1 2.webp", loop = True)
-image anim_teaching_pe_warm_up_1_1_3 = Movie(play = anim_gtpewu1_path + "1 3.webm", start_image = anim_gtpewu1_path + "1 3.webp", loop = True)
-label gym_teach_pe_warm_up_1 (**kwargs):
-    $ begin_event(**kwargs)
+label gym_teach_pe_entrance_1 (**kwargs):
+    $ begin_event("2", **kwargs)
 
     $ image = convert_pattern("main", **kwargs)
 
-    $ image.show(0)
+    call Image_Series.show_image(image, 0, 1, 2, 3, 4, pause = True) from image_gym_teach_pe_entrance_1_1
     headmaster "Alright, let's get started with the P.E. class."
 
     headmaster "First we start with a few warm up exercises and stretching."
     headmaster "Okay now all follow my lead."
-    
+
+
+    $ end_event('map_overview', **kwargs)
+
+
+# endregion
+###################
+
+##################
+# region WARM UP #
+
+define anim_gtpewu1_path = "/images/events/teaching/pe/warm_up/warm_up_1/teaching_pe_warm_up_1 "
+image anim_teaching_pe_warm_up_1_1_0 = Movie(play = anim_gtpewu1_path + "1 0.webm", start_image = anim_gtpewu1_path + "1 0.webp", loop = True)
+image anim_teaching_pe_warm_up_1_1_1 = Movie(play = anim_gtpewu1_path + "1 1.webm", start_image = anim_gtpewu1_path + "1 1.webp", loop = True)
+image anim_teaching_pe_warm_up_1_1_2 = Movie(play = anim_gtpewu1_path + "1 2.webm", start_image = anim_gtpewu1_path + "1 2.webp", loop = True)
+image anim_teaching_pe_warm_up_1_2_0 = Movie(play = anim_gtpewu1_path + "2 0.webm", start_image = anim_gtpewu1_path + "2 0.webp", loop = True)
+image anim_teaching_pe_warm_up_1_2_1 = Movie(play = anim_gtpewu1_path + "2 1.webm", start_image = anim_gtpewu1_path + "2 1.webp", loop = True)
+image anim_teaching_pe_warm_up_1_2_2 = Movie(play = anim_gtpewu1_path + "2 2.webm", start_image = anim_gtpewu1_path + "2 2.webp", loop = True)
+image anim_teaching_pe_warm_up_1_3_0 = Movie(play = anim_gtpewu1_path + "3 0.webm", start_image = anim_gtpewu1_path + "3 0.webp", loop = True)
+image anim_teaching_pe_warm_up_1_3_1 = Movie(play = anim_gtpewu1_path + "3 1.webm", start_image = anim_gtpewu1_path + "3 1.webp", loop = True)
+image anim_teaching_pe_warm_up_1_3_2 = Movie(play = anim_gtpewu1_path + "3 2.webm", start_image = anim_gtpewu1_path + "3 2.webp", loop = True)
+image anim_teaching_pe_warm_up_1_4_0 = Movie(play = anim_gtpewu1_path + "4 0.webm", start_image = anim_gtpewu1_path + "4 0.webp", loop = True)
+image anim_teaching_pe_warm_up_1_4_1 = Movie(play = anim_gtpewu1_path + "4 1.webm", start_image = anim_gtpewu1_path + "4 1.webp", loop = True)
+image anim_teaching_pe_warm_up_1_4_2 = Movie(play = anim_gtpewu1_path + "4 2.webm", start_image = anim_gtpewu1_path + "4 2.webp", loop = True)
+image anim_teaching_pe_warm_up_1_5_0 = Movie(play = anim_gtpewu1_path + "5 0.webm", start_image = anim_gtpewu1_path + "5 0.webp", loop = True)
+image anim_teaching_pe_warm_up_1_5_1 = Movie(play = anim_gtpewu1_path + "5 1.webm", start_image = anim_gtpewu1_path + "5 1.webp", loop = True)
+image anim_teaching_pe_warm_up_1_5_2 = Movie(play = anim_gtpewu1_path + "5 2.webm", start_image = anim_gtpewu1_path + "5 2.webp", loop = True)
+image anim_teaching_pe_warm_up_1_6_0 = Movie(play = anim_gtpewu1_path + "6 0.webm", start_image = anim_gtpewu1_path + "6 0.webp", loop = True)
+image anim_teaching_pe_warm_up_1_6_1 = Movie(play = anim_gtpewu1_path + "6 1.webm", start_image = anim_gtpewu1_path + "6 1.webp", loop = True)
+image anim_teaching_pe_warm_up_1_6_2 = Movie(play = anim_gtpewu1_path + "6 2.webm", start_image = anim_gtpewu1_path + "6 2.webp", loop = True)
+image anim_teaching_pe_warm_up_1_7_0 = Movie(play = anim_gtpewu1_path + "7 0.webm", start_image = anim_gtpewu1_path + "7 0.webp", loop = True)
+image anim_teaching_pe_warm_up_1_7_1 = Movie(play = anim_gtpewu1_path + "7 1.webm", start_image = anim_gtpewu1_path + "7 1.webp", loop = True)
+image anim_teaching_pe_warm_up_1_7_2 = Movie(play = anim_gtpewu1_path + "7 2.webm", start_image = anim_gtpewu1_path + "7 2.webp", loop = True)
+image anim_teaching_pe_warm_up_1_8_0 = Movie(play = anim_gtpewu1_path + "8 0.webm", start_image = anim_gtpewu1_path + "8 0.webp", loop = True)
+image anim_teaching_pe_warm_up_1_8_1 = Movie(play = anim_gtpewu1_path + "8 1.webm", start_image = anim_gtpewu1_path + "8 1.webp", loop = True)
+image anim_teaching_pe_warm_up_1_8_2 = Movie(play = anim_gtpewu1_path + "8 2.webm", start_image = anim_gtpewu1_path + "8 2.webp", loop = True)
+image anim_teaching_pe_warm_up_1_9_0 = Movie(play = anim_gtpewu1_path + "9 0.webm", start_image = anim_gtpewu1_path + "9 0.webp", loop = True)
+image anim_teaching_pe_warm_up_1_9_1 = Movie(play = anim_gtpewu1_path + "9 1.webm", start_image = anim_gtpewu1_path + "9 1.webp", loop = True)
+image anim_teaching_pe_warm_up_1_9_2 = Movie(play = anim_gtpewu1_path + "9 2.webm", start_image = anim_gtpewu1_path + "9 2.webp", loop = True)
+image anim_teaching_pe_warm_up_1_10_0 = Movie(play = anim_gtpewu1_path + "10 0.webm", start_image = anim_gtpewu1_path + "10 0.webp", loop = True)
+image anim_teaching_pe_warm_up_1_10_1 = Movie(play = anim_gtpewu1_path + "10 1.webm", start_image = anim_gtpewu1_path + "10 1.webp", loop = True)
+image anim_teaching_pe_warm_up_1_10_2 = Movie(play = anim_gtpewu1_path + "10 2.webm", start_image = anim_gtpewu1_path + "10 2.webp", loop = True)
+label gym_teach_pe_warm_up_1 (**kwargs):
+    $ begin_event("2", **kwargs)
+
+    $ image = convert_pattern("main", **kwargs)
+
+    $ image.show_video(0, True)
     $ image.show_video(1, True)
     $ image.show_video(2, True)
-    $ image.show_video(3, True)
     
-    $ image.show(4)
     headmaster "Alright, that's enough."
     
     call change_stats_with_modifier('school', 'pe',
@@ -729,7 +943,7 @@ label gym_teach_pe_warm_up_1 (**kwargs):
 # region MAIN #
 
 label gym_teach_pe_main_1 (**kwargs): # Football
-    $ begin_event(**kwargs)
+    $ begin_event("2", **kwargs)
 
     $ sakura = get_person("class_3a", "sakura_mori").get_character()
 
@@ -766,7 +980,7 @@ label gym_teach_pe_main_1 (**kwargs): # Football
     $ end_event('map_overview', **kwargs)
 
 label gym_teach_pe_main_2 (**kwargs): # Yoga
-    $ begin_event(**kwargs)
+    $ begin_event("2", **kwargs)
 
     $ image = Image_Series("/images/events/gym/gym_teach_pe_main_2 <school_level> <step>.webp", **kwargs)
 
@@ -810,7 +1024,7 @@ label gym_teach_pe_main_2 (**kwargs): # Yoga
 # region END #
 
 label gym_teach_pe_end_1 (**kwargs):
-    $ begin_event(**kwargs)
+    $ begin_event("2", **kwargs)
 
     $ end_event('new_daytime', **kwargs)
 

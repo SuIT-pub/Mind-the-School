@@ -69,7 +69,7 @@ init -4 python:
 
         if len(data.keys()) > 0:
             for key, value in data.items():
-                kwargs = set_kwargs(key, value, **kwargs)
+                kwargs = set_kwargs_value(key, value, **kwargs)
 
         return Image_Series_Pattern(get_pattern_from_kwargs(pattern_key, **kwargs), **kwargs)
 

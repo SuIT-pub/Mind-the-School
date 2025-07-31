@@ -685,7 +685,7 @@ label theoretical_sex_ed_assembly_1 (**kwargs):
     $ image.show(5)
     headmaster "We will provide you with accurate information and resources to help you navigate this topic."
     $ image.show(6)
-    headmaster "Mrs. Langley! Please distribute the info material to the students and faculty members."
+    headmaster "Ms. Langley! Please distribute the info material to the students and faculty members."
     $ image.show(7)
     headmaster "These will help you prepare for the upcoming lessons and answer any questions you may have."
     $ image.show(8)
@@ -896,7 +896,7 @@ label first_sex_ed_class_1 (**kwargs):
     headmaster "There are many ways of doing it and it is completely normal and healthy."
     headmaster "You should not feel ashamed about it and actually try it out. It is an important part of your sexual development."
     $ image.show(25)
-    headmaster "Mrs. Ryan, you masturbate, don't you?"
+    headmaster "Ms. Ryan, you masturbate, don't you?"
     $ image.show(26)
     finola "Mr. [headmaster_last_name]!"
     $ image.show(27)
@@ -904,9 +904,9 @@ label first_sex_ed_class_1 (**kwargs):
     $ image.show(28)
     finola "Yes, I do."
     $ image.show(29)
-    headmaster "See, even Mrs. Ryan does it. So it is completely normal and healthy."
+    headmaster "See, even Ms. Ryan does it. So it is completely normal and healthy."
     $ image.show(30)
-    headmaster "Now since I am male and Mrs. Ryan isn't. Please direct your questions about masturbation to her."
+    headmaster "Now since I am male and Ms. Ryan isn't. Please direct your questions about masturbation to her."
     $ image.show(31)
     headmaster "But that is all for today. I hope you have a good day and I hope you learned something new today."
     

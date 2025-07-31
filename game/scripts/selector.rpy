@@ -1091,9 +1091,9 @@ init -3 python:
             return get_character_by_key(char)
 
     class PTAVoteSelector(Selector):
-        def __init__(self, key: str, char: str | Selector = 'school', *options: Option):
+        def __init__(self, key: str, condition_type: str = 'misc', *options: Option):
             super().__init__(True, key, *options)
-            self._char = char
+            self._condition_type = condition_type
 
         def roll(self, **kwargs) -> Any:
             vote_proposal = get_game_data('voteProposal')
@@ -1102,7 +1102,10 @@ init -3 python:
 
             vote_obj = proposal._journal_obj
 
-            return voteCharacter(vote_obj.get_condition_storage(), get_character_by_key(self._char))
+            if vote_obj.get_type() == 'building' and vote_obj.can_be_upgraded():
+                return vote_obj.get_upgrade_vote_character(self._condition_type)
+            else:
+                return vote_obj.get_vote_character()
 
     class PTAObjectSelector(Selector):
         def __init__(self, key: str, *options: Option):

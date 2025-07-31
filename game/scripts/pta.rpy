@@ -29,160 +29,12 @@ init -6 python:
     # endregion
     ########################
 
-    ###################################
-    # region Probability calculations #
-    ###################################
-
-    def calculateProbabilitySum(conditions: ConditionStorage, *char_obj_list: Char, is_in_pta = False) -> float:
-        """
-        Calculates the overall probability of a proposal being accepted.
-
-        ### Parameters:
-        1. conditions: ConditionStorage
-            - The conditions that decide the success of the proposal.
-        2. char_obj_list: Char
-            - The characters that should vote on the proposal.
-            - If None, the default characters will be used.
-
-        ### Returns:
-        1. float
-            - The probability of the proposal being accepted.
-            - The range goes from 0.0 to 100.0
-        """
-        if conditions == None:
-            return 0.0
-
-        if char_obj_list == None or len(char_obj_list) == 0:
-            char_obj_list = []
-            if "teacher" not in conditions.ignores:
-                char_obj_list.append(get_character_by_key("teacher"))
-            if "parent" not in conditions.ignores:
-                char_obj_list.append(get_character_by_key("parent"))
-            if "school" not in conditions.ignores:
-                char_obj_list.append(get_character_by_key("school"))
-
-        if len(char_obj_list) == 0:
-            return 100.0  # If no one votes, proposal passes automatically
-
-        # Calculate individual probabilities
-        probabilities = []
-        for char_obj in char_obj_list:
-            prob = calculateProbabilityValue(conditions, char_obj, is_in_pta)
-            if prob == -5000:  # Veto
-                return 0.0
-            probabilities.append(max(0.0, min(100.0, prob)))
-
-        # Calculate average probability, weighted by number of voters needed
-        majority_needed = (len(probabilities) // 2) + 1
-        total_prob = sum(probabilities) / len(probabilities)
-        
-        # Scale based on how many votes are needed vs available
-        scaling_factor = majority_needed / len(probabilities)
-        return max(0.0, min(100.0, total_prob * (1.0 / scaling_factor)))
-
-    def calculateProbabilityValue(conditions: ConditionStorage, char_obj: Char, is_in_pta = False) -> float:
-        """
-        Converts the probability or override string to a numeric value.
-        """
-        probability = calculateProbability(conditions, char_obj, is_in_pta)
-
-        if isinstance(probability, str):
-            if probability == 'yes':
-                return 100.0
-            elif probability == 'no':
-                return -100.0
-            elif probability == 'veto':
-                return -5000.0
-            elif probability == 'ignore':
-                return 50.0  # Neutral stance
-        else:
-            return probability
-
-    def calculateProbability(conditions: ConditionStorage, char_obj: Char, is_in_pta = False) -> float | str:
-        """
-        Calculates the probability of a character voting yes for a proposal.
-
-        ### Parameters:
-        1. conditions: ConditionStorage
-            - The conditions that decide the success of the proposal.
-        2. char_obj: Char
-            - The character that should vote on the proposal.
-
-        ### Returns:
-        1. float | str
-            - The probability of the proposal being accepted or an override string
-            - Float range goes from -100.0 to 100.0
-            - String can be "yes", "no", "veto" or "ignore"
-        """
-        voteConditions = conditions.get_conditions()
-        
-        # Check for overrides first
-        for condition in voteConditions:
-            if isinstance(condition, PTAOverride):
-                if condition.char == char_obj.get_name():
-                    return condition.accept
-
-        # Calculate base probability
-        probability = 50.0  # Start at neutral
-        total_weight = 0.0
-        
-        for condition in voteConditions:
-            if is_in_pta and isinstance(condition, MoneyCondition):
-                continue
-            
-            diff = condition.get_diff(char_obj)
-            # Weight more extreme differences more heavily
-            weight = abs(diff) / 100.0
-            probability += diff * weight
-            total_weight += weight
-
-        if total_weight > 0:
-            # Normalize probability
-            probability = 50.0 + ((probability - 50.0) / total_weight)
-        
-        return max(-100.0, min(100.0, probability))
-
     # endregion
     ###################################
 
     ##############################
     # region probability methods #
     ##############################
-
-    def voteCharacter(conditions: ConditionStorage, char_obj: Char) -> str:
-        """
-        Lets a character vote on a proposal.
-
-        ### Parameters:
-        1. conditions: ConditionStorage
-            - The conditions that decide the success of the proposal.
-        2. char_obj: Char
-            - The character that should vote on the proposal.
-
-        ### Returns:
-        1. str
-            - The vote of the character.
-            - Can be "yes", "no" or "veto"
-        """
-        probability = calculateProbability(conditions, char_obj, is_in_pta = True)
-
-        if isinstance(probability, str):
-            return probability
-
-        # Normalize probability to 0-100 range
-        normalized_prob = (probability + 100.0) / 2.0
-        
-        # Random roll
-        roll = renpy.random.random() * 100.0
-        
-        # Strong negative opinions can lead to veto
-        if probability <= -50.0 and roll > normalized_prob + 25.0:
-            return 'veto'
-        # Regular voting threshold
-        elif roll <= normalized_prob:
-            return 'yes'
-        else:
-            return 'no'
 
     def get_end_choice(*votes: str) -> str:
         """
@@ -711,7 +563,7 @@ label pta_vote_result (parent_vote, teacher_vote, student_vote, proposal):
     $ obj_title = vote_object.get_title()
     $ end_choice = get_end_choice(parent_vote, teacher_vote, student_vote)
 
-    $ money_conditions = [condition for condition in vote_object.get_conditions() if isinstance(condition, MoneyCondition)]
+    $ money_conditions = [condition for condition in vote_object.get_all_coming_conditions() if isinstance(condition, MoneyCondition)]
 
     if end_choice == 'yes':
         if vote_action == "unlock":
