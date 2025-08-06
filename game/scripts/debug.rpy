@@ -61,6 +61,9 @@ init -100 python:
         log_number += 1
         log_val(msg, log_number)
 
+    def log_object(msg: str, obj: Any):
+        log_json(msg, obj.__dict__)
+
 label test_label():
 
     $ hide_all()

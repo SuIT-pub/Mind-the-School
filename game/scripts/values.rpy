@@ -50,6 +50,9 @@ default person_storage = {}
 
 default quests = {}
 
+default new_quests = {}
+default quest_worker_queue = []
+
 default money = Stat(MONEY, 1000)
 
 default reserved_money = {}

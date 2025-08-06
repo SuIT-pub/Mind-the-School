@@ -627,6 +627,18 @@ label after_load_entry():
 
     jump map_overview
 
+init python:
+    def scrape_quest_workers_queue():
+        global quest_worker_queue
+        i = 0
+        log_val("Scraping Quest Workers Queue", quest_worker_queue)
+        while i < len(quest_worker_queue):
+            worker, worker_type = quest_worker_queue[i]
+            if worker.trigger():
+                quest_worker_queue.pop(i)
+            else:
+                i += 1
+
 # shows the map overview and then waits for input
 label map_overview ():
     if len(headmaster_proficiencies.keys()) < 2 and (IntroCondition(False)).is_fulfilled():
@@ -657,7 +669,8 @@ label map_overview ():
 
     $ call_notify()
 
-    $ update_all_quests()
+    # $ update_all_quests()
+    $ scrape_quest_workers_queue()
 
     show school_map
     # show screen school_overview_map

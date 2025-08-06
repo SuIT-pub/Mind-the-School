@@ -2,9 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/scripts/quests/quest_list.rpy", line 220: invalid syntax
-                Goal(
-                 ^
+File "game/scripts/quests/quest_manager.rpy", line 128: invalid syntax
+                if not any(worker. == k for v, k in quest_worker_queue):
+                                    ^
 
 Ren'Py Version: Ren'Py 8.1.3.23091805
-Wed Jul 30 15:22:44 2025
+Fri Aug  1 17:46:58 2025

@@ -2494,12 +2494,13 @@ screen journal_goals(display):
 
             vbox:
                 $ category_num = 0
-                $ categories = list(quests.keys())
+                $ categories = list(quest_manager.categories.keys())
                 $ categories.sort(key=lambda x: get_translation(x))
 
                 for category in categories:
-                    $ quests_list = [quest for quest in quests[category].keys() if (quests[category][quest].is_active() or (quests[category][quest].show_prematurely() and get_setting("journal_goals_show_note_setting"))) and (show_completed or not quests[category][quest].all_active_done())]
-                    $ quest_list = [(get_translation(quest) if not quests[category][quest].all_active_done() else set_text_color(get_translation(quest), "#00a000"), f"{category}-?-{quest}") for quest in quests_list]
+                    $ category_quests = quest_manager.get_quests_by_category(category)
+                    $ quest_list = [quest for quest in category_quests if (quest.get_flag('visible') or (quest.get_flag('helper') and get_setting("journal_goals_show_note_setting"))) and (show_completed or not quest.get_flag('completed'))]
+                    $ quest_list = [(get_translation(quest.get_key()) if not quest.get_flag('completed') else set_text_color(get_translation(quest.get_key()), "#00a000"), f"{category}-?-{quest.get_key()}") for quest in quest_list]
                     $ quest_list.sort(key=lambda x: x[0])
                     if len(quest_list) > 0:
                         $ category_num += 1
@@ -2532,7 +2533,7 @@ screen journal_goals(display):
     if display != "":
 
         $ category, quest_key = display.split('-?-')
-        $ quest = get_quest(category, quest_key)
+        $ quest = quest_manager.get_quest_by_key(quest_key)
 
         $ quest_description = quest.get_description()
 
@@ -2553,9 +2554,15 @@ screen journal_goals(display):
 
                     null height 20
 
-                    for i, goal in quest.get_active_goals().items():
+                    $ visible_goals = quest.get_visible_goals()
+                    $ all_goals = quest.get_goals()
+                    $ log_val('Visible_goals', visible_goals) 
+                    for goal in all_goals:
+                        $ log_object('Goal', goal)
+
+                    for i, goal in enumerate(visible_goals):
                         $ goal_finished = "☐"
-                        if goal.is_completed():
+                        if goal.get_flag('completed'):
                             $ goal_finished = "☑"
                         $ goal_text = f"{goal_finished}  {i}. {goal.get_description()}"
 
@@ -2576,19 +2583,15 @@ screen journal_goals(display):
                             action Function(set_setting, f"show_goal_{goal.get_key()}", not display_goal)
 
                         if display_goal:
-                            $ progress_list = goal.get_progress()
-                            if isinstance(progress_list, list):
-                                for progress in progress_list:
-                                    $ progress_text = f"    {progress}"
-                                    text progress_text style "journal_desc_small"
-                            else:
-                                $ progress_text = f"    {progress_list}"
+                            $ progress_list = goal.get_task_descriptions()
+                            for progress in progress_list:
+                                $ progress_text = f"    {progress}"
                                 text progress_text style "journal_desc_small"
 
-                    if quest.all_active_done():
+                    if quest.get_flag('completed'):
                         null height 30
 
-                        $ final_text = quest.get_finished_description()
+                        $ final_text = quest.get_end_msg()
 
                         text final_text style "journal_text"
 

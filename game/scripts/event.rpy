@@ -55,12 +55,14 @@ init -3 python:
     ######################
     # region Seen Events #
 
+
+
     def register_seen_event(event: str):
         global seenEvents
         if seenEvents == None:
             seenEvents = {}
         if event not in seenEvents.keys():
-            seenEvents[event] = False
+            seenEvents[event] = 0
 
     def set_event_seen(event_name: str):
         if not is_event_registered(event_name):
@@ -72,10 +74,15 @@ init -3 python:
         if seen_events == None:
             seen_events = {}
         for event, seen in seen_events.items():
+
+            # Fix for old data
+            if isinstance(seen, bool):
+                seen = 1 if seen else 0
+
             if event in seenEvents:
-                seenEvents[event] = seenEvents[event] or seen
+                seenEvents[event] = seen + 1
             else:
-                seenEvents[event] = seen
+                seenEvents[event] = 1
         
         seenEvents[event_name] = True
         set_game_data("seen_events", seenEvents)
@@ -91,7 +98,31 @@ init -3 python:
 
         if event_name not in seenEvents.keys():
             return False
-        return seenEvents[event_name]
+
+        seen = seenEvents[event_name]
+
+        # Fix for old data
+        if isinstance(seen, bool):
+            return seen
+
+        return seen > 0
+
+    def get_seen_count(event_name: str) -> int:
+        if not is_event_registered(event_name):
+            return 0
+
+        global seenEvents
+
+        if event_name not in seenEvents.keys():
+            return 0
+
+        seen = seenEvents[event_name]
+
+        # Fix for old data
+        if isinstance(seen, bool):
+            return 1 if seen else 0
+
+        return seen
 
     # endregion
     ######################

@@ -57,12 +57,22 @@ init -99 python:
             return get_kwargs(key, get_kwargs(key, alt, **kwargs), **kwargs["values"])
         return get_kwargs(key, alt, **kwargs)
 
+    def get_kwargs_values(**kwargs) -> Dict[str, Any]:
+        if "values" in kwargs.keys():
+            return kwargs["values"]
+        return {}
+
     def load_kwargs_values(data, **kwargs):
         if "values" not in data.keys():
             data["values"] = {}
         for key, value in kwargs.items():
             data["values"][key] = value
         return data
+
+    def add_kwargs_data(data, **kwargs):
+        for key, value in data.items():
+            kwargs[key] = value
+        return kwargs
 
     # endregion
     ###############################

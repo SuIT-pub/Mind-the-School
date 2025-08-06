@@ -10,7 +10,7 @@ label start ():
     call load_buildings from start_3
     call load_clubs from start_4
     call load_rules from start_5
-    call load_quests from start_6
+    call load_new_quests from start_6
 
     $ fix_modifier()
     $ fix_quests()
@@ -198,7 +198,7 @@ label after_load:
     call load_rules from after_load_3
     call load_buildings from after_load_4
     call load_clubs from after_load_5
-    call load_quests from after_load_6
+    call load_new_quests from after_load_6
     
     #####################################
     # check for version incompatibilities

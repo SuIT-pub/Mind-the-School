@@ -125,12 +125,23 @@ init 1 python:
             - The parameters to be passed to the update method of the task.
         """
 
-        for category in quests.keys():
-            quests_list = [quests[category][quest] for quest in quests[category].keys() if (quests[category][quest].is_active() or (quests[category][quest].show_prematurely() and get_setting("journal_goals_show_note_setting")) or quests[category][quest].get_start_trigger()) and not quests[category][quest].all_active_done()]
-            for quest in quests_list:
-                quest.update(key, **kwargs)
+        global quest_manager
+        global new_quests
+
+        quest_list = None
+
+        if key in quest_manager.categories.keys():
+            quest_list = [quest for quest in quest_manager.categories[key].values() if (quest.get_flag('active') or (quest.get_flag('helper') and get_setting("journal_goals_show_note_setting"))) and not quest.get_flag('completed')]
+        elif key == "x":
+            quest_list = new_quests.values()
+        else:
+            return
+
+        for quest in quest_list:
+            quest.update(key, **kwargs)
 
     def update_all_quests(**kwargs):
+        log("Updating all quests")
         update_quest("x", **kwargs)
 
 label load_quests:
