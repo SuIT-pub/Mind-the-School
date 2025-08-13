@@ -7,6 +7,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://github.com/SuIT-pub/Mind-the-School?tab=License-1-ov-file)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg?style=flat-square)](https://github.com/SuIT-pub/Mind-the-School?tab=License-1-ov-file)
 
+[![Update Patreon Members](https://github.com/SuIT-pub/Mind-the-School/actions/workflows/update_members.yml/badge.svg?branch=master)](https://github.com/SuIT-pub/Mind-the-School/actions/workflows/update_members.yml)
+
 [![GitHub Release](https://img.shields.io/github/v/release/SuIT-pub/Mind-the-School?style=flat-square&label=Release)](https://github.com/SuIT-pub/Mind-the-School/releases/latest)
 [![Static Badge](https://img.shields.io/badge/-Wiki-grey?style=flat-square&logo=bookstack&logoColor=white)](https://wiki.suit-ji.com)
 [![Static Badge](https://img.shields.io/badge/-Jira-blue?style=flat-square&logo=jirasoftware&logoColor=white)](https://suitpub.atlassian.net/jira/software/projects/MTS/boards/1)
