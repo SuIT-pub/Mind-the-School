@@ -502,7 +502,7 @@ init -6 python:
         elif stat == LEVEL:
             return get_level_for_char(stat, get_school())
         else:
-            return get_stat_for_char(stat, get_school())
+            return get_stat_number(stat)
 
     def display_school_stat(stat: str) -> str:
         """
@@ -617,100 +617,10 @@ init -6 python:
     ############################
     # region Char Stat Handler #
 
-    def get_stat_obj_for_char(stat: str, char: Union[str, Char], map: Dict[str, Union[Char, Dict[str, Any]]] = None):
-        """
-        Returns the stat object for the character
+    def get_stat_number(stat: str) -> float:
+        return get_school().get_stat_number(stat)
 
-        ### Parameters:
-        1. stat: str
-            - The name of the stat to get
-        2. char: str | Char
-            - The name of the character or the character itself to get the stat from
-            - If there is no character in map with the name, -1 is returned
-        3. map: Dict[str, Char | Dict[str, Any]] (default None)
-            - The map of characters to get the character from
-            - If None and the name of the character is used instead of the Character-Object itself, -1 is returned
-
-        ### Returns:
-        1. Stat
-            - The stat object for the character
-            - None if the stat does not exist
-        """
-
-        if isinstance(char, Char):
-            return char.get_stat_obj(stat)
-        elif map != None and char in map.keys():
-            return map[char].get_stat_obj(stat)
-        return None
-
-    def get_stat_for_char(stat: str, char: Union[str, Char] = "", map: Dict[str, Union[Char, Dict[str, Any]]] = None):
-        """
-        Returns the stat value for the character
-
-        ### Parameters:
-        1. stat: str
-            - The name of the stat to get
-        2. char: str | Char (default "")
-            - The name of the character to get the stat from
-            - If "" or there is no character in map with the name, -1 is returned
-        3. map: Dict[str, Char | Dict[str, Any]] (default None)
-            - The map of characters to get the character from
-            - If None, the name of the character is used instead of the Character-Object itself, -1 is returned
-
-        ### Returns:
-        1. num
-            - The value of the stat
-            - -1 if the stat does not exist
-        """
-
-        if stat == MONEY:
-            return money.get_value()
-
-        if isinstance(char, Char):
-            return char.get_stat_number(stat)
-        elif map != None and char in map.keys():
-            return map[char].get_stat_number(stat)
-        return -1
-
-    def set_stat_for_all(stat: str, value, map: Dict[str, Union[Char, Dict[str, Any]]]):
-        """
-        Sets the stat value for all characters in the map
-
-        ### Parameters:
-        1. stat: str
-            - The name of the stat to set
-        2. value
-            - The value to set the stat to
-        3. map: Dict[str, Char | Dict[str, Any]]
-            - The map of characters to set the stat for
-        """
-
-        for character in map.keys():
-            map[character].set_stat(stat, value)
-
-    def set_stat_for_char(stat: str, value, char: Union[str, Char], map: Dict[str, Union[Char, Dict[str, Any]]] = None):
-        """
-        Sets the stat value for a character
-
-        ### Parameters:
-        1. stat: str
-            - The name of the stat to set
-        2. value
-            - The value to set the stat to
-        3. char: str | Char
-            - The name of the character or the character itself to set the stat for
-            - If there is no character in map with the name, -1 is returned
-        4. map: Dict[str, Char | Dict[str, Any]] (default None)
-            - The map of characters to get the character from
-            - If None and the name of the character is used instead of the Character-Object itself, -1 is returned
-        """
-
-        if isinstance(char, Char):
-            char.set_stat(stat, value)
-        elif map != None and char in map.keys():
-            map[char].set_stat(stat, value)
-
-    def change_stat(stat: str, change, name: Union[str, Char] = "", map: Dict[str, Union[Char, Dict[str, Any]]] = None):
+    def change_stat(stat: str, change):
         """
         Changes the stat value for a character or the money value if the stat is MONEY
 
@@ -732,44 +642,9 @@ init -6 python:
         if stat == MONEY:
             money.change_value(change)
         else:
-            change_stat_for_char(stat, change, name, map)
+            get_school().change_stat(stat, change)
 
-    def change_stat_for_all(stat: str, delta, map: Dict[str, Union[Char, Dict[str, Any]]]):
-        """
-        Changes the stat value for all characters in the map
-
-        ### Parameters:
-        1. stat: str
-            - The name of the stat to change
-        2. delta
-            - The value to change the stat by
-        3. map: Dict[str, Char | Dict[str, Any]]
-            - The map of characters to change the stat for
-        """
-
-        for character in map.keys():
-            map[character].change_stat(stat, delta)
-
-    def change_stat_for_char(stat: str, value, char: Union[str, Char], map: Dict[str, Union[Char, Dict[str, Any]]] = None):
-        """
-        Changes the stat value for a character
-
-        ### Parameters:
-        1. stat: str
-            - The name of the stat to change
-        2. value
-            - The value to change the stat by
-        3. char: str | Char
-            - The name of the character or the character itself to change the stat for
-            - If there is no character in map with the name, -1 is returned
-        """
-
-        if isinstance(char, Char):
-            char.change_stat(stat, value)
-        elif map != None and char in map.keys():
-            map[char].change_stat(stat, value)
-
-    def reset_stats(char: Union[str, Char] = "", map: Dict[str, Union[Char, Dict[str, Any]]] = None):
+    def reset_stats():
         """
         Resets the change of all the stats
 
@@ -785,13 +660,8 @@ init -6 python:
 
         money.reset_change()
         
-        if isinstance(char, Char):
-            char.reset_changed_stats()
-        elif map != None and char in map.keys():
-            map[char].reset_changed_stats()
-        elif map != None:
-            for keys in map.keys():
-                map[keys].reset_changed_stats()
+        get_school().reset_changed_stats()
+
 
     # endregion
     ############################
@@ -1107,7 +977,7 @@ init -6 python:
             return "\n".join(self.get_description(**kwargs))
 
         def get_portraits(self) -> Dict[str, str]:
-            output = {f"Level {level}": f"images/characters/{self.name}/level_{level}.webp" for level in range(1, self.character.get_level() + 1) if renpy.loadable(f"images/characters/{self.name}/level_{level}.webp")}
+            output = {f"Level {level}": f"images/characters/{self.name}/level_{level}.webp" for level in range(1, get_school().get_level() + 1) if renpy.loadable(f"images/characters/{self.name}/level_{level}.webp")}
 
             if renpy.loadable(f"images/characters/{self.name}/nude.webp"):
                 output["nude"] = f"images/characters/{self.name}/nude.webp" 
@@ -1421,6 +1291,11 @@ label load_characters ():
     $ load_person("staff", PersonObj("zoe_parker", "Zoe", "Parker", teacher_char, [
             ["• Height: 167.3 cm", "• Bra Size 65C", "• B-W-H: 73-63-91 cm", "• Waist-to-Hips: 0.692"],
             "Subjects: Physical Education, Health",
+        ],
+    ))
+    $ load_person("staff", PersonObj("linh_nguyen", "Linh", "Nguyen", teacher_char, [
+            ["• Height: 165.6 cm", "• Bra Size 60C", "• B-W-H: 68-70-95 cm", "• Waist-to-Hips: 0.738"],
+            "Nurse at the hospital in the city.",
         ],
     ))
 

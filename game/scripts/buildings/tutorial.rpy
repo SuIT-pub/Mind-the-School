@@ -470,7 +470,7 @@ label map_tutorial (**kwargs):
 
     $ start_progress('map_tutorial')
 
-    $ end_event("map_overview", **kwargs)
+    $ end_event("map_entry", **kwargs)
 
 label journal_tutorial (**kwargs):
     $ begin_event(**kwargs)
@@ -597,7 +597,7 @@ label journal_tutorial (**kwargs):
 label action_tutorial (**kwargs):
     $ begin_event(**kwargs)
 
-    $ return_label = get_kwargs('return_label', 'map_overview', **kwargs)
+    $ return_label = get_kwargs('return_label', 'map_entry', **kwargs)
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -630,7 +630,7 @@ label action_tutorial (**kwargs):
 label sandbox_tutorial (**kwargs):
     $ begin_event(**kwargs)
 
-    $ return_label = get_kwargs('return_label', 'map_overview', **kwargs)
+    $ return_label = get_kwargs('return_label', 'map_entry', **kwargs)
 
     $ image = convert_pattern("main", **kwargs)
 

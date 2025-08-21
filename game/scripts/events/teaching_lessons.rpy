@@ -128,8 +128,8 @@ init 1 python:
 
     gym_teach_pe_intro_storage.add_event(
         EventFragment(3, "gym_teach_pe_intro_2",
-            Pattern("main", "/images/events/teaching/pe/intro/intro_1/teaching_pe_intro_2 <step>.webp"),
-            thumbnail = "images/events/teaching/pe/intro/intro_1/teaching_pe_intro_2 5.webp"),
+            Pattern("main", "/images/events/teaching/pe/intro/intro_2/teaching_pe_intro_2 <step>.webp"),
+            thumbnail = "images/events/teaching/pe/intro/intro_2/teaching_pe_intro_2 5.webp"),
     )
 
     gym_teach_pe_entrance_storage.add_event(
@@ -252,10 +252,10 @@ label first_class_sb_event (**kwargs):
     $ advance_progress('first_class')
     $ set_progress('first_class', 3)
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = TINY, charm = SMALL, education = TINY) from _call_change_stats_with_modifier_53
 
-    call change_stats_with_modifier('teacher',
+    call change_stats_with_modifier(
         happiness = TINY, charm = SMALL, education = TINY) from _call_change_stats_with_modifier_54
 
     $ end_event('new_daytime', **kwargs)
@@ -287,7 +287,7 @@ label sb_teach_sex_ed_intro_anatomy (**kwargs):
     $ show_pattern("main", **kwargs)
     headmaster "Good afternoon, class. Today we'll be discussing human anatomy in the context of sexual health and development."
 
-    $ end_event('map_overview', **kwargs)
+    $ end_event('map_entry', **kwargs)
 
 label sb_teach_sex_ed_intro_sex_curiosity (**kwargs):
     $ begin_event(**kwargs)
@@ -295,7 +295,7 @@ label sb_teach_sex_ed_intro_sex_curiosity (**kwargs):
     $ show_pattern("main", **kwargs)
     headmaster "I know many of you may have questions about sex and relationships. Today we'll explore some common curiosities in an open, respectful environment."
 
-    $ end_event('map_overview', **kwargs)
+    $ end_event('map_entry', **kwargs)
 
 # endregion
 ################
@@ -322,7 +322,7 @@ label sb_teach_sex_ed_main_anatomy_1 (**kwargs):
     headmaster "Boys' anatomy includes not only their penis but also testes containing sperm and seminal vesicles that produce semen."
     headmaster "Girls have ovaries producing eggs for fertilization by sperm during sex."
 
-    $ end_event('map_overview', **kwargs)
+    $ end_event('map_entry', **kwargs)
 
 label sb_teach_sex_ed_main_sex_curiosity_1 (**kwargs):
     $ begin_event(**kwargs)
@@ -340,7 +340,7 @@ label sb_teach_sex_ed_main_sex_curiosity_1 (**kwargs):
     headmaster "Remember, it's natural to have questions about sex - but make sure you're getting accurate information rather than relying on rumors or untrustworthy sources online."
     headmaster "If you ever need advice, consider talking to a parent, teacher...or even me."
 
-    $ end_event('map_overview', **kwargs)
+    $ end_event('map_entry', **kwargs)
 
 # endregion
 ################
@@ -360,7 +360,7 @@ label sb_teach_sex_ed_qa_1 (**kwargs):
     headmaster "While both sensations are pleasurable, an orgasm typically involves a sudden peak of intense pleasure, often accompanied by physical contractions."
     headmaster "It's like reaching the climax in a story - everything builds up to that momentary release."
 
-    $ end_event('map_overview', **kwargs)
+    $ end_event('map_entry', **kwargs)
 
 label sb_teach_sex_ed_qa_2 (**kwargs):
     $ begin_event(**kwargs)
@@ -372,7 +372,7 @@ label sb_teach_sex_ed_qa_2 (**kwargs):
     headmaster "What matters most is that both partners are comfortable with the pace and fully consensual in their sexual activities."
     headmaster "But, for most teens, it's usually multiple times a month."
 
-    $ end_event('map_overview', **kwargs)
+    $ end_event('map_entry', **kwargs)
 
 # endregion
 ################
@@ -418,10 +418,10 @@ label sb_teach_history_intro_f_revolution_1 (**kwargs):
     $ image.show(5)
     headmaster "Meanwhile, the common people of France - including peasants, artisans, and merchants - were struggling with poverty, inequality, and limited social mobility."
 
-    call change_stats_with_modifier('school', 'history',
+    call change_stats_with_modifier('history',
         education = TINY) from _call_change_stats_with_modifier_55
 
-    $ end_event('map_overview', **kwargs)
+    $ end_event('map_entry', **kwargs)
 
 # endregion
 ################
@@ -505,7 +505,7 @@ label sb_teach_history_main_f_revolution_1 (**kwargs):
     headmaster "Unfortunately, that's all for today. Please read the text on page 24 for homework."
     headmaster "We'll continue our discussion another time."
 
-    call change_stats_with_modifier('school', 'history',
+    call change_stats_with_modifier('history',
         education = SMALL) from _call_change_stats_with_modifier_56
 
     $ end_event('new_daytime', **kwargs)
@@ -531,7 +531,7 @@ label sb_teach_history_main_f_revolution_2 (**kwargs):
     $ image.show(6)
     headmaster "Okay, class is over. Please don't forget to finish your essay until the end of the week."
 
-    call change_stats_with_modifier('school', 'history',
+    call change_stats_with_modifier('history',
         education = TINY, happiness = DEC_TINY) from _call_change_stats_with_modifier_57
 
     $ end_event('new_daytime', **kwargs)
@@ -570,7 +570,7 @@ label sb_teach_math_ld_1 (**kwargs):
     $ image.show(1)
     headmaster "Okay, then let's continue with the new topic."
 
-    $ end_event('map_overview', **kwargs)
+    $ end_event('map_entry', **kwargs)
 
 label sb_teach_math_ld_2 (**kwargs):
     $ begin_event(**kwargs)
@@ -610,10 +610,10 @@ label sb_teach_math_ld_2 (**kwargs):
     $ image.show(7)
     headmaster "Good. Now let's continue with the new topic."
 
-    call change_stats_with_modifier('school', 'math',
+    call change_stats_with_modifier('math',
         education = TINY) from _call_change_stats_with_modifier_58
 
-    $ end_event('map_overview', **kwargs)
+    $ end_event('map_entry', **kwargs)
 
 label sb_teach_math_ld_3 (**kwargs):
     $ begin_event(**kwargs)
@@ -634,7 +634,7 @@ label .leave (**kwargs):
     $ image.show(2)
     subtitles "You decide to leave her alone."
     
-    call change_stats_with_modifier('school', 'math',
+    call change_stats_with_modifier('math',
         charm = DEC_TINY, happiness = DEC_TINY) from _call_change_stats_with_modifier_59
     $ end_event('new_daytime', **kwargs)
 label .help (**kwargs):
@@ -643,7 +643,7 @@ label .help (**kwargs):
     $ image.show(3)
     subtitles "You help her up."
     
-    call change_stats_with_modifier('school', 'math',
+    call change_stats_with_modifier('math',
         charm = DEC_TINY, happiness = TINY) from _call_change_stats_with_modifier_60
     $ end_event('new_daytime', **kwargs)
 
@@ -760,7 +760,7 @@ label sb_teach_math_main_1 (**kwargs):
     $ image.show(26)
     headmaster "That is all for today"
 
-    call change_stats_with_modifier('school', 'math',
+    call change_stats_with_modifier('math',
         education = SMALL, reputation = TINY, happiness = TINY) from _call_change_stats_with_modifier_61
     
     $ end_event('new_daytime', **kwargs)
@@ -820,7 +820,7 @@ label sb_teach_math_main_2 (**kwargs):
     $ image.show(17)
     headmaster "That is all for today. Thanks for your attention. See you next time."
 
-    call change_stats_with_modifier('school', 'math',
+    call change_stats_with_modifier('math',
         education = SMALL, happiness = TINY, inhibition = DEC_TINY) from _call_change_stats_with_modifier_62
     
     $ end_event('new_daytime', **kwargs)
@@ -851,7 +851,7 @@ label gym_teach_pe_intro_1 (**kwargs):
 
     call Image_Series.show_image(image, 0, 1, 2, 3, 4, 5, 6, 7, pause = True) from image_gym_teach_pe_intro_1_1
 
-    $ end_event('map_overview', **kwargs)
+    $ end_event('map_entry', **kwargs)
 
 label gym_teach_pe_intro_2 (**kwargs):
     $ begin_event(**kwargs)
@@ -860,7 +860,7 @@ label gym_teach_pe_intro_2 (**kwargs):
 
     call Image_Series.show_image(image, 0, 1, 2, 3, 4, 5, pause = True) from image_gym_teach_pe_intro_2_1
 
-    $ end_event('map_overview', **kwargs)
+    $ end_event('map_entry', **kwargs)
 
 # endregion
 ################
@@ -880,7 +880,7 @@ label gym_teach_pe_entrance_1 (**kwargs):
     headmaster "Okay now all follow my lead."
 
 
-    $ end_event('map_overview', **kwargs)
+    $ end_event('map_entry', **kwargs)
 
 
 # endregion
@@ -931,10 +931,10 @@ label gym_teach_pe_warm_up_1 (**kwargs):
     
     headmaster "Alright, that's enough."
     
-    call change_stats_with_modifier('school', 'pe',
+    call change_stats_with_modifier('pe',
         charm = SMALL, education = TINY) from _call_change_stats_with_modifier_20
 
-    $ end_event('map_overview', **kwargs)
+    $ end_event('map_entry', **kwargs)
 
 # endregion
 ##################
@@ -974,10 +974,10 @@ label gym_teach_pe_main_1 (**kwargs): # Football
     headmaster "Don't forget to shower and change your clothes."
     # class leaves the gym
     
-    call change_stats_with_modifier('school',  'pe',
+    call change_stats_with_modifier('pe',
         happiness = TINY, charm = SMALL, reputation = TINY, inhibition = DEC_TINY) from _call_change_stats_with_modifier_21
 
-    $ end_event('map_overview', **kwargs)
+    $ end_event('map_entry', **kwargs)
 
 label gym_teach_pe_main_2 (**kwargs): # Yoga
     $ begin_event("2", **kwargs)
@@ -1012,10 +1012,10 @@ label gym_teach_pe_main_2 (**kwargs): # Yoga
     headmaster "I hope you all had a good time and that you learned something new."
     headmaster "Don't forget to shower and change your clothes."
 
-    call change_stats_with_modifier('school', 'pe',
+    call change_stats_with_modifier('pe',
         happiness = TINY, charm = MEDIUM, inhibition = DEC_TINY) from _call_change_stats_with_modifier_22
 
-    $ end_event('map_overview', **kwargs)
+    $ end_event('map_entry', **kwargs)
 
 # endregion
 ###############

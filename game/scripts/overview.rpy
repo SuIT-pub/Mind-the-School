@@ -132,8 +132,21 @@ screen school_overview_stats ():
             auto "icons/time skip %s.webp"
             tooltip "Skip Time" + s_text
             focus_mask None
-            xalign 0.995 yalign 0.4
+            xalign 0.985 yalign 0.35
             action Call("skip_time")
+
+        $ s_text = ""
+        if has_keyboard():
+            if show_shortcut():
+                $ s_text = " [[U]"
+            key "K_u" action Call("new_day")
+        # Skip Daytime
+        imagebutton:
+            auto "icons/day skip %s.webp"
+            tooltip "Skip to next day" + s_text
+            focus_mask None
+            xalign 0.995 yalign 0.49
+            action Call("new_day")
 
     vbox:
         xalign 1.0 ypos 150
@@ -514,7 +527,7 @@ screen school_overview_buttons (with_available_Events = False):
         auto "icons/journal_icon_%s.webp"
         tooltip "Open Journal" + j_text
         focus_mask None
-        xalign 1.0 yalign 0.6
+        xalign 1.0 yalign 0.65
         action Call("start_journal")
 
     $ tooltip = GetTooltip()
@@ -625,6 +638,12 @@ label after_load_entry():
 
     call time_event_check from call_after_load_entry_1
 
+    jump map_entry
+
+label map_entry():
+
+    # stop sound fadeout 1.0
+
     jump map_overview
 
 # shows the map overview and then waits for input
@@ -671,6 +690,11 @@ label map_overview ():
 
     $ renpy.block_rollback()
 
+    if time.get_daytime() < 7:
+        $ play_sound(audio.forest_ambience, True, 0.8, 1.0)
+    else:
+        $ play_sound(audio.night_ambience, True, 0.8, 1.0)
+
     call screen school_overview_buttons (True)
     # call screen school_overview with dissolveM
 
@@ -684,9 +708,7 @@ label map_overview ():
 ###############################
 
 label building(name=""):
-    $ reset_stats(get_school())
-    $ reset_stats(get_character('parent', charList))
-    $ reset_stats(get_character('teacher', charList['staff']))
+    $ reset_stats()
     $ _skipping = True
 
     $ notify_messages = []
@@ -701,12 +723,10 @@ label building(name=""):
 
     call expression name from building_1
 
-    call map_overview from building_2
+    call map_entry from building_2
 
 label skip_time ():
-    $ reset_stats(get_school())
-    $ reset_stats(get_character('parent', charList))
-    $ reset_stats(get_character('teacher', charList['staff']))
+    $ reset_stats()
 
     call new_daytime from skip_time_1
 

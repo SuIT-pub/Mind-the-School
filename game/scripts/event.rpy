@@ -1727,7 +1727,7 @@ init -3 python:
             return output
 
     class EventSelect(Event):
-        def __init__(self, priority: int, event: str, text: str, event_list: Dict[str, EventStorage], *conditions: Condition | Selector | Option, thumbnail: str = "", override_menu_exit: str = "map_overview", fallback: str = None, person: Person = None):
+        def __init__(self, priority: int, event: str, text: str, event_list: Dict[str, EventStorage], *conditions: Condition | Selector | Option, thumbnail: str = "", override_menu_exit: str = "map_entry", fallback: str = None, person: Person = None):
             super().__init__(priority, event, *conditions, thumbnail = thumbnail)
 
             self.text = text
@@ -1894,6 +1894,8 @@ init -3 python:
 
         hide_all()
 
+        renpy.sound.stop(fadeout = 1.0)
+
         event_name = get_kwargs("event_name", "", **kwargs)
         in_replay = get_kwargs("in_replay", False, **kwargs)
         no_gallery = get_kwargs("no_gallery", False, **kwargs)
@@ -1977,6 +1979,8 @@ init -3 python:
         
         update_quest("event_end", **kwargs)
 
+        renpy.sound.stop(fadeout = 1.0)
+
         if return_type == "new_daytime":
             renpy.jump("new_daytime")
         elif return_type == "new_day":
@@ -1984,9 +1988,9 @@ init -3 python:
         elif return_type == "none":
             return
         elif return_type == "custom":
-            renpy.call(get_value_ng('return_label', 'map_overview', **kwargs))
+            renpy.call(get_value_ng('return_label', 'map_entry', **kwargs))
         else:
-            renpy.jump("map_overview")
+            renpy.jump("map_entry")
 
     def is_event_registered(name: str) -> bool:
         """
@@ -2174,7 +2178,7 @@ label default_fallback_event (**kwargs):
         $ text = kwargs["fallback_text"]
 
     $ local_subtitles(text)
-    jump map_overview
+    jump map_entry
 
 label test_normal_test_event(**kwargs):
     $ begin_event(**kwargs)
@@ -2190,7 +2194,7 @@ label select_event_runner(**kwargs):
 
     $ text = get_kwargs('select_text', "What do you want to do?", **kwargs)
     $ event_list = get_kwargs('select_event_list', None, **kwargs)
-    $ override_menu_exit = get_kwargs('select_override_menu_exit', 'map_overview', **kwargs)
+    $ override_menu_exit = get_kwargs('select_override_menu_exit', 'map_entry', **kwargs)
     $ fallback = get_kwargs('select_fallback', default_fallback, **kwargs)
     $ person = get_kwargs('select_person', character.subtitles, **kwargs)
 
@@ -2211,19 +2215,19 @@ label composite_event_runner(**kwargs):
     $ event_obj = get_kwargs('event_obj', None, **kwargs)
     if event_obj == None:
         $ log_error(304, "Composite Event: No event object available!")
-        $ end_event("map_overview", **kwargs)
+        $ end_event("map_entry", **kwargs)
 
     $ events = get_frag_list(**kwargs)
 
     if len(events) == 0:
         $ log_error(304, "Composite Event " + event_obj.event_id + ": No events available in fragments!")
-        $ end_event("map_overview", **kwargs)
+        $ end_event("map_entry", **kwargs)
 
     $ kwargs["frag_order"] = events
 
     $ event_obj.call_fragment(events[0], **kwargs)
         
-    $ end_event("map_overview", **kwargs)
+    $ end_event("map_entry", **kwargs)
 
 # endregion
 ################################

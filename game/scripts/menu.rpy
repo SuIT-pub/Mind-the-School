@@ -182,7 +182,7 @@ init python:
         if len(filtered_elements) == 0:
             character.dev ("Oops something went wrong here. There seems to be nothing to choose from. Sry about that. I'll send you back to the map.")
             # character.dev (f"Error Code: [101]{kwargs['event_name']}:{';'.join([tag.split('.')[1] for tag in made_decisions])}")
-            renpy.jump("map_overview")
+            renpy.jump("map_entry")
 
         renpy.force_autosave(True)
 
@@ -225,7 +225,7 @@ init python:
         if len(filtered_elements) == 0:
             character.dev ("Oops something went wrong here. There seems to be nothing to choose from. Sry about that. I'll send you back to the map.")
             # character.dev (f"Error Code: [101]{kwargs['event_name']}:{';'.join([tag.split('.')[1] for tag in made_decisions])}")
-            renpy.jump("map_overview")
+            renpy.jump("map_entry")
 
         renpy.force_autosave(True)
 
@@ -310,7 +310,7 @@ label call_event_menu(text, events, fallback, person = character.subtitles, **kw
 
     if len(event_list) == 0:
         call call_event(fallback, **kwargs) from call_event_menu_1
-        jump map_overview
+        jump map_entry
 
     $ kwargs['marked'] = high_prio
     $ kwargs['blocked'] = blocked_elements
@@ -662,7 +662,7 @@ label close_menu(**kwargs):
             $ override_kwargs.call(**kwargs)
         elif isinstance(override_kwargs, Effect):
             $ override_kwargs.apply(**kwargs)
-    jump map_overview
+    jump map_entry
 
 # endregion
 ###########################

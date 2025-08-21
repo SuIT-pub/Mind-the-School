@@ -156,7 +156,7 @@ label intro_check_all_facilities (**kwargs):
     headmaster_thought "Hmm, I will probably not be able to check all facilities until then. Better decide which ones are the most important."
     subtitles "You get different stat bonuses depending on which locations you decide to visit until friday."
 
-    jump map_overview
+    jump map_entry
 
 label intro_check_all_first_potions (**kwargs):
     $ begin_event()
@@ -167,7 +167,7 @@ label intro_check_all_first_potions (**kwargs):
     headmaster_thought "Time to go around campus and check on the students and the potion's effect."
     headmaster_thought "The immediate effect will probably only last for today, so better decide which locations to visit."
 
-    jump map_overview
+    jump map_entry
 
 label .tutorial_3:
 
@@ -563,7 +563,7 @@ label .skip:
     dev "To stay up to date on development visit my {a=[patreon]}Patreon{/a} and {a=[discord]}Discord{/a}."
     dev "I'd be happy if you leave some feedback or some ideas on the Discord so I can work to further improve this game!"
 
-    jump map_overview
+    jump map_entry
 
 label check_missing_proficiencies:
     # $ begin_event(no_gallery = True, **kwargs)
@@ -574,9 +574,9 @@ label check_missing_proficiencies:
         $ set_headmaster_proficiency_level('pe', 100)
 
     $ call_custom_menu_with_text("The headmaster has no proficiencies set. Please assign a proficiency to the headmaster.\nP.E. is pre-selected due to his backstory.", character.subtitles, False, 
-        MenuElement("Math", SetProficiencyEffect('math', level = 1), "math" not in headmaster_proficiencies.keys()),
-        MenuElement("History", SetProficiencyEffect('history', level = 1), "history" not in headmaster_proficiencies.keys()), 
-    override_menu_exit = "map_overview")
+        MenuElement("Math", "Math", SetProficiencyEffect('math', level = 1), "math" not in headmaster_proficiencies.keys()),
+        MenuElement("History", "History", SetProficiencyEffect('history', level = 1), "history" not in headmaster_proficiencies.keys()), 
+    override_menu_exit = "map_entry")
 
 # endregion
 #############################

@@ -172,7 +172,7 @@ label close_journal ():
     # """
 
     hide screen journal
-    jump map_overview
+    jump map_entry
 
 # endregion
 ########################
@@ -480,61 +480,61 @@ screen journal_page_selector(page, display, char = "school"):
             $ text = ("Goals" + key_text).replace("x", "2")
             hotspot (154, 358, 166, 93) action [With(dissolveM), Call("open_journal", 8, "")] tooltip text
             
-    if page == 1 or (page == 5 and display == 'stats'):
-        if char == "school":
-            if has_keyboard():
-                key "K_TAB" action [With(dissolveM), Call("open_journal", page, display, "teacher")]
-            image "journal/journal/school_hover.webp":
-                xpos 365
-                ypos 74
-            text "School":
-                xalign 0.225 yalign 0.1
-                size 20
-                color "#fff"
-        else:
-            imagebutton:
-                idle "journal/journal/school_idle.webp"
-                hover "journal/journal/school_hover.webp"
-                xpos 365
-                ypos 74
-                tooltip "School"
-                action [With(dissolveM), Call("open_journal", page, display, "school")]
-        if char == "teacher":
-            if has_keyboard():
-                key "K_TAB" action [With(dissolveM), Call("open_journal", page, display, "parent")]
-            image "journal/journal/teacher_hover.webp":
-                xpos 541
-                ypos 75
-            text "Teacher":
-                xalign 0.3225 yalign 0.1
-                size 20
-                color "#fff"
-        else:
-            imagebutton:
-                idle "journal/journal/teacher_idle.webp"
-                hover "journal/journal/teacher_hover.webp"
-                xpos 541
-                ypos 75
-                tooltip "Teacher"
-                action [With(dissolveM), Call("open_journal", page, display, "teacher")]
-        if char == "parent":
-            if has_keyboard():
-                key "K_TAB" action [With(dissolveM), Call("open_journal", page, display, "school")]
-            image "journal/journal/parent_hover.webp":
-                xpos 718
-                ypos 76
-            text "Parents":
-                xalign 0.415 yalign 0.1
-                size 20
-                color "#fff"
-        else:
-            imagebutton:
-                idle "journal/journal/parent_idle.webp"
-                hover "journal/journal/parent_hover.webp"
-                xpos 718
-                ypos 76
-                tooltip "Parents"
-                action [With(dissolveM), Call("open_journal", page, display, "parent")]
+    # if page == 1 or (page == 5 and display == 'stats'):
+    #     if char == "school":
+    #         if has_keyboard():
+    #             key "K_TAB" action [With(dissolveM), Call("open_journal", page, display, "teacher")]
+    #         image "journal/journal/school_hover.webp":
+    #             xpos 365
+    #             ypos 74
+    #         text "School":
+    #             xalign 0.225 yalign 0.1
+    #             size 20
+    #             color "#fff"
+    #     else:
+    #         imagebutton:
+    #             idle "journal/journal/school_idle.webp"
+    #             hover "journal/journal/school_hover.webp"
+    #             xpos 365
+    #             ypos 74
+    #             tooltip "School"
+    #             action [With(dissolveM), Call("open_journal", page, display, "school")]
+    #     if char == "teacher":
+    #         if has_keyboard():
+    #             key "K_TAB" action [With(dissolveM), Call("open_journal", page, display, "parent")]
+    #         image "journal/journal/teacher_hover.webp":
+    #             xpos 541
+    #             ypos 75
+    #         text "Teacher":
+    #             xalign 0.3225 yalign 0.1
+    #             size 20
+    #             color "#fff"
+    #     else:
+    #         imagebutton:
+    #             idle "journal/journal/teacher_idle.webp"
+    #             hover "journal/journal/teacher_hover.webp"
+    #             xpos 541
+    #             ypos 75
+    #             tooltip "Teacher"
+    #             action [With(dissolveM), Call("open_journal", page, display, "teacher")]
+    #     if char == "parent":
+    #         if has_keyboard():
+    #             key "K_TAB" action [With(dissolveM), Call("open_journal", page, display, "school")]
+    #         image "journal/journal/parent_hover.webp":
+    #             xpos 718
+    #             ypos 76
+    #         text "Parents":
+    #             xalign 0.415 yalign 0.1
+    #             size 20
+    #             color "#fff"
+    #     else:
+    #         imagebutton:
+    #             idle "journal/journal/parent_idle.webp"
+    #             hover "journal/journal/parent_hover.webp"
+    #             xpos 718
+    #             ypos 76
+    #             tooltip "Parents"
+    #             action [With(dissolveM), Call("open_journal", page, display, "parent")]
 
     if cheat_mode:
         if has_keyboard():  
@@ -580,7 +580,7 @@ screen journal_page_selector(page, display, char = "school"):
         tooltip text
         xpos 1509
         ypos 836
-        action [With(dissolveM), Jump("map_overview")]
+        action [With(dissolveM), Jump("map_entry")]
 
 screen journal_desc(**kwargs):
     # """
@@ -696,6 +696,7 @@ screen journal_vote_button(page, display, active_obj):
     ):
         $ voteProposal = get_game_data("voteProposal")
         if voteProposal == None or voteProposal._journal_obj.get_name() != display:
+
             $ condition_storage = active_obj.get_condition_storage()
             $ action_text = "unlock"
             $ probability = 0
@@ -705,6 +706,9 @@ screen journal_vote_button(page, display, active_obj):
                 $ action_text = "upgrade"
             else:
                 $ probability = active_obj.calculate_vote_probability()
+
+            $ log_val("probability calc", probability)
+
             $ locked_text = ""
             $ probability_text = str(clamp_value(round(probability, 2))) + "%"
             if condition_storage.get_is_locked():
@@ -1113,7 +1117,7 @@ screen journal_page(page, display):
 
     image "journal/journal/background.webp"
 
-    key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
+    key "K_ESCAPE" action [With(dissolveM), Jump("map_entry")]
 
     $ journal_type = get_journal_type(page)
     $ journal_map = get_journal_map(page)
@@ -1156,16 +1160,16 @@ screen journal_page(page, display):
 
         $ action_text = "unlock"
         $ obj_type = active_obj.get_type()
-        if obj_type == "building" and active_obj.is_unlocked()  and active_obj.has_higher_level():
+        if obj_type == "building" and active_obj.is_unlocked() and active_obj.has_higher_level():
             $ action_text = "upgrade"
 
         $ descriptions['description_list'] = active_obj.get_desc_conditions_desc(cond_type = action_text, char_obj = get_school(), blocking = True)
         if len(descriptions['description_list']) != 0:
-            $ descriptions['description_list_title'] = "{u}To unlock you need:{/u}"
+            $ descriptions['description_list_title'] = "{u}To " + action_text + " you need:{/u}"
 
 
         $ condition_storage = active_obj.get_condition_storage()
-        if obj_type == 'building' and active_obj.can_be_upgraded(char_obj = get_school()):
+        if obj_type == 'building' and active_obj.is_unlocked() and active_obj.can_be_upgraded(char_obj = get_school()):
             $ condition_storage = active_obj.get_upgrade_conditions(active_obj.get_level())
         
         if condition_storage.get_is_locked():
@@ -1209,7 +1213,7 @@ screen journal_overview(display, char = "school"):
 
     image "journal/journal/background.webp"
 
-    key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
+    key "K_ESCAPE" action [With(dissolveM), Jump("map_entry")]
 
     use journal_page_selector(1, display, char)
 
@@ -1399,7 +1403,7 @@ screen journal_cheats(display, char = "school"):
 
     image "journal/journal/background.webp"
 
-    key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
+    key "K_ESCAPE" action [With(dissolveM), Jump("map_entry")]
 
     use journal_page_selector(5, display, char)
 
@@ -1896,7 +1900,7 @@ screen journal_gallery(display):
 
     image "journal/journal/background.webp"
 
-    key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
+    key "K_ESCAPE" action [With(dissolveM), Jump("map_entry")]
 
     use journal_page_selector(7, display)
 
@@ -2324,7 +2328,7 @@ screen journal_credits(display):
 
     image "journal/journal/background.webp"
 
-    key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
+    key "K_ESCAPE" action [With(dissolveM), Jump("map_entry")]
 
     use journal_page_selector(6, display)
 
@@ -2452,7 +2456,7 @@ screen journal_goals(display):
 
     image "journal/journal/background.webp"
 
-    key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
+    key "K_ESCAPE" action [With(dissolveM), Jump("map_entry")]
 
     use journal_page_selector(8, display, char)
 
@@ -2619,7 +2623,7 @@ screen journal_character(display):
 
     use journal_page_selector(9, display, char)
 
-    key "K_ESCAPE" action [With(dissolveM), Jump("map_overview")]
+    key "K_ESCAPE" action [With(dissolveM), Jump("map_entry")]
 
     $ display_values = display.split(':')
 

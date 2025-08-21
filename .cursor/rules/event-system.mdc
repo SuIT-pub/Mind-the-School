@@ -85,7 +85,7 @@ select_event = EventSelect(2, "select_event",
     "What would you like to do?",
     {"option1": event_storage1, "option2": event_storage2},
     TimeCondition(...),
-    override_menu_exit = "map_overview")
+    override_menu_exit = "map_entry")
 ```
 
 ## Event Components

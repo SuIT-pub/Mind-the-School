@@ -302,27 +302,59 @@ init -7 python:
             return True
 
         def are_conditions_blocking(self, **kwargs) -> bool:
+            """
+            Returns whether the object is blocked by any conditions.
+
+            ### Parameters:
+            1. **kwargs
+                - Keyword arguments.
+
+            ### Returns:
+            1. bool
+                - Whether the object is blocked by any conditions.
+            """
+            
             for condition_storage in self.get_condition_storages().values():
                 if condition_storage.is_blocking(**kwargs):
                     return True
             return False
 
         def calculate_vote_probability(self, **kwargs) -> float:
+            """
+            Calculates the probability of the object being voted for based on the conditions.
+
+            ### Parameters:
+            1. **kwargs
+                - Keyword arguments.
+
+            ### Returns:
+            1. float
+                - Probability of the object being voted for.
+            """
 
             probabilities = []
 
             for condition_storage in self.get_condition_storages().values():
                 probabilities.append(condition_storage.calculate_probability(**kwargs))
 
-            return sum(probabilities) / len(probabilities)
+            return clamp_value(sum(probabilities) / len(probabilities), 0, 100)
 
         def get_vote_character(self, condition_type: str, **kwargs) -> str:
-            if condition_type not in self.get_condition_storages().keys():
-                return "ignore"
-            
+            """
+            Returns the vote of the object based on the conditions.
+
+            ### Parameters:
+            1. condition_type: str
+                - Type of the conditions.
+                - Can be "misc", "social", "feasibility" or "academic"
+            2. **kwargs
+                - Keyword arguments.
+            """
+
             conditions = self.get_condition_storage(condition_type).get_conditions()
             if condition_type != "misc":
                 conditions.extend(self.get_condition_storage("misc").get_conditions())
+
             for condition in conditions:
                 if not condition.is_fulfilled(**kwargs):
                     return "no"
@@ -341,12 +373,14 @@ init -7 python:
                 - Condition storage of the object.
             """
 
-            if condition_type not in self._unlock_conditions.keys():
+            if condition_type == "":
                 storage = ConditionStorage()
                 for key in self._unlock_conditions.keys():
-                    if condition_type == "" or condition_type == key:
-                        storage.add_storage(self._unlock_conditions[key])
+                    storage.add_storage(self._unlock_conditions[key])
                 return storage
+
+            if condition_type not in self._unlock_conditions.keys():
+                return ConditionStorage()
 
             return self._unlock_conditions[condition_type]
 
@@ -541,15 +575,7 @@ init -7 python:
             - Names of the visible unlocked objects of the map.
         """
 
-        output = []
-
-        school_obj = get_school()
-
-        for obj in map.values():
-            if (obj.is_unlocked() and
-            obj.get_name() not in output):
-                output.append(obj.get_name())
-                continue
+        output = [obj.get_name() for obj in map.values() if obj.is_unlocked()]
 
         return output
 
@@ -566,16 +592,7 @@ init -7 python:
             - Names of the visible locked objects of the map.
         """
 
-        output = []
-
-        school_obj = get_school()
-
-        for obj in map.values():
-            if (obj.is_visible(char_obj = school_obj) and 
-            not obj.is_unlocked() and
-            obj.get_name() not in output):
-                output.append(obj.get_name())
-                continue
+        output = [obj.get_name() for obj in map.values() if obj.is_visible(char_obj = get_school()) and not obj.is_unlocked()]
 
         return output
 

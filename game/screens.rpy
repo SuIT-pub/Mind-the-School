@@ -887,6 +887,7 @@ screen about():
             text _("Icons by {a=https://game-icons.net/}Game-icons.net{/a}")
             text _("Notepad Png vectors by {a=https://lovepik.com/images/png-notepad.html}Lovepik.com{/a}")
             text _("Journal and Main Menu icons created by {a=https://www.flaticon.com/}Flaticon{/a}")
+            text _("Sound Effects by {a=https://pixabay.com/users/freesound_community-46691455/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=17064}freesound_community{/a} from {a=https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=17064}Pixabay{/a}")
 
 
 style about_label is gui_label

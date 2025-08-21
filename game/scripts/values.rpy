@@ -92,6 +92,14 @@ default overview_highlight_available = {
     'beach':            False,
     'staff_lodges':     False}
 
+define audio.forest_ambience = "forest-ambience.mp3"
+define audio.night_ambience = "night-ambience.mp3"
+define audio.empty_room = "empty-room.mp3"
+define audio.muffled_chatter = "muffled-chatter.mp3"
+define audio.cafeteria_empty = "cafeteria-empty.mp3"
+define audio.cafeteria_chatter = "cafeteria-chatter.mp3"
+define audio.gym_active = "gym-active.mp3"
+
 default available_proficiencies = ['math', 'pe']
 default headmaster_proficiencies = {}
 

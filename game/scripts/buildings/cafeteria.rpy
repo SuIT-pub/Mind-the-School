@@ -139,6 +139,13 @@ init 1 python:
 ######################################
 
 label cafeteria ():
+    if time.get_daytime() in [1, 2, 4, 5]:
+        $ play_sound(audio.cafeteria_empty, True, 0.5, 1.0)
+    elif time.get_daytime() in [3, 6]:
+        $ play_sound(audio.cafeteria_chatter, True, 0.1, 1.0)
+    else:
+        $ play_sound(audio.empty_room, True, 0.8, 1.0)
+
     call call_available_event(cafeteria_timed_event) from cafeteria_1
 
 label .after_time_check (**kwargs):
@@ -180,7 +187,7 @@ label cafeteria_construction(**kwargs):
         $ image.show(0)
         headmaster "The cafeteria is under construction. It will be finished in [day_difference] days."
 
-        $ end_event('map_overview', **kwargs)
+        $ end_event('map_entry', **kwargs)
     else:
         $ begin_event()
 
@@ -219,7 +226,7 @@ label cafeteria_event_1(**kwargs):
     adelaide "Here you go."
     headmaster "Thank you."
 
-    call change_stats_with_modifier('parent',
+    call change_stats_with_modifier(
         happiness = SMALL, charm = TINY) from _call_change_stats_with_modifier
 
     $ end_event('new_daytime', **kwargs)
@@ -249,7 +256,7 @@ label cafeteria_event_2(**kwargs):
     $ image.show(2)
     girl "Eh? Please leave, I'm changing."
 
-    call change_stats_with_modifier(char_class,
+    call change_stats_with_modifier(
         happiness = DEC_TINY, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_1
 
     $ end_event('new_daytime', **kwargs)
@@ -312,7 +319,7 @@ label cafeteria_event_3(**kwargs):
             if school_job_progress >= 3 and unlock_school_jobs < 2:
                 $ set_progress('unlock_school_jobs', 2)
 
-            call change_stats_with_modifier('parent',
+            call change_stats_with_modifier(
                 happiness = DEC_SMALL, charm = TINY) from _call_change_stats_with_modifier_2
 
             $ end_event('new_daytime', **kwargs)
@@ -380,7 +387,7 @@ label cafeteria_event_3(**kwargs):
 
             $ time.progress_time()
             
-            call change_stats_with_modifier('parent',
+            call change_stats_with_modifier(
                 happiness = MEDIUM, charm = SMALL, reputation = MEDIUM) from _call_change_stats_with_modifier_3
 
             $ end_event('new_daytime', **kwargs)
@@ -425,7 +432,7 @@ label cafeteria_event_3(**kwargs):
         $ image.show(11)
         subtitles "You spend the next hours working in the kitchen."
 
-        call change_stats_with_modifier('parent',
+        call change_stats_with_modifier(
             happiness = SMALL, charm = DEC_TINY, reputation = SMALL) from _call_change_stats_with_modifier_4
 
         $ end_event('new_daytime', **kwargs)
@@ -442,7 +449,7 @@ label cafeteria_event_3(**kwargs):
         # headmaster takes the sandwich and coffee
         headmaster "Thank you."
 
-        call change_stats_with_modifier('parent',
+        call change_stats_with_modifier(
             happiness = SMALL, charm = TINY) from _call_change_stats_with_modifier_5
 
         $ end_event('new_daytime', **kwargs)
@@ -464,10 +471,10 @@ label cafeteria_event_4(**kwargs):
     if amount == "2 Girls" or amount == "3 Girls":
         headmaster_thought "I'm glad that so many girls are ready to help her."
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = SMALL, charm = MEDIUM, education = TINY) from _call_change_stats_with_modifier_6
 
-    call change_stats_with_modifier('parent',
+    call change_stats_with_modifier(
         happiness = MEDIUM, charm = TINY) from _call_change_stats_with_modifier_7
 
     $ end_event('new_daytime', **kwargs)
@@ -486,7 +493,7 @@ label cafeteria_event_5(**kwargs):
     $ image.show(1)
     headmaster_thought "It seems like the students are enjoying their lunch break."
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = SMALL, charm = MEDIUM) from _call_cafeteria_event_5_1
 
     $ end_event('new_daytime', **kwargs)
@@ -500,7 +507,7 @@ label cafeteria_event_6(**kwargs):
     subtitles "The food seems to be at least somewhat tasty."
     $ image.show(1)
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = SMALL
     ) from _call_cafeteria_event_6_1
 
@@ -551,7 +558,7 @@ label cafeteria_event_7(**kwargs):
     $ image.show(14)
     seraphina "So what? Calm down."
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = DEC_TINY, inhibition = DEC_SMALL
     ) from _call_cafeteria_event_7_1
 

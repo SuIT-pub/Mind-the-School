@@ -59,6 +59,11 @@ init 1 python:
 ##################################
 
 label kiosk ():
+    if time.get_daytime() in [1, 3, 6]:
+        $ play_sound(audio.muffled_chatter, True, 1.0, 1.0)
+    else:
+        $ play_sound(audio.empty_room, True, 0.8, 1.0)
+    
     call call_available_event(kiosk_timed_event) from kiosk_1
 
 label .after_time_check (**kwargs):
@@ -96,7 +101,7 @@ label kiosk_event_1 (**kwargs):
     $ show_pattern("main", **kwargs)
     subtitles "For some, coffee is the only way to save the day."
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = SMALL) from _call_change_stats_with_modifier_32
 
     $ end_event('new_daytime', **kwargs)
@@ -118,7 +123,7 @@ label kiosk_event_2 (**kwargs):
     $ image.show(2)
     subtitles "Luckily she doesn't notice her see-through blouse in all the excitement."
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = DEC_TINY, inhibition = DEC_MEDIUM, corruption = TINY) from _call_change_stats_with_modifier_33
 
     $ end_event('new_daytime', **kwargs)
@@ -166,7 +171,7 @@ label .leave (**kwargs):
         $ image.show(9)
         headmaster_thought "Mhh what kind of noise is that? Hmmm... I guess it's nothing serious."
 
-        call change_stats_with_modifier('school',
+        call change_stats_with_modifier(
             happiness = DEC_MEDIUM, charm = DEC_MEDIUM, reputation = DEC_SMALL) from _call_change_stats_with_modifier_34
         $ end_event('new_daytime', **kwargs)
         
@@ -181,7 +186,7 @@ label .leave (**kwargs):
 
         $ update_quest("trigger", name = "kiosk_observe_kindness")
 
-        call change_stats_with_modifier('school',
+        call change_stats_with_modifier(
             happiness = SMALL, charm = TINY) from _call_change_stats_with_modifier_35
     
         if get_progress("unlock_cafeteria") == -1:
@@ -197,7 +202,7 @@ label .leave (**kwargs):
         $ image.show(12)
         headmaster_thought "Poor girl..."
 
-        call change_stats_with_modifier('school',
+        call change_stats_with_modifier(
             happiness = DEC_TINY, charm = DEC_SMALL) from _call_change_stats_with_modifier_36
         $ end_event('new_daytime', **kwargs)
 label .help (**kwargs):
@@ -227,7 +232,7 @@ label .help (**kwargs):
 
     call change_money_with_modifier(-50) from _call_change_money_with_modifier_38
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = MEDIUM, reputation = MEDIUM) from _call_change_stats_with_modifier_37
     jump new_daytime
 

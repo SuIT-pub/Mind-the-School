@@ -1424,6 +1424,10 @@ init -99 python:
 
         return persistent.shortcuts == 0
 
+    def play_sound(sound: str, loop: bool = False, volume: float = 1.0, fadein: float = 1.0):
+        if not renpy.music.get_playing(channel='sound') == sound or not renpy.music.is_playing(channel='sound'):
+            renpy.sound.play(sound, loop = loop, relative_volume = volume, fadein = fadein)
+
     # endregion
     ###############################
 

@@ -420,6 +420,21 @@ label load_quests:
                 premature_visibility = True
             ),
             Goal(
+                "all_events_new_yoga_outfit",
+                "New Yoga Outfit Events",
+                EventTask("new_yoga_outfit_1", check_history = True),
+                EventTask("new_yoga_outfit_2", check_history = True),
+                EventTask("new_yoga_outfit_3", check_history = True),
+                EventTask("new_yoga_outfit_4", check_history = True),
+                EventTask("new_yoga_outfit_5", check_history = True),
+                EventTask("new_yoga_outfit_6", check_history = True),
+                EventTask("new_yoga_outfit_7", check_history = True),
+                EventTask("new_yoga_outfit_8", check_history = True),
+                EventTask("new_yoga_outfit_9", check_history = True),
+                EventTask("new_yoga_outfit_10", check_history = True),
+                premature_visibility = True
+            ),
+            Goal(
                 "all_events_teaching_sex_ed",
                 "Sex Education Teaching Events",
                 LabelTask("all_events_teaching_sex_ed_intro", "-- Intro Fragments"),
@@ -473,13 +488,6 @@ label load_quests:
                 premature_visibility = True
             ),
             Goal(
-                "all_events_teaching_english",
-                "English Teaching Events",
-                LabelTask("all_events_teaching_english_intro", "-- Intro Fragments"),
-                EventTask("sb_teach_english_intro_1", check_history = True),
-                premature_visibility = True
-            ),
-            Goal(
                 "all_event_aonas_new_bra",
                 "Aona's New Bra Events",
                 EventTask("gym_teach_pe_intro_aona_bra", check_history = True),
@@ -504,12 +512,6 @@ label load_quests:
                 EventTask("sex_ed_intro_mini_courtyard_1", check_history = True),
                 EventTask("first_sex_ed_day", check_history = True),
                 EventTask("first_sex_ed_class_1", check_history = True),
-                premature_visibility = True
-            ),
-            Goal(
-                "all_events_misc",
-                "Miscellaneous Events",
-                EventTask("aona_sports_bra_event_1", check_history = True),
                 premature_visibility = True
             ),
             Goal(
