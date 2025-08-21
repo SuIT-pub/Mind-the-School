@@ -53,15 +53,23 @@ init 1 python:
 
     gym_event4 = Event(3, "gym_event_4",
         TimeCondition(daytime = "c", weekday = "d"),
-        LevelCondition("2-5", "school"),
+        LevelCondition("2-4", "school"),
         Pattern("main", "/images/events/gym/gym_event_4/gym_event_4 <step>.webp"),
         thumbnail = "images/events/gym/gym_event_4/gym_event_4 0.webp")
 
     gym_event5 = Event(3, "gym_event_5",
         TimeCondition(daytime = "c", weekday = "d"),
-        LevelCondition("2-5", "school"),
+        LevelCondition("2-4", "school"),
         Pattern("main", "/images/events/gym/gym_event_5/gym_event_5 <school_level> <step>.webp"),
         thumbnail = "images/events/gym/gym_event_5/gym_event_5 5 0.webp")
+
+    gym_event6 = Event(3, "gym_event_6",
+        TimeCondition(daytime = "c", weekday = "d"),
+        LevelCondition("2+", "school"),
+        ProgressCondition("yoga_classes", "10"),
+        GameDataSelector("outfit", "yoga_outfit_set"),
+        Pattern("main", "/images/events/gym/gym_event_6/gym_event_6 <outfit> <level> <step>.webp", "outfit"),
+        thumbnail = "images/events/gym/gym_event_6/gym_event_6 3 8 2.webp")
 
     gym_events["enter_changing"].add_event(
         gym_event2,
@@ -73,6 +81,7 @@ init 1 python:
     gym_events["check_pe"].add_event(
         gym_event1, 
         gym_event3,
+        gym_event6,
     )
     gym_events["relax"].add_event(
         gym_event4,
@@ -88,6 +97,11 @@ init 1 python:
 ################################
 
 label gym ():
+    if time.get_daytime() in [2, 4, 5]:
+        $ play_sound(audio.gym_active, True, 0.2, 1.0)
+    else:
+        $ play_sound(audio.empty_room, True, 0.8, 1.0)
+
     call call_available_event(gym_timed_event) from gym_1
 label .after_time_check (**kwargs):
     call call_available_event(gym_general_event) from gym_4
@@ -161,7 +175,7 @@ label gym_event_1 (**kwargs):
         $ renpy.pause(5.33)
         $ image.show_video(10)
         aona "That was an amazing warmup, Mr. [headmaster_last_name]!"
-        call change_stats_with_modifier('school', 
+        call change_stats_with_modifier(
             inhibition = DEC_LARGE, corruption = LARGE, charm = SMALL) from _call_change_stats_with_modifier_26
     elif school_level == 9:
         $ image.show(1)
@@ -176,7 +190,7 @@ label gym_event_1 (**kwargs):
         $ renpy.pause(5.33)
         $ image.show_video(8)
         aona "That was an amazing warmup, Mr. [headmaster_last_name]!"
-        call change_stats_with_modifier('school', 
+        call change_stats_with_modifier(
             inhibition = DEC_LARGE, corruption = LARGE, charm = SMALL) from _call_change_stats_with_modifier_29
     elif school_level == 8:
         $ image.show(1)
@@ -190,7 +204,7 @@ label gym_event_1 (**kwargs):
         $ renpy.pause(1)
         $ image.show_video(6)
         aona "Thanks for the snack, Mr. [headmaster_last_name]!"
-        call change_stats_with_modifier('school', 
+        call change_stats_with_modifier(
             inhibition = DEC_LARGE, corruption = MEDIUM, charm = SMALL) from _call_change_stats_with_modifier_30
     elif school_level == 7:
         $ image.show(1)
@@ -198,7 +212,7 @@ label gym_event_1 (**kwargs):
         $ image.show(2)
         headmaster "That sounds like a very good measure!"
         $ image.show_video(3, pause = True)
-        call change_stats_with_modifier('school', 
+        call change_stats_with_modifier(
             inhibition = DEC_MEDIUM, corruption = MEDIUM, charm = SMALL) from _call_change_stats_with_modifier_85
     elif school_level >= 5:
         $ image.show(1)
@@ -207,13 +221,13 @@ label gym_event_1 (**kwargs):
         aona "We just might if you asked us to."
         $ image.show(3)
         aona "*giggle*" (name="School Girls")
-        call change_stats_with_modifier('school', 
+        call change_stats_with_modifier(
             inhibition = DEC_SMALL, corruption = SMALL, charm = SMALL) from _call_change_stats_with_modifier_86
     else:
         $ image.show(1)
         aona "Are you getting ready for gym class too, Mr. [headmaster_last_name]?"
 
-        call change_stats_with_modifier('school', 
+        call change_stats_with_modifier(
             inhibition = DEC_TINY, corruption = TINY, charm = TINY) from _call_change_stats_with_modifier_27
     $ end_event('new_daytime', **kwargs)
 
@@ -240,7 +254,7 @@ label gym_event_2 (**kwargs):
     headmaster "Sorry, I didn't mean to intrude."
     $ image.show(4)
     subtitles "You run out as fast as you can."
-    call change_stats_with_modifier('school', 
+    call change_stats_with_modifier(
         inhibition = DEC_SMALL, happiness = DEC_SMALL, reputation = DEC_SMALL) from _call_change_stats_with_modifier_28
 
     $ end_event('new_daytime', **kwargs)
@@ -297,7 +311,7 @@ label gym_event_3 (**kwargs):
     zoe "..."
     call Image_Series.show_image(image, 21, pause = True) from _call_gym_event_3_2
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         inhibition = DEC_MEDIUM, happiness = DEC_SMALL, charm = TINY, education = TINY, reputation = DEC_SMALL) from _call_change_stats_with_modifier_31
     $ end_event('new_daytime', **kwargs)
 
@@ -324,7 +338,7 @@ label gym_event_4 (**kwargs):
     $ image.show(7)
     easkey "Bye!" #2
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         inhibition = DEC_SMALL, corruption = TINY) from _stats_gym_event_4_1
 
     $ end_event('new_daytime', **kwargs)
@@ -341,8 +355,21 @@ label gym_event_5 (**kwargs):
     $ image.show(2)
     sgirl "Oh yeah that would be awesome!" #2
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         inhibition = DEC_TINY, happiness = DEC_TINY) from _stats_gym_event_5_1
+
+    $ end_event('new_daytime', **kwargs)
+    
+label gym_event_6 (**kwargs):
+    $ begin_event("2", **kwargs)
+    
+    $ image = convert_pattern("main", **kwargs)
+    
+    call Image_Series.show_image(image, 0, 1, 2, pause = True) from _call_gym_event_6_1
+    headmaster_thought "..."
+
+    call change_stats_with_modifier(
+        inhibition = TINY, charm = TINY) from _stats_gym_event_6_1
 
     $ end_event('new_daytime', **kwargs)
     

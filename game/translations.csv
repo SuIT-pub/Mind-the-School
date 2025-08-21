@@ -60,6 +60,7 @@ english;English
 math;Mathematics
 pe;Physical Education
 history;History
+sex_ed;Sex Education
 
 ###############
 #--------------
@@ -177,6 +178,7 @@ first_week_office_building_event;First Week
 office_event_1;In need of counseling
 office_event_2;Teacher need a break
 office_event_3;Two students waiting
+office_event_4;Some comfy napping time
 
 event_office_building_work;Work
 event_office_building_money;Make some money
@@ -221,6 +223,12 @@ sb_event_5_girls_ikushi_ito;Ikushi, Gloria, Luna
 sb_event_5_girls_soyoon_yamamoto;Soyoon, Lin, Aona
 sb_event_5_girls_yuriko_oshima;Yuriko, Kokoro, Elsie
 
+sb_event_6;Aona makes fun of Miwa
+sb_event_7;Aona still makes fun of Miwa
+
+##################
+# Teaching lessons
+
 sb_teach_math_1;Sleepy Math Class
 
 sb_teach_math_2;Math Exercises
@@ -248,6 +256,18 @@ sb_teach_history_topic_french revolution;French Revolution
 sb_teach_history_intro_f_revolution_1;Intro
 sb_teach_history_main_f_revolution_1;Revolution Causes
 sb_teach_history_main_f_revolution_2;Essay
+
+sb_teach_sex_ed;Teaching Sex Education
+
+sb_teach_sex_ed_intro_anatomy;Discussing Anatomy
+sb_teach_sex_ed_intro_sex_curiosity;Talk about Sex Curiosity
+
+sb_teach_sex_ed_main_anatomy_1;Pleasure lies in Anatomy
+sb_teach_sex_ed_main_sex_curiosity_1;Sexual Myths
+
+sb_teach_sex_ed_qa_1;Wet when horny?
+sb_teach_sex_ed_qa_2;How often to fuck?
+
 
 ##################
 # School Dormitory
@@ -293,6 +313,42 @@ sex_ed_intro_mini_sd_2;Modifying Uniform
 sex_ed_intro_mini_courtyard_1;Discussing Sex Ed Material
 first_sex_ed_day;First day after Sex Ed Introduction
 first_sex_ed_class_1;First Sex Ed Class
+
+#################
+# New Yoga Outfit
+new_yoga_outfit_1;Zoe has an announcement
+new_yoga_outfit_2;Checking Zoe's yoga classes
+new_yoga_outfit_3;Checking Zoe's yoga classes again
+new_yoga_outfit_4;Finding dressing volunteers
+new_yoga_outfit_5;Trying on new outfits
+new_yoga_outfit_6;Where to get the measurements?
+new_yoga_outfit_7;Zoe found someone
+new_yoga_outfit_8;Announcing general health care
+new_yoga_outfit_9;Great Health Checkup day!
+new_yoga_outfit_10;Distributing the new outfits
+
+###############
+# Truth or Dare
+truth_or_dare_1;What do I spot there in the dark?
+truth_or_dare_2;When do the girls meet?
+truth_or_dare_3;Where do the girls meet?
+truth_or_dare_4;Snooping on the girls
+
+truth_or_dare_end;Should get away.
+
+truth_or_dare_truth_1;The naughtiest thing done with a girl.
+truth_or_dare_truth_2;Did you ever touch yourself?
+truth_or_dare_truth_3;Who is your secret crush?
+truth_or_dare_truth_4;Favorite hobby
+truth_or_dare_truth_5;Forbidden fantasy
+truth_or_dare_truth_6;What makes you laugh
+
+truth_or_dare_dare_1;Seduce your crush
+truth_or_dare_dare_2;Kiss the person next to you.
+truth_or_dare_dare_3;Sing 'Happy Birthday'
+truth_or_dare_dare_4;Whisper something naughty
+truth_or_dare_dare_5;Show your underwear
+truth_or_dare_dare_6;Sleeping with panties
 
 #########
 # QUESTS

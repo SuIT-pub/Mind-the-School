@@ -95,6 +95,13 @@ init 1 python:
 ######################################
 
 label courtyard ():
+    if time.get_daytime() in [1, 2, 4, 5]:
+        $ play_sound(audio.empty_room, True, 0.5, 1.0)
+    elif time.get_daytime() in [3, 6]:
+        $ play_sound(audio.muffled_chatter, True, 1.0, 1.0)
+    else:
+        $ play_sound(audio.night_ambience, True, 0.8, 1.0)
+
     call call_available_event(courtyard_timed_event) from courtyard_1
 
 label .after_time_check (**kwargs):
@@ -145,7 +152,7 @@ label .look (**kwargs):
     $ image.show(3)
     sgirl "PERVERT!"
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = DEC_SMALL, reputation = DEC_TINY, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_9
     
     $ end_event("new_daytime", **kwargs)
@@ -158,7 +165,7 @@ label .look_away (**kwargs):
     $ image.show(5)
     subtitles "The girl looks at you ashamed of the situation and runs away. Glad you didn't stare."
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = TINY, reputation = TINY, inhibition = DEC_TINY) from _call_change_stats_with_modifier_10
     
     $ end_event("new_daytime", **kwargs)
@@ -199,7 +206,7 @@ label .talk (**kwargs):
     $ image.show(9)
     yuriko "Thanks, bye."
     
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = DEC_TINY, reputation = TINY) from _call_change_stats_with_modifier_11
     $ end_event("new_daytime", **kwargs)
 label .leave (**kwargs):
@@ -209,7 +216,7 @@ label .leave (**kwargs):
     $ image.show(1)
     subtitles "You decide to leave her alone."
     
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = DEC_SMALL, reputation = DEC_SMALL) from _call_change_stats_with_modifier_12
     $ end_event("new_daytime", **kwargs)
 
@@ -222,7 +229,7 @@ label courtyard_event_3 (**kwargs):
     call Image_Series.show_image(image, 0, 1) from _call_show_image_courtyard_event_3_1
     subtitles "You notice a group of girls taking a break together."
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         charm = SMALL, happiness = TINY, education = TINY, reputation = SMALL) from _call_change_stats_with_modifier_13
     
     $ end_event("new_daytime", **kwargs)
@@ -235,7 +242,7 @@ label courtyard_event_4(**kwargs):
     call Image_Series.show_image(image, 0, 1, 2) from _call_Image_Series_show_image_3
     headmaster "Interesting..."
     
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = DEC_TINY, charm = TINY, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_14
 
     $ end_event("new_daytime", **kwargs)
@@ -250,7 +257,7 @@ label courtyard_event_5(**kwargs):
     $ show_pattern("main", **kwargs)
     subtitles "You come across a group of students talking to each other."
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = SMALL, charm = SMALL) from _call_change_stats_with_modifier_15
 
     $ end_event("new_daytime", **kwargs)
@@ -288,7 +295,7 @@ label courtyard_event_6(**kwargs):
     $ image.show(5)
     seraphina "Sorry!"
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         charm = DEC_TINY, education = SMALL) from _call_change_stats_with_modifier_16
 
     $ end_event("new_daytime", **kwargs)
@@ -303,7 +310,7 @@ label courtyard_event_7(**kwargs):
     headmaster "Nice!"
     call Image_Series.show_image(image, 4, 5, 6, 7, 8, 9, pause = True) from _call_show_image_courtyard_event_7_2
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         charm = TINY, inhibition = DEC_SMALL
     ) from _call_courtyard_event_7_1
 
@@ -328,7 +335,7 @@ label courtyard_event_8(**kwargs):
     ishimaru "Thanks, I will."
     # headmaster leaves
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         charm = SMALL, happiness = MEDIUM
     ) from _call_courtyard_event_8_1
 

@@ -75,9 +75,9 @@ init 1 python:
     pta_meeting_event = EventComposite(2, "pta_meeting", [pta_discussion_storage, pta_vote_storage, pta_end_storage], 
         TimeCondition(weekday = 5, daytime = 1),
         PTAObjectSelector("vote_proposal"),
-        PTAVoteSelector("vote_parent", "parent"),
-        PTAVoteSelector("vote_teacher", "teacher"),
-        PTAVoteSelector("vote_student", "school"),
+        PTAVoteSelector("vote_parent", "academic"),
+        PTAVoteSelector("vote_teacher", "feasibility"),
+        PTAVoteSelector("vote_student", "social"),
         Pattern("base", "images/events/pta/regular meeting/pta <secretaryLevel> <schoolLevel> <step>.webp"))
 
     # PTA discussions
@@ -532,7 +532,8 @@ label pta_vote_unregistered_1 (**kwargs):
             parent "[response_text]" (name = speaking_parent)
             $ i += 1
 
-    call pta_vote_result(parent_vote, teacher_vote, student_vote, vote_proposal) from _call_pta_vote_result_unregistered_1
+    $ image.show(7)
+    call pta_vote_result(parent_vote, teacher_vote, student_vote, vote_proposal, True) from _call_pta_vote_result_unregistered_1
 
     $ end_event('new_daytime', **kwargs)
 
@@ -556,7 +557,7 @@ label pta_end_meeting_1 (**kwargs):
 # endregion
 ##############
 
-label pta_vote_result (parent_vote, teacher_vote, student_vote, proposal):
+label pta_vote_result (parent_vote, teacher_vote, student_vote, proposal, with_comment = False):
 
     $ vote_object = proposal._journal_obj
     $ vote_action = proposal._action
@@ -566,6 +567,9 @@ label pta_vote_result (parent_vote, teacher_vote, student_vote, proposal):
     $ money_conditions = [condition for condition in vote_object.get_all_coming_conditions() if isinstance(condition, MoneyCondition)]
 
     if end_choice == 'yes':
+        if with_comment:
+            headmaster "With the majority of votes in favor, the proposal is accepted."
+        
         if vote_action == "unlock":
             $ vote_object.unlock(True, True)
             $ add_notify_message(f"{obj_title} has been unlocked.")
@@ -576,6 +580,10 @@ label pta_vote_result (parent_vote, teacher_vote, student_vote, proposal):
         python:
             for condition in money_conditions:
                 spend_reserved_money("vote_" + condition.get_name() + "_" + vote_object.get_name())
+    else:
+        if with_comment:
+            headmaster "The proposal is rejected due to the majority of votes against it."
+
     python:
         for condition in money_conditions:
             release_money("vote_" + condition.get_name() + "_" + vote_object.get_name())

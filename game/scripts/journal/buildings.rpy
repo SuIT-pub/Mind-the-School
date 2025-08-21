@@ -348,16 +348,10 @@ init -6 python:
             if not self.has_higher_level():
                 return False
 
-            storages = self.get_condition_storages(self._level + 1)
+            storage = self.get_upgrade_conditions(self._level + 1)
 
-            if storages == None:
-                return False
+            return storage.is_fulfilled(**kwargs)
 
-            for condition_storage in storages.values():
-                if not condition_storage.is_fulfilled(**kwargs):
-                    return False
-
-            return True
 
         def has_higher_level(self) -> bool:
             """
@@ -380,20 +374,20 @@ init -6 python:
             storages = []
 
             if not self.is_unlocked():
-                storages = self.get_condition_storages()
+                storages = self.get_condition_storages().values()
             else:
-                storages = self.get_all_upgrade_conditions_storage(self._level + 1)
+                storages = self.get_all_upgrade_conditions_storage(self._level + 1).values()
 
             for storage in storages:
                 output.extend(storage.get_conditions())
 
             return output
 
-        def get_all_upgrade_conditions_storage(self, level: int) -> List[ConditionStorage]:
+        def get_all_upgrade_conditions_storage(self, level: int) -> Dict[str, ConditionStorage]:
             if level > len(self._upgrade_conditions) or level <= 0:
-                return []
+                return {}
 
-            return list(self._upgrade_conditions[level - 1].values())
+            return self._upgrade_conditions[level - 1]
 
         def get_upgrade_conditions(self, level: int, condition_type: str = "") -> ConditionStorage:
             """
@@ -443,8 +437,6 @@ init -6 python:
 
         
         def get_upgrade_vote_character(self, condition_type: str, **kwargs) -> str:
-            if condition_type not in self.get_condition_storages().keys():
-                return "ignore"
             
             conditions = self.get_all_upgrade_conditions_storage(self._level + 1)[condition_type].get_conditions()
             if condition_type != "misc":

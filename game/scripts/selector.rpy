@@ -1091,6 +1091,16 @@ init -3 python:
             return get_character_by_key(char)
 
     class PTAVoteSelector(Selector):
+        """
+        A Selector-class that stores the vote of the PTA
+        PTAVoteSelector is a child of Selector and inherits all of its attributes and methods.
+
+        ### Attributes:
+        1. _condition_type: str
+            - The type of the condition.
+            - Can be "misc", 'social'(students), 'feasibility'(teacher) or 'academic'(parents)
+        """
+
         def __init__(self, key: str, condition_type: str = 'misc', *options: Option):
             super().__init__(True, key, *options)
             self._condition_type = condition_type
@@ -1105,7 +1115,7 @@ init -3 python:
             if vote_obj.get_type() == 'building' and vote_obj.can_be_upgraded():
                 return vote_obj.get_upgrade_vote_character(self._condition_type)
             else:
-                return vote_obj.get_vote_character()
+                return vote_obj.get_vote_character(self._condition_type)
 
     class PTAObjectSelector(Selector):
         def __init__(self, key: str, *options: Option):

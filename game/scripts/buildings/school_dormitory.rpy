@@ -101,6 +101,11 @@ init 1 python:
 #############################################
 
 label school_dormitory ():
+    if time.get_daytime() in [1, 3, 6]:
+        $ play_sound(audio.muffled_chatter, True, 1.0, 1.0)
+    else:
+        $ play_sound(audio.empty_room, True, 0.8, 1.0)
+
     call call_available_event(sd_timed_event) from school_dormitory_1
 
 label .after_time_check (**kwargs):
@@ -148,7 +153,7 @@ label sd_event_1 (**kwargs):
         easkey "Yeah Mr. [headmaster_last_name], but would you please knock before entering next time?"
         $ image.show(3)
         headmaster "Ah yes... yes of course."
-        call change_stats_with_modifier('school',
+        call change_stats_with_modifier(
             happiness = DEC_TINY) from _call_change_stats_with_modifier_73
         $ end_event(**kwargs)
         # else:
@@ -156,13 +161,13 @@ label sd_event_1 (**kwargs):
         #     easkey "Yeah Mr. [headmaster_last_name], you just surprised me."
         #     $ image.show(6)
         #     headmaster "Oh, sorry about that."
-        #     call change_stats_with_modifier('school',
+        #     call change_stats_with_modifier(
         #         happiness = DEC_TINY, education = MEDIUM) from _call_change_stats_with_modifier_74
         #     $ end_event(**kwargs)
     else:
         $ image.show(4)
         easkey "hmm... This homework is hard. Why do I need to learn this anyway?"
-        call change_stats_with_modifier('school',
+        call change_stats_with_modifier(
             education = SMALL) from _call_change_stats_with_modifier_75
         $ end_event(**kwargs)
 
@@ -183,17 +188,17 @@ label sd_event_2 (**kwargs):
     if topic == "ah":
         $ image.show(0)
         girl "Ah!"
-        call change_stats_with_modifier('school',
+        call change_stats_with_modifier(
             happiness = DEC_TINY, inhibition = DEC_TINY) from _call_change_stats_with_modifier_76
     elif topic == "ahhh":
         $ image.show(0)
         girl "AHHH!!!"
-        call change_stats_with_modifier('school',
+        call change_stats_with_modifier(
             happiness = DEC_TINY, inhibition = DEC_TINY, reputation = DEC_TINY) from _call_change_stats_with_modifier_77
     elif topic == "eeek":
         $ image.show(0)
         girl "Eek!"
-        call change_stats_with_modifier('school',
+        call change_stats_with_modifier(
             happiness = DEC_MEDIUM, inhibition = DEC_TINY) from _call_change_stats_with_modifier_78
     elif topic in ["panties", "breasts"]:
         $ image.show(0)
@@ -202,7 +207,7 @@ label sd_event_2 (**kwargs):
             "Ah!!! Look away, please, I don't want guys seeing my [topic]!",
             "Eek! Stop! Don't stare at my [topic]!",
             person = character.sgirl, name = girl_name)
-        call change_stats_with_modifier('school',
+        call change_stats_with_modifier(
             happiness = DEC_MEDIUM, inhibition = DEC_TINY, charm = MEDIUM) from _call_change_stats_with_modifier_79
     elif topic == "oh":
         $ image.show(0)
@@ -213,7 +218,7 @@ label sd_event_2 (**kwargs):
         girl "I-it's ok..."
         $ image2.show(1)
         subtitles "You quickly make an exit."
-        call change_stats_with_modifier('school',
+        call change_stats_with_modifier(
             inhibition = DEC_TINY, happiness = DEC_MEDIUM) from _call_change_stats_with_modifier_80
         $ end_event(**kwargs)
     # elif topic == "guys_stop":
@@ -303,11 +308,11 @@ label sd_event_3 (**kwargs):
     headmaster "Bye!"
     
     if topic == "normal":
-        call change_stats_with_modifier('school', inhibition = DEC_SMALL) from _call_change_stats_with_modifier_81
+        call change_stats_with_modifier(inhibition = DEC_SMALL) from _call_change_stats_with_modifier_81
     elif topic == "panties":
-        call change_stats_with_modifier('school', inhibition = DEC_MEDIUM) from _call_change_stats_with_modifier_82
+        call change_stats_with_modifier(inhibition = DEC_MEDIUM) from _call_change_stats_with_modifier_82
     elif topic == "nude":
-        call change_stats_with_modifier('school', inhibition = DEC_LARGE) from _call_change_stats_with_modifier_83
+        call change_stats_with_modifier(inhibition = DEC_LARGE) from _call_change_stats_with_modifier_83
 
     $ end_event(**kwargs)
 
@@ -319,7 +324,7 @@ label sd_event_4 (**kwargs):
     call Image_Series.show_image(image, 0, 1, 2, 3, 4) from _call_sd_event_4_1
     headmaster_thought "That was strange..."
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         corruption = SMALL
     ) from _call_sd_event_4_2
 
@@ -382,7 +387,7 @@ label .leave (**kwargs):
 
     headmaster_thought "Well better head off. Wouldn't want to get caught."
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         inhibition = DEC_TINY
     ) from _call_sd_event_5_leave_1
 
@@ -408,7 +413,7 @@ label .stay (**kwargs):
         $ image.show_video(12)
         luna "Mr. [headmaster_last_name], that was amazing!"
 
-        call change_stats_with_modifier('school',
+        call change_stats_with_modifier(
             inhibition = DEC_SMALL, corruption = SMALL, charm = TINY, happiness = SMALL
         ) from _call_sd_event_5_stay_6
     elif school_level >= 7:
@@ -429,7 +434,7 @@ label .stay (**kwargs):
         $ image.show_video(10, pause = True)
         luna "Thanks for the meal!"
 
-        call change_stats_with_modifier('school',
+        call change_stats_with_modifier(
             inhibition = DEC_SMALL, corruption = SMALL, charm = TINY, happiness = SMALL
         ) from _call_sd_event_5_stay_5
     elif school_level >= 5:
@@ -440,7 +445,7 @@ label .stay (**kwargs):
         $ image.show(5)
         seraphina "Here let us show you more."
         
-        call change_stats_with_modifier('school',
+        call change_stats_with_modifier(
             inhibition = DEC_SMALL, charm = TINY, happiness = TINY
         ) from _call_sd_event_5_stay_4
     elif school_level >= 3:
@@ -452,7 +457,7 @@ label .stay (**kwargs):
         seraphina "Could you please leave?"
         headmaster "Oh, sorry!"
 
-        call change_stats_with_modifier('school',
+        call change_stats_with_modifier(
             inhibition = DEC_SMALL, reputation = DEC_SMALL, happiness = DEC_TINY
         ) from _call_sd_event_5_stay_3
     else:
@@ -461,7 +466,7 @@ label .stay (**kwargs):
         $ image.show(5)
         luna "Get out!"
 
-        call change_stats_with_modifier('school',
+        call change_stats_with_modifier(
             inhibition = DEC_TINY, reputation = DEC_SMALL, happiness = DEC_SMALL
         ) from _call_sd_event_5_stay_2
 

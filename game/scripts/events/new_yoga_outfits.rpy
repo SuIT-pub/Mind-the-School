@@ -13,12 +13,14 @@ init 1 python:
     new_yoga_outfit_2_event = Event(3, "new_yoga_outfit_2",
         TimeCondition(weekday = "d", daytime = "c"),
         ProgressCondition("yoga_classes", 1),
+        LevelCondition("2,3", "school"),
         Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_2/new_yoga_outfit_2 <school_level> <step>.webp"),
         thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_2/new_yoga_outfit_2 2 0.webp")
 
     new_yoga_outfit_3_event = Event(3, "new_yoga_outfit_3",
         TimeCondition(weekday = "d", daytime = "c"),
         ProgressCondition("yoga_classes", 2),
+        LevelCondition("2,3", "school"),
         Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_3/new_yoga_outfit_3 <school_level> <step>.webp"),
         thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_3/new_yoga_outfit_3 2 0.webp")
 
@@ -27,6 +29,7 @@ init 1 python:
     new_yoga_outfit_4_event = Event(3, "new_yoga_outfit_4",
         TimeCondition(weekday = "d", daytime = "c"),
         ProgressCondition("yoga_classes", 3),
+        LevelCondition("2,3", "school"),
         TimerCondition("new_yoga_outfit_3", day = 4),
         Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_4/new_yoga_outfit_4 <school_level> <step>.webp"),
         thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_4/new_yoga_outfit_4 3 5.webp")
@@ -36,12 +39,14 @@ init 1 python:
     new_yoga_outfit_5_event = Event(1, "new_yoga_outfit_5",
         TimeCondition(weekday = "d", daytime = "6"),
         ProgressCondition("yoga_classes", 4),
+        LevelCondition("2,3", "school"),
         Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_5/new_yoga_outfit_5 <school_level> <step>.webp", "school_level"),
         thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_5/new_yoga_outfit_5 3 2.webp")
 
     new_yoga_outfit_6_event = Event(2, "new_yoga_outfit_6",
         TimeCondition(weekday = "d", daytime = "f"),
         ProgressCondition("yoga_classes", 5),
+        LevelCondition("2,3", "school"),
         Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_6/new_yoga_outfit_6 <school_level> <step>.webp"),
         thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_6/new_yoga_outfit_6 2 2.webp")
 
@@ -50,6 +55,7 @@ init 1 python:
     new_yoga_outfit_7_event = Event(2, "new_yoga_outfit_7",
         TimeCondition(weekday = "d", daytime = "f"),
         ProgressCondition("yoga_classes", 6),
+        LevelCondition("2,3", "school"),
         TimerCondition("new_yoga_outfit_6", day = 4),
         Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_7/new_yoga_outfit_7 <school_level> <step>.webp"),
         thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_7/new_yoga_outfit_7 2 3.webp")
@@ -59,6 +65,7 @@ init 1 python:
     new_yoga_outfit_8_event = Event(2, "new_yoga_outfit_8",
         TimeCondition(weekday = "1", daytime = "2"),
         ProgressCondition("yoga_classes", 7),
+        LevelCondition("2,3", "school"),
         Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_8/new_yoga_outfit_8 <step>.webp"),
         thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_8/new_yoga_outfit_8 1.webp")
 
@@ -66,6 +73,7 @@ init 1 python:
     new_yoga_outfit_9_event = Event(1, "new_yoga_outfit_9",
         TimeCondition(weekday = "2", daytime = "3"),
         ProgressCondition("yoga_classes", 8),
+        LevelCondition("2,3", "school"),
         Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_9/new_yoga_outfit_9 <school_level> <step>.webp", "school_level"),
         thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_9/new_yoga_outfit_9 3 8.webp")
 
@@ -74,6 +82,7 @@ init 1 python:
     new_yoga_outfit_10_event = Event(3, "new_yoga_outfit_10",
         TimeCondition(weekday = "d", daytime = "c"),
         ProgressCondition("yoga_classes", 9),
+        LevelCondition("2,3", "school"),
         TimerCondition("new_yoga_outfit_9", day = 4),
         GameDataSelector("yoga_outfit_set", "yoga_outfit_set", 1),
         Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_10/new_yoga_outfit_10 <school_level> <yoga_outfit_set> <step>.webp", "school_level", "yoga_outfit_set"),

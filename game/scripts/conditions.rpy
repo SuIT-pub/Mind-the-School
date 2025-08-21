@@ -260,8 +260,8 @@ init -6 python:
 
             for condition in self.conditions:
                 if condition.is_blocking(**kwargs):
-                    return False
-            return True
+                    return True
+            return False
 
     class Condition(ABC):
         """Abstract base class for all condition types in the game.
@@ -438,18 +438,14 @@ init -6 python:
             kwargs = set_kwargs_value('char_obj', get_school(), **kwargs)
 
             if self.is_fulfilled(**kwargs):
-                return 0
+                return 100
             return -100
 
         def calculate_probability(self, **kwargs) -> float:
-            # calculate probability based on the get_diff-method. get_diff returns 0 if fulfilled, -100 if not
-            diff = self.get_diff(**kwargs)
-            if diff >= 0:
-                return 1.0
-            elif diff == -100:
-                return 0.0
-            else:
-                return clamp_value(0.0, 1.0, 1.0 - (diff / 100))
+            return self.get_diff(**kwargs)
+
+
+
 
     class StatCondition(Condition):
         """A condition class that evaluates character statistics against specified thresholds.
@@ -627,7 +623,7 @@ init -6 python:
 
             return ', '.join([Stat_Data[key].get_title() for key in self.stats.keys()])
 
-        def get_diff(self, char_obj: Union[str, Char] = None) -> int:
+        def get_diff(self, **kwargs) -> int:
             """Calculate the weighted difference between required and actual stat values.
 
             Computes a score based on how far the character's stats are from the required values.
@@ -648,13 +644,7 @@ init -6 python:
                     when self.char_obj is set.
             """
 
-            if isinstance(char_obj, str):
-                char_obj = get_character_by_key(char_obj)
-            if char_obj == None:
-                char_obj = get_school()
-
-            if self.char_obj != None and self.char_obj != char_obj:
-                return 0
+            char_obj = get_school()
 
             output = 100
             for stat in self.stats.keys():
@@ -744,7 +734,7 @@ init -6 python:
             else:
                 return False
 
-            stat_value = get_stat_for_char(self._stat, char_obj)
+            stat_value = get_stat_number(self._stat)
 
             if stat_value == limit_value:
                 return True
@@ -1321,7 +1311,7 @@ init -6 python:
             """
             return "Level"
 
-        def get_diff(self, char_obj: Union[str, Char] = None) -> int:
+        def get_diff(self, **kwargs) -> int:
             """Calculate the weighted difference between required and actual level.
 
             Computes a score based on how far the character's level is from the required level.
@@ -1338,10 +1328,8 @@ init -6 python:
                 int: The weighted difference score. Larger negative differences result
                     in more severe penalties to encourage proper level progression.
             """
-            if isinstance(char_obj, str):
-                char_obj = get_character_by_key(char_obj)
-            if char_obj == None:
-                char_obj = get_school()
+            
+            char_obj = get_school()
 
             obj_level = char_obj.get_level()
             diff = get_value_diff(self.value, obj_level)
@@ -1465,19 +1453,9 @@ init -6 python:
             """
             return "Money"
 
-        def get_diff(self, char_obj: Union[str, Char] = None) -> int:
-            """Calculate the difference score for money requirements.
-
-            Args:
-                char_obj (Union[str, Char, None]): Unused parameter included for
-                    compatibility with parent class.
-
-            Returns:
-                int: Returns 0 if requirement is met, -5000 otherwise as a
-                    significant penalty for insufficient funds.
-            """
-            if self.is_fulfilled():
-                return 0
+        def get_diff(self, **kwargs) -> int:
+            if self.is_fulfilled(**kwargs):
+                return 100
             return -5000
 
     class LockCondition(Condition):
@@ -1741,8 +1719,6 @@ init -6 python:
                 log_error(311, f"TimerCondition id (timer_{self.id}) is not valid")
                 return False
 
-            log_val("timer_" + self.id, get_game_data("timer_" + self.id))
-
             timer = get_game_data("timer_" + self.id)
 
             if not isinstance(timer, Time):
@@ -1752,12 +1728,7 @@ init -6 python:
             aim = Time(timer)
             aim.add_time(day = self.day, month = self.month, year = self.year, daytime = self.daytime)
 
-            log_val("aim", aim.day_to_string())
-            log_val("time", time.day_to_string())
-
             compare = compare_time(aim, time)
-
-            log_val("compare", compare)
 
             return compare <= 0
 
@@ -2641,7 +2612,7 @@ init -6 python:
             """
             return f"{self.key_1} {self.operation} {self.key_2}"
 
-        def get_diff(self, char_obj: Char) -> num:
+        def get_diff(self, **kwargs) -> num:
             """Calculate the numeric difference between the two values.
 
             For inequality comparisons (>, >=, <, <=), returns the actual numeric
@@ -2825,7 +2796,7 @@ init -6 python:
 
             return output
 
-        def get_diff(self, char_obj: Union[str, Char] = None) -> num:
+        def get_diff(self, **kwargs) -> num:
             """Calculate the combined difference score for all sub-conditions.
 
             Sums the difference scores from all sub-conditions to provide a total
@@ -2841,7 +2812,7 @@ init -6 python:
             diff = 0
 
             for condition in self.conditions:
-                diff += condition.get_diff(char_obj)
+                diff += condition.get_diff(**kwargs)
 
             return diff
 
@@ -2930,7 +2901,7 @@ init -6 python:
 
             return output
 
-        def get_diff(self, char_obj: Union[str, Char] = None) -> num:
+        def get_diff(self, **kwargs) -> num:
             """Calculate the best difference score among all sub-conditions.
 
             Finds the sub-condition with the smallest absolute difference score,
@@ -2946,7 +2917,7 @@ init -6 python:
             diff = None
 
             for condition in self.conditions:
-                new_diff = condition.get_diff(char_obj)
+                new_diff = condition.get_diff(**kwargs)
 
                 if diff == None or abs(diff) > abs(new_diff):
                     diff = new_diff
@@ -3041,7 +3012,7 @@ init -6 python:
 
             return output
 
-        def get_diff(self, char_obj: Union[str, Char] = None) -> num:
+        def get_diff(self, **kwargs) -> num:
             """
             Calculate how close this NOR condition is to being fulfilled.
 
@@ -3060,7 +3031,7 @@ init -6 python:
             diff = None
 
             for condition in self.conditions:
-                new_diff = condition.get_diff(char_obj)
+                new_diff = condition.get_diff(**kwargs)
 
                 if diff == None or abs(diff) > abs(new_diff):
                     diff = new_diff
@@ -3142,7 +3113,7 @@ init -6 python:
             """
             return "NOT_" + self.condition.get_name()
 
-        def get_diff(self, char_obj: Union[str, Char]) -> num:
+        def get_diff(self, **kwargs) -> num:
             """
             Calculate how close this NOT condition is to being fulfilled.
 
@@ -3158,7 +3129,7 @@ init -6 python:
                 num: The inverted and clamped difference score. A smaller absolute
                     value indicates being closer to fulfillment.
             """
-            diff = self.condition.get_diff(char_obj)
+            diff = self.condition.get_diff(**kwargs)
             return clamp_value(100 - diff, -100, 100)
 
     class XOR(Condition):
@@ -3255,7 +3226,7 @@ init -6 python:
 
             return output
 
-        def get_diff(self, char_obj: Union[str, Char] = None) -> num:
+        def get_diff(self, **kwargs) -> num:
             """
             Calculate how close this XOR condition is to being fulfilled.
 
@@ -3274,7 +3245,7 @@ init -6 python:
             diff = None
 
             for condition in self.conditions:
-                new_diff = condition.get_diff(char_obj)
+                new_diff = condition.get_diff(**kwargs)
 
                 if diff is None or abs(diff) > abs(new_diff):
                     diff = new_diff
@@ -3398,7 +3369,7 @@ init -6 python:
             """
             return f"PTAOverride({self.char}, {self.accept})"
 
-        def get_diff(self, char_obj: Union[str, Char]) -> num:
+        def get_diff(self, **kwargs) -> num:
             """
             Calculate a weighted difference score based on the override settings.
 
@@ -3420,10 +3391,8 @@ init -6 python:
                 num: A difference score indicating how strongly this override applies:
                     5000 for accept, -100 for reject, -5000 for ignore, 0 if not applicable
             """
-            if isinstance(char_obj, str):
-                char_obj = get_character_by_key(char_obj)
-            if char_obj == None:
-                char_obj = get_school()
+            
+            char_obj = get_school()
 
             if self.char == "" or self.char == char_obj.get_name():
                 if self.accept == "yes":
@@ -3507,7 +3476,7 @@ init -6 python:
             """
             return "REPLAY_" + self.condition.get_name()
 
-        def get_diff(self, char_obj: Union[str, Char]) -> num:
+        def get_diff(self, **kwargs) -> num:
             """
             Calculate how close this condition is to being fulfilled in replay mode.
 
@@ -3523,7 +3492,7 @@ init -6 python:
                 num: The difference score from the sub-condition, indicating how close
                     it is to being fulfilled in replay mode
             """
-            diff = self.condition.get_diff(char_obj)
+            diff = self.condition.get_diff(**kwargs)
             return diff  # No inversion needed, just pass through the sub-condition's diff
 
     class EventSeenCondition(Condition):

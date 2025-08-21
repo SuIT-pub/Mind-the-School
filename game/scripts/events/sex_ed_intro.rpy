@@ -5,7 +5,7 @@ init 1 python:
         NOT(ProgressCondition('start_sex_ed')),
         ProgressCondition('aona_sports_bra', '2+'),
         LevelCondition(6, char_obj = 'secretary'),
-        TimeCondition(daytime = "d"),
+        TimeCondition(weekday = 1, daytime = "d"),
         Pattern("main", "images/events/sex_ed_intro/office_call_secretary_1/office_call_secretary_1 <step>.webp"),
         thumbnail = "images/events/sex_ed_intro/office_call_secretary_1/office_call_secretary_1 7.webp",
     ))
@@ -14,6 +14,7 @@ init 1 python:
         Event(1, "office_teacher_sex_ed_introduction_1",
             ProgressCondition('start_sex_ed', 1),
             TimeCondition(daytime = "d", weekday = "d"),
+            TimerCondition("office_call_secretary_1", day = 2),
             Pattern("main", "images/events/sex_ed_intro/office_teacher_sex_ed_introduction_1/office_teacher_sex_ed_introduction_1 <step>.webp"),
             thumbnail = "images/events/sex_ed_intro/office_teacher_sex_ed_introduction_1/office_teacher_sex_ed_introduction_1 4.webp",
         ),
@@ -150,6 +151,8 @@ label office_call_secretary_1 (**kwargs):
 
     $ start_progress('start_sex_ed') # 0 -> 1
 
+    $ set_timer("office_call_secretary_1", "today")
+
     $ end_event('new_daytime', **kwargs)
 
 label office_teacher_sex_ed_introduction_1 (**kwargs):
@@ -172,7 +175,7 @@ label office_teacher_sex_ed_introduction_1 (**kwargs):
     $ image.show(3)
     secretary "Yes, [headmaster_first_name]?"
     $ image.show(4)
-    if time.get_weekday_num() > 3 or time.get_weekday_num() < 7:
+    if time.get_weekday_num() <= 3:
         headmaster "Can you please schedule a meeting with all the teachers for tomorrow?"
     else:
         headmaster "Can you please schedule a meeting with all the teachers for monday?"
@@ -789,7 +792,7 @@ label first_sex_ed_day(**kwargs):
     $ get_character_by_key("parent").set_level(2)
     $ get_character_by_key("teacher").set_level(2)
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         inhibition = DEC_TINY, happiness = TINY
     ) from _call_first_sex_ed_day_1
 
@@ -910,7 +913,7 @@ label first_sex_ed_class_1 (**kwargs):
     $ image.show(31)
     headmaster "But that is all for today. I hope you have a good day and I hope you learned something new today."
     
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         education = MEDIUM, inhibition = DEC_SMALL, corruption = SMALL, happiness = TINY
     ) from _call_first_sex_ed_class_1_1
 

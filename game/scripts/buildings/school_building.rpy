@@ -104,6 +104,11 @@ init 1 python:
 ############################################
 
 label school_building ():
+    if time.get_daytime() in [2, 4, 5]:
+        $ play_sound(audio.muffled_chatter, True, 1.0, 1.0)
+    else:
+        $ play_sound(audio.empty_room, True, 0.8, 1.0)
+
     call call_available_event(sb_timed_event) from school_building_1
     
 label .after_time_check (**kwargs):
@@ -157,7 +162,7 @@ label .leave (**kwargs):
     $ image.show(2)
     # call show_image("/images/events/school building/sb_event_1 <name> 3.webp", SCENE, **kwargs)
     subtitles "You decide to leave them and let them have their fun."
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         charm = DEC_SMALL, education = TINY, corruption = TINY, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_63
     
     $ end_event('new_daytime', **kwargs)
@@ -170,7 +175,7 @@ label .stop (**kwargs):
     # call show_image("/images/events/school building/sb_event_1 <name> 4.webp", SCENE, **kwargs)
     headmaster "Hey you! Stop that. You know that is against the rules!"
     sakura "We're sorry!"
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         charm = MEDIUM, happiness = DEC_SMALL, education = SMALL, reputation = TINY, inhibition = DEC_TINY) from _call_change_stats_with_modifier_64
     
     $ end_event('new_daytime', **kwargs)
@@ -235,7 +240,7 @@ label .leave (**kwargs):
     $ image.show(8) # headmaster stands a bit further away looking back to her
     subtitles"You walk away with a heavy heart."
 
-    call change_stats_with_modifier('school', 
+    call change_stats_with_modifier(
         charm = TINY, happiness = DEC_LARGE, education = TINY, reputation = DEC_TINY) from _call_change_stats_with_modifier_65
     
     $ end_event('new_daytime', **kwargs)
@@ -270,7 +275,7 @@ label .get_to_bottom (**kwargs):
     $ image.show(14) # headmaster and girl walk to office
     subtitles "You support her back to your office and bring her something warm to drink."
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = LARGE, reputation = TINY) from _call_change_stats_with_modifier_66
     
     $ end_event('new_daytime', **kwargs)
@@ -306,7 +311,7 @@ label .poor_thing (**kwargs):
 
     $ image.show(14) # headmaster helps girl up
     subtitles "You help her up and walk her to the dormitory."
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = LARGE, reputation = TINY) from _call_change_stats_with_modifier_67
     
     $ end_event('new_daytime', **kwargs)
@@ -326,7 +331,7 @@ label .chin_up (**kwargs):
 
     $ image.show(23) # girl walks away
     subtitles "You help her up and she walks off."
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = LARGE, reputation = TINY) from _call_change_stats_with_modifier_68
     
     $ end_event('new_daytime', **kwargs)
@@ -354,7 +359,7 @@ label .leave (**kwargs):
     $ image.show(3)
     headmaster_thought "Hmm, the others already rush to help her. No need for me to get involved."
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = DEC_TINY, charm = SMALL, education = TINY) from _call_change_stats_with_modifier_69
 
     $ end_event('new_daytime', **kwargs)
@@ -378,7 +383,7 @@ label .help (**kwargs):
     $ image.show(8)
     ikushi "Yes, I will."
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = SMALL, charm = DEC_TINY, education = TINY) from _call_change_stats_with_modifier_70
 
     call empty_label() from _call_Image_Series_show_image_10
@@ -420,7 +425,7 @@ label sb_event_5 (**kwargs):
     $ image.show(11)
     girl_char "Yes, sir."
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         inhibition = DEC_TINY) from _call_change_stats_with_modifier_72
 
     $ end_event('new_daytime', **kwargs)
@@ -447,7 +452,7 @@ label sb_event_6 (**kwargs):
     # aona turns around and walks away
     # miwa looks at herself dejectedly before hurrying off in the opposite direction
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = DEC_SMALL, charm = DEC_TINY) from _stats_sb_event_6_1
 
     $ end_event('new_daytime', **kwargs)
@@ -480,7 +485,7 @@ label sb_event_7 (**kwargs):
     # aona stunds up and walks away
     # miwa watches her go before slumping back, feeling miserable and alone.
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = DEC_SMALL, charm = DEC_TINY) from _stats_sb_event_7_1
 
     $ end_event('new_daytime', **kwargs)

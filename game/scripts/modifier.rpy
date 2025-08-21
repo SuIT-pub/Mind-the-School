@@ -513,7 +513,7 @@ label change_money_with_modifier(value, collection = 'default'):
 
     return
 
-label change_stat_with_modifier(stat, value, char_name, collection = 'default'):
+label change_stat_with_modifier(stat, value, collection = 'default'):
     # """
     # Changes the stat with the modifier.
 
@@ -528,7 +528,7 @@ label change_stat_with_modifier(stat, value, char_name, collection = 'default'):
     #     - The collection of modifiers. This is used to separate different collections of modifiers.
     # """
 
-    $ char_obj = get_character_by_key(char_name)
+    $ char_obj = get_school()
 
     if is_in_replay or char_obj == None:
         return
@@ -540,11 +540,11 @@ label change_stat_with_modifier(stat, value, char_name, collection = 'default'):
 
     $ char_obj.change_stat(stat, value)
 
-    $ add_stat_notification(char_name, stat, value)
+    $ add_stat_notification(char_obj.get_name(), stat, value)
 
     return
 
-label change_stats_with_modifier(char_name, collection = 'default', **kwargs):
+label change_stats_with_modifier(collection = 'default', **kwargs):
     # """
     # Changes multiple stats with the modifier.
 
@@ -559,7 +559,7 @@ label change_stats_with_modifier(char_name, collection = 'default', **kwargs):
 
     $ in_replay = get_kwargs('in_replay', False, **kwargs)
 
-    if char_name == "" or in_replay:
+    if in_replay:
         return
 
     $ keys = list(kwargs.keys())
@@ -568,7 +568,7 @@ label change_stats_with_modifier(char_name, collection = 'default', **kwargs):
     while i < len(keys):
         $ stat = keys[i]
         $ i += 1
-        call change_stat_with_modifier(stat, kwargs[stat], char_name, collection) from _call_change_stat_with_modifier
+        call change_stat_with_modifier(stat, kwargs[stat], collection) from _call_change_stat_with_modifier
 
     return
 

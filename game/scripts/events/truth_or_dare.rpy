@@ -43,18 +43,18 @@ init 1 python:
     sd_events["peek_students"].add_event(truth_or_dare_event_4)
 
     truth_or_dare_storage.add_event(
-        EventFragment(2, "truth_or_dare_truth_1", Pattern("main", base_path + "truth_or_dare_4/truth_1/truth_or_dare_truth_1 <school_level> <step>.webp")),
-        EventFragment(2, "truth_or_dare_truth_2", Pattern("main", base_path + "truth_or_dare_4/truth_2/truth_or_dare_truth_2 <school_level> <step>.webp")),
-        EventFragment(2, "truth_or_dare_truth_3", Pattern("main", base_path + "truth_or_dare_4/truth_3/truth_or_dare_truth_3 <school_level> <step>.webp")),
-        EventFragment(2, "truth_or_dare_truth_4", Pattern("main", base_path + "truth_or_dare_4/truth_4/truth_or_dare_truth_4 <school_level> <step>.webp")),
-        EventFragment(2, "truth_or_dare_truth_5", Pattern("main", base_path + "truth_or_dare_4/truth_5/truth_or_dare_truth_5 <school_level> <step>.webp")),
-        EventFragment(2, "truth_or_dare_truth_6", Pattern("main", base_path + "truth_or_dare_4/truth_6/truth_or_dare_truth_6 <school_level> <step>.webp")),
-        EventFragment(2, "truth_or_dare_dare_1", Pattern("main", base_path + "truth_or_dare_4/dare_1/truth_or_dare_dare_1 <school_level> <step>.webp")),
-        EventFragment(2, "truth_or_dare_dare_2", Pattern("main", base_path + "truth_or_dare_4/dare_2/truth_or_dare_dare_2 <school_level> <step>.webp")),
-        EventFragment(2, "truth_or_dare_dare_3", Pattern("main", base_path + "truth_or_dare_4/dare_3/truth_or_dare_dare_3 <school_level> <step>.webp")),
-        EventFragment(2, "truth_or_dare_dare_4", Pattern("main", base_path + "truth_or_dare_4/dare_4/truth_or_dare_dare_4 <school_level> <step>.webp")),
-        EventFragment(2, "truth_or_dare_dare_5", Pattern("main", base_path + "truth_or_dare_4/dare_5/truth_or_dare_dare_5 <school_level> <step>.webp")),
-        EventFragment(2, "truth_or_dare_dare_6", Pattern("main", base_path + "truth_or_dare_4/dare_6/truth_or_dare_dare_6 <school_level> <step>.webp"))
+        EventFragment(2, "truth_or_dare_truth_1", LevelCondition("2-10"), Pattern("main", base_path + "truth_or_dare_4/truth_1/truth_or_dare_truth_1 <school_level> <step>.webp")),
+        EventFragment(2, "truth_or_dare_truth_2", LevelCondition("2-5"),  Pattern("main", base_path + "truth_or_dare_4/truth_2/truth_or_dare_truth_2 <school_level> <step>.webp")),
+        EventFragment(2, "truth_or_dare_truth_3", LevelCondition("2-5"),  Pattern("main", base_path + "truth_or_dare_4/truth_3/truth_or_dare_truth_3 <school_level> <step>.webp")),
+        EventFragment(2, "truth_or_dare_truth_4", LevelCondition("2-5"),  Pattern("main", base_path + "truth_or_dare_4/truth_4/truth_or_dare_truth_4 <school_level> <step>.webp")),
+        EventFragment(2, "truth_or_dare_truth_5", LevelCondition("2-5"),  Pattern("main", base_path + "truth_or_dare_4/truth_5/truth_or_dare_truth_5 <school_level> <step>.webp")),
+        EventFragment(2, "truth_or_dare_truth_6", LevelCondition("2-10"), Pattern("main", base_path + "truth_or_dare_4/truth_6/truth_or_dare_truth_6 <school_level> <step>.webp")),
+        EventFragment(2, "truth_or_dare_dare_1",  LevelCondition("2-5"),  Pattern("main", base_path + "truth_or_dare_4/dare_1/truth_or_dare_dare_1 <school_level> <step>.webp")),
+        EventFragment(2, "truth_or_dare_dare_2",  LevelCondition("2-5"),  Pattern("main", base_path + "truth_or_dare_4/dare_2/truth_or_dare_dare_2 <school_level> <step>.webp")),
+        EventFragment(2, "truth_or_dare_dare_3",  LevelCondition("2-10"), Pattern("main", base_path + "truth_or_dare_4/dare_3/truth_or_dare_dare_3 <school_level> <step>.webp")),
+        EventFragment(2, "truth_or_dare_dare_4",  LevelCondition("2-5"),  Pattern("main", base_path + "truth_or_dare_4/dare_4/truth_or_dare_dare_4 <school_level> <step>.webp")),
+        EventFragment(2, "truth_or_dare_dare_5",  LevelCondition("2-4"),  Pattern("main", base_path + "truth_or_dare_4/dare_5/truth_or_dare_dare_5 <school_level> <step>.webp")),
+        EventFragment(2, "truth_or_dare_dare_6",  LevelCondition("2-5"),  Pattern("main", base_path + "truth_or_dare_4/dare_6/truth_or_dare_dare_6 <school_level> <step>.webp"))
     )
 
     truth_or_dare_end_storage.add_event(
@@ -79,7 +79,7 @@ label truth_or_dare_1 (**kwargs):
     headmaster_thought "Mhh, the dorms should be over there..."
     headmaster_thought "I wonder what that was all about..."
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         inhibition = DEC_SMALL, corruption = TINY) from _call_change_stats_truth_or_dare_1_1
 
     $ set_progress("truth_or_dare", 1)
@@ -116,7 +116,7 @@ label truth_or_dare_2 (**kwargs):
     $ image.show(8)
     miwa "Yes!"
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = TINY) from _stats_truth_or_dare_2_1
 
     $ advance_progress("truth_or_dare") # 1 -> 2
@@ -147,7 +147,7 @@ label truth_or_dare_3 (**kwargs):
     $ image.show(6)
     lin "Awesome! See you there!"
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = TINY) from _stats_truth_or_dare_3_1
 
     $ advance_progress("truth_or_dare") # 2 -> 3
@@ -219,7 +219,7 @@ label truth_or_dare_truth_1 (**kwargs):
     $ image.show(7)
     ikushi "No way! I'm not telling that! Next one!" # 1
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         inhibition = DEC_TINY) from _stats_truth_or_dare_truth_1_1
 
     $ end_event("new_daytime", **kwargs)
@@ -246,7 +246,7 @@ label truth_or_dare_truth_2 (**kwargs):
     $ image.show(3)
     miwa "Lame! Next one!" #2
  
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         corruption = DEC_TINY) from _stats_truth_or_dare_truth_2_1
 
     $ end_event("new_daytime", **kwargs)
@@ -284,7 +284,7 @@ label truth_or_dare_truth_3 (**kwargs):
     lin "Yeah! But she's kinda hot!" # 4
     miwa "OKAY! Next one!" # 1
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         charm = TINY, inhibition = DEC_TINY, corruption = TINY) from _stats_truth_or_dare_truth_3_1
 
     $ end_event("new_daytime", **kwargs)
@@ -315,7 +315,7 @@ label truth_or_dare_truth_4 (**kwargs):
     $ image.show(4)
     ishimaru "Sucks. Next one!" 
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = TINY, charm = TINY) from _stats_truth_or_dare_truth_4_1
 
     $ end_event("new_daytime", **kwargs)
@@ -360,7 +360,7 @@ label truth_or_dare_truth_5 (**kwargs):
     $ image.show(9)
     lin "Okay, okay! Your turn!" 
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = TINY, corruption = TINY, inhibition = DEC_TINY, reputation = SMALL) from _stats_truth_or_dare_truth_5_1
 
     $ end_event("new_daytime", **kwargs)
@@ -395,7 +395,7 @@ label truth_or_dare_truth_6 (**kwargs):
     $ image.show(5)
     ishimaru "Okay, okay! Next turn!" 
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = MEDIUM) from _stats_truth_or_dare_truth_6_1
 
     $ end_event("new_daytime", **kwargs)
@@ -438,7 +438,7 @@ label truth_or_dare_dare_1 (**kwargs):
     $ image.show(10)
     ikushi "Next one please!" 
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = TINY, corruption = TINY) from _stats_truth_or_dare_dare_1_1
 
     $ end_event("new_daytime", **kwargs)
@@ -474,7 +474,7 @@ label truth_or_dare_dare_2 (**kwargs):
     $ image.show(13)
     miwa "Next!" 
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = TINY, inhibition = DEC_TINY, corruption = TINY) from _stats_truth_or_dare_dare_2_1
 
     $ end_event("new_daytime", **kwargs)
@@ -512,7 +512,7 @@ label truth_or_dare_dare_3 (**kwargs):
     $ image.show(8)
     ishimaru "Yeah, that's probably the best..." 
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = TINY, charm = TINY) from _stats_truth_or_dare_dare_3_1
 
     $ end_event("new_daytime", **kwargs)
@@ -551,7 +551,7 @@ label truth_or_dare_dare_4 (**kwargs):
     $ image.show(10)
     ikushi "Nope, forget it! Next one!" 
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         corruption = SMALL) from _stats_truth_or_dare_dare_4_1
 
     $ end_event("new_daytime", **kwargs)
@@ -607,7 +607,7 @@ label truth_or_dare_dare_5 (**kwargs):
     $ image.show(16)
     ikushi "Okay, you had your fill! Next one!"
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = DEC_TINY, inhibition = MEDIUM, corruption = TINY) from _stats_truth_or_dare_dare_5_1
 
     $ end_event("new_daytime", **kwargs)
@@ -639,7 +639,7 @@ label truth_or_dare_dare_6 (**kwargs):
     $ image.show(5)
     lin "Sucks! Next one!"
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         education = TINY, inhibition = DEC_TINY, corruption = TINY) from _stats_truth_or_dare_dare_6_1
 
     $ end_event("new_daytime", **kwargs)

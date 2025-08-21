@@ -67,7 +67,7 @@ label gym_teach_pe_intro_aona_bra (**kwargs):
             $ image.show(26)
             aona "Thank you."
 
-            call change_stats_with_modifier('school', 'pe',
+            call change_stats_with_modifier('pe',
                 happiness = SMALL, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_17
         else:
             $ image.show(12)
@@ -96,7 +96,7 @@ label gym_teach_pe_intro_aona_bra (**kwargs):
             $ image.show(23)
             aona "Mhh, thank you."
             
-            call change_stats_with_modifier('school', 'pe',
+            call change_stats_with_modifier('pe',
                 happiness = DEC_SMALL, inhibition = DEC_MEDIUM) from _call_change_stats_with_modifier_18
     else:
         $ image.show(10)
@@ -105,10 +105,10 @@ label gym_teach_pe_intro_aona_bra (**kwargs):
         aona "Yeah, doesn't it? And it's quite comfortable too."
         miwa "Amazing!"
 
-        call change_stats_with_modifier('school', 'pe',
+        call change_stats_with_modifier('pe',
             happiness = MEDIUM, inhibition = DEC_TINY) from _call_change_stats_with_modifier_19
 
-    $ end_event('map_overview', **kwargs)
+    $ end_event('map_entry', **kwargs)
 
 label gym_teach_pe_main_aona_bra (**kwargs): # Running
     $ begin_event(**kwargs)
@@ -180,10 +180,10 @@ label gym_teach_pe_main_aona_bra (**kwargs): # Running
 
     $ start_progress("aona_sports_bra")
 
-    call change_stats_with_modifier('school', 'pe',
+    call change_stats_with_modifier('pe',
         happiness = TINY, charm = SMALL, reputation = TINY, inhibition = DEC_TINY) from _call_change_stats_with_modifier_23
 
-    $ end_event('map_overview', **kwargs)
+    $ end_event('map_entry', **kwargs)
 
 label gym_teach_pe_main_aona_bra_2 (**kwargs):
     $ begin_event(**kwargs)
@@ -234,15 +234,15 @@ label gym_teach_pe_main_aona_bra_2 (**kwargs):
         $ image.show(21)
         aona "No, thanks."
 
-        call change_stats_with_modifier('school', 'pe',
+        call change_stats_with_modifier('pe',
             happiness = TINY, charm = SMALL, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_24
     else:
-        call change_stats_with_modifier('school', 'pe',
+        call change_stats_with_modifier('pe',
             happiness = SMALL, charm = SMALL, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_25
     
     $ advance_progress("aona_sports_bra")
 
-    $ end_event('map_overview', **kwargs)
+    $ end_event('map_entry', **kwargs)
 
 label aona_sports_bra_event_1 (**kwargs):
     $ begin_event(**kwargs)
@@ -504,7 +504,7 @@ label .buy_bra (**kwargs):
 
     $ change_stat(MONEY, -200)
 
-    call change_stats_with_modifier('school',
+    call change_stats_with_modifier(
         happiness = MEDIUM, charm = TINY, reputation = MEDIUM, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_84
 
     $ end_event('new_daytime', **kwargs)

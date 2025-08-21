@@ -75,4 +75,4 @@ label test_label():
 label .test(**kwargs):
     $ add_notify_message("Test successful! " + str(kwargs["Outfit"]))
 
-    jump map_overview
+    jump map_entry

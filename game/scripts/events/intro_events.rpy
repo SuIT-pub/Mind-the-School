@@ -130,7 +130,7 @@ label first_week_courtyard_event (**kwargs):
     $ image.show(4)
     headmaster_thought "At least the courtyard doesn't need immediate fixing."
 
-    $ change_stat("happiness", 5, get_school())
+    $ change_stat("happiness", 5)
 
     $ set_building_blocked("courtyard")
 
@@ -180,7 +180,7 @@ label first_week_gym_event (**kwargs):
     headmaster_thought "Seems to be decently stocked."
     headmaster_thought "The material is well maintained. I guess it's alright."
 
-    $ change_stat("charm", 5, get_school())
+    $ change_stat("charm", 5)
 
     $ set_building_blocked("gym")
 
@@ -216,7 +216,7 @@ label first_week_kiosk_event (**kwargs):
     headmaster_thought "This is not acceptable. Did the former headmaster really close the kiosk?"
     headmaster_thought "That can't be right..."
 
-    $ change_stat("reputation", 5, get_school())
+    $ change_stat("reputation", 5)
 
     $ set_building_blocked("kiosk")
 
@@ -251,9 +251,9 @@ label first_week_office_building_event (**kwargs):
     subtitles "Mhh. The office is nothing special but at least not really run down."
     subtitles "I can work with that."
 
-    $ change_stat("education", 5, get_school())
-    $ change_stat_for_all("happiness", 5, charList['staff'])
-    $ change_stat_for_all("reputation", 5, charList['staff'])
+    $ change_stat("education", 5)
+    $ change_stat("happiness", 5)
+    $ change_stat("reputation", 5)
 
     $ set_building_blocked("office_building")
 
@@ -293,7 +293,7 @@ label first_week_sb_event (**kwargs):
     headmaster_thought "Yeah, not one school girl has even one book."
     headmaster_thought "I guess the former headmaster cut back on those"
 
-    $ change_stat("education", 5, get_school())
+    $ change_stat("education", 5)
 
     $ set_building_blocked("school_building")
 
@@ -345,8 +345,8 @@ label first_week_school_dormitory_event (**kwargs):
     $ image.show(5)
     headmaster_thought "Hmm nobody seems to be here. Nevermind. I just let my Secretary give me a report."
 
-    $ change_stat("inhibition", -3, get_school())
-    $ change_stat("happiness", 3, get_school())
+    $ change_stat("inhibition", -3)
+    $ change_stat("happiness", 3)
 
     $ set_building_blocked("school_dormitory")
 
