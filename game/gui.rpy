@@ -10,7 +10,48 @@ init offset = -2
 ## width and height of the game.
 init python:
     gui.init(1920, 1080)
+    
+    def switch_background():
+        current_key = persistent.main_menu_animation
+        if current_key is None:
+            current_key = "anim_1"
+            
+        # Extract prefix and number
+        if "_" in current_key:
+            prefix, num_str = current_key.split("_")
+            current_num = int(num_str)
+            
+            # Try next number
+            next_key = f"{prefix}_{current_num + 1}"
+            
+            # If next key doesn't exist in dict, go back to 1
+            if next_key not in bg_animations:
+                next_key = f"{prefix}_1"
+                
+            persistent.main_menu_animation = next_key
 
+        gui.main_menu_background = bg_animations[persistent.main_menu_animation]
+
+    def toggle_animation():
+        current_key = persistent.main_menu_animation
+
+        if current_key is None or "_" not in current_key:
+            current_key = "anim_1"
+        else:
+            prefix, num_str = current_key.split("_")
+            current_num = int(num_str)
+            if prefix == "anim":
+                prefix = "static"
+            else:
+                prefix = "anim"
+
+            next_key = f"{prefix}_{current_num}"
+            if next_key not in bg_animations:
+                next_key = f"{prefix}_1"
+                
+            persistent.main_menu_animation = next_key
+
+        gui.main_menu_background = bg_animations[persistent.main_menu_animation]
 
 
 ################################################################################
@@ -86,7 +127,33 @@ define gui.title_text_size = 75
 
 ## The images used for the main and game menus.
 # define gui.main_menu_background = "gui/main_menu.png"
-define gui.main_menu_background = Movie(play = "gui/main_menu_bg_anim.webm")
+
+define bg_anim_1 = Movie(play = "gui/bg/main_menu_bg_anim.webm")
+define bg_anim_2 = Movie(play = "gui/bg/main_menu_bg_yoga_anim.webm")
+define bg_animations = {
+    "anim_1": bg_anim_1,
+    "anim_2": bg_anim_2,
+    "static_1": "gui/bg/main_menu_bg_1.png",
+    "static_2": "gui/bg/main_menu_bg_2.png",
+    "static_3": "gui/bg/main_menu_bg_3.png",
+    "static_4": "gui/bg/main_menu_bg_yoga_1.png",
+    "static_5": "gui/bg/main_menu_bg_yoga_2.png",
+    "static_6": "gui/bg/main_menu_bg_yoga_3.png",
+    "static_7": "gui/bg/main_menu_bg_yoga_4.png",
+    "static_8": "gui/bg/main_menu_bg_yoga_5.png",
+    "static_9": "gui/bg/main_menu_bg_yoga_6.png",
+    "static_10": "gui/bg/main_menu_bg_yoga_7.png",
+    "static_11": "gui/bg/main_menu_bg_yoga_8.png",
+    "static_12": "gui/bg/main_menu_bg_yoga_9.png",
+    "static_13": "gui/bg/main_menu_bg_yoga_10.png",
+    "static_14": "gui/bg/main_menu_bg_yoga_11.png",
+    "static_15": "gui/bg/main_menu_bg_yoga_12.png",
+    "static_16": "gui/bg/main_menu_bg_yoga_13.png",
+}
+default persistent.main_menu_animation = "anim_1"
+
+default gui.main_menu_background = bg_animations[persistent.main_menu_animation]
+
 define gui.game_menu_background = "gui/game_menu.png"
 
 

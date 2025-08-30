@@ -100,7 +100,7 @@ define audio.cafeteria_empty = "cafeteria-empty.mp3"
 define audio.cafeteria_chatter = "cafeteria-chatter.mp3"
 define audio.gym_active = "gym-active.mp3"
 
-default available_proficiencies = ['math', 'pe']
+default available_proficiencies = ['math', 'pe', 'sex_ed']
 default headmaster_proficiencies = {}
 
 init -99:

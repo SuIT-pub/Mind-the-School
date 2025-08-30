@@ -1,7 +1,7 @@
 init 1 python: 
     set_current_mod('base')
 
-    new_yoga_outfit_1_event = EventFragment(3, "new_yoga_outfit_1",
+    new_yoga_outfit_1_event = EventFragment(2, "new_yoga_outfit_1",
         RandomCondition(50, 100),
         LevelCondition("2,3", "school"),
         NOT(ProgressCondition("yoga_classes")),
@@ -112,8 +112,6 @@ label new_yoga_outfit_1 (**kwargs):
 label new_yoga_outfit_2 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ log_json("kwargs", kwargs)
-
     $ zoe = get_person_char_with_key("staff", "zoe_parker")
 
     $ image = convert_pattern("main", **kwargs)
@@ -203,8 +201,6 @@ label new_yoga_outfit_3 (**kwargs):
     headmaster "I'll see you la... Oh, she's already gone."
 
     $ set_timer("new_yoga_outfit_3", "today")
-
-    $ log_json("game_data", get_game_data())
 
     $ set_progress("yoga_classes", 3) # 2 -> 3 
 

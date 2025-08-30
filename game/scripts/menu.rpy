@@ -164,8 +164,6 @@ init python:
         in_replay = get_kwargs('in_replay', False, **kwargs)
         no_gallery = get_kwargs("no_gallery", False, **kwargs)
 
-        log_val("elements", elements)
-
         if not no_gallery and in_event:
             kwargs['is_decision_call'] = True
 
@@ -185,8 +183,6 @@ init python:
             renpy.jump("map_entry")
 
         renpy.force_autosave(True)
-
-        log_val("filtered_elements", filtered_elements)
 
         renpy.call("call_menu", None, None, with_leave, *filtered_elements, **kwargs)
 
@@ -268,7 +264,6 @@ label call_menu(text, person, with_leave = True, *elements, **kwargs):
     elif text != None:
         subtitles "[text]" (interact = False)
     else:
-        $ log("Show empty subtitles")
         subtitles_Empty "" (interact = False)
 
     while (True):

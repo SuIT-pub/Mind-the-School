@@ -1798,7 +1798,10 @@ init -6 python:
             """
             if super().is_fulfilled(**kwargs):
                 return True
-            return get_random_int(0, self.limit) < self.amount
+            value = get_random_int(0, self.limit)
+            
+            return value < self.amount
+
         def to_desc_text(self, **kwargs) -> str:
             """Gets text showing the probability percentage.
 

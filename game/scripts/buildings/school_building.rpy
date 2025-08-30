@@ -17,7 +17,7 @@ init -1 python:
     sb_teach_events = {}
     add_storage(sb_teach_events, EventStorage("math",    "school_building", fallback_text = "There is nobody here."))
     add_storage(sb_teach_events, EventStorage("history", "school_building", fallback_text = "There is nobody here."))
-    add_storage(sb_teach_events, EventStorage("history", "school_building", fallback_text = "There is nobody here."))
+    add_storage(sb_teach_events, EventStorage("sex_ed", "school_building", fallback_text = "There is nobody here."))
 
     sb_teach_math_ld_storage = FragmentStorage('sb_teach_math_ld')
     sb_teach_math_main_storage = FragmentStorage('sb_teach_math_main')
