@@ -470,6 +470,27 @@ screen main_menu():
             vbox:
                 text message style "main_menu_changelog_text"
 
+    if persistent.main_menu_animation.startswith("anim"):
+        button:
+            add "gui/pause_anim.png"
+            xpos -20
+            ypos 540
+            action Function(toggle_animation)
+            tooltip _("Switch to Static")
+    else:
+        button:
+            add "gui/play_anim.png"
+            xpos -20
+            ypos 540
+            action Function(toggle_animation)
+            tooltip _("Switch to Animated")
+
+    button:
+        add "gui/next_anim.png"
+        xpos -20
+        ypos 640
+        action Function(switch_background)
+        tooltip _("Switch Background")
 
     frame:
         background Solid("#00000088")
@@ -489,6 +510,14 @@ screen main_menu():
                         textbutton "Hide" action SetVariable("changelog_shown", False)
                 if changelog_shown:
                     null height 15
+                    text "Version 0.2.1A" style "main_menu_changelog_title"
+                    null height 15
+                    text "• Fixed Truth or Dare Event Chain not triggering" style "main_menu_changelog_text"
+                    text "• Fixed New Yoga Outfit Event Chain not triggering" style "main_menu_changelog_text"
+                    text "• Fixed some keywords not being named correctly" style "main_menu_changelog_text"
+                    text "• Added missing events and images for sex ed teaching" style "main_menu_changelog_text"
+                    text "• Added Debug feature in journal allowing for reading in-game values" style "main_menu_changelog_text"
+                    null height 20
                     text "Version 0.2.1" style "main_menu_changelog_title"
                     null height 15
                     text "• Added live notifications to main menu" style "main_menu_changelog_text"

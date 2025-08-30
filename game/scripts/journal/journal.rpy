@@ -707,8 +707,6 @@ screen journal_vote_button(page, display, active_obj):
             else:
                 $ probability = active_obj.calculate_vote_probability()
 
-            $ log_val("probability calc", probability)
-
             $ locked_text = ""
             $ probability_text = str(clamp_value(round(probability, 2))) + "%"
             if condition_storage.get_is_locked():
@@ -1414,6 +1412,7 @@ screen journal_cheats(display, char = "school"):
 
     $ options = {
         "general": "General",
+        "debug": "Debug",
         "stats": "Stats",
         "mods": "Mods",
         "rules": "Rules",
@@ -1443,20 +1442,6 @@ screen journal_cheats(display, char = "school"):
 
                     null height 20
 
-                    # DEBUG
-                    hbox:
-                        button:
-                            text "DEBUG" xalign 0.0 style "journal_text"
-                            xsize 250
-
-                        $ debug_mode_text = "{color=#a00000}ACTIVATE{/color}"
-                        if debug_mode:
-                            $ debug_mode_text = "{color=#00a000}DEACTIVATE{/color}"
-                        button:
-                            text debug_mode_text xalign 1.0
-                            action [With(dissolveM), Call("switch_debug_mode", 5, display)]
-                            xsize 250
-                    null height 10
                     # Event Selection
                     hbox:
                         button:
@@ -1536,7 +1521,56 @@ screen journal_cheats(display, char = "school"):
                             alternate Call("change_time_cheat", 5, display, year = -1)
                     null height 10
                     
-                    text "Debug:" style "journal_text" size 20
+                    
+            vbar value YScrollValue("CheatStatList"):
+                unscrollable "hide"
+                xalign 1.0
+    elif display == "debug":
+        frame:
+            background Solid("#0000")
+            area (950, 200, 560, 690)
+
+            viewport id "CheatDebugList":
+                mousewheel True
+                draggable "touch"
+                vbox:
+                    text "Changing game values can lead to unintended behaviour or a broken game save.\nMost functions on this page are used for debugging during developement.\nProceed on your own risk.":
+                        color "#000000"
+                        size 20
+
+                    null height 20
+
+                    # DEBUG
+                    hbox:
+                        button:
+                            text "DEBUG" xalign 0.0 style "journal_text"
+                            xsize 250
+
+                        $ debug_mode_text = "{color=#a00000}ACTIVATE{/color}"
+                        if debug_mode:
+                            $ debug_mode_text = "{color=#00a000}DEACTIVATE{/color}"
+                        button:
+                            text debug_mode_text xalign 1.0
+                            action [With(dissolveM), Call("switch_debug_mode", 5, display)]
+                            xsize 250
+                    null height 10
+                    
+
+                    input:
+                        value VariableInputValue("game_data_input")
+
+                    if game_data_old != game_data_input:
+                        $ display_game_data_journal(game_data_input)
+
+                    $ game_data_text = "Game Data: " + str(game_data_output)
+                    $ progress_text = "Progress: " + str(progress_output)
+                    button:
+                        text game_data_text xalign 0.0 style "journal_text"
+                    button:
+                        text progress_text xalign 0.0 style "journal_text"
+
+                    null height 10
+
                     button:
                         text "Run Test-Label" style "buttons_idle"
                         action Call("test_label")
@@ -1564,7 +1598,7 @@ screen journal_cheats(display, char = "school"):
                             xsize 250
                 
                     
-            vbar value YScrollValue("CheatStatList"):
+            vbar value YScrollValue("CheatDebugList"):
                 unscrollable "hide"
                 xalign 1.0
     elif display == "stats":
@@ -3042,6 +3076,30 @@ label call_max_image_from_cheats(image_path, journal, display):
 
 ########################
 # region Cheat Methods #
+
+init python:
+    game_data_input = ""
+    game_data_old = ""
+    game_data_output = "N/A"
+    progress_output = "N/A"
+    def display_game_data_journal(new_input: str):
+        global game_data_output
+        global game_data_input
+        global game_data_old
+        
+        game_data_input = new_input
+        game_data_old = game_data_input
+
+        game_data_output = get_game_data(new_input)
+
+        if game_data_output == None:
+            game_data_output = "N/A"
+
+        global progress_output
+        progress_output = get_progress(new_input)
+
+        if progress_output == None:
+            progress_output = "N/A"
 
 label switch_debug_mode(page, display, value = None):
     # """

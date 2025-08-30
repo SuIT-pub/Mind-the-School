@@ -23,36 +23,40 @@ init 1 python:
     sb_teach_sex_ed_intro_storage.add_event(
         EventFragment(3, 'sb_teach_sex_ed_intro_anatomy',
             CheckReplay(ValueCondition('topic', 'anatomy')),
-            Pattern("main", "/images/events/teaching/sex_ed/intro_1/teaching_sex_ed_intro_1 <step>.webp")),
+            Pattern("main", "/images/events/teaching/theoretical_sex_ed/intro/intro_1/teaching_theoretical_sex_ed_intro_1 <school_level>.webp")),
         EventFragment(3, 'sb_teach_sex_ed_intro_sex_curiosity',
             CheckReplay(ValueCondition('topic', 'sex_curiosity')),
-            Pattern("main", "/images/events/teaching/sex_ed/intro_2/teaching_sex_ed_intro_2 <step>.webp"))
+            Pattern("main", "/images/events/teaching/theoretical_sex_ed/intro/intro_2/teaching_theoretical_sex_ed_intro_2 <school_level>.webp"))
     )
 
     sb_teach_sex_ed_main_storage.add_event(
         EventFragment(3, 'sb_teach_sex_ed_main_anatomy_1',
             CheckReplay(ValueCondition('topic', 'anatomy')),
-            Pattern("main", "/images/events/teaching/sex_ed/main/anatomy_1/teaching_sex_ed_main_anatomy_1 <step>.webp")),
+            Pattern("main", "/images/events/teaching/theoretical_sex_ed/main/anatomy_1/teaching_theoretical_sex_ed_main_anatomy_1 <school_level> <step>.webp", "school_level")),
         EventFragment(3, 'sb_teach_sex_ed_main_sex_curiosity_1',
             CheckReplay(ValueCondition('topic', 'sex_curiosity')),
-            Pattern("main", "/images/events/teaching/sex_ed/main/sex_curiosity_1/teaching_sex_ed_main_sex_curiosity_1 <step>.webp"))
+            Pattern("main", "/images/events/teaching/theoretical_sex_ed/main/curiosity_1/teaching_theoretical_sex_ed_main_curiosity_1 <school_level> <step>.webp", "school_level"))
     )
 
     sb_teach_sex_ed_qa_storage.add_event(
         EventFragment(3, 'sb_teach_sex_ed_qa_1',
-            Pattern("main", "/images/events/teaching/sex_ed/qa_1/teaching_sex_ed_qa_1 <step>.webp")),
+            Pattern("main", "/images/events/teaching/theoretical_sex_ed/qa/qa_1/teaching_theoretical_sex_ed_qa_qa_1 <school_level> <step>.webp", "school_level")),
         EventFragment(3, 'sb_teach_sex_ed_qa_2',
-            Pattern("main", "/images/events/teaching/sex_ed/qa_2/teaching_sex_ed_qa_2 <step>.webp"))
+            Pattern("main", "/images/events/teaching/theoretical_sex_ed/qa/qa_2/teaching_theoretical_sex_ed_qa_qa_2 <school_level> <step>.webp", "school_level"))
     )
 
     sb_teach_sex_ed_event = EventComposite(3, 'sb_teach_sex_ed', [sb_teach_sex_ed_intro_storage, sb_teach_sex_ed_main_storage, sb_teach_sex_ed_qa_storage],
         TimeCondition(weekday = "d", daytime = "c"),
+        LevelCondition("2-4", "school"),
         LevelSelector('school_level', 'school'),
         ProficiencyCondition('sex_ed'),
         RandomListSelector('topic', 'anatomy', 'sex_curiosity'),
-        Pattern("main", "/images/events/teaching/sex_ed/sb_teach_sex_ed.webp"),
-        thumbnail = "/images/events/teaching/sex_ed/main_1/teaching_sex_ed_main_1 1 10.webp")
+        Pattern("base", "/images/events/teaching/theoretical_sex_ed/sb_teach_sex_ed.webp"),
+        thumbnail = "/images/events/teaching/theoretical_sex_ed/sb_teach_sex_ed.webp")
 
+    sb_teach_events["sex_ed"].add_event(
+        sb_teach_sex_ed_event,
+    )
     # endregion
     ###########################
 
@@ -273,7 +277,7 @@ label sb_teach_sex_ed (**kwargs):
 
     $ get_value('topic', **kwargs)
 
-    $ show_pattern("main", **kwargs)
+    $ show_pattern("base", **kwargs)
     headmaster "Good morning everyone. Let's start with todays subject Sex Education."
 
     call composite_event_runner(**kwargs) from _call_composite_event_sex_ed_3
@@ -285,7 +289,7 @@ label sb_teach_sex_ed_intro_anatomy (**kwargs):
     $ begin_event(**kwargs)
 
     $ show_pattern("main", **kwargs)
-    headmaster "Good afternoon, class. Today we'll be discussing human anatomy in the context of sexual health and development."
+    headmaster "Today we'll be discussing human anatomy in the context of sexual health and development."
 
     $ end_event('map_entry', **kwargs)
 
@@ -306,39 +310,65 @@ label sb_teach_sex_ed_intro_sex_curiosity (**kwargs):
 label sb_teach_sex_ed_main_anatomy_1 (**kwargs):
     $ begin_event(**kwargs)
 
+    $ gloria = get_person("class_3a", "gloria_goto").get_character()
+
     $ image = convert_pattern("main", **kwargs)
 
+    $ image.show(0)
     headmaster "As you can see here, both males and females have external genitalia that serve important functions for reproduction and pleasure."
     headmaster "In girls, these include the labia minora and majora surrounding the vulva..."
+    $ image.show(1)
     headmaster "...and in boys, it's their penis."
+    
     # notice a student raising their hand
+    $ image.show(2)
     headmaster "Yes, Gloria?"
-    gloria "Why do we need both clitoris and vagina if they're for pleasure?"
+    $ image.show(3)
+    gloria "Why do we need both clitoris and vagina if they're only for pleasure?"
 
+    $ image.show(4)
     headmaster "Excellent question! The clitoris is highly sensitive and designed specifically for sexual arousal."
     headmaster "Meanwhile, the vagina has multiple purposes - it protects reproductive organs during childbirth, allows menstrual flow to exit the body..."
     headmaster "...and also enables pleasurable intercourse when engaged with a partner."
 
+    $ image.show(5)
     headmaster "Boys' anatomy includes not only their penis but also testes containing sperm and seminal vesicles that produce semen."
     headmaster "Girls have ovaries producing eggs for fertilization by sperm during sex."
+
+    $ image.show(6)
+    headmaster "Now I'd like to ask you to inform yourself about the anatomy of the human body."
+    headmaster "You can find the information in your textbooks."
+
+    call change_stats_with_modifier(
+        education = TINY, inhibition = DEC_TINY) from _call_change_stats_sb_teach_sex_ed_main_anatomy_1_event_1
 
     $ end_event('map_entry', **kwargs)
 
 label sb_teach_sex_ed_main_sex_curiosity_1 (**kwargs):
     $ begin_event(**kwargs)
 
+    $ aona = get_person("class_3a", "aona_komuro").get_character()
+
     $ image = convert_pattern("main", **kwargs)
 
+    $ image.show(0)
     headmaster "Who here has heard rumors or myths about certain sexual acts but isn't sure what's true?"
     # a few students raise their hands
+    call Image_Series.show_image(image, 1, 0) from _call_show_image_sb_teach_sex_ed_main_sex_curiosity_1_event_1
     headmaster "Let's examine these together. For instance, some claim that anal sex always hurts...but for many people it can be pleasurable when done safely and with the right partner."
     
+    $ image.show(2)
     aona "My friend says girls only want boys to penetrate them during sex?"
+    $ image.show(3)
     headmaster "That's an oversimplification. While penetration is a common aspect of sexual intimacy, women often crave emotional connection as much as physical pleasure from their partners."
     headmaster "Communication about desires and boundaries is key."
 
+    $ image.show(4)
     headmaster "Remember, it's natural to have questions about sex - but make sure you're getting accurate information rather than relying on rumors or untrustworthy sources online."
     headmaster "If you ever need advice, consider talking to a parent, teacher...or even me."
+
+    call change_stats_with_modifier(
+        education = TINY, corruption = TINY) from _call_change_stats_sb_teach_sex_ed_main_sex_curiosity_1_event_1
 
     $ end_event('map_entry', **kwargs)
 
@@ -351,26 +381,42 @@ label sb_teach_sex_ed_main_sex_curiosity_1 (**kwargs):
 label sb_teach_sex_ed_qa_1 (**kwargs):
     $ begin_event(**kwargs)
 
+    $ kokoro = get_person("class_3a", "kokoro_nakamura").get_character()
+
     $ image = convert_pattern("main", **kwargs)
 
+    $ image.show(0)
     kokoro "Do girls always get wet when they're excited?"
+    $ image.show(1)
     headmaster "No, arousal can manifest in various ways besides vaginal lubrication. "
     headmaster "Some may experience tingling or warmth while others might not exhibit any external signs of excitement at all."
+    $ image.show(2)
     kokoro "What about the difference between orgasm and just feeling good during sex?"
+    $ image.show(3)
     headmaster "While both sensations are pleasurable, an orgasm typically involves a sudden peak of intense pleasure, often accompanied by physical contractions."
     headmaster "It's like reaching the climax in a story - everything builds up to that momentary release."
+
+    call change_stats_with_modifier(
+        education = TINY, inhibition = DEC_TINY) from _call_change_stats_sb_teach_sex_ed_qa_1_event_1
 
     $ end_event('map_entry', **kwargs)
 
 label sb_teach_sex_ed_qa_2 (**kwargs):
     $ begin_event(**kwargs)
 
+    $ luna = get_person("class_3a", "luna_clark").get_character()
+
     $ image = convert_pattern("main", **kwargs)
 
+    $ image.show(0)
     luna "How often do teens usually have sex?"
+    $ image.show(1)
     headmaster "There's no one-size-fits-all answer here. Frequency depends on individual development and relationship dynamics."
     headmaster "What matters most is that both partners are comfortable with the pace and fully consensual in their sexual activities."
     headmaster "But, for most teens, it's usually multiple times a month."
+
+    call change_stats_with_modifier(
+        education = TINY, corruption = TINY) from _call_change_stats_sb_teach_sex_ed_qa_2_event_1
 
     $ end_event('map_entry', **kwargs)
 

@@ -18,13 +18,13 @@ init 1 python:
     courtyard_events["patrol"].add_event(truth_or_dare_event_1)
 
     truth_or_dare_event_2 = Event(3, "truth_or_dare_2",
-        TimeCondition(daytime = "c", weekday = "f"),
+        TimeCondition(daytime = "c", weekday = "d"),
         ProgressCondition("truth_or_dare", 1),
         Pattern("main", base_path + "truth_or_dare_2/truth_or_dare_2 <school_level> <step>.webp"),
         thumbnail = base_path + "truth_or_dare_2/truth_or_dare_2 6 8.webp")
 
     truth_or_dare_event_3 = Event(3, "truth_or_dare_3",
-        TimeCondition(daytime = "c", weekday = "f"),
+        TimeCondition(daytime = "c", weekday = "d"),
         ProgressCondition("truth_or_dare", 2),
         Pattern("main", base_path + "truth_or_dare_3/truth_or_dare_3 <school_level> <step>.webp"),
         thumbnail = base_path + "truth_or_dare_3/truth_or_dare_3 6 6.webp")

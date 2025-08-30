@@ -1703,7 +1703,6 @@ init -3 python:
             output = []
 
             for i in range(len(self.fragments)):
-                log_val("selecting fragment", self.fragments[i].get_name())
                 repeatable = self.fragments[i].repeat_repeatable
                 repeat_count = self.fragments[i].repeat_amount
                 kwargs["repeatable"] = repeatable
@@ -1713,16 +1712,12 @@ init -3 python:
                     kwargs["used_events_repeatable"] = output
                     selected_event = self.fragments[i].get_one_possible_event(**kwargs)
 
-                    log_val("selected event", selected_event.get_name())
-
                     if selected_event != None:
                         output.append(selected_event)
                         count += 1
 
                 if count == 0:
                     log_error(304, "Composite Event " + self.event_id + ": Not all events could be selected in fragment at index " + str(i) + "!")
-
-            log_val("output", output)
 
             return output
 
@@ -1888,7 +1883,6 @@ init -3 python:
             1. no_gallery = True
                 - Gallery_Manager will not be initiated and event will not be registered into the gallery
         """
-        log("begin_event")
         global seenEvents
         global gallery_manager
 
@@ -1937,8 +1931,6 @@ init -3 python:
 
         if not in_replay:
             update_quest("event", **kwargs)
-
-        log("end begin_event")
 
         if event_name != "":
             renpy.call("show_sfw_text", event_name)

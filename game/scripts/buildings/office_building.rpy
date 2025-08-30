@@ -27,6 +27,7 @@ init -1 python:
     add_storage(office_building_subject_learn_events, EventStorage("math",    "office_building", fallback_text = "There is nobody here."))
     add_storage(office_building_subject_learn_events, EventStorage("history", "office_building", fallback_text = "There is nobody here."))
     add_storage(office_building_subject_learn_events, EventStorage("pe",      "office_building", fallback_text = "There is nobody here."))
+    add_storage(office_building_subject_learn_events, EventStorage("sex_ed",  "office_building", fallback_text = "There is nobody here."))
 
     office_building_call_secretary_events = {}
     add_storage(office_building_call_secretary_events, EventStorage("naughty_sandbox", "office_building", fallback_text = "There is nobody here."))
@@ -89,6 +90,8 @@ init 1 python:
         Event(3, "learn_office_event_1", ProficiencyCondition("history", level = "10-"), ValueSelector('subject', 'history')))
     office_building_subject_learn_events['pe'].add_event(
         Event(3, "learn_office_event_1", ProficiencyCondition("pe", level = "10-"), ValueSelector('subject', 'pe')))
+    office_building_subject_learn_events['sex_ed'].add_event(
+        Event(3, "learn_office_event_1", ProficiencyCondition("sex_ed", level = "10-"), ValueSelector('subject', 'sex_ed')))
 
     office_building_events["learn"].add_event(
         EventSelect(3, "learn_subject_event", "What subject do you wanna learn?", office_building_subject_learn_events,

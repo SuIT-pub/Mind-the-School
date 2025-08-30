@@ -52,6 +52,7 @@ staff;Staff
 
 look_around;Look Around
 schedule_meeting;Schedule a Meeting
+check_class;Check Class
 
 ############
 # Subjects
@@ -130,6 +131,7 @@ event_gym_enter_changing;Enter Changing Room
 event_gym_go_students;Go to Students
 event_gym_check_pe;Check P.E. Class
 event_gym_teach_pe;Teach P.E. Class
+event_gym_patrol;Patrol
 
 first_potion_gym_event;First Potion
 first_week_gym_event;First Week
@@ -206,6 +208,7 @@ event_school_building_teach_class;Teach Class
 event_school_building_patrol;Patrol
 event_school_building_english;English
 event_school_building_math;Math
+event_school_building_check_class;Check Class
 learning_difficulty_girl;Needs Help
 
 first_potion_sb_event;First Potion

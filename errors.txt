@@ -2,9 +2,11 @@
 errors listed below, and try again.
 
 
-File "game/scripts/buildings/kiosk.rpy", line 63: expected statement.
-    log("playing muffled_chatter")
-                                  ^
+The label _call_change_stats_sb_teach_sex_ed_qa_1_event_1 is defined twice, at File "game/scripts/events/teaching_lessons.rpy", line 393:
+    call change_stats_with_modifier(
+and File "game/scripts/events/teaching_lessons.rpy", line 410:
+    call change_stats_with_modifier(
+
 
 Ren'Py Version: Ren'Py 8.1.3.23091805
-Wed Aug 20 10:52:29 2025
+Sat Aug 30 11:56:57 2025

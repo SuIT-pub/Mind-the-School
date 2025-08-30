@@ -78,10 +78,10 @@ init 1 python:
         PTAVoteSelector("vote_parent", "academic"),
         PTAVoteSelector("vote_teacher", "feasibility"),
         PTAVoteSelector("vote_student", "social"),
-        Pattern("base", "images/events/pta/regular meeting/pta <secretaryLevel> <schoolLevel> <step>.webp"))
+        Pattern("base", "images/events/pta/regular meeting/pta <secretary_level> <school_level> <step>.webp"))
 
     # PTA discussions
-    pta_discussion_1_event = EventFragment(2, "pta_discussion_1")
+    pta_discussion_1_event = EventFragment(3, "pta_discussion_1")
     
     pta_discussion_storage.add_event(
         pta_discussion_1_event
@@ -99,7 +99,7 @@ init 1 python:
         RandomListSelector("speaking_teacher", "Lily Anderson", "Yulan Chen", "Finola Ryan", "Chloe Garcia", "Zoe Parker"),
         RandomListSelector("speaking_parent", "Yuki Yamamoto", "Adelaide Hall", "Nubia Davis"),
         RandomListSelector("speaking_student", "Yuriko Oshima"),
-        Pattern("vote", "images/events/pta/regular meeting/pta_vote <level> <name>.webp"))
+        Pattern("vote", "images/events/pta/regular meeting/pta_vote <school_level> <name>.webp"))
 
     pta_vote_nothing_1_event = EventFragment(2, "pta_vote_nothing_1",
         CompareCondition("vote_proposal", None))

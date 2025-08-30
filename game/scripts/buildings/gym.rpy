@@ -14,7 +14,7 @@ init -1 python:
     add_storage(gym_events, EventStorage("go_students",    "gym", fallback_text = "There is nobody here."))
     add_storage(gym_events, EventStorage("check_pe",       "gym", fallback_text = "There is nothing to do here."))
     add_storage(gym_events, EventStorage("teach_pe",       "gym", fallback_text = "There is nothing to do here."))
-    add_storage(gym_events, EventStorage("relax",          "gym", fallback_text = "There is nothing to do here."))
+    add_storage(gym_events, EventStorage("patrol",          "gym", fallback_text = "There is nothing to do here."))
 
     gym_bg_images = BGStorage("images/background/gym/f.webp", 
         BGImage("images/background/gym/<school_level> <variant> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")), # show gym with students
@@ -83,7 +83,7 @@ init 1 python:
         gym_event3,
         gym_event6,
     )
-    gym_events["relax"].add_event(
+    gym_events["patrol"].add_event(
         gym_event4,
         gym_event5,
     )
