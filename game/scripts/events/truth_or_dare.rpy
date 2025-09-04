@@ -608,7 +608,7 @@ label truth_or_dare_dare_5 (**kwargs):
     ikushi "Okay, you had your fill! Next one!"
 
     call change_stats_with_modifier(
-        happiness = DEC_TINY, inhibition = MEDIUM, corruption = TINY) from _stats_truth_or_dare_dare_5_1
+        happiness = DEC_TINY, inhibition = DEC_MEDIUM, corruption = TINY) from _stats_truth_or_dare_dare_5_1
 
     $ end_event("new_daytime", **kwargs)
 

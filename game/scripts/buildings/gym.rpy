@@ -346,14 +346,17 @@ label gym_event_4 (**kwargs):
 label gym_event_5 (**kwargs):
     $ begin_event("2", **kwargs)
 
+    $ aona = get_person("class_3a", "aona_komuro").get_character()
+    $ soyoon = get_person("class_3a", "soyoon_yamamoto").get_character()
+
     $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
-    sgirl "Haaa..., I wish I could get a massage right now..." #1
+    aona "Haaa..., I wish I could get a massage right now..." #1
     $ image.show(1)
-    sgirl "My muscles are so tight..." #1
+    aona "My muscles are so tight..." #1
     $ image.show(2)
-    sgirl "Oh yeah that would be awesome!" #2
+    soyoon "Oh yeah that would be awesome!" #2
 
     call change_stats_with_modifier(
         inhibition = DEC_TINY, happiness = DEC_TINY) from _stats_gym_event_5_1
@@ -369,7 +372,7 @@ label gym_event_6 (**kwargs):
     headmaster_thought "..."
 
     call change_stats_with_modifier(
-        inhibition = TINY, charm = TINY) from _stats_gym_event_6_1
+        inhibition = DEC_TINY, charm = TINY) from _stats_gym_event_6_1
 
     $ end_event('new_daytime', **kwargs)
     
