@@ -133,6 +133,10 @@ label new_yoga_outfit_2 (**kwargs):
 
     $ set_progress("yoga_classes", 2) # 1 -> 2
 
+    call change_stats_with_modifier(
+        charm = TINY, education = TINY
+    ) from _call_new_yoga_outfit_2_event_1
+
     $ end_event("new_daytime", **kwargs)
 
 # Gym: Check P.E.
@@ -204,6 +208,10 @@ label new_yoga_outfit_3 (**kwargs):
 
     $ set_progress("yoga_classes", 3) # 2 -> 3 
 
+    call change_stats_with_modifier(
+        education = TINY
+    ) from _call_new_yoga_outfit_3_event_1
+
     $ end_event("new_daytime", **kwargs)
 
 # School Building: Check Classes
@@ -238,6 +246,10 @@ label new_yoga_outfit_4 (**kwargs):
     headmaster "Thanks! I'll leave you to your classes now."
 
     $ set_progress("yoga_classes", 4) # 3 -> 4
+
+    call change_stats_with_modifier(
+        education = TINY, charm = TINY, inhibition = DEC_TINY
+    ) from _call_new_yoga_outfit_4_event_1
 
     $ end_event("new_daytime", **kwargs)
 
@@ -426,6 +438,10 @@ label .after_decision (**kwargs):
 
     $ set_progress("yoga_classes", 5) # 4 -> 5
 
+    call change_stats_with_modifier(
+        inhibition = DEC_SMALL, corruption = TINY, charm = TINY
+    ) from _call_new_yoga_outfit_5_event_1
+
     $ end_event("new_daytime", **kwargs)
 
 # Office Building: Free-Time
@@ -475,6 +491,10 @@ label new_yoga_outfit_6 (**kwargs):
     $ set_timer("new_yoga_outfit_6", "today")
 
     $ set_progress("yoga_classes", 6) # 5 -> 6
+
+    call change_stats_with_modifier(
+        charm = TINY, inhibition = DEC_SMALL, corruption = TINY
+    ) from _call_new_yoga_outfit_6_event_1
 
     $ end_event("new_daytime", **kwargs)
 
@@ -625,6 +645,10 @@ label new_yoga_outfit_9 (**kwargs):
 
     $ set_progress("yoga_classes", 9) # 8 -> 9
 
+    call change_stats_with_modifier(
+        education = TINY, inhibition = DEC_SMALL
+    ) from _call_new_yoga_outfit_9_event_1
+
     $ end_event("new_daytime", **kwargs)
 
 # Gym: Check P.E.
@@ -670,5 +694,9 @@ label new_yoga_outfit_10 (**kwargs):
     # class processes with the yoga class
 
     $ set_progress("yoga_classes", 10) # 9 -> 10
+
+    call change_stats_with_modifier(
+        education = TINY, charm = TINY, inhibition = DEC_SMALL
+    ) from _call_new_yoga_outfit_10_event_1
 
     $ end_event("new_daytime", **kwargs)

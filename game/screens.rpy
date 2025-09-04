@@ -510,6 +510,11 @@ screen main_menu():
                         textbutton "Hide" action SetVariable("changelog_shown", False)
                 if changelog_shown:
                     null height 15
+                    text "Version 0.2.1B" style "main_menu_changelog_title"
+                    null height 15
+                    text "• Fixed missing character names in events" style "main_menu_changelog_text"
+                    text "• Fixed some stat changes missing in events" style "main_menu_changelog_text"
+                    null height 15
                     text "Version 0.2.1A" style "main_menu_changelog_title"
                     null height 15
                     text "• Fixed Truth or Dare Event Chain not triggering" style "main_menu_changelog_text"
@@ -559,17 +564,17 @@ screen main_menu():
                     text "    • all parties still keep their own progression level" style "main_menu_changelog_text"
                     null height 15
                     text "PTA" style "main_menu_changelog_subtitle"
-                    text "• Voting system and probbility calculation has been overhauled" style "main_menu_changelog_text"
+                    text "• Voting system and probability calculation has been overhauled" style "main_menu_changelog_text"
                     text "    • rework in accordance to the new stat system" style "main_menu_changelog_text"
                     text "    • instead of the parties voting on the same set of conditions based on their own stats, the parties now vote on their own set of conditions together with one shared set" style "main_menu_changelog_text"
                     text "    • probability calculation has been simplified." style "main_menu_changelog_text"
                     text "    • calculation is still in testing phase" style "main_menu_changelog_text"
                     text "    • it is possible, that the probability shown in the journal does not match the one measured in the pta itself." style "main_menu_changelog_text"
-                    text "    • probability in journal is based on the voting probability of all three parties, while in PTA the three parties all calculate their own probability seperately" style "main_menu_changelog_text"
+                    text "    • probability in journal is based on the voting probability of all three parties, while in PTA the three parties all calculate their own probability separately" style "main_menu_changelog_text"
                     null height 15
                     text "Characters" style "main_menu_changelog_subtitle"
                     text "• Introducing Linh Nguyen" style "main_menu_changelog_text"
-                    text "• Enhanced character retrievel for use in events" style "main_menu_changelog_text"
+                    text "• Enhanced character retrieval for use in events" style "main_menu_changelog_text"
                     null height 15
                     text "GUI" style "main_menu_changelog_subtitle"
                     text "• Added button to skip to the next day in map overview" style "main_menu_changelog_text"
