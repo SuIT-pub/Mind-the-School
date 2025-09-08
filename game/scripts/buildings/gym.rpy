@@ -68,7 +68,7 @@ init 1 python:
         LevelCondition("2+", "school"),
         ProgressCondition("yoga_classes", "10"),
         GameDataSelector("outfit", "yoga_outfit_set"),
-        Pattern("main", "/images/events/gym/gym_event_6/gym_event_6 <outfit> <level> <step>.webp", "outfit"),
+        Pattern("main", "/images/events/gym/gym_event_6/gym_event_6 <outfit> <school_level> <step>.webp", "outfit"),
         thumbnail = "images/events/gym/gym_event_6/gym_event_6 3 8 2.webp")
 
     gym_events["enter_changing"].add_event(
