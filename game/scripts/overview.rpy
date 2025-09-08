@@ -678,6 +678,10 @@ label map_overview ():
 
     $ update_all_quests()
 
+    if not debug_mode:
+        # keep only the last 100 entries in the return stack
+        $ renpy.set_return_stack(renpy.get_return_stack()[-100:])
+
     show school_map
     # show screen school_overview_map
     show screen school_overview_stats 

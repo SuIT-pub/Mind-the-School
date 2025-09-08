@@ -452,7 +452,7 @@ label load_quests:
                 "all_events_teaching_pe",
                 "P.E. Teaching Events",
                 LabelTask("all_events_teaching_gym_intro", "-- Intro Fragments"),
-                EventTask("gym_teach_pe_intro_1", check_history = True),
+                EventTask("gym_teach_pe_intro_2", check_history = True),
                 EventTask("gym_teach_pe_intro_aona_bra", check_history = True),
                 LabelTask("all_events_teaching_gym_entrance", "-- Entrance Fragments"),
                 EventTask("gym_teach_pe_entrance_1", check_history = True),

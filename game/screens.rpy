@@ -510,6 +510,12 @@ screen main_menu():
                         textbutton "Hide" action SetVariable("changelog_shown", False)
                 if changelog_shown:
                     null height 15
+                    text "Version 0.2.1B_1" style "main_menu_changelog_title"
+                    null height 15
+                    text "• Made small optimization, reducing size of save files" style "main_menu_changelog_text"
+                    text "• Fixed mixup of yoga outfits" style "main_menu_changelog_text"
+                    text "• Fixed missing images in event" style "main_menu_changelog_text"
+                    null height 15
                     text "Version 0.2.1B" style "main_menu_changelog_title"
                     null height 15
                     text "• Fixed missing character names in events" style "main_menu_changelog_text"

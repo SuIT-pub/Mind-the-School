@@ -393,9 +393,9 @@ label new_yoga_outfit_5 (**kwargs):
     headmaster "Okay, which outfit will I choose?"
 
     $ call_custom_menu(False,
-        MenuElement("Outfit 1", "Outfit 1", ValueEffect("yoga_outfit_set", 1), EventEffect("new_yoga_outfit_5.after_decision"), overwrite_position = ( 330, 950)),
-        MenuElement("Outfit 2", "Outfit 2", ValueEffect("yoga_outfit_set", 2), EventEffect("new_yoga_outfit_5.after_decision"), overwrite_position = ( 800, 950)),
-        MenuElement("Outfit 3", "Outfit 3", ValueEffect("yoga_outfit_set", 3), EventEffect("new_yoga_outfit_5.after_decision"), overwrite_position = (1250, 950)),
+        MenuElement("Outfit 1", "Hatano's Choice", ValueEffect("yoga_outfit_set", 1), EventEffect("new_yoga_outfit_5.after_decision"), overwrite_position = ( 330, 950)),
+        MenuElement("Outfit 3", "Elsie's Choice", ValueEffect("yoga_outfit_set", 2), EventEffect("new_yoga_outfit_5.after_decision"), overwrite_position = ( 800, 950)),
+        MenuElement("Outfit 2", "Seraphina's Choice", ValueEffect("yoga_outfit_set", 3), EventEffect("new_yoga_outfit_5.after_decision"), overwrite_position = (1250, 950)),
     **kwargs)
 label .after_decision (**kwargs):
     $ yoga_set = get_game_data("yoga_outfit_set")
@@ -404,17 +404,17 @@ label .after_decision (**kwargs):
     headmaster "Okay, I've made my decision."
     $ image.show(47)
     if yoga_set == 1:
-        headmaster "We'll go with the first set."
+        headmaster "We'll go with the Hatano's Pick."
         $ image.show(48)
         hatano "Awesome!"
 
-    elif yoga_set == 2:
-        headmaster "We'll go with the second set."
+    elif yoga_set == 3:
+        headmaster "We'll go with the Seraphina's Pick."
         $ image.show(49)
         seraphina "Great!"
         
-    elif yoga_set == 3:
-        headmaster "We'll go with the third set."
+    elif yoga_set == 2:
+        headmaster "We'll go with the Elsie's Pick."
         $ image.show(50)
         elsie "I like that choice!"
 
