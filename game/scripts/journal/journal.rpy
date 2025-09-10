@@ -119,7 +119,7 @@ init python:
         
         ### Returns:
         - Bool
-            -Indicates wether checks were succesful or not
+            -Indicates wether checks were successful or not
         """
 
         if rule.is_upgrade_rule() == True:
@@ -144,7 +144,7 @@ init python:
             title = "the " + voteProposal._journal_obj.get_type() + " \"" + voteProposal._journal_obj.get_title() + "\""
             rule_title = rule.get_title()
         if rule == None:
-            return True
+            return False
         renpy.show_screen("confirm","You already scheduled [title] for voting.\n\nDo you wanna schedule the rule \"[rule_title]\" instead?",
             Call("add_to_proposal", rule, 2, rule_name),
             Call("open_journal", 2, rule_name))
