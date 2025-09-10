@@ -114,3 +114,9 @@ init -6 python:
         def check_option(self, **kwargs):
             return True
 
+    class OptionalOption(Option):
+        def __init__(self):
+            super().__init__("Optional")
+
+        def check_option(self, **kwargs):
+            return True

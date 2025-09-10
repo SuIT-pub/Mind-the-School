@@ -304,6 +304,10 @@ init -6 python:
                 return empty_option_set
             return self.options
 
+        @abstractmethod
+        def check_condition(self, **kwargs) -> bool:
+            pass
+
         def is_fulfilled(self, **kwargs) -> bool:
             """Checks if the condition is currently fulfilled.
 
@@ -333,7 +337,10 @@ init -6 python:
             if is_in_replay or in_replay or in_journal_gallery:
                 return True
 
-            return False
+            if self.options.has_option('Optional'):
+                return True
+
+            return self.check_condition(**kwargs)
 
         def is_blocking(self, **kwargs) -> bool:
             """Checks if the condition is both blocking and unfulfilled.
@@ -486,7 +493,7 @@ init -6 python:
             if isinstance(char_obj, str):
                 self.char_obj = get_character_by_key(char_obj)
             
-        def is_fulfilled(self, **kwargs) -> bool:
+        def check_condition(self, **kwargs) -> bool:
             """Check if all specified stat conditions are met.
 
             Verifies that the character's stats meet or exceed all specified thresholds
@@ -503,9 +510,6 @@ init -6 python:
                 If self.char_obj is set and doesn't match the provided char_obj,
                 the method returns True to skip the check.
             """
-
-            if super().is_fulfilled(**kwargs):
-                return True
 
             char_obj = None
             if hasattr(self, 'char_obj'):
@@ -698,7 +702,7 @@ init -6 python:
             self.display_in_list = False
             self.display_in_desc = False
 
-        def is_fulfilled(self, **kwargs) -> bool:
+        def check_condition(self, **kwargs) -> bool:
             """Check if the specified stat has reached its level-based cap.
 
             For Corruption, checks if the stat has reached (level * 10) up to max 100.
@@ -712,9 +716,6 @@ init -6 python:
                 bool: True if the stat has reached its level-based cap, False otherwise.
                 Also returns True if parent condition is fulfilled, False for invalid stats.
             """
-
-            if super().is_fulfilled(**kwargs):
-                return True
 
             char_obj = None
             if hasattr(self, '_char_obj'):
@@ -789,7 +790,7 @@ init -6 python:
             self._xp = xp
             self._level = level
 
-        def is_fulfilled(self, **kwargs) -> bool:
+        def check_condition(self, **kwargs) -> bool:
             """Check if the headmaster meets the proficiency requirements.
 
             Evaluates whether the headmaster's proficiency meets the specified conditions:
@@ -804,9 +805,6 @@ init -6 python:
                 bool: True if all specified conditions are met (proficiency exists and
                     meets any XP/level requirements), False otherwise.
             """
-
-            if super().is_fulfilled(**kwargs):
-                return True
 
             if self._xp == -1 and self._level == -1:
                 return self._proficiency in headmaster_proficiencies.keys()
@@ -857,7 +855,7 @@ init -6 python:
             """
             super().__init__(True, *options)
 
-        def is_fulfilled(self, **kwargs) -> bool:
+        def check_condition(self, **kwargs) -> bool:
             """Check if the tutorial mode is currently active.
 
             Args:
@@ -907,7 +905,7 @@ init -6 python:
             self.value = value
             self.display_in_desc = True
 
-        def is_fulfilled(self, **kwargs) -> bool:
+        def check_condition(self, **kwargs) -> bool:
             """Check if the specified rule is currently unlocked.
 
             Args:
@@ -919,9 +917,6 @@ init -6 python:
                     - The specified rule is unlocked
                     False otherwise.
             """
-            if super().is_fulfilled(**kwargs):
-                return True
-
             return get_rule(self.value).is_unlocked()
 
         def to_desc_text(self, **kwargs) -> str:
@@ -939,7 +934,7 @@ init -6 python:
                     where the color is green (#00a000) for unlocked rules and red (#a00000)
                     for locked rules.
             """
-            if self.is_fulfilled(**kwargs):
+            if self.check_condition(**kwargs):
                 return "Rule {color=#00a000}" + get_rule(self.value).get_title() + "{/color} is unlocked"
             else:
                 return "Rule {color=#a00000}" + get_rule(self.value).get_title() + "{/color} is unlocked"
@@ -985,7 +980,7 @@ init -6 python:
             self.value = value
             self.display_in_desc = True
 
-        def is_fulfilled(self, **kwargs) -> bool:
+        def check_condition(self, **kwargs) -> bool:
             """Checks if the club is currently unlocked.
 
             Args:
@@ -994,8 +989,7 @@ init -6 python:
             Returns:
                 True if the club is unlocked, False otherwise.
             """
-            if super().is_fulfilled(**kwargs):
-                return True
+            
             return get_club(self.value).is_unlocked()
 
         def to_desc_text(self, **kwargs) -> str:
@@ -1010,7 +1004,7 @@ init -6 python:
             Returns:
                 A formatted string with the club's title and colored status indicator.
             """
-            if self.is_fulfilled(**kwargs):
+            if self.check_condition(**kwargs):
                 return "Club {color=#00a000}" + get_club(self.value).get_title() + "{/color} is unlocked"
             else:
                 return "Club {color=#a00000}" + get_club(self.value).get_title() + "{/color} is unlocked"
@@ -1056,7 +1050,7 @@ init -6 python:
             self.value = value
             self.display_in_desc = True
 
-        def is_fulfilled(self, **kwargs) -> bool:
+        def check_condition(self, **kwargs) -> bool:
             """Check if the specified building is currently unlocked.
 
             Args:
@@ -1068,8 +1062,6 @@ init -6 python:
                     - The specified building is unlocked
                     False otherwise.
             """
-            if super().is_fulfilled(**kwargs):
-                return True
 
             return get_building(self.value).is_unlocked()
 
@@ -1088,7 +1080,7 @@ init -6 python:
                     where the color is green (#00a000) for unlocked buildings and red (#a00000)
                     for locked buildings.
             """
-            if self.is_fulfilled(**kwargs):
+            if self.check_condition(**kwargs):
                 return "Building {color=#00a000}" + get_building(self.value).get_title() + "{/color} is unlocked"
             else:
                 return "Building {color=#a00000}" + get_building(self.value).get_title() + "{/color} is unlocked"
@@ -1140,7 +1132,7 @@ init -6 python:
             self.level = level
             self.display_in_desc = True
 
-        def is_fulfilled(self, **kwargs) -> bool:
+        def check_condition(self, **kwargs) -> bool:
             """Check if the building meets the level requirement.
 
             Args:
@@ -1152,8 +1144,6 @@ init -6 python:
                     - The building's current level meets the level requirement
                     False otherwise.
             """
-            if super().is_fulfilled(**kwargs):
-                return True
 
             return check_in_value(self.level, get_building(self.name).get_level())
 
@@ -1172,7 +1162,7 @@ init -6 python:
                 str: A formatted string showing building name and level requirement,
                     with appropriate color coding (green #00a000 or red #a00000).
             """
-            if self.is_fulfilled(**kwargs):
+            if self.check_condition(**kwargs):
                 return "Building {color=#00a000}" + get_building(self.name).get_title() + "{/color} is at level {color=#00a000}" + str(self.level) + "{/color}"
             else:
                 return "Building {color=#a00000}" + get_building(self.name).get_title() + "{/color} is at level {color=#a00000}" + str(self.level) + "{/color}"
@@ -1229,7 +1219,7 @@ init -6 python:
             self.display_in_desc = True
             self.char_obj = char_obj
 
-        def is_fulfilled(self, **kwargs) -> bool:
+        def check_condition(self, **kwargs) -> bool:
             """Check if the character meets the level requirement.
 
             Args:
@@ -1242,8 +1232,6 @@ init -6 python:
                     - The character's current level meets the level requirement
                     False otherwise.
             """
-            if super().is_fulfilled(**kwargs):
-                return True
 
             char_obj = None
             if hasattr(self, 'char_obj'):
@@ -1272,7 +1260,7 @@ init -6 python:
                     where X is the required level and the color is green (#00a000)
                     when met or red (#a00000) when not met.
             """
-            if self.is_fulfilled(**kwargs):
+            if self.check_condition(**kwargs):
                 return "Level: {color=#00a000}" + self.value + "{/color}"
             else:
                 return "Level: {color=#a00000}" + self.value + "{/color}"
@@ -1292,7 +1280,7 @@ init -6 python:
                     - The colored level value (green when met, red when not)
                     - The string "Level"
             """
-            if self.is_fulfilled(**kwargs):
+            if self.check_condition(**kwargs):
                 return (
                     get_stat_icon("level", white = False), 
                     "{color=#00a000}" + str(self.value) + "{/color}", "Level"
@@ -1375,7 +1363,7 @@ init -6 python:
             self.display_in_list = True
             self.display_in_desc = True
 
-        def is_fulfilled(self, **kwargs) -> bool:
+        def check_condition(self, **kwargs) -> bool:
             """Check if the current money meets the requirement.
 
             If the value is specified as a number rather than a comparison string,
@@ -1390,8 +1378,6 @@ init -6 python:
                     - The current money meets or exceeds the requirement
                     False otherwise.
             """
-            if super().is_fulfilled(**kwargs):
-                return True
 
             value = self.value
             if not isinstance(value, str):
@@ -1414,7 +1400,7 @@ init -6 python:
                     where X is the required amount and the color is green (#00a000)
                     when met or red (#a00000) when not met.
             """
-            if self.is_fulfilled():
+            if self.check_condition():
                 return "Money: {color=#00a000}" + str(self.value) + "{/color}"
             else:
                 return "Money: {color=#a00000}" + str(self.value) + "{/color}"
@@ -1434,7 +1420,7 @@ init -6 python:
                     - The colored money value (green when met, red when not)
                     - The string "Money"
             """
-            if self.is_fulfilled():
+            if self.check_condition():
                 return (
                     get_stat_icon("money", white = False), 
                     "{color=#00a000}" + str(self.value) + "{/color}", "Money"
@@ -1492,7 +1478,7 @@ init -6 python:
             self.display_in_list = False
             self.display_in_desc = False
 
-        def is_fulfilled(self, **kwargs) -> bool:
+        def check_condition(self, **kwargs) -> bool:
             """Checks if the condition is fulfilled (always False).
 
             This condition can never be fulfilled, as its purpose is to permanently
@@ -1504,8 +1490,7 @@ init -6 python:
             Returns:
                 Always False, unless parent class check passes.
             """
-            if super().is_fulfilled(**kwargs):
-                return True
+            
             return False
 
         def get_name(self) -> str:
@@ -1559,7 +1544,7 @@ init -6 python:
 
             self.display_in_desc = True
 
-        def is_fulfilled(self, **kwargs) -> bool:
+        def check_condition(self, **kwargs) -> bool:
             """Checks if the current time matches the specified conditions.
 
             This method verifies if all specified time conditions (day, month, year,
@@ -1572,9 +1557,6 @@ init -6 python:
                 bool: True if all specified time conditions are met or if the parent
                     class check passes, False otherwise.
             """
-
-            if super().is_fulfilled(**kwargs):
-                return True
 
             return (
                 time.check_day    (self.day    ) and
@@ -1631,7 +1613,7 @@ init -6 python:
                     text += " "
                 text += f"{time.get_daytime_name(self.daytime)}"
 
-            if self.is_fulfilled(**kwargs):
+            if self.check_condition(**kwargs):
                 return "Time is {color=#00a000}" + text + "{/color}"
             else:
                 return "Time is {color=#a00000}" + text + "{/color}"
@@ -1696,7 +1678,7 @@ init -6 python:
             self.display_in_list = False
             self.display_in_desc = False
 
-        def is_fulfilled(self, **kwargs) -> bool:
+        def check_condition(self, **kwargs) -> bool:
             """Checks if enough time has passed since the stored timestamp.
 
             Validates that the required time periods have elapsed since the timer's
@@ -1712,9 +1694,7 @@ init -6 python:
                 - Timer data is not a Time object
                 - Not enough time has passed
             """
-            if super().is_fulfilled(**kwargs):
-                return True
-
+            
             if not contains_game_data("timer_" + self.id):
                 log_error(311, f"TimerCondition id (timer_{self.id}) is not valid")
                 return False
@@ -1784,7 +1764,7 @@ init -6 python:
             self.display_in_desc = True
             self.display_in_list = True
 
-        def is_fulfilled(self, **kwargs) -> bool:
+        def check_condition(self, **kwargs) -> bool:
             """Checks if the condition is fulfilled by random chance.
 
             Generates a random number between 0 and limit, then checks if it's
@@ -1796,8 +1776,7 @@ init -6 python:
             Returns:
                 True if random number is below threshold, False otherwise.
             """
-            if super().is_fulfilled(**kwargs):
-                return True
+            
             value = get_random_int(0, self.limit)
             
             return value < self.amount
@@ -1876,7 +1855,7 @@ init -6 python:
             self.value = value
             self.display_in_desc = True
 
-        def is_fulfilled(self, **kwargs) -> bool:
+        def check_condition(self, **kwargs) -> bool:
             """Checks if the game data matches the expected value.
 
             This method first checks the parent class's fulfillment condition. If that
@@ -1890,9 +1869,7 @@ init -6 python:
                 bool: True if either parent condition is fulfilled or if gameData[key]
                     matches the expected value, False otherwise.
             """
-            if super().is_fulfilled(**kwargs):
-                return True
-
+            
             if self.key not in gameData.keys():
                 return False
             return gameData[self.key] == self.value
@@ -1907,7 +1884,7 @@ init -6 python:
                 str: A formatted string containing the translated key name and colored value,
                     using Ren'Py text tags for coloring.
             """
-            if self.is_fulfilled():
+            if self.check_condition():
                 return get_translation(self.key) + " is {color=#00a000}" + str(self.value) + "{/color}"
             else:
                 return get_translation(self.key) + " is {color=#a00000}" + str(self.value) + "{/color}"
@@ -1959,7 +1936,7 @@ init -6 python:
             self.value = value
             self.display_in_desc = True
 
-        def is_fulfilled(self, **kwargs) -> bool:
+        def check_condition(self, **kwargs) -> bool:
             """Check if the event series meets the progress requirement.
 
             If no specific value is set (empty string), checks if any progress has been
@@ -1976,9 +1953,7 @@ init -6 python:
                     - The current progress meets the value requirement
                     False otherwise.
             """
-            if super().is_fulfilled(**kwargs):
-                return True
-
+            
             if self.value == "":
                 return get_progress(self.key) != -1
 
@@ -1999,7 +1974,7 @@ init -6 python:
                 str: A formatted string showing the event series name and progress
                     requirement with appropriate color coding.
             """
-            if self.is_fulfilled():
+            if self.check_condition():
                 return "Progress-level of {color=#3645e9}" + get_translation(self.key) + "{/color} is {color=#00a000}" + str(self.value) + "{/color}"
             else:
                 return "Progress-level of {color=#3645e9}" + get_translation(self.key) + "{/color} is {color=#a00000}" + str(self.value) + "{/color}"
@@ -2047,7 +2022,7 @@ init -6 python:
             self.value = value
             self.display_in_desc = True
 
-        def is_fulfilled(self, **kwargs) -> bool:
+        def check_condition(self, **kwargs) -> bool:
             """Check if the kwargs value matches the expected value.
 
             First checks if the parent condition is fulfilled. If not, looks up the key
@@ -2065,9 +2040,6 @@ init -6 python:
                     - The value at kwargs['values'][key] matches self.value (if 'values' exists)
                     False otherwise.
             """
-
-            if super().is_fulfilled(**kwargs):
-                return True
 
             if "values" in kwargs.keys():
                 return self.value == get_kwargs(self.key, **kwargs["values"])
@@ -2090,7 +2062,7 @@ init -6 python:
                     using Ren'Py text tags for coloring (green #00a000 or red #a00000).
             """
 
-            if self.is_fulfilled(**kwargs):
+            if self.check_condition(**kwargs):
                 return get_translation(self.key) + " is {color=#00a000}" + str(self.value) + "{/color}"
             else:
                 return get_translation(self.key) + " is {color=#a00000}" + str(self.value) + "{/color}"
@@ -2153,7 +2125,7 @@ init -6 python:
             self.display_in_desc = True
             self.display_in_list = False
 
-        def is_fulfilled(self, **kwargs) -> bool:
+        def check_condition(self, **kwargs) -> bool:
             """Check if the kwargs value matches the numeric condition pattern.
 
             This method retrieves the value from kwargs (or kwargs['values'] if it exists),
@@ -2179,9 +2151,7 @@ init -6 python:
                     - The value isn't numeric
                     - The comparison fails
             """
-            if super().is_fulfilled(**kwargs):
-                return True
-
+            
             value = get_kwargs(self.key, **kwargs)
 
             if "values" in kwargs.keys():
@@ -2209,7 +2179,7 @@ init -6 python:
                 str: A formatted string in the format "KeyName is {color}Value{/color}"
                     where the color is green (#00a000) when met or red (#a00000) when not met.
             """
-            if self.is_fulfilled(**kwargs):
+            if self.check_condition(**kwargs):
                 return get_translation(self.key) + " is {color=#00a000}" + str(self.value) + "{/color}"
             else:
                 return get_translation(self.key) + " is {color=#a00000}" + str(self.value) + "{/color}"
@@ -2274,7 +2244,7 @@ init -6 python:
             self.display_in_desc = True
             self.display_in_list = False
 
-        def is_fulfilled(self, **kwargs) -> bool:
+        def check_condition(self, **kwargs) -> bool:
             """Check if the numeric comparison condition is met.
 
             Retrieves the value from kwargs and compares it against the target value
@@ -2296,9 +2266,7 @@ init -6 python:
                     - The comparison evaluates to False
                     - Invalid operator is specified
             """
-            if super().is_fulfilled(**kwargs):
-                return True
-
+            
             check_value = get_kwargs_value(self.key, **kwargs)
 
             if check_value == None:
@@ -2335,7 +2303,7 @@ init -6 python:
                 str: A formatted string in the format "KeyName operator {color}Value{/color}"
                     where the color is green (#00a000) when met or red (#a00000) when not met.
             """
-            if self.is_fulfilled(**kwargs):
+            if self.check_condition(**kwargs):
                 return get_translation(self.key) + " " + self.operation + " {color=#00a000}" + str(self.value) + "{/color}"
             else:
                 return get_translation(self.key) + " " + self.operation + " {color=#a00000}" + str(self.value) + "{/color}"
@@ -2425,7 +2393,7 @@ init -6 python:
             self.display_in_desc = True
             self.display_in_list = False
 
-        def is_fulfilled(self, **kwargs) -> bool:
+        def check_condition(self, **kwargs) -> bool:
             """Check if the kwargs value matches the expected value.
 
             First checks if the parent condition is fulfilled. If not, looks up the key
@@ -2446,9 +2414,7 @@ init -6 python:
                     - The value at kwargs['values'][key] matches self.value (if 'values' exists)
                     False otherwise.
             """
-            if super().is_fulfilled(**kwargs):
-                return True
-
+            
             if "values" in kwargs.keys():
                 kwargs = kwargs["values"]
 
@@ -2476,7 +2442,7 @@ init -6 python:
                 str: A formatted string showing the translated key name and colored value,
                     using Ren'Py text tags for coloring (green #00a000 or red #a00000).
             """
-            if self.is_fulfilled(**kwargs):
+            if self.check_condition(**kwargs):
                 return get_translation(self.key) + " equals {color=#00a000}" + str(self.value) + "{/color}"
             else:
                 return get_translation(self.key) + " equals {color=#a00000}" + str(self.value) + "{/color}"
@@ -2556,7 +2522,7 @@ init -6 python:
             self.display_in_desc = True
             self.display_in_list = False
 
-        def is_fulfilled(self, **kwargs) -> bool:
+        def check_condition(self, **kwargs) -> bool:
             """Check if the comparison between the two kwargs values is satisfied.
 
             Retrieves both values from kwargs (or kwargs['values'] if it exists) and
@@ -2578,9 +2544,7 @@ init -6 python:
                     - Invalid operator is specified
                     - The comparison evaluates to False
             """
-            if super().is_fulfilled(**kwargs):
-                return True
-
+            
             if "values" in kwargs.keys():
                 kwargs = kwargs["values"]
 
@@ -2685,7 +2649,7 @@ init -6 python:
             super().__init__(blocking, *options)
             self.value = value
 
-        def is_fulfilled(self, **kwargs) -> bool:
+        def check_condition(self, **kwargs) -> bool:
             """Check if the loli_content setting matches the specified value.
 
             Uses check_in_value to compare the current loli_content setting against
@@ -2700,9 +2664,7 @@ init -6 python:
                     - The loli_content setting matches the specified value/pattern
                     False otherwise.
             """
-            if super().is_fulfilled(**kwargs):
-                return True
-
+            
             return check_in_value(self.value, loli_content)
 
         def get_name(self) -> str:
@@ -2744,7 +2706,7 @@ init -6 python:
             super().__init__(False, *options)
             self.display_in_desc = True
 
-        def is_fulfilled(self, **kwargs) -> bool:
+        def check_condition(self, **kwargs) -> bool:
             """Check if all sub-conditions are fulfilled.
 
             Evaluates each condition in sequence. Returns False as soon as any condition
@@ -2759,9 +2721,7 @@ init -6 python:
                     - All sub-conditions are fulfilled
                     False if any condition is not fulfilled.
             """
-            if super().is_fulfilled(**kwargs):
-                return True
-
+            
             for condition in self.conditions:
                 if condition.is_fulfilled(**kwargs):
                     continue
@@ -2781,7 +2741,7 @@ init -6 python:
             Returns:
                 str: A formatted string showing all sub-conditions and their status.
             """
-            return get_logic_condition_desc_text(self.is_fulfilled(**kwargs), self.conditions, "AND", **kwargs)
+            return get_logic_condition_desc_text(self.check_condition(**kwargs), self.conditions, "AND", **kwargs)
 
         def get_name(self) -> str:
             """Get a human-readable identifier for this condition.
@@ -2849,7 +2809,7 @@ init -6 python:
             super().__init__(False, *options)
             self.display_in_desc = True
 
-        def is_fulfilled(self, **kwargs) -> bool:
+        def check_condition(self, **kwargs) -> bool:
             """Check if at least one sub-condition is fulfilled.
 
             Evaluates each condition in sequence. Returns True as soon as any condition
@@ -2864,9 +2824,7 @@ init -6 python:
                     - Any sub-condition is fulfilled
                     False if no conditions are fulfilled.
             """
-            if super().is_fulfilled(**kwargs):
-                return True
-
+            
             for condition in self.conditions:
                 if condition.is_fulfilled(**kwargs):
                     return True
@@ -2886,7 +2844,7 @@ init -6 python:
                 Union[str, List[str]]: A formatted string or list of strings showing
                     all sub-conditions and their status.
             """
-            return get_logic_condition_desc_text(self.is_fulfilled(**kwargs), self.conditions, "OR", **kwargs)
+            return get_logic_condition_desc_text(self.check_condition(**kwargs), self.conditions, "OR", **kwargs)
 
         def get_name(self) -> str:
             """Get a human-readable identifier for this condition.
@@ -2959,7 +2917,7 @@ init -6 python:
             super().__init__(False, *options)
             self.display_in_desc = True
 
-        def is_fulfilled(self, **kwargs):
+        def check_condition(self, **kwargs):
             """
             Check if none of the sub-conditions are fulfilled.
 
@@ -2973,9 +2931,7 @@ init -6 python:
             Returns:
                 bool: True if none of the conditions are fulfilled, False otherwise
             """
-            if super().is_fulfilled(**kwargs):
-                return True
-
+            
             for condition in self.conditions:
                 if condition.is_fulfilled(**kwargs):
                     return False
@@ -2995,7 +2951,7 @@ init -6 python:
             Returns:
                 Union[str, List[str]]: A formatted description of the condition and its state
             """
-            return get_logic_condition_desc_text(self.is_fulfilled(**kwargs), self.conditions, "NOR", **kwargs)
+            return get_logic_condition_desc_text(self.check_condition(**kwargs), self.conditions, "NOR", **kwargs)
 
         def get_name(self) -> str:
             """
@@ -3065,7 +3021,7 @@ init -6 python:
             self.condition = condition
             self.display_in_desc = True
 
-        def is_fulfilled(self, **kwargs) -> bool:
+        def check_condition(self, **kwargs) -> bool:
             """
             Check if the sub-condition is not fulfilled.
 
@@ -3079,9 +3035,7 @@ init -6 python:
             Returns:
                 bool: True if the condition is not fulfilled, False otherwise
             """
-            if super().is_fulfilled(**kwargs):
-                return True
-
+            
             return not self.condition.is_fulfilled(**kwargs)
 
         def to_desc_text(self, **kwargs) -> Union[str, List[str]]:
@@ -3169,7 +3123,7 @@ init -6 python:
             super().__init__(False, *options)
             self.display_in_desc = True
 
-        def is_fulfilled(self, **kwargs) -> bool:
+        def check_condition(self, **kwargs) -> bool:
             """
             Check if exactly one of the sub-conditions is fulfilled.
 
@@ -3183,9 +3137,7 @@ init -6 python:
             Returns:
                 bool: True if exactly one condition is fulfilled, False otherwise
             """
-            if super().is_fulfilled(**kwargs):
-                return True
-
+            
             is_true = False
             
             for condition in self.conditions:
@@ -3209,7 +3161,7 @@ init -6 python:
             Returns:
                 Union[str, List[str]]: A formatted description of the condition and its state
             """
-            return get_logic_condition_desc_text(self.is_fulfilled(**kwargs), self.conditions, "XOR", **kwargs)
+            return get_logic_condition_desc_text(self.check_condition(**kwargs), self.conditions, "XOR", **kwargs)
 
         def get_name(self) -> str:
             """
@@ -3279,7 +3231,7 @@ init -6 python:
             super().__init__(False, *options)
             self.is_intro = is_intro
 
-        def is_fulfilled(self, **kwargs) -> bool:
+        def check_condition(self, **kwargs) -> bool:
             """
             Check if the game is in the desired phase (intro or post-intro).
 
@@ -3295,9 +3247,7 @@ init -6 python:
             Returns:
                 bool: True if the game is in the desired phase, False otherwise
             """
-            if super().is_fulfilled(**kwargs):
-                return True
-
+            
             if ((time.compare_today(10, 1, 2023) == -1 and self.is_intro) or
                 (time.compare_today(10, 1, 2023) != -1 and not self.is_intro)):
                 return True
@@ -3341,7 +3291,7 @@ init -6 python:
             self.char = char
             self.accept = accept
 
-        def is_fulfilled(self, **kwargs) -> bool:
+        def check_condition(self, **kwargs) -> bool:
             """
             Check if this override condition is active.
 
@@ -3355,9 +3305,7 @@ init -6 python:
             Returns:
                 bool: True if the override should be applied, False otherwise
             """
-            if super().is_fulfilled(**kwargs):
-                return True
-
+            
             return self.accept == "yes" or self.accept == "ignore"
 
         def get_name(self) -> str:
@@ -3430,7 +3378,7 @@ init -6 python:
             self.condition = condition
             self.display_in_desc = True
 
-        def is_fulfilled(self, **kwargs) -> bool:
+        def check_condition(self, **kwargs) -> bool:
             """
             Check if the sub-condition is fulfilled when evaluated in replay mode.
 
@@ -3524,7 +3472,7 @@ init -6 python:
             super().__init__(True, *options)
             self.seen = seen
 
-        def is_fulfilled(self, **kwargs) -> bool:
+        def check_condition(self, **kwargs) -> bool:
             """
             Check if an event's seen status matches the desired state.
 
@@ -3540,9 +3488,7 @@ init -6 python:
             Returns:
                 bool: True if the event's seen status matches self.seen, False otherwise
             """
-            if super().is_fulfilled(**kwargs):
-                return True
-
+            
             return self.seen == get_event_seen(get_kwargs('event_name', **kwargs))
 
         def get_name(self) -> str:
@@ -3587,7 +3533,7 @@ init -6 python:
             global registered_vote_events
             registered_vote_events.append(journal_obj)
 
-        def is_fulfilled(self, **kwargs) -> bool:
+        def check_condition(self, **kwargs) -> bool:
             """
             Check if the specified journal object is currently scheduled for voting.
 
@@ -3601,8 +3547,6 @@ init -6 python:
             Returns:
                 bool: True if this journal object is currently up for vote, False otherwise
             """
-            if super().is_fulfilled(**kwargs):
-                return True
 
             vote_proposal = get_game_data('voteProposal')
             if vote_proposal == None:
@@ -3643,7 +3587,7 @@ init -6 python:
             """
             super().__init__(False, *options)
 
-        def is_fulfilled(self, **kwargs) -> bool:
+        def check_condition(self, **kwargs) -> bool:
             """Check if the current journal object has never been scheduled for voting.
 
             This method first checks if the parent condition is fulfilled. If not, it checks
@@ -3659,9 +3603,7 @@ init -6 python:
                     - The current journal object has never been scheduled for voting
                     False otherwise.
             """
-            if super().is_fulfilled(**kwargs):
-                return True
-
+            
             vote_proposal = get_game_data('voteProposal')
             if vote_proposal == None:
                 return False
@@ -3693,7 +3635,7 @@ init -6 python:
             super().__init__(True, *options)
             self.value = value
 
-        def is_fulfilled(self, **kwargs) -> bool:
+        def check_condition(self, **kwargs) -> bool:
             return self.value
 
         def get_name(self) -> str:
