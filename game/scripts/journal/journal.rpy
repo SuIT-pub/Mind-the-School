@@ -109,6 +109,48 @@ init python:
             return []
         return types[page]
 
+    def on_add_rule_to_proposal(rule):
+        """
+        A Hook Function that can hold varying checks (Such as additional confirmation scenes)
+
+        ### Parameters:
+        1. rule: Rule
+            - Rule that is checked against
+        
+        ### Returns:
+        - Bool
+            -Indicates wether checks were succesful or not
+        """
+
+        if rule.is_upgrade_rule() == True:
+            seen_events = get_game_data("seen_events")
+            if seen_events == None:
+                seen_events = {}
+            for key in event_register:
+                if key in seen_events.keys():
+                    continue
+                event = get_event_from_register(key)
+                for cond in event.conditions:
+                    if isinstance(cond, LevelCondition):
+                        print(event.__dict__, event.select_type != 3, cond.is_fulfilled(), cond.char_obj == 'school')
+                        if event.select_type != 3 and cond.is_fulfilled() and cond.char_obj == 'school':
+                            renpy.show_screen("confirm","There are still Events you haven't seen yet for this school level.\n\nThis Rule will upgrade your school level, are you sure you want to schedule it now?",
+                                Call("add_to_proposal", rule, 2, rule_name),
+                                Call("open_journal", 2, rule_name))               
+                                return False
+
+        voteProposal = get_game_data("voteProposal")
+        if voteProposal != None:
+            title = "the " + voteProposal._journal_obj.get_type() + " \"" + voteProposal._journal_obj.get_title() + "\""
+            rule_title = rule.get_title()
+        if rule == None:
+            return True
+        renpy.show_screen("confirm","You already scheduled [title] for voting.\n\nDo you wanna schedule the rule \"[rule_title]\" instead?",
+            Call("add_to_proposal", rule, 2, rule_name),
+            Call("open_journal", 2, rule_name))
+            return False
+        return True
+
 #########################
 # region Journal Events #
 
@@ -3368,17 +3410,11 @@ label add_rule_to_proposal(rule_name):
     # """
 
     $ rule = get_rule(rule_name)
-    $ voteProposal = get_game_data("voteProposal")
-    if voteProposal != None:
-        $ title = "the " + voteProposal._journal_obj.get_type() + " \"" + voteProposal._journal_obj.get_title() + "\""
-        $ rule_title = rule.get_title()
-        if rule == None:
-            return
-        call screen confirm("You already scheduled [title] for voting.\n\nDo you wanna schedule the rule \"[rule_title]\" instead?",
-            Call("add_to_proposal", rule, 2, rule_name),
-            Call("open_journal", 2, rule_name))
 
-    call add_to_proposal(rule, 2, rule_name) from add_rule_to_proposal_2
+    $ is_valid = on_add_rule_to_proposal(rule)
+
+    if is_valid:
+        call add_to_proposal(rule, 2, rule_name) from add_rule_to_proposal_2
 
 label add_club_to_proposal(club_name):
     # """

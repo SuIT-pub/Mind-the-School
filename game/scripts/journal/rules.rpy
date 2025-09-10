@@ -27,7 +27,10 @@ init -6 python:
             super()._update(title, data)
             if data != None:
                 self.__dict__.update(data)
-                
+            
+            if not hasattr(self, '_is_upgrade_rule'):
+                self._is_upgrade_rule = False
+
             if not hasattr(self, '_unlocked'):
                 self._unlocked = False
 
@@ -40,6 +43,12 @@ init -6 python:
             """
 
             super().is_valid()
+        
+        def is_upgrade_rule(self) -> bool:
+            """
+            Checks for the bool attr '_is_upgrade_rule'
+            """
+            return getattr(self, '_is_upgrade_rule', False)
 
         def get_type(self) -> str:
             """
@@ -183,7 +192,8 @@ label load_rules ():
             LevelEffect("set_parent_level_3", 3, "SET", "parent"),
             LevelEffect("set_teacher_level_3", 3, "SET", "teacher"),
             LevelEffect("set_secretary_level_7", 7, "SET", "secretary"),
-        ]
+        ],
+        '_is_upgrade_rule' : True
     })
 
     $ load_rule("level_4", "Level 4", {
@@ -206,7 +216,8 @@ label load_rules ():
             LevelEffect("set_parent_level_4", 4, "SET", "parent"),
             LevelEffect("set_teacher_level_4", 4, "SET", "teacher"),
             LevelEffect("set_secretary_level_8", 8, "SET", "secretary"),
-        ]
+        ],
+        '_is_upgrade_rule' : True
     })
 
     $ load_rule("level_5", "Level 5", {
@@ -229,7 +240,8 @@ label load_rules ():
             LevelEffect("set_parent_level_5", 5, "SET", "parent"),
             LevelEffect("set_teacher_level_5", 5, "SET", "teacher"),
             LevelEffect("set_secretary_level_9", 9, "SET", "secretary"),
-        ]
+        ],
+        '_is_upgrade_rule' : True
     })
 
     $ load_rule("level_6", "Level 6", {
@@ -252,7 +264,8 @@ label load_rules ():
             LevelEffect("set_parent_level_6", 6, "SET", "parent"),
             LevelEffect("set_teacher_level_6", 6, "SET", "teacher"),
             LevelEffect("set_secretary_level_10", 10, "SET", "secretary"),
-        ]
+        ],
+        '_is_upgrade_rule' : True
     })
 
     $ load_rule("level_7", "Level 7", {
@@ -275,7 +288,8 @@ label load_rules ():
             LevelEffect("set_parent_level_7", 7, "SET", "parent"),
             LevelEffect("set_teacher_level_7", 7, "SET", "teacher"),
             LevelEffect("set_secretary_level_10", 10, "SET", "secretary"),
-        ]
+        ],
+        '_is_upgrade_rule' : True
     })
 
     $ load_rule("level_8", "Level 8", {
@@ -298,7 +312,8 @@ label load_rules ():
             LevelEffect("set_parent_level_8", 8, "SET", "parent"),
             LevelEffect("set_teacher_level_8", 8, "SET", "teacher"),
             LevelEffect("set_secretary_level_10", 10, "SET", "secretary"),
-        ]
+        ],
+        '_is_upgrade_rule' : True
     })
 
     $ load_rule("level_9", "Level 9", {
@@ -321,7 +336,8 @@ label load_rules ():
             LevelEffect("set_parent_level_9", 9, "SET", "parent"),
             LevelEffect("set_teacher_level_9", 9, "SET", "teacher"),
             LevelEffect("set_secretary_level_10", 10, "SET", "secretary"),
-        ]
+        ],
+        '_is_upgrade_rule' : True
     })
 
     $ load_rule("level_10", "Level 10", {
@@ -344,7 +360,8 @@ label load_rules ():
             LevelEffect("set_parent_level_10", 10, "SET", "parent"),
             LevelEffect("set_teacher_level_10", 10, "SET", "teacher"),
             LevelEffect("set_secretary_level_10", 10, "SET", "secretary"),
-        ]
+        ],
+        '_is_upgrade_rule' : True
     })
 
     $ load_rule("school_jobs", "School Jobs", {
