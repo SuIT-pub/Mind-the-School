@@ -262,6 +262,29 @@ init -99 python:
                     return True
 
         return str(value_range) == str(value)
+    
+    def get_highest_value(value_range: [str, int]) -> int:
+        """
+        Returns the highest value of the given range by comparing it to
+        the maximum signed 64-bit value and subtracting the difference.
+        Proper logic of interpreting the value range is done in get_value_diff
+
+        ### Parameters:
+        1. value_range: [str, int]
+            - The value range to check
+
+        ### Returns:
+        1. int
+            - Highest value in Range
+            - Returns signed 64-bit max if range contains a (positive) infinite scale.
+        """
+
+        if str(value_range).count("+") > 0:
+            return INT64_MAX
+
+        diff = get_value_diff(value_range, INT64_MAX)
+        
+        return INT64_MAX - abs(diff)
 
     def get_value_diff(value_range: [str, int], value: int) -> num:
         """

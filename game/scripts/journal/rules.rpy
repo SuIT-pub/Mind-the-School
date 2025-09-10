@@ -27,9 +27,6 @@ init -6 python:
             super()._update(title, data)
             if data != None:
                 self.__dict__.update(data)
-            
-            if not hasattr(self, '_is_upgrade_rule'):
-                self._is_upgrade_rule = False
 
             if not hasattr(self, '_unlocked'):
                 self._unlocked = False
@@ -43,12 +40,6 @@ init -6 python:
             """
 
             super().is_valid()
-        
-        def is_upgrade_rule(self) -> bool:
-            """
-            Checks for the bool attr '_is_upgrade_rule'
-            """
-            return getattr(self, '_is_upgrade_rule', False)
 
         def get_type(self) -> str:
             """
@@ -182,7 +173,7 @@ label load_rules ():
             "Not all events are available at higher levels.",
         ],
         '_unlock_conditions': {
-            'misc': ConditionStorage(LevelCondition("2", True)),
+            'misc': ConditionStorage(LevelCondition("2", True), MaxLevelEventCondition(2, False, OptionalOption())),
             'social': ConditionStorage(StatCondition(inhibition = '80-', corruption = '20+')),
         },
         '_image_path': 'images/journal/rules/Level_3.webp',
@@ -193,7 +184,6 @@ label load_rules ():
             LevelEffect("set_teacher_level_3", 3, "SET", "teacher"),
             LevelEffect("set_secretary_level_7", 7, "SET", "secretary"),
         ],
-        '_is_upgrade_rule' : True
     })
 
     $ load_rule("level_4", "Level 4", {
@@ -206,7 +196,7 @@ label load_rules ():
             "Not all events are available at higher levels.",
         ],
         '_unlock_conditions': {
-            'misc': ConditionStorage(LevelCondition("3", True)),
+            'misc': ConditionStorage(LevelCondition("3", True), MaxLevelEventCondition(3, False, OptionalOption())),
             'social': ConditionStorage(StatCondition(char_obj = "school", inhibition = '70-', corruption = '30+')),
         },
         '_image_path': 'images/journal/rules/Level_4.webp',
@@ -217,7 +207,6 @@ label load_rules ():
             LevelEffect("set_teacher_level_4", 4, "SET", "teacher"),
             LevelEffect("set_secretary_level_8", 8, "SET", "secretary"),
         ],
-        '_is_upgrade_rule' : True
     })
 
     $ load_rule("level_5", "Level 5", {
@@ -230,7 +219,7 @@ label load_rules ():
             "Not all events are available at higher levels.",
         ],
         '_unlock_conditions': {
-            'misc': ConditionStorage(LevelCondition("4", True)),
+            'misc': ConditionStorage(LevelCondition("4", True), MaxLevelEventCondition(4, False, OptionalOption())),
             'social': ConditionStorage(StatCondition(char_obj = "school", inhibition = '60-', corruption = '40+')),
         },
         '_image_path': 'images/journal/rules/Level_5.webp',
@@ -241,7 +230,6 @@ label load_rules ():
             LevelEffect("set_teacher_level_5", 5, "SET", "teacher"),
             LevelEffect("set_secretary_level_9", 9, "SET", "secretary"),
         ],
-        '_is_upgrade_rule' : True
     })
 
     $ load_rule("level_6", "Level 6", {
@@ -254,7 +242,7 @@ label load_rules ():
             "Not all events are available at higher levels.",
         ],
         '_unlock_conditions': {
-            'misc': ConditionStorage(LevelCondition("5", True)),
+            'misc': ConditionStorage(LevelCondition("5", True), MaxLevelEventCondition(5, False, OptionalOption())),
             'social': ConditionStorage(StatCondition(char_obj = "school", inhibition = '50-', corruption = '50+')),
         },
         '_image_path': 'images/journal/rules/Level_6.webp',
@@ -265,7 +253,6 @@ label load_rules ():
             LevelEffect("set_teacher_level_6", 6, "SET", "teacher"),
             LevelEffect("set_secretary_level_10", 10, "SET", "secretary"),
         ],
-        '_is_upgrade_rule' : True
     })
 
     $ load_rule("level_7", "Level 7", {
@@ -278,7 +265,7 @@ label load_rules ():
             "Not all events are available at higher levels.",
         ],
         '_unlock_conditions': {
-            'misc': ConditionStorage(LevelCondition("6", True)),
+            'misc': ConditionStorage(LevelCondition("6", True), MaxLevelEventCondition(6, False, OptionalOption())),
             'social': ConditionStorage(StatCondition(char_obj = "school", inhibition = '40-', corruption = '60+')),
         },
         '_image_path': 'images/journal/rules/Level_7.webp',
@@ -289,7 +276,6 @@ label load_rules ():
             LevelEffect("set_teacher_level_7", 7, "SET", "teacher"),
             LevelEffect("set_secretary_level_10", 10, "SET", "secretary"),
         ],
-        '_is_upgrade_rule' : True
     })
 
     $ load_rule("level_8", "Level 8", {
@@ -302,7 +288,7 @@ label load_rules ():
             "Not all events are available at higher levels.",
         ],
         '_unlock_conditions': {
-            'misc': ConditionStorage(LevelCondition("7", True)),
+            'misc': ConditionStorage(LevelCondition("7", True), MaxLevelEventCondition(7, False, OptionalOption())),
             'social': ConditionStorage(StatCondition(char_obj = "school", inhibition = '30-', corruption = '70+')),
         },
         '_image_path': 'images/journal/rules/Level_8.webp',
@@ -313,7 +299,6 @@ label load_rules ():
             LevelEffect("set_teacher_level_8", 8, "SET", "teacher"),
             LevelEffect("set_secretary_level_10", 10, "SET", "secretary"),
         ],
-        '_is_upgrade_rule' : True
     })
 
     $ load_rule("level_9", "Level 9", {
@@ -326,7 +311,7 @@ label load_rules ():
             "Not all events are available at higher levels.",
         ],
         '_unlock_conditions': {
-            'misc': ConditionStorage(LevelCondition("8", True)),
+            'misc': ConditionStorage(LevelCondition("8", True), MaxLevelEventCondition(8, False, OptionalOption())),
             'social': ConditionStorage(StatCondition(char_obj = "school", inhibition = '20-', corruption = '80+')),
         },
         '_image_path': 'images/journal/rules/Level_9.webp',
@@ -337,7 +322,6 @@ label load_rules ():
             LevelEffect("set_teacher_level_9", 9, "SET", "teacher"),
             LevelEffect("set_secretary_level_10", 10, "SET", "secretary"),
         ],
-        '_is_upgrade_rule' : True
     })
 
     $ load_rule("level_10", "Level 10", {
@@ -350,7 +334,7 @@ label load_rules ():
             "Not all events are available at higher levels.",
         ],
         '_unlock_conditions': {
-            'misc': ConditionStorage(LevelCondition("9", True)),
+            'misc': ConditionStorage(LevelCondition("9", True), MaxLevelEventCondition(9, False, OptionalOption())),
             'social': ConditionStorage(StatCondition(char_obj = "school", inhibition = '10-', corruption = '90+')),
         },
         '_image_path': 'images/journal/rules/Level_10.webp',
@@ -361,7 +345,6 @@ label load_rules ():
             LevelEffect("set_teacher_level_10", 10, "SET", "teacher"),
             LevelEffect("set_secretary_level_10", 10, "SET", "secretary"),
         ],
-        '_is_upgrade_rule' : True
     })
 
     $ load_rule("school_jobs", "School Jobs", {

@@ -336,7 +336,7 @@ init -6 python:
 
             if is_in_replay or in_replay or in_journal_gallery:
                 return True
-
+ 
             if self.options.has_option('Optional'):
                 return True
 
@@ -1327,6 +1327,102 @@ init -6 python:
             elif diff < -1:
                 return diff * 20
             return diff
+    
+    class MaxLevelEventCondition(Condition):
+        """A condition class that checks if the provided levels events have been completed.
+
+        Events with LevelCondition members are sorted into event_register_by_max_level 
+        based on maximum level at which they can still trigger.
+        """
+
+        def __init__(self, value: int, blocking: bool = False, *options: Option):
+            """Initialize a new MaxLevelEventCondition.
+
+            Args:
+                value (Union[str, num]): The required Level threshold. Can be a number
+                    (treated as minimum) or comparison string (e.g., '>=1000').
+                blocking (bool, optional): Whether this condition should block
+                    progression when not fulfilled. Defaults to False.
+            """
+            super().__init__(blocking, *options)
+            self.value = value
+            self.display_in_list = True
+            self.display_in_desc = True
+           
+        def check_condition(self, **kwargs) -> bool:
+            """Check if the events at the provided level have been seen.
+
+            If the value is specified as a number rather than a comparison string,
+            it is treated as a minimum requirement (value+).
+
+            Args:
+                **kwargs: Additional arguments (unused in this implementation).
+
+            Returns:
+                bool: True if either:
+                    - The parent condition is fulfilled
+                    - The events at the provided level have been seen.
+                    False otherwise.
+            """
+        
+            return get_events_seen(event_register_by_max_level.get(self.value) or [])
+
+        def to_desc_text(self, **kwargs) -> str:
+            """Generate formatted text describing the requirement status.
+
+            Creates a colored text representation of the requirement:
+            - Green text when requirement is met
+            - Red text when requirement is not met
+
+            Args:
+                **kwargs: Additional arguments (unused in this implementation).
+
+            Returns:
+                str: A formatted string (green when met, red if not)
+            """
+            if self.check_condition():
+                return "All Events" + "{color=#00a000} seen" + "{/color}" + "for Level" + str(self.value)
+            else:
+                return "Some Events" + "{color=#a00000} not" + "{/color}" + "seen for Level" + str(self.value)
+
+        def to_list_text(self, **kwargs) -> Tuple[str, str, str]:
+            """Generate formatted text for displaying the condition in a list view.
+
+            Creates a tuple containing an icon and colored text representation
+            of the money requirement.
+
+            Args:
+                **kwargs: Additional arguments (unused in this implementation).
+
+            Returns:
+                Tuple[str, str, str]: A tuple containing:
+                    - The money icon path
+                    - The colored money value (green when met, red when not)
+                    - The string "Money"
+            """
+            if self.check_condition():
+                return (
+                    get_stat_icon("level", white = False), 
+                    "{color=#00a000}" + str(self.value) + "{/color}", "All Events for level seen"
+                )
+            else:
+                return (
+                    get_stat_icon("level", white = False), 
+                    "{color=#a00000}" + str(self.value) + "{/color}", "Not all Events for level seen"
+                )
+
+        def get_name(self) -> str:
+            """Get a human-readable identifier for this condition.
+
+            Returns:
+                str: The string "Max Level".
+            """
+            return "Max Level"
+
+        def get_diff(self, **kwargs) -> int:
+            if self.is_fulfilled(**kwargs):
+                return 100
+            return -5000
 
     class MoneyCondition(Condition):
         """A condition class that checks if the available money meets a threshold.

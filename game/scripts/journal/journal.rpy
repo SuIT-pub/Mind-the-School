@@ -121,33 +121,26 @@ init python:
         - Bool
             -Indicates wether checks were successful or not
         """
-
-        if rule.is_upgrade_rule() == True:
-            seen_events = get_game_data("seen_events")
-            if seen_events == None:
-                seen_events = {}
-            for key in event_register:
-                if key in seen_events.keys():
-                    continue
-                event = get_event_from_register(key)
-                for cond in event.conditions:
-                    if isinstance(cond, LevelCondition):
-                        print(event.__dict__, event.select_type != 3, cond.is_fulfilled(), cond.char_obj == 'school')
-                        if event.select_type != 3 and cond.is_fulfilled() and cond.char_obj == 'school':
-                            renpy.show_screen("confirm","There are still Events you haven't seen yet for this school level.\n\nThis Rule will upgrade your school level, are you sure you want to schedule it now?",
-                                Call("add_to_proposal", rule, 2, rule_name),
-                                Call("open_journal", 2, rule_name))               
-                                return False
+        
+        conditions = rule.get_all_conditions()
+        for cond in conditions:
+            if isinstance(cond, MaxLevelEventCondition):
+                if not cond.check_condition():
+                    print("HERE?!")
+                    renpy.show_screen("confirm","There are still Events you haven't seen yet for this school level.\n\nThis Rule will upgrade your school level, are you sure you want to schedule it?",
+                    Call("add_to_proposal", rule, 2, rule_name),
+                    Call("open_journal", 2, rule_name))               
+                    return False
 
         voteProposal = get_game_data("voteProposal")
         if voteProposal != None:
             title = "the " + voteProposal._journal_obj.get_type() + " \"" + voteProposal._journal_obj.get_title() + "\""
             rule_title = rule.get_title()
-        if rule == None:
-            return False
-        renpy.show_screen("confirm","You already scheduled [title] for voting.\n\nDo you wanna schedule the rule \"[rule_title]\" instead?",
-            Call("add_to_proposal", rule, 2, rule_name),
-            Call("open_journal", 2, rule_name))
+            if rule == None:
+                return False
+            renpy.show_screen("confirm","You already scheduled [title] for voting.\n\nDo you wanna schedule the rule \"[rule_title]\" instead?",
+                Call("add_to_proposal", rule, 2, rule_name),
+                Call("open_journal", 2, rule_name))
             return False
         return True
 

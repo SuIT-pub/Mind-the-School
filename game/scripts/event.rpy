@@ -93,6 +93,26 @@ init -3 python:
             return False
         return seenEvents[event_name]
 
+    def get_events_seen(list_of_events: [str]) -> bool:
+        """
+        A sligthly more performant implementation of get_event_seen for checking multiple events at once
+
+        ### Parameters:
+        1. list_of_events: [str]
+            - List to check
+        ### Return:
+        1. bool
+            - Returns true only if all events have been seen
+            - Ignores duplicates
+        """
+        if not are_events_registered(list_of_events):
+            return False
+
+        global seenEvents
+        print(seenEvents, list_of_events,"\n")
+        print(set(list_of_events).issubset(seenEvents.keys()))
+        return set(list_of_events).issubset(seenEvents.keys())
+        
     # endregion
     ######################
 
@@ -1214,6 +1234,11 @@ init -3 python:
                 if isinstance(value, Condition):
                     if isinstance(value, IntroCondition):
                         has_intro_condition = True
+                    if isinstance(value, LevelCondition):
+                        max_level = get_highest_value(value.value)
+                        if max_level not in event_register_by_max_level:
+                            event_register_by_max_level[max_level] = [event]
+                        event_register_by_max_level[max_level].append(event)
                     self.conditions.append(value)
                 elif isinstance(value, Selector):
                     self.values.add_selector(value)
@@ -1999,6 +2024,22 @@ init -3 python:
         """
 
         return name in event_register.keys()
+
+    def are_events_registered(list: str) -> bool:
+        """
+        Checks if an event is registered.
+
+        ### Parameters:
+        1. list: str
+            - The list of the events
+
+        ### Returns:
+        1. bool
+            - True if the events are registered.
+            - False if the events are not registered.
+        """
+
+        return set(list).issubset(event_register.keys())
 
     def get_event_from_register(name: str) -> Event:
         """
