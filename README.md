@@ -64,6 +64,10 @@ This game contains adult content and themes. Players must be 18 years or older. 
 2. Open the .apk file on your device
 3. Follow the installation instructions on your device
 
+## Modding
+You want to create a mod using the game's inbuilt modding framework?
+Check out my Quickstart Guide in the Wiki: [https://wiki.suit-ji.com/books/quickstart](https://wiki.suit-ji.com/books/quickstart)
+
 ## Development Status
 
 The game is currently in active development. The current version includes:
