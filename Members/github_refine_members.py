@@ -13,7 +13,7 @@ GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')  # Stelle sicher, dass du dein Token si
 REPO_OWNER = 'SuIT-pub'
 REPO_NAME = 'Mind-the-School'
 FILE_PATH = 'game/members.csv'
-COMMIT_MESSAGE = 'updated members.csv'
+COMMIT_MESSAGE = 'BOT:Updated members.csv'
 GITHUB_HEADER = {
     'Authorization': f'token {GITHUB_TOKEN}', 
     'Accept': 'application/vnd.github.v3+json'
