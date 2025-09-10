@@ -148,19 +148,11 @@ init python:
 # region Journal Events #
 
 init -1 python:
-    journal_events = EventStorage("journal_events", "misc", fallback = Event(2, "start_journal.after_check"))
 
 # endregion
 #########################
 
 ########################
-# region Journal Entry #
-########################
-
-label start_journal ():
-    # """
-    # A label used to start the journal screen
-    # """
 
     call call_available_event(journal_events) from start_journal_2
 
