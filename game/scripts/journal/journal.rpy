@@ -109,50 +109,25 @@ init python:
             return []
         return types[page]
 
-    def on_add_rule_to_proposal(rule):
-        """
-        A Hook Function that can hold varying checks (Such as additional confirmation scenes)
-
-        ### Parameters:
-        1. rule: Rule
-            - Rule that is checked against
-        
-        ### Returns:
-        - Bool
-            -Indicates wether checks were successful or not
-        """
-        
-        conditions = rule.get_all_conditions()
-        for cond in conditions:
-            if isinstance(cond, MaxLevelEventCondition):
-                if not cond.check_condition():
-                    print("HERE?!")
-                    renpy.show_screen("confirm","There are still Events you haven't seen yet for this school level.\n\nThis Rule will upgrade your school level, are you sure you want to schedule it?",
-                    Call("add_to_proposal", rule, 2, rule_name),
-                    Call("open_journal", 2, rule_name))               
-                    return False
-
-        voteProposal = get_game_data("voteProposal")
-        if voteProposal != None:
-            title = "the " + voteProposal._journal_obj.get_type() + " \"" + voteProposal._journal_obj.get_title() + "\""
-            rule_title = rule.get_title()
-            if rule == None:
-                return False
-            renpy.show_screen("confirm","You already scheduled [title] for voting.\n\nDo you wanna schedule the rule \"[rule_title]\" instead?",
-                Call("add_to_proposal", rule, 2, rule_name),
-                Call("open_journal", 2, rule_name))
-            return False
-        return True
-
 #########################
 # region Journal Events #
 
 init -1 python:
+    journal_events = EventStorage("journal_events", "misc", fallback = Event(2, "start_journal.after_check"))
 
 # endregion
 #########################
 
 ########################
+# region Journal Entry #
+########################
+
+label start_journal ():
+    # """
+    # A label used to start the journal screen
+    # """
+
+
 
     call call_available_event(journal_events) from start_journal_2
 
@@ -3396,11 +3371,44 @@ label add_rule_to_proposal(rule_name):
 
     $ rule = get_rule(rule_name)
 
-    $ is_valid = on_add_rule_to_proposal(rule)
+    call check_for_overwrite_confirmation(rule)
+    call check_for_unseen_events_confirmation(rule)
 
-    if is_valid:
-        call add_to_proposal(rule, 2, rule_name) from add_rule_to_proposal_2
+    call add_to_proposal(rule, 2, rule_name) from add_rule_to_proposal_2
 
+label check_for_unseen_events_confirmation(rule):
+    """
+    A Label that checks for yet to see Events
+
+    ### Parameters:
+    1. rule: Rule
+        - Rule that is checked against
+    """
+    python:
+        needs_confirmation = False
+        conditions = rule.get_all_conditions()
+        for cond in conditions:
+            if isinstance(cond, MaxLevelEventCondition):
+                if not cond.check_condition():
+                    needs_confirmation = True
+    if needs_confirmation:
+        call screen confirm("There are still Events you haven't seen yet for this school level.\n\nThis Rule will upgrade your school level, are you sure you want to schedule it?",
+            Call("add_to_proposal", rule, 2, rule_name),
+            Call("open_journal", 2, rule_name)) 
+    return              
+       
+label check_for_overwrite_confirmation(rule):
+        $ voteProposal = get_game_data("voteProposal")
+        if voteProposal != None:
+            $ title = "the " + voteProposal._journal_obj.get_type() + " \"" + voteProposal._journal_obj.get_title() + "\""
+            $ rule_title = rule.get_title()
+            if rule == None:
+                return
+            call screen confirm("You already scheduled [title] for voting.\n\nDo you wanna schedule the rule \"[rule_title]\" instead?",
+                Call("check_for_unseen_events_confirmation", rule),
+                Call("open_journal", 2, rule_name))
+        return      
+        
 label add_club_to_proposal(club_name):
     # """
     # Adds a specific club to the proposal for voting
