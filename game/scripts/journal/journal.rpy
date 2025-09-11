@@ -3374,8 +3374,6 @@ label add_rule_to_proposal(rule_name):
     call check_for_overwrite_confirmation(rule)
     call check_for_unseen_events_confirmation(rule)
 
-    call add_to_proposal(rule, 2, rule_name) from add_rule_to_proposal_2
-
 label check_for_unseen_events_confirmation(rule):
     """
     A Label that checks for yet to see Events
@@ -3394,8 +3392,9 @@ label check_for_unseen_events_confirmation(rule):
     if needs_confirmation:
         call screen confirm("There are still Events you haven't seen yet for this school level.\n\nThis Rule will upgrade your school level, are you sure you want to schedule it?",
             Call("add_to_proposal", rule, 2, rule_name),
-            Call("open_journal", 2, rule_name)) 
-    return              
+            Call("open_journal", 2, rule_name))
+
+    call add_to_proposal(rule, 2, rule_name)              
        
 label check_for_overwrite_confirmation(rule):
         $ voteProposal = get_game_data("voteProposal")
