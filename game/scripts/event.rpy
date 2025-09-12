@@ -107,7 +107,9 @@ init -3 python:
         """
 
         global seenEvents
-        return set(list_of_events).issubset(seenEvents.keys())
+        onlyAlreadySeen = [key for key, value in seenEvents.items() if value]
+
+        return set(list_of_events).issubset(set(onlyAlreadySeen))
         
     # endregion
     ######################

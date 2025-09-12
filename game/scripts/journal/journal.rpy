@@ -3375,13 +3375,13 @@ label add_rule_to_proposal(rule_name):
     call check_for_unseen_events_confirmation(rule)
 
 label check_for_unseen_events_confirmation(rule):
-    """
-    A Label that checks for yet to see Events
+    #"""
+    #A Label that checks for yet to see Events
 
-    ### Parameters:
-    1. rule: Rule
-        - Rule that is checked against
-    """
+    # ### Parameters:
+    #1. rule: Rule
+    #    - Rule that is checked against
+    #"""
     python:
         needs_confirmation = False
         conditions = rule.get_all_conditions()

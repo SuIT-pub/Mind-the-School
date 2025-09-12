@@ -263,7 +263,7 @@ init -99 python:
 
         return str(value_range) == str(value)
     
-    def get_highest_value(value_range: [str, int], max_value = 63** - 1) -> int:
+    def get_highest_value(value_range: [str, int], max_value = 2**63 - 1) -> int:
         """
         Returns the highest value of the given range by comparing it to
         the maximum signed 64-bit value and subtracting the difference.

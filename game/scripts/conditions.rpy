@@ -1381,9 +1381,9 @@ init -6 python:
                 str: A formatted string (green when met, red if not)
             """
             if self.check_condition():
-                return "All Events" + "{color=#00a000} seen" + "{/color}" + "for Level" + str(self.value)
+                return "All Events " + "{color=#00a000}seen " + "{/color}" + "for Level " + str(self.value) + " (Optional)"
             else:
-                return "Some Events" + "{color=#a00000} not" + "{/color}" + "seen for Level" + str(self.value)
+                return "All Events " + "{color=#e4900c}seen " + "{/color}" + "for Level " + str(self.value) + " (Optional)"
 
         def to_list_text(self, **kwargs) -> Tuple[str, str, str]:
             """Generate formatted text for displaying the condition in a list view.
@@ -1396,20 +1396,14 @@ init -6 python:
 
             Returns:
                 Tuple[str, str, str]: A tuple containing:
-                    - The money icon path
-                    - The colored money value (green when met, red when not)
-                    - The string "Money"
+                    - The Level icon path
+                    - The colored Level value (green when met, red when not)
+                    - A Desc. string
             """
-            if self.check_condition():
-                return (
-                    get_stat_icon("level", white = False), 
-                    "{color=#00a000}" + str(self.value) + "{/color}", "All Events for level seen"
-                )
-            else:
-                return (
-                    get_stat_icon("level", white = False), 
-                    "{color=#a00000}" + str(self.value) + "{/color}", "Not all Events for level seen"
-                )
+            return (
+                get_stat_icon("level", white = False), 
+                "{color=#e4900c}" + str(self.value) + "{/color}", "All Events for level seen (Optional)"
+            )
 
         def get_name(self) -> str:
             """Get a human-readable identifier for this condition.
