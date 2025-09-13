@@ -3370,6 +3370,8 @@ label add_rule_to_proposal(rule_name):
     # """
 
     $ rule = get_rule(rule_name)
+    if rule == None:
+        return
 
     call check_for_overwrite_confirmation(rule)
     call check_for_unseen_events_confirmation(rule)
@@ -3401,8 +3403,6 @@ label check_for_overwrite_confirmation(rule):
         if voteProposal != None:
             $ title = "the " + voteProposal._journal_obj.get_type() + " \"" + voteProposal._journal_obj.get_title() + "\""
             $ rule_title = rule.get_title()
-            if rule == None:
-                return
             call screen confirm("You already scheduled [title] for voting.\n\nDo you wanna schedule the rule \"[rule_title]\" instead?",
                 Call("check_for_unseen_events_confirmation", rule),
                 Call("open_journal", 2, rule_name))
