@@ -98,8 +98,6 @@ init -6 python:
 
         def _update(self, title: str, data: Dict[str, Any] = None):
             super()._update(title, data)
-            if data != None:
-                self.__dict__.update(data)
                 
             if not hasattr(self, '_level'):
                 self._level = 0

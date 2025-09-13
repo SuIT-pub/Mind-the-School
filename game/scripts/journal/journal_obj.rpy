@@ -108,6 +108,13 @@ init -7 python:
             if hasattr(self, '_unlock_effects'):
                 self._unlock_effects = []
 
+            if data != None:
+                self.__dict__.update(data)
+            if 'image_path' in data.keys() and self._image_path.startswith("images"):
+                self._image_path = get_mod_path(active_mod_key) + self._image_path
+            if 'image_path_alt' in data.keys() and self._image_path_alt.startswith("images"):
+                self._image_path_alt = get_mod_path(active_mod_key) + self._image_path_alt
+
         def is_valid(self) -> bool:
             if self._name == "":
                 log_error(401, f"|Journal_Obj:{self._name}| Name is missing!")
