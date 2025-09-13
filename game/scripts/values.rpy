@@ -7,9 +7,11 @@ init -98 python:
     nude_vision = 2
     sfw_mode = False
     event_selection_mode = False
+    INT64_MAX = 2**63 - 1
 
     location_event_register = {}
     event_register = {}
+    event_register_by_max_level = {}
     fragment_storage_register = {}
 
     loli_filter = {}
