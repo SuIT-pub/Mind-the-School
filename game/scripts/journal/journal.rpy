@@ -3373,8 +3373,8 @@ label add_rule_to_proposal(rule_name):
     if rule == None:
         return
 
-    call check_for_overwrite_confirmation(rule)
-    call check_for_unseen_events_confirmation(rule)
+    call check_for_overwrite_confirmation(rule) from add_rule_to_proposal_3
+    call check_for_unseen_events_confirmation(rule)  from add_rule_to_proposal_4
 
 label check_for_unseen_events_confirmation(rule):
     #"""
@@ -3397,7 +3397,7 @@ label check_for_unseen_events_confirmation(rule):
             Call("add_to_proposal", rule, 2, rule_name),
             Call("open_journal", 2, rule_name))
 
-    call add_to_proposal(rule, 2, rule_name)              
+    call add_to_proposal(rule, 2, rule_name) from add_rule_to_proposal_2            
        
 label check_for_overwrite_confirmation(rule):
         $ rule_name = rule.get_name()
