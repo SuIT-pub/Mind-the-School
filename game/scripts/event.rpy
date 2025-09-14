@@ -93,6 +93,24 @@ init -3 python:
             return False
         return seenEvents[event_name]
 
+    def get_events_seen(list_of_events: [str]) -> bool:
+        """
+        A sligthly more performant implementation of get_event_seen for checking multiple events at once
+
+        ### Parameters:
+        1. list_of_events: [str]
+            - List to check
+        ### Return:
+        1. bool
+            - Returns true only if all events have been seen
+            - Ignores duplicates
+        """
+
+        global seenEvents
+        onlyAlreadySeen = [key for key, value in seenEvents.items() if value]
+
+        return set(list_of_events).issubset(set(onlyAlreadySeen))
+        
     # endregion
     ######################
 
@@ -1214,6 +1232,11 @@ init -3 python:
                 if isinstance(value, Condition):
                     if isinstance(value, IntroCondition):
                         has_intro_condition = True
+                    if isinstance(value, LevelCondition):
+                        max_level = get_highest_value(value.value)
+                        if max_level not in event_register_by_max_level:
+                            event_register_by_max_level[max_level] = []
+                        event_register_by_max_level[max_level].append(event)
                     self.conditions.append(value)
                 elif isinstance(value, Selector):
                     self.values.add_selector(value)
