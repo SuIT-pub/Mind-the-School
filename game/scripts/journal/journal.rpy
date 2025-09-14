@@ -3385,6 +3385,7 @@ label check_for_unseen_events_confirmation(rule):
     #    - Rule that is checked against
     #"""
     python:
+        rule_name = rule.get_name()
         needs_confirmation = False
         conditions = rule.get_all_conditions()
         for cond in conditions:
@@ -3399,6 +3400,7 @@ label check_for_unseen_events_confirmation(rule):
     call add_to_proposal(rule, 2, rule_name)              
        
 label check_for_overwrite_confirmation(rule):
+        $ rule_name = rule.get_name()
         $ voteProposal = get_game_data("voteProposal")
         if voteProposal != None:
             $ title = "the " + voteProposal._journal_obj.get_type() + " \"" + voteProposal._journal_obj.get_title() + "\""
