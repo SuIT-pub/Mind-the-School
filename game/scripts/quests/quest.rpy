@@ -1316,5 +1316,42 @@ init -99 python:
         def update(self, **kwargs):
             self._task.update(**kwargs)
 
+    #Dunno if you can bind the name in a way so that you can have two classes named or in different inheritance trees
+    class TASK_OR(Task):
+
+        def __init__(self, key: str, *tasks: Task):
+            super().__init__(key, "OR_" + key)
+            self._tasks = []
+            for task in tasks:
+                self._tasks.append(task)
+
+        def get_progress(self) -> str:
+            if self.is_complete():
+                msg = "{color=#00a000}One{/color} of the Following:\n"
+            else:
+                msg = "{color=#a00000}One{/color} of the Following:\n"
+            for task in self._tasks:
+                msg += f"       {task.get_progress()}\n"
+            msg += "    must be completed."
+            return msg
+        
+        def register(self, goal: str):
+            """
+            Override implementation so that the goal_key gets passe to all Tasks inside the OR_TASK
+            """
+            for task in self._tasks:
+                task.register(goal)
+            self._goal = goal
+
+        def is_complete(self) -> bool:
+            for task in self._tasks:
+                if task.is_complete():
+                    return True
+                return False
+
+        def update(self, **kwargs):
+            for task in self._tasks:
+                task.update(**kwargs)
+        
     # endregion
     ################
