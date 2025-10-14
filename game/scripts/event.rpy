@@ -1932,6 +1932,8 @@ init -3 python:
         if not in_replay:
             update_quest("event", **kwargs)
 
+        init_dialogue()
+
         if event_name != "":
             renpy.call("show_sfw_text", event_name)
 
@@ -1954,6 +1956,8 @@ init -3 python:
         frags = get_kwargs("frag_order", [], **kwargs)
         frag_index = get_kwargs("frag_index", 0, **kwargs)
         frag_parent = get_kwargs("frag_parent", None, **kwargs)
+
+        clear_dialogue()
 
         if len(frags) > 0 and frag_index + 1 < len(frags):
             kwargs["frag_index"] = frag_index + 1

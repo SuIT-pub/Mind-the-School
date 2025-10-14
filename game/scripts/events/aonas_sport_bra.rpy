@@ -108,7 +108,7 @@ label gym_teach_pe_intro_aona_bra (**kwargs):
         call change_stats_with_modifier('pe',
             happiness = MEDIUM, inhibition = DEC_TINY) from _call_change_stats_with_modifier_19
 
-    $ end_event('map_entry', **kwargs)
+    $ end_event('new_daytime', **kwargs)
 
 label gym_teach_pe_main_aona_bra (**kwargs): # Running
     $ begin_event(**kwargs)
@@ -183,7 +183,7 @@ label gym_teach_pe_main_aona_bra (**kwargs): # Running
     call change_stats_with_modifier('pe',
         happiness = TINY, charm = SMALL, reputation = TINY, inhibition = DEC_TINY) from _call_change_stats_with_modifier_23
 
-    $ end_event('map_entry', **kwargs)
+    $ end_event('new_daytime', **kwargs)
 
 label gym_teach_pe_main_aona_bra_2 (**kwargs):
     $ begin_event(**kwargs)
@@ -242,7 +242,7 @@ label gym_teach_pe_main_aona_bra_2 (**kwargs):
     
     $ advance_progress("aona_sports_bra")
 
-    $ end_event('map_entry', **kwargs)
+    $ end_event('new_daytime', **kwargs)
 
 label aona_sports_bra_event_1 (**kwargs):
     $ begin_event(**kwargs)

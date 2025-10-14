@@ -63,6 +63,9 @@ default replay_data = {}
 
 default event_data = {}
 
+default dialogue_manager = None
+default quest_manager = None
+
 default overview_events_available = {
     'school_building':  False,
     'school_dormitory': False,

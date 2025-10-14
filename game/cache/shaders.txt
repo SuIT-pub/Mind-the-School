@@ -1,15 +1,15 @@
-renpy.alpha renpy.texture
->>>>>>> af4e58c649f1052620ede204b5714f6cf840c214
-renpy.geometry renpy.solid
-renpy.ftl
-<<<<<<< HEAD
-renpy.dissolve renpy.dissolve
->>>>>>> Stashed changes
-<<<<<<< Updated upstream
-renpy.solid
-=======
-renpy.geometry renpy.texture
 >>>>>>> 09542ff3758f226971a8c438289acab48ed5dd7d
-renpy.texture
+renpy.geometry renpy.texture
 renpy.dissolve renpy.geometry
+renpy.texture
+renpy.ftl
+>>>>>>> af4e58c649f1052620ede204b5714f6cf840c214
+renpy.dissolve renpy.dissolve
+<<<<<<< Updated upstream
+renpy.geometry renpy.solid
+<<<<<<< HEAD
+renpy.alpha renpy.texture
+renpy.solid
 renpy.alpha renpy.geometry renpy.texture
+>>>>>>> Stashed changes
+=======
