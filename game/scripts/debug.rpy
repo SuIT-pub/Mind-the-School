@@ -61,18 +61,83 @@ init -100 python:
         log_number += 1
         log_val(msg, log_number)
 
+init -1 python:
+    test_events = EventStorage("test_events", "misc")
+
+init 1 python:
+    test_events.add_event(
+        Event(3, "test_event",
+            Pattern("main", "images/background/school building/9 0 1.webp"),
+            thumbnail = "images/background/school building/9 0 1.webp"),
+    )
+
 label test_label():
 
     $ hide_all()
 
-    call show_image("images/events/new_yoga_outfits/new_yoga_outfit_5/new_yoga_outfit_5 # 45.webp") from _call_show_image
-
-    $ call_custom_menu(False, 
-        MenuElement("Outfit 1", "Outfit 1", ChangeKwargsEffect("Outfit", 1), EventEffect("test_label.test"), overwrite_position = ( 330, 950)),
-        MenuElement("Outfit 2", "Outfit 2", ChangeKwargsEffect("Outfit", 2), EventEffect("test_label.test"), overwrite_position = ( 800, 950)),
-        MenuElement("Outfit 3", "Outfit 3", ChangeKwargsEffect("Outfit", 3), EventEffect("test_label.test"), overwrite_position = (1250, 950)),
-    )
-label .test(**kwargs):
-    $ add_notify_message("Test successful! " + str(kwargs["Outfit"]))
+    $ test_events.call_available_event()
 
     jump map_entry
+
+   
+label test_event (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ luna_char = get_person("class_3a", "luna_clark")
+    $ luna_char.register_dialogue(**kwargs)
+    
+    # $ show_pattern("main", **kwargs)
+    $ luna_char.display(
+        Action("image", mood = "happy", outfit = "uniform", pose = 1, level = 5),
+        Action("pos", alignX = 0.3)
+    )
+    dev "Test 1"
+
+    $ luna_char.display(
+        Action("pos", alignX = 0.8)
+    )
+    dev "Test 2"
+
+    $ luna_char.display(
+        Action("image", mood = "sad", level = 8)
+    )
+    dev "Test 3"
+
+    $ luna_char.display(
+        Action("image", mouth = "open", level = 9),
+        Action("pos", alignX = 0.3, duration = 0.01)
+    )
+    dev "Test 4"
+
+    $ luna_char.display(
+        Action("image", mood = "pout", level = 7),
+        Action("pos_rotate", alignX = 0.8, degree = 180)
+    )
+    dev "Test 5"
+
+    $ luna_char.display(
+        Action("rotate", degree = 720)
+    )
+    dev "Test 6"
+
+    $ luna_char.display(
+        Action("image", outfit = "nude"),
+        Action("pause", duration = 0.2),
+        Action("image", outfit = "uniform", level = 9),
+    )
+    dev "Test 7"
+
+    $ luna_char.display(
+        Action("shake", max_distance = 30)
+    )
+    dev "Test 8"
+
+    $ luna_char.display(
+        Action("pos", alignX = -0.5)
+    )
+    dev "Test 9"
+
+    $ renpy.pause()
+
+    $ end_event('new_daytime', **kwargs)
+    

@@ -662,7 +662,6 @@ init -6 python:
         
         get_school().reset_changed_stats()
 
-
     # endregion
     ############################
 
@@ -1045,6 +1044,19 @@ init -6 python:
                 return Character(self.get_full_name(), kind = char_kind, retain = False, who_suffix = " (thinking)", what_italic = True, what_prefix = "(  ", what_suffix = "  )")
             else:
                 return Character(self.get_full_name(), kind = char_kind, retain = False)
+
+        def register_dialogue(self, **kwargs):
+            data = update_dict({"alt_keys": ["level", "mouth"], "mood": "happy", "pose": 1, "outfit": "uniform", "level": 1, "mouth": "closed"}, kwargs)
+            dialogue_manager.register_obj(
+                self.name, 
+                f"images/dialogue/{self.name}/{self.name} <pose> <outfit> <level>.png", 
+                f"images/dialogue/{self.name}/{self.name} <pose> <mood> <mouth>.png", 
+                **data
+            )
+
+        def display(self, *actions: Dict[str, Any]):
+            dialogue_manager.display(self.name, list(actions))
+
 
     def find_person(name: str):
         for key in person_storage.keys():

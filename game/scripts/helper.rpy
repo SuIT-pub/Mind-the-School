@@ -29,7 +29,7 @@ init -99 python:
             return True
         return False
 
-    def get_kwargs(key: str, alt = None, **kwargs) -> Any:
+    def get_kwargs(kwargs_key: str, alt = None, **kwargs) -> Any:
         """
         Gets a value from kwargs
 
@@ -42,8 +42,8 @@ init -99 python:
             - The kwargs to get from
         """
 
-        if key in kwargs.keys() and kwargs[key] != None:
-            return kwargs[key]
+        if kwargs_key in kwargs.keys() and kwargs[kwargs_key] != None:
+            return kwargs[kwargs_key]
         return alt
 
     def set_kwargs_value(key: str, value: Any, **kwargs):
@@ -56,6 +56,11 @@ init -99 python:
         if "values" in kwargs.keys():
             return get_kwargs(key, get_kwargs(key, alt, **kwargs), **kwargs["values"])
         return get_kwargs(key, alt, **kwargs)
+
+    def get_kwargs_values(**kwargs) -> Dict[str, Any]:
+        if "values" in kwargs.keys():
+            return kwargs["values"]
+        return {}
 
     def load_kwargs_values(data, **kwargs):
         if "values" not in data.keys():

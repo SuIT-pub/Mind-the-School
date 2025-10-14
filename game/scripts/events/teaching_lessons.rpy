@@ -291,7 +291,7 @@ label sb_teach_sex_ed_intro_anatomy (**kwargs):
     $ show_pattern("main", **kwargs)
     headmaster "Today we'll be discussing human anatomy in the context of sexual health and development."
 
-    $ end_event('map_entry', **kwargs)
+    $ end_event('new_daytime', **kwargs)
 
 label sb_teach_sex_ed_intro_sex_curiosity (**kwargs):
     $ begin_event(**kwargs)
@@ -299,7 +299,7 @@ label sb_teach_sex_ed_intro_sex_curiosity (**kwargs):
     $ show_pattern("main", **kwargs)
     headmaster "I know many of you may have questions about sex and relationships. Today we'll explore some common curiosities in an open, respectful environment."
 
-    $ end_event('map_entry', **kwargs)
+    $ end_event('new_daytime', **kwargs)
 
 # endregion
 ################
@@ -342,7 +342,7 @@ label sb_teach_sex_ed_main_anatomy_1 (**kwargs):
     call change_stats_with_modifier(
         education = TINY, inhibition = DEC_TINY) from _call_change_stats_sb_teach_sex_ed_main_anatomy_1_event_1
 
-    $ end_event('map_entry', **kwargs)
+    $ end_event('new_daytime', **kwargs)
 
 label sb_teach_sex_ed_main_sex_curiosity_1 (**kwargs):
     $ begin_event(**kwargs)
@@ -370,7 +370,7 @@ label sb_teach_sex_ed_main_sex_curiosity_1 (**kwargs):
     call change_stats_with_modifier(
         education = TINY, corruption = TINY) from _call_change_stats_sb_teach_sex_ed_main_sex_curiosity_1_event_1
 
-    $ end_event('map_entry', **kwargs)
+    $ end_event('new_daytime', **kwargs)
 
 # endregion
 ################
@@ -399,7 +399,7 @@ label sb_teach_sex_ed_qa_1 (**kwargs):
     call change_stats_with_modifier(
         education = TINY, inhibition = DEC_TINY) from _call_change_stats_sb_teach_sex_ed_qa_1_event_1
 
-    $ end_event('map_entry', **kwargs)
+    $ end_event('new_daytime', **kwargs)
 
 label sb_teach_sex_ed_qa_2 (**kwargs):
     $ begin_event(**kwargs)
@@ -418,7 +418,7 @@ label sb_teach_sex_ed_qa_2 (**kwargs):
     call change_stats_with_modifier(
         education = TINY, corruption = TINY) from _call_change_stats_sb_teach_sex_ed_qa_2_event_1
 
-    $ end_event('map_entry', **kwargs)
+    $ end_event('new_daytime', **kwargs)
 
 # endregion
 ################
@@ -467,7 +467,7 @@ label sb_teach_history_intro_f_revolution_1 (**kwargs):
     call change_stats_with_modifier('history',
         education = TINY) from _call_change_stats_with_modifier_55
 
-    $ end_event('map_entry', **kwargs)
+    $ end_event('new_daytime', **kwargs)
 
 # endregion
 ################
@@ -616,7 +616,7 @@ label sb_teach_math_ld_1 (**kwargs):
     $ image.show(1)
     headmaster "Okay, then let's continue with the new topic."
 
-    $ end_event('map_entry', **kwargs)
+    $ end_event('new_daytime', **kwargs)
 
 label sb_teach_math_ld_2 (**kwargs):
     $ begin_event(**kwargs)
@@ -659,7 +659,7 @@ label sb_teach_math_ld_2 (**kwargs):
     call change_stats_with_modifier('math',
         education = TINY) from _call_change_stats_with_modifier_58
 
-    $ end_event('map_entry', **kwargs)
+    $ end_event('new_daytime', **kwargs)
 
 label sb_teach_math_ld_3 (**kwargs):
     $ begin_event(**kwargs)
@@ -897,7 +897,7 @@ label gym_teach_pe_intro_1 (**kwargs):
 
     call Image_Series.show_image(image, 0, 1, 2, 3, 4, 5, 6, 7, pause = True) from image_gym_teach_pe_intro_1_1
 
-    $ end_event('map_entry', **kwargs)
+    $ end_event('new_daytime', **kwargs)
 
 label gym_teach_pe_intro_2 (**kwargs):
     $ begin_event(**kwargs)
@@ -906,7 +906,7 @@ label gym_teach_pe_intro_2 (**kwargs):
 
     call Image_Series.show_image(image, 0, 1, 2, 3, 4, 5, pause = True) from image_gym_teach_pe_intro_2_1
 
-    $ end_event('map_entry', **kwargs)
+    $ end_event('new_daytime', **kwargs)
 
 # endregion
 ################
@@ -926,7 +926,7 @@ label gym_teach_pe_entrance_1 (**kwargs):
     headmaster "Okay now all follow my lead."
 
 
-    $ end_event('map_entry', **kwargs)
+    $ end_event('new_daytime', **kwargs)
 
 
 # endregion
@@ -980,7 +980,7 @@ label gym_teach_pe_warm_up_1 (**kwargs):
     call change_stats_with_modifier('pe',
         charm = SMALL, education = TINY) from _call_change_stats_with_modifier_20
 
-    $ end_event('map_entry', **kwargs)
+    $ end_event('new_daytime', **kwargs)
 
 # endregion
 ##################
@@ -1023,7 +1023,7 @@ label gym_teach_pe_main_1 (**kwargs): # Football
     call change_stats_with_modifier('pe',
         happiness = TINY, charm = SMALL, reputation = TINY, inhibition = DEC_TINY) from _call_change_stats_with_modifier_21
 
-    $ end_event('map_entry', **kwargs)
+    $ end_event('new_daytime', **kwargs)
 
 label gym_teach_pe_main_2 (**kwargs): # Yoga
     $ begin_event("2", **kwargs)
@@ -1061,7 +1061,7 @@ label gym_teach_pe_main_2 (**kwargs): # Yoga
     call change_stats_with_modifier('pe',
         happiness = TINY, charm = MEDIUM, inhibition = DEC_TINY) from _call_change_stats_with_modifier_22
 
-    $ end_event('map_entry', **kwargs)
+    $ end_event('new_daytime', **kwargs)
 
 # endregion
 ###############

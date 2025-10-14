@@ -989,6 +989,7 @@ init -2 python:
 
         is_image_series = get_kwargs('is_image_series', False, **kwargs)
         is_replay = get_kwargs('is_replay', False, **kwargs)
+        no_register = get_kwargs('no_register', False, **kwargs)
 
         output = []
 
@@ -1007,22 +1008,22 @@ init -2 python:
                 new_image_path = new_image_path.replace(f"<{key}>", "$")
 
             if '<school_level>' in new_image_path:
-                if is_image_series and not is_replay:
+                if is_image_series and not is_replay and not no_register:
                     register_value('school_level', get_character_by_key('school').get_level())
                 new_image_path = new_image_path.replace("<school_level>", str(get_character_by_key('school').get_level()))
 
             if 'teacher_level' in new_image_path:
-                if is_image_series and not is_replay:
+                if is_image_series and not is_replay and not no_register:
                     register_value('teacher_level', get_character_by_key('teacher').get_level())
                 new_image_path = new_image_path.replace("<teacher_level>", str(get_character_by_key('teacher').get_level()))
             
             if 'parent_level' in new_image_path:
-                if is_image_series and not is_replay:
+                if is_image_series and not is_replay and not no_register:
                     register_value('parent_level', get_character_by_key('parent').get_level())
                 new_image_path = new_image_path.replace("<parent_level>", str(get_character_by_key('parent').get_level()))
             
             if 'secretary_level' in new_image_path:
-                if is_image_series and not is_replay:
+                if is_image_series and not is_replay and not no_register:
                     register_value('secretary_level', get_character_by_key('secretary').get_level())
                 new_image_path = new_image_path.replace("<secretary_level>", str(get_character_by_key('secretary').get_level()))
             
@@ -1031,7 +1032,7 @@ init -2 python:
             
             for key, value in kwargs.items():
                 new_image_path = new_image_path.replace(f"<{key}>", str(value))
-                if is_image_series and not is_replay:
+                if is_image_series and not is_replay and not no_register:
                     register_value(key, value)
             
             output.append(new_image_path)
@@ -1168,6 +1169,12 @@ init -2 python:
     ###################################
     # region Check Image availability #
     ###################################
+
+    def find_available_images(image_paths: List[str]) -> str:
+        for path in image_paths:
+            if check_image(path):
+                return path
+        return ""
 
     def check_image(image_path: str) -> bool:
         """
