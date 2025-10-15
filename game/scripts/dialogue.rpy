@@ -135,11 +135,11 @@ init -99 python:
         def register_obj(self, key: str, *pattern: str, **kwargs):
             self.dialogue_objs[key] = (Dialogue_Obj(key, *pattern, **kwargs))
 
-        def display(self, key: str, actions: List[Action]):
+        def display(self, key: str, *actions: Action):
             if key not in self.dialogue_objs.keys():
                 return
 
-            renpy.call("display_dialogue_image", self.dialogue_objs[key], actions)
+            renpy.call("display_dialogue_image", self.dialogue_objs[key], list(actions))
 
         def set_background(self, image: str):
             pass
@@ -152,6 +152,7 @@ init -99 python:
         def __init__(self, key: str, **kwargs):
             self.key = key
             self.values = kwargs
+
 
 transform t_dialogue_position(xAlign, yAlign):
     xalign xAlign
@@ -229,8 +230,10 @@ label dialogue_action_pos(dialogue_obj, action):
     while (index < len(dialogue_obj.pattern)):
         $ renpy.show(
             dialogue_obj.key + str(index), 
-            at_list = [t_dialogue_position(dialogue_obj.config["alignX"], dialogue_obj.config["alignY"]), 
-                t_dialogue_move(duration, alignX, alignY)],
+            at_list = [
+                t_dialogue_position(dialogue_obj.config["alignX"], dialogue_obj.config["alignY"]), 
+                t_dialogue_move(duration, alignX, alignY)
+            ],
             what = Image(dialogue_obj.image[index]),
             tag = dialogue_obj.key + str(index)
         )
@@ -253,9 +256,11 @@ label dialogue_action_rotate(dialogue_obj, action):
     while (index < len(dialogue_obj.pattern)):
         $ renpy.show(
             dialogue_obj.key + str(index), 
-            at_list = [t_dialogue_position(dialogue_obj.config["alignX"], dialogue_obj.config["alignY"]),
+            at_list = [
+                t_dialogue_position(dialogue_obj.config["alignX"], dialogue_obj.config["alignY"]),
                 t_dialogue_rotation(dialogue_obj.config["rotation"]),
-                t_dialogue_rotate(duration, rotation)],
+                t_dialogue_rotate(duration, rotation)
+            ],
             what = Image(dialogue_obj.image[index]),
             tag = dialogue_obj.key + str(index)
         )
@@ -279,9 +284,11 @@ label dialogue_action_pos_rotate(dialogue_obj, action):
     while (index < len(dialogue_obj.pattern)):
         $ renpy.show(
             dialogue_obj.key + str(index), 
-            at_list = [t_dialogue_position(dialogue_obj.config["alignX"], dialogue_obj.config["alignY"]),
+            at_list = [
+                t_dialogue_position(dialogue_obj.config["alignX"], dialogue_obj.config["alignY"]),
                 t_dialogue_rotation(dialogue_obj.config["rotation"]),
-                t_dialogue_move_rotate(duration, rotation, alignX, alignY)],
+                t_dialogue_move_rotate(duration, rotation, alignX, alignY)
+            ],
             what = Image(dialogue_obj.image[index]),
             tag = dialogue_obj.key + str(index)
         )

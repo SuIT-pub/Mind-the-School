@@ -1055,7 +1055,7 @@ init -6 python:
             )
 
         def display(self, *actions: Dict[str, Any]):
-            dialogue_manager.display(self.name, list(actions))
+            dialogue_manager.display(self.name, *actions)
 
 
     def find_person(name: str):
