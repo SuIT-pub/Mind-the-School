@@ -1045,17 +1045,21 @@ init -6 python:
             else:
                 return Character(self.get_full_name(), kind = char_kind, retain = False)
 
-        def register_dialogue(self, **kwargs):
+        def register_dialogue(self, *overrides: DialogueOverride, **kwargs):
             data = update_dict({"alt_keys": ["level", "mouth"], "mood": "happy", "pose": 1, "outfit": "uniform", "level": 1, "mouth": "closed"}, kwargs)
             dialogue_manager.register_obj(
                 self.name, 
-                f"images/dialogue/{self.name}/{self.name} <pose> <outfit> <level>.png", 
-                f"images/dialogue/{self.name}/{self.name} <pose> <mood> <mouth>.png", 
+                f"images/dialogue/{self.name}/bottom/{self.name} <pose> <outfit> <level>.png", 
+                f"images/dialogue/{self.name}/top/{self.name} <pose> <mood> <mouth>.png", 
+                overrides = list(overrides),
                 **data
             )
 
         def display(self, *actions: Dict[str, Any]):
             dialogue_manager.display(self.name, *actions)
+
+        def clear_display(self):
+            dialogue_manager.clear()
 
 
     def find_person(name: str):
