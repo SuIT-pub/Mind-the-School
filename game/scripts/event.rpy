@@ -60,7 +60,7 @@ init -3 python:
         if seenEvents == None:
             seenEvents = {}
         if event not in seenEvents.keys():
-            seenEvents[event] = False
+            seenEvents[event] = 0
 
     def set_event_seen(event_name: str):
         if not is_event_registered(event_name):
@@ -72,15 +72,22 @@ init -3 python:
         if seen_events == None:
             seen_events = {}
         for event, seen in seen_events.items():
-            if event in seenEvents:
-                seenEvents[event] = seenEvents[event] or seen
-            else:
+            if seen == True:
+                seenEvents[event] = 1
+                seen_events[event] = 1
+            elif seen == False:
+                seenEvents[event] = 0
+                seen_events[event] = 0
+
+            if event not in seenEvents.keys():
+                seenEvents[event] = seen
+            elif seen > seenEvents[event]:
                 seenEvents[event] = seen
         
-        seenEvents[event_name] = True
+        seenEvents[event_name] = seenEvents[event] + 1
         set_game_data("seen_events", seenEvents)
 
-        if all(seenEvents.values()):
+        if all(get_event_seen(event) for event in seenEvents.keys()):
             set_game_data("all_events_seen", True)
 
     def get_event_seen(event_name: str) -> bool:
@@ -91,6 +98,16 @@ init -3 python:
 
         if event_name not in seenEvents.keys():
             return False
+        return seenEvents[event_name] > 0
+
+    def get_event_seen_count(event_name: str) -> int:
+        if not is_event_registered(event_name):
+            return 0
+
+        global seenEvents
+
+        if event_name not in seenEvents.keys():
+            return 0
         return seenEvents[event_name]
 
     # endregion
@@ -1930,7 +1947,7 @@ init -3 python:
             renpy.block_rollback()
 
         if not in_replay:
-            update_quest("event", **kwargs)
+            quest_manager.check_task_type("event", **kwargs)
 
         init_dialogue()
 
@@ -1973,7 +1990,7 @@ init -3 python:
             renpy.call("open_journal", 7, display_journal, from_current = False)
             return
         
-        update_quest("event_end", **kwargs)
+        quest_manager.check_task_type("event_end", **kwargs)
 
         renpy.sound.stop(fadeout = 1.0)
 

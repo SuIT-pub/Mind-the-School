@@ -184,7 +184,7 @@ label .leave (**kwargs):
         headmaster_thought "Mhh, things are worse than I thought. I can't believe the students have to go hungry."
         headmaster_thought "I should think about doing something about that."
 
-        $ update_quest("trigger", name = "kiosk_observe_kindness")
+        $ quest_manager.check_task_type("trigger", name = "kiosk_observe_kindness")
 
         call change_stats_with_modifier(
             happiness = SMALL, charm = TINY) from _call_change_stats_with_modifier_35

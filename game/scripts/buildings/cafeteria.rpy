@@ -195,7 +195,7 @@ label cafeteria_construction(**kwargs):
         $ image.show(1)
         headmaster "The cafeteria is finally finished. I can eat here now."
 
-        $ update_quest("trigger", name = "cafeteria_opening")
+        $ quest_manager.check_task_type("trigger", name = "cafeteria_opening")
 
         $ end_event('next_daytime', **kwargs)
 

@@ -78,7 +78,10 @@ init python:
         # if get_kwargs("aona_sports_bra_event_2", False, **event_seen):
         #     get_quest("School", "aonas_new_bra").activate()
         #     get_goal("School", "aonas_new_bra", "aona_bra_event_3").force_complete()
-        update_quest("event")
+        global quest_manager
+        
+        quest_manager.run_action_init()
+        quest_manager.check_task_type("event")
 
     def fix_modifier():
         """
@@ -236,6 +239,8 @@ label after_load:
     $ after_load_event_check('beach', beach_events, beach_general_event, beach_timed_event)
     $ after_load_event_check('staff_lodges', staff_lodges_events, staff_lodges_general_event, staff_lodges_timed_event)
     #################
+
+
 
     return
 

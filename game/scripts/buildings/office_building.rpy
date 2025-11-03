@@ -830,7 +830,7 @@ label .care (**kwargs):
     $ image.show(8)
     sgirl "Thank you!"
 
-    $ update_quest("trigger", name = "trigger_unlock_student_relations_1")
+    $ quest_manager.check_task_type("trigger", name = "trigger_unlock_student_relations_1")
 
     call change_stats_with_modifier(
         charm = DEC_SMALL, happiness = MEDIUM, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_51

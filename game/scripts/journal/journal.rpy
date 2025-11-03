@@ -2532,12 +2532,12 @@ screen journal_goals(display):
 
             vbox:
                 $ category_num = 0
-                $ categories = list(quests.keys())
+                $ categories = list(quest_manager.category_quest.keys())
                 $ categories.sort(key=lambda x: get_translation(x))
 
                 for category in categories:
-                    $ quests_list = [quest for quest in quests[category].keys() if (quests[category][quest].is_active() or (quests[category][quest].show_prematurely() and get_setting("journal_goals_show_note_setting"))) and (show_completed or not quests[category][quest].all_active_done())]
-                    $ quest_list = [(get_translation(quest) if not quests[category][quest].all_active_done() else set_text_color(get_translation(quest), "#00a000"), f"{category}-?-{quest}") for quest in quests_list]
+                    $ quests_list = [quest for quest in quest_manager.category_quest[category].keys() if quest_manager.category_quest[category][quest].visible and (show_completed or not quest_manager.category_quest[category][quest].complete)]
+                    $ quest_list = [(get_translation(quest) if not quest_manager.category_quest[category][quest].complete else set_text_color(get_translation(quest), "#00a000"), f"{category}-?-{quest}") for quest in quests_list]
                     $ quest_list.sort(key=lambda x: x[0])
                     if len(quest_list) > 0:
                         $ category_num += 1
@@ -2570,11 +2570,11 @@ screen journal_goals(display):
     if display != "":
 
         $ category, quest_key = display.split('-?-')
-        $ quest = get_quest(category, quest_key)
+        $ quest = quest_manager.get_quest(quest_key)
 
-        $ quest_description = quest.get_description()
+        $ quest_descriptions = quest.description
 
-        use journal_image(8, display, quest.get_thumbnail(), quest.get_thumbnail().replace('.webp', '_full.webp'), y_pos = 200, height = 280, wide = True)
+        use journal_image(8, display, quest.thumbnail, quest.thumbnail.replace('.webp', '_full.webp'), y_pos = 200, height = 280, wide = True)
 
         frame:
             # background Solid("#00000090")
@@ -2587,22 +2587,26 @@ screen journal_goals(display):
 
                 vbox:
                     null height 10 
-                    text quest_description style "journal_desc"
+
+                    for description in quest_descriptions:
+                        text description style "journal_desc"
 
                     null height 20
 
                     for i, goal in quest.get_active_goals().items():
+                        $ log_val("goal", goal)
                         $ goal_finished = "☐"
-                        if goal.is_completed():
+                        if goal.complete:
                             $ goal_finished = "☑"
-                        $ goal_text = f"{goal_finished}  {i}. {goal.get_description()}"
+                        
+                        $ goal_text = f"{goal_finished}  {i}. {goal.name}"
 
                         python:
-                            display_goal = get_setting(f"show_goal_{goal.get_key()}")
+                            display_goal = get_setting(f"show_goal_{goal.key}")
 
                             if display_goal == None:
                                 display_goal = True
-                                set_setting(f"show_goal_{goal.get_key()}", True)
+                                set_setting(f"show_goal_{goal.key}", True)
 
                             arrow = "▲  " if display_goal else "▼  "
 
@@ -2611,10 +2615,18 @@ screen journal_goals(display):
                         button:
                             text goal_text: 
                                 style "journal_desc"
-                            action Function(set_setting, f"show_goal_{goal.get_key()}", not display_goal)
+                            action Function(set_setting, f"show_goal_{goal.key}", not display_goal)
 
                         if display_goal:
+                            $ goal_descriptions = goal.description
+
+                            for goal_desc in goal_descriptions:
+                                $ goal_desc_text = "  {i}" + goal_desc + "{/i}"
+                                text goal_desc_text style "journal_desc"
+
+
                             $ progress_list = goal.get_progress()
+                            $ log_val('progress_list', progress_list)
                             if isinstance(progress_list, list):
                                 for progress in progress_list:
                                     $ progress_text = f"    {progress}"
@@ -2623,12 +2635,13 @@ screen journal_goals(display):
                                 $ progress_text = f"    {progress_list}"
                                 text progress_text style "journal_desc_small"
 
-                    if quest.all_active_done():
+                    if quest.complete:
                         null height 30
 
-                        $ final_text = quest.get_finished_description()
+                        $ final_text = quest.finished_description
 
-                        text final_text style "journal_text"
+                        for final_description in final_text:
+                            text final_description style "journal_text"
 
             vbar value YScrollValue("ProgressList"):
                 unscrollable "hide"
@@ -3355,7 +3368,7 @@ label add_to_proposal(data, page, display, action = "unlock"):
 
     $ proposal = PTAProposal(data, action)
     $ set_game_data("voteProposal", proposal)
-    $ update_quest("schedule_voting", proposal = proposal)
+    $ quest_manager.check_task_type("schedule_voting", proposal = proposal)
     call open_journal(page, display) from add_to_proposal_1
 
 label add_rule_to_proposal(rule_name):
