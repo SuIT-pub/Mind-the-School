@@ -266,7 +266,7 @@ init -6 python:
             if unlock and apply_effects:
                 self.apply_effects()
 
-            update_quest("journal_unlock", name = self._name, type = self.get_type())
+            quest_manager.check_task_type("journal_unlock", name = self._name, type = self.get_type())
 
         def upgrade(self, apply_effects: bool = False):
             """
@@ -288,7 +288,7 @@ init -6 python:
             if apply_effects:
                 self.apply_upgrade_effects()
 
-            update_quest("journal_upgrade", name = self._name, type = self.get_type(), old_level = self._level - 1, new_level = self._level)
+            quest_manager.check_task_type("journal_upgrade", name = self._name, type = self.get_type(), old_level = self._level - 1, new_level = self._level)
 
         def apply_upgrade_effects(self, level: int = -1):
             """

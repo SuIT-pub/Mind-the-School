@@ -139,7 +139,7 @@ init -6 python:
             delta = round(self.value - old_value, 2)
             self.set_changed_value(delta)
 
-            update_quest("stats")
+            quest_manager.check_task_type("stats")
 
         def set_changed_value(self, value: num):
             """
@@ -206,7 +206,7 @@ init -6 python:
 
             self.add_changed_value(change_val)
 
-            update_quest("stats")
+            quest_manager.check_task_type("stats")
 
         def change_value_to(self, value: num, level: int = 10):
             """

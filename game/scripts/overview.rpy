@@ -612,8 +612,8 @@ label new_day ():
     
     call time_event_check from new_day_2
 
-    $ update_quest("daytime_change")
-    $ update_quest("day_change")
+    $ quest_manager.check_task_type("daytime_change")
+    $ quest_manager.check_task_type("day_change")
 
     jump map_overview
 
@@ -630,7 +630,7 @@ label new_daytime ():
 
     call time_event_check from new_daytime_2
 
-    $ update_quest("daytime_change")
+    $ quest_manager.check_task_type("daytime_change")
 
     jump map_overview
 
@@ -676,7 +676,8 @@ label map_overview ():
 
     $ call_notify()
 
-    $ update_all_quests()
+    $ log_val('quest_manager', quest_manager)
+    $ quest_manager.check_all()
 
     if not debug_mode:
         # keep only the last 100 entries in the return stack

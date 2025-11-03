@@ -264,7 +264,7 @@ init -7 python:
             if self._unlocked and apply_effects:
                 self.apply_effects()
 
-            update_quest("journal_unlock", name = self._name, type = self.get_type())
+            quest_manager.check_task_type("journal_unlock", name = self._name, type = self.get_type())
         
         def is_unlocked(self) -> bool:
             """
