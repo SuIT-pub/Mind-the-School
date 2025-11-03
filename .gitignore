@@ -17,6 +17,7 @@ game/scripts/test.py
 Test/**
 log.txt
 Image Converter/test/**
+Image Converter/Image Diff/**
 errors.txt
 traceback.txt
 **/images/
