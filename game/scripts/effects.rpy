@@ -553,8 +553,6 @@ init -1 python:
             super().__init__(key)
             self.key = key
             self.stat = stat
-
-            self.char_obj = char_obj
             self.collection = collection
 
         def __str__(self):
