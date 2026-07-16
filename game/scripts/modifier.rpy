@@ -145,7 +145,7 @@ init -6 python:
 
         return output
 
-    def prepare_for_modifier(key: str, stat: str = "all", char_obj: Char = None, collection: str | List[str] = 'default'):
+    def prepare_for_modifier(key: str, stat: str = "all", collection: str | List[str] = 'default'):
         """
         Prepares the game data for a modifier. This is used to make sure that the game data is ready for a modifier to be added.
 
@@ -155,9 +155,7 @@ init -6 python:
         2. stat: str
             - The stat that the modifier is changing.
             - if "all", then the modifier is applied to all stats.
-        3. char_obj: Char
-            - The character that the modifier is being applied to. If None, then the modifier is applied to the game data.
-        4. collection: str | List[str] (default 'default')
+        3. collection: str | List[str] (default 'default')
             - The collection of modifiers. This is used to separate different collections of modifiers.
             - If a list of collections is given, then multiple collections are prepared.
         """
@@ -165,26 +163,19 @@ init -6 python:
         modifier_list = get_modifier_collection(collection)
 
         for modifier in modifier_list:
-            if char_obj != None:
-                if char_obj.get_name() not in modifier.keys():
-                    modifier[char_obj.get_name()] = {}
-                modifier = modifier[char_obj.get_name()]
-
             if stat not in modifier.keys():
                 modifier[stat] = {}
 
             modifier[stat][key] = None
 
-    def get_modifier_lists(stat: str, char_obj: Char = None, collection: str | List[str] = 'default') -> Dict[str, Modifier_Obj | Dict[str, Modifier_Obj]]:
+    def get_modifier_lists(stat: str, collection: str | List[str] = 'default') -> Dict[str, Modifier_Obj | Dict[str, Modifier_Obj]]:
         """
         Gets a list of modifiers from the game data or from the character.
 
         ### Parameters:
         1. stat: str
             - The stat that the modifier is changing.
-        2. char_obj: Char
-            - The character that the modifier is being applied to. If None, then the modifier is applied to the game data.
-        3. collection: str (default 'default')
+        2. collection: str (default 'default')
             - The collection of modifiers. This is used to separate different collections of modifiers.
 
         ### Returns:
@@ -200,25 +191,17 @@ init -6 python:
         output = {}
 
         for modifier in modifier_list:
-            if char_obj != None and char_obj.get_name() in modifier.keys():
-                if stat in modifier[char_obj.get_name()].keys():
-                    output = update_dict(output, modifier[char_obj.get_name()][stat])
-                    # output.append(modifier[char_obj.get_name()][stat])
-                if stat != 'all' and 'all' in modifier[char_obj.get_name()].keys():
-                    output = update_dict(output, modifier[char_obj.get_name()]['all'])
-                    # output.append(modifier[char_obj.get_name()]['all'])
-            else:
-                if stat in modifier.keys():
-                    output = update_dict(output, modifier[stat])
-                    # output.append(modifier[stat])
-                if stat != 'all' and 'all' in modifier.keys():
-                    output = update_dict(output, modifier['all'])
-                    # output.append(modifier['all'])
+            if stat in modifier.keys():
+                output = update_dict(output, modifier[stat])
+                # output.append(modifier[stat])
+            if stat != 'all' and 'all' in modifier.keys():
+                output = update_dict(output, modifier['all'])
+                # output.append(modifier['all'])
 
         # Drop soft-deleted / placeholder None entries so callers can iterate safely
         return {key: value for key, value in output.items() if value != None}
 
-    def get_total_modifier_change(mod_obj: Modifier_Obj, base_value: num, char_obj: Char = None, collection: str = 'default') -> float:
+    def get_total_modifier_change(mod_obj: Modifier_Obj, base_value: num, collection: str = 'default') -> float:
         """
         Gets the total change in the stat based on the modifier.
         DOES NOT USE THIS METHOD! Use change_stats_with_modifier() instead.
@@ -230,9 +213,7 @@ init -6 python:
             - The stat that the modifier is changing.
         3. base_value: num
             - The base value of the stat. This is the value that is being changed.
-        4. char_obj: Char
-            - The character that the modifier is being applied to. If None, then the modifier is applied to the game data.
-        5. collection: str (default 'default')
+        4. collection: str (default 'default')
             - The collection of modifiers. This is used to separate different collections of modifiers.
 
         ### Returns:
@@ -245,7 +226,7 @@ init -6 python:
 
         return value
 
-    def get_total_stat_modifier_change(stat: str, base_value: num, char_obj: Char = None, collection: str = 'default') -> float:
+    def get_total_stat_modifier_change(stat: str, base_value: num, collection: str = 'default') -> float:
         """
         Gets the total change in the stat based on all of the modifiers.
         DOES NOT USE THIS METHOD! Use change_stats_with_modifier() instead.
@@ -255,9 +236,7 @@ init -6 python:
             - The stat that the modifier is changing.
         2. base_value: num
             - The base value of the stat. This is the value that is being changed.
-        3. char_obj: Char
-            - The character that the modifier is being applied to. If None, then the modifier is applied to the game data.
-        4. collection: str (default 'default')
+        3. collection: str (default 'default')
             - The collection of modifiers. This is used to separate different collections of modifiers.
 
         ### Returns:
@@ -265,10 +244,7 @@ init -6 python:
             - The total change in the stat.
         """
 
-        modifier = get_modifier_lists(stat, None, collection)
-        modifier_char = None
-        if char_obj != None:
-            modifier_char = get_modifier_lists(stat, char_obj, collection)
+        modifier = get_modifier_lists(stat, collection)
 
         value = 0
         if modifier != None:
@@ -284,7 +260,7 @@ init -6 python:
 
         return value
 
-    def apply_stat_modifier(stat: str, value: num, char_obj: Char = None, collection: str = 'default') -> float:
+    def apply_stat_modifier(stat: str, value: num, collection: str = 'default') -> float:
         """
         Applies the stat modifier to the value.
         DOES NOT USE THIS METHOD! Use change_stats_with_modifier() instead.
@@ -294,9 +270,7 @@ init -6 python:
             - The stat that the modifier is changing.
         2. value: num
             - The value of the stat. This is the value that is being changed.
-        3. char_obj: Char
-            - The character that the modifier is being applied to. If None, then the modifier is applied to the game data.
-        4. collection: str (default 'default')
+        3. collection: str (default 'default')
             - The collection of modifiers. This is used to separate different collections of modifiers.
 
         ### Returns:
@@ -304,7 +278,7 @@ init -6 python:
             - The total change in the stat.
         """
 
-        value = value + get_total_stat_modifier_change(stat, value, char_obj, collection)
+        value = value + get_total_stat_modifier_change(stat, value, collection)
         
         return value
 
@@ -375,7 +349,7 @@ init -6 python:
     # region Modifier Getter and Setter ----- #
     ###########################################
 
-    def set_modifier(key: str, mod_obj: Modifier_Obj, *, stat: str = "all", char_obj: Char = None, collection: str | List[str] = 'default'):
+    def set_modifier(key: str, mod_obj: Modifier_Obj, *, stat: str = "all", collection: str | List[str] = 'default'):
         """
         Sets a modifier in the game data.
 
@@ -387,24 +361,19 @@ init -6 python:
             - if "all", then the modifier is applied to all stats.
         3. mod_obj: Modifier_Obj
             - The modifier object that is being added.
-        4. char_obj: Char
-            - The character that the modifier is being applied to. If None, then the modifier is applied to the game data.
-        5. collection: str | List[str] (default 'default')
+        4. collection: str | List[str] (default 'default')
             - The collection of modifiers. This is used to separate different collections of modifiers.
             - If a list of collections is given, then the modifier is added to multiple collections.
         """
 
-        prepare_for_modifier(key, stat, char_obj, collection)
+        prepare_for_modifier(key, stat, collection)
 
         modifier_list = get_modifier_collection(collection)
 
         for modifier in modifier_list:
-            if char_obj != None:
-                modifier[char_obj.get_name()][stat][key] = mod_obj
-            else:
-                modifier[stat][key] = mod_obj
+            modifier[stat][key] = mod_obj
 
-    def remove_modifier(key: str, stat: str = "all", char_obj: Char = None, collection: str | List[str] = 'default'):
+    def remove_modifier(key: str, stat: str = "all", collection: str = 'default'):
         """
         Removes a modifier from the game data.
 
@@ -417,9 +386,7 @@ init -6 python:
             - The key of the modifier. This is the name of the modifier.
         2. stat: str
             - The stat that the modifier is changing.
-        3. char_obj: Char
-            - The character that the modifier is being applied to. If None, then the modifier is applied to the game data.
-        4. collection: str | List[str] (default 'default')
+        3. collection: str (default 'default')
             - The collection of modifiers. This is used to separate different collections of modifiers.
             - If a list of collections is given, then the modifier is removed from multiple collections.
         """
@@ -429,20 +396,16 @@ init -6 python:
         if modifier_list == None or len(modifier_list) == 0:
             return
 
-        for modifier in modifier_list:
-            target = modifier
-            if char_obj != None:
-                if char_obj.get_name() not in target.keys():
-                    continue
-                target = target[char_obj.get_name()]
-            if stat not in target.keys():
-                continue
-            if key not in target[stat].keys():
-                continue
+        modifier = modifier_list[0]
+        remove_modifier = modifier
+        if stat not in remove_modifier.keys():
+            return
+        if key not in remove_modifier[stat].keys():
+            return
+        
+        del remove_modifier[stat][key]
 
-            del target[stat][key]
-
-    def get_modifier(key: str, stat: str = "all", char_obj: Char = None, collection: str = 'default') -> Modifier_Obj:
+    def get_modifier(key: str, stat: str = "all", collection: str = 'default') -> Modifier_Obj:
         """
         Gets a modifier from the game data or from the character.
 
@@ -451,9 +414,7 @@ init -6 python:
             - The key of the modifier. This is the name of the modifier.
         2. stat: str
             - The stat that the modifier is changing.
-        3. char_obj: Char
-            - The character that the modifier is being applied to. If None, then the modifier is applied to the game data.
-        4. collection: str (default 'default')
+        3. collection: str (default 'default')
             - The collection of modifiers. This is used to separate different collections of modifiers.
 
         ### Returns:
@@ -467,12 +428,8 @@ init -6 python:
             return None
 
         for modifier in modifier_list:
-            if char_obj != None and char_obj.get_name() in modifier.keys():
-                if stat in modifier[char_obj.get_name()].keys() and key in modifier[char_obj.get_name()][stat].keys():
-                    return modifier[char_obj.get_name()][stat][key]
-            else:
-                if stat in modifier.keys() and key in modifier[stat].keys():
-                    return modifier[stat][key]
+            if stat in modifier.keys() and key in modifier[stat].keys():
+                return modifier[stat][key]
 
         return None
 
@@ -521,7 +478,7 @@ label change_money_with_modifier(value, collection = 'default'):
     if isinstance(value, str):
         $ value = get_stat_levels(value)
 
-    $ value = apply_stat_modifier('money', value, None, collection)
+    $ value = apply_stat_modifier('money', value, collection)
 
     $ change_stat('money', value)
 
@@ -536,25 +493,21 @@ label change_stat_with_modifier(stat, value, collection = 'default'):
     #     - The stat that the modifier is changing.
     # 2. value: num
     #     - The value of the stat. This is the value that is being changed.
-    # 3. char_obj: Char
-    #     - The character that the modifier is being applied to. If None, then the modifier is applied to the game data.
-    # 4. collection: str (default 'default')
+    # 3. collection: str (default 'default')
     #     - The collection of modifiers. This is used to separate different collections of modifiers.
     # """
 
-    $ char_obj = get_school()
-
-    if is_in_replay or char_obj == None:
+    if is_in_replay:
         return
 
     if isinstance(value, str):
         $ value = get_stat_levels(value)
 
-    $ value = apply_stat_modifier(stat, value, char_obj, collection)
+    $ value = apply_stat_modifier(stat, value, collection)
 
-    $ char_obj.change_stat(stat, value)
+    $ change_stat(stat, value)
 
-    $ add_stat_notification(char_obj.get_name(), stat, value)
+    $ add_stat_notification(get_school().get_name(), stat, value)
 
     return
 
@@ -563,11 +516,9 @@ label change_stats_with_modifier(collection = 'default', **kwargs):
     # Changes multiple stats with the modifier.
 
     # ### Parameters:
-    # 1. char_obj: str
-    #     - The character that the modifier is being applied to. If None, then the modifier is applied to the game data.
-    # 2. collection: str (default 'default')
+    # 1. collection: str (default 'default')
     #     - The collection of modifiers. This is used to separate different collections of modifiers.
-    # 3. **kwargs:
+    # 2. **kwargs:
     #     - The stats that are being changed. The key is the stat, and the value is the value of the stat.
     # """
 

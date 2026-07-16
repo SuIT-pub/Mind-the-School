@@ -14,6 +14,7 @@ init 1 python:
     # region Teaching events
     sb_event_teach_class_event = EventSelect(3, "teach_class_event", "What subject do you wanna teach?", sb_teach_events,
         TimeCondition(weekday = "d", daytime = "c"),
+        ReplayCategoryOption("teaching_lessons"),
         KwargsSelector(show_proficiency_modifier = True),
         override_menu_exit = 'school_building')
 
@@ -23,25 +24,31 @@ init 1 python:
     sb_teach_sex_ed_intro_storage.add_event(
         EventFragment(3, 'sb_teach_sex_ed_intro_anatomy',
             CheckReplay(ValueCondition('topic', 'anatomy')),
+            ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/theoretical_sex_ed/intro/intro_1/teaching_theoretical_sex_ed_intro_1 <school_level>.webp")),
         EventFragment(3, 'sb_teach_sex_ed_intro_sex_curiosity',
             CheckReplay(ValueCondition('topic', 'sex_curiosity')),
+            ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/theoretical_sex_ed/intro/intro_2/teaching_theoretical_sex_ed_intro_2 <school_level>.webp"))
     )
 
     sb_teach_sex_ed_main_storage.add_event(
         EventFragment(3, 'sb_teach_sex_ed_main_anatomy_1',
             CheckReplay(ValueCondition('topic', 'anatomy')),
+            ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/theoretical_sex_ed/main/anatomy_1/teaching_theoretical_sex_ed_main_anatomy_1 <school_level> <step>.webp", "school_level")),
         EventFragment(3, 'sb_teach_sex_ed_main_sex_curiosity_1',
             CheckReplay(ValueCondition('topic', 'sex_curiosity')),
+            ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/theoretical_sex_ed/main/curiosity_1/teaching_theoretical_sex_ed_main_curiosity_1 <school_level> <step>.webp", "school_level"))
     )
 
     sb_teach_sex_ed_qa_storage.add_event(
         EventFragment(3, 'sb_teach_sex_ed_qa_1',
+            ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/theoretical_sex_ed/qa/qa_1/teaching_theoretical_sex_ed_qa_qa_1 <school_level> <step>.webp", "school_level")),
         EventFragment(3, 'sb_teach_sex_ed_qa_2',
+            ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/theoretical_sex_ed/qa/qa_2/teaching_theoretical_sex_ed_qa_qa_2 <school_level> <step>.webp", "school_level"))
     )
 
@@ -51,6 +58,7 @@ init 1 python:
         LevelSelector('school_level', 'school'),
         ProficiencyCondition('sex_ed'),
         RandomListSelector('topic', 'anatomy', 'sex_curiosity'),
+            ReplayCategoryOption("teaching_lessons"),
         Pattern("base", "/images/events/teaching/theoretical_sex_ed/sb_teach_sex_ed.webp"),
         thumbnail = "/images/events/teaching/theoretical_sex_ed/sb_teach_sex_ed.webp")
 
@@ -65,13 +73,16 @@ init 1 python:
     
     sb_teach_math_ld_storage.add_event(
         EventFragment(3, 'sb_teach_math_ld_1', 
+            ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/math/ld_1/teaching_math_ld_1 <step>.webp"),
             thumbnail = "/images/events/teaching/math/ld_1/teaching_math_ld_1 1.webp"),
         EventFragment(3, 'sb_teach_math_ld_2', 
             RandomListSelector('ld_girl_name', 'seraphina_clark', 'hatano_miwa', 'soyoon_yamamoto'),
+            ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/math/ld_2/teaching_math_ld_2 <ld_girl_name> <school_level> <step>.webp", 'ld_girl_name', 'school_level'),
             thumbnail = "/images/events/teaching/math/ld_2/teaching_math_ld_2 seraphina_clark 1 6.webp"),
         EventFragment(3, 'sb_teach_math_ld_3',
+            ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/math/ld_3/teaching_math_ld_3 <school_level> <step>.webp"),
             thumbnail = "/images/events/teaching/math/ld_3/teaching_math_ld_3 1 0.webp"),
     )
@@ -80,10 +91,12 @@ init 1 python:
         EventFragment(3, 'sb_teach_math_main_1',
             RandomListSelector('main_girl_name', 'seraphina_clark', 'hatano_miwa'),
             RandomListSelector('main_topic', 'normal', 'sleeping'),
+            ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/math/main_1/teaching_math_main_1 <main_girl_name> <school_level> <step>.webp", 'main_girl_name', 'school_level'),
             thumbnail = "images/events/teaching/math/main_1/teaching_math_main_1 seraphina_clark 1 0.webp"),
         EventFragment(3, 'sb_teach_math_main_2',
             LevelCondition("3-", "school"),
+            ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/math/main_2/teaching_math_main_2 <school_level> <step>.webp", "school_level"),
             thumbnail = "images/events/teaching/math/main_2/teaching_math_main_2 1 7.webp")
     )
@@ -93,6 +106,7 @@ init 1 python:
             TimeCondition(weekday = "d", daytime = "c"),
             LevelSelector('school_level', 'school'),
             ProficiencyCondition('math'),
+            ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/math/sb_teach_math.webp"),
             thumbnail = "images/events/teaching/math/main_1/teaching_math_main_1 # 1 18.webp"))
     # endregion
@@ -103,15 +117,18 @@ init 1 python:
     sb_teach_history_intro_storage.add_event(
         EventFragment(3, 'sb_teach_history_intro_f_revolution_1',
             CheckReplay(ValueCondition('topic', 'french revolution')),
+            ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/history/french_revolution/intro_1/teaching_history_fr_intro_1 <step>.webp"))
     )
 
     sb_teach_history_main_storage.add_event(
         EventFragment(3, 'sb_teach_history_main_f_revolution_1',
             CheckReplay(ValueCondition('topic', 'french revolution')),
+            ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/history/french_revolution/main_1/teaching_history_fr_main_1 <school_level> <step>.webp", 'school_level')),
         EventFragment(3, 'sb_teach_history_main_f_revolution_2',
             CheckReplay(ValueCondition('topic', 'french revolution')),
+            ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/history/french_revolution/main_2/teaching_history_fr_main_2 <school_level> <step>.webp", 'school_level')),
     )
     
@@ -121,6 +138,7 @@ init 1 python:
             LevelSelector('school_level', 'school'),
             RandomListSelector('topic', 'french revolution'),
             ProficiencyCondition('history'),
+            ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/history/sb_teach_history.webp"),
             thumbnail = "/images/events/teaching/history/french_revolution/main_1/teaching_history_fr_main_1 1 2.webp")
     )
@@ -132,30 +150,35 @@ init 1 python:
 
     gym_teach_pe_intro_storage.add_event(
         EventFragment(3, "gym_teach_pe_intro_2",
+            ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/pe/intro/intro_2/teaching_pe_intro_2 <step>.webp"),
             thumbnail = "images/events/teaching/pe/intro/intro_2/teaching_pe_intro_2 5.webp"),
     )
 
     gym_teach_pe_entrance_storage.add_event(
         EventFragment(3, "gym_teach_pe_entrance_1",
+            ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/pe/entrance/entrance_1/teaching_pe_entrance_1 <school_level> <step>.webp", "school_level"),
             thumbnail = "images/events/teaching/pe/entrance/entrance_1/teaching_pe_entrance_1 1 7.webp"),
     )
 
     gym_teach_pe_warm_up_storage.add_event(
         EventFragment(3, "gym_teach_pe_warm_up_1",
+            ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/pe/warm_up/warm_up_1/teaching_pe_warm_up_1 <school_level> <step>.webp"),
             thumbnail = "images/events/teaching/pe/warm_up/warm_up_1/teaching_pe_warm_up_1 1 2.webp"),
     )
 
     gym_teach_pe_main_storage.add_event(
         EventFragment(3, "gym_teach_pe_main_1",
+            ReplayCategoryOption("teaching_lessons"),
             Pattern("main", "/images/events/teaching/pe/main/main_1/teaching_pe_main_1 <school_level> <step>.webp"),
             thumbnail = "images/events/teaching/pe/main/main_1/teaching_pe_main_1 1 9.webp"),
     )
 
     gym_teach_pe_end_storage.add_event(
         EventFragment(3, "gym_teach_pe_end_1",
+            ReplayCategoryOption("teaching_lessons"),
             thumbnail = "images/events/teaching/pe/end/end_1/teaching_pe_end_1 1 14.webp"),
     )
 
@@ -170,6 +193,7 @@ init 1 python:
         TimeCondition(daytime = "c", weekday = "d"),
         LevelCondition("1-3", "school"),
         LevelSelector("school_level", "school"),
+        ReplayCategoryOption("teaching_lessons"),
         thumbnail = "images/events/teaching/pe/intro/intro_1/teaching_pe_intro_1 1 7.webp"
     )
 
@@ -193,7 +217,7 @@ label first_class_sb_event (**kwargs):
 
     $ school_class = get_value('class', **kwargs)
 
-    $ finola = get_person("staff", "finola_ryan").get_character()
+    $ finola = Person["finola_ryan"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -310,7 +334,7 @@ label sb_teach_sex_ed_intro_sex_curiosity (**kwargs):
 label sb_teach_sex_ed_main_anatomy_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ gloria = get_person("class_3a", "gloria_goto").get_character()
+    $ gloria = Person["gloria_goto"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -347,7 +371,7 @@ label sb_teach_sex_ed_main_anatomy_1 (**kwargs):
 label sb_teach_sex_ed_main_sex_curiosity_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ aona = get_person("class_3a", "aona_komuro").get_character()
+    $ aona = Person["aona_komuro"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -381,7 +405,7 @@ label sb_teach_sex_ed_main_sex_curiosity_1 (**kwargs):
 label sb_teach_sex_ed_qa_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ kokoro = get_person("class_3a", "kokoro_nakamura").get_character()
+    $ kokoro = Person["kokoro_nakamura"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -404,7 +428,7 @@ label sb_teach_sex_ed_qa_1 (**kwargs):
 label sb_teach_sex_ed_qa_2 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ luna = get_person("class_3a", "luna_clark").get_character()
+    $ luna = Person["luna_clark"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -431,9 +455,6 @@ label sb_teach_sex_ed_qa_2 (**kwargs):
 
 label sb_teach_history (**kwargs):
     $ begin_event(**kwargs)
-
-    $ get_value('school_level', **kwargs)
-    $ get_value('topic', **kwargs)
 
     # headmaster enters room
     # call show_image ("/images/events/school building/sb_teach_history.webp", **kwargs) from _call_show_image_sb_teach_history_event_1
@@ -478,9 +499,9 @@ label sb_teach_history_intro_f_revolution_1 (**kwargs):
 label sb_teach_history_main_f_revolution_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ sakura = get_person("class_3a", "sakura_mori").get_character()
-    $ luna = get_person("class_3a", "luna_clark").get_character()
-    $ easkey = get_person("class_3a", "easkey_tanaka").get_character()
+    $ sakura = Person["sakura_mori"].get_renpy_char()
+    $ luna = Person["luna_clark"].get_renpy_char()
+    $ easkey = Person["easkey_tanaka"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -594,8 +615,6 @@ label sb_teach_history_main_f_revolution_2 (**kwargs):
 label sb_teach_math (**kwargs):
     $ begin_event(**kwargs)
 
-    $ get_value('school_level', **kwargs)
-
     # headmaster enters room
     $ show_pattern("main", **kwargs)
     headmaster "Good morning everyone. Let's start with todays subject Math."
@@ -623,7 +642,7 @@ label sb_teach_math_ld_2 (**kwargs):
 
     $ ld_girl_name = get_value('ld_girl_name', **kwargs)
 
-    $ girl = get_person("class_3a", ld_girl_name).get_character()
+    $ girl = Person[ld_girl_name].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -705,11 +724,11 @@ label sb_teach_math_main_1 (**kwargs):
     $ main_girl_name = get_value('main_girl_name', **kwargs)
     $ main_topic = get_value('main_topic', **kwargs)
 
-    $ girl_person = get_person("class_3a", main_girl_name)
+    $ girl_person = Person["class_3a"]
 
     $ girl_last_name = girl_person.get_last_name()
 
-    $ girl = girl_person.get_character()
+    $ girl = girl_person.get_renpy_char()
 
     call screen black_screen_text("30 minutes later.")
 
@@ -814,7 +833,7 @@ label sb_teach_math_main_1 (**kwargs):
 label sb_teach_math_main_2 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ seraphina = get_person("class_3a", "seraphina_clark").get_character()
+    $ seraphina = Person["seraphina_clark"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -991,7 +1010,7 @@ label gym_teach_pe_warm_up_1 (**kwargs):
 label gym_teach_pe_main_1 (**kwargs): # Football
     $ begin_event("2", **kwargs)
 
-    $ sakura = get_person("class_3a", "sakura_mori").get_character()
+    $ sakura = Person["sakura_mori"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
     

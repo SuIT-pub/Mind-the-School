@@ -47,7 +47,20 @@ class Editor(renpy.editor.Editor):
 
     def end(self, **kwargs):
         self.args.reverse()
-        code = 'C:\\Users\\bigma\\AppData\\Local\\Programs\\cursor\\Cursor.exe'
+        # Detect the current device (machine) name and pick the matching Cursor path.
+        # Replace the placeholder device names and paths below with your actual values.
+        device_name = os.environ.get("COMPUTERNAME", "").lower()
+
+        device_paths = {
+            "cdic".lower(): r"C:\\Users\\bigma\\AppData\\Local\\Programs\\cursor\\Cursor.exe",
+            "Cren-PC".lower(): r"D:\\cursor\\Cursor.exe",
+        }
+
+        # Fallback path if the current device name is not in the mapping above.
+        # Update this to a sensible default for your setup if desired.
+        default_path = r"C:\\Users\\bigma\\AppData\\Local\\Programs\\cursor\\Cursor.exe"
+
+        code = device_paths.get(device_name, default_path)
         args = [code, "-g"] + self.args
         args = [renpy.exports.fsencode(i) for i in args]
 

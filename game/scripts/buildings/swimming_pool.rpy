@@ -5,10 +5,11 @@
 init -1 python:
     set_current_mod('base')
     
-    swimming_pool_timed_event = TempEventStorage("swimming_pool", "swimming_pool", fallback = Event(2, "swimming_pool.after_time_check"))
     swimming_pool_general_event = EventStorage("swimming_pool",   "swimming_pool", fallback = Event(2, "swimming_pool.after_general_check"))
-    register_highlighting(swimming_pool_timed_event, swimming_pool_general_event)
+    register_highlighting(swimming_pool_general_event)
 
+    #### Default swimming pool events
+    # available targets: -
     swimming_pool_events = {}
 
     swimming_pool_bg_images = BGStorage("images/background/swimming pool/bg 1.webp", ValueSelector('loli', 0),
@@ -28,9 +29,7 @@ init 1 python:
 ##########################################
 
 label swimming_pool ():
-    call call_available_event(swimming_pool_timed_event) from swimming_pool_1
-
-label .after_time_check (**kwargs):
+    call empty_label from swimming_pool_1
     call call_available_event(swimming_pool_general_event) from swimming_pool_4
 
 label .after_general_check (**kwargs):

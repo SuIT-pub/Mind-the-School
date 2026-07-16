@@ -676,8 +676,10 @@ label map_overview ():
 
     $ call_notify()
 
-    $ log_val('quest_manager', quest_manager)
     $ quest_manager.check_all()
+    $ quest_manager.update_complete_all()
+
+    $ situation_manager.check_all_thresholds()
 
     if not debug_mode:
         # keep only the last 100 entries in the return stack

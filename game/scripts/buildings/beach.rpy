@@ -5,10 +5,11 @@
 init -1 python:
     set_current_mod('base')
     
-    beach_timed_event = TempEventStorage("beach_timed", "beach", fallback = Event(2, "beach.after_time_check"))
     beach_general_event = EventStorage("beach_general", "beach", fallback = Event(2, "beach.after_general_check"))
-    register_highlighting(beach_timed_event, beach_general_event)
+    register_highlighting(beach_general_event)
 
+    #### Default beach events
+    # available targets: -
     beach_events = {}
 
     beach_bg_images = BGStorage("images/background/beach/bg c.webp", 
@@ -28,9 +29,6 @@ init 1 python:
 ##################################
 
 label beach ():
-    call call_available_event(beach_timed_event) from beach_1
-
-label .after_time_check (**kwargs):
     call call_available_event(beach_general_event) from beach_4
 
 label .after_general_check (**kwargs):

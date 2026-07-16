@@ -5,6 +5,7 @@ init 2 python:
         EventFragment(1, "gym_teach_pe_intro_aona_bra",
             ProgressCondition("aona_sports_bra", 2),
             GameDataSelector("skimpy_bra", "aona_skimpy_sports_bra", "False"),
+            ReplayCategoryOption("aona_sports_bra"),
             Pattern("main", "/images/events/gym/gym_teach_pe_intro_aona_bra/gym_teach_pe_intro_aona_bra <skimpy> <step>.webp", 'skimpy')),
     )
 
@@ -13,10 +14,12 @@ init 2 python:
             NOT(ProgressCondition("aona_sports_bra")),
             MoneyCondition(200),
             ProgressCondition("first_class", 3),
+            ReplayCategoryOption("aona_sports_bra"),
             Pattern("main", "/images/events/gym/gym_teach_pe_main_aona_bra/gym_teach_pe_main_aona_bra <step>.webp")),
         EventFragment(1, "gym_teach_pe_main_aona_bra_2",
             ProgressCondition("aona_sports_bra", 2),
             GameDataSelector("skimpy_bra", "aona_skimpy_sports_bra"),
+            ReplayCategoryOption("aona_sports_bra"),
             Pattern("main", "/images/events/gym/gym_teach_pe_main_aona_bra_2/gym_teach_pe_main_aona_bra_2 <step>.webp")),
     )
 
@@ -24,6 +27,7 @@ init 2 python:
         Event(1, "aona_sports_bra_event_1", 
             ProgressCondition("aona_sports_bra", 1),
             TimeCondition(daytime = 6),
+            ReplayCategoryOption("aona_sports_bra"),
             Pattern("main", "images/events/misc/aona_sports_bra_event_1/aona_sports_bra_event_1 <secretary_level> <step>.webp", 'secretary_level'),
             thumbnail = "images/events/misc/aona_sports_bra_event_1/aona_sports_bra_event_1 # 23.webp"),
     )
@@ -37,8 +41,8 @@ label gym_teach_pe_intro_aona_bra (**kwargs):
     $ kwargs = load_kwargs_values(kwargs, skimpy = str(skimpy))
     $ image = convert_pattern("main", skimpy = skimpy, **kwargs)
 
-    $ miwa = get_person("class_3a", "miwa_igarashi").get_character()
-    $ aona = get_person("class_3a", "aona_komuro").get_character()
+    $ miwa = Person["miwa_igarashi"].get_renpy_char()
+    $ aona = Person["aona_komuro"].get_renpy_char()
 
     $ image.show(0)
     miwa "And the headmaster really took you to the city to buy a sports bra?"
@@ -113,7 +117,7 @@ label gym_teach_pe_intro_aona_bra (**kwargs):
 label gym_teach_pe_main_aona_bra (**kwargs): # Running
     $ begin_event(**kwargs)
 
-    $ aona = get_person("class_3a", "aona_komuro").get_character()
+    $ aona = Person["aona_komuro"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -178,7 +182,7 @@ label gym_teach_pe_main_aona_bra (**kwargs): # Running
     sgirl "Yes, Mr. [headmaster_last_name]!" (name = "Aona Komuro")
     $ image.show(32)
 
-    $ start_progress("aona_sports_bra")
+    $ start_progress("aona_sports_bra") # -> 1
 
     call change_stats_with_modifier('pe',
         happiness = TINY, charm = SMALL, reputation = TINY, inhibition = DEC_TINY) from _call_change_stats_with_modifier_23
@@ -188,7 +192,7 @@ label gym_teach_pe_main_aona_bra (**kwargs): # Running
 label gym_teach_pe_main_aona_bra_2 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ aona = get_person("class_3a", "aona_komuro").get_character()
+    $ aona = Person["aona_komuro"].get_renpy_char()
 
     $ bra = get_value('skimpy_bra', **kwargs)
 
@@ -196,7 +200,7 @@ label gym_teach_pe_main_aona_bra_2 (**kwargs):
 
     $ image.show(0)
     headmaster "Alright, today we will do some running."
-    sgirl "*MOAN*" (name = "Students", retain = False)
+    aona "*MOAN*" (name = "Students", retain = False)
     $ image.show(1)
     headmaster "Yes, Yes! I know! I know! But you know the state test is coming up and you need to be in shape for it."
     $ image.show(2)
@@ -240,7 +244,7 @@ label gym_teach_pe_main_aona_bra_2 (**kwargs):
         call change_stats_with_modifier('pe',
             happiness = SMALL, charm = SMALL, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_25
     
-    $ advance_progress("aona_sports_bra")
+    $ set_progress("aona_sports_bra", 3)
 
     $ end_event('new_daytime', **kwargs)
 
@@ -249,7 +253,7 @@ label aona_sports_bra_event_1 (**kwargs):
 
     $ inhibition = get_stat_value('inhibition', [90, 95, 100], **kwargs)
 
-    $ aona = get_person("class_3a", "aona_komuro").get_character()
+    $ aona = Person["aona_komuro"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -500,7 +504,7 @@ label .buy_bra (**kwargs):
 
     $ set_game_data("aona_skimpy_sports_bra", bra)
 
-    $ advance_progress("aona_sports_bra") # 1 -> 2
+    $ set_progress("aona_sports_bra", 2) # 1 -> 2
 
     $ change_stat(MONEY, -200)
 

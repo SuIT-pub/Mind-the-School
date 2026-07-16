@@ -11,6 +11,8 @@ label start ():
     call load_clubs from start_4
     call load_rules from start_5
     call load_quests from start_6
+    call load_items from start_8
+    call load_situations from start_9
 
     $ fix_modifier()
     $ fix_quests()
@@ -80,7 +82,7 @@ init python:
         #     get_goal("School", "aonas_new_bra", "aona_bra_event_3").force_complete()
         global quest_manager
         
-        quest_manager.run_action_init()
+        quest_manager.run_effect_init()
         quest_manager.check_task_type("event")
 
     def fix_modifier():
@@ -90,14 +92,14 @@ init python:
 
         # add weekly cost for cafeteria if not already added
         if (get_building('cafeteria').is_unlocked() and 
-            get_modifier('weekly_cost_cafeteria', 'money', None, 'payroll_weekly') == None
+            get_modifier('weekly_cost_cafeteria', 'money', 'payroll_weekly') == None
         ):
             set_modifier('weekly_cost_cafeteria', Modifier_Obj('Cafeteria', "+", -100), stat = 'money', collection = 'payroll_weekly')
 
-        if get_modifier('monthly_budget', 'money', None, 'payroll_monthly') == None:
+        if get_modifier('monthly_budget', 'money', 'payroll_monthly') == None:
             set_modifier('monthly_budget', Modifier_Obj('Budget', "+", 1000), stat = 'money', collection = 'payroll_monthly')
 
-        if get_modifier('teacher_pay', 'money', None, 'payroll_weekly') == None:
+        if get_modifier('teacher_pay', 'money', 'payroll_weekly') == None:
             set_modifier('teacher_pay', Modifier_Obj('Teacher', "+", -150), stat = 'money', collection = 'payroll_weekly')
     
     def fix_schools():
@@ -202,6 +204,8 @@ label after_load:
     call load_buildings from after_load_4
     call load_clubs from after_load_5
     call load_quests from after_load_6
+    call load_items from after_load_8
+    call load_situations from after_load_9
     
     #####################################
     # check for version incompatibilities
@@ -224,20 +228,20 @@ label after_load:
 
     #################
     # load all events
-    $ after_load_event_check('daily', None, time_check_events, temp_time_check_events)
-    $ after_load_event_check('bath', bath_events, bath_general_event, bath_timed_event)
-    $ after_load_event_check('cafeteria', cafeteria_events, cafeteria_general_event, cafeteria_timed_event)
-    $ after_load_event_check('courtyard', courtyard_events, courtyard_general_event, courtyard_timed_event)
-    $ after_load_event_check('gym', gym_events, gym_general_event, gym_timed_event)
-    $ after_load_event_check('kiosk', kiosk_events, kiosk_general_event, kiosk_timed_event)
-    $ after_load_event_check('labs', labs_events, labs_general_event, labs_timed_event)
-    $ after_load_event_check('office_building', office_building_events, office_building_general_event, office_building_timed_event)
-    $ after_load_event_check('school_building', sb_events, sb_general_event, sb_timed_event)
-    $ after_load_event_check('school_dormitory', sd_events, sd_general_event, sd_timed_event)
-    $ after_load_event_check('sports_field', sports_field_events, sports_field_general_event, sports_field_timed_event)
-    $ after_load_event_check('swimming_pool', swimming_pool_events, swimming_pool_general_event, swimming_pool_timed_event)
-    $ after_load_event_check('beach', beach_events, beach_general_event, beach_timed_event)
-    $ after_load_event_check('staff_lodges', staff_lodges_events, staff_lodges_general_event, staff_lodges_timed_event)
+    $ after_load_event_check('daily', None, time_check_events)
+    $ after_load_event_check('bath', bath_events, bath_general_event)
+    $ after_load_event_check('cafeteria', cafeteria_events, cafeteria_general_event)
+    $ after_load_event_check('courtyard', courtyard_events, courtyard_general_event)
+    $ after_load_event_check('gym', gym_events, gym_general_event)
+    $ after_load_event_check('kiosk', kiosk_events, kiosk_general_event)
+    $ after_load_event_check('labs', labs_events, labs_general_event)
+    $ after_load_event_check('office_building', office_building_events, office_building_general_event)
+    $ after_load_event_check('school_building', sb_events, sb_general_event)
+    $ after_load_event_check('school_dormitory', sd_events, sd_general_event)
+    $ after_load_event_check('sports_field', sports_field_events, sports_field_general_event)
+    $ after_load_event_check('swimming_pool', swimming_pool_events, swimming_pool_general_event)
+    $ after_load_event_check('beach', beach_events, beach_general_event)
+    $ after_load_event_check('staff_lodges', staff_lodges_events, staff_lodges_general_event)
     #################
 
 

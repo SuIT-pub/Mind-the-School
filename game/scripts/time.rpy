@@ -112,6 +112,17 @@ init -6 python:
                 self.month = int(input_list[1])
                 self.year = int(input_list[2])
                 self.daytime = int(input_list[3])
+            else:
+                input_list = input.split(".")
+                if len(input_list) == 3:
+                    self.day = int(input_list[0])
+                    self.month = int(input_list[1])
+                    self.year = int(input_list[2])
+                elif len(input_list) == 4:
+                    self.day = int(input_list[0])
+                    self.month = int(input_list[1])
+                    self.year = int(input_list[2])
+                    self.daytime = int(input_list[3])
 
         def set_time(self, **kwargs: int):
             """

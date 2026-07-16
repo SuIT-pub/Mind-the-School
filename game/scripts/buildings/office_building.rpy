@@ -5,32 +5,54 @@
 init -1 python:
     set_current_mod('base')
     
-    office_building_timed_event   = TempEventStorage("office_building", "office_building", fallback = Event(2, "office_building.after_time_check"))
-    office_building_general_event =     EventStorage("office_building", "office_building", fallback = Event(2, "office_building.after_general_check"))
-    register_highlighting(office_building_timed_event, office_building_general_event)
+    # general event for the office building
+    office_building_general_event = EventStorage("office_building", "office_building", fallback = Event(2, "office_building.after_general_check"))
+    register_highlighting(office_building_general_event)
 
+    #### Office Building Work Events
+    # available targets: counselling, money, education, reputation, lab
     office_building_work_event = {}
     add_storage(office_building_work_event, EventStorage("counselling", "office_building"))
     add_storage(office_building_work_event, EventStorage("money",       "office_building"))
     add_storage(office_building_work_event, EventStorage("education",   "office_building"))
     add_storage(office_building_work_event, EventStorage("reputation",  "office_building"))
+    add_storage(office_building_work_event, EventStorage("lab",         "office_building"))
 
+    #### Office Building Computer Events
+    # available targets: shopping
+    office_building_computer_event = {}
+    add_storage(office_building_computer_event, EventStorage("shopping", "office_building"))
+    
+    #### Office Building Lab Events
+    # available targets: research, produce
+    office_building_lab_events = {}
+    add_storage(office_building_lab_events, EventStorage("research", "office_building"))
+    add_storage(office_building_lab_events, EventStorage("produce", "office_building"))
+    
+    #### Office Building Events
+    # available targets: look_around, work, learn, call_secretary, schedule_meeting, computer, search
     office_building_events = {}
     add_storage(office_building_events, EventStorage("look_around",      "office_building"))
     add_storage(office_building_events, EventStorage("work",             "office_building"))
     add_storage(office_building_events, EventStorage("learn",            "office_building", ShowBlockedOption()))
     add_storage(office_building_events, EventStorage("call_secretary",   "office_building"))
     add_storage(office_building_events, EventStorage("schedule_meeting", "office_building"))
+    add_storage(office_building_events, EventStorage("computer",         "office_building"))
+    add_storage(office_building_events, EventStorage("search",           "office_building", fallback_text = "There is nothing here."))
 
-
+    #### Office Building Subject Learn Events
+    # available targets: math, history, pe, sex_ed
     office_building_subject_learn_events = {}
     add_storage(office_building_subject_learn_events, EventStorage("math",    "office_building", fallback_text = "There is nobody here."))
     add_storage(office_building_subject_learn_events, EventStorage("history", "office_building", fallback_text = "There is nobody here."))
     add_storage(office_building_subject_learn_events, EventStorage("pe",      "office_building", fallback_text = "There is nobody here."))
     add_storage(office_building_subject_learn_events, EventStorage("sex_ed",  "office_building", fallback_text = "There is nobody here."))
 
+    #### Office Building Call Secretary Events
+    # available targets: naughty_sandbox, talk
     office_building_call_secretary_events = {}
     add_storage(office_building_call_secretary_events, EventStorage("naughty_sandbox", "office_building", fallback_text = "There is nobody here."))
+    add_storage(office_building_call_secretary_events, EventStorage("talk",            "office_building", fallback_text = "There is nobody here."))
 
     office_building_bg_images = BGStorage("images/background/office building/bg f.webp",
         RandomListSelector('name', 'teacher', 'secretary'), 
@@ -77,12 +99,16 @@ init 1 python:
     office_building_events["call_secretary"].add_event(
         office_call_secretary_event_event,)
 
-    office_work_office_event_event = EventSelect(3, "work_office_event", "What do you want to work on?", office_building_work_event,
-        TimeCondition(weekday = "d", daytime = "d"),
-        override_menu_exit = 'office_building')
+    office_building_events["computer"].add_event(
+        EventSelect(3, "computer_event", "What do you want to do?", office_building_computer_event,
+            TimeCondition(weekday = "d", daytime = "d"))
+    )
 
     office_building_events["work"].add_event(
-        office_work_office_event_event,)
+        EventSelect(3, "work_office_event", "What do you want to work on?", office_building_work_event,
+            TimeCondition(weekday = "d", daytime = "d"),
+            override_menu_exit = 'office_building')
+    )
 
     office_building_subject_learn_events['math'].add_event(
         Event(3, "learn_office_event_1", ProficiencyCondition("math", level = "10-"), ValueSelector('subject', 'math')))
@@ -142,10 +168,8 @@ init 1 python:
 label office_building ():
     $ play_sound(audio.empty_room, True, 0.8, 1.0)
 
-    call call_available_event(office_building_timed_event) from office_building_1
-
-label .after_time_check (**kwargs):
     call call_available_event(office_building_general_event) from office_building_4
+
 
 label .after_general_check (**kwargs):
     call call_event_menu (
@@ -160,6 +184,24 @@ label .after_general_check (**kwargs):
 
 # endregion
 ############################################
+
+##########################
+# region Computer Events #
+
+label office_building_computer_shopping_event(**kwargs):
+    $ begin_event(no_gallery = True, **kwargs)
+    
+    $ shopping_cart = {}
+
+    call screen office_building_computer_shopping_screen()
+
+label .after_computer_shopping_screen(**kwargs):
+
+    $ end_event("map_overview", **kwargs)
+
+
+# endregion
+##########################
 
 ######################
 # region Work Events #
@@ -326,7 +368,7 @@ label work_office_session_event_first_naughty (**kwargs):
     $ school_level = get_value('school_level', **kwargs)
     $ secretary_level = get_value('secretary_level', **kwargs)
 
-    $ yuriko = get_person("class_3a", "yuriko_oshima").get_character()
+    $ yuriko = Person["yuriko_oshima"].get_renpy_char()
 
     $ image = convert_pattern("main", video_prefix = "anim_", **kwargs)
 
@@ -755,7 +797,7 @@ label office_event_2 (**kwargs):
 label office_event_3 (**kwargs):
     $ begin_event("2", **kwargs);
 
-    $ yuriko = get_person("class_3a", "yuriko_oshima").get_character()
+    $ yuriko = Person["yuriko_oshima"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -830,7 +872,7 @@ label .care (**kwargs):
     $ image.show(8)
     sgirl "Thank you!"
 
-    $ quest_manager.check_task_type("trigger", name = "trigger_unlock_student_relations_1")
+    $ quest_manager.check_task_type("trigger", name = "unlock_student_relations_2_task_1")
 
     call change_stats_with_modifier(
         charm = DEC_SMALL, happiness = MEDIUM, inhibition = DEC_SMALL) from _call_change_stats_with_modifier_51

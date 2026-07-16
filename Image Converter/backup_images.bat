@@ -1,2 +1,2 @@
 @echo off
-python backup_images.py
+python3 backup_images.py

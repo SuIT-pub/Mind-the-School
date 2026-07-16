@@ -94,6 +94,13 @@ init -6 python:
             for condition in conditions:
                 self.add_condition(condition)
 
+        def __len__(self):
+            return len(self.conditions)
+
+        def add_conditions(self, *conditions: Condition):
+            for condition in conditions:
+                self.add_condition(condition)
+
         def add_condition(self, condition: Condition):
             if condition not in self.conditions:
                 self.conditions.append(condition)
@@ -1419,24 +1426,31 @@ init -6 python:
             return -5000
 
     class MoneyCondition(Condition):
-        """A condition class that checks if the available money meets a threshold.
+        """
+        A condition class that checks if the available money meets a threshold.
 
         This class verifies whether the current money/budget meets or exceeds a
         specified threshold. The requirement can be specified either as an exact
         value or as a comparison string (e.g., '>=1000').
 
-        Attributes:
-            value (Union[str, num]): The required money threshold. Can be a specific
-                value or a comparison string.
-            display_in_list (bool): Whether to show this condition in list displays.
-                Always True for money conditions.
-            display_in_desc (bool): Whether to show this condition in descriptions.
-                Always True for money conditions.
-            blocking (bool): Whether this condition blocks progression when not fulfilled.
+        This is a subclass of the :class:`Condition` class.
 
-        Note:
-            When specified as a number rather than a comparison string, the condition
-            automatically treats it as a minimum requirement (value+).
+        ### Attributes:
+        1. value: Union[str, num]
+            - The required money threshold. Can be a specific
+            value or a comparison string.
+        2. display_in_list: bool
+            - Whether to show this condition in list displays.
+            - Always True for money conditions.
+        3. display_in_desc: bool
+            - Whether to show this condition in descriptions.
+            - Always True for money conditions.
+        4. blocking: bool
+            - Whether this condition blocks progression when not fulfilled.
+
+        ### Note:
+        When specified as a number rather than a comparison string, the condition
+        automatically treats it as a minimum requirement (value+).
         """
 
         def __init__(self, value: Union[str, num], blocking: bool = False, *options: Option):
@@ -3551,7 +3565,7 @@ init -6 python:
                 Inherited from base Condition class.
         """
 
-        def __init__(self, seen: bool = False, *options: Option):
+        def __init__(self, seen: bool = False, event_name: str = "", *options: Option):
             """
             Initialize an EventSeenCondition with a seen state check.
 
@@ -3561,6 +3575,7 @@ init -6 python:
             """
             super().__init__(True, *options)
             self.seen = seen
+            self.event_name = event_name
 
         def check_condition(self, **kwargs) -> bool:
             """
@@ -3579,7 +3594,7 @@ init -6 python:
                 bool: True if the event's seen status matches self.seen, False otherwise
             """
             
-            return self.seen == get_event_seen(get_kwargs('event_name', **kwargs))
+            return self.seen == get_event_seen(get_kwargs('event_name', self.event_name, **kwargs))
 
         def get_name(self) -> str:
             """
@@ -3731,3 +3746,59 @@ init -6 python:
         def get_name(self) -> str:
             return f"BoolCondition({self.value})"
             
+    class ItemCondition(Condition):
+        def __init__(self, item_key: str, amount: int = 1, *options: Option):
+            super().__init__(False, *options)
+            self.item_key = item_key
+            self.amount = amount
+
+        def check_condition(self, **kwargs) -> bool:
+            return inventory_manager.get_item_count(self.item_key) >= self.amount
+
+        def get_name(self) -> str:
+            return f"ItemCondition({self.item_key}, {self.amount})"
+
+        def to_desc_text(self, **kwargs) -> str:
+            item = inventory_manager.get_item(self.item_key)
+            color = "#00a000" if item.amount >= self.amount else "#a00000"
+            item_text = f"{{color={color}}}{item.get_name()}{{/color}}"
+            return f"You have {item.amount} {item_text}{'s' if item.amount > 1 else ''}"
+
+    class DeliveryCondition(Condition):
+        """
+        A condition that checks if there is a delivery today.
+        """
+
+        def __init__(self, *options: Option):
+            super().__init__(False, *options)
+
+        def check_condition(self, **kwargs) -> bool:
+            if len(item_delivery) == 0:
+                return False
+            return has_delivery_today()
+
+        def get_name(self) -> str:
+            return "DeliveryCondition"
+
+    class DaytimeChangedCondition(Condition):
+        def __init__(self, *options: Option):
+            super().__init__(False, *options)
+
+        def check_condition(self, **kwargs) -> bool:
+            if last_daytime == None or last_daytime != time.now():
+                last_daytime = time.now()
+                return True
+            return False
+
+        def get_name(self) -> str:
+            return "DaytimeChangedCondition"
+
+    class PlaceholderCondition(Condition):
+        def __init__(self, *options: Option):
+            super().__init__(False, *options)
+
+        def check_condition(self, **kwargs) -> bool:
+            return True
+
+        def get_name(self) -> str:
+            return "PlaceholderCondition"

@@ -5,10 +5,11 @@
 init -1 python:
     set_current_mod('base')
 
-    bath_timed_event = TempEventStorage("bath_timed", "bath", fallback = Event(2, "bath.after_time_check"))
     bath_general_event = EventStorage("bath_general", "bath", fallback = Event(2, "bath.after_general_check"))
-    register_highlighting(bath_timed_event, bath_general_event)
+    register_highlighting(bath_general_event)
 
+    #### Default bath events
+    # available targets: -
     bath_events = {}
 
     bath_bg_images = BGStorage("images/background/bath/bg c.webp", 
@@ -28,9 +29,6 @@ init 1 python:
 ##################################
 
 label bath ():
-    call call_available_event(bath_timed_event) from bath_1
-
-label .after_time_check (**kwargs):
     call call_available_event(bath_general_event) from bath_4
 
 label .after_general_check (**kwargs):

@@ -54,6 +54,16 @@ look_around;Look Around
 schedule_meeting;Schedule a Meeting
 check_class;Check Class
 
+##################
+# Event Categories
+
+aona_sports_bra;Aona need a new sports Bra
+intro_event;Intro Events
+new_yoga_outfits;New Yoga Outfits
+teaching_lessons;Teaching Lessons
+
+##################
+
 ############
 # Subjects
 
@@ -113,8 +123,8 @@ cafeteria_event_7;Secretly making cake
 # Courtyard
 event_courtyard_patrol;Patrol
 
-first_potion_courtyard_event;First Potion
-first_week_courtyard_event;First Week
+first_potion_courtyard_event;First Potion Courtyard
+first_week_courtyard_event;First Week Courtyard
 courtyard_event_1;Gust of Wind
 courtyard_event_1_school_level;Level
 
@@ -133,8 +143,8 @@ event_gym_check_pe;Check P.E. Class
 event_gym_teach_pe;Teach P.E. Class
 event_gym_patrol;Patrol
 
-first_potion_gym_event;First Potion
-first_week_gym_event;First Week
+first_potion_gym_event;First Potion Gym
+first_week_gym_event;First Week Gym
 gym_event_1;Girls getting ready
 gym_event_1_topic_hair;Making hair
 gym_event_1_topic_ready;Getting Ready
@@ -168,8 +178,8 @@ gym_teach_pe_end_1;Nothing
 # Kiosk
 event_kiosk_get_snack;Get a Snack
 
-first_potion_kiosk_event;First Potion
-first_week_kiosk_event;First Week
+first_potion_kiosk_event;First Potion Kiosk
+first_week_kiosk_event;First Week Kiosk
 kiosk_event_1;Coffee saves the day
 kiosk_event_2;Spilled drink
 kiosk_event_3;Expensive Bento
@@ -179,8 +189,8 @@ kiosk_event_3;Expensive Bento
 event_office_building_look_around;Look Around
 event_office_building_call_secretary;Call Secretary
 
-first_potion_office_building_event;First Potion
-first_week_office_building_event;First Week
+first_potion_office_building_event;First Potion Office Building
+first_week_office_building_event;First Week Office Building
 office_event_1;In need of counseling
 office_event_2;Teacher need a break
 office_event_3;Two students waiting
@@ -215,8 +225,8 @@ event_school_building_math;Math
 event_school_building_check_class;Check Class
 learning_difficulty_girl;Needs Help
 
-first_potion_sb_event;First Potion
-first_week_sb_event;First Week
+first_potion_sb_event;First Potion School Building
+first_week_sb_event;First Week School Building
 first_class_sb_event;First Class Introduction
 teach_class_event;Teach subject selection
 sb_event_1;Couple kissing
@@ -243,11 +253,13 @@ sb_teach_math_2;Math Exercises
 sb_teach_math;Teaching Math
 
 sb_teach_math_ld_1;No Reiterating
+sb_teach_math_ld_1_ld_girl_name;Girl
 
 sb_teach_math_ld_2;Reiterating
 sb_teach_math_ld_2_ld_girl_name;Girl
 
 sb_teach_math_ld_3;Girl tripping
+sb_teach_math_ld_3_ld_girl_name;Girl
 
 sb_teach_math_main_1;Math Exercises
 sb_teach_math_main_1_main_girl_name;Girl
@@ -265,6 +277,8 @@ sb_teach_history_main_f_revolution_1;Revolution Causes
 sb_teach_history_main_f_revolution_2;Essay
 
 sb_teach_sex_ed;Teaching Sex Education
+sb_teach_sex_ed_topic_anatomy;Discussing Anatomy
+sb_teach_sex_ed_topic_sex_curiosity;Talk about Sex Curiosity
 
 sb_teach_sex_ed_intro_anatomy;Discussing Anatomy
 sb_teach_sex_ed_intro_sex_curiosity;Talk about Sex Curiosity
@@ -280,8 +294,8 @@ sb_teach_sex_ed_qa_2;How often to fuck?
 # School Dormitory
 event_school_dormitory_peek_students;Peek at Students
 
-first_potion_school_dormitory_event;First Potion
-first_week_school_dormitory_event;First Week
+first_potion_school_dormitory_event;First Potion School Dorm
+first_week_school_dormitory_event;First Week School Dorm
 sd_event_1;Homework is hard
 sd_event_2;Walk in on Girl
 sd_event_3;Ready to bunk

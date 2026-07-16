@@ -40,6 +40,9 @@ init -99 python:
     import time as time_lib
 
     def add_stat_notification(char: str, stat: str, value: int):
+        if value == 0:
+            return
+
         key = char + ":" + stat
         if key not in stat_notifications:
             stat_notifications[key] = 0
@@ -53,13 +56,54 @@ init -99 python:
         global stat_notifications
         stat_notifications = {}
 
-    def add_notify_message(msg: str = None):
+    def _get_notify_fields(msg_info):
+        """
+        Return the fields stored on a notification entry.
+
+        ### Parameters:
+        1. msg_info: tuple
+            - A notification entry.
+
+        ### Returns:
+        1. tuple
+            - The message, timestamp, page, and display values.
+        """
+
+        msg = msg_info[0]
+        timestamp = msg_info[1]
+        page = msg_info[2] if len(msg_info) > 2 else None
+        display = msg_info[3] if len(msg_info) > 3 else ""
+        return msg, timestamp, page, display
+
+    def _set_notify_timestamp(msg_info, timestamp):
+        """
+        Return a notification entry with an updated timestamp.
+
+        ### Parameters:
+        1. msg_info: tuple
+            - A notification entry.
+        2. timestamp: float
+            - The timestamp to store.
+
+        ### Returns:
+        1. tuple
+            - The updated notification entry.
+        """
+
+        msg, _, page, display = _get_notify_fields(msg_info)
+        return (msg, timestamp, page, display)
+
+    def add_notify_message(msg: str = None, page: int = None, display: str = ""):
         """
         Add a message to the notification list
 
         ### Parameters:
         1. msg: str
             - The message to add
+        2. page: int (optional)
+            - The journal page to open when the notification is clicked.
+        3. display: str (optional, default: "")
+            - The journal display value to open when the notification is clicked.
         """
 
         if not msg:
@@ -67,7 +111,7 @@ init -99 python:
 
         global notify_messages
 
-        notify_messages.append((msg, -1))
+        notify_messages.append((msg, -1, page, display))
 
         # just keep notify_history_length number of messages
         notify_messages = notify_messages[-notify_history_length:]
@@ -110,12 +154,12 @@ init -99 python:
         reset_stat_notifications()
 
         for i in range(len(notify_messages)):
-            
+
             if notify_messages[i][1] == -1:
-                notify_messages[i] = (notify_messages[i][0], time_lib.time())
+                notify_messages[i] = _set_notify_timestamp(notify_messages[i], time_lib.time())
 
                 if i > 0 and notify_messages[i-1][1] >= notify_messages[i][1]:
-                    notify_messages[i] = (notify_messages[i][0], notify_messages[i][1] + 0.01)
+                    notify_messages[i] = _set_notify_timestamp(notify_messages[i], notify_messages[i][1] + 0.01)
 
         notify_messages = [n for n in notify_messages if n[1] > max_start]
 
@@ -146,6 +190,14 @@ style notify_item_text:
     size 20
 
 
+style notify_item_button is default
+style notify_item_button:
+    background Frame("gui/notify.png", 10, 10)
+    hover_background Frame("gui/notify.png", 10, 10)
+    padding (16, 2, 32, 2)
+    minimum (20, 20)
+
+
 transform notify_appear():
 
     yzoom 0.0 alpha 0.5
@@ -159,20 +211,35 @@ transform notify_appear():
     function finish_notify
 
 
-screen notify_item(msg, use_atl=True):
+screen notify_item(msg, use_atl=True, page=None, display=""):
 
     style_prefix "notify_item"
 
-    frame:
+    if page is not None:
 
-        if use_atl: # ATL not used for history
+        button:
+            style "notify_item_button"
 
-            at notify_appear
+            if use_atl: # ATL not used for history
 
-        # else:
-        #     xpos 0.5
+                at notify_appear
 
-        text msg
+            action [Hide("notify_container"), With(dissolveM), Call("open_journal", page, display)]
+
+            text msg style "notify_item_text"
+
+    else:
+
+        frame:
+
+            if use_atl: # ATL not used for history
+
+                at notify_appear
+
+            # else:
+            #     xpos 0.5
+
+            text msg
 
 
 screen notify_container():
@@ -192,7 +259,9 @@ screen notify_container():
 
                 if msg_info[1] > time_lib.time() - notify_duration:
 
-                    use notify_item(msg_info[0])
+                    $ msg, _, page, display = _get_notify_fields(msg_info)
+
+                    use notify_item(msg, page=page, display=display)
 
 
 screen notify_history():
@@ -210,4 +279,6 @@ screen notify_history():
 
             for msg_info in notify_messages:
 
-                use notify_item(msg_info[0], False)
+                $ msg, _, page, display = _get_notify_fields(msg_info)
+
+                use notify_item(msg, False, page=page, display=display)

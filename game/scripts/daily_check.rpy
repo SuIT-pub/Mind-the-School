@@ -1,22 +1,14 @@
 init -1 python:
     set_current_mod('base')
-    def after_load_event_check(location: str, events: Dict[str, EventStorage], general_event: EventStorage, timed_event: TempEventStorage):
+    def after_load_event_check(location: str, events: Dict[str, EventStorage], general_event: EventStorage):
         
-        timed_event.check_all_events()
         general_event.check_all_events()
         if events != None:
             map(lambda x: x.check_all_events(), events.values())
 
-    def add_temp_event(event: Event):
-        temp_time_check_events.add_event(event)
-    def remove_temp_event(event: Event):
-        temp_time_check_events.remove_event(event)
+    after_event_check = Event(2, "time_event_check.after_event_check")
 
-    after_temp_event_check = Event(2, "time_event_check.after_temp_event_check")
-    after_event_check      = Event(2, "time_event_check.after_event_check")
-
-    temp_time_check_events = TempEventStorage("temp_time_check_events", "misc", fallback = after_temp_event_check)
-    time_check_events      = EventStorage("time_check_events", "misc", fallback = after_event_check)
+    time_check_events = EventStorage("time_check_events", "misc", fallback = after_event_check)
 
 init 1 python:
     set_current_mod('base')
@@ -36,11 +28,20 @@ init 1 python:
         TimeCondition(day = 5, month = 1, year = 2023, daytime = 1),
         thumbnail = "images/events/pta/first meeting/first pta meeting 0 0.webp")
 
-    new_week_event = Event(2, "new_week",
-        TimeCondition(weekday = 1, daytime = 1))
+    new_daytime_event = Event(2, "check_new_daytime",
+        DaytimeChangedCondition())
 
-    end_of_month_event = Event(2, "end_of_month",
-        TimeCondition(day = 1, daytime = 1))
+    new_day_event = Event(2, "check_new_day",
+        TimeCondition(daytime = 1),
+        DaytimeChangedCondition())
+
+    new_week_event = Event(2, "check_new_week",
+        TimeCondition(weekday = 1, daytime = 1),
+        DaytimeChangedCondition())
+
+    new_month_event = Event(2, "check_new_month",
+        TimeCondition(day = 1, daytime = 1),
+        DaytimeChangedCondition())
 
     intro_check_all_facilities_event = Event(2, "intro_check_all_facilities", 
         IntroCondition(),
@@ -70,8 +71,10 @@ init 1 python:
         first_week_epilogue_event, 
         first_week_epilogue_final_event, 
         first_pta_meeting_event,  
+        new_daytime_event,
+        new_day_event,
         new_week_event,
-        end_of_month_event,
+        new_month_event,
         intro_check_all_facilities_event,
         intro_check_all_first_potions_event,
         game_over_happiness_event,
@@ -92,7 +95,7 @@ label time_event_check ():
     hide screen school_overview_stats
     hide screen school_overview_buttons
 
-    call call_available_event(temp_time_check_events, 0, True, with_removal = True) from time_event_check_1
+    call empty_label from time_event_check_1
 
 label .after_temp_event_check (**kwargs):
 
@@ -585,11 +588,53 @@ label check_missing_proficiencies:
 # region Daily Check Events ----- #
 ###################################
 
-label new_week (**kwargs):
+label check_new_daytime (**kwargs):
+    call change_stats_with_modifier('daytime_change',
+        reputation = 0,
+        charm = 0,
+        happiness = 0,
+        inhibition = 0,
+        corruption = 0,
+        education = 0,
+    ) from _call_change_daytime_change_stats_with_modifier
+    call change_money_with_modifier(0, 'daytime_change') from _call_change_daytime_change_money_with_modifier
+    return
+
+label check_new_day (**kwargs):
+    call change_stats_with_modifier('daily',
+        reputation = 0,
+        charm = 0,
+        happiness = 0,
+        inhibition = 0,
+        corruption = 0,
+        education = 0,
+    ) from _call_change_daily_stats_with_modifier
+    call change_money_with_modifier(0, 'daily') from _call_change_daily_money_with_modifier
+    return
+
+label check_new_week (**kwargs):
+    call change_stats_with_modifier('weekly',
+        reputation = 0,
+        charm = 0,
+        happiness = 0,
+        inhibition = 0,
+        corruption = 0,
+        education = 0,
+    ) from _call_change_weekly_stats_with_modifier
+    call change_money_with_modifier(0, 'weekly') from _call_change_weekly_money_with_modifier
     call change_money_with_modifier(0, 'payroll_weekly') from _call_change_money_with_modifier_1
     return
 
-label end_of_month (**kwargs):
+label check_new_month (**kwargs):
+    call change_stats_with_modifier('monthly',
+        reputation = 0,
+        charm = 0,
+        happiness = 0,
+        inhibition = 0,
+        corruption = 0,
+        education = 0,
+    ) from _call_change_monthly_stats_with_modifier
+    call change_money_with_modifier(0, 'monthly') from _call_change_monthly_money_with_modifier
     call change_money_with_modifier(0, 'payroll_monthly') from _call_change_money_with_modifier_2
     # $ change_stat(MONEY, 1000)
 

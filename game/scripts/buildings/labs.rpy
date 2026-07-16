@@ -5,11 +5,13 @@
 init -1 python:
     set_current_mod('base')
     
-    labs_timed_event = TempEventStorage("labs_timed", "labs", fallback = Event(2, "labs.after_time_check"))
     labs_general_event = EventStorage("labs_general", "labs", fallback = Event(2, "labs.after_general_check"))
-    register_highlighting(labs_timed_event, labs_general_event)
+    register_highlighting(labs_general_event)
 
+    #### Default labs events
+    # available targets: look_around
     labs_events = {}
+    add_storage(labs_events, EventStorage("look_around", "labs", fallback_text = "There is nothing here."))
 
     labs_bg_images = BGStorage("images/background/labs/bg f.webp",
         BGImage("images/background/labs/bg c <level> <nude>.webp", 1, TimeCondition(daytime = "c")), # show corridor with few students
@@ -27,9 +29,6 @@ init 1 python:
 #################################
 
 label labs ():
-    call call_available_event(labs_timed_event) from labs_1
-
-label .after_time_check (**kwargs):
     call call_available_event(labs_general_event) from labs_4
 
 label .after_general_check (**kwargs):

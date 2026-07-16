@@ -415,6 +415,17 @@ init -99 python:
                 original_dict[key] = new_dict[key]
         return original_dict
 
+    def get_dict_key_count(dict_obj: Dict[Any, Any], key: Any) -> int:
+        if key in dict_obj.keys():
+            return dict_obj[key]
+        return 0
+
+    def get_dict_total_count(dict_obj: Dict[Any, Any]) -> int:
+        total = 0
+        for key in dict_obj.keys():
+            total += dict_obj[key]
+        return total
+
     # endregion
     #############################
 
@@ -474,6 +485,22 @@ init -99 python:
         else:
             return list_obj[index + 1]
 
+    def get_element_count(list_obj: List[Any], value: Any) -> int:
+        """
+        Returns the number of times an element appears in a list
+        
+        ### Parameters:
+        1. list_obj: List[Any]
+            - The list to check
+        2. value: Any
+            - The value to check for
+
+        ### Returns:
+        1. int
+            - The number of times the element appears in the list
+        """
+        return list_obj.count(value)
+
     # endregion
     #############################
 
@@ -532,6 +559,43 @@ init -99 python:
         """
 
         return "{" + "color=" + color + "}" + text + "{/color}"
+
+    def get_interpoaltion_keys(text: str) -> List[str]:
+        """
+        Extracts all interpolation keys from a string. The keys are surrounded by "<>".
+
+        ### Parameters:
+        1. text: str
+            - The string to extract keys from
+
+        ### Returns:
+        1. List[str]
+            - List of keys found between "<" and ">"
+        """
+
+        pattern = r"<(.*?)>"
+        return re.findall(pattern, text)
+
+    def interpolate_string(text: str, **kwargs) -> str:
+        """
+        Interpolates a string with values from kwargs
+
+        ### Parameters:
+        1. text: str
+            - The string to interpolate
+        2. **kwargs
+            - The kwargs to interpolate with
+
+        ### Returns:
+        1. str
+            - The interpolated string
+        """
+
+        keys = get_interpoaltion_keys(text)
+        for key in keys:
+            if key in kwargs.keys():
+                text = text.replace("<" + key + ">", str(kwargs[key]))
+        return text
 
     # endregion
     ###############################

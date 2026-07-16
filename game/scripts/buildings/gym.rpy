@@ -5,16 +5,18 @@
 init -1 python:
     set_current_mod('base')
     
-    gym_timed_event = TempEventStorage("gym_timed", "gym", fallback = Event(2, "gym.after_time_check"))
     gym_general_event = EventStorage("gym_general", "gym", fallback = Event(2, "gym.after_general_check"))
-    register_highlighting(gym_timed_event, gym_general_event)
+    register_highlighting(gym_general_event)
     
+    #### Default gym events
+    # available targets: enter_changing, go_students, check_pe, teach_pe, patrol, search
     gym_events = {}
     add_storage(gym_events, EventStorage("enter_changing", "gym", fallback_text = "There is nothing to do here."))
     add_storage(gym_events, EventStorage("go_students",    "gym", fallback_text = "There is nobody here."))
     add_storage(gym_events, EventStorage("check_pe",       "gym", fallback_text = "There is nothing to do here."))
     add_storage(gym_events, EventStorage("teach_pe",       "gym", fallback_text = "There is nothing to do here."))
-    add_storage(gym_events, EventStorage("patrol",          "gym", fallback_text = "There is nothing to do here."))
+    add_storage(gym_events, EventStorage("patrol",         "gym", fallback_text = "There is nothing to do here."))
+    add_storage(gym_events, EventStorage("search",         "gym", fallback_text = "There is nothing here."))
 
     gym_bg_images = BGStorage("images/background/gym/f.webp", 
         BGImage("images/background/gym/<school_level> <variant> <nude>.webp", 1, TimeCondition(daytime = "c", weekday = "d")), # show gym with students
@@ -102,8 +104,6 @@ label gym ():
     else:
         $ play_sound(audio.empty_room, True, 0.8, 1.0)
 
-    call call_available_event(gym_timed_event) from gym_1
-label .after_time_check (**kwargs):
     call call_available_event(gym_general_event) from gym_4
 label .after_general_check (**kwargs):
     call call_event_menu (
@@ -152,7 +152,7 @@ label gym_event_1 (**kwargs):
 
     $ school_level = get_value('school_level', **kwargs)
 
-    $ aona = get_person("class_3a", "aona_komuro").get_character()
+    $ aona = Person["aona_komuro"].get_renpy_char()
 
     $ image = convert_pattern("main", video_prefix = "anim_", **kwargs)
 
@@ -264,8 +264,8 @@ label gym_event_3 (**kwargs):
 
     $ image = convert_pattern("main", **kwargs)
 
-    $ kokoro = get_person("class_3a", "kokoro_nakamura").get_character()
-    $ zoe = get_person("staff", "zoe_parker").get_character()
+    $ kokoro = Person["kokoro_nakamura"].get_renpy_char()
+    $ zoe = Person["zoe_parker"].get_renpy_char()
 
     $ image.show(0)
     headmaster "Miss Nakamura! I'm sorry but that top doesn't conform to the uniform policy."
@@ -346,8 +346,8 @@ label gym_event_4 (**kwargs):
 label gym_event_5 (**kwargs):
     $ begin_event("2", **kwargs)
 
-    $ aona = get_person("class_3a", "aona_komuro").get_character()
-    $ soyoon = get_person("class_3a", "soyoon_yamamoto").get_character()
+    $ aona = Person["aona_komuro"].get_renpy_char()
+    $ soyoon = Person["soyoon_yamamoto"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 

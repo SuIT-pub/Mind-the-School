@@ -6,6 +6,7 @@ init 1 python:
         ProgressCondition('aona_sports_bra', '2+'),
         LevelCondition(6, char_obj = 'secretary'),
         TimeCondition(weekday = 1, daytime = "d"),
+        ReplayCategoryOption("start_sex_ed"),
         Pattern("main", "images/events/sex_ed_intro/office_call_secretary_1/office_call_secretary_1 <step>.webp"),
         thumbnail = "images/events/sex_ed_intro/office_call_secretary_1/office_call_secretary_1 7.webp",
     ))
@@ -15,21 +16,24 @@ init 1 python:
             ProgressCondition('start_sex_ed', 1),
             TimeCondition(daytime = "d", weekday = "d"),
             TimerCondition("office_call_secretary_1", day = 2),
+        ReplayCategoryOption("start_sex_ed"),
             Pattern("main", "images/events/sex_ed_intro/office_teacher_sex_ed_introduction_1/office_teacher_sex_ed_introduction_1 <step>.webp"),
             thumbnail = "images/events/sex_ed_intro/office_teacher_sex_ed_introduction_1/office_teacher_sex_ed_introduction_1 4.webp",
         ),
         Event(1, "office_teacher_sex_ed_introduction_3",
             ProgressCondition('start_sex_ed', 3),
             TimeCondition(daytime = "d"),
+        ReplayCategoryOption("start_sex_ed"),
             Pattern("main", "images/events/sex_ed_intro/office_teacher_sex_ed_introduction_3/office_teacher_sex_ed_introduction_3 <step>.webp"),
             thumbnail = "images/events/sex_ed_intro/office_teacher_sex_ed_introduction_3/office_teacher_sex_ed_introduction_3 3.webp",
         )
     )
 
-    temp_time_check_events.add_event(Event(1, "office_teacher_sex_ed_introduction_2",
+    time_check_events.add_event(Event(1, "office_teacher_sex_ed_introduction_2",
         ProgressCondition('start_sex_ed', 2),
         EventSeenCondition(),
         TimeCondition(daytime = "1", weekday = "1-4"),
+        ReplayCategoryOption("start_sex_ed"),
         Pattern("main", "images/events/sex_ed_intro/office_teacher_sex_ed_introduction_2/office_teacher_sex_ed_introduction_2 <step>.webp"),
         thumbnail = "images/events/sex_ed_intro/office_teacher_sex_ed_introduction_2/office_teacher_sex_ed_introduction_2 4.webp",
 
@@ -38,6 +42,7 @@ init 1 python:
     office_building_events["schedule_meeting"].add_event(Event(1, "office_teacher_sex_ed_introduction_4",
         ProgressCondition('start_sex_ed', 4),
         TimeCondition(daytime = "f", weekday = "d"),
+        ReplayCategoryOption("start_sex_ed"),
         Pattern("main", "images/events/sex_ed_intro/office_teacher_sex_ed_introduction_4/office_teacher_sex_ed_introduction_4 <step>.webp"),
         thumbnail = "images/events/sex_ed_intro/office_teacher_sex_ed_introduction_4/office_teacher_sex_ed_introduction_4 4.webp",
     ))
@@ -45,19 +50,22 @@ init 1 python:
     # PTA discussions
     pta_discussion_storage.add_event(EventFragment(1, "pta_discussion_sex_ed_intro_1",
         ProgressCondition('start_sex_ed', 5),
+        ReplayCategoryOption("start_sex_ed"),
         Pattern("main", "images/events/sex_ed_intro/pta_discussion_sex_ed_intro_1/pta_discussion_sex_ed_intro_1 <step>.webp"),
         thumbnail = "images/events/sex_ed_intro/pta_discussion_sex_ed_intro_1/pta_discussion_sex_ed_intro_1 10.webp",
     ))
 
     pta_vote_storage.add_event(EventFragment(2, "pta_vote_theoretical_sex_ed_1",
         JournalVoteCondition("theoretical_sex_ed"),
+        ReplayCategoryOption("start_sex_ed"),
         Pattern("main", "images/events/sex_ed_intro/pta_vote_theoretical_sex_ed_1/pta_vote_theoretical_sex_ed_1 <step>.webp"),
         thumbnail = "images/events/sex_ed_intro/pta_vote_theoretical_sex_ed_1/pta_vote_theoretical_sex_ed_1 10.webp",
     ))
 
-    temp_time_check_events.add_event(Event(1, "theoretical_sex_ed_assembly_1",
+    time_check_events.add_event(Event(1, "theoretical_sex_ed_assembly_1",
         ProgressCondition('start_sex_ed', 7),
         TimeCondition(daytime = "6", weekday = "5"),
+        ReplayCategoryOption("start_sex_ed"),
         Pattern("main", "images/events/sex_ed_intro/theoretical_sex_ed_assembly_1/theoretical_sex_ed_assembly_1 <step>.webp")),
     )
 
@@ -68,6 +76,7 @@ init 1 python:
             EventSeenCondition(),
             PriorityOption(99),
             ForceHighlightOption(),
+            ReplayCategoryOption("start_sex_ed"),
             Pattern("main", "images/events/sex_ed_intro/mini_courtyard_1/mini_courtyard_1 <step>.webp")),
     )
     sd_general_event.add_event(
@@ -77,6 +86,7 @@ init 1 python:
             EventSeenCondition(),
             PriorityOption(99),
             ForceHighlightOption(),
+            ReplayCategoryOption("start_sex_ed"),
             Pattern("main", "images/events/sex_ed_intro/mini_sd_1/mini_sd_1 <step>.webp")),
         Event(3, "sex_ed_intro_mini_sd_2",
             ProgressCondition('start_sex_ed', 8),
@@ -84,17 +94,20 @@ init 1 python:
             EventSeenCondition(),
             PriorityOption(99),
             ForceHighlightOption(),
+            ReplayCategoryOption("start_sex_ed"),
             Pattern("main", "images/events/sex_ed_intro/mini_sd_2/mini_sd_2 <step>.webp")),
     )
-    temp_time_check_events.add_event(
+    time_check_events.add_event(
         Event(1, "first_sex_ed_day",
             ProgressCondition('start_sex_ed', 8),
             TimeCondition(daytime = 1, weekday = 1),
+            ReplayCategoryOption("start_sex_ed"),
             Pattern("main", "images/events/sex_ed_intro/first_sex_ed_day/first_sex_ed_day <step>.webp"),
         ),
         Event(1, "first_sex_ed_class_1",
-            ProgressCondition('start_sex_ed', 8),
+            ProgressCondition('start_sex_ed', 9),
             TimeCondition(daytime = 2, weekday = 1),
+            ReplayCategoryOption("start_sex_ed"),
             Pattern("main", "images/events/sex_ed_intro/first_sex_ed_class_1/first_sex_ed_class_1 <step>.webp"),
         ),
     )
@@ -188,18 +201,18 @@ label office_teacher_sex_ed_introduction_1 (**kwargs):
     $ image.show(4)
     headmaster "Thank you, Emiko."
 
-    $ advance_progress('start_sex_ed') # 1 -> 2
+    $ set_progress('start_sex_ed', 2) # 1 -> 2
 
     $ end_event('new_daytime', **kwargs)
 
 label office_teacher_sex_ed_introduction_2 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ finola = get_person("staff", "finola_ryan").get_character()
-    $ chloe  = get_person("staff", "chloe_garcia").get_character()
-    $ lily   = get_person("staff", "lily_anderson").get_character()
-    $ yulan  = get_person("staff", "yulan_chen").get_character()
-    $ zoe    = get_person("staff", "zoe_parker").get_character()
+    $ finola = Person["finola_ryan"].get_renpy_char()
+    $ chloe  = Person["chloe_garcia"].get_renpy_char()
+    $ lily   = Person["lily_anderson"].get_renpy_char()
+    $ yulan  = Person["yulan_chen"].get_renpy_char()
+    $ zoe    = Person["zoe_parker"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -332,7 +345,7 @@ label office_teacher_sex_ed_introduction_2 (**kwargs):
     $ image.show(0)
     headmaster "Thank you all for your time. I'll keep you updated on the progress."
 
-    $ advance_progress('start_sex_ed') # 2 -> 3
+    $ set_progress('start_sex_ed', 3) # 2 -> 3
 
     $ end_event('new_daytime')
 
@@ -376,18 +389,18 @@ label office_teacher_sex_ed_introduction_3 (**kwargs):
     $ image.show(4)
     headmaster_thought "Now that's done. I think I should present it to the teachers and get their feedback."
     
-    $ advance_progress('start_sex_ed') # 3 -> 4
+    $ set_progress('start_sex_ed', 4) # 3 -> 4
 
     $ end_event('new_daytime', **kwargs)
 
 label office_teacher_sex_ed_introduction_4 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ finola = get_person("staff", "finola_ryan").get_character()
-    $ chloe  = get_person("staff", "chloe_garcia").get_character()
-    $ lily   = get_person("staff", "lily_anderson").get_character()
-    $ yulan  = get_person("staff", "yulan_chen").get_character()
-    $ zoe    = get_person("staff", "zoe_parker").get_character()
+    $ finola = Person["finola_ryan"].get_renpy_char()
+    $ chloe  = Person["chloe_garcia"].get_renpy_char()
+    $ lily   = Person["lily_anderson"].get_renpy_char()
+    $ yulan  = Person["yulan_chen"].get_renpy_char()
+    $ zoe    = Person["zoe_parker"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -496,24 +509,24 @@ label office_teacher_sex_ed_introduction_4 (**kwargs):
     $ image.show(17)
     headmaster "The parents should be no problem when the teachers and students agree to the change."
 
-    $ advance_progress('start_sex_ed') # 4 -> 5
+    $ set_progress('start_sex_ed', 5) # 4 -> 5
 
     $ end_event('new_daytime', **kwargs)
 
 label pta_discussion_sex_ed_intro_1 (**kwargs):
     $ begin_event(no_gallery = True, **kwargs)
 
-    $ finola = get_person("staff", "finola_ryan").get_character()
-    $ chloe  = get_person("staff", "chloe_garcia").get_character()
-    $ lily   = get_person("staff", "lily_anderson").get_character()
-    $ yulan  = get_person("staff", "yulan_chen").get_character()
-    $ zoe    = get_person("staff", "zoe_parker").get_character()
+    $ finola = Person["finola_ryan"].get_renpy_char()
+    $ chloe  = Person["chloe_garcia"].get_renpy_char()
+    $ lily   = Person["lily_anderson"].get_renpy_char()
+    $ yulan  = Person["yulan_chen"].get_renpy_char()
+    $ zoe    = Person["zoe_parker"].get_renpy_char()
 
-    $ adelaide = get_person("parents", "adelaide_hall").get_character()
-    $ nubia    = get_person("parents", "nubia_davis").get_character()
-    $ yuki     = get_person("parents", "yuki_yamamoto").get_character()
+    $ adelaide = Person["adelaide_hall"].get_renpy_char()
+    $ nubia    = Person["nubia_davis"].get_renpy_char()
+    $ yuki     = Person["yuki_yamamoto"].get_renpy_char()
 
-    $ yuriko = get_person("class_3a", "yuriko_oshima").get_character()
+    $ yuriko = Person["yuriko_oshima"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -584,7 +597,7 @@ label pta_discussion_sex_ed_intro_1 (**kwargs):
     
     $ add_notify_message("Added new rule to journal!")
 
-    $ advance_progress('start_sex_ed') # 5 -> 6
+    $ set_progress('start_sex_ed', 6) # 5 -> 6
 
     $ end_event('new_daytime', **kwargs)
 
@@ -653,7 +666,7 @@ label pta_vote_theoretical_sex_ed_1 (**kwargs):
         I will call for a school assembly this evening after classes to inform the students about the change and to 
         distribute information material for the students and faculty members to prepare themselves over the weekend.
         """
-        $ advance_progress('start_sex_ed') # 6 -> 7
+        $ set_progress('start_sex_ed', 7) # 6 -> 7
     else:
         $ image.show(9)
         headmaster "The proposal is rejected due to the majority of votes against it."
@@ -714,7 +727,7 @@ label theoretical_sex_ed_assembly_1 (**kwargs):
     $ image.show(11)
     headmaster "That will be all for today. I wish you all a good evening and a good weekend."
 
-    $ advance_progress('start_sex_ed') # 7 -> 8
+    $ set_progress('start_sex_ed', 8) # 7 -> 8
 
     $ end_event('new_daytime', **kwargs)
 
@@ -796,12 +809,14 @@ label first_sex_ed_day(**kwargs):
         inhibition = DEC_TINY, happiness = TINY
     ) from _call_first_sex_ed_day_1
 
+    $ set_progress('start_sex_ed', 9)
+
     $ end_event("new_daytime", **kwargs)
 
 label first_sex_ed_class_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ finola = get_person("staff", "finola_ryan").get_character()
+    $ finola = Person["finola_ryan"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -916,6 +931,8 @@ label first_sex_ed_class_1 (**kwargs):
     call change_stats_with_modifier(
         education = MEDIUM, inhibition = DEC_SMALL, corruption = SMALL, happiness = TINY
     ) from _call_first_sex_ed_class_1_1
+
+    $ set_progress('start_sex_ed', 10)
 
     $ end_event('new_daytime', **kwargs)
 

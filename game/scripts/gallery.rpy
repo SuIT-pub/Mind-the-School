@@ -1,9 +1,17 @@
 init -99 python:
     gallery_version = "3"
 
+    event_replay_categories = {}
+
 init python:
 
     gallery_manager = None
+
+    def register_event_replay_category(event: Event):
+        global event_replay_categories
+        if event.replay_category not in event_replay_categories.keys():
+            event_replay_categories[event.replay_category] = []
+        event_replay_categories[event.replay_category].append(event.get_name())
 
     #####################################
     # region Gallery Persistent handler #
@@ -66,12 +74,20 @@ init python:
         """
 
         if location != "":
-            if location not in persistent.gallery.keys():
-                return
-            if event == "" or len(persistent.gallery[location].keys()) == 0:
-                persistent.gallery.pop(location, None)
-            elif event != "":
-                persistent.gallery[location].pop(event, None)
+            if get_setting("show_gallery_category") == "Locations":
+                if location not in persistent.gallery.keys():
+                    return
+                if event == "" or len(persistent.gallery[location].keys()) == 0:
+                    persistent.gallery.pop(location, None)
+                elif event != "":
+                    persistent.gallery[location].pop(event, None)
+                    if len(persistent.gallery[location].keys()):
+                        persistent.gallery.pop(location, None)
+            else:
+                for event in event_replay_categories[location]:
+                    persistent.gallery[get_event_from_register(event).get_location()].pop(event, None)
+                    if len(persistent.gallery[get_event_from_register(event).get_location()].keys()) == 0:
+                        persistent.gallery.pop(get_event_from_register(event).get_location(), None)
         elif event == "":
             persistent.gallery = {}
 
@@ -616,7 +632,7 @@ init python:
         ### Parameters:
         1. **kwargs
             - The kwargs to get the character from
-            - if is_replay is True, method only returns the list of fragments supplied by kwargs with key: replay_frag_list
+            - if in_replay is True, method only returns the list of fragments supplied by kwargs with key: replay_frag_list
 
         ### Returns:
         1. List[EventFragment]:

@@ -5,27 +5,43 @@
 init -1 python:
     set_current_mod('base')
     
-    sb_timed_event   = TempEventStorage("school_building", "school_building", fallback = Event(2, "school_building.after_time_check"))
     sb_general_event =     EventStorage("school_building", "school_building", fallback = Event(2, "school_building.after_general_check"))
-    register_highlighting(sb_timed_event, sb_general_event)
+    register_highlighting(sb_general_event)
 
+    #### Default school building events
+    # available targets: check_class, teach_class, patrol, search
     sb_events = {}
     add_storage(sb_events, EventStorage("check_class",  "school_building", fallback_text = "There is nobody here."))
     add_storage(sb_events, EventStorage("teach_class",  "school_building", fallback_text = "There is nobody here."))
     add_storage(sb_events, EventStorage("patrol",       "school_building", fallback_text = "There is nobody here."))
+    add_storage(sb_events, EventStorage("search",       "school_building", fallback_text = "There is nothing here."))
 
+    #### School Building Teach Class Events
+    # available targets: math, history, sex_ed
     sb_teach_events = {}
     add_storage(sb_teach_events, EventStorage("math",    "school_building", fallback_text = "There is nobody here."))
     add_storage(sb_teach_events, EventStorage("history", "school_building", fallback_text = "There is nobody here."))
     add_storage(sb_teach_events, EventStorage("sex_ed", "school_building", fallback_text = "There is nobody here."))
 
+    #### School Building Math Teaching Intro Events
     sb_teach_math_ld_storage = FragmentStorage('sb_teach_math_ld')
+
+    #### School Building Math Teaching Main Events
     sb_teach_math_main_storage = FragmentStorage('sb_teach_math_main')
+
+    #### School Building History Teaching Intro Events
     sb_teach_history_intro_storage = FragmentStorage('sb_teach_history_intro')
+
+    #### School Building History Teaching Main Events
     sb_teach_history_main_storage = FragmentStorage('sb_teach_history_main')
 
+    #### School Building Sex Education Teaching Intro Events
     sb_teach_sex_ed_intro_storage = FragmentStorage('sb_teach_sex_ed_intro')
+
+    #### School Building Sex Education Teaching Main Events
     sb_teach_sex_ed_main_storage = FragmentStorage('sb_teach_sex_ed_main')
+
+    #### School Building Sex Education Teaching QA Events
     sb_teach_sex_ed_qa_storage = FragmentStorage('sb_teach_sex_ed_qa')
 
     sb_bg_images = BGStorage("images/background/school building/f.webp",
@@ -109,9 +125,6 @@ label school_building ():
     else:
         $ play_sound(audio.empty_room, True, 0.8, 1.0)
 
-    call call_available_event(sb_timed_event) from school_building_1
-    
-label .after_time_check (**kwargs):
     call call_available_event(sb_general_event) from school_building_4
 
 label .after_general_check (**kwargs):
@@ -140,7 +153,7 @@ label sb_event_1 (**kwargs): # patrol, check class
 
     $ school_level = get_value('school_level', **kwargs)
     
-    $ sakura = get_person("class_3a", "sakura_mori").get_character()
+    $ sakura = Person["sakura_mori"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -183,7 +196,7 @@ label .stop (**kwargs):
 label sb_event_3 (**kwargs): # patrol
     $ begin_event("2", **kwargs)
 
-    $ miwa = get_person("class_3a", "miwa_igarashi").get_character()
+    $ miwa = Person["miwa_igarashi"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -339,7 +352,7 @@ label .chin_up (**kwargs):
 label sb_event_4(**kwargs):
     $ begin_event("2", **kwargs)
 
-    $ ikushi = get_person("class_3a", "ikushi_ito").get_character()
+    $ ikushi = Person["ikushi_ito"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -398,7 +411,7 @@ label sb_event_5 (**kwargs):
 
     $ image = convert_pattern('main', **kwargs)
 
-    $ girl_char = get_person('class_3a', girls).get_character()
+    $ girl_char = Person[girls].get_renpy_char()
 
     call Image_Series.show_image(image, 0, 1, 2) from _call_show_image_sb_event_5_event_1
     # headmaster walks through hallway
@@ -433,8 +446,8 @@ label sb_event_5 (**kwargs):
 label sb_event_6 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ miwa = get_person("class_3a", "miwa_igarashi").get_character()
-    $ aona = get_person("class_3a", "aona_komuro").get_character()
+    $ miwa = Person["miwa_igarashi"].get_renpy_char()
+    $ aona = Person["aona_komuro"].get_renpy_char()
 
     $ image = convert_pattern('main', **kwargs)
 
@@ -460,8 +473,8 @@ label sb_event_6 (**kwargs):
 label sb_event_7 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ miwa = get_person("class_3a", "miwa_igarashi").get_character()
-    $ aona = get_person("class_3a", "aona_komuro").get_character()
+    $ miwa = Person["miwa_igarashi"].get_renpy_char()
+    $ aona = Person["aona_komuro"].get_renpy_char()
 
     $ image = convert_pattern('main', **kwargs)
 
