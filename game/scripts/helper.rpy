@@ -476,7 +476,7 @@ init -99 python:
     # region String Functions --- #
     ###############################
 
-    def split_to_non_empty_list(s, delimiter) -> List[str]:
+    def split_to_non_empty_list(s) -> List[str]:
         """
         Splits a string into a list of non-empty strings
 
@@ -491,7 +491,7 @@ init -99 python:
             - The list of non-empty strings
         """
 
-        return list(filter(str.strip, s.split(delimiter)))
+        return list(filter(str.strip, s.splitlines()))
 
     def get_translation(key: str) -> str:
         """
@@ -1146,9 +1146,9 @@ init -99 python:
             if not renpy.loadable("members.csv"):
                 return [], "Supporter list could not be loaded."
             file = refine_downloaded_message(renpy.open_file("members.csv"))
-            lines = split_to_non_empty_list(file.read().decode(), "\r\n")
+            lines = split_to_non_empty_list(file.read().decode())
         else:
-            lines = split_to_non_empty_list(file, "\n")
+            lines = split_to_non_empty_list(file)
         if len(lines) == 0:
             return [], "Supporter list could not be loaded."
         time = lines.pop(0)
@@ -1179,7 +1179,7 @@ init -99 python:
             if not renpy.loadable(path):
                 continue
             file = renpy.open_file(path)
-            lines = split_to_non_empty_list(file.read().decode(), "\r\n")
+            lines = split_to_non_empty_list(file.read().decode())
             for line in lines:
                 if line.count(';') != 1:
                     continue
@@ -1196,7 +1196,7 @@ init -99 python:
         if not renpy.loadable("loli_filter"):
             loli_filter = {0:[], 1:[], 2:[]}
         file = renpy.open_file("loli_filter")
-        lines = split_to_non_empty_list(file.read().decode(), "\r\n")
+        lines = split_to_non_empty_list(file.read().decode())
 
         if 0 not in loli_filter:
             loli_filter[0] = []
