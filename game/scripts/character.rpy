@@ -641,6 +641,8 @@ init -6 python:
 
         if stat == MONEY:
             money.change_value(change)
+        elif stat.startswith("situation:"):
+            situation_manager.apply_progress_change(stat, change)
         else:
             get_school().change_stat(stat, change)
 
@@ -916,18 +918,81 @@ init -6 python:
     # endregion
     ######################
 
-    class PersonObj():
+    #################
+    # region Person #
+
+    @deprecated(version='0.2.2', reason="Use class Person instead")
+    class PersonObj:
         def __init__(self, name: str, first_name: str, last_name: str, char: Char, description: List[Union[str, Tuple[str, Condition]]], portraits: Dict[str, Union[str, Tuple[str, Condition]]] = {}, thumbnail = ""):
+            pass
+
+    class Person():
+        """
+        A person object that contains all the information about a person
+
+        ### Attributes:
+        1. name: str
+            - The name of the person
+        2. first_name: str
+            - The first name of the person
+        3. last_name: str
+            - The last name of the person
+        4. description: List[Union[str, Tuple[str, Condition]]]
+            - The description of the person
+        5. portraits: Dict[str, Union[str, Tuple[str, Condition]]]
+            - The portraits of the person
+        6. character: Char
+            - The character of the person
+        7. basePath: str
+            - The base path of the person
+        8. thumbnail: str
+            - The thumbnail of the person
+        9. paperdollOverrides: List[:class:`PaperdollOverride`]
+            - The paperdoll overrides of the person
+
+        ### Parameters:
+        1. name: str
+            - The name of the person
+        2. first_name: str
+            - The first name of the person
+        3. last_name: str
+            - The last name of the person
+        4. char: Char
+            - The character of the person
+        5. description: List[Union[str, Tuple[str, Condition]]]
+            - The description of the person
+        6. portraits: Dict[str, Union[str, Tuple[str, Condition]]]
+            - The portraits of the person
+        7. paperdollOverrides: List[:class:`PaperdollOverride`]
+            - The paperdoll overrides of the person
+        8. thumbnail: str
+            - The thumbnail of the person
+        """
+
+        def __init__(self, name: str, first_name: str, last_name: str, char: Char, description: List[Union[str, Tuple[str, Condition]]], portraits: Dict[str, Union[str, Tuple[str, Condition]]] = {}, paperdollOverrides: List[PaperdollOverride] = [], thumbnail = ""):
             self.name = name
             self.first_name = first_name
             self.last_name = last_name
             self.description = description
             self.portraits = portraits
             self.character = char
+            self.basePath = get_current_mod_path()
             if thumbnail == "":
-                self.thumbnail = f"images/characters/{self.name}/level_1.webp"
+                self.thumbnail = f"{self.basePath}images/characters/{self.name}/level_1.webp"
             else:
                 self.thumbnail = thumbnail
+            self.paperdollOverrides = list(paperdollOverrides)
+
+        @classmethod
+        def __class_getitem__(cls, key):
+            """
+            Returns the person object with the given key
+
+            ### Parameters:
+            1. key: str
+                - The key of the person to get
+            """
+            return find_person(key)
 
         def _update(self, data):
             
@@ -943,6 +1008,8 @@ init -6 python:
                 self.portraits = {}
             if not hasattr(data, 'thumbnail'):
                 self.thumbnail = ""
+            if not hasattr(data, 'paperdollOverrides'):
+                self.paperdollOverrides = []
 
             if data != None:
                 self.name = data.name
@@ -950,6 +1017,7 @@ init -6 python:
                 self.last_name = data.last_name
                 self.description = data.description
                 self.portraits = data.portraits
+                self.paperdollOverrides = data.paperdollOverrides
 
         def get_name(self) -> str:
             return self.name
@@ -976,18 +1044,18 @@ init -6 python:
             return "\n".join(self.get_description(**kwargs))
 
         def get_portraits(self) -> Dict[str, str]:
-            output = {f"Level {level}": f"images/characters/{self.name}/level_{level}.webp" for level in range(1, get_school().get_level() + 1) if renpy.loadable(f"images/characters/{self.name}/level_{level}.webp")}
+            output = {f"Level {level}": f"{self.basePath}images/characters/{self.name}/level_{level}.webp" for level in range(1, get_school().get_level() + 1) if renpy.loadable(f"images/characters/{self.name}/level_{level}.webp")}
 
-            if renpy.loadable(f"images/characters/{self.name}/nude.webp"):
-                output["nude"] = f"images/characters/{self.name}/nude.webp" 
+            if renpy.loadable(f"{self.basePath}images/characters/{self.name}/nude.webp"):
+                output["nude"] = f"{self.basePath}images/characters/{self.name}/nude.webp" 
 
             for portrait_key in self.portraits.keys():
                 portrait = self.portraits[portrait_key]
                 if isinstance(portrait, str):
-                    output[portrait_key] = f"images/characters/{self.name}/{portrait}.webp"
+                    output[portrait_key] = f"{self.basePath}images/characters/{self.name}/{portrait}.webp"
                 elif portrait[1].is_fulfilled(**kwargs):
                     if "images/" not in portrait[0]:
-                        output[portrait_key] = f"images/characters/{self.name}/{portrait[0]}.webp"
+                        output[portrait_key] = f"{self.basePath}images/characters/{self.name}/{portrait[0]}.webp"
                     else:
                         output[portrait_key] = portrait[0]
 
@@ -1023,7 +1091,7 @@ init -6 python:
         def set_thumbnail(self, thumbnail: str):
             self.thumbnail = thumbnail
 
-        def get_character(self, char_type: string = "") -> Character:
+        def get_renpy_char(self, char_type: string = "") -> Character:
 
             char_kind = character.subtitles
 
@@ -1045,22 +1113,26 @@ init -6 python:
             else:
                 return Character(self.get_full_name(), kind = char_kind, retain = False)
 
-        def register_dialogue(self, *overrides: DialogueOverride, **kwargs):
-            data = update_dict({"alt_keys": ["level", "mouth"], "mood": "happy", "pose": 1, "outfit": "uniform", "level": 1, "mouth": "closed"}, kwargs)
-            dialogue_manager.register_obj(
+        def register_paperdoll(self, *overrides: PaperdollOverride, **kwargs):
+            data = update_dict({"alt_keys": ["level", "mouth", "state", "char_var"], "mood": "happy", "pose": 1, "outfit": "uniform", "level": 1, "mouth": "closed", "state": "", "blur": 0.0, "char_var": 1}, kwargs)
+            global paperdoll_manager
+            log_val("register paperdoll_manager", paperdoll_manager)
+            overrides = list(overrides) + self.paperdollOverrides
+            log_val("overrides", overrides)
+            paperdoll_manager.register_obj(
                 self.name, 
-                f"images/dialogue/{self.name}/bottom/{self.name} <pose> <outfit> <level>.png", 
-                f"images/dialogue/{self.name}/top/{self.name} <pose> <mood> <mouth>.png", 
-                overrides = list(overrides),
+                f"{self.basePath}images/paperdoll/{self.name}/bottom/{self.name} <char_var> <pose> <outfit> <level> <state>.png", 
+                f"{self.basePath}images/paperdoll/{self.name}/top/{self.name} <char_var> <pose> <mood> <mouth>.png", 
+                display_size = (600, 1080),
+                overrides = list(overrides) + self.paperdollOverrides,
                 **data
             )
 
         def display(self, *actions: Dict[str, Any]):
-            dialogue_manager.display(self.name, *actions)
+            paperdoll_manager.display(self.name, *actions)
 
         def clear_display(self):
-            dialogue_manager.clear()
-
+            paperdoll_manager.clear()
 
     def find_person(name: str):
         for key in person_storage.keys():
@@ -1081,7 +1153,7 @@ init -6 python:
             - The name of the person
 
         ### Returns:
-        1. PersonObj
+        1. Person
             - The person object with the given key and name
         """
 
@@ -1117,15 +1189,17 @@ init -6 python:
             return None
         return person_storage[key][name].get_character(char_type)
 
-    def load_person(key: str, person: PersonObj):
+    def load_person(key: str, person: Person):
         if key not in person_storage.keys():
             person_storage[key] = {}
 
-        if person.name not in person_storage[key].keys():
+        if person.name not in person_storage[key].keys() or isinstance(person_storage[key][person.name], PersonObj):
             person_storage[key][person.name] = person
         else:
             person_storage[key][person.name]._update(person)
 
+    # endregion
+    #################
 
 label load_schools ():
     # """
@@ -1183,133 +1257,135 @@ label load_characters ():
     $ teacher_char = get_character_by_key('teacher')
     $ secretary_char = get_character_by_key('secretary')
 
-    $ load_person("NoView", PersonObj("default", "", "Person", school_char, []))
-    $ load_person("NoView", PersonObj("default_school", "", "School Girl", school_char, []))
-    $ load_person("NoView", PersonObj("default_parent", "", "Parent", parent_char, []))
-    $ load_person("NoView", PersonObj("default_teacher", "", "Teacher", teacher_char, []))
-    $ load_person("NoView", PersonObj("default_secretary", "", "Secretary", secretary_char, []))
+    $ load_person("NoView", Person("default", "", "Person", school_char, []))
+    $ load_person("NoView", Person("default_school", "", "School Girl", school_char, []))
+    $ load_person("NoView", Person("default_parent", "", "Parent", parent_char, []))
+    $ load_person("NoView", Person("default_teacher", "", "Teacher", teacher_char, []))
+    $ load_person("NoView", Person("default_secretary", "", "Secretary", secretary_char, []))
 
-    $ load_person("class_3a", PersonObj("aona_komuro", "Aona", "Komuro", school_char, [
+    $ load_person("class_3a", Person("aona_komuro", "Aona", "Komuro", school_char, [
             ["• Height: 172.5 cm", "• Bra Size 75F (DDD)", "• B-W-H: 89-74-98 cm", "• Waist-to-Hips: 0.756"],
         ]
     ))
-    $ load_person("class_3a", PersonObj("easkey_tanaka", "Easkey", "Tanaka", school_char, [
+    $ load_person("class_3a", Person("easkey_tanaka", "Easkey", "Tanaka", school_char, [
             ["• Height: 168.8 cm", "• Bra Size 65DD (E)", "• B-W-H: 78-68-98 cm", "• Waist-to-Hips: 0.689"],
             "In a relationship with Sakura Mori",
         ],
     ))
-    $ load_person("class_3a", PersonObj("elsie_johnson", "Elsie", "Johnson", school_char, [
+    $ load_person("class_3a", Person("elsie_johnson", "Elsie", "Johnson", school_char, [
             ["• Height: 168.0 cm", "• Bra Size 65D", "• B-W-H: 76-63-105 cm", "• Waist-to-Hips: 0.689"],
             "In a relationship with Yuriko Oshima",
         ],
     ))
-    $ load_person("class_3a", PersonObj("gloria_goto", "Gloria", "Goto", school_char, [
+    $ load_person("class_3a", Person("gloria_goto", "Gloria", "Goto", school_char, [
             ["• Height: 160.4 cm", "• Bra Size 65C", "• B-W-H: 73-57-82 cm", "• Waist-to-Hips: 0.693"],
         ],
     ))
-    $ load_person("class_3a", PersonObj("luna_clark", "Luna", "Clark", school_char, [
+    $ load_person("class_3a", Person("luna_clark", "Luna", "Clark", school_char, [
             ["• Height: 144.8 cm", "• Bra Size 55D", "• B-W-H: 65-48-81 cm", "• Waist-to-Hips: 0.587"],
             "Twin sister of Seraphina Clark.",
             "More shy and reserved than her sister.",
             "A bit of a trickster.",
         ],
+        thumbnail = "images/characters/luna_clark/level_1.webp",
     ))
-    $ load_person("class_3a", PersonObj("seraphina_clark", "Seraphina", "Clark", school_char, [
+    $ load_person("class_3a", Person("seraphina_clark", "Seraphina", "Clark", school_char, [
             ["• Height: 144.8 cm", "• Bra Size 55DD (E)", "• B-W-H: 68-48-81 cm", "• Waist-to-Hips: 0.587"],
             "Twin sister of Luna Clark.", 
             "More active and open than her sister.",
             "A bit of a jokester.",
         ],
     ))
-    $ load_person("class_3a", PersonObj("hatano_miwa", "Hatano", "Miwa", school_char, [
+    $ load_person("class_3a", Person("hatano_miwa", "Hatano", "Miwa", school_char, [
             ["• Height: 165.7 cm", "• Bra Size 70A", "• B-W-H: 73-63-87 cm", "• Waist-to-Hips: 0.725"],
         ],
     ))
-    $ load_person("class_3a", PersonObj("ikushi_ito", "Ikushi", "Ito", school_char, [
+    $ load_person("class_3a", Person("ikushi_ito", "Ikushi", "Ito", school_char, [
             ["• Height: 164.3 cm", "• Bra Size 65G (DDDD)", "• B-W-H: 82-62-92 cm", "• Waist-to-Hips: 0.678"],
         ],
     ))
-    $ load_person("class_3a", PersonObj("ishimaru_maki", "Ishimaru", "Maki", school_char, [
+    $ load_person("class_3a", Person("ishimaru_maki", "Ishimaru", "Maki", school_char, [
             ["• Height: 170.8 cm", "• Bra Size 70B", "• B-W-H: 75-68-91 cm", "• Waist-to-Hips: 0.743"],
         ],
     ))
-    $ load_person("class_3a", PersonObj("kokoro_nakamura", "Kokoro", "Nakamura", school_char, [
+    $ load_person("class_3a", Person("kokoro_nakamura", "Kokoro", "Nakamura", school_char, [
             ["• Height: 163.4 cm", "• Bra Size 70B", "• B-W-H: 76-66-89 cm", "• Waist-to-Hips: 0.739"],
         ],
     ))
-    $ load_person("class_3a", PersonObj("lin_kato", "Lin", "Kato", school_char, [
+    $ load_person("class_3a", Person("lin_kato", "Lin", "Kato", school_char, [
             ["• Height: 167.6 cm", "• Bra Size 65B", "• B-W-H: 70-63-94 cm", "• Waist-to-Hips: 0.663"],
         ],
     ))
-    $ load_person("class_3a", PersonObj("miwa_igarashi", "Miwa", "Igarashi", school_char, [
+    $ load_person("class_3a", Person("miwa_igarashi", "Miwa", "Igarashi", school_char, [
             ["• Height: 158.9 cm", "• Bra Size 65B", "• B-W-H: 69-62-84 cm", "• Waist-to-Hips: 0.739"],
             "Likes dancing.",
         ],
     ))
-    $ load_person("class_3a", PersonObj("sakura_mori", "Sakura", "Mori", school_char, [
+    $ load_person("class_3a", Person("sakura_mori", "Sakura", "Mori", school_char, [
             ["• Height: 163.7 cm", "• Bra Size 65C", "• B-W-H: 74-65-88 cm", "• Waist-to-Hips: 0.737"],
             "In a relationship with Easkey Tanaka.",
         ],
     ))
-    $ load_person("class_3a", PersonObj("soyoon_yamamoto", "Soyoon", "Yamamoto", school_char, [
+    $ load_person("class_3a", Person("soyoon_yamamoto", "Soyoon", "Yamamoto", school_char, [
             ["• Height: 161.0 cm", "• Bra Size 60C", "• B-W-H: 68-91-92 cm", "• Waist-to-Hips: 0.664"],
             "Daughter of Yuki Yamamoto.",
         ],
     ))
-    $ load_person("class_3a", PersonObj("yuriko_oshima", "Yuriko", "Oshima", school_char, [
+    $ load_person("class_3a", Person("yuriko_oshima", "Yuriko", "Oshima", school_char, [
             ["• Height: 159.5 cm", "• Bra Size 65C", "• B-W-H: 72-65-85 cm", "• Waist-to-Hips: 0.768"],
             "Is in a relationship with Elsie Johnson",
             "Mostly a loner and slight depressive tendencies.",
         ],
     ))
 
-    $ load_person("parents", PersonObj("adelaide_hall", "Adelaide", "Hall", parent_char, [
+    $ load_person("parents", Person("adelaide_hall", "Adelaide", "Hall", parent_char, [
             ["• Height: 157.8 cm", "• Bra Size 55J", "• B-W-H: 80-60-93 cm", "• Waist-to-Hips: 0.645"],
             "Works in Cafeteria as Kitchen Mother",
         ],
     ))
-    $ load_person("parents", PersonObj("nubia_davis", "Nubia", "Davis", parent_char, [
+    $ load_person("parents", Person("nubia_davis", "Nubia", "Davis", parent_char, [
             ["• Height: 169.3.8 cm", "• Bra Size 75DD (E)", "• B-W-H: 88-68-97 cm", "• Waist-to-Hips: 0.697"],
         ],
     ))
-    $ load_person("parents", PersonObj("yuki_yamamoto", "Yuki", "Yamamoto", parent_char, [
+    $ load_person("parents", Person("yuki_yamamoto", "Yuki", "Yamamoto", parent_char, [
             ["• Height: 170.9 cm", "• Bra Size 65DD (E)", "• B-W-H: 77-67-94 cm", "• Waist-to-Hips: 0.713"],
             "Mother of Soyoon Yamamoto.",
         ],
     ))
 
-    $ load_person("staff", PersonObj("chloe_garcia", "Chloe", "Garcia", teacher_char, [
+    $ load_person("staff", Person("chloe_garcia", "Chloe", "Garcia", teacher_char, [
             ["• Height: 168.8 cm", "• Bra Size 65C", "• B-W-H: 72-61-91 cm", "• Waist-to-Hips: 0.675"],
             "Subjects: Art, Music",
         ],
     ))
-    $ load_person("staff", PersonObj("emiko_langley", "Emiko", "Langley", secretary_char, [
+    $ load_person("staff", Person("emiko_langley", "Emiko", "Langley", secretary_char, [
             ["• Height: 180.7 cm", "• Bra Size 75F (DDD)", "• B-W-H: 91-66-99 cm", "• Waist-to-Hips: 0.665"],
             "Secretary",
         ],
+        paperdollOverrides = [PaperdollOverride(1, {"outfit": "bunny"}, x_override = -0.0014, y_override = -0.026132)],
         thumbnail = "images/characters/emiko_langley/level_5.webp"
     ))
-    $ load_person("staff", PersonObj("finola_ryan", "Finola", "Ryan", teacher_char, [
+    $ load_person("staff", Person("finola_ryan", "Finola", "Ryan", teacher_char, [
             ["• Height: 169.0 cm", "• Bra Size 65DD (E)", "• B-W-H: 78-65-88 cm", "• Waist-to-Hips: 0.745"],
             "Subjects: English, History",
         ],
     ))
-    $ load_person("staff", PersonObj("lily_anderson", "Lily", "Anderson", teacher_char, [
+    $ load_person("staff", Person("lily_anderson", "Lily", "Anderson", teacher_char, [
             ["• Height: 167.0 cm", "• Bra Size 70B", "• B-W-H: 76-64-90 cm", "• Waist-to-Hips: 0.705"],
             "Subjects: Math, Sciences",
         ],
     ))
-    $ load_person("staff", PersonObj("yulan_chen", "Yulan", "Chen", teacher_char, [
+    $ load_person("staff", Person("yulan_chen", "Yulan", "Chen", teacher_char, [
             ["• Height: 167.0 cm", "• Bra Size 65F (DDD)", "• B-W-H: 81-67-90 cm", "• Waist-to-Hips: 0.751"],
             "Subjects: History, Politics",
         ],
     ))
-    $ load_person("staff", PersonObj("zoe_parker", "Zoe", "Parker", teacher_char, [
+    $ load_person("staff", Person("zoe_parker", "Zoe", "Parker", teacher_char, [
             ["• Height: 167.3 cm", "• Bra Size 65C", "• B-W-H: 73-63-91 cm", "• Waist-to-Hips: 0.692"],
             "Subjects: Physical Education, Health",
         ],
     ))
-    $ load_person("staff", PersonObj("linh_nguyen", "Linh", "Nguyen", teacher_char, [
+    $ load_person("staff", Person("linh_nguyen", "Linh", "Nguyen", teacher_char, [
             ["• Height: 165.6 cm", "• Bra Size 60C", "• B-W-H: 68-70-95 cm", "• Waist-to-Hips: 0.738"],
             "Nurse at the hospital in the city.",
         ],

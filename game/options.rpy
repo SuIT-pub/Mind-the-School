@@ -25,7 +25,7 @@ define gui.show_name = True
 
 ## The version of the game.
 
-define config.version = "0.2.1B_1"
+define config.version = "0.2.2"
 
 
 ## Text that is placed on the game's about screen. Place the text between the
@@ -73,8 +73,8 @@ define config.has_voice = False
 ## Each variable should be set to a transition, or None to indicate that no
 ## transition should be used.
 
-default persistent.transition_speed = 1.75
-default dissolveM = Dissolve(0.5 * (2.0 - persistent.transition_speed))
+default persistent.transitionSpeed = 1.75
+default dissolveM = Dissolve(0.5 * (2.0 - persistent.transitionSpeed))
 
 default persistent.display_textbox = 0
 
@@ -119,8 +119,8 @@ define config.window = "auto"
 
 ## Transitions used to show and hide the dialogue window
 
-define config.window_show_transition = Dissolve(0.5 * (2.0 - persistent.transition_speed))
-define config.window_hide_transition = Dissolve(0.5 * (2.0 - persistent.transition_speed))
+define config.window_show_transition = Dissolve(0.5 * (2.0 - persistent.transitionSpeed))
+define config.window_hide_transition = Dissolve(0.5 * (2.0 - persistent.transitionSpeed))
 
 default persistent.shortcuts = 0
 default persistent.load_supporter = 1

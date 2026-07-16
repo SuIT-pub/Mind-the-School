@@ -5,14 +5,17 @@
 init -1 python:
     set_current_mod('base')
     
-    cafeteria_timed_event = TempEventStorage("cafeteria_timed", "cafeteria", fallback = Event(2, "cafeteria.after_time_check"))
     cafeteria_general_event = EventStorage("cafeteria_general", "cafeteria", fallback = Event(2, "cafeteria.after_general_check"))
-    register_highlighting(cafeteria_timed_event, cafeteria_general_event)
+    register_highlighting(cafeteria_general_event)
 
+    #### Default cafeteria events
+    # available targets: look_around, order_food, eat_alone, search
     cafeteria_events = {}
+    
     add_storage(cafeteria_events, EventStorage("look_around",  "cafeteria", fallback_text = "Nothing to see here."))
     add_storage(cafeteria_events, EventStorage("order_food",  "cafeteria", fallback_text = "I'm not hungry."))
     add_storage(cafeteria_events, EventStorage("eat_alone",   "cafeteria", fallback_text = "I'm not hungry."))
+    add_storage(cafeteria_events, EventStorage("search",      "cafeteria", fallback_text = "There is nothing here."))
 
     cafeteria_bg_images = BGStorage("images/background/cafeteria/c.webp", 
         BGImage("images/background/cafeteria/<school_level> <variant> <nude>.webp", 1, 
@@ -146,9 +149,6 @@ label cafeteria ():
     else:
         $ play_sound(audio.empty_room, True, 0.8, 1.0)
 
-    call call_available_event(cafeteria_timed_event) from cafeteria_1
-
-label .after_time_check (**kwargs):
     call call_available_event(cafeteria_general_event) from cafeteria_4
 
 label .after_general_check (**kwargs):
@@ -209,7 +209,7 @@ label cafeteria_event_1(**kwargs):
 
     $ image = convert_pattern("main", **kwargs)
     
-    $ adelaide = find_person("adelaide_hall").get_character()
+    $ adelaide = Person["adelaide_hall"].get_renpy_char()
 
     $ image.show(0)
     adelaide "Hello Mr. [headmaster_last_name] and welcome! What can I help you with?"
@@ -241,7 +241,7 @@ label cafeteria_event_2(**kwargs):
     $ image = convert_pattern("main", **kwargs)
 
     $ girl_person = find_person(girl_name)
-    $ girl = girl_person.get_character()
+    $ girl = girl_person.get_renpy_char()
     $ girl_first_name = girl_person.get_first_name()
 
     # headmaster walks into the cafeteria pantry where someone is changing clothes
@@ -270,7 +270,7 @@ label cafeteria_event_3(**kwargs):
         $ kwargs['unlock_school_jobs'] = 1
     $ unlock_school_jobs = get_stat_value('unlock_school_jobs', [2, 3], **kwargs)
 
-    $ person = get_person("parents", "adelaide_hall").get_character()
+    $ person = Person["adelaide_hall"].get_renpy_char()
 
     $ school_job_progress = get_progress('school_job_progress')
 
@@ -518,8 +518,8 @@ label cafeteria_event_7(**kwargs):
 
     $ image = convert_pattern("main", **kwargs)
 
-    $ luna = get_person("class_3a", "luna_clark").get_character()
-    $ seraphina = get_person("class_3a", "seraphina_clark").get_character()
+    $ luna = Person["luna_clark"].get_renpy_char()
+    $ seraphina = Person["seraphina_clark"].get_renpy_char()
 
     $ image.show(0)
     headmaster "What are you girls doing here at this time?"

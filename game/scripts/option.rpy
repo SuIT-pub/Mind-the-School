@@ -3,9 +3,31 @@ init -6 python:
     from abc import ABC, abstractmethod
     from typing import Union, List
 
+    class Option(ABC):
+        def __init__(self, name: str):
+            self.name = name
+
+        def __repr__(self):
+            return self.name
+
+        def __str__(self):
+            return self.name
+
+        def __eq__(self, other):
+            return self.name == name or (hasattr(other, "name") and self.name == other.name)
+
+        def get_name(self) -> str:
+            return self.name
+
+        def check_option(self, **kwargs):
+            return True
+
+        def get_values(self) -> Dict[str, Any]:
+            return {}
+
     class OptionSet:
         def __init__(self, *options_list: Option):
-            self.options = {option_obj.get_name(): option_obj for option_obj in options_list}
+            self.options = {option_obj.get_name(): option_obj for option_obj in options_list if isinstance(option_obj, Option)}
 
         def check_options(self, **kwargs) -> bool:
             if len(self.options) == 0:
@@ -24,30 +46,10 @@ init -6 python:
         def has_option(self, name: str) -> bool:
             return name in self.options.keys()
 
+        def has_option_subclass(self, subclass: Type[Option]) -> bool:
+            return any(isinstance(option, subclass) for option in self.options.values())
+
     empty_option_set = OptionSet()
-
-    class Option(ABC):
-        def __init__(self, name: str):
-            self.name = name
-
-        def __repr__(self):
-            return self.name
-
-        def __str__(self):
-            return self.name
-
-        def __eq__(self, other):
-            return self.name == name or (hasattr(other, "name") and self.name == other.name)
-
-        def get_name(self) -> str:
-            return self.name
-
-        @abstractmethod
-        def check_option(self, **kwargs) -> bool:
-            pass
-
-        def get_values(self) -> Dict[str, Any]:
-            return {}
 
     class NoHighlightOption(Option):
         def __init__(self):
@@ -63,9 +65,6 @@ init -6 python:
     class ForceHighlightOption(Option):
         def __init__(self):
             super().__init__("ForceHighlight")
-
-        def check_option(self, **kwargs):
-            return True
         
     class ShowBlockedOption(Option):
         def __init__(self):
@@ -92,9 +91,6 @@ init -6 python:
             self.number = number
             self.repeatable = repeatable
 
-        def check_option(self, **kwargs):
-            return True
-
         def get_values(self) -> Dict[str, Any]:
             if (isinstance(self.number, Selector)):
                 return {
@@ -111,12 +107,20 @@ init -6 python:
         def __init__(self):
             super().__init__("FragmentReroll")
 
-        def check_option(self, **kwargs):
-            return True
-
     class OptionalOption(Option):
         def __init__(self):
             super().__init__("Optional")
 
-        def check_option(self, **kwargs):
-            return True
+    class ReplayCategoryOption(Option):
+        def __init__(self, category: str):
+            super().__init__("ReplayCategory")
+            self.category = category
+
+    class EventSeenDebuffOption(Option):
+        def __init__(self, debuff: float = 0.25):
+            super().__init__("EventSeenDebuff")
+            self.debuff = debuff
+
+    class EffectNoRevertOption(Option):
+        def __init__(self):
+            super().__init__("EffectNoRevert")

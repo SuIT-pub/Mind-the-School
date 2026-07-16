@@ -5,10 +5,11 @@
 init -1 python:
     set_current_mod('base')
     
-    staff_lodges_timed_event = TempEventStorage("staff_lodges_timed", "staff_lodges", fallback = Event(2, "staff_lodges.after_time_check"))
     staff_lodges_general_event = EventStorage("staff_lodges_general", "staff_lodges", fallback = Event(2, "staff_lodges.after_general_check"))
-    register_highlighting(staff_lodges_timed_event, staff_lodges_general_event)
+    register_highlighting(staff_lodges_general_event)
 
+    #### Default staff lodges events
+    # available targets: -
     staff_lodges_events = {}
 
     staff_lodges_bg_images = BGStorage("images/background/staff_lodges/bg c.webp", ValueSelector('loli', 0),
@@ -28,9 +29,7 @@ init 1 python:
 #########################################
 
 label staff_lodges ():
-    call call_available_event(staff_lodges_timed_event) from staff_lodges_1
-
-label .after_time_check (**kwargs):
+    call empty_label from staff_lodges_1
     call call_available_event(staff_lodges_general_event) from staff_lodges_4
 
 label .after_general_check (**kwargs):

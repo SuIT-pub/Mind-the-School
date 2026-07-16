@@ -1,5 +1,6 @@
 init -1 python:
     from abc import ABC,abstractmethod
+    from deprecated import deprecated
 
     def call_effects(*effects: Effect, **kwargs):
         """
@@ -28,8 +29,9 @@ init -1 python:
             - Applies the effect.
         """
 
-        def __init__(self, name: str):
+        def __init__(self, name: str, *options: Option):
             self.name = name
+            self.options = OptionSet(*options)
 
         @abstractmethod
         def __str__(self):
@@ -39,13 +41,16 @@ init -1 python:
         def apply(self, **kwargs):
             pass
 
+        def revert(self, **kwargs):
+            pass
+
     class RuleEffect(Effect):
         """
         Unlocks a rule.
         """
 
-        def __init__(self, name: str, rule: Union[str, Rule]):
-            super().__init__(name)
+        def __init__(self, name: str, rule: Union[str, Rule], *options: Option):
+            super().__init__(name, *options)
             self.rule = rule
 
         def __str__(self):
@@ -60,13 +65,25 @@ init -1 python:
                 self.rule.unlock()
             return kwargs
 
+        def revert(self, **kwargs):
+            if self.options.has_option("EffectNoRevert"):
+                return kwargs
+
+            if isinstance(self.rule, str):
+                rule = get_rule(self.rule)
+                if rule != None:
+                    rule.lock()
+            else:
+                self.rule.lock()
+            return kwargs
+
     class ClubEffect(Effect):
         """
         Unlocks a club.
         """
 
-        def __init__(self, name: str, club: str | Club):
-            super().__init__(name)
+        def __init__(self, name: str, club: str | Club, *options: Option):
+            super().__init__(name, *options)
             self.club = club
 
         def __str__(self):
@@ -81,13 +98,25 @@ init -1 python:
                 self.club.unlock()
             return kwargs
 
+        def revert(self, **kwargs):
+            if self.options.has_option("EffectNoRevert"):
+                return kwargs
+
+            if isinstance(self.club, str):
+                club = get_club(self.club)
+                if club != None:
+                    club.lock()
+            else:
+                self.club.lock()
+            return kwargs
+
     class BuildingEffect(Effect):
         """
         Unlocks a building.
         """
 
-        def __init__(self, name: str, building: str | Building):
-            super().__init__(name)
+        def __init__(self, name: str, building: str | Building, *options: Option):
+            super().__init__(name, *options)
             self.building = building
 
         def __str__(self):
@@ -100,6 +129,18 @@ init -1 python:
                     building.unlock()
             else:
                 self.building.unlock()
+            return kwargs
+
+        def revert(self, **kwargs):
+            if self.options.has_option("EffectNoRevert"):
+                return kwargs
+
+            if isinstance(self.building, str):
+                building = get_building(self.building)
+                if building != None:
+                    building.lock()
+            else:
+                self.building.lock()
             return kwargs
 
     class LevelEffect(Effect):
@@ -115,8 +156,8 @@ init -1 python:
             - SET sets the level to the value.
         """
 
-        def __init__(self, name: str, value: int, mode: str = "ADD", char_obj: Char = None):
-            super().__init__(name)
+        def __init__(self, name: str, value: int, mode: str = "ADD", char_obj: Char = None, *options: Option):
+            super().__init__(name, *options)
             self.mode = mode
             self.value = value
 
@@ -156,8 +197,8 @@ init -1 python:
             - SET sets the stat to the value.
         """
 
-        def __init__(self, name: str, stat: str, value: num, mode: str = "ADD"):
-            super().__init__(name)
+        def __init__(self, name: str, stat: str, value: num, mode: str = "ADD", *options: Option):
+            super().__init__(name, *options)
             self.stat = stat
             self.mode = mode
             self.value = value
@@ -180,6 +221,24 @@ init -1 python:
                 stat_obj.change_value(self.value, char_obj.get_level())
             return kwargs
 
+        def revert(self, **kwargs):
+            if self.options.has_option("EffectNoRevert"):
+                return kwargs
+
+            char_obj = get_kwargs("char_obj", **kwargs)
+            if char_obj == None:
+                return
+
+            stat_obj = char_obj.get_stat(self.stat)
+            if stat_obj == None:
+                return
+
+            if self.mode == "SET":
+                stat_obj.change_value_to(-self.value, char_obj.get_level())
+            if self.mode == "ADD":
+                stat_obj.change_value(-self.value, char_obj.get_level())
+            return kwargs
+
     class MoneyEffect(Effect):
         """
         Changes the value of money.
@@ -193,8 +252,8 @@ init -1 python:
             - SET sets the money to the value.
         """
 
-        def __init__(self, name: str, value: num, mode: str = "ADD"):
-            super().__init__(name)
+        def __init__(self, name: str, value: num, mode: str = "ADD", *options: Option):
+            super().__init__(name, *options)
             self.mode = mode
             self.value = value
 
@@ -208,6 +267,17 @@ init -1 python:
                 money.change_value(self.value)
             return kwargs
 
+        def revert(self, **kwargs):
+            if self.options.has_option("EffectNoRevert"):
+                return kwargs
+
+            if self.mode == "SET":
+                money.change_value_to(-self.value)
+            if self.mode == "ADD":
+                money.change_value(-self.value)
+            return kwargs
+
+    @deprecated(version='0.2.2', reason="TimeEventStorage fully taken out of service.")
     class AddTempTimeEventEffect(Effect):
         """
         Adds a temporary time event.
@@ -217,17 +287,18 @@ init -1 python:
             - Event to be added.
         """
 
-        def __init__(self, event: Event):
-            super().__init__(event.get_name())
+        def __init__(self, event: Event, *options: Option):
+            super().__init__(event.get_name(), *options)
             self.event = event
 
         def __str__(self):
             return f"{self.event.get_name()}"
 
         def apply(self, **kwargs):
-            add_temp_event(self.event)
+            
             return kwargs
 
+    @deprecated(version='0.2.2', reason="TimeEventStorage fully taken out of service.")
     class RemoveTempTimeEventEffect(Effect):
         """
         Removes a temporary time event.
@@ -237,14 +308,14 @@ init -1 python:
             - ID of the event to be removed.
         """
 
-        def __init__(self, id: str):
-            super().__init__(id)
+        def __init__(self, id: str, *options: Option):
+            super().__init__(id, *options)
 
         def __str__(self):
             return f"{self.id}"
 
         def apply(self, **kwargs):
-            remove_temp_event(self.id)
+            
             return kwargs
 
     class BlockBuildingEffect(Effect):
@@ -259,8 +330,8 @@ init -1 python:
             - If False, the building will be unblocked.
         """
 
-        def __init__(self, name: str, building_name: str, is_blocking: bool = True):
-            super().__init__(name)
+        def __init__(self, name: str, building_name: str, is_blocking: bool = True, *options: Option):
+            super().__init__(name, *options)
             self.building_name = building_name
             self.is_blocking = is_blocking
 
@@ -269,6 +340,13 @@ init -1 python:
 
         def apply(self, **kwargs):
             set_building_blocked(self.building_name, self.is_blocking)
+            return kwargs
+
+        def revert(self, **kwargs):
+            if self.options.has_option("EffectNoRevert"):
+                return kwargs
+
+            set_building_blocked(self.building_name, not self.is_blocking)
             return kwargs
 
     class EventEffect(Effect):
@@ -283,11 +361,11 @@ init -1 python:
             - str calls the label.
         """
 
-        def __init__(self, event: Event | EventStorage | str):
+        def __init__(self, event: Event | EventStorage | str, *options: Option):
             name = event
             if not isinstance(event, str):
                 name = event.get_name()
-            super().__init__(name)
+            super().__init__(name, *options)
             self.event = event
 
         def __str__(self):
@@ -299,7 +377,7 @@ init -1 python:
 
         def apply(self, **kwargs):
             if isinstance(self.event, EventStorage):
-                self.event.call_available_event(**kwargs)
+                renpy.call('call_available_event', self.event, **kwargs)
 
             if isinstance(self.event, Event):
                 self.event.call(**kwargs)
@@ -319,24 +397,24 @@ init -1 python:
             - List of events to be called.
         """
 
-        def __init__(self, event: str | Event | EventStorage | List[Event | str]):
+        def __init__(self, event: str | Event | EventStorage | List[Event | str], *options: Option):
             events = []
             if isinstance(event, str):
                 events = [get_event_from_register(event)]
-                super().__init__(event)
+                super().__init__(event, *options)
             elif isinstance(event, Event):
                 events = [event]
-                super().__init__(event.get_name())
+                super().__init__(event.get_name(), *options)
             elif isinstance(event, EventStorage):
                 events = event.get_events()
-                super().__init__(event.get_name())
+                super().__init__(event.get_name(), *options)
             elif isinstance(event, list):
                 for e in event:
                     if isinstance(e, str):
                         events.append(get_event_from_register(e))
                     else:
                         events.append(e)
-                super().__init__(events[0].get_name())
+                super().__init__(events[0].get_name(), *options)
 
             self.event = events
 
@@ -360,16 +438,26 @@ init -1 python:
             - Value to be added to the key in gameData.
         """
 
-        def __init__(self, key: str, value: val | bool):
-            super().__init__(key)
+        def __init__(self, key: str, value: val | bool, *options: Option):
+            super().__init__(key, *options)
             self.key = key
             self.value = value
+            self.prev_value = None
 
         def __str__(self):
             return f"{self.value}"
 
         def apply(self, **kwargs):
+            if self.key in gameData.keys():
+                self.prev_value = gameData[self.key]
             gameData[self.key] = self.value
+            return kwargs
+
+        def revert(self, **kwargs):
+            if self.options.has_option("EffectNoRevert"):
+                return kwargs
+            if self.prev_value != None:
+                gameData[self.key] = self.prev_value
             return kwargs
 
     class ProgressEffect(Effect):
@@ -383,18 +471,28 @@ init -1 python:
             - The progress of the Event Series with the key
         """
 
-        def __init__(self, key: str, value: int = 1):
-            super().__init__(key)
+        def __init__(self, key: str, value: int = 1, *options: Option):
+            super().__init__(key, *options)
             self.key = key
             self.value = value
+            self.prev_value = None
 
         def __str__(self):
             return f"{self.value}"
 
         def apply(self, **kwargs):
+            if self.key in gameData.keys():
+                self.prev_value = gameData[self.key]
             if self.key not in gameData.keys():
                 gameData[self.key] = 0
             gameData[self.key] += self.value
+            return kwargs
+
+        def revert(self, **kwargs):
+            if self.options.has_option("EffectNoRevert"):
+                return kwargs
+            if self.prev_value != None:
+                gameData[self.key] = self.prev_value
             return kwargs
 
     class ModifierEffect(Effect):
@@ -408,25 +506,28 @@ init -1 python:
             - Name of the stat.
         3. mod_obj: Modifier_Obj
             - Modifier to be added.
-        4. char_obj: Char (Default None)
-            - Character to which the modifier will be added.
-        5. collection: str (Default "default")
+        4. collection: str (Default "default")
             - Collection of the modifier.
         """
 
-        def __init__(self, key: str, stat: str, mod_obj: Modifier_Obj, char_obj: Char = None, collection: str = 'default'):
-            super().__init__(key)
+        def __init__(self, key: str, stat: str, mod_obj: Modifier_Obj, collection: str = 'default', *options: Option):
+            super().__init__(key, *options)
             self.key = key
             self.stat = stat
             self.modifier = mod_obj
-            self.char_obj = char_obj
             self.collection = collection
 
         def __str__(self):
             return f"{self.key}"
 
         def apply(self, **kwargs):
-            set_modifier(self.key, self.modifier, stat = self.stat, char_obj = self.char_obj, collection = self.collection)
+            set_modifier(self.key, self.modifier, stat = self.stat, collection = self.collection)
+            return kwargs
+
+        def revert(self, **kwargs):
+            if self.options.has_option("EffectNoRevert"):
+                return kwargs
+            remove_modifier(self.key, stat = self.stat, collection = self.collection)
             return kwargs
 
     class ChangeKwargsEffect(Effect):
@@ -457,6 +558,123 @@ init -1 python:
             if self.xp > 0:
                 set_headmaster_proficiency_xp(self.name, self.xp)
             return kwargs
+
+    class QuestCompleteEffect(Effect):
+        def __init__(self, quest_type: str, key: str):
+            super().__init__(f"complete_quest_{quest_type}_{key}")
+            self.quest_type = quest_type
+            self.key = key
+
+        def __str__(self):
+            return f"complete_quest_{self.quest_type}_{self.key}"
+
+        def apply(self, **kwargs):
+            global quest_manager
+
+            if self.quest_type == "quest":
+                quest = quest_manager.get_quest(self.key)
+                if quest != None:
+                    quest.complete()
+            if self.quest_type == "goal":
+                goal = quest_manager.get_goal(self.key)
+                if goal != None:
+                    goal.complete()
+            if self.quest_type == "task":
+                task = quest_manager.get_task(self.key)
+                if task != None:
+                    task.complete()
+
+            return kwargs
+
+    class QuestVisibleEffect(Effect):
+        def __init__(self, quest_type: str, key: str):
+            super().__init__(f"visible_quest_{quest_type}_{key}")
+            self.quest_type = quest_type
+            self.key = key
+
+        def __str__(self):
+            return f"visible_quest_{self.quest_type}_{self.key}"
+
+        def apply(self, **kwargs):
+            global quest_manager
+
+            if self.quest_type == "quest":
+                quest = quest_manager.get_quest(self.key)
+                if quest != None:
+                    quest.set_visible(True)
+            if self.quest_type == "goal":
+                goal = quest_manager.get_goal(self.key)
+                if goal != None:
+                    goal.set_visible(True)
+            if self.quest_type == "task":
+                task = quest_manager.get_task(self.key)
+                if task != None:
+                    task.set_visible(True)
+            return kwargs
+
+    class QuestInvisibleEffect(Effect):
+        def __init__(self, quest_type: str, key: str):
+            super().__init__(f"invisible_quest_{quest_type}_{key}")
+            self.quest_type = quest_type
+            self.key = key
+
+        def __str__(self):
+            return f"invisible_quest_{self.quest_type}_{self.key}"
+
+        def apply(self, **kwargs):
+            global quest_manager
+
+            if self.quest_type == "quest":
+                quest = quest_manager.get_quest(self.key)
+                if quest != None:
+                    quest.set_visible(False)
+            if self.quest_type == "goal":
+                goal = quest_manager.get_goal(self.key)
+                if goal != None:
+                    goal.set_visible(False)
+            if self.quest_type == "task":
+                task = quest_manager.get_task(self.key)
+                if task != None:
+                    task.set_visible(False)
+            return kwargs
+
+    class QuestActivateEffect(Effect):
+        def __init__(self, key: str):
+            super().__init__(f"activate_quest_task_{key}")
+            self.key = key
+
+        def __str__(self):
+            return f"activate_quest_task_{self.key}"
+
+        def apply(self, **kwargs):
+            global quest_manager
+            task = quest_manager.get_task(self.key)
+            if task != None:
+                task.activate()
+            return kwargs
+
+    class NotificationEffect(Effect):
+        def __init__(self, message: str):
+            super().__init__(f"notification_{message}")
+            self.message = message
+
+        def __str__(self):
+            return f"notification_{self.message}"
+
+        def apply(self, **kwargs):
+            add_notify_message(self.message)
+            return kwargs
+
+    class DummyEffect(Effect):
+        def __init__(self, *options: Option):
+            super().__init__("dummy", *options)
+
+        def __str__(self):
+            return "dummy"
+
+        def apply(self, **kwargs):
+            return kwargs
+
 
 label open_bg_image_menu(event, **kwargs):
     $ bg_image = get_kwargs("bg_image", None, **kwargs)

@@ -1037,9 +1037,9 @@ style slot_button_text:
 
 init python:
     def set_dissolve():
-        if persistent == None or persistent.transition_speed == None:
-            persistent.transition_speed = 1.75
-        dissolveM = Dissolve(0.5 * persistent.transition_speed)
+        if persistent == None or persistent.transitionSpeed == None:
+            persistent.transitionSpeed = 1.75
+        dissolveM = Dissolve(0.5 * persistent.transitionSpeed)
 
     def get_textbox():
         if persistent != None and persistent.display_textbox == None:
@@ -1126,13 +1126,13 @@ screen preferences():
                         label _("Transition Speed")
                         bar value FieldValue(
                             persistent, 
-                            'transition_speed', 
+                            'transitionSpeed', 
                             2.0, 
                             max_is_zero=False, 
                             style='slider', 
                             offset=0, 
                             step=.2, 
-                            action=SetVariable("dissolveM", Dissolve(0.5 * (2.0 - persistent.transition_speed)))
+                            action=SetVariable("dissolveM", Dissolve(0.5 * (2.0 - persistent.transitionSpeed)))
                         ) xmaximum 525 alt "Transition Speed"
 
                 vbox:

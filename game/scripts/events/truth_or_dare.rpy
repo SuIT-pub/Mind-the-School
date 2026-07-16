@@ -12,6 +12,7 @@ init 1 python:
         TimeCondition(daytime = "n"),
         LevelCondition("2,3", char_obj = "school"),
         NOT(ProgressCondition("truth_or_dare")),
+        ReplayCategoryOption("truth_or_dare"), 
         Pattern("main", base_path + "truth_or_dare_1/truth_or_dare_1 <school_level> <step>.webp"),
         thumbnail = base_path + "truth_or_dare_1/truth_or_dare_1 6 2.webp")
 
@@ -20,12 +21,14 @@ init 1 python:
     truth_or_dare_event_2 = Event(3, "truth_or_dare_2",
         TimeCondition(daytime = "c", weekday = "d"),
         ProgressCondition("truth_or_dare", 1),
+        ReplayCategoryOption("truth_or_dare"), 
         Pattern("main", base_path + "truth_or_dare_2/truth_or_dare_2 <school_level> <step>.webp"),
         thumbnail = base_path + "truth_or_dare_2/truth_or_dare_2 6 8.webp")
 
     truth_or_dare_event_3 = Event(3, "truth_or_dare_3",
         TimeCondition(daytime = "c", weekday = "d"),
         ProgressCondition("truth_or_dare", 2),
+        ReplayCategoryOption("truth_or_dare"), 
         Pattern("main", base_path + "truth_or_dare_3/truth_or_dare_3 <school_level> <step>.webp"),
         thumbnail = base_path + "truth_or_dare_3/truth_or_dare_3 6 6.webp")
 
@@ -35,6 +38,7 @@ init 1 python:
         TimeCondition(weekday = "d", daytime = "n"),
         ProgressCondition("truth_or_dare", 3),
         IterativeListSelector("girls", "ikushi_ito", "lin_kato", "miwa_igarashi", "ishimaru_maki", options = [FragmentRerollOption()]),
+        ReplayCategoryOption("truth_or_dare"), 
         Pattern("base", base_path + "truth_or_dare_4/main/truth_or_dare_4_main <school_level> <step>.webp"),
         Pattern("card", base_path + "truth_or_dare_4/card/truth_or_dare_4_card <girls> <school_level> <step>.webp"),
         Pattern("end", base_path + "truth_or_dare_4/card/truth_or_dare_4_end <school_level>.webp"),
@@ -43,22 +47,22 @@ init 1 python:
     sd_events["peek_students"].add_event(truth_or_dare_event_4)
 
     truth_or_dare_storage.add_event(
-        EventFragment(2, "truth_or_dare_truth_1", LevelCondition("2-10"), Pattern("main", base_path + "truth_or_dare_4/truth_1/truth_or_dare_truth_1 <school_level> <step>.webp")),
-        EventFragment(2, "truth_or_dare_truth_2", LevelCondition("2-5"),  Pattern("main", base_path + "truth_or_dare_4/truth_2/truth_or_dare_truth_2 <school_level> <step>.webp")),
-        EventFragment(2, "truth_or_dare_truth_3", LevelCondition("2-5"),  Pattern("main", base_path + "truth_or_dare_4/truth_3/truth_or_dare_truth_3 <school_level> <step>.webp")),
-        EventFragment(2, "truth_or_dare_truth_4", LevelCondition("2-5"),  Pattern("main", base_path + "truth_or_dare_4/truth_4/truth_or_dare_truth_4 <school_level> <step>.webp")),
-        EventFragment(2, "truth_or_dare_truth_5", LevelCondition("2-5"),  Pattern("main", base_path + "truth_or_dare_4/truth_5/truth_or_dare_truth_5 <school_level> <step>.webp")),
-        EventFragment(2, "truth_or_dare_truth_6", LevelCondition("2-10"), Pattern("main", base_path + "truth_or_dare_4/truth_6/truth_or_dare_truth_6 <school_level> <step>.webp")),
-        EventFragment(2, "truth_or_dare_dare_1",  LevelCondition("2-5"),  Pattern("main", base_path + "truth_or_dare_4/dare_1/truth_or_dare_dare_1 <school_level> <step>.webp")),
-        EventFragment(2, "truth_or_dare_dare_2",  LevelCondition("2-5"),  Pattern("main", base_path + "truth_or_dare_4/dare_2/truth_or_dare_dare_2 <school_level> <step>.webp")),
-        EventFragment(2, "truth_or_dare_dare_3",  LevelCondition("2-10"), Pattern("main", base_path + "truth_or_dare_4/dare_3/truth_or_dare_dare_3 <school_level> <step>.webp")),
-        EventFragment(2, "truth_or_dare_dare_4",  LevelCondition("2-5"),  Pattern("main", base_path + "truth_or_dare_4/dare_4/truth_or_dare_dare_4 <school_level> <step>.webp")),
-        EventFragment(2, "truth_or_dare_dare_5",  LevelCondition("2-4"),  Pattern("main", base_path + "truth_or_dare_4/dare_5/truth_or_dare_dare_5 <school_level> <step>.webp")),
-        EventFragment(2, "truth_or_dare_dare_6",  LevelCondition("2-5"),  Pattern("main", base_path + "truth_or_dare_4/dare_6/truth_or_dare_dare_6 <school_level> <step>.webp"))
+        EventFragment(2, "truth_or_dare_truth_1", LevelCondition("2-10"), ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/truth_1/truth_or_dare_truth_1 <school_level> <step>.webp")),
+        EventFragment(2, "truth_or_dare_truth_2", LevelCondition("2-5"),  ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/truth_2/truth_or_dare_truth_2 <school_level> <step>.webp")),
+        EventFragment(2, "truth_or_dare_truth_3", LevelCondition("2-5"),  ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/truth_3/truth_or_dare_truth_3 <school_level> <step>.webp")),
+        EventFragment(2, "truth_or_dare_truth_4", LevelCondition("2-5"),  ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/truth_4/truth_or_dare_truth_4 <school_level> <step>.webp")),
+        EventFragment(2, "truth_or_dare_truth_5", LevelCondition("2-5"),  ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/truth_5/truth_or_dare_truth_5 <school_level> <step>.webp")),
+        EventFragment(2, "truth_or_dare_truth_6", LevelCondition("2-10"), ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/truth_6/truth_or_dare_truth_6 <school_level> <step>.webp")),
+        EventFragment(2, "truth_or_dare_dare_1",  LevelCondition("2-5"),  ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/dare_1/truth_or_dare_dare_1 <school_level> <step>.webp")),
+        EventFragment(2, "truth_or_dare_dare_2",  LevelCondition("2-5"),  ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/dare_2/truth_or_dare_dare_2 <school_level> <step>.webp")),
+        EventFragment(2, "truth_or_dare_dare_3",  LevelCondition("2-10"), ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/dare_3/truth_or_dare_dare_3 <school_level> <step>.webp")),
+        EventFragment(2, "truth_or_dare_dare_4",  LevelCondition("2-5"),  ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/dare_4/truth_or_dare_dare_4 <school_level> <step>.webp")),
+        EventFragment(2, "truth_or_dare_dare_5",  LevelCondition("2-4"),  ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/dare_5/truth_or_dare_dare_5 <school_level> <step>.webp")),
+        EventFragment(2, "truth_or_dare_dare_6",  LevelCondition("2-5"),  ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/dare_6/truth_or_dare_dare_6 <school_level> <step>.webp"))
     )
 
     truth_or_dare_end_storage.add_event(
-        EventFragment(2, "truth_or_dare_end", Pattern("main", base_path + "truth_or_dare_4/end/truth_or_dare_4_end <school_level>.webp"))
+        EventFragment(2, "truth_or_dare_end", ReplayCategoryOption("truth_or_dare"), Pattern("main", base_path + "truth_or_dare_4/end/truth_or_dare_4_end <school_level>.webp"))
     )
 
 # Planned Content from @Planned Content
@@ -82,7 +86,7 @@ label truth_or_dare_1 (**kwargs):
     call change_stats_with_modifier(
         inhibition = DEC_SMALL, corruption = TINY) from _call_change_stats_truth_or_dare_1_1
 
-    $ set_progress("truth_or_dare", 1)
+    $ start_progress("truth_or_dare")
 
     $ end_event("new_daytime", **kwargs)
 
@@ -90,8 +94,8 @@ label truth_or_dare_1 (**kwargs):
 label truth_or_dare_2 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ miwa = get_person_char_with_key("class_3a", "miwa_igarashi")
-    $ lin = get_person_char_with_key("class_3a", "lin_kato")
+    $ miwa = Person["miwa_igarashi"].get_renpy_char()
+    $ lin = Person["lin_kato"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -119,7 +123,7 @@ label truth_or_dare_2 (**kwargs):
     call change_stats_with_modifier(
         happiness = TINY) from _stats_truth_or_dare_2_1
 
-    $ advance_progress("truth_or_dare") # 1 -> 2
+    $ set_progress("truth_or_dare", 2) # 1 -> 2
 
     $ end_event("new_daytime", **kwargs)
 
@@ -127,8 +131,8 @@ label truth_or_dare_2 (**kwargs):
 label truth_or_dare_3 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ lin = get_person_char_with_key("class_3a", "lin_kato")
-    $ ikushi = get_person_char_with_key("class_3a", "ikushi_ito")
+    $ lin = Person["lin_kato"].get_renpy_char()
+    $ ikushi = Person["ikushi_ito"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -150,7 +154,7 @@ label truth_or_dare_3 (**kwargs):
     call change_stats_with_modifier(
         happiness = TINY) from _stats_truth_or_dare_3_1
 
-    $ advance_progress("truth_or_dare") # 2 -> 3
+    $ set_progress("truth_or_dare", 3) # 2 -> 3
 
     $ end_event("new_daytime", **kwargs)
 
@@ -160,7 +164,7 @@ label truth_or_dare_4 (**kwargs):
 
     $ image = convert_pattern("base", **kwargs)
 
-    $ ishimaru = get_person_char_with_key("class_3a", "ishimaru_maki")
+    $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
 
     $ image.show(0)
     headmaster_thought "Now let's see what they're up to..."
@@ -190,10 +194,10 @@ label truth_or_dare_end (**kwargs):
 label truth_or_dare_truth_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ ikushi = get_person_char_with_key("class_3a", "ikushi_ito")
-    $ lin = get_person_char_with_key("class_3a", "lin_kato")
-    $ miwa = get_person_char_with_key("class_3a", "miwa_igarashi")
-    $ ishimaru = get_person_char_with_key("class_3a", "ishimaru_maki")
+    $ ikushi = Person["ikushi_ito"].get_renpy_char()
+    $ lin = Person["lin_kato"].get_renpy_char()
+    $ miwa = Person["miwa_igarashi"].get_renpy_char()
+    $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
     $ card_image = convert_pattern_with_data("card", {"girls": "ikushi_ito"}, **kwargs)
@@ -228,8 +232,8 @@ label truth_or_dare_truth_1 (**kwargs):
 label truth_or_dare_truth_2 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ lin = get_person_char_with_key("class_3a", "lin_kato")
-    $ miwa = get_person_char_with_key("class_3a", "miwa_igarashi")
+    $ lin = Person["lin_kato"].get_renpy_char()
+    $ miwa = Person["miwa_igarashi"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
     $ card_image = convert_pattern_with_data("card", {"girls": "lin_kato"}, **kwargs)
@@ -255,12 +259,12 @@ label truth_or_dare_truth_2 (**kwargs):
 label truth_or_dare_truth_3 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ miwa = get_person_char_with_key("class_3a", "miwa_igarashi")
-    $ miwa_whisper = get_person_char_with_key("class_3a", "miwa_igarashi", "whisper")
-    $ ishimaru = get_person_char_with_key("class_3a", "ishimaru_maki")
-    $ ishimaru_shout = get_person_char_with_key("class_3a", "ishimaru_maki", "shout")
-    $ ikushi = get_person_char_with_key("class_3a", "ikushi_ito")
-    $ lin = get_person_char_with_key("class_3a", "lin_kato")
+    $ miwa = Person["miwa_igarashi"].get_renpy_char()
+    $ miwa_whisper = Person["whisper"].get_renpy_char()
+    $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
+    $ ishimaru_shout = Person["shout"].get_renpy_char()
+    $ ikushi = Person["ikushi_ito"].get_renpy_char()
+    $ lin = Person["lin_kato"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
     $ card_image = convert_pattern_with_data("card", {"girls": "miwa_igarashi"}, **kwargs)
@@ -293,10 +297,10 @@ label truth_or_dare_truth_3 (**kwargs):
 label truth_or_dare_truth_4 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ ishimaru = get_person_char_with_key("class_3a", "ishimaru_maki")
-    $ ikushi = get_person_char_with_key("class_3a", "ikushi_ito")
-    $ lin = get_person_char_with_key("class_3a", "lin_kato")
-    $ miwa = get_person_char_with_key("class_3a", "miwa_igarashi")
+    $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
+    $ ikushi = Person["ikushi_ito"].get_renpy_char()
+    $ lin = Person["lin_kato"].get_renpy_char()
+    $ miwa = Person["miwa_igarashi"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
     $ card_image = convert_pattern_with_data("card", {"girls": "ishimaru_maki"}, **kwargs)
@@ -324,10 +328,10 @@ label truth_or_dare_truth_4 (**kwargs):
 label truth_or_dare_truth_5 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ ikushi = get_person_char_with_key("class_3a", "ikushi_ito")
-    $ lin = get_person_char_with_key("class_3a", "lin_kato")
-    $ miwa = get_person_char_with_key("class_3a", "miwa_igarashi")
-    $ ishimaru = get_person_char_with_key("class_3a", "ishimaru_maki")
+    $ ikushi = Person["ikushi_ito"].get_renpy_char()
+    $ lin = Person["lin_kato"].get_renpy_char()
+    $ miwa = Person["miwa_igarashi"].get_renpy_char()
+    $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
     $ card_image = convert_pattern_with_data("card", {"girls": "ikushi_ito"}, **kwargs)
@@ -369,9 +373,9 @@ label truth_or_dare_truth_5 (**kwargs):
 label truth_or_dare_truth_6 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ lin = get_person_char_with_key("class_3a", "lin_kato")
-    $ miwa = get_person_char_with_key("class_3a", "miwa_igarashi")
-    $ ishimaru = get_person_char_with_key("class_3a", "ishimaru_maki")
+    $ lin = Person["lin_kato"].get_renpy_char()
+    $ miwa = Person["miwa_igarashi"].get_renpy_char()
+    $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
     
     $ image = convert_pattern("main", **kwargs)
     $ card_image = convert_pattern_with_data("card", {"girls": "lin_kato"}, **kwargs)
@@ -411,9 +415,9 @@ label truth_or_dare_truth_6 (**kwargs):
 label truth_or_dare_dare_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ ikushi = get_person_char_with_key("class_3a", "ikushi_ito")
-    $ lin = get_person_char_with_key("class_3a", "lin_kato")
-    $ miwa = get_person_char_with_key("class_3a", "miwa_igarashi")
+    $ ikushi = Person["ikushi_ito"].get_renpy_char()
+    $ lin = Person["lin_kato"].get_renpy_char()
+    $ miwa = Person["miwa_igarashi"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
     $ card_image = convert_pattern_with_data("card", {"girls": "ikushi_ito"}, **kwargs)
@@ -447,10 +451,10 @@ label truth_or_dare_dare_1 (**kwargs):
 label truth_or_dare_dare_2 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ lin = get_person_char_with_key("class_3a", "lin_kato")
-    $ miwa = get_person_char_with_key("class_3a", "miwa_igarashi")
-    $ ishimaru = get_person_char_with_key("class_3a", "ishimaru_maki")
-    $ ikushi = get_person_char_with_key("class_3a", "ikushi_ito")
+    $ lin = Person["lin_kato"].get_renpy_char()
+    $ miwa = Person["miwa_igarashi"].get_renpy_char()
+    $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
+    $ ikushi = Person["ikushi_ito"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
     $ card_image = convert_pattern_with_data("card", {"girls": "lin_kato"}, **kwargs)
@@ -483,10 +487,10 @@ label truth_or_dare_dare_2 (**kwargs):
 label truth_or_dare_dare_3 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ miwa = get_person_char_with_key("class_3a", "miwa_igarashi")
-    $ miwa_shout = get_person_char_with_key("class_3a", "miwa_igarashi", "shout")
-    $ ishimaru = get_person_char_with_key("class_3a", "ishimaru_maki")
-    $ ikushi = get_person_char_with_key("class_3a", "ikushi_ito")
+    $ miwa = Person["miwa_igarashi"].get_renpy_char()
+    $ miwa_shout = Person["shout"].get_renpy_char()
+    $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
+    $ ikushi = Person["ikushi_ito"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
     $ card_image = convert_pattern_with_data("card", {"girls": "miwa_igarashi"}, **kwargs)
@@ -521,10 +525,10 @@ label truth_or_dare_dare_3 (**kwargs):
 label truth_or_dare_dare_4 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ ishimaru = get_person_char_with_key("class_3a", "ishimaru_maki")
-    $ ikushi = get_person_char_with_key("class_3a", "ikushi_ito")
-    $ lin = get_person_char_with_key("class_3a", "lin_kato")
-    $ miwa = get_person_char_with_key("class_3a", "miwa_igarashi")
+    $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
+    $ ikushi = Person["ikushi_ito"].get_renpy_char()
+    $ lin = Person["lin_kato"].get_renpy_char()
+    $ miwa = Person["miwa_igarashi"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
     $ card_image = convert_pattern_with_data("card", {"girls": "ishimaru_maki"}, **kwargs)
@@ -560,10 +564,10 @@ label truth_or_dare_dare_4 (**kwargs):
 label truth_or_dare_dare_5 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ ikushi = get_person_char_with_key("class_3a", "ikushi_ito")
-    $ lin = get_person_char_with_key("class_3a", "lin_kato")
-    $ miwa = get_person_char_with_key("class_3a", "miwa_igarashi")
-    $ ishimaru = get_person_char_with_key("class_3a", "ishimaru_maki")
+    $ ikushi = Person["ikushi_ito"].get_renpy_char()
+    $ lin = Person["lin_kato"].get_renpy_char()
+    $ miwa = Person["miwa_igarashi"].get_renpy_char()
+    $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
     $ card_image = convert_pattern_with_data("card", {"girls": "ikushi_ito"}, **kwargs)
@@ -616,10 +620,10 @@ label truth_or_dare_dare_5 (**kwargs):
 label truth_or_dare_dare_6 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ lin = get_person_char_with_key("class_3a", "lin_kato")
-    $ miwa = get_person_char_with_key("class_3a", "miwa_igarashi")
-    $ ishimaru = get_person_char_with_key("class_3a", "ishimaru_maki")
-    $ ikushi = get_person_char_with_key("class_3a", "ikushi_ito")
+    $ lin = Person["lin_kato"].get_renpy_char()
+    $ miwa = Person["miwa_igarashi"].get_renpy_char()
+    $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
+    $ ikushi = Person["ikushi_ito"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
     $ card_image = convert_pattern_with_data("card", {"girls": "lin_kato"}, **kwargs)

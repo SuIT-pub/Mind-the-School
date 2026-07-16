@@ -1,0 +1,1078 @@
+﻿Ren'Py 8.1.3.23091805 lint report, generated at: Tue Jun 30 10:03:39 2026
+
+game/scripts/buildings/cafeteria.rpy:215 Could not evaluate 'adelaide' in the who part of a say statement.
+Perhaps you forgot to define a character?
+
+game/scripts/buildings/cafeteria.rpy:221 Could not evaluate 'adelaide' in the who part of a say statement.
+
+game/scripts/buildings/cafeteria.rpy:226 Could not evaluate 'adelaide' in the who part of a say statement.
+
+game/scripts/buildings/cafeteria.rpy:257 Could not evaluate 'girl' in the who part of a say statement.
+
+game/scripts/buildings/cafeteria.rpy:287 Could not evaluate 'person' in the who part of a say statement.
+
+game/scripts/buildings/cafeteria.rpy:293 Could not evaluate 'person' in the who part of a say statement.
+
+game/scripts/buildings/cafeteria.rpy:299 Could not evaluate 'person' in the who part of a say statement.
+
+game/scripts/buildings/cafeteria.rpy:305 Could not evaluate 'person' in the who part of a say statement.
+
+game/scripts/buildings/cafeteria.rpy:306 Could not evaluate 'person' in the who part of a say statement.
+
+game/scripts/buildings/cafeteria.rpy:315 Could not evaluate 'person' in the who part of a say statement.
+
+game/scripts/buildings/cafeteria.rpy:333 Could not evaluate 'person' in the who part of a say statement.
+
+game/scripts/buildings/cafeteria.rpy:339 Could not evaluate 'person' in the who part of a say statement.
+
+game/scripts/buildings/cafeteria.rpy:353 Could not evaluate 'person' in the who part of a say statement.
+
+game/scripts/buildings/cafeteria.rpy:363 Could not evaluate 'person' in the who part of a say statement.
+
+game/scripts/buildings/cafeteria.rpy:379 Could not evaluate 'person' in the who part of a say statement.
+
+game/scripts/buildings/cafeteria.rpy:401 Could not evaluate 'person' in the who part of a say statement.
+
+game/scripts/buildings/cafeteria.rpy:408 Could not evaluate 'person' in the who part of a say statement.
+
+game/scripts/buildings/cafeteria.rpy:417 Could not evaluate 'person' in the who part of a say statement.
+
+game/scripts/buildings/cafeteria.rpy:425 Could not evaluate 'person' in the who part of a say statement.
+
+game/scripts/buildings/cafeteria.rpy:430 Could not evaluate 'person' in the who part of a say statement.
+
+game/scripts/buildings/cafeteria.rpy:445 Could not evaluate 'person' in the who part of a say statement.
+
+game/scripts/buildings/cafeteria.rpy:448 Could not evaluate 'person' in the who part of a say statement.
+
+game/scripts/buildings/cafeteria.rpy:528 Could not evaluate 'luna' in the who part of a say statement.
+
+game/scripts/buildings/cafeteria.rpy:530 Could not evaluate 'seraphina' in the who part of a say statement.
+
+game/scripts/buildings/cafeteria.rpy:538 Could not evaluate 'luna' in the who part of a say statement.
+
+game/scripts/buildings/cafeteria.rpy:540 Could not evaluate 'luna' in the who part of a say statement.
+
+game/scripts/buildings/cafeteria.rpy:542 Could not evaluate 'seraphina' in the who part of a say statement.
+
+game/scripts/buildings/cafeteria.rpy:544 Could not evaluate 'luna' in the who part of a say statement.
+
+game/scripts/buildings/cafeteria.rpy:551 Could not evaluate 'luna' in the who part of a say statement.
+
+game/scripts/buildings/cafeteria.rpy:553 Could not evaluate 'seraphina' in the who part of a say statement.
+
+game/scripts/buildings/cafeteria.rpy:555 Could not evaluate 'seraphina' in the who part of a say statement.
+
+game/scripts/buildings/cafeteria.rpy:557 Could not evaluate 'luna' in the who part of a say statement.
+
+game/scripts/buildings/cafeteria.rpy:559 Could not evaluate 'seraphina' in the who part of a say statement.
+
+game/scripts/buildings/courtyard.rpy:194 Could not evaluate 'yuriko' in the who part of a say statement.
+
+game/scripts/buildings/courtyard.rpy:198 Could not evaluate 'yuriko' in the who part of a say statement.
+
+game/scripts/buildings/courtyard.rpy:202 Could not evaluate 'yuriko' in the who part of a say statement.
+
+game/scripts/buildings/courtyard.rpy:206 Could not evaluate 'yuriko' in the who part of a say statement.
+
+game/scripts/buildings/courtyard.rpy:279 Could not evaluate 'seraphina' in the who part of a say statement.
+
+game/scripts/buildings/courtyard.rpy:287 Could not evaluate 'seraphina' in the who part of a say statement.
+
+game/scripts/buildings/courtyard.rpy:295 Could not evaluate 'seraphina' in the who part of a say statement.
+
+game/scripts/buildings/courtyard.rpy:332 Could not evaluate 'ishimaru' in the who part of a say statement.
+
+game/scripts/buildings/courtyard.rpy:334 Could not evaluate 'ishimaru' in the who part of a say statement.
+
+game/scripts/buildings/gym.rpy:164 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/buildings/gym.rpy:177 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/buildings/gym.rpy:182 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/buildings/gym.rpy:192 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/buildings/gym.rpy:197 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/buildings/gym.rpy:206 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/buildings/gym.rpy:211 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/buildings/gym.rpy:219 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/buildings/gym.rpy:221 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/buildings/gym.rpy:223 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/buildings/gym.rpy:228 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/buildings/gym.rpy:273 Could not evaluate 'kokoro' in the who part of a say statement.
+
+game/scripts/buildings/gym.rpy:279 Could not evaluate 'kokoro' in the who part of a say statement.
+
+game/scripts/buildings/gym.rpy:283 Could not evaluate 'kokoro' in the who part of a say statement.
+
+game/scripts/buildings/gym.rpy:288 Could not evaluate 'kokoro' in the who part of a say statement.
+
+game/scripts/buildings/gym.rpy:293 Could not evaluate 'kokoro' in the who part of a say statement.
+
+game/scripts/buildings/gym.rpy:295 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/buildings/gym.rpy:301 Could not evaluate 'kokoro' in the who part of a say statement.
+
+game/scripts/buildings/gym.rpy:305 Could not evaluate 'kokoro' in the who part of a say statement.
+
+game/scripts/buildings/gym.rpy:307 Could not evaluate 'kokoro' in the who part of a say statement.
+
+game/scripts/buildings/gym.rpy:311 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/buildings/gym.rpy:328 Could not evaluate 'easkey' in the who part of a say statement.
+
+game/scripts/buildings/gym.rpy:330 Could not evaluate 'ishimaru' in the who part of a say statement.
+
+game/scripts/buildings/gym.rpy:332 Could not evaluate 'easkey' in the who part of a say statement.
+
+game/scripts/buildings/gym.rpy:335 Could not evaluate 'easkey' in the who part of a say statement.
+
+game/scripts/buildings/gym.rpy:337 Could not evaluate 'ishimaru' in the who part of a say statement.
+
+game/scripts/buildings/gym.rpy:339 Could not evaluate 'easkey' in the who part of a say statement.
+
+game/scripts/buildings/gym.rpy:355 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/buildings/gym.rpy:357 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/buildings/gym.rpy:359 Could not evaluate 'soyoon' in the who part of a say statement.
+
+game/scripts/buildings/kiosk.rpy:119 Could not evaluate 'girl' in the who part of a say statement.
+
+game/scripts/buildings/kiosk.rpy:141 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/buildings/kiosk.rpy:145 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/buildings/kiosk.rpy:149 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/buildings/kiosk.rpy:163 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/buildings/kiosk.rpy:167 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/buildings/kiosk.rpy:169 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/buildings/kiosk.rpy:181 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/buildings/kiosk.rpy:200 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/buildings/kiosk.rpy:214 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/buildings/kiosk.rpy:219 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/buildings/kiosk.rpy:226 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/buildings/kiosk.rpy:230 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/buildings/office_building.rpy:422 Could not evaluate 'yuriko' in the who part of a say statement.
+
+game/scripts/buildings/office_building.rpy:430 Could not evaluate 'yuriko' in the who part of a say statement.
+
+game/scripts/buildings/office_building.rpy:432 Could not evaluate 'yuriko' in the who part of a say statement.
+
+game/scripts/buildings/office_building.rpy:438 Could not evaluate 'yuriko' in the who part of a say statement.
+
+game/scripts/buildings/office_building.rpy:442 Could not evaluate 'yuriko' in the who part of a say statement.
+
+game/scripts/buildings/office_building.rpy:449 Could not evaluate 'yuriko' in the who part of a say statement.
+
+game/scripts/buildings/office_building.rpy:453 Could not evaluate 'yuriko' in the who part of a say statement.
+
+game/scripts/buildings/office_building.rpy:457 Could not evaluate 'yuriko' in the who part of a say statement.
+
+game/scripts/buildings/office_building.rpy:461 Could not evaluate 'yuriko' in the who part of a say statement.
+
+game/scripts/buildings/office_building.rpy:467 Could not evaluate 'yuriko' in the who part of a say statement.
+
+game/scripts/buildings/office_building.rpy:471 Could not evaluate 'yuriko' in the who part of a say statement.
+
+game/scripts/buildings/office_building.rpy:480 Could not evaluate 'yuriko' in the who part of a say statement.
+
+game/scripts/buildings/office_building.rpy:486 Could not evaluate 'yuriko' in the who part of a say statement.
+
+game/scripts/buildings/office_building.rpy:497 Could not evaluate 'yuriko' in the who part of a say statement.
+
+game/scripts/buildings/office_building.rpy:506 Could not evaluate 'yuriko' in the who part of a say statement.
+
+game/scripts/buildings/office_building.rpy:510 Could not evaluate 'yuriko' in the who part of a say statement.
+
+game/scripts/buildings/office_building.rpy:515 Could not evaluate 'yuriko' in the who part of a say statement.
+
+game/scripts/buildings/office_building.rpy:829 Could not evaluate 'yuriko' in the who part of a say statement.
+
+game/scripts/buildings/office_building.rpy:833 Could not evaluate 'yuriko' in the who part of a say statement.
+
+game/scripts/buildings/office_building.rpy:846 Could not evaluate 'yuriko' in the who part of a say statement.
+
+game/scripts/buildings/office_building.rpy:851 Could not evaluate 'yuriko' in the who part of a say statement.
+
+game/scripts/buildings/office_building.rpy:867 Could not evaluate 'yuriko' in the who part of a say statement.
+
+game/scripts/buildings/school_building.rpy:190 Could not evaluate 'sakura' in the who part of a say statement.
+
+game/scripts/buildings/school_building.rpy:205 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/buildings/school_building.rpy:211 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/buildings/school_building.rpy:225 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/buildings/school_building.rpy:231 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/buildings/school_building.rpy:251 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/buildings/school_building.rpy:268 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/buildings/school_building.rpy:274 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/buildings/school_building.rpy:279 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/buildings/school_building.rpy:286 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/buildings/school_building.rpy:303 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/buildings/school_building.rpy:309 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/buildings/school_building.rpy:323 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/buildings/school_building.rpy:339 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/buildings/school_building.rpy:343 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/buildings/school_building.rpy:364 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/buildings/school_building.rpy:386 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/buildings/school_building.rpy:391 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/buildings/school_building.rpy:397 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/buildings/school_building.rpy:429 Could not evaluate 'girl_char' in the who part of a say statement.
+
+game/scripts/buildings/school_building.rpy:435 Could not evaluate 'girl_char' in the who part of a say statement.
+
+game/scripts/buildings/school_building.rpy:439 Could not evaluate 'girl_char' in the who part of a say statement.
+
+game/scripts/buildings/school_building.rpy:455 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/buildings/school_building.rpy:456 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/buildings/school_building.rpy:458 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/buildings/school_building.rpy:461 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/buildings/school_building.rpy:463 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/buildings/school_building.rpy:485 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/buildings/school_building.rpy:488 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/buildings/school_building.rpy:492 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/buildings/school_building.rpy:494 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/buildings/school_building.rpy:497 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/buildings/school_dormitory.rpy:147 Could not evaluate 'easkey' in the who part of a say statement.
+
+game/scripts/buildings/school_dormitory.rpy:152 Could not evaluate 'easkey' in the who part of a say statement.
+
+game/scripts/buildings/school_dormitory.rpy:168 Could not evaluate 'easkey' in the who part of a say statement.
+
+game/scripts/buildings/school_dormitory.rpy:189 Could not evaluate 'girl' in the who part of a say statement.
+
+game/scripts/buildings/school_dormitory.rpy:194 Could not evaluate 'girl' in the who part of a say statement.
+
+game/scripts/buildings/school_dormitory.rpy:199 Could not evaluate 'girl' in the who part of a say statement.
+
+game/scripts/buildings/school_dormitory.rpy:213 Could not evaluate 'girl' in the who part of a say statement.
+
+game/scripts/buildings/school_dormitory.rpy:217 Could not evaluate 'girl' in the who part of a say statement.
+
+game/scripts/buildings/school_dormitory.rpy:305 Could not evaluate 'soyoon' in the who part of a say statement.
+
+game/scripts/buildings/school_dormitory.rpy:400 Could not evaluate 'luna' in the who part of a say statement.
+
+game/scripts/buildings/school_dormitory.rpy:402 Could not evaluate 'seraphina' in the who part of a say statement.
+
+game/scripts/buildings/school_dormitory.rpy:404 Could not evaluate 'seraphina' in the who part of a say statement.
+
+game/scripts/buildings/school_dormitory.rpy:413 Could not evaluate 'luna' in the who part of a say statement.
+
+game/scripts/buildings/school_dormitory.rpy:420 Could not evaluate 'luna' in the who part of a say statement.
+
+game/scripts/buildings/school_dormitory.rpy:422 Could not evaluate 'seraphina' in the who part of a say statement.
+
+game/scripts/buildings/school_dormitory.rpy:423 Could not evaluate 'luna' in the who part of a say statement.
+
+game/scripts/buildings/school_dormitory.rpy:425 Could not evaluate 'seraphina' in the who part of a say statement.
+
+game/scripts/buildings/school_dormitory.rpy:427 Could not evaluate 'seraphina' in the who part of a say statement.
+
+game/scripts/buildings/school_dormitory.rpy:434 Could not evaluate 'luna' in the who part of a say statement.
+
+game/scripts/buildings/school_dormitory.rpy:441 Could not evaluate 'seraphina' in the who part of a say statement.
+
+game/scripts/buildings/school_dormitory.rpy:443 Could not evaluate 'luna' in the who part of a say statement.
+
+game/scripts/buildings/school_dormitory.rpy:445 Could not evaluate 'seraphina' in the who part of a say statement.
+
+game/scripts/buildings/school_dormitory.rpy:452 Could not evaluate 'seraphina' in the who part of a say statement.
+
+game/scripts/buildings/school_dormitory.rpy:454 Could not evaluate 'luna' in the who part of a say statement.
+
+game/scripts/buildings/school_dormitory.rpy:456 Could not evaluate 'seraphina' in the who part of a say statement.
+
+game/scripts/buildings/school_dormitory.rpy:464 Could not evaluate 'seraphina' in the who part of a say statement.
+
+game/scripts/buildings/school_dormitory.rpy:466 Could not evaluate 'luna' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:48 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:50 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:52 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:54 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:56 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:58 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:62 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:65 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:68 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:70 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:72 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:78 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:80 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:82 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:84 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:86 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:88 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:90 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:92 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:94 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:95 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:97 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:99 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:101 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:107 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:109 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:110 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:203 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:214 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:218 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:223 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:227 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:231 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:235 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:239 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:288 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:292 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:296 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:298 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:302 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:309 Could not evaluate 'store_clerk' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:314 Could not evaluate 'store_clerk' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:317 Could not evaluate 'store_clerk' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:320 Could not evaluate 'store_clerk' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:322 Could not evaluate 'store_clerk' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:324 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:326 Could not evaluate 'store_clerk' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:330 Could not evaluate 'store_clerk' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:331 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:363 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:373 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:391 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:392 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:396 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:402 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:412 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:419 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:443 Could not evaluate 'store_clerk' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:447 Could not evaluate 'store_clerk' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:452 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:461 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:469 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:473 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:477 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:484 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/aonas_sport_bra.rpy:488 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/intro_events.rpy:221 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/lab_intro.rpy:434 Could not evaluate 'hatano' in the who part of a say statement.
+
+game/scripts/events/lab_intro.rpy:438 Could not evaluate 'gloria' in the who part of a say statement.
+
+game/scripts/events/lab_intro.rpy:442 Could not evaluate 'gloria' in the who part of a say statement.
+
+game/scripts/events/lab_intro.rpy:446 Could not evaluate 'hatano' in the who part of a say statement.
+
+game/scripts/events/lab_intro.rpy:452 Could not evaluate 'kokoro' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:112 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:113 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:130 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:132 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:134 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:135 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:137 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:139 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:165 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:167 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:169 Could not evaluate 'sakura' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:171 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:173 Could not evaluate 'sakura' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:175 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:179 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:182 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:183 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:186 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:190 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:191 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:195 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:196 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:198 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:204 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:209 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:211 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:245 Could not evaluate 'hatano' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:247 Could not evaluate 'seraphina' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:249 Could not evaluate 'elsie' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:253 Could not evaluate 'hatano' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:292 Could not evaluate 'seraphina' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:327 Could not evaluate 'seraphina' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:337 Could not evaluate 'hatano' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:339 Could not evaluate 'seraphina' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:341 Could not evaluate 'elsie' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:352 Could not evaluate 'hatano' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:358 Could not evaluate 'elsie' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:360 Could not evaluate 'seraphina' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:362 Could not evaluate 'hatano' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:371 Could not evaluate 'seraphina' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:377 Could not evaluate 'hatano' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:379 Could not evaluate 'seraphina' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:381 Could not evaluate 'elsie' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:387 Could not evaluate 'seraphina' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:389 Could not evaluate 'elsie' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:391 Could not evaluate 'hatano' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:396 Could not evaluate 'seraphina' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:398 Could not evaluate 'elsie' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:400 Could not evaluate 'hatano' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:419 Could not evaluate 'hatano' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:424 Could not evaluate 'seraphina' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:429 Could not evaluate 'elsie' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:468 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:472 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:476 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:481 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:485 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:489 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:491 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:495 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:499 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:520 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:524 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:528 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:532 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:536 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:580 Could not evaluate 'yuriko' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:592 Could not evaluate 'nurse' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:594 Could not evaluate 'nurse' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:600 Could not evaluate 'nurse' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:604 Could not evaluate 'nurse' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:606 Could not evaluate 'nurse' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:607 Could not evaluate 'nurse' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:611 Could not evaluate 'nurse' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:613 Could not evaluate 'nurse' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:614 Could not evaluate 'nurse' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:618 Could not evaluate 'nurse' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:623 Could not evaluate 'nurse' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:624 Could not evaluate 'nurse' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:626 Could not evaluate 'nurse' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:681 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:685 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:693 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:694 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:696 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/new_yoga_outfits.rpy:701 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/sex_ed_intro.rpy:252 Could not evaluate 'finola' in the who part of a say statement.
+
+game/scripts/events/sex_ed_intro.rpy:270 Could not evaluate 'chloe' in the who part of a say statement.
+
+game/scripts/events/sex_ed_intro.rpy:282 Could not evaluate 'lily' in the who part of a say statement.
+
+game/scripts/events/sex_ed_intro.rpy:294 Could not evaluate 'yulan' in the who part of a say statement.
+
+game/scripts/events/sex_ed_intro.rpy:307 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/sex_ed_intro.rpy:341 Could not evaluate 'finola' in the who part of a say statement.
+
+game/scripts/events/sex_ed_intro.rpy:343 Could not evaluate 'chloe' in the who part of a say statement.
+
+game/scripts/events/sex_ed_intro.rpy:463 Could not evaluate 'finola' in the who part of a say statement.
+
+game/scripts/events/sex_ed_intro.rpy:468 Could not evaluate 'chloe' in the who part of a say statement.
+
+game/scripts/events/sex_ed_intro.rpy:473 Could not evaluate 'lily' in the who part of a say statement.
+
+game/scripts/events/sex_ed_intro.rpy:478 Could not evaluate 'yulan' in the who part of a say statement.
+
+game/scripts/events/sex_ed_intro.rpy:484 Could not evaluate 'zoe' in the who part of a say statement.
+
+game/scripts/events/sex_ed_intro.rpy:536 Could not evaluate 'yuriko' in the who part of a say statement.
+
+game/scripts/events/sex_ed_intro.rpy:538 Could not evaluate 'adelaide' in the who part of a say statement.
+
+game/scripts/events/sex_ed_intro.rpy:545 Could not evaluate 'yuki' in the who part of a say statement.
+
+game/scripts/events/sex_ed_intro.rpy:558 Could not evaluate 'chloe' in the who part of a say statement.
+
+game/scripts/events/sex_ed_intro.rpy:563 Could not evaluate 'finola' in the who part of a say statement.
+
+game/scripts/events/sex_ed_intro.rpy:565 Could not evaluate 'yuriko' in the who part of a say statement.
+
+game/scripts/events/sex_ed_intro.rpy:580 Could not evaluate 'yuki' in the who part of a say statement.
+
+game/scripts/events/sex_ed_intro.rpy:584 Could not evaluate 'nubia' in the who part of a say statement.
+
+game/scripts/events/sex_ed_intro.rpy:588 Could not evaluate 'adelaide' in the who part of a say statement.
+
+game/scripts/events/sex_ed_intro.rpy:590 Could not evaluate 'yuki' in the who part of a say statement.
+
+game/scripts/events/sex_ed_intro.rpy:593 Could not evaluate 'yuriko' in the who part of a say statement.
+
+game/scripts/events/sex_ed_intro.rpy:866 Could not evaluate 'finola' in the who part of a say statement.
+
+game/scripts/events/sex_ed_intro.rpy:919 Could not evaluate 'finola' in the who part of a say statement.
+
+game/scripts/events/sex_ed_intro.rpy:921 Could not evaluate 'finola' in the who part of a say statement.
+
+game/scripts/events/sex_ed_intro.rpy:923 Could not evaluate 'finola' in the who part of a say statement.
+
+game/scripts/events/teaching_lessons.rpy:237 Could not evaluate 'finola' in the who part of a say statement.
+
+game/scripts/events/teaching_lessons.rpy:238 Could not evaluate 'finola' in the who part of a say statement.
+
+game/scripts/events/teaching_lessons.rpy:351 Could not evaluate 'gloria' in the who part of a say statement.
+
+game/scripts/events/teaching_lessons.rpy:385 Could not evaluate 'aona' in the who part of a say statement.
+
+game/scripts/events/teaching_lessons.rpy:413 Could not evaluate 'kokoro' in the who part of a say statement.
+
+game/scripts/events/teaching_lessons.rpy:418 Could not evaluate 'kokoro' in the who part of a say statement.
+
+game/scripts/events/teaching_lessons.rpy:436 Could not evaluate 'luna' in the who part of a say statement.
+
+game/scripts/events/teaching_lessons.rpy:527 Could not evaluate 'sakura' in the who part of a say statement.
+
+game/scripts/events/teaching_lessons.rpy:529 Could not evaluate 'sakura' in the who part of a say statement.
+
+game/scripts/events/teaching_lessons.rpy:531 Could not evaluate 'sakura' in the who part of a say statement.
+
+game/scripts/events/teaching_lessons.rpy:540 Could not evaluate 'luna' in the who part of a say statement.
+
+game/scripts/events/teaching_lessons.rpy:546 Could not evaluate 'luna' in the who part of a say statement.
+
+game/scripts/events/teaching_lessons.rpy:548 Could not evaluate 'luna' in the who part of a say statement.
+
+game/scripts/events/teaching_lessons.rpy:550 Could not evaluate 'luna' in the who part of a say statement.
+
+game/scripts/events/teaching_lessons.rpy:558 Could not evaluate 'easkey' in the who part of a say statement.
+
+game/scripts/events/teaching_lessons.rpy:560 Could not evaluate 'easkey' in the who part of a say statement.
+
+game/scripts/events/teaching_lessons.rpy:653 Could not evaluate 'girl' in the who part of a say statement.
+
+game/scripts/events/teaching_lessons.rpy:673 Could not evaluate 'girl' in the who part of a say statement.
+
+game/scripts/events/teaching_lessons.rpy:745 Could not evaluate 'girl' in the who part of a say statement.
+
+game/scripts/events/teaching_lessons.rpy:788 Could not evaluate 'girl' in the who part of a say statement.
+
+game/scripts/events/teaching_lessons.rpy:852 Could not evaluate 'seraphina' in the who part of a say statement.
+
+game/scripts/events/teaching_lessons.rpy:858 Could not evaluate 'seraphina' in the who part of a say statement.
+
+game/scripts/events/teaching_lessons.rpy:861 Could not evaluate 'seraphina' in the who part of a say statement.
+
+game/scripts/events/teaching_lessons.rpy:867 Could not evaluate 'seraphina' in the who part of a say statement.
+
+game/scripts/events/teaching_lessons.rpy:876 Could not evaluate 'seraphina' in the who part of a say statement.
+
+game/scripts/events/teaching_lessons.rpy:1022 Could not evaluate 'sakura' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:103 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:104 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:106 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:108 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:110 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:112 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:113 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:115 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:116 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:118 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:119 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:121 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:140 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:142 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:144 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:146 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:148 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:150 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:152 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:173 Could not evaluate 'ishimaru' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:206 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:208 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:209 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:211 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:213 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:215 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:216 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:218 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:220 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:222 Could not evaluate 'ishimaru' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:224 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:242 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:244 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:245 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:247 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:249 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:251 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:273 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:275 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:277 Could not evaluate 'ishimaru' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:279 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:281 Could not evaluate 'ishimaru_shout' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:283 Could not evaluate 'miwa_whisper' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:285 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:287 Could not evaluate 'ishimaru' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:288 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:289 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:309 Could not evaluate 'ishimaru' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:311 Could not evaluate 'ishimaru' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:313 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:314 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:316 Could not evaluate 'ishimaru' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:318 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:320 Could not evaluate 'ishimaru' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:340 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:342 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:344 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:348 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:350 Could not evaluate 'ishimaru' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:354 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:356 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:358 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:359 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:361 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:363 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:365 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:384 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:386 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:388 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:389 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:390 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:392 Could not evaluate 'ishimaru' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:396 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:398 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:400 Could not evaluate 'ishimaru' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:426 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:428 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:430 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:432 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:434 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:436 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:439 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:441 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:443 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:463 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:466 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:468 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:470 Could not evaluate 'ishimaru' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:472 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:475 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:477 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:479 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:499 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:501 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:503 Could not evaluate 'miwa_shout' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:505 Could not evaluate 'miwa_shout' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:507 Could not evaluate 'miwa_shout' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:509 Could not evaluate 'miwa_shout' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:511 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:513 Could not evaluate 'ishimaru' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:515 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:517 Could not evaluate 'ishimaru' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:537 Could not evaluate 'ishimaru' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:539 Could not evaluate 'ishimaru' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:541 Could not evaluate 'ishimaru' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:544 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:546 Could not evaluate 'ishimaru' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:548 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:550 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:552 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:554 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:556 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:576 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:578 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:580 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:582 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:584 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:586 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:588 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:590 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:592 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:594 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:596 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:598 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:600 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:602 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:604 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:606 Could not evaluate 'ishimaru' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:609 Could not evaluate 'ishimaru' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:610 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:612 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:632 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:634 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:636 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:638 Could not evaluate 'miwa' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:640 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:642 Could not evaluate 'ikushi' in the who part of a say statement.
+
+game/scripts/events/truth_or_dare.rpy:644 Could not evaluate 'lin' in the who part of a say statement.
+
+game/scripts/menu.rpy:263 Could not evaluate 'p_text' in the who part of a say statement.
+
+
+Statistics:
+
+The game contains 2,134 dialogue blocks, containing 23,553 words and 128,777
+characters, for an average of 11.0 words and 60 characters per block.
+
+The game contains 3 menus, 205 images, and 67 screens.
+
+Character statistics (for default language):
+ * headmaster has 798 blocks of dialogue.
+ * secretary has 218 blocks of dialogue.
+ * headmaster_thought has 210 blocks of dialogue.
+ * dev has 120 blocks of dialogue.
+ * subtitles has 116 blocks of dialogue.
+ * miwa has 73 blocks of dialogue.
+ * aona has 66 blocks of dialogue.
+ * sgirl has 58 blocks of dialogue.
+ * zoe has 47 blocks of dialogue.
+ * ikushi and lin have 43 blocks of dialogue each.
+ * seraphina has 33 blocks of dialogue.
+ * yuriko has 30 blocks of dialogue.
+ * ishimaru and nv_text have 24 blocks of dialogue each.
+ * parent has 20 blocks of dialogue.
+ * luna has 19 blocks of dialogue.
+ * person has 18 blocks of dialogue.
+ * teacher has 16 blocks of dialogue.
+ * nurse has 13 blocks of dialogue.
+ * girl, hatano, and kokoro have 11 blocks of dialogue each.
+ * finola and headmaster_shout have 10 blocks of dialogue each.
+ * easkey, store_clerk, and vendor have 9 blocks of dialogue each.
+ * elsie and sakura have 7 blocks of dialogue each.
+ * adelaide and teacher2 have 5 blocks of dialogue each.
+ * chloe, miwa_shout, and secretary_shout have 4 blocks of dialogue each.
+ * girl_char, gloria, and yuki have 3 blocks of dialogue each.
+ * crowd_shout, lily, soyoon, subtitles_Empty, and yulan have 2 blocks of
+   dialogue each.
+ * headmaster_whisper, ishimaru_shout, miwa_whisper, nubia, p_text,
+   secretary_whisper, teacher1, teacher3, teacher4, and teacher5 have 1 block
+   of dialogue each.
+
+
+Lint is not a substitute for thorough testing. Remember to update Ren'Py
+before releasing. New releases fix bugs and improve compatibility.

@@ -376,6 +376,10 @@ init -2 python:
 
             return variant  
 
+        def hide(self, tag = "general_image"):
+            renpy.hide(tag)
+            return
+
         def show_black(self, display_type = SCENE):
             renpy.call("show_ready_image", "/images/misc/misc_black_background.webp", display_type)   
             return
@@ -988,7 +992,7 @@ init -2 python:
             combinations.extend(itertools.combinations(alternative_keys, r))
 
         is_image_series = get_kwargs('is_image_series', False, **kwargs)
-        is_replay = get_kwargs('is_replay', False, **kwargs)
+        in_replay = get_kwargs('in_replay', False, **kwargs)
         no_register = get_kwargs('no_register', False, **kwargs)
 
         output = []
@@ -1008,31 +1012,43 @@ init -2 python:
                 new_image_path = new_image_path.replace(f"<{key}>", "$")
 
             if '<school_level>' in new_image_path:
-                if is_image_series and not is_replay and not no_register:
-                    register_value('school_level', get_character_by_key('school').get_level())
-                new_image_path = new_image_path.replace("<school_level>", str(get_character_by_key('school').get_level()))
+                school_level = get_character_by_key('school').get_level()
+                if is_image_series and not in_replay and not no_register:
+                    register_value('school_level', school_level)
+                if in_replay:
+                    school_level = get_kwargs('school_level', school_level, **kwargs)
+                new_image_path = new_image_path.replace("<school_level>", str(school_level))
 
             if 'teacher_level' in new_image_path:
-                if is_image_series and not is_replay and not no_register:
-                    register_value('teacher_level', get_character_by_key('teacher').get_level())
-                new_image_path = new_image_path.replace("<teacher_level>", str(get_character_by_key('teacher').get_level()))
+                teacher_level = get_character_by_key('teacher').get_level()
+                if is_image_series and not in_replay and not no_register:
+                    register_value('teacher_level', teacher_level)
+                if in_replay:
+                    teacher_level = get_kwargs('teacher_level', teacher_level, **kwargs)
+                new_image_path = new_image_path.replace("<teacher_level>", str(teacher_level))
             
             if 'parent_level' in new_image_path:
-                if is_image_series and not is_replay and not no_register:
-                    register_value('parent_level', get_character_by_key('parent').get_level())
-                new_image_path = new_image_path.replace("<parent_level>", str(get_character_by_key('parent').get_level()))
+                parent_level = get_character_by_key('parent').get_level()
+                if is_image_series and not in_replay and not no_register:
+                    register_value('parent_level', parent_level)
+                if in_replay:
+                    parent_level = get_kwargs('parent_level', parent_level, **kwargs)
+                new_image_path = new_image_path.replace("<parent_level>", str(parent_level))
             
             if 'secretary_level' in new_image_path:
-                if is_image_series and not is_replay and not no_register:
-                    register_value('secretary_level', get_character_by_key('secretary').get_level())
-                new_image_path = new_image_path.replace("<secretary_level>", str(get_character_by_key('secretary').get_level()))
+                secretary_level = get_character_by_key('secretary').get_level()
+                if is_image_series and not in_replay and not no_register:
+                    register_value('secretary_level', secretary_level)
+                if in_replay:
+                    secretary_level = get_kwargs('secretary_level', secretary_level, **kwargs)
+                new_image_path = new_image_path.replace("<secretary_level>", str(secretary_level))
             
             if '<level>' in image_path:
                 new_image_path = get_available_level(new_image_path, get_kwargs('level', 0, **kwargs)) 
             
             for key, value in kwargs.items():
                 new_image_path = new_image_path.replace(f"<{key}>", str(value))
-                if is_image_series and not is_replay and not no_register:
+                if is_image_series and not in_replay and not no_register:
                     register_value(key, value)
             
             output.append(new_image_path)
@@ -1057,7 +1073,7 @@ init -2 python:
         """
 
         is_image_series = get_kwargs('is_image_series', False, **kwargs)
-        is_replay = get_kwargs('is_replay', False, **kwargs)
+        in_replay = get_kwargs('in_replay', False, **kwargs)
 
         if 'values' in kwargs.keys():
             kwargs = kwargs['values']
@@ -1068,22 +1084,22 @@ init -2 python:
             kwargs['loli'] = get_random_loli()
 
         if '<school_level>' in image_path:
-            if is_image_series and not is_replay:
+            if is_image_series and not in_replay:
                 register_value('school_level', get_character_by_key('school').get_level())
             image_path = image_path.replace("<school_level>", str(get_character_by_key('school').get_level()))
         
         if 'teacher_level' in image_path:
-            if is_image_series and not is_replay:
+            if is_image_series and not in_replay:
                 register_value('teacher_level', get_character_by_key('teacher').get_level())
             image_path = image_path.replace("<teacher_level>", str(get_character_by_key('teacher').get_level()))
         
         if 'parent_level' in image_path:
-            if is_image_series and not is_replay:
+            if is_image_series and not in_replay:
                 register_value('parent_level', get_character_by_key('parent').get_level())
             image_path = image_path.replace("<parent_level>", str(get_character_by_key('parent').get_level()))
         
         if 'secretary_level' in image_path:
-            if is_image_series and not is_replay:
+            if is_image_series and not in_replay:
                 register_value('secretary_level', get_character_by_key('secretary').get_level())
             image_path = image_path.replace("<secretary_level>", str(get_character_by_key('secretary').get_level()))
         
@@ -1092,7 +1108,7 @@ init -2 python:
 
         for key, value in kwargs.items():
             image_path = image_path.replace(f"<{key}>", str(value))
-            if is_image_series and not is_replay:
+            if is_image_series and not in_replay:
                 register_value(key, value)
 
         return image_path
@@ -1113,7 +1129,7 @@ init -2 python:
         """
 
         is_image_series = get_kwargs('is_image_series', False, **kwargs)
-        is_replay = get_kwargs('is_replay', False, **kwargs)
+        in_replay = get_kwargs('in_replay', False, **kwargs)
 
         if 'values' in kwargs.keys():
             kwargs = kwargs['values']
@@ -1124,22 +1140,22 @@ init -2 python:
             kwargs['loli'] = get_random_loli()
 
         if '<school_level>' in image_path:
-            if is_image_series and not is_replay:
+            if is_image_series and not in_replay:
                 register_value('school_level', get_character_by_key('school').get_level())
             image_path = image_path.replace("<school_level>", str(get_character_by_key('school').get_level()))
         
         if 'teacher_level' in image_path:
-            if is_image_series and not is_replay:
+            if is_image_series and not in_replay:
                 register_value('teacher_level', get_character_by_key('teacher').get_level())
             image_path = image_path.replace("<teacher_level>", str(get_character_by_key('teacher').get_level()))
         
         if 'parent_level' in image_path:
-            if is_image_series and not is_replay:
+            if is_image_series and not in_replay:
                 register_value('parent_level', get_character_by_key('parent').get_level())
             image_path = image_path.replace("<parent_level>", str(get_character_by_key('parent').get_level()))
         
         if 'secretary_level' in image_path:
-            if is_image_series and not is_replay:
+            if is_image_series and not in_replay:
                 register_value('secretary_level', get_character_by_key('secretary').get_level())
             image_path = image_path.replace("<secretary_level>", str(get_character_by_key('secretary').get_level()))
         
@@ -1148,7 +1164,7 @@ init -2 python:
 
         for key, value in kwargs.items():
             image_path = image_path.replace(f"<{key}>", str(value))
-            if is_image_series and not is_replay:
+            if is_image_series and not in_replay:
                 register_value(key, value)
 
         variant = get_kwargs('variant', 0, **kwargs)
@@ -1470,7 +1486,7 @@ label show_ready_image(path, display_type = SCENE):
     else:
         if check_image(path):
             if display_type == SHOW:
-                show expression path with dissolveM
+                show expression path as general_image with dissolveM 
             elif display_type == SCENE:
                 scene expression path with dissolveM
         else:

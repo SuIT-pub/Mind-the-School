@@ -5,10 +5,11 @@
 init -1 python:
     set_current_mod('base')
     
-    sports_field_timed_event = TempEventStorage("sports_field", "sports_field", fallback = Event(1, "sports_field.after_time_check"))
     sports_field_general_event = EventStorage("sports_field",   "sports_field", fallback = Event(1, "sports_field.after_general_check"))
-    register_highlighting(sports_field_timed_event, sports_field_general_event)
+    register_highlighting(sports_field_general_event)
 
+    #### Default sports field events
+    # available targets: -
     sports_field_events = {}
 
     sports_field_bg_images = BGStorage("images/background/sports field/bg 1.webp", ValueSelector('loli', 0),
@@ -28,9 +29,7 @@ init 1 python:
 #########################################
 
 label sports_field ():
-    call call_available_event(sports_field_timed_event) from sports_field_1
-
-label .after_time_check (**kwargs):
+    call empty_label from sports_field_1
     call call_available_event(sports_field_general_event) from sports_field_4
 
 label .after_general_check (**kwargs):

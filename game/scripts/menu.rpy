@@ -214,7 +214,7 @@ init python:
             made_decisions = get_kwargs('made_decisions', [], **kwargs)
             decision_data = get_kwargs('decision_data', {}, **kwargs)
             possible_decisions = get_decision_possibilities(decision_data, made_decisions)
-            elements = [element for elements in elements if element.get_key() in possible_decisions and not element.get_key() in disabled_elements]
+            elements = [element for element in elements if element.get_key() in possible_decisions and not element.get_key() in disabled_elements]
 
         filtered_elements = [element for element in elements if element.check_conditions(**kwargs)]
 

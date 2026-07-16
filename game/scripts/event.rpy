@@ -5,7 +5,7 @@ init -3 python:
     import re
     import random
     import time
-    from typing import Any, Dict, List, Tuple, Union
+    from typing import Any, Dict, List, Optional, Tuple, Union
     
     seenEvents = {}
     highlight_register = {}
@@ -84,7 +84,7 @@ init -3 python:
             elif seen > seenEvents[event]:
                 seenEvents[event] = seen
         
-        seenEvents[event_name] = seenEvents[event] + 1
+        seenEvents[event_name] = seenEvents[event_name] + 1
         set_game_data("seen_events", seenEvents)
 
         if all(get_event_seen(event) for event in seenEvents.keys()):
@@ -124,9 +124,9 @@ init -3 python:
         ### Attributes:
         1. name: str
             - The name of the EventStorage. This is used to identify the EventStorage.
-        2. fallback: Event
+        2. fallback: :class:`Event`
             - The fallback event that is called when no other events are available.
-        3. events: Dict[int, Dict[str, Event]]
+        3. events: Dict[int, Dict[str, :class:`Event`]]
             - The events that are stored in the EventStorage. The events are stored in a dictionary with the priority as the key and the dictionary as a value.
             - The event Dictionary is a dictionary with the event id as the key and the event as the value.
             - Priority 1 represents an event that is called first and blocks all other events.
@@ -136,37 +136,37 @@ init -3 python:
             - The text that is displayed when the fallback event is called.
 
         ### Methods:
-        1. get_name() -> str
+        1. :func:`get_name`() -> str
             - Returns the name of the EventStorage.
-        2. get_type() -> str
+        2. :func:`get_type() -> str`
             - Returns the type of the EventStorage.
-        3. add_event(event: Event)
+        3. :func:`add_event(event: :class:`Event`)`
             - Adds an event to the EventStorage.
-        4. remove_event(event_id: str)
+        4. :func:`remove_event(event_id: str)`
             - Removes an event from the EventStorage.
-        5. count_available_events(priority: int = 0, **kwargs) -> int
+        5. :func:`count_available_events(priority: int = 0, **kwargs) -> int`
             - Counts the number of events that are available.
             - If priority is 0, all events are counted.
             - Otherwise only the events with the given priority are counted.
-        6. count_available_events_with_fallback(priority: int = 0, **kwargs) -> int
+        6. :func:`count_available_events_with_fallback(priority: int = 0, **kwargs) -> int`
             - Counts the number of events that are available.
             - If priority is 0, all events are counted.
             - Otherwise only the events with the given priority are counted.
             - If no events are available, 1 is returned.
-        7. get_available_events(priority: int = 0, **kwargs) -> List[Event]
+        7. :func:`get_available_events(priority: int = 0, **kwargs) -> List[:class:`Event`]`
             - Returns a list of all available events.
             - If priority is 0, all events are returned.
             - Otherwise only the events with the given priority are returned.
-        8. get_available_events_with_fallback(priority: int = 0, **kwargs) -> List[Event]
+        8. :func:`get_available_events_with_fallback(priority: int = 0, **kwargs) -> List[:class:`Event`]`
             - Returns a list of all available events.
             - If priority is 0, all events are returned.
             - Otherwise only the events with the given priority are returned.
             - If no events are available, the fallback event is returned.
-        9. call_available_event(priority: int = 0, **kwargs)
+        9. :func:`call_available_event(priority: int = 0, **kwargs)`
             - Calls all available events depending on the priority.
             - If priority is 0, all events are called.
             - Otherwise only the events with the given priority are called.
-        10. check_all_events()
+        10. :func:`check_all_events()`
             - Checks if all events are created correctly.
         """
 
@@ -180,12 +180,17 @@ init -3 python:
                 3: {},
             }
             self.location = location
-            options = list(options)
-            self.options = {option.get_name(): option for option in options if isinstance(option, Option)}
+            
+            self.options = OptionSet(*options)
+            
+            self.debuff_list = []
+            self.debuff_value = 0.0
+            if self.options.has_option("EventSeenDebuff"):
+                self.debuff_value = self.options.get_option("EventSeenDebuff").debuff
 
         def _update(self):
             """
-            Updates the title of the EventStorage.
+            Updates the title of the :class:`EventStorage`.
             """
 
             if not hasattr(self, 'fallback_text'):
@@ -213,7 +218,7 @@ init -3 python:
             This is used to make sure that the event is only called when the player is at the location.
 
             ### Parameters:
-            1. event: str
+            1. event: :class:`Event`
                 - The event that is registered.
             2. location: str
                 - The location that the event is registered for.
@@ -230,60 +235,55 @@ init -3 python:
             location_event_register[location].add(event)
 
         def check_all_options(self, **kwargs):
-            for key in self.options.keys():
-                if not self.options[key].check_option(**kwargs):
-                    return False
-            return True
+            return self.options.check_options(**kwargs)
         
         def check_for_option(self, name: str, **kwargs):
-            if name not in self.options.keys():
-                return False
-            return self.options[name].check_option(**kwargs)
+            return self.options.has_option(name) and self.options.get_option(name).check_option(**kwargs)
 
         ###################
         # Attribute getters
 
         def get_fallback(self) -> Event:
             """
-            Returns the fallback event of the EventStorage.
+            Returns the fallback event of the :class:`EventStorage`.
 
             ### Returns:
             1. Event
-                - The fallback event of the EventStorage.
+                - The fallback event of the :class:`EventStorage`.
             """
 
             return self.fallback
 
         def get_name(self) -> str:
             """
-            Returns the name of the EventStorage.
+            Returns the name of the :class:`EventStorage`.
 
             ### Returns:
             1. str
-                - The name of the EventStorage.
+                - The name of the :class:`EventStorage`.
             """
 
             return self.name
 
         def get_location(self) -> str:
             """
-            Returns the location of the EventStorage.
+            Returns the location of the :class:`EventStorage`.
 
             ### Returns:
             1. str
-                - The location of the EventStorage.
+                - The location of the :class:`EventStorage`.
             """
 
             return self.location
 
         def get_type(self) -> str:
             """
-            Returns the type of the EventStorage.
+            Returns the type of the :class:`EventStorage`.
 
             ### Returns:
             1. str
-                - The type of the EventStorage.
-                - In this case "EventStorage"
+                - The type of the :class:`EventStorage`.
+                - In this case ":class:`EventStorage`"
             """
 
             return "EventStorage"
@@ -295,12 +295,12 @@ init -3 python:
 
         def add_event(self, *events: Event):
             """
-            Adds an event to the EventStorage.
+            Adds an event to the :class:`EventStorage`.
             The event gets sorted automatically into the correct priority.
 
             ### Parameters:
-            1. *events: Event
-                - The events that are added to the EventStorage.
+            1. *events: :class:`Event`
+                - The events that are added to the :class:`EventStorage`.
             """
 
             if not is_mod_active(active_mod_key):
@@ -311,16 +311,17 @@ init -3 python:
 
                 if event.get_id() not in self.events[event.get_select_type()].keys():
                     self.register_event_for_location(event, self.location)    
+                    register_event_replay_category(event)
                     self.events[event.get_select_type()][event.get_id()] = event
 
         def overwrite_event(self, *event: Event):
             """
-            Adds an event to the EventStorage.
+            Adds an event to the :class:`EventStorage`.
             Overwrites the event if it already exists.
             The event gets sorted automatically into the correct priority.
 
             ### Parameters:
-            1. *events: Event
+            1. *events: :class:`Event`
                 - The events that are added to the EventStorage.
             """
 
@@ -335,7 +336,7 @@ init -3 python:
 
         def remove_event(self, event_id: str):
             """
-            Removes an event from the EventStorage.
+            Removes an event from the :class:`EventStorage`.
             """
 
             del self.events[1][event_id]
@@ -359,7 +360,7 @@ init -3 python:
                 - If priority is 0, all events are returned.
 
             ### Returns:
-            1. List[Event]
+            1. List[:class:`Event`]
                 - A list of all events.
                 - If priority is 1 all events with priority 1 are returned.
                 - If priority is 2 all events with priority 2 are returned.
@@ -373,6 +374,15 @@ init -3 python:
             if priority == 3:
                 return list(self.events[3].values())
             return list(self.events[1].values()) + list(self.events[2].values()) + list(self.events[3].values())
+
+        def get_event_count(self, priority: int = 0) -> int:
+            if priority == 1:
+                return len(self.events[1])
+            if priority == 2:
+                return len(self.events[2])
+            if priority == 3:
+                return len(self.events[3])
+            return len(self.events[1]) + len(self.events[2]) + len(self.events[3])
 
         def get_event_by_index(self, index: int, priority: int = 0) -> Event:
             """
@@ -388,7 +398,7 @@ init -3 python:
                 - If priority is 0, all events are considered.
 
             ### Returns:
-            1. Event
+            1. :class:`Event`
                 - The event with the given index.
             """
 
@@ -535,7 +545,7 @@ init -3 python:
         def count_available_events_with_fallback(self, priority: int = 0, **kwargs) -> int:
             """
             Counts the number of events that are available.
-            This method is the same as count_available_events except that if no events are available, 1 is returned representing the fallback event.
+            This method is the same as :func:`count_available_events` except that if no events are available, 1 is returned representing the fallback event.
 
             ### Parameters:
             1. priority: int (Default 0)
@@ -555,7 +565,7 @@ init -3 python:
         def count_available_events_with_fallback_and_prio(self, priority: int = 0, **kwargs) -> Tuple[int, bool]:
             """
             Counts the number of events that are available.
-            This method is the same as count_available_events except that if no events are available, 1 is returned representing the fallback event.
+            This method is the same as :func:`count_available_events` except that if no events are available, 1 is returned representing the fallback event.
 
             ### Parameters:
             1. priority: int (Default 0)
@@ -579,7 +589,7 @@ init -3 python:
         def count_available_events_with_fallback_and_highlight(self, priority: int = 0, **kwargs) -> Tuple[int, bool]:
             """
             Counts the number of events that are available.
-            This method is the same as count_available_events except that if no events are available, 1 is returned representing the fallback event.
+            This method is the same as :func:`count_available_events` except that if no events are available, 1 is returned representing the fallback event.
 
             ### Parameters:
             1. priority: int (Default 0)
@@ -600,7 +610,7 @@ init -3 python:
                 return 1, False
             return output, prio
 
-        def get_available_events(self, priority: int = 0, **kwargs) -> List[Event]:
+        def get_available_events(self, priority: int = 0, debuff = False, **kwargs) -> List[Event]:
             """
             Returns a list of all available events.
             If priority is 0, all available events are returned.
@@ -612,7 +622,7 @@ init -3 python:
                 - If priority is 0, all events are returned.
 
             ### Returns:
-            1. List[Event]
+            1. List[:class:`Event`]
                 - A list of all available events.
                 - If priority is 1 the first available event is returned.
                 - If priority is 2 a list of all available events with priority 2 are returned
@@ -626,35 +636,80 @@ init -3 python:
                 events = get_highest_priority_available_events(*self.events[1].values(), **kwargs)
                 if len(events) != 0:
                     return [events[0]]
-                # for event in self.events[1].values():
-                #     if event.is_available(**kwargs):
-                #         return [event]
 
             if priority == 0 or priority == 2:
                 output = get_highest_priority_available_events(*self.events[2].values(), **kwargs)
                 if len(output) != 0:
                     return output
-                # output = []
-                # for event in self.events[2].values():
-                #     if event.is_available(**kwargs):
-                #         output.append(event)
-                # if len(output) != 0:
-                #     return output
 
             if priority == 0 or priority == 3:
                 output = get_highest_priority_available_events(*self.events[3].values(), **kwargs)
-                # for event in self.events[3].values():
-                #     if event.is_available(**kwargs):
-                #         output.append(event)
                 if len(output) != 0:
+                    if debuff:
+                        self.check_debuff_reset()
+                        output = self.apply_debuff(*output)
+                        self.debuff_list.append(output.get_id())
+                        return [output]
                     return [random.choice(output)]
 
             return []
 
-        def get_available_events_with_fallback(self, priority: int = 0, **kwargs) -> List[Event]:
+        def check_debuff_reset(self):
+            debuff_length = len(self.debuff_list)
+            if debuff_length >= 10 or debuff_length >= self.get_event_count(3):
+                self.debuff_list = []
+
+        def apply_debuff(self, *events: Event) -> Optional[Event]:
+            """
+            Picks one event with weights derived from how often each id appears on ``debuff_list``.
+
+            Each occurrence on ``debuff_list`` multiplies that event's relative weight by
+            ``(1 - debuff_value)`` (e.g. debuff_value 0.25 → 25% less mass per stack vs an unseen event).
+            Weights are normalized before calling ``get_random_choice``.
+
+            ### Parameters:
+            1. *events: :class:`Event`
+                - Candidate events (typically all available priority-3 events).
+
+            ### Returns:
+            1. Optional[:class:`Event`]
+                - The chosen event, or None if ``events`` is empty.
+            """
+            event_list = list(events)
+            if len(event_list) == 0:
+                return None
+
+            if (
+                not self.debuff_list
+                or self.debuff_value is None
+                or self.debuff_value <= 0
+            ):
+                return random.choice(event_list)
+
+            log_separator()
+            log_val("event_list", event_list)
+            log_val("debuff_list", self.debuff_list)
+
+            rel_weights = []
+            for event in event_list:
+                debuff_value = self.debuff_value if event.debuff_value == -1.0 else event.debuff_value
+                factor = max(0.0, min(1.0, 1.0 - float(debuff_value)))
+                debuff_count = self.debuff_list.count(event.get_id())
+                rel_weights.append(factor**debuff_count)
+
+            log_val("rel_weights", rel_weights)
+
+            total_w = sum(rel_weights)
+            if total_w <= 0:
+                return random.choice(event_list)
+
+            selection_list = [(w / total_w, ev) for w, ev in zip(rel_weights, event_list)]
+            return get_random_choice(*selection_list)
+
+        def get_available_events_with_fallback(self, priority: int = 0, debuff = False, **kwargs) -> List[Event]:
             """
             Returns a list of all available events.
-            This method is the same as get_available_events except that if no events are available, the fallback event is returned.
+            This method is the same as :func:`get_available_events` except that if no events are available, the fallback event is returned.
 
             ### Parameters:
             1. priority: int (Default 0)
@@ -662,7 +717,7 @@ init -3 python:
                 - If priority is 0, all events are returned.
 
             ### Returns:
-            1. List[Event]
+            1. List[:class:`Event`]
                 - A list of all available events.
                 - If priority is 1 the first available event is returned.
                 - If priority is 2 a list of all available events with priority 2 are returned
@@ -670,13 +725,13 @@ init -3 python:
                 - If no events are available, the fallback event is returned.
             """
 
-            output = self.get_available_events(priority, **kwargs)
+            output = self.get_available_events(priority, debuff, **kwargs)
 
             if len(output) == 0:
                 return [self.fallback]
             return output
 
-        def get_one_possible_event(self, priority: int = 0, **kwargs) -> Event:
+        def get_one_possible_event(self, priority: int = 0, debuff = False, **kwargs) -> Event:
             """
             Returns a random event from the available events.
             If no events are available, the fallback event is returned.
@@ -687,7 +742,7 @@ init -3 python:
                 - If priority is 0, all events are returned.
 
             ### Returns:
-            1. Event
+            1. :class:`Event`
                 - A random event from the available events.
                 - If no events are available, the fallback event is returned.
             """
@@ -695,14 +750,14 @@ init -3 python:
             repeatable = get_kwargs("repeatable", False, **kwargs)
             used_events = get_kwargs("used_events_repeatable", [], **kwargs)
 
-            events = self.get_available_events(priority, **kwargs)
+            events = self.get_available_events(priority, debuff, **kwargs)
             if not repeatable:
                 events = [event for event in events if event not in used_events]
             if len(events) == 0:
                 return None
             return random.choice(events)
 
-        def get_one_possible_event_with_fallback(self, priority: int = 0, **kwargs) -> Event:
+        def get_one_possible_event_with_fallback(self, priority: int = 0, debuff = False, **kwargs) -> Event:
             """
             Returns a random event from the available events.
             If no events are available, the fallback event is returned.
@@ -713,12 +768,12 @@ init -3 python:
                 - If priority is 0, all events are returned.
 
             ### Returns:
-            1. Event
+            1. :class:`Event`
                 - A random event from the available events.
                 - If no events are available, the fallback event is returned.
             """
 
-            events = self.get_available_events_with_fallback(priority, **kwargs)
+            events = self.get_available_events_with_fallback(priority, debuff, **kwargs)
             if len(events) == 0 and self.fallback == None:
                 return None
             elif len(events) == 0:
@@ -726,35 +781,6 @@ init -3 python:
             return random.choice(events)
 
         ##############
-
-        ##############
-        # Event caller
-
-        def call_available_event(self, priority: int = 0, **kwargs):
-            """
-            Calls all available events depending on the priority.
-            If priority is 0, all events are called.
-            If priority is 1 the first available priority 1 event is called.
-            If priority is 2 all available priority 2 events are called.
-            If priority is 3 a random event from all available priority 3 events is called.
-            If no events are available, the fallback event is called.
-
-            ### Parameters:
-            1. priority: int (Default 0)
-                - The priority of the events that are called.
-                - If priority is 0, all events are called.
-            """
-
-            events = self.get_available_events_with_fallback(priority, **kwargs)
-
-            kwargs["fallback_text"] = self.fallback_text
-
-            if "event_type" not in kwargs.keys():
-                kwargs["event_type"] = self.name
-
-            for event in events:
-                kwargs["event_name"] = event.get_event()
-                event.call(**kwargs)
 
         ##############
 
@@ -776,11 +802,11 @@ init -3 python:
         
         def add_event(self, *events: EventFragment):
             """
-            Adds an event to the EventStorage.
+            Adds an event to the :class:`EventStorage`.
             The event gets sorted automatically into the correct priority.
 
             ### Parameters:
-            1. *events: Event
+            1. *events: :class:`Event`
                 - The events that are added to the EventStorage.
             """
 
@@ -793,8 +819,8 @@ init -3 python:
         
         def register_storage_as_fragment(self):
             """
-            Registers the EventStorage as a fragment.
-            This is used to make sure that the EventStorage is not saved in the save file.
+            Registers the :class:`EventStorage` as a fragment.
+            This is used to make sure that the :class:`EventStorage` is not saved in the save file.
             """
 
             if self.get_name() not in fragment_storage_register.keys():
@@ -802,10 +828,10 @@ init -3 python:
 
     class TempEventStorage(EventStorage):
         """
-        Subclass of EventStorage.
+        Subclass of :class:`EventStorage`.
 
         TempEventStorage is a class that stores events and can call them when needed.
-        The difference to EventStorage is that TempEventStorage does not store the events permanently.
+        The difference to :class:`EventStorage` is that TempEventStorage does not store the events permanently.
         Instead the events are removed from the TempEventStorage after they are called.
 
         ### Attributes:
@@ -813,7 +839,7 @@ init -3 python:
             - The name of the EventStorage. This is used to identify the EventStorage.
         2. fallback: Event
             - The fallback event that is called when no other events are available.
-        3. events: List[Event]
+        3. events: List[:class:`Event`]
             - The events that are stored in the EventStorage. The events are stored in a list.
         """
 
@@ -838,12 +864,12 @@ init -3 python:
 
         def get_type(self) -> str:
             """
-            Returns the type of the EventStorage.
+            Returns the type of the :class:`EventStorage`.
 
             ### Returns:
             1. str
-                - The type of the EventStorage.
-                - In this case "TempEventStorage"
+                - The type of the :class:`EventStorage`.
+                - In this case ":class:`TempEventStorage`"
             """
 
             return "TempEventStorage"
@@ -853,11 +879,11 @@ init -3 python:
 
         def add_event(self, *event: Event):
             """
-            Adds an event to the EventStorage.
+            Adds an event to the :class:`EventStorage`.
 
             ### Parameters:
-            1. *event: Event
-                - The events that are added to the EventStorage.
+            1. *event: :class:`Event`
+                - The events that are added to the :class:`EventStorage`.
             """
 
             if self.location != "":
@@ -868,11 +894,11 @@ init -3 python:
 
         def force_add_event(self, *event: Event):
             """
-            Force-adds an event to the EventStorage.
+            Force-adds an event to the :class:`EventStorage`.
 
             ### Parameters:
-            1. *event: Event
-                - The events that are added to the EventStorage.
+            1. *event: :class:`Event`
+                - The events that are added to the :class:`EventStorage`.
             """
 
             if self.location != "":
@@ -888,11 +914,11 @@ init -3 python:
 
         def remove_event(self, event_obj: str | Event):
             """
-            Removes an event from the EventStorage.
+            Removes an event from the :class:`EventStorage`.
 
             ### Parameters:
-            1. event_obj: str | Event
-                - The event that is removed from the EventStorage.
+            1. event_obj: str | :class:`Event`
+                - The event that is removed from the :class:`EventStorage`.
             """
 
             new_events = []
@@ -1004,7 +1030,7 @@ init -3 python:
         def count_available_events_with_fallback(self, _priority = 0, **kwargs) -> int:
             """
             Counts the number of events that are available.
-            This method is the same as count_available_events except that if no events are available, 1 is returned representing the fallback event.
+            This method is the same as :func:`count_available_events` except that if no events are available, 1 is returned representing the fallback event.
 
             ### Parameters:
             1. _priority: int (Default 0)
@@ -1021,7 +1047,7 @@ init -3 python:
         def count_available_events_with_fallback_and_prio(self, _priority = 0, **kwargs) -> Tuple[int, bool]:
             """
             Counts the number of events that are available.
-            This method is the same as count_available_events except that if no events are available, 1 is returned representing the fallback event.
+            This method is the same as :func:`count_available_events` except that if no events are available, 1 is returned representing the fallback event.
 
             ### Parameters:
             1. _priority: int (Default 0)
@@ -1049,7 +1075,7 @@ init -3 python:
         def count_available_events_with_fallback_and_highlight(self, _priority = 0, **kwargs) -> Tuple[int, bool]:
             """
             Counts the number of events that are available.
-            This method is the same as count_available_events except that if no events are available, 1 is returned representing the fallback event.
+            This method is the same as :func:`count_available_events` except that if no events are available, 1 is returned representing the fallback event.
 
             ### Parameters:
             1. _priority: int (Default 0)
@@ -1074,85 +1100,6 @@ init -3 python:
                 return 1, False
             return output, True
 
-        def get_available_events(self, _priority = 0, **kwargs) -> List[Event]:
-            """
-            Returns a list of all available events.
-
-            ### Parameters:
-            1. _priority: int (Default 0)
-                - This parameter is not used
-
-            ### Returns:
-            1. List[Event]
-                - A list of all available events.
-            """
-
-            output = []
-
-            if "event_type" not in kwargs.keys():
-                kwargs["event_type"] = self.name + "_timed"
-
-            for event in self.events:
-                if event.is_available(**kwargs):
-                    output.append(event)
-
-            return output
-
-        def get_available_events_with_fallback(self, _priority: int = 0, **kwargs) -> List[Event]:
-            """
-            Returns a list of all available events.
-            This method is the same as get_available_events except that if no events are available, the fallback event is returned.
-
-            ### Parameters:
-            1. _priority: int (Default 0)
-                - This parameter is not used
-
-            ### Returns:
-            1. List[Event]
-                - A list of all available events.
-                - If no events are available, the fallback event is returned.
-            """
-
-            output = self.get_available_events(**kwargs)
-
-            if len(output) == 0:
-                return [self.fallback]
-            return output
-
-        ##############
-        # Event caller
-
-        def call_available_event(self, _priority: int = 0, **kwargs):
-            """
-            Calls all available events.
-
-            ### Parameters:
-            1. _priority: int (Default 0)
-                - This parameter is not used
-            """
-
-            events = self.get_available_events_with_fallback(**kwargs)
-
-            for event in events:
-                self.events.remove(event)
-
-            if "event_type" not in kwargs.keys():
-                kwargs["event_type"] = self.name + "_timed"
-
-            if not contains_game_data("temp_event_blocker"):
-                set_game_data("temp_event_blocker", [])
-
-            temp_event_blocker = get_game_data("temp_event_blocker")
-
-            for event in events:
-                if event.get_id() != self.fallback.get_id():
-                    if event.get_id() in temp_event_blocker:
-                        continue
-
-                    temp_event_blocker.append(event.get_id())
-
-                event.call(**kwargs)
-
     class Event:
         """
         This class represents an event that can be called.
@@ -1165,11 +1112,12 @@ init -3 python:
             - 3 = lowest (selected random among 3's)
         2. event: str
             - The name of the event. This is used to call the event.
-        3. *conditions: Condition | Selector | Option
-            - A list of conditions, Selectors or Options
+        3. *conditions: :class:`Condition` | :class:`Selector` | :class:`Option` | :class:`Pattern`
+            - A list of conditions, selectors or options or patterns
             - The conditions need to be fulfilled for the event to be available.
-            - The Selectors are used to store values that can be used in the event.
-            - The Options are used to apply options to the event
+            - The selectors are used to store values that can be used in the event.
+            - The options are used to apply options to the event
+            - The patterns are used to apply patterns to the event
         4. thumbnail: str (Default "")
             - The thumbnail of the event.
         5. register_self: bool (Default True)
@@ -1185,7 +1133,7 @@ init -3 python:
         2. event: str | List[str]
             - The name of the event. This is used to call the event.
             - If the event is a single string it gets converted to a list containing this string.
-        3. conditions: List[Condition]
+        3. conditions: List[:class:`Condition`]
             - A list of conditions that need to be fulfilled for the event to be available.
         4. priority: int
             - The priority of the event.
@@ -1196,21 +1144,35 @@ init -3 python:
             - The type of the event. This is used to identify the event type.
 
         ### Methods:
-        1. get_id() -> str
+        1. :func:`check_event()`
+            - Checks if the event is created correctly.
+        2. :func:`check_options(**kwargs) -> bool`
+            - Checks if all options are available.
+        3. :func:`is_highlighted(**kwargs) -> bool`
+            - Checks if the event is highlighted.
+        4. :func:`get_thumbnail() -> str`
+            - Returns the thumbnail of the event.
+        5. :func:`get_form() -> str`
+            - Returns the form of the event.
+        6. :func:`get_id() -> str`
             - Returns the id of the event.
-        2. set_event_type(event_type: str)
+        7. :func:`get_location() -> str`
+            - Returns the location of the event.
+        8. :func:`set_location(location: str)`
+            - Sets the location of the event.
+        9. :func:`set_event_type(event_type: str)`
             - Sets the event type of the event.
-        3. add_event(*event: Event)
+        10. :func:`add_event(*event: :class:`Event`)`
             - Adds an event to the event.
-        4. get_event() -> List[str]
+        11. :func:`get_event() -> List[str]`
             - Returns the events depending on the priority.
-        5. get_event_count() -> int
+        12. :func:`get_event_count() -> int`
             - Returns the number of events stored.
-        6. get_select_type() -> int
+        13. :func:`get_select_type() -> int`
             - Returns the select type of the event.
-        7. is_available(**kwargs) -> bool
+        14. :func:`is_available(**kwargs) -> bool`
             - Returns True if all conditions are fulfilled.
-        8. call(**kwargs)
+        15. :func:`call(**kwargs)`
             - Calls the event.
         """
 
@@ -1219,12 +1181,15 @@ init -3 python:
             self.event = event
             self.thumbnail = thumbnail
 
+            self.replay_category = "Misc"
+
             self.conditions = []
             self.values = SelectorSet()
             self.options = OptionSet()
             self.patterns = {}
             self.priority = 1
             self.force_highlight = False
+            self.debuff_value = -1.0
 
             has_intro_condition = False
             for value in options:
@@ -1237,8 +1202,12 @@ init -3 python:
                 elif isinstance(value, Option):
                     if isinstance(value, ForceHighlightOption):
                         self.force_highlight = True
-                    if isinstance(value, PriorityOption):
+                    elif isinstance(value, PriorityOption):
                         self.priority = value.priority
+                    elif isinstance(value, ReplayCategoryOption):
+                        self.replay_category = value.category
+                    elif isinstance(value, EventSeenDebuffOption):
+                        self.debuff_value = value.debuff
                     else:
                         self.options.add_option(value)
                 elif isinstance(value, Pattern):
@@ -1264,6 +1233,7 @@ init -3 python:
             self.override_location = override_location
             if self.override_location != None:
                 self.location = override_location
+
 
             self.event_form = "event"
             self._invalid = False
@@ -1302,6 +1272,9 @@ init -3 python:
 
             if not hasattr(self, 'patterns'):
                 self.patterns = {}
+
+            if not hasattr(self, 'replay_category'):
+                self.replay_category = "Misc"
 
             self.__dict__.update(data)
 
@@ -1540,9 +1513,9 @@ init -3 python:
 
     class EventComposite(Event):
         """
-        Subclass of Event.
+        Subclass of :class:`Event`.
         This class represents a composite event that is made up of multiple events.
-        It takes a list of EventStorages and calls them in order.
+        It takes a list of :class:`EventStorage` and calls them in order.
 
         ### Parameters:
         1. priority: int
@@ -1552,15 +1525,15 @@ init -3 python:
             - 3 = lowest (selected random among 3's)
         2. event: str
             - The name of the event. This is used to call the event.
-        3. fragments: List[EventStorage]
+        3. fragments: List[:class:`EventStorage`]
             - The fragments that are part of the composite event.
-        4. *conditions: Condition
+        4. *conditions: :class:`Condition` | :class:`Selector` | :class:`Option` | :class:`Pattern`
             - The conditions that need to be fulfilled for the event to be available.
         5. thumbnail: str
             - The thumbnail of the event.
         """
 
-        def __init__(self, priority: int, event: str, fragments: List[FragmentStorage], *conditions: Condition | Selector | Option, thumbnail: str = ""):
+        def __init__(self, priority: int, event: str, fragments: List[FragmentStorage], *conditions: Condition | Selector | Option | Pattern, thumbnail: str = ""):
             super().__init__(priority, event, *conditions, thumbnail = thumbnail)
 
             self.fragments = [fragment for fragment in fragments if isinstance(fragment, FragmentStorage)]
@@ -1632,7 +1605,7 @@ init -3 python:
             Returns the fragments.
 
             ### Returns:
-            1. List[EventStorage]
+            1. List[:class:`EventStorage`]
                 - The fragments.
             """
 
@@ -1641,7 +1614,7 @@ init -3 python:
         def call_fragment(self, events: Event = None, **kwargs):
             """
             Calls a fragment.
-            It selects the EventStorage at the index and gets one random event that fulfills the conditions from it.
+            It selects the :class:`EventStorage` at the index and gets one random event that fulfills the conditions from it.
 
             ### Parameters:
             1. **kwargs
@@ -1713,7 +1686,7 @@ init -3 python:
                 - The arguments that are passed to the conditions.
 
             ### Returns:
-            1. List[Event]
+            1. List[:class:`Event`]
                 - A list of all fragments that are available.
             """
 
@@ -1727,7 +1700,7 @@ init -3 python:
                 count = 0
                 for j in range(repeat_count):
                     kwargs["used_events_repeatable"] = output
-                    selected_event = self.fragments[i].get_one_possible_event(**kwargs)
+                    selected_event = self.fragments[i].get_one_possible_event(True, **kwargs)
 
                     if selected_event != None:
                         output.append(selected_event)
@@ -1876,9 +1849,9 @@ init -3 python:
         Adds an event storage to the event dictionary.
 
         ### Parameters:
-        1. event_dict: Dict[str, EventStorage]
+        1. event_dict: Dict[str, :class:`EventStorage`]
             - The event dictionary that the event storage is added to.
-        2. event_storage: EventStorage
+        2. event_storage: :class:`EventStorage`
             - The event storage that is added to the event dictionary.
         """
         
@@ -1893,12 +1866,12 @@ init -3 python:
         """
         This method is called at the start of an event after choices and topics have been chosen in the event.
         It prevents rollback to before this method and thus prevents changing choices and topics.
-        It also starts the Gallery_Manager if the event is not in replay which is used to track and register 
+        It also starts the :class:`Gallery_Manager` if the event is not in replay which is used to track and register 
         the used variables and decisions in the event.
 
-        # Options:
+        ### Options:
             1. no_gallery = True
-                - Gallery_Manager will not be initiated and event will not be registered into the gallery
+                - :class:`Gallery_Manager` will not be initiated and event will not be registered into the gallery
         """
         global seenEvents
         global gallery_manager
@@ -1949,7 +1922,7 @@ init -3 python:
         if not in_replay:
             quest_manager.check_task_type("event", **kwargs)
 
-        init_dialogue()
+        init_paperdoll_manager()
 
         if event_name != "":
             renpy.call("show_sfw_text", event_name)
@@ -1974,7 +1947,7 @@ init -3 python:
         frag_index = get_kwargs("frag_index", 0, **kwargs)
         frag_parent = get_kwargs("frag_parent", None, **kwargs)
 
-        clear_dialogue()
+        unload_paperdoll_manager()
 
         if len(frags) > 0 and frag_index + 1 < len(frags):
             kwargs["frag_index"] = frag_index + 1
@@ -2030,7 +2003,7 @@ init -3 python:
             - The name of the event
 
         ### Returns:
-        1. Event
+        1. :class:`Event`
             - The event
             - If the event does not exist None is returned
         """
@@ -2048,7 +2021,7 @@ init -3 python:
             - The id of the event storage
 
         ### Returns:
-        1. EventStorage
+        1. :class:`EventStorage`
             - The event storage
             - If the event storage does not exist None is returned
         """
@@ -2069,7 +2042,7 @@ label call_available_event(event_storage, priority = 0, no_fallback = False, **k
     # Calls all available events depending on the priority.
 
     # ### Parameters:
-    # 1. event_storage: EventStorage | TempEventStorage
+    # 1. event_storage: :class:`EventStorage` | :class:`TempEventStorage`
     #     - The event storage that is used to call the events.
     #     - If the event storage is a TempEventStorage, the events are removed from the storage after they are called.
     # 2. priority: int (Default 0)
@@ -2082,9 +2055,9 @@ label call_available_event(event_storage, priority = 0, no_fallback = False, **k
     $ events_list = []
 
     if no_fallback:
-        $ events_list = event_storage.get_available_events(priority, **kwargs)
+        $ events_list = event_storage.get_available_events(priority, True, **kwargs)
     else:
-        $ events_list = event_storage.get_available_events_with_fallback(priority, **kwargs)
+        $ events_list = event_storage.get_available_events_with_fallback(priority, True, **kwargs)
 
     if not contains_game_data("temp_event_blocker"):
         $ set_game_data("temp_event_blocker", [])
@@ -2130,17 +2103,17 @@ label call_event(event_obj_var, priority = 0, event_obj_name = "", **kwargs):
     # Calls all available events depending on the priority.
 
     # ### Parameters:
-    # 1. event_obj: str | List[str] | Event | EventStorage | TempEventStorage
+    # 1. event_obj: str | List[str] | :class:`Event` | :class:`EventStorage` | :class:`TempEventStorage`
     #     - The event that is called.
     #     - If the event is a string, the event is called.
     #     - If the event is a list of strings, all events in the list are called.
-    #     - If the event is an Event, the event is called.
-    #     - If the event is an EventStorage, all events in the EventStorage are called.
-    #     - If the event is a TempEventStorage, all events in the TempEventStorage are called.
+    #     - If the event is an :class:`Event`, the event is called.
+    #     - If the event is an :class:`EventStorage`, all events in the :class:`EventStorage` are called.
+    #     - If the event is a :class:`TempEventStorage`, all events in the :class:`TempEventStorage` are called.
     # """
 
     if isinstance(event_obj_var, EventStorage):
-        $ event_obj_var.call_available_event(**kwargs)
+        call call_available_event(event_obj_var, **kwargs) from _call_call_available_event_1
     if isinstance(event_obj_var, Event):
         $ event_obj_var.call(**kwargs)
     if isinstance(event_obj_var, str):

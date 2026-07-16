@@ -49,6 +49,11 @@ default charList = {
 default person_storage = {}
 
 default quests = {}
+default all_quests = {}
+default goals = {}
+default tasks = {}
+default task_check = {}
+default category_quest = {}
 
 default money = Stat(MONEY, 1000)
 
@@ -65,6 +70,13 @@ default event_data = {}
 
 default dialogue_manager = None
 default quest_manager = None
+
+default inventory_manager = None
+
+default shopping_cart = {}
+default item_delivery = {}
+
+default last_daytime = None
 
 default overview_events_available = {
     'school_building':  False,

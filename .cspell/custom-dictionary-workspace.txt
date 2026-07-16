@@ -6,7 +6,11 @@ aonas
 Ashkon
 astimezone
 bgimage
+cdic
+charact
+classmethod
 cooldown
+Cren
 Dateien
 datetime
 daysegment
@@ -43,6 +47,7 @@ normpath
 notfied
 Oshima
 pagekeys
+paperdoll
 Paramters
 Pflugradt
 Pinguin
@@ -58,6 +63,7 @@ rsplit
 Sebastien
 setattr
 Slowlurner
+smores
 Sooo
 soooo
 staxxer

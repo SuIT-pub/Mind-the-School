@@ -5,6 +5,7 @@ init 1 python:
         RandomCondition(50, 100),
         LevelCondition("2,3", "school"),
         NOT(ProgressCondition("yoga_classes")),
+        ReplayCategoryOption("new_yoga_outfits"),
         Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_1/new_yoga_outfit_1 <school_level> <step>.webp"),
         thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_1/new_yoga_outfit_1 2 1.webp")
 
@@ -14,6 +15,7 @@ init 1 python:
         TimeCondition(weekday = "d", daytime = "c"),
         ProgressCondition("yoga_classes", 1),
         LevelCondition("2,3", "school"),
+        ReplayCategoryOption("new_yoga_outfits"),
         Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_2/new_yoga_outfit_2 <school_level> <step>.webp"),
         thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_2/new_yoga_outfit_2 2 0.webp")
 
@@ -21,6 +23,7 @@ init 1 python:
         TimeCondition(weekday = "d", daytime = "c"),
         ProgressCondition("yoga_classes", 2),
         LevelCondition("2,3", "school"),
+        ReplayCategoryOption("new_yoga_outfits"),
         Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_3/new_yoga_outfit_3 <school_level> <step>.webp"),
         thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_3/new_yoga_outfit_3 2 0.webp")
 
@@ -31,6 +34,7 @@ init 1 python:
         ProgressCondition("yoga_classes", 3),
         LevelCondition("2,3", "school"),
         TimerCondition("new_yoga_outfit_3", day = 4),
+        ReplayCategoryOption("new_yoga_outfits"),
         Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_4/new_yoga_outfit_4 <school_level> <step>.webp"),
         thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_4/new_yoga_outfit_4 3 5.webp")
 
@@ -40,6 +44,7 @@ init 1 python:
         TimeCondition(weekday = "d", daytime = "6"),
         ProgressCondition("yoga_classes", 4),
         LevelCondition("2,3", "school"),
+        ReplayCategoryOption("new_yoga_outfits"),
         Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_5/new_yoga_outfit_5 <school_level> <step>.webp", "school_level"),
         thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_5/new_yoga_outfit_5 3 2.webp")
 
@@ -47,6 +52,7 @@ init 1 python:
         TimeCondition(weekday = "d", daytime = "f"),
         ProgressCondition("yoga_classes", 5),
         LevelCondition("2,3", "school"),
+        ReplayCategoryOption("new_yoga_outfits"),
         Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_6/new_yoga_outfit_6 <school_level> <step>.webp"),
         thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_6/new_yoga_outfit_6 2 2.webp")
 
@@ -57,6 +63,7 @@ init 1 python:
         ProgressCondition("yoga_classes", 6),
         LevelCondition("2,3", "school"),
         TimerCondition("new_yoga_outfit_6", day = 4),
+        ReplayCategoryOption("new_yoga_outfits"),
         Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_7/new_yoga_outfit_7 <school_level> <step>.webp"),
         thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_7/new_yoga_outfit_7 2 3.webp")
 
@@ -66,6 +73,7 @@ init 1 python:
         TimeCondition(weekday = "1", daytime = "2"),
         ProgressCondition("yoga_classes", 7),
         LevelCondition("2,3", "school"),
+        ReplayCategoryOption("new_yoga_outfits"),
         Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_8/new_yoga_outfit_8 <step>.webp"),
         thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_8/new_yoga_outfit_8 1.webp")
 
@@ -74,6 +82,7 @@ init 1 python:
         TimeCondition(weekday = "2", daytime = "3"),
         ProgressCondition("yoga_classes", 8),
         LevelCondition("2,3", "school"),
+        ReplayCategoryOption("new_yoga_outfits"),
         Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_9/new_yoga_outfit_9 <school_level> <step>.webp", "school_level"),
         thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_9/new_yoga_outfit_9 3 8.webp")
 
@@ -85,6 +94,7 @@ init 1 python:
         LevelCondition("2,3", "school"),
         TimerCondition("new_yoga_outfit_9", day = 4),
         GameDataSelector("yoga_outfit_set", "yoga_outfit_set", 1),
+        ReplayCategoryOption("new_yoga_outfits"),
         Pattern("main", "images/events/new_yoga_outfits/new_yoga_outfit_10/new_yoga_outfit_10 <school_level> <yoga_outfit_set> <step>.webp", "school_level", "yoga_outfit_set"),
         thumbnail = "images/events/new_yoga_outfits/new_yoga_outfit_10/new_yoga_outfit_10 2 $ 0.webp")
 
@@ -94,7 +104,7 @@ init 1 python:
 label new_yoga_outfit_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ zoe = get_person_char_with_key("staff", "zoe_parker")
+    $ zoe = Person["zoe_parker"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -112,7 +122,7 @@ label new_yoga_outfit_1 (**kwargs):
 label new_yoga_outfit_2 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ zoe = get_person_char_with_key("staff", "zoe_parker")
+    $ zoe = Person["zoe_parker"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -143,8 +153,8 @@ label new_yoga_outfit_2 (**kwargs):
 label new_yoga_outfit_3 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ zoe = get_person_char_with_key("staff", "zoe_parker")
-    $ sakura = get_person_char_with_key("class_3a", "sakura_mori")
+    $ zoe = Person["zoe_parker"].get_renpy_char()
+    $ sakura = Person["sakura_mori"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -218,9 +228,9 @@ label new_yoga_outfit_3 (**kwargs):
 label new_yoga_outfit_4 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ seraphina = get_person_char_with_key("class_3a", "seraphina_clark")
-    $ hatano = get_person_char_with_key("class_3a", "hatano_miwa")
-    $ elsie = get_person_char_with_key("class_3a", "elsie_johnson")
+    $ seraphina = Person["seraphina_clark"].get_renpy_char()
+    $ hatano = Person["hatano_miwa"].get_renpy_char()
+    $ elsie = Person["elsie_johnson"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -257,9 +267,9 @@ label new_yoga_outfit_4 (**kwargs):
 label new_yoga_outfit_5 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ seraphina = get_person_char_with_key("class_3a", "seraphina_clark")
-    $ hatano = get_person_char_with_key("class_3a", "hatano_miwa")
-    $ elsie = get_person_char_with_key("class_3a", "elsie_johnson")
+    $ seraphina = Person["seraphina_clark"].get_renpy_char()
+    $ hatano = Person["hatano_miwa"].get_renpy_char()
+    $ elsie = Person["elsie_johnson"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -448,7 +458,7 @@ label .after_decision (**kwargs):
 label new_yoga_outfit_6 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ zoe = get_person_char_with_key("staff", "zoe_parker")
+    $ zoe = Person["zoe_parker"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -502,7 +512,7 @@ label new_yoga_outfit_6 (**kwargs):
 label new_yoga_outfit_7 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ zoe = get_person_char_with_key("staff", "zoe_parker")
+    $ zoe = Person["zoe_parker"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -552,8 +562,8 @@ label new_yoga_outfit_8 (**kwargs):
 label new_yoga_outfit_9 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ nurse = Character("Nurse", kind = character.vendor, retain = False)
-    $ yuriko = get_person_char_with_key("class_3a", "yuriko_oshima")
+    $ nurse = Person["linh_nguyen"].get_renpy_char()
+    $ yuriko = Person["yuriko_oshima"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -655,8 +665,8 @@ label new_yoga_outfit_9 (**kwargs):
 label new_yoga_outfit_10 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ zoe = get_person_char_with_key("staff", "zoe_parker")
-    $ miwa = get_person_char_with_key("class_3a", "miwa_igarashi")
+    $ zoe = Person["zoe_parker"].get_renpy_char()
+    $ miwa = Person["miwa_igarashi"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 

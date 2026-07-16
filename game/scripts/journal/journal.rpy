@@ -162,9 +162,11 @@ label open_journal(page, display, char = "school"):
     elif page == 7:
         call screen journal_gallery(display) with dissolveM
     elif page == 8:
-        call screen journal_goals(display) with dissolveM
+        call screen journal_situations(display) with dissolveM
     elif page == 9:
         call screen journal_character(display) with dissolveM
+    elif page == 10:
+        call screen journal_inventory(display) with dissolveM
 
 label close_journal ():
     # """
@@ -430,6 +432,9 @@ screen journal_page_selector(page, display, char = "school"):
         elif page == 9:
             idle "journal/journal/idle.webp"
             hover "journal/journal/hover.webp"
+        elif page == 10:
+            idle "journal/journal/idle.webp"
+            hover "journal/journal/hover.webp"
 
         $ key_text = ""
 
@@ -477,9 +482,10 @@ screen journal_page_selector(page, display, char = "school"):
             $ text = ("Replay" + key_text).replace("x", "7")
             hotspot (1493, 356, 185, 87) action [With(dissolveM), Call("open_journal", 7, "")] tooltip text
         if page != 8:
-            $ text = ("Goals" + key_text).replace("x", "2")
+            $ text = ("Situations" + key_text).replace("x", "2")
             hotspot (154, 358, 166, 93) action [With(dissolveM), Call("open_journal", 8, "")] tooltip text
-            
+        
+    
     # if page == 1 or (page == 5 and display == 'stats'):
     #     if char == "school":
     #         if has_keyboard():
@@ -571,6 +577,28 @@ screen journal_page_selector(page, display, char = "school"):
         image "journal/journal/char_hover.webp":
             xpos 144
             ypos 456
+
+    
+    if has_keyboard():  
+        key "K_0" action [With(dissolveM), Call("open_journal", 10, "")]
+        key "K_KP0" action [With(dissolveM), Call("open_journal", 10, "")]
+    if page != 10:
+        $ text = ("Inventory" + key_text).replace("x", "0")
+        imagebutton:
+            idle "journal/journal/inventory_idle.webp"
+            hover "journal/journal/inventory_hover.webp"
+            xpos 365
+            ypos 74
+            tooltip text
+            action [With(dissolveM), Call("open_journal", 10, display)]
+    else:
+        image "journal/journal/inventory_hover.webp":
+            xpos 365
+            ypos 74
+        text "Inventory":
+            xalign 0.225 yalign 0.1
+            size 20
+            color "#fff"
 
     $ text = ("Close Journal" + key_text).replace("x", "ESC")
 
@@ -791,6 +819,7 @@ screen journal_cheats_stat(stat, char = "school"):
         $ stat_value = money.get_display_value()
     elif stat == LEVEL:
         $ stat_value = get_level_for_char(char_obj)
+        $ stat_text += f" ({char})"
     else:
         $ stat_value = char_obj.get_display_value(stat)
 
@@ -843,7 +872,7 @@ screen journal_cheats_stat(stat, char = "school"):
         if stat != MONEY:
             null width 30
             textbutton "Max" action Call("modify_stat", stat, 100, char) text_style "buttons_idle"
-    null height 30
+    null height 10
 
 screen max_image_from_journal(image_path, journal, display):
     # """
@@ -889,8 +918,8 @@ screen journal_money_overview():
             unscrollable "hide"
             xalign 1.05
 
-    $ modifier_weekly = get_modifier_lists('money', None, 'payroll_weekly')
-    $ modifier_monthly = get_modifier_lists('money', None, 'payroll_monthly')
+    $ modifier_weekly = get_modifier_lists('money', 'payroll_weekly')
+    $ modifier_monthly = get_modifier_lists('money', 'payroll_monthly')
 
     $ (positive_income_list, negative_income_list, net_weekly, net_monthly) = sort_payroll_modifier(modifier_weekly, modifier_monthly)
 
@@ -1091,6 +1120,53 @@ screen journal_money_overview():
             unscrollable "hide"
             xalign 1.035
 
+screen journal_tab_selection(page, display, selection, endpoint_label, *options, **kwargs):
+    # """
+    # A screen used to display the tab selection for the journal
+
+    # ### Parameters:
+    # 1. page: int
+    #     - The page number to display.
+    # 2. display: str
+    #     - The display type for the journal page.
+    # 3. selection: str
+    #     - The currently selected tab.
+    # 4. endpoint_label: str
+    #     - The label of the endpoint to call when a tab is selected.
+    # 5. *options: List[str]
+    #     - The list of options to display in the tab selection.
+    # 6. **kwargs: Dict[str, Any]
+    #     - Additional keyword arguments to pass to the frame.
+    #     - possible kwargs:
+    #         - size: Tuple[int, int, int, int] (default: (989, 200, 500, 250))
+    #             - The size of the tab selection.
+    # """
+
+    $ (xpos, ypos, width, height) = get_kwargs('size', (989, 200, 500, 250), **kwargs)
+
+    frame:
+        background Solid("#0000")
+        area (xpos, ypos, width, height)
+        viewport id "Tab_Selection":
+            mousewheel True
+            draggable "touch"
+
+            hbox:
+                for tab in options:
+                    if tab != selection:
+                        textbutton tab:
+                            text_style "buttons_idle"
+                            action Call(endpoint_label, tab, page, display)
+                    else:
+                        textbutton tab:
+                            text_style "buttons_active"
+                            action NullAction()
+                    null width 5
+
+        bar value XScrollValue("Tab_Selection"):
+            unscrollable "hide"
+            yalign 1
+
 # endregion
 ##############################
 
@@ -1098,7 +1174,7 @@ screen journal_money_overview():
 # region Main Journals #
 ########################
 
-# Object Pages
+# Object Pages (2-4)
 screen journal_page(page, display):
     # """
     # This screen is used to display the journal pages for rules, clubs and buildings
@@ -1191,7 +1267,7 @@ screen journal_page(page, display):
                 xalign 0.5
                 text tooltip
 
-# School Overview
+# School Overview (1)
 screen journal_overview(display, char = "school"):
     # """
     # This screen is used to display the school overview.
@@ -1381,7 +1457,7 @@ screen journal_overview(display, char = "school"):
                 xalign 0.5
                 text tooltip
 
-# Cheats
+# Cheats (5)
 screen journal_cheats(display, char = "school"):
     # """
     # A screen to show cheats and debug options in journal
@@ -1576,6 +1652,18 @@ screen journal_cheats(display, char = "school"):
                         action Call("test_label")
 
                     null height 10
+
+                    button:
+                        text "Show Paperdoll-Test" style "buttons_idle"
+                        action Call("show_paperdoll_test")
+
+                    null height 10
+
+                    button:
+                        text "Give every Item" style "buttons_idle"
+                        action Call("give_every_item", 5, display)
+
+                    null height 10
                     hbox:
                         button:
                             text "Reset Gallery" xalign 0.0 style "journal_text"
@@ -1614,21 +1702,24 @@ screen journal_cheats(display, char = "school"):
                         color "#000000"
                         size 20
                     # MONEY
-                    use journal_cheats_stat(MONEY, char)
+                    use journal_cheats_stat(MONEY, "school")
                     # LEVEL
-                    use journal_cheats_stat(LEVEL, char)
+                    use journal_cheats_stat(LEVEL, "school")
+                    use journal_cheats_stat(LEVEL, "parent")
+                    use journal_cheats_stat(LEVEL, "teacher")
+                    use journal_cheats_stat(LEVEL, "secretary")
                     # CORRUPTION
-                    use journal_cheats_stat(CORRUPTION, char)
+                    use journal_cheats_stat(CORRUPTION, "school")
                     # INHIBITION
-                    use journal_cheats_stat(INHIBITION, char)
+                    use journal_cheats_stat(INHIBITION, "school")
                     # HAPPINESS
-                    use journal_cheats_stat(HAPPINESS, char)
+                    use journal_cheats_stat(HAPPINESS, "school")
                     # EDUCATION
-                    use journal_cheats_stat(EDUCATION, char)
+                    use journal_cheats_stat(EDUCATION, "school")
                     # CHARM
-                    use journal_cheats_stat(CHARM, char)
+                    use journal_cheats_stat(CHARM, "school")
                     # REPUTATION
-                    use journal_cheats_stat(REPUTATION, char)
+                    use journal_cheats_stat(REPUTATION, "school")
                     
             vbar value YScrollValue("CheatStatList"):
                 unscrollable "hide"
@@ -1916,7 +2007,7 @@ screen journal_cheats(display, char = "school"):
                 xalign 0.5
                 text tooltip
 
-# Gallery
+# Gallery (7)
 screen journal_gallery(display):
     # """
     # Display the gallery of events and locations that the player has unlocked.
@@ -1950,7 +2041,7 @@ screen journal_gallery(display):
     
     
 
-    $ location = split_display[0]
+    $ category = split_display[0]
     $ event = split_display[1] if len(split_display) > 1 else ""
 
     
@@ -1962,24 +2053,37 @@ screen journal_gallery(display):
 
     python:
         if get_event_from_register(fragment_selection_fragment) != None:
-            persistent.gallery[location][event]['options']['frag_order'][fragment_selection_index] = fragment_selection_fragment
+            event_obj = get_event_from_register(event)
+            persistent.gallery[event_obj.get_location()][event]['options']['frag_order'][fragment_selection_index] = fragment_selection_fragment
 
-    if location != "" and location not in persistent.gallery.keys():
+    $ category_collection = persistent.gallery
+    if get_setting("show_gallery_category") == "Categories":
+        $ category_collection = {cat: cat_coll for cat, cat_coll in event_replay_categories.items() if len([e for e in cat_coll if e in persistent.gallery[get_event_from_register(e).get_location()].keys()])}
+
+    if category != "" and category not in category_collection.keys():
         $ location = ""
         $ event = ""
-    elif event != "" and event not in persistent.gallery[location].keys():
+    elif event != "" and (event not in category_collection[category] or (get_setting("show_gallery_category") == "Locations" and event not in category_collection[category].keys())):
         $ event = ""    
 
     # if no location is defined 
-    if location == "": 
+    if category == "": 
         
+        python:
+            show_gallery_category = get_setting("show_gallery_category")
+            if show_gallery_category == None:
+                show_gallery_category = "Locations"
+                set_setting("show_gallery_category", "Locations")
+
+        use journal_tab_selection(7, display, show_gallery_category, "journal_gallery_switch_category", "Locations", "Categories", size = (350, 275, 500, 100))
+
         # parse all available location keys to their corresponding buildings
         # $ location_list = [get_building(location_name) for location_name in persistent.gallery.keys() if get_building(location_name) != None]
 
         # # map all the buildings with their corresponding names into a dict
         # $ location_dict = {building.get_name(): building.get_title() for building in location_list}
         $ exclude_keys = ['FragStorage', 'fragment']
-        $ location_dict = {key: get_translation(key) for key in persistent.gallery.keys() if key not in exclude_keys}
+        $ category_dict = {key: get_translation(key) for key in category_collection.keys() if key not in exclude_keys}
 
         # add the miscellaneous location separately as there is no corresponding building
         # miscellaneous represents all events that are not bound to a location
@@ -1991,9 +2095,12 @@ screen journal_gallery(display):
         # check if there is any event that can be replayed
         # if yes, display a list with all locations where events are available
         # if no be sad and show that
-        if len(location_dict) != 0:
-            use journal_simple_list(7, location, location_dict, "buttons_idle", pos_x = 350, width = 500, sort = True)
-            text "Please select a location.":
+        if len(category_dict) != 0:
+            
+            
+
+            use journal_simple_list(7, category, category_dict, "buttons_idle", pos_x = 350, pos_y = 350, width = 500, sort = True)
+            text "Please select an option.":
                 xpos 989
                 ypos 200
                 size 30
@@ -2009,24 +2116,28 @@ screen journal_gallery(display):
                 ymaximum 50
                 color "#000"
         
-    elif location != "": # if a location is defined
+    elif category != "": # if an option is defined
         
 
-        $ location_title = "Miscellaneous"
-        $ building = get_building(location)
-        if building != None:
-            $ location_title = building.get_title()
+        $ category_title = "Miscellaneous"
+
+        if get_setting("show_gallery_category") == "Locations":
+            $ building = get_building(category)
+            if building != None:
+                $ category_title = building.get_title()
+        else:
+            $ category_title = get_translation(category)
         
         # display a button that deletes all persistent data for all events registered in that location
         if debug_mode:
-            textbutton "{color=#a00000}Reset Location{/color}":
+            textbutton "{color=#a00000}Reset Category{/color}":
                 text_style "journal_text"
                 xpos 350
                 ypos 260
-                action [With(dissolveM), Call('reset_event_gallery', location, "")]
+                action [With(dissolveM), Call('reset_event_gallery', category, "")]
 
         # return button for returning to location overview
-        textbutton "← [location_title]":
+        textbutton "← [category_title]":
             xpos 350 ypos 300
             text_style "buttons_idle"
             action [With(dissolveM), Call("open_journal", 7, "")]
@@ -2050,17 +2161,24 @@ screen journal_gallery(display):
                 action [With(dissolveM), Call("open_journal", 7, '.'.join([location, event, "fragment_mode"]))]
         
     # if location is selected, display a list of all possible events in that location
-    if location != "":
-        
+    if category != "":
+        $ event_collection = []
+        $ log_val("gallery_category", get_setting("show_gallery_category"))
+        if get_setting("show_gallery_category") == "Locations":
+            $ event_collection = persistent.gallery[category].keys()
+        else:
+            $ event_collection = event_replay_categories[category]
+
         if display_mode != "fragment_selection_mode":
-            $ event_list = [get_event_from_register(event_name) for event_name in persistent.gallery[location].keys() if get_event_from_register(event_name) != None and renpy.has_label(get_event_from_register(event_name).get_event_label())]
-            $ event_dict = {f"{location}.{event_obj.get_event()}": get_translation(event_obj.get_event()) for event_obj in event_list}
+            $ event_list = [get_event_from_register(event_name) for event_name in event_collection if get_event_from_register(event_name) != None and renpy.has_label(get_event_from_register(event_name).get_event_label()) and event_name in persistent.gallery[get_event_from_register(event_name).get_location()].keys()]
+            $ event_dict = {f"{category}.{event_obj.get_event()}": get_translation(event_obj.get_event()) for event_obj in event_list}
             use journal_simple_list(7, display, event_dict, "buttons_idle", pos_x = 400, pos_y = 350, width = 450, sort = True)
         else: 
+            $ location = get_event_from_register(event).get_location()
             $ event_frag_storage = persistent.gallery[location][event]['options']['Frag_Storage'][fragment_selection_index]
             $ base_event_data = persistent.gallery[location][event]['options']['last_data']
             $ event_list = [get_event_from_register(event_name) for event_name in persistent.gallery["FragStorage"][event_frag_storage]['values'].keys() if get_event_from_register(event_name) != None and get_event_from_register(event_name).is_available(in_journal_gallery = True, **base_event_data)]
-            $ event_dict = {'.'.join([location, event, "fragment_selection_mode", str(fragment_selection_index), event_obj.get_event()]): get_translation(event_obj.get_event()) for event_obj in event_list}
+            $ event_dict = {'.'.join([category, event, "fragment_selection_mode", str(fragment_selection_index), event_obj.get_event()]): get_translation(event_obj.get_event()) for event_obj in event_list}
             use journal_simple_list(7, display, event_dict, "buttons_idle", pos_x = 450, pos_y = 400, width = 450, height = 550, sort = True)
         
     # if an event is selected, display event information on right side
@@ -2068,6 +2186,7 @@ screen journal_gallery(display):
         
 
         $ event_obj = get_event_from_register(event)
+        $ location = event_obj.get_location()
         $ top_border_offset = 0
 
         # display event title on top of page
@@ -2276,14 +2395,14 @@ screen journal_gallery(display):
                         text_style "buttons_idle"
                         xpos 1030
                         ypos 560
-                        action [With(dissolveM), Call("open_journal", 7, '.'.join([location, event, "fragment_mode"]))]
+                        action [With(dissolveM), Call("open_journal", 7, '.'.join([category, event, "fragment_mode"]))]
                 else:
                     
                     textbutton "Values":
                         text_style "buttons_idle"
                         xpos 989
                         ypos 560
-                        action [With(dissolveM), Call("open_journal", 7, '.'.join([location, event, "value_mode"]))]
+                        action [With(dissolveM), Call("open_journal", 7, '.'.join([category, event, "value_mode"]))]
                     textbutton "Fragments":
                         text_style "buttons_selected"
                         xpos 1030
@@ -2341,10 +2460,9 @@ screen journal_gallery(display):
                 xalign 0.5
                 text tooltip
 
-
+# Credits (6)
 image pBannerI = im.Scale("images/journal/journal/patreon banner idle.webp", 500, 262)
 image pBannerH = im.Scale("images/journal/journal/patreon banner hover.webp", 500, 262)
-# Credits
 screen journal_credits(display):
     # """
     # A screen used to display the credits in the journal
@@ -2393,6 +2511,10 @@ screen journal_credits(display):
                         text "Teacher Tier ($5)":
                             size 35
                             color "#491616"
+
+                        text f"{len(teacher_members)} patreons":
+                            size 20
+                            color "#676767"
 
                         null height 20
 
@@ -2448,6 +2570,10 @@ screen journal_credits(display):
                             size 35
                             color "#16491c"
 
+                        text f"{len(student_members)} patreons":
+                            size 20
+                            color "#676767"
+
                         null height 20
 
                         for member in student_members:
@@ -2480,7 +2606,103 @@ screen journal_credits(display):
                 xalign 0.5
                 text tooltip
 
-# Goals
+# Situations (8)
+screen journal_situations(display):
+    tag interaction_overlay
+    modal True
+
+    use school_overview_map
+    use school_overview_stats
+
+    image "journal/journal/background.webp"
+
+    key "K_ESCAPE" action [With(dissolveM), Jump("map_entry")]
+
+    use journal_page_selector(8, display, char)
+
+    text "Situations":
+        xalign 0.25
+        yalign 0.2
+        size 60
+        color "#000"
+
+    python:
+        show_completed = get_setting("journal_situations_show_completed")
+
+        if show_completed == None:
+            show_completed = False
+            set_setting("journal_situations_show_completed", False)
+
+        show_normal = get_setting("journal_situations_show_normal")
+
+        if show_normal == None:
+            show_normal = True
+            set_setting("journal_situations_show_normal", True)
+
+    $ log_val("situation_manager", situation_manager)
+    $ log_val("situation_manager.situations", situation_manager.situations)
+    $ log_val("situation_manager.situations.keys()", situation_manager.situations.keys())
+    $ log_val("situation_manager.get_situation(cafeteria_crisis)", situation_manager.get_situation("cafeteria_crisis"))
+    $ log_val("situation_manager.get_situation(cafeteria_crisis).state", situation_manager.get_situation("cafeteria_crisis").state)
+
+    frame:
+        # background Solid("#00000090")
+        background Solid("#00000000")
+        area (330, 300, 560, 600)
+
+        viewport id "SituationsList":
+            mousewheel True
+            draggable "touch"
+
+            vbox:
+                $ situations_list = situation_manager.get_visible_situations()
+                $ teaser_titles = situation_manager.get_visible_teaser_titles(*situations_list)
+                $ log_val("situations_list", situations_list)
+                $ log_val("teaser_titles", teaser_titles)
+                use journal_foldable_list("Active", 8, display, teaser_titles, "journal_situations_show_normal")
+
+                $ completed_situations = situation_manager.get_completed_situations()
+                $ teaser_titles = situation_manager.get_visible_teaser_titles(*completed_situations)
+                $ log_val("completed_situations", completed_situations)
+                $ log_val("teaser_titles", teaser_titles)
+                use journal_foldable_list("Completed", 8, display, teaser_titles, "journal_situations_show_completed")
+
+
+        vbar value YScrollValue("SituationsList"):
+            unscrollable "hide"
+            xalign 1.04
+
+    if display != "":
+
+        $ situation = situation_manager.get_situation(display)
+        $ situation_thumbnail = situation.get_current_thumbnail()
+
+        if situation.visibility_state == "teaser_active":
+            $ situation_teaser = ["- " + teaser.text for teaser in situation.get_active_teasers()]
+
+            frame:
+                # background Solid("#00000090")
+                background Solid("#00000000")
+                area (960, 200, 500, 780)
+
+                vbox:
+                    for teaser in situation_teaser:
+                        text teaser:
+                            style "journal_desc"
+
+        else:
+            use journal_image(8, display, situation_thumbnail, situation_thumbnail.replace('.webp', '_full.webp'), y_pos = 200, height = 280, wide = True)
+
+            frame:
+                # background Solid("#00000090")
+                background Solid("#00000000")
+                area (960, 480, 500, 500)
+
+
+
+    # TODO: FINISH SITUATION JOURNAL
+
+# Goals (8) - DEPRECATED
 screen journal_goals(display):
     tag interaction_overlay
     modal True
@@ -2500,21 +2722,15 @@ screen journal_goals(display):
         size 60
         color "#000"
 
-    python:
-        show_note = get_setting("journal_goals_show_note_setting")
-        note_tooltip = "Show quests as a hint"
-        if show_note:
-            note_tooltip = "Don't show quests as a hint"
-
-    button:
-        xalign 0.45
-        yalign 0.15
-        image "images/icons/info.webp"
-        action Function(set_setting, "journal_goals_show_note_setting", not get_setting("journal_goals_show_note_setting"))
-        tooltip note_tooltip
+    if not get_setting("journal_quest_hinting_active"):
+        button:
+            xalign 0.45
+            yalign 0.15
+            image "images/icons/info.webp"
+            action Call("start_quest_hinting", display)
+            tooltip "Activate Quest hints"
 
     python:
-
         show_completed = get_setting("journal_goals_show_completed")
 
         if show_completed == None:
@@ -2593,13 +2809,12 @@ screen journal_goals(display):
 
                     null height 20
 
-                    for i, goal in quest.get_active_goals().items():
-                        $ log_val("goal", goal)
+                    for i, goal in enumerate(quest.get_active_goals().values()):
                         $ goal_finished = "☐"
                         if goal.complete:
                             $ goal_finished = "☑"
                         
-                        $ goal_text = f"{goal_finished}  {i}. {goal.name}"
+                        $ goal_text = f"{goal_finished}  {i + 1}. {goal.name}"
 
                         python:
                             display_goal = get_setting(f"show_goal_{goal.key}")
@@ -2624,16 +2839,9 @@ screen journal_goals(display):
                                 $ goal_desc_text = "  {i}" + goal_desc + "{/i}"
                                 text goal_desc_text style "journal_desc"
 
+                                for task in goal.tasks.values():
+                                    use journal_display_task(task, gap = 8)
 
-                            $ progress_list = goal.get_progress()
-                            $ log_val('progress_list', progress_list)
-                            if isinstance(progress_list, list):
-                                for progress in progress_list:
-                                    $ progress_text = f"    {progress}"
-                                    text progress_text style "journal_desc_small"
-                            else:
-                                $ progress_text = f"    {progress_list}"
-                                text progress_text style "journal_desc_small"
 
                     if quest.complete:
                         null height 30
@@ -2658,6 +2866,7 @@ screen journal_goals(display):
                 xalign 0.5
                 text tooltip
 
+# Character (9)
 screen journal_character(display):
 
     tag interaction_overlay
@@ -2862,12 +3071,149 @@ screen journal_character(display):
                 xalign 0.5
                 text tooltip
 
+# Inventory (10)
+screen journal_inventory(display):
+    
+    tag interaction_overlay
+    modal True
+
+    use school_overview_map
+    use school_overview_stats
+
+    image "journal/journal/background.webp"
+
+    use journal_page_selector(10, display, char)
+
+    key "K_ESCAPE" action [With(dissolveM), Jump("map_entry")]
+
+    $ inventory_items = inventory_manager.get_inventory()
+
+    # left side
+    frame:
+        background Solid("#0000")
+        area (350, 200, 500, 750)
+
+        $ grid_rows = (len(inventory_items) + 3) // 4
+
+        viewport id "journal_inventory_left":
+            mousewheel True
+            draggable "touch"
+            grid 4 grid_rows:
+                spacing 4
+                for item in inventory_items:
+                    $ item_image = item.data().get_image()
+                    if display == item.key:
+                        button:
+                            xsize 100
+                            ysize 100
+                            background Solid("#0001")
+                            add item_image:
+                                xalign 0.5
+                                yalign 0.5
+                                xsize 90
+                                ysize 90
+                    else:
+                        button:
+                            xsize 100
+                            ysize 100
+                            action Call("open_journal", 10, f"{item.key}")
+                            add item_image:
+                                xalign 0.5
+                                yalign 0.5
+                                xsize 90
+                                ysize 90
+
+            vbar value YScrollValue("journal_inventory_left"):
+                unscrollable "hide"
+                xalign 1.035
+
+    if display != "" and not inventory_manager.has_item_data(display):
+        $ display = ""
+
+    if display != "":
+
+        $ log_val("display", display)
+
+        $ item_obj = inventory_manager.get_item(display)
+        $ item_image = item_obj.data().get_image()
+        $ item_name = item_obj.data().get_name()
+        $ item_description = item_obj.data().get_description()
+        $ item_amount = item_obj.amount
+
+        # right side
+        frame:
+            background Solid("#0000")
+            area (960, 200, 500, 700)
+
+            viewport id "journal_inventory_right":
+                mousewheel True
+                draggable "touch"
+
+                vbox:
+                    text item_name:
+                        style "journal_text"
+
+                    add item_image:
+                        xsize 500
+                        ysize 500
+
+                    text "Amount: {amount}".format(amount=item_amount):
+                        style "journal_desc"
+
+                    for description in item_description:
+                        text description:
+                            style "journal_desc"
+
+            vbar value YScrollValue("journal_inventory_right"):
+                unscrollable "hide"
+                xalign 1.035
+
+    
+    $ tooltip = GetTooltip()
+    if tooltip:
+        nearrect:
+            focus "tooltip"
+            prefer_top True
+
+            frame:
+                xalign 0.5
+                text tooltip
+
+
 # endregion
 ########################
 
 ##########################
 # region Journal Methods #
 ##########################
+
+##################
+# region Credits #
+
+screen journal_display_text_list(text_list, text_style="journal_desc", gap = 0):
+    $ text_gap = " " * gap
+    if isinstance(text_list, list):
+        for text_content in text_list:
+            $ text_con = text_gap + text_content
+            text text_con style text_style
+    else:
+        $ text_con = text_gap + text_list
+        text text_con style text_style
+
+screen journal_display_task(task, gap = 0):
+    if (isinstance(task, TaskGroup) or isinstance(task, TaskOptionalGroup)):
+        $ task_group_description_list = task.description
+        use journal_display_text_list(task_group_description_list, "journal_desc", gap - 2)
+
+        for group_task in task.tasks.values():
+            $ text_list = group_task.display()
+            use journal_display_text_list(text_list, "journal_desc_small", gap + 4)
+    else:
+        $ text_list = task.display()
+        use journal_display_text_list(text_list, "journal_desc_small", gap)
+
+# endregion
+##################
 
 ####################
 # region Open Link #
@@ -2889,6 +3235,23 @@ label open_wiki_page():
 
 ##################
 # region Gallery #
+
+label journal_gallery_switch_category(category, page, display):
+    # """
+    # Switches the category of the gallery display
+
+    # ### Parameters:
+    # 1. category: str
+    #     - the category to be switched to
+    # 2. page: int
+    #     - the page to be opened after the category switch
+    # 3. display: str
+    #     - the display information for the page
+    # """
+
+    $ log_val("set setting", category)
+    $ set_setting("show_gallery_category", category)
+    call open_journal(page, display) from journal_gallery_switch_category_1
 
 label reset_event_gallery(location, event):
     # """
@@ -3329,8 +3692,24 @@ label modify_stat(stat, amount, char = "school"):
         $ char_obj.change_stat(stat, amount)
     call open_journal(5, "stats", char) from modify_stat_1
 
+label give_every_item(page, display):
+    python:
+        for item in inventory_manager.item_data.keys():
+            inventory_manager.add_item(Item(item, 1))
+    call open_journal(page, display) from give_every_item_1
+
 # endregion
 ########################
+
+label start_quest_hinting(display):
+    call screen confirm("Do you really want to activate hints? This action cannot be reversed and can potentially spoiler you.",
+            Call("activate_quest_hinting", display),
+            Call("open_journal", 8, display))
+
+label activate_quest_hinting(display):
+    $ quest_manager.run_effect_hint()
+    $ set_setting("journal_quest_hinting_active", True)
+    call open_journal(8, display)
 
 #########################
 # region Propose Object #

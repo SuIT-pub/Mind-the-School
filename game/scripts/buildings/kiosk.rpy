@@ -5,12 +5,14 @@
 init -1 python:
     set_current_mod('base')
     
-    kiosk_timed_event = TempEventStorage("kiosk_timed", "kiosk", fallback = Event(2, "kiosk.after_time_check"))
     kiosk_general_event = EventStorage("kiosk_general", "kiosk", fallback = Event(2, "kiosk.after_general_check"))
-    register_highlighting(kiosk_timed_event, kiosk_general_event)
+    register_highlighting(kiosk_general_event)
 
+    #### Default kiosk events
+    # available targets: get_snack, search
     kiosk_events = {}
     add_storage(kiosk_events, EventStorage("get_snack",    "kiosk", fallback_text = "I don't want anything."))
+    add_storage(kiosk_events, EventStorage("search",       "kiosk", fallback_text = "There is nothing here."))
 
     kiosk_bg_images = BGStorage("images/background/kiosk/c.webp",
         BGImage("images/background/kiosk/<school_level> <variant> <nude>.webp", 1, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))), # show kiosk with students
@@ -64,9 +66,6 @@ label kiosk ():
     else:
         $ play_sound(audio.empty_room, True, 0.8, 1.0)
     
-    call call_available_event(kiosk_timed_event) from kiosk_1
-
-label .after_time_check (**kwargs):
     call call_available_event(kiosk_general_event) from kiosk_4
 
 label .after_general_check (**kwargs):
@@ -112,7 +111,7 @@ label kiosk_event_2 (**kwargs):
     $ get_value('school_level', **kwargs)
     $ girl_name = get_value("girl_name", **kwargs)
 
-    $ girl = get_person("class_3a", girl_name).get_character()
+    $ girl = Person[girl_name].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -134,7 +133,7 @@ label kiosk_event_3 (**kwargs):
     $ school_level = get_value('school_level', **kwargs)
     $ topic = get_value("topic", **kwargs)
 
-    $ miwa = get_person("class_3a", "miwa_igarashi").get_character()
+    $ miwa = Person["miwa_igarashi"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -184,7 +183,7 @@ label .leave (**kwargs):
         headmaster_thought "Mhh, things are worse than I thought. I can't believe the students have to go hungry."
         headmaster_thought "I should think about doing something about that."
 
-        $ quest_manager.check_task_type("trigger", name = "kiosk_observe_kindness")
+        $ quest_manager.check_task_type("trigger", name = "unlock_cafeteria_1_task_1")
 
         call change_stats_with_modifier(
             happiness = SMALL, charm = TINY) from _call_change_stats_with_modifier_35

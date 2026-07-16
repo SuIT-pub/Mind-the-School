@@ -5,13 +5,15 @@
 init -1 python:
     set_current_mod('base')
     
-    sd_timed_event = TempEventStorage("school_dormitory", "school_dormitory", fallback = Event(2, "school_dormitory.after_time_check"))
     sd_general_event = EventStorage("school_dormitory",   "school_dormitory", fallback = Event(2, "school_dormitory.after_general_check"))
-    register_highlighting(sd_timed_event, sd_general_event)
+    register_highlighting(sd_general_event)
 
+    #### Default school dormitory events
+    # available targets: peek_students, look_around, search
     sd_events = {}
     add_storage(sd_events, EventStorage("peek_students", "school_dormitory", fallback_text = "There is nobody here."))
     add_storage(sd_events, EventStorage("look_around", "school_dormitory", fallback_text = "There is nothing to see here."))
+    add_storage(sd_events, EventStorage("search", "school_dormitory", fallback_text = "There is nothing here."))
 
     sd_bg_images = BGStorage("images/background/school dormitory/c.webp",
         BGImage("images/background/school dormitory/<school_level> <variant> <nude>.webp", 1, OR(TimeCondition(daytime = "f"), TimeCondition(daytime = "c", weekday = "w"))),
@@ -106,9 +108,6 @@ label school_dormitory ():
     else:
         $ play_sound(audio.empty_room, True, 0.8, 1.0)
 
-    call call_available_event(sd_timed_event) from school_dormitory_1
-
-label .after_time_check (**kwargs):
     call call_available_event(sd_general_event) from school_dormitory_4
 
 label .after_general_check (**kwargs):
@@ -139,7 +138,7 @@ label sd_event_1 (**kwargs):
     $ inhibition = get_stat_value('inhibition', [89, 100], **kwargs)
     $ education = get_stat_value('education', [50, 100], **kwargs)
 
-    $ easkey = get_person("class_3a", "easkey_tanaka").get_character()
+    $ easkey = Person["easkey_tanaka"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -180,7 +179,7 @@ label sd_event_2 (**kwargs):
     $ topic = get_value('topic', **kwargs)
     $ topic_set = get_value('topic_set', **kwargs)
 
-    $ girl = get_person("class_3a", girl_name).get_character()
+    $ girl = Person[girl_name].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
     $ image2 = convert_pattern("end", **kwargs)
@@ -295,7 +294,7 @@ label sd_event_3 (**kwargs):
     $ school_level = get_value('school_level', **kwargs)
     $ topic = get_value('topic', **kwargs)
 
-    $ soyoon = get_person("class_3a", "soyoon_yamamoto").get_character()
+    $ soyoon = Person["soyoon_yamamoto"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -364,8 +363,8 @@ image anim_sd_event_5_10_12 = Movie(play = anim_sde5_path + "10 12.webm", start_
 label sd_event_5 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ luna = get_person("class_3a", "luna_clark").get_character()
-    $ seraphina = get_person("class_3a", "seraphina_clark").get_character()
+    $ luna = Person["luna_clark"].get_renpy_char()
+    $ seraphina = Person["seraphina_clark"].get_renpy_char()
 
     $ school_level = get_level('school_level', **kwargs)
     $ image = convert_pattern("main", **kwargs)

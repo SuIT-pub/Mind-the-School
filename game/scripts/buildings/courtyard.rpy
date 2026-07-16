@@ -5,12 +5,14 @@
 init -1 python:
     set_current_mod('base')
     
-    courtyard_timed_event = TempEventStorage("courtyard_timed", "courtyard", fallback = Event(2, "courtyard.after_time_check"))
     courtyard_general_event = EventStorage("courtyard_general", "courtyard", fallback = Event(2, "courtyard.after_general_check"))
-    register_highlighting(courtyard_timed_event, courtyard_general_event)
+    register_highlighting(courtyard_general_event)
     
+    #### Default courtyard events
+    # available targets: patrol, search
     courtyard_events = {}
     add_storage(courtyard_events, EventStorage("patrol", "courtyard", fallback_text = "There is nobody here."))
+    add_storage(courtyard_events, EventStorage("search", "courtyard", fallback_text = "There is nothing here."))
 
     courtyard_bg_images = BGStorage("images/background/courtyard/c.webp",
         BGImage("images/background/courtyard/<school_level> <nude> <variant>.webp", 1, TimeCondition(daytime = "f")),
@@ -102,9 +104,6 @@ label courtyard ():
     else:
         $ play_sound(audio.night_ambience, True, 0.8, 1.0)
 
-    call call_available_event(courtyard_timed_event) from courtyard_1
-
-label .after_time_check (**kwargs):
     call call_available_event(courtyard_general_event) from courtyard_4
 
 label .after_general_check (**kwargs):
@@ -177,7 +176,7 @@ label courtyard_event_2 (**kwargs):
 
     $ image = convert_pattern("main", **kwargs)
 
-    $ yuriko = get_person("class_3a", "yuriko_oshima").get_character()
+    $ yuriko = Person["yuriko_oshima"].get_renpy_char()
 
     $ image.show(0)
     subtitles "You notice a girl sitting alone in the courtyard, apparently left out by the others."
@@ -267,7 +266,7 @@ label courtyard_event_6(**kwargs):
 
     $ school_level = get_value('school_level', **kwargs)
 
-    $ seraphina = get_person("class_3a", "seraphina_clark").get_character()
+    $ seraphina = Person["seraphina_clark"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
 
@@ -321,7 +320,7 @@ label courtyard_event_8(**kwargs):
 
     $ image = convert_pattern("main", **kwargs)
 
-    $ ishimaru = get_person("class_3a", "ishimaru_maki").get_character()
+    $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
 
     $ image.show(0)
     # You find a girl playing the guitar. You sit down and listen to her play.

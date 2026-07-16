@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "mind-the-school": {
+      "command": "python",
+      "args": ["-m", "mts_mcp"],
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/mcp-server/src",
+        "MTS_PROJECT_ROOT": "${workspaceFolder}"
+      }
+    }
+  }
+}

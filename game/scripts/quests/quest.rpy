@@ -1237,84 +1237,90 @@
 #             if proposal._journal_obj.get_name() == self._journal_obj and proposal._action == self._vote_type:
 #                 self.complete()
 
-init -98 python:
-    class LabelTask(Task):
-        """
-        A task that is only used to display a label in the goal.
-        This task is always completed by default.
+# init -98 python:
+    # class LabelTask(Task):
+    #     """
+    #     A task that is only used to display a label in the goal.
+    #     This task is always completed by default.
 
-        ### Attributes:
-        1. _description: str
-            - The description of the task.
-        2. _complete: bool
-            - Whether the task is complete.
+    #     ### Attributes:
+    #     1. _description: str
+    #         - The description of the task.
+    #     2. _complete: bool
+    #         - Whether the task is complete.
 
-        ### Methods:
-        1. update_data(self, task: LabelTask)
-            - Updates the data of the task to update potential changes to the task.
-        2. get_progress(self) -> str
-            - Returns the progress of the task as a string.
-        3. update(self, **kwargs)
-            - Updates the progress of the task based on the kwargs.
-            - This task does not update since it is completed by default.
-        """
+    #     ### Methods:
+    #     1. update_data(self, task: LabelTask)
+    #         - Updates the data of the task to update potential changes to the task.
+    #     2. get_progress(self) -> str
+    #         - Returns the progress of the task as a string.
+    #     3. update(self, **kwargs)
+    #         - Updates the progress of the task based on the kwargs.
+    #         - This task does not update since it is completed by default.
+    #     """
 
-        def __init__(self, key: str, description: str):
-            super().__init__("deco", key)
-            self._description = description
-            self._complete = True
+    #     def __init__(self, key: str = None, description: str = None):
+    #         if key is None:
+    #             return
 
-        def update_data(self, task: LabelTask):
-            """
-            Updates the data of the task to update potential changes to the task.
+    #         super().__init__("deco", key)
+    #         self._description = description
+    #         self._complete = True
 
-            ### Parameters:
-            1. task: LabelTask
-                - The task to update the data from.
-            """
+    #     def update_data(self, task: LabelTask):
+    #         """
+    #         Updates the data of the task to update potential changes to the task.
 
-            self._description = task._description
+    #         ### Parameters:
+    #         1. task: LabelTask
+    #             - The task to update the data from.
+    #         """
 
-        def get_progress(self) -> str:
-            """
-            Returns the description of the task as a string.
-            """
+    #         self._description = task._description
 
-            return self._description
+    #     def get_progress(self) -> str:
+    #         """
+    #         Returns the description of the task as a string.
+    #         """
 
-        def update(self, **kwargs):
-            """
-            Updates the progress of the task based on the kwargs.
-            This task does not update since it is completed by default.
-            """
+    #         return self._description
 
-            pass
-    class OptionalTask(Task):
+    #     def update(self, **kwargs):
+    #         """
+    #         Updates the progress of the task based on the kwargs.
+    #         This task does not update since it is completed by default.
+    #         """
 
-        def __init__(self, key: str, task: Task):
-            super().__init__(key, "Optional_" + task.get_key())
-            self._task = task
-            self._complete = True
+    #         pass
+    # class OptionalTask(Task):
 
-        def update_data(self, task: OptionalTask):
-            if isinstance(task._task, type(self._task)):
-                self._task.update_data(task._task)
-            else:
-                self._task = task._task
+    #     def __init__(self, key: str = None, task: Task = None):
+    #         if key is None:
+    #             return
 
-        def get_progress(self) -> str:
+    #         super().__init__(key, "Optional_" + task.get_key())
+    #         self._task = task
+    #         self._complete = True
 
-            progress = self._task.get_progress()
+    #     def update_data(self, task: OptionalTask):
+    #         if isinstance(task._task, type(self._task)):
+    #             self._task.update_data(task._task)
+    #         else:
+    #             self._task = task._task
 
-            if isinstance(progress, list):
-                for i in range(len(progress)):
-                    progress[i] = "( " + progress[i] + " )"
-                return progress
-            else:
-                return "( " + str(self._task.get_progress()) + " )"
+    #     def get_progress(self) -> str:
 
-        def update(self, **kwargs):
-            self._task.update(**kwargs)
+    #         progress = self._task.get_progress()
+
+    #         if isinstance(progress, list):
+    #             for i in range(len(progress)):
+    #                 progress[i] = "( " + progress[i] + " )"
+    #             return progress
+    #         else:
+    #             return "( " + str(self._task.get_progress()) + " )"
+
+    #     def update(self, **kwargs):
+    #         self._task.update(**kwargs)
 
 #     # endregion
 #     ################
