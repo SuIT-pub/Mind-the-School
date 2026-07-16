@@ -215,7 +215,8 @@ init -6 python:
                     output = update_dict(output, modifier['all'])
                     # output.append(modifier['all'])
 
-        return output
+        # Drop soft-deleted / placeholder None entries so callers can iterate safely
+        return {key: value for key, value in output.items() if value != None}
 
     def get_total_modifier_change(mod_obj: Modifier_Obj, base_value: num, char_obj: Char = None, collection: str = 'default') -> float:
         """
@@ -272,9 +273,13 @@ init -6 python:
         value = 0
         if modifier != None:
             for key in modifier.keys():
+                if modifier[key] == None:
+                    continue
                 value += get_total_modifier_change(modifier[key], base_value, None, collection)
         if modifier_char != None:
             for key in modifier_char.keys():
+                if modifier_char[key] == None:
+                    continue
                 value += get_total_modifier_change(modifier_char[key], base_value, char_obj, collection)
 
         return value
@@ -326,6 +331,8 @@ init -6 python:
 
         if weekly != None:
             for modifier in weekly.values():
+                if modifier == None:
+                    continue
                 key = modifier.get_name()
                 net_weekly += modifier.get_value()
                 if modifier.get_value() > 0:
@@ -341,6 +348,8 @@ init -6 python:
 
         if monthly != None:
             for modifier in monthly.values():
+                if modifier == None:
+                    continue
                 key = modifier.get_name()
                 net_monthly += modifier.get_value()
                 if modifier.get_value() > 0:
@@ -395,9 +404,13 @@ init -6 python:
             else:
                 modifier[stat][key] = mod_obj
 
-    def remove_modifier(key: str, stat: str = "all", char_obj: Char = None, collection: str = 'default'):
+    def remove_modifier(key: str, stat: str = "all", char_obj: Char = None, collection: str | List[str] = 'default'):
         """
         Removes a modifier from the game data.
+
+        Deletes the key from the collection entirely. Soft-deleting to None is
+        not used, because iterators (e.g. payroll sorting / stat application)
+        expect Modifier_Obj values and crash on None entries.
 
         ### Parameters:
         1. key: str
@@ -406,8 +419,9 @@ init -6 python:
             - The stat that the modifier is changing.
         3. char_obj: Char
             - The character that the modifier is being applied to. If None, then the modifier is applied to the game data.
-        4. collection: str (default 'default')
+        4. collection: str | List[str] (default 'default')
             - The collection of modifiers. This is used to separate different collections of modifiers.
+            - If a list of collections is given, then the modifier is removed from multiple collections.
         """
 
         modifier_list = get_modifier_collection(collection)
@@ -415,18 +429,18 @@ init -6 python:
         if modifier_list == None or len(modifier_list) == 0:
             return
 
-        modifier = modifier_list[0]
-        remove_modifier = modifier
-        if char_obj != None:
-            if char_obj.get_name() not in remove_modifier.keys():
-                return
-            remove_modifier = remove_modifier[char_obj.get_name()]
-        if stat not in remove_modifier.keys():
-            return
-        if key not in remove_modifier[stat].keys():
-            return
-        
-        remove_modifier[stat][key] = None
+        for modifier in modifier_list:
+            target = modifier
+            if char_obj != None:
+                if char_obj.get_name() not in target.keys():
+                    continue
+                target = target[char_obj.get_name()]
+            if stat not in target.keys():
+                continue
+            if key not in target[stat].keys():
+                continue
+
+            del target[stat][key]
 
     def get_modifier(key: str, stat: str = "all", char_obj: Char = None, collection: str = 'default') -> Modifier_Obj:
         """
