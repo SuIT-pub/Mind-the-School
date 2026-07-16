@@ -249,14 +249,7 @@ init -6 python:
         value = 0
         if modifier != None:
             for key in modifier.keys():
-                if modifier[key] == None:
-                    continue
-                value += get_total_modifier_change(modifier[key], base_value, None, collection)
-        if modifier_char != None:
-            for key in modifier_char.keys():
-                if modifier_char[key] == None:
-                    continue
-                value += get_total_modifier_change(modifier_char[key], base_value, char_obj, collection)
+                value += get_total_modifier_change(modifier[key], base_value, collection)
 
         return value
 
