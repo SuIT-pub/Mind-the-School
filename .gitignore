@@ -1,6 +1,8 @@
 game/images/
 game/videos/
 game/saves/
+game/mods/*
+!game/mods/CheatMod
 game/cache/
 **.rpy.bak
 **.bak
