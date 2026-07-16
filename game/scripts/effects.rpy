@@ -530,6 +530,40 @@ init -1 python:
             remove_modifier(self.key, stat = self.stat, collection = self.collection)
             return kwargs
 
+
+    class RemoveModifierEffect(Effect):
+        """
+        Removes a modifier such as Monthly Income/Costs or Stats.
+        Essentially a Wrapper class for remove_modifier()
+
+        ### Attributes:
+        1. key: str
+            - Key of the modifier.
+        2. stat: str
+            - Name of the stat.
+        3. mod_obj: Modifier_Obj
+            - Modifier to be added.
+        4. char_obj: Char (Default None)
+            - Character from which the modifier will be removed.
+        5. collection: str (Default "default")
+            - Collection of the modifier.
+        """
+
+        def __init__(self, key: str, stat: str, collection: str = 'default'):
+            super().__init__(key)
+            self.key = key
+            self.stat = stat
+
+            self.char_obj = char_obj
+            self.collection = collection
+
+        def __str__(self):
+            return f"{self.key}"
+
+        def apply(self, **kwargs):
+            remove_modifier(self.key, stat = self.stat, collection = self.collection)
+            return kwargs
+
     class ChangeKwargsEffect(Effect):
         def __init__(self, key: str, value: Any):
             super().__init__(key)
