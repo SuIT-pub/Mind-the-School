@@ -3785,6 +3785,8 @@ init -6 python:
             super().__init__(False, *options)
 
         def check_condition(self, **kwargs) -> bool:
+            global last_daytime
+            
             if last_daytime == None or last_daytime != time.now():
                 last_daytime = time.now()
                 return True
