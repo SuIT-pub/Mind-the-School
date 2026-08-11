@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git remote *)",
+      "PowerShell(pwsh -NoProfile -File \"M:\\\\MTS Project\\\\Mind the School\\\\wiki\\\\scripts\\\\build-wiki.ps1\")",
+      "PowerShell($c = Get-Command pwsh -ErrorAction SilentlyContinue; if \\($c\\) { \"pwsh: $\\($c.Source\\)\" } else { \"pwsh NOT on PATH\" })",
+      "PowerShell($env:SDL_AUDIODRIVER=\"dummy\"; $out = & \"M:\\\\RenPy\\\\lib\\\\py3-windows-x86_64\\\\python.exe\" \"M:\\\\RenPy\\\\renpy.py\" \"M:\\\\MTS Project\\\\Mind the School\" lint 2>&1; $out | Select-String -Pattern \"new_management\" | Where-Object { $_ -notmatch \"Could not evaluate '\\\\w+\\\\.say'\" }; Write-Output \"=== non-say new_management issues above \\(empty = none\\) ===\"; $out | Select-String -Pattern \"is not defined|SyntaxError|not closed|unbalanced|invalid|Exception|PDABw|hide_background\" | Select-Object -First 12)"
+    ]
+  }
+}

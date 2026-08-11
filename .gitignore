@@ -30,3 +30,10 @@ docs/**
 
 # Ren'Py Debug bridge (auto-injected)
 game/_renpy_debug/
+
+# Python bytecode (mcp-server tooling etc.) — does NOT match Ren'Py .rpyc
+__pycache__/
+*.pyc
+
+# Personal / scratch data
+openwebui-*.json
