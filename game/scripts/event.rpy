@@ -6,6 +6,7 @@ init -3 python:
     import random
     import time
     from typing import Any, Dict, List, Optional, Tuple, Union
+    from deprecated import deprecated
     
     seenEvents = {}
     highlight_register = {}
@@ -844,9 +845,12 @@ init -3 python:
             if self.get_name() not in fragment_storage_register.keys():
                 fragment_storage_register[self.get_name()] = self
 
+    @deprecated(version='0.2.2', reason="Highly unstable — do not use.")
     class TempEventStorage(EventStorage):
         """
         Subclass of :class:`EventStorage`.
+
+        DEPRECATED — highly unstable, do not use.
 
         TempEventStorage is a class that stores events and can call them when needed.
         The difference to :class:`EventStorage` is that TempEventStorage does not store the events permanently.
@@ -1311,11 +1315,11 @@ init -3 python:
             """
 
             if self.select_type < 1 or self.select_type > 3:
-                log_error(301, "Event " + self.event_id + ": Select Type " + str(self.select_type) + " is not valid!")
+                log("Event " + self.event_id + ": Select Type " + str(self.select_type) + " is not valid!", log_type="error", category="event")
                 self._invalid = True
 
             if not renpy.has_label(self.event):
-                log_error(302, "Event " + self.event_id + ": Label " + self.event + " is missing!")
+                log("Event " + self.event_id + ": Label " + self.event + " is missing!", log_type="error", category="event")
                 self._invalid = True
 
         def check_options(self, **kwargs) -> bool:
@@ -1589,10 +1593,10 @@ init -3 python:
             super().check_event()
 
             if len(self.fragments) == 0:
-                log_error(303, "Composite Event " + self.event_id + ": No fragments are added!")
+                log("Composite Event " + self.event_id + ": No fragments are added!", log_type="error", category="event")
 
             if any(not isinstance(fragment, EventStorage) or isinstance(fragment, TempEventStorage) for fragment in self.fragments):
-                log_error(304, "Composite Event " + self.event_id + ": Fragments have to be EventStorages!")
+                log("Composite Event " + self.event_id + ": Fragments have to be EventStorages!", log_type="error", category="event")
 
         def get_event(self) -> str:
             """
@@ -1645,13 +1649,13 @@ init -3 python:
             """
 
             # if events == None and index >= len(self.fragments):
-            #     log_error(303, "Composite Event " + self.event_id + ": Index (" + str(index) + ") out of range!")
+            #     log("Composite Event " + self.event_id + ": Index (" + str(index) + ") out of range!", log_type="error", category="event")
             #     return
 
             # if events == None:
             #     events = self.fragments[index].get_one_possible_event(**kwargs)
             # if events == None:
-            #     log_error(304, "Composite Event " + self.event_id + ": No events available in fragment at index " + str(index) + "!")
+            #     log("Composite Event " + self.event_id + ": No events available in fragment at index " + str(index) + "!", log_type="error", category="event")
             #     return
 
             if "event_type" not in kwargs.keys():
@@ -1723,14 +1727,16 @@ init -3 python:
                 count = 0
                 for j in range(repeat_count):
                     kwargs["used_events_repeatable"] = output
-                    selected_event = self.fragments[i].get_one_possible_event(True, **kwargs)
+                    # priority 0 = all select types; True was wrongly passed as priority
+                    # (True == 1), which skipped type-2/3 fragments such as PTA votes.
+                    selected_event = self.fragments[i].get_one_possible_event(0, True, **kwargs)
 
                     if selected_event != None:
                         output.append(selected_event)
                         count += 1
 
                 if count == 0:
-                    log_error(304, "Composite Event " + self.event_id + ": Not all events could be selected in fragment at index " + str(i) + "!")
+                    log("Composite Event " + self.event_id + ": Not all events could be selected in fragment at index " + str(i) + "!", log_type="error", category="event")
 
             return output
 
@@ -1979,6 +1985,9 @@ init -3 python:
 
         is_in_replay = False
 
+        if situation_manager is not None:
+            situation_manager.clear_progress_blocks()
+
         in_replay = get_kwargs("in_replay", False, **kwargs)
         if in_replay:
             is_in_replay = False
@@ -1987,6 +1996,11 @@ init -3 python:
             return
         
         quest_manager.check_task_type("event_end", **kwargs)
+
+        situation_manager.check_all_thresholds(**kwargs)
+        situation_manager.check_passives(**kwargs)
+        situation_manager.check_teasers(**kwargs)
+        situation_manager.check_resolutions(**kwargs)
 
         renpy.sound.stop(fadeout = 1.0)
 
@@ -2223,13 +2237,13 @@ label composite_event_runner(**kwargs):
 
     $ event_obj = get_kwargs('event_obj', None, **kwargs)
     if event_obj == None:
-        $ log_error(304, "Composite Event: No event object available!")
+        $ log("Composite Event: No event object available!", log_type="error", category="event")
         $ end_event("map_entry", **kwargs)
 
     $ events = get_frag_list(**kwargs)
 
     if len(events) == 0:
-        $ log_error(304, "Composite Event " + event_obj.event_id + ": No events available in fragments!")
+        $ log("Composite Event " + event_obj.event_id + ": No events available in fragments!", log_type="error", category="event")
         $ end_event("map_entry", **kwargs)
 
     $ kwargs["frag_order"] = events

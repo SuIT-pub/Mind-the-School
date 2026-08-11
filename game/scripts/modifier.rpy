@@ -77,32 +77,52 @@ init -6 python:
                 - The change in the stat.
             """
 
+            if self._mod_type == "%":
+                self.mod_type = "value_percent"
+
             if self._mod_type == "*":
                 return f"x {self._value}"
-            elif self._mod_type == "%":
-                return f"{self._value}%"
+            elif self._mod_type == "value_percent":
+                return f"{self._value}% of the value"
+            elif self._mod_type == "range_percent":
+                return f"{self._value}% of the entire range"
+            elif self._mod_type == "gated_percent":
+                return f"{self._value}% of the gated range"
+
             else:
                 return str(self._value)
 
-        def calculate_change(self, base_value: num) -> float:
+        def calculate_change(self, base_value: num, range_stat: str = None) -> float:
             """
             Calculates the change in the stat based on the mod_type and value.
 
             ### Parameters:
             1. base_value: num
                 - The base value of the stat. This is the value that is being changed.
+            2. range_stat: str (optional)
+                - Stat / situation bar key used for ``range_percent`` and
+                    ``gated_percent`` range lookups.
 
             ### Returns:
             1. float
                 - The change in the stat.
             """
 
+            if self._mod_type == "%":
+                self.mod_type = "value_percent"
+
             if self._mod_type == "+":
                 return self._value
             elif self._mod_type == "*":
                 return base_value * self._value
-            elif self._mod_type == "%":
+            elif self._mod_type == "value_percent":
                 return base_value / 100 * self._value
+            elif self._mod_type == "range_percent":
+                full_range = get_full_range(range_stat) if range_stat else 0
+                return self._value / 100 * full_range + base_value
+            elif self._mod_type == "gated_percent":
+                gated_range = get_gated_range(range_stat, self._value) if range_stat else 0
+                return self._value / 100 * gated_range + base_value
             else:
                 return base_value
 
@@ -113,7 +133,7 @@ init -6 python:
     # region Modifier Beef ----- #
     ##############################
 
-    def get_modifier_collection(collection: str | List[str] = 'default') -> Dict[str, Modifier_Obj]:
+    def get_modifier_collection(collection: str | List[str] = 'default') -> Dict[str, Dict[str, Modifier_Obj]]:
         """
         Gets the collection of modifiers.
 
@@ -123,8 +143,8 @@ init -6 python:
             - If a list of collections is given, then multiple collections are returned.
 
         ### Returns:
-        1. Dict[str, Modifier_Obj]
-            - The collection of modifiers.
+        1. Dict[str, Dict[str, Modifier_Obj]]
+            - The collection of modifiers. The key is the stat, and the value is a dictionary of modifiers.
         """
         
         if not contains_game_data('stat_modifier'):
@@ -201,7 +221,7 @@ init -6 python:
         # Drop soft-deleted / placeholder None entries so callers can iterate safely
         return {key: value for key, value in output.items() if value != None}
 
-    def get_total_modifier_change(mod_obj: Modifier_Obj, base_value: num, collection: str = 'default') -> float:
+    def get_total_modifier_change(mod_obj: Modifier_Obj, base_value: num, collection: str = 'default', range_stat: str = None) -> float:
         """
         Gets the total change in the stat based on the modifier.
         DOES NOT USE THIS METHOD! Use change_stats_with_modifier() instead.
@@ -215,6 +235,8 @@ init -6 python:
             - The base value of the stat. This is the value that is being changed.
         4. collection: str (default 'default')
             - The collection of modifiers. This is used to separate different collections of modifiers.
+        5. range_stat: str (optional)
+            - Override key used for range-based modifier operators.
 
         ### Returns:
         1. float
@@ -222,11 +244,11 @@ init -6 python:
         """
 
         value = 0
-        value += mod_obj.calculate_change(base_value)
+        value += mod_obj.calculate_change(base_value, range_stat=range_stat)
 
         return value
 
-    def get_total_stat_modifier_change(stat: str, base_value: num, collection: str = 'default') -> float:
+    def get_total_stat_modifier_change(stat: str, base_value: num, collection: str = 'default', range_stat: str = None) -> float:
         """
         Gets the total change in the stat based on all of the modifiers.
         DOES NOT USE THIS METHOD! Use change_stats_with_modifier() instead.
@@ -238,6 +260,9 @@ init -6 python:
             - The base value of the stat. This is the value that is being changed.
         3. collection: str (default 'default')
             - The collection of modifiers. This is used to separate different collections of modifiers.
+        4. range_stat: str (optional)
+            - Override key used for range-based modifier operators.
+            - Defaults to ``stat``.
 
         ### Returns:
         1. float
@@ -245,15 +270,16 @@ init -6 python:
         """
 
         modifier = get_modifier_lists(stat, collection)
+        target_range_stat = range_stat if range_stat is not None else stat
 
         value = 0
         if modifier != None:
             for key in modifier.keys():
-                value += get_total_modifier_change(modifier[key], base_value, collection)
+                value += get_total_modifier_change(modifier[key], base_value, collection, range_stat=target_range_stat)
 
         return value
 
-    def apply_stat_modifier(stat: str, value: num, collection: str = 'default') -> float:
+    def apply_stat_modifier(stat: str, value: num, collection: str = 'default', range_stat: str = None) -> float:
         """
         Applies the stat modifier to the value.
         DOES NOT USE THIS METHOD! Use change_stats_with_modifier() instead.
@@ -265,13 +291,15 @@ init -6 python:
             - The value of the stat. This is the value that is being changed.
         3. collection: str (default 'default')
             - The collection of modifiers. This is used to separate different collections of modifiers.
+        4. range_stat: str (optional)
+            - Override key used for range-based modifier operators.
 
         ### Returns:
         1. float
             - The total change in the stat.
         """
 
-        value = value + get_total_stat_modifier_change(stat, value, collection)
+        value = value + get_total_stat_modifier_change(stat, value, collection, range_stat=range_stat)
         
         return value
 
@@ -496,11 +524,34 @@ label change_stat_with_modifier(stat, value, collection = 'default'):
     if isinstance(value, str):
         $ value = get_stat_levels(value)
 
-    $ value = apply_stat_modifier(stat, value, collection)
+    python:
+        cswm_stat_list = [stat]
+        cswm_modifier_stat = None
+        parsed = parse_situation_stat_key(stat) if isinstance(stat, str) else None
+        if parsed is not None:
+            situation_key, bar_key = parsed
+            if bar_key == "ALL":
+                situation = situation_manager.get_situation(situation_key)
+                if situation is not None:
+                    cswm_modifier_stat = stat
+                    cswm_stat_list = [
+                        "situation:" + situation_key + ":" + bar.key
+                        for bar in situation.get_bars()
+                    ]
 
-    $ change_stat(stat, value)
+    $ cswm_i = 0
+    $ cswm_base_value = value
+    while cswm_i < len(cswm_stat_list):
+        $ cswm_target_stat = cswm_stat_list[cswm_i]
+        if cswm_modifier_stat is not None:
+            $ value = apply_stat_modifier(cswm_modifier_stat, cswm_base_value, collection, range_stat=cswm_target_stat)
+        else:
+            $ value = apply_stat_modifier(cswm_target_stat, cswm_base_value, collection)
+        $ change_stat(cswm_target_stat, value)
+        $ cswm_i += 1
 
-    $ add_stat_notification(get_school().get_name(), stat, value)
+    if not str(stat).startswith("situation:"):
+        $ add_stat_notification(get_school().get_name(), stat, value)
 
     return
 
@@ -520,13 +571,32 @@ label change_stats_with_modifier(collection = 'default', **kwargs):
     if in_replay:
         return
 
-    $ keys = list(kwargs.keys())
+    $ cswsm_keys = list(kwargs.keys())
 
-    $ i = 0
-    while i < len(keys):
-        $ stat = keys[i]
-        $ i += 1
-        call change_stat_with_modifier(stat, kwargs[stat], collection) from _call_change_stat_with_modifier
+    $ cswsm_i = 0
+    while cswsm_i < len(cswsm_keys):
+        $ cswsm_stat = cswsm_keys[cswsm_i]
+        $ cswsm_i += 1
+        call change_stat_with_modifier(cswsm_stat, kwargs[cswsm_stat], collection) from _call_change_stat_with_modifier
+
+    return
+
+label change_stats_via_modifier(collection = 'default'):
+    $ modifier_collection_list = get_modifier_collection(collection)
+
+    python:
+        csvm_stats_to_process = set()
+        for modifier_collection in modifier_collection_list:
+            for csvm_stat in modifier_collection.keys():
+                if csvm_stat != "all":
+                    csvm_stats_to_process.add(csvm_stat)
+        csvm_stats_to_process = list(csvm_stats_to_process)
+
+    $ csvm_i = 0
+    while csvm_i < len(csvm_stats_to_process):
+        $ csvm_stat = csvm_stats_to_process[csvm_i]
+        $ csvm_i += 1
+        call change_stat_with_modifier(csvm_stat, 0, collection) from _call_change_stat_via_modifier
 
     return
 

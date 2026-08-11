@@ -1,36 +1,39 @@
 init -6 python:
     import re
     from itertools import product
+    from deprecated import deprecated
 
     registered_vote_events = []
 
     ########################
-    # region CLASSES ----- #
+    # region legacy stubs -- #
     ########################
 
+    @deprecated(version='0.2.3', reason="Legacy journal vote proposal; kept for save compatibility.")
     class PTAProposal:
         """
-        A class that represents a proposal for the PTA meeting.
+        Legacy PTA proposal wrapper for old journal vote scheduling.
 
-        ### Attributes:
-        1. _journal_obj : Journal_Obj
-            - The journal object that represents the proposal.
-        2. _action: str
-            - The action that should be performed on the proposal.
-            - Can be "unlock" or "upgrade"
-        3. _school: str
-            - The name of the school that the proposal is for.
+        Kept so existing saves can unpickle. Cleared on load via
+        ``clean_legacy_vote_proposal``. New content stores a live
+        ``Unlockable`` in ``voteProposal`` instead.
         """
 
-        def __init__(self, journal_obj: Journal_Obj, action: str):
+        def __init__(self, journal_obj=None, action: str = "unlock"):
             self._journal_obj = journal_obj
             self._action = action
 
-    # endregion
-    ########################
+    def clean_legacy_vote_proposal():
+        """
+        Drop legacy ``PTAProposal`` (or other non-Unlockable) values from
+        ``voteProposal`` so old saves do not keep obsolete scheduled votes.
+        """
+        proposal = get_game_data("voteProposal")
+        if proposal is not None and not isinstance(proposal, Unlockable):
+            set_game_data("voteProposal", None)
 
     # endregion
-    ###################################
+    ########################
 
     ##############################
     # region probability methods #
@@ -38,19 +41,17 @@ init -6 python:
 
     def get_end_choice(*votes: str) -> str:
         """
-        Gets the end choice based on the votes of the characters.
+        Gets the end choice based on the votes.
 
-        ### Parameters:
-        1. votes: str
-            - The votes of the characters.
-            - Can be "yes", "no" or "veto"
+        Args:
+            *votes (str): ``\"yes\"``, ``\"no\"``, ``\"ignore\"``, or ``\"veto\"``.
 
-        ### Returns:
-        1. str
-            - The end choice based on the votes.
-            - Can be "yes", "no" or "veto"
+        Returns:
+            str: ``\"yes\"``, ``\"no\"``, or ``\"veto\"``.
         """
 
+        if len(votes) == 0:
+            return 'no'
         if 'veto' in votes:
             return 'veto'
         elif votes.count('yes') + votes.count('ignore') >= len(votes) / 2:
@@ -75,9 +76,6 @@ init 1 python:
     pta_meeting_event = EventComposite(2, "pta_meeting", [pta_discussion_storage, pta_vote_storage, pta_end_storage], 
         TimeCondition(weekday = 5, daytime = 1),
         PTAObjectSelector("vote_proposal"),
-        PTAVoteSelector("vote_parent", "academic"),
-        PTAVoteSelector("vote_teacher", "feasibility"),
-        PTAVoteSelector("vote_student", "social"),
         Pattern("base", "images/events/pta/regular meeting/pta <secretary_level> <school_level> <step>.webp"))
 
     # PTA discussions
@@ -87,18 +85,8 @@ init 1 python:
         pta_discussion_1_event
     )
 
-    # PTA votes
-    # pta_vote_school_jobs_event = EventFragment(2, "pta_vote_school_jobs",
-    #     JournalVoteCondition("school_jobs"))
-
-    # pta_vote_student_relationships_event = EventFragment(2, "pta_vote_student_relationships_1",
-    #     JournalVoteCondition("student_student_relation"))
-
     pta_vote_unregistered_1_event = EventFragment(2, "pta_vote_unregistered_1",
         JournalNRVoteCondition(),
-        RandomListSelector("speaking_teacher", "Lily Anderson", "Yulan Chen", "Finola Ryan", "Chloe Garcia", "Zoe Parker"),
-        RandomListSelector("speaking_parent", "Yuki Yamamoto", "Adelaide Hall", "Nubia Davis"),
-        RandomListSelector("speaking_student", "Yuriko Oshima"),
         Pattern("vote", "images/events/pta/regular meeting/pta_vote <school_level> <name>.webp"))
 
     pta_vote_nothing_1_event = EventFragment(2, "pta_vote_nothing_1",
@@ -283,8 +271,8 @@ label first_pta_meeting (**kwargs):
     headmaster "Thank you all for your introductions. With that out of the way, let's wrap up this meeting."
     headmaster "I wish you a good weekend and I hope to see you all next friday."
 
-    $ set_all_buildings_blocked(True)
-    $ set_building_blocked("office_building", False)
+    $ add_all_buildings_collection_key("closed", "pta_lock")
+    $ remove_building_collection_key("office_building", "closed", "pta_lock")
     
     $ end_event('new_daytime', **kwargs)
 
@@ -338,142 +326,19 @@ label pta_vote_nothing_1 (**kwargs):
 
     $ end_event('new_daytime', **kwargs)
 
-label pta_vote_school_jobs (**kwargs):
-    $ begin_event(no_gallery = True, **kwargs)
-
-    $ parent_vote  = get_value("vote_parent", **kwargs)
-    $ teacher_vote = get_value("vote_teacher", **kwargs)
-    $ student_vote = get_value("vote_student", **kwargs)
-    $ end_choice = get_end_choice(parent_vote, teacher_vote, student_vote)
-
-    headmaster "Today I want to put to vote if we want to allow students to work here at the school."
-
-    headmaster "The students get an opportunity to work or help out in certain facilities of the school."
-    headmaster "This not only helps the facilities to run more smoothly, but also gives the students a chance to learn new skills and to earn some money."
-
-    headmaster "Please cast your vote now."
-
-    # teacher comment on vote
-    if teacher_vote == 'yes':
-        teacher "I think it is a good idea to let the students work here. It will help them to learn new skills and to earn some money."
-        teacher "I vote yes."
-    elif teacher_vote == 'veto':
-        teacher "I strongly oppose this proposal. Allowing students to work here will severely distract them from their studies. I veto."
-    else:
-        teacher "I don't think it is a good idea to let the students work here. It will distract them from their studies."
-        teacher "I vote against it."
-
-    # student comment on vote
-    if student_vote == 'yes':
-        sgirl "I think it's a great idea to let us work here. It would help us learn new skills and earn some money."
-        sgirl "I vote yes."
-    elif student_vote == 'veto':
-        sgirl "Absolutely not! Letting us work here would totally mess up our studies. I veto this proposal."
-    else:
-        sgirl "I don't think it's a good idea for us to work here. It would distract us from our studies."
-        sgirl "I vote against it."
-
-    # parent comment on vote
-    if parent_vote == 'yes':
-        parent "As a mother, I believe it's a wonderful opportunity for our children to gain practical experience and earn some money. I wholeheartedly support this initiative."
-    elif parent_vote == 'veto':
-        parent "As a mother, I strongly oppose this proposal. Allowing students to work here will severely distract them from their studies. I veto."
-    else:
-        parent "As a mother, I don't think it's a good idea for our children to work here. It will distract them from their studies."
-
-    if end_choice == 'yes':
-        headmaster "With the majority of votes in favor, the proposal is accepted."
-        headmaster "The students will be allowed to work here at the school."
-    elif end_choice == 'veto':
-        headmaster "The proposal is rejected due to a veto by one of the representatives."
-    else:
-        headmaster "The proposal is rejected due to the majority of votes against it."
-
-    call pta_vote_result(parent_vote, teacher_vote, student_vote, get_value("vote_proposal", **kwargs)) from _call_pta_vote_result_school_jobs_1
-
-    $ end_event('new_daytime', **kwargs)
-
-label pta_vote_student_relationships_1 (**kwargs):
-    $ begin_event(no_gallery = True, **kwargs)
-
-    $ parent_vote = get_value("vote_parent", **kwargs)
-    $ teacher_vote = get_value("vote_teacher", **kwargs)
-    $ student_vote = get_value("vote_student", **kwargs)
-    $ end_choice = get_end_choice(parent_vote, teacher_vote, student_vote)
-
-    headmaster "The topic for today's vote is whether to allow students to have relationships with each other."
-    headmaster "This proposal aims to recognize and support student relationships, while also providing guidance on maintaining healthy and respectful interactions."
-
-    headmaster "Please cast your vote now."
-
-    # teacher comment on vote
-    if teacher_vote == 'yes':
-        teacher "I believe that allowing students to have relationships with each other can be a positive experience."
-        teacher "It helps them learn about social interactions and emotional connections in a controlled environment. So I vote yes."
-    elif teacher_vote == 'veto':
-        teacher "I am strongly opposed to allowing students to have relationships with each other."
-        teacher "Such relationships can lead to distractions and complications that are not suitable for the school environment. I veto this proposal."
-    else:
-        teacher "I have concerns about allowing students to have relationships with each other."
-        teacher "While it can be a learning experience, it can also lead to issues that may disrupt their education. Therefore, I vote against this proposal."
-
-    # student comment on vote
-    if student_vote == 'yes':
-        sgirl "As a student, I think it's important for us to be allowed to have relationships with each other."
-        sgirl "It helps us understand how to interact with others and build meaningful connections. Therefore, I vote yes on this proposal."
-    elif student_vote == 'veto':
-        sgirl "I don't think it's a good idea to allow students to have relationships with each other."
-        sgirl "It could lead to unnecessary drama and distractions from our studies. I veto this proposal."
-    else:
-        sgirl "I have mixed feelings about allowing students to have relationships with each other."
-        sgirl "While it can be beneficial, it can also cause problems that might affect our education. Therefore, I vote no on this proposal."
-
-    # parent comment on vote
-    if parent_vote == 'yes':
-        parent "As a parent, I believe that allowing students to have relationships with each other can be beneficial."
-        parent "It helps them learn about social dynamics and emotional connections in a safe environment. That's why I vote yes."
-    elif parent_vote == 'veto':
-        parent "I am opposed to allowing students to have relationships with each other."
-        parent "Such relationships can lead to distractions and issues that are not appropriate for the school setting. I veto this proposal."
-    else:
-        parent "I have reservations about allowing students to have relationships with each other."
-        parent "While it can be a learning experience, it can also lead to complications that may disrupt their education. Therefore, I vote against this proposal."
-
-    if end_choice == 'yes':
-        headmaster "With the majority of votes in favor, the proposal is accepted."
-        headmaster "The students will be allowed to work here at the school."
-    elif end_choice == 'veto':
-        headmaster "The proposal is rejected due to a veto by one of the representatives."
-    else:
-        headmaster "The proposal is rejected due to the majority of votes against it."
-    
-    call pta_vote_result(parent_vote, teacher_vote, student_vote, get_value("vote_proposal", **kwargs)) from _call_pta_vote_result_student_relationships_1
-    
-    $ end_event('new_daytime', **kwargs)
-
 label pta_vote_unregistered_1 (**kwargs):
     $ begin_event(no_gallery = True, **kwargs)
 
-    $ vote_proposal = get_value("vote_proposal", **kwargs)
-    $ vote_object = vote_proposal._journal_obj
-    $ vote_action = vote_proposal._action
-    
-    $ speaking_teacher = get_value("speaking_teacher", **kwargs)
-    $ speaking_parent = get_value("speaking_parent", **kwargs)
-    $ speaking_student = get_value("speaking_student", **kwargs)
+    $ unlockable = get_value("vote_proposal", **kwargs)
+    if not isinstance(unlockable, Unlockable):
+        $ end_event('new_daytime', **kwargs)
 
-    $ parent_vote  = get_value("vote_parent", **kwargs)
-    $ teacher_vote = get_value("vote_teacher", **kwargs)
-    $ student_vote = get_value("vote_student", **kwargs)
-    $ end_choice = get_end_choice(parent_vote, teacher_vote, student_vote)
-
-    $ teacher_response = vote_object.get_vote_comments("teacher", teacher_vote)
-    $ student_response = vote_object.get_vote_comments("student", student_vote)
-    $ parent_response  = vote_object.get_vote_comments("parent", parent_vote)
-
-    $ obj_title = vote_object.get_title()
-    $ obj_type = vote_object.get_type()
-    $ obj_desc = vote_object.get_description()
+    $ votes = unlockable.roll_votes()
+    $ end_choice = get_end_choice(*votes)
+    $ obj_title = unlockable.get_title()
+    $ obj_type = unlockable.type_key
+    $ obj_desc = unlockable.get_descriptions()
+    $ vote_probability = int(unlockable.get_vote_probability() * 100)
 
     $ image = convert_pattern("base", **kwargs)
 
@@ -484,56 +349,28 @@ label pta_vote_unregistered_1 (**kwargs):
     elif obj_type == "club":
         headmaster "Today I want to put to vote if we want to open a new club at the school."
         headmaster "I want to open the [obj_title]."
-    elif obj_type == "building" and vote_action == "unlock":
-        headmaster "Today I want to put to vote if we want to restore the [obj_title]."
-    elif obj_type == "building" and vote_action == "upgrade":
-        headmaster "Today I want to put to vote if we want to upgrade the [obj_title]."
+    elif obj_type == "building":
+        headmaster "Today I want to put to vote on the [obj_title]."
+    else:
+        headmaster "Today I want to put [obj_title] to a vote."
 
     $ image.show(5)
-    $ i = 0
-    while i < len(obj_desc):
-        $ desc_text = obj_desc[i]
+    $ pta_desc_i = 0
+    while pta_desc_i < len(obj_desc):
+        $ desc_text = obj_desc[pta_desc_i]
         headmaster "[desc_text]"
-        $ i += 1
+        $ pta_desc_i += 1
 
     $ image.show(6)
+    headmaster "Support among the stakeholders sits at about [vote_probability] percent."
     headmaster "Please cast your vote now."
-    
-    $ kwargs = load_kwargs_values(kwargs, level = get_character_by_key("teacher").get_level(), name = split_name_first(speaking_teacher))
-    $ show_pattern("vote", **kwargs)
-    if isinstance(teacher_response, str):
-        teacher "[teacher_response]" (name = speaking_teacher)
-    else:
-        $ i = 0
-        while i < len(teacher_response):
-            $ response_text = teacher_response[i]
-            teacher "[response_text]" (name = speaking_teacher)
-            $ i += 1
-
-    $ kwargs = load_kwargs_values(kwargs, level = get_character_by_key("school").get_level(), name = split_name_first(speaking_student))
-    $ show_pattern("vote", **kwargs)
-    if isinstance(student_response, str):
-        sgirl "[student_response]" (name = speaking_student)
-    else:
-        $ i = 0
-        while i < len(student_response):
-            $ response_text = student_response[i]
-            sgirl "[response_text]" (name = speaking_student)
-            $ i += 1
-
-    $ kwargs = load_kwargs_values(kwargs, level = get_character_by_key("parent").get_level(), name = split_name_first(speaking_parent))
-    $ show_pattern("vote", **kwargs)
-    if isinstance(parent_response, str):
-        parent "[parent_response]" (name = speaking_parent)
-    else:
-        $ i = 0
-        while i < len(parent_response):
-            $ response_text = parent_response[i]
-            parent "[response_text]" (name = speaking_parent)
-            $ i += 1
 
     $ image.show(7)
-    call pta_vote_result(parent_vote, teacher_vote, student_vote, vote_proposal, True) from _call_pta_vote_result_unregistered_1
+    $ yes_count = votes.count("yes")
+    $ no_count = votes.count("no")
+    headmaster "The ballots are in. [yes_count] in favor, [no_count] against."
+
+    call pta_vote_result(unlockable, end_choice, True) from _call_pta_vote_result_unregistered_1
 
     $ end_event('new_daytime', **kwargs)
 
@@ -557,36 +394,28 @@ label pta_end_meeting_1 (**kwargs):
 # endregion
 ##############
 
-label pta_vote_result (parent_vote, teacher_vote, student_vote, proposal, with_comment = False):
+label pta_vote_result (unlockable, end_choice, with_comment = False):
 
-    $ vote_object = proposal._journal_obj
-    $ vote_action = proposal._action
-    $ obj_title = vote_object.get_title()
-    $ end_choice = get_end_choice(parent_vote, teacher_vote, student_vote)
+    if not isinstance(unlockable, Unlockable):
+        $ set_game_data('voteProposal', None)
+        return
 
-    $ money_conditions = [condition for condition in vote_object.get_all_coming_conditions() if isinstance(condition, MoneyCondition)]
+    $ obj_title = unlockable.get_title()
 
     if end_choice == 'yes':
         if with_comment:
             headmaster "With the majority of votes in favor, the proposal is accepted."
-        
-        if vote_action == "unlock":
-            $ vote_object.unlock(True, True)
-            $ add_notify_message(f"{obj_title} has been unlocked.")
-        if vote_action == "upgrade":
-            $ vote_object.upgrade(True)
-            $ add_notify_message(f"{obj_title} has been upgraded.")
 
-        python:
-            for condition in money_conditions:
-                spend_reserved_money("vote_" + condition.get_name() + "_" + vote_object.get_name())
+        $ set_game_data(unlockable.key + "_vote_won", True)
+        $ unlockable.check_resolutions()
+        if unlockable.is_unlocked():
+            $ add_notify_message(f"{obj_title} has been unlocked.")
     else:
         if with_comment:
             headmaster "The proposal is rejected due to the majority of votes against it."
+        $ unlockable.release_vote_money()
+        $ unlockable.apply_vote_failure_penalty()
 
-    python:
-        for condition in money_conditions:
-            release_money("vote_" + condition.get_name() + "_" + vote_object.get_name())
     $ set_game_data('voteProposal', None)
 
     return

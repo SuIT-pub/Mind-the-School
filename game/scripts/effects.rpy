@@ -16,6 +16,21 @@ init -1 python:
 
         return kwargs
 
+    class EffectStorage:
+        def __init__(self, *effects: Effect):
+            self.effects = list(effects)
+
+        def __len__(self):
+            return len(self.effects)
+
+        def apply(self, **kwargs):
+            for effect in self.effects:
+                effect.apply(**kwargs)
+
+        def revert(self, **kwargs):
+            for effect in self.effects:
+                effect.revert(**kwargs)
+
     class Effect(ABC):
         """
         Abstract class for all effects.
@@ -44,12 +59,11 @@ init -1 python:
         def revert(self, **kwargs):
             pass
 
+    @deprecated(version='0.2.3', reason="Replaced by Unlockable effects; kept for save compatibility.")
     class RuleEffect(Effect):
-        """
-        Unlocks a rule.
-        """
+        """Legacy rule unlock effect. No-op; kept so old saves can unpickle."""
 
-        def __init__(self, name: str, rule: Union[str, Rule], *options: Option):
+        def __init__(self, name: str, rule=None, *options: Option):
             super().__init__(name, *options)
             self.rule = rule
 
@@ -57,32 +71,13 @@ init -1 python:
             return f"{self.rule}"
 
         def apply(self, **kwargs):
-            if isinstance(self.rule, str):
-                rule = get_rule(self.rule)
-                if rule != None:
-                    rule.unlock()
-            else:
-                self.rule.unlock()
             return kwargs
 
-        def revert(self, **kwargs):
-            if self.options.has_option("EffectNoRevert"):
-                return kwargs
-
-            if isinstance(self.rule, str):
-                rule = get_rule(self.rule)
-                if rule != None:
-                    rule.lock()
-            else:
-                self.rule.lock()
-            return kwargs
-
+    @deprecated(version='0.2.3', reason="Replaced by Unlockable effects; kept for save compatibility.")
     class ClubEffect(Effect):
-        """
-        Unlocks a club.
-        """
+        """Legacy club unlock effect. No-op; kept so old saves can unpickle."""
 
-        def __init__(self, name: str, club: str | Club, *options: Option):
+        def __init__(self, name: str, club=None, *options: Option):
             super().__init__(name, *options)
             self.club = club
 
@@ -90,32 +85,13 @@ init -1 python:
             return f"{self.club}"
 
         def apply(self, **kwargs):
-            if isinstance(self.club, str):
-                club = get_club(self.club)
-                if club != None:
-                    club.unlock()
-            else:
-                self.club.unlock()
             return kwargs
 
-        def revert(self, **kwargs):
-            if self.options.has_option("EffectNoRevert"):
-                return kwargs
-
-            if isinstance(self.club, str):
-                club = get_club(self.club)
-                if club != None:
-                    club.lock()
-            else:
-                self.club.lock()
-            return kwargs
-
+    @deprecated(version='0.2.3', reason="Replaced by Unlockable effects; kept for save compatibility.")
     class BuildingEffect(Effect):
-        """
-        Unlocks a building.
-        """
+        """Legacy building unlock effect. No-op; kept so old saves can unpickle."""
 
-        def __init__(self, name: str, building: str | Building, *options: Option):
+        def __init__(self, name: str, building=None, *options: Option):
             super().__init__(name, *options)
             self.building = building
 
@@ -123,24 +99,6 @@ init -1 python:
             return f"{self.building}"
 
         def apply(self, **kwargs):
-            if isinstance(self.building, str):
-                building = get_building(self.building)
-                if building != None:
-                    building.unlock()
-            else:
-                self.building.unlock()
-            return kwargs
-
-        def revert(self, **kwargs):
-            if self.options.has_option("EffectNoRevert"):
-                return kwargs
-
-            if isinstance(self.building, str):
-                building = get_building(self.building)
-                if building != None:
-                    building.lock()
-            else:
-                self.building.lock()
             return kwargs
 
     class LevelEffect(Effect):
@@ -263,7 +221,16 @@ init -1 python:
         def apply(self, **kwargs):
             if self.mode == "SET":
                 money.change_value_to(self.value)
+                return kwargs
+
             if self.mode == "ADD":
+                if self.options.has_option("MoneyEscrow"):
+                    escrow = self.options.get_option("MoneyEscrow")
+                    stash_key = getattr(escrow, "stash_key", None)
+                    if stash_key and stash_key in reserved_money:
+                        # Wallet already reduced at Schedule Vote; finalize the stash.
+                        spend_reserved_money(stash_key)
+                        return kwargs
                 money.change_value(self.value)
             return kwargs
 
@@ -277,7 +244,7 @@ init -1 python:
                 money.change_value(-self.value)
             return kwargs
 
-    @deprecated(version='0.2.2', reason="TimeEventStorage fully taken out of service.")
+    @deprecated(version='0.2.2', reason="Highly unstable — do not use.")
     class AddTempTimeEventEffect(Effect):
         """
         Adds a temporary time event.
@@ -298,7 +265,7 @@ init -1 python:
             
             return kwargs
 
-    @deprecated(version='0.2.2', reason="TimeEventStorage fully taken out of service.")
+    @deprecated(version='0.2.2', reason="Highly unstable — do not use.")
     class RemoveTempTimeEventEffect(Effect):
         """
         Removes a temporary time event.
@@ -339,14 +306,20 @@ init -1 python:
             return f"{self.building_name}"
 
         def apply(self, **kwargs):
-            set_building_blocked(self.building_name, self.is_blocking)
+            if self.is_blocking:
+                add_building_collection_key(self.building_name, "closed", self.name)
+            else:
+                remove_building_collection_key(self.building_name, "closed", self.name)
             return kwargs
 
         def revert(self, **kwargs):
             if self.options.has_option("EffectNoRevert"):
                 return kwargs
 
-            set_building_blocked(self.building_name, not self.is_blocking)
+            if self.is_blocking:
+                remove_building_collection_key(self.building_name, "closed", self.name)
+            else:
+                add_building_collection_key(self.building_name, "closed", self.name)
             return kwargs
 
     class EventEffect(Effect):
@@ -574,15 +547,15 @@ init -1 python:
             if self.quest_type == "quest":
                 quest = quest_manager.get_quest(self.key)
                 if quest != None:
-                    quest.complete()
+                    quest.set_complete()
             if self.quest_type == "goal":
                 goal = quest_manager.get_goal(self.key)
                 if goal != None:
-                    goal.complete()
+                    goal.set_complete()
             if self.quest_type == "task":
                 task = quest_manager.get_task(self.key)
                 if task != None:
-                    task.complete()
+                    task.set_complete()
 
             return kwargs
 
@@ -675,6 +648,130 @@ init -1 python:
         def apply(self, **kwargs):
             return kwargs
 
+    class ScheduleVoteEffect(Effect):
+        """
+        Queues an Unlockable for the next Friday PTA meeting.
+
+        Stores the live Unlockable instance in ``voteProposal``.
+        """
+
+        def __init__(self, situation_key: str, *options: Option):
+            super().__init__("ScheduleVoteEffect", *options)
+            self.situation_key = situation_key
+
+        def __str__(self):
+            return f"Schedule vote for {self.situation_key}"
+
+        def apply(self, **kwargs):
+            if get_game_data("voteProposal") is not None:
+                return kwargs
+            unlockable = None
+            if situation_manager is not None:
+                unlockable = situation_manager.get_situation(self.situation_key)
+            if not isinstance(unlockable, Unlockable):
+                return kwargs
+            set_game_data("voteProposal", unlockable)
+            return kwargs
+
+        def revert(self, **kwargs):
+            proposal = get_game_data("voteProposal")
+            if isinstance(proposal, Unlockable) and proposal.key == self.situation_key:
+                proposal.release_vote_money()
+                set_game_data("voteProposal", None)
+            return kwargs
+
+    
+    class UnlockableUnlockEffect(Effect):
+        """
+        Marks an unlockable as unlocked in game data when its situation resolves positively.
+        For grouped unlockables also writes the group level.
+        """
+
+        def __init__(self, unlockable_situation_key: str, group_key: str = None, group_index: int = -1, *options: Option):
+            super().__init__("unlockable_unlock", *options)
+            self.unlockable_situation_key = unlockable_situation_key
+            self.group_key = group_key
+            self.group_index = group_index
+
+        def __str__(self):
+            return f"Unlock {self.unlockable_situation_key}"
+
+        def apply(self, **kwargs):
+            unlockable = None
+            if situation_manager is not None:
+                unlockable = situation_manager.get_situation(self.unlockable_situation_key)
+            if (
+                isinstance(unlockable, Unlockable)
+                and self.group_key is not None
+                and self.group_index != -1
+            ):
+                unlockable.apply_group_upgrade_transition(**kwargs)
+
+            set_game_data(self.unlockable_situation_key + "_unlocked", True)
+            if self.group_key is not None and self.group_index != -1:
+                set_game_data(self.group_key + "_level", self.group_index)
+            return kwargs
+
+        def revert(self, **kwargs):
+            if self.options.has_option("EffectNoRevert"):
+                return kwargs
+            remove_game_data(self.unlockable_situation_key + "_unlocked")
+            if self.group_key is not None and self.group_index != -1:
+                prev_level = self.group_index - 1
+                if prev_level >= 1:
+                    set_game_data(self.group_key + "_level", prev_level)
+                else:
+                    remove_game_data(self.group_key + "_level")
+            return kwargs
+
+    class BuildingOpenEffect(Effect):
+        def __init__(self, building_key: str, is_open: bool = True, *options: Option):
+            super().__init__(f"building_open_{building_key}")
+            self.building_key = building_key
+            self.is_open = is_open
+
+        def __str__(self):
+            return f"BuildingOpenEffect({self.building_key})"
+
+        def apply(self, **kwargs):
+            if self.is_open:
+                add_building_collection_key(self.building_key, "open", self.name)
+            else:
+                remove_building_collection_key(self.building_key, "open", self.name)
+            return kwargs
+
+        def revert(self, **kwargs):
+            if self.options.has_option("EffectNoRevert"):
+                return kwargs
+            if self.is_open:
+                remove_building_collection_key(self.building_key, "open", self.name)
+            else:
+                add_building_collection_key(self.building_key, "open", self.name)
+            return kwargs
+
+    class BuildingCloseEffect(Effect):
+        def __init__(self, building_key: str, is_close: bool = True, *options: Option):
+            super().__init__(f"building_close_{building_key}")
+            self.building_key = building_key
+            self.is_close = is_close
+            
+        def __str__(self):
+            return f"BuildingCloseEffect({self.building_key})"
+        def apply(self, **kwargs):
+            if self.is_close:
+                remove_building_collection_key(self.building_key, "open", self.name)
+            else:
+                add_building_collection_key(self.building_key, "open", self.name)
+            return kwargs
+
+        def revert(self, **kwargs):
+            if self.options.has_option("EffectNoRevert"):
+                return kwargs
+            if self.is_close:
+                add_building_collection_key(self.building_key, "open", self.name)
+            else:
+                remove_building_collection_key(self.building_key, "open", self.name)
+            return kwargs
 
 label open_bg_image_menu(event, **kwargs):
     $ bg_image = get_kwargs("bg_image", None, **kwargs)

@@ -85,10 +85,37 @@ init -98 python:
     # region Presets #
 
     paperdoll_presets = {}
+    paperdoll_temp_presets = set()
 
     def register_preset(key: str, *actions: PDAction):
         global paperdoll_presets
         paperdoll_presets[key] = list(actions)
+
+    def register_temp_preset(key: str, *actions: PDAction):
+        """
+        Registers a preset that is available until the paperdoll manager is unloaded.
+
+        Temporary presets use the same lookup path as permanent ones
+        (`PDAPreset("key")`), but are discarded by `clear_temp_presets()`.
+        Permanent presets registered via `register_preset` cannot be overwritten.
+
+        ### Parameters:
+        1. key: str
+            - The preset name used with `PDAPreset(key)`.
+        2. *actions: PDAction
+            - The actions that make up the preset.
+        """
+        global paperdoll_presets, paperdoll_temp_presets
+        if key in paperdoll_presets and key not in paperdoll_temp_presets:
+            log(
+                "register_temp_preset: cannot override permanent preset '" + str(key) + "'",
+                log_type="error",
+                category="paperdoll",
+            )
+            return
+        paperdoll_presets[key] = list(actions)
+        paperdoll_temp_presets.add(key)
+
     def get_preset(key: str) -> List[PDAction]:
         global paperdoll_presets
         return paperdoll_presets[key]
@@ -99,9 +126,20 @@ init -98 python:
             if action.key != "preset":
                 action.overwrite_values(**kwargs)
         return paperdoll_preset
+    def clear_temp_presets():
+        """
+        Removes all presets registered via `register_temp_preset`.
+        Permanent presets are left untouched.
+        """
+        global paperdoll_presets, paperdoll_temp_presets
+        for key in list(paperdoll_temp_presets):
+            if key in paperdoll_presets:
+                del paperdoll_presets[key]
+        paperdoll_temp_presets = set()
     def clear_presets():
-        global paperdoll_presets
+        global paperdoll_presets, paperdoll_temp_presets
         paperdoll_presets = {}
+        paperdoll_temp_presets = set()
 
     register_preset("outside", PDAMove(alignX = -1.5))
     register_preset("close_body", PDAMove(alignY = -0.1, zoom = 2.0))
@@ -172,11 +210,104 @@ init -99 python:
         paperdoll_display_scale_cache[cache_key] = base_scale
         return base_scale
 
+    def paperdoll_saturation(bw: bool) -> float:
+        """
+        Returns the SaturationMatrix factor for color or black-and-white display.
+
+        ### Parameters:
+        1. bw: bool
+            - True for grayscale, False for full color.
+
+        ### Returns:
+        1. float
+            - 0.0 for black-and-white, 1.0 for full color.
+        """
+        return 0.0 if bw else 1.0
+
+    def apply_paperdoll_bw(displayable, bw: bool = False):
+        """
+        Optionally wraps a displayable with a grayscale color matrix.
+
+        ### Parameters:
+        1. displayable
+            - The source displayable.
+        2. bw: bool
+            - True to force black-and-white display.
+
+        ### Returns:
+        1. Displayable
+            - The original displayable, or a grayscale Transform.
+        """
+        if not bw:
+            return displayable
+        return Transform(displayable, matrixcolor=SaturationMatrix(0.0))
+
+    def build_split_background(path_left: str, path_right: str, separator_width: int = 8, bw_left: bool = False, bw_right: bool = False):
+        """
+        Builds a Composite displayable from the left half of one image and the
+        right half of another, with a white separator strip in the middle.
+
+        ### Parameters:
+        1. path_left: str
+            - Image path used for the left half of the screen.
+        2. path_right: str
+            - Image path used for the right half of the screen.
+        3. separator_width: int
+            - Width of the white center strip in pixels.
+        4. bw_left: bool
+            - True to render the left half in black-and-white.
+        5. bw_right: bool
+            - True to render the right half in black-and-white.
+
+        ### Returns:
+        1. Displayable
+            - A Composite covering the full screen size.
+        """
+        screen_w = config.screen_width
+        screen_h = config.screen_height
+        sep = max(0, int(separator_width))
+        left_w = (screen_w - sep) // 2
+        right_w = screen_w - left_w - sep
+
+        left_native_w, left_native_h = renpy.image_size(Image(path_left))
+        right_native_w, right_native_h = renpy.image_size(Image(path_right))
+
+        left_half = apply_paperdoll_bw(
+            Transform(
+                Image(path_left),
+                crop=(0, 0, left_native_w // 2, left_native_h),
+                size=(left_w, screen_h),
+            ),
+            bw_left,
+        )
+        right_half = apply_paperdoll_bw(
+            Transform(
+                Image(path_right),
+                crop=(right_native_w // 2, 0, right_native_w - right_native_w // 2, right_native_h),
+                size=(right_w, screen_h),
+            ),
+            bw_right,
+        )
+
+        parts = [
+            (0, 0), left_half,
+        ]
+        if sep > 0:
+            parts.extend([
+                (left_w, 0), Solid("#ffffff", xsize=sep, ysize=screen_h),
+            ])
+        parts.extend([
+            (left_w + sep, 0), right_half,
+        ])
+
+        return Composite((screen_w, screen_h), *parts)
+
     def init_paperdoll_manager():
         """
         Initializes the paperdoll manager
         """
         global paperdoll_manager
+        clear_temp_presets()
         paperdoll_manager = PaperdollManager()
 
     def unload_paperdoll_manager():
@@ -186,6 +317,7 @@ init -99 python:
         global paperdoll_manager
         if paperdoll_manager != None:
             paperdoll_manager.clear()
+        clear_temp_presets()
         paperdoll_manager = None
 
     class Paperdoll_Obj:
@@ -293,6 +425,7 @@ init -99 python:
                 "rotation": 0.0,
                 "zoom": 1.0,
                 "blur": 0.0,
+                "bw": False,
             },
             get_kwargs("config", {}, **kwargs))
 
@@ -308,6 +441,16 @@ init -99 python:
             return self.config[key] + self.config_override[index][key]
         def get_override_config(self, key: str, index: int):
             return self.config_override[index][key]
+
+        def is_bw(self) -> bool:
+            """
+            Returns whether this paperdoll is displayed in black-and-white.
+
+            ### Returns:
+            1. bool
+                - True when grayscale display is enabled.
+            """
+            return bool(self.config.get("bw", False))
 
         def set_values(self, data):
             """
@@ -424,16 +567,19 @@ init -99 python:
         To use it first register the paperdoll objects you want to use with the register_obj method
         Then you can display the paperdoll objects with the display method
         You can also set the background image with the set_background method
+        Or a split background with set_background_split
         And you can hide the background image with the hide_background method
         And you can clear the paperdoll objects with the clear method
 
         ### Attributes:
         1. paperdoll_objs: Dict[str, Paperdoll_Obj]
             - The paperdoll objects
-        2. background_image: str
-            - The background image
+        2. background_image: Union[str, Displayable]
+            - The background image path or a Composite displayable
         3. background_blur: float
             - The background blur
+        4. background_bw: bool
+            - True to display a single background in black-and-white
 
         ### Methods:
         1. register_obj(key: str, *pattern: str, **kwargs)
@@ -444,11 +590,13 @@ init -99 python:
             - Displays the paperdoll object with the given key and actions
         4. background(*actions: Action)
             - Displays the background image and actions
-        5. set_background(pattern: str, blur: Union[bool, float] = False, blur_duration: float = 0.0, alt_keys: List[str] = [], **kwargs)
-            - Sets the background image with the given pattern, blur, blur_duration, alt_keys and kwargs
-        6. hide_background()
+        5. set_background(pattern = None, blur: Union[bool, float] = False, blur_duration: float = 0.0, bw: bool = False, alt_keys: List[str] = [], **kwargs)
+            - Sets the background from a pattern, concrete path, or Image_Series step (`image[n]`)
+        6. set_background_split(pattern_left = None, pattern_right = None, blur: Union[bool, float] = False, blur_duration: float = 0.0, separator_width: int = 8, bw_left: bool = False, bw_right: bool = False, alt_keys: List[str] = [], **kwargs)
+            - Sets a split background from patterns / concrete paths / Image_Series steps
+        7. hide_background()
             - Hides the background image
-        7. clear()
+        8. clear()
             - Clears all the paperdoll objects and the background image
 
         """
@@ -456,6 +604,7 @@ init -99 python:
             self.paperdoll_objs = {}
             self.background_image = ""
             self.background_blur = 0.0
+            self.background_bw = False
 
             self.background_pattern = ""
             self.background_values = {}
@@ -477,16 +626,144 @@ init -99 python:
         def background(self, *actions: Action):
             pass
 
-        def set_background(self, pattern: str, blur: Union[bool, float] = False, blur_duration: float = 0.0, alt_keys: List[str] = [], **kwargs):
+        def _resolve_background_path(self, pattern, alt_keys: List[str] = [], **kwargs) -> str:
+            """
+            Resolves a background source to an available image path.
+
+            Accepts a paperdoll-style pattern string, or a concrete path such as
+            the result of `image[step]` on an `Image_Series` (which may be None).
+
+            ### Parameters:
+            1. pattern: Optional[str]
+                - Image pattern, concrete path, or None.
+            2. alt_keys: List[str]
+                - Alternative keys for image refinement (pattern mode only).
+            3. **kwargs
+                - Values passed to image refinement (pattern mode only).
+
+            ### Returns:
+            1. str
+                - Resolved image path, or empty string if none was found.
+            """
+            if pattern is None or pattern == "":
+                return ""
+            if not isinstance(pattern, str):
+                log(
+                    "set_background: expected str or None, got " + type(pattern).__name__,
+                    log_type="error",
+                    category="paperdoll",
+                )
+                return ""
+
+            # Concrete path from Image_Series.__getitem__ / direct file path
+            if renpy.loadable(pattern):
+                return pattern
+
+            # Event-style path that still contains <nude> (e.g. raw get_image result)
+            if "<nude>" in pattern:
+                nude, resolved = get_image(pattern, **kwargs)
+                if nude < 0 or resolved == "":
+                    return ""
+                if "<nude>" in resolved:
+                    for level in [0] + list(range(nude, 0, -1)):
+                        candidate = resolved.replace("<nude>", str(level))
+                        if renpy.loadable(candidate):
+                            return candidate
+                    return ""
+                if renpy.loadable(resolved):
+                    return resolved
+                return ""
+
             images = refine_image_with_alternatives(pattern, alt_keys, **kwargs)
             if len(images) > 0:
-                self.background_image = find_available_images(images)
-            else:
-                self.background_image = ""
+                return find_available_images(images)
+            return ""
+
+        def _apply_background_blur(self, blur: Union[bool, float]):
+            """
+            Stores the background blur value.
+
+            ### Parameters:
+            1. blur: Union[bool, float]
+                - True maps to 10.0, False to 0.0, floats are used as-is.
+            """
             if isinstance(blur, bool):
                 self.background_blur = 10.0 if blur else 0.0
             else:
                 self.background_blur = blur
+
+        def set_background(self, pattern = None, blur: Union[bool, float] = False, blur_duration: float = 0.0, bw: bool = False, alt_keys: List[str] = [], **kwargs):
+            """
+            Sets the background image.
+
+            ### Parameters:
+            1. pattern: Optional[str]
+                - A paperdoll pattern, a concrete image path, or `image[step]`
+                    from an `Image_Series` (None clears / skips).
+            2. blur: Union[bool, float]
+                - Background blur; True maps to 10.0, False to 0.0.
+            3. blur_duration: float
+                - Duration of the blur transition.
+            4. bw: bool
+                - True to render the background in black-and-white.
+            5. alt_keys: List[str]
+                - Alternative keys for pattern refinement.
+            6. **kwargs
+                - Values passed to pattern refinement.
+            """
+            self.background_image = self._resolve_background_path(pattern, alt_keys, **kwargs)
+            self.background_bw = bw
+            self._apply_background_blur(blur)
+            renpy.call("display_background_image", blur_duration)
+
+        def set_background_split(self, pattern_left = None, pattern_right = None, blur: Union[bool, float] = False, blur_duration: float = 0.0, separator_width: int = 8, bw_left: bool = False, bw_right: bool = False, alt_keys: List[str] = [], **kwargs):
+            """
+            Sets a split background: left half of the first image, right half of
+            the second image, with a white separator strip in the middle.
+
+            ### Parameters:
+            1. pattern_left: Optional[str]
+                - Pattern, concrete path, or `image[step]` for the left half.
+            2. pattern_right: Optional[str]
+                - Pattern, concrete path, or `image[step]` for the right half.
+            3. blur: Union[bool, float]
+                - Background blur; True maps to 10.0, False to 0.0.
+            4. blur_duration: float
+                - Duration of the blur transition.
+            5. separator_width: int
+                - Width of the white center strip in pixels.
+            6. bw_left: bool
+                - True to render the left half in black-and-white.
+            7. bw_right: bool
+                - True to render the right half in black-and-white.
+            8. alt_keys: List[str]
+                - Alternative keys applied to both patterns.
+            9. **kwargs
+                - Values passed to image refinement for both patterns.
+            """
+            path_left = self._resolve_background_path(pattern_left, alt_keys, **kwargs)
+            path_right = self._resolve_background_path(pattern_right, alt_keys, **kwargs)
+
+            if path_left != "" and path_right != "":
+                self.background_image = build_split_background(
+                    path_left,
+                    path_right,
+                    separator_width,
+                    bw_left=bw_left,
+                    bw_right=bw_right,
+                )
+                self.background_bw = False
+            elif path_left != "":
+                self.background_image = path_left
+                self.background_bw = bw_left
+            elif path_right != "":
+                self.background_image = path_right
+                self.background_bw = bw_right
+            else:
+                self.background_image = ""
+                self.background_bw = False
+
+            self._apply_background_blur(blur)
             renpy.call("display_background_image", blur_duration)
 
         def hide_background(self):
@@ -600,6 +877,28 @@ init -99 python:
         def overwrite_values(self, **kwargs):
             self.flip = kwargs.get("flip", self.flip)
 
+    class PDABw(PDAction):
+        def __init__(self, bw: bool = True, duration: float = 0.0):
+            """
+            Toggles black-and-white display for a paperdoll.
+
+            ### Parameters:
+            1. bw: bool
+                - True for grayscale, False for full color.
+            2. duration: float
+                - Transition duration for the saturation change.
+            """
+            super().__init__("bw")
+            self.bw = bw
+            self.duration = duration
+
+        def overwrite_values(self, **kwargs):
+            self.bw = kwargs.get("bw", self.bw)
+            self.duration = kwargs.get("duration", self.duration)
+
+        def get_values(self) -> Tuple[bool, float]:
+            return self.bw, self.duration
+
     class PaperdollOverride:
         def __init__(self, index: int, conditions: Dict[str, Any], x_override = 0.0, y_override = 0.0, rot_override = 0.0, blur_override = 0.0, zoom_override = 0.0):
             self.conditions = conditions
@@ -630,13 +929,19 @@ transform t_paperdoll_move(duration, xAlign, yAlign):
     ease duration xalign xAlign ypos yAlign
 transform t_paperdoll_flip(flip):
     xzoom flip
+transform t_paperdoll_bw(saturation, duration = 0.0):
+    ease duration matrixcolor SaturationMatrix(saturation)
 
 label display_background_image(duration):
     if paperdoll_manager.background_image != "":
+        $ bg_displayable = paperdoll_manager.background_image
+        if isinstance(bg_displayable, str):
+            $ bg_displayable = Image(bg_displayable)
+        $ bg_displayable = apply_paperdoll_bw(bg_displayable, paperdoll_manager.background_bw)
         $ renpy.show(
             "background",
             what = At(
-                Image(paperdoll_manager.background_image),
+                bg_displayable,
                 t_paperdoll_blur(paperdoll_manager.background_blur, duration)
             ),
             tag = "background"
@@ -663,7 +968,8 @@ label display_paperdoll_image(paperdoll_obj, actions):
                         paperdoll_obj.get_config("alignY", index),
                         paperdoll_obj.get_effective_zoom(index)
                     ),
-                    t_paperdoll_blur(paperdoll_obj.get_value("blur"))
+                    t_paperdoll_blur(paperdoll_obj.get_value("blur")),
+                    t_paperdoll_bw(paperdoll_saturation(paperdoll_obj.is_bw())),
                 ],
             )
 
@@ -714,7 +1020,8 @@ label paperdoll_action_blur(paperdoll_obj, pda_blur):
                     paperdoll_obj.get_config("alignY", index),
                     paperdoll_obj.get_effective_zoom(index)
                 ),
-                t_paperdoll_blur(blur, duration)
+                t_paperdoll_blur(blur, duration),
+                t_paperdoll_bw(paperdoll_saturation(paperdoll_obj.is_bw())),
             ],
         )
 
@@ -745,7 +1052,8 @@ label paperdoll_action_image(paperdoll_obj, pda_image):
                     paperdoll_obj.get_config("alignY", index),
                     paperdoll_obj.get_effective_zoom(index)
                 ),
-                t_paperdoll_blur(paperdoll_obj.get_value("blur"))
+                t_paperdoll_blur(paperdoll_obj.get_value("blur")),
+                t_paperdoll_bw(paperdoll_saturation(paperdoll_obj.is_bw())),
             ],
         )
 
@@ -776,6 +1084,7 @@ label paperdoll_action_move(paperdoll_obj, pda_move):
                     alignX + paperdoll_obj.get_override_config("alignX", index), 
                     alignY + paperdoll_obj.get_override_config("alignY", index)
                 ),
+                t_paperdoll_bw(paperdoll_saturation(paperdoll_obj.is_bw())),
             ],
         )
 
@@ -802,6 +1111,36 @@ label paperdoll_action_flip(paperdoll_obj, pda_flip):
                     paperdoll_obj.get_effective_zoom(index)
                 ),
                 t_paperdoll_flip(flip),
+                t_paperdoll_bw(paperdoll_saturation(paperdoll_obj.is_bw())),
+            ],
+        )
+
+        $ index += 1
+
+    return
+
+label paperdoll_action_bw(paperdoll_obj, pda_bw):
+    $ bw, duration = pda_bw.get_values()
+
+    if preferences.transitions != 0 and persistent.transitionSpeed > 0 and duration > 0:
+        $ duration = duration / persistent.transitionSpeed
+
+    $ paperdoll_obj.config["bw"] = bw
+
+    $ index = 0
+    while (index < len(paperdoll_obj.pattern)):
+        $ renpy.show(
+            paperdoll_obj.key + str(index),
+            tag = paperdoll_obj.key + str(index),
+            what = Image(paperdoll_obj.image[index]),
+            at_list = [
+                t_paperdoll_position(
+                    paperdoll_obj.get_config("alignX", index),
+                    paperdoll_obj.get_config("alignY", index),
+                    paperdoll_obj.get_effective_zoom(index)
+                ),
+                t_paperdoll_blur(paperdoll_obj.config.get("blur", 0.0)),
+                t_paperdoll_bw(paperdoll_saturation(bw), duration),
             ],
         )
 
@@ -841,7 +1180,10 @@ label paperdoll_action_shake(paperdoll_obj, pda_shake):
                     dist = max_distance, 
                     seed = paperdoll_obj.key
                 ),
+                t_paperdoll_bw(paperdoll_saturation(paperdoll_obj.is_bw())),
             ],
         )
 
         $ index += 1
+
+    return

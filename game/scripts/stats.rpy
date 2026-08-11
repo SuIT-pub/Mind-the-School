@@ -141,6 +141,8 @@ init -6 python:
 
             quest_manager.check_task_type("stats")
 
+            situation_manager.apply_progress_change_via_stats(self.type, delta)
+
         def set_changed_value(self, value: num):
             """
             Sets the change of the stat to the given value.
@@ -207,6 +209,8 @@ init -6 python:
             self.add_changed_value(change_val)
 
             quest_manager.check_task_type("stats")
+
+            situation_manager.apply_progress_change_via_stats(self.type, change_val)
 
         def change_value_to(self, value: num, level: int = 10):
             """
@@ -587,6 +591,40 @@ init -6 python:
                 "\n-------------------------------------------------------\n" + 
                 self.get_stat_description(**kwargs))
 
+        def get_full_range(self) -> int:
+            """
+            Returns the full available range of the stat.
+
+            ### Returns:
+            1. int
+                - The full range of the stat.
+            """
+
+            return self.get_max_limit() - self.get_min_limit()
+
+        def get_gated_range(self, level: int = 10) -> int:
+            """
+            Returns the available range of the stat based on the school level.
+
+            Corruption and Inhibition are gated by school level: each level unlocks
+            10 points of the 0-100 scale. Other stats return the full range.
+
+            ### Parameters:
+            1. level: int (default 10)
+                - The level of the school used to calculate the gated range.
+
+            ### Returns:
+            1. int
+                - The gated range of the stat for the given school level.
+            """
+
+            full_range = self.get_full_range()
+
+            if self.type in (CORRUPTION, INHIBITION):
+                return int(clamp_value(level * (full_range / 10), 0, full_range))
+
+            return full_range
+
     def get_stat_icon(stat: str, *, size: str = ICON_SMALL, white: bool = True) -> str:
         """
         Returns the path to the icon image of the stat.
@@ -750,6 +788,43 @@ init -6 python:
         if key not in reserved_money.keys():
             return False
         del reserved_money[key]
+
+    def get_full_range(stat: str):
+        """
+        Returns the full available range for a school stat or situation bar.
+
+        Args:
+            stat (str): School stat name or ``situation:<situation_key>:<bar_key>``.
+
+        Returns:
+            float: Full range size, or ``0`` if unresolved.
+        """
+        if not stat:
+            return 0
+        if stat.startswith("situation:"):
+            return situation_manager.get_full_range(stat)
+        if stat not in stat_data:
+            return 0
+        return stat_data[stat].get_full_range()
+
+    def get_gated_range(stat: str, value: float):
+        """
+        Returns the gated range for a school stat or situation bar.
+
+        Args:
+            stat (str): School stat name or ``situation:<situation_key>:<bar_key>``.
+            value (float): Modifier value whose sign selects the gate.
+
+        Returns:
+            float: Gated range size, or ``0`` if unresolved.
+        """
+        if not stat:
+            return 0
+        if stat.startswith("situation:"):
+            return situation_manager.get_gated_range(stat, value)
+        if stat not in stat_data:
+            return 0
+        return stat_data[stat].get_gated_range(value)
 
 label load_stats ():
     

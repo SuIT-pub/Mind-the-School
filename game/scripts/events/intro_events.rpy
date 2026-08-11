@@ -118,7 +118,7 @@ label first_potion_courtyard_event (**kwargs):
     subtitles "Normally that wouldn't be such a weird thing, if they weren't in only their underwear."
     headmaster_thought "I certainly enjoy the view. Unfortunately it only lasts for today until the serum finishes settling in their bodies."
 
-    $ set_building_blocked("courtyard")
+    $ add_building_collection_key("courtyard", "closed", "first_week")
 
     $ end_event("new_daytime", **kwargs)
 
@@ -143,7 +143,11 @@ label first_week_courtyard_event (**kwargs):
 
     $ change_stat("happiness", 5)
 
-    $ set_building_blocked("courtyard")
+    # Optional tutorial bias: public presence during the intro nudges
+    # free-roam "Standing" toward earlier reactions.
+    $ situation_manager.shift_start_value("new_management", "main", "+", 1)
+
+    $ add_building_collection_key("courtyard", "closed", "first_week")
 
     $ end_event("new_day", **kwargs)
 
@@ -171,7 +175,7 @@ label first_potion_gym_event (**kwargs):
     $ image.show(4)
     headmaster_thought "Oh they seem to really get into it!"
 
-    $ set_building_blocked("gym")
+    $ add_building_collection_key("gym", "closed", "first_week")
 
     $ end_event('new_daytime', **kwargs)
 
@@ -193,7 +197,9 @@ label first_week_gym_event (**kwargs):
 
     $ change_stat("charm", 5)
 
-    $ set_building_blocked("gym")
+    $ situation_manager.shift_start_value("new_management", "main", "+", 0.5)
+
+    $ add_building_collection_key("gym", "closed", "first_week")
 
     $ end_event('new_daytime', **kwargs)
 
@@ -229,7 +235,9 @@ label first_week_kiosk_event (**kwargs):
 
     $ change_stat("reputation", 5)
 
-    $ set_building_blocked("kiosk")
+    $ situation_manager.shift_start_value("new_management", "main", "+", 0.5)
+
+    $ add_building_collection_key("kiosk", "closed", "first_week")
 
     $ end_event('new_day', **kwargs)
 
@@ -250,7 +258,7 @@ label first_potion_office_building_event (**kwargs):
     $ image.show(2)
     headmaster_thought "Not that I have a problem with it. Quite the opposite. That makes some things a bit easier."
 
-    $ set_building_blocked("office_building")
+    $ add_building_collection_key("office_building", "closed", "first_week")
 
     $ end_event('new_daytime', **kwargs)
 
@@ -266,7 +274,9 @@ label first_week_office_building_event (**kwargs):
     $ change_stat("happiness", 5)
     $ change_stat("reputation", 5)
 
-    $ set_building_blocked("office_building")
+    $ situation_manager.shift_start_value("new_management", "main", "+", 1)
+
+    $ add_building_collection_key("office_building", "closed", "first_week")
 
     $ end_event('new_day', **kwargs)
 
@@ -306,7 +316,9 @@ label first_week_sb_event (**kwargs):
 
     $ change_stat("education", 5)
 
-    $ set_building_blocked("school_building")
+    $ situation_manager.shift_start_value("new_management", "main", "+", 1)
+
+    $ add_building_collection_key("school_building", "closed", "first_week")
 
     $ end_event('new_day', **kwargs)
 
@@ -323,7 +335,7 @@ label first_potion_sb_event (**kwargs):
     subtitles "Apparently the teachers also took a drink."
     headmaster_thought "Hmm, I can't wait to have this view on a regular basis, but that's gonna take some time."
 
-    $ set_building_blocked("school_building")
+    $ add_building_collection_key("school_building", "closed", "first_week")
     
     $ end_event('new_daytime', **kwargs)
 
@@ -359,7 +371,10 @@ label first_week_school_dormitory_event (**kwargs):
     $ change_stat("inhibition", -3)
     $ change_stat("happiness", 3)
 
-    $ set_building_blocked("school_dormitory")
+    # Private inspection doesn't build the same "being seen" legitimacy.
+    $ situation_manager.shift_start_value("new_management", "main", "+", -0.5)
+
+    $ add_building_collection_key("school_dormitory", "closed", "first_week")
 
     $ end_event('new_day', **kwargs)
 
@@ -384,7 +399,7 @@ label first_potion_school_dormitory_event (**kwargs):
     else:
         headmaster_thought "Ahh I like this view. Nothing more erotic than nudity in combination with a party game."
 
-    $ set_building_blocked("school_dormitory")
+    $ add_building_collection_key("school_dormitory", "closed", "first_week")
 
     $ end_event('new_daytime', **kwargs)
 

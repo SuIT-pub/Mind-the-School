@@ -165,7 +165,7 @@ label sb_event_1 (**kwargs): # patrol, check class
 
     $ call_custom_menu_with_text("What do you do?", character.subtitles, False,
         MenuElement("Leave and let them have fun", "Leave and let them have fun", EventEffect("sb_event_1.leave")),
-        MenuElement("Stop them", "Stop them", EventEffect("sb_event_1.stop"), not is_rule_unlocked("student_student_relation")), 
+        MenuElement("Stop them", "Stop them", EventEffect("sb_event_1.stop"), not is_unlockable_unlocked("student_student_relation")),
     **kwargs)
 label .leave (**kwargs):
     

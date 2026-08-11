@@ -407,6 +407,12 @@ init python:
 
         return set_value(key, value, **kwargs)
 
+    def get_bar_value(situation_key: str, bar_key: str, alt: float = 0.0, **kwargs) -> float:
+        key = "situation:" + situation_key + ":" + bar_key
+        
+        return get_value(key, alt, **kwargs)
+
+
     def get_stat_value(key: str, ranges: List[float], alt: float = 100, **kwargs) -> float:
         """
         Gets a value normalized to set values in the gallery database.

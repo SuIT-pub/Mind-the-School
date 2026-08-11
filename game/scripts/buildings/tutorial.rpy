@@ -347,7 +347,7 @@ label tutorial_map ():
     show screen show_building_buttons(map_example) with dissolveM
     secretary "This is the school campus. Quite big, isn't it?"
 
-    if (count_locked_buildings() > 0):
+    if any(not is_unlockable_unlocked(key) for key in ("labs", "sports_field", "beach", "swimming_pool", "bath", "cafeteria", "staff_lodges")):
         secretary "Unfortunately there are some buildings that have been taken out of service and became quite derelict."
         secretary "Funny, these buildings are greyed out... just like in a game."
 
@@ -359,25 +359,25 @@ label tutorial_map ():
 
     show screen show_building_buttons("labs", show_type = "white") with dissolveM
     secretary "This is the Labs Building containing classrooms specialized for biology, chemistry etc."
-    if not is_building_unlocked("labs"):
+    if not is_unlockable_unlocked("labs"):
         secretary "This building is currently not in use and needs some renovation."
 
     show screen show_building_buttons("sports_field", show_type = "white") with dissolveM
-    if is_building_unlocked("sports_field"):
+    if is_unlockable_unlocked("sports_field"):
         secretary "This is the Sports Field. Here our students can work to improve their physical abilities."
         secretary "I have to say, the students get way more charming when they are fit."
     else:
         secretary "This is, or rather was our Sports Field. Currently it's just a big overgrown field. Unusable for sport activities."
 
     show screen show_building_buttons("beach", show_type = "white") with dissolveM
-    if is_building_unlocked("beach"):
+    if is_unlockable_unlocked("beach"):
         secretary "This is the Beach. The perfect place to relax and have fun."
     else:
         secretary "This is our beach. Unfortunately the former headmaster closed it down to save some money on maintenance."
 
     show screen show_building_buttons("gym", show_type = "white") with dissolveM
     secretary "This is the Gym Hall. Sport classes take place here."
-    if not is_building_unlocked("sports_field"):
+    if not is_unlockable_unlocked("sports_field"):
         secretary "Normally those classes would switch between the gym and the field outside. But you've seen the state of that."
     else:
         secretary "Those classes switch between the gym and the field outside."
@@ -385,20 +385,20 @@ label tutorial_map ():
 
     show screen show_building_buttons("swimming_pool", show_type = "white") with dissolveM
     secretary "This is the our Swimming Pool. The best place to cool off on hot days. Especially because we don't really get winter in this part of the world."
-    if not is_building_unlocked("pool"):
+    if not is_unlockable_unlocked("swimming_pool"):
         secretary "But even this Facility couldn't survive the mishaps of the former Headmaster."
         secretary "I hope you can bring this back into operation rather quick. I really enjoy going for a swim."
 
     show screen show_building_buttons("bath", show_type = "white") with dissolveM
     secretary "This is the public Onsen"
-    if not is_building_unlocked("bath"):
+    if not is_unlockable_unlocked("bath"):
         secretary "The former headmaster closed this building down to save some money."
     else:
         secretary "It's the perfect place to relax from the stress in the school. I love it here."
 
     show screen show_building_buttons("cafeteria", show_type = "white") with dissolveM
     secretary "The Cafeteria! The Place where the students get their food."
-    if not is_building_unlocked("cafeteria"):
+    if not is_unlockable_unlocked("cafeteria"):
         secretary "Because this building is closed, unfortunately the students have to get their food from the kiosk next door."
     else:
         secretary "Here they get full meals, while for snacks they have to go to the Kiosk next door."
@@ -412,7 +412,7 @@ label tutorial_map ():
 
     show screen show_building_buttons("staff_lodges", show_type = "white") with dissolveM
     secretary "This is the Staff Lodges. Here the teachers and other staff members live."
-    if not is_building_unlocked("staff_lodges"):
+    if not is_unlockable_unlocked("staff_lodges"):
         secretary "But it's currently closed. The teachers have to find their own place to stay."    
 
     show screen show_building_buttons("office_building", show_type = "white") with dissolveM

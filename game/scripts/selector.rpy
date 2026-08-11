@@ -2,6 +2,7 @@ init -3 python:
     from abc import ABC, abstractmethod
     import random
     from typing import Any
+    from deprecated import deprecated
 
     rerollSelectors = []
 
@@ -920,6 +921,7 @@ init -3 python:
 
             return get_progress(index)
 
+    @deprecated(version='0.2.3', reason="Rules merged into Unlockables; use BuildingUnlockedSelector (any unlockable key) or an UnlockableCondition. Kept for save compatibility.")
     class RuleUnlockedSelector(Selector):
         """
         A Selector-class that stores if the rule is unlocked
@@ -948,13 +950,10 @@ init -3 python:
             self._rule = rule
 
         def roll(self, **kwargs) -> Any:
+            rule_key = self._rule if not isinstance(self._rule, Selector) else self._rule.get_value(**kwargs)
+            return is_unlockable_unlocked(rule_key)
 
-            rule = get_rule(self._rule) if not isinstance(self._rule, Selector) else get_rule(self._rule.get_value(**kwargs))
-            if rule == None:
-                return None           
-
-            return rule.is_unlocked()
-
+    @deprecated(version='0.2.3', reason="Clubs merged into Unlockables; use BuildingUnlockedSelector (any unlockable key) or an UnlockableCondition. Kept for save compatibility.")
     class ClubUnlockedSelector(Selector):
         """
         A Selector-class that stores if the club is unlocked
@@ -982,11 +981,8 @@ init -3 python:
             self._club = club
 
         def roll(self, **kwargs) -> Any:
-
-            club = get_club(self._club) if not isinstance(self._club, Selector) else get_club(self._club.get_value(**kwargs))
-            if club == None:
-                return None
-            return club.is_unlocked()
+            club_key = self._club if not isinstance(self._club, Selector) else self._club.get_value(**kwargs)
+            return is_unlockable_unlocked(club_key)
 
     class BuildingUnlockedSelector(Selector):
         """
@@ -1015,11 +1011,8 @@ init -3 python:
             self._building = building
 
         def roll(self, **kwargs) -> Any:
-
-            building = get_building(self._building) if not isinstance(self._building, Selector) else get_building(self._building.get_value(**kwargs))
-            if building == None:
-                return None
-            return building.is_unlocked()
+            building_key = self._building if not isinstance(self._building, Selector) else self._building.get_value(**kwargs)
+            return is_unlockable_unlocked(building_key)
 
     class BuildingLevelSelector(Selector):
         """
@@ -1048,11 +1041,20 @@ init -3 python:
             self._building = building
 
         def roll(self, **kwargs) -> Any:
-
-            building = get_building(self._building) if not isinstance(self._building, Selector) else get_building(self._building.get_value(**kwargs))
-            if building == None:
+            building_key = self._building if not isinstance(self._building, Selector) else self._building.get_value(**kwargs)
+            if unlockable_manager is None:
                 return 0
-            return building.get_level()
+            members = unlockable_manager.get_unlockables_by_key(building_key)
+            if not members:
+                return 0
+            if len(members) == 1 and members[0].group_index == -1:
+                return 1 if members[0].is_unlocked() else 0
+            unlocked_levels = [
+                member.group_index
+                for member in members
+                if member.is_unlocked() and member.group_index != -1
+            ]
+            return max(unlocked_levels) if unlocked_levels else 0
 
     class CharacterSelector(Selector):
         """
@@ -1090,15 +1092,10 @@ init -3 python:
 
             return get_character_by_key(char)
 
+    @deprecated(version='0.2.3', reason="Replaced by Unlockable.roll_votes(); kept for save compatibility.")
     class PTAVoteSelector(Selector):
         """
-        A Selector-class that stores the vote of the PTA
-        PTAVoteSelector is a child of Selector and inherits all of its attributes and methods.
-
-        ### Attributes:
-        1. _condition_type: str
-            - The type of the condition.
-            - Can be "misc", 'social'(students), 'feasibility'(teacher) or 'academic'(parents)
+        Legacy PTA vote selector referenced by old event definitions and saves.
         """
 
         def __init__(self, key: str, condition_type: str = 'misc', *options: Option):
@@ -1106,20 +1103,39 @@ init -3 python:
             self._condition_type = condition_type
 
         def roll(self, **kwargs) -> Any:
-            vote_proposal = get_game_data('voteProposal')
-            if vote_proposal == None:
-                return None
-
-            vote_obj = proposal._journal_obj
-
-            if vote_obj.get_type() == 'building' and vote_obj.can_be_upgraded():
-                return vote_obj.get_upgrade_vote_character(self._condition_type)
-            else:
-                return vote_obj.get_vote_character(self._condition_type)
+            return None
 
     class PTAObjectSelector(Selector):
+        """
+        Loads the scheduled Unlockable from ``voteProposal`` into event kwargs.
+        """
+
         def __init__(self, key: str, *options: Option):
             super().__init__(True, key, *options)
 
         def roll(self, **kwargs) -> Any:
             return get_game_data('voteProposal')
+
+    class SituationBarSelector(Selector):
+        """
+        A Selector-class that chooses a value from the Situation Bar.
+        SituationBarSelector is a child of Selector and inherits all of its attributes and methods.
+
+        ### Attributes:
+        1. _situation_key: str
+            - The key of the situation.
+        """
+
+        def __init__(self, key: str, situation_key: str, bar_key: str, *options: Option):
+            super().__init__(True, key, *options)
+            self._situation_key = situation_key
+            self._bar_key = bar_key
+
+        def roll(self, **kwargs) -> Any:
+            situation = situation_manager.get_situation(self._situation_key)
+            if situation == None:
+                return 0
+            bar = situation.get_bar(self._bar_key)
+            if bar == None:
+                return 0
+            return bar.value

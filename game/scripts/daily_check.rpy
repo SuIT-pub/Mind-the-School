@@ -43,6 +43,10 @@ init 1 python:
         TimeCondition(day = 1, daytime = 1),
         DaytimeChangedCondition())
 
+    new_year_event = Event(2, "check_new_year",
+        TimeCondition(day = 1, month = 1, daytime = 1),
+        DaytimeChangedCondition())
+
     intro_check_all_facilities_event = Event(2, "intro_check_all_facilities", 
         IntroCondition(),
         TimeCondition(day = 2, month = 1, year = 2023, daytime = 1))
@@ -463,9 +467,10 @@ label first_week_epilogue (**kwargs):
         $ set_level_for_char(1, "parent", charList)
         $ set_level_for_char(5, "secretary", charList["staff"])
 
-        $ set_all_buildings_blocked(False)
+        $ remove_all_buildings_collection_key("closed", "first_week")
+        $ remove_all_buildings_collection_key("closed", "pta_lock")
 
-        $ set_building_blocked("kiosk")
+        $ add_building_collection_key("kiosk", "closed", "first_week_epilogue")
 
         $ time.set_time(day = 9, daytime = 3)
 
@@ -474,7 +479,9 @@ label first_week_epilogue (**kwargs):
 label first_week_epilogue_final (**kwargs): 
     $ begin_event(**kwargs)
 
-    $ set_all_buildings_blocked(False)
+    $ remove_all_buildings_collection_key("closed", "first_week")
+    $ remove_all_buildings_collection_key("closed", "pta_lock")
+    $ remove_building_collection_key("kiosk", "closed", "first_week_epilogue")
 
     $ hide_all()
     $ secretary_name = get_name_first('secretary')
@@ -554,6 +561,17 @@ label .skip:
 
     hide screen black_error_screen_text
 
+    # Activate the Day-10 tutorial situation right as free-roam begins.
+    $ nm_situation = situation_manager.get_situation("new_management")
+    if nm_situation is not None and nm_situation.state != "active":
+        $ nm_situation.activate()
+        # Default tutorial mode: guided hints on.
+        $ nm_situation.set_passive("guided_orientation")
+
+    # Short standing beat: the school reacts to presence, not speeches.
+    secretary "Alright, headmaster. Let's see if the campus starts noticing you."
+    headmaster_thought "My title needs a face. And the bar won't wait."
+
     call show_image ("images/events/endscreen/thanks 1.webp") from _call_show_image_first_week_epilogue_final_3
     
     # dev "[intro_dev_message]"
@@ -589,53 +607,33 @@ label check_missing_proficiencies:
 ###################################
 
 label check_new_daytime (**kwargs):
-    call change_stats_with_modifier('daytime_change',
-        reputation = 0,
-        charm = 0,
-        happiness = 0,
-        inhibition = 0,
-        corruption = 0,
-        education = 0,
-    ) from _call_change_daytime_change_stats_with_modifier
-    call change_money_with_modifier(0, 'daytime_change') from _call_change_daytime_change_money_with_modifier
+    call change_stats_via_modifier('daytime_change') from _call_change_daytime_via_modifier
+    $ situation_manager.check_passives(**kwargs)
+    $ situation_manager.check_resolutions(**kwargs)
     return
 
 label check_new_day (**kwargs):
-    call change_stats_with_modifier('daily',
-        reputation = 0,
-        charm = 0,
-        happiness = 0,
-        inhibition = 0,
-        corruption = 0,
-        education = 0,
-    ) from _call_change_daily_stats_with_modifier
-    call change_money_with_modifier(0, 'daily') from _call_change_daily_money_with_modifier
+    $ situation_manager.tick_resolution_breather()
+    call change_stats_via_modifier('daily') from _call_change_daily_via_modifier
+    $ situation_manager.check_passives(**kwargs)
+    $ situation_manager.check_resolutions(**kwargs)
     return
 
 label check_new_week (**kwargs):
-    call change_stats_with_modifier('weekly',
-        reputation = 0,
-        charm = 0,
-        happiness = 0,
-        inhibition = 0,
-        corruption = 0,
-        education = 0,
-    ) from _call_change_weekly_stats_with_modifier
-    call change_money_with_modifier(0, 'weekly') from _call_change_weekly_money_with_modifier
-    call change_money_with_modifier(0, 'payroll_weekly') from _call_change_money_with_modifier_1
+    call change_stats_via_modifier('weekly') from _call_change_weekly_via_modifier
+    call change_stats_via_modifier('payroll_weekly') from _call_change_payroll_weekly_via_modifier
     return
 
 label check_new_month (**kwargs):
-    call change_stats_with_modifier('monthly',
-        reputation = 0,
-        charm = 0,
-        happiness = 0,
-        inhibition = 0,
-        corruption = 0,
-        education = 0,
-    ) from _call_change_monthly_stats_with_modifier
-    call change_money_with_modifier(0, 'monthly') from _call_change_monthly_money_with_modifier
-    call change_money_with_modifier(0, 'payroll_monthly') from _call_change_money_with_modifier_2
+    call change_stats_via_modifier('monthly') from _call_change_monthly_via_modifier
+    call change_stats_via_modifier('payroll_monthly') from _call_change_payroll_monthly_via_modifier
+    # $ change_stat(MONEY, 1000)
+
+    return
+
+label check_new_year (**kwargs):
+    call change_stats_via_modifier('yearly') from _call_change_yearly_via_modifier
+    call change_stats_via_modifier('payroll_yearly') from _call_change_payroll_yearly_via_modifier
     # $ change_stat(MONEY, 1000)
 
     return

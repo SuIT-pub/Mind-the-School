@@ -185,6 +185,11 @@ init -98 python:
         item_delivery = remaining_deliveries
 
     def load_item(item: ItemData):
+        # Gated on the current mod being active (like event `add_event`): a disabled
+        # mod's item definitions are not registered. (Runtime `add_item` — giving an
+        # item to the player — is deliberately NOT gated.)
+        if not is_mod_active(active_mod_key):
+            return
         inventory_manager.item_data[item.key] = item
 
         if isinstance(item, ShopItemData):

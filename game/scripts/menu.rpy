@@ -83,7 +83,7 @@ init python:
 
         label_exists = renpy.has_label(label)
         if not label_exists:
-            log_error(102, f"Label '{label}' does not exist.")
+            log(f"Label '{label}' does not exist.", log_type="error", category="menu")
         return label_exists            
 
     def clean_events_for_menu(events: Dict[str, EventStorage], **kwargs) -> Tuple[List[MenuElement], List[str], List[str]]:

@@ -124,3 +124,22 @@ init -6 python:
     class EffectNoRevertOption(Option):
         def __init__(self):
             super().__init__("EffectNoRevert")
+
+    class MoneyEscrowOption(Option):
+        """Marks a MoneyEffect as consuming a PTA vote money stash on apply.
+
+        When the effect applies an ADD cost and ``stash_key`` is reserved,
+        the stash is finalized (``spend_reserved_money``) instead of deducting
+        from the wallet again — money was already moved aside at Schedule Vote.
+        """
+
+        def __init__(self, stash_key: str):
+            super().__init__("MoneyEscrow")
+            self.stash_key = stash_key
+
+        def get_values(self) -> Dict[str, Any]:
+            return {"stash_key": self.stash_key}
+
+    class NoOverrideOption(Option):
+        def __init__(self):
+            super().__init__("NoOverride")

@@ -78,7 +78,7 @@ init 1 python:
         Event(3, "office_event_3",
             TimeCondition(weekday = "d", daytime = "d"),
             LevelCondition("1-5", "school"),
-            NOT(RuleCondition("student_student_relation")),
+            NOT(UnlockableCondition("student_student_relation")),
             Pattern("main", "images/events/office/office_event_3/office_event_3 <school_level> <step>.webp"),
             thumbnail = "images/events/office/office_event_3/office_event_3 1 0.webp"),
         Event(3, "office_event_4",

@@ -1,4 +1,8 @@
-# Situation API Reference
+# Situation / Unlockable API Reference
+
+> Low-level cheat-sheet. For the full, self-contained references see
+> `wiki/Building-Situations.md` (Situations) and
+> `wiki/Building-Unlockables.md` (Unlockables).
 
 ## Class hierarchy
 
@@ -71,6 +75,38 @@ Situation("key", "Name", "Description", *elements)
 
 Runtime state: `pause_until` (do not reset from template in `update_data`).
 
+## Unlockable (subclass of Situation)
+
+```python
+Unlockable(
+    type_key,                 # "rule" / "club" / "building"
+    key,                      # stable key within the type; situation key = type_key:key
+    name,                     # display name / group-member label
+    inject_default_measure,   # True → inject the free "Persuade" measure
+    *elements,                # visibility Conditions, unlock Effects (or a PositiveResolution),
+                              #   SituationDescription, custom Bars/measures, Teasers, Picto,
+                              #   UnlockableScheduleVoteConditions(...)
+    thumbnail=None,
+    group_index=-1,           # chain level (-1 = standalone)
+    inject_default_cancel=True,
+)
+```
+
+Registered via `register_unlockables(...)` in `label load_unlockables`
+(`game/scripts/journal/unlockables.rpy`). Auto-injects: three faction bars
+(`Students`/`Parents`/`Teachers`), Schedule Vote + Cancel (+ optional Persuade),
+and the `vote_passed` / `PositiveResolution` unlock resolutions carrying
+`UnlockableUnlockEffect` + your unlock effects.
+
+Key details (full: unlockables author guide):
+- **Visibility** = bare `Condition`s (when listed); *not* vote gates.
+- **Unlock effects** = bare `Effect`s or a `PositiveResolution`; run on a won vote.
+  Building → add `BuildingOpenEffect("<key>")` (unlock ≠ map-open).
+- **Money cost** = `UnlockableScheduleVoteConditions(MoneyCondition("N+"))` +
+  `MoneyEffect("<name>", -N, "ADD")`, paired by absolute value (self-test 800–803).
+- **Upgrade chain** = one Unlockable per level, consecutive `group_index`.
+- Runtime checks: `is_unlockable_unlocked(key, index=-1)` / `UnlockableCondition(key, index=-1)`.
+
 ## load_situations pattern
 
 ```python
@@ -103,7 +139,8 @@ Always verify targets in the building's `.rpy` file before naming pools.
 
 `HAPPINESS`, `EDUCATION`, `CHARM`, `REPUTATION`, `INHIBITION`, `CORRUPTION`, `MONEY`
 
-Weights are floats; `0` means ignore. Invert behavior for stats is situation-specific (see concept doc).
+Weights are floats; `0` means ignore. A negative weight inverts direction; invert
+behavior is situation-specific (see the author's guide, "Stat coupling in depth").
 
 ## Hint authoring guide
 

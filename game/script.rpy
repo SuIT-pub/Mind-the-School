@@ -4,25 +4,28 @@ label start ():
 
     $ set_dissolve()
 
+    $ lifecycle_registry.begin_check()
+
     call load_stats from start_1
     call load_schools from start_2
     call load_characters from start_7
-    call load_buildings from start_3
-    call load_clubs from start_4
-    call load_rules from start_5
-    call load_quests from start_6
     call load_items from start_8
+    call load_pictograms from start_11
     call load_situations from start_9
+    call load_unlockables from start_10
+    call load_buildings from start_3
 
     $ fix_modifier()
     $ fix_quests()
-
-
 
     $ i = 0
     while i < len(start_methods):
         call expression start_methods[i] from _call_expression_2
         $ i += 1
+
+    if situation_manager is not None:
+        $ situation_manager.reconcile_orphan_situations()
+    $ lifecycle_registry.finalize_check()
 
     call intro from _call_intro
 label splashscreen:
@@ -68,20 +71,9 @@ init python:
                 secretary.set_level(5)
 
     def fix_quests():
-        # event_seen = get_game_data("seen_events")
-        # if event_seen == None:
-        #     event_seen = {}
-        # if get_kwargs("gym_teach_pe_main_aona_bra", False, **event_seen):
-        #     get_quest("School", "aonas_new_bra").activate()
-        #     get_goal("School", "aonas_new_bra", "aona_bra_event_1").force_complete()
-        # if get_kwargs("aona_sports_bra_event_1", False, **event_seen):
-        #     get_quest("School", "aonas_new_bra").activate()
-        #     get_goal("School", "aonas_new_bra", "aona_bra_event_2").force_complete()
-        # if get_kwargs("aona_sports_bra_event_2", False, **event_seen):
-        #     get_quest("School", "aonas_new_bra").activate()
-        #     get_goal("School", "aonas_new_bra", "aona_bra_event_3").force_complete()
         global quest_manager
-        
+        if quest_manager is None:
+            quest_manager = QuestManager()
         quest_manager.run_effect_init()
         quest_manager.check_task_type("event")
 
@@ -91,7 +83,7 @@ init python:
         """
 
         # add weekly cost for cafeteria if not already added
-        if (get_building('cafeteria').is_unlocked() and 
+        if (is_unlockable_unlocked('cafeteria') and
             get_modifier('weekly_cost_cafeteria', 'money', 'payroll_weekly') == None
         ):
             set_modifier('weekly_cost_cafeteria', Modifier_Obj('Cafeteria', "+", -100), stat = 'money', collection = 'payroll_weekly')
@@ -195,18 +187,23 @@ init python:
     ###########################################
 
 label after_load:
-    $ log('\n\n\n####################################################################################################\n####################################################################################################\n')
+    $ log_separator()
+    $ log_separator()
+
+    $ lifecycle_registry.begin_check()
 
     call load_stats from after_load_1
     call load_schools from after_load_2
     call load_characters from after_load_7
-    call load_rules from after_load_3
-    call load_buildings from after_load_4
-    call load_clubs from after_load_5
-    call load_quests from after_load_6
     call load_items from after_load_8
+    call load_pictograms from after_load_11
     call load_situations from after_load_9
-    
+    call load_unlockables from after_load_10
+    call load_buildings from after_load_4
+
+    $ clean_legacy_journal_objects()
+    $ clean_legacy_quests()
+
     #####################################
     # check for version incompatibilities
     $ check_old_versions()
@@ -222,6 +219,10 @@ label after_load:
         call expression start_methods[i] from _call_expression_3
         $ i += 1
 
+    if situation_manager is not None:
+        $ situation_manager.reconcile_orphan_situations()
+    $ lifecycle_registry.finalize_check()
+    
     if contains_game_data("names") and "headmaster" in get_game_data("names"):
         $ headmaster_first_name = get_game_data("names")["headmaster"][0]
         $ headmaster_last_name = get_game_data("names")["headmaster"][1]

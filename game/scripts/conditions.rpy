@@ -72,7 +72,6 @@ init -6 python:
             get_list_conditions_list(**kwargs): Gets formatted list text.
             get_conditions(): Gets all stored conditions.
             is_fulfilled(**kwargs): Checks if all conditions are fulfilled.
-            is_blocking(**kwargs): Checks if any unfulfilled condition is blocking.
         """
 
         def __init__(self, *conditions: Condition):
@@ -158,28 +157,22 @@ init -6 python:
             """Formats and returns description text for description-type conditions.
 
             Generates formatted description text for all conditions marked for description display.
-            Can optionally filter out blocking conditions.
 
             Args:
-                **kwargs: Arbitrary keyword arguments.
-                    blocking (bool): If True, excludes blocking conditions from output.
+                **kwargs: Arbitrary keyword arguments passed to each condition's
+                    to_desc_text.
 
             Returns:
                 list: List of formatted description strings for each relevant condition.
             """
 
-            blocking = False
-            if 'blocking' in kwargs.keys() and kwargs['blocking']:
-                blocking = True
-
             output = []
             for condition in self.desc_conditions:
-                if not blocking or not condition.blocking:
-                    desc_text = condition.to_desc_text(**kwargs)
-                    if isinstance(desc_text, list):
-                        output.extend(desc_text)
-                    else:
-                        output.append(desc_text)
+                desc_text = condition.to_desc_text(**kwargs)
+                if isinstance(desc_text, list):
+                    output.extend(desc_text)
+                else:
+                    output.append(desc_text)
 
             return output
 
@@ -187,28 +180,22 @@ init -6 python:
             """Formats and returns list text for list-type conditions.
 
             Generates formatted list text for all conditions marked for list display.
-            Can optionally filter out blocking conditions.
 
             Args:
-                **kwargs: Arbitrary keyword arguments.
-                    blocking (bool): If True, excludes blocking conditions from output.
+                **kwargs: Arbitrary keyword arguments passed to each condition's
+                    to_list_text.
 
             Returns:
                 list: List of formatted strings for each relevant condition.
             """
 
-            blocking = False
-            if 'blocking' in kwargs.keys() and kwargs['blocking']:
-                blocking = True
-
             output = []
             for condition in self.list_conditions:
-                if not blocking or not condition.blocking:
-                    desc_text = condition.to_list_text(**kwargs)
-                    if isinstance(desc_text, list):
-                        output.extend(desc_text)
-                    else:
-                        output.append(desc_text)
+                desc_text = condition.to_list_text(**kwargs)
+                if isinstance(desc_text, list):
+                    output.extend(desc_text)
+                else:
+                    output.append(desc_text)
 
             return output
 
@@ -251,60 +238,45 @@ init -6 python:
 
             return True
 
-        def is_blocking(self, **kwargs) -> bool:
-            """Checks if any stored conditions are currently blocking.
-
-            Evaluates each condition in storage to determine if any are in a blocking state.
-            A blocking condition typically prevents certain actions or progression.
-
-            Args:
-                **kwargs: Arbitrary keyword arguments passed to each condition's
-                    is_blocking check.
-
-            Returns:
-                bool: True if no conditions are blocking, False if any condition is blocking.
-            """
-
+        def find_by_type(self, type: str) -> List[Condition]:
+            output = []
             for condition in self.conditions:
-                if condition.is_blocking(**kwargs):
-                    return True
-            return False
+                output.extend(condition.find_by_type(type))
+            return output
 
     class Condition(ABC):
         """Abstract base class for all condition types in the game.
 
         This class serves as the foundation for all condition types that can be checked
         in the game. Conditions can be used to control game flow, unlock content,
-        and validate game state. Each condition can be marked as blocking, which affects
-        whether content is hidden when the condition is not met.
+        and validate game state.
 
         Attributes:
-            blocking: Whether the condition blocks content when not fulfilled.
             display_in_list: Whether the condition should appear in UI lists.
             display_in_desc: Whether the condition should appear in descriptions.
 
         Methods:
             is_fulfilled(**kwargs): Checks if the condition is met.
-            is_blocking(**kwargs): Checks if condition is blocking and unfulfilled.
-            is_set_blocking(): Returns whether condition was set as blocking.
             to_list_text(**kwargs): Gets text representation for list display.
             to_desc_text(**kwargs): Gets text representation for description display.
             get_name(): Gets the condition's name.
             get_diff(char_obj): Gets numerical difference from target value.
         """
 
-        def __init__(self, blocking: bool = False, *options: Option):
+        def __init__(self, *options: Option):
             """Initializes a new Condition.
 
             Args:
-                blocking: Whether this condition should block content when not fulfilled.
-                    Defaults to False.
+                *options: Optional Option objects attached to this condition.
             """
-            self.blocking = blocking
             self.display_in_list = False
             self.display_in_desc = False
 
             self.options = OptionSet(*options)
+
+        @property
+        def _type(self) -> str:
+            return "condition"
 
         def get_option_set(self):
             if self.options == None:
@@ -314,6 +286,11 @@ init -6 python:
         @abstractmethod
         def check_condition(self, **kwargs) -> bool:
             pass
+
+        def find_by_type(self, type: str) -> List[Condition]:
+            if self._type == type:
+                return [self]
+            return []
 
         def is_fulfilled(self, **kwargs) -> bool:
             """Checks if the condition is currently fulfilled.
@@ -348,35 +325,6 @@ init -6 python:
                 return True
 
             return self.check_condition(**kwargs)
-
-        def is_blocking(self, **kwargs) -> bool:
-            """Checks if the condition is both blocking and unfulfilled.
-
-            A condition is considered blocking if it is both marked as a blocking condition
-            and is currently unfulfilled. This is used to determine if content should
-            be hidden or inaccessible.
-
-            Args:
-                **kwargs: Additional arguments passed to is_fulfilled check.
-
-            Returns:
-                bool: True if condition is both blocking and unfulfilled, False otherwise.
-            """
-
-            return (not self.is_fulfilled(**kwargs) and self.blocking)
-
-        def is_set_blocking(self) -> bool:
-            """Checks if this condition was initialized as a blocking condition.
-
-            This differs from is_blocking() in that it only checks the blocking flag,
-            not whether the condition is currently fulfilled.
-
-            Returns:
-                bool: True if this condition was set as blocking during initialization,
-                    False otherwise.
-            """
-
-            return self.blocking
 
         def to_list_text(self, **kwargs) -> Union[Tuple[str, str], Tuple[str, str, str], List[Union[Tuple[str, str], Tuple[str, str, str]]]]:
             """Generates formatted text for displaying the condition in list form.
@@ -458,9 +406,6 @@ init -6 python:
         def calculate_probability(self, **kwargs) -> float:
             return self.get_diff(**kwargs)
 
-
-
-
     class StatCondition(Condition):
         """A condition class that evaluates character statistics against specified thresholds.
 
@@ -480,18 +425,16 @@ init -6 python:
             specifically for stat-based checks.
         """
 
-        def __init__(self, blocking: bool = False, *options: Option, char_obj = None, **kwargs):
+        def __init__(self, *options: Option, char_obj = None, **kwargs):
             """Initialize a new StatCondition.
 
             Args:
-                blocking (bool, optional): Whether this condition blocks progression.
-                    Defaults to False.
                 char_obj (Union[str, Char, None]): The character to check stats for. Can be
                     a character object, character key, or None. Defaults to None.
                 **kwargs: Stat requirements passed as key-value pairs where keys are stat
                     names and values are the required levels.
             """
-            super().__init__(blocking, *options)
+            super().__init__(*options)
             self.stats = kwargs
             self.display_in_list = True
             self.display_in_desc = True
@@ -500,6 +443,10 @@ init -6 python:
             if isinstance(char_obj, str):
                 self.char_obj = get_character_by_key(char_obj)
             
+        @property
+        def _type(self) -> str:
+            return "stat"
+
         def check_condition(self, **kwargs) -> bool:
             """Check if all specified stat conditions are met.
 
@@ -693,7 +640,7 @@ init -6 python:
                 Defaults to False.
         """
 
-        def __init__(self, stat: str, blocking: bool = False, char_obj: Union[str, Char] = None, *options: Option, **kwargs):
+        def __init__(self, stat: str, char_obj: Union[str, Char] = None, *options: Option, **kwargs):
             """Initialize a new StatLimitCondition.
 
             Args:
@@ -703,11 +650,15 @@ init -6 python:
                     Can be a character object, character key, or None. Defaults to None.
                 **kwargs: Additional arguments passed to parent Condition class.
             """
-            super().__init__(blocking, *options)
+            super().__init__(*options)
             self._stat = stat
             self._char_obj = char_obj
             self.display_in_list = False
             self.display_in_desc = False
+
+        @property
+        def _type(self) -> str:
+            return "stat_limit"
 
         def check_condition(self, **kwargs) -> bool:
             """Check if the specified stat has reached its level-based cap.
@@ -774,8 +725,6 @@ init -6 python:
                 comparison string (e.g., '>=100'). Set to -1 to skip XP check.
             _level (Union[int, str]): The required level threshold. Can be a specific value
                 or a comparison string (e.g., '>=3'). Set to -1 to skip level check.
-            blocking (bool): Always True for this condition type, making it a blocking
-                condition by default.
 
         Note:
             When both XP and level are set to -1, the condition only checks if the
@@ -792,10 +741,14 @@ init -6 python:
                 level (Union[int, str], optional): The required level threshold. Use -1 to
                     skip level check. Can be a number or comparison string. Defaults to -1.
             """
-            super().__init__(True, *options)
+            super().__init__(*options)
             self._proficiency = proficiency
             self._xp = xp
             self._level = level
+
+        @property
+        def _type(self) -> str:
+            return "proficiency"
 
         def check_condition(self, **kwargs) -> bool:
             """Check if the headmaster meets the proficiency requirements.
@@ -848,19 +801,17 @@ init -6 python:
         """A condition class that checks if the game's tutorial mode is active.
 
         This class provides a simple check for whether the tutorial mode is currently
-        enabled in the game. It is always a blocking condition.
-
-        Attributes:
-            blocking (bool): Always True for this condition type, making it a blocking
-                condition by default.
+        enabled in the game.
         """
 
         def __init__(self, *options: Option):
             """Initialize a new TutorialCondition.
-
-            The condition is always initialized as blocking (True).
             """
-            super().__init__(True, *options)
+            super().__init__(*options)
+
+        @property
+        def _type(self) -> str:
+            return "tutorial"
 
         def check_condition(self, **kwargs) -> bool:
             """Check if the tutorial mode is currently active.
@@ -881,6 +832,7 @@ init -6 python:
             """
             return "Is_tutorial_active"
 
+    @deprecated(version='0.2.3', reason="Replaced by Unlockables; kept for save compatibility.")
     class RuleCondition(Condition):
         """A condition class that checks if a specific game rule is active for a character.
 
@@ -892,71 +844,29 @@ init -6 python:
             value (str): The unique key identifier for the rule being checked.
             display_in_desc (bool): Whether to show this condition in descriptions.
                 Always True for rule conditions.
-            blocking (bool): Whether this condition blocks progression when not fulfilled.
-                Set during initialization.
 
         Note:
             Rules must exist in the global rules dictionary to be valid. Invalid rule
             keys will result in empty names and may affect condition fulfillment.
         """
 
-        def __init__(self, value: str, blocking: bool = False, *options: Option):
-            """Initialize a new RuleCondition.
+        def __init__(self, value: str, *options: Option):
+            super().__init__(*options)
 
-            Args:
-                value (str): The unique key identifier for the rule to check.
-                blocking (bool, optional): Whether this condition should block
-                    progression when not fulfilled. Defaults to False.
-            """
-            super().__init__(blocking, *options)
-            self.value = value
-            self.display_in_desc = True
+        @property
+        def _type(self) -> str:
+            return "rule"
 
         def check_condition(self, **kwargs) -> bool:
-            """Check if the specified rule is currently unlocked.
-
-            Args:
-                **kwargs: Additional arguments (unused in this implementation).
-
-            Returns:
-                bool: True if either:
-                    - The parent condition is fulfilled
-                    - The specified rule is unlocked
-                    False otherwise.
-            """
-            return get_rule(self.value).is_unlocked()
+            return False
 
         def to_desc_text(self, **kwargs) -> str:
-            """Generate formatted text describing the rule's unlock status.
-
-            Creates a colored text representation of the rule's status:
-            - Green text for unlocked rules
-            - Red text for locked rules
-
-            Args:
-                **kwargs: Additional arguments (unused in this implementation).
-
-            Returns:
-                str: A formatted string in the format "Rule {color}RuleName{/color} is unlocked"
-                    where the color is green (#00a000) for unlocked rules and red (#a00000)
-                    for locked rules.
-            """
-            if self.check_condition(**kwargs):
-                return "Rule {color=#00a000}" + get_rule(self.value).get_title() + "{/color} is unlocked"
-            else:
-                return "Rule {color=#a00000}" + get_rule(self.value).get_title() + "{/color} is unlocked"
+            return ""
 
         def get_name(self) -> str:
-            """Get the display title of the rule being checked.
+            return ""
 
-            Returns:
-                str: The title of the rule if it exists in the rules dictionary,
-                    empty string if the rule key is invalid.
-            """
-            if self.value not in rules.keys():
-                return ""
-            return get_rule(self.value).get_title()
-
+    @deprecated(version='0.2.3', reason="Replaced by Unlockables; kept for save compatibility.")
     class ClubCondition(Condition):
         """A condition that checks if a specific club is unlocked and active.
 
@@ -967,64 +877,27 @@ init -6 python:
         Attributes:
             value: The unique key identifying the club to check.
             display_in_desc: Always True for club conditions.
-            blocking: Whether this club blocks content when not fulfilled.
-
         Methods:
             is_fulfilled(**kwargs): Checks if the club is unlocked.
             to_desc_text(**kwargs): Gets colored text showing club status.
             get_name(): Gets the club's display title.
         """
 
-        def __init__(self, value: str, blocking: bool = False, *options: Option):
-            """Initializes a new ClubCondition.
+        def __init__(self, value: str, *options: Option):
+            super().__init__(*options)
 
-            Args:
-                value: The unique key identifying the club to check.
-                blocking: Whether this club should block content when not fulfilled.
-                    Defaults to False.
-            """
-            super().__init__(blocking, *options)
-            self.value = value
-            self.display_in_desc = True
+        @property
+        def _type(self) -> str:
+            return "club"
 
         def check_condition(self, **kwargs) -> bool:
-            """Checks if the club is currently unlocked.
-
-            Args:
-                **kwargs: Additional arguments that may affect condition checking.
-
-            Returns:
-                True if the club is unlocked, False otherwise.
-            """
-            
-            return get_club(self.value).is_unlocked()
+            return False
 
         def to_desc_text(self, **kwargs) -> str:
-            """Gets a colored text description of the club's status.
-
-            The text includes the club's title and is colored green if unlocked,
-            red if locked.
-
-            Args:
-                **kwargs: Additional arguments that may affect text formatting.
-
-            Returns:
-                A formatted string with the club's title and colored status indicator.
-            """
-            if self.check_condition(**kwargs):
-                return "Club {color=#00a000}" + get_club(self.value).get_title() + "{/color} is unlocked"
-            else:
-                return "Club {color=#a00000}" + get_club(self.value).get_title() + "{/color} is unlocked"
+            return ""
 
         def get_name(self) -> str:
-            """Gets the display title of the club.
-
-            Returns:
-                The club's title if it exists in the clubs dictionary, empty string otherwise.
-            """
-            if self.value not in clubs.keys():
-                return ""
-            return get_club(self.value).title
+            return ""
 
     class BuildingCondition(Condition):
         """A condition class that checks if a specific building is unlocked.
@@ -1037,7 +910,6 @@ init -6 python:
             value (str): The unique key identifier for the building to check.
             display_in_desc (bool): Whether to show this condition in descriptions.
                 Always True for building conditions.
-            blocking (bool): Whether this condition blocks progression when not fulfilled.
                 Set during initialization.
 
         Note:
@@ -1045,17 +917,18 @@ init -6 python:
             Invalid building keys will result in empty names.
         """
 
-        def __init__(self, value: str, blocking: bool = False, *options: Option):
+        def __init__(self, key: str, *options: Option):
             """Initialize a new BuildingCondition.
 
             Args:
                 value (str): The unique key identifier for the building to check.
-                blocking (bool, optional): Whether this condition should block
-                    progression when not fulfilled. Defaults to False.
             """
-            super().__init__(blocking, *options)
-            self.value = value
-            self.display_in_desc = True
+            super().__init__(*options)
+            self.key = key
+
+        @property
+        def _type(self) -> str:
+            return "building"
 
         def check_condition(self, **kwargs) -> bool:
             """Check if the specified building is currently unlocked.
@@ -1070,27 +943,7 @@ init -6 python:
                     False otherwise.
             """
 
-            return get_building(self.value).is_unlocked()
-
-        def to_desc_text(self, **kwargs) -> str:
-            """Generate formatted text describing the building's unlock status.
-
-            Creates a colored text representation of the building's status:
-            - Green text for unlocked buildings
-            - Red text for locked buildings
-
-            Args:
-                **kwargs: Additional arguments (unused in this implementation).
-
-            Returns:
-                str: A formatted string in the format "Building {color}BuildingName{/color} is unlocked"
-                    where the color is green (#00a000) for unlocked buildings and red (#a00000)
-                    for locked buildings.
-            """
-            if self.check_condition(**kwargs):
-                return "Building {color=#00a000}" + get_building(self.value).get_title() + "{/color} is unlocked"
-            else:
-                return "Building {color=#a00000}" + get_building(self.value).get_title() + "{/color} is unlocked"
+            return building_manager.is_open(self.key)
 
         def get_name(self) -> str:
             """Get the display title of the building being checked.
@@ -1099,10 +952,10 @@ init -6 python:
                 str: The title of the building if it exists in the buildings dictionary,
                     empty string if the building key is invalid.
             """
-            if self.value not in buildings.keys():
-                return ""
-            return get_building(self.value).get_title()
+            
+            return building_manager.get_building(self.key).get_name()
 
+    @deprecated(version='0.2.3', reason="Replaced by Unlockables; kept for save compatibility.")
     class BuildingLevelCondition(Condition):
         """A condition class that checks if a building has reached a specific level.
 
@@ -1116,7 +969,6 @@ init -6 python:
                 value or a comparison string.
             display_in_desc (bool): Whether to show this condition in descriptions.
                 Always True for building level conditions.
-            blocking (bool): Whether this condition blocks progression when not fulfilled.
                 Set during initialization.
 
         Note:
@@ -1124,17 +976,15 @@ init -6 python:
             Invalid building keys will result in empty names.
         """
 
-        def __init__(self, name: str, level: Union[str, int], blocking: bool = False, *options: Option):
+        def __init__(self, name: str, level: Union[str, int], *options: Option):
             """Initialize a new BuildingLevelCondition.
 
             Args:
                 name (str): The unique key identifier for the building to check.
                 level (Union[str, int]): The required level threshold. Can be a number
                     or comparison string (e.g., '>=2', '<4').
-                blocking (bool, optional): Whether this condition should block
-                    progression when not fulfilled. Defaults to False.
             """
-            super().__init__(blocking, *options)
+            super().__init__(*options)
             self.name = name
             self.level = level
             self.display_in_desc = True
@@ -1202,29 +1052,29 @@ init -6 python:
                 Always True for level conditions.
             display_in_desc (bool): Whether to show this condition in descriptions.
                 Always True for level conditions.
-            blocking (bool): Whether this condition blocks progression when not fulfilled.
-
         Note:
             When calculating differences between levels, larger gaps result in
             increasingly severe penalties to encourage proper level progression.
         """
 
-        def __init__(self, value: Union[str, int], blocking: bool = False, *options: Option, char_obj: Union[str, Char] = None):
+        def __init__(self, value: Union[str, int], *options: Option, char_obj: Union[str, Char] = None):
             """Initialize a new LevelCondition.
 
             Args:
                 value (Union[str, int]): The required level threshold. Can be a number
                     or comparison string (e.g., '>=5', '<10').
-                blocking (bool, optional): Whether this condition should block
-                    progression when not fulfilled. Defaults to False.
                 char_obj (Union[str, Char, None], optional): The character to check level for.
                     Can be a character object, character key, or None. Defaults to None.
             """
-            super().__init__(blocking, *options)
+            super().__init__(*options)
             self.value = value
             self.display_in_list = True
             self.display_in_desc = True
             self.char_obj = char_obj
+
+        @property
+        def _type(self) -> str:
+            return "level"
 
         def check_condition(self, **kwargs) -> bool:
             """Check if the character meets the level requirement.
@@ -1342,20 +1192,22 @@ init -6 python:
         based on maximum level at which they can still trigger.
         """
 
-        def __init__(self, value: int, blocking: bool = False, *options: Option):
+        def __init__(self, value: int, *options: Option):
             """Initialize a new MaxLevelEventCondition.
 
             Args:
                 value (Union[str, num]): The required Level threshold. Can be a number
                     (treated as minimum) or comparison string (e.g., '>=1000').
-                blocking (bool, optional): Whether this condition should block
-                    progression when not fulfilled. Defaults to False.
             """
-            super().__init__(blocking, *options)
+            super().__init__(*options)
             self.value = value
             self.display_in_list = True
             self.display_in_desc = True
            
+        @property
+        def _type(self) -> str:
+            return "max_level_event"
+
         def check_condition(self, **kwargs) -> bool:
             """Check if the events at the provided level have been seen.
 
@@ -1445,27 +1297,27 @@ init -6 python:
         3. display_in_desc: bool
             - Whether to show this condition in descriptions.
             - Always True for money conditions.
-        4. blocking: bool
-            - Whether this condition blocks progression when not fulfilled.
 
         ### Note:
         When specified as a number rather than a comparison string, the condition
         automatically treats it as a minimum requirement (value+).
         """
 
-        def __init__(self, value: Union[str, num], blocking: bool = False, *options: Option):
+        def __init__(self, value: Union[str, num], *options: Option):
             """Initialize a new MoneyCondition.
 
             Args:
                 value (Union[str, num]): The required money threshold. Can be a number
                     (treated as minimum) or comparison string (e.g., '>=1000').
-                blocking (bool, optional): Whether this condition should block
-                    progression when not fulfilled. Defaults to False.
             """
-            super().__init__(blocking, *options)
+            super().__init__(*options)
             self.value = value
             self.display_in_list = True
             self.display_in_desc = True
+
+        @property
+        def _type(self) -> str:
+            return "money"
 
         def check_condition(self, **kwargs) -> bool:
             """Check if the current money meets the requirement.
@@ -1553,8 +1405,7 @@ init -6 python:
 
         This special condition type is used to make content permanently inaccessible.
         When applied to game content, it can never be fulfilled, effectively locking
-        that content. If blocking is enabled (default), the content will also be
-        hidden from view.
+        that content.
 
         This is useful for:
         - Permanently disabling deprecated features
@@ -1562,7 +1413,6 @@ init -6 python:
         - Creating permanent barriers in game progression
 
         Attributes:
-            blocking: Whether the locked content should be hidden. Defaults to True.
             display_in_list: Always False for lock conditions.
             display_in_desc: Always False for lock conditions.
 
@@ -1571,16 +1421,16 @@ init -6 python:
             get_name(): Returns "lock".
         """
 
-        def __init__(self, is_blocking: bool = True, *options: Option):
+        def __init__(self, *options: Option):
             """Initializes a new LockCondition.
-
-            Args:
-                is_blocking: Whether the locked content should be hidden from view.
-                    Defaults to True.
             """
-            super().__init__(is_blocking, *options)
+            super().__init__(*options)
             self.display_in_list = False
             self.display_in_desc = False
+
+        @property
+        def _type(self) -> str:
+            return "lock"
 
         def check_condition(self, **kwargs) -> bool:
             """Checks if the condition is fulfilled (always False).
@@ -1630,8 +1480,8 @@ init -6 python:
             - The condition operators (+, -) modify how the time comparison is performed.
         """
 
-        def __init__(self, blocking: bool = True, *options: Option, **kwargs: Union[str, int]):
-            super().__init__(blocking, *options)
+        def __init__(self, *options: Option, **kwargs: Union[str, int]):
+            super().__init__(*options)
             self.day       = "x" if 'day'       not in kwargs.keys() else kwargs['day'      ]
             self.week      = "x" if 'week'      not in kwargs.keys() else kwargs['week'     ]
             self.month     = "x" if 'month'     not in kwargs.keys() else kwargs['month'    ]
@@ -1647,6 +1497,10 @@ init -6 python:
                 self.year   = str(date.get_year()) + str(condition)
 
             self.display_in_desc = True
+
+        @property
+        def _type(self) -> str:
+            return "time"
 
         def check_condition(self, **kwargs) -> bool:
             """Checks if the current time matches the specified conditions.
@@ -1755,8 +1609,6 @@ init -6 python:
             daytime: Daytime periods that must pass or "x" to ignore.
             display_in_list: Always False for timer conditions.
             display_in_desc: Always False for timer conditions.
-            blocking: Always False for timer conditions.
-
         Methods:
             is_fulfilled(**kwargs): Checks if enough time has passed.
             get_name(): Gets string representation of timer requirements.
@@ -1773,7 +1625,7 @@ init -6 python:
                     - year: Years that must pass
                     - daytime: Daytime periods that must pass
             """
-            super().__init__(False, *options)
+            super().__init__(*options)
             self.id = id
             self.day       = "x" if 'day'       not in kwargs.keys() else kwargs['day'    ]
             self.month     = "x" if 'month'     not in kwargs.keys() else kwargs['month'  ]
@@ -1781,6 +1633,10 @@ init -6 python:
             self.daytime   = "x" if 'daytime'   not in kwargs.keys() else kwargs['daytime']
             self.display_in_list = False
             self.display_in_desc = False
+
+        @property
+        def _type(self) -> str:
+            return "timer"
 
         def check_condition(self, **kwargs) -> bool:
             """Checks if enough time has passed since the stored timestamp.
@@ -1842,8 +1698,6 @@ init -6 python:
             limit: The upper limit for random number generation (default 100).
             display_in_desc: Always True for random conditions.
             display_in_list: Always True for random conditions.
-            blocking: Whether this condition blocks content when not fulfilled.
-
         Methods:
             is_fulfilled(**kwargs): Generates random number and checks against threshold.
             to_desc_text(**kwargs): Gets text showing probability percentage.
@@ -1852,21 +1706,23 @@ init -6 python:
             get_diff(char_obj): Gets probability as a percentage.
         """
 
-        def __init__(self, threshold: num, limit: num = 100, blocking: bool = False, *options: Option):
+        def __init__(self, threshold: num, limit: num = 100, *options: Option):
             """Initializes a new RandomCondition.
 
             Args:
                 threshold: The threshold value. If random number is below this,
                     condition is fulfilled.
                 limit: The upper limit for random number generation. Defaults to 100.
-                blocking: Whether this condition should block content when not fulfilled.
-                    Defaults to False.
             """
-            super().__init__(blocking, *options)
+            super().__init__(*options)
             self.amount = threshold
             self.limit  = limit
             self.display_in_desc = True
             self.display_in_list = True
+
+        @property
+        def _type(self) -> str:
+            return "random"
 
         def check_condition(self, **kwargs) -> bool:
             """Checks if the condition is fulfilled by random chance.
@@ -1942,22 +1798,23 @@ init -6 python:
             key (str): The dictionary key to look up in gameData.
             value (Any): The expected value that gameData[key] should match.
             display_in_desc (bool): Whether to show this condition in descriptions.
-            blocking (bool): Inherited from Condition, determines if condition blocks progress.
         """
 
-        def __init__(self, key: str, value: Any, blocking: bool = False, *options: Option):
+        def __init__(self, key: str, value: Any, *options: Option):
             """Initializes a new GameDataCondition instance.
 
             Args:
                 key (str): The dictionary key to look up in gameData.
                 value (Any): The expected value that gameData[key] should match.
-                blocking (bool, optional): Whether this condition should block progress.
-                    Defaults to False.
             """
-            super().__init__(blocking, *options)
+            super().__init__(*options)
             self.key = key
             self.value = value
             self.display_in_desc = True
+
+        @property
+        def _type(self) -> str:
+            return "game_data"
 
         def check_condition(self, **kwargs) -> bool:
             """Checks if the game data matches the expected value.
@@ -2022,23 +1879,24 @@ init -6 python:
                 formats described above. Empty string to just check for any progress.
             display_in_desc (bool): Whether to show this condition in descriptions.
                 Always True for progress conditions.
-            blocking (bool): Whether this condition blocks progression when not fulfilled.
         """
 
-        def __init__(self, key: str, value: Union[int, str] = "", blocking: bool = False, *options: Option):
+        def __init__(self, key: str, value: Union[int, str] = "", *options: Option):
             """Initialize a new ProgressCondition.
 
             Args:
                 key (str): The unique identifier for the event series to check.
                 value (Union[int, str], optional): The required progress level. Can be a
                     specific value or comparison string. Defaults to "" (check for any progress).
-                blocking (bool, optional): Whether this condition should block
-                    progression when not fulfilled. Defaults to False.
             """
-            super().__init__(blocking, *options)
+            super().__init__(*options)
             self.key = key
             self.value = value
             self.display_in_desc = True
+
+        @property
+        def _type(self) -> str:
+            return "progress"
 
         def check_condition(self, **kwargs) -> bool:
             """Check if the event series meets the progress requirement.
@@ -2103,7 +1961,6 @@ init -6 python:
             value (Any): The expected value that kwargs[key] should match.
             display_in_desc (bool): Whether to show this condition in descriptions.
                 Always True for value conditions.
-            blocking (bool): Whether this condition blocks progression when not fulfilled.
                 Set during initialization.
 
         Note:
@@ -2112,19 +1969,21 @@ init -6 python:
             will be looked up there instead of the top level.
         """
 
-        def __init__(self, key: str, value: Any, blocking: bool = False, *options: Option):
+        def __init__(self, key: str, value: Any, *options: Option):
             """Initialize a new ValueCondition.
 
             Args:
                 key (str): The dictionary key to look up in kwargs.
                 value (Any): The expected value that kwargs[key] should match.
-                blocking (bool, optional): Whether this condition should block
-                    progression when not fulfilled. Defaults to False.
             """
-            super().__init__(blocking, *options)
+            super().__init__(*options)
             self.key = key
             self.value = value
             self.display_in_desc = True
+
+        @property
+        def _type(self) -> str:
+            return "value"
 
         def check_condition(self, **kwargs) -> bool:
             """Check if the kwargs value matches the expected value.
@@ -2203,8 +2062,6 @@ init -6 python:
                 - A Selector object that generates values dynamically
             display_in_desc (bool): Whether to show in descriptions. Always True.
             display_in_list (bool): Whether to show in lists. Always False.
-            blocking (bool): Whether this condition blocks progression when not fulfilled.
-
         Note:
             The class uses helper functions:
             - get_kwargs(): To retrieve values from kwargs
@@ -2213,21 +2070,23 @@ init -6 python:
             - check_in_value(): To perform pattern matching using Default Number Pattern
         """
 
-        def __init__(self, key: str, value: Union[num, str, Selector], blocking: bool = False, *options: Option):
+        def __init__(self, key: str, value: Union[num, str, Selector], *options: Option):
             """Initialize a new NumValueCondition.
 
             Args:
                 key (str): The dictionary key to look up in kwargs.
                 value (Union[num, str, Selector]): The value or pattern to compare against.
                     Can be a number, Default Number Pattern string, or Selector.
-                blocking (bool, optional): Whether this condition should block
-                    progression when not fulfilled. Defaults to False.
             """
-            super().__init__(blocking, *options)
+            super().__init__(*options)
             self.key = key
             self.value = value
             self.display_in_desc = True
             self.display_in_list = False
+
+        @property
+        def _type(self) -> str:
+            return "num_value"
 
         def check_condition(self, **kwargs) -> bool:
             """Check if the kwargs value matches the numeric condition pattern.
@@ -2316,15 +2175,13 @@ init -6 python:
                 "!=": Not equal to
             display_in_desc (bool): Whether to show in descriptions. Always True.
             display_in_list (bool): Whether to show in lists. Always False.
-            blocking (bool): Whether this condition blocks progression when not fulfilled.
-
         Note:
             This class is designed for exact numeric comparisons, unlike NumValueCondition
             which handles pattern-based ranges. Use this when you need precise mathematical
             comparisons rather than range-based checks.
         """
 
-        def __init__(self, key: str, value: Union[int, Selector], operation: str, blocking: bool = False, *options: Option):
+        def __init__(self, key: str, value: Union[int, Selector], operation: str, *options: Option):
             """Initialize a new NumCompareCondition.
 
             Args:
@@ -2338,15 +2195,17 @@ init -6 python:
                     "<=": Less than or equal to
                     "==": Equal to
                     "!=": Not equal to
-                blocking (bool, optional): Whether this condition should block
-                    progression when not fulfilled. Defaults to False.
             """
-            super().__init__(blocking, *options)
+            super().__init__(*options)
             self.key = key
             self.value = value
             self.operation = operation
             self.display_in_desc = True
             self.display_in_list = False
+
+        @property
+        def _type(self) -> str:
+            return "num_compare"
 
         def check_condition(self, **kwargs) -> bool:
             """Check if the numeric comparison condition is met.
@@ -2473,29 +2332,29 @@ init -6 python:
                 Always True for compare conditions.
             display_in_list (bool): Whether to show this condition in list displays.
                 Always False for compare conditions.
-            blocking (bool): Whether this condition blocks progression when not fulfilled.
-
         Note:
             The condition can check values in either kwargs directly or in a nested
             'values' dictionary within kwargs. If 'values' exists in kwargs, the key
             will be looked up there instead of the top level.
         """
 
-        def __init__(self, key: str, value: Union[Any, Selector], blocking: bool = False, *options: Option):
+        def __init__(self, key: str, value: Union[Any, Selector], *options: Option):
             """Initialize a new CompareCondition.
 
             Args:
                 key (str): The dictionary key to look up in kwargs.
                 value (Union[Any, Selector]): The expected value or Selector to compare against.
                     If a Selector is provided, it will be rolled for each check.
-                blocking (bool, optional): Whether this condition should block
-                    progression when not fulfilled. Defaults to False.
             """
-            super().__init__(blocking, *options)
+            super().__init__(*options)
             self.key = key
             self.value = value
             self.display_in_desc = True
             self.display_in_list = False
+
+        @property
+        def _type(self) -> str:
+            return "compare"
 
         def check_condition(self, **kwargs) -> bool:
             """Check if the kwargs value matches the expected value.
@@ -2594,8 +2453,6 @@ init -6 python:
                 "!=": Not equal to
             display_in_desc (bool): Whether to show in descriptions. Always True.
             display_in_list (bool): Whether to show in lists. Always False.
-            blocking (bool): Whether this condition blocks progression when not fulfilled.
-
         Note:
             The condition looks for values in kwargs['values'] if it exists, otherwise
             in kwargs directly. For Selector values, they are rolled before comparison.
@@ -2603,7 +2460,7 @@ init -6 python:
             comparisons to help gauge how far apart the values are.
         """
 
-        def __init__(self, key_1: str, key_2: str, operation: str, blocking: bool = False, *options: Option):
+        def __init__(self, key_1: str, key_2: str, operation: str, *options: Option):
             """Initialize a new KeyCompareCondition.
 
             Args:
@@ -2616,15 +2473,17 @@ init -6 python:
                     "<=": Less than or equal to
                     "==": Equal to
                     "!=": Not equal to
-                blocking (bool, optional): Whether this condition should block
-                    progression when not fulfilled. Defaults to False.
             """
-            super().__init__(blocking, *options)
+            super().__init__(*options)
             self.key_1 = key_1
             self.key_2 = key_2
             self.operation = operation
             self.display_in_desc = True
             self.display_in_list = False
+
+        @property
+        def _type(self) -> str:
+            return "key_compare"
 
         def check_condition(self, **kwargs) -> bool:
             """Check if the comparison between the two kwargs values is satisfied.
@@ -2728,58 +2587,6 @@ init -6 python:
                 return 0 if value_1 != value_2 else -100
             return -100
 
-    class LoliContentCondition(Condition):
-        """A condition class that checks if a value matches the game's loli content setting.
-
-        This class extends the base Condition class to validate whether the current
-        loli_content game setting matches a specified value or pattern. The value can be
-        a direct number or a pattern string.
-
-        Attributes:
-            value (Union[int, str]): The value or pattern to compare against the
-                loli_content setting.
-            blocking (bool): Whether this condition blocks progression when not fulfilled.
-        """
-
-        def __init__(self, value: Union[int, str], blocking: bool = False, *options: Option):
-            """Initialize a new LoliContentCondition.
-
-            Args:
-                value (Union[int, str]): The value or pattern to compare against the
-                    loli_content setting.
-                blocking (bool, optional): Whether this condition should block
-                    progression when not fulfilled. Defaults to False.
-            """
-            super().__init__(blocking, *options)
-            self.value = value
-
-        def check_condition(self, **kwargs) -> bool:
-            """Check if the loli_content setting matches the specified value.
-
-            Uses check_in_value to compare the current loli_content setting against
-            the specified value or pattern.
-
-            Args:
-                **kwargs: Additional arguments (unused in this implementation).
-
-            Returns:
-                bool: True if either:
-                    - The parent condition is fulfilled
-                    - The loli_content setting matches the specified value/pattern
-                    False otherwise.
-            """
-            
-            return check_in_value(self.value, loli_content)
-
-        def get_name(self) -> str:
-            """Get a human-readable identifier for this condition.
-
-            Returns:
-                str: A string in the format "loli_content: value" showing the
-                    value being checked.
-            """
-            return f"loli_content: {self.value}"
-
     class AND(Condition):
         """A condition class that requires all sub-conditions to be fulfilled.
 
@@ -2807,8 +2614,12 @@ init -6 python:
                 else:
                     options.append(condition)
 
-            super().__init__(False, *options)
+            super().__init__(*options)
             self.display_in_desc = True
+
+        @property
+        def _type(self) -> str:
+            return "and"
 
         def check_condition(self, **kwargs) -> bool:
             """Check if all sub-conditions are fulfilled.
@@ -2832,6 +2643,15 @@ init -6 python:
                 return False
 
             return True
+
+        def find_by_type(self, type: str) -> List[Condition]:
+            output = []
+            if type == self._type:
+                output = [self]
+            for condition in self.conditions:
+                output.extend(condition.find_by_type(type))
+
+            return output
 
         def to_desc_text(self, **kwargs) -> str:
             """Generate formatted text describing all sub-conditions.
@@ -2910,8 +2730,21 @@ init -6 python:
                 else:
                     options.append(condition)
 
-            super().__init__(False, *options)
+            super().__init__(*options)
             self.display_in_desc = True
+
+        @property
+        def _type(self) -> str:
+            return "or"
+
+        def find_by_type(self, type: str) -> List[Condition]:
+            output = []
+            if type == self._type:
+                output = [self]
+            for condition in self.conditions:
+                output.extend(condition.find_by_type(type))
+
+            return output
 
         def check_condition(self, **kwargs) -> bool:
             """Check if at least one sub-condition is fulfilled.
@@ -3018,8 +2851,21 @@ init -6 python:
                 else:
                     options.append(condition)
 
-            super().__init__(False, *options)
+            super().__init__(*options)
             self.display_in_desc = True
+
+        @property
+        def _type(self) -> str:
+            return "nor"
+
+        def find_by_type(self, type: str) -> List[Condition]:
+            output = []
+            if type == self._type:
+                output = [self]
+            for condition in self.conditions:
+                output.extend(condition.find_by_type(type))
+
+            return output
 
         def check_condition(self, **kwargs):
             """
@@ -3121,9 +2967,21 @@ init -6 python:
                 condition (Condition): The condition object whose result will be negated
             """
 
-            super().__init__(False, *options)
+            super().__init__(*options)
             self.condition = condition
             self.display_in_desc = True
+
+        @property
+        def _type(self) -> str:
+            return "not"
+        
+        def find_by_type(self, type: str) -> List[Condition]:
+            output = []
+            if type == self._type:
+                output = [self]
+            output.extend(self.condition.find_by_type(type))
+
+            return output
 
         def check_condition(self, **kwargs) -> bool:
             """
@@ -3224,8 +3082,21 @@ init -6 python:
                 else:
                     options.append(condition)
 
-            super().__init__(False, *options)
+            super().__init__(*options)
             self.display_in_desc = True
+
+        @property
+        def _type(self) -> str:
+            return "xor"
+        
+        def find_by_type(self, type: str) -> List[Condition]:
+            output = []
+            if type == self._type:
+                output = [self]
+            for condition in self.conditions:
+                output.extend(condition.find_by_type(type))
+
+            return output
 
         def check_condition(self, **kwargs) -> bool:
             """
@@ -3332,8 +3203,19 @@ init -6 python:
                 is_intro (bool, optional): Whether to check for being in the intro phase.
                     Defaults to True (checking if we're in the intro phase).
             """
-            super().__init__(False, *options)
+            super().__init__(*options)
             self.is_intro = is_intro
+
+        @property
+        def _type(self) -> str:
+            return "intro"
+
+        def find_by_type(self, type: str) -> List[Condition]:
+            output = []
+            if type == self._type:
+                output = [self]
+
+            return output
 
         def check_condition(self, **kwargs) -> bool:
             """
@@ -3366,6 +3248,7 @@ init -6 python:
             """
             return "IntroCondition"
 
+    @deprecated(version='0.2.3', reason="Replaced by Unlockables; kept for save compatibility.")
     class PTAOverride(Condition):
         """
         A class representing a condition that can override other conditions in PTA voting.
@@ -3382,80 +3265,19 @@ init -6 python:
         """
 
         def __init__(self, char: str = "", accept: str = "yes", *options: Option):
-            """
-            Initialize a PTAOverride condition with character and acceptance parameters.
+            super().__init__(*options)
 
-            Args:
-                char (str, optional): Character identifier this override applies to.
-                    Empty string means it applies globally. Defaults to "".
-                accept (str, optional): The override state - "yes"/"no"/"ignore".
-                    Defaults to "yes".
-            """
-            super().__init__(False, *options)
-            self.char = char
-            self.accept = accept
+        @property
+        def _type(self) -> str:
+            return "pta_override"
 
         def check_condition(self, **kwargs) -> bool:
-            """
-            Check if this override condition is active.
-
-            The condition is fulfilled in two cases:
-            1. If the base condition is fulfilled (determined by super().is_fulfilled())
-            2. If the accept state is either "yes" or "ignore"
-
-            Args:
-                **kwargs: Additional keyword arguments (not used in this condition)
-
-            Returns:
-                bool: True if the override should be applied, False otherwise
-            """
-            
-            return self.accept == "yes" or self.accept == "ignore"
+            return False
 
         def get_name(self) -> str:
-            """
-            Generate a unique identifier name for this condition.
-
-            The name includes both the character and acceptance state in the format:
-            PTAOverride(character, accept_state)
-
-            Returns:
-                str: A string in the format "PTAOverride(char, accept)"
-            """
-            return f"PTAOverride({self.char}, {self.accept})"
+            return ""
 
         def get_diff(self, **kwargs) -> num:
-            """
-            Calculate a weighted difference score based on the override settings.
-
-            This method returns different scores based on:
-            1. Whether the override applies to the given character
-            2. The acceptance state of the override
-
-            Score meanings:
-            - 5000: Strong positive override (accept="yes")
-            - -100: Negative override (accept="no")
-            - -5000: Strong negative override (accept="ignore")
-            - 0: Override doesn't apply to this character
-
-            Args:
-                char_obj (Union[str, Char]): Character object or identifier to evaluate
-                    the override against. If None or invalid, defaults to school.
-
-            Returns:
-                num: A difference score indicating how strongly this override applies:
-                    5000 for accept, -100 for reject, -5000 for ignore, 0 if not applicable
-            """
-            
-            char_obj = get_school()
-
-            if self.char == "" or self.char == char_obj.get_name():
-                if self.accept == "yes":
-                    return 5000
-                elif self.accept == "no":
-                    return -100
-                else:
-                    return -5000
             return 0
 
     class CheckReplay(Condition):
@@ -3478,9 +3300,20 @@ init -6 python:
             Args:
                 condition (Condition): The condition object to evaluate in replay mode
             """
-            super().__init__(False, *options)
+            super().__init__(*options)
             self.condition = condition
             self.display_in_desc = True
+
+        @property
+        def _type(self) -> str:
+            return "replay"
+
+        def find_by_type(self, type: str) -> List[Condition]:
+            output = []
+            if type == self._type:
+                output = [self]
+            output.extend(self.condition.find_by_type(type))
+            return output
 
         def check_condition(self, **kwargs) -> bool:
             """
@@ -3573,9 +3406,13 @@ init -6 python:
                 seen (bool, optional): Whether to check if the event has been seen (True)
                     or not seen (False). Defaults to False.
             """
-            super().__init__(True, *options)
+            super().__init__(*options)
             self.seen = seen
             self.event_name = event_name
+
+        @property
+        def _type(self) -> str:
+            return "event_seen"
 
         def check_condition(self, **kwargs) -> bool:
             """
@@ -3633,10 +3470,14 @@ init -6 python:
             Args:
                 journal_obj (str): The identifier of the journal object to track
             """
-            super().__init__(False, *options)
+            super().__init__(*options)
             self._journal_obj = journal_obj
             global registered_vote_events
             registered_vote_events.append(journal_obj)
+
+        @property
+        def _type(self) -> str:
+            return "journal_vote"
 
         def check_condition(self, **kwargs) -> bool:
             """
@@ -3657,8 +3498,12 @@ init -6 python:
             if vote_proposal == None:
                 return False
 
-            vote_obj = vote_proposal._journal_obj
-            return self._journal_obj == vote_obj.get_name()
+            # voteProposal now holds a live Unlockable (see ScheduleVoteEffect);
+            # its unlockable_key replaces the old journal object's get_name().
+            vote_key = getattr(vote_proposal, "unlockable_key", None)
+            if vote_key is None:
+                return False
+            return self._journal_obj == vote_key
 
         def get_name(self) -> str:
             """
@@ -3690,7 +3535,11 @@ init -6 python:
 
             The condition is initialized with display_in_desc set to False.
             """
-            super().__init__(False, *options)
+            super().__init__(*options)
+
+        @property
+        def _type(self) -> str:
+            return "journal_nr_vote"
 
         def check_condition(self, **kwargs) -> bool:
             """Check if the current journal object has never been scheduled for voting.
@@ -3713,9 +3562,13 @@ init -6 python:
             if vote_proposal == None:
                 return False
 
-            vote_obj = vote_proposal._journal_obj
+            # voteProposal now holds a live Unlockable (see ScheduleVoteEffect);
+            # its unlockable_key replaces the old journal object's get_name().
+            vote_key = getattr(vote_proposal, "unlockable_key", None)
+            if vote_key is None:
+                return False
 
-            return vote_obj.get_name() not in registered_vote_events
+            return vote_key not in registered_vote_events
 
         def get_name(self) -> str:
             """Get the name of this condition type.
@@ -3737,8 +3590,12 @@ init -6 python:
             value (bool): The boolean value to return for the condition.
         """
         def __init__(self, value: bool, *options: Option):
-            super().__init__(True, *options)
+            super().__init__(*options)
             self.value = value
+
+        @property
+        def _type(self) -> str:
+            return "bool"
 
         def check_condition(self, **kwargs) -> bool:
             return self.value
@@ -3748,9 +3605,13 @@ init -6 python:
             
     class ItemCondition(Condition):
         def __init__(self, item_key: str, amount: int = 1, *options: Option):
-            super().__init__(False, *options)
+            super().__init__(*options)
             self.item_key = item_key
             self.amount = amount
+
+        @property
+        def _type(self) -> str:
+            return "item"
 
         def check_condition(self, **kwargs) -> bool:
             return inventory_manager.get_item_count(self.item_key) >= self.amount
@@ -3770,7 +3631,11 @@ init -6 python:
         """
 
         def __init__(self, *options: Option):
-            super().__init__(False, *options)
+            super().__init__(*options)
+
+        @property
+        def _type(self) -> str:
+            return "delivery"
 
         def check_condition(self, **kwargs) -> bool:
             if len(item_delivery) == 0:
@@ -3782,9 +3647,14 @@ init -6 python:
 
     class DaytimeChangedCondition(Condition):
         def __init__(self, *options: Option):
-            super().__init__(False, *options)
+            super().__init__(*options)
+
+        @property
+        def _type(self) -> str:
+            return "daytime_changed"
 
         def check_condition(self, **kwargs) -> bool:
+            global last_daytime
             if last_daytime == None or last_daytime != time.now():
                 last_daytime = time.now()
                 return True
@@ -3795,10 +3665,199 @@ init -6 python:
 
     class PlaceholderCondition(Condition):
         def __init__(self, *options: Option):
-            super().__init__(False, *options)
+            super().__init__(*options)
+
+        @property
+        def _type(self) -> str:
+            return "placeholder"
 
         def check_condition(self, **kwargs) -> bool:
             return True
 
         def get_name(self) -> str:
             return "PlaceholderCondition"
+
+    class SituationPoolCondition(Condition):
+        def __init__(self, situation_key: str, pool_key: str, *options: Option):
+            super().__init__(*options)
+            self.situation_key = situation_key
+            self.pool_key = pool_key
+
+        @property
+        def _type(self) -> str:
+            return "situation_pool"
+
+        def check_condition(self, **kwargs) -> bool:
+            return situation_manager.check_pool(self.situation_key, self.pool_key, **kwargs)
+
+        def get_name(self) -> str:
+            return f"SituationPoolCondition({self.situation_key}, {self.pool_key})"
+
+    class UnlockableCondition(Condition):
+        def __init__(self, unlockable_key: str, group_index: int = -1, *options: Option):
+            super().__init__(*options)
+            self.unlockable_key = unlockable_key
+            self.group_index = group_index
+
+        @property
+        def _type(self) -> str:
+            return "unlockable"
+
+        def check_condition(self, **kwargs) -> bool:
+            unlockable = unlockable_manager.get_unlockable_by_key(self.unlockable_key, self.group_index)
+            if unlockable == None:
+                return False
+            return unlockable.is_unlocked()
+
+        def get_name(self) -> str:
+            return f"UnlockableCondition({self.unlockable_key}, {self.group_index})"
+
+    class LatchCounterCondition(Condition):
+        def __init__(self, counter_key: str, max: int = 1, *options: Option):
+            super().__init__(False, *options)
+            self.counter_key = counter_key
+            self.max = max
+
+        @property
+        def _type(self) -> str:
+            return "latch_counter"
+
+        def check_condition(self, **kwargs) -> bool:
+            counter_value = get_kwargs(self.counter_key, False, **kwargs)
+            counter_data = get_game_data(f"latch_counter:{self.counter_key}", False)
+            counter_count = get_game_data(f"latch_counter_count:{self.counter_key}", 0)
+            if counter_count >= self.max:
+                return False
+            if not counter_data and counter_value:
+                set_game_data(f"latch_counter:{self.counter_key}", True)
+                return True
+            elif counter_data and not counter_value:
+                set_game_data(f"latch_counter:{self.counter_key}", False)
+                set_game_data(f"latch_counter_count:{self.counter_key}", counter_count + 1)
+                return False
+            return counter_data
+
+        def get_name(self) -> str:
+            return f"LatchCounterCondition({self.counter_key}, {self.max})"
+
+    class CounterCondition(Condition):
+        def __init__(self, counter_key: str, condition: Condition, max: int = 1, *options: Option):
+            super().__init__(False, *options)
+            self.counter_key = counter_key
+            self.condition = condition
+            self.max = max
+
+        @property
+        def _type(self) -> str:
+            return "counter"
+
+        def find_by_type(self, type: str) -> List[Condition]:
+            output = []
+            if self._type == type:
+                output.append(self)
+            if self.condition:
+                output.extend(self.condition.find_by_type(type))
+            return output
+
+        def check_condition(self, **kwargs) -> bool:
+            counter_data = get_game_data(f"counter:{self.counter_key}", False)
+            counter_count = get_game_data(f"counter_count:{self.counter_key}", 0)
+
+            if counter_count >= self.max and not counter_data:
+                return False
+
+            condition_result = self.condition.is_fulfilled(**kwargs)
+
+            if not counter_data and condition_result:
+                set_game_data(f"counter:{self.counter_key}", True)
+                set_game_data(f"counter_count:{self.counter_key}", counter_count + 1)
+                return True
+            elif counter_data and not condition_result:
+                set_game_data(f"counter:{self.counter_key}", False)
+                return False
+            return condition_result
+
+        def get_name(self) -> str:
+            return f"CounterCondition({self.counter_key}, {self.condition.get_name()}, {self.max})"
+
+    class ManualCounterCondition(Condition):
+        def __init__(self, counter_key: str, max: int = 1, *options: Option):
+            super().__init__(False, *options)
+            self.counter_key = counter_key
+            self.max = max
+
+        @property
+        def _type(self) -> str:
+            return "manual_counter"
+
+        def increase(self):
+            counter_count = get_game_data(f"manual_counter_count:{self.counter_key}", 0)
+            set_game_data(f"manual_counter_count:{self.counter_key}", counter_count + 1)
+
+        def check_condition(self, **kwargs) -> bool:
+            counter_count = get_game_data(f"manual_counter_count:{self.counter_key}", 0)
+            return counter_count < self.max
+
+        def get_name(self) -> str:
+            return f"ManualCounterCondition({self.counter_key})"
+
+    class ManualCondition(Condition):
+        def __init__(self, is_fulfilled: bool, *options: Option):
+            super().__init__(*options)
+            self.fulfilled = is_fulfilled
+
+        @property
+        def _type(self) -> str:
+            return "manual"
+
+        def check_condition(self, **kwargs) -> bool:
+            return self.fulfilled
+
+        def get_name(self) -> str:
+            return f"ManualCondition({self.fulfilled})"
+
+    class HasAnythingInCollectionGameDataCondition(Condition):
+        """Fulfilled while a GameData collection holds at least one entry.
+
+        The collection is a list stored under ``collection_key`` in game data.
+        Backs building open/closed state: several systems each add their own reason
+        key to the list, and the building reacts only to whether it is non-empty
+        (not to any single caller). ``collection_key`` is the full key, e.g.
+        ``"school_building:open"``.
+        """
+
+        def __init__(self, collection_key: str, *options: Option):
+            super().__init__(*options)
+            self.collection_key = collection_key
+
+        @property
+        def _type(self) -> str:
+            return "game_data_collection"
+
+        def check_condition(self, **kwargs) -> bool:
+            data = get_game_data(self.collection_key)
+            return isinstance(data, list) and len(data) > 0
+
+        def get_name(self) -> str:
+            return f"HasAnythingInCollectionGameDataCondition({self.collection_key})"
+
+    class VoteProposalFreeCondition(Condition):
+        """Fulfilled while no PTA vote proposal is currently scheduled.
+
+        Reads the ``voteProposal`` game-data slot (an ``Unlockable`` when a vote is
+        queued for the next PTA meeting, ``None`` when free). Gates the Schedule Vote
+        measure so only one unlockable can be queued at a time.
+        """
+
+        def __init__(self, *options: Option):
+            super().__init__(*options)
+
+        @property
+        def _type(self) -> str:
+            return "vote_proposal_free"
+
+        def check_condition(self, **kwargs) -> bool:
+            return get_game_data("voteProposal") is None
+
+        def get_name(self) -> str:
+            return "VoteProposalFreeCondition()"

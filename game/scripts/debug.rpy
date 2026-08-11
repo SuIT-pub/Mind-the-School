@@ -1,8 +1,36 @@
 default time_freeze = False
 default debug_mode = False
+default game_log_entries = []
+default log_entry_seq = 0
+default log_filter_type = "all"
+default log_filter_category = "all"
+default log_filter_origin = "all"
+default log_json_expanded = {}
 
 init -100 python:
+    import inspect
+    import os
     import pprint
+
+    LOG_TYPES = ("info", "debug", "warning", "error")
+    LOG_TYPE_COLORS = {
+        "info": "#3a7ebd",
+        "debug": "#7a7a7a",
+        "warning": "#c47a00",
+        "error": "#a00000",
+    }
+    LOG_MAX_ENTRIES = 500
+    _LOG_INTERNAL_FUNCS = frozenset({
+        "_append_log_entry",
+        "_format_log_prefix",
+        "_normalize_log_type",
+        "_resolve_log_origin",
+        "log",
+        "log_count",
+        "log_json",
+        "log_separator",
+        "log_val",
+    })
 
     class FloatInputValue(InputValue):
         def __init__(self, variable, default=0.0):
@@ -23,60 +51,547 @@ init -100 python:
             renpy.run(RestartInteraction())
             return True
 
-    def log_separator():
-        print("##################################################")
-
-    def log_json(key: str, value: Dict[string, Any]):
-        print(key + ":", end="")
-        pprint.pprint(value, compact = False)
-
-    def log_val(key: str, *values: Any):
+    def _normalize_log_type(log_type: str) -> str:
         """
-        Prints a key and value
+        Normalizes a log type string to a known value.
+
+        ### Parameters:
+        1. log_type: str
+            - The requested log type.
+
+        ### Returns:
+        1. str
+            - One of LOG_TYPES; defaults to "info".
+        """
+        if log_type is None:
+            return "info"
+        normalized = str(log_type).strip().lower()
+        if normalized in LOG_TYPES:
+            return normalized
+        return "info"
+
+    def _resolve_log_origin(origin=None) -> str:
+        """
+        Resolves the call origin for a log entry.
+
+        Uses an explicit override when provided, otherwise inspects the stack
+        for the first non-internal caller frame.
+
+        ### Parameters:
+        1. origin: Optional[str]
+            - Explicit origin override.
+
+        ### Returns:
+        1. str
+            - Origin string such as "helper.rpy:get_setting" or "unknown".
+        """
+        if origin is not None and str(origin).strip() != "":
+            return str(origin)
+
+        try:
+            frame = inspect.currentframe()
+            try:
+                caller = frame.f_back if frame is not None else None
+                while caller is not None:
+                    func_name = caller.f_code.co_name
+                    if func_name not in _LOG_INTERNAL_FUNCS:
+                        filename = os.path.basename(caller.f_code.co_filename)
+                        class_name = None
+                        locals_map = caller.f_locals
+                        for key in ("self", "cls"):
+                            if key in locals_map:
+                                obj = locals_map[key]
+                                class_name = getattr(obj, "__name__", None)
+                                if class_name is None:
+                                    class_name = getattr(getattr(obj, "__class__", None), "__name__", None)
+                                break
+                        if class_name:
+                            return f"{filename}:{class_name}.{func_name}"
+                        return f"{filename}:{func_name}"
+                    caller = caller.f_back
+            finally:
+                del frame
+        except Exception:
+            pass
+        return "unknown"
+
+    def _format_log_prefix(log_type: str, category=None, origin=None) -> str:
+        """
+        Builds a console prefix for a log line.
+
+        ### Parameters:
+        1. log_type: str
+            - Normalized log type.
+        2. category: Optional[str]
+            - Optional category label.
+        3. origin: Optional[str]
+            - Optional origin label.
+
+        ### Returns:
+        1. str
+            - Prefix such as "[INFO][cat] file:func | ".
+        """
+        parts = [f"[{str(log_type).upper()}]"]
+        if category:
+            parts.append(f"[{category}]")
+        if origin:
+            parts.append(str(origin))
+        return " ".join(parts) + " | "
+
+    def _prepare_log_json_data(value, depth: int = 0, max_depth: int = 20):
+        """
+        Converts a value into a JSON-tree friendly structure for journal display.
+
+        ### Parameters:
+        1. value: Any
+            - The value to convert.
+        2. depth: int (default: 0)
+            - Current recursion depth.
+        3. max_depth: int (default: 20)
+            - Maximum recursion depth.
+
+        ### Returns:
+        1. Any
+            - Nested dict/list/primitives suitable for the expandable tree UI.
+        """
+        if depth > max_depth:
+            return "<max depth>"
+        if value is None or isinstance(value, (bool, int, float)):
+            return value
+        if isinstance(value, str):
+            return value
+        if isinstance(value, dict):
+            return {
+                str(key): _prepare_log_json_data(child, depth + 1, max_depth)
+                for key, child in value.items()
+            }
+        if isinstance(value, (list, tuple)):
+            return [_prepare_log_json_data(child, depth + 1, max_depth) for child in value]
+        try:
+            if hasattr(value, "__dict__"):
+                return _prepare_log_json_data(vars(value), depth + 1, max_depth)
+        except Exception:
+            pass
+        return repr(value)
+
+    def _append_log_entry(message: str, log_type: str = "info", category=None, origin=None, is_separator: bool = False, data=None, is_json: bool = False):
+        """
+        Appends a log entry to the session log store.
+
+        ### Parameters:
+        1. message: str
+            - The log message body.
+        2. log_type: str (default: "info")
+            - Log severity type.
+        3. category: Optional[str]
+            - Optional category label.
+        4. origin: Optional[str]
+            - Explicit origin override; auto-resolved when omitted.
+        5. is_separator: bool (default: False)
+            - Whether this entry represents a visual separator.
+        6. data: Any (default: None)
+            - Optional structured payload (used for JSON tree entries).
+        7. is_json: bool (default: False)
+            - Whether the entry should render as an expandable JSON tree.
+        """
+        resolved_category = str(category) if category else None
+
+        if not hasattr(store, "game_log_entries") or store.game_log_entries is None:
+            store.game_log_entries = []
+        if not hasattr(store, "log_entry_seq") or store.log_entry_seq is None:
+            store.log_entry_seq = 0
+
+        store.log_entry_seq += 1
+        if is_separator:
+            entry = {
+                "type": None,
+                "category": None,
+                "origin": None,
+                "message": "##################################################",
+                "is_separator": True,
+                "is_json": False,
+                "data": None,
+                "id": store.log_entry_seq,
+            }
+        else:
+            resolved_type = _normalize_log_type(log_type)
+            resolved_origin = _resolve_log_origin(origin)
+            entry = {
+                "type": resolved_type,
+                "category": resolved_category,
+                "origin": resolved_origin,
+                "message": str(message),
+                "is_separator": False,
+                "is_json": is_json,
+                "data": data,
+                "id": store.log_entry_seq,
+            }
+        store.game_log_entries.append(entry)
+        overflow = len(store.game_log_entries) - LOG_MAX_ENTRIES
+        if overflow > 0:
+            store.game_log_entries = store.game_log_entries[overflow:]
+
+    def clear_game_logs():
+        """Clears all stored session log entries."""
+        store.game_log_entries = []
+        store.log_json_expanded = {}
+
+    def escape_renpy_log_text(text: str) -> str:
+        """
+        Escapes text for safe Ren'Py text display.
+
+        ### Parameters:
+        1. text: str
+            - Raw text that may contain Ren'Py tag/interpolation characters.
+
+        ### Returns:
+        1. str
+            - Escaped text safe for Ren'Py text nodes.
+        """
+        return str(text).replace("{", "{{").replace("}", "}}").replace("[", "[[")
+
+    def format_log_json_summary(data) -> str:
+        """
+        Builds a short summary label for a JSON tree node.
+
+        ### Parameters:
+        1. data: Any
+            - Node value.
+
+        ### Returns:
+        1. str
+            - Compact summary text.
+        """
+        if isinstance(data, dict):
+            return f"{{...}} ({len(data)} keys)"
+        if isinstance(data, list):
+            return f"[...] ({len(data)} items)"
+        if data is None:
+            return "null"
+        if isinstance(data, bool):
+            return "true" if data else "false"
+        if isinstance(data, str):
+            preview = data if len(data) <= 80 else data[:77] + "..."
+            return f'"{preview}"'
+        return str(data)
+
+    def is_log_json_expanded(path: str) -> bool:
+        """
+        Returns whether a JSON tree path is expanded.
+
+        ### Parameters:
+        1. path: str
+            - Expand-state key for the node.
+
+        ### Returns:
+        1. bool
+            - True when the node is expanded.
+        """
+        expanded = getattr(store, "log_json_expanded", None) or {}
+        return bool(expanded.get(path, False))
+
+    def toggle_log_json_node(path: str):
+        """
+        Toggles expand/collapse state for a JSON tree path.
+
+        ### Parameters:
+        1. path: str
+            - Expand-state key for the node.
+        """
+        if not hasattr(store, "log_json_expanded") or store.log_json_expanded is None:
+            store.log_json_expanded = {}
+        store.log_json_expanded[path] = not store.log_json_expanded.get(path, False)
+        renpy.restart_interaction()
+
+    def is_log_json_branch(value) -> bool:
+        """
+        Returns whether a value should render as an expandable branch.
+
+        ### Parameters:
+        1. value: Any
+            - Node value.
+
+        ### Returns:
+        1. bool
+            - True for dict/list branches.
+        """
+        return isinstance(value, (dict, list))
+
+    def get_log_json_tree_rows(data, path: str, depth: int = 0):
+        """
+        Flattens a JSON tree into currently visible rows for journal rendering.
+
+        Ren'Py screens cannot recurse via ``use``, so expand state is resolved
+        in Python and returned as a flat row list.
+
+        ### Parameters:
+        1. data: Any
+            - Current tree node.
+        2. path: str
+            - Expand-state path prefix for this node.
+        3. depth: int (default: 0)
+            - Visual indent depth.
+
+        ### Returns:
+        1. List[Dict]
+            - Visible rows with path, key, summary, depth and branch flags.
+        """
+        rows = []
+
+        if isinstance(data, dict):
+            items = [(str(key), value) for key, value in data.items()]
+        elif isinstance(data, list):
+            items = [("[" + str(index) + "]", value) for index, value in enumerate(data)]
+        else:
+            return [{
+                "path": path,
+                "key": None,
+                "summary": format_log_json_summary(data),
+                "depth": depth,
+                "is_branch": False,
+                "expanded": False,
+            }]
+
+        for key, value in items:
+            child_path = path + "." + key
+            branch = is_log_json_branch(value)
+            expanded = is_log_json_expanded(child_path) if branch else False
+            rows.append({
+                "path": child_path,
+                "key": key,
+                "summary": format_log_json_summary(value),
+                "depth": depth,
+                "is_branch": branch,
+                "expanded": expanded,
+            })
+            if branch and expanded:
+                rows.extend(get_log_json_tree_rows(value, child_path, depth + 1))
+
+        return rows
+
+    def get_filtered_game_logs(log_type=None, category=None, origin=None):
+        """
+        Returns filtered log entries, newest first.
+
+        ### Parameters:
+        1. log_type: Optional[str]
+            - Filter by type, or None/"all" for no type filter.
+        2. category: Optional[str]
+            - Filter by category, or None/"all" for no category filter.
+        3. origin: Optional[str]
+            - Filter by origin, or None/"all" for no origin filter.
+
+        ### Returns:
+        1. List[Dict]
+            - Matching log entries, newest first.
+        """
+        entries = list(getattr(store, "game_log_entries", []) or [])
+        type_filter = None if log_type in (None, "", "all") else str(log_type).lower()
+        category_filter = None if category in (None, "", "all") else str(category)
+        origin_filter = None if origin in (None, "", "all") else str(origin)
+
+        result = []
+        for entry in reversed(entries):
+            if entry.get("is_separator"):
+                result.append(entry)
+                continue
+            if type_filter is not None and entry.get("type") != type_filter:
+                continue
+            if category_filter is not None and entry.get("category") != category_filter:
+                continue
+            if origin_filter is not None and entry.get("origin") != origin_filter:
+                continue
+            result.append(entry)
+        return result
+
+    def get_log_categories():
+        """
+        Returns sorted unique categories from stored logs.
+
+        ### Returns:
+        1. List[str]
+            - Category labels present in the log store.
+        """
+        categories = set()
+        for entry in getattr(store, "game_log_entries", []) or []:
+            category = entry.get("category")
+            if category:
+                categories.add(category)
+        return sorted(categories)
+
+    def get_log_origins():
+        """
+        Returns sorted unique origins from stored logs.
+
+        ### Returns:
+        1. List[str]
+            - Origin labels present in the log store.
+        """
+        origins = set()
+        for entry in getattr(store, "game_log_entries", []) or []:
+            origin = entry.get("origin")
+            if origin:
+                origins.add(origin)
+        return sorted(origins)
+
+    def format_game_log_entry(entry) -> str:
+        """
+        Formats a log entry for journal display with color tags.
+
+        ### Parameters:
+        1. entry: Dict
+            - A stored log entry.
+
+        ### Returns:
+        1. str
+            - Ren'Py-tagged display string.
+        """
+        if entry.get("is_separator"):
+            return "{color=#888888}────────────────────────{/color}"
+
+        log_type = _normalize_log_type(entry.get("type", "info"))
+        color = LOG_TYPE_COLORS.get(log_type, "#000000")
+        type_label = escape_renpy_log_text(f"[{log_type.upper()}]")
+        parts = [f"{{color={color}}}{type_label}{{/color}}"]
+
+        category = entry.get("category")
+        if category:
+            category_label = escape_renpy_log_text(f"[{category}]")
+            parts.append(f"{{color=#666666}}{category_label}{{/color}}")
+
+        origin = entry.get("origin")
+        if origin:
+            parts.append(f"{{color=#888888}}{escape_renpy_log_text(origin)}{{/color}}")
+
+        message = entry.get("message", "")
+        if entry.get("is_json"):
+            parts.append(escape_renpy_log_text(str(message)))
+        else:
+            parts.append(escape_renpy_log_text(message))
+        return " ".join(parts)
+
+    def cycle_log_filter_value(filter_key: str):
+        """
+        Cycles a journal log filter to the next available value.
+
+        ### Parameters:
+        1. filter_key: str
+            - One of "type", "category", or "origin".
+        """
+        if filter_key == "type":
+            options = ["all"] + list(LOG_TYPES)
+            current = getattr(store, "log_filter_type", "all")
+            index = options.index(current) if current in options else 0
+            store.log_filter_type = options[(index + 1) % len(options)]
+        elif filter_key == "category":
+            options = ["all"] + get_log_categories()
+            current = getattr(store, "log_filter_category", "all")
+            if current not in options:
+                current = "all"
+            index = options.index(current)
+            store.log_filter_category = options[(index + 1) % len(options)]
+        elif filter_key == "origin":
+            options = ["all"] + get_log_origins()
+            current = getattr(store, "log_filter_origin", "all")
+            if current not in options:
+                current = "all"
+            index = options.index(current)
+            store.log_filter_origin = options[(index + 1) % len(options)]
+
+    def log_separator():
+        """
+        Prints a plain separator line and stores it without type metadata.
+        """
+        print("##################################################")
+        _append_log_entry(
+            "##################################################",
+            is_separator=True,
+        )
+
+    def log_json(key: str, value: Any, *, log_type: str = "info", category=None, origin=None):
+        """
+        Prints a key and JSON-like value and stores a structured tree entry.
+
+        Console output keeps a normal pretty-printed dump. The journal stores
+        structured data for an expandable inline tree.
 
         ### Parameters:
         1. key: str
-            - The key to print
+            - The key to print.
         2. value: Any
-            - The value to print
+            - The value to pretty-print / store.
+        3. log_type: str (default: "info")
+            - Log severity type.
+        4. category: Optional[str]
+            - Optional category label.
+        5. origin: Optional[str]
+            - Explicit origin override.
         """
+        resolved_type = _normalize_log_type(log_type)
+        resolved_origin = _resolve_log_origin(origin)
+        print()
+        print(_format_log_prefix(resolved_type, category, resolved_origin) + key + ":")
+        pprint.pprint(value, compact=False)
+        _append_log_entry(
+            str(key),
+            log_type=resolved_type,
+            category=category,
+            origin=resolved_origin,
+            data=_prepare_log_json_data(value),
+            is_json=True,
+        )
 
+    def log_val(key: str, *values: Any, log_type: str = "info", category=None, origin=None):
+        """
+        Prints a key and value and stores it in the session log.
+
+        ### Parameters:
+        1. key: str
+            - The key to print.
+        2. values: Any
+            - One or more values to print.
+        3. log_type: str (default: "info")
+            - Log severity type.
+        4. category: Optional[str]
+            - Optional category label.
+        5. origin: Optional[str]
+            - Explicit origin override.
+        """
         value = ", ".join(map(str, values))
+        resolved_type = _normalize_log_type(log_type)
+        resolved_origin = _resolve_log_origin(origin)
+        message = f"{key}: {value}"
+        print(_format_log_prefix(resolved_type, category, resolved_origin) + message)
+        _append_log_entry(message, log_type=resolved_type, category=category, origin=resolved_origin)
 
-        print(key + ": " + str(value))
-        return
-
-    def log(msg: str):
+    def log(msg: str, *, log_type: str = "info", category=None, origin=None):
         """
-        Prints a message
+        Prints a message and stores it in the session log.
 
         ### Parameters:
         1. msg: str
-            - The message to print
+            - The message to print.
+        2. log_type: str (default: "info")
+            - Log severity type.
+        3. category: Optional[str]
+            - Optional category label.
+        4. origin: Optional[str]
+            - Explicit origin override.
         """
-
-        print(str(msg))
-        return
-
-    def log_error(code: int, msg: str):
-        """
-        Prints an error message
-
-        ### Parameters:
-        1. msg: str
-            - The message to print
-        """
-
-        print(f"|ERROR[{str(code)}]| {str(msg)}")
-        add_notify_message("|ERROR| " + str(msg))
-        return
+        resolved_type = _normalize_log_type(log_type)
+        resolved_origin = _resolve_log_origin(origin)
+        message = str(msg)
+        print(_format_log_prefix(resolved_type, category, resolved_origin) + message)
+        _append_log_entry(message, log_type=resolved_type, category=category, origin=resolved_origin)
+        if resolved_type == "error":
+            add_notify_message("|ERROR| " + message)
 
     log_number = 0
 
-    def log_count(msg: str, start = False):
+    def log_count(msg: str, start=False):
         if start:
             log_number = 0
-        
+
         log_number += 1
         log_val(msg, log_number)
 

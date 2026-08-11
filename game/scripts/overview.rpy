@@ -193,7 +193,6 @@ screen school_overview_stats ():
                 xalign 0.5
                 text tooltip
 
-
 ##################################
 # display all buildings on the map
 screen school_overview_images ():
@@ -203,70 +202,16 @@ screen school_overview_images ():
 
     add "background/school_map.webp"
 
-    # High School Building
-    if is_building_available("school_building"):
-        add "background/school_building.webp":
-            xpos 563 ypos 620
-
-    # High School Dormitory
-    if is_building_available("school_dormitory"):
-        add "background/school_dormitory.webp":
-            xpos 1202 ypos 410
-
-    # Labs
-    if is_building_available("labs"):
-        add "background/labs.webp":
-            xpos 722 ypos 176
-
-    # Sports Field
-    if is_building_available("sports_field"):
-        add "background/sports_field.webp":
-            xpos 241 ypos 130
-
-    # Beach
-    if is_building_available("beach"):
-        add "background/beach.webp":
-            xpos 952 ypos 728
-
-    # Gym
-    if is_building_available("gym"):
-        add "background/gym.webp":
-            xpos 140 ypos 289
-
-    # Swimming Pool
-    if is_building_available("swimming_pool"):
-        add "background/swimming_pool.webp":
-            xpos 354 ypos 348
-
-    # Cafeteria
-    if is_building_available("cafeteria"):
-        add "background/cafeteria.webp":
-            xpos 825 ypos 473
-
-    # Bath
-    if is_building_available("bath"):
-        add "background/bath.webp":
-            xpos 441 ypos -19
-
-    # Kiosk
-    if is_building_available("kiosk"):
-        add "background/kiosk.webp":
-            xpos 269 ypos 510
-
-    # Courtyard
-    if is_building_available("courtyard"):
-        add "background/courtyard.webp":
-            xpos 452 ypos 490
-
-    # Office Building
-    if is_building_available("office_building"):
-        add "background/office_building.webp":
-            xpos 976 ypos 70
-
-    # Staff Lodges
-    if is_building_available("staff_lodges"):
-        add "background/staff_lodges.webp":
-            xpos -19 ypos 624
+    $ map_buildings = building_manager.get_buildings()
+    for building in map_buildings:
+        if building.is_open():
+            add building.get_image("idle"):
+                xpos building.x_pos ypos building.y_pos
+        else:
+            $ empty_image = building.get_image("empty")
+            if check_image(empty_image):
+                add empty_image:
+                    xpos building.x_pos ypos building.y_pos
 
 ############################################################################
 # display clickable buttons for the buildings leading to building distributor
@@ -278,244 +223,37 @@ screen school_overview_buttons (with_available_Events = False):
     tag interaction_overlay
     # modal True
     
-    # High School Building
-    if is_building_available("school_building") or is_building_available("high_school_building"):
-        $ sb_text = ""
-        if has_keyboard():  
-            if show_shortcut():
-                $ sb_text = " [[1]"
-            key "K_1" action Call("building", "school_building")
-            key "K_KP1" action Call("building", "school_building")
-        $ image_text = "background/school_building.webp"
-        if not get_available_event('school_building'):
-            $ image_text = "background/school_building_empty.webp"
-        if with_available_Events and get_available_highlight('school_building'):
-            $ image_text = "background/school_building_red.webp"
-        imagebutton:
-            idle image_text
-            hover "background/school_building_white.webp"
-            tooltip "School Building" + sb_text
-            focus_mask True
-            xpos 563 ypos 620
-            action Call("building", "school_building")
-
-    # High School Dormitory
-    if is_building_available("school_dormitory") or is_building_available("high_school_dormitory"):
-        $ sd_text = ""
-        if has_keyboard():
-            if show_shortcut():
-                $ sd_text = " [[2]"
-            key "K_2" action Call("building", "school_dormitory")
-            key "K_KP2" action Call("building", "school_dormitory")
-        $ image_text = "background/school_dormitory.webp"
-        if not get_available_event('school_dormitory'):
-            $ image_text = "background/school_dormitory_empty.webp"
-        if with_available_Events and get_available_highlight('school_dormitory'):
-            $ image_text = "background/school_dormitory_red.webp"
-        imagebutton:
-            idle image_text
-            hover "background/school_dormitory_white.webp"
-            tooltip "School Dormitory" + sd_text
-            focus_mask True
-            xpos 1202 ypos 410
-            action Call("building", "school_dormitory")
-
-    # Labs
-    if is_building_available("labs"):
-        $ image_text = "background/labs.webp"
-        if not get_available_event('labs'):
-            $ image_text = "background/labs_empty.webp"
-        if with_available_Events and get_available_highlight('labs'):
-            $ image_text = "background/labs_red.webp"
-        imagebutton:
-            idle image_text
-            hover "background/labs_white.webp"
-            tooltip "Labs"
-            focus_mask True
-            xpos 722 ypos 176
-            action Call("building", "labs")
-
-    # Sports Field
-    if is_building_available("sports_field"):
-        $ image_text = "background/sports_field.webp"
-        if not get_available_event('sports_field'):
-            $ image_text = "background/sports_field_empty.webp"
-        if with_available_Events and get_available_highlight('sports_field'):
-            $ image_text = "background/sports_field_red.webp"
-        imagebutton:
-            idle image_text
-            hover "background/sports_field_white.webp"
-            tooltip "Sports Field"
-            focus_mask True
-            xpos 241 ypos 130
-            action Call("building", "sports_field")
-
-    # Beach
-    if is_building_available("beach"):
-        $ image_text = "background/beach.webp"
-        if not get_available_event('beach'):
-            $ image_text = "background/beach_empty.webp"
-        if with_available_Events and get_available_highlight('beach'):
-            $ image_text = "background/beach_red.webp"
-        imagebutton:
-            idle image_text
-            hover "background/beach_white.webp"
-            tooltip "Beach"
-            focus_mask True
-            xpos 952 ypos 728
-            action Call("building", "beach")
-
-    # Staff Lodges
-    if is_building_available("staff_lodges"):
-        $ image_text = "background/staff_lodges.webp"
-        if not get_available_event('staff_lodges'):
-            $ image_text = "background/staff_lodges_empty.webp"
-        if with_available_Events and get_available_highlight('staff_lodges'):
-            $ image_text = "background/staff_lodges_red.webp"
-        imagebutton:
-            idle image_text
-            hover "background/staff_lodges_white.webp"
-            tooltip "Staff Lodges"
-            focus_mask True
-            xpos -19 ypos 624
-            action Call("building", "staff_lodges")
-
-    # Gym
-    if is_building_available("gym"):
-        $ g_text = ""
-        if has_keyboard():
-            if show_shortcut():
-                $ g_text = " [[6]"
-            key "K_6" action Call("building", "gym")
-            key "K_KP6" action Call("building", "gym")
-        $ image_text = "background/gym.webp"
-        if not get_available_event('gym'):
-            $ image_text = "background/gym_empty.webp"
-        if with_available_Events and get_available_highlight('gym'):
-            $ image_text = "background/gym_red.webp"
-        imagebutton:
-            idle image_text
-            hover "background/gym_white.webp"
-            tooltip "Gym" + g_text
-            focus_mask True
-            xpos 140 ypos 289
-            action Call("building", "gym")
-
-    # Swimming Pool
-    if is_building_available("swimming_pool"):
-        $ image_text = "background/swimming_pool.webp"
-        if not get_available_event('swimming_pool'):
-            $ image_text = "background/swimming_pool_empty.webp"
-        if with_available_Events and get_available_highlight('swimming_pool'):
-            $ image_text = "background/swimming_pool_red.webp"
-        imagebutton:
-            idle image_text
-            hover "background/swimming_pool_white.webp"
-            tooltip "Swimming Pool"
-            focus_mask True
-            xpos 354 ypos 348
-            action Call("building", "swimming_pool")
-
-    # Cafeteria
-    if is_building_available("cafeteria"):
-        $ cf_text = ""
-        if has_keyboard():
-            if show_shortcut():
-                $ cf_text = " [[7]"
-            key "K_7" action Call("building", "cafeteria")
-            key "K_KP7" action Call("building", "cafeteria")
-        $ image_text = "background/cafeteria.webp"
-        if not get_available_event('cafeteria'):
-            $ image_text = "background/cafeteria_empty.webp"
-        if with_available_Events and get_available_highlight('cafeteria'):
-            $ image_text = "background/cafeteria_red.webp"
-        imagebutton:
-            idle image_text
-            hover "background/cafeteria_white.webp"
-            tooltip "Cafeteria" + cf_text
-            focus_mask True
-            xpos 825 ypos 473
-            action Call("building", "cafeteria")
-
-    # Bath
-    if is_building_available("bath"):
-        $ image_text = "background/bath.webp"
-        if not get_available_event('bath'):
-            $ image_text = "background/bath_empty.webp"
-        if with_available_Events and get_available_highlight('bath'):
-            $ image_text = "background/bath_red.webp"
-        imagebutton:
-            idle image_text
-            hover "background/bath_white.webp"
-            tooltip "Bath"
-            focus_mask True
-            xpos 441 ypos -19
-            action Call("building", "bath")
-
-    # Kiosk
-    if is_building_available("kiosk"):
-        $ k_text = ""
-        if has_keyboard():
-            if show_shortcut():
-                $ k_text = " [[5]"
-            key "K_5" action Call("building", "kiosk")
-            key "K_KP5" action Call("building", "kiosk")
-        $ image_text = "background/kiosk.webp"
-        if not get_available_event('kiosk'):
-            $ image_text = "background/kiosk_empty.webp"
-        if with_available_Events and get_available_highlight('kiosk'):
-            $ image_text = "background/kiosk_red.webp"
-        imagebutton:
-            idle image_text
-            hover "background/kiosk_white.webp"
-            tooltip "Kiosk" + k_text
-            focus_mask True
-            xpos 269 ypos 510
-            action Call("building", "kiosk")
-
-    # Courtyard
-    if is_building_available("courtyard"):
-        $ c_text = ""
-        if has_keyboard():
-            if show_shortcut():
-                $ c_text = " [[4]"
-            key "K_4" action Call("building", "courtyard")
-            key "K_KP4" action Call("building", "courtyard")
-        $ image_text = "background/courtyard.webp"
-        if not get_available_event('courtyard'):
-            $ image_text = "background/courtyard_empty.webp"
-        if with_available_Events and get_available_highlight('courtyard'):
-            $ image_text = "background/courtyard_red.webp"
-        imagebutton:
-            idle image_text
-            hover "background/courtyard_white.webp"
-            tooltip "Courtyard" + c_text
-            focus_mask True
-            xpos 452 ypos 490
-            action Call("building", "courtyard")
-
-    # Office Building
-    if is_building_available("office_building"):
-        $ o_text = ""
-        if has_keyboard():
-            if show_shortcut():
-                $ o_text = " [[3]"
-            key "K_3" action Call("building", "office_building")
-            key "K_KP3" action Call("building", "office_building")
-        $ image_text = "background/office_building.webp"
-        if not get_available_event('office_building'):
-            $ image_text = "background/office_building_empty.webp"
-        if with_available_Events and get_available_highlight('office_building'):
-            $ image_text = "background/office_building_red.webp"
-        imagebutton:
-            idle image_text
-            hover "background/office_building_white.webp"
-            tooltip "Office Building" + o_text
-            focus_mask True
-            xpos 976 ypos 70
-            action Call("building", "office_building")
-    
-    
+    $ map_buildings = building_manager.get_buildings()
+    for building in map_buildings:
+        if building.is_open():
+            if has_keyboard() and building.has_shortcut():
+                for shortcut in building.get_renpy_keys():
+                    key shortcut action Call("building", building.key)
+            $ image_text = building.get_image("idle")
+            if get_available_event(building.key):
+                $ image_text = building.get_image("available")
+            if with_available_Events and get_available_highlight(building.key):
+                $ image_text = building.get_image("red")
+            imagebutton:
+                idle image_text
+                hover building.get_image("white")
+                tooltip building.get_name(with_shortcut = True)
+                focus_mask True
+                xpos building.x_pos ypos building.y_pos
+                action Call("building", building.key)
+        else:
+            # Mods may supply an "empty" sprite for buildings not on the base map.
+            # Native buildings are already baked into the map art and have no empty image —
+            # skip the button entirely so there is nothing to select.
+            $ empty_image = building.get_image("empty")
+            if check_image(empty_image):
+                imagebutton:
+                    idle empty_image
+                    insensitive empty_image
+                    focus_mask True
+                    xpos building.x_pos ypos building.y_pos
+                    action NullAction()
+                    sensitive False
 
     $ j_text = ""
     if has_keyboard():
@@ -636,6 +374,8 @@ label new_daytime ():
 
 label after_load_entry():
 
+    $ clean_legacy_vote_proposal()
+
     call time_event_check from call_after_load_entry_1
 
     jump map_entry
@@ -680,6 +420,8 @@ label map_overview ():
     $ quest_manager.update_complete_all()
 
     $ situation_manager.check_all_thresholds()
+    $ situation_manager.check_passives()
+    $ situation_manager.check_resolutions()
 
     if not debug_mode:
         # keep only the last 100 entries in the return stack
@@ -689,7 +431,7 @@ label map_overview ():
     # show screen school_overview_map
     show screen school_overview_stats 
 
-    $ log('###########################################')
+    $ log_separator()
 
     $ update_available_highlights()
 

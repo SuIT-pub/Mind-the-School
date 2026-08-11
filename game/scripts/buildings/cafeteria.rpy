@@ -41,7 +41,7 @@ init 1 python:
     cafeteria_event_2_event = Event(3, "cafeteria_event_2",
         TimeCondition(daytime = "1,6"),
         TimeSelector("time", "daytime"),
-        RandomListSelector("char_class", "parent", ("school", RuleCondition('school_jobs')), realtime = True),
+        RandomListSelector("char_class", "parent", ("school", UnlockableCondition('school_jobs')), realtime = True),
         ConditionSelector("level", CompareCondition("char_class", "parent"), 
             LevelSelector("", "parent"), 
             LevelSelector("", "school"),
@@ -62,7 +62,7 @@ init 1 python:
 
     cafeteria_event_3_event = Event(3, "cafeteria_event_3",
         TimeCondition(weekday = "d", daytime = "d"),
-        NOT(RuleCondition('school_jobs')),
+        NOT(UnlockableCondition('school_jobs')),
         LevelSelector("parent_level", "parent"),
         ProgressSelector("unlock_school_jobs_value", "unlock_school_jobs"),
         ConditionSelector("unlock_school_jobs", CompareCondition("unlock_school_jobs_value", -1), 
@@ -78,7 +78,7 @@ init 1 python:
             TimeCondition(weekday = "d", daytime = "1,6"),
             TimeCondition(weekday = "w", daytime = "d")
         ),
-        RuleCondition('school_jobs'),
+        UnlockableCondition('school_jobs'),
         LevelCondition("1-6", "school"),
         LevelSelector("parent_level", "parent"),
         LevelSelector("school_level", "school"),

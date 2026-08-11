@@ -1091,6 +1091,22 @@ init -6 python:
         def set_thumbnail(self, thumbnail: str):
             self.thumbnail = thumbnail
 
+        @property
+        def say(self):
+            return self.get_renpy_char()
+
+        @property
+        def think(self):
+            return self.get_renpy_char(char_type = "thought")
+
+        @property
+        def whisper(self):
+            return self.get_renpy_char(char_type = "whisper")
+
+        @property
+        def shout(self):
+            return self.get_renpy_char(char_type = "shout")
+
         def get_renpy_char(self, char_type: string = "") -> Character:
 
             char_kind = character.subtitles
@@ -1158,10 +1174,10 @@ init -6 python:
         """
 
         if key not in person_storage.keys():
-            log_error(601, f"Person with key {key} not found")
+            log(f"Person with key {key} not found", log_type="error", category="character")
             return None
         if name not in person_storage[key].keys():
-            log_error(602, f"Person with name {name} not found")
+            log(f"Person with name {name} not found", log_type="error", category="character")
             return None
         return person_storage[key][name]
 
@@ -1182,14 +1198,20 @@ init -6 python:
         """
 
         if key not in person_storage.keys():
-            log_error(601, f"Person with key {key} not found")
+            log(f"Person with key {key} not found", log_type="error", category="character")
             return None
         if name not in person_storage[key].keys():
-            log_error(602, f"Person with name {name} not found")
+            log(f"Person with name {name} not found", log_type="error", category="character")
             return None
         return person_storage[key][name].get_character(char_type)
 
     def load_person(key: str, person: Person):
+        # Gated on the current mod being active (like event `add_event`): a disabled
+        # mod's persons are not registered. Base loaders set `set_current_mod('base')`,
+        # and base is always active.
+        if not is_mod_active(active_mod_key):
+            return
+
         if key not in person_storage.keys():
             person_storage[key] = {}
 
@@ -1246,12 +1268,8 @@ label load_schools ():
 
     return
 
-init -99 python:
-    load_character_labels = []
-    def register_character_loading(label: str):
-        load_character_labels.append(label)
-
 label load_characters ():
+    $ set_current_mod('base')
     $ school_char = get_character_by_key('school')
     $ parent_char = get_character_by_key('parent')
     $ teacher_char = get_character_by_key('teacher')
@@ -1391,7 +1409,4 @@ label load_characters ():
         ],
     ))
 
-    $ i = 0
-    while (i < len(load_character_labels)):
-        call expression load_character_labels[i] from _call_expression_4
-        $ i += 1
+    return

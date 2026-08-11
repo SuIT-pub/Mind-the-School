@@ -1,0 +1,25 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "renpy",
+      "request": "launch",
+      "name": "Debug Mind the School",
+      "gameRoot": "${workspaceFolder}",
+      "sdkPath": "M:/RenPy",
+      "debugPort": 14711,
+      "stopOnEntry": false,
+      "showConsole": true
+    },
+    {
+      "type": "renpy",
+      "request": "launch",
+      "name": "Debug Mind the School (Stop on Entry)",
+      "gameRoot": "${workspaceFolder}",
+      "sdkPath": "M:/RenPy",
+      "debugPort": 14711,
+      "stopOnEntry": true,
+      "showConsole": true
+    }
+  ]
+}

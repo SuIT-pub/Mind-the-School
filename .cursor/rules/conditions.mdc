@@ -14,11 +14,9 @@ A container class that manages collections of conditions. Key features:
 - Separates conditions into list and description display categories
 - Tracks locked conditions
 - Handles condition fulfillment checking
-- Manages condition blocking states
 
 ### Base Condition Class
 The abstract `Condition` class serves as the foundation for all condition types:
-- `blocking`: Controls whether condition blocks content when unfulfilled
 - `display_in_list`: Controls visibility in UI lists
 - `display_in_desc`: Controls visibility in descriptions
 - Supports option sets for additional configuration
@@ -26,7 +24,6 @@ The abstract `Condition` class serves as the foundation for all condition types:
 ### Key Methods
 All conditions implement these core methods:
 - `is_fulfilled(**kwargs)`: Checks if condition is met
-- `is_blocking(**kwargs)`: Checks if condition blocks progression
 - `to_list_text(**kwargs)`: Generates UI list display text
 - `to_desc_text(**kwargs)`: Generates description display text
 - `get_name()`: Returns condition identifier
@@ -178,7 +175,6 @@ TimerCondition("event_name", day = 4)
 
 2. **Managing Conditions**
    - Use `ConditionStorage` for organizing related conditions
-   - Configure blocking behavior appropriately
    - Consider UI display requirements
 
 3. **Best Practices**

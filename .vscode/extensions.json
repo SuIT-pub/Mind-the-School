@@ -1,5 +1,8 @@
 {
-    "recommendations": [
-        "suit-ji.renpy-intellisense"
-    ]
+  "recommendations": [],
+  "unwantedRecommendations": [
+    "LuqueDaniel.languague-renpy",
+    "renpy.language-renpy",
+    "suit-ji.renpy-intellisense"
+  ]
 }

@@ -1,0 +1,39 @@
+---
+description: NEVER modify code via scripts/shell; ALWAYS use Edit/Write/StrReplace tools so changes stay reviewable and safe.
+alwaysApply: true
+---
+
+# No Scripted Code Edits
+
+## Mandatory
+
+- **ALWAYS** change project files with the dedicated edit tools only (`ApplyPatch` / `StrReplace` / `Write` / `Delete` / `EditNotebook`).
+- **NEVER** create, rewrite, or patch source/content files by running scripts or shell one-liners (Python, PowerShell, bash, Node, sed, awk, `Set-Content`, redirection/`>`, here-docs that write files, etc.).
+
+## Why
+
+Scripted bulk writes hide diffs from review and repeatedly cause catastrophic data loss in this project. Editable, tool-based patches are the only allowed path.
+
+## Allowed shell use
+
+Shell is fine for **non-mutating** work and process control, for example:
+
+- reading logs, searching, listing files
+- git status/diff/log (and commits only when the user asks)
+- running the game, tests, build/wiki sync scripts that the user requested
+
+Shell must **not** be used to apply code or content changes.
+
+## Examples
+
+```text
+❌ BAD — rewrite or patch files via script/shell
+python fix_file.py
+powershell -Command "(Get-Content x.rpy) -replace 'a','b' | Set-Content x.rpy"
+node -e "fs.writeFileSync('game/scripts/foo.rpy', ...)"
+
+✅ GOOD — edit with tools
+Use StrReplace / Write / ApplyPatch on the target file(s).
+```
+
+If a change feels too large for one edit: split into multiple tool edits. Do not fall back to a script.

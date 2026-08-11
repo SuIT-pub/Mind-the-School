@@ -1,274 +1,288 @@
 ---
 name: build-situation
 description: >-
-  Builds Mind the School Situation definitions from a narrative prompt or design
-  document, or shows a short syntax guide for creating situations. Generates
-  code in game/scripts/situations/situations.rpy inside label load_situations.
-  Use when the user asks to create, design, implement, or extend a Situation,
-  situation bar, thresholds, passive options, injected events, situation teasers,
-  or asks how situation syntax works, how to write a Situation, or for a syntax
-  reference / Anleitung.
+  Designs and builds Mind the School Situations AND Unlockables (rules, clubs,
+  building unlocks) from a narrative prompt or design idea. Brainstorms the design
+  collaboratively with the user in planning mode first, then implements: Situations
+  in game/scripts/situations/situations.rpy (label load_situations), Unlockables in
+  game/scripts/journal/unlockables.rpy (label load_unlockables). Also shows a short
+  syntax guide. Use when the user asks to create, design, implement, or extend a
+  Situation or an Unlockable — bars, thresholds, passives/measures, injected events,
+  teasers, PTA votes, unlock effects, upgrade chains — or asks how the syntax works.
 ---
 
-# Build Situation
+# Build Situation / Unlockable
 
-Zwei Modi — zuerst erkennen, was der User will:
+This skill covers **two closely related things**:
 
-| Modus | Wann | Output |
-|-------|------|--------|
-| **Syntax-Anleitung** | User fragt nach Syntax, Struktur, „wie schreibt man…“, Cheatsheet, Anleitung — **ohne** konkreten Situations-Prompt | Kurze Syntax-Referenz (siehe unten). **Kein Code schreiben**, es sei denn explizit gewünscht. |
-| **Situation bauen** | User liefert Prompt, Design-Doc oder konkrete Situation | Tabelle + `load_situations`-Code (Standard-Workflow) |
+- **Situation** — an ongoing problem/development the player influences via a
+  bidirectional bar and narrative hints, ending in a positive/negative resolution
+  (e.g. *Cafeteria Crisis*, *Body Conflict*).
+- **Unlockable** — a **subclass of Situation** that unlocks a **rule / club /
+  building** through a **PTA vote**. The vote layer (Schedule Vote, faction bars,
+  Cancel, unlock resolutions) is injected for you; you mostly author *visibility*
+  and *what unlocking does*.
 
-Default bei Implementierung: `game/scripts/situations/situations.rpy`, inside `label load_situations`, as a new `situation_manager.load_situation(...)` call — unless the user specifies another file or location.
+An Unlockable *is* a Situation, so everything about Situations applies to Unlockables
+too. Read the guides before building:
 
-## Syntax-Anleitung (Kurzreferenz)
+- **`wiki/Building-Situations.md`** — the full Situation reference (self-contained:
+  design + API + troubleshooting).
+- **`wiki/Building-Unlockables.md`** — the Unlockable extension (what the class adds,
+  PTA vote, money escrow, upgrade chains).
 
-Bei reiner Syntax-Frage diese Anleitung zeigen (ggf. auf Deutsch, wenn User Deutsch schreibt). Kompakt halten — kein vollständiger Design-Workflow.
+> The author guides live in the repo's `wiki/` folder (they are the GitHub Wiki
+> source). Related system guides there: `wiki/Events.md`, `wiki/Conditions.md`,
+> `wiki/Selectors.md`, `wiki/Effects.md`, `wiki/Modifiers.md`, `wiki/Options.md`.
 
-### Gerüst in `label load_situations`
+## Modes — detect what the user wants
 
-Nutze die **Definition-Helper** (weniger Boilerplate, kein `direction=1` / leeres `threshold_hint` von Hand):
+| Mode | When | What you do |
+|------|------|-------------|
+| **Syntax guide** | User asks about syntax/structure, "how do I write…", a cheatsheet — **without** a concrete build request | Show the [syntax guide](#syntax-guide-quick-reference). **No code, no plan mode.** |
+| **Build** | User provides a prompt or wants a concrete Situation/Unlockable created or extended | Follow the [Brainstorm → Plan → Implement](#build-workflow-brainstorm--plan--implement) workflow below. |
+
+---
+
+## Build workflow: brainstorm → plan → implement
+
+The build flow is **collaborative and plan-first**. Do **not** jump straight to
+code — a Situation/Unlockable is a narrative + balancing design, and those decisions
+are the user's. Brainstorm the design together in **planning mode**, converge on a
+concrete plan, get approval, then implement.
+
+### Phase 0 — Ground yourself (before talking design)
+
+1. Read both author guides (above) if you haven't this session.
+2. Read the target source for existing patterns and keys:
+   - Situation → `game/scripts/situations/situations.rpy`
+   - Unlockable → `game/scripts/journal/unlockables.rpy`
+3. If injected events / PTA-discussion events are wanted, skim the relevant
+   building's `EventStorage` targets (`game/scripts/buildings/*.rpy`).
+
+### Phase 1 — Decide the type (Situation vs. Unlockable)
+
+Usually clear from the prompt; if not, ask. Decision guide:
+
+- The goal is to **permanently unlock a rule / club / building via a PTA vote**
+  → **Unlockable** (`type_key` = `rule` / `club` / `building`).
+- Building has **multiple levels/upgrades** → Unlockable **group chain**
+  (`group_index` 1, 2, 3…).
+- It's an **ongoing problem/arc** that resolves narratively (not a permanent
+  unlock) → **Situation**.
+
+### Phase 2 — Brainstorm the design **in planning mode**
+
+Enter planning mode and shape the design **with** the user. Use `AskUserQuestion`
+for focused choices; propose concrete options and a recommended default, but let the
+user drive the narrative and balancing calls. Iterate until the design is settled.
+
+Walk through the relevant checklist:
+
+**Both types:**
+- Narrative: what is the problem/goal, who is involved, what does success look like?
+- Language: English or German (match the surrounding content / the user's prompt).
+- Bars: single `main`, or multi-bar (PTA factions `teachers`/`parents`/`students`)?
+- `limits`, and the start value (`start_base` / `start_modifiers`).
+- Stat couplings (`stat_weights`) — only stats that narratively matter, kept small.
+- Key beats → thresholds: which are **blocking gates** (must happen, need a
+  condition) vs **auto-fire** (happen as a reaction to progress); their order.
+- Injected events / pools (which building + action, which bar range)?
+- Teasers — pre-activation "hunches" (pull architecture, unlocked by conditions)?
+- What **activates** it (a story event, the journal button, a debug call)?
+
+**Situation-specific:**
+- Passives/measures (Layers 2 & 3), or none (tutorial)? Respect the net rule:
+  wear + passive should not net clearly positive.
+- Resolutions: positive/negative/deadline/condition, mode `ALL`/`ANY`, and the
+  **real effects** each one fires.
+
+**Unlockable-specific:**
+- `type_key` (`rule` / `club` / `building`).
+- Single unlockable or a **group chain** (`group_index` per level)?
+- **Visibility conditions** — from when is it listed (these are *not* vote gates)?
+- **Unlock effects** — what actually happens on a won vote (rule flag,
+  `LevelEffect`, and for buildings a `BuildingOpenEffect` to open the map location —
+  unlock ≠ map-open)?
+- **Money cost?** → a `MoneyCondition` on Schedule Vote (via
+  `UnlockableScheduleVoteConditions`) paired with a matching negative `MoneyEffect`.
+- Injected measures: keep the free **Persuade** (`inject_default_measure=True`)?
+  keep the free **Cancel** (`inject_default_cancel`), or a custom one?
+- Custom bars, or the injected three factions? Preview `Picto(...)` marks?
+
+### Phase 3 — Present the plan and get approval
+
+Converge the brainstorm into a concrete plan, then present it (and exit plan mode
+for approval). The plan should contain:
+
+1. **Type & placement** — Situation or Unlockable; target file/label.
+2. **Design tables** — thresholds (approach/reached hints), bars & stat weights,
+   pools (key/building/action/range), resolutions/unlock effects; for Unlockables
+   also visibility conditions, unlock effects, money pairing, group levels.
+3. **Code shape** — the `Situation(...)` / `Unlockable(...)` block as it will be
+   written.
+4. **Open placeholders** — where `PlaceholderCondition()` / `DummyEffect()` stand in
+   for content to be filled later, and the intended real values.
+
+### Phase 4 — Implement + checklist
+
+After approval, write the code (Phase 3 shape) into the correct label, then run the
+[checklist](#implementation-checklist).
+
+- **Situation** → inside `register_situations(...)` in `label load_situations`
+  (`game/scripts/situations/situations.rpy`).
+- **Unlockable** → inside `register_unlockables(...)` in `label load_unlockables`
+  (`game/scripts/journal/unlockables.rpy`).
+
+Rules:
+- One entry per `Situation(...)` / `Unlockable(...)`; don't replace existing ones
+  unless asked.
+- Keep `set_current_mod(...)` and manager init as-is.
+- **Never** set runtime state (`bar.value`, `threshold.reached`, `teaser.active`) in
+  the template — `update_data` preserves save state; starting values go in
+  `start_base` / `start_modifiers`.
+- Blocking conditions belong **in** the threshold, not as separate `Situation`
+  elements.
+
+Tell the user how to test (from the guides' Quick start): reload, then activate via
+the journal button or the Ren'Py console (`Shift+O`) —
+`situation_manager.get_situation("<key>").activate()` or
+`unlockable_manager.get_unlockable_by_key("<key>").activate()` — and check the
+Journal log view (category filter `situation`) for self-test errors.
+
+---
+
+## Syntax guide (quick reference)
+
+For a pure syntax question, show the relevant part (in the user's language). Keep it
+compact — no plan mode, no full workflow.
+
+### Situation skeleton (`label load_situations`)
 
 ```python
 $ register_situations(
-    Situation("<key>", "<Name>", "<Beschreibung>",
-        Bar("main",
-            BlockingThreshold(-5, "<approach>", "<reached>", PlaceholderCondition()),
-            AutoThreshold(10, "<approach>"),
-            limits=(-30, 60),
-            stat_weights={HAPPINESS: 0.5, EDUCATION: 0.2},
-        ),
-        PassiveOption("stable_key", "Spieler-Beschreibung", DummyEffect()),
-        SituationPool("building_action_event", bar_min, bar_max),
+    Situation("<key>", "<Name>", "<Description>",
+        Bar("main", limits=(-30, 60), stat_weights={HAPPINESS: 0.5, EDUCATION: 0.2}),
+        BlockingThreshold("<approach>", "<reached>", PlaceholderCondition(), main=-5),
+        AutoThreshold("<approach>", main=10),
+        PassiveOption("stable_key", "Player-facing description", DummyEffect()),
+        SituationPool("building_action_event", 10, 54),
+        PositiveResolution("ALL", DummyEffect()),
+        NegativeResolution("ANY", DummyEffect()),
         thumbnail="images/...",
-    ).add_effect("positive_resolution", DummyEffect())
-     .add_effect("negative_resolution", DummyEffect()),
+    ),
 )
 ```
 
-**Helper:** `AutoThreshold` · `BlockingThreshold` · `Bar` · `PassiveOption` · `SituationPool` · `register_situations`
+**Helpers:** `Bar` · `AutoThreshold` · `BlockingThreshold` · `PassiveOption` ·
+`MeasureOption` · `SituationPool` · `Teaser` · `Picto` · `PositiveResolution` ·
+`NegativeResolution` · `DeadlineResolution` · `ConditionResolution` ·
+`register_situations`
 
-`Bar(key, ...)` — erster Parameter ist der Balken-Key (`"main"` für Standard-Situationen; bei PTA mehrere Keys möglich, z.B. `"teachers"`, `"parents"`, `"students"`).
+- Thresholds are **top-level elements** of `Situation(...)`, not nested in `Bar(...)`;
+  bar association is via keyword bounds (`main=-5`, or `teachers=25, parents=30`).
+- `AutoThreshold(approach_hint, *effects, direction=1, visible_range=100, **bounds)`
+- `BlockingThreshold(approach_hint, threshold_hint, *conditions, direction=1, visible_range=100, **bounds)`
+- `approach_hint` = vague direction while below; `threshold_hint` = concrete *what*
+  (blocking only). Journal voice, never UI meta ("trigger event X").
 
-Low-level (weiterhin gültig): `SituationThreshold(...)` · `SituationBar(...)` · `situation_manager.load_situation(...)`
-
-### SituationThreshold (Low-level)
-
-```python
-SituationThreshold(balkenwert, approach_hint, threshold_hint, direction, *conditions_oder_effects)
-```
-
-| Typ | `threshold_hint` | Extra | `direction` |
-|-----|------------------|-------|-------------|
-| Auto-fire | `""` | optional `Effect`s | `1` (aufwärts) / `-1` (abwärts) |
-| Blocking | Konkreter Task-Hinweis | min. 1 `Condition` | `1` für Gates beim Fortschritt nach oben |
+### Unlockable skeleton (`label load_unlockables`)
 
 ```python
-# Blocking
-SituationThreshold(20, "Eltern müssen mitziehen.", "PTA-Abstimmung planen.", 1, PlaceholderCondition()),
-# Auto-fire
-SituationThreshold(35, "Der Umbau kann beginnen.", "", 1),
+$ register_unlockables(
+    Unlockable("rule", "<key>", "<Name>", True,          # inject_default_measure
+        SituationDescription(["<line>", "<line>"]),
+        LevelCondition("2", True),                        # visibility (when listed)
+        SituationEffectSetGameData("<key>_active", True, "<desc>"),  # unlock effect
+        thumbnail="images/...",
+        # group_index=1,                                  # for building-upgrade chains
+        # inject_default_cancel=False,                    # to supply a custom Cancel
+    ),
+)
 ```
 
-- `approach_hint` — vage Richtung, solange Balken unter der Schwelle
-- `threshold_hint` — konkretes *Was* (nur bei Blocking relevant)
+`Unlockable(type_key, key, name, inject_default_measure, *elements, thumbnail=None,
+group_index=-1, inject_default_cancel=True)`
 
-### SituationPassive
+Auto-injected: three faction bars (`Students`/`Parents`/`Teachers`), Schedule Vote,
+Cancel, optional Persuade, and the unlock resolutions. You author: visibility
+conditions, unlock effects, optional custom bars/measures/pictograms.
 
-```python
-SituationPassive("stable_key", "Spieler-Beschreibung", DummyEffect()),
-```
+- **Money cost:** `UnlockableScheduleVoteConditions(MoneyCondition("1500+"))` +
+  `MoneyEffect("<name>", -1500, "ADD")` (match by absolute value; escrow auto-attached).
+- **Building unlock:** add `BuildingOpenEffect("<building_key>")` as an unlock effect
+  (unlock ≠ map-open).
+- **Upgrade chain:** one `Unlockable` per level with consecutive `group_index`.
+- Runtime checks elsewhere: `is_unlockable_unlocked("<key>")` /
+  `UnlockableCondition("<key>")`.
 
-Tutorial-Situationen: weglassen.
+### Important rules (both)
 
-### SituationEventPools
+- `__init__` must not `return` a value — chaining is via `add_*` / `set_*` methods.
+- Do **not** set `bar.value` in the template (runtime state survives reload).
+- `stat_weights` go on the `Bar`, not on `Situation`/`Unlockable`.
+- Blocking thresholds need a `Condition`; WIP → `PlaceholderCondition()`.
+- Every resolution needs ≥ 1 effect; WIP → `DummyEffect()`.
+- Stat constants (`HAPPINESS`, `EDUCATION`, `REPUTATION`, …) from `consts.rpy`.
 
-```python
-SituationEventPools("<building>_<action>_<event>", bar_min, bar_max),
-```
-
-Pool aktiv solange `bar_min <= balkenwert <= bar_max`.
-
-### Stat-Gewichte & Resolutions
-
-```python
-# Am SituationBar (nicht Situation!):
-.add_stat_weight(HAPPINESS, 0.5)
-
-# Am Situation:
-.add_effect("positive_resolution", DummyEffect())
-.add_effect("negative_resolution", DummyEffect())
-```
-
-### Wichtige Regeln
-
-- **`__init__` darf nichts returnen** — nur Chain-Methoden (`add_*`, `set_*`) returnen `self`
-- `bar.value` **nicht** im Template setzen (Runtime-State überlebt Reload)
-- `add_stat_weight` / `Bar(..., stat_weights=...)` am Bar, nicht an `Situation`
-- Blocking braucht `Condition`; WIP: `PlaceholderCondition()`
-- Konstanten: `HAPPINESS`, `EDUCATION`, `REPUTATION`, … aus `consts.rpy`
-
-Mehr Details: [reference.md](reference.md) · Beispiel: [examples.md](examples.md)
+More details: [reference.md](reference.md) · Examples: [examples.md](examples.md)
 
 ---
 
-## Situation bauen (voller Workflow)
+## Implementation checklist
 
-Create or extend a **Situation** from a user prompt.
+Situation **and** Unlockable:
+- [ ] `key` unique among loaded situations/unlockables (Unlockable key is `type_key:key`).
+- [ ] No runtime state in the template (`value`, `reached`, `active`).
+- [ ] `stat_weights` on the Bar, not the Situation/Unlockable.
+- [ ] Every blocking threshold has a non-empty `threshold_hint` **and** a `Condition`.
+- [ ] Auto-fire beats use `AutoThreshold` (implicit empty `threshold_hint`).
+- [ ] Every resolution has ≥ 1 effect (`DummyEffect()` at worst).
+- [ ] Hints match the prompt's language and journal tone.
+- [ ] Pool `min`/`max` align with narrative phases; referenced building actions exist.
 
-## Before coding
+Situation only:
+- [ ] `limits` match the planned negative/positive resolution values.
+- [ ] Passive keys are descriptive and stable; net rule respected (wear + passive ≤ 0).
 
-1. Read `game/scripts/situations/situations.rpy` (classes + existing situations).
-2. Read `game/scripts/situations/situation_system_concept.md` for design intent.
-3. Skim an existing building's `EventStorage` targets if injected events are needed (`game/scripts/buildings/*.rpy`).
-
-If the prompt is incomplete, infer sensible defaults and state assumptions briefly. Ask only when a missing choice blocks implementation (e.g. tutorial vs. full situation, PTA subtype).
-
-## Workflow
-
-```
-- [ ] 1. Parse prompt → structured design
-- [ ] 2. Draft thresholds + hints
-- [ ] 3. Draft passives, event pools, stat weights, resolutions
-- [ ] 4. Write load_situations entry
-- [ ] 5. Run checklist (below)
-```
-
-### Step 1 — Parse the prompt
-
-Extract or infer:
-
-| Field | Notes |
-|-------|-------|
-| `key` | snake_case, unique (`cafeteria_crisis`) |
-| `name` | Journal title (English unless user wants German) |
-| `description` | 1–3 sentences, protagonist-facing context |
-| Start value | Often negative (`-10`); set via bar after creation if needed |
-| Limits | `set_limits(negative_resolution, positive_resolution)` |
-| Thresholds | Value, type (blocking / auto-fire), narrative beat |
-| Passives | 0 (tutorial) or 3 strategies |
-| Injected events | Building, action, bar range |
-| Stat weights | Only stats that narratively matter; use `HAPPINESS`, `EDUCATION`, etc. from `consts.rpy` |
-| Resolutions | `positive_resolution` / `negative_resolution` effects |
-| Trigger | Event or condition that starts the situation (note separately if not in `load_situations`) |
-| Teasers | Optional `SituationTeaser` entries (class exists; wire when `Situation` supports them) |
-
-### Step 2 — Thresholds and hints
-
-**Constructor:** `SituationThreshold(value, approach_hint, threshold_hint, direction, *conditions_or_effects)`
-
-| Type | `threshold_hint` | Extra args | `direction` |
-|------|------------------|------------|-------------|
-| **Auto-fire** | `""` | Optional `Effect`s | `1` (up) or `-1` (down) |
-| **Blocking** | Concrete task hint (`reached_hint`) | At least one `Condition` | `1` for gates on upward progress; `-1` for negative escalation |
-
-**Hint rules** (from concept doc):
-- `approach_hint`: vague direction, protagonist journal voice, no exact steps
-- `threshold_hint` (reached): concrete *what*, player discovers *where/how*
-- German or English — match the user's prompt language
-
-**Ordering:** Threshold values define narrative order. Blocking gates must sit before auto-fire beats they should precede.
-
-**Placeholders:** Use `PlaceholderCondition()` only until real conditions exist. Replace with `EventSeenCondition`, `ProgressCondition`, `BuildingCondition`, etc.
-
-### Step 3 — Passives, pools, weights
-
-**Passives:** `SituationPassive(key, description, *effects)` — use stable snake_case keys (`leave_adelaide`), not `"Option A"`. Tutorial situations: omit passives.
-
-**Event pools:** `SituationEventPools(key, min, max)` — bar range when the pool is active.
-- Prefer keys: `{building}_{action}_{event}` (e.g. `cafeteria_look_around_delivery`)
-- One pool per building+action combination; duplicate ranges if the same event appears in multiple buildings
-- Cross-check building actions exist (`patrol`, `work`, `look_around`, …)
-
-**Stat weights:** Chain via `Bar(..., stat_weights={...})` or on `SituationBar`:
-```python
-Bar("main",
-    AutoThreshold(10, "..."),
-    limits=(-30, 60),
-    stat_weights={HAPPINESS: 0.5, EDUCATION: 0.2},
-)
-```
-
-**Resolutions:** Chain on `Situation`:
-```python
-.add_effect("positive_resolution", DummyEffect())
-.add_effect("negative_resolution", DummyEffect())
-```
-Replace `DummyEffect()` with real effects when available.
-
-### Step 4 — Write code
-
-Add inside `label load_situations` in `game/scripts/situations/situations.rpy`:
-
-```python
-$ situation_manager.load_situation(
-    Situation("<key>", "<Name>", "<Description>",
-        Bar("main",
-            SituationThreshold(...),
-            # ... more thresholds
-            limits=(<neg>, <pos>),
-            stat_weights={HAPPINESS: <weight>},
-        ),
-        # SituationPassive(...) — if not tutorial
-        SituationEventPools("<pool_key>", <min>, <max>),
-    )
-    .add_effect("positive_resolution", DummyEffect())
-    .add_effect("negative_resolution", DummyEffect())
-)
-```
-
-**Rules:**
-- One `load_situation` call per situation; do not replace existing situations unless asked
-- Keep `set_current_mod('base')` and manager init as-is
-- Do not set `bar.value` in the template — runtime progress persists across reloads; `update_data` must not reset it
-- Do not add `@property` on `key`/`name` fields that are set in `__init__`
-- Blocking conditions belong in `SituationThreshold`, not as separate elements on `Situation`
-
-### Step 5 — Checklist
-
-- [ ] `key` is unique among loaded situations
-- [ ] `set_limits` matches planned negative/positive resolution values
-- [ ] Every blocking threshold has a non-empty `threshold_hint` and a `Condition`
-- [ ] Every auto-fire threshold has `threshold_hint=""` (unless deliberately different)
-- [ ] `-5`-style early gates use `direction=1` when the player progresses upward from a negative start
-- [ ] `add_stat_weight` is on `SituationBar`, not `Situation`
-- [ ] Event pool min/max align with narrative phases (construction, operation, resolution)
-- [ ] Passive keys are descriptive and stable
-- [ ] Hints match prompt language and tone
-- [ ] No duplicate `load_situation` keys on reload
-
-## Prompt → deliverables
-
-When the user provides a design doc, produce:
-
-1. **Summary table** — thresholds with approach/reached hints (blocking only for reached)
-2. **Event pool table** — key, building/action, min, max
-3. **Code** — `load_situations` entry
-
-If the user only wants hints or pools, still follow the same hint/pool rules; only skip code when they say so.
+Unlockable only:
+- [ ] `type_key` is `rule` / `club` / `building` (or a deliberate new category).
+- [ ] Visibility conditions are visibility-only (no legacy vote-scoring conditions).
+- [ ] Real unlock effect present (not just the implicit flag); building → `BuildingOpenEffect`.
+- [ ] Money `MoneyCondition` ↔ `MoneyEffect` paired by absolute value (self-test 800–803).
+- [ ] Group `group_index` values consecutive, no gaps.
 
 ## Common conditions
 
 | Goal | Condition |
 |------|-----------|
 | Event was seen | `EventSeenCondition("event_key")` |
-| Building unlocked | `BuildingCondition("cafeteria")` |
-| Progress step | `ProgressCondition("unlock_cafeteria", "2")` |
+| Building unlocked (map) | `BuildingCondition("cafeteria")` |
+| Unlockable unlocked | `UnlockableCondition("dress_code")` |
+| Progress step | `ProgressCondition("key", "2")` |
+| School/char level | `LevelCondition("2", True)` |
+| Money threshold (vote) | `MoneyCondition("1500+")` |
 | Placeholder / WIP | `PlaceholderCondition()` |
 
-Grep `game/scripts/conditions.rpy` for more. Read `.cursor/rules/conditions.mdc` when composing complex logic.
+Grep `game/scripts/conditions.rpy` for more. Read `.cursor/rules/conditions.mdc` for
+complex logic.
 
 ## Pitfalls (system constraints)
 
-- `get_next_threshold` iterates `self.thresholds.values()` — never iterate the dict directly
-- `SituationThreshold.key` is a **property**, not a method — use `threshold.key`, not `threshold.key()`
-- `add_threshold` must set `threshold.bar = self` before indexing by `threshold.key`
-- `SituationBar.update_data` must **not** copy `value` from the template
-- `SituationThreshold.update_data` must **not** copy `reached`
-- `SituationTeaser.update_data` must preserve `active` and `values`
+- Threshold-search helpers iterate `self.thresholds.values()` — never the dict directly.
+- `SituationThreshold.key` is a **property** — use `threshold.key`, not `threshold.key()`.
+- `add_threshold` must set `threshold.situation = self` before indexing by `threshold.key`.
+- `SituationBar.update_data` must **not** copy `value`; `SituationThreshold.update_data`
+  must **not** copy `reached`; `SituationTeaser.update_data` must preserve `active`/`values`.
+- Mod Situations/Unlockables must register **inside the load wave** (queue the label
+  via `register_start_method`), not from the init path.
+- Image paths (`thumbnail`, `Teaser(image=…)`, `Picto(...)` icon) are auto-prefixed
+  with the current mod's path at construction — write plain paths relative to the
+  mod root, never `mods/MyMod/...`. Set `set_current_mod` before building the object.
 
 ## Additional resources
 
-- Full API and reload semantics: [reference.md](reference.md)
-- Worked example (Cafeteria Crisis): [examples.md](examples.md)
-- Design philosophy: `game/scripts/situations/situation_system_concept.md`
+- Situation author's guide (design + API + troubleshooting): `wiki/Building-Situations.md`
+- Unlockable author's guide: `wiki/Building-Unlockables.md`
+- API cheat-sheet: [reference.md](reference.md)
+- Worked examples (Situation + Unlockable): [examples.md](examples.md)

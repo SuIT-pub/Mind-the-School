@@ -139,6 +139,44 @@ init -99 python:
             return max
         return value
 
+    class HGradient(renpy.Displayable):
+        """
+        Horizontal linear gradient displayable (Ren'Py versions without Gradient).
+
+        ### Parameters:
+        1. start_color: str
+            - Left-side color (e.g. "#c62828").
+        2. end_color: str
+            - Right-side color (e.g. "#2e7d32").
+        """
+
+        def __init__(self, start_color, end_color, **properties):
+            super(HGradient, self).__init__(**properties)
+            self.start = renpy.color.Color(start_color)
+            self.end = renpy.color.Color(end_color)
+
+        def render(self, width, height, st, at):
+            render = renpy.Render(width, height)
+            if width <= 0 or height <= 0:
+                return render
+
+            canvas = render.canvas()
+            start = self.start.rgba
+            end = self.end.rgba
+            denom = float(max(width - 1, 1))
+
+            for x in range(width):
+                t = x / denom
+                color = (
+                    int((start[0] * (1.0 - t) + end[0] * t) * 255),
+                    int((start[1] * (1.0 - t) + end[1] * t) * 255),
+                    int((start[2] * (1.0 - t) + end[2] * t) * 255),
+                    int((start[3] * (1.0 - t) + end[3] * t) * 255),
+                )
+                canvas.line(color, (x, 0), (x, height - 1))
+
+            return render
+
     def is_integer(text: str) -> bool:
         """
         Checks if a string can be converted to an integer
@@ -439,7 +477,7 @@ init -99 python:
 
         ### Parameters:
         1. list_obj: List[Any]
-            - The list to remove from
+            - The list to relmove from
         2. value: Any | List[Any]
             - The value to remove
 
@@ -448,9 +486,10 @@ init -99 python:
             - The list with the value removed
         """
 
-        if type(value) is list_obj:
+        if isinstance(value, list):
             for val in value:
-                list_obj.remove(val)
+                while val in list_obj:
+                    list_obj.remove(val)
         else:
             while value in list_obj:
                 list_obj.remove(value)
@@ -560,7 +599,7 @@ init -99 python:
 
         return "{" + "color=" + color + "}" + text + "{/color}"
 
-    def get_interpoaltion_keys(text: str) -> List[str]:
+    def get_interpolation_keys(text: str) -> List[str]:
         """
         Extracts all interpolation keys from a string. The keys are surrounded by "<>".
 
@@ -591,7 +630,7 @@ init -99 python:
             - The interpolated string
         """
 
-        keys = get_interpoaltion_keys(text)
+        keys = get_interpolation_keys(text)
         for key in keys:
             if key in kwargs.keys():
                 text = text.replace("<" + key + ">", str(kwargs[key]))
@@ -832,7 +871,7 @@ init -99 python:
 
         gameData[key] = value
 
-    def get_game_data(key: str = None) -> Any:
+    def get_game_data(key: str = None, alt = None) -> Any:
         """
         Gets a value from gameData
 
@@ -851,7 +890,7 @@ init -99 python:
 
         if key in gameData.keys():
             return gameData[key]
-        return None
+        return alt
 
     def contains_game_data(key: str) -> bool:
         """
@@ -930,7 +969,20 @@ init -99 python:
 
         set_game_data("timer_" + key, new_time)
 
-    
+    def get_timer(key: str) -> Time:
+        """
+        Gets a timer from gameData
+        """
+        if "timer_" + key in gameData.keys():
+            return gameData["timer_" + key]
+        return None
+
+    def remove_timer(key: str):
+        """
+        Removes a timer from gameData
+        """
+        if "timer_" + key in gameData.keys():
+            del gameData["timer_" + key]
 
     # endregion
     #################################

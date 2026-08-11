@@ -671,9 +671,8 @@ label pta_vote_theoretical_sex_ed_1 (**kwargs):
         $ image.show(9)
         headmaster "The proposal is rejected due to the majority of votes against it."
 
-    call pta_vote_result(
-        "no", teacher_vote, student_vote, get_value("vote_proposal", **kwargs)
-    ) from _call_pta_vote_result_theoretical_sex_ed_1
+    # Story vote already applied its own outcome above; only clear the schedule slot.
+    $ set_game_data('voteProposal', None)
 
     $ end_event('new_daytime', **kwargs)
 

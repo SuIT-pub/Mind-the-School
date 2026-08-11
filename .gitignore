@@ -1,6 +1,7 @@
 game/images/
 game/videos/
 game/saves/
+wiki/.wiki-repo/
 game/mods/*
 !game/mods/CheatMod
 game/cache/
@@ -26,3 +27,6 @@ traceback.txt
 **/images/**
 docs/
 docs/**
+
+# Ren'Py Debug bridge (auto-injected)
+game/_renpy_debug/
