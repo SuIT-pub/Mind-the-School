@@ -31,6 +31,12 @@ init -1 python:
             for effect in self.effects:
                 effect.revert(**kwargs)
 
+        def find_by_type(self, type: str):
+            output = []
+            for effect in self.effects:
+                output.extend(effect.find_by_type(type))
+            return output
+
     class Effect(ABC):
         """
         Abstract class for all effects.
@@ -53,6 +59,16 @@ init -1 python:
             pass
 
         @abstractmethod
+        @property
+        def _type(self) -> str:
+            return "effect"
+        
+        def find_by_type(self, type: str):
+            if self._type == type:
+                return [self]
+            return []
+
+        @abstractmethod
         def apply(self, **kwargs):
             pass
 
@@ -66,6 +82,10 @@ init -1 python:
         def __init__(self, name: str, rule=None, *options: Option):
             super().__init__(name, *options)
             self.rule = rule
+
+        @property
+        def _type(self) -> str:
+            return "rule"
 
         def __str__(self):
             return f"{self.rule}"
@@ -81,6 +101,10 @@ init -1 python:
             super().__init__(name, *options)
             self.club = club
 
+        @property
+        def _type(self) -> str:
+            return "club"
+
         def __str__(self):
             return f"{self.club}"
 
@@ -94,6 +118,10 @@ init -1 python:
         def __init__(self, name: str, building=None, *options: Option):
             super().__init__(name, *options)
             self.building = building
+
+        @property
+        def _type(self) -> str:
+            return "building"
 
         def __str__(self):
             return f"{self.building}"
@@ -123,6 +151,10 @@ init -1 python:
                 char_obj = get_character_by_key(char_obj)
 
             self.char_obj = char_obj
+
+        @property
+        def _type(self) -> str:
+            return "level"
 
         def __str__(self):
             return f"{self.value}"
@@ -160,6 +192,10 @@ init -1 python:
             self.stat = stat
             self.mode = mode
             self.value = value
+
+        @property
+        def _type(self) -> str:
+            return "stat"
 
         def __str__(self):
             return f"{self.value}"
@@ -215,6 +251,10 @@ init -1 python:
             self.mode = mode
             self.value = value
 
+        @property
+        def _type(self) -> str:
+            return "money"
+
         def __str__(self):
             return f"{self.value}"
 
@@ -258,6 +298,10 @@ init -1 python:
             super().__init__(event.get_name(), *options)
             self.event = event
 
+        @property
+        def _type(self) -> str:
+            return "event"
+
         def __str__(self):
             return f"{self.event.get_name()}"
 
@@ -277,6 +321,10 @@ init -1 python:
 
         def __init__(self, id: str, *options: Option):
             super().__init__(id, *options)
+
+        @property
+        def _type(self) -> str:
+            return "event"
 
         def __str__(self):
             return f"{self.id}"
@@ -301,6 +349,10 @@ init -1 python:
             super().__init__(name, *options)
             self.building_name = building_name
             self.is_blocking = is_blocking
+
+        @property
+        def _type(self) -> str:
+            return "block_building"
 
         def __str__(self):
             return f"{self.building_name}"
@@ -340,6 +392,10 @@ init -1 python:
                 name = event.get_name()
             super().__init__(name, *options)
             self.event = event
+
+        @property
+        def _type(self) -> str:
+            return "event"
 
         def __str__(self):
             if isinstance(self.event, Event):
@@ -391,6 +447,10 @@ init -1 python:
 
             self.event = events
 
+        @property
+        def _type(self) -> str:
+            return "event_select"
+
         def __str__(self):
             return f"{self.name}"
 
@@ -416,6 +476,10 @@ init -1 python:
             self.key = key
             self.value = value
             self.prev_value = None
+
+        @property
+        def _type(self) -> str:
+            return "value"
 
         def __str__(self):
             return f"{self.value}"
@@ -449,6 +513,10 @@ init -1 python:
             self.key = key
             self.value = value
             self.prev_value = None
+
+        @property
+        def _type(self) -> str:
+            return "progress"
 
         def __str__(self):
             return f"{self.value}"
@@ -490,6 +558,10 @@ init -1 python:
             self.modifier = mod_obj
             self.collection = collection
 
+        @property
+        def _type(self) -> str:
+            return "modifier"
+
         def __str__(self):
             return f"{self.key}"
 
@@ -528,6 +600,10 @@ init -1 python:
             self.stat = stat
             self.collection = collection
 
+        @property
+        def _type(self) -> str:
+            return "remove_modifier"
+
         def __str__(self):
             return f"{self.key}"
 
@@ -541,6 +617,10 @@ init -1 python:
             self.key = key
             self.value = value
 
+        @property
+        def _type(self) -> str:
+            return "change_kwargs"
+
         def __str__(self):
             return f"{self.key}"
 
@@ -553,6 +633,10 @@ init -1 python:
             super().__init__(subject)
             self.level = level
             self.xp = xp
+
+        @property
+        def _type(self) -> str:
+            return "set_proficiency"
 
         def __str__(self):
             return f"set_proficiency_{self.level}_{self.xp}"
@@ -569,6 +653,10 @@ init -1 python:
             super().__init__(f"complete_quest_{quest_type}_{key}")
             self.quest_type = quest_type
             self.key = key
+
+        @property
+        def _type(self) -> str:
+            return "complete_quest"
 
         def __str__(self):
             return f"complete_quest_{self.quest_type}_{self.key}"
@@ -597,6 +685,10 @@ init -1 python:
             self.quest_type = quest_type
             self.key = key
 
+        @property
+        def _type(self) -> str:
+            return "visible_quest"
+
         def __str__(self):
             return f"visible_quest_{self.quest_type}_{self.key}"
 
@@ -623,6 +715,10 @@ init -1 python:
             self.quest_type = quest_type
             self.key = key
 
+        @property
+        def _type(self) -> str:
+            return "invisible_quest"
+
         def __str__(self):
             return f"invisible_quest_{self.quest_type}_{self.key}"
 
@@ -648,6 +744,10 @@ init -1 python:
             super().__init__(f"activate_quest_task_{key}")
             self.key = key
 
+        @property
+        def _type(self) -> str:
+            return "activate_quest_task"
+
         def __str__(self):
             return f"activate_quest_task_{self.key}"
 
@@ -663,6 +763,10 @@ init -1 python:
             super().__init__(f"notification_{message}")
             self.message = message
 
+        @property
+        def _type(self) -> str:
+            return "notification"
+
         def __str__(self):
             return f"notification_{self.message}"
 
@@ -673,6 +777,10 @@ init -1 python:
     class DummyEffect(Effect):
         def __init__(self, *options: Option):
             super().__init__("dummy", *options)
+
+        @property
+        def _type(self) -> str:
+            return "dummy"
 
         def __str__(self):
             return "dummy"
@@ -690,6 +798,10 @@ init -1 python:
         def __init__(self, situation_key: str, *options: Option):
             super().__init__("ScheduleVoteEffect", *options)
             self.situation_key = situation_key
+
+        @property
+        def _type(self) -> str:
+            return "schedule_vote"
 
         def __str__(self):
             return f"Schedule vote for {self.situation_key}"
@@ -724,6 +836,10 @@ init -1 python:
             self.unlockable_situation_key = unlockable_situation_key
             self.group_key = group_key
             self.group_index = group_index
+
+        @property
+        def _type(self) -> str:
+            return "unlockable_unlock"
 
         def __str__(self):
             return f"Unlock {self.unlockable_situation_key}"
@@ -762,6 +878,10 @@ init -1 python:
             self.building_key = building_key
             self.is_open = is_open
 
+        @property
+        def _type(self) -> str:
+            return "building_open"
+
         def __str__(self):
             return f"BuildingOpenEffect({self.building_key})"
 
@@ -787,8 +907,13 @@ init -1 python:
             self.building_key = building_key
             self.is_close = is_close
             
+        @property
+        def _type(self) -> str:
+            return "building_close"
+
         def __str__(self):
             return f"BuildingCloseEffect({self.building_key})"
+        
         def apply(self, **kwargs):
             if self.is_close:
                 remove_building_collection_key(self.building_key, "open", self.name)

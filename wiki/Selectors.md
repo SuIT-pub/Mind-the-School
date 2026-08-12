@@ -180,6 +180,21 @@ hard-coding the link.
 > rules/clubs system. Prefer reading unlock state via an `UnlockableCondition`
 > (or a `GameDataSelector` on the unlocked flag) instead.
 
+### Modifiers (deferred activation)
+
+| Constructor | Produces |
+|-------------|----------|
+| `ModifierSelector(key, modifier, stat, *options, collection="default")` | a `(modifier, stat, collection)` triple for **deferred** modifier activation — *not* an image/text value |
+
+Unlike every selector above, a `ModifierSelector`'s value is never substituted into art
+or dialogue. It carries a `Modifier_Obj` that the event **activates on demand** by
+calling `load_modifier("key", **kwargs)` in its scene label. `load_modifier` applies the
+modifier *and* registers it with the lifecycle registry, owned by the event — so it is
+orphan-safe: kept alive while the event stays registered, swept if the event goes away.
+Give each `ModifierSelector` on an event a **distinct key** (it becomes part of the
+modifier's registry key `"<event>:<key>"`). Full flow: [Events](Events) §13 and
+[Modifiers](Modifiers).
+
 ---
 
 ## 7. Using selector values downstream

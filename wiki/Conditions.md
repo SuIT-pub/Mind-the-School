@@ -52,7 +52,7 @@ AND(
 
 A **Condition** is a small object that evaluates the game state and returns
 `True`/`False`. It is the universal gating primitive: events use conditions to
-decide when they can fire, situation thresholds use them as blocking gates, teasers
+decide when they can fire, situation thresholds use them as gate conditions, teasers
 use them as unlock triggers, unlockables use them for visibility, PTA votes use them
 for cost gates, and so on.
 
@@ -88,8 +88,11 @@ Display hooks (mostly for the journal): `display_in_list` / `display_in_desc` fl
 `to_list_text` / `to_desc_text`, and `get_diff` / `calculate_probability` (how close
 to fulfilled — feeds vote probability and sorting).
 
-> **Note:** Situation *blocking thresholds* are a separate concept (a threshold that
-> holds the bar until its gate conditions pass). That is not a flag on `Condition`.
+> **Note:** "Blocking" is **not** a Condition concept. The old blocking attribute that
+> once controlled journal display was removed — a condition's own visibility is driven
+> by `display_in_list` / `display_in_desc` (above). Situation *blocking thresholds* are
+> an unrelated, threshold-level mechanic and live in the [Situations](Building-Situations)
+> guide, not here.
 
 ---
 
@@ -173,7 +176,6 @@ last.
 | `StatCondition(*options, char_obj=None, **stats)` | each `stat=threshold` kwarg is met on `char_obj` (default school), e.g. `StatCondition(corruption=20, happiness=50)` |
 | `StatLimitCondition(stat, char_obj=None, *options)` | the stat is at its current level cap |
 | `LevelCondition(value, *options, char_obj=None)` | character/school level meets `value` (e.g. `"2"`, `"2+"`) |
-| `BuildingLevelCondition(name, level, *options)` | a building's level meets `level` |
 | `ProficiencyCondition(proficiency, *options, xp=-1, level=-1)` | a proficiency's xp/level threshold |
 | `MaxLevelEventCondition(value, *options)` | max-level event progress |
 
@@ -224,7 +226,6 @@ last.
 | `TutorialCondition(*options)` | tutorial state |
 | `CheckReplay(condition, *options)` | wraps a condition so it also evaluates in replay |
 | `RandomCondition(threshold, limit=100, *options)` | a random roll below `threshold` out of `limit` (probabilistic gate) |
-| `LoliContentCondition(value, *options)` | loli-content setting gate |
 
 ### Situations, unlockables & PTA
 
@@ -232,13 +233,11 @@ last.
 |-------------|--------|
 | `SituationPoolCondition(situation_key, pool_key, *options)` | a situation's event pool is active (bar in range) |
 | `ThresholdReachedCondition(situation_key, threshold_key, *options)` | a situation threshold has been reached |
-| `UnlockableCondition(unlockable_key, index=-1, *options)` | an unlockable (optionally a group level) is unlocked |
-| `BuildingCondition(value, *options)` | a map building is unlocked |
-| `BuildingOpenCondition(building_key, *options)` | a map building is currently open |
+| `UnlockableCondition(unlockable_key, group_index=-1, *options)` | an unlockable (optionally a group level) is unlocked |
+| `BuildingCondition(key, *options)` | a map building is currently open |
 | `HasAnythingInCollectionGameDataCondition(collection_key, *options)` | a GameData collection is non-empty (backs building open/closed) |
 | `VoteProposalFreeCondition(*options)` | no PTA proposal is currently scheduled (gate for Schedule Vote) |
 | `JournalVoteCondition(journal_obj, *options)` / `JournalNRVoteCondition(*options)` | PTA vote journal state |
-| `PTAOverride(char="", accept="yes", *options)` | overrides a PTA member's vote (`accept` ∈ `yes`/`no`/`ignore`) |
 
 ### Gating helpers
 
@@ -247,9 +246,11 @@ last.
 | `PlaceholderCondition(*options)` | never fulfilled — WIP marker until a real condition exists |
 | `LockCondition(*options)` | marks the host as hard-locked (`ConditionStorage.is_locked`) |
 
-> **Legacy:** `RuleCondition(value, …)` and `ClubCondition(value, …)` belong to the
-> retired rules/clubs system and are effectively always-false stubs kept for save
-> compatibility. **Use `UnlockableCondition` instead.**
+> **Deprecated (as of 0.2.3 — replaced by the Unlockables system, kept only for save
+> compatibility):** `RuleCondition(value, …)`, `ClubCondition(value, …)`,
+> `BuildingLevelCondition(name, level, …)` and `PTAOverride(char, accept, …)`. The
+> rule/club conditions are effectively always-false stubs. **Use `UnlockableCondition`
+> instead** (and `BuildingCondition` for building state).
 
 ---
 
@@ -276,8 +277,9 @@ AND(LevelCondition("3"), OR(MoneyCondition("2000+"), UnlockableCondition("grant"
 ```
 
 **WIP gate:** `PlaceholderCondition()` — the host stays uncompletable until you
-replace it. (Situation/teaser self-tests require ≥ 1 real condition on blocking
-thresholds and teasers; a placeholder satisfies "has a condition" but never fires.)
+replace it. (Some hosts self-test that they carry ≥ 1 condition — e.g. situation
+gate thresholds and teasers; a placeholder satisfies "has a condition" but never
+fires, so the gate can never pass until you replace it.)
 
 ---
 

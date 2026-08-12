@@ -68,6 +68,18 @@ init -6 python:
 
             self._value = value
 
+        def get_mod_type(self) -> str:
+            """
+            Gets the operator/type of the modifier ("+", "*", "value_percent",
+            "range_percent", "gated_percent"; "%" is the legacy alias).
+
+            ### Returns:
+            1. str
+                - The modifier's operator.
+            """
+
+            return self._mod_type
+
         def get_change(self) -> str:
             """
             Gets the change in the stat based on the mod_type and value.
@@ -425,6 +437,89 @@ init -6 python:
             return
         
         del remove_modifier[stat][key]
+
+    def track_managed_modifier(key: str, mod_obj: Modifier_Obj, owner: str, *, category: str = None, stat: str = "all", collection: str = 'default'):
+        """
+        Apply a modifier **and** register it with the lifecycle registry so it can
+        never orphan.
+
+        Use this for modifiers set **outside** a Situation (mod / systems code) —
+        the counterpart to what the situation types do automatically. Call it once
+        when the modifier is activated: it sets the modifier and records an ownership
+        entry. Then, from a label registered via ``register_start_method``, call
+        ``keep_managed_modifier(key)`` for this specific modifier on every load wave so
+        the entry is re-pinged and survives the sweep. Keep each modifier on its own —
+        stop re-pinging a key (feature off, key retired, mod disabled) and the next
+        ``finalize_check`` sweep removes it — no orphan.
+
+        Both the modifier collection (``stat_modifier`` game data) and the registry
+        entry persist across saves, so the wave hook only needs to KEEP-ping — it
+        does not have to re-apply the modifier.
+
+        ### Parameters:
+        1. key: str
+            - Modifier key. Globally unique; also the registry entry key.
+        2. mod_obj: Modifier_Obj
+            - The modifier to apply.
+        3. owner: str
+            - Owning system / mod id, recorded on the entry for clear/bookkeeping.
+        4. category: str (default = owner)
+            - Instance id within the owner (for finer-grained keep/clear).
+        5. stat: str (default "all")
+            - Target stat, or a ``situation:<key>:<bar>`` pseudo-stat key.
+        6. collection: str (default "default")
+            - Modifier collection. A single collection only (symmetric with the registry's remove); for several, call once per collection with distinct keys.
+        """
+
+        set_modifier(key, mod_obj, stat=stat, collection=collection)
+        lifecycle_registry.track(
+            key,
+            owner=owner,
+            category=category if category is not None else owner,
+            kind="modifier",
+            stat=stat,
+            collection=collection,
+            op=mod_obj.get_mod_type(),
+            value=mod_obj.get_value(),
+        )
+
+    def keep_managed_modifier(key: str):
+        """
+        Keep **one** managed modifier alive for this load wave.
+
+        Call this from a label registered via ``register_start_method`` (those run
+        inside the lifecycle check wave), **once per modifier your mod still wants**,
+        from the code path that decides it should still exist. It pings KEEP on that
+        single entry so the finalize sweep spares it.
+
+        Keep every modifier individually — never in bulk. A modifier is only spared
+        while something actively re-affirms it each wave: stop pinging a key (feature
+        turned off, key retired, mod disabled) and the sweep removes it. A blanket
+        "keep all my entries" would instead resurrect stale keys forever and resurface
+        the very orphans the registry exists to prevent. If the key is not tracked
+        (never activated, or already swept), this is a harmless no-op.
+
+        ### Parameters:
+        1. key: str
+            - The modifier / registry entry key passed to ``track_managed_modifier``.
+        """
+
+        lifecycle_registry.ping(key, KEEP)
+
+    def remove_managed_modifier(key: str):
+        """
+        Deactivate a managed modifier: remove it from the modifier system and drop
+        its registry entry.
+
+        Use this when the owner intentionally turns the modifier off (as opposed to
+        the automatic sweep that fires when the owner disappears entirely).
+
+        ### Parameters:
+        1. key: str
+            - The modifier / registry entry key.
+        """
+
+        lifecycle_registry.ping(key, REMOVE)
 
     def get_modifier(key: str, stat: str = "all", collection: str = 'default') -> Modifier_Obj:
         """

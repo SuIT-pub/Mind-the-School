@@ -1250,6 +1250,11 @@ init -99 python:
                 generals can wrap the same effect types.
             effects (List[Effect]): Regular effects to apply (and, unless disabled,
                 revert). Not SituationEffects — ordinary game ``Effect`` objects.
+                ``ModifierEffect`` is **rejected**: it registers a persistent modifier
+                outside the Situation lifecycle register and would orphan if the
+                Situation is torn down. Such effects are filtered out at construction
+                with an error log — use ``SituationEffectStatChangeModifier`` /
+                ``SituationEffectBarChangeModifier`` instead.
             descriptions (List[str]): Player-facing description lines.
             revert (bool): If ``False``, ``revert()`` is a no-op so the wrapped
                 effects are never undone (e.g. a one-way unlock or a cost that must
@@ -1259,7 +1264,26 @@ init -99 python:
         def __init__(self, key: str, effects: List[Effect], descriptions: List[str], revert: bool = True):
             super().__init__()
             self._key = key
-            self._effects = list(effects) if effects else []
+
+            # ModifierEffect registers a persistent modifier via set_modifier(), which
+            # lives in the global modifier collections — outside the Situation lifecycle
+            # register. Routed through here it would bypass lifecycle cleanup and orphan
+            # if the Situation is torn down. Reject it at construction; authors must use
+            # SituationEffectStatChangeModifier / SituationEffectBarChangeModifier.
+            self._effects = []
+            for effect in (list(effects) if effects else []):
+                if isinstance(effect, ModifierEffect):
+                    log(
+                        f"SituationEffectGeneral '{key}': ModifierEffect '{effect}' is not "
+                        "allowed and was removed. It registers a persistent modifier outside "
+                        "the Situation lifecycle and would orphan. Use "
+                        "SituationEffectStatChangeModifier / SituationEffectBarChangeModifier.",
+                        log_type="error",
+                        category="situation",
+                    )
+                    continue
+                self._effects.append(effect)
+
             self._descriptions = list(descriptions) if descriptions else []
             self._do_revert = revert
             self._applied = False
@@ -2113,6 +2137,17 @@ init -99 python:
             """Apply effects, end grace, complete situation."""
             self.end_grace()
             self.effects.apply(conditions = self.conditions)
+            for effect in self.effects.find_by_type("modifier"):
+                lifecycle_registry.track(
+                    effect.key,
+                    owner=self.counter_key,
+                    category=effect.key,
+                    kind="modifier",
+                    stat=effect.stat,
+                    collection=effect.collection,
+                    op=effect.modifier.get_mod_type(),
+                    value=effect.modifier.get_value(),
+                )
             if self.situation is not None:
                 self.situation.complete()
             return True
@@ -2163,6 +2198,8 @@ init -99 python:
             self.effects = resolution.effects
             self.conditions = resolution.conditions
             self._bind_latch_keys()
+            for effect in self.effects.find_by_type("modifier"):
+                keep_managed_modifier(effect.key)
             return self
 
     class SituationNegativeResolution(SituationResolution):

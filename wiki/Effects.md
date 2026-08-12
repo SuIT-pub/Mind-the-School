@@ -161,7 +161,7 @@ constructor's own args: `MoneyEffect("cost", -1500, "ADD", EffectNoRevertOption(
 
 | Constructor | Does |
 |-------------|------|
-| `ModifierEffect(key, stat, mod_obj, collection="default", *options)` | register a `Modifier_Obj` on a stat (or a `situation:<k>:<bar>` key) in a modifier collection; `revert` removes it. The low-level engine behind stat/bar drift — see the Modifiers guide |
+| `ModifierEffect(key, stat, mod_obj, collection="default", *options)` | register a `Modifier_Obj` on a stat (or a `situation:<k>:<bar>` key) in a modifier collection; `revert` removes it. The low-level engine behind stat/bar drift — see the Modifiers guide. **Not allowed inside `SituationEffectGeneral`** — it registers globally and would orphan; inside situation passives/measures use the `SituationEffect*` modifier types. In a situation **resolution's** effect list it *is* allowed — the resolution tracks/keeps it automatically ([Situations](Building-Situations) §14) |
 
 ### Map / buildings
 
@@ -214,7 +214,9 @@ Two similarly-named hierarchies — don't confuse them:
   situation **passives/measures**, because a plain `Effect` can't describe itself in
   player-facing text. There are a few native ones (set-gamedata, stat/bar modifier,
   cancel), plus **`SituationEffectGeneral(key, effects, descriptions, revert=True)`**
-  which **bridges** any ordinary `Effect`s into a passive/measure.
+  which **bridges** any ordinary `Effect`s into a passive/measure — with one
+  exception: `ModifierEffect` is rejected (it registers globally and would orphan the
+  situation; use the `SituationEffect*` modifier types instead).
 
 Rule of thumb: writing an **event / resolution / unlock**? Use ordinary `Effect`s.
 Writing a **passive / measure**? Use `SituationEffect`s, wrapping ordinary effects

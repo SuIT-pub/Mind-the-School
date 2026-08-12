@@ -18,6 +18,8 @@ label start ():
     $ fix_modifier()
     $ fix_quests()
 
+    $ check_event_selectors()
+
     $ i = 0
     while i < len(start_methods):
         call expression start_methods[i] from _call_expression_2
@@ -184,6 +186,10 @@ init python:
             gameData.pop('headmaster_first_name')
             gameData.pop('headmaster_last_name')
 
+    def check_event_selectors():
+        for event in event_register.values():
+            event.check_selectors()
+
     ###########################################
 
 label after_load:
@@ -203,6 +209,8 @@ label after_load:
 
     $ clean_legacy_journal_objects()
     $ clean_legacy_quests()
+
+    $ check_event_selectors()
 
     #####################################
     # check for version incompatibilities

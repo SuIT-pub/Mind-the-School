@@ -1322,6 +1322,11 @@ init -3 python:
                 log("Event " + self.event_id + ": Label " + self.event + " is missing!", log_type="error", category="event")
                 self._invalid = True
 
+        def check_selectors(self):
+
+            for selector in self.values.find_by_type("modifier"):
+                keep_managed_modifier(self.event_id + ":" + selector.get_name())
+
         def check_options(self, **kwargs) -> bool:
             """
             Checks if all options are available.

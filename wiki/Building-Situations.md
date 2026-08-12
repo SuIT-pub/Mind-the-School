@@ -305,7 +305,8 @@ Properties:
 - `start_base` / `start_modifiers` — start-value calculation (see below).
 - **Pictograms** — a bar can carry `Picto(...)` preview marks as leading elements
   (`Bar("main", Picto("teachers_support"), limits=…)`). They are purely descriptive
-  and never gate anything — see [§18](#18-pictograms-preview-marks).
+  and never gate anything. Note: they are **only rendered in the Unlockable journal
+  view**, not the plain Situation view — see [§18](#18-pictograms-preview-marks).
 
 #### Start-value calculation
 
@@ -437,7 +438,15 @@ PassiveOption("bribe_the_board", "Grease the right palms",
   types and would otherwise collide. Use `snake_case`, and never rename it (same
   key-stability rule as everywhere else).
 - **`effects`** — a list of regular `Effect` objects (not SituationEffects). They
-  are `apply()`-ed when the passive/measure starts.
+  are `apply()`-ed when the passive/measure starts. **`ModifierEffect` is rejected:**
+  it registers a persistent modifier via `set_modifier()` into the *global* modifier
+  collections — outside the Situation lifecycle register — so routed through here it
+  would escape lifecycle cleanup and **orphan** once the Situation is torn down. The
+  constructor filters any `ModifierEffect` out and logs an error (category
+  `situation`); if that empties the list, self-test **761** ("needs at least one
+  effect") then fires. Need a lifecycle-tracked modifier? Use
+  `SituationEffectStatChangeModifier` / `SituationEffectBarChangeModifier` /
+  `SituationEffectRegularStatChange` instead.
 - **`descriptions`** — a list of lines you write. They are shown **comma-joined** in
   the selection list and **one per row** in the detail view (that's why it's a list,
   not a single string). The engine cannot derive these from the effects, so this is
@@ -522,7 +531,7 @@ This makes the full condition toolkit (AND/OR/NOT, StatCondition, TimeCondition,
 without touching their code.
 
 Options: `interpretation` (reading line), `note_type` (`observation` /
-`suspicion` / `insight` / `setback`, with color/label), `image` (instant photo),
+`suspicion` / `insight` / `setback`, with color/label), `image` (instant photo, 4:3 ratio),
 `layout` (layout variant, otherwise random). Once unlocked, a teaser stays
 unlocked (the ink is dry).
 
@@ -870,8 +879,7 @@ methods, not by `__init__`.
 exact click path ("The teachers seem more open."). `threshold_hint` states the
 concrete **what**, never the **where/how** ("Work on the curriculum draft in the
 office." rather than "Go to the office, pick work, trigger event X."). The appeal
-lies in the illusion of the player's own discovery. Keep the language consistent
-(German **or** English per Situation, matching the rest).
+lies in the illusion of the player's own discovery.
 
 ### Net rule of the layers
 Calibrate so that **wear + passive does not net out clearly positive**. Positive
@@ -891,7 +899,7 @@ automatically-added positive default resolution must be overridden with your own
 (with an effect, `DummyEffect()` at worst), and add a negative one.
 
 ### Use teasers sparingly
-Not every trigger needs a teaser. Rule of thumb: **at most two to three unsolved
+Not every trigger needs a teaser. Rule of thumb: **at most two to five unsolved
 `???????` teasers at once**, otherwise "mysterious" tips over into "messy". Every
 teaser needs at least one condition (self-test 700), otherwise it would never or
 immediately fire.
@@ -1138,6 +1146,25 @@ usually `ALL`, negative usually `ANY` (self-test 781/782). Resolutions are check
 on bar change, daytime/day change, map overview and event end; the first one to fire
 wins.
 
+### Lasting modifiers in a resolution (orphan-safe)
+
+A resolution's effects fire once, but a `ModifierEffect` among them installs a
+**persistent** modifier. Unlike `SituationEffectGeneral` (which *rejects* `ModifierEffect`),
+a resolution's `EffectStorage` accepts a raw `ModifierEffect` — because the resolution
+gives it the same lifecycle handling the managed-modifier path uses:
+
+- **On fire**, each `ModifierEffect` is applied (by the effect) *and* its modifier is
+  registered with the lifecycle registry under the effect's own modifier key.
+- **Every load wave**, the resolution's `update_data` re-affirms (KEEP-pings) those
+  modifiers — and a **completed** Situation still runs this as long as its template is
+  registered, so the buff survives across saves.
+- If the Situation (or its mod) goes away, nothing re-affirms the modifier and the next
+  lifecycle sweep removes it — no orphan.
+
+So a resolution may hand out a lasting stat/bar buff via `ModifierEffect` without you
+managing its removal. Give the `ModifierEffect` a **unique key** (it *is* the modifier's
+registry key). See [Modifiers](Modifiers) for the orphan model.
+
 > **No level regression.** Situation consequences are stat changes, flags, and
 > content access — never a level step-back.
 
@@ -1251,11 +1278,16 @@ rather than lost.
 
 ## 18. Pictograms (preview marks)
 
-Pictograms are small **descriptive preview marks** on a bar or on the Situation
-itself — "persuade the teachers", "raise education". They are **purely
-descriptive**: they check nothing, gate nothing, unlock nothing. (They are most
-heavily used by Unlockables, where they replace the old condition-icons, but any
-Situation bar may carry them.)
+Pictograms are small **descriptive preview marks** — "persuade the teachers", "raise
+education". They are **purely descriptive**: they check nothing, gate nothing, unlock
+nothing. They replace the old condition-icons.
+
+> **In practice, pictograms are an Unlockables feature.** The data model lives on
+> `Situation`/`Bar`, and `Unlockable` inherits it (`class Unlockable(Situation)`), so
+> you *can* attach `Picto(...)` to any Situation or bar — but **only the Unlockable
+> journal view renders them**. The plain Situation journal view has no pictogram
+> display, so a `Picto(...)` on a non-Unlockable Situation is stored but never shown.
+> See [Building Unlockables](Building-Unlockables) for where they actually appear.
 
 **Reference, not object.** A pictogram *definition* (icon pattern + label + tooltip
 templates) lives once in a central registry under a key. A bar or Situation stores

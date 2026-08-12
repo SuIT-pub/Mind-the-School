@@ -572,6 +572,38 @@ call change_stats_with_modifier('pe', happiness=MEDIUM, charm=SMALL) from _e4
   situation bar can be pushed directly with a `situation:<key>:<bar>` key
   ([Building Situations](Building-Situations) §13).
 
+### Activating a lasting modifier (orphan-safe)
+
+`change_stats_with_modifier` applies a **one-shot** change at event time. To install a
+**lasting** modifier from an event — a drift/buff that stays registered after the scene
+ends — attach a `ModifierSelector` ([Selectors](Selectors)) and activate it in the label:
+
+```python
+# in the definition:
+Event(3, "cafeteria_regulars",
+    ModifierSelector("regulars_bonus", Modifier_Obj("regulars_bonus", "+", 2),
+                     HAPPINESS, collection="daily"),
+    ...)
+
+# in the scene label, where the modifier should take effect:
+$ load_modifier("regulars_bonus", **kwargs)
+```
+
+`load_modifier` does two things: it **applies** the modifier and **registers** it with
+the lifecycle registry, owned by this event (registry key `"<event>:<selector_key>"`).
+You do **not** manage its removal:
+
+- Every load wave the event system runs `check_selectors()` on each registered event,
+  which KEEP-pings that event's `ModifierSelector` modifiers — so the modifier survives.
+- If the event ever stops being registered (e.g. its mod is removed, so its definition
+  never runs), nothing re-affirms the modifier and the next lifecycle sweep removes it —
+  no orphan. This is the managed-modifier model in [Modifiers](Modifiers).
+- `load_modifier` is a **no-op in replay** and when no `event_name` is in context.
+
+Use this only for modifiers meant to outlive the event. For an immediate stat change,
+stay with `change_stats_with_modifier`; for character-scoped or one-off effects use the
+[Effects](Effects).
+
 **Event-series progress** tracks multi-part storylines:
 
 ```python

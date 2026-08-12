@@ -3861,3 +3861,22 @@ init -6 python:
 
         def get_name(self) -> str:
             return "VoteProposalFreeCondition()"
+
+    class ThresholdReachedCondition(Condition):
+        def __init__(self, situation_key: str, threshold_key: str, *options: Option):
+            super().__init__(*options)
+            self.situation_key = situation_key
+            self.threshold_key = threshold_key
+
+        @property
+        def _type(self) -> str:
+            return "threshold_reached"
+
+        def check_condition(self, **kwargs) -> bool:
+            situation = situation_manager.get_situation_by_key(self.situation_key)
+            if situation == None:
+                return False
+            return situation.is_threshold_reached(self.threshold_key)
+
+        def get_name(self) -> str:
+            return f"ThresholdReachedCondition({self.situation_key}, {self.threshold_key})"

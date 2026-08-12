@@ -162,7 +162,14 @@ init -3 python:
                     kwargs[key] = value
 
             return kwargs
-            
+
+        def find_by_type(self, type: type) -> List[Selector]:
+            output = []
+
+            for selector in self._selectors:
+                output.extend(selector.find_by_type(type))
+            return output
+
     class Selector(ABC):
         """Abstract base class for dynamic value selection in events.
 
@@ -213,6 +220,16 @@ init -3 python:
             if self.options == None:
                 return empty_option_set
             return self.options
+
+        @abstractmethod
+        @property
+        def _type(self) -> str:
+            return "selector"
+
+        def find_by_type(self, type: type) -> List[Selector]:
+            if self._type == type:
+                return [self]
+            return []
 
         def __str__(self):
             return self.get_name()  # Fixed the method call
@@ -313,6 +330,21 @@ init -3 python:
             self._list = values 
             self._alt = alt
 
+        @property
+        def _type(self) -> str:
+            return "random_list"
+
+        def find_by_type(self, type: type) -> List[Selector]:
+            output = []
+            if self._type == type:
+                output.append(self)
+            
+            for value in self._list:
+                if isinstance(value, Selector):
+                    output.extend(value.find_by_type(type))
+
+            return output
+
         def roll(self, **kwargs) -> Any:
             """
             Returns a random value from the list.
@@ -360,6 +392,21 @@ init -3 python:
             super().__init__(realtime, key, *options)
             self._list = values
             self._old_value = None
+
+        @property
+        def _type(self) -> str:
+            return "iterative_list"
+
+        def find_by_type(self, type: type) -> List[Selector]:
+            output = []
+            if self._type == type:
+                output.append(self)
+            
+            for value in self._list:
+                if isinstance(value, Selector):
+                    output.extend(value.find_by_type(type))
+
+            return output
 
         def roll(self, **kwargs) -> Any:
             """
@@ -411,6 +458,10 @@ init -3 python:
             super().__init__(realtime, key, *options)
             self._min_value = min_value
             self._max_value = max_value
+
+        @property
+        def _type(self) -> str:
+            return "random_value"
 
         def roll(self, **kwargs) -> Any:
             """
@@ -473,6 +524,20 @@ init -3 python:
             self._condition = condition
             self._true_value = true_value
             self._false_value = false_value
+
+        @property
+        def _type(self) -> str:
+            return "condition"
+
+        def find_by_type(self, type: type) -> List[Selector]:
+            output = []
+            if self._type == type:
+                output.append(self)
+            if isinstance(self._true_value, Selector):
+                output.extend(self._true_value.find_by_type(type))
+            if isinstance(self._false_value, Selector):
+                output.extend(self._false_value.find_by_type(type))
+            return output
 
         def roll(self, **kwargs) -> Any:
             """Evaluates the condition and returns the appropriate value.
@@ -550,6 +615,20 @@ init -3 python:
             self._char = char
             self._range = stat_range
 
+        @property
+        def _type(self) -> str:
+            return "stat"
+
+        def find_by_type(self, type: type) -> List[Selector]:
+            output = []
+            if self._type == type:
+                output.append(self)
+            if isinstance(self._stat, Selector):
+                output.extend(self._stat.find_by_type(type))
+            if isinstance(self._char, Selector):
+                output.extend(self._char.find_by_type(type))
+            return output
+
         def roll(self, **kwargs) -> Any:
             """
             Returns the value of the stat.
@@ -594,6 +673,18 @@ init -3 python:
             super().__init__(True, key, *options)
             self._char = char
 
+        @property
+        def _type(self) -> str:
+            return "level"
+
+        def find_by_type(self, type: type) -> List[Selector]:
+            output = []
+            if self._type == type:
+                output.append(self)
+            if isinstance(self._char, Selector):
+                output.extend(self._char.find_by_type(type))
+            return output
+
         def roll(self, **kwargs) -> Any:
             """
             Returns the value of the level.
@@ -630,6 +721,10 @@ init -3 python:
         def __init__(self, key: str, time_type: str, *options: Option):
             super().__init__(True, key, *options)
             self._time_type = time_type
+
+        @property
+        def _type(self) -> str:
+            return "time"
 
         def roll(self, **kwargs) -> Any:
             """
@@ -680,6 +775,22 @@ init -3 python:
             self._min_value = min_value
             self._max_value = max_value
 
+        @property
+        def _type(self) -> str:
+            return "num_clamp"
+
+        def find_by_type(self, type: type) -> List[Selector]:
+            output = []
+            if self._type == type:
+                output.append(self)
+            if isinstance(self._value, Selector):
+                output.extend(self._value.find_by_type(type))
+            if isinstance(self._min_value, Selector):
+                output.extend(self._min_value.find_by_type(type))
+            if isinstance(self._max_value, Selector):
+                output.extend(self._max_value.find_by_type(type))
+            return output
+
         def roll(self, **kwargs) -> Any:
             value = self._value if not isinstance(self._value, Selector) else self._value.get_value(**kwargs)
             min_value = self._min_value if not isinstance(self._min_value, Selector) else self._min_value.get_value(**kwargs)
@@ -721,7 +832,17 @@ init -3 python:
             super().__init__(True, key, *options)
             self._value = value
 
-        
+        @property
+        def _type(self) -> str:
+            return "value"
+
+        def find_by_type(self, type: type) -> List[Selector]:
+            output = []
+            if self._type == type:
+                output.append(self)
+            if isinstance(self._value, Selector):
+                output.extend(self._value.find_by_type(type))
+            return output
 
         def roll(self, **kwargs) -> Any:
             """
@@ -759,7 +880,17 @@ init -3 python:
             super().__init__(True, key, *options)
             self._key = kwargs_key
 
-        
+        @property
+        def _type(self) -> str:
+            return "kwargs_value"
+
+        def find_by_type(self, type: type) -> List[Selector]:
+            output = []
+            if self._type == type:
+                output.append(self)
+            if isinstance(self._key, Selector):
+                output.extend(self._key.find_by_type(type))
+            return output
 
         def roll(self, **kwargs) -> Any:
             """
@@ -803,6 +934,18 @@ init -3 python:
             self._index = index
             self._dict = dict
 
+        @property
+        def _type(self) -> str:
+            return "dict"
+
+        def find_by_type(self, type: type) -> List[Selector]:
+            output = []
+            if self._type == type:
+                output.append(self)
+            if isinstance(self._index, Selector):
+                output.extend(self._index.find_by_type(type))
+            return output
+
         def roll(self, **kwargs) -> Any:
             """
             Returns the value from the dict.
@@ -845,6 +988,10 @@ init -3 python:
             self._index = index
             self._alt = alt
 
+        @property
+        def _type(self) -> str:
+            return "game_data"
+
         def roll(self, **kwargs) -> Any:
             """
             Returns the value from the GameData Storage.
@@ -876,6 +1023,10 @@ init -3 python:
         def __init__(self, *options: Option, **kwargs):
             super().__init__(True, "None", *options)
             self._kwargs = kwargs
+
+        @property
+        def _type(self) -> str:
+            return "kwargs"
 
         def roll(self, **kwargs) -> Any:
             """
@@ -911,6 +1062,18 @@ init -3 python:
         def __init__(self, key: str, index: str | Selector, *options: Option):
             super().__init__(True, key, *options)
             self._index = index
+
+        @property
+        def _type(self) -> str:
+            return "progress"
+
+        def find_by_type(self, type: type) -> List[Selector]:
+            output = []
+            if self._type == type:
+                output.append(self)
+            if isinstance(self._index, Selector):
+                output.extend(self._index.find_by_type(type))
+            return output
 
         def roll(self, **kwargs) -> Any:
             """
@@ -949,6 +1112,10 @@ init -3 python:
             super().__init__(True, key, *options)
             self._rule = rule
 
+        @property
+        def _type(self) -> str:
+            return "rule_unlocked"
+
         def roll(self, **kwargs) -> Any:
             rule_key = self._rule if not isinstance(self._rule, Selector) else self._rule.get_value(**kwargs)
             return is_unlockable_unlocked(rule_key)
@@ -980,6 +1147,10 @@ init -3 python:
             super().__init__(True, key, *options)
             self._club = club
 
+        @property
+        def _type(self) -> str:
+            return "club_unlocked"
+
         def roll(self, **kwargs) -> Any:
             club_key = self._club if not isinstance(self._club, Selector) else self._club.get_value(**kwargs)
             return is_unlockable_unlocked(club_key)
@@ -1010,9 +1181,21 @@ init -3 python:
             super().__init__(True, key, *options)
             self._building = building
 
+        @property
+        def _type(self) -> str:
+            return "building_unlocked"
+
+        def find_by_type(self, type: type) -> List[Selector]:
+            output = []
+            if self._type == type:
+                output.append(self)
+            if isinstance(self._building, Selector):
+                output.extend(self._building.find_by_type(type))
+            return output
+
         def roll(self, **kwargs) -> Any:
             building_key = self._building if not isinstance(self._building, Selector) else self._building.get_value(**kwargs)
-            return is_unlockable_unlocked(building_key)
+            return building_manager.is_open(building_key)
 
     class BuildingLevelSelector(Selector):
         """
@@ -1040,21 +1223,22 @@ init -3 python:
             super().__init__(True, key, *options)
             self._building = building
 
+        @property
+        def _type(self) -> str:
+            return "building_level"
+
+        def find_by_type(self, type: type) -> List[Selector]:
+            output = []
+            if self._type == type:
+                output.append(self)
+            if isinstance(self._building, Selector):
+                output.extend(self._building.find_by_type(type))
+            return output
+
         def roll(self, **kwargs) -> Any:
-            building_key = self._building if not isinstance(self._building, Selector) else self._building.get_value(**kwargs)
-            if unlockable_manager is None:
-                return 0
-            members = unlockable_manager.get_unlockables_by_key(building_key)
-            if not members:
-                return 0
-            if len(members) == 1 and members[0].group_index == -1:
-                return 1 if members[0].is_unlocked() else 0
-            unlocked_levels = [
-                member.group_index
-                for member in members
-                if member.is_unlocked() and member.group_index != -1
-            ]
-            return max(unlocked_levels) if unlocked_levels else 0
+            building = self._building if not isinstance(self._building, Selector) else self._building.get_value(**kwargs)
+
+            return unlockable_manager.get_current_level_of_unlockable(building)
 
     class CharacterSelector(Selector):
         """
@@ -1086,6 +1270,18 @@ init -3 python:
             super().__init__(True, key, *options)
             self._char = char
 
+        @property
+        def _type(self) -> str:
+            return "character"
+
+        def find_by_type(self, type: type) -> List[Selector]:
+            output = []
+            if self._type == type:
+                output.append(self)
+            if isinstance(self._char, Selector):
+                output.extend(self._char.find_by_type(type))
+            return output
+
         def roll(self, **kwargs) -> Any:
 
             char = self._char if not isinstance(self._char, Selector) else self._char.get_value(**kwargs)
@@ -1102,6 +1298,10 @@ init -3 python:
             super().__init__(True, key, *options)
             self._condition_type = condition_type
 
+        @property
+        def _type(self) -> str:
+            return "pta_vote"
+
         def roll(self, **kwargs) -> Any:
             return None
 
@@ -1112,6 +1312,10 @@ init -3 python:
 
         def __init__(self, key: str, *options: Option):
             super().__init__(True, key, *options)
+
+        @property
+        def _type(self) -> str:
+            return "pta_object"
 
         def roll(self, **kwargs) -> Any:
             return get_game_data('voteProposal')
@@ -1131,6 +1335,10 @@ init -3 python:
             self._situation_key = situation_key
             self._bar_key = bar_key
 
+        @property
+        def _type(self) -> str:
+            return "situation_bar"
+
         def roll(self, **kwargs) -> Any:
             situation = situation_manager.get_situation(self._situation_key)
             if situation == None:
@@ -1139,3 +1347,17 @@ init -3 python:
             if bar == None:
                 return 0
             return bar.value
+
+    class ModifierSelector(Selector):
+        def __init__(self, key: str, modifier: Modifier_Obj, stat: str, *options: Option, collection: str = "default"):
+            super().__init__(True, key, *options)
+            self._modifier = modifier
+            self._stat = stat
+            self._collection = collection
+
+        @property
+        def _type(self) -> str:
+            return "modifier"
+
+        def roll(self, **kwargs) -> Any:
+            return (self._modifier, self._stat, self._collection)

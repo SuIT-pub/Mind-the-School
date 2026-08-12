@@ -148,6 +148,81 @@ path when working on a situation:
 These register through the situation's lifecycle registry, so they are reverted /
 hibernated correctly on passive switch, measure expiry, reload, and mod removal.
 
+### Orphan risk: lifecycle vs. global registration
+
+`set_modifier` and `ModifierEffect` register into the **global** modifier
+collections, which have **no connection to any situation's lifecycle**. That is fine
+in events / resolutions — an event is a one-shot, and a `ModifierEffect`'s own
+`revert` removes the modifier again. Inside a **situation** passive/measure it is a
+trap:
+
+- If a modifier is registered outside the lifecycle registry and the situation is
+  later torn down — passive switched, measure expired, save reloaded, or the owning
+  **mod disabled** — nobody removes it. The modifier is **orphaned** and keeps
+  affecting the stat/bar indefinitely, with no owner left to revert it.
+- This is exactly why `SituationEffectGeneral` **rejects `ModifierEffect`** (it
+  filters it out at construction and logs an error): wrapping one would smuggle a
+  global registration past the lifecycle registry and reintroduce the orphan.
+
+**Rule:** inside a situation, never register modifiers by hand or via `ModifierEffect`.
+Use the lifecycle-tracked `SituationEffectStatChangeModifier` /
+`SituationEffectBarChangeModifier` / `SituationEffectRegularStatChange` — they are
+swept correctly on every teardown path. Reserve `set_modifier` / `ModifierEffect` for
+non-situation contexts where you own the removal.
+
+### Managed modifiers — orphan-safe registration outside situations
+
+For that "own the removal" case there is a ready-made, orphan-safe path that reuses
+the **same lifecycle registry** the situations ride on — no hand-wiring. Three calls:
+
+| When | Call |
+|------|------|
+| **On activation** (once, when your mod turns the modifier on) | `track_managed_modifier(key, mod_obj, owner, *, category=None, stat="all", collection="default")` — applies the modifier *and* records an ownership entry. |
+| **Every load wave, once per modifier** (from a `register_start_method` label — those run *inside* the check wave) | `keep_managed_modifier(key)` — KEEP-pings that one entry so it survives the sweep. |
+| **On deactivation** (optional, deliberate off) | `remove_managed_modifier(key)` — removes it from the modifier system and drops the entry. |
+
+> **Keep each modifier individually — never in bulk.** The sweep is only meaningful
+> because every modifier must be *re-affirmed* each wave by the code path that still
+> wants it. Ping the keys you still want, one by one; anything you don't re-ping
+> (feature turned off, key retired, whole mod disabled) is swept. A blanket "keep all
+> my entries" call would instead keep stale keys alive forever — reintroducing the
+> exact orphans the registry exists to prevent.
+
+```python
+# once, when your mod activates the bonus:
+track_managed_modifier(
+    "mymod_happiness_boost",
+    Modifier_Obj("mymod_happiness_boost", "+", 2),
+    owner="mymod",
+    stat=HAPPINESS, collection="daily",
+)
+
+# a label you register once — register_start_method("mymod_keep_alive").
+# Re-affirm each modifier your mod still wants, guarded by your own logic:
+label mymod_keep_alive:
+    if mymod_bonus_active:
+        $ keep_managed_modifier("mymod_happiness_boost")
+    # not pinged when the bonus is off → swept at the next finalize_check
+    return
+```
+
+Both the modifier (in `stat_modifier` game data) and its registry entry **persist
+across saves**, so the wave hook only KEEP-pings — it never re-applies. Drop the reason
+(or the whole mod) and the un-pinged modifiers are removed for you at the next
+`finalize_check` sweep. That is the whole orphan guarantee — the identical machinery
+the situation modifier effects use, exposed for mod/systems code.
+
+> **Events have their own wrapper.** An event can install a lasting modifier without
+> wiring any of this by hand: attach a `ModifierSelector` and call `load_modifier("key")`
+> in its label. The event owns the modifier, and the event system re-affirms it each
+> wave via `check_selectors` — same keep/sweep guarantee. See [Events](Events) §13 and
+> [Selectors](Selectors).
+
+> **Situation resolutions too.** A `ModifierEffect` placed in a resolution's effect list
+> is registered on fire and re-affirmed each wave by the resolution's `update_data` — the
+> same guarantee, surviving even after the Situation completes. See
+> [Building Situations](Building-Situations) §14.
+
 ---
 
 ## 6. Situation bars as modifier targets
@@ -214,6 +289,11 @@ Range ops measure against `range_stat` (defaults to the target).
 · `ModifierEffect(key, stat, mod_obj, collection)` · situation:
 `SituationEffectStatChangeModifier` / `SituationEffectRegularStatChange` /
 `SituationEffectBarChangeModifier`.
+
+### Managed modifiers (orphan-safe, outside situations)
+`track_managed_modifier(key, mod_obj, owner, *, category=None, stat="all", collection="default")`
+(activate) · `keep_managed_modifier(key)` (per modifier, each load wave from a
+`register_start_method` label) · `remove_managed_modifier(key)` (deactivate).
 
 ### Related files
 - `game/scripts/modifier.rpy` — `Modifier_Obj`, collections, `set_modifier`, `change_stat*_modifier`

@@ -462,6 +462,25 @@ init python:
     # region General Value Gallery Handler #
     ########################################
 
+    def load_modifier(key: str, **kwargs):
+
+        if is_replay(**kwargs):
+            return
+
+        modifier, stat, collection = get_kwargs_value(key, None, **kwargs)
+        if modifier == None:
+            return
+
+        event_name = get_kwargs('event_name', None, **kwargs)
+
+        if event_name == None:
+            return
+
+        modifier.key = event_name + ":" + key
+
+        track_managed_modifier(event_name + ":" + key, modifier, owner = event_name, category = "modifier", stat = stat, collection = collection)
+        return
+
     def get_level(key: str, **kwargs) -> int:
         """
         Gets a level from the gallery database.
