@@ -1,0 +1,10 @@
+# Character-card PNGs carry extra HS2 / StudioNeoV2 binary after the image
+# payload, keyed to the original filename. Treat every image as binary so Git
+# never applies CRLF conversion or other text filters.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.gif binary
+*.bmp binary
+*.tga binary

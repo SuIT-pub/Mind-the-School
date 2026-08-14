@@ -4149,7 +4149,7 @@ label load_situations:
             SituationPool("Teacher Feedback", -5, 54),
             PositiveResolution("ALL", DummyEffect()),
             NegativeResolution("ANY", DummyEffect()),
-            thumbnail="images/Test/Test-1.png",
+            thumbnail="images/misc/Test_16_9.png",
         ),
         # Trigger: sb_event_6. Startwert -20 at activation (events can shift via shift_start_value).
         Situation("body_conflict", "Body Conflict", "Body-related conflicts among female students are escalating. Aona uses her physical development as a status symbol. Miwa is the primary target, but the toxic dynamic affects the entire school. The protagonist must decide how to handle this.",
@@ -4257,7 +4257,7 @@ label load_situations:
             SituationPool("school_building_teach_pta_students", 15, 55),
             PositiveResolution("ALL", DummyEffect()),
             NegativeResolution("ANY", DummyEffect()),
-            thumbnail="images/Test/Test-1.png",
+            thumbnail="images/misc/Test_16_9.png",
        
         ),
         Situation("new_management", "New Management",
@@ -4501,7 +4501,7 @@ label load_situations:
                 EventEffect("game_over_new_management"),
                 grace_count=1,
             ),
-            thumbnail="images/Test/Test-1.png",
+            thumbnail="images/misc/Test_16_9.png",
         ),
     )
     

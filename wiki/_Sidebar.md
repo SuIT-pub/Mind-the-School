@@ -8,6 +8,7 @@
 
 - [Player Guide](Player-Guide)
 - [Walkthroughs](Player-Walkthroughs)
+- [Characters](Characters)
 
 ---
 

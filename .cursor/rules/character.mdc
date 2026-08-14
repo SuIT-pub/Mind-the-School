@@ -3,11 +3,6 @@ description: Documentation for the character system implementation
 globs: 
 alwaysApply: false
 ---
----
-description: Documentation for the character system implementation
-globs: ["game/scripts/character.rpy", "game/scripts/values.rpy"]
-alwaysApply: false
----
 # Character System Documentation
 
 ## Overview

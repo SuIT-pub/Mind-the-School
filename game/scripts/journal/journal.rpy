@@ -1543,6 +1543,10 @@ screen journal_cheats(display, char = "school"):
 
     $ options = {
         "general": "General",
+        "events": "Events",
+        "situations": "Situations",
+        "unlockables": "Unlockables",
+        "items": "Items",
         "debug": "Debug",
         "logs": "Logs",
         "stats": "Stats",
@@ -1653,6 +1657,240 @@ screen journal_cheats(display, char = "school"):
                     
                     
             vbar value YScrollValue("CheatStatList"):
+                unscrollable "hide"
+                xalign 1.0
+    elif display == "events":
+        frame:
+            background Solid("#0000")
+            area (950, 200, 560, 690)
+
+            viewport id "CheatEventList":
+                mousewheel True
+                draggable "touch"
+                vbox:
+                    text "Start any registered event directly via its Event.call().\nFilter by replay category. Starting an event closes the journal.\nProceed on your own risk.":
+                        color "#000000"
+                        size 18
+
+                    null height 15
+
+                    hbox:
+                        button:
+                            text "Category" xalign 0.0 style "journal_text"
+                            xsize 180
+                        button:
+                            text "[event_cheat_category]" xalign 1.0 style "buttons_idle"
+                            action [With(dissolveM), Call("cycle_event_cheat_filter", 5, display)]
+                            xsize 320
+
+                    null height 10
+                    image "journal/journal/left_list_separator.webp"
+                    null height 10
+
+                    $ cheat_events = get_filtered_cheat_events(event_cheat_category)
+                    if len(cheat_events) == 0:
+                        text "No events registered." style "journal_text" size 18
+                    else:
+                        for cheat_event in cheat_events:
+                            $ cheat_event_id = cheat_event.event_id
+                            $ cheat_event_name = cheat_event.get_name()
+                            $ cheat_event_cat = getattr(cheat_event, "replay_category", "Misc")
+                            button:
+                                xfill True
+                                action [With(dissolveM), Call("call_event_cheat", cheat_event_id)]
+                                hbox:
+                                    spacing 10
+                                    text cheat_event_name:
+                                        style "buttons_idle"
+                                        size 20
+                                        xsize 360
+                                    text ("{color=#777777}" + cheat_event_cat + "{/color}"):
+                                        size 16
+                                        yalign 0.5
+                            null height 4
+
+            vbar value YScrollValue("CheatEventList"):
+                unscrollable "hide"
+                xalign 1.0
+    elif display == "situations":
+        frame:
+            background Solid("#0000")
+            area (950, 200, 560, 690)
+
+            viewport id "CheatSituationList":
+                mousewheel True
+                draggable "touch"
+                vbox:
+                    text "Activate a situation, or activate all/individual teasers within it.\nExpand a situation to reach its single teasers.\nProceed on your own risk.":
+                        color "#000000"
+                        size 18
+
+                    null height 15
+
+                    $ cheat_situations = get_cheat_situation_list()
+                    if len(cheat_situations) == 0:
+                        text "No situations registered." style "journal_text" size 18
+                    else:
+                        for cheat_situation in cheat_situations:
+                            $ sit_key = cheat_situation.key
+                            $ sit_expanded = is_situation_cheat_expanded(sit_key)
+                            $ sit_marker = "▼" if sit_expanded else "▶"
+                            $ sit_state = cheat_situation.visibility_state
+                            hbox:
+                                spacing 8
+                                textbutton sit_marker:
+                                    text_style "buttons_idle"
+                                    text_size 20
+                                    action Function(toggle_situation_cheat_expand, sit_key)
+                                text (cheat_situation.name + " {color=#777777}(" + sit_state + "){/color}"):
+                                    style "journal_text"
+                                    size 20
+                                    yalign 0.5
+                                    xsize 320
+                            hbox:
+                                null width 40
+                                spacing 10
+                                button:
+                                    text "Activate" style "buttons_idle" size 18
+                                    action [With(dissolveM), Call("activate_situation_cheat", sit_key)]
+                                    sensitive cheat_situation.state != "active"
+                                button:
+                                    text "All Teasers" style "buttons_idle" size 18
+                                    action [With(dissolveM), Call("activate_situation_teasers_cheat", sit_key)]
+                            if sit_expanded:
+                                if len(cheat_situation.teasers) == 0:
+                                    hbox:
+                                        null width 60
+                                        text "No teasers." style "journal_text" size 16
+                                else:
+                                    for teaser_key in cheat_situation.teasers.keys():
+                                        $ cheat_teaser = cheat_situation.teasers[teaser_key]
+                                        $ teaser_active = cheat_teaser.active
+                                        hbox:
+                                            null width 60
+                                            spacing 10
+                                            if teaser_active:
+                                                text ("{color=#00a000}✓{/color} " + teaser_key):
+                                                    style "journal_text"
+                                                    size 16
+                                                    xsize 300
+                                                    yalign 0.5
+                                            else:
+                                                text teaser_key:
+                                                    style "journal_text"
+                                                    size 16
+                                                    xsize 300
+                                                    yalign 0.5
+                                            button:
+                                                text "Activate" style "buttons_idle" size 16
+                                                action [With(dissolveM), Call("activate_teaser_cheat", sit_key, teaser_key)]
+                                                sensitive not teaser_active
+                            null height 12
+
+            vbar value YScrollValue("CheatSituationList"):
+                unscrollable "hide"
+                xalign 1.0
+    elif display == "unlockables":
+        frame:
+            background Solid("#0000")
+            area (950, 200, 560, 690)
+
+            viewport id "CheatUnlockableList":
+                mousewheel True
+                draggable "touch"
+                vbox:
+                    text "Force the visibility of an unlockable on or off.\nVisible ON overrides the derived condition state (override_visible).\nProceed on your own risk.":
+                        color "#000000"
+                        size 18
+
+                    null height 15
+
+                    $ cheat_unlockables = get_cheat_unlockable_list()
+                    if len(cheat_unlockables) == 0:
+                        text "No unlockables registered." style "journal_text" size 18
+                    else:
+                        for cheat_unlockable in cheat_unlockables:
+                            $ unlock_display = get_unlockable_cheat_display(cheat_unlockable)
+                            $ unlock_override = getattr(cheat_unlockable, "override_visible", False)
+                            $ unlock_name = cheat_unlockable.name
+                            if cheat_unlockable.group_index != -1:
+                                $ unlock_name = unlock_name + " (" + str(cheat_unlockable.group_index) + ")"
+                            hbox:
+                                spacing 8
+                                text unlock_name:
+                                    style "journal_text"
+                                    size 18
+                                    xsize 300
+                                    yalign 0.5
+                                if unlock_override:
+                                    text "{color=#00a000}VISIBLE{/color}":
+                                        size 18
+                                        xsize 90
+                                        yalign 0.5
+                                    button:
+                                        text "HIDE" xalign 0.5 style "buttons_idle" size 18
+                                        action [With(dissolveM), Call("toggle_unlockable_visibility_cheat", unlock_display)]
+                                        xsize 110
+                                else:
+                                    text "{color=#a00000}AUTO{/color}":
+                                        size 18
+                                        xsize 90
+                                        yalign 0.5
+                                    button:
+                                        text "SHOW" xalign 0.5 style "buttons_idle" size 18
+                                        action [With(dissolveM), Call("toggle_unlockable_visibility_cheat", unlock_display)]
+                                        xsize 110
+                            null height 8
+
+            vbar value YScrollValue("CheatUnlockableList"):
+                unscrollable "hide"
+                xalign 1.0
+    elif display == "items":
+        frame:
+            background Solid("#0000")
+            area (950, 200, 560, 690)
+
+            viewport id "CheatItemList":
+                mousewheel True
+                draggable "touch"
+                vbox:
+                    text "Add any registered item to your inventory.\nLeft-click ADD for +1, right-click for +10.\nProceed on your own risk.":
+                        color "#000000"
+                        size 18
+
+                    null height 12
+
+                    hbox:
+                        button:
+                            text "Add all items (1x each)" xalign 0.0 style "journal_text" size 20
+                            action [With(dissolveM), Call("give_every_item", 5, "items")]
+
+                    null height 10
+                    image "journal/journal/left_list_separator.webp"
+                    null height 10
+
+                    $ cheat_items = get_cheat_item_list()
+                    if len(cheat_items) == 0:
+                        text "No items registered." style "journal_text" size 18
+                    else:
+                        for cheat_item in cheat_items:
+                            $ cheat_item_key = cheat_item.key
+                            $ cheat_item_count = inventory_manager.get_item_count(cheat_item_key)
+                            hbox:
+                                spacing 10
+                                text (cheat_item.get_name() + " {color=#777777}(x" + str(cheat_item_count) + "){/color}"):
+                                    style "journal_text"
+                                    size 18
+                                    xsize 360
+                                    yalign 0.5
+                                button:
+                                    text "ADD" xalign 0.5 style "buttons_idle" size 18
+                                    action [With(dissolveM), Call("add_item_cheat", cheat_item_key, 1)]
+                                    alternate [With(dissolveM), Call("add_item_cheat", cheat_item_key, 10)]
+                                    xsize 110
+                            null height 8
+
+            vbar value YScrollValue("CheatItemList"):
                 unscrollable "hide"
                 xalign 1.0
     elif display == "debug":
@@ -3993,6 +4231,115 @@ label set_building_state_cheat(page, display, building_key, state):
 
     $ renpy.notify("Building updated!")
     call open_journal(page, display) from set_building_state_cheat_1
+
+label cycle_event_cheat_filter(page, display):
+    # """
+    # Cycles the event cheat category filter and reopens the journal events page.
+    #
+    # ### Parameters:
+    # 1. page: int
+    #     - The journal page to reopen.
+    # 2. display: str
+    #     - The journal display to reopen.
+    # """
+
+    $ cycle_event_cheat_category()
+    call open_journal(page, display) from cycle_event_cheat_filter_1
+
+label call_event_cheat(event_id):
+    # """
+    # Starts a registered event directly from the cheat page via Event.call().
+    #
+    # ### Parameters:
+    # 1. event_id: str
+    #     - The event_id of the registered event to start.
+    # """
+
+    $ cheat_event = event_register.get(event_id, None)
+    if cheat_event is None:
+        $ renpy.notify("Event not found: " + str(event_id))
+        call open_journal(5, "events") from call_event_cheat_1
+        return
+
+    $ hide_all()
+    $ cheat_event.call(cheat_event_return = True)
+    jump map_entry
+
+label activate_situation_cheat(situation_key):
+    # """
+    # Activates a situation directly from the cheat page.
+    #
+    # ### Parameters:
+    # 1. situation_key: str
+    #     - The key of the situation to activate.
+    # """
+
+    $ cheat_situation = situation_manager.get_situation(situation_key) if situation_manager is not None else None
+    if cheat_situation is not None and cheat_situation.state != "active":
+        $ cheat_situation.activate()
+        $ renpy.notify("Situation activated!")
+    call open_journal(5, "situations") from activate_situation_cheat_1
+
+label activate_situation_teasers_cheat(situation_key):
+    # """
+    # Activates all teasers of a situation directly from the cheat page.
+    #
+    # ### Parameters:
+    # 1. situation_key: str
+    #     - The key of the situation whose teasers are activated.
+    # """
+
+    $ cheat_situation = situation_manager.get_situation(situation_key) if situation_manager is not None else None
+    if cheat_situation is not None:
+        python:
+            for cheat_teaser in cheat_situation.teasers.values():
+                cheat_teaser.activate()
+        $ renpy.notify("Teasers activated!")
+    call open_journal(5, "situations") from activate_situation_teasers_cheat_1
+
+label activate_teaser_cheat(situation_key, teaser_key):
+    # """
+    # Activates a single teaser of a situation directly from the cheat page.
+    #
+    # ### Parameters:
+    # 1. situation_key: str
+    #     - The key of the situation the teaser belongs to.
+    # 2. teaser_key: str
+    #     - The key of the teaser to activate.
+    # """
+
+    $ activate_situation_teaser(situation_key, teaser_key)
+    $ renpy.notify("Teaser activated!")
+    call open_journal(5, "situations") from activate_teaser_cheat_1
+
+label toggle_unlockable_visibility_cheat(unlock_display):
+    # """
+    # Toggles the visibility override of an unlockable from the cheat page.
+    #
+    # ### Parameters:
+    # 1. unlock_display: str
+    #     - Unlockable selection as ``key`` or ``key:group_index``.
+    # """
+
+    $ cheat_unlockable = unlockable_manager.resolve_display(unlock_display) if unlockable_manager is not None else None
+    if cheat_unlockable is not None:
+        $ cheat_unlockable.override_visible = not getattr(cheat_unlockable, "override_visible", False)
+    call open_journal(5, "unlockables") from toggle_unlockable_visibility_cheat_1
+
+label add_item_cheat(item_key, amount = 1):
+    # """
+    # Adds an item to the inventory from the cheat page.
+    #
+    # ### Parameters:
+    # 1. item_key: str
+    #     - The key of the item to add.
+    # 2. amount: int (default: 1)
+    #     - The amount to add.
+    # """
+
+    if inventory_manager is not None and inventory_manager.has_item_data(item_key):
+        $ inventory_manager.add_item(Item(item_key, amount))
+    call open_journal(5, "items") from add_item_cheat_1
 
 label switch_event_select_mode(page, display, value = None):
     # """

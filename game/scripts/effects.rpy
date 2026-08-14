@@ -58,7 +58,6 @@ init -1 python:
         def __str__(self):
             pass
 
-        @abstractmethod
         @property
         def _type(self) -> str:
             return "effect"
@@ -913,7 +912,7 @@ init -1 python:
 
         def __str__(self):
             return f"BuildingCloseEffect({self.building_key})"
-        
+
         def apply(self, **kwargs):
             if self.is_close:
                 remove_building_collection_key(self.building_key, "open", self.name)

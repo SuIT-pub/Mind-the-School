@@ -421,6 +421,8 @@ init -2 python:
 
             (image_path, variant) = image_step.get_image(variant)
 
+            paperdoll_manager.clear()
+
             if not sfw_mode:
                 renpy.call("show_ready_image", image_path, display_type)   
 
@@ -1038,7 +1040,7 @@ init -2 python:
     def refine_image_with_alternatives(image_path: str, alternative_keys: List[str], **kwargs) -> List[str]:
         """
         Returns all possible image paths with possible alternatives in case an image is missing concrete values.
-        Images can use # instead.
+        Images can use the dollar-sign wildcard instead.
 
         ### Parameters:
         1. image_path: str

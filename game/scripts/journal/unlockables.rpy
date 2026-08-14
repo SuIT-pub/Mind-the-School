@@ -119,6 +119,11 @@ init -7 python:
 
             super().__init__(situation_key, name, *elements, thumbnail=thumbnail)
 
+            # Cheat override: when True, is_visible() returns True regardless of
+            # the derived condition state. Runtime-only, survives live reloads
+            # (update_data does not sync it).
+            self.override_visible = False
+
         @staticmethod
         def parse_money_condition_amount(value) -> int:
             """
@@ -324,6 +329,8 @@ init -7 python:
                 release_money(stash_key)
 
         def is_visible(self, **kwargs):
+            if getattr(self, "override_visible", False):
+                return True
             return self.conditions.is_fulfilled(**kwargs)
 
         def is_unlocked(self, **kwargs):
@@ -660,6 +667,7 @@ init -7 python:
             Pick the unlockable shown by default for a list key.
 
             Smallest incomplete (not unlocked) index; if all unlocked, the highest index.
+            A cheat force-visible (override_visible) member takes precedence.
 
             Args:
                 unlockable_key (str): Unlockable / group key.
@@ -672,6 +680,14 @@ init -7 python:
                 return None
             if len(members) == 1 and members[0].group_index == -1:
                 return members[0]
+            # Cheat override: a force-visible member takes precedence so it can be
+            # surfaced and inspected even when its group predecessor is not unlocked.
+            override_members = [m for m in members if getattr(m, "override_visible", False)]
+            if override_members:
+                for member in override_members:
+                    if not member.is_unlocked():
+                        return member
+                return override_members[-1]
             for member in members:
                 if not member.is_unlocked():
                     return member
@@ -681,7 +697,8 @@ init -7 python:
             """
             Indices the detail view may step through for a group.
 
-            Includes all unlocked members plus the lowest incomplete member.
+            Includes all unlocked members plus the lowest incomplete member, and any
+            cheat force-visible (override_visible) members.
 
             Args:
                 unlockable_key (str): Group key.
@@ -694,7 +711,9 @@ init -7 python:
                 return []
             if len(members) == 1 and members[0].group_index == -1:
                 return []
-            indices = [m.group_index for m in members if m.is_unlocked()]
+            # Cheat override: force-visible members are always navigable, even when
+            # their group predecessor is not unlocked yet.
+            indices = [m.group_index for m in members if m.is_unlocked() or getattr(m, "override_visible", False)]
             for member in members:
                 if not member.is_unlocked():
                     if member.group_index not in indices:

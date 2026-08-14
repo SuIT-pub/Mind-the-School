@@ -320,6 +320,26 @@ init -99 python:
         clear_temp_presets()
         paperdoll_manager = None
 
+    def paperdoll_layer_displayable(path):
+        """
+        Builds the displayable for a paperdoll layer.
+
+        Returns an Image for a resolved path, or a transparent Null when the path is
+        empty (e.g. a missing / WIP asset), so a missing layer degrades to nothing
+        instead of crashing the render with Image("").
+
+        ### Parameters:
+        1. path: str
+            - The resolved image path (may be empty).
+
+        ### Returns:
+        1. Displayable
+            - Image(path), or Null() when the path is empty.
+        """
+        if not path:
+            return Null()
+        return Image(path)
+
     class Paperdoll_Obj:
         """
         A class that represents a paperdoll object
@@ -542,6 +562,27 @@ init -99 python:
             """
             self.scale_factors[index] = paperdoll_compute_base_scale(self, index, image_path)
 
+        def resolve_image(self, index: int) -> str:
+            """
+            Resolves and stores the layer image path, then updates its scale factor.
+
+            ### Parameters:
+            1. index: int
+                - The layer index to resolve.
+
+            ### Returns:
+            1. str
+                - The resolved image path (empty when no asset matches, e.g. a WIP layer).
+            """
+            resolved = find_available_images(refine_image_with_alternatives(self.pattern[index], self.alt_keys, **self.values))
+            if resolved == "":
+                # Log the pattern with concrete values filled in (unmatched placeholders
+                # stay as <key>) so a specific missing image is easy to identify.
+                log(f"'{refine_image(self.pattern[index], **self.values)}' could not be found!", log_type="error", category="image")
+            self.image[index] = resolved
+            self.update_scale_factor(index, resolved)
+            return resolved
+
         def get_effective_zoom(self, index: int, zoom: float = None) -> float:
             """
             Returns the zoom value adjusted for the layer's base scale factor.
@@ -633,6 +674,11 @@ init -99 python:
             Accepts a paperdoll-style pattern string, or a concrete path such as
             the result of `image[step]` on an `Image_Series` (which may be None).
 
+            If the pattern does not resolve to an image, it is retried as a pattern
+            *key*: when the author passes the name of a `Pattern` registered on the
+            event (available via kwargs `image_patterns` / `frag_image_patterns`),
+            the underlying pattern string and its alternative keys are resolved.
+
             ### Parameters:
             1. pattern: Optional[str]
                 - Image pattern, concrete path, or None.
@@ -675,8 +721,28 @@ init -99 python:
                 return ""
 
             images = refine_image_with_alternatives(pattern, alt_keys, **kwargs)
-            if len(images) > 0:
-                return find_available_images(images)
+            resolved = find_available_images(images) if len(images) > 0 else ""
+            if resolved != "":
+                return resolved
+
+            # Fallback: `pattern` may be a pattern *key* the author registered on the
+            # event via Pattern(...), passed through kwargs as image_patterns /
+            # frag_image_patterns. If so, resolve the underlying pattern string using
+            # the Pattern's own alternative keys (merged with any passed in).
+            frag_patterns = get_kwargs('frag_image_patterns', {}, **kwargs)
+            image_patterns = get_kwargs('image_patterns', {}, **kwargs)
+            pattern_obj = frag_patterns.get(pattern)
+            if pattern_obj is None:
+                pattern_obj = image_patterns.get(pattern)
+            if isinstance(pattern_obj, Pattern):
+                combined_alt_keys = list(alt_keys)
+                for key in pattern_obj.get_alternative_keys():
+                    if key not in combined_alt_keys:
+                        combined_alt_keys.append(key)
+                images = refine_image_with_alternatives(pattern_obj.get_path(), combined_alt_keys, **kwargs)
+                if len(images) > 0:
+                    return find_available_images(images)
+
             return ""
 
         def _apply_background_blur(self, blur: Union[bool, float]):
@@ -956,12 +1022,11 @@ label display_paperdoll_image(paperdoll_obj, actions):
         if paperdoll_obj.image[index] == "":
             $ paperdoll_obj.update_overrides(index)
 
-            $ paperdoll_obj.image[index] = find_available_images(refine_image_with_alternatives(pattern, paperdoll_obj.alt_keys, **paperdoll_obj.values))
-            $ paperdoll_obj.update_scale_factor(index, paperdoll_obj.image[index])
+            $ paperdoll_obj.resolve_image(index)
             $ renpy.show(
                 paperdoll_obj.key + str(index), 
                 tag = paperdoll_obj.key + str(index),
-                what = Image(paperdoll_obj.image[index]),
+                what = paperdoll_layer_displayable(paperdoll_obj.image[index]),
                 at_list = [
                     t_paperdoll_position(
                         paperdoll_obj.get_config("alignX", index), 
@@ -982,8 +1047,6 @@ label display_paperdoll_image(paperdoll_obj, actions):
 label run_paperdoll_actions(paperdoll_obj, actions):
     while (len(actions) > 0):
         $ action = actions.pop(0)
-
-        $ log_val("action", action.key, action.__dict__)
 
         if action.key == "preset":
             call run_paperdoll_actions(paperdoll_obj, action.get_actions()) from _call_run_paperdoll_actions_recursive
@@ -1007,13 +1070,12 @@ label paperdoll_action_blur(paperdoll_obj, pda_blur):
         $ pattern = paperdoll_obj.pattern[index]
         $ paperdoll_obj.update_overrides(index)
 
-        $ paperdoll_obj.image[index] = find_available_images(refine_image_with_alternatives(pattern, paperdoll_obj.alt_keys, **paperdoll_obj.values))
-        $ paperdoll_obj.update_scale_factor(index, paperdoll_obj.image[index])
+        $ paperdoll_obj.resolve_image(index)
 
         $ renpy.show(
             paperdoll_obj.key + str(index), 
             tag = paperdoll_obj.key + str(index),
-            what = Image(paperdoll_obj.image[index]),
+            what = paperdoll_layer_displayable(paperdoll_obj.image[index]),
             at_list = [
                 t_paperdoll_position(
                     paperdoll_obj.get_config("alignX", index), 
@@ -1039,13 +1101,12 @@ label paperdoll_action_image(paperdoll_obj, pda_image):
         $ pattern = paperdoll_obj.pattern[index]
         $ paperdoll_obj.update_overrides(index)
 
-        $ paperdoll_obj.image[index] = find_available_images(refine_image_with_alternatives(pattern, paperdoll_obj.alt_keys, **paperdoll_obj.values))
-        $ paperdoll_obj.update_scale_factor(index, paperdoll_obj.image[index])
+        $ paperdoll_obj.resolve_image(index)
 
         $ renpy.show(
             paperdoll_obj.key + str(index), 
             tag = paperdoll_obj.key + str(index),
-            what = Image(paperdoll_obj.image[index]),
+            what = paperdoll_layer_displayable(paperdoll_obj.image[index]),
             at_list = [
                 t_paperdoll_position(
                     paperdoll_obj.get_config("alignX", index), 
@@ -1072,7 +1133,7 @@ label paperdoll_action_move(paperdoll_obj, pda_move):
         $ renpy.show(
             paperdoll_obj.key + str(index), 
             tag = paperdoll_obj.key + str(index),
-            what = Image(paperdoll_obj.image[index]),
+            what = paperdoll_layer_displayable(paperdoll_obj.image[index]),
             at_list = [
                 t_paperdoll_position(
                     paperdoll_obj.get_config("alignX", index), 
@@ -1103,7 +1164,7 @@ label paperdoll_action_flip(paperdoll_obj, pda_flip):
         $ renpy.show(
             paperdoll_obj.key + str(index), 
             tag = paperdoll_obj.key + str(index),
-            what = Image(paperdoll_obj.image[index]),
+            what = paperdoll_layer_displayable(paperdoll_obj.image[index]),
             at_list = [
                 t_paperdoll_position(
                     paperdoll_obj.get_config("alignX", index),
@@ -1132,7 +1193,7 @@ label paperdoll_action_bw(paperdoll_obj, pda_bw):
         $ renpy.show(
             paperdoll_obj.key + str(index),
             tag = paperdoll_obj.key + str(index),
-            what = Image(paperdoll_obj.image[index]),
+            what = paperdoll_layer_displayable(paperdoll_obj.image[index]),
             at_list = [
                 t_paperdoll_position(
                     paperdoll_obj.get_config("alignX", index),
@@ -1167,7 +1228,7 @@ label paperdoll_action_shake(paperdoll_obj, pda_shake):
         $ renpy.show(
             paperdoll_obj.key + str(index), 
             tag = paperdoll_obj.key + str(index),
-            what = Image(paperdoll_obj.image[index]), 
+            what = paperdoll_layer_displayable(paperdoll_obj.image[index]), 
             at_list = [
                 t_paperdoll_position(
                     paperdoll_obj.get_config("alignX", index),

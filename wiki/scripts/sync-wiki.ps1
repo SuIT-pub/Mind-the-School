@@ -6,7 +6,11 @@
     1. Derives the wiki remote from origin (…/<repo>.wiki.git).
     2. Clones or updates the wiki repo into wiki/.wiki-repo/ (git-ignored).
     3. Mirrors the top-level *.md pages (except README.md) — adds, updates, deletes.
-    4. Commits and pushes.
+    4. Mirrors extra asset directories (currently `characters/`) byte-for-byte.
+    5. Promotes each `characters/<Name>/<Name>.md` to a top-level wiki page
+       (GitHub Wiki only navigates root-level pages; a path starting with
+       `characters/` is treated as the Characters index).
+    6. Commits and pushes.
 
     The pages in wiki/ are the source of truth; there is no build step. Pushing uses
     the same GitHub credentials as the main repo. The wiki must already exist (create
@@ -52,7 +56,41 @@ Get-ChildItem -LiteralPath $wikiDir -Filter *.md -File |
     Where-Object { $_.Name -ne 'README.md' } |
     Copy-Item -Destination $cloneDir -Force
 
-# 4. Commit and push (only if something changed).
+# 4. Mirror extra directories (character pages + card PNGs, etc.). Copy-Item is
+#    byte-for-byte — do not transcode, recompress, or rename image files. HS2 /
+#    StudioNeoV2 character cards store extra payload after the PNG, keyed to the
+#    original filename.
+$skipDirs = @('scripts', '.wiki-repo')
+Get-ChildItem -LiteralPath $wikiDir -Directory |
+    Where-Object { $skipDirs -notcontains $_.Name } |
+    ForEach-Object {
+        $dest = Join-Path $cloneDir $_.Name
+        if (Test-Path -LiteralPath $dest) {
+            Remove-Item -LiteralPath $dest -Recurse -Force
+        }
+        Copy-Item -LiteralPath $_.FullName -Destination $dest -Recurse -Force
+    }
+
+# 5. Promote character pages to the wiki root. GitHub Wiki page URLs are
+#    case-insensitive and do not treat nested markdown as pages, so a link to
+#    `characters/Aona-Komuro/Aona-Komuro` stays on Characters. Images remain
+#    nested and are still copied byte-for-byte.
+$charactersSrc = Join-Path $wikiDir 'characters'
+$charactersDst = Join-Path $cloneDir 'characters'
+if (Test-Path -LiteralPath $charactersSrc) {
+    Get-ChildItem -LiteralPath $charactersSrc -Directory | ForEach-Object {
+        $page = Join-Path $_.FullName "$($_.Name).md"
+        if (Test-Path -LiteralPath $page) {
+            Copy-Item -LiteralPath $page -Destination (Join-Path $cloneDir "$($_.Name).md") -Force
+        }
+    }
+    if (Test-Path -LiteralPath $charactersDst) {
+        Get-ChildItem -LiteralPath $charactersDst -Recurse -Filter *.md -File |
+            Remove-Item -Force
+    }
+}
+
+# 6. Commit and push (only if something changed).
 git -C $cloneDir add -A
 if ([string]::IsNullOrWhiteSpace((git -C $cloneDir status --porcelain))) {
     Write-Host "Wiki already up to date — nothing to push."

@@ -686,7 +686,7 @@ label load_items:
         "generic_bra",
         "Generic Bra",
         "A generic bra that can be used to cover up the breasts.",
-        "images/items/generic-bra.png",
+        "images/items/generic-bra.webp",
     ))
     $ load_item(ItemData(
         "lab_mortar_and_pestle",
@@ -696,7 +696,7 @@ label load_items:
             "",
             "Quest item: Headmaster's Lab Intro",
         ],
-        "images/items/mortar-pestle.png",
+        "images/items/mortar-pestle.webp",
     ))
     $ load_item(ItemData(
         "lab_distilled_water",
@@ -706,7 +706,7 @@ label load_items:
             "",
             "Quest item: Headmaster's Lab Intro",
         ],
-        "images/items/distilled-water.png",
+        "images/items/distilled-water.webp",
     ))
     $ load_item(ItemData(
         "lab_glassware",
@@ -716,7 +716,7 @@ label load_items:
             "",
             "Quest item: Headmaster's Lab Intro",
         ],
-        "images/items/glassware.png",
+        "images/items/glassware.webp",
     ))
     $ load_item(ItemData(
         "lab_utensils",
@@ -726,7 +726,7 @@ label load_items:
             "",
             "Quest item: Headmaster's Lab Intro",
         ],
-        "images/items/utensils.png",
+        "images/items/utensils.webp",
     ))
     $ load_item(ItemData(
         "lab_gas_burner",
@@ -736,7 +736,7 @@ label load_items:
             "",
             "Quest item: Headmaster's Lab Intro",
         ],
-        "images/items/gas-burner.png",
+        "images/items/gas-burner.webp",
     ))
     $ load_item(ItemData(
         "lab_office_supplies",
@@ -746,7 +746,7 @@ label load_items:
             "",
             "Quest item: Headmaster's Lab Intro",
         ],
-        "images/items/office-supplies.png",
+        "images/items/office-supplies.webp",
     ))
     $ load_item(ShopItemData(
         "lab_chemicals",
@@ -756,7 +756,7 @@ label load_items:
             "",
             "Quest item: Headmaster's Lab Intro",
         ],
-        "images/items/lab-chemicals.png",
+        "images/items/lab-chemicals.webp",
         150,
     ))
     $ load_item(ItemData(
@@ -767,7 +767,7 @@ label load_items:
             "",
             "Quest item: Headmaster's Lab Intro",
         ],
-        "images/items/lab-furniture.png",
+        "images/items/lab-furniture.webp",
     ))
     $ load_item(ItemData(
         "lab_test_potion",
@@ -777,7 +777,7 @@ label load_items:
             "",
             "Quest item: Headmaster's Lab Intro",
         ],
-        "images/items/lab-test-potion.png",
+        "images/items/lab-test-potion.webp",
     ))
 
     $ inventory_manager.check_missing_items()

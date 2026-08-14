@@ -7,8 +7,8 @@ Welcome to the official wiki. Pick the part that fits you.
 Guides and walkthroughs for playing the game: mechanics, the PTA, and how to work
 through the situations you meet.
 
-→ Start at the **[Player Guide](Player-Guide)**, or jump to the
-**[Walkthroughs](Player-Walkthroughs)**.
+→ Start at the **[Player Guide](Player-Guide)**, jump to the
+**[Walkthroughs](Player-Walkthroughs)**, or browse the **[Characters](Characters)**.
 
 ## 🎛️ Tools
 

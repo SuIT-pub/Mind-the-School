@@ -1999,7 +1999,14 @@ init -3 python:
             display_journal = get_kwargs("journal_display", "", **kwargs)
             renpy.call("open_journal", 7, display_journal, from_current = False)
             return
-        
+
+        # Event was started from the cheat menu: return to the events cheat page
+        # instead of advancing the game (skips daytime progression and threshold checks).
+        cheat_event_return = get_kwargs("cheat_event_return", False, **kwargs)
+        if cheat_event_return:
+            renpy.call("open_journal", 5, "events", from_current = False)
+            return
+
         quest_manager.check_task_type("event_end", **kwargs)
 
         situation_manager.check_all_thresholds(**kwargs)

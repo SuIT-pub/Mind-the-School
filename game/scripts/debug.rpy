@@ -6,6 +6,8 @@ default log_filter_type = "all"
 default log_filter_category = "all"
 default log_filter_origin = "all"
 default log_json_expanded = {}
+default event_cheat_category = "all"
+default situation_cheat_expanded = {}
 
 init -100 python:
     import inspect
@@ -498,6 +500,158 @@ init -100 python:
             index = options.index(current)
             store.log_filter_origin = options[(index + 1) % len(options)]
 
+    def get_cheat_event_list():
+        """
+        Returns all standalone-callable registered events for the cheat page.
+        Fragments are excluded since they are only meant to run inside a composite event.
+
+        ### Returns:
+        1. List[Event]
+            - The callable registered events.
+        """
+        output = []
+        for event in event_register.values():
+            if getattr(event, "event_form", "event") == "fragment":
+                continue
+            output.append(event)
+        return output
+
+    def get_cheat_event_categories():
+        """
+        Returns the replay categories present among the callable events, sorted and
+        prefixed with "all".
+
+        ### Returns:
+        1. List[str]
+            - The category filter options.
+        """
+        categories = set()
+        for event in get_cheat_event_list():
+            categories.add(getattr(event, "replay_category", "Misc"))
+        return ["all"] + sorted(categories)
+
+    def get_filtered_cheat_events(category = "all"):
+        """
+        Returns the callable registered events filtered by replay category and sorted
+        by category, then by name.
+
+        ### Parameters:
+        1. category: str (default: "all")
+            - The replay category to filter by, or "all" for no filtering.
+
+        ### Returns:
+        1. List[Event]
+            - The filtered, sorted events.
+        """
+        events = get_cheat_event_list()
+        if category and category != "all":
+            events = [e for e in events if getattr(e, "replay_category", "Misc") == category]
+        return sorted(events, key = lambda e: (str(getattr(e, "replay_category", "Misc")), str(e.get_name())))
+
+    def cycle_event_cheat_category():
+        """
+        Cycles the event cheat category filter to the next available value.
+        """
+        options = get_cheat_event_categories()
+        current = getattr(store, "event_cheat_category", "all")
+        if current not in options:
+            current = "all"
+        index = options.index(current)
+        store.event_cheat_category = options[(index + 1) % len(options)]
+
+    def get_cheat_situation_list():
+        """
+        Returns the registered situations for the cheat page, excluding Unlockables
+        (those have their own tab). Sorted by name.
+
+        ### Returns:
+        1. List[Situation]
+            - The callable situations.
+        """
+        if situation_manager is None:
+            return []
+        situations = [
+            situation for situation in situation_manager.get_situations()
+            if not isinstance(situation, Unlockable)
+        ]
+        return sorted(situations, key = lambda s: str(s.name))
+
+    def is_situation_cheat_expanded(key: str) -> bool:
+        """
+        Returns whether a situation row is expanded on the cheat page.
+
+        ### Parameters:
+        1. key: str
+            - The situation key.
+
+        ### Returns:
+        1. bool
+            - True when the situation row is expanded.
+        """
+        expanded = getattr(store, "situation_cheat_expanded", None) or {}
+        return bool(expanded.get(key, False))
+
+    def toggle_situation_cheat_expand(key: str):
+        """
+        Toggles the expand/collapse state of a situation row on the cheat page.
+
+        ### Parameters:
+        1. key: str
+            - The situation key.
+        """
+        if not hasattr(store, "situation_cheat_expanded") or store.situation_cheat_expanded is None:
+            store.situation_cheat_expanded = {}
+        store.situation_cheat_expanded[key] = not store.situation_cheat_expanded.get(key, False)
+        renpy.restart_interaction()
+
+    def get_cheat_unlockable_list():
+        """
+        Returns a flat, sorted list of all registered unlockable instances
+        (every group member) for the cheat page, excluding invalid ones.
+
+        ### Returns:
+        1. List[Unlockable]
+            - The unlockables.
+        """
+        if unlockable_manager is None:
+            return []
+        output = []
+        for key in unlockable_manager.unlockables.keys():
+            for unlockable in unlockable_manager.get_unlockables_by_key(key):
+                if getattr(unlockable, "invalid", False):
+                    continue
+                output.append(unlockable)
+        return sorted(output, key = lambda u: (str(u.name), u.group_index))
+
+    def get_unlockable_cheat_display(unlockable) -> str:
+        """
+        Builds the journal display string (key or key:group_index) for an unlockable,
+        for use with unlockable_manager.resolve_display().
+
+        ### Parameters:
+        1. unlockable: Unlockable
+            - The unlockable to build the display string for.
+
+        ### Returns:
+        1. str
+            - The display string.
+        """
+        if unlockable.group_index != -1:
+            return unlockable.unlockable_key + ":" + str(unlockable.group_index)
+        return unlockable.unlockable_key
+
+    def get_cheat_item_list():
+        """
+        Returns all registered item definitions for the cheat page, sorted by name.
+
+        ### Returns:
+        1. List[ItemData]
+            - The registered item definitions.
+        """
+        if inventory_manager is None:
+            return []
+        return sorted(inventory_manager.item_data.values(), key = lambda d: str(d.get_name()))
+
     def log_separator():
         """
         Prints a plain separator line and stores it without type metadata.
@@ -829,7 +983,7 @@ screen paperdoll_test_screen():
 
                 if paperdoll_test_character != "":
                     frame:
-                        area(0, 0, 120, 900)
+                        area(0, 0, 180, 900)
                         background Solid("#fff6")
                         vbox:
                             text "Pose" style "journal_text"
@@ -842,18 +996,20 @@ screen paperdoll_test_screen():
                                     else:
                                         textbutton "-":
                                             text_style "buttons_idle"
-                                            action [SetVariable("paperdoll_test_pose", 34), Return()]
-                                    for i in range(1, 18):
+                                            action [SetVariable("paperdoll_test_pose", 38), Return()]
+                                    for i in range(1, 20):
                                         if i == paperdoll_test_pose:
                                             textbutton str(i):
                                                 text_style "buttons_active"
                                                 action NullAction()
+                                            null height -6
                                         else:
                                             textbutton str(i):
                                                 text_style "buttons_idle"
                                                 action [SetVariable("paperdoll_test_pose", i), Return()]
+                                            null height -6
                                 vbox:
-                                    if paperdoll_test_pose < 34:
+                                    if paperdoll_test_pose < 39:
                                         textbutton "+":
                                             text_style "buttons_idle"
                                             action [SetVariable("paperdoll_test_pose", paperdoll_test_pose + 1), Return()]
@@ -861,15 +1017,17 @@ screen paperdoll_test_screen():
                                         textbutton "+":
                                             text_style "buttons_idle"
                                             action [SetVariable("paperdoll_test_pose", 1), Return()]
-                                    for i in range(18, 35):
+                                    for i in range(20, 39):
                                         if i == paperdoll_test_pose:
                                             textbutton str(i):
                                                 text_style "buttons_active"
                                                 action NullAction()
+                                            null height -6
                                         else:
                                             textbutton str(i):
                                                 text_style "buttons_idle"
                                                 action [SetVariable("paperdoll_test_pose", i), Return()]
+                                            null height -6
                             
                 if paperdoll_test_pose > 0:
                     $ log_val("paperdoll_test_char_var", paperdoll_test_char_var)
