@@ -3712,6 +3712,50 @@ init -6 python:
         def get_name(self) -> str:
             return f"UnlockableCondition({self.unlockable_key}, {self.group_index})"
 
+    class UnlockableStateCondition(Condition):
+        """Fulfilled when an unlockable is in a given lifecycle or unlockable state.
+
+        Situation states are ``inactive``, ``teaser_active``, ``active``,
+        ``completed`` and ``cancelled``. Unlockable-specific extras are ``visible``
+        (``Unlockable.is_visible``) and ``unlocked`` (``Unlockable.is_unlocked``).
+        ``inactive`` excludes a running teaser; ``cancelled`` is only ``situation.state``.
+        """
+
+        def __init__(self, state: str, unlockable_key: str, group_index: int = -1, *options: Option):
+            """
+            Args:
+                state: Target state key (situation or unlockable-specific).
+                unlockable_key: Unlockable key (not the full ``type_key:key``).
+                group_index: Group level, or ``-1`` for the default / sole member.
+                *options: Optional Option objects attached to this condition.
+            """
+            super().__init__(*options)
+            self.state = state
+            self.unlockable_key = unlockable_key
+            self.group_index = group_index
+
+        @property
+        def _type(self) -> str:
+            return "unlockable_state"
+
+        def check_condition(self, **kwargs) -> bool:
+            unlockable = unlockable_manager.get_unlockable_by_key(self.unlockable_key, self.group_index)
+            if unlockable == None:
+                return False
+
+            if self.state == "visible":
+                return unlockable.is_visible(**kwargs)
+            if self.state == "unlocked":
+                return unlockable.is_unlocked(**kwargs)
+            if self.state == "teaser_active":
+                return unlockable.visibility_state == "teaser_active"
+            if self.state == "inactive":
+                return unlockable.state == "inactive" and unlockable.visibility_state == "inactive"
+            return unlockable.state == self.state
+
+        def get_name(self) -> str:
+            return f"UnlockableStateCondition({self.state}, {self.unlockable_key}, {self.group_index})"
+
     class LatchCounterCondition(Condition):
         def __init__(self, counter_key: str, max: int = 1, *options: Option):
             super().__init__(False, *options)
