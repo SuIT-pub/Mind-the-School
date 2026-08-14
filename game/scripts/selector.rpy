@@ -221,8 +221,8 @@ init -3 python:
                 return empty_option_set
             return self.options
 
-        @abstractmethod
         @property
+        @abstractmethod
         def _type(self) -> str:
             return "selector"
 

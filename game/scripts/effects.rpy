@@ -58,8 +58,8 @@ init -1 python:
         def __str__(self):
             pass
 
-        @abstractmethod
         @property
+        @abstractmethod
         def _type(self) -> str:
             return "effect"
         
