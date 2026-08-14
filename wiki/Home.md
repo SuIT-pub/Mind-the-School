@@ -1,6 +1,6 @@
 # Mind the School — Wiki
 
-Welcome to the official wiki. It has two parts — pick the one that fits you.
+Welcome to the official wiki. Pick the part that fits you.
 
 ## 🎮 For Players
 
@@ -9,6 +9,12 @@ through the situations you meet.
 
 → Start at the **[Player Guide](Player-Guide)**, or jump to the
 **[Walkthroughs](Player-Walkthroughs)**.
+
+## 🎛️ Tools
+
+The in‑game **[Cheat Menu](Cheat-Menu)** — jump events, drive situations, force
+unlockables, edit stats and time, and inspect the save. Useful for both players
+experimenting and developers testing. **Read its dangers section before using it.**
 
 ## 🛠️ For Developers & Modders
 

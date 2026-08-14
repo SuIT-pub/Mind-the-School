@@ -15,6 +15,7 @@ of truth — edit them here and publish with the sync script.
 | `Home.md` | landing page |
 | `_Sidebar.md` / `_Footer.md` | navigation chrome |
 | `Player-Guide.md`, `Player-Walkthroughs.md` | 🎮 players (placeholders for now) |
+| `Cheat-Menu.md` | 🎛️ tools |
 | `Developer-Guide.md` | 🛠️ developer section landing |
 | `Modding.md` | 🛠️ modding quick-start |
 | `Building-Situations.md`, `Building-Unlockables.md` | 🛠️ content guides |

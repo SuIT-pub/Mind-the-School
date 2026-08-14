@@ -58,7 +58,7 @@ The three moving parts:
 10. [display_size & high-resolution assets](#10-display_size--high-resolution-assets)
 11. [Overrides: per-layer conditional nudges](#11-overrides-per-layer-conditional-nudges)
 12. [Beyond characters: displaying anything](#12-beyond-characters-displaying-anything)
-13. [The in-game paperdoll editor](#13-the-in-game-paperdoll-editor)
+13. [Paperdoll editors (tuning tools)](#13-paperdoll-editors-tuning-tools)
 14. [Conventions](#14-conventions)
 15. [Troubleshooting](#15-troubleshooting)
 16. [Reference tables](#16-reference-tables)
@@ -100,7 +100,7 @@ The compositor is a single global, `paperdoll_manager` (a `PaperdollManager`).
 teardown (`event.rpy`), so inside an event the manager already exists. Your job is
 just to register objects, display them, and `clear_display()` when the conversation
 ends. You only init/unload the manager by hand outside the event flow (the debug
-editor does exactly that — see [§13](#13-the-in-game-paperdoll-editor)).
+editor does exactly that — see [§13](#13-paperdoll-editors-tuning-tools)).
 
 Manager surface you use directly:
 
@@ -124,7 +124,7 @@ the game (see [Selectors §7](Selectors) and `images.rpy`):
 1. Every `<key>` in the pattern is replaced with the object's matching **value**.
 2. `refine_image_with_alternatives(pattern, alt_keys, **values)` generates the path
    **plus fallbacks**: for each key listed in `alt_keys`, a variant is produced where
-   that key is replaced by the wildcard `#` (so a missing per-level/mouth/state file
+   that key is replaced by the wildcard `$` (so a missing per-level/mouth/state file
    can fall back to a generic one).
 3. `find_available_images(...)` walks the candidates in priority order and returns
    the **first one that actually exists** (`renpy.loadable`). If none exist, the
@@ -430,7 +430,13 @@ The only requirements are: a **unique key**, **one pattern per layer**, and matc
 
 ---
 
-## 13. The in-game paperdoll editor
+## 13. Paperdoll editors (tuning tools)
+
+Two companion tools let you assemble a paperdoll and read off what it takes — one
+inside the game, one on the desktop. Neither ships in a scene; both exist to find the
+right combination/numbers, which you then hard-code into your event.
+
+### In-game editor — `show_paperdoll_test`
 
 `show_paperdoll_test` (debug menu, `debug.rpy`) is a live editor for **finding the
 right config values** for an asset set. It manages its own manager (it calls
@@ -442,6 +448,45 @@ pick a character and cycle `char_var` / `pose` / `outfit` / `level` / `state` /
 Use it to dial in the position/zoom for a new pose or outfit, then copy those numbers
 into your event's `PDAMove`/preset or into a `PaperdollOverride`. It is a tuning tool,
 not something shipped in a scene.
+
+### Standalone viewer — `tools/paperdoll_viewer.py`
+
+A self-contained desktop app (Tkinter + Pillow) that reproduces the *combination* side
+of the editor **outside Ren'Py**. It scans `game/images/paperdoll` directly and lets
+you cascade character / `char_var` / `pose` / `outfit` / `level` / `state` / `mood` /
+`mouth` — offering only combinations that actually resolve to a file, exactly like the
+in-game selector — and previews the composed body + head live in a large,
+portrait-oriented panel. It can swap the backdrop (checkerboard / dark / light / green)
+and export the composited PNG.
+
+**Copy-ready `PDAImage(...)`.** Each field has a checkbox, and a *Copy PDAImage*
+button puts a ready-to-paste call on the clipboard containing exactly the checked
+fields — e.g. `PDAImage(pose = "1", outfit = "uniform", level = 6, mood = "neutral",
+mouth = "open")`. Defaults mirror the house style (pose/outfit/level/mood/mouth on,
+`char_var`/`state` off); tick those extra boxes only when a scene needs them. So you
+dial in the look and paste the exact line into your event — no transcribing values by
+hand.
+
+Why it exists alongside the in-game editor: while **writing an event you can keep the
+game paused on that beat** to watch your scene edits, and compose/preview the
+paperdoll's pose/outfit/mood in the external window **at the same time** — no jumping
+back and forth between the running event and `show_paperdoll_test`. Settle on the
+pose / outfit / mood / mouth combination you want here, copy the `PDAImage(...)`, and
+paste it straight into your event.
+
+Run it with Python 3.9+ (needs `pillow` — `pip install pillow`):
+
+```
+python tools/paperdoll_viewer.py
+```
+
+or double-click `tools/Paperdoll Viewer.bat` on Windows. It auto-detects the
+`game/images/paperdoll` folder relative to the repo (pass `--root <path>` to point it
+elsewhere) and reads the assets **read-only** — it never modifies game files.
+
+Division of labour: the standalone viewer nails the **image combination** (which
+pose/outfit/mood/mouth), while the in-game editor is still where you tune the
+**transform** (`alignX` / `zoom` / `blur` / … over the live background).
 
 ---
 
@@ -525,8 +570,9 @@ y_override, rot_override, blur_override, zoom_override)`.
 ### Related files
 - `game/scripts/paperdoll.rpy` — manager, object, actions, presets, transforms, labels
 - `game/scripts/character.rpy` — `register_paperdoll` / `display` / `clear_display`, `PaperdollOverride` usage
-- `game/scripts/images.rpy` — `refine_image_with_alternatives` / `find_available_images` (`<key>` + `#` resolution); `Image_Series` (background `image[step]` source)
+- `game/scripts/images.rpy` — `refine_image_with_alternatives` / `find_available_images` (`<key>` + `$` resolution); `Image_Series` (background `image[step]` source)
 - `game/scripts/event.rpy` — creates/unloads the manager around each event
 - `game/scripts/debug.rpy` — `show_paperdoll_test`, the in-game editor
+- `tools/paperdoll_viewer.py` — standalone desktop paperdoll viewer (out-of-game combination/preview; `Paperdoll Viewer.bat` launcher)
 - `game/scripts/events/new_management.rpy` — worked examples (register → display → clear)
 - [Selectors](Selectors) — how `<key>` values are produced and substituted into paths

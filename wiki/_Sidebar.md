@@ -11,6 +11,12 @@
 
 ---
 
+**🎛️ Tools**
+
+- [Cheat Menu](Cheat-Menu)
+
+---
+
 **🛠️ Developers**
 
 - [Overview](Developer-Guide)
