@@ -222,6 +222,7 @@ init -3 python:
             return self.options
 
         @property
+        @abstractmethod
         def _type(self) -> str:
             return "selector"
 

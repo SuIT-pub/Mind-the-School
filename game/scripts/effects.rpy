@@ -59,6 +59,7 @@ init -1 python:
             pass
 
         @property
+        @abstractmethod
         def _type(self) -> str:
             return "effect"
         
