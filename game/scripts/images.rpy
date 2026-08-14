@@ -422,7 +422,10 @@ init -2 python:
 
             (image_path, variant) = image_step.get_image(variant)
 
-            paperdoll_manager.clear()
+            global paperdoll_manager
+
+            if paperdoll_manager != None:
+                paperdoll_manager.clear()
 
             if not sfw_mode:
                 renpy.call("show_ready_image", image_path, display_type)   

@@ -2854,7 +2854,7 @@ init -99 python:
         ################
         # region Pools #
 
-        def check_pool(self, pool_key: str):
+        def check_pool(self, pool_key: str, **kwargs):
             if pool_key not in self.event_pools.keys():
                 return False
             return self.event_pools[pool_key].check_pool()

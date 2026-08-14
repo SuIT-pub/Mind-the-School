@@ -302,6 +302,8 @@ init -99 python:
 
         return Composite((screen_w, screen_h), *parts)
 
+    paperdoll_manager = None
+
     def init_paperdoll_manager():
         """
         Initializes the paperdoll manager
