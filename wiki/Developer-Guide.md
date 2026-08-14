@@ -39,6 +39,9 @@ The building blocks the content systems are made of:
 - **[Paperdoll](Paperdoll)** — the layered sprite compositor that puts a live,
   animatable character (body + head, changing pose/mood/mouth) on screen over a
   blurred background; general enough to display any stacked imagery.
+- **[Images](Images)** — how a path string becomes a file: patterns, placeholders,
+  `$` fallbacks, PNG/WebP, mod prefixes, and which helper to call from events,
+  screens and classes.
 
 ## How the pieces fit together
 

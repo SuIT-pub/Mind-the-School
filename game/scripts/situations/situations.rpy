@@ -354,8 +354,12 @@ init -99 python:
             merge = dict(kwargs)
             merge.update(self.values)
             nude, path = get_image(self.image, **merge)
-            if path and renpy.loadable(path):
-                self.image_path = path
+            if nude < 0 or not path:
+                return
+            probe = path.replace("<nude>", "0") if "<nude>" in path else path
+            resolved = find_loadable_image(probe)
+            if resolved:
+                self.image_path = resolved
 
         def _pick_layout(self):
             """

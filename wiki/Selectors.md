@@ -259,4 +259,5 @@ Logic: pass a `Selector` where `Union[..., Selector]` is accepted.
 - `game/scripts/selector.rpy` — all selector classes + `SelectorSet`
 - `game/scripts/event.rpy` — events that run selectors
 - `game/scripts/images.rpy` — `refine_image` / `get_image` (`<key>` substitution)
+- [Images](Images) — path resolution, PNG/WebP, mod prefixes
 - [Conditions](Conditions) / [Effects](Effects) — consumers that accept a `Selector`

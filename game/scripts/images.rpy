@@ -248,7 +248,9 @@ init -2 python:
 
             if variant < 1 or variant > self.variant:
                 variant = renpy.random.randint(1, self.variant)
-            image_path = self.image_path.replace("<variant>", str(variant))
+            image_path = apply_available_image_extension(
+                self.image_path.replace("<variant>", str(variant))
+            )
 
             return image_path, variant
 
@@ -330,26 +332,25 @@ init -2 python:
                     return None
                 # Prefer clothed (0); otherwise use the highest available nude level.
                 for level in [0] + list(range(nude, 0, -1)):
-                    candidate = resolved.replace("<nude>", str(level))
-                    if renpy.loadable(candidate):
+                    candidate = find_loadable_image(resolved.replace("<nude>", str(level)))
+                    if candidate != "":
                         return candidate
                 return None
 
-            if renpy.loadable(image_path):
-                return image_path
+            resolved_concrete = find_loadable_image(image_path)
+            if resolved_concrete != "":
+                return resolved_concrete
 
             nude, resolved = get_image(image_path)
             if nude < 0 or resolved == "":
                 return None
             if "<nude>" in resolved:
                 for level in [0] + list(range(nude, 0, -1)):
-                    candidate = resolved.replace("<nude>", str(level))
-                    if renpy.loadable(candidate):
+                    candidate = find_loadable_image(resolved.replace("<nude>", str(level)))
+                    if candidate != "":
                         return candidate
                 return None
-            if renpy.loadable(resolved):
-                return resolved
-            return None
+            return find_loadable_image(resolved) or None
 
         def update(self):
             if not hasattr(self, '_step_start'):
@@ -373,10 +374,10 @@ init -2 python:
                         variant = 1
 
                         if '<variant>' in image_step:
-                            variant = get_image_max_value_with_alternatives("<variant>", image_step, 1)
+                            variant = get_image_max_value_with_alternatives("<variant>", [image_step], 1)
                             if variant == 0:
                                 continue
-                        elif not renpy.loadable(image_step.replace('<nude>', '0')):
+                        elif find_loadable_image(image_step.replace('<nude>', '0')) == "":
                             continue
                         
 
@@ -822,21 +823,29 @@ init -2 python:
             image_path = get_available_level(image_path, get_kwargs('level', 0, **kwargs))
 
         if "<nude>" not in image_path:
-            if renpy.loadable(image_path):
-                return 0, image_path
+            resolved = find_loadable_image(image_path)
+            if resolved != "":
+                return 0, resolved
             else:
                 log(f"'{image_path}' could not be found!", log_type="error", category="image")
                 return -1, image_path
 
+        last_found = ""
         for i in range(0, nude_vision):
             new_image_path = image_path.replace("<nude>", str(i))
-            if not renpy.loadable(new_image_path):
+            found = find_loadable_image(new_image_path)
+            if found == "":
                 if i > 0:
+                    if last_found != "":
+                        image_path = replace_image_extension(image_path, last_found)
                     return i - 1, image_path
                 elif i == 0:
                     log(f" '{new_image_path}' could not be found!", log_type="error", category="image")
                     return -1, image_path
+            last_found = found
 
+        if last_found != "":
+            image_path = replace_image_extension(image_path, last_found)
         return nude_vision, image_path
             
     def get_background(fallback: str, images: List[BGImage], **kwargs) -> Tuple[int, str]:
@@ -916,15 +925,17 @@ init -2 python:
         if '<level>' in old_image:
             for i in reversed(range(0, level + 1)):
                 test_image = old_image.replace("<level>", str(i))
-                if renpy.loadable(test_image):
-                    path =  path.replace("<level>", str(i))
+                found = find_loadable_image(test_image)
+                if found != "":
+                    path = replace_image_extension(path.replace("<level>", str(i)), found)
                     final_level = i
                     break
             else:
                 for i in range(0, 10):
                     test_image = old_image.replace("<level>", str(i))
-                    if renpy.loadable(test_image):
-                        path = path.replace("<level>", str(i))
+                    found = find_loadable_image(test_image)
+                    if found != "":
+                        path = replace_image_extension(path.replace("<level>", str(i)), found)
                         final_level = i
 
         if register_value:
@@ -991,7 +1002,7 @@ init -2 python:
 
         for i in range(start, end):
             test_image = old_image.replace(key, str(i))
-            if not renpy.loadable(test_image):
+            if find_loadable_image(test_image) == "":
                 return i - 1
 
         return end
@@ -1003,8 +1014,8 @@ init -2 python:
         ### Parameters:
         1. key: str
             - The key to search for.
-        2. image_paths: List[str]
-            - A list of all the possible image paths.
+        2. image_paths: List[str] | str
+            - A list of all the possible image paths, or a single path.
         3. start: int (default 0)
             - The start value to search from.
         4. end: int (default 10)
@@ -1015,6 +1026,9 @@ init -2 python:
             - The highest available value for the key in the given image path.
         """
 
+        if isinstance(image_paths, str):
+            image_paths = [image_paths]
+
         for i in range(start, end):
             for image_path in image_paths:
                 old_image = image_path.replace(key, "~#~")
@@ -1023,7 +1037,8 @@ init -2 python:
 
                 image_dir = test_image.rsplit('/', 1)[0]
 
-                if renpy.loadable(test_image, directory = image_dir):
+                if (find_loadable_image(test_image) != ""
+                        or find_loadable_image(test_image, directory=image_dir) != ""):
                     break
             else:
                 return i - 1
@@ -1041,6 +1056,12 @@ init -2 python:
         """
         Returns all possible image paths with possible alternatives in case an image is missing concrete values.
         Images can use the dollar-sign wildcard instead.
+
+        Each fully resolved candidate (no remaining ``<placeholders>``) is
+        also tried with the alternate image extension (``.png`` ↔ ``.webp``).
+        Incomplete templates such as ``<step>`` / ``<nude>`` stay unchanged so
+        later probing can fill them in. List order and length are preserved:
+        fewer ``$`` still means higher priority.
 
         ### Parameters:
         1. image_path: str
@@ -1123,11 +1144,15 @@ init -2 python:
 
         output.sort(key=lambda x: x.count("$"))
 
-        return output
+        return [apply_available_image_extension(path) for path in output]
 
     def refine_image(image_path: str, **kwargs) -> str:
         """
         Returns the image path with the given keyword arguments replaced.
+
+        If the filled-in path is loadable only as the other image extension
+        (``.png`` ↔ ``.webp``), that existing file is returned. Paths that
+        still contain ``<placeholders>`` are left unchanged.
 
         ### Parameters:
         1. image_path: str
@@ -1179,7 +1204,7 @@ init -2 python:
             if is_image_series and not in_replay:
                 register_value(key, value)
 
-        return image_path
+        return apply_available_image_extension(image_path)
 
     def refine_image_with_variant(image_path: str, **kwargs) -> str:
         """
@@ -1245,7 +1270,7 @@ init -2 python:
             if max_variant >= 1:
                 image_path = image_path.replace("<variant>", str(get_random_int(1, max_variant)))
 
-        return image_path, variant
+        return apply_available_image_extension(image_path), variant
     
     # endregion
     #######################
@@ -1254,15 +1279,136 @@ init -2 python:
     # region Check Image availability #
     ###################################
 
+    IMAGE_FILE_EXTENSIONS = (".png", ".webp")
+
+    def image_extension_candidates(image_path: str) -> List[str]:
+        """
+        Returns the given path first, then the same stem with the other image
+        extension so a pattern ending in ``.png`` can still resolve a ``.webp``
+        asset (and vice versa).
+
+        ### Parameters:
+        1. image_path: str
+            - The image path as specified by the pattern.
+
+        ### Returns:
+        1. List[str]
+            - Candidate paths, specified extension first.
+        """
+        candidates = [image_path]
+        lower = image_path.lower()
+        for ext in IMAGE_FILE_EXTENSIONS:
+            if lower.endswith(ext):
+                stem = image_path[:-len(ext)]
+                for other in IMAGE_FILE_EXTENSIONS:
+                    if other != ext:
+                        candidates.append(stem + other)
+                break
+        return candidates
+
+    def replace_image_extension(path: str, like_path: str) -> str:
+        """
+        Returns ``path`` with the image extension taken from ``like_path``.
+
+        Used so a pattern ending in ``.png`` can keep remaining placeholders
+        (``<nude>``, ``<step>``) while matching a file that exists as ``.webp``.
+
+        ### Parameters:
+        1. path: str
+            - The path whose extension should be updated.
+        2. like_path: str
+            - A loadable path whose extension should be copied.
+
+        ### Returns:
+        1. str
+            - ``path`` with the matching image extension.
+        """
+        if not path or not like_path:
+            return path
+        like_ext = None
+        path_ext = None
+        lower_like = like_path.lower()
+        lower_path = path.lower()
+        for ext in IMAGE_FILE_EXTENSIONS:
+            if like_ext is None and lower_like.endswith(ext):
+                like_ext = ext
+            if path_ext is None and lower_path.endswith(ext):
+                path_ext = ext
+        if like_ext and path_ext and like_ext != path_ext:
+            return path[:-len(path_ext)] + like_ext
+        return path
+
+    def find_loadable_image(image_path: str, **loadable_kwargs) -> str:
+        """
+        Returns the first loadable path among the specified file and its
+        png/webp counterpart, or an empty string if none exist.
+
+        ### Parameters:
+        1. image_path: str
+            - The image path as specified by the pattern.
+        2. **loadable_kwargs
+            - Extra arguments forwarded to ``renpy.loadable`` (e.g. ``directory``).
+
+        ### Returns:
+        1. str
+            - A loadable image path, or ``""`` if none is available.
+        """
+        if not image_path:
+            return ""
+        for candidate in image_extension_candidates(image_path):
+            if renpy.loadable(candidate, **loadable_kwargs):
+                return candidate
+        return ""
+
+    def apply_available_image_extension(image_path: str) -> str:
+        """
+        Returns a loadable png/webp counterpart of the path when one exists.
+
+        Paths that still contain ``<placeholders>`` are returned unchanged so
+        alternative / step templates stay templates. If neither extension
+        exists, the original path is returned.
+
+        ### Parameters:
+        1. image_path: str
+            - The image path after placeholder substitution.
+
+        ### Returns:
+        1. str
+            - A loadable path with the matching extension, or the original path.
+        """
+        if "<" in image_path:
+            return image_path
+        resolved = find_loadable_image(image_path)
+        if resolved != "":
+            return resolved
+        return image_path
+
     def find_available_images(image_paths: List[str]) -> str:
+        """
+        Returns the first loadable image among the given candidates.
+
+        Each path is tried as given, then with the alternate image extension
+        (``.png`` ↔ ``.webp``). The returned path is the file that actually
+        exists, so a pattern ending in ``.png`` can still resolve a ``.webp``.
+
+        ### Parameters:
+        1. image_paths: List[str]
+            - Candidate image paths in priority order.
+
+        ### Returns:
+        1. str
+            - The first loadable path, or ``""`` if none exist.
+        """
         for path in image_paths:
-            if check_image(path):
-                return path
+            resolved = find_loadable_image(path)
+            if resolved != "":
+                return resolved
         return ""
 
     def check_image(image_path: str) -> bool:
         """
-        Checks if the image at the image path is available and ready to load
+        Checks if an image is available at the given path or as the other
+        image extension (``.png`` ↔ ``.webp``).
 
         ### Parameters:
         1. image_path: str
@@ -1272,7 +1418,7 @@ init -2 python:
         1. bool
             - If the image is available at that path
         """
-        return renpy.loadable(image_path)
+        return find_loadable_image(image_path) != ""
 
     # endregion
     ###################################
@@ -1552,11 +1698,12 @@ label show_ready_image(path, display_type = SCENE):
     if "<nude>" in path:
         call show_ext_image_with_nude_var(path) from _call_show_ext_image_with_nude_var
     else:
-        if check_image(path):
+        $ resolved = find_loadable_image(path)
+        if resolved != "":
             if display_type == SHOW:
-                show expression path as general_image with dissolveM 
+                show expression resolved as general_image with dissolveM 
             elif display_type == SCENE:
-                scene expression path with dissolveM
+                scene expression resolved with dissolveM
         else:
             $ log(f"'{path}' could not be found!", log_type="error", category="image")
     return
@@ -1597,11 +1744,13 @@ label show_image_with_nude_var(image_path, limit = 0, nude = DEFAULT_NUDE):
 
     python:
         for i in range(0, limit + 1):
-            new_image_path = image_path.replace("<nude>", str(i))
-            paths.append(new_image_path)
-            if len(paths) == 1 and not renpy.loadable(new_image_path):
+            candidate = image_path.replace("<nude>", str(i))
+            resolved = find_loadable_image(candidate)
+            if len(paths) == 0 and resolved == "":
                 log(f"'{image_path}' is missing nude version images!", log_type="error", category="image")
                 image_not_found = True
+                break
+            paths.append(resolved if resolved != "" else candidate)
     
     if image_not_found:
         return
@@ -1648,9 +1797,9 @@ screen image_with_nude_var(paths, limit = 2, nude = DEFAULT_NUDE):
     if limit < nude:
         $ nude = limit
 
-    $ path = paths[nude]
+    $ path = find_loadable_image(paths[nude])
 
-    if renpy.loadable(path):
+    if path != "":
         image "[path]"
 
     if nude_vision != 0 and nude == limit and nude != 0:

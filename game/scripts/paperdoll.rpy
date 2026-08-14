@@ -702,8 +702,10 @@ init -99 python:
                 return ""
 
             # Concrete path from Image_Series.__getitem__ / direct file path
-            if renpy.loadable(pattern):
-                return pattern
+            # (.png patterns also resolve a matching .webp, and vice versa)
+            resolved_concrete = find_loadable_image(pattern)
+            if resolved_concrete != "":
+                return resolved_concrete
 
             # Event-style path that still contains <nude> (e.g. raw get_image result)
             if "<nude>" in pattern:
@@ -712,11 +714,12 @@ init -99 python:
                     return ""
                 if "<nude>" in resolved:
                     for level in [0] + list(range(nude, 0, -1)):
-                        candidate = resolved.replace("<nude>", str(level))
-                        if renpy.loadable(candidate):
+                        candidate = find_loadable_image(resolved.replace("<nude>", str(level)))
+                        if candidate != "":
                             return candidate
                     return ""
-                if renpy.loadable(resolved):
+                resolved = find_loadable_image(resolved)
+                if resolved != "":
                     return resolved
                 return ""
 

@@ -41,8 +41,9 @@ init -98 python:
             return self.description
 
         def get_image(self) -> str:
-            if renpy.loadable(self.image):
-                return self.image
+            resolved = find_loadable_image(self.image)
+            if resolved:
+                return resolved
             return "images/journal/empty_image.webp"
 
     class ShopItemData(ItemData):

@@ -25,7 +25,7 @@ here and publish with the sync script.
 | `Developer-Guide.md` | 🛠️ developer section landing |
 | `Modding.md` | 🛠️ modding quick-start |
 | `Building-Situations.md`, `Building-Unlockables.md` | 🛠️ content guides |
-| `Events.md`, `Conditions.md`, `Selectors.md`, `Effects.md`, `Modifiers.md`, `Options.md`, `Paperdoll.md` | 🛠️ system guides |
+| `Events.md`, `Conditions.md`, `Selectors.md`, `Effects.md`, `Modifiers.md`, `Options.md`, `Paperdoll.md`, `Images.md` | 🛠️ system guides |
 
 All pages are **hand-authored here**. Wiki pages have no `# H1` (GitHub shows the page
 title from the filename) and link to each other with `[Label](Page-Name)`; in-page

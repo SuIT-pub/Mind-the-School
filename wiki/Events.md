@@ -326,7 +326,9 @@ in Python/dialogue logic.
 
 ## 9. Images: patterns, steps & Image_Series
 
-Images are declared as **patterns** on the event and shown from the label.
+Images are declared as **patterns** on the event and shown from the label. The
+resolver underneath (placeholders, `$` alternatives, PNG/WebP, mod prefixes) is
+documented in [Images](Images). This section is the event-authoring surface.
 
 ### Patterns
 
@@ -822,4 +824,4 @@ webp basename (spaces → underscores).
 - `game/scripts/character.rpy` — `Person`, `get_person_char*`
 - `game/scripts/buildings/*.rpy` — real pools & definitions (e.g. `cafeteria.rpy`)
 - `game/scripts/events/*.rpy` — real scene labels (e.g. `truth_or_dare.rpy`, `teaching_lessons.rpy`)
-- [Conditions](Conditions) · [Selectors](Selectors) · [Effects](Effects) · [Modifiers](Modifiers) · [Options](Options) · [Building Situations](Building-Situations)
+- [Images](Images) · [Conditions](Conditions) · [Selectors](Selectors) · [Effects](Effects) · [Modifiers](Modifiers) · [Options](Options) · [Building Situations](Building-Situations)

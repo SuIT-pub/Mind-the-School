@@ -205,11 +205,13 @@ screen school_overview_images ():
     $ map_buildings = building_manager.get_buildings()
     for building in map_buildings:
         if building.is_open():
-            add building.get_image("idle"):
-                xpos building.x_pos ypos building.y_pos
+            $ idle_image = find_loadable_image(building.get_image("idle"))
+            if idle_image:
+                add idle_image:
+                    xpos building.x_pos ypos building.y_pos
         else:
-            $ empty_image = building.get_image("empty")
-            if check_image(empty_image):
+            $ empty_image = find_loadable_image(building.get_image("empty"))
+            if empty_image:
                 add empty_image:
                     xpos building.x_pos ypos building.y_pos
 
@@ -229,24 +231,25 @@ screen school_overview_buttons (with_available_Events = False):
             if has_keyboard() and building.has_shortcut():
                 for shortcut in building.get_renpy_keys():
                     key shortcut action Call("building", building.key)
-            $ image_text = building.get_image("idle")
+            $ image_text = find_loadable_image(building.get_image("idle"))
             if get_available_event(building.key):
-                $ image_text = building.get_image("available")
+                $ image_text = find_loadable_image(building.get_image("available")) or image_text
             if with_available_Events and get_available_highlight(building.key):
-                $ image_text = building.get_image("red")
-            imagebutton:
-                idle image_text
-                hover building.get_image("white")
-                tooltip building.get_name(with_shortcut = True)
-                focus_mask True
-                xpos building.x_pos ypos building.y_pos
-                action Call("building", building.key)
+                $ image_text = find_loadable_image(building.get_image("red")) or image_text
+            if image_text:
+                imagebutton:
+                    idle image_text
+                    hover find_loadable_image(building.get_image("white")) or image_text
+                    tooltip building.get_name(with_shortcut = True)
+                    focus_mask True
+                    xpos building.x_pos ypos building.y_pos
+                    action Call("building", building.key)
         else:
             # Mods may supply an "empty" sprite for buildings not on the base map.
             # Native buildings are already baked into the map art and have no empty image —
             # skip the button entirely so there is nothing to select.
-            $ empty_image = building.get_image("empty")
-            if check_image(empty_image):
+            $ empty_image = find_loadable_image(building.get_image("empty"))
+            if empty_image:
                 imagebutton:
                     idle empty_image
                     insensitive empty_image

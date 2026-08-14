@@ -367,6 +367,7 @@ items, buildings) → a `register_start_method` loader label (lifecycle wave).
 
 ### Related pages
 - [Events](Events) — scene definitions & labels, `Pattern`s, decisions, characters
+- [Images](Images) — path resolution, PNG/WebP, how `images/…` becomes `mods/MyMod/images/…`
 - [Building Situations](Building-Situations) / [Building Unlockables](Building-Unlockables) — the `register_start_method` loader pattern
 - [Selectors](Selectors) · [Conditions](Conditions) · [Effects](Effects) · [Modifiers](Modifiers) · [Options](Options)
 

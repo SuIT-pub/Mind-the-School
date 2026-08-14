@@ -1044,27 +1044,38 @@ init -6 python:
             return "\n".join(self.get_description(**kwargs))
 
         def get_portraits(self) -> Dict[str, str]:
-            output = {f"Level {level}": f"{self.basePath}images/characters/{self.name}/level_{level}.webp" for level in range(1, get_school().get_level() + 1) if renpy.loadable(f"images/characters/{self.name}/level_{level}.webp")}
+            output = {}
+            for level in range(1, get_school().get_level() + 1):
+                resolved = find_loadable_image(f"{self.basePath}images/characters/{self.name}/level_{level}.webp")
+                if resolved:
+                    output[f"Level {level}"] = resolved
 
-            if renpy.loadable(f"{self.basePath}images/characters/{self.name}/nude.webp"):
-                output["nude"] = f"{self.basePath}images/characters/{self.name}/nude.webp" 
+            resolved_nude = find_loadable_image(f"{self.basePath}images/characters/{self.name}/nude.webp")
+            if resolved_nude:
+                output["nude"] = resolved_nude
 
             for portrait_key in self.portraits.keys():
                 portrait = self.portraits[portrait_key]
                 if isinstance(portrait, str):
-                    output[portrait_key] = f"{self.basePath}images/characters/{self.name}/{portrait}.webp"
+                    resolved = find_loadable_image(f"{self.basePath}images/characters/{self.name}/{portrait}.webp")
+                    if resolved:
+                        output[portrait_key] = resolved
                 elif portrait[1].is_fulfilled(**kwargs):
                     if "images/" not in portrait[0]:
-                        output[portrait_key] = f"{self.basePath}images/characters/{self.name}/{portrait[0]}.webp"
+                        resolved = find_loadable_image(f"{self.basePath}images/characters/{self.name}/{portrait[0]}.webp")
+                        if resolved:
+                            output[portrait_key] = resolved
                     else:
-                        output[portrait_key] = portrait[0]
+                        resolved = find_loadable_image(portrait[0])
+                        output[portrait_key] = resolved if resolved else portrait[0]
 
             return output
 
         def get_thumbnail(self) -> str:
-            if not renpy.loadable(self.thumbnail):
+            resolved = find_loadable_image(self.thumbnail)
+            if not resolved:
                 return "images/journal/empty_image.webp"
-            return self.thumbnail
+            return resolved
 
         def get_first_name(self) -> str:
             if self.first_name == "":

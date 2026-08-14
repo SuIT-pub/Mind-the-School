@@ -119,7 +119,7 @@ Manager surface you use directly:
 ## 3. Layers & pattern resolution
 
 Each layer's pattern is resolved the same way image paths are resolved everywhere in
-the game (see [Selectors §7](Selectors) and `images.rpy`):
+the game (see [Images](Images) and [Selectors §7](Selectors)):
 
 1. Every `<key>` in the pattern is replaced with the object's matching **value**.
 2. `refine_image_with_alternatives(pattern, alt_keys, **values)` generates the path
@@ -571,6 +571,7 @@ y_override, rot_override, blur_override, zoom_override)`.
 - `game/scripts/paperdoll.rpy` — manager, object, actions, presets, transforms, labels
 - `game/scripts/character.rpy` — `register_paperdoll` / `display` / `clear_display`, `PaperdollOverride` usage
 - `game/scripts/images.rpy` — `refine_image_with_alternatives` / `find_available_images` (`<key>` + `$` resolution); `Image_Series` (background `image[step]` source)
+- [Images](Images) — full path-resolution guide (PNG/WebP, mod prefixes, which helper to call)
 - `game/scripts/event.rpy` — creates/unloads the manager around each event
 - `game/scripts/debug.rpy` — `show_paperdoll_test`, the in-game editor
 - `tools/paperdoll_viewer.py` — standalone desktop paperdoll viewer (out-of-game combination/preview; `Paperdoll Viewer.bat` launcher)

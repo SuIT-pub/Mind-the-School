@@ -694,23 +694,27 @@ screen journal_image(page, display, j_image, full_image, x_pos = 985, y_pos = 47
     #     - The active object to display the image for.
     # """
 
-    if not renpy.loadable(j_image):
+    $ resolved_j_image = find_loadable_image(j_image)
+    if resolved_j_image == "":
         $ j_image = "images/journal/empty_image.webp"
         if wide:
             $ j_image = "images/journal/empty_image_wide.webp"
         $ full_image = None
+    else:
+        $ j_image = resolved_j_image
 
     $ width = height
     if wide:
         $ width = int(height / 9 * 16)
 
-    if full_image != None and renpy.loadable(full_image):
+    $ resolved_full_image = find_loadable_image(full_image) if full_image != None else ""
+    if resolved_full_image != "":
         button:
             xpos x_pos ypos y_pos
             add j_image: 
                 xsize width
                 ysize height
-            action [With(dissolveM), Call("call_max_image_from_journal", full_image, page, display)]
+            action [With(dissolveM), Call("call_max_image_from_journal", resolved_full_image, page, display)]
     else:
         add j_image: 
             xsize width
@@ -1255,6 +1259,7 @@ screen journal_unlockables(display):
                                         spacing 4
                                         for pic_entry in pic_row:
                                             $ pic_icon = pic_entry.get("icon")
+                                            $ pic_icon = find_loadable_image(pic_icon) if pic_icon is not None else ""
                                             $ pic_label = pic_entry.get("label") or ""
                                             $ pic_tooltip = pic_entry.get("tooltip") or pic_label
                                             button:
@@ -1265,7 +1270,7 @@ screen journal_unlockables(display):
                                                 vbox:
                                                     xalign 0.5
                                                     spacing 2
-                                                    if pic_icon is not None and renpy.loadable(pic_icon):
+                                                    if pic_icon:
                                                         add pic_icon:
                                                             xsize 48
                                                             ysize 48
@@ -2384,8 +2389,9 @@ screen journal_gallery(display):
         
         # display event thumbnail if available
         $ thumbnail = Image("images/journal/empty_image_wide.webp")
-        if renpy.loadable(event_obj.get_thumbnail()):
-            $ thumbnail = im.Scale(event_obj.get_thumbnail(), 500, 281)
+        $ event_thumb = find_loadable_image(event_obj.get_thumbnail())
+        if event_thumb != "":
+            $ thumbnail = im.Scale(event_thumb, 500, 281)
 
         image thumbnail:
             xpos 989 ypos 250
@@ -3203,9 +3209,10 @@ screen journal_situations(display):
             $ display = ""
         else:
             $ situation_thumbnail = situation.get_current_thumbnail()
-            $ situation_full_image = situation_thumbnail.replace('.webp', '_full.webp') if situation_thumbnail else None
-            if situation_full_image is not None and not renpy.loadable(situation_full_image):
-                $ situation_full_image = None
+            $ situation_full_image = None
+            if situation_thumbnail:
+                $ thumb_stem = situation_thumbnail.rsplit('.', 1)[0]
+                $ situation_full_image = find_loadable_image(thumb_stem + '_full.webp') or find_loadable_image(thumb_stem + '_full.png') or None
 
         if situation is not None and situation.visibility_state == "teaser_active":
             frame:
