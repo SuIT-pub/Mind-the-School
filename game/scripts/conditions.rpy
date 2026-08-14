@@ -3693,6 +3693,43 @@ init -6 python:
         def get_name(self) -> str:
             return f"SituationPoolCondition({self.situation_key}, {self.pool_key})"
 
+    class SituationStateCondition(Condition):
+        """Fulfilled when a situation is in a given lifecycle state.
+
+        Valid states are ``inactive``, ``teaser_active``, ``active``, ``completed``
+        and ``cancelled``. ``inactive`` excludes a running teaser; ``cancelled`` is
+        only ``situation.state``.
+        """
+
+        def __init__(self, state: str, situation_key: str, *options: Option):
+            """
+            Args:
+                state: Target situation state key.
+                situation_key: Situation key as registered on ``situation_manager``.
+                *options: Optional Option objects attached to this condition.
+            """
+            super().__init__(*options)
+            self.state = state
+            self.situation_key = situation_key
+
+        @property
+        def _type(self) -> str:
+            return "situation_state"
+
+        def check_condition(self, **kwargs) -> bool:
+            situation = situation_manager.get_situation(self.situation_key)
+            if situation == None:
+                return False
+
+            if self.state == "teaser_active":
+                return situation.visibility_state == "teaser_active"
+            if self.state == "inactive":
+                return situation.state == "inactive" and situation.visibility_state == "inactive"
+            return situation.state == self.state
+
+        def get_name(self) -> str:
+            return f"SituationStateCondition({self.state}, {self.situation_key})"
+
     class UnlockableCondition(Condition):
         def __init__(self, unlockable_key: str, group_index: int = -1, *options: Option):
             super().__init__(*options)
