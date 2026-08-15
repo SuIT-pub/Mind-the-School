@@ -1305,7 +1305,7 @@ screen journal_unlockables(display):
                         if resolution_key== "vote_passed":
                             vbox:
                                 spacing 2
-                                text "When Passed following Effects will Occur":
+                                text "When passed the following effects will occur:":
                                     yalign 0.1
                                     color "#000"
                                     size 14
