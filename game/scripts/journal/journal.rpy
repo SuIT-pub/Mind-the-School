@@ -1295,12 +1295,33 @@ screen journal_unlockables(display):
                 vbar value YScrollValue("UnlockableDetail"):
                     unscrollable "hide"
                     xalign 1.04
+            frame:
+                background Solid("#0000")
+                area (985, 800, 500, 120)
+                viewport id "UnlockableVoteResolutionDetail":
+                    mousewheel True
+                    draggable "touch"
+                    for resolution_key, resolution in active_unlockable.resolutions.items():
+                        if resolution_key== "vote_passed":
+                            vbox:
+                                spacing 2
+                                text "When Passed following Effects will Occur":
+                                    yalign 0.1
+                                    color "#000"
+                                    size 14
+                                for effect in resolution.effects.effects:
+                                    text f"{effect.__str__()}":
+                                        size 12
+                                        color "#000"
+                vbar value YScrollValue("UnlockableVoteResolutionDetail"):
+                    unscrollable "hide"
+                    xalign 1.04
 
             $ unlockable_status = active_unlockable.status
             if unlockable_status == "inactive":
                 textbutton "Start Introducing":
                     xpos 985
-                    yalign 0.83
+                    yalign 0.9
                     text_style "buttons_idle"
                     action Call("start_unlockable_situation", display)
             elif unlockable_status == "active":
