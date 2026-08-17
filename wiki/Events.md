@@ -539,6 +539,43 @@ label truth_or_dare_4_choice(**kwargs):
     branch (a string label works too);
   - `Condition`s (or a bare `bool`) that gate whether the choice appears.
 
+### Positioning the menu — anchors
+
+By default a decision menu sits in the **middle-center** of the screen. Pass a
+`menu_anchor` to place it elsewhere — e.g. keep it clear of a paperdoll character
+standing on one side:
+
+```python
+$ emiko.display(PDAMove(alignX=-0.2, duration=1.0))     # move her to the left
+$ call_custom_menu_with_text("What do you do with the nameplate?", character.subtitles, False,
+    MenuElement("fix",       "Chase the right plaque", EventEffect(".fix")),
+    MenuElement("charm_fix", "Draft the order over a coffee", EventEffect(".charm_fix"), high_charm),
+    MenuElement("leave_it",  "Leave the taped printout",     EventEffect(".leave_it")),
+    menu_anchor=MENU_ANCHOR_MIDDLE_RIGHT,                # menu hugs the right, away from her
+**kwargs)
+```
+
+- **`menu_anchor`** is a keyword arg on both `call_custom_menu` and
+  `call_custom_menu_with_text` (default `MENU_ANCHOR_MIDDLE_CENTER`). Use the
+  named constants — one per point of a 3×3 grid:
+
+  | | left | center | right |
+  |---|---|---|---|
+  | **top** | `MENU_ANCHOR_TOP_LEFT` | `MENU_ANCHOR_TOP_CENTER` | `MENU_ANCHOR_TOP_RIGHT` |
+  | **middle** | `MENU_ANCHOR_MIDDLE_LEFT` | `MENU_ANCHOR_MIDDLE_CENTER` | `MENU_ANCHOR_MIDDLE_RIGHT` |
+  | **bottom** | `MENU_ANCHOR_BOTTOM_LEFT` | `MENU_ANCHOR_BOTTOM_CENTER` | `MENU_ANCHOR_BOTTOM_RIGHT` |
+
+- **Dialogue-aware:** when the menu carries a prompt line (a textbox is open),
+  **middle** and **bottom** anchors are pushed up so the menu sits *above* the
+  dialogue box instead of behind it; when there's no dialogue they use the full
+  screen height. **Top** anchors always hug the top. You don't manage this — the
+  menu reads `has_dialog` and reserves the space itself.
+- The anchor rides along in `kwargs` (`apply_menu_anchor`), so it survives across
+  the internal menu entry points and pagination without you re-passing it.
+- `MenuElement`'s own `overwrite_position=(x, y)` still pins an individual choice
+  to absolute coordinates; that's independent of `menu_anchor`, which lays out the
+  menu as a whole.
+
 ### What happens on choose
 
 `call_element` registers the decision (`register_decision(key)` outside replay; appends
@@ -807,6 +844,9 @@ webp basename (spaces → underscores).
 `call_custom_menu(with_leave, *elements, **kwargs)` ·
 `MenuElement(key, title, *effects|conditions|bool, active=True, overwrite_position=None)` ·
 `register_decision(key)` (called for you by `call_element`).
+Menu placement: `menu_anchor=` (default `MENU_ANCHOR_MIDDLE_CENTER`) — nine constants
+`MENU_ANCHOR_{TOP,MIDDLE,BOTTOM}_{LEFT,CENTER,RIGHT}`; middle/bottom lift above the
+dialogue box when a prompt line is shown.
 
 ### Stats / progress
 `call change_stats_with_modifier('<collection>', stat=AMOUNT, …)` · amounts `TINY`/`SMALL`/`MEDIUM`/`LARGE` (+ `DEC_*`) ·

@@ -149,7 +149,93 @@ init python:
     # region Call Menu Methods #
     ############################
 
-    def call_custom_menu(with_leave: bool = True, *elements: MenuElement, **kwargs) -> None:
+    MENU_ANCHOR_TOP_LEFT = "top_left"
+    MENU_ANCHOR_TOP_CENTER = "top_center"
+    MENU_ANCHOR_TOP_RIGHT = "top_right"
+    MENU_ANCHOR_MIDDLE_LEFT = "middle_left"
+    MENU_ANCHOR_MIDDLE_CENTER = "middle_center"
+    MENU_ANCHOR_MIDDLE_RIGHT = "middle_right"
+    MENU_ANCHOR_BOTTOM_LEFT = "bottom_left"
+    MENU_ANCHOR_BOTTOM_CENTER = "bottom_center"
+    MENU_ANCHOR_BOTTOM_RIGHT = "bottom_right"
+
+    MENU_ANCHOR_ALIGNS = {
+        MENU_ANCHOR_TOP_LEFT: (0.0, 0.0),
+        MENU_ANCHOR_TOP_CENTER: (0.5, 0.0),
+        MENU_ANCHOR_TOP_RIGHT: (1.0, 0.0),
+        MENU_ANCHOR_MIDDLE_LEFT: (0.0, 0.5),
+        MENU_ANCHOR_MIDDLE_CENTER: (0.5, 0.5),
+        MENU_ANCHOR_MIDDLE_RIGHT: (1.0, 0.5),
+        MENU_ANCHOR_BOTTOM_LEFT: (0.0, 1.0),
+        MENU_ANCHOR_BOTTOM_CENTER: (0.5, 1.0),
+        MENU_ANCHOR_BOTTOM_RIGHT: (1.0, 1.0),
+    }
+
+    MENU_WIDTH = 1185
+    MENU_SCREEN_WIDTH = 1920
+    MENU_SCREEN_HEIGHT = 1080
+    MENU_DIALOG_RESERVED_HEIGHT = 280
+
+    def get_menu_anchor_align(menu_anchor: str) -> Tuple[float, float]:
+        """
+        Resolves a nine-point menu anchor to (xalign, yalign).
+
+        ### Parameters
+        1. menu_anchor : str
+            - One of: top_left, top_center, top_right, middle_left, middle_center,
+                middle_right, bottom_left, bottom_center, bottom_right.
+
+        ### Returns
+        1. Tuple[float, float]
+            - The xalign and yalign values for the menu vbox.
+        """
+
+        aligns = MENU_ANCHOR_ALIGNS.get(menu_anchor)
+        if aligns is None:
+            log(f"Unknown menu_anchor '{menu_anchor}', falling back to middle_center.", log_type="warning", category="menu")
+            return MENU_ANCHOR_ALIGNS[MENU_ANCHOR_MIDDLE_CENTER]
+        return aligns
+
+    def get_menu_usable_height(has_dialog: bool) -> int:
+        """
+        Returns the vertical area the menu may occupy.
+
+        Middle and bottom anchors use this height, so they sit above an open
+        dialogue box and drop to the full screen when no dialogue is shown.
+        Top anchors stay at the top of the screen in both cases.
+
+        ### Parameters
+        1. has_dialog : bool
+            - True when a dialogue textbox is currently open.
+
+        ### Returns
+        1. int
+            - Usable menu height in pixels.
+        """
+
+        if has_dialog:
+            return MENU_SCREEN_HEIGHT - MENU_DIALOG_RESERVED_HEIGHT
+        return MENU_SCREEN_HEIGHT
+
+    def apply_menu_anchor(default_anchor: str, **kwargs) -> dict:
+        """
+        Stores the menu anchor in kwargs so every menu entry point can forward it.
+
+        ### Parameters
+        1. default_anchor : str
+            - Nine-point anchor used by custom_menu_choice when kwargs has none.
+        2. **kwargs
+            - Existing menu kwargs. An explicit menu_anchor key wins over the parameter.
+
+        ### Returns
+        1. dict
+            - kwargs with menu_anchor set.
+        """
+
+        kwargs['menu_anchor'] = get_kwargs('menu_anchor', default_anchor, **kwargs)
+        return kwargs
+
+    def call_custom_menu(with_leave: bool = True, *elements: MenuElement, menu_anchor: str = MENU_ANCHOR_MIDDLE_CENTER, **kwargs) -> None:
         """
         Calls a custom menu with the given elements and the given text and person.
 
@@ -158,7 +244,13 @@ init python:
             - Whether or not to display a leave button.
         2. *elements : MenuElement
             - The elements to display in the menu.
+        3. menu_anchor : str, (default middle_center)
+            - Nine-point anchor for the menu: top_left, top_center, top_right,
+                middle_left, middle_center, middle_right, bottom_left, bottom_center,
+                bottom_right. Middle and bottom shift up when dialogue is open.
         """
+
+        kwargs = apply_menu_anchor(menu_anchor, **kwargs)
 
         in_event = get_kwargs('in_event', False, **kwargs)
         in_replay = get_kwargs('in_replay', False, **kwargs)
@@ -186,7 +278,7 @@ init python:
 
         renpy.call("call_menu", None, None, with_leave, *filtered_elements, **kwargs)
 
-    def call_custom_menu_with_text(text: str, person: Character = character.subtitles, with_leave: bool = True, *elements: MenuElement, **kwargs) -> None:
+    def call_custom_menu_with_text(text: str, person: Character = character.subtitles, with_leave: bool = True, *elements: MenuElement, menu_anchor: str = MENU_ANCHOR_MIDDLE_CENTER, **kwargs) -> None:
         """
         Calls a custom menu with the given elements and the given text and person.
 
@@ -199,8 +291,14 @@ init python:
             - Whether or not to display a leave button.
         4. *elements : Tuple[str, str | Effect | List[Effect]] | Tuple[str, str | Effect | List[Effect], bool]
             - The elements to display in the menu. Each element is a tuple of the form (title, event_label, active), (title, effect, active) or (title, effect_list, active). The active parameter is optional and defaults to True.
+        5. menu_anchor : str, (default middle_center)
+            - Nine-point anchor for the menu: top_left, top_center, top_right,
+                middle_left, middle_center, middle_right, bottom_left, bottom_center,
+                bottom_right. Middle and bottom shift up when dialogue is open.
 
         """
+        kwargs = apply_menu_anchor(menu_anchor, **kwargs)
+
         in_event = get_kwargs('in_event', False, **kwargs)
         in_replay = get_kwargs('in_replay', False, **kwargs)
         no_gallery = get_kwargs("no_gallery", False, **kwargs)
@@ -252,10 +350,15 @@ label call_menu(text, person, with_leave = True, *elements, **kwargs):
     #     - The elements to display in the menu. 
     #     - Each element is a tuple of the form (title, event_label, active), (title, effect, active) or (title, effect_list, active). 
     #     - The active parameter is optional and defaults to True.
+    # 5. menu_anchor : str, via kwargs (default middle_center)
+    #     - Nine-point anchor forwarded to custom_menu_choice.
     # """
 
     if not with_leave and len(elements) == 1:
         $ renpy.call("call_element", elements[0].get_key(), elements[0].get_effects(), **kwargs)
+
+    $ kwargs = apply_menu_anchor(MENU_ANCHOR_MIDDLE_CENTER, **kwargs)
+    $ kwargs['has_dialog'] = text != None
 
     $ p_text = Character(kind = person, retain = False)
 
@@ -274,7 +377,7 @@ label call_menu(text, person, with_leave = True, *elements, **kwargs):
         $ renpy.pause(hard = True)
 
 # calls a menu specialized in use for events
-label call_event_menu(text, events, fallback, person = character.subtitles, **kwargs):
+label call_event_menu(text, events, fallback, person = character.subtitles, menu_anchor = "middle_center", **kwargs):
     # """
     # Refines a list of events and calls a menu with the given elements and the given text and person.
 
@@ -287,7 +390,11 @@ label call_event_menu(text, events, fallback, person = character.subtitles, **kw
     #     - The event to call if no events are available.
     # 4. person : Person, (default character.subtitles)
     #     - The person to display saying the text.
+    # 5. menu_anchor : str, (default middle_center)
+    #     - Nine-point anchor forwarded to custom_menu_choice.
     # """
+
+    $ kwargs = apply_menu_anchor(menu_anchor, **kwargs)
 
     $ renpy.block_rollback()
 
@@ -348,6 +455,11 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
     #     - Whether or not to display a leave button.
     # 5. **kwargs
     #     - Any additional keyword arguments are passed to the effects of the selected element.
+    #     - menu_anchor : str, (default middle_center)
+    #         Nine-point anchor: top_left, top_center, top_right, middle_left,
+    #         middle_center, middle_right, bottom_left, bottom_center, bottom_right.
+    #     - has_dialog : bool
+    #         When True, middle and bottom anchors sit above the dialogue box.
     # """
 
     tag menu_choice
@@ -362,6 +474,11 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
         marked_elements = get_kwargs('marked', [], **kwargs)
 
         blocked_elements = get_kwargs('blocked', [], **kwargs)
+
+        menu_anchor = get_kwargs('menu_anchor', MENU_ANCHOR_MIDDLE_CENTER, **kwargs)
+        has_dialog = get_kwargs('has_dialog', False, **kwargs)
+        menu_xalign, menu_yalign = get_menu_anchor_align(menu_anchor)
+        menu_height = get_menu_usable_height(has_dialog)
 
         kwargs.pop('menu_selection', None)
 
@@ -468,11 +585,15 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
     else:
         frame:
             background "#ffffff00"
-            area(367, 0, 1185, 800)
+            xpos 0
+            ypos 0
+            xsize MENU_SCREEN_WIDTH
+            ysize menu_height
 
             vbox:
-                xalign 0.5 
-                yalign 0.5
+                xsize MENU_WIDTH
+                xalign menu_xalign
+                yalign menu_yalign
 
                 for button in buttons:
                     $ active, number, title, title_text, effects, raw_title, position = button
@@ -517,7 +638,7 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
                             if has_keyboard():
                                 if show_shortcut():
                                     $ prev_text = "[,]"
-                                key "K_COMMA" action Show("custom_menu_choice", None, page - 1, page_limit, elements, **kwargs)
+                                key "K_COMMA" action Show("custom_menu_choice", None, page - 1, page_limit, elements, with_leave, **kwargs)
                             button:
                                 background Frame("gui/button/choice_idle_background_250px.png")
                                 hover_background Frame("gui/button/choice_hover_background_250px.png")
@@ -526,7 +647,7 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
                                     yalign 0.0
                                 xsize 250
                                 ysize 52
-                                action Show("custom_menu_choice", None, page - 1, page_limit, elements, **kwargs)
+                                action Show("custom_menu_choice", None, page - 1, page_limit, elements, with_leave, **kwargs)
                         else:
                             null width 250 height 52
                         
@@ -545,7 +666,7 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
                             if has_keyboard():
                                 if show_shortcut():
                                     $ next_text = "[.]"
-                                key "K_PERIOD" action Show("custom_menu_choice", None, page + 1, page_limit, elements, **kwargs)
+                                key "K_PERIOD" action Show("custom_menu_choice", None, page + 1, page_limit, elements, with_leave, **kwargs)
                             button:
                                 background "gui/button/choice_idle_background_250px.png"
                                 hover_background "gui/button/choice_hover_background_250px.png"
@@ -554,7 +675,7 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
                                     yalign 0.0
                                 xsize 250
                                 ysize 52
-                                action Show("custom_menu_choice", None, page + 1, page_limit, elements, **kwargs)
+                                action Show("custom_menu_choice", None, page + 1, page_limit, elements, with_leave, **kwargs)
                         else:
                             null width 250 height 52
                 
@@ -567,14 +688,14 @@ screen custom_menu_choice(page, page_limit, elements, with_leave = True, **kwarg
                             $ l_text = " [Esc]"
                         key "K_ESCAPE" action Call("close_menu", **kwargs)
                     hbox:
-                        xsize 1920
+                        xsize MENU_WIDTH
                         button:
                             background "gui/button/choice_idle_background.png"
                             hover_background "gui/button/choice_hover_background.png"
                             text "Leave[l_text]" style "menu_text":
                                 xalign 0.5
                                 yalign 0.5
-                            xsize 1185
+                            xsize MENU_WIDTH
                             xalign 0.5
                             action Call("close_menu", **kwargs)
 

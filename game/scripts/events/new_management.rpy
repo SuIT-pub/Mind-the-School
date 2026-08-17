@@ -22,8 +22,7 @@ init 1 python:
         LevelCondition("1-", "school"),
         SituationPoolCondition("new_management", "nm_ghost_office"),
         # Variety: the way the campus mislabels the office changes each visit.
-        RandomListSelector("wrong_name", "HEADMSTER", "H. MASTAR", "MR. HEADMAN", "THE NEW GUY", "MR. WHATSISNAME"),
-        RandomListSelector("plate_note", "in biro", "in fat marker", "on a sticky note", "on printer paper"),
+        RandomListSelector("wrong_name", "HEADMSTER", "H. MASTAR", "MR. HEADMAN", "THE NEW GUY", "MR. WHATSHISNAME"),
         # Gallery-registered readings: Standing (reactive line) + Charm (gated choice).
         # Key for the bar selector MUST match get_bar_value's composite key.
         SituationBarSelector("situation:new_management:main", "new_management", "main"),
@@ -31,7 +30,7 @@ init 1 python:
         # Scene image for the non-dialogue establishing beat (the door itself).
         # show_pattern() degrades gracefully: nothing shows until the file exists.
         Pattern("bg", "images/background/office building/f.webp"),
-        Pattern("main", "images/events/new_management/nm_ghost_office_nameplate/nm_ghost_office_nameplate 1.webp")))
+        Pattern("main", "images/events/new_management/nm_ghost_office_nameplate/nm_ghost_office_nameplate <wrong_name> <step>.webp", "wrong_name")))
     office_building_events["call_secretary"].add_event(Event(
         3,
         "nm_ghost_office_private_line",
@@ -204,12 +203,13 @@ label nm_ghost_office_nameplate (**kwargs):
     # Read Standing through the gallery getter so replays have the value (Events guide §8/§16).
     $ standing = get_bar_value("new_management", "main", 0, **kwargs)
 
+    # images/events/new_management/nm_ghost_office_nameplate/nm_ghost_office_nameplate <wrong_name> <step>.webp
     $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
 
     subtitles "The office door still carries the old headmaster's name, cut deep into the brass like it means to stay there."
-    subtitles "Someone's taped a printout over half of it — your name, [plate_note], spelled {i}[wrong_name]{/i}. It's crooked, and one corner is already peeling loose."
+    subtitles "Someone's taped a printout over half of it — your name, on printer paper, spelled {i}[wrong_name]{/i}. It's crooked, and one corner is already peeling loose."
     $ image.show(1)
     headmaster_thought "Three weeks in, and the door still hasn't decided I actually live here."
 
@@ -218,7 +218,7 @@ label nm_ghost_office_nameplate (**kwargs):
 
     # Emiko leans in → hand off to conversation (paperdoll over the blurred office).
     $ emiko.register_paperdoll(level = 5)
-    $ paperdoll_manager.set_background("bg", blur = True, **kwargs)
+    $ paperdoll_manager.set_background(image[1], blur = True, **kwargs)
     $ emiko.display(PDAImage(pose = "10", outfit = "uniform", level = 5, mood = "shining", mouth = "open"),
         PDAPreset("close_body_center", duration = 0.4)),
     emiko.say "Caught you glaring at it. Don't worry — everyone glares at it."
@@ -229,12 +229,13 @@ label nm_ghost_office_nameplate (**kwargs):
     # Read through the gallery getter so the value replays correctly (Events guide §8/§16).
     $ high_charm = get_stat_value("charm", [20, 100], **kwargs) >= 20
 
-    $ emiko.display(PDAImage(mouth = "closed"))
+    $ emiko.display(PDAMove(alignX = -0.2, duration = 1.0), PDAImage(mouth = "closed"))
     $ call_custom_menu_with_text("What do you do with the nameplate?", character.subtitles, False,
         MenuElement("fix", "Pull the printout and ask Emiko to chase the right plaque", EventEffect("nm_ghost_office_nameplate.fix")),
         MenuElement("charm_fix", "Make a joke of it — draft the order with her over a coffee", EventEffect("nm_ghost_office_nameplate.charm_fix"), high_charm),
         MenuElement("leave_it", "Leave the taped printout — temporary is temporary", EventEffect("nm_ghost_office_nameplate.leave_it")),
         MenuElement("walk_away", "Walk away. You'll deal with it later", EventEffect("nm_ghost_office_nameplate.walk_away")),
+        menu_anchor = MENU_ANCHOR_MIDDLE_RIGHT,
     **kwargs)
 
 label .fix (**kwargs):

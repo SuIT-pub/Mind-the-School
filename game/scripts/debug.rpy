@@ -250,7 +250,10 @@ init -100 python:
         1. str
             - Escaped text safe for Ren'Py text nodes.
         """
-        return str(text).replace("{", "{{").replace("}", "}}").replace("[", "[[")
+        output = str(text).replace("{", "{{")
+        output = output.replace("}", "}}")
+        lbracket = chr(91)
+        return output.replace(lbracket, lbracket * 2)
 
     def format_log_json_summary(data) -> str:
         """
@@ -752,12 +755,12 @@ init -100 python:
 init -1 python:
     test_events = EventStorage("test_events", "misc")
 
-# init 1 python:
-    # test_events.add_event(
-    #     Event(3, "test_event",
-    #         Pattern("main", "images/background/school building/9 0 1.webp"),
-    #         thumbnail = "images/background/school building/9 0 1.webp"),
-    # )
+init 1 python:
+    test_events.add_event(
+        Event(3, "test_event",
+            Pattern("main", "images/background/school building/9 0 1.webp"),
+            thumbnail = "images/background/school building/9 0 1.webp"),
+    )
 
 label test_label():
 
@@ -772,9 +775,14 @@ label test_event (**kwargs):
     $ begin_event(**kwargs)
 
     $ luna = Person["luna_clark"]
+    $ emiko = Person["emiko_langley"]
+
+    $ paperdoll_manager.set_background_split("images/background/school building/1 0 0.png", "images/background/office building/c teacher.webp", blur = True, bw_left = True)
     $ luna.register_paperdoll(level = 10, mood = "happy", mouth = "closed")
-    $ paperdoll_manager.set_background("images/background/school building/9 0 1.webp", blur = True)
-    $ luna.display(PDAMove(alignX = 0.5, duration = 2.0))
+    $ emiko.register_paperdoll(level = 9, mood = "neutral", mouth = "closed", pose = "35")
+    # $ paperdoll_manager.set_background("images/background/school building/9 0 1.webp", blur = True)
+    $ luna.display(PDAPreset("close_body_left"), PDABw(True))
+    $ emiko.display(PDAPreset("close_body_right"), PDAMove(alignX = 1.0))
     $ renpy.pause()
     $ luna.display(PDAImage(level = 9), PDABlur(10.0, duration = 3.0))
     $ paperdoll_manager.set_background("images/background/school building/9 0 1.webp", blur = False)
