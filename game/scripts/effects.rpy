@@ -383,7 +383,7 @@ init -1 python:
             - Event to be called.
             - Event calls just the event.
             - EventStorage calls all available events.
-            - str calls the label.
+            - str looks up a registered Event by id, otherwise calls the label.
         """
 
         def __init__(self, event: Event | EventStorage | str, *options: Option):
@@ -407,15 +407,14 @@ init -1 python:
         def apply(self, **kwargs):
             if isinstance(self.event, EventStorage):
                 renpy.call('call_available_event', self.event, **kwargs)
-
-            if isinstance(self.event, Event):
+            elif isinstance(self.event, Event):
                 self.event.call(**kwargs)
-                # event_obj = self.event.get_event()
-                # for event in event_obj:
-                #     renpy.call(event, **kwargs)
-
-            if isinstance(self.event, str):
-                renpy.call(self.event, **kwargs)
+            elif isinstance(self.event, str):
+                registered = get_event_from_register(self.event)
+                if registered is not None:
+                    registered.call(**kwargs)
+                else:
+                    renpy.call(self.event, **kwargs)
 
     class EventSelectEffect(Effect):
         """

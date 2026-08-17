@@ -596,6 +596,9 @@ init -99 python:
         def is_blocking(self):
             return len(self.blocking.get_conditions()) > 0
 
+        def is_reached(self) -> bool:
+            return self.reached
+
     # endregion
     #############################
 
@@ -3332,6 +3335,8 @@ init -99 python:
         def is_threshold_reached(self, threshold_key: str):
             threshold = self.thresholds.get(threshold_key)
             if threshold is None:
+                threshold = self.thresholds.get("situation:" + self.key + ":" + threshold_key)
+            if threshold is None:
                 return False
             return threshold.is_reached()
 
@@ -3929,7 +3934,7 @@ init -99 python:
     # Definition helpers — declarative syntax for load_situations authors.
     # Chain methods (add_*, set_*) return self; __init__ must not return self.
 
-    def AutoThreshold(approach_hint, *effects, direction=1, visible_range=100, thumbnail=None, default_hold=5, **bounds):
+    def AutoThreshold(approach_hint, *effects, direction=1, visible_range=100, thumbnail=None, default_hold=-1, **bounds):
         """Auto-fire threshold with empty threshold_hint. Bounds via kwargs, e.g. main=10."""
         return SituationThreshold(approach_hint, "", *effects, direction=direction, visible_range=visible_range, thumbnail=thumbnail, default_hold=default_hold).add_bounds(**bounds)
 

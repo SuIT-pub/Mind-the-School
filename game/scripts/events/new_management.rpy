@@ -1,14 +1,17 @@
 init 1 python:
     set_current_mod('base')
 
-    # Dummy Event objects so set_event_seen() works for threshold scenes
-    # triggered via SituationThreshold EventEffects (not EventStorage).
-    Event(3, "nm_thresh_emiko_nudge", register_self=True, override_intro=True)
-    Event(3, "nm_thresh_district_letter", register_self=True, override_intro=True)
-    Event(3, "nm_thresh_first_warmth", register_self=True, override_intro=True)
-    Event(3, "nm_thresh_yulan_thaw", register_self=True, override_intro=True)
-    Event(3, "nm_thresh_adelaide_note", register_self=True, override_intro=True)
-    Event(3, "nm_thresh_near_end", register_self=True, override_intro=True)
+    # Threshold reactions are real events (gallery / seen / begin_event), but they
+    # are only fired by AutoThreshold EventEffects — not from a map location pool.
+    nm_threshold_events = EventStorage("nm_thresholds", "misc")
+    nm_threshold_events.add_event(
+        Event(2, "nm_thresh_emiko_nudge", override_intro=True, override_location="misc"),
+        Event(2, "nm_thresh_district_letter", override_intro=True, override_location="misc"),
+        Event(2, "nm_thresh_first_warmth", override_intro=True, override_location="misc"),
+        Event(2, "nm_thresh_yulan_thaw", override_intro=True, override_location="misc"),
+        Event(2, "nm_thresh_adelaide_note", override_intro=True, override_location="misc"),
+        Event(2, "nm_thresh_near_end", override_intro=True, override_location="misc"),
+    )
 
     # --- nm_ghost_office (-25 ... -8) ---
     # TEMPLATE BAND. This band is the reference build for the redesign: it uses
@@ -229,7 +232,7 @@ label nm_ghost_office_nameplate (**kwargs):
     # Read through the gallery getter so the value replays correctly (Events guide §8/§16).
     $ high_charm = get_stat_value("charm", [20, 100], **kwargs) >= 20
 
-    $ emiko.display(PDAMove(alignX = -0.2, duration = 1.0), PDAImage(mouth = "closed"))
+    $ emiko.display(PDAImage(mouth = "closed"), PDAMove(alignX = -0.2, duration = 1.0))
     $ call_custom_menu_with_text("What do you do with the nameplate?", character.subtitles, False,
         MenuElement("fix", "Pull the printout and ask Emiko to chase the right plaque", EventEffect("nm_ghost_office_nameplate.fix")),
         MenuElement("charm_fix", "Make a joke of it — draft the order with her over a coffee", EventEffect("nm_ghost_office_nameplate.charm_fix"), high_charm),
@@ -241,13 +244,13 @@ label nm_ghost_office_nameplate (**kwargs):
 label .fix (**kwargs):
     $ emiko = Person["emiko_langley"]
 
+    $ emiko.display(PDAMove(alignX = 0.5, duration = 1.0))
     headmaster "Then let's stop waiting on it. Chase the plaque today — and make sure they spell me right this time."
     $ emiko.display(PDAImage(pose = "2", mood = "shining", mouth = "open"))
     emiko.say "Finally. Consider it chased. And this—"
     $ image.show(2)
-    subtitles "She peels the printout off in one clean strip."
-    $ image.show(3)
     emiko.say "—goes in the bin before it ends up on somebody's phone."
+    $ paperdoll_manager.set_background(image[2], blur = True, **kwargs)
     $ emiko.display(PDAImage(pose = "6", mood = "happy", mouth = "closed"))
     headmaster_thought "There — done. Let people read the right name on the way in for once, instead of the last man's."
 
@@ -260,11 +263,11 @@ label .fix (**kwargs):
 label .charm_fix (**kwargs):
     $ emiko = Person["emiko_langley"]
 
+    $ emiko.display(PDAMove(alignX = 0.5, duration = 1.0))
     headmaster "Put two names on that requisition. Mine — spelled correctly, in nice big letters — and whoever keeps typing 'in process.'"
-    $ emiko.display(PDAImage(mood = "shining", mouth = "open"))
+    $ emiko.display(PDAImage(pose = "12", mood = "shining", mouth = "open"))
     emiko.say "Ha! I'll cc them a dictionary. Bold it, even."
-    $ paperdoll_manager.cl
-    $ image.show(4)
+    $ image.show(3)
     subtitles "She pours a second coffee without being asked and nudges the order form across the desk with one finger."
     headmaster_thought "She poured that second cup without even thinking about it. ...When did that start? Whatever it is — I'll take it. God knows I could use someone in my corner."
 
@@ -278,6 +281,7 @@ label .charm_fix (**kwargs):
 label .leave_it (**kwargs):
     $ emiko = Person["emiko_langley"]
 
+    $ emiko.display(PDAMove(alignX = 0.5, duration = 1.0))
     headmaster "Leave it for now. There are bigger fires than a nameplate."
     $ emiko.display(PDAImage(pose = "21", mood = "neutral", mouth = "open"))
     emiko.say "Mm. Your call. Just don't act surprised when the kids keep calling you the wrong thing — they read the door, not the memo."
@@ -291,6 +295,7 @@ label .leave_it (**kwargs):
 label .walk_away (**kwargs):
     $ emiko = Person["emiko_langley"]
 
+    $ emiko.display(PDAMove(alignX = 0.5, duration = 1.0))
     subtitles "You turn back down the hall, leaving the tape exactly where it is."
     $ emiko.display(PDAImage(pose = "23", mood = "sad", mouth = "closed"))
     emiko.say "...Right. I'll keep chasing it on my own, then."
@@ -1454,47 +1459,51 @@ label .strict (**kwargs):
 #######################################
 
 label nm_thresh_emiko_nudge (**kwargs):
-    $ set_event_seen("nm_thresh_emiko_nudge")
+    $ begin_event(**kwargs)
     $ emiko = Person["emiko_langley"]
 
     subtitles "Emiko sets a coffee on your desk like a quiet decision."
     emiko.say "The pink slips aren't going anywhere. Neither is your attention."
     emiko.say "Patrol. Desk. Class. Counseling. Pick something the school can see today."
     headmaster_thought "She didn't scold. She named the verbs like weather."
+    $ end_event('none', **kwargs)
     return
 
 label nm_thresh_district_letter (**kwargs):
-    $ set_event_seen("nm_thresh_district_letter")
+    $ begin_event(**kwargs)
     $ emiko = Person["emiko_langley"]
 
     subtitles "Emiko holds an envelope like it might bite."
     emiko.say "District line. Again. Framed as a letter with teeth."
     emiko.say "One more empty stretch and someone picks up the phone for real."
     headmaster_thought "Her L5 mask slips — private worry, then the professional smile returns."
+    $ end_event('none', **kwargs)
     return
 
 label nm_thresh_first_warmth (**kwargs):
-    $ set_event_seen("nm_thresh_first_warmth")
+    $ begin_event(**kwargs)
     $ emiko = Person["emiko_langley"]
 
     emiko.say "Good luck today."
     headmaster_thought "She said it without being asked. Small thing. Not nothing."
     subtitles "Footsteps in the outer office. She steps half a pace back, secretary again."
     emiko.say "Your nine-thirty is early."
+    $ end_event('none', **kwargs)
     return
 
 label nm_thresh_yulan_thaw (**kwargs):
-    $ set_event_seen("nm_thresh_yulan_thaw")
+    $ begin_event(**kwargs)
     $ yulan = Person["yulan_chen"]
 
     subtitles "Yulan stops you between periods — folder closed, for once."
     yulan.say "The students are settling. Quietly."
     yulan.say "Be patient with the parts that still shake."
     headmaster_thought "She sounded like she'd been holding her breath. Counseling just got an open door."
+    $ end_event('none', **kwargs)
     return
 
 label nm_thresh_adelaide_note (**kwargs):
-    $ set_event_seen("nm_thresh_adelaide_note")
+    $ begin_event(**kwargs)
     $ emiko = Person["emiko_langley"]
     $ adelaide = Person["adelaide_hall"]
 
@@ -1503,15 +1512,17 @@ label nm_thresh_adelaide_note (**kwargs):
     emiko.say "She cares more than she admits."
     $ set_game_data("pta_aware", 1)
     headmaster_thought "They've dropped the word 'new'. I'm just the headmaster now."
+    $ end_event('none', **kwargs)
     return
 
 label nm_thresh_near_end (**kwargs):
-    $ set_event_seen("nm_thresh_near_end")
+    $ begin_event(**kwargs)
     $ finola = Person["finola_ryan"]
 
     subtitles "A form crosses your desk. Signature line: Headmaster. No qualifiers."
     finola.say "Headmaster. Yes — that sounds right."
     headmaster_thought "Paperwork got there first. The plaque and the mug were only catching up."
+    $ end_event('none', **kwargs)
     return
 
 # endregion

@@ -1159,7 +1159,8 @@ init -6 python:
             paperdoll_manager.display(self.name, *actions)
 
         def clear_display(self):
-            paperdoll_manager.clear()
+            if paperdoll_manager is not None:
+                paperdoll_manager.clear()
 
     def find_person(name: str):
         for key in person_storage.keys():

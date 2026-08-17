@@ -84,7 +84,9 @@ init -3 python:
                 seenEvents[event] = seen
             elif seen > seenEvents[event]:
                 seenEvents[event] = seen
-        
+
+        if event_name not in seenEvents.keys():
+            seenEvents[event_name] = 0
         seenEvents[event_name] = seenEvents[event_name] + 1
         set_game_data("seen_events", seenEvents)
 
@@ -1539,7 +1541,14 @@ init -3 python:
 
             kwargs['image_patterns'] = self.patterns
 
-            renpy.call("call_event", events, self.select_type, self.get_event(), **kwargs)
+            # Call the scene label directly. Going through call_event here nests a
+            # second call_event (the parent event is already inside one) that shares
+            # from_current="call_event_1" and re-enters the same scene forever.
+            if isinstance(events, str):
+                if renpy.has_label(events):
+                    renpy.call(events, **kwargs)
+            else:
+                renpy.call("call_event", events, self.select_type, self.get_event(), **kwargs)
 
         ##############
 
