@@ -1,0 +1,25 @@
+---
+description: Situations and Unlockables — bidirectional bars, hints, resolutions, PTA votes, rules/clubs/building unlocks. Read wiki/Building-Situations.md and wiki/Building-Unlockables.md. To design or implement a new one, use the build-situation skill.
+globs: game/scripts/situations/**/*.rpy,game/scripts/journal/unlockables.rpy,game/scripts/journal/pictograms.rpy
+alwaysApply: false
+---
+
+# Situations and Unlockables
+
+Canonical guides (read before changing these systems):
+
+1. **`wiki/Building-Situations.md`** — bars, thresholds, passives/measures, teasers, event pools, resolutions, effects, hot-reload
+2. **`wiki/Building-Unlockables.md`** — PTA vote, money escrow, upgrade chains, unlock effects (an Unlockable *is* a Situation; read Situations first)
+
+To **design or implement** a new Situation or Unlockable, follow the `build-situation` skill (plan with the user first). This rule is for consulting the docs while editing existing content.
+
+## Related wiki
+
+- Events injected into building pools: `wiki/Events.md`
+- Conditions / Effects / Modifiers / Options: `wiki/Conditions.md`, `wiki/Effects.md`, `wiki/Modifiers.md`, `wiki/Options.md`
+
+## Code
+
+- `game/scripts/situations/situations.rpy` — `load_situations`
+- `game/scripts/journal/unlockables.rpy` — `load_unlockables`
+- `game/scripts/journal/pictograms.rpy` — pictogram registry

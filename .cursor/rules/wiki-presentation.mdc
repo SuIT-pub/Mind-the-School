@@ -1,0 +1,16 @@
+---
+description: Images and paperdoll — Pattern paths, placeholders, WebP/PNG, $ fallbacks, layered sprites, poses, presets. Read wiki/Images.md and/or wiki/Paperdoll.md before touching image paths or paperdoll display.
+globs: game/scripts/images.rpy,game/scripts/paperdoll.rpy,game/images/**,wiki/Images.md,wiki/Paperdoll.md
+alwaysApply: false
+---
+
+# Images and Paperdoll
+
+Canonical guides — read the one that matches the task:
+
+| Topic | Wiki | Code |
+|-------|------|------|
+| Path resolution, `Pattern`, `<step>`, `$`, nude levels, videos | `wiki/Images.md` | `game/scripts/images.rpy` |
+| Layered sprites, actions, presets, overrides | `wiki/Paperdoll.md` | `game/scripts/paperdoll.rpy`, `game/scripts/character.rpy` |
+
+Event image conventions also appear in `wiki/Events.md` (patterns, steps, `Image_Series`).

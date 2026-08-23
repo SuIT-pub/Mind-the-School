@@ -16,6 +16,7 @@ import hashlib
 import json
 import shutil
 import sys
+import time
 import urllib.error
 import urllib.request
 import zipfile
@@ -36,6 +37,7 @@ TEMP_EXTRACT_DIR = REPO_ROOT / ".temp_assets"
 ARCHIVE_PATH = REPO_ROOT / ARCHIVE_NAME
 
 CHUNK_SIZE = 8 * 1024 * 1024  # 8 MiB
+USER_AGENT = "MTS-Asset-Downloader/1.0"
 
 # Directories inside the archive that get swapped into game/ on install.
 ASSET_DIRS = ("images", "videos")
@@ -89,9 +91,76 @@ def print_artwork_license_notice() -> None:
     print("=" * 72 + "\n")
 
 
-def format_gb(num_bytes: int) -> str:
+def format_gb(num_bytes: int | float) -> str:
     """Format bytes as gigabytes with one decimal place."""
     return f"{num_bytes / (1024**3):.1f} GB"
+
+
+def format_speed(bytes_per_sec: float) -> str:
+    """Format a transfer rate, preferring MB/s or GB/s."""
+    if bytes_per_sec >= 1024**3:
+        return f"{bytes_per_sec / (1024**3):.2f} GB/s"
+    return f"{bytes_per_sec / (1024**2):.1f} MB/s"
+
+
+def format_duration(seconds: float) -> str:
+    """Format a duration as h/m/s for ETA display."""
+    if seconds <= 0 or seconds == float("inf"):
+        return "--"
+    total = int(seconds)
+    hours, rem = divmod(total, 3600)
+    minutes, secs = divmod(rem, 60)
+    if hours:
+        return f"{hours}h {minutes:02d}m"
+    if minutes:
+        return f"{minutes}m {secs:02d}s"
+    return f"{secs}s"
+
+
+class ProgressDisplay:
+    """Single-line progress bar with speed and ETA (updates in place)."""
+
+    def __init__(self, label: str, total_bytes: int) -> None:
+        self.label = label
+        self.total_bytes = max(total_bytes, 1)
+        self._started = time.monotonic()
+        self._last_render = 0.0
+        self._printed_label = False
+
+    def update(self, current: int, force: bool = False) -> None:
+        """Redraw the progress line for the given byte count."""
+        now = time.monotonic()
+        if not force and (now - self._last_render) < 0.25 and current < self.total_bytes:
+            return
+        self._last_render = now
+
+        if not self._printed_label:
+            sys.stdout.write(f"{self.label}\n")
+            self._printed_label = True
+
+        elapsed = max(now - self._started, 0.001)
+        speed = current / elapsed
+        remaining = max(self.total_bytes - current, 0)
+        eta = remaining / speed if speed > 0 else 0.0
+
+        percent = min(100, int(current * 100 / self.total_bytes))
+        filled = percent // 5
+        bar = "#" * filled + "." * (20 - filled)
+        line = (
+            f"[{bar}] {percent:3d}%  "
+            f"{format_gb(current)} / {format_gb(self.total_bytes)}  "
+            f"{format_speed(speed)}  "
+            f"ETA {format_duration(eta)}"
+        )
+        sys.stdout.write("\r" + line.ljust(max(len(line), 72)))
+        sys.stdout.flush()
+
+    def finish(self, current: int | None = None) -> None:
+        """Force a final update and advance to the next line."""
+        if current is not None:
+            self.update(current, force=True)
+        sys.stdout.write("\n")
+        sys.stdout.flush()
 
 
 def validate_public_url() -> str:
@@ -108,7 +177,10 @@ def validate_public_url() -> str:
 def fetch_json(url: str) -> dict[str, Any]:
     """Fetch and parse a JSON document from a public URL."""
     try:
-        with urllib.request.urlopen(url, timeout=60) as response:
+        # Cloudflare R2's r2.dev endpoint rejects Python's default urllib User-Agent
+        # with HTTP 403; always send an explicit UA.
+        request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+        with urllib.request.urlopen(request, timeout=60) as response:
             return json.loads(response.read().decode("utf-8"))
     except urllib.error.HTTPError as exc:
         if exc.code == 404:
@@ -138,21 +210,6 @@ def read_local_version() -> str | None:
     return None
 
 
-def render_progress(label: str, downloaded: int, total: int) -> None:
-    """Render a simple ASCII progress bar."""
-    if total <= 0:
-        total = max(downloaded, 1)
-    percent = min(100, int(downloaded * 100 / total))
-    filled = percent // 5
-    bar = "#" * filled + "." * (20 - filled)
-    sys.stdout.write(
-        f"\r{label}\n"
-        f"[{bar}] {percent}%\n"
-        f"{format_gb(downloaded)} / {format_gb(total)}"
-    )
-    sys.stdout.flush()
-
-
 def check_disk_space(required_bytes: int) -> None:
     """Ensure enough free disk space is available (archive + extract buffer)."""
     usage = shutil.disk_usage(REPO_ROOT)
@@ -169,22 +226,23 @@ def check_disk_space(required_bytes: int) -> None:
 def download_file(url: str, dest: Path, expected_size: int) -> None:
     """Stream-download a file to disk with progress display."""
     label = f"Downloading {ARCHIVE_NAME}"
-    print(label)
 
     if dest.is_file():
         dest.unlink()
 
     downloaded = 0
     total = expected_size
+    progress: ProgressDisplay | None = None
 
     try:
-        request = urllib.request.Request(url, headers={"User-Agent": "MTS-Asset-Downloader/1.0"})
+        request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
         with urllib.request.urlopen(request, timeout=30) as response:
             content_length = response.headers.get("Content-Length")
             if content_length:
                 total = int(content_length)
 
             check_disk_space(total)
+            progress = ProgressDisplay(label, total)
 
             with dest.open("wb") as handle:
                 while True:
@@ -193,10 +251,13 @@ def download_file(url: str, dest: Path, expected_size: int) -> None:
                         break
                     handle.write(chunk)
                     downloaded += len(chunk)
-                    render_progress(label, downloaded, total)
+                    progress.update(downloaded)
 
-        sys.stdout.write("\n")
-        sys.stdout.flush()
+        if progress is not None:
+            progress.finish(downloaded)
+        else:
+            sys.stdout.write("\n")
+            sys.stdout.flush()
 
     except urllib.error.HTTPError as exc:
         if dest.is_file():
@@ -222,17 +283,24 @@ def download_file(url: str, dest: Path, expected_size: int) -> None:
 
 
 def compute_sha256(file_path: Path) -> str:
-    """Compute SHA-256 hash of a file using chunked reads."""
+    """Compute SHA-256 hash of a file using chunked reads with progress."""
     digest = hashlib.sha256()
+    total = file_path.stat().st_size
+    processed = 0
+    progress = ProgressDisplay("Verifying SHA-256 checksum...", max(total, 1))
+
     with file_path.open("rb") as handle:
         while chunk := handle.read(CHUNK_SIZE):
             digest.update(chunk)
+            processed += len(chunk)
+            progress.update(processed)
+
+    progress.finish(processed)
     return digest.hexdigest()
 
 
 def verify_checksum(file_path: Path, expected: str) -> None:
     """Verify the SHA-256 checksum of a downloaded file."""
-    print("Verifying SHA-256 checksum...")
     actual = compute_sha256(file_path)
     print(f"  expected: {expected}")
     print(f"  actual:   {actual}")

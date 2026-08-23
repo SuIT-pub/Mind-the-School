@@ -1,0 +1,40 @@
+---
+description: Wiki is the canonical developer documentation. Read the matching wiki/*.md page before implementing or explaining game systems; do not rely on memory.
+alwaysApply: true
+---
+
+# Wiki as source of truth
+
+Canonical docs live in `wiki/` (this repo's GitHub Wiki source). **Read the matching page with the Read tool** before implementing, explaining, or changing that system. Do not invent APIs from memory. If wiki and code disagree, trust the code and mention the drift.
+
+Read only the pages you need. Do not paste wiki pages wholesale into replies.
+
+## What to read
+
+| Task | Wiki page |
+|------|-----------|
+| Events, scene labels, pools, priorities, fragments | `wiki/Events.md` |
+| Conditions / gating (`AND`/`OR`/`NOT`, catalog) | `wiki/Conditions.md` |
+| Selectors / dynamic kwargs | `wiki/Selectors.md` |
+| Effects (apply/revert) | `wiki/Effects.md` |
+| Modifiers / stat drift | `wiki/Modifiers.md` |
+| Options / trailing flags | `wiki/Options.md` |
+| Situations (bars, hints, resolutions) | `wiki/Building-Situations.md` |
+| Unlockables (rules, clubs, buildings, PTA) | `wiki/Building-Unlockables.md` |
+| Image paths, `Pattern`, WebP, `$` fallbacks | `wiki/Images.md` |
+| Paperdoll / layered sprites | `wiki/Paperdoll.md` |
+| Mods (register, layout, enable) | `wiki/Modding.md` |
+| System overview / how pieces fit | `wiki/Developer-Guide.md` |
+| Cast, bios, outfits | `wiki/Characters.md` then `wiki/characters/<Name>/<Name>.md` |
+| Walkthroughs / player-facing | `wiki/Player-Guide.md`, `wiki/Player-Walkthroughs.md`, `wiki/Walkthrough-*.md` |
+| Cheat menu | `wiki/Cheat-Menu.md` |
+
+Index: `wiki/_Sidebar.md`. Page map and sync workflow: `wiki/README.md`.
+
+## Situations / Unlockables
+
+To **design or implement** one, follow the `build-situation` skill. Still read the two Building-* wiki pages first.
+
+## Editing the wiki
+
+Edit files in `wiki/`, not on GitHub. See `wiki/README.md`. Pages have no `# H1` (title comes from the filename). Cross-page links use `[Label](Page-Name)`.

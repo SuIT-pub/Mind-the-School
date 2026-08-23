@@ -10,15 +10,18 @@ Requires a local .env file with R2 credentials (see .env.example).
 
 Usage:
     python tools/upload_assets.py
+    python tools/upload_assets.py --reuse-archive
 """
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import os
 import sys
 import threading
+import time
 import zipfile
 from pathlib import Path
 
@@ -55,36 +58,84 @@ REQUIRED_ENV_VARS = (
 
 
 class ProgressCallback:
-    """Thread-safe upload progress callback for boto3 transfer manager."""
+    """Thread-safe upload progress callback for boto3 transfer manager.
+
+    Updates a single terminal line in place (no spam), with speed and ETA.
+    """
 
     def __init__(self, label: str, total_bytes: int) -> None:
         self.label = label
         self.total_bytes = max(total_bytes, 1)
         self.seen = 0
         self._lock = threading.Lock()
+        self._started = time.monotonic()
+        self._last_render = 0.0
+        self._printed_label = False
 
     def __call__(self, bytes_amount: int) -> None:
         with self._lock:
             self.seen += bytes_amount
-            self._render()
+            self._render(force=False)
 
-    def _render(self) -> None:
+    def _render(self, force: bool) -> None:
+        now = time.monotonic()
+        if not force and (now - self._last_render) < 0.25 and self.seen < self.total_bytes:
+            return
+        self._last_render = now
+
+        if not self._printed_label:
+            sys.stdout.write(f"{self.label}\n")
+            self._printed_label = True
+
+        elapsed = max(now - self._started, 0.001)
+        speed = self.seen / elapsed
+        remaining = max(self.total_bytes - self.seen, 0)
+        eta = remaining / speed if speed > 0 else 0.0
+
         percent = min(100, int(self.seen * 100 / self.total_bytes))
         filled = percent // 5
         bar = "#" * filled + "." * (20 - filled)
-        seen_gb = self.seen / (1024**3)
-        total_gb = self.total_bytes / (1024**3)
         line = (
-            f"\r{self.label}\n"
-            f"[{bar}] {percent}%\n"
-            f"{seen_gb:.1f} GB / {total_gb:.1f} GB"
+            f"[{bar}] {percent:3d}%  "
+            f"{_format_size(self.seen)} / {_format_size(self.total_bytes)}  "
+            f"{_format_speed(speed)}  "
+            f"ETA {_format_duration(eta)}"
         )
-        sys.stdout.write(line)
+        # Pad and return to start of line so shorter updates clear leftovers.
+        sys.stdout.write("\r" + line.ljust(max(len(line), 72)))
         sys.stdout.flush()
 
     def finish(self) -> None:
-        sys.stdout.write("\n")
-        sys.stdout.flush()
+        with self._lock:
+            self._render(force=True)
+            sys.stdout.write("\n")
+            sys.stdout.flush()
+
+
+def _format_size(num_bytes: float) -> str:
+    """Format a byte count as GB with one decimal place."""
+    return f"{num_bytes / (1024**3):.1f} GB"
+
+
+def _format_speed(bytes_per_sec: float) -> str:
+    """Format a transfer rate, preferring MB/s or GB/s."""
+    if bytes_per_sec >= 1024**3:
+        return f"{bytes_per_sec / (1024**3):.2f} GB/s"
+    return f"{bytes_per_sec / (1024**2):.1f} MB/s"
+
+
+def _format_duration(seconds: float) -> str:
+    """Format a duration as h/m/s for ETA display."""
+    if seconds <= 0 or seconds == float("inf"):
+        return "--"
+    total = int(seconds)
+    hours, rem = divmod(total, 3600)
+    minutes, secs = divmod(rem, 60)
+    if hours:
+        return f"{hours}h {minutes:02d}m"
+    if minutes:
+        return f"{minutes}m {secs:02d}s"
+    return f"{secs}s"
 
 
 def fail(message: str, code: int = 1) -> None:
@@ -194,15 +245,30 @@ def compute_sha256(file_path: Path) -> str:
     digest = hashlib.sha256()
     total = file_path.stat().st_size
     processed = 0
+    started = time.monotonic()
+    last_render = 0.0
 
     with file_path.open("rb") as handle:
         while chunk := handle.read(CHUNK_SIZE):
             digest.update(chunk)
             processed += len(chunk)
-            if total:
+            now = time.monotonic()
+            if total and (now - last_render >= 0.25 or processed >= total):
+                last_render = now
                 percent = min(100, int(processed * 100 / total))
-                print(f"  Hashing: {percent}%", end="\r", flush=True)
+                elapsed = max(now - started, 0.001)
+                speed = processed / elapsed
+                eta = (total - processed) / speed if speed > 0 else 0.0
+                line = (
+                    f"  Hashing: {percent:3d}%  "
+                    f"{_format_size(processed)} / {_format_size(total)}  "
+                    f"{_format_speed(speed)}  "
+                    f"ETA {_format_duration(eta)}"
+                )
+                sys.stdout.write("\r" + line.ljust(72))
+                sys.stdout.flush()
 
+    sys.stdout.write("\n")
     print(f"  SHA-256: {digest.hexdigest()}")
     return digest.hexdigest()
 
@@ -233,7 +299,11 @@ def upload_file(
 ) -> None:
     """Upload a local file to R2 with multipart support and progress display."""
     file_size = local_path.stat().st_size
-    print(f"Uploading {object_key} ({file_size / (1024**3):.2f} GB)...")
+    # ProgressCallback prints the label once; keep size info in that label.
+    progress = ProgressCallback(
+        f"Uploading {object_key} ({file_size / (1024**3):.2f} GB)",
+        file_size,
+    )
 
     transfer_config = TransferConfig(
         multipart_threshold=MULTIPART_THRESHOLD,
@@ -241,7 +311,6 @@ def upload_file(
         max_concurrency=4,
         use_threads=True,
     )
-    progress = ProgressCallback(f"Uploading {object_key}", file_size)
 
     try:
         client.upload_file(
@@ -259,15 +328,30 @@ def upload_file(
 
 
 def copy_object(client, bucket: str, source_key: str, dest_key: str) -> None:
-    """Copy an object within the same bucket (server-side)."""
-    print(f"Publishing {dest_key}...")
+    """
+    Copy an object within the same bucket (server-side).
+
+    Uses boto3's managed transfer ``copy`` so objects larger than 5 GB are
+    published via multipart copy. The single-request ``copy_object`` API
+    rejects those with EntityTooLarge.
+    """
+    print(f"Publishing {dest_key} (multipart copy for large objects)...")
+    transfer_config = TransferConfig(
+        multipart_threshold=MULTIPART_THRESHOLD,
+        multipart_chunksize=MULTIPART_CHUNK_SIZE,
+        max_concurrency=4,
+        use_threads=True,
+    )
     try:
-        client.copy_object(
+        client.copy(
+            CopySource={"Bucket": bucket, "Key": source_key},
             Bucket=bucket,
             Key=dest_key,
-            CopySource={"Bucket": bucket, "Key": source_key},
-            CacheControl="no-cache, max-age=0",
-            MetadataDirective="REPLACE",
+            ExtraArgs={
+                "CacheControl": "no-cache, max-age=0",
+                "MetadataDirective": "REPLACE",
+            },
+            Config=transfer_config,
         )
     except (BotoCoreError, ClientError) as exc:
         fail(f"Failed to publish {dest_key}: {exc}")
@@ -281,6 +365,53 @@ def delete_object(client, bucket: str, object_key: str) -> None:
         fail(f"Failed to delete {object_key}: {exc}")
 
 
+def abort_incomplete_uploads(
+    client,
+    bucket: str,
+    keys: tuple[str, ...] | None = None,
+) -> int:
+    """
+    Abort incomplete multipart uploads that waste storage after failed transfers.
+
+    If ``keys`` is set, only uploads for those object keys are aborted.
+    Returns the number of aborted uploads.
+    """
+    aborted = 0
+    key_filter = set(keys) if keys is not None else None
+    continuation: dict[str, str] = {}
+
+    while True:
+        try:
+            response = client.list_multipart_uploads(Bucket=bucket, **continuation)
+        except (BotoCoreError, ClientError) as exc:
+            fail(f"Failed to list incomplete multipart uploads: {exc}")
+
+        for upload in response.get("Uploads", []):
+            key = upload["Key"]
+            upload_id = upload["UploadId"]
+            if key_filter is not None and key not in key_filter:
+                continue
+            try:
+                client.abort_multipart_upload(
+                    Bucket=bucket,
+                    Key=key,
+                    UploadId=upload_id,
+                )
+            except (BotoCoreError, ClientError) as exc:
+                fail(f"Failed to abort multipart upload for {key}: {exc}")
+            aborted += 1
+            print(f"  Aborted incomplete upload: {key} ({upload_id[:12]}…)")
+
+        if not response.get("IsTruncated"):
+            break
+        continuation = {
+            "KeyMarker": response.get("NextKeyMarker", ""),
+            "UploadIdMarker": response.get("NextUploadIdMarker", ""),
+        }
+
+    return aborted
+
+
 def cleanup_local(*paths: Path) -> None:
     """Remove temporary local files created by this script."""
     for path in paths:
@@ -289,21 +420,94 @@ def cleanup_local(*paths: Path) -> None:
             print(f"Removed local file: {path.name}")
 
 
+def parse_args() -> argparse.Namespace:
+    """Parse command-line arguments."""
+    parser = argparse.ArgumentParser(
+        description="Create and upload game assets to Cloudflare R2."
+    )
+    parser.add_argument(
+        "--reuse-archive",
+        action="store_true",
+        help=(
+            "Skip ZIP creation and hashing; reuse existing assets.zip and "
+            "version.json in the repo root (useful after a failed publish)."
+        ),
+    )
+    parser.add_argument(
+        "--cleanup-incomplete",
+        action="store_true",
+        help=(
+            "Abort incomplete multipart uploads left behind by failed transfers "
+            "(frees billed storage) and exit without uploading."
+        ),
+    )
+    return parser.parse_args()
+
+
 def main() -> None:
+    args = parse_args()
     config = load_config()
     client = create_r2_client(config)
     bucket = config["R2_BUCKET_NAME"]
     version = config["ASSET_VERSION"]
 
+    # Incomplete multipart uploads are billed until aborted. Clean known keys
+    # (temp + live) before work and after publish; --cleanup-incomplete only.
+    cleanup_keys = (TEMP_OBJECT_KEY, LIVE_OBJECT_KEY, VERSION_FILE)
+
+    if args.cleanup_incomplete:
+        print("Aborting incomplete multipart uploads...")
+        count = abort_incomplete_uploads(client, bucket, keys=cleanup_keys)
+        # Also remove any leftover completed temp object from a half-finished run.
+        try:
+            client.head_object(Bucket=bucket, Key=TEMP_OBJECT_KEY)
+            delete_object(client, bucket, TEMP_OBJECT_KEY)
+            print(f"  Deleted leftover object: {TEMP_OBJECT_KEY}")
+        except ClientError as exc:
+            code = exc.response.get("Error", {}).get("Code", "")
+            if code not in ("404", "NoSuchKey", "NotFound"):
+                fail(f"Failed to check leftover {TEMP_OBJECT_KEY}: {exc}")
+        if count == 0:
+            print("No incomplete uploads found.")
+        else:
+            print(f"Cleaned up {count} incomplete upload(s).")
+        return
+
     archive_path = REPO_ROOT / ARCHIVE_NAME
     version_path = REPO_ROOT / VERSION_FILE
 
-    files = iter_asset_files()
-    create_archive(archive_path, files)
+    print("Clearing leftover incomplete uploads (if any)...")
+    aborted = abort_incomplete_uploads(client, bucket, keys=cleanup_keys)
+    if aborted:
+        print(f"Cleared {aborted} incomplete upload(s).")
 
-    file_size = archive_path.stat().st_size
-    sha256 = compute_sha256(archive_path)
-    write_version_json(version_path, version, ARCHIVE_NAME, file_size, sha256)
+    if args.reuse_archive:
+        if not archive_path.is_file() or not version_path.is_file():
+            fail(
+                "--reuse-archive requires existing assets.zip and version.json "
+                "in the repository root."
+            )
+        print(f"Reusing existing archive: {archive_path.name}")
+        metadata = json.loads(version_path.read_text(encoding="utf-8"))
+        file_size = int(metadata.get("size", archive_path.stat().st_size))
+        sha256 = str(metadata.get("sha256", ""))
+        if not sha256:
+            fail("Existing version.json is missing sha256.")
+        if str(metadata.get("version", "")) != version:
+            print(
+                f"WARNING: version.json has version {metadata.get('version')!r}, "
+                f"but .env ASSET_VERSION is {version!r}. Continuing with .env value "
+                "only for console output; remote version.json will use the file on disk."
+            )
+            # Keep metadata from disk for consistency with the archive hash.
+            version = str(metadata.get("version", version))
+    else:
+        files = iter_asset_files()
+        create_archive(archive_path, files)
+
+        file_size = archive_path.stat().st_size
+        sha256 = compute_sha256(archive_path)
+        write_version_json(version_path, version, ARCHIVE_NAME, file_size, sha256)
 
     upload_file(
         client,
@@ -321,6 +525,7 @@ def main() -> None:
         cache_control="no-cache, max-age=0",
     )
     delete_object(client, bucket, TEMP_OBJECT_KEY)
+    abort_incomplete_uploads(client, bucket, keys=cleanup_keys)
 
     public_url = config["R2_PUBLIC_URL"].rstrip("/")
     print("\nUpload complete.")

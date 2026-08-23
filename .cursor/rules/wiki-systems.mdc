@@ -1,0 +1,17 @@
+---
+description: Supporting systems — Effects (apply/revert), Modifiers (stat/bar drift), Options (trailing flags). Read wiki/Effects.md, wiki/Modifiers.md, or wiki/Options.md before using or changing them.
+globs: game/scripts/effects.rpy,game/scripts/modifier.rpy,game/scripts/option.rpy,game/scripts/daily_check.rpy
+alwaysApply: false
+---
+
+# Effects, Modifiers, Options
+
+Canonical guides — read the one that matches the task:
+
+| Topic | Wiki | Code |
+|-------|------|------|
+| Effects (money, stats, unlocks, apply/revert) | `wiki/Effects.md` | `game/scripts/effects.rpy` |
+| Modifiers (operators, rhythms, bar targets) | `wiki/Modifiers.md` | `game/scripts/modifier.rpy`, `game/scripts/daily_check.rpy` |
+| Options (shared trailing flags) | `wiki/Options.md` | `game/scripts/option.rpy` |
+
+Effects vs SituationEffects: covered in `wiki/Effects.md`. Situation bars as modifier targets: `wiki/Modifiers.md`.

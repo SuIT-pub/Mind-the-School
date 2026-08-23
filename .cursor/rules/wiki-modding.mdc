@@ -1,0 +1,20 @@
+---
+description: Modding and developer overview — register_mod, folder layout, assets, how Situations/Events/Unlockables plug in. Read wiki/Modding.md and wiki/Developer-Guide.md before creating or explaining mods.
+globs: game/scripts/helper.rpy,wiki/Modding.md,wiki/Developer-Guide.md
+alwaysApply: false
+---
+
+# Modding
+
+Canonical guides:
+
+1. **`wiki/Developer-Guide.md`** — overview, assets download, how the pieces fit
+2. **`wiki/Modding.md`** — register, context, content, assets, enable/test, distribution
+
+Game assets are **not** in git (~21 GB on R2). See Developer-Guide → getting the game assets (`tools/download_assets.py`).
+
+## Code
+
+- `game/scripts/helper.rpy` — `register_mod`, `set_current_mod`, `is_mod_active`, `get_mod_path`
+
+Content systems (read the matching wiki when adding that kind of content): Situations, Unlockables, Events, Conditions, Selectors, Effects, Images.

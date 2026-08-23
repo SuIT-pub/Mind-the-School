@@ -1,104 +1,24 @@
 ---
-description: Documentation for the character system implementation
-globs: 
+description: Character system and cast — Person/Char APIs, dialogue, paperdoll registration, and per-character wiki pages (bios, outfits). Read wiki/Characters.md and the matching character page when writing about or for a named character.
+globs: game/scripts/character.rpy,game/scripts/values.rpy,wiki/characters/**/*.md,wiki/Characters.md
 alwaysApply: false
 ---
-# Character System Documentation
 
-## Overview
-The game uses a dual-class system for character management:
-1. `Char` class - Core character stats and mechanics
-2. `PersonObj` class - Character details and visual elements
+# Characters
 
-## Character Categories
-Characters are organized into the following groups:
+## Cast and lore
 
-### Students (Class 3A)
-15 students in total, including:
-- Aona Komuro
-- Easkey Tanaka
-   - In relationship with Sakura Mori
-- Elsie Johnson
-   - In relationship with Yuriko Oshima
-- Gloria Goto
-- Luna Clark
-   - Twin of Seraphina
-- Seraphina Clark 
-   - Twin of Luna
-- Hatano Miwa
-- Ikushi Ito
-- Ishimaru Maki
-- Kokoro Nakamura
-- Lin Kato
-- Miwa Igarashi
-- Sakura Mori
-   - In relationship with Easkey Tanaka
-- Soyoon Yamamoto
-- Yuriko Oshima
-   - In relationship with Elsie Johnson
+Canonical pages: **`wiki/Characters.md`** (index) and **`wiki/characters/<Name>/<Name>.md`** (one folder per character). Read those before writing dialogue, descriptions, or outfit/level details for a named character. Do not use stale names from memory (e.g. the headmaster is **Mark Benson**, page `Headmaster`).
 
-### Teachers
-5 teachers with specific subjects:
-- Chloe Garcia
-   - Art, Music
-- Finola Ryan
-   - English, History
-- Lily Anderson
-   - Math, Sciences
-- Yulan Chen
-   - History, Politics
-- Zoe Parker
-   - Physical Education, Health
+Character card PNGs are HS2 / StudioNeoV2 cards: extra binary is keyed to the filename. Never rename, recompress, or re-export them. See `wiki/README.md`.
 
-### Administrative Staff
-- Emiko Langley
-   - Secretary
-- Linh Nguyen
-   - Nurse
+## Implementation
 
-### Parents
-- Adelaide Hall
-   - Kitchen Mother
-- Nubia Davis
-- Yuki Yamamoto
-   - Mother of Soyoon
+There is no separate Character *system* wiki page. For APIs, read:
 
-### Administration
-- Midoriya Izuku
-   - Headmaster/Player character
+- `game/scripts/character.rpy` — `Person` / `Char`, `get_person`, `get_person_char`, `find_person`, paperdoll helpers
+- `game/scripts/values.rpy` — character definitions and styling
+- Dialogue and `show` usage in events: `wiki/Events.md` (characters & dialogue)
+- Layered sprites: `wiki/Paperdoll.md`
 
-## Implementation Details
-
-### Character Stats
-Each character has the following base stats:
-- Corruption
-- Inhibition
-- Happiness
-- Education
-- Charm
-- Reputation
-
-### Key Files
-- [character.rpy](mdc:game/scripts/character.rpy) - Core character classes and management
-- [values.rpy](mdc:game/scripts/values.rpy) - Character definitions and styling
-
-### Technical Notes
-1. Characters are loaded through `load_character()` function
-2. Character data is stored in `person_storage` system
-3. Characters support multiple states:
-   - Normal
-   - Whispering
-   - Shouting
-   - Thinking
-
-### Usage in Code
-To access characters:
-- Use `get_person(key, name)` for character data
-- Use `get_person_char(key, name)` for character objects
-- Use `find_person(name)` for general search
-
-### Character Groups
-Characters are organized in these storage categories:
-- "class_3a" - Students
-- "staff" - Teachers and administrative staff
-- "parents" - Parent characters
+Storage groups: `"class_3a"` (students), `"staff"`, `"parents"`.
