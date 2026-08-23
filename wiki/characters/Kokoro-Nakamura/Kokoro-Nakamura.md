@@ -1,4 +1,6 @@
-**Class 3A · Student** · [All characters](Characters)
+[Home](Home) › [Characters](Characters) › [Class 3A](Characters#students) › Kokoro Nakamura
+
+**Class 3A · Student**
 
 Kokoro Nakamura is a student in class 3A.
 
@@ -11,22 +13,22 @@ Kokoro Nakamura is a student in class 3A.
 
 ## Portrait
 
-> Placeholder — drop the character-card PNG into this folder **without renaming it**. Default slot: `portrait.png`. If the file has another name, change both URLs below to that exact name. Click the image to open the original file.
-
-<a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Kokoro-Nakamura/portrait.png">
-  <img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Kokoro-Nakamura/portrait.png" alt="Kokoro Nakamura — portrait (placeholder)" width="480">
-</a>
+<a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Kokoro-Nakamura/HS2ChaF_20240813203223902_Kokoro%20Nakamura_SuIT.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Kokoro-Nakamura/HS2ChaF_20240813203223902_Kokoro%20Nakamura_SuIT.png" alt="Kokoro Nakamura" width="480"></a>
 
 ## Outfits
 
-> Placeholders — drop outfit cards into `outfits/` **without renaming them**. Default slots: `outfit-1.png`, `outfit-2.png`, `outfit-3.png`. Duplicate a thumbnail for more outfits. Click an image to open the original file.
+Names come from the Honey Select 2 coordinate card. Click an image to open the original file.
 
-<a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Kokoro-Nakamura/outfits/outfit-1.png">
-  <img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Kokoro-Nakamura/outfits/outfit-1.png" alt="Outfit 1 (placeholder)" width="160">
-</a>
-<a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Kokoro-Nakamura/outfits/outfit-2.png">
-  <img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Kokoro-Nakamura/outfits/outfit-2.png" alt="Outfit 2 (placeholder)" width="160">
-</a>
-<a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Kokoro-Nakamura/outfits/outfit-3.png">
-  <img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Kokoro-Nakamura/outfits/outfit-3.png" alt="Outfit 3 (placeholder)" width="160">
-</a>
+### Uniforms
+
+| Level 0 | Level 01 | Level 02 | Level 03 |
+|:---:|:---:|:---:|:---:|
+| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Kokoro-Nakamura/outfits/HS2CoordeF_20230621193140862.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Kokoro-Nakamura/outfits/HS2CoordeF_20230621193140862.png" alt="Kokoro Nakamura — Level 0" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Kokoro-Nakamura/outfits/HS2CoordeF_20230920181438918.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Kokoro-Nakamura/outfits/HS2CoordeF_20230920181438918.png" alt="Kokoro Nakamura — Level 01" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Kokoro-Nakamura/outfits/HS2CoordeF_20240617173921597.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Kokoro-Nakamura/outfits/HS2CoordeF_20240617173921597.png" alt="Kokoro Nakamura — Level 02" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Kokoro-Nakamura/outfits/HS2CoordeF_20240925191756148.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Kokoro-Nakamura/outfits/HS2CoordeF_20240925191756148.png" alt="Kokoro Nakamura — Level 03" width="160"></a> |
+
+| Level 04 | Level 05 | Level 06 | Level 07 |
+|:---:|:---:|:---:|:---:|
+| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Kokoro-Nakamura/outfits/HS2CoordeF_20240925192131113.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Kokoro-Nakamura/outfits/HS2CoordeF_20240925192131113.png" alt="Kokoro Nakamura — Level 04" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Kokoro-Nakamura/outfits/HS2CoordeF_20240925192154183.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Kokoro-Nakamura/outfits/HS2CoordeF_20240925192154183.png" alt="Kokoro Nakamura — Level 05" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Kokoro-Nakamura/outfits/HS2CoordeF_20240925192349679.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Kokoro-Nakamura/outfits/HS2CoordeF_20240925192349679.png" alt="Kokoro Nakamura — Level 06" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Kokoro-Nakamura/outfits/HS2CoordeF_20240925192706134.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Kokoro-Nakamura/outfits/HS2CoordeF_20240925192706134.png" alt="Kokoro Nakamura — Level 07" width="160"></a> |
+
+| Level 08 | Level 09 | Level 10 |
+|:---:|:---:|:---:|
+| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Kokoro-Nakamura/outfits/HS2CoordeF_20240925192723558.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Kokoro-Nakamura/outfits/HS2CoordeF_20240925192723558.png" alt="Kokoro Nakamura — Level 08" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Kokoro-Nakamura/outfits/HS2CoordeF_20240925192748973.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Kokoro-Nakamura/outfits/HS2CoordeF_20240925192748973.png" alt="Kokoro Nakamura — Level 09" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Kokoro-Nakamura/outfits/HS2CoordeF_20240925192810150.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Kokoro-Nakamura/outfits/HS2CoordeF_20240925192810150.png" alt="Kokoro Nakamura — Level 10" width="160"></a> |

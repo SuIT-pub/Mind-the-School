@@ -37,3 +37,7 @@ __pycache__/
 
 # Personal / scratch data
 openwebui-*.json
+
+assets.zip
+
+wiki/characters/**/*.png

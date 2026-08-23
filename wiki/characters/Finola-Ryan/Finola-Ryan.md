@@ -1,4 +1,6 @@
-**Teacher** · [All characters](Characters)
+[Home](Home) › [Characters](Characters) › [Teachers](Characters#teachers) › Finola Ryan
+
+**Teacher**
 
 Finola Ryan teaches English and History.
 
@@ -12,22 +14,34 @@ Finola Ryan teaches English and History.
 
 ## Portrait
 
-> Placeholder — drop the character-card PNG into this folder **without renaming it**. Default slot: `portrait.png`. If the file has another name, change both URLs below to that exact name. Click the image to open the original file.
-
-<a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/portrait.png">
-  <img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/portrait.png" alt="Finola Ryan — portrait (placeholder)" width="480">
-</a>
+<a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/HS2ChaF_20240813200347721_Finola%20Ryan_SuIT.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/HS2ChaF_20240813200347721_Finola%20Ryan_SuIT.png" alt="Finola Ryan" width="480"></a>
 
 ## Outfits
 
-> Placeholders — drop outfit cards into `outfits/` **without renaming them**. Default slots: `outfit-1.png`, `outfit-2.png`, `outfit-3.png`. Duplicate a thumbnail for more outfits. Click an image to open the original file.
+Names come from the Honey Select 2 coordinate card. Click an image to open the original file.
 
-<a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/outfits/outfit-1.png">
-  <img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/outfits/outfit-1.png" alt="Outfit 1 (placeholder)" width="160">
-</a>
-<a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/outfits/outfit-2.png">
-  <img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/outfits/outfit-2.png" alt="Outfit 2 (placeholder)" width="160">
-</a>
-<a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/outfits/outfit-3.png">
-  <img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/outfits/outfit-3.png" alt="Outfit 3 (placeholder)" width="160">
-</a>
+### Uniforms
+
+| Level 00 | Level 01 | Level 02 | Level 03 |
+|:---:|:---:|:---:|:---:|
+| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/outfits/HS2CoordeF_20230728115539915.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/outfits/HS2CoordeF_20230728115539915.png" alt="Finola Ryan — Level 00" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/outfits/HS2CoordeF_20230728115548609.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/outfits/HS2CoordeF_20230728115548609.png" alt="Finola Ryan — Level 01" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/outfits/HS2CoordeF_20241226113400281.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/outfits/HS2CoordeF_20241226113400281.png" alt="Finola Ryan — Level 02" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/outfits/HS2CoordeF_20230728121429097.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/outfits/HS2CoordeF_20230728121429097.png" alt="Finola Ryan — Level 03" width="160"></a> |
+
+| Level 04 | Level 05 | Level 06 | Level 07 |
+|:---:|:---:|:---:|:---:|
+| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/outfits/HS2CoordeF_20230728122818116.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/outfits/HS2CoordeF_20230728122818116.png" alt="Finola Ryan — Level 04" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/outfits/HS2CoordeF_20230728122733978.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/outfits/HS2CoordeF_20230728122733978.png" alt="Finola Ryan — Level 05" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/outfits/HS2CoordeF_20230728122901814.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/outfits/HS2CoordeF_20230728122901814.png" alt="Finola Ryan — Level 06" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/outfits/HS2CoordeF_20230728123631895.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/outfits/HS2CoordeF_20230728123631895.png" alt="Finola Ryan — Level 07" width="160"></a> |
+
+| Level 08 | Level 09 | Level 10 |
+|:---:|:---:|:---:|
+| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/outfits/HS2CoordeF_20230728124824039.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/outfits/HS2CoordeF_20230728124824039.png" alt="Finola Ryan — Level 08" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/outfits/HS2CoordeF_20230728125058701.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/outfits/HS2CoordeF_20230728125058701.png" alt="Finola Ryan — Level 09" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/outfits/HS2CoordeF_20230728125237059.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/outfits/HS2CoordeF_20230728125237059.png" alt="Finola Ryan — Level 10" width="160"></a> |
+
+### Bathwear
+
+| Bathwear 01 | Bathwear 02 |
+|:---:|:---:|
+| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/outfits/HS2CoordeF_20240812153611416.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/outfits/HS2CoordeF_20240812153611416.png" alt="Finola Ryan — Bathwear 01" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/outfits/HS2CoordeF_20240812153648173.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/outfits/HS2CoordeF_20240812153648173.png" alt="Finola Ryan — Bathwear 02" width="160"></a> |
+
+### Other
+
+| Finola |
+|:---:|
+| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/outfits/HS2CoordeF_20231222145829071.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Finola-Ryan/outfits/HS2CoordeF_20231222145829071.png" alt="Finola Ryan — Finola" width="160"></a> |

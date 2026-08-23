@@ -14,5 +14,6 @@ This section will help new and returning players get the most out of the game.
   and buildings.
 - **Tips & FAQ** — common questions and pitfalls.
 
-See also the **[Walkthroughs](Player-Walkthroughs)** for step-by-step routes, and
-the **[Characters](Characters)** pages for the cast (portraits and outfit cards).
+See also the **[Walkthroughs](Player-Walkthroughs)** for story chains, journal
+unlocks, and location events, and the **[Characters](Characters)** pages for
+the cast (portraits and outfit cards).

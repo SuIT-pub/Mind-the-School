@@ -1,4 +1,6 @@
-**Teacher** · [All characters](Characters)
+[Home](Home) › [Characters](Characters) › [Teachers](Characters#teachers) › Yulan Chen
+
+**Teacher**
 
 Yulan Chen teaches History and Politics.
 
@@ -12,22 +14,34 @@ Yulan Chen teaches History and Politics.
 
 ## Portrait
 
-> Placeholder — drop the character-card PNG into this folder **without renaming it**. Default slot: `portrait.png`. If the file has another name, change both URLs below to that exact name. Click the image to open the original file.
-
-<a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/portrait.png">
-  <img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/portrait.png" alt="Yulan Chen — portrait (placeholder)" width="480">
-</a>
+<a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/HS2ChaF_20240813200315251_Yulan%20Chen_SuIT.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/HS2ChaF_20240813200315251_Yulan%20Chen_SuIT.png" alt="Yulan Chen" width="480"></a>
 
 ## Outfits
 
-> Placeholders — drop outfit cards into `outfits/` **without renaming them**. Default slots: `outfit-1.png`, `outfit-2.png`, `outfit-3.png`. Duplicate a thumbnail for more outfits. Click an image to open the original file.
+Names come from the Honey Select 2 coordinate card. Click an image to open the original file.
 
-<a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/outfits/outfit-1.png">
-  <img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/outfits/outfit-1.png" alt="Outfit 1 (placeholder)" width="160">
-</a>
-<a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/outfits/outfit-2.png">
-  <img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/outfits/outfit-2.png" alt="Outfit 2 (placeholder)" width="160">
-</a>
-<a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/outfits/outfit-3.png">
-  <img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/outfits/outfit-3.png" alt="Outfit 3 (placeholder)" width="160">
-</a>
+### Uniforms
+
+| Level 00 | Level 01 | Level 02 | Level 03 |
+|:---:|:---:|:---:|:---:|
+| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/outfits/HS2CoordeF_20230728113541992.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/outfits/HS2CoordeF_20230728113541992.png" alt="Yulan Chen — Level 00" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/outfits/HS2CoordeF_20230728113549668.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/outfits/HS2CoordeF_20230728113549668.png" alt="Yulan Chen — Level 01" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/outfits/HS2CoordeF_20230728113654635.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/outfits/HS2CoordeF_20230728113654635.png" alt="Yulan Chen — Level 02" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/outfits/HS2CoordeF_20230728113715400.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/outfits/HS2CoordeF_20230728113715400.png" alt="Yulan Chen — Level 03" width="160"></a> |
+
+| Level 04 | Level 05 | Level 06 | Level 07 |
+|:---:|:---:|:---:|:---:|
+| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/outfits/HS2CoordeF_20230728113800603.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/outfits/HS2CoordeF_20230728113800603.png" alt="Yulan Chen — Level 04" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/outfits/HS2CoordeF_20230728113900370.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/outfits/HS2CoordeF_20230728113900370.png" alt="Yulan Chen — Level 05" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/outfits/HS2CoordeF_20230728114146478.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/outfits/HS2CoordeF_20230728114146478.png" alt="Yulan Chen — Level 06" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/outfits/HS2CoordeF_20240817121625663.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/outfits/HS2CoordeF_20240817121625663.png" alt="Yulan Chen — Level 07" width="160"></a> |
+
+| Level 08 | Level 09 | Level 10 |
+|:---:|:---:|:---:|
+| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/outfits/HS2CoordeF_20230728114255627.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/outfits/HS2CoordeF_20230728114255627.png" alt="Yulan Chen — Level 08" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/outfits/HS2CoordeF_20230728114321301.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/outfits/HS2CoordeF_20230728114321301.png" alt="Yulan Chen — Level 09" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/outfits/HS2CoordeF_20230728114350470.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/outfits/HS2CoordeF_20230728114350470.png" alt="Yulan Chen — Level 10" width="160"></a> |
+
+### Bathwear
+
+| Bathwear 01 |
+|:---:|
+| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/outfits/HS2CoordeF_20240812160412176.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/outfits/HS2CoordeF_20240812160412176.png" alt="Yulan Chen — Bathwear 01" width="160"></a> |
+
+### Party
+
+| Party 01 | Party 02 |
+|:---:|:---:|
+| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/outfits/HS2CoordeF_20260217192950437.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/outfits/HS2CoordeF_20260217192950437.png" alt="Yulan Chen — Party 01" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/outfits/HS2CoordeF_20260217193025881.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yulan-Chen/outfits/HS2CoordeF_20260217193025881.png" alt="Yulan Chen — Party 02" width="160"></a> |

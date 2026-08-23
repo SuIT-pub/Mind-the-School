@@ -1,4 +1,6 @@
-**Administration · Headmaster** · [All characters](Characters)
+[Home](Home) › [Characters](Characters) › [Staff](Characters#staff) › Headmaster
+
+**Administrative staff · Headmaster**
 
 The player character.
 
@@ -8,22 +10,20 @@ The player character.
 
 ## Portrait
 
-> Placeholder — drop the character-card PNG into this folder **without renaming it**. Default slot: `portrait.png`. If the file has another name, change both URLs below to that exact name. Click the image to open the original file.
-
-<a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Headmaster/portrait.png">
-  <img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Headmaster/portrait.png" alt="Headmaster — portrait (placeholder)" width="480">
-</a>
+<a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Headmaster/030413c5af0b8787f5444abc9e3ea5e9cb0ca57e.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Headmaster/030413c5af0b8787f5444abc9e3ea5e9cb0ca57e.png" alt="Headmaster" width="480"></a>
 
 ## Outfits
 
-> Placeholders — drop outfit cards into `outfits/` **without renaming them**. Default slots: `outfit-1.png`, `outfit-2.png`, `outfit-3.png`. Duplicate a thumbnail for more outfits. Click an image to open the original file.
+Names come from the Honey Select 2 coordinate card. Click an image to open the original file.
 
-<a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Headmaster/outfits/outfit-1.png">
-  <img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Headmaster/outfits/outfit-1.png" alt="Outfit 1 (placeholder)" width="160">
-</a>
-<a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Headmaster/outfits/outfit-2.png">
-  <img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Headmaster/outfits/outfit-2.png" alt="Outfit 2 (placeholder)" width="160">
-</a>
-<a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Headmaster/outfits/outfit-3.png">
-  <img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Headmaster/outfits/outfit-3.png" alt="Outfit 3 (placeholder)" width="160">
-</a>
+### Bathwear
+
+| Bathgear |
+|:---:|
+| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Headmaster/outfits/HS2CoordeM_20240706140453207.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Headmaster/outfits/HS2CoordeM_20240706140453207.png" alt="Headmaster — Bathgear" width="160"></a> |
+
+### Other
+
+| Var 1 | Var 2 | Boss Santa | Sport |
+|:---:|:---:|:---:|:---:|
+| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Headmaster/outfits/HS2CoordeM_20240223171627964.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Headmaster/outfits/HS2CoordeM_20240223171627964.png" alt="Headmaster — Var 1" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Headmaster/outfits/HS2CoordeM_20240223171612176.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Headmaster/outfits/HS2CoordeM_20240223171612176.png" alt="Headmaster — Var 2" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Headmaster/outfits/HS2CoordeM_20241124182502986.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Headmaster/outfits/HS2CoordeM_20241124182502986.png" alt="Headmaster — Boss Santa" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Headmaster/outfits/HS2CoordeM_20240329160609637.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Headmaster/outfits/HS2CoordeM_20240329160609637.png" alt="Headmaster — Sport" width="160"></a> |

@@ -18,7 +18,8 @@ here and publish with the sync script.
 |------|---------|
 | `Home.md` | landing page |
 | `_Sidebar.md` / `_Footer.md` | navigation chrome |
-| `Player-Guide.md`, `Player-Walkthroughs.md` | 🎮 players (placeholders for now) |
+| `Player-Guide.md` | 🎮 players (placeholder) |
+| `Player-Walkthroughs.md`, `Walkthrough-Event-Chains.md`, `Walkthrough-Unlocks.md`, `Walkthrough-Locations.md` | 🎮 walkthroughs |
 | `Characters.md` | 🎮 character index (groups → per-character pages) |
 | `characters/<Name>/` | one folder per character (page + portrait + outfits) |
 | `Cheat-Menu.md` | 🎛️ tools |

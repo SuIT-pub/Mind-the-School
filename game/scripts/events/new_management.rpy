@@ -120,13 +120,20 @@ init 1 python:
         "nm_testing_the_waters_clipboard",
         OR(TimeCondition(daytime="f", weekday="d"), TimeCondition(daytime="d", weekday="w")),
         LevelCondition("1-", "school"),
-        SituationPoolCondition("new_management", "nm_testing_the_waters")))
+        SituationPoolCondition("new_management", "nm_testing_the_waters"),
+        # Her headline grey-area question (rerolls). Charm gates the "turnaround".
+        RandomListSelector("grey_area", "whether the weekend dress code still holds off campus", "if phones are really banned in free periods", "whether 'dating on campus' is a thing that's allowed now"),
+        StatSelector("charm", CHARM, "school", [20, 100]),
+        Pattern("main", "images/events/new_management/nm_testing_the_waters_clipboard/nm_testing_the_waters_clipboard 1.webp")))
     office_building_work_event["reputation"].add_event(Event(
         3,
         "nm_testing_the_waters_memo",
         TimeCondition(weekday="d", daytime="d"),
         LevelCondition("1-", "school"),
-        SituationPoolCondition("new_management", "nm_testing_the_waters")))
+        SituationPoolCondition("new_management", "nm_testing_the_waters"),
+        GameDataSelector("guided", "new_management_guided", 0),
+        # Object beat: the blank memo form squared to the blotter.
+        Pattern("main", "images/events/new_management/nm_testing_the_waters_memo/nm_testing_the_waters_memo 1.webp")))
 
     # --- nm_rumors_in_bloom (0 ... +25) ---
     kiosk_events["get_snack"].add_event(Event(
@@ -134,13 +141,22 @@ init 1 python:
         "nm_rumors_in_bloom_kiosk",
         OR(TimeCondition(weekday="d", daytime="1,3"), TimeCondition(weekday="w", daytime="4-")),
         LevelCondition("1-", "school"),
-        SituationPoolCondition("new_management", "nm_rumors_in_bloom")))
+        SituationPoolCondition("new_management", "nm_rumors_in_bloom"),
+        # Overheard intel on "listen"; a classmate voice; band-1 callbacks.
+        RandomListSelector("rumor", "a parent who keeps ringing about the science wing", "two teachers who haven't spoken since the potion week", "someone's older brother swearing the place is cursed"),
+        RandomListSelector("bystander", "ikushi_ito", "lin_kato", "ishimaru_maki"),
+        GameDataSelector("snapped", "nm_snapped", 0),
+        GameDataSelector("face_known", "nm_face_introduced", 0),
+        Pattern("main", "images/events/new_management/nm_rumors_in_bloom_kiosk/nm_rumors_in_bloom_kiosk 1.webp")))
     courtyard_events["search"].add_event(Event(
         3,
         "nm_rumors_in_bloom_chalk",
         OR(TimeCondition(daytime="f", weekday="d"), TimeCondition(daytime="d", weekday="w")),
         LevelCondition("1-", "school"),
-        SituationPoolCondition("new_management", "nm_rumors_in_bloom")))
+        SituationPoolCondition("new_management", "nm_rumors_in_bloom"),
+        # How the portrait flatters him (rerolls). Solo image-led beat.
+        RandomListSelector("exaggeration", "the jaw squared off like a statue's", "shoulders about three sizes too heroic", "a little crown, for some reason"),
+        Pattern("main", "images/events/new_management/nm_rumors_in_bloom_chalk/nm_rumors_in_bloom_chalk 1.webp")))
 
     # --- nm_quiet_endorsements (+10 ... +30) ---
     sb_events["check_class"].add_event(Event(
@@ -148,19 +164,27 @@ init 1 python:
         "nm_quiet_endorsements_after_bell",
         TimeCondition(weekday="d", daytime="c"),
         LevelCondition("1-", "school"),
-        SituationPoolCondition("new_management", "nm_quiet_endorsements")))
+        SituationPoolCondition("new_management", "nm_quiet_endorsements"),
+        # Payoff of the band-2 memory-gap beat; Zoe hallway tip under Guided.
+        GameDataSelector("miwa_helped", "nm_miwa_helped", 0),
+        GameDataSelector("guided", "new_management_guided", 0)))
     office_building_work_event["counselling"].add_event(Event(
         3,
         "nm_quiet_endorsements_second_coffee",
         TimeCondition(weekday="d", daytime="f"),
         LevelCondition("1-", "school"),
-        SituationPoolCondition("new_management", "nm_quiet_endorsements")))
+        SituationPoolCondition("new_management", "nm_quiet_endorsements"),
+        # Reacts to band-2 Lily; object beat bookends her rattling mug.
+        GameDataSelector("lily_witnessed", "nm_lily_witnessed", 0),
+        Pattern("main", "images/events/new_management/nm_quiet_endorsements_second_coffee/nm_quiet_endorsements_second_coffee 1.webp")))
     office_building_work_event["education"].add_event(Event(
         3,
         "nm_quiet_endorsements_curriculum",
         TimeCondition(weekday="d", daytime="d"),
         LevelCondition("1-", "school"),
-        SituationPoolCondition("new_management", "nm_quiet_endorsements")))
+        SituationPoolCondition("new_management", "nm_quiet_endorsements"),
+        # Object beat: your outline back with her one approving margin tick.
+        Pattern("main", "images/events/new_management/nm_quiet_endorsements_curriculum/nm_quiet_endorsements_curriculum 1.webp")))
 
     # --- nm_welcome_committee (+22 ... +40) ---
     sb_events["teach_class"].add_event(Event(
@@ -168,34 +192,46 @@ init 1 python:
         "nm_welcome_committee_mug",
         TimeCondition(weekday="d", daytime="c"),
         LevelCondition("1-", "school"),
-        SituationPoolCondition("new_management", "nm_welcome_committee")))
+        SituationPoolCondition("new_management", "nm_welcome_committee"),
+        # Bookends the band-1 corridor freeze-out.
+        GameDataSelector("yulan_thawed", "nm_yulan_thawed", 0),
+        Pattern("main", "images/events/new_management/nm_welcome_committee_mug/nm_welcome_committee_mug 1.webp")))
     office_building_events["look_around"].add_event(Event(
         3,
         "nm_welcome_committee_plaque",
         TimeCondition(weekday="d", daytime="f"),
         LevelCondition("1-", "school"),
-        SituationPoolCondition("new_management", "nm_welcome_committee")))
+        SituationPoolCondition("new_management", "nm_welcome_committee"),
+        # Bookends the nameplate; reacts to whether you claimed the door early.
+        GameDataSelector("door_claimed", "nm_door_claimed", 0),
+        GameDataSelector("guided", "new_management_guided", 0),
+        Pattern("main", "images/events/new_management/nm_welcome_committee_plaque/nm_welcome_committee_plaque 1.webp")))
     courtyard_events["patrol"].add_event(Event(
         3,
         "nm_welcome_committee_assembly",
         TimeCondition(weekday="d", daytime="1"),
         LevelCondition("1-", "school"),
-        SituationPoolCondition("new_management", "nm_welcome_committee")))
+        SituationPoolCondition("new_management", "nm_welcome_committee"),
+        # Bookends the janitor beat: Yuriko helped (ally flag), Aona greets by title.
+        GameDataSelector("yuriko_ally", "nm_yuriko_ally", 0),
+        GameDataSelector("face_known", "nm_face_introduced", 0),
+        Pattern("main", "images/events/new_management/nm_welcome_committee_assembly/nm_welcome_committee_assembly 1.webp")))
 
 
 #######################################
 # region Ghost Office ----------------- #
 #######################################
 
-# ═══ ASSET NOTES · nm_ghost_office_nameplate ═══════════════════════════════════
-#  SCENE IMAGE (non-dialogue establishing beat) — WIRED via show_pattern("main"):
-#    images/events/new_management/nm_ghost_office_nameplate/nm_ghost_office_nameplate 1.webp
-#    Close-up of the office door: dull brass plaque with the OLD headmaster's
-#    engraved name, half-covered by a crooked taped printout showing the
-#    misspelled <wrong_name>. Cold hall light, one thumbtack askew. Borrowed,
-#    provisional. (Add the same path as the event `thumbnail=` once it exists.)
-#  DIALOGUE : Emiko via paperdoll over blurred office building/secretary 6 1 0;
-#             moods neutral→suspicious→happy(fix)/shining(charm)/pout/sad.
+# ═══ SCENE · nm_ghost_office_nameplate ════════════════════════════════════════
+#  At the door of the headmaster's office. The previous headmaster's name is still on
+#  the brass plaque; a printout with the new headmaster's name — misspelled — is taped
+#  crookedly over half of it. Emiko (the secretary) is there and they talk about it;
+#  she mentions she ordered the proper plaque a week ago but it's stuck "in process."
+#  Over the scene the taped printout can come off. The misspelling varies (<wrong_name>:
+#  HEADMSTER / H. MASTAR / MR. HEADMAN / THE NEW GUY / MR. WHATSISNAME).
+#
+#  Wired: stepped door images via convert_pattern("main") (steps 0-3); Emiko paperdoll
+#  over the blurred office/secretary background.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_ghost_office_nameplate (**kwargs):
     $ begin_event(**kwargs)
@@ -307,39 +343,48 @@ label .walk_away (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 
-# ═══ ASSET NOTES · nm_ghost_office_janitor ═════════════════════════════════════
-#  SCENE IMAGE (establishing) — WIRED via show_pattern("main"):
-#    images/events/new_management/nm_ghost_office_janitor/nm_ghost_office_janitor 1.webp
-#    Two girls by the courtyard path glancing sidelong at the headmaster — one
-#    smirking, one uncertain; he reads as "staff-adjacent, not staff." Sunlit,
-#    gossipy, low-stakes cruelty. (Add as event `thumbnail=` once it exists.)
-#  DIALOGUE : Aona via paperdoll over blurred courtyard/1 0 1; neutral→suspicious
-#             →happy/suprised/sad. <bystander> (random 3A) speaks one line by name.
-#  Selectors: <bystander>, <wrong_role> (mistaken job).
+# ═══ SCENE · nm_ghost_office_janitor ══════════════════════════════════════════
+#  Daytime in the school courtyard, by one of the paths. Aona (a 3rd-year student)
+#  is standing with one classmate. The two of them are talking and glancing over at
+#  the headmaster, who is a few steps away, and gossiping about him: Aona is sure he's
+#  just the maintenance man, while the other girl thinks he might be the man who gave
+#  the assembly speech. Neither of them realises he's the new headmaster. Light, sunny,
+#  everyday — two students sizing up a stranger.
+#
+#  The classmate is picked at random each playthrough (ikushi_ito / lin_kato /
+#  ishimaru_maki), so keep any drawing of her generic enough to fit any of them.
+#
+#  Currently wired: one optional full-screen image (1920×1080 .webp) via
+#  show_pattern("main") at
+#  images/events/new_management/nm_ghost_office_janitor/nm_ghost_office_janitor 1.webp.
+#  The overheard gossip plays over that image (no paperdolls). Aona + classmate
+#  paperdolls appear only in the branches where he speaks to them and they turn to
+#  face him. Background: courtyard/1 0 1.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_ghost_office_janitor (**kwargs):
     $ begin_event(version = "2", **kwargs)
 
     $ aona = Person["aona_komuro"]
-    $ bystander = get_person_value("bystander", **kwargs)
+    $ ikushi = Person["ikushi_ito"]
     $ wrong_role = get_value("wrong_role", **kwargs)
 
-    # Establishing beat: the two girls sizing him up from across the path → scene image.
-    $ show_pattern("main", **kwargs)
-    subtitles "By the courtyard path, Aona has an audience of exactly one classmate, and she is making the absolute most of it."
+    # images/events/new_management/nm_ghost_office_janitor/nm_ghost_office_janitor 1.webp
+    $ image = convert_pattern("main", **kwargs)
 
-    # Hand off to the conversation (paperdoll over the blurred courtyard).
+    # OVERHEARD gossip: the two girls are talking to EACH OTHER about him — he's just
+    # close enough to catch it. NO paperdolls here (paperdolls face the player, and
+    # these two aren't talking to him); the scene image shows them, he watches.
+    
     $ aona.register_paperdoll()
-    $ paperdoll_manager.set_background("images/background/courtyard/1 0 1.webp", blur = True)
-    $ aona.display(PDAImage(pose = "1", outfit = "uniform", level = 1, mood = "neutral", mouth = "open"),
-        PDAPreset("upper_body", duration = 0.0),
-        PDAPreset("outside", duration = 0.0))
-    $ aona.display(PDAPreset("upper_body_center", duration = 0.4))
+    $ ikushi.register_paperdoll()
+
+    $ image.show(0)
+    subtitles "By the courtyard path, Aona has an audience of exactly one classmate, and she is making the absolute most of it."
     aona.say "—so yeah, there's a new headmaster now. We sat through the whole speech in the gym, remember?"
-    $ aona.display(PDAImage(mood = "suspicious", mouth = "open"))
     aona.say "But {i}that{/i} guy? Nah. That's [wrong_role]. Look at the way he walks — that is not a headmaster walk."
-    bystander.say "...you sure, though? He kinda looks like the one who gave the speech."
-    $ aona.display(PDAImage(mood = "happy", mouth = "open"))
+
+    $ image.show(1)
+    ikushi.say "...you sure, though? He kinda looks like the one who gave the speech."
     aona.say "Trust me. That whole assembly was a total blur. Could've been anybody up on that stage."
 
     headmaster_thought "They know there's a headmaster somewhere out there. They just have no idea he's the man standing three feet away from them."
@@ -356,29 +401,38 @@ label nm_ghost_office_janitor (**kwargs):
     **kwargs)
 
 label .introduce (**kwargs):
-    $ aona = Person["aona_komuro"]
-
+    $ paperdoll_manager.set_background(image[1], blur = True)
     headmaster "Good morning. For the record — headmaster. Not [wrong_role]."
-    $ aona.display(PDAImage(mood = "suprised", mouth = "open"))
+    # He's spoken to them → they both turn to face him. Now it's a player-facing
+    # exchange, so paperdolls fit.
+    $ aona.display(PDAImage(pose = "1", outfit = "uniform", level = 1, mood = "suprised", mouth = "open"), PDAPreset("close_body_left", duration = 0.0))
+    $ ikushi.display(PDAImage(pose = "1", outfit = "uniform", level = 1, mood = "neutral", mouth = "closed"), PDAMove(alignX = 1.0))
     aona.say "..."
     aona.say "Oh my— you're real. You're an actual person."
-    subtitles "Her friend turns a laugh into a cough. Aona's ears go bright pink and she suddenly finds her own shoes fascinating."
+    $ ikushi.display(PDAImage(mood = "happy", mouth = "open"))
+    subtitles "Ikushi turns a laugh into a cough. Aona's ears go bright pink and she suddenly finds her own shoes fascinating."
+    $ aona.display(PDAImage(mood = "sad", mouth = "closed"))
     headmaster_thought "Oh, she is going to be telling that one at lunch all week. ...Good. Let them laugh — as long as they finally remember the face."
 
     $ set_game_data("nm_face_introduced", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
     call change_stats_with_modifier(reputation=SMALL, charm=TINY, happiness=TINY) from _nm_go_jan_intro
-    $ aona.clear_display()
     $ end_event('new_daytime', **kwargs)
 
 label .door (**kwargs):
-    $ aona = Person["aona_komuro"]
-
     headmaster "Corner office, end of that corridor. Go read the door, then come back and tell me who I am. I'll wait."
-    $ aona.display(PDAImage(mood = "suprised", mouth = "open"))
+    # He's addressed them → they face him; paperdolls fit now.
+    $ aona.register_paperdoll()
+    $ bystander.register_paperdoll()
+    $ paperdoll_manager.set_background("images/background/courtyard/1 0 1.webp", blur = True)
+    $ aona.display(PDAImage(pose = "1", outfit = "uniform", level = 1, mood = "suprised", mouth = "closed"),
+        PDAPreset("close_body_left", duration = 0.0))
+    $ bystander.display(PDAImage(pose = "1", outfit = "uniform", level = 1, mood = "suprised", mouth = "open"),
+        PDAPreset("close_body_right", duration = 0.0), PDAMove(alignX = 1.0))
     subtitles "Her friend actually takes the dare and jogs off. She comes back a few shades paler and a great deal quieter."
+    $ bystander.display(PDAImage(mood = "sad", mouth = "open"))
+    bystander.say "...it's got your name on it. Spelled right and everything. Sorry, headmaster."
     $ aona.display(PDAImage(mood = "sad", mouth = "closed"))
-    aona.say "...it's got your name on it. Spelled right and everything. Sorry, headmaster."
     headmaster_thought "Ha. Didn't have to say a single word. Some days the door does the arguing better than I could."
 
     $ set_game_data("nm_face_introduced", 1)
@@ -388,21 +442,27 @@ label .door (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .slip_past (**kwargs):
-    $ aona = Person["aona_komuro"]
-
+    # No paperdoll — he keeps walking; they're behind him, not facing him.
     subtitles "You keep walking, unhurried. Their voices thin out behind you, still arguing about who you are."
     headmaster_thought "No sense making a scene of it. They'll see me tomorrow, and the day after that. It sinks in eventually... it has to."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 1)
     call change_stats_with_modifier(reputation=TINY) from _nm_go_jan_slip
-    $ aona.clear_display()
     $ end_event('new_daytime', **kwargs)
 
 label .snap (**kwargs):
     $ aona = Person["aona_komuro"]
+    $ bystander = get_person_value("bystander", **kwargs)
 
     headmaster "If you've got time to hand out jobs I don't have, you've got time to be in class."
-    $ aona.display(PDAImage(mood = "sad", mouth = "open"))
+    # He's rounded on them → they face him; paperdolls fit now.
+    $ aona.register_paperdoll()
+    $ bystander.register_paperdoll()
+    $ paperdoll_manager.set_background("images/background/courtyard/1 0 1.webp", blur = True)
+    $ aona.display(PDAImage(pose = "1", outfit = "uniform", level = 1, mood = "sad", mouth = "open"),
+        PDAPreset("close_body_left", duration = 0.0))
+    $ bystander.display(PDAImage(pose = "1", outfit = "uniform", level = 1, mood = "sad", mouth = "closed"),
+        PDAPreset("close_body_right", duration = 0.0), PDAMove(alignX = 1.0))
     aona.say "We— we weren't— sorry."
     headmaster_thought "Well, that shut them up fast. ...Too fast. That was fear, not respect — and it's not what I wanted. Damn it."
 
@@ -413,14 +473,16 @@ label .snap (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 
-# ═══ ASSET NOTES · nm_ghost_office_private_line ════════════════════════════════
-#  SPLIT BACKGROUND (phone call): left half = his end in B/W (abstract "ghost"
-#  headmaster), right half = her end in colour. Currently the same office bg
-#  (secretary 6 1 0) fills both halves; drop a dedicated headmaster-office bg and
-#  swap the left pattern in set_background_split for a true two-room split.
-#  DIALOGUE : Emiko via paperdoll positioned in the colour (right) half;
-#             happy→neutral (the L5→L1 mask snap)→sad (honest/distant).
-#  Selector <loud_slip> drives her line; "honest" choice gated on Standing <= -18.
+# ═══ SCENE · nm_ghost_office_private_line ═════════════════════════════════════
+#  A phone call: the headmaster rings Emiko from the office line, so the two of them
+#  are in different rooms. She answers warmly — too warmly, caught off guard — then
+#  turns crisp and professional the instant footsteps pass in her outer office. She's
+#  at her desk. The item on top of the stack of messages she's holding back varies
+#  (<loud_slip>).
+#
+#  Wired: split-screen background (his side left, her side right) — both halves
+#  currently the same office bg, the left half in black & white; Emiko paperdoll on
+#  the right (colour) side.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_ghost_office_private_line (**kwargs):
     $ begin_event(version = "2", **kwargs)
@@ -531,15 +593,13 @@ label .distant (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 
-# ═══ ASSET NOTES · nm_ghost_office_empty_corridor ══════════════════════════════
-#  SCENE IMAGE (establishing) — WIRED via show_pattern("main"):
-#    images/events/new_management/nm_ghost_office_empty_corridor/nm_ghost_office_empty_corridor 1.webp
-#    Emptying hallway after the bell; Yulan mid-stride, folder open, gaze down,
-#    deliberately not looking up. (Add as event `thumbnail=` once it exists.)
-#  DIALOGUE : Yulan via paperdoll over blurred school building/1 0 1; guarded
-#             neutral, opens a fraction (suprised) only on the education "shop" beat.
-#  Selector <folder_topic> drives dialogue; face-known flag half-melts her freeze;
-#  "shop" choice gated on Education >= 20.
+# ═══ SCENE · nm_ghost_office_empty_corridor ═══════════════════════════════════
+#  Just after the bell, a school corridor emptying of students. Yulan Chen (a teacher)
+#  walks through reading from an open folder. The headmaster greets her; she doesn't
+#  look up and keeps reading. What she's buried in varies (<folder_topic>).
+#
+#  Wired: one image via show_pattern("main"); Yulan paperdoll over the blurred
+#  school-building corridor background.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_ghost_office_empty_corridor (**kwargs):
     $ begin_event(version = "2", **kwargs)
@@ -550,6 +610,8 @@ label nm_ghost_office_empty_corridor (**kwargs):
     $ face_known = get_value("face_known", 0, **kwargs) == 1
 
     # Establishing beat: the emptying hallway, Yulan mid-stride not looking up → scene image.
+    # Fallback bg: always an image before the first text (works before the hero art exists).
+    $ paperdoll_manager.set_background("images/background/school building/1 0 1.webp", blur = True)
     $ show_pattern("main", **kwargs)
     subtitles "The bell has just finished ringing. The corridor empties in pieces."
     subtitles "Yulan Chen walks with [folder_topic] open, reading as she moves."
@@ -596,6 +658,7 @@ label .acknowledge (**kwargs):
     subtitles "Still no eye contact. But the next page turns a little slower than the last one did."
     headmaster_thought "Was that— yeah. The page turned slower that time. It's almost nothing. But it's the first inch she's given me."
 
+    $ set_game_data("nm_yulan_thawed", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 2)
     call change_stats_with_modifier(education=TINY, reputation=TINY) from _nm_go_cor_ack
     $ yulan.clear_display()
@@ -612,6 +675,7 @@ label .shop (**kwargs):
     $ yulan.display(PDAImage(mood = "neutral", mouth = "closed"))
     headmaster_thought "There it is. Charm slides straight off her — but talk about the actual work, know it as well as she does, and she looks up. ...Noted."
 
+    $ set_game_data("nm_yulan_thawed", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
     call change_stats_with_modifier(education=SMALL, reputation=TINY) from _nm_go_cor_shop
     $ yulan.clear_display()
@@ -649,16 +713,16 @@ label .force (**kwargs):
 # region Potion Hangover -------------- #
 #######################################
 
-# ═══ ASSET NOTES · nm_potion_hangover_miwa ═════════════════════════════════════
-#  SCENE IMAGE (establishing object beat) — WIRED via show_pattern("main"):
-#    images/events/new_management/nm_potion_hangover_miwa/nm_potion_hangover_miwa 1.webp
-#    A busy 3A row of open notebooks — and Miwa's, shut under her folded hands.
-#    Quiet, isolating. (Add as event `thumbnail=` once it exists.)
-#  DIALOGUE : Miwa via paperdoll over blurred school building/1 0 1 — placed
-#    directly, NO entrance slide (she's withdrawn, not arriving).
-#  B/W DEVICE (art-free): her portrait desaturates via PDABw for the dissociation
-#    beat and returns to colour when she does — the memory-gap on the character.
-#  Selector <memory_scrap> = the fragment she almost catches.
+# ═══ SCENE · nm_potion_hangover_miwa ══════════════════════════════════════════
+#  A 3rd-year classroom, mid-lesson. Everyone is working with their notebooks open
+#  except Miwa, who sits apart with hers shut. The headmaster checks on her; she can't
+#  remember Tuesday morning at all — a blank where the week should be. When she tries
+#  to reach for it she briefly goes absent, staring at nothing, then comes back. The
+#  sensory scrap she almost catches varies (<memory_scrap>).
+#
+#  Wired: one image via show_pattern("main"); Miwa paperdoll over the blurred classroom
+#  background; her portrait drains to greyscale for the blank-out beat, then returns to
+#  colour.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_potion_hangover_miwa (**kwargs):
     $ begin_event(version = "2", **kwargs)
@@ -668,6 +732,8 @@ label nm_potion_hangover_miwa (**kwargs):
     $ emiko_close = get_value("emiko_close", 0, **kwargs) == 1
 
     # Establishing object beat: a room of open notebooks, and the one that isn't.
+    # Fallback bg: always an image before the first text (works before the hero art exists).
+    $ paperdoll_manager.set_background("images/background/school building/1 0 1.webp", blur = True)
     $ show_pattern("main", **kwargs)
     subtitles "3A is deep in a lesson — heads down, pens moving, the ordinary hum of a room that remembers what day it is."
     subtitles "Every notebook on the row is open. Miwa's lies shut under her folded hands, like she's holding it closed on purpose."
@@ -750,15 +816,14 @@ label .press (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 
-# ═══ ASSET NOTES · nm_potion_hangover_lily ═════════════════════════════════════
-#  SCENE IMAGE (object beat) — WIRED via show_pattern("main"):
-#    images/events/new_management/nm_potion_hangover_lily/nm_potion_hangover_lily 1.webp
-#    Close-up: her coffee mug rattling once against the saucer as she sets it
-#    down — the tell she pretends not to hear. (Add as event `thumbnail=` later.)
-#  DIALOGUE : Lily via paperdoll over blurred office building/teacher 1 1 0. She
-#    half-enters, apologetic, ready to leave — the scene is coaxing her to stay.
-#  Selector <unnerved> rerolls her confession. "loop_in" choice gated on the
-#    RELATIONSHIP flag nm_emiko_close (a different gate axis than band 1's stats).
+# ═══ SCENE · nm_potion_hangover_lily ══════════════════════════════════════════
+#  The counselling office. Lily Anderson (a teacher) turns up without an appointment,
+#  hovering in the doorway, apologetic and half-ready to leave. She sits; when she sets
+#  her coffee mug down it rattles once against the saucer. Shaken, she asks the
+#  headmaster if last week was real. What specifically unnerved her varies (<unnerved>).
+#
+#  Wired: one image via show_pattern("main"); Lily paperdoll over the blurred
+#  teacher-office background.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_potion_hangover_lily (**kwargs):
     $ begin_event(version = "2", **kwargs)
@@ -767,6 +832,8 @@ label nm_potion_hangover_lily (**kwargs):
     $ unnerved = get_value("unnerved", **kwargs)
     $ emiko_close = get_value("emiko_close", 0, **kwargs) == 1
 
+    # Fallback bg: always an image before the first text (works before the hero art exists).
+    $ paperdoll_manager.set_background("images/background/office building/teacher 1 1 0.webp", blur = True)
     subtitles "A knock — too soft to be official. Lily Anderson is already half-turned back toward the corridor by the time you look up."
     $ lily.register_paperdoll()
     $ paperdoll_manager.set_background("images/background/office building/teacher 1 1 0.webp", blur = True)
@@ -860,17 +927,15 @@ label .deflect (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 
-# ═══ ASSET NOTES · nm_potion_hangover_vial ═════════════════════════════════════
-#  Deliberately NOT a conversation — a solo investigation vignette: scene images
-#  + inner monologue, almost no paperdoll.
-#  SCENE IMAGE (the find) — WIRED via show_pattern("main"):
-#    images/events/new_management/nm_potion_hangover_vial/nm_potion_hangover_vial 1.webp
-#    Broken green vial / sticky residue behind the bike rack, catching the light.
-#  B/W MEMORY (art-free): the smell drags him to last Tuesday's corridor —
-#    rendered by reusing an existing corridor bg in blurred greyscale
-#    (set_background bw=True), so it reads today and only deepens with real art.
-#  Selector <residue_detail> varies the find. "bag" cuts briefly to Emiko's voice
-#    (a plain single portrait — NOT the ghost-office split-screen call).
+# ═══ SCENE · nm_potion_hangover_vial ══════════════════════════════════════════
+#  The courtyard, behind the bike rack. Alone, the headmaster finds a broken green
+#  vial, still sticky at the neck. Its detail varies (<residue_detail>). The sweet
+#  smell off it throws him into a brief flashback of the same smell in a school
+#  corridor last Tuesday, students moving oddly — then he's back at the bike rack. If
+#  he bags it and phones Emiko, it cuts briefly to her at her desk.
+#
+#  Wired: one image via show_pattern("main"); the flashback is an existing corridor
+#  background shown in greyscale; on "bag", a brief Emiko paperdoll over the office bg.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_potion_hangover_vial (**kwargs):
     $ begin_event(version = "2", **kwargs)
@@ -878,6 +943,8 @@ label nm_potion_hangover_vial (**kwargs):
     $ residue_detail = get_value("residue_detail", **kwargs)
 
     # The find — object beat, scene image, no one else out here.
+    # Fallback bg: always an image before the first text (works before the hero art exists).
+    $ paperdoll_manager.set_background("images/background/courtyard/1 0 1.webp", blur = True)
     $ show_pattern("main", **kwargs)
     subtitles "Behind the bike rack, something small catches the light: a broken vial, green glass gone cloudy, the neck still sticky where it snapped clean off."
     subtitles "You crouch. Up close there's [residue_detail]."
@@ -941,86 +1008,155 @@ label .ignore (**kwargs):
 # region Testing the Waters ----------- #
 #######################################
 
+# ═══ SCENE · nm_testing_the_waters_clipboard ══════════════════════════════════
+#  The courtyard. Yuriko Oshima (a student rep) steps into the headmaster's path with
+#  a clipboard and pen ready and fires off grey-area policy questions — dress code,
+#  phones, dating — writing his answers down as he gives them. Her opening question
+#  varies (<grey_area>).
+#
+#  Wired: one image via show_pattern("main"); Yuriko paperdoll over the blurred
+#  courtyard background.
+# ═══════════════════════════════════════════════════════════════════════════════
 label nm_testing_the_waters_clipboard (**kwargs):
-    $ begin_event(**kwargs)
+    $ begin_event(version = "2", **kwargs)
 
     $ yuriko = Person["yuriko_oshima"]
+    $ grey_area = get_value("grey_area", **kwargs)
 
-    subtitles "Yuriko Oshima intercepts you at the courtyard edge with a clipboard already uncapped."
-    yuriko.say "Quick questions. Grey ones."
-    yuriko.say "Dress code on weekends — phones in free periods — and dating. What counts, officially?"
-    headmaster_thought "She's not curious. She's mapping the office. My answers become precedents before lunch."
+    # Fallback bg: always an image before the first text (works before the hero art exists).
+    $ paperdoll_manager.set_background("images/background/courtyard/1 0 1.webp", blur = True)
+    $ show_pattern("main", **kwargs)
+    subtitles "You've barely cleared the courtyard arch before Yuriko Oshima steps neatly into your path, clipboard already uncapped. This was planned."
+    $ yuriko.register_paperdoll()
+    $ paperdoll_manager.set_background("images/background/courtyard/1 0 1.webp", blur = True)
+    $ yuriko.display(PDAImage(pose = "1", outfit = "uniform", level = 1, mood = "neutral", mouth = "open"),
+        PDAPreset("upper_body", duration = 0.0),
+        PDAPreset("outside", duration = 0.0))
+    $ yuriko.display(PDAPreset("upper_body_center", duration = 0.4))
+    yuriko.say "Headmaster. A few quick ones, if you don't mind. Grey areas, mostly."
+    $ yuriko.display(PDAImage(mood = "suspicious", mouth = "open"))
+    yuriko.say "Top of the list: [grey_area]. Officially. On the record."
+    headmaster_thought "That pen isn't for notes. It's for precedents. Whatever I say standing here is doing the rounds of every year group by lunch."
 
-    $ call_custom_menu_with_text("Yuriko's pen is waiting.", character.subtitles, False,
-        MenuElement("precise", "Answer precisely. Set clear precedents", EventEffect("nm_testing_the_waters_clipboard.precise")),
-        MenuElement("hedge", "Hedge and wiggle away from a hard answer", EventEffect("nm_testing_the_waters_clipboard.hedge")),
+    $ high_charm = get_stat_value("charm", [20, 100], **kwargs) >= 20
+
+    $ call_custom_menu_with_text("The pen is hovering.", character.subtitles, False,
+        MenuElement("precise", "Give her a clean, quotable answer. Own the precedent", EventEffect("nm_testing_the_waters_clipboard.precise")),
+        MenuElement("turnaround", "Flip the clipboard — ask what the students already assume", EventEffect("nm_testing_the_waters_clipboard.turnaround"), high_charm),
+        MenuElement("hedge", "Duck it. 'Case by case, I'll get back to you'", EventEffect("nm_testing_the_waters_clipboard.hedge")),
     **kwargs)
 
 label .precise (**kwargs):
-    $ begin_event(**kwargs)
     $ yuriko = Person["yuriko_oshima"]
 
-    headmaster "Weekends: uniform optional off campus, neat if you're representing us. Phones: free periods only, silent. Dating: no PDA on campus. Full stop."
-    yuriko.say "Got it."
-    subtitles "Three neat lines appear on her clipboard. She almost smiles."
-    headmaster_thought "She'll circulate that. Better my words than a rumor version."
+    headmaster "On the record, then. Uniform's optional off campus — neat if you're representing us. Phones, free periods only, on silent. No PDA on school grounds. Simple as that."
+    $ yuriko.display(PDAImage(mood = "neutral", mouth = "closed"))
+    subtitles "The pen moves fast — three clean lines, underlined once each. The corner of her mouth does something that isn't quite a smile."
+    yuriko.say "Clear. That's... refreshingly clear, actually."
+    headmaster_thought "Good. Let it be my words doing the rounds, then — not some third-hand version somebody invented in a stairwell."
 
+    $ set_game_data("nm_yuriko_ally", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
-    call change_stats_with_modifier(reputation=SMALL, education=TINY) from _call_nm_clip_precise
+    call change_stats_with_modifier(reputation=SMALL, education=TINY) from _nm_tw_clip_precise
+    $ yuriko.clear_display()
+    $ end_event('new_daytime', **kwargs)
+
+label .turnaround (**kwargs):
+    $ yuriko = Person["yuriko_oshima"]
+
+    headmaster "Before I answer — what do the students already think the rule is? You'd know better than the handbook does."
+    $ yuriko.display(PDAImage(mood = "suprised", mouth = "open"))
+    yuriko.say "...huh. Nobody's ever asked me that. Honestly? They assume the sensible version. It's only the grey bits they push at."
+    headmaster "Then let's make the sensible version the official one — and you get to tell them it came from asking you, not guessing."
+    $ yuriko.display(PDAImage(mood = "happy", mouth = "closed"))
+    yuriko.say "...I can work with that. I'll pass it on. Properly."
+    headmaster_thought "She came to map me out and she's walking off carrying my message for me instead. ...I'd make that trade every day of the week."
+
+    $ set_game_data("nm_yuriko_ally", 1)
+    $ situation_manager.apply_progress_change("situation:new_management:main", 4)
+    call change_stats_with_modifier(reputation=SMALL, charm=SMALL) from _nm_tw_clip_turn
+    $ yuriko.clear_display()
     $ end_event('new_daytime', **kwargs)
 
 label .hedge (**kwargs):
-    $ begin_event(**kwargs)
     $ yuriko = Person["yuriko_oshima"]
 
-    headmaster "It depends. Case by case. I'll... get back to you."
-    yuriko.say "So: undefined."
-    subtitles "She writes that word larger than the others."
-    headmaster_thought "Undefined becomes a playground. She'll fill the blank for me."
+    headmaster "It, ah— depends. Case by case, really. Let me get back to you on that one."
+    $ yuriko.display(PDAImage(mood = "suspicious", mouth = "closed"))
+    yuriko.say "So. Un-de-fined."
+    subtitles "She writes the word out slowly, larger than the rest, and caps the pen like she's got exactly what she came for."
+    headmaster_thought "...I just handed her a blank space with my name signed under it. She'll fill it in however suits her, and the whole school will call it policy."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", -3)
-    call change_stats_with_modifier(reputation=DEC_SMALL) from _call_nm_clip_hedge
+    call change_stats_with_modifier(reputation=DEC_SMALL) from _nm_tw_clip_hedge
+    $ yuriko.clear_display()
     $ end_event('new_daytime', **kwargs)
 
 
+# ═══ SCENE · nm_testing_the_waters_memo ═══════════════════════════════════════
+#  At the headmaster's desk. A blank school-wide memo form sits squared on the blotter
+#  — Emiko left it for him to write the school's first message from him, in his own
+#  words. Mostly he's alone with the form; Emiko steps in only briefly (under Guided)
+#  to nudge him, then he writes it — well, or blandly.
+#
+#  Wired: one image via show_pattern("main"); brief Emiko paperdoll over the blurred
+#  office/secretary background.
+# ═══════════════════════════════════════════════════════════════════════════════
 label nm_testing_the_waters_memo (**kwargs):
-    $ begin_event(**kwargs)
+    $ begin_event(version = "2", **kwargs)
 
     $ emiko = Person["emiko_langley"]
 
-    subtitles "On your desk: a blank school-wide memo form, edges already aligned to your blotter."
-    headmaster_thought "Emiko slid the template. She wants to see what tone I choose to own."
+    # Fallback bg: always an image before the first text (works before the hero art exists).
+    $ paperdoll_manager.set_background("images/background/office building/secretary 6 1 0.webp", blur = True)
+    $ show_pattern("main", **kwargs)
+    subtitles "A blank school-wide memo form waits on your blotter, edges squared to the wood. You didn't put it there."
+    headmaster_thought "Emiko slid this under my nose on purpose. First thing the whole school hears in my own voice — she wants to see which voice I reach for."
 
-    if get_game_data("new_management_guided") == 1:
-        emiko.say "Template on one side. Your words on the other. Go on."
+    if get_value("guided", 0, **kwargs) == 1:
+        $ emiko.register_paperdoll()
+        $ paperdoll_manager.set_background("images/background/office building/secretary 6 1 0.webp", blur = True)
+        $ emiko.display(PDAImage(pose = "1", outfit = "uniform", level = 6, mood = "happy", mouth = "open"),
+            PDAPreset("upper_body_center", duration = 0.0))
+        emiko.say "Template's on the left, your words on the right. ...Go on. I won't read over your shoulder. Much."
+        $ emiko.clear_display()
 
-    $ call_custom_menu_with_text("How do you write the first memo?", character.subtitles, False,
-        MenuElement("own", "Write a real draft. Own the tone", EventEffect("nm_testing_the_waters_memo.own")),
-        MenuElement("vague", "Keep it vague. Let the template do the speaking", EventEffect("nm_testing_the_waters_memo.vague")),
+    $ call_custom_menu_with_text("The form is blank. The pen is yours.", character.subtitles, False,
+        MenuElement("own", "Actually write it. Put your own voice on the page", EventEffect("nm_testing_the_waters_memo.own")),
+        MenuElement("vague", "Fill the required fields and leave the rest bland", EventEffect("nm_testing_the_waters_memo.vague")),
     **kwargs)
 
 label .own (**kwargs):
-    $ begin_event(**kwargs)
     $ emiko = Person["emiko_langley"]
 
-    subtitles "You write about presence, office hours, and that the door — correctly labeled — is open."
-    emiko.say "I'll run copies before last bell."
-    headmaster_thought "Desk work as authorial voice. The school will hear this version of me."
+    subtitles "You write about being present. About office hours that actually mean something. About a door — correctly labelled now — that stays open."
+    subtitles "It takes three drafts. The third one finally sounds like a person instead of a form."
+    $ emiko.register_paperdoll()
+    $ paperdoll_manager.set_background("images/background/office building/secretary 6 1 0.webp", blur = True)
+    $ emiko.display(PDAImage(pose = "1", outfit = "uniform", level = 6, mood = "shining", mouth = "closed"),
+        PDAPreset("upper_body_center", duration = 0.0))
+    emiko.say "...Huh. That actually sounds like you. I'll run copies before the last bell."
+    headmaster_thought "There. Now when they read it, they'll hear a man in the office — not a vacancy with a letterhead."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 4)
-    call change_stats_with_modifier(reputation=MEDIUM, education=TINY) from _call_nm_memo_own
+    call change_stats_with_modifier(reputation=MEDIUM, education=TINY) from _nm_tw_memo_own
+    $ emiko.clear_display()
     $ end_event('new_daytime', **kwargs)
 
 label .vague (**kwargs):
-    $ begin_event(**kwargs)
     $ emiko = Person["emiko_langley"]
 
-    subtitles "You fill the minimum fields and leave the body almost empty."
+    subtitles "You tick the required boxes, sign the bottom, and leave the body of it saying almost nothing at all."
+    $ emiko.register_paperdoll()
+    $ paperdoll_manager.set_background("images/background/office building/secretary 6 1 0.webp", blur = True)
+    $ emiko.display(PDAImage(pose = "1", outfit = "uniform", level = 6, mood = "neutral", mouth = "closed"),
+        PDAPreset("upper_body_center", duration = 0.0))
     emiko.say "Mm. Safe."
-    headmaster_thought "Safe reads as absent. Same problem, nicer paper."
+    headmaster_thought "'Safe.' She only ever says that when she means 'empty.' ...And she's not wrong, is she. Same nothing, nicer paper."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 1)
-    call change_stats_with_modifier(reputation=TINY) from _call_nm_memo_vague
+    call change_stats_with_modifier(reputation=TINY) from _nm_tw_memo_vague
+    $ emiko.clear_display()
     $ end_event('new_daytime', **kwargs)
 
 # endregion
@@ -1031,101 +1167,155 @@ label .vague (**kwargs):
 # region Rumors in Bloom -------------- #
 #######################################
 
+# ═══ SCENE · nm_rumors_in_bloom_kiosk ═════════════════════════════════════════
+#  The kiosk at break, in the queue crush. Aona and a classmate are ranking the staff
+#  out loud like a leaderboard when Aona spots the headmaster and, this time, recognises
+#  him from the assembly. Depending on their earlier run-ins she's friendly or wary. If
+#  he just listens, he overhears a piece of gossip that varies (<rumor>). The classmate
+#  is random each time (ikushi_ito / lin_kato / ishimaru_maki).
+#
+#  Wired: one image via show_pattern("main"); the overheard gossip plays over it (no
+#  paperdolls); Aona's paperdoll appears only in the branches where he speaks to her.
+#  Background: kiosk/1 1 1.
+# ═══════════════════════════════════════════════════════════════════════════════
 label nm_rumors_in_bloom_kiosk (**kwargs):
-    $ begin_event(**kwargs)
+    $ begin_event(version = "2", **kwargs)
 
     $ aona = Person["aona_komuro"]
+    $ bystander = get_person_value("bystander", **kwargs)
+    $ rumor = get_value("rumor", **kwargs)
+    $ snapped = get_value("snapped", 0, **kwargs) == 1
+    $ face_known = get_value("face_known", 0, **kwargs) == 1
 
-    subtitles "The kiosk line is its usual crush. Aona's group ranks staff like a game."
-    aona.say "Number three — wait."
-    aona.say "That's him from the assembly. I recognize him now."
-    headmaster_thought "Callback to the janitor beat. The face finally caught the title."
+    # Fallback bg: always an image before the first text (works before the hero art exists).
+    $ paperdoll_manager.set_background("images/background/kiosk/1 1 1.webp", blur = True)
+    $ show_pattern("main", **kwargs)
+    subtitles "The kiosk line is its usual break-time crush. Somewhere in the thick of it, Aona is holding court again — ranking the staff out loud like a league table."
+    # OVERHEARD: Aona is ranking the staff to her group, not talking to him — he just
+    # catches it in the queue. NO paperdolls here (paperdolls face the player); the
+    # scene image shows them and he watches.
+    aona.say "Number three, and that's generous— oh. {i}Oh.{/i} Hang on."
+    aona.say "That's him. From the assembly. I actually recognise him now."
+    if face_known:
+        aona.say "...the one who told me off for the 'janitor' thing. Yeah. Definitely him."
+        headmaster_thought "So it stuck. 'That's the maintenance guy' to a name and a face in a couple of weeks — right here in the snack queue. I'll take it."
+    else:
+        bystander.say "Told you it was the headmaster."
+        headmaster_thought "There it is. The face finally caught up with the title. Of all the places for it to happen — the crisps aisle."
 
-    if get_game_data("new_management_guided") == 1:
-        $ emiko = Person["emiko_langley"]
-        emiko.say "Kiosk hears everything. So do I."
+    if snapped:
+        subtitles "She drops her voice a notch when she clocks you're in earshot. She hasn't forgotten getting snapped at."
 
-    $ call_custom_menu_with_text("They've spotted you in the ranking.", character.subtitles, False,
-        MenuElement("intervene", "Intervene politely. Claim the title gently", EventEffect("nm_rumors_in_bloom_kiosk.intervene")),
-        MenuElement("listen", "Listen without correcting — take the intel", EventEffect("nm_rumors_in_bloom_kiosk.listen")),
-        MenuElement("break", "Break up the scene before it hardens into truth", EventEffect("nm_rumors_in_bloom_kiosk.break")),
+    $ call_custom_menu_with_text("You're three back in the queue — and squarely in the ranking.", character.subtitles, False,
+        MenuElement("intervene", "Step in, light and easy. Claim the title without heat", EventEffect("nm_rumors_in_bloom_kiosk.intervene")),
+        MenuElement("listen", "Say nothing. Buy a drink and take the free intel", EventEffect("nm_rumors_in_bloom_kiosk.listen")),
+        MenuElement("break", "Cut it off. 'Line's moving, gossip later'", EventEffect("nm_rumors_in_bloom_kiosk.break")),
     **kwargs)
 
 label .intervene (**kwargs):
-    $ begin_event(**kwargs)
     $ aona = Person["aona_komuro"]
 
-    headmaster "If you're ranking staff, put me by title. Headmaster. Not a number."
-    aona.say "Yes, headmaster."
-    subtitles "The joke dies. The recognition stays."
+    headmaster "If you're going to rank me, at least rank me by the right job. Headmaster. Not a number on your list."
+    # He's stepped in and spoken to her → Aona turns to face him; paperdoll fits now.
+    $ aona.register_paperdoll()
+    $ paperdoll_manager.set_background("images/background/kiosk/1 1 1.webp", blur = True)
+    $ aona.display(PDAImage(pose = "1", outfit = "uniform", level = 1, mood = "happy", mouth = "open"),
+        PDAPreset("close_body_center", duration = 0.0))
+    aona.say "...okay, that's fair. Headmaster. Noted."
+    subtitles "The game folds up on its own. The grin doesn't — but now it's pointed with you, not at you."
+    headmaster_thought "Didn't have to squash it. Just step in and own it, and suddenly I'm in on the joke instead of being the punchline."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
-    call change_stats_with_modifier(reputation=SMALL, charm=TINY) from _call_nm_kiosk_intervene
+    call change_stats_with_modifier(reputation=SMALL, charm=TINY) from _nm_rb_kiosk_intervene
+    $ aona.clear_display()
     $ end_event('new_daytime', **kwargs)
 
 label .listen (**kwargs):
-    $ begin_event(**kwargs)
-
-    subtitles "You buy a drink and stay in earshot. Names, soft complaints, one parent rumor that might matter."
-    headmaster_thought "Ambient intel. The kiosk is a newspaper with sugar."
+    # No paperdoll — he hangs back and overhears; nobody's talking to him.
+    subtitles "You stay put and let the queue carry you. The talk washes past — names, small grievances — and then something snags: [rumor]."
+    headmaster_thought "The kiosk really is a newspaper that runs on sugar. Half of it's nonsense. ...That last bit, though. I should keep that one in my back pocket."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 1)
-    call change_stats_with_modifier(reputation=TINY) from _call_nm_kiosk_listen
+    call change_stats_with_modifier(reputation=TINY) from _nm_rb_kiosk_listen
     $ end_event('new_daytime', **kwargs)
 
 label .break (**kwargs):
-    $ begin_event(**kwargs)
     $ aona = Person["aona_komuro"]
 
-    headmaster "Line's moving. Gossip later."
-    aona.say "Sheesh."
-    headmaster_thought "I killed the moment. Also the chance to own it."
+    headmaster "Line's moving. Save the gossip for your own time."
+    # He's cut in and addressed her → Aona faces him; paperdoll fits now.
+    $ aona.register_paperdoll()
+    $ paperdoll_manager.set_background("images/background/kiosk/1 1 1.webp", blur = True)
+    $ aona.display(PDAImage(pose = "1", outfit = "uniform", level = 1, mood = "pout", mouth = "closed"),
+        PDAPreset("close_body_center", duration = 0.0))
+    aona.say "...sheesh. Fine."
+    headmaster_thought "And there goes the moment. Shut it down flat — along with the one chance I had to be inside it instead of outside looking in."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", -1)
-    call change_stats_with_modifier(happiness=DEC_TINY) from _call_nm_kiosk_break
+    call change_stats_with_modifier(happiness=DEC_TINY) from _nm_rb_kiosk_break
+    $ aona.clear_display()
     $ end_event('new_daytime', **kwargs)
 
 
+# ═══ SCENE · nm_rumors_in_bloom_chalk ═════════════════════════════════════════
+#  Behind the bike shed. Someone has chalked a portrait of the headmaster on the brick
+#  wall — rough, but flattering. How it flatters him varies (<exaggeration>: a heroic
+#  square jaw / oversized shoulders / a little crown). No one is around at first; if he
+#  touches the drawing up himself, a student (Aona) catches him at it.
+#
+#  Wired: one image via show_pattern("main"); on "correct", an Aona paperdoll over the
+#  courtyard background.
+# ═══════════════════════════════════════════════════════════════════════════════
 label nm_rumors_in_bloom_chalk (**kwargs):
-    $ begin_event(**kwargs)
+    $ begin_event(version = "2", **kwargs)
 
-    subtitles "Behind the bike shed: a chalk portrait on the wall. Roughly you — and, oddly, flattering."
-    headmaster_thought "Aona's circle energy. The world is drawing me back in."
+    $ exaggeration = get_value("exaggeration", **kwargs)
 
-    $ call_custom_menu_with_text("What do you do with the chalk portrait?", character.subtitles, False,
-        MenuElement("leave", "Leave it. Feedback, not harm", EventEffect("nm_rumors_in_bloom_chalk.leave")),
-        MenuElement("correct", "Add one small correction. Keep it human", EventEffect("nm_rumors_in_bloom_chalk.correct")),
-        MenuElement("erase", "Erase it. Make a point", EventEffect("nm_rumors_in_bloom_chalk.erase")),
+    # Fallback bg: always an image before the first text (works before the hero art exists).
+    $ paperdoll_manager.set_background("images/background/courtyard/1 0 1.webp", blur = True)
+    $ show_pattern("main", **kwargs)
+    subtitles "Behind the bike shed, someone's chalked a portrait onto the brick. It's roughly you — and, weirdly, flattering: [exaggeration]."
+    headmaster_thought "A month ago they weren't sure I existed. Now I'm getting fan art on a wall. ...The world's decided to draw me back in, apparently."
+
+    $ call_custom_menu_with_text("Nobody's around. Just you and the wall.", character.subtitles, False,
+        MenuElement("leave", "Leave it exactly where it is. It's kind — let it stand", EventEffect("nm_rumors_in_bloom_chalk.leave")),
+        MenuElement("correct", "Borrow the stub of chalk and add one small, human touch", EventEffect("nm_rumors_in_bloom_chalk.correct")),
+        MenuElement("erase", "Scrub it off. Walls aren't a noticeboard", EventEffect("nm_rumors_in_bloom_chalk.erase")),
     **kwargs)
 
 label .leave (**kwargs):
-    $ begin_event(**kwargs)
-
-    subtitles "You walk past. The chalk stays."
-    headmaster_thought "If the sketch is kind, legitimacy has a mirror."
+    subtitles "You leave it be and walk on. Let it keep grinning at the bike racks."
+    headmaster_thought "If the version of me on that wall is one they actually like... I could do a lot worse than try to live up to it."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
-    call change_stats_with_modifier(happiness=TINY, charm=TINY) from _call_nm_chalk_leave
+    call change_stats_with_modifier(happiness=TINY, charm=TINY) from _nm_rb_chalk_leave
     $ end_event('new_daytime', **kwargs)
 
 label .correct (**kwargs):
-    $ begin_event(**kwargs)
+    $ aona = Person["aona_komuro"]
 
-    subtitles "You fix the jawline with a stub of chalk and add a tiny smile line."
-    headmaster_thought "Participation without a lecture. Someone will notice the edit."
+    subtitles "There's a nub of chalk in the dirt. You crouch, soften the jaw a touch, and add the one honest smile-line the artist was too shy to draw."
+    subtitles "A footstep scuffs behind you. A student — of course — has caught the headmaster vandalising his own portrait."
+    $ aona.register_paperdoll()
+    $ paperdoll_manager.set_background("images/background/courtyard/1 0 1.webp", blur = True)
+    $ aona.display(PDAImage(pose = "1", outfit = "uniform", level = 1, mood = "suprised", mouth = "open"),
+        PDAPreset("upper_body_center", duration = 0.0))
+    aona.say "...did you just {i}improve{/i} it?"
+    headmaster "It needed a smile. Don't tell anyone."
+    $ aona.display(PDAImage(mood = "happy", mouth = "closed"))
+    headmaster_thought "That's round the whole year by tomorrow — the headmaster who touched up his own graffiti instead of scrubbing it off. ...Good. Let it go round."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 2)
-    call change_stats_with_modifier(charm=TINY, happiness=TINY) from _call_nm_chalk_correct
+    call change_stats_with_modifier(charm=SMALL, happiness=TINY) from _nm_rb_chalk_correct
+    $ aona.clear_display()
     $ end_event('new_daytime', **kwargs)
 
 label .erase (**kwargs):
-    $ begin_event(**kwargs)
-
-    subtitles "You scrub the wall clean with your sleeve. Dust on your cuff. Silence in the shed."
-    headmaster_thought "I made the portrait a crime. That teaches fear, not respect."
+    subtitles "You scrub it off with your sleeve until there's nothing but a grey smear and chalk dust on your cuff. The shed goes very quiet."
+    headmaster_thought "...and just like that I've turned a kindness into a crime scene. That doesn't teach them respect. It teaches them to keep their heads down around me."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", -2)
-    call change_stats_with_modifier(happiness=DEC_SMALL, reputation=DEC_TINY) from _call_nm_chalk_erase
+    call change_stats_with_modifier(happiness=DEC_SMALL, reputation=DEC_TINY) from _nm_rb_chalk_erase
     $ end_event('new_daytime', **kwargs)
 
 # endregion
@@ -1136,163 +1326,242 @@ label .erase (**kwargs):
 # region Quiet Endorsements ----------- #
 #######################################
 
+# ═══ SCENE · nm_quiet_endorsements_after_bell ═════════════════════════════════
+#  Just after the bell, at a classroom doorway as students file out. Miwa hangs back
+#  against the flow to thank the headmaster for helping her the other day, then hurries
+#  off before it gets awkward. Under Guided, Zoe Parker (the PE teacher) leans out of
+#  the gym doorway as she passes with a quick word.
+#
+#  Wired: no establishing image (paperdoll-only); Miwa paperdoll over the blurred
+#  school-building background; Zoe leans in from the right under Guided.
+# ═══════════════════════════════════════════════════════════════════════════════
 label nm_quiet_endorsements_after_bell (**kwargs):
-    $ begin_event(**kwargs)
+    $ begin_event(version = "2", **kwargs)
 
     $ miwa = Person["miwa_igarashi"]
+    $ miwa_helped = get_value("miwa_helped", 0, **kwargs) == 1
 
-    subtitles "The period bell cuts the lesson short. Bags zip. Chairs scrape."
-    miwa.say "Thanks... for checking. Earlier."
-    miwa.say "I'll— I have to go. I just... can't stay long."
-    headmaster_thought "Emotional payoff with no demand attached. Care returning."
+    # Fallback bg: always an image before the first text (works before the hero art exists).
+    $ paperdoll_manager.set_background("images/background/school building/1 0 1.webp", blur = True)
+    subtitles "The bell cuts the period short. Bags zip, chairs scrape — and against the tide, Miwa hangs back a second by the door."
+    $ miwa.register_paperdoll()
+    $ paperdoll_manager.set_background("images/background/school building/1 0 1.webp", blur = True)
+    $ miwa.display(PDAImage(pose = "1", outfit = "uniform", level = 1, mood = "happy", mouth = "open"),
+        PDAPreset("upper_body_center", duration = 0.0))
+    if miwa_helped:
+        miwa.say "Um— thanks. For actually taking it seriously. When I couldn't remember. It— it helped, more than I said."
+        headmaster_thought "She came looking for me to say that. No blank page in her hands, no panic — just a thank-you she went out of her way to give. ...God. That's the whole job, right there in a doorway."
+    else:
+        miwa.say "Um— thanks. For not making it weird the other day. When I was all... out of it."
+        headmaster_thought "Not sure I did much for her, if I'm honest. But she's filed it away as kindness anyway. I'll take that — and do better by the next one."
+    $ miwa.display(PDAImage(mood = "sad", mouth = "open"))
+    miwa.say "I— I have to go, I can't stay, but— yeah. Thanks."
 
-    if get_game_data("new_management_guided") == 1:
+    if get_value("guided", 0, **kwargs) == 1:
         $ zoe = Person["zoe_parker"]
-        zoe.say "Gym's quieter when you drop in."
+        $ zoe.register_paperdoll()
+        $ zoe.display(PDAImage(pose = "1", outfit = "uniform", level = 1, mood = "happy", mouth = "open"),
+            PDAPreset("close_body_right", duration = 0.4), PDAMove(alignX = 1.1))
+        subtitles "Zoe Parker leans out of the gym doorway as she passes, half a grin on."
+        zoe.say "Place runs quieter when you actually drop by, y'know. Just saying."
+        $ zoe.display(PDAImage(mood = "happy", mouth = "closed"))
 
-    $ call_custom_menu_with_text("Miwa is already half out the door.", character.subtitles, False,
-        MenuElement("pace", "Match her pace. Let it be quick", EventEffect("nm_quiet_endorsements_after_bell.pace")),
-        MenuElement("followup", "Ask one careful follow-up — not too much", EventEffect("nm_quiet_endorsements_after_bell.followup")),
-        MenuElement("assign", "Treat it like an assignment and move on", EventEffect("nm_quiet_endorsements_after_bell.assign")),
+    $ call_custom_menu_with_text("Miwa's already half through the door.", character.subtitles, False,
+        MenuElement("pace", "Match her pace. Let her off the hook, keep it light", EventEffect("nm_quiet_endorsements_after_bell.pace")),
+        MenuElement("followup", "One gentle question before she goes — nothing heavy", EventEffect("nm_quiet_endorsements_after_bell.followup")),
+        MenuElement("assign", "Turn it into a reminder about being late", EventEffect("nm_quiet_endorsements_after_bell.assign")),
     **kwargs)
 
 label .pace (**kwargs):
-    $ begin_event(**kwargs)
     $ miwa = Person["miwa_igarashi"]
 
-    headmaster "Go. Door's open if you need it."
-    miwa.say "Okay."
-    subtitles "She's gone before the thank-you can get awkward."
+    headmaster "Go on, you'll be late. Door's open if you ever need it — that's all."
+    $ miwa.display(PDAImage(mood = "happy", mouth = "closed"))
+    miwa.say "Okay. ...Okay."
+    subtitles "And she's gone — quick and light, before the thank-you can curdle into something awkward. Exactly the way she needed it to go."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 5)
-    call change_stats_with_modifier(happiness=MEDIUM, charm=TINY) from _call_nm_bell_pace
+    call change_stats_with_modifier(happiness=MEDIUM, charm=TINY) from _nm_qe_bell_pace
+    $ miwa.clear_display()
     $ end_event('new_daytime', **kwargs)
 
 label .followup (**kwargs):
-    $ begin_event(**kwargs)
     $ miwa = Person["miwa_igarashi"]
 
-    headmaster "Sleep any better?"
-    miwa.say "A little. I'll tell you next time. Promise."
-    headmaster_thought "One question. She kept the door cracked."
+    headmaster "Quick one — sleeping any better these days?"
+    $ miwa.display(PDAImage(mood = "neutral", mouth = "open"))
+    miwa.say "A bit. ...I'll tell you about it next time. Promise."
+    headmaster_thought "'Next time.' She left the door cracked herself this time — I didn't have to hold it open for her. That's new."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
-    call change_stats_with_modifier(happiness=SMALL) from _call_nm_bell_follow
+    call change_stats_with_modifier(happiness=SMALL) from _nm_qe_bell_follow
+    $ miwa.clear_display()
     $ end_event('new_daytime', **kwargs)
 
 label .assign (**kwargs):
-    $ begin_event(**kwargs)
     $ miwa = Person["miwa_igarashi"]
 
-    headmaster "Good. Don't be late to your next class."
-    miwa.say "...Yes, sir."
-    headmaster_thought "I turned thanks into attendance. Cheap."
+    headmaster "Good. Now don't be late to your next class."
+    $ miwa.display(PDAImage(mood = "sad", mouth = "closed"))
+    miwa.say "...yes, sir."
+    headmaster_thought "She hands me a thank-you and I hand her back a tardy warning. ...Smooth. Took a small brave thing and turned it into homework."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 1)
-    call change_stats_with_modifier(education=TINY) from _call_nm_bell_assign
+    call change_stats_with_modifier(education=TINY) from _nm_qe_bell_assign
+    $ miwa.clear_display()
     $ end_event('new_daytime', **kwargs)
 
 
+# ═══ SCENE · nm_quiet_endorsements_second_coffee ══════════════════════════════
+#  The counselling office again, some time later and much calmer. Lily is back for a
+#  follow-up — steadier now, here by choice rather than in a panic. When she sets her
+#  coffee mug down this time it doesn't rattle; it just sits still. (Bookends her
+#  earlier shaken visit.)
+#
+#  Wired: one image via show_pattern("main"); Lily paperdoll over the blurred
+#  teacher-office background.
+# ═══════════════════════════════════════════════════════════════════════════════
 label nm_quiet_endorsements_second_coffee (**kwargs):
-    $ begin_event(**kwargs)
+    $ begin_event(version = "2", **kwargs)
 
     $ lily = Person["lily_anderson"]
+    $ lily_witnessed = get_value("lily_witnessed", 0, **kwargs) == 1
 
-    subtitles "Second coffee. Same desk. Different air."
-    lily.say "I kept thinking about the weekend. It helped... more than I expected."
-    lily.say "I'm not here because I'm breaking. I'm here because I trust the chair."
-    headmaster_thought "Counseling as relationship track — not crisis."
+    # Fallback bg: always an image before the first text (works before the hero art exists).
+    $ paperdoll_manager.set_background("images/background/office building/teacher 1 1 0.webp", blur = True)
+    subtitles "Second coffee, same desk — but the air in the room has changed. Lighter."
+    $ show_pattern("main", **kwargs)
+    subtitles "When she sets the mug down, it doesn't rattle. It just sits there, steady, like it never did anything else."
+    $ lily.register_paperdoll()
+    $ paperdoll_manager.set_background("images/background/office building/teacher 1 1 0.webp", blur = True)
+    $ lily.display(PDAImage(pose = "1", outfit = "uniform", level = 1, mood = "happy", mouth = "open"),
+        PDAPreset("upper_body_center", duration = 0.0))
+    if lily_witnessed:
+        lily.say "I keep coming back to what you did last week. Just — saying it out loud with me. It steadied more than I let on."
+        lily.say "I'm not here because I'm falling apart. I'm here because I've decided this chair is safe. That's a different thing entirely."
+    else:
+        lily.say "We didn't really get to talk properly last time. I wanted to try again, if the offer still stands."
+        lily.say "I'm not in crisis. I'd just... like somewhere steady to think out loud. If that's allowed."
+    headmaster_thought "She came in on a good day, not a bad one. That's the tell. It's stopped being an emergency exit and started being a chair she chooses."
 
-    $ call_custom_menu_with_text("How do you hold the session?", character.subtitles, False,
-        MenuElement("attend", "Stay attentive. Don't chase intensity", EventEffect("nm_quiet_endorsements_second_coffee.attend")),
-        MenuElement("summarize", "Listen, then summarize the next appointment clearly", EventEffect("nm_quiet_endorsements_second_coffee.summarize")),
-        MenuElement("advice", "Turn it into advice only", EventEffect("nm_quiet_endorsements_second_coffee.advice")),
+    $ call_custom_menu_with_text("She's settled in, in no hurry.", character.subtitles, False,
+        MenuElement("attend", "Just be present. Let the quiet do the work", EventEffect("nm_quiet_endorsements_second_coffee.attend")),
+        MenuElement("summarize", "Listen, then set the next appointment out clearly", EventEffect("nm_quiet_endorsements_second_coffee.summarize")),
+        MenuElement("advice", "Skip ahead and hand her some brisk advice", EventEffect("nm_quiet_endorsements_second_coffee.advice")),
     **kwargs)
 
 label .attend (**kwargs):
-    $ begin_event(**kwargs)
     $ lily = Person["lily_anderson"]
 
-    subtitles "You let the silence work. She fills it when she's ready."
-    lily.say "Same time next week?"
+    subtitles "You don't rush to fill the silences. You let them stretch, and she steps into them when she's ready — which she does, easily now."
+    $ lily.display(PDAImage(mood = "happy", mouth = "closed"))
+    lily.say "...same time next week?"
     headmaster "Same time."
-    headmaster_thought "Trust compounds quietly."
+    headmaster_thought "No fireworks. Just a standing appointment and someone who trusts it'll be kept. That's the kind of quiet thing that actually holds a place together."
 
+    $ set_game_data("nm_care_channel", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 5)
-    call change_stats_with_modifier(happiness=MEDIUM, reputation=TINY) from _call_nm_coffee_attend
+    call change_stats_with_modifier(happiness=MEDIUM, reputation=TINY) from _nm_qe_coffee_attend
+    $ lily.clear_display()
     $ end_event('new_daytime', **kwargs)
 
 label .summarize (**kwargs):
-    $ begin_event(**kwargs)
     $ lily = Person["lily_anderson"]
 
-    headmaster "Next Thursday, free period. If anything spikes before then, send a note through Emiko."
-    lily.say "Clear. Thank you."
+    headmaster "Next Thursday, free period. And if anything spikes before then, put a note through Emiko and I'll make room sooner."
+    $ lily.display(PDAImage(mood = "neutral", mouth = "closed"))
+    lily.say "Clear. Thank you — it helps, honestly, just knowing the door's got hours on it."
 
+    $ set_game_data("nm_care_channel", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
-    call change_stats_with_modifier(happiness=SMALL, education=TINY) from _call_nm_coffee_sum
+    call change_stats_with_modifier(happiness=SMALL, education=TINY) from _nm_qe_coffee_sum
+    $ lily.clear_display()
     $ end_event('new_daytime', **kwargs)
 
 label .advice (**kwargs):
-    $ begin_event(**kwargs)
     $ lily = Person["lily_anderson"]
 
-    headmaster "Sleep schedule. Water. Don't grade past midnight."
-    lily.say "I... know those things."
-    headmaster_thought "Advice without listening is a pamphlet."
+    headmaster "Sleep schedule, plenty of water, and stop grading past midnight. You'll feel worlds better."
+    $ lily.display(PDAImage(mood = "sad", mouth = "closed"))
+    lily.say "I... yes. I do know those things."
+    headmaster_thought "She came here to think out loud and I handed her a pamphlet. Advice you give before you've listened is just noise in a nicer font."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 1)
+    $ lily.clear_display()
     $ end_event('new_daytime', **kwargs)
 
 
+# ═══ SCENE · nm_quiet_endorsements_curriculum ═════════════════════════════════
+#  At the headmaster's desk. His lesson outline is back in the tray with a small
+#  approving pen-tick in the margin. Lily is there and, dryly and a little awkwardly,
+#  admits the pacing is "actually better" — praise she plainly hates saying out loud.
+#
+#  Wired: one image via show_pattern("main"); Lily paperdoll over the blurred
+#  office background.
+# ═══════════════════════════════════════════════════════════════════════════════
 label nm_quiet_endorsements_curriculum (**kwargs):
-    $ begin_event(**kwargs)
+    $ begin_event(version = "2", **kwargs)
 
     $ lily = Person["lily_anderson"]
 
-    subtitles "Lily returns your outline with a pen mark in the margin you recognize as approval."
-    lily.say "Actually... better."
-    lily.say "Don't make me say it twice. The pacing works."
-    headmaster_thought "Awkward praise from Level 1. It lands like care."
+    # Fallback bg: always an image before the first text (works before the hero art exists).
+    $ paperdoll_manager.set_background("images/background/office building/f.webp", blur = True)
+    $ show_pattern("main", **kwargs)
+    subtitles "Your lesson outline is back in the tray — and there, in the margin of the third block, a single pen-tick. From Lily, that's practically a standing ovation."
+    $ lily.register_paperdoll()
+    $ paperdoll_manager.set_background("images/background/office building/f.webp", blur = True)
+    $ lily.display(PDAImage(pose = "1", outfit = "uniform", level = 1, mood = "neutral", mouth = "open"),
+        PDAPreset("upper_body_center", duration = 0.0))
+    lily.say "The pacing on that. It's... actually better. There."
+    $ lily.display(PDAImage(mood = "pout", mouth = "closed"))
+    lily.say "Don't make me say it twice. It works."
+    headmaster_thought "From Lily, 'actually better' is a bouquet. She'd rather grade a hundred papers than pay a compliment out loud — and she just did, to my face."
 
-    $ call_custom_menu_with_text("How do you take the feedback?", character.subtitles, False,
-        MenuElement("adjust", "Accept it and adjust the next lesson", EventEffect("nm_quiet_endorsements_curriculum.adjust")),
-        MenuElement("credit", "Credit her publicly, briefly", EventEffect("nm_quiet_endorsements_curriculum.credit")),
-        MenuElement("shrug", "Take it as extra work and move on", EventEffect("nm_quiet_endorsements_curriculum.shrug")),
+    $ call_custom_menu_with_text("The tick is still sitting there in the margin.", character.subtitles, False,
+        MenuElement("adjust", "Take the note and act on it — rebuild the block", EventEffect("nm_quiet_endorsements_curriculum.adjust")),
+        MenuElement("credit", "Tell her you'll credit her at the next staff brief", EventEffect("nm_quiet_endorsements_curriculum.credit")),
+        MenuElement("shrug", "File it and reach for the next form", EventEffect("nm_quiet_endorsements_curriculum.shrug")),
     **kwargs)
 
 label .adjust (**kwargs):
-    $ begin_event(**kwargs)
     $ lily = Person["lily_anderson"]
 
-    headmaster "I'll revise the third block. Send me your notes if you have more."
-    lily.say "Already did. Check your tray."
+    headmaster "Then I'll rebuild the third block around it. Send me the rest of your notes, if you've got them."
+    $ lily.display(PDAImage(mood = "happy", mouth = "closed"))
+    lily.say "Already did. Check your tray — under the outline. I don't do things by halves."
+    headmaster_thought "Of course she does. She wasn't fishing for thanks — she was handing me better work and daring me to actually use it. So I will."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 4)
-    call change_stats_with_modifier(education=MEDIUM, reputation=TINY) from _call_nm_curr_adjust
+    call change_stats_with_modifier(education=MEDIUM, reputation=TINY) from _nm_qe_curr_adjust
+    $ lily.clear_display()
     $ end_event('new_daytime', **kwargs)
 
 label .credit (**kwargs):
-    $ begin_event(**kwargs)
     $ lily = Person["lily_anderson"]
 
-    headmaster "At the next staff brief — I'll say the outline improved because of you."
-    lily.say "Please don't make a speech."
-    headmaster "One sentence."
-    lily.say "...Fine."
+    headmaster "At the next staff brief, I'm saying the outline got better because of you. One sentence."
+    $ lily.display(PDAImage(mood = "suprised", mouth = "open"))
+    lily.say "Please don't make a speech of it."
+    headmaster "One sentence. I promise."
+    $ lily.display(PDAImage(mood = "pout", mouth = "closed"))
+    lily.say "...fine. One. And no adjectives."
+    headmaster_thought "She'll hate every second of that sentence and remember it for a year. Credit where it's earned costs me nothing and buys me the whole room."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
-    call change_stats_with_modifier(education=SMALL, happiness=TINY, reputation=TINY) from _call_nm_curr_credit
+    call change_stats_with_modifier(education=SMALL, happiness=TINY, reputation=TINY) from _nm_qe_curr_credit
+    $ lily.clear_display()
     $ end_event('new_daytime', **kwargs)
 
 label .shrug (**kwargs):
-    $ begin_event(**kwargs)
+    $ lily = Person["lily_anderson"]
 
-    subtitles "You file the outline under 'done' and open the next form."
-    headmaster_thought "She offered authorship. I treated it like mail."
+    $ lily.display(PDAImage(mood = "sad", mouth = "closed"))
+    subtitles "You murmur a thanks, file the outline under 'done', and reach for the next form. When you glance up again, she's already gone."
+    headmaster_thought "She handed me authorship and I processed it like mail. ...That's exactly the kind of small miss that quietly teaches good people to stop bothering."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 1)
-    call change_stats_with_modifier(education=TINY) from _call_nm_curr_shrug
+    call change_stats_with_modifier(education=TINY) from _nm_qe_curr_shrug
+    $ lily.clear_display()
     $ end_event('new_daytime', **kwargs)
 
 # endregion
@@ -1303,151 +1572,243 @@ label .shrug (**kwargs):
 # region Welcome Committee ------------ #
 #######################################
 
+# ═══ SCENE · nm_welcome_committee_mug ═════════════════════════════════════════
+#  The staff room, after a class. A full mug of coffee sits waiting in the middle of
+#  the circle for the headmaster. Finola Ryan (a teacher) raises it in a toast to him
+#  surviving his first week; Yulan is there too, more reserved, and — if she's warmed
+#  to him — offers a stiff, backhanded bit of praise.
+#
+#  Wired: one image via show_pattern("main"); Finola (left) + Yulan (right) paperdolls
+#  over the blurred staff-room background.
+# ═══════════════════════════════════════════════════════════════════════════════
 label nm_welcome_committee_mug (**kwargs):
-    $ begin_event(**kwargs)
+    $ begin_event(version = "2", **kwargs)
 
     $ finola = Person["finola_ryan"]
     $ yulan = Person["yulan_chen"]
+    $ yulan_thawed = get_value("yulan_thawed", 0, **kwargs) == 1
 
-    subtitles "After class, the staff room has a mug waiting in the circle like it grew there."
-    finola.say "To surviving your first real week. Good luck with the job, headmaster."
-    yulan.say "..."
-    headmaster_thought "Yulan almost smiles. Then she remembers herself."
+    # Fallback bg: always an image before the first text (works before the hero art exists).
+    $ paperdoll_manager.set_background("images/background/office building/teacher 1 1 0.webp", blur = True)
+    $ show_pattern("main", **kwargs)
+    subtitles "You come off a class into the staff room and there's a full mug waiting in the middle of the circle, steam still rising off it, like it grew there overnight."
+    # Both staff on screen — Finola warm on the left, Yulan reserved on the right.
+    $ finola.register_paperdoll()
+    $ yulan.register_paperdoll()
+    $ paperdoll_manager.set_background("images/background/office building/teacher 1 1 0.webp", blur = True)
+    $ finola.display(PDAImage(pose = "1", outfit = "uniform", level = 1, mood = "happy", mouth = "open"),
+        PDAPreset("close_body_left", duration = 0.0))
+    $ yulan.display(PDAImage(pose = "1", outfit = "uniform", level = 1, mood = "neutral", mouth = "closed"),
+        PDAPreset("close_body_right", duration = 0.0), PDAMove(alignX = 1.0))
+    finola.say "There he is. To surviving your first proper week, headmaster — and the best of luck with the rest of the job. God knows you'll need it."
+    if yulan_thawed:
+        $ yulan.display(PDAImage(mood = "neutral", mouth = "open"))
+        yulan.say "...It's a decent outline he's running, for what it's worth. Don't let it go to his head."
+        headmaster_thought "Praise from Yulan. In public. With witnesses. Backhanded to the last, sure — but a month ago she wouldn't turn a page for me. We've come a fair distance, her and I."
+    else:
+        yulan.say "..."
+        headmaster_thought "Yulan says nothing, as ever. But she's in the circle, not out in the corridor pretending she can't see me. ...That's its own small verdict."
 
-    $ call_custom_menu_with_text("Finola's mug is raised.", character.subtitles, False,
-        MenuElement("warm", "Accept warmly. Don't make it awkward", EventEffect("nm_welcome_committee_mug.warm")),
-        MenuElement("brief", "Thank her quickly and return to work", EventEffect("nm_welcome_committee_mug.brief")),
-        MenuElement("miss", "Pretend you didn't notice", EventEffect("nm_welcome_committee_mug.miss")),
+    $ call_custom_menu_with_text("Finola's got the mug half-raised, waiting on you.", character.subtitles, False,
+        MenuElement("warm", "Take the toast properly. Meet the warmth head-on", EventEffect("nm_welcome_committee_mug.warm")),
+        MenuElement("brief", "Thank her, but keep one foot out the door", EventEffect("nm_welcome_committee_mug.brief")),
+        MenuElement("miss", "Bury yourself in paperwork and let the moment pass", EventEffect("nm_welcome_committee_mug.miss")),
     **kwargs)
 
 label .warm (**kwargs):
-    $ begin_event(**kwargs)
     $ finola = Person["finola_ryan"]
     $ yulan = Person["yulan_chen"]
 
-    headmaster "I'll take that toast. Thank you — both of you."
-    finola.say "See? He can be human."
+    headmaster "I'll take that toast, gladly. Thank you — all of you. It's been a long few weeks to get to a mug in a circle."
+    $ finola.display(PDAImage(mood = "shining", mouth = "open"))
+    finola.say "See? Told you there was a human in there somewhere."
+    $ yulan.display(PDAImage(mood = "happy", mouth = "closed"))
     yulan.say "...Hmph."
-    headmaster_thought "Social payoff. The word 'new' is already thinning."
+    headmaster_thought "That 'hmph' had the ghost of a smile behind it. Whatever 'new headmaster' meant a month ago, it's wearing thin now — the good kind of thin."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 6)
-    call change_stats_with_modifier(happiness=MEDIUM, reputation=SMALL, charm=SMALL) from _call_nm_mug_warm
+    call change_stats_with_modifier(happiness=MEDIUM, reputation=SMALL, charm=SMALL) from _nm_wc_mug_warm
+    $ finola.clear_display()
     $ end_event('new_daytime', **kwargs)
 
 label .brief (**kwargs):
-    $ begin_event(**kwargs)
     $ finola = Person["finola_ryan"]
 
-    headmaster "Thank you, Finola. I've got papers waiting."
-    finola.say "Go on then. We'll keep the coffee warm."
+    headmaster "Thank you, Finola — truly. I've got papers with my name on them shouting from the office, though."
+    $ finola.display(PDAImage(mood = "happy", mouth = "closed"))
+    finola.say "Off you pop, then. We'll keep the coffee warm for the next time you surface."
+    headmaster_thought "Took the toast, kept it moving. Not a snub — but I left a little warmth on the table there that I could've stayed for."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 4)
-    call change_stats_with_modifier(reputation=SMALL, happiness=TINY) from _call_nm_mug_brief
+    call change_stats_with_modifier(reputation=SMALL, happiness=TINY) from _nm_wc_mug_brief
+    $ finola.clear_display()
     $ end_event('new_daytime', **kwargs)
 
 label .miss (**kwargs):
-    $ begin_event(**kwargs)
     $ finola = Person["finola_ryan"]
 
-    subtitles "You busy yourself with a stack of forms. The mug lowers without a clink."
-    finola.say "...Right."
-    headmaster_thought "I snubbed a ritual. Rituals remember."
+    subtitles "You make a show of a stack of forms and don't look up. The mug lowers, quietly, without a clink. Someone changes the subject to spare you."
+    $ finola.display(PDAImage(mood = "sad", mouth = "closed"))
+    finola.say "...Right. Course. Busy man."
+    headmaster_thought "They built a small ritual to let me in, and I answered it with a clipboard. ...Rituals remember who showed up for them. And who didn't."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 2)
-    call change_stats_with_modifier(happiness=DEC_TINY) from _call_nm_mug_miss
+    call change_stats_with_modifier(happiness=DEC_TINY) from _nm_wc_mug_miss
+    $ finola.clear_display()
     $ end_event('new_daytime', **kwargs)
 
 
+# ═══ SCENE · nm_welcome_committee_plaque ══════════════════════════════════════
+#  At the office. The engraved brass nameplate has finally arrived, packed in a crate
+#  of straw — the headmaster's name cut into it and, this time, spelled right. Emiko is
+#  there and they share a warm moment over it; he can hang it now, taking the old one
+#  down for good. (Payoff to the wrong-nameplate scene at the very start.)
+#
+#  Wired: one image via show_pattern("main"); Emiko paperdoll over the blurred
+#  office/secretary background.
+# ═══════════════════════════════════════════════════════════════════════════════
 label nm_welcome_committee_plaque (**kwargs):
-    $ begin_event(**kwargs)
+    $ begin_event(version = "2", **kwargs)
 
     $ emiko = Person["emiko_langley"]
+    $ door_claimed = get_value("door_claimed", 0, **kwargs) == 1
 
-    subtitles "Engraved brass arrives in a crate like it always should have."
-    emiko.say "Heh... you're staring."
-    headmaster_thought "She watches too long — Level 5 warmth — then jokes it off before anyone else enters."
+    # Fallback bg: always an image before the first text (works before the hero art exists).
+    $ paperdoll_manager.set_background("images/background/office building/secretary 6 1 0.webp", blur = True)
+    $ show_pattern("main", **kwargs)
+    subtitles "The crate's finally here. Inside, packed in straw like something precious, is a slab of engraved brass — your name cut deep, and this time spelled exactly right."
+    $ emiko.register_paperdoll()
+    $ paperdoll_manager.set_background("images/background/office building/secretary 6 1 0.webp", blur = True)
+    $ emiko.display(PDAImage(pose = "1", outfit = "uniform", level = 6, mood = "happy", mouth = "closed"),
+        PDAPreset("upper_body_center", duration = 0.0))
+    subtitles "You realise you've been standing over it a beat too long. So, you notice, has Emiko."
+    $ emiko.display(PDAImage(mood = "shining", mouth = "open"))
+    emiko.say "Heh. You're staring."
+    if door_claimed:
+        emiko.say "Told you it'd come. Weeks of 'in process' — and here it is. The door catching up with the man who already decided he owned the room."
+    else:
+        emiko.say "Better late than never. It's a good door. It only ever needed someone to decide it was theirs."
 
-    if get_game_data("new_management_guided") == 1:
-        emiko.say "Your name. Spelled right this time."
+    if get_value("guided", 0, **kwargs) == 1:
+        $ emiko.display(PDAImage(mood = "happy", mouth = "open"))
+        emiko.say "Your name. Spelled right, for once. ...Suits the place."
 
-    $ call_custom_menu_with_text("The plaque is finally here.", character.subtitles, False,
-        MenuElement("real", "Treat it like real — hang it today", EventEffect("nm_welcome_committee_plaque.real")),
-        MenuElement("joke", "Smile back and let her pretend it's funny", EventEffect("nm_welcome_committee_plaque.joke")),
+    $ call_custom_menu_with_text("The brass is heavier than it looks.", character.subtitles, False,
+        MenuElement("real", "Hang it today. Now. While you're both standing here", EventEffect("nm_welcome_committee_plaque.real")),
+        MenuElement("joke", "Deflect the moment — let her pretend she wasn't watching", EventEffect("nm_welcome_committee_plaque.joke")),
     **kwargs)
 
 label .real (**kwargs):
-    $ begin_event(**kwargs)
     $ emiko = Person["emiko_langley"]
 
-    headmaster "Help me hang it. Now. While the screws are still in the bag."
+    headmaster "Help me hang it. Right now — while the screws are still in the bag and I've still got the nerve."
+    $ emiko.display(PDAImage(mood = "shining", mouth = "closed"))
     emiko.say "Yes, headmaster."
-    subtitles "The old plaque comes down. The tape printout goes in the bin. Brass catches the light."
+    subtitles "The old man's plate comes down. The last curl of that taped printout goes in the bin for good. The new brass goes up straight, and catches the hall light like it's been waiting years to."
+    headmaster_thought "There. Door settled, name settled, the whole borrowed-office feeling finally packed off in a crate. It's my room now. ...Took me long enough to believe it."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
-    call change_stats_with_modifier(reputation=SMALL, charm=TINY) from _call_nm_plaque_real
+    call change_stats_with_modifier(reputation=SMALL, charm=TINY) from _nm_wc_plaque_real
+    $ emiko.clear_display()
     $ end_event('new_daytime', **kwargs)
 
 label .joke (**kwargs):
-    $ begin_event(**kwargs)
     $ emiko = Person["emiko_langley"]
 
     headmaster "Don't look at me like that."
-    emiko.say "Like what? I'm looking at brass."
-    headmaster_thought "We both know she wasn't. The plaque still goes up — tomorrow."
+    $ emiko.display(PDAImage(mood = "happy", mouth = "open"))
+    emiko.say "Like what? I'm admiring the brass. Purely professional interest in good brass."
+    headmaster_thought "We both know she wasn't looking at the brass. ...The plate still goes up — tomorrow. Some things you let sit a day, so nobody has to say them out loud."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 2)
-    call change_stats_with_modifier(reputation=TINY, happiness=TINY) from _call_nm_plaque_joke
+    call change_stats_with_modifier(reputation=TINY, happiness=TINY) from _nm_wc_plaque_joke
+    $ emiko.clear_display()
     $ end_event('new_daytime', **kwargs)
 
 
+# ═══ SCENE · nm_welcome_committee_assembly ════════════════════════════════════
+#  Morning assembly in the courtyard. The student line is calm and orderly, everyone
+#  finding their places without being herded. Yuriko is there (she quietly organised it
+#  if she's on side), and Aona greets the headmaster — by his title now if she's learned
+#  his face, otherwise just "sir".
+#
+#  Wired: one image via show_pattern("main"); Yuriko (left) + Aona (right) paperdolls
+#  over the blurred courtyard background.
+# ═══════════════════════════════════════════════════════════════════════════════
 label nm_welcome_committee_assembly (**kwargs):
-    $ begin_event(**kwargs)
+    $ begin_event(version = "2", **kwargs)
 
     $ yuriko = Person["yuriko_oshima"]
     $ aona = Person["aona_komuro"]
+    $ yuriko_ally = get_value("yuriko_ally", 0, **kwargs) == 1
+    $ face_known = get_value("face_known", 0, **kwargs) == 1
 
-    subtitles "Morning line in the courtyard. Quieter. Cleaner. Students find their places without being herded."
-    yuriko.say "You're here. By title, today."
-    aona.say "Morning, headmaster."
-    headmaster_thought "Not 'maintenance guy'. The janitor beat ends here."
+    # Fallback bg: always an image before the first text (works before the hero art exists).
+    $ paperdoll_manager.set_background("images/background/courtyard/1 0 1.webp", blur = True)
+    $ show_pattern("main", **kwargs)
+    subtitles "Morning assembly. The courtyard line is quieter than it has any right to be — students finding their places without a single teacher barking them into rows."
+    # Both on screen — Yuriko (left), Aona (right).
+    $ yuriko.register_paperdoll()
+    $ aona.register_paperdoll()
+    $ paperdoll_manager.set_background("images/background/courtyard/1 0 1.webp", blur = True)
+    $ yuriko.display(PDAImage(pose = "1", outfit = "uniform", level = 1, mood = "neutral", mouth = "open"),
+        PDAPreset("close_body_left", duration = 0.0))
+    $ aona.display(PDAImage(pose = "1", outfit = "uniform", level = 1, mood = "happy", mouth = "closed"),
+        PDAPreset("close_body_right", duration = 0.0), PDAMove(alignX = 1.0))
+    if yuriko_ally:
+        yuriko.say "They were lined up before I said a word. I may have... primed them. Precedents travel fast when they come from the top."
+        headmaster_thought "The clipboard ambush, all those weeks back — and now she's running my mornings for me without being asked. Best trade I've made in this place."
+    else:
+        yuriko.say "Everyone's in place. You're on, headmaster."
+    if face_known:
+        $ aona.display(PDAImage(mood = "happy", mouth = "open"))
+        aona.say "Morning, headmaster!"
+        headmaster_thought "'Morning, headmaster.' From the girl who had me pegged as the maintenance man. ...The janitor thing is well and truly dead and buried. Good riddance to it."
+    else:
+        $ aona.display(PDAImage(mood = "neutral", mouth = "open"))
+        aona.say "Morning, sir."
 
-    $ call_custom_menu_with_text("The morning assembly is waiting on you.", character.subtitles, False,
-        MenuElement("gentle", "Take the ritual seriously. Keep it gentle", EventEffect("nm_welcome_committee_assembly.gentle")),
-        MenuElement("routine", "Let it pass as routine presence", EventEffect("nm_welcome_committee_assembly.routine")),
-        MenuElement("strict", "Over-correct. Make it too strict", EventEffect("nm_welcome_committee_assembly.strict")),
+    $ call_custom_menu_with_text("The whole line is waiting on you.", character.subtitles, False,
+        MenuElement("gentle", "Take the ritual seriously — warm, brief, human", EventEffect("nm_welcome_committee_assembly.gentle")),
+        MenuElement("routine", "Let it pass as easy, ordinary presence", EventEffect("nm_welcome_committee_assembly.routine")),
+        MenuElement("strict", "Over-correct. Snap it into a parade ground", EventEffect("nm_welcome_committee_assembly.strict")),
     **kwargs)
 
 label .gentle (**kwargs):
-    $ begin_event(**kwargs)
     $ yuriko = Person["yuriko_oshima"]
 
-    headmaster "Good morning. Short day brief, then classes. Thank you for being on time."
-    yuriko.say "They lined up before I asked."
-    headmaster_thought "Ceremonial patrol. Title fully earned."
+    headmaster "Morning, everyone. Short brief, then you're off to first period. Thank you for being on time — it doesn't go unnoticed."
+    $ yuriko.display(PDAImage(mood = "happy", mouth = "closed"))
+    yuriko.say "...they lined up before I even asked, you know. That's you, that is."
+    headmaster_thought "A month ago I couldn't get a student to believe I worked here. Now I run the whole morning by just... turning up and meaning it. That was the trick the entire time, wasn't it."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 5)
-    call change_stats_with_modifier(reputation=MEDIUM, education=TINY, happiness=SMALL) from _call_nm_assy_gentle
+    call change_stats_with_modifier(reputation=MEDIUM, education=TINY, happiness=SMALL) from _nm_wc_assy_gentle
+    $ yuriko.clear_display()
     $ end_event('new_daytime', **kwargs)
 
 label .routine (**kwargs):
-    $ begin_event(**kwargs)
+    $ yuriko = Person["yuriko_oshima"]
 
-    subtitles "You nod, walk the line once, and hand the morning to the teachers."
-    headmaster_thought "Presence without theater. Still counts."
+    $ yuriko.clear_display()
+    subtitles "You nod, walk the length of the line once at an easy pace, and hand the morning off to the teachers. Nothing showy. It doesn't need to be."
+    headmaster_thought "No speech, no theatre. Just a headmaster walking his own courtyard like he belongs in it. ...Which — somewhere in the last few weeks — I actually started to."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 4)
-    call change_stats_with_modifier(reputation=SMALL) from _call_nm_assy_routine
+    call change_stats_with_modifier(reputation=SMALL) from _nm_wc_assy_routine
     $ end_event('new_daytime', **kwargs)
 
 label .strict (**kwargs):
-    $ begin_event(**kwargs)
+    $ yuriko = Person["yuriko_oshima"]
 
-    headmaster "Silence. Straighten. Now."
-    subtitles "The line snaps tighter. A few faces harden."
-    headmaster_thought "They obey. They don't welcome. Close — not the same."
+    headmaster "Silence. Straighten those lines. Now."
+    $ yuriko.display(PDAImage(mood = "sad", mouth = "closed"))
+    subtitles "The line snaps tighter on instinct — neater in a heartbeat. Also colder. A few faces close over, the easy morning gone out of them."
+    headmaster_thought "They obey, fast and clean. But that's not the thing I actually wanted, is it. I had welcome in my hand and traded it for attention. ...Close. Not it."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
-    call change_stats_with_modifier(education=SMALL, happiness=DEC_TINY, reputation=TINY) from _call_nm_assy_strict
+    call change_stats_with_modifier(education=SMALL, happiness=DEC_TINY, reputation=TINY) from _nm_wc_assy_strict
+    $ yuriko.clear_display()
     $ end_event('new_daytime', **kwargs)
 
 # endregion
@@ -1462,10 +1823,16 @@ label nm_thresh_emiko_nudge (**kwargs):
     $ begin_event(**kwargs)
     $ emiko = Person["emiko_langley"]
 
-    subtitles "Emiko sets a coffee on your desk like a quiet decision."
-    emiko.say "The pink slips aren't going anywhere. Neither is your attention."
-    emiko.say "Patrol. Desk. Class. Counseling. Pick something the school can see today."
-    headmaster_thought "She didn't scold. She named the verbs like weather."
+    $ paperdoll_manager.set_background("images/background/office building/secretary 6 1 0.webp", blur = True)
+    $ emiko.register_paperdoll()
+    $ emiko.display(PDAImage(pose = "1", outfit = "uniform", level = 6, mood = "neutral", mouth = "open"),
+        PDAPreset("upper_body_center", duration = 0.0))
+    subtitles "Emiko sets a coffee on your desk. She doesn't say why. She doesn't have to."
+    emiko.say "The pink slips aren't going anywhere. And neither, at this rate, is your attention."
+    $ emiko.display(PDAImage(mood = "suspicious", mouth = "open"))
+    emiko.say "Patrol. The desk. A class. The counselling chair. Pick one the school can actually {i}see{/i} you doing — today."
+    headmaster_thought "She didn't scold me. She just laid the options out like she was reading me the weather. ...Which somehow stings worse than a scolding would have."
+    $ emiko.clear_display()
     $ end_event('none', **kwargs)
     return
 
@@ -1473,10 +1840,16 @@ label nm_thresh_district_letter (**kwargs):
     $ begin_event(**kwargs)
     $ emiko = Person["emiko_langley"]
 
-    subtitles "Emiko holds an envelope like it might bite."
-    emiko.say "District line. Again. Framed as a letter with teeth."
-    emiko.say "One more empty stretch and someone picks up the phone for real."
-    headmaster_thought "Her L5 mask slips — private worry, then the professional smile returns."
+    $ paperdoll_manager.set_background("images/background/office building/secretary 6 1 0.webp", blur = True)
+    $ emiko.register_paperdoll()
+    $ emiko.display(PDAImage(pose = "1", outfit = "uniform", level = 6, mood = "sad", mouth = "open"),
+        PDAPreset("upper_body_center", duration = 0.0))
+    subtitles "Emiko is holding an envelope the way you'd hold something that might bite."
+    emiko.say "District office. Again. Dressed up as a polite letter — but there are teeth in it."
+    emiko.say "One more empty stretch like this and somebody up there stops writing and picks up the phone. For real, this time."
+    $ emiko.display(PDAImage(mood = "neutral", mouth = "closed"))
+    headmaster_thought "For half a second the mask slipped and she just looked... worried. For the school. Maybe for me. Then it clicked back into place before I could think of anything to say."
+    $ emiko.clear_display()
     $ end_event('none', **kwargs)
     return
 
@@ -1484,10 +1857,16 @@ label nm_thresh_first_warmth (**kwargs):
     $ begin_event(**kwargs)
     $ emiko = Person["emiko_langley"]
 
-    emiko.say "Good luck today."
-    headmaster_thought "She said it without being asked. Small thing. Not nothing."
-    subtitles "Footsteps in the outer office. She steps half a pace back, secretary again."
-    emiko.say "Your nine-thirty is early."
+    $ paperdoll_manager.set_background("images/background/office building/secretary 6 1 0.webp", blur = True)
+    $ emiko.register_paperdoll()
+    $ emiko.display(PDAImage(pose = "1", outfit = "uniform", level = 6, mood = "happy", mouth = "open"),
+        PDAPreset("upper_body_center", duration = 0.0))
+    emiko.say "...Good luck today."
+    headmaster_thought "She said it without being asked. Quiet, almost to herself. It's a small thing. ...It's not nothing, though. Not from her."
+    subtitles "Footsteps in the outer office. She straightens, half a pace back, secretary again in the space of a single breath."
+    $ emiko.display(PDAImage(mood = "neutral", mouth = "open"))
+    emiko.say "Your nine-thirty's early, headmaster."
+    $ emiko.clear_display()
     $ end_event('none', **kwargs)
     return
 
@@ -1495,10 +1874,16 @@ label nm_thresh_yulan_thaw (**kwargs):
     $ begin_event(**kwargs)
     $ yulan = Person["yulan_chen"]
 
-    subtitles "Yulan stops you between periods — folder closed, for once."
-    yulan.say "The students are settling. Quietly."
-    yulan.say "Be patient with the parts that still shake."
-    headmaster_thought "She sounded like she'd been holding her breath. Counseling just got an open door."
+    $ paperdoll_manager.set_background("images/background/school building/1 0 1.webp", blur = True)
+    $ yulan.register_paperdoll()
+    $ yulan.display(PDAImage(pose = "1", outfit = "uniform", level = 1, mood = "neutral", mouth = "open"),
+        PDAPreset("upper_body_center", duration = 0.0))
+    subtitles "Yulan stops you between periods. Her folder is closed, for once, tucked under one arm."
+    yulan.say "The students are settling. Quietly, but they're settling. I thought you should hear it from someone who isn't paid to flatter you."
+    yulan.say "...Be patient with the parts of them that still shake. That's all."
+    headmaster_thought "She sounded like she'd been holding that in for a week and finally set it down. From Yulan, that's practically an embrace."
+    $ set_game_data("nm_yulan_thawed", 1)
+    $ yulan.clear_display()
     $ end_event('none', **kwargs)
     return
 
@@ -1507,11 +1892,18 @@ label nm_thresh_adelaide_note (**kwargs):
     $ emiko = Person["emiko_langley"]
     $ adelaide = Person["adelaide_hall"]
 
-    emiko.say "Adelaide Hall. Follow-up note. Tone's... warmer than last week."
-    adelaide.say "If you're still there, please keep the school steady. We're watching — supportively."
-    emiko.say "She cares more than she admits."
+    $ paperdoll_manager.set_background("images/background/office building/secretary 6 1 0.webp", blur = True)
+    $ emiko.register_paperdoll()
+    $ emiko.display(PDAImage(pose = "1", outfit = "uniform", level = 6, mood = "happy", mouth = "open"),
+        PDAPreset("upper_body_center", duration = 0.0))
+    emiko.say "Adelaide Hall sent a follow-up. The tone's... warmer than last week's, put it that way."
+    subtitles "She reads a line aloud, and for once the PTA doesn't come out sounding like a threat."
+    adelaide.say "{i}If you're still steering the ship — keep her steady. We're watching. Supportively, this time.{/i}"
+    $ emiko.display(PDAImage(mood = "neutral", mouth = "closed"))
+    emiko.say "She cares more than she'll ever put in writing."
     $ set_game_data("pta_aware", 1)
-    headmaster_thought "They've dropped the word 'new'. I'm just the headmaster now."
+    headmaster_thought "'Supportively.' They've quietly dropped the word 'new' from in front of my title. I'm just the headmaster to them now. ...When did that happen?"
+    $ emiko.clear_display()
     $ end_event('none', **kwargs)
     return
 
@@ -1519,9 +1911,14 @@ label nm_thresh_near_end (**kwargs):
     $ begin_event(**kwargs)
     $ finola = Person["finola_ryan"]
 
-    subtitles "A form crosses your desk. Signature line: Headmaster. No qualifiers."
-    finola.say "Headmaster. Yes — that sounds right."
-    headmaster_thought "Paperwork got there first. The plaque and the mug were only catching up."
+    $ paperdoll_manager.set_background("images/background/office building/f.webp", blur = True)
+    subtitles "A form crosses your desk for signing. The line at the bottom just reads: Headmaster. No 'acting'. No 'interim'. No qualifiers at all."
+    $ finola.register_paperdoll()
+    $ finola.display(PDAImage(pose = "1", outfit = "uniform", level = 1, mood = "happy", mouth = "open"),
+        PDAPreset("upper_body_center", duration = 0.0))
+    finola.say "Headmaster. ...Yeah. That sounds about right now, doesn't it."
+    headmaster_thought "The paperwork got there before I did. The plaque, the mug, the assembly — all of it was just the rest of me catching up to a word that was already true."
+    $ finola.clear_display()
     $ end_event('none', **kwargs)
     return
 
@@ -1539,11 +1936,22 @@ label new_management_positive_resolve (**kwargs):
 
     $ change_stat("charm", 5)
 
-    subtitles "Two coffees on the desk. Emiko doesn't explain."
-    emiko.say "For being patient. And present."
+    $ paperdoll_manager.set_background("images/background/office building/secretary 6 1 0.webp", blur = True)
+    $ emiko.register_paperdoll()
+    $ emiko.display(PDAImage(pose = "1", outfit = "uniform", level = 6, mood = "shining", mouth = "closed"),
+        PDAPreset("upper_body_center", duration = 0.0))
+    subtitles "Two coffees on the desk this morning. Emiko doesn't explain the second one. She doesn't need to anymore."
+    $ emiko.display(PDAImage(mood = "happy", mouth = "open"))
+    emiko.say "For being patient. And for actually being here. Both. ...Don't let it go to your head."
+    subtitles "Yulan passes the doorway, slows — and, miracle of miracles, stops."
+    $ yulan.register_paperdoll()
+    $ yulan.display(PDAImage(pose = "1", outfit = "uniform", level = 1, mood = "neutral", mouth = "open"),
+        PDAPreset("close_body_right", duration = 0.4), PDAMove(alignX = 1.1))
     yulan.say "..."
-    yulan.say "Welcome to the job. Properly."
-    headmaster_thought "The school treats me like the headmaster — not a placeholder."
+    $ yulan.display(PDAImage(mood = "happy", mouth = "open"))
+    yulan.say "Welcome to the job, headmaster. Properly, this time."
+    headmaster_thought "Nobody's treating me like a placeholder anymore. Somewhere between the wrong nameplate and this exact cup of coffee, I stopped being the new man and just... became the headmaster. Theirs."
+    $ emiko.clear_display()
     return
 
 label game_over_new_management (**kwargs):
@@ -1551,9 +1959,10 @@ label game_over_new_management (**kwargs):
 
     show screen black_error_screen_text ("")
     nvl clear
-    nv_text "Your authority never quite became a face."
-    nv_text "The school board picked the explanation that fit easiest: absence."
-    nv_text "Emiko packed the coffee cups like she was returning someone else's mistake."
+    nv_text "In the end, your authority never quite grew a face for anyone to hold onto."
+    nv_text "So the school board reached for the explanation that fit the emptiest chair: absence. The new man was simply never really there."
+    nv_text "Down in the office, Emiko packs the two coffee cups back into the cupboard — carefully, the way you'd return something that belonged to someone else all along."
+    nv_text "She doesn't slam the door on her way out. Somehow that's the part that stays with you."
 
     $ MainMenu(confirm=False)()
 

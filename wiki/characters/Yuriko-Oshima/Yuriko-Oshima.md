@@ -1,4 +1,6 @@
-**Class 3A · Student** · [All characters](Characters)
+[Home](Home) › [Characters](Characters) › [Class 3A](Characters#students) › Yuriko Oshima
+
+**Class 3A · Student**
 
 Yuriko Oshima is a student in class 3A. She is in a relationship with
 [Elsie Johnson](Elsie-Johnson).
@@ -14,22 +16,22 @@ Yuriko Oshima is a student in class 3A. She is in a relationship with
 
 ## Portrait
 
-> Placeholder — drop the character-card PNG into this folder **without renaming it**. Default slot: `portrait.png`. If the file has another name, change both URLs below to that exact name. Click the image to open the original file.
-
-<a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yuriko-Oshima/portrait.png">
-  <img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yuriko-Oshima/portrait.png" alt="Yuriko Oshima — portrait (placeholder)" width="480">
-</a>
+<a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yuriko-Oshima/HS2ChaF_20240813204119980_Yuriko%20Oshima_SuIT.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yuriko-Oshima/HS2ChaF_20240813204119980_Yuriko%20Oshima_SuIT.png" alt="Yuriko Oshima" width="480"></a>
 
 ## Outfits
 
-> Placeholders — drop outfit cards into `outfits/` **without renaming them**. Default slots: `outfit-1.png`, `outfit-2.png`, `outfit-3.png`. Duplicate a thumbnail for more outfits. Click an image to open the original file.
+Names come from the Honey Select 2 coordinate card. Click an image to open the original file.
 
-<a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yuriko-Oshima/outfits/outfit-1.png">
-  <img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yuriko-Oshima/outfits/outfit-1.png" alt="Outfit 1 (placeholder)" width="160">
-</a>
-<a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yuriko-Oshima/outfits/outfit-2.png">
-  <img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yuriko-Oshima/outfits/outfit-2.png" alt="Outfit 2 (placeholder)" width="160">
-</a>
-<a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yuriko-Oshima/outfits/outfit-3.png">
-  <img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yuriko-Oshima/outfits/outfit-3.png" alt="Outfit 3 (placeholder)" width="160">
-</a>
+### Uniforms
+
+| Level 0 | Level 01 | Level 02 | Level 03 |
+|:---:|:---:|:---:|:---:|
+| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yuriko-Oshima/outfits/HS2CoordeF_20230621193140862.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yuriko-Oshima/outfits/HS2CoordeF_20230621193140862.png" alt="Yuriko Oshima — Level 0" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yuriko-Oshima/outfits/HS2CoordeF_20240814174218994.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yuriko-Oshima/outfits/HS2CoordeF_20240814174218994.png" alt="Yuriko Oshima — Level 01" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yuriko-Oshima/outfits/HS2CoordeF_20240814174238871.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yuriko-Oshima/outfits/HS2CoordeF_20240814174238871.png" alt="Yuriko Oshima — Level 02" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yuriko-Oshima/outfits/HS2CoordeF_20240814172930752.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yuriko-Oshima/outfits/HS2CoordeF_20240814172930752.png" alt="Yuriko Oshima — Level 03" width="160"></a> |
+
+| Level 04 | Level 05 | Level 06 | Level 07 |
+|:---:|:---:|:---:|:---:|
+| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yuriko-Oshima/outfits/HS2CoordeF_20240814173328628.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yuriko-Oshima/outfits/HS2CoordeF_20240814173328628.png" alt="Yuriko Oshima — Level 04" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yuriko-Oshima/outfits/HS2CoordeF_20240814173401175.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yuriko-Oshima/outfits/HS2CoordeF_20240814173401175.png" alt="Yuriko Oshima — Level 05" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yuriko-Oshima/outfits/HS2CoordeF_20240814173502801.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yuriko-Oshima/outfits/HS2CoordeF_20240814173502801.png" alt="Yuriko Oshima — Level 06" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yuriko-Oshima/outfits/HS2CoordeF_20240814173550188.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yuriko-Oshima/outfits/HS2CoordeF_20240814173550188.png" alt="Yuriko Oshima — Level 07" width="160"></a> |
+
+| Level 08 | Level 09 | Level 10 |
+|:---:|:---:|:---:|
+| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yuriko-Oshima/outfits/HS2CoordeF_20240814173833353.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yuriko-Oshima/outfits/HS2CoordeF_20240814173833353.png" alt="Yuriko Oshima — Level 08" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yuriko-Oshima/outfits/HS2CoordeF_20240814174123096.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yuriko-Oshima/outfits/HS2CoordeF_20240814174123096.png" alt="Yuriko Oshima — Level 09" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yuriko-Oshima/outfits/HS2CoordeF_20240814174201475.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yuriko-Oshima/outfits/HS2CoordeF_20240814174201475.png" alt="Yuriko Oshima — Level 10" width="160"></a> |
