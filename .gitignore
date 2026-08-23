@@ -41,3 +41,5 @@ openwebui-*.json
 assets.zip
 
 wiki/characters/**/*.png
+
+.env
