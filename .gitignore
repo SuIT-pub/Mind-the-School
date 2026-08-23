@@ -39,7 +39,16 @@ __pycache__/
 openwebui-*.json
 
 assets.zip
+assets.zip.part
+.temp_assets/
+game/images.old/
+game/.asset-version
 
 wiki/characters/**/*.png
 
 .env
+
+# Python virtual environments
+.venv/
+venv/
+*.py[cod]

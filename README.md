@@ -68,6 +68,42 @@ This game contains adult content and themes. Players must be 18 years or older. 
 You want to create a mod using the game's inbuilt modding framework?
 Check out my Quickstart Guide in the Wiki: [https://wiki.suit-ji.com/books/quickstart](https://wiki.suit-ji.com/books/quickstart)
 
+## Game Assets
+
+The game source code is distributed through this repository. Large game assets
+(images, etc.) are hosted separately on Cloudflare R2 and are not included in Git.
+
+### For mod developers
+
+After cloning the repository, install the Python dependencies and download the
+current assets:
+
+```bash
+pip install -r requirements.txt
+python tools/download_assets.py
+```
+
+Or double-click `tools/Download Assets.bat` on Windows.
+
+The downloader automatically checks the installed asset version and only
+downloads the assets when a newer version is available. No Cloudflare account or
+credentials are required.
+
+### For project maintainers
+
+To publish a new asset version:
+
+1. Copy `.env.example` to `.env` and fill in your R2 credentials.
+2. Set `ASSET_VERSION` in `.env` to the new version number.
+3. Run `python tools/upload_assets.py` (or `tools/Upload Assets.bat` on Windows).
+
+The upload script creates `assets.zip` and `version.json` on R2, replacing the
+previous version. Credentials must never be committed to Git.
+
+Before the first upload, create an R2 bucket (Standard storage), enable public
+access via an `*.r2.dev` URL, and set `PUBLIC_ASSET_URL` in
+`tools/download_assets.py` to that URL.
+
 ## Development Status
 
 The game is currently in active development. The current version includes:

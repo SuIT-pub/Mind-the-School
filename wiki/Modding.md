@@ -10,7 +10,43 @@
 
 ---
 
+## Requirements
+
+Set up a working copy of the game **before** you start modding:
+
+1. **Ren'Py SDK** — install [Ren'Py 8.1.3](https://www.renpy.org/release/8.1.3) (the version the
+   project is built against; a newer 8.1.x release may work, but use 8.1.3 if you hit
+   compatibility issues).
+2. **Game source** — clone from GitHub:
+   ```bash
+   git clone https://github.com/SuIT-pub/Mind-the-School.git
+   cd Mind-the-School
+   ```
+   **`master`** always tracks the **latest released** version. For the current
+   **in-development** tree, check out the version branch — at the moment
+   `MTS-285/Version-0.2.2` (each upcoming release gets its own branch):
+   ```bash
+   git checkout MTS-285/Version-0.2.2
+   ```
+   Mod against `master` if you want to match what players have from the last release;
+   use the version branch to test against upcoming content.
+3. **Python 3.9+** — needed for the asset download tools (`pip install -r requirements.txt`).
+4. **Game assets** — the repository contains source code only (~21 GB of images are hosted
+   separately). After cloning, download and install them:
+   ```bash
+   pip install -r requirements.txt
+   python tools/download_assets.py
+   ```
+   On Windows you can double-click `tools/Download Assets.bat` instead. See
+   [Getting the game assets](Developer-Guide#getting-the-game-assets) for details.
+5. **Launch in Ren'Py** — add the cloned project in the Ren'Py launcher and run the game
+   once to confirm scripts and assets load.
+
+---
+
 ## Quick start (the whole path)
+
+Complete the [requirements](#requirements) above, then:
 
 1. **Make a folder** `game/mods/MyMod/` and a file `game/mods/MyMod/my_mod.rpy`.
    Ren'Py auto-loads every `.rpy` under `game/`, mods included — no manifest needed.
@@ -39,6 +75,7 @@ The [complete example](#a-complete-mod) at the bottom is a copy-paste starting p
 
 ## Contents
 
+0. [Requirements](#requirements)
 1. [How a mod plugs in](#1-how-a-mod-plugs-in)
 2. [Folder layout](#2-folder-layout)
 3. [Step 1 — register the mod](#3-step-1--register-the-mod)

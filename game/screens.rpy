@@ -874,6 +874,7 @@ screen about():
             text _("Made with {a=https://www.renpy.org/}Ren'Py{/a} [renpy.version_only].\n\n[renpy.license!t]")
             null height 20
             text _("{b}{u}Assets{/u}{/b}")
+            text _("Game artwork © 2023 SuIT-JI, licensed under {a=https://creativecommons.org/licenses/by/4.0/}Creative Commons Attribution 4.0 (CC BY 4.0){/a}.")
             text _("{a=https://icons8.com/icon/82787/externer-link}External Link{/a} Icon by {a=https://icons8.com}Icons8{/a}")
             text _("Icons by {a=https://game-icons.net/}Game-icons.net{/a}")
             text _("Notepad Png vectors by {a=https://lovepik.com/images/png-notepad.html}Lovepik.com{/a}")

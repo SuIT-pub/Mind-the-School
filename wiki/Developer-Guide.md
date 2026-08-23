@@ -7,6 +7,26 @@ through the same paths as the base game.
 New to the project? Start with **[Modding — Quick Start](Modding)** — it walks you
 from an empty folder to a working, enable-able mod, and points into the guides below.
 
+## Getting the game assets
+
+The Git repository contains **source code only**. Large game assets (~21 GB, mostly
+under `game/images/`) are hosted separately on Cloudflare R2 and are **not** included
+in Git. You need them to run the game or test mods against real art.
+
+After cloning the repository:
+
+```bash
+pip install -r requirements.txt
+python tools/download_assets.py
+```
+
+On Windows you can also double-click `tools/Download Assets.bat`.
+
+No Cloudflare account or credentials are required. The script compares your local
+install (`game/.asset-version`) with the remote version and only downloads when an
+update is available. Run the same command again whenever a new asset version is
+published.
+
 ## Content guides
 
 - **[Building Situations](Building-Situations)** — a *Situation* is an ongoing

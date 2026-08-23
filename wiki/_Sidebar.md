@@ -79,6 +79,7 @@ _Parents_
 <summary>Overview</summary>
 
 - [Developer Overview](Developer-Guide)
+- [Getting the game assets](Developer-Guide#getting-the-game-assets)
 - [Content guides](Developer-Guide#content-guides)
 - [System guides](Developer-Guide#system-guides)
 - [How the pieces fit together](Developer-Guide#how-the-pieces-fit-together)
@@ -90,6 +91,7 @@ _Parents_
 <summary>Modding — Quick Start</summary>
 
 - [Modding — Quick Start](Modding)
+- [Requirements](Modding#requirements)
 - [Quick start (the whole path)](Modding#quick-start-the-whole-path)
 - [How a mod plugs in](Modding#1-how-a-mod-plugs-in)
 - [Folder layout](Modding#2-folder-layout)
