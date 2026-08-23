@@ -32,13 +32,19 @@ Set up a working copy of the game **before** you start modding:
    use the version branch to test against upcoming content.
 3. **Python 3.9+** — needed for the asset download tools (`pip install -r requirements.txt`).
 4. **Game assets** — the repository contains source code only (~21 GB of images are hosted
-   separately). After cloning, download and install them:
+   separately). From the **repository root** (the folder with `game/` and `tools/`, not
+   from inside `game/`), download and install them:
    ```bash
+   cd Mind-the-School          # repository root
    pip install -r requirements.txt
    python tools/download_assets.py
    ```
+   Default install mode is **keep-existing** (local files stay; cloud only adds
+   missing paths). See [Install modes](Developer-Guide#install-modes) for
+   `overwrite-existing` and `folder-swap`.
    On Windows you can double-click `tools/Download Assets.bat` instead. See
-   [Getting the game assets](Developer-Guide#getting-the-game-assets) for details.
+   [Getting the game assets](Developer-Guide#getting-the-game-assets) for details
+   (where to run the script, failure handling, resume, and `--cleanup`).
 5. **Launch in Ren'Py** — add the cloned project in the Ren'Py launcher and run the game
    once to confirm scripts and assets load.
 

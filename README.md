@@ -75,19 +75,38 @@ The game source code is distributed through this repository. Large game assets
 
 ### For mod developers
 
-After cloning the repository, install the Python dependencies and download the
-current assets:
+After cloning the repository, open a terminal in the **repository root** (the folder
+that contains `game/` and `tools/`, not `game/` itself). Then install dependencies and
+download the current assets:
 
 ```bash
+cd Mind-the-School
 pip install -r requirements.txt
 python tools/download_assets.py
 ```
 
 Or double-click `tools/Download Assets.bat` on Windows.
 
+By default the install **merges** (`--mode keep-existing`): local files are kept,
+and only missing paths are added from the cloud. Use
+`--mode overwrite-existing` to let cloud files replace locals, or
+`--mode folder-swap` to replace `game/images/` entirely.
+
 The downloader automatically checks the installed asset version and only
 downloads the assets when a newer version is available. No Cloudflare account or
 credentials are required.
+
+On network errors, cancel (Ctrl+C), or a hard kill that leaves `assets.zip.part`,
+run the script again to **resume** the download (HTTP Range). A bad checksum
+removes the bad file and forces a fresh download. To discard a partial download
+instead of resuming:
+
+```bash
+python tools/download_assets.py --cleanup
+```
+
+See `wiki/Developer-Guide.md` (Getting the game assets) for the full failure /
+resume / cleanup notes.
 
 ### For project maintainers
 

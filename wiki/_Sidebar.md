@@ -80,6 +80,10 @@ _Parents_
 
 - [Developer Overview](Developer-Guide)
 - [Getting the game assets](Developer-Guide#getting-the-game-assets)
+- [Where to run the script](Developer-Guide#where-to-run-the-script)
+- [Install modes](Developer-Guide#install-modes)
+- [What the downloader does on failure](Developer-Guide#what-the-downloader-does-on-failure)
+- [Cleaning leftovers manually](Developer-Guide#cleaning-leftovers-manually)
 - [Content guides](Developer-Guide#content-guides)
 - [System guides](Developer-Guide#system-guides)
 - [How the pieces fit together](Developer-Guide#how-the-pieces-fit-together)

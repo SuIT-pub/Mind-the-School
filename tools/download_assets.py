@@ -8,10 +8,15 @@ installed version and only downloads when an update is available.
 
 Usage:
     python tools/download_assets.py
+    python tools/download_assets.py --cleanup
+
+Interrupted downloads leave ``assets.zip.part`` in place; the next run resumes
+via an HTTP Range request.
 """
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import shutil
@@ -41,6 +46,16 @@ USER_AGENT = "MTS-Asset-Downloader/1.0"
 
 # Directories inside the archive that get swapped into game/ on install.
 ASSET_DIRS = ("images", "videos")
+
+# How downloaded files are merged into game/<dir>/.
+INSTALL_MODE_KEEP = "keep-existing"
+INSTALL_MODE_OVERWRITE = "overwrite-existing"
+INSTALL_MODE_SWAP = "folder-swap"
+INSTALL_MODES = (
+    INSTALL_MODE_KEEP,
+    INSTALL_MODE_OVERWRITE,
+    INSTALL_MODE_SWAP,
+)
 
 LICENSE_FILE = REPO_ROOT / "LICENSE"
 
@@ -120,9 +135,15 @@ def format_duration(seconds: float) -> str:
 class ProgressDisplay:
     """Single-line progress bar with speed and ETA (updates in place)."""
 
-    def __init__(self, label: str, total_bytes: int) -> None:
+    def __init__(
+        self,
+        label: str,
+        total_bytes: int,
+        initial_bytes: int = 0,
+    ) -> None:
         self.label = label
         self.total_bytes = max(total_bytes, 1)
+        self.initial_bytes = max(initial_bytes, 0)
         self._started = time.monotonic()
         self._last_render = 0.0
         self._printed_label = False
@@ -139,7 +160,9 @@ class ProgressDisplay:
             self._printed_label = True
 
         elapsed = max(now - self._started, 0.001)
-        speed = current / elapsed
+        # Speed/ETA from this session only (important when resuming).
+        session_bytes = max(current - self.initial_bytes, 0)
+        speed = session_bytes / elapsed
         remaining = max(self.total_bytes - current, 0)
         eta = remaining / speed if speed > 0 else 0.0
 
@@ -211,40 +234,98 @@ def read_local_version() -> str | None:
 
 
 def check_disk_space(required_bytes: int) -> None:
-    """Ensure enough free disk space is available (archive + extract buffer)."""
+    """Ensure enough free disk space is available for the given byte budget."""
     usage = shutil.disk_usage(REPO_ROOT)
-    # Need space for the download and extraction (roughly 2x archive size).
-    needed = required_bytes * 2
-    if usage.free < needed:
+    if usage.free < required_bytes:
         raise UserError(
             f"Not enough disk space.\n"
-            f"  Required: ~{format_gb(needed)}\n"
+            f"  Required: ~{format_gb(required_bytes)}\n"
             f"  Available: {format_gb(usage.free)}"
         )
 
 
 def download_file(url: str, dest: Path, expected_size: int) -> None:
-    """Stream-download a file to disk with progress display."""
-    label = f"Downloading {ARCHIVE_NAME}"
+    """
+    Stream-download a file to disk with progress display.
 
-    if dest.is_file():
+    Supports resume: an existing ``assets.zip.part`` smaller than ``expected_size``
+    is continued via an HTTP Range request. Incomplete files are kept on network
+    errors / cancel so the next run can continue.
+    """
+    existing = dest.stat().st_size if dest.is_file() else 0
+    total = max(expected_size, 1)
+
+    if existing > expected_size > 0:
+        print(
+            f"Partial file is larger than expected "
+            f"({format_gb(existing)} > {format_gb(expected_size)}); starting over."
+        )
         dest.unlink()
+        existing = 0
+    elif expected_size > 0 and existing == expected_size:
+        print(f"Found complete partial download ({format_gb(existing)}); skipping transfer.")
+        return
+    elif existing > 0:
+        print(f"Resuming download from {format_gb(existing)} / {format_gb(expected_size)}...")
 
-    downloaded = 0
-    total = expected_size
+    headers = {"User-Agent": USER_AGENT}
+    if existing > 0:
+        headers["Range"] = f"bytes={existing}-"
+
+    downloaded = existing
     progress: ProgressDisplay | None = None
 
     try:
-        request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
-        with urllib.request.urlopen(request, timeout=30) as response:
+        request = urllib.request.Request(url, headers=headers)
+        with urllib.request.urlopen(request, timeout=60) as response:
+            status = getattr(response, "status", None) or response.getcode()
+            mode = "ab"
+
+            if existing > 0 and status == 200:
+                print("Server does not support resume; restarting download from the beginning.")
+                existing = 0
+                downloaded = 0
+                mode = "wb"
+            elif existing > 0 and status == 206:
+                mode = "ab"
+            elif existing > 0:
+                raise UserError(
+                    f"Unexpected HTTP status {status} when resuming download.\n"
+                    "Run with --cleanup and try again."
+                )
+            else:
+                mode = "wb"
+
+            content_range = response.headers.get("Content-Range")
             content_length = response.headers.get("Content-Length")
-            if content_length:
-                total = int(content_length)
+            if content_range and "/" in content_range:
+                total_token = content_range.rsplit("/", 1)[-1]
+                if total_token.isdigit():
+                    total = int(total_token)
+            elif content_length:
+                length = int(content_length)
+                total = length if mode == "wb" else existing + length
+            elif expected_size > 0:
+                total = expected_size
 
-            check_disk_space(total)
-            progress = ProgressDisplay(label, total)
+            if expected_size > 0 and total > 0 and total != expected_size:
+                print(
+                    f"WARNING: remote size ({format_gb(total)}) differs from "
+                    f"version.json ({format_gb(expected_size)})."
+                )
 
-            with dest.open("wb") as handle:
+            # Free space for the remaining download plus a full extract buffer.
+            remaining = max(total - existing, 0)
+            check_disk_space(remaining + total)
+
+            label = (
+                f"Resuming {ARCHIVE_NAME}"
+                if existing > 0 and mode == "ab"
+                else f"Downloading {ARCHIVE_NAME}"
+            )
+            progress = ProgressDisplay(label, total, initial_bytes=existing)
+
+            with dest.open(mode) as handle:
                 while True:
                     chunk = response.read(CHUNK_SIZE)
                     if not chunk:
@@ -259,26 +340,41 @@ def download_file(url: str, dest: Path, expected_size: int) -> None:
             sys.stdout.write("\n")
             sys.stdout.flush()
 
+        if expected_size > 0 and downloaded != expected_size:
+            raise UserError(
+                f"Download size mismatch.\n"
+                f"  expected: {expected_size} bytes\n"
+                f"  actual:   {downloaded} bytes\n"
+                "Run the script again to resume, or use --cleanup to start over."
+            )
+
+    except UserError:
+        raise
     except urllib.error.HTTPError as exc:
-        if dest.is_file():
-            dest.unlink()
         if exc.code == 404:
             raise UserError(f"Could not find {ARCHIVE_NAME} at {url} (HTTP 404).") from exc
         if exc.code == 403:
             raise UserError(f"Access denied when downloading {ARCHIVE_NAME} (HTTP 403).") from exc
+        if exc.code == 416:
+            # Invalid range — partial file is inconsistent; force a clean retry.
+            if dest.is_file():
+                dest.unlink()
+            raise UserError(
+                "Could not resume download (invalid byte range).\n"
+                "The partial file was removed; run the script again to start over."
+            ) from exc
         raise UserError(f"HTTP error {exc.code} while downloading {ARCHIVE_NAME}.") from exc
     except urllib.error.URLError as exc:
-        if dest.is_file():
-            dest.unlink()
         raise UserError(
             "Download interrupted or connection failed.\n"
-            "Check your internet connection and run the script again."
+            "Your partial download was kept. Run the script again to resume."
         ) from exc
     except OSError as exc:
-        if dest.is_file():
-            dest.unlink()
         if exc.errno == 28 or "No space" in str(exc):
-            raise UserError("Not enough disk space to complete the download.") from exc
+            raise UserError(
+                "Not enough disk space to complete the download.\n"
+                "Free some space, then run the script again to resume."
+            ) from exc
         raise UserError(f"Failed to write download file: {exc}") from exc
 
 
@@ -305,9 +401,12 @@ def verify_checksum(file_path: Path, expected: str) -> None:
     print(f"  expected: {expected}")
     print(f"  actual:   {actual}")
     if actual != expected:
+        if file_path.is_file():
+            file_path.unlink()
         raise UserError(
             "SHA-256 checksum mismatch.\n"
-            "The downloaded archive may be corrupted."
+            "The downloaded archive may be corrupted and was removed.\n"
+            "Run the script again to download a fresh copy."
         )
 
 
@@ -365,7 +464,7 @@ def extract_archive(archive_path: Path, dest_dir: Path) -> None:
 
 
 def swap_asset_directory(asset_name: str) -> None:
-    """Move an extracted asset directory into game/, keeping a rollback copy."""
+    """Replace game/<asset_name>/ entirely with the extracted directory."""
     source = TEMP_EXTRACT_DIR / asset_name
     if not source.is_dir():
         return
@@ -390,29 +489,92 @@ def swap_asset_directory(asset_name: str) -> None:
         shutil.rmtree(backup)
 
 
-def install_assets(version: str) -> None:
-    """Swap extracted asset directories into game/ and record the version."""
-    print("Installing assets...")
-    swapped: list[str] = []
+def merge_asset_directory(asset_name: str, mode: str) -> tuple[int, int, int]:
+    """
+    Merge extracted files into game/<asset_name>/.
+
+    Returns ``(added, skipped, overwritten)`` counts.
+    """
+    source_root = TEMP_EXTRACT_DIR / asset_name
+    if not source_root.is_dir():
+        return (0, 0, 0)
+
+    target_root = GAME_DIR / asset_name
+    target_root.mkdir(parents=True, exist_ok=True)
+
+    added = 0
+    skipped = 0
+    overwritten = 0
+
+    try:
+        for source_file in source_root.rglob("*"):
+            if not source_file.is_file():
+                continue
+            rel = source_file.relative_to(source_root)
+            dest_file = target_root / rel
+            dest_file.parent.mkdir(parents=True, exist_ok=True)
+
+            if dest_file.exists():
+                if mode == INSTALL_MODE_KEEP:
+                    skipped += 1
+                    continue
+                # overwrite-existing
+                shutil.copy2(source_file, dest_file)
+                overwritten += 1
+            else:
+                shutil.copy2(source_file, dest_file)
+                added += 1
+    except OSError as exc:
+        raise UserError(f"Failed to merge into {asset_name}/: {exc}") from exc
+
+    return (added, skipped, overwritten)
+
+
+def install_assets(version: str, mode: str) -> None:
+    """Install extracted asset directories into game/ using the chosen merge mode."""
+    print(f"Installing assets (mode: {mode})...")
+    installed: list[str] = []
+    total_added = 0
+    total_skipped = 0
+    total_overwritten = 0
 
     try:
         for asset_name in ASSET_DIRS:
-            if (TEMP_EXTRACT_DIR / asset_name).is_dir():
+            if not (TEMP_EXTRACT_DIR / asset_name).is_dir():
+                continue
+            if mode == INSTALL_MODE_SWAP:
                 swap_asset_directory(asset_name)
-                swapped.append(asset_name)
+                print(f"  Replaced game/{asset_name}/")
+            else:
+                added, skipped, overwritten = merge_asset_directory(asset_name, mode)
+                total_added += added
+                total_skipped += skipped
+                total_overwritten += overwritten
+                print(
+                    f"  game/{asset_name}/: "
+                    f"+{added} added, {skipped} kept local, {overwritten} overwritten"
+                )
+            installed.append(asset_name)
     except UserError:
         raise
     except Exception as exc:
         raise UserError(f"Installation failed: {exc}") from exc
 
-    if not swapped:
+    if not installed:
         raise UserError(
             "The archive did not contain any expected asset directories "
             f"({', '.join(ASSET_DIRS)})."
         )
 
     LOCAL_VERSION_FILE.write_text(version + "\n", encoding="utf-8")
-    print(f"Installed: {', '.join(swapped)}/")
+    if mode == INSTALL_MODE_SWAP:
+        print(f"Installed (folder swap): {', '.join(installed)}/")
+    else:
+        print(
+            f"Installed (merge): {', '.join(installed)}/ — "
+            f"+{total_added} added, {total_skipped} kept local, "
+            f"{total_overwritten} overwritten"
+        )
 
 
 def cleanup_after_install(part_path: Path, archive_path: Path) -> None:
@@ -425,18 +587,112 @@ def cleanup_after_install(part_path: Path, archive_path: Path) -> None:
         shutil.rmtree(TEMP_EXTRACT_DIR, ignore_errors=True)
 
 
-def cleanup_on_failure(part_path: Path, archive_path: Path) -> None:
-    """Remove partial downloads and temp directories after a failure."""
-    if part_path.is_file():
+def cleanup_on_failure(
+    part_path: Path,
+    archive_path: Path,
+    *,
+    keep_partial_download: bool = False,
+) -> None:
+    """
+    Remove temp extract/archive artefacts after a failure.
+
+    When ``keep_partial_download`` is True (network drop / Ctrl+C during transfer),
+    ``assets.zip.part`` is kept so the next run can resume via HTTP Range.
+    """
+    if keep_partial_download and part_path.is_file():
+        size = part_path.stat().st_size
+        print(
+            f"Partial download kept for resume: {part_path.name} "
+            f"({format_gb(size)})."
+        )
+    elif part_path.is_file():
         part_path.unlink()
         print("Removed incomplete download.")
-    if archive_path.is_file():
+
+    if archive_path.is_file() and not keep_partial_download:
         archive_path.unlink()
+
     if TEMP_EXTRACT_DIR.exists():
         shutil.rmtree(TEMP_EXTRACT_DIR, ignore_errors=True)
 
 
+def cleanup_leftovers() -> int:
+    """
+    Remove leftover download/install artefacts from failed or interrupted runs.
+
+    Does not touch an installed ``game/images/`` tree or ``game/.asset-version``.
+    Returns the number of paths removed.
+    """
+    removed = 0
+    candidates: list[Path] = [
+        REPO_ROOT / PART_FILE,
+        ARCHIVE_PATH,
+        TEMP_EXTRACT_DIR,
+    ]
+    for asset_name in ASSET_DIRS:
+        candidates.append(GAME_DIR / f"{asset_name}.old")
+
+    for path in candidates:
+        if path.is_file():
+            path.unlink()
+            print(f"  Removed file: {path.relative_to(REPO_ROOT)}")
+            removed += 1
+        elif path.is_dir():
+            shutil.rmtree(path)
+            print(f"  Removed directory: {path.relative_to(REPO_ROOT)}")
+            removed += 1
+
+    return removed
+
+
+def parse_args() -> argparse.Namespace:
+    """Parse command-line arguments."""
+    parser = argparse.ArgumentParser(
+        description=(
+            "Download and install Mind the School game assets from the public "
+            "Cloudflare R2 distribution."
+        ),
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog=(
+            "Install modes (--mode):\n"
+            f"  {INSTALL_MODE_KEEP}       Keep local files; only add missing ones from the cloud (default).\n"
+            f"  {INSTALL_MODE_OVERWRITE}  Cloud files overwrite locals; local-only files remain.\n"
+            f"  {INSTALL_MODE_SWAP}         Replace game/images/ (etc.) entirely with the archive."
+        ),
+    )
+    parser.add_argument(
+        "--cleanup",
+        action="store_true",
+        help=(
+            "Remove leftover temporary files from failed or interrupted downloads "
+            "(assets.zip.part, assets.zip, .temp_assets/, game/images.old/) "
+            "and exit without downloading. Does not remove installed assets."
+        ),
+    )
+    parser.add_argument(
+        "--mode",
+        choices=INSTALL_MODES,
+        default=INSTALL_MODE_KEEP,
+        help=(
+            "How to merge downloaded files into game/ "
+            f"(default: {INSTALL_MODE_KEEP})."
+        ),
+    )
+    return parser.parse_args()
+
+
 def main() -> None:
+    args = parse_args()
+
+    if args.cleanup:
+        print("Cleaning leftover download/install files...")
+        count = cleanup_leftovers()
+        if count == 0:
+            print("Nothing to clean.")
+        else:
+            print(f"Removed {count} leftover path(s).")
+        return
+
     base_url = validate_public_url()
     version_url = f"{base_url}/{VERSION_FILE}"
 
@@ -466,6 +722,7 @@ def main() -> None:
     else:
         print(f"Downloading asset version {remote_version}...")
 
+    print(f"Install mode: {args.mode}")
     print("\nDownloading...")
     download_url = f"{base_url}/{filename}"
     part_path = REPO_ROOT / PART_FILE
@@ -480,7 +737,7 @@ def main() -> None:
         part_path.rename(ARCHIVE_PATH)
 
         extract_archive(ARCHIVE_PATH, TEMP_EXTRACT_DIR)
-        install_assets(remote_version)
+        install_assets(remote_version, args.mode)
         cleanup_after_install(part_path, ARCHIVE_PATH)
 
         if local_version:
@@ -491,13 +748,26 @@ def main() -> None:
         print_artwork_license_notice()
 
     except UserError as exc:
-        cleanup_on_failure(part_path, ARCHIVE_PATH)
+        # Network / disk errors during transfer keep the .part file for resume.
+        keep_partial = "run the script again to resume" in str(exc).lower()
+        cleanup_on_failure(
+            part_path,
+            ARCHIVE_PATH,
+            keep_partial_download=keep_partial,
+        )
         fail(str(exc))
     except KeyboardInterrupt:
-        cleanup_on_failure(part_path, ARCHIVE_PATH)
-        fail("Download cancelled.")
+        cleanup_on_failure(
+            part_path,
+            ARCHIVE_PATH,
+            keep_partial_download=True,
+        )
+        fail(
+            "Download cancelled.\n"
+            "Your partial download was kept. Run the script again to resume."
+        )
     except Exception as exc:
-        cleanup_on_failure(part_path, ARCHIVE_PATH)
+        cleanup_on_failure(part_path, ARCHIVE_PATH, keep_partial_download=False)
         fail(f"Unexpected error: {exc}")
 
 
