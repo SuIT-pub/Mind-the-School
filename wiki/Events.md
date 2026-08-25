@@ -283,13 +283,15 @@ label truth_or_dare_2(**kwargs):
 
 - **`$ begin_event(version="1", **kwargs)`** — call it first (after any pre-scene
   choices). It hides prior images, stops sound, **blocks rollback** (locking in rolled
-  selector values and choices), marks the event **seen** (`set_event_seen`), and starts
-  a `Gallery_Manager` for replay (unless `no_gallery=True` in kwargs). Bump `version`
-  when a scene's structure changes so stale replays are invalidated.
+  selector values and choices), marks the event **seen** (`set_event_seen`), starts
+  a `Gallery_Manager` for replay (unless `no_gallery=True` in kwargs), and
+  `init_paperdoll_manager()`. Bump `version` when a scene's structure changes so
+  stale replays are invalidated.
 - **`$ end_event(return_type="new_daytime", **kwargs)`** — call it last. `"new_daytime"`
   advances to the next daytime segment; `"map_entry"` returns to the map; in replay it
   returns to the journal. It also ticks the situation manager (teasers, thresholds,
-  passives, resolutions) and clears progress blocks.
+  passives, resolutions), clears progress blocks, and
+  `unload_paperdoll_manager()` (so paperdolls never leak past the event).
 
 Never hand-roll the seen/gallery/rollback hooks — always bracket with these.
 

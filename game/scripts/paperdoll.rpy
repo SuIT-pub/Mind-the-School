@@ -144,12 +144,12 @@ init -98 python:
     register_preset("outside", PDAMove(alignX = -1.5))
     register_preset("close_body", PDAMove(alignY = -0.1, zoom = 2.0))
     register_preset("close_body_center", PDAPreset("close_body"), PDAMove(alignX = 0.5))
-    register_preset("close_body_right", PDAPreset("close_body"), PDAMove(alignX = 1.5))
-    register_preset("close_body_left", PDAPreset("close_body"), PDAMove(alignX = -0.1))
+    register_preset("close_body_right", PDAPreset("close_body"), PDAMove(alignX = 1.0))
+    register_preset("close_body_left", PDAPreset("close_body"), PDAMove(alignX = 0.0))
     register_preset("upper_body", PDAMove(alignY = -0.1, zoom = 3.0))
     register_preset("upper_body_center", PDAPreset("upper_body"), PDAMove(alignX = 0.5))
-    register_preset("upper_body_right", PDAPreset("upper_body"), PDAMove(alignX = 6.0))
-    register_preset("upper_body_left", PDAPreset("upper_body"), PDAMove(alignX = -1.5))
+    register_preset("upper_body_right", PDAPreset("upper_body"), PDAMove(alignX = 1.0))
+    register_preset("upper_body_left", PDAPreset("upper_body"), PDAMove(alignX = 0.0))
 
     # endregion
     ##################
@@ -342,6 +342,84 @@ init -99 python:
             return Null()
         return Image(path)
 
+    paperdoll_native_size_cache = {}
+
+    def paperdoll_native_size(path):
+        """
+        Returns the cached native pixel size of a paperdoll layer image.
+
+        ### Parameters:
+        1. path: str
+            - The resolved image path.
+
+        ### Returns:
+        1. Tuple[int, int]
+            - (width, height) in native pixels, or (0, 0) when path is empty.
+        """
+        if not path:
+            return (0, 0)
+        if path not in paperdoll_native_size_cache:
+            paperdoll_native_size_cache[path] = renpy.image_size(Image(path))
+        return paperdoll_native_size_cache[path]
+
+    def paperdoll_flipped_layer(path, duration=0.0, start_xzoom=1.0, end_xzoom=1.0):
+        """
+        Wraps a layer image so `xzoom` eases around the sprite's horizontal center.
+
+        The image sits in a Fixed of native size; the flip ATL uses `xalign 0.5` inside
+        that box. Outer `xalign` / zoom then position the box, so the flip pivot is not
+        the screen-align point (which would swing a right-aligned figure off-frame).
+
+        ### Parameters:
+        1. path: str
+            - The resolved image path (may be empty).
+        2. duration: float
+            - Ease duration for the flip. `0.0` snaps.
+        3. start_xzoom: float
+            - `xzoom` at the start of the ease (`1.0` or `-1.0`).
+        4. end_xzoom: float
+            - `xzoom` at the end of the ease.
+
+        ### Returns:
+        1. Displayable
+            - The boxed, flippable layer, or Null() when path is empty.
+        """
+        if not path:
+            return Null()
+        width, height = paperdoll_native_size(path)
+        return Fixed(
+            At(paperdoll_layer_displayable(path), t_paperdoll_flip(duration, start_xzoom, end_xzoom)),
+            xysize = (int(width), int(height)),
+        )
+
+    def paperdoll_layer_for_show(pd_obj, index, duration=0.0, start_xzoom=None, end_xzoom=None):
+        """
+        Builds the showable layer for a paperdoll object, holding or easing its flip.
+
+        ### Parameters:
+        1. pd_obj: Paperdoll_Obj
+            - The paperdoll object.
+        2. index: int
+            - The layer index.
+        3. duration: float
+            - Flip ease duration. `0.0` holds the current (or given) facing.
+        4. start_xzoom: float
+            - Optional start `xzoom`; defaults to the stored flip.
+        5. end_xzoom: float
+            - Optional end `xzoom`; defaults to the stored flip.
+
+        ### Returns:
+        1. Displayable
+            - The boxed layer to pass as `what` in `renpy.show`.
+        """
+        flip = pd_obj.get_flip()
+        if start_xzoom is None:
+            start_xzoom = flip
+        if end_xzoom is None:
+            end_xzoom = flip
+        layer = paperdoll_flipped_layer(pd_obj.image[index], duration, start_xzoom, end_xzoom)
+        return layer
+
     class Paperdoll_Obj:
         """
         A class that represents a paperdoll object
@@ -448,6 +526,7 @@ init -99 python:
                 "zoom": 1.0,
                 "blur": 0.0,
                 "bw": False,
+                "flip": 1.0,
             },
             get_kwargs("config", {}, **kwargs))
 
@@ -587,7 +666,8 @@ init -99 python:
 
         def get_effective_zoom(self, index: int, zoom: float = None) -> float:
             """
-            Returns the zoom value adjusted for the layer's base scale factor.
+            Returns config zoom multiplied by the layer base scale factor.
+            Placement transforms use this combined value as their `zoom`.
 
             ### Parameters:
             1. index: int
@@ -597,11 +677,21 @@ init -99 python:
 
             ### Returns:
             1. float
-                - The effective zoom to pass to display transforms.
+                - Combined zoom to pass to display transforms (config zoom × base scale).
             """
             if zoom is None:
                 zoom = self.get_config("zoom", index)
             return zoom * self.scale_factors[index]
+
+        def get_flip(self) -> float:
+            """
+            Returns the stored horizontal flip as an `xzoom` multiplier.
+
+            ### Returns:
+            1. float
+                - `1.0` unflipped, `-1.0` mirrored. Defaults to `1.0`.
+            """
+            return self.config.get("flip", 1.0)
 
     class PaperdollManager:
         """
@@ -941,12 +1031,28 @@ init -99 python:
             self.max_distance = kwargs.get("max_distance", self.max_distance)
 
     class PDAFlip(PDAction):
-        def __init__(self, flip: bool = False):
+        def __init__(self, flip: bool = False, duration: float = 0.0):
+            """
+            Mirrors a paperdoll horizontally (`xzoom`).
+
+            ### Parameters:
+            1. flip: bool
+                - True faces the other way (`xzoom = -1`), False is unflipped (`xzoom = 1`).
+            2. duration: float
+                - Ease duration for the flip. `0.0` snaps immediately.
+            """
             super().__init__("flip")
             self.flip = -1.0 if flip else 1.0
+            self.duration = duration
 
         def overwrite_values(self, **kwargs):
-            self.flip = kwargs.get("flip", self.flip)
+            if "flip" in kwargs:
+                flip = kwargs["flip"]
+                if isinstance(flip, bool):
+                    self.flip = -1.0 if flip else 1.0
+                else:
+                    self.flip = float(flip)
+            self.duration = kwargs.get("duration", self.duration)
 
     class PDABw(PDAction):
         def __init__(self, bw: bool = True, duration: float = 0.0):
@@ -992,14 +1098,22 @@ init -99 python:
 
 transform t_paperdoll_blur(blur_val, duration = 0.0):
     ease duration blur blur_val
-transform t_paperdoll_position(xAlign, yAlign, zoom):
+transform t_paperdoll_position(xAlign, yAlign, zoom_val):
+    transform_anchor True
     xalign xAlign
     ypos yAlign
-    zoom zoom
-transform t_paperdoll_move(duration, xAlign, yAlign):
-    ease duration xalign xAlign ypos yAlign
-transform t_paperdoll_flip(flip):
-    xzoom flip
+    zoom zoom_val
+transform t_paperdoll_move(duration, startX, startY, startZ, endX, endY, endZ):
+    transform_anchor True
+    xalign startX
+    ypos startY
+    zoom startZ
+    ease duration xalign endX ypos endY zoom endZ
+transform t_paperdoll_flip(duration, start_xzoom, end_xzoom):
+    xalign 0.5
+    yalign 0.0
+    xzoom start_xzoom
+    ease duration xzoom end_xzoom
 transform t_paperdoll_bw(saturation, duration = 0.0):
     ease duration matrixcolor SaturationMatrix(saturation)
 
@@ -1029,12 +1143,12 @@ label display_paperdoll_image(paperdoll_obj, actions):
 
             $ paperdoll_obj.resolve_image(index)
             $ renpy.show(
-                paperdoll_obj.key + str(index), 
+                paperdoll_obj.key + str(index),
                 tag = paperdoll_obj.key + str(index),
-                what = paperdoll_layer_displayable(paperdoll_obj.image[index]),
+                what = paperdoll_layer_for_show(paperdoll_obj, index),
                 at_list = [
                     t_paperdoll_position(
-                        paperdoll_obj.get_config("alignX", index), 
+                        paperdoll_obj.get_config("alignX", index),
                         paperdoll_obj.get_config("alignY", index),
                         paperdoll_obj.get_effective_zoom(index)
                     ),
@@ -1044,7 +1158,7 @@ label display_paperdoll_image(paperdoll_obj, actions):
             )
 
         $ index += 1
-    
+
     call run_paperdoll_actions(paperdoll_obj, actions) from _call_run_paperdoll_actions
 
     return
@@ -1080,10 +1194,10 @@ label paperdoll_action_blur(paperdoll_obj, pda_blur):
         $ renpy.show(
             paperdoll_obj.key + str(index), 
             tag = paperdoll_obj.key + str(index),
-            what = paperdoll_layer_displayable(paperdoll_obj.image[index]),
+            what = paperdoll_layer_for_show(paperdoll_obj, index),
             at_list = [
                 t_paperdoll_position(
-                    paperdoll_obj.get_config("alignX", index), 
+                    paperdoll_obj.get_config("alignX", index),
                     paperdoll_obj.get_config("alignY", index),
                     paperdoll_obj.get_effective_zoom(index)
                 ),
@@ -1109,12 +1223,12 @@ label paperdoll_action_image(paperdoll_obj, pda_image):
         $ paperdoll_obj.resolve_image(index)
 
         $ renpy.show(
-            paperdoll_obj.key + str(index), 
+            paperdoll_obj.key + str(index),
             tag = paperdoll_obj.key + str(index),
-            what = paperdoll_layer_displayable(paperdoll_obj.image[index]),
+            what = paperdoll_layer_for_show(paperdoll_obj, index),
             at_list = [
                 t_paperdoll_position(
-                    paperdoll_obj.get_config("alignX", index), 
+                    paperdoll_obj.get_config("alignX", index),
                     paperdoll_obj.get_config("alignY", index),
                     paperdoll_obj.get_effective_zoom(index)
                 ),
@@ -1136,19 +1250,21 @@ label paperdoll_action_move(paperdoll_obj, pda_move):
     $ index = 0
     while (index < len(paperdoll_obj.pattern)):
         $ renpy.show(
-            paperdoll_obj.key + str(index), 
+            paperdoll_obj.key + str(index),
             tag = paperdoll_obj.key + str(index),
-            what = paperdoll_layer_displayable(paperdoll_obj.image[index]),
+            what = paperdoll_layer_for_show(paperdoll_obj, index),
             at_list = [
-                t_paperdoll_position(
-                    paperdoll_obj.get_config("alignX", index), 
-                    paperdoll_obj.get_config("alignY", index),
-                    paperdoll_obj.get_effective_zoom(index)
-                ),
                 t_paperdoll_move(
-                    duration, 
-                    alignX + paperdoll_obj.get_override_config("alignX", index), 
-                    alignY + paperdoll_obj.get_override_config("alignY", index)
+                    duration,
+                    paperdoll_obj.get_config("alignX", index),
+                    paperdoll_obj.get_config("alignY", index),
+                    paperdoll_obj.get_effective_zoom(index),
+                    alignX + paperdoll_obj.get_override_config("alignX", index),
+                    alignY + paperdoll_obj.get_override_config("alignY", index),
+                    paperdoll_obj.get_effective_zoom(
+                        index,
+                        zoom + paperdoll_obj.get_override_config("zoom", index)
+                    ),
                 ),
                 t_paperdoll_bw(paperdoll_saturation(paperdoll_obj.is_bw())),
             ],
@@ -1163,25 +1279,32 @@ label paperdoll_action_move(paperdoll_obj, pda_move):
     return
 
 label paperdoll_action_flip(paperdoll_obj, pda_flip):
-    $ flip = pda_flip.flip
+    $ start_flip = paperdoll_obj.get_flip()
+    $ end_flip = pda_flip.flip
+    $ duration = pda_flip.duration
+
+    if preferences.transitions != 0 and persistent.transitionSpeed > 0:
+        $ duration = duration / persistent.transitionSpeed
+
     $ index = 0
     while (index < len(paperdoll_obj.pattern)):
         $ renpy.show(
-            paperdoll_obj.key + str(index), 
+            paperdoll_obj.key + str(index),
             tag = paperdoll_obj.key + str(index),
-            what = paperdoll_layer_displayable(paperdoll_obj.image[index]),
+            what = paperdoll_layer_for_show(paperdoll_obj, index, duration, start_flip, end_flip),
             at_list = [
                 t_paperdoll_position(
                     paperdoll_obj.get_config("alignX", index),
                     paperdoll_obj.get_config("alignY", index),
                     paperdoll_obj.get_effective_zoom(index)
                 ),
-                t_paperdoll_flip(flip),
                 t_paperdoll_bw(paperdoll_saturation(paperdoll_obj.is_bw())),
             ],
         )
 
         $ index += 1
+
+    $ paperdoll_obj.config["flip"] = end_flip
 
     return
 
@@ -1198,7 +1321,7 @@ label paperdoll_action_bw(paperdoll_obj, pda_bw):
         $ renpy.show(
             paperdoll_obj.key + str(index),
             tag = paperdoll_obj.key + str(index),
-            what = paperdoll_layer_displayable(paperdoll_obj.image[index]),
+            what = paperdoll_layer_for_show(paperdoll_obj, index),
             at_list = [
                 t_paperdoll_position(
                     paperdoll_obj.get_config("alignX", index),
@@ -1233,7 +1356,7 @@ label paperdoll_action_shake(paperdoll_obj, pda_shake):
         $ renpy.show(
             paperdoll_obj.key + str(index), 
             tag = paperdoll_obj.key + str(index),
-            what = paperdoll_layer_displayable(paperdoll_obj.image[index]), 
+            what = paperdoll_layer_for_show(paperdoll_obj, index), 
             at_list = [
                 t_paperdoll_position(
                     paperdoll_obj.get_config("alignX", index),

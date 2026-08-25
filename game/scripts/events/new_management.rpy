@@ -60,7 +60,7 @@ init 1 python:
         # Gallery-registered reading: did the player already claim the office door?
         GameDataSelector("door_claimed", "nm_door_claimed", 0),
         # Scene image for the establishing beat (the group sizing him up).
-        Pattern("main", "images/events/new_management/nm_ghost_office_janitor/nm_ghost_office_janitor 1.webp")))
+        Pattern("main", "images/events/new_management/nm_ghost_office_janitor/nm_ghost_office_janitor <step>.webp")))
     sb_events["patrol"].add_event(Event(
         3,
         "nm_ghost_office_empty_corridor",
@@ -222,7 +222,7 @@ init 1 python:
 # region Ghost Office ----------------- #
 #######################################
 
-# ═══ SCENE · nm_ghost_office_nameplate ════════════════════════════════════════
+# region SCENE · nm_ghost_office_nameplate ══════════════════════════════════════
 #  At the door of the headmaster's office. The previous headmaster's name is still on
 #  the brass plaque; a printout with the new headmaster's name — misspelled — is taped
 #  crookedly over half of it. Emiko (the secretary) is there and they talk about it;
@@ -342,8 +342,9 @@ label .walk_away (**kwargs):
     $ emiko.clear_display()
     $ end_event('new_daytime', **kwargs)
 
+# endregion ═════════════════════════════════════════════════════════════════════
 
-# ═══ SCENE · nm_ghost_office_janitor ══════════════════════════════════════════
+# regiion SCENE · nm_ghost_office_janitor ═══════════════════════════════════════
 #  Daytime in the school courtyard, by one of the paths. Aona (a 3rd-year student)
 #  is standing with one classmate. The two of them are talking and glancing over at
 #  the headmaster, who is a few steps away, and gossiping about him: Aona is sure he's
@@ -378,6 +379,12 @@ label nm_ghost_office_janitor (**kwargs):
     $ aona.register_paperdoll()
     $ ikushi.register_paperdoll()
 
+    $ register_temp_preset("cbl", PDAMove(alignX = 0.0))
+    $ register_temp_preset("cbr", PDAMove(alignX = 1.0))
+
+    $ aona.display(PDAImage(outfit = "uniform", level = 1), PDAMove(alignX = -1.5, zoom = 2.0, alignY = -0.1, duration = 0.0))
+    $ ikushi.display(PDAImage(outfit = "uniform", level = 1), PDAMove(alignX = 2.5, zoom = 2.0, alignY = -0.1, duration = 0.0))
+
     $ image.show(0)
     subtitles "By the courtyard path, Aona has an audience of exactly one classmate, and she is making the absolute most of it."
     aona.say "—so yeah, there's a new headmaster now. We sat through the whole speech in the gym, remember?"
@@ -391,7 +398,7 @@ label nm_ghost_office_janitor (**kwargs):
 
     # Callback choice: only offered if you already claimed the office door.
     # Read through the gallery getter (paired with the GameDataSelector) so it replays.
-    $ door_claimed = get_value("door_claimed", 0, **kwargs) == 1
+    $ door_claimed = True # get_value("door_claimed", 0, **kwargs) == 1
 
     $ call_custom_menu_with_text("They're ranking you — three feet away.", character.subtitles, False,
         MenuElement("introduce", "Introduce yourself. Make the title stick to a face", EventEffect("nm_ghost_office_janitor.introduce")),
@@ -405,13 +412,13 @@ label .introduce (**kwargs):
     headmaster "Good morning. For the record — headmaster. Not [wrong_role]."
     # He's spoken to them → they both turn to face him. Now it's a player-facing
     # exchange, so paperdolls fit.
-    $ aona.display(PDAImage(pose = "1", outfit = "uniform", level = 1, mood = "suprised", mouth = "open"), PDAPreset("close_body_left", duration = 0.0))
-    $ ikushi.display(PDAImage(pose = "1", outfit = "uniform", level = 1, mood = "neutral", mouth = "closed"), PDAMove(alignX = 1.0))
+    $ aona.display(PDAImage(pose = "7", mood = "suprised", mouth = "open"), PDAMove(alignX = 0.0, duration = 1.0))
+    $ ikushi.display(PDAImage(pose = "1", mood = "neutral", mouth = "closed"), PDAFlip(True), PDAMove(alignX = 1.0, duration = 1.0))
     aona.say "..."
     aona.say "Oh my— you're real. You're an actual person."
-    $ ikushi.display(PDAImage(mood = "happy", mouth = "open"))
-    subtitles "Ikushi turns a laugh into a cough. Aona's ears go bright pink and she suddenly finds her own shoes fascinating."
     $ aona.display(PDAImage(mood = "sad", mouth = "closed"))
+    $ ikushi.display(PDAImage(pose = "8", mood = "shining", mouth = "closed"))
+    subtitles "Ikushi turns a laugh into a cough. Aona's ears go bright pink and she suddenly finds her own shoes fascinating."
     headmaster_thought "Oh, she is going to be telling that one at lunch all week. ...Good. Let them laugh — as long as they finally remember the face."
 
     $ set_game_data("nm_face_introduced", 1)
@@ -420,25 +427,40 @@ label .introduce (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .door (**kwargs):
+    $ paperdoll_manager.set_background(image[1], blur = True)
+    
+    $ aona.display(PDAImage(pose = "7", mood = "suspicious"), PDAMove(alignX = 0.0, duration = 1.0))
+    $ ikushi.display(PDAImage(pose = "7", mood = "suprised"), PDAFlip(True), PDAMove(alignX = 1.0, duration = 1.0))
     headmaster "Corner office, end of that corridor. Go read the door, then come back and tell me who I am. I'll wait."
-    # He's addressed them → they face him; paperdolls fit now.
-    $ aona.register_paperdoll()
-    $ bystander.register_paperdoll()
-    $ paperdoll_manager.set_background("images/background/courtyard/1 0 1.webp", blur = True)
-    $ aona.display(PDAImage(pose = "1", outfit = "uniform", level = 1, mood = "suprised", mouth = "closed"),
-        PDAPreset("close_body_left", duration = 0.0))
-    $ bystander.display(PDAImage(pose = "1", outfit = "uniform", level = 1, mood = "suprised", mouth = "open"),
-        PDAPreset("close_body_right", duration = 0.0), PDAMove(alignX = 1.0))
+    
+    $ ikushi.display(
+        PDAFlip(False, 0.2),
+        PDAPause(0.2),
+        PDAMove(alignX = 2.5, duration = 1.0),
+        PDAPause(1.0)
+    )
+    $ aona.display(
+        PDAImage(pose = "23", mood = "sad", mouth = "closed"),
+        PDAPause(1.0),
+        PDAImage(pose = "23", mood = "happy"),
+        PDAPause(1.0),
+        PDAImage(mood="sad"),
+        PDAPause(1.0)
+    )
+    $ ikushi.display(
+        PDAFlip(True),
+        PDAImage(mood = "sad"),
+        PDAMove(alignX = 1.0, duration = 1.0)
+    )
     subtitles "Her friend actually takes the dare and jogs off. She comes back a few shades paler and a great deal quieter."
-    $ bystander.display(PDAImage(mood = "sad", mouth = "open"))
-    bystander.say "...it's got your name on it. Spelled right and everything. Sorry, headmaster."
+    $ ikushi.display(PDAImage(mood = "sad", mouth = "open"))
+    ikushi.say "...it's got your name on it. Spelled right and everything. Sorry, headmaster."
     $ aona.display(PDAImage(mood = "sad", mouth = "closed"))
     headmaster_thought "Ha. Didn't have to say a single word. Some days the door does the arguing better than I could."
 
     $ set_game_data("nm_face_introduced", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 4)
     call change_stats_with_modifier(reputation=SMALL, charm=TINY) from _nm_go_jan_door
-    $ aona.clear_display()
     $ end_event('new_daytime', **kwargs)
 
 label .slip_past (**kwargs):
@@ -472,6 +494,7 @@ label .snap (**kwargs):
     $ aona.clear_display()
     $ end_event('new_daytime', **kwargs)
 
+# endregion ═════════════════════════════════════════════════════════════════════
 
 # ═══ SCENE · nm_ghost_office_private_line ═════════════════════════════════════
 #  A phone call: the headmaster rings Emiko from the office line, so the two of them

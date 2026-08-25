@@ -333,6 +333,10 @@ $ image.show(1)
 $ image.show(2, SHOW)    # overlay instead of replacing the scene
 ```
 
+`$ image.show(n)` (`Image_Series.show`) also `paperdoll_manager.clear()`s when a
+manager exists — paperdolls and their backdrop go away with the still. No extra
+`clear_display()`. (`call show_image` / `show_pattern` do **not** do this.)
+
 `convert_pattern_with_data("card", {"girls": "emiko"}, **kwargs)` builds a series
 with one key forced — useful when a second pattern must show a specific character.
 
