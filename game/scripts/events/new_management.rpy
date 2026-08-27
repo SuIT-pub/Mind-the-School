@@ -398,7 +398,7 @@ label nm_ghost_office_janitor (**kwargs):
 
     # Callback choice: only offered if you already claimed the office door.
     # Read through the gallery getter (paired with the GameDataSelector) so it replays.
-    $ door_claimed = True # get_value("door_claimed", 0, **kwargs) == 1
+    $ door_claimed = get_value("door_claimed", 0, **kwargs) == 1
 
     $ call_custom_menu_with_text("They're ranking you — three feet away.", character.subtitles, False,
         MenuElement("introduce", "Introduce yourself. Make the title stick to a face", EventEffect("nm_ghost_office_janitor.introduce")),
@@ -465,6 +465,7 @@ label .door (**kwargs):
 
 label .slip_past (**kwargs):
     # No paperdoll — he keeps walking; they're behind him, not facing him.
+    $ image.show(2)
     subtitles "You keep walking, unhurried. Their voices thin out behind you, still arguing about who you are."
     headmaster_thought "No sense making a scene of it. They'll see me tomorrow, and the day after that. It sinks in eventually... it has to."
 
@@ -473,17 +474,12 @@ label .slip_past (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .snap (**kwargs):
-    $ aona = Person["aona_komuro"]
-    $ bystander = get_person_value("bystander", **kwargs)
-
+    $ image.show(3)
     headmaster "If you've got time to hand out jobs I don't have, you've got time to be in class."
-    # He's rounded on them → they face him; paperdolls fit now.
-    $ aona.register_paperdoll()
-    $ bystander.register_paperdoll()
-    $ paperdoll_manager.set_background("images/background/courtyard/1 0 1.webp", blur = True)
-    $ aona.display(PDAImage(pose = "1", outfit = "uniform", level = 1, mood = "sad", mouth = "open"),
+    $ paperdoll_manager.set_background(image[3], blur = True)
+    $ aona.display(PDAImage(pose = "1", mood = "sad", mouth = "open"),
         PDAPreset("close_body_left", duration = 0.0))
-    $ bystander.display(PDAImage(pose = "1", outfit = "uniform", level = 1, mood = "sad", mouth = "closed"),
+    $ ikushi.display(PDAImage(pose = "23", mood = "sad", mouth = "closed"), PDAFlip(True),
         PDAPreset("close_body_right", duration = 0.0), PDAMove(alignX = 1.0))
     aona.say "We— we weren't— sorry."
     headmaster_thought "Well, that shut them up fast. ...Too fast. That was fear, not respect — and it's not what I wanted. Damn it."
@@ -508,30 +504,20 @@ label .snap (**kwargs):
 #  the right (colour) side.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_ghost_office_private_line (**kwargs):
-    $ begin_event(version = "2", **kwargs)
+    $ begin_event(**kwargs)
 
     $ emiko = Person["emiko_langley"]
     $ loud_slip = get_value("loud_slip", **kwargs)
-    # Read Standing through the gallery getter so replays have the value (Events guide §8/§16).
     $ standing = get_bar_value("new_management", "main", 0, **kwargs)
 
-    # Phone call → split background: his (colourless, abstract) end of the line on
-    # the left in b/w, her end on the right in colour. Uses the same office bg for
-    # both halves until a dedicated headmaster-office background exists — swap the
-    # left pattern then. Split degrades gracefully if either image is missing.
-    $ paperdoll_manager.set_background_split(
-        "images/background/office building/secretary 6 1 0.webp",
-        "images/background/office building/secretary 6 1 0.webp",
-        blur = True, bw_left = True)
+    $ paperdoll_manager.set_background("images/background/office building/f.webp", blur = True)
+    $ emiko.register_paperdoll()
+    $ emiko.display(PDAImage(pose = "35", outfit = "uniform", level = 5), PDAMove(alignX = -1.5, zoom = 2.0, alignY = -0.1, duration = 0.0))
 
     subtitles "You dial Emiko from the office line."
-    # Emiko sits in the colour (right) half; the greyed left half is his silent end.
-    $ emiko.register_paperdoll()
-    $ emiko.display(PDAImage(pose = "1", outfit = "uniform", level = 6, mood = "happy", mouth = "open"),
-        PDAPreset("upper_body", duration = 0.0),
-        PDAMove(alignX = 1.4, duration = 0.0))
-    $ emiko.display(PDAMove(alignX = 0.68, duration = 0.4))
+    $ emiko.display(PDAImage(mood = "shining", mouth = "open"), PDAMove(alignX = 0.5, duration = 1.0))
     emiko.say "Well. Look who remembers he has a phone."
+    $ emiko.display(PDAImage(mouth = "closed"))
     headmaster_thought "God, that voice. She only ever lets it out when there's no one else in the room to hear it."
     subtitles "Footsteps cross the outer office. Between one breath and the next, her voice buttons itself all the way up."
     $ emiko.display(PDAImage(mood = "neutral", mouth = "open"))
@@ -548,6 +534,7 @@ label nm_ghost_office_private_line (**kwargs):
     # Gated choice: when you're near the floor, she'll drop the mask if you ask straight.
     $ deep_hole = standing <= -18
 
+    $ emiko.display(PDAImage(mouth = "closed"))
     $ call_custom_menu_with_text("How do you use the call?", character.subtitles, False,
         MenuElement("triage", "Ask her for triage — what needs you today", EventEffect("nm_ghost_office_private_line.triage")),
         MenuElement("honest", "Ask her, off the record, how bad it actually is", EventEffect("nm_ghost_office_private_line.honest"), deep_hole),
@@ -556,8 +543,6 @@ label nm_ghost_office_private_line (**kwargs):
     **kwargs)
 
 label .triage (**kwargs):
-    $ emiko = Person["emiko_langley"]
-
     headmaster "Give me whatever can't wait. Parent calls, complaints, anything that's actually on fire."
     $ emiko.display(PDAImage(mood = "neutral", mouth = "closed"))
     emiko.say "Three parents, one teacher with a grievance, and [loud_slip] sitting right on top like it pays rent."
@@ -572,8 +557,6 @@ label .triage (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .honest (**kwargs):
-    $ emiko = Person["emiko_langley"]
-
     headmaster "Emiko. No routing, no softening it. How bad is it, really?"
     subtitles "A pause. When she answers, her voice has dropped low enough that the outer office won't catch a word of it."
     $ emiko.display(PDAImage(mood = "sad", mouth = "open"))
@@ -589,8 +572,6 @@ label .honest (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .short (**kwargs):
-    $ emiko = Person["emiko_langley"]
-
     headmaster "Anything urgent this morning?"
     emiko.say "Nothing that won't keep till the afternoon."
     headmaster "Good. Thanks."
@@ -604,8 +585,6 @@ label .short (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .distant (**kwargs):
-    $ emiko = Person["emiko_langley"]
-
     headmaster "Just making sure the line's working. That's all."
     $ emiko.display(PDAImage(mood = "sad", mouth = "closed"))
     emiko.say "...It's working. Line's fine."
