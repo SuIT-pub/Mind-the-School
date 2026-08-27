@@ -949,6 +949,8 @@ init -6 python:
             - The thumbnail of the person
         9. paperdollOverrides: List[:class:`PaperdollOverride`]
             - The paperdoll overrides of the person
+        10. paperdollPresets: List[:class:`PaperdollPreset`]
+            - Object-scoped paperdoll presets registered as `"{name}:{key}"` on `register_paperdoll`
 
         ### Parameters:
         1. name: str
@@ -967,9 +969,11 @@ init -6 python:
             - The paperdoll overrides of the person
         8. thumbnail: str
             - The thumbnail of the person
+        9. paperdollPresets: List[:class:`PaperdollPreset`]
+            - Character-specific paperdoll presets registered as temp `"name:key"` entries
         """
 
-        def __init__(self, name: str, first_name: str, last_name: str, char: Char, description: List[Union[str, Tuple[str, Condition]]], portraits: Dict[str, Union[str, Tuple[str, Condition]]] = {}, paperdollOverrides: List[PaperdollOverride] = [], thumbnail = ""):
+        def __init__(self, name: str, first_name: str, last_name: str, char: Char, description: List[Union[str, Tuple[str, Condition]]], portraits: Dict[str, Union[str, Tuple[str, Condition]]] = {}, paperdollOverrides: List[PaperdollOverride] = [], thumbnail = "", paperdollPresets = None):
             self.name = name
             self.first_name = first_name
             self.last_name = last_name
@@ -982,6 +986,7 @@ init -6 python:
             else:
                 self.thumbnail = thumbnail
             self.paperdollOverrides = list(paperdollOverrides)
+            self.paperdollPresets = list(paperdollPresets) if paperdollPresets is not None else []
 
         @classmethod
         def __class_getitem__(cls, key):
@@ -1010,6 +1015,8 @@ init -6 python:
                 self.thumbnail = ""
             if not hasattr(data, 'paperdollOverrides'):
                 self.paperdollOverrides = []
+            if not hasattr(data, 'paperdollPresets'):
+                self.paperdollPresets = []
 
             if data != None:
                 self.name = data.name
@@ -1018,6 +1025,8 @@ init -6 python:
                 self.description = data.description
                 self.portraits = data.portraits
                 self.paperdollOverrides = data.paperdollOverrides
+                if hasattr(data, 'paperdollPresets'):
+                    self.paperdollPresets = data.paperdollPresets
 
         def get_name(self) -> str:
             return self.name
@@ -1152,6 +1161,7 @@ init -6 python:
                 f"{self.basePath}images/paperdoll/{self.name}/top/{self.name} <char_var> <pose> <mood> <mouth>.png", 
                 display_size = (600, 1080),
                 overrides = list(overrides) + self.paperdollOverrides,
+                presets = list(self.paperdollPresets),
                 **data
             )
 

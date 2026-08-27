@@ -80,7 +80,8 @@ init python:
     Shake = renpy.curry(_Shake)
 
 init -98 python:
-    
+    import copy
+
     ##################
     # region Presets #
 
@@ -98,6 +99,7 @@ init -98 python:
         Temporary presets use the same lookup path as permanent ones
         (`PDAPreset("key")`), but are discarded by `clear_temp_presets()`.
         Permanent presets registered via `register_preset` cannot be overwritten.
+        Object presets are stored as `"object_key:preset_key"` temp entries.
 
         ### Parameters:
         1. key: str
@@ -116,16 +118,79 @@ init -98 python:
         paperdoll_presets[key] = list(actions)
         paperdoll_temp_presets.add(key)
 
-    def get_preset(key: str) -> List[PDAction]:
+    def resolve_preset_key(key: str, paperdoll_obj=None) -> str:
+        """
+        Resolves a preset name for the displaying object.
+
+        Looks up `"{obj.key}:{key}"` first, then `key` as-is. That lets
+        `PDAPreset("intro")` on aona hit `aona:intro`, and
+        `PDAPreset("aona:intro")` on emiko fall through to `aona:intro`.
+
+        ### Parameters:
+        1. key: str
+            - The preset argument from `PDAPreset`.
+        2. paperdoll_obj: Optional[Paperdoll_Obj]
+            - The object currently running `.display()`.
+
+        ### Returns:
+        1. str
+            - The resolved registry key, or `""` when neither exists.
+        """
         global paperdoll_presets
-        return paperdoll_presets[key]
-    def get_preset_with_overrides(key: str, **kwargs) -> List[PDAction]:
+        if paperdoll_obj is not None:
+            scoped = str(paperdoll_obj.key) + ":" + str(key)
+            if scoped in paperdoll_presets:
+                return scoped
+        if key in paperdoll_presets:
+            return key
+        return ""
+
+    def get_preset(key: str, paperdoll_obj=None) -> List[PDAction]:
         global paperdoll_presets
-        paperdoll_preset = paperdoll_presets[key]
+        resolved = resolve_preset_key(key, paperdoll_obj)
+        if resolved == "":
+            log(
+                "get_preset: preset '" + str(key) + "' not found",
+                log_type="error",
+                category="paperdoll",
+            )
+            return []
+        return paperdoll_presets[resolved]
+
+    def get_preset_with_overrides(key: str, paperdoll_obj=None, **kwargs) -> List[PDAction]:
+        """
+        Returns a deep copy of the preset actions with overrides applied.
+
+        Copy-on-expand so `PDAPreset("x", duration=0.4)` does not mutate the
+        stored preset for later callers.
+
+        ### Parameters:
+        1. key: str
+            - The preset name (bare or `"object:name"`).
+        2. paperdoll_obj: Optional[Paperdoll_Obj]
+            - Display target used for scoped lookup.
+        3. **kwargs
+            - Overrides applied via each action's `overwrite_values`.
+
+        ### Returns:
+        1. List[PDAction]
+            - A fresh action list, or empty when the preset is missing.
+        """
+        global paperdoll_presets
+        resolved = resolve_preset_key(key, paperdoll_obj)
+        if resolved == "":
+            log(
+                "get_preset_with_overrides: preset '" + str(key) + "' not found",
+                log_type="error",
+                category="paperdoll",
+            )
+            return []
+        paperdoll_preset = copy.deepcopy(paperdoll_presets[resolved])
         for action in paperdoll_preset:
             if action.key != "preset":
                 action.overwrite_values(**kwargs)
         return paperdoll_preset
+
     def clear_temp_presets():
         """
         Removes all presets registered via `register_temp_preset`.
@@ -136,6 +201,7 @@ init -98 python:
             if key in paperdoll_presets:
                 del paperdoll_presets[key]
         paperdoll_temp_presets = set()
+
     def clear_presets():
         global paperdoll_presets, paperdoll_temp_presets
         paperdoll_presets = {}
@@ -157,6 +223,7 @@ init -98 python:
 
 init -99 python:
     from abc import ABC, abstractmethod
+    from typing import Any, Dict, List, Optional, Tuple, Union
 
     paperdoll_display_scale_cache = {}
 
@@ -420,6 +487,343 @@ init -99 python:
         layer = paperdoll_flipped_layer(pd_obj.image[index], duration, start_xzoom, end_xzoom)
         return layer
 
+    PAPERDOLL_BG_ZORDER = -100
+    PAPERDOLL_LAYER_ZORDER = 0
+    PAPERDOLL_BEHIND_ZORDER = -1
+
+    def paperdoll_layer_zorder(pd_obj) -> int:
+        """
+        Returns the renpy.show zorder for a paperdoll object's layers.
+
+        ### Parameters:
+        1. pd_obj: Paperdoll_Obj
+            - The paperdoll object.
+
+        ### Returns:
+        1. int
+            - `-1` when `behind` is set (still above the background), else `0`.
+        """
+        if getattr(pd_obj, "behind", False):
+            return PAPERDOLL_BEHIND_ZORDER
+        return PAPERDOLL_LAYER_ZORDER
+
+    def paperdoll_is_visible(pd_obj) -> bool:
+        """
+        Returns True when at least one layer has a resolved image path.
+
+        ### Parameters:
+        1. pd_obj: Paperdoll_Obj
+            - The paperdoll object.
+
+        ### Returns:
+        1. bool
+            - Whether the object has been shown at least once.
+        """
+        return any(img != "" for img in pd_obj.image)
+
+    def paperdoll_capture_world(pd_obj) -> Dict[str, Any]:
+        """
+        Snapshots the object's current world transform from `config`.
+
+        ### Parameters:
+        1. pd_obj: Paperdoll_Obj
+            - The paperdoll object.
+
+        ### Returns:
+        1. Dict[str, Any]
+            - alignX, alignY, zoom, rotation, flip.
+        """
+        return {
+            "alignX": pd_obj.config["alignX"],
+            "alignY": pd_obj.config["alignY"],
+            "zoom": pd_obj.config["zoom"],
+            "rotation": pd_obj.config.get("rotation", 0.0),
+            "flip": pd_obj.get_flip(),
+        }
+
+    def paperdoll_write_world_to_config(pd_obj, world: Dict[str, Any]):
+        """
+        Writes a world transform dict into the object's shared `config`.
+
+        ### Parameters:
+        1. pd_obj: Paperdoll_Obj
+            - The paperdoll object.
+        2. world: Dict[str, Any]
+            - World-space transform keys.
+        """
+        pd_obj.config["alignX"] = world["alignX"]
+        pd_obj.config["alignY"] = world["alignY"]
+        pd_obj.config["zoom"] = world["zoom"]
+        pd_obj.config["rotation"] = world.get("rotation", 0.0)
+        pd_obj.config["flip"] = world["flip"]
+
+    def paperdoll_parent_box_screen_frac(parent, parent_world: Dict[str, Any]) -> Tuple[float, float]:
+        """
+        Returns the parent's on-screen box size as fractions of the screen.
+
+        Uses `display_size * zoom` when set; otherwise native layer-0 size times
+        effective zoom. Falls back to `(0, 0)` when neither is available.
+
+        ### Parameters:
+        1. parent: Paperdoll_Obj
+            - The parent object.
+        2. parent_world: Dict[str, Any]
+            - Parent world transform (uses `zoom`).
+
+        ### Returns:
+        1. Tuple[float, float]
+            - `(width_frac, height_frac)` of the screen.
+        """
+        zoom = float(parent_world.get("zoom", 1.0))
+        size = paperdoll_get_display_size(parent, 0)
+        if size is not None:
+            dw = float(size[0]) * zoom
+            dh = float(size[1]) * zoom
+        else:
+            path = parent.image[0] if parent.image else ""
+            nw, nh = paperdoll_native_size(path) if path else (0, 0)
+            if nh <= 0 or nw <= 0:
+                return 0.0, 0.0
+            scale = parent.scale_factors[0] if parent.scale_factors else 1.0
+            dw = float(nw) * zoom * scale
+            dh = float(nh) * zoom * scale
+        screen_w = float(config.screen_width)
+        screen_h = float(config.screen_height)
+        if screen_w <= 0 or screen_h <= 0:
+            return 0.0, 0.0
+        return dw / screen_w, dh / screen_h
+
+    def paperdoll_world_config(obj, parent_world: Dict[str, Any] = None) -> Dict[str, Any]:
+        """
+        Composes world-space transform by folding the full parent chain.
+
+        Unparented objects use `config` as world. Parented objects apply `local`
+        against the parent's world.
+
+        With `space="screen"` (default), `local.alignX/Y` are screen-unit offsets
+        (`alignX` flipped with parent facing). With `space="parent"`, `local.alignX/Y`
+        are 0–1 points on the parent's `display_size` box (`0` left/top, `0.5`
+        centre, `1` right/bottom); X mirrors with parent flip around the box centre.
+
+        ### Parameters:
+        1. obj: Paperdoll_Obj
+            - The object to compose.
+        2. parent_world: Optional[Dict[str, Any]]
+            - Optional already-computed parent world (for end-state fan-out).
+
+        ### Returns:
+        1. Dict[str, Any]
+            - World-space alignX, alignY, zoom, rotation, flip.
+        """
+        if obj.parent is None:
+            return paperdoll_capture_world(obj)
+
+        if parent_world is None:
+            parent = paperdoll_manager.get_obj(obj.parent)
+            parent_world = paperdoll_world_config(parent)
+        else:
+            parent = paperdoll_manager.get_obj(obj.parent)
+
+        flip = parent_world["flip"] * obj.local["flip"]
+        zoom = parent_world["zoom"] * obj.local["zoom"]
+        rotation = parent_world["rotation"] + obj.local.get("rotation", 0.0)
+
+        if getattr(obj, "space", "screen") == "parent":
+            pw, ph = paperdoll_parent_box_screen_frac(parent, parent_world)
+            ax = parent_world["alignX"]
+            ay = parent_world["alignY"]
+            u = float(obj.local["alignX"])
+            v = float(obj.local["alignY"])
+            # Mirror attach X around the parent box centre when the parent faces left
+            u_eff = 0.5 + (u - 0.5) * parent_world["flip"]
+            # transform_anchor + xalign: point U on the sprite maps to
+            # A + (U - A) * (box_w / screen_w)
+            alignX = ax + (u_eff - ax) * pw
+            # ypos places the top of the box; V=0 top, V=1 bottom
+            alignY = ay + v * ph
+        else:
+            alignX = parent_world["alignX"] + obj.local["alignX"] * parent_world["flip"]
+            alignY = parent_world["alignY"] + obj.local["alignY"]
+
+        return {
+            "flip": flip,
+            "zoom": zoom,
+            "alignY": alignY,
+            "alignX": alignX,
+            "rotation": rotation,
+        }
+
+    def paperdoll_compose_subtree_worlds(obj, obj_world: Dict[str, Any]) -> List[Tuple[Any, Dict[str, Any]]]:
+        """
+        Builds (object, world) pairs for `obj` and all descendants, parent-first.
+
+        ### Parameters:
+        1. obj: Paperdoll_Obj
+            - Subtree root.
+        2. obj_world: Dict[str, Any]
+            - World transform for `obj`.
+
+        ### Returns:
+        1. List[Tuple[Paperdoll_Obj, Dict[str, Any]]]
+            - Depth-first list with parents before children.
+        """
+        result = [(obj, obj_world)]
+        for child_key in obj.children:
+            if paperdoll_manager is None or child_key not in paperdoll_manager.paperdoll_objs:
+                continue
+            child = paperdoll_manager.get_obj(child_key)
+            child_world = paperdoll_world_config(child, parent_world=obj_world)
+            result.extend(paperdoll_compose_subtree_worlds(child, child_world))
+        return result
+
+    def paperdoll_iter_descendants(pd_obj):
+        """
+        Yields all descendant paperdoll objects depth-first.
+
+        ### Parameters:
+        1. pd_obj: Paperdoll_Obj
+            - Subtree root (not yielded).
+        """
+        for child_key in pd_obj.children:
+            if paperdoll_manager is None or child_key not in paperdoll_manager.paperdoll_objs:
+                continue
+            child = paperdoll_manager.get_obj(child_key)
+            yield child
+            for desc in paperdoll_iter_descendants(child):
+                yield desc
+
+    def paperdoll_show_layers(pd_obj, at_list, flip_duration=0.0, start_xzoom=None, end_xzoom=None, skip_empty=True):
+        """
+        Shows every layer of a paperdoll with a shared zorder and at_list.
+
+        ### Parameters:
+        1. pd_obj: Paperdoll_Obj
+            - The paperdoll object.
+        2. at_list: list or callable
+            - Transform list, or `callable(index) -> list`.
+        3. flip_duration: float
+            - Passed to `paperdoll_layer_for_show`.
+        4. start_xzoom: Optional[float]
+            - Flip ease start.
+        5. end_xzoom: Optional[float]
+            - Flip ease end.
+        6. skip_empty: bool
+            - When True, skip layers whose image path is still empty.
+        """
+        z = paperdoll_layer_zorder(pd_obj)
+        for index in range(len(pd_obj.pattern)):
+            if skip_empty and pd_obj.image[index] == "":
+                continue
+            transforms = at_list(index) if callable(at_list) else at_list
+            renpy.show(
+                pd_obj.key + str(index),
+                tag=pd_obj.key + str(index),
+                what=paperdoll_layer_for_show(pd_obj, index, flip_duration, start_xzoom, end_xzoom),
+                at_list=transforms,
+                zorder=z,
+            )
+
+    def paperdoll_show_move(pd_obj, duration, start_world, end_world, start_flip=None, end_flip=None):
+        """
+        Eases a paperdoll (and writes end world into config) from start to end world.
+
+        ### Parameters:
+        1. pd_obj: Paperdoll_Obj
+            - The object to move.
+        2. duration: float
+            - Ease duration.
+        3. start_world: Dict[str, Any]
+            - World transform at the start of the ease.
+        4. end_world: Dict[str, Any]
+            - World transform at the end of the ease.
+        5. start_flip: Optional[float]
+            - Optional flip ease start; defaults to start_world flip.
+        6. end_flip: Optional[float]
+            - Optional flip ease end; defaults to end_world flip.
+        """
+        if start_flip is None:
+            start_flip = start_world["flip"]
+        if end_flip is None:
+            end_flip = end_world["flip"]
+        flip_duration = duration if start_flip != end_flip else 0.0
+
+        if paperdoll_is_visible(pd_obj):
+            def _at_list(index):
+                return [
+                    t_paperdoll_move(
+                        duration,
+                        start_world["alignX"] + pd_obj.get_override_config("alignX", index),
+                        start_world["alignY"] + pd_obj.get_override_config("alignY", index),
+                        (start_world["zoom"] + pd_obj.get_override_config("zoom", index)) * pd_obj.scale_factors[index],
+                        end_world["alignX"] + pd_obj.get_override_config("alignX", index),
+                        end_world["alignY"] + pd_obj.get_override_config("alignY", index),
+                        (end_world["zoom"] + pd_obj.get_override_config("zoom", index)) * pd_obj.scale_factors[index],
+                    ),
+                    t_paperdoll_bw(paperdoll_saturation(pd_obj.is_bw())),
+                ]
+            paperdoll_show_layers(
+                pd_obj,
+                _at_list,
+                flip_duration=flip_duration,
+                start_xzoom=start_flip,
+                end_xzoom=end_flip,
+            )
+        paperdoll_write_world_to_config(pd_obj, end_world)
+
+    def paperdoll_apply_subtree_transform(pd_obj, end_world, duration, start_worlds=None):
+        """
+        Moves `pd_obj` and all descendants from captured start worlds to composed ends.
+
+        ### Parameters:
+        1. pd_obj: Paperdoll_Obj
+            - Subtree root whose end world is `end_world`.
+        2. end_world: Dict[str, Any]
+            - New world transform for `pd_obj`.
+        3. duration: float
+            - Shared ease duration for the whole subtree.
+        4. start_worlds: Optional[Dict[str, Dict]]
+            - Pre-captured worlds keyed by object key; captured now when omitted.
+        """
+        if start_worlds is None:
+            start_worlds = {pd_obj.key: paperdoll_capture_world(pd_obj)}
+            for desc in paperdoll_iter_descendants(pd_obj):
+                start_worlds[desc.key] = paperdoll_capture_world(desc)
+
+        for obj, world in paperdoll_compose_subtree_worlds(pd_obj, end_world):
+            start = start_worlds.get(obj.key, paperdoll_capture_world(obj))
+            paperdoll_show_move(obj, duration, start, world)
+
+    def paperdoll_would_cycle(child_key: str, parent_key: str) -> bool:
+        """
+        Returns True if attaching `child_key` under `parent_key` would create a cycle.
+
+        Walks ancestors of `parent_key`; a hit on `child_key` means a cycle.
+
+        ### Parameters:
+        1. child_key: str
+            - Key of the object being parented.
+        2. parent_key: str
+            - Proposed parent key.
+
+        ### Returns:
+        1. bool
+            - True when the link would cycle.
+        """
+        if child_key == parent_key:
+            return True
+        current = parent_key
+        seen = set()
+        while current is not None:
+            if current == child_key:
+                return True
+            if current in seen:
+                return True
+            seen.add(current)
+            if paperdoll_manager is None or current not in paperdoll_manager.paperdoll_objs:
+                break
+            current = paperdoll_manager.get_obj(current).parent
+        return False
+
     class Paperdoll_Obj:
         """
         A class that represents a paperdoll object
@@ -473,14 +877,21 @@ init -99 python:
                     - logical display size for all layers; omit to keep native pixel sizing
                 - display_sizes: List[Optional[Tuple[int, int]]]
                     - per-layer logical display sizes
+                - local: Dict[str, Any]
+                    - relative transform when parented (alignX/alignY/zoom/rotation/flip)
+                - space: str
+                    - `"screen"` (default): local align is a screen-unit offset;
+                        `"parent"`: local align is 0–1 on the parent's display_size box
+                - behind: bool
+                    - when True, layers use zorder -1 (still above the background)
 
         ### Methods:
         7. set_values(data: Dict[str, Any])
             - Sets the values of the paperdoll object
         8. hide_image_at(index: int)
             - Hides the image of the paperdoll object at the given index
-        9. hide_all_images()
-            - Hides all the images of the paperdoll object
+        9. hide_all_images(recurse: bool = True)
+            - Hides all the images of the paperdoll object (optionally descendants)
         10. update_overrides(index: int)
             - Updates the overrides of the paperdoll object at the given index
         11. update_scale_factor(index: int, image_path: str)
@@ -496,6 +907,35 @@ init -99 python:
             self.values = {}
 
             self.overrides = {}
+
+            self.parent = None
+            self.children = []
+            self.behind = bool(get_kwargs("behind", False, **kwargs))
+            if "behind" in kwargs.keys():
+                del kwargs["behind"]
+
+            space = get_kwargs("space", "screen", **kwargs)
+            if "space" in kwargs.keys():
+                del kwargs["space"]
+            if space not in ("screen", "parent"):
+                log(
+                    "Paperdoll_Obj: space must be 'screen' or 'parent', got '" + str(space) + "'",
+                    log_type="error",
+                    category="paperdoll",
+                )
+                space = "screen"
+            self.space = space
+
+            local_kw = get_kwargs("local", {}, **kwargs)
+            if "local" in kwargs.keys():
+                del kwargs["local"]
+            self.local = {
+                "alignX": float(local_kw.get("alignX", 0.0)),
+                "alignY": float(local_kw.get("alignY", 0.0)),
+                "zoom": float(local_kw.get("zoom", 1.0)),
+                "rotation": float(local_kw.get("rotation", 0.0)),
+                "flip": float(local_kw.get("flip", 1.0)),
+            }
 
             self.display_size = get_kwargs("display_size", None, **kwargs)
             self.display_sizes = get_kwargs("display_sizes", None, **kwargs)
@@ -579,12 +1019,20 @@ init -99 python:
             """
             renpy.hide(self.key + str(index))
 
-        def hide_all_images(self):
+        def hide_all_images(self, recurse: bool = True):
             """
-            Hides all the images of the paperdoll object
+            Hides all the images of the paperdoll object.
+
+            ### Parameters:
+            1. recurse: bool
+                - When True, also hides all descendant children.
             """
             for i in range(len(self.pattern)):
                 self.hide_image_at(i)
+            if recurse:
+                for child_key in list(self.children):
+                    if paperdoll_manager is not None and child_key in paperdoll_manager.paperdoll_objs:
+                        paperdoll_manager.get_obj(child_key).hide_all_images(recurse=True)
 
         def set_override_config(self, index: int, config: Dict[str, Any]):
             """
@@ -745,7 +1193,81 @@ init -99 python:
             self.presets = {}
 
         def register_obj(self, key: str, *pattern: str, **kwargs):
-            self.paperdoll_objs[key] = (Paperdoll_Obj(key, *pattern, **kwargs))
+            """
+            Registers a paperdoll object and optional object presets / parent link.
+
+            ### Parameters:
+            1. key: str
+                - Unique object key (also the show-tag prefix).
+            2. *pattern: str
+                - One pattern per layer, bottom to top.
+            3. **kwargs
+                - Passed to `Paperdoll_Obj`, plus:
+                - presets: List[PaperdollPreset] — stored as temp `"key:preset"` entries
+                - parent: str — parent object key (must already be registered)
+            """
+            presets = get_kwargs("presets", [], **kwargs)
+            if "presets" in kwargs.keys():
+                del kwargs["presets"]
+
+            parent_key = get_kwargs("parent", None, **kwargs)
+            if "parent" in kwargs.keys():
+                del kwargs["parent"]
+
+            obj = Paperdoll_Obj(key, *pattern, **kwargs)
+            self.paperdoll_objs[key] = obj
+
+            for preset in presets:
+                preset_key = getattr(preset, "key", None)
+                actions = getattr(preset, "actions", None)
+                if preset_key is None or actions is None:
+                    log(
+                        "register_obj: presets entry is not a PaperdollPreset",
+                        log_type="error",
+                        category="paperdoll",
+                    )
+                    continue
+                if ":" in str(preset_key):
+                    log(
+                        "register_obj: object preset key '" + str(preset_key) + "' must not contain ':'",
+                        log_type="error",
+                        category="paperdoll",
+                    )
+                    continue
+                register_temp_preset(str(key) + ":" + str(preset_key), *actions)
+
+            if parent_key is not None:
+                self._attach_parent(obj, parent_key)
+
+        def _attach_parent(self, obj, parent_key: str):
+            """
+            Links `obj` under `parent_key` after cycle and existence checks.
+
+            ### Parameters:
+            1. obj: Paperdoll_Obj
+                - The child object.
+            2. parent_key: str
+                - Key of the parent (must already be registered).
+            """
+            if parent_key not in self.paperdoll_objs:
+                log(
+                    "register_obj: parent '" + str(parent_key) + "' not registered for '" + str(obj.key) + "'",
+                    log_type="error",
+                    category="paperdoll",
+                )
+                return
+            if paperdoll_would_cycle(obj.key, parent_key):
+                log(
+                    "register_obj: parenting '" + str(obj.key) + "' under '" + str(parent_key) + "' would cycle",
+                    log_type="error",
+                    category="paperdoll",
+                )
+                return
+            parent = self.paperdoll_objs[parent_key]
+            obj.parent = parent_key
+            if obj.key not in parent.children:
+                parent.children.append(obj.key)
+            paperdoll_write_world_to_config(obj, paperdoll_world_config(obj))
 
         def get_obj(self, key: str) -> Paperdoll_Obj:
             return self.paperdoll_objs[key]
@@ -932,11 +1454,93 @@ init -99 python:
 
         def clear(self):
             for paperdoll_obj in self.paperdoll_objs.values():
-                paperdoll_obj.hide_all_images()
+                paperdoll_obj.hide_all_images(recurse=False)
             self.hide_background()
 
     ##################
     # region Actions #
+
+    def paperdoll_is_delta_string(value) -> bool:
+        """
+        Returns True when `value` is a string delta like `"+0.5"` or `"-0.1"`.
+
+        The string must start with `+` or `-` and parse as a float. Plain
+        `"0.5"` is not a delta (absolute).
+
+        ### Parameters:
+        1. value
+            - Candidate action argument.
+
+        ### Returns:
+        1. bool
+            - True when the value is a signed delta string.
+        """
+        if not isinstance(value, str):
+            return False
+        s = value.strip()
+        if len(s) < 2 or s[0] not in "+-":
+            return False
+        try:
+            float(s)
+            return True
+        except ValueError:
+            return False
+
+    def paperdoll_resolve_number(value, current: float, keep_below: float = None) -> float:
+        """
+        Resolves an action number: absolute, keep-sentinel, or `"+"`/`"-"` delta.
+
+        ### Parameters:
+        1. value
+            - Float/int, numeric string, delta string (`"+0.5"` / `"-0.1"`), or
+                a keep-sentinel below `keep_below`.
+        2. current: float
+            - Existing value the delta is added to (and the keep-sentinel returns).
+        3. keep_below: Optional[float]
+            - When set, numeric `value < keep_below` means "keep `current`"
+                (e.g. Move sentinels at `-100`).
+
+        ### Returns:
+        1. float
+            - The resolved absolute number.
+        """
+        if isinstance(value, str):
+            s = value.strip()
+            if paperdoll_is_delta_string(s):
+                return float(current) + float(s)
+            return float(s)
+        if keep_below is not None and value < keep_below:
+            return float(current)
+        return float(value)
+
+    def paperdoll_apply_number_arg(incoming, existing):
+        """
+        Stores an override onto an action field (preset `**overrides`).
+
+        Delta strings are applied immediately against `existing`. Absolute values
+        replace it. Deferred deltas against paperdoll config stay as strings on
+        construction / when not overwritten this way — callers that pass a delta
+        at init leave it for `paperdoll_resolve_number` at get-time.
+
+        ### Parameters:
+        1. incoming
+            - New argument from `overwrite_values`.
+        2. existing
+            - Current field value on the action.
+
+        ### Returns:
+        1. Any
+            - Value to store on the action (usually a float).
+        """
+        if paperdoll_is_delta_string(incoming):
+            if isinstance(existing, str):
+                base = paperdoll_resolve_number(existing, 0.0)
+            else:
+                base = float(existing)
+            return base + float(incoming.strip())
+        if isinstance(incoming, str):
+            return float(incoming.strip())
+        return incoming
 
     class PDAction(ABC):
         def __init__(self, key: str):
@@ -948,8 +1552,19 @@ init -99 python:
             self.preset = preset
             self.values = kwargs
 
-        def get_actions(self) -> List[PDAction]:
-            return [action for action in get_preset_with_overrides(self.preset, **self.values)]
+        def get_actions(self, paperdoll_obj=None) -> List[PDAction]:
+            """
+            Expands this preset for the displaying object (scoped lookup + copy).
+
+            ### Parameters:
+            1. paperdoll_obj: Optional[Paperdoll_Obj]
+                - Display target; used to prefer `"{key}:{preset}"` entries.
+
+            ### Returns:
+            1. List[PDAction]
+                - Fresh action list with overrides applied.
+            """
+            return list(get_preset_with_overrides(self.preset, paperdoll_obj, **self.values))
 
 
     class PDAImage(PDAction):
@@ -961,7 +1576,24 @@ init -99 python:
             self.values = update_dict(self.values, kwargs)
 
     class PDAMove(PDAction):
-        def __init__(self, alignX: float = -100.0, alignY: float = -100.0, zoom: float = -100.0, duration: float = 0.0):
+        def __init__(self, alignX = -100.0, alignY = -100.0, zoom = -100.0, duration = 0.0):
+            """
+            Repositions / scales a paperdoll.
+
+            Numeric args may be floats, or delta strings (`alignX="+0.5"`) added to
+            the current local/world value at apply time. Omitted args use a
+            keep-sentinel (`< -10`).
+
+            ### Parameters:
+            1. alignX
+                - Absolute xalign, delta string, or keep-sentinel.
+            2. alignY
+                - Absolute ypos, delta string, or keep-sentinel.
+            3. zoom
+                - Absolute zoom, delta string, or keep-sentinel.
+            4. duration
+                - Ease duration (absolute or delta string vs `0.0` / prior override).
+            """
             super().__init__("move")
             self.alignX = alignX
             self.alignY = alignY
@@ -969,77 +1601,112 @@ init -99 python:
             self.duration = duration
 
         def overwrite_values(self, **kwargs):
-            self.alignX = kwargs.get("alignX", self.alignX)
-            self.alignY = kwargs.get("alignY", self.alignY)
-            self.zoom = kwargs.get("zoom", self.zoom)
-            self.duration = kwargs.get("duration", self.duration)
+            if "alignX" in kwargs:
+                if paperdoll_is_delta_string(kwargs["alignX"]):
+                    self.alignX = kwargs["alignX"]
+                else:
+                    self.alignX = paperdoll_apply_number_arg(kwargs["alignX"], self.alignX)
+            if "alignY" in kwargs:
+                if paperdoll_is_delta_string(kwargs["alignY"]):
+                    self.alignY = kwargs["alignY"]
+                else:
+                    self.alignY = paperdoll_apply_number_arg(kwargs["alignY"], self.alignY)
+            if "zoom" in kwargs:
+                if paperdoll_is_delta_string(kwargs["zoom"]):
+                    self.zoom = kwargs["zoom"]
+                else:
+                    self.zoom = paperdoll_apply_number_arg(kwargs["zoom"], self.zoom)
+            if "duration" in kwargs:
+                self.duration = paperdoll_apply_number_arg(kwargs["duration"], self.duration)
+
+        def _space(self, pd_obj: Paperdoll_Obj) -> Dict[str, Any]:
+            """Returns local transform when parented, else world config."""
+            if pd_obj.parent is not None:
+                return pd_obj.local
+            return pd_obj.config
 
         def get_x(self, pd_obj: Paperdoll_Obj) -> float:
-            if self.alignX < -10.0:
-                return pd_obj.config["alignX"]
-            return self.alignX
+            return paperdoll_resolve_number(self.alignX, self._space(pd_obj)["alignX"], keep_below=-10.0)
+
         def get_y(self, pd_obj: Paperdoll_Obj) -> float:
-            if self.alignY < -10.0:
-                return pd_obj.config["alignY"]
-            return self.alignY
+            return paperdoll_resolve_number(self.alignY, self._space(pd_obj)["alignY"], keep_below=-10.0)
+
         def get_zoom(self, pd_obj: Paperdoll_Obj) -> float:
-            if self.zoom < -10.0:
-                return pd_obj.config["zoom"]
-            return self.zoom
+            return paperdoll_resolve_number(self.zoom, self._space(pd_obj)["zoom"], keep_below=-10.0)
+
         def get_duration(self) -> float:
-            return self.duration
+            return paperdoll_resolve_number(self.duration, 0.0)
+
         def get_values(self, pd_obj: Paperdoll_Obj) -> Tuple[float, float, float, float]:
             return self.get_x(pd_obj), self.get_y(pd_obj), self.get_zoom(pd_obj), self.get_duration()
 
     class PDABlur(PDAction):
-        def __init__(self, blur: float, duration: float = 0.0):
+        def __init__(self, blur, duration = 0.0):
             super().__init__("blur")
             self.blur = blur
             self.duration = duration
 
         def overwrite_values(self, **kwargs):
-            self.blur = kwargs.get("blur", self.blur)
-            self.duration = kwargs.get("duration", self.duration)
+            if "blur" in kwargs:
+                if paperdoll_is_delta_string(kwargs["blur"]):
+                    self.blur = kwargs["blur"]
+                else:
+                    self.blur = paperdoll_apply_number_arg(kwargs["blur"], self.blur)
+            if "duration" in kwargs:
+                self.duration = paperdoll_apply_number_arg(kwargs["duration"], self.duration)
 
         def get_blur(self, pd_obj: Paperdoll_Obj) -> float:
-            if self.blur < -100.0:
-                return pd_obj.config["blur"]
-            return self.blur
+            return paperdoll_resolve_number(self.blur, pd_obj.config["blur"], keep_below=-100.0)
+
         def get_duration(self) -> float:
-            return self.duration
+            return paperdoll_resolve_number(self.duration, 0.0)
+
         def get_values(self, pd_obj: Paperdoll_Obj) -> Tuple[float, float]:
             return self.get_blur(pd_obj), self.get_duration()
 
     class PDAPause(PDAction):
-        def __init__(self, duration: float = 0.0, transition: bool = True):
+        def __init__(self, duration = 0.0, transition: bool = True):
             super().__init__("pause")
             self.duration = duration
             self.transition = transition
 
         def overwrite_values(self, **kwargs):
-            self.duration = kwargs.get("duration", self.duration)
+            if "duration" in kwargs:
+                self.duration = paperdoll_apply_number_arg(kwargs["duration"], self.duration)
             self.transition = kwargs.get("transition", self.transition)
 
+        def get_duration(self) -> float:
+            return paperdoll_resolve_number(self.duration, 0.0)
+
     class PDAShake(PDAction):
-        def __init__(self, duration: float = 1.0, max_distance: float = 15):
+        def __init__(self, duration = 1.0, max_distance = 15):
             super().__init__("shake")
             self.duration = duration
             self.max_distance = max_distance
 
         def overwrite_values(self, **kwargs):
-            self.duration = kwargs.get("duration", self.duration)
-            self.max_distance = kwargs.get("max_distance", self.max_distance)
+            if "duration" in kwargs:
+                self.duration = paperdoll_apply_number_arg(kwargs["duration"], self.duration)
+            if "max_distance" in kwargs:
+                self.max_distance = paperdoll_apply_number_arg(kwargs["max_distance"], self.max_distance)
+
+        def get_duration(self) -> float:
+            return paperdoll_resolve_number(self.duration, 0.0)
+
+        def get_max_distance(self) -> float:
+            return paperdoll_resolve_number(self.max_distance, 15.0)
 
     class PDAFlip(PDAction):
-        def __init__(self, flip: bool = False, duration: float = 0.0):
+        def __init__(self, flip: bool = False, duration = 0.0):
             """
             Mirrors a paperdoll horizontally (`xzoom`).
 
             ### Parameters:
             1. flip: bool
                 - True faces the other way (`xzoom = -1`), False is unflipped (`xzoom = 1`).
-            2. duration: float
+            2. duration
                 - Ease duration for the flip. `0.0` snaps immediately.
+                    Accepts delta strings vs `0.0` / prior override.
             """
             super().__init__("flip")
             self.flip = -1.0 if flip else 1.0
@@ -1052,18 +1719,23 @@ init -99 python:
                     self.flip = -1.0 if flip else 1.0
                 else:
                     self.flip = float(flip)
-            self.duration = kwargs.get("duration", self.duration)
+            if "duration" in kwargs:
+                self.duration = paperdoll_apply_number_arg(kwargs["duration"], self.duration)
+
+        def get_duration(self) -> float:
+            return paperdoll_resolve_number(self.duration, 0.0)
 
     class PDABw(PDAction):
-        def __init__(self, bw: bool = True, duration: float = 0.0):
+        def __init__(self, bw: bool = True, duration = 0.0):
             """
             Toggles black-and-white display for a paperdoll.
 
             ### Parameters:
             1. bw: bool
                 - True for grayscale, False for full color.
-            2. duration: float
+            2. duration
                 - Transition duration for the saturation change.
+                    Accepts delta strings vs `0.0` / prior override.
             """
             super().__init__("bw")
             self.bw = bw
@@ -1071,10 +1743,14 @@ init -99 python:
 
         def overwrite_values(self, **kwargs):
             self.bw = kwargs.get("bw", self.bw)
-            self.duration = kwargs.get("duration", self.duration)
+            if "duration" in kwargs:
+                self.duration = paperdoll_apply_number_arg(kwargs["duration"], self.duration)
+
+        def get_duration(self) -> float:
+            return paperdoll_resolve_number(self.duration, 0.0)
 
         def get_values(self) -> Tuple[bool, float]:
-            return self.bw, self.duration
+            return self.bw, self.get_duration()
 
     class PaperdollOverride:
         def __init__(self, index: int, conditions: Dict[str, Any], x_override = 0.0, y_override = 0.0, rot_override = 0.0, blur_override = 0.0, zoom_override = 0.0):
@@ -1092,6 +1768,24 @@ init -99 python:
                 if value != cond_value and not check_in_value(value, cond_value):
                     return 0.0, 0.0, 0.0, 0.0, 0.0        
             return self.x_override, self.y_override, self.rot_override, self.blur_override, self.zoom_override
+
+    class PaperdollPreset:
+        """
+        A named action list stored on a Person or passed to `register_obj(presets=...)`.
+
+        On registration it becomes a temporary preset `"object_key:key"`. Bare keys
+        must not contain `:` (`:` is reserved for cross-object lookup).
+
+        ### Parameters:
+        1. key: str
+            - Preset name without colons.
+        2. *actions: PDAction
+            - Actions expanded by `PDAPreset(key)`.
+        """
+
+        def __init__(self, key: str, *actions):
+            self.key = key
+            self.actions = list(actions)
 
     # endregion
     ##################
@@ -1129,18 +1823,16 @@ label display_background_image(duration):
                 bg_displayable,
                 t_paperdoll_blur(paperdoll_manager.background_blur, duration)
             ),
-            tag = "background"
+            tag = "background",
+            zorder = PAPERDOLL_BG_ZORDER,
         )
     return
 
 label display_paperdoll_image(paperdoll_obj, actions):
     $ index = 0
     while (index < len(paperdoll_obj.pattern)):
-        $ pattern = paperdoll_obj.pattern[index]
-
         if paperdoll_obj.image[index] == "":
             $ paperdoll_obj.update_overrides(index)
-
             $ paperdoll_obj.resolve_image(index)
             $ renpy.show(
                 paperdoll_obj.key + str(index),
@@ -1155,6 +1847,7 @@ label display_paperdoll_image(paperdoll_obj, actions):
                     t_paperdoll_blur(paperdoll_obj.get_value("blur")),
                     t_paperdoll_bw(paperdoll_saturation(paperdoll_obj.is_bw())),
                 ],
+                zorder = paperdoll_layer_zorder(paperdoll_obj),
             )
 
         $ index += 1
@@ -1168,7 +1861,7 @@ label run_paperdoll_actions(paperdoll_obj, actions):
         $ action = actions.pop(0)
 
         if action.key == "preset":
-            call run_paperdoll_actions(paperdoll_obj, action.get_actions()) from _call_run_paperdoll_actions_recursive
+            call run_paperdoll_actions(paperdoll_obj, action.get_actions(paperdoll_obj)) from _call_run_paperdoll_actions_recursive
         else:
             $ action_label = "paperdoll_action_" + action.key
 
@@ -1184,18 +1877,13 @@ label run_paperdoll_actions(paperdoll_obj, actions):
 label paperdoll_action_blur(paperdoll_obj, pda_blur):
     $ blur, duration = pda_blur.get_values(paperdoll_obj)
 
-    $ index = 0
-    while (index < len(paperdoll_obj.pattern)):
-        $ pattern = paperdoll_obj.pattern[index]
-        $ paperdoll_obj.update_overrides(index)
+    python:
+        for index in range(len(paperdoll_obj.pattern)):
+            paperdoll_obj.update_overrides(index)
+            paperdoll_obj.resolve_image(index)
 
-        $ paperdoll_obj.resolve_image(index)
-
-        $ renpy.show(
-            paperdoll_obj.key + str(index), 
-            tag = paperdoll_obj.key + str(index),
-            what = paperdoll_layer_for_show(paperdoll_obj, index),
-            at_list = [
+        def _blur_at_list(index):
+            return [
                 t_paperdoll_position(
                     paperdoll_obj.get_config("alignX", index),
                     paperdoll_obj.get_config("alignY", index),
@@ -1203,10 +1891,8 @@ label paperdoll_action_blur(paperdoll_obj, pda_blur):
                 ),
                 t_paperdoll_blur(blur, duration),
                 t_paperdoll_bw(paperdoll_saturation(paperdoll_obj.is_bw())),
-            ],
-        )
-
-        $ index += 1
+            ]
+        paperdoll_show_layers(paperdoll_obj, _blur_at_list, skip_empty=False)
 
     $ paperdoll_obj.config["blur"] = blur
 
@@ -1215,18 +1901,13 @@ label paperdoll_action_blur(paperdoll_obj, pda_blur):
 label paperdoll_action_image(paperdoll_obj, pda_image):
     $ paperdoll_obj.set_values(update_dict(paperdoll_obj.values, pda_image.values))
 
-    $ index = 0
-    while (index < len(paperdoll_obj.pattern)):
-        $ pattern = paperdoll_obj.pattern[index]
-        $ paperdoll_obj.update_overrides(index)
+    python:
+        for index in range(len(paperdoll_obj.pattern)):
+            paperdoll_obj.update_overrides(index)
+            paperdoll_obj.resolve_image(index)
 
-        $ paperdoll_obj.resolve_image(index)
-
-        $ renpy.show(
-            paperdoll_obj.key + str(index),
-            tag = paperdoll_obj.key + str(index),
-            what = paperdoll_layer_for_show(paperdoll_obj, index),
-            at_list = [
+        def _image_at_list(index):
+            return [
                 t_paperdoll_position(
                     paperdoll_obj.get_config("alignX", index),
                     paperdoll_obj.get_config("alignY", index),
@@ -1234,10 +1915,8 @@ label paperdoll_action_image(paperdoll_obj, pda_image):
                 ),
                 t_paperdoll_blur(paperdoll_obj.get_value("blur")),
                 t_paperdoll_bw(paperdoll_saturation(paperdoll_obj.is_bw())),
-            ],
-        )
-
-        $ index += 1
+            ]
+        paperdoll_show_layers(paperdoll_obj, _image_at_list, skip_empty=False)
 
     return
 
@@ -1247,64 +1926,48 @@ label paperdoll_action_move(paperdoll_obj, pda_move):
     if preferences.transitions != 0 and persistent.transitionSpeed > 0:
         $ duration = duration / persistent.transitionSpeed
 
-    $ index = 0
-    while (index < len(paperdoll_obj.pattern)):
-        $ renpy.show(
-            paperdoll_obj.key + str(index),
-            tag = paperdoll_obj.key + str(index),
-            what = paperdoll_layer_for_show(paperdoll_obj, index),
-            at_list = [
-                t_paperdoll_move(
-                    duration,
-                    paperdoll_obj.get_config("alignX", index),
-                    paperdoll_obj.get_config("alignY", index),
-                    paperdoll_obj.get_effective_zoom(index),
-                    alignX + paperdoll_obj.get_override_config("alignX", index),
-                    alignY + paperdoll_obj.get_override_config("alignY", index),
-                    paperdoll_obj.get_effective_zoom(
-                        index,
-                        zoom + paperdoll_obj.get_override_config("zoom", index)
-                    ),
-                ),
-                t_paperdoll_bw(paperdoll_saturation(paperdoll_obj.is_bw())),
-            ],
-        )
+    python:
+        start_worlds = {paperdoll_obj.key: paperdoll_capture_world(paperdoll_obj)}
+        for _desc in paperdoll_iter_descendants(paperdoll_obj):
+            start_worlds[_desc.key] = paperdoll_capture_world(_desc)
 
-        $ index += 1
+        if paperdoll_obj.parent is not None:
+            paperdoll_obj.local["alignX"] = alignX
+            paperdoll_obj.local["alignY"] = alignY
+            paperdoll_obj.local["zoom"] = zoom
+            end_world = paperdoll_world_config(paperdoll_obj)
+        else:
+            end_world = {
+                "alignX": alignX,
+                "alignY": alignY,
+                "zoom": zoom,
+                "rotation": paperdoll_obj.config.get("rotation", 0.0),
+                "flip": paperdoll_obj.get_flip(),
+            }
 
-    $ paperdoll_obj.config["alignX"] = alignX
-    $ paperdoll_obj.config["alignY"] = alignY
-    $ paperdoll_obj.config["zoom"] = zoom
+        paperdoll_apply_subtree_transform(paperdoll_obj, end_world, duration, start_worlds)
 
     return
 
 label paperdoll_action_flip(paperdoll_obj, pda_flip):
-    $ start_flip = paperdoll_obj.get_flip()
-    $ end_flip = pda_flip.flip
-    $ duration = pda_flip.duration
+    $ duration = pda_flip.get_duration()
 
     if preferences.transitions != 0 and persistent.transitionSpeed > 0:
         $ duration = duration / persistent.transitionSpeed
 
-    $ index = 0
-    while (index < len(paperdoll_obj.pattern)):
-        $ renpy.show(
-            paperdoll_obj.key + str(index),
-            tag = paperdoll_obj.key + str(index),
-            what = paperdoll_layer_for_show(paperdoll_obj, index, duration, start_flip, end_flip),
-            at_list = [
-                t_paperdoll_position(
-                    paperdoll_obj.get_config("alignX", index),
-                    paperdoll_obj.get_config("alignY", index),
-                    paperdoll_obj.get_effective_zoom(index)
-                ),
-                t_paperdoll_bw(paperdoll_saturation(paperdoll_obj.is_bw())),
-            ],
-        )
+    python:
+        start_worlds = {paperdoll_obj.key: paperdoll_capture_world(paperdoll_obj)}
+        for _desc in paperdoll_iter_descendants(paperdoll_obj):
+            start_worlds[_desc.key] = paperdoll_capture_world(_desc)
 
-        $ index += 1
+        if paperdoll_obj.parent is not None:
+            paperdoll_obj.local["flip"] = pda_flip.flip
+            end_world = paperdoll_world_config(paperdoll_obj)
+        else:
+            end_world = paperdoll_capture_world(paperdoll_obj)
+            end_world["flip"] = pda_flip.flip
 
-    $ paperdoll_obj.config["flip"] = end_flip
+        paperdoll_apply_subtree_transform(paperdoll_obj, end_world, duration, start_worlds)
 
     return
 
@@ -1316,13 +1979,9 @@ label paperdoll_action_bw(paperdoll_obj, pda_bw):
 
     $ paperdoll_obj.config["bw"] = bw
 
-    $ index = 0
-    while (index < len(paperdoll_obj.pattern)):
-        $ renpy.show(
-            paperdoll_obj.key + str(index),
-            tag = paperdoll_obj.key + str(index),
-            what = paperdoll_layer_for_show(paperdoll_obj, index),
-            at_list = [
+    python:
+        def _bw_at_list(index):
+            return [
                 t_paperdoll_position(
                     paperdoll_obj.get_config("alignX", index),
                     paperdoll_obj.get_config("alignY", index),
@@ -1330,15 +1989,13 @@ label paperdoll_action_bw(paperdoll_obj, pda_bw):
                 ),
                 t_paperdoll_blur(paperdoll_obj.config.get("blur", 0.0)),
                 t_paperdoll_bw(paperdoll_saturation(bw), duration),
-            ],
-        )
-
-        $ index += 1
+            ]
+        paperdoll_show_layers(paperdoll_obj, _bw_at_list)
 
     return
 
 label paperdoll_action_pause(paperdoll_obj, pda_pause):
-    $ duration, transition = pda_pause.duration, pda_pause.transition
+    $ duration, transition = pda_pause.get_duration(), pda_pause.transition
 
     if preferences.transitions != 0 and persistent.transitionSpeed > 0 and transition:
         $ duration = duration / persistent.transitionSpeed
@@ -1347,32 +2004,32 @@ label paperdoll_action_pause(paperdoll_obj, pda_pause):
     return
 
 label paperdoll_action_shake(paperdoll_obj, pda_shake):
-    $ duration, max_distance = pda_shake.duration, pda_shake.max_distance
+    $ duration, max_distance = pda_shake.get_duration(), pda_shake.get_max_distance()
 
-    $ index = 0
+    python:
+        _shake_targets = [paperdoll_obj] + list(paperdoll_iter_descendants(paperdoll_obj))
+        for _shake_obj in _shake_targets:
+            if not paperdoll_is_visible(_shake_obj):
+                continue
 
-    while (index < len(paperdoll_obj.pattern)):
-        # Use dedicated seed here, to give all images in the paperdoll_obj the same shake.
-        $ renpy.show(
-            paperdoll_obj.key + str(index), 
-            tag = paperdoll_obj.key + str(index),
-            what = paperdoll_layer_for_show(paperdoll_obj, index), 
-            at_list = [
-                t_paperdoll_position(
-                    paperdoll_obj.get_config("alignX", index),
-                    paperdoll_obj.get_config("alignY", index),
-                    paperdoll_obj.get_effective_zoom(index)
-                ),
-                Shake(
-                    (paperdoll_obj.get_config("alignX", index), paperdoll_obj.get_config("alignY", index), paperdoll_obj.get_config("alignX", index), paperdoll_obj.get_config("alignY", index)), 
-                    duration, 
-                    dist = max_distance, 
-                    seed = paperdoll_obj.key
-                ),
-                t_paperdoll_bw(paperdoll_saturation(paperdoll_obj.is_bw())),
-            ],
-        )
+            def _make_shake_at_list(_obj):
+                def _at_list(index):
+                    return [
+                        t_paperdoll_position(
+                            _obj.get_config("alignX", index),
+                            _obj.get_config("alignY", index),
+                            _obj.get_effective_zoom(index)
+                        ),
+                        Shake(
+                            (_obj.get_config("alignX", index), _obj.get_config("alignY", index), _obj.get_config("alignX", index), _obj.get_config("alignY", index)),
+                            duration,
+                            dist=max_distance,
+                            seed=_obj.key,
+                        ),
+                        t_paperdoll_bw(paperdoll_saturation(_obj.is_bw())),
+                    ]
+                return _at_list
 
-        $ index += 1
+            paperdoll_show_layers(_shake_obj, _make_shake_at_list(_shake_obj))
 
     return

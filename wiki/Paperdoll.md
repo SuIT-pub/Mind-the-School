@@ -118,7 +118,7 @@ Manager surface you use directly:
 | `register_obj(key, *patterns, **kwargs)` | register a paperdoll object under `key` |
 | `get_obj(key)` | fetch the `Paperdoll_Obj` |
 | `display(key, *actions)` | run the action pipeline for that object |
-| `set_background(pattern, …)` | set/replace the backdrop |
+| `set_background(pattern, …)` | set/replace the backdrop (`zorder -100`) |
 | `set_background_split(left, right, …)` | split backdrop (left half + right half) |
 | `hide_background()` | drop the backdrop |
 | `clear()` | hide all objects **and** the background |
@@ -166,8 +166,9 @@ $ luna.register_paperdoll(level = 10, mood = "happy", mouth = "closed")   # over
 Defaults it seeds: `alt_keys = ["level", "mouth", "state", "char_var"]`,
 `mood="happy"`, `pose=1`, `outfit="uniform"`, `level=1`, `mouth="closed"`,
 `state=""`, `blur=0.0`, `char_var=1`, and `display_size=(600, 1080)`. Any
-`PaperdollOverride`s declared on the person ([§12](#12-overrides-per-layer-conditional-nudges))
-are merged in automatically.
+`PaperdollOverride`s and `PaperdollPreset`s declared on the person
+([§12](#12-overrides-per-layer-conditional-nudges), [§9](#9-presets)) are merged in
+automatically.
 
 ### The general form
 
@@ -184,6 +185,11 @@ paperdoll_manager.register_obj(
     display_size = (w, h),     # logical on-screen size (see §11); omit for native px
     display_sizes = [...],     # per-layer size overrides (optional)
     overrides = [...],         # list[PaperdollOverride] (optional)
+    presets = [...],           # list[PaperdollPreset] → temp "{key}:{preset}" (optional)
+    parent = "aona",           # parent object key; must already be registered (optional)
+    local = {"alignX": 0.08},  # relative transform when parented (optional)
+    space = "screen",          # "screen" offsets, or "parent" = 0–1 on parent box
+    behind = False,            # True → zorder -1 (still above the background)
     config = {...},            # initial alignX/alignY/rotation/zoom/blur/bw (optional)
     **initial_values,          # the values that fill the <keys> in the patterns
 )
@@ -191,6 +197,28 @@ paperdoll_manager.register_obj(
 
 Layer order **is** draw order: pattern 0 is drawn first (bottom), later patterns on
 top.
+
+### Parenting
+
+A paperdoll can take another registered object as `parent`. The child keeps its own
+values, presets, and tags; only its **transform** follows the parent.
+
+- `config` is always **world** space (what the show transforms read).
+- When parented, `PDAMove` / `PDAFlip` write `local` (relative to the parent), then
+  compose into `config`.
+- `space` chooses how `local.alignX` / `alignY` are interpreted:
+  - `"screen"` (default) — screen-unit offsets added to the parent (`alignX`
+    flips with parent facing). `0.0` = same position as the parent, not
+    “left of the sprite”.
+  - `"parent"` — `0–1` on the parent's `display_size` box (`0` left/top, `0.5`
+    centre, `1` right/bottom). X mirrors around the box centre when the parent
+    flips. Needs a parent `display_size` (characters already have `(600, 1080)`).
+- Compose folds the **full ancestor chain** (nested parents are allowed:
+  `mug` → `hand` → `aona`).
+- Move / flip / shake on a parent fan out to the whole subtree with the same
+  duration. Register ancestors first; cycles are rejected with a log error.
+
+See [§8 Parenting a prop](#parenting-a-prop) for a recipe.
 
 ---
 
@@ -272,6 +300,12 @@ Notes:
 - **`PDAMove` sentinels.** Leaving an argument at its default (a large negative
   number) means "keep current"; only the values you pass change. That's why
   `PDAMove(alignX = 0.68, duration = 0.4)` slides horizontally without altering zoom.
+- **Delta strings.** Any numeric action field accepts `"+0.5"` / `"-0.1"` (string
+  must start with `+` or `-`). At apply time that delta is added to the current
+  value — e.g. `PDAMove(alignX = "+0.1")` nudges right from wherever they are;
+  `PDABlur("+5")` adds to the current blur. Plain `"0.5"` (no sign) is absolute.
+  Preset overrides resolve duration/max_distance deltas against the action's prior
+  number immediately (`PDAPreset("x", duration = "+0.4")`).
 - **`alignX` is zoom-independent.** `0.0` is always left-aligned, `1.0` always
   right-aligned; extra zoom grows around that point. `< 0` / `> 1` continue linearly
   off that screen edge (same as `xalign` at zoom 1.0).
@@ -310,6 +344,9 @@ that those two will not cover, and never once per character.
 | Zoom and slide in one ease | [Zoom and slide in one move](#zoom-and-slide-in-one-move) |
 | Flip, then walk off, then return | [Timed sequence](#timed-sequence-turn-then-walk-off-then-come-back) |
 | Repeat a framing only in this event | [Scene-local presets](#scene-local-presets) |
+| Character-specific framing / pose pack | [Object presets](#object-presets-on-a-character) |
+| Prop that follows a character | [Parenting a prop](#parenting-a-prop) |
+| Nested parents (`mug` → `hand` → character) | [Nested parenting](#nested-parenting) |
 | Two locations on one screen | [Split backdrop](#split-backdrop-two-locations) |
 | Shake / blur / grayscale | [Emphasis](#emphasis-shake-blur-grayscale) |
 | Hide one person, keep the other | [Hide one person](#hide-one-person-keep-the-other) |
@@ -534,6 +571,79 @@ $ emiko.display(PDAImage(level = 3))    # nude-level step; body layer only
 If a bulky outfit sits a few pixels off, that is a [PaperdollOverride](#12-overrides-per-layer-conditional-nudges),
 not a new `PDAMove`.
 
+### Object presets on a character
+
+Declare named action packs on the `Person` (or pass `presets=` to `register_obj`).
+On register they become temp keys `"{name}:{key}"`. Bare preset names must not
+contain `:` — that character is the cross-object scope separator.
+
+```python
+# on the Person definition:
+paperdollPresets = [
+    PaperdollPreset(
+        "intro",
+        PDAImage(pose = "12", mood = "neutral", mouth = "closed"),
+        PDAMove(alignX = 0.85, alignY = -0.1, zoom = 2.0),
+    ),
+]
+
+$ aona.register_paperdoll()
+$ aona.display(PDAPreset("intro"), PDAImage(mouth = "open"))
+# another object can borrow it:
+$ emiko.display(PDAPreset("aona:intro"))
+```
+
+Lookup order for `PDAPreset(arg)` while displaying `obj`: try `"{obj.key}:{arg}"`,
+then `arg` as-is. See [§9](#9-presets).
+
+### Parenting a prop
+
+Register the parent first, then the child with `parent=` and a `local` offset.
+Moves and flips on the parent ease the child with them.
+
+**Screen offsets** (`space="screen"`, default) — `local.alignX` is added in screen
+units:
+
+```python
+$ paperdoll_manager.register_obj(
+    "mug",
+    "images/props/mug/mug <state>.png",
+    parent = aona.name,
+    local = {"alignX": 0.08, "alignY": 0.02, "zoom": 0.4},
+    state = "full",
+)
+```
+
+**Parent box** (`space="parent"`) — `local.alignX/Y` are 0–1 on the parent's
+`display_size` box (`0.5` = centre of Aona's 600×1080 box):
+
+```python
+$ aona.register_paperdoll()
+$ paperdoll_manager.register_obj(
+    "mug",
+    "images/props/mug/mug <state>.png",
+    parent = aona.name,
+    space = "parent",
+    local = {"alignX": 0.72, "alignY": 0.45, "zoom": 0.35},
+    state = "full",
+)
+$ aona.display(PDAImage(pose = "7"), PDAPreset("close_body_right"))
+$ paperdoll_manager.display("mug", PDAImage(state = "full"))
+$ aona.display(PDAMove(alignX = 0.5, duration = 0.5), PDAPause(0.5))
+# mug stays on that point of her box while she moves / flips
+```
+
+### Nested parenting
+
+```python
+$ aona.register_paperdoll()
+$ paperdoll_manager.register_obj("hand", "...", parent = aona.name, local = {"alignX": 0.1})
+$ paperdoll_manager.register_obj("mug", "...", parent = "hand", local = {"alignX": 0.02, "zoom": 0.5})
+```
+
+A move on `aona` updates `hand` and `mug`. A move on `hand` only changes `hand.local`
+(relative to Aona) and re-composes `mug`.
+
 ### Non-character stack
 
 Skip `Person.register_paperdoll` and register patterns yourself — [§13](#13-beyond-characters-displaying-anything).
@@ -576,15 +686,42 @@ Add `duration` via override: `PDAPreset("close_body_right", duration = 0.4)`.
 (`PDAPreset("key")`) but is wiped when the manager unloads. Permanent names cannot
 be overwritten. See [§8 Scene-local presets](#scene-local-presets).
 
+**Object presets.** A third scope lives on the paperdoll object / `Person`:
+
+```python
+PaperdollPreset("intro", PDAImage(pose = "12"), PDAMove(alignX = 0.85, zoom = 2.0))
+```
+
+`register_obj(..., presets=[...])` (and `Person.paperdollPresets` via
+`register_paperdoll`) stores each as a **temp** key `"{object_key}:{preset_key}"`.
+Preset keys must not contain `:`.
+
+When `PDAPreset(arg)` expands during `.display()` on object `obj`:
+
+1. look up `"{obj.key}:{arg}"` (e.g. `aona:intro`, or `emiko:aona:intro` when the
+   argument is already scoped)
+2. if missing, look up `arg` as-is (global / temp / already-scoped `aona:intro`)
+
+So `PDAPreset("intro")` on Aona hits `aona:intro`; `PDAPreset("aona:intro")` on Emiko
+misses `emiko:aona:intro` and finds `aona:intro`. Nested `PDAPreset("close_body")`
+inside an object preset uses the same rule — an object can locally sharpen a built-in.
+
+Expand **deep-copies** the action list before applying `**overrides`, so
+`PDAPreset("intro", duration = 0.4)` does not mutate the stored preset.
+
 Registry API: `register_preset(key, *actions)`, `register_temp_preset(key, *actions)`,
-`get_preset(key)`, `get_preset_with_overrides(key, **kwargs)`, `clear_temp_presets()`,
-`clear_presets()`.
+`get_preset(key, paperdoll_obj=None)`,
+`get_preset_with_overrides(key, paperdoll_obj=None, **kwargs)`,
+`clear_temp_presets()`, `clear_presets()`.
 
 ---
 
 ## 10. Backgrounds
 
-The manager owns one backdrop, drawn behind all paperdoll objects.
+The manager owns one backdrop, drawn **behind** all paperdoll objects
+(`zorder = -100`; figures use `0`, or `-1` when `behind=True`). Order of
+`set_background` vs `.display()` does not matter — a late background cannot cover
+a figure.
 
 ```python
 $ paperdoll_manager.set_background("images/background/office building/secretary 6 1 0.webp", blur = True)
@@ -823,6 +960,10 @@ pose/outfit/mood/mouth), while the in-game editor is still where you tune the
 | Expression won't update | Not using `PDAImage` | Change `mood`/`mouth` via `PDAImage`; move/blur don't re-resolve images. |
 | Two layers drift apart on shake | (shouldn't happen) all layers share the shake seed | Confirm you're on `PDAShake` (seeded by the object key), not per-layer motion. |
 | One outfit sits a few pixels off | Needs a per-layer correction | Add a `PaperdollOverride` on that layer gated on the outfit value. |
+| `PDAPreset("intro")` does nothing | Object preset not registered / wrong key | Ensure `PaperdollPreset` is on the Person or `presets=`; bare keys have no `:`. |
+| Child prop does not follow | Not parented, or never shown | `register_obj(..., parent=...)`; `.display` the child once so layers resolve. |
+| Parenting fails silently | Parent missing or cycle | Register ancestors first; check the `paperdoll` log for cycle / missing parent. |
+| Background covers the figure | (fixed) late `set_background` used to win z-order | Background is `zorder -100`; figures stay above. |
 | Paperdoll persists into the next still | The still was not `Image_Series.show` | `$ image.show(n)` clears; `call show_image` / a raw `renpy.show` does not — then `clear_display()` first. `end_event` always unloads. |
 | `paperdoll_manager is None` outside an event | No manager (event flow creates it) | Call `init_paperdoll_manager()` yourself (as the debug editor does). |
 
@@ -840,33 +981,40 @@ path · `Image_Series[step]` · `<nude>` event path · `None`. Globals:
 `init_paperdoll_manager()` / `unload_paperdoll_manager()`.
 
 ### Object (`Paperdoll_Obj`)
-Constructed as `(key, *patterns, **kwargs)`. kwargs: `overrides`, `alt_keys`,
-`config`, `display_size`, `display_sizes`, plus initial values. Config keys:
-`alignX -0.5`, `alignY 0.0`, `rotation 0.0`, `zoom 1.0`, `blur 0.0`, `bw False`,
-`flip 1.0`.
-`get_config(key, index)` = shared config + layer override.
+Constructed as `(key, *patterns, **kwargs)`. kwargs: `overrides`, `presets`,
+`parent`, `local`, `space` (`"screen"`|`"parent"`), `behind`, `alt_keys`, `config`,
+`display_size`, `display_sizes`, plus initial values. Config (world): `alignX -0.5`,
+`alignY 0.0`, `rotation 0.0`, `zoom 1.0`, `blur 0.0`, `bw False`, `flip 1.0`.
+When parented, `local` holds the relative transform; `config` is composed along the
+ancestor chain (`space="parent"` maps local align onto the parent's display box).
+`get_config(key, index)` = shared config + layer override. Show zorder: `0`, or
+`-1` if `behind=True` (background is `-100`).
 
 ### Actions
 `PDAImage(**values)` · `PDAMove(alignX, alignY, zoom, duration)` ·
 `PDABlur(blur, duration)` · `PDABw(bw, duration)` · `PDAFlip(flip, duration)` ·
 `PDAShake(duration, max_distance)` · `PDAPause(duration, transition)` ·
 `PDAPreset(preset, **overrides)`. Each runs via label `paperdoll_action_<key>`.
+Move/flip/shake fan out to parented descendants.
 
 ### Presets
 `register_preset(key, *actions)` · `register_temp_preset(key, *actions)` ·
-`get_preset(key)` · `get_preset_with_overrides(key, **kwargs)` ·
+`get_preset(key, paperdoll_obj=None)` ·
+`get_preset_with_overrides(key, paperdoll_obj=None, **kwargs)` ·
 `clear_temp_presets()` · `clear_presets()`. Built-ins:
 `outside`, `close_body(_center/_right/_left)`, `upper_body(_center/_right/_left)`.
+Object presets: `PaperdollPreset(key, *actions)` → temp `"{obj}:{key}"`; lookup
+prefers scoped then bare (copy-on-expand).
 
 ### Character helper (`character.rpy`)
 `person.register_paperdoll(*overrides, **kwargs)` (2 layers, `display_size=(600,1080)`,
-`alt_keys=["level","mouth","state","char_var"]`) · `person.display(*actions)` ·
-`person.clear_display()` · `PaperdollOverride(index, conditions, x_override,
-y_override, rot_override, blur_override, zoom_override)`.
+`alt_keys=["level","mouth","state","char_var"]`, merges `paperdollOverrides` +
+`paperdollPresets`) · `person.display(*actions)` ·
+`person.clear_display()` · `PaperdollOverride(...)` · `PaperdollPreset(key, *actions)`.
 
 ### Related files
 - `game/scripts/paperdoll.rpy` — manager, object, actions, presets, transforms, labels
-- `game/scripts/character.rpy` — `register_paperdoll` / `display` / `clear_display`, `PaperdollOverride` usage
+- `game/scripts/character.rpy` — `register_paperdoll` / `display` / `clear_display`, `PaperdollOverride` / `PaperdollPreset`
 - `game/scripts/images.rpy` — `refine_image_with_alternatives` / `find_available_images` (`<key>` + `$` resolution); `Image_Series` (background `image[step]` source)
 - [Images](Images) — full path-resolution guide (PNG/WebP, mod prefixes, which helper to call)
 - `game/scripts/event.rpy` — creates/unloads the manager around each event
