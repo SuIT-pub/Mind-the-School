@@ -1,5 +1,8 @@
 [Home](Home) › [Characters](Characters) › [Staff](Characters#staff) › Emiko Langley
 
+| [<kbd>← Mark Benson</kbd>](Headmaster) | [<kbd>All characters</kbd>](Characters) | [<kbd>Linh Nguyen →</kbd>](Linh-Nguyen) |
+|:---|:---:|---:|
+
 **Administrative staff · Secretary**
 
 Emiko Langley is the school secretary.
@@ -11,6 +14,40 @@ Emiko Langley is the school secretary.
 - Bust–waist–hips: 91–66–99 cm
 - Waist-to-hips: 0.665
 - Role: Secretary
+
+## Appearance
+
+Tall and statuesque, with very long, straight black hair worn in a high ponytail
+with a blunt fringe, and slim rectangular glasses she wears at all times. Striking
+teal-green eyes, fair skin, and a full hourglass figure — a generous bust, defined
+waist, and long legs. Soft, natural makeup; aside from the glasses she keeps
+accessories minimal.
+
+**Signature look across the levels.** As staff, Emiko dresses in her own sharp,
+professional wardrobe rather than a uniform, in a consistent teal-blue-and-red
+palette — and two things never leave her at any level: the glasses and a pair of
+tall black riding boots. At level 0 she's polished and businesslike: a red knit
+blazer over a collared shirt, blue leather trousers, the boots. By level 5 the
+blazer has become a cropped leather bolero open over a lace bra, with a leather
+micro-skirt and a red choker; at level 7 the jacket hangs open over bare skin
+above a strappy micro-skirt; by level 10 it's a red strap-harness and a
+belt-and-garter micro-skirt with almost nothing else. The glasses and boots stay
+through all of it — the secretary's polish never fully comes off, however much of
+the rest does.
+
+## Personality
+
+Warm, teasing, and utterly devoted to the Headmaster. As his secretary Emiko is
+competent and always on top of his schedule, but in private she's playful,
+forward, and sexually confident — quick with a caretaking gesture and quicker
+with a tease. She's the Headmaster's closest ally and confidante, comfortable
+slipping between dry professionalism, flirtation, and open devotion.
+
+**Level progression.** Emiko's personal track starts ahead of the student body
+(she begins around level 5). Across the campus climate (see
+[School Levels](School-Levels)) she's consistently the most openly, warmly
+forward figure in the Headmaster's orbit, rather than someone who has to be
+brought along.
 
 ## Portrait
 
@@ -47,3 +84,6 @@ Names come from the Honey Select 2 coordinate card. Click an image to open the o
 | Bunny 01 |
 |:---:|
 | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/HS2CoordeF_20260316143430332.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Emiko-Langley/outfits/HS2CoordeF_20260316143430332.png" alt="Emiko Langley — Bunny 01" width="160"></a> |
+
+| [<kbd>← Mark Benson</kbd>](Headmaster) | [<kbd>All characters</kbd>](Characters) | [<kbd>Linh Nguyen →</kbd>](Linh-Nguyen) |
+|:---|:---:|---:|

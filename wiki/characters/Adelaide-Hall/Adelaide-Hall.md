@@ -1,5 +1,8 @@
 [Home](Home) › [Characters](Characters) › [Parents](Characters#parents) › Adelaide Hall
 
+| [<kbd>← Linh Nguyen</kbd>](Linh-Nguyen) | [<kbd>All characters</kbd>](Characters) | [<kbd>Nubia Davis →</kbd>](Nubia-Davis) |
+|:---|:---:|---:|
+
 **Parent · Kitchen Mother**
 
 Adelaide Hall works in the cafeteria as Kitchen Mother.
@@ -11,6 +14,37 @@ Adelaide Hall works in the cafeteria as Kitchen Mother.
 - Bust–waist–hips: 80–60–93 cm
 - Waist-to-hips: 0.645
 - Works in the cafeteria as Kitchen Mother
+
+## Appearance
+
+Long, glossy black hair worn in a high ponytail, tied off with a distinctive
+red-and-white striped ribbon whose tails hang loose past her shoulder; blunt,
+side-swept bangs frame her face. Fair skin lightly dusted with freckles across
+the nose and cheeks, pale grey-blue eyes, and full lips with deep-red lipstick.
+Dramatically hourglass figure — very full bust, cinched waist, wide hips. A small
+silver heart pendant sits at her throat as a constant, worn even out of uniform.
+
+**Signature look across the levels.** Her palette never changes — deep maroon and
+white, the school colours — and neither do two personal constants: the ribboned
+ponytail and the heart necklace. At level 1 she's crisply covered: a fitted white
+waistcoat over maroon, a maroon pencil mini, and plain grey sneakers — practical
+footwear for someone on her feet all day in the cafeteria. As the climate rises
+the outfit sheds fabric rather than changing character: an off-shoulder crop and
+micro-skirt at level 5, the top dropped to bare her chest entirely by level 10 —
+but always the same colours, the same ponytail, the same sensible sneakers. Even
+stripped of everything else, she keeps those practical shoes.
+
+## Personality
+
+Warm and maternal at work, conservative at the table. Adelaide runs the cafeteria
+as the school's "Kitchen Mother" — friendly and helpful in her kitchen — but at
+the PTA she's a socially conservative voice who objects to anything risqué before
+(grudgingly) agreeing to let it come to a vote.
+
+**Level progression.** As the campus climate rises (see [School Levels](School-Levels))
+her maternal warmth stays; her conservatism is worn down slowly and against her
+first instinct — and through all of it she stays unfussy and hardworking, the
+practical sneakers and tidy ponytail never changing.
 
 ## Portrait
 
@@ -53,3 +87,6 @@ Names come from the Honey Select 2 coordinate card. Click an image to open the o
 | Bathwear 01 |
 |:---:|
 | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Adelaide-Hall/outfits/HS2CoordeF_20240812154554503.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Adelaide-Hall/outfits/HS2CoordeF_20240812154554503.png" alt="Adelaide Hall — Bathwear 01" width="160"></a> |
+
+| [<kbd>← Linh Nguyen</kbd>](Linh-Nguyen) | [<kbd>All characters</kbd>](Characters) | [<kbd>Nubia Davis →</kbd>](Nubia-Davis) |
+|:---|:---:|---:|

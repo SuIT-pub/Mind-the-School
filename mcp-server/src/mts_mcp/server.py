@@ -22,8 +22,14 @@ def build_mcp(settings: Settings) -> FastMCP:
         "mind-the-school",
         instructions=(
             "Mind the School (Ren'Py) Entwicklungsserver. "
-            "Nutze die Log-Tools oder -Resources, um log.txt und traceback.txt "
-            "nach Spielstart-Fehlern zu lesen."
+            "Logs: Nutze get_renpy_logs / get_renpy_traceback nach Spielstart-Fehlern. "
+            "Ollama: Bruecke zur lokalen Ollama-Instanz auf dem Heimserver. "
+            "ollama_status prueft die Verbindung, ollama_list_models listet Modelle, "
+            "ollama_prompt schickt einen Prompt an ein Modell. "
+            "Nutze ollama_prompt, wenn eine lokale Modell-Antwort (Draft, zweite "
+            "Perspektive, Laengen-Generierung) in die eigene Arbeit einfliessen soll — "
+            "nicht als Ersatz fuer Projektwissen aus Wiki und Code. "
+            "Uebergib `model`, wenn kein Default (MTS_OLLAMA_MODEL) gesetzt ist."
         ),
     )
     register_all_handlers(mcp, settings)

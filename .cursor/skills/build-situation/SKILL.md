@@ -33,7 +33,8 @@ too. Read the guides before building:
 
 > The author guides live in the repo's `wiki/` folder (they are the GitHub Wiki
 > source). Related system guides there: `wiki/Events.md`, `wiki/Conditions.md`,
-> `wiki/Selectors.md`, `wiki/Effects.md`, `wiki/Modifiers.md`, `wiki/Options.md`.
+> `wiki/Selectors.md`, `wiki/Effects.md`, `wiki/Modifiers.md`, `wiki/Options.md`,
+> `wiki/School-Levels.md` (campus climate if the unlock changes school level).
 
 ## Modes — detect what the user wants
 

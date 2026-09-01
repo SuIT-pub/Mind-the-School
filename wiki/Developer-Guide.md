@@ -107,6 +107,10 @@ already installed `game/images/` tree or `game/.asset-version`. After cleaning, 
 
 ## Content guides
 
+- **[School Levels](School-Levels)** — what each school level (1–10) *means*:
+  dress, talk, and behaviour on campus. Writer/artist bible. The number itself is
+  the `"school"` character's level; gates and image tokens are in the system
+  guides below.
 - **[Building Situations](Building-Situations)** — a *Situation* is an ongoing
   problem or development the player influences through a bidirectional progress bar
   and narrative hints, ending in a positive or negative resolution. This is the
@@ -143,6 +147,9 @@ The building blocks the content systems are made of:
 
 ## How the pieces fit together
 
+- **School level** is the campus climate (dress, talk, behaviour). Content
+  authors treat [School Levels](School-Levels) as the tone bible; the number
+  lives on the `"school"` character.
 - **Situations** are the core player-guidance system (the bar + hints).
 - **Unlockables** build on Situations to gate permanent unlocks behind a PTA vote.
 - **Pictograms** are descriptive preview marks on bars/unlockables.

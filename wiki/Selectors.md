@@ -145,7 +145,7 @@ hard-coding the link.
 | Constructor | Produces |
 |-------------|----------|
 | `StatSelector(key, stat, char, stat_range, realtime=True, *options)` | a character's stat value (+ `key_range`); `stat`/`char` may be selectors |
-| `LevelSelector(key, char, *options)` | a character's level |
+| `LevelSelector(key, char, *options)` | a character's level (`"school"` → campus climate; see [School Levels](School-Levels)) |
 | `CharacterSelector(key, char='school', *options)` | resolve a character reference |
 | `TimeSelector(key, time_type, *options)` | a time component (`day`/`daytime`/…) |
 | `BuildingLevelSelector(key, building, *options)` | a building's level |

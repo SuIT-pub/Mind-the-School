@@ -155,7 +155,9 @@ Edit the core stats. One row per stat with `Min / −N / −1 / value / +1 / +N 
 controls (Money uses ±100 / ±1000 instead of Min/Max):
 
 - **Money**
-- **Level** — School, Parent, Teacher, Secretary
+- **Level** — School, Parent, Teacher, Secretary. School 1–10 is campus
+  climate ([School Levels](School-Levels)); forcing it skips the
+  [temporary votes](Walkthrough-Unlocks#school-levels).
 - **Corruption, Inhibition, Happiness, Education, Charm, Reputation** (School)
 
 > Danger: **Level** gates content and feeds situation thresholds; the school stats

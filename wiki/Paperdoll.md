@@ -568,6 +568,12 @@ $ emiko.display(PDAImage(outfit = "casual", level = 1, mouth = "closed"))
 $ emiko.display(PDAImage(level = 3))    # nude-level step; body layer only
 ```
 
+On **students**, `level=` is the [school-level](School-Levels) outfit step
+(uniform getting shorter, then disappearing). Staff/parents follow their own
+tracks (`teacher` / `parent` / `secretary`). Do not put a level-1 uniform on a
+level-8 campus unless the scene is specifically about someone who has not
+changed.
+
 If a bulky outfit sits a few pixels off, that is a [PaperdollOverride](#12-overrides-per-layer-conditional-nudges),
 not a new `PDAMove`.
 

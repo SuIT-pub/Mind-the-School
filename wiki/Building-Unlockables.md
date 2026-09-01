@@ -391,7 +391,7 @@ Common unlock effects:
 
 | Effect | Use |
 |--------|-----|
-| `LevelEffect(name, value, "SET"/"ADD", char)` | raise a character/school level |
+| `LevelEffect(name, value, "SET"/"ADD", char)` | raise a character/school level (school 1–10 climate: [School Levels](School-Levels)) |
 | `MoneyEffect(name, -cost, "ADD")` | the vote's escrowed money cost (see [§6](#6-money-costs-escrow)) |
 | `BuildingOpenEffect(building_key)` | make a map location enterable |
 | `BuildingCloseEffect(building_key)` | close a map location |

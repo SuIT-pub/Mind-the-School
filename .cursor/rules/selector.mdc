@@ -13,6 +13,7 @@ Canonical guide: **`wiki/Selectors.md`**. Read it before adding, nesting, or exp
 - How events consume kwargs: `wiki/Events.md`
 - Image substitution: `wiki/Images.md`
 - Conditions used inside selectors: `wiki/Conditions.md`
+- What `LevelSelector(..., "school")` means in play: `wiki/School-Levels.md`
 
 ## Code
 

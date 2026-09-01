@@ -175,7 +175,7 @@ last.
 |-------------|--------|
 | `StatCondition(*options, char_obj=None, **stats)` | each `stat=threshold` kwarg is met on `char_obj` (default school), e.g. `StatCondition(corruption=20, happiness=50)` |
 | `StatLimitCondition(stat, char_obj=None, *options)` | the stat is at its current level cap |
-| `LevelCondition(value, *options, char_obj=None)` | character/school level meets `value` (e.g. `"2"`, `"2+"`) |
+| `LevelCondition(value, *options, char_obj=None)` | character/school level meets `value` (e.g. `"2"`, `"2+"`). Default char is school. Named stages (dress/talk/behaviour): [School Levels](School-Levels) |
 | `ProficiencyCondition(proficiency, *options, xp=-1, level=-1)` | a proficiency's xp/level threshold |
 | `MaxLevelEventCondition(value, *options)` | max-level event progress |
 

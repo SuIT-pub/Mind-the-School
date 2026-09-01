@@ -1,5 +1,8 @@
 [Home](Home) › [Characters](Characters) › [Class 3A](Characters#students) › Miwa Igarashi
 
+| [<kbd>← Lin Kato</kbd>](Lin-Kato) | [<kbd>All characters</kbd>](Characters) | [<kbd>Sakura Mori →</kbd>](Sakura-Mori) |
+|:---|:---:|---:|
+
 **Class 3A · Student**
 
 Miwa Igarashi is a student in class 3A. She likes dancing.
@@ -11,6 +14,35 @@ Miwa Igarashi is a student in class 3A. She likes dancing.
 - Bust–waist–hips: 69–62–84 cm
 - Waist-to-hips: 0.739
 - Likes dancing
+
+## Appearance
+
+Brown hair worn up in a messy high bun with loose strands framing her face, dark
+brown eyes, and fair skin. Slim and lightly athletic — a dancer's build — with a
+small bust (the very thing [Aona Komuro](Aona-Komuro) teased her over) and slender
+hips. Her one constant accessory is a stack of colourful friendship bracelets on
+one wrist.
+
+**Uniform across the levels.** Miwa's styling is casual and cute-sporty, and the
+progression tracks her arc from self-conscious to self-possessed — she bares more
+as she grows into her own skin. At level 1 it's a neat white blouse and plaid
+pleated skirt; by level 4 the blouse is knotted up over a sparkly bralette, midriff
+out; level 6 crops it further over a bandeau; by level 10 it's a sheer fishnet
+off-shoulder top over a tiny lace-trimmed plaid micro-skirt. The colourful
+bracelets stay on the whole way — a little marker of her friend-group, dancer side.
+
+## Personality
+
+Cheerful and expressive, with a real love of dancing that doubles as her main
+outlet for confidence. Early in the game, though, Miwa is self-conscious about
+her body — specifically her small chest, after being teased about it by
+[Aona Komuro](Aona-Komuro). That conflict is one of her defining early arcs.
+
+**Level progression.** At the low levels the teasing is still live and it
+stings; she's insecure and hurt by it. Once the conflict is resolved (around
+level 3–4), she grows steadily more confident in her own skin, and as the campus
+climate rises (see [School Levels](School-Levels)) she uses her body and her
+dancing more and more boldly. Her arc is insecurity turning into self-possession.
 
 ## Portrait
 
@@ -63,3 +95,6 @@ Names come from the Honey Select 2 coordinate card. Click an image to open the o
 | Bunny 1 |
 |:---:|
 | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Miwa-Igarashi/outfits/HS2CoordeF_20240729105405791.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Miwa-Igarashi/outfits/HS2CoordeF_20240729105405791.png" alt="Miwa Igarashi — Bunny 1" width="160"></a> |
+
+| [<kbd>← Lin Kato</kbd>](Lin-Kato) | [<kbd>All characters</kbd>](Characters) | [<kbd>Sakura Mori →</kbd>](Sakura-Mori) |
+|:---|:---:|---:|

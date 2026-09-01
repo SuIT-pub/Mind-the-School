@@ -5,12 +5,13 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "mts-mcp"
 version = "0.1.0"
-description = "MCP server for Mind the School (Ren'Py) — game logs and future dev tools"
+description = "MCP server for Mind the School — Ren'Py logs and local Ollama bridge"
 requires-python = ">=3.11"
 license = { text = "MIT" }
 dependencies = [
   "mcp>=1.2.0",
   "pydantic-settings>=2.0.0",
+  "httpx>=0.27.0",
 ]
 
 [project.scripts]

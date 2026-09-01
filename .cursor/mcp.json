@@ -3,9 +3,15 @@
     "mind-the-school": {
       "command": "python",
       "args": ["-m", "mts_mcp"],
+      "cwd": "${workspaceFolder}/mcp-server/src",
       "env": {
         "PYTHONPATH": "${workspaceFolder}/mcp-server/src",
-        "MTS_PROJECT_ROOT": "${workspaceFolder}"
+        "MTS_PROJECT_ROOT": "${workspaceFolder}",
+        "MTS_OLLAMA_BASE_URL": "http://192.168.178.21:11434",
+        "MTS_OLLAMA_MODEL": "hf.co/PantheonUnbound/Satyr-V0.1-4B:Q8_0",
+        "MTS_OLLAMA_NUM_CTX": "32768",
+        "MTS_OLLAMA_MAX_TOKENS": "32768",
+        "MTS_OLLAMA_TIMEOUT_SECONDS": "1800"
       }
     }
   }

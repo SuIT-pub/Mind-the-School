@@ -9,7 +9,10 @@
       "Bash(python -c 'from PIL import Image; *)",
       "Bash(python -c \"import PIL; print\\('Pillow', PIL.__version__\\)\")",
       "Bash(python -c \"import tkinter; print\\('tkinter ok'\\)\")",
-      "Bash(python -c ' *)"
+      "Bash(python -c ' *)",
+      "mcp__mind-the-school__ollama_status",
+      "mcp__mind-the-school__ollama_list_models",
+      "mcp__mind-the-school__ollama_prompt"
     ]
   }
 }

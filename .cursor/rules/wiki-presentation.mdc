@@ -12,5 +12,8 @@ Canonical guides — read the one that matches the task:
 |-------|------|------|
 | Path resolution, `Pattern`, `<step>`, `$`, nude levels, videos | `wiki/Images.md` | `game/scripts/images.rpy` |
 | Layered sprites, actions, presets, overrides | `wiki/Paperdoll.md` | `game/scripts/paperdoll.rpy`, `game/scripts/character.rpy` |
+| What `<school_level>` / paperdoll `level=` should *look* like | `wiki/School-Levels.md` | `"school"` Char level |
 
 Event image conventions also appear in `wiki/Events.md` (patterns, steps, `Image_Series`).
+`<school_level>` stills and student `PDAImage(level=N)` must match the climate
+on `wiki/School-Levels.md`.

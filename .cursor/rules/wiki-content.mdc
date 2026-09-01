@@ -17,6 +17,7 @@ To **design or implement** a new Situation or Unlockable, follow the `build-situ
 
 - Events injected into building pools: `wiki/Events.md`
 - Conditions / Effects / Modifiers / Options: `wiki/Conditions.md`, `wiki/Effects.md`, `wiki/Modifiers.md`, `wiki/Options.md`
+- School level climate (what a level vote *means*): `wiki/School-Levels.md`
 
 ## Code
 

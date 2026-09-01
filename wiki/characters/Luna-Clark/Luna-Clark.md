@@ -1,5 +1,8 @@
 [Home](Home) › [Characters](Characters) › [Class 3A](Characters#students) › Luna Clark
 
+| [<kbd>← Gloria Goto</kbd>](Gloria-Goto) | [<kbd>All characters</kbd>](Characters) | [<kbd>Seraphina Clark →</kbd>](Seraphina-Clark) |
+|:---|:---:|---:|
+
 **Class 3A · Student**
 
 Luna Clark is a student in class 3A. She is the twin sister of
@@ -14,6 +17,41 @@ Luna Clark is a student in class 3A. She is the twin sister of
 - Twin sister of [Seraphina Clark](Seraphina-Clark)
 - More shy and reserved than her sister
 - A bit of a trickster
+
+## Appearance
+
+Silver-white hair worn in short low pigtails with a fringe and a small red hair
+clip, and bold red-framed glasses she keeps on at all times, even out of her
+clothes. Striking heterochromatic eyes — her right eye blue, her left green (her
+twin [Seraphina](Seraphina-Clark)'s are mirror-swapped, and Seraphina wears black
+glasses to Luna's red — the quickest way to tell them apart). She's very petite
+and short — one of the smallest girls in the school — yet distinctly curvy, with a
+full bust and wide hips made all the more pronounced by her small frame.
+
+**Uniform across the levels.** An olive-mustard cardigan is Luna's constant,
+bookish signature — but it only really *covers* her at the low end. At level 1
+she's genuinely modest: the cardigan over a white blouse, a longer plaid A-line
+skirt, and a little gold bow at the waist. From there it opens fast — by level 4 a
+ribbed cardigan-jumper with keyhole cutouts baring underboob; by levels 5 and 6 the
+cardigan simply hangs open over bare breasts with a plaid pleated skirt; by level 10
+it's worn open over a tiny belted plaid micro-skirt. The cardigan and red glasses
+stay throughout, but past level 1 she bares as much as anyone — the bookish modesty
+is really a level-1 thing, in keeping with her shy, reserved start.
+
+## Personality
+
+The quieter Clark twin — shy and reserved on the surface, but with a sly,
+mischievous streak that runs deeper than anyone expects. Together with her sister
+[Seraphina](Seraphina-Clark) she's one half of the class's chaos-and-pranks duo:
+Seraphina is the loud front, but Luna is often the real schemer — the
+innocent-looking one nobody suspects until the trap's already sprung. On her own
+she's timid and hangs back; with Seraphina she becomes a quiet little troublemaker.
+
+**Level progression.** She lags about half a step behind her sister at every
+stage of the campus climate (see [School Levels](School-Levels)), needing
+Seraphina's cover before she'll open up. As she grows more comfortable at higher
+levels, the trickster side surfaces more freely — the shyness was always partly
+a cover for it.
 
 ## Portrait
 
@@ -68,3 +106,6 @@ Names come from the Honey Select 2 coordinate card. Click an image to open the o
 | Christmas 01 |
 |:---:|
 | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Luna-Clark/outfits/HS2CoordeF_20260213121358334.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Luna-Clark/outfits/HS2CoordeF_20260213121358334.png" alt="Luna Clark — Christmas 01" width="160"></a> |
+
+| [<kbd>← Gloria Goto</kbd>](Gloria-Goto) | [<kbd>All characters</kbd>](Characters) | [<kbd>Seraphina Clark →</kbd>](Seraphina-Clark) |
+|:---|:---:|---:|

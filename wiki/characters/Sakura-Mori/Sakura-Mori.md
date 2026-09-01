@@ -1,5 +1,8 @@
 [Home](Home) › [Characters](Characters) › [Class 3A](Characters#students) › Sakura Mori
 
+| [<kbd>← Miwa Igarashi</kbd>](Miwa-Igarashi) | [<kbd>All characters</kbd>](Characters) | [<kbd>Soyoon Yamamoto →</kbd>](Soyoon-Yamamoto) |
+|:---|:---:|---:|
+
 **Class 3A · Student**
 
 Sakura Mori is a student in class 3A. She is in a relationship with
@@ -12,6 +15,36 @@ Sakura Mori is a student in class 3A. She is in a relationship with
 - Bust–waist–hips: 74–65–88 cm
 - Waist-to-hips: 0.737
 - In a relationship with [Easkey Tanaka](Easkey-Tanaka)
+
+## Appearance
+
+Vivid red hair with a striking white-blonde section through the front fringe, worn
+in a high ponytail; dark eyes and fair skin. Slim and athletic with a moderate
+bust. Natural makeup, no standing jewellery.
+
+**Uniform across the levels.** Sakura's styling is sporty and practical — her
+recurring touch is a dark-red sweater tied around her waist, sleeves rolled,
+ready-to-move. At level 1 it's a white blouse with the sweater knotted at the hip
+and a plaid pleated skirt; by level 5 the top is a sheer sailor blouse with a red
+neckerchief, the sweater still tied on; by level 10 it's reduced to the sailor
+collar and tie over a black string harness and white pleated micro-shorts. The
+tied sweater and rolled sleeves read practical and on-the-go — fitting for the
+class's most diligent, hands-on girl.
+
+## Personality
+
+Diligent, bright, and practical. Sakura pays attention, gives clear,
+well-reasoned answers in class, and tends to notice the sensible problem
+everyone else missed. She works hard even when it's uncomfortable and cooperates
+readily. She's in a steady relationship with [Easkey Tanaka](Easkey-Tanaka), and
+is the more capable, level-headed of the two. But under the calm runs a fierce,
+burning ambition: she needs to be the best, drives herself hard for it, and a loss
+genuinely gnaws at her — it's about clearing her own bar, not tearing anyone down.
+
+**Level progression.** Her conscientiousness is the constant. As the campus
+climate rises (see [School Levels](School-Levels)) she approaches sex the way she
+approaches schoolwork — willing, practical, and unflustered, rather than either
+shy or showy.
 
 ## Portrait
 
@@ -48,3 +81,6 @@ Names come from the Honey Select 2 coordinate card. Click an image to open the o
 | Level 10 |
 |:---:|
 | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Sakura-Mori/outfits/HS2CoordeF_20241204152735671.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Sakura-Mori/outfits/HS2CoordeF_20241204152735671.png" alt="Sakura Mori — Level 10" width="160"></a> |
+
+| [<kbd>← Miwa Igarashi</kbd>](Miwa-Igarashi) | [<kbd>All characters</kbd>](Characters) | [<kbd>Soyoon Yamamoto →</kbd>](Soyoon-Yamamoto) |
+|:---|:---:|---:|

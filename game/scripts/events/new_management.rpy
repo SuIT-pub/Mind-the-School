@@ -1459,7 +1459,7 @@ label .attend (**kwargs):
     $ lily.display(PDAImage(mood = "happy", mouth = "closed"))
     lily.say "...same time next week?"
     headmaster "Same time."
-    headmaster_thought "No fireworks. Just a standing appointment and someone who trusts it'll be kept. That's the kind of quiet thing that actually holds a place together."
+    headmaster_thought "No fireworks. Just — same time next week, and she means it. ...Huh. When did that become the part of the day I look forward to?"
 
     $ set_game_data("nm_care_channel", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 5)
@@ -1486,7 +1486,7 @@ label .advice (**kwargs):
     headmaster "Sleep schedule, plenty of water, and stop grading past midnight. You'll feel worlds better."
     $ lily.display(PDAImage(mood = "sad", mouth = "closed"))
     lily.say "I... yes. I do know those things."
-    headmaster_thought "She came here to think out loud and I handed her a pamphlet. Advice you give before you've listened is just noise in a nicer font."
+    headmaster_thought "She just wanted to think out loud — and I cut her off with a pamphlet. ...She's staring at the floor now. Since when do I fix people before I've even listened?"
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 1)
     $ lily.clear_display()
@@ -1547,7 +1547,7 @@ label .credit (**kwargs):
     headmaster "One sentence. I promise."
     $ lily.display(PDAImage(mood = "pout", mouth = "closed"))
     lily.say "...fine. One. And no adjectives."
-    headmaster_thought "She'll hate every second of that sentence and remember it for a year. Credit where it's earned costs me nothing and buys me the whole room."
+    headmaster_thought "She'll hate every second of that sentence — and remember it for a year. Ha. One sentence, no adjectives... and she's squirming already. Worth it."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
     call change_stats_with_modifier(education=SMALL, happiness=TINY, reputation=TINY) from _nm_qe_curr_credit
@@ -1559,7 +1559,7 @@ label .shrug (**kwargs):
 
     $ lily.display(PDAImage(mood = "sad", mouth = "closed"))
     subtitles "You murmur a thanks, file the outline under 'done', and reach for the next form. When you glance up again, she's already gone."
-    headmaster_thought "She handed me authorship and I processed it like mail. ...That's exactly the kind of small miss that quietly teaches good people to stop bothering."
+    headmaster_thought "She handed me her best work and I filed it like junk mail. ...Looked up and her smile was already gone. Out the door with her. Might be the last time she bothers, that."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 1)
     call change_stats_with_modifier(education=TINY) from _nm_qe_curr_shrug
@@ -1652,7 +1652,7 @@ label .miss (**kwargs):
     subtitles "You make a show of a stack of forms and don't look up. The mug lowers, quietly, without a clink. Someone changes the subject to spare you."
     $ finola.display(PDAImage(mood = "sad", mouth = "closed"))
     finola.say "...Right. Course. Busy man."
-    headmaster_thought "They built a small ritual to let me in, and I answered it with a clipboard. ...Rituals remember who showed up for them. And who didn't."
+    headmaster_thought "They set out toast to let me in — and I answered it with a clipboard. ...Standing here like I've got somewhere better to be. Damn it. They'll notice. Quietly, but they will."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 2)
     call change_stats_with_modifier(happiness=DEC_TINY) from _nm_wc_mug_miss
@@ -1720,7 +1720,7 @@ label .joke (**kwargs):
     headmaster "Don't look at me like that."
     $ emiko.display(PDAImage(mood = "happy", mouth = "open"))
     emiko.say "Like what? I'm admiring the brass. Purely professional interest in good brass."
-    headmaster_thought "We both know she wasn't looking at the brass. ...The plate still goes up — tomorrow. Some things you let sit a day, so nobody has to say them out loud."
+    headmaster_thought "We both know she wasn't looking at the brass. ...The plate goes up tomorrow, not today. Today it'd make us both say a thing out loud, and — no. Tomorrow's kinder."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 2)
     call change_stats_with_modifier(reputation=TINY, happiness=TINY) from _nm_wc_plaque_joke

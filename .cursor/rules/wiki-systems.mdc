@@ -15,3 +15,4 @@ Canonical guides — read the one that matches the task:
 | Options (shared trailing flags) | `wiki/Options.md` | `game/scripts/option.rpy` |
 
 Effects vs SituationEffects: covered in `wiki/Effects.md`. Situation bars as modifier targets: `wiki/Modifiers.md`.
+`LevelEffect` on `"school"` changes campus climate — `wiki/School-Levels.md`.

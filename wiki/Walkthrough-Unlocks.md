@@ -112,6 +112,11 @@ unlockable that steps from 3 to 10.
 
 This is a stopgap. It will be replaced by real transition events.
 
+What each number *means* on campus (dress, talk, behaviour from modest to
+anarchy) is the **[School Levels](School-Levels)** bible. Story currently
+reaches **2** via [sex-ed introduction](Walkthrough-Event-Chains#sex-ed-introduction);
+the votes above skip the missing transition scenes.
+
 ## PTA votes in general
 
 Unlocking an option in the journal is not the same as passing it.

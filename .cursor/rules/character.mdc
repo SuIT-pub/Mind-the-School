@@ -8,7 +8,7 @@ alwaysApply: false
 
 ## Cast and lore
 
-Canonical pages: **`wiki/Characters.md`** (index) and **`wiki/characters/<Name>/<Name>.md`** (one folder per character). Read those before writing dialogue, descriptions, or outfit/level details for a named character. Do not use stale names from memory (e.g. the headmaster is **Mark Benson**, page `Headmaster`).
+Canonical pages: **`wiki/Characters.md`** (index) and **`wiki/characters/<Name>/<Name>.md`** (one folder per character). Read those before writing dialogue, descriptions, or outfit/level details for a named character. Do not use stale names from memory (e.g. the headmaster is **Mark Benson**, page `Headmaster`). Outfit **Level 00–10** follows campus climate: **`wiki/School-Levels.md`**.
 
 Character card PNGs are HS2 / StudioNeoV2 cards: extra binary is keyed to the filename. Never rename, recompress, or re-export them. See `wiki/README.md`.
 

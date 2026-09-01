@@ -237,7 +237,7 @@ These keys are filled even if you did not pass them in kwargs:
 
 | Placeholder | Filled from |
 |-------------|-------------|
-| `<school_level>` | school character's level |
+| `<school_level>` | school character's level — campus climate; dress/talk/behaviour in [School Levels](School-Levels) |
 | `<teacher_level>` | teacher character's level |
 | `<parent_level>` | parent character's level |
 | `<secretary_level>` | secretary character's level |
@@ -514,6 +514,10 @@ resolution, using the stem (so `foo 1 0.webp` and `foo 1 0.png` yield the same
 - **`<level>` does not need a file per level.** The resolver walks to the nearest
   existing file.
 - **Paperdoll patterns stay `.png`** by convention; WebP assets still resolve.
+- **`<school_level>` art matches the climate.** A level-1 still in a conservative
+  uniform, a level-8 still in a nude hallway — see [School Levels](School-Levels).
+  If the event spans a wide level range, ship frames (or `$` fallbacks) that can
+  carry the difference.
 
 ---
 

@@ -8,7 +8,8 @@ Guides and walkthroughs for playing the game: mechanics, the PTA, and how to wor
 through the situations you meet.
 
 → Start at the **[Player Guide](Player-Guide)**, jump to the
-**[Walkthroughs](Player-Walkthroughs)**, or browse the **[Characters](Characters)**.
+**[Walkthroughs](Player-Walkthroughs)**, read **[School Levels](School-Levels)**
+for how the campus changes, or browse the **[Characters](Characters)**.
 
 ## 🎛️ Tools
 
@@ -21,8 +22,10 @@ experimenting and developers testing. **Read its dangers section before using it
 Technical documentation for extending the game — the systems that drive the
 sandbox, and how to add your own content as a mod.
 
-→ Start at the **[Developer Overview](Developer-Guide)**. The two flagship guides:
+→ Start at the **[Developer Overview](Developer-Guide)**. The flagship guides:
 
+- **[School Levels](School-Levels)** — campus climate at each level (dress, talk,
+  behaviour) for writing and art.
 - **[Building Situations](Building-Situations)** — the bidirectional-bar system that
   replaced quests.
 - **[Building Unlockables](Building-Unlockables)** — rules, clubs and building unlocks

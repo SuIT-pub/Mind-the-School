@@ -1,5 +1,8 @@
 [Home](Home) › [Characters](Characters) › [Class 3A](Characters#students) › Soyoon Yamamoto
 
+| [<kbd>← Sakura Mori</kbd>](Sakura-Mori) | [<kbd>All characters</kbd>](Characters) | [<kbd>Yuriko Oshima →</kbd>](Yuriko-Oshima) |
+|:---|:---:|---:|
+
 **Class 3A · Student**
 
 Soyoon Yamamoto is a student in class 3A. She is the daughter of
@@ -12,6 +15,35 @@ Soyoon Yamamoto is a student in class 3A. She is the daughter of
 - Bust–waist–hips: 68–91–92 cm
 - Waist-to-hips: 0.664
 - Daughter of [Yuki Yamamoto](Yuki-Yamamoto)
+
+## Appearance
+
+A sleek jet-black bob with blunt, straight bangs, pale blue-grey eyes, and very
+fair, almost porcelain skin. She's slender and willowy — long-legged with
+a moderate bust — one of the more elegant, model-like builds in the class.
+
+**Uniform across the levels.** Soyoon's styling leans soft and feminine. At level 1
+it's a blouse with flutter cap sleeves and a small red ribbon bow at the collar
+over a plaid pleated skirt — sweet and neat; by level 5 a ruched grey sweetheart
+bustier crop with a plaid mini; at level 7 a plunging halter top with a plaid
+apron-skirt and yellow belt; by level 10 an off-shoulder top pushed up over bare
+skin with a tiny belted plaid micro-skirt. The girlish, pretty touches — the
+ribbon, the flutter sleeves, the ruching — carry through as her flavour.
+
+## Personality
+
+A haughty, fashionable ice queen — cool, composed, and image-conscious, with a
+distinct air of looking down her nose at everyone. Soyoon carries herself with
+elegant, aloof poise, keeps most people at arm's length, and is hard to fluster or
+read; she cares about how she looks and quietly considers herself a cut above the
+rest. Where [Hatano Miwa](Hatano-Miwa)'s superiority is loud and style-obsessed,
+Soyoon's is cold and snobbish — quiet condescension, not catty commentary. The
+chill is partly a front, but she doesn't let it drop easily, or for just anyone.
+She's the daughter of [Yuki Yamamoto](Yuki-Yamamoto).
+
+**Level progression.** The cool, put-together exterior holds as the campus climate
+rises (see [School Levels](School-Levels)) — she stays composed and stylish rather
+than giddy or shy, letting the poise slip only rarely and on her own terms.
 
 ## Portrait
 
@@ -34,3 +66,6 @@ Names come from the Honey Select 2 coordinate card. Click an image to open the o
 | Level 07 | Level 08 | Level 09 | Level 10 |
 |:---:|:---:|:---:|:---:|
 | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Soyoon-Yamamoto/outfits/HS2CoordeF_20240925193850933.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Soyoon-Yamamoto/outfits/HS2CoordeF_20240925193850933.png" alt="Soyoon Yamamoto — Level 07" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Soyoon-Yamamoto/outfits/HS2CoordeF_20240925194021874.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Soyoon-Yamamoto/outfits/HS2CoordeF_20240925194021874.png" alt="Soyoon Yamamoto — Level 08" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Soyoon-Yamamoto/outfits/HS2CoordeF_20240925194136551.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Soyoon-Yamamoto/outfits/HS2CoordeF_20240925194136551.png" alt="Soyoon Yamamoto — Level 09" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Soyoon-Yamamoto/outfits/HS2CoordeF_20240925194332908.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Soyoon-Yamamoto/outfits/HS2CoordeF_20240925194332908.png" alt="Soyoon Yamamoto — Level 10" width="160"></a> |
+
+| [<kbd>← Sakura Mori</kbd>](Sakura-Mori) | [<kbd>All characters</kbd>](Characters) | [<kbd>Yuriko Oshima →</kbd>](Yuriko-Oshima) |
+|:---|:---:|---:|

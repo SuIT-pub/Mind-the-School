@@ -5,12 +5,13 @@ from collections.abc import Callable
 from mcp.server.fastmcp import FastMCP
 
 from mts_mcp.config import Settings
-from mts_mcp.handlers import logs
+from mts_mcp.handlers import logs, ollama
 
 HandlerRegistrar = Callable[[FastMCP, Settings], None]
 
 HANDLERS: tuple[HandlerRegistrar, ...] = (
     logs.register,
+    ollama.register,
 )
 
 

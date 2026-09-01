@@ -141,7 +141,7 @@ constructor's own args: `MoneyEffect("cost", -1500, "ADD", EffectNoRevertOption(
 | Constructor | Does |
 |-------------|------|
 | `StatEffect(name, stat, value, mode="ADD", *options)` | change a **character** stat (`char_obj` from kwargs); reverts by inverse. *No-op without a `char_obj`.* |
-| `LevelEffect(name, value, mode="ADD", char_obj=None, *options)` | change a character/school level; `char_obj` may be a key, else taken from kwargs |
+| `LevelEffect(name, value, mode="ADD", char_obj=None, *options)` | change a character/school level; `char_obj` may be a key, else taken from kwargs. School 1–10 climate: [School Levels](School-Levels) |
 | `MoneyEffect(name, value, mode="ADD", *options)` | change money; reverts by inverse; honors `MoneyEscrow` |
 
 > There is **no** dedicated effect for *school* stats — `StatEffect` is

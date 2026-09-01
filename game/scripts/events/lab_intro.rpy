@@ -431,7 +431,7 @@ label lab_intro_2_patrol_courtyard (**kwargs):
     call Image_Series.show_image(image, 0, 1, 2) from _call_show_image_lab_intro_2_patrol_courtyard_1
     headmaster "Hey, what are you doing? That's dangerous!"
     $ image.show(3)
-    hatano "We're just camping!"
+    hatano "{i}They{/i} wanted to go camping. Don't look at me — I'm not the one who packed a gas burner into her bag."
     $ image.show(4)
     headmaster "Camping? But you're just on the school grounds!"
     $ image.show(5)
@@ -443,7 +443,7 @@ label lab_intro_2_patrol_courtyard (**kwargs):
     $ image.show(6)
     headmaster "I'm sorry, but I have to confiscate this gas burner."
     $ image.show(8)
-    hatano "But Mr. [headmaster_last_name]!"
+    hatano "Ugh, {i}finally{/i}. Do you have any idea what twenty minutes in wet grass does to a skirt like this?"
     $ image.show(9)
     headmaster "It's just not safe. If you want to go camping, then you should inquire about it with your teachers first."
     $ image.show(10)
@@ -669,7 +669,7 @@ label lab_intro_5 (**kwargs):
     headmaster_thought "I seem to be fine. I don't feel any effects yet."
     headmaster_thought "Though... I don't feel any effect at all."
     headmaster_thought "Maybe I'm just not susceptible to it. Nothing for me to be conditioned toward..."
-    headmaster_thought "The formula targets inhibition. Suppressed desire. If those aren't present in the subject to begin with..."
+    headmaster_thought "The formula works on inhibition — on suppressed desire. If there's nothing there to suppress in the first place..."
     headmaster_thought "Maybe it only works on women."
     headmaster_thought "At any rate — no adverse effects. The formula is sound. Time to move forward."
 
@@ -690,7 +690,7 @@ init 2 python:
             # ProgressCondition("lab_intro", 5),
     lab_intro_6_event = Event(3, "lab_intro_6",
             ReplayCategoryOption("lab_intro"),
-            Pattern("main", "images/events/lab_intro/lab_intro_5/lab_intro_5 <step>.png"),
+            Pattern("main", "images/events/lab_intro/lab_intro_6/lab_intro_6 <step>.png"),
             thumbnail = "images/events/lab/lab_intro_6_secret/lab_intro_6_secretary_talk 0.webp")
     office_building_call_secretary_events["talk"].add_event(lab_intro_6_event)
     test_events.add_event(lab_intro_6_event)
@@ -702,19 +702,19 @@ label lab_intro_6 (**kwargs):
 
     $ secretary_person = Person["emiko_langley"]
     $ secretary_person.register_paperdoll()
-    $ paperdoll_manager.set_background("images/background/office building/secretary 6 1 0.webp", blur = True)
+    $ paperdoll_manager.set_background("images/background/office building/f.webp", blur = True)
     $ secretary_person.display(PDAImage(pose = "12", outfit = "uniform", level = 6, mood = "suprised", mouth = "open"),
         PDAPreset("upper_body", duration = 0.0),
         PDAPreset("outside", duration = 0.0)
     )
 
-    headmaster "Emiko! Look, I tried to recreate the potion. Would you like to try it?"
+    headmaster "Emiko! There you are — I did it. I recreated it. The prototype's stable."
     $ secretary_person.display(PDAPreset("upper_body_center", duration = 1.0))
-    secretary "Hi"
+    secretary "Hello to you too. That's the good kind of manic face, I hope."
     $ secretary_person.display(PDAImage(pose = "12", mood = "neutral", mouth = "closed"))
-    headmaster "A potion prototype. I've already checked for unwanted side effects."
+    headmaster "A prototype. I've already taken a dose myself — no ill effects. But before it goes anywhere near anyone else, I want a second reading. Would you?"
     $ secretary_person.display(PDAImage(pose = "19", mood = "happy", mouth = "open"))
-    secretary "Sure, I'd like to try it."
+    secretary "If you made it, I'll drink it. Hand it over."
 
     $ secretary_person.clear_display()
 
@@ -728,17 +728,17 @@ label lab_intro_6 (**kwargs):
     $ image.hide()
     $ paperdoll_manager.set_background("images/background/office building/secretary 6 1 0.webp", blur = True)
     $ secretary_person.display(PDAImage(pose = "21", mood = "neutral", mouth = "open"))
-    secretary "Hmm. A little warmer. That's about it."
+    secretary "Hmm... a little warmer, maybe? Honestly — barely anything at all."
     $ secretary_person.display(PDAImage(pose = "10", mood = "neutral", mouth = "closed"))
     subtitles "Silence. Just the faint hum of the ventilation and the sound of his own breathing."
     $ secretary_person.display(PDAImage(pose = "10", mood = "happy", mouth = "closed"))
-    headmaster "Oh well. Worth a try. I'll go wider — students next."
+    headmaster "Figures. After what the original did to you, there's not much left in you for a diluted batch to stir — so your reading tells me almost nothing about a fresh subject. I'll need a cleaner test."
     $ secretary_person.display(PDAImage(pose = "10", mood = "happy", mouth = "open"))
-    secretary "Good luck!"
+    secretary "Then be careful — with the dose, and with whoever you give it to. This is supposed to help them, remember."
     $ secretary_person.display(PDAImage(pose = "10", mood = "happy", mouth = "closed"),
         PDAPreset("outside", duration = 1.0), PDAPause(duration = 1.0))
     $ image.show(3)
-    headmaster_thought "First I have to produce more."
+    headmaster_thought "She's right. Carefully, then. First — I need to produce more."
 
     $ set_progress("lab_intro", 6)
 
@@ -857,8 +857,8 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 #     headmaster_thought "Hmm, but then she would've been more susceptible to this potion. Technically, these potions should enhance the effects..."
 #     headmaster_thought "I should try it with other students to see if it works for them. Maybe I should also try a higher dose on Emiko."
     
-#     headmaster_thought "Heat sensitivity. Loss of self-awareness. Inhibition down, memory gaps."
-#     headmaster_thought "Short-lived. But it works."
+#     headmaster_thought "So that's the whole picture — the heat, the way she stopped watching herself, the inhibitions just dropping away. And afterward, gaps where the memory should be."
+#     headmaster_thought "It doesn't hold long — a few minutes, maybe. But it works. It actually works."
     
 #     # headmaster goes away
 
@@ -919,11 +919,11 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 #     finola "Luckily I had some other clothes here. This is a little more comfortable."
 #     zoe "Yes, I see. That top looks great on you. You should wear it more often!"
 #     finola "I don't know, it shows a little too much..."
-#     zoe "Oh, come on. You have an amazing body. You should show it off more!"
+#     zoe "Oh, come on — you've got a lovely figure. There's no shame in letting it show a little."
 #     finola "Do you think so? I'm not sure..."
-#     zoe "Of course I think so. You should be proud of your body. It's a gift from God."
+#     zoe "Of course. You should feel good in your own skin — that's all I mean."
 #     finola "I'll think about it..."
-#     zoe "Don't overthink it. Just do it. You'll feel great."
+#     zoe "No pressure. I just think you deserve to feel comfortable."
 
 #     # A few moments pass
 
@@ -1089,7 +1089,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
     
 #     gloria "Oh thank you! See, I told you guys it wasn't too grown-up."
     
-#     luna "Okay, okay, your turn now Luna!"
+#     lin "Okay, okay, your turn now Luna!"
     
 #     # IMAGE: Luna shaking her head, but smiling
 #     # Arms crossed loosely over chest
@@ -1140,7 +1140,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 #     headmaster "I—yes, they're lovely. But I should really be going now."
     
 #     headmaster_thought "Christ. She's standing there topless asking my opinion like we're discussing the weather."
-#     headmaster_thought "What happened here? This isn't normal teenage boundary-testing, this is something else entirely."
+#     headmaster_thought "What happened in here? Girls test boundaries, sure — but not like this. This wasn't them. Something did this to them."
     
 #     lin "Aww, already? We're having fun!"
     
@@ -1218,7 +1218,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 #     headmaster_thought "The cleaning solution. The girls in the classroom. Ishimaru just now."
 #     headmaster_thought "They all have that same look. That same lack of inhibition."
 #     headmaster_thought "And that smell—it's the same one in the classroom. Stronger near where the spill happened."
-#     headmaster_thought "Something in the cleaning chemicals reacted with the potion. Had to. But what?"
+#     headmaster_thought "Something in those cleaning chemicals reacted with the potion — it has to be. But which one?"
     
 #     $ set_progress("lab_intro", 10)
     
@@ -1298,7 +1298,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
     
 #     secretary "So multiple subjects, stronger effects, longer duration. Something was different."
     
-#     secretary_thought "*The catalyst worked even better than expected. But he doesn't know that's what it is yet.*"
+#     secretary_thought "*Whatever happened in that hallway, it's leagues past the first batch. And look at him — he hasn't been this alive in weeks.*"
     
 #     # IMAGE: Headmaster moving back to desk
 #     # Picking up the tissue with broken vial pieces
@@ -1338,7 +1338,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 
 #     secretary "Hmm."
 
-#     secretary_thought "*He doesn't realize it yet, but he's exactly where I need him. Desperate enough to push forward, limited enough to need my help.*"
+#     secretary_thought "*He's been carrying all of this on his own, and it's starting to wear on him. He doesn't have to — not while I'm here. Whatever he needs to push forward, I'll make sure he has it.*"
 
 #     # IMAGE: Secretary standing, gathering her folder
 #     # Professional smile
@@ -1358,7 +1358,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 
 #     headmaster "I won't."
 
-#     secretary_thought "*Tomorrow I'll plant the seeds. Teachers first, then parents. Then he'll see what's really possible.*"
+#     secretary_thought "*He's looking at this like he has to change the whole school by himself. He doesn't. I'll help him see that tomorrow.*"
 
 #     $ set_progress("lab_intro", 11)
 
@@ -1688,7 +1688,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 #     secretary "Other parents follow their lead. The institutional pressure disappears."
     
 #     # IMAGE: Headmaster writing names
-#     # Parker, Chen, Rodriguez, Thompson, Martinez
+#     # Parker, Chen, Anderson, Garcia, Ryan
 #     # The three PTA mothers
 #     # Simple target list
     
@@ -1717,7 +1717,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
     
 #     secretary "It's practical. I'm already setting up the refreshments anyway."
     
-#     secretary_thought "*He still doesn't know about the students' project. Better to keep those tracks separate.*"
+#     secretary_thought "*Better he doesn't know about the students' project yet — if it goes sideways, his hands stay clean. I'll carry that risk for him.*"
     
 #     # IMAGE: Both at desk
 #     # Notes spread between them
@@ -1897,7 +1897,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
     
 #     headmaster "Morning, Zoe."
     
-#     parker "Oh! You're here early."
+#     parker "Oh! You beat me here — that never happens."
     
 #     # IMAGE: Parker moving to coffee station
 #     # Blonde hair pulled back, professional attire
@@ -1938,22 +1938,22 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 #     # Greeting Parker and headmaster
 #     # Heading straight for coffee
     
-#     chen "Morning. Oh good, coffee's ready."
+#     chen "Morning. Good — it's already made. My first period doesn't forgive a slow start."
     
 #     # IMAGE: Chen pouring herself a large mug
 #     # Adding just a splash of milk
 #     # Drinking immediately despite the heat
     
-#     chen "Ah. Needed this."
+#     chen "...Precisely what I needed."
     
 #     # IMAGE: Time passing - 7:05 AM
 #     # Lily Anderson arriving
 #     # Auburn wavy hair, professional but warm demeanor
 #     # Followed shortly by Chloe Garcia
     
-#     anderson "Is there any— oh perfect, thanks for making it."
+#     anderson "Oh thank god — please tell me there's coffee. I was up past one with those essays, I can barely see straight."
     
-#     garcia "You're here early today."
+#     garcia "Someone made a full pot before eight. Who are you and what did you do with our headmaster?"
     
 #     headmaster "Early meeting prep. Help yourselves."
     
@@ -1972,7 +1972,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 #     # Rushing in slightly flustered
 #     # Immediately going for coffee
     
-#     ryan "Sorry, overslept. Is there still—"
+#     ryan "Sorry — I overslept, I never oversleep — is there any left?"
     
 #     chen "Plenty left."
     
@@ -2007,7 +2007,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 #     # Arms overhead, back arching
 #     # Her blouse riding up, exposing bare midriff
     
-#     anderson "God, I'm stiff this morning."
+#     anderson "God, I'm so stiff — I think I graded myself into knots last night."
 
 #     # IMAGE: Parker with red tracksuit jacket completely removed
 #     # Draped over back of chair
@@ -2017,9 +2017,9 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 #     # Completely comfortable in minimal upper body coverage
 #     # Legs crossed casually, relaxed posture
     
-#     parker "This coffee hit different today. Feel really relaxed."
+#     parker "This coffee's doing something — I feel loose. Good-loose."
     
-#     chen "Mm. Same actually."
+#     chen "...Hm. Same, oddly."
     
 #     # IMAGE: Chen and Ryan sitting close at same table
 #     # Shoulders touching, comfortable proximity
@@ -2176,7 +2176,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 #     $ adelaide = get_person_char_with_key("parents", "adelaide_hall")
 #     $ nubia = get_person_char_with_key("parents", "nubia_davis")
 #     $ yuki = get_person_char_with_key("parents", "yuki_yamamoto")
-#     $ yuriko = get_person_char_with_key("students", "yuriko_oshima")
+#     $ yuriko = get_person_char_with_key("class_3a", "yuriko_oshima")
     
 #     $ parker = get_person_char_with_key("staff", "zoe_parker")
 #     $ chen = get_person_char_with_key("staff", "yulan_chen")
@@ -2228,7 +2228,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 #     # Nubia and Yuki sitting together on opposite side
 #     # Setting bags down, getting comfortable
     
-#     nubia "The teachers aren't here yet?"
+#     nubia "Teachers not here yet? Figures."
     
 #     headmaster "They'll arrive at four. I appreciate you three coming early."
 #     headmaster "I have some refreshments if you'd like. Lemonade and cookies."
@@ -2256,7 +2256,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
     
 #     adelaide "This is good. Tart but not too sweet."
     
-#     nubia "Mm. Refreshing."
+#     nubia "Not bad. Beats the sludge from last time."
     
 #     # IMAGE: Mothers settling back into seats
 #     # Adelaide crossing legs, leaning back slightly
@@ -2273,7 +2273,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
     
 #     yuki "Soyoon's been happy. More social than usual."
     
-#     nubia "Same here. She seems more comfortable lately."
+#     nubia "Mine too. Less mopey, more herself. I'll take it."
     
 #     # IMAGE: Time showing 3:55 PM
 #     # Mothers finishing their first cups
@@ -2349,7 +2349,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 #     # Red crop top, midriff bare, completely comfortable
 #     # Nodding along
     
-#     nubia "That sounds fun. The kids would enjoy that."
+#     nubia "Kids'd love that. Do it."
     
 #     yuki "Agreed. When's it scheduled?"
     
@@ -2386,7 +2386,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
     
 #     adelaide "I support that."
     
-#     nubia "Makes sense to me."
+#     nubia "Yeah, fine. Next."
     
 #     # IMAGE: Meeting continuing smoothly
 #     # Parent-teacher conference dates set
@@ -2459,19 +2459,19 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 # label lab_intro_16 (**kwargs):
 #     $ begin_event(**kwargs)
 
-#     $ luna = get_person_char_with_key("class_3a", "luna_clark")
+#     $ gloria = get_person_char_with_key("class_3a", "gloria_goto")
 #     $ ishimaru = get_person_char_with_key("class_3a", "ishimaru_maki")
 #     $ lin = get_person_char_with_key("class_3a", "lin_kato")
 
 #     # IMAGE: Exterior of abandoned lab building, overgrown, late afternoon light
 #     # Three students approaching through the rusted gate
-#     # Ishimaru leading, Lin slightly behind, Luna observing everything
+#     # Ishimaru leading, Lin slightly behind, Gloria observing everything
 
 #     subtitles "Meanwhile at the old abandoned lab building."
 
 #     ishimaru "I can't believe they just left this place. Look at the size of it!"
 
-#     luna "The equipment alone is worth thousands. Even secondhand."
+#     gloria "The equipment alone is worth thousands. Even secondhand."
 
 #     lin "We're going to get in trouble."
 
@@ -2489,30 +2489,30 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 
 #     ishimaru "Okay this is actually kind of creepy."
 
-#     luna "Chemistry building. Pre-new-science-wing. Probably shut down mid-nineties."
+#     gloria "Chemistry building. Pre-new-science-wing. Probably shut down mid-nineties."
 
 #     lin "Please don't touch anything."
 
-#     luna "I'm not touching anything."
+#     gloria "I'm not touching anything."
 
 #     lin "You're touching that beaker."
 
-#     luna "I'm evaluating the beaker."
+#     gloria "I'm evaluating the beaker."
 
 #     # IMAGE: Old classroom/lab space
 #     # Dusty beakers and test tubes on shelves, ancient periodic table on wall
-#     # Ishimaru holding a flask up to the light, Luna examining labels, Lin hanging back
+#     # Ishimaru holding a flask up to the light, Gloria examining labels, Lin hanging back
 
 #     # They spread out without deciding to. Glassware sits abandoned on every surface,
 #     # a thin film of dust coating everything like ash.
 
 #     ishimaru "Think any of this still works? These look ancient."
 
-#     luna "Glassware, probably. Chemicals, no. Anything mechanical, unlikely."
+#     gloria "Glassware, probably. Chemicals, no. Anything mechanical, unlikely."
 
 #     lin "You sound like you're already planning to use it."
 
-#     luna "I'm not planning anything yet."
+#     gloria "I'm not planning anything yet."
 
 #     # IMAGE: Lin drifting toward the back of the room
 #     # Metal bookshelf leaning against the far wall, half in shadow
@@ -2531,14 +2531,14 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 #     # The notebook comes free with a soft scrape.
 #     # Lin holds it at arm's length for a second, like it might do something.
 
-#     luna "Let me see."
+#     gloria "Let me see."
 
 #     ishimaru "What is it?!"
 
 #     lin "A notebook. Hidden behind the shelf."
 
 #     # IMAGE: Three students gathered around the open notebook
-#     # Lin holding it, Ishimaru leaning over one shoulder, Luna over the other
+#     # Lin holding it, Ishimaru leaning over one shoulder, Gloria over the other
 #     # Pages covered in tight, precise handwriting — formulas, diagrams, margin notes
 
 #     # Chemical formulas sprawl across diagrams in dark ink.
@@ -2547,7 +2547,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 
 #     ishimaru "Whoa. Is this someone's actual research?"
 
-#     luna "Not student work. Look at the notation. Whoever wrote this knew exactly what they were doing."
+#     gloria "Not student work. Look at the notation. Whoever wrote this knew exactly what they were doing."
 
 #     lin "What's all this other stuff though. 'Subject responses.' 'Catalytic amplification.' That's not a chemistry class."
 
@@ -2559,7 +2559,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 
 #     ishimaru "Psychological effects?! Like what?!"
 
-#     luna "It doesn't say. That's intentional — someone ran tests, documented outcomes, kept the methodology separate from the results. That's a research protocol. A real one."
+#     gloria "It doesn't say. That's intentional — someone ran tests, documented outcomes, kept the methodology separate from the results. That's a research protocol. A real one."
 
 #     ishimaru "That is genuinely insane."
 
@@ -2569,27 +2569,27 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 
 #     lin "I know. That's why I said please."
 
-#     # IMAGE: Students' faces — Ishimaru excited, Lin unsettled, Luna thinking
+#     # IMAGE: Students' faces — Ishimaru excited, Lin unsettled, Gloria thinking
 
-#     luna "It's from before they shut this building down. Some old teacher, most likely."
+#     gloria "It's from before they shut this building down. Some old teacher, most likely."
 
 #     ishimaru "But why hide it?"
 
-#     luna "That's the interesting question."
+#     gloria "That's the interesting question."
 
 #     lin "Because they did something they weren't supposed to and needed to make it disappear?"
 
-#     luna "Better answer than I expected."
+#     gloria "Better answer than I expected."
 
 #     lin "Thanks. I think."
 
 #     # A beat. All three looking at the notebook, then at each other.
 
-#     luna "We need to actually understand what this is. Not guess — understand."
+#     gloria "We need to actually understand what this is. Not guess — understand."
 
 #     lin "How? This is way over our heads."
 
-#     luna "Bring textbooks tomorrow. Cross-reference the formulas. Work through it properly."
+#     gloria "Bring textbooks tomorrow. Cross-reference the formulas. Work through it properly."
 
 #     ishimaru "Yes. Same time, and we don't tell anyone—"
 
@@ -2602,7 +2602,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 #     # IMAGE: Students leaving the building
 #     # Notebook tucked under Lin's arm, held close
 #     # Afternoon sun lower now, long shadows across the overgrown path
-#     # Ishimaru practically bouncing, Luna already composing something in her head
+#     # Ishimaru practically bouncing, Gloria already composing something in her head
 #     # Lin telling herself she just wants to understand it. That's all.
 
 #     # They leave the way they came.
@@ -2618,7 +2618,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 # label lab_intro_17 (**kwargs):
 #     $ begin_event(**kwargs)
 
-#     $ luna = get_person_char_with_key("class_3a", "luna_clark")
+#     $ gloria = get_person_char_with_key("class_3a", "gloria_goto")
 #     $ ishimaru = get_person_char_with_key("class_3a", "ishimaru_maki")
 #     $ lin = get_person_char_with_key("class_3a", "lin_kato")
 
@@ -2627,11 +2627,11 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 #     # All three gathered around the old lab table, notebook open between them
 #     # Lin has a chemistry textbook open beside it, cross-referencing
 
-#     luna "'Dosage control' maps to compound quantity per subject. 'Subject compliance' is the one that doesn't fit medical usage."
+#     gloria "'Dosage control' maps to compound quantity per subject. 'Subject compliance' is the one that doesn't fit medical usage."
 
 #     ishimaru "What do you mean?"
 
-#     luna "In a research context, compliance implies the subjects weren't necessarily informed participants."
+#     gloria "In a research context, compliance implies the subjects weren't necessarily informed participants."
 
 #     lin "Can we please not figure out that someone was running non-consensual experiments in our school."
 
@@ -2639,11 +2639,11 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 
 #     lin "I know! I said please!"
 
-#     luna "We don't have enough data to conclude that yet."
+#     gloria "We don't have enough data to conclude that yet."
 
-#     lin "The phrase 'subject compliance' is doing a lot of work in that sentence, Luna."
+#     lin "The phrase 'subject compliance' is doing a lot of work in that sentence, Gloria."
 
-#     luna "...Fair."
+#     gloria "...Fair."
 
 #     # IMAGE: Doorway of the lab room
 #     # Secretary's silhouette in the frame, backlit by hallway light
@@ -2662,7 +2662,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 
 #     lin "We weren't doing anything bad—"
 
-#     luna "We found a research notebook hidden in the lab and we've been cross-referencing the methodology against our chemistry textbooks."
+#     gloria "We found a research notebook hidden in the lab and we've been cross-referencing the methodology against our chemistry textbooks."
 
 #     lin "...Or that. She said that."
 
@@ -2703,13 +2703,13 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 
 #     # IMAGE: Students' reactions
 #     # Ishimaru's eyebrows shooting up, Lin looking skeptical
-#     # Luna tilting her head slightly, recalibrating
+#     # Gloria tilting her head slightly, recalibrating
 
 #     ishimaru "Wait — seriously?!"
 
 #     lin "That's not a real thing."
 
-#     luna "She didn't say magic."
+#     gloria "She didn't say magic."
 
 #     secretary "Exactly. Not magic — chemistry. Mood, perception, emotional receptivity. It's a chemical way of making people more... open to connection."
 
@@ -2719,7 +2719,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 #     # Finger deliberately highlighting the softer-sounding notes
 #     # Carefully avoiding the clinical terms
 
-#     luna "So it's pharmacology."
+#     gloria "So it's pharmacology."
 
 #     secretary "In the most charming possible application, yes."
 
@@ -2733,11 +2733,11 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 
 #     secretary "It would be quite advanced. But... educational. Chemistry in action. Practical application of theory."
 
-#     luna "More rigorous than anything we do in actual class."
+#     gloria "More rigorous than anything we do in actual class."
 
 #     lin "You've already decided we're doing this."
 
-#     luna "About two minutes ago."
+#     gloria "About two minutes ago."
 
 #     lin "..."
 
@@ -2747,7 +2747,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 
 #     lin "We'll be careful."
 
-#     luna "I'll document everything properly."
+#     gloria "I'll document everything properly."
 
 #     lin "Of course you will."
 
@@ -2779,7 +2779,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 # label lab_intro_18 (**kwargs):
 #     $ begin_event(**kwargs)
 
-#     $ luna = get_person_char_with_key("class_3a", "luna_clark")
+#     $ gloria = get_person_char_with_key("class_3a", "gloria_goto")
 #     $ ishimaru = get_person_char_with_key("class_3a", "ishimaru_maki")
 #     $ lin = get_person_char_with_key("class_3a", "lin_kato")
 
@@ -2787,15 +2787,15 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 #     # All three searching through cabinets and shelves
 #     # Ishimaru on a chair reaching the high cabinets
 #     # Lin examining glassware on the counter, checking each piece carefully
-#     # Luna working through a lower shelf methodically, already keeping a list
+#     # Gloria working through a lower shelf methodically, already keeping a list
 
 #     ishimaru "Found a whole set of beakers up here! Different sizes!"
 
-#     luna "Check the rims for chips before you add them to the pile. A cracked beaker can shatter under sustained heat."
+#     gloria "Check the rims for chips before you add them to the pile. A cracked beaker can shatter under sustained heat."
 
 #     ishimaru "They look fine."
 
-#     luna "Check properly."
+#     gloria "Check properly."
 
 #     ishimaru "...They look fine upon closer inspection."
 
@@ -2805,7 +2805,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 
 #     lin "This cylinder's perfect. No cracks, measurements still readable."
 
-#     luna "That's our most important piece for accurate dosing."
+#     gloria "That's our most important piece for accurate dosing."
 
 #     lin "I still can't believe I just said 'accurate dosing' like it's something I say."
 
@@ -2813,25 +2813,25 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 #     # Beakers, test tubes, flasks, stirring rods arranged in a growing pile
 #     # Notebook open beside them for reference
 
-#     luna "Glassware is covered. We're missing a heat source and the actual compounds."
+#     gloria "Glassware is covered. We're missing a heat source and the actual compounds."
 
 #     ishimaru "Yeah, there's no way any chemicals are still here. They would've cleared those out decades ago."
 
-#     # IMAGE: Luna pulling open a deep drawer
+#     # IMAGE: Gloria pulling open a deep drawer
 #     # Wrinkling her nose at the smell
 #     # Reaching in carefully, testing what she finds
 
-#     luna "This drawer smells like something died in it in 1994."
+#     gloria "This drawer smells like something died in it in 1994."
 
-#     luna "But there's rubber tubing in here that might still flex. And glass stirring rods."
+#     gloria "But there's rubber tubing in here that might still flex. And glass stirring rods."
 
 #     ishimaru "Glass doesn't expire, right?"
 
-#     luna "Correct. Adding them to the list."
+#     gloria "Correct. Adding them to the list."
 
 #     lin "You have a list?"
 
-#     luna "I've had a list since yesterday."
+#     gloria "I've had a list since yesterday."
 
 #     lin "Of course you have."
 
@@ -2871,7 +2871,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 
 #     secretary "I've been here a long time. You learn where everything's buried."
 
-#     # IMAGE: Luna and Lin going through the chemical bottles
+#     # IMAGE: Gloria and Lin going through the chemical bottles
 #     # Reading labels carefully, comparing to the notebook
 #     # Ishimaru already inspecting the heating plate, turning it over
 
@@ -2879,7 +2879,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 
 #     secretary "Almost. You'll need a few organic compounds I couldn't source — nothing dangerous, just specialized. Available online, any chemistry supply shop."
 
-#     luna "We can split the cost."
+#     gloria "We can split the cost."
 
 #     # IMAGE: Secretary pulling safety goggles and gloves from the bottom of the box
 #     # Handing them out, expression shifting to something more serious
@@ -2923,24 +2923,24 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 
 #     ishimaru "She believes in us."
 
-#     luna "She believes in the project."
+#     gloria "She believes in the project."
 
-#     lin "That is the most Luna thing you have ever said."
+#     lin "That is the most Gloria thing you have ever said."
 
-#     luna "Thank you."
+#     gloria "Thank you."
 
 #     lin "It wasn't a compliment."
 
-#     luna "I know. I took it as one anyway."
+#     gloria "I know. I took it as one anyway."
 
-#     # IMAGE: Luna closing the notebook carefully
+#     # IMAGE: Gloria closing the notebook carefully
 #     # All three looking at each other, then at the equipment
 
 #     ishimaru "I'll handle the online order tonight. Split it three ways?"
 
 #     lin "Deal."
 
-#     luna "I'll have the methodology written up before the ingredients arrive. So we're not improvising when it actually matters."
+#     gloria "I'll have the methodology written up before the ingredients arrive. So we're not improvising when it actually matters."
 
 #     ishimaru "This weekend is going to be incredible."
 
@@ -2948,7 +2948,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 
 #     lin "This is either the coolest thing I've ever done or we're getting expelled."
 
-#     luna "Statistically, both can be true."
+#     gloria "Statistically, both can be true."
 
 #     $ set_progress("lab_intro_discovery", 3)
 
@@ -3253,7 +3253,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
     
 #     student_1 "We will. Thank you so much for all your help, Ms. [secretary_last_name]."
     
-#     secretary "My pleasure. This is what education should be—hands-on, engaging, real."
+#     secretary "My pleasure. Watching you three work it out yourselves — that's the part I like."
     
 #     secretary_thought "*And once they enhance this formula with the catalyst, they'll dose themselves and their friends with the perfected version. No coercion needed. They'll do it willingly.*"
     
@@ -3291,7 +3291,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
     
 #     $ student1_key = get_values('student1', 'gloria_goto', **kwargs)
 #     $ student2_key = get_values('student2', 'lin_kato', **kwargs)
-#     $ student3_key = get_values('student3', 'aona_komuro', **kwargs)
+#     $ student3_key = get_values('student3', 'ishimaru_maki', **kwargs)
     
 #     $ student1 = Person[student1_key].get_renpy_char()
 #     $ student2 = Person[student2_key].get_renpy_char()
@@ -3394,7 +3394,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 #     secretary "Exactly what a love potion should do, just... better."
     
 #     secretary_thought "*They have no idea they're about to dose themselves with the perfected formula.*"
-#     secretary_thought "*Perfect little test subjects. Twenty students, all at once.*"
+#     secretary_thought "*Twenty of them, all at once — and every one will wake up a little freer than she went to sleep.*"
     
 #     # IMAGE: Student holding vial up to light
 #     # Clear liquid, unremarkable looking
@@ -3528,9 +3528,9 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 #         # Already several paces away, not looking back
 #         # Bag over one shoulder, steps unhurried
 
-#         secretary_thought "*He'll find out when the students hit Level 3 before he expects.*"
+#         secretary_thought "*The students will shift faster than he's braced for.*"
 #         secretary_thought "*But by then the momentum will be irreversible.*"
-#         secretary_thought "*The best experiments are the ones where the subjects never realize they're being studied.*"
+#         secretary_thought "*The gentlest push is the one they never feel — they'll just wake up more themselves.*"
 
 #         # IMAGE: Student 3 setting the bottle back in the row
 #         # Carefully. Like it might wake up
@@ -4383,9 +4383,9 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
     
     # secretary "Public displays of affection. Between girls. No one's stopping it because everyone's baseline shifted."
     
-    # headmaster "Teachers dosed. Parents dosed. Students comfortable."
+    # headmaster "And none of them look coerced. They look... comfortable. Like something finally loosened."
     
-    # secretary "Exactly. Convergence."
+    # secretary "That's the point. Not forced — freed. We didn't make them into something. We let them stop pretending."
     
     # # IMAGE: Returning to office
     # # Both sitting, headmaster at desk, secretary across
@@ -4476,7 +4476,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
     # # Processing everything
     
     # headmaster_thought "Teachers. Parents. Students. All dosed in one weekend."
-    # headmaster_thought "The experiment exceeded my control. But it's succeeding."
+    # headmaster_thought "It exceeded my control. But look at them — lighter, easier in their own skin. It's working. And no one got hurt."
     
     # # IMAGE: Headmaster at window again
     # # Watching campus

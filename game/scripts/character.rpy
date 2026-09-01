@@ -1407,7 +1407,7 @@ label load_characters ():
     ))
     $ load_person("staff", Person("finola_ryan", "Finola", "Ryan", teacher_char, [
             ["• Height: 169.0 cm", "• Bra Size 65DD (E)", "• B-W-H: 78-65-88 cm", "• Waist-to-Hips: 0.745"],
-            "Subjects: English, History",
+            "Subjects: English, Geography",
         ],
     ))
     $ load_person("staff", Person("lily_anderson", "Lily", "Anderson", teacher_char, [

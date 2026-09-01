@@ -12,6 +12,8 @@ ones in the game now, not the outdated lists.
 - **[Unlocks](Walkthrough-Unlocks)** — cafeteria, school jobs, student
   relationships, sex education, school levels
 - **[Locations](Walkthrough-Locations)** — regular events by building and action
+- **[School Levels](School-Levels)** — what each campus level *looks and sounds*
+  like (dress, talk, behaviour)
 
 See also the **[Player Guide](Player-Guide)** and the **[Characters](Characters)**.
 
@@ -66,4 +68,5 @@ Weekdays are Monday–Friday. Weekends are Saturday–Sunday.
    **[lab intro](Walkthrough-Event-Chains#lab-intro)**.
 
 Higher school levels (3–10) currently use **temporary journal unlocks**. Not
-every event has art or variants at those levels yet.
+every event has art or variants at those levels yet. What each level *means*
+(dress, talk, behaviour) is on **[School Levels](School-Levels)**.

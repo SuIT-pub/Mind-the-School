@@ -13,6 +13,7 @@ Canonical guide: **`wiki/Conditions.md`**. Read it before writing, combining, or
 - Options that attach to conditions: `wiki/Options.md`
 - Selectors some conditions accept as `value`: `wiki/Selectors.md`
 - Effects (what happens after a gate passes): `wiki/Effects.md`
+- What `LevelCondition` on `"school"` *means* in play: `wiki/School-Levels.md`
 
 ## Code
 

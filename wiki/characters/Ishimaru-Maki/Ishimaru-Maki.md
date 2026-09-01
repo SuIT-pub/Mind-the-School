@@ -1,5 +1,8 @@
 [Home](Home) › [Characters](Characters) › [Class 3A](Characters#students) › Ishimaru Maki
 
+| [<kbd>← Ikushi Ito</kbd>](Ikushi-Ito) | [<kbd>All characters</kbd>](Characters) | [<kbd>Kokoro Nakamura →</kbd>](Kokoro-Nakamura) |
+|:---|:---:|---:|
+
 **Class 3A · Student**
 
 Ishimaru Maki is a student in class 3A.
@@ -10,6 +13,32 @@ Ishimaru Maki is a student in class 3A.
 - Bra size: 70B
 - Bust–waist–hips: 75–68–91 cm
 - Waist-to-hips: 0.743
+
+## Appearance
+
+A sleek blue-black bob with blunt, straight bangs, dark eyes, and fair skin. She's
+one of the taller, leaner girls, with a slim build and a moderate bust. Natural
+makeup, no standing jewellery.
+
+**Uniform across the levels.** Ishimaru keeps white over-the-knee thigh-high socks
+on at every level as her consistent note, and her styling mixes preppy with a
+faintly edgy streak. At level 1 it's tidy and layered — a white blouse under a knit
+sleeveless sweater-vest with the plaid pleated skirt; by level 5 a sheer lace-up
+camisole over layered plaid-and-white skirting with a small chain detail; by level
+10 a fishnet off-shoulder mesh top baring her chest above a tiny asymmetric plaid
+micro-skirt. The fishnet-and-lace edge higher up suits the band-girl side of her —
+the guitarist, not just the wholesome type.
+
+## Personality
+
+Enthusiastic, fun-loving, and a little clumsy. Ishimaru is a dedicated
+guitarist — it's her clear passion and her instant answer to "favourite hobby" —
+and she's the type who brings the card game and keeps the group entertained. Warm
+and quick to apologise when she bumps into things or people.
+
+**Level progression.** Her upbeat, game-for-anything streak carries her along as
+the campus climate rises (see [School Levels](School-Levels)); she joins in
+readily without being the one leading it.
 
 ## Portrait
 
@@ -31,7 +60,7 @@ Names come from the Honey Select 2 coordinate card. Click an image to open the o
 
 | Level 08 | Level 09 | Level 10 |
 |:---:|:---:|:---:|
-| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Ishimaru-Maki/outfits/HS2CoordeF_20240926180745770.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Ishimaru-Maki/outfits/HS2CoordeF_20240926180745770.png" alt="Ishimaru Maki — Level 08" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Ishimaru-Maki/outfits/HS2CoordeF_20240926181119652.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Ishimaru-Maki/outfits/HS2CoordeF_20240926181119652.png" alt="Ishimaru Maki — Level 09" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Ishimaru-Maki/outfits/HS2CoordeF_20240926181132222.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Ishimaru-Maki/outfits/HS2CoordeF_20240926181132222.png" alt="Ishimaru Maki — Level 10" width="160"></a> |
+| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Ishimaru-Maki/outfits/HS2CoordeF_20240926180745770.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Ishimaru-Maki/outfits/HS2CoordeF_20240926180745770.preview.png" alt="Ishimaru Maki — Level 08" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Ishimaru-Maki/outfits/HS2CoordeF_20240926181119652.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Ishimaru-Maki/outfits/HS2CoordeF_20240926181119652.png" alt="Ishimaru Maki — Level 09" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Ishimaru-Maki/outfits/HS2CoordeF_20240926181132222.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Ishimaru-Maki/outfits/HS2CoordeF_20240926181132222.png" alt="Ishimaru Maki — Level 10" width="160"></a> |
 
 ### Pajamas
 
@@ -41,8 +70,11 @@ Names come from the Honey Select 2 coordinate card. Click an image to open the o
 
 | Pajama 05 | Pajama 06 | Pajama 07 | Pajama 08 |
 |:---:|:---:|:---:|:---:|
-| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Ishimaru-Maki/outfits/HS2CoordeF_20250617171348389.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Ishimaru-Maki/outfits/HS2CoordeF_20250617171348389.png" alt="Ishimaru Maki — Pajama 05" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Ishimaru-Maki/outfits/HS2CoordeF_20250617171602575.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Ishimaru-Maki/outfits/HS2CoordeF_20250617171602575.png" alt="Ishimaru Maki — Pajama 06" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Ishimaru-Maki/outfits/HS2CoordeF_20250617171630685.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Ishimaru-Maki/outfits/HS2CoordeF_20250617171630685.png" alt="Ishimaru Maki — Pajama 07" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Ishimaru-Maki/outfits/HS2CoordeF_20250617171647011.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Ishimaru-Maki/outfits/HS2CoordeF_20250617171647011.png" alt="Ishimaru Maki — Pajama 08" width="160"></a> |
+| <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Ishimaru-Maki/outfits/HS2CoordeF_20250617171348389.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Ishimaru-Maki/outfits/HS2CoordeF_20250617171348389.png" alt="Ishimaru Maki — Pajama 05" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Ishimaru-Maki/outfits/HS2CoordeF_20250617171602575.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Ishimaru-Maki/outfits/HS2CoordeF_20250617171602575.preview.png" alt="Ishimaru Maki — Pajama 06" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Ishimaru-Maki/outfits/HS2CoordeF_20250617171630685.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Ishimaru-Maki/outfits/HS2CoordeF_20250617171630685.png" alt="Ishimaru Maki — Pajama 07" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Ishimaru-Maki/outfits/HS2CoordeF_20250617171647011.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Ishimaru-Maki/outfits/HS2CoordeF_20250617171647011.png" alt="Ishimaru Maki — Pajama 08" width="160"></a> |
 
 | Pajama 09 | Pajama 10 |
 |:---:|:---:|
 | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Ishimaru-Maki/outfits/HS2CoordeF_20250617171701880.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Ishimaru-Maki/outfits/HS2CoordeF_20250617171701880.png" alt="Ishimaru Maki — Pajama 09" width="160"></a> | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Ishimaru-Maki/outfits/HS2CoordeF_20250617171714770.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Ishimaru-Maki/outfits/HS2CoordeF_20250617171714770.png" alt="Ishimaru Maki — Pajama 10" width="160"></a> |
+
+| [<kbd>← Ikushi Ito</kbd>](Ikushi-Ito) | [<kbd>All characters</kbd>](Characters) | [<kbd>Kokoro Nakamura →</kbd>](Kokoro-Nakamura) |
+|:---|:---:|---:|

@@ -9,12 +9,17 @@ portrait or name to open that character's page.
 > page to open the raw file, then save it **under the same name** — do not
 > rename, recompress, or re-export.
 
+Outfit galleries are labeled **Level 00–10**. Those numbers are the school-level
+scale (campus climate). What each step should look and sound like is on
+**[School Levels](School-Levels)** — Level 00 is the pre-game conservative card;
+playable climate starts at 1.
+
 <a id="students"></a>
 ## Students (Class 3A)
 
 | [Aona Komuro](Aona-Komuro) | [Easkey Tanaka](Easkey-Tanaka) | [Elsie Johnson](Elsie-Johnson) | [Gloria Goto](Gloria-Goto) |
 |:---:|:---:|:---:|:---:|
-| <a href="Aona-Komuro"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Aona-Komuro/HS2ChaF_20240813202856752_Aona%20Komuro_SuIT.png" alt="Aona Komuro" width="160"></a> | <a href="Easkey-Tanaka"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Easkey-Tanaka/HS2ChaF_20240813204148046_Easkey%20Tanaka_SuIT.png" alt="Easkey Tanaka" width="160"></a> | <a href="Elsie-Johnson"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Elsie-Johnson/HS2ChaF_20240813204506525_Elsie%E3%83%BBJohnson_SuIT.png" alt="Elsie Johnson" width="160"></a> | <a href="Gloria-Goto"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Gloria-Goto/HS2ChaF_20240813203321835_Gloria%20Goto_SuIT.png" alt="Gloria Goto" width="160"></a> |
+| <a href="Aona-Komuro"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Aona-Komuro/HS2ChaF_20240813202856752_Aona%20Komuro_SuIT.png" alt="Aona Komuro" width="160"></a> | <a href="Easkey-Tanaka"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Easkey-Tanaka/HS2ChaF_20240813204148046_Easkey%20Tanaka_SuIT.png" alt="Easkey Tanaka" width="160"></a> | <a href="Elsie-Johnson"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Elsie-Johnson/HS2ChaF_20240813204506525_Elsie%E3%83%BBJohnson_SuIT.png" alt="Elsie Johnson" width="160"></a> | <a href="Gloria-Goto"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Gloria-Goto/HS2ChaF_20240813203321835_Gloria%20Goto_SuIT.preview.png" alt="Gloria Goto" width="160"></a> |
 
 | [Luna Clark](Luna-Clark) | [Seraphina Clark](Seraphina-Clark) | [Hatano Miwa](Hatano-Miwa) | [Ikushi Ito](Ikushi-Ito) |
 |:---:|:---:|:---:|:---:|

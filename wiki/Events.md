@@ -8,7 +8,9 @@
 > `menu.rpy`, `gallery.rpy`, `character.rpy`) and how content files wire it up. Events
 > lean on: [Conditions](Conditions) (gates), [Selectors](Selectors) (dynamic values),
 > [Effects](Effects) / [Modifiers](Modifiers) (consequences), [Options](Options)
-> (flags), and [Building Situations](Building-Situations) (event pools).
+> (flags), [Building Situations](Building-Situations) (event pools), and
+> [School Levels](School-Levels) (what the campus *sounds and looks like* at the
+> current school level).
 
 ---
 
@@ -219,6 +221,10 @@ truth_or_dare_event_1 = Event(3, "truth_or_dare_1",
     Pattern("main", base_path + "truth_or_dare_1/truth_or_dare_1 <school_level> <step>.webp"),
     thumbnail=base_path + "truth_or_dare_1/truth_or_dare_1 6 2.webp")
 ```
+
+`LevelCondition("2,3", char_obj="school")` is a climate gate: only fire this
+scene while the campus is at those [school levels](School-Levels). Put
+`<school_level>` in the pattern so the stills match.
 
 ---
 
@@ -791,6 +797,9 @@ init 1 python:
 - **Set the mod context** before building `Pattern`s so images redirect.
 - **Ship a `start_image`** next to every `Movie`.
 - **Priority intent:** `3` ambient, `2` always-run, `1` blocking interrupt.
+- **Match the school level.** Dialogue, stills (`<school_level>`), and
+  paperdoll `level=` must agree with the climate in [School Levels](School-Levels).
+  Gate with `LevelCondition`; if the event spans a wide range, branch the text.
 
 ---
 
@@ -866,4 +875,4 @@ dialogue box when a prompt line is shown.
 - `game/scripts/character.rpy` — `Person`, `get_person_char*`
 - `game/scripts/buildings/*.rpy` — real pools & definitions (e.g. `cafeteria.rpy`)
 - `game/scripts/events/*.rpy` — real scene labels (e.g. `truth_or_dare.rpy`, `teaching_lessons.rpy`)
-- [Images](Images) · [Conditions](Conditions) · [Selectors](Selectors) · [Effects](Effects) · [Modifiers](Modifiers) · [Options](Options) · [Building Situations](Building-Situations)
+- [Images](Images) · [Conditions](Conditions) · [Selectors](Selectors) · [Effects](Effects) · [Modifiers](Modifiers) · [Options](Options) · [Building Situations](Building-Situations) · [School Levels](School-Levels)

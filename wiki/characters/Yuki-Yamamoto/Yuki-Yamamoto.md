@@ -1,5 +1,8 @@
 [Home](Home) › [Characters](Characters) › [Parents](Characters#parents) › Yuki Yamamoto
 
+| [<kbd>← Nubia Davis</kbd>](Nubia-Davis) | [<kbd>All characters</kbd>](Characters) | [<kbd>Aona Komuro →</kbd>](Aona-Komuro) |
+|:---|:---:|---:|
+
 **Parent**
 
 Yuki Yamamoto is a parent character and the mother of
@@ -12,6 +15,33 @@ Yuki Yamamoto is a parent character and the mother of
 - Bust–waist–hips: 77–67–94 cm
 - Waist-to-hips: 0.713
 - Mother of [Soyoon Yamamoto](Soyoon-Yamamoto)
+
+## Personality
+
+A protective, conservative parent. Yuki's reflex is that these things belong at
+home with the parents, and she voices her doubts plainly — but she can see the
+benefits when they're laid out, and comes around rather than digging in. She's
+the mother of [Soyoon Yamamoto](Soyoon-Yamamoto).
+
+**Level progression.** As the campus climate rises (see [School Levels](School-Levels))
+she's persuadable, following rather than resisting once the argument is made.
+
+## Appearance
+
+Long blue-black hair with a faint blue sheen, worn side-swept with a loose braid,
+and striking reddish-pink eyes. Very fair skin, and a
+slim, elegant hourglass — a moderate-full bust, narrow waist, and long legs. She's
+the mother of [Soyoon Yamamoto](Soyoon-Yamamoto), and shares her daughter's black
+hair and pale colouring in a longer, more mature form.
+
+**Signature look across the levels.** As a parent Yuki wears her own clothes in a
+consistently sleek, dark monochrome — black with white and grey accents, and the
+same tan knit trainers throughout. At level 1 it's sporty and covered: a black
+mock-neck crop with contrast white sleeves and black leggings; by level 5 a black
+cami crop and a slit black mini with a white belt; at level 7 a sheer mesh crop
+over a bra with the black mini; by level 10 a sheer bandeau and harness over a
+black slit skirt. The look stays composed and put-together — sleek and monochrome
+all the way up rather than playful or bright.
 
 ## Portrait
 
@@ -40,3 +70,6 @@ Names come from the Honey Select 2 coordinate card. Click an image to open the o
 | Bathwear 01 |
 |:---:|
 | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yuki-Yamamoto/outfits/HS2CoordeF_20240812155054009.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Yuki-Yamamoto/outfits/HS2CoordeF_20240812155054009.png" alt="Yuki Yamamoto — Bathwear 01" width="160"></a> |
+
+| [<kbd>← Nubia Davis</kbd>](Nubia-Davis) | [<kbd>All characters</kbd>](Characters) | [<kbd>Aona Komuro →</kbd>](Aona-Komuro) |
+|:---|:---:|---:|

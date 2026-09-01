@@ -25,6 +25,7 @@ here and publish with the sync script.
 | `Cheat-Menu.md` | 🎛️ tools |
 | `Developer-Guide.md` | 🛠️ developer section landing |
 | `Modding.md` | 🛠️ modding quick-start |
+| `School-Levels.md` | 🎮 / 🛠️ campus climate (levels 1–10) |
 | `Building-Situations.md`, `Building-Unlockables.md` | 🛠️ content guides |
 | `Events.md`, `Conditions.md`, `Selectors.md`, `Effects.md`, `Modifiers.md`, `Options.md`, `Paperdoll.md`, `Images.md` | 🛠️ system guides |
 

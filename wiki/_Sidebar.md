@@ -7,6 +7,7 @@
 **🎮 Players**
 
 - [Player Guide](Player-Guide)
+- [School Levels](School-Levels)
 
 <details>
 <summary>Walkthroughs</summary>
@@ -117,6 +118,19 @@ _Parents_
 #### Content guides
 
 <blockquote>
+
+<details>
+<summary>School Levels</summary>
+
+- [School Levels](School-Levels)
+- [What a school level is](School-Levels#1-what-a-school-level-is)
+- [Other level tracks](School-Levels#2-other-level-tracks)
+- [How the number moves today](School-Levels#3-how-the-number-moves-today)
+- [At a glance](School-Levels#4-at-a-glance)
+- [The ten levels](School-Levels#5-the-ten-levels)
+- [Writing and art](School-Levels#6-writing-and-art)
+
+</details>
 
 <details>
 <summary>Building Situations</summary>

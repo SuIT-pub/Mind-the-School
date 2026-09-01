@@ -1,5 +1,8 @@
 [Home](Home) › [Characters](Characters) › [Class 3A](Characters#students) › Ikushi Ito
 
+| [<kbd>← Hatano Miwa</kbd>](Hatano-Miwa) | [<kbd>All characters</kbd>](Characters) | [<kbd>Ishimaru Maki →</kbd>](Ishimaru-Maki) |
+|:---|:---:|---:|
+
 **Class 3A · Student**
 
 Ikushi Ito is a student in class 3A.
@@ -10,6 +13,33 @@ Ikushi Ito is a student in class 3A.
 - Bra size: 65G (DDDD)
 - Bust–waist–hips: 82–62–92 cm
 - Waist-to-hips: 0.678
+
+## Appearance
+
+Silver-grey hair in a short bob with a fringe, and striking golden-amber eyes — an
+unusual, eye-catching combination. Fair skin, and a curvy figure with a notably
+full bust on an otherwise slim frame. Natural makeup, no standing jewellery.
+
+**Uniform across the levels.** Ikushi wears the standard uniform with a red neck
+accent as her recurring note — a neat red bow at the collar early on, a red plaid
+necktie later. At level 1 it's a tidy white blouse with the bow and a plaid pleated
+mini; by level 5 the blouse has gone sheer over a lilac lace bra with the tie
+loosened; by level 10 it's an underbust lace-up corset that leaves her chest bare,
+the plaid tie hanging between, with a choker and a micro skirt. Her look reads less
+*restyled* than *undone* — neat and buttoned when she's composed, progressively
+loosened from there.
+
+## Personality
+
+Shy but game. Ikushi is bashful about intimate questions yet fundamentally
+honest, and she caves to peer pressure only to own it a moment later ("Fine,
+I'll do it!"). Stoic about small hurts ("No, I'm fine"), quietly curious, and
+openly a little smitten with the Headmaster.
+
+**Level progression.** At low levels her shyness fights her curiosity and the
+group usually has to talk her into things. As the campus climate rises (see
+[School Levels](School-Levels)) the hesitation thins and she goes along more
+freely — still more follower than instigator.
 
 ## Portrait
 
@@ -52,3 +82,6 @@ Names come from the Honey Select 2 coordinate card. Click an image to open the o
 | Party 01 |
 |:---:|
 | <a href="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Ikushi-Ito/outfits/HS2CoordeF_20251028174709200.png"><img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/characters/Ikushi-Ito/outfits/HS2CoordeF_20251028174709200.png" alt="Ikushi Ito — Party 01" width="160"></a> |
+
+| [<kbd>← Hatano Miwa</kbd>](Hatano-Miwa) | [<kbd>All characters</kbd>](Characters) | [<kbd>Ishimaru Maki →</kbd>](Ishimaru-Maki) |
+|:---|:---:|---:|
