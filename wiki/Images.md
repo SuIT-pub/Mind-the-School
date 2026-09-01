@@ -93,7 +93,7 @@ Typical filenames on disk:
 ```text
 images/events/cafeteria/snack_chat/muffin 0.webp
 images/events/cafeteria/snack_chat/muffin 1.webp
-images/paperdoll/Emiko/bottom/Emiko $ 1 uniform 6 $.png
+images/paperdoll/Emiko/bottom/Emiko $ 1 uniform 6 $ $.png
 ```
 
 `$` is **not** a placeholder. It is the character the game writes into the filename
@@ -276,9 +276,12 @@ Candidates, in order (requested `char=emiko`, `outfit=uniform`, `level=6`):
 
 The first that exists (as `.webp` or `.png`) wins.
 
-Paperdoll character layers use `alt_keys = ["level", "mouth", "state", "char_var"]`.
-Event patterns pass alternative keys as extra constructor args:
-`Pattern("main", path, "level", "variant")`.
+Paperdoll character layers use
+`alt_keys = ["level", "mouth", "state", "char_var", "extra1", "extra2"]`.
+`look` (`follow` / `avert`) is **not** an alternative — both gaze files must exist.
+`extra1` (body) and `extra2` (head) are optional special-sprite tokens; empty or
+missing extras fall back to `$`. Event patterns pass alternative keys as extra
+constructor args: `Pattern("main", path, "level", "variant")`.
 
 `$` must appear in the **filename** on disk for a fallback to work. A missing
 specific file with no `$` sibling is a miss, not a silent skip of that token.

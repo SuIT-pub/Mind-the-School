@@ -781,10 +781,10 @@ label test_event (**kwargs):
     $ luna.register_paperdoll(level = 10, mood = "happy", mouth = "closed")
     $ emiko.register_paperdoll(level = 9, mood = "neutral", mouth = "closed", pose = "35")
     # $ paperdoll_manager.set_background("images/background/school building/9 0 1.webp", blur = True)
-    $ luna.display(PDAPreset("close_body_left"), PDABw(True))
+    $ luna.display(PDAPreset("close_body_left"))
     $ emiko.display(PDAPreset("close_body_right"), PDAMove(alignX = 1.0))
     $ renpy.pause()
-    $ luna.display(PDAImage(level = 9), PDABlur(10.0, duration = 3.0))
+    $ luna.display(PDAImage(level = 9), PDABlur(10.0, duration = 3.0), PDAColor("#33338888", duration = 1.0))
     $ paperdoll_manager.set_background("images/background/school building/9 0 1.webp", blur = False)
     $ renpy.pause()
 
@@ -802,6 +802,9 @@ label show_paperdoll_test():
     $ paperdoll_test_state = ""
     $ paperdoll_test_emotion = ""
     $ paperdoll_test_mouth = ""
+    $ paperdoll_test_look = ""
+    $ paperdoll_test_extra1 = ""
+    $ paperdoll_test_extra2 = ""
 
     $ old_paperdoll_test_character = paperdoll_test_character
     $ old_paperdoll_test_pose = paperdoll_test_pose
@@ -816,6 +819,9 @@ label show_paperdoll_test():
 
     $ paperdoll_test_state_values = []
     $ paperdoll_test_level_values = []
+    $ paperdoll_test_look_values = []
+    $ paperdoll_test_extra1_values = []
+    $ paperdoll_test_extra2_values = []
 
     $ paperdoll_show_selection = True
     $ paperdoll_show_values = True
@@ -885,10 +891,38 @@ label show_paperdoll_test():
             $ log_val("paperdoll_test_state_values", paperdoll_test_state_values)
             $ log_val("paperdoll_test_state", paperdoll_test_state)
 
+            $ paperdoll_test_refresh_option_lists()
+            $ log_val("paperdoll_test_look", paperdoll_test_look)
+            $ log_val("paperdoll_test_extra1", paperdoll_test_extra1)
+            $ log_val("paperdoll_test_extra2", paperdoll_test_extra2)
+
             if paperdoll_active_preset is not None:
                 $ paperdoll_sync_preset_to_test_state()
 
             $ charact.display(*paperdoll_build_test_display_actions())
+screen paperdoll_test_token_list(title, varname, values):
+    $ current = getattr(renpy.store, varname)
+    vbox:
+        text title style "journal_text"
+        if current in values:
+            hbox:
+                $ idx = values.index(current)
+                textbutton "<":
+                    text_style "buttons_idle"
+                    action [SetVariable(varname, values[idx - 1] if idx else values[len(values) - 1]), Return()]
+                textbutton ">":
+                    text_style "buttons_idle"
+                    action [SetVariable(varname, values[idx + 1] if idx < len(values) - 1 else values[0]), Return()]
+        for val in values:
+            if val == current:
+                textbutton val:
+                    text_style "buttons_active"
+                    action NullAction()
+            else:
+                textbutton val:
+                    text_style "buttons_idle"
+                    action [SetVariable(varname, val), Return()]
+
 screen paperdoll_test_screen():
     vbox:
         hbox:
@@ -910,19 +944,19 @@ screen paperdoll_test_screen():
                                 if paperdoll_selector_character.index(paperdoll_test_character) != 0:
                                     textbutton "<":
                                         text_style "buttons_idle"
-                                        action [SetVariable("paperdoll_test_character", paperdoll_selector_character[paperdoll_selector_character.index(paperdoll_test_character) - 1]), SetVariable("paperdoll_test_char_var", ""), SetVariable("paperdoll_test_pose", -1), SetVariable("paperdoll_test_outfit", ""), SetVariable("paperdoll_test_level", 1), SetVariable("paperdoll_test_emotion", ""), SetVariable("paperdoll_test_mouth", ""), SetVariable("paperdoll_test_state", ""), SetVariable("paperdoll_test_state_values", []), Return()]
+                                        action [SetVariable("paperdoll_test_character", paperdoll_selector_character[paperdoll_selector_character.index(paperdoll_test_character) - 1]), Function(paperdoll_test_reset_dependent_fields), Return()]
                                 else:
                                     textbutton "<":
                                         text_style "buttons_idle"
-                                        action [SetVariable("paperdoll_test_character", paperdoll_selector_character[len(paperdoll_selector_character) - 1]), SetVariable("paperdoll_test_char_var", ""), SetVariable("paperdoll_test_pose", -1), SetVariable("paperdoll_test_outfit", ""), SetVariable("paperdoll_test_level", 1), SetVariable("paperdoll_test_emotion", ""), SetVariable("paperdoll_test_mouth", ""), SetVariable("paperdoll_test_state", ""), SetVariable("paperdoll_test_state_values", []), Return()]
+                                        action [SetVariable("paperdoll_test_character", paperdoll_selector_character[len(paperdoll_selector_character) - 1]), Function(paperdoll_test_reset_dependent_fields), Return()]
                                 if paperdoll_selector_character.index(paperdoll_test_character) != len(paperdoll_selector_character) - 1:
                                     textbutton ">":
                                         text_style "buttons_idle"
-                                        action [SetVariable("paperdoll_test_character", paperdoll_selector_character[paperdoll_selector_character.index(paperdoll_test_character) + 1]), SetVariable("paperdoll_test_char_var", ""), SetVariable("paperdoll_test_pose", -1), SetVariable("paperdoll_test_outfit", ""), SetVariable("paperdoll_test_level", 1), SetVariable("paperdoll_test_emotion", ""), SetVariable("paperdoll_test_mouth", ""), SetVariable("paperdoll_test_state", ""), SetVariable("paperdoll_test_state_values", []), Return()]
+                                        action [SetVariable("paperdoll_test_character", paperdoll_selector_character[paperdoll_selector_character.index(paperdoll_test_character) + 1]), Function(paperdoll_test_reset_dependent_fields), Return()]
                                 else:
                                     textbutton ">":
                                         text_style "buttons_idle"
-                                        action [SetVariable("paperdoll_test_character", paperdoll_selector_character[0]), SetVariable("paperdoll_test_char_var", ""), SetVariable("paperdoll_test_pose", -1), SetVariable("paperdoll_test_outfit", ""), SetVariable("paperdoll_test_level", 1), SetVariable("paperdoll_test_emotion", ""), SetVariable("paperdoll_test_mouth", ""), SetVariable("paperdoll_test_state", ""), SetVariable("paperdoll_test_state_values", []), Return()]
+                                        action [SetVariable("paperdoll_test_character", paperdoll_selector_character[0]), Function(paperdoll_test_reset_dependent_fields), Return()]
                         viewport id "paperdoll_selector_characters":
                             mousewheel True
                             draggable "touch"
@@ -935,7 +969,7 @@ screen paperdoll_test_screen():
                                     else:
                                         textbutton character:
                                             text_style "buttons_idle"
-                                            action [SetVariable("paperdoll_test_character", character), SetVariable("paperdoll_test_char_var", ""), SetVariable("paperdoll_test_pose", -1), SetVariable("paperdoll_test_outfit", ""), SetVariable("paperdoll_test_level", 1), SetVariable("paperdoll_test_emotion", ""), SetVariable("paperdoll_test_mouth", ""), SetVariable("paperdoll_test_state", ""), SetVariable("paperdoll_test_state_values", []), Return()]
+                                            action [SetVariable("paperdoll_test_character", character), Function(paperdoll_test_reset_dependent_fields), Return()]
                         vbar value YScrollValue("paperdoll_selector_characters"):
                             unscrollable "hide"
                             xalign 1.05
@@ -948,46 +982,57 @@ screen paperdoll_test_screen():
                     if len(paperdoll_selector_char_var) == 1:
                         $ paperdoll_test_char_var = paperdoll_selector_char_var[0]
 
-                    if len(paperdoll_selector_char_var) > 1:
+                    $ paperdoll_test_refresh_option_lists()
+
+                    if len(paperdoll_selector_char_var) > 1 or len(paperdoll_test_extra1_values) > 1 or len(paperdoll_test_extra2_values) > 1:
                         frame:
                             area(0, 0, 200, 900)
                             background Solid("#fff6")
                             vbox:
-                                text "char_var" style "journal_text"
-                                if paperdoll_test_char_var != "":
-                                    hbox:
-                                        if paperdoll_selector_char_var.index(paperdoll_test_char_var) != 0:
-                                            textbutton "<":
-                                                text_style "buttons_idle"
-                                                action [SetVariable("paperdoll_test_char_var", paperdoll_selector_char_var[paperdoll_selector_char_var.index(paperdoll_test_char_var) - 1]), Return()]
-                                        else:
-                                            textbutton "<":
-                                                text_style "buttons_idle"
-                                                action [SetVariable("paperdoll_test_char_var", paperdoll_selector_char_var[len(paperdoll_selector_char_var) - 1]), Return()]
-                                        if paperdoll_selector_char_var.index(paperdoll_test_char_var) != len(paperdoll_selector_char_var) - 1:
-                                            textbutton ">":
-                                                text_style "buttons_idle"
-                                                action [SetVariable("paperdoll_test_char_var", paperdoll_selector_char_var[paperdoll_selector_char_var.index(paperdoll_test_char_var) + 1]), Return()]
-                                        else:
-                                            textbutton ">":
-                                                text_style "buttons_idle"
-                                                action [SetVariable("paperdoll_test_char_var", paperdoll_selector_char_var[0]), Return()]
-                                viewport id "paperdoll_selector_char_var":
-                                    mousewheel True
-                                    draggable "touch"
-                                    vbox:
-                                        for cv in paperdoll_selector_char_var:
-                                            if cv == paperdoll_test_char_var:
-                                                textbutton cv:
-                                                    text_style "buttons_active"
-                                                    action NullAction()
-                                            else:
-                                                textbutton cv:
+                                if len(paperdoll_selector_char_var) > 1:
+                                    text "char_var" style "journal_text"
+                                    if paperdoll_test_char_var != "":
+                                        hbox:
+                                            if paperdoll_selector_char_var.index(paperdoll_test_char_var) != 0:
+                                                textbutton "<":
                                                     text_style "buttons_idle"
-                                                    action [SetVariable("paperdoll_test_char_var", cv), Return()]
-                                vbar value YScrollValue("paperdoll_selector_char_var"):
-                                    unscrollable "hide"
-                                    xalign 1.05
+                                                    action [SetVariable("paperdoll_test_char_var", paperdoll_selector_char_var[paperdoll_selector_char_var.index(paperdoll_test_char_var) - 1]), Return()]
+                                            else:
+                                                textbutton "<":
+                                                    text_style "buttons_idle"
+                                                    action [SetVariable("paperdoll_test_char_var", paperdoll_selector_char_var[len(paperdoll_selector_char_var) - 1]), Return()]
+                                            if paperdoll_selector_char_var.index(paperdoll_test_char_var) != len(paperdoll_selector_char_var) - 1:
+                                                textbutton ">":
+                                                    text_style "buttons_idle"
+                                                    action [SetVariable("paperdoll_test_char_var", paperdoll_selector_char_var[paperdoll_selector_char_var.index(paperdoll_test_char_var) + 1]), Return()]
+                                            else:
+                                                textbutton ">":
+                                                    text_style "buttons_idle"
+                                                    action [SetVariable("paperdoll_test_char_var", paperdoll_selector_char_var[0]), Return()]
+                                    viewport id "paperdoll_selector_char_var":
+                                        mousewheel True
+                                        draggable "touch"
+                                        vbox:
+                                            for cv in paperdoll_selector_char_var:
+                                                if cv == paperdoll_test_char_var:
+                                                    textbutton cv:
+                                                        text_style "buttons_active"
+                                                        action NullAction()
+                                                else:
+                                                    textbutton cv:
+                                                        text_style "buttons_idle"
+                                                        action [SetVariable("paperdoll_test_char_var", cv), Return()]
+                                    vbar value YScrollValue("paperdoll_selector_char_var"):
+                                        unscrollable "hide"
+                                        xalign 1.05
+                                if len(paperdoll_test_extra1_values) > 1:
+                                    if len(paperdoll_selector_char_var) > 1:
+                                        null height 20
+                                    use paperdoll_test_token_list("extra1", "paperdoll_test_extra1", paperdoll_test_extra1_values)
+                                if len(paperdoll_test_extra2_values) > 1:
+                                    if len(paperdoll_selector_char_var) > 1 or len(paperdoll_test_extra1_values) > 1:
+                                        null height 20
+                                    use paperdoll_test_token_list("extra2", "paperdoll_test_extra2", paperdoll_test_extra2_values)
 
                 if paperdoll_test_character != "":
                     frame:
@@ -1167,39 +1212,45 @@ screen paperdoll_test_screen():
                             vbar value YScrollValue("paperdoll_selector_emotions"):
                                 unscrollable "hide"
                                 xalign 1.05
-                if paperdoll_test_emotion not in ["pout", "suprised"] and paperdoll_test_emotion != "":
+                $ paperdoll_show_mouths = paperdoll_test_emotion not in ["pout", "suprised"] and paperdoll_test_emotion != ""
+                if paperdoll_show_mouths or len(paperdoll_test_look_values) > 1:
                     frame:
                         area(0, 0, 200, 900)
                         background Solid("#fff6")
                         vbox:
-                            text "Mouths" style "journal_text"
-                            if paperdoll_test_mouth != "":
-                                hbox:
-                                    if paperdoll_test_mouth != "closed":
-                                        textbutton "<":
-                                            text_style "buttons_idle"
-                                            action [SetVariable("paperdoll_test_mouth", "closed"), Return()]
+                            if paperdoll_show_mouths:
+                                text "Mouths" style "journal_text"
+                                if paperdoll_test_mouth != "":
+                                    hbox:
+                                        if paperdoll_test_mouth != "closed":
+                                            textbutton "<":
+                                                text_style "buttons_idle"
+                                                action [SetVariable("paperdoll_test_mouth", "closed"), Return()]
+                                        else:
+                                            textbutton "<":
+                                                text_style "buttons_idle"
+                                                action [SetVariable("paperdoll_test_mouth", "open"), Return()]
+                                        if paperdoll_test_mouth != "open":
+                                            textbutton ">":
+                                                text_style "buttons_idle"
+                                                action [SetVariable("paperdoll_test_mouth", "open"), Return()]
+                                        else:
+                                            textbutton ">":
+                                                text_style "buttons_idle"
+                                                action [SetVariable("paperdoll_test_mouth", "closed"), Return()]
+                                for mouth in ["closed", "open"]:
+                                    if mouth == paperdoll_test_mouth:
+                                        textbutton mouth:
+                                            text_style "buttons_active"
+                                            action NullAction()
                                     else:
-                                        textbutton "<":
+                                        textbutton mouth:
                                             text_style "buttons_idle"
-                                            action [SetVariable("paperdoll_test_mouth", "open"), Return()]
-                                    if paperdoll_test_mouth != "open":
-                                        textbutton ">":
-                                            text_style "buttons_idle"
-                                            action [SetVariable("paperdoll_test_mouth", "open"), Return()]
-                                    else:
-                                        textbutton ">":
-                                            text_style "buttons_idle"
-                                            action [SetVariable("paperdoll_test_mouth", "closed"), Return()]
-                            for mouth in ["closed", "open"]:
-                                if mouth == paperdoll_test_mouth:
-                                    textbutton mouth:
-                                        text_style "buttons_active"
-                                        action NullAction()
-                                else:
-                                    textbutton mouth:
-                                        text_style "buttons_idle"
-                                        action [SetVariable("paperdoll_test_mouth", mouth), Return()]
+                                            action [SetVariable("paperdoll_test_mouth", mouth), Return()]
+                            if len(paperdoll_test_look_values) > 1:
+                                if paperdoll_show_mouths:
+                                    null height 20
+                                use paperdoll_test_token_list("Gaze", "paperdoll_test_look", paperdoll_test_look_values)
 
                 if len(paperdoll_test_state_values) > 1:
                     frame:
@@ -1314,6 +1365,197 @@ screen paperdoll_test_screen():
 init python:
     # Puffer-Strings für die Eingabe
     paperdoll_buf = {}
+
+    PAPERDOLL_TEST_BOTTOM_KEYS = ("char_var", "pose", "outfit", "level", "state", "extra1")
+    PAPERDOLL_TEST_TOP_KEYS = ("char_var", "pose", "mood", "mouth", "look", "extra2")
+
+    def paperdoll_test_reset_dependent_fields():
+        """Clears pose/outfit/expression fields when the character changes."""
+        global paperdoll_test_char_var, paperdoll_test_pose, paperdoll_test_outfit
+        global paperdoll_test_level, paperdoll_test_emotion, paperdoll_test_mouth
+        global paperdoll_test_state, paperdoll_test_state_values
+        global paperdoll_test_look, paperdoll_test_look_values
+        global paperdoll_test_extra1, paperdoll_test_extra1_values
+        global paperdoll_test_extra2, paperdoll_test_extra2_values
+        paperdoll_test_char_var = ""
+        paperdoll_test_pose = -1
+        paperdoll_test_outfit = ""
+        paperdoll_test_level = 1
+        paperdoll_test_emotion = ""
+        paperdoll_test_mouth = ""
+        paperdoll_test_state = ""
+        paperdoll_test_state_values = []
+        paperdoll_test_look = ""
+        paperdoll_test_look_values = []
+        paperdoll_test_extra1 = ""
+        paperdoll_test_extra1_values = []
+        paperdoll_test_extra2 = ""
+        paperdoll_test_extra2_values = []
+
+    def paperdoll_test_file_tokens(path, character, kind):
+        """
+        Splits a paperdoll asset path into tokens after the character name.
+
+        ### Parameters:
+        1. path: str
+            - Full game-file path.
+        2. character: str
+            - Character folder / filename prefix.
+        3. kind: str
+            - `"bottom"` or `"top"`.
+
+        ### Returns:
+        1. Optional[List[str]]
+            - Token list, or None when the path is not that layer.
+        """
+        prefix = "images/paperdoll/{}/{}/{} ".format(character, kind, character)
+        name = path
+        if name.endswith(".png"):
+            name = name[:-4]
+        elif name.endswith(".webp"):
+            name = name[:-5]
+        if not name.startswith(prefix):
+            return None
+        rest = name[len(prefix):].strip()
+        if rest == "":
+            return []
+        return rest.split(" ")
+
+    def paperdoll_test_collect_tokens(character, kind, want_key, **filters):
+        """
+        Collects unique filename tokens for one pattern key, filtered by the current config.
+
+        Missing trailing extras are treated as `$`. Missing `look` is skipped (not invented).
+        A `$` token in a filter position matches any requested value.
+
+        ### Parameters:
+        1. character: str
+            - Character folder / filename prefix.
+        2. kind: str
+            - `"bottom"` or `"top"`.
+        3. want_key: str
+            - Token to collect (`look`, `extra1`, `extra2`, …).
+        4. **filters
+            - Required token values keyed like `char_var`, `pose`, `outfit`, …
+
+        ### Returns:
+        1. List[str]
+            - Unique tokens in a stable order (`$` first, then the rest).
+        """
+        keys = PAPERDOLL_TEST_BOTTOM_KEYS if kind == "bottom" else PAPERDOLL_TEST_TOP_KEYS
+        want_i = keys.index(want_key)
+        prefix = "images/paperdoll/{}/{}/{} ".format(character, kind, character)
+        found = []
+        seen = set()
+        for path in renpy.list_files():
+            if not path.startswith(prefix):
+                continue
+            tokens = paperdoll_test_file_tokens(path, character, kind)
+            if tokens is None:
+                continue
+            matched = True
+            for key, value in filters.items():
+                if value is None:
+                    continue
+                fi = keys.index(key)
+                token = tokens[fi] if fi < len(tokens) else "$"
+                want = str(value)
+                if want == "":
+                    want = "$"
+                if token != want and token != "$":
+                    matched = False
+                    break
+            if not matched:
+                continue
+            if want_i < len(tokens):
+                val = tokens[want_i]
+            elif want_key == "look":
+                continue
+            else:
+                val = "$"
+            if val not in seen:
+                seen.add(val)
+                found.append(val)
+        found.sort(key=lambda v: (0 if v == "$" else 1, 0 if v == "follow" else 1 if v == "avert" else 2, v))
+        return found
+
+    def paperdoll_test_ensure_choice(current, options, fallback=""):
+        """
+        Picks the first option when the current value is missing or empty.
+
+        ### Parameters:
+        1. current
+            - Currently selected token.
+        2. options: list
+            - Available tokens.
+        3. fallback
+            - Used when options is empty.
+
+        ### Returns:
+        1. The current value if still valid, otherwise the first option or fallback.
+        """
+        if options:
+            if current in options:
+                return current
+            return options[0]
+        return fallback if current in (None, "") else current
+
+    def paperdoll_test_refresh_option_lists():
+        """
+        Rebuilds look / extra1 / extra2 lists from files for the current test selection
+        and auto-picks the first token when the current one is missing.
+        """
+        global paperdoll_test_look, paperdoll_test_look_values
+        global paperdoll_test_extra1, paperdoll_test_extra1_values
+        global paperdoll_test_extra2, paperdoll_test_extra2_values
+
+        extra1_values = []
+        extra2_values = []
+        look_values = []
+
+        if paperdoll_test_character != "" and paperdoll_test_pose > 0 and paperdoll_test_outfit != "":
+            extra1_values = paperdoll_test_collect_tokens(
+                paperdoll_test_character,
+                "bottom",
+                "extra1",
+                char_var=paperdoll_test_char_var or "$",
+                pose=paperdoll_test_pose,
+                outfit=paperdoll_test_outfit,
+                level=paperdoll_test_level if paperdoll_test_level >= 0 else "$",
+                state=paperdoll_test_state if paperdoll_test_state not in ("",) else "$",
+            )
+
+        if paperdoll_test_character != "" and paperdoll_test_pose > 0 and paperdoll_test_emotion != "":
+            mouth = paperdoll_test_mouth if paperdoll_test_mouth not in ("",) else "$"
+            look_values = paperdoll_test_collect_tokens(
+                paperdoll_test_character,
+                "top",
+                "look",
+                char_var=paperdoll_test_char_var or "$",
+                pose=paperdoll_test_pose,
+                mood=paperdoll_test_emotion,
+                mouth=mouth,
+            )
+            paperdoll_test_look = paperdoll_test_ensure_choice(paperdoll_test_look, look_values, "follow")
+            extra2_values = paperdoll_test_collect_tokens(
+                paperdoll_test_character,
+                "top",
+                "extra2",
+                char_var=paperdoll_test_char_var or "$",
+                pose=paperdoll_test_pose,
+                mood=paperdoll_test_emotion,
+                mouth=mouth,
+                look=paperdoll_test_look if paperdoll_test_look not in ("",) else "$",
+            )
+
+        paperdoll_test_extra1 = paperdoll_test_ensure_choice(paperdoll_test_extra1, extra1_values, "$")
+        paperdoll_test_extra2 = paperdoll_test_ensure_choice(paperdoll_test_extra2, extra2_values, "$")
+        paperdoll_test_look_values = look_values
+        paperdoll_test_extra1_values = extra1_values
+        paperdoll_test_extra2_values = extra2_values
+        if paperdoll_test_character != "":
+            paperdoll_test_extra1 = paperdoll_test_ensure_choice(paperdoll_test_extra1, extra1_values, "$")
+            paperdoll_test_extra2 = paperdoll_test_ensure_choice(paperdoll_test_extra2, extra2_values, "$")
 
     def paperdoll_sync_buffers():
         """Aktuelle Float-Werte in die String-Puffer kopieren."""
@@ -1501,6 +1743,9 @@ init python:
             state = paperdoll_test_state,
             mood = paperdoll_test_emotion,
             mouth = paperdoll_test_mouth,
+            look = paperdoll_test_look if paperdoll_test_look not in ("",) else "follow",
+            extra1 = paperdoll_test_extra1 if paperdoll_test_extra1 not in ("",) else "$",
+            extra2 = paperdoll_test_extra2 if paperdoll_test_extra2 not in ("",) else "$",
         )
 
         if paperdoll_active_preset is not None:

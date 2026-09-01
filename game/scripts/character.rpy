@@ -951,6 +951,9 @@ init -6 python:
             - The paperdoll overrides of the person
         10. paperdollPresets: List[:class:`PaperdollPreset`]
             - Object-scoped paperdoll presets registered as `"{name}:{key}"` on `register_paperdoll`
+        11. paperdollDefaults: Dict[str, Any]
+            - Per-person paperdoll value defaults (pose, outfit, level, mood, …)
+            - Applied on `register_paperdoll` after the house defaults, before call-time kwargs
 
         ### Parameters:
         1. name: str
@@ -971,9 +974,12 @@ init -6 python:
             - The thumbnail of the person
         9. paperdollPresets: List[:class:`PaperdollPreset`]
             - Character-specific paperdoll presets registered as temp `"name:key"` entries
+        10. paperdollDefaults: Dict[str, Any]
+            - Optional value defaults that replace the house paperdoll seeds for this person
+            - e.g. `{"level": 5}` when the character has no level-1 uniform
         """
 
-        def __init__(self, name: str, first_name: str, last_name: str, char: Char, description: List[Union[str, Tuple[str, Condition]]], portraits: Dict[str, Union[str, Tuple[str, Condition]]] = {}, paperdollOverrides: List[PaperdollOverride] = [], thumbnail = "", paperdollPresets = None):
+        def __init__(self, name: str, first_name: str, last_name: str, char: Char, description: List[Union[str, Tuple[str, Condition]]], portraits: Dict[str, Union[str, Tuple[str, Condition]]] = {}, paperdollOverrides: List[PaperdollOverride] = [], thumbnail = "", paperdollPresets = None, paperdollDefaults = None):
             self.name = name
             self.first_name = first_name
             self.last_name = last_name
@@ -987,6 +993,7 @@ init -6 python:
                 self.thumbnail = thumbnail
             self.paperdollOverrides = list(paperdollOverrides)
             self.paperdollPresets = list(paperdollPresets) if paperdollPresets is not None else []
+            self.paperdollDefaults = dict(paperdollDefaults) if paperdollDefaults is not None else {}
 
         @classmethod
         def __class_getitem__(cls, key):
@@ -1017,6 +1024,8 @@ init -6 python:
                 self.paperdollOverrides = []
             if not hasattr(data, 'paperdollPresets'):
                 self.paperdollPresets = []
+            if not hasattr(data, 'paperdollDefaults'):
+                self.paperdollDefaults = {}
 
             if data != None:
                 self.name = data.name
@@ -1027,6 +1036,8 @@ init -6 python:
                 self.paperdollOverrides = data.paperdollOverrides
                 if hasattr(data, 'paperdollPresets'):
                     self.paperdollPresets = data.paperdollPresets
+                if hasattr(data, 'paperdollDefaults'):
+                    self.paperdollDefaults = dict(data.paperdollDefaults) if data.paperdollDefaults else {}
 
         def get_name(self) -> str:
             return self.name
@@ -1150,15 +1161,20 @@ init -6 python:
                 return Character(self.get_full_name(), kind = char_kind, retain = False)
 
         def register_paperdoll(self, *overrides: PaperdollOverride, **kwargs):
-            data = update_dict({"alt_keys": ["level", "mouth", "state", "char_var"], "mood": "happy", "pose": 1, "outfit": "uniform", "level": 1, "mouth": "closed", "state": "", "blur": 0.0, "char_var": 1}, kwargs)
+            # House defaults ← Person.paperdollDefaults ← call-time kwargs
+            data = update_dict(
+                {"alt_keys": ["level", "mouth", "state", "char_var", "extra1", "extra2"], "mood": "happy", "pose": 1, "outfit": "uniform", "level": 1, "mouth": "closed", "state": "", "blur": 0.0, "char_var": 1, "look": "follow", "extra1": "", "extra2": ""},
+                getattr(self, "paperdollDefaults", None) or {},
+            )
+            data = update_dict(data, kwargs)
             global paperdoll_manager
             log_val("register paperdoll_manager", paperdoll_manager)
             overrides = list(overrides) + self.paperdollOverrides
             log_val("overrides", overrides)
             paperdoll_manager.register_obj(
                 self.name, 
-                f"{self.basePath}images/paperdoll/{self.name}/bottom/{self.name} <char_var> <pose> <outfit> <level> <state>.png", 
-                f"{self.basePath}images/paperdoll/{self.name}/top/{self.name} <char_var> <pose> <mood> <mouth>.png", 
+                f"{self.basePath}images/paperdoll/{self.name}/bottom/{self.name} <char_var> <pose> <outfit> <level> <state> <extra1>.png", 
+                f"{self.basePath}images/paperdoll/{self.name}/top/{self.name} <char_var> <pose> <mood> <mouth> <look> <extra2>.png", 
                 display_size = (600, 1080),
                 overrides = list(overrides) + self.paperdollOverrides,
                 presets = list(self.paperdollPresets),
@@ -1403,6 +1419,7 @@ label load_characters ():
             "Secretary",
         ],
         paperdollOverrides = [PaperdollOverride(1, {"outfit": "bunny"}, x_override = -0.0014, y_override = -0.026132)],
+        paperdollDefaults = {"level": 5},
         thumbnail = "images/characters/emiko_langley/level_5.webp"
     ))
     $ load_person("staff", Person("finola_ryan", "Finola", "Ryan", teacher_char, [

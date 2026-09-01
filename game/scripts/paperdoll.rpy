@@ -277,6 +277,71 @@ init -99 python:
         paperdoll_display_scale_cache[cache_key] = base_scale
         return base_scale
 
+    def paperdoll_xanchor(alignX) -> float:
+        """
+        Returns the horizontal zoom pivot on the sprite for an alignX value.
+
+        Native `xalign` uses the same number for screen position *and* sprite
+        anchor. For values outside 0–1 that anchor sits *beside* the sprite, so
+        zooming around it pulls the figure back onto the screen. Clamp the
+        pivot to the sprite (left edge below 0, right edge above 1); out-of-range
+        alignX then becomes a screen-fraction offset of that edge.
+
+        ### Parameters:
+        1. alignX
+            - Logical horizontal align (0 left, 1 right, outside continues off that edge).
+
+        ### Returns:
+        1. float
+            - Anchor fraction in `[0.0, 1.0]`.
+        """
+        a = float(alignX)
+        if a < 0.0:
+            return 0.0
+        if a > 1.0:
+            return 1.0
+        return a
+
+    def paperdoll_position_transform(alignX, alignY, zoom):
+        """
+        Builds the idle position transform for a paperdoll layer.
+
+        ### Parameters:
+        1. alignX
+            - Logical horizontal align.
+        2. alignY
+            - Vertical position (`ypos`).
+        3. zoom
+            - Combined zoom (config × base scale).
+
+        ### Returns:
+        1. Transform
+            - `t_paperdoll_position` with screen-fraction `xpos` and clamped `xanchor`.
+        """
+        return t_paperdoll_position(float(alignX), paperdoll_xanchor(alignX), alignY, zoom)
+
+    def paperdoll_move_transform(duration, startX, startY, startZ, endX, endY, endZ):
+        """
+        Builds the ease transform between two logical placements.
+
+        ### Parameters:
+        1. duration
+            - Ease duration.
+        2. startX, startY, startZ
+            - Start alignX, alignY, zoom.
+        3. endX, endY, endZ
+            - End alignX, alignY, zoom.
+
+        ### Returns:
+        1. Transform
+            - `t_paperdoll_move` with screen-fraction `xpos` and clamped `xanchor`.
+        """
+        return t_paperdoll_move(
+            duration,
+            float(startX), paperdoll_xanchor(startX), startY, startZ,
+            float(endX), paperdoll_xanchor(endX), endY, endZ,
+        )
+
     def paperdoll_saturation(bw: bool) -> float:
         """
         Returns the SaturationMatrix factor for color or black-and-white display.
@@ -290,6 +355,330 @@ init -99 python:
             - 0.0 for black-and-white, 1.0 for full color.
         """
         return 0.0 if bw else 1.0
+
+    # Game-facing names. `green` is bright `#00ff00` (same as `lime`), not CSS `#008000`.
+    PAPERDOLL_NAMED_COLORS = {
+        "black": "#000000",
+        "white": "#ffffff",
+        "gray": "#808080",
+        "grey": "#808080",
+        "silver": "#c0c0c0",
+        "lightgray": "#d3d3d3",
+        "lightgrey": "#d3d3d3",
+        "red": "#ff0000",
+        "darkred": "#8b0000",
+        "maroon": "#800000",
+        "crimson": "#dc143c",
+        "salmon": "#fa8072",
+        "coral": "#ff7f50",
+        "tomato": "#ff6347",
+        "pink": "#ffc0cb",
+        "hotpink": "#ff69b4",
+        "orange": "#ffa500",
+        "orangered": "#ff4500",
+        "gold": "#ffd700",
+        "yellow": "#ffff00",
+        "khaki": "#f0e68c",
+        "brown": "#a52a2a",
+        "chocolate": "#d2691e",
+        "tan": "#d2b48c",
+        "beige": "#f5f5dc",
+        "green": "#00ff00",
+        "lime": "#00ff00",
+        "darkgreen": "#006400",
+        "olive": "#808000",
+        "teal": "#008080",
+        "cyan": "#00ffff",
+        "aqua": "#00ffff",
+        "turquoise": "#40e0d0",
+        "blue": "#0000ff",
+        "navy": "#000080",
+        "darkblue": "#00008b",
+        "indigo": "#4b0082",
+        "azure": "#007fff",
+        "purple": "#800080",
+        "violet": "#ee82ee",
+        "magenta": "#ff00ff",
+        "fuchsia": "#ff00ff",
+        "ivory": "#fffff0",
+        "transparent": "#00000000",
+    }
+
+    def paperdoll_color_to_hex(source) -> str:
+        """
+        Formats a Ren'Py `Color` as `#rrggbbaa`.
+
+        ### Parameters:
+        1. source: Color
+            - Color whose RGBA channels are written out.
+
+        ### Returns:
+        1. str
+            - Eight-digit hex color with `#`.
+        """
+        r, g, b, a = source.rgba
+        return "#{:02x}{:02x}{:02x}{:02x}".format(
+            max(0, min(255, int(round(r * 255)))),
+            max(0, min(255, int(round(g * 255)))),
+            max(0, min(255, int(round(b * 255)))),
+            max(0, min(255, int(round(a * 255)))),
+        )
+
+    def paperdoll_parse_mix_alpha(text):
+        """
+        Parses a mix amount from `0.5`, `.5`, or `50%`.
+
+        ### Parameters:
+        1. text
+            - Alpha fragment after `name:` or a percent string.
+
+        ### Returns:
+        1. float or None
+            - Clamped 0–1, or None when the fragment is not a number.
+        """
+        raw = str(text).strip().replace(" ", "")
+        if raw.endswith("%"):
+            try:
+                return max(0.0, min(1.0, float(raw[:-1]) / 100.0))
+            except ValueError:
+                return None
+        try:
+            return max(0.0, min(1.0, float(raw)))
+        except ValueError:
+            return None
+
+    def paperdoll_expand_hex_color(text):
+        """
+        Expands `#rgb` / `#rgba` / `#rrggbb` / `#rrggbbaa` (optional `#`) to 8 digits.
+
+        `#0ac` → `#00aaccff`, `#fff8` → `#ffffff88`. Six-digit hex gets alpha `ff`.
+
+        ### Parameters:
+        1. text: str
+            - Hex color, with or without a leading `#`.
+
+        ### Returns:
+        1. str or None
+            - `#rrggbbaa`, or None when the text is not hex.
+        """
+        h = text[1:] if text.startswith("#") else text
+        if len(h) not in (3, 4, 6, 8):
+            return None
+        try:
+            int(h, 16)
+        except ValueError:
+            return None
+        if len(h) == 3:
+            h = "".join(c * 2 for c in h) + "ff"
+        elif len(h) == 4:
+            h = "".join(c * 2 for c in h)
+        elif len(h) == 6:
+            h = h + "ff"
+        return "#" + h.lower()
+
+    def paperdoll_lookup_named_color(name):
+        """
+        Resolves a color name to `#rrggbbaa`.
+
+        Looks up `PAPERDOLL_NAMED_COLORS` first (case-insensitive), then Ren'Py
+        `Color` for extra CSS names.
+
+        ### Parameters:
+        1. name: str
+            - Color name, e.g. `green` or `darkblue`.
+
+        ### Returns:
+        1. str or None
+            - `#rrggbbaa`, or None when unknown.
+        """
+        key = name.strip().lower().replace(" ", "")
+        if not key:
+            return None
+        named = PAPERDOLL_NAMED_COLORS.get(key)
+        if named is not None:
+            expanded = paperdoll_expand_hex_color(named)
+            return expanded if expanded is not None else named
+        try:
+            return paperdoll_color_to_hex(Color(name.strip()))
+        except Exception:
+            return None
+
+    def paperdoll_apply_hex_alpha(hex_color: str, alpha: float) -> str:
+        """
+        Replaces the alpha byte of `#rrggbbaa` with a 0–1 mix amount.
+
+        ### Parameters:
+        1. hex_color: str
+            - Eight-digit hex color with `#`.
+        2. alpha: float
+            - Mix amount, clamped to 0–1.
+
+        ### Returns:
+        1. str
+            - Same RGB with the new alpha byte.
+        """
+        a = max(0, min(255, int(round(max(0.0, min(1.0, float(alpha))) * 255))))
+        return hex_color[:7] + "{:02x}".format(a)
+
+    def paperdoll_normalize_color(color) -> str:
+        """
+        Normalizes a paperdoll tint to `#rrggbbaa`.
+
+        The alpha byte is the mix amount: `00` leaves the sprite unchanged,
+        `ff` replaces visible pixels with the RGB color (sprite alpha kept).
+        `#00000088` is a 50% darken; `#000000ff` is solid black.
+
+        Accepted forms: `#rgb` / `#rgba` / `#rrggbb` / `#rrggbbaa` (optional `#`
+        or `0x`), names (`green`, `blue`, …), `name:0.5` / `name:50%` for mix
+        amount, a Ren'Py `Color`, an `(r, g, b)` / `(r, g, b, a)` tuple, or
+        None / `""` for no tint. `:alpha` on hex (`#0ac:0.5`) overrides the
+        hex alpha.
+
+        ### Parameters:
+        1. color
+            - Any accepted tint form.
+
+        ### Returns:
+        1. str
+            - Eight-digit hex color with `#`, or `#00000000` when invalid.
+        """
+        if color is None or color == "":
+            return "#00000000"
+
+        alpha_override = None
+
+        if isinstance(color, Color):
+            return paperdoll_color_to_hex(color)
+
+        if isinstance(color, (list, tuple)) and len(color) in (3, 4):
+            try:
+                comps = [float(c) for c in color]
+            except (TypeError, ValueError):
+                log(
+                    "paperdoll: invalid color " + repr(color) + ", using #00000000",
+                    log_type="error",
+                    category="paperdoll",
+                )
+                return "#00000000"
+            rgb = comps[:3]
+            if any(c > 1.0 for c in rgb):
+                rgb = [c / 255.0 for c in rgb]
+                a = comps[3] / 255.0 if len(comps) == 4 and comps[3] > 1.0 else (comps[3] if len(comps) == 4 else 1.0)
+            else:
+                a = comps[3] if len(comps) == 4 else 1.0
+            try:
+                return paperdoll_color_to_hex(Color((rgb[0], rgb[1], rgb[2], a)))
+            except Exception:
+                log(
+                    "paperdoll: invalid color " + repr(color) + ", using #00000000",
+                    log_type="error",
+                    category="paperdoll",
+                )
+                return "#00000000"
+
+        raw = str(color).strip()
+        if raw.lower().startswith("0x"):
+            raw = raw[2:]
+
+        if ":" in raw:
+            left, right = raw.rsplit(":", 1)
+            left, right = left.strip(), right.strip()
+            if left and right:
+                parsed = paperdoll_parse_mix_alpha(right)
+                if parsed is None:
+                    log(
+                        "paperdoll: invalid color alpha " + repr(color) + ", using #00000000",
+                        log_type="error",
+                        category="paperdoll",
+                    )
+                    return "#00000000"
+                raw = left
+                alpha_override = parsed
+
+        hex_color = paperdoll_expand_hex_color(raw)
+        if hex_color is None:
+            hex_color = paperdoll_lookup_named_color(raw)
+        if hex_color is None:
+            try:
+                hex_color = paperdoll_color_to_hex(Color(raw if raw.startswith("#") else raw))
+            except Exception:
+                hex_color = None
+
+        if hex_color is None:
+            log(
+                "paperdoll: invalid color " + repr(color) + ", using #00000000",
+                log_type="error",
+                category="paperdoll",
+            )
+            return "#00000000"
+
+        if alpha_override is not None:
+            hex_color = paperdoll_apply_hex_alpha(hex_color, alpha_override)
+        return hex_color
+
+    class PaperdollColorMatrix(ColorMatrix):
+        """
+        Mixes a layer toward an RGBA color, then applies saturation.
+
+        Alpha of the color is the mix amount (0 = original, 1 = solid RGB on
+        opaque pixels). Transparent pixels stay transparent. Saturation 0 is
+        grayscale (`PDABw`). Stored as hex + float so saves can pickle it.
+        """
+
+        def __init__(self, color="#00000000", saturation=1.0):
+            self.color_hex = paperdoll_normalize_color(color)
+            self.saturation = float(saturation)
+
+        def __call__(self, other, done):
+            if type(other) is PaperdollColorMatrix:
+                old_color = Color(other.color_hex)
+                old_sat = other.saturation
+            else:
+                old_color = Color((0.0, 0.0, 0.0, 0.0))
+                old_sat = 1.0
+
+            new_color = Color(self.color_hex)
+            r = old_color.rgb[0] + (new_color.rgb[0] - old_color.rgb[0]) * done
+            g = old_color.rgb[1] + (new_color.rgb[1] - old_color.rgb[1]) * done
+            b = old_color.rgb[2] + (new_color.rgb[2] - old_color.rgb[2]) * done
+            a = old_color.alpha + (new_color.alpha - old_color.alpha) * done
+            sat = old_sat + (self.saturation - old_sat) * done
+
+            ia = 1.0 - a
+            # 4x4 only (this Ren'Py Matrix rejects length 20). Fourth column is
+            # multiplied by source alpha, so transparent pixels stay transparent.
+            tint = Matrix([
+                ia, 0, 0, r * a,
+                0, ia, 0, g * a,
+                0, 0, ia, b * a,
+                0, 0, 0, 1,
+            ])
+            sat_matrix = SaturationMatrix(sat)(None, 1.0)
+            return tint * sat_matrix
+
+    def paperdoll_matrixcolor_transform(pd_obj, duration=0.0, color=None, saturation=None):
+        """
+        Builds the matrixcolor ATL for a paperdoll's current (or given) tint + bw.
+
+        ### Parameters:
+        1. pd_obj: Paperdoll_Obj
+            - Object whose config supplies color / bw when omitted.
+        2. duration: float
+            - Ease duration for the matrix change.
+        3. color: optional
+            - Tint override; defaults to `pd_obj.get_color()`.
+        4. saturation: optional
+            - Saturation override; defaults from `pd_obj.is_bw()`.
+
+        ### Returns:
+        1. Transform
+            - `t_paperdoll_matrixcolor` for the combined matrix.
+        """
+        if color is None:
+            color = pd_obj.get_color()
+        if saturation is None:
+            saturation = paperdoll_saturation(pd_obj.is_bw())
+        return t_paperdoll_matrixcolor(PaperdollColorMatrix(color, saturation), duration)
 
     def apply_paperdoll_bw(displayable, bw: bool = False):
         """
@@ -429,13 +818,16 @@ init -99 python:
             paperdoll_native_size_cache[path] = renpy.image_size(Image(path))
         return paperdoll_native_size_cache[path]
 
-    def paperdoll_flipped_layer(path, duration=0.0, start_xzoom=1.0, end_xzoom=1.0):
+    def paperdoll_flipped_layer(path, duration=0.0, start_xzoom=1.0, end_xzoom=1.0, display_size=None):
         """
         Wraps a layer image so `xzoom` eases around the sprite's horizontal center.
 
-        The image sits in a Fixed of native size; the flip ATL uses `xalign 0.5` inside
-        that box. Outer `xalign` / zoom then position the box, so the flip pivot is not
-        the screen-align point (which would swing a right-aligned figure off-frame).
+        When `display_size` is set the image is fitted to that logical box first, so
+        config zoom is a pure multiplier and swapping assets (mouth, mood, …) cannot
+        change on-screen size. Without it the box is native pixels. The flip ATL uses
+        `xalign 0.5` inside that box; outer xpos / zoom then position the box, so the
+        flip pivot is not the screen-align point (which would swing a right-aligned
+        figure off-frame).
 
         ### Parameters:
         1. path: str
@@ -446,6 +838,8 @@ init -99 python:
             - `xzoom` at the start of the ease (`1.0` or `-1.0`).
         4. end_xzoom: float
             - `xzoom` at the end of the ease.
+        5. display_size: Optional[Tuple[int, int]]
+            - Logical (width, height) to fit the layer into, or None for native size.
 
         ### Returns:
         1. Displayable
@@ -453,10 +847,16 @@ init -99 python:
         """
         if not path:
             return Null()
-        width, height = paperdoll_native_size(path)
+        if display_size is not None:
+            box_w, box_h = int(display_size[0]), int(display_size[1])
+            child = Transform(paperdoll_layer_displayable(path), size=(box_w, box_h))
+        else:
+            width, height = paperdoll_native_size(path)
+            box_w, box_h = int(width), int(height)
+            child = paperdoll_layer_displayable(path)
         return Fixed(
-            At(paperdoll_layer_displayable(path), t_paperdoll_flip(duration, start_xzoom, end_xzoom)),
-            xysize = (int(width), int(height)),
+            At(child, t_paperdoll_flip(duration, start_xzoom, end_xzoom)),
+            xysize = (box_w, box_h),
         )
 
     def paperdoll_layer_for_show(pd_obj, index, duration=0.0, start_xzoom=None, end_xzoom=None):
@@ -484,7 +884,13 @@ init -99 python:
             start_xzoom = flip
         if end_xzoom is None:
             end_xzoom = flip
-        layer = paperdoll_flipped_layer(pd_obj.image[index], duration, start_xzoom, end_xzoom)
+        layer = paperdoll_flipped_layer(
+            pd_obj.image[index],
+            duration,
+            start_xzoom,
+            end_xzoom,
+            display_size=paperdoll_get_display_size(pd_obj, index),
+        )
         return layer
 
     PAPERDOLL_BG_ZORDER = -100
@@ -636,9 +1042,10 @@ init -99 python:
             v = float(obj.local["alignY"])
             # Mirror attach X around the parent box centre when the parent faces left
             u_eff = 0.5 + (u - 0.5) * parent_world["flip"]
-            # transform_anchor + xalign: point U on the sprite maps to
-            # A + (U - A) * (box_w / screen_w)
-            alignX = ax + (u_eff - ax) * pw
+            # Parent zoom-pivot is clamped to the sprite; invert that mapping so
+            # point U on the parent box still lands at the child's xpos.
+            ax_anchor = paperdoll_xanchor(ax)
+            alignX = ax + (u_eff - ax_anchor) * pw
             # ypos places the top of the box; V=0 top, V=1 bottom
             alignY = ay + v * ph
         else:
@@ -692,7 +1099,7 @@ init -99 python:
             for desc in paperdoll_iter_descendants(child):
                 yield desc
 
-    def paperdoll_show_layers(pd_obj, at_list, flip_duration=0.0, start_xzoom=None, end_xzoom=None, skip_empty=True):
+    def paperdoll_show_layers(pd_obj, at_list, flip_duration=0.0, start_xzoom=None, end_xzoom=None, skip_empty=True, clear_tag=True):
         """
         Shows every layer of a paperdoll with a shared zorder and at_list.
 
@@ -709,21 +1116,30 @@ init -99 python:
             - Flip ease end.
         6. skip_empty: bool
             - When True, skip layers whose image path is still empty.
+        7. clear_tag: bool
+            - When True, hide the tag first so Ren'Py does not take_state()
+                the old Transform zoom. False keeps state so matrixcolor/blur
+                can ease from the current look.
         """
         z = paperdoll_layer_zorder(pd_obj)
         for index in range(len(pd_obj.pattern)):
             if skip_empty and pd_obj.image[index] == "":
                 continue
             transforms = at_list(index) if callable(at_list) else at_list
+            tag = pd_obj.key + str(index)
+            # Hide first so Ren'Py does not take_state() the old Transform's zoom
+            # onto the new layer (PDAImage would otherwise look like a double zoom).
+            if clear_tag:
+                renpy.hide(tag)
             renpy.show(
-                pd_obj.key + str(index),
-                tag=pd_obj.key + str(index),
+                tag,
+                tag=tag,
                 what=paperdoll_layer_for_show(pd_obj, index, flip_duration, start_xzoom, end_xzoom),
                 at_list=transforms,
                 zorder=z,
             )
 
-    def paperdoll_show_idle_layers(pd_obj, skip_empty=True, blur=None, saturation=None, blur_duration=0.0, bw_duration=0.0):
+    def paperdoll_show_idle_layers(pd_obj, skip_empty=True, blur=None, saturation=None, blur_duration=0.0, bw_duration=0.0, color=None, color_duration=0.0, clear_tag=True):
         """
         Shows every layer at the current position/zoom, with optional blur/saturation ease.
 
@@ -744,24 +1160,33 @@ init -99 python:
             - Ease duration for the blur transform.
         6. bw_duration: float
             - Ease duration for the saturation transform.
+        7. color: optional
+            - Tint override; defaults to `pd_obj.get_color()`.
+        8. color_duration: float
+            - Ease duration for the tint (shared matrixcolor with bw).
+        9. clear_tag: bool
+            - Passed to `paperdoll_show_layers`. False when easing tint/bw.
         """
         if blur is None:
             blur = pd_obj.get_value("blur")
         if saturation is None:
             saturation = paperdoll_saturation(pd_obj.is_bw())
+        if color is None:
+            color = pd_obj.get_color()
+        matrix_duration = max(float(bw_duration or 0.0), float(color_duration or 0.0))
 
         def _idle_at_list(index):
             return [
-                t_paperdoll_position(
+                paperdoll_position_transform(
                     pd_obj.get_config("alignX", index),
                     pd_obj.get_config("alignY", index),
                     pd_obj.get_effective_zoom(index)
                 ),
                 t_paperdoll_blur(blur, blur_duration),
-                t_paperdoll_bw(saturation, bw_duration),
+                paperdoll_matrixcolor_transform(pd_obj, matrix_duration, color=color, saturation=saturation),
             ]
 
-        paperdoll_show_layers(pd_obj, _idle_at_list, skip_empty=skip_empty)
+        paperdoll_show_layers(pd_obj, _idle_at_list, skip_empty=skip_empty, clear_tag=clear_tag)
 
     def paperdoll_show_shake_layers(pd_obj, duration, max_distance):
         """
@@ -776,24 +1201,26 @@ init -99 python:
             - Peak pixel offset.
         """
         def _shake_at_list(index):
+            align_x = pd_obj.get_config("alignX", index)
+            align_y = pd_obj.get_config("alignY", index)
             return [
-                t_paperdoll_position(
-                    pd_obj.get_config("alignX", index),
-                    pd_obj.get_config("alignY", index),
+                paperdoll_position_transform(
+                    align_x,
+                    align_y,
                     pd_obj.get_effective_zoom(index)
                 ),
                 Shake(
                     (
-                        pd_obj.get_config("alignX", index),
-                        pd_obj.get_config("alignY", index),
-                        pd_obj.get_config("alignX", index),
-                        pd_obj.get_config("alignY", index),
+                        float(align_x),
+                        align_y,
+                        paperdoll_xanchor(align_x),
+                        0,
                     ),
                     duration,
                     dist=max_distance,
                     seed=pd_obj.key,
                 ),
-                t_paperdoll_bw(paperdoll_saturation(pd_obj.is_bw())),
+                paperdoll_matrixcolor_transform(pd_obj),
             ]
 
         paperdoll_show_layers(pd_obj, _shake_at_list)
@@ -825,16 +1252,16 @@ init -99 python:
         if paperdoll_is_visible(pd_obj):
             def _at_list(index):
                 return [
-                    t_paperdoll_move(
+                    paperdoll_move_transform(
                         duration,
                         start_world["alignX"] + pd_obj.get_override_config("alignX", index),
                         start_world["alignY"] + pd_obj.get_override_config("alignY", index),
-                        (start_world["zoom"] + pd_obj.get_override_config("zoom", index)) * pd_obj.scale_factors[index],
+                        pd_obj.get_effective_zoom(index, start_world["zoom"] + pd_obj.get_override_config("zoom", index)),
                         end_world["alignX"] + pd_obj.get_override_config("alignX", index),
                         end_world["alignY"] + pd_obj.get_override_config("alignY", index),
-                        (end_world["zoom"] + pd_obj.get_override_config("zoom", index)) * pd_obj.scale_factors[index],
+                        pd_obj.get_effective_zoom(index, end_world["zoom"] + pd_obj.get_override_config("zoom", index)),
                     ),
-                    t_paperdoll_bw(paperdoll_saturation(pd_obj.is_bw())),
+                    paperdoll_matrixcolor_transform(pd_obj),
                 ]
             paperdoll_show_layers(
                 pd_obj,
@@ -948,6 +1375,10 @@ init -99 python:
                     - alternative keys are used to use alternative images if the main image is not available
                 - config: Dict[str, Any]
                     - used to set the initial configuration on object creation
+                - color
+                    - initial tint (`#rgb` / `#rgba` / `#rrggbb` / `#rrggbbaa`,
+                        a name, or `name:0.5`); alpha is the mix amount.
+                        Stripped before values so it is not a pattern key.
                 - display_size: Tuple[int, int]
                     - logical display size for all layers; omit to keep native pixel sizing
                 - display_sizes: List[Optional[Tuple[int, int]]]
@@ -973,6 +1404,8 @@ init -99 python:
             - Recomputes and stores the base scale factor for a loaded layer image
         12. get_effective_zoom(index: int, zoom: float = None) -> float
             - Returns config zoom multiplied by the layer base scale factor
+        13. get_color() -> str
+            - Returns the current tint as `#rrggbbaa`
         """
 
         def __init__(self, key: str, *pattern: str, **kwargs):
@@ -1019,6 +1452,10 @@ init -99 python:
             if "display_sizes" in kwargs.keys():
                 del kwargs["display_sizes"]
 
+            color_kw = get_kwargs("color", None, **kwargs)
+            if "color" in kwargs.keys():
+                del kwargs["color"]
+
             self.scale_factors = [1.0] * len(self.pattern)
 
             override_list = get_kwargs("overrides", [], **kwargs)
@@ -1042,8 +1479,13 @@ init -99 python:
                 "blur": 0.0,
                 "bw": False,
                 "flip": 1.0,
+                "color": "#00000000",
             },
             get_kwargs("config", {}, **kwargs))
+            if color_kw is not None:
+                self.config["color"] = paperdoll_normalize_color(color_kw)
+            else:
+                self.config["color"] = paperdoll_normalize_color(self.config.get("color", "#00000000"))
 
             self.config_override = [{
                 "alignX": 0.0,
@@ -1067,6 +1509,16 @@ init -99 python:
                 - True when grayscale display is enabled.
             """
             return bool(self.config.get("bw", False))
+
+        def get_color(self) -> str:
+            """
+            Returns the current paperdoll tint as `#rrggbbaa`.
+
+            ### Returns:
+            1. str
+                - Mix color; alpha `00` is no tint.
+            """
+            return paperdoll_normalize_color(self.config.get("color", "#00000000"))
 
         def set_values(self, data):
             """
@@ -1189,8 +1641,11 @@ init -99 python:
 
         def get_effective_zoom(self, index: int, zoom: float = None) -> float:
             """
-            Returns config zoom multiplied by the layer base scale factor.
-            Placement transforms use this combined value as their `zoom`.
+            Returns the zoom to pass to placement transforms.
+
+            When the layer has a `display_size`, the image is already fitted to that
+            box, so this is the config zoom as-is. Otherwise it is config zoom
+            multiplied by the native-size base scale.
 
             ### Parameters:
             1. index: int
@@ -1200,10 +1655,12 @@ init -99 python:
 
             ### Returns:
             1. float
-                - Combined zoom to pass to display transforms (config zoom × base scale).
+                - Zoom for display transforms.
             """
             if zoom is None:
                 zoom = self.get_config("zoom", index)
+            if paperdoll_get_display_size(self, index) is not None:
+                return zoom
             return zoom * self.scale_factors[index]
 
         def get_flip(self) -> float:
@@ -1351,7 +1808,12 @@ init -99 python:
             if key not in self.paperdoll_objs.keys():
                 return
 
-            renpy.call("display_paperdoll_image", self.paperdoll_objs[key], list(actions))
+            actions_list = list(actions)
+            for i in range(len(actions_list)):
+                if isinstance(actions_list[i], str):
+                    actions_list[i] = PDAPreset(actions_list[i])
+
+            renpy.call("display_paperdoll_image", self.paperdoll_objs[key], actions_list)
 
         def background(self, *actions: Action):
             pass
@@ -1827,6 +2289,40 @@ init -99 python:
         def get_values(self) -> Tuple[bool, float]:
             return self.bw, self.get_duration()
 
+    class PDAColor(PDAction):
+        def __init__(self, color, duration = 0.0):
+            """
+            Mixes the paperdoll toward an RGBA color. Alpha is the mix amount.
+
+            `#00000088` is a 50% darken; `#000000ff` is solid black on visible
+            pixels. `#0ac`, `#fff8`, `green`, and `green:0.5` are also valid.
+            `#00000000` (or `None`) clears the tint. Sprite transparency is kept.
+
+            ### Parameters:
+            1. color
+                - `#rgb` / `#rgba` / `#rrggbb` / `#rrggbbaa` (optional `#`),
+                    a name (`green`, `blue`, …), `name:0.5` / `name:50%` for
+                    mix amount, a Ren'Py `Color`, or `None` to clear.
+            2. duration
+                - Transition duration for the mix. Accepts delta strings vs
+                    `0.0` / prior override.
+            """
+            super().__init__("color")
+            self.color = paperdoll_normalize_color(color)
+            self.duration = duration
+
+        def overwrite_values(self, **kwargs):
+            if "color" in kwargs:
+                self.color = paperdoll_normalize_color(kwargs["color"])
+            if "duration" in kwargs:
+                self.duration = paperdoll_apply_number_arg(kwargs["duration"], self.duration)
+
+        def get_duration(self) -> float:
+            return paperdoll_resolve_number(self.duration, 0.0)
+
+        def get_values(self) -> Tuple[str, float]:
+            return self.color, self.get_duration()
+
     class PaperdollOverride:
         def __init__(self, index: int, conditions: Dict[str, Any], x_override = 0.0, y_override = 0.0, rot_override = 0.0, blur_override = 0.0, zoom_override = 0.0):
             self.conditions = conditions
@@ -1867,17 +2363,19 @@ init -99 python:
 
 transform t_paperdoll_blur(blur_val, duration = 0.0):
     ease duration blur blur_val
-transform t_paperdoll_position(xAlign, yAlign, zoom_val):
+transform t_paperdoll_position(xPos, xAnchor, yAlign, zoom_val):
     transform_anchor True
-    xalign xAlign
+    xpos xPos
+    xanchor xAnchor
     ypos yAlign
     zoom zoom_val
-transform t_paperdoll_move(duration, startX, startY, startZ, endX, endY, endZ):
+transform t_paperdoll_move(duration, startXpos, startXanchor, startY, startZ, endXpos, endXanchor, endY, endZ):
     transform_anchor True
-    xalign startX
+    xpos startXpos
+    xanchor startXanchor
     ypos startY
     zoom startZ
-    ease duration xalign endX ypos endY zoom endZ
+    ease duration xpos endXpos xanchor endXanchor ypos endY zoom endZ
 transform t_paperdoll_flip(duration, start_xzoom, end_xzoom):
     xalign 0.5
     yalign 0.0
@@ -1885,8 +2383,13 @@ transform t_paperdoll_flip(duration, start_xzoom, end_xzoom):
     ease duration xzoom end_xzoom
 transform t_paperdoll_bw(saturation, duration = 0.0):
     ease duration matrixcolor SaturationMatrix(saturation)
+transform t_paperdoll_matrixcolor(matrix, duration = 0.0):
+    ease duration matrixcolor matrix
 
 label display_background_image(duration):
+    # Paperdoll bg is zorder -100; the map overview's leftover `school_map` sits
+    # at default zorder and would otherwise cover it.
+    $ renpy.hide("school_map")
     if paperdoll_manager.background_image != "":
         $ bg_displayable = paperdoll_manager.background_image
         if isinstance(bg_displayable, str):
@@ -1914,13 +2417,13 @@ label display_paperdoll_image(paperdoll_obj, actions):
                 tag = paperdoll_obj.key + str(index),
                 what = paperdoll_layer_for_show(paperdoll_obj, index),
                 at_list = [
-                    t_paperdoll_position(
+                    paperdoll_position_transform(
                         paperdoll_obj.get_config("alignX", index),
                         paperdoll_obj.get_config("alignY", index),
                         paperdoll_obj.get_effective_zoom(index)
                     ),
                     t_paperdoll_blur(paperdoll_obj.get_value("blur")),
-                    t_paperdoll_bw(paperdoll_saturation(paperdoll_obj.is_bw())),
+                    paperdoll_matrixcolor_transform(paperdoll_obj),
                 ],
                 zorder = paperdoll_layer_zorder(paperdoll_obj),
             )
@@ -2045,6 +2548,26 @@ label paperdoll_action_bw(paperdoll_obj, pda_bw):
             blur=paperdoll_obj.config.get("blur", 0.0),
             saturation=paperdoll_saturation(bw),
             bw_duration=duration,
+            clear_tag=(duration <= 0),
+        )
+
+    return
+
+label paperdoll_action_color(paperdoll_obj, pda_color):
+    $ color, duration = pda_color.get_values()
+
+    if preferences.transitions != 0 and persistent.transitionSpeed > 0 and duration > 0:
+        $ duration = duration / persistent.transitionSpeed
+
+    $ paperdoll_obj.config["color"] = paperdoll_normalize_color(color)
+
+    python:
+        paperdoll_show_idle_layers(
+            paperdoll_obj,
+            blur=paperdoll_obj.config.get("blur", 0.0),
+            color=paperdoll_obj.get_color(),
+            color_duration=duration,
+            clear_tag=(duration <= 0),
         )
 
     return

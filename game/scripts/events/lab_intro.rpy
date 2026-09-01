@@ -693,7 +693,6 @@ init 2 python:
             Pattern("main", "images/events/lab_intro/lab_intro_6/lab_intro_6 <step>.png"),
             thumbnail = "images/events/lab/lab_intro_6_secret/lab_intro_6_secretary_talk 0.webp")
     office_building_call_secretary_events["talk"].add_event(lab_intro_6_event)
-    test_events.add_event(lab_intro_6_event)
 
 label lab_intro_6 (**kwargs):
     $ begin_event(**kwargs)

@@ -44,10 +44,12 @@ with a tease. She's the Headmaster's closest ally and confidante, comfortable
 slipping between dry professionalism, flirtation, and open devotion.
 
 **Level progression.** Emiko's personal track starts ahead of the student body
-(she begins around level 5). Across the campus climate (see
-[School Levels](School-Levels)) she's consistently the most openly, warmly
-forward figure in the Headmaster's orbit, rather than someone who has to be
-brought along.
+(she begins around level 5). Her paperdoll has no level-1 uniform, so her
+`Person` definition seeds `paperdollDefaults = {"level": 5}` — `$ emiko.register_paperdoll()`
+opens on level 5 unless a scene passes a different `level`. Across the campus
+climate (see [School Levels](School-Levels)) she's consistently the most openly,
+warmly forward figure in the Headmaster's orbit, rather than someone who has to
+be brought along.
 
 ## Portrait
 

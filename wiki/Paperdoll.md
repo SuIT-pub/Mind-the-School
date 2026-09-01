@@ -1,7 +1,7 @@
 > **Audience:** Developers writing *Mind the School* scenes who need a **layered,
 > live sprite on screen** — a character built from a body + head that changes pose,
-> outfit, mood and mouth mid-conversation, moves, zooms, blurs, shakes, flips or
-> desaturates, sitting over a (blurred) background.
+> outfit, mood and mouth mid-conversation, moves, zooms, blurs, shakes, flips,
+> desaturates or tints, sitting over a (blurred) background.
 >
 > **Scope:** The paperdoll system (`paperdoll.rpy`). It is the compositor the game
 > uses for talking characters, driven by the `Person.register_paperdoll()` /
@@ -22,9 +22,9 @@ $ paperdoll_manager.set_background(
     blur = True)                                               # blurred backdrop behind her
 $ emiko.display(                                               # first frame + how she enters
     PDAImage(pose = "1", outfit = "uniform", level = 6, mood = "neutral", mouth = "closed"),
-    PDAPreset("upper_body", duration = 0.0),
-    PDAPreset("outside",    duration = 0.0))
-$ emiko.display(PDAPreset("upper_body_center", duration = 0.4))   # slide her in
+    "upper_body",
+    "outside")
+$ emiko.display(PDAPreset("upper_body_center", duration = 0.4))   # slide her in (string form has no duration)
 $ emiko.display(PDAImage(mood = "suspicious", mouth = "open"))    # change expression
 emiko.say "Oh. You noticed."
 $ emiko.display(PDAImage(mood = "neutral", mouth = "closed"))
@@ -42,7 +42,8 @@ The three moving parts:
 - **A paperdoll object** — a named stack of **layers**, each layer a *pattern* that
   resolves to an image from the current `values` (`pose`, `outfit`, `mood`, …).
 - **Actions (`PDA…`)** — the verbs you pass to `.display()`: change the image, move,
-  blur, pause, shake, flip, desaturate, or expand a preset.
+  blur, pause, shake, flip, desaturate, tint, or expand a preset. A bare string is
+  treated as that preset's name (`"close_body_left"` ≡ `PDAPreset("close_body_left")`).
 
 ---
 
@@ -77,12 +78,18 @@ resolved to a concrete file at display time.
 
 For a character the stack is two layers:
 
-1. **bottom** — the body: `… <char_var> <pose> <outfit> <level> <state>.png`
-2. **top** — the head: `… <char_var> <pose> <mood> <mouth>.png`
+1. **bottom** — the body: `… <char_var> <pose> <outfit> <level> <state> <extra1>.png`
+2. **top** — the head: `… <char_var> <pose> <mood> <mouth> <look> <extra2>.png`
 
-Changing `outfit` re-resolves only what the pattern references; changing `mood` or
-`mouth` swaps the head without touching the body. Because both layers share the same
-position/zoom/blur transforms, they move as one figure.
+`look` is `"follow"` (gazing at the player, house default) or `"avert"` (looking
+away). `extra1` / `extra2` are empty unless a scene needs a special sprite that
+doesn't fit the other keys — a one-off body or head file. They are in `alt_keys`, so
+a missing or empty extra falls back to `$` on disk (the normal sprite). `look` is
+**not** an alternative: both gaze files have to exist.
+
+Changing `outfit` re-resolves only what the pattern references; changing `mood`,
+`mouth` or `look` swaps the head without touching the body. Because both layers share
+the same position/zoom/blur transforms, they move as one figure.
 
 The engine is deliberately generic. It has no concept of "character", "mood" or
 "outfit" — those are just keys in the pattern. A paperdoll can have **one layer or
@@ -117,7 +124,7 @@ Manager surface you use directly:
 |--------|---------|
 | `register_obj(key, *patterns, **kwargs)` | register a paperdoll object under `key` |
 | `get_obj(key)` | fetch the `Paperdoll_Obj` |
-| `display(key, *actions)` | run the action pipeline for that object |
+| `display(key, *actions)` | run the action pipeline for that object; a `str` is wrapped as `PDAPreset` |
 | `set_background(pattern, …)` | set/replace the backdrop (`zorder -100`) |
 | `set_background_split(left, right, …)` | split backdrop (left half + right half) |
 | `hide_background()` | drop the backdrop |
@@ -141,7 +148,8 @@ the game (see [Images](Images) and [Selectors §7](Selectors)):
 
 So `alt_keys` decides *which* values are allowed to be "smoothed over" by a wildcard
 when a specific asset is missing — you list the fine-grained keys (level, mouth,
-state, variant) and keep the structural ones (pose, outfit) exact.
+state, char_var, extra1, extra2) and keep the structural ones (pose, outfit, look)
+exact.
 
 Resolution is **lazy and cached per layer**: `display_paperdoll_image` only resolves
 a layer whose `image[index]` is still `""`. `PDAImage` changes the values and forces
@@ -158,15 +166,53 @@ you use 99% of the time. It registers a two-layer object under the person's name
 the body/head patterns and sensible default values:
 
 ```python
-$ emiko.register_paperdoll()                     # defaults: pose 1, uniform, level 1,
-                                                 # mood happy, mouth closed, char_var 1
-$ luna.register_paperdoll(level = 10, mood = "happy", mouth = "closed")   # override defaults
+$ emiko.register_paperdoll()                     # house defaults, then Person.paperdollDefaults
+$ luna.register_paperdoll(level = 10, mood = "happy", mouth = "closed")   # call-time kwargs win
+$ emiko.register_paperdoll(color = "#00000088")   # start 50% darkened (not a pattern value)
 ```
 
-Defaults it seeds: `alt_keys = ["level", "mouth", "state", "char_var"]`,
-`mood="happy"`, `pose=1`, `outfit="uniform"`, `level=1`, `mouth="closed"`,
-`state=""`, `blur=0.0`, `char_var=1`, and `display_size=(600, 1080)`. Any
-`PaperdollOverride`s and `PaperdollPreset`s declared on the person
+House defaults it seeds: `alt_keys = ["level", "mouth", "state", "char_var", "extra1",
+"extra2"]`, `mood="happy"`, `pose=1`, `outfit="uniform"`, `level=1`, `mouth="closed"`,
+`state=""`, `blur=0.0`, `char_var=1`, `look="follow"`, `extra1=""`, `extra2=""`, and
+`display_size=(600, 1080)`.
+
+Character pattern keys (filled by those defaults, then `PDAImage`):
+
+| Key | Layer | Default | `$` fallback | Meaning |
+|-----|-------|---------|--------------|---------|
+| `char_var` | both | `1` | yes | body/head variant |
+| `pose` | both | `1` | no | shared pose index |
+| `outfit` | bottom | `"uniform"` | no | clothes set |
+| `level` | bottom | `1` | yes | campus-level / nude step |
+| `state` | bottom | `""` | yes | optional body state |
+| `extra1` | bottom | `""` | yes | optional special body sprite |
+| `mood` | top | `"happy"` | no | expression |
+| `mouth` | top | `"closed"` | yes | mouth shape |
+| `look` | top | `"follow"` | **no** | `"follow"` (at the player) or `"avert"` (looking away) |
+| `extra2` | top | `""` | yes | optional special head sprite |
+
+`extra1` / `extra2` stay empty for the normal pair. Set them only when you have a
+file whose token doesn't fit pose/outfit/mood/… (`PDAImage(extra1 = "wet")` picks
+the body file with that extra token). Empty or missing extras resolve via `$`.
+`look` does not: ship both `follow` and `avert` heads, then switch with
+`PDAImage(look = "avert")`.
+
+**Per-person defaults.** A `Person` can carry `paperdollDefaults` — a dict of value
+keys that replace the matching house seeds at registration. Use this when a
+character's art set doesn't start at the house defaults (Emiko has no level-1
+uniform, so she seeds `level=5`). Merge order is house defaults →
+`Person.paperdollDefaults` → `register_paperdoll(**kwargs)`. Call-time kwargs
+always win, so a scene can still force a different level.
+
+```python
+# on the Person definition in character.rpy:
+paperdollDefaults = {"level": 5}
+
+$ emiko.register_paperdoll()          # seeds level 5 instead of 1
+$ emiko.register_paperdoll(level = 7) # call-time kwargs still win
+```
+
+Any `PaperdollOverride`s and `PaperdollPreset`s declared on the person
 ([§12](#12-overrides-per-layer-conditional-nudges), [§9](#9-presets)) are merged in
 automatically.
 
@@ -190,7 +236,8 @@ paperdoll_manager.register_obj(
     local = {"alignX": 0.08},  # relative transform when parented (optional)
     space = "screen",          # "screen" offsets, or "parent" = 0–1 on parent box
     behind = False,            # True → zorder -1 (still above the background)
-    config = {...},            # initial alignX/alignY/rotation/zoom/blur/bw (optional)
+    config = {...},            # initial alignX/alignY/rotation/zoom/blur/bw/color (optional)
+    color = "#00000000",       # RGBA tint; alpha = mix amount (optional; not a pattern value)
     **initial_values,          # the values that fill the <keys> in the patterns
 )
 ```
@@ -227,26 +274,30 @@ See [§8 Parenting a prop](#parenting-a-prop) for a recipe.
 Two distinct dictionaries drive a paperdoll:
 
 **Values** — fill the `<keys>` in the patterns (`pose`, `outfit`, `mood`, `mouth`,
-`level`, `state`, `char_var`, `blur`, …). Set at registration, updated by
-`PDAImage`. This is *what image* each layer shows.
+`look`, `level`, `state`, `char_var`, `extra1`, `extra2`, `blur`, …). Set at
+registration, updated by `PDAImage`. This is *what image* each layer shows.
 
 **Config** — the transform state, shared by all layers. This is *where/how* the stack
 is drawn:
 
 | Config key | Meaning | Default |
 |------------|---------|---------|
-| `alignX` | horizontal alignment: `0.0` left edge at the left of the screen, `1.0` right edge at the right, at any zoom. Values outside 0–1 continue off that edge. Zoom grows around this point. | `-0.5` |
+| `alignX` | horizontal alignment: `0.0` left edge at the left of the screen, `1.0` right edge at the right, at any zoom. Values `< 0` / `> 1` offset that nearest edge by screen-fractions (`-0.5` = left edge half a screen off the left; `-1.5` fully off). Zoom grows around the sprite edge, not around a point beside it. | `-0.5` |
 | `alignY` | vertical position (`ypos`) | `0.0` |
 | `zoom` | scale multiplier (on top of the display-size base scale) | `1.0` |
 | `rotation` | rotation | `0.0` |
 | `blur` | gaussian blur radius | `0.0` |
 | `bw` | grayscale when `True` | `False` |
 | `flip` | horizontal mirror (`xzoom`; `1.0` unflipped, `-1.0` mirrored) | `1.0` |
+| `color` | Mix color. Accepts `#rgb` / `#rgba` / `#rrggbb` / `#rrggbbaa`, names (`green`, `blue`, …), and `name:0.5` / `name:50%` for mix amount. Alpha is the mix: `00` leaves the sprite, `ff` replaces visible pixels with the RGB (sprite alpha kept). `#00000088` or `black:0.5` is a 50% darken. Stored as `#rrggbbaa`. Not added via `get_config`. | `#00000000` |
 
 Each layer additionally has a **config override** (`config_override[index]`) — a
 small per-layer delta added on top of the shared config. `get_config(key, index)`
-returns `config[key] + config_override[index][key]`. The shared config is what your
-actions move; the override is where [PaperdollOverride](#12-overrides-per-layer-conditional-nudges)
+returns `config[key] + config_override[index][key]`. Use that for the numeric keys
+(`alignX`, `alignY`, `zoom`, `rotation`, `blur`). `bw` and `color` live on the
+shared config but are not floats — read them with `is_bw()` / `get_color()`. The
+shared config is what your actions move; the override is where
+[PaperdollOverride](#12-overrides-per-layer-conditional-nudges)
 nudges an individual layer (e.g. shifting only the body for a bulky outfit).
 
 ---
@@ -256,9 +307,13 @@ nudges an individual layer (e.g. shifting only the body for a bulky outfit).
 `.display(*actions)` (→ `paperdoll_manager.display` → the `display_paperdoll_image`
 label) does two things:
 
-1. **Ensures every layer is shown.** Any layer still unresolved (`image == ""`) is
-   resolved now and shown with the current position, blur and bw transforms.
-2. **Runs the actions in order.** `run_paperdoll_actions` pops each action and calls
+1. **Wraps bare strings.** Any `str` in `*actions` becomes `PDAPreset(that_string)`
+   before the pipeline runs. `$ emiko.display("close_body_left")` is
+   `$ emiko.display(PDAPreset("close_body_left"))`. Overrides (`duration`, …) still
+   need the constructor: `PDAPreset("upper_body_center", duration = 0.4)`.
+2. **Ensures every layer is shown.** Any layer still unresolved (`image == ""`) is
+   resolved now and shown with the current position, blur, bw and color transforms.
+3. **Runs the actions in order.** `run_paperdoll_actions` pops each action and calls
    the label `paperdoll_action_<key>` (e.g. `paperdoll_action_move`). A `PDAPreset`
    is expanded first and its actions run recursively.
 
@@ -271,7 +326,7 @@ emiko.say "Gladly."
 $ emiko.display(PDAImage(mood = "happy", mouth = "closed"))
 ```
 
-Motion (`PDAMove`, `PDABlur`, `PDABw`, `PDAFlip`) with a `duration > 0` animates; the transition
+Motion (`PDAMove`, `PDABlur`, `PDABw`, `PDAColor`, `PDAFlip`) with a `duration > 0` animates; the transition
 is scaled by the player's transition-speed preference automatically. Duration does **not**
 block the pipeline — follow a timed action with `PDAPause` of the same length if the next
 action would replace the transform. Teardown is automatic: `$ image.show(…)` and
@@ -282,18 +337,20 @@ mid-scene blank that those two will not cover.
 
 ## 7. The action catalog
 
-All actions are `PDAction` subclasses; pass any number to a single `.display()`.
+All actions are `PDAction` subclasses; pass any number to a single `.display()`. A
+bare string is accepted too and wrapped as `PDAPreset`.
 
 | Action | Constructor | Effect |
 |--------|-------------|--------|
-| **Image** | `PDAImage(**values)` | merge new values, re-resolve every layer (change pose/outfit/mood/mouth/…) |
+| **Image** | `PDAImage(**values)` | merge new values, re-resolve every layer (change pose/outfit/mood/mouth/look/extra1/…) |
 | **Move** | `PDAMove(alignX=-100, alignY=-100, zoom=-100, duration=0.0)` | reposition/scale; omitted args keep the current value (sentinel `< -10`); `duration` eases |
 | **Blur** | `PDABlur(blur, duration=0.0)` | set blur radius, optionally eased |
 | **Bw** | `PDABw(bw=True, duration=0.0)` | toggle grayscale (saturation), optionally eased |
+| **Color** | `PDAColor(color, duration=0.0)` | mix toward a color; alpha / `name:0.5` = mix amount; optionally eased |
 | **Flip** | `PDAFlip(flip=False, duration=0.0)` | mirror horizontally (`xzoom`); `duration` eases, `0.0` snaps |
 | **Shake** | `PDAShake(duration=1.0, max_distance=15)` | deterministic shake; all layers share one seed so they shake together |
 | **Pause** | `PDAPause(duration=0.0, transition=True)` | wait; `transition` scales the wait by transition-speed preference |
-| **Preset** | `PDAPreset(preset, **overrides)` | expand a named preset into its actions (see [§9](#9-presets)) |
+| **Preset** | `PDAPreset(preset, **overrides)` or `"preset"` | expand a named preset into its actions (see [§9](#9-presets)) |
 
 Notes:
 
@@ -307,8 +364,12 @@ Notes:
   Preset overrides resolve duration/max_distance deltas against the action's prior
   number immediately (`PDAPreset("x", duration = "+0.4")`).
 - **`alignX` is zoom-independent.** `0.0` is always left-aligned, `1.0` always
-  right-aligned; extra zoom grows around that point. `< 0` / `> 1` continue linearly
-  off that screen edge (same as `xalign` at zoom 1.0).
+  right-aligned; extra zoom grows around that *sprite* edge (or the interpolated
+  point in between). Values `< 0` / `> 1` keep that nearest edge as the zoom pivot
+  and shift it by screen-fractions — `-0.5` parks the left edge half a screen off
+  the left, `-1.5` (the `outside` preset) is fully off at any zoom. Do not use
+  native `xalign` for this: it zooms around a point *beside* the sprite, which
+  pulls a zoomed figure back on-screen.
 - **Zoom and position ease together.** `alignX`, `alignY` and `zoom` interpolate in
   the same move — `PDAMove(zoom = 2.0, alignX = 1.0, alignY = -0.1, duration = 1.0)`
   is one ease, not two sequential actions.
@@ -320,8 +381,31 @@ Notes:
   moves and image swaps keep the facing. `duration = 0.0` (the default) snaps as before.
   The ease pivots around the **sprite's horizontal center**, not the `xalign` point —
   otherwise a right-aligned figure would swing off-frame as `xzoom` passes through 0.
-- **`PDAImage` is the only value-changing action.** Move/blur/flip/bw operate on the
-  *already resolved* images and don't re-read the filesystem.
+- **`PDAImage` is the only value-changing action.** Move/blur/flip/bw/color operate on the
+  *already resolved* images and don't re-read the filesystem. Gaze and extras are
+  values too: `PDAImage(look = "avert")`, `PDAImage(extra1 = "wet")`.
+- **Bare preset strings.** `$ emiko.display("close_body_left")` is
+  `PDAPreset("close_body_left")`. Mix them with real actions:
+  `$ emiko.display(PDAImage(mouth = "open"), "upper_body_center")`. A string cannot
+  carry overrides — `PDAPreset("upper_body_center", duration = 0.4)` still needs the
+  constructor.
+- **Tint mix, not multiply.** `PDAColor("#00000088")` or `PDAColor("black:0.5")`
+  lerps each visible pixel 50% toward black (a darken). `#ff0000aa`, `#f00:0.67`,
+  `#f00a`, and `"red:0.67"` are a red wash. Short hex (`#0ac`, `#fff8`) expands
+  the usual way (`#0ac` = `#00aaccff`). `#00000000`, `"transparent"`, or `None`
+  clears it. Pass `color="#00000088"` to `register_paperdoll` / `register_obj` (or
+  `config={"color": ...}`) to start already tinted — it is stripped before values,
+  so it is not a pattern key. Tint and grayscale share one color matrix, so a
+  `PDAMove` keeps both. Color is per-object (like bw) and does not fan out to
+  parented children.
+- **Named colors.** `black`, `white`, `gray`/`grey`, `silver`, `lightgray`, `red`,
+  `darkred`, `maroon`, `crimson`, `salmon`, `coral`, `tomato`, `pink`, `hotpink`,
+  `orange`, `orangered`, `gold`, `yellow`, `khaki`, `brown`, `chocolate`, `tan`,
+  `beige`, `green`/`lime`, `darkgreen`, `olive`, `teal`, `cyan`/`aqua`,
+  `turquoise`, `blue`, `navy`, `darkblue`, `indigo`, `azure`, `purple`, `violet`,
+  `magenta`/`fuchsia`, `ivory`, `transparent`. `green` / `lime` are bright
+  `#00ff00`; `darkgreen` is the darker one. Other CSS names go through Ren'Py
+  `Color`. Mix amount: `"green:0.5"` or `"green:50%"`.
 - **Order matters.** Actions in one `.display()` apply left-to-right; e.g. an image
   swap followed by a move.
 
@@ -339,6 +423,7 @@ that those two will not cover, and never once per character.
 |------------|------|
 | Hand off a still to a talking sprite | [Scene image → talking figure](#scene-image--talking-figure) |
 | Open/close the mouth around dialogue | [Expression while they talk](#expression-while-they-talk) |
+| Gaze away / special sprite token | [Gaze and special sprites](#gaze-and-special-sprites) |
 | Two characters, one each side | [Two people, left and right](#two-people-left-and-right) |
 | Enter from off-screen / leave | [Slide in from off-screen](#slide-in-from-off-screen) |
 | Zoom and slide in one ease | [Zoom and slide in one move](#zoom-and-slide-in-one-move) |
@@ -348,7 +433,7 @@ that those two will not cover, and never once per character.
 | Prop that follows a character | [Parenting a prop](#parenting-a-prop) |
 | Nested parents (`mug` → `hand` → character) | [Nested parenting](#nested-parenting) |
 | Two locations on one screen | [Split backdrop](#split-backdrop-two-locations) |
-| Shake / blur / grayscale | [Emphasis](#emphasis-shake-blur-grayscale) |
+| Shake / blur / grayscale / tint | [Emphasis](#emphasis-shake-blur-grayscale) |
 | Hide one person, keep the other | [Hide one person](#hide-one-person-keep-the-other) |
 | Change location behind them | [Change the backdrop](#change-the-backdrop-mid-scene) |
 | Swap outfit or nude level | [Outfit or level swap](#outfit-or-level-swap) |
@@ -369,7 +454,7 @@ $ secretary.register_paperdoll()
 $ paperdoll_manager.set_background(image[2], blur = True)
 $ secretary.display(
     PDAImage(pose = "21", mood = "neutral", mouth = "open"),
-    PDAPreset("close_body_center", duration = 0.0))
+    "close_body_center")
 secretary "Hmm. A little warmer."
 $ secretary.display(PDAImage(mood = "happy", mouth = "closed"))
 ...
@@ -381,8 +466,8 @@ $ image.show(3)    # still; also paperdoll_manager.clear()
 
 ### Expression while they talk
 
-`PDAImage` is the only action that re-resolves files. Change `mouth` (and `mood`)
-around each line; leave pose/outfit/zoom alone so the figure doesn't jump.
+`PDAImage` is the only action that re-resolves files. Change `mouth` (and `mood` /
+`look`) around each line; leave pose/outfit/zoom alone so the figure doesn't jump.
 
 ```python
 $ emiko.display(PDAImage(mood = "happy", mouth = "open"))
@@ -396,6 +481,26 @@ A pose swap is the same call — current `alignX` / `zoom` / `flip` stay in conf
 $ aona.display(PDAImage(pose = "23", mood = "happy", mouth = "closed"))
 ```
 
+### Gaze and special sprites
+
+`look` is `"follow"` (at the player, the house default) or `"avert"` (looking away).
+It lives on the **head** layer and is not in `alt_keys`, so both files need to exist.
+
+`extra1` (body) and `extra2` (head) are optional filename tokens for a one-off sprite
+that the other keys can't describe. They default to `""` and *are* in `alt_keys`, so
+the normal `$` file is used until you set one.
+
+```python
+$ emiko.display(PDAImage(look = "avert"))            # looking away
+$ emiko.display(PDAImage(look = "follow"))           # looking at you again
+$ emiko.display(PDAImage(extra1 = "wet"))            # special body file
+$ emiko.display(PDAImage(extra2 = "glasses"))        # special head file
+$ emiko.display(PDAImage(extra1 = "", extra2 = ""))  # back to the normal pair
+```
+
+The extra token is whatever you put in the filename (`… wet.png` / `… glasses.png`).
+Leave them unset for every ordinary beat.
+
 ### Two people, left and right
 
 `alignX` is zoom-independent: `0.0` left edge, `1.0` right edge, at any zoom. Built-in
@@ -408,11 +513,11 @@ $ paperdoll_manager.set_background(image[1], blur = True)
 
 $ aona.display(
     PDAImage(pose = "7", outfit = "uniform", level = 1, mood = "suspicious", mouth = "closed"),
-    PDAPreset("close_body_left", duration = 0.0))
+    "close_body_left")
 $ ikushi.display(
     PDAImage(pose = "7", mood = "suprised", mouth = "open"),
     PDAFlip(True),
-    PDAPreset("close_body_right", duration = 0.0))
+    "close_body_right")
 
 aona.say "Trust me."
 $ aona.display(PDAImage(mouth = "closed"))
@@ -423,7 +528,7 @@ ikushi.say "...if you say so."
 
 `PDAFlip(True)` is stored on the object, so later `PDAImage` / `PDAMove` keep the
 facing. Nudge further inward with a second move if the preset sits too tight on the
-edge: `PDAPreset("close_body_right"), PDAMove(alignX = 0.85)`.
+edge: `"close_body_right", PDAMove(alignX = 0.85)`.
 
 ### Slide in from off-screen
 
@@ -432,8 +537,8 @@ Park them in `outside` (`alignX = -1.5`) at duration 0, then ease a positioned p
 ```python
 $ emiko.display(
     PDAImage(pose = "1", outfit = "uniform", level = 6, mood = "neutral", mouth = "closed"),
-    PDAPreset("upper_body", duration = 0.0),
-    PDAPreset("outside",    duration = 0.0))
+    "upper_body",
+    "outside")
 $ emiko.display(PDAPreset("upper_body_center", duration = 0.4))
 ```
 
@@ -461,7 +566,8 @@ $ ikushi.display(
 ```
 
 `0.0` / `1.0` stay left / right at zoom 2 or 3 — you no longer compensate with `1.3`
-or `6.0`. Values `< 0` / `> 1` continue off that edge.
+or `6.0`. Values `< 0` / `> 1` shift that nearest edge by screen-fractions (`-1.5`
+is fully off the left at any zoom).
 
 ### Timed sequence: turn, then walk off, then come back
 
@@ -515,17 +621,25 @@ $ emiko.display(PDAImage(...), PDAPreset("close_body_left"))
 $ luna.display(PDAImage(...), PDAPreset("close_body_right"))
 ```
 
-### Emphasis: shake, blur, grayscale
+### Emphasis: shake, blur, grayscale, tint
 
 ```python
 $ emiko.display(PDAShake(duration = 0.6, max_distance = 20))
 $ emiko.display(PDABlur(10.0, duration = 0.4), PDAPause(0.4))
 $ emiko.display(PDABw(True, duration = 0.5), PDAPause(0.5))   # flashback / memory
 $ emiko.display(PDABw(False, duration = 0.5), PDAPause(0.5))  # restore colour
+$ emiko.display(PDAColor("#00000088", duration = 0.4), PDAPause(0.4))  # 50% darken
+$ emiko.display(PDAColor("black:0.5"))                                 # same, by name
+$ emiko.display(PDAColor("#fff8"))                                     # white wash, short hex
+$ emiko.display(PDAColor("green:0.5", duration = 0.3), PDAPause(0.3))  # 50% green
+$ emiko.display(PDAColor("#00000000", duration = 0.4), PDAPause(0.4))  # clear tint
 ```
 
-Shake uses one seed per object so body and head move together. Blur/bw, like move,
-need a pause if the next action would replace the transform.
+Shake uses one seed per object so body and head move together. Blur/bw/color, like move,
+need a pause if the next action would replace the transform. Alpha in the hex (or
+`name:0.5` / `name:50%`) is the mix amount (`88` ≈ half, `ff` = solid RGB on
+visible pixels). `#rgb` / `#rgba` work: `#0ac` → `#00aacc`, `#fff8` → white at
+mix `88`.
 
 ### Hide one person, keep the other
 
@@ -666,9 +780,11 @@ register_preset("upper_body", PDAMove(alignY = -0.1, zoom = 3.0))
 register_preset("upper_body_center", PDAPreset("upper_body"), PDAMove(alignX = 0.5))
 ```
 
-Use them via `PDAPreset("name", **overrides)`. Overrides are applied to every action
-in the preset that supports them (so `PDAPreset("upper_body", duration = 0.4)` adds a
-0.4s ease to the preset's move). Presets can reference other presets, as
+Use them via `PDAPreset("name", **overrides)`, or pass the name as a string to
+`.display()` (`"upper_body_center"` ≡ `PDAPreset("upper_body_center")`). Overrides
+are applied to every action in the preset that supports them (so
+`PDAPreset("upper_body", duration = 0.4)` adds a 0.4s ease to the preset's move). A
+string cannot carry overrides. Presets can reference other presets, as
 `upper_body_center` does.
 
 Built-in presets (`paperdoll.rpy`):
@@ -779,11 +895,13 @@ character reads as the subject.
 ## 11. display_size & high-resolution assets
 
 Source sprites are often authored much larger than their intended on-screen size.
-`display_size = (width, height)` declares the **logical** size a layer should occupy;
-the engine computes a **base scale** = `logical_height / native_height` per layer
-(cached) and folds it into the effective zoom. So `zoom = 1.0` means "the intended
-on-screen size", and your `PDAMove`/preset zooms are multipliers on top of that —
-independent of the raw pixel dimensions of the art.
+`display_size = (width, height)` declares the **logical** size a layer should occupy.
+Each layer is **fitted to that box before** config zoom, so `zoom = 1.0` means "the
+intended on-screen size" and `PDAMove`/preset zooms are multipliers on top —
+independent of the raw pixel dimensions, and independent of swapping one asset for
+another (`PDAImage` mouth/mood/pose). Folding the base scale into ATL zoom used to
+make a mouth swap jump closer: Ren'Py `take_state` kept the old Transform zoom and
+the new image's native size re-baked it.
 
 - `display_size` applies to all layers; `display_sizes = [...]` overrides it
   per-layer (pass `None` in a slot to keep native sizing for that layer).
@@ -850,7 +968,7 @@ paperdoll_manager.display("reactor", PDAImage(power = "3", state = "active"))
 paperdoll_manager.display("reactor", PDAShake(duration = 0.6, max_distance = 20))
 ```
 
-Everything else — presets, backgrounds, blur, bw, flip, overrides, per-layer
+Everything else — presets, backgrounds, blur, bw, color, flip, overrides, per-layer
 `display_sizes` — works identically. The character wrapper is simply the most-used
 preset of this general capability.
 
@@ -872,8 +990,12 @@ right combination/numbers, which you then hard-code into your event.
 right config values** for an asset set. It manages its own manager (it calls
 `init_paperdoll_manager` / `unload_paperdoll_manager` around the session), lets you
 pick a character and cycle `char_var` / `pose` / `outfit` / `level` / `state` /
-`mood` / `mouth` (discovered by scanning the actual files on disk), and exposes live
-`alignX` / `alignY` / `rotation` / `zoom` / `blur` / `flip` sliders plus the presets.
+`mood` / `mouth` / `look` / `extra1` / `extra2` (discovered by scanning the actual
+files on disk). `look` sits under Mouths when both `follow` and `avert` exist;
+`extra1` / `extra2` sit under char_var when the current combination has more than
+one extra token. A column with only one option is hidden and that token is used.
+It also exposes live `alignX` / `alignY` / `rotation` / `zoom` / `blur` / `flip`
+sliders plus the presets.
 
 Use it to dial in the position/zoom for a new pose or outfit, then copy those numbers
 into your event's `PDAMove`/preset or into a `PaperdollOverride`. It is a tuning tool,
@@ -936,12 +1058,16 @@ pose/outfit/mood/mouth), while the in-game editor is still where you tune the
   figure beats a static shot. Deciding when a scene deserves real art vs. a paperdoll
   is the author's editorial judgement — the caution is only against using paperdolls
   *inflationarily*, for everything.
-- **Change images with `PDAImage`, move with the others.** Don't re-register an object
-  to change a mood; that's what `PDAImage` is for. Re-registration is for a genuinely
-  new object.
 - **Let `alt_keys` absorb missing variants.** List the fine-grained keys (level,
-  mouth, state, variant) so a missing specific asset falls back to a generic one
-  instead of vanishing.
+  mouth, state, char_var, extra1, extra2) so a missing specific asset falls back to a
+  generic `$` file instead of vanishing. Do not list `look` — both gaze files are
+  required.
+- **Change images with `PDAImage`, move with the others.** Don't re-register an object
+  to change a mood; that's what `PDAImage` is for. Gaze and extras are the same call:
+  `PDAImage(look = "avert")`, `PDAImage(extra2 = "glasses")`. Re-registration is for a
+  genuinely new object.
+- **Preset names as strings.** `$ emiko.display("close_body_left")` is enough when you
+  don't need overrides. Keep `PDAPreset("name", duration = 0.4)` for timed eases.
 - **Tune with the editor, ship the numbers.** Find `alignX`/`zoom` in
   `show_paperdoll_test`, then hard-code them — don't guess.
 - **`PDAImage` keeps the current transform.** A pose/mood swap does not reset
@@ -958,18 +1084,22 @@ pose/outfit/mood/mouth), while the in-game editor is still where you tune the
 | Nothing appears | No layer resolved to an existing file | Check the pattern's `<keys>` match your values and the file exists; add `alt_keys` for the missing dimension. |
 | Only one layer shows | The other layer's pattern resolves to `""` | Verify that layer's file for the current values; check the `$` fallback path. |
 | Figure is the wrong size | `display_size` missing or wrong | Set `display_size` to the intended on-screen size; then use `zoom` as a multiplier. |
-| `PDAImage` (pose swap) suddenly huge | Unrelated — current `zoom` is kept from the last `PDAMove`/preset | Pass `PDAMove(zoom = …)` only if you want a new scale; don't re-register. |
+| `PDAImage` (mouth/mood swap) suddenly closer | Old Transform zoom was taken onto the new layer, or base scale was folded into ATL zoom | Layers are fitted to `display_size` first; `renpy.hide` before re-show drops the old Transform state. Config zoom stays a pure multiplier. |
+| `PDAImage` (pose swap) keeps a large framing | Current `zoom` is kept from the last `PDAMove`/preset | Pass `PDAMove(zoom = …)` only if you want a new scale; don't re-register. |
 | Position/zoom won't change | Passing sentinels or wrong action | `PDAMove` keeps any arg you omit; pass the ones you want changed. Only `PDAMove`/presets move. |
 | Right-align needs `alignX = 1.3` at zoom 2 | Old compensation; `alignX` is zoom-independent | Use `0.0` left / `1.0` right at any zoom (`close_body_left` / `_right`). |
+| `alignX = -0.5` / `-1.5` still on-screen at high zoom | Native `xalign` zooms around a point beside the sprite | Engine now clamps the zoom pivot to the sprite edge; `-0.5` is half a screen off the left, `-1.5` (`outside`) is fully off. |
 | Timed move/flip is skipped | Next action in the same `.display()` replaced the transform | Insert `PDAPause` of the same length; see [§8](#8-worked-examples). |
 | Flip swings off-frame while easing | Flip must pivot on the sprite centre (engine does this) | Don't animate `xzoom` yourself; use `PDAFlip(..., duration = …)`. |
-| Expression won't update | Not using `PDAImage` | Change `mood`/`mouth` via `PDAImage`; move/blur don't re-resolve images. |
+| Expression won't update | Not using `PDAImage` | Change `mood`/`mouth`/`look` via `PDAImage`; move/blur don't re-resolve images. |
+| Head missing after `look = "avert"` | No avert file; `look` is not in `alt_keys` | Ship both `follow` and `avert` heads. Extras (`extra1`/`extra2`) *do* fall back to `$`. |
 | Two layers drift apart on shake | (shouldn't happen) all layers share the shake seed | Confirm you're on `PDAShake` (seeded by the object key), not per-layer motion. |
 | One outfit sits a few pixels off | Needs a per-layer correction | Add a `PaperdollOverride` on that layer gated on the outfit value. |
 | `PDAPreset("intro")` does nothing | Object preset not registered / wrong key | Ensure `PaperdollPreset` is on the Person or `presets=`; bare keys have no `:`. |
 | Child prop does not follow | Not parented, or never shown | `register_obj(..., parent=...)`; `.display` the child once so layers resolve. |
 | Parenting fails silently | Parent missing or cycle | Register ancestors first; check the `paperdoll` log for cycle / missing parent. |
 | Background covers the figure | (fixed) late `set_background` used to win z-order | Background is `zorder -100`; figures stay above. |
+| Campus map still visible behind the figure | Map overview leaves `school_map` on the master layer; paperdoll bg is zorder `-100` | `begin_event` clears the master layer; `set_background` also hides `school_map`. Paperdoll-only events do not need a dummy `image.show`. |
 | Paperdoll persists into the next still | The still was not `Image_Series.show` | `$ image.show(n)` clears; `call show_image` / a raw `renpy.show` does not — then `clear_display()` first. `end_event` always unloads. |
 | `paperdoll_manager is None` outside an event | No manager (event flow creates it) | Call `init_paperdoll_manager()` yourself (as the debug editor does). |
 | Save/quicksave throws `PicklingError` (`_image_at_list` / `_blur_at_list` / `_bw_at_list`) | A `def` inside a label `python:` block is bound to `store` and rebound every PDAImage/PDABlur/PDABw | Keep those callables in init python (`paperdoll_show_idle_layers` / `paperdoll_show_shake_layers`). Restart the game after the fix — a Shift+R reload can leave the old store function around. |
@@ -979,7 +1109,7 @@ pose/outfit/mood/mouth), while the in-game editor is still where you tune the
 ## 17. Reference tables
 
 ### Manager (`PaperdollManager`)
-`register_obj(key, *patterns, **kwargs)` · `get_obj(key)` · `display(key, *actions)` ·
+`register_obj(key, *patterns, **kwargs)` · `get_obj(key)` · `display(key, *actions)` (a `str` is `PDAPreset`) ·
 `set_background(pattern=None, blur, blur_duration, bw, alt_keys, **kwargs)` ·
 `set_background_split(left=None, right=None, blur, blur_duration, separator_width, bw_left, bw_right, alt_keys, **kwargs)` ·
 `hide_background()` · `clear()`. Per object: `get_obj(key).hide_all_images()` hides
@@ -991,7 +1121,10 @@ path · `Image_Series[step]` · `<nude>` event path · `None`. Globals:
 Constructed as `(key, *patterns, **kwargs)`. kwargs: `overrides`, `presets`,
 `parent`, `local`, `space` (`"screen"`|`"parent"`), `behind`, `alt_keys`, `config`,
 `display_size`, `display_sizes`, plus initial values. Config (world): `alignX -0.5`,
-`alignY 0.0`, `rotation 0.0`, `zoom 1.0`, `blur 0.0`, `bw False`, `flip 1.0`.
+`alignY 0.0`, `rotation 0.0`, `zoom 1.0`, `blur 0.0`, `bw False`, `flip 1.0`,
+`color #00000000`. Top-level `color=` is the same tint (stripped before values).
+Color forms: `#rgb` / `#rgba` / `#rrggbb` / `#rrggbbaa`, names (`green`, `blue`,
+`black`, …), `name:0.5` / `name:50%`. `green` is `#00ff00`.
 When parented, `local` holds the relative transform; `config` is composed along the
 ancestor chain (`space="parent"` maps local align onto the parent's display box).
 `get_config(key, index)` = shared config + layer override. Show zorder: `0`, or
@@ -999,9 +1132,9 @@ ancestor chain (`space="parent"` maps local align onto the parent's display box)
 
 ### Actions
 `PDAImage(**values)` · `PDAMove(alignX, alignY, zoom, duration)` ·
-`PDABlur(blur, duration)` · `PDABw(bw, duration)` · `PDAFlip(flip, duration)` ·
+`PDABlur(blur, duration)` · `PDABw(bw, duration)` · `PDAColor(color, duration)` · `PDAFlip(flip, duration)` ·
 `PDAShake(duration, max_distance)` · `PDAPause(duration, transition)` ·
-`PDAPreset(preset, **overrides)`. Each runs via label `paperdoll_action_<key>`.
+`PDAPreset(preset, **overrides)` · a `str` in `.display()` is `PDAPreset(that_string)`. Each runs via label `paperdoll_action_<key>`.
 Move/flip/shake fan out to parented descendants.
 
 ### Presets
@@ -1015,8 +1148,12 @@ prefers scoped then bare (copy-on-expand).
 
 ### Character helper (`character.rpy`)
 `person.register_paperdoll(*overrides, **kwargs)` (2 layers, `display_size=(600,1080)`,
-`alt_keys=["level","mouth","state","char_var"]`, merges `paperdollOverrides` +
-`paperdollPresets`) · `person.display(*actions)` ·
+body `… <char_var> <pose> <outfit> <level> <state> <extra1>.png`, head
+`… <char_var> <pose> <mood> <mouth> <look> <extra2>.png`,
+`alt_keys=["level","mouth","state","char_var","extra1","extra2"]`, house values
+`look="follow"` / empty extras then `paperdollDefaults` then kwargs, merges
+`paperdollOverrides` + `paperdollPresets`; `color=` tints at register) ·
+`person.display(*actions)` (strings are presets) ·
 `person.clear_display()` · `PaperdollOverride(...)` · `PaperdollPreset(key, *actions)`.
 
 ### Related files

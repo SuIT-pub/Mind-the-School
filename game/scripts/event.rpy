@@ -1908,6 +1908,9 @@ init -3 python:
     def begin_event(version: str = "1", **kwargs):
         """
         This method is called at the start of an event after choices and topics have been chosen in the event.
+        It hides leftover screens and, on a fresh scene (not a fragment or
+        decision re-entry), clears the master layer so the map overview's
+        ``school_map`` image does not sit over a paperdoll background.
         It prevents rollback to before this method and thus prevents changing choices and topics.
         It also starts the :class:`Gallery_Manager` if the event is not in replay which is used to track and register 
         the used variables and decisions in the event.
@@ -1928,6 +1931,14 @@ init -3 python:
         no_gallery = get_kwargs("no_gallery", False, **kwargs)
         is_fragment = get_kwargs("is_fragment", False, **kwargs)
         is_decision_call = get_kwargs("is_decision_call", False, **kwargs)
+
+        # Map overview does `show school_map` (an image, not a screen). hide_all()
+        # only drops screens, so the map would stay at default zorder and cover a
+        # paperdoll background (zorder -100). Skip on fragment/decision re-entry
+        # so a continuing scene is not wiped.
+        if not is_decision_call and not is_fragment:
+            renpy.scene()
+            renpy.hide("school_map")
 
         if in_replay:
             event = get_kwargs('event_name', None, **kwargs)
