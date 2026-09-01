@@ -723,6 +723,81 @@ init -99 python:
                 zorder=z,
             )
 
+    def paperdoll_show_idle_layers(pd_obj, skip_empty=True, blur=None, saturation=None, blur_duration=0.0, bw_duration=0.0):
+        """
+        Shows every layer at the current position/zoom, with optional blur/saturation ease.
+
+        Lives in init python so the inner callable is never bound to `store`.
+        A `def` inside a label `python:` block is rebound every PDAImage and
+        breaks save/rollback (`PicklingError: ... _image_at_list`).
+
+        ### Parameters:
+        1. pd_obj: Paperdoll_Obj
+            - The paperdoll object to show.
+        2. skip_empty: bool
+            - When True, skip layers whose image path is still empty.
+        3. blur: Optional[float]
+            - Blur amount. Defaults to `pd_obj.get_value("blur")`.
+        4. saturation: Optional[float]
+            - Saturation (1.0 colour, 0.0 B/W). Defaults from `pd_obj.is_bw()`.
+        5. blur_duration: float
+            - Ease duration for the blur transform.
+        6. bw_duration: float
+            - Ease duration for the saturation transform.
+        """
+        if blur is None:
+            blur = pd_obj.get_value("blur")
+        if saturation is None:
+            saturation = paperdoll_saturation(pd_obj.is_bw())
+
+        def _idle_at_list(index):
+            return [
+                t_paperdoll_position(
+                    pd_obj.get_config("alignX", index),
+                    pd_obj.get_config("alignY", index),
+                    pd_obj.get_effective_zoom(index)
+                ),
+                t_paperdoll_blur(blur, blur_duration),
+                t_paperdoll_bw(saturation, bw_duration),
+            ]
+
+        paperdoll_show_layers(pd_obj, _idle_at_list, skip_empty=skip_empty)
+
+    def paperdoll_show_shake_layers(pd_obj, duration, max_distance):
+        """
+        Re-shows every visible layer with a seeded Shake on top of the current pose.
+
+        ### Parameters:
+        1. pd_obj: Paperdoll_Obj
+            - The paperdoll object to shake.
+        2. duration: float
+            - Shake duration.
+        3. max_distance: float
+            - Peak pixel offset.
+        """
+        def _shake_at_list(index):
+            return [
+                t_paperdoll_position(
+                    pd_obj.get_config("alignX", index),
+                    pd_obj.get_config("alignY", index),
+                    pd_obj.get_effective_zoom(index)
+                ),
+                Shake(
+                    (
+                        pd_obj.get_config("alignX", index),
+                        pd_obj.get_config("alignY", index),
+                        pd_obj.get_config("alignX", index),
+                        pd_obj.get_config("alignY", index),
+                    ),
+                    duration,
+                    dist=max_distance,
+                    seed=pd_obj.key,
+                ),
+                t_paperdoll_bw(paperdoll_saturation(pd_obj.is_bw())),
+            ]
+
+        paperdoll_show_layers(pd_obj, _shake_at_list)
+
     def paperdoll_show_move(pd_obj, duration, start_world, end_world, start_flip=None, end_flip=None):
         """
         Eases a paperdoll (and writes end world into config) from start to end world.
@@ -1882,17 +1957,12 @@ label paperdoll_action_blur(paperdoll_obj, pda_blur):
             paperdoll_obj.update_overrides(index)
             paperdoll_obj.resolve_image(index)
 
-        def _blur_at_list(index):
-            return [
-                t_paperdoll_position(
-                    paperdoll_obj.get_config("alignX", index),
-                    paperdoll_obj.get_config("alignY", index),
-                    paperdoll_obj.get_effective_zoom(index)
-                ),
-                t_paperdoll_blur(blur, duration),
-                t_paperdoll_bw(paperdoll_saturation(paperdoll_obj.is_bw())),
-            ]
-        paperdoll_show_layers(paperdoll_obj, _blur_at_list, skip_empty=False)
+        paperdoll_show_idle_layers(
+            paperdoll_obj,
+            skip_empty=False,
+            blur=blur,
+            blur_duration=duration,
+        )
 
     $ paperdoll_obj.config["blur"] = blur
 
@@ -1906,17 +1976,7 @@ label paperdoll_action_image(paperdoll_obj, pda_image):
             paperdoll_obj.update_overrides(index)
             paperdoll_obj.resolve_image(index)
 
-        def _image_at_list(index):
-            return [
-                t_paperdoll_position(
-                    paperdoll_obj.get_config("alignX", index),
-                    paperdoll_obj.get_config("alignY", index),
-                    paperdoll_obj.get_effective_zoom(index)
-                ),
-                t_paperdoll_blur(paperdoll_obj.get_value("blur")),
-                t_paperdoll_bw(paperdoll_saturation(paperdoll_obj.is_bw())),
-            ]
-        paperdoll_show_layers(paperdoll_obj, _image_at_list, skip_empty=False)
+        paperdoll_show_idle_layers(paperdoll_obj, skip_empty=False)
 
     return
 
@@ -1980,17 +2040,12 @@ label paperdoll_action_bw(paperdoll_obj, pda_bw):
     $ paperdoll_obj.config["bw"] = bw
 
     python:
-        def _bw_at_list(index):
-            return [
-                t_paperdoll_position(
-                    paperdoll_obj.get_config("alignX", index),
-                    paperdoll_obj.get_config("alignY", index),
-                    paperdoll_obj.get_effective_zoom(index)
-                ),
-                t_paperdoll_blur(paperdoll_obj.config.get("blur", 0.0)),
-                t_paperdoll_bw(paperdoll_saturation(bw), duration),
-            ]
-        paperdoll_show_layers(paperdoll_obj, _bw_at_list)
+        paperdoll_show_idle_layers(
+            paperdoll_obj,
+            blur=paperdoll_obj.config.get("blur", 0.0),
+            saturation=paperdoll_saturation(bw),
+            bw_duration=duration,
+        )
 
     return
 
@@ -2012,24 +2067,6 @@ label paperdoll_action_shake(paperdoll_obj, pda_shake):
             if not paperdoll_is_visible(_shake_obj):
                 continue
 
-            def _make_shake_at_list(_obj):
-                def _at_list(index):
-                    return [
-                        t_paperdoll_position(
-                            _obj.get_config("alignX", index),
-                            _obj.get_config("alignY", index),
-                            _obj.get_effective_zoom(index)
-                        ),
-                        Shake(
-                            (_obj.get_config("alignX", index), _obj.get_config("alignY", index), _obj.get_config("alignX", index), _obj.get_config("alignY", index)),
-                            duration,
-                            dist=max_distance,
-                            seed=_obj.key,
-                        ),
-                        t_paperdoll_bw(paperdoll_saturation(_obj.is_bw())),
-                    ]
-                return _at_list
-
-            paperdoll_show_layers(_shake_obj, _make_shake_at_list(_shake_obj))
+            paperdoll_show_shake_layers(_shake_obj, duration, max_distance)
 
     return

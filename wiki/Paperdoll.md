@@ -972,6 +972,7 @@ pose/outfit/mood/mouth), while the in-game editor is still where you tune the
 | Background covers the figure | (fixed) late `set_background` used to win z-order | Background is `zorder -100`; figures stay above. |
 | Paperdoll persists into the next still | The still was not `Image_Series.show` | `$ image.show(n)` clears; `call show_image` / a raw `renpy.show` does not — then `clear_display()` first. `end_event` always unloads. |
 | `paperdoll_manager is None` outside an event | No manager (event flow creates it) | Call `init_paperdoll_manager()` yourself (as the debug editor does). |
+| Save/quicksave throws `PicklingError` (`_image_at_list` / `_blur_at_list` / `_bw_at_list`) | A `def` inside a label `python:` block is bound to `store` and rebound every PDAImage/PDABlur/PDABw | Keep those callables in init python (`paperdoll_show_idle_layers` / `paperdoll_show_shake_layers`). Restart the game after the fix — a Shift+R reload can leave the old store function around. |
 
 ---
 

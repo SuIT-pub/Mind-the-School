@@ -532,7 +532,7 @@ label nm_ghost_office_private_line (**kwargs):
         emiko.say "You know, the last one walked the courtyard every morning. Rain or shine. ...Just putting that out there."
 
     # Gated choice: when you're near the floor, she'll drop the mask if you ask straight.
-    $ deep_hole = standing <= -18
+    $ deep_hole = True #standing <= -18
 
     $ emiko.display(PDAImage(mouth = "closed"))
     $ call_custom_menu_with_text("How do you use the call?", character.subtitles, False,
@@ -544,7 +544,7 @@ label nm_ghost_office_private_line (**kwargs):
 
 label .triage (**kwargs):
     headmaster "Give me whatever can't wait. Parent calls, complaints, anything that's actually on fire."
-    $ emiko.display(PDAImage(mood = "neutral", mouth = "closed"))
+    $ emiko.display(PDAImage(mood = "neutral", mouth = "open"))
     emiko.say "Three parents, one teacher with a grievance, and [loud_slip] sitting right on top like it pays rent."
     $ emiko.display(PDAImage(mood = "happy", mouth = "open"))
     emiko.say "I'll sort them and line them up. You just decide who's worth showing your face to."
