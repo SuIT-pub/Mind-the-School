@@ -30,10 +30,8 @@ screen show_building_buttons (building, *additions, show_type = "normal", frames
     #     - If a dictionary is passed, the keys are the buildings to highlight and the values are the show_type for each building.
     # 2. *additions: str
     #     - Additional elements to show.
-    #     - "stats": Show the stats on the right side.
-    #     - "time": Show the time on the top right.
-    #     - "time_skip_idle": Show the time skip button in idle state.
-    #     - "time_skip_hover": Show the time skip button in hover state.
+    #     - "stats": Show the stats bar on the top right.
+    #     - "time": Show the time bar on the top right.
     #     - "journal_idle": Show the journal button in idle state.
     #     - "journal_hover": Show the journal button in hover state.
     # 3. show_type: str (default: "normal")
@@ -66,112 +64,13 @@ screen show_building_buttons (building, *additions, show_type = "normal", frames
     for rect in frames:
         use show_rectangle(*rect)
 
-    if "stats" in additions:
-        grid 4 2:
-            xalign 1.0 yalign 0.0
-            spacing 2
-            hbox:
-                textbutton get_stat_icon('happiness'):
-                    text_style "stat_overview"
-                    action NullAction()
-                null width 1
-                textbutton get_school_stat_value(HAPPINESS) + "\n" + get_school_stat_change(HAPPINESS):
-                    text_style "stat_value"
-                    action NullAction()
-            hbox:
-                textbutton get_stat_icon('charm'):
-                    text_style "stat_overview"
-                    action NullAction()
-                null width 1
-                textbutton get_school_stat_value(CHARM) + "\n" + get_school_stat_change(CHARM):
-                    text_style "stat_value"
-                    action NullAction()
-            hbox:
-                textbutton get_stat_icon('education'):
-                    text_style "stat_overview"
-                    action NullAction()
-                null width 1
-                textbutton get_school_stat_value(EDUCATION) + "\n" + get_school_stat_change(EDUCATION):
-                    text_style "stat_value"
-                    action NullAction()
-            hbox:
-                textbutton get_stat_icon('money'):
-                    text_style "stat_overview"
-                    action NullAction()
-                null width 1
-                textbutton get_school_stat_value(MONEY) + "\n" + get_school_stat_change(MONEY):
-                    text_style "stat_value"
-                    action NullAction()
+    if "stats" in additions or "time" in additions:
+        use school_overview_stats(interactive=False)
 
-            null
-            hbox:
-                textbutton get_stat_icon('corruption'):
-                    text_style "stat_overview"
-                    action NullAction()
-                null width 1
-                textbutton get_school_stat_value(CORRUPTION) + "\n" + get_school_stat_change(CORRUPTION):
-                    text_style "stat_value"
-                    action NullAction()
-            hbox:
-                textbutton get_stat_icon('inhibition'):
-                    text_style "stat_overview"
-                    action NullAction()
-                null width 1
-                textbutton get_school_stat_value(INHIBITION) + "\n" + get_school_stat_change(INHIBITION):
-                    text_style "stat_value"
-                    action NullAction()
-            hbox:
-                textbutton get_stat_icon('reputation'):
-                    text_style "stat_overview"
-                    action NullAction()
-                null width 1
-                textbutton get_school_stat_value(REPUTATION) + "\n" + get_school_stat_change(REPUTATION):
-                    text_style "stat_value"
-                    action NullAction()
-
-    if "time" in additions:
-        vbox:
-            xalign 1.0 ypos 150
-
-            $ daytimestr = time.get_daytime_name()
-            $ daystr = time.get_weekday()
-            $ monthstr = time.get_month_name()
-            $ daysegment = ""
-            if time.check_daytime("n"):
-                $ daysegment = "{color=#1b26c0}Night{/color}"
-            elif time.check_weekday("d") and time.check_daytime("c"):
-                $ daysegment = "{color=#ab0000}Class{/color}"
-            elif time.check_weekday("d") and time.check_daytime("f"):
-                $ daysegment = "{color=#0eab00}Free-Time{/color}"
-            elif time.check_weekday("w"):
-                $ daysegment = "{color=#ba6413}Weekend{/color}"
-
-            text "[time.day] [monthstr] [time.year]":
-                xalign 1.0
-                size 30
-                style "stat_overview"
-            text "[daystr]":
-                xalign 1.0
-                size 35
-                style "stat_overview"
-            text "[daytimestr]":
-                xalign 1.0
-                size 30
-                style "stat_overview"
-            text "[daysegment]":
-                xalign 1.0
-                size 30
-                style "stat_overview"
-
-    if "time_skip_idle" in additions:
-        add "icons/time skip idle.webp" xalign 0.995 yalign 0.4
-    if "time_skip_hover" in additions:
-        add "icons/time skip hover.webp" xalign 0.995 yalign 0.4
-    
     if "journal_idle" in additions:
-        add "icons/journal_icon_idle.webp" xalign 1.0 yalign 0.6
+        add "icons/journal_icon_idle.webp" xalign 1.0 yalign 1.0 xoffset -8 yoffset -8
     if "journal_hover" in additions:
-        add "icons/journal_icon_hover.webp" xalign 1.0 yalign 0.6
+        add "icons/journal_icon_hover.webp" xalign 1.0 yalign 1.0 xoffset -8 yoffset -8
 
 # endregion
 #######################
@@ -444,28 +343,28 @@ label map_tutorial (**kwargs):
 
     $ hide_all()
 
-    show screen show_building_buttons ('x', 'stats', 'time', 'time_skip_idle', 'journal_idle', show_type = "normal")
+    show screen show_building_buttons ('x', 'stats', 'time', 'journal_idle', show_type = "normal")
     subtitles "Hello and welcome to the map tutorial."
     subtitles "You are now probably seeing the map for the first time."
     subtitles "This map is an overview over the entire school campus."
     subtitles "The map consists of basically 3 parts."
     subtitles "One part consists of all the locations you can visit on the campus. These locations are where the events and bulk of the gameplay happens."
-    show screen show_building_buttons ('x', 'stats', 'time', 'time_skip_idle', 'journal_idle', show_type = "white")
+    show screen show_building_buttons ('x', 'stats', 'time', 'journal_idle', show_type = "white")
     subtitles "These are all the buildings you can visit. A bit crowded I know but you'll figure it out eventually ;)"
-    show screen show_building_buttons (red_example, 'stats', 'time', 'time_skip_idle', 'journal_idle', show_type = "normal")
+    show screen show_building_buttons (red_example, 'stats', 'time', 'journal_idle', show_type = "normal")
     subtitles "If a location is marked red, it means that there is a 'special' or time/condition-locked event available."
-    show screen show_building_buttons ('x', 'stats', 'time', 'time_skip_idle', 'journal_idle', show_type = "normal", frames = [(1270, 0, 650, 350)])
+    show screen show_building_buttons ('x', 'stats', 'time', 'journal_idle', show_type = "normal", frames = [(1210, 0, 710, 82)])
     subtitles "The second part is the data area. This area shows you the current stats of your school and the current time."
-    subtitles "The stats show the current stats and also how the stats changed during your last interaction."
+    subtitles "The stats sit in a single row and also show how they changed during your last interaction."
     subtitles "If a stat is marked yellow, it means that stat is currently capped and you can't increase it further until you progress the school level."
     subtitles "The stats are clickable and lead to the description for that stat in the journal."
+    subtitles "The arrow on the left edge of the bar collapses it. In the compact view only stats that just changed are shown."
     subtitles "The time is rather self explanatory. You have years, 12 months with 28 days each."
     subtitles "Additionally each day consists of 7 parts. Morning, Early Noon, Noon, Early Afternoon, Afternoon, Evening and Night."
-    subtitles "In addition, there is also a display that shows the current timetable. Free-time, Class, Weekend and Night."
-    show screen show_building_buttons ('x', 'stats', 'time', 'time_skip_idle', 'journal_idle', show_type = "normal", frames = [(1750, 370, 170, 350)])
-    subtitles "The third part is the control area. Here you have two buttons."
-    subtitles "One button forwards the time by one day segment."
-    subtitles "And one opens the journal. Where you get all the information about your school, goals and where you also manage everything."
+    subtitles "Tap the date to skip a day. Tap the time of day to skip one daytime."
+    show screen show_building_buttons ('x', 'stats', 'time', 'journal_idle', show_type = "normal", frames = [(1750, 940, 170, 140)])
+    subtitles "The third part is the journal. The button sits in the bottom right corner."
+    subtitles "That's where you get all the information about your school, goals and where you also manage everything."
     subtitles "That's all for this tutorial. If you want to see me again, just look for me in the journal."
 
     $ start_progress('map_tutorial')

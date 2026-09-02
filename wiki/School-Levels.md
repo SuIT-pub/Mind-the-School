@@ -3,7 +3,7 @@
 > **Audience:** Anyone writing or drawing *Mind the School* content — event authors,
 > paperdoll/outfit work, and players who want to know what a school level *feels*
 > like. This page is the climate bible: dress, talk, and behaviour at each step
-> from modest campus to sexual anarchy.
+> from modest campus to joyful sexual paradise.
 >
 > **Scope:** The **school** character's level (`"school"`, 0–10) — the student-body
 > / campus climate. Teacher, parent, and secretary have their own numeric levels;
@@ -102,15 +102,17 @@ desyncs easily.
 | 3 | Sexual Awareness | Skimpy sleepwear, more leg, midriffs at home | Own desires, still not graphic | Light groping under clothes at sleepovers / parties |
 | 4 | Experimentation | Lingerie / revealing clothes at home; public still "normal" | Frank: technique, partners | Full nudity and oral under the covers; private only |
 | 5 | Promiscuity | Cleavage, midriff, thighs on campus | Graphic, unfiltered (anal, threesomes, fetishes) | PDA: holding hands, kissing; sex is no longer a secret |
-| 6 | Sexual Obsession | Barely-there clothing | Sex dominates school, social, family talk | New partners, group sex, fetish play as a lifestyle |
-| 7 | Addiction | Little-to-no clothing in public | Everything is sex; schoolwork and relationships suffer | Rough / public / risk-seeking; thrill over consequence |
-| 8 | Sexual Utopia | Nudity as the default, including when not having sex | No morality talk — only new ways to get off | Constant activity, orgies, public displays |
-| 9 | Extreme Obsession | Same as 8; clothes are optional costume | Darker kinks, no regard for cost | BDSM, incest, bestiality; relationships are transactional |
-| 10 | Sexual Anarchy | Nudity = identity; clothes have lost meaning | Primal; little language left | Anything, including acts that blur human / non-human |
+| 6 | Open Culture | Revealing, playful outfits everyday | Sex is ordinary, cheerful table-talk alongside class and gossip | Casual hookups in the open; nobody hides, everybody's welcome |
+| 7 | Woven In | Barely-there sexy outfits the norm | Warm and easy — "want to?" gets a smile, then back to work | Sex threads through the day; approach anyone, and life still runs |
+| 8 | Sexual Utopia | Barely-there fashion; nudity normal and freely chosen | Affectionate, articulate; pleasure and work in the same breath | Ambient public sex; easy abundance, everyone glad |
+| 9 | Boundless Bliss | Sexier still; clothing is pure play | Loving, generous, still fully themselves | Endless shared pleasure; the community gives freely, joyfully |
+| 10 | Sexual Paradise | Whatever feels sexiest — barely-there or bare, by choice | Perfectly articulate and loving; sex is woven into every topic | Sex, love and productive life are one seamless whole |
 
 Levels **2–4** keep a **public veneer**. The jump at **5** is the campus going
-open. **8+** is a different game: nudity and public sex are the setting, not a
-scene beat.
+open. **6–10** climb from open to fully woven-in: sex becomes ambient daily
+texture — barely-there fashion and public play are the setting the scenes sit in
+— while people stay warm, articulate, and **productive**. The top is a joyful
+paradise where daily life and open sexuality flourish together.
 
 ---
 
@@ -183,66 +185,88 @@ Sexuality is embraced. Social norms and repercussions barely slow them down.
   hinge — do not write level-4 secrecy here unless someone is specifically
   hiding from a *named* person.
 
-### Level 6 — Sexual Obsession
+### Level 6 — Open Culture
 
-Unrestrained lust. Lives organise around the next encounter, with little regard
-for other people or consequences.
+Sex is a welcome, ordinary part of campus life. Nobody hides it and nobody
+polices it — but the school still runs, and everyone is glad it does.
 
-- **Dress:** Extremely revealing; essential parts barely covered.
-- **Talk:** Sex dominates school, social events, and family conversation.
-- **Behaviour:** New partners constantly, group sex, fetish experiments as
-  routine.
-- **Write:** Class time competes with hookups. A scene that never mentions sex
-  should feel like an exception you chose on purpose.
+- **Dress:** Revealing, playful outfits as everyday wear — sheer panels, high
+  cuts, deliberately sexy rather than shocking.
+- **Talk:** Sex is cheerful table-talk, folded in beside homework, gossip, and
+  weekend plans. Casual, not clinical.
+- **Behaviour:** Hookups happen in the open between classes; couples and groups
+  form and drift apart easily. Everybody's welcome, and it's always a free yes.
+- **Write:** Girls still go to class, still do the work — they just also flirt
+  and fool around on the way. It's joyful and consensual, everyone in on it by
+  choice. Let sex be one thread in the day; plenty of scenes can stay about
+  class, friendship, or gossip.
 
-### Level 7 — Addiction
+### Level 7 — Woven In
 
-The thrill and the release outrank everything else.
+Sex is fully threaded into the daily rhythm. You can walk up to anyone, say the
+word, and get a warm yes — then both of you go back to what you were doing.
 
-- **Dress:** Little-to-no clothing even in public.
-- **Talk:** Sex consumes the day; schoolwork and relationships suffer out loud.
-- **Behaviour:** Risky or dangerous acts for the high — rough sex, public sex,
-  drugs during encounters.
-- **Write:** Consequences exist and they do not care. A girl missing class
-  because she is in a supply closet is climate, not a special event. Keep
-  character *voice*; do not flatten everyone into the same addict.
+- **Dress:** Barely-there sexy outfits are the norm — the good stuff on show,
+  covered just enough to keep it a look rather than nothing at all.
+- **Talk:** Easy and affectionate. "Want to?" gets a smile, not a scandal, and
+  afterward the conversation picks right back up — work, friends, the day.
+- **Behaviour:** Encounters happen mid-day, between tasks, in the open, and then
+  everyone carries on. All friends, all lovers, all still themselves.
+- **Write:** The load-bearing idea: **life still runs**. The school functions,
+  the work gets done, people stay warm and articulate — sex is easy background
+  texture that everyone steps out of and gets on with the day. Each character
+  keeps her own *voice* and her own place in the school.
 
 ### Level 8 — Sexual Utopia
 
-Sexuality is the environment. No judgement, no outside consequences that
-anyone respects.
+Sexuality is the environment, and it's a happy one. No shame, no friction — just
+abundance, affection, and a campus that still works because everyone wants it to.
 
-- **Dress:** Clothing is gone. Nudity is the norm even when they are not having
-  sex.
-- **Talk:** Only new ways to satiate cravings. Morality / ethics talk is dead.
-- **Behaviour:** Constant activity, group orgies, public displays as the
-  background of the map.
-- **Write:** A "fully clothed student in the hallway" needs a reason. Backgrounds
-  keyed on `<school_level>` should look like this, not like a slightly dirtier
-  level 5.
+- **Dress:** Barely-there fashion is the everyday look; nudity is completely
+  normal and always a free choice. Clothing stays a playful, deliberately sexy
+  pick.
+- **Talk:** Warm, articulate, generous — pleasure and schoolwork in the same
+  breath. People talk about sex the way they talk about lunch, and they talk
+  about everything else with the same ease.
+- **Behaviour:** Public sex is ambient — pairs and groups, out in the open, glad
+  and unhurried — while classes, jobs, and friendships carry on around it.
+- **Write:** A hallway still full of purpose *and* full of sex. Backgrounds keyed
+  on `<school_level>` should read as barely-dressed, cheerful, and alive — bodies
+  at ease, everyone glad to be there.
 
-### Level 9 — Extreme Obsession
+### Level 9 — Boundless Bliss
 
-The fixation will pay any cost. Darker acts are on the table.
+Pleasure has no ceiling and the whole community shares it. Generosity is total:
+there is always more affection, more joy, more yes to give.
 
-- **Dress:** Same as 8; clothes, when they appear, are costume or a scene prop.
-- **Talk:** New boundaries, darker kinks, no regard for what it costs.
-- **Behaviour:** Violent or disturbing sex — BDSM, incest, bestiality.
-  Relationships are transactional: access to a body.
-- **Write:** Consent-as-climate is gone; power and appetite run the scene. Named
-  characters can still refuse *a specific person* — they do not refuse the
-  culture. Do not pull punches if the event is gated 9+.
+- **Dress:** Sexier still, and pure play — barely-there or bare, whatever feels
+  best that day. Nobody's counting.
+- **Talk:** Loving and open, still perfectly articulate. People are entirely
+  themselves; the warmth is the point.
+- **Behaviour:** Endless, freely shared pleasure — big, easy, communal — given
+  and received with delight, always freely chosen. Everyone with everyone, all of
+  it wanted.
+- **Write:** This is abundance and ecstasy — the intensity lives in how much joy
+  and affection there is to share. A named character can still say "not right
+  now" to a *specific person*; it's a preference in the moment, and the warmth
+  around her holds.
 
-### Level 10 — Sexual Anarchy
+### Level 10 — Sexual Paradise
 
-No remaining social norm. Hedonism is the only motor.
+The completed paradise. Sex, love, and productive everyday life are one seamless
+whole — and everything flourishes together.
 
-- **Dress:** Nudity is identity. Clothes have lost meaning.
-- **Talk:** Language thins toward grunts and moans; immediate desire only.
-- **Behaviour:** Every imaginable act, including ones that blur human and
-  non-human.
-- **Write:** This is the end state. Scenes can be almost wordless. If you need
-  long articulate dialogue, you are probably still at 8–9.
+- **Dress:** Whatever feels sexiest — barely-there or bare, always by free
+  choice. Fashion is delight, never a rule in either direction.
+- **Talk:** Perfectly articulate and loving. Sex is woven naturally into every
+  topic — work, art, friendship — without ever crowding the rest out.
+- **Behaviour:** Everyone loves everyone; everyone is desired and fulfilled. And
+  the world still turns — school, craft, and community thrive right alongside the
+  constant, joyful sex.
+- **Write:** The end state is a functioning utopia: people are their fullest,
+  warmest, most articulate selves *and* endlessly sexual. Write the joy at full
+  volume — abundant, loving, alive — everyone fulfilled and the world thriving
+  around them.
 
 ---
 
@@ -262,10 +286,17 @@ stills carry the difference.
 Aona, dressed and talking like a level-5 campus. Read the
 [character page](Characters) first, then apply this page on top.
 
+**Joy and function (levels 6–10).** The high end is a *paradise*. Sex is woven
+into ordinary life, and life keeps happening: people study, work, make art, and
+hold real conversations, with the sexy stuff running alongside — welcomed,
+consensual, and easy to step into or out of. Keep everyone warm and articulate;
+the higher the level, the more affection, generosity, and ease there is to write.
+
 **Outfits.** Character wiki galleries are the visual spec: **Level 00** through
 **Level 10**. When you add a new uniform or casual set, the step from N to N+1
 should be readable as the row in [§4](#4-at-a-glance) — shorter, more skin, then
-less clothing, then none.
+barely-there sexy fashion. Nudity is normal at the top, and the clothing that
+*does* appear stays a deliberate, playful, sexy choice.
 
 **Wide gates.** If art does not exist for high levels, say so in the event
 (missing `<school_level>` files fall through `$` / nearest `<level>` — see

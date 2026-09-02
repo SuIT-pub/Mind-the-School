@@ -7,15 +7,159 @@ init -1 python:
         for s in renpy.display.screen.screens_by_name:
             renpy.hide_screen(s)
 
+    OVERVIEW_STAT_ORDER = (
+        HAPPINESS, CHARM, EDUCATION, MONEY, CORRUPTION, INHIBITION, REPUTATION
+    )
+
+    def get_overview_stat_change_value(stat: str):
+        """
+        Returns the numeric change of a school stat since the last reset.
+
+        ### Parameters:
+        1. stat: str
+            - The stat key to read.
+
+        ### Returns:
+        1. num
+            - The change value. 0 if the stat cannot be resolved.
+        """
+
+        if stat == MONEY:
+            return money.get_changed_value()
+
+        stat_obj = get_school().get_stat_obj(stat)
+        if stat_obj is None:
+            return 0
+        return stat_obj.get_changed_value()
+
+    def get_overview_stat_change_color(stat: str, change) -> str:
+        """
+        Returns the HUD colour for a stat change.
+
+        Increase is green and decrease is red. Inhibition is inverted.
+
+        ### Parameters:
+        1. stat: str
+            - The stat key.
+        2. change: num
+            - The numeric change since the last reset.
+
+        ### Returns:
+        1. str
+            - A hex colour string.
+        """
+
+        if change == 0:
+            return "#ffffff"
+
+        increased = change > 0
+        beneficial = (not increased) if stat == INHIBITION else increased
+        return "#00a000" if beneficial else "#a00000"
+
+    OVERVIEW_TENDENCY_ARROWS_POS = (">", "≫", "⋙")
+    OVERVIEW_TENDENCY_ARROWS_NEG = ("<", "≪", "⋘")
+
+    def get_overview_active_situations():
+        """
+        Returns active situations for the map HUD list.
+
+        Returns:
+            list: Active Situation objects. Empty if the manager is missing.
+        """
+
+        if situation_manager is None:
+            return []
+        return situation_manager.get_active_situations()
+
+    def get_overview_situation_tendency(situation):
+        """
+        Map HUD tendency glyph, side and colour from combined-bar movement.
+
+        Strength is 1..3 from |tendency| relative to the combined bar span.
+        Positive movement places the glyph on the right, negative on the left.
+
+        Args:
+            situation: Situation whose combined bar to read.
+
+        Returns:
+            tuple: (glyph, side, color). side is 1 (right), -1 (left), or 0.
+        """
+
+        raw = situation.get_combined_bar_tendency_value()
+        span = float(situation.get_combined_bar_max() - situation.get_combined_bar_min()) or 1.0
+        ratio = abs(raw) / span
+        if raw == 0:
+            return "", 0, "#ffffff"
+        if ratio < (1.0 / 24.0):
+            level = 1
+        elif ratio < (1.0 / 10.0):
+            level = 2
+        else:
+            level = 3
+        if raw > 0:
+            return OVERVIEW_TENDENCY_ARROWS_POS[level - 1], 1, "#4cc94c"
+        return OVERVIEW_TENDENCY_ARROWS_NEG[level - 1], -1, "#e06060"
+
+default persistent.overview_stats_expanded = True
+default persistent.overview_situations_expanded = True
+
+define OVERVIEW_COMPACT_BAR_WIDTH = 460
+define OVERVIEW_STAT_ICON_ZOOM = 0.52
+define OVERVIEW_STAT_TEXT_SIZE = 21
+define OVERVIEW_TIME_TEXT_SIZE = 20
+define OVERVIEW_SITUATION_LIST_MAX_HEIGHT = 224
+define OVERVIEW_SITUATION_ROW_HEIGHT = 64
+define OVERVIEW_SITUATION_ARROW_WIDTH = 28
+define OVERVIEW_SITUATION_SCROLL_WIDTH = 12
+
 #######################
 # region Styles ----- #
 #######################
 
 style stat_overview:
     outlines [(2, "222222", 1, 1)]
+    color "#ffffff"
+    size 16
 
-style stat_value take stat_overview:
-    size 25
+style stat_value:
+    outlines [(2, "222222", 1, 1)]
+    color "#ffffff"
+    size 16
+
+style overview_hud_bar:
+    background Solid("#111111cc")
+    padding (8, 6, 10, 6)
+
+style overview_hud_bar_soft is overview_hud_bar:
+    background Solid("#11111177")
+
+style overview_hud_button is default:
+    hover_background Solid("#ffffff18")
+    padding (4, 2)
+
+style overview_situation_row is overview_hud_button:
+    background Solid("#11111199")
+    hover_background Solid("#222222bb")
+    padding (6, 4, 6, 4)
+
+style overview_vscrollbar is vscrollbar:
+    xsize 12
+    unscrollable "hide"
+
+style overview_hud_button_text is stat_overview:
+    size 21
+
+style overview_toggle_button is overview_hud_button:
+    xminimum 29
+    yminimum 29
+
+style overview_toggle_button_text is stat_overview:
+    size 21
+    xalign 0.5
+    yalign 0.5
+
+transform overview_icon_tint(tint_color):
+    matrixcolor TintMatrix(tint_color)
 
 # endregion
 #######################
@@ -40,147 +184,280 @@ screen school_overview_map ():
 
 ##############################
 # display the stats on the map
-screen school_overview_stats ():
+screen overview_stat_entry(stat, compact, interactive):
+    $ title = Stat_Data[stat].get_title()
+    $ change = get_overview_stat_change_value(stat)
+    $ icon_path = get_stat_icon_path(stat, size=ICON_SMALL)
+    $ stat_action = Call("open_journal", 1, stat) if interactive else NullAction()
+
+    if compact:
+        $ change_color = get_overview_stat_change_color(stat, change)
+        $ change_arrow = "▲" if change > 0 else "▼"
+        button:
+            style "overview_hud_button"
+            tooltip title + " " + get_school_stat_value(stat)
+            action stat_action
+            hbox:
+                spacing 2
+                yalign 0.5
+                add icon_path:
+                    yalign 0.5
+                    zoom OVERVIEW_STAT_ICON_ZOOM
+                    at overview_icon_tint(change_color)
+                text change_arrow:
+                    style "stat_overview"
+                    color change_color
+                    size 18
+                    yalign 0.5
+    else:
+        $ change_text = get_school_stat_change(stat).replace("{size=15}", "{size=20}")
+        button:
+            style "overview_hud_button"
+            tooltip title
+            action stat_action
+            hbox:
+                spacing 3
+                yalign 0.5
+                add icon_path:
+                    yalign 0.5
+                    zoom OVERVIEW_STAT_ICON_ZOOM
+                text get_school_stat_value(stat):
+                    style "stat_value"
+                    size OVERVIEW_STAT_TEXT_SIZE
+                    yalign 0.5
+                if change_text:
+                    text change_text:
+                        style "stat_overview"
+                        yalign 0.5
+
+screen overview_situation_entry(situation, interactive, row_width):
+    $ glyph, side, arrow_color = get_overview_situation_tendency(situation)
+    $ sit_action = Call("open_journal", 8, situation.key) if interactive else NullAction()
+    $ bar_width = row_width - 12 - (OVERVIEW_SITUATION_ARROW_WIDTH * 2) - 8
+
+    button:
+        style "overview_situation_row"
+        tooltip situation.name
+        action sit_action
+        xsize row_width
+
+        vbox:
+            spacing 2
+
+            text situation.name:
+                style "stat_overview"
+                size 13
+                xmaximum row_width - 12
+
+            hbox:
+                spacing 4
+                yalign 0.5
+
+                fixed:
+                    xsize OVERVIEW_SITUATION_ARROW_WIDTH
+                    ysize 22
+                    if side < 0:
+                        text glyph:
+                            style "stat_overview"
+                            color arrow_color
+                            size 16
+                            xalign 1.0
+                            yalign 0.5
+
+                use journal_situation_bar(situation, bar_width, 12, False, 8, 4)
+
+                fixed:
+                    xsize OVERVIEW_SITUATION_ARROW_WIDTH
+                    ysize 22
+                    if side > 0:
+                        text glyph:
+                            style "stat_overview"
+                            color arrow_color
+                            size 16
+                            xalign 0.0
+                            yalign 0.5
+
+screen overview_situation_list(situations, interactive, row_width):
+    vbox:
+        xsize row_width
+        spacing 0
+
+        for i, situation in enumerate(situations):
+            if i > 0:
+                add Solid("#ffffff40"):
+                    xsize row_width
+                    ysize 1
+                null height 4
+            use overview_situation_entry(situation, interactive, row_width)
+            null height 4
+
+screen school_overview_stats (interactive = True):
     # """
-    # Displays the stats on the map
+    # Displays the stats and time bars on the map.
     # """
 
-    grid 4 2:
-        xalign 1.0 yalign 0.0
-        spacing 2
-        hbox:
-            textbutton get_stat_icon('happiness'):
-                tooltip "Happiness"
-                text_style "stat_overview"
-                action Call("open_journal", 1, HAPPINESS)
-            null width 1
-            textbutton get_school_stat_value(HAPPINESS) + "\n" + get_school_stat_change(HAPPINESS):
-                tooltip "Happiness"
-                text_style "stat_value"
-                action Call("open_journal", 1, HAPPINESS)
-        hbox:
-            textbutton get_stat_icon('charm'):
-                tooltip "Charm"
-                text_style "stat_overview"
-                action Call("open_journal", 1, CHARM)
-            null width 1
-            textbutton get_school_stat_value(CHARM) + "\n" + get_school_stat_change(CHARM):
-                tooltip "Charm"
-                text_style "stat_value"
-                action Call("open_journal", 1, CHARM)
-        hbox:
-            textbutton get_stat_icon('education'):
-                tooltip "Education"
-                text_style "stat_overview"
-                action Call("open_journal", 1, EDUCATION)
-            null width 1
-            textbutton get_school_stat_value(EDUCATION) + "\n" + get_school_stat_change(EDUCATION):
-                tooltip "Education"
-                text_style "stat_value"
-                action Call("open_journal", 1, EDUCATION)
-        hbox:
-            textbutton get_stat_icon('money'):
-                tooltip "Money"
-                text_style "stat_overview"
-                action Call("open_journal", 1, MONEY)
-            null width 1
-            textbutton get_school_stat_value(MONEY) + "\n" + get_school_stat_change(MONEY):
-                tooltip "Money"
-                text_style "stat_value"
-                action Call("open_journal", 1, MONEY)
+    zorder 80
 
-        null
-        hbox:
-            textbutton get_stat_icon('corruption'):
-                tooltip "Corruption"
-                text_style "stat_overview"
-                action Call("open_journal", 1, CORRUPTION)
-            null width 1
-            textbutton get_school_stat_value(CORRUPTION) + "\n" + get_school_stat_change(CORRUPTION):
-                tooltip "Corruption"
-                text_style "stat_value"
-                action Call("open_journal", 1, CORRUPTION)
-        hbox:
-            textbutton get_stat_icon('inhibition'):
-                tooltip "Inhibition"
-                text_style "stat_overview"
-                action Call("open_journal", 1, INHIBITION)
-            null width 1
-            textbutton get_school_stat_value(INHIBITION) + "\n" + get_school_stat_change(INHIBITION):
-                tooltip "Inhibition"
-                text_style "stat_value"
-                action Call("open_journal", 1, INHIBITION)
-        hbox:
-            textbutton get_stat_icon('reputation'):
-                tooltip "Reputation"
-                text_style "stat_overview"
-                action Call("open_journal", 1, REPUTATION)
-            null width 1
-            textbutton get_school_stat_value(REPUTATION) + "\n" + get_school_stat_change(REPUTATION):
-                tooltip "Reputation"
-                text_style "stat_value"
-                action Call("open_journal", 1, REPUTATION)
+    $ expanded = persistent.overview_stats_expanded
+    $ can_skip = interactive and time.compare_today(10, 1, 2023) != -1
 
-    if time.compare_today(10, 1, 2023) != -1:
-        $ s_text = ""
+    $ daytimestr = time.get_daytime_name()
+    $ daystr = time.get_weekday()
+    $ monthstr = time.get_month_name()
+    $ datestr = str(time.day) + " " + monthstr + " " + str(time.year)
+    $ daytime_color = "#ffffff"
+    if time.check_daytime("n"):
+        $ daytime_color = "#6d78ff"
+    elif time.check_weekday("d") and time.check_daytime("c"):
+        $ daytime_color = "#e06060"
+    elif time.check_weekday("d") and time.check_daytime("f"):
+        $ daytime_color = "#4cc94c"
+    elif time.check_weekday("w"):
+        $ daytime_color = "#d4893a"
+
+    $ skip_time_text = "Skip Time"
+    $ skip_day_text = "Skip to next day"
+    if has_keyboard() and show_shortcut():
+        $ skip_time_text = skip_time_text + " [[Z]"
+        $ skip_day_text = skip_day_text + " [[U]"
+
+    if can_skip:
         if has_keyboard():
-            if show_shortcut():
-                $ s_text = " [[Z]"
             key "K_z" action Call("skip_time")
-        # Skip Daytime
-        imagebutton:
-            auto "icons/time skip %s.webp"
-            tooltip "Skip Time" + s_text
-            focus_mask None
-            xalign 0.985 yalign 0.35
-            action Call("skip_time")
-
-        $ s_text = ""
-        if has_keyboard():
-            if show_shortcut():
-                $ s_text = " [[U]"
             key "K_u" action Call("new_day")
-        # Skip Daytime
-        imagebutton:
-            auto "icons/day skip %s.webp"
-            tooltip "Skip to next day" + s_text
-            focus_mask None
-            xalign 0.995 yalign 0.49
-            action Call("new_day")
 
     vbox:
-        xalign 1.0 ypos 150
+        xalign 1.0
+        yalign 0.0
+        xoffset -8
+        yoffset 6
+        spacing 4
 
-        $ daytimestr = time.get_daytime_name()
-        $ daystr = time.get_weekday()
-        $ monthstr = time.get_month_name()
-        $ daysegment = ""
-        if time.check_daytime("n"):
-            $ daysegment = "{color=#1b26c0}Night{/color}"
-        elif time.check_weekday("d") and time.check_daytime("c"):
-            $ daysegment = "{color=#ab0000}Class{/color}"
-        elif time.check_weekday("d") and time.check_daytime("f"):
-            $ daysegment = "{color=#0eab00}Free-Time{/color}"
-        elif time.check_weekday("w"):
-            $ daysegment = "{color=#ba6413}Weekend{/color}"
+        frame:
+            style "overview_hud_bar"
+            if not expanded:
+                xsize OVERVIEW_COMPACT_BAR_WIDTH
 
-        text "[time.day] [monthstr] [time.year]":
-            xalign 1.0
-            size 30
-            style "stat_overview"
-        text "[daystr]":
-            xalign 1.0
-            size 35
-            style "stat_overview"
-        text "[daytimestr]":
-            xalign 1.0
-            size 30
-            style "stat_overview"
-        text "[daysegment]":
-            xalign 1.0
-            size 30
-            style "stat_overview"
+            hbox:
+                spacing 8
+                yalign 0.5
 
+                textbutton ("▶" if expanded else "◀"):
+                    style "overview_toggle_button"
+                    tooltip ("Collapse stats" if expanded else "Expand stats")
+                    action ToggleField(persistent, "overview_stats_expanded")
+                    yalign 0.5
+
+                hbox:
+                    spacing 8
+                    yalign 0.5
+
+                    for stat in OVERVIEW_STAT_ORDER:
+                        if expanded:
+                            use overview_stat_entry(stat, False, interactive)
+                        elif get_overview_stat_change_value(stat) != 0:
+                            use overview_stat_entry(stat, True, interactive)
+
+        frame:
+            style "overview_hud_bar"
+            xsize OVERVIEW_COMPACT_BAR_WIDTH
+            xalign 1.0
+
+            fixed:
+                xsize OVERVIEW_COMPACT_BAR_WIDTH - 18
+                ysize 32
+
+                hbox:
+                    xalign 0.0
+                    yalign 0.5
+                    spacing 10
+
+                    button:
+                        style "overview_hud_button"
+                        tooltip (skip_day_text if can_skip else datestr)
+                        action (Call("new_day") if can_skip else NullAction())
+                        text datestr:
+                            style "stat_overview"
+                            size OVERVIEW_TIME_TEXT_SIZE
+
+                    text daystr:
+                        style "stat_overview"
+                        size OVERVIEW_TIME_TEXT_SIZE
+                        yalign 0.5
+
+                button:
+                    style "overview_hud_button"
+                    xalign 1.0
+                    yalign 0.5
+                    tooltip (skip_time_text if can_skip else daytimestr)
+                    action (Call("skip_time") if can_skip else NullAction())
+                    text daytimestr:
+                        style "stat_overview"
+                        size OVERVIEW_TIME_TEXT_SIZE
+                        color daytime_color
+
+        $ overview_situations = get_overview_active_situations()
+        if overview_situations:
+            frame:
+                style "overview_hud_bar_soft"
+                padding (0, 4, 0, 4)
+                xsize OVERVIEW_COMPACT_BAR_WIDTH
+                xalign 1.0
+
+                vbox:
+                    spacing 4
+
+                    hbox:
+                        spacing 6
+                        yalign 0.5
+                        xoffset 8
+
+                        textbutton ("▼" if persistent.overview_situations_expanded else "▶"):
+                            style "overview_toggle_button"
+                            tooltip ("Collapse situations" if persistent.overview_situations_expanded else "Expand situations")
+                            action ToggleField(persistent, "overview_situations_expanded")
+                            yalign 0.5
+
+                        text "Situations":
+                            style "stat_overview"
+                            size 14
+                            yalign 0.5
+
+                        if not persistent.overview_situations_expanded:
+                            text ("(" + str(len(overview_situations)) + ")"):
+                                style "stat_overview"
+                                size 13
+                                yalign 0.5
+
+                    if persistent.overview_situations_expanded:
+                        $ sit_count = len(overview_situations)
+                        $ sit_content_h = sit_count * OVERVIEW_SITUATION_ROW_HEIGHT
+                        $ needs_scroll = sit_content_h > OVERVIEW_SITUATION_LIST_MAX_HEIGHT
+                        $ sit_view_h = OVERVIEW_SITUATION_LIST_MAX_HEIGHT if needs_scroll else sit_content_h
+                        $ sit_row_w = OVERVIEW_COMPACT_BAR_WIDTH - (OVERVIEW_SITUATION_SCROLL_WIDTH if needs_scroll else 0)
+
+                        if needs_scroll:
+                            side "c r":
+                                xsize OVERVIEW_COMPACT_BAR_WIDTH
+                                ysize sit_view_h
+
+                                viewport id "OverviewSituationsList":
+                                    mousewheel True
+                                    draggable "touch"
+
+                                    null height 2
+
+                                    use overview_situation_list(overview_situations, interactive, sit_row_w)
+
+                                vbar:
+                                    style "overview_vscrollbar"
+                                    value YScrollValue("OverviewSituationsList")
+                                    unscrollable "hide"
+                                    xsize OVERVIEW_SITUATION_SCROLL_WIDTH
+                                    ysize sit_view_h
+                        else:
+                            null height 2
+                            use overview_situation_list(overview_situations, interactive, sit_row_w)
 
     $ tooltip = GetTooltip()
 
@@ -268,7 +545,10 @@ screen school_overview_buttons (with_available_Events = False):
         auto "icons/journal_icon_%s.webp"
         tooltip "Open Journal" + j_text
         focus_mask None
-        xalign 1.0 yalign 0.65
+        xalign 1.0
+        yalign 1.0
+        xoffset -8
+        yoffset -8
         action Call("start_journal")
 
     $ tooltip = GetTooltip()

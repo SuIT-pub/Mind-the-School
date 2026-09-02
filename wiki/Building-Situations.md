@@ -272,6 +272,11 @@ situation_manager.apply_progress_change("situation:cafeteria_crisis:main", 8)
 > character's stat via `char_obj`. Use the module-level `change_stat` or the
 > modifier stat-change labels for bar pushes.
 
+Direct bar pushes (`apply_progress_change`, `change_stat("situation:…")`, and
+the modifier stat-change labels) are a **no-op** while the Situation is not
+`active`. Thresholds, resolutions, pools, and passives are likewise skipped until
+activation. Only teasers evaluate in the inactive / teaser phase.
+
 Before activation (e.g. when a pre-event should influence the starting value) use
 `shift_start_value` instead (see [start-value calculation](#start-value-calculation)).
 
@@ -384,8 +389,13 @@ The **three-layer model**: wear (Layer 1, above) drags the bar back; **passives*
   (`ManualCounterCondition`). Two kinds of effect: **instant effects** (applied
   once on start, no revert) and **lasting effects** (active over the duration,
   then automatically reverted). One slot (`active_measure`), usable in parallel
-  with the passive slot; no swap — the slot only frees up when the duration
-  expires.
+  with the passive slot; no swap — the slot frees when the duration expires.
+  **`duration=None`** is instant: instant effects fire, then the slot is freed
+  immediately (a cooldown still starts on that deactivate). **Exception:**
+  `open_ended=True` holds the slot until something else deactivates it — used by
+  Unlockable **Schedule Vote**, which stays active until the Friday PTA vote
+  resolves. Instant effects are **not** reverted on close, so the queued proposal
+  survives.
 
 > **Balance principle:** wear + passive should **not** net out clearly positive.
 > Real positive progress comes only from active play (measures and events). This
@@ -579,7 +589,7 @@ directly, use the **definition helpers** — they reduce boilerplate (no manual
 | `AutoThreshold(approach_hint, *effects, direction=1, visible_range=100, **bounds)` | auto-fire threshold |
 | `BlockingThreshold(approach_hint, threshold_hint, *conditions, direction=1, visible_range=100, default_hold=-1, **bounds)` | blocking threshold (no hysteresis by default) |
 | `PassiveOption(key, description, *effects)` | passive (Layer 2) |
-| `MeasureOption(key, description, duration, *limits, instant=None, permanent=None)` | measure (Layer 3) |
+| `MeasureOption(key, description, duration, *limits, instant=None, permanent=None, open_ended=False)` | measure (Layer 3) |
 | `SituationPool(key, bar_min, bar_max)` | event pool |
 | `Teaser(key, text, *conditions, interpretation=None, note_type=None, image=None, layout=None)` | teaser |
 | `PositiveResolution` / `NegativeResolution` / `DeadlineResolution` / `ConditionResolution` | resolutions |
@@ -1067,7 +1077,8 @@ $ situation_manager.apply_progress_change("situation:cafeteria_crisis:main", 8)
 ```
 
 `situation:<key>:<bar>` (or `situation:<key>` → bar `main`). This is the manual push
-for dedicated Situation events. The same key also works in the general stat-change
+for dedicated Situation events. It is a **no-op** until the Situation is `active`.
+The same key also works in the general stat-change
 calls (`change_stat`, the modifier stat-change labels) and supports the `ALL` bar
 key — so you can fold a bar push into an existing stat change instead of a separate
 line; see the note in [§3d](#d-direct-change-by-events).
@@ -1355,9 +1366,11 @@ always logs why.
 | **It shows as `???????` and never becomes the real title** | It's in `teaser_active` — teasers unlocked but the Situation was never activated. | Call `…activate()` (from the triggering event, or the console). |
 | **The bar never moves** | No `stat_weights`, no events pushing it, and `regular_decrease_rate` is 0. | Add `stat_weights`, a wear rate, or move it from an event ([§3](#3-how-bars-move), [§13](#13-controlling-progress-from-events)). |
 | **A threshold never fires** | Blocking condition unmet; or (multi-bar) not *all* bounds met; or it's on hold; or bounds cross. | Verify the condition; remember multi-bar bounds are AND-linked ([§10](#10-multi-bar-situations--the-combined-bar)); check for a softlock (error 791). |
+| **A threshold event fires from a cheat-menu test / while the Situation is still inactive** | Direct `apply_progress_change` used to move bars and fire AutoThresholds regardless of state. | Bars, thresholds, pools, passives, and resolutions no-op until `activate()`. Use `shift_start_value` before activation, or activate first. |
 | **It never resolves / never ends** | A resolution has no effect (rejected, 780); or bars can't reach their `limits`; or gate conditions are unmet. | Give every resolution an effect; check bar `limits` vs. the resolution mode; review gates ([§14](#14-resolutions-in-detail)). |
 | **Edits to my template don't take effect / progress reset** | You set runtime state (`bar.value`, `reached`, …) in the template. `update_data` deliberately keeps save state and won't overwrite it — and template runtime state corrupts progress. | Set starting values via `start_base` / `start_modifiers`, never `value` ([§9](#9-conventions-not-enforced-but-important)). |
 | **A passive/measure effect "won't undo"** | Revert stops an ongoing modifier; it does not roll back accumulated value. | Expected behavior — only `SituationEffectSetGameData` truly restores ([§4](#what-revert-actually-reverts)). |
+| **A measure stays active forever** | `duration=None` without `open_ended` should auto-close after apply. | Instant is the default ([§4](#passives--measures-the-strategy-layers)). Use `open_ended=True` only when something else must close the slot (Unlockable Schedule Vote). |
 | **Mod Situation vanishes after disabling/re-enabling the mod** | Orphan soft-invalidation. | Expected — it revives on re-registration; timers may restart ([§2](#missing-definitions-orphans)). |
 
 ---

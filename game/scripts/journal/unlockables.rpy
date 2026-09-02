@@ -63,6 +63,7 @@ init -7 python:
                 conditions = vote_measure_conditions,
                 instant_effects = [UnlockableScheduleVoteEffect(situation_key)],
                 permanent_effects = [],
+                open_ended = True,  # hold slot until pta_vote_result
             ))
 
             # Free default Cancel. Set inject_default_cancel=False to supply a custom
@@ -253,6 +254,20 @@ init -7 python:
         def get_schedule_vote_measure(self):
             """Return the injected Schedule Vote measure, if present."""
             return self.passives.get("Schedule Vote")
+
+        def release_schedule_vote_measure(self):
+            """
+            End the Schedule Vote measure after the PTA vote has resolved.
+
+            ``duration`` is None with ``open_ended=True``, so the slot does not
+            expire on a timer and does not auto-close after apply. The measure
+            stays active from scheduling until this call (win or lose).
+            """
+            measure = self.get_schedule_vote_measure()
+            if measure is None:
+                return
+            if measure.active or self.active_measure == "Schedule Vote":
+                measure.deactivate()
 
         def get_vote_money_conditions(self) -> list:
             """MoneyConditions on the Schedule Vote measure (escrow source)."""

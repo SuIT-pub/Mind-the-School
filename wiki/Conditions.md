@@ -231,7 +231,7 @@ last.
 
 | Constructor | Checks |
 |-------------|--------|
-| `SituationPoolCondition(situation_key, pool_key, *options)` | a situation's event pool is active (bar in range) |
+| `SituationPoolCondition(situation_key, pool_key, *options)` | the situation is **active** and the named pool's bar is in range |
 | `ThresholdReachedCondition(situation_key, threshold_key, *options)` | a situation threshold has been reached |
 | `UnlockableCondition(unlockable_key, group_index=-1, *options)` | an unlockable (optionally a group level) is unlocked |
 | `BuildingCondition(key, *options)` | a map building is currently open |

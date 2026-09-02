@@ -416,6 +416,7 @@ label pta_vote_result (unlockable, end_choice, with_comment = False):
         $ unlockable.release_vote_money()
         $ unlockable.apply_vote_failure_penalty()
 
+    $ unlockable.release_schedule_vote_measure()
     $ set_game_data('voteProposal', None)
 
     return

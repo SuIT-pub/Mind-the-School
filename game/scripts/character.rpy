@@ -1163,7 +1163,7 @@ init -6 python:
         def register_paperdoll(self, *overrides: PaperdollOverride, **kwargs):
             # House defaults ← Person.paperdollDefaults ← call-time kwargs
             data = update_dict(
-                {"alt_keys": ["level", "mouth", "state", "char_var", "extra1", "extra2"], "mood": "happy", "pose": 1, "outfit": "uniform", "level": 1, "mouth": "closed", "state": "", "blur": 0.0, "char_var": 1, "look": "follow", "extra1": "", "extra2": ""},
+                {"alt_keys": ["level", "mouth", "state", "char_var", "extra1", "extra2"], "mood": "neutral", "pose": 1, "outfit": "uniform", "level": 1, "mouth": "closed", "state": "", "blur": 0.0, "char_var": 1, "look": "follow", "extra1": "", "extra2": ""},
                 getattr(self, "paperdollDefaults", None) or {},
             )
             data = update_dict(data, kwargs)

@@ -568,6 +568,8 @@ init -99 python:
         def trigger_threshold(self):
             if self.reached or self.hold != -1:
                 return
+            if self.situation is None or self.situation.state != "active":
+                return
 
             if len(self.blocking) > 0 or self.timed_release is not None:
                 situation_manager.add_threshold_check(self)
@@ -743,7 +745,16 @@ init -99 python:
             return True
 
     class SituationMeasure(SituationPassive):
-        def __init__(self, name: str, description: str, duration: TimerCondition, conditions: List[Condition], instant_effects: List[SituationEffect], permanent_effects: List[SituationEffect]):
+        def __init__(
+            self,
+            name: str,
+            description: str,
+            duration: TimerCondition,
+            conditions: List[Condition],
+            instant_effects: List[SituationEffect],
+            permanent_effects: List[SituationEffect],
+            open_ended: bool = False,
+        ):
             super().__init__(name, description, *permanent_effects)
             self.conditions = ConditionStorage()
             self.cooldown = None
@@ -760,6 +771,9 @@ init -99 python:
             self.instant_effects = instant_effects
             self.permanent_effects = permanent_effects
             self.duration = duration
+            # True: duration=None holds the slot until something else deactivates
+            # (Unlockable Schedule Vote). False: duration=None is instant — apply then close.
+            self.open_ended = open_ended
 
         @property
         def type(self) -> str:
@@ -802,6 +816,15 @@ init -99 python:
                 return False
             return True
 
+        def update_data(self, passive: SituationPassive):
+            super().update_data(passive)
+            if isinstance(passive, SituationMeasure):
+                self.duration = passive.duration
+                self.open_ended = getattr(passive, "open_ended", False)
+            elif not hasattr(self, "open_ended"):
+                self.open_ended = False
+            return self
+
         def check(self, **kwargs):
             if self.duration is not None and self.duration.is_fulfilled(**kwargs):
                 self.deactivate()
@@ -818,6 +841,9 @@ init -99 python:
                 if isinstance(effect, SituationEffect):
                     effect.passive = self
                     effect.apply(conditions = self.conditions)
+            # Instant: no duration and not an open-ended hold (e.g. Schedule Vote).
+            if self.duration is None and not getattr(self, "open_ended", False):
+                self.deactivate()
 
         def deactivate(self):
             super().deactivate()
@@ -854,7 +880,15 @@ init -99 python:
                 conditions.append(self.cooldown)
             if self.counter is not None:
                 conditions.append(self.counter)
-            return SituationMeasure(self.name, self.description, self.duration, conditions, list(self.instant_effects), list(self.permanent_effects))
+            return SituationMeasure(
+                self.name,
+                self.description,
+                self.duration,
+                conditions,
+                list(self.instant_effects),
+                list(self.permanent_effects),
+                open_ended=getattr(self, "open_ended", False),
+            )
 
     class SituationEffect(ABC):
         def __init__(self):
@@ -1872,7 +1906,19 @@ init -99 python:
             return self
 
         def change_value(self, delta: float):
-            if delta < 0 and self.situation is not None and self.situation.should_block_negative_delta():
+            """
+            Move this bar by ``delta`` and fire any crossed thresholds.
+
+            Inactive, completed, and cancelled situations ignore the call.
+            Bar mutation and threshold/resolution checks start only after
+            ``activate()``.
+
+            Args:
+                delta (float): Signed change in bar units.
+            """
+            if self.situation is None or self.situation.state != "active":
+                return
+            if delta < 0 and self.situation.should_block_negative_delta():
                 return
 
             old_value = self.value
@@ -2600,6 +2646,16 @@ init -99 python:
             # Restore active passive / measure after definition sync
             target_passive = previous_active if previous_active in self.passives else None
             target_measure = previous_measure if previous_measure in self.passives else None
+            if target_measure is not None:
+                restored_measure = self.passives[target_measure]
+                if (
+                    isinstance(restored_measure, SituationMeasure)
+                    and restored_measure.duration is None
+                    and not getattr(restored_measure, "open_ended", False)
+                ):
+                    # Instant measures must not occupy the slot across reloads.
+                    restored_measure.deactivate()
+                    target_measure = None
 
             self.active_passive = target_passive
             self.active_measure = target_measure
@@ -2797,6 +2853,15 @@ init -99 python:
             return self.resolutions[key].evaluate(**kwargs)
 
         def apply_progress_change(self, key: str, value: float):
+            """
+            Direct bar push. No-op until this situation is active.
+
+            Args:
+                key (str): Bar key, or ``ALL`` to fan out to every bar.
+                value (float): Delta to apply.
+            """
+            if self.state != "active":
+                return
             self.change_bar_value(key, value)
 
         def load_thumbnail(self, **kwargs):
@@ -2858,6 +2923,8 @@ init -99 python:
         # region Pools #
 
         def check_pool(self, pool_key: str, **kwargs):
+            if self.state != "active":
+                return False
             if pool_key not in self.event_pools.keys():
                 return False
             return self.event_pools[pool_key].check_pool()
@@ -2917,7 +2984,9 @@ init -99 python:
         def set_measure(self, measure_key: str, skip_clear: bool = False):
             """
             Activate a temporary measure. Does not touch the active passive slot.
-            A new measure cannot be started while another is still active; wait for expiry.
+            A new measure cannot be started while another is still active; wait for
+            duration expiry. Instant measures (``duration is None``, not
+            ``open_ended``) free the slot immediately after apply.
 
             Args:
                 measure_key (str): Key/name of the measure to activate.
@@ -2970,6 +3039,8 @@ init -99 python:
             return self.passives.get(key)
 
         def check_passives(self, **kwargs):
+            if self.state != "active":
+                return
             if self.active_passive in self.passives:
                 self.passives[self.active_passive].check(**kwargs)
             if self.active_measure in self.passives:
@@ -3072,6 +3143,8 @@ init -99 python:
             return output
 
         def change_bar_value(self, bar_key: str, delta: float):
+            if self.state != "active":
+                return
             if bar_key == "ALL":
                 for bar in self.bars.values():
                     bar.change_value(delta)
@@ -3096,6 +3169,19 @@ init -99 python:
                 return
             return {bar_key: bar.get_gated_range(modifier_value)}
 
+        def get_combined_bar_tendency_value(self) -> float:
+            """
+            Weighted combined tendency from each bar's last-five-change average.
+
+            Returns:
+                float: Signed tendency in bar units. 0.0 when there is no history.
+            """
+            output = 0.0
+            weights = self.get_bar_weights()
+            for key, bar in self.bars.items():
+                output += bar.tendency * weights[key]
+            return output
+
         def get_combined_bar_tendency(self) -> int:
             """
             Direction of the weighted combined bar from recent changes.
@@ -3103,10 +3189,7 @@ init -99 python:
             Returns:
                 int: 1 if positive, -1 if negative, 0 if neutral / no history.
             """
-            output = 0.0
-            weights = self.get_bar_weights()
-            for key, bar in self.bars.items():
-                output += bar.tendency * weights[key]
+            output = self.get_combined_bar_tendency_value()
             if output > 0:
                 return 1
             if output < 0:
@@ -3114,6 +3197,8 @@ init -99 python:
             return 0
 
         def change_bar_values_via_stats(self, key: str, delta: float):
+            if self.state != "active":
+                return
             for bar in self.bars.values():
                 bar.change_value_via_stats(key, delta)
 
@@ -3540,6 +3625,19 @@ init -99 python:
                     out.append(("????????", key))
             return out
 
+        def get_active_situations(self):
+            """
+            Live situations currently in the active state.
+
+            Returns:
+                list[Situation]: Non-invalid situations with state ``active``.
+            """
+            return [
+                situation
+                for situation in self.get_situations()
+                if situation.state == "active"
+            ]
+
         def count_active_situations(self) -> int:
             """
             Count live situations currently in the active state.
@@ -3547,11 +3645,7 @@ init -99 python:
             Returns:
                 int: Number of non-invalid situations with state ``active``.
             """
-            return sum(
-                1
-                for situation in self.get_situations()
-                if situation.state == "active"
-            )
+            return len(self.get_active_situations())
 
         def is_resolution_breather_active(self) -> bool:
             """
@@ -3817,12 +3911,19 @@ init -99 python:
             return
 
         def apply_progress_change(self, key: str, value: float):
+            """
+            Apply a direct bar delta. No-op until the situation is active.
+
+            Args:
+                key (str): ``situation:<situation_key>:<bar_key>``.
+                value (float): Delta to apply.
+            """
             parsed = parse_situation_stat_key(key)
             if parsed is None:
                 return
             situation_key, bar_key = parsed
             situation = self.get_situation(situation_key)
-            if situation is None:
+            if situation is None or situation.state != "active":
                 return
             situation.apply_progress_change(bar_key, value)
             return
@@ -3894,6 +3995,8 @@ init -99 python:
             if key not in self.threshold_checks.keys():
                 return
             threshold = self.threshold_checks[key]
+            if threshold.situation is None or threshold.situation.state != "active":
+                return
             if threshold.timed_release is not None:
                 if threshold.timed_release.check_condition(**kwargs):
                     threshold.trigger_effects()
@@ -4002,17 +4105,20 @@ init -99 python:
     def PassiveOption(key, description, *effects):
         return SituationPassive(key, description, *effects)
 
-    def MeasureOption(key, description, duration, *limits, instant=None, permanent=None):
+    def MeasureOption(key, description, duration, *limits, instant=None, permanent=None, open_ended=False):
         """
         Temporary measure (Schicht 3).
 
         Args:
             key: Stable measure id.
             description: Player-facing text.
-            duration: TimerCondition for active duration.
+            duration: TimerCondition for active duration, or None for instant
+                (apply then close). Use open_ended=True to hold the slot until
+                something else deactivates (Unlockable Schedule Vote).
             *limits: Cooldown TimerCondition, ManualCounterCondition, and/or other Conditions.
             instant: Optional list of SituationEffect applied once on activate (no revert).
             permanent: List of SituationEffect active for the duration (reverted on end).
+            open_ended: If True with duration None, do not auto-close after apply.
         """
         return SituationMeasure(
             key,
@@ -4021,6 +4127,7 @@ init -99 python:
             list(limits),
             list(instant or []),
             list(permanent or []),
+            open_ended=open_ended,
         )
 
     def Teaser(key, text, *conditions, interpretation=None, note_type=None, image=None, layout=None):

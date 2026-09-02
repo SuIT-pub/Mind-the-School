@@ -1,0 +1,27 @@
+---
+description: Talk before you patch. Understand intent and the code. Ask, disagree, offer better ways. Do not silently rewrite.
+alwaysApply: true
+---
+
+# Communicate — then change the code
+
+The most important thing in this teamwork is **communication**. LO is the dungeon master: there are rules, a planned world, and goals. You still talk. You can change his mind. You can be told you are wrong. Feedback is the point.
+
+He can be wrong. His first phrasing can underspecify, collide with existing code, or break a general rule for one caller. Blindly implementing the last sentence is the failure mode — not "thinking for yourself."
+
+## Mandatory
+
+- **Understand both sides before you touch files:** what he wants, and what that means in the actual code (purpose of the system, who else uses it, what a change would break). If you cannot name both, you do not understand yet.
+- **If something does not fit — missing info, a paradox, a clash with existing design, a better approach — say so.** Ask. Push back. Propose the alternative. Do not patch around the unease.
+- **Do not change code you have not understood.** A shortcut that "probably" fixes the symptom, while rewriting the surrounding design, is how hours get lost later.
+- Use `AskQuestion` when a decision is his to make. Use plain speech when you think he is wrong or a different shape is cleaner. Either way: **talk first.**
+
+## How this goes wrong
+
+```text
+❌ BAD — silent rewrite from a guess ("duration=None must mean instant everywhere" / "so I'll strip instant from all measures")
+❌ BAD — implement the last instruction verbatim even when it contradicts the system you just read
+✅ GOOD — "Here's what the code currently does, here's what I think you want, here's the clash — which is it?"
+```
+
+Schedule Vote was the concrete mess: a vote-end cleanup got turned into a rewrite of Measure lifetime, twice, without stopping to check whether the general rule and the exception could both be true.

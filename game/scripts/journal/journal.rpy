@@ -2928,7 +2928,7 @@ screen journal_situation_note(teaser, width=480):
 
         null height 16
 
-screen journal_situation_gate(xpos, height, color="#1a1a1a", gate_width=12):
+screen journal_situation_gate(xpos, height, color="#1a1a1a", gate_width=12, overhang=8):
     # """
     # Gate-style marker on a situation bar (two pillars + lintels).
 
@@ -2941,23 +2941,27 @@ screen journal_situation_gate(xpos, height, color="#1a1a1a", gate_width=12):
     #     - Gate fill color.
     # 4. gate_width: int (default: 12)
     #     - Total width of the gate opening.
+    # 5. overhang: int (default: 8)
+    #     - Extra pixels the gate extends above and below the track.
     # """
+
+    $ gate_height = height + overhang * 2
 
     fixed:
         xpos xpos
         xanchor 0.5
         yalign 0.5
         xsize gate_width
-        ysize height + 16
+        ysize gate_height
 
         add Solid(color):
             xsize 3
-            ysize height + 16
+            ysize gate_height
             xpos 0
 
         add Solid(color):
             xsize 3
-            ysize height + 16
+            ysize gate_height
             xpos gate_width - 3
 
         add Solid(color):
@@ -2970,7 +2974,7 @@ screen journal_situation_gate(xpos, height, color="#1a1a1a", gate_width=12):
             ysize 3
             yalign 1.0
 
-screen journal_situation_bar(situation, width=480, height=28):
+screen journal_situation_bar(situation, width=480, height=28, show_label=True, gate_width=12, overhang=8):
     # """
     # Non-interactive combined situation progress bar with a red→green track,
     # a handle for the current combined value, and gate markers for the nearest
@@ -2983,6 +2987,12 @@ screen journal_situation_bar(situation, width=480, height=28):
     #     - Track width in pixels.
     # 3. height: int (default: 28)
     #     - Track height in pixels.
+    # 4. show_label: bool (default: True)
+    #     - Whether to render the mood label above the track.
+    # 5. gate_width: int (default: 12)
+    #     - Total width of each gate opening.
+    # 6. overhang: int (default: 8)
+    #     - Extra pixels the gates extend above and below the track.
     # """
 
     $ bar_min = situation.get_combined_bar_min()
@@ -2992,7 +3002,10 @@ screen journal_situation_bar(situation, width=480, height=28):
     $ t = clamp_value((bar_value - bar_min) / span, 0.0, 1.0)
     $ handle_x = int(t * width)
     $ value_label = situation.get_combined_bar_value_mood()
-    $ label_space = 20
+    $ label_space = 20 if show_label else 0
+    $ track_extra = overhang * 2
+    $ handle_outer = max(6, int(round(height * 10 / 28.0)))
+    $ handle_inner = max(4, int(round(height * 6 / 28.0)))
 
     $ next_above = situation.get_closest_next_blocking_threshold(bar_value, 1.0)
     $ next_below = situation.get_closest_next_blocking_threshold(bar_value, -1.0)
@@ -3001,33 +3014,33 @@ screen journal_situation_bar(situation, width=480, height=28):
 
     fixed:
         xsize width
-        ysize height + 16 + label_space
+        ysize height + track_extra + label_space
 
-        $ text_margin = 40  # how close to edge before shifting text anchor
-        $ margin_left = text_margin
-        $ margin_right = width - text_margin
-        if handle_x < margin_left:
-            $ label_x = margin_left
-            $ label_anchor = 0.0
-        elif handle_x > margin_right:
-            $ label_x = margin_right
-            $ label_anchor = 1.0
-        else:
-            $ label_x = handle_x
-            $ label_anchor = 0.5
+        if show_label:
+            $ text_margin = 40
+            $ margin_left = text_margin
+            $ margin_right = width - text_margin
+            if handle_x < margin_left:
+                $ label_x = margin_left
+                $ label_anchor = 0.0
+            elif handle_x > margin_right:
+                $ label_x = margin_right
+                $ label_anchor = 1.0
+            else:
+                $ label_x = handle_x
+                $ label_anchor = 0.5
 
-        text value_label:
-            style "journal_desc_small"
-            xpos label_x
-            xanchor label_anchor
-            ypos 0
-            textalign 0.5
-       
+            text value_label:
+                style "journal_desc_small"
+                xpos label_x
+                xanchor label_anchor
+                ypos 0
+                textalign 0.5
 
         fixed:
             ypos label_space
             xsize width
-            ysize height + 16
+            ysize height + track_extra
 
             add HGradient("#c62828", "#2e7d32"):
                 ysize height
@@ -3045,27 +3058,27 @@ screen journal_situation_bar(situation, width=480, height=28):
 
             if next_below is not None and next_below_pos + next_below.visible_range > bar_value:
                 $ tb = clamp_value((next_below_pos - bar_min) / span, 0.0, 1.0)
-                use journal_situation_gate(int(tb * width), height, "#7f1d1d")
+                use journal_situation_gate(int(tb * width), height, "#7f1d1d", gate_width, overhang)
 
             if next_above is not None and next_above_pos - next_above.visible_range < bar_value:
                 if next_above is not next_below:
                     $ ta = clamp_value((next_above_pos - bar_min) / span, 0.0, 1.0)
-                    use journal_situation_gate(int(ta * width), height, "#14532d")
+                    use journal_situation_gate(int(ta * width), height, "#14532d", gate_width, overhang)
 
                 if next_above is next_below:
                     $ ta = clamp_value((next_above_pos - bar_min) / span, 0.0, 1.0)
-                    use journal_situation_gate(int(ta * width), height, "#1a1a1a")
+                    use journal_situation_gate(int(ta * width), height, "#1a1a1a", gate_width, overhang)
 
             add Solid("#ffffff"):
-                xsize 10
-                ysize height + 10
+                xsize handle_outer
+                ysize height + handle_outer
                 xpos handle_x
                 xanchor 0.5
                 yalign 0.5
 
             add Solid("#111111"):
-                xsize 6
-                ysize height + 6
+                xsize handle_inner
+                ysize height + handle_inner
                 xpos handle_x
                 xanchor 0.5
                 yalign 0.5

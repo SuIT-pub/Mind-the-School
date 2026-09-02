@@ -625,6 +625,26 @@ init -6 python:
 
             return full_range
 
+    def get_stat_icon_path(stat: str, *, size: str = ICON_SMALL, white: bool = True) -> str:
+        """
+        Returns the image path of the stat icon.
+
+        ### Parameters:
+        1. stat: str
+            - The type of the stat.
+        2. size: str (default ICON_SMALL)
+            - Pixel size token used in the filename (20, 50, 511).
+        3. white: bool (default True)
+            - Whether to use the white icon variant.
+
+        ### Returns:
+        1. str
+            - The path to the icon image of the stat.
+        """
+
+        color = "white" if white else "black"
+        return "icons/" + str(stat) + "_icon_" + size + "_" + color + ".webp"
+
     def get_stat_icon(stat: str, *, size: str = ICON_SMALL, white: bool = True) -> str:
         """
         Returns the path to the icon image of the stat.
@@ -638,9 +658,7 @@ init -6 python:
             - The path to the icon image of the stat.
         """
 
-        color = "white" if white else "black"
-
-        return "{image=icons/" + str(stat) + "_icon_" + size + "_" + color + ".webp}"
+        return "{image=" + get_stat_icon_path(stat, size=size, white=white) + "}"
 
     def clamp_stat_value(value: num, stat: str, level: int, min: num = 0, max: num = 100) -> num:
         """

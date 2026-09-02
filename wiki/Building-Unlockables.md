@@ -149,7 +149,9 @@ key to authoring one correctly. Given your `*elements`, it:
 2. **Injects the *Schedule Vote* measure** (always, at slot 0). Its gate is
    `VoteProposalFreeCondition()` plus whatever you supplied via
    `UnlockableScheduleVoteConditions`. Its instant effect puts this Unlockable on
-   the PTA schedule for next Friday.
+   the PTA schedule for next Friday. Unlike a normal `duration=None` measure, it
+   is `open_ended=True`: the slot stays occupied until the PTA vote resolves
+   (`pta_vote_result` deactivates it).
 3. **Injects the *Cancel* measure** (unless `inject_default_cancel=False`) — a free
    `SituationEffectCancelSituation()`.
 4. **Injects the unlock resolutions:** a `ConditionResolution("vote_passed", …)`
@@ -199,9 +201,10 @@ for the button.
 ### The vote round
 
 While active, the player raises faction support (events, Persuade, stats via
-`stat_weights`) and then uses **Schedule Vote**. On the next Friday PTA meeting the
-vote is rolled from the bar fills (see [§5](#5-the-pta-vote)). On success the unlock
-resolutions fire; on failure the bars take a penalty and the player can try again.
+`stat_weights`) and then uses **Schedule Vote**. The measure stays active until
+the next Friday PTA meeting. The vote is rolled from the bar fills (see
+[§5](#5-the-pta-vote)). On success the unlock resolutions fire; on failure the
+bars take a penalty, the measure slot is freed, and the player can try again.
 
 ### Hot reload & orphans
 
@@ -257,6 +260,8 @@ suppressed — you own the full bar set.
 ### The injected measures
 
 - **Schedule Vote** — always present; the player's "call the vote" action.
+  `open_ended=True`: stays active from scheduling until the Friday PTA vote
+  resolves. Cancel and Persuade are normal instant `duration=None` measures.
 - **Cancel** — free by default; set `inject_default_cancel=False` to supply your
   own (e.g. a Cancel with a reputation cost) as a `MeasureOption`/`SituationMeasure`
   element instead.
@@ -304,9 +309,11 @@ combined fill (`get_vote_probability()`) is the overall likelihood.
 
 - **Success** → the `vote_passed` resolution (and, if bars are also maxed, the
   `PositiveResolution`) fires: `UnlockableUnlockEffect` sets the unlocked flag and
-  your unlock effects apply.
+  your unlock effects apply. The Schedule Vote measure is deactivated.
 - **Failure** → `apply_vote_failure_penalty()` pushes **all** bars down (default
-  `-15`). The player rebuilds support and can schedule again.
+  `-15`). Reserved money is refunded, the Schedule Vote measure is deactivated,
+  and `voteProposal` is cleared. The player rebuilds support and can schedule
+  again.
 
 > **Design point:** the bars are the *campaign*, the vote is the *outcome*. Raising
 > support improves your odds; it never guarantees the unlock. This keeps the same
@@ -702,6 +709,7 @@ view, category `situation`).
 | | Rejected by the self-test. | Check the log; common Unlockable-specific codes are the money-escrow pair 800–803 ([§6](#6-money-costs-escrow)). |
 | | Group has a gap in `group_index`. | Levels must be consecutive, no gaps — a gap invalidates the whole group ([§7](#7-groups--building-upgrade-chains)). |
 | **The vote is scheduled but nothing happens** | The vote resolves at the **next Friday** PTA meeting, not immediately. | Advance to Friday; only one proposal can be scheduled at a time (`VoteProposalFreeCondition`). |
+| **Schedule Vote stays active after a rejected vote** | Open-ended measure has no timer; the slot must be freed when the vote ends. | `pta_vote_result` calls `release_schedule_vote_measure()` after win or lose. |
 | **The vote keeps failing** | Faction bars are too low — success is probabilistic from bar fills. | Raise support (events, Persuade, `stat_weights`) before scheduling; each failure also applies a bar penalty ([§5](#5-the-pta-vote)). |
 | **It "unlocks" but nothing visibly changes** | `UnlockableUnlockEffect` only sets a flag; you supplied no real unlock effect. | Add the actual effect (rule flag, `LevelEffect`, etc.) as a bare `Effect` or in a `PositiveResolution` ([§8](#8-unlock-effects--what-unlocking-means)). |
 | **A building unlocked but its map location is still closed** | Unlock ≠ map-open; they are orthogonal. | Add `BuildingOpenEffect(building_key)` to the unlock effects ([§8](#map-access-is-orthogonal)). |
@@ -716,7 +724,7 @@ view, category `situation`).
 
 | Injected | When | Detail |
 |----------|------|--------|
-| Schedule Vote measure | always | gate `VoteProposalFreeCondition` + your `UnlockableScheduleVoteConditions` |
+| Schedule Vote measure | always | `open_ended=True` until the PTA vote; gate `VoteProposalFreeCondition` + your `UnlockableScheduleVoteConditions` |
 | Cancel measure | `inject_default_cancel=True` | free `SituationEffectCancelSituation` |
 | `vote_passed` + `PositiveResolution` | always | carry `UnlockableUnlockEffect` + your unlock effects |
 | 3 faction bars | only if you passed no bars | `Students`/`Parents`/`Teachers`, `(0,100)`, slow decrease |
