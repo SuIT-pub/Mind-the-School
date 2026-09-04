@@ -20,6 +20,15 @@ Petite and youthful, with long brown hair worn in high twin-tails and a straight
 fringe — a cute, trend-conscious look. Fair skin, blue eyes, and a slim, small
 frame with a modest bust. Minimal makeup, no standing jewellery.
 
+**Undressed.** Hatano is slim and petite — a small, youthful frame with a slender
+waist and narrow hips. Her bust is small and neat, sitting a little low with a soft
+rounded fullness and nipples clearly angled down and out, dusky pink-mauve and
+slightly puffy on small mauve areolae. Her ass is round and full — a smooth plump bubble sitting high
+on her slight frame, projecting out in a firm curve. Between her slim thighs she's
+smooth and clean-shaven, a small neat bare mound with a closed slit and just the tip
+of her inner lips at the base. Fair, porcelain-pale skin, high twin-tails and a little
+beauty mark under one eye.
+
 **Uniform across the levels.** Fitting her fashionista streak, Hatano is the one
 who *styles* the uniform rather than just wearing or shedding it — most visibly
 with slouchy white leg-warmers she keeps on at every level (a trendy kogal touch),

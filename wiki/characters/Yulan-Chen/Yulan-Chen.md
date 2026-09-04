@@ -22,6 +22,16 @@ with a blue floral hair ornament and blue tassel pins. Pale blue-grey eyes, fair
 skin, and an elegant, mature hourglass — a full bust,
 slim waist, and long legs.
 
+**Undressed.** Out of her elegant qipao Yulan is a mature, refined hourglass with
+warm, smooth fair skin. Her bust is full and round — a heavy, well-shaped handful
+sitting high with a full underside, and its standout is the nipples: prominent and
+protruding, a warm rosy pink pushed well forward as pointed nubs on medium rosy-pink
+areolae. Her waist is slim, flaring into elegant hips and a round, full, firm ass —
+a smooth heart from behind that projects in a clean, generous curve. Between her
+thighs she keeps a small, neat triangle of dark pubic hair, a defined natural tuft
+above an otherwise smooth mound, with just the pink tip of the inner lips peeking at
+the base of a close, neat slit. Warm, poreless fair skin the whole way down.
+
 **Signature look across the levels.** Yulan's whole wardrobe is the qipao
 (cheongsam) — mandarin collar, frog clasps, a high side slit, embroidered flat
 slippers — a refined, traditional look that fits the cultured History-and-Politics

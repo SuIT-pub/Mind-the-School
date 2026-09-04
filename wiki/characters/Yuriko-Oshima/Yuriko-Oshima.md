@@ -24,6 +24,15 @@ eyes, and a small beauty mark just under one eye. Fair skin and a slim, petite,
 softly curved figure with a moderate bust. Her constant accessory is a red scarf,
 looped at her neck even as everything else changes.
 
+**Undressed.** Out of her layers and scarf Yuriko is slim, petite, and softly curved
+with fair, poreless skin. Her bust is small and soft — gently conical, tapering to a
+soft point and sitting a little apart, tipped with small, faintly protruding pink
+nipples on small close areolae. Her waist is trim, running down into a round, full,
+firm ass — a smooth heart from behind that projects in a clean, generous curve.
+Between her thighs she's smooth and completely clean-shaven, a soft pale mound with a
+neat, mostly-closed slit and just the pink tip of the inner lips peeking at the base.
+Fair, smooth skin the whole way down.
+
 **Uniform across the levels.** Yuriko stays more covered and layered than most, and
 the red scarf never leaves — a little security-blanket of a signature that suits her
 guarded, withdrawn streak. At level 1 she's among the most covered in class: a fully

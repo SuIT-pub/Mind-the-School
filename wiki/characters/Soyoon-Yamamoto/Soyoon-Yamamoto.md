@@ -22,6 +22,17 @@ A sleek jet-black bob with blunt, straight bangs, pale blue-grey eyes, and very
 fair, almost porcelain skin. She's slender and willowy — long-legged with
 a moderate bust — one of the more elegant, model-like builds in the class.
 
+**Undressed.** Out of her soft, girlish layers Soyoon is slender and willowy with
+striking near-white porcelain skin. Her bust is full and round — a soft, well-shaped
+handful sitting fairly high, and its standout is the nipples: a vivid pink, puffy
+and protruding, doming up from soft pink areolae that stand out plainly against her
+pale skin. Her waist is slim, running down into a round, full, firm ass — a smooth
+heart from behind that projects in a clean, generous curve. Between her thighs she's
+smooth and completely clean-shaven, a soft pale mound whose cleft parts to show slim
+pink inner lips, a small clit at the top and a glistening pink centre — the colour
+vivid against her near-white porcelain skin. Flawless,
+pearl-pale skin the whole way down.
+
 **Uniform across the levels.** Soyoon's styling leans soft and feminine. At level 1
 it's a blouse with flutter cap sleeves and a small red ribbon bow at the collar
 over a plaid pleated skirt — sweet and neat; by level 5 a ruched grey sweetheart

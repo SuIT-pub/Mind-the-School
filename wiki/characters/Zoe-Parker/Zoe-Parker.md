@@ -22,6 +22,19 @@ nose and cheeks. Fair skin and a fit, athletic figure — toned, with a moderate
 bust and curvy hips. Her most distinctive mark is a large black tattoo across her
 stomach: a butterfly wreathed in baroque filigree.
 
+**Undressed.** Out of her gymwear Zoe is fit and toned — an athletic build with a
+defined back, warm lightly-tanned skin, and freckles carrying down from her face.
+Her bust is firm and moderate, neat and conical, upturned and tapering to a point,
+tipped with prominent puffy protruding nipples that stick well out as soft pink
+cones from medium areolae. Her tattoos are her signature: a small "Dirty Girl"
+script high on her left chest, and the large black butterfly wreathed in baroque
+filigree sweeping across her stomach. Her waist is trim, flaring into curvy hips and
+a round, full, firm ass — a smooth heart from behind that projects in a clean,
+generous curve. Between her thighs she keeps a narrow landing-strip of dark-blonde
+pubic hair above an otherwise smooth mound, the full outer lips pressed together into
+a clean, closed cleft with the inner lips tucked away as a thin pink seam down the
+centre. Warm, lightly-tanned skin the whole way down.
+
 **Signature look across the levels.** As the PE-and-Health teacher, Zoe lives in
 athletic wear, and it stays sporty all the way up — the same red running trainers
 throughout. At level 1 it's a full red velour tracksuit, zipped to the neck; by

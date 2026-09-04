@@ -19,7 +19,16 @@ Gloria Goto is a student in class 3A.
 Petite and slim — one of the smaller, slighter girls in the class — with a short, tousled
 ash-blonde bob and wispy bangs. Her signature is a small green flower hairclip
 pinned above her right ear, worn constantly, even with nothing else on. Fair skin,
-blue-grey eyes, a modest bust, and a slight, girlish figure.
+blue-grey eyes, a full, round bust, and a slight, girlish figure.
+
+**Undressed.** Gloria is slim and girlish — a slight, petite frame with a slender
+waist and narrow hips, carrying a full round bust and a perky round ass. Her breasts
+are full and round, a substantial pair sitting up firm and projecting, tipped with
+small pink slightly-puffy nipples on small pale-pink areolae. Her ass is round and perky, a
+smooth full bottom sitting high on her slight frame. Between her slim thighs she's
+smooth and clean-shaven, a small neat bare mound with a closed slit and just the tip
+of her inner lips at the base. Porcelain-pale skin, and the little green flower clip
+stays in even here.
 
 **Uniform across the levels.** Gloria wears the standard uniform but interprets it
 studiously — she's the most buttoned-up of the girls at the low end. At level 1

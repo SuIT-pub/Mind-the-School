@@ -23,6 +23,15 @@ full bust over a narrow waist and wide hips and thighs — the same generous che
 that, by her own account, gives her back trouble. She wears no particular
 jewellery.
 
+**Undressed.** Aona is soft and heavy — a fleshy, curvy build with wide hips,
+thick thighs, and a soft waist. Her bust is big and full — round, soft, heavy breasts
+with a natural weight, projecting forward, wide-set and broad-gapped. Their standout feature is
+the areolae: large, pale-pink and puffy, swelling out as raised domes that push each
+whole nipple forward in a soft protruding mound — heavy enough to explain the back
+trouble she complains about. Her ass is big, soft and full, hanging plush and low,
+spreading over thick thighs. Between her legs she's smooth and clean-shaven, a soft
+puffy mound and a neat closed slit. Pale, poreless skin, all soft curves.
+
 **Uniform across the levels.** Like every student Aona wears the standard school
 uniform — white blouse and red-and-blue plaid pleated skirt — so what marks her
 out is her *variation* of it rather than any separate wardrobe: how much she keeps

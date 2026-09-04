@@ -20,6 +20,15 @@ Silver-grey hair in a short bob with a fringe, and striking golden-amber eyes �
 unusual, eye-catching combination. Fair skin, and a curvy figure with a notably
 full bust on an otherwise slim frame. Natural makeup, no standing jewellery.
 
+**Undressed.** Out of her clothes the contrast is the whole story: a notably full,
+heavy bust carried on an otherwise slim frame — big, round breasts that look all the
+larger for the narrow body under them, with soft pink nipples on medium areolae. Her
+waist stays slim and her hips flare curvy into a round, full ass, smooth and high and
+plump. Between her thighs she isn't quite bare: a small, neat patch of pale
+silver-grey hair matching the hair on her head, so faint against her fair skin it's
+easy to miss, above an otherwise smooth mound and a closed, tidy slit. Flawless pale
+skin over all of it.
+
 **Uniform across the levels.** Ikushi wears the standard uniform with a red neck
 accent as her recurring note — a neat red bow at the collar early on, a red plaid
 necktie later. At level 1 it's a tidy white blouse with the bow and a plaid pleated

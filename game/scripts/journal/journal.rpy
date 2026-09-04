@@ -103,6 +103,8 @@ label open_journal(page, display, char = "school"):
     #     - The character to display the journal for.
     # """
 
+    $ acknowledge_journal_alerts(page, display)
+
     if page == 1:
         call screen journal_overview(display, char) with dissolveM
     elif page == 2:

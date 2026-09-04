@@ -23,6 +23,15 @@ teal-green eyes, fair skin, and a full hourglass figure — a generous bust, def
 waist, and long legs. Soft, natural makeup; aside from the glasses she keeps
 accessories minimal.
 
+**Undressed.** Out of her sharp workwear Emiko is a statuesque bombshell — tall,
+long-legged, and built on a full hourglass. Her bust is big and generous, round
+heavy breasts, full and projecting, with deep cleavage, tipped with prominent,
+puffy pink-mauve nipples that stand proud of medium areolae. Her waist stays defined
+and her wide hips flare into a big, round, gorgeously shaped ass — smooth, plump and
+projecting, full and firm. Between her long legs she's smooth and bare,
+a clean mound and a closed, tidy slit. Flawless fair skin over every full, womanly
+curve — the glasses and ponytail the only things she keeps on.
+
 **Signature look across the levels.** As staff, Emiko dresses in her own sharp,
 professional wardrobe rather than a uniform, in a consistent teal-blue-and-red
 palette — and two things never leave her at any level: the glasses and a pair of

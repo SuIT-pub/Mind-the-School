@@ -27,6 +27,17 @@ musical motifs — a guitar, musical notes, a ribbon of sheet music — with flo
 and stars on the other leg. She keeps a black choker with a small pendant and
 dangling drop earrings on at all times, and paints her toenails dark.
 
+**Undressed.** Chloe is slim and toned — a lean, athletic build with clearly defined
+abs — and heavily tattooed almost everywhere the eye lands. Her breasts are small and
+neat, set wide on a flat, firm chest, and the nipples are the feature: each a
+prominent, protruding nub standing well out from a flat, moderate reddish-pink areola. Her
+waist is trim and her ass firm, compact and round on her lean frame, sitting high and
+taut. The ink is the throughline: full sleeves down both arms, swallows and script
+across her upper back, a lotus-and-filigree band arcing over her lower back, script
+and stars scattered over hip and stomach, and pieces running down both thighs —
+art-and-music motifs all over. Between her thighs she's smooth and clean-shaven, a bare
+mound and a neat closed slit, the skin there left unmarked between inked hips.
+
 **Signature look across the levels.** Chloe dresses rocker-edgy in a consistent
 black-red-grey palette — leather, moto jackets, hardware. At level 1 she's covered
 but far from prim: a red-and-black biker jacket over a black top, black leather

@@ -144,6 +144,9 @@ The building blocks the content systems are made of:
 - **[Images](Images)** — how a path string becomes a file: patterns, placeholders,
   `$` fallbacks, PNG/WebP, mod prefixes, and which helper to call from events,
   screens and classes.
+- **[Journal Alerts](Journal-Alerts)** — unseen journal news (new teaser,
+  situation activated, …): topic registry, pending items, and the map highlight
+  icon. Other journal surfaces register their own topic.
 
 ## How the pieces fit together
 
@@ -154,8 +157,11 @@ The building blocks the content systems are made of:
 - **Unlockables** build on Situations to gate permanent unlocks behind a PTA vote.
 - **Pictograms** are descriptive preview marks on bars/unlockables.
 - **Events** are injected into building pools while a Situation is active.
+- **Journal alerts** flag unseen journal news (new teaser, situation activated, …)
+  and drive the map highlight icon; other journal pages can register their own
+  topic. See [Journal Alerts](Journal-Alerts).
 
-All four are registered inside the start/after-load *lifecycle wave*; mods queue
+All of these are registered inside the start/after-load *lifecycle wave*; mods queue
 their loader with `register_start_method(...)`. Image paths (thumbnails, teaser
 images, pictogram icons) are auto-redirected to the active mod's folder.
 

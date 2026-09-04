@@ -167,6 +167,12 @@ A Situation moves through several states (`situation.state` /
 5. **Resolution** — As soon as a resolution condition is met, its effects fire and
    the Situation goes to `completed`.
 
+A new teaser, the first `activate()`, and `complete()` each raise a
+[journal alert](Journal-Alerts) on topic `situations` (item = situation key). The
+map journal button stays highlighted until the player opens that row. Cancel does
+not raise. Unlockables use the same hooks but topic `unlockables` — see
+[Building Unlockables](Building-Unlockables).
+
 ### Hot reload (important to understand)
 
 `register_situations` runs on **every** load — including loading a save. If a

@@ -21,6 +21,14 @@ layered pieces up top swept to one side, the wavy length cascading over one
 shoulder. Blue-grey eyes, fair skin, and a slim, elegant figure with a moderate
 bust. Soft pink lips, no standing jewellery.
 
+**Undressed.** Kokoro is slim and elegant — a slender frame with a narrow waist and a
+graceful line. Her bust is small and firm, sitting high and round and upturned, perky
+and projecting, with prominent, puffy nipples that push out from small mauve areolae. Her ass
+is round and full — a smooth, shapely bottom projecting out in a deep curve on her slim
+frame. Between her thighs she's smooth and clean-shaven, a small neat bare mound with a
+closed slit and the tip of her inner lips at the base. Porcelain-pale skin, soft pink
+lips, and long glamorous auburn-red hair swept over one shoulder.
+
 **Uniform across the levels.** Kokoro's take on the uniform is modest at first but
 turns notably mature and edgy — she reaches for grown-up outerwear rather than
 cutesy schoolgirl pieces. At level 1 it's a plain white blouse and plaid pleated

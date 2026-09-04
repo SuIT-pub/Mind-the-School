@@ -21,6 +21,16 @@ fringe; bright green eyes and a scatter of freckles across her nose and cheeks.
 Fair skin and a slim, athletic figure — a toned midriff, a smaller bust, and
 curvy hips. Natural makeup, no standing jewellery.
 
+**Undressed.** Out of her uniform Lin is slim and fair with a youthful, athletic
+build. Her bust is small and firm — neat, round, upturned handfuls that sit high;
+the standout is her nipples, a vivid bright pink, puffy and prominently protruding,
+sticking well out as bright little nubs from small matching areolae. Her waist is
+trim and her hips curve out into a round, full, firm ass — a smooth heart from
+behind that projects in a clean, generous curve. Between her thighs she keeps a
+small, neat triangle of dark pubic hair, groomed and tidy above an otherwise smooth
+pale mound, with just the tip of the inner lips showing pink at the base of a close,
+neat slit. Fair, smooth skin the whole way down.
+
 **Uniform across the levels.** Lin wears the uniform in a relaxed, casual-sporty
 way that matches her easygoing streak — nothing fussed over. At level 1 it's smart
 enough: a navy gold-button blazer over a white blouse and the plaid pleated skirt;

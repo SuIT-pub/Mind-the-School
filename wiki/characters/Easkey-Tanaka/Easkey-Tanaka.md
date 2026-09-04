@@ -24,6 +24,15 @@ across her nose, cheeks, and shoulders. Blue-green eyes, fair skin, and a soft,
 curvy figure — a full bust, a gently rounded tummy, and wide hips and thighs,
 softer and less toned than most of her classmates. Minimal makeup, no jewellery.
 
+**Undressed.** Easkey is soft and curvy — a gently rounded figure with a little belly,
+wide soft hips, and full thighs, soft and untoned. Her bust is full and round, sitting
+up firm and upturned, the nipples prominent and protruding, a dusky pinkish-mauve
+pushed forward from medium tan-mauve areolae. The heavy freckling from her face carries right down over her
+shoulders, back, and the tops of her breasts — a coppery dusting scattered across pale
+skin. Her ass is round and full, a plump soft bottom sitting out over wide thighs.
+Between her legs she's smooth and clean-shaven, a plump bare mound and a neat closed
+slit. Soft, fair, freckled skin all over.
+
 **Uniform across the levels.** Easkey wears the sailor-style variant of the school
 uniform — a white middy top with a sailor collar and red neckerchief over the
 blue-and-red plaid pleated skirt. She keeps it plain and doesn't dress it up; what

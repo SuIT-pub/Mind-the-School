@@ -417,6 +417,7 @@ init -99 python:
 
             self._resolve_image(**kwargs)
             self._pick_layout()
+            notify_situation_journal_alert(self.situation)
             return self
 
     #endregion
@@ -2490,6 +2491,18 @@ init -99 python:
         def visible(self):
             return self.visibility_state == "active" or self.visibility_state == "teaser_active"
 
+        def get_journal_alert_topic(self):
+            """
+            Journal alert topic used when this situation has unseen changes.
+
+            Unlockables override this so they ping the Unlockables page instead
+            of the Situations page. See ``wiki/Journal-Alerts.md``.
+
+            Returns:
+                str: Topic key registered with ``register_journal_alert_topic``.
+            """
+            return "situations"
+
         @property
         def visibility_state(self):
             if self.state == "completed":
@@ -2690,6 +2703,7 @@ init -99 python:
                     del self.teasers[key]
 
         def activate(self):
+            already_active = self.state == "active"
             self.state = "active"
             if self.active_passive in self.passives:
                 self.set_passive(self.active_passive, skip_clear=True)
@@ -2697,9 +2711,12 @@ init -99 python:
                 self.set_measure(self.active_measure, skip_clear=True)
             for bar in self.bars.values():
                 bar.activate()
+            if not already_active:
+                notify_situation_journal_alert(self)
             return self
 
         def complete(self):
+            already_completed = self.state == "completed"
             if self.active_passive in self.passives:
                 self.passives[self.active_passive].deactivate()
             if self.active_measure in self.passives:
@@ -2713,6 +2730,8 @@ init -99 python:
             self.active_passive = None
             self.active_measure = None
             self.state = "completed"
+            if not already_completed:
+                notify_situation_journal_alert(self)
 
         def cancel(self):
             """

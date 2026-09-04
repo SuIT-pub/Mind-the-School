@@ -851,7 +851,7 @@ label load_stats ():
             " students' minds are and how open they are to sexual activity.\n" +
             "\nThe level can be increased by performing sexual activities with" +
             " the students or by using indirect measures like drugs etc.",
-            ("\nThis stat is currently capped and cannot be further decreased until the level of the school is increased.", StatLimitCondition(CORRUPTION))],
+            ("\nThis stat is currently capped and cannot be further increased until the level of the school is increased.", StatLimitCondition(CORRUPTION))],
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         'descriptions': [
             "There is rarely anything more pure than these students.",
@@ -861,7 +861,7 @@ label load_stats ():
             "The students don't mind talking about sexual topics.",
             "The students feel more open towards more intimate interactions.",
             "The students like to touch each other more intimately.",
-            "The students don't see the need to restrain themself in their sexuality.",
+            "The students don't see the need to restrain themselves in their sexuality.",
             "The students love to touch each other and play fun games.",
             "The students think of almost nothing but sex.",
             "Sex became the default for the students. There is almost nothing and nobody they wouldn't do.",
@@ -882,9 +882,9 @@ label load_stats ():
 
     $ load_stat_data(INHIBITION, "Inhibition", {
         'description': ["The inhibition level shows how the students feel in their own bodies.\n" +
-            "The better they feel in their own bodies the more they open up and the less they feel embarrassed about showing their bodies.\n" +
-            "\nThe level can be increased by bringing the student in embarrassing situations that leaves them exposed or" +
-            " that presents their bodies in other ways.",
+            "The more comfortable they are in their skin, the more they open up and the less embarrassed they feel about showing their bodies.\n" +
+            "\nThe level is lowered by putting the students in situations that leave them exposed or" +
+            " that present their bodies. The more they get used to being seen, the less inhibited they become.",
             ("\nThis stat is currently capped and cannot be further decreased until the level of the school is increased.", StatLimitCondition(INHIBITION))],
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         'descriptions': [
@@ -917,9 +917,9 @@ label load_stats ():
     $ load_stat_data(HAPPINESS, "Happiness", {
         'description': "Happiness describes how happy the students are to be at this school.\n" + 
             "The happier they are, the less likely they are to cause problems.\n"
-            "\nEvents that make students happy, raises the overall happiness of all students."
+            "\nEvents that make the students happy raise the overall happiness of the whole school."
             " It can be the simple things like praising someone or giving them a gift.\n"
-            "On the other hand situations that makes the students uncomfortable lowers the students happiness.",
+            "On the other hand, situations that make them uncomfortable lower it again.",
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         'descriptions': [
             "The students are rioting.",
@@ -950,9 +950,9 @@ label load_stats ():
 
     $ load_stat_data(EDUCATION, "Education", {
         'description': "Education measures how good the students are at school.\n" +
-            "The level of education is an important factor and influences the monthly budget the " +
-            "goodwill of the authorities and the willingness of potential contractors to establish a contract.\n" +
-            "\nThe Education can be raised by making sure the students have a good surrounding where they can learn " +
+            "The level of education is an important factor and influences the monthly budget, the " +
+            "goodwill of the authorities, and the willingness of potential contractors to establish a contract.\n" +
+            "\nEducation can be raised by making sure the students have good surroundings where they can learn " +
             "and by making sure the students attend the classes.",
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         'descriptions': [
@@ -983,10 +983,10 @@ label load_stats ():
         ]})
 
     $ load_stat_data(CHARM, "Charm", {
-        'description': "Charm describes how other people perceive a students as a person. " +
+        'description': "Charm describes how other people perceive a student as a person. " +
             "The charm is influenced by factors like fitness, likability, looks and how gentle they are.\n" +
             "Their behavior and social interaction also play a big role in the charm of a student.\n"
-            "\nThe charm can be improved by working on the fitness, working on the character, " +
+            "\nCharm can be improved by working on their fitness, working on their character, " +
             "or by social interaction with other people.\n" + 
             "Clumsy and unruly behavior can lower the charm of a student.",
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
@@ -995,9 +995,9 @@ label load_stats ():
             "A hobgoblin is more charming than these students.",
             "The students are socially incompetent.",
             "The students are rather unsocial.",
-            "The students looks and social interaction are just below average.",
-            "The students looks and social interaction are average.",
-            "The students looks and social interaction are just above average.",
+            "The students' looks and social interaction are just below average.",
+            "The students' looks and social interaction are average.",
+            "The students' looks and social interaction are just above average.",
             "The students are rather social.",
             "The students are socially competent.",
             "The students are very charming.",
@@ -1018,14 +1018,14 @@ label load_stats ():
         ]})
 
     $ load_stat_data(REPUTATION, "Reputation", {
-        'description': "This displays the reputation of you and the school. " +
-            "The reputation directly influences the goodwill of the authorities towards you and the school " + 
-            "and the monthly budget your school receives.",
+        'description': "This shows the reputation of you and your school. " +
+            "It directly shapes the goodwill of the authorities toward you " +
+            "and the size of the monthly budget your school receives.",
         'levels': [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         'descriptions': [
             "How the hell are you still in charge of this school?",
             "The school is very unpopular.",
-            "The school is pretty unpopular and are very unsatisfied with your work.",
+            "The school is pretty unpopular and the people are very unsatisfied with your work.",
             "The people are very unsatisfied with your work.",
             "The officials are a bit unsatisfied with your work.",
             "You are doing a decent job and the people are aware of it.",
@@ -1057,22 +1057,61 @@ label load_stats ():
             "running certain events.",
         'levels': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
         'descriptions': [
-            "The school has not made any progress yet. You are currently in " +
-                "the phase of scouting the school and finding the correct " +
-                "measure to start the process.",
-            "You unlocked the potential of sexual heaven to the students.\n" +
-                "Being prude and absolute unaccepting of the topic before, " +
-                "they now opened their mind to new heights even though they " +
-                "are still new and fearful of it.",
-            "level 2",
-            "level 3",
-            "level 4",
-            "level 5",
-            "level 6",
-            "level 7",
-            "level 8",
-            "level 9",
-            "level 10",
+            "The school has not made any progress yet. You are still scouting " +
+                "the halls, taking the measure of the students, and finding " +
+                "the right lever to start the transformation.",
+            "{b}Pure and Innocent.{/b} The students embody purity and modesty. " +
+                "Long skirts, covered shoulders, not a hint of cleavage — and " +
+                "anything sexual leaves them deeply uncomfortable. Sex is " +
+                "avoided or kept behind a closed door, physical contact stays " +
+                "at arm's length, and topics like masturbation might as well " +
+                "be a foreign language.",
+            "{b}Innocence Fading.{/b} The discomfort is thinning. Skirts creep " +
+                "shorter and tops hint at cleavage, while curiosity stirs in " +
+                "private — whispered, giggling and still naive. The innocent " +
+                "public face holds, but behind it the students are starting to " +
+                "wonder.",
+            "{b}Sexual Awareness.{/b} They have the basics now. At home and at " +
+                "sleepovers the pajamas get skimpy and the talk gets bolder; " +
+                "they will name their own budding desires, if not in explicit " +
+                "detail. Experimentation stays small and wrapped in propriety " +
+                "— light touches under clothing, nothing out on the quad.",
+            "{b}Experimentation.{/b} The students hunt new experiences in " +
+                "private while keeping up an outward show of normalcy. Lingerie " +
+                "for each other behind closed doors, frank talk about technique " +
+                "and partners, full nudity and oral under the covers — but the " +
+                "hallway is still \"a school,\" and \"don't get caught\" is " +
+                "still the rule.",
+            "{b}Promiscuity.{/b} Sexuality is embraced, and social norms barely " +
+                "slow them down. Cleavage, midriffs and thighs are out on " +
+                "campus, the talk is graphic and unfiltered, and open affection " +
+                "is ordinary — sex is a known fact of student life rather than " +
+                "a rumour. This is where the school goes open.",
+            "{b}Open Culture.{/b} Sex is a welcome, ordinary part of campus " +
+                "life — nobody hides it and nobody polices it, yet the school " +
+                "still runs and everyone is glad it does. Playful, revealing " +
+                "outfits are everyday wear, hookups happen in the open between " +
+                "classes, and it is always a cheerful, free yes.",
+            "{b}Woven In.{/b} Sex is fully threaded into the daily rhythm. " +
+                "Barely-there outfits are the norm, you can walk up to anyone " +
+                "and get a warm yes, and then both of you go back to what you " +
+                "were doing. Life still runs — the work gets done and everyone " +
+                "stays warm and wholly themselves.",
+            "{b}Sexual Utopia.{/b} Sexuality is the environment now, and a " +
+                "happy one — no shame, no friction, just abundance and " +
+                "affection. Barely-there fashion and easy nudity are normal, " +
+                "public sex is ambient, and classes and friendships carry on " +
+                "around it because everyone wants them to.",
+            "{b}Boundless Bliss.{/b} Pleasure has no ceiling and the whole " +
+                "community shares it. Clothing is pure play — barely-there or " +
+                "bare, whatever suits the day — and the students give and " +
+                "receive affection freely, generously and endlessly, always by " +
+                "choice. The warmth is the whole point.",
+            "{b}Sexual Paradise.{/b} The completed paradise: sex, love and " +
+                "productive everyday life are one seamless whole, and all of it " +
+                "flourishes together. The students are their fullest, warmest, " +
+                "most articulate selves and endlessly sexual — the world still " +
+                "turns, and everyone is desired, fulfilled and glad.",
         ],
         'images': [
             "images/journal/empty_image.webp",
@@ -1090,7 +1129,7 @@ label load_stats ():
         'max_limit': 10,})
 
     $ load_stat_data(MONEY, "Money", {
-        'description': "The money is used to purchase upgrade for the school and to pay for expenses.\n" +
+        'description': "The money is used to purchase upgrades for the school and to pay for expenses.\n" +
             "You have to pay for all of that with your own budget, but you get a monthly budget from the authorities.\n\n" +
             "Of course, you don't get much. You have to make sure that you don't run out of money. "+
             "You can also earn money by working in your office. Maybe you find another way...",

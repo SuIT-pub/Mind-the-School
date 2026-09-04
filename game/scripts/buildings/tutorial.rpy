@@ -67,11 +67,6 @@ screen show_building_buttons (building, *additions, show_type = "normal", frames
     if "stats" in additions or "time" in additions:
         use school_overview_stats(interactive=False)
 
-    if "journal_idle" in additions:
-        add "icons/journal_icon_idle.webp" xalign 1.0 yalign 1.0 xoffset -8 yoffset -8
-    if "journal_hover" in additions:
-        add "icons/journal_icon_hover.webp" xalign 1.0 yalign 1.0 xoffset -8 yoffset -8
-
 # endregion
 #######################
 
@@ -362,8 +357,8 @@ label map_tutorial (**kwargs):
     subtitles "The time is rather self explanatory. You have years, 12 months with 28 days each."
     subtitles "Additionally each day consists of 7 parts. Morning, Early Noon, Noon, Early Afternoon, Afternoon, Evening and Night."
     subtitles "Tap the date to skip a day. Tap the time of day to skip one daytime."
-    show screen show_building_buttons ('x', 'stats', 'time', 'journal_idle', show_type = "normal", frames = [(1750, 940, 170, 140)])
-    subtitles "The third part is the journal. The button sits in the bottom right corner."
+    show screen show_building_buttons ('x', 'stats', 'time', 'journal_idle', show_type = "normal", frames = [(1688, 86, 224, 40)])
+    subtitles "The third part is the journal. The button sits on the right half of the bar under the time."
     subtitles "That's where you get all the information about your school, goals and where you also manage everything."
     subtitles "That's all for this tutorial. If you want to see me again, just look for me in the journal."
 

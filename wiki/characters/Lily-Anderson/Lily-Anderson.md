@@ -23,6 +23,16 @@ several redheads on staff and in class she's the one with the longest, softest
 waves — distinct from [Finola Ryan](Finola-Ryan)'s short freckled bob. Pinkish
 lips, minimal jewellery.
 
+**Undressed.** Out of her tidy purple workwear Lily is slim and fair, an
+understated hourglass. Her bust is a medium, round handful — full and natural, set
+a little wide and sitting fairly high with a soft, rounded underside; the standout
+is her nipples, which protrude prominently as pointed nubs from soft, faintly puffy
+pale-pink areolae. Her waist is trim, running down into a round, full, firm ass that
+sits high and taut and projects in a clean curve — a neat heart from behind. Between
+her thighs she's smooth and completely clean-shaven, a soft pale mound with a neat,
+mostly-closed slit and just the tip of the inner lips peeking at the base. Fair,
+clear, poreless skin the whole way down.
+
 **Signature look across the levels.** As a teacher Lily wears her own clothes in a
 consistent purple palette — lilac tops, purple hosiery, and purple flats at every
 level. At level 1 she's fully professional: a charcoal pinstripe blazer with purple

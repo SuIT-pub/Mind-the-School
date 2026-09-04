@@ -43,6 +43,19 @@ The quickest way to tell the twins apart is the glasses — Seraphina's are blac
 Luna's red. She's very petite and short like her sister, but curvy, with a full
 bust and wide hips that stand out on her small frame.
 
+**Undressed.** Like her twin, Seraphina is built on a wildly generous scale for one
+of the smallest girls in the school. Her breasts are big and heavy — full, rounded
+globes that sit high and firm with deep cleavage, tipped with small nipples that
+protrude as pointed pink nubs a shade deeper than her ivory skin, on small, smooth
+palest-pink areolae. Her ass matches the chest — round and full, a heavy heart
+projecting well past the sharp inward curve of her lower back, framed by wide hips
+above a startlingly narrow waist. Between her thighs she's smooth and completely
+clean-shaven, a soft plump mound whose full outer lips part to a slim pink centre —
+the inner lips just showing, with a small clit at the top of the cleft and the
+faintest tip at the base. Flawless, poreless pale skin over every
+curve out of scale with the tiny frame that carries it — the black glasses the one
+thing she keeps on.
+
 **Uniform across the levels.** Fitting the bolder, more open twin, Seraphina wears
 the uniform more daringly than the cardigan-wrapped Luna. At level 1 it's a white
 blouse with red button trim and a plaid pleated skirt — neat but with a bit of

@@ -23,6 +23,16 @@ small bust (the very thing [Aona Komuro](Aona-Komuro) teased her over) and slend
 hips. Her one constant accessory is a stack of colourful friendship bracelets on
 one wrist.
 
+**Undressed.** Out of her uniform Miwa is slim and pale with a light dancer's
+build. Her bust is small and soft — genuinely modest little mounds that sit slightly
+apart with a soft, natural shape and the faintest downward tilt, tipped with small,
+faintly puffy pinkish-mauve nipples on small close areolae; this is the small chest
+Aona teased her over. Her waist is trim, running down into a round, full, firm ass —
+a smooth heart from behind that projects in a clean, generous curve. Between her
+thighs she keeps a soft, natural, untrimmed bush of brown pubic hair, full and
+fluffy over the mound, with the pink tip of the inner lips peeking below. Porcelain-
+pale, poreless skin the whole way down.
+
 **Uniform across the levels.** Miwa's styling is casual and cute-sporty, and the
 progression tracks her arc from self-conscious to self-possessed — she bares more
 as she grows into her own skin. At level 1 it's a neat white blouse and plaid

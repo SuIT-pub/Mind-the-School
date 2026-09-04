@@ -191,6 +191,11 @@ Note the Unlockable's `status` property maps the Situation's `teaser_active`
 visibility back to `inactive` — a pre-activation teaser does not count as "running"
 for the button.
 
+Teaser unlock, first activation, and completion raise a
+[journal alert](Journal-Alerts) on topic `unlockables` (item = situation key),
+not `situations`. Opening the Unlockable on page 4 **or** via the Situations
+page clears it.
+
 ### Visible vs. unlocked
 
 - **Visible** (`is_visible()`): the visibility `ConditionStorage` is fulfilled.

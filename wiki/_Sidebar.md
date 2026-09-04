@@ -333,6 +333,22 @@ _Parents_
 </details>
 
 <details>
+<summary>Journal Alerts</summary>
+
+- [Journal Alerts](Journal-Alerts)
+- [Quick start](Journal-Alerts#quick-start)
+- [What an alert is](Journal-Alerts#1-what-an-alert-is)
+- [Topics vs. items](Journal-Alerts#2-topics-vs-items)
+- [When flags raise and clear](Journal-Alerts#3-when-flags-raise-and-clear)
+- [Registering a new topic](Journal-Alerts#4-registering-a-new-topic)
+- [Built-in sources](Journal-Alerts#5-built-in-sources)
+- [Map icon](Journal-Alerts#6-map-icon)
+- [API](Journal-Alerts#7-api)
+- [Conventions](Journal-Alerts#8-conventions)
+
+</details>
+
+<details>
 <summary>Images</summary>
 
 - [Images](Images)

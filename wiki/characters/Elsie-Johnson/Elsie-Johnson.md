@@ -25,6 +25,17 @@ freckles scattered not just across her face but over her whole body — arms,
 shoulders, torso, and legs. Pale skin, blue-grey eyes, and a curvy hourglass
 figure with a full bust and notably wide hips and thighs.
 
+**Undressed.** Elsie's whole body is freckled — not just her face but every inch of
+her, a dense all-over speckling of dark flecks over porcelain-pale skin, from
+shoulders and chest down her back, ass, hips, and thighs to her legs. She's curvy: a
+full bust, a narrower waist, and notably wide hips over thick, heavy thighs. Her
+breasts are full and round, soft and heavy with a natural fullness, the nipples small
+and pale-pink and pointing down and slightly out on medium pale-pink areolae, freckled
+to the areolae. Her ass is round and
+full, projecting from those wide hips. Between her thighs she's smooth and
+clean-shaven, a bare mound and a neat closed slit, the freckling carrying right down
+over her belly and inner thighs. Bookish glasses, and freckles head to toe.
+
 **Uniform across the levels.** Elsie wears the plain collared-blouse variant of the
 uniform and leans studious and layered with it, favouring knitwear and keeping her
 knee-high socks on at every level. At level 1 it's a neat white blouse, plaid

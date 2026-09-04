@@ -34,6 +34,17 @@ slim, elegant hourglass — a moderate-full bust, narrow waist, and long legs. S
 the mother of [Soyoon Yamamoto](Soyoon-Yamamoto), and shares her daughter's black
 hair and pale colouring in a longer, more mature form.
 
+**Undressed.** Out of her sleek monochrome layers Yuki is a slim, elegant hourglass
+with striking near-white porcelain skin. Her bust is full and round — a heavy,
+well-shaped handful sitting high with deep cleavage, and like her daughter's, her
+nipples are the standout: a soft pink, puffy and protruding, doming up from pink
+areolae that stand out against her pale skin. Her waist is sharply narrow, flaring
+into wide hips and a round, full, firm ass — a heavy heart from behind that projects
+in a clean, generous curve. Between her thighs she's smooth and completely
+clean-shaven, a soft pale mound with a neat, mostly-closed slit and just the pink
+tip of the inner lips peeking at the base. Flawless, pearl-pale skin the whole way
+down.
+
 **Signature look across the levels.** As a parent Yuki wears her own clothes in a
 consistently sleek, dark monochrome — black with white and grey accents, and the
 same tan knit trainers throughout. At level 1 it's sporty and covered: a black

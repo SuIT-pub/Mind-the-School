@@ -22,6 +22,15 @@ curvy-athletic — a full bust, toned waist, and wide hips. (One of two tanned
 characters alongside nurse [Linh Nguyen](Linh-Nguyen) — but Nubia's hair is short
 and white where Linh's is a black bob.)
 
+**Undressed.** Out of her clothes Nubia is tall and curvy-athletic, and the tan
+carries everywhere — warm bronze skin head to toe under her short white-silver hair,
+the striking dark-and-light contrast that sets her apart. Her bust is full and firm,
+big round breasts that sit high and proud, tipped with puffy pink-mauve nipples that
+stand proud of medium areolae. Her waist stays toned and her wide hips flare into a
+big, round, gorgeous ass — full, firm and shapely, smooth bronze catching the light.
+Between her strong thighs she isn't bare: a small, neat triangle of dark pubic hair,
+a trimmed tuft above a closed slit, dark against the tan.
+
 **Signature look across the levels.** As a parent Nubia wears her own clothes, and
 her taste is bold, young, and rock-casual — a consistent red-top-and-denim palette
 with teal slip-on trainers and the blue earrings at every level. At level 1 it's a

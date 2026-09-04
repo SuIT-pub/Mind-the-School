@@ -24,6 +24,15 @@ the nose and cheeks, pale grey-blue eyes, and full lips with deep-red lipstick.
 Dramatically hourglass figure — very full bust, cinched waist, wide hips. A small
 silver heart pendant sits at her throat as a constant, worn even out of uniform.
 
+**Undressed.** Out of her uniform Adelaide is lush and dramatically hourglass — a
+mature, womanly figure built on generous curves. Her bust is big and heavy: full,
+round breasts that hang with real weight and sit a little low, tipped with soft
+pink-mauve nipples on broad, spread areolae. Her waist cinches in sharply before
+flaring to wide hips and a big, round, heavy ass, the full cheeks projecting in a
+deep curve over thick thighs. She keeps a neat, groomed triangle of dark pubic hair
+above an otherwise smooth mound and a closed, tidy slit. Pale, flawless skin over every soft, weighty
+curve.
+
 **Signature look across the levels.** Her palette never changes — deep maroon and
 white, the school colours — and neither do two personal constants: the ribboned
 ponytail and the heart necklace. At level 1 she's crisply covered: a fitted white

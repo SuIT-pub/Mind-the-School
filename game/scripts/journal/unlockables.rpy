@@ -181,6 +181,15 @@ init -7 python:
                 return "inactive"
             return state
 
+        def get_journal_alert_topic(self):
+            """
+            Unlockables ping the Unlockables journal page, not Situations.
+
+            Returns:
+                str: Topic key ``unlockables``.
+            """
+            return "unlockables"
+
         def get_title(self):
             """
             Returns the display title for this unlockable.

@@ -28,6 +28,19 @@ glasses to Luna's red — the quickest way to tell them apart). She's very petit
 and short — one of the smallest girls in the school — yet distinctly curvy, with a
 full bust and wide hips made all the more pronounced by her small frame.
 
+**Undressed.** For all that she's one of the smallest girls in the school, Luna
+is built on a wildly generous scale. Her breasts are big and heavy — full and
+rounded, sitting high and firm, with a soft, full weight
+to the underside and deep cleavage; her nipples are small and protruding —
+pointed little nubs of pale rose, barely deeper than her ivory skin, set high and
+pointing faintly outward, the areolae small and smooth. Her ass matches the chest — round and
+full, a heavy heart projecting well past the sharp inward curve of her lower
+back, framed by wide hips with a clean thigh gap beneath. Between her thighs
+she's smooth and completely bare, a soft plump mound with the full outer lips tucked
+shut into a clean, closed cleft — a thin pink seam down the centre with just the
+faintest tip of the inner lips at the base. Flawless, poreless pale skin over all of it — every heavy, soft
+curve out of scale with the tiny frame that carries it.
+
 **Uniform across the levels.** An olive-mustard cardigan is Luna's constant,
 bookish signature — but it only really *covers* her at the low end. At level 1
 she's genuinely modest: the cardigan over a white blouse, a longer plaid A-line

@@ -23,6 +23,16 @@ blue-black bob, side-swept bangs, and warm amber-brown eyes. Freckles across her
 nose and cheeks, and a pair of red tasselled earrings she keeps on throughout.
 Slim and athletic, with a smaller bust and curvy hips.
 
+**Undressed.** Out of her nurse's whites Linh is slim and athletic, and her tan
+carries everywhere — the same warm olive, sun-kissed tone from face to toes, one of
+only two girls who aren't pale. Her bust is on the small side: modest,
+firm little breasts that sit high, tipped with small but prominently protruding warm
+brown-mauve nipples that stick well out from compact areolae a shade darker than the
+surrounding tan. Her waist stays trim
+while her hips flare soft and curvy into a rounder, fuller ass than her slight frame
+suggests — firm, high and shapely, a neat lifted heart in olive skin. Between her
+thighs she's smooth and clean-shaven, a bare tanned mound and a closed, tidy slit.
+
 **Signature look across the levels.** Linh dresses in medical whites with red
 accents — her nurse's kit *is* her wardrobe, and the white-and-red theme (with
 white trainers) never changes. At level 1 it's a proper white nurse's tunic over

@@ -111,6 +111,7 @@ define OVERVIEW_SITUATION_LIST_MAX_HEIGHT = 224
 define OVERVIEW_SITUATION_ROW_HEIGHT = 64
 define OVERVIEW_SITUATION_ARROW_WIDTH = 28
 define OVERVIEW_SITUATION_SCROLL_WIDTH = 12
+define OVERVIEW_SPLIT_BAR_HEIGHT = 46
 
 #######################
 # region Styles ----- #
@@ -148,6 +149,12 @@ style overview_vscrollbar is vscrollbar:
 
 style overview_hud_button_text is stat_overview:
     size 21
+
+style overview_split_button is overview_hud_button:
+    background Solid("#00000000")
+    hover_background Solid("#ffffff22")
+    padding (8, 0)
+    yminimum OVERVIEW_SPLIT_BAR_HEIGHT
 
 style overview_toggle_button is overview_hud_button:
     xminimum 29
@@ -397,67 +404,111 @@ screen school_overview_stats (interactive = True):
                         color daytime_color
 
         $ overview_situations = get_overview_active_situations()
-        if overview_situations:
-            frame:
-                style "overview_hud_bar_soft"
-                padding (0, 4, 0, 4)
-                xsize OVERVIEW_COMPACT_BAR_WIDTH
-                xalign 1.0
+        $ split_w = OVERVIEW_COMPACT_BAR_WIDTH // 2
+        $ journal_action = Call("start_journal") if interactive else NullAction()
+        $ journal_tip = "Open Journal"
+        $ journal_icon = get_journal_map_icon()
+        if has_keyboard() and show_shortcut():
+            $ journal_tip = journal_tip + " [[J]"
 
-                vbox:
-                    spacing 4
+        frame:
+            background Solid("#11111177")
+            padding (0, 0, 0, 0)
+            xsize OVERVIEW_COMPACT_BAR_WIDTH
+            ysize OVERVIEW_SPLIT_BAR_HEIGHT
+            xalign 1.0
+
+            hbox:
+                spacing 0
+                xfill True
+                yfill True
+
+                button:
+                    style "overview_split_button"
+                    xsize split_w
+                    yfill True
+                    tooltip ("Collapse situations" if persistent.overview_situations_expanded else "Expand situations")
+                    action ToggleField(persistent, "overview_situations_expanded")
 
                     hbox:
                         spacing 6
                         yalign 0.5
                         xoffset 8
 
-                        textbutton ("▼" if persistent.overview_situations_expanded else "▶"):
-                            style "overview_toggle_button"
-                            tooltip ("Collapse situations" if persistent.overview_situations_expanded else "Expand situations")
-                            action ToggleField(persistent, "overview_situations_expanded")
+                        text ("▼" if persistent.overview_situations_expanded else "▶"):
+                            style "stat_overview"
+                            size OVERVIEW_TIME_TEXT_SIZE
                             yalign 0.5
 
                         text "Situations":
                             style "stat_overview"
-                            size 14
+                            size OVERVIEW_TIME_TEXT_SIZE
                             yalign 0.5
 
                         if not persistent.overview_situations_expanded:
                             text ("(" + str(len(overview_situations)) + ")"):
                                 style "stat_overview"
-                                size 13
+                                size OVERVIEW_TIME_TEXT_SIZE
                                 yalign 0.5
 
-                    if persistent.overview_situations_expanded:
-                        $ sit_count = len(overview_situations)
-                        $ sit_content_h = sit_count * OVERVIEW_SITUATION_ROW_HEIGHT
-                        $ needs_scroll = sit_content_h > OVERVIEW_SITUATION_LIST_MAX_HEIGHT
-                        $ sit_view_h = OVERVIEW_SITUATION_LIST_MAX_HEIGHT if needs_scroll else sit_content_h
-                        $ sit_row_w = OVERVIEW_COMPACT_BAR_WIDTH - (OVERVIEW_SITUATION_SCROLL_WIDTH if needs_scroll else 0)
+                add Solid("#ffffff50"):
+                    xsize 1
+                    ysize OVERVIEW_SPLIT_BAR_HEIGHT - 12
+                    yalign 0.5
 
-                        if needs_scroll:
-                            side "c r":
-                                xsize OVERVIEW_COMPACT_BAR_WIDTH
-                                ysize sit_view_h
+                button:
+                    style "overview_split_button"
+                    xsize split_w
+                    yfill True
+                    tooltip journal_tip
+                    action journal_action
 
-                                viewport id "OverviewSituationsList":
-                                    mousewheel True
-                                    draggable "touch"
+                    hbox:
+                        spacing 6
+                        xalign 0.5
+                        yalign 0.5
 
-                                    null height 2
+                        add journal_icon:
+                            yalign 0.5
+                            zoom 0.18
 
-                                    use overview_situation_list(overview_situations, interactive, sit_row_w)
+                        text "Journal":
+                            style "stat_overview"
+                            size OVERVIEW_TIME_TEXT_SIZE
+                            yalign 0.5
 
-                                vbar:
-                                    style "overview_vscrollbar"
-                                    value YScrollValue("OverviewSituationsList")
-                                    unscrollable "hide"
-                                    xsize OVERVIEW_SITUATION_SCROLL_WIDTH
-                                    ysize sit_view_h
-                        else:
-                            null height 2
+        if persistent.overview_situations_expanded and overview_situations:
+            $ sit_count = len(overview_situations)
+            $ sit_content_h = sit_count * OVERVIEW_SITUATION_ROW_HEIGHT
+            $ needs_scroll = sit_content_h > OVERVIEW_SITUATION_LIST_MAX_HEIGHT
+            $ sit_view_h = OVERVIEW_SITUATION_LIST_MAX_HEIGHT if needs_scroll else sit_content_h
+            $ sit_row_w = OVERVIEW_COMPACT_BAR_WIDTH - (OVERVIEW_SITUATION_SCROLL_WIDTH if needs_scroll else 0)
+
+            frame:
+                background Solid("#00000000")
+                padding (0, 0, 0, 0)
+                xsize OVERVIEW_COMPACT_BAR_WIDTH
+                xalign 1.0
+
+                if needs_scroll:
+                    side "c r":
+                        xsize OVERVIEW_COMPACT_BAR_WIDTH
+                        ysize sit_view_h
+
+                        viewport id "OverviewSituationsList":
+                            mousewheel True
+                            draggable "touch"
+
                             use overview_situation_list(overview_situations, interactive, sit_row_w)
+
+                        vbar:
+                            style "overview_vscrollbar"
+                            value YScrollValue("OverviewSituationsList")
+                            unscrollable "hide"
+                            xsize OVERVIEW_SITUATION_SCROLL_WIDTH
+                            ysize sit_view_h
+                else:
+                    use overview_situation_list(overview_situations, interactive, sit_row_w)
 
     $ tooltip = GetTooltip()
 
@@ -535,21 +586,7 @@ screen school_overview_buttons (with_available_Events = False):
                     action NullAction()
                     sensitive False
 
-    $ j_text = ""
-    if has_keyboard():
-        if show_shortcut():
-            $ j_text = " [[J]"
     key "K_j" action Call("start_journal")
-    # Open Journal
-    imagebutton:
-        auto "icons/journal_icon_%s.webp"
-        tooltip "Open Journal" + j_text
-        focus_mask None
-        xalign 1.0
-        yalign 1.0
-        xoffset -8
-        yoffset -8
-        action Call("start_journal")
 
     $ tooltip = GetTooltip()
 

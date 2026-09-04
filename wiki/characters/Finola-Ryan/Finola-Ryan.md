@@ -25,6 +25,17 @@ and sportier-looking than her role might suggest (she's only 28). Note she share
 the red hair and freckles with student [Easkey Tanaka](Easkey-Tanaka), but wears
 hers in a much shorter bob and is far more toned.
 
+**Undressed.** Out of her clothes Finola is lean and athletic — a fit, hard-trained
+body that looks every bit the sporty young teacher she is (only 28). Her bust is
+moderate-full and round with a natural soft fullness, the nipples prominently
+protruding — warm pink nubs pushed forward and pointing slightly down on medium
+areolae; the light freckling from her face carries down over her chest and
+shoulders. Her midriff is toned and faintly defined, tapering to a
+trim waist and curvy hips, and her ass is round, firm and muscular — tight, lifted
+and athletic, freckled across the cheeks. Between her thighs she's
+smooth and clean-shaven, a neat closed slit over the flat plane of a fit lower
+belly. Freckles scattered over pale skin the whole way down.
+
 **Signature look across the levels.** As a teacher Finola wears her own clothes,
 and her taste runs bright, youthful, and casual rather than formal — a consistent
 yellow-and-blue palette with black lace-up boots she keeps at every level. At

@@ -24,6 +24,7 @@ Read only the pages you need. Do not paste wiki pages wholesale into replies.
 | School levels / campus climate, dress, talk, event tone | `wiki/School-Levels.md` |
 | Image paths, `Pattern`, WebP, `$` fallbacks | `wiki/Images.md` |
 | Paperdoll / layered sprites | `wiki/Paperdoll.md` |
+| Journal map highlight / unseen journal news | `wiki/Journal-Alerts.md` |
 | Mods (register, layout, enable) | `wiki/Modding.md` |
 | System overview / how pieces fit | `wiki/Developer-Guide.md` |
 | Cast, bios, outfits | `wiki/Characters.md` then `wiki/characters/<Name>/<Name>.md` |

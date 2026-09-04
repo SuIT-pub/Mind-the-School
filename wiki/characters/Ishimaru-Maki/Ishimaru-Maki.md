@@ -20,6 +20,15 @@ A sleek blue-black bob with blunt, straight bangs, dark eyes, and fair skin. She
 one of the taller, leaner girls, with a slim build and a moderate bust. Natural
 makeup, no standing jewellery.
 
+**Undressed.** Ishimaru is tall and lean — a slim build with a slender waist and long
+legs. Her bust is moderate and round, sitting full and firm, and
+the nipples are the feature: fairly large and prominent, puffy and pushed forward on
+broad mauve-pink areolae that swell out from the breast. Her ass is round and full,
+projecting in a smooth bubble curve on her lean frame. Between her thighs she's smooth
+and clean-shaven, a small neat bare mound with a closed slit and the tip of her inner
+lips at the base. Porcelain-pale skin, a sleek blue-black bob, and a little beauty
+mark by her mouth.
+
 **Uniform across the levels.** Ishimaru keeps white over-the-knee thigh-high socks
 on at every level as her consistent note, and her styling mixes preppy with a
 faintly edgy streak. At level 1 it's tidy and layered — a white blouse under a knit

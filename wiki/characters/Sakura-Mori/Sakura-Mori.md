@@ -22,6 +22,16 @@ Vivid red hair with a striking white-blonde section through the front fringe, wo
 in a high ponytail; dark eyes and fair skin. Slim and athletic with a moderate
 bust. Natural makeup, no standing jewellery.
 
+**Undressed.** Out of her sporty layers Sakura is slim and fair with a lightly
+athletic build. Her bust is full and round — a firm, well-shaped handful that sits
+high with a soft, rounded underside, tipped with small, faintly puffy pale-pink
+nipples on medium areolae barely darker than her skin. Her waist is trim and
+athletic, running down into a round, full, firm ass — a well-shaped heart that
+projects back in a clean, generous curve. Between her thighs she's smooth and
+completely clean-shaven, a soft pale mound with a neat, mostly-closed slit and just
+the pink tip of the inner lips peeking at the base. Fair, poreless skin the whole
+way down.
+
 **Uniform across the levels.** Sakura's styling is sporty and practical — her
 recurring touch is a dark-red sweater tied around her waist, sleeves rolled,
 ready-to-move. At level 1 it's a white blouse with the sweater knotted at the hip
