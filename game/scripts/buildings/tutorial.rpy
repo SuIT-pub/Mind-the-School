@@ -374,8 +374,7 @@ label journal_tutorial (**kwargs):
 
     $ image.show(0)
     dev "Welcome. You just opened the Journal for the first time."
-    dev "Or - if it's not your first time, please bear with it for now :)."
-    $ call_custom_menu_with_text("Do you whish to skip the journal tutorial?", character.dev, False,
+    $ call_custom_menu_with_text("Or - if it's not your first time, do you whish to skip the journal tutorial?", character.dev, False,
         MenuElement("no_skip_tutorial", "Don't skip tutorial", EventEffect("journal_tutorial.cont")),
         MenuElement("skip_tutorial", "Let me in already!", EventEffect("journal_tutorial.skip")), 
     **kwargs)
@@ -401,22 +400,22 @@ label .cont (**kwargs):
     dev "These influence your teaching skills in the shown subjects and can give you a bonus on the stats when teaching a subject."
     $ image.show(4)
     dev "Now let's check out the bookmarks on the left."
-    dev "The red bookmark at the top left leads to the goal page."
+    dev "The red bookmark at the top left leads to the situation page."
     $ image.show(5)
     dev "Here you see all the developing and emerging situations."
     dev "The Situation system is a bit more complex, so it deserves a more in-depth look."
     dev "Situations are one of the main ways to progress trough the game."
     $ image.show(6)
-    dev "They represent everything from conflicts between students, upcoming votes and other activities happening al around school."
+    dev "They represent everything from conflicts between students to upcoming votes and other activities happening al around school."
     dev "These teasers provide many clues to uncover the nature of the situation and where to look."
     dev "Eventually some event may set of the situation and fully unveils it."
     dev "In that case the game will display the situation at the top right corner on the Map-View for your convinience. ;)"
     dev "A situation has 3 tabs at the top right so lets start with the first one."
     $ image.show(7)
-    dev "The overview showcases several important information including an image representing the situation."
+    dev "The overview showcases several pieces of important information including an image representing the situation."
     dev "You may click on it to see it at fullscreen"
     $ image.show(8)
-    dev "Below you will find a small descritiption outlining the situation."
+    dev "Below that you will find a small descritiption outlining the situation."
     $ image.show(9)
     dev "Furthermore the core of every situation is depicted - the current situation balance."
     dev "It represents how well the situation is being handled"
@@ -445,37 +444,36 @@ label .cont (**kwargs):
     dev "Here, in the unlockables section you manage those. Careful, not all unlockables are visible from the beginning. Some only show up once you fulfilled certain conditions."
     $ image.show(18)
     dev "Now here again we have an overview on the left side."
-    $ image.show(19)
     dev "And a more detailed description on the right."
-    $ image.show(20)
+    $ image.show(19)
     dev "But first on the left, we have two lists. One for the unlockables still incomplete and one for the stuff you have already unlocked."
     dev "For a better overview you can hide or expand both lists by clicking on the respective section to 'hide/show' them."
-    $ image.show(21)
+    $ image.show(20)
     dev "Now in the detailed view we have 4 main components."
-    $ image.show(22)
-    dev "Firstly, there is an image showing a preview, example or a visual representation of the thing you whishto unlock."
+    $ image.show(21)
+    dev "Firstly, there is an image showing a preview, example or a visual representation of the thing you whish to unlock."
     dev "You can also click on the image to get a fullscreen variant of it."
-    $ image.show(23)
+    $ image.show(22)
     dev "The Pictograms. This is a set of actions that may be needed to unlock the respective unlockable."
+    $ image.show(23)
+    dev "They may also provide information as to what the passing of this unlockable will do."
     $ image.show(24)
-    dev "They may also provide information as to what the passing of this unlockable will do"
-    $ image.show(25)
     dev "Then the description. Here you get a short summary of the unlockable."
     dev "Potential costs or benefits may also be displayed here."
+    $ image.show(25)
+    dev "And the last component is the 'Start Introdcing'-Button. This one starts the associated situation to unlock your Unlockable."
     $ image.show(26)
-    dev "And the last component it the 'Start Introdcing'-Button. This one starts the associated situation to unlock your Unlockable."
-    $ image.show(27)
     dev "When clicked the associated situation starts and the button changes to 'View situation' which will then bring you directly to the journal page for that situation."
     dev "You may also notice the situation appearing in your overview in the top right"
     dev "Importantly you will find certain Unlockables, such as rules, require a vote to pass. In that case the higher the siutation score is the more likely the situation is to {color=#00a000}pass.{/color}"
     dev "If a vote {color=#a00000}fails{/color} you may suffer other consequences in addition to having to reschedule the vote, so be mindful when to start introducing new things to the school."
     dev "From here it becomes your job to fulfill the situation and built your perfect institution of learning and adolescence - so good luck!"
-    $ image.show(28)
+    $ image.show(27)
     dev "Now let's move to the bookmarks on the right side. At the top we have the credits page."
     dev "There, all my beloved patreons are listed and credited for their contribution to this project."
-    $ image.show(29)
+    $ image.show(28)
     dev "Below it we have the Replay-Bookmark."
-    $ image.show(30)
+    $ image.show(29)
     dev "Here is the full replay gallery of all the events you ever saw in the game. Either in this savegame or in others."
     dev "Again, on the left you have the overview. First you select a location and then the event."
     dev "On the right you'll again see a detailed view of the event."
@@ -483,34 +481,34 @@ label .cont (**kwargs):
     dev "The problem is, most events are highly variable and differ between two types. The normal one and the composite one."
     dev "Additionally, almost all events change themselves depending on multiple variables like level of the school, stats or just random values that are rolled when playing the event."
     dev "So the replay gallery tracks all of those values and also your decisions made in the event, to allow you to only replay the events with the variables you already saw."
-    $ image.show(31)
+    $ image.show(30)
     dev "The first example is a normal event. Those are rather straight forward. You select what values you want."
-    $ image.show(32)
+    $ image.show(31)
     dev "Press 'Start Replay'"
-    $ image.show(33)
+    $ image.show(32)
     dev "Careful, the values can change depending on the values you selected, so it is recommendable to work your way from left to right because the values are always influenced by their left neighbour."
-    $ image.show(34)
+    $ image.show(33)
     dev "Now the composite events get a bit more complex."
     dev "Composite Events are events that are randomly put together from multiple smaller events."
     dev "The Composite Event therefore defines a step-by-step order and each step has a set of small event fragments from which one is chosen to be used."
     dev "Those events allow longer events that can also be repeated without being always identical."
-    $ image.show(35)
+    $ image.show(34)
     dev "Now to configure the replay of a Composite Event you get an extra tab called 'Fragments'. Here it's right next to 'Values'."
-    $ image.show(36)
+    $ image.show(35)
     dev "When clicking on it, you'll get to the order of what fragments will be played."
-    $ image.show(37)
-    dev "By clicking on one fragments, the overview on the left page will be extended to show all the fragments that can be used for that step in the Composite Event."
+    $ image.show(36)
+    dev "By clicking on one of the fragments, the overview on the left page will be extended to show all the fragments that can be used for that step in the Composite Event."
     dev "If the Composite Event has values to select, then those can influence the fragments that are available."
     dev "Now we see 'Silent Work and Help' is selected. That one is rather boring so let's change it to 'Math Exercises'."
-    $ image.show(38)
+    $ image.show(37)
     dev "Much better. Ah see, the fragments can also have a value selection."
-    $ image.show(39)
+    $ image.show(38)
     dev "Now that we finished the configuration, we can start the replay. For that we first need to head back to the main event."
     dev "For that we either click on 'Return to Main Event' at the bottom right or on the Event name at the top left."
-    $ image.show(40)
+    $ image.show(39)
     dev "Now press 'Start Replay' and enjoy your math lessons."
     dev "After you finished the replay, which can be ended at all times either in the quickbar at the bottom of the screen or in the game menu when pressing escape, you'll return back on this page in the journal."
-    $ image.show(41)
+    $ image.show(40)
     dev "And after you're finished with everything in the journal, you can either press 'Escape' or click on the bottom right bookmark to close the journal."
     dev "That was all about the journal. Sorry if that was a bit long. There are just soooo many informations in the journal."
     dev "So if you need to see this tutorial again, just replay me in the gallery. :)"
