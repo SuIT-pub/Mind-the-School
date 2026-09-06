@@ -80,6 +80,7 @@ _Parents_
 <summary>Overview</summary>
 
 - [Developer Overview](Developer-Guide)
+- [How to Contribute](How-to-Contribute)
 - [Getting the game assets](Developer-Guide#getting-the-game-assets)
 - [Where to run the script](Developer-Guide#where-to-run-the-script)
 - [Install modes](Developer-Guide#install-modes)

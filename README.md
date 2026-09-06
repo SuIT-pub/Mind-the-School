@@ -64,6 +64,16 @@ This game contains adult content and themes. Players must be 18 years or older. 
 2. Open the .apk file on your device
 3. Follow the installation instructions on your device
 
+## Contributing
+
+Ideas and open-ended discussion belong in
+[Discussions](https://github.com/SuIT-pub/Mind-the-School/discussions).
+Bugs, concrete wiki work, and implementable tasks belong in
+[Issues](https://github.com/SuIT-pub/Mind-the-School/issues).
+
+See **[CONTRIBUTING.md](CONTRIBUTING.md)** for how to set up a dev copy, edit the
+wiki, and open a pull request.
+
 ## Modding
 You want to create a mod using the game's inbuilt modding framework?
 Check out my Quickstart Guide in the Wiki: [https://wiki.suit-ji.com/books/quickstart](https://wiki.suit-ji.com/books/quickstart)
@@ -134,10 +144,13 @@ The game is currently in active development. The current version includes:
 
 ## Community & Support
 
-- Join our [Discord](https://discord.suit-ji.com) for discussions and updates
+- Join our [Discord](https://discord.suit-ji.com) for chat and updates
+- Open a [Discussion](https://github.com/SuIT-pub/Mind-the-School/discussions) for ideas
+- File an [Issue](https://github.com/SuIT-pub/Mind-the-School/issues) for bugs and concrete tasks
 - Support development on [Patreon](https://patreon.suit-ji.com)
 - Follow us on [Itch.io](https://itch.suit-ji.com)
 - Check our [Wiki](https://wiki.suit-ji.com) for guides and information
+- How to help: [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## Legal
 

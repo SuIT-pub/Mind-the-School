@@ -175,6 +175,8 @@ transform overview_icon_tint(tint_color):
 # region Map Screen ----- #
 ###########################
 
+image school_map = "images/background/school_map.webp"
+
 screen school_overview():
     use school_overview_map
     use school_overview_stats
@@ -187,7 +189,7 @@ screen school_overview_map ():
     # Displays the school map
     # """
 
-    add "background/school_map.webp"
+    add "school_map"
 
 ##############################
 # display the stats on the map
@@ -528,7 +530,7 @@ screen school_overview_images ():
     # Displays all buildings on the map
     # """
 
-    add "background/school_map.webp"
+    add "school_map"
 
     $ map_buildings = building_manager.get_buildings()
     for building in map_buildings:

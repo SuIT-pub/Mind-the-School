@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: GitHub Discussions
+    url: https://github.com/SuIT-pub/Mind-the-School/discussions
+    about: Ideas, design talk, and open-ended questions. Use Issues for bugs, wiki work, and concrete tasks.
+  - name: Discord
+    url: https://discord.suit-ji.com
+    about: Chat with the community. Durable proposals still belong on GitHub.

@@ -174,3 +174,6 @@ images, pictogram icons) are auto-redirected to the active mod's folder.
 All wiki pages are maintained in the **`wiki/` folder of the main repository** and
 published with a sync script. Edit them there — not directly on the wiki — and see
 the repo's `wiki/README.md` for the workflow.
+
+Want to help? **[How to Contribute](How-to-Contribute)** — ideas and design talk go
+in GitHub Discussions; bugs, wiki gaps, and concrete tasks go in Issues.

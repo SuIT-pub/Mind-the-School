@@ -24,6 +24,7 @@ here and publish with the sync script.
 | `characters/<Name>/` | one folder per character (page + portrait + outfits) |
 | `Cheat-Menu.md` | 🎛️ tools |
 | `Developer-Guide.md` | 🛠️ developer section landing |
+| `How-to-Contribute.md` | 🛠️ discussions vs issues, PRs, wiki edits |
 | `Modding.md` | 🛠️ modding quick-start |
 | `Lore.md` | 🛠️ world & story bible (premise, drivers, antagonist) |
 | `School-Levels.md` | 🎮 / 🛠️ campus climate (levels 1–10) |

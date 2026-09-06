@@ -22,7 +22,9 @@ experimenting and developers testing. **Read its dangers section before using it
 Technical documentation for extending the game — the systems that drive the
 sandbox, and how to add your own content as a mod.
 
-→ Start at the **[Developer Overview](Developer-Guide)**. The flagship guides:
+→ Start at the **[Developer Overview](Developer-Guide)**. Want to help? See
+**[How to Contribute](How-to-Contribute)** (ideas go in Discussions; bugs and
+concrete wiki work go in Issues). The flagship guides:
 
 - **[Lore](Lore)** — the world's *why*: the Headmaster's real agenda, how the
   campus actually changes, and who opposes it. Read it before writing story
