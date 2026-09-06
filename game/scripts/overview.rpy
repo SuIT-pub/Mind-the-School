@@ -540,7 +540,7 @@ screen school_overview_images ():
                 add idle_image:
                     xpos building.x_pos ypos building.y_pos
         else:
-            $ empty_image = find_loadable_image(building.get_image("empty"))
+            $ empty_image = building.get_map_empty_image()
             if empty_image:
                 add empty_image:
                     xpos building.x_pos ypos building.y_pos
@@ -578,7 +578,7 @@ screen school_overview_buttons (with_available_Events = False):
             # Mods may supply an "empty" sprite for buildings not on the base map.
             # Native buildings are already baked into the map art and have no empty image —
             # skip the button entirely so there is nothing to select.
-            $ empty_image = find_loadable_image(building.get_image("empty"))
+            $ empty_image = building.get_map_empty_image()
             if empty_image:
                 imagebutton:
                     idle empty_image

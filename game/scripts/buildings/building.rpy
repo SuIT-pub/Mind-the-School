@@ -35,6 +35,7 @@ init -99 python:
             open_conditions: List[Condition],
             close_conditions: List[Condition],
             keyboard_shortcuts: List[str] = None,
+            *options: Option
         ):
             """Create a map building entry.
 
@@ -59,6 +60,7 @@ init -99 python:
             self.open_conditions.append(HasAnythingInCollectionGameDataCondition(key + ":open"))
             self.close_conditions.append(HasAnythingInCollectionGameDataCondition(key + ":closed"))
             self.keyboard_shortcuts = list(keyboard_shortcuts) if keyboard_shortcuts else []
+            self.options = OptionSet(*options)
 
         def check_open_conditions(self, **kwargs):
             return any(condition.is_fulfilled(**kwargs) for condition in self.open_conditions)
@@ -71,6 +73,21 @@ init -99 python:
 
         def get_image(self, state: str = "empty"):
             return refine_image(self.image, state = state)
+
+        def get_map_empty_image(self) -> str:
+            """Return the empty overlay path for a closed building on the map.
+
+            Buildings with ``NoEmpty`` skip the lookup so native map art is
+            not probed for a missing ``empty`` sprite. Safe to call from
+            screen prediction, which executes false ``if`` branches once.
+
+            Returns:
+                A loadable image path, or ``""`` when no empty overlay
+                should be shown.
+            """
+            if self.options.has_option("NoEmpty"):
+                return ""
+            return find_loadable_image(self.get_image("empty"))
 
         def has_highlight(self):
             return get_available_highlight(self.key)
@@ -316,6 +333,7 @@ label load_buildings:
             [ManualCondition(True)],
             [],
             ["1"],
+            NoEmptyOption(),
         ),
         Building(
             "school_dormitory",
@@ -325,6 +343,7 @@ label load_buildings:
             [ManualCondition(True)],
             [],
             ["2"],
+            NoEmptyOption(),
         ),
         Building(
             "labs",
@@ -334,6 +353,7 @@ label load_buildings:
             [],
             [],
             [],
+            NoEmptyOption(),
         ),
         Building(
             "sports_field",
@@ -343,6 +363,7 @@ label load_buildings:
             [],
             [],
             [],
+            NoEmptyOption(),
         ),
         Building(
             "beach",
@@ -352,6 +373,7 @@ label load_buildings:
             [],
             [],
             [],
+            NoEmptyOption(),
         ),
         Building(
             "staff_lodges",
@@ -361,6 +383,7 @@ label load_buildings:
             [],
             [],
             [],
+            NoEmptyOption(),
         ),
         Building(
             "gym",
@@ -370,6 +393,7 @@ label load_buildings:
             [ManualCondition(True)],
             [],
             ["6"],
+            NoEmptyOption(),
         ),
         Building(
             "swimming_pool",
@@ -379,6 +403,7 @@ label load_buildings:
             [],
             [],
             [],
+            NoEmptyOption(),
         ),
         Building(
             "cafeteria",
@@ -388,6 +413,7 @@ label load_buildings:
             [],
             [],
             ["7"],
+            NoEmptyOption(),
         ),
         Building(
             "bath",
@@ -397,6 +423,7 @@ label load_buildings:
             [],
             [],
             [],
+            NoEmptyOption(),
         ),
         Building(
             "kiosk",
@@ -406,6 +433,7 @@ label load_buildings:
             [ManualCondition(True)],
             [],
             ["5"],
+            NoEmptyOption(),
         ),
         Building(
             "courtyard",
@@ -415,6 +443,7 @@ label load_buildings:
             [ManualCondition(True)],
             [],
             ["4"],
+            NoEmptyOption(),
         ),
         Building(
             "office_building",
@@ -424,5 +453,6 @@ label load_buildings:
             [ManualCondition(True)],
             [],
             ["3"],
+            NoEmptyOption(),
         ),
     )

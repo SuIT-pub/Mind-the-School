@@ -143,3 +143,7 @@ init -6 python:
     class NoOverrideOption(Option):
         def __init__(self):
             super().__init__("NoOverride")
+
+    class NoEmptyOption(Option):
+        def __init__(self):
+            super().__init__("NoEmpty")
