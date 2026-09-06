@@ -6,7 +6,7 @@ screen show_building_button(building, display, show_type, x, y):
     if display == building or display == "x" or building in display or (isinstance(display, dict) and building in display.keys()):
         if isinstance(display, dict):
             $ show_type = display[building]
-        $ image_text = f"background/{building}.webp"
+        $ image_text = f"background/{building}_idle.webp"
         if show_type == "red":
             $ image_text = f"background/{building}_red.webp"
         elif show_type == "white":

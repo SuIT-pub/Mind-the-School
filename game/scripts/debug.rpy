@@ -1600,9 +1600,13 @@ init python:
             return None
 
     class _PaperdollConfigProxy(object):
-        """Minimal stand-in for Paperdoll_Obj.config resolution during preset preview."""
+        """Minimal stand-in for Paperdoll_Obj.config resolution during preset preview.
+
+        Duck-types as an unparented Paperdoll_Obj so PDAMove._space() reads world config.
+        """
 
         def __init__(self, alignX, alignY, zoom, blur):
+            self.parent = None
             self.config = {
                 "alignX": alignX,
                 "alignY": alignY,

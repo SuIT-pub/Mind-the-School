@@ -12,7 +12,9 @@
       "Bash(python -c ' *)",
       "mcp__mind-the-school__ollama_status",
       "mcp__mind-the-school__ollama_list_models",
-      "mcp__mind-the-school__ollama_prompt"
+      "mcp__mind-the-school__ollama_prompt",
+      "Bash(python -)",
+      "Bash(python \"C:/Users/bigma/AppData/Local/Temp/claude/M--MTS-Project-Mind-the-School/aa816ca8-344f-4f39-a003-e0c5669a197b/scratchpad/pd.py\")"
     ]
   }
 }
