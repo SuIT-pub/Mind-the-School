@@ -1361,6 +1361,15 @@ init -2 python:
         for candidate in image_extension_candidates(image_path):
             if renpy.loadable(candidate, **loadable_kwargs):
                 return candidate
+
+        caller = inspect.stack()[1]
+        warning = (
+            f"[WARNING]: Could not resolve image_path: {image_path}"
+            f" at: {caller.filename}, line {caller.lineno}"
+        )
+
+        renpy.log(warning)
+        print(warning)
         return ""
 
     def apply_available_image_extension(image_path: str) -> str:
