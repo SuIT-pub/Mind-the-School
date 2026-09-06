@@ -1728,7 +1728,7 @@ screen journal_cheats(display, char = "school"):
                 mousewheel True
                 draggable "touch"
                 vbox:
-                    text "Activate a situation, or activate all/individual teasers within it.\nExpand a situation to reach its single teasers.\nProceed on your own risk.":
+                    text "Activate or deactivate a situation, or activate all/individual teasers within it.\nExpand a situation to reach its single teasers.\nProceed on your own risk.":
                         color "#000000"
                         size 18
 
@@ -1761,6 +1761,10 @@ screen journal_cheats(display, char = "school"):
                                     text "Activate" style "buttons_idle" size 18
                                     action [With(dissolveM), Call("activate_situation_cheat", sit_key)]
                                     sensitive cheat_situation.state != "active"
+                                button:
+                                    text "Deactivate" style "buttons_idle" size 18
+                                    action [With(dissolveM), Call("deactivate_situation_cheat", sit_key)]
+                                    sensitive cheat_situation.state == "active"
                                 button:
                                     text "All Teasers" style "buttons_idle" size 18
                                     action [With(dissolveM), Call("activate_situation_teasers_cheat", sit_key)]
@@ -4301,6 +4305,22 @@ label activate_situation_cheat(situation_key):
         $ cheat_situation.activate()
         $ renpy.notify("Situation activated!")
     call open_journal(5, "situations") from activate_situation_cheat_1
+
+label deactivate_situation_cheat(situation_key):
+    # """
+    # Deactivates an active situation directly from the cheat page, returning it
+    # to `inactive` so it can be activated again.
+    #
+    # ### Parameters:
+    # 1. situation_key: str
+    #     - The key of the situation to deactivate.
+    # """
+
+    $ cheat_situation = situation_manager.get_situation(situation_key) if situation_manager is not None else None
+    if cheat_situation is not None and cheat_situation.state == "active":
+        $ cheat_situation.deactivate()
+        $ renpy.notify("Situation deactivated!")
+    call open_journal(5, "situations") from deactivate_situation_cheat_1
 
 label activate_situation_teasers_cheat(situation_key):
     # """

@@ -2759,6 +2759,37 @@ init -99 python:
                 set_game_data("voteProposal", None)
             return self
 
+        def deactivate(self):
+            """
+            Cheat/testing helper: return an active situation to ``inactive``,
+            reversing :meth:`activate`. Deactivates the active passive/measure,
+            removes the bar decrease modifier and every tracked modifier, detaches
+            passive effects, and resets each bar's start-value application so a later
+            ``activate()`` recomputes a fresh start snapshot. Bars keep their current
+            value; thresholds keep their reached state. Unlike :meth:`cancel` the
+            situation stays selectable and can simply be activated again.
+            """
+            self.state = "inactive"
+            if self.active_passive in self.passives:
+                self.passives[self.active_passive].deactivate()
+            if self.active_measure in self.passives:
+                self.passives[self.active_measure].deactivate()
+            for bar in self.bars.values():
+                bar.revert_decrease_modifier()
+                bar.reset_start_application()
+            self.clear_tracked_modifiers()
+            for passive in self.passives.values():
+                passive.detach_effects()
+            self.active_passive = None
+            self.active_measure = None
+
+            proposal = get_game_data("voteProposal")
+            if proposal is self or (getattr(proposal, "key", None) == self.key):
+                if isinstance(proposal, Unlockable):
+                    proposal.release_vote_money()
+                set_game_data("voteProposal", None)
+            return self
+
         def add_pictogram(self, pictogram: Pictogram | str):
             pictogram_key = pictogram.key if isinstance(pictogram, Pictogram) else pictogram
             if (
