@@ -107,6 +107,10 @@ already installed `game/images/` tree or `game/.asset-version`. After cleaning, 
 
 ## Content guides
 
+- **[Lore](Lore)** — the world's *why*: the Headmaster's real agenda, the backers,
+  how the campus actually changes (the serum, hypnosis, the PTA), and the regional
+  inspector who opposes it. Read this before writing story content so your events
+  match canon — it marks what is settled versus deliberately open.
 - **[School Levels](School-Levels)** — what each school level (1–10) *means*:
   dress, talk, and behaviour on campus. Writer/artist bible. The number itself is
   the `"school"` character's level; gates and image tokens are in the system

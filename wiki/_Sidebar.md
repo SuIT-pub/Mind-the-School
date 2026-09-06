@@ -120,6 +120,25 @@ _Parents_
 <blockquote>
 
 <details>
+<summary>Lore</summary>
+
+- [Lore](Lore)
+- [The premise in one paragraph](Lore#1-the-premise-in-one-paragraph)
+- [The setting — Windstor Academy](Lore#2-the-setting--windstor-academy)
+- [The Headmaster and the real agenda](Lore#3-the-headmaster-and-the-real-agenda)
+- [The backers](Lore#4-the-backers)
+- [The vanished predecessor](Lore#5-the-vanished-predecessor)
+- [The world and its cast](Lore#6-the-world-and-its-cast)
+- [How the change actually works](Lore#7-how-the-change-actually-works--the-two-rails)
+- [The school level as the record](Lore#8-the-school-level-as-the-record-of-it-all)
+- [The opposition — the regional inspector](Lore#9-the-opposition--the-regional-inspector)
+- [The shape of the ending](Lore#10-the-shape-of-the-ending)
+- [Writing and modding to canon](Lore#11-writing-and-modding-to-canon)
+- [Open threads at a glance](Lore#12-open-threads-at-a-glance)
+
+</details>
+
+<details>
 <summary>School Levels</summary>
 
 - [School Levels](School-Levels)

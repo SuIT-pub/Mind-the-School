@@ -24,6 +24,9 @@ sandbox, and how to add your own content as a mod.
 
 → Start at the **[Developer Overview](Developer-Guide)**. The flagship guides:
 
+- **[Lore](Lore)** — the world's *why*: the Headmaster's real agenda, how the
+  campus actually changes, and who opposes it. Read it before writing story
+  content so your events match canon.
 - **[School Levels](School-Levels)** — campus climate at each level (dress, talk,
   behaviour) for writing and art.
 - **[Building Situations](Building-Situations)** — the bidirectional-bar system that

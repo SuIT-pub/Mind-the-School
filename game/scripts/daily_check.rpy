@@ -561,6 +561,15 @@ label .skip:
 
     hide screen black_error_screen_text
 
+    # Unlock the campus on every activation path. skip_to_free_roam calls .skip
+    # directly and never runs the main label's unlock above, which would otherwise
+    # leave every building "closed" while new_management runs — empty map, then the
+    # negative-resolution game over. The day-10 flow falls through from the main
+    # label, so these run twice there; the collection-key removals are idempotent.
+    $ remove_all_buildings_collection_key("closed", "first_week")
+    $ remove_all_buildings_collection_key("closed", "pta_lock")
+    $ remove_building_collection_key("kiosk", "closed", "first_week_epilogue")
+
     # Activate the Day-10 tutorial situation right as free-roam begins.
     $ nm_situation = situation_manager.get_situation("new_management")
     if nm_situation is not None and nm_situation.state != "active":

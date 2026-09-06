@@ -2251,7 +2251,7 @@ screen journal_gallery(display):
 
     $ category_collection = persistent.gallery
     if get_setting("show_gallery_category") == "Categories":
-        $ category_collection = {cat: cat_coll for cat, cat_coll in event_replay_categories.items() if len([e for e in cat_coll if e in persistent.gallery[get_event_from_register(e).get_location()].keys()])}
+        $ category_collection = {cat: cat_coll for cat, cat_coll in event_replay_categories.items() if any(get_event_from_register(e) is not None and e in persistent.gallery.get(get_event_from_register(e).get_location(), {}) for e in cat_coll)}
 
     if category != "" and category not in category_collection.keys():
         $ location = ""
@@ -2360,7 +2360,7 @@ screen journal_gallery(display):
             $ event_collection = event_replay_categories[category]
 
         if display_mode != "fragment_selection_mode":
-            $ event_list = [get_event_from_register(event_name) for event_name in event_collection if get_event_from_register(event_name) != None and renpy.has_label(get_event_from_register(event_name).get_event_label()) and event_name in persistent.gallery[get_event_from_register(event_name).get_location()].keys()]
+            $ event_list = [get_event_from_register(event_name) for event_name in event_collection if get_event_from_register(event_name) != None and renpy.has_label(get_event_from_register(event_name).get_event_label()) and event_name in persistent.gallery.get(get_event_from_register(event_name).get_location(), {})]
             $ event_dict = {f"{category}.{event_obj.get_event()}": get_translation(event_obj.get_event()) for event_obj in event_list}
             use journal_simple_list(7, display, event_dict, "buttons_idle", pos_x = 400, pos_y = 350, width = 450, sort = True)
         else: 
