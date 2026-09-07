@@ -141,7 +141,8 @@ the game (see [Images](Images) and [Selectors §7](Selectors)):
 2. `refine_image_with_alternatives(pattern, alt_keys, **values)` generates the path
    **plus fallbacks**: for each key listed in `alt_keys`, a variant is produced where
    that key is replaced by the wildcard `$` (so a missing per-level/mouth/state file
-   can fall back to a generic one).
+   can fall back to a generic one). An `alt_keys` value that is empty or `None`
+   **is** the wildcard — it becomes `$` immediately, not a blank filename token.
 3. `find_available_images(...)` walks the candidates in priority order and returns
    the **first one that actually exists** (`renpy.loadable`). If none exist, the
    layer resolves to `""` and shows nothing.
@@ -1093,6 +1094,7 @@ pose/outfit/mood/mouth), while the in-game editor is still where you tune the
 | Flip swings off-frame while easing | Flip must pivot on the sprite centre (engine does this) | Don't animate `xzoom` yourself; use `PDAFlip(..., duration = …)`. |
 | Expression won't update | Not using `PDAImage` | Change `mood`/`mouth`/`look` via `PDAImage`; move/blur don't re-resolve images. |
 | Head missing after `look = "avert"` | No avert file; `look` is not in `alt_keys` | Ship both `follow` and `avert` heads. Extras (`extra1`/`extra2`) *do* fall back to `$`. |
+| Layer blank; log path has a gap / double space before `.png` | Empty `extra1`/`extra2`/`state` was interpolated as a blank token instead of `$` | Empty alt-key values are coerced to `$` in `refine_image_with_alternatives`. Restart after that fix; do not pass `" "` as an extra. |
 | Two layers drift apart on shake | (shouldn't happen) all layers share the shake seed | Confirm you're on `PDAShake` (seeded by the object key), not per-layer motion. |
 | One outfit sits a few pixels off | Needs a per-layer correction | Add a `PaperdollOverride` on that layer gated on the outfit value. |
 | `PDAPreset("intro")` does nothing | Object preset not registered / wrong key | Ensure `PaperdollPreset` is on the Person or `presets=`; bare keys have no `:`. |

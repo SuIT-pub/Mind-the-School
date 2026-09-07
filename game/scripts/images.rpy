@@ -1055,6 +1055,30 @@ init -2 python:
     # region Refine Image #
     #######################
 
+    def is_unspecified_alternative_value(value) -> bool:
+        """
+        Returns whether an alternative-key value should use the ``$`` wildcard.
+
+        Empty strings (including whitespace-only) and ``None`` mean the
+        dimension was not specified. Interpolating them as a blank filename
+        token would produce a path that can never exist, and that candidate
+        sorts as most specific (zero ``$``), so the real ``$`` file is never
+        tried.
+
+        ### Parameters:
+        1. value
+            - The runtime value for an alternative key.
+
+        ### Returns:
+        1. bool
+            - True when the value should be replaced with ``$``.
+        """
+        if value is None:
+            return True
+        if isinstance(value, str) and value.strip() == "":
+            return True
+        return False
+
     def refine_image_with_alternatives(image_path: str, alternative_keys: List[str], **kwargs) -> List[str]:
         """
         Returns all possible image paths with possible alternatives in case an image is missing concrete values.
@@ -1065,6 +1089,10 @@ init -2 python:
         Incomplete templates such as ``<step>`` / ``<nude>`` stay unchanged so
         later probing can fill them in. List order and length are preserved:
         fewer ``$`` still means higher priority.
+
+        Alternative keys whose runtime value is empty or ``None`` are replaced
+        with ``$`` immediately. They are not interpolated as a blank filename
+        token.
 
         ### Parameters:
         1. image_path: str
@@ -1078,10 +1106,6 @@ init -2 python:
         1. List[str]
             - A list of all possible image paths with possible alternatives in case an image is missing concrete values.
         """
-
-        combinations = [()]
-        for r in range(1, len(alternative_keys) + 1):
-            combinations.extend(itertools.combinations(alternative_keys, r))
 
         is_image_series = get_kwargs('is_image_series', False, **kwargs)
         in_replay = get_kwargs('in_replay', False, **kwargs)
@@ -1097,8 +1121,23 @@ init -2 python:
         if 'loli' not in kwargs.keys():
             kwargs['loli'] = get_random_loli()
 
+        forced_wildcards = []
+        combinable_keys = []
+        for key in alternative_keys:
+            if key in kwargs and is_unspecified_alternative_value(kwargs[key]):
+                forced_wildcards.append(key)
+            else:
+                combinable_keys.append(key)
+
+        combinations = [()]
+        for r in range(1, len(combinable_keys) + 1):
+            combinations.extend(itertools.combinations(combinable_keys, r))
+
         for combination in combinations:
             new_image_path = image_path
+
+            for key in forced_wildcards:
+                new_image_path = new_image_path.replace(f"<{key}>", "$")
 
             for key in combination:
                 new_image_path = new_image_path.replace(f"<{key}>", "$")

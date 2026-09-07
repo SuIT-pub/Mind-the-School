@@ -276,6 +276,13 @@ Candidates, in order (requested `char=emiko`, `outfit=uniform`, `level=6`):
 
 The first that exists (as `.webp` or `.png`) wins.
 
+An alternative key whose runtime value is empty (`""`, whitespace) or `None` is
+**not** written into the filename as a blank token. Blank tokens are not valid
+files, and a candidate with zero `$` sorts as most specific — so interpolating
+`extra1=""` would search for `…  .png` and never reach `… $.png`. Empty/missing
+alt-key values become `$` immediately. A *specific* value (`extra1="wet"`) is
+still tried first, then `$`.
+
 Paperdoll character layers use
 `alt_keys = ["level", "mouth", "state", "char_var", "extra1", "extra2"]`.
 `look` (`follow` / `avert`) is **not** an alternative — both gaze files must exist.
@@ -537,6 +544,7 @@ resolution, using the stem (so `foo 1 0.webp` and `foo 1 0.png` yield the same
 | Nude toggle missing | Path has no `<nude>`, or only level `0` exists | Name files `… 0`, `… 1`, … and keep `<nude>` in the pattern. |
 | Screen shows nothing / error on `add` | Displayed the pattern string after a png/webp miss | `path = find_loadable_image(...)`; `add path` only when non-empty. |
 | Paperdoll layer blank | Specific file missing and no `$` sibling for an `alt_key` | Add the file or a `$` fallback; check pose/outfit are exact (not alt keys). |
+| Log path has a gap / double space before `.png` | An `alt_key` (`extra1`, `extra2`, `state`, …) was empty and used to interpolate as a blank token | Empty alt-key values now become `$` immediately. |
 
 ---
 
