@@ -129,6 +129,12 @@ To publish a new asset version:
 The upload script creates `assets.zip` and `version.json` on R2, replacing the
 previous version. Credentials must never be committed to Git.
 
+To bump only the published version (same archive, new `ASSET_VERSION` in `.env`):
+
+```bash
+python tools/upload_assets.py --bump-version
+```
+
 Before the first upload, create an R2 bucket (Standard storage), enable public
 access via an `*.r2.dev` URL, and set `PUBLIC_ASSET_URL` in
 `tools/download_assets.py` to that URL.

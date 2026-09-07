@@ -6,15 +6,19 @@
     1. Derives the wiki remote from origin (…/<repo>.wiki.git).
     2. Clones or updates the wiki repo into wiki/.wiki-repo/ (git-ignored).
     3. Mirrors the top-level *.md pages (except README.md) — adds, updates, deletes.
-    4. Mirrors extra asset directories (currently `characters/`) byte-for-byte.
+    4. Mirrors extra asset directories (currently `characters/`) byte-for-byte
+       for the original files.
     5. Promotes each `characters/<Name>/<Name>.md` to a top-level wiki page
        (GitHub Wiki only navigates root-level pages; a path starting with
        `characters/` is treated as the Characters index).
-    6. Commits and pushes.
+    6. Writes a sibling `*.preview.png` (PNG payload only, no HS2 trailer) next
+       to each character card so wiki pages can display a light thumbnail.
+    7. Commits and pushes.
 
-    The pages in wiki/ are the source of truth; there is no build step. Pushing uses
-    the same GitHub credentials as the main repo. The wiki must already exist (create
-    one page via the repo's Wiki tab once).
+    The pages in wiki/ are the source of truth. Original character cards are copied
+    unchanged; ``*.preview.png`` display copies are generated at sync time. Pushing
+    uses the same GitHub credentials as the main repo. The wiki must already exist
+    (create one page via the repo's Wiki tab once).
 
 .PARAMETER Message
     Commit message. Defaults to "Sync wiki from main repo @ <short-sha>".
@@ -90,7 +94,19 @@ if (Test-Path -LiteralPath $charactersSrc) {
     }
 }
 
-# 6. Commit and push (only if something changed).
+# 6. Write display previews next to each card (PNG through IEND only). Originals
+#    stay byte-for-byte; wiki <img> tags point at *.preview.png so the page does
+#    not download the HS2 / StudioNeoV2 trailer. Click still opens the original.
+if (Test-Path -LiteralPath $charactersDst) {
+    $previewScript = Join-Path $PSScriptRoot 'generate-card-previews.py'
+    Write-Host "Generating character-card previews..."
+    python $previewScript $charactersDst
+    if ($LASTEXITCODE -ne 0) {
+        throw "Failed to generate character-card previews (exit $LASTEXITCODE)."
+    }
+}
+
+# 7. Commit and push (only if something changed).
 git -C $cloneDir add -A
 if ([string]::IsNullOrWhiteSpace((git -C $cloneDir status --porcelain))) {
     Write-Host "Wiki already up to date — nothing to push."

@@ -37,7 +37,9 @@ pages in the GitHub Wiki web UI — those changes are overwritten on the next sy
 - New page: `My-Page.md` (hyphens for spaces), **no `# H1`**, links like
   `[Events](Events)`, and a line in [_Sidebar](_Sidebar).
 - Character cards: drop files into `wiki/characters/<Name>/` unchanged. Never rename,
-  recompress, or open-and-save them. See the repo's `wiki/README.md`.
+  recompress, or open-and-save them. Page `<img>` tags use the generated
+  `*.preview.png`; the link around them stays on the original file. See the
+  repo's `wiki/README.md`.
 
 System guides to read before changing the thing they document: [Developer
 Overview](Developer-Guide), [Events](Events), [Building Situations](Building-Situations),

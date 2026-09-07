@@ -54,12 +54,14 @@ The sync script:
 2. Clones/updates the wiki repo into `wiki/.wiki-repo/` (git-ignored).
 3. Mirrors the top-level `*.md` pages (except `README.md`) into it — additions,
    changes, **and deletions**.
-4. Mirrors extra directories such as `characters/` **byte-for-byte** (no image
-   transcoding or renaming).
+4. Mirrors extra directories such as `characters/` **byte-for-byte** for the
+   original cards (no transcoding or renaming).
 5. Promotes each `characters/<Name>/<Name>.md` to a top-level wiki page (GitHub
    Wiki cannot navigate nested `characters/…` paths — they resolve as the
    Characters index).
-6. Commits and pushes.
+6. Writes a sibling `*.preview.png` next to each card (PNG through IEND only)
+   so pages can show a light thumbnail.
+7. Commits and pushes.
 
 Pushing needs the same GitHub credentials you use for the main repo. The wiki must
 already exist (create one page in the repo's *Wiki* tab once, then the `.wiki.git`
@@ -92,8 +94,10 @@ after the image payload and is **keyed to the original filename**. Rules:
   them in an image editor.
 - If the card's filename is not `portrait.png` / `outfit-1.png`, keep that
   original name and change the links on the character page to match.
-- Clicking a portrait or outfit on the wiki opens the **raw** file
-  (`raw.githubusercontent.com/wiki/…`) so the download is the git blob, not a
-  transcoded preview.
+- Wiki pages **display** a sibling `*.preview.png` (the same picture, PNG payload
+  only — no card trailer). Sync generates those copies; do not hand-edit them.
+- The `<img src>` on a character page must use `….preview.png`. The surrounding
+  `<a href>` stays on the original `….png` so a click still downloads the full
+  card (`raw.githubusercontent.com/wiki/…`).
 - Do not upload cards through the GitHub Wiki web UI — that can rename or
   recompress them. Always drop files into `wiki/characters/…` and run the sync.

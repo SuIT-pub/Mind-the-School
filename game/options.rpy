@@ -221,6 +221,11 @@ init python:
     build.classify("Image Converter", None)
     build.classify("cspell.json", None)
 
+    ## Paperdoll-Werkzeuge (Kompressor / Sync) - reine Dev-Tools, nie ausliefern.
+    build.classify("game/images/paperdoll/*.py", None)
+    build.classify("game/images/paperdoll/*.bat", None)
+    build.classify("game/images/paperdoll/__pycache__/**", None)
+
     ## Files matching documentation patterns are duplicated in a mac app
     ## build, so they appear in both the app and the zip file.
 

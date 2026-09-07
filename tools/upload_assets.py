@@ -11,6 +11,7 @@ Requires a local .env file with R2 credentials (see .env.example).
 Usage:
     python tools/upload_assets.py
     python tools/upload_assets.py --reuse-archive
+    python tools/upload_assets.py --bump-version
 """
 
 from __future__ import annotations
@@ -290,6 +291,88 @@ def write_version_json(
     version_path.write_text(json.dumps(metadata, indent=4) + "\n", encoding="utf-8")
 
 
+def fetch_remote_version_json(client, bucket: str) -> dict:
+    """Download and parse ``version.json`` from the bucket."""
+    try:
+        response = client.get_object(Bucket=bucket, Key=VERSION_FILE)
+    except ClientError as exc:
+        code = exc.response.get("Error", {}).get("Code", "")
+        if code in ("404", "NoSuchKey", "NotFound"):
+            fail(f"Remote {VERSION_FILE} not found. Run a full upload first.")
+        fail(f"Failed to fetch remote {VERSION_FILE}: {exc}")
+
+    try:
+        body = response["Body"].read().decode("utf-8")
+        metadata = json.loads(body)
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+        fail(f"Remote {VERSION_FILE} is not valid JSON: {exc}")
+
+    if not isinstance(metadata, dict):
+        fail(f"Remote {VERSION_FILE} must be a JSON object.")
+
+    for key in ("version", "filename", "size", "sha256"):
+        if key not in metadata:
+            fail(f"Remote {VERSION_FILE} is missing {key!r}.")
+
+    return metadata
+
+
+def put_version_json(client, bucket: str, metadata: dict) -> None:
+    """Publish ``version.json`` to R2 from in-memory metadata."""
+    body = (json.dumps(metadata, indent=4) + "\n").encode("utf-8")
+    try:
+        client.put_object(
+            Bucket=bucket,
+            Key=VERSION_FILE,
+            Body=body,
+            CacheControl="no-cache, max-age=0",
+        )
+    except (BotoCoreError, ClientError) as exc:
+        fail(f"Failed to upload {VERSION_FILE}: {exc}")
+
+
+def bump_cloud_version(client, bucket: str, new_version: str, public_url: str) -> None:
+    """Update only the version field of remote ``version.json``.
+
+    Leaves ``assets.zip`` untouched. Downloaders compare version strings, so a
+    bump makes clients treat the existing archive as a new release.
+    """
+    print("Fetching remote version.json...")
+    metadata = fetch_remote_version_json(client, bucket)
+    old_version = str(metadata["version"])
+
+    if old_version == new_version:
+        fail(
+            f"Remote version is already {new_version!r}. "
+            "Set ASSET_VERSION in .env to a new value."
+        )
+
+    try:
+        client.head_object(Bucket=bucket, Key=LIVE_OBJECT_KEY)
+    except ClientError as exc:
+        code = exc.response.get("Error", {}).get("Code", "")
+        if code in ("404", "NoSuchKey", "NotFound"):
+            fail(
+                f"Remote {LIVE_OBJECT_KEY} is missing. "
+                "Cannot bump version without an archive. Run a full upload first."
+            )
+        fail(f"Failed to check remote {LIVE_OBJECT_KEY}: {exc}")
+
+    metadata["version"] = new_version
+    print(f"Bumping cloud version: {old_version} -> {new_version}")
+    print(f"  Archive: {metadata['filename']}")
+    print(f"  Size:    {int(metadata['size']) / (1024**3):.2f} GB")
+    print(f"  SHA-256: {metadata['sha256']}")
+
+    put_version_json(client, bucket, metadata)
+
+    base = public_url.rstrip("/")
+    print("\nVersion bump complete.")
+    print(f"  Version:  {new_version}")
+    print(f"  Assets:   {base}/{LIVE_OBJECT_KEY}")
+    print(f"  Metadata: {base}/{VERSION_FILE}")
+
+
 def upload_file(
     client,
     bucket: str,
@@ -425,7 +508,8 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Create and upload game assets to Cloudflare R2."
     )
-    parser.add_argument(
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument(
         "--reuse-archive",
         action="store_true",
         help=(
@@ -433,12 +517,21 @@ def parse_args() -> argparse.Namespace:
             "version.json in the repo root (useful after a failed publish)."
         ),
     )
-    parser.add_argument(
+    mode.add_argument(
         "--cleanup-incomplete",
         action="store_true",
         help=(
             "Abort incomplete multipart uploads left behind by failed transfers "
             "(frees billed storage) and exit without uploading."
+        ),
+    )
+    mode.add_argument(
+        "--bump-version",
+        action="store_true",
+        help=(
+            "Only update version.json in the cloud to ASSET_VERSION from .env. "
+            "Does not rebuild or upload assets.zip; keeps the existing "
+            "filename, size, and sha256."
         ),
     )
     return parser.parse_args()
@@ -454,6 +547,10 @@ def main() -> None:
     # Incomplete multipart uploads are billed until aborted. Clean known keys
     # (temp + live) before work and after publish; --cleanup-incomplete only.
     cleanup_keys = (TEMP_OBJECT_KEY, LIVE_OBJECT_KEY, VERSION_FILE)
+
+    if args.bump_version:
+        bump_cloud_version(client, bucket, version, config["R2_PUBLIC_URL"])
+        return
 
     if args.cleanup_incomplete:
         print("Aborting incomplete multipart uploads...")
