@@ -1,0 +1,98 @@
+{
+    // Project dev tools exposed as VS Code tasks.
+    // Run via the Command Palette -> "Tasks: Run Task" (Ctrl+Shift+P), or bind
+    // your own keybinding. Each task runs in the integrated terminal so that
+    // interactive scripts (e.g. the paperdoll sync) can read your input.
+    // The interpreter is plain "python" - point it at your venv if you need to.
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Paperdoll: Sync (interactive)",
+            "detail": "dialogue_images -> game: menu (missing / char / all) with preview & confirmation.",
+            "type": "shell",
+            "command": "python",
+            "args": ["sync_paperdolls.py"],
+            "options": { "cwd": "${workspaceFolder}/game/images/paperdoll" },
+            "presentation": { "reveal": "always", "focus": true, "panel": "dedicated", "clear": true },
+            "problemMatcher": []
+        },
+        {
+            "label": "Paperdoll: Compress (one-off, in-place)",
+            "detail": "Converts PNGs in the game folder to WebP and deletes top_pre. Legacy one-shot tool.",
+            "type": "shell",
+            "command": "python",
+            "args": ["convert_paperdolls.py"],
+            "options": { "cwd": "${workspaceFolder}/game/images/paperdoll" },
+            "presentation": { "reveal": "always", "focus": true, "panel": "dedicated", "clear": true },
+            "problemMatcher": []
+        },
+        {
+            "label": "Paperdoll: Viewer",
+            "detail": "Launches the standalone paperdoll viewer.",
+            "type": "shell",
+            "command": "python",
+            "args": ["paperdoll_viewer.py"],
+            "options": { "cwd": "${workspaceFolder}/tools" },
+            "presentation": { "reveal": "always", "panel": "dedicated" },
+            "problemMatcher": []
+        },
+        {
+            "label": "Assets: Download",
+            "detail": "Downloads the game assets from the public R2 distribution.",
+            "type": "shell",
+            "command": "python",
+            "args": ["download_assets.py"],
+            "options": { "cwd": "${workspaceFolder}/tools" },
+            "presentation": { "reveal": "always", "panel": "dedicated" },
+            "problemMatcher": []
+        },
+        {
+            "label": "Assets: Upload (R2, pushes!)",
+            "detail": "Packs assets.zip and uploads it to Cloudflare R2. Requires a local .env.",
+            "type": "shell",
+            "command": "python",
+            "args": ["upload_assets.py"],
+            "options": { "cwd": "${workspaceFolder}/tools" },
+            "presentation": { "reveal": "always", "focus": true, "panel": "dedicated" },
+            "problemMatcher": []
+        },
+        {
+            "label": "Images: Backup",
+            "detail": "Backs up / moves images (GUI dialogs via pyautogui).",
+            "type": "shell",
+            "command": "python",
+            "args": ["backup_images.py"],
+            "options": { "cwd": "${workspaceFolder}/Image Converter" },
+            "presentation": { "reveal": "always", "panel": "dedicated" },
+            "problemMatcher": []
+        },
+        {
+            "label": "Wiki: Generate card previews",
+            "detail": "Creates *.preview.png next to the character-card PNGs.",
+            "type": "shell",
+            "command": "python",
+            "args": ["wiki/scripts/generate-card-previews.py", "${input:cardPreviewDir}"],
+            "options": { "cwd": "${workspaceFolder}" },
+            "presentation": { "reveal": "always", "panel": "dedicated" },
+            "problemMatcher": []
+        },
+        {
+            "label": "Wiki: Sync/Publish (pushes!)",
+            "detail": "Builds wiki/ and pushes to the GitHub wiki repository.",
+            "type": "shell",
+            "command": "pwsh",
+            "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "sync-wiki.ps1"],
+            "options": { "cwd": "${workspaceFolder}/wiki/scripts" },
+            "presentation": { "reveal": "always", "focus": true, "panel": "dedicated" },
+            "problemMatcher": []
+        }
+    ],
+    "inputs": [
+        {
+            "id": "cardPreviewDir",
+            "type": "promptString",
+            "description": "Folder with the character-card PNGs",
+            "default": "wiki/.wiki-repo/characters"
+        }
+    ]
+}
