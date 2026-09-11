@@ -374,9 +374,12 @@ $ image.show(1)                                  # advance to step 1
 - `convert_pattern(pattern_key, **kwargs)` builds the series (its `<key>`s already
   filled from `values`).
 - `image.show(step, display_type=SCENE, variant=-1)` shows a specific `<step>`.
-- `convert_pattern_with_data(pattern_key, {"key": value}, **kwargs)` builds a series
-  with an extra/overridden substitution (e.g. force `<girls>` to a specific character
-  for one image).
+- `convert_pattern(pattern_key, {"key": value}, **kwargs)` builds a series with an
+  extra/overridden substitution (e.g. force `<girls>` to a specific character for one
+  image). The optional `data` dict is injected into the `values` layer, so it never
+  collides with an existing kwargs key — pass it here instead of as a top-level named
+  parameter. For the inline named-argument form use
+  `convert_pattern("main", **with_values(kwargs, girls="ikushi_ito"))`.
 - The `Image_Series.show_image(image, *steps)` label plays several steps in sequence
   (advancing on click) — handy for a short run of frames with no dialogue between.
 
@@ -861,8 +864,8 @@ init 1 python:
 
 ### Images / video
 `Pattern(key, path, *alt_keys)` · `show_pattern(key, **kwargs)` ·
-`convert_pattern(key, **kwargs)` → `Image_Series` · `image.show(step, display_type, variant)` ·
-`convert_pattern_with_data(key, data, **kwargs)` · `Image_Series.show_image(image, *steps)`.
+`convert_pattern(key, data=None, **kwargs)` → `Image_Series` · `image.show(step, display_type, variant)` ·
+`with_values(kwargs, **values)` (inject into the `values` layer, collision-free) · `Image_Series.show_image(image, *steps)`.
 Video: `image.show_video(step, pause=False, variant=-1)` with a
 `Movie(play=<webm>, start_image=<webp>, loop=True)` image named `anim_` + the step's
 webp basename (spaces → underscores).

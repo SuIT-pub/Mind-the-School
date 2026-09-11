@@ -69,6 +69,33 @@ init -99 python:
             data["values"][key] = value
         return data
 
+    def with_values(kwargs: Dict[str, Any], **values) -> Dict[str, Any]:
+        """
+        Returns a copy of kwargs with the given named values injected into the image
+        `values` layer, so they can be spread into any kwargs-consuming call without a
+        key collision:
+
+            $ image = convert_pattern("main", **with_values(kwargs, skimpy_bra = True))
+            $ show_pattern("main", **with_values(kwargs, girls = "ikushi_ito"))
+
+        The values land in kwargs["values"] — the same layer selectors fill and the image
+        resolver reads — so they override cleanly, unlike top-level named parameters which
+        raise on a duplicate key (and which the image resolver ignores once a `values`
+        layer exists). Non-mutating: the original kwargs is left untouched.
+
+        ### Parameters:
+        1. kwargs: Dict[str, Any]
+            - The event kwargs to inject into (passed positionally, not spread).
+        2. **values
+            - The values to write into the `values` layer.
+        """
+
+        kwargs = dict(kwargs)
+        values_layer = dict(get_kwargs_values(**kwargs))
+        values_layer.update(values)
+        kwargs["values"] = values_layer
+        return kwargs
+
     # endregion
     ###############################
 

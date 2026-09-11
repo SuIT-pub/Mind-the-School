@@ -347,8 +347,12 @@ $ image.show(2, SHOW)    # overlay instead of replacing the scene
 manager exists — paperdolls and their backdrop go away with the still. No extra
 `clear_display()`. (`call show_image` / `show_pattern` do **not** do this.)
 
-`convert_pattern_with_data("card", {"girls": "emiko"}, **kwargs)` builds a series
-with one key forced — useful when a second pattern must show a specific character.
+`convert_pattern("card", {"girls": "emiko"}, **kwargs)` builds a series with one key
+forced — useful when a second pattern must show a specific character. The optional
+`data` dict is injected into the `values` layer, so it never collides with an existing
+kwargs key (unlike a top-level named parameter, which raises on a duplicate and which
+the resolver ignores once a `values` layer exists). For the inline named-argument form
+use `with_values`: `convert_pattern("card", **with_values(kwargs, girls="emiko"))`.
 
 `call Image_Series.show_image(image, 0, 1, 2)` plays several steps on click with no
 dialogue between them.
@@ -553,8 +557,8 @@ resolution, using the stem (so `foo 1 0.webp` and `foo 1 0.png` yield the same
 ### Author-facing (events)
 
 `Pattern(key, path, *alternative_keys)` · `show_pattern(key, **kwargs)` ·
-`convert_pattern(key, **kwargs)` → `Image_Series` ·
-`convert_pattern_with_data(key, data, **kwargs)` ·
+`convert_pattern(key, data=None, **kwargs)` → `Image_Series` ·
+`with_values(kwargs, **values)` (inject into the `values` layer, collision-free) ·
 `image.show(step, display_type=SCENE, variant=-1)` ·
 `image.show_video(step, pause=False, variant=-1)` ·
 `image[step]` → concrete path · `image.show_black()` / `image.hide()` ·

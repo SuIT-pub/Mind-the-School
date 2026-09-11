@@ -41,35 +41,30 @@ init -4 python:
 
         return patterns[pattern_key]
 
-    def convert_pattern(pattern_key: str, **kwargs) -> Image_Series:
+    def convert_pattern(pattern_key: str, data: Dict[str, Any] = None, **kwargs) -> Image_Series:
         """
         Converts a pattern to an image series.
 
         ### Parameters:
         1. pattern_key: str
             - The key of the pattern to convert.
-        2. **kwargs
+        2. data: Dict[str, Any] (default None)
+            - Extra values injected into the image `values` layer before the path is
+            resolved, e.g. {"girls": "ikushi_ito"}. Use this instead of top-level named
+            parameters: it never collides with an existing kwargs key, and it writes to
+            the same `values` layer that selectors fill and the image resolver reads
+            (top-level kwargs are ignored once a `values` layer exists). For the inline
+            named-argument form use `with_values` (helper.rpy).
+        3. **kwargs
             - The keyword arguments to replace in the image path.
             - the patterns are also stored in the kwargs under the key 'image_patterns'
         """
 
-        return Image_Series_Pattern(get_pattern_from_kwargs(pattern_key, **kwargs), **kwargs)
-
-    def convert_pattern_with_data(pattern_key: str, data: Dict[str, Any], **kwargs) -> Image_Series:
-        """
-        Converts a pattern to an image series.
-
-        ### Parameters:
-        1. pattern_key: str
-            - The key of the pattern to convert.
-        2. **kwargs
-            - The keyword arguments to replace in the image path.
-            - the patterns are also stored in the kwargs under the key 'image_patterns'
-        """
-
-        if len(data.keys()) > 0:
-            for key, value in data.items():
-                kwargs = set_kwargs_value(key, value, **kwargs)
+        if data:
+            # Copy the values layer so the injection stays local to this call.
+            values = dict(get_kwargs_values(**kwargs))
+            values.update(data)
+            kwargs["values"] = values
 
         return Image_Series_Pattern(get_pattern_from_kwargs(pattern_key, **kwargs), **kwargs)
 

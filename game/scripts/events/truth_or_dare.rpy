@@ -200,7 +200,7 @@ label truth_or_dare_truth_1 (**kwargs):
     $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
-    $ card_image = convert_pattern_with_data("card", {"girls": "ikushi_ito"}, **kwargs)
+    $ card_image = convert_pattern("card", {"girls": "ikushi_ito"}, **kwargs)
 
     call Image_Series.show_image(card_image, 0, 1) from _call_show_image_truth_or_dare_truth_1_event_1
     ikushi "\"TRUTH: What's the naughtiest thing you've ever done with another girl?\"" # 1
@@ -236,7 +236,7 @@ label truth_or_dare_truth_2 (**kwargs):
     $ miwa = Person["miwa_igarashi"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
-    $ card_image = convert_pattern_with_data("card", {"girls": "lin_kato"}, **kwargs)
+    $ card_image = convert_pattern("card", {"girls": "lin_kato"}, **kwargs)
 
     call Image_Series.show_image(card_image, 0, 1) from _call_show_image_truth_or_dare_truth_2_event_1
     lin "\"TRUTH: Have you ever touched yourself when no one was looking? If so, where did you do it?\"" # 1
@@ -267,7 +267,7 @@ label truth_or_dare_truth_3 (**kwargs):
     $ lin = Person["lin_kato"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
-    $ card_image = convert_pattern_with_data("card", {"girls": "miwa_igarashi"}, **kwargs)
+    $ card_image = convert_pattern("card", {"girls": "miwa_igarashi"}, **kwargs)
 
     call Image_Series.show_image(card_image, 0, 1) from _call_show_image_truth_or_dare_truth_3_event_1
     miwa "\"TRUTH: Who is your secret crush?\"" # 1
@@ -303,7 +303,7 @@ label truth_or_dare_truth_4 (**kwargs):
     $ miwa = Person["miwa_igarashi"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
-    $ card_image = convert_pattern_with_data("card", {"girls": "ishimaru_maki"}, **kwargs)
+    $ card_image = convert_pattern("card", {"girls": "ishimaru_maki"}, **kwargs)
 
     call Image_Series.show_image(card_image, 0, 1) from _call_show_image_truth_or_dare_truth_4_event_1
     ishimaru "\"TRUTH: What's your favorite hobby or activity?\"" 
@@ -334,7 +334,7 @@ label truth_or_dare_truth_5 (**kwargs):
     $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
-    $ card_image = convert_pattern_with_data("card", {"girls": "ikushi_ito"}, **kwargs)
+    $ card_image = convert_pattern("card", {"girls": "ikushi_ito"}, **kwargs)
 
     call Image_Series.show_image(card_image, 0, 1) from _call_show_image_truth_or_dare_truth_5_event_1
     ikushi "\"TRUTH: Have you ever fantasized about a teacher or other staff at your school?\"" 
@@ -378,7 +378,7 @@ label truth_or_dare_truth_6 (**kwargs):
     $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
     
     $ image = convert_pattern("main", **kwargs)
-    $ card_image = convert_pattern_with_data("card", {"girls": "lin_kato"}, **kwargs)
+    $ card_image = convert_pattern("card", {"girls": "lin_kato"}, **kwargs)
 
     call Image_Series.show_image(card_image, 0, 1) from _call_show_image_truth_or_dare_truth_6_event_1
     lin "\"TRUTH: What's something that always makes you laugh?\"" 
@@ -420,7 +420,7 @@ label truth_or_dare_dare_1 (**kwargs):
     $ miwa = Person["miwa_igarashi"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
-    $ card_image = convert_pattern_with_data("card", {"girls": "ikushi_ito"}, **kwargs)
+    $ card_image = convert_pattern("card", {"girls": "ikushi_ito"}, **kwargs)
 
     call Image_Series.show_image(card_image, 0, 1) from _call_show_image_truth_or_dare_dare_1_event_1
     ikushi "\"DARE: Show us how you'd seduce a crush only using body language.\"" 
@@ -457,7 +457,7 @@ label truth_or_dare_dare_2 (**kwargs):
     $ ikushi = Person["ikushi_ito"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
-    $ card_image = convert_pattern_with_data("card", {"girls": "lin_kato"}, **kwargs)
+    $ card_image = convert_pattern("card", {"girls": "lin_kato"}, **kwargs)
 
     call Image_Series.show_image(card_image, 0, 1) from _call_show_image_truth_or_dare_dare_2_event_1
     lin "\"DARE: Kiss the person next to you.\"" 
@@ -493,7 +493,7 @@ label truth_or_dare_dare_3 (**kwargs):
     $ ikushi = Person["ikushi_ito"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
-    $ card_image = convert_pattern_with_data("card", {"girls": "miwa_igarashi"}, **kwargs)
+    $ card_image = convert_pattern("card", {"girls": "miwa_igarashi"}, **kwargs)
 
     call Image_Series.show_image(card_image, 0, 1) from _call_show_image_truth_or_dare_dare_3_event_1
     miwa "\"DARE: Sing 'Happy Birthday' to yourself at the top of your lungs.\"" 
@@ -531,7 +531,7 @@ label truth_or_dare_dare_4 (**kwargs):
     $ miwa = Person["miwa_igarashi"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
-    $ card_image = convert_pattern_with_data("card", {"girls": "ishimaru_maki"}, **kwargs)
+    $ card_image = convert_pattern("card", {"girls": "ishimaru_maki"}, **kwargs)
 
     call Image_Series.show_image(card_image, 0, 1) from _call_show_image_truth_or_dare_dare_4_event_1
     ishimaru "\"DARE: Whisper three naughty things you've thought about doing with someone else into the ear of the person next to you.\"" 
@@ -570,7 +570,7 @@ label truth_or_dare_dare_5 (**kwargs):
     $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
-    $ card_image = convert_pattern_with_data("card", {"girls": "ikushi_ito"}, **kwargs)
+    $ card_image = convert_pattern("card", {"girls": "ikushi_ito"}, **kwargs)
 
     call Image_Series.show_image(card_image, 0, 1) from _call_show_image_truth_or_dare_dare_5_event_1
     ikushi "\"DARE: Show off your underwear to the other players.\"" 
@@ -626,7 +626,7 @@ label truth_or_dare_dare_6 (**kwargs):
     $ ikushi = Person["ikushi_ito"].get_renpy_char()
 
     $ image = convert_pattern("main", **kwargs)
-    $ card_image = convert_pattern_with_data("card", {"girls": "lin_kato"}, **kwargs)
+    $ card_image = convert_pattern("card", {"girls": "lin_kato"}, **kwargs)
 
     call Image_Series.show_image(card_image, 0, 1) from _call_show_image_truth_or_dare_dare_6_event_1
     lin "\"DARE: Wear only your panties to sleep tonight.\"" 
