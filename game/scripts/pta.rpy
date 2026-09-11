@@ -117,6 +117,8 @@ init 1 python:
 #############################
 
 label first_pta_meeting (**kwargs):
+    $ headmaster = Person["headmaster"]
+    $ emiko = Person["emiko_langley"]
     $ begin_event(**kwargs)
 
     $ hide_all()
@@ -216,7 +218,7 @@ label first_pta_meeting (**kwargs):
 
     $ image.show(6)
     $ secretary_name = get_name_str('secretary')
-    secretary """
+    emiko """
         Hello everyone, I am [secretary_name], the headmasters secretary and I will be in 
         charge some organisational tasks like managing the schedule and lower beraucracy tasks.
 
@@ -262,7 +264,7 @@ label first_pta_meeting (**kwargs):
     $ image.show(15)
     parent "Yuki Yamamoto." (name = 'Yuki Yamamoto')
 
-    headmaster_thought "Oh quite the cold introduction..."
+    headmaster.think "Oh quite the cold introduction..."
     
     $ image.show(16)
     sgirl "Hello, I am Yuriko Oshima, the student representative of this school and I am here to make sure that the students of this school are not let out of the decision making and to act as the Mouthpiece of the students issues and suggestions." (name = 'Yuriko Oshima')
@@ -284,6 +286,7 @@ label first_pta_meeting (**kwargs):
 ###############################
 
 label pta_meeting (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(no_gallery = True, **kwargs)
 
     $ schoolLevel = get_level("school_level")
@@ -307,6 +310,7 @@ label pta_meeting (**kwargs):
 # region DISCUSSION #
 
 label pta_discussion_1 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(no_gallery = True, **kwargs)
 
 
@@ -327,6 +331,7 @@ label pta_vote_nothing_1 (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label pta_vote_unregistered_1 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(no_gallery = True, **kwargs)
 
     $ unlockable = get_value("vote_proposal", **kwargs)
@@ -381,6 +386,7 @@ label pta_vote_unregistered_1 (**kwargs):
 # region END #
 
 label pta_end_meeting_1 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(no_gallery = True, **kwargs)
 
     $ image = convert_pattern("base", **kwargs)
@@ -395,6 +401,7 @@ label pta_end_meeting_1 (**kwargs):
 ##############
 
 label pta_vote_result (unlockable, end_choice, with_comment = False):
+    $ headmaster = Person["headmaster"]
 
     if not isinstance(unlockable, Unlockable):
         $ set_game_data('voteProposal', None)

@@ -119,6 +119,8 @@ init 1 python:
 # region main events
 
 label office_call_secretary_1 (**kwargs):
+    $ headmaster = Person["headmaster"]
+    $ emiko = Person["emiko_langley"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -127,17 +129,17 @@ label office_call_secretary_1 (**kwargs):
     subtitles "You call the secretary."
 
     call Image_Series.show_image(image, 1, 2, 3) from _call_show_image_office_call_secretary_1_1
-    secretary "Hello, [headmaster_first_name]. How can I help you?"
+    emiko "Hello, [headmaster_first_name]. How can I help you?"
     $ image.show(4)
     headmaster "I need your opinion on something."
     $ image.show(3)
-    secretary "Sure, what is it?"
+    emiko "Sure, what is it?"
     $ image.show(5)
     headmaster "I'm thinking of introducing sex education classes in the curriculum. What do you think?"
     $ image.show(6)
-    secretary "I think it's a great idea. It's important for students to be educated about such topics."
+    emiko "I think it's a great idea. It's important for students to be educated about such topics."
     $ image.show(7)
-    secretary "But do you think the rest of the staff and also the students would agree?"
+    emiko "But do you think the rest of the staff and also the students would agree?"
     $ image.show(8)
     headmaster """
     Hmm, I guess you're right. That will be quite the hurdle, I think I need to make sure they are ready 
@@ -146,21 +148,21 @@ label office_call_secretary_1 (**kwargs):
     $ image.show(9)
     headmaster "Do you have any suggestions on how to approach this?"
     $ image.show(10)
-    secretary "I think you should start by talking to the staff and getting their input."
-    secretary """
+    emiko "I think you should start by talking to the staff and getting their input."
+    emiko """
     To actually convince them, you could prepare some teaching material and introductory material on the subject.
     """
-    secretary "That way they can see what you have in mind and how you plan to approach it."
+    emiko "That way they can see what you have in mind and how you plan to approach it."
     $ image.show(11)
     headmaster "That's a good idea. Thank you for your input."
     $ image.show(12)
-    secretary "You're welcome. Is there anything else?"
+    emiko "You're welcome. Is there anything else?"
     $ image.show(11)
     headmaster "No, that's all. Thank you."
     $ image.show(13)
-    secretary "You're welcome. Have a nice day."
+    emiko "You're welcome. Have a nice day."
     $ image.show(14)
-    headmaster_thought "Then, maybe I should start work on some teaching material for the sex ed classes."
+    headmaster.think "Then, maybe I should start work on some teaching material for the sex ed classes."
 
     $ start_progress('start_sex_ed') # 0 -> 1
 
@@ -169,35 +171,37 @@ label office_call_secretary_1 (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label office_teacher_sex_ed_introduction_1 (**kwargs):
+    $ headmaster = Person["headmaster"]
+    $ emiko = Person["emiko_langley"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
-    headmaster_thought "Hmm, now how do I start this."
-    headmaster_thought "My main problem is that the teacher will have reservations about introducing sex ed classes."
-    headmaster_thought "So the best way to overcome this, would be to show them the importance of it."
+    headmaster.think "Hmm, now how do I start this."
+    headmaster.think "My main problem is that the teacher will have reservations about introducing sex ed classes."
+    headmaster.think "So the best way to overcome this, would be to show them the importance of it."
     $ image.show(1)
-    headmaster_thought """
+    headmaster.think """
     I guess I should talk to them and present them the effects of not giving the students proper sexual education.
     """
-    headmaster_thought "If I can relate to them in their own expertise, I guess that would be even better."
+    headmaster.think "If I can relate to them in their own expertise, I guess that would be even better."
 
     $ image.show(2)
     headmaster "Emiko?"
     $ image.show(3)
-    secretary "Yes, [headmaster_first_name]?"
+    emiko "Yes, [headmaster_first_name]?"
     $ image.show(4)
     if time.get_weekday_num() <= 3:
         headmaster "Can you please schedule a meeting with all the teachers for tomorrow?"
     else:
         headmaster "Can you please schedule a meeting with all the teachers for monday?"
     $ image.show(5)
-    secretary "Sure, I'll take care of it. At what time?"
+    emiko "Sure, I'll take care of it. At what time?"
     $ image.show(6)
     headmaster "First thing in the morning. I want to discuss the introduction of the sex ed classes with them."
     $ image.show(5)
-    secretary "Got it. I'll send out the invites right away."
+    emiko "Got it. I'll send out the invites right away."
     $ image.show(4)
     headmaster "Thank you, Emiko."
 
@@ -206,6 +210,7 @@ label office_teacher_sex_ed_introduction_1 (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label office_teacher_sex_ed_introduction_2 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ finola = Person["finola_ryan"].get_renpy_char()
@@ -350,12 +355,13 @@ label office_teacher_sex_ed_introduction_2 (**kwargs):
     $ end_event('new_daytime')
 
 label office_teacher_sex_ed_introduction_3 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
-    headmaster_thought """
+    headmaster.think """
     Now let's start working on the information material for the teachers. 
     This needs to be perfect, so the teachers will be convinced.
 
@@ -363,7 +369,7 @@ label office_teacher_sex_ed_introduction_3 (**kwargs):
     """
 
     $ image.show(1)
-    headmaster_thought """
+    headmaster.think """
     I think I should start with the basics. What is sexual education and why is it important?
 
     Add some case studies and statistics to show the impact of sexual education on students.
@@ -372,14 +378,14 @@ label office_teacher_sex_ed_introduction_3 (**kwargs):
     """
 
     $ image.show(2)
-    headmaster_thought """
+    headmaster.think """
     Then continue with the topics that will be covered in the classes and the teaching methods that will be used.
 
     That will include the resources that will be available to the students and the teachers.
     """
 
     $ image.show(3)
-    headmaster_thought """
+    headmaster.think """
     And finally, I should include a section on how the teachers can support the students and answer their questions.
 
     I think that should cover everything. Now I just need to put it all together.
@@ -387,13 +393,15 @@ label office_teacher_sex_ed_introduction_3 (**kwargs):
     call screen black_screen_text("1h later.")
 
     $ image.show(4)
-    headmaster_thought "Now that's done. I think I should present it to the teachers and get their feedback."
+    headmaster.think "Now that's done. I think I should present it to the teachers and get their feedback."
     
     $ set_progress('start_sex_ed', 4) # 3 -> 4
 
     $ end_event('new_daytime', **kwargs)
 
 label office_teacher_sex_ed_introduction_4 (**kwargs):
+    $ headmaster = Person["headmaster"]
+    $ emiko = Person["emiko_langley"]
     $ begin_event(**kwargs)
 
     $ finola = Person["finola_ryan"].get_renpy_char()
@@ -497,7 +505,7 @@ label office_teacher_sex_ed_introduction_4 (**kwargs):
     # headmaster returns to office, secretary enters
 
     $ image.show(14)
-    secretary "[headmaster_first_name], how did the presentation go?"
+    emiko "[headmaster_first_name], how did the presentation go?"
     $ image.show(15)
     headmaster "It went well. The teachers had some concerns, but I think we're on the right track."
     $ image.show(16)
@@ -514,6 +522,7 @@ label office_teacher_sex_ed_introduction_4 (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label pta_discussion_sex_ed_intro_1 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(no_gallery = True, **kwargs)
 
     $ finola = Person["finola_ryan"].get_renpy_char()
@@ -602,6 +611,7 @@ label pta_discussion_sex_ed_intro_1 (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label pta_vote_theoretical_sex_ed_1 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(no_gallery = True, **kwargs)
 
     $ parent_vote =  get_value("vote_parent", **kwargs)
@@ -677,6 +687,7 @@ label pta_vote_theoretical_sex_ed_1 (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label theoretical_sex_ed_assembly_1 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -735,6 +746,7 @@ label theoretical_sex_ed_assembly_1 (**kwargs):
 # region Mini Events
 
 label sex_ed_intro_mini_sd_1 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -742,19 +754,20 @@ label sex_ed_intro_mini_sd_1 (**kwargs):
     $ image.show(0)
     subtitles "You peek through the door."
     $ image.show(1)
-    headmaster_thought "Looks like the students are really reading through the material."
+    headmaster.think "Looks like the students are really reading through the material."
 
     $ end_event('new_daytime', **kwargs)
 
 label sex_ed_intro_mini_sd_2 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
-    headmaster_thought "Hmm? What's that noise?"
+    headmaster.think "Hmm? What's that noise?"
     $ image.show(1)
-    headmaster_thought "I think it's coming from this room."
+    headmaster.think "I think it's coming from this room."
     $ image.show(2)
     subtitles "*KNOCK* *KNOCK*"
     $ image.show(3)
@@ -790,15 +803,16 @@ label sex_ed_intro_mini_courtyard_1 (**kwargs):
 # endregion
 
 label first_sex_ed_day(**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
-    headmaster_thought "Big day today. The first sexual education class. I hope the students are ready for it."
+    headmaster.think "Big day today. The first sexual education class. I hope the students are ready for it."
     $ image.show(1)
-    headmaster_thought "Hmm, I see the students are going more chill with their uniforms now. Looks good on them."
-    headmaster_thought "Well, I guess I should go to the classroom now."
+    headmaster.think "Hmm, I see the students are going more chill with their uniforms now. Looks good on them."
+    headmaster.think "Well, I guess I should go to the classroom now."
 
     $ get_character_by_key("school").set_level(2)
     $ get_character_by_key("parent").set_level(2)
@@ -813,6 +827,7 @@ label first_sex_ed_day(**kwargs):
     $ end_event("new_daytime", **kwargs)
 
 label first_sex_ed_class_1 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ finola = Person["finola_ryan"].get_renpy_char()
@@ -822,7 +837,7 @@ label first_sex_ed_class_1 (**kwargs):
     $ image.show(0)
     headmaster "Good morning, today you will have your first class in sexual education."
     $ image.show(1)
-    headmaster_thought "Oh wow, even Finola has gotten more relaxed with her outfit. Not much, but it's a start."
+    headmaster.think "Oh wow, even Finola has gotten more relaxed with her outfit. Not much, but it's a start."
     $ image.show(2)
     headmaster "I know many of you are nervous or uncomfortable about this topic, but I assure you it is important."
     headmaster "For that reason I want to make sure to keep this topic as transparent as possible."

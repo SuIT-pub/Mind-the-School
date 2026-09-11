@@ -115,6 +115,7 @@ label gym_teach_pe_intro_aona_bra (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label gym_teach_pe_main_aona_bra (**kwargs): # Running
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ aona = Person["aona_komuro"].get_renpy_char()
@@ -190,6 +191,7 @@ label gym_teach_pe_main_aona_bra (**kwargs): # Running
     $ end_event('new_daytime', **kwargs)
 
 label gym_teach_pe_main_aona_bra_2 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ aona = Person["aona_komuro"].get_renpy_char()
@@ -249,6 +251,8 @@ label gym_teach_pe_main_aona_bra_2 (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label aona_sports_bra_event_1 (**kwargs):
+    $ headmaster = Person["headmaster"]
+    $ emiko = Person["emiko_langley"]
     $ begin_event(**kwargs)
 
     $ inhibition = get_stat_value('inhibition', [90, 95, 100], **kwargs)
@@ -264,20 +268,20 @@ label aona_sports_bra_event_1 (**kwargs):
     $ image.show(1)
     headmaster "Come in!"
     $ image.show(2)
-    secretary "Excuse me Mr. [headmaster_last_name], Ms. Komuro is here to see you."
+    emiko "Excuse me Mr. [headmaster_last_name], Ms. Komuro is here to see you."
     $ image.show(3)
     headmaster "Ah yes, thank you! I'll come out!"
     call Image_Series.show_image(image, 4, 5) from image_aona_sports_bra_event_1_1
     headmaster "Ms. Langley, I'll be out with Ms. Komuro for a few hours."
     $ image.show(6)
-    secretary "Okay, can I ask what you have planned?"
+    emiko "Okay, can I ask what you have planned?"
     $ image.show(7)
     headmaster "Ms. Komuro unfortunately is missing a sports bra and I'm going to take her get one in the next city."
     $ image.show(8)
     headmaster "She struggles a bit during sports lessons and I want to help her out."
     # secretary looks up and down on Aona
     $ image.show(9)
-    secretary "Oh yeah, I see what you mean. She is quite big."
+    emiko "Oh yeah, I see what you mean. She is quite big."
     # Aona blushes
     $ image.show(10)
     headmaster "Yes, she is. I'll be back in a few hours."
@@ -336,6 +340,7 @@ label aona_sports_bra_event_1 (**kwargs):
         MenuElement("Peek into the changing room", "Peek into the changing room", EventEffect("aona_sports_bra_event_1.peek_1")),
     **kwargs)
 label .bra_for_self (**kwargs):
+    $ headmaster = Person["headmaster"]
 
     $ image.show(35)
     headmaster "Hmm, what kind of bras do they have here?"
@@ -345,14 +350,15 @@ label .bra_for_self (**kwargs):
 
     call .wait_1 (**kwargs) from _call_aona_sports_bra_event_1_wait_1
 label .peek_1 (**kwargs):
+    $ headmaster = Person["headmaster"]
 
     $ image.show(37)
-    headmaster_thought "Maybe I can sneak a look."
+    headmaster.think "Maybe I can sneak a look."
     # looks from neighbouring cabin in from top
     call Image_Series.show_image(image, 37, 38, 39, 40, 41, 42, 43, 44) from image_aona_sports_bra_event_1_5
-    headmaster_thought "Nice."
+    headmaster.think "Nice."
     call Image_Series.show_image(image, 45, 46, 47, 48, 49, 50, 51) from image_aona_sports_bra_event_1_6
-    headmaster_thought "Better get back now..."
+    headmaster.think "Better get back now..."
     
     call .wait_1 (**kwargs) from _call_aona_sports_bra_event_1_wait_1_1
 label .wait_1 (**kwargs):
@@ -367,6 +373,7 @@ label .wait_1 (**kwargs):
         MenuElement("Ask to try on your pick", "Ask to try on your pick", EventEffect("aona_sports_bra_event_1.try_alt_bra"), bra),
     **kwargs)
 label .try_alt_bra (**kwargs):
+    $ headmaster = Person["headmaster"]
 
     $ image.show(55)
     headmaster "I found this one, I think that would be a good choice."
@@ -377,15 +384,17 @@ label .try_alt_bra (**kwargs):
         MenuElement("Wait", "Wait", EventEffect("aona_sports_bra_event_1.wait_2")),
     **kwargs)
 label .peek_2 (**kwargs):
+    $ headmaster = Person["headmaster"]
     
     $ image.show(56)
-    headmaster_thought "I'll take a look."
+    headmaster.think "I'll take a look."
     # looks from neighbouring cabin in from top
     call Image_Series.show_image(image, 57, 58, 59, 60, 61, 62) from image_aona_sports_bra_event_1_8
-    headmaster_thought "Nice."
+    headmaster.think "Nice."
     
     call .wait_2 (**kwargs) from _call_aona_sports_bra_event_1_wait_2
 label .wait_2 (**kwargs):
+    $ headmaster = Person["headmaster"]
 
     $ image.show(63)
     aona "Uhm sir? I think this one is a bit too skimpy for me."
@@ -433,6 +442,7 @@ label .sneak_bra_true (**kwargs):
     $ kwargs["volunteered"] = False
     call .buy_bra (**kwargs) from _call_aona_sports_bra_event_1_buy_bra_1
 label .buy_bra (**kwargs):
+    $ headmaster = Person["headmaster"]
 
     $ image.show(73)
     headmaster "I'll quickly go pay for it."
@@ -489,11 +499,11 @@ label .buy_bra (**kwargs):
     $ image.show(90)
     headmaster "Good night, see you at the next P.E. lesson."
     $ image.show(92)
-    headmaster_thought "I hope that bra will help her out. She really needs it."
+    headmaster.think "I hope that bra will help her out. She really needs it."
     $ image.show(93)
-    headmaster_thought "But during that drive, it seems the girls are still missing some crucial information about their own bodies."
+    headmaster.think "But during that drive, it seems the girls are still missing some crucial information about their own bodies."
     call Image_Series.show_image(image, 94, 95) from image_aona_sports_bra_event_1_10
-    headmaster_thought "I mean how conservative have the teacher here been? That's just unacceptable."
+    headmaster.think "I mean how conservative have the teacher here been? That's just unacceptable."
 
     $ bra = 0
 

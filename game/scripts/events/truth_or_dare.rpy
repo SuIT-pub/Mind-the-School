@@ -69,6 +69,7 @@ init 1 python:
 
 # Courtyard: Patrol - Night
 label truth_or_dare_1 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -76,12 +77,12 @@ label truth_or_dare_1 (**kwargs):
     # headmaster walks over Courtyard
     # headmaster sees girl running in the distance with no top on
     call Image_Series.show_image(image, 0, 1, 2) from _call_show_image_truth_or_dare_1_event_1
-    headmaster_thought "Uhm..."
+    headmaster.think "Uhm..."
 
     # girl continues running and then leaves
     $ image.show(3)
-    headmaster_thought "Mhh, the dorms should be over there..."
-    headmaster_thought "I wonder what that was all about..."
+    headmaster.think "Mhh, the dorms should be over there..."
+    headmaster.think "I wonder what that was all about..."
 
     call change_stats_with_modifier(
         inhibition = DEC_SMALL, corruption = TINY) from _call_change_stats_truth_or_dare_1_1
@@ -160,6 +161,7 @@ label truth_or_dare_3 (**kwargs):
 
 # School Dorm: Peek - Night
 label truth_or_dare_4 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("base", **kwargs)
@@ -167,21 +169,22 @@ label truth_or_dare_4 (**kwargs):
     $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
 
     $ image.show(0)
-    headmaster_thought "Now let's see what they're up to..."
+    headmaster.think "Now let's see what they're up to..."
 
     $ image.show(1)
     ishimaru "Okay, let's start! Pull a card."
 
-    headmaster_thought "Phew, came just in time."
+    headmaster.think "Phew, came just in time."
 
     call composite_event_runner(**kwargs) from _call_composite_truth_or_dare_4_1
 
 label truth_or_dare_end (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ show_pattern("main", **kwargs)
-    headmaster_thought "Very interesting..."
-    headmaster_thought "I should leave now, before they notice me."
+    headmaster.think "Very interesting..."
+    headmaster.think "I should leave now, before they notice me."
     $ end_event("new_daytime", **kwargs)
 
 #####################
@@ -326,6 +329,7 @@ label truth_or_dare_truth_4 (**kwargs):
 
 # ikushi1 lin2 miwa3 ishimaru4
 label truth_or_dare_truth_5 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ ikushi = Person["ikushi_ito"].get_renpy_char()
@@ -343,13 +347,13 @@ label truth_or_dare_truth_5 (**kwargs):
     $ image.show(1)
     lin "Whaaat?!" 
     $ image.show(2)
-    headmaster_thought "Whaaat?!"
+    headmaster.think "Whaaat?!"
     $ image.show(3)
     miwa "No way!" 
     $ image.show(4)
     ishimaru "The headmaster?!" 
     $ image.show(2)
-    headmaster_thought "Me?!"
+    headmaster.think "Me?!"
     $ image.show(5)
     ikushi "Yeah! Have you ever seen him without his clothes on?" 
     $ image.show(1)

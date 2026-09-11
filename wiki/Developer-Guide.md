@@ -144,6 +144,9 @@ The building blocks the content systems are made of:
   works; the engine behind stat/bar modifier effects.
 - **[Options](Options)** — the shared trailing flags that fine-tune conditions,
   effects, selectors and events.
+- **[Dialogue](Dialogue)** — how a `Person` becomes a speaking voice: speech modes
+  (`say`/`think`/`whisper`/`shout`), the per-role styling categories, per-character
+  `styleOverrides`, and the player-named Headmaster / Emiko.
 - **[Paperdoll](Paperdoll)** — the layered sprite compositor that puts a live,
   animatable character (body + head, changing pose/mood/mouth) on screen over a
   blurred background; general enough to display any stacked imagery.

@@ -207,6 +207,7 @@ label .after_computer_shopping_screen(**kwargs):
 # region Work Events #
 
 label work_office_reputation_event_1 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -215,15 +216,16 @@ label work_office_reputation_event_1 (**kwargs):
     subtitles "You decided to to some PR work, trying to improve the schools and your reputation."
     call screen black_screen_text("1h later.")
     $ image.show(1)
-    headmaster_thought "I think I found a way to make the school more appealing to the public."
+    headmaster.think "I think I found a way to make the school more appealing to the public."
     $ image.show(2)
-    headmaster_thought "I hope this will help to improve the reputation of the school."
+    headmaster.think "I hope this will help to improve the reputation of the school."
 
     call change_stats_with_modifier(reputation = SMALL) from _call_change_stats_with_modifier_38
 
     $ end_event('new_daytime', **kwargs)
 
 label work_office_money_event_1 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -233,17 +235,18 @@ label work_office_money_event_1 (**kwargs):
     call screen black_screen_text("1h later.")
     # headmaster is consumed by the terrible accounting done in the past
     $ image.show(1)
-    headmaster_thought "How can this be? This is a mess!"
-    headmaster_thought "I need to get this sorted out."
-    headmaster_thought "There is so much wrong with these accounts. It's gonna take ages to fix this."
+    headmaster.think "How can this be? This is a mess!"
+    headmaster.think "I need to get this sorted out."
+    headmaster.think "There is so much wrong with these accounts. It's gonna take ages to fix this."
     $ image.show(2)
-    headmaster_thought "At least I was able to find some money that was lost in the system."
+    headmaster.think "At least I was able to find some money that was lost in the system."
 
     call change_money_with_modifier(get_random_int(100, 500)) from _call_change_money_with_modifier
 
     $ end_event('new_daytime', **kwargs)
 
 label work_office_education_event_1 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -252,7 +255,7 @@ label work_office_education_event_1 (**kwargs):
     subtitles "You work on optimizing the teaching material for the students."
     call screen black_screen_text("1h later.")
     $ image.show(1)
-    headmaster_thought "I think I found a way to make the material more interesting for the students."
+    headmaster.think "I think I found a way to make the material more interesting for the students."
 
     call change_stats_with_modifier(
         education = SMALL, happiness = TINY) from _call_change_stats_with_modifier_39
@@ -292,6 +295,8 @@ label learn_office_event_1 (**kwargs):
     $ end_event('new_day', **kwargs)
 
 label work_office_session_event_1(**kwargs):
+    $ headmaster = Person["headmaster"]
+    $ emiko = Person["emiko_langley"]
     $ begin_event(**kwargs)
 
     $ girl_name = get_value('girl_name', **kwargs)
@@ -299,7 +304,7 @@ label work_office_session_event_1(**kwargs):
     $ get_level('secretary_level', **kwargs)
 
     $ girl_person = get_person("class_3a", girl_name)
-    $ girl = girl_person.get_character()
+    $ girl = girl_person.get_renpy_char()
 
     $ girl_first_name = girl_person.get_first_name()
     $ girl_last_name = girl_person.get_last_name()
@@ -311,7 +316,7 @@ label work_office_session_event_1(**kwargs):
     $ image.show(1)
     headmaster "Yes?"
     $ image.show(2)
-    secretary "[headmaster_first_name], Ms. [girl_last_name] is here for here counselling session."
+    emiko "[headmaster_first_name], Ms. [girl_last_name] is here for here counselling session."
     $ image.show(3)
     headmaster "Thank you. Please let her in."
     $ image.show(4)
@@ -363,6 +368,8 @@ image anim_office_event_first_naughty_0_73 = Movie(play = anim_oefn_path + "73.w
 image anim_office_event_first_naughty_0_74 = Movie(play = anim_oefn_path + "74.webm", start_image = anim_oefn_path + "74.webp", image = anim_oefn_path + "74.webp")
 image anim_office_event_first_naughty_0_75 = Movie(play = anim_oefn_path + "75.webm", start_image = anim_oefn_path + "75.webp", image = anim_oefn_path + "75.webp")
 label work_office_session_event_first_naughty (**kwargs):
+    $ headmaster = Person["headmaster"]
+    $ emiko = Person["emiko_langley"]
     $ begin_event(**kwargs)
 
     $ school_level = get_value('school_level', **kwargs)
@@ -375,37 +382,37 @@ label work_office_session_event_first_naughty (**kwargs):
     # secretary enters office
     call Image_Series.show_image(image, 0, 1, 2) from _call_work_office_session_event_first_naughty_1
     if time.check_daytime("3-"):
-        secretary "Good Morning [headmaster_first_name]."
+        emiko "Good Morning [headmaster_first_name]."
     else:
-        secretary "Hello [headmaster_first_name]."
+        emiko "Hello [headmaster_first_name]."
 
-    secretary "I just wanted to remind you that you have a meeting with Yuriko Oshima in 30 minutes."
+    emiko "I just wanted to remind you that you have a meeting with Yuriko Oshima in 30 minutes."
     $ image.show(3)
     headmaster "Oh, thank you for reminding me. I almost forgot. She asked for a counseling session, right?"
     $ image.show(4)
-    secretary "Yes, she did."
+    emiko "Yes, she did."
     $ image.show(5)
     headmaster "Okay, I will prepare myself for that."
     $ image.show(6)
     headmaster "..."
     $ image.show(7)
-    secretary "..."
+    emiko "..."
     $ image.show(8)
     headmaster "Is there anything else?"
     $ image.show(9)
-    secretary "You know... I really liked our time we had together last time."
+    emiko "You know... I really liked our time we had together last time."
     $ image.show(10)
     headmaster "What do you mean? Oh, you mean..."
     $ image.show(11)
-    secretary "Yes, the fun we had with the potion. I really enjoyed it."
+    emiko "Yes, the fun we had with the potion. I really enjoyed it."
     $ image.show(12)
-    secretary "So I thought we could... you know... there is still some time until the meeting."
+    emiko "So I thought we could... you know... there is still some time until the meeting."
     $ image.show(13)
-    secretary "So maybe I could help you 'relax' a bit before that."
+    emiko "So maybe I could help you 'relax' a bit before that."
     $ image.show(14)
     headmaster "I see. I would very much like that."
     $ image.show(15)
-    secretary "Then please lean back and let me take care of you."
+    emiko "Then please lean back and let me take care of you."
     
     $ image.show_video(16, True)
 
@@ -421,7 +428,7 @@ label work_office_session_event_first_naughty (**kwargs):
     $ image.show(23)
     yuriko "Excuse me? Mr. [headmaster_last_name]?"
     $ image.show(24)
-    headmaster_whisper "Shit! Quick under the desk!"
+    headmaster.whisper "Shit! Quick under the desk!"
     call Image_Series.show_image(image, 25, 26) from _call_work_office_session_event_first_naughty_2
     headmaster "Yes come in."
     call Image_Series.show_image(image, 27, 28, 29) from _call_work_office_session_event_first_naughty_3
@@ -518,10 +525,10 @@ label work_office_session_event_first_naughty (**kwargs):
     # Yuriko leaves
     # emiko comes out from under the desk
     call Image_Series.show_image(image, 59, 60) from _call_work_office_session_event_first_naughty_7
-    secretary "That was close."
+    emiko "That was close."
     $ image.show(61)
     headmaster "Now I've got enough!"
-    secretary "What?"
+    emiko "What?"
     call Image_Series.show_image(image, 62, 63, pause = True) from _call_work_office_session_event_first_naughty_8
     
     
@@ -529,46 +536,46 @@ label work_office_session_event_first_naughty (**kwargs):
     pause 1.0
 
     $ image.show_video(65)
-    secretary "Oh yes! Yes! Yes!"
+    emiko "Oh yes! Yes! Yes!"
     headmaster "What were you thinking doing that with Yuriko sitting just in front of me!"
-    secretary "I'm sorry! *moan* I couldn't resist!"
+    emiko "I'm sorry! *moan* I couldn't resist!"
     $ image.show_video(66)
     headmaster "You will be punished for that!"
-    secretary "Yes, I deserve it!... But it was so hot! *moan*"
+    emiko "Yes, I deserve it!... But it was so hot! *moan*"
     headmaster "I see that, you're as wet as a river!"
     $ image.show_video(67)
     headmaster "I will make sure you will never forget this!"
     headmaster "Take this!"
     $ image.show_video(68)
-    secretary "OH MY GOD! YES! YES! YES!" (interact = False)
+    emiko "OH MY GOD! YES! YES! YES!" (interact = False)
     pause 3.0
     $ image.show_video(69)
     # headmaster cums
-    secretary "Oh my god! That was amazing!"
+    emiko "Oh my god! That was amazing!"
     $ image.show(70)
     headmaster "We're not finished!"
-    secretary "Huh?"
+    emiko "Huh?"
     headmaster "Remember, this is your punishment."
     $ image.show(71)
     headmaster "Now get on your knees and open your mouth!"
     # headmaster deepthroats her
     $ image.show_video(72)
-    secretary "Hmmpf! *gag* *gag* *gag*"
+    emiko "Hmmpf! *gag* *gag* *gag*"
     headmaster "That's what you get for almost exposing us!"
     $ image.show_video(73)
-    secretary "I'm sorry! *gag* *gag* *gag*"
+    emiko "I'm sorry! *gag* *gag* *gag*"
     # headmaster cums in her throat
     $ image.show_video(74)
     pause 5.3
     $ image.show_video(75)
-    secretary "*cough* *cough* *cough*"
+    emiko "*cough* *cough* *cough*"
     $ image.show(76)
     headmaster "Now clean yourself up and get back to work!"
     $ image.show(77)
-    secretary "Yes, Master."
+    emiko "Yes, Master."
     # secretary collecting her stuff
     $ image.show(78)
-    headmaster_thought "Master? Maybe I overdid it a bit."
+    headmaster.think "Master? Maybe I overdid it a bit."
     call Image_Series.show_image(image, 79, 80, 81, 82, 83, 84, 85, 86, 87, pause = True) from _call_work_office_session_event_first_naughty_9
     # shot of yuriko standing in front of the door blushed and then running away
     # emiko leaves the office quite happy and finds yurikos scarf on the floor
@@ -708,6 +715,8 @@ image anim_osn_floor_cowgirl_nude_0_cum_idle = Movie(play = anim_osn_path + "flo
 image anim_osn_floor_cowgirl_nude_1 =          Movie(play = anim_osn_path + "floor_cowgirl_nude_1.webm",          start_image =  anim_osn_path + "floor_cowgirl_nude_1.webp",          image =  anim_osn_path + "floor_cowgirl_nude_1.webp",          group = "office_secretary_naughty")
 image anim_osn_floor_cowgirl_nude_2 =          Movie(play = anim_osn_path + "floor_cowgirl_nude_2.webm",          start_image =  anim_osn_path + "floor_cowgirl_nude_2.webp",          image =  anim_osn_path + "floor_cowgirl_nude_2.webp",          group = "office_secretary_naughty")
 label office_call_secretary_naughty_sandbox (**kwargs):
+    $ headmaster = Person["headmaster"]
+    $ emiko = Person["emiko_langley"]
     $ begin_event(**kwargs)
 
     $ level = get_level('secretary', **kwargs)
@@ -717,11 +726,11 @@ label office_call_secretary_naughty_sandbox (**kwargs):
     $ image.show(0)
     subtitles "You call the secretary."
     $ image.show(1)
-    secretary "Yes, [headmaster_first_name]? How can I help you?"
+    emiko "Yes, [headmaster_first_name]? How can I help you?"
     $ image.show(2)
     headmaster "Interested in a little fun?"
     $ image.show(3)
-    secretary "I'm always up for some fun."
+    emiko "I'm always up for some fun."
     
     $ naughty_map = {
         'desk': {
@@ -820,6 +829,7 @@ label .ignore (**kwargs):
 
     $ end_event('new_daytime', **kwargs)
 label .talk (**kwargs):
+    $ headmaster = Person["headmaster"]
     
     $ begin_event(**kwargs)
     
@@ -837,6 +847,7 @@ label .talk (**kwargs):
         MenuElement("Take care of it for them", "Take care of it for them", EventEffect("office_event_3.care")),
     **kwargs)
 label .policy (**kwargs):
+    $ headmaster = Person["headmaster"]
     
     $ begin_event(**kwargs)
     
@@ -858,6 +869,7 @@ label .policy (**kwargs):
 
     $ end_event('new_daytime', **kwargs)
 label .care (**kwargs):
+    $ headmaster = Person["headmaster"]
     
     $ begin_event(**kwargs)
     
@@ -886,6 +898,8 @@ label .care (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label office_event_4 (**kwargs):
+    $ headmaster = Person["headmaster"]
+    $ emiko = Person["emiko_langley"]
     $ begin_event(**kwargs);
 
     $ image = convert_pattern("main", **kwargs)
@@ -894,18 +908,18 @@ label office_event_4 (**kwargs):
     #headmaster wakes up with great view of Emiko's underboobs.
     
     call Image_Series.show_image(image, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9) from _call_show_image_office_event_4_1
-    secretary "Ah, [headmaster_first_name]! You're awake!"
+    emiko "Ah, [headmaster_first_name]! You're awake!"
     $ image.show(10)
     headmaster "What? Oh, yes. Why am I here?"
     $ image.show(11)
-    secretary "I found you sleeping here. You should take a break."
+    emiko "I found you sleeping here. You should take a break."
     $ image.show(10)
     headmaster "I'm fine, really."
     $ image.show(11)
-    secretary "No, you look exhausted. You need to rest."
+    emiko "No, you look exhausted. You need to rest."
     headmaster "..."
     $ image.show(10)
-    secretary "Just keep your eyes closed for a while. I'll be here."
+    emiko "Just keep your eyes closed for a while. I'll be here."
     call Image_Series.show_image(image, 8, 7, 6, 5, 12) from _call_show_image_office_event_4_2
     # headmaster dozes off again
 

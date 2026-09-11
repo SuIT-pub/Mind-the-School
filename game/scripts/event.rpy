@@ -1805,26 +1805,12 @@ init -3 python:
             return any(e.has_available_highlight_events() for e in self.event_list.values())
         
         def call(self, **kwargs):
-            
-            if "values" not in kwargs.keys():
-                kwargs["values"] = {}
-
-            if self.values != None:
-                kwargs.update(self.values.get_values())
-                self.values.roll_values()
-
-            renpy.call(
-                "call_event", 
-                self.get_event_label(), 
-                self.select_type, 
-                self.get_event_label(), 
-                from_current="event_select_call_1",
-                select_text = self.text,
-                select_event_list = self.event_list, 
-                select_override_menu_exit = self.override_menu_exit,
-                select_fallback = self.fallback,
-                select_person = self.person,
-            **kwargs)
+            kwargs["select_text"] = self.text
+            kwargs["select_event_list"] = self.event_list
+            kwargs["select_override_menu_exit"] = self.override_menu_exit
+            kwargs["select_fallback"] = self.fallback
+            kwargs["select_person"] = self.person
+            super().call(**kwargs)
 
     class EventFragment(Event):
         def __init__(self, select_type: int, event: str, *conditions: Condition | Selector | Option, thumbnail: str = ""):
@@ -2137,9 +2123,6 @@ label call_available_event(event_storage, priority = 0, no_fallback = False, **k
     while(len(events_list) > i):
         $ continue_loop = False
         $ event_obj = events_list[i]
-        $ events = event_obj.get_event_label()
-        if "event_type" not in kwargs.keys():
-            $ kwargs["event_type"] = event_obj.event_type
 
         if event_storage.get_type() == "TempEventStorage":
             $ event_storage.remove_event(event_obj.get_id())
@@ -2150,19 +2133,9 @@ label call_available_event(event_storage, priority = 0, no_fallback = False, **k
                 $ temp_event_blocker.append(event_obj.get_id())
 
         if not continue_loop or event_obj.get_id() == event_storage.get_fallback().get_id():
-            $ kwargs["event_name"] = event_obj.get_event()
-            $ kwargs["in_event"] = True
-            $ kwargs["event_obj"] = event_obj
-            $ kwargs['image_patterns'] = event_obj.patterns
-
-            if "values" not in kwargs.keys():
-                $ kwargs["values"] = {}
-
-            if event_obj.values != None:
-                $ kwargs["values"].update(event_obj.values.get_values())
-                $ event_obj.values.roll_values()
-
-            $ renpy.call(events, **kwargs)
+            # Dispatch through Event.call() so subclasses (EventSelect) can inject
+            # their extra kwargs. Calling get_event_label() here skipped that.
+            $ event_obj.call(**kwargs)
         $ i += 1
 
     return
@@ -2253,7 +2226,9 @@ label select_event_runner(**kwargs):
     $ fallback = get_kwargs('select_fallback', default_fallback, **kwargs)
     $ person = get_kwargs('select_person', character.subtitles, **kwargs)
 
-    if len(event_list) != 0:
+    if event_list is None:
+        $ log("Select Event: No event list available!", log_type="error", category="event")
+    elif len(event_list) != 0:
         call call_event_menu (
             text, 
             event_list,

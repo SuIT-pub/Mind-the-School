@@ -132,6 +132,7 @@ label .after_general_check (**kwargs):
 # region Regular Events #
 
 label sd_event_1 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ school_level = get_value('school_level', **kwargs)
@@ -171,6 +172,7 @@ label sd_event_1 (**kwargs):
         $ end_event(**kwargs)
 
 label sd_event_2 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ school_level = get_value('school_level', **kwargs)
@@ -289,6 +291,7 @@ label sd_event_2 (**kwargs):
     $ end_event(**kwargs)
 
 label sd_event_3 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ school_level = get_value('school_level', **kwargs)
@@ -316,12 +319,13 @@ label sd_event_3 (**kwargs):
     $ end_event(**kwargs)
 
 label sd_event_4 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
 
     call Image_Series.show_image(image, 0, 1, 2, 3, 4) from _call_sd_event_4_1
-    headmaster_thought "That was strange..."
+    headmaster.think "That was strange..."
 
     call change_stats_with_modifier(
         corruption = SMALL
@@ -361,6 +365,7 @@ image anim_sd_event_5_10_10 = Movie(play = anim_sde5_path + "10 10.webm", start_
 image anim_sd_event_5_10_11 = Movie(play = anim_sde5_path + "10 11.webm", start_image = anim_sde5_path + "10 11.webp")
 image anim_sd_event_5_10_12 = Movie(play = anim_sde5_path + "10 12.webm", start_image = anim_sde5_path + "10 12.webp", loop = True)
 label sd_event_5 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ luna = Person["luna_clark"].get_renpy_char()
@@ -372,9 +377,9 @@ label sd_event_5 (**kwargs):
     $ image.show(0)
     subtitles "You peek into a room."
     $ image.show(1)
-    headmaster_thought "Oh the siblings are changing."
+    headmaster.think "Oh the siblings are changing."
     $ image.show(2)
-    headmaster_thought "But nice view!"
+    headmaster.think "But nice view!"
 
     $ call_custom_menu_with_text("Continue watching?", character.subtitles, False,
         MenuElement("Leave", "Leave", EventEffect("sd_event_5.leave")),
@@ -382,9 +387,10 @@ label sd_event_5 (**kwargs):
     **kwargs)
 
 label .leave (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
-    headmaster_thought "Well better head off. Wouldn't want to get caught."
+    headmaster.think "Well better head off. Wouldn't want to get caught."
 
     call change_stats_with_modifier(
         inhibition = DEC_TINY
@@ -393,6 +399,7 @@ label .leave (**kwargs):
     $ end_event("new_daytime", **kwargs)
 
 label .stay (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     if school_level >= 8:

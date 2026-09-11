@@ -547,7 +547,7 @@ init python:
 
     def get_person_char(key: str, alt: Any = None, **kwargs) -> Character:
         char_person = get_person_value(key, alt, **kwargs)
-        return char_person.get_character()
+        return char_person.get_renpy_char()
 
     def get_value_ng(key: str, alt: Any = None, **kwargs) -> Any:
         """

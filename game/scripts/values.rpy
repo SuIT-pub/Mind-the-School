@@ -221,8 +221,18 @@ init -99:
         # what_outlines = [( 1, "#000000", 0, 0 )],
         retain = False,
     )
+    # Static fallback so a bare `emiko "..."` say line never crashes if a code path
+    # speaks as her without first binding `$ emiko = Person["emiko_langley"]`. Mirrors
+    # how `character.headmaster` backs an unbound `headmaster`. Same styling as secretary.
+    define character.emiko = Character(
+        "Emiko Langley",
+        who_color = "#c71585",
+        what_color = "#ffffff",
+        what_size = 28,
+        retain = False,
+    )
     define character.teacher = Character(
-        "Teacher", 
+        "Teacher",
         #window_background = None,
         who_color = "#00ced1",
         what_color = "#ffffff",

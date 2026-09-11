@@ -371,6 +371,24 @@ _Parents_
 </details>
 
 <details>
+<summary>Dialogue</summary>
+
+- [Dialogue](Dialogue)
+- [Char vs. Person](Dialogue#1-char-vs-person)
+- [Speaking as a fixed character](Dialogue#2-speaking-as-a-fixed-character)
+- [Speaking as a selected character](Dialogue#3-speaking-as-a-selected-character)
+- [The Headmaster & Emiko](Dialogue#4-the-headmaster--emiko)
+- [Styling categories (the kind)](Dialogue#5-styling-categories-the-kind)
+- [Per-character overrides (styleOverrides)](Dialogue#6-per-character-overrides-styleoverrides)
+- [Names](Dialogue#7-names)
+- [Registering a person](Dialogue#8-registering-a-person)
+- [Conventions](Dialogue#9-conventions)
+- [Troubleshooting](Dialogue#10-troubleshooting)
+- [Reference tables](Dialogue#11-reference-tables)
+
+</details>
+
+<details>
 <summary>Journal Alerts</summary>
 
 - [Journal Alerts](Journal-Alerts)

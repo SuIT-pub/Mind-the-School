@@ -170,6 +170,7 @@ label .after_general_check (**kwargs):
 #################################
 
 label cafeteria_construction(**kwargs):
+    $ headmaster = Person["headmaster"]
     show screen black_screen_text("cafeteria_construction")
 
     if not contains_game_data("cafeteria_construction_end"):
@@ -203,6 +204,7 @@ label cafeteria_construction(**kwargs):
 # region Regular Events #
 
 label cafeteria_event_1(**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ topic = get_value("topic", **kwargs)
@@ -232,6 +234,7 @@ label cafeteria_event_1(**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label cafeteria_event_2(**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event("2", **kwargs)
 
     $ char_class = get_value('char_class', **kwargs)
@@ -247,9 +250,9 @@ label cafeteria_event_2(**kwargs):
     # headmaster walks into the cafeteria pantry where someone is changing clothes
     $ image.show(0)
     if time_ob == 1:
-        headmaster_thought "It seems [girl_first_name] is getting ready for work."
+        headmaster.think "It seems [girl_first_name] is getting ready for work."
     else:
-        headmaster_thought "Ah, [girl_first_name] is finishing up her work."
+        headmaster.think "Ah, [girl_first_name] is finishing up her work."
 
     $ image.show(1)
     headmaster "I'm sorry, I didn't mean to disturb you."
@@ -262,6 +265,7 @@ label cafeteria_event_2(**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label cafeteria_event_3(**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ get_value('parent_level', **kwargs)
@@ -455,6 +459,7 @@ label cafeteria_event_3(**kwargs):
         $ end_event('new_daytime', **kwargs)
 
 label cafeteria_event_4(**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ parent_level = get_value('parent_level', **kwargs)
@@ -467,9 +472,9 @@ label cafeteria_event_4(**kwargs):
     
     $ show_pattern("main", **kwargs)
 
-    headmaster_thought "It seems Adelaide is already putting the girls to work."
+    headmaster.think "It seems Adelaide is already putting the girls to work."
     if amount == "2 Girls" or amount == "3 Girls":
-        headmaster_thought "I'm glad that so many girls are ready to help her."
+        headmaster.think "I'm glad that so many girls are ready to help her."
 
     call change_stats_with_modifier(
         happiness = SMALL, charm = MEDIUM, education = TINY) from _call_change_stats_with_modifier_6
@@ -480,6 +485,7 @@ label cafeteria_event_4(**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label cafeteria_event_5(**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event("2", **kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -491,7 +497,7 @@ label cafeteria_event_5(**kwargs):
     # Headmaster looks around
     call empty_label from _call_Image_Series_show_image_2
     $ image.show(1)
-    headmaster_thought "It seems like the students are enjoying their lunch break."
+    headmaster.think "It seems like the students are enjoying their lunch break."
 
     call change_stats_with_modifier(
         happiness = SMALL, charm = MEDIUM) from _call_cafeteria_event_5_1
@@ -514,6 +520,7 @@ label cafeteria_event_6(**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label cafeteria_event_7(**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)

@@ -213,6 +213,7 @@ init 1 python:
     ########################
 
 label first_class_sb_event (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ school_class = get_value('class', **kwargs)
@@ -295,6 +296,7 @@ label first_class_sb_event (**kwargs):
 # region SEX EDUCATION #
 
 label sb_teach_sex_ed (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ get_value('school_level', **kwargs)
@@ -310,6 +312,7 @@ label sb_teach_sex_ed (**kwargs):
 # region INTRO #
 
 label sb_teach_sex_ed_intro_anatomy (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ show_pattern("main", **kwargs)
@@ -318,6 +321,7 @@ label sb_teach_sex_ed_intro_anatomy (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label sb_teach_sex_ed_intro_sex_curiosity (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ show_pattern("main", **kwargs)
@@ -332,6 +336,7 @@ label sb_teach_sex_ed_intro_sex_curiosity (**kwargs):
 # region MAIN #
 
 label sb_teach_sex_ed_main_anatomy_1 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ gloria = Person["gloria_goto"].get_renpy_char()
@@ -369,6 +374,7 @@ label sb_teach_sex_ed_main_anatomy_1 (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label sb_teach_sex_ed_main_sex_curiosity_1 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ aona = Person["aona_komuro"].get_renpy_char()
@@ -403,6 +409,7 @@ label sb_teach_sex_ed_main_sex_curiosity_1 (**kwargs):
 # region Q&A #
 
 label sb_teach_sex_ed_qa_1 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ kokoro = Person["kokoro_nakamura"].get_renpy_char()
@@ -426,6 +433,7 @@ label sb_teach_sex_ed_qa_1 (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label sb_teach_sex_ed_qa_2 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ luna = Person["luna_clark"].get_renpy_char()
@@ -454,6 +462,7 @@ label sb_teach_sex_ed_qa_2 (**kwargs):
 # region HISTORY #
 
 label sb_teach_history (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     # headmaster enters room
@@ -467,6 +476,7 @@ label sb_teach_history (**kwargs):
 # region INTRO #
 
 label sb_teach_history_intro_f_revolution_1 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern('main', **kwargs)
@@ -497,6 +507,7 @@ label sb_teach_history_intro_f_revolution_1 (**kwargs):
 # region MAIN #
 
 label sb_teach_history_main_f_revolution_1 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ sakura = Person["sakura_mori"].get_renpy_char()
@@ -578,6 +589,7 @@ label sb_teach_history_main_f_revolution_1 (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label sb_teach_history_main_f_revolution_2 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -613,6 +625,7 @@ label sb_teach_history_main_f_revolution_2 (**kwargs):
 # region MATH #
 
 label sb_teach_math (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     # headmaster enters room
@@ -625,6 +638,7 @@ label sb_teach_math (**kwargs):
 # region INTRO #
 
 label sb_teach_math_ld_1 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -638,6 +652,7 @@ label sb_teach_math_ld_1 (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label sb_teach_math_ld_2 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ ld_girl_name = get_value('ld_girl_name', **kwargs)
@@ -719,6 +734,7 @@ label .help (**kwargs):
 # region MAIN #
 
 label sb_teach_math_main_1 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event("2", **kwargs)
 
     $ main_girl_name = get_value('main_girl_name', **kwargs)
@@ -739,7 +755,7 @@ label sb_teach_math_main_1 (**kwargs):
         
         # headmaster walks over
         $ image.show(3)
-        headmaster_shout "Good Morning Ms. [girl_last_name]! I hope you had a good nap!"
+        headmaster.shout "Good Morning Ms. [girl_last_name]! I hope you had a good nap!"
         
         $ image.show(4)
         girl "Eek! I'm sorry, I didn't mean to fall asleep."
@@ -831,6 +847,7 @@ label sb_teach_math_main_1 (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label sb_teach_math_main_2 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ seraphina = Person["seraphina_clark"].get_renpy_char()
@@ -861,7 +878,7 @@ label sb_teach_math_main_2 (**kwargs):
     seraphina "And then..."
 
     $ image.show(11)
-    headmaster "{i}(  Wow what a nice view down her shirt.  ){/i}" (name = '[headmaster_first_name] [headmaster_last_name] (thinking)')
+    headmaster.think "Wow what a nice view down her shirt."
 
     $ image.show(12)
     seraphina "Mr. [headmaster_last_name]?"
@@ -934,6 +951,7 @@ label gym_teach_pe_intro_2 (**kwargs):
 # region ENTRANCE #
 
 label gym_teach_pe_entrance_1 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event("2", **kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -986,6 +1004,7 @@ image anim_teaching_pe_warm_up_1_10_0 = Movie(play = anim_gtpewu1_path + "10 0.w
 image anim_teaching_pe_warm_up_1_10_1 = Movie(play = anim_gtpewu1_path + "10 1.webm", start_image = anim_gtpewu1_path + "10 1.webp", loop = True)
 image anim_teaching_pe_warm_up_1_10_2 = Movie(play = anim_gtpewu1_path + "10 2.webm", start_image = anim_gtpewu1_path + "10 2.webp", loop = True)
 label gym_teach_pe_warm_up_1 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event("2", **kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -1008,6 +1027,7 @@ label gym_teach_pe_warm_up_1 (**kwargs):
 # region MAIN #
 
 label gym_teach_pe_main_1 (**kwargs): # Football
+    $ headmaster = Person["headmaster"]
     $ begin_event("2", **kwargs)
 
     $ sakura = Person["sakura_mori"].get_renpy_char()
@@ -1045,6 +1065,7 @@ label gym_teach_pe_main_1 (**kwargs): # Football
     $ end_event('new_daytime', **kwargs)
 
 label gym_teach_pe_main_2 (**kwargs): # Yoga
+    $ headmaster = Person["headmaster"]
     $ begin_event("2", **kwargs)
 
     $ image = Image_Series("/images/events/gym/gym_teach_pe_main_2 <school_level> <step>.webp", **kwargs)

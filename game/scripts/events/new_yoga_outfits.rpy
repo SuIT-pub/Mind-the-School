@@ -102,6 +102,7 @@ init 1 python:
 
 # PTA: during discussion phase
 label new_yoga_outfit_1 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ zoe = Person["zoe_parker"].get_renpy_char()
@@ -120,6 +121,7 @@ label new_yoga_outfit_1 (**kwargs):
 
 # Gym: Check P.E.
 label new_yoga_outfit_2 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ zoe = Person["zoe_parker"].get_renpy_char()
@@ -139,7 +141,7 @@ label new_yoga_outfit_2 (**kwargs):
     zoe "Like this. This Pose is great for your posture and it helps you to relax. So we'll use it as a warmup."
     
     call Image_Series.show_image(image, 5, 6, 7) from _call_show_image_new_yoga_outfit_2_event_1
-    headmaster_thought "Hmm Zoe seems to be quite knowledgeable about yoga. I wonder if she practices it herself."
+    headmaster.think "Hmm Zoe seems to be quite knowledgeable about yoga. I wonder if she practices it herself."
 
     $ set_progress("yoga_classes", 2) # 1 -> 2
 
@@ -151,6 +153,7 @@ label new_yoga_outfit_2 (**kwargs):
 
 # Gym: Check P.E.
 label new_yoga_outfit_3 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ zoe = Person["zoe_parker"].get_renpy_char()
@@ -197,7 +200,7 @@ label new_yoga_outfit_3 (**kwargs):
     $ image.show(11)
     zoe "And I think new outfits would give them more movement and flexibility."
     $ image.show(12)
-    headmaster_thought "I guess the girls would also look more sexy in them. That could help me with my plans."
+    headmaster.think "I guess the girls would also look more sexy in them. That could help me with my plans."
     $ image.show(13)
     headmaster "Alright, I'll look into it. I'll see what I can find."
     $ image.show(14)
@@ -226,6 +229,7 @@ label new_yoga_outfit_3 (**kwargs):
 
 # School Building: Check Classes
 label new_yoga_outfit_4 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ seraphina = Person["seraphina_clark"].get_renpy_char()
@@ -265,6 +269,8 @@ label new_yoga_outfit_4 (**kwargs):
 
 # Office Building: Evening
 label new_yoga_outfit_5 (**kwargs):
+    $ headmaster = Person["headmaster"]
+    $ emiko = Person["emiko_langley"]
     $ begin_event(**kwargs)
 
     $ seraphina = Person["seraphina_clark"].get_renpy_char()
@@ -274,11 +280,11 @@ label new_yoga_outfit_5 (**kwargs):
     $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
-    secretary "Mr. [headmaster_last_name], the students you requested are here."
+    emiko "Mr. [headmaster_last_name], the students you requested are here."
     $ image.show(1)
     headmaster "Thank you. Send them in."
     $ image.show(0)
-    secretary "Yes, sir."
+    emiko "Yes, sir."
 
     $ image.show(3)
     headmaster "Welcome! Thank you for coming."
@@ -296,32 +302,32 @@ label new_yoga_outfit_5 (**kwargs):
     # headmaster leaves
 
     $ image.show(6)
-    secretary "Mhh, [headmaster_first_name]. How do you feel about three sweet students changing in your office?"
+    emiko "Mhh, [headmaster_first_name]. How do you feel about three sweet students changing in your office?"
     $ image.show(7)
     headmaster "I'm a professional, Emiko. I can handle it. But I'm also quite intrigued."
     $ image.show(8)
-    secretary "Do you want to see?"
+    emiko "Do you want to see?"
     $ image.show(7)
     headmaster "See what?"
     $ image.show(8)
-    secretary "The camera feed."
+    emiko "The camera feed."
     $ image.show(9)
     headmaster "The what? Why do you have cameras in my office?"
     $ image.show(10)
-    secretary "Well I thought it would be nice to have some souvenirs, in case something interesting happens in there."
-    secretary "I wanted to surprise you once it happened, but I guess I can show you now."
+    emiko "Well I thought it would be nice to have some souvenirs, in case something interesting happens in there."
+    emiko "I wanted to surprise you once it happened, but I guess I can show you now."
     $ image.show(11)
     headmaster "Emiko!"
     $ image.show(12)
     headmaster "Of course I want to see!"
     $ image.show(13)
-    secretary "Alright! Sit down next to me. I'll show you."
+    emiko "Alright! Sit down next to me. I'll show you."
     
     # secretary shows the camera feed
     call Image_Series.show_image(image, 14, 15, 16, 17) from _call_show_image_new_yoga_outfit_5_event_1
     headmaster "Nice!"
     $ image.show(18)
-    secretary "Hihi!"
+    emiko "Hihi!"
 
     $ image.show(19)
     seraphina "Mr. [headmaster_last_name], we're ready!"
@@ -408,6 +414,8 @@ label new_yoga_outfit_5 (**kwargs):
         MenuElement("Outfit 2", "Seraphina's Choice", ValueEffect("yoga_outfit_set", 3), EventEffect("new_yoga_outfit_5.after_decision"), overwrite_position = (1250, 950)),
     **kwargs)
 label .after_decision (**kwargs):
+    $ headmaster = Person["headmaster"]
+    $ emiko = Person["emiko_langley"]
     $ yoga_set = get_game_data("yoga_outfit_set")
 
     $ image.show(46)
@@ -435,14 +443,14 @@ label .after_decision (**kwargs):
     # headmaster leaves the office
 
     $ image.show(52)
-    headmaster_thought "Hmm, do we even have the sizes for all the students?"
+    headmaster.think "Hmm, do we even have the sizes for all the students?"
 
     $ image.show(53)
     headmaster "Emiko, do we have the body sizes for the students in the database?"
     $ image.show(54)
-    secretary "Let me check that for you."
+    emiko "Let me check that for you."
     $ image.show(55)
-    secretary "Yes, we have them, but they're a bit outdated."
+    emiko "Yes, we have them, but they're a bit outdated."
     $ image.show(56)
     headmaster "Hmm, that won't do."
 
@@ -456,6 +464,7 @@ label .after_decision (**kwargs):
 
 # Office Building: Free-Time
 label new_yoga_outfit_6 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ zoe = Person["zoe_parker"].get_renpy_char()
@@ -510,6 +519,7 @@ label new_yoga_outfit_6 (**kwargs):
 
 # School Building: Anytime
 label new_yoga_outfit_7 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ zoe = Person["zoe_parker"].get_renpy_char()
@@ -541,6 +551,7 @@ label new_yoga_outfit_7 (**kwargs):
 
 # Day Check: Monday - Morning
 label new_yoga_outfit_8 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -560,6 +571,8 @@ label new_yoga_outfit_8 (**kwargs):
 
 # Day Check: Tuesday - Early Noon
 label new_yoga_outfit_9 (**kwargs):
+    $ headmaster = Person["headmaster"]
+    $ emiko = Person["emiko_langley"]
     $ begin_event(**kwargs)
 
     $ nurse = Person["linh_nguyen"].get_renpy_char()
@@ -631,9 +644,9 @@ label new_yoga_outfit_9 (**kwargs):
     $ image.show(23)
     headmaster "Emiko, can you please give me the checkup results?"
     $ image.show(24)
-    secretary "Sure, I'll have it in a minute."
+    emiko "Sure, I'll have it in a minute."
     $ image.show(25)
-    secretary "Here you are [headmaster_first_name]."
+    emiko "Here you are [headmaster_first_name]."
     $ image.show(26)
     headmaster "Thank you!"
     $ image.show(27)
@@ -642,7 +655,7 @@ label new_yoga_outfit_9 (**kwargs):
     headmaster "Oh the nurse really did a thorough job. I'm impressed."
     $ image.show(29)
     headmaster "Didn't expect her to also make photos of the students."
-    headmaster_thought "Nice!"
+    headmaster.think "Nice!"
     call screen black_screen_text("A few minutes later...")
     $ image.show(30)
     headmaster "So far so good."
@@ -663,6 +676,7 @@ label new_yoga_outfit_9 (**kwargs):
 
 # Gym: Check P.E.
 label new_yoga_outfit_10 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ zoe = Person["zoe_parker"].get_renpy_char()

@@ -180,6 +180,7 @@ label .leave (**kwargs):
     
     $ end_event('new_daytime', **kwargs)
 label .stop (**kwargs):
+    $ headmaster = Person["headmaster"]
     
     $ begin_event(**kwargs)
     
@@ -194,6 +195,7 @@ label .stop (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label sb_event_3 (**kwargs): # patrol
+    $ headmaster = Person["headmaster"]
     $ begin_event("2", **kwargs)
 
     $ miwa = Person["miwa_igarashi"].get_renpy_char()
@@ -215,6 +217,7 @@ label sb_event_3 (**kwargs): # patrol
         MenuElement("If it's nothing, go back to class", "If it's nothing, go back to class", EventEffect("sb_event_3.send_class"), (time.check_daytime("c") and time.check_weekday("d")) or is_replay(**kwargs)), 
     **kwargs)
 label .what (**kwargs):
+    $ headmaster = Person["headmaster"]
     
     $ begin_event(**kwargs)
     
@@ -235,6 +238,7 @@ label .what (**kwargs):
         MenuElement("Get to the bottom of this", "Get to the bottom of this", EventEffect("sb_event_3.get_to_bottom")), 
     **kwargs)
 label .leave (**kwargs):
+    $ headmaster = Person["headmaster"]
     
     $ begin_event(**kwargs)
     
@@ -258,6 +262,7 @@ label .leave (**kwargs):
     
     $ end_event('new_daytime', **kwargs)
 label .get_to_bottom (**kwargs):
+    $ headmaster = Person["headmaster"]
     
     $ begin_event(**kwargs)
     
@@ -293,6 +298,7 @@ label .get_to_bottom (**kwargs):
     
     $ end_event('new_daytime', **kwargs)
 label .send_class (**kwargs):
+    $ headmaster = Person["headmaster"]
     
     $ begin_event(**kwargs)
     
@@ -313,6 +319,7 @@ label .send_class (**kwargs):
         MenuElement("Chin up", "Chin up", EventEffect("sb_event_3.chin_up")), 
     **kwargs)
 label .poor_thing (**kwargs):
+    $ headmaster = Person["headmaster"]
 
     $ begin_event(**kwargs)
     
@@ -329,6 +336,7 @@ label .poor_thing (**kwargs):
     
     $ end_event('new_daytime', **kwargs)
 label .chin_up (**kwargs):
+    $ headmaster = Person["headmaster"]
     
     $ begin_event(**kwargs)
     
@@ -368,15 +376,17 @@ label sb_event_4(**kwargs):
         MenuElement("Help her up", "Help her up", EventEffect("sb_event_4.help")),
     **kwargs)
 label .leave (**kwargs):
+    $ headmaster = Person["headmaster"]
 
     $ image.show(3)
-    headmaster_thought "Hmm, the others already rush to help her. No need for me to get involved."
+    headmaster.think "Hmm, the others already rush to help her. No need for me to get involved."
 
     call change_stats_with_modifier(
         happiness = DEC_TINY, charm = SMALL, education = TINY) from _call_change_stats_with_modifier_69
 
     $ end_event('new_daytime', **kwargs)
 label .help (**kwargs):
+    $ headmaster = Person["headmaster"]
 
 
     $ image.show(4)
@@ -405,6 +415,7 @@ label .help (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label sb_event_5 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event("2", **kwargs)
 
     $ girls = get_value('girls', **kwargs)
@@ -419,10 +430,10 @@ label sb_event_5 (**kwargs):
     $ image.show(3)
     headmaster "Huh?"
     $ image.show(4)
-    headmaster_thought "Hmm, is someone in the classroom?"
-    headmaster_thought "That class should have physical education right now."
+    headmaster.think "Hmm, is someone in the classroom?"
+    headmaster.think "That class should have physical education right now."
     $ image.show(5)
-    headmaster_thought "I should check that out."
+    headmaster.think "I should check that out."
     # headmaster opens door
     # you see three girls changing clothes
     call Image_Series.show_image(image, 6, 7, 8) from _call_show_image_sb_event_5_event_2

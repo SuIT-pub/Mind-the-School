@@ -487,9 +487,27 @@ works and returns the same `Character` (`char_type` ∈ `""` / `"thought"` / `"w
 some events still carry. Each property access builds a new `Character`; that's cheap
 and behaves identically (same name, `retain=False`).
 
-Predefined narration characters are also available directly — e.g.
-`headmaster_thought` (inner monologue), `character.subtitles` (neutral subtitle
-voice), `character.dev` (developer notes).
+The player (**Headmaster**) and the secretary (**Emiko**) are full `Person`s too —
+bind them and speak the same way. The Headmaster has a player-chosen, save-specific
+name (resolved live), so his def carries no name; Emiko picks up the secretary look
+automatically:
+
+```python
+$ headmaster = Person["headmaster"]
+$ emiko = Person["emiko_langley"]
+emiko "Anything urgent this morning?"
+headmaster.think "Same plaque, still 'in process.'"
+headmaster "Chase it today."
+```
+
+Per-character name-tag colour, text colour, font, size and format can be set on the
+`Person` itself with `styleOverrides` instead of the shared category `Character`.
+Neutral narration voices are also available directly — `character.subtitles`
+(subtitle voice), `character.dev` (developer notes).
+
+> The full speaker/styling model — `Char` vs `Person`, the styling categories,
+> `styleOverrides`, and the Headmaster/Emiko name handling — is documented in
+> **[Dialogue](Dialogue)**.
 
 ### Selected characters
 

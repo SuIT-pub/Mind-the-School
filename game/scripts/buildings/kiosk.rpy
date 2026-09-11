@@ -153,6 +153,7 @@ label kiosk_event_3 (**kwargs):
         MenuElement("Help her out  ({color=#a00000}-50${/color})", "Help her out  ({color=#a00000}-50${/color})", EventEffect("kiosk_event_3.help")), 
     **kwargs)
 label .leave (**kwargs):
+    $ headmaster = Person["headmaster"]
     
     $ begin_event(**kwargs)
     
@@ -168,7 +169,7 @@ label .leave (**kwargs):
         $ image.show(8)
         miwa "Eeek! Pervert!"
         $ image.show(9)
-        headmaster_thought "Mhh what kind of noise is that? Hmmm... I guess it's nothing serious."
+        headmaster.think "Mhh what kind of noise is that? Hmmm... I guess it's nothing serious."
 
         call change_stats_with_modifier(
             happiness = DEC_MEDIUM, charm = DEC_MEDIUM, reputation = DEC_SMALL) from _call_change_stats_with_modifier_34
@@ -180,8 +181,8 @@ label .leave (**kwargs):
         $ image.show(11)
         miwa "Really? Thank you."
         $ image.show(12)
-        headmaster_thought "Mhh, things are worse than I thought. I can't believe the students have to go hungry."
-        headmaster_thought "I should think about doing something about that."
+        headmaster.think "Mhh, things are worse than I thought. I can't believe the students have to go hungry."
+        headmaster.think "I should think about doing something about that."
 
         $ quest_manager.check_task_type("trigger", name = "unlock_cafeteria_1_task_1")
 
@@ -199,12 +200,13 @@ label .leave (**kwargs):
         $ image.show(13)
         miwa "*sob*"
         $ image.show(12)
-        headmaster_thought "Poor girl..."
+        headmaster.think "Poor girl..."
 
         call change_stats_with_modifier(
             happiness = DEC_TINY, charm = DEC_SMALL) from _call_change_stats_with_modifier_36
         $ end_event('new_daytime', **kwargs)
 label .help (**kwargs):
+    $ headmaster = Person["headmaster"]
     
     $ begin_event(**kwargs)
     

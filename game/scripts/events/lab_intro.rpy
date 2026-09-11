@@ -509,14 +509,16 @@ label lab_intro_2_search_courtyard (**kwargs):
 
 
 label lab_intro_2_search_school (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ show_pattern("base", **kwargs)
-    headmaster_thought "Let's check the classrooms."
+    headmaster.think "Let's check the classrooms."
 
     call composite_event_runner(**kwargs) from lab_intro_2_search_school_composite_event_runner
 
 label lab_intro_2_search_school_1 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     # headmaster looks for some equipment in the school
@@ -524,49 +526,53 @@ label lab_intro_2_search_school_1 (**kwargs):
 
     $ image = convert_pattern("main", **kwargs)
 
-    headmaster_thought "Ah, a lot of office supplies here!"
-    headmaster_thought "I could use this for my lab."
+    headmaster.think "Ah, a lot of office supplies here!"
+    headmaster.think "I could use this for my lab."
 
     $ inventory_manager.add_item(Item("lab_office_supplies"))
 
     $ end_event("new_daytime", **kwargs)
 
 label lab_intro_2_search_school_2 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     # headmaster looks for some equipment in the school
     # headmaster doesn't find anything else useful in the school
 
-    headmaster_thought "Nothing useful here."
+    headmaster.think "Nothing useful here."
 
     $ end_event("new_daytime", **kwargs)
 
 
 label lab_intro_2_search_office (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
-    headmaster_thought "Let's check the office."
+    headmaster.think "Let's check the office."
     call composite_event_runner(**kwargs) from lab_intro_2_search_office_composite_event_runner
 
 label lab_intro_2_search_office_1 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     # headmaster looks for some equipment in the office
     # headmaster finds a a label maker and some small office supplies
 
-    headmaster_thought "Ah, a label maker! Perfect!"
+    headmaster.think "Ah, a label maker! Perfect!"
 
     $ inventory_manager.add_item(Item("lab_office_supplies"))
 
     $ end_event("new_daytime", **kwargs)
 
 label lab_intro_2_search_office_2 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     # headmaster looks for some equipment in the office
     # headmaster doesn't find anything else useful in the office
     
-    headmaster_thought "Nothing useful here."
+    headmaster.think "Nothing useful here."
 
     $ end_event("new_daytime", **kwargs)
 
@@ -598,6 +604,7 @@ init 2 python:
 
 # all equipment needs to be found and purchased
 label lab_intro_3 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -605,15 +612,15 @@ label lab_intro_3 (**kwargs):
     # headmaster starts setting up a makeshift lab in the office
 
     $ image.show(0)
-    headmaster_thought "Let's start setting up the lab."
+    headmaster.think "Let's start setting up the lab."
     subtitles "The storage room smells like dust and old ink. The desk surface is gritty under his palms."
-    headmaster_thought "I should start with recreating the base potion."
+    headmaster.think "I should start with recreating the base potion."
 
     # multiple shots of the headmaster setting up the lab 
     call Image_Series.show_image(image, 1, 2, 3, 4, 5) from _call_show_image_lab_intro_3_1
-    headmaster_thought "Now I can start experimenting with the equipment."
+    headmaster.think "Now I can start experimenting with the equipment."
     $ image.show(6)
-    headmaster_thought "I should start with recreating the base potion."
+    headmaster.think "I should start with recreating the base potion."
 
     $ set_progress("lab_intro", 3)
 
@@ -638,6 +645,7 @@ init 2 python:
             thumbnail = "images/events/lab/lab_intro_4/lab_intro_4_0.webp"))
 
 label lab_intro_4 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -645,39 +653,39 @@ label lab_intro_4 (**kwargs):
     $ image.show(0)
     subtitles "The vial is warm from being in his pocket all morning. The liquid inside is amber — darker than expected, catching the desk lamp like old honey."
 
-    headmaster_thought "Alright. Let's get to work."
+    headmaster.think "Alright. Let's get to work."
     $ image.show(1)
-    headmaster_thought "I should check my notes first..."
+    headmaster.think "I should check my notes first..."
     $ image.show(2)
-    headmaster_thought "Where is the notebook? I had it just before..."
+    headmaster.think "Where is the notebook? I had it just before..."
     $ image.show(3)
-    headmaster_thought "Damn. I must have left it somewhere."
+    headmaster.think "Damn. I must have left it somewhere."
     $ image.show(4)
-    headmaster_thought "I'll have to manage without it for now. Let's start analyzing the potion."
+    headmaster.think "I'll have to manage without it for now. Let's start analyzing the potion."
 
     # shots of the headmaster analyzing the potion
     call Image_Series.show_image(image, 5, 6) from _call_show_image_lab_intro_4_1
-    headmaster_thought "Okay, I think I have a good idea of what to do."
+    headmaster.think "Okay, I think I have a good idea of what to do."
     call Image_Series.show_image(image, 7, 8, 9) from _call_show_image_lab_intro_4_2
-    headmaster_thought "Now let's try to recreate the potion."
+    headmaster.think "Now let's try to recreate the potion."
 
     call Image_Series.show_image(image, 10, 11) from _call_show_image_lab_intro_4_3
     subtitles "The smell is wrong at first — sharp, almost medicinal. He adjusts the ratio. Tries again."
 
     ## 3 hours later...
     $ image.show(12)
-    headmaster_thought "Hmm, I could only make these vials. I need to figure out how to make more."
-    headmaster_thought "I need to think about it a bit more. I should try it myself first — just in case there are any side effects."
+    headmaster.think "Hmm, I could only make these vials. I need to figure out how to make more."
+    headmaster.think "I need to think about it a bit more. I should try it myself first — just in case there are any side effects."
     $ image.show(13)
-    headmaster_thought "Okay, here goes nothing..."
+    headmaster.think "Okay, here goes nothing..."
 
     subtitles "It tastes like copper with something sweet fighting underneath — not pleasant, not chemical, just wrong in a way he can't name yet."
     $ image.show(14)
-    headmaster_thought "Hmm, I definitely need to work on the taste..."
+    headmaster.think "Hmm, I definitely need to work on the taste..."
     $ image.show(15)
-    headmaster_thought "No side effects so far. But it's too early to say."
+    headmaster.think "No side effects so far. But it's too early to say."
     $ image.show(16)
-    headmaster_thought "I'll stop here for today. Let's see what tomorrow brings."
+    headmaster.think "I'll stop here for today. Let's see what tomorrow brings."
 
     $ set_progress("lab_intro", 4)
 
@@ -702,22 +710,23 @@ init 2 python:
     )
 
 label lab_intro_5 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image.show(0)
     subtitles "It's morning. The lab smell has seeped into his clothes overnight."
 
     $ image.show(1)
-    headmaster_thought "I seem to be fine. I don't feel any effects yet."
-    headmaster_thought "Though... I don't feel any effect at all."
+    headmaster.think "I seem to be fine. I don't feel any effects yet."
+    headmaster.think "Though... I don't feel any effect at all."
 
     $ image.show(2)
-    headmaster_thought "Maybe I'm just not susceptible to it. Nothing for me to be conditioned toward..."
-    headmaster_thought "The formula works on inhibition — on suppressed desire. If there's nothing there to suppress in the first place..."
-    headmaster_thought "Maybe it only works on women."
+    headmaster.think "Maybe I'm just not susceptible to it. Nothing for me to be conditioned toward..."
+    headmaster.think "The formula works on inhibition — on suppressed desire. If there's nothing there to suppress in the first place..."
+    headmaster.think "Maybe it only works on women."
 
     $ image.show(3)
-    headmaster_thought "At any rate — no adverse effects. The formula is sound. Time to move forward."
+    headmaster.think "At any rate — no adverse effects. The formula is sound. Time to move forward."
 
     $ set_progress("lab_intro", 5)
 
@@ -741,6 +750,8 @@ init 2 python:
     office_building_call_secretary_events["talk"].add_event(lab_intro_6_event)
 
 label lab_intro_6 (**kwargs):
+    $ headmaster = Person["headmaster"]
+    $ emiko = Person["emiko_langley"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -755,11 +766,11 @@ label lab_intro_6 (**kwargs):
 
     headmaster "Emiko! There you are — I did it. I recreated it. The prototype's stable."
     $ secretary_person.display(PDAPreset("close_body_center", duration = 1.0))
-    secretary "Hello to you too. That's the good kind of manic face, I hope."
+    emiko "Hello to you too. That's the good kind of manic face, I hope."
     $ secretary_person.display(PDAImage(pose = "12", mood = "neutral", mouth = "closed"))
     headmaster "A prototype. I've already taken a dose myself — no ill effects. But before it goes anywhere near anyone else, I want a second reading. Would you?"
     $ secretary_person.display(PDAImage(pose = "19", mood = "happy", mouth = "open"))
-    secretary "If you made it, I'll drink it. Hand it over."
+    emiko "If you made it, I'll drink it. Hand it over."
 
     $ secretary_person.clear_display()
 
@@ -773,17 +784,17 @@ label lab_intro_6 (**kwargs):
     $ image.hide()
     $ paperdoll_manager.set_background("images/background/office building/secretary 6 1 0.webp", blur = True)
     $ secretary_person.display(PDAImage(pose = "21", mood = "neutral", mouth = "open"))
-    secretary "Hmm... a little warmer, maybe? Honestly — barely anything at all."
+    emiko "Hmm... a little warmer, maybe? Honestly — barely anything at all."
     $ secretary_person.display(PDAImage(pose = "10", mood = "neutral", mouth = "closed"))
     subtitles "Silence. Just the faint hum of the ventilation and the sound of his own breathing."
     $ secretary_person.display(PDAImage(pose = "10", mood = "happy", mouth = "closed"))
     headmaster "Figures. After what the original did to you, there's not much left in you for a diluted batch to stir — so your reading tells me almost nothing about a fresh subject. I'll need a cleaner test."
     $ secretary_person.display(PDAImage(pose = "10", mood = "happy", mouth = "open"))
-    secretary "Then be careful — with the dose, and with whoever you give it to. This is supposed to help them, remember."
+    emiko "Then be careful — with the dose, and with whoever you give it to. This is supposed to help them, remember."
     $ secretary_person.display(PDAImage(pose = "10", mood = "happy", mouth = "closed"),
         PDAPreset("outside", duration = 1.0), PDAPause(duration = 1.0))
     $ image.show(6)
-    headmaster_thought "She's right. Carefully, then. First — I need to produce more."
+    headmaster.think "She's right. Carefully, then. First — I need to produce more."
 
     $ set_progress("lab_intro", 6)
 
@@ -826,11 +837,12 @@ init 3 python:
 
 
 label lab_intro_produce_test_potion (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     # shots of headmaster producing more potions
-    headmaster_thought "I definitely have to improve the process in the future."
-    headmaster_thought "There is just too much chemicals wasted..."
+    headmaster.think "I definitely have to improve the process in the future."
+    headmaster.think "There is just too much chemicals wasted..."
 
     $ inventory_manager.remove_item("lab_chemicals", 1)
     $ inventory_manager.add_item("lab_test_potion")
@@ -838,10 +850,11 @@ label lab_intro_produce_test_potion (**kwargs):
     $ end_event("new_daytime", **kwargs)
 
 label lab_intro_produce_test_potion_no_chemicals (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     # shots of headmaster producing more potions
-    headmaster_thought "I don't have any chemicals left. I first have to buy some more."
+    headmaster.think "I don't have any chemicals left. I first have to buy some more."
 
     $ end_event("new_daytime", **kwargs)
 
@@ -865,6 +878,7 @@ init 2 python:
     )
 
 label lab_intro_7 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ sakura = Person["sakura_mori"]
@@ -897,13 +911,13 @@ label lab_intro_7 (**kwargs):
     easkey.say "I... I don't know! You just opened it!"
     sakura.say "What?! No! Help me close it!"
 
-    headmaster_thought "Hmm, that's interesting. It seems to work well for her."
-    headmaster_thought "I wonder why it had no effect on Emiko... Maybe she needs a higher dose due to the effect of the original potion..."
-    headmaster_thought "Hmm, but then she would've been more susceptible to this potion. Technically, these potions should enhance the effects..."
-    headmaster_thought "I should try it with other students to see if it works for them. Maybe I should also try a higher dose on Emiko."
+    headmaster.think "Hmm, that's interesting. It seems to work well for her."
+    headmaster.think "I wonder why it had no effect on Emiko... Maybe she needs a higher dose due to the effect of the original potion..."
+    headmaster.think "Hmm, but then she would've been more susceptible to this potion. Technically, these potions should enhance the effects..."
+    headmaster.think "I should try it with other students to see if it works for them. Maybe I should also try a higher dose on Emiko."
     
-    headmaster_thought "So that's the whole picture — the heat, the way she stopped watching herself, the inhibitions just dropping away. And afterward, gaps where the memory should be."
-    headmaster_thought "It doesn't hold long — a few minutes, maybe. But it works. It actually works."
+    headmaster.think "So that's the whole picture — the heat, the way she stopped watching herself, the inhibitions just dropping away. And afterward, gaps where the memory should be."
+    headmaster.think "It doesn't hold long — a few minutes, maybe. But it works. It actually works."
     
     # headmaster goes away
 
@@ -931,14 +945,15 @@ init 2 python:
     )
 
 label lab_intro_8 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ zoe = Person["zoe_parker"].get_renpy_char()
     $ finola = Person["finola_ryan"].get_renpy_char()
 
-    headmaster_thought "Hmm, the teachers should be back in a few minutes. I could put the potion in their coffee."
+    headmaster.think "Hmm, the teachers should be back in a few minutes. I could put the potion in their coffee."
     # Headmaster Put's Potion in Coffee
-    headmaster_thought "Now to wait..."
+    headmaster.think "Now to wait..."
     # Teachers arrive
     zoe "Good morning, [headmaster_first_name]!"
     zoe "Can I help you with something?"
@@ -980,8 +995,8 @@ label lab_intro_8 (**kwargs):
     # Zoe shakes her head slightly, looking uncomfortable
 
     subtitles "The faculty lounge smells like burnt coffee and something sweeter underneath — faint, already fading."
-    headmaster_thought "Five minutes. Maybe less. They snap back every time."
-    headmaster_thought "I need a catalyst."
+    headmaster.think "Five minutes. Maybe less. They snap back every time."
+    headmaster.think "I need a catalyst."
 
     $ set_progress("lab_intro", 8)
 
@@ -996,7 +1011,7 @@ label lab_intro_8 (**kwargs):
 init 2 python: 
     set_current_mod('base')
 
-    office_building_events["patrol"].add_event(
+    office_building_events["look_around"].add_event(
         Event(3, "lab_intro_9",
             TimeCondition(weekday = "d", daytime = "f"),
             ProgressCondition("lab_intro", 8),
@@ -1008,11 +1023,12 @@ init 2 python:
 
 # Chemical Mishap
 label lab_intro_9 (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
 
-    headmaster_thought "I should test another dose on the students. See if the response varies by individual."
+    headmaster.think "I should test another dose on the students. See if the response varies by individual."
     
     # headmaster bumps into student cleaning the hallway
     headmaster "Oh—!"
@@ -1020,20 +1036,20 @@ label lab_intro_9 (**kwargs):
     # student's bucket tips, spilling cleaning solution across the floor
     # headmaster's potion vial slips from his hand and shatters in the puddle
     
-    headmaster_thought "Damn it."
+    headmaster.think "Damn it."
     
     headmaster "My apologies, are you alright?"
     ishimaru "I'm fine, Mr. [headmaster_last_name]! I'm so sorry, I'll clean this up right away."
     headmaster "No harm done. Just watch for the glass shards."
     
-    headmaster_thought "There goes one dose. I'll have to synthesize more tonight."
+    headmaster.think "There goes one dose. I'll have to synthesize more tonight."
     
     # headmaster walks away
     
     # vapor begins rising from the mixture where potion and cleaning chemicals merged
     
-    headmaster_thought "Huh... what's that smell?"
-    headmaster_thought "Actually... that smells really nice. Kinda sweet?"
+    headmaster.think "Huh... what's that smell?"
+    headmaster.think "Actually... that smells really nice. Kinda sweet?"
     
     # The classroom door down the hall is open
     # Vapor drifts naturally toward the doorway where Luna, Lin, and Gloria are visible inside talking

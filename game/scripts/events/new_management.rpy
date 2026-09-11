@@ -234,6 +234,7 @@ init 1 python:
 #  over the blurred office/secretary background.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_ghost_office_nameplate (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ emiko = Person["emiko_langley"]
@@ -250,10 +251,10 @@ label nm_ghost_office_nameplate (**kwargs):
     subtitles "The office door still carries the old headmaster's name, cut deep into the brass like it means to stay there."
     subtitles "Someone's taped a printout over half of it — your name, on printer paper, spelled {i}[wrong_name]{/i}. It's crooked, and one corner is already peeling loose."
     $ image.show(1)
-    headmaster_thought "Three weeks now, and I still catch myself slowing down at my own door. His name's the one cut deep into the brass. Mine's the strip of paper somebody taped up and couldn't even be bothered to keep straight."
+    headmaster.think "Three weeks now, and I still catch myself slowing down at my own door. His name's the one cut deep into the brass. Mine's the strip of paper somebody taped up and couldn't even be bothered to keep straight."
 
     if standing <= -18:
-        headmaster_thought "I keep waiting for it to start feeling like mine. It doesn't. Most mornings I still feel like I'm covering a shift for a man who's coming back any day now to want his chair."
+        headmaster.think "I keep waiting for it to start feeling like mine. It doesn't. Most mornings I still feel like I'm covering a shift for a man who's coming back any day now to want his chair."
 
     # Emiko leans in → hand off to conversation (paperdoll over the blurred office).
     $ emiko.register_paperdoll()
@@ -278,6 +279,7 @@ label nm_ghost_office_nameplate (**kwargs):
     **kwargs)
 
 label .fix (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ emiko = Person["emiko_langley"]
 
     $ emiko.display(PDAMove(alignX = 0.5, duration = 1.0))
@@ -288,7 +290,7 @@ label .fix (**kwargs):
     emiko.say "—goes in the bin before it ends up on somebody's phone."
     $ paperdoll_manager.set_background(image[2], blur = True, **kwargs)
     $ emiko.display(PDAImage(pose = "6", mood = "happy", mouth = "closed"))
-    headmaster_thought "There. Torn down. It's a strip of paper in the bin, nothing — but it's my name they'll chase now, spelled right, instead of his that I keep flinching past every morning."
+    headmaster.think "There. Torn down. It's a strip of paper in the bin, nothing — but it's my name they'll chase now, spelled right, instead of his that I keep flinching past every morning."
 
     $ set_game_data("nm_door_claimed", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 2)
@@ -297,6 +299,7 @@ label .fix (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .charm_fix (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ emiko = Person["emiko_langley"]
 
     $ emiko.display(PDAMove(alignX = 0.5, duration = 1.0))
@@ -305,7 +308,7 @@ label .charm_fix (**kwargs):
     emiko.say "Ha! I'll cc them a dictionary. Bold it, even."
     $ image.show(3)
     subtitles "She pours a second coffee without being asked and nudges the order form across the desk with one finger."
-    headmaster_thought "She poured that second cup without even looking, like she's done it a hundred times. When did that start? I don't know. But God, it's good to have one person in this building already standing in my corner before I've had to ask."
+    headmaster.think "She poured that second cup without even looking, like she's done it a hundred times. When did that start? I don't know. But God, it's good to have one person in this building already standing in my corner before I've had to ask."
 
     $ set_game_data("nm_door_claimed", 1)
     $ set_game_data("nm_emiko_close", 1)
@@ -315,6 +318,7 @@ label .charm_fix (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .leave_it (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ emiko = Person["emiko_langley"]
 
     $ emiko.display(PDAMove(alignX = 0.5, duration = 1.0))
@@ -322,20 +326,21 @@ label .leave_it (**kwargs):
     $ emiko.display(PDAImage(pose = "21", mood = "neutral", mouth = "open"))
     emiko.say "Mm. Your call. Just don't act surprised when the kids keep calling you the wrong thing — they read the door, not the memo."
     $ emiko.display(PDAImage(mouth = "closed"))
-    headmaster_thought "I keep telling myself it's temporary. Emiko's right, though, isn't she — the kids don't read the memo, they read the door. And right now the door says I couldn't be bothered to put my own name on it."
+    headmaster.think "I keep telling myself it's temporary. Emiko's right, though, isn't she — the kids don't read the memo, they read the door. And right now the door says I couldn't be bothered to put my own name on it."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 0)
     $ emiko.clear_display()
     $ end_event('new_daytime', **kwargs)
 
 label .walk_away (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ emiko = Person["emiko_langley"]
 
     $ emiko.display(PDAMove(alignX = 0.5, duration = 1.0))
     subtitles "You turn back down the hall, leaving the tape exactly where it is."
     $ emiko.display(PDAImage(pose = "23", mood = "sad", mouth = "closed"))
     emiko.say "...Right. I'll keep chasing it on my own, then."
-    headmaster_thought "I should turn round. Say something. She's going to keep chasing that plaque on her own now because I couldn't be bothered to stop walking. God. If I won't even put my name on my own door, why would anyone in here trust me with the room behind it?"
+    headmaster.think "I should turn round. Say something. She's going to keep chasing that plaque on her own now because I couldn't be bothered to stop walking. God. If I won't even put my name on my own door, why would anyone in here trust me with the room behind it?"
 
     $ situation_manager.apply_progress_change("situation:new_management:main", -1)
     call change_stats_with_modifier(reputation=DEC_TINY) from _nm_go_np_walk
@@ -363,6 +368,7 @@ label .walk_away (**kwargs):
 #  face him. Background: courtyard/1 0 1.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_ghost_office_janitor (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(version = "2", **kwargs)
 
     $ aona = Person["aona_komuro"]
@@ -394,7 +400,7 @@ label nm_ghost_office_janitor (**kwargs):
     ikushi.say "...you sure, though? He kinda looks like the one who gave the speech."
     aona.say "Trust me. That whole assembly was a total blur. Could've been anybody up on that stage."
 
-    headmaster_thought "There's a headmaster, they're sure of that much. They just haven't worked out he's the bloke standing close enough to hear every word. Three weeks in and I'm still a rumour to my own students."
+    headmaster.think "There's a headmaster, they're sure of that much. They just haven't worked out he's the bloke standing close enough to hear every word. Three weeks in and I'm still a rumour to my own students."
 
     # Callback choice: only offered if you already claimed the office door.
     # Read through the gallery getter (paired with the GameDataSelector) so it replays.
@@ -408,6 +414,7 @@ label nm_ghost_office_janitor (**kwargs):
     **kwargs)
 
 label .introduce (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ paperdoll_manager.set_background(image[1], blur = True)
     headmaster "Good morning. For the record — headmaster. Not [wrong_role]."
     # He's spoken to them → they both turn to face him. Now it's a player-facing
@@ -419,7 +426,7 @@ label .introduce (**kwargs):
     $ aona.display(PDAImage(mood = "sad", mouth = "closed"))
     $ ikushi.display(PDAImage(pose = "8", mood = "shining", mouth = "closed"))
     subtitles "Ikushi turns a laugh into a cough. Aona's ears go bright pink and she suddenly finds her own shoes fascinating."
-    headmaster_thought "Poor kid's ears are on fire. She'll be telling this one at lunch for a week — the day she called the headmaster a maintenance man to his face. Let her. If it's the story that finally sticks my face to the title, she can tell it as often as she likes."
+    headmaster.think "Poor kid's ears are on fire. She'll be telling this one at lunch for a week — the day she called the headmaster a maintenance man to his face. Let her. If it's the story that finally sticks my face to the title, she can tell it as often as she likes."
 
     $ set_game_data("nm_face_introduced", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
@@ -427,6 +434,7 @@ label .introduce (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .door (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ paperdoll_manager.set_background(image[1], blur = True)
     
     $ aona.display(PDAImage(pose = "7", mood = "suspicious"), PDAMove(alignX = 0.0, duration = 1.0))
@@ -456,7 +464,7 @@ label .door (**kwargs):
     $ ikushi.display(PDAImage(mood = "sad", mouth = "open"))
     ikushi.say "...it's got your name on it. Spelled right and everything. Sorry, headmaster."
     $ aona.display(PDAImage(mood = "sad", mouth = "closed"))
-    headmaster_thought "Ha. Didn't have to argue a single point. Sent her to read the door and she came back three shades paler than she left. Turns out the brass makes my case better than I ever could standing here."
+    headmaster.think "Ha. Didn't have to argue a single point. Sent her to read the door and she came back three shades paler than she left. Turns out the brass makes my case better than I ever could standing here."
 
     $ set_game_data("nm_face_introduced", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 4)
@@ -464,16 +472,18 @@ label .door (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .slip_past (**kwargs):
+    $ headmaster = Person["headmaster"]
     # No paperdoll — he keeps walking; they're behind him, not facing him.
     $ image.show(2)
     subtitles "You keep walking, unhurried. Their voices thin out behind you, still arguing about who you are."
-    headmaster_thought "No sense making a thing of it. They'll see me tomorrow, and the day after, and the one after that. It sinks in eventually. ...It has to. I don't have a faster way than just turning up until they can't not know me."
+    headmaster.think "No sense making a thing of it. They'll see me tomorrow, and the day after, and the one after that. It sinks in eventually. ...It has to. I don't have a faster way than just turning up until they can't not know me."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 1)
     call change_stats_with_modifier(reputation=TINY) from _nm_go_jan_slip
     $ end_event('new_daytime', **kwargs)
 
 label .snap (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ image.show(3)
     headmaster "If you've got time to hand out jobs I don't have, you've got time to be in class."
     $ paperdoll_manager.set_background(image[3], blur = True)
@@ -482,7 +492,7 @@ label .snap (**kwargs):
     $ ikushi.display(PDAImage(pose = "23", mood = "sad", mouth = "closed"), PDAFlip(True),
         PDAPreset("close_body_right", duration = 0.0), PDAMove(alignX = 1.0))
     aona.say "We— we weren't— sorry."
-    headmaster_thought "That shut them up. Look at them — gone stiff, staring at their shoes, just waiting for me to be done and gone. That's not respect on their faces. That's wanting me to leave. Damn it. That is not what I came over here for."
+    headmaster.think "That shut them up. Look at them — gone stiff, staring at their shoes, just waiting for me to be done and gone. That's not respect on their faces. That's wanting me to leave. Damn it. That is not what I came over here for."
 
     $ set_game_data("nm_snapped", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", -2)
@@ -504,6 +514,7 @@ label .snap (**kwargs):
 #  the right (colour) side.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_ghost_office_private_line (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ emiko = Person["emiko_langley"]
@@ -518,7 +529,7 @@ label nm_ghost_office_private_line (**kwargs):
     $ emiko.display(PDAImage(mood = "shining", mouth = "open"), PDAMove(alignX = 0.5, duration = 1.0))
     emiko.say "Well. Look who remembers he has a phone."
     $ emiko.display(PDAImage(mouth = "closed"))
-    headmaster_thought "God, that voice. Warm, easy, a little teasing — the one she keeps for when there's nobody in the outer office to overhear it. I don't think she even knows she's got two."
+    headmaster.think "God, that voice. Warm, easy, a little teasing — the one she keeps for when there's nobody in the outer office to overhear it. I don't think she even knows she's got two."
     subtitles "Footsteps cross the outer office. Between one breath and the next, her voice buttons itself all the way up."
     $ emiko.display(PDAImage(mood = "neutral", mouth = "open"))
     emiko.say "—and how can I help you today, headmaster?"
@@ -543,12 +554,13 @@ label nm_ghost_office_private_line (**kwargs):
     **kwargs)
 
 label .triage (**kwargs):
+    $ headmaster = Person["headmaster"]
     headmaster "Give me whatever can't wait. Parent calls, complaints, anything that's actually on fire."
     $ emiko.display(PDAImage(mood = "neutral", mouth = "open"))
     emiko.say "Three parents, one teacher with a grievance, and [loud_slip] sitting right on top like it pays rent."
     $ emiko.display(PDAImage(mood = "happy"))
     emiko.say "I'll sort them and line them up. You just decide who's worth showing your face to."
-    headmaster_thought "She's been carrying half of this herself and never once mentioned it. Least I can do is turn up for the other half. And they do notice the second I walk in — I keep forgetting that showing up is most of the job."
+    headmaster.think "She's been carrying half of this herself and never once mentioned it. Least I can do is turn up for the other half. And they do notice the second I walk in — I keep forgetting that showing up is most of the job."
 
     $ set_game_data("nm_emiko_close", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
@@ -557,13 +569,14 @@ label .triage (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .honest (**kwargs):
+    $ headmaster = Person["headmaster"]
     headmaster "Emiko. No routing, no softening it. How bad is it, really?"
     subtitles "A pause. When she answers, her voice has dropped low enough that the outer office won't catch a word of it."
     $ emiko.display(PDAImage(mood = "sad", mouth = "open"))
     emiko.say "Bad enough that I've stopped tucking the slips where you won't see them. And [loud_slip]? That one's new. I don't like it."
     emiko.say "It's fixable. But it gets fixed by them {i}seeing{/i} you — not by me quietly plugging the holes. So go do that. Be seen. Please."
     $ emiko.display(PDAImage(mouth = "closed"))
-    headmaster_thought "She said please. Emiko. She actually said please, and I sat here and made her spell the whole thing out first. ...She's right, though. She's always right about this. Fine — the second we hang up, I go."
+    headmaster.think "She said please. Emiko. She actually said please, and I sat here and made her spell the whole thing out first. ...She's right, though. She's always right about this. Fine — the second we hang up, I go."
 
     $ set_game_data("nm_emiko_close", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 4)
@@ -572,6 +585,7 @@ label .honest (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .short (**kwargs):
+    $ headmaster = Person["headmaster"]
     headmaster "Anything urgent this morning?"
     $ emiko.display(PDAImage(mood = "happy", mouth = "open"))
     emiko.say "Nothing that won't keep till the afternoon."
@@ -582,7 +596,7 @@ label .short (**kwargs):
     $ emiko.display(PDAImage(mouth = "open"))
     emiko.say "Of course. Anytime."
     $ emiko.display(PDAImage(mouth = "closed"), PDAMove(alignX = -1.5, duration = 1.0))
-    headmaster_thought "And that's that. ...There was a gap at the end there, wasn't there — that little pause where she wanted to say something more. And I filled it with 'good, thanks' and hung up. Didn't even hear it until just now."
+    headmaster.think "And that's that. ...There was a gap at the end there, wasn't there — that little pause where she wanted to say something more. And I filled it with 'good, thanks' and hung up. Didn't even hear it until just now."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 1)
     call change_stats_with_modifier(reputation=TINY) from _nm_go_pl_short
@@ -590,11 +604,12 @@ label .short (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .distant (**kwargs):
+    $ headmaster = Person["headmaster"]
     headmaster "Just making sure the line's working. That's all."
     $ emiko.display(PDAImage(mood = "sad", mouth = "open"))
     emiko.say "...It's working. Line's fine."
     $ emiko.display(PDAImage(mouth = "closed"))
-    headmaster_thought "She reached out and I gave her the phone company. 'Making sure the line works.' God. She's sitting at that desk right now feeling stupid for picking up warm, and I'm the one who did that to her."
+    headmaster.think "She reached out and I gave her the phone company. 'Making sure the line works.' God. She's sitting at that desk right now feeling stupid for picking up warm, and I'm the one who did that to her."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 0)
     $ emiko.clear_display()
@@ -611,6 +626,7 @@ label .distant (**kwargs):
 #  school-building corridor background.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_ghost_office_empty_corridor (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(version = "2", **kwargs)
 
     $ yulan = Person["yulan_chen"]
@@ -639,9 +655,9 @@ label nm_ghost_office_empty_corridor (**kwargs):
         $ yulan.display(PDAImage(mood = "neutral", mouth = "open"))
         yulan.say "...Headmaster."
         subtitles "One word — but she said it. The students have started using your name in class, apparently, and things like that climb the stairs eventually."
-        headmaster_thought "She used my name. It made it all the way from the courtyard up to the staff corridor without me carrying it a single step. Small thing. But it means the thing's spreading on its own now, and that's new."
+        headmaster.think "She used my name. It made it all the way from the courtyard up to the staff corridor without me carrying it a single step. Small thing. But it means the thing's spreading on its own now, and that's new."
     else:
-        headmaster_thought "...Right. Loud and clear. Learning her name in a corridor doesn't buy me anything with her — she wants the work to be good, and the manners are just noise. Fair enough."
+        headmaster.think "...Right. Loud and clear. Learning her name in a corridor doesn't buy me anything with her — she wants the work to be good, and the manners are just noise. Fair enough."
 
     # Gated choice: a genuinely informed note lands harder — but only if you can give one.
     # Read through the gallery getter so the value replays correctly (Events guide §8/§16).
@@ -656,6 +672,7 @@ label nm_ghost_office_empty_corridor (**kwargs):
     **kwargs)
 
 label .acknowledge (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ yulan = Person["yulan_chen"]
     $ folder_topic = get_value("folder_topic", **kwargs)
 
@@ -667,7 +684,7 @@ label .acknowledge (**kwargs):
     $ yulan.display(PDAImage(mouth = "closed"))
     subtitles "Still no eye contact. But the next page turns a little slower than the last one did."
     $ yulan.display(PDAMove(alignX = 1.0, duration = 1.0))
-    headmaster_thought "Was that— yeah. That page turned slower than the last one. It's nothing, really, it's a page turning. But from her that's the first inch of ground she's given me, and I'll take an inch."
+    headmaster.think "Was that— yeah. That page turned slower than the last one. It's nothing, really, it's a page turning. But from her that's the first inch of ground she's given me, and I'll take an inch."
 
     $ set_game_data("nm_yulan_thawed", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 2)
@@ -676,6 +693,7 @@ label .acknowledge (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .shop (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ yulan = Person["yulan_chen"]
     $ folder_topic = get_value("folder_topic", **kwargs)
 
@@ -685,7 +703,7 @@ label .shop (**kwargs):
     $ yulan.display(PDAImage(pose = "8", mood = "suprised", mouth = "open", look = "follow"))
     yulan.say "...That is the exact note I'd have made. I simply didn't expect you to have read closely enough to make it."
     $ yulan.display(PDAImage(mood = "happy", mouth = "closed"))
-    headmaster_thought "There it is — she actually looked at me. Try to charm her and it slides straight off; talk about the real work, and know it as well as she does, and she stops walking. So that's how you get to Yulan. Good to know."
+    headmaster.think "There it is — she actually looked at me. Try to charm her and it slides straight off; talk about the real work, and know it as well as she does, and she stops walking. So that's how you get to Yulan. Good to know."
 
     $ set_game_data("nm_yulan_thawed", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
@@ -694,6 +712,7 @@ label .shop (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .greet (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ yulan = Person["yulan_chen"]
 
     $ yulan.display(PDAMove(alignX = 0.6, duration = 1.0))
@@ -701,19 +720,20 @@ label .greet (**kwargs):
     $ yulan.display(PDAImage(mood = "neutral", mouth = "open"), PDAMove(alignX = 0.8, duration = 1.0))
     yulan.say "Headmaster."
     $ yulan.display(PDAImage(mouth = "neutral"), PDAMove(alignX = 1.5, duration = 1.0))
-    headmaster_thought "One word, flat as the floor, not a scrap of warmth on it. Still — it's a word. Last week I'd have got a turned page and nothing else, so I'll count it."
+    headmaster.think "One word, flat as the floor, not a scrap of warmth on it. Still — it's a word. Last week I'd have got a turned page and nothing else, so I'll count it."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 1)
     $ yulan.clear_display()
     $ end_event('new_daytime', **kwargs)
 
 label .force (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ yulan = Person["yulan_chen"]
 
     $ yulan.display(PDAMove(alignX = 0.6, duration = 1.0))
     subtitles "You lengthen your stride and go straight past her. Behind you, a folder snaps shut like a small, final verdict."
     $ yulan.display(PDAImage(mood = "angry", mouth = "closed"), PDAMove(alignX = 0.8, duration = 1.0))
-    headmaster_thought "...I just walked straight past her like she was a coat rack. And that folder snapping shut behind me — that's her filing it away somewhere she won't lose it. Ten seconds, and I've probably set myself back a month with her."
+    headmaster.think "...I just walked straight past her like she was a coat rack. And that folder snapping shut behind me — that's her filing it away somewhere she won't lose it. Ten seconds, and I've probably set myself back a month with her."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", -1)
     call change_stats_with_modifier(reputation=DEC_TINY, happiness=DEC_TINY) from _nm_go_cor_force
@@ -742,6 +762,7 @@ label .force (**kwargs):
 #  colour.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_potion_hangover_miwa (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(version = "2", **kwargs)
 
     $ miwa = Person["miwa_igarashi"]
@@ -756,7 +777,7 @@ label nm_potion_hangover_miwa (**kwargs):
     subtitles "Every notebook on the row is open. Miwa's lies shut under her folded hands, like she's holding it closed on purpose."
 
     if emiko_close:
-        headmaster_thought "Emiko rang about this one — 'the Igarashi girl, keep half an eye on her.' She never says that about the loud ones. It's always the quiet kid holding herself too still, and she's always right about which one."
+        headmaster.think "Emiko rang about this one — 'the Igarashi girl, keep half an eye on her.' She never says that about the loud ones. It's always the quiet kid holding herself too still, and she's always right about which one."
 
     # Withdrawn, not arriving — placed directly, no slide.
     $ miwa.register_paperdoll()
@@ -776,7 +797,7 @@ label nm_potion_hangover_miwa (**kwargs):
     $ miwa.display(PDABw(False, duration = 0.6))
     miwa.say "...sorry. It's like the morning just isn't {i}in{/i} me anymore."
 
-    headmaster_thought "Same gap she had the day the whole wing went strange. That was weeks ago. Weeks — and she's been sitting here with a shut notebook and her hands folded over it, and not one adult in this building thought to just ask the girl if she was all right. God."
+    headmaster.think "Same gap she had the day the whole wing went strange. That was weeks ago. Weeks — and she's been sitting here with a shut notebook and her hands folded over it, and not one adult in this building thought to just ask the girl if she was all right. God."
 
     $ call_custom_menu_with_text("Miwa is holding very still, braced to be told she's broken.", character.subtitles, False,
         MenuElement("counsel", "Tell her she isn't broken", EventEffect("nm_potion_hangover_miwa.counsel")),
@@ -785,6 +806,7 @@ label nm_potion_hangover_miwa (**kwargs):
     **kwargs)
 
 label .counsel (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ miwa = Person["miwa_igarashi"]
 
     headmaster "Listen to me. You're not broken, and you're not in trouble. Something scrambled that morning for a lot of people — you're just the only one honest enough to say the page came back blank."
@@ -802,6 +824,7 @@ label .counsel (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .structure (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ miwa = Person["miwa_igarashi"]
 
     headmaster "Here's the whole assignment. Write down what you {i}do{/i} have — even if it starts at lunch. We'll look at it together after class. Tuesday can stay lost for today."
@@ -818,6 +841,7 @@ label .structure (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .press (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ miwa = Person["miwa_igarashi"]
 
     headmaster "Try harder, Miwa. Something has to be in there — a smell, a voice, anything. Concentrate."
@@ -825,7 +849,7 @@ label .press (**kwargs):
     miwa.say "I {i}am{/i} — I told you, I can't—"
     $ miwa.display(PDAImage(mood = "angry", mouth = "closed"))
     subtitles "Her hands close over the notebook again. Whatever door had cracked open just quietly latched shut."
-    headmaster_thought "I leaned on her and she shut like a book. Of course she did — there's nothing down there for her to reach, and me standing over her demanding it just makes the empty spot feel bigger to her. Well done. Really."
+    headmaster.think "I leaned on her and she shut like a book. Of course she did — there's nothing down there for her to reach, and me standing over her demanding it just makes the empty spot feel bigger to her. Well done. Really."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", -2)
     call change_stats_with_modifier(happiness=DEC_MEDIUM, reputation=DEC_TINY) from _nm_ph_miwa_press
@@ -843,6 +867,7 @@ label .press (**kwargs):
 #  teacher-office background.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_potion_hangover_lily (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(version = "2", **kwargs)
 
     $ lily = Person["lily_anderson"]
@@ -868,7 +893,7 @@ label nm_potion_hangover_lily (**kwargs):
     lily.say "Was last week... {i}real{/i}? I keep teaching like nothing happened, and [unnerved], and I—"
     lily.say "I don't want a diagnosis. I want one sane person to say it out loud with me so I know I haven't come unstitched. Not the staffroom. Not gossip. You."
 
-    headmaster_thought "God, she's actually shaking. She didn't come here to gossip — she came because she needs one person to tell her she isn't cracking up. I can do that much. Just say it straight, don't dress it up, don't make it any stranger than it already is for her."
+    headmaster.think "God, she's actually shaking. She didn't come here to gossip — she came because she needs one person to tell her she isn't cracking up. I can do that much. Just say it straight, don't dress it up, don't make it any stranger than it already is for her."
 
     if get_value("guided", 0, **kwargs) == 1:
         $ lily.display(PDAImage(mood = "neutral", mouth = "open"))
@@ -882,6 +907,7 @@ label nm_potion_hangover_lily (**kwargs):
     **kwargs)
 
 label .sit (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ lily = Person["lily_anderson"]
 
     headmaster "Then here it is, out loud: something happened last week. You're not imagining it, and you're not fragile for being the one who noticed."
@@ -890,7 +916,7 @@ label .sit (**kwargs):
     $ lily.display(PDAImage(mood = "happy", mouth = "closed"))
     lily.say "Thank you. God — that's all it— I can go back to third period now. I actually think I can."
     subtitles "The mug doesn't rattle when she lifts it this time. She just looks tired, and a great deal lighter for it."
-    headmaster_thought "That was all she wanted. Not a fix, not a plan — just one other voice in the room saying yes, it was real, you're not mad. Look at her, sitting up straight again. Her whole set of shoulders came down an inch."
+    headmaster.think "That was all she wanted. Not a fix, not a plan — just one other voice in the room saying yes, it was real, you're not mad. Look at her, sitting up straight again. Her whole set of shoulders came down an inch."
 
     $ set_game_data("nm_lily_witnessed", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 5)
@@ -899,6 +925,7 @@ label .sit (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .loop_in (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ lily = Person["lily_anderson"]
 
     headmaster "You're not imagining it — and you don't have to take just my word for it, either."
@@ -907,7 +934,7 @@ label .loop_in (**kwargs):
     lily.say "...so it {i}is{/i} written down. Somewhere real. I'm not the only one who thought to."
     $ lily.display(PDAImage(mood = "happy", mouth = "closed"))
     lily.say "That helps more than you know. Thank you — both of you."
-    headmaster_thought "Emiko won't mind me handing over the file, not for this. Saying I believe her is one thing — but letting her hold it, dates and all, in someone else's handwriting? Now it isn't just my word propping her up. There's something solid under her feet."
+    headmaster.think "Emiko won't mind me handing over the file, not for this. Saying I believe her is one thing — but letting her hold it, dates and all, in someone else's handwriting? Now it isn't just my word propping her up. There's something solid under her feet."
 
     $ set_game_data("nm_lily_witnessed", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 5)
@@ -916,12 +943,13 @@ label .loop_in (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .maybe (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ lily = Person["lily_anderson"]
 
     headmaster "Maybe it was real. Maybe your body's still catching up on something. I won't pretend to know which — but come back Thursday, same time, and we'll keep a proper eye on it together."
     $ lily.display(PDAImage(mood = "neutral", mouth = "open"))
     lily.say "Thursday. All right. That's... something to hold onto, at least."
-    headmaster_thought "It's not much of an answer and we both know it. But it's a day on the calendar with my name next to it, and sometimes that's the whole thing people need — somewhere to aim for. Maybe it gets her to Thursday. Maybe that's enough for now."
+    headmaster.think "It's not much of an answer and we both know it. But it's a day on the calendar with my name next to it, and sometimes that's the whole thing people need — somewhere to aim for. Maybe it gets her to Thursday. Maybe that's enough for now."
 
     $ set_game_data("nm_lily_witnessed", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 2)
@@ -930,13 +958,14 @@ label .maybe (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .deflect (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ lily = Person["lily_anderson"]
 
     headmaster "Ah — stress does funny things to all of us. Honestly, it's probably just the coffee."
     $ lily.display(PDAImage(mood = "sad", mouth = "closed"))
     lily.say "...Right. Of course. The coffee."
     subtitles "She picks the mug back up. It's steady now — but only because she's holding it too tightly to let it shake."
-    headmaster_thought "...why did I say that. Blame the coffee. She spent all morning working up the nerve to ask me one honest question and I handed her a punchline. Look at her holding that mug so tight it can't shake. She's not coming back to this office. I wouldn't."
+    headmaster.think "...why did I say that. Blame the coffee. She spent all morning working up the nerve to ask me one honest question and I handed her a punchline. Look at her holding that mug so tight it can't shake. She's not coming back to this office. I wouldn't."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 0)
     call change_stats_with_modifier(happiness=DEC_SMALL) from _nm_ph_lily_deflect
@@ -955,6 +984,7 @@ label .deflect (**kwargs):
 #  background shown in greyscale; on "bag", a brief Emiko paperdoll over the office bg.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_potion_hangover_vial (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(version = "2", **kwargs)
 
     $ residue_detail = get_value("residue_detail", **kwargs)
@@ -965,13 +995,13 @@ label nm_potion_hangover_vial (**kwargs):
     $ show_pattern("main", **kwargs)
     subtitles "Behind the bike rack, something small catches the light: a broken vial, green glass gone cloudy, the neck still sticky where it snapped clean off."
     subtitles "You crouch. Up close there's [residue_detail]."
-    headmaster_thought "So it never actually stopped. It just got quiet enough that nobody had to look straight at it — me most of all. It's been out here the whole time, behind the bike racks, waiting for somebody to bother crouching down."
+    headmaster.think "So it never actually stopped. It just got quiet enough that nobody had to look straight at it — me most of all. It's been out here the whole time, behind the bike racks, waiting for somebody to bother crouching down."
 
     # The smell triggers the flashback — existing corridor bg, blurred and drained.
     subtitles "Then the smell reaches you — sweet, cloying, sitting at the back of the throat — and all at once you aren't behind the bike rack at all."
     $ paperdoll_manager.set_background("images/background/school building/1 0 1.webp", blur = True, bw = True)
     subtitles "{i}Last Tuesday. That same corridor-sweetness hanging in the air. A whole wing of students moving a half-second out of step with themselves, and not one of them able to say why.{/i}"
-    headmaster_thought "That smell. It's the same one — not close, the same. This stuff's been through the school before, a whole corridor of it, and every one of us just breathed it in and walked on like nothing was wrong with the day."
+    headmaster.think "That smell. It's the same one — not close, the same. This stuff's been through the school before, a whole corridor of it, and every one of us just breathed it in and walked on like nothing was wrong with the day."
     $ paperdoll_manager.hide_background()
     subtitles "You blink the corridor away. Just the bike rack again. Just the glass, and whatever's still clinging to it."
 
@@ -982,6 +1012,7 @@ label nm_potion_hangover_vial (**kwargs):
     **kwargs)
 
 label .bag (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ emiko = Person["emiko_langley"]
 
     subtitles "You fold the glass into a handkerchief, corner by corner, and dial the office."
@@ -993,7 +1024,7 @@ label .bag (**kwargs):
     headmaster "...I didn't say what colour it was."
     $ emiko.display(PDAImage(mood = "neutral", mouth = "closed"))
     emiko.say "Bring it straight up. Back stairs, not the courtyard. And for heaven's sake don't let a student get a look at it."
-    headmaster_thought "She named the colour before I did. Didn't even blink at it. ...How long has she known to expect one of these to turn up? And why's it me she's telling to use the back stairs, and not the district?"
+    headmaster.think "She named the colour before I did. Didn't even blink at it. ...How long has she known to expect one of these to turn up? And why's it me she's telling to use the back stairs, and not the district?"
 
     $ set_game_data("nm_vial_traced", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
@@ -1002,8 +1033,9 @@ label .bag (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .note (**kwargs):
+    $ headmaster = Person["headmaster"]
     subtitles "You sketch the spot in your pocket notebook — distance from the rack, the angle of the light — and nudge a fallen leaf over the smear with your shoe."
-    headmaster_thought "There. Down on paper, leaf nudged over the smear, out of sight for now. It's not a fire yet. But if it turns into one, at least there's a date in my own handwriting from before anyone starts swearing it never happened."
+    headmaster.think "There. Down on paper, leaf nudged over the smear, out of sight for now. It's not a fire yet. But if it turns into one, at least there's a date in my own handwriting from before anyone starts swearing it never happened."
 
     $ set_game_data("nm_vial_traced", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 1)
@@ -1011,8 +1043,9 @@ label .note (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .ignore (**kwargs):
+    $ headmaster = Person["headmaster"]
     subtitles "You straighten up and walk on. The sweet smell trails you for three steps, then the wind takes it and the courtyard is only a courtyard again."
-    headmaster_thought "...and I'm just going to walk on. Right. Except pretending I didn't see it is still a choice I'm making, isn't it. Keep making it and one day it's not my call anymore — it's somebody upstairs deciding what happens to this place, and I won't like their answer."
+    headmaster.think "...and I'm just going to walk on. Right. Except pretending I didn't see it is still a choice I'm making, isn't it. Keep making it and one day it's not my call anymore — it's somebody upstairs deciding what happens to this place, and I won't like their answer."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", -1)
     $ end_event('new_daytime', **kwargs)
@@ -1035,6 +1068,7 @@ label .ignore (**kwargs):
 #  courtyard background.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_testing_the_waters_clipboard (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(version = "2", **kwargs)
 
     $ yuriko = Person["yuriko_oshima"]
@@ -1053,7 +1087,7 @@ label nm_testing_the_waters_clipboard (**kwargs):
     yuriko.say "Headmaster. A few quick ones, if you don't mind. Grey areas, mostly."
     $ yuriko.display(PDAImage(mood = "suspicious", mouth = "open"))
     yuriko.say "Top of the list: [grey_area]. Officially. On the record."
-    headmaster_thought "That pen's not taking notes, it's taking down law. Whatever I say standing here in the courtyard gets quoted back at me by every year group before lunch. Better get it right the first time — there won't be a quiet correction later."
+    headmaster.think "That pen's not taking notes, it's taking down law. Whatever I say standing here in the courtyard gets quoted back at me by every year group before lunch. Better get it right the first time — there won't be a quiet correction later."
 
     $ high_charm = get_stat_value("charm", [20, 100], **kwargs) >= 20
 
@@ -1064,13 +1098,14 @@ label nm_testing_the_waters_clipboard (**kwargs):
     **kwargs)
 
 label .precise (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ yuriko = Person["yuriko_oshima"]
 
     headmaster "On the record, then. Uniform's optional off campus — neat if you're representing us. Phones, free periods only, on silent. No PDA on school grounds. Simple as that."
     $ yuriko.display(PDAImage(mood = "neutral", mouth = "closed"))
     subtitles "The pen moves fast — three clean lines, underlined once each. The corner of her mouth does something that isn't quite a smile."
     yuriko.say "Clear. That's... refreshingly clear, actually."
-    headmaster_thought "Good. If it's going to travel anyway, let it travel in my own words — clean and clear — and not some garbled version half-invented in a stairwell. Better she carries the real thing."
+    headmaster.think "Good. If it's going to travel anyway, let it travel in my own words — clean and clear — and not some garbled version half-invented in a stairwell. Better she carries the real thing."
 
     $ set_game_data("nm_yuriko_ally", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
@@ -1079,6 +1114,7 @@ label .precise (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .turnaround (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ yuriko = Person["yuriko_oshima"]
 
     headmaster "Before I answer — what do the students already think the rule is? You'd know better than the handbook does."
@@ -1087,7 +1123,7 @@ label .turnaround (**kwargs):
     headmaster "Then let's make the sensible version the official one — and you get to tell them it came from asking you, not guessing."
     $ yuriko.display(PDAImage(mood = "happy", mouth = "closed"))
     yuriko.say "...I can work with that. I'll pass it on. Properly."
-    headmaster_thought "She came out here to pin me down and she's leaving as my messenger, telling herself it was her idea. Honestly? Let her have it. I'll trade a little credit for a student rep on my side any day of the week."
+    headmaster.think "She came out here to pin me down and she's leaving as my messenger, telling herself it was her idea. Honestly? Let her have it. I'll trade a little credit for a student rep on my side any day of the week."
 
     $ set_game_data("nm_yuriko_ally", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 4)
@@ -1096,13 +1132,14 @@ label .turnaround (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .hedge (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ yuriko = Person["yuriko_oshima"]
 
     headmaster "It, ah— depends. Case by case, really. Let me get back to you on that one."
     $ yuriko.display(PDAImage(mood = "suspicious", mouth = "closed"))
     yuriko.say "So. Un-de-fined."
     subtitles "She writes the word out slowly, larger than the rest, and caps the pen like she's got exactly what she came for."
-    headmaster_thought "...I just gave her a blank page with my signature on the bottom. 'Un-de-fined.' She's going to write in whatever suits her and the whole school's going to read it as policy — mine. That's not ducking the question. That's handing her the pen."
+    headmaster.think "...I just gave her a blank page with my signature on the bottom. 'Un-de-fined.' She's going to write in whatever suits her and the whole school's going to read it as policy — mine. That's not ducking the question. That's handing her the pen."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", -3)
     call change_stats_with_modifier(reputation=DEC_SMALL) from _nm_tw_clip_hedge
@@ -1120,6 +1157,7 @@ label .hedge (**kwargs):
 #  office/secretary background.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_testing_the_waters_memo (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(version = "2", **kwargs)
 
     $ emiko = Person["emiko_langley"]
@@ -1128,7 +1166,7 @@ label nm_testing_the_waters_memo (**kwargs):
     $ paperdoll_manager.set_background("images/background/office building/secretary 6 1 0.webp", blur = True)
     $ show_pattern("main", **kwargs)
     subtitles "A blank school-wide memo form waits on your blotter, edges squared to the wood. You didn't put it there."
-    headmaster_thought "This didn't square itself on my blotter by accident. Emiko left it here. First thing the whole school's going to hear straight from me, in my words — and she wants to see which version of me picks up the pen. So do I, if I'm honest with myself."
+    headmaster.think "This didn't square itself on my blotter by accident. Emiko left it here. First thing the whole school's going to hear straight from me, in my words — and she wants to see which version of me picks up the pen. So do I, if I'm honest with myself."
 
     if get_value("guided", 0, **kwargs) == 1:
         $ emiko.register_paperdoll()
@@ -1144,6 +1182,7 @@ label nm_testing_the_waters_memo (**kwargs):
     **kwargs)
 
 label .own (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ emiko = Person["emiko_langley"]
 
     subtitles "You write about being present. About office hours that actually mean something. About a door — correctly labelled now — that stays open."
@@ -1153,7 +1192,7 @@ label .own (**kwargs):
     $ emiko.display(PDAImage(pose = "1", outfit = "uniform", level = 6, mood = "shining", mouth = "closed"),
         PDAPreset("upper_body_center", duration = 0.0))
     emiko.say "...Huh. That actually sounds like you. I'll run copies before the last bell."
-    headmaster_thought "Three drafts, but there it is. When they read that, they'll hear an actual person sitting in this chair, not a blank office with a letterhead and a signature at the bottom. It sounds like me. Took me long enough to write something that did."
+    headmaster.think "Three drafts, but there it is. When they read that, they'll hear an actual person sitting in this chair, not a blank office with a letterhead and a signature at the bottom. It sounds like me. Took me long enough to write something that did."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 4)
     call change_stats_with_modifier(reputation=MEDIUM, education=TINY) from _nm_tw_memo_own
@@ -1161,6 +1200,7 @@ label .own (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .vague (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ emiko = Person["emiko_langley"]
 
     subtitles "You tick the required boxes, sign the bottom, and leave the body of it saying almost nothing at all."
@@ -1169,7 +1209,7 @@ label .vague (**kwargs):
     $ emiko.display(PDAImage(pose = "1", outfit = "uniform", level = 6, mood = "neutral", mouth = "closed"),
         PDAPreset("upper_body_center", duration = 0.0))
     emiko.say "Mm. Safe."
-    headmaster_thought "'Safe.' She never means safe when she says it in that tone. She means empty, and she's right — I filled a whole page and still managed to say nothing worth reading. She knew I would before I ever picked up the pen."
+    headmaster.think "'Safe.' She never means safe when she says it in that tone. She means empty, and she's right — I filled a whole page and still managed to say nothing worth reading. She knew I would before I ever picked up the pen."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 1)
     call change_stats_with_modifier(reputation=TINY) from _nm_tw_memo_vague
@@ -1196,6 +1236,7 @@ label .vague (**kwargs):
 #  Background: kiosk/1 1 1.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_rumors_in_bloom_kiosk (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(version = "2", **kwargs)
 
     $ aona = Person["aona_komuro"]
@@ -1215,10 +1256,10 @@ label nm_rumors_in_bloom_kiosk (**kwargs):
     aona.say "That's him. From the assembly. I actually recognise him now."
     if face_known:
         aona.say "...the one who told me off for the 'janitor' thing. Yeah. Definitely him."
-        headmaster_thought "It stuck. A couple of weeks ago she had me down as the maintenance man, and now she's picking my face out of a crowd in the snack queue. That's the whole thing right there — I just had to keep turning up until I was somebody she recognised."
+        headmaster.think "It stuck. A couple of weeks ago she had me down as the maintenance man, and now she's picking my face out of a crowd in the snack queue. That's the whole thing right there — I just had to keep turning up until I was somebody she recognised."
     else:
         bystander.say "Told you it was the headmaster."
-        headmaster_thought "And there it is — she's placed me. The face finally caught up with the title, and it happened in the crisps queue of all the places. Not the assembly, not the office. Buying a drink at break. I'll take it wherever it decides to land."
+        headmaster.think "And there it is — she's placed me. The face finally caught up with the title, and it happened in the crisps queue of all the places. Not the assembly, not the office. Buying a drink at break. I'll take it wherever it decides to land."
 
     if snapped:
         subtitles "She drops her voice a notch when she clocks you're in earshot. She hasn't forgotten getting snapped at."
@@ -1230,6 +1271,7 @@ label nm_rumors_in_bloom_kiosk (**kwargs):
     **kwargs)
 
 label .intervene (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ aona = Person["aona_komuro"]
 
     headmaster "If you're going to rank me, at least rank me by the right job. Headmaster. Not a number on your list."
@@ -1240,7 +1282,7 @@ label .intervene (**kwargs):
         PDAPreset("close_body_center", duration = 0.0))
     aona.say "...okay, that's fair. Headmaster. Noted."
     subtitles "The game folds up on its own. The grin doesn't — but now it's pointed with you, not at you."
-    headmaster_thought "Didn't have to shut her down at all. I stepped in, took the title and the teasing both, and now she's grinning with me instead of at me. I think I'm finally learning how to handle this one."
+    headmaster.think "Didn't have to shut her down at all. I stepped in, took the title and the teasing both, and now she's grinning with me instead of at me. I think I'm finally learning how to handle this one."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
     call change_stats_with_modifier(reputation=SMALL, charm=TINY) from _nm_rb_kiosk_intervene
@@ -1248,15 +1290,17 @@ label .intervene (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .listen (**kwargs):
+    $ headmaster = Person["headmaster"]
     # No paperdoll — he hangs back and overhears; nobody's talking to him.
     subtitles "You stay put and let the queue carry you. The talk washes past — names, small grievances — and then something snags: [rumor]."
-    headmaster_thought "This queue's better than any staff meeting for finding out what's actually going on in here. Half of it's nonsense, sure — but that last bit, the thing they're all careful not to say too loud? That one I'm keeping in my back pocket."
+    headmaster.think "This queue's better than any staff meeting for finding out what's actually going on in here. Half of it's nonsense, sure — but that last bit, the thing they're all careful not to say too loud? That one I'm keeping in my back pocket."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 1)
     call change_stats_with_modifier(reputation=TINY) from _nm_rb_kiosk_listen
     $ end_event('new_daytime', **kwargs)
 
 label .break (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ aona = Person["aona_komuro"]
 
     headmaster "Line's moving. Save the gossip for your own time."
@@ -1266,7 +1310,7 @@ label .break (**kwargs):
     $ aona.display(PDAImage(pose = "1", outfit = "uniform", level = 1, mood = "pout", mouth = "closed"),
         PDAPreset("close_body_center", duration = 0.0))
     aona.say "...sheesh. Fine."
-    headmaster_thought "And there it goes. I had one opening to be part of it — the headmaster who can take a joke — and I stepped right on it. Back to being the man they lower their voices around. Nice work."
+    headmaster.think "And there it goes. I had one opening to be part of it — the headmaster who can take a joke — and I stepped right on it. Back to being the man they lower their voices around. Nice work."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", -1)
     call change_stats_with_modifier(happiness=DEC_TINY) from _nm_rb_kiosk_break
@@ -1284,6 +1328,7 @@ label .break (**kwargs):
 #  courtyard background.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_rumors_in_bloom_chalk (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(version = "2", **kwargs)
 
     $ exaggeration = get_value("exaggeration", **kwargs)
@@ -1292,7 +1337,7 @@ label nm_rumors_in_bloom_chalk (**kwargs):
     $ paperdoll_manager.set_background("images/background/courtyard/1 0 1.webp", blur = True)
     $ show_pattern("main", **kwargs)
     subtitles "Behind the bike shed, someone's chalked a portrait onto the brick. It's roughly you — and, weirdly, flattering: [exaggeration]."
-    headmaster_thought "A month ago half of them weren't sure I worked here. Now somebody's chalked me up on the brick — and flattering, at that. Whatever I've been doing, it's landing somewhere. They're drawing me in. Literally, apparently."
+    headmaster.think "A month ago half of them weren't sure I worked here. Now somebody's chalked me up on the brick — and flattering, at that. Whatever I've been doing, it's landing somewhere. They're drawing me in. Literally, apparently."
 
     $ call_custom_menu_with_text("Nobody's around. Just you and the wall.", character.subtitles, False,
         MenuElement("leave", "Leave it be", EventEffect("nm_rumors_in_bloom_chalk.leave")),
@@ -1301,14 +1346,16 @@ label nm_rumors_in_bloom_chalk (**kwargs):
     **kwargs)
 
 label .leave (**kwargs):
+    $ headmaster = Person["headmaster"]
     subtitles "You leave it be and walk on. Let it keep grinning at the bike racks."
-    headmaster_thought "That's a version of me they actually like up there on the wall. Steady, kind, a bit heroic round the jaw. I could do a lot worse than spend the rest of the year trying to be the man in the drawing."
+    headmaster.think "That's a version of me they actually like up there on the wall. Steady, kind, a bit heroic round the jaw. I could do a lot worse than spend the rest of the year trying to be the man in the drawing."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
     call change_stats_with_modifier(happiness=TINY, charm=TINY) from _nm_rb_chalk_leave
     $ end_event('new_daytime', **kwargs)
 
 label .correct (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ aona = Person["aona_komuro"]
 
     subtitles "There's a nub of chalk in the dirt. You crouch, soften the jaw a touch, and add the one honest smile-line the artist was too shy to draw."
@@ -1320,7 +1367,7 @@ label .correct (**kwargs):
     aona.say "...did you just {i}improve{/i} it?"
     headmaster "It needed a smile. Don't tell anyone."
     $ aona.display(PDAImage(mood = "happy", mouth = "closed"))
-    headmaster_thought "Well, that's all over the year group by tomorrow — the headmaster who caught someone's chalk drawing of him and made it better instead of scrubbing it off. Let it go round. It's the best rumour I've had since I got here."
+    headmaster.think "Well, that's all over the year group by tomorrow — the headmaster who caught someone's chalk drawing of him and made it better instead of scrubbing it off. Let it go round. It's the best rumour I've had since I got here."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 2)
     call change_stats_with_modifier(charm=SMALL, happiness=TINY) from _nm_rb_chalk_correct
@@ -1328,8 +1375,9 @@ label .correct (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .erase (**kwargs):
+    $ headmaster = Person["headmaster"]
     subtitles "You scrub it off with your sleeve until there's nothing but a grey smear and chalk dust on your cuff. The shed goes very quiet."
-    headmaster_thought "...chalk dust all down my cuff and a grey smear where a kind thing used to be. Somebody drew me because they liked me, and I rubbed it out like it was a crime scene. That doesn't teach anyone respect. It just teaches them to keep their heads down when I walk past."
+    headmaster.think "...chalk dust all down my cuff and a grey smear where a kind thing used to be. Somebody drew me because they liked me, and I rubbed it out like it was a crime scene. That doesn't teach anyone respect. It just teaches them to keep their heads down when I walk past."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", -2)
     call change_stats_with_modifier(happiness=DEC_SMALL, reputation=DEC_TINY) from _nm_rb_chalk_erase
@@ -1353,6 +1401,7 @@ label .erase (**kwargs):
 #  school-building background; Zoe leans in from the right under Guided.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_quiet_endorsements_after_bell (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(version = "2", **kwargs)
 
     $ miwa = Person["miwa_igarashi"]
@@ -1367,10 +1416,10 @@ label nm_quiet_endorsements_after_bell (**kwargs):
         PDAPreset("upper_body_center", duration = 0.0))
     if miwa_helped:
         miwa.say "Um— thanks. For actually taking it seriously. When I couldn't remember. It— it helped, more than I said."
-        headmaster_thought "She held back against the whole tide of the class just to say that. No panic this time, no shut notebook — a kid who went out of her way to find me and say thank you. God. That right there is the entire job, and it fits in a doorway."
+        headmaster.think "She held back against the whole tide of the class just to say that. No panic this time, no shut notebook — a kid who went out of her way to find me and say thank you. God. That right there is the entire job, and it fits in a doorway."
     else:
         miwa.say "Um— thanks. For not making it weird the other day. When I was all... out of it."
-        headmaster_thought "Honestly don't think I did much for her that day. But she's remembered it as a kindness anyway, and she came back to say so. I'll take the credit she's handing me — and try to actually earn it with the next kid who comes in like she did."
+        headmaster.think "Honestly don't think I did much for her that day. But she's remembered it as a kindness anyway, and she came back to say so. I'll take the credit she's handing me — and try to actually earn it with the next kid who comes in like she did."
     $ miwa.display(PDAImage(mood = "sad", mouth = "open"))
     miwa.say "I— I have to go, I can't stay, but— yeah. Thanks."
 
@@ -1390,6 +1439,7 @@ label nm_quiet_endorsements_after_bell (**kwargs):
     **kwargs)
 
 label .pace (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ miwa = Person["miwa_igarashi"]
 
     headmaster "Go on, you'll be late. Door's open if you ever need it — that's all."
@@ -1403,12 +1453,13 @@ label .pace (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .followup (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ miwa = Person["miwa_igarashi"]
 
     headmaster "Quick one — sleeping any better these days?"
     $ miwa.display(PDAImage(mood = "neutral", mouth = "open"))
     miwa.say "A bit. ...I'll tell you about it next time. Promise."
-    headmaster_thought "'Next time,' she said. She left that door open herself this time — I didn't have to prop it for her. A few weeks ago she couldn't get the words out at all. Now she's promising me a next time. That's new, and it's good."
+    headmaster.think "'Next time,' she said. She left that door open herself this time — I didn't have to prop it for her. A few weeks ago she couldn't get the words out at all. Now she's promising me a next time. That's new, and it's good."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
     call change_stats_with_modifier(happiness=SMALL) from _nm_qe_bell_follow
@@ -1416,12 +1467,13 @@ label .followup (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .assign (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ miwa = Person["miwa_igarashi"]
 
     headmaster "Good. Now don't be late to your next class."
     $ miwa.display(PDAImage(mood = "sad", mouth = "closed"))
     miwa.say "...yes, sir."
-    headmaster_thought "'Yes, sir.' There goes the light right out of her. She worked up the nerve to thank me and I answered with a note about the register. Smooth. Took the one brave thing she managed all day and turned it into a telling-off."
+    headmaster.think "'Yes, sir.' There goes the light right out of her. She worked up the nerve to thank me and I answered with a note about the register. Smooth. Took the one brave thing she managed all day and turned it into a telling-off."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 1)
     call change_stats_with_modifier(education=TINY) from _nm_qe_bell_assign
@@ -1439,6 +1491,7 @@ label .assign (**kwargs):
 #  teacher-office background.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_quiet_endorsements_second_coffee (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(version = "2", **kwargs)
 
     $ lily = Person["lily_anderson"]
@@ -1459,7 +1512,7 @@ label nm_quiet_endorsements_second_coffee (**kwargs):
     else:
         lily.say "We didn't really get to talk properly last time. I wanted to try again, if the offer still stands."
         lily.say "I'm not in crisis. I'd just... like somewhere steady to think out loud. If that's allowed."
-    headmaster_thought "She's here on a good day this time, not a bad one — that's the whole tell right there. The office stopped being the door she bolts through in a crisis. It's just a chair she decided she likes sitting in. That took weeks. It was worth every one of them."
+    headmaster.think "She's here on a good day this time, not a bad one — that's the whole tell right there. The office stopped being the door she bolts through in a crisis. It's just a chair she decided she likes sitting in. That took weeks. It was worth every one of them."
 
     $ call_custom_menu_with_text("She's settled in, in no hurry.", character.subtitles, False,
         MenuElement("attend", "Just be present", EventEffect("nm_quiet_endorsements_second_coffee.attend")),
@@ -1468,13 +1521,14 @@ label nm_quiet_endorsements_second_coffee (**kwargs):
     **kwargs)
 
 label .attend (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ lily = Person["lily_anderson"]
 
     subtitles "You don't rush to fill the silences. You let them stretch, and she steps into them when she's ready — which she does, easily now."
     $ lily.display(PDAImage(mood = "happy", mouth = "closed"))
     lily.say "...same time next week?"
     headmaster "Same time."
-    headmaster_thought "No breakthrough, no big moment. Just — same time next week, and she means it, and so do I. ...Huh. Somewhere along the line this hour with her stopped being a duty and turned into the part of the day I actually look forward to."
+    headmaster.think "No breakthrough, no big moment. Just — same time next week, and she means it, and so do I. ...Huh. Somewhere along the line this hour with her stopped being a duty and turned into the part of the day I actually look forward to."
 
     $ set_game_data("nm_care_channel", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 5)
@@ -1483,6 +1537,7 @@ label .attend (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .summarize (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ lily = Person["lily_anderson"]
 
     headmaster "Next Thursday, free period. And if anything spikes before then, put a note through Emiko and I'll make room sooner."
@@ -1496,12 +1551,13 @@ label .summarize (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .advice (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ lily = Person["lily_anderson"]
 
     headmaster "Sleep schedule, plenty of water, and stop grading past midnight. You'll feel worlds better."
     $ lily.display(PDAImage(mood = "sad", mouth = "closed"))
     lily.say "I... yes. I do know those things."
-    headmaster_thought "Water, sleep, stop grading late — I handed her a pamphlet she could've written herself. She only wanted to think out loud in a room with somebody in it. Now she's gone quiet, staring at the floor. Since when do I start fixing people before I've bothered to hear a word they're saying?"
+    headmaster.think "Water, sleep, stop grading late — I handed her a pamphlet she could've written herself. She only wanted to think out loud in a room with somebody in it. Now she's gone quiet, staring at the floor. Since when do I start fixing people before I've bothered to hear a word they're saying?"
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 1)
     $ lily.clear_display()
@@ -1517,6 +1573,7 @@ label .advice (**kwargs):
 #  office background.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_quiet_endorsements_curriculum (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(version = "2", **kwargs)
 
     $ lily = Person["lily_anderson"]
@@ -1532,7 +1589,7 @@ label nm_quiet_endorsements_curriculum (**kwargs):
     lily.say "The pacing on that. It's... actually better. There."
     $ lily.display(PDAImage(mood = "pout", mouth = "closed"))
     lily.say "Don't make me say it twice. It works."
-    headmaster_thought "'Actually better.' From anyone else that's nothing. From Lily it's a bouquet with a ribbon on it — she'd sooner grade a hundred essays than say a kind thing to my face, and she just did it, out loud, and hated every second. I'm not going to let on how much it lands."
+    headmaster.think "'Actually better.' From anyone else that's nothing. From Lily it's a bouquet with a ribbon on it — she'd sooner grade a hundred essays than say a kind thing to my face, and she just did it, out loud, and hated every second. I'm not going to let on how much it lands."
 
     $ call_custom_menu_with_text("The tick is still sitting there in the margin.", character.subtitles, False,
         MenuElement("adjust", "Take the note and rebuild the block", EventEffect("nm_quiet_endorsements_curriculum.adjust")),
@@ -1541,12 +1598,13 @@ label nm_quiet_endorsements_curriculum (**kwargs):
     **kwargs)
 
 label .adjust (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ lily = Person["lily_anderson"]
 
     headmaster "Then I'll rebuild the third block around it. Send me the rest of your notes, if you've got them."
     $ lily.display(PDAImage(mood = "happy", mouth = "closed"))
     lily.say "Already did. Check your tray — under the outline. I don't do things by halves."
-    headmaster_thought "Of course the rest of the notes are already in my tray. She wasn't fishing for a thank-you — she was putting better work in front of me and daring me to actually do something with it. All right, Lily. Challenge taken."
+    headmaster.think "Of course the rest of the notes are already in my tray. She wasn't fishing for a thank-you — she was putting better work in front of me and daring me to actually do something with it. All right, Lily. Challenge taken."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 4)
     call change_stats_with_modifier(education=MEDIUM, reputation=TINY) from _nm_qe_curr_adjust
@@ -1554,6 +1612,7 @@ label .adjust (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .credit (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ lily = Person["lily_anderson"]
 
     headmaster "At the next staff brief, I'm saying the outline got better because of you. One sentence."
@@ -1562,7 +1621,7 @@ label .credit (**kwargs):
     headmaster "One sentence. I promise."
     $ lily.display(PDAImage(mood = "pout", mouth = "closed"))
     lily.say "...fine. One. And no adjectives."
-    headmaster_thought "Look at her, negotiating the adjectives out of her own praise before I've even said it. She's going to hate standing there while I credit her in front of the staff — and she'll remember it for a year anyway. One plain sentence, no adjectives. Fine. She's earned every second of the squirming."
+    headmaster.think "Look at her, negotiating the adjectives out of her own praise before I've even said it. She's going to hate standing there while I credit her in front of the staff — and she'll remember it for a year anyway. One plain sentence, no adjectives. Fine. She's earned every second of the squirming."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
     call change_stats_with_modifier(education=SMALL, happiness=TINY, reputation=TINY) from _nm_qe_curr_credit
@@ -1570,11 +1629,12 @@ label .credit (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .shrug (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ lily = Person["lily_anderson"]
 
     $ lily.display(PDAImage(mood = "sad", mouth = "closed"))
     subtitles "You murmur a thanks, file the outline under 'done', and reach for the next form. When you glance up again, she's already gone."
-    headmaster_thought "Filed her best work under 'done' without a second look, muttered a thanks I didn't even mean. Glanced up and she was already gone — took the smile out the door with her. That's a woman who won't hand me anything in a hurry again. Can't say I blame her."
+    headmaster.think "Filed her best work under 'done' without a second look, muttered a thanks I didn't even mean. Glanced up and she was already gone — took the smile out the door with her. That's a woman who won't hand me anything in a hurry again. Can't say I blame her."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 1)
     call change_stats_with_modifier(education=TINY) from _nm_qe_curr_shrug
@@ -1599,6 +1659,7 @@ label .shrug (**kwargs):
 #  over the blurred staff-room background.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_welcome_committee_mug (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(version = "2", **kwargs)
 
     $ finola = Person["finola_ryan"]
@@ -1621,10 +1682,10 @@ label nm_welcome_committee_mug (**kwargs):
     if yulan_thawed:
         $ yulan.display(PDAImage(mood = "neutral", mouth = "open"))
         yulan.say "...It's a decent outline he's running, for what it's worth. Don't let it go to his head."
-        headmaster_thought "Yulan. Saying something almost kind, in the staff room, where people can hear it. It's backhanded, obviously — 'don't let it go to his head' — but a month ago the woman wouldn't slow her stride for me in a corridor. We've come a fair way, the two of us, whether she'd ever admit it or not."
+        headmaster.think "Yulan. Saying something almost kind, in the staff room, where people can hear it. It's backhanded, obviously — 'don't let it go to his head' — but a month ago the woman wouldn't slow her stride for me in a corridor. We've come a fair way, the two of us, whether she'd ever admit it or not."
     else:
         yulan.say "..."
-        headmaster_thought "Nothing from Yulan, same as always. But she's standing in the circle, isn't she — not out in the corridor finding somewhere else to be. For her, just choosing to be in the room is its own kind of answer."
+        headmaster.think "Nothing from Yulan, same as always. But she's standing in the circle, isn't she — not out in the corridor finding somewhere else to be. For her, just choosing to be in the room is its own kind of answer."
 
     $ call_custom_menu_with_text("Finola's got the mug half-raised, waiting on you.", character.subtitles, False,
         MenuElement("warm", "Take the toast properly", EventEffect("nm_welcome_committee_mug.warm")),
@@ -1633,6 +1694,7 @@ label nm_welcome_committee_mug (**kwargs):
     **kwargs)
 
 label .warm (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ finola = Person["finola_ryan"]
     $ yulan = Person["yulan_chen"]
 
@@ -1641,7 +1703,7 @@ label .warm (**kwargs):
     finola.say "See? Told you there was a human in there somewhere."
     $ yulan.display(PDAImage(mood = "happy", mouth = "closed"))
     yulan.say "...Hmph."
-    headmaster_thought "There was a smile hiding behind that 'hmph.' I'd bet the office on it. Whatever 'the new headmaster' used to mean a month ago — the stranger, the placeholder — it's finally starting to wear off. And for once that's the good kind of wearing off."
+    headmaster.think "There was a smile hiding behind that 'hmph.' I'd bet the office on it. Whatever 'the new headmaster' used to mean a month ago — the stranger, the placeholder — it's finally starting to wear off. And for once that's the good kind of wearing off."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 6)
     call change_stats_with_modifier(happiness=MEDIUM, reputation=SMALL, charm=SMALL) from _nm_wc_mug_warm
@@ -1649,12 +1711,13 @@ label .warm (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .brief (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ finola = Person["finola_ryan"]
 
     headmaster "Thank you, Finola — truly. I've got papers with my name on them shouting from the office, though."
     $ finola.display(PDAImage(mood = "happy", mouth = "closed"))
     finola.say "Off you pop, then. We'll keep the coffee warm for the next time you surface."
-    headmaster_thought "Took the toast, said the right things, kept one foot pointed at the door the whole time. It wasn't a snub, exactly. But there was warmth on that table I could've sat down in for ten minutes, and I chose the paperwork instead. I always seem to choose the paperwork."
+    headmaster.think "Took the toast, said the right things, kept one foot pointed at the door the whole time. It wasn't a snub, exactly. But there was warmth on that table I could've sat down in for ten minutes, and I chose the paperwork instead. I always seem to choose the paperwork."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 4)
     call change_stats_with_modifier(reputation=SMALL, happiness=TINY) from _nm_wc_mug_brief
@@ -1662,12 +1725,13 @@ label .brief (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .miss (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ finola = Person["finola_ryan"]
 
     subtitles "You make a show of a stack of forms and don't look up. The mug lowers, quietly, without a clink. Someone changes the subject to spare you."
     $ finola.display(PDAImage(mood = "sad", mouth = "closed"))
     finola.say "...Right. Course. Busy man."
-    headmaster_thought "They poured a mug and raised it to let me in, and I answered by hiding behind a stack of forms. Standing here acting like I've got somewhere better to be than the one room in this school that just tried to make me welcome. Damn it. They won't say a word about it. They'll just remember."
+    headmaster.think "They poured a mug and raised it to let me in, and I answered by hiding behind a stack of forms. Standing here acting like I've got somewhere better to be than the one room in this school that just tried to make me welcome. Damn it. They won't say a word about it. They'll just remember."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 2)
     call change_stats_with_modifier(happiness=DEC_TINY) from _nm_wc_mug_miss
@@ -1716,13 +1780,14 @@ label nm_welcome_committee_plaque (**kwargs):
     **kwargs)
 
 label .real (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ emiko = Person["emiko_langley"]
 
     headmaster "Help me hang it. Right now — while the screws are still in the bag and I've still got the nerve."
     $ emiko.display(PDAImage(mood = "shining", mouth = "closed"))
     emiko.say "Yes, headmaster."
     subtitles "The old man's plate comes down. The last curl of that taped printout goes in the bin for good. The new brass goes up straight, and catches the hall light like it's been waiting years to."
-    headmaster_thought "There it is, up straight and catching the hall light. His plate's down, that awful strip of tape's finally in the bin, and my name's cut into the brass where anyone can read it. It's my room. Has been for a while, if I'm honest — took me until right now to actually believe it."
+    headmaster.think "There it is, up straight and catching the hall light. His plate's down, that awful strip of tape's finally in the bin, and my name's cut into the brass where anyone can read it. It's my room. Has been for a while, if I'm honest — took me until right now to actually believe it."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
     call change_stats_with_modifier(reputation=SMALL, charm=TINY) from _nm_wc_plaque_real
@@ -1730,12 +1795,13 @@ label .real (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .joke (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ emiko = Person["emiko_langley"]
 
     headmaster "Don't look at me like that."
     $ emiko.display(PDAImage(mood = "happy", mouth = "open"))
     emiko.say "Like what? I'm admiring the brass. Purely professional interest in good brass."
-    headmaster_thought "'Purely professional interest in good brass.' Sure. We both know it wasn't the brass she was looking at. The plate can wait till tomorrow. Hang it together today and one of us ends up saying the thing out loud — and neither of us is ready for that yet. Tomorrow's kinder to us both."
+    headmaster.think "'Purely professional interest in good brass.' Sure. We both know it wasn't the brass she was looking at. The plate can wait till tomorrow. Hang it together today and one of us ends up saying the thing out loud — and neither of us is ready for that yet. Tomorrow's kinder to us both."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 2)
     call change_stats_with_modifier(reputation=TINY, happiness=TINY) from _nm_wc_plaque_joke
@@ -1753,6 +1819,7 @@ label .joke (**kwargs):
 #  over the blurred courtyard background.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_welcome_committee_assembly (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(version = "2", **kwargs)
 
     $ yuriko = Person["yuriko_oshima"]
@@ -1774,13 +1841,13 @@ label nm_welcome_committee_assembly (**kwargs):
         PDAPreset("close_body_right", duration = 0.0), PDAMove(alignX = 1.0))
     if yuriko_ally:
         yuriko.say "They were lined up before I said a word. I may have... primed them. Precedents travel fast when they come from the top."
-        headmaster_thought "Weeks ago this girl ambushed me with a clipboard to work out whether I was worth anything. Now she's lining the whole school up before I've said a word, telling herself it was her own idea. Best deal I've made since I walked through the gate — and she thinks she got the better end of it."
+        headmaster.think "Weeks ago this girl ambushed me with a clipboard to work out whether I was worth anything. Now she's lining the whole school up before I've said a word, telling herself it was her own idea. Best deal I've made since I walked through the gate — and she thinks she got the better end of it."
     else:
         yuriko.say "Everyone's in place. You're on, headmaster."
     if face_known:
         $ aona.display(PDAImage(mood = "happy", mouth = "open"))
         aona.say "Morning, headmaster!"
-        headmaster_thought "'Morning, headmaster' — bright as anything, from the exact girl who once told her mate I was the maintenance man. The janitor story's dead and buried at last. Don't think I've ever been so glad to lose a nickname."
+        headmaster.think "'Morning, headmaster' — bright as anything, from the exact girl who once told her mate I was the maintenance man. The janitor story's dead and buried at last. Don't think I've ever been so glad to lose a nickname."
     else:
         $ aona.display(PDAImage(mood = "neutral", mouth = "open"))
         aona.say "Morning, sir."
@@ -1792,12 +1859,13 @@ label nm_welcome_committee_assembly (**kwargs):
     **kwargs)
 
 label .gentle (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ yuriko = Person["yuriko_oshima"]
 
     headmaster "Morning, everyone. Short brief, then you're off to first period. Thank you for being on time — it doesn't go unnoticed."
     $ yuriko.display(PDAImage(mood = "happy", mouth = "closed"))
     yuriko.say "...they lined up before I even asked, you know. That's you, that is."
-    headmaster_thought "A month ago I couldn't convince one student I even worked here. This morning the whole courtyard fell into line and ran itself, and all I did was show up and mean it. That was the trick the entire time, wasn't it. No speeches. Just being here, and meaning it."
+    headmaster.think "A month ago I couldn't convince one student I even worked here. This morning the whole courtyard fell into line and ran itself, and all I did was show up and mean it. That was the trick the entire time, wasn't it. No speeches. Just being here, and meaning it."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 5)
     call change_stats_with_modifier(reputation=MEDIUM, education=TINY, happiness=SMALL) from _nm_wc_assy_gentle
@@ -1805,23 +1873,25 @@ label .gentle (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .routine (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ yuriko = Person["yuriko_oshima"]
 
     $ yuriko.clear_display()
     subtitles "You nod, walk the length of the line once at an easy pace, and hand the morning off to the teachers. Nothing showy. It doesn't need to be."
-    headmaster_thought "No speech, no theatre, and no need for any. Just a man walking the length of his own courtyard at an easy pace because he belongs there. Which — somewhere in the last few weeks, without my noticing the day it happened — I actually started to."
+    headmaster.think "No speech, no theatre, and no need for any. Just a man walking the length of his own courtyard at an easy pace because he belongs there. Which — somewhere in the last few weeks, without my noticing the day it happened — I actually started to."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 4)
     call change_stats_with_modifier(reputation=SMALL) from _nm_wc_assy_routine
     $ end_event('new_daytime', **kwargs)
 
 label .strict (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ yuriko = Person["yuriko_oshima"]
 
     headmaster "Silence. Straighten those lines. Now."
     $ yuriko.display(PDAImage(mood = "sad", mouth = "closed"))
     subtitles "The line snaps tighter on instinct — neater in a heartbeat. Also colder. A few faces close over, the easy morning gone out of them."
-    headmaster_thought "Snapped into line in a heartbeat, neat as you like — and cold with it. Half those faces just closed over the second I raised my voice. I had a warm morning going and I turned it into a parade ground. I knew better, too. Did it anyway."
+    headmaster.think "Snapped into line in a heartbeat, neat as you like — and cold with it. Half those faces just closed over the second I raised my voice. I had a warm morning going and I turned it into a parade ground. I knew better, too. Did it anyway."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)
     call change_stats_with_modifier(education=SMALL, happiness=DEC_TINY, reputation=TINY) from _nm_wc_assy_strict
@@ -1837,6 +1907,7 @@ label .strict (**kwargs):
 #######################################
 
 label nm_thresh_emiko_nudge (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
     $ emiko = Person["emiko_langley"]
 
@@ -1848,12 +1919,13 @@ label nm_thresh_emiko_nudge (**kwargs):
     emiko.say "The pink slips aren't going anywhere. And neither, at this rate, is your attention."
     $ emiko.display(PDAImage(mood = "suspicious", mouth = "open"))
     emiko.say "Patrol. The desk. A class. The counselling chair. Pick one the school can actually {i}see{/i} you doing — today."
-    headmaster_thought "Patrol, the desk, a class, the counselling chair — pick one. She didn't raise her voice, didn't scold me, just set the choices down in front of me flat and even, like she was telling me it might rain later. Somehow that lands harder than any telling-off could. She's not angry. She's just waiting to see whether I'll bother."
+    headmaster.think "Patrol, the desk, a class, the counselling chair — pick one. She didn't raise her voice, didn't scold me, just set the choices down in front of me flat and even, like she was telling me it might rain later. Somehow that lands harder than any telling-off could. She's not angry. She's just waiting to see whether I'll bother."
     $ emiko.clear_display()
     $ end_event('none', **kwargs)
     return
 
 label nm_thresh_district_letter (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
     $ emiko = Person["emiko_langley"]
 
@@ -1865,12 +1937,13 @@ label nm_thresh_district_letter (**kwargs):
     emiko.say "District office. Again. Dressed up as a polite letter — but there are teeth in it."
     emiko.say "One more empty stretch like this and somebody up there stops writing and picks up the phone. For real, this time."
     $ emiko.display(PDAImage(mood = "neutral", mouth = "closed"))
-    headmaster_thought "For half a second there the professional face slipped, and underneath it she just looked... worried. For the school. Maybe a little for me. Then it snapped back into place before I'd found a single thing to say — and now I'm sitting here wishing I'd been faster."
+    headmaster.think "For half a second there the professional face slipped, and underneath it she just looked... worried. For the school. Maybe a little for me. Then it snapped back into place before I'd found a single thing to say — and now I'm sitting here wishing I'd been faster."
     $ emiko.clear_display()
     $ end_event('none', **kwargs)
     return
 
 label nm_thresh_first_warmth (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
     $ emiko = Person["emiko_langley"]
 
@@ -1879,7 +1952,7 @@ label nm_thresh_first_warmth (**kwargs):
     $ emiko.display(PDAImage(pose = "1", outfit = "uniform", level = 6, mood = "happy", mouth = "open"),
         PDAPreset("upper_body_center", duration = 0.0))
     emiko.say "...Good luck today."
-    headmaster_thought "'Good luck today.' Quiet, half to herself, before she quite caught herself doing it. Just three words. But she offered them without me fishing for anything, and from Emiko that's not a small thing at all. I'll be turning them over at nine-thirty."
+    headmaster.think "'Good luck today.' Quiet, half to herself, before she quite caught herself doing it. Just three words. But she offered them without me fishing for anything, and from Emiko that's not a small thing at all. I'll be turning them over at nine-thirty."
     subtitles "Footsteps in the outer office. She straightens, half a pace back, secretary again in the space of a single breath."
     $ emiko.display(PDAImage(mood = "neutral", mouth = "open"))
     emiko.say "Your nine-thirty's early, headmaster."
@@ -1888,6 +1961,7 @@ label nm_thresh_first_warmth (**kwargs):
     return
 
 label nm_thresh_yulan_thaw (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
     $ yulan = Person["yulan_chen"]
 
@@ -1898,13 +1972,14 @@ label nm_thresh_yulan_thaw (**kwargs):
     subtitles "Yulan stops you between periods. Her folder is closed, for once, tucked under one arm."
     yulan.say "The students are settling. Quietly, but they're settling. I thought you should hear it from someone who isn't paid to flatter you."
     yulan.say "...Be patient with the parts of them that still shake. That's all."
-    headmaster_thought "She said it like she'd been carrying the words around for a week, waiting for the right corridor to set them down in. 'Be patient with the parts of them that still shake.' From Yulan — folder closed, actually stopping to talk to me — that's about as close to a hug as I'm ever going to get."
+    headmaster.think "She said it like she'd been carrying the words around for a week, waiting for the right corridor to set them down in. 'Be patient with the parts of them that still shake.' From Yulan — folder closed, actually stopping to talk to me — that's about as close to a hug as I'm ever going to get."
     $ set_game_data("nm_yulan_thawed", 1)
     $ yulan.clear_display()
     $ end_event('none', **kwargs)
     return
 
 label nm_thresh_adelaide_note (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
     $ emiko = Person["emiko_langley"]
     $ adelaide = Person["adelaide_hall"]
@@ -1919,12 +1994,13 @@ label nm_thresh_adelaide_note (**kwargs):
     $ emiko.display(PDAImage(mood = "neutral", mouth = "closed"))
     emiko.say "She cares more than she'll ever put in writing."
     $ set_game_data("pta_aware", 1)
-    headmaster_thought "'Supportively, this time.' The PTA. Being kind, or the closest thing they do to it. And somewhere along the way they quietly stopped putting 'new' in front of my title. I'm just the headmaster to them now. When did that happen? I never felt the day it turned over."
+    headmaster.think "'Supportively, this time.' The PTA. Being kind, or the closest thing they do to it. And somewhere along the way they quietly stopped putting 'new' in front of my title. I'm just the headmaster to them now. When did that happen? I never felt the day it turned over."
     $ emiko.clear_display()
     $ end_event('none', **kwargs)
     return
 
 label nm_thresh_near_end (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
     $ finola = Person["finola_ryan"]
 
@@ -1934,7 +2010,7 @@ label nm_thresh_near_end (**kwargs):
     $ finola.display(PDAImage(pose = "1", outfit = "uniform", level = 1, mood = "happy", mouth = "open"),
         PDAPreset("upper_body_center", duration = 0.0))
     finola.say "Headmaster. ...Yeah. That sounds about right now, doesn't it."
-    headmaster_thought "Just 'Headmaster' on the line. No 'acting,' no 'interim,' nothing hedging it. The paperwork worked it out before I did. The plaque, the coffee, the courtyard falling into line — all of it was just the rest of me slowly catching up to a word that had already quietly become true."
+    headmaster.think "Just 'Headmaster' on the line. No 'acting,' no 'interim,' nothing hedging it. The paperwork worked it out before I did. The plaque, the coffee, the courtyard falling into line — all of it was just the rest of me slowly catching up to a word that had already quietly become true."
     $ finola.clear_display()
     $ end_event('none', **kwargs)
     return
@@ -1948,6 +2024,7 @@ label nm_thresh_near_end (**kwargs):
 #######################################
 
 label new_management_positive_resolve (**kwargs):
+    $ headmaster = Person["headmaster"]
     $ emiko = Person["emiko_langley"]
     $ yulan = Person["yulan_chen"]
 
@@ -1967,7 +2044,7 @@ label new_management_positive_resolve (**kwargs):
     yulan.say "..."
     $ yulan.display(PDAImage(mood = "happy", mouth = "open"))
     yulan.say "Welcome to the job, headmaster. Properly, this time."
-    headmaster_thought "Nobody's looking at me like I'm keeping the seat warm for someone else anymore. Somewhere between that crooked bit of tape on the door and this second cup of coffee I didn't have to ask for, I stopped being the new man they couldn't quite place. I'm the headmaster now. Not just the word on the form. Theirs."
+    headmaster.think "Nobody's looking at me like I'm keeping the seat warm for someone else anymore. Somewhere between that crooked bit of tape on the door and this second cup of coffee I didn't have to ask for, I stopped being the new man they couldn't quite place. I'm the headmaster now. Not just the word on the form. Theirs."
     $ emiko.clear_display()
     return
 

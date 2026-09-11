@@ -210,10 +210,11 @@ init 1 python:
 ######################
 
 label tutorial_menu ():
+    $ emiko = Person["emiko_langley"]
 
     call show_image("images/events/intro/tutorial_event_1.webp") from _tutorial_menu_2
     menu:
-        secretary "Do you have any questions?"
+        emiko "Do you have any questions?"
 
         "Show me the campus":
             call tutorial_map from tutorial_menu_1
@@ -223,6 +224,7 @@ label tutorial_menu ():
     jump tutorial_menu
 
 label tutorial_map ():
+    $ emiko = Person["emiko_langley"]
     $ map_example = {
         "school_building": "normal", 
         "school_dormitory": "normal",
@@ -233,79 +235,79 @@ label tutorial_map ():
     }
 
     show screen show_building_buttons(map_example) with dissolveM
-    secretary "This is the school campus. Quite big, isn't it?"
+    emiko "This is the school campus. Quite big, isn't it?"
 
     if any(not is_unlockable_unlocked(key) for key in ("labs", "sports_field", "beach", "swimming_pool", "bath", "cafeteria", "staff_lodges")):
-        secretary "Unfortunately there are some buildings that have been taken out of service and became quite derelict."
-        secretary "Funny, these buildings are greyed out... just like in a game."
+        emiko "Unfortunately there are some buildings that have been taken out of service and became quite derelict."
+        emiko "Funny, these buildings are greyed out... just like in a game."
 
     show screen show_building_buttons("school_building", show_type = "white") with dissolveM
-    secretary "This is the School Building. Here the students from age 18 to 22 attend their classes and clubs."
+    emiko "This is the School Building. Here the students from age 18 to 22 attend their classes and clubs."
 
     show screen show_building_buttons("school_dormitory", show_type = "white") with dissolveM
-    secretary "This is the School Dormitory where the High School students live."
+    emiko "This is the School Dormitory where the High School students live."
 
     show screen show_building_buttons("labs", show_type = "white") with dissolveM
-    secretary "This is the Labs Building containing classrooms specialized for biology, chemistry etc."
+    emiko "This is the Labs Building containing classrooms specialized for biology, chemistry etc."
     if not is_unlockable_unlocked("labs"):
-        secretary "This building is currently not in use and needs some renovation."
+        emiko "This building is currently not in use and needs some renovation."
 
     show screen show_building_buttons("sports_field", show_type = "white") with dissolveM
     if is_unlockable_unlocked("sports_field"):
-        secretary "This is the Sports Field. Here our students can work to improve their physical abilities."
-        secretary "I have to say, the students get way more charming when they are fit."
+        emiko "This is the Sports Field. Here our students can work to improve their physical abilities."
+        emiko "I have to say, the students get way more charming when they are fit."
     else:
-        secretary "This is, or rather was our Sports Field. Currently it's just a big overgrown field. Unusable for sport activities."
+        emiko "This is, or rather was our Sports Field. Currently it's just a big overgrown field. Unusable for sport activities."
 
     show screen show_building_buttons("beach", show_type = "white") with dissolveM
     if is_unlockable_unlocked("beach"):
-        secretary "This is the Beach. The perfect place to relax and have fun."
+        emiko "This is the Beach. The perfect place to relax and have fun."
     else:
-        secretary "This is our beach. Unfortunately the former headmaster closed it down to save some money on maintenance."
+        emiko "This is our beach. Unfortunately the former headmaster closed it down to save some money on maintenance."
 
     show screen show_building_buttons("gym", show_type = "white") with dissolveM
-    secretary "This is the Gym Hall. Sport classes take place here."
+    emiko "This is the Gym Hall. Sport classes take place here."
     if not is_unlockable_unlocked("sports_field"):
-        secretary "Normally those classes would switch between the gym and the field outside. But you've seen the state of that."
+        emiko "Normally those classes would switch between the gym and the field outside. But you've seen the state of that."
     else:
-        secretary "Those classes switch between the gym and the field outside."
-    secretary "The weekly assemblies also take place in here every monday."
+        emiko "Those classes switch between the gym and the field outside."
+    emiko "The weekly assemblies also take place in here every monday."
 
     show screen show_building_buttons("swimming_pool", show_type = "white") with dissolveM
-    secretary "This is the our Swimming Pool. The best place to cool off on hot days. Especially because we don't really get winter in this part of the world."
+    emiko "This is the our Swimming Pool. The best place to cool off on hot days. Especially because we don't really get winter in this part of the world."
     if not is_unlockable_unlocked("swimming_pool"):
-        secretary "But even this Facility couldn't survive the mishaps of the former Headmaster."
-        secretary "I hope you can bring this back into operation rather quick. I really enjoy going for a swim."
+        emiko "But even this Facility couldn't survive the mishaps of the former Headmaster."
+        emiko "I hope you can bring this back into operation rather quick. I really enjoy going for a swim."
 
     show screen show_building_buttons("bath", show_type = "white") with dissolveM
-    secretary "This is the public Onsen"
+    emiko "This is the public Onsen"
     if not is_unlockable_unlocked("bath"):
-        secretary "The former headmaster closed this building down to save some money."
+        emiko "The former headmaster closed this building down to save some money."
     else:
-        secretary "It's the perfect place to relax from the stress in the school. I love it here."
+        emiko "It's the perfect place to relax from the stress in the school. I love it here."
 
     show screen show_building_buttons("cafeteria", show_type = "white") with dissolveM
-    secretary "The Cafeteria! The Place where the students get their food."
+    emiko "The Cafeteria! The Place where the students get their food."
     if not is_unlockable_unlocked("cafeteria"):
-        secretary "Because this building is closed, unfortunately the students have to get their food from the kiosk next door."
+        emiko "Because this building is closed, unfortunately the students have to get their food from the kiosk next door."
     else:
-        secretary "Here they get full meals, while for snacks they have to go to the Kiosk next door."
+        emiko "Here they get full meals, while for snacks they have to go to the Kiosk next door."
 
     show screen show_building_buttons("kiosk", show_type = "white") with dissolveM
-    secretary "While I'm at it. This is the Kiosk. Here students get snacks and drinks and other cool stuff like magazines."
+    emiko "While I'm at it. This is the Kiosk. Here students get snacks and drinks and other cool stuff like magazines."
 
     show screen show_building_buttons("courtyard", show_type = "white") with dissolveM
-    secretary "This large area is the courtyard. Here the students can relax and spend their free time on campus."
-    secretary "It's quite large, isn't it? It has to be with three schools on campus."
+    emiko "This large area is the courtyard. Here the students can relax and spend their free time on campus."
+    emiko "It's quite large, isn't it? It has to be with three schools on campus."
 
     show screen show_building_buttons("staff_lodges", show_type = "white") with dissolveM
-    secretary "This is the Staff Lodges. Here the teachers and other staff members live."
+    emiko "This is the Staff Lodges. Here the teachers and other staff members live."
     if not is_unlockable_unlocked("staff_lodges"):
-        secretary "But it's currently closed. The teachers have to find their own place to stay."    
+        emiko "But it's currently closed. The teachers have to find their own place to stay."    
 
     show screen show_building_buttons("office_building", show_type = "white") with dissolveM
-    secretary "And last but not least! The building we're in right now. The Office Building."
-    secretary "Here is your office, from where you manage this school, your apartment, and the school council."
+    emiko "And last but not least! The building we're in right now. The Office Building."
+    emiko "Here is your office, from where you manage this school, your apartment, and the school council."
 
     $ hide_all()
 

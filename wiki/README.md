@@ -29,7 +29,7 @@ here and publish with the sync script.
 | `Lore.md` | 🛠️ world & story bible (premise, drivers, antagonist) |
 | `School-Levels.md` | 🎮 / 🛠️ campus climate (levels 1–10) |
 | `Building-Situations.md`, `Building-Unlockables.md` | 🛠️ content guides |
-| `Events.md`, `Conditions.md`, `Selectors.md`, `Effects.md`, `Modifiers.md`, `Options.md`, `Paperdoll.md`, `Images.md`, `Journal-Alerts.md` | 🛠️ system guides |
+| `Events.md`, `Conditions.md`, `Selectors.md`, `Effects.md`, `Modifiers.md`, `Options.md`, `Dialogue.md`, `Paperdoll.md`, `Images.md`, `Journal-Alerts.md` | 🛠️ system guides |
 
 All pages are **hand-authored here**. Wiki pages have no `# H1` (GitHub shows the page
 title from the filename) and link to each other with `[Label](Page-Name)`; in-page

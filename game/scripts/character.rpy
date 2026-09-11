@@ -979,7 +979,7 @@ init -6 python:
             - e.g. `{"level": 5}` when the character has no level-1 uniform
         """
 
-        def __init__(self, name: str, first_name: str, last_name: str, char: Char, description: List[Union[str, Tuple[str, Condition]]], portraits: Dict[str, Union[str, Tuple[str, Condition]]] = {}, paperdollOverrides: List[PaperdollOverride] = [], thumbnail = "", paperdollPresets = None, paperdollDefaults = None):
+        def __init__(self, name: str, first_name: str, last_name: str, char: Char, description: List[Union[str, Tuple[str, Condition]]], portraits: Dict[str, Union[str, Tuple[str, Condition]]] = {}, paperdollOverrides: List[PaperdollOverride] = [], thumbnail = "", paperdollPresets = None, paperdollDefaults = None, styleOverrides: Dict[str, Any] = None):
             self.name = name
             self.first_name = first_name
             self.last_name = last_name
@@ -994,6 +994,11 @@ init -6 python:
             self.paperdollOverrides = list(paperdollOverrides)
             self.paperdollPresets = list(paperdollPresets) if paperdollPresets is not None else []
             self.paperdollDefaults = dict(paperdollDefaults) if paperdollDefaults is not None else {}
+            # Per-character say-styling. Any Ren'Py Character kwarg (who_color, what_color,
+            # what_font, who_font, what_size, who_size, what_bold, what_italic, what_prefix,
+            # what_suffix, window_background, ...) layered on top of the category `kind` in
+            # get_renpy_char. Empty = fall back entirely to the category Character.
+            self.styleOverrides = dict(styleOverrides) if styleOverrides else {}
 
         @classmethod
         def __class_getitem__(cls, key):
@@ -1026,6 +1031,8 @@ init -6 python:
                 self.paperdollPresets = []
             if not hasattr(data, 'paperdollDefaults'):
                 self.paperdollDefaults = {}
+            if not hasattr(data, 'styleOverrides'):
+                self.styleOverrides = {}
 
             if data != None:
                 self.name = data.name
@@ -1038,6 +1045,8 @@ init -6 python:
                     self.paperdollPresets = data.paperdollPresets
                 if hasattr(data, 'paperdollDefaults'):
                     self.paperdollDefaults = dict(data.paperdollDefaults) if data.paperdollDefaults else {}
+                if hasattr(data, 'styleOverrides'):
+                    self.styleOverrides = dict(data.styleOverrides) if data.styleOverrides else {}
 
         def get_name(self) -> str:
             return self.name
@@ -1098,13 +1107,21 @@ init -6 python:
             return resolved
 
         def get_first_name(self) -> str:
+            # The headmaster's name is player-chosen and save-specific, so it lives in
+            # gameData (via get_name), never baked into the save-agnostic Person def.
+            if self.name == "headmaster":
+                return get_name("headmaster")[0]
+
             if self.first_name == "":
                 if self.last_name != "":
                     return self.last_name
-                return self.name 
+                return self.name
 
             return self.first_name
         def get_last_name(self) -> str:
+            if self.name == "headmaster":
+                return get_name("headmaster")[1]
+
             if self.last_name == "":
                 if self.first_name != "":
                     return self.first_name
@@ -1112,6 +1129,9 @@ init -6 python:
 
             return self.last_name
         def get_full_name(self) -> str:
+            if self.name == "headmaster":
+                return f"{self.get_first_name()} {self.get_last_name()}"
+
             if self.first_name == "" and self.last_name != "":
                 return self.last_name
             if self.last_name == "" and self.first_name != "":
@@ -1121,6 +1141,11 @@ init -6 python:
 
         def set_thumbnail(self, thumbnail: str):
             self.thumbnail = thumbnail
+
+        def __call__(self, *args, **kwargs):
+            # Lets a Person stand in for a Character as a say-statement speaker:
+            # `headmaster "..."` routes through the Person's normal (spoken) styling.
+            return self.say(*args, **kwargs)
 
         @property
         def say(self):
@@ -1142,7 +1167,11 @@ init -6 python:
 
             char_kind = character.subtitles
 
-            if self.character == get_character_by_key('school'):
+            # The headmaster is the player: he has no stat-Char (his `.character` is
+            # None), so his styling is keyed by name rather than by linked Char.
+            if self.name == "headmaster":
+                char_kind = character.headmaster
+            elif self.character == get_character_by_key('school'):
                 char_kind = character.sgirl
             elif self.character == get_character_by_key('parent'):
                 char_kind = character.parent
@@ -1151,14 +1180,18 @@ init -6 python:
             elif self.character == get_character_by_key('secretary'):
                 char_kind = character.secretary
 
+            # Layering: category `kind` (base) ← this Person's styleOverrides ← the
+            # char_type's semantic markers (suffix/italic/bold win on their own keys).
+            kwargs = dict(getattr(self, "styleOverrides", None) or {})
+
             if char_type == "shout":
-                return Character(self.get_full_name(), kind = char_kind, retain = False, who_suffix = " (shouting)", what_bold = True)
+                kwargs.update(who_suffix = " (shouting)", what_bold = True)
             elif char_type == "whisper":
-                return Character(self.get_full_name(), kind = char_kind, retain = False, who_suffix = " (whispering)", what_italic = True)
+                kwargs.update(who_suffix = " (whispering)", what_italic = True)
             elif char_type == "thought":
-                return Character(self.get_full_name(), kind = char_kind, retain = False, who_suffix = " (thinking)", what_italic = True, what_prefix = "(  ", what_suffix = "  )")
-            else:
-                return Character(self.get_full_name(), kind = char_kind, retain = False)
+                kwargs.update(who_suffix = " (thinking)", what_italic = True, what_prefix = "(  ", what_suffix = "  )")
+
+            return Character(self.get_full_name(), kind = char_kind, retain = False, **kwargs)
 
         def register_paperdoll(self, *overrides: PaperdollOverride, **kwargs):
             # House defaults ← Person.paperdollDefaults ← call-time kwargs
@@ -1241,7 +1274,7 @@ init -6 python:
         if name not in person_storage[key].keys():
             log(f"Person with name {name} not found", log_type="error", category="character")
             return None
-        return person_storage[key][name].get_character(char_type)
+        return person_storage[key][name].get_renpy_char(char_type)
 
     def load_person(key: str, person: Person):
         # Gated on the current mod being active (like event `add_event`): a disabled
@@ -1331,7 +1364,9 @@ label load_characters ():
     $ load_person("NoView", Person("default_teacher", "", "Teacher", teacher_char, []))
     $ load_person("NoView", Person("default_secretary", "", "Secretary", secretary_char, []))
 
-    $ load_person("NoView", Person("headmaster", "[headmaster_first_name]", "[headmaster_last_name]", staff_char, []))
+    # Name deliberately left blank: the headmaster's name is save-specific and resolved
+    # dynamically from get_name("headmaster"), so nothing name-related is baked in here.
+    $ load_person("NoView", Person("headmaster", "", "", staff_char, []))
 
     $ load_person("class_3a", Person("aona_komuro", "Aona", "Komuro", school_char, [
             "• Height: 172.5 cm",
