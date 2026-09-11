@@ -578,8 +578,11 @@ init -99 python:
                     self.timed_release.id = self.key
                     set_timer(self.key, "now")
             else:
-                self.reached = True
+                # Auto threshold: fire, then route through set_hold so default_hold
+                # governs re-arming. default_hold == -1 latches reached (old behavior);
+                # default_hold >= 0 opens a hysteresis zone and stays re-armable.
                 self.trigger_effects()
+                self.set_hold()
             return
 
         def add_effect(self, *effects: Effect):
@@ -4088,7 +4091,14 @@ init -99 python:
     # Chain methods (add_*, set_*) return self; __init__ must not return self.
 
     def AutoThreshold(approach_hint, *effects, direction=1, visible_range=100, thumbnail=None, default_hold=-1, **bounds):
-        """Auto-fire threshold with empty threshold_hint. Bounds via kwargs, e.g. main=10."""
+        """Auto-fire threshold with empty threshold_hint. Bounds via kwargs, e.g. main=10.
+
+        ``default_hold=-1`` (default): fires once, then latches — never re-arms.
+        Set ``default_hold`` to ``0`` or higher to make it repeatable: after firing,
+        the bar must travel back past the bound by that many points before the
+        threshold can fire again (hysteresis / dead zone). ``0`` re-arms on any
+        re-crossing; larger values suppress flutter while the bar sits near the bound.
+        """
         return SituationThreshold(approach_hint, "", *effects, direction=direction, visible_range=visible_range, thumbnail=thumbnail, default_hold=default_hold).add_bounds(**bounds)
 
     def BlockingThreshold(approach_hint, threshold_hint, *conditions, direction=1, visible_range=100, thumbnail=None, default_hold=-1, **bounds):
