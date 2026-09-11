@@ -294,7 +294,9 @@ label truth_or_dare_2(**kwargs):
   leave it covering a paperdoll background at zorder `-100`. It stops sound,
   **blocks rollback** (locking in rolled selector values and choices), marks the
   event **seen** (`set_event_seen`), starts a `Gallery_Manager` for replay
-  (unless `no_gallery=True` in kwargs), and `init_paperdoll_manager()`. Bump
+  (unless `no_gallery=True` in kwargs), and `init_paperdoll_manager()`. It also
+  **binds `headmaster` and `emiko`** (the two ever-present speakers) so the scene can
+  use them without a per-event `$ ... = Person[...]` — see [Dialogue](Dialogue). Bump
   `version` when a scene's structure changes so stale replays are invalidated.
 - **`$ end_event(return_type="new_daytime", **kwargs)`** — call it last. `"new_daytime"`
   advances to the next daytime segment; `"map_entry"` returns to the map; in replay it
@@ -487,14 +489,13 @@ works and returns the same `Character` (`char_type` ∈ `""` / `"thought"` / `"w
 some events still carry. Each property access builds a new `Character`; that's cheap
 and behaves identically (same name, `retain=False`).
 
-The player (**Headmaster**) and the secretary (**Emiko**) are full `Person`s too —
-bind them and speak the same way. The Headmaster has a player-chosen, save-specific
-name (resolved live), so his def carries no name; Emiko picks up the secretary look
-automatically:
+The player (**Headmaster**) and the secretary (**Emiko**) are full `Person`s too, and
+**`begin_event` binds them for you** — no `$ headmaster = Person[...]` needed. The
+Headmaster has a player-chosen, save-specific name (resolved live), so his def carries
+no name; Emiko picks up the secretary look automatically:
 
 ```python
-$ headmaster = Person["headmaster"]
-$ emiko = Person["emiko_langley"]
+$ begin_event(**kwargs)      # binds `headmaster` and `emiko`
 emiko "Anything urgent this morning?"
 headmaster.think "Same plaque, still 'in process.'"
 headmaster "Chase it today."

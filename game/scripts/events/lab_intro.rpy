@@ -17,7 +17,6 @@ label lab_intro_1 (**kwargs):
 
     $ image = convert_pattern("main", **kwargs)
 
-    $ headmaster = Person["headmaster"]
     
     $ image.show(0)
     subtitles "The office smells like stale coffee and old paper. The overhead light buzzes faintly."
@@ -214,7 +213,6 @@ label lab_intro_2 (**kwargs):
     # headmaster finds a few tables, chairs, and some other equipment
 
     $ image = convert_pattern("main", **kwargs)
-    $ headmaster = Person["headmaster"]
     
     $ image.show(0)
     subtitles "The smell hits first — mold and old solvent, something chemical that hasn't fully dissipated in thirty years."
@@ -257,7 +255,6 @@ label lab_intro_2_search_gym (**kwargs):
     $ begin_event(**kwargs)
 
     
-    $ headmaster = Person["headmaster"]
 
     $ show_pattern("base", **kwargs)
     headmaster.think "Hmm, the gym should have anything useful."
@@ -271,7 +268,6 @@ label lab_intro_2_search_gym_1 (**kwargs):
     # headmaster finds a bra, but nothing useful for his lab
 
     
-    $ headmaster = Person["headmaster"]
 
     $ show_pattern("main", **kwargs)
     headmaster.think "Whose bra is this? And why is it in the equipment room?! Mhh, who cares."
@@ -283,7 +279,6 @@ label lab_intro_2_search_gym_1 (**kwargs):
 label lab_intro_2_search_gym_2 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ headmaster = Person["headmaster"]
 
     $ show_pattern("main", **kwargs)
     headmaster.think "Nothing useful here."
@@ -294,7 +289,6 @@ label lab_intro_2_search_gym_2 (**kwargs):
 label lab_intro_2_search_cafeteria (**kwargs):
     $ begin_event(**kwargs)
 
-    $ headmaster = Person["headmaster"]
 
     $ show_pattern("base", **kwargs)
     headmaster.think "Hmm, the cafeteria should have anything useful."
@@ -304,7 +298,6 @@ label lab_intro_2_search_cafeteria (**kwargs):
 label lab_intro_2_search_cafeteria_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ headmaster = Person["headmaster"]
 
     # headmaster searches the cafeteria for some equipment
     # headmaster finds a mortar and pestle
@@ -319,7 +312,6 @@ label lab_intro_2_search_cafeteria_1 (**kwargs):
 label lab_intro_2_search_cafeteria_2 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ headmaster = Person["headmaster"]
 
     # headmaster searches the cafeteria for some equipment
     # headmaster finds some distilled water and some other liquids
@@ -334,13 +326,11 @@ label lab_intro_2_search_cafeteria_2 (**kwargs):
 label lab_intro_2_search_cafeteria_3 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ headmaster = Person["headmaster"]
 
     $ show_pattern("main", **kwargs)
     # headmaster searches the cafeteria for some equipment
     # headmaster doesn't find anything useful anymore
 
-    $ headmaster = Person["headmaster"]
 
     headmaster.think "Nothing useful here."
 
@@ -350,7 +340,6 @@ label lab_intro_2_search_cafeteria_3 (**kwargs):
 label lab_intro_2_search_dorm (**kwargs):
     $ begin_event(**kwargs)
 
-    $ headmaster = Person["headmaster"]
 
     $ show_pattern("base", **kwargs)
     headmaster.think "Let's see if the dorm has anything useful."
@@ -360,7 +349,6 @@ label lab_intro_2_search_dorm (**kwargs):
 label lab_intro_2_search_dorm_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ headmaster = Person["headmaster"]
 
     # headmaster searches the dorm for some equipment
     # headmaster finds a mortar and pestle
@@ -375,7 +363,6 @@ label lab_intro_2_search_dorm_1 (**kwargs):
 label lab_intro_2_search_dorm_2 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ headmaster = Person["headmaster"]
 
     # headmaster searches the dorm for some equipment
     # headmaster finds some distilled water and some other liquids
@@ -390,7 +377,6 @@ label lab_intro_2_search_dorm_2 (**kwargs):
 label lab_intro_2_search_dorm_3 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ headmaster = Person["headmaster"]
 
     # headmaster searches the dorm for some equipment
     # headmaster doesn't find anything useful anymore
@@ -404,7 +390,6 @@ label lab_intro_2_search_dorm_3 (**kwargs):
 label lab_intro_2_search_kiosk (**kwargs):
     $ begin_event(**kwargs)
 
-    $ headmaster = Person["headmaster"]
 
     $ show_pattern("base", **kwargs)
     headmaster.think "Let's see if the kiosk has anything useful."
@@ -414,7 +399,6 @@ label lab_intro_2_search_kiosk (**kwargs):
 label lab_intro_2_search_kiosk_1 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ headmaster = Person["headmaster"]
 
     # headmaster looks for some equipment at the kiosk
     # headmaster finds some glassware and some utensils
@@ -440,7 +424,6 @@ label lab_intro_2_search_kiosk_1 (**kwargs):
 label lab_intro_2_search_kiosk_2 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ headmaster = Person["headmaster"]
 
     # headmaster looks for some equipment at the kiosk
     # headmaster doesn't find anything else useful at the kiosk
@@ -457,7 +440,6 @@ label lab_intro_2_patrol_courtyard (**kwargs):
     $ hatano = Person["hatano_miwa"].get_renpy_char()
     $ kokoro = Person["kokoro_nakamura"].get_renpy_char()
     $ gloria = Person["gloria_goto"].get_renpy_char()
-    $ headmaster = Person["headmaster"]
 
 
     # headmaster find students sitting in the courtyard playing with a gas burner acting like they are camping
@@ -495,7 +477,6 @@ label lab_intro_2_patrol_courtyard (**kwargs):
 label lab_intro_2_search_courtyard (**kwargs):
     $ begin_event(**kwargs)
 
-    $ headmaster = Person["headmaster"]
 
     # headmaster looks for some equipment in the courtyard
     # of course there won't be anything useful in the courtyard
@@ -509,7 +490,6 @@ label lab_intro_2_search_courtyard (**kwargs):
 
 
 label lab_intro_2_search_school (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ show_pattern("base", **kwargs)
@@ -518,7 +498,6 @@ label lab_intro_2_search_school (**kwargs):
     call composite_event_runner(**kwargs) from lab_intro_2_search_school_composite_event_runner
 
 label lab_intro_2_search_school_1 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     # headmaster looks for some equipment in the school
@@ -534,7 +513,6 @@ label lab_intro_2_search_school_1 (**kwargs):
     $ end_event("new_daytime", **kwargs)
 
 label lab_intro_2_search_school_2 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     # headmaster looks for some equipment in the school
@@ -546,14 +524,12 @@ label lab_intro_2_search_school_2 (**kwargs):
 
 
 label lab_intro_2_search_office (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     headmaster.think "Let's check the office."
     call composite_event_runner(**kwargs) from lab_intro_2_search_office_composite_event_runner
 
 label lab_intro_2_search_office_1 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     # headmaster looks for some equipment in the office
@@ -566,7 +542,6 @@ label lab_intro_2_search_office_1 (**kwargs):
     $ end_event("new_daytime", **kwargs)
 
 label lab_intro_2_search_office_2 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     # headmaster looks for some equipment in the office
@@ -604,7 +579,6 @@ init 2 python:
 
 # all equipment needs to be found and purchased
 label lab_intro_3 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -645,7 +619,6 @@ init 2 python:
             thumbnail = "images/events/lab/lab_intro_4/lab_intro_4_0.webp"))
 
 label lab_intro_4 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -710,7 +683,6 @@ init 2 python:
     )
 
 label lab_intro_5 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image.show(0)
@@ -750,8 +722,6 @@ init 2 python:
     office_building_call_secretary_events["talk"].add_event(lab_intro_6_event)
 
 label lab_intro_6 (**kwargs):
-    $ headmaster = Person["headmaster"]
-    $ emiko = Person["emiko_langley"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -837,7 +807,6 @@ init 3 python:
 
 
 label lab_intro_produce_test_potion (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     # shots of headmaster producing more potions
@@ -850,7 +819,6 @@ label lab_intro_produce_test_potion (**kwargs):
     $ end_event("new_daytime", **kwargs)
 
 label lab_intro_produce_test_potion_no_chemicals (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     # shots of headmaster producing more potions
@@ -878,7 +846,6 @@ init 2 python:
     )
 
 label lab_intro_7 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ sakura = Person["sakura_mori"]
@@ -945,7 +912,6 @@ init 2 python:
     )
 
 label lab_intro_8 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ zoe = Person["zoe_parker"].get_renpy_char()
@@ -1023,7 +989,6 @@ init 2 python:
 
 # Chemical Mishap
 label lab_intro_9 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ ishimaru = Person["ishimaru_maki"].get_renpy_char()

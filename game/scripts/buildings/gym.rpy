@@ -148,7 +148,6 @@ image anim_gym_event_1_10_8 = Movie(play = anim_ge1_path + "10 8.webm", start_im
 image anim_gym_event_1_10_9 = Movie(play = anim_ge1_path + "10 9.webm", start_image = anim_ge1_path + "10 9.webp")
 image anim_gym_event_1_10_10 = Movie(play = anim_ge1_path + "10 10.webm", start_image = anim_ge1_path + "10 10.webp", loop = True)
 label gym_event_1 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event("3", **kwargs)
 
     $ school_level = get_value('school_level', **kwargs)
@@ -233,7 +232,6 @@ label gym_event_1 (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label gym_event_2 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event("2", **kwargs)
 
     $ topic = get_value("topic", **kwargs)
@@ -262,7 +260,6 @@ label gym_event_2 (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label gym_event_3 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event("2", **kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -367,7 +364,6 @@ label gym_event_5 (**kwargs):
     $ end_event('new_daytime', **kwargs)
     
 label gym_event_6 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event("2", **kwargs)
     
     $ image = convert_pattern("main", **kwargs)

@@ -153,7 +153,6 @@ label kiosk_event_3 (**kwargs):
         MenuElement("Help her out  ({color=#a00000}-50${/color})", "Help her out  ({color=#a00000}-50${/color})", EventEffect("kiosk_event_3.help")), 
     **kwargs)
 label .leave (**kwargs):
-    $ headmaster = Person["headmaster"]
     
     $ begin_event(**kwargs)
     
@@ -206,7 +205,6 @@ label .leave (**kwargs):
             happiness = DEC_TINY, charm = DEC_SMALL) from _call_change_stats_with_modifier_36
         $ end_event('new_daytime', **kwargs)
 label .help (**kwargs):
-    $ headmaster = Person["headmaster"]
     
     $ begin_event(**kwargs)
     

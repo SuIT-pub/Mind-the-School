@@ -132,7 +132,6 @@ label .after_general_check (**kwargs):
 # region Regular Events #
 
 label sd_event_1 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ school_level = get_value('school_level', **kwargs)
@@ -172,7 +171,6 @@ label sd_event_1 (**kwargs):
         $ end_event(**kwargs)
 
 label sd_event_2 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ school_level = get_value('school_level', **kwargs)
@@ -291,7 +289,6 @@ label sd_event_2 (**kwargs):
     $ end_event(**kwargs)
 
 label sd_event_3 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ school_level = get_value('school_level', **kwargs)
@@ -319,7 +316,6 @@ label sd_event_3 (**kwargs):
     $ end_event(**kwargs)
 
 label sd_event_4 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -365,7 +361,6 @@ image anim_sd_event_5_10_10 = Movie(play = anim_sde5_path + "10 10.webm", start_
 image anim_sd_event_5_10_11 = Movie(play = anim_sde5_path + "10 11.webm", start_image = anim_sde5_path + "10 11.webp")
 image anim_sd_event_5_10_12 = Movie(play = anim_sde5_path + "10 12.webm", start_image = anim_sde5_path + "10 12.webp", loop = True)
 label sd_event_5 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ luna = Person["luna_clark"].get_renpy_char()
@@ -387,7 +382,6 @@ label sd_event_5 (**kwargs):
     **kwargs)
 
 label .leave (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     headmaster.think "Well better head off. Wouldn't want to get caught."
@@ -399,7 +393,6 @@ label .leave (**kwargs):
     $ end_event("new_daytime", **kwargs)
 
 label .stay (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     if school_level >= 8:

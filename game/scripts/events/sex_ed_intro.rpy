@@ -119,8 +119,6 @@ init 1 python:
 # region main events
 
 label office_call_secretary_1 (**kwargs):
-    $ headmaster = Person["headmaster"]
-    $ emiko = Person["emiko_langley"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -171,8 +169,6 @@ label office_call_secretary_1 (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label office_teacher_sex_ed_introduction_1 (**kwargs):
-    $ headmaster = Person["headmaster"]
-    $ emiko = Person["emiko_langley"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -210,7 +206,6 @@ label office_teacher_sex_ed_introduction_1 (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label office_teacher_sex_ed_introduction_2 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ finola = Person["finola_ryan"].get_renpy_char()
@@ -355,7 +350,6 @@ label office_teacher_sex_ed_introduction_2 (**kwargs):
     $ end_event('new_daytime')
 
 label office_teacher_sex_ed_introduction_3 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -400,8 +394,6 @@ label office_teacher_sex_ed_introduction_3 (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label office_teacher_sex_ed_introduction_4 (**kwargs):
-    $ headmaster = Person["headmaster"]
-    $ emiko = Person["emiko_langley"]
     $ begin_event(**kwargs)
 
     $ finola = Person["finola_ryan"].get_renpy_char()
@@ -522,7 +514,6 @@ label office_teacher_sex_ed_introduction_4 (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label pta_discussion_sex_ed_intro_1 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(no_gallery = True, **kwargs)
 
     $ finola = Person["finola_ryan"].get_renpy_char()
@@ -611,7 +602,6 @@ label pta_discussion_sex_ed_intro_1 (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label pta_vote_theoretical_sex_ed_1 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(no_gallery = True, **kwargs)
 
     $ parent_vote =  get_value("vote_parent", **kwargs)
@@ -687,7 +677,6 @@ label pta_vote_theoretical_sex_ed_1 (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label theoretical_sex_ed_assembly_1 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -746,7 +735,6 @@ label theoretical_sex_ed_assembly_1 (**kwargs):
 # region Mini Events
 
 label sex_ed_intro_mini_sd_1 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -759,7 +747,6 @@ label sex_ed_intro_mini_sd_1 (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label sex_ed_intro_mini_sd_2 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -803,7 +790,6 @@ label sex_ed_intro_mini_courtyard_1 (**kwargs):
 # endregion
 
 label first_sex_ed_day(**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -827,7 +813,6 @@ label first_sex_ed_day(**kwargs):
     $ end_event("new_daytime", **kwargs)
 
 label first_sex_ed_class_1 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ finola = Person["finola_ryan"].get_renpy_char()

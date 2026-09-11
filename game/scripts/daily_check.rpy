@@ -154,7 +154,6 @@ label game_over_reputation (**kwargs):
     $ MainMenu(confirm=False)()
 
 label intro_check_all_facilities (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event()
 
     scene school_map
@@ -167,7 +166,6 @@ label intro_check_all_facilities (**kwargs):
     jump map_entry
 
 label intro_check_all_first_potions (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event()
 
     scene school_map
@@ -203,8 +201,6 @@ image anim_first_week_epilogue_23 = Movie(play ="images/events/first week/first 
 image anim_first_week_epilogue_24 = Movie(play ="images/events/first week/first week epilogue 24.webm", start_image = "images/events/first week/first week epilogue 24.webp", image = "images/events/first week/first week epilogue 24_1.webp", loop = False)
 
 label first_week_epilogue (**kwargs):
-    $ headmaster = Person["headmaster"]
-    $ emiko = Person["emiko_langley"]
 
     $ begin_event(**kwargs)
 
@@ -481,8 +477,6 @@ label first_week_epilogue (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label first_week_epilogue_final (**kwargs): 
-    $ headmaster = Person["headmaster"]
-    $ emiko = Person["emiko_langley"]
     $ begin_event(**kwargs)
 
     $ remove_all_buildings_collection_key("closed", "first_week")
@@ -564,8 +558,6 @@ label first_week_epilogue_final (**kwargs):
 
     $ end_event('none', **kwargs)
 label .skip:
-    $ headmaster = Person["headmaster"]
-    $ emiko = Person["emiko_langley"]
 
     hide screen black_error_screen_text
 

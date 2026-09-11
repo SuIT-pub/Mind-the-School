@@ -185,7 +185,6 @@ label courtyard_event_2 (**kwargs):
         MenuElement("Leave her alone", "Leave her alone", EventEffect("courtyard_event_2.leave")),
     **kwargs)
 label .talk (**kwargs):
-    $ headmaster = Person["headmaster"]
     
     $ begin_event(**kwargs)
     
@@ -235,7 +234,6 @@ label courtyard_event_3 (**kwargs):
     $ end_event("new_daytime", **kwargs)
 
 label courtyard_event_4(**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event("2", **kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -264,7 +262,6 @@ label courtyard_event_5(**kwargs):
     $ end_event("new_daytime", **kwargs)
 
 label courtyard_event_6(**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event("2", **kwargs)
 
     $ school_level = get_value('school_level', **kwargs)
@@ -303,7 +300,6 @@ label courtyard_event_6(**kwargs):
     $ end_event("new_daytime", **kwargs)
 
 label courtyard_event_7(**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -320,7 +316,6 @@ label courtyard_event_7(**kwargs):
     $ end_event("new_daytime", **kwargs)
 
 label courtyard_event_8(**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)

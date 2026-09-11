@@ -1908,6 +1908,17 @@ init -3 python:
         global seenEvents
         global gallery_manager
 
+        # The two ever-present speakers are bound here so every event can use
+        # `headmaster` / `emiko` without repeating the lookup. Both are per-save Person
+        # objects (see the Dialogue wiki). Guarded so a missing person leaves the static
+        # `character.*` fallback intact instead of shadowing it with None.
+        hm_person = Person["headmaster"]
+        if hm_person is not None:
+            renpy.store.headmaster = hm_person
+        emiko_person = Person["emiko_langley"]
+        if emiko_person is not None:
+            renpy.store.emiko = emiko_person
+
         hide_all()
 
         renpy.sound.stop(fadeout = 1.0)

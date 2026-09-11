@@ -234,10 +234,8 @@ init 1 python:
 #  over the blurred office/secretary background.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_ghost_office_nameplate (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
-    $ emiko = Person["emiko_langley"]
     $ wrong_name = get_value("wrong_name", **kwargs)
     $ plate_note = get_value("plate_note", **kwargs)
     # Read Standing through the gallery getter so replays have the value (Events guide §8/§16).
@@ -279,8 +277,6 @@ label nm_ghost_office_nameplate (**kwargs):
     **kwargs)
 
 label .fix (**kwargs):
-    $ headmaster = Person["headmaster"]
-    $ emiko = Person["emiko_langley"]
 
     $ emiko.display(PDAMove(alignX = 0.5, duration = 1.0))
     headmaster "Then let's stop waiting on it. Chase the plaque today — and make sure they spell me right this time."
@@ -299,8 +295,6 @@ label .fix (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .charm_fix (**kwargs):
-    $ headmaster = Person["headmaster"]
-    $ emiko = Person["emiko_langley"]
 
     $ emiko.display(PDAMove(alignX = 0.5, duration = 1.0))
     headmaster "Put two names on that requisition. Mine — spelled correctly, in nice big letters — and whoever keeps typing 'in process.'"
@@ -318,8 +312,6 @@ label .charm_fix (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .leave_it (**kwargs):
-    $ headmaster = Person["headmaster"]
-    $ emiko = Person["emiko_langley"]
 
     $ emiko.display(PDAMove(alignX = 0.5, duration = 1.0))
     headmaster "Leave it for now. There are bigger fires than a nameplate."
@@ -333,8 +325,6 @@ label .leave_it (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .walk_away (**kwargs):
-    $ headmaster = Person["headmaster"]
-    $ emiko = Person["emiko_langley"]
 
     $ emiko.display(PDAMove(alignX = 0.5, duration = 1.0))
     subtitles "You turn back down the hall, leaving the tape exactly where it is."
@@ -368,7 +358,6 @@ label .walk_away (**kwargs):
 #  face him. Background: courtyard/1 0 1.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_ghost_office_janitor (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(version = "2", **kwargs)
 
     $ aona = Person["aona_komuro"]
@@ -414,7 +403,6 @@ label nm_ghost_office_janitor (**kwargs):
     **kwargs)
 
 label .introduce (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ paperdoll_manager.set_background(image[1], blur = True)
     headmaster "Good morning. For the record — headmaster. Not [wrong_role]."
     # He's spoken to them → they both turn to face him. Now it's a player-facing
@@ -434,7 +422,6 @@ label .introduce (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .door (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ paperdoll_manager.set_background(image[1], blur = True)
     
     $ aona.display(PDAImage(pose = "7", mood = "suspicious"), PDAMove(alignX = 0.0, duration = 1.0))
@@ -472,7 +459,6 @@ label .door (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .slip_past (**kwargs):
-    $ headmaster = Person["headmaster"]
     # No paperdoll — he keeps walking; they're behind him, not facing him.
     $ image.show(2)
     subtitles "You keep walking, unhurried. Their voices thin out behind you, still arguing about who you are."
@@ -483,7 +469,6 @@ label .slip_past (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .snap (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ image.show(3)
     headmaster "If you've got time to hand out jobs I don't have, you've got time to be in class."
     $ paperdoll_manager.set_background(image[3], blur = True)
@@ -514,10 +499,8 @@ label .snap (**kwargs):
 #  the right (colour) side.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_ghost_office_private_line (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
-    $ emiko = Person["emiko_langley"]
     $ loud_slip = get_value("loud_slip", **kwargs)
     $ standing = get_bar_value("new_management", "main", 0, **kwargs)
 
@@ -554,7 +537,6 @@ label nm_ghost_office_private_line (**kwargs):
     **kwargs)
 
 label .triage (**kwargs):
-    $ headmaster = Person["headmaster"]
     headmaster "Give me whatever can't wait. Parent calls, complaints, anything that's actually on fire."
     $ emiko.display(PDAImage(mood = "neutral", mouth = "open"))
     emiko.say "Three parents, one teacher with a grievance, and [loud_slip] sitting right on top like it pays rent."
@@ -569,7 +551,6 @@ label .triage (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .honest (**kwargs):
-    $ headmaster = Person["headmaster"]
     headmaster "Emiko. No routing, no softening it. How bad is it, really?"
     subtitles "A pause. When she answers, her voice has dropped low enough that the outer office won't catch a word of it."
     $ emiko.display(PDAImage(mood = "sad", mouth = "open"))
@@ -585,7 +566,6 @@ label .honest (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .short (**kwargs):
-    $ headmaster = Person["headmaster"]
     headmaster "Anything urgent this morning?"
     $ emiko.display(PDAImage(mood = "happy", mouth = "open"))
     emiko.say "Nothing that won't keep till the afternoon."
@@ -604,7 +584,6 @@ label .short (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .distant (**kwargs):
-    $ headmaster = Person["headmaster"]
     headmaster "Just making sure the line's working. That's all."
     $ emiko.display(PDAImage(mood = "sad", mouth = "open"))
     emiko.say "...It's working. Line's fine."
@@ -626,7 +605,6 @@ label .distant (**kwargs):
 #  school-building corridor background.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_ghost_office_empty_corridor (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(version = "2", **kwargs)
 
     $ yulan = Person["yulan_chen"]
@@ -672,7 +650,6 @@ label nm_ghost_office_empty_corridor (**kwargs):
     **kwargs)
 
 label .acknowledge (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ yulan = Person["yulan_chen"]
     $ folder_topic = get_value("folder_topic", **kwargs)
 
@@ -693,7 +670,6 @@ label .acknowledge (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .shop (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ yulan = Person["yulan_chen"]
     $ folder_topic = get_value("folder_topic", **kwargs)
 
@@ -712,7 +688,6 @@ label .shop (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .greet (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ yulan = Person["yulan_chen"]
 
     $ yulan.display(PDAMove(alignX = 0.6, duration = 1.0))
@@ -727,7 +702,6 @@ label .greet (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .force (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ yulan = Person["yulan_chen"]
 
     $ yulan.display(PDAMove(alignX = 0.6, duration = 1.0))
@@ -762,7 +736,6 @@ label .force (**kwargs):
 #  colour.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_potion_hangover_miwa (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(version = "2", **kwargs)
 
     $ miwa = Person["miwa_igarashi"]
@@ -806,7 +779,6 @@ label nm_potion_hangover_miwa (**kwargs):
     **kwargs)
 
 label .counsel (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ miwa = Person["miwa_igarashi"]
 
     headmaster "Listen to me. You're not broken, and you're not in trouble. Something scrambled that morning for a lot of people — you're just the only one honest enough to say the page came back blank."
@@ -824,7 +796,6 @@ label .counsel (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .structure (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ miwa = Person["miwa_igarashi"]
 
     headmaster "Here's the whole assignment. Write down what you {i}do{/i} have — even if it starts at lunch. We'll look at it together after class. Tuesday can stay lost for today."
@@ -841,7 +812,6 @@ label .structure (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .press (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ miwa = Person["miwa_igarashi"]
 
     headmaster "Try harder, Miwa. Something has to be in there — a smell, a voice, anything. Concentrate."
@@ -867,7 +837,6 @@ label .press (**kwargs):
 #  teacher-office background.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_potion_hangover_lily (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(version = "2", **kwargs)
 
     $ lily = Person["lily_anderson"]
@@ -907,7 +876,6 @@ label nm_potion_hangover_lily (**kwargs):
     **kwargs)
 
 label .sit (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ lily = Person["lily_anderson"]
 
     headmaster "Then here it is, out loud: something happened last week. You're not imagining it, and you're not fragile for being the one who noticed."
@@ -925,7 +893,6 @@ label .sit (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .loop_in (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ lily = Person["lily_anderson"]
 
     headmaster "You're not imagining it — and you don't have to take just my word for it, either."
@@ -943,7 +910,6 @@ label .loop_in (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .maybe (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ lily = Person["lily_anderson"]
 
     headmaster "Maybe it was real. Maybe your body's still catching up on something. I won't pretend to know which — but come back Thursday, same time, and we'll keep a proper eye on it together."
@@ -958,7 +924,6 @@ label .maybe (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .deflect (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ lily = Person["lily_anderson"]
 
     headmaster "Ah — stress does funny things to all of us. Honestly, it's probably just the coffee."
@@ -984,7 +949,6 @@ label .deflect (**kwargs):
 #  background shown in greyscale; on "bag", a brief Emiko paperdoll over the office bg.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_potion_hangover_vial (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(version = "2", **kwargs)
 
     $ residue_detail = get_value("residue_detail", **kwargs)
@@ -1012,8 +976,6 @@ label nm_potion_hangover_vial (**kwargs):
     **kwargs)
 
 label .bag (**kwargs):
-    $ headmaster = Person["headmaster"]
-    $ emiko = Person["emiko_langley"]
 
     subtitles "You fold the glass into a handkerchief, corner by corner, and dial the office."
     $ emiko.register_paperdoll()
@@ -1033,7 +995,6 @@ label .bag (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .note (**kwargs):
-    $ headmaster = Person["headmaster"]
     subtitles "You sketch the spot in your pocket notebook — distance from the rack, the angle of the light — and nudge a fallen leaf over the smear with your shoe."
     headmaster.think "There. Down on paper, leaf nudged over the smear, out of sight for now. It's not a fire yet. But if it turns into one, at least there's a date in my own handwriting from before anyone starts swearing it never happened."
 
@@ -1043,7 +1004,6 @@ label .note (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .ignore (**kwargs):
-    $ headmaster = Person["headmaster"]
     subtitles "You straighten up and walk on. The sweet smell trails you for three steps, then the wind takes it and the courtyard is only a courtyard again."
     headmaster.think "...and I'm just going to walk on. Right. Except pretending I didn't see it is still a choice I'm making, isn't it. Keep making it and one day it's not my call anymore — it's somebody upstairs deciding what happens to this place, and I won't like their answer."
 
@@ -1068,7 +1028,6 @@ label .ignore (**kwargs):
 #  courtyard background.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_testing_the_waters_clipboard (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(version = "2", **kwargs)
 
     $ yuriko = Person["yuriko_oshima"]
@@ -1098,7 +1057,6 @@ label nm_testing_the_waters_clipboard (**kwargs):
     **kwargs)
 
 label .precise (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ yuriko = Person["yuriko_oshima"]
 
     headmaster "On the record, then. Uniform's optional off campus — neat if you're representing us. Phones, free periods only, on silent. No PDA on school grounds. Simple as that."
@@ -1114,7 +1072,6 @@ label .precise (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .turnaround (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ yuriko = Person["yuriko_oshima"]
 
     headmaster "Before I answer — what do the students already think the rule is? You'd know better than the handbook does."
@@ -1132,7 +1089,6 @@ label .turnaround (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .hedge (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ yuriko = Person["yuriko_oshima"]
 
     headmaster "It, ah— depends. Case by case, really. Let me get back to you on that one."
@@ -1157,10 +1113,8 @@ label .hedge (**kwargs):
 #  office/secretary background.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_testing_the_waters_memo (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(version = "2", **kwargs)
 
-    $ emiko = Person["emiko_langley"]
 
     # Fallback bg: always an image before the first text (works before the hero art exists).
     $ paperdoll_manager.set_background("images/background/office building/secretary 6 1 0.webp", blur = True)
@@ -1182,8 +1136,6 @@ label nm_testing_the_waters_memo (**kwargs):
     **kwargs)
 
 label .own (**kwargs):
-    $ headmaster = Person["headmaster"]
-    $ emiko = Person["emiko_langley"]
 
     subtitles "You write about being present. About office hours that actually mean something. About a door — correctly labelled now — that stays open."
     subtitles "It takes three drafts. The third one finally sounds like a person instead of a form."
@@ -1200,8 +1152,6 @@ label .own (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .vague (**kwargs):
-    $ headmaster = Person["headmaster"]
-    $ emiko = Person["emiko_langley"]
 
     subtitles "You tick the required boxes, sign the bottom, and leave the body of it saying almost nothing at all."
     $ emiko.register_paperdoll()
@@ -1236,7 +1186,6 @@ label .vague (**kwargs):
 #  Background: kiosk/1 1 1.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_rumors_in_bloom_kiosk (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(version = "2", **kwargs)
 
     $ aona = Person["aona_komuro"]
@@ -1271,7 +1220,6 @@ label nm_rumors_in_bloom_kiosk (**kwargs):
     **kwargs)
 
 label .intervene (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ aona = Person["aona_komuro"]
 
     headmaster "If you're going to rank me, at least rank me by the right job. Headmaster. Not a number on your list."
@@ -1290,7 +1238,6 @@ label .intervene (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .listen (**kwargs):
-    $ headmaster = Person["headmaster"]
     # No paperdoll — he hangs back and overhears; nobody's talking to him.
     subtitles "You stay put and let the queue carry you. The talk washes past — names, small grievances — and then something snags: [rumor]."
     headmaster.think "This queue's better than any staff meeting for finding out what's actually going on in here. Half of it's nonsense, sure — but that last bit, the thing they're all careful not to say too loud? That one I'm keeping in my back pocket."
@@ -1300,7 +1247,6 @@ label .listen (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .break (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ aona = Person["aona_komuro"]
 
     headmaster "Line's moving. Save the gossip for your own time."
@@ -1328,7 +1274,6 @@ label .break (**kwargs):
 #  courtyard background.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_rumors_in_bloom_chalk (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(version = "2", **kwargs)
 
     $ exaggeration = get_value("exaggeration", **kwargs)
@@ -1346,7 +1291,6 @@ label nm_rumors_in_bloom_chalk (**kwargs):
     **kwargs)
 
 label .leave (**kwargs):
-    $ headmaster = Person["headmaster"]
     subtitles "You leave it be and walk on. Let it keep grinning at the bike racks."
     headmaster.think "That's a version of me they actually like up there on the wall. Steady, kind, a bit heroic round the jaw. I could do a lot worse than spend the rest of the year trying to be the man in the drawing."
 
@@ -1355,7 +1299,6 @@ label .leave (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .correct (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ aona = Person["aona_komuro"]
 
     subtitles "There's a nub of chalk in the dirt. You crouch, soften the jaw a touch, and add the one honest smile-line the artist was too shy to draw."
@@ -1375,7 +1318,6 @@ label .correct (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .erase (**kwargs):
-    $ headmaster = Person["headmaster"]
     subtitles "You scrub it off with your sleeve until there's nothing but a grey smear and chalk dust on your cuff. The shed goes very quiet."
     headmaster.think "...chalk dust all down my cuff and a grey smear where a kind thing used to be. Somebody drew me because they liked me, and I rubbed it out like it was a crime scene. That doesn't teach anyone respect. It just teaches them to keep their heads down when I walk past."
 
@@ -1401,7 +1343,6 @@ label .erase (**kwargs):
 #  school-building background; Zoe leans in from the right under Guided.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_quiet_endorsements_after_bell (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(version = "2", **kwargs)
 
     $ miwa = Person["miwa_igarashi"]
@@ -1439,7 +1380,6 @@ label nm_quiet_endorsements_after_bell (**kwargs):
     **kwargs)
 
 label .pace (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ miwa = Person["miwa_igarashi"]
 
     headmaster "Go on, you'll be late. Door's open if you ever need it — that's all."
@@ -1453,7 +1393,6 @@ label .pace (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .followup (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ miwa = Person["miwa_igarashi"]
 
     headmaster "Quick one — sleeping any better these days?"
@@ -1467,7 +1406,6 @@ label .followup (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .assign (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ miwa = Person["miwa_igarashi"]
 
     headmaster "Good. Now don't be late to your next class."
@@ -1491,7 +1429,6 @@ label .assign (**kwargs):
 #  teacher-office background.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_quiet_endorsements_second_coffee (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(version = "2", **kwargs)
 
     $ lily = Person["lily_anderson"]
@@ -1521,7 +1458,6 @@ label nm_quiet_endorsements_second_coffee (**kwargs):
     **kwargs)
 
 label .attend (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ lily = Person["lily_anderson"]
 
     subtitles "You don't rush to fill the silences. You let them stretch, and she steps into them when she's ready — which she does, easily now."
@@ -1537,7 +1473,6 @@ label .attend (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .summarize (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ lily = Person["lily_anderson"]
 
     headmaster "Next Thursday, free period. And if anything spikes before then, put a note through Emiko and I'll make room sooner."
@@ -1551,7 +1486,6 @@ label .summarize (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .advice (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ lily = Person["lily_anderson"]
 
     headmaster "Sleep schedule, plenty of water, and stop grading past midnight. You'll feel worlds better."
@@ -1573,7 +1507,6 @@ label .advice (**kwargs):
 #  office background.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_quiet_endorsements_curriculum (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(version = "2", **kwargs)
 
     $ lily = Person["lily_anderson"]
@@ -1598,7 +1531,6 @@ label nm_quiet_endorsements_curriculum (**kwargs):
     **kwargs)
 
 label .adjust (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ lily = Person["lily_anderson"]
 
     headmaster "Then I'll rebuild the third block around it. Send me the rest of your notes, if you've got them."
@@ -1612,7 +1544,6 @@ label .adjust (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .credit (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ lily = Person["lily_anderson"]
 
     headmaster "At the next staff brief, I'm saying the outline got better because of you. One sentence."
@@ -1629,7 +1560,6 @@ label .credit (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .shrug (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ lily = Person["lily_anderson"]
 
     $ lily.display(PDAImage(mood = "sad", mouth = "closed"))
@@ -1659,7 +1589,6 @@ label .shrug (**kwargs):
 #  over the blurred staff-room background.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_welcome_committee_mug (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(version = "2", **kwargs)
 
     $ finola = Person["finola_ryan"]
@@ -1694,7 +1623,6 @@ label nm_welcome_committee_mug (**kwargs):
     **kwargs)
 
 label .warm (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ finola = Person["finola_ryan"]
     $ yulan = Person["yulan_chen"]
 
@@ -1711,7 +1639,6 @@ label .warm (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .brief (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ finola = Person["finola_ryan"]
 
     headmaster "Thank you, Finola — truly. I've got papers with my name on them shouting from the office, though."
@@ -1725,7 +1652,6 @@ label .brief (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .miss (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ finola = Person["finola_ryan"]
 
     subtitles "You make a show of a stack of forms and don't look up. The mug lowers, quietly, without a clink. Someone changes the subject to spare you."
@@ -1751,7 +1677,6 @@ label .miss (**kwargs):
 label nm_welcome_committee_plaque (**kwargs):
     $ begin_event(version = "2", **kwargs)
 
-    $ emiko = Person["emiko_langley"]
     $ door_claimed = get_value("door_claimed", 0, **kwargs) == 1
 
     # Fallback bg: always an image before the first text (works before the hero art exists).
@@ -1780,8 +1705,6 @@ label nm_welcome_committee_plaque (**kwargs):
     **kwargs)
 
 label .real (**kwargs):
-    $ headmaster = Person["headmaster"]
-    $ emiko = Person["emiko_langley"]
 
     headmaster "Help me hang it. Right now — while the screws are still in the bag and I've still got the nerve."
     $ emiko.display(PDAImage(mood = "shining", mouth = "closed"))
@@ -1795,8 +1718,6 @@ label .real (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .joke (**kwargs):
-    $ headmaster = Person["headmaster"]
-    $ emiko = Person["emiko_langley"]
 
     headmaster "Don't look at me like that."
     $ emiko.display(PDAImage(mood = "happy", mouth = "open"))
@@ -1819,7 +1740,6 @@ label .joke (**kwargs):
 #  over the blurred courtyard background.
 # ═══════════════════════════════════════════════════════════════════════════════
 label nm_welcome_committee_assembly (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(version = "2", **kwargs)
 
     $ yuriko = Person["yuriko_oshima"]
@@ -1859,7 +1779,6 @@ label nm_welcome_committee_assembly (**kwargs):
     **kwargs)
 
 label .gentle (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ yuriko = Person["yuriko_oshima"]
 
     headmaster "Morning, everyone. Short brief, then you're off to first period. Thank you for being on time — it doesn't go unnoticed."
@@ -1873,7 +1792,6 @@ label .gentle (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .routine (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ yuriko = Person["yuriko_oshima"]
 
     $ yuriko.clear_display()
@@ -1885,7 +1803,6 @@ label .routine (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label .strict (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ yuriko = Person["yuriko_oshima"]
 
     headmaster "Silence. Straighten those lines. Now."
@@ -1907,9 +1824,7 @@ label .strict (**kwargs):
 #######################################
 
 label nm_thresh_emiko_nudge (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
-    $ emiko = Person["emiko_langley"]
 
     $ paperdoll_manager.set_background("images/background/office building/secretary 6 1 0.webp", blur = True)
     $ emiko.register_paperdoll()
@@ -1925,9 +1840,7 @@ label nm_thresh_emiko_nudge (**kwargs):
     return
 
 label nm_thresh_district_letter (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
-    $ emiko = Person["emiko_langley"]
 
     $ paperdoll_manager.set_background("images/background/office building/secretary 6 1 0.webp", blur = True)
     $ emiko.register_paperdoll()
@@ -1943,9 +1856,7 @@ label nm_thresh_district_letter (**kwargs):
     return
 
 label nm_thresh_first_warmth (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
-    $ emiko = Person["emiko_langley"]
 
     $ paperdoll_manager.set_background("images/background/office building/secretary 6 1 0.webp", blur = True)
     $ emiko.register_paperdoll()
@@ -1961,7 +1872,6 @@ label nm_thresh_first_warmth (**kwargs):
     return
 
 label nm_thresh_yulan_thaw (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
     $ yulan = Person["yulan_chen"]
 
@@ -1979,9 +1889,7 @@ label nm_thresh_yulan_thaw (**kwargs):
     return
 
 label nm_thresh_adelaide_note (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
-    $ emiko = Person["emiko_langley"]
     $ adelaide = Person["adelaide_hall"]
 
     $ paperdoll_manager.set_background("images/background/office building/secretary 6 1 0.webp", blur = True)
@@ -2000,7 +1908,6 @@ label nm_thresh_adelaide_note (**kwargs):
     return
 
 label nm_thresh_near_end (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
     $ finola = Person["finola_ryan"]
 
@@ -2024,8 +1931,6 @@ label nm_thresh_near_end (**kwargs):
 #######################################
 
 label new_management_positive_resolve (**kwargs):
-    $ headmaster = Person["headmaster"]
-    $ emiko = Person["emiko_langley"]
     $ yulan = Person["yulan_chen"]
 
     $ change_stat("charm", 5)

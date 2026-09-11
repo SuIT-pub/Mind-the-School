@@ -104,7 +104,6 @@ init 1 python:
 # region Courtyard Events #
 
 label first_potion_courtyard_event (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
     
     $ image = convert_pattern("main", step_start = 1, **kwargs)
@@ -124,7 +123,6 @@ label first_potion_courtyard_event (**kwargs):
     $ end_event("new_daytime", **kwargs)
 
 label first_week_courtyard_event (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
     
     $ image = convert_pattern("main", step_start = 1, **kwargs)
@@ -161,7 +159,6 @@ label first_week_courtyard_event (**kwargs):
 # region Gym Events #
 
 label first_potion_gym_event (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
     
     $ image = convert_pattern("main", step_start = 1, **kwargs)
@@ -184,7 +181,6 @@ label first_potion_gym_event (**kwargs):
 
 # first week event
 label first_week_gym_event (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", step_start = 1, **kwargs)
@@ -213,7 +209,6 @@ label first_week_gym_event (**kwargs):
 #######################
 # region Kiosk Events #
 label first_week_kiosk_event (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ lin = Person["lin_kato"].get_renpy_char()
@@ -253,7 +248,6 @@ label first_week_kiosk_event (**kwargs):
 # region Office Events #
 
 label first_potion_office_building_event (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
     
     $ image = convert_pattern("main", step_start = 1, **kwargs)
@@ -293,7 +287,6 @@ label first_week_office_building_event (**kwargs):
 # region School Building Events #
 
 label first_week_sb_event (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", step_start = 1, **kwargs)
@@ -330,7 +323,6 @@ label first_week_sb_event (**kwargs):
     $ end_event('new_day', **kwargs)
 
 label first_potion_sb_event (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
     
     $ image = convert_pattern("main", step_start = 1, **kwargs)
@@ -354,7 +346,6 @@ label first_potion_sb_event (**kwargs):
 # region School Dormitory Events #
 
 label first_week_school_dormitory_event (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", step_start = 1, **kwargs)
@@ -388,7 +379,6 @@ label first_week_school_dormitory_event (**kwargs):
     $ end_event('new_day', **kwargs)
 
 label first_potion_school_dormitory_event (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", step_start = 1, **kwargs)
@@ -461,8 +451,6 @@ label .jump_to_tutorial:
     jump new_day
 
 label .start:
-    $ headmaster = Person["headmaster"]
-    $ emiko = Person["emiko_langley"]
     hide screen black_error_screen_text
 
     nv_text "Welcome to [school_name]!"

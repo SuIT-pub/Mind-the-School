@@ -25,12 +25,11 @@ miwa.shout   "Watch out!"
 "[miwa.get_full_name()] blushes."  # same object, other members
 ```
 
-The player (Headmaster) and the secretary (Emiko) are ordinary `Person`s too — bind
-them at the top of the event and speak:
+The player (Headmaster) and the secretary (Emiko) are ordinary `Person`s too, and
+`begin_event` already binds them — inside any event you can just speak:
 
 ```python
-$ headmaster = Person["headmaster"]
-$ emiko = Person["emiko_langley"]
+$ begin_event(**kwargs)      # binds `headmaster` and `emiko` for you
 emiko "Caught you glaring at it. Don't worry — everyone glares at it."
 headmaster.think "That plaque again."
 headmaster "Then let's stop waiting on it. Chase it today."
@@ -150,12 +149,12 @@ that choice into the voice that speaks.
 ## 4. The Headmaster & Emiko
 
 Both are full `Person`s and speak through the same `.say`/`.think`/`.whisper`/`.shout`
-API as everyone else. Bind them at the top of each event that uses them:
-
-```python
-$ headmaster = Person["headmaster"]
-$ emiko = Person["emiko_langley"]
-```
+API as everyone else. You don't bind them yourself: **`begin_event` binds `headmaster`
+and `emiko`** at the start of every event (`event.rpy`), so inside the scene you can use
+them straight away. (Outside an event — e.g. a screen or a debug label that never calls
+`begin_event` — the static `character.headmaster` / `character.emiko` still catch a bare
+say line; only the `Person`-object features like `emiko.register_paperdoll()` need a real
+`begin_event` first.)
 
 **The Headmaster is special** in two ways:
 
@@ -300,9 +299,9 @@ Related: registering a **sprite** for the same person is a separate call —
 
 ## 9. Conventions
 
-- **Bind once at the top of the event**, then speak: `$ x = Person["key"]`. Rebind in
-  each label that speaks as that person (store variables persist, but explicit binding
-  keeps each event self-contained and readable).
+- **`headmaster` and `emiko` are auto-bound by `begin_event`** — don't bind them
+  yourself; just speak. For any *other* fixed character, bind it once near the top:
+  `$ x = Person["key"]`, then speak.
 - **Speak through the `Person`**, not a hand-defined `Character`. Reserve
   `values.rpy` `Character` definitions for the shared **categories** and the two static
   safety nets (`headmaster`, `emiko`).
@@ -321,7 +320,8 @@ Related: registering a **sprite** for the same person is a separate call —
 
 | Symptom | Likely cause | Fix |
 |---------|--------------|-----|
-| `NameError: emiko is not defined` on a say line | the event never bound the Person | add `$ emiko = Person["emiko_langley"]` at the label top |
+| `NameError: emiko is not defined` on a say line | the label never called `begin_event` (which binds `headmaster`/`emiko`) | call `$ begin_event(**kwargs)` first, or for a non-event context rely on the static `character.emiko` |
+| `AttributeError: 'ADVCharacter' has no attribute 'register_paperdoll'` | using `emiko.register_paperdoll()` where `emiko` fell back to the static Character | that call needs the `Person` — make sure `begin_event` ran in this label |
 | Headmaster's name shows literal `[headmaster_first_name]` | reading the raw def field instead of a getter/tag | use `get_full_name()` in Python or the `[...]` tag in dialogue text |
 | A character speaks with the neutral/centered subtitle look | their `Person.character` matches no known role (`kind` fell through to `subtitles`) | check the `Char` passed to the `Person`; for the Headmaster the name must be exactly `"headmaster"` |
 | `styleOverrides` seems ignored | key typo, or a char-type marker overrides it (e.g. `.whisper` forces italic) | verify the kwarg name; remember char-type markers win on their own keys |

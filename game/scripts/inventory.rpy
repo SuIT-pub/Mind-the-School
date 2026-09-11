@@ -657,7 +657,6 @@ label office_building_computer_shopping_screen_checkout(**kwargs):
     call office_building_computer_shopping_event.after_computer_shopping_screen(**kwargs)
 
 label office_building_computer_shopping_delivery_event(**kwargs):
-    $ emiko = Person["emiko_langley"]
     $ begin_event(no_gallery = True, **kwargs)
 
     $ deliveries = get_delivery_today()

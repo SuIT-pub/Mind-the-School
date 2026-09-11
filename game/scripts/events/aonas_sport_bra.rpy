@@ -115,7 +115,6 @@ label gym_teach_pe_intro_aona_bra (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label gym_teach_pe_main_aona_bra (**kwargs): # Running
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ aona = Person["aona_komuro"].get_renpy_char()
@@ -191,7 +190,6 @@ label gym_teach_pe_main_aona_bra (**kwargs): # Running
     $ end_event('new_daytime', **kwargs)
 
 label gym_teach_pe_main_aona_bra_2 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ aona = Person["aona_komuro"].get_renpy_char()
@@ -251,8 +249,6 @@ label gym_teach_pe_main_aona_bra_2 (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label aona_sports_bra_event_1 (**kwargs):
-    $ headmaster = Person["headmaster"]
-    $ emiko = Person["emiko_langley"]
     $ begin_event(**kwargs)
 
     $ inhibition = get_stat_value('inhibition', [90, 95, 100], **kwargs)
@@ -340,7 +336,6 @@ label aona_sports_bra_event_1 (**kwargs):
         MenuElement("Peek into the changing room", "Peek into the changing room", EventEffect("aona_sports_bra_event_1.peek_1")),
     **kwargs)
 label .bra_for_self (**kwargs):
-    $ headmaster = Person["headmaster"]
 
     $ image.show(35)
     headmaster "Hmm, what kind of bras do they have here?"
@@ -350,7 +345,6 @@ label .bra_for_self (**kwargs):
 
     call .wait_1 (**kwargs) from _call_aona_sports_bra_event_1_wait_1
 label .peek_1 (**kwargs):
-    $ headmaster = Person["headmaster"]
 
     $ image.show(37)
     headmaster.think "Maybe I can sneak a look."
@@ -373,7 +367,6 @@ label .wait_1 (**kwargs):
         MenuElement("Ask to try on your pick", "Ask to try on your pick", EventEffect("aona_sports_bra_event_1.try_alt_bra"), bra),
     **kwargs)
 label .try_alt_bra (**kwargs):
-    $ headmaster = Person["headmaster"]
 
     $ image.show(55)
     headmaster "I found this one, I think that would be a good choice."
@@ -384,7 +377,6 @@ label .try_alt_bra (**kwargs):
         MenuElement("Wait", "Wait", EventEffect("aona_sports_bra_event_1.wait_2")),
     **kwargs)
 label .peek_2 (**kwargs):
-    $ headmaster = Person["headmaster"]
     
     $ image.show(56)
     headmaster.think "I'll take a look."
@@ -394,7 +386,6 @@ label .peek_2 (**kwargs):
     
     call .wait_2 (**kwargs) from _call_aona_sports_bra_event_1_wait_2
 label .wait_2 (**kwargs):
-    $ headmaster = Person["headmaster"]
 
     $ image.show(63)
     aona "Uhm sir? I think this one is a bit too skimpy for me."
@@ -442,7 +433,6 @@ label .sneak_bra_true (**kwargs):
     $ kwargs["volunteered"] = False
     call .buy_bra (**kwargs) from _call_aona_sports_bra_event_1_buy_bra_1
 label .buy_bra (**kwargs):
-    $ headmaster = Person["headmaster"]
 
     $ image.show(73)
     headmaster "I'll quickly go pay for it."

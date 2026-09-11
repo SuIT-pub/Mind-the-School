@@ -102,7 +102,6 @@ init 1 python:
 
 # PTA: during discussion phase
 label new_yoga_outfit_1 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ zoe = Person["zoe_parker"].get_renpy_char()
@@ -121,7 +120,6 @@ label new_yoga_outfit_1 (**kwargs):
 
 # Gym: Check P.E.
 label new_yoga_outfit_2 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ zoe = Person["zoe_parker"].get_renpy_char()
@@ -153,7 +151,6 @@ label new_yoga_outfit_2 (**kwargs):
 
 # Gym: Check P.E.
 label new_yoga_outfit_3 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ zoe = Person["zoe_parker"].get_renpy_char()
@@ -229,7 +226,6 @@ label new_yoga_outfit_3 (**kwargs):
 
 # School Building: Check Classes
 label new_yoga_outfit_4 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ seraphina = Person["seraphina_clark"].get_renpy_char()
@@ -269,8 +265,6 @@ label new_yoga_outfit_4 (**kwargs):
 
 # Office Building: Evening
 label new_yoga_outfit_5 (**kwargs):
-    $ headmaster = Person["headmaster"]
-    $ emiko = Person["emiko_langley"]
     $ begin_event(**kwargs)
 
     $ seraphina = Person["seraphina_clark"].get_renpy_char()
@@ -414,8 +408,6 @@ label new_yoga_outfit_5 (**kwargs):
         MenuElement("Outfit 2", "Seraphina's Choice", ValueEffect("yoga_outfit_set", 3), EventEffect("new_yoga_outfit_5.after_decision"), overwrite_position = (1250, 950)),
     **kwargs)
 label .after_decision (**kwargs):
-    $ headmaster = Person["headmaster"]
-    $ emiko = Person["emiko_langley"]
     $ yoga_set = get_game_data("yoga_outfit_set")
 
     $ image.show(46)
@@ -464,7 +456,6 @@ label .after_decision (**kwargs):
 
 # Office Building: Free-Time
 label new_yoga_outfit_6 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ zoe = Person["zoe_parker"].get_renpy_char()
@@ -519,7 +510,6 @@ label new_yoga_outfit_6 (**kwargs):
 
 # School Building: Anytime
 label new_yoga_outfit_7 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ zoe = Person["zoe_parker"].get_renpy_char()
@@ -551,7 +541,6 @@ label new_yoga_outfit_7 (**kwargs):
 
 # Day Check: Monday - Morning
 label new_yoga_outfit_8 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -571,8 +560,6 @@ label new_yoga_outfit_8 (**kwargs):
 
 # Day Check: Tuesday - Early Noon
 label new_yoga_outfit_9 (**kwargs):
-    $ headmaster = Person["headmaster"]
-    $ emiko = Person["emiko_langley"]
     $ begin_event(**kwargs)
 
     $ nurse = Person["linh_nguyen"].get_renpy_char()
@@ -676,7 +663,6 @@ label new_yoga_outfit_9 (**kwargs):
 
 # Gym: Check P.E.
 label new_yoga_outfit_10 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ zoe = Person["zoe_parker"].get_renpy_char()

@@ -170,7 +170,6 @@ label .after_general_check (**kwargs):
 #################################
 
 label cafeteria_construction(**kwargs):
-    $ headmaster = Person["headmaster"]
     show screen black_screen_text("cafeteria_construction")
 
     if not contains_game_data("cafeteria_construction_end"):
@@ -204,7 +203,6 @@ label cafeteria_construction(**kwargs):
 # region Regular Events #
 
 label cafeteria_event_1(**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ topic = get_value("topic", **kwargs)
@@ -234,7 +232,6 @@ label cafeteria_event_1(**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label cafeteria_event_2(**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event("2", **kwargs)
 
     $ char_class = get_value('char_class', **kwargs)
@@ -265,7 +262,6 @@ label cafeteria_event_2(**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label cafeteria_event_3(**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ get_value('parent_level', **kwargs)
@@ -459,7 +455,6 @@ label cafeteria_event_3(**kwargs):
         $ end_event('new_daytime', **kwargs)
 
 label cafeteria_event_4(**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ parent_level = get_value('parent_level', **kwargs)
@@ -485,7 +480,6 @@ label cafeteria_event_4(**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label cafeteria_event_5(**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event("2", **kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -520,7 +514,6 @@ label cafeteria_event_6(**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label cafeteria_event_7(**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)

@@ -207,7 +207,6 @@ label .after_computer_shopping_screen(**kwargs):
 # region Work Events #
 
 label work_office_reputation_event_1 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -225,7 +224,6 @@ label work_office_reputation_event_1 (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label work_office_money_event_1 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -246,7 +244,6 @@ label work_office_money_event_1 (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label work_office_education_event_1 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -295,8 +292,6 @@ label learn_office_event_1 (**kwargs):
     $ end_event('new_day', **kwargs)
 
 label work_office_session_event_1(**kwargs):
-    $ headmaster = Person["headmaster"]
-    $ emiko = Person["emiko_langley"]
     $ begin_event(**kwargs)
 
     $ girl_name = get_value('girl_name', **kwargs)
@@ -368,8 +363,6 @@ image anim_office_event_first_naughty_0_73 = Movie(play = anim_oefn_path + "73.w
 image anim_office_event_first_naughty_0_74 = Movie(play = anim_oefn_path + "74.webm", start_image = anim_oefn_path + "74.webp", image = anim_oefn_path + "74.webp")
 image anim_office_event_first_naughty_0_75 = Movie(play = anim_oefn_path + "75.webm", start_image = anim_oefn_path + "75.webp", image = anim_oefn_path + "75.webp")
 label work_office_session_event_first_naughty (**kwargs):
-    $ headmaster = Person["headmaster"]
-    $ emiko = Person["emiko_langley"]
     $ begin_event(**kwargs)
 
     $ school_level = get_value('school_level', **kwargs)
@@ -715,8 +708,6 @@ image anim_osn_floor_cowgirl_nude_0_cum_idle = Movie(play = anim_osn_path + "flo
 image anim_osn_floor_cowgirl_nude_1 =          Movie(play = anim_osn_path + "floor_cowgirl_nude_1.webm",          start_image =  anim_osn_path + "floor_cowgirl_nude_1.webp",          image =  anim_osn_path + "floor_cowgirl_nude_1.webp",          group = "office_secretary_naughty")
 image anim_osn_floor_cowgirl_nude_2 =          Movie(play = anim_osn_path + "floor_cowgirl_nude_2.webm",          start_image =  anim_osn_path + "floor_cowgirl_nude_2.webp",          image =  anim_osn_path + "floor_cowgirl_nude_2.webp",          group = "office_secretary_naughty")
 label office_call_secretary_naughty_sandbox (**kwargs):
-    $ headmaster = Person["headmaster"]
-    $ emiko = Person["emiko_langley"]
     $ begin_event(**kwargs)
 
     $ level = get_level('secretary', **kwargs)
@@ -829,7 +820,6 @@ label .ignore (**kwargs):
 
     $ end_event('new_daytime', **kwargs)
 label .talk (**kwargs):
-    $ headmaster = Person["headmaster"]
     
     $ begin_event(**kwargs)
     
@@ -847,7 +837,6 @@ label .talk (**kwargs):
         MenuElement("Take care of it for them", "Take care of it for them", EventEffect("office_event_3.care")),
     **kwargs)
 label .policy (**kwargs):
-    $ headmaster = Person["headmaster"]
     
     $ begin_event(**kwargs)
     
@@ -869,7 +858,6 @@ label .policy (**kwargs):
 
     $ end_event('new_daytime', **kwargs)
 label .care (**kwargs):
-    $ headmaster = Person["headmaster"]
     
     $ begin_event(**kwargs)
     
@@ -898,8 +886,6 @@ label .care (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label office_event_4 (**kwargs):
-    $ headmaster = Person["headmaster"]
-    $ emiko = Person["emiko_langley"]
     $ begin_event(**kwargs);
 
     $ image = convert_pattern("main", **kwargs)

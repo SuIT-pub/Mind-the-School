@@ -117,8 +117,6 @@ init 1 python:
 #############################
 
 label first_pta_meeting (**kwargs):
-    $ headmaster = Person["headmaster"]
-    $ emiko = Person["emiko_langley"]
     $ begin_event(**kwargs)
 
     $ hide_all()
@@ -286,7 +284,6 @@ label first_pta_meeting (**kwargs):
 ###############################
 
 label pta_meeting (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(no_gallery = True, **kwargs)
 
     $ schoolLevel = get_level("school_level")
@@ -310,7 +307,6 @@ label pta_meeting (**kwargs):
 # region DISCUSSION #
 
 label pta_discussion_1 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(no_gallery = True, **kwargs)
 
 
@@ -331,7 +327,6 @@ label pta_vote_nothing_1 (**kwargs):
     $ end_event('new_daytime', **kwargs)
 
 label pta_vote_unregistered_1 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(no_gallery = True, **kwargs)
 
     $ unlockable = get_value("vote_proposal", **kwargs)
@@ -386,7 +381,6 @@ label pta_vote_unregistered_1 (**kwargs):
 # region END #
 
 label pta_end_meeting_1 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(no_gallery = True, **kwargs)
 
     $ image = convert_pattern("base", **kwargs)
@@ -401,7 +395,6 @@ label pta_end_meeting_1 (**kwargs):
 ##############
 
 label pta_vote_result (unlockable, end_choice, with_comment = False):
-    $ headmaster = Person["headmaster"]
 
     if not isinstance(unlockable, Unlockable):
         $ set_game_data('voteProposal', None)

@@ -210,7 +210,6 @@ init 1 python:
 ######################
 
 label tutorial_menu ():
-    $ emiko = Person["emiko_langley"]
 
     call show_image("images/events/intro/tutorial_event_1.webp") from _tutorial_menu_2
     menu:
@@ -224,7 +223,6 @@ label tutorial_menu ():
     jump tutorial_menu
 
 label tutorial_map ():
-    $ emiko = Person["emiko_langley"]
     $ map_example = {
         "school_building": "normal", 
         "school_dormitory": "normal",

@@ -69,7 +69,6 @@ init 1 python:
 
 # Courtyard: Patrol - Night
 label truth_or_dare_1 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
@@ -161,7 +160,6 @@ label truth_or_dare_3 (**kwargs):
 
 # School Dorm: Peek - Night
 label truth_or_dare_4 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("base", **kwargs)
@@ -179,7 +177,6 @@ label truth_or_dare_4 (**kwargs):
     call composite_event_runner(**kwargs) from _call_composite_truth_or_dare_4_1
 
 label truth_or_dare_end (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ show_pattern("main", **kwargs)
@@ -329,7 +326,6 @@ label truth_or_dare_truth_4 (**kwargs):
 
 # ikushi1 lin2 miwa3 ishimaru4
 label truth_or_dare_truth_5 (**kwargs):
-    $ headmaster = Person["headmaster"]
     $ begin_event(**kwargs)
 
     $ ikushi = Person["ikushi_ito"].get_renpy_char()
