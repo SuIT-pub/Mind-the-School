@@ -348,9 +348,11 @@ stat contributions.
 
 A defined point on the bar where something happens. Two types:
 
-- **Auto-fire** (`AutoThreshold`): when the bar reaches the value for the first
-  time, the attached effects fire automatically. No `threshold_hint`. Use: moments
-  that happen as a reaction to overall progress ("a teacher changes their mind").
+- **Auto-fire** (`AutoThreshold`): when the bar reaches the value, the attached
+  effects fire automatically. No `threshold_hint`. Use: moments that happen as a
+  reaction to overall progress ("a teacher changes their mind"). Fires once by
+  default, but can be made **repeatable** via `default_hold` — see
+  [§11](#11-the-hold-system-hysteresis).
 - **Blocking** (`BlockingThreshold`): the bar cannot rise past this point until a
   `Condition` is met. Use: narratively critical beats that MUST happen in a
   certain order ("the PTA vote must take place"). Effectively a quest goal that
@@ -592,7 +594,7 @@ directly, use the **definition helpers** — they reduce boilerplate (no manual
 | `Situation(key, name, description, *elements, thumbnail=None)` | the Situation itself |
 | `Bar(key, *pictos, weight=None, limits=(-100,100), stat_weights=None, regular_decrease_rate=0, regular_decrease_interval="daytime_change", start_base=0, start_modifiers=None)` | a bar (leading `Picto(...)` args attach preview marks — see [§18](#18-pictograms-preview-marks)) |
 | `StartModifier(op, value, name=None, stat=None)` | a start-value modifier |
-| `AutoThreshold(approach_hint, *effects, direction=1, visible_range=100, **bounds)` | auto-fire threshold |
+| `AutoThreshold(approach_hint, *effects, direction=1, visible_range=100, default_hold=-1, **bounds)` | auto-fire threshold (one-shot by default; `default_hold>=0` makes it repeatable) |
 | `BlockingThreshold(approach_hint, threshold_hint, *conditions, direction=1, visible_range=100, default_hold=-1, **bounds)` | blocking threshold (no hysteresis by default) |
 | `PassiveOption(key, description, *effects)` | passive (Layer 2) |
 | `MeasureOption(key, description, duration, *limits, instant=None, permanent=None, open_ended=False)` | measure (Layer 3) |
@@ -1020,23 +1022,66 @@ journal is open. The display is static within a view — no smoothing needed.
 
 ## 11. The hold system (hysteresis)
 
+Both threshold types share one re-arming mechanism, controlled by `default_hold`.
+The value is a **dead zone** in bar points: after the threshold fires, the bar
+must travel back past the bound by that many points (in the direction opposite to
+`direction`) before it can fire again. The re-arm check runs automatically after
+every bar change — you don't wire anything up.
+
+```
+default_hold=-1   fire once, latch forever (no re-arm)   ← default for both types
+default_hold=0    re-arm on any re-crossing of the bound
+default_hold=5    re-arm only after the bar recovers 5 points past the bound
+```
+
+### Repeatable AutoThresholds
+
+Give an `AutoThreshold` a `default_hold` of `0` or higher and it fires every time
+the bar crosses the bound, instead of once:
+
+```python
+AutoThreshold(
+    "When students don't clean the faculty, the school's reputation suffers.",
+    EventEffect("event_enforce_trash_collection"),
+    default_hold=0,        # repeatable; omit or -1 = one-shot
+    main=-90, direction=-1,
+)
+```
+
+Three things to keep in mind — none are bugs, they're the nature of an auto-fire:
+
+- **A repeatable Auto is not a Blocking.** It fires as the bar passes the bound but
+  never halts progression; the bar keeps moving. If you need progress to stop until
+  something is resolved, use a `BlockingThreshold` with a condition.
+- **It's an *edge* trigger, not a *state* trigger.** Because the bar isn't clamped,
+  it can settle far past the bound. If a `regular_decrease_rate` or an effect parks
+  the bar below the bound, it never climbs back over the re-arm line, so the event
+  **won't fire again** even though the "bad state" persists. Right for "fire each
+  time we fall through the line"; wrong for "keep reminding while things are bad"
+  (use a timer or a passive for that). One big overshooting jump still fires exactly
+  once — never a burst.
+- **Multi-bound Autos re-arm conservatively.** With bounds on several bars, *all* of
+  them must leave their dead zones before it re-arms, not just one.
+
+> ⚠️ **Flutter warning:** with `default_hold=0`, a bar that oscillates right around
+> the bound will re-fire the threshold on every crossing — spamming the event. If
+> the bar tends to sit near the bound, give it a `default_hold` large enough to clear
+> the noise (e.g. `3`–`5`).
+
+### Blocking holds (timer grace)
+
 When a blocking threshold with a timer grace period is cleared or times out, it
 may enter a **hold** state that pins the bar at its bound and prevents an
 immediate re-trigger. While held, the threshold is skipped in all threshold
 searches and does not fire again. The hold releases only once the bar has clearly
-moved `hold` points **beyond** the bound (direction-aware).
+moved `hold` points **beyond** the bound (direction-aware), using the same
+`default_hold` dead zone described above.
 
-`default_hold` controls this:
-
-- **`-1` (BlockingThreshold default)** — no hysteresis. The threshold is marked
-  permanently `reached` and **cannot re-arm**. Use this for one-shot quest gates.
-- **`0` or higher** — hysteresis zone of that size; after release the gate can
-  trigger again if the bar returns to the bound.
-
-Plain blocking thresholds without a timer already set `reached = True` on success
-and never enter hold. You only need an explicit `default_hold=…` when a
-`TimerCondition` is involved and you want reactivation hysteresis (e.g.
-`default_hold=5`).
+Plain blocking thresholds without a timer set `reached = True` on success and
+never enter hold — for them `default_hold` currently has no effect. You only need
+an explicit `default_hold=…` on a blocking threshold when a `TimerCondition` is
+involved and you want reactivation hysteresis (e.g. `default_hold=5`). One-shot
+quest gates keep the `-1` default.
 
 This hysteresis is deliberately **separate** from resolution grace
 ([§14](#14-resolutions-in-detail)): thresholds carry hint obligations and a
@@ -1372,6 +1417,7 @@ always logs why.
 | **It shows as `???????` and never becomes the real title** | It's in `teaser_active` — teasers unlocked but the Situation was never activated. | Call `…activate()` (from the triggering event, or the console). |
 | **The bar never moves** | No `stat_weights`, no events pushing it, and `regular_decrease_rate` is 0. | Add `stat_weights`, a wear rate, or move it from an event ([§3](#3-how-bars-move), [§13](#13-controlling-progress-from-events)). |
 | **A threshold never fires** | Blocking condition unmet; or (multi-bar) not *all* bounds met; or it's on hold; or bounds cross. | Verify the condition; remember multi-bar bounds are AND-linked ([§10](#10-multi-bar-situations--the-combined-bar)); check for a softlock (error 791). |
+| **A repeatable AutoThreshold only fires once** | Either `default_hold` is left at `-1` (one-shot), or the bar parked past the bound and never recovered past the re-arm line. | Set `default_hold=0` (or higher) for repeat; if the bar sits below the bound, it's an *edge* trigger and won't re-fire on a persistent state — use a timer/passive instead ([§11](#11-the-hold-system-hysteresis)). |
 | **A threshold event fires from a cheat-menu test / while the Situation is still inactive** | Direct `apply_progress_change` used to move bars and fire AutoThresholds regardless of state. | Bars, thresholds, pools, passives, and resolutions no-op until `activate()`. Use `shift_start_value` before activation, or activate first. |
 | **It never resolves / never ends** | A resolution has no effect (rejected, 780); or bars can't reach their `limits`; or gate conditions are unmet. | Give every resolution an effect; check bar `limits` vs. the resolution mode; review gates ([§14](#14-resolutions-in-detail)). |
 | **Edits to my template don't take effect / progress reset** | You set runtime state (`bar.value`, `reached`, …) in the template. `update_data` deliberately keeps save state and won't overwrite it — and template runtime state corrupts progress. | Set starting values via `start_base` / `start_modifiers`, never `value` ([§9](#9-conventions-not-enforced-but-important)). |
