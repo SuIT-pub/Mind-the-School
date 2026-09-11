@@ -2105,6 +2105,31 @@ init -99 python:
 
 
     class PDAImage(PDAction):
+        """
+        Merges pattern values and re-resolves every layer.
+
+        Omitted keys keep the object's current value. Empty ``extra1`` /
+        ``extra2`` / ``state`` (and other ``alt_keys``) fall back to '$'.
+        Any key that appears in the object's layer patterns is valid; character
+        paperdolls use:
+
+        - ``char_var`` — body/head variant (``alt_keys``, default ``1``)
+        - ``pose`` — shared pose index (default ``1``)
+        - ``outfit`` — clothes set, body layer (default ``"uniform"``)
+        - ``level`` — campus-level / nude step, body layer (``alt_keys``, default ``1``)
+        - ``state`` — optional body state (``alt_keys``, default ``""`` → '$')
+        - ``extra1`` — optional special body sprite (``alt_keys``, default ``""`` → '$')
+        - ``mood`` — expression, head layer (default ``"neutral"``)
+        - ``mouth`` — mouth shape, head layer (``alt_keys``, default ``"closed"``)
+        - ``look`` — ``"follow"`` or ``"avert"``; not an alt-key (default ``"follow"``)
+        - ``extra2`` — optional special head sprite (``alt_keys``, default ``""`` → '$')
+
+        ### Parameters:
+        1. **kwargs
+            - Pattern values to merge. Valid keys: ``char_var``, ``pose``,
+                ``outfit``, ``level``, ``state``, ``extra1``, ``mood``, ``mouth``,
+                ``look``, ``extra2``, plus any extra ``<key>`` in a custom pattern.
+        """
         def __init__(self, **kwargs):
             super().__init__("image")
             self.values = kwargs

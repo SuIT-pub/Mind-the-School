@@ -992,9 +992,10 @@ right config values** for an asset set. It manages its own manager (it calls
 `init_paperdoll_manager` / `unload_paperdoll_manager` around the session), lets you
 pick a character and cycle `char_var` / `pose` / `outfit` / `level` / `state` /
 `mood` / `mouth` / `look` / `extra1` / `extra2` (discovered by scanning the actual
-files on disk). `look` sits under Mouths when both `follow` and `avert` exist;
-`extra1` / `extra2` sit under char_var when the current combination has more than
-one extra token. A column with only one option is hidden and that token is used.
+files on disk). Each of those is its **own** column: `look` is not nested under
+Mouths, and `extra1` / `extra2` are not nested under char_var. A column with only
+one option is hidden and that token is used (`pout` / `suprised` typically only
+have mouth `$`, so Mouths hides while Gaze still shows `follow` / `avert`).
 It also exposes live `alignX` / `alignY` / `rotation` / `zoom` / `blur` / `flip`
 sliders plus the presets.
 

@@ -258,6 +258,24 @@ _Parents_
 </details>
 
 <details>
+<summary>Value Ranges</summary>
+
+- [Value Ranges](Value-Ranges)
+- [Quick start](Value-Ranges#quick-start)
+- [The five forms](Value-Ranges#1-the-five-forms)
+- [How matching works](Value-Ranges#2-how-matching-works)
+- [The closeness score](Value-Ranges#3-the-closeness-score-get_value_diff)
+- [The "x" wildcard](Value-Ranges#4-the-x-wildcard)
+- [Who uses this](Value-Ranges#5-who-uses-this)
+- [NOT comparison operators](Value-Ranges#6-not-the-same-thing-comparison-operators)
+- [Edge cases & gotchas](Value-Ranges#7-edge-cases--gotchas)
+- [Conventions](Value-Ranges#8-conventions)
+- [Troubleshooting](Value-Ranges#9-troubleshooting)
+- [Reference](Value-Ranges#10-reference)
+
+</details>
+
+<details>
 <summary>Selectors</summary>
 
 - [Selectors](Selectors)

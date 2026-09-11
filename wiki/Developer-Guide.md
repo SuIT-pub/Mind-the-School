@@ -134,6 +134,8 @@ The building blocks the content systems are made of:
   priorities, scene labels, and how everything below plugs in.
 - **[Conditions](Conditions)** — the universal gating primitive (when something is
   available), with the `AND`/`OR`/`NOT` combinators and the full catalog.
+- **[Value Ranges](Value-Ranges)** — the number-pattern grammar (`"3+"`, `"3-7"`,
+  `"1,3,5"`) that stat, level, and time checks parse; the shared primitive behind them.
 - **[Selectors](Selectors)** — dynamic values rolled at runtime into event kwargs
   (the acting character, a variant, a stat reading).
 - **[Effects](Effects)** — the "what happens" actions (money, stats, unlocks,

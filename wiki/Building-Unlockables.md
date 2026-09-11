@@ -335,7 +335,7 @@ never double-charged, and refunded on failure or cancel.
 You wire it as a **matched pair**:
 
 1. A **`MoneyCondition`** on the Schedule Vote measure — supply it via
-   `UnlockableScheduleVoteConditions(MoneyCondition("1500+"))`. This is the amount
+   `UnlockableScheduleVoteConditions(MoneyCondition(1500))`. This is the amount
    reserved.
 2. A **cost `MoneyEffect`** among your unlock effects — an `ADD` effect with a
    **negative** value of the **same absolute amount**:
@@ -540,7 +540,7 @@ register_unlockables(
     Unlockable("building", "cafeteria", "Cafeteria II", True,
         SituationDescription(["Expand the cafeteria. Costs $1500."]),
         # money cost: MoneyCondition on the vote + matching negative MoneyEffect
-        UnlockableScheduleVoteConditions(MoneyCondition("1500+")),
+        UnlockableScheduleVoteConditions(MoneyCondition(1500)),
         MoneyEffect("cafeteria_2_cost", -1500, "ADD"),
         thumbnail="images/journal/buildings/cafeteria_2.webp",
         group_index=2,

@@ -74,7 +74,7 @@ init 1 python:
         StatSelector("education", EDUCATION, "school", [20, 100]),
         GameDataSelector("face_known", "nm_face_introduced", 0),
         # Scene image for the establishing beat (empty hallway, Yulan not looking up).
-        Pattern("main", "images/events/new_management/nm_ghost_office_empty_corridor/nm_ghost_office_empty_corridor 1.webp")))
+        Pattern("main", "images/events/new_management/nm_ghost_office_empty_corridor/nm_ghost_office_empty_corridor.webp")))
 
     # --- nm_potion_hangover (-20 ... +5) ---
     sb_events["check_class"].add_event(Event(
@@ -602,7 +602,7 @@ label .distant (**kwargs):
 
 # endregion ═════════════════════════════════════════════════════════════════════
 
-# ═══ SCENE · nm_ghost_office_empty_corridor ═══════════════════════════════════
+# region SCENE · nm_ghost_office_empty_corridor ═════════════════════════════════
 #  Just after the bell, a school corridor emptying of students. Yulan Chen (a teacher)
 #  walks through reading from an open folder. The headmaster greets her; she doesn't
 #  look up and keeps reading. What she's buried in varies (<folder_topic>).
@@ -626,12 +626,13 @@ label nm_ghost_office_empty_corridor (**kwargs):
     # Hand off to the exchange (paperdoll over the blurred hallway).
     $ yulan.register_paperdoll()
     $ paperdoll_manager.set_background("images/background/school building/f.webp", blur = True)
-    $ yulan.display(PDAImage(pose = "1", outfit = "uniform", level = 1, mood = "neutral", mouth = "closed"),
-        PDAPreset("close_body_center", duration = 0.0),
+    $ yulan.display(PDAImage(pose = "39", look = "avert"),
         PDAPreset("outside", duration = 0.0))
-    $ yulan.display(PDAPreset("close_body_center", duration = 1.0))
+    $ yulan.display(PDAMove(alignX = 0.0, duration = 1.0))
     headmaster "Ms. Chen."
+    $ yulan.display(PDAMove(alignX = 0.2, duration = 1.0))
     yulan.say "..."
+    $ yulan.display(PDAMove(alignX = 0.4, duration = 1.0))
     subtitles "She doesn't look up. A page turns, unhurried, as if your greeting had been delivered to the wrong desk."
 
     if face_known:
@@ -658,11 +659,14 @@ label .acknowledge (**kwargs):
     $ yulan = Person["yulan_chen"]
     $ folder_topic = get_value("folder_topic", **kwargs)
 
+    $ yulan.display(PDAMove(zoom = 2.0, alignX = 0.6, duration = 1.0))
     headmaster "Your work on [folder_topic] — the revisions were solid. Genuinely."
     yulan.say "..."
     $ yulan.display(PDAImage(mood = "neutral", mouth = "open"))
     yulan.say "...Thank you."
+    $ yulan.display(PDAImage(mouth = "closed"))
     subtitles "Still no eye contact. But the next page turns a little slower than the last one did."
+    $ yulan.display(PDAMove(alignX = 1.0, duration = 1.0))
     headmaster_thought "Was that— yeah. That page turned slower than the last one. It's nothing, really, it's a page turning. But from her that's the first inch of ground she's given me, and I'll take an inch."
 
     $ set_game_data("nm_yulan_thawed", 1)
@@ -675,11 +679,12 @@ label .shop (**kwargs):
     $ yulan = Person["yulan_chen"]
     $ folder_topic = get_value("folder_topic", **kwargs)
 
+    $ yulan.display(PDAImage(pose = "7"), PDAMove(zoom = 2.0, alignX = 0.5, duration = 1.0))
     headmaster "On [folder_topic] — your second section is doing the real work. I'd put it {i}before{/i} the summary, not after. Let the argument land before you tell them what it was."
     subtitles "For the first time, she stops walking. She looks — actually looks — at the page you mean."
-    $ yulan.display(PDAImage(mood = "suprised", mouth = "closed"))
+    $ yulan.display(PDAImage(pose = "8", mood = "suprised", mouth = "open", look = "follow"))
     yulan.say "...That is the exact note I'd have made. I simply didn't expect you to have read closely enough to make it."
-    $ yulan.display(PDAImage(mood = "neutral", mouth = "closed"))
+    $ yulan.display(PDAImage(mood = "happy", mouth = "closed"))
     headmaster_thought "There it is — she actually looked at me. Try to charm her and it slides straight off; talk about the real work, and know it as well as she does, and she stops walking. So that's how you get to Yulan. Good to know."
 
     $ set_game_data("nm_yulan_thawed", 1)
@@ -691,9 +696,11 @@ label .shop (**kwargs):
 label .greet (**kwargs):
     $ yulan = Person["yulan_chen"]
 
+    $ yulan.display(PDAMove(alignX = 0.6, duration = 1.0))
     headmaster "Good afternoon, Ms. Chen."
-    $ yulan.display(PDAImage(mood = "neutral", mouth = "open"))
+    $ yulan.display(PDAImage(mood = "neutral", mouth = "open"), PDAMove(alignX = 0.8, duration = 1.0))
     yulan.say "Headmaster."
+    $ yulan.display(PDAImage(mouth = "neutral"), PDAMove(alignX = 1.5, duration = 1.0))
     headmaster_thought "One word, flat as the floor, not a scrap of warmth on it. Still — it's a word. Last week I'd have got a turned page and nothing else, so I'll count it."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 1)
@@ -703,14 +710,17 @@ label .greet (**kwargs):
 label .force (**kwargs):
     $ yulan = Person["yulan_chen"]
 
+    $ yulan.display(PDAMove(alignX = 0.6, duration = 1.0))
     subtitles "You lengthen your stride and go straight past her. Behind you, a folder snaps shut like a small, final verdict."
-    $ yulan.display(PDAImage(mood = "angry", mouth = "closed"))
+    $ yulan.display(PDAImage(mood = "angry", mouth = "closed"), PDAMove(alignX = 0.8, duration = 1.0))
     headmaster_thought "...I just walked straight past her like she was a coat rack. And that folder snapping shut behind me — that's her filing it away somewhere she won't lose it. Ten seconds, and I've probably set myself back a month with her."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", -1)
     call change_stats_with_modifier(reputation=DEC_TINY, happiness=DEC_TINY) from _nm_go_cor_force
     $ yulan.clear_display()
     $ end_event('new_daytime', **kwargs)
+
+# region ════════════════════════════════════════════════════════════════════════
 
 # endregion
 #######################################

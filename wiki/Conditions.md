@@ -20,7 +20,7 @@ unlockable's visibility, …):
 # "school level ≥ 2 AND at least $1500 AND the intro event was seen"
 AND(
     LevelCondition("2"),
-    MoneyCondition("1500+"),
+    MoneyCondition(1500),
     EventSeenCondition(True, "intro_done"),
 )
 ```
@@ -133,7 +133,7 @@ condition is accepted:
 ```python
 OR(
     AND(LevelCondition("3"), EventSeenCondition(True, "sb_event_3")),
-    MoneyCondition("5000+"),
+    MoneyCondition(5000),
 )
 ```
 
@@ -167,7 +167,9 @@ the constructor's own args: `StatCondition(OptionalOption(), corruption=20)`.
 ## 6. The condition catalog
 
 All constructors below are `Condition` subclasses. `*options` is always accepted
-last.
+last. Numeric arguments written as `"2"`, `"2+"`, `"3-7"`, `"1,3,5"` are **value
+ranges** — the shared number-pattern grammar is documented in
+[Value Ranges](Value-Ranges).
 
 ### Stats, levels & proficiency
 
@@ -183,7 +185,7 @@ last.
 
 | Constructor | Checks |
 |-------------|--------|
-| `MoneyCondition(value, *options)` | available money meets `value` (number = minimum; string like `"1500+"` / `">=1000"`) |
+| `MoneyCondition(value, *options)` | available money is ≥ `value` (a plain number, always a minimum — does **not** parse value ranges; pass an int, not `"1500+"`) |
 | `ItemCondition(item_key, amount=1, *options)` | at least `amount` of an inventory item |
 | `DeliveryCondition(*options)` | a delivery is available |
 
@@ -273,7 +275,7 @@ The situation/measure machinery starts and reads the timer; you just declare it.
 
 **Mixed AND/OR:** compose explicitly:
 ```python
-AND(LevelCondition("3"), OR(MoneyCondition("2000+"), UnlockableCondition("grant")))
+AND(LevelCondition("3"), OR(MoneyCondition(2000), UnlockableCondition("grant")))
 ```
 
 **WIP gate:** `PlaceholderCondition()` — the host stays uncompletable until you
@@ -328,8 +330,10 @@ public `is_fulfilled` · `type` → `find_by_type` ·
 `AND` · `OR` · `NOR` · `NOT(single)` · `XOR` (odd count).
 
 ### Comparison operators (Num/Key compare)
-`>` · `<` · `>=` · `<=` · `==` (and the string-suffix form on `MoneyCondition` /
-`LevelCondition`, e.g. `"1500+"`).
+`>` · `<` · `>=` · `<=` · `==` — a **separate argument** on `NumCompareCondition` /
+`KeyCompareCondition`. Not to be confused with the value-range suffix form (`"20+"`,
+`"3-7"`) that stat/level/time checks parse — that grammar is documented in
+[Value Ranges](Value-Ranges).
 
 ### Time / timer keys
 `day` · `week` · `month` · `year` · `daytime` · `weekday` · `date` · `condition`

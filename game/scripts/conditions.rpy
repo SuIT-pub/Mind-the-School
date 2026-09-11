@@ -1282,15 +1282,15 @@ init -6 python:
         A condition class that checks if the available money meets a threshold.
 
         This class verifies whether the current money/budget meets or exceeds a
-        specified threshold. The requirement can be specified either as an exact
-        value or as a comparison string (e.g., '>=1000').
+        specified threshold. The threshold is a plain number and is always treated
+        as a minimum: the condition is fulfilled when the available money is greater
+        than or equal to it.
 
         This is a subclass of the :class:`Condition` class.
 
         ### Attributes:
-        1. value: Union[str, num]
-            - The required money threshold. Can be a specific
-            value or a comparison string.
+        1. value: num
+            - The required money threshold (a minimum).
         2. display_in_list: bool
             - Whether to show this condition in list displays.
             - Always True for money conditions.
@@ -1299,16 +1299,18 @@ init -6 python:
             - Always True for money conditions.
 
         ### Note:
-        When specified as a number rather than a comparison string, the condition
-        automatically treats it as a minimum requirement (value+).
+        Unlike stat/level/time checks, this condition does NOT parse the value-range
+        grammar (no "1000+", "500-1500", etc.) — pass a bare number. A string would
+        raise a TypeError on the comparison. For range-style money gates, compose with
+        the appropriate condition instead.
         """
 
-        def __init__(self, value: Union[str, num], *options: Option):
+        def __init__(self, value: num, *options: Option):
             """Initialize a new MoneyCondition.
 
             Args:
-                value (Union[str, num]): The required money threshold. Can be a number
-                    (treated as minimum) or comparison string (e.g., '>=1000').
+                value (num): The required money threshold. Treated as a minimum
+                    (fulfilled when available money >= value). Must be a number.
             """
             super().__init__(*options)
             self.value = value
@@ -1322,22 +1324,16 @@ init -6 python:
         def check_condition(self, **kwargs) -> bool:
             """Check if the current money meets the requirement.
 
-            If the value is specified as a number rather than a comparison string,
-            it is treated as a minimum requirement (value+).
+            The threshold is treated as a minimum: fulfilled when the available money
+            is greater than or equal to it.
 
             Args:
                 **kwargs: Additional arguments (unused in this implementation).
 
             Returns:
-                bool: True if either:
-                    - The parent condition is fulfilled
-                    - The current money meets or exceeds the requirement
-                    False otherwise.
+                bool: True if the available money is greater than or equal to the
+                    threshold, False otherwise.
             """
-
-            value = self.value
-            if not isinstance(value, str):
-                value = str(value) + "+"
 
             return self.value <= money.get_value()
 

@@ -1299,6 +1299,17 @@ label load_schools ():
         }
     })
 
+    $ load_character("staff", "Staff", charList['staff'],{
+        'stats_objects': {
+            "corruption": Stat(CORRUPTION, 0),
+            "inhibition": Stat(INHIBITION, 100),
+            "happiness": Stat(HAPPINESS, 13),
+            "education": Stat(EDUCATION, 35),
+            "charm": Stat(CHARM, 14),
+            "reputation": Stat(REPUTATION, 17),
+        }
+    })
+
     #############################################
     # compatibility with version 0.1.2
     # loading of school is included
@@ -1312,12 +1323,15 @@ label load_characters ():
     $ parent_char = get_character_by_key('parent')
     $ teacher_char = get_character_by_key('teacher')
     $ secretary_char = get_character_by_key('secretary')
+    $ staff_char = get_character_by_key('staff')
 
     $ load_person("NoView", Person("default", "", "Person", school_char, []))
     $ load_person("NoView", Person("default_school", "", "School Girl", school_char, []))
     $ load_person("NoView", Person("default_parent", "", "Parent", parent_char, []))
     $ load_person("NoView", Person("default_teacher", "", "Teacher", teacher_char, []))
     $ load_person("NoView", Person("default_secretary", "", "Secretary", secretary_char, []))
+
+    $ load_person("NoView", Person("headmaster", "[headmaster_first_name]", "[headmaster_last_name]", staff_char, []))
 
     $ load_person("class_3a", Person("aona_komuro", "Aona", "Komuro", school_char, [
             "• Height: 172.5 cm",

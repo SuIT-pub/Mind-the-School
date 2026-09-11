@@ -16,25 +16,27 @@ label lab_intro_1 (**kwargs):
     $ begin_event(**kwargs)
 
     $ image = convert_pattern("main", **kwargs)
+
+    $ headmaster = Person["headmaster"]
     
     $ image.show(0)
     subtitles "The office smells like stale coffee and old paper. The overhead light buzzes faintly."
-    headmaster_thought "Hmm, the progress I made is good, but it is just the beginning."
-    headmaster_thought "It's probably getting harder from now on. I set a good basis, but there is still resistance in their minds..."
+    headmaster.think "Hmm, the progress I made is good, but it is just the beginning."
+    headmaster.think "It's probably getting harder from now on. I set a good basis, but there is still resistance in their minds..."
 
     $ image.show(1)
-    headmaster_thought "Maybe it's time to start work on the potions."
-    headmaster_thought "It's unfortunate that I can't reach my partner, he would be of immense help..."
+    headmaster.think "Maybe it's time to start work on the potions."
+    headmaster.think "It's unfortunate that I can't reach my partner, he would be of immense help..."
 
     $ image.show(2)
-    headmaster_thought "At least I have this one last potion. I have to be careful to not waste it."
+    headmaster.think "At least I have this one last potion. I have to be careful to not waste it."
 
     $ image.show(3)
-    headmaster_thought "I also have a few notes about the potion, its effects and ingredients, but nothing very detailed unfortunately."
-    headmaster_thought "I guess the first thing I should do is to set up a makeshift lab. I should check out the old lab building."
+    headmaster.think "I also have a few notes about the potion, its effects and ingredients, but nothing very detailed unfortunately."
+    headmaster.think "I guess the first thing I should do is to set up a makeshift lab. I should check out the old lab building."
 
     $ image.show(4)
-    headmaster_thought "Maybe there is some stuff I could still use."
+    headmaster.think "Maybe there is some stuff I could still use."
 
     $ start_progress("lab_intro")
 
@@ -212,26 +214,27 @@ label lab_intro_2 (**kwargs):
     # headmaster finds a few tables, chairs, and some other equipment
 
     $ image = convert_pattern("main", **kwargs)
+    $ headmaster = Person["headmaster"]
     
     $ image.show(0)
     subtitles "The smell hits first — mold and old solvent, something chemical that hasn't fully dissipated in thirty years."
-    headmaster_thought "Hmm, everything is pretty run down."
+    headmaster.think "Hmm, everything is pretty run down."
 
     call Image_Series.show_image(image, 1, 2) from _call_lab_intro_show_image_1
-    headmaster_thought "I don't think I can use any of this."
+    headmaster.think "I don't think I can use any of this."
 
     # headmaster checks a few rooms
 
     $ image.show(3)
-    headmaster_thought "Hey, what's that?"
+    headmaster.think "Hey, what's that?"
 
     $ image.show(4)
-    headmaster_thought "That table seems totally fine! That's perfect!"
+    headmaster.think "That table seems totally fine! That's perfect!"
 
     # headmaster calls secretary
 
     $ image.show(5)
-    headmaster_thought "Time to get some help."
+    headmaster.think "Time to get some help."
 
     $ image.show(6)
     headmaster "Hi Emiko. Yes, I am. I am in the old laboratory building. What I'm doing? I'm looking for some stuff for my potion lab."
@@ -253,8 +256,11 @@ label lab_intro_2 (**kwargs):
 label lab_intro_2_search_gym (**kwargs):
     $ begin_event(**kwargs)
 
+    
+    $ headmaster = Person["headmaster"]
+
     $ show_pattern("base", **kwargs)
-    headmaster_thought "Hmm, the gym should have anything useful."
+    headmaster.think "Hmm, the gym should have anything useful."
 
     call composite_event_runner(**kwargs) from lab_intro_2_search_gym_composite_event_runner
 
@@ -264,8 +270,11 @@ label lab_intro_2_search_gym_1 (**kwargs):
     # headmaster searches the gym for some equipment
     # headmaster finds a bra, but nothing useful for his lab
 
+    
+    $ headmaster = Person["headmaster"]
+
     $ show_pattern("main", **kwargs)
-    headmaster_thought "Whose bra is this? And why is it in the equipment room?! Mhh, who cares."
+    headmaster.think "Whose bra is this? And why is it in the equipment room?! Mhh, who cares."
 
     $ inventory_manager.add_item("generic_bra")
 
@@ -274,8 +283,10 @@ label lab_intro_2_search_gym_1 (**kwargs):
 label lab_intro_2_search_gym_2 (**kwargs):
     $ begin_event(**kwargs)
 
+    $ headmaster = Person["headmaster"]
+
     $ show_pattern("main", **kwargs)
-    headmaster_thought "Nothing useful here."
+    headmaster.think "Nothing useful here."
 
     $ end_event("new_daytime", **kwargs)
 
@@ -283,19 +294,23 @@ label lab_intro_2_search_gym_2 (**kwargs):
 label lab_intro_2_search_cafeteria (**kwargs):
     $ begin_event(**kwargs)
 
+    $ headmaster = Person["headmaster"]
+
     $ show_pattern("base", **kwargs)
-    headmaster_thought "Hmm, the cafeteria should have anything useful."
+    headmaster.think "Hmm, the cafeteria should have anything useful."
 
     call composite_event_runner(**kwargs) from lab_intro_2_search_cafeteria_composite_event_runner
 
 label lab_intro_2_search_cafeteria_1 (**kwargs):
     $ begin_event(**kwargs)
 
+    $ headmaster = Person["headmaster"]
+
     # headmaster searches the cafeteria for some equipment
     # headmaster finds a mortar and pestle
 
     $ show_pattern("main", **kwargs)
-    headmaster_thought "Oh, look at that! That's a mortar and pestle! Perfect!"
+    headmaster.think "Oh, look at that! That's a mortar and pestle! Perfect!"
 
     $ inventory_manager.add_item(Item("lab_mortar_and_pestle"))
 
@@ -304,11 +319,13 @@ label lab_intro_2_search_cafeteria_1 (**kwargs):
 label lab_intro_2_search_cafeteria_2 (**kwargs):
     $ begin_event(**kwargs)
 
+    $ headmaster = Person["headmaster"]
+
     # headmaster searches the cafeteria for some equipment
     # headmaster finds some distilled water and some other liquids
 
     $ show_pattern("main", **kwargs)
-    headmaster_thought "Ah, that's a nice looking bottle of distilled water. Perfect!"
+    headmaster.think "Ah, that's a nice looking bottle of distilled water. Perfect!"
 
     $ inventory_manager.add_item(Item("lab_distilled_water"))
 
@@ -317,11 +334,15 @@ label lab_intro_2_search_cafeteria_2 (**kwargs):
 label lab_intro_2_search_cafeteria_3 (**kwargs):
     $ begin_event(**kwargs)
 
+    $ headmaster = Person["headmaster"]
+
     $ show_pattern("main", **kwargs)
     # headmaster searches the cafeteria for some equipment
     # headmaster doesn't find anything useful anymore
 
-    headmaster_thought "Nothing useful here."
+    $ headmaster = Person["headmaster"]
+
+    headmaster.think "Nothing useful here."
 
     $ end_event("new_daytime", **kwargs)
 
@@ -329,19 +350,23 @@ label lab_intro_2_search_cafeteria_3 (**kwargs):
 label lab_intro_2_search_dorm (**kwargs):
     $ begin_event(**kwargs)
 
+    $ headmaster = Person["headmaster"]
+
     $ show_pattern("base", **kwargs)
-    headmaster_thought "Let's see if the dorm has anything useful."
+    headmaster.think "Let's see if the dorm has anything useful."
 
     call composite_event_runner(**kwargs) from lab_intro_2_search_dorm_composite_event_runner
 
 label lab_intro_2_search_dorm_1 (**kwargs):
     $ begin_event(**kwargs)
 
+    $ headmaster = Person["headmaster"]
+
     # headmaster searches the dorm for some equipment
     # headmaster finds a mortar and pestle
 
     $ show_pattern("main", **kwargs)
-    headmaster_thought "Oh, look at that! That's a mortar and pestle! Perfect!"
+    headmaster.think "Oh, look at that! That's a mortar and pestle! Perfect!"
 
     $ inventory_manager.add_item(Item("lab_mortar_and_pestle"))
 
@@ -350,11 +375,13 @@ label lab_intro_2_search_dorm_1 (**kwargs):
 label lab_intro_2_search_dorm_2 (**kwargs):
     $ begin_event(**kwargs)
 
+    $ headmaster = Person["headmaster"]
+
     # headmaster searches the dorm for some equipment
     # headmaster finds some distilled water and some other liquids
 
     $ show_pattern("main", **kwargs)
-    headmaster_thought "Ah, that's a nice looking bottle of distilled water. Perfect!"
+    headmaster.think "Ah, that's a nice looking bottle of distilled water. Perfect!"
 
     $ inventory_manager.add_item(Item("lab_distilled_water"))
 
@@ -363,11 +390,13 @@ label lab_intro_2_search_dorm_2 (**kwargs):
 label lab_intro_2_search_dorm_3 (**kwargs):
     $ begin_event(**kwargs)
 
+    $ headmaster = Person["headmaster"]
+
     # headmaster searches the dorm for some equipment
     # headmaster doesn't find anything useful anymore
 
     $ show_pattern("main", **kwargs)
-    headmaster_thought "Nothing useful here."
+    headmaster.think "Nothing useful here."
 
     $ end_event("new_daytime", **kwargs)
 
@@ -375,13 +404,17 @@ label lab_intro_2_search_dorm_3 (**kwargs):
 label lab_intro_2_search_kiosk (**kwargs):
     $ begin_event(**kwargs)
 
+    $ headmaster = Person["headmaster"]
+
     $ show_pattern("base", **kwargs)
-    headmaster_thought "Let's see if the kiosk has anything useful."
+    headmaster.think "Let's see if the kiosk has anything useful."
 
     call composite_event_runner(**kwargs) from lab_intro_2_search_kiosk_composite_event_runner
 
 label lab_intro_2_search_kiosk_1 (**kwargs):
     $ begin_event(**kwargs)
+
+    $ headmaster = Person["headmaster"]
 
     # headmaster looks for some equipment at the kiosk
     # headmaster finds some glassware and some utensils
@@ -389,7 +422,7 @@ label lab_intro_2_search_kiosk_1 (**kwargs):
     $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
-    headmaster_thought "Ahh, I could use this set of glassware."
+    headmaster.think "Ahh, I could use this set of glassware."
 
     $ image.show(1)
     headmaster "Hello, I would like to buy this set."
@@ -407,11 +440,13 @@ label lab_intro_2_search_kiosk_1 (**kwargs):
 label lab_intro_2_search_kiosk_2 (**kwargs):
     $ begin_event(**kwargs)
 
+    $ headmaster = Person["headmaster"]
+
     # headmaster looks for some equipment at the kiosk
     # headmaster doesn't find anything else useful at the kiosk
 
     $ show_pattern("main", **kwargs)
-    headmaster_thought "Nothing useful here."
+    headmaster.think "Nothing useful here."
 
     $ end_event("new_daytime", **kwargs)
 
@@ -422,6 +457,8 @@ label lab_intro_2_patrol_courtyard (**kwargs):
     $ hatano = Person["hatano_miwa"].get_renpy_char()
     $ kokoro = Person["kokoro_nakamura"].get_renpy_char()
     $ gloria = Person["gloria_goto"].get_renpy_char()
+    $ headmaster = Person["headmaster"]
+
 
     # headmaster find students sitting in the courtyard playing with a gas burner acting like they are camping
     # headmaster reprimands them and confiscates the burner
@@ -458,13 +495,15 @@ label lab_intro_2_patrol_courtyard (**kwargs):
 label lab_intro_2_search_courtyard (**kwargs):
     $ begin_event(**kwargs)
 
+    $ headmaster = Person["headmaster"]
+
     # headmaster looks for some equipment in the courtyard
     # of course there won't be anything useful in the courtyard
 
     $ image = convert_pattern("main", **kwargs)
 
     call Image_Series.show_image(image, 0, 1, 2) from _call_show_image_lab_intro_2_search_courtyard_1
-    headmaster_thought "Nothing useful here."
+    headmaster.think "Nothing useful here."
 
     $ end_event("new_daytime", **kwargs)
 
@@ -665,12 +704,19 @@ init 2 python:
 label lab_intro_5 (**kwargs):
     $ begin_event(**kwargs)
 
+    $ image.show(0)
     subtitles "It's morning. The lab smell has seeped into his clothes overnight."
+
+    $ image.show(1)
     headmaster_thought "I seem to be fine. I don't feel any effects yet."
     headmaster_thought "Though... I don't feel any effect at all."
+
+    $ image.show(2)
     headmaster_thought "Maybe I'm just not susceptible to it. Nothing for me to be conditioned toward..."
     headmaster_thought "The formula works on inhibition — on suppressed desire. If there's nothing there to suppress in the first place..."
     headmaster_thought "Maybe it only works on women."
+
+    $ image.show(3)
     headmaster_thought "At any rate — no adverse effects. The formula is sound. Time to move forward."
 
     $ set_progress("lab_intro", 5)
@@ -691,7 +737,7 @@ init 2 python:
     lab_intro_6_event = Event(3, "lab_intro_6",
             ReplayCategoryOption("lab_intro"),
             Pattern("main", "images/events/lab_intro/lab_intro_6/lab_intro_6 <step>.png"),
-            thumbnail = "images/events/lab/lab_intro_6_secret/lab_intro_6_secretary_talk 0.webp")
+            thumbnail = "images/events/lab/lab_intro_6/lab_intro_6 0.webp")
     office_building_call_secretary_events["talk"].add_event(lab_intro_6_event)
 
 label lab_intro_6 (**kwargs):
@@ -708,7 +754,7 @@ label lab_intro_6 (**kwargs):
     )
 
     headmaster "Emiko! There you are — I did it. I recreated it. The prototype's stable."
-    $ secretary_person.display(PDAPreset("upper_body_center", duration = 1.0))
+    $ secretary_person.display(PDAPreset("close_body_center", duration = 1.0))
     secretary "Hello to you too. That's the good kind of manic face, I hope."
     $ secretary_person.display(PDAImage(pose = "12", mood = "neutral", mouth = "closed"))
     headmaster "A prototype. I've already taken a dose myself — no ill effects. But before it goes anywhere near anyone else, I want a second reading. Would you?"
@@ -721,7 +767,7 @@ label lab_intro_6 (**kwargs):
     headmaster "Great! Here you go."
     $ image.show(1)
     subtitles "The potion has a sweet, faintly floral smell. The kind of smell that sticks to the back of the throat."
-    $ image.show(2)
+    call Image_Series.show_image(image, 2, 3, 4, 5) from _call_show_image_lab_intro_6_1
     headmaster "How do you feel?"
 
     $ image.hide()
@@ -736,7 +782,7 @@ label lab_intro_6 (**kwargs):
     secretary "Then be careful — with the dose, and with whoever you give it to. This is supposed to help them, remember."
     $ secretary_person.display(PDAImage(pose = "10", mood = "happy", mouth = "closed"),
         PDAPreset("outside", duration = 1.0), PDAPause(duration = 1.0))
-    $ image.show(3)
+    $ image.show(6)
     headmaster_thought "She's right. Carefully, then. First — I need to produce more."
 
     $ set_progress("lab_intro", 6)
@@ -803,200 +849,200 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 ######################################
 
 # #############################
-# # region Lab Intro 7 Events #
+# region Lab Intro 7 Events #
 
-# init 2 python: 
-#     set_current_mod('base')
+init 2 python: 
+    set_current_mod('base')
 
-#     sb_events["patrol"].add_event(
-#         Event(3, "lab_intro_7",
-#             TimeCondition(weekday = "d", daytime = "d"),
-#             ProgressCondition("lab_intro", 6),
-#             ItemCondition("lab_test_potion"),
-#             ReplayCategoryOption("lab_intro"),
-#             Pattern("main", "images/events/lab/lab_intro_7/lab_intro_7 <step>.webp"),
-#             thumbnail = "images/events/lab/lab_intro_7/lab_intro_7 0.webp"),
-#     )
+    sb_events["patrol"].add_event(
+        Event(3, "lab_intro_7",
+            TimeCondition(weekday = "d", daytime = "d"),
+            ProgressCondition("lab_intro", 6),
+            ItemCondition("lab_test_potion"),
+            ReplayCategoryOption("lab_intro"),
+            Pattern("main", "images/events/lab/lab_intro_7/lab_intro_7 <step>.webp"),
+            thumbnail = "images/events/lab/lab_intro_7/lab_intro_7 0.webp"),
+    )
 
-# label lab_intro_7 (**kwargs):
-#     $ begin_event(**kwargs)
+label lab_intro_7 (**kwargs):
+    $ begin_event(**kwargs)
 
-#     $ sakura = Person["sakura_mori"].get_renpy_char()
-#     $ easkey = Person["easkey_tanaka"].get_renpy_char()
+    $ sakura = Person["sakura_mori"]
+    $ easkey = Person["easkey_tanaka"]
 
-#     headmaster "Ahh Ms. Mori. I accidentally bought two cans of soda. I only need one. Do you want one?"
-#     sakura "Sure, that would be great. Thank you very much!"
-#     headmaster "Here you go."
+    headmaster "Ahh Ms. Mori. I accidentally bought two cans of soda. I only need one. Do you want one?"
+    sakura.say "Sure, that would be great. Thank you very much!"
+    headmaster "Here you go."
 
-#     # Sakura drinks the potion
-#     sakura "Mmm, it kinda tastes weird..."
-#     headmaster "Oh, the can fell down earlier. Sorry, I guess some of the fizz got lost..."
-#     sakura "It's okay, it still tastes good."
-#     headmaster "Great! Then, I'll see you later!"
-#     sakura "Thank you very much!"
+    # Sakura drinks the potion
+    sakura.say "Mmm, it kinda tastes weird..."
+    headmaster "Oh, the can fell down earlier. Sorry, I guess some of the fizz got lost..."
+    sakura.say "It's okay, it still tastes good."
+    headmaster "Great! Then, I'll see you later!"
+    sakura.say "Thank you very much!"
 
-#     # The headmaster goes around the corner and secretly checks on Sakura.
-#     sakura "Oh my God! It's so warm! Don't you think so?"
-#     easkey "What? I think it might be a little cold. What's wrong, Sakura?"
-#     easkey "Don't you feel good?"
-#     sakura "No, I'm fine. I feel pretty good actually, but it is sooo warm!"
+    # The headmaster goes around the corner and secretly checks on Sakura.
+    sakura.say "Oh my God! It's so warm! Don't you think so?"
+    easkey.say "What? I think it might be a little cold. What's wrong, Sakura?"
+    easkey.say "Don't you feel good?"
+    sakura.say "No, I'm fine. I feel pretty good actually, but it is sooo warm!"
 
-#     # Sakura opens her blouse
-#     sakura "Ahh! Much better!"
-#     easkey "Sakura! What are you doing?!"
-#     sakura "Huh? What? I'm just trying to cool off. It's so warm!"
-#     easkey "But you can't just undress in public!"
-#     sakura "What do you mean..."
-#     sakura "Huh?! Why is my blouse open?!"
-#     easkey "I... I don't know! You just opened it!"
-#     sakura "What?! No! Help me close it!"
+    # Sakura opens her blouse
+    sakura.say "Ahh! Much better!"
+    easkey.say "Sakura! What are you doing?!"
+    sakura.say "Huh? What? I'm just trying to cool off. It's so warm!"
+    easkey.say "But you can't just undress in public!"
+    sakura.say "What do you mean..."
+    sakura.say "Huh?! Why is my blouse open?!"
+    easkey.say "I... I don't know! You just opened it!"
+    sakura.say "What?! No! Help me close it!"
 
-#     headmaster_thought "Hmm, that's interesting. It seems to work well for her."
-#     headmaster_thought "I wonder why it had no effect on Emiko... Maybe she needs a higher dose due to the effect of the original potion..."
-#     headmaster_thought "Hmm, but then she would've been more susceptible to this potion. Technically, these potions should enhance the effects..."
-#     headmaster_thought "I should try it with other students to see if it works for them. Maybe I should also try a higher dose on Emiko."
+    headmaster_thought "Hmm, that's interesting. It seems to work well for her."
+    headmaster_thought "I wonder why it had no effect on Emiko... Maybe she needs a higher dose due to the effect of the original potion..."
+    headmaster_thought "Hmm, but then she would've been more susceptible to this potion. Technically, these potions should enhance the effects..."
+    headmaster_thought "I should try it with other students to see if it works for them. Maybe I should also try a higher dose on Emiko."
     
-#     headmaster_thought "So that's the whole picture — the heat, the way she stopped watching herself, the inhibitions just dropping away. And afterward, gaps where the memory should be."
-#     headmaster_thought "It doesn't hold long — a few minutes, maybe. But it works. It actually works."
+    headmaster_thought "So that's the whole picture — the heat, the way she stopped watching herself, the inhibitions just dropping away. And afterward, gaps where the memory should be."
+    headmaster_thought "It doesn't hold long — a few minutes, maybe. But it works. It actually works."
     
-#     # headmaster goes away
+    # headmaster goes away
 
-#     $ set_progress("lab_intro", 7)
+    $ set_progress("lab_intro", 7)
 
-#     $ end_event("new_daytime", **kwargs)
+    $ end_event("new_daytime", **kwargs)
 
-# # endregion
+# endregion
 # #############################
 
 # #############################
-# # region Lab Intro 8 Events #
+# region Lab Intro 8 Events #
 
-# init 2 python: 
-#     set_current_mod('base')
+init 2 python: 
+    set_current_mod('base')
 
-#     office_building_events["look_around"].add_event(
-#         Event(3, "lab_intro_8",
-#             TimeCondition(weekday = "d", daytime = "f"),
-#             ProgressCondition("lab_intro", 7),
-#             ItemCondition("lab_test_potion"),
-#             ReplayCategoryOption("lab_intro"),
-#             Pattern("main", "images/events/lab/lab_intro_8/lab_intro_8 <step>.webp"),
-#             thumbnail = "images/events/lab/lab_intro_8/lab_intro_8 0.webp"),
-#     )
+    office_building_events["look_around"].add_event(
+        Event(3, "lab_intro_8",
+            TimeCondition(weekday = "d", daytime = "f"),
+            ProgressCondition("lab_intro", 7),
+            ItemCondition("lab_test_potion"),
+            ReplayCategoryOption("lab_intro"),
+            Pattern("main", "images/events/lab/lab_intro_8/lab_intro_8 <step>.webp"),
+            thumbnail = "images/events/lab/lab_intro_8/lab_intro_8 0.webp"),
+    )
 
-# label lab_intro_8 (**kwargs):
-#     $ begin_event(**kwargs)
+label lab_intro_8 (**kwargs):
+    $ begin_event(**kwargs)
 
-#     $ zoe = Person["zoe_parker"].get_renpy_char()
-#     $ finola = Person["finola_ryan"].get_renpy_char()
+    $ zoe = Person["zoe_parker"].get_renpy_char()
+    $ finola = Person["finola_ryan"].get_renpy_char()
 
-#     headmaster_thought "Hmm, the teachers should be back in a few minutes. I could put the potion in their coffee."
-#     # Headmaster Put's Potion in Coffee
-#     headmaster_thought "Now to wait..."
-#     # Teachers arrive
-#     zoe "Good morning, [headmaster_first_name]!"
-#     zoe "Can I help you with something?"
-#     headmaster "Ah, Mrs. Parker. No thanks, I just thought I could work here. You know, get a little closer to the staff."
-#     zoe "Ah, that's great! I'm going to get some coffee."
-#     headmaster "You do that. I'll be here."
-#     zoe "All right, see you later!"
-#     # Zoe goes to the coffee machine
-#     # Finola also gets some coffee.
-#     # Both talk to each other while drinking
-#     finola "Oh man, it's getting really warm in here."
-#     zoe "Yes. I feel it too."
-#     finola "I think... I'm beginning to feel something..."
-#     zoe "Is everything okay?"
-#     finola "Sorry, I think I need to go to the bathroom."
-#     zoe "Oh, okay."
-#     # Finola rushes off
-#     zoe "Wow, it's getting really hot in here."
-#     # zoe takes off jacket
-#     # Finola comes back in different clothes
-#     zoe "Finola! Are you all right?"
-#     finola "Yeah, I'm fine. I just need to cool off a bit."
-#     finola "Luckily I had some other clothes here. This is a little more comfortable."
-#     zoe "Yes, I see. That top looks great on you. You should wear it more often!"
-#     finola "I don't know, it shows a little too much..."
-#     zoe "Oh, come on — you've got a lovely figure. There's no shame in letting it show a little."
-#     finola "Do you think so? I'm not sure..."
-#     zoe "Of course. You should feel good in your own skin — that's all I mean."
-#     finola "I'll think about it..."
-#     zoe "No pressure. I just think you deserve to feel comfortable."
+    headmaster_thought "Hmm, the teachers should be back in a few minutes. I could put the potion in their coffee."
+    # Headmaster Put's Potion in Coffee
+    headmaster_thought "Now to wait..."
+    # Teachers arrive
+    zoe "Good morning, [headmaster_first_name]!"
+    zoe "Can I help you with something?"
+    headmaster "Ah, Mrs. Parker. No thanks, I just thought I could work here. You know, get a little closer to the staff."
+    zoe "Ah, that's great! I'm going to get some coffee."
+    headmaster "You do that. I'll be here."
+    zoe "All right, see you later!"
+    # Zoe goes to the coffee machine
+    # Finola also gets some coffee.
+    # Both talk to each other while drinking
+    finola "Oh man, it's getting really warm in here."
+    zoe "Yes. I feel it too."
+    finola "I think... I'm beginning to feel something..."
+    zoe "Is everything okay?"
+    finola "Sorry, I think I need to go to the bathroom."
+    zoe "Oh, okay."
+    # Finola rushes off
+    zoe "Wow, it's getting really hot in here."
+    # zoe takes off jacket
+    # Finola comes back in different clothes
+    zoe "Finola! Are you all right?"
+    finola "Yeah, I'm fine. I just need to cool off a bit."
+    finola "Luckily I had some other clothes here. This is a little more comfortable."
+    zoe "Yes, I see. That top looks great on you. You should wear it more often!"
+    finola "I don't know, it shows a little too much..."
+    zoe "Oh, come on — you've got a lovely figure. There's no shame in letting it show a little."
+    finola "Do you think so? I'm not sure..."
+    zoe "Of course. You should feel good in your own skin — that's all I mean."
+    finola "I'll think about it..."
+    zoe "No pressure. I just think you deserve to feel comfortable."
 
-#     # A few moments pass
+    # A few moments pass
 
-#     finola "Wait..." 
-#     # Finola looks down at her outfit, confusion crossing her face
-#     finola "Why did I... I need to change back. This is completely inappropriate for work."
+    finola "Wait..." 
+    # Finola looks down at her outfit, confusion crossing her face
+    finola "Why did I... I need to change back. This is completely inappropriate for work."
 
-#     zoe "I... yeah, sorry, I don't know why I was pushing that. That was weird of me."
-#     # Zoe shakes her head slightly, looking uncomfortable
+    zoe "I... yeah, sorry, I don't know why I was pushing that. That was weird of me."
+    # Zoe shakes her head slightly, looking uncomfortable
 
-#     subtitles "The faculty lounge smells like burnt coffee and something sweeter underneath — faint, already fading."
-#     headmaster_thought "Five minutes. Maybe less. They snap back every time."
-#     headmaster_thought "I need a catalyst."
+    subtitles "The faculty lounge smells like burnt coffee and something sweeter underneath — faint, already fading."
+    headmaster_thought "Five minutes. Maybe less. They snap back every time."
+    headmaster_thought "I need a catalyst."
 
-#     $ set_progress("lab_intro", 8)
+    $ set_progress("lab_intro", 8)
 
-#     $ end_event("new_daytime", **kwargs)
+    $ end_event("new_daytime", **kwargs)
 
-# # endregion
+# endregion
 # #############################
 
 # #############################
-# # region Lab Intro 9 Events #
+# region Lab Intro 9 Events #
 
-# init 2 python: 
-#     set_current_mod('base')
+init 2 python: 
+    set_current_mod('base')
 
-#     office_building_events["patrol"].add_event(
-#         Event(3, "lab_intro_9",
-#             TimeCondition(weekday = "d", daytime = "f"),
-#             ProgressCondition("lab_intro", 8),
-#             ItemCondition("lab_test_potion"),
-#             ReplayCategoryOption("lab_intro"),
-#             Pattern("main", "images/events/lab/lab_intro_9/lab_intro_9 <step>.webp"),
-#             thumbnail = "images/events/lab/lab_intro_9/lab_intro_9 0.webp"),
-#     )
+    office_building_events["patrol"].add_event(
+        Event(3, "lab_intro_9",
+            TimeCondition(weekday = "d", daytime = "f"),
+            ProgressCondition("lab_intro", 8),
+            ItemCondition("lab_test_potion"),
+            ReplayCategoryOption("lab_intro"),
+            Pattern("main", "images/events/lab/lab_intro_9/lab_intro_9 <step>.webp"),
+            thumbnail = "images/events/lab/lab_intro_9/lab_intro_9 0.webp"),
+    )
 
-# # Chemical Mishap
-# label lab_intro_9 (**kwargs):
-#     $ begin_event(**kwargs)
+# Chemical Mishap
+label lab_intro_9 (**kwargs):
+    $ begin_event(**kwargs)
 
-#     $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
+    $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
 
-#     headmaster_thought "I should test another dose on the students. See if the response varies by individual."
+    headmaster_thought "I should test another dose on the students. See if the response varies by individual."
     
-#     # headmaster bumps into student cleaning the hallway
-#     headmaster "Oh—!"
+    # headmaster bumps into student cleaning the hallway
+    headmaster "Oh—!"
     
-#     # student's bucket tips, spilling cleaning solution across the floor
-#     # headmaster's potion vial slips from his hand and shatters in the puddle
+    # student's bucket tips, spilling cleaning solution across the floor
+    # headmaster's potion vial slips from his hand and shatters in the puddle
     
-#     headmaster_thought "Damn it."
+    headmaster_thought "Damn it."
     
-#     headmaster "My apologies, are you alright?"
-#     ishimaru "I'm fine, Mr. [headmaster_last_name]! I'm so sorry, I'll clean this up right away."
-#     headmaster "No harm done. Just watch for the glass shards."
+    headmaster "My apologies, are you alright?"
+    ishimaru "I'm fine, Mr. [headmaster_last_name]! I'm so sorry, I'll clean this up right away."
+    headmaster "No harm done. Just watch for the glass shards."
     
-#     headmaster_thought "There goes one dose. I'll have to synthesize more tonight."
+    headmaster_thought "There goes one dose. I'll have to synthesize more tonight."
     
-#     # headmaster walks away
+    # headmaster walks away
     
-#     # vapor begins rising from the mixture where potion and cleaning chemicals merged
+    # vapor begins rising from the mixture where potion and cleaning chemicals merged
     
-#     headmaster_thought "Huh... what's that smell?"
-#     headmaster_thought "Actually... that smells really nice. Kinda sweet?"
+    headmaster_thought "Huh... what's that smell?"
+    headmaster_thought "Actually... that smells really nice. Kinda sweet?"
     
-#     # The classroom door down the hall is open
-#     # Vapor drifts naturally toward the doorway where Luna, Lin, and Gloria are visible inside talking
+    # The classroom door down the hall is open
+    # Vapor drifts naturally toward the doorway where Luna, Lin, and Gloria are visible inside talking
     
-#     $ set_progress("lab_intro", 9)
+    $ set_progress("lab_intro", 9)
 
-#     $ end_event("new_daytime", **kwargs)
+    $ end_event("new_daytime", **kwargs)
 
-# # endregion
+# endregion
 # #############################
 
 # ##############################
