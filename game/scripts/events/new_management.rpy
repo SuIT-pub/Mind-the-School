@@ -412,7 +412,7 @@ label .introduce (**kwargs):
     aona.say "..."
     aona.say "Oh my— you're real. You're an actual person."
     $ aona.display(PDAImage(mood = "sad", mouth = "closed"))
-    $ ikushi.display(PDAImage(pose = "8", mood = "shining", mouth = "closed"))
+    $ ikushi.display(PDAImage(pose = "8", mood = "shining"))
     subtitles "Ikushi turns a laugh into a cough. Aona's ears go bright pink and she suddenly finds her own shoes fascinating."
     headmaster.think "Poor kid's ears are on fire. She'll be telling this one at lunch for a week — the day she called the headmaster a maintenance man to his face. Let her. If it's the story that finally sticks my face to the title, she can tell it as often as she likes."
 
@@ -437,7 +437,7 @@ label .door (**kwargs):
     $ aona.display(
         PDAImage(pose = "23", mood = "sad", mouth = "closed"),
         PDAPause(1.0),
-        PDAImage(pose = "23", mood = "happy"),
+        PDAImage(mood = "happy"),
         PDAPause(1.0),
         PDAImage(mood="sad"),
         PDAPause(1.0)
@@ -448,9 +448,8 @@ label .door (**kwargs):
         PDAMove(alignX = 1.0, duration = 1.0)
     )
     subtitles "Her friend actually takes the dare and jogs off. She comes back a few shades paler and a great deal quieter."
-    $ ikushi.display(PDAImage(mood = "sad", mouth = "open"))
+    $ ikushi.display(PDAImage(mouth = "open"))
     ikushi.say "...it's got your name on it. Spelled right and everything. Sorry, headmaster."
-    $ aona.display(PDAImage(mood = "sad", mouth = "closed"))
     headmaster.think "Ha. Didn't have to argue a single point. Sent her to read the door and she came back three shades paler than she left. Turns out the brass makes my case better than I ever could standing here."
 
     $ set_game_data("nm_face_introduced", 1)

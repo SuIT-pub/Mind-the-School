@@ -34,7 +34,6 @@ label lab_intro_1 (**kwargs):
     headmaster.think "I also have a few notes about the potion, its effects and ingredients, but nothing very detailed unfortunately."
     headmaster.think "I guess the first thing I should do is to set up a makeshift lab. I should check out the old lab building."
 
-    $ image.show(4)
     headmaster.think "Maybe there is some stuff I could still use."
 
     $ start_progress("lab_intro")
@@ -54,28 +53,28 @@ init 2 python:
             LevelCondition("2"),
             ProgressCondition("lab_intro", 1),
             ReplayCategoryOption("lab_intro"),
-            Pattern("main", "images/events/lab/lab_intro_2/lab_intro_2 <step>.webp"),
-            thumbnail = "images/events/lab/lab_intro_2/lab_intro_2 0.webp"))
+            Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2 <step>.webp"),
+            thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2 0.webp"))
     
     lab_intro_2_search_gym_storage = FragmentStorage("lab_intro_2_search_gym")
     lab_intro_2_search_gym_storage.add_event(
         EventFragment(3, "lab_intro_2_search_gym_1",
             NOT(ItemCondition("lab_mortar_and_pestle")),
             ReplayCategoryOption("lab_intro"),
-            Pattern("main", "images/events/lab/lab_intro_2/lab_intro_2_gym_1.webp"),
-            thumbnail = "images/events/lab/lab_intro_2/lab_intro_2_gym_1.webp"),
+            Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2_gym 1.webp"),
+            thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_gym 1.webp"),
         EventFragment(3, "lab_intro_2_search_gym_2",
             ItemCondition("lab_distilled_water"),
             ReplayCategoryOption("lab_intro"),
-            Pattern("main", "images/events/lab/lab_intro_2/lab_intro_2_gym_2.webp"),
-            thumbnail = "images/events/lab/lab_intro_2/lab_intro_2_gym_2.webp"))
+            Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2_gym 2.webp"),
+            thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_gym 2.webp"))
     gym_events["search"].add_event(
         EventComposite(3, "lab_intro_2_search_gym", [lab_intro_2_search_gym_storage],
             TimeCondition(weekday = "d", daytime = "d"),
             ProgressCondition("lab_intro", 2),
             ReplayCategoryOption("lab_intro"),
-            Pattern("base", "images/events/lab/lab_intro_2/lab_intro_2_gym.webp"),
-            thumbnail = "images/events/lab/lab_intro_2/lab_intro_2_gym.webp"))
+            Pattern("base", "images/events/lab_intro/lab_intro_2/lab_intro_2_gym.webp"),
+            thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_gym.webp"))
 
 
     lab_intro_2_search_cafeteria_storage = FragmentStorage("lab_intro_2_search_cafeteria")
@@ -83,128 +82,128 @@ init 2 python:
         Event(3, "lab_intro_2_search_cafeteria_1",
             NOT(ItemCondition("lab_mortar_and_pestle")),
             ReplayCategoryOption("lab_intro"),
-            Pattern("main", "images/events/lab/lab_intro_2/lab_intro_2_cafeteria_1.webp"),
-            thumbnail = "images/events/lab/lab_intro_2/lab_intro_2_cafeteria_1.webp"),
+            Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2_cafeteria 1.webp"),
+            thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_cafeteria 1.webp"),
         Event(3, "lab_intro_2_search_cafeteria_2",
             NOT(ItemCondition("lab_distilled_water")),
             ReplayCategoryOption("lab_intro"),
-            Pattern("main", "images/events/lab/lab_intro_2/lab_intro_2_cafeteria_2.webp"),
-            thumbnail = "images/events/lab/lab_intro_2/lab_intro_2_cafeteria_2.webp"),
+            Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2_cafeteria 2.webp"),
+            thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_cafeteria 2.webp"),
         Event(3, "lab_intro_2_search_cafeteria_3",
             ItemCondition("lab_mortar_and_pestle"),
             ItemCondition("lab_distilled_water"),
             ReplayCategoryOption("lab_intro"),
-            Pattern("main", "images/events/lab/lab_intro_2/lab_intro_2_cafeteria_3.webp"),
-            thumbnail = "images/events/lab/lab_intro_2/lab_intro_2_cafeteria_3.webp"))
+            Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2_cafeteria 3.webp"),
+            thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_cafeteria 3.webp"))
     cafeteria_events["search"].add_event(
         EventComposite(3, "lab_intro_2_search_cafeteria", [lab_intro_2_search_cafeteria_storage],
             TimeCondition(weekday = "d", daytime = "d"),
             ProgressCondition("lab_intro", 2),
             ReplayCategoryOption("lab_intro"),
-            Pattern("base", "images/events/lab/lab_intro_2/lab_intro_2_cafeteria.webp"),
-            thumbnail = "images/events/lab/lab_intro_2/lab_intro_2_cafeteria.webp"))
+            Pattern("base", "images/events/lab_intro/lab_intro_2/lab_intro_2_cafeteria.webp"),
+            thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_cafeteria.webp"))
 
     lab_intro_2_search_dorm_storage = FragmentStorage("lab_intro_2_search_dorm")
     lab_intro_2_search_dorm_storage.add_event(
         Event(3, "lab_intro_2_search_dorm_1",
             NOT(ItemCondition("lab_mortar_and_pestle")),
             ReplayCategoryOption("lab_intro"),
-            Pattern("main", "images/events/lab/lab_intro_2/lab_intro_2_dorm_1.webp"),
-            thumbnail = "images/events/lab/lab_intro_2/lab_intro_2_dorm_1.webp"),
+            Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2_dorm 1.webp"),
+            thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_dorm 1.webp"),
         Event(3, "lab_intro_2_search_dorm_2",
             NOT(ItemCondition("lab_distilled_water")),
             ReplayCategoryOption("lab_intro"),
-            Pattern("main", "images/events/lab/lab_intro_2/lab_intro_2_dorm_2.webp"),
-            thumbnail = "images/events/lab/lab_intro_2/lab_intro_2_dorm_2.webp"),
+            Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2_dorm 2.webp"),
+            thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_dorm 2.webp"),
         Event(3, "lab_intro_2_search_dorm_3",
             ItemCondition("lab_mortar_and_pestle"),
             ItemCondition("lab_distilled_water"),
             ReplayCategoryOption("lab_intro"),
-            Pattern("main", "images/events/lab/lab_intro_2/lab_intro_2_dorm_3.webp"),
-            thumbnail = "images/events/lab/lab_intro_2/lab_intro_2_dorm_3.webp"))
+            Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2_dorm 3.webp"),
+            thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_dorm 3.webp"))
     sd_events["search"].add_event(
         EventComposite(3, "lab_intro_2_search_dorm", [lab_intro_2_search_dorm_storage],
             TimeCondition(weekday = "d", daytime = "d"),
             ProgressCondition("lab_intro", 2),
             ReplayCategoryOption("lab_intro"),
-            Pattern("base", "images/events/lab/lab_intro_2/lab_intro_2_dorm.webp"),
-            thumbnail = "images/events/lab/lab_intro_2/lab_intro_2_dorm.webp"))
+            Pattern("base", "images/events/lab_intro/lab_intro_2/lab_intro_2_dorm.webp"),
+            thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_dorm.webp"))
 
     lab_intro_2_search_kiosk_storage = FragmentStorage("lab_intro_2_search_kiosk")
     lab_intro_2_search_kiosk_storage.add_event(
         Event(3, "lab_intro_2_search_kiosk_1",
             NOT(ItemCondition("lab_glassware")),
             ReplayCategoryOption("lab_intro"),
-            Pattern("main", "images/events/lab/lab_intro_2_search_kiosk/lab_intro_2_kiosk_1 <step>.webp"),
-            thumbnail = "images/events/lab/lab_intro_2_search_kiosk/lab_intro_2_kiosk_1 4.webp"),
+            Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2_kiosk_1 <step>.webp"),
+            thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_kiosk_1 4.webp"),
         Event(3, "lab_intro_2_search_kiosk_2",
             ItemCondition("lab_glassware"),
             ReplayCategoryOption("lab_intro"),
-            Pattern("main", "images/events/lab/lab_intro_2_search_kiosk/lab_intro_2_kiosk_2.webp"),
-            thumbnail = "images/events/lab/lab_intro_2_search_kiosk/lab_intro_2_kiosk_2.webp"))
+            Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2_kiosk_2.webp"),
+            thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_kiosk_2.webp"))
     kiosk_events["search"].add_event(
         EventComposite(3, "lab_intro_2_search_kiosk", [lab_intro_2_search_kiosk_storage],
             TimeCondition(weekday = "d", daytime = "d"),
             ProgressCondition("lab_intro", 2),
             ReplayCategoryOption("lab_intro"),
-            Pattern("base", "images/events/lab/lab_intro_2_search_kiosk/lab_intro_2_kiosk.webp"),
-            thumbnail = "images/events/lab/lab_intro_2_search_kiosk/lab_intro_2_kiosk.webp"))
+            Pattern("base", "images/events/lab_intro/lab_intro_2/lab_intro_2_kiosk.webp"),
+            thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_kiosk.webp"))
 
     courtyard_events["patrol"].add_event(
         Event(3, "lab_intro_2_patrol_courtyard",
             TimeCondition(weekday = "d", daytime = "d"),
-            Pattern("main", "images/events/lab/lab_intro_2_patrol_courtyard/lab_intro_2_patrol_courtyard <school_level> <step>.webp"),
+            Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2_patrol_courtyard <step>.webp"),
             ProgressCondition("lab_intro", 2),
             NOT(ItemCondition("lab_gas_burner")),
             ReplayCategoryOption("lab_intro"),
-            thumbnail = "images/events/lab/lab_intro_2_patrol_courtyard/lab_intro_2_patrol_courtyard 1 0.webp"))
+            thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_patrol_courtyard 0.webp"))
     courtyard_events["search"].add_event(
         Event(3, "lab_intro_2_search_courtyard",
             TimeCondition(weekday = "d", daytime = "d"),
-            Pattern("main", "images/events/lab/lab_intro_2_search_courtyard/lab_intro_2_search_courtyard <school_level> <step>.webp"),
+            Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2_search_courtyard <step>.webp"),
             ProgressCondition("lab_intro", 2),
             ReplayCategoryOption("lab_intro"),
-            thumbnail = "images/events/lab/lab_intro_2_search_courtyard/lab_intro_2_search_courtyard 1 0.webp"))
+            thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_search_courtyard 0.webp"))
 
     lab_intro_2_search_school_storage = FragmentStorage("lab_intro_2_search_school")
     lab_intro_2_search_school_storage.add_event(
         Event(3, "lab_intro_2_search_school_1",
             NOT(ItemCondition("lab_office_supplies")),
             ReplayCategoryOption("lab_intro"),
-            Pattern("main", "images/events/lab_intro/lab_intro_2_school_2.webp"),
-            thumbnail = "images/events/lab_intro/lab_intro_2_school_2.webp"),
+            Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2_school 2.webp"),
+            thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_school 2.webp"),
         Event(3, "lab_intro_2_search_school_2",
             ItemCondition("lab_office_supplies"),
             ReplayCategoryOption("lab_intro"),
-            Pattern("main", "images/events/lab_intro/lab_intro_2_school_1.webp"),
-            thumbnail = "images/events/lab_intro/lab_intro_2_school_1.webp"))
+            Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2_school 1.webp"),
+            thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_school 1.webp"))
     sb_events["search"].add_event(
         EventComposite(3, "lab_intro_2_search_school", [lab_intro_2_search_school_storage],
             TimeCondition(weekday = "d", daytime = "d"),
             ProgressCondition("lab_intro", 2),
             ReplayCategoryOption("lab_intro"),
-            Pattern("main", "images/events/lab_intro/lab_intro_2_school.webp"),
-            thumbnail = "images/events/lab_intro/lab_intro_2_school.webp"))
+            Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2_school.webp"),
+            thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_school.webp"))
 
     lab_intro_2_search_office_storage = FragmentStorage("lab_intro_2_search_office")
     lab_intro_2_search_office_storage.add_event(
         Event(3, "lab_intro_2_search_office_1",
             NOT(ItemCondition("lab_office_supplies")),
             ReplayCategoryOption("lab_intro"),
-            Pattern("main", "images/events/lab_intro_2/lab_intro_2_office_1.webp"),
-            thumbnail = "images/events/lab_intro_2/lab_intro_2_office_1.webp"),
+            Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2_office 1.webp"),
+            thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_office 1.webp"),
         Event(3, "lab_intro_2_search_office_2",
             ItemCondition("lab_office_supplies"),
             ReplayCategoryOption("lab_intro"),
-            Pattern("main", "images/events/lab_intro_2/lab_intro_2_office_2.webp"),
-            thumbnail = "images/events/lab_intro_2/lab_intro_2_office_2.webp"))
+            Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2_office 2.webp"),
+            thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_office 2.webp"))
     office_building_events["search"].add_event(
         EventComposite(3, "lab_intro_2_search_office", [lab_intro_2_search_office_storage],
             TimeCondition(weekday = "d", daytime = "d"),
             ProgressCondition("lab_intro", 2),
             ReplayCategoryOption("lab_intro"),
-            Pattern("main", "images/events/lab_intro_2/lab_intro_2_office.webp"),
-            thumbnail = "images/events/lab_intro_2/lab_intro_2_office.webp"))
+            Pattern("main", "images/events/lab_intro/lab_intro_2/lab_intro_2_office.webp"),
+            thumbnail = "images/events/lab_intro/lab_intro_2/lab_intro_2_office.webp"))
 
 label lab_intro_2 (**kwargs):
     $ begin_event(**kwargs)
@@ -492,7 +491,7 @@ label lab_intro_2_search_courtyard (**kwargs):
 label lab_intro_2_search_school (**kwargs):
     $ begin_event(**kwargs)
 
-    $ show_pattern("base", **kwargs)
+    $ show_pattern("main", **kwargs)
     headmaster.think "Let's check the classrooms."
 
     call composite_event_runner(**kwargs) from lab_intro_2_search_school_composite_event_runner
@@ -574,8 +573,8 @@ init 2 python:
             ItemCondition("lab_chemicals"),
             ItemCondition("lab_furniture"),
             ReplayCategoryOption("lab_intro"),
-            Pattern("main", "images/events/lab/lab_intro_3/lab_intro_3 <step>.webp"),
-            thumbnail = "images/events/lab/lab_intro_3/lab_intro_3 6.webp"))
+            Pattern("main", "images/events/lab_intro/lab_intro_3/lab_intro_3 <step>.webp"),
+            thumbnail = "images/events/lab_intro/lab_intro_3/lab_intro_3 6.webp"))
 
 # all equipment needs to be found and purchased
 label lab_intro_3 (**kwargs):
@@ -615,8 +614,8 @@ init 2 python:
             LevelCondition("2"),
             ProgressCondition("lab_intro", 3),
             ReplayCategoryOption("lab_intro"),
-            Pattern("main", "images/events/lab/lab_intro_4/lab_intro_4_<step>.webp"),
-            thumbnail = "images/events/lab/lab_intro_4/lab_intro_4_0.webp"))
+            Pattern("main", "images/events/lab_intro/lab_intro_4/lab_intro_4 <step>.webp"),
+            thumbnail = "images/events/lab_intro/lab_intro_4/lab_intro_4 0.webp"))
 
 label lab_intro_4 (**kwargs):
     $ begin_event(**kwargs)
@@ -678,8 +677,8 @@ init 2 python:
             TimeCondition(weekday = "d", daytime = 1),
             ProgressCondition("lab_intro", 4),
             ReplayCategoryOption("lab_intro"),
-            Pattern("main", "images/events/lab/lab_intro_5/lab_intro_5 <step>.webp"),
-            thumbnail = "images/events/lab/lab_intro_5/lab_intro_5 0.webp"),
+            Pattern("main", "images/events/lab_intro/lab_intro_5/lab_intro_5 <step>.webp"),
+            thumbnail = "images/events/lab_intro/lab_intro_5/lab_intro_5 0.webp"),
     )
 
 label lab_intro_5 (**kwargs):
@@ -784,7 +783,7 @@ init 3 python:
             TimeCondition(weekday = "d", daytime = "d"),
             ProgressCondition("lab_intro", "3+"),
             ReplayCategoryOption("lab_intro"),
-            Pattern("main", "images/events/lab/lab_intro_3/lab_intro_3 <step>.webp")))
+            Pattern("main", "images/events/lab_intro/lab_intro_3/lab_intro_3 <step>.webp")))
 
     office_building_lab_events["produce"].add_event(
         Event(3, "lab_intro_produce_test_potion",
@@ -793,7 +792,7 @@ init 3 python:
             ItemCondition("lab_chemicals"),
             NOT(ItemCondition("lab_test_potion")),
             ReplayCategoryOption("lab_intro"),
-            Pattern("main", "images/events/lab/lab_intro_produce_test_potion/lab_intro_produce_test_potion <step>.webp"),
+            Pattern("main", "images/events/lab_intro/lab_intro_produce_test_potion/lab_intro_produce_test_potion <step>.webp"),
             thumbnail = "images/events/lab/lab_intro_produce_test_potion/lab_intro_produce_test_potion 0.webp"),
         Event(3, "lab_intro_produce_test_potion_no_chemicals",
             TimeCondition(weekday = "d", daytime = "d"),
@@ -801,8 +800,8 @@ init 3 python:
             NOT(ItemCondition("lab_chemicals")),
             NOT(ItemCondition("lab_test_potion")),
             ReplayCategoryOption("lab_intro"),
-            Pattern("main", "images/events/lab/lab_intro_produce_test_potion_no_chemicals/lab_intro_produce_test_potion_no_chemicals <step>.webp"),
-            thumbnail = "images/events/lab/lab_intro_produce_test_potion_no_chemicals/lab_intro_produce_test_potion_no_chemicals 0.webp"),
+            Pattern("main", "images/events/lab_intro/lab_intro_produce_test_potion/lab_intro_produce_test_potion <step>.webp"),
+            thumbnail = "images/events/lab_intro/lab_intro_produce_test_potion/lab_intro_produce_test_potion 0.webp"),
     )
 
 
@@ -829,7 +828,7 @@ label lab_intro_produce_test_potion_no_chemicals (**kwargs):
 # endregion
 ######################################
 
-# #############################
+# ###########################
 # region Lab Intro 7 Events #
 
 init 2 python: 
@@ -841,8 +840,8 @@ init 2 python:
             ProgressCondition("lab_intro", 6),
             ItemCondition("lab_test_potion"),
             ReplayCategoryOption("lab_intro"),
-            Pattern("main", "images/events/lab/lab_intro_7/lab_intro_7 <step>.webp"),
-            thumbnail = "images/events/lab/lab_intro_7/lab_intro_7 0.webp"),
+            Pattern("main", "images/events/lab_intro/lab_intro_7/lab_intro_7 <step>.webp"),
+            thumbnail = "images/events/lab_intro/lab_intro_7/lab_intro_7 0.webp"),
     )
 
 label lab_intro_7 (**kwargs):
@@ -851,51 +850,78 @@ label lab_intro_7 (**kwargs):
     $ sakura = Person["sakura_mori"]
     $ easkey = Person["easkey_tanaka"]
 
+    $ image = convert_pattern("main", **kwargs)
+
+    call Image_Series.show_image(image, 0, 1) from _call_show_image_lab_intro_7_1
     headmaster "Ahh Ms. Mori. I accidentally bought two cans of soda. I only need one. Do you want one?"
-    sakura.say "Sure, that would be great. Thank you very much!"
+    $ image.show(2)
+    sakura "Sure, that would be great. Thank you very much!"
+    $ image.show(3)
     headmaster "Here you go."
 
     # Sakura drinks the potion
-    sakura.say "Mmm, it kinda tastes weird..."
+    call Image_Series.show_image(image, 4, 5) from _call_show_image_lab_intro_7_2
+    sakura "Mmm, it kinda tastes weird..."
+    $ image.show(6)
     headmaster "Oh, the can fell down earlier. Sorry, I guess some of the fizz got lost..."
-    sakura.say "It's okay, it still tastes good."
+
+    $ image.show(7)
+    sakura "It's okay, it still tastes good."
+    $ image.show(8)
     headmaster "Great! Then, I'll see you later!"
-    sakura.say "Thank you very much!"
+    $ image.show(9)
+    sakura "Thank you very much!"
 
     # The headmaster goes around the corner and secretly checks on Sakura.
-    sakura.say "Oh my God! It's so warm! Don't you think so?"
-    easkey.say "What? I think it might be a little cold. What's wrong, Sakura?"
-    easkey.say "Don't you feel good?"
-    sakura.say "No, I'm fine. I feel pretty good actually, but it is sooo warm!"
+    call Image_Series.show_image(image, 10, 11, 12, 13) from _call_show_image_lab_intro_7_3
+    sakura "Oh my God! It's so warm! Don't you think so?"
+    $ image.show(14)
+    easkey "What? I think it might be a little cold. What's wrong, Sakura?"
+    $ image.show(15)
+    easkey "Are you okay?"
+    $ image.show(16)
+    sakura "No, I'm fine. I feel pretty good actually, but it is sooo warm!"
 
     # Sakura opens her blouse
-    sakura.say "Ahh! Much better!"
-    easkey.say "Sakura! What are you doing?!"
-    sakura.say "Huh? What? I'm just trying to cool off. It's so warm!"
-    easkey.say "But you can't just undress in public!"
-    sakura.say "What do you mean..."
-    sakura.say "Huh?! Why is my blouse open?!"
-    easkey.say "I... I don't know! You just opened it!"
-    sakura.say "What?! No! Help me close it!"
+    $ image.show(17)
+    sakura "Ahh! Much better!"
+    $ image.show(18)
+    easkey "Sakura! What are you doing?!"
+    $ image.show(19)
+    sakura "Huh? What? I'm just trying to cool off. It's so warm!"
+    $ image.show(20)
+    easkey "But you can't just undress in public!"
+    $ image.show(21)
+    sakura "What do you mean..."
+    $ image.show(22)
+    sakura "Huh?! Why is my blouse open?!"
+    easkey "I... I don't know! You just opened it!"
+    $ image.show(23)
+    sakura "What?! No! Help me close it!"
 
+    $ image.show(24)
     headmaster.think "Hmm, that's interesting. It seems to work well for her."
+    $ image.show(25)
     headmaster.think "I wonder why it had no effect on Emiko... Maybe she needs a higher dose due to the effect of the original potion..."
     headmaster.think "Hmm, but then she would've been more susceptible to this potion. Technically, these potions should enhance the effects..."
+    $ image.show(26)
     headmaster.think "I should try it with other students to see if it works for them. Maybe I should also try a higher dose on Emiko."
     
+    $ image.show(27)
     headmaster.think "So that's the whole picture — the heat, the way she stopped watching herself, the inhibitions just dropping away. And afterward, gaps where the memory should be."
     headmaster.think "It doesn't hold long — a few minutes, maybe. But it works. It actually works."
     
     # headmaster goes away
+    call Image_Series.show_image(image, 28, pause = True) from _call_show_image_lab_intro_7_4
 
     $ set_progress("lab_intro", 7)
 
     $ end_event("new_daytime", **kwargs)
 
 # endregion
-# #############################
+# ###########################
 
-# #############################
+# ###########################
 # region Lab Intro 8 Events #
 
 init 2 python: 
@@ -907,58 +933,82 @@ init 2 python:
             ProgressCondition("lab_intro", 7),
             ItemCondition("lab_test_potion"),
             ReplayCategoryOption("lab_intro"),
-            Pattern("main", "images/events/lab/lab_intro_8/lab_intro_8 <step>.webp"),
-            thumbnail = "images/events/lab/lab_intro_8/lab_intro_8 0.webp"),
+            Pattern("main", "images/events/lab_intro/lab_intro_8/lab_intro_8 <step>.webp"),
+            thumbnail = "images/events/lab_intro/lab_intro_8/lab_intro_8 0.webp"),
     )
 
 label lab_intro_8 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ zoe = Person["zoe_parker"].get_renpy_char()
-    $ finola = Person["finola_ryan"].get_renpy_char()
+    $ zoe = Person["zoe_parker"]
+    $ finola = Person["finola_ryan"]
 
+    $ image = convert_pattern("main", **kwargs)
+
+    call Image_Series.show_image(image, 0, 1, 2, 3) from _call_show_image_lab_intro_8_1
     headmaster.think "Hmm, the teachers should be back in a few minutes. I could put the potion in their coffee."
+
     # Headmaster Put's Potion in Coffee
+    call Image_Series.show_image(image, 4, 5) from _call_show_image_lab_intro_8_2
     headmaster.think "Now to wait..."
     # Teachers arrive
+    $ image.show(6)
     zoe "Good morning, [headmaster_first_name]!"
     zoe "Can I help you with something?"
+    $ image.show(7)
     headmaster "Ah, Mrs. Parker. No thanks, I just thought I could work here. You know, get a little closer to the staff."
+    $ image.show(8)
     zoe "Ah, that's great! I'm going to get some coffee."
+    $ image.show(9)
     headmaster "You do that. I'll be here."
     zoe "All right, see you later!"
+    
     # Zoe goes to the coffee machine
     # Finola also gets some coffee.
+    call Image_Series.show_image(image, 10, 11, 12, 13) from _call_show_image_lab_intro_8_3
     # Both talk to each other while drinking
     finola "Oh man, it's getting really warm in here."
+    $ image.show(14)
     zoe "Yes. I feel it too."
+    $ image.show(15)
     finola "I think... I'm beginning to feel something..."
+    $ image.show(16)
     zoe "Is everything okay?"
+    $ image.show(17)
     finola "Sorry, I think I need to go to the bathroom."
     zoe "Oh, okay."
     # Finola rushes off
+    $ image.show(18)
     zoe "Wow, it's getting really hot in here."
     # zoe takes off jacket
     # Finola comes back in different clothes
+    call Image_Series.show_image(image, 19, 20) from _call_show_image_lab_intro_8_4
     zoe "Finola! Are you all right?"
+    $ image.show(21)
     finola "Yeah, I'm fine. I just need to cool off a bit."
+    $ image.show(22)
     finola "Luckily I had some other clothes here. This is a little more comfortable."
+    $ image.show(23)
     zoe "Yes, I see. That top looks great on you. You should wear it more often!"
+    $ image.show(24)
     finola "I don't know, it shows a little too much..."
+    $ image.show(23)
     zoe "Oh, come on — you've got a lovely figure. There's no shame in letting it show a little."
+    $ image.show(24)
     finola "Do you think so? I'm not sure..."
+    $ image.show(23)
     zoe "Of course. You should feel good in your own skin — that's all I mean."
+    $ image.show(24)
     finola "I'll think about it..."
+    $ image.show(25)
     zoe "No pressure. I just think you deserve to feel comfortable."
 
     # A few moments pass
-
+    $ image.show(26)
     finola "Wait..." 
     # Finola looks down at her outfit, confusion crossing her face
+    $ image.show(27)
     finola "Why did I... I need to change back. This is completely inappropriate for work."
-
-    zoe "I... yeah, sorry, I don't know why I was pushing that. That was weird of me."
-    # Zoe shakes her head slightly, looking uncomfortable
 
     subtitles "The faculty lounge smells like burnt coffee and something sweeter underneath — faint, already fading."
     headmaster.think "Five minutes. Maybe less. They snap back every time."
@@ -969,9 +1019,9 @@ label lab_intro_8 (**kwargs):
     $ end_event("new_daytime", **kwargs)
 
 # endregion
-# #############################
+# ###########################
 
-# #############################
+# ###########################
 # region Lab Intro 9 Events #
 
 init 2 python: 
@@ -983,36 +1033,46 @@ init 2 python:
             ProgressCondition("lab_intro", 8),
             ItemCondition("lab_test_potion"),
             ReplayCategoryOption("lab_intro"),
-            Pattern("main", "images/events/lab/lab_intro_9/lab_intro_9 <step>.webp"),
-            thumbnail = "images/events/lab/lab_intro_9/lab_intro_9 0.webp"),
+            Pattern("main", "images/events/lab_intro/lab_intro_9/lab_intro_9 <step>.webp"),
+            thumbnail = "images/events/lab_intro/lab_intro_9/lab_intro_9 0.webp"),
     )
 
 # Chemical Mishap
 label lab_intro_9 (**kwargs):
     $ begin_event(**kwargs)
 
-    $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
+    $ ishimaru = Person["ishimaru_maki"]
 
+    $ image = convert_pattern("main", **kwargs)
+
+    $ image.show(0)
     headmaster.think "I should test another dose on the students. See if the response varies by individual."
     
     # headmaster bumps into student cleaning the hallway
+    call Image_Series.show_image(image, 1, 2) from _call_show_image_lab_intro_9_1
     headmaster "Oh—!"
     
     # student's bucket tips, spilling cleaning solution across the floor
     # headmaster's potion vial slips from his hand and shatters in the puddle
     
+    $ image.show(3)
     headmaster.think "Damn it."
     
+    $ image.show(4)
     headmaster "My apologies, are you alright?"
+    $ image.show(5)
     ishimaru "I'm fine, Mr. [headmaster_last_name]! I'm so sorry, I'll clean this up right away."
-    headmaster "No harm done. Just watch for the glass shards."
+    $ image.show(6)
+    headmaster "I'm sorry, I should have been more careful."
     
+    $ image.show(7)
     headmaster.think "There goes one dose. I'll have to synthesize more tonight."
     
     # headmaster walks away
     
-    # vapor begins rising from the mixture where potion and cleaning chemicals merged
+    # vapor begins rising from the mixture where potion and cleaning chemicals merged 
     
+    $ image.show(8)
     headmaster.think "Huh... what's that smell?"
     headmaster.think "Actually... that smells really nice. Kinda sweet?"
     
@@ -1024,371 +1084,290 @@ label lab_intro_9 (**kwargs):
     $ end_event("new_daytime", **kwargs)
 
 # endregion
-# #############################
+# ###########################
 
-# ##############################
-# # region Lab Intro 10 Events #
+# ############################
+# region Lab Intro 10 Events #
 
-# init 2 python: 
-#     set_current_mod('base')
+init 2 python: 
+    set_current_mod('base')
 
-#     office_building_events["look_around"].add_event(
-#         Event(3, "lab_intro_10",
-#             TimeCondition(weekday = "d", daytime = "f"),
-#             ProgressCondition("lab_intro", 8),
-#             ItemCondition("lab_test_potion"),
-#             ReplayCategoryOption("lab_intro"),
-#             Pattern("main", "images/events/lab/lab_intro_9/lab_intro_9 <step>.webp"),
-#             thumbnail = "images/events/lab/lab_intro_9/lab_intro_9 0.webp"),
-#     )
+    office_building_events["look_around"].add_event(
+        Event(3, "lab_intro_10",
+            TimeCondition(weekday = "d", daytime = "f"),
+            ProgressCondition("lab_intro", 8),
+            ItemCondition("lab_test_potion"),
+            ReplayCategoryOption("lab_intro"),
+            Pattern("main", "images/events/lab_intro/lab_intro_10/lab_intro_10 <step>.webp"),
+            thumbnail = "images/events/lab_intro/lab_intro_10/lab_intro_10 0.webp"),
+    )
 
-# # Investigation unlocks after Chemical Mishap
-# label lab_intro_10 (**kwargs):
-#     $ begin_event(**kwargs)
+# Investigation unlocks after Chemical Mishap
+label lab_intro_10 (**kwargs):
+    $ begin_event(**kwargs)
 
-#     $ gloria = Person["gloria_goto"].get_renpy_char()
-#     $ lin = Person["lin_kato"].get_renpy_char()
-#     $ luna = Person["luna_clark"].get_renpy_char()
-#     $ ishimaru = Person["ishimaru_maki"].get_renpy_char()
+    $ gloria = Person["gloria_goto"]
+    $ lin = Person["lin_kato"]
+    $ luna = Person["luna_clark"]
+    $ ishimaru = Person["ishimaru_maki"]
 
-#     # IMAGE: School hallway, afternoon light through windows
-#     # Headmaster walking back toward the area where spill occurred
-#     # Slight mess from earlier still visible (wet patches, chemical residue)
-#     # His expression curious, investigative
-    
-#     headmaster_thought "That smell from earlier. It's still lingering in this hallway."
-#     headmaster_thought "I should check if there are any unexpected effects from the spill."
-    
-#     # IMAGE: Headmaster pausing outside classroom door (slightly ajar)
-#     # Light spilling from inside, sound of girlish laughter
-#     # His hand on doorframe, head tilted listening
-    
-#     headmaster_thought "That's odd. Class shouldn't be in session now."
-    
-#     # [Rest of the event continues as written...]
-#     # IMAGE: Headmaster pushing door open slightly, peering inside
-#     # View from his POV: three girls visible in the back corner
-#     # Gloria and Lin sitting close together on desk, Luna in chair beside them
-#     # All three with blouses partially unbuttoned, relaxed postures
-    
-#     headmaster "Girls? Is everything—"
-    
-#     # IMAGE: Girls turning toward him, bright smiles
-#     # Gloria waving him in enthusiastically
-#     # Lin leaning against Gloria's shoulder
-#     # Luna's blouse hanging open loosely, revealing white lace bra
-    
-#     gloria "Mr. [headmaster_last_name]! Perfect timing, come sit with us!"
-    
-#     headmaster_thought "What in the world...?"
-    
-#     headmaster "Are you girls alright? You look..."
-    
-#     # IMAGE: Headmaster stepping into room
-#     # Now visible: the room feels warmer than it should
-#     # Afternoon sunlight streaming across desks
-#     # The three girls flushed, eyes bright, hair slightly disheveled
-    
-#     lin "We're fantastic! Better than alright, honestly."
-    
-#     gloria "We were just comparing bras. Look how cute Lin's is!"
-    
-#     # IMAGE: Lin straightening up, pulling her blouse wider to display
-#     # Navy blue bra with white trim detail visible
-#     # Gloria's hand on Lin's shoulder, casual intimacy
-#     # Luna watching with amused smile
-    
-#     lin "It's new! Got it last week. The white trim is adorable, right?"
-    
-#     headmaster "Yes, very... nice."
-    
-#     headmaster_thought "They're showing me their underwear like it's the most natural thing in the world. No hesitation, no embarrassment."
-    
-#     gloria "Now mine—tell me honestly, is the black too much? I thought it looked sophisticated."
-    
-#     # IMAGE: Gloria pulling her blouse fully open
-#     # Sleek black satin bra clearly visible, more revealing cut than Lin's
-#     # She's looking at headmaster expectantly
-#     # Lin giggling beside her, Luna leaning forward with interest
-    
-#     headmaster "It's... elegant. Suits you."
-    
-#     gloria "Oh thank you! See, I told you guys it wasn't too grown-up."
-    
-#     lin "Okay, okay, your turn now Luna!"
-    
-#     # IMAGE: Luna shaking her head, but smiling
-#     # Arms crossed loosely over chest
-#     # Gloria and Lin both turning attention to her
-    
-#     luna "No way. Not in front of Mr. [headmaster_last_name]."
-    
-#     lin "Oh come on! We both showed ours!"
-    
-#     gloria "Don't be shy! We're all being open here."
-    
-#     luna "But I'm not wearing—"
-    
-#     lin "Exactly why you have to show! Come on, Luna!"
-    
-#     # IMAGE: Luna glancing at headmaster, then back at her friends
-#     # Biting her lip, considering
-#     # Her hands moving to the edges of her blouse
-    
-#     luna "Fine. But don't make it weird."
-    
-#     gloria "We won't!"
-    
-#     # IMAGE: Luna pulling her blouse fully open
-#     # No bra underneath - bare breasts visible
-#     # Pale skin, soft pink nipples
-#     # Her expression a mix of defiance and nervousness
-#     # Gloria and Lin's reactions: genuine surprise
-    
-#     gloria "WOAH!"
-    
-#     lin "Luna! You're not wearing anything?"
-    
-#     # IMAGE: Luna shrugging, leaving blouse open
-#     # More confident now that the reveal is done
-#     # Headmaster's face carefully neutral but eyes definitely looking
-    
-#     luna "Never do. Mum says bras aren't healthy, restrict circulation or something."
-    
-#     gloria "Huh. I never thought about that."
-    
-#     luna "Mr. [headmaster_last_name], you think they're nice?"
-    
-#     # IMAGE: Headmaster caught off-guard, eyes snapping up from her chest
-#     # Luna looking at him directly, no shame
-#     # Gloria and Lin watching his reaction with curiosity
-    
-#     headmaster "I—yes, they're lovely. But I should really be going now."
-    
-#     headmaster_thought "Christ. She's standing there topless asking my opinion like we're discussing the weather."
-#     headmaster_thought "What happened in here? Girls test boundaries, sure — but not like this. This wasn't them. Something did this to them."
-    
-#     lin "Aww, already? We're having fun!"
-    
-#     # IMAGE: Headmaster backing toward door
-#     # Girls still relaxed, Luna's blouse still open
-#     # The afternoon light catches dust motes in the air
-    
-#     headmaster "I'll see you girls in class. Make sure to... button up before anyone else comes by."
-    
-#     gloria "Okay, okay. Bye Mr. [headmaster_last_name]!"
-    
-#     luna "Gloria, don't touch them!"
-    
-#     gloria "I just want to see if they feel different without a bra!"
-    
-#     # IMAGE: Headmaster in hallway outside classroom door
-#     # Door closing behind him, muffled giggles audible
-#     # Him running hand through hair, processing
-#     # SMELL: faint sweet scent in the air, almost floral but with chemical edge
-    
-#     headmaster_thought "That smell. What is that?"
-#     headmaster_thought "It's everywhere in there. Sweet, but not perfume. Something sharper underneath."
-    
-#     ishimaru "Mr. [headmaster_last_name]!"
-    
-#     # IMAGE: Ishimaru approaching from down the hall
-#     # Carrying the broken vial pieces carefully in tissue
-#     # Her shirt is off - wearing only skirt and white sports bra
-#     # Skin slightly flushed, breathing a bit quick
-    
-#     headmaster "Ms. Maki! What happened to your top?"
-    
-#     # IMAGE: Ishimaru looking down at herself, then back up
-#     # Casual shrug, no embarrassment
-#     # Holding out the tissue with broken glass
-    
-#     ishimaru "Got it dirty while cleaning the spill. Easier to just take it off than walk around with stains."
-    
-#     ishimaru "I found this earlier. After we bumped into each other. Thought it might be yours."
-    
-#     # IMAGE: Headmaster taking the tissue, examining broken vial
-#     # Ishimaru standing close, closer than normal professional distance
-#     # Her hand lingering near his as she hands it over
-    
-#     headmaster "Yes, thank you. It... broke?"
-    
-#     ishimaru "It must've when it fell. I tried to clean it up but the liquid had already mixed with the cleaning solution."
-    
-#     headmaster_thought "The cleaning solution."
-    
-#     ishimaru "There was this really nice smell after. Kind of sweet? I've been smelling it all afternoon."
-    
-#     # IMAGE: Close-up of Ishimaru's face
-#     # Pupils slightly dilated, small smile
-#     # Leaning in subtly, head tilted
-    
-#     ishimaru "You smell nice too, Mr. [headmaster_last_name]. Is that cologne?"
-    
-#     headmaster "I... don't wear cologne."
-    
-#     # IMAGE: Ishimaru's hand reaching out, touching his forearm lightly
-#     # Contact casual but lingering
-#     # Her thumb brushing across his sleeve
-    
-#     ishimaru "Huh. Well, something smells really good."
-    
-#     headmaster "You can throw the glass away. I don't need it anymore."
-    
-#     ishimaru "Okay. See you later..."
-    
-#     # IMAGE: Ishimaru walking away
-#     # Looking back over shoulder with smile
-#     # Headmaster watching her go, tissue with broken vial in hand
-    
-#     headmaster_thought "The cleaning solution. The girls in the classroom. Ishimaru just now."
-#     headmaster_thought "They all have that same look. That same lack of inhibition."
-#     headmaster_thought "And that smell—it's the same one in the classroom. Stronger near where the spill happened."
-#     headmaster_thought "Something in those cleaning chemicals reacted with the potion — it has to be. But which one?"
-    
-#     $ set_progress("lab_intro", 10)
-    
-#     $ end_event("new_daytime", **kwargs)
+    $ image = convert_pattern("main", **kwargs) 
 
-# # Analysis unlocks after Investigation
-# label lab_intro_11 (**kwargs):
-#     $ begin_event(**kwargs)
+    call Image_Series.show_image(image, 0, 1) from _call_show_image_lab_intro_10_1
+    headmaster.think "That smell from earlier. It's still lingering in this hallway."
+    headmaster.think "I should check if there are any unexpected effects from the spill."
+    
+    $ image.show(2)
+    headmaster.think "That's odd. Class shouldn't be in session now."
+    
+    $ image.show(3)
+    headmaster "Girls? Is everything—"
+    
+    $ image.show(4)
+    gloria "Mr. [headmaster_last_name]! Perfect timing, come sit with us!"
+    headmaster.think "What in the world...?"
+    
+    $ image.show(5)
+    headmaster "Are you girls alright? You look..."
+    lin "We're fantastic! Better than alright, honestly."
+    
+    $ image.show(6)
+    gloria "We were just comparing bras. Look how cute Lin's is!"
+    
+    $ image.show(7)
+    lin "It's new! Got it last week. The white trim is adorable, right?"
+    headmaster "Yes, very... nice."
+    headmaster.think "They're showing me their underwear like it's the most natural thing in the world. No hesitation, no embarrassment."
+    
+    $ image.show(8)
+    gloria "Now mine—tell me honestly, is the black too much? I thought it looked sophisticated."
+    
+    $ image.show(9)
+    headmaster "It's... elegant. Suits you."
+    
+    $ image.show(10)
+    gloria "Oh thank you! See, I told you guys it wasn't too grown-up."
+    
+    $ image.show(11)
+    lin "Okay, okay, your turn now Luna!"
+    
+    $ image.show(12)
+    luna "No way. Not in front of Mr. [headmaster_last_name]."
+    
+    $ image.show(13)
+    lin "Oh come on! We both showed ours!"
+    
+    $ image.show(14)
+    gloria "Don't be shy! We're all being open here."
+    
+    $ image.show(15)
+    luna "But I'm not wearing—"
+    
+    $ image.show(16)
+    lin "Come on, Luna!"
+    
+    $ image.show(17)
+    luna "Fine. But don't make it weird."
+    gloria "We won't!"
+    
+    call Image_Series.show_image(image, 18, 19) from _call_show_image_lab_intro_10_2
+    gloria "WOAH!"
+    lin "Luna! You're not wearing anything?"
+    
+    $ image.show(20)
+    luna "I've never worn one. Mum says bras aren't healthy."
+    
+    $ image.show(21)
+    gloria "Huh. Really?!"
+    
+    $ image.show(22)
+    luna "Mr. [headmaster_last_name], you think they're nice?"
+    
+    $ image.show(23)
+    headmaster "I—yes, they're lovely. But I should really be going now."
+    headmaster.think "Christ. She's standing there topless asking my opinion like we're discussing the weather."
+    headmaster.think "What happened in here? Girls test boundaries, sure, But not like this. This wasn't them. Something did this to them."
+    lin "Aww, already? We're having fun!"
+    
+    $ image.show(24)
+    headmaster "I'll see you girls in class. Make sure to... button up before anyone else comes by."
+    gloria "Okay, okay. Bye Mr. [headmaster_last_name]!"
+    luna "Gloria, don't touch them!"
+    gloria "I just want to see if they feel different without a bra!"
+    
+    $ image.show(25)
+    headmaster.think "That smell. What is that?"
 
-#     # IMAGE: Headmaster's office, late afternoon
-#     # Papers spread across desk, him leaning back in chair
-#     # Hand rubbing temples, thinking hard
-#     # Window showing orange sunset light
+    $ image.show(26)
+    headmaster.think "It's everywhere in there. Sweet, but not perfume. Something sharper underneath."
     
-#     headmaster_thought "The smell. The behavior. The timing. It all connects to that spill."
+    $ image.show(27)
+    ishimaru "Mr. [headmaster_last_name]!"
+    headmaster "Ms. Maki! What happened to your top?"
     
-#     # IMAGE: Secretary entering office
-#     # Knocking perfunctorily but already pushing door open
-#     # Carrying folder, professional demeanor
-#     # Headmaster looking up, expression shifting to eager
+    $ image.show(28)
+    ishimaru "Got it dirty while cleaning the spill. Easier to just take it off than walk around with stains."
+    ishimaru "There was a broken vial. I picked it up,"
     
-#     headmaster "Emiko! Perfect timing."
+    $ image.show(29)
+    headmaster "Yes, thank you. It... broke?"
     
-#     secretary "You look like you've had an eventful day."
+    $ image.show(30)
+    ishimaru "It must've when it fell. I tried to clean it up but the liquid had already mixed with the cleaning solution."
+    headmaster.think "The cleaning solution."
     
-#     # IMAGE: Headmaster gesturing to chair across from desk
-#     # Secretary settling into it, crossing legs
-#     # Setting folder aside, giving him full attention
+    $ image.show(31)
+    ishimaru "There was this really nice smell after. Kind of sweet? I've been smelling it all afternoon."
     
-#     headmaster "Eventful is one word for it. I think I've made a breakthrough."
+    $ image.show(32)
+    ishimaru "You smell nice too, Mr. [headmaster_last_name]. Is that cologne?"
     
-#     secretary "Oh?"
+    $ image.show(33)
+    headmaster "I... don't wear cologne."
     
-#     secretary_thought "*He's practically vibrating with excitement. This should be good.*"
+    $ image.show(31)
+    ishimaru "Huh. Well, something smells really good."
     
-#     # IMAGE: Headmaster leaning forward, hands clasped on desk
-#     # Animated expression, eyes bright
-#     # Secretary maintaining polite interest
+    $ image.show(34)
+    headmaster "You can throw the glass away. I don't need it anymore."
     
-#     headmaster "Remember when I dropped that vial in the hallway? When I bumped into Ms. Maki?"
+    $ image.show(35)
+    ishimaru "Okay. See you later..."
     
-#     secretary "You mentioned it."
+    $ image.show(36)
+    headmaster.think "The cleaning solution. The girls in the classroom. Ishimaru just now."
+    headmaster.think "They all have that same look. That same lack of inhibition."
+    headmaster.think "And that smell—it's the same one in the classroom. Stronger near where the spill happened."
+    headmaster.think "Something in those cleaning chemicals reacted with the potion — it has to be. But which one?"
     
-#     headmaster "I went back to investigate the area. Found three students in a classroom—blouses open, showing each other their bras like it was show-and-tell."
+    $ set_progress("lab_intro", 10)
     
-#     # IMAGE: Secretary's eyebrow raising slightly
-#     # Leaning forward, interested but controlled
-#     # Headmaster's hands gesturing as he talks
-    
-#     headmaster "One of them wasn't even wearing a bra. Just opened her shirt and asked my opinion on her breasts. Zero hesitation."
-    
-#     secretary "That's... significantly different from your earlier results."
-    
-#     # IMAGE: Headmaster nodding emphatically
-#     # Standing now, starting to pace
-#     # Secretary's eyes tracking him, calculating
-    
-#     headmaster "Exactly! The previous doses were short-lived. Minutes at most before the subjects snapped back."
-#     headmaster "But these girls—they'd been like that for at least fifteen minutes by the time I found them. Possibly longer."
-    
-#     secretary "What about Ms. Maki?"
-    
-#     # IMAGE: Headmaster pausing mid-pace
-#     # Turning to face secretary
-#     # Slight flush on his cheeks remembering
-    
-#     headmaster "She was topless. Said she'd taken her shirt off while cleaning because it got dirty."
-#     headmaster "Then she got very... close. Touching my arm, complimenting how I smell."
-    
-#     secretary "Flirting."
-    
-#     headmaster "Blatantly."
-    
-#     # IMAGE: Secretary's slight smile
-#     # Fingers steepled, thinking
-#     # Headmaster watching her, waiting for her input
-    
-#     secretary "So multiple subjects, stronger effects, longer duration. Something was different."
-    
-#     secretary_thought "*Whatever happened in that hallway, it's leagues past the first batch. And look at him — he hasn't been this alive in weeks.*"
-    
-#     # IMAGE: Headmaster moving back to desk
-#     # Picking up the tissue with broken vial pieces
-#     # Examining them in the fading light
-    
-#     headmaster "The smell. That's what was different."
-    
-#     secretary "Smell?"
-    
-#     headmaster "In the classroom, in the hallway near the spill—there was this scent. Sweet, almost floral, but with something chemical underneath."
-#     headmaster "Both Ishimaru and the students mentioned it. Said it smelled good, appealing."
-    
-#     # IMAGE: Secretary standing, moving to window
-#     # Looking out thoughtfully
-#     # Headmaster still at desk, watching her
-    
-#     secretary "You think something reacted with your potion?"
-    
-#     headmaster "Has to be. The vial broke in the spill—Ishimaru said it mixed with the cleaning solution."
-    
-#     # IMAGE: Both in office, light nearly gone
-#     # Headmaster looking thoughtful but troubled
-#     # Secretary watching him, calculating
-#     # Sense of conspiracy, shared purpose
+    $ end_event("new_daytime", **kwargs)
 
-#     headmaster "The implications are staggering. If I can isolate which compound created that reaction..."
+# endregion
+# ############################
 
-#     secretary "You'd have a catalyst. Something to make the effects permanent instead of temporary."
+##############################
+# region Lab Intro 11 Events #
 
-#     headmaster "Exactly."
+init 2 python:
+    set_current_mod('base')
 
-#     # IMAGE: Headmaster's excitement fading to frustration
-#     # Slumping slightly in chair
-#     # Secretary noticing the shift
+    # Analysis debrief — Headmaster calls Emiko in to talk it through. Pure
+    # dialogue in the office, so it runs entirely on Emiko's paperdoll over the
+    # blurred office background (f.webp — the empty plate of the secretary view,
+    # no baked-in Emiko, so the overlaid paperdoll can't double her). No bespoke
+    # CGs, hence no Pattern. Gated behind the Investigation (lab_intro 10).
+    # Registered on the "call secretary → talk" action, same as lab_intro_6.
+    lab_intro_11_event = Event(3, "lab_intro_11",
+            TimeCondition(weekday = "d", daytime = "d"),
+            ProgressCondition("lab_intro", 10),
+            ReplayCategoryOption("lab_intro"),
+            thumbnail = "images/background/office building/secretary 6 1 0.webp")
+    office_building_call_secretary_events["talk"].add_event(lab_intro_11_event)
 
-#     headmaster "But I need to test it properly. Controlled experiments. And I've already used most of my supply on those early tests."
+# Analysis unlocks after Investigation
+label lab_intro_11 (**kwargs):
+    $ begin_event(**kwargs)
 
-#     secretary "Hmm."
+    $ emiko.register_paperdoll()
+    $ paperdoll_manager.set_background("images/background/office building/f.webp", blur = True)
 
-#     secretary_thought "*He's been carrying all of this on his own, and it's starting to wear on him. He doesn't have to — not while I'm here. Whatever he needs to push forward, I'll make sure he has it.*"
+    subtitles "Late afternoon. The sun has dropped far enough to come in sideways, laying a bar of orange across the desk and the papers scattered over it."
+    subtitles "The office still smells faintly of the lab — that sweet, chemical undertone riding under the old-paper and cold-coffee of the room."
+    headmaster.think "The smell. The behaviour. The timing. Every thread of it runs back to that spill in the hallway."
 
-#     # IMAGE: Secretary standing, gathering her folder
-#     # Professional smile
-#     # Headmaster looking drained but thoughtful
+    # Emiko lets herself in after the token courtesy of a knock — folder under one
+    # arm, already halfway through the door.
+    $ emiko.display(PDAImage(pose = "10", outfit = "uniform", level = 6, mood = "neutral", mouth = "closed"),
+        PDAPreset("close_body_center", duration = 0.0),
+        PDAPreset("outside", duration = 0.0))
+    subtitles "A single perfunctory knock, and the door's already opening. Emiko, folder tucked under one arm, catches the look on his face and stops just inside."
 
-#     secretary "Let's call it a day. Sleep on it, come back fresh tomorrow."
+    headmaster "Emiko! Perfect timing."
+    $ emiko.display(PDAImage(pose = "2", mood = "happy", mouth = "open"),
+        PDAPreset("close_body_center", duration = 1.0))
+    emiko.say "You've got the face of a man who's had an eventful day. Do I want the good version of that, or the version where I start rescheduling your evening?"
 
-#     headmaster "You're right. I need to think this through carefully."
+    $ emiko.display(PDAImage(pose = "10", mood = "neutral", mouth = "closed"))
+    headmaster "Eventful is one word for it. I think I've made a breakthrough."
+    $ emiko.display(PDAImage(pose = "12", mood = "suspicious", mouth = "open"))
+    emiko.say "Oh?"
+    emiko.think "*He's practically vibrating. Whatever this is, he's been sitting on it since I passed his door this morning.*"
 
-#     secretary "Good idea. We'll figure something out."
+    $ emiko.display(PDAImage(pose = "13", mood = "neutral", mouth = "closed"))
+    headmaster "Remember the vial I dropped in the hallway? When I bumped into Ms. Maki?"
+    emiko.say "You mentioned it. Broken glass and a bad morning, the way you told it."
+    headmaster "I went back to look the area over. Found three girls in a classroom — blouses open, showing each other their bras like it was show-and-tell."
+    $ emiko.display(PDAImage(pose = "14", mood = "suspicious", mouth = "open"))
+    headmaster "One of them wasn't even wearing one. Just opened her shirt and asked my honest opinion. Though a bit hesitant, she still showed hers off."
+    emiko.say "That's a long way from your earlier results. The last batch barely got a giggle out of anyone before it wore off."
 
-#     # IMAGE: Secretary at door, looking back
-#     # Professional demeanor maintained
-#     # Headmaster already staring at the broken vial pieces again
+    $ emiko.display(PDAImage(pose = "11", mood = "neutral", mouth = "open"))
+    headmaster "Exactly. The early doses were nothing — minutes, and then they'd snap back, embarrassed, none the wiser."
+    headmaster "These girls had been like that a quarter of an hour, maybe longer, by the time I walked in on them."
+    $ emiko.display(PDAImage(pose = "26", mood = "suspicious", mouth = "closed"))
+    emiko.say "And Ms. Maki? She's the one you collided with when the vial went down."
 
-#     secretary "This is important work. Don't lose sight of that."
+    subtitles "He pauses. A little colour comes up in his face before he answers."
+    headmaster "Topless. Said she'd taken her top off cleaning because it got dirty — perfectly reasonable, the way she framed it."
+    headmaster "Then she got close. Hand on my arm, telling me how good I smelled."
+    $ emiko.display(PDAImage(pose = "12", mood = "suspicious", mouth = "closed"))
+    emiko.say "So — flirting."
+    headmaster "Blatantly. Without a shred of the woman who files my correspondence."
 
-#     headmaster "I won't."
+    $ emiko.display(PDAImage(pose = "14", mood = "shining", mouth = "open"))
+    emiko.say "Multiple subjects. Stronger. Longer. Something out in that hallway was different from anything you've ever cooked up in that closet you call a lab."
+    emiko.think "*Whatever happened out there is leagues past the first batch. And look at him — colour in his face, up out of the chair. He hasn't been this alive in weeks. I'm not letting this fizzle out.*"
 
-#     secretary_thought "*He's looking at this like he has to change the whole school by himself. He doesn't. I'll help him see that tomorrow.*"
+    $ emiko.display(PDAImage(pose = "13", mood = "neutral", mouth = "closed"))
+    headmaster "The smell. That's what was different."
+    $ emiko.display(PDAImage(pose = "11", mood = "neutral", mouth = "open"))
+    emiko.say "The smell?"
+    headmaster "In the classroom, near the spill — sweet, almost floral, with something chemical underneath. Ishimaru noticed it. The girls noticed it. Every one of them said it smelled {i}good{/i}."
 
-#     $ set_progress("lab_intro", 11)
+    # She drifts toward the window, thinking it through in the low light.
+    $ emiko.display(PDAImage(pose = "15", mood = "neutral", mouth = "closed"),
+        PDAMove(alignX = "+0.15", duration = 1.0))
+    subtitles "She crosses to the window, the low sun catching the side of her face, and turns it over for a moment before she speaks."
+    emiko.say "You think something reacted with the potion."
+    headmaster "It has to be. The vial broke in the spill — Ishimaru said the liquid had already mixed into the cleaning solution before she got to it."
 
-#     $ end_event("new_daytime", **kwargs)
+    $ emiko.display(PDAImage(pose = "21", mood = "shining", mouth = "open"),
+        PDAMove(alignX = 0.5, duration = 1.0))
+    headmaster "The implications are staggering. If I can isolate which compound triggered that reaction..."
+    emiko.say "Then you'd have a catalyst. Something that makes it {i}hold{/i} — permanent, instead of a few borrowed minutes and a girl who wakes up mortified."
+    headmaster "Exactly."
+
+    subtitles "The bar of light on the desk has narrowed to a thread. The excitement goes out of him a little, shoulders dropping."
+    headmaster "But I have to test it properly. Controlled. Documented. And I've already burned through most of my supply on those early tosses of the dice."
+    $ emiko.display(PDAImage(pose = "15", mood = "neutral", mouth = "closed"))
+    emiko.say "Mm."
+    emiko.think "*He's been carrying every ounce of this alone, and it's starting to show around his eyes. He doesn't have to. Whatever he needs to keep going — more supply, more room, more hands — I'll put it in front of him before he thinks to ask.*"
+
+    subtitles "She lifts the folder off the desk, the professional smile sliding back into place like a light switched on."
+    $ emiko.display(PDAImage(pose = "20", mood = "happy", mouth = "open"))
+    emiko.say "Call it a day. Sleep on it, come back at it fresh — you think better after actual sleep, whatever you like to tell yourself."
+    headmaster "You're right. I need to think this through carefully."
+    $ emiko.display(PDAImage(pose = "6", mood = "happy", mouth = "closed"))
+    emiko.say "We'll figure it out. We always do."
+
+    emiko.say "And [headmaster_first_name] — this is important work. Don't lose sight of that."
+    headmaster "I won't."
+    $ emiko.display(PDAImage(pose = "31", mood = "happy", mouth = "closed"))
+    emiko.think "*He looks at this like he has to fix the whole school by himself. He doesn't. I'll help him see that tomorrow.*"
+
+    $ emiko.display(PDAImage(pose = "10", mood = "happy", mouth = "closed"),
+        PDAPreset("outside", duration = 1.0), PDAPause(duration = 1.0))
+
+    headmaster.think "A catalyst. Permanent. She had the word out before I did — like she'd already run the whole board three moves ahead of me."
+
+    $ set_progress("lab_intro", 11)
+
+    $ end_event("new_daytime", **kwargs)
+
+# endregion
+##############################
 
 # # Frustration unlocks after Analysis and Secretary's Spin
 # label lab_intro_12 (**kwargs):
