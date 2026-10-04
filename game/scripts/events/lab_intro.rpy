@@ -1285,80 +1285,89 @@ label lab_intro_11 (**kwargs):
     subtitles "A single perfunctory knock, and the door's already opening. Emiko, folder tucked under one arm, catches the look on his face and stops just inside."
 
     headmaster "Emiko! Perfect timing."
-    $ emiko.display(PDAImage(pose = "2", mood = "happy", mouth = "open"),
-        PDAPreset("close_body_center", duration = 1.0))
+    $ emiko.display(PDAImage(pose = "36", mood = "happy", mouth = "open"),
+        PDAPreset("close_body_center", duration = 1))
     emiko.say "You've got the face of a man who's had an eventful day. Do I want the good version of that, or the version where I start rescheduling your evening?"
 
-    $ emiko.display(PDAImage(pose = "10", mood = "neutral", mouth = "closed"))
+    $ emiko.display(PDAImage(mood = "neutral", mouth = "closed"))
     headmaster "Eventful is one word for it. I think I've made a breakthrough."
-    $ emiko.display(PDAImage(pose = "12", mood = "suspicious", mouth = "open"))
+    $ emiko.display(PDAImage(pose = "19", mood = "suprised", mouth = "open"))
     emiko.say "Oh?"
     emiko.think "*He's practically vibrating. Whatever this is, he's been sitting on it since I passed his door this morning.*"
 
-    $ emiko.display(PDAImage(pose = "13", mood = "neutral", mouth = "closed"))
+    $ emiko.display(PDAImage(pose = "7", mood = "happy", mouth = "closed"))
     headmaster "Remember the vial I dropped in the hallway? When I bumped into Ms. Maki?"
+    $ emiko.display(PDAImage(mouth = "open"))
     emiko.say "You mentioned it. Broken glass and a bad morning, the way you told it."
+    $ emiko.display(PDAImage(mouth = "closed"))
     headmaster "I went back to look the area over. Found three girls in a classroom — blouses open, showing each other their bras like it was show-and-tell."
-    $ emiko.display(PDAImage(pose = "14", mood = "suspicious", mouth = "open"))
     headmaster "One of them wasn't even wearing one. Just opened her shirt and asked my honest opinion. Though a bit hesitant, she still showed hers off."
+    $ emiko.display(PDAImage(pose = "17", mood = "shining", mouth = "open"))
     emiko.say "That's a long way from your earlier results. The last batch barely got a giggle out of anyone before it wore off."
 
-    $ emiko.display(PDAImage(pose = "11", mood = "neutral", mouth = "open"))
+    $ emiko.display(PDAImage(mouth = "closed"))
     headmaster "Exactly. The early doses were nothing — minutes, and then they'd snap back, embarrassed, none the wiser."
     headmaster "These girls had been like that a quarter of an hour, maybe longer, by the time I walked in on them."
-    $ emiko.display(PDAImage(pose = "26", mood = "suspicious", mouth = "closed"))
+    $ emiko.display(PDAImage(pose = "2", mood = "happy", mouth = "open"))
     emiko.say "And Ms. Maki? She's the one you collided with when the vial went down."
+    $ emiko.display(PDAImage(mouth = "closed"))
 
     subtitles "He pauses. A little colour comes up in his face before he answers."
     headmaster "Topless. Said she'd taken her top off cleaning because it got dirty — perfectly reasonable, the way she framed it."
     headmaster "Then she got close. Hand on my arm, telling me how good I smelled."
-    $ emiko.display(PDAImage(pose = "12", mood = "suspicious", mouth = "closed"))
+    $ emiko.display(PDAImage(pose = "27", mood = "shining", mouth = "open"))
     emiko.say "So — flirting."
+    $ emiko.display(PDAImage(mouth = "closed"))
     headmaster "Blatantly. Without a shred of the woman who files my correspondence."
 
-    $ emiko.display(PDAImage(pose = "14", mood = "shining", mouth = "open"))
+    $ emiko.display(PDAImage(pose = "7", mood = "neutral", mouth = "open", look = "avert"))
     emiko.say "Multiple subjects. Stronger. Longer. Something out in that hallway was different from anything you've ever cooked up in that closet you call a lab."
     emiko.think "*Whatever happened out there is leagues past the first batch. And look at him — colour in his face, up out of the chair. He hasn't been this alive in weeks. I'm not letting this fizzle out.*"
 
-    $ emiko.display(PDAImage(pose = "13", mood = "neutral", mouth = "closed"))
+    $ emiko.display(PDAImage(mouth = "closed", look = "follow"))
     headmaster "The smell. That's what was different."
-    $ emiko.display(PDAImage(pose = "11", mood = "neutral", mouth = "open"))
+    $ emiko.display(PDAImage(mouth = "open"))
     emiko.say "The smell?"
+    $ emiko.display(PDAImage(mouth = "closed"))
     headmaster "In the classroom, near the spill — sweet, almost floral, with something chemical underneath. Ishimaru noticed it. The girls noticed it. Every one of them said it smelled {i}good{/i}."
 
     # She drifts toward the window, thinking it through in the low light.
-    $ emiko.display(PDAImage(pose = "15", mood = "neutral", mouth = "closed"),
-        PDAMove(alignX = "+0.15", duration = 1.0))
+    $ emiko.display(PDAMove(alignX = "+0.5", duration = 1.0))
     subtitles "She crosses to the window, the low sun catching the side of her face, and turns it over for a moment before she speaks."
+    $ emiko.display(PDAImage(mouth = "open", look = "avert"))
     emiko.say "You think something reacted with the potion."
+    $ emiko.display(PDAImage(mouth = "closed"))
     headmaster "It has to be. The vial broke in the spill — Ishimaru said the liquid had already mixed into the cleaning solution before she got to it."
 
-    $ emiko.display(PDAImage(pose = "21", mood = "shining", mouth = "open"),
-        PDAMove(alignX = 0.5, duration = 1.0))
     headmaster "The implications are staggering. If I can isolate which compound triggered that reaction..."
-    emiko.say "Then you'd have a catalyst. Something that makes it {i}hold{/i} — permanent, instead of a few borrowed minutes and a girl who wakes up mortified."
+    $ emiko.display(PDAImage(pose = "21", mood = "shining", mouth = "open", look = "follow"),
+        PDAPreset("close_body_center", duration = 1))
+    emiko.say "Then you'd have a catalyst. Something that makes it {i}hold{/i}... permanent, instead of a few borrowed minutes and a girl who wakes up mortified."
+    $ emiko.display(PDAImage(pose = "7", mood = "neutral", mouth = "closed"))
     headmaster "Exactly."
 
     subtitles "The bar of light on the desk has narrowed to a thread. The excitement goes out of him a little, shoulders dropping."
     headmaster "But I have to test it properly. Controlled. Documented. And I've already burned through most of my supply on those early tosses of the dice."
-    $ emiko.display(PDAImage(pose = "15", mood = "neutral", mouth = "closed"))
     emiko.say "Mm."
     emiko.think "*He's been carrying every ounce of this alone, and it's starting to show around his eyes. He doesn't have to. Whatever he needs to keep going — more supply, more room, more hands — I'll put it in front of him before he thinks to ask.*"
 
     subtitles "She lifts the folder off the desk, the professional smile sliding back into place like a light switched on."
-    $ emiko.display(PDAImage(pose = "20", mood = "happy", mouth = "open"))
+    $ emiko.display(PDAImage(pose = "6", mood = "shining", mouth = "open"))
     emiko.say "Call it a day. Sleep on it, come back at it fresh — you think better after actual sleep, whatever you like to tell yourself."
+    $ emiko.display(PDAImage(mood = "happy", mouth = "closed"))
     headmaster "You're right. I need to think this through carefully."
-    $ emiko.display(PDAImage(pose = "6", mood = "happy", mouth = "closed"))
+    $ emiko.display(PDAImage(mood = "shining", mouth = "open"))
     emiko.say "We'll figure it out. We always do."
 
-    emiko.say "And [headmaster_first_name] — this is important work. Don't lose sight of that."
+    $ emiko.display(PDAImage(mood = "neutral"))
+    emiko.say "And [headmaster_first_name]... this is important work. Don't lose sight of that."
+    $ emiko.display(PDAImage(mood = "happy", mouth = "closed"))
     headmaster "I won't."
-    $ emiko.display(PDAImage(pose = "31", mood = "happy", mouth = "closed"))
     emiko.think "*He looks at this like he has to fix the whole school by himself. He doesn't. I'll help him see that tomorrow.*"
 
-    $ emiko.display(PDAImage(pose = "10", mood = "happy", mouth = "closed"),
-        PDAPreset("outside", duration = 1.0), PDAPause(duration = 1.0))
+    $ emiko.display(PDAImage(pose = "39"),
+        PDAMove(alignX = 1.5, duration = 1.0),
+        PDAPause(duration = 1.0))
 
     headmaster.think "A catalyst. Permanent. She had the word out before I did — like she'd already run the whole board three moves ahead of me."
 
@@ -1369,3144 +1378,2342 @@ label lab_intro_11 (**kwargs):
 # endregion
 ##############################
 
-# # Frustration unlocks after Analysis and Secretary's Spin
-# label lab_intro_12 (**kwargs):
-#     $ begin_event(**kwargs)
-    
-#     # IMAGE: Headmaster's office converted to makeshift lab
-#     # Late evening, desk lamp the only light
-#     # Cleaning cart pulled into room, various bottles arranged
-#     # Two vials of experimental potion, multiple small test tubes
-#     # Notebook open with methodical notes
-    
-#     headmaster_thought "Systematic approach. Test each compound individually, document the reaction."
-    
-#     # IMAGE: Headmaster in safety goggles, gloves
-#     # Pipetting tiny amount of potion into test tube
-#     # First cleaning chemical bottle open beside him
-#     # Concentrated expression, scientific precision
-    
-#     headmaster "Ammonia solution. Standard concentration."
-    
-#     # IMAGE: Adding single drop of ammonia to potion
-#     # Watching carefully for reaction
-#     # Liquid remains amber, no change
-#     # His expression: focused disappointment
-    
-#     headmaster_thought "No visible reaction. No color change, no precipitation, no effervescence."
-    
-#     # IMAGE: Headmaster making note in notebook
-#     # Crossing off "ammonia" from list
-#     # Moving to next bottle on cart
-#     # Test tube disposed in waste container
-    
-#     headmaster "Next. Industrial surfactant blend."
-    
-#     # IMAGE: Fresh test tube, new potion sample
-#     # Adding drop of surfactant
-#     # Liquid clouds slightly but settles back to amber
-#     # Headmaster shaking head
-    
-#     headmaster_thought "Temporary emulsion, but no catalytic effect. Not this one either."
-    
-#     # IMAGE: Time passing montage
-#     # Multiple test tubes used and discarded
-#     # Cleaning bottles being tested one by one
-#     # Headmaster's posture getting more tense
-#     # Coffee mug emptied and refilled
-#     # Night deepening outside window
-    
-#     headmaster "Chlorinated degreaser. Sodium hypochlorite solution. Quaternary ammonium compound."
-    
-#     # IMAGE: Notebook showing growing list of crossed-off chemicals
-#     # Headmaster rubbing eyes, fatigue setting in
-#     # Only a few bottles left untested
-#     # One vial of potion nearly empty from all the tests
-    
-#     headmaster_thought "Seven compounds tested. Nothing. Maybe the reaction requires multiple chemicals working together?"
-#     headmaster_thought "But that exponentially increases the complexity..."
-    
-#     # IMAGE: Headmaster picking up next bottle
-#     # Large industrial bottle, 2.5 liter size
-#     # Reading label carefully
-#     # "Trichloroethylene - Industrial Solvent"
-#     # Warning labels visible: flammable, ventilation required
-    
-#     headmaster "Trichloroethylene. That's... uncommon for standard cleaning."
-#     headmaster "Must be for heavy degreasing. Probably left over from when they used this building for maintenance."
-    
-#     # IMAGE: Fresh test tube, careful potion measure
-#     # Adding single drop of TCE
-#     # Immediate reaction - liquid shimmers
-    
-#     headmaster "Wait—"
-    
-#     # IMAGE: Close-up of test tube
-#     # Amber liquid becoming more vibrant, almost glowing
-#     # Slight vapor rising with sweet chemical scent
-#     # Color intensifying, becoming richer
-    
-#     headmaster "That's it. That's the reaction!"
-    
-#     # IMAGE: Headmaster's face lit by the glowing sample
-#     # Excitement and triumph
-#     # Leaning in close, examining the transformation
-#     # The amber liquid now matching the intensity from the hallway spill
-    
-#     headmaster_thought "Trichloroethylene. That's the catalyst. That's what made the difference!"
-    
-#     # IMAGE: Headmaster frantically making notes
-#     # Documenting the reaction in detail
-#     # Checking the TCE bottle label again
-#     # Adrenaline replacing fatigue
-    
-#     headmaster "The molecular structure must interact with the organic compounds in the base potion..."
-#     headmaster "Creating a stable enhancement that prevents degradation of the active ingredients."
-    
-#     # IMAGE: Headmaster setting down the glowing test tube
-#     # Picking up the large TCE bottle
-#     # Reading the label - standard old hazard warnings
-#     # His expression triumphant
-    
-#     headmaster "Trichloroethylene. Industrial degreaser."
-    
-#     # IMAGE: Headmaster checking the bottle's fill level
-#     # Large industrial bottle, about half full
-#     # Roughly 1.2 liters remaining
-#     # Old, yellowed label, clearly vintage
-    
-#     headmaster "About a liter left. That's... actually a decent amount."
-    
-#     headmaster_thought "Enough for multiple applications. I can work with this."
-#     headmaster_thought "But I should verify I can order more for future batches."
-    
-#     # IMAGE: Headmaster pulling out his phone
-#     # Typing into search: "trichloroethylene purchase"
-#     # Screen glow on his face in the dim office
-#     # Expectant expression
-    
-#     # IMAGE: Close-up of phone screen
-#     # Search results showing:
-#     # "TCE phased out under EPA regulations"
-#     # "Discontinued for commercial sale"
-#     # "Restricted substance - industrial permits required"
-    
-#     headmaster_thought "What?"
-    
-#     # IMAGE: Headmaster's expression shifting from confusion to dismay
-#     # Scrolling through results
-#     # Multiple sites showing same message
-#     # His triumph beginning to crumble
-    
-#     headmaster "Phased out. Environmental regulations... ozone depletion concerns."
-    
-#     # IMAGE: Headmaster clicking through to supplier website
-#     # "This product requires industrial certification and bulk minimum orders"
-#     # "$5000 minimum purchase - 200L drums only"
-#     # "EPA permit documentation required"
-    
-#     headmaster "Five thousand dollars. Two hundred liters minimum."
-#     headmaster "And environmental permits I don't have."
-    
-#     # IMAGE: Headmaster setting phone down
-#     # Looking at the TCE bottle with new perspective
-#     # What's there is all he'll ever have
-#     # The glowing test tube representing both success and limitation
-    
-#     headmaster_thought "The school's bottle is ancient. From before the phaseout."
-#     headmaster_thought "What I have here is irreplaceable. Once it's gone, it's gone forever."
-    
-#     # IMAGE: Headmaster calculating in his notebook
-#     # Estimating catalyst ratios
-#     # Looking at his two vials of base potion
-#     # Doing the math
-    
-#     headmaster "A liter of catalyst. Maybe enough to enhance... twenty, thirty doses if I'm conservative with the ratio."
-#     headmaster "But I only have two vials of base potion left. Barely enough for a handful of applications."
-    
-#     # IMAGE: Headmaster slumping in chair
-#     # Head in hands
-#     # The glowing test tube and TCE bottle on desk
-#     # Victory feeling incomplete
-    
-#     headmaster_thought "I found the catalyst. I have enough of it for initial testing."
-#     headmaster_thought "But I don't have enough base potion to use it on. And even if I synthesize more..."
-    
-#     # IMAGE: Headmaster's fist clenching on desk
-#     # Jaw tight with frustration
-#     # The perfect solution with imperfect resources
-    
-#     headmaster "Eventually this catalyst will run out. And I can't replace it."
-#     headmaster "Every dose I make is one less I can ever make again."
-    
-#     # IMAGE: Headmaster standing, pacing
-#     # Hands running through hair
-#     # Office feeling claustrophobic despite the breakthrough
-    
-#     headmaster_thought "I need to be strategic. Can't waste this on random testing."
-#     headmaster_thought "I need more base potion. I need better equipment to synthesize it."
-#     headmaster_thought "And I need a plan for what to do with the limited catalyst I have."
-    
-#     # IMAGE: Headmaster looking at his two vials of base potion
-#     # The large TCE bottle beside them
-#     # Notebook showing the successful formula
-#     # The weight of finite resources
-    
-#     headmaster "I could make a few enhanced doses with what I have. Test the formula properly."
-#     headmaster "But then what? Wait weeks to synthesize more base potion in my closet setup?"
-    
-#     # IMAGE: Headmaster sitting back down heavily
-#     # The glowing test tube still illuminating his notes
-#     # Success achieved but path forward unclear
-#     # Victory turned to strategic puzzle
-    
-#     headmaster_thought "I solved the mystery. I have the catalyst, at least for now."
-#     headmaster_thought "But I'm still stuck. Limited materials, inadequate workspace, no replacement source."
-#     headmaster_thought "I need help. I need a better plan."
-    
-#     # IMAGE: Office in darkness except for desk lamp
-#     # Headmaster alone with his discovery
-#     # Test tubes, bottles, notebooks surrounding him
-#     # TCE bottle sitting there - precious and finite
-    
-#     headmaster "I have the answer. But I don't know what to do with it."
-    
-#     $ set_progress("lab_intro", 12)
-    
-#     $ end_event("new_daytime", **kwargs)
-
-# # Strategic Planning unlocks after Frustration
-# label lab_intro_13 (**kwargs):
-#     $ begin_event(**kwargs)
-    
-#     # IMAGE: Headmaster's office, next morning
-#     # Still looks like a lab - cleaning cart, test tubes
-#     # Papers scattered, coffee mug refilled but untouched
-#     # Headmaster at desk staring at the TCE bottle and his notes
-#     # Morning light harsh through window
-    
-#     headmaster_thought "Twenty-four hours since I identified the catalyst. And I still don't know how to proceed."
-    
-#     # IMAGE: Door opening, secretary entering without knocking
-#     # Folder under arm, professional demeanor
-#     # Pausing when she sees the state of the office
-#     # Headmaster looking up, exhausted
-    
-#     secretary "You look terrible."
-#     headmaster "Good morning to you too."
-    
-#     # IMAGE: Secretary closing door, moving closer
-#     # Taking in the makeshift lab setup
-#     # Setting folder aside, giving him her attention
-#     # Headmaster gesturing vaguely at the desk
-    
-#     secretary "I take it the testing didn't go well?"
-#     headmaster "Actually, it went perfectly. That's the problem."
-    
-#     # IMAGE: Secretary settling into chair across from desk
-#     # Crossing legs, focused on him
-#     # Headmaster leaning back, rubbing face
-#     # Sunlight cutting across the space between them
-    
-#     secretary "Explain."
-    
-#     headmaster "I found the catalyst. Trichloroethylene—an industrial solvent on the cleaning cart."
-#     headmaster "The reaction was immediate, unmistakable. I documented everything."
-    
-#     secretary "That's excellent news."
-    
-#     # IMAGE: Headmaster picking up the large TCE bottle
-#     # Showing it to her
-#     # His expression frustrated despite the breakthrough
-    
-#     headmaster "This is all there is. The school's ancient bottle, maybe a liter left."
-#     headmaster "And I can't get more. It's been phased out, requires industrial permits, minimum orders in the thousands of dollars."
-    
-#     # IMAGE: Secretary's eyebrows raising slightly
-#     # Looking at the bottle, then back at him
-#     # Processing the limitation
-    
-#     secretary "So you have the catalyst, but limited supply."
-    
-#     headmaster "Irreplaceable supply. Once this is gone, it's gone forever."
-    
-#     # IMAGE: Headmaster setting bottle down
-#     # Gesturing to his two remaining vials of base potion
-#     # Frustration evident in his movements
-    
-#     headmaster "And I barely have any base potion left. Maybe enough for six or seven doses total."
-#     headmaster "I've spent all night trying to figure out how to synthesize more, find alternatives, optimize the process..."
-    
-#     secretary "And?"
-    
-#     headmaster "Every solution requires equipment I don't have, materials I can't source, or time I don't have."
-    
-#     # IMAGE: Secretary looking at him thoughtfully
-#     # Slight tilt of her head
-#     # Headmaster slumped in frustration
-    
-#     secretary "How many people work at this school?"
-    
-#     headmaster "What?"
-    
-#     secretary "Teachers. Staff. How many?"
-    
-#     # IMAGE: Headmaster looking confused by the question
-#     # Secretary waiting patiently
-#     # Him counting mentally
-    
-#     headmaster "Five teachers. You. Me. The cleaning staff, kitchen staff..."
-    
-#     secretary "And how many parents are on the PTA?"
-    
-#     headmaster "Three mothers. Plus the five teachers and myself, but..."
-    
-#     # IMAGE: Secretary's slight smile
-#     # Leaning back, point made
-#     # Headmaster processing
-    
-#     secretary "So you're sitting here panicking about supply when you need to dose maybe eight people total."
-    
-#     headmaster "Eight people won't change the entire school."
-    
-#     secretary "The teachers set classroom standards. The PTA mothers influence other parents."
-#     secretary "That's not eight random people. That's everyone who actually matters for culture."
-    
-#     # IMAGE: Headmaster sitting up straighter
-#     # Looking at the vials and catalyst with new perspective
-#     # Secretary watching him arrive at the obvious conclusion
-    
-#     headmaster "You're saying I have enough."
-    
-#     secretary "I'm saying you have more than enough if you stop thinking about dosing students directly."
-    
-#     # IMAGE: Headmaster pulling over his notebook
-#     # Starting to make notes
-#     # Energy shifting from paralyzed to practical
-    
-#     headmaster "The five teachers. If they stop enforcing dress codes, relationship policies..."
-    
-#     secretary "Students notice immediately. They push boundaries, test limits."
-    
-#     headmaster "And the PTA mothers. If they stop objecting to relaxed standards..."
-    
-#     secretary "Other parents follow their lead. The institutional pressure disappears."
-    
-#     # IMAGE: Headmaster writing names
-#     # Parker, Chen, Anderson, Garcia, Ryan
-#     # The three PTA mothers
-#     # Simple target list
-    
-#     headmaster "How do I dose them without being obvious?"
-    
-#     # IMAGE: Secretary considering
-#     # Casual posture, matter-of-fact tone
-    
-#     secretary "The faculty lounge has coffee every morning. Everyone drinks from the same pot."
-    
-#     headmaster "Consistent small doses over several days."
-    
-#     secretary "Less noticeable than sudden changes. Looks like natural attitude shifts."
-    
-#     # IMAGE: Headmaster making more notes
-#     # Distribution schedule, timing
-#     # Secretary continuing
-    
-#     secretary "For the PTA mothers, there's a meeting next Wednesday. I handle refreshments."
-    
-#     headmaster "You'd help with that?"
-    
-#     # IMAGE: Secretary's direct look
-#     # Simple, matter-of-fact
-#     # No grand declarations
-    
-#     secretary "It's practical. I'm already setting up the refreshments anyway."
-    
-#     secretary_thought "*Better he doesn't know about the students' project yet — if it goes sideways, his hands stay clean. I'll carry that risk for him.*"
-    
-#     # IMAGE: Both at desk
-#     # Notes spread between them
-#     # TCE bottle and vials now manageable instead of impossible
-    
-#     headmaster "Faculty lounge starting tomorrow. Small doses in the coffee."
-#     headmaster "PTA meeting Wednesday. Refreshments for the three mothers."
-    
-#     secretary "I'll make sure the faculty pot stays full. Monitor who drinks."
-    
-#     headmaster "And I'll prepare individual doses. Precise measurements."
-    
-#     # IMAGE: Secretary standing, picking up folder
-#     # Professional demeanor
-#     # Headmaster organizing his materials
-    
-#     secretary "This also buys time for the longer-term problem."
-    
-#     headmaster "The synthesis equipment. Proper lab space."
-    
-#     secretary "While you're handling this, I'll look into funding for the old lab building renovation."
-#     secretary "Better equipment means more efficient production. Maybe alternative catalysts."
-    
-#     # IMAGE: Headmaster nodding
-#     # Both short-term and long-term clear now
-#     # No longer overwhelmed
-    
-#     headmaster "Use what I have on the people who matter. Build better capacity in parallel."
-    
-#     secretary "Exactly."
-    
-#     # IMAGE: Secretary at door
-#     # Looking back briefly
-#     # Headmaster already measuring out materials
-    
-#     secretary "You were overthinking it."
-    
-#     headmaster "Apparently."
-    
-#     secretary "It's a small school. Eight people. You have enough."
-    
-#     # IMAGE: Door closing, secretary gone
-#     # Headmaster alone but refocused
-#     # Office messy but purposeful now
-#     # Target list simple and clear
-    
-#     headmaster_thought "Eight people. The five teachers, the three PTA mothers."
-#     headmaster_thought "I was so focused on scarcity I forgot how small this operation actually is."
-    
-#     # IMAGE: Headmaster picking up potion vial
-#     # Looking at it practically now
-#     # TCE bottle beside it - limited but sufficient
-    
-#     headmaster "Teachers first. Then the mothers. That's all I need."
-    
-#     headmaster_thought "Emiko's right. I was overthinking it."
-    
-#     $ set_progress("lab_intro", 13)
-    
-#     $ end_event("new_daytime", **kwargs)
-
-# # Morning Brew, unlocks after Strategic Planning and Brewing Session on Thursday
-# label lab_intro_14 (**kwargs):
-#     $ begin_event(**kwargs)
-    
-#     # IMAGE: Headmaster's office, very early morning
-#     # Still dark outside, desk lamp only light
-#     # Small vials arranged on desk with scientific precision
-#     # Headmaster in careful concentration mode
-#     # TCE bottle and base potion beside calibrated dropper
-    
-#     headmaster_thought "Five teachers. Need to calculate the concentration for the full urn."
-    
-#     # IMAGE: Headmaster measuring enhanced potion into small bottle
-#     # Using dropper to add TCE catalyst
-#     # Amber liquid glowing slightly when catalyst mixes
-#     # His hands steady despite nerves
-    
-#     headmaster "Three drops base potion per serving. Twenty cup capacity..."
-#     headmaster "Sixty drops total, plus catalyst at one-to-five ratio."
-    
-#     # IMAGE: Close-up of enhanced mixture in small dark bottle
-#     # Richer amber color than base potion alone
-#     # Faint sweet scent rising
-#     # Headmaster sealing it carefully
-    
-#     headmaster_thought "This has to look natural. Just another morning."
-    
-#     # IMAGE: Headmaster pocketing the bottle
-#     # Checking watch - 6:15 AM
-#     # Gathering papers to use as cover
-#     # Office door closing behind him
-    
-#     # IMAGE: School hallway, pre-dawn darkness
-#     # Emergency lighting only, everything quiet
-#     # Headmaster's footsteps echoing
-#     # Walking toward faculty lounge with purpose
-    
-#     headmaster_thought "Staff don't usually arrive until seven. I have time."
-    
-#     # IMAGE: Faculty lounge door, headmaster entering
-#     # Dark room, flipping light switch
-#     # Fluorescent lights flickering on
-#     # Empty space, coffee station visible on counter
-    
-#     # IMAGE: Coffee station setup
-#     # Large institutional urn, 20-cup capacity
-#     # Filters, coffee grounds in canister
-#     # Headmaster moving to it with practiced casualness
-    
-#     headmaster_thought "Act normal. Just making coffee early. Nothing unusual."
-    
-#     # IMAGE: Headmaster filling urn with water
-#     # Measuring coffee grounds
-#     # Normal morning routine
-#     # The small bottle still in his pocket
-    
-#     # IMAGE: Coffee beginning to brew
-#     # Familiar percolating sound
-#     # Rich coffee scent filling the room
-#     # Headmaster waiting, checking watch nervously
-    
-#     headmaster_thought "Wait until it's finished brewing. The heat helps the compound distribute evenly."
-    
-#     # IMAGE: Headmaster at window, watching darkness fade
-#     # Coffee urn bubbling in background
-#     # Dawn light beginning to touch the sky
-#     # His reflection tense in the glass
-    
-#     # IMAGE: Coffee urn finishing with final hiss
-#     # Full pot of dark coffee
-#     # Headmaster turning, moving back to it
-#     # Pulling the small bottle from his pocket
-    
-#     headmaster_thought "Now. Before anyone arrives."
-    
-#     # IMAGE: Headmaster opening urn lid
-#     # Steam rising, rich coffee aroma
-#     # Pulling dropper from bottle
-#     # Hand steady, professional precision
-    
-#     # IMAGE: Adding enhanced potion to coffee
-#     # Amber drops falling into dark liquid
-#     # Disappearing immediately, no color change visible
-#     # Headmaster counting silently
-    
-#     headmaster_thought "Sixty drops. Precisely sixty."
-    
-#     # IMAGE: Stirring coffee with long spoon
-#     # Mixing thoroughly
-#     # The scent shifting subtly - coffee with something underneath
-#     # Sweet, almost floral, barely noticeable
-    
-#     headmaster "There."
-    
-#     # IMAGE: Headmaster closing urn, replacing lid
-#     # Pocketing the bottle and dropper
-#     # Stepping back, examining his work
-#     # Everything looks completely normal
-    
-#     headmaster_thought "No one will notice. Just coffee. Same as every morning."
-    
-#     # IMAGE: Headmaster arranging himself at nearby table
-#     # Papers spread out like he's been here working
-#     # Coffee mug for himself from separate personal thermos
-#     # Relaxed posture, casual morning routine
-    
-#     # IMAGE: Clock on wall showing 6:47 AM
-#     # Headmaster pretending to read through papers
-#     # Pen in hand, making occasional marks
-#     # Ears alert for approaching footsteps
-    
-#     # IMAGE: Door opening, first teacher arriving
-#     # Zoe Parker, early as always
-#     # Carrying bag and travel mug
-#     # Headmaster looking up casually
-    
-#     headmaster "Morning, Zoe."
-    
-#     parker "Oh! You beat me here — that never happens."
-    
-#     # IMAGE: Parker moving to coffee station
-#     # Blonde hair pulled back, professional attire
-#     # Setting down her things
-#     # Reaching for the urn
-    
-#     headmaster "Couldn't sleep. Figured I'd get some work done."
-#     headmaster "Made coffee if you want some."
-    
-#     parker "You're a lifesaver."
-    
-#     # IMAGE: Parker pouring coffee into her mug
-#     # Steam rising, dark liquid filling cup
-#     # Headmaster watching peripherally, trying not to stare
-#     # Her adding cream and sugar
-    
-#     parker "Smells good. Different somehow?"
-    
-#     # IMAGE: Headmaster's internal tension
-#     # Maintaining casual expression
-#     # Parker lifting mug to smell
-    
-#     headmaster "Same brand as always. Maybe fresher grounds?"
-    
-#     parker "Maybe."
-    
-#     # IMAGE: Parker taking first sip
-#     # Headmaster holding his breath
-#     # Her expression normal, satisfied
-#     # Moving to sit at table with morning paper
-    
-#     parker "Mm. That hits the spot."
-    
-#     headmaster_thought "She doesn't notice anything unusual. Good."
-    
-#     # IMAGE: Door opening again, Yulan Chen arriving
-#     # Black hair with blue ornamental piece
-#     # Greeting Parker and headmaster
-#     # Heading straight for coffee
-    
-#     chen "Morning. Good — it's already made. My first period doesn't forgive a slow start."
-    
-#     # IMAGE: Chen pouring herself a large mug
-#     # Adding just a splash of milk
-#     # Drinking immediately despite the heat
-    
-#     chen "...Precisely what I needed."
-    
-#     # IMAGE: Time passing - 7:05 AM
-#     # Lily Anderson arriving
-#     # Auburn wavy hair, professional but warm demeanor
-#     # Followed shortly by Chloe Garcia
-    
-#     anderson "Oh thank god — please tell me there's coffee. I was up past one with those essays, I can barely see straight."
-    
-#     garcia "Someone made a full pot before eight. Who are you and what did you do with our headmaster?"
-    
-#     headmaster "Early meeting prep. Help yourselves."
-    
-#     # IMAGE: Both Anderson and Garcia at coffee station
-#     # Pouring cups, adding their preferences
-#     # Garcia with extensive tattoos visible on arms
-#     # Anderson adjusting her hair while waiting
-    
-#     # IMAGE: All four teachers now in lounge
-#     # Each with coffee from the urn
-#     # Scattered at different tables, morning routines
-#     # Parker reading paper, Chen checking phone, Anderson organizing materials
-    
-#     # IMAGE: Finola Ryan arriving last, 7:15 AM
-#     # Red bob haircut, freckles visible
-#     # Rushing in slightly flustered
-#     # Immediately going for coffee
-    
-#     ryan "Sorry — I overslept, I never oversleep — is there any left?"
-    
-#     chen "Plenty left."
-    
-#     # IMAGE: Ryan pouring herself a cup
-#     # Adding sugar, stirring
-#     # All five teachers now present, all consuming the dosed coffee
-#     # Headmaster's papers in front of him, pen moving but eyes tracking peripherally
-    
-#     headmaster_thought "All five. Every one of them drinking it."
-    
-#     # IMAGE: Faculty lounge in normal morning rhythm
-#     # Coffee scent dominant but with that subtle sweet undertone
-#     # Teachers talking about upcoming day, classes, students
-#     # Headmaster appearing absorbed in his work
-    
-#     parker "Did anyone prep for the staff meeting Friday?"
-    
-#     chen "Not yet. What's on the agenda?"
-    
-#     anderson "Budget review, I think. And student discipline updates."
-    
-#     # IMAGE: Teachers refilling cups
-#     # Parker getting second serving
-#     # Chen topping off his mug
-#     # The urn slowly emptying as morning progresses
-    
-#     headmaster_thought "They're drinking it naturally. No suspicion, no hesitation."
-    
-#     # IMAGE: Time showing 7:35 AM
-#     # Teachers starting to show subtle changes
-#     # Anderson standing, stretching
-#     # Arms overhead, back arching
-#     # Her blouse riding up, exposing bare midriff
-    
-#     anderson "God, I'm so stiff — I think I graded myself into knots last night."
-
-#     # IMAGE: Parker with red tracksuit jacket completely removed
-#     # Draped over back of chair
-#     # Sitting in just the yellow athletic swimsuit top and red tracksuit pants
-#     # Form-fitting sleeveless top, bare shoulders and arms
-#     # Blonde hair catching morning light
-#     # Completely comfortable in minimal upper body coverage
-#     # Legs crossed casually, relaxed posture
-    
-#     parker "This coffee's doing something — I feel loose. Good-loose."
-    
-#     chen "...Hm. Same, oddly."
-    
-#     # IMAGE: Chen and Ryan sitting close at same table
-#     # Shoulders touching, comfortable proximity
-#     # Chen's hand resting near Ryan's on the table
-#     # Neither pulling away, natural intimacy
-#     # Headmaster observing the casual physical closeness
-    
-#     ryan "Did you finish grading those essays?"
-    
-#     chen "Most of them. Want to compare notes during lunch?"
-    
-#     ryan "Sure, sounds good."
-    
-#     # IMAGE: Garcia adjusting her shirt
-#     # Fabric clinging, outline visible
-#     # Extensive tattoos on both arms fully visible
-#     # She doesn't seem to notice or care about the exposure
-#     # Everyone relaxed, guards slightly lowered
-    
-#     garcia "Is it warm in here or just me?"
-    
-#     anderson "Little warm, yeah."
-
-#     # IMAGE: Finola setting her cup down abruptly
-#     # Expression shifted — not just warm, something more urgent
-#     # Hand pressed briefly to sternum, like checking her own heartbeat
-    
-#     ryan "Excuse me a second."
-    
-#     # IMAGE: Finola moving toward door
-#     # Faster than casual, not quite a rush but close
-#     # Other teachers barely register it, absorbed in conversation
-    
-#     headmaster_thought "That was off. Wrong tone entirely."
-#     headmaster_thought "Too quick. Too sharp. If she's having an adverse reaction—"
-    
-#     # IMAGE: Headmaster setting down his papers
-#     # Standing, moving toward door
-#     # Keeping it casual, just stretching his legs apparently
-    
-#     # IMAGE: Hallway outside faculty lounge
-#     # Empty, morning quiet
-#     # Staff changing room door at the far end, sitting ajar
-    
-#     headmaster_thought "She wouldn't go to the bathroom. The changing room has lockers."
-    
-#     # IMAGE: Headmaster approaching the changing room door
-#     # Crack of light visible through the gap
-#     # Sound of movement inside — fabric, a soft exhale
-    
-#     headmaster "Ms. Ryan? Are you—"
-    
-#     # IMAGE: His hand pushing the door slightly open
-#     # View through the gap: Finola at her locker
-#     # Shirt already off, bare back to him
-#     # Hands reaching behind her — bra clasp
-    
-#     headmaster_thought "Oh—"
-    
-#     # IMAGE: Finola turning at the sound of his voice
-#     # Topless, one arm crossing her chest instinctively
-#     # But the reaction is slow — a full beat late, like she had to remind herself to cover
-#     # Her face: flushed, disoriented, not the sharp horror it should be
-    
-#     headmaster "I'm so sorry—I thought—I'll go—"
-    
-#     finola "I just—it was too tight. The shirt."
-#     finola "I don't know why I—sorry, give me a minute."
-    
-#     # IMAGE: Headmaster pulling door shut
-#     # Standing in hallway, processing
-#     # The changing room quiet behind him
-    
-#     headmaster_thought "She stripped her top because the fabric felt restrictive. Same behavioral signature as Sakura in the courtyard."
-#     headmaster_thought "But Sakura snapped back within minutes. Finola walked here deliberately. Found her locker. That's... more organized. More sustained."
-#     headmaster_thought "And when I walked in—one second before she covered herself. One full second."
-#     headmaster_thought "Normal Finola would've had something heavy airborne by now."
-#     headmaster_thought "The formula is working. Faster than I expected."
-    
-#     # IMAGE: Finola emerging from changing room
-#     # Different top now — athletic, fitted, more revealing than her usual work attire
-#     # Expression back to professional, slightly embarrassed
-#     # Not meeting his eyes
-    
-#     finola "Sorry about that. Don't know what came over me."
-    
-#     headmaster "No harm done. Feeling better?"
-    
-#     finola "Yeah. Much."
-    
-#     # IMAGE: Finola heading back toward the faculty lounge
-#     # Headmaster watching her go
-#     # The fitted top sitting very differently than her usual layers
-#     # His expression: analytical satisfaction
-    
-#     headmaster_thought "Much better."
-
-#     # Image: Headmaster walks back to the office
-
-#     # IMAGE: Anderson checking time
-#     # First period approaching
-#     # Teachers beginning to gather their things
-    
-#     anderson "I should get to my classroom. First period starts in twenty."
-    
-#     garcia "Same. Thanks for the coffee."
-    
-#     # IMAGE: Teachers filing out one by one
-#     # Each carrying their mug
-#     # Some still half-full, taking it with them
-#     # Headmaster remaining, watching them leave
-    
-#     parker "See you at lunch."
-    
-#     chen "Have a good morning."
-    
-#     # IMAGE: Headmaster alone in faculty lounge
-#     # Nearly empty coffee urn
-#     # His papers still spread but untouched
-#     # Releasing held tension
-    
-#     headmaster_thought "Done. They all drank it. Every single one."
-    
-#     # IMAGE: Headmaster standing, moving to coffee urn
-#     # Checking how much remains
-#     # Maybe two cups worth left
-#     # Pouring it out into sink
-    
-#     headmaster "Can't leave evidence."
-    
-#     # IMAGE: Headmaster rinsing urn
-#     # Cleaning up
-#     # Everything returning to normal state
-#     # No trace of what happened
-    
-#     headmaster_thought "Now I wait. See if the effects manifest over the coming days."
-#     headmaster_thought "Small doses. Consistent application. Cultural shift from the top."
-    
-#     # IMAGE: Headmaster gathering his papers
-#     # Pocketing the small bottle
-#     # Faculty lounge empty and clean
-#     # Morning light fully illuminating the space now
-    
-#     headmaster_thought "The teachers are dosed. Next, the PTA mothers."
-    
-#     $ set_progress("lab_intro_faculty", 1)
-    
-#     $ end_event("new_daytime", **kwargs)
-
-# # PTA Refreshments - Friday morning after Morning Brew
-# label lab_intro_15 (**kwargs):
-#     $ begin_event(**kwargs)
-    
-#     $ adelaide = get_person_char_with_key("parents", "adelaide_hall")
-#     $ nubia = get_person_char_with_key("parents", "nubia_davis")
-#     $ yuki = get_person_char_with_key("parents", "yuki_yamamoto")
-#     $ yuriko = get_person_char_with_key("class_3a", "yuriko_oshima")
-    
-#     $ parker = get_person_char_with_key("staff", "zoe_parker")
-#     $ chen = get_person_char_with_key("staff", "yulan_chen")
-#     $ anderson = get_person_char_with_key("staff", "lily_anderson")
-#     $ garcia = get_person_char_with_key("staff", "chloe_garcia")
-#     $ ryan = get_person_char_with_key("staff", "finola_ryan")
-    
-#     # IMAGE: Conference room, afternoon
-#     # Large table with chairs arranged around it
-#     # Headmaster setting up at head of table
-#     # Pitcher of lemonade, plate of cookies on side table
-#     # Afternoon sunlight through windows
-    
-#     headmaster_thought "PTA meeting in twenty minutes. The mothers usually arrive early."
-    
-#     # IMAGE: Headmaster at side table
-#     # Small dark bottle in hand, hidden from view
-#     # Pouring enhanced potion into lemonade pitcher
-#     # Stirring carefully with long spoon
-#     # Scent of lemon with subtle sweet undertone
-    
-#     headmaster_thought "Same ratio as the faculty coffee. Three mothers, five teachers, one student rep."
-#     headmaster_thought "But the student won't drink. She never does at these meetings."
-    
-#     # IMAGE: Close-up of lemonade pitcher
-#     # Clear yellow liquid, ice cubes floating
-#     # No visible trace of the enhancement
-#     # Condensation forming on glass surface
-    
-#     headmaster "Perfect."
-    
-#     # IMAGE: Headmaster arranging cups beside pitcher
-#     # Setting out napkins, cookies on plate
-#     # Everything looking professional, welcoming
-#     # Pocketing the small bottle
-    
-#     # IMAGE: Door opening, three women entering
-#     # Adelaide Hall leading - black hair, maroon form-fitting dress
-#     # Nubia Davis behind her - white/silver hair, red cropped top and jeans
-#     # Yuki Yamamoto following - black hair, black crop top and pants
-#     # All carrying bags, talking amongst themselves
-    
-#     adelaide "Oh, we're early. Good."
-    
-#     headmaster "Mrs. Hall, Mrs. Davis, Mrs. Yamamoto. Right on time, actually."
-    
-#     # IMAGE: Three mothers settling around table
-#     # Adelaide choosing seat near head of table
-#     # Nubia and Yuki sitting together on opposite side
-#     # Setting bags down, getting comfortable
-    
-#     nubia "Teachers not here yet? Figures."
-    
-#     headmaster "They'll arrive at four. I appreciate you three coming early."
-#     headmaster "I have some refreshments if you'd like. Lemonade and cookies."
-    
-#     # IMAGE: Headmaster gesturing to side table
-#     # Pitcher glistening with condensation
-#     # Mothers looking interested
-#     # Yuki standing immediately
-    
-#     yuki "That sounds perfect. It's warm today."
-    
-#     adelaide "I'll take some. Thank you."
-    
-#     # IMAGE: Headmaster pouring lemonade into cups
-#     # Handing first to Adelaide
-#     # Then Nubia, then Yuki
-#     # Each taking their cup with thanks
-    
-#     headmaster "Help yourselves to cookies as well."
-    
-#     # IMAGE: Three mothers with lemonade
-#     # Adelaide taking first sip, nodding approval
-#     # Nubia drinking deeper, appreciative
-#     # Yuki holding hers, ice clinking softly
-    
-#     adelaide "This is good. Tart but not too sweet."
-    
-#     nubia "Not bad. Beats the sludge from last time."
-    
-#     # IMAGE: Mothers settling back into seats
-#     # Adelaide crossing legs, leaning back slightly
-#     # Nubia and Yuki talking quietly, sipping their drinks
-#     # Headmaster taking seat at head of table with his own cup (from personal bottle)
-    
-#     headmaster "How have your daughters been doing this semester?"
-    
-#     # IMAGE: Adelaide setting her cup down
-#     # Considering the question
-#     # Nubia refilling her cup already, drinking more
-    
-#     adelaide "Mine's doing well. Busy, but her grades are solid."
-    
-#     yuki "Soyoon's been happy. More social than usual."
-    
-#     nubia "Mine too. Less mopey, more herself. I'll take it."
-    
-#     # IMAGE: Time showing 3:55 PM
-#     # Mothers finishing their first cups
-#     # Yuki getting up to refill
-#     # Adelaide leaning forward, elbows on table, more relaxed posture
-    
-#     yuki "Anyone else want more?"
-    
-#     adelaide "Sure, I'll take another."
-    
-#     # IMAGE: Yuki refilling Adelaide's cup, then her own
-#     # Nubia already on her second cup
-#     # All three drinking the enhanced lemonade
-#     # Conversation flowing easily
-    
-#     # IMAGE: Door opening, teachers arriving
-#     # Parker, Chen, Anderson, Garcia, Ryan entering together
-#     # Followed by Yuriko Oshima - dark wavy hair, white semi-transparent blouse showing red bra underneath, plaid skirt, red scarf
-#     # Teachers greeting the mothers, taking seats
-    
-#     parker "Sorry if we're late."
-    
-#     headmaster "Right on time. We're just getting started."
-    
-#     # IMAGE: Teachers settling around table
-#     # Yuriko taking seat across from the mothers
-#     # Looking professional despite her revealing blouse
-#     # Teachers noticing the refreshments
-    
-#     chen "Is there lemonade?"
-    
-#     headmaster "Help yourselves."
-    
-#     # IMAGE: Teachers getting drinks
-#     # Parker and Chen pouring cups (undosed - this is fresh from fridge)
-#     # Anderson and Garcia taking cookies
-#     # Yuriko declining with small head shake
-    
-#     yuriko "I'm fine, thank you."
-    
-#     # IMAGE: Full table now
-#     # Headmaster at head
-#     # Three mothers on one side (Adelaide, Nubia, Yuki) - noticeably more relaxed
-#     # Five teachers scattered around (Parker, Chen, Anderson, Garcia, Ryan)
-#     # Yuriko across from mothers, student rep position
-#     # Official meeting beginning
-    
-#     headmaster "Thank you all for coming. We have several items to discuss today."
-#     headmaster "First, the budget review for next semester."
-    
-#     # IMAGE: Headmaster going through budget documents
-#     # Normal discussion, everyone engaged
-#     # Mothers occasionally sipping their lemonade
-#     # Time passing, effects building
-    
-#     # IMAGE: Twenty minutes into meeting
-#     # Adelaide with arm draped over back of her chair
-#     # Maroon dress fabric clinging, showing her curves
-#     # She's smiling more, contributing but not nitpicking
-    
-#     headmaster "The proposed allocation increases facility maintenance by eight percent."
-    
-#     adelaide "That seems reasonable. The building does need upkeep."
-    
-#     # IMAGE: Headmaster continuing through agenda
-#     # Mothers listening, relaxed posture
-#     # Nubia's bare midriff visible as she leans back
-#     # Yuki's legs stretched out under table
-    
-#     headmaster "Next item—the spring fundraiser. The proposal is for a parent-student social event."
-    
-#     # IMAGE: Nubia leaning forward
-#     # Red crop top, midriff bare, completely comfortable
-#     # Nodding along
-    
-#     nubia "Kids'd love that. Do it."
-    
-#     yuki "Agreed. When's it scheduled?"
-    
-#     headmaster "Third Saturday in May. Does that work for everyone?"
-    
-#     # IMAGE: Adelaide nodding casually
-#     # Normally she'd be asking about budgets, supervision, liability
-#     # Today just... agreeing
-    
-#     adelaide "Fine with me."
-    
-#     # IMAGE: Teachers watching mothers
-#     # Parker and Chen exchanged glances
-#     # Noticing how smoothly this is going
-    
-#     anderson "The teachers can help organize. We're happy to support it."
-    
-#     ryan "Absolutely."
-    
-#     # IMAGE: Yuriko watching the adults from across table
-#     # Slightly surprised by how easily everyone's agreeing
-#     # Taking notes dutifully as student rep
-    
-#     yuriko_thought "*Usually Mrs. Hall has a list of questions. Today everyone's just... nodding.*"
-    
-#     # IMAGE: Headmaster moving through agenda
-#     # Cafeteria menu updates, parent-teacher conference scheduling
-#     # Everything passing with unanimous approval
-#     # No debate, no questioning
-    
-#     headmaster "The cafeteria wants to add a salad bar option. Slight cost increase."
-    
-#     yuki "Healthier options? Sounds good."
-    
-#     adelaide "I support that."
-    
-#     nubia "Yeah, fine. Next."
-    
-#     # IMAGE: Meeting continuing smoothly
-#     # Parent-teacher conference dates set
-#     # Field trip permissions discussed
-#     # Every item passing without debate
-    
-#     headmaster "That brings us to the final item—uniform policy clarification for warm weather."
-    
-#     adelaide "Oh, I think the current policy is fine. Students need flexibility."
-    
-#     # IMAGE: Meeting wrapping up
-#     # Final agenda items covered
-#     # Mothers getting more comfortable as time passes
-#     # Adelaide with arms spread on chair backs, open posture
-    
-#     headmaster "Unless there's anything else to discuss, I think we're done."
-    
-#     adelaide "No, I think that covered everything. Very efficient."
-    
-#     # IMAGE: Everyone standing, gathering materials
-#     # Mothers chatting with teachers casually
-#     # More physical proximity than usual
-    
-#     adelaide "That was refreshing. Usually these run so long."
-    
-#     parker "Quick and productive. I appreciate that."
-#     # IMAGE: Adelaide moving toward Chloe Garcia
-#     # The usual social distance of a PTA meeting — nonexistent
-#     # She's close, too close, looking at Garcia's forearm
-    
-#     adelaide "Are these new? I never noticed how detailed they are."
-    
-#     # IMAGE: Adelaide's fingers reaching out
-#     # Touching Garcia's tattoo sleeve without asking
-#     # Tracing the line of a floral design up toward the elbow
-#     # Garcia going still — not uncomfortable, just surprised
-    
-#     garcia "Had most of them since before I started here."
-    
-#     adelaide "They're beautiful. This one especially."
-    
-#     # IMAGE: Adelaide's thumb pressing slightly into the ink
-#     # The touch too slow, too interested for a school hallway conversation
-#     # Garcia looking at Adelaide's face, recalibrating something
-    
-#     garcia_thought "*She's never once looked at my arms before. Three years and she always looked just past them.*"
-    
-#     # IMAGE: Yuriko nearby, notebook in hand
-#     # Watching Adelaide and Garcia
-#     # Trying to identify what feels wrong about the image
-#     # Can't place it, notes it anyway
-    
-#     yuriko_thought "*Mrs. Hall is touching Ms. Garcia's arm. That's... fine. People do that.*"
-#     yuriko_thought "*Why does it feel like I'm watching something I shouldn't be?*"
-    
-#     # IMAGE: Headmaster observing from across the room
-#     # Cup in hand, expression neutral
-#     # Eyes tracking Adelaide's fingers on Garcia's tattoo
-    
-#     headmaster_thought "Adelaide Hall. The first one to drain her cup, the first one to refill."
-#     headmaster_thought "She arrived wound tight as a mainspring and now she's touching the art teacher's arm like they're old friends."
-#     headmaster_thought "The dosing is holding. More than holding."
-
-#     headmaster "Okay, that's enough for today. I wish you all a nice weekend."
-
-#     $ set_progress("lab_intro_parents", 1)
-    
-#     $ end_event("new_daytime", **kwargs)
-# # The Discovery unlocks after Chemical Mishap
-# label lab_intro_16 (**kwargs):
-#     $ begin_event(**kwargs)
-
-#     $ gloria = get_person_char_with_key("class_3a", "gloria_goto")
-#     $ ishimaru = get_person_char_with_key("class_3a", "ishimaru_maki")
-#     $ lin = get_person_char_with_key("class_3a", "lin_kato")
-
-#     # IMAGE: Exterior of abandoned lab building, overgrown, late afternoon light
-#     # Three students approaching through the rusted gate
-#     # Ishimaru leading, Lin slightly behind, Gloria observing everything
-
-#     subtitles "Meanwhile at the old abandoned lab building."
-
-#     ishimaru "I can't believe they just left this place. Look at the size of it!"
-
-#     gloria "The equipment alone is worth thousands. Even secondhand."
-
-#     lin "We're going to get in trouble."
-
-#     ishimaru "We're already inside."
-
-#     lin "...Fair."
-
-#     # IMAGE: Interior hallway, dusty and dim
-#     # Broken windows letting in shafts of light, cobwebs in corners
-#     # Students walking single file through debris, Ishimaru first
-
-#     # The interior smells like old paper and something chemical underneath — 
-#     # faint, decades-stale, but still there. Footsteps echo on cracked linoleum.
-#     # Old posters curl from the walls, their text faded to ghostly impressions.
-
-#     ishimaru "Okay this is actually kind of creepy."
-
-#     gloria "Chemistry building. Pre-new-science-wing. Probably shut down mid-nineties."
-
-#     lin "Please don't touch anything."
-
-#     gloria "I'm not touching anything."
-
-#     lin "You're touching that beaker."
-
-#     gloria "I'm evaluating the beaker."
-
-#     # IMAGE: Old classroom/lab space
-#     # Dusty beakers and test tubes on shelves, ancient periodic table on wall
-#     # Ishimaru holding a flask up to the light, Gloria examining labels, Lin hanging back
-
-#     # They spread out without deciding to. Glassware sits abandoned on every surface,
-#     # a thin film of dust coating everything like ash.
-
-#     ishimaru "Think any of this still works? These look ancient."
-
-#     gloria "Glassware, probably. Chemicals, no. Anything mechanical, unlikely."
-
-#     lin "You sound like you're already planning to use it."
-
-#     gloria "I'm not planning anything yet."
-
-#     # IMAGE: Lin drifting toward the back of the room
-#     # Metal bookshelf leaning against the far wall, half in shadow
-#     # Something catching her eye — a flash of color in the gap between shelf and brick
-
-#     lin "Wait."
-
-#     ishimaru "What?"
-
-#     lin "There's something jammed back here."
-
-#     # IMAGE: Close-up of Lin's hands pulling out a leather-bound notebook
-#     # Worn cover, no title, pages clearly handwritten
-#     # Surprisingly clean compared to everything else in the room
-
-#     # The notebook comes free with a soft scrape.
-#     # Lin holds it at arm's length for a second, like it might do something.
-
-#     gloria "Let me see."
-
-#     ishimaru "What is it?!"
-
-#     lin "A notebook. Hidden behind the shelf."
-
-#     # IMAGE: Three students gathered around the open notebook
-#     # Lin holding it, Ishimaru leaning over one shoulder, Gloria over the other
-#     # Pages covered in tight, precise handwriting — formulas, diagrams, margin notes
-
-#     # Chemical formulas sprawl across diagrams in dark ink.
-#     # Notes crowd the margins in a different hand: 'behavioral compounds,'
-#     # 'dose-response curves,' 'inhibition reduction.'
-
-#     ishimaru "Whoa. Is this someone's actual research?"
-
-#     gloria "Not student work. Look at the notation. Whoever wrote this knew exactly what they were doing."
-
-#     lin "What's all this other stuff though. 'Subject responses.' 'Catalytic amplification.' That's not a chemistry class."
-
-#     # IMAGE: Close-up of specific notebook page
-#     # Formula visible, margin note: "requires catalyst for permanence"
-#     # Another note: "psychological effects observed within 15 minutes"
-
-#     lin "'Experimental compound — psychological effects observed within fifteen minutes.'"
-
-#     ishimaru "Psychological effects?! Like what?!"
-
-#     gloria "It doesn't say. That's intentional — someone ran tests, documented outcomes, kept the methodology separate from the results. That's a research protocol. A real one."
-
-#     ishimaru "That is genuinely insane."
-
-#     lin "Okay can we please not be figuring out that someone was secretly dosing people in our school building."
-
-#     ishimaru "We are literally figuring out that someone was secretly dosing people in our school building."
-
-#     lin "I know. That's why I said please."
-
-#     # IMAGE: Students' faces — Ishimaru excited, Lin unsettled, Gloria thinking
-
-#     gloria "It's from before they shut this building down. Some old teacher, most likely."
-
-#     ishimaru "But why hide it?"
-
-#     gloria "That's the interesting question."
-
-#     lin "Because they did something they weren't supposed to and needed to make it disappear?"
-
-#     gloria "Better answer than I expected."
-
-#     lin "Thanks. I think."
-
-#     # A beat. All three looking at the notebook, then at each other.
-
-#     gloria "We need to actually understand what this is. Not guess — understand."
-
-#     lin "How? This is way over our heads."
-
-#     gloria "Bring textbooks tomorrow. Cross-reference the formulas. Work through it properly."
-
-#     ishimaru "Yes. Same time, and we don't tell anyone—"
-
-#     lin "We're not telling anyone about this."
-
-#     ishimaru "Obviously."
-
-#     lin "I just needed to say it out loud."
-
-#     # IMAGE: Students leaving the building
-#     # Notebook tucked under Lin's arm, held close
-#     # Afternoon sun lower now, long shadows across the overgrown path
-#     # Ishimaru practically bouncing, Gloria already composing something in her head
-#     # Lin telling herself she just wants to understand it. That's all.
-
-#     # They leave the way they came.
-#     # The abandoned building settles back into silence behind them,
-#     # dust already covering their footprints.
-
-#     $ set_progress("lab_intro_discovery", 1)
-
-#     $ end_event("new_daytime", **kwargs)
-
-
-# # Secretary's Spin unlocks after The Discovery
-# label lab_intro_17 (**kwargs):
-#     $ begin_event(**kwargs)
-
-#     $ gloria = get_person_char_with_key("class_3a", "gloria_goto")
-#     $ ishimaru = get_person_char_with_key("class_3a", "ishimaru_maki")
-#     $ lin = get_person_char_with_key("class_3a", "lin_kato")
-
-#     # IMAGE: Interior of abandoned lab, same room as previous event
-#     # Afternoon light through dusty windows
-#     # All three gathered around the old lab table, notebook open between them
-#     # Lin has a chemistry textbook open beside it, cross-referencing
-
-#     gloria "'Dosage control' maps to compound quantity per subject. 'Subject compliance' is the one that doesn't fit medical usage."
-
-#     ishimaru "What do you mean?"
-
-#     gloria "In a research context, compliance implies the subjects weren't necessarily informed participants."
-
-#     lin "Can we please not figure out that someone was running non-consensual experiments in our school."
-
-#     ishimaru "We might literally be figuring out—"
-
-#     lin "I know! I said please!"
-
-#     gloria "We don't have enough data to conclude that yet."
-
-#     lin "The phrase 'subject compliance' is doing a lot of work in that sentence, Gloria."
-
-#     gloria "...Fair."
-
-#     # IMAGE: Doorway of the lab room
-#     # Secretary's silhouette in the frame, backlit by hallway light
-#     # Students haven't noticed her yet, still bent over the notebook
-
-#     secretary_thought "*Perfect. That removes some work from me.*"
-
-#     # IMAGE: Secretary stepping into the room
-#     # Hand to chest, exaggerated surprise, warm smile
-#     # Students looking up startled — Lin reflexively sliding the notebook 
-#     # closer to herself
-
-#     secretary "Oh my! I didn't expect to find anyone here."
-
-#     ishimaru "Ms. [secretary_last_name]! We were just—"
-
-#     lin "We weren't doing anything bad—"
-
-#     gloria "We found a research notebook hidden in the lab and we've been cross-referencing the methodology against our chemistry textbooks."
-
-#     lin "...Or that. She said that."
-
-#     secretary "Relax, I'm not going to report you for curiosity."
-
-#     # IMAGE: Secretary moving closer, genuine-looking interest on her face
-#     # Lin still protective of the notebook, hand resting on the cover
-
-#     secretary "What did you find?"
-
-#     ishimaru "A notebook. Hidden behind that shelf at the back."
-
-#     lin "We think it might be from the old chemistry teacher. Before they shut this place down."
-
-#     secretary "How intriguing! May I see?"
-
-#     # IMAGE: Students exchanging glances
-#     # Lin hesitating, then slowly sliding the notebook toward secretary
-#     # Secretary reaching for it with careful, respectful hands
-
-#     lin "Sure. We can't quite figure out what it's actually about."
-
-#     # IMAGE: Secretary holding the notebook, reading
-#     # Students watching her face for reaction
-#     # Her expression shifting from curious to delighted — calculated performance
-
-#     secretary_thought "*Behavioral compounds. Inhibition reduction. This is more detailed than I expected.*"
-#     secretary_thought "*His work. How on earth did they find it.*"
-#     secretary_thought "*I can use this.*"
-
-#     # IMAGE: Secretary's face — warm, slightly mischievous smile
-
-#     secretary "Oh, how sweet!"
-
-#     ishimaru "What? What is it?"
-
-#     secretary "This looks like a love potion recipe."
-
-#     # IMAGE: Students' reactions
-#     # Ishimaru's eyebrows shooting up, Lin looking skeptical
-#     # Gloria tilting her head slightly, recalibrating
-
-#     ishimaru "Wait — seriously?!"
-
-#     lin "That's not a real thing."
-
-#     gloria "She didn't say magic."
-
-#     secretary "Exactly. Not magic — chemistry. Mood, perception, emotional receptivity. It's a chemical way of making people more... open to connection."
-
-#     secretary "'Social bonding enhancement.' 'Inhibition reduction.' Whoever wrote this was quite the romantic."
-
-#     # IMAGE: Secretary showing specific passages
-#     # Finger deliberately highlighting the softer-sounding notes
-#     # Carefully avoiding the clinical terms
-
-#     gloria "So it's pharmacology."
-
-#     secretary "In the most charming possible application, yes."
-
-#     ishimaru "Could we actually make it? Like, for real?"
-
-#     lin "We are not making it."
-
-#     ishimaru "I wasn't asking you."
-
-#     # IMAGE: Secretary considering, tapping her chin — calculated pause
-
-#     secretary "It would be quite advanced. But... educational. Chemistry in action. Practical application of theory."
-
-#     gloria "More rigorous than anything we do in actual class."
-
-#     lin "You've already decided we're doing this."
-
-#     gloria "About two minutes ago."
-
-#     lin "..."
-
-#     secretary "I could help you gather what you need. I have access to the storage rooms, and the science department has some discretionary budget. This would be your project — I'd just be a facilitator."
-
-#     ishimaru "Yes! Absolutely!"
-
-#     lin "We'll be careful."
-
-#     gloria "I'll document everything properly."
-
-#     lin "Of course you will."
-
-#     # IMAGE: Secretary gesturing around the lab
-#     # Students following her gaze, already looking at things differently
-#     # Notebook back under Lin's arm
-
-#     secretary "First — inventory what's still functional here. Glassware, heating elements, anything salvageable."
-
-#     secretary "Then I'll see what I can pull from storage to fill the gaps."
-
-#     lin "Thank you, Ms. [secretary_last_name]. This is... actually really cool of you."
-
-#     secretary "Knowledge should be explored, not locked away. Now — let's see what we're working with."
-
-#     # IMAGE: Secretary watching students start moving around the lab
-#     # Her expression when they're not looking: satisfied, calculating
-#     # Small smile at the corner of her mouth
-
-#     secretary_thought "*They'll do the work. The headmaster handles the adults. This school transforms exactly as planned.*"
-#     secretary_thought "*And they'll think it was their idea the whole time.*"
-
-#     $ set_progress("lab_intro_discovery", 2)
-
-#     $ end_event("new_daytime", **kwargs)
-
-
-# # Gathering Ingredients unlocks after Secretary's Spin
-# label lab_intro_18 (**kwargs):
-#     $ begin_event(**kwargs)
-
-#     $ gloria = get_person_char_with_key("class_3a", "gloria_goto")
-#     $ ishimaru = get_person_char_with_key("class_3a", "ishimaru_maki")
-#     $ lin = get_person_char_with_key("class_3a", "lin_kato")
-
-#     # IMAGE: Abandoned lab interior, late afternoon light
-#     # All three searching through cabinets and shelves
-#     # Ishimaru on a chair reaching the high cabinets
-#     # Lin examining glassware on the counter, checking each piece carefully
-#     # Gloria working through a lower shelf methodically, already keeping a list
-
-#     ishimaru "Found a whole set of beakers up here! Different sizes!"
-
-#     gloria "Check the rims for chips before you add them to the pile. A cracked beaker can shatter under sustained heat."
-
-#     ishimaru "They look fine."
-
-#     gloria "Check properly."
-
-#     ishimaru "...They look fine upon closer inspection."
-
-#     # IMAGE: Lin holding a graduated cylinder up to the light
-#     # Turning it slowly, checking for damage
-#     # Sunlight catching the measurement markings clearly
-
-#     lin "This cylinder's perfect. No cracks, measurements still readable."
-
-#     gloria "That's our most important piece for accurate dosing."
-
-#     lin "I still can't believe I just said 'accurate dosing' like it's something I say."
-
-#     # IMAGE: Counter filling up with salvaged equipment
-#     # Beakers, test tubes, flasks, stirring rods arranged in a growing pile
-#     # Notebook open beside them for reference
-
-#     gloria "Glassware is covered. We're missing a heat source and the actual compounds."
-
-#     ishimaru "Yeah, there's no way any chemicals are still here. They would've cleared those out decades ago."
-
-#     # IMAGE: Gloria pulling open a deep drawer
-#     # Wrinkling her nose at the smell
-#     # Reaching in carefully, testing what she finds
-
-#     gloria "This drawer smells like something died in it in 1994."
-
-#     gloria "But there's rubber tubing in here that might still flex. And glass stirring rods."
-
-#     ishimaru "Glass doesn't expire, right?"
-
-#     gloria "Correct. Adding them to the list."
-
-#     lin "You have a list?"
-
-#     gloria "I've had a list since yesterday."
-
-#     lin "Of course you have."
-
-#     # IMAGE: All three gathered around the counter
-#     # Comparing their finds against the notebook
-#     # Lin's finger tracing the equipment column
-
-#     lin "So we have almost everything for glassware. Still missing a heat source and the actual ingredients."
-
-#     ishimaru "Without those we can't do anything."
-
-#     lin "Maybe Ms. [secretary_last_name] would know if the school has—"
-
-#     # IMAGE: Doorway
-#     # Secretary's silhouette appearing, carrying a cardboard box
-#     # Afternoon light behind her — almost a halo effect
-#     # Students turning, surprised
-
-#     secretary "Ask me what?"
-
-#     # IMAGE: Secretary setting the box down on the counter with a soft thunk
-#     # Students moving toward it immediately
-
-#     ishimaru "We found almost all the glassware but we're still missing—"
-
-#     secretary "A heat source and the compounds. I figured as much."
-
-#     # IMAGE: Secretary opening the box
-#     # Contents visible: portable heating plate, new rubber tubing, clamps,
-#     # safety goggles, multiple small bottles of chemicals — some still sealed
-
-#     secretary "Portable heating plate from the old physics department. And the chemistry stockroom still had basic compounds that should cover most of your list."
-
-#     ishimaru "Are you serious right now?!"
-
-#     lin "This is professional grade. How did you even—"
-
-#     secretary "I've been here a long time. You learn where everything's buried."
-
-#     # IMAGE: Gloria and Lin going through the chemical bottles
-#     # Reading labels carefully, comparing to the notebook
-#     # Ishimaru already inspecting the heating plate, turning it over
-
-#     lin "Distilled water, ethanol, potassium hydroxide... this is almost everything."
-
-#     secretary "Almost. You'll need a few organic compounds I couldn't source — nothing dangerous, just specialized. Available online, any chemistry supply shop."
-
-#     gloria "We can split the cost."
-
-#     # IMAGE: Secretary pulling safety goggles and gloves from the bottom of the box
-#     # Handing them out, expression shifting to something more serious
-
-#     secretary "Chemical work requires proper equipment. Promise me you use these every time."
-
-#     lin "We promise."
-
-#     luna_thought "*She's handing us safety gear for a project she could have shut down in thirty seconds. She actually wants this to work.*"
-
-#     # IMAGE: All four looking at the assembled counter
-#     # Full lab setup — salvaged glassware, new equipment, chemicals, notebook
-#     # Secretary slightly apart, students grouped together
-
-#     ishimaru "We could actually start brewing soon. Like, really soon."
-
-#     secretary "Once the last compounds arrive, yes. Follow the instructions precisely and you'll be fine."
-
-#     lin "We'll be careful."
-
-#     secretary "I know you will. Let me know when you're ready to brew — I'd like to be there for the first attempt."
-
-#     ishimaru "Definitely. Thank you so much, Ms. [secretary_last_name]."
-
-#     secretary "This is what education should be. Hands-on. Real. Goodnight."
-
-#     # IMAGE: Secretary at the door, looking back briefly
-#     # Satisfied, calculating expression once they're not watching
-#     # Then she's gone
-
-#     secretary_thought "*The formula is in their hands. The catalyst comes next.*"
-#     secretary_thought "*And they'll think they built all of this themselves.*"
-
-#     # IMAGE: Three students alone with the counter full of equipment
-#     # Late afternoon light going golden through the dirty windows
-#     # The notebook open in the center of it all
-
-#     ishimaru "I can't believe she just gave us all of this."
-
-#     lin "And she wants to be there when we actually brew it."
-
-#     ishimaru "She believes in us."
-
-#     gloria "She believes in the project."
-
-#     lin "That is the most Gloria thing you have ever said."
-
-#     gloria "Thank you."
-
-#     lin "It wasn't a compliment."
-
-#     gloria "I know. I took it as one anyway."
-
-#     # IMAGE: Gloria closing the notebook carefully
-#     # All three looking at each other, then at the equipment
-
-#     ishimaru "I'll handle the online order tonight. Split it three ways?"
-
-#     lin "Deal."
-
-#     gloria "I'll have the methodology written up before the ingredients arrive. So we're not improvising when it actually matters."
-
-#     ishimaru "This weekend is going to be incredible."
-
-#     lin "We're brewing a love potion in an abandoned building with a school secretary as our supervisor."
-
-#     lin "This is either the coolest thing I've ever done or we're getting expelled."
-
-#     gloria "Statistically, both can be true."
-
-#     $ set_progress("lab_intro_discovery", 3)
-
-#     $ end_event("new_daytime", **kwargs)
-
-# # Brewing Session unlocks after Gathering Ingredients between Monday and Wednesday
-# label lab_intro_19 (**kwargs):
-#     $ begin_event(**kwargs)
-    
-#     # Get the same 3 students
-#     $ student_1_name = get_values('student_1', 'random_student_1', **kwargs)
-#     $ student_2_name = get_values('student_2', 'random_student_2', **kwargs)
-#     $ student_3_name = get_values('student_3', 'random_student_3', **kwargs)
-    
-#     $ student_1 = Person[student_1_name].get_renpy_char()
-#     $ student_2 = Person[student_2_name].get_renpy_char()
-#     $ student_3 = Person[student_3_name].get_renpy_char()
-    
-#     # IMAGE: Abandoned lab, evening light through windows
-#     # Lab setup on counter: heating plate, beakers, graduated cylinders, bottles of chemicals arranged neatly
-#     # Students wearing safety goggles, standing around the setup nervously
-#     # Secretary beside them, arms crossed, observing
-#     # Notebook open on stand beside setup
-    
-#     student_2 "Okay. Everything's ready. All the ingredients are measured out."
-    
-#     student_1 "I've triple-checked the amounts against the notebook. They should be exact."
-    
-#     secretary "Good. Precision matters in chemistry. Small variations can change everything."
-    
-#     # IMAGE: Student 3 looking at heating plate controls
-#     # Finger hovering over power button uncertainly
-#     # Other two students watching, tense
-#     # Secretary's hand resting lightly on counter edge, ready
-    
-#     student_3 "So... I just turn it on to medium heat like the notes say?"
-    
-#     secretary "Start lower. Let the temperature rise gradually. Sudden heat can cause unwanted reactions."
-    
-#     student_3 "Right. Gradual. Got it."
-    
-#     # IMAGE: Student 3 adjusting heat to low
-#     # Students placing main beaker on the heating plate
-#     # Secretary watching carefully, relaxed posture but attentive eyes
-#     # First wisps of warmth beginning to rise from plate
-    
-#     student_1 "First ingredient is the distilled water base. Two hundred milliliters."
-    
-#     # IMAGE: Student 1 carefully pouring distilled water into beaker
-#     # Measured precisely in graduated cylinder first
-#     # Clear liquid flowing, catching light
-#     # Other students watching the level, secretary nodding slightly
-    
-#     secretary "Perfect. Let that warm for about two minutes before adding anything else."
-    
-#     student_2 "The notebook doesn't specify a wait time between steps."
-    
-#     secretary "It doesn't need to. Anyone with chemistry experience knows you don't shock a mixture."
-#     secretary "Think of it like cooking. You wouldn't dump cold ingredients into a hot pan all at once."
-    
-#     student_1 "That makes sense."
-    
-#     student_1_thought "*She makes everything sound so simple. Like it's just common sense.*"
-    
-#     # IMAGE: All four watching the water slowly heat
-#     # Tiny bubbles beginning to form at bottom of beaker, not boiling yet
-#     # Secretary checking her watch casually
-#     # Students fidgeting slightly with nervous energy
-    
-#     secretary "Now. Next ingredient?"
-    
-#     student_2 "Ethanol. Fifty milliliters."
-    
-#     secretary "Add it slowly. Pour down the side of the beaker, not directly into the center."
-    
-#     # IMAGE: Student 2 tilting graduated cylinder
-#     # Ethanol flowing down the inside wall of beaker
-#     # Mixing with warm water, creating slight shimmer
-#     # Secretary's slight nod of approval
-    
-#     student_2 "Like this?"
-    
-#     secretary "Exactly like that. Well done."
-    
-#     # IMAGE: Close-up of beaker contents
-#     # Clear liquid, faint alcohol smell beginning to fill the air
-#     # Students leaning in slightly, watching for changes
-#     # Heat causing gentle circulation in the liquid
-    
-#     student_3 "It's not really doing anything yet."
-    
-#     secretary "Patience. The active compounds come next. Those will trigger the visible reactions."
-    
-#     student_1 "Okay, next is... potassium hydroxide. Ten grams."
-    
-#     # IMAGE: Student 1 carefully measuring white powder on small scale
-#     # Secretary watching the scale reading over student's shoulder
-#     # Precise measurement, concentration visible on student's face
-    
-#     secretary "Careful with that one. It's caustic. Avoid skin contact."
-    
-#     student_1 "The gloves are on, I'm good."
-    
-#     # IMAGE: Student 1 adding powder to beaker
-#     # White granules hitting liquid, immediately beginning to dissolve
-#     # Liquid starting to cloud slightly
-#     # Students' faces lit by the heating plate's glow as evening deepens
-    
-#     student_3 "Oh! It's reacting!"
-    
-#     secretary "Watch the color. It should start turning cloudy, then progressively darker."
-    
-#     # IMAGE: Beaker contents shifting
-#     # Clear liquid becoming milky white, then gradually taking on brownish tint
-#     # Students leaning closer, fascinated
-#     # Secretary's expression satisfied, measuring
-    
-#     student_2 "It's going brown. That's... kind of gross looking."
-    
-#     secretary "Murky brown is expected at this stage. Keep going."
-    
-#     secretary_thought "*Following the original formula perfectly. This will give them temporary effects - enough to feel successful, but nothing permanent. Not yet.*"
-    
-#     # IMAGE: Student checking notebook
-#     # Reading next steps carefully
-#     # Finger tracing down the handwritten instructions
-#     # Other students waiting, watching the brown liquid slowly heat
-    
-#     student_1 "Next is the organic compound. The one we ordered online."
-#     student_1 "Twenty-five milliliters. The notebook calls it... I can't even pronounce this."
-    
-#     secretary "Doesn't matter what it's called. What matters is the amount and timing."
-    
-#     # IMAGE: Student 2 holding small dark bottle
-#     # Measuring out amber-colored liquid into graduated cylinder
-#     # Viscous, slightly thicker than water
-#     # Secretary watching the measurement carefully
-    
-#     secretary "Wait."
-    
-#     # IMAGE: Student 2 freezing, hand hovering over beaker
-#     # Secretary leaning in, checking the temperature
-#     # Hand held near beaker without touching, testing heat
-    
-#     secretary "The mixture needs to reach the right temperature first. Still too cool."
-    
-#     student_2 "How can you tell?"
-    
-#     secretary "Experience. Give it another minute, then increase to medium heat."
-    
-#     student_3 "The notebook doesn't mention specific temperatures."
-    
-#     secretary "The person who wrote this knew what they were doing. The steps imply the temperatures."
-#     secretary "You learn to read between the lines."
-    
-#     secretary_thought "*He certainly did know what he was doing. Though his formula is incomplete without the catalyst.*"
-    
-#     # IMAGE: Student 3 adjusting heat to medium
-#     # Liquid in beaker beginning to move more actively
-#     # Not boiling, but definite circulation
-#     # Murky brown color now fully established
-    
-#     secretary "Now. Add the organic compound."
-    
-#     # IMAGE: Student 2 pouring amber liquid into beaker
-#     # Streams of viscous fluid mixing with brown mixture
-#     # Immediate reaction - color darkening further, almost coffee-colored
-#     # Students watching intently
-    
-#     student_1 "Whoa, it's getting darker."
-    
-#     secretary "Expected. Keep watching. The transformation takes about five minutes from this point."
-    
-#     # IMAGE: All four gathered close around the beaker
-#     # Evening light nearly gone now, lab illuminated mostly by heating plate and whatever ambient light remains
-#     # Shadows on faces, focused expressions
-#     # Liquid slowly, almost imperceptibly beginning to change
-    
-#     student_3 "I don't see anything happening."
-    
-#     secretary "Look at the edges. Where it touches the glass."
-    
-#     # IMAGE: Close-up of beaker edge
-#     # Thin line of liquid at glass contact point showing slight golden tint
-#     # Different from the dark brown bulk
-#     # Students noticing it, excitement building
-    
-#     student_2 "There! It's lighter there. Is that it?"
-    
-#     secretary "That's it. The reaction is starting. Now we wait."
-    
-#     # IMAGE: Wider shot, all watching
-#     # Minutes passing, liquid gradually shifting
-#     # Brown becoming less muddy, taking on warmer tones
-#     # Students practically holding their breath
-    
-#     student_1 "It's definitely changing. The brown is getting... lighter? Warmer?"
-    
-#     secretary "Amber. It's becoming amber."
-    
-#     # IMAGE: Beaker contents transforming
-#     # Murky brown clarifying, becoming translucent
-#     # Golden-amber color spreading from edges inward
-#     # Light from heating element shining through, creating warm glow
-    
-#     student_3 "Oh my god, it's actually working!"
-    
-#     # IMAGE: Complete transformation
-#     # Liquid now clear, shimmering amber color
-#     # Almost honey-like in appearance but fluid like water
-#     # Light playing through it beautifully
-#     # Students' faces amazed, lit by the golden glow
-    
-#     student_2 "It's beautiful!"
-    
-#     student_1 "We actually did it. We actually made it!"
-    
-#     # IMAGE: Students looking at each other, then at secretary
-#     # Excited, almost bouncing with success
-#     # Secretary smiling warmly, genuine-looking pride
-    
-#     secretary "You did. Well done. Very well done."
-    
-#     student_3 "I can't believe that worked!"
-    
-#     secretary "Why not? You followed the instructions precisely. Chemistry rewards precision."
-    
-#     # IMAGE: Secretary reaching over, turning off heating plate
-#     # Beaker still glowing amber in the dimming evening
-#     # Students watching as she handles it with practiced ease
-    
-#     secretary "Let it cool for a few minutes before handling. Still quite hot."
-    
-#     student_1 "So... does this mean it actually works? Like, as a love potion?"
-    
-#     # IMAGE: Secretary looking at the students thoughtfully
-#     # Slight smile, encouraging but measured
-#     # Students waiting for her assessment
-    
-#     secretary "The chemistry worked. Whether it has the psychological effects described in the notebook..."
-#     secretary "That requires testing."
-    
-#     student_2 "Should we try it? Like, just a little bit to see?"
-    
-#     secretary "You could. Though I'd recommend a more controlled environment."
-#     secretary "Perhaps with friends, in a social setting where you can observe the effects properly."
-    
-#     # IMAGE: Students exchanging glances
-#     # Excitement building again
-#     # Secretary watching them come to the conclusion themselves
-    
-#     student_3 "We could throw a party. This weekend."
-    
-#     student_1 "Here in the lab! Bring some people, music, make it a whole thing."
-    
-#     student_2 "And everyone tries the potion. See what happens."
-    
-#     # IMAGE: Secretary nodding approvingly
-#     # Students getting more animated planning
-#     # Amber potion cooling on the counter between them
-    
-#     secretary "That sounds like an excellent idea. Controlled testing in a safe, social environment."
-#     secretary "Just keep the group small. Close friends you trust."
-    
-#     student_3 "Definitely. We don't want this getting out to everyone."
-    
-#     secretary "Wise. And I should probably be nearby during your... experiment. Just in case."
-    
-#     student_1 "Would you? That would be amazing."
-    
-#     # IMAGE: Secretary moving to cabinet, retrieving a clean bottle
-#     # Returning to counter, students watching
-#     # Preparing to transfer the cooled potion
-    
-#     secretary "Let's get this bottled properly. Glass container, sealed tight."
-#     secretary "Store it somewhere cool and dark until your party."
-    
-#     # IMAGE: Secretary carefully pouring amber liquid from beaker into bottle
-#     # Smooth, controlled pour
-#     # Students watching the precious liquid transfer
-#     # Glowing amber filling the bottle
-    
-#     student_2 "How long will it keep?"
-    
-#     secretary "The compounds should remain stable for several weeks. This weekend will be fine."
-    
-#     # IMAGE: Secretary sealing the bottle with stopper
-#     # Holding it up to remaining light
-#     # Amber liquid beautiful in the glass
-#     # Students admiring their creation
-    
-#     secretary "There. Your first successful synthesis."
-    
-#     student_3 "This is so cool."
-    
-#     # IMAGE: Secretary handing bottle to Student 1
-#     # The transfer careful, ceremonial almost
-#     # Student 1 taking it with both hands, reverent
-    
-#     secretary "Keep it safe. And let me know when you're planning your party."
-#     secretary "I'll make sure I'm available."
-    
-#     student_1 "We will. Thank you so much for all your help, Ms. [secretary_last_name]."
-    
-#     secretary "My pleasure. Watching you three work it out yourselves — that's the part I like."
-    
-#     secretary_thought "*And once they enhance this formula with the catalyst, they'll dose themselves and their friends with the perfected version. No coercion needed. They'll do it willingly.*"
-    
-#     # IMAGE: Secretary at door, preparing to leave
-#     # Students gathered around their bottled potion
-#     # Evening darkness outside windows
-#     # Sense of accomplishment filling the space
-    
-#     secretary "Congratulations. You're real chemists now."
-    
-#     student_2 "Feels amazing."
-    
-#     secretary "It should. Goodnight, and be careful with that."
-    
-#     # IMAGE: Students alone with the amber potion in its bottle
-#     # Evening darkness settling
-#     # Their faces lit by whatever ambient light remains
-#     # The bottle glowing faintly on the counter
-    
-#     student_3 "This weekend is going to be incredible."
-    
-#     student_1 "I know. I can't wait to see if it actually works."
-    
-#     student_2 "It will. It has to."
-    
-#     student_3_thought "*We made something real. Something that could actually change things.*"
-    
-#     $ set_progress("lab_intro_discovery", 4)
-    
-#     $ end_event("new_daytime", **kwargs)
-
-# # Secretary Enhancement - After Strategic Planning and Brewing Session
-# label lab_intro_20 (**kwargs):
-#     $ begin_event(**kwargs)
-    
-#     $ student1_key = get_values('student1', 'gloria_goto', **kwargs)
-#     $ student2_key = get_values('student2', 'lin_kato', **kwargs)
-#     $ student3_key = get_values('student3', 'ishimaru_maki', **kwargs)
-    
-#     $ student1 = Person[student1_key].get_renpy_char()
-#     $ student2 = Person[student2_key].get_renpy_char()
-#     $ student3 = Person[student3_key].get_renpy_char()
-    
-#     # IMAGE: Abandoned lab, late afternoon
-#     # Three students working at lab bench
-#     # Their brewing equipment scattered around
-#     # Bottles of completed weak potion visible
-#     # Dust particles catching slanted sunlight through dirty windows
-    
-#     student1 "We should start bottling these for tomorrow night."
-    
-#     student2 "How many people are we expecting at the party?"
-    
-#     student3 "Maybe twenty? I invited everyone from our year."
-    
-#     # IMAGE: Secretary Emiko entering through lab door
-#     # Long black hair, glasses, navy outfit
-#     # Carrying small leather bag
-#     # Students looking up, surprised but pleased
-    
-#     student1 "Oh! Miss Langley."
-    
-#     secretary "Good afternoon, ladies. How's the brewing going?"
-    
-#     # IMAGE: Students gathering around secretary
-#     # Eager, trusting expressions
-#     # Showing her their completed batch
-#     # Bottles of amber liquid lined up
-    
-#     student2 "We finished it this morning. We were just about to portion it out."
-    
-#     student3 "Thank you so much for helping us. We never could've figured this out without you."
-    
-#     # IMAGE: Secretary examining the bottles
-#     # Picking one up, holding to light
-#     # Amber liquid clear and smooth
-#     # Calculating expression behind warm smile
-    
-#     secretary "Beautiful work. The color is perfect, the clarity excellent."
-    
-#     student1 "Do you think it'll work? The love potion effect, I mean?"
-    
-#     # IMAGE: Secretary setting bottle down carefully
-#     # Reaching into her bag
-#     # Students watching curiously
-    
-#     secretary "That's actually why I'm here. I wanted to give you something before your party."
-    
-#     # IMAGE: Secretary pulling out small dark vial
-#     # Maybe 30ml, amber glass
-#     # Clear liquid inside
-#     # Students leaning in with interest
-    
-#     student2 "What is it?"
-    
-#     secretary "A catalytic compound. We—I mean, I—identified it while researching alchemical formulations."
-#     secretary "It significantly improves duration and stability of emotional enhancement potions."
-    
-#     # IMAGE: Students looking at vial with mixture of excitement and caution
-#     # One student reaching for it hesitantly
-#     # Secretary holding it up to light
-    
-#     student3 "Is it safe?"
-    
-#     # IMAGE: Secretary's expression warm, reassuring
-#     # Glasses catching light
-#     # Maternal, trustworthy posture
-    
-#     secretary "It's perfectly safe. It's just a stabilizer that makes the effects last longer and manifest more reliably."
-#     secretary "Without it, your potion might work for an hour or two. With it, the effects will be much more... persistent."
-    
-#     student1 "That sounds amazing!"
-    
-#     student2 "How do we use it?"
-    
-#     # IMAGE: Secretary moving to lab bench
-#     # Students following, clustering around
-#     # She's setting vial down beside their bottles
-#     # Professional, instructive posture
-    
-#     secretary "Just add a few drops to each dose before you serve it. Three drops per cup should be sufficient."
-#     secretary "Mix it in well. The compound is water-soluble, so it'll integrate seamlessly."
-    
-#     # IMAGE: Students nodding, taking notes
-#     # One student picking up vial carefully
-#     # Examining it with academic interest
-#     # Secretary watching them with subtle satisfaction
-    
-#     student3 "Three drops per cup. Got it."
-    
-#     student1 "You're sure this won't make anyone sick or anything?"
-    
-#     # IMAGE: Secretary shaking head, gentle smile
-#     # Hand on student's shoulder reassuringly
-#     # Warm afternoon light making the scene feel safe, mentorly
-    
-#     secretary "I promise. I've tested it myself."
-#     secretary "Exactly what a love potion should do, just... better."
-    
-#     secretary_thought "*They have no idea they're about to dose themselves with the perfected formula.*"
-#     secretary_thought "*Twenty of them, all at once — and every one will wake up a little freer than she went to sleep.*"
-    
-#     # IMAGE: Student holding vial up to light
-#     # Clear liquid, unremarkable looking
-#     # Other two students gathering their bottles
-#     # Beginning to organize for dosing
-    
-#     student2 "This is incredible. Thank you so much, Miss Langley."
-    
-#     secretary "Of course. I want your experiment to succeed."
-    
-#     # IMAGE: Students working together
-#     # Opening bottles, preparing to add catalyst
-#     # Secretary watching from slight distance
-#     # Satisfied, calculating expression when they're not looking
-    
-#     student3 "Should we test it on ourselves first? Before the party?"
-    
-#     # IMAGE: Secretary considering
-#     # Tilting head thoughtfully
-#     # Students waiting for guidance
-    
-#     secretary "That's wise. Scientific method requires testing."
-#     secretary "Why don't you each take a dose tonight? See how you feel. If it works well, you'll know it's ready for the party."
-    
-#     student1 "Good idea. We can compare notes tomorrow morning."
-    
-#     # IMAGE: Students portioning out three cups
-#         # Adding catalyst drops carefully—one, two, three per cup
-#         # Clear liquid disappearing into amber potion
-#         # Mixing with small stirrers
-
-#         student2 "Does it change the taste?"
-
-#         secretary "Not noticeably. Maybe slightly sweeter."
-
-#         student3 "Should we dose the whole batch now? So it's ready for tomorrow?"
-
-#         secretary "That's the sensible approach. Better than adding it cup by cup during the party."
-#         secretary "Measure it out precisely — three drops per dose, multiply by however many servings you're making."
-
-#         # IMAGE: Students calculating quietly
-#         # Student 1 counting bottles, muttering numbers
-#         # Student 3 uncapping the vial with careful fingers
-#         # Secretary watching from slight distance, arms loosely crossed
-
-#         student1 "Twenty guests, maybe a little extra buffer... so around seventy drops total."
-
-#         secretary "That's right. Take your time. Precision matters more than speed here."
-
-#         # IMAGE: Student 3 holding vial over the first bottle
-#         # Tip of the dropper at the mouth of the bottle
-#         # The other two watching without breathing
-#         # Afternoon light through dirty windows going copper
-
-#         # First drop falls
-
-#         student3 "One."
-
-#         # The liquid catches it without protest — a brief shimmer at the surface, then gone
-
-#         student2 "Is it... doing something?"
-
-#         student3 "Watch the color."
-
-#         # IMAGE: Close-up of bottle
-#         # The amber deepening almost imperceptibly
-#         # Richer. More saturated. Like the difference between weak tea and steeped
-#         # Student 2's face reflected in the glass, eyes wide
-
-#         student1 "Oh."
-
-#         secretary_thought "*There it is. The catalyst integrating perfectly.*"
-
-#         # IMAGE: All three students now leaning over the bottles
-#         # Student 3 moving methodically — drops counted under breath
-#         # Student 1 transferring to next bottle as each is finished
-#         # Student 2 recording counts on a scrap of paper
-#         # The smell in the room shifting: old plaster and chemical residue, but warmer now, something floral underneath
-
-#         secretary "Don't rush the last few. The ratio has to hold across the whole batch."
-
-#         student3 "I know. I know."
-
-#         # IMAGE: Student 3 sealing the final bottle
-#         # Pressing the stopper in with her palm
-#         # Slight exhale — held breath releasing
-#         # The row of bottles on the bench, all the same deepened amber
-
-#         student1 "That's everything."
-
-#         student2 "Twenty-three doses. Plus the buffer."
-
-#         # IMAGE: Three students looking at the bottles
-#         # Then at each other
-#         # Then at secretary
-
-#         student3 "Thank you. Seriously. We couldn't have—"
-
-#         secretary "You did the work. I just provided the tools."
-
-#         # IMAGE: Secretary picking up her bag
-#         # Moving toward the door
-#         # Smooth, unhurried
-
-#         secretary "Keep them sealed until tomorrow. Cool and dark."
-#         secretary "And don't tell anyone what's actually in them before the party."
-
-#         student1 "Obviously. It's our thing."
-
-#         secretary "Good luck, ladies."
-
-#         # IMAGE: Door closing behind her
-#         # Students alone in the lab
-#         # The smell of old chemicals and something sweet hanging in the cooling air
-#         # Bottles in a neat row on the bench
-
-#         # A beat of silence
-
-#         student2 "Tomorrow."
-
-#         student1 "Tomorrow."
-
-#         # IMAGE: Student 3 picking up one of the bottles
-#         # Holding it at eye level
-#         # Amber liquid catching the last copper light through the window
-#         # Her reflection fractured in the glass
-
-#         student3_thought "*Twenty-three people. And none of them will know until it's already inside them.*"
-
-#         # IMAGE: Secretary in the hallway outside
-#         # Already several paces away, not looking back
-#         # Bag over one shoulder, steps unhurried
-
-#         secretary_thought "*The students will shift faster than he's braced for.*"
-#         secretary_thought "*But by then the momentum will be irreversible.*"
-#         secretary_thought "*The gentlest push is the one they never feel — they'll just wake up more themselves.*"
-
-#         # IMAGE: Student 3 setting the bottle back in the row
-#         # Carefully. Like it might wake up
-#         # The three of them standing there in the dimming light with what they've made
-
-#         $ set_progress("lab_intro_discovery", 5)
-
-#         $ end_event("new_daytime", **kwargs)
-
-# # The Party - Friday night on the same day as the PTA Refreshments
-# label lab_intro_21 (**kwargs):
-#     $ begin_event(**kwargs)
-    
-#     $ student1_key = get_values('student1', 'gloria_goto', **kwargs)
-#     $ student2_key = get_values('student2', 'lin_kato', **kwargs)
-#     $ student3_key = get_values('student3', 'miwa_igarashi', **kwargs)
-#     $ student4_key = get_values('student4', 'kokoro_nakamura', **kwargs)
-    
-#     $ student1 = Person[student1_key].get_renpy_char()
-#     $ student2 = Person[student2_key].get_renpy_char()
-#     $ student3 = Person[student3_key].get_renpy_char()
-#     $ student4 = Person[student4_key].get_renpy_char()
-    
-#     subtitles "[Abandoned Lab, Friday Evening, 8:47 PM]"
-    
-#     # IMAGE: Abandoned lab transformed
-#     # String lights hung haphazardly across ceiling
-#     # Twenty students scattered throughout space
-#     # Makeshift speaker playing pop music
-#     # Dust particles dancing in colored light
-#     # Table with plastic cups, bottles, snacks
-    
-#     # IMAGE: Three organizer students at drink table
-#     # Pouring amber liquid from bottles into cups
-#     # Adding catalyst drops—three per cup
-#     # Mixing carefully with plastic stirrers
-#     # Other students nearby, waiting for drinks
-    
-#     student1 "Three drops each, just like Miss Langley said."
-    
-#     student2 "Are we really doing this?"
-    
-#     student3 "Everyone here wants to try it. That's why they came."
-    
-#     # IMAGE: Organizers distributing cups
-#     # Students accepting drinks eagerly
-#     # Curiosity, excitement on faces
-#     # Someone cranking up the music volume
-    
-#     subtitles "The scent in the air was complex: cheap perfume layered over old wood and plaster dust, mixed with the sweet amber smell of the enhanced potion. Bass thumped from the speaker, reverberating."
-    
-#     # IMAGE: Students drinking
-#     # Lifting cups, toasting
-#     # First sips, then deeper swallows
-#     # Tasting, considering, drinking more
-    
-#     student4 "It's sweet. Tastes like honey and something floral."
-    
-#     subtitles "Yeah, it's really good!"
-    
-#     subtitles "Doesn't taste like alcohol at all!"
-    
-#     # IMAGE: Party in full swing
-#     # Students dancing, talking, laughing
-#     # Cups being refilled
-#     # Fifteen minutes passing
-#     # Energy shifting subtly
-    
-#     # IMAGE: One girl leaning against wall
-#     # Flushed face, hand on chest
-#     # Friend approaching, concern shifting to curiosity
-    
-#     subtitles "God, is it warm in here?"
-    
-#     subtitles "Yeah. Really warm. You okay?"
-    
-#     subtitles "I feel... good. Like, really good. Relaxed."
-    
-#     # IMAGE: Another student sitting on dusty workbench
-#     # Legs swinging, uninhibited
-#     # Skirt riding higher than usual
-#     # Not adjusting it, not caring
-    
-#     student1_thought "*Why do I always worry so much about how I look? This feels better. Just... being.*"
-    
-#     # IMAGE: Two girls standing close
-#     # Eye contact lingering
-#     # One reaching up to tuck hair behind the other's ear
-#     # Touch gentle, fingers trailing
-    
-#     subtitles "Your eyes are so pretty. I never noticed before."
-    
-#     subtitles "Really?"
-    
-#     subtitles "Really."
-    
-#     # IMAGE: The first kiss
-#     # One girl leaning in
-#     # The other meeting her halfway
-#     # Lips touching, soft, experimental
-#     # Both freezing for a moment
-    
-#     subtitles "Oh—"
-    
-#     # IMAGE: Kiss continuing
-#     # Neither pulling away
-#     # Deepening instead
-#     # Hands finding waists
-    
-#     student2_thought "*This feels amazing. Why did I wait so long?*"
-    
-#     # IMAGE: Other students noticing
-#     # Not shocked, just... interested
-#     # Inhibitions visibly lowering across the room
-#     # Music still playing, bass vibrating through floorboards
-    
-#     # IMAGE: Another pair in corner
-#     # Already making out
-#     # Hands in hair, bodies pressed close
-#     # One girl's back against wall
-    
-#     subtitles "Mmnh—"
-    
-#     subtitles "Is this okay?"
-    
-#     subtitles "God, yes—"
-    
-#     # IMAGE: Student unbuttoning another's blouse
-#     # Slow, deliberate
-#     # White fabric parting, bra visible beneath
-#     # The scent in the air shifting—sweat mixing with perfume and the sweet potion residue
-    
-#     student3_thought "*I've wanted to touch her like this for months. Months. And I was too scared to even try.*"
-    
-#     # IMAGE: More students pairing off
-#     # Some still dancing, but closer now
-#     # Hands on hips, on shoulders, on skin
-#     # Clothes loosening across the room
-    
-#     # IMAGE: Girl pulling her uniform blouse over her head
-#     # Tossing it aside casually
-#     # Standing in just her bra and skirt
-#     # Partner staring, hand reaching to touch bare stomach
-    
-#     subtitles "You're so soft..."
-    
-#     # IMAGE: Another student sliding down her skirt
-#     # Kicking it away
-#     # Dancing in just underwear and top
-#     # Completely unselfconscious
-    
-#     student4_thought "*I feel beautiful. Powerful. Why did I ever think my body was something to hide?*"
-    
-#     # IMAGE: Makeout session intensifying
-#     # Girl straddling another's lap on the dusty workbench
-#     # Grinding slowly, deliberately
-#     # Moans mixing with music
-    
-#     subtitles "Ahhh—fuck—"
-    
-#     subtitles "Don't stop—"
-    
-#     # IMAGE: Wide shot of lab
-#     # Multiple pairs making out in different corners
-#     # Clothes scattered on floor
-#     # Some students still clothed, watching, considering
-#     # Others half-naked, uninhibited
-#     # Colored lights casting everything in dreamlike glow
-    
-#     subtitles "The air was thick—dust, sweat, the sweet chemical scent of residual potion clinging to every surface. Music pounded. Someone laughed, high and breathless. Someone else moaned. Fabric rustled."
-    
-#     # IMAGE: Two girls on floor
-#     # One on top of the other
-#     # Kissing deeply, hands wandering
-#     # Skirts pushed up, visible skin
-    
-#     # IMAGE: Student watching from edge of room
-#     # Flushed, breathing hard
-#     # Hand sliding under her own shirt
-#     # Touching herself through fabric
-    
-#     student1_thought "*I want to join them. I want to feel what they're feeling.*"
-    
-#     # IMAGE: Her approaching another girl
-#     # Both reaching for each other simultaneously
-#     # Kissing immediately, desperately
-#     # Falling into it like they'd been waiting
-    
-#     # IMAGE: Time passing—10:30 PM now
-#     # Party at peak intensity
-#     # Most students partially undressed
-#     # Bras visible, skirts bunched up, some topless
-#     # Hands everywhere, mouths everywhere
-    
-#     # IMAGE: Girl with breasts fully exposed
-#     # Nipples hard in cool air
-#     # Partner's mouth on one, hand on the other
-#     # Her head thrown back, eyes closed
-    
-#     subtitles "Oh god—yes—right there—"
-    
-#     # IMAGE: Wide shot again
-#     # Twenty students, all affected
-#     # Various stages of undress, various levels of intimacy
-#     # No one judging, no one stopping
-#     # Just exploration, pleasure, freedom
-    
-#     subtitles "The abandoned lab had become something else entirely. A space outside normal rules. The potion had done what it promised—stripped away fear, shame, hesitation. Left only want and the willingness to pursue it."
-    
-#     # IMAGE: Clock showing 11:15 PM
-#     # Energy beginning to shift
-#     # Some students separating, breathing hard
-#     # Gathering scattered clothes
-#     # Flushed faces, messy hair, satisfied expressions
-    
-#     student2 "I should... probably head back to the dorm."
-    
-#     student3 "Yeah. Me too."
-    
-#     # IMAGE: Students beginning to leave
-#     # Putting on clothes haphazardly
-#     # Buttons missed, skirts twisted
-#     # Some leaving in pairs, hands clasped
-    
-#     subtitles "That was..."
-    
-#     subtitles "Yeah."
-    
-#     # IMAGE: Final student leaving lab
-#     # Looking back at the space
-#     # String lights still glowing
-#     # Evidence of what happened scattered everywhere
-    
-#     student4_thought "*I'm not the same person who walked in here three hours ago.*"
-#     student4_thought "*None of us are.*"
-    
-#     # IMAGE: Empty lab
-#     # Lights still on, music still playing softly
-#     # Clothes forgotten in corners
-#     # The sweet scent of potion lingering
-#     # Dust settling in colored light
-    
-#     $ set_progress("lab_intro_discovery", 5)
-#     $ set_progress("school_level", 3)
-    
-#     $ end_event("new_daytime", **kwargs)
-
-# # Saturday Morning after the PTA Refreshments and Party
-# label lab_intro_22 (**kwargs):
-#     $ begin_event(**kwargs)
-    
-#     $ student1_key = get_values('student1', 'lin_kato', **kwargs)
-#     $ student2_key = get_values('student2', 'gloria_goto', **kwargs)
-#     $ student3_key = get_values('student3', 'miwa_igarashi', **kwargs)
-#     $ student4_key = get_values('student4', 'kokoro_nakamura', **kwargs)
-    
-#     $ student1 = Person[student1_key].get_renpy_char()
-#     $ student2 = Person[student2_key].get_renpy_char()
-#     $ student3 = Person[student3_key].get_renpy_char()
-#     $ student4 = Person[student4_key].get_renpy_char()
-    
-#     subtitles "[Student Dorms, Saturday Morning, 9:23 AM]"
-    
-#     # IMAGE: Dorm room, morning light through curtains
-#     # Student waking alone in bed
-#     # Clothes from last night scattered on floor
-#     # Smell of stale air and old perfume
-    
-#     subtitles "The potion's chemical warmth had faded overnight, leaving only memory and a quiet, persistent clarity."
-    
-#     # IMAGE: Student sitting up in bed
-#     # Hand on chest, checking for the warmth
-#     # It's gone—just normal heartbeat
-#     # But the memory sharp
-    
-#     student1_thought "*It's gone. The glow, the heat. But I remember exactly how she tasted.*"
-#     student1_thought "*That was real. I wanted it. I still want it.*"
-    
-#     # IMAGE: Shared bathroom, students brushing teeth
-#     # Normal Saturday morning routine
-#     # Sports bras, pajama pants, some topless
-#     # But eye contact lingers now, awareness shifted
-    
-#     student2 "Morning."
-    
-#     student3 "Hey. How're you feeling?"
-    
-#     student2 "Normal. You?"
-    
-#     student3 "Yeah. Same."
-    
-#     # IMAGE: Two students at mirror
-#     # One adjusting hair, the other washing face
-#     # Glance meeting in reflection
-#     # Small smile, then looking away
-    
-#     student3_thought "*I kissed her last night. Just... walked up and kissed her.*"
-#     student3_thought "*The potion's gone but I'm not sorry.*"
-    
-#     # IMAGE: Back in dorm room
-#     # Students getting dressed for the day
-#     # Trying on clothes, normal weekend routine
-#     # But choosing crop top instead of full shirt
-    
-#     student1 "What are you doing today?"
-    
-#     student4 "Breakfast, maybe study. You?"
-    
-#     student1 "Same."
-    
-#     # IMAGE: Student pulling on crop top
-#     # Bare midriff showing
-#     # Checking mirror, leaving it on instead of changing
-#     # Small shift in choice
-    
-#     student4_thought "*Yesterday I would've picked something longer. Today this just... feels right.*"
-    
-#     # IMAGE: Common area, students gathering
-#     # Sitting on couches, normal positions
-#     # But closer than usual, touching casually
-#     # Hand on knee, leaning into shoulder
-    
-#     student2 "So. Last night."
-    
-#     student3 "Yeah."
-    
-#     student2 "No regrets?"
-    
-#     student3 "None."
-    
-#     # IMAGE: Two students sitting together
-#     # Legs touching, comfortable proximity
-#     # Easy, not charged—just normalized
-    
-#     student4 "I kissed you."
-    
-#     subtitles "I remember."
-    
-#     student4 "...Can I do it again sometime?"
-    
-#     subtitles "Yeah. I'd like that."
-    
-#     # IMAGE: Students heading out of dorm
-#     # Groups of two and three
-#     # Crop tops, visible bra straps, shorter skirts
-#     # Walking with shoulders back, confident stride
-    
-#     # IMAGE: Campus path, mid-morning
-#     # Two students holding hands
-#     # Not hiding it, just walking
-#     # Others passing, not reacting
-    
-#     student1_thought "*The potion showed me what I wanted. Now I'm choosing to keep it.*"
-    
-#     # IMAGE: Final shot of dorm building
-#     # Saturday morning quiet
-#     # Students dispersing into weekend
-#     # The chemical rush gone, the behavioral shift permanent
-    
-#     subtitles "The warmth had faded, but the comfort remained. What the potion revealed, they were choosing to keep."
-    
-#     $ end_event("new_daytime", **kwargs)
-
-# # Saturday Evening after the PTA Refreshments and Party
-# label lab_intro_23 (**kwargs):
-#     $ begin_event(**kwargs)
-    
-#     $ student1_key = get_values('student1', 'lin_kato', **kwargs)
-#     $ student2_key = get_values('student2', 'miwa_igarashi', **kwargs)
-#     $ student3_key = get_values('student3', 'kokoro_nakamura', **kwargs)
-#     $ student4_key = get_values('student4', 'gloria_goto', **kwargs)
-    
-#     $ student1 = Person[student1_key].get_renpy_char()
-#     $ student2 = Person[student2_key].get_renpy_char()
-#     $ student3 = Person[student3_key].get_renpy_char()
-#     $ student4 = Person[student4_key].get_renpy_char()
-    
-#     subtitles "[Dorm Common Room, Saturday Evening, 7:34 PM]"
-    
-#     # IMAGE: Common room, evening light fading
-#     # Twelve students scattered on couches and floor
-#     # Pizza boxes open on coffee table
-#     # Music playing from someone's phone, low volume
-#     # Smell of pepperoni and cheap vanilla body spray
-    
-#     subtitles "Music drifted from a phone speaker, volume low enough for conversation."
-    
-#     # IMAGE: Students arranged casually
-#     # Two on couch, one sitting in the other's lap
-#     # Three on floor cushions, legs tangled together
-#     # Others leaning against furniture, sitting close
-#     # Visible bra straps through sheer tops, crop tops showing midriff
-    
-#     # IMAGE: Student sitting in another's lap
-#     # Arms around waist, chin on shoulder
-#     # Completely casual, just how they're sitting
-#     # Neither thinking about it
-    
-#     student1 "Pass me a slice?"
-    
-#     subtitles "Which kind?"
-    
-#     student1 "Pepperoni."
-    
-#     # IMAGE: Student reaching across, handing pizza
-#     # Hand lingering on the other's thigh afterward
-#     # Natural placement, comfortable
-    
-#     student1_thought "*Her hand on my leg doesn't make me nervous. It makes me happy.*"
-    
-#     # IMAGE: Two students on floor
-#     # One braiding the other's hair
-#     # Fingers working through strands slowly
-#     # The one being braided leaning back into touch
-    
-#     student2 "So who kissed who Friday night?"
-    
-#     subtitles "God, everyone kissed everyone."
-    
-#     student3 "I kissed Yuki. And Hana. And... I think Akari?"
-    
-#     subtitles "Definitely Akari. I saw that."
-    
-#     # IMAGE: Students laughing, easy and open
-#     # No coded language, no euphemisms
-#     # Talking about attraction like it's normal
-    
-#     student4 "I've been into Mei for weeks. Friday just finally gave me the excuse."
-    
-#     student2 "Are you two together now?"
-    
-#     student4 "Maybe? We're figuring it out."
-    
-#     # IMAGE: Two students sitting close on couch
-#     # Shoulders touching, hands near each other on cushion
-#     # One wearing white sheer top, red bra visible underneath
-#     # The other in black crop top, bare midriff
-    
-#     student3_thought "*Friday was the potion. Tonight is just us. And it still feels right.*"
-    
-#     # IMAGE: Student leaning in to kiss another
-#     # Quick, gentle press of lips
-#     # Pulling back, continuing conversation
-#     # Like it's punctuation, not disruption
-    
-#     student1 "You want to hang out tomorrow?"
-    
-#     subtitles "Yeah. Come to my room after breakfast?"
-    
-#     student1 "Okay."
-    
-#     # IMAGE: Group conversation continuing
-#     # Pizza being eaten, drinks passed around
-#     # Physical contact constant—hands on knees, heads on shoulders, fingers playing with hair
-    
-#     student2 "Friday was intense."
-    
-#     student4 "So intense."
-    
-#     student2 "But this... this just feels right."
-    
-#     # IMAGE: Two students making out on couch
-#     # Not frenzied, just affectionate
-#     # Hands in hair, gentle
-#     # Others glancing, smiling, turning back to conversation
-    
-#     # IMAGE: Student adjusting another's necklace
-#     # Fingers on collarbone, lingering
-#     # Eye contact, small smile
-    
-#     subtitles "You look good today."
-    
-#     student3 "Thanks. So do you."
-    
-#     # IMAGE: Students starting to pair off
-#     # Some clearly coupling, sitting closer
-#     # Others still exploring, talking to multiple people
-#     # Fluidity accepted, no judgment
-    
-#     student4_thought "*I like her. But I also like her. And maybe that's okay.*"
-    
-#     # IMAGE: Time passing—9:00 PM
-#     # Students beginning to disperse
-#     # Gathering phones, water bottles, shoes
-#     # Making plans, confirming times
-    
-#     student1 "I'm heading back to my room."
-    
-#     student2 "Want company?"
-    
-#     student1 "Yeah. Come over."
-    
-#     # IMAGE: Two students leaving together
-#     # Hands clasped, easy intimacy
-#     # Others watching, accepting
-    
-#     student3 "See you guys tomorrow."
-    
-#     subtitles "Study session in the library at two?"
-    
-#     student3 "I'll be there."
-    
-#     # IMAGE: Common room emptying
-#     # Students leaving in pairs and small groups
-#     # Physical closeness visible—arms around waists, holding hands
-#     # New patterns forming, normalizing
-    
-#     # IMAGE: Last few students cleaning up
-#     # Closing pizza boxes, gathering trash
-#     # Still touching casually—shoulder bumps, hands brushing
-    
-#     student4 "This weekend's been good."
-    
-#     subtitles "Really good."
-    
-#     student4 "Different. But good."
-    
-#     # IMAGE: Final students leaving
-#     # Lights being turned off
-#     # Music stopping
-#     # Empty common room, smell of pizza lingering
-    
-#     subtitles "The chemistry was gone, but the permission remained. What started Friday was settling into something sustainable."
-    
-#     $ end_event("new_daytime", **kwargs)
-
-# # Sunday Mini events after the PTA Refreshments and Party
-# label lab_intro_24a (**kwargs):
-#     $ begin_event(**kwargs)
-    
-#     subtitles "[Campus Gym, Sunday Morning, 11:15 AM]"
-    
-#     # IMAGE: Gym floor, students working out
-#     # Four girls in just sports bras and athletic shorts
-#     # No shirts, completely comfortable
-#     # Sweat glistening, bodies on display without self-consciousness
-    
-#     subtitles "The gym smelled like rubber mats and sweat."
-    
-#     # IMAGE: Two students spotting each other on weights
-#     # Close physical proximity, hands ready to assist
-#     # Bodies confident, posture strong
-    
-#     student_thought "*A week ago I would've worn a loose shirt. Today this just feels normal.*"
-    
-#     # IMAGE: Student stretching on mat
-#     # Sports bra, bare midriff, legs extended
-#     # Another student watching, appreciative glance
-#     # No shame in looking, no shame in being looked at
-    
-#     $ end_event("new_daytime", **kwargs)
-
-# label lab_intro_24b (**kwargs):
-#     $ begin_event(**kwargs)
-    
-#     subtitles "[Library Study Room, Sunday Afternoon, 2:20 PM]"
-    
-#     # IMAGE: Five students around table with textbooks
-#     # Crop tops, visible bra straps, casual dress
-#     # Legs touching under table, leaning on shoulders while reading
-#     # Nobody adjusting clothes or creating distance
-    
-#     student1 "What did you get for question seven?"
-    
-#     student2 "Thirty-two. Wait, let me check—"
-    
-#     # IMAGE: Student leaning over another's shoulder to see paper
-#     # Hand on back for balance, cheek close to cheek
-#     # Physical contact unremarkable, just how they work now
-    
-#     student_thought "*Her hand on my back. Her hair smelling like coconut. This is just how we study now.*"
-    
-#     # IMAGE: Two students sharing textbook
-#     # Shoulders pressed together, thighs touching
-#     # One's hand resting on the other's knee while pointing at page
-    
-#     $ end_event("new_daytime", **kwargs)
-    
-# label lab_intro_24c (**kwargs):
-#     $ begin_event(**kwargs)
-    
-#     subtitles "[Campus Courtyard, Sunday Afternoon, 4:10 PM]"
-    
-#     # IMAGE: Courtyard benches, students scattered
-#     # Two girls kissing on bench, casual afternoon affection
-#     # Others walking past, not staring
-#     # Hand-holding pairs, sitting in laps
-    
-#     # IMAGE: Student sitting in another's lap
-#     # Arms around waist, talking to third student
-#     # Completely casual positioning
-#     # No self-consciousness about observers
-    
-#     student_thought "*People can see us. And I don't care. Why would I care?*"
-    
-#     # IMAGE: Another pair holding hands while walking
-#     # Fingers laced, swinging arms slightly
-#     # Public display, completely normalized
-    
-#     $ end_event("new_daytime", **kwargs)
-
-# label lab_intro_24d (**kwargs):
-#     $ begin_event(**kwargs)
-    
-#     subtitles "[Dorm Hallway, Sunday Evening, 6:35 PM]"
-    
-#     # IMAGE: Dorm hallway, doors open
-#     # Students visible inside rooms in underwear, sports bras
-#     # Walking between rooms in minimal clothing
-#     # Privacy boundaries relaxed
-    
-#     # IMAGE: Student in hallway wearing just panties and tank top
-#     # Carrying towel to shower, completely casual
-#     # Another student passing, both nodding hello
-    
-#     student_thought "*This is just who I am now. Who we are. And it's better.*"
-    
-#     $ end_event("new_daytime", **kwargs)
-
-# label lab_intro_24e (**kwargs):
-#     $ begin_event(**kwargs)
-    
-#     subtitles "[Dorm Room, Sunday Night, 9:20 PM]"
-    
-#     # IMAGE: Student choosing outfit for Monday
-#     # Laying clothes on bed—crop top, shorter skirt
-#     # Things that would've felt "too much" on Thursday
-#     # Now just normal
-    
-#     student_thought "*This would've scared me last week. Now it's just Monday's outfit.*"
-    
-#     # IMAGE: Phone screen showing text messages
-#     # Making plans, confirming times
-#     # "lunch tomorrow?" "yeah see you then"
-#     # New relationship dynamics settling
-    
-#     # IMAGE: Student getting into bed
-#     # Lights off, phone on nightstand
-#     # Monday classes tomorrow
-#     # Everything changed, everything normal
-    
-#     subtitles "Sunday night settled quiet. New patterns accepted. The weekend had integrated what Friday revealed."
-    
-#     $ end_event("new_daytime", **kwargs)
-
-
-# # First Monday after the PTA Refreshments and Party
-# label lab_intro_25 (**kwargs):
-    # $ begin_event(**kwargs)
-    
-    # subtitles "[School Campus, Monday Morning, 7:32 AM]"
-    
-    # # IMAGE: Headmaster arriving on campus
-    # # Early morning light, students walking to classes
-    # # Briefcase in hand, usual Monday routine
-    # # Smell of dew on grass, fresh coffee from nearby café
-    
-    # headmaster_thought "First Monday after the PTA vote. Let's see if the changes are manifesting."
-    
-    # # IMAGE: Hallway entrance, students passing
-    # # Headmaster's eyes tracking details immediately
-    # # Two girls holding hands, walking close
-    # # Another with visible red bra straps through white sheer blouse
-    
-    # headmaster_thought "Hand-holding. Public affection between students."
-    
-    # # IMAGE: Student in crop top and skirt
-    # # Bare midriff visible, confident stride
-    # # Walking past headmaster without adjusting clothes
-    # # No self-consciousness
-    
-    # headmaster_thought "Crop tops. Visible skin. She's comfortable showing it."
-    
-    # # IMAGE: Two students by lockers
-    # # Quick kiss before separating to classes
-    # # Other students passing, not reacting
-    # # Normalized behavior
-    
-    # headmaster_thought "Kissing in the hallway. Between girls. And no one's stopping them."
-    
-    # # IMAGE: Classroom glimpsed through open door
-    # # Students settling in for first period
-    # # Multiple visible bra straps, tied shirts, relaxed posture
-    # # Teacher Lily Anderson at board, not addressing dress code
-    
-    # headmaster_thought "Anderson sees the violations and she's just... teaching."
-    # headmaster_thought "The teachers are permissive. That's the formula working."
-    
-    # # IMAGE: Headmaster walking through main corridor
-    # # Cataloging changes mentally
-    # # Student sitting in another's lap on bench
-    # # Group of three with arms around waists
-    # # Confidence in every posture, every gesture
-    
-    # headmaster_thought "The teachers I understand. I dosed them Friday morning."
-    # headmaster_thought "Their permissiveness makes sense—they're not enforcing boundaries, not correcting clothing."
-    
-    # # IMAGE: Headmaster stopping, staring
-    # # Student walking past in tied shirt showing midriff
-    # # Another with skirt shorter than regulation
-    # # Third with completely visible black bra under sheer white top
-    
-    # headmaster_thought "But the students themselves..."
-    # headmaster_thought "I didn't dose the students. I dosed the teachers and the parents to create permissive structures."
-    # headmaster_thought "So why are the students choosing this? Why are they comfortable?"
-    
-    # # IMAGE: More students passing
-    # # Casual physical contact, confident body language
-    # # Visible undergarments, intentional skin exposure
-    # # All voluntary, all comfortable
-    
-    # headmaster_thought "Something else happened. Something I didn't plan."
-    
-    # # IMAGE: Headmaster's office, 8:15 AM
-    # # Him at desk, door open
-    # # Secretary Emiko entering with morning reports
-    # # Long black hair, glasses, navy outfit as always
-    
-    # secretary "Good morning."
-    
-    # headmaster "Morning. Close the door."
-    
-    # # IMAGE: Secretary closing door, turning
-    # # Slight smile, knowing expression
-    # # Moving to sit across from his desk
-    
-    # secretary "You've seen the students."
-    
-    # headmaster "I've seen the students."
-    
-    # # IMAGE: Headmaster leaning forward
-    # # Hands clasped on desk
-    # # Analytical, trying to piece it together
-    
-    # headmaster "The teachers are permissive. That's expected—I dosed them Friday morning."
-    # headmaster "But the students are exhibiting the same comfort. Visible undergarments, physical affection, body confidence."
-    # headmaster "I didn't dose the students. So what happened this weekend?"
-    
-    # # IMAGE: Secretary settling back in chair
-    # # Calm, composed, not surprised by his question
-    # # Fingers steepled, slight smile
-    
-    # secretary "I facilitated it."
-    
-    # # IMAGE: Headmaster's expression shifting
-    # # Surprise, confusion, processing
-    
-    # headmaster "You what?"
-    
-    # secretary "Not directly. But I helped them along."
-    
-    # # IMAGE: Secretary leaning forward
-    # # Explaining methodically
-    # # Headmaster listening intently
-    
-    # secretary "Three weeks ago, a group of students found your notebook in the abandoned lab. The original weak formula."
-    # secretary "I intercepted them. Spun it as a 'love potion' experiment. Offered to help them brew it."
-    
-    # headmaster "You helped students brew the potion."
-    
-    # secretary "The weak formula, initially. No catalyst. Just the base compound."
-    
-    # # IMAGE: Headmaster's hands spreading on desk
-    # # Mind working through timeline
-    
-    # headmaster "But they wouldn't have had access to the catalyst. The trichloroethylene was—"
-    
-    # secretary "I gave it to them."
-    
-    # # IMAGE: Headmaster staring
-    # # Secretary meeting his gaze steadily
-    
-    # secretary "Friday afternoon, after you'd already dosed the PTA mothers. I brought the catalyst to the lab."
-    # secretary "Told them it was a stabilizer to make their potion last longer."
-    # secretary "They added it to their batch. Threw a party Friday night in the abandoned lab."
-    
-    # # IMAGE: Secretary's slight smile
-    # # Headmaster processing, calculating
-    
-    # secretary "Students dosed themselves with the enhanced formula Friday night."
-    
-    # headmaster "They dosed themselves."
-    
-    # secretary "They tested it on themselves. Experienced the peak effects. By Saturday morning, the chemical rush had faded..."
-    # secretary "But the behavioral changes remained. They spent the weekend integrating. Today you're seeing the permanent baseline."
-    
-    # # IMAGE: Headmaster leaning back
-    # # Running hand through hair
-    # # Mix of emotions—surprise, concern, but also recognition
-    
-    # headmaster "You ran a parallel operation. Without telling me."
-    
-    # secretary "Yes."
-    
-    # headmaster "Why?"
-    
-    # # IMAGE: Secretary's expression shifting
-    # # More serious, strategic
-    
-    # secretary "Because student culture shifts fastest. Peer influence is exponential."
-    # secretary "You were focused on authority figures—teachers, parents—creating permissive structures from above."
-    # secretary "I focused on the students themselves. Cultural change from within."
-    
-    # # IMAGE: Headmaster considering
-    # # Analytical mind engaging
-    
-    # headmaster_thought "She's right. Student behavior drives peer pressure more than any policy change."
-    # headmaster_thought "If the students are comfortable, they'll pull others along faster than teacher permission ever could."
-    
-    # headmaster "The timing was deliberate. You dosed them the same weekend I dosed the teachers and parents."
-    
-    # secretary "Convergence. All three populations moving together."
-    # secretary "Teachers permissive, parents approving, students comfortable."
-    # secretary "No resistance from any direction."
-    
-    # # IMAGE: Headmaster standing
-    # # Moving to window, looking out at campus
-    # # Students visible below, exhibiting new behaviors
-    
-    # headmaster "Show me. Walk me through what you're seeing."
-    
-    # # IMAGE: Hallway, headmaster and secretary walking together
-    # # Students passing in both directions
-    # # Secretary gesturing subtly
-    
-    # secretary "Visible undergarments. Bra straps through sheer tops, intentional exposure."
-    # secretary "Crop tops, tied shirts—midriff showing is normalized now."
-    # secretary "Physical affection. Hand-holding, casual touching, sitting in laps."
-    
-    # # IMAGE: Two students against lockers
-    # # One adjusting the other's necklace
-    # # Fingers on collarbone, intimate proximity
-    # # Passing without self-consciousness
-    
-    # secretary "Confidence. Posture, eye contact, body language. They're comfortable in their bodies."
-    
-    # # IMAGE: Classroom door open
-    # # Teacher Zoe Parker at front
-    # # Students in various revealing outfits
-    # # Parker teaching, not addressing dress code
-    
-    # headmaster "Parker's not correcting them."
-    
-    # secretary "Parker was dosed Friday morning. So were all the teachers."
-    # secretary "They're permissive now. The dress code violations don't register as problems anymore."
-    
-    # # IMAGE: Courtyard visible through window
-    # # Two students kissing on bench
-    # # Others walking past, unbothered
-    
-    # secretary "Public displays of affection. Between girls. No one's stopping it because everyone's baseline shifted."
-    
-    # headmaster "And none of them look coerced. They look... comfortable. Like something finally loosened."
-    
-    # secretary "That's the point. Not forced — freed. We didn't make them into something. We let them stop pretending."
-    
-    # # IMAGE: Returning to office
-    # # Both sitting, headmaster at desk, secretary across
-    # # Strategic discussion mode
-    
-    # headmaster "And the students who weren't at the party?"
-    
-    # secretary "Influenced by those who were. Peer pressure, social proof, visible comfort."
-    # secretary "The culture is shifting. Some will follow faster than others."
-    
-    # # IMAGE: Headmaster's hands clasped, thinking
-    # # Secretary waiting, confident in her assessment
-    
-    # headmaster "The teachers. How are they adapting?"
-    
-    # secretary "Permissive. Physical comfort increasing—they're not enforcing boundaries they used to enforce."
-    # secretary "Give them time. The permanent changes will stabilize further."
-    
-    # headmaster "And the parents?"
-    
-    # secretary "Adelaide Hall, Nubia Davis, Yuki Yamamoto. All dosed Friday afternoon."
-    # secretary "They approved the relaxed policies without objection. First visible effect."
-    # secretary "Behavioral changes will continue to manifest."
-    
-    # # IMAGE: Headmaster looking at secretary
-    # # New understanding of her role
-    
-    # headmaster "You've been operating independently."
-    
-    # secretary "Yes."
-    
-    # headmaster "Running your own strategy. Making decisions without consulting me."
-    
-    # secretary "Yes."
-    
-    # # IMAGE: Secretary meeting his gaze
-    # # Unapologetic, calm
-    
-    # secretary "You needed plausible deniability. If this went wrong, you could claim ignorance of the student subplot."
-    # secretary "But it didn't go wrong. It worked."
-    
-    # # IMAGE: Headmaster's slight smile
-    # # Recognition, acceptance
-    
-    # headmaster "It did work. The convergence is visible everywhere."
-    
-    # secretary "Student culture is the accelerant. Authority structure is the framework. You built the framework."
-    # secretary "I provided the accelerant."
-    
-    # # IMAGE: Both looking out window
-    # # Campus visible, students moving between classes
-    # # New behaviors everywhere—comfort, confidence, physical affection
-    
-    # headmaster "We need to maintain supply. The catalyst is limited."
-    
-    # secretary "I'm aware. We have enough for strategic dosing—key influencers, resistant individuals."
-    # secretary "But the students self-replicated. They brewed it themselves."
-    
-    # headmaster "Can they do it again?"
-    
-    # secretary "If we provide catalyst, yes. The formula is in their hands now."
-    
-    # # IMAGE: Headmaster considering
-    # # Secretary watching
-    
-    # headmaster "Let them. If they want to dose their friends, let them."
-    # headmaster "Student-driven is more sustainable than top-down anyway."
-    
-    # secretary "Agreed."
-    
-    # # IMAGE: Secretary standing
-    # # Preparing to leave
-    # # Headmaster remaining seated
-    
-    # secretary "I should get back to my desk. Morning announcements need to go out."
-    
-    # headmaster "Emiko."
-    
-    # # IMAGE: Secretary pausing at door
-    # # Looking back
-    
-    # headmaster "Good work."
-    
-    # secretary "Thank you."
-    
-    # # IMAGE: Secretary leaving, door closing
-    # # Headmaster alone at desk
-    # # Processing everything
-    
-    # headmaster_thought "Teachers. Parents. Students. All dosed in one weekend."
-    # headmaster_thought "It exceeded my control. But look at them — lighter, easier in their own skin. It's working. And no one got hurt."
-    
-    # # IMAGE: Headmaster at window again
-    # # Watching campus
-    # # Students showing new behaviors, teachers permissive, boundaries shifted
-    
-    # headmaster_thought "I planned for gradual cultural shift. She created exponential momentum."
-    # headmaster_thought "Teachers, parents, students—all moving together now."
-    
-    # # IMAGE: Close-up of headmaster's face
-    # # Analytical satisfaction, strategic acceptance
-    
-    # headmaster_thought "Student comfort. Teacher permissiveness. Parent approval."
-    # headmaster_thought "The culture is shifting faster than I projected."
-    # headmaster_thought "And I'm no longer the only one building it."
-    
-    # headmaster_thought "She didn't go around me. She went ahead of me."
-    # headmaster_thought "There's a difference."
-
-    # # IMAGE: Campus from headmaster's window
-    # # Students comfortable, confident, free
-    # # New normal settling into place
-    # # Everything changed, momentum building
-    
-    # headmaster_thought "The experiment continues. But it's not just mine anymore."
-    
-    # $ set_progress("lab_intro", 20)
-    
-    # $ end_event("new_daytime", **kwargs)
+##############################
+# region Lab Intro 12 Events #
+
+init 2 python:
+    set_current_mod('base')
+
+    # Frustration — Headmaster works late in the storage room lab, trying to
+    # isolate the catalyst. Pure dialogue, so it runs entirely on Emiko's paperdoll
+    # over the blurred lab background (lab_intro_3 6). No bespoke CGs, hence no
+    # Pattern. Gated behind the Analysis (lab_intro 11). Registered on the "call
+    # secretary → talk" action, same as lab_intro_6.
+    lab_intro_12_event = Event(3, "lab_intro_12",
+            TimeCondition(weekday = "d", daytime = "d"),
+            ProgressCondition("lab_intro", 11),
+            ReplayCategoryOption("lab_intro"),
+            thumbnail = "images/events/lab_intro/lab_intro_3/lab_intro_3 6.png")
+    office_building_call_secretary_events["talk"].add_event(lab_intro_12_event)
+
+# Frustration unlocks after Analysis and Secretary's Spin
+label lab_intro_12 (**kwargs):
+    $ begin_event(**kwargs)
+
+    # SCENE · lab_intro_12
+    # Late evening in the storage-room lab next to the office. The janitor's
+    # cleaning cart is wedged in between the shelves and the lab table, its
+    # bottles lined up on the table. A rack of small test tubes, the base potion
+    # in a stoppered flask, an open notebook with a column of chemical names.
+    # He works in goggles and gloves.
+
+    subtitles "The storage room is too small for the cleaning cart. He's had to wedge it in sideways between the shelving and the lab table, and now every bottle on it is lined up in a row under the bare bulb."
+    subtitles "It smells like lemon floor cleaner, old dust, and the faint sweetness of the base potion cooling in its flask."
+
+    headmaster.think "Right. One at a time. Everything on that cart, one drop each, and I write down every single result. Even the boring ones. {i}Especially{/i} the boring ones."
+
+    # He pipettes a little base potion into a test tube, ammonia bottle open beside it.
+    headmaster "Ammonia, household strength. One drop into two millilitres of base, and..."
+
+    # Nothing happens. Amber stays amber.
+    headmaster "...nothing. No colour shift, no precipitate, not even a polite fizz."
+    headmaster.think "Rude. Okay. Crossed off."
+
+    # Fresh tube, next bottle.
+    headmaster "Industrial surfactant blend. Fatty alcohol ethoxylates, if the label's honest, which labels usually aren't..."
+
+    # The sample clouds up, then slowly settles back to clear amber.
+    headmaster "Oh, look at that, it's clouding— no. No, that's just micelles. It's making a little emulsion and giving up. Pretty. Useless."
+    headmaster.think "Two down. How many bottles are on this thing? ...Don't count. Counting makes it worse."
+
+    # Next bottle: sodium hypochlorite. He's warming up now, talking to the shelf.
+    headmaster "Hypochlorite next. Now, hypochlorite's a strong oxidiser, so if the active fraction has anything electron-rich in it at all, and it must, given how fast it breaks down once it's out of the vial, then you'd expect either a colour loss or some kind of—"
+
+    # TIME SKIP: two hours. Same spot, more tubes, cold coffee, notebook full of crossings-out.
+    subtitles "Two hours later."
+
+    headmaster "—which is why, honestly, you'd want to rule out the quaternary ammoniums as a class instead of one at a time, except of course I've now done them one at a time, so that's... that's thorough, at least. That's what that is."
+    headmaster.think "...How long have I been explaining myself to a mop bucket?"
+
+    subtitles "The coffee at his elbow has gone cold enough to grow a skin. The rack is full of used test tubes, every one of them the same unchanged amber."
+
+    headmaster.think "Seven bottles. Seven for seven. Nothing."
+    headmaster.think "Unless it's two of them together. Some combination..."
+    headmaster.think "God, no. That's— what, twenty-one pairs? Before I even think about ratios. I'd be in here till Christmas."
+
+    # Only a couple of bottles left. Behind the others, at the back of the cart's
+    # bottom tray: a big 2.5 L jug with a faded label, ORGAZYME Bio-Enzymatic
+    # Floor Concentrate, Cumulus Laboratories, "non-toxic · biodegradable".
+    subtitles "At the very back of the bottom tray, behind the spray bottles, there's one he missed: a big white jug with a label faded almost to nothing."
+    headmaster "{i}Orgazyme.{/i} Bio-enzymatic floor concentrate. Cumulus Laboratories."
+    headmaster "...Orgazyme. From {i}Cumulus.{/i}"
+    headmaster.think "Somebody in that marketing department had a very good year. Or got fired. Possibly both."
+    headmaster "Non-toxic, biodegradable, 'powered by a proprietary living culture'. So it's basically fancy yoghurt for floors."
+
+    subtitles "He unscrews the cap. The smell is nothing like the other bottles: warm and fruity, like overripe peaches, with something yeasty underneath."
+
+    # One drop into a fresh sample.
+    headmaster "One drop. Same as the others. And..."
+
+    # The amber shimmers, deepens, turns vivid, almost lit from inside.
+    headmaster "Wait— wait, wait, wait."
+    headmaster "That's the colour. That's {i}exactly{/i} the colour from the hallway."
+
+    subtitles "The sample isn't amber any more so much as honey held up to a lamp. A thin, sweet vapour curls off the top of the tube, and it's the same smell that hung in that corridor all afternoon."
+
+    headmaster.think "Ha! Ha. Okay. Okay. Don't knock it over. Don't breathe on it. Don't do anything stupid."
+
+    # Frantic notes. He's muttering while he writes.
+    headmaster "It's the enzymes. Of course it's the enzymes. Some protease or other in there is latching onto the active fraction and— folding it. Locking it into a shape that doesn't fall apart."
+    headmaster "So the stuff doesn't break down in minutes. It holds. That's why the girls in the hallway didn't snap back like the others did, that's why Ms. Maki was still— yes. {i}Yes.{/i}"
+    headmaster.think "A catalyst. An actual, literal catalyst. Enzymes are catalysts. I'm allowed to call it that, it's {i}correct{/i}."
+
+    # He picks up the jug and tilts it against the bulb to check the fill level.
+    subtitles "He picks up the jug and tilts it against the light. It's barely a third full. Less, maybe."
+    headmaster "Three hundred and fifty millilitres, give or take. That's... well. That's not nothing."
+    headmaster.think "Plenty for testing. And when it runs low, I'll just order more. It's floor cleaner. Someone sells floor cleaner."
+
+    # He pulls out his phone, still in one glove.
+    subtitles "He tugs off one glove with his teeth and pulls out his phone."
+
+    # Phone screen: Cumulus Laboratories, "dissolved 1998", no successor company;
+    # an old forum thread: "anyone know what was in Orgazyme? nothing works like it".
+    subtitles "Cumulus Laboratories: dissolved in 1998. No successor, no licence holder, nobody who bought the formula. The only thing still online is an old janitors' forum thread titled {i}anyone know what was actually in orgazyme??{/i}, forty replies long, and none of them know."
+    headmaster.think "...Of course. Of course it is."
+
+    # He sets the phone face-down next to the glowing test tube.
+    headmaster "A proprietary culture. One strain, never published, and the company's been gone for twenty-odd years."
+    headmaster "And I can't even grow more of it. After this long in the jug the culture's long dead. The enzymes still work, they just don't make any new ones."
+    headmaster.think "The base potion I can make all week, as long as I keep buying chemicals. This I can't make at all."
+    headmaster.think "Whatever's left in that jug is all there is. Anywhere."
+
+    # Rough math in the notebook margin.
+    headmaster "Say ten millilitres a dose, if the ratio holds, and I'm guessing at half of that ratio... thirty-five doses? Thirty, if I spill anything. I always spill something."
+    headmaster.think "Thirty doses. For a whole school."
+
+    # He sits down on an upturned mop bucket, back against the shelf.
+    subtitles "He sits down on an upturned mop bucket, which creaks, and leans his head back against the shelving."
+    headmaster.think "And every drop I put in a test tube tonight is a drop I never get back. Not ever."
+    headmaster.think "I finally find the thing, and now I'm scared to use it. That's brilliant. That's a really great result."
+
+    # Beat. Then he gets up and puts the jug away carefully.
+    subtitles "After a while he gets up, screws the cap down as tight as it'll go, and puts the jug on the top shelf behind the paint tins, where nobody with a mop will ever find it."
+    subtitles "Then, after a moment's thought, he tears a page out of the notebook, writes DO NOT TOUCH on it in capitals, and tapes it to the jug."
+
+    headmaster.think "I need to think about what's actually worth spending it on. Properly. Not at eleven at night on a mop bucket."
+    headmaster.think "...Emiko's going to have an opinion about this. She always has an opinion."
+
+    # He switches off the bulb; the last sample still glows faintly on the table.
+    subtitles "He switches off the bulb. On the lab table the last test tube keeps glowing faintly in the dark."
+
+    $ set_progress("lab_intro", 12)
+
+    $ end_event("new_daytime", **kwargs)
+
+# endregion
+
+##############################
+# region Lab Intro 13 Events #
+
+init 2 python:
+    set_current_mod('base')
+
+    # Strategic Planning — Headmaster and Emiko discuss the plan to fix the girls
+    # in the classroom. Pure dialogue, so it runs entirely on Emiko's paperdoll
+    # over the blurred lab background (lab_intro_3 6). No bespoke CGs, hence no
+    # Pattern. Gated behind the Frustration (lab_intro 12). Registered on the "call
+    # secretary → talk" action, same as lab_intro_6.
+    lab_intro_13_event = Event(3, "lab_intro_13",
+            TimeCondition(weekday = "d", daytime = "d"),
+            ProgressCondition("lab_intro", 12),
+            ReplayCategoryOption("lab_intro"),
+            thumbnail = "images/events/lab_intro/lab_intro_3/lab_intro_3 6.png")
+    office_building_call_secretary_events["talk"].add_event(lab_intro_13_event)
+
+# Strategic Planning unlocks after Frustration
+label lab_intro_13 (**kwargs):
+    $ begin_event(**kwargs)
+
+    # SCENE · lab_intro_13
+    # The next morning in the storage-room lab. The headmaster fell asleep there
+    # on the upturned mop bucket; cold coffee, notebook pages full of sums, the
+    # Orgazyme jug on the top shelf with its taped-on DO NOT TOUCH note. Emiko
+    # comes looking for him, and the whole planning talk happens in the cramped room.
+    # Wired: blurred lab bg (lab_intro_3 6) + Emiko paperdoll.
+
+    $ emiko.register_paperdoll()
+    $ paperdoll_manager.set_background("images/events/lab_intro/lab_intro_3/lab_intro_3 6.png", blur = True)
+
+    subtitles "Morning. Somewhere down the corridor a printer is grinding itself awake. In the storage room, the bulb has been on all night."
+    subtitles "He wakes up on the mop bucket with his neck bent the wrong way, a pencil still in his hand, and the notebook in his lap covered in sums that all end in a circled, underlined {i}not enough{/i}."
+
+    headmaster.think "...Ow. Okay. Didn't mean to do that."
+
+    # The door opens; Emiko leans in, folder under one arm.
+    $ emiko.display(PDAImage(pose = "25", outfit = "uniform", level = 6, mood = "suprised", mouth = "closed"),
+        PDAPreset("close_body_center", duration = 0.0),
+        PDAPreset("outside", duration = 0.0))
+    $ emiko.display(PDAPreset("close_body_center", duration = 0.6))
+    $ emiko.display(PDAImage(mood = "neutral", mouth = "open"))
+    emiko "There you are. Your office is empty, your coat's on the chair, and your nine o'clock was twenty minutes ago."
+    $ emiko.display(PDAImage(pose = "2", mood = "happy", mouth = "open"))
+    emiko "I moved it, by the way. You're welcome."
+    $ emiko.display(PDAImage(mouth = "closed"))
+    headmaster "...What time is it?"
+    $ emiko.display(PDAImage(pose = "9", mood = "shining", mouth = "open"))
+    emiko "Late enough that you've got a mop bucket printed on the back of your trousers."
+    $ emiko.display(PDAImage(pose = "34", mood = "neutral", mouth = "closed"))
+    emiko.think "*He slept in here. On a bucket. And he's got that face on, the one where he's already decided it's hopeless and he's just waiting for the rest of the world to agree with him.*"
+
+    # She spots the jug on the top shelf with the note taped to it.
+    $ emiko.display(PDAImage(pose = "7", mood = "suspicious", mouth = "open", look = "avert"), "close_body_right")
+    emiko "'Do not touch.' Is that one for the janitor or for you?"
+    $ emiko.display(PDAImage(look = "follow", mouth = "closed"))
+    headmaster "Bit of both, honestly."
+    headmaster "I found it, Emiko. Whatever it was in that hallway, it's in that jug."
+    $ emiko.display(PDAImage(pose = "19", mood = "suprised", mouth = "open"))
+    emiko "That's floor cleaner."
+    $ emiko.display(PDAImage(mood = "sad", mouth = "closed"))
+    headmaster "It's an enzyme concentrate. And it's the catalyst. One drop and the sample went exactly the colour it was on the floor. It holds, it doesn't fall apart after five minutes, it's— it's the whole thing."
+
+    $ emiko.display(PDAImage(pose = "17", mood = "neutral", mouth = "closed", look = "avert"))
+    subtitles "She stretches up on her toes to read the label, and he watches her get to the name."
+    $ emiko.display(PDAImage(mood = "shining", mouth = "open"))
+    emiko "{i}Orgazyme.{/i}"
+    emiko "...By {i}Cumulus Laboratories.{/i}"
+    $ emiko.display(PDAImage(look = "follow", mouth = "closed"))
+    headmaster "Don't."
+    $ emiko.display(PDAImage(pose = "22", mood = "happy", mouth = "open"), "close_body_center")
+    emiko "I didn't say a word. I said it with my face, that's different."
+
+    # She looks back at him properly now; the teasing drops a notch.
+    $ emiko.display(PDAImage(pose = "21", mood = "neutral", mouth = "open"))
+    emiko "So why do you look like someone died? You found it."
+    $ emiko.display(PDAImage(mouth = "closed"))
+    headmaster "Because that's all of it. About a third of a litre. The company folded in '98, nobody ever published what was in the culture, and whatever's left in there is dead. The enzymes still work, but they don't make any more."
+    $ emiko.display(PDAImage(pose = "7", mood = "suspicious", mouth = "closed"))
+    headmaster "I spent half the night trying to stretch it. Lower ratios, a second extraction, cutting the base with... Every version either kills the effect or wastes more than it saves. Thirty doses, maybe. For a whole school full of girls."
+    headmaster "I can't even get through one year group with that, let alone—"
+
+    $ emiko.display(PDAImage(pose = "25", mood = "angry", mouth = "open"))
+    emiko "You're doing sums for every girl on campus."
+    $ emiko.display(PDAImage(mouth = "closed"))
+    headmaster "Well— yes? That's rather the point."
+
+    # She perches on the edge of the cleaning cart, folder on her knees.
+    $ emiko.display(PDAMove(alignY = -0.18, zoom = 3, duration = 1))
+    subtitles "She hitches herself up onto the edge of the cleaning cart, which rattles every bottle on it, and sets the folder on her knees."
+    $ emiko.display(PDAImage(pose = "37", mood = "neutral", mouth = "open"))
+    emiko "The girls don't make the rules here, [headmaster_first_name]. When Sakura's blouse came open the other day, Easkey panicked before Sakura did. And the second Sakura noticed, all either of them could think about was which teacher would hear about it."
+    emiko "Five teachers keep the rules. Three mothers on the PTA make sure the teachers keep keeping them. That's eight people. You don't need a school's worth of doses. You need eight."
+    $ emiko.display(PDAImage(mouth = "closed"))
+
+    headmaster "Eight people won't change a whole school."
+    $ emiko.display(PDAImage(pose = "27", mood = "shining", mouth = "open"),
+        PDAPreset("close_body_center", duration = 1))
+    emiko "Eight of the {i}right{/i} people will. If Ms. Parker stops sending girls back to change, and Mrs. Hall stops writing three-page letters every time she doesn't... how long do you honestly think the girls keep policing themselves?"
+    $ emiko.display(PDAImage(mouth = "closed"))
+
+    headmaster.think "...God. Those girls in the classroom didn't care what {i}I{/i} thought. They only cared once they pictured who might walk in next."
+    headmaster.think "Take away who walks in next..."
+
+    # He's doing sums again, but different ones; pencil back on the notebook.
+    headmaster "Eight people. Small doses, repeated, three each over a week or so, that's... twenty-four. And I'd still have some left over."
+    $ emiko.display(PDAImage(pose = "31", mood = "shining", mouth = "closed"))
+    emiko "Look at you. Doing sums that actually help."
+    $ emiko.display(PDAImage(mood = "happy", mouth = "closed"))
+
+    headmaster "The teachers are the easy part. I've done the lounge coffee before."
+    $ emiko.display(PDAImage(pose = "32", mood = "neutral", mouth = "open"))
+    emiko "And it worked. For five minutes, and then Finola went and changed back into her cardigan."
+    $ emiko.display(PDAImage(mouth = "closed"))
+    headmaster "Five minutes {i}without{/i} this."
+    subtitles "He points the pencil at the top shelf without looking up."
+
+    headmaster "The mothers are the problem. I can hardly turn up on Adelaide Hall's doorstep with a thermos."
+    $ emiko.display(PDAImage(pose = "37", mood = "shining", mouth = "open"))
+    emiko "You won't have to. The PTA meets on Friday. And guess who does the refreshments."
+    $ emiko.display(PDAImage(mouth = "closed"))
+    headmaster "...You."
+    $ emiko.display(PDAImage(pose = "26", mood = "happy", mouth = "open"))
+    emiko "Me. Lemonade and whatever biscuits the kiosk hasn't sold. Nobody ever says no to the lemonade."
+    $ emiko.display(PDAImage(mouth = "closed"))
+    headmaster "You'd really do that?"
+    $ emiko.display(PDAImage(pose = "1", mood = "neutral", mouth = "open", look = "avert"))
+    emiko "I've poured that lemonade every other Friday for years. This time it's just... better lemonade."
+    $ emiko.display(PDAImage(mouth = "closed"))
+    emiko.think "*And he doesn't need to hear about the girls in the old lab building. Not yet. If their little project goes wrong, it's my name on it, not his. I'll carry that one.*"
+
+    # She hops down off the cart; the bottles rattle again.
+    $ emiko.display(PDAMove(alignX = "-0.2", duration = 0.6))
+    $ emiko.display(PDAImage(pose = "5", mood = "shining", mouth = "open", look = "follow"))
+    emiko "And while you're playing barista, I'll see what the budget says about the old lab building. You can't keep doing this in a broom cupboard."
+    $ emiko.display(PDAImage(mouth = "closed"))
+    headmaster "It's a storage room."
+    $ emiko.display(PDAImage(mood = "happy", mouth = "open"))
+    emiko "It's a broom cupboard with ambitions."
+
+    $ emiko.display(PDAImage(pose = "11", mood = "neutral", mouth = "open"))
+    emiko "Now go home, have a shower, and come back looking like a headmaster. I'll tell everyone you had the dentist."
+    $ emiko.display(PDAImage(mouth = "closed"))
+    headmaster "I don't have a—"
+    $ emiko.display(PDAImage(pose = "2", mood = "shining", mouth = "open"))
+    emiko "You do now."
+
+    $ emiko.display(PDAImage(pose = "39", mouth = "closed"),
+        PDAMove(alignX = 1.5, duration = 1.0),
+        PDAPause(duration = 1.0))
+    $ emiko.clear_display()
+
+    # Alone. He takes the jug down from the shelf and looks at the note.
+    subtitles "The door clicks shut behind her. He gets up, joints complaining, and lifts the jug down off the top shelf. The DO NOT TOUCH note is already curling at one corner."
+    headmaster.think "Eight people. I was lying awake trying to work out how to fix every girl in this school one at a time. Idiot."
+    headmaster.think "Teachers first. Then Friday."
+    headmaster.think "...Shower first. {i}Then{/i} the teachers."
+
+    $ set_progress("lab_intro", 13)
+
+    $ end_event("new_daytime", **kwargs)
+
+# Morning Brew, unlocks after Strategic Planning and Brewing Session on Thursday
+label lab_intro_14 (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ zoe = Person["zoe_parker"]
+    $ yulan = Person["yulan_chen"]
+    $ lily = Person["lily_anderson"]
+    $ chloe = Person["chloe_garcia"]
+    $ finola = Person["finola_ryan"]
+
+    # SCENE · lab_intro_14
+    # Before dawn the headmaster measures the first catalysed dose in the
+    # storage-room lab and pockets it in a small dropper bottle. In the empty,
+    # dark staff room he brews the big coffee urn and adds the drops. The five
+    # teachers arrive one by one and all drink it. Within half an hour they're
+    # warm and loose: Lily stretches, Zoe strips to her swimsuit top, Chloe rolls
+    # up her sleeves, Yulan sits pressed up against Finola. Finola suddenly
+    # leaves. He follows her to the staff changing room and walks in on her
+    # completely naked at her locker; she covers herself a full second too late.
+    # She comes back dressed, mortified, and remembers very little. The teachers
+    # head off to class and he pours the rest of the coffee away.
+    # Wired: blurred lab bg (lab_intro_3 6), dark staff room (c teacher),
+    # daytime staff room (teacher 1 1 0), paperdolls for teachers who speak TO him.
+
+    ########################################
+    # Storage-room lab, before dawn
+
+    $ paperdoll_manager.set_background("images/events/lab_intro/lab_intro_3/lab_intro_3 6.png", blur = True)
+
+    subtitles "Ten to six. The corridor outside the storage room is still dark, and the bulb over the lab table is the only light on in the building."
+
+    # He measures base potion into a small dark dropper bottle.
+    headmaster "Five teachers, one dose each. Base potion first: the staff urn does twenty cups, so enough base for all of it, call it a bit extra in case somebody goes back for seconds..."
+    headmaster "And Orgazyme, ten millilitres a head. Fifty. Not fifty-five. Don't get generous at six in the morning."
+
+    subtitles "He measures it in the little graduated cylinder, right down to the line, and stands there holding it for a moment before he tips it in. He doesn't breathe out until the last of it has gone. The mixture goes from amber to that deep, lit-from-inside honey colour, and the fruity sweetness rises off it for a second before he gets the cap on."
+    headmaster.think "Fifty out of three hundred and fifty. A seventh of everything I'll ever have, gone before anyone's even had breakfast."
+    headmaster.think "...It's fine. This is what it's for. Stop looking at the jug."
+
+    # Bottle into his jacket pocket; he grabs a stack of papers as cover.
+    headmaster.think "Papers. Something to pretend to read. The budget draft, nobody ever asks about the budget draft."
+
+    ########################################
+    # Staff room, still dark
+
+    $ paperdoll_manager.set_background("images/background/office building/c teacher.webp", blur = True)
+
+    subtitles "The staff room is cold and blue in the half-light. Somebody has left a mug on the desk by the window with a teabag welded to the bottom of it."
+    headmaster.think "Nobody's in before seven. Plenty of time. You're just a man making coffee. That's all this is."
+
+    # He fills the big urn, measures the grounds, switches it on.
+    subtitles "The urn takes forever. It ticks, and gurgles, and finally starts to hiss, and the room slowly fills up with the smell of cheap, strong coffee."
+
+    # Waiting at the window, dawn coming up.
+    headmaster.think "It's already bound. The enzymes did their work in the flask. The heat can't do anything to it now."
+    headmaster.think "...Probably. Almost certainly. I really should have tested that."
+
+    # The urn finishes. Lid up, steam, the dropper bottle.
+    subtitles "When the urn clicks off he lifts the lid, and steam rolls up into his face. He tips the little bottle in all at once, stirs it with the long spoon, and watches the amber vanish into the black without a trace."
+    headmaster "There."
+    headmaster.think "Coffee. It's just coffee. It smells like coffee. Sit down."
+
+    ########################################
+    # Staff room, morning. Teachers arrive.
+
+    $ paperdoll_manager.set_background("images/background/office building/teacher 1 1 0.webp", blur = True)
+
+    subtitles "By quarter to seven there's grey daylight in the windows. He's at the long table with the budget draft spread out in front of him, and he has read the same line eleven times."
+
+    # Zoe first, bag over her shoulder, travel mug in hand. Speaks to him.
+    $ zoe.register_paperdoll()
+    $ zoe.display(PDAImage(pose = "1", outfit = "uniform", level = 2, mood = "suprised", mouth = "open"),
+        PDAPreset("upper_body", duration = 0.0),
+        PDAPreset("outside", duration = 0.0))
+    $ zoe.display(PDAPreset("upper_body_center", duration = 0.4))
+    zoe "Oh! You're in before me? That never happens. Is everything okay? Nobody's— nothing's happened?"
+    $ zoe.display(PDAImage(mouth = "closed"))
+    headmaster "Nothing's happened. I couldn't sleep, so I thought I'd get some work done down here. There's coffee, if you want it."
+    $ zoe.display(PDAImage(mood = "happy", mouth = "open"))
+    zoe "You made coffee. In the staff room. Before seven."
+    zoe "I'm going to pretend I'm not suspicious and just be grateful, okay? Thank you."
+    $ zoe.display(PDAImage(mouth = "closed"))
+
+    subtitles "She pours herself a mug, adds far too much milk, and takes a long swallow standing right there at the counter."
+    $ zoe.display(PDAImage(mood = "happy", mouth = "open"))
+    zoe "Oh, that's good. That's actually good. You're allowed to be in early more often."
+    $ zoe.display(PDAImage(mouth = "closed"))
+    headmaster.think "One."
+    $ zoe.clear_display()
+
+    # Yulan, precise, checks the clock before anything else.
+    subtitles "Yulan Chen comes in two minutes later, glances at the urn, and then at the clock, in that order."
+    yulan "It's six fifty-two. The machine's on a timer for seven fifteen."
+    headmaster "I overrode it."
+    yulan "...Hm."
+    yulan "Well. I'm not going to file a complaint about it."
+    subtitles "She takes it black, in the plain white mug she always uses, and drinks it hot enough that it must hurt."
+    headmaster.think "Two."
+
+    # Lily, exhausted, talking before she's through the door. Speaks to him.
+    $ lily.register_paperdoll()
+    $ lily.display(PDAImage(pose = "1", outfit = "uniform", level = 2, mood = "sad", mouth = "open"),
+        PDAPreset("upper_body", duration = 0.0),
+        PDAPreset("outside", duration = 0.0))
+    $ lily.display(PDAPreset("upper_body_center", duration = 0.4))
+    lily "Please tell me that's real coffee and not the smell of it coming off Yulan. I was up until past one with 3A's tests, and I swear half of them have invented a new kind of fraction—"
+    $ lily.display(PDAImage(mouth = "closed"))
+    headmaster "It's real. Help yourself."
+    $ lily.display(PDAImage(mood = "happy", mouth = "open"))
+    lily "Oh, bless you."
+
+    subtitles "She pours, lifts the mug to her face, and stops with it just under her nose."
+    $ lily.display(PDAImage(mood = "suspicious", mouth = "open"))
+    lily "Is this a different brand? It's got a sort of... fruity note to it? Not bad. Just—"
+    lily "Sorry. Science teacher. I smell everything, it's a curse. Ignore me."
+    $ lily.display(PDAImage(mouth = "closed"))
+    headmaster.think "Oh no. Of course it's the chemistry teacher. Of course it is."
+    headmaster "Same tin as always. Maybe someone finally cleaned the machine."
+    $ lily.display(PDAImage(mood = "suprised", mouth = "open"))
+    lily "Someone {i}cleaned{/i} the machine? Okay, now I'm actually worried."
+    $ lily.display(PDAImage(mood = "happy", mouth = "closed"))
+    subtitles "She laughs, and drinks, and goes to collapse into the armchair by the radiator."
+    headmaster.think "...Three. Breathe."
+    $ lily.clear_display()
+
+    # Chloe, sleeves down over her tattoos as usual. Speaks to him.
+    $ chloe.register_paperdoll()
+    $ chloe.display(PDAImage(pose = "1", outfit = "uniform", level = 2, mood = "neutral", mouth = "open"),
+        PDAPreset("upper_body", duration = 0.0),
+        PDAPreset("outside", duration = 0.0))
+    $ chloe.display(PDAPreset("upper_body_center", duration = 0.4))
+    chloe "Somebody made a full pot before seven. Who are you, and what have you done with our headmaster?"
+    $ chloe.display(PDAImage(mouth = "closed"))
+    headmaster "Early meeting prep. Help yourself."
+    $ chloe.display(PDAImage(mood = "happy", mouth = "open"))
+    chloe "'Meeting prep.' Sure. I'll take it, whatever it is."
+    $ chloe.display(PDAImage(mouth = "closed"))
+    headmaster.think "Four."
+    $ chloe.clear_display()
+
+    # Finola last, flustered, bag half open.
+    subtitles "Finola Ryan arrives last, red bob still damp from the shower, with her bag half unzipped and a scarf she clearly grabbed on the way out the door."
+    finola "Sorry, sorry, I overslept, I {i}never{/i} oversleep— is there any left?"
+    yulan "Plenty. He's made enough for a regiment."
+    subtitles "Finola pours a cup, stirs in two sugars, and sits down in the only free chair, which happens to be right next to Yulan."
+    headmaster.think "Five. All five of them."
+
+    ########################################
+    # Overheard: the teachers talking among themselves (no paperdolls).
+
+    subtitles "For a while it's just a normal staff-room morning. Mugs clinking, the radiator knocking, somebody's phone buzzing on the table."
+    zoe "Did anybody actually read the agenda for Friday? Because I got as far as 'item one' and then I had to go and supervise the swimming."
+    lily "It's the budget again. It's always the budget. And behaviour, apparently, because the council has decided we need a new form for it."
+    chloe "Another form. Great. I'll colour it in."
+    yulan "The existing form is fine. It's that nobody fills it in properly."
+    lily "Can we please not talk about forms until I've had at least two of these?"
+
+    headmaster.think "Normal. Completely normal. Maybe I got the ratio wrong. Maybe the heat did—"
+
+    # Twenty minutes later. The shift starts.
+    subtitles "Twenty minutes later, the conversation has got louder, and slower, and somehow warmer."
+
+    # Lily stretches in the armchair; her blouse rides up over her stomach.
+    subtitles "Lily stretches in the armchair, arms right up over her head, and her blouse comes untucked and rides up over a pale strip of stomach. She doesn't pull it down."
+    lily "Mmh— God, sorry. I think I graded myself into a knot last night. Everything's so... loose now, though. Is that weird? That's weird."
+
+    # Zoe peels off her red tracksuit jacket; yellow swimsuit top underneath.
+    subtitles "Zoe has unzipped her tracksuit jacket all the way and shrugged it off onto the back of the chair. Underneath is the yellow swimsuit top she wears for the pool, and she's sitting there in it with her legs crossed as if that's what she always wears to the staff room."
+    zoe "Is the heating on already? I'm roasting. Honestly, this coffee's doing something to me. I feel all... good-loose. Like after a really long swim."
+
+    # Chloe rolls her sleeves right up; tattoo sleeves fully on show.
+    subtitles "Chloe, who never shows her arms in front of colleagues, has rolled both her sleeves up past the elbow without seeming to notice. The ink runs all the way up: roses, a swallow, a line of sheet music."
+    chloe "Oh, screw it. It's too warm for sleeves."
+
+    # Yulan and Finola, shoulder to shoulder.
+    subtitles "At the table, Yulan has ended up with her shoulder pressed against Finola's, and her hand resting on the table a few centimetres from Finola's own. Neither of them has moved away."
+    yulan "Your hair's very red. In this light, I mean. I don't think I'd ever really noticed."
+    finola "Oh— um. Thank you? It's just... hair."
+    yulan "No, it's a good red. It's a very... committed red."
+
+    headmaster.think "Oh. Oh, it's working. It's working faster than last time. {i}Much{/i} faster."
+    headmaster.think "Don't stare. Read the budget. Turn a page. Any page."
+
+    # Finola sets her cup down hard; one hand flat against her chest.
+    subtitles "Finola puts her mug down harder than she means to. She presses one hand flat against her chest, like she's checking her own heartbeat, and stands up."
+    finola "Excuse me a second."
+    subtitles "She's out of the door before anyone can answer. It isn't quite running."
+
+    zoe "Finn? You okay?"
+    subtitles "Zoe half gets up out of her chair."
+    headmaster.think "If Zoe goes after her, and it's bad, she'll know something's wrong. She'll want to know what everyone drank."
+    headmaster "I'll check on her. I need to grab something from my office anyway."
+    zoe "...Okay. Tell her to drink some water, she never drinks anything."
+
+    ########################################
+    # Corridor → staff changing room
+
+    # IMAGE: empty corridor; the staff changing room door at the end, ajar.
+    subtitles "The corridor's empty. At the far end, the staff changing room door is standing open about a hand's width."
+    headmaster.think "Not the bathroom. The changing room. She went for her locker."
+    headmaster.think "Last time she ran for it in a panic. This time she walked straight here like she knew exactly what she was doing..."
+
+    subtitles "There's movement on the other side of the door: a soft rustle of fabric, a zip, a long exhale."
+    headmaster "Ms. Ryan? Are you—"
+
+    # IMAGE: through the gap, Finola at her locker, back to him, completely naked,
+    # clothes in a heap on the bench and floor. Freckles down her back.
+    subtitles "He pushes the door with two fingers, and it swings further than he means it to."
+    subtitles "Finola is standing at her open locker with her back to him, and she isn't wearing anything at all. Her blouse, her skirt, her tights and her underwear are all in a heap on the bench, as though they'd been peeled off in one go. The freckles on her shoulders carry on down her back, all the way down."
+    headmaster.think "Oh— oh God."
+
+    # IMAGE: she turns at his voice; a full second passes before an arm crosses
+    # her chest and a hand drops low. Face flushed, dazed, not horrified.
+    subtitles "She turns around at the sound of his voice. For one long second she just looks at him, flushed and a bit dazed, completely bare, and it's only after that second that an arm comes up across her chest and her other hand drops to cover herself."
+    $ set_game_data("seen_breasts_finola_ryan", True)
+    $ set_game_data("seen_ass_finola_ryan", True)
+    $ set_game_data("seen_pussy_finola_ryan", True)
+
+    headmaster "I'm so sorry— I thought— I'll go. I'm going. I'm gone."
+    finola "It was all too tight. Everything. The shirt, and then the— and then it was all of it, it was all just too {i}much{/i}, I couldn't—"
+    finola "Sorry. I'm sorry. Give me a minute. Please."
+
+    subtitles "He pulls the door shut and stands in the corridor with his hand still on the handle."
+    finola.think "*He saw. He— did he see? He saw. I didn't even lock the door. I {i}always{/i} lock the door.*"
+
+    headmaster.think "I just walked in on a colleague. Stark naked. At quarter to eight on a school morning."
+    headmaster.think "...Last time she changed her top and was mortified inside five minutes. This time she took off everything, and when I walked in she just stood there."
+    headmaster.think "A whole second before she even covered up. Normal Finola would've had something heavy airborne by now."
+
+    # Finola comes out in the spare clothes from her locker: her level-3 outfit
+    # (cropped yellow tank, lace bra edge showing, bare midriff, polka-dot belt,
+    # ripped dark jeans, black lace-up boots). Speaks to him.
+    subtitles "A few minutes later the door opens. Finola comes out dressed again, but not in what she arrived in. It's the spare clothes from her locker: a cropped yellow tank top that stops well above her navel, the lace edge of her bra showing at the neckline, ripped dark jeans and her black boots. The blouse is balled up in her hand."
+    subtitles "She can't quite look at him."
+    $ finola.register_paperdoll()
+    $ finola.display(PDAImage(pose = "1", outfit = "uniform", level = 3, mood = "sad", mouth = "closed", look = "avert"),
+        PDAPreset("upper_body", duration = 0.0),
+        PDAPreset("outside", duration = 0.0))
+    $ finola.display(PDAPreset("upper_body_center", duration = 0.4))
+    $ finola.display(PDAImage(mouth = "open"))
+    finola "I honestly don't know why I did that."
+    finola "I remember being too hot, and then your voice, and... that's it, mostly. That's all I've got. I'm so sorry."
+    $ finola.display(PDAImage(mouth = "closed"))
+    finola.think "*I remember his voice. I remember the cold floor under my feet. I don't remember deciding to take everything off.*"
+    headmaster "It's forgotten. Honestly. Are you feeling alright?"
+    $ finola.display(PDAImage(mood = "neutral", mouth = "open"))
+    finola "I... yes. Fine. Better, actually, which is somehow the worst part."
+    finola "These were in my locker. For... I honestly don't know what for. I couldn't make myself put the blouse back on. It felt like— it just felt {i}wrong{/i} on me."
+    $ finola.display(PDAImage(mouth = "closed"))
+    headmaster.think "Last time she couldn't get back into her own clothes fast enough. 'Completely inappropriate for work.' Her words."
+    headmaster.think "...She's not even reaching for the blouse."
+    subtitles "She gives him a small, awful smile and goes back towards the staff room with the blouse still balled up in her fist, and her arms folded tight over her bare stomach."
+    $ finola.clear_display()
+
+    ########################################
+    # Staff room, bell coming up
+
+    subtitles "By the time he gets back, the teachers are gathering up bags and mugs. First period is ten minutes away."
+    zoe "Is Finn alright?"
+    headmaster "She's fine. Overheated, I think."
+    zoe "Mm."
+    subtitles "Zoe looks at him for a moment longer than she needs to, then shrugs her jacket back on over the swimsuit top and zips it right up."
+    chloe "Thanks for the coffee, boss. Do it again sometime."
+    lily "Please do it again. Every day. I'll pay you."
+    yulan "Next time, leave the timer alone."
+
+    subtitles "The door swings shut behind the last of them, and the room goes quiet except for the radiator."
+
+    # He tips the last two cups' worth into the sink and rinses the urn.
+    subtitles "There's maybe two cups left in the urn. He pours them down the sink, rinses the urn out twice, and puts it back exactly where it was, with the lid at the same slightly crooked angle."
+    headmaster.think "Right. Now it wears off. Like it always does."
+    headmaster.think "And tomorrow I find out whether anything stays behind."
+
+    $ set_progress("lab_intro_faculty", 1)
+
+    $ end_event("new_daytime", **kwargs)
+
+# PTA Refreshments - Friday morning after Morning Brew
+label lab_intro_15 (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ adelaide = Person["adelaide_hall"]
+    $ nubia = Person["nubia_davis"]
+    $ yuki = Person["yuki_yamamoto"]
+    $ yuriko = Person["yuriko_oshima"]
+
+    $ zoe = Person["zoe_parker"]
+    $ yulan = Person["yulan_chen"]
+    $ lily = Person["lily_anderson"]
+    $ chloe = Person["chloe_garcia"]
+    $ finola = Person["finola_ryan"]
+
+    # SCENE · lab_intro_15
+    # Friday, the PTA meeting room. Emiko sets out two jugs of lemonade: the one
+    # with lemon slices is dosed and meant for the three mothers, the plain one
+    # is for everyone else (the teachers were dosed yesterday). Adelaide Hall
+    # arrives with a tin of her own shortbread and seven printed pages of
+    # objections to the summer uniform proposal; Nubia Davis and Yuki Yamamoto
+    # come with her. All three drink. The teachers and Yuriko Oshima (student rep)
+    # join; Yuriko drinks nothing. The agenda sails through, the mothers getting
+    # chattier and giddier, and the uniform item passes in a unanimous show of
+    # hands; Adelaide never uses her pages. Afterwards Adelaide traces Chloe
+    # Garcia's tattoos, and Yuriko watches. Emiko clears up and mentions she has
+    # plans tonight.
+    # Wired: blurred PTA room bg (pta 6 2 0). No paperdolls: the room plate has
+    # the cast baked in, and it's a group scene.
+
+    $ paperdoll_manager.set_background("images/events/pta/regular meeting/pta 6 2 0.webp", blur = True)
+
+    ########################################
+    # Before the meeting: Emiko and the two jugs
+
+    subtitles "The meeting room smells of furniture polish and the radiator that's been on since seven. On the side table Emiko has set out two glass jugs of lemonade, sweating in the warm air, and a stack of paper cups."
+    subtitles "One jug has thin lemon slices floating in it. The other doesn't."
+
+    headmaster "Which one's which?"
+    emiko "Lemon slices for the mothers. Plain for everybody else."
+    headmaster "Why lemon slices?"
+    emiko "Because Adelaide Hall will tell me they look lovely, and pour herself a glass before she's even got her coat off."
+    emiko "The teachers had theirs yesterday. No point wasting your precious floor cleaner on a second helping."
+    headmaster.think "She's thought about this more than I have. Again."
+
+    ########################################
+    # The mothers arrive
+
+    # IMAGE: the three mothers in the doorway. Adelaide in front with a biscuit
+    # tin and a folder; Nubia and Yuki behind, mid-conversation.
+    subtitles "They arrive together, ten minutes early, as always. Adelaide Hall leads, with a floral biscuit tin under one arm and a plastic folder held against her chest like a hymn book."
+    adelaide "Good morning! I brought shortbread. The cafeteria had butter left over, and I couldn't bear to see it go to waste."
+    headmaster "Mrs. Hall. Mrs. Davis, Mrs. Yamamoto. Thank you for coming early."
+    nubia "She made us come early. She wanted to get the good chairs."
+    adelaide "I wanted to get {i}settled{/i}, Nubia. There's a difference."
+
+    subtitles "Adelaide sets the folder down on the table in front of her chair with great care. Through the plastic you can see the top page: SUMMER UNIFORM PROPOSAL — CONCERNS. It is stapled. There are a lot of pages."
+    adelaide "I've put a few thoughts together on item five, headmaster. Nothing dramatic. I just think some of us have to be the grown-ups about hemlines."
+    nubia "She has seven pages of thoughts."
+    yuki "I only have one concern. But it's a big one."
+    headmaster.think "Seven pages. Stapled. God help me."
+
+    # Emiko offers the dosed jug.
+    emiko "Lemonade, ladies? It's warm in here already."
+    adelaide "Oh, the lemon slices, look. Emiko, that looks lovely."
+    emiko.think "*Told him.*"
+
+    subtitles "Adelaide takes the first cup, and sniffs it the way she'd sniff a pot of soup in her own kitchen, before she drinks."
+    adelaide "Fresh lemons, not from concentrate. You spoil us. It's a touch sweet, but I'll forgive you."
+    nubia "Beats the sludge you gave us last time. No offence."
+    emiko "None taken. The last lot really was sludge."
+    subtitles "Nubia drains half the cup in one go. Yuki holds hers in both hands for a while, then drinks it slowly, looking round the room over the rim."
+
+    # Small talk while they settle.
+    headmaster "How's Soyoon getting on, Mrs. Yamamoto?"
+    yuki "Oh, you know Soyoon. Polite to everybody, friends with nobody."
+    yuki "Although, she's been doing her homework in the common room with a group lately. A {i}group.{/i} I nearly fell over when she told me."
+    headmaster "That's good to hear. And yours, Mrs. Hall? Mrs. Davis?"
+
+    subtitles "There's a very small pause."
+    adelaide "Oh, she's... doing well. Where she is."
+    subtitles "Adelaide smooths the corner of her folder flat, although it was already flat."
+    adelaide "Shortbread, anyone? I really did make far too much."
+    nubia "Mine's fine."
+    subtitles "Nubia says it into her cup, and drinks. Yuki glances from one of them to the other and says nothing at all."
+    headmaster.think "That was a very quick change of subject. ...Not my business. Probably not my business."
+
+    ########################################
+    # Teachers and Yuriko arrive
+
+    # IMAGE: the teachers coming in in a loose group, Yuriko Oshima at the back
+    # with her student-rep notebook.
+    subtitles "The teachers come in in a loose group just before the hour, with Yuriko Oshima trailing behind them clutching her student-rep notebook."
+    zoe "Sorry, are we late? Lily couldn't find her keys."
+    lily "They were in my hand. They were in my hand the whole time. Nobody tell anyone."
+
+    subtitles "Emiko pours for them from the plain jug without being asked. Finola takes the chair at the far end of the table, as far from the headmaster as the room allows, and doesn't look up from her agenda."
+    headmaster.think "...She remembers something, then. Not much. Enough."
+
+    emiko "Yuriko? Lemonade?"
+    yuriko "No, thank you."
+    adelaide "It's lovely, dear. Fresh lemons."
+    yuriko "I'm sure it is."
+    subtitles "Yuriko sits down across from the mothers, opens her notebook to a clean page, and writes the date in the corner in small, very neat numbers."
+
+    ########################################
+    # The meeting
+
+    headmaster "Thank you all for coming. We've got a full agenda, so let's make a start. Item one: the maintenance budget for next term."
+
+    # IMAGE: twenty minutes in. Adelaide leaning back, one arm hooked over the
+    # back of her chair; Nubia laughing; Yuki with her shoes slipped off.
+    headmaster "The proposal increases facility maintenance by eight percent."
+    subtitles "Adelaide has her pen in her hand. She always has her pen in her hand for the budget. Today she's using it to draw a little flower in the margin."
+    adelaide "Eight? Honestly, the building's lovely, it deserves the attention. Give it ten."
+    headmaster.think "...She fought me for forty minutes over three percent last time."
+
+    headmaster "Item two. The spring fundraiser. The proposal is a parent-and-student social evening in the hall."
+    nubia "A social! With music? Do schools still do those? I used to sneak out to those. I used to sneak {i}in{/i} to those, actually, I wasn't even at that school—"
+    subtitles "She laughs so hard at herself that she has to put her cup down."
+    nubia "Sorry. Sorry. Yes. Do it. The girls would love it."
+    yuki "The third Saturday in May would be good. Soyoon has nothing on. Soyoon never has anything on."
+
+    headmaster "Item three, the cafeteria salad bar. There's a slight cost increase."
+    yuki "Oh, yes, please. Soyoon eats like a little bird, she'll tell me she hates salad and then she'll eat the whole bowl, she did it at my sister's, the entire bowl, and then she said it was too oily—"
+    subtitles "Yuki has slipped her shoes off under the table somewhere around item two. She seems not to have noticed that she's still talking."
+    adelaide "I support the salad bar. I'll run it myself."
+
+    subtitles "Across the table, Zoe catches Yulan's eye. Yulan raises one eyebrow by about a millimetre. Neither of them says anything."
+    yuriko.think "*Normally Mrs. Hall has a question about everything. Portion sizes. Supervision. Who's liable if someone chokes on a crouton. Today she's drawing flowers.*"
+
+    # Item five: the uniform. The folder.
+    headmaster "Which brings us to item five. The summer uniform proposal: lighter fabrics, and a relaxation of the rules on skirt length and blouses in warm weather."
+
+    subtitles "Everyone looks at Adelaide's folder. Adelaide looks at it too. She picks it up, turns it over in her hands, reads the first line on the top page as if someone else had written it, and puts it down again, face-down."
+    adelaide "You know, I was going to say a great deal about hemlines."
+    adelaide "But it's {i}hot{/i}. Girls get hot. We were all girls once, weren't we? I remember sitting in a wool skirt in June thinking I'd actually die."
+    nubia "Motion to just let them breathe."
+    headmaster "...Then I suppose we should vote. All in favour?"
+
+    # IMAGE: hands going up. All three mothers at once; the teachers after them.
+    subtitles "Three hands go up at once. The teachers follow a beat later, one after another. Yulan's is last."
+    yulan "Is this a formal vote? Then, yes. In favour."
+    headmaster "Carried. Unanimously."
+    subtitles "Yuriko's pen has stopped moving."
+    yuriko.think "*She brought seven pages. I watched her staple them in the corridor.*"
+
+    headmaster "Unless there's any other business... no? Then that's the fastest meeting we've ever had. Thank you, everyone."
+    adelaide "Wasn't it lovely? Usually these go on {i}forever{/i}."
+
+    ########################################
+    # After the meeting: Adelaide and Chloe
+
+    # IMAGE: people standing, gathering bags. Adelaide has drifted over to Chloe
+    # Garcia and is standing much too close, looking at her bare forearm.
+    subtitles "Chairs scrape. People gather up bags and papers and stand around in the loose, chatty way people do after a meeting that finished early. Adelaide has drifted over to Chloe Garcia, and is standing much closer than she needs to."
+    adelaide "Are these new? I've never noticed how detailed they are."
+
+    # IMAGE: Adelaide's fingertips tracing a rose up Chloe's forearm, unasked.
+    subtitles "Before Chloe can answer, Adelaide's fingertips are on her arm, tracing the stem of a tattooed rose slowly up towards her elbow. Chloe goes very still."
+    chloe "I've had most of them since before I started here."
+    adelaide "They're beautiful. This one especially."
+    subtitles "Adelaide's thumb presses into the ink a little. It's too slow, and far too interested, for a chat after a PTA meeting."
+    chloe.think "*She's never once looked at my arms. Three years, and she's always looked just past them.*"
+
+    yuriko.think "*Mrs. Hall is stroking Ms. Garcia's arm. In a PTA meeting. ...Adults are exhausting.*"
+    yuriko.think "*It's fine. People touch each other all the time. So why does it feel like I've just walked in on something?*"
+
+    headmaster.think "Adelaide Hall. First to finish her cup, first to go back for another."
+    headmaster.think "She came in here wound up tight as a spring, with seven pages about hemlines. And now look at her."
+
+    ########################################
+    # Clearing up: Emiko
+
+    subtitles "Twenty minutes later the room's empty except for the two of them and the smell of lemons. Emiko is emptying the jug with the lemon slices down the little sink in the corner."
+    headmaster "That went... better than it had any right to."
+    emiko "Seven pages. Face down. I'm going to have them framed."
+    emiko "Oh, and I'm leaving early tonight, if that's alright. I've got plans."
+    headmaster "Oh? Anything nice?"
+    emiko "Something I've been working on for a while. It's a sort of... get-together."
+    headmaster "Good for you. Honestly, you should go out more. You work too hard."
+    emiko "...Yes. That's exactly what it is. Going out."
+    emiko.think "*Bless him. He hasn't got the faintest idea.*"
+    headmaster.think "Good for her. She deserves a night off."
+
+    $ set_progress("lab_intro_parents", 1)
+
+    $ end_event("new_daytime", **kwargs)
+
+# The Discovery unlocks after Chemical Mishap
+label lab_intro_16 (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ gloria = Person["gloria_goto"]
+    $ ishimaru = Person["ishimaru_maki"]
+    $ lin = Person["lin_kato"]
+
+    # SCENE · lab_intro_16
+    # Late afternoon. Lin talks Gloria and Ishimaru into sneaking into the old,
+    # abandoned lab building through the rusted gate. Inside: dusty corridor,
+    # a derelict classroom lab full of old glassware and a faded periodic table.
+    # Ishimaru knocks over a stand of test tubes; bending down to pick them up,
+    # she spots a notebook that has slipped down behind a metal shelf. It's a
+    # plain black hardcover notebook, clearly new, full of handwritten notes on
+    # a potion: ingredients, effects on a "subject E.", open questions. The
+    # three read it, get spooked, half-connect it to an afternoon last week none
+    # of them remember properly, and agree to come back with textbooks.
+    # (The notebook is the headmaster's, lost here in lab_intro_2. The girls
+    # don't know that.) No headmaster present → overheard, no paperdolls.
+
+    # IMAGE: exterior of the abandoned lab building, overgrown, late light;
+    # the three girls at the rusted gate, Lin in front.
+    subtitles "Behind the sports field, past the bins, the old lab building."
+    subtitles "Nobody's used it in years. The windows on the ground floor are boarded, the gate's chained, and the chain has been hanging open for as long as anyone can remember."
+
+    lin "Okay, so technically it's not breaking in if the chain's already broken. That's just... walking in."
+    ishimaru "Is that how that works?"
+    lin "That's exactly how that works. Come on, I want to see if it's haunted."
+    gloria "It won't be haunted. But I would quite like to see the fume cupboards."
+    lin "See? Gloria wants to see the fume cupboards. It's educational now. We're basically on a field trip."
+
+    # IMAGE: interior corridor, dust, cobwebs, light through gaps in the boards.
+    subtitles "Inside it smells like damp paper and something sharp and chemical underneath, faint, as if it's been soaking into the walls for thirty years. Their footsteps sound much too loud on the cracked lino."
+
+    ishimaru "Okay, this is actually a bit creepy. Is it just me? It's a bit creepy."
+    lin "It's not creepy, it's {i}atmospheric.{/i}"
+    lin "...It's a bit creepy."
+    gloria "The science wing must have moved when they built the new block. So everything in here is from before that. Nobody bothered to clear it out."
+
+    # IMAGE: old classroom lab. Shelves of dusty beakers and test tubes, a faded
+    # periodic table, benches with gas taps. Gloria reading bottle labels, Lin
+    # peering into a cupboard, Ishimaru turning in a slow circle.
+    subtitles "The old chemistry room is still full. Beakers and flasks stand in rows on the shelves under a grey skin of dust, as though the class just got up one day and never came back."
+
+    gloria "Oh, these are good. Borosilicate. That's the proper stuff, you can heat it without it cracking. Half of this would still work if you washed it. Honestly, it's a waste, somebody should be using all of this, the school's buying new glassware every year and there's a whole room of it just sitting here—"
+    lin "Gloria. Breathe."
+    gloria "I'm breathing. I'm breathing and cataloguing."
+
+    # Ishimaru backs into a stand of test tubes; they go over with a clatter.
+    subtitles "Ishimaru takes a step back to look up at the periodic table and walks straight into a rack of test tubes. The whole thing goes over with a clatter that echoes all the way down the corridor."
+    ishimaru "Oh— sorry! Sorry. Sorry, sorry, sorry—"
+    lin "Who are you apologising to?"
+    ishimaru "The... test tubes? I don't know! It's a reflex!"
+
+    # IMAGE: Ishimaru crouching to gather the tubes, peering into the gap
+    # between a metal shelf and the wall.
+    subtitles "She crouches to scoop them up, and stops, with her cheek almost against the floor."
+    ishimaru "Hang on. There's something down here. Behind the shelf."
+    lin "If it's a rat I'm leaving. I'm serious. I'll leave you both here."
+    ishimaru "It's not a rat, it's... it's a book, I think? Hang on, I can nearly—"
+
+    # IMAGE: Ishimaru pulling a plain black hardcover notebook out of the gap.
+    # It's the one clean thing in the room.
+    subtitles "She wriggles her arm into the gap up to the shoulder and comes out with a notebook. Plain black hardcover, the elastic band still round it. It's the only thing in the entire room without dust on it."
+    gloria "Let me see."
+    lin "Why do you always get to see first?"
+    gloria "Because I'll actually read it."
+
+    # IMAGE: the three gathered around the open notebook on a bench.
+    # Blue ballpoint, lists, arrows, crossed-out quantities.
+    subtitles "Inside, page after page is covered in blue ballpoint. Lists of ingredients with quantities crossed out and rewritten. Arrows. Little diagrams of glassware. Question marks in the margins, a lot of them."
+
+    gloria "Huh."
+    lin "'Huh' what? Good huh or bad huh?"
+    gloria "It's not old. Look at the ink, it hasn't faded at all. And the paper's new. This is the same kind of notebook they sell at the kiosk."
+    gloria "Somebody was in here. Recently."
+    ishimaru "Okay, I take it back, it's {i}really{/i} creepy now."
+
+    lin "What even is it? Is it a recipe? It looks like a recipe."
+    gloria "It's a formula. For... something you drink, I think. Listen:"
+    gloria "'Subject E. Onset within fifteen minutes. Flushing, heat, marked drop in inhibition.' And then underneath: 'Fades too fast. Needs something to make it hold?'"
+    ishimaru "Drop in {i}inhibition?{/i}"
+    lin "Like... like being drunk?"
+    gloria "Like being drunk without the drinking. Oh, this is fascinating. Who's subject E? And what does 'marked' mean, what's the scale, is there a scale, is it on the next page—"
+
+    # A beat. Lin has gone quiet, reading over Gloria's shoulder.
+    subtitles "Lin has gone quiet. She's reading the same line again, over Gloria's shoulder."
+    lin "Fifteen minutes. Hot. And then you just... stop caring."
+    lin "Hey. What were we doing last week? That afternoon, in that empty classroom by the admin corridor. You and me and Luna."
+    gloria "We were..."
+    subtitles "Gloria opens her mouth, and closes it again."
+    gloria "We were talking. And then it was quarter past four and I didn't know where the time had gone."
+    ishimaru "I got some weird cleaning stuff on my top that day. I remember taking it off. I don't really remember... after."
+    subtitles "For a moment none of them says anything. Somewhere down the corridor a loose board creaks in the wind."
+
+    lin "Okay, no. Nope. I'm not that kind of person, I don't do conspiracy theories. We were tired. It was a long day."
+    lin "...It was a really weird day, though."
+
+    gloria "We need to actually understand what this is. Properly. Not guess."
+    lin "How? Half of this is words I've never seen in my life."
+    gloria "Textbooks. Tomorrow, after last period. We go through it line by line and look up everything we don't know."
+    ishimaru "Here? We're coming back {i}here?{/i}"
+    gloria "It's got a whole room of free glassware, Ishimaru."
+    ishimaru "...Okay, that's actually a good point."
+
+    lin "And we don't tell anyone. Not Luna, not anyone. Not until we know what it is."
+    ishimaru "Obviously."
+    lin "I just wanted to say it out loud. So it's official."
+
+    # IMAGE: the three leaving through the gate, Lin holding the notebook
+    # against her chest; long shadows across the overgrown path.
+    subtitles "They go out the way they came in. Lin carries the notebook, pressed flat against her chest with both arms, and doesn't let either of the others hold it all the way back."
+
+    $ set_progress("lab_intro_discovery", 1)
+
+    $ end_event("new_daytime", **kwargs)
+
+
+# Secretary's Spin unlocks after The Discovery
+label lab_intro_17 (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ gloria = Person["gloria_goto"]
+    $ ishimaru = Person["ishimaru_maki"]
+    $ lin = Person["lin_kato"]
+
+    # SCENE · lab_intro_17
+    # The next afternoon in the old chemistry room. The three girls sit at a
+    # bench with the notebook and a pile of borrowed textbooks. Emiko, who is
+    # retracing the headmaster's steps from lab_intro_2 to find the notebook he
+    # lost, hears them from the corridor and stops in the doorway. She
+    # recognises his handwriting, and herself as "Subject E.". Instead of taking
+    # it back she decides, on the spot, to let them have it: she reframes it
+    # as a "love potion", offers supplies and supervision, and leaves the
+    # notebook with them. No headmaster present → overheard, no paperdolls.
+
+    # IMAGE: the three at the dusty bench; notebook open, textbooks stacked,
+    # Gloria with a pencil behind her ear, Lin cross-legged on a stool,
+    # Ishimaru sitting on the bench itself.
+    subtitles "The next afternoon the old chemistry room has three schoolbags on the floor and a stack of borrowed textbooks on the bench, still in their plastic covers."
+
+    gloria "Okay. 'Dosage per subject', that's just how much each person gets. Easy. 'Onset', that's how long before it starts working. Also easy."
+    gloria "But look at how it's written. 'Subject E.' Just a letter. No consent form, no dates, no supervisor. A real trial has forms for everything. Forms for the forms."
+    ishimaru "So... what does that mean?"
+    gloria "It means whoever wrote this wasn't running it past anyone. And I don't know if subject E knew what she was drinking."
+    lin "Right, okay, no. We're not doing this. I'm not that kind of person, I'm not sitting in a haunted building reading about someone secretly— you know. Doing stuff to people."
+    lin "Can we please go back to the part where it's a recipe? I liked the part where it was a recipe."
+    gloria "It's still a recipe. It's just a recipe with ethical questions."
+    ishimaru "Gloria, you say that like it's a {i}good{/i} thing."
+
+    # IMAGE: doorway. Emiko stands in it, tall, glasses, long black ponytail,
+    # half in the corridor light; the girls haven't seen her yet.
+    subtitles "None of them has noticed the figure in the doorway."
+    emiko.think "*There it is. His notebook. He's turned his whole office upside down for that thing, and it's been sitting in the one building he swore he'd already searched.*"
+
+    subtitles "Emiko knocks twice on the open door frame. All three of them jump. Ishimaru knocks a textbook off the bench."
+    emiko "Well. I didn't expect to find a study group in here."
+    ishimaru "Ms. Langley! Sorry! We weren't— sorry—"
+    lin "We weren't doing anything bad. We're just— this is—"
+    gloria "We found a research notebook hidden behind a shelf, and we've been cross-referencing it against the chemistry textbooks."
+    lin "...Or that. She could have just said that."
+
+    emiko "Relax. I'm not going to march you to the headmaster's office for being curious. I'd have to write a report, and I hate writing reports."
+    emiko "What have you got there?"
+
+    # IMAGE: Lin sliding the notebook across the bench, reluctantly.
+    lin "We don't really know. Gloria thinks it's a formula."
+    gloria "It {i}is{/i} a formula."
+    subtitles "Lin hesitates for a second, then slides it across. Emiko picks it up in both hands, carefully, and turns the pages."
+
+    # IMAGE: Emiko reading. Close on the page: blue ballpoint, "Subject E.".
+    emiko.think "*His handwriting. All the little crossed-out numbers. That's the list he kept muttering over at his desk.*"
+    emiko.think "*'Subject E. Onset within fifteen minutes. Flushing, heat, marked drop in inhibition.'*"
+    emiko.think "*...That's me. That's the first night. He wrote it all down.*"
+    subtitles "For just a moment the corner of her mouth goes soft. Then it's gone."
+
+    ishimaru "Is it bad? It's bad, isn't it. You've got a face."
+    emiko "I've always got a face."
+
+    # She makes the decision. Her thoughts, then the spin.
+    emiko.think "*He'd never let students anywhere near this. He's doing it all himself, from the top down, one careful teacher at a time, and it's wearing him thin.*"
+    emiko.think "*And these three are going to try to brew it whether I'm here or not. Gloria's already halfway to a shopping list.*"
+    emiko.think "*So, better with me than without me. And if it goes wrong, it's my name on it. Not his.*"
+
+    emiko "Oh, this is sweet."
+    lin "...Sweet?"
+    emiko "It's a love potion."
+
+    # IMAGE: the girls' faces. Ishimaru's eyebrows up; Lin sceptical;
+    # Gloria tilting her head.
+    ishimaru "Wait. Seriously? A real one?"
+    lin "That's not a real thing. That's a thing from cartoons."
+    gloria "She didn't say magic."
+    emiko "Thank you, Gloria. Not magic. Chemistry. Things that change your mood, how warm you feel, how much you worry about what everyone else thinks. The kind of thing that makes people a little more... open to each other."
+    emiko "Listen to this. 'Flushing, heat, marked drop in inhibition.' That's a blush, a warm face, and suddenly you're brave enough to say what you've been wanting to say. Whoever wrote this was a hopeless romantic."
+    gloria "So it's pharmacology."
+    emiko "In the most charming possible application, yes."
+
+    # Lin brings up the afternoon they can't remember.
+    lin "But the bit about subject E maybe not knowing. And... okay, this is going to sound stupid."
+    lin "Last week the three of us had this afternoon where we just sort of... lost half an hour. We were all a bit weird. And then we find this, and it's all 'fifteen minutes' and 'heat', and—"
+    subtitles "Emiko doesn't miss a beat."
+    emiko "You three were giddy. It's spring. Half the school's giddy. I found two girls in the stationery cupboard last week giggling at a stapler."
+    ishimaru "...At a {i}stapler?{/i}"
+    emiko "I didn't ask. I've learned not to ask."
+    subtitles "Lin laughs, a bit too loudly, and some of the tension goes out of her shoulders."
+    emiko.think "*Good. Don't pull on that thread, sweetheart.*"
+
+    # Gloria goes straight to the practical question.
+    ishimaru "Could we actually make it, though? Like, for real?"
+    gloria "Most of the ingredients are just... ingredients. It's the method that's vague. There are steps missing, temperatures missing, it never says how long anything sits. But the glassware's all here, and if we got the compounds, and did it really carefully—"
+    lin "Hang on. You've already decided we're doing this."
+    gloria "About two minutes ago. Possibly three."
+    lin "..."
+    lin "Okay, fine, I'm in. Obviously I'm in. I'm not letting you two blow yourselves up without me."
+
+    subtitles "Emiko taps a finger on the cover of the notebook, as if she's thinking it over, though she's already thought it over."
+    emiko "It would be quite advanced. But it's educational. Chemistry you can actually do something with. More than you'll get out of a worksheet."
+    emiko "I could help you gather what you need. I've got keys to every storage room in this school, and the science budget has a little bit of money in it nobody ever remembers to spend."
+    emiko "It's your project. I'd just be... a facilitator."
+    ishimaru "Yes. Yes! Absolutely yes."
+    gloria "I'll document everything. Properly."
+    lin "Of course you will."
+
+    # She hands the notebook back to Lin.
+    subtitles "Emiko closes the notebook and holds it out to Lin, not Gloria."
+    emiko "You found it, you keep it. Look after it."
+    emiko "First job: go through this room and make a list of everything that still works. Glassware, burners, anything with a plug. Then I'll see what I can find to fill the gaps."
+    lin "Thank you, Ms. Langley. Honestly. This is... actually really cool of you."
+    emiko "Don't tell anyone I'm cool. I've got a reputation."
+
+    # IMAGE: Emiko in the corridor outside, walking away. Behind her the girls
+    # are already moving around the room, opening cupboards.
+    subtitles "Out in the corridor, the three of them are already arguing behind her about who gets to open which cupboard."
+    emiko.think "*He's going to be furious with me. Eventually.*"
+    emiko.think "*But he's carrying the whole school on his own back, and he doesn't have to. Let them do this part. I'll keep an eye on them, and I'll keep him out of it.*"
+
+    $ set_progress("lab_intro_discovery", 2)
+
+    $ end_event("new_daytime", **kwargs)
+
+
+# Gathering Ingredients unlocks after Secretary's Spin
+label lab_intro_18 (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ gloria = Person["gloria_goto"]
+    $ ishimaru = Person["ishimaru_maki"]
+    $ lin = Person["lin_kato"]
+
+    # SCENE · lab_intro_18
+    # A few days later, late afternoon in the old chemistry room. The three
+    # girls go through every cupboard and shelf. Ishimaru stands on a wobbly
+    # chair at the high cupboards, Lin checks glassware against the light,
+    # Gloria works through the drawers with a list. The bench fills up with
+    # beakers, flasks, a measuring cylinder, stirring rods, tubing. They're
+    # missing a heat source and the chemicals. Emiko arrives with a cardboard
+    # box: a hot plate, basic chemicals from the stockroom, goggles and gloves.
+    # She makes them promise to wear the safety gear, and asks to be there for
+    # the first brew. No headmaster present → overheard, no paperdolls.
+
+    # IMAGE: the three searching the room. Ishimaru up on a chair at the high
+    # cupboards, Lin holding a flask up to the window, Gloria kneeling at a
+    # low drawer with a notebook of her own.
+    subtitles "A few days later the old chemistry room has the windows propped open, and every cupboard door is standing wide."
+
+    ishimaru "Found beakers! A whole set, up here, all different sizes! Hang on, I'll pass them down—"
+    subtitles "The chair wobbles. Ishimaru grabs the cupboard door, and the cupboard door creaks in a way cupboard doors shouldn't."
+    lin "Okay, maybe pass them down {i}slowly.{/i} Maybe pass them down one at a time, like a normal person, instead of doing a circus act."
+    ishimaru "I'm fine! I'm totally fine. Sorry. I'm fine."
+    gloria "Check the rims before you hand them over. If there's a chip, it can crack when it's heated, and then you've got boiling liquid all over your hands."
+    ishimaru "They look fine."
+    gloria "Look properly."
+    subtitles "Ishimaru holds each one up in front of her nose and turns it round, very slowly, squinting."
+    ishimaru "...They still look fine. But now I've looked {i}properly.{/i}"
+
+    # IMAGE: Lin at the window with a graduated cylinder, sunlight through the
+    # markings.
+    lin "Ooh, this one's perfect. Not a scratch on it, and you can still read all the little lines."
+    gloria "That's the measuring cylinder. That's the most important thing in this room, honestly. If we can't measure it properly, we can't dose it properly."
+    lin "Right. 'Dose it properly.' Listen to me. I'm saying things like 'dose it properly' now. Last month I was watching videos of cats falling off sofas."
+    gloria "You still watch videos of cats falling off sofas."
+    lin "Yes, and I'll never stop. I contain multitudes."
+
+    # IMAGE: Gloria at a deep drawer, recoiling slightly.
+    subtitles "Gloria pulls open one of the deep drawers under the bench and leans back from it."
+    gloria "This drawer smells like something died in it in 1994."
+    gloria "But there's rubber tubing in here, and it still bends. And glass stirring rods. Glass doesn't go off. We can use all of this."
+    subtitles "She writes it down. She's been writing everything down."
+    lin "Hang on. Have you got an actual list?"
+    gloria "I've had a list since the day we found the notebook. It's got sections."
+    lin "Of course it's got sections."
+
+    # IMAGE: the bench, now covered in salvaged glassware; the notebook open
+    # beside it. The three of them standing round it.
+    subtitles "By half past four the bench is covered: beakers, flasks, test tubes, the measuring cylinder standing on its own in the middle like a trophy."
+    lin "So. Glassware? Done. Heat? Nothing. Actual ingredients? Nothing."
+    ishimaru "There's no way anything in this building's still usable. They'd have cleared out the chemicals years ago. You can't just leave chemicals lying around."
+    gloria "Somebody left a whole lab lying around."
+    ishimaru "...Okay, yes, fair."
+    lin "Maybe Ms. Langley knows if the school's got a—"
+
+    # IMAGE: Emiko in the doorway, carrying a cardboard box against her hip.
+    emiko "Knows if the school's got a what?"
+    subtitles "Emiko comes in with a cardboard box on her hip, and sets it down on the one clear corner of the bench with a heavy, rattling thump."
+    ishimaru "We found nearly all the glassware! But we haven't got anything to heat it with, or any of the actual—"
+    emiko "A heat source and the chemicals. I did read your list, you know. Gloria left a copy on my desk."
+    gloria "I thought you'd want to be informed."
+    emiko "I did. It had a contents page."
+
+    # IMAGE: the open box. A portable hot plate, new rubber tubing, clamps,
+    # goggles, gloves, several small bottles of chemicals, some still sealed.
+    subtitles "She pulls the flaps open. There's a portable hot plate on top, still with its old inventory sticker, then clamps and tubing, and underneath all of it a row of small brown bottles."
+    emiko "The hot plate's from the old physics room. Nobody's touched it since before I started here, but I plugged it in this morning and it didn't catch fire, so that's promising."
+    emiko "And the chemistry stockroom still had most of the basics."
+    ishimaru "Are you {i}serious?{/i} Oh my God. Oh my God, thank you!"
+    lin "This is proper stuff. Like, actual lab stuff. How did you even get all this?"
+    emiko "I've got keys to every door in this school. You'd be amazed what's sitting in a cupboard with a label that just says 'MISC.'"
+
+    # IMAGE: Gloria and Lin reading bottle labels against the notebook;
+    # Ishimaru turning the hot plate over in her hands.
+    gloria "Distilled water. Ethanol. Potassium hydroxide, that's the one the notebook underlines twice... This is almost all of it. This is nearly everything on the list."
+    gloria "Almost everything. The organic compound on page four, the one with the name that goes on forever, that isn't here."
+    emiko "No. That one's a bit specialised. Nothing dangerous, just not something a school keeps on a shelf. Any chemistry supplier online will have it."
+    lin "We can split it. Three ways."
+    ishimaru "Four ways if Ms. Langley wants in."
+    emiko "Ms. Langley already bought a hot plate's worth of electricity. Three ways."
+
+    # Emiko hands out goggles and gloves; the teasing drops away.
+    subtitles "Emiko digs down to the bottom of the box and comes up with three pairs of safety goggles and a box of gloves. When she holds them out, she isn't smiling any more."
+    emiko "These go on every single time. Every time, from the second you switch that plate on until it's cold again. I mean it."
+    emiko "Potassium hydroxide will take the skin off your fingers. If one of you ends up in hospital with burnt hands, this whole thing ends that day, and I'm the one who has to explain it."
+    lin "We promise. Honestly. Every time."
+    emiko.think "*They're so eager it hurts. Please be careful, the three of you. I can't stand behind you every single minute.*"
+    emiko.think "*...He's in that cupboard of his right now, probably, with his goggles pushed up on his head, making exactly the same face Gloria's making.*"
+
+    lin.think "*She's handing us safety gear for a project she could've shut down in thirty seconds. She actually wants this to work. That's... kind of amazing, actually.*"
+
+    ishimaru "So once the last bit arrives, we could actually start? Like, actually make it?"
+    emiko "Once it arrives, yes. You follow the method exactly, you measure everything twice, and you'll be fine."
+    emiko "And when you're ready to brew for the first time, you tell me first. I want to be there."
+    ishimaru "Definitely! Thank you so much, Ms. Langley. Seriously."
+
+    subtitles "Emiko picks up the empty box, tucks it under her arm, and stops at the door."
+    emiko "Oh, and Ishimaru? Get down off chairs slowly. I heard that cupboard door all the way from the stairs."
+    ishimaru "...Sorry."
+
+    # IMAGE: Emiko leaving down the corridor; behind her the three girls
+    # crowding round the box.
+    emiko.think "*They'll do it properly. Gloria won't let them do it any other way.*"
+    emiko.think "*And if they don't, I'll be there to catch it.*"
+
+    # IMAGE: the three alone with the bench full of equipment, late light
+    # going gold through the dirty windows.
+    subtitles "When the sound of her footsteps has gone, the three of them just stand there for a moment, looking at the bench."
+    ishimaru "She gave us a {i}hot plate.{/i} A school secretary gave us a hot plate and a box of chemicals. Is this real? This doesn't feel real."
+    lin "And she wants to come and watch. Like it's our school play or something."
+    ishimaru "She believes in us."
+    gloria "She believes in the project."
+    lin "Gloria, you are {i}so{/i} weird. That's such a Gloria thing to say. You know that, right?"
+    gloria "I know. I've made my peace with it."
+
+    ishimaru "I'll do the order tonight. Split three ways?"
+    lin "Deal."
+    gloria "I'll write the whole method out before it gets here. Step by step, with the temperatures filled in where the notebook doesn't say. So we're not making it up as we go along when it actually matters."
+
+    lin "We're making a love potion. In an abandoned building. And the school secretary is our lab supervisor."
+    lin "This is either the best thing I've ever done, or we're all getting expelled."
+    ishimaru "Can it be both?"
+    lin "It's probably going to be both."
+
+    $ set_progress("lab_intro_discovery", 3)
+
+    $ end_event("new_daytime", **kwargs)
+
+
+# Brewing Session unlocks after Gathering Ingredients between Monday and Wednesday
+label lab_intro_19 (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ gloria = Person["gloria_goto"]
+    $ ishimaru = Person["ishimaru_maki"]
+    $ lin = Person["lin_kato"]
+
+    # SCENE · lab_intro_19
+    # Early evening in the old chemistry room. The online order has arrived.
+    # The three girls, in goggles and gloves, brew the formula for the first
+    # time on the hot plate, with Gloria's written-out method and the notebook
+    # propped up beside it. Emiko watches, arms folded, and fills in the gaps
+    # the notebook leaves out. The mixture goes cloudy, then muddy brown, then
+    # clears into glowing amber. The girls decide to test it at a party in the
+    # old lab that weekend, and want to invite everyone. Emiko bottles the
+    # batch. No headmaster present → overheard, no paperdolls.
+
+    # IMAGE: the bench set up for brewing. Hot plate, beakers, measuring
+    # cylinder, small brown bottles in a row. The three girls in goggles;
+    # Emiko a step back with her arms folded. Evening light through the windows.
+    subtitles "The parcel came on Tuesday. By six o'clock on Wednesday the bench in the old chemistry room looks like an actual lab: hot plate in the middle, bottles lined up in the order they'll be used, Gloria's handwritten method taped to the wall at eye level."
+    subtitles "All three of them are wearing their goggles. Nobody even had to be reminded."
+
+    gloria "Right. Step one. Two hundred millilitres of distilled water, low heat."
+    lin "Low heat. Okay. What's low? Is low one? Is it two? There's no numbers on this thing, it's just a picture of a little flame."
+    emiko "Start at the smallest little flame. You can always go up. You can't un-boil something."
+    ishimaru "'You can't un-boil something.' That's so wise. I'm writing that down."
+
+    # IMAGE: Ishimaru carrying the measuring cylinder with both hands, very
+    # slowly, tongue between her teeth.
+    subtitles "Ishimaru carries the full measuring cylinder across the room with both hands, at roughly the speed of a glacier, and the other two watch her the whole way without breathing."
+    ishimaru "I'm fine. I'm fine. I've got it. I've g— okay. Okay, I've got it."
+    subtitles "The water goes into the beaker. All three of them breathe out at once."
+
+    gloria "Next: ethanol, fifty millilitres. My method says add it immediately."
+    emiko "Give the water two minutes first."
+    gloria "The notebook doesn't say to wait."
+    emiko "The notebook doesn't say a lot of things. You don't pour something cold into something warm all at once. And pour it down the side of the glass. Slowly."
+    emiko.think "*I've watched him fuss over his flasks often enough. He never pours anything in cold, and he talks to every single drop.*"
+
+    # IMAGE: Lin tilting the cylinder, ethanol running down the inside of the
+    # beaker; a faint shimmer where it meets the water.
+    lin "Down the side, down the side... is this slow enough? Tell me if it's too fast. Actually don't tell me, you'll make me jump."
+    emiko "That's perfect."
+    subtitles "A sharp, clean smell of alcohol rises off the beaker and mixes with the dust."
+
+    # Potassium hydroxide.
+    gloria "Potassium hydroxide. Ten grams. Gloves on."
+    ishimaru "Gloves are on! Look. Gloves."
+    emiko "Don't touch your face. Don't touch anything, actually, until that's in."
+    subtitles "Gloria tips the white granules in off the paper. They hiss very faintly as they hit the liquid, and the whole beaker clouds over, milky, and then slowly starts to go brown."
+    lin "Oh. Oh, that's... that's disgusting. It looks like pond water."
+    gloria "It's supposed to look like pond water. It's in the notes. 'Muddy brown, don't panic.'"
+    lin "It actually says 'don't panic'?"
+    gloria "It actually says 'don't panic.' Underlined."
+    emiko.think "*Of course he wrote that. That is exactly, precisely what he would write.*"
+
+    # The last ingredient; Emiko stops them.
+    gloria "Last one. The organic compound. Twenty-five millilitres, and I've written medium heat for this bit, so—"
+    emiko "Wait."
+    subtitles "Ishimaru freezes with the little bottle tilted over the beaker. Emiko holds her hand just above the glass, not touching it, for a few seconds."
+    emiko "Still too cool. Another minute, then turn it up."
+    gloria "How can you possibly tell that by just holding your hand there?"
+    emiko "Experience."
+    gloria "That's not an answer. That's a word."
+    emiko "It's a very good word. Give it a minute."
+    emiko.think "*'Needs something to make it hold?' Question mark. He wrote that and then lost the notebook before he ever found out.*"
+    emiko.think "*So whatever they make tonight won't last. A few minutes of silliness. Nobody gets hurt by a few minutes of silliness.*"
+
+    # Medium heat. The compound goes in; the mixture darkens further.
+    subtitles "Lin turns the dial up. After a minute Emiko nods, and Ishimaru pours in the last compound, slowly, down the side. The mixture goes darker still, almost the colour of coffee."
+    lin "Is it meant to get darker? It's getting darker. That feels like the wrong direction."
+    emiko "Look at the edges. Where it touches the glass."
+
+    # IMAGE: close on the beaker. A thin line of gold where the liquid meets
+    # the glass, spreading inwards.
+    subtitles "At first there's nothing. Then, right at the rim where the liquid touches the glass, there's a thin line that isn't brown any more. It's gold."
+    ishimaru "There! There, look, it's changing, it's going— is that it? Is that it?"
+    subtitles "The gold creeps inwards from the edges. The mud thins out and clears, the whole beaker brightening from the outside in, until there's nothing left in it but clear, shimmering amber, lit from underneath by the glow of the hot plate."
+    subtitles "A sweet, faintly floral smell drifts up out of it and fills the room."
+    lin "Oh my God. Oh my {i}God.{/i} We did it. We actually did it!"
+    ishimaru "It's so pretty! It's like honey! It's like drinking-a-sunset honey!"
+    gloria "It went exactly how the notes said. {i}Exactly.{/i} Every stage. Do you know how rare that is? Nothing ever goes exactly how the notes say, not in real labs, not ever—"
+    lin "Gloria, you're allowed to just be happy."
+    gloria "I am happy. This is what happy looks like on me."
+
+    emiko "Well done. Honestly. Very well done, the three of you."
+    subtitles "She reaches past them and switches off the hot plate."
+    emiko "Leave it to cool before anybody touches it."
+
+    # The party idea.
+    ishimaru "So... does it actually work? Like, as a love potion? Like, for real?"
+    emiko "The chemistry worked. Whether it does anything to people..."
+    emiko "Well. That you'd have to find out."
+    lin "We could try it. Just a tiny bit, just us?"
+    emiko "You could. But three people staring at each other waiting to feel something won't tell you much. You'd want a proper crowd. Somewhere relaxed. See what happens when people are just being themselves."
+
+    subtitles "The three of them look at each other."
+    lin "A party. Here. This weekend."
+    ishimaru "Yes! Fairy lights! Music! We can put the potion in a big bowl like a punch and call it something stupid!"
+    gloria "Love Potion Number Nine."
+    lin "That's already a song, Gloria."
+    gloria "Then it's a reference. People like references."
+
+    emiko "Keep it to your close friends, though. A small group."
+    lin "It's a small school, Ms. Langley. Everybody's close friends with everybody. If we invite some people and not others, it'll be a whole thing, there'll be crying in the toilets on Monday."
+    ishimaru "We should just invite everyone. Everyone! The whole school! Everybody!"
+    subtitles "Emiko sighs, as if they've talked her into something."
+    emiko "...Fine. Everyone. But you'll need a lot more than one beaker's worth."
+    gloria "We'll scale it up. I'll redo the quantities tonight. We can do four batches before Friday if we come every day."
+    emiko.think "*Everyone. The whole school, all at once.*"
+    emiko.think "*...That's rather more than I'd dared to hope for.*"
+    emiko "And I'll be around on the night. Nearby. Just in case."
+    lin "Would you? Honestly, that'd make me feel way better."
+
+    # IMAGE: Emiko pouring the cooled amber from the beaker into a stoppered
+    # glass bottle; the girls watching.
+    subtitles "When it's cool, Emiko pours it off into a clean glass bottle, holding it steady against the light, and presses the stopper in with her thumb."
+    emiko "Somewhere cool and dark. Not in anybody's dorm room where a roommate can find it and drink it for a dare."
+    ishimaru "How long does it keep?"
+    emiko "Weeks, if you're careful with it. It'll be fine until the weekend."
+
+    subtitles "She holds the bottle out to Lin, the same way she handed her the notebook."
+    emiko "Your first proper synthesis. Congratulations. You're real chemists now, God help us all."
+    lin "Thank you, Ms. Langley. Seriously. For all of it."
+    emiko "Goodnight. And goggles on for the next four batches, all of you. I'll check."
+
+    # IMAGE: the three alone with the bottle glowing on the bench in the
+    # darkening room.
+    subtitles "The door closes behind her. The room is almost dark now, and the bottle on the bench is the brightest thing in it."
+    ishimaru "This weekend is going to be incredible."
+    lin "I just want to know if it works. I really, really want to know if it works."
+    gloria "It will. Everything else in that notebook has been right."
+
+    $ set_progress("lab_intro_discovery", 4)
+
+    $ end_event("new_daytime", **kwargs)
+
+
+# Secretary Enhancement - Friday afternoon, after the PTA Refreshments and Brewing Session
+label lab_intro_20 (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ gloria = Person["gloria_goto"]
+    $ ishimaru = Person["ishimaru_maki"]
+    $ lin = Person["lin_kato"]
+
+    # SCENE · lab_intro_20
+    # Friday afternoon, a few hours after the PTA meeting and a few hours before
+    # the party. In the old chemistry room the girls have four batches of the
+    # weak potion bottled on the bench and are sorting out cups and fairy
+    # lights. Emiko arrives with a small brown glass bottle: the catalyst,
+    # secretly poured off from the headmaster's Orgazyme jug. She tells them
+    # it's a stabiliser that makes the effect hold. They split the whole bottle
+    # evenly between their bottles and watch the amber deepen. She tells them
+    # to keep what's in it to themselves, and leaves. No headmaster present →
+    # overheard, no paperdolls.
+
+    # IMAGE: the old chemistry room, late afternoon. A row of stoppered bottles
+    # of amber potion on the bench. A tangle of fairy lights, a stack of
+    # plastic cups, a speaker. The three girls busy.
+    subtitles "Friday, just after three. The bench in the old chemistry room has a row of eleven stoppered bottles on it, all the same pale amber, and next to them a stack of plastic cups, a speaker with a cracked grille, and a heap of fairy lights so tangled it's basically one object."
+
+    lin "Okay, who packed the fairy lights? Because whoever packed them did it by throwing them into a bag and then fighting the bag."
+    ishimaru "...That might have been me. Sorry. They were already like that! Mostly!"
+    gloria "Four batches, eleven bottles. That's enough for everyone, plus about fifteen percent extra for people who go back for more."
+    lin "People are going to go back for more of a drink called Love Potion Number Nine? Honestly?"
+    gloria "People will drink anything if you put it in a bowl and give it a silly name. That's not a guess, that's just how parties work."
+
+    # IMAGE: Emiko in the doorway, small leather bag over her shoulder.
+    subtitles "Emiko comes in with her bag over her shoulder, still in her work clothes, and looks at the row of bottles for a long moment before she says anything."
+    emiko "Eleven. You've been busy."
+    ishimaru "Ms. Langley! We finished the last batch this morning. Before class. Well. Instead of the first bit of class. A little bit."
+    emiko "I didn't hear that."
+
+    emiko "Before tonight, though. I've brought you something."
+
+    # IMAGE: Emiko taking a small brown glass bottle out of her bag. The liquid
+    # inside is pale and slightly cloudy.
+    subtitles "She takes a small brown glass bottle out of her bag and sets it down in front of the row. The liquid inside is pale and a little cloudy, and when she turns it, it moves slower than water."
+    lin "What's that?"
+    emiko "Your notebook keeps asking for something. 'Fades too fast. Needs something to make it hold?' You remember."
+    gloria "Page six. Question mark."
+    emiko "Well. I did some reading. This is something to make it hold."
+    emiko "It's a stabiliser. Without it, whatever you've made lasts a few minutes and then it's gone, everyone giggles, and nobody's quite sure what happened. With it, it actually... takes."
+
+    emiko.think "*Two hundred millilitres out of his jug. Most of what he had left.*"
+    emiko.think "*I put it back exactly where it was, behind the paint tins, with DO NOT TOUCH facing out. He'll notice, eventually. He's going to be so angry.*"
+    emiko.think "*...He'll understand. He will. Not tonight, but he will.*"
+
+    ishimaru "Is it safe, though? Like, properly safe?"
+    emiko "I've had some myself."
+    subtitles "It's true, in its way. She doesn't say more than that."
+    ishimaru "Oh. Okay. Okay, then that's fine."
+
+    # How to use it. Kept vague: the whole bottle, split evenly.
+    gloria "What's the ratio?"
+    emiko "All of it, split evenly between every bottle. Exactly evenly. If one bottle gets more than the others, somebody's going to have a much stranger evening than everybody else."
+    lin "How do we make it even? There's eleven."
+    gloria "Measuring cylinder. Divide by eleven. I'll do it. Nobody else touch it."
+
+    # IMAGE: Gloria at the measuring cylinder, Ishimaru unstoppering bottles in
+    # a row, Lin writing each amount on a scrap of paper.
+    subtitles "They set it up like a production line without anybody saying so. Ishimaru takes the stoppers out one at a time. Gloria measures. Lin writes each one down on the back of a flyer for the party."
+    gloria "First one."
+    subtitles "The pale liquid runs into the first bottle and vanishes. For a second nothing happens."
+    ishimaru "Is it... doing anything? I can't tell if it's doing anything."
+    lin "Watch the colour."
+
+    # IMAGE: close on the first bottle. The pale amber deepening into a rich,
+    # glowing honey colour. Lin's face reflected in the glass.
+    subtitles "Slowly, the amber deepens. Pale tea turns to strong tea, then to honey, then to that rich, glowing gold that looks lit from inside even with the sun behind it. A sweet, fruity smell comes off the open neck of the bottle."
+    lin "Oh."
+    ishimaru "Oh, it's {i}gorgeous.{/i} It looks like it'd taste like... like the smell of a bakery."
+    emiko "It doesn't. It tastes a bit sweet. That's all."
+
+    emiko "Don't rush the last few. Every bottle the same."
+    gloria "I know. I know. I'm not rushing. Ishimaru, stop breathing on the cylinder."
+    ishimaru "I'm not breathing on it!"
+    ishimaru "...I'll breathe somewhere else."
+
+    # IMAGE: all eleven bottles now the same deep gold; Gloria pressing the
+    # last stopper home.
+    subtitles "When the last bottle's done, the whole row glows the same deep gold, and the empty brown bottle sits at the end of it like a full stop."
+    gloria "Eleven. All even. I've checked it twice."
+    lin "Of course you have."
+
+    # Testing on themselves: Emiko says no.
+    ishimaru "Should we try it first? Just a sip each, to see? Like a taste test?"
+    emiko "No. You're hosting. Hosts stay clear-headed until the doors open. After that, have a cup like everybody else."
+    lin "That's a very sensible rule. I don't like it, but it's very sensible."
+
+    subtitles "Emiko puts the empty bottle back in her bag and picks up the bag."
+    emiko "Keep them sealed until tonight. Somewhere cool."
+    emiko "And that little bottle was never here. If anyone asks, it's your recipe, straight out of your notebook, start to finish."
+    lin "It's our thing. Obviously."
+    emiko "Good. Have a lovely party."
+
+    # IMAGE: the door closing; the three girls alone with the glowing bottles.
+    subtitles "The door closes behind her. For a moment none of them says anything. The speaker ticks as it warms up."
+
+    lin "...Tonight."
+    ishimaru "Tonight!"
+
+    subtitles "Lin picks up one of the bottles and holds it up to the window. The light comes through it gold and warm, and her own face looks back at her from the curve of the glass, stretched and strange."
+    lin.think "*Everybody thinks it's a joke. A silly drink in a bowl with a silly name.*"
+    lin.think "*...It probably is a joke. Probably.*"
+    subtitles "She puts the bottle back in the row very carefully, as if it might wake up."
+
+    # IMAGE: Emiko in the corridor outside, walking away, bag over her shoulder.
+    emiko.think "*Now I just have to be there. All night. Somewhere they won't notice me.*"
+    emiko.think "*And first thing Monday, I tell him. ...Or maybe Tuesday.*"
+
+    $ set_progress("lab_intro_discovery", 5)
+
+    $ end_event("new_daytime", **kwargs)
+
+
+# The Party - Friday night on the same day as the PTA Refreshments
+label lab_intro_21 (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ lin = Person["lin_kato"]
+    $ gloria = Person["gloria_goto"]
+    $ ishimaru = Person["ishimaru_maki"]
+    $ aona = Person["aona_komuro"]
+    $ miwa = Person["miwa_igarashi"]
+    $ kokoro = Person["kokoro_nakamura"]
+    $ sakura = Person["sakura_mori"]
+    $ easkey = Person["easkey_tanaka"]
+    $ soyoon = Person["soyoon_yamamoto"]
+    $ hatano = Person["hatano_miwa"]
+    $ seraphina = Person["seraphina_clark"]
+    $ luna = Person["luna_clark"]
+    $ ikushi = Person["ikushi_ito"]
+    $ elsie = Person["elsie_johnson"]
+    $ yuriko = Person["yuriko_oshima"]
+
+    # SCENE · lab_intro_21
+    # Friday night in the old chemistry room, turned into a party: fairy lights
+    # strung across the ceiling, a speaker, a big bowl of "Love Potion Number
+    # Nine" on the bench. The whole school comes. Everyone drinks, most of
+    # them treating it as a joke. After about a quarter of an hour the effect
+    # hits: heat, giggling, touching. It builds from dancing and a first kiss
+    # to most of the room half-undressed and making out: Aona dancing topless
+    # on a bench, Miwa and Kokoro, Sakura and Easkey, Soyoon and Hatano, Elsie
+    # and Yuriko. The Clark twins slip away together into the side room
+    # (implied only). Emiko watches unseen from the dark corridor. Around
+    # eleven it ebbs; the girls drift back to the dorms confused and dishevelled.
+    # Emiko gathers the empty bottles and takes the notebook out of Lin's bag.
+    # No headmaster present → overheard, no paperdolls.
+
+    ########################################
+    # The party starts
+
+    # IMAGE: the old chemistry room transformed. Fairy lights zigzagging under
+    # the ceiling, the speaker on a stool, the big glass bowl of glowing gold
+    # punch on the bench with a ladle and a stack of cups. Girls arriving.
+    subtitles "Friday night. Behind the sports field, the old lab building has lights on for the first time in thirty years."
+    subtitles "Inside, the fairy lights zigzag under the ceiling of the chemistry room, and somebody's speaker is thumping out something with a lot of bass. The whole place smells of dust, cheap body spray, crisps, and underneath it all something sweet and fruity coming off the big glass bowl on the bench."
+
+    aona "Oh my God, this is {i}so{/i} much better than I thought it'd be. It's like a haunted house, but with snacks!"
+    lin "Welcome, welcome, come in, mind the broken tile, everybody gets one cup of Love Potion Number Nine on the way in, that's the entry fee, those are the rules!"
+    seraphina "Does it actually do anything?"
+    lin "It absolutely does not. It's lemony. It's a joke, it's a whole bit, just go with it."
+    seraphina "Boo. I wanted to fall in love."
+    lin "Drink two, then."
+
+    # IMAGE: Lin at the bowl ladling gold punch into cups; a queue of girls;
+    # Gloria beside her with a clipboard.
+    subtitles "Lin ladles it out as fast as the cups come. Gloria stands next to her with a clipboard, taking notes on everyone who drinks, which everyone assumes is part of the bit."
+    gloria "Name, please. And roughly what time you're drinking it."
+    ikushi "Why do you need my name?"
+    gloria "Data."
+    ikushi "...Fine. But you're not writing down anything else."
+    subtitles "Ikushi drains her cup in one go, looks faintly surprised at herself, and holds it out for another."
+
+    # Yuriko, dragged in by Elsie.
+    subtitles "Near the door, Elsie Johnson has Yuriko Oshima by the wrist, as if she's afraid Yuriko will bolt the moment she lets go."
+    elsie "You said you'd stay for twenty minutes. You promised."
+    yuriko "I said I'd {i}consider{/i} staying for twenty minutes."
+    elsie "Just have one cup. Please? Everyone keeps asking if you're okay, because you're standing in the doorway like a vampire."
+    yuriko "Fine. One. To shut everyone up."
+    subtitles "She drinks it like medicine, grimacing, and hands Elsie the empty cup."
+    yuriko "It's sweet. Horrible. There. Twenty minutes."
+
+    # Ishimaru with her guitar.
+    subtitles "In the corner, Ishimaru has got her guitar out of its case and is picking along with whatever's on the speaker, mostly in tune."
+    ishimaru "Sorry! Sorry, is this annoying? I can stop. I'll stop. I'm stopping. ...I'm going to play one more."
+
+    ########################################
+    # Fifteen minutes in: the heat
+
+    # IMAGE: the room a little later; a girl fanning herself with a paper plate,
+    # another leaning back against the wall with her eyes closed.
+    subtitles "Fifteen minutes later, somebody opens a window. It doesn't help."
+
+    miwa "Is it hot in here? It's so hot in here. Is it just me? It's not just me, is it, everyone's gone all pink."
+    kokoro "It's... yeah. I'm really warm. I feel sort of... fizzy? Like my whole body's fizzy."
+    miwa "Fizzy! Yes! Oh my God, that's exactly it. Come and dance, I can't stand still, I have to move or I'm going to explode."
+    kokoro "I don't really dance..."
+    miwa "Everybody dances. You just haven't done it yet."
+
+    gloria "Twenty-one-oh-four. Multiple reports of heat, flushing. Kokoro describes it as 'fizzy.' Good word. Writing that down. Fizzy..."
+    subtitles "Gloria looks at her own clipboard for a while, as if the handwriting on it belongs to someone else."
+    gloria "Why am I— it's very hard to hold a pen. Has anyone else noticed pens are really hard to hold?"
+
+    # Aona takes the centre of the room.
+    subtitles "Aona has climbed up onto one of the old workbenches, cup in one hand, and is dancing on it, badly and enthusiastically, to cheering."
+    aona "Everybody look at me! No, look! Are you looking? This is the best party in the history of this school, and it's in a {i}ruin!{/i}"
+    seraphina "Take your top off!"
+    aona "Ha! As {i}if—{/i}"
+    subtitles "She laughs, and keeps dancing, and then stops laughing, with an odd look on her face, as if she's actually thinking about it."
+    aona "...Actually. Actually, it is really hot."
+
+    # IMAGE: Aona pulling her uniform blouse over her head on the bench and
+    # flinging it into the crowd; she's in her bra, grinning.
+    subtitles "She pulls her blouse off over her head in one go without undoing any buttons and flings it into the crowd. The whole room screams. She stands up there in her bra with her arms up like she's won something."
+    aona "Oh, that's {i}so{/i} much better. Why didn't I do that ages ago?"
+    aona.think "*Everybody's looking at me. Every single person. Oh God, I love it. I love it, I love it.*"
+
+    ########################################
+    # The first kiss
+
+    # IMAGE: Miwa and Kokoro dancing close under the fairy lights; Miwa tucking
+    # a strand of hair behind Kokoro's ear.
+    subtitles "Under the fairy lights, Miwa has got Kokoro dancing after all: slowly, badly, very close, both of them laughing every time they bump."
+    miwa "Your hair's so soft. Sorry. Is that weird? I've wanted to say that for ages. I've wanted to say a lot of things for ages."
+    kokoro "Like... what things?"
+    miwa "Like, um. Like how you do this thing when you're reading where you bite your lip, and I have to look somewhere else, because otherwise I'd just stare at your mouth the whole lesson. Like that sort of thing."
+    kokoro "Oh."
+    kokoro "...You can look at it now, if you want."
+    miwa.think "*Oh my God. Oh my God, okay, she said that, she actually said that, don't just stand here, do something—*"
+
+    # IMAGE: the kiss. Miwa leaning in, Kokoro meeting her halfway; both of
+    # them freezing for a second, then not pulling away.
+    subtitles "Miwa kisses her. For a second they both freeze, as if waiting for somebody to stop them. Nobody does. Kokoro makes a small, surprised sound against her mouth and kisses her back, and then her hands are on Miwa's waist, holding on."
+    kokoro "Mmh— is this okay? Are we allowed to—"
+    miwa "I don't care. I don't care if we're allowed. Do it again."
+
+    subtitles "Someone near the bowl whistles. Someone else says {i}finally{/i}. And then, somehow, it's like a door has opened in the room."
+
+    ########################################
+    # It spreads
+
+    # IMAGE: Sakura and Easkey against the wall; Easkey fumbling with the
+    # buttons of Sakura's blouse.
+    subtitles "By the wall, Sakura Mori is fanning herself with both hands, her face bright red, and her blouse already has the top two buttons undone."
+    sakura "It's that warm feeling again. Like that day in the corridor, remember? Like I'm melting from the inside."
+    easkey "I- I remember. You- you opened your blouse, and I told you you c-can't, and you went all—"
+    sakura "And I was so embarrassed."
+    easkey "Yeah."
+    subtitles "Easkey is staring at the third button. Her hands are shaking a little."
+    easkey "I- I think I was wrong. That time. I think you c-can. If you want. I could... I could help?"
+    subtitles "Sakura blinks at her. Then she takes Easkey's hands and puts them on the button herself."
+    sakura "Yes, please. God. Please."
+
+    # IMAGE: Sakura's blouse open, bra showing; Easkey's hands on her waist;
+    # Sakura reaching behind herself to unhook the bra.
+    subtitles "Easkey gets the buttons open one at a time, stammering an apology for each one. When the blouse falls open, Sakura reaches behind herself, unhooks her bra, and lets it slide off her shoulders, and just stands there with her eyes closed, bare to the waist, breathing out like she's been underwater."
+    sakura "Oh, that's so much better. It's so much cooler. Touch me, it's okay, I want you to."
+    easkey "Your skin's so warm—"
+    easkey.think "*She's letting me. She's asking me. I've thought about this so many times, I've never, ever thought she'd ask.*"
+
+    # Soyoon and Hatano, the rival fashionistas.
+    subtitles "On the far side of the room, Soyoon Yamamoto is leaning against a cabinet with her arms folded and one eyebrow up, watching all of it with an expression of great superiority. Her cheeks are pink. Her second cup is empty."
+    hatano "Oh, stop it, Soyoon, you're dying to. Look at you, you're redder than your lipstick."
+    soyoon "I'm not 'dying to' do anything. I simply think it's all a bit... undignified."
+    hatano "You think {i}everything's{/i} undignified. You thought my platforms were undignified."
+    soyoon "Your platforms {i}were{/i} undignified."
+    hatano "And you looked at them all day."
+    subtitles "Soyoon opens her mouth to say something cutting. Nothing comes out. Hatano steps in close, close enough that their noses nearly touch."
+    soyoon "...Fine. But only because it's you. And only because I've decided to, not because you said so."
+    hatano "Obviously, your majesty."
+    subtitles "Soyoon grabs a fistful of Hatano's collar and kisses her, hard, as if she's winning an argument. Hatano laughs into it. Within about a minute Soyoon's perfect hair is completely ruined, and she doesn't seem to mind at all."
+    soyoon.think "*I'm going to be so furious about my hair tomorrow. Tomorrow. Not now.*"
+
+    ########################################
+    # The peak
+
+    # IMAGE: wide shot of the room around ten. Colored fairy light, clothes on
+    # the floor, pairs and threes in every corner.
+    subtitles "By ten o'clock nobody's pretending it's just a party any more."
+    subtitles "Blouses hang open or lie in heaps on the benches. Skirts have been kicked into corners. The fairy lights make everything gold and pink and blurry. Every corner has somebody in it, two or three together, pressed up against each other and against the walls, and under the music there's a steady sound of breathing and laughing and small, surprised moans."
+
+    # Miwa and Kokoro, on the bench.
+    # IMAGE: Kokoro sitting on the edge of a workbench, blouse off, bra pushed
+    # up; Miwa standing between her knees, mouth at her breast, a hand up under
+    # her skirt; Kokoro's head thrown back.
+    subtitles "Kokoro is sitting on the edge of the workbench with her blouse gone and her bra pushed up out of the way, and Miwa is standing between her knees, kissing her way down her chest. Kokoro's got both hands in Miwa's hair."
+    kokoro "Ahh— Miwa— hah, that's... that's so— don't stop, don't stop, okay?"
+    miwa "Not stopping. Never stopping. You're so soft, how are you so {i}soft—{/i}"
+    subtitles "Miwa's hand slides up under the hem of Kokoro's skirt, slowly, giving her every chance to say no. Kokoro doesn't say no. She makes a high, shaky sound, grips the edge of the bench, and pulls Miwa closer with her knees."
+    kokoro "Mmnh— ahh— {i}oh—{/i} oh my God—"
+    kokoro.think "*Everybody can see. Everybody can see us. And I don't— I can't make myself care, I can't, it feels too good—*"
+
+    # Aona, now topless on the bench.
+    subtitles "Aona is still up on her bench. Her bra went a while ago; somebody's wearing it on their head. She's dancing topless in the fairy lights with her arms up, and every time the crowd cheers she dances harder."
+    aona "Look at me! Look! Am I the best? Tell me I'm the best!"
+    seraphina "You're the best, Aona!"
+    aona "I KNOW!"
+
+    # Ikushi, caving and then owning it.
+    subtitles "Ikushi is in a corner with a girl from another class, both of them with their shirts off. Ikushi keeps covering her chest with her arms, and then uncovering it, and then covering it again."
+    ikushi "Okay, I'm not— this isn't really me, I'm not usually like— okay, fine. Fine! Fine."
+    subtitles "She drops her arms, grabs the other girl by the waist, and kisses her, and then she's the one pushing her back against the wall."
+    ikushi "...Fine. Yes. This is me now. I've decided."
+
+    # Gloria's notes break down.
+    subtitles "Gloria's clipboard is on the floor. She's sitting on a stool in her skirt and her bra, with her blouse tied round her waist by the sleeves, and a girl is kissing her neck while she tries, with enormous concentration, to keep talking."
+    gloria "Twenty-two... twenty-two-something. Subject reports— hah— subject reports significant— oh, that's nice, do that again— significant increase in— in— I've completely lost my train of thought. This is fascinating. I can't think. This is the most fascinating thing that's ever happened to me."
+
+    # Elsie and Yuriko.
+    # IMAGE: Elsie and Yuriko sitting on the floor against the wall, apart from
+    # the crowd; Yuriko's head on Elsie's shoulder; Elsie's glasses crooked.
+    subtitles "Away from the noise, Elsie and Yuriko are sitting on the floor with their backs against the wall. Yuriko has her head on Elsie's shoulder. Her twenty minutes were up two hours ago."
+    yuriko "Everybody's being so stupid."
+    elsie "Mm-hm."
+    yuriko "It's all so stupid. It's disgusting."
+    elsie "You haven't moved your head off my shoulder in an hour, though."
+    yuriko "...Shut up."
+    subtitles "Yuriko is quiet for a while. Then she lifts her head, looks at Elsie for a long moment, and very carefully takes Elsie's crooked glasses off and folds them and puts them on the floor."
+    yuriko "Don't say anything. Don't say one single word."
+    subtitles "She kisses her, once, very softly. Elsie makes a tiny sound. Yuriko pulls back, looks at her again, and then kisses her again, less carefully."
+    yuriko.think "*This is so stupid. Why does it feel like the only thing that isn't?*"
+
+    # The Clark twins, implied only.
+    # IMAGE: Luna and Seraphina at the door to the little side room at the back,
+    # hands linked, both flushed; Seraphina glancing back over her shoulder,
+    # Luna already pulling her through. Nothing more is shown.
+    subtitles "At the back of the room there's a door to the old prep room, with a cracked frosted window in it. Seraphina Clark, for once, isn't shouting anything. She's standing by that door, and her sister is holding her hand."
+    luna "Sera. Come here a second."
+    seraphina "What? What is it? You've got a face."
+    luna "Just come here."
+    subtitles "Luna pulls her through the door. Seraphina glances back over her shoulder once, pink to the ears, and then the door swings shut behind them both, and after a moment somebody on the other side turns the key."
+    subtitles "Nobody notices. Nobody's looking at anything except whoever they're with."
+
+    # Emiko in the dark corridor.
+    # IMAGE: the dark corridor outside the chemistry room; Emiko standing just
+    # out of the light, arms folded, watching through the door.
+    subtitles "Out in the dark corridor, just beyond where the fairy lights reach, someone is standing with her arms folded."
+    emiko.think "*Everyone. Every single one of them.*"
+    emiko.think "*Look at them. Nobody's scared. Nobody's crying. Even Yuriko.*"
+    emiko.think "*...He should be seeing this. He'd never believe me.*"
+
+    ########################################
+    # It ebbs
+
+    # IMAGE: late; people sitting up, pulling clothes back on, lights still
+    # glowing, the bowl empty on the bench.
+    subtitles "Somewhere around eleven, it starts to ebb, the way a fever breaks."
+    subtitles "People sit up. They look around, blinking, as if they've just woken up somewhere unexpected. There's a lot of confused laughing, and a lot of hunting around on the floor for blouses that might or might not be theirs."
+
+    sakura "Where's my... is this my bra? This isn't my bra. Whose bra is this?"
+    easkey "I- I think that's Aona's. I think she threw it."
+    aona "I'm not even going to ask how I got up here. I'm just going to get down. Very slowly."
+    lin "Okay. Okay, everybody. That was... um. That was the party. Thanks for coming. There's crisps left, if anyone wants some."
+    lin.think "*What just happened? What happened? I remember the bowl, and handing out the cups, and after that it's all... gold. Just gold, and warm.*"
+
+    miwa "I should... probably go back to the dorm."
+    kokoro "Yeah. Me too."
+    subtitles "They don't let go of each other's hand, though. They leave like that, both of them buttoned up wrong."
+
+    subtitles "The prep room door at the back unlocks. The Clark twins come out one after the other, not looking at each other, their hair a mess, and walk out into the corridor without a word."
+
+    gloria "I wrote everything down. I wrote down everything. I'm going to read it all in the morning."
+    gloria.think "*...Where did my clipboard go?*"
+
+    # The girls leave in twos and threes.
+    subtitles "They drift out in twos and threes into the cold night, back across the dark sports field towards the dorms, shirts inside out, shoes in their hands, giggling at nothing. Halfway across the field, somebody asks what time they got there, and nobody's really sure."
+
+    ########################################
+    # Emiko alone in the empty room
+
+    # IMAGE: the empty chemistry room. Fairy lights still on, clothes left in
+    # corners, the empty bowl. Emiko collecting bottles into a bag; Lin's
+    # schoolbag on a stool, the black notebook visible inside.
+    subtitles "When the last of them has gone, the room is very quiet. The fairy lights are still on. There's a sock on top of the periodic table."
+    subtitles "Emiko goes along the bench and puts the empty bottles into a bag, one at a time, so they don't clink. Then she stops at Lin's schoolbag, left behind on a stool."
+    subtitles "The black notebook is right at the top. She takes it out, and holds it for a second, and slips it into her own bag."
+    emiko.think "*Sorry, sweetheart. You did wonderfully. But this one's going home.*"
+    emiko.think "*They'll look everywhere for it on Monday. They'll blame each other. They'll never think of me.*"
+    subtitles "She switches the speaker off. The silence rushes in."
+    emiko.think "*Now all I have to do is tell him.*"
+    emiko.think "*...And explain where two hundred millilitres of his floor cleaner went.*"
+    subtitles "She turns off the fairy lights, one string at a time, and closes the door behind her."
+
+    $ set_progress("lab_intro_discovery", 6)
+    $ set_progress("school_level", 3)
+
+    $ end_event("new_daytime", **kwargs)
+
+
+# Saturday Morning after the PTA Refreshments and Party
+label lab_intro_22 (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ lin = Person["lin_kato"]
+    $ gloria = Person["gloria_goto"]
+    $ ishimaru = Person["ishimaru_maki"]
+    $ miwa = Person["miwa_igarashi"]
+    $ kokoro = Person["kokoro_nakamura"]
+    $ sakura = Person["sakura_mori"]
+    $ easkey = Person["easkey_tanaka"]
+    $ aona = Person["aona_komuro"]
+    $ seraphina = Person["seraphina_clark"]
+    $ luna = Person["luna_clark"]
+
+    # SCENE · lab_intro_22
+    # Saturday morning in the dorms, the morning after the party. Nobody
+    # remembers much. Miwa wakes up in Kokoro's bed, both still dressed, with
+    # no idea how she got there. In the shared bathroom Sakura finds she has
+    # Aona's bra; Aona can't remember losing it; the Clark twins are briefly
+    # awkward and then normal. In Lin's room the hosts discover the notebook
+    # is gone, and Gloria's party notes turn into scribble partway through.
+    # In the common room, in pyjamas, everyone's sitting a little closer than
+    # usual. Lin heads back to the lab to look for the notebook.
+    # No headmaster present → overheard, no paperdolls.
+
+    ########################################
+    # Kokoro's room
+
+    # IMAGE: a dorm room, curtains half open, morning light. Kokoro and Miwa in
+    # a single bed, both still in last night's clothes, Kokoro's arm over Miwa.
+    subtitles "Saturday morning. The dorms are quieter than they've ever been at nine o'clock, and every curtain in the building is still shut."
+    subtitles "Miwa Igarashi wakes up with somebody's arm over her, and it takes her a long, slow moment to work out that the somebody is Kokoro, and the bed is Kokoro's bed."
+
+    miwa "...Kokoro?"
+    kokoro "Mmh. Five more minutes."
+    miwa "Kokoro. I'm in your bed."
+    subtitles "Kokoro opens her eyes. Looks at Miwa. Looks at her own arm. Doesn't move it."
+    kokoro "Oh. You are."
+    kokoro "Um. How... did you get here?"
+    miwa "I was going to ask you that. I remember the party. I remember dancing. I remember you, um..."
+    subtitles "She tries to finish the sentence and can't. There's just a warm, golden blur where the rest of the night should be."
+    miwa "...I remember you. That's sort of all I've got."
+    kokoro "Me too. Just... you. And the lights."
+
+    subtitles "They lie there looking at each other. Neither of them gets up."
+    miwa "I should be dying of embarrassment right now. Shouldn't I? Normally I'd have run out of here screaming."
+    miwa.think "*I'm not, though. I'm not embarrassed at all. Why am I not embarrassed?*"
+    kokoro "Can we just... stay like this for a minute? Before we work out what happened?"
+    miwa "Yeah. Yeah, okay. A minute."
+    subtitles "It turns into a lot more than a minute."
+
+    ########################################
+    # The shared bathroom
+
+    # IMAGE: the shared dorm bathroom; girls in pyjamas and oversized sleep
+    # shirts at the sinks, brushing teeth, bleary. Sakura holding up a bra.
+    subtitles "In the shared bathroom it's toothbrushes, running taps, and a lot of girls in pyjamas squinting at themselves in the mirrors as if they've never seen their own faces before."
+    subtitles "Sakura Mori is standing at the sink holding up a lacy pink bra by one strap, and frowning at it."
+    sakura "This isn't mine. Why have I got this? I don't even own anything this pink."
+    aona "Oh my God, {i}that's{/i} where it went!"
+    subtitles "Aona leans out of the shower cubicle, dripping, with her hair full of shampoo."
+    aona "I looked for that for, like, half an hour last night. Where did you even find it?"
+    sakura "I've no idea. It was in my bag. Why were you looking for your bra at a party?"
+    aona "...I actually don't know. But I've got this feeling I was {i}amazing.{/i} Like, really, really amazing. Everyone was looking at me. I think."
+    subtitles "Sakura hands it over. Next to her, Easkey Tanaka has gone bright red and is brushing her teeth so hard it looks painful."
+    sakura "Easkey? You okay?"
+    easkey "F-fine! Fine. I just— I don't know. My face just went hot. I don't know why."
+    easkey.think "*Buttons. I keep thinking about buttons. Why do I keep thinking about buttons?*"
+
+    # The twins pass in the doorway.
+    subtitles "The Clark twins come in together, the way they always do. Seraphina, who usually has something to say about everything, says nothing at all. She goes to one sink and Luna goes to the one right at the other end, and for a few seconds neither of them looks at the other."
+    subtitles "Then Seraphina leans back, catches her sister's eye in the long mirror, and pulls a face. Luna snorts toothpaste. And it's normal again, or near enough."
+
+    ########################################
+    # Lin's room: the notebook is gone
+
+    # IMAGE: Lin's dorm room. Lin on her knees, her schoolbag tipped out on the
+    # floor; Ishimaru on the bed; Gloria in the doorway holding her clipboard.
+    subtitles "In Lin's room, Lin's schoolbag is upside down on the floor, and Lin is on her knees going through everything that fell out of it for the third time."
+    lin "It's not here. It's not here. It was in my bag, I {i}know{/i} it was in my bag, I put it right at the top so I wouldn't squash it—"
+    ishimaru "Maybe you left it in the lab? You could have taken it out, to show people?"
+    lin "I wouldn't show {i}people!{/i} We said we wouldn't tell anybody, I'm the one who made us say it out loud!"
+    lin "...Did you take it? To look after it? You'd tell me if you'd taken it."
+    ishimaru "I didn't take it! I swear! Maybe Gloria took it, she's always got it, she's always reading it—"
+    gloria "I didn't take it."
+    subtitles "Gloria is standing in the doorway in her pyjamas, holding her clipboard against her chest with both arms. She looks paler than usual."
+    gloria "But you need to see this."
+
+    # IMAGE: close on Gloria's clipboard. Neat entries with times at the top;
+    # then the handwriting slanting, getting bigger; then scribble, and the
+    # word "fizzy" underlined three times.
+    subtitles "She holds it out. At the top of the page, her handwriting is tiny and precise: names, times, cups. Halfway down, it starts to slope. Then it gets bigger. Then it stops being words at all."
+    subtitles "The last thing she wrote that anyone can read is {i}fizzy{/i}, underlined three times."
+    gloria "I wrote this. That's my handwriting. And I don't remember writing any of it after about half past nine."
+    gloria "I've never not remembered writing something. Not once, not in my whole life."
+    ishimaru "Okay, that's actually scary. That's actually properly scary."
+
+    lin "So. We've lost the notebook. And none of us can really remember the party."
+    gloria "We remember the beginning. And the end. The middle's just..."
+    lin "Gold."
+    subtitles "Gloria looks at her."
+    gloria "...Yes. Why did you say gold?"
+    lin "I don't know. It just came out. It's what it looks like when I try to remember."
+    subtitles "For a second none of them says anything."
+
+    ishimaru "But it was a good party, though. Right? Everyone said it was a good party. Everyone kept saying it on the way back."
+    lin "Everyone said it was the best night of their entire lives, and not one person can tell me a single thing that happened."
+    lin "...Which is, honestly, kind of the most successful party anyone's ever thrown."
+    gloria "That's not funny."
+    lin "It's a bit funny."
+    gloria "It's a bit funny."
+
+    ########################################
+    # The common room
+
+    # IMAGE: the dorm common room, mid-morning. Girls in pyjamas on the sofas
+    # with mugs and toast, sitting noticeably closer than usual. Miwa and
+    # Kokoro on the end of a sofa, Kokoro leaning against Miwa's shoulder.
+    subtitles "By eleven, half the dorm has ended up in the common room in their pyjamas, with toast and tea and blankets. Nobody's said anything about it, but everybody's sitting closer than they normally would. Knees touching. Somebody's feet in somebody else's lap."
+    subtitles "Miwa and Kokoro come in last, together, and sit on the end of the sofa, and after a moment Kokoro leans her head on Miwa's shoulder in front of everyone."
+    ishimaru "Wait. Are you two... a thing now?"
+    miwa "I don't know! Maybe? I don't know if we're..."
+    miwa "Is that allowed?"
+    lin "Is what allowed?"
+    subtitles "Miwa opens her mouth to answer, and finds she can't."
+    miwa "...I don't actually know. It just felt like I should ask."
+
+    subtitles "Nobody laughs at her. A couple of the girls on the other sofa glance at each other and then look away, as if they'd been wondering the same thing."
+
+    # Lin gets up.
+    lin "Right. I'm going back to the lab. That notebook has to be somewhere, and I'm not having it turn up in some teacher's hands on Monday morning."
+    ishimaru "Now? It's Saturday! I'm in my pyjamas!"
+    lin "Then put some trousers on. Gloria, bring the clipboard."
+    gloria "Why?"
+    lin "Because if we find out what happened last night, you're going to want to write it down."
+
+    $ end_event("new_daytime", **kwargs)
+
+
+# Saturday Evening after the PTA Refreshments and Party
+label lab_intro_23 (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ lin = Person["lin_kato"]
+    $ gloria = Person["gloria_goto"]
+    $ ishimaru = Person["ishimaru_maki"]
+    $ soyoon = Person["soyoon_yamamoto"]
+    $ hatano = Person["hatano_miwa"]
+    $ ikushi = Person["ikushi_ito"]
+    $ seraphina = Person["seraphina_clark"]
+    $ elsie = Person["elsie_johnson"]
+    $ aona = Person["aona_komuro"]
+    $ sakura = Person["sakura_mori"]
+    $ easkey = Person["easkey_tanaka"]
+
+    # SCENE · lab_intro_23
+    # Saturday evening in the dorm common room. A dozen girls in pyjamas and
+    # sleep shirts on the sofas and floor cushions, pizza boxes open on the
+    # coffee table, music low on a phone. Lin reports that the search of the
+    # lab found nothing. Yuriko has shut herself in her room. The girls play a
+    # game of piecing Friday together from fragments, and nobody can say who
+    # kissed whom. Crushes get admitted out loud for the first time; there are
+    # one or two nervous kisses and a hand under a shirt. Late on, Gloria tells
+    # Lin, alone, that she thinks the potion was real. Lin doesn't want to
+    # believe it. No headmaster present → overheard, no paperdolls.
+
+    # IMAGE: the dorm common room in the evening. Pizza boxes, mugs, blankets,
+    # a phone playing music. Girls in pyjamas, sitting close.
+    subtitles "Saturday night. Somebody has ordered far too much pizza, and now the common room smells of pepperoni, garlic bread, and about six different vanilla body sprays."
+    subtitles "There are a dozen of them in there, in pyjamas and big sleep shirts and fluffy socks, and the sofas only fit eight, so the rest are on the floor in a heap of cushions and blankets and each other."
+
+    # Lin reports back.
+    aona "So? Did you find your mysterious lost thing?"
+    lin "No. We searched the whole lab. Every cupboard. Gloria crawled under the benches."
+    gloria "I crawled under the benches."
+    lin "All we found was the empty punch bowl and a sock on top of the periodic table."
+    ishimaru "Whose sock {i}was{/i} that? Nobody's claimed it. It's just been sitting on top of hydrogen all day."
+    lin "I put it in lost property. Let it be somebody else's problem."
+
+    # Elsie, worried about Yuriko.
+    subtitles "Elsie Johnson is sitting a little apart, on the arm of a sofa, with a slice of pizza she hasn't touched."
+    ishimaru "Elsie, where's Yuriko? I thought she'd be with you."
+    elsie "She's locked herself in her room. She won't come out."
+    elsie "I knocked. Twice. She said she doesn't want to see anybody. Not even me."
+    subtitles "She says the last part very quietly, and looks down at the pizza."
+    elsie.think "*She was fine last night. Wasn't she? She had her head on my shoulder. I remember that much. I'm almost sure I remember that much.*"
+
+    ########################################
+    # The game: piecing Friday together
+
+    lin "Okay. New game. Since apparently none of us can remember anything, we're going to put Friday back together. Everyone says one thing they definitely remember. One thing. Go."
+    aona "Me first. I was on a bench. I don't know why. I just know I was up high and everybody was cheering."
+    seraphina "You were dancing. Badly."
+    aona "I was dancing {i}iconically.{/i}"
+
+    hatano "Somebody played the guitar for, like, an hour. The same four chords."
+    subtitles "Every head turns to Ishimaru, who goes slowly pink."
+    ishimaru "It was five chords. And I said sorry. I'm pretty sure I said sorry."
+
+    ikushi "There was a sock. On the periodic table."
+    lin "We've done the sock, Ikushi."
+    ikushi "Well, it's what I remember! It was a very memorable sock!"
+
+    gloria "Kokoro said 'fizzy.' I wrote it down."
+    subtitles "She doesn't say anything about how the rest of the page looks."
+
+    # Who kissed who: nobody knows.
+    seraphina "Okay, but the real question. Who kissed who? Because I know for a {i}fact{/i} people were kissing."
+    lin "How do you know for a fact?"
+    seraphina "Because my mouth feels like it's been kissing. Doesn't everyone's?"
+    subtitles "There's a long pause, and then a lot of people touch their own lips at the same time without meaning to, and then everyone shrieks with laughter."
+
+    hatano "Well, I know who {i}I{/i} kissed."
+    soyoon "You don't know anything."
+    hatano "Oh, I absolutely do."
+    soyoon "I didn't kiss anyone. My hair was a disaster this morning because of the humidity in that building. That's all. The building is very humid."
+    hatano "Mm-hm. The humidity was very... hands-on."
+    subtitles "Soyoon throws a cushion at her. It's the least dignified thing anybody has ever seen her do, and she looks quite pleased with herself afterwards."
+    soyoon.think "*I'm not going to remember it. I've decided. I'm not going to remember any of it. ...I wish I could remember all of it.*"
+
+    ikushi "Fine. Fine! I kissed someone. I think. I can't remember who, but I'm owning it. I've decided I'm owning it."
+    aona "Ikushi! Who knew!"
+    ikushi "Nobody knew. Including me. Until about half an hour ago."
+
+    subtitles "Seraphina, who has been loudest about everything all night, has gone very interested in a crust."
+    lin "Sera? What about you? You've been very quiet for someone who started this."
+    seraphina "Me? Oh, I kissed {i}loads{/i} of people. Everyone. All of you. I'm a legend."
+    subtitles "She grins, and steals a slice off Aona's plate, and the conversation moves on. If anyone notices she didn't actually answer, nobody says so."
+
+    ########################################
+    # Crushes, out loud for the first time
+
+    # IMAGE: later; the lights lower, fewer voices; girls lying on cushions
+    # with their heads in each other's laps, talking quietly.
+    subtitles "Later, somebody turns the big light off and leaves just the lamps on, and the conversation goes softer."
+    aona "Okay. Truth. Has anybody here ever, like... properly fancied someone? In this school?"
+    subtitles "It's quiet for a second. Normally that would be the moment someone makes a joke and changes the subject."
+    hatano "...Yes."
+    ikushi "Yeah. Me too."
+    aona "Who?"
+    hatano "I'm not saying who! I'm saying yes. That's already a lot. I've never said yes before."
+    ikushi "I've never even said yes to myself before."
+
+    subtitles "Nobody laughs. A girl on the floor with her head in somebody's lap says, very quietly, \"Same,\" and the girl whose lap it is looks down at her and doesn't say anything at all."
+
+    # A nervous kiss; a hand under a shirt.
+    # IMAGE: Sakura and Easkey on a beanbag in the corner, Easkey's hand
+    # resting on Sakura's stomach, just under the hem of her sleep shirt.
+    subtitles "In the corner, Sakura and Easkey have been leaning against each other on a beanbag all evening, and they've gone quiet. Easkey's hand is resting on Sakura's stomach, just under the hem of her sleep shirt, as though it ended up there by accident."
+    easkey "I- is this okay? I don't know if it's okay."
+    sakura "I... yeah. I think so. I think it's okay."
+    subtitles "A nervous little laugh."
+    sakura "Is it allowed, though?"
+    easkey "I d-don't know. Nobody's said it isn't."
+    subtitles "Her hand stays where it is."
+    easkey.think "*Buttons. It was buttons. I undid her buttons. ...Didn't I?*"
+
+    aona "Oi. Corner. I can see you."
+    subtitles "Both of them squeak. The hand vanishes. And then, after a second, it comes back, and Aona just laughs and leaves them to it."
+
+    hatano "Soyoon."
+    soyoon "What."
+    hatano "Come here a second."
+    soyoon "Absolutely not. I'm eating."
+    subtitles "She puts the pizza down anyway. Hatano leans over and kisses her, quick and nervous, in front of everyone. Soyoon goes rigid for a second and then, very deliberately, kisses her back."
+    soyoon "...That's because of the humidity."
+    hatano "Obviously."
+
+    ########################################
+    # Gloria and Lin, alone
+
+    # IMAGE: the corridor outside the common room, late. Lin and Gloria by a
+    # window, the noise of the common room muffled behind the door.
+    subtitles "Near midnight, Gloria catches Lin's sleeve on her way back from the kitchen and pulls her out into the corridor, where it's dark and quiet."
+    gloria "I need to tell you something, and I need you to not make a joke about it."
+    lin "That's the scariest sentence you've ever said to me."
+    gloria "It worked."
+    lin "...What worked?"
+    gloria "The potion. It worked. It actually did what it said in the notebook. Everybody at that party drank it, and then everybody lost the same three hours, and everybody remembers the same things: heat, and gold, and wanting to touch someone."
+    gloria "That's not a coincidence, Lin. That's a {i}result.{/i}"
+
+    lin "It was a {i}joke{/i}, Gloria. It was lemonade in a bowl with a silly name. We made it up. We called it Love Potion Number Nine, for God's sake."
+    gloria "We made it from a formula somebody else wrote. And somebody else lost. Or took back."
+    subtitles "Lin opens her mouth, and doesn't say anything."
+    gloria "And look at them in there. Ikushi just said she fancies someone. Out loud. Soyoon just kissed Hatano. In front of everyone. On a {i}Saturday.{/i} Sober."
+    lin "People are allowed to just... be happy, you know. Things don't always have to have a reason."
+    gloria "Everything has a reason. That's what reasons are."
+
+    lin.think "*She's right. I know she's right. I don't want her to be right.*"
+    lin "...Don't tell anyone. Not the others. Not anyone."
+    gloria "Who would I tell? Who would even believe me?"
+
+    subtitles "Behind the door, somebody laughs, and somebody else says {i}shh{/i}, and the music goes up a notch."
+    lin "Come on. Let's go back in. Before they wonder where we went."
+    subtitles "She goes in first. Gloria stays in the dark corridor a moment longer, looking at the closed door, and then follows her."
+
+    $ end_event("new_daytime", **kwargs)
+
+
+# Sunday Mini events after the PTA Refreshments and Party
+# Optional, like the level-2 sex-ed mini events: short headmaster-POV snapshots
+# of the new (level 3) normal for the player to stumble on around campus. He
+# knows nothing about the party; he only dosed the teachers and the mothers.
+
+# Gym: Sunday training, shirts off, spotting
+label lab_intro_24a (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ aona = Person["aona_komuro"]
+    $ ikushi = Person["ikushi_ito"]
+
+    # SCENE · lab_intro_24a
+    # Sunday late morning, the gym. A handful of students training on their
+    # own. T-shirts knotted up or tossed on the bench, sports bras and shorts.
+    # Aona on the bench press with Ikushi spotting her, hands lingering.
+    # The headmaster watches from the doorway.
+    $ paperdoll_manager.set_background("images/background/gym/3 1 0.webp", blur = True)
+
+    subtitles "The gym on a Sunday morning smells of rubber mats, floor polish, and somebody's strawberry deodorant. The radio in the corner is playing to nobody."
+    subtitles "There are five or six girls in here, training on their own time. Most of their T-shirts are knotted up under their ribs or lying in a heap on the bench."
+
+    # IMAGE: Aona on the bench press, Ikushi standing over her to spot, both in
+    # sports bras; Ikushi's hands hovering at Aona's waist.
+    aona "Two more. Two more! Watch, Ikushi, watch me, are you watching?"
+    ikushi "I'm watching. I'm literally standing right over you. Where else would I be looking?"
+    subtitles "Aona racks the bar and sits up, flushed and grinning. Ikushi's hands are still resting on her waist. Neither of them seems to have noticed."
+
+    headmaster.think "...On a Sunday. In sports bras. And nobody's rushing for a towel the second the door opens."
+    headmaster.think "Last month they'd have been in baggy T-shirts down to their knees."
+
+    $ end_event("new_daytime", **kwargs)
+
+# School building: a Sunday study group in an empty classroom
+label lab_intro_24b (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ sakura = Person["sakura_mori"]
+    $ easkey = Person["easkey_tanaka"]
+
+    # SCENE · lab_intro_24b
+    # Sunday afternoon, an empty classroom in the school building. Sakura is
+    # tutoring Easkey, the two of them sharing one chair's worth of space at a
+    # desk, Easkey leaning on Sakura's shoulder. Neither moves apart when the
+    # headmaster looks in.
+    $ paperdoll_manager.set_background("images/background/school building/3 1 1.webp", blur = True)
+
+    subtitles "One classroom door on the first floor is open, which on a Sunday is unusual enough that he stops to look in."
+
+    # IMAGE: Sakura and Easkey at one desk, chairs pushed right together,
+    # Easkey's head on Sakura's shoulder, a maths book open in front of them.
+    sakura "No, look, you've got it, you just did it backwards. Thirty-two. See?"
+    easkey "Th-thirty-two. Oh. Oh, I hate that I get it now."
+    subtitles "Easkey has her head on Sakura's shoulder while she writes. Their chairs are pushed so close together that they're really sharing one."
+
+    headmaster "Working on a Sunday, Ms. Mori? Ms. Tanaka?"
+    sakura "Oh! Hello, Mr. [headmaster_last_name]. Easkey's got a test on Tuesday."
+    easkey "And I'm h-hopeless. She's saving my life."
+    subtitles "Neither of them moves apart. Easkey doesn't even lift her head. She just smiles at him from Sakura's shoulder."
+
+    headmaster.think "That's Easkey Tanaka. She can't usually look me in the eye for three seconds together."
+
+    $ end_event("new_daytime", **kwargs)
+
+# Courtyard: closeness on the grass, and Yuriko on her own
+label lab_intro_24c (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ lin = Person["lin_kato"]
+    $ ishimaru = Person["ishimaru_maki"]
+    $ yuriko = Person["yuriko_oshima"]
+
+    # SCENE · lab_intro_24c
+    # Sunday afternoon, the courtyard. Students lying around on the grass in
+    # little heaps, heads in laps, legs over legs; Ishimaru playing guitar,
+    # Lin lying with her head on Ishimaru's knee. On a bench on her own, with
+    # headphones in, Yuriko glaring at all of it. Brief exchange with her.
+    $ paperdoll_manager.set_background("images/background/courtyard/3 1 1.webp", blur = True)
+
+    subtitles "The courtyard's full for a Sunday. Nobody's on the benches, though. Everyone's on the grass, in heaps: heads in laps, legs thrown over other legs, somebody braiding somebody else's hair while a third girl braids hers."
+    subtitles "Ishimaru Maki is playing her guitar in the middle of it, slightly out of tune, with Lin Kato lying on her back with her head on Ishimaru's knee."
+
+    headmaster.think "They look like a litter of puppies."
+    headmaster.think "...And they don't stop when they see me. Two of them wave."
+
+    # IMAGE: Yuriko alone on a bench at the edge of the courtyard, headphones
+    # in, arms folded, scowling at the heaps on the grass.
+    subtitles "There's exactly one girl on a bench. Yuriko Oshima, on her own at the far edge of the courtyard, headphones in, arms folded, glaring at the whole scene as if it's personally offended her."
+    headmaster "Ms. Oshima. Not joining in?"
+    subtitles "She pulls one earbud out, slowly."
+    yuriko "Has everyone in this school gone soft in the head this weekend, or is it just me?"
+    headmaster "...What do you mean?"
+    subtitles "She looks at him for a moment, as though she's deciding whether he's worth the trouble. Then she puts the earbud back in."
+    yuriko "Nothing. Forget it."
+    yuriko.think "*Something happened on Friday. I know it did. I just can't remember what.*"
+
+    headmaster.think "Soft in the head. This weekend."
+    headmaster.think "I dosed five teachers and three mothers. I didn't go anywhere near the students."
+
+    $ end_event("new_daytime", **kwargs)
+
+# Dormitory: evening, pyjamas in the corridor, no hurry
+label lab_intro_24d (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ soyoon = Person["soyoon_yamamoto"]
+    $ hatano = Person["hatano_miwa"]
+
+    # SCENE · lab_intro_24d
+    # Sunday evening, the dorm corridor during the headmaster's walk-round.
+    # Doors open, music from a couple of rooms. Soyoon in short silky pyjamas
+    # coming back from the bathroom with a towel over her shoulder, Hatano
+    # leaning in her doorway. Nobody hurries to get out of sight.
+    $ paperdoll_manager.set_background("images/background/school dormitory/3 1 0.webp", blur = True)
+
+    subtitles "Sunday evening, on his usual walk through the dorms. Half the doors on the corridor are standing open, and there's music coming out of at least three rooms at once."
+    subtitles "It smells of shampoo and toast and nail varnish."
+
+    # IMAGE: Soyoon walking down the corridor in short silky pyjamas, towel
+    # over her shoulder; Hatano leaning in a doorway in an oversized T-shirt.
+    subtitles "Soyoon Yamamoto comes down the corridor from the bathroom in a pair of very short, very silky pyjamas, with her hair wrapped in a towel. She sees him. She doesn't speed up, and she doesn't turn back."
+    soyoon "Evening, Mr. [headmaster_last_name]."
+    headmaster "Ms. Yamamoto."
+    subtitles "She walks past him at exactly the same pace and stops at Hatano's door, where Hatano is leaning against the frame in a T-shirt that comes to about halfway down her thighs."
+    hatano "Nice pyjamas."
+    soyoon "I know."
+
+    headmaster.think "Soyoon Yamamoto. Who has, as far as I know, never once let anyone see her without her hair done."
+    headmaster.think "...They're not doing it {i}at{/i} me. That's the strange part. They just don't seem to mind that I'm here."
+
+    $ end_event("new_daytime", **kwargs)
+
+# Cafeteria: Sunday dinner, and a word overheard
+label lab_intro_24e (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ adelaide = Person["adelaide_hall"]
+    $ miwa = Person["miwa_igarashi"]
+    $ kokoro = Person["kokoro_nakamura"]
+
+    # SCENE · lab_intro_24e
+    # Sunday dinner in the cafeteria. Adelaide Hall serving, humming, piling
+    # extra portions. Miwa and Kokoro at a table sharing one plate, Miwa
+    # feeding Kokoro a forkful. At the next table, girls whispering about
+    # "Friday" and "the party". The headmaster overhears the word.
+    $ paperdoll_manager.set_background("images/background/cafeteria/3 1 0.webp", blur = True)
+
+    subtitles "Sunday dinner. The cafeteria smells of roast potatoes and gravy, and Adelaide Hall is behind the counter humming something, loading plates with far more than the usual portion."
+    adelaide "There you are, headmaster. Extra potatoes. Don't argue. I'm in {i}such{/i} a good mood this weekend, I can't explain it."
+    headmaster.think "...I can."
+
+    # IMAGE: Miwa and Kokoro at a table, one plate between them, Miwa holding a
+    # forkful up to Kokoro's mouth; both laughing.
+    subtitles "At a table by the window, Miwa Igarashi and Kokoro Nakamura are sharing one plate. Miwa is holding a forkful of potato up to Kokoro's mouth, and Kokoro is laughing too hard to eat it."
+    kokoro "Stop, stop, I can feed myself—"
+    miwa "You could. But you're not going to."
+
+    # IMAGE: the next table; three girls leaning in, whispering.
+    subtitles "At the next table, three girls have their heads together, talking low and giggling."
+    sgirl "...not since Friday. Not since the party."
+    sgirl "Shh!"
+    subtitles "They catch him looking and burst out laughing, and go back to their dinner."
+
+    headmaster.think "The party."
+    headmaster.think "...What party?"
+
+    $ end_event("new_daytime", **kwargs)
+
+
+# First Monday after the PTA Refreshments and Party
+label lab_intro_25 (**kwargs):
+    $ begin_event(**kwargs)
+
+    $ finola = Person["finola_ryan"]
+    $ lily = Person["lily_anderson"]
+    $ yuriko = Person["yuriko_oshima"]
+
+    # SCENE · lab_intro_25
+    # Monday morning. The headmaster walks through the school building before
+    # first period and notices small changes everywhere: an extra button
+    # undone, girls walking closer, nobody being corrected. Finola is wearing
+    # the cropped yellow tank from Thursday again, by choice. Yuriko scowls at
+    # him. In his office Emiko confesses: the girls found his notebook in the
+    # old lab, she helped them brew, and on Friday she gave them most of his
+    # remaining catalyst for a party the whole school went to. He fetches the
+    # jug from the storage room next door and finds it nearly empty. Anger;
+    # then she gives him back his notebook; "Subject E."; then grudging
+    # admiration. Wired: blurred school-building bg (3 1 1) for the walk,
+    # blurred office bg (f.webp) + Emiko paperdoll for the talk.
+
+    ########################################
+    # Monday morning walk
+
+    $ paperdoll_manager.set_background("images/background/school building/3 1 1.webp", blur = True)
+
+    subtitles "Monday. Twenty past eight, and the corridors of the school building are full of the usual noise: lockers banging, somebody shouting about a lost PE kit, the smell of floor polish and toast."
+    headmaster.think "Let's see. Whatever's left over from the weekend, it'll show up today."
+
+    # IMAGE: the corridor; students heading to class. Small details: a blouse
+    # with one more button open than usual, two girls walking with their arms
+    # linked, a skirt hitched a little higher.
+    subtitles "At first it looks like any Monday. Then he starts noticing things."
+    subtitles "A blouse with one button more undone than it was last week. Two girls walking to class with their arms linked, which nobody seems to think is worth a second glance. A tie loosened all the way down, and nobody telling its owner to fix it."
+    headmaster.think "None of it's anything, on its own. Any one of these, I'd walk straight past."
+    headmaster.think "...It's all of them at once, though. Everyone, just a little."
+
+    # IMAGE: Lily Anderson at her classroom door, letting a girl with a loose tie
+    # walk straight past her.
+    subtitles "At the door of her classroom, Lily Anderson watches a girl go in with her tie hanging halfway down her blouse, opens her mouth as if to say something, and then just smiles and holds the door for the next one."
+    lily "Morning, everybody. In you come. Find a seat."
+    headmaster.think "Lily Anderson. Who sent three girls to the toilets to fix their ties last Monday."
+
+    # IMAGE: Finola Ryan coming down the corridor in the cropped yellow tank
+    # from Thursday, ripped jeans, boots, a stack of marking under her arm.
+    subtitles "Finola Ryan comes round the corner with a pile of marking under one arm, and he nearly walks into the wall."
+    subtitles "It's the yellow tank top from Thursday. The cropped one. The ripped jeans. The boots. She's wearing them on purpose, to work, on a Monday, and she gives him a little nod on her way past, perfectly normal."
+    finola "Morning, Mr. [headmaster_last_name]."
+    headmaster "Ms. Ryan."
+    finola.think "*It's just more comfortable. That's all it is. It's just more comfortable now.*"
+    headmaster.think "She kept it. She went home, and slept on it, and came back and put it on again."
+    headmaster.think "...It stayed. Some of it actually stayed."
+
+    # IMAGE: Yuriko Oshima passing in the other direction, alone, scowling.
+    subtitles "Yuriko Oshima goes past in the other direction, on her own, and gives him a look so sour he can feel it on the back of his neck."
+    headmaster.think "The teachers I understand. And the mothers. But the students..."
+    headmaster.think "'Since the party.' What party?"
+
+    ########################################
+    # The office
+
+    $ emiko.register_paperdoll()
+    $ paperdoll_manager.set_background("images/background/office building/f.webp", blur = True)
+
+    subtitles "Back in his office, there's a cup of coffee already waiting on his desk. Emiko must have put it there. She only does that when she wants something, or when she's done something."
+
+    # IMAGE / paperdoll: Emiko in the doorway with a folder, unusually hesitant.
+    $ emiko.display(PDAImage(pose = "10", outfit = "uniform", level = 6, mood = "neutral", mouth = "closed", look = "avert"),
+        PDAPreset("close_body_center", duration = 0.0),
+        PDAPreset("outside", duration = 0.0))
+    $ emiko.display(PDAPreset("close_body_center", duration = 0.6))
+    subtitles "She knocks, which she never does, and comes in, and doesn't sit down."
+    $ emiko.display(PDAImage(mouth = "open"))
+    emiko "Good morning."
+    $ emiko.display(PDAImage(mouth = "closed"))
+    headmaster "Morning. Close the door."
+    subtitles "She closes it. She stays standing with her back to it."
+    $ emiko.display(PDAImage(look = "follow", mouth = "open"))
+    emiko "You've seen them."
+    $ emiko.display(PDAImage(mouth = "closed"))
+    headmaster "I've seen them. All weekend, actually. The gym, the courtyard, the dorms. Finola Ryan's walking round in a crop top right now."
+    headmaster "The teachers, fine. I dosed the teachers. The mothers, fine. But I didn't go anywhere near the students, Emiko, and every one of them's... different. And somebody in the cafeteria last night said something about a party."
+    $ emiko.display(PDAImage(pose = "7", mood = "neutral", mouth = "open"))
+    emiko "Yes. There was a party."
+    emiko "I helped."
+
+    # Her confession, in her own words.
+    $ emiko.display(PDAImage(mouth = "closed"))
+    headmaster "...Helped with what?"
+    $ emiko.display(PDAImage(pose = "2", mouth = "open"))
+    emiko "A couple of weeks ago, three girls from 3A found a notebook in the old lab building. Lin Kato, Gloria Goto and Ishimaru Maki. Behind a shelf."
+    headmaster "A notebook."
+    emiko "Your notebook."
+    $ emiko.display(PDAImage(mouth = "closed"))
+    headmaster "My— I've been tearing this office apart for weeks looking for that notebook!"
+    $ emiko.display(PDAImage(mood = "happy", mouth = "open", look = "avert"))
+    emiko "I know. I watched you. It was quite sweet."
+    $ emiko.display(PDAImage(mood = "neutral", mouth = "open", look = "follow"))
+    emiko "They thought it was some old teacher's research. I told them it was a love potion. They wanted to brew it, and they were going to try with or without me, so I made sure it was with me. Goggles. Gloves. All of it."
+    emiko "They brewed four batches. On Friday night they threw a party in the old lab and invited the whole school. Everyone drank it. Everyone."
+    $ emiko.display(PDAImage(mouth = "closed"))
+
+    headmaster "The base formula. Without— that only lasts a few minutes. That wouldn't do {i}this.{/i}"
+    subtitles "Emiko doesn't say anything. She doesn't look away, either."
+    headmaster "...Emiko. What did you give them?"
+    $ emiko.display(PDAImage(pose = "10", mood = "sad", mouth = "open"))
+    emiko "A stabiliser."
+    emiko "From your jug."
+
+    # He goes next door to the storage room; we stay with Emiko in the office.
+    $ emiko.display(PDAImage(mouth = "closed"))
+    subtitles "He's out of the door before she can say anything else."
+    subtitles "Through the wall she hears the storage room door bang open, something scrape on the top shelf, a paint tin hit the floor and roll."
+    subtitles "Then nothing at all for quite a long time."
+
+    # He comes back with the jug. It's nearly empty.
+    subtitles "When he comes back he's holding the jug. He doesn't need to tilt it against the light. You can hear how empty it is when it moves."
+    headmaster "Two hundred millilitres."
+    headmaster "Do you know what you've done? That was {i}everything.{/i} That was all there is. In the whole world. I spent a week measuring that out to the {i}line{/i}, I stood in the staff room at six in the morning counting, and you just poured it into a punch bowl—"
+    $ emiko.display(PDAImage(mood = "neutral", mouth = "open"))
+    emiko "Not a punch bowl. Eleven bottles. Very evenly. Gloria measured it."
+    headmaster "That is {i}not the point!{/i}"
+    $ emiko.display(PDAImage(mouth = "closed"))
+    subtitles "He puts the jug down on the desk, much too hard. The little bit left in the bottom sloshes."
+
+    $ emiko.display(PDAImage(pose = "21", mood = "neutral", mouth = "open"))
+    emiko "I'm sorry I did it behind your back. I am. I'm not going to pretend I'm not."
+    emiko "But I'm not sorry I did it."
+    $ emiko.display(PDAImage(mouth = "closed"))
+    headmaster "You don't get to just—"
+    $ emiko.display(PDAImage(mouth = "open"))
+    emiko "You were carrying all of it on your own. Every single drop, every teacher, every mother, every sum at three in the morning on a mop bucket. You didn't have to."
+    emiko "And if it had gone wrong, it was my name on it. Not yours. That was the whole point of not telling you."
+    $ emiko.display(PDAImage(mouth = "closed"))
+    headmaster.think "...God. She's been planning this since before I even found the catalyst."
+    headmaster.think "And she's not wrong. That's the worst part. She's not wrong."
+
+    # She gives him back his notebook.
+    $ emiko.display(PDAImage(pose = "17", mood = "neutral", mouth = "closed", look = "avert"))
+    subtitles "She opens the folder she's been holding and takes something out of it, and puts it down on the desk next to the jug."
+    subtitles "A plain black notebook. The elastic band still round it."
+    $ emiko.display(PDAImage(mouth = "open"))
+    emiko "I took it back on Friday night, after everyone had gone. They'll never brew it again. They've spent all weekend blaming each other for losing it."
+    $ emiko.display(PDAImage(mouth = "closed"))
+    subtitles "He picks it up. It's his handwriting, all of it. The crossed-out numbers. 'Muddy brown, don't panic.' The question mark on page six."
+    $ emiko.display(PDAImage(mood = "shining", mouth = "open", look = "follow"))
+    emiko "You wrote me down, you know."
+    emiko "'Subject E.'"
+    $ emiko.display(PDAImage(mouth = "closed"))
+    subtitles "He looks up. For a moment neither of them says anything at all."
+    headmaster "...I didn't know what else to call you. In the notes."
+    $ emiko.display(PDAImage(mood = "happy", mouth = "open"))
+    emiko "I liked it. I'd just never seen it written down before."
+
+    # Grudging admiration.
+    $ emiko.display(PDAImage(mood = "neutral", mouth = "closed"))
+    headmaster "The whole school. In one night."
+    headmaster "I was going to do the teachers, then the mothers, and then sit and wait for months for it to trickle down, one careful dose at a time..."
+    $ emiko.display(PDAImage(pose = "36", mood = "happy", mouth = "open"))
+    emiko "And now you don't have to wait. Most of them barely remember Friday. But every one of them woke up on Saturday a little bit different."
+    $ emiko.display(PDAImage(mouth = "closed"))
+    headmaster.think "She went behind my back. She stole from me. She dosed every student in this building with my last catalyst."
+    headmaster.think "...And it worked better than anything I'd planned."
+    headmaster "I'm still furious with you."
+    $ emiko.display(PDAImage(mood = "shining", mouth = "open"))
+    emiko "I know. I'd be disappointed if you weren't."
+
+    # The remaining catalyst; looking ahead.
+    $ emiko.display(PDAImage(pose = "6", mood = "neutral", mouth = "closed"))
+    subtitles "He tilts the jug. What's left barely covers the bottom."
+    headmaster "Seventy millilitres. Seven doses, if I'm careful. That's all there is now."
+    $ emiko.display(PDAImage(mouth = "open"))
+    emiko "Then we'll need something else, eventually. Something you can actually make more of."
+    emiko "And a proper lab to make it in. I've started a budget proposal for the old lab building. It'll be on your desk by Friday."
+    $ emiko.display(PDAImage(mouth = "closed"))
+    headmaster "...You've started a budget proposal."
+    $ emiko.display(PDAImage(mood = "happy", mouth = "open"))
+    emiko "I started it last Wednesday. I had a feeling I'd need to make it up to you."
+
+    $ emiko.display(PDAImage(pose = "39", mood = "shining", mouth = "open"))
+    emiko "Drink your coffee. It's getting cold."
+    $ emiko.display(PDAMove(alignX = 1.5, duration = 1.0),
+        PDAPause(duration = 1.0))
+    $ emiko.clear_display()
+
+    # Alone: the notebook, a fresh page.
+    subtitles "The door closes behind her."
+    subtitles "He sits there for a while with the jug on one side of him and the notebook on the other. Then he takes the elastic off, turns past all the old pages to the first clean one, and uncaps a pen."
+    headmaster.think "Monday. Subject: the whole school."
+    headmaster.think "...God help me. Where do I even start?"
+    subtitles "He starts writing."
+
+    $ set_progress("lab_intro", 14)
+
+    $ end_event("new_daytime", **kwargs)
+
