@@ -79,6 +79,7 @@ default shopping_cart = {}
 default item_delivery = {}
 
 default last_daytime = None
+default last_daytime_by_key = {}
 
 default overview_events_available = {
     'school_building':  False,

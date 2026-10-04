@@ -2033,6 +2033,21 @@ init -3 python:
 
         renpy.sound.stop(fadeout = 1.0)
 
+        # Situation events queued above (or during the event) run first; the
+        # drain label then continues with the routing below.
+        if situation_manager.has_pending_events():
+            renpy.call("drain_situation_events", return_type, **kwargs)
+
+        route_end_event(return_type, **kwargs)
+
+    def route_end_event(return_type: str = "new_daytime", **kwargs):
+        """
+        Final routing step of end_event.
+
+        ### Parameters:
+        1. return_type: str (Default "new_daytime")
+            - "new_daytime", "new_day", "none", "custom" or anything else (map_entry).
+        """
         if return_type == "new_daytime":
             renpy.jump("new_daytime")
         elif return_type == "new_day":

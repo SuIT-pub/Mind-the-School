@@ -674,13 +674,8 @@ init -6 python:
             return self.today() + "." + str(self.daytime)
 
         def date_is_after_date(self, day1: int, month1: int, year1: int, day2: int, month2: int, year2: int) -> bool:
-            if year1 > year2:
-                return True
-            if month1 > month2:
-                return True
-            if day1 > day2:
-                return True
-            return False
+            # Lexicographic (year, month, day): a later day in an earlier month is not "after".
+            return (year1, month1, day1) > (year2, month2, day2)
 
         def today_is_after_date(self, day: int, month: int, year: int) -> bool:
             """
@@ -704,11 +699,8 @@ init -6 python:
             return self.date_is_after_date(self.day, self.month, self.year, day, month, year)
 
         def time_is_after_time(self, day1: int, month1: int, year1: int, time1: int, day2: int, month2: int, year2: int, time2: int) -> bool:
-            if self.date_is_after_date(day1, month1, year1, day2, month2, year2):
-                return True
-            if time1 > time2:
-                return True
-            return False
+            # Daytime only breaks the tie on the same date.
+            return (year1, month1, day1, time1) > (year2, month2, day2, time2)
 
         def now_is_after_time(self, day: int, month: int, year: int, time: int) -> bool:
             """
@@ -734,7 +726,7 @@ init -6 python:
                 - 7: Night
             """
 
-            return time_is_after_time(self.day, self.month, self.year, self.daytime, day, month, year, time)
+            return self.time_is_after_time(self.day, self.month, self.year, self.daytime, day, month, year, time)
 
         def compare_date(self, day1: int, month1: int, year1: int, day2: int, month2: int, year2: int) -> int:
             """

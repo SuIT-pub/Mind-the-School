@@ -1963,6 +1963,12 @@ screen journal_cheats(display, char = "school"):
                     null height 10
 
                     button:
+                        text "Situation Test Lab" style "buttons_idle"
+                        action Call("situation_test_lab")
+
+                    null height 10
+
+                    button:
                         text "Give every Item" style "buttons_idle"
                         action Call("give_every_item", 5, display)
 
@@ -3393,10 +3399,13 @@ screen journal_situations(display):
 
 label activate_passive(display, situation, passive):
     $ situation.set_passive(passive.name)
+    # Events queued by the passive/measure effects play now, then back to the journal.
+    call drain_situation_events from _call_drain_situation_events_activate_passive
     call open_journal(8, display)
 
 label activate_measure(display, situation, measure):
     $ situation.set_measure(measure.name)
+    call drain_situation_events from _call_drain_situation_events_activate_measure
     call open_journal(8, display)
 
 # Goals (8) - DEPRECATED

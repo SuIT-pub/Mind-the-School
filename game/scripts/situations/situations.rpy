@@ -578,11 +578,12 @@ init -99 python:
                     self.timed_release.id = self.key
                     set_timer(self.key, "now")
             else:
-                # Auto threshold: fire, then route through set_hold so default_hold
-                # governs re-arming. default_hold == -1 latches reached (old behavior);
+                # Auto threshold: route through set_hold so default_hold governs
+                # re-arming, then fire. default_hold == -1 latches reached (old behavior);
                 # default_hold >= 0 opens a hysteresis zone and stays re-armable.
-                self.trigger_effects()
+                # State is updated before the effects so nothing is lost if an effect jumps.
                 self.set_hold()
+                self.trigger_effects()
             return
 
         def add_effect(self, *effects: Effect):
@@ -590,8 +591,13 @@ init -99 python:
             return self
 
         def trigger_effects(self):
-            for effect in self.effects:
-                effect.apply()
+            # Event effects are queued and run by drain_situation_events.
+            begin_situation_event_deferral()
+            try:
+                for effect in self.effects:
+                    effect.apply()
+            finally:
+                end_situation_event_deferral()
 
         def load_thumbnail(self, **kwargs):
             refined_thumbnail = refine_image(self.thumbnail, **kwargs)
@@ -701,7 +707,14 @@ init -99 python:
 
         def activate(self):
             self.active = True
-            self.run_effects()
+            # EventEffects are queued (renpy.call would abort the caller, e.g.
+            # SituationMeasure.activate before it frees the slot). The journal's
+            # activate_* labels drain the queue afterwards.
+            begin_situation_event_deferral()
+            try:
+                self.run_effects()
+            finally:
+                end_situation_event_deferral()
 
         def deactivate(self):
             self.active = False
@@ -841,10 +854,14 @@ init -99 python:
                 remove_timer(self.cooldown.id)
             if self.counter is not None and isinstance(self.counter, ManualCounterCondition):
                 self.counter.increase()
-            for effect in self.instant_effects:
-                if isinstance(effect, SituationEffect):
-                    effect.passive = self
-                    effect.apply(conditions = self.conditions)
+            begin_situation_event_deferral()
+            try:
+                for effect in self.instant_effects:
+                    if isinstance(effect, SituationEffect):
+                        effect.passive = self
+                        effect.apply(conditions = self.conditions)
+            finally:
+                end_situation_event_deferral()
             # Instant: no duration and not an open-ended hold (e.g. Schedule Vote).
             if self.duration is None and not getattr(self, "open_ended", False):
                 self.deactivate()
@@ -1461,7 +1478,7 @@ init -99 python:
                 errors.append((770, f"Start modifier value '{self.value}'{loc} is not a number."))
 
             if self.stat is not None:
-                if self.stat not in Stat_Data or Stat_Data[self.stat] is None:
+                if Stat_Data[self.stat] is None:
                     errors.append((768, f"Start modifier stat '{self.stat}'{loc} not found."))
 
             return errors
@@ -1562,6 +1579,7 @@ init -99 python:
             self.min = bar.min
             self.max = bar.max
             self.stat_weights = bar.stat_weights
+            self._weight = bar._weight
             self.regular_decrease_rate = bar.regular_decrease_rate
             self.regular_decrease_interval = bar.regular_decrease_interval
             self.start_base = bar.start_base
@@ -2191,9 +2209,18 @@ init -99 python:
             return self.conditions.is_fulfilled(**self._build_check_kwargs(**kwargs))
 
         def fire(self) -> bool:
-            """Apply effects, end grace, complete situation."""
+            """End grace, complete situation, apply effects."""
             self.end_grace()
-            self.effects.apply(conditions = self.conditions)
+            # Complete before applying effects so the situation leaves "active"
+            # even if an effect jumps. Event effects are queued and run by
+            # drain_situation_events once the current Python has finished.
+            if self.situation is not None:
+                self.situation.complete()
+            begin_situation_event_deferral()
+            try:
+                self.effects.apply(conditions = self.conditions)
+            finally:
+                end_situation_event_deferral()
             for effect in self.effects.find_by_type("modifier"):
                 lifecycle_registry.track(
                     effect.key,
@@ -2205,8 +2232,6 @@ init -99 python:
                     op=effect.modifier.get_mod_type(),
                     value=effect.modifier.get_value(),
                 )
-            if self.situation is not None:
-                self.situation.complete()
             return True
 
         def evaluate(self, **kwargs) -> bool:
@@ -3345,7 +3370,8 @@ init -99 python:
             thresholds = self.get_next_blocking_thresholds(direction, include_reached)
             if len(thresholds.keys()) == 0:
                 return None
-            # Get the threshold (blocking) with a combined value closest to origin.
+            # Get the threshold (blocking) with a combined value closest to origin,
+            # on the side given by direction.
             closest_threshold = None
             closest_dist = None
             for threshold in self.thresholds.values():
@@ -3354,6 +3380,10 @@ init -99 python:
                     not threshold.is_blocking():
                     continue
                 combined_value = self.get_combined_threshold_value(threshold)
+                # Only gates on the requested side; a gate the bar is clamped
+                # at counts for both sides (journal draws it as closed).
+                if (direction > 0 and combined_value < origin) or (direction < 0 and combined_value > origin):
+                    continue
                 dist = abs(combined_value - origin)
                 if closest_threshold is None or dist < closest_dist:
                     closest_threshold = threshold
@@ -3497,6 +3527,8 @@ init -99 python:
             # Cascading resolution breather (pauses base wear after negative resolve)
             self.resolution_breather_days = 0
             self.resolution_breather_active = False
+            # Event effects queued by resolutions/thresholds (see Pending Events)
+            self.pending_events = []
 
         def begin_situation_load_wave(self):
             """
@@ -4050,21 +4082,22 @@ init -99 python:
             threshold = self.threshold_checks[key]
             if threshold.situation is None or threshold.situation.state != "active":
                 return
+            # State is cleared before trigger_effects so nothing is lost if an effect jumps.
             if threshold.timed_release is not None:
                 if threshold.timed_release.check_condition(**kwargs):
-                    threshold.trigger_effects()
                     threshold.set_hold()
                     del self.threshold_checks[key]
                     lifecycle_registry.ping(key, REMOVE)
+                    threshold.trigger_effects()
                 elif threshold.blocking.is_fulfilled(**kwargs):
                     threshold.set_hold()
                     del self.threshold_checks[key]
                     lifecycle_registry.ping(key, REMOVE)
             elif threshold.blocking.is_fulfilled(**kwargs):
-                threshold.trigger_effects()
                 threshold.reached = True
                 del self.threshold_checks[key]
                 lifecycle_registry.ping(key, REMOVE)
+                threshold.trigger_effects()
 
             return
 
@@ -4082,8 +4115,58 @@ init -99 python:
 
         # endregion
         #####################
+
+        #########################
+        # region Pending Events #
+        # Event effects fired from resolutions/thresholds are queued instead of
+        # called: renpy.call raises and would abort the rest of the Python call
+        # chain (situation.complete(), set_hold(), end_event routing, ...).
+        # drain_situation_events runs them once the caller has finished.
+
+        # Class attribute on purpose: deferral depth is transient and never saved.
+        _defer_depth = 0
+
+        def _ensure_pending_events(self):
+            if not hasattr(self, "pending_events") or self.pending_events is None:
+                self.pending_events = []
+
+        def queue_event_effect(self, effect: Effect, kwargs: dict):
+            self._ensure_pending_events()
+            self.pending_events.append((effect, dict(kwargs)))
+            return self
+
+        def has_pending_events(self) -> bool:
+            return len(getattr(self, "pending_events", None) or []) > 0
+
+        def run_next_pending_event(self):
+            """Pop and run the next queued event effect (may renpy.call)."""
+            if not self.has_pending_events():
+                return
+            effect, kwargs = self.pending_events.pop(0)
+            effect.apply_now(**kwargs)
+
+        # endregion
+        #########################
     # endregion
     ###########################
+
+    def begin_situation_event_deferral():
+        SituationManager._defer_depth += 1
+
+    def end_situation_event_deferral():
+        SituationManager._defer_depth = max(0, SituationManager._defer_depth - 1)
+
+    def defer_situation_event(effect: Effect, kwargs: dict) -> bool:
+        """
+        Queue an event effect while situation effects are being applied.
+
+        Returns:
+            bool: True if the effect was queued (caller must not run it now).
+        """
+        if SituationManager._defer_depth <= 0 or situation_manager is None:
+            return False
+        situation_manager.queue_event_effect(effect, kwargs)
+        return True
 
     ###################################
     # region Definition helpers ----- #
@@ -4132,8 +4215,8 @@ init -99 python:
             for entry in start_modifiers:
                 bar.add_start_modifier(entry)
         if stat_weights:
-            for stat, weight in stat_weights.items():
-                bar.add_stat_weight(stat, weight)
+            for stat, stat_weight in stat_weights.items():
+                bar.add_stat_weight(stat, stat_weight)
         if weight:
             bar.set_weight(weight)
         for element in elements:
@@ -4274,6 +4357,15 @@ init -99 python:
     # endregion Definition helpers ---#
     ###################################
 
+
+# Runs event effects queued by situation resolutions/thresholds, one call at a
+# time, then optionally continues end_event's routing (new_daytime, map_entry, ...).
+label drain_situation_events (end_route = None, **kwargs):
+    while situation_manager is not None and situation_manager.has_pending_events():
+        $ situation_manager.run_next_pending_event()
+    if end_route is not None:
+        $ route_end_event(end_route, **kwargs)
+    return
 
 label load_situations:
     $ set_current_mod('base')
@@ -4698,4 +4790,7 @@ label load_situations:
             thumbnail="images/misc/Test_16_9.png",
         ),
     )
-    
+
+    # Debug: Situation Test Lab (situation_test_lab.rpy). Inactive and hidden until
+    # started from Journal -> Cheats -> Debug.
+    $ register_situations(build_situation_test_lab())

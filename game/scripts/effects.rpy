@@ -405,6 +405,14 @@ init -1 python:
             return self.event
 
         def apply(self, **kwargs):
+            # Inside situation resolution/threshold processing the call is queued
+            # and run later by drain_situation_events (renpy.call would abort the
+            # caller's remaining Python, e.g. situation.complete()).
+            if defer_situation_event(self, kwargs):
+                return
+            self.apply_now(**kwargs)
+
+        def apply_now(self, **kwargs):
             if isinstance(self.event, EventStorage):
                 renpy.call('call_available_event', self.event, **kwargs)
             elif isinstance(self.event, Event):
@@ -454,6 +462,11 @@ init -1 python:
             return f"{self.name}"
 
         def apply(self, **kwargs):
+            if defer_situation_event(self, kwargs):
+                return
+            self.apply_now(**kwargs)
+
+        def apply_now(self, **kwargs):
             if len(self.event) == 1:
                 self.event[0].call(**kwargs)
             else:

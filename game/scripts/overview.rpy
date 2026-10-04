@@ -744,6 +744,7 @@ label map_overview ():
     $ situation_manager.check_all_thresholds()
     $ situation_manager.check_passives()
     $ situation_manager.check_resolutions()
+    call drain_situation_events from _call_drain_situation_events_map_entry
 
     if not debug_mode:
         # keep only the last 100 entries in the return stack

@@ -29,23 +29,23 @@ init 1 python:
         thumbnail = "images/events/pta/first meeting/first pta meeting 0 0.webp")
 
     new_daytime_event = Event(2, "check_new_daytime",
-        DaytimeChangedCondition())
+        DaytimeChangedCondition("daytime"))
 
     new_day_event = Event(2, "check_new_day",
         TimeCondition(daytime = 1),
-        DaytimeChangedCondition())
+        DaytimeChangedCondition("day"))
 
     new_week_event = Event(2, "check_new_week",
         TimeCondition(weekday = 1, daytime = 1),
-        DaytimeChangedCondition())
+        DaytimeChangedCondition("week"))
 
     new_month_event = Event(2, "check_new_month",
         TimeCondition(day = 1, daytime = 1),
-        DaytimeChangedCondition())
+        DaytimeChangedCondition("month"))
 
     new_year_event = Event(2, "check_new_year",
         TimeCondition(day = 1, month = 1, daytime = 1),
-        DaytimeChangedCondition())
+        DaytimeChangedCondition("year"))
 
     intro_check_all_facilities_event = Event(2, "intro_check_all_facilities", 
         IntroCondition(),
@@ -79,6 +79,7 @@ init 1 python:
         new_day_event,
         new_week_event,
         new_month_event,
+        new_year_event,
         intro_check_all_facilities_event,
         intro_check_all_first_potions_event,
         game_over_happiness_event,
@@ -619,6 +620,7 @@ label check_new_daytime (**kwargs):
     call change_stats_via_modifier('daytime_change') from _call_change_daytime_via_modifier
     $ situation_manager.check_passives(**kwargs)
     $ situation_manager.check_resolutions(**kwargs)
+    call drain_situation_events from _call_drain_situation_events_new_daytime
     return
 
 label check_new_day (**kwargs):
@@ -626,6 +628,7 @@ label check_new_day (**kwargs):
     call change_stats_via_modifier('daily') from _call_change_daily_via_modifier
     $ situation_manager.check_passives(**kwargs)
     $ situation_manager.check_resolutions(**kwargs)
+    call drain_situation_events from _call_drain_situation_events_new_day
     return
 
 label check_new_week (**kwargs):

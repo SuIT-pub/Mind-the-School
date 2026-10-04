@@ -3642,17 +3642,33 @@ init -6 python:
             return "DeliveryCondition"
 
     class DaytimeChangedCondition(Condition):
-        def __init__(self, *options: Option):
+        """
+        True once per time change, separately for each key.
+
+        Checking consumes the change for that key. The daily checks use one key
+        per event (daytime, day, week, ...): with a single shared marker the
+        first event consumed the change and day/week/month/year never fired.
+        """
+
+        def __init__(self, key: str = "default", *options: Option):
             super().__init__(*options)
+            self.key = key
 
         @property
         def _type(self) -> str:
             return "daytime_changed"
 
         def check_condition(self, **kwargs) -> bool:
-            global last_daytime
-            if last_daytime == None or last_daytime != time.now():
-                last_daytime = time.now()
+            global last_daytime, last_daytime_by_key
+            now = time.now()
+            key = getattr(self, "key", "default")
+            if key not in last_daytime_by_key:
+                # Seed from the old shared marker so loading a save does not
+                # re-run the checks of the current daytime.
+                last_daytime_by_key[key] = last_daytime
+            if last_daytime_by_key[key] == None or last_daytime_by_key[key] != now:
+                last_daytime_by_key[key] = now
+                last_daytime = now
                 return True
             return False
 
