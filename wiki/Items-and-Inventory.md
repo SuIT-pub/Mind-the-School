@@ -107,7 +107,7 @@ A `ShopItemData` is an `ItemData` that also shows up in the
 |-----|---------|
 | `price` | dollars per unit; `0` or less shows **Free** (green) and costs nothing |
 | `max_possession` | the shop won't let the cart push `owned + in cart` past this |
-| `max_purchase` | the shop won't let `bought + in cart` pass this (but see [Known gaps](#8-known-gaps)) |
+| `max_purchase` | lifetime limit: the shop won't let `bought + in cart` pass this. `bought` comes from the save-backed `item_purchases` |
 
 Current example:
 
@@ -132,11 +132,11 @@ label load_items:
             inventory_manager = InventoryManager()
         inventory_manager.init()     # wipes item_data / shop_item_data (NOT the inventory)
     $ load_item(...)                 # all definitions
-    $ inventory_manager.check_missing_items()   # last: prune stacks with no definition
 ```
 
-`check_missing_items()` **must** run after all definitions. It drops every stack
-whose key has no `ItemData` anymore (see [§7](#7-saves-reloads-and-mods)).
+`check_missing_items()` is **not** called here. `script.rpy` runs it once after the
+`start_methods` loop, so mod loaders have registered their items before stacks
+without a definition are pruned (see [§7](#7-saves-reloads-and-mods)).
 
 ---
 
@@ -206,8 +206,7 @@ Both live in `conditions.rpy` and are listed in [Conditions](Conditions) under
 
 `ItemCondition` composes like any condition (`NOT(...)`, `OR(...)`, options such as
 `OptionalOption()`). Its `to_desc_text` prints *"You have N Name(s)"* in green/red
-for hint UIs. It reads the owned stack, so it only works when the player owns at
-least one; see [Known gaps](#8-known-gaps).
+for hint UIs; it also works when the player owns none ("You have 0 …").
 
 ---
 
@@ -220,7 +219,8 @@ computer → *Shopping*). Items aren't handed over at checkout; they ship.
 shop screen ──add to cart──▶ shopping_cart {key: n}
    │                              │
    └─ cart screen ── Checkout ────┘
-         money −= products total          (shipping shown, not charged — see §8)
+         money −= products + shipping     (get_shopping_cart_totals)
+         item_purchases[key] += n         (lifetime count for max_purchase)
          item_delivery["D.M.YYYY" of today+3] += [key, key, …]
                                           │
    time_check_events: TimeCondition(weekday="1-4", daytime=1) + DeliveryCondition()
@@ -234,8 +234,9 @@ shop screen ──add to cart──▶ shopping_cart {key: n}
 |-------|-------|
 | entry event (`Event(3, "office_building_computer_shopping_event")` in `office_building_computer_event["shopping"]`) | `inventory.rpy` (registration), `office_building.rpy` (label; resets `shopping_cart = {}`) |
 | `office_building_computer_shopping_screen` | product grid, 4 per row; Add to Cart / `− n +` / *Out of Stock* |
-| `office_building_computer_shopping_cart_screen` | line items, subtotal, $5 shipping, total, Checkout (disabled if budget < total) |
-| `office_building_computer_shopping_screen_checkout` | charges money, queues the delivery for **today + 3 days** |
+| `office_building_computer_shopping_cart_screen` | line items, subtotal, shipping, total, Checkout (disabled if budget < total) |
+| `get_shopping_cart_totals()` / `SHOP_SHIPPING_COST` | `(products, shipping)` for the cart; shipping is $5, only when something costs money. Used by screen **and** checkout |
+| `office_building_computer_shopping_screen_checkout` | charges products + shipping, counts `item_purchases`, queues the delivery for **today + 3 days** |
 | `office_building_computer_shopping_delivery_event` | priority 2 in `time_check_events`, morning of Mon–Thu (`weekday="1-4"`, `daytime=1`) |
 
 **Stock rule (per card):** a product is buyable while
@@ -247,7 +248,7 @@ and shows *Out of Stock* rather than hiding it.
 delivered the next Monday morning. Everything that's due arrives in one event.
 
 Save-backed globals (`values.rpy`): `inventory_manager`, `shopping_cart`,
-`item_delivery` (`{"D.M.YYYY": [key, …]}`).
+`item_delivery` (`{"D.M.YYYY": [key, …]}`), `item_purchases` (`{key: units bought}`).
 
 ### Adding a shop item
 
@@ -280,7 +281,8 @@ items*. See [Cheat Menu](Cheat-Menu#items).
 - `inventory_manager` is a `default`, so the **stacks** persist. On every start and
   load `load_items` calls `init()`, which **rebuilds the definitions** from code.
   Editing an item's text or icon needs no migration.
-- `check_missing_items()` then **deletes every stack whose key is no longer
+- After the mod loaders (`start_methods`) have run, `script.rpy` calls
+  `check_missing_items()`, which **deletes every stack whose key is no longer
   defined**. Removing a definition, renaming a key, or disabling the mod that defined
   it erases those items from the save the next time it loads. Re-enabling the mod
   does not bring them back.
@@ -300,21 +302,19 @@ label load_mymod:
     $ load_item(ShopItemData("mymod_tea", "Herbal Tea", "Calms the nerves.", "images/items/tea.webp", 12, max_possession=5, max_purchase=99))
 ```
 
-> Danger: `start_methods` (mod loaders) run at the **end** of the start / after-load
-> wave, after the base `load_items` has already called `check_missing_items()`. On
-> every load the mod's definitions don't exist yet at prune time, so **owned mod
-> items are wiped**. See [Known gaps](#8-known-gaps). Until that is fixed, don't
-> rely on a mod item surviving a save/load.
+> Note: the prune runs after `start_methods`, so items defined by an active mod
+> survive save/load. Only the items of a mod that is disabled (or removed) get
+> pruned.
 
 ---
 
 ## 8. Known gaps
 
-Code-level facts that differ from what the shop UI suggests. Fix them in code
-before relying on the feature, then update this section.
-
 | Gap | Effect |
 |-----|--------|
+| `add_item` doesn't validate the key | giving an undefined key makes the notify toast call `get_name()` on a missing definition; the stack is pruned on the next load. Define first |
+
+-----|--------|
 | `check_missing_items()` runs inside base `load_items`, before `start_methods` | mod-defined item stacks are deleted on every load (fix: prune once after the `start_methods` loop in `script.rpy`) |
 | `ShopItemData.bought` is never incremented at checkout | `max_purchase` only limits a single cart, not lifetime purchases |
 | `bought` lives on the definition, which is rebuilt each load | even once incremented, it would reset on load; it needs a save-backed counter |
@@ -330,14 +330,14 @@ before relying on the feature, then update this section.
 `get_image()`. `ItemData(key, name, description, image)`: `get_name()` ·
 `get_description()` (always a list) · `get_image()`. `ShopItemData(…, price,
 max_possession=1, max_purchase=1)`: `get_price()` · `get_max_possession()` ·
-`get_max_purchase()` · `get_bought()`.
+`get_max_purchase()` · `get_bought()` (reads `item_purchases`).
 
 **`inventory_manager`** — `add_item(item|key)` · `remove_item(key, amount=-1)` ·
 `has_item(key)` · `get_item(key)` · `get_item_count(key)` · `get_inventory()` ·
 `has_item_data(key)` · `get_item_data(key)` · `get_all_shop_items(ignore_possession=False,
 ignore_purchase=False)` · `init()` · `check_missing_items()`.
 
-**Module functions** — `load_item(ItemData)` · `has_delivery_today()` ·
+**Module functions** — `load_item(ItemData)` · `get_shopping_cart_totals()` · `has_delivery_today()` ·
 `get_delivery_today()` · `remove_old_deliveries()`.
 
 **Conditions** — `ItemCondition(item_key, amount=1, *options)` ·
@@ -361,6 +361,6 @@ ignore_purchase=False)` · `init()` · `check_missing_items()`.
 - `game/scripts/conditions.rpy` — `ItemCondition`, `DeliveryCondition`
 - `game/scripts/journal/journal.rpy` — `journal_inventory` screen, cheat Items tab, `add_item_cheat`, `give_every_item`
 - `game/scripts/buildings/office_building.rpy` — `office_building_computer_shopping_event`
-- `game/scripts/values.rpy` — `inventory_manager`, `shopping_cart`, `item_delivery` defaults
+- `game/scripts/values.rpy` — `inventory_manager`, `shopping_cart`, `item_delivery`, `item_purchases` defaults
 - `game/scripts/debug.rpy` — `get_cheat_item_list()`
-- `game/script.rpy` — `call load_items` in the start / after-load wave
+- `game/script.rpy` — `call load_items` in the start / after-load wave; `check_missing_items()` after `start_methods`

@@ -77,6 +77,7 @@ default inventory_manager = None
 
 default shopping_cart = {}
 default item_delivery = {}
+default item_purchases = {}
 
 default last_daytime = None
 default last_daytime_by_key = {}

@@ -25,6 +25,9 @@ label start ():
         call expression start_methods[i] from _call_expression_2
         $ i += 1
 
+    # after the mod loaders, so mod-defined items still have their definitions
+    $ inventory_manager.check_missing_items()
+
     if situation_manager is not None:
         $ situation_manager.reconcile_orphan_situations()
     $ lifecycle_registry.finalize_check()
@@ -226,6 +229,9 @@ label after_load:
     while i < len(start_methods):
         call expression start_methods[i] from _call_expression_3
         $ i += 1
+
+    # after the mod loaders, so mod-defined items still have their definitions
+    $ inventory_manager.check_missing_items()
 
     if situation_manager is not None:
         $ situation_manager.reconcile_orphan_situations()

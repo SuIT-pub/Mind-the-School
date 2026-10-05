@@ -3616,10 +3616,12 @@ init -6 python:
             return f"ItemCondition({self.item_key}, {self.amount})"
 
         def to_desc_text(self, **kwargs) -> str:
-            item = inventory_manager.get_item(self.item_key)
-            color = "#00a000" if item.amount >= self.amount else "#a00000"
-            item_text = f"{{color={color}}}{item.get_name()}{{/color}}"
-            return f"You have {item.amount} {item_text}{'s' if item.amount > 1 else ''}"
+            amount = inventory_manager.get_item_count(self.item_key)
+            item_data = inventory_manager.get_item_data(self.item_key)
+            name = item_data.get_name() if item_data is not None else self.item_key
+            color = "#00a000" if amount >= self.amount else "#a00000"
+            item_text = f"{{color={color}}}{name}{{/color}}"
+            return f"You have {amount} {item_text}{'s' if amount != 1 else ''}"
 
     class DeliveryCondition(Condition):
         """

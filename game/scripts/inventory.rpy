@@ -52,7 +52,6 @@ init -98 python:
             self.price = price
             self.max_possession = max_possession
             self.max_purchase = max_purchase
-            self.bought = 0
 
         def get_price(self) -> int:
             return self.price
@@ -64,7 +63,8 @@ init -98 python:
             return self.max_purchase
 
         def get_bought(self) -> int:
-            return self.bought
+            # save-backed: definitions are rebuilt on every load
+            return item_purchases.get(self.key, 0)
 
         def _update(self, item: ShopItemData):
             super()._update(item)
@@ -159,6 +159,21 @@ init -98 python:
 
         def get_inventory(self) -> List[Item]:
             return list(self.inventory.values())
+
+    SHOP_SHIPPING_COST = 5
+
+    def get_shopping_cart_totals() -> Tuple[int, int]:
+        """
+        Returns (products total, shipping cost) for the current shopping cart.
+        Shipping is only charged when something in the cart costs money.
+        """
+        product_total = 0
+        for item_key, amount in shopping_cart.items():
+            price = inventory_manager.get_item_data(item_key).get_price()
+            if price > 0:
+                product_total += price * amount
+        shipping_cost = SHOP_SHIPPING_COST if product_total > 0 else 0
+        return product_total, shipping_cost
 
     def has_delivery_today() -> bool:
         for time_str in item_delivery.keys():
@@ -450,14 +465,7 @@ screen office_building_computer_shopping_cart_screen(viewport_value = 0, **kwarg
         area(1260, 215, 250, 740)
         background Solid("#8880")
 
-        $ product_total = 0
-        for item_key in shopping_cart.keys():
-            $ item = inventory_manager.get_item_data(item_key)
-            $ item_price = item.get_price()
-            $ item_in_cart = shopping_cart[item_key]
-            $ product_total += item_price * item_in_cart if item_price > 0 else 0
-
-        $ shipping_cost = 5 if product_total > 0 else 0.0
+        $ product_total, shipping_cost = get_shopping_cart_totals()
         $ full_total = product_total + shipping_cost
 
         vbox:
@@ -633,19 +641,14 @@ label office_building_computer_shopping_screen_change_cart(item, delta, viewport
 
 label office_building_computer_shopping_screen_checkout(**kwargs):
     python:
-        total_price = 0
-        for item_key in shopping_cart.keys():
-            item = inventory_manager.get_item_data(item_key)
-            item_price = item.get_price()
-            item_in_cart = shopping_cart[item_key]
-            total_price += item_price * item_in_cart if item_price > 0 else 0
-
-        money.change_value(-total_price)
+        product_total, shipping_cost = get_shopping_cart_totals()
+        money.change_value(-(product_total + shipping_cost))
         delivery_time = Time("now")
         delivery_time.add_time(day = 3)
 
         delivered_items = []
         for item_key in shopping_cart.keys():
+            item_purchases[item_key] = item_purchases.get(item_key, 0) + shopping_cart[item_key]
             for i in range(shopping_cart[item_key]):
                 delivered_items.append(item_key)
 
@@ -780,5 +783,3 @@ label load_items:
         ],
         "images/items/lab-test-potion.webp",
     ))
-
-    $ inventory_manager.check_missing_items()
