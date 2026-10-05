@@ -94,6 +94,14 @@ on his side from the start, warm and forward rather than someone to be brought
 along. She served the previous headmaster too, so she knows the school from the
 inside. Treat her as the Headmaster's right hand, not a conquest-in-progress.
 
+**[Canon] The lab is a converted storage room.** The Headmaster brews in a small
+storage room in the **office building** that he turned into a lab (Emiko helps
+carry the lab table in). It is cramped and shelved, and it is **not** his office:
+planning and talks with Emiko happen in the office proper, the experiments happen
+in the closet-lab next door. Older drafts that describe "the office converted into
+a makeshift lab" are outdated. A proper lab (renovating the old lab building) is a
+separate, later step.
+
 ---
 
 ## 4. The backers
@@ -105,7 +113,7 @@ disappoint them.
 
 **[Open]** *Who they are and what they ultimately want is deliberately
 unresolved.* Why would anyone bankroll an intimate-conditioning experiment at a
-remote girls' boarding school? It is the single largest empty space in the lore,
+remote boarding school? It is the single largest empty space in the lore,
 and it is empty on purpose — good raw material for a story chain, not a settled
 fact. If you write toward it, leave room; do not name the backers or pin their
 motive as canon. A natural (but **unconfirmed**) hook: the sponsors, the regional
@@ -137,8 +145,30 @@ says**. Handle any mod that touches this as speculation, not established backsto
 - **Teachers.** Staff who run classes; some resist the reforms early and are won
   over rather than defeated.
 - **Administrative staff.** The Headmaster (player), Emiko Langley (secretary),
-  Linh Nguyen.
+  Linh Nguyen (school nurse, later; see below).
 - **Parents.** A small named group, physically distant from the campus.
+
+**[Canon] Who is on campus when.** Check that a character exists in-fiction at
+that point of the story before you put her in a scene.
+
+- **Early staff** = the five teachers (Zoe Parker, Yulan Chen, Lily Anderson,
+  Chloe Garcia, Finola Ryan), Emiko and the Headmaster.
+- **Linh Nguyen is not school staff in the early game.** She still works as a nurse
+  at a hospital and has only visited once, as a guest for the students' general
+  medical checkup. She becomes the school nurse **later**. Early events must not
+  count her among the staff, put her in the staff room, or dose her.
+- **Parents:** only Yuki Yamamoto's daughter (Soyoon) attends the school. Adelaide
+  Hall and Nubia Davis have daughters too, but they are **not** at Windstor.
+
+**[Open]** *Why Adelaide's and Nubia's daughters aren't here is deliberately
+unwritten.* A scene may drop a very subtle hint that there *is* a reason. Never
+explain it, never name the daughters, never invent the cause.
+
+**[Convention] The reserved starting cast is intentional.** Many characters start
+shy, prudish or buttoned-up. That isn't a flaw in the cast; it's the raw material
+the transformation works on. What has to stay varied is the **high end**: each
+character opens up in her **own** way (quiet elegance surfacing, a flat deadpan
+that stays deadpan, a confidence arc), so the payoff doesn't turn monotonous.
 
 **[Convention] The world is all-female except the male Headmaster.** Every other
 character is a woman, and romantic/sexual pairings among the cast are woman/woman
@@ -174,6 +204,25 @@ When you write the mechanism, write it as *slow, quiet, and chemical* — the
 background pressure the whole school marinates in, not a switch someone flips in a
 scene.
 
+**[Canon] What a single dose does.** Every dose runs the same four beats:
+
+1. **A strong, very short acute effect.** The subject is visibly open and
+   uninhibited, well past what the current school level would allow.
+2. **It wears off quickly.**
+3. **Hazy memory.** Afterwards she barely remembers what happened under the
+   influence. She usually notices the next day, as gaps and a blur, not vivid
+   recall.
+4. **A small permanent residue** stays. That residue is what moves the school
+   level.
+
+**[Convention] Dose scenes vs. aftermath scenes.** An acute-dose scene (the lab
+party, the faculty coffee, the PTA lemonade: the early dosing events before
+level 3) may legitimately go beyond the level's behaviour row. That is not a level
+bug. Level accuracy applies to the **aftermath**: hazy memory and only a slight
+shift toward the next level. No "I remember exactly how she tasted", no jump to
+level-6 behaviour the morning after. A stronger, catalyst-enhanced batch can be
+weaker in the acute phase and still leave the lasting residue.
+
 **[Canon] Hypnosis is a second, rare mechanism — reserved for a few special
 events.** It is **not** a passive driver and not a general tool. Use it for
 occasional, spotlight set-pieces, not as the everyday way anyone is changed.
@@ -186,8 +235,13 @@ the bulk of the arc, hypnosis is the spice.
 ### The institutional rail — the PTA
 
 **[Canon]** New rules, clubs, and building unlocks must pass the **PTA** —
-made up of the school council, the teachers, and **a representative of the
-regional government**. This is the sanctioning gate: it is how covert conditioning
+made up of the school council, the teachers, and the parents (in current scenes:
+Adelaide Hall, Nubia Davis, Yuki Yamamoto, the teachers, the Headmaster, and the
+student representative Yuriko where it fits).
+
+**[Planned]** *A representative of the regional government* is meant to sit on
+the PTA as well, but he exists **only as a concept**. He is not in the game. Leave
+him out of scenes entirely: don't mention him, don't foreshadow him. This is the sanctioning gate: it is how covert conditioning
 becomes *official policy*. The sex-ed introduction (which sets the school to level
 2) runs exactly this way — resistance, discussion, then a vote. Mechanically this
 rail is the [Building Unlockables](Building-Unlockables) PTA-vote system.
@@ -196,8 +250,8 @@ rail is the [Building Unlockables](Building-Unlockables) PTA-vote system.
 a permanent wall — its members come around as the climate rises, and what needs a
 hard-fought vote early becomes routine later. That fits the project's antagonist
 philosophy: internal resistance is won over (which unlocks it), never kept as a
-standing enemy. The government representative on the PTA is the natural bridge to
-the *external* opposition in [§9](#9-the-opposition--the-regional-inspector).
+standing enemy. Once he is built, the planned government representative is the
+natural bridge to the *external* opposition in [§9](#9-the-opposition--the-regional-inspector).
 
 ---
 
@@ -214,6 +268,12 @@ this number, and the number is why the change is permanent: the serum's daily
 effect fades, but its residue accretes into the level, and the level is what the
 art, the dialogue, and the gates all read from. **[School Levels](School-Levels)
 is the mandatory companion to this page** — it is the tone bible for every step.
+
+**[Convention] The level is meta, never in-fiction.** The number exists for the
+player and the engine. The characters don't know it exists and never reference
+it. "I'm level 5 now" or "you knew me at level two" is a bug. Show the level
+through how people act and talk, and anchor any "how I used to be" beat in
+in-world time ("when you first showed up", "back in my first year").
 
 ---
 
@@ -310,6 +370,10 @@ his project as benevolent, and by the endgame the fiction lets him be right.
   Unlockables](Building-Unlockables)); let the PTA soften as the level rises.
 - Point the **regional inspector** at the school's money and legitimacy, not at
   individual characters' availability.
+- Write a dose scene **past** the level if you want, but keep the **aftermath**
+  level-accurate: hazy memory, a small shift ([§7](#7-how-the-change-actually-works--the-two-rails)).
+- Check **who is on campus** at that point of the story ([§6](#6-the-world-and-its-cast)).
+- Set lab scenes in the **storage-room lab** in the office building ([§3](#3-the-headmaster-and-the-real-agenda)).
 - Match the three things every scene must agree on:
   [`LevelCondition`](Conditions), the `<school_level>` art, and the dialogue tone.
 
@@ -326,6 +390,10 @@ his project as benevolent, and by the endgame the fiction lets him be right.
   shame into a high-level scene (or vice versa).
 - Don't write the high-level campus as **degraded or joyless** — it is a working,
   happy utopia.
+- Don't let a character **mention the school level** — it is meta ([§8](#8-the-school-level-as-the-record-of-it-all)).
+- Don't write **Linh** as school staff in the early game, and don't put the
+  **government representative** in any scene.
+- Don't explain or name **Adelaide's and Nubia's daughters**.
 
 ---
 
@@ -340,6 +408,8 @@ his project as benevolent, and by the endgame the fiction lets him be right.
 | **Inspection** as a recurring Situation | Planned | Shape settled ([§9](#9-the-opposition--the-regional-inspector)); not built yet. |
 | **Scrutiny** storage (game-data / stat / implicit) | Open | Start simple; promote to a stat only if it should be a visible value. |
 | Additional conditioning mechanisms | Open | Possible later; potions remain the backbone. |
+| PTA **government representative** | Planned | Concept only; keep him out of scenes. |
+| Why **Adelaide's and Nubia's daughters** aren't at Windstor | Open | At most a very subtle hint; never explain or name them. |
 
 ---
 

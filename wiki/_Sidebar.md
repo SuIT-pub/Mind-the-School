@@ -87,6 +87,7 @@ _Parents_
 <summary>Content guides</summary>
 
 - [Lore](Lore)
+- [Roadmap](Roadmap)
 - [School Levels](School-Levels)
 - [Building Situations](Building-Situations)
 - [Building Unlockables](Building-Unlockables)

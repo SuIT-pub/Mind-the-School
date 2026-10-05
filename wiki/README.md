@@ -27,6 +27,7 @@ here and publish with the sync script.
 | `How-to-Contribute.md` | 🛠️ discussions vs issues, PRs, wiki edits |
 | `Modding.md` | 🛠️ modding quick-start |
 | `Lore.md` | 🛠️ world & story bible (premise, drivers, antagonist) |
+| `Roadmap.md` | 🛠️ planned design: potions, hypnosis, beach camp, engine systems, build order |
 | `School-Levels.md` | 🎮 / 🛠️ campus climate (levels 1–10) |
 | `Building-Situations.md`, `Building-Unlockables.md` | 🛠️ content guides |
 | `Events.md`, `Conditions.md`, `Selectors.md`, `Effects.md`, `Modifiers.md`, `Options.md`, `Items-and-Inventory.md`, `Dialogue.md`, `Paperdoll.md`, `Images.md`, `Journal-Alerts.md` | 🛠️ system guides |
