@@ -144,6 +144,9 @@ The building blocks the content systems are made of:
   works; the engine behind stat/bar modifier effects.
 - **[Options](Options)** — the shared trailing flags that fine-tune conditions,
   effects, selectors and events.
+- **[Items & Inventory](Items-and-Inventory)** — item definitions, the save-backed
+  `inventory_manager`, `ItemCondition`, the office-computer shop and deliveries,
+  and the journal inventory page.
 - **[Dialogue](Dialogue)** — how a `Person` becomes a speaking voice: speech modes
   (`say`/`think`/`whisper`/`shout`), the per-role styling categories, per-character
   `styleOverrides`, and the player-named Headmaster / Emiko.

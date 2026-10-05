@@ -103,6 +103,7 @@ _Parents_
 - [Effects](Effects)
 - [Modifiers](Modifiers)
 - [Options](Options)
+- [Items & Inventory](Items-and-Inventory)
 - [Paperdoll](Paperdoll)
 - [Dialogue](Dialogue)
 - [Journal Alerts](Journal-Alerts)

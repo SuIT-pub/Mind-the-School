@@ -186,7 +186,7 @@ ranges** — the shared number-pattern grammar is documented in
 | Constructor | Checks |
 |-------------|--------|
 | `MoneyCondition(value, *options)` | available money is ≥ `value` (a plain number, always a minimum — does **not** parse value ranges; pass an int, not `"1500+"`) |
-| `ItemCondition(item_key, amount=1, *options)` | at least `amount` of an inventory item |
+| `ItemCondition(item_key, amount=1, *options)` | at least `amount` of an inventory item ([Items & Inventory](Items-and-Inventory)) |
 | `DeliveryCondition(*options)` | a delivery is available |
 
 ### Game data, values & comparisons
