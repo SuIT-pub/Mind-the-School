@@ -1393,7 +1393,8 @@ init 2 python:
             TimeCondition(weekday = "d", daytime = "d"),
             ProgressCondition("lab_intro", 11),
             ReplayCategoryOption("lab_intro"),
-            thumbnail = "images/events/lab_intro/lab_intro_3/lab_intro_3 6.png")
+            Pattern("main", "images/events/lab_intro/lab_intro_12/lab_intro_12 <step>.webp"),
+            thumbnail = "images/events/lab_intro/lab_intro_12/lab_intro_12 2.webp")
     office_building_call_secretary_events["talk"].add_event(lab_intro_12_event)
 
 # Frustration unlocks after Analysis and Secretary's Spin
@@ -1407,27 +1408,43 @@ label lab_intro_12 (**kwargs):
     # in a stoppered flask, an open notebook with a column of chemical names.
     # He works in goggles and gloves.
 
+    $ image = convert_pattern("main")
+
+    $ image.show(0)
     subtitles "The storage room is too small for the cleaning cart. He's had to wedge it in sideways between the shelving and the lab table, and now every bottle on it is lined up in a row under the bare bulb."
     subtitles "It smells like lemon floor cleaner, old dust, and the faint sweetness of the base potion cooling in its flask."
 
+    $ image.show(1)
     headmaster.think "Right. One at a time. Everything on that cart, one drop each, and I write down every single result. Even the boring ones. {i}Especially{/i} the boring ones."
+    
 
     # He pipettes a little base potion into a test tube, ammonia bottle open beside it.
+    call Image_Series.show_image(image, 2, 3) from _call_Image_Series_show_image_14
     headmaster "Ammonia, household strength. One drop into two millilitres of base, and..."
 
     # Nothing happens. Amber stays amber.
+    $ image.show(4)
     headmaster "...nothing. No colour shift, no precipitate, not even a polite fizz."
     headmaster.think "Rude. Okay. Crossed off."
 
     # Fresh tube, next bottle.
+    $ image.show(5)
     headmaster "Industrial surfactant blend. Fatty alcohol ethoxylates, if the label's honest, which labels usually aren't..."
 
     # The sample clouds up, then slowly settles back to clear amber.
-    headmaster "Oh, look at that, it's clouding— no. No, that's just micelles. It's making a little emulsion and giving up. Pretty. Useless."
+    $ image.show(6)
+    headmaster "Oh, look at that, it's clouding— no. No, that's just micelles."
+
+    $ image.show(7)
+    headmaster "It's making a little emulsion and giving up. Pretty. Useless."
     headmaster.think "Two down. How many bottles are on this thing? ...Don't count. Counting makes it worse."
 
     # Next bottle: sodium hypochlorite. He's warming up now, talking to the shelf.
-    headmaster "Hypochlorite next. Now, hypochlorite's a strong oxidiser, so if the active fraction has anything electron-rich in it at all, and it must, given how fast it breaks down once it's out of the vial, then you'd expect either a colour loss or some kind of—"
+    $ image.show(8)
+    headmaster "Hypochlorite next."
+    
+    $ image.show(10)
+    headmaster "Now, hypochlorite's a strong oxidiser, so if the active fraction has anything electron-rich in it at all, and it must, given how fast it breaks down once it's out of the vial, then you'd expect either a colour loss or some kind of—"
 
     # TIME SKIP: two hours. Same spot, more tubes, cold coffee, notebook full of crossings-out.
     subtitles "Two hours later."
