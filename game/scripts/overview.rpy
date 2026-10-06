@@ -175,8 +175,6 @@ transform overview_icon_tint(tint_color):
 # region Map Screen ----- #
 ###########################
 
-image school_map = "images/background/school_map.webp"
-
 screen school_overview():
     use school_overview_map
     use school_overview_stats
@@ -189,7 +187,7 @@ screen school_overview_map ():
     # Displays the school map
     # """
 
-    add "school_map"
+    add map_manager.get_current_map().get_map_path()
 
 ##############################
 # display the stats on the map
@@ -530,9 +528,9 @@ screen school_overview_images ():
     # Displays all buildings on the map
     # """
 
-    add "school_map"
+    add map_manager.get_current_map().get_map_path()
 
-    $ map_buildings = building_manager.get_buildings()
+    $ map_buildings = map_manager.get_current_map().get_buildings()
     for building in map_buildings:
         if building.is_open():
             $ idle_image = find_loadable_image(building.get_image("idle"))
@@ -555,7 +553,7 @@ screen school_overview_buttons (with_available_Events = False):
     tag interaction_overlay
     # modal True
     
-    $ map_buildings = building_manager.get_buildings()
+    $ map_buildings = map_manager.get_current_map().get_buildings()
     for building in map_buildings:
         if building.is_open():
             if has_keyboard() and building.has_shortcut():
@@ -750,7 +748,7 @@ label map_overview ():
         # keep only the last 100 entries in the return stack
         $ renpy.set_return_stack(renpy.get_return_stack()[-100:])
 
-    show school_map
+    show expression map_manager.get_current_map().get_map_path() as map_image
     # show screen school_overview_map
     show screen school_overview_stats 
 

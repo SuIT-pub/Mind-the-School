@@ -1,3 +1,6 @@
+> [!WARNING]
+> **Spoilers.** This page describes planned story beats for upcoming versions: new characters, level transitions and story events.
+
 [Home](Home) › Roadmap
 
 > **Audience:** The dev team and modders who want to know where *Mind the School*
@@ -312,16 +315,19 @@ and daughter get closer that night is handled by the kink filter
 
 ## 9. Engine: map registry
 
-**[Decided]** Central map management, overdue anyway. A value in game data
-(`map_key`) controls which map `map_overview` shows. `show school_map` becomes
-generic (`show expression …`); keys come from a **map register** that mods can
-extend. Every map has its own screen with its own buttons. Technically it's still
-`map_overview`, so nothing gets special-cased.
+**Built.** The map registry is in place: `Map` / `map_manager` (`maps.rpy`), the
+current map in `gameData["current_map"]`, `set_current_map(key)` to switch, and the
+map screens read everything from the current map. The map image is shown under the
+tag `map_image`. Full guide: **[Maps](Maps)**.
 
-Places where `school_map` is hard-wired today and that need to move into the registry:
+Still open for the beach camp:
 
-| Place | What |
-|-------|------|
+- **[Proposal]** Ambience per map (today `map_overview` always plays forest/night).
+- Restricting which events run on a special map → the event flags ([§10](#10-engine-event-flags)).
+- The camp state must survive save/load: since only `current_map` is saved and
+  `map_overview` reads it, a reload already lands back on the active map.
+
+-------|------|
 | `overview.rpy`, `map_overview` | `show school_map`, `call screen school_overview_buttons(True)`, forest/night ambience |
 | `overview.rpy`, `school_overview_map` / `school_overview_images` | `add "school_map"` |
 | `daily_check.rpy` (around lines 160, 172) | `scene school_map` |
@@ -479,7 +485,7 @@ What has to exist before what. Engine first, then content.
 |---|------|------------|------------|
 | 1 | **Event flags + FlagCondition**, replacing `IntroCondition` | camp, situation pause | — |
 | 2 | **Situation pause** tied to flags | camp situation | 1 |
-| 3 | **Map registry** | beach map | — |
+| 3 | **Map registry** ✅ built ([Maps](Maps)) | beach map | — |
 | 4 | **Kink menu** (registry, states, prompt screen, `kink_check`) | camp content with Yuki/Soyoon, Luna/Seraphina | — |
 | 5 | **"N available fragments" condition** | Type 1 flow | — |
 | 6 | **Type 1 drink flow** (`Use potion` → select → composite → fragments) | level 3 gameplay | 5 |

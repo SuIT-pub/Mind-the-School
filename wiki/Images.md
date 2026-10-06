@@ -153,6 +153,7 @@ While that context is active, constructing any of these prepends
 | `Pattern` | constructor — stored on `_pattern` |
 | `Person` | constructor — `self.basePath`; paperdoll patterns and portraits use it |
 | `Building` | constructor — `self.image` |
+| `Map` | constructor — `self.map_path` |
 | `Situation` / threshold / teaser | constructor — `thumbnail` / `image` |
 | `Pictogram` | constructor — `icon` |
 | `ItemData` | constructor — `self.image` |
@@ -445,6 +446,7 @@ they need a miss → fallback image.
 | **Paperdoll** | `Person.register_paperdoll()` (patterns include `basePath`) | `PDAImage` + `.display()` — [Paperdoll](Paperdoll) |
 | **Person portraits** | `basePath` + `images/characters/<name>/level_N.webp` | `person.get_portraits()` / `get_thumbnail()` already resolve png/webp |
 | **Building map sprite** | `Building(..., "images/map/foo_<state>.webp")` | `building.get_image("idle")` then `find_loadable_image` in the screen |
+| **Map background** | `Map(key, "images/…", …)` | `get_current_map().get_map_path()` in `map_overview` / the map screens — [Maps](Maps) |
 | **Situation thumbnail / teaser photo** | constructor path | `situation.get_current_thumbnail()` / teaser `_resolve_image` (uses `get_image`) |
 | **Pictogram icon** | constructor path | `pictogram.get_icon(**kwargs)` → `refine_image` |
 | **Inventory item** | constructor path | `item.get_image()` → `find_loadable_image` |

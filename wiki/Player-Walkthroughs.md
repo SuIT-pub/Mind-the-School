@@ -1,3 +1,6 @@
+> [!WARNING]
+> **Spoilers.** The walkthrough pages describe the story chains step by step, including how they play out.
+
 [Home](Home) › Walkthroughs
 
 Step-by-step routes for the story chains, journal unlocks, and the sandbox

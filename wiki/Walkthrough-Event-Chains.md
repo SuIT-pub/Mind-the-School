@@ -1,3 +1,6 @@
+> [!WARNING]
+> **Spoilers.** This page walks through every story chain scene by scene, including how each one ends.
+
 [Home](Home) › [Walkthroughs](Player-Walkthroughs) › Story chains
 
 The scripted routes. Each section lists **when**, **where**, and **what happens**,

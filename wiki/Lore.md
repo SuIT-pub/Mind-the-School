@@ -1,3 +1,6 @@
+> [!WARNING]
+> **Spoilers.** This page reveals story background and twists: the backers, the vanished predecessor, Emiko, and how the campus is really being changed.
+
 [Home](Home) › Lore
 
 > **Audience:** Anyone writing *Mind the School* content — base-game event authors

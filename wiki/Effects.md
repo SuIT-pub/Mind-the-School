@@ -167,7 +167,7 @@ constructor's own args: `MoneyEffect("cost", -1500, "ADD", EffectNoRevertOption(
 
 | Constructor | Does |
 |-------------|------|
-| `BuildingOpenEffect(building_key, is_open=True, *options)` | open (or with `is_open=False`, close) a map location; reverts |
+| `BuildingOpenEffect(building_key, is_open=True, *options)` | open (or with `is_open=False`, close) a map location ([Maps](Maps)); reverts |
 | `BuildingCloseEffect(building_key, is_close=True, *options)` | close (or reopen) a map location; reverts |
 | `BlockBuildingEffect(name, building_name, is_blocking=True, *options)` | block/unblock a building; reverts |
 

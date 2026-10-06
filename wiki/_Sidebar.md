@@ -105,6 +105,7 @@ _Parents_
 - [Modifiers](Modifiers)
 - [Options](Options)
 - [Items & Inventory](Items-and-Inventory)
+- [Maps](Maps)
 - [Paperdoll](Paperdoll)
 - [Dialogue](Dialogue)
 - [Journal Alerts](Journal-Alerts)

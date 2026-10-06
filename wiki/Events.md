@@ -269,6 +269,9 @@ label .after_general_check(**kwargs):
         default_fallback, character.subtitles, **kwargs) from _cafeteria_menu
 ```
 
+The label name is the **building key**: clicking the building on the map runs it.
+Registering the building and putting it on a map is covered in [Maps](Maps).
+
 `call_available_event(storage, priority=0, no_fallback=False, **kwargs)` runs the
 available events of a storage; `call_event_menu(text, events, fallback, person,
 **kwargs)` renders the per-action choice menu. `set_current_mod` before building
@@ -290,7 +293,7 @@ label truth_or_dare_2(**kwargs):
 - **`$ begin_event(version="1", **kwargs)`** — call it first (after any pre-scene
   choices). It hides leftover screens **and** (on a fresh scene, not a fragment or
   decision re-entry) clears the master layer, including the map overview's
-  `school_map` image — that image is not a screen, so `hide_all()` alone would
+  map image (tag `map_image`, see [Maps](Maps)) — that image is not a screen, so `hide_all()` alone would
   leave it covering a paperdoll background at zorder `-100`. It stops sound,
   **blocks rollback** (locking in rolled selector values and choices), marks the
   event **seen** (`set_event_seen`), starts a `Gallery_Manager` for replay
@@ -841,7 +844,7 @@ init 1 python:
 | Composite plays nothing | Empty `FragmentStorage`, or no fragment's conditions pass | Add fragments; loosen their gates; check the `event` log. |
 | Story event won't interrupt | It's priority 3 (random) not 1 (blocking) | Use `select_type=1`. |
 | Situation event never appears | Missing/incorrect pool condition or bar out of range | Match the `SituationPoolCondition` and the `SituationPool` range ([Building Situations](Building-Situations)). |
-| Paperdoll-only event still shows the campus map | `school_map` is an image (`show school_map`), not a screen | `begin_event` now `scene()`s it away; `set_background` also hides `school_map`. Don't skip `begin_event`. |
+| Paperdoll-only event still shows the campus map | the map is an image (`show … as map_image`), not a screen | `begin_event` now `scene()`s it away; `set_background` also hides `map_image`. Don't skip `begin_event`. |
 
 ---
 

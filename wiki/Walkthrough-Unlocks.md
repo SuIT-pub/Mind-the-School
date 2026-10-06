@@ -1,3 +1,6 @@
+> [!WARNING]
+> **Spoilers.** This page reveals how rules, buildings and school levels unlock, including the story events behind them.
+
 [Home](Home) › [Walkthroughs](Player-Walkthroughs) › Unlocks
 
 How journal **rules** and **buildings** become available. After the finding

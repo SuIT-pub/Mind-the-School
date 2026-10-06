@@ -2412,9 +2412,9 @@ transform t_paperdoll_matrixcolor(matrix, duration = 0.0):
     ease duration matrixcolor matrix
 
 label display_background_image(duration):
-    # Paperdoll bg is zorder -100; the map overview's leftover `school_map` sits
+    # Paperdoll bg is zorder -100; the map overview's leftover `map_image` sits
     # at default zorder and would otherwise cover it.
-    $ renpy.hide("school_map")
+    $ renpy.hide("map_image")
     if paperdoll_manager.background_image != "":
         $ bg_displayable = paperdoll_manager.background_image
         if isinstance(bg_displayable, str):

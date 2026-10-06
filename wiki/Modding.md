@@ -233,8 +233,12 @@ label load_mymod:
     # items
     $ load_item( ItemData("mymod_item", "Name", "Desc", "images/mymod_item.png") )
 
-    # map buildings
+    # map buildings (registering alone doesn't draw it; add it to a map)
     $ register_buildings( Building("mymod_building", "images/mymod_building.webp", …) )
+    $ map_manager.add_building_to_map("school", building_manager.get_building("mymod_building"))
+
+    # a map of your own (optional)
+    $ map_manager.load_map( Map("mymod_map", "images/mymod_map.webp", "mymod_building") )
     return
 ```
 
@@ -401,15 +405,17 @@ in `register_mod` on updates (players re-enable afterward).
 ### Init timing
 `register_mod` → `init -97` (early) · **events** → `init 1` (after base pools, via
 `add_event`) · **everything else** (situations, unlockables, characters, pictograms,
-items, buildings) → a `register_start_method` loader label (lifecycle wave).
+items, buildings, maps) → a `register_start_method` loader label (lifecycle wave).
 
 ### Content register functions (all mod-gated)
 `register_situations(...)` · `register_unlockables(...)` · `load_person(key, Person)` ·
 `load_pictograms(...)` / `add_pictogram(...)` · `load_item(ItemData)` ·
-`register_buildings(...)`. Events use `EventStorage.add_event(...)` at init instead.
+`register_buildings(...)` · `map_manager.load_map(Map)` · `map_manager.add_building_to_map(map_key, building)`
+([Maps](Maps)). Events use `EventStorage.add_event(...)` at init instead.
 
 ### Related pages
 - [Events](Events) — scene definitions & labels, `Pattern`s, decisions, characters
+- [Maps](Maps) — map buildings, extra maps, `add_building_to_map`
 - [Images](Images) — path resolution, PNG/WebP, how `images/…` becomes `mods/MyMod/images/…`
 - [Building Situations](Building-Situations) / [Building Unlockables](Building-Unlockables) — the `register_start_method` loader pattern
 - [Selectors](Selectors) · [Conditions](Conditions) · [Effects](Effects) · [Modifiers](Modifiers) · [Options](Options)

@@ -1,3 +1,6 @@
+> [!WARNING]
+> **Spoilers.** This page names story events and where and when they trigger.
+
 [Home](Home) › [Walkthroughs](Player-Walkthroughs) › Locations
 
 Regular (sandbox) events by building. Story-chain scenes that *also* live on

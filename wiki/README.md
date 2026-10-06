@@ -30,7 +30,7 @@ here and publish with the sync script.
 | `Roadmap.md` | 🛠️ planned design: potions, hypnosis, beach camp, engine systems, build order |
 | `School-Levels.md` | 🎮 / 🛠️ campus climate (levels 1–10) |
 | `Building-Situations.md`, `Building-Unlockables.md` | 🛠️ content guides |
-| `Events.md`, `Conditions.md`, `Selectors.md`, `Effects.md`, `Modifiers.md`, `Options.md`, `Items-and-Inventory.md`, `Dialogue.md`, `Paperdoll.md`, `Images.md`, `Journal-Alerts.md` | 🛠️ system guides |
+| `Events.md`, `Conditions.md`, `Selectors.md`, `Effects.md`, `Modifiers.md`, `Options.md`, `Items-and-Inventory.md`, `Maps.md`, `Dialogue.md`, `Paperdoll.md`, `Images.md`, `Journal-Alerts.md` | 🛠️ system guides |
 
 All pages are **hand-authored here**. Wiki pages have no `# H1` (GitHub shows the page
 title from the filename) and link to each other with `[Label](Page-Name)`; in-page

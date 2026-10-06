@@ -156,6 +156,8 @@ The building blocks the content systems are made of:
 - **[Images](Images)** — how a path string becomes a file: patterns, placeholders,
   `$` fallbacks, PNG/WebP, mod prefixes, and which helper to call from events,
   screens and classes.
+- **[Maps](Maps)** — the map overview, map buildings (sprites, positions, open/close),
+  extra maps and switching between them with `set_current_map`.
 - **[Journal Alerts](Journal-Alerts)** — unseen journal news (new teaser,
   situation activated, …): topic registry, pending items, and the map highlight
   icon. Other journal surfaces register their own topic.

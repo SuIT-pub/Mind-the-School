@@ -1011,6 +1011,30 @@ init -99 python:
         if "timer_" + key in gameData.keys():
             del gameData["timer_" + key]
 
+    def set_current_map(key: str):
+        """
+        Sets the map shown in the map overview
+
+        ### Parameters:
+        1. key: str
+            - The key of a registered map
+            - Unknown keys are ignored and logged
+        """
+        if not map_manager.has_map(key):
+            log("set_current_map: unknown map '" + key + "'", log_type="error", category="map")
+            return
+        set_game_data("current_map", key)
+
+    def get_current_map() -> "Map":
+        """
+        Gets the map shown in the map overview
+
+        ### Returns:
+        1. Map
+            - The current map, or the school map if none or an unknown one is set
+        """
+        return map_manager.get_current_map()
+
     # endregion
     #################################
 

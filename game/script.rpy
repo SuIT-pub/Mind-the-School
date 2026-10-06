@@ -14,6 +14,7 @@ label start ():
     call load_situations from start_9
     call load_unlockables from start_10
     call load_buildings from start_3
+    call load_maps from start_12
 
     $ fix_modifier()
     $ fix_quests()
@@ -209,6 +210,7 @@ label after_load:
     call load_situations from after_load_9
     call load_unlockables from after_load_10
     call load_buildings from after_load_4
+    call load_maps from after_load_12
 
     $ clean_legacy_journal_objects()
     $ clean_legacy_quests()
