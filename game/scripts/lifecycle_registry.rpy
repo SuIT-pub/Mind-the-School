@@ -214,21 +214,24 @@ init -100 python:
 
             return self
 
-        def hibernate_category(self, owner, category):
+        def hibernate_category(self, owner, category, kind=None):
             """
             Hibernate every entry for an owner/category pair.
 
             Args:
                 owner (str): System id.
                 category (str): Instance id.
+                kind (str | None): Only entries of this kind (e.g. "modifier"). None = all.
             """
             self._remember_owner(owner)
             for key, entry in list(self.entries.items()):
                 if entry.owner == owner and entry.category == category:
+                    if kind is not None and entry.kind != kind:
+                        continue
                     self.ping(key, HIBERNATE)
             return self
 
-        def resume_category(self, owner, category):
+        def resume_category(self, owner, category, kind=None):
             """
             Resume every hibernated entry for an owner/category pair.
 
@@ -238,10 +241,13 @@ init -100 python:
             Args:
                 owner (str): System id.
                 category (str): Instance id.
+                kind (str | None): Only entries of this kind (e.g. "modifier"). None = all.
             """
             self._remember_owner(owner)
             for key, entry in list(self.entries.items()):
                 if entry.owner == owner and entry.category == category:
+                    if kind is not None and entry.kind != kind:
+                        continue
                     if entry.state == LIFECYCLE_HIBERNATED:
                         self.ping(key, KEEP)
             return self

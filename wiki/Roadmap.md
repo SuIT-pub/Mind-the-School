@@ -382,14 +382,20 @@ How it was built:
 
 ## 11. Engine: situation pause & the camp situation
 
-**[Decided]** A general **pause** for situations, tied to the flags with the same
-table as `FlagCondition`. Unlike the error deactivation, a paused situation **stays
-registered**, but:
+**✅ Pause built** (independent of the flags for now), documented in
+[Building Situations §2](Building-Situations#pausing-a-situation). A paused
+situation **stays registered and `active`**, but:
 
-- its bars freeze,
-- its modifiers are off,
-- **[Proposal]** deadlines and measure durations stop, and the pending events queued
-  for `drain_situation_events` wait, so no threshold scene bursts into the camp.
+- its bars, thresholds and resolutions freeze,
+- its modifiers hibernate,
+- measure durations, cooldowns, grace timers and the deadline stop (timers move
+  forward by the paused time on resume),
+- its situation pools close; game-data effects stay set,
+- events already queued for `drain_situation_events` still run.
+
+**[Decided]** Next step: tie the pause to the flags with the same table as
+`FlagCondition`, so situations without a matching flag pause automatically while a
+flag is set.
 
 That allows a **camp situation** that only runs during the camp:
 
@@ -479,7 +485,7 @@ What has to exist before what. Engine first, then content.
 | # | Step | Needed for | Depends on |
 |---|------|------------|------------|
 | 1 | **Event flags + FlagCondition** ✅ built ([Events §5](Events#event-flags)) | camp, situation pause | — |
-| 2 | **Situation pause** tied to flags | camp situation | 1 |
+| 2 | **Situation pause** ✅ built ([Building Situations](Building-Situations#pausing-a-situation)); tie to flags still open | camp situation | 1 |
 | 3 | **Map registry** ✅ built ([Maps](Maps)) | beach map | — |
 | 4 | **Kink menu** (registry, states, prompt screen, `kink_check`) | camp content with Yuki/Soyoon, Luna/Seraphina | — |
 | 5 | **"N available fragments" condition** | Type 1 flow | — |

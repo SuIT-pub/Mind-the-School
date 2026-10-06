@@ -274,6 +274,18 @@ init 1 python:
             thumbnail="images/misc/Test_16_9.png",
         )
 
+    # The lab label starts with hide_all(), which also hides the notify screen.
+    # Lab messages are therefore queued here and shown after hide_all().
+    _sit_test_pending_notify = []
+
+    def sit_test_notify(message: str):
+        _sit_test_pending_notify.append(message)
+
+    def show_sit_test_notify():
+        if _sit_test_pending_notify:
+            renpy.notify("\n".join(_sit_test_pending_notify))
+            del _sit_test_pending_notify[:]
+
     def get_sit_test_situation():
         if situation_manager is None:
             return None
@@ -395,6 +407,14 @@ init 1 python:
         else:
             breather = "off"
 
+        def fmt_time(t):
+            return f"{t.get_day()}.{t.get_month()}.{t.get_year()} dt {t.get_daytime()}" if isinstance(t, Time) else "-"
+
+        if situation.is_paused():
+            pause_text = f"YES since {fmt_time(situation.pause_started)}"
+        else:
+            pause_text = "no"
+
         bar_lines = []
         for bar in situation.bars.values():
             bar_lines.append(f"{bar.key}: {fmt(bar.value)} ({bar.min} .. {bar.max}), tendency {fmt(bar.tendency)}")
@@ -407,6 +427,7 @@ init 1 python:
             f"Stats: Happiness {fmt(stats['happiness'])}   Inhibition {fmt(stats['inhibition'])}   Education {fmt(stats['education'])}",
             f"Happiness modifiers per day: {fmt(daily_happiness)}   per daytime: {fmt(daytime_happiness)}",
             f"Resolution breather: {breather} (pauses base wear)",
+            f"Paused: {pause_text}   paused daytimes total: {situation.get_paused_daytimes()}",
         ])
 
         threshold_lines = []
@@ -419,12 +440,26 @@ init 1 python:
 
         # Lifecycle entries owned by the lab (passive/measure/resolution modifiers).
         tracked = sorted(key for key in lifecycle_registry.entries.keys() if "sit_test" in key)
+        hibernated = sorted(
+            key for key in tracked
+            if lifecycle_registry.entries[key].state == LIFECYCLE_HIBERNATED
+        )
+        # Start time of every lab timer (measure duration/cooldown, grace, timed release).
+        timers = {
+            key[len("timer_"):]: fmt_time(value)
+            for key, value in gameData.items()
+            if key.startswith("timer_") and "sit_test" in key
+        }
 
         deadline_text = "-"
         deadline_resolution = situation.resolutions.get("deadline_resolution")
         if deadline_resolution is not None and isinstance(deadline_resolution.value, Time):
             d = deadline_resolution.value
             deadline_text = f"{d.get_day()}.{d.get_month()}.{d.get_year()} daytime {d.get_daytime()}"
+            if situation.get_paused_daytimes() > 0:
+                effective = Time(d)
+                effective.add_time(daytime = situation.get_paused_daytimes())
+                deadline_text += f"  → effective {fmt_time(effective)} (+{situation.get_paused_daytimes()} paused)"
 
         resolution_lines = []
         for resolution in situation.resolutions.values():
@@ -434,8 +469,9 @@ init 1 python:
                 f"Resolved flag: {get_game_data('sit_test_resolved', '-')}   Multi fired: {get_game_data('sit_test_multi_fired', False)}",
                 f"Deadline: {deadline_text}",
                 f"Queued situation events: {len(getattr(situation_manager, 'pending_events', None) or [])}",
-                f"Tracked lab modifiers: {len(tracked)}",
-            ]
+                f"Tracked lab modifiers: {len(tracked)}   hibernated: {len(hibernated)}",
+                "Timers (started):",
+            ] + [f"  {key}: {value}" for key, value in sorted(timers.items())]
         )
 
         log_json("sit_test_status", {
@@ -446,6 +482,11 @@ init 1 python:
             "resolutions": {r.key: {"reached": r.is_reached(), "grace": r._grace_active} for r in situation.resolutions.values()},
             "game_data": {k: str(v) for k, v in gameData.items() if "sit_test" in k},
             "tracked_modifiers": tracked,
+            "hibernated_modifiers": hibernated,
+            "paused": situation.is_paused(),
+            "pause_started": fmt_time(situation.pause_started),
+            "paused_daytimes": situation.get_paused_daytimes(),
+            "timers": timers,
             "stats": stats,
             "happiness_modifiers": {"daily": daily_happiness, "daytime_change": daytime_happiness},
             "breather": breather,
@@ -500,6 +541,7 @@ screen sit_test_status(pages):
 
 label situation_test_lab:
     $ hide_all()
+    $ show_sit_test_notify()
 
     if get_sit_test_situation() is None:
         "Situation Test Lab is not registered - its self-test failed on load. See log.txt (category: situation)."
@@ -512,10 +554,20 @@ label situation_test_lab:
             menu:
                 "Reset + activate (fresh run)":
                     $ start_situation_test_lab()
-                    $ renpy.notify("Fresh run started.")
+                    $ sit_test_notify("Fresh run started.")
                 "Reset only (inactive)":
                     $ reset_situation_test_lab()
-                    $ renpy.notify("Lab reset.")
+                    $ sit_test_notify("Lab reset.")
+                "Pause":
+                    if get_sit_test_situation().pause():
+                        $ sit_test_notify("Lab paused.")
+                    else:
+                        $ sit_test_notify("Not paused (not active, or already paused).")
+                "Resume":
+                    if get_sit_test_situation().resume():
+                        $ sit_test_notify("Lab resumed.")
+                    else:
+                        $ sit_test_notify("Not resumed (not paused).")
                 "Back":
                     pass
 

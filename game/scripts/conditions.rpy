@@ -3710,9 +3710,10 @@ init -6 python:
     class SituationStateCondition(Condition):
         """Fulfilled when a situation is in a given lifecycle state.
 
-        Valid states are ``inactive``, ``teaser_active``, ``active``, ``completed``
-        and ``cancelled``. ``inactive`` excludes a running teaser; ``cancelled`` is
-        only ``situation.state``.
+        Valid states are ``inactive``, ``teaser_active``, ``active``, ``paused``,
+        ``completed`` and ``cancelled``. ``inactive`` excludes a running teaser;
+        ``cancelled`` is only ``situation.state``. ``paused`` is not a state of its
+        own: a paused situation is still ``active``, so ``active`` matches it too.
         """
 
         def __init__(self, state: str, situation_key: str, *options: Option):
@@ -3739,6 +3740,8 @@ init -6 python:
                 return situation.visibility_state == "teaser_active"
             if self.state == "inactive":
                 return situation.state == "inactive" and situation.visibility_state == "inactive"
+            if self.state == "paused":
+                return situation.is_paused()
             return situation.state == self.state
 
         def get_name(self) -> str:

@@ -569,7 +569,7 @@ init -99 python:
         def trigger_threshold(self):
             if self.reached or self.hold != -1:
                 return
-            if self.situation is None or self.situation.state != "active":
+            if self.situation is None or not self.situation.is_running():
                 return
 
             if len(self.blocking) > 0 or self.timed_release is not None:
@@ -819,6 +819,8 @@ init -99 python:
             return ", ".join(descs)
 
         def check_available(self, **kwargs):
+            if self.situation is not None and self.situation.is_paused():
+                return False
             if self.situation is not None and self.situation.active_measure is not None:
                 return False
             if self.counter is not None:
@@ -1904,7 +1906,9 @@ init -99 python:
             """
             Refresh decrease modifier definition after template reload.
 
-            Re-applies only while the parent situation is active.
+            Re-applies only while the parent situation is active. A paused
+            situation re-applies too; its update_data/resume() decides whether the
+            modifier sleeps.
 
             Returns:
                 SituationBar: self
@@ -1938,7 +1942,7 @@ init -99 python:
             Args:
                 delta (float): Signed change in bar units.
             """
-            if self.situation is None or self.situation.state != "active":
+            if self.situation is None or not self.situation.is_running():
                 return
             if delta < 0 and self.situation.should_block_negative_delta():
                 return
@@ -2387,11 +2391,16 @@ init -99 python:
             return error_messages
 
         def is_reached(self) -> bool:
+            # Paused time pushes the deadline back. The offset lives on the
+            # situation because update_data resets self.value on every load.
+            deadline = Time(self.value)
+            if self.situation is not None:
+                deadline.add_time(daytime = self.situation.get_paused_daytimes())
             return time.now_is_after_time(
-                self.value.get_day(),
-                self.value.get_month(),
-                self.value.get_year(),
-                self.value.get_daytime(),
+                deadline.get_day(),
+                deadline.get_month(),
+                deadline.get_year(),
+                deadline.get_daytime(),
             )
 
     class SituationConditionResolution(SituationResolution):
@@ -2479,6 +2488,10 @@ init -99 python:
             self.teasers = {}
             self.pause_until = None
             self.state = "inactive"
+            # Pause (see pause()/resume()): state stays "active", nothing ticks.
+            self.paused = False
+            self.pause_started = None
+            self.paused_daytimes = 0
             # Redirect the path into the current mod's folder (base = "" prefix).
             self.thumbnail = get_mod_path(active_mod_key) + thumbnail if thumbnail else thumbnail
             self.thresholds = {}
@@ -2629,6 +2642,12 @@ init -99 python:
                 self.threshold_holds = {}
             if not hasattr(self, "invalid"):
                 self.invalid = False
+            if not hasattr(self, "paused"):
+                self.paused = False
+            if not hasattr(self, "pause_started"):
+                self.pause_started = None
+            if not hasattr(self, "paused_daytimes"):
+                self.paused_daytimes = 0
 
             previous_active = self.active_passive
             previous_measure = self.active_measure
@@ -2707,6 +2726,10 @@ init -99 python:
                     self.set_measure(target_measure, skip_clear=True)
                 for bar in self.bars.values():
                     bar.sync_decrease_modifier()
+                if self.is_paused():
+                    # Effects are re-applied above so non-modifier effects (game data)
+                    # stay set; the modifiers go back to sleep until resume().
+                    lifecycle_registry.hibernate_category("situations", self.key, kind="modifier")
 
             # Sync event pools with situation's event pools
             new_keys = set(situation.event_pools.keys())
@@ -2731,6 +2754,9 @@ init -99 python:
                     del self.teasers[key]
 
         def activate(self):
+            if self.state == "active" and self.is_paused():
+                # re-activating would wake the paused modifiers; use resume()
+                return self
             already_active = self.state == "active"
             self.state = "active"
             if self.active_passive in self.passives:
@@ -2757,6 +2783,7 @@ init -99 python:
                 passive.detach_effects()
             self.active_passive = None
             self.active_measure = None
+            self._clear_pause()
             self.state = "completed"
             if not already_completed:
                 notify_situation_journal_alert(self)
@@ -2768,6 +2795,7 @@ init -99 python:
             Also drops a pending PTA ``voteProposal`` when it points at this situation.
             """
             self.state = "cancelled"
+            self._clear_pause()
             if self.active_passive in self.passives:
                 self.passives[self.active_passive].deactivate()
             if self.active_measure in self.passives:
@@ -2798,6 +2826,7 @@ init -99 python:
             situation stays selectable and can simply be activated again.
             """
             self.state = "inactive"
+            self._clear_pause()
             if self.active_passive in self.passives:
                 self.passives[self.active_passive].deactivate()
             if self.active_measure in self.passives:
@@ -2817,6 +2846,99 @@ init -99 python:
                     proposal.release_vote_money()
                 set_game_data("voteProposal", None)
             return self
+
+        ################
+        # region Pause #
+
+        def is_paused(self) -> bool:
+            """Whether the situation is paused (it still counts as ``active``)."""
+            return bool(getattr(self, "paused", False))
+
+        def is_running(self) -> bool:
+            """
+            Active and not paused. Use this for anything that *does* something
+            (bars, thresholds, resolutions, passives, pools); use ``state`` for display.
+            """
+            return self.state == "active" and not self.is_paused()
+
+        def get_paused_daytimes(self) -> int:
+            """Total daytimes this situation has spent paused (finished pauses only)."""
+            return getattr(self, "paused_daytimes", 0) or 0
+
+        def _owned_timer_ids(self) -> list:
+            """Timer ids that belong to this situation and must not run while paused."""
+            ids = []
+            for passive in self.passives.values():
+                if isinstance(passive, SituationMeasure):
+                    if passive.duration is not None:
+                        ids.append(passive.duration.id)
+                    if passive.cooldown is not None:
+                        ids.append(passive.cooldown.id)
+            for resolution in self.resolutions.values():
+                for timer_condition in resolution.get_timer_conditions():
+                    ids.append(timer_condition.id)
+            if situation_manager is not None:
+                for check_key, threshold in situation_manager.threshold_checks.items():
+                    if getattr(threshold, "situation", None) is self and threshold.timed_release is not None:
+                        ids.append(check_key)
+            return ids
+
+        def pause(self) -> bool:
+            """
+            Freeze an active situation without leaving ``active``.
+
+            Bars, thresholds, resolutions, measure durations, cooldowns, grace
+            timers, deadlines and situation pools stop; all tracked modifiers
+            (base wear, passive/measure modifiers) hibernate. Non-modifier effects
+            (game data) stay set. Already queued pending events still run.
+
+            Returns:
+                bool: True if the situation was paused.
+            """
+            if self.state != "active" or self.is_paused():
+                return False
+            self.paused = True
+            self.pause_started = Time("now")
+            lifecycle_registry.hibernate_category("situations", self.key, kind="modifier")
+            return True
+
+        def resume(self) -> bool:
+            """
+            Continue a paused situation. Owned timers move forward by the paused
+            time, the deadline offset grows, modifiers wake up again.
+
+            Returns:
+                bool: True if the situation was resumed.
+            """
+            if not self.is_paused():
+                return False
+            elapsed = 0
+            if self.pause_started is not None:
+                elapsed = max(0, get_situation_time_index(Time("now")) - get_situation_time_index(self.pause_started))
+            if elapsed > 0:
+                for timer_id in self._owned_timer_ids():
+                    timer = get_timer(timer_id)
+                    if isinstance(timer, Time):
+                        shifted = Time(timer)
+                        shifted.add_time(daytime = elapsed)
+                        set_game_data("timer_" + timer_id, shifted)
+            self.paused_daytimes = self.get_paused_daytimes() + elapsed
+            self.paused = False
+            self.pause_started = None
+            if self.state == "active":
+                lifecycle_registry.resume_category("situations", self.key, kind="modifier")
+                # base wear honours the resolution breather
+                for bar in self.bars.values():
+                    bar.sync_decrease_modifier()
+            return True
+
+        def _clear_pause(self):
+            """Drop the pause when the situation leaves ``active`` (the caller clears the hibernated entries)."""
+            self.paused = False
+            self.pause_started = None
+
+        # endregion
+        ################
 
         def add_pictogram(self, pictogram: Pictogram | str):
             pictogram_key = pictogram.key if isinstance(pictogram, Pictogram) else pictogram
@@ -2917,7 +3039,7 @@ init -99 python:
             Returns:
                 bool: True if a resolution fired and the situation completed.
             """
-            if self.state != "active":
+            if not self.is_running():
                 return False
             for resolution in self.resolutions.values():
                 if resolution.evaluate(**kwargs):
@@ -2926,7 +3048,7 @@ init -99 python:
 
         def try_resolution(self, key: str, **kwargs) -> bool:
             """Evaluate a single named resolution."""
-            if self.state != "active" or key not in self.resolutions:
+            if not self.is_running() or key not in self.resolutions:
                 return False
             return self.resolutions[key].evaluate(**kwargs)
 
@@ -2938,7 +3060,7 @@ init -99 python:
                 key (str): Bar key, or ``ALL`` to fan out to every bar.
                 value (float): Delta to apply.
             """
-            if self.state != "active":
+            if not self.is_running():
                 return
             self.change_bar_value(key, value)
 
@@ -3001,7 +3123,7 @@ init -99 python:
         # region Pools #
 
         def check_pool(self, pool_key: str, **kwargs):
-            if self.state != "active":
+            if not self.is_running():
                 return False
             if pool_key not in self.event_pools.keys():
                 return False
@@ -3039,6 +3161,8 @@ init -99 python:
             """
             if passive_key not in self.passives:
                 return False
+            if self.is_paused() and not skip_clear:
+                return False
             target = self.passives[passive_key]
             if target.type == "measure":
                 return self.set_measure(passive_key, skip_clear=skip_clear)
@@ -3075,6 +3199,8 @@ init -99 python:
                 bool: True if the measure was activated.
             """
             if measure_key not in self.passives:
+                return False
+            if self.is_paused() and not skip_clear:
                 return False
             target = self.passives[measure_key]
             if target.type != "measure":
@@ -3117,7 +3243,7 @@ init -99 python:
             return self.passives.get(key)
 
         def check_passives(self, **kwargs):
-            if self.state != "active":
+            if not self.is_running():
                 return
             if self.active_passive in self.passives:
                 self.passives[self.active_passive].check(**kwargs)
@@ -3221,7 +3347,7 @@ init -99 python:
             return output
 
         def change_bar_value(self, bar_key: str, delta: float):
-            if self.state != "active":
+            if not self.is_running():
                 return
             if bar_key == "ALL":
                 for bar in self.bars.values():
@@ -3275,7 +3401,7 @@ init -99 python:
             return 0
 
         def change_bar_values_via_stats(self, key: str, delta: float):
-            if self.state != "active":
+            if not self.is_running():
                 return
             for bar in self.bars.values():
                 bar.change_value_via_stats(key, delta)
@@ -3571,6 +3697,9 @@ init -99 python:
             if was_invalid:
                 self.uninvalidate_situation(live)
                 lifecycle_registry.resume_category("situations", live.key)
+                if live.is_paused():
+                    # revived from invalid while paused: modifiers stay asleep
+                    lifecycle_registry.hibernate_category("situations", live.key, kind="modifier")
 
             self._reannounce_threshold_checks(live.key)
             return self
@@ -3730,7 +3859,7 @@ init -99 python:
             Returns:
                 int: Number of non-invalid situations with state ``active``.
             """
-            return len(self.get_active_situations())
+            return len([situation for situation in self.get_active_situations() if situation.is_running()])
 
         def is_resolution_breather_active(self) -> bool:
             """
@@ -3796,7 +3925,7 @@ init -99 python:
         def _suspend_all_decrease_modifiers(self):
             """Remove base-wear decrease modifiers from all active situation bars."""
             for situation in self.get_situations():
-                if situation.state != "active":
+                if not situation.is_running():
                     continue
                 for bar in situation.bars.values():
                     bar.revert_decrease_modifier()
@@ -3804,10 +3933,51 @@ init -99 python:
         def _resume_all_decrease_modifiers(self):
             """Re-apply base-wear decrease modifiers on all active situation bars."""
             for situation in self.get_situations():
-                if situation.state != "active":
+                if not situation.is_running():
                     continue
                 for bar in situation.bars.values():
                     bar.apply_decrease_modifier()
+
+        def pause_situation(self, key: str) -> bool:
+            """
+            Pause an active situation (see ``Situation.pause``).
+
+            Args:
+                key (str): Situation key.
+
+            Returns:
+                bool: True if it was paused.
+            """
+            situation = self.get_situation(key)
+            if situation is None:
+                log(f"pause_situation: unknown situation '{key}'", log_type="error", category="situation")
+                return False
+            return situation.pause()
+
+        def resume_situation(self, key: str) -> bool:
+            """
+            Resume a paused situation (see ``Situation.resume``).
+
+            Args:
+                key (str): Situation key.
+
+            Returns:
+                bool: True if it was resumed.
+            """
+            situation = self.get_situation(key)
+            if situation is None:
+                log(f"resume_situation: unknown situation '{key}'", log_type="error", category="situation")
+                return False
+            return situation.resume()
+
+        def get_paused_situations(self):
+            """
+            Active situations that are currently paused.
+
+            Returns:
+                list[Situation]: Paused, non-invalid situations.
+            """
+            return [situation for situation in self.get_active_situations() if situation.is_paused()]
 
         def check_pool(self, situation_key: str, pool_key: str, **kwargs):
             situation = self.get_situation(situation_key)
@@ -3835,7 +4005,7 @@ init -99 python:
 
         def check_resolutions(self, **kwargs):
             for situation in self.get_situations():
-                if situation.state != "active":
+                if not situation.is_running():
                     continue
                 if situation.check_resolutions(**kwargs):
                     return True
@@ -3988,7 +4158,7 @@ init -99 python:
             if delta == 0:
                 return
             for situation in self.get_situations():
-                if situation.state != "active":
+                if not situation.is_running():
                     continue
                 if self.is_progress_blocked(situation.key, key):
                     continue
@@ -4008,7 +4178,7 @@ init -99 python:
                 return
             situation_key, bar_key = parsed
             situation = self.get_situation(situation_key)
-            if situation is None or situation.state != "active":
+            if situation is None or not situation.is_running():
                 return
             situation.apply_progress_change(bar_key, value)
             return
@@ -4080,7 +4250,7 @@ init -99 python:
             if key not in self.threshold_checks.keys():
                 return
             threshold = self.threshold_checks[key]
-            if threshold.situation is None or threshold.situation.state != "active":
+            if threshold.situation is None or not threshold.situation.is_running():
                 return
             # State is cleared before trigger_effects so nothing is lost if an effect jumps.
             if threshold.timed_release is not None:
@@ -4149,6 +4319,18 @@ init -99 python:
         #########################
     # endregion
     ###########################
+
+    def get_situation_time_index(t: Time) -> int:
+        """
+        A Time as a running daytime count (7 daytimes a day), for pause durations.
+
+        Args:
+            t (Time): The time to convert.
+
+        Returns:
+            int: Daytimes since the start of the calendar.
+        """
+        return (t.get_days_total() - 1) * 7 + t.get_daytime()
 
     def begin_situation_event_deferral():
         SituationManager._defer_depth += 1

@@ -150,6 +150,9 @@ A Situation moves through several states (`situation.state` /
 | `completed` | Ended via a resolution | Yes (as completed) |
 | `cancelled` | Aborted (e.g. via `SituationEffectCancelSituation`) | No |
 
+A running situation can also be **paused** ([below](#pausing-a-situation)). That is
+not a state of its own: `state` stays `active`, `situation.is_paused()` is `True`.
+
 ### Flow
 
 1. **Registration** — At game start (and on every reload) all Situations are
@@ -172,6 +175,41 @@ A new teaser, the first `activate()`, and `complete()` each raise a
 map journal button stays highlighted until the player opens that row. Cancel does
 not raise. Unlockables use the same hooks but topic `unlockables` — see
 [Building Unlockables](Building-Unlockables).
+
+### Pausing a situation
+
+`situation.pause()` freezes an active situation without ending it;
+`situation.resume()` continues it where it stopped. Manager shortcuts:
+`situation_manager.pause_situation(key)` / `resume_situation(key)` /
+`get_paused_situations()`. Use it for phases where the situation should simply not
+happen (e.g. a trip away from campus). Both return `False` if nothing changed
+(not active, already paused / not paused).
+
+| While paused | Behavior |
+|---|---|
+| Bars (wear, stat weights, direct pushes, bar-change modifiers) | frozen |
+| Thresholds (auto, blocking, timed release), threshold holds | don't fire / don't move |
+| Resolutions (positive, negative, condition, deadline) | not checked |
+| Tracked modifiers (base wear, passive/measure stat & bar modifiers) | hibernated via the lifecycle registry, woken on resume |
+| Non-modifier effects (`SituationEffectSetGameData`, game data of general effects) | **stay set** — they are a state, not a tick |
+| Measure duration & cooldown, resolution grace timers, timed-release timers | frozen: on resume every timer moves forward by the paused time |
+| `DeadlineResolution` | pushed back by the total paused time (`get_paused_daytimes()`) |
+| Situation pools (`SituationPoolCondition`) | closed — pool events don't show |
+| Passives / measures in the journal | locked, can't be switched |
+| Events already queued in `drain_situation_events` | still run normally |
+| Journal / HUD | still listed; the journal shows "Paused", the HUD drops the tendency arrow and adds "(paused)" |
+
+For code, the rule is: anything that **does** something checks
+`situation.is_running()` (= `active` and not paused); anything that only **shows**
+something keeps checking `state`. `SituationStateCondition("paused", key)` checks
+the pause; `SituationStateCondition("active", key)` is also true while paused.
+`activate()` on a paused situation is a no-op (use `resume()`); `complete()`,
+`cancel()` and `deactivate()` drop the pause. A pause survives save/load and hot
+reload (the modifiers are put back to sleep after `update_data`). The cheat menu
+has a **Pause / Resume** button per situation for testing.
+
+Pausing is independent of the [event flags](Events#event-flags) for now. Tying
+them together is planned ([Roadmap §11](Roadmap#11-engine-situation-pause--the-camp-situation)).
 
 ### Hot reload (important to understand)
 
@@ -1423,6 +1461,7 @@ always logs why.
 | **Edits to my template don't take effect / progress reset** | You set runtime state (`bar.value`, `reached`, …) in the template. `update_data` deliberately keeps save state and won't overwrite it — and template runtime state corrupts progress. | Set starting values via `start_base` / `start_modifiers`, never `value` ([§9](#9-conventions-not-enforced-but-important)). |
 | **A passive/measure effect "won't undo"** | Revert stops an ongoing modifier; it does not roll back accumulated value. | Expected behavior — only `SituationEffectSetGameData` truly restores ([§4](#what-revert-actually-reverts)). |
 | **A measure stays active forever** | `duration=None` without `open_ended` should auto-close after apply. | Instant is the default ([§4](#passives--measures-the-strategy-layers)). Use `open_ended=True` only when something else must close the slot (Unlockable Schedule Vote). |
+| **Bar frozen, measures greyed out, no situation events** | The situation is paused (`is_paused()`; HUD shows "(paused)"). | `resume()` it, or the cheat menu's Resume button ([§2](#pausing-a-situation)). |
 | **Mod Situation vanishes after disabling/re-enabling the mod** | Orphan soft-invalidation. | Expected — it revives on re-registration; timers may restart ([§2](#missing-definitions-orphans)). |
 
 ---

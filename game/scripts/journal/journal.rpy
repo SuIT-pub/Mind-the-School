@@ -1749,7 +1749,8 @@ screen journal_cheats(display, char = "school"):
                                     text_style "buttons_idle"
                                     text_size 20
                                     action Function(toggle_situation_cheat_expand, sit_key)
-                                text (cheat_situation.name + " {color=#777777}(" + sit_state + "){/color}"):
+                                $ sit_state_text = sit_state + (", paused" if cheat_situation.is_paused() else "")
+                                text (cheat_situation.name + " {color=#777777}(" + sit_state_text + "){/color}"):
                                     style "journal_text"
                                     size 20
                                     yalign 0.5
@@ -1764,6 +1765,10 @@ screen journal_cheats(display, char = "school"):
                                 button:
                                     text "Deactivate" style "buttons_idle" size 18
                                     action [With(dissolveM), Call("deactivate_situation_cheat", sit_key)]
+                                    sensitive cheat_situation.state == "active"
+                                button:
+                                    text ("Resume" if cheat_situation.is_paused() else "Pause") style "buttons_idle" size 18
+                                    action [With(dissolveM), Call("toggle_pause_situation_cheat", sit_key)]
                                     sensitive cheat_situation.state == "active"
                                 button:
                                     text "All Teasers" style "buttons_idle" size 18
@@ -3291,6 +3296,10 @@ screen journal_situations(display):
 
                             use journal_situation_bar(situation)
 
+                            if situation.is_paused():
+                                null height 5
+                                text "Paused — nothing changes until it continues." style "journal_desc" italic True
+
                             null height 10
 
                             $ threshold_hints = situation.get_hints()
@@ -3330,8 +3339,12 @@ screen journal_situations(display):
                                     if situation.active_passive == passive.name:
                                         $ button_style = "buttons_selected_small"
 
+                                    if situation.is_paused() and situation.active_passive != passive.name:
+                                        $ button_style = "buttons_inactive_small"
+
                                     button:
                                         action Call("activate_passive", display, situation, passive)
+                                        sensitive not situation.is_paused()
                                         text passive_name style button_style
                                     text passive_description style "journal_desc_small"
                                     null height 10
@@ -4330,6 +4343,24 @@ label deactivate_situation_cheat(situation_key):
         $ cheat_situation.deactivate()
         $ renpy.notify("Situation deactivated!")
     call open_journal(5, "situations") from deactivate_situation_cheat_1
+
+label toggle_pause_situation_cheat(situation_key):
+    # """
+    # Pauses an active situation from the cheat page, or resumes it when paused.
+    #
+    # ### Parameters:
+    # 1. situation_key: str
+    #     - The key of the situation to pause or resume.
+    # """
+
+    $ cheat_situation = situation_manager.get_situation(situation_key) if situation_manager is not None else None
+    if cheat_situation is not None and cheat_situation.is_paused():
+        $ cheat_situation.resume()
+        $ renpy.notify("Situation resumed!")
+    elif cheat_situation is not None and cheat_situation.state == "active":
+        $ cheat_situation.pause()
+        $ renpy.notify("Situation paused!")
+    call open_journal(5, "situations") from toggle_pause_situation_cheat_1
 
 label activate_situation_teasers_cheat(situation_key):
     # """

@@ -85,6 +85,8 @@ init -1 python:
             tuple: (glyph, side, color). side is 1 (right), -1 (left), or 0.
         """
 
+        if situation.is_paused():
+            return "", 0, "#ffffff"
         raw = situation.get_combined_bar_tendency_value()
         span = float(situation.get_combined_bar_max() - situation.get_combined_bar_min()) or 1.0
         ratio = abs(raw) / span
@@ -251,7 +253,7 @@ screen overview_situation_entry(situation, interactive, row_width):
         vbox:
             spacing 2
 
-            text situation.name:
+            text (situation.name + (" {color=#aaaaaa}(paused){/color}" if situation.is_paused() else "")):
                 style "stat_overview"
                 size 13
                 xmaximum row_width - 12
