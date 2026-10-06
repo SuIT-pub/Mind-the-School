@@ -102,3 +102,22 @@ after the image payload and is **keyed to the original filename**. Rules:
   card (`raw.githubusercontent.com/wiki/…`).
 - Do not upload cards through the GitHub Wiki web UI — that can rename or
   recompress them. Always drop files into `wiki/characters/…` and run the sync.
+
+## UI screenshots
+
+`wiki/screenshots/` holds UI screenshots rendered by the game itself (fixed
+1920×1080, quick menu hidden), not desktop captures.
+
+1. Start the game from the SDK (developer mode), load a save that is on the map.
+2. Open the console (**Shift+O**) and run `jump wiki_screenshots`. The label
+   (`game/scripts/wiki_screenshots.rpy`) writes one PNG per shot and restores
+   inventory, cart and notifications afterwards.
+3. Run `python wiki/scripts/compress-screenshots.py`, which converts the PNGs to
+   WebP and deletes the PNGs.
+4. Run the sync. Pages embed the shots via
+   `<img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/screenshots/<name>.webp" width="720">`.
+
+To add a shot, append a block to the label:
+`call screen wiki_shot_frame("<name>", "<screen>", *screen_args)`. The wrapper
+takes the picture with a timer, which also works for modal screens. Only capture
+UI screens. No event scenes (spoilers, adult content).

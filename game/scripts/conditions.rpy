@@ -3974,3 +3974,27 @@ init -6 python:
 
         def get_name(self) -> str:
             return f"ThresholdReachedCondition({self.situation_key}, {self.threshold_key})"
+
+    class FlagCondition(Condition):
+
+        def __init__(self, flag_key: str, exclusive: bool = True, *options: Option):
+            super().__init__(*options)
+
+            self.flag_key = flag_key
+            self.exclusive = exclusive
+
+        @property
+        def _type(self) -> str:
+            return "flag_condition"
+
+        def check_condition(self, **kwargs) -> bool:
+            current_flag = get_game_data("current_flag")
+            if self.flag_key == "x" or self.flag_key == current_flag:
+                return True
+
+            if current_flag is None and not self.exclusive:
+                return True
+            return False
+
+        def get_name(self) -> str:
+            return f"FlagCondition({self.flag_key}, {self.exclusive})"

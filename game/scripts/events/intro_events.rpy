@@ -5,13 +5,13 @@ init 1 python:
     # Courtyard
     courtyard_general_event.add_event(
         Event(1, "first_week_courtyard_event",
-            IntroCondition(),
+            FlagCondition("intro"),
             TimeCondition(day = "2-4", month = 1, year = 2023),
             ReplayCategoryOption("intro_event"),
             Pattern("main", "images/events/first week/first week courtyard <step>.webp"),
             thumbnail = "images/events/first week/first week courtyard 1.webp"),
         Event(1, "first_potion_courtyard_event",
-            IntroCondition(),
+            FlagCondition("intro"),
             TimeCondition(day = 9, month = 1, year = 2023),
             ReplayCategoryOption("intro_event"),
             Pattern("main", "images/events/first potion/first potion courtyard <step>.webp"),
@@ -22,13 +22,13 @@ init 1 python:
     # Gym
     gym_general_event.add_event(
         Event(1, "first_week_gym_event",
-            IntroCondition(),
+            FlagCondition("intro"),
             TimeCondition(day = "2-4", month = 1, year = 2023),
             ReplayCategoryOption("intro_event"),
             Pattern("main", "images/events/first week/first week gym <step>.webp"),
             thumbnail = "images/events/first week/first week gym 1.webp"),
         Event(1, "first_potion_gym_event",
-            IntroCondition(),
+            FlagCondition("intro"),
             TimeCondition(day = 9, month = 1, year = 2023),
             ReplayCategoryOption("intro_event"),
             Pattern("main", "images/events/first potion/first potion gym <step>.webp"),
@@ -39,7 +39,7 @@ init 1 python:
     # Kiosk
     kiosk_general_event.add_event(
         Event(1, "first_week_kiosk_event",
-            IntroCondition(),
+            FlagCondition("intro"),
             TimeCondition(day = "2-4", month = 1, year = 2023),
             ReplayCategoryOption("intro_event"),
             Pattern("main", "images/events/first week/first week kiosk <step>.webp"),
@@ -50,13 +50,13 @@ init 1 python:
     # Office Building    
     office_building_general_event.add_event( 
         Event(1, "first_week_office_building_event",
-            IntroCondition(),
+            FlagCondition("intro"),
             TimeCondition(day = "2-4", month = 1, year = 2023),
             ReplayCategoryOption("intro_event"),
             Pattern("main", "images/events/first week/first week office building.webp"),
             thumbnail = "images/events/first week/first week office building.webp"),
         Event(1, "first_potion_office_building_event",
-            IntroCondition(),
+            FlagCondition("intro"),
             TimeCondition(day = 9, month = 1, year = 2023),
             ReplayCategoryOption("intro_event"),
             Pattern("main", "images/events/first potion/first potion office <step>.webp"),
@@ -67,13 +67,13 @@ init 1 python:
     # School Building
     sb_general_event.add_event(
         Event(1, "first_week_sb_event",
-            IntroCondition(),
+            FlagCondition("intro"),
             TimeCondition(day = "2-4", month = 1, year = 2023),
             ReplayCategoryOption("intro_event"),
             Pattern("main", "images/events/first week/first week school building <step>.webp"),
             thumbnail = "images/events/first week/first week school building 2.webp"),
         Event(1, "first_potion_sb_event",
-            IntroCondition(),
+            FlagCondition("intro"),
             TimeCondition(day = 9, month = 1, year = 2023),
             ReplayCategoryOption("intro_event"),
             Pattern("main", "images/events/first potion/first potion school building <step>.webp"),
@@ -84,13 +84,13 @@ init 1 python:
     # School Dormitory
     sd_general_event.add_event(
         Event(1, "first_week_school_dormitory_event",
-            IntroCondition(),
+            FlagCondition("intro"),
             TimeCondition(day = "2-4", month = 1, year = 2023),
             ReplayCategoryOption("intro_event"),
             Pattern("main", "images/events/first week/first week school dormitory <step>.webp"),
             thumbnail = "images/events/first week/first week school dormitory 1.webp"),
         Event(1, "first_potion_school_dormitory_event",
-            IntroCondition(),
+            FlagCondition("intro"),
             TimeCondition(day = 9, month = 1, year = 2023),
             ReplayCategoryOption("intro_event"),
             Pattern("main", "images/events/first potion/first potion school dormitory <step>.webp"),

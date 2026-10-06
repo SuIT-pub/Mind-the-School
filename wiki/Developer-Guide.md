@@ -131,7 +131,7 @@ already installed `game/images/` tree or `game/.asset-version`. After cleaning, 
 The building blocks the content systems are made of:
 
 - **[Events](Events)** — the scenes players reach by exploring; location pools,
-  priorities, scene labels, and how everything below plugs in.
+  priorities, event flags (intro, camp), scene labels, and how everything below plugs in.
 - **[Conditions](Conditions)** — the universal gating primitive (when something is
   available), with the `AND`/`OR`/`NOT` combinators and the full catalog.
 - **[Value Ranges](Value-Ranges)** — the number-pattern grammar (`"3+"`, `"3-7"`,

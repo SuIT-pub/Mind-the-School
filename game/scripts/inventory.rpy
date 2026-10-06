@@ -237,7 +237,7 @@ label open_office_building_computer_shopping_screen(viewport_value = 0, **kwargs
     return
 
 screen office_building_computer_shopping_screen(viewport_value = 0, **kwargs):
-    add "images/computer/computer_shop_bg.png"
+    add "images/computer/computer_shop_bg.webp"
 
     $ shop_items = inventory_manager.get_all_shop_items(ignore_possession = True, ignore_purchase = True)
     $ shopping_cart_amount = get_dict_total_count(shopping_cart)
@@ -264,13 +264,13 @@ screen office_building_computer_shopping_screen(viewport_value = 0, **kwargs):
     button:
         xalign 0.775
         ypos 108
-        add "images/computer/computer_shop_cart_idle.png":
+        add "images/computer/computer_shop_cart_idle.webp":
             xsize 100
             ysize 100
         action Call("open_office_building_computer_shopping_cart_screen", **kwargs)
 
     if len(shopping_cart) > 0:
-        add "images/computer/computer_shop_indicator.png":
+        add "images/computer/computer_shop_indicator.webp":
             xalign 0.785
             ypos 108
             xsize 40
@@ -327,7 +327,7 @@ screen office_building_computer_shopping_screen(viewport_value = 0, **kwargs):
                         frame:
                             area(0, 0, 280, 401)
                             background Solid("#fff0")
-                            add "images/computer/computer_shop_card.png"
+                            add "images/computer/computer_shop_card.webp"
                             add item_image:
                                 xalign 0.5
                                 ypos 15
@@ -388,7 +388,7 @@ screen office_building_computer_shopping_screen(viewport_value = 0, **kwargs):
                                             xsize 25
                                             ysize 40
                                             action Call("office_building_computer_shopping_screen_change_cart", item, -1, viewport_value, "office_building_computer_shopping_screen", **kwargs)
-                                            add "images/computer/computer_shop_trash.png":
+                                            add "images/computer/computer_shop_trash.webp":
                                                 yalign 0.5
                                                 xpos -10
                                                 xsize 25
@@ -425,7 +425,7 @@ label open_office_building_computer_shopping_cart_screen(viewport_value = 0, **k
     return
 
 screen office_building_computer_shopping_cart_screen(viewport_value = 0, **kwargs):
-    add "images/computer/computer_shop_cart_bg.png"
+    add "images/computer/computer_shop_cart_bg.webp"
 
     $ shop_items = inventory_manager.get_all_shop_items(ignore_possession = True, ignore_purchase = True)
     $ shopping_cart_amount = get_dict_total_count(shopping_cart)
@@ -452,7 +452,7 @@ screen office_building_computer_shopping_cart_screen(viewport_value = 0, **kwarg
     button:
         xalign 0.775
         ypos 108
-        add "images/computer/computer_shop_cart_highlight.png":
+        add "images/computer/computer_shop_cart_highlight.webp":
             xsize 100
             ysize 100
         action Call("open_office_building_computer_shopping_screen", **kwargs)
@@ -595,7 +595,7 @@ screen office_building_computer_shopping_cart_screen(viewport_value = 0, **kwarg
                                 xsize 25
                                 ysize 100
                                 action Call("office_building_computer_shopping_screen_change_cart", item, -1, viewport_value, "office_building_computer_shopping_cart_screen", **kwargs)
-                                add "images/computer/computer_shop_trash.png":
+                                add "images/computer/computer_shop_trash.webp":
                                     yalign 0.5
                                     xpos -10
                                     xsize 25

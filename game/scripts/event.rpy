@@ -1146,9 +1146,7 @@ init -3 python:
             - The thumbnail of the event.
         5. register_self: bool (Default True)
             - If True, the event is registered in the event_register.
-        6. override_intro: bool (Default False)
-            - If True, the intro condition is ignored.
-        7. override_location: str (Default None)
+        6. override_location: str (Default None)
             - If set, the location of the event is set to this value.
 
         ### Attributes:
@@ -1200,32 +1198,30 @@ init -3 python:
             - Calls the event.
         """
 
-        def __init__(self, select_type: int, event: str, *options: Condition | Selector | Option | Pattern, thumbnail: str = "", register_self = True, override_intro = False, override_location = None):
+        def __init__(self, select_type: int, event: str, *options: Condition | Selector | Option | Pattern, thumbnail: str = "", register_self = True, override_location = None):
             self.event_id = str(event)
             self.event = event
             self.thumbnail = thumbnail
 
             self.replay_category = "Misc"
 
-            self.conditions = []
+            self.conditions_storage = ConditionStorage()
             self.values = SelectorSet()
             self.options = OptionSet()
             self.patterns = {}
             self.priority = 1
             self.force_highlight = False
             self.debuff_value = -1.0
-
-            has_intro_condition = False
+            
+            has_flag_condition = False
             for value in options:
                 if isinstance(value, Condition):
-                    if isinstance(value, IntroCondition):
-                        has_intro_condition = True
                     if isinstance(value, LevelCondition):
                         max_level = get_highest_value(value.value)
                         if max_level not in event_register_by_max_level:
                             event_register_by_max_level[max_level] = []
                         event_register_by_max_level[max_level].append(event)
-                    self.conditions.append(value)
+                    self.conditions_storage.add_condition(value)
                 elif isinstance(value, Selector):
                     self.values.add_selector(value)
                 elif isinstance(value, Option):
@@ -1242,8 +1238,10 @@ init -3 python:
                 elif isinstance(value, Pattern):
                     self.patterns[value.get_name()] = value
 
-            if not has_intro_condition and not override_intro:
-                self.conditions.append(IntroCondition(False))
+            
+
+            if not self.conditions_storage.find_by_type("flag_condition") and (not hasattr(self, 'event_form') or self.event_form != "fragment"):
+                self.conditions_storage.add_condition(FlagCondition(None))
 
             rerollSelectors.append(self.values)
 
@@ -1263,9 +1261,16 @@ init -3 python:
             if self.override_location != None:
                 self.location = override_location
 
-
-            self.event_form = "event"
+            if not hasattr(self, 'event_form'):
+                self.event_form = "event"
+       
             self._invalid = False
+
+        @property
+        def conditions(self):
+            if "conditions_storage" not in self.__dict__:
+                self.conditions_storage = ConditionStorage(*self.__dict__.get("conditions", []))
+            return self.conditions_storage.conditions
 
         def __str__(self):
             return self.event_id
@@ -1281,8 +1286,8 @@ init -3 python:
             if not hasattr(self, 'event_id'):
                 self.event_id = str(id(self))
 
-            if not hasattr(self, 'conditions'):
-                self.conditions = []
+            if not hasattr(self, 'conditions_storage'):
+                self.conditions_storage = ConditionStorage(*self.__dict__.get('conditions', []))
 
             if not hasattr(self, 'priority'):
                 self.priority = 1
@@ -1575,6 +1580,8 @@ init -3 python:
         """
 
         def __init__(self, priority: int, event: str, fragments: List[FragmentStorage], *conditions: Condition | Selector | Option | Pattern, thumbnail: str = ""):
+            self.event_form = "composite"
+
             super().__init__(priority, event, *conditions, thumbnail = thumbnail)
 
             self.fragments = [fragment for fragment in fragments if isinstance(fragment, FragmentStorage)]
@@ -1584,14 +1591,14 @@ init -3 python:
             else:
                 self.has_fragment_reroll_option = [selector for selector in self.values._selectors if selector.get_option_set().has_option("FragmentReroll")]
 
-            self.event_form = "composite"
 
         def _update(self, data: Dict[str, Any]):
+            self.event_form = "composite"
+
             super()._update(data)
 
             if not hasattr(self, 'fragments'):
                 self.fragments = []
-            self.event_form = "composite"
 
         def check_event(self):
             """
@@ -1756,6 +1763,8 @@ init -3 python:
 
     class EventSelect(Event):
         def __init__(self, priority: int, event: str, text: str, event_list: Dict[str, EventStorage], *conditions: Condition | Selector | Option, thumbnail: str = "", override_menu_exit: str = "map_entry", fallback: str = None, person: Person = None):
+            self.event_form = "select"
+
             super().__init__(priority, event, *conditions, thumbnail = thumbnail)
 
             self.text = text
@@ -1763,13 +1772,13 @@ init -3 python:
             self.override_menu_exit = override_menu_exit
             self.fallback = fallback or default_fallback
             self.person = person or character.subtitles
-            self.event_form = "select"
             self.set_location("select")
             
         def _update(self, data: Dict[str, Any]):
+            self.event_form = "select"
+
             super()._update(data)
 
-            self.event_form = "select"
 
         def is_available(self, **kwargs) -> bool:
             """
@@ -1814,9 +1823,10 @@ init -3 python:
 
     class EventFragment(Event):
         def __init__(self, select_type: int, event: str, *conditions: Condition | Selector | Option, thumbnail: str = ""):
+            self.event_form = "fragment"
+
             super().__init__(select_type, event, *conditions, thumbnail = thumbnail)
 
-            self.event_form = "fragment"
             self.set_location("fragment")
 
     # endregion

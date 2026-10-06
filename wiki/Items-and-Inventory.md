@@ -215,6 +215,10 @@ for hint UIs; it also works when the player owns none ("You have 0 …").
 The player buys `ShopItemData` items on the **office computer** (office building →
 computer → *Shopping*). Items aren't handed over at checkout; they ship.
 
+<img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/screenshots/computer_shop.webp" alt="Office-computer shop with one item in the cart" width="480"> <img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/screenshots/computer_shop_cart.webp" alt="Shopping cart with products, shipping and total" width="480">
+
+*Left: the shop grid, the red badge counts the cart. Right: the cart with products + flat shipping (`SHOP_SHIPPING_COST`) = total.*
+
 ```text
 shop screen ──add to cart──▶ shopping_cart {key: n}
    │                              │
@@ -263,6 +267,10 @@ Save-backed globals (`values.rpy`): `inventory_manager`, `shopping_cart`,
 
 `screen journal_inventory(display, page)` in `journal.rpy`, opened via
 `open_journal(2, …)` or `open_journal(10, …)` (both pages render the same screen).
+
+<img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/screenshots/journal_inventory.webp" alt="Journal inventory page with the Test Potion selected" width="720">
+
+*Owned stacks on the left, the selected item's name, image, amount and description on the right.*
 
 - **Left:** a 4-column grid of every owned stack (`get_inventory()`), 90×90 icons,
   in insertion order. Clicking one reopens the page with `display = item key`.

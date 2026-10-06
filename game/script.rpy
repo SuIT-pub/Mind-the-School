@@ -33,6 +33,8 @@ label start ():
         $ situation_manager.reconcile_orphan_situations()
     $ lifecycle_registry.finalize_check()
 
+    $ update_intro_flag()
+
     call intro from _call_intro
 label splashscreen:
     menu:
@@ -261,7 +263,7 @@ label after_load:
     $ after_load_event_check('staff_lodges', staff_lodges_events, staff_lodges_general_event)
     #################
 
-
+    $ update_intro_flag()
 
     return
 

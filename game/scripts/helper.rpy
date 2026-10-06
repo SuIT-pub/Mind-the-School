@@ -1035,6 +1035,35 @@ init -99 python:
         """
         return map_manager.get_current_map()
 
+    def set_current_flag(key: str):
+        """
+        Sets the current flag
+
+        ### Parameters:
+        1. key: str
+            - The key of the flag to set
+        """
+        set_game_data("current_flag", key)
+
+    def get_current_flag() -> str:
+        """
+        Gets the current flag
+
+        ### Returns:
+        1. str
+            - The current flag, or None if none is set
+        """
+        return get_game_data("current_flag")
+    
+    def update_intro_flag():
+        """
+        Updates the intro flag based on the current date
+        """
+        in_intro = time.compare_today(10, 1, 2023) == -1
+        if in_intro and get_current_flag() is None:
+            set_current_flag("intro")
+        elif not in_intro and get_current_flag() == "intro":
+            set_current_flag(None)
     # endregion
     #################################
 

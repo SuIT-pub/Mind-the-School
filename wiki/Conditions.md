@@ -224,7 +224,8 @@ ranges** — the shared number-pattern grammar is documented in
 | Constructor | Checks |
 |-------------|--------|
 | `EventSeenCondition(seen=False, event_name="", *options)` | whether `event_name` has been seen matches `seen` |
-| `IntroCondition(is_intro=True, *options)` | whether the intro is (not) running |
+| `FlagCondition(flag_key, exclusive=True, *options)` | the global event flag (`current_flag`) matches `flag_key`. `exclusive=False` also passes while no flag is set; `"x"` passes under any flag. Auto-added to every event as `FlagCondition(None)` ([Events §5](Events#event-flags)) |
+| `IntroCondition(is_intro=True, *options)` | **legacy**, unused. Date-based intro gate (before 10 Jan 2023), replaced by `FlagCondition("intro")` |
 | `TutorialCondition(*options)` | tutorial state |
 | `CheckReplay(condition, *options)` | wraps a condition so it also evaluates in replay |
 | `RandomCondition(threshold, limit=100, *options)` | a random roll below `threshold` out of `limit` (probabilistic gate) |

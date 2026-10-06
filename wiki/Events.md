@@ -100,7 +100,7 @@ All four subclass `Event`; the differences are how they select/run their content
 
 ```python
 Event(select_type, event, *conditions_selectors_options_patterns,
-      thumbnail="", register_self=True, override_intro=False, override_location=None)
+      thumbnail="", register_self=True, override_location=None)
 ```
 
 - **`select_type`** — priority 1/2/3 (§5).
@@ -110,8 +110,6 @@ Event(select_type, event, *conditions_selectors_options_patterns,
 - **`thumbnail`** — journal/menu image (falls back to `journal/empty_image_wide.webp`).
 - **`register_self`** — register into `event_register` (leave `True`; seen-tracking and
   replay need it).
-- **`override_intro`** — skip the auto-added `IntroCondition(False)` (which otherwise
-  hides the event during the intro).
 - **`override_location`** — force the event's location tag.
 
 ### `EventComposite` — an event assembled from fragments
@@ -199,8 +197,9 @@ After the label name, an event takes any mix of four element types (the construc
 sorts them):
 
 - **Conditions** — gates; the event is available only when **all** pass (§5). Compose
-  with `AND`/`OR`/`NOT` ([Conditions](Conditions)). An `IntroCondition(False)` is
-  auto-added unless you pass your own `IntroCondition` or `override_intro=True`. A
+  with `AND`/`OR`/`NOT` ([Conditions](Conditions)). A `FlagCondition(None)` is
+  auto-added unless a `FlagCondition` appears anywhere in the conditions, also nested
+  in `AND`/`OR`/`NOT` (§5, *Event flags*). A
   `LevelCondition` also registers the event under its max level for level-based
   bookkeeping.
 - **Selectors** — dynamic values rolled when the event runs, exposed under their key
@@ -243,6 +242,59 @@ Most ambient events are `3`; a story interrupt is `1`. Highlighting: priority-3 
 don't light up the map unless they carry `ForceHighlightOption()`;
 `is_highlighted()` combines availability, priority and the options'
 `check_options(Highlight=True, …)`.
+
+### Event flags
+
+One global **flag** (GameData key `current_flag`) decides which events may run at all.
+It is empty (`None`) by default. Set it for a special phase, e.g. the intro or the
+beach camp, and only events that carry a matching `FlagCondition` stay available.
+
+| Event has … | flag `None` | flag = `"camp"` | flag = other key |
+|---|---|---|---|
+| no FlagCondition (→ auto `FlagCondition(None)`) | ✅ | ❌ | ❌ |
+| `FlagCondition("camp", exclusive=False)` | ✅ | ✅ | ❌ |
+| `FlagCondition("camp")` (`exclusive=True`, default) | ❌ | ✅ | ❌ |
+| `FlagCondition("x")` (wildcard) | ✅ | ✅ | ✅ |
+
+```python
+# runs only during the camp
+Event(2, "camp_campfire_talk",
+    FlagCondition("camp"),
+    TimeCondition(daytime = "6-7"))
+
+# runs normally AND during the camp
+Event(3, "kiosk_snack_run",
+    FlagCondition("camp", exclusive = False))
+```
+
+- **How it's checked:** `Event.__init__` searches the conditions with
+  `find_by_type("flag_condition")` (the conditions live in a `ConditionStorage`,
+  `event.conditions` is a read-only property onto it). If none is found, it appends
+  `FlagCondition(None)`. The flag then goes through the normal condition check; there
+  is no extra code path.
+- **Fragments are exempt.** `EventFragment`s never get the automatic condition. The
+  decision happened on the composite, so a camp composite needs `FlagCondition("camp")`
+  but its fragments don't.
+- **`EventSelect` is not exempt.** The select **and** every event in its `event_list`
+  are normal events. A camp select needs the flag on the select and on each option.
+- **Directly called events bypass it.** An `EventEffect` with an event key or an `Event`
+  object calls `event.call()` without checking conditions (situation threshold and
+  resolve scenes). Only an `EventEffect` on an `EventStorage` goes through
+  availability. This is intended: to hold such a scene back during a flag, pause the
+  situation (planned, [Roadmap §11](Roadmap#11-engine-situation-pause--the-camp-situation))
+  or put a condition on the threshold/resolution itself.
+- **Wildcard `"x"`**, like elsewhere in the codebase.
+- **Helpers** (`helper.rpy`): `set_current_flag(key)` (`None` clears),
+  `get_current_flag()`. One flag at a time; setting a new one replaces the old.
+
+**The intro flag.** The intro is the first user of the system and replaces the old
+date-based `IntroCondition`. `update_intro_flag()` sets `"intro"` before 10 January 2023
+and clears it afterwards. It never touches another flag. It runs in `label start`
+(before `call intro`), in `after_load` (migrates old saves) and in `new_day` before the
+time events, so the first morning after the intro already runs without the flag.
+Intro-only events use `FlagCondition("intro")`; `map_tutorial` uses
+`FlagCondition("intro", exclusive=False)` so it can run during the intro and afterwards.
+The parameter `override_intro` was removed.
 
 ---
 
@@ -837,6 +889,7 @@ init 1 python:
 |---------|--------------|-----|
 | "Nothing to do here" when you expect an event | No event's conditions pass, or none registered in that pool | Check gates (time/level/progress); confirm `add_event` into the right pool. |
 | Crash on firing | Label name ≠ `Event` string, or label missing | Make them identical; define the label (see the `event` log category). |
+| Event never runs during the intro / camp | The flag is set and the event has no matching `FlagCondition` (it got the automatic `FlagCondition(None)`) | Add `FlagCondition(key)` or `FlagCondition(key, exclusive=False)` (§5, *Event flags*). Check `get_current_flag()`. |
 | Image shows a literal `<key>` | Selector missing/misnamed, or read outside the pattern | Add the selector; match the key; for logic use `get_value`. |
 | Value differs between image and dialogue | Read via raw kwargs, or a `realtime` selector re-rolled | Read once with `get_value`; keep the selector cached (§8, [Selectors](Selectors)). |
 | Choice missing in replay | A raw `menu:` was used, or the decision `key` changed | Use `call_custom_menu_with_text` + stable `MenuElement` keys; bump `version`. |
@@ -851,7 +904,7 @@ init 1 python:
 ## 20. Reference tables
 
 ### Classes
-`Event(select_type, event, *conditions|selectors|options|patterns, thumbnail="", register_self=True, override_intro=False, override_location=None)` ·
+`Event(select_type, event, *conditions|selectors|options|patterns, thumbnail="", register_self=True, override_location=None)` ·
 `EventComposite(priority, event, fragments, *conditions, thumbnail="")` ·
 `EventFragment(select_type, event, *conditions, thumbnail="")` ·
 `EventSelect(priority, event, text, event_list, *conditions, thumbnail="", override_menu_exit="map_entry", fallback=None, person=None)` ·

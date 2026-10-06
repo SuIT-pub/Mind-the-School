@@ -13,7 +13,7 @@ init -1 python:
 init 1 python:
     set_current_mod('base')
     first_week_epilogue_event = Event(1, "first_week_epilogue", 
-        IntroCondition(),
+        FlagCondition("intro"),
         TimeCondition(day = 5, month = 1, year = 2023, daytime = 2),
         Pattern("main", "images/events/first week/first week epilogue <step>.webp"),
         thumbnail = "images/events/first week/first week epilogue 8.webp")
@@ -24,7 +24,7 @@ init 1 python:
         thumbnail = "images/events/first week/first week epilogue final 3.webp")
 
     first_pta_meeting_event = Event(1, "first_pta_meeting", 
-        IntroCondition(),
+        FlagCondition("intro"),
         TimeCondition(day = 5, month = 1, year = 2023, daytime = 1),
         thumbnail = "images/events/pta/first meeting/first pta meeting 0 0.webp")
 
@@ -48,11 +48,11 @@ init 1 python:
         DaytimeChangedCondition("year"))
 
     intro_check_all_facilities_event = Event(2, "intro_check_all_facilities", 
-        IntroCondition(),
+        FlagCondition("intro"),
         TimeCondition(day = 2, month = 1, year = 2023, daytime = 1))
 
     intro_check_all_first_potions_event = Event(2, "intro_check_all_first_potions", 
-        IntroCondition(),
+        FlagCondition("intro"),
         TimeCondition(day = 9, month = 1, year = 2023, daytime = 4))
 
     game_over_happiness_event = Event(1, "game_over_happiness", 
@@ -65,7 +65,6 @@ init 1 python:
         StatCondition(reputation = "0-"))
 
     check_prof_event = Event(2, "check_missing_proficiencies",
-        NOT(IntroCondition(True)),
         NOT(OR(
             ProficiencyCondition('math'), 
             ProficiencyCondition('history')
@@ -129,7 +128,6 @@ label game_over_happiness (**kwargs):
     nv_text "You are now unemployed and have to find a new job."
 
     $ MainMenu(confirm=False)()
-
 label game_over_education (**kwargs):
     $ begin_event()
 

@@ -23,17 +23,17 @@ init 1 python:
     # Threshold / resolution / measure scenes: only fired by EventEffects.
     sit_test_events = EventStorage("sit_test_events", "misc")
     sit_test_events.add_event(
-        Event(2, "sit_test_thresh_auto", override_intro=True, override_location="misc"),
-        Event(2, "sit_test_thresh_repeat", override_intro=True, override_location="misc"),
-        Event(2, "sit_test_thresh_warning", override_intro=True, override_location="misc"),
-        Event(2, "sit_test_thresh_timed", override_intro=True, override_location="misc"),
-        Event(2, "sit_test_measure_event", override_intro=True, override_location="misc"),
-        Event(2, "sit_test_resolve_positive", override_intro=True, override_location="misc"),
-        Event(2, "sit_test_resolve_negative", override_intro=True, override_location="misc"),
-        Event(2, "sit_test_resolve_deadline", override_intro=True, override_location="misc"),
-        Event(2, "sit_test_resolve_condition", override_intro=True, override_location="misc"),
+        Event(2, "sit_test_thresh_auto", override_location="misc"),
+        Event(2, "sit_test_thresh_repeat", override_location="misc"),
+        Event(2, "sit_test_thresh_warning", override_location="misc"),
+        Event(2, "sit_test_thresh_timed", override_location="misc"),
+        Event(2, "sit_test_measure_event", override_location="misc"),
+        Event(2, "sit_test_resolve_positive", override_location="misc"),
+        Event(2, "sit_test_resolve_negative", override_location="misc"),
+        Event(2, "sit_test_resolve_deadline", override_location="misc"),
+        Event(2, "sit_test_resolve_condition", override_location="misc"),
         # Stand-in for a regular game event (queue regression, test N1).
-        Event(2, "sit_test_normal_event", override_intro=True, override_location="misc"),
+        Event(2, "sit_test_normal_event", override_location="misc"),
     )
 
     # Pool events: Office building -> Look around, only while the lab is active

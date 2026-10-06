@@ -64,6 +64,10 @@ $ set_current_map("school")        # back to the campus
 
 ## 1. How the pieces fit
 
+<img src="https://raw.githubusercontent.com/wiki/SuIT-pub/Mind-the-School/screenshots/map_overview.webp" alt="School map with the stats bar, situations and building pins" width="720">
+
+*The school map (`map_overview`): background from the current `Map`, stats/situations HUD, one pin per building. The red pin marks a building with an available event.*
+
 ```text
 map_manager ──get_current_map()──▶ Map  (key, background image, building keys)
                                     │
@@ -151,9 +155,10 @@ $ set_current_map("beach_camp")
 times; a write there would fight rollback and prediction.
 
 > Note: switching the map only changes what is **shown and clickable**. Events in
-> `time_check_events` and other global pools still run on any map. Restricting
-> which events may run while a special map is active is the planned event-flag
-> system ([Roadmap §10](Roadmap#10-engine-event-flags)).
+> `time_check_events` and other global pools still run on any map. To restrict which
+> events may run while a special map is active, set an event flag together with the
+> map (`set_current_map("beach")` + `set_current_flag("camp")`), see
+> [Events §5](Events#event-flags).
 
 ---
 
@@ -321,7 +326,7 @@ The background path is redirected into your mod folder, like every other path
 | Ambient sound is hard-wired in `map_overview` | every map plays the forest (day) / night ambience |
 | `tutorial.rpy` and the intro labels in `daily_check.rpy` (`scene school_map`) use the campus image directly | intended for campus-only tutorials and intro scenes; they ignore the current map. `school_map` resolves through Ren'Py's automatic image name for `images/background/school_map.webp` |
 | `school_overview_images` is defined but not used anywhere | no effect |
-| Global event pools run on every map | needs the planned event flags ([Roadmap §10](Roadmap#10-engine-event-flags)) |
+| Global event pools run on every map | the map does not gate events by itself; pair it with an event flag ([Events §5](Events#event-flags)) |
 | `building_manager` is assigned in `label load_buildings` | unlike `map_manager` it is pickled into saves; definitions are re-registered by key on load, but a building removed from code stays in old saves |
 
 ---

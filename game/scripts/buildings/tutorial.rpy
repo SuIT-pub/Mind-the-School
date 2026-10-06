@@ -200,10 +200,10 @@ init 1 python:
 
     time_check_events.add_event(Event(2, "map_tutorial", 
         NOT(ProgressCondition("map_tutorial")), 
-        OR(IntroCondition(True), IntroCondition(False)),
+        FlagCondition("intro", exclusive = False),
         TutorialCondition(),
         EventSeenCondition(),
-        override_intro = True, thumbnail = "images/events/misc/map_tutorial.webp"))
+        thumbnail = "images/events/misc/map_tutorial.webp"))
 
 ######################
 # region LABEL ----- #

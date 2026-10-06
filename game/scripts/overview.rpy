@@ -668,6 +668,9 @@ label new_day ():
     call screen black_screen_text (f"{time.get_weekday()}, {time.day} {time.get_month_name()} {time.year}")
     $ renpy.force_autosave()
     
+    # before the time events, so the first post-intro morning already runs without the intro flag
+    $ update_intro_flag()
+
     call time_event_check from new_day_2
 
     $ quest_manager.check_task_type("daytime_change")
@@ -708,7 +711,7 @@ label map_entry():
 
 # shows the map overview and then waits for input
 label map_overview ():
-    if len(headmaster_proficiencies.keys()) < 2 and (IntroCondition(False)).is_fulfilled():
+    if len(headmaster_proficiencies.keys()) < 2 and (FlagCondition(None)).is_fulfilled():
         if persistent.tutorial:
             subtitles "Tutorials are currently deactivated. To enable them, go to the settings."
         else:

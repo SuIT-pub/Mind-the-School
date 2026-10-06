@@ -348,40 +348,35 @@ Still open for the beach camp:
 
 ## 10. Engine: event flags
 
-**[Decided]** A global flag decides which events may run, for the camp first.
+**✅ Built**, documented in [Events §5](Events#event-flags). A global flag
+(`current_flag` in GameData) decides which events may run, for the camp first.
 Empty by default, which means every event may run.
 
 | Event has … | flag empty | flag = `camp` | flag = other key |
 |---|---|---|---|
-| no FlagCondition | ✅ | ❌ | ❌ |
+| no FlagCondition (auto `FlagCondition(None)`) | ✅ | ❌ | ❌ |
 | `FlagCondition("camp", exclusive=False)` | ✅ | ✅ | ❌ |
 | `FlagCondition("camp", exclusive=True)` | ❌ | ✅ | ❌ |
 | `FlagCondition("x")` (wildcard) | ✅ | ✅ | ✅ |
 
-**[Decided]** The flag system **replaces `IntroCondition`.** Today the intro gate
-is date-based and `Event.__init__` appends `IntroCondition(False)` unless
-`override_intro` is set. The mapping:
+How it was built:
 
-| today | with flags |
-|---|---|
-| automatic `IntroCondition(False)` | no FlagCondition |
-| `override_intro=True` | `FlagCondition("intro", exclusive=False)` |
-| `IntroCondition(True)` (intro only) | `FlagCondition("intro", exclusive=True)` |
+- Like the old `IntroCondition`, **every event carries a `FlagCondition`**. Without
+  one (searched recursively with `find_by_type`), `Event.__init__` appends
+  `FlagCondition(None)`. The check runs through the normal condition check.
+- **Fragments are exempt**; `EventSelect` and its options are not.
+- The flag **replaces `IntroCondition`**: intro events use `FlagCondition("intro")`,
+  `update_intro_flag()` sets and clears `"intro"` by date (start, `after_load`,
+  `new_day`). `override_intro` was removed.
+- Side effect, as intended: the shop delivery has no FlagCondition, so it waits during
+  the camp and arrives on the first morning after it.
 
-**[Proposal]**
+**[Decided]**
 
-- Do the check centrally in the event availability check (like the automatic
-  `IntroCondition` today), not as a condition every event has to carry.
-- **Exempt fragments, `EventSelect` sub-storages and storage fallbacks.** The
-  decision already happened at the top level; otherwise camp composites lose
-  their fragments.
-- Old saves still in the intro need an `after_load` migration that sets the
-  `"intro"` flag; the tutorial check in `map_overview` uses `IntroCondition`
-  directly and has to move too.
-- `"*"` reads more clearly as a wildcard than `"x"` and can never collide with a
-  real key.
-- Side effect, already correct: the shop delivery has no FlagCondition, waits during
-  the camp, and arrives on the first morning after it.
+- Situation threshold/resolve scenes are called directly by `EventEffect` and bypass
+  the flag **on purpose**. They are held back either by the situation pause (§11) or
+  by conditions on the threshold/resolution itself.
+- The wildcard is `"x"`, the same wildcard the codebase already uses elsewhere.
 
 ---
 
@@ -483,7 +478,7 @@ What has to exist before what. Engine first, then content.
 
 | # | Step | Needed for | Depends on |
 |---|------|------------|------------|
-| 1 | **Event flags + FlagCondition**, replacing `IntroCondition` | camp, situation pause | — |
+| 1 | **Event flags + FlagCondition** ✅ built ([Events §5](Events#event-flags)) | camp, situation pause | — |
 | 2 | **Situation pause** tied to flags | camp situation | 1 |
 | 3 | **Map registry** ✅ built ([Maps](Maps)) | beach map | — |
 | 4 | **Kink menu** (registry, states, prompt screen, `kink_check`) | camp content with Yuki/Soyoon, Luna/Seraphina | — |

@@ -5,12 +5,12 @@ init 1 python:
     # are only fired by AutoThreshold EventEffects — not from a map location pool.
     nm_threshold_events = EventStorage("nm_thresholds", "misc")
     nm_threshold_events.add_event(
-        Event(2, "nm_thresh_emiko_nudge", override_intro=True, override_location="misc"),
-        Event(2, "nm_thresh_district_letter", override_intro=True, override_location="misc"),
-        Event(2, "nm_thresh_first_warmth", override_intro=True, override_location="misc"),
-        Event(2, "nm_thresh_yulan_thaw", override_intro=True, override_location="misc"),
-        Event(2, "nm_thresh_adelaide_note", override_intro=True, override_location="misc"),
-        Event(2, "nm_thresh_near_end", override_intro=True, override_location="misc"),
+        Event(2, "nm_thresh_emiko_nudge", override_location="misc"),
+        Event(2, "nm_thresh_district_letter", override_location="misc"),
+        Event(2, "nm_thresh_first_warmth", override_location="misc"),
+        Event(2, "nm_thresh_yulan_thaw", override_location="misc"),
+        Event(2, "nm_thresh_adelaide_note", override_location="misc"),
+        Event(2, "nm_thresh_near_end", override_location="misc"),
     )
 
     # Resolution scenes are events too (begin_event/end_event, gallery, patterns); they
@@ -19,7 +19,7 @@ init 1 python:
     nm_resolution_events.add_event(
         Event(2, "new_management_positive_resolve",
             Pattern("main", "images/events/new_management/new_management_positive_resolve/new_management_positive_resolve 1.webp"),
-            override_intro=True, override_location="misc"),
+            override_location="misc"),
     )
 
     # --- nm_ghost_office (-25 ... -8) ---
