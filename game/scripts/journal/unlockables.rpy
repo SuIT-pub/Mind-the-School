@@ -19,6 +19,8 @@ init -7 python:
             thumbnail: str = None,
             group_index: int = -1,
             inject_default_cancel: bool = True,
+            flag: str = None,
+            flag_exclusive: bool = True,
         ):
             self.unlockable_key = key
             self.type_key = type_key
@@ -118,7 +120,9 @@ init -7 python:
 
             elements = tuple(cleaned_elements)
 
-            super().__init__(situation_key, name, *elements, thumbnail=thumbnail)
+            # Like every situation: pauses while the event flag doesn't match (e.g. no
+            # PTA work during the camp, so no risk of a negative resolution).
+            super().__init__(situation_key, name, *elements, thumbnail=thumbnail, flag=flag, flag_exclusive=flag_exclusive)
 
             # Cheat override: when True, is_visible() returns True regardless of
             # the derived condition state. Runtime-only, survives live reloads

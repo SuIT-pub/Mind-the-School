@@ -1044,6 +1044,9 @@ init -99 python:
             - The key of the flag to set
         """
         set_game_data("current_flag", key)
+        # situations without a matching flag pause, matching ones continue
+        if situation_manager is not None:
+            situation_manager.sync_flag_pauses()
 
     def get_current_flag() -> str:
         """

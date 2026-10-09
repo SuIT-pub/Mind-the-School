@@ -1749,7 +1749,7 @@ screen journal_cheats(display, char = "school"):
                                     text_style "buttons_idle"
                                     text_size 20
                                     action Function(toggle_situation_cheat_expand, sit_key)
-                                $ sit_state_text = sit_state + (", paused" if cheat_situation.is_paused() else "")
+                                $ sit_state_text = sit_state + ((", paused: " + "+".join(cheat_situation.get_pause_reasons())) if cheat_situation.is_paused() else "")
                                 text (cheat_situation.name + " {color=#777777}(" + sit_state_text + "){/color}"):
                                     style "journal_text"
                                     size 20
@@ -1767,7 +1767,7 @@ screen journal_cheats(display, char = "school"):
                                     action [With(dissolveM), Call("deactivate_situation_cheat", sit_key)]
                                     sensitive cheat_situation.state == "active"
                                 button:
-                                    text ("Resume" if cheat_situation.is_paused() else "Pause") style "buttons_idle" size 18
+                                    text ("Resume" if "manual" in cheat_situation.get_pause_reasons() else "Pause") style "buttons_idle" size 18
                                     action [With(dissolveM), Call("toggle_pause_situation_cheat", sit_key)]
                                     sensitive cheat_situation.state == "active"
                                 button:
@@ -4346,7 +4346,8 @@ label deactivate_situation_cheat(situation_key):
 
 label toggle_pause_situation_cheat(situation_key):
     # """
-    # Pauses an active situation from the cheat page, or resumes it when paused.
+    # Pauses an active situation from the cheat page, or drops the manual pause.
+    # A flag pause is left alone; it ends when the event flag matches again.
     #
     # ### Parameters:
     # 1. situation_key: str
@@ -4354,9 +4355,12 @@ label toggle_pause_situation_cheat(situation_key):
     # """
 
     $ cheat_situation = situation_manager.get_situation(situation_key) if situation_manager is not None else None
-    if cheat_situation is not None and cheat_situation.is_paused():
+    if cheat_situation is not None and "manual" in cheat_situation.get_pause_reasons():
         $ cheat_situation.resume()
-        $ renpy.notify("Situation resumed!")
+        if cheat_situation.is_paused():
+            $ renpy.notify("Manual pause removed, still paused by the event flag.")
+        else:
+            $ renpy.notify("Situation resumed!")
     elif cheat_situation is not None and cheat_situation.state == "active":
         $ cheat_situation.pause()
         $ renpy.notify("Situation paused!")

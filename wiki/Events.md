@@ -280,9 +280,14 @@ Event(3, "kiosk_snack_run",
 - **Directly called events bypass it.** An `EventEffect` with an event key or an `Event`
   object calls `event.call()` without checking conditions (situation threshold and
   resolve scenes). Only an `EventEffect` on an `EventStorage` goes through
-  availability. This is intended: to hold such a scene back during a flag, pause the
-  situation (planned, [Roadmap §11](Roadmap#11-engine-situation-pause--the-camp-situation))
-  or put a condition on the threshold/resolution itself.
+  availability. This is intended: a situation whose flag doesn't match pauses on its
+  own ([Situation flags](Building-Situations#situation-flags)), so its scenes don't
+  fire; otherwise put a condition on the threshold/resolution itself.
+- **Situation pool events** without their own FlagCondition get
+  `SituationFlagCondition(situation_key)` instead of `FlagCondition(None)`: they
+  follow their situation's flag.
+- **`set_current_flag()` also pauses/continues situations** to match the new flag
+  ([Situation flags](Building-Situations#situation-flags)).
 - **Wildcard `"x"`**, like elsewhere in the codebase.
 - **Helpers** (`helper.rpy`): `set_current_flag(key)` (`None` clears),
   `get_current_flag()`. One flag at a time; setting a new one replaces the old.
@@ -290,8 +295,10 @@ Event(3, "kiosk_snack_run",
 **The intro flag.** The intro is the first user of the system and replaces the old
 date-based `IntroCondition`. `update_intro_flag()` sets `"intro"` before 10 January 2023
 and clears it afterwards. It never touches another flag. It runs in `label start`
-(before `call intro`), in `after_load` (migrates old saves) and in `new_day` before the
-time events, so the first morning after the intro already runs without the flag.
+(before `call intro`), in `after_load` (migrates old saves) and at the top of
+`time_event_check`, so the first morning after the intro already runs without the flag.
+It sits in `time_event_check` and not in `new_day` because a day can also change in
+`new_daytime` (night → morning).
 Intro-only events use `FlagCondition("intro")`; `map_tutorial` uses
 `FlagCondition("intro", exclusive=False)` so it can run during the intro and afterwards.
 The parameter `override_intro` was removed.

@@ -99,6 +99,11 @@ label time_event_check ():
     hide screen school_overview_stats
     hide screen school_overview_buttons
 
+    # Before the time events, so the first post-intro morning already runs without
+    # the intro flag. Here and not in new_day: a day can also change in new_daytime
+    # (night -> morning), which never passes new_day.
+    $ update_intro_flag()
+
     call empty_label from time_event_check_1
 
 label .after_temp_event_check (**kwargs):

@@ -2473,9 +2473,13 @@ init -99 python:
     # region Situation #
 
     class Situation:
-        def __init__(self, key: str, name: str, *elements: SituationBar | SituationPassive | SituationEventPools | SituationTeaser | SituationThreshold | SituationResolution, thumbnail: str = None):
+        def __init__(self, key: str, name: str, *elements: SituationBar | SituationPassive | SituationEventPools | SituationTeaser | SituationThreshold | SituationResolution, thumbnail: str = None, flag: str = None, flag_exclusive: bool = True):
             self.key = key
             self.name = name
+            # Event flag this situation runs under (same rules as FlagCondition).
+            # Without a match the situation pauses (reason "flag").
+            self.flag = flag
+            self.flag_exclusive = flag_exclusive
             self.descriptions = []
             self.resolutions = {}
             self.add_resolution(SituationPositiveResolution("ALL"))
@@ -2489,7 +2493,8 @@ init -99 python:
             self.pause_until = None
             self.state = "inactive"
             # Pause (see pause()/resume()): state stays "active", nothing ticks.
-            self.paused = False
+            # Paused while at least one reason ("manual", "flag") is set.
+            self.pause_reasons = []
             self.pause_started = None
             self.paused_daytimes = 0
             # Redirect the path into the current mod's folder (base = "" prefix).
@@ -2633,6 +2638,8 @@ init -99 python:
             self.thumbnail = situation.thumbnail
             self.bar_weights = situation.bar_weights
             self.pictograms = situation.pictograms
+            self.flag = getattr(situation, "flag", None)
+            self.flag_exclusive = getattr(situation, "flag_exclusive", True)
 
             if not hasattr(self, "active_passive"):
                 self.active_passive = None
@@ -2642,8 +2649,9 @@ init -99 python:
                 self.threshold_holds = {}
             if not hasattr(self, "invalid"):
                 self.invalid = False
-            if not hasattr(self, "paused"):
-                self.paused = False
+            if not hasattr(self, "pause_reasons"):
+                # saves from before pause reasons: a pause was always manual
+                self.pause_reasons = ["manual"] if self.__dict__.pop("paused", False) else []
             if not hasattr(self, "pause_started"):
                 self.pause_started = None
             if not hasattr(self, "paused_daytimes"):
@@ -2767,6 +2775,8 @@ init -99 python:
                 bar.activate()
             if not already_active:
                 notify_situation_journal_alert(self)
+            # activated under a non-matching flag: pause right away
+            self.sync_flag_pause()
             return self
 
         def complete(self):
@@ -2852,7 +2862,11 @@ init -99 python:
 
         def is_paused(self) -> bool:
             """Whether the situation is paused (it still counts as ``active``)."""
-            return bool(getattr(self, "paused", False))
+            return bool(self.get_pause_reasons())
+
+        def get_pause_reasons(self) -> list:
+            """Why the situation is paused: ``"manual"`` (pause()) and/or ``"flag"`` (event flag)."""
+            return getattr(self, "pause_reasons", None) or []
 
         def is_running(self) -> bool:
             """
@@ -2883,7 +2897,7 @@ init -99 python:
                         ids.append(check_key)
             return ids
 
-        def pause(self) -> bool:
+        def pause(self, reason: str = "manual") -> bool:
             """
             Freeze an active situation without leaving ``active``.
 
@@ -2892,26 +2906,42 @@ init -99 python:
             (base wear, passive/measure modifiers) hibernate. Non-modifier effects
             (game data) stay set. Already queued pending events still run.
 
+            A situation can be paused for several reasons at once; it only
+            continues once every reason is resumed.
+
+            Args:
+                reason (str): ``"manual"`` (default) or ``"flag"`` (set by the event flag sync).
+
             Returns:
-                bool: True if the situation was paused.
+                bool: True if this reason was added.
             """
-            if self.state != "active" or self.is_paused():
+            if self.state != "active" or reason in self.get_pause_reasons():
                 return False
-            self.paused = True
-            self.pause_started = Time("now")
-            lifecycle_registry.hibernate_category("situations", self.key, kind="modifier")
+            was_paused = self.is_paused()
+            self.pause_reasons = self.get_pause_reasons() + [reason]
+            if not was_paused:
+                self.pause_started = Time("now")
+                lifecycle_registry.hibernate_category("situations", self.key, kind="modifier")
             return True
 
-        def resume(self) -> bool:
+        def resume(self, reason: str = "manual") -> bool:
             """
-            Continue a paused situation. Owned timers move forward by the paused
-            time, the deadline offset grows, modifiers wake up again.
+            Drop one pause reason. When none is left the situation continues:
+            owned timers move forward by the paused time, the deadline offset
+            grows, modifiers wake up again.
+
+            Args:
+                reason (str): ``"manual"`` (default) or ``"flag"``.
 
             Returns:
-                bool: True if the situation was resumed.
+                bool: True if this reason was removed (the situation may still
+                be paused for another reason).
             """
-            if not self.is_paused():
+            if reason not in self.get_pause_reasons():
                 return False
+            self.pause_reasons = [r for r in self.get_pause_reasons() if r != reason]
+            if self.pause_reasons:
+                return True
             elapsed = 0
             if self.pause_started is not None:
                 elapsed = max(0, get_situation_time_index(Time("now")) - get_situation_time_index(self.pause_started))
@@ -2923,7 +2953,6 @@ init -99 python:
                         shifted.add_time(daytime = elapsed)
                         set_game_data("timer_" + timer_id, shifted)
             self.paused_daytimes = self.get_paused_daytimes() + elapsed
-            self.paused = False
             self.pause_started = None
             if self.state == "active":
                 lifecycle_registry.resume_category("situations", self.key, kind="modifier")
@@ -2934,8 +2963,26 @@ init -99 python:
 
         def _clear_pause(self):
             """Drop the pause when the situation leaves ``active`` (the caller clears the hibernated entries)."""
-            self.paused = False
+            self.pause_reasons = []
             self.pause_started = None
+
+        def matches_current_flag(self) -> bool:
+            """Whether the current event flag lets this situation run (FlagCondition rules)."""
+            return check_flag_match(getattr(self, "flag", None), getattr(self, "flag_exclusive", True))
+
+        def sync_flag_pause(self) -> bool:
+            """
+            Pause (reason ``"flag"``) or continue the situation to match the
+            current event flag. A manual pause is left alone.
+
+            Returns:
+                bool: True if the flag pause changed.
+            """
+            if self.state != "active":
+                return False
+            if self.matches_current_flag():
+                return self.resume("flag")
+            return self.pause("flag")
 
         # endregion
         ################
@@ -3938,12 +3985,13 @@ init -99 python:
                 for bar in situation.bars.values():
                     bar.apply_decrease_modifier()
 
-        def pause_situation(self, key: str) -> bool:
+        def pause_situation(self, key: str, reason: str = "manual") -> bool:
             """
             Pause an active situation (see ``Situation.pause``).
 
             Args:
                 key (str): Situation key.
+                reason (str): Pause reason, ``"manual"`` by default.
 
             Returns:
                 bool: True if it was paused.
@@ -3952,14 +4000,15 @@ init -99 python:
             if situation is None:
                 log(f"pause_situation: unknown situation '{key}'", log_type="error", category="situation")
                 return False
-            return situation.pause()
+            return situation.pause(reason)
 
-        def resume_situation(self, key: str) -> bool:
+        def resume_situation(self, key: str, reason: str = "manual") -> bool:
             """
             Resume a paused situation (see ``Situation.resume``).
 
             Args:
                 key (str): Situation key.
+                reason (str): Pause reason to drop, ``"manual"`` by default.
 
             Returns:
                 bool: True if it was resumed.
@@ -3968,7 +4017,15 @@ init -99 python:
             if situation is None:
                 log(f"resume_situation: unknown situation '{key}'", log_type="error", category="situation")
                 return False
-            return situation.resume()
+            return situation.resume(reason)
+
+        def sync_flag_pauses(self):
+            """
+            Pause or continue every active situation to match the current event
+            flag. Called by ``set_current_flag`` and after loading.
+            """
+            for situation in self.get_active_situations():
+                situation.sync_flag_pause()
 
         def get_paused_situations(self):
             """

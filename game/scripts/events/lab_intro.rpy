@@ -1443,35 +1443,47 @@ label lab_intro_12 (**kwargs):
     $ image.show(8)
     headmaster "Hypochlorite next."
     
-    $ image.show(10)
+    $ image.show(9)
     headmaster "Now, hypochlorite's a strong oxidiser, so if the active fraction has anything electron-rich in it at all, and it must, given how fast it breaks down once it's out of the vial, then you'd expect either a colour loss or some kind of—"
 
     # TIME SKIP: two hours. Same spot, more tubes, cold coffee, notebook full of crossings-out.
-    subtitles "Two hours later."
+    call screen black_screen_text ("Two hours later.")
 
+    $ image.show(10)
     headmaster "—which is why, honestly, you'd want to rule out the quaternary ammoniums as a class instead of one at a time, except of course I've now done them one at a time, so that's... that's thorough, at least. That's what that is."
     headmaster.think "...How long have I been explaining myself to a mop bucket?"
 
     subtitles "The coffee at his elbow has gone cold enough to grow a skin. The rack is full of used test tubes, every one of them the same unchanged amber."
 
+    $ image.show(11)
     headmaster.think "Seven bottles. Seven for seven. Nothing."
     headmaster.think "Unless it's two of them together. Some combination..."
+
+    $ image.show(12)
     headmaster.think "God, no. That's— what, twenty-one pairs? Before I even think about ratios. I'd be in here till Christmas."
 
     # Only a couple of bottles left. Behind the others, at the back of the cart's
     # bottom tray: a big 2.5 L jug with a faded label, ORGAZYME Bio-Enzymatic
     # Floor Concentrate, Cumulus Laboratories, "non-toxic · biodegradable".
-    subtitles "At the very back of the bottom tray, behind the spray bottles, there's one he missed: a big white jug with a label faded almost to nothing."
+
+    $ image.show(13)
+    subtitles "At the very back of the bottom tray, there's one he missed: a big white jug with a label faded almost to nothing."
+
+    $ image.show(14)
     headmaster "{i}Orgazyme.{/i} Bio-enzymatic floor concentrate. Cumulus Laboratories."
     headmaster "...Orgazyme. From {i}Cumulus.{/i}"
     headmaster.think "Somebody in that marketing department had a very good year. Or got fired. Possibly both."
+
+    $ image.show(15)
     headmaster "Non-toxic, biodegradable, 'powered by a proprietary living culture'. So it's basically fancy yoghurt for floors."
 
+    $ image.show(16)
     subtitles "He unscrews the cap. The smell is nothing like the other bottles: warm and fruity, like overripe peaches, with something yeasty underneath."
 
     # One drop into a fresh sample.
     headmaster "One drop. Same as the others. And..."
 
+    $ image.show(17)
     # The amber shimmers, deepens, turns vivid, almost lit from inside.
     headmaster "Wait— wait, wait, wait."
     headmaster "That's the colour. That's {i}exactly{/i} the colour from the hallway."

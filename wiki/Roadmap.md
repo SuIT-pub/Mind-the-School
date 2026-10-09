@@ -382,8 +382,9 @@ How it was built:
 
 ## 11. Engine: situation pause & the camp situation
 
-**✅ Pause built** (independent of the flags for now), documented in
-[Building Situations §2](Building-Situations#pausing-a-situation). A paused
+**✅ Pause built and tied to the flags**, documented in
+[Building Situations §2](Building-Situations#pausing-a-situation) and
+[Situation flags](Building-Situations#situation-flags). A paused
 situation **stays registered and `active`**, but:
 
 - its bars, thresholds and resolutions freeze,
@@ -393,9 +394,11 @@ situation **stays registered and `active`**, but:
 - its situation pools close; game-data effects stay set,
 - events already queued for `drain_situation_events` still run.
 
-**[Decided]** Next step: tie the pause to the flags with the same table as
-`FlagCondition`, so situations without a matching flag pause automatically while a
-flag is set.
+**✅ Tied to the flags:** one global flag for events and situations. A situation
+gets `flag=` / `flag_exclusive=` (same table as `FlagCondition`) and pauses with
+reason `"flag"` while it doesn't match; a manual pause is a separate reason. Pool
+events follow their situation's flag (`SituationFlagCondition`); unlockables pause
+like any other situation.
 
 That allows a **camp situation** that only runs during the camp:
 
@@ -485,7 +488,7 @@ What has to exist before what. Engine first, then content.
 | # | Step | Needed for | Depends on |
 |---|------|------------|------------|
 | 1 | **Event flags + FlagCondition** ✅ built ([Events §5](Events#event-flags)) | camp, situation pause | — |
-| 2 | **Situation pause** ✅ built ([Building Situations](Building-Situations#pausing-a-situation)); tie to flags still open | camp situation | 1 |
+| 2 | **Situation pause** ✅ built and tied to the flags ([Building Situations](Building-Situations#situation-flags)) | camp situation | 1 |
 | 3 | **Map registry** ✅ built ([Maps](Maps)) | beach map | — |
 | 4 | **Kink menu** (registry, states, prompt screen, `kink_check`) | camp content with Yuki/Soyoon, Luna/Seraphina | — |
 | 5 | **"N available fragments" condition** | Type 1 flow | — |

@@ -608,6 +608,8 @@ label skip_to_free_roam ():
     $ set_level_for_char(5, "secretary", charList["staff"])
 
     $ time.set_time(day = 10, month = 1, year = 2023)
+    # the intro is over on day 10; without this the intro flag stays set until the next new_day
+    $ update_intro_flag()
 
     call first_week_epilogue_final.skip from skip_to_free_roam_1
 

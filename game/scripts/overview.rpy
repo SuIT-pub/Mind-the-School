@@ -670,9 +670,7 @@ label new_day ():
     call screen black_screen_text (f"{time.get_weekday()}, {time.day} {time.get_month_name()} {time.year}")
     $ renpy.force_autosave()
     
-    # before the time events, so the first post-intro morning already runs without the intro flag
-    $ update_intro_flag()
-
+    # time_event_check updates the intro flag first
     call time_event_check from new_day_2
 
     $ quest_manager.check_task_type("daytime_change")

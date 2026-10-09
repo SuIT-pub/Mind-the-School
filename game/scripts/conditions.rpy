@@ -3978,6 +3978,20 @@ init -6 python:
         def get_name(self) -> str:
             return f"ThresholdReachedCondition({self.situation_key}, {self.threshold_key})"
 
+    def check_flag_match(flag_key: str, exclusive: bool = True) -> bool:
+        """
+        Matching rule shared by FlagCondition and situation flags.
+
+        ``"x"`` matches any flag, a key matches that flag, ``None`` matches "no flag
+        set". With ``exclusive=False`` "no flag set" matches as well.
+        """
+        current_flag = get_game_data("current_flag")
+        if flag_key == "x" or flag_key == current_flag:
+            return True
+        if current_flag is None and not exclusive:
+            return True
+        return False
+
     class FlagCondition(Condition):
 
         def __init__(self, flag_key: str, exclusive: bool = True, *options: Option):
@@ -3991,13 +4005,27 @@ init -6 python:
             return "flag_condition"
 
         def check_condition(self, **kwargs) -> bool:
-            current_flag = get_game_data("current_flag")
-            if self.flag_key == "x" or self.flag_key == current_flag:
-                return True
-
-            if current_flag is None and not self.exclusive:
-                return True
-            return False
+            return check_flag_match(self.flag_key, self.exclusive)
 
         def get_name(self) -> str:
             return f"FlagCondition({self.flag_key}, {self.exclusive})"
+
+    class SituationFlagCondition(FlagCondition):
+        """
+        Automatic flag check for situation pool events without their own
+        FlagCondition: the event follows the flag of its situation, so a camp
+        situation's pool events run during the camp.
+        """
+
+        def __init__(self, situation_key: str, *options: Option):
+            super().__init__(None, True, *options)
+            self.situation_key = situation_key
+
+        def check_condition(self, **kwargs) -> bool:
+            situation = situation_manager.get_situation(self.situation_key) if situation_manager is not None else None
+            if situation is None:
+                return check_flag_match(None)
+            return situation.matches_current_flag()
+
+        def get_name(self) -> str:
+            return f"SituationFlagCondition({self.situation_key})"

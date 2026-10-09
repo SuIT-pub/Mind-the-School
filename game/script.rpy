@@ -35,6 +35,9 @@ label start ():
 
     $ update_intro_flag()
 
+    # label intro is no event, so begin_event hasn't bound the Person speakers yet
+    $ bind_event_speakers()
+
     call intro from _call_intro
 label splashscreen:
     menu:
@@ -264,6 +267,11 @@ label after_load:
     #################
 
     $ update_intro_flag()
+    # a save made outside an event may still hold the static Character speakers
+    $ bind_event_speakers()
+    # situation flags may have changed in code since the save
+    if situation_manager is not None:
+        $ situation_manager.sync_flag_pauses()
 
     return
 

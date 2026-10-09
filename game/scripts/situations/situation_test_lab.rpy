@@ -291,6 +291,16 @@ init 1 python:
             return None
         return situation_manager.get_situation(SIT_TEST_KEY)
 
+    # Event flag used by the lab's flag tests (testplan section R).
+    SIT_TEST_FLAG = "sit_test_camp"
+
+    def toggle_sit_test_situation_flag():
+        """Runtime only: switch the lab's situation flag between None and SIT_TEST_FLAG (a load restores None)."""
+        situation = get_sit_test_situation()
+        situation.flag = None if situation.flag == SIT_TEST_FLAG else SIT_TEST_FLAG
+        situation.sync_flag_pause()
+        return situation.flag
+
     def reset_situation_test_lab():
         """
         Wipe every runtime trace of the lab and register a fresh template.
@@ -298,9 +308,12 @@ init 1 python:
         Cancels the live situation (passives, measures, tracked modifiers),
         drops pending threshold checks, resolution modifiers and queued lab
         events, deletes all "sit_test" game data (flags, timers, counters,
-        latches), clears the seen state of the lab events, then replaces the
-        live situation with a fresh, inactive definition.
+        latches), clears the seen state of the lab events, clears the lab's
+        event flag, then replaces the live situation with a fresh, inactive
+        definition.
         """
+        if get_current_flag() == SIT_TEST_FLAG:
+            set_current_flag(None)
         live = get_sit_test_situation()
         if live is not None:
             if live.state == "active":
@@ -411,7 +424,7 @@ init 1 python:
             return f"{t.get_day()}.{t.get_month()}.{t.get_year()} dt {t.get_daytime()}" if isinstance(t, Time) else "-"
 
         if situation.is_paused():
-            pause_text = f"YES since {fmt_time(situation.pause_started)}"
+            pause_text = f"YES since {fmt_time(situation.pause_started)} ({'+'.join(situation.get_pause_reasons())})"
         else:
             pause_text = "no"
 
@@ -428,6 +441,7 @@ init 1 python:
             f"Happiness modifiers per day: {fmt(daily_happiness)}   per daytime: {fmt(daytime_happiness)}",
             f"Resolution breather: {breather} (pauses base wear)",
             f"Paused: {pause_text}   paused daytimes total: {situation.get_paused_daytimes()}",
+            f"Event flag: {get_current_flag()}   situation flag: {situation.flag} (exclusive {situation.flag_exclusive})",
         ])
 
         threshold_lines = []
@@ -484,6 +498,9 @@ init 1 python:
             "tracked_modifiers": tracked,
             "hibernated_modifiers": hibernated,
             "paused": situation.is_paused(),
+            "pause_reasons": list(situation.get_pause_reasons()),
+            "flag": situation.flag,
+            "current_flag": get_current_flag(),
             "pause_started": fmt_time(situation.pause_started),
             "paused_daytimes": situation.get_paused_daytimes(),
             "timers": timers,
@@ -562,12 +579,23 @@ label situation_test_lab:
                     if get_sit_test_situation().pause():
                         $ sit_test_notify("Lab paused.")
                     else:
-                        $ sit_test_notify("Not paused (not active, or already paused).")
+                        $ sit_test_notify("Not paused (not active, or already paused manually).")
                 "Resume":
                     if get_sit_test_situation().resume():
-                        $ sit_test_notify("Lab resumed.")
+                        if get_sit_test_situation().is_paused():
+                            $ sit_test_notify("Manual pause removed, still paused by the event flag.")
+                        else:
+                            $ sit_test_notify("Lab resumed.")
                     else:
-                        $ sit_test_notify("Not resumed (not paused).")
+                        $ sit_test_notify("Not resumed (no manual pause).")
+                "Set event flag 'sit_test_camp'":
+                    $ set_current_flag(SIT_TEST_FLAG)
+                    $ sit_test_notify("Event flag: sit_test_camp")
+                "Clear event flag":
+                    $ set_current_flag(None)
+                    $ sit_test_notify("Event flag cleared.")
+                "Toggle lab situation flag (None / sit_test_camp)":
+                    $ sit_test_notify("Lab situation flag: " + str(toggle_sit_test_situation_flag()))
                 "Back":
                     pass
 

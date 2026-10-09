@@ -1241,7 +1241,12 @@ init -3 python:
             
 
             if not self.conditions_storage.find_by_type("flag_condition") and (not hasattr(self, 'event_form') or self.event_form != "fragment"):
-                self.conditions_storage.add_condition(FlagCondition(None))
+                # situation pool events follow the flag of their situation
+                pool_conditions = self.conditions_storage.find_by_type("situation_pool")
+                if pool_conditions:
+                    self.conditions_storage.add_condition(SituationFlagCondition(pool_conditions[0].situation_key))
+                else:
+                    self.conditions_storage.add_condition(FlagCondition(None))
 
             rerollSelectors.append(self.values)
 
@@ -1901,6 +1906,21 @@ init -3 python:
 
         event_dict[event_storage.get_name()] = event_storage
 
+    def bind_event_speakers():
+        """
+        Binds the two ever-present speakers so every event can use `headmaster` /
+        `emiko` without repeating the lookup. Both are per-save Person objects (see
+        the Dialogue wiki). Guarded so a missing person leaves the static
+        `character.*` fallback intact instead of shadowing it with None.
+        Called by begin_event; call it directly in labels that skip begin_event.
+        """
+        hm_person = Person["headmaster"]
+        if hm_person is not None:
+            renpy.store.headmaster = hm_person
+        emiko_person = Person["emiko_langley"]
+        if emiko_person is not None:
+            renpy.store.emiko = emiko_person
+
     def begin_event(version: str = "1", **kwargs):
         """
         This method is called at the start of an event after choices and topics have been chosen in the event.
@@ -1918,16 +1938,7 @@ init -3 python:
         global seenEvents
         global gallery_manager
 
-        # The two ever-present speakers are bound here so every event can use
-        # `headmaster` / `emiko` without repeating the lookup. Both are per-save Person
-        # objects (see the Dialogue wiki). Guarded so a missing person leaves the static
-        # `character.*` fallback intact instead of shadowing it with None.
-        hm_person = Person["headmaster"]
-        if hm_person is not None:
-            renpy.store.headmaster = hm_person
-        emiko_person = Person["emiko_langley"]
-        if emiko_person is not None:
-            renpy.store.emiko = emiko_person
+        bind_event_speakers()
 
         hide_all()
 

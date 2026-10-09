@@ -185,6 +185,13 @@ not raise. Unlockables use the same hooks but topic `unlockables` — see
 happen (e.g. a trip away from campus). Both return `False` if nothing changed
 (not active, already paused / not paused).
 
+A situation is paused while at least one **pause reason** is set
+(`situation.get_pause_reasons()`): `"manual"` from `pause()` / `resume()` and
+`"flag"` from the [event flag](#situation-flags) below. `pause(reason)` /
+`resume(reason)` take the reason, `"manual"` by default. The pause starts with the
+first reason and only ends when the last one is gone, so clearing the flag never
+ends a manual pause and vice versa.
+
 | While paused | Behavior |
 |---|---|
 | Bars (wear, stat weights, direct pushes, bar-change modifiers) | frozen |
@@ -206,10 +213,45 @@ the pause; `SituationStateCondition("active", key)` is also true while paused.
 `activate()` on a paused situation is a no-op (use `resume()`); `complete()`,
 `cancel()` and `deactivate()` drop the pause. A pause survives save/load and hot
 reload (the modifiers are put back to sleep after `update_data`). The cheat menu
-has a **Pause / Resume** button per situation for testing.
+has a **Pause / Resume** button per situation for testing (it adds / drops the
+`manual` reason; the state text shows all reasons).
 
-Pausing is independent of the [event flags](Events#event-flags) for now. Tying
-them together is planned ([Roadmap §11](Roadmap#11-engine-situation-pause--the-camp-situation)).
+### Situation flags
+
+Situations follow the global [event flag](Events#event-flags) with the same table
+as `FlagCondition`. A situation whose flag doesn't match the current one pauses with
+reason `"flag"` and continues as soon as it matches again.
+
+```python
+# runs only during the camp, pauses the rest of the time
+Situation("camp_heat", "Camp Heat", ..., flag = "camp")
+
+# runs normally AND during the camp
+Situation("kiosk_rush", "Kiosk Rush", ..., flag = "camp", flag_exclusive = False)
+```
+
+| Situation has … | flag `None` | flag = `"camp"` | flag = other key |
+|---|---|---|---|
+| no `flag` (default `None`) | runs | paused | paused |
+| `flag = "camp", flag_exclusive = False` | runs | runs | paused |
+| `flag = "camp"` (`flag_exclusive = True`, default) | paused | runs | paused |
+| `flag = "x"` (wildcard) | runs | runs | runs |
+
+- **When it syncs:** `set_current_flag()` calls `situation_manager.sync_flag_pauses()`;
+  `activate()` syncs the situation it activates; `after_load` syncs once (a flag
+  changed in code applies to old saves). `situation.matches_current_flag()` /
+  `sync_flag_pause()` do it for one situation.
+- **Pool events follow their situation.** An event with a `SituationPoolCondition`
+  and no FlagCondition of its own gets `SituationFlagCondition(situation_key)`
+  instead of the automatic `FlagCondition(None)`: it passes whenever its situation's
+  flag matches. A camp situation's pool events therefore need no flag of their own.
+- **Unlockables are situations too** and follow the same rule (`flag=` /
+  `flag_exclusive=` on `Unlockable`, default `None`): during the camp they pause, so
+  nobody can work on them there and none of them can drift into a negative resolution.
+- The deadline is pushed back by flag pauses too (the paused time counts the same).
+- The intro flag (`"intro"`) pauses flag-less situations as well. Nothing is active
+  during the intro; New Management is activated on day 10, after the flag is gone
+  (`skip_to_free_roam` clears it via `update_intro_flag()` too).
 
 ### Hot reload (important to understand)
 
@@ -1461,7 +1503,7 @@ always logs why.
 | **Edits to my template don't take effect / progress reset** | You set runtime state (`bar.value`, `reached`, …) in the template. `update_data` deliberately keeps save state and won't overwrite it — and template runtime state corrupts progress. | Set starting values via `start_base` / `start_modifiers`, never `value` ([§9](#9-conventions-not-enforced-but-important)). |
 | **A passive/measure effect "won't undo"** | Revert stops an ongoing modifier; it does not roll back accumulated value. | Expected behavior — only `SituationEffectSetGameData` truly restores ([§4](#what-revert-actually-reverts)). |
 | **A measure stays active forever** | `duration=None` without `open_ended` should auto-close after apply. | Instant is the default ([§4](#passives--measures-the-strategy-layers)). Use `open_ended=True` only when something else must close the slot (Unlockable Schedule Vote). |
-| **Bar frozen, measures greyed out, no situation events** | The situation is paused (`is_paused()`; HUD shows "(paused)"). | `resume()` it, or the cheat menu's Resume button ([§2](#pausing-a-situation)). |
+| **Bar frozen, measures greyed out, no situation events** | The situation is paused (`is_paused()`; HUD shows "(paused)"). The cheat menu shows the reason (`manual` / `flag`). | `manual`: `resume()` it, or the cheat menu's Resume button ([§2](#pausing-a-situation)). `flag`: its `flag` doesn't match the current event flag ([Situation flags](#situation-flags)). |
 | **Mod Situation vanishes after disabling/re-enabling the mod** | Orphan soft-invalidation. | Expected — it revives on re-registration; timers may restart ([§2](#missing-definitions-orphans)). |
 
 ---
