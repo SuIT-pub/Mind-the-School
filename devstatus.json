@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-10-12T21:00:00Z",
+  "currentVersion": "0.2.2",
+  "targetVersion": "0.2.2",
+  "now": [
+    {
+      "id": "version-0-2-2",
+      "title": "Version 0.2.2",
+      "summary": "Groundwork for bigger story events: event flags, pausable situations and a new map system that makes room for places beyond the campus."
+    }
+  ],
+  "next": [
+    {
+      "id": "usable-potions",
+      "title": "Potions you can use",
+      "summary": "Brew something in the lab, take it to a location on campus and see what happens."
+    },
+    {
+      "id": "content-preferences",
+      "title": "Content preferences",
+      "summary": "A menu where you decide which kinds of scenes you want to see."
+    }
+  ],
+  "later": [
+    {
+      "id": "school-trip",
+      "title": "A school trip",
+      "summary": "The whole school leaves campus for a few days. Things will be different when they come back."
+    },
+    {
+      "id": "new-faces",
+      "title": "New faces on campus",
+      "summary": "New staff join the school, each with their own story."
+    },
+    {
+      "id": "science-building",
+      "title": "A real science building",
+      "summary": "The old lab building gets renovated, and with it comes a lot more to do."
+    }
+  ],
+  "done": [
+    {
+      "id": "smaller-saves",
+      "title": "Smaller save files",
+      "summary": "Save files shrank, plus fixes for outfit numbers and missing images.",
+      "doneIn": "0.2.1B_1",
+      "doneAt": "2025-09-10"
+    },
+    {
+      "id": "event-chain-fixes",
+      "title": "Event chain fixes",
+      "summary": "Truth or Dare and the yoga outfit chains trigger again; new teaching events and a debug view in the journal.",
+      "doneIn": "0.2.1A",
+      "doneAt": "2025-09-10"
+    },
+    {
+      "id": "level-fixes",
+      "title": "School level fixes",
+      "summary": "Fixed events showing at the wrong school level and a gym error after level 6.",
+      "doneIn": "0.2.0B_1",
+      "doneAt": "2025-01-14"
+    }
+  ]
+}
