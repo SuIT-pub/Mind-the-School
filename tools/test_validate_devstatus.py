@@ -87,6 +87,18 @@ class ValidateDevstatusTest(unittest.TestCase):
         self.assertIn("next[0].version: must be a string of at most 20 characters", problems)
         self.assertIn("later[0].version: must be a string of at most 20 characters", problems)
 
+    def test_version_goal_is_optional(self):
+        doc = self.doc()
+        doc["versionGoal"] = "Make the campus feel alive."
+        self.assertEqual(validate(doc), [])
+
+    def test_version_goal_must_be_short_text(self):
+        doc = self.doc()
+        doc["versionGoal"] = "x" * 241
+        self.assertIn("versionGoal: must be text of at most 240 characters", validate(doc))
+        doc["versionGoal"] = ""
+        self.assertIn("versionGoal: must be text of at most 240 characters", validate(doc))
+
     def test_done_needs_date(self):
         doc = self.doc()
         doc["done"][0]["doneAt"] = "October"

@@ -1,8 +1,9 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-13T08:51:10Z",
+  "updatedAt": "2026-10-13T08:55:00Z",
   "currentVersion": "0.2.2",
   "targetVersion": "0.2.2",
+  "versionGoal": "Make the campus feel alive: situations that build up over several days, a reworked system for rules, clubs and buildings, and the groundwork for bigger story events.",
   "now": [
     {
       "id": "lab-story-art",

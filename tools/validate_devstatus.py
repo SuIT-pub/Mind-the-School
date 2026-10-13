@@ -20,6 +20,7 @@ MAX_TITLE = 60
 MAX_SUMMARY = 160
 MAX_DONE = 10
 MAX_VERSION = 20
+MAX_GOAL = 240
 KEBAB = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
@@ -78,6 +79,10 @@ def validate(doc):
             datetime.fromisoformat(doc["updatedAt"].replace("Z", "+00:00"))
         except ValueError:
             errors.append("updatedAt: not a valid date")
+    if "versionGoal" in doc:
+        goal = doc["versionGoal"]
+        if not isinstance(goal, str) or goal.strip() == "" or len(goal) > MAX_GOAL:
+            errors.append(f"versionGoal: must be text of at most {MAX_GOAL} characters")
 
     seen = set()
     for name in LISTS:

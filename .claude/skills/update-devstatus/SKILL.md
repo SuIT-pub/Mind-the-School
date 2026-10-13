@@ -19,7 +19,8 @@ always bump `updatedAt` — an unchanged timestamp is treated as "nothing new" a
 | You start work on a feature | Add or move it to `now` |
 | A feature is finished and merged | Move it from `now` to `done` with `doneIn` + `doneAt` |
 | Plans change | Reorder or move items between `next` and `later` |
-| Version bump in `game/options.rpy` (`config.version`) | Update `currentVersion`; set `targetVersion` to the version being worked toward |
+| Version bump in `game/options.rpy` (`config.version`) | Update `currentVersion`; set `targetVersion` to the version being worked toward and rewrite `versionGoal` for it |
+| The focus of the version in progress shifts | Rewrite `versionGoal` |
 | Progress on a long `now` item | Optionally set `progress` (0–100) |
 
 Every change also sets `updatedAt` to the **current UTC time**, taken from the clock — never typed by
@@ -46,6 +47,7 @@ Don't update `devstatus.json` for every commit; the roadmap shows features, not 
   "updatedAt": "2026-10-12T18:00:00Z",
   "currentVersion": "0.2.2",
   "targetVersion": "0.3.0",
+  "versionGoal": "Make the campus feel alive: situations that build up over several days, …",
   "now":   [{ "id": "lab-building", "title": "…", "summary": "…", "version": "0.2.2", "progress": 40 }],
   "next":  [{ "id": "…", "title": "…", "summary": "…", "version": "0.2.2" }],
   "later": [{ "id": "…", "title": "…", "summary": "…" }],
@@ -54,6 +56,9 @@ Don't update `devstatus.json` for every commit; the roadmap shows features, not 
 ```
 
 Rules (the validator enforces all of them):
+- `versionGoal`: optional, at most 240 characters — the overall aim of `targetVersion` in one or two
+  sentences, shown above the roadmap. It says what the release is *for*, not a list of its items.
+  Keep it in sync with `targetVersion`: a stale goal under a new version number misleads players.
 - `id`: kebab-case, unique across all four lists, never changes once published.
 - `title`: at most 60 characters. `summary`: at most 160 characters.
 - `version`: optional, at most 20 characters — the release the item is planned for (`"0.2.2"`).
