@@ -1,6 +1,6 @@
 ---
 name: update-devstatus
-description: Use when starting, finishing, pausing or reprioritising a feature, when a release or version bump happens, or when asked what is being worked on — keeps devstatus.json (the public roadmap on mts-game.com) current.
+description: Use when starting, finishing, pausing or reprioritising a feature, when a release or version bump happens, when the devstatus hook reminds you after a commit, or when asked what is being worked on — keeps devstatus.json (the public roadmap on mts-game.com) current.
 ---
 
 # Update devstatus.json
@@ -20,6 +20,17 @@ every 10 minutes. **Players read this.** Write for them, not for the dev team.
 | Progress on a long `now` item | Optionally set `progress` (0–100) |
 
 Every change also sets `updatedAt` to the current UTC time (`2026-10-12T18:00:00Z` format).
+
+## Automatic reminder
+
+A PostToolUse hook (`tools/devstatus_hook.py`, wired in `.claude/settings.json`) runs after every
+`git commit`. When the commit touched `game/` or `wiki/` (not just images, audio or GUI assets) but not
+`devstatus.json`, it reminds you to use this skill. Decide then:
+
+- The commit starts, finishes or changes something a **player would notice** → update the file.
+- It is a bug fix, refactor, tooling or content cleanup players won't see → do nothing.
+
+Don't update `devstatus.json` for every commit; the roadmap shows features, not a changelog.
 
 ## Schema (schemaVersion 1)
 
