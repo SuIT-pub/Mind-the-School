@@ -6,8 +6,11 @@ description: Use when starting, finishing, pausing or reprioritising a feature, 
 # Update devstatus.json
 
 `devstatus.json` in the repo root feeds the public roadmap on https://mts-game.com/roadmap and the
-"What I'm working on" box on the home page. The site reads it straight from the `master` branch
-every 10 minutes. **Players read this.** Write for them, not for the dev team.
+"What I'm working on" box on the home page. **Players read this.** Write for them, not for the dev team.
+
+You can update it on any branch. When you push, the `Publish dev status` GitHub Action copies it
+to the `devstatus` branch, which the site reads every 10 minutes. The newest `updatedAt` wins, so
+always bump `updatedAt` — an unchanged timestamp is treated as "nothing new" and skipped.
 
 ## When to update
 
