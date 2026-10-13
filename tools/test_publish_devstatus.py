@@ -93,6 +93,18 @@ class PublishTest(unittest.TestCase):
         self.assertEqual(result, "skipped")
         self.assertEqual(self.published()["updatedAt"], "2026-10-13T10:00:00Z")
 
+    def test_rule_rejection_reports_git_message_without_retrying(self):
+        # Simulate a repository ruleset: the remote refuses every push.
+        hook = self.remote / "hooks" / "pre-receive"
+        hook.write_bytes(b"#!/bin/sh\necho 'GH013: Repository rule violations found: cannot create ref' >&2\nexit 1\n")
+        hook.chmod(0o755)
+
+        with self.assertRaises(RuntimeError) as caught:
+            publish(self.write(doc("2026-10-13T10:00:00Z")), self.work, "a")
+
+        self.assertIn("GH013", str(caught.exception))
+        self.assertIn("devstatus", str(caught.exception))
+
     def test_invalid_file_is_rejected(self):
         broken = doc("2026-10-13T10:00:00Z")
         broken["now"][0]["progress"] = 500

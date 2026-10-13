@@ -86,10 +86,21 @@ def publish(path, repo, source_branch, attempts=3):
         commit = _git(repo, "commit-tree", tree, *parent_args, "-m", message).stdout.strip()
 
         # Plain push: if another run published in between, it is rejected and we re-check.
-        if _git(repo, "push", "-q", "origin", f"{commit}:refs/heads/{TARGET_BRANCH}", check=False).returncode == 0:
+        pushed = _git(repo, "push", "-q", "origin", f"{commit}:refs/heads/{TARGET_BRANCH}", check=False)
+        if pushed.returncode == 0:
             return "published"
 
-    raise RuntimeError("could not publish: the devstatus branch kept moving")
+        _, head_now = _published(repo)
+        if head_now == parent:
+            # Nobody else published: the push was refused for another reason
+            # (permissions, a repository ruleset). Retrying won't help.
+            raise RuntimeError(
+                f"could not push to the {TARGET_BRANCH} branch:\n{pushed.stderr.strip()}\n"
+                f"If this is a ruleset violation (GH013), exclude the '{TARGET_BRANCH}' branch from the "
+                "repository ruleset or allow GitHub Actions to bypass it."
+            )
+
+    raise RuntimeError(f"could not publish: the {TARGET_BRANCH} branch kept moving")
 
 
 def main(argv):
