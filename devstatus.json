@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-12T21:00:00Z",
+  "updatedAt": "2026-10-13T12:00:00Z",
   "currentVersion": "0.2.2",
   "targetVersion": "0.2.2",
   "now": [
@@ -8,9 +8,31 @@
       "id": "version-0-2-2",
       "title": "Version 0.2.2",
       "summary": "Groundwork for bigger story events: event flags, pausable situations and a new map system that makes room for places beyond the campus."
+    },
+    {
+      "id": "lab-story-art",
+      "title": "Artwork for the lab story",
+      "summary": "Finishing the images for the chain of events that starts in the Headmaster's lab."
     }
   ],
   "next": [
+    {
+      "id": "more-situations",
+      "title": "More situations on campus",
+      "summary": "New ongoing developments that build up around the school over the days and come to a head."
+    },
+    {
+      "id": "unlockables-rework",
+      "title": "Rules, clubs and buildings reworked",
+      "summary": "Existing rules, clubs and building upgrades move to the new system, with visible progress and previews."
+    },
+    {
+      "id": "more-events",
+      "title": "A few new events",
+      "summary": "Some extra scenes around campus to fill out the days."
+    }
+  ],
+  "later": [
     {
       "id": "usable-potions",
       "title": "Potions you can use",
@@ -20,9 +42,7 @@
       "id": "content-preferences",
       "title": "Content preferences",
       "summary": "A menu where you decide which kinds of scenes you want to see."
-    }
-  ],
-  "later": [
+    },
     {
       "id": "school-trip",
       "title": "A school trip",
