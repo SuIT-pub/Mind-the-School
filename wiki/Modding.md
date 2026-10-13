@@ -1,10 +1,10 @@
-> **Audience:** Developers who want to add content to *Mind the School* as a mod —
+> **Audience:** Developers who want to add content to _Mind the School_ as a mod —
 > events, situations, unlockables, pictograms, assets — without touching the base
 > game. This is a **quick start**: follow it top to bottom and you end up with a
 > working, enable-able mod.
 >
 > **Scope:** How a mod is structured, registered, activated, and how it hooks its
-> content into the game. The *content* systems have their own guides —
+> content into the game. The _content_ systems have their own guides —
 > [Events](Events), [Building Situations](Building-Situations),
 > [Building Unlockables](Building-Unlockables) — this page is the wrapper around them.
 
@@ -102,7 +102,7 @@ The [complete example](#a-complete-mod) at the bottom is a copy-paste starting p
 A mod is just `.rpy` files under `game/mods/<YourMod>/` that Ren'Py loads like any
 other script. Nothing is special about the code — a mod uses the **same** APIs as the
 base game (`Event`, `Situation`, `register_situations`, …). Two thin wrappers make it
-a *mod* rather than base content:
+a _mod_ rather than base content:
 
 - **`register_mod(...)`** — announces the mod so it shows up in the player's mod list
   and gets a folder path for its assets.
@@ -239,6 +239,8 @@ label load_mymod:
 
     # a map of your own (optional)
     $ map_manager.load_map( Map("mymod_map", "images/mymod_map.webp", "mymod_building") )
+
+    # Make sure you properly return at the end of your label as to not break the load order
     return
 ```
 
@@ -308,7 +310,7 @@ players to restart after enabling, and after a version bump (which re-disables i
 ## 9. A complete mod
 
 Drop this in `game/mods/SnackMod/snack_mod.rpy`, add the two images, enable **Snack
-Mod**, restart, and visit the cafeteria's *order food* action at daytime `"d"`.
+Mod**, restart, and visit the cafeteria's _order food_ action at daytime `"d"`.
 
 ```python
 ## game/mods/SnackMod/snack_mod.rpy
@@ -398,22 +400,26 @@ in `register_mod` on updates (players re-enable afterward).
 ## 12. Reference
 
 ### Mod API
+
 `register_mod(key, name, version, path, description=…, author=…, translations=[…])` ·
 `set_current_mod(key)` · `is_mod_active(key)` · `get_mod_path(key)` /
 `get_current_mod_path()` · `register_start_method(label)`.
 
 ### Init timing
+
 `register_mod` → `init -97` (early) · **events** → `init 1` (after base pools, via
 `add_event`) · **everything else** (situations, unlockables, characters, pictograms,
 items, buildings, maps) → a `register_start_method` loader label (lifecycle wave).
 
 ### Content register functions (all mod-gated)
+
 `register_situations(...)` · `register_unlockables(...)` · `load_person(key, Person)` ·
 `load_pictograms(...)` / `add_pictogram(...)` · `load_item(ItemData)` ·
 `register_buildings(...)` · `map_manager.load_map(Map)` · `map_manager.add_building_to_map(map_key, building)`
 ([Maps](Maps)). Events use `EventStorage.add_event(...)` at init instead.
 
 ### Related pages
+
 - [Events](Events) — scene definitions & labels, `Pattern`s, decisions, characters
 - [Maps](Maps) — map buildings, extra maps, `add_building_to_map`
 - [Images](Images) — path resolution, PNG/WebP, how `images/…` becomes `mods/MyMod/images/…`
@@ -421,5 +427,6 @@ items, buildings, maps) → a `register_start_method` loader label (lifecycle wa
 - [Selectors](Selectors) · [Conditions](Conditions) · [Effects](Effects) · [Modifiers](Modifiers) · [Options](Options)
 
 ### Related files
+
 - `game/mods/CheatMod/cheat_mod.rpy` — the bundled reference mod
 - `game/scripts/helper.rpy` — `register_mod`, `set_current_mod`, `is_mod_active`, `get_mod_path`
