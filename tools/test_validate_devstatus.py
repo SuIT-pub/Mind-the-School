@@ -74,6 +74,19 @@ class ValidateDevstatusTest(unittest.TestCase):
         del doc["later"]
         self.assertIn("later: missing or not a list", validate(doc))
 
+    def test_item_version_is_optional(self):
+        doc = self.doc()
+        doc["now"][0]["version"] = "0.2.2"
+        self.assertEqual(validate(doc), [])
+
+    def test_item_version_must_be_short_string(self):
+        doc = self.doc()
+        doc["next"][0]["version"] = 2
+        doc["later"][0]["version"] = "x" * 21
+        problems = validate(doc)
+        self.assertIn("next[0].version: must be a string of at most 20 characters", problems)
+        self.assertIn("later[0].version: must be a string of at most 20 characters", problems)
+
     def test_done_needs_date(self):
         doc = self.doc()
         doc["done"][0]["doneAt"] = "October"

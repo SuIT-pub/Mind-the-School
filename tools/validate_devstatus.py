@@ -19,6 +19,7 @@ LISTS = ("now", "next", "later", "done")
 MAX_TITLE = 60
 MAX_SUMMARY = 160
 MAX_DONE = 10
+MAX_VERSION = 20
 KEBAB = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
@@ -41,6 +42,11 @@ def _validate_item(item, path, is_done):
             errors.append(f"{path}.{field}: missing or not a string")
         elif len(value) > limit:
             errors.append(f"{path}.{field}: longer than {limit} characters")
+
+    if "version" in item:
+        version = item["version"]
+        if not isinstance(version, str) or version == "" or len(version) > MAX_VERSION:
+            errors.append(f"{path}.version: must be a string of at most {MAX_VERSION} characters")
 
     if "progress" in item:
         progress = item["progress"]

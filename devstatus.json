@@ -1,35 +1,40 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-13T08:47:31Z",
+  "updatedAt": "2026-10-13T08:51:10Z",
   "currentVersion": "0.2.2",
   "targetVersion": "0.2.2",
   "now": [
     {
-      "id": "version-0-2-2",
-      "title": "Version 0.2.2",
-      "summary": "Groundwork for bigger story events: event flags, pausable situations and a new map system that makes room for places beyond the campus."
-    },
-    {
       "id": "lab-story-art",
       "title": "Artwork for the lab story",
-      "summary": "Finishing the images for the chain of events that starts in the Headmaster's lab."
+      "summary": "Finishing the images for the chain of events that starts in the Headmaster's lab.",
+      "version": "0.2.2"
+    },
+    {
+      "id": "story-groundwork",
+      "title": "Groundwork for bigger story events",
+      "summary": "Groundwork for bigger story events: event flags, pausable situations and a new map system that makes room for places beyond the campus.",
+      "version": "0.2.2"
     }
   ],
   "next": [
     {
       "id": "more-situations",
       "title": "More situations on campus",
-      "summary": "New ongoing developments that build up around the school over the days and come to a head."
+      "summary": "New ongoing developments that build up around the school over the days and come to a head.",
+      "version": "0.2.2"
     },
     {
       "id": "unlockables-rework",
       "title": "Rules, clubs and buildings reworked",
-      "summary": "Existing rules, clubs and building upgrades move to the new system, with visible progress and previews."
+      "summary": "Existing rules, clubs and building upgrades move to the new system, with visible progress and previews.",
+      "version": "0.2.2"
     },
     {
       "id": "more-events",
       "title": "A few new events",
-      "summary": "Some extra scenes around campus to fill out the days."
+      "summary": "Some extra scenes around campus to fill out the days.",
+      "version": "0.2.2"
     }
   ],
   "later": [

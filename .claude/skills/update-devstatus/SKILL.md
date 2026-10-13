@@ -46,8 +46,8 @@ Don't update `devstatus.json` for every commit; the roadmap shows features, not 
   "updatedAt": "2026-10-12T18:00:00Z",
   "currentVersion": "0.2.2",
   "targetVersion": "0.3.0",
-  "now":   [{ "id": "lab-building", "title": "…", "summary": "…", "progress": 40 }],
-  "next":  [{ "id": "…", "title": "…", "summary": "…" }],
+  "now":   [{ "id": "lab-building", "title": "…", "summary": "…", "version": "0.2.2", "progress": 40 }],
+  "next":  [{ "id": "…", "title": "…", "summary": "…", "version": "0.2.2" }],
   "later": [{ "id": "…", "title": "…", "summary": "…" }],
   "done":  [{ "id": "…", "title": "…", "summary": "…", "doneIn": "0.2.2", "doneAt": "2026-10-01" }]
 }
@@ -56,6 +56,10 @@ Don't update `devstatus.json` for every commit; the roadmap shows features, not 
 Rules (the validator enforces all of them):
 - `id`: kebab-case, unique across all four lists, never changes once published.
 - `title`: at most 60 characters. `summary`: at most 160 characters.
+- `version`: optional, at most 20 characters — the release the item is planned for (`"0.2.2"`).
+  Set it whenever that is decided; **leave it out** when it isn't, and the site shows "Version TBD".
+  Never invent a version. Don't add an item that just names a version ("Version 0.2.2") — the
+  items themselves carry it, and `currentVersion` / `targetVersion` cover the release as a whole.
 - `progress`: optional, integer 0–100, only meaningful in `now`.
 - `done`: newest first, **at most 10 entries** — drop the oldest when adding.
 - `doneAt`: `YYYY-MM-DD`. `doneIn`: the version that shipped it.
