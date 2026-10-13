@@ -1,3 +1,18 @@
 {
-    
+    "hooks": {
+        "PostToolUse": [
+            {
+                "matcher": "Bash|PowerShell",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "python \"$CLAUDE_PROJECT_DIR/tools/devstatus_hook.py\"",
+                        "shell": "bash",
+                        "timeout": 15,
+                        "statusMessage": "Checking dev status"
+                    }
+                ]
+            }
+        ]
+    }
 }
