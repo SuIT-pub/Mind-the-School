@@ -18,24 +18,35 @@ import json
 import pathlib
 import subprocess
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 
 from validate_devstatus import validate
 
 TARGET_BRANCH = "devstatus"
 FILE_NAME = "devstatus.json"
+# How far ahead of the runner's clock an updatedAt may be before it counts as wrong.
+CLOCK_SKEW = timedelta(minutes=10)
 
 
 def _instant(document):
-    return datetime.fromisoformat(str(document["updatedAt"]).replace("Z", "+00:00"))
+    moment = datetime.fromisoformat(str(document["updatedAt"]).replace("Z", "+00:00"))
+    return moment if moment.tzinfo else moment.replace(tzinfo=timezone.utc)
 
 
-def should_publish(new, current):
-    """True if `new` is strictly newer than the published `current` (or nothing usable is published)."""
+def should_publish(new, current, now=None):
+    """True if `new` is strictly newer than the published `current` (or nothing usable is published).
+
+    A published copy dated in the future (a local time written with a "Z", say) would
+    otherwise block every correct update until that moment passes, so it is replaced.
+    """
     if current is None:
         return True
+    now = now or datetime.now(timezone.utc)
     try:
-        return _instant(new) > _instant(current)
+        published_at = _instant(current)
+        if published_at > now + CLOCK_SKEW:
+            return True
+        return _instant(new) > published_at
     except (KeyError, ValueError, TypeError):
         return True  # a broken published copy is always replaced
 
@@ -73,6 +84,11 @@ def publish(path, repo, source_branch, attempts=3):
     problems = validate(document)
     if problems:
         raise ValueError("devstatus.json is invalid:\n" + "\n".join(problems))
+    if _instant(document) > datetime.now(timezone.utc) + CLOCK_SKEW:
+        raise ValueError(
+            f"updatedAt {document['updatedAt']} is in the future. It must be the current UTC time "
+            "(e.g. from `date -u +%Y-%m-%dT%H:%M:%SZ`); a trailing Z means UTC, not local time."
+        )
 
     for _ in range(attempts):
         current, parent = _published(repo)

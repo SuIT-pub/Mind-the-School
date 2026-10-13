@@ -9,7 +9,7 @@ description: Use when starting, finishing, pausing or reprioritising a feature, 
 "What I'm working on" box on the home page. **Players read this.** Write for them, not for the dev team.
 
 You can update it on any branch. When you push, the `Publish dev status` GitHub Action copies it
-to the `devstatus` branch, which the site reads every 10 minutes. The newest `updatedAt` wins, so
+to the `devstatus` branch, which the site reads every 5 minutes. The newest `updatedAt` wins, so
 always bump `updatedAt` — an unchanged timestamp is treated as "nothing new" and skipped.
 
 ## When to update
@@ -22,7 +22,10 @@ always bump `updatedAt` — an unchanged timestamp is treated as "nothing new" a
 | Version bump in `game/options.rpy` (`config.version`) | Update `currentVersion`; set `targetVersion` to the version being worked toward |
 | Progress on a long `now` item | Optionally set `progress` (0–100) |
 
-Every change also sets `updatedAt` to the current UTC time (`2026-10-12T18:00:00Z` format).
+Every change also sets `updatedAt` to the **current UTC time**, taken from the clock — never typed by
+hand and never local time: `date -u +%Y-%m-%dT%H:%M:%SZ` (bash) or
+`(Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")` (PowerShell). The trailing `Z` means
+UTC. A timestamp more than 10 minutes in the future is rejected by the publish action.
 
 ## Automatic reminder
 
@@ -72,7 +75,7 @@ Rules (the validator enforces all of them):
 
 1. Read the current `devstatus.json`.
 2. Apply the change from the table above. Keep `done` newest first and trimmed to 10.
-3. Set `updatedAt`.
+3. Set `updatedAt` from the command above (current UTC time).
 4. Run `python tools/validate_devstatus.py` — it must print `devstatus.json: OK`.
    If the validator fails, fix the file; an invalid file freezes the public roadmap.
 5. Commit `devstatus.json` on its own: `Update dev status: <what changed>`.

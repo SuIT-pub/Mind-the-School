@@ -7,6 +7,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from datetime import datetime, timezone
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 
@@ -22,22 +23,32 @@ def doc(updated_at):
 
 class ShouldPublishTest(unittest.TestCase):
     def test_nothing_published_yet(self):
-        self.assertTrue(should_publish(doc("2026-10-13T10:00:00Z"), None))
+        self.assertTrue(should_publish(doc("2026-01-13T10:00:00Z"), None))
 
     def test_newer_wins(self):
-        self.assertTrue(should_publish(doc("2026-10-13T10:00:00Z"), doc("2026-10-12T10:00:00Z")))
+        self.assertTrue(should_publish(doc("2026-01-13T10:00:00Z"), doc("2026-01-12T10:00:00Z")))
 
     def test_older_branch_does_not_overwrite(self):
-        self.assertFalse(should_publish(doc("2026-10-01T10:00:00Z"), doc("2026-10-12T10:00:00Z")))
+        self.assertFalse(should_publish(doc("2026-01-01T10:00:00Z"), doc("2026-01-12T10:00:00Z")))
 
     def test_same_timestamp_is_skipped(self):
-        self.assertFalse(should_publish(doc("2026-10-12T10:00:00Z"), doc("2026-10-12T10:00:00Z")))
+        self.assertFalse(should_publish(doc("2026-01-12T10:00:00Z"), doc("2026-01-12T10:00:00Z")))
 
     def test_timezones_are_compared_as_instants(self):
-        self.assertTrue(should_publish(doc("2026-10-12T12:30:00+02:00"), doc("2026-10-12T10:00:00Z")))
+        self.assertTrue(should_publish(doc("2026-01-12T12:30:00+02:00"), doc("2026-01-12T10:00:00Z")))
+
+    def test_published_copy_dated_in_the_future_is_replaced(self):
+        now = datetime(2026, 10, 13, 9, 0, tzinfo=timezone.utc)
+
+        self.assertTrue(should_publish(doc("2026-10-13T08:55:00Z"), doc("2026-10-13T12:00:00Z"), now=now))
+
+    def test_small_clock_skew_is_tolerated(self):
+        now = datetime(2026, 10, 13, 9, 0, tzinfo=timezone.utc)
+
+        self.assertFalse(should_publish(doc("2026-10-13T08:55:00Z"), doc("2026-10-13T09:05:00Z"), now=now))
 
     def test_broken_published_copy_is_replaced(self):
-        self.assertTrue(should_publish(doc("2026-10-01T10:00:00Z"), {"garbage": True}))
+        self.assertTrue(should_publish(doc("2026-01-01T10:00:00Z"), {"garbage": True}))
 
 
 class PublishTest(unittest.TestCase):
@@ -69,10 +80,10 @@ class PublishTest(unittest.TestCase):
         return json.loads(out.stdout) if out.returncode == 0 else None
 
     def test_first_publish_creates_branch_with_only_the_file(self):
-        result = publish(self.write(doc("2026-10-13T10:00:00Z")), self.work, "feature/x")
+        result = publish(self.write(doc("2026-01-13T10:00:00Z")), self.work, "feature/x")
 
         self.assertEqual(result, "published")
-        self.assertEqual(self.published()["updatedAt"], "2026-10-13T10:00:00Z")
+        self.assertEqual(self.published()["updatedAt"], "2026-01-13T10:00:00Z")
         files = subprocess.run(
             ["git", "-C", str(self.remote), "ls-tree", "--name-only", "devstatus"],
             capture_output=True, text=True, check=True,
@@ -80,18 +91,18 @@ class PublishTest(unittest.TestCase):
         self.assertEqual(files, ["devstatus.json"])
 
     def test_newer_update_replaces_older(self):
-        publish(self.write(doc("2026-10-12T10:00:00Z")), self.work, "a")
-        result = publish(self.write(doc("2026-10-13T10:00:00Z")), self.work, "b")
+        publish(self.write(doc("2026-01-12T10:00:00Z")), self.work, "a")
+        result = publish(self.write(doc("2026-01-13T10:00:00Z")), self.work, "b")
 
         self.assertEqual(result, "published")
-        self.assertEqual(self.published()["updatedAt"], "2026-10-13T10:00:00Z")
+        self.assertEqual(self.published()["updatedAt"], "2026-01-13T10:00:00Z")
 
     def test_older_update_is_skipped(self):
-        publish(self.write(doc("2026-10-13T10:00:00Z")), self.work, "a")
-        result = publish(self.write(doc("2026-10-01T10:00:00Z")), self.work, "old-branch")
+        publish(self.write(doc("2026-01-13T10:00:00Z")), self.work, "a")
+        result = publish(self.write(doc("2026-01-01T10:00:00Z")), self.work, "old-branch")
 
         self.assertEqual(result, "skipped")
-        self.assertEqual(self.published()["updatedAt"], "2026-10-13T10:00:00Z")
+        self.assertEqual(self.published()["updatedAt"], "2026-01-13T10:00:00Z")
 
     def test_rule_rejection_reports_git_message_without_retrying(self):
         # Simulate a repository ruleset: the remote refuses every push.
@@ -100,13 +111,20 @@ class PublishTest(unittest.TestCase):
         hook.chmod(0o755)
 
         with self.assertRaises(RuntimeError) as caught:
-            publish(self.write(doc("2026-10-13T10:00:00Z")), self.work, "a")
+            publish(self.write(doc("2026-01-13T10:00:00Z")), self.work, "a")
 
         self.assertIn("GH013", str(caught.exception))
         self.assertIn("devstatus", str(caught.exception))
 
+    def test_future_timestamp_is_rejected(self):
+        with self.assertRaises(ValueError) as caught:
+            publish(self.write(doc("2099-01-01T00:00:00Z")), self.work, "a")
+
+        self.assertIn("in the future", str(caught.exception))
+        self.assertIsNone(self.published())
+
     def test_invalid_file_is_rejected(self):
-        broken = doc("2026-10-13T10:00:00Z")
+        broken = doc("2026-01-13T10:00:00Z")
         broken["now"][0]["progress"] = 500
 
         with self.assertRaises(ValueError):
