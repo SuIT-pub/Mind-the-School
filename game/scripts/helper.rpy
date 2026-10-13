@@ -1245,20 +1245,6 @@ init -99 python:
 
         return random.randint(start, end)
 
-    def get_random_loli() -> int:
-        """
-        Gets a random value representing the choice of loli_content
-
-        ### Returns:
-        1. int
-            - the random value
-            - 0 is Class 3A
-            - 1 is Class 2A
-            - 2 is Class 1A
-        """
-        value = get_random_int(0, loli_content)
-        return value
-
     # endregion
     ###################################
 
@@ -1390,31 +1376,31 @@ init -99 python:
                 key, value = line.split(';')
                 translation_texts[key] = value
 
-    def get_loli_filter():
+    def load_gallery_exclude():
         """
-        Gets the translations from the translations.csv file
+        Loads gallery variant keys that stay hidden.
+
+        The data file lists ``variant.value;level``. Rows at level 1 or higher
+        are excluded. Nothing in the game turns that exclusion off.
+
+        ### Returns:
+        None
         """
 
-        global loli_filter
+        global gallery_exclude
 
-        if not renpy.loadable("loli_filter"):
-            loli_filter = {0:[], 1:[], 2:[]}
-        file = renpy.open_file("loli_filter")
+        gallery_exclude = []
+
+        if not renpy.loadable("gallery_exclude"):
+            return
+
+        file = renpy.open_file("gallery_exclude")
         lines = split_to_non_empty_list(file.read().decode())
-
-        if 0 not in loli_filter:
-            loli_filter[0] = []
-        if 1 not in loli_filter:
-            loli_filter[1] = []
-        if 2 not in loli_filter:
-            loli_filter[2] = []
 
         for line in lines:
             key, content_level = line.split(';', 1)
             if int(content_level) >= 1:
-                loli_filter[0].append(key)
-            if int(content_level) == 2:
-                loli_filter[1].append(key)
+                gallery_exclude.append(key)
 
     def get_file_max_value(key: str, file_path: str, start: int = 0, end: int = 10) -> int:
         """

@@ -254,7 +254,7 @@ label first_pta_meeting (**kwargs):
     
     $ image.show(13)
     parent "Hello, I am Adelaide Hall, a concerned parent of one of the students attending this school and I speak for all parents when I say that we are worried about the recent changes." (name = 'Adelaide Hall')
-    parent "However, we trust that you will handle your job competently and we will observe closely to ensure the well-being of our children." (name = 'Adelaide Hall')
+    parent "However, we trust that you will handle your job competently and we will observe closely to ensure the well-being of our daughters." (name = 'Adelaide Hall')
     
     $ image.show(14)
     parent "I am Nubia Davis. A Pleasure." (name = 'Nubia Davis')

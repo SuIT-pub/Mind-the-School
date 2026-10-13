@@ -433,11 +433,11 @@ label sb_teach_sex_ed_qa_2 (**kwargs):
     $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
-    luna "How often do teens usually have sex?"
+    luna "How often do people our age usually have sex?"
     $ image.show(1)
     headmaster "There's no one-size-fits-all answer here. Frequency depends on individual development and relationship dynamics."
     headmaster "What matters most is that both partners are comfortable with the pace and fully consensual in their sexual activities."
-    headmaster "But, for most teens, it's usually multiple times a month."
+    headmaster "But, for most people our age, it's usually multiple times a month."
 
     call change_stats_with_modifier(
         education = TINY, corruption = TINY) from _call_change_stats_sb_teach_sex_ed_qa_2_event_1

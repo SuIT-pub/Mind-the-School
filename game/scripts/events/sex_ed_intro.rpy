@@ -275,7 +275,7 @@ label office_teacher_sex_ed_introduction_2 (**kwargs):
     understanding of sexuality and relationships.
 
     My research on other schools that have implemented similar programmes has shown that they have seen positive 
-    results in terms of decreased rates of teen pregnancy, STIs and sexual assault.
+    results in terms of decreased rates of unplanned pregnancy, STIs and sexual assault.
     """
 
     $ image.show(10)
@@ -283,7 +283,7 @@ label office_teacher_sex_ed_introduction_2 (**kwargs):
 
     $ image.show(11)
     headmaster """
-    That's a common misconception about sex education. Research has shown that teaching young people about sexual 
+    That's a common misconception about sex education. Research has shown that teaching students about sexual 
     health can actually prevent them from engaging in risky behaviour.
     
     We can empower our students to make informed decisions about their bodies and relationships by providing accurate 
@@ -542,13 +542,13 @@ label pta_discussion_sex_ed_intro_1 (**kwargs):
     well-being.
     """
     $ image.show(4)
-    yuki "But what about the parents? We should be the ones to teach our children about these things!"
+    yuki "But what about the parents? We should be the ones to teach our daughters about these things!"
     $ image.show(5)
     headmaster """
-    I understand your concerns, but many parents may not feel comfortable discussing these topics with their children.
+    I understand your concerns, but many parents may not feel comfortable discussing these topics with their daughters.
     """
     $ image.show(6)
-    headmaster "Also, no offense, but some parents may not have the right information to share with their children."
+    headmaster "Also, no offense, but some parents may not have the right information to share with their daughters."
     $ image.show(7)
     headmaster """
     I may not be at this school for long, but I have seen enough to know that our students are struggling with these 

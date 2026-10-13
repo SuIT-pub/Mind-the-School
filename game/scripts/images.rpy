@@ -803,7 +803,7 @@ init -2 python:
             - The image path with the given keyword arguments replaced.
         """
 
-        kwargs["loli_content"] = loli_content
+        kwargs["roster"] = 0
 
         # replace in string path each key from kwargs with corresponding value
         for key, value in kwargs.items():
@@ -865,7 +865,7 @@ init -2 python:
             - The image path of the background with the highest priority that can be used.
         """
 
-        kwargs["loli_content"] = loli_content
+        kwargs["roster"] = 0
 
         output_image = None
         output_nude = 0
@@ -1111,10 +1111,8 @@ init -2 python:
         if 'values' in kwargs.keys():
             kwargs = kwargs['values']
 
-        if 'loli_content' not in kwargs.keys():
-            kwargs['loli_content'] = loli_content
-        if 'loli' not in kwargs.keys():
-            kwargs['loli'] = get_random_loli()
+        if 'roster' not in kwargs.keys():
+            kwargs['roster'] = 0
 
         forced_wildcards = []
         combinable_keys = []
@@ -1208,10 +1206,8 @@ init -2 python:
         if 'values' in kwargs.keys():
             kwargs = kwargs['values']
 
-        if 'loli_content' not in kwargs.keys():
-            kwargs['loli_content'] = loli_content
-        if 'loli' not in kwargs.keys():
-            kwargs['loli'] = get_random_loli()
+        if 'roster' not in kwargs.keys():
+            kwargs['roster'] = 0
 
         if '<school_level>' in image_path:
             if is_image_series and not in_replay:
@@ -1264,10 +1260,8 @@ init -2 python:
         if 'values' in kwargs.keys():
             kwargs = kwargs['values']
 
-        if 'loli_content' not in kwargs.keys():
-            kwargs['loli_content'] = loli_content
-        if 'loli' not in kwargs.keys():
-            kwargs['loli'] = get_random_loli()
+        if 'roster' not in kwargs.keys():
+            kwargs['roster'] = 0
 
         if '<school_level>' in image_path:
             if is_image_series and not in_replay:

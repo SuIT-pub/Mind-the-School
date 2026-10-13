@@ -396,7 +396,7 @@ label first_week_epilogue (**kwargs):
     $ image.show(39)
     emiko "Yeah, I always wondered about that..."
     $ image.show(36)
-    headmaster "So I guess one drink of the diluted potion should be enough to open these kids up to the subject."
+    headmaster "So I guess one drink of the diluted potion should be enough to open these students up to the subject."
     headmaster "After that it should be possible to influence them in more traditional ways in addition to the more exotic ways."
     $ image.show(37)
     emiko "What do you mean by 'more exotic ways'?"
@@ -519,7 +519,7 @@ label first_week_epilogue_final (**kwargs):
     headmaster "Hmm interesting... Well at least you are feeling fine. Pay the nurse a visit if you start to feel unwell."
     sgirl "Okay, I will! Thank you Mr. [headmaster_last_name]!" (name='Miwa Igarashi')
 
-    # school girl walks off, headmaster stays a little bit in thoughts
+    # she walks off, headmaster stays a little bit in thoughts
     $ image.show(9)
     headmaster.think "Hmm... that's an interesting effect. She doesn't remember anything that happened yesterday, but the long term effect seems to still be in place."
     $ image.show(10)

@@ -220,7 +220,7 @@ label gym_event_1 (**kwargs):
         $ image.show(2)
         aona "We just might if you asked us to."
         $ image.show(3)
-        aona "*giggle*" (name="School Girls")
+        aona "*giggle*" (name="Students")
         call change_stats_with_modifier(
             inhibition = DEC_SMALL, corruption = SMALL, charm = SMALL) from _call_change_stats_with_modifier_86
     else:
@@ -249,7 +249,7 @@ label gym_event_2 (**kwargs):
     $ image.show(1)
     subtitles "It took a few seconds for them to realize what is happening."
     $ image.show(2)
-    sgirl "*scream*" (name="School Girls", retain = False)
+    sgirl "*scream*" (name="Students", retain = False)
     $ image.show(3)
     headmaster "Sorry, I didn't mean to intrude."
     $ image.show(4)

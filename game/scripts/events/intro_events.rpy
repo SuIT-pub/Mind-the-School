@@ -292,7 +292,7 @@ label first_week_sb_event (**kwargs):
     $ image = convert_pattern("main", step_start = 1, **kwargs)
     
     $ image.show(1)
-    subtitles """You enter the main building of the high school.
+    subtitles """You enter the main building.
         
         Well, you don't really need to enter the building to get an idea of the state it's in."""
         
@@ -311,7 +311,7 @@ label first_week_sb_event (**kwargs):
 
     $ image.show(6)
     headmaster.think "Hmm looks like a normal class, but I think the students have no material?"
-    headmaster.think "Yeah, not one school girl has even one book."
+    headmaster.think "Yeah, not one student has even one book."
     headmaster.think "I guess the former headmaster cut back on those"
 
     $ change_stat("education", 5)
@@ -384,7 +384,7 @@ label first_potion_school_dormitory_event (**kwargs):
     $ image = convert_pattern("main", step_start = 1, **kwargs)
     
     $ image.show(1)
-    subtitles "You enter the dormitory of the high school."
+    subtitles "You enter the dormitory."
     headmaster.think "Mhh, where does the noise come from?"
 
     $ image.show(2)
@@ -425,11 +425,7 @@ label intro ():
 
     $ set_name("headmaster", headmaster_first_name, headmaster_last_name)
 
-    $ school_config = "a High School."
-    # if loli_content == 1:
-    #     $ school_config = "a High and Middle School."
-    # if loli_content == 2:
-    #     $ school_config = "a High, Middle and Elementary School."
+    $ school_config = "a campus for students aged 18 to 22."
 
     $ school_config_noun = "school"
 
@@ -546,11 +542,7 @@ label .start:
     #show move up stairs with secretary in front and clear view of butt
     call show_image ("images/events/intro/intro gym 3 1.webp") from _call_show_image_tutorial_2
     subtitles "As you and your secretary make your way to the stage, all the students begin to form neat rows."
-    emiko.whisper "The students in the left are from the high school."
-    # if loli_content >= 1:
-    #     secretary_whisper "The students in the center are from the middle school."
-    # if loli_content == 2:
-    #     secretary_whisper "And to the right are the elementary school students."
+    emiko.whisper "The students on the left are Class 3A."
 
     call show_image ("images/events/intro/intro gym 3 2.webp") from _call_show_image_tutorial_3
     headmaster.think "Wow she has a nice butt. I can't wait to make it mine."

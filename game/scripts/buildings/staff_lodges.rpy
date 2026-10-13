@@ -12,9 +12,9 @@ init -1 python:
     # available targets: -
     staff_lodges_events = {}
 
-    staff_lodges_bg_images = BGStorage("images/background/staff_lodges/bg c.webp", ValueSelector('loli', 0),
-        BGImage("images/background/staff_lodges/bg 1,3 <loli> <level> <nude>.webp", 1, TimeCondition(daytime = "1,3")), # show bath with students
-        BGImage("images/background/staff_lodges/bg 6 <loli> <level> <nude>.webp", 1, TimeCondition(daytime = 6)), # show bath with students and/or teacher
+    staff_lodges_bg_images = BGStorage("images/background/staff_lodges/bg c.webp", ValueSelector('roster', 0),
+        BGImage("images/background/staff_lodges/bg 1,3 <roster> <level> <nude>.webp", 1, TimeCondition(daytime = "1,3")), # show bath with students
+        BGImage("images/background/staff_lodges/bg 6 <roster> <level> <nude>.webp", 1, TimeCondition(daytime = 6)), # show bath with students and/or teacher
         BGImage("images/background/staff_lodges/bg 7.webp", 1, TimeCondition(daytime = 7)), # show bath at night empty or with teachers
     )
     

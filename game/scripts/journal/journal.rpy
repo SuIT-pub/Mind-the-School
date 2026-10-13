@@ -2532,8 +2532,8 @@ screen journal_gallery(display):
                                             style "journal_text"
                                             size 30
 
-                                        # filters all possible values that have been filtered in the loli filter as those can only be seen, selected or viewed if the appropriate loli setting is activated
-                                        $ filtered_values = [value for value in values if variant_name + '.' + str(value) not in loli_filter[loli_content]]
+                                        # Hides gallery variants listed in gallery_exclude.
+                                        $ filtered_values = [value for value in values if variant_name + '.' + str(value) not in gallery_exclude]
                                         
                                         # checks if any values are left after filtering and disables the replay possibility if there is none as the events need a full set of values to work properly
                                         if len(filtered_values) == 0:

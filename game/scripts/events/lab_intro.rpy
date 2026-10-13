@@ -1486,10 +1486,13 @@ label lab_intro_12 (**kwargs):
     $ image.show(17)
     # The amber shimmers, deepens, turns vivid, almost lit from inside.
     headmaster "Wait— wait, wait, wait."
+
+    $ image.show(18)
     headmaster "That's the colour. That's {i}exactly{/i} the colour from the hallway."
 
     subtitles "The sample isn't amber any more so much as honey held up to a lamp. A thin, sweet vapour curls off the top of the tube, and it's the same smell that hung in that corridor all afternoon."
 
+    $ image.show(19)
     headmaster.think "Ha! Ha. Okay. Okay. Don't knock it over. Don't breathe on it. Don't do anything stupid."
 
     # Frantic notes. He's muttering while he writes.
@@ -1497,39 +1500,51 @@ label lab_intro_12 (**kwargs):
     headmaster "So the stuff doesn't break down in minutes. It holds. That's why the girls in the hallway didn't snap back like the others did, that's why Ms. Maki was still— yes. {i}Yes.{/i}"
     headmaster.think "A catalyst. An actual, literal catalyst. Enzymes are catalysts. I'm allowed to call it that, it's {i}correct{/i}."
 
+    $ image.show(20)
     # He picks up the jug and tilts it against the bulb to check the fill level.
     subtitles "He picks up the jug and tilts it against the light. It's barely a third full. Less, maybe."
     headmaster "Three hundred and fifty millilitres, give or take. That's... well. That's not nothing."
+    
+    $ image.show(21)
     headmaster.think "Plenty for testing. And when it runs low, I'll just order more. It's floor cleaner. Someone sells floor cleaner."
-
-    # He pulls out his phone, still in one glove.
-    subtitles "He tugs off one glove with his teeth and pulls out his phone."
 
     # Phone screen: Cumulus Laboratories, "dissolved 1998", no successor company;
     # an old forum thread: "anyone know what was in Orgazyme? nothing works like it".
+    $ image.show(22)
     subtitles "Cumulus Laboratories: dissolved in 1998. No successor, no licence holder, nobody who bought the formula. The only thing still online is an old janitors' forum thread titled {i}anyone know what was actually in orgazyme??{/i}, forty replies long, and none of them know."
     headmaster.think "...Of course. Of course it is."
 
     # He sets the phone face-down next to the glowing test tube.
+    $ image.show(23)
     headmaster "A proprietary culture. One strain, never published, and the company's been gone for twenty-odd years."
     headmaster "And I can't even grow more of it. After this long in the jug the culture's long dead. The enzymes still work, they just don't make any new ones."
+    
+    $ image.show(24)
     headmaster.think "The base potion I can make all week, as long as I keep buying chemicals. This I can't make at all."
     headmaster.think "Whatever's left in that jug is all there is. Anywhere."
 
     # Rough math in the notebook margin.
+    $ image.show(25)
     headmaster "Say ten millilitres a dose, if the ratio holds, and I'm guessing at half of that ratio... thirty-five doses? Thirty, if I spill anything. I always spill something."
     headmaster.think "Thirty doses. For a whole school."
 
     # He sits down on an upturned mop bucket, back against the shelf.
+    $ image.show(26)
     subtitles "He sits down on an upturned mop bucket, which creaks, and leans his head back against the shelving."
     headmaster.think "And every drop I put in a test tube tonight is a drop I never get back. Not ever."
     headmaster.think "I finally find the thing, and now I'm scared to use it. That's brilliant. That's a really great result."
 
     # Beat. Then he gets up and puts the jug away carefully.
+    $ image.show(27)
     subtitles "After a while he gets up, screws the cap down as tight as it'll go, and puts the jug on the top shelf behind the paint tins, where nobody with a mop will ever find it."
+    
+    $ image.show(28)
     subtitles "Then, after a moment's thought, he tears a page out of the notebook, writes DO NOT TOUCH on it in capitals, and tapes it to the jug."
 
+    $ image.show(29)
     headmaster.think "I need to think about what's actually worth spending it on. Properly. Not at eleven at night on a mop bucket."
+    
+    $ image.show(30)
     headmaster.think "...Emiko's going to have an opinion about this. She always has an opinion."
 
     # He switches off the bulb; the last sample still glows faintly on the table.

@@ -780,30 +780,30 @@ init -6 python:
 
     def compatibility_check():
         # compatibility with save files from 0.1.2
-        if 'high_school_building' in buildings.keys():
-            high_school_building = buildings['high_school_building']
-            high_school_building._name = "school_building"
-            high_school_building._title = "School Building"
-            buildings['school_building'] = high_school_building
+        if 'upper_campus_building' in buildings.keys():
+            upper_campus_building = buildings['upper_campus_building']
+            upper_campus_building._name = "school_building"
+            upper_campus_building._title = "School Building"
+            buildings['school_building'] = upper_campus_building
 
-        if 'high_school_dormitory' in buildings.keys():
-            high_school_dormitory = buildings['high_school_dormitory']
-            high_school_dormitory._name = "school_dormitory"
-            high_school_dormitory._title = "School Dormitory"
-            buildings['school_dormitory'] = high_school_dormitory
+        if 'upper_campus_dormitory' in buildings.keys():
+            upper_campus_dormitory = buildings['upper_campus_dormitory']
+            upper_campus_dormitory._name = "school_dormitory"
+            upper_campus_dormitory._title = "School Dormitory"
+            buildings['school_dormitory'] = upper_campus_dormitory
 
-        if 'high_school_building' in buildings.keys():
-            buildings.pop("high_school_building")
-        if 'high_school_dormitory' in buildings.keys():
-            buildings.pop("high_school_dormitory")
-        if 'middle_school_building' in buildings.keys():
-            buildings.pop("middle_school_building")
-        if 'middle_school_dormitory' in buildings.keys():
-            buildings.pop("middle_school_dormitory")
-        if 'elementary_school_building' in buildings.keys():
-            buildings.pop("elementary_school_building")
-        if 'elementary_school_dormitory' in buildings.keys():
-            buildings.pop("elementary_school_dormitory")
+        if 'upper_campus_building' in buildings.keys():
+            buildings.pop("upper_campus_building")
+        if 'upper_campus_dormitory' in buildings.keys():
+            buildings.pop("upper_campus_dormitory")
+        if 'mid_campus_building' in buildings.keys():
+            buildings.pop("mid_campus_building")
+        if 'mid_campus_dormitory' in buildings.keys():
+            buildings.pop("mid_campus_dormitory")
+        if 'lower_campus_building' in buildings.keys():
+            buildings.pop("lower_campus_building")
+        if 'lower_campus_dormitory' in buildings.keys():
+            buildings.pop("lower_campus_dormitory")
 
         if 'tennis_court' in buildings.keys():
             buildings.pop("tennis_court")

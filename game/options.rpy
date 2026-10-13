@@ -252,7 +252,7 @@ init python:
     build.classify("game/**.rpym", "data")
     build.classify("game/members.csv", "data")
     build.classify("game/translations.csv", "data")
-    build.classify("game/loli_filter", "data")
+    build.classify("game/gallery_exclude", "data")
     build.classify("LICENSE", "data")
     build.classify("README.md", "data")
 

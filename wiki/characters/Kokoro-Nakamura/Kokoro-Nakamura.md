@@ -31,7 +31,7 @@ lips, and long glamorous auburn-red hair swept over one shoulder.
 
 **Uniform across the levels.** Kokoro's take on the uniform is modest at first but
 turns notably mature and edgy — she reaches for grown-up outerwear rather than
-cutesy schoolgirl pieces. At level 1 it's a plain white blouse and plaid pleated
+cutesy costume pieces. At level 1 it's a plain white blouse and plaid pleated
 skirt, neat and covered; by level 5 a navy ribbed cardigan worn open in a deep V
 with little underneath; at level 6 a black leather biker jacket over a grey lace
 bralette; by level 10 a cropped bolero left open over bare skin above a belted

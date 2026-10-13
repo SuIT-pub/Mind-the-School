@@ -30,7 +30,7 @@ init -6 python:
                 self._unlocked = False
 
             if not isinstance(self._unlocked, bool):
-                self._unlocked = self._unlocked['high_school'] or self._unlocked['middle_school'] or self._unlocked['elementary_school']
+                self._unlocked = self._unlocked['upper_campus'] or self._unlocked['mid_campus'] or self._unlocked['lower_campus']
 
         def is_valid(self):
             """

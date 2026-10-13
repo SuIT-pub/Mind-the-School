@@ -12,9 +12,9 @@ init -1 python:
     # available targets: -
     sports_field_events = {}
 
-    sports_field_bg_images = BGStorage("images/background/sports field/bg 1.webp", ValueSelector('loli', 0),
-        BGImage("images/background/sports field/bg c <loli> <school_level> <nude>.webp", 1, TimeCondition(daytime = "c")), # show sports field with students
-        BGImage("images/background/sports field/bg 3,6 <loli> <school_level> <nude>.webp", 1, TimeCondition(daytime = "3,6")), # show sports field with few students
+    sports_field_bg_images = BGStorage("images/background/sports field/bg 1.webp", ValueSelector('roster', 0),
+        BGImage("images/background/sports field/bg c <roster> <school_level> <nude>.webp", 1, TimeCondition(daytime = "c")), # show sports field with students
+        BGImage("images/background/sports field/bg 3,6 <roster> <school_level> <nude>.webp", 1, TimeCondition(daytime = "3,6")), # show sports field with few students
         BGImage("images/background/sports field/bg 7.webp", 1, TimeCondition(daytime = 7)), # show sports field at night empty
     )
     

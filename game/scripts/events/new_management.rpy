@@ -327,9 +327,9 @@ label .leave_it (**kwargs):
     $ emiko.display(PDAMove(alignX = 0.5, duration = 1.0))
     headmaster "Leave it for now. There are bigger fires than a nameplate."
     $ emiko.display(PDAImage(pose = "21", mood = "neutral", mouth = "open"))
-    emiko.say "Mm. Your call. Just don't act surprised when the kids keep calling you the wrong thing — they read the door, not the memo."
+    emiko.say "Mm. Your call. Just don't act surprised when the students keep calling you the wrong thing — they read the door, not the memo."
     $ emiko.display(PDAImage(mouth = "closed"))
-    headmaster.think "I keep telling myself it's temporary. Emiko's right, though, isn't she — the kids don't read the memo, they read the door. And right now the door says I couldn't be bothered to put my own name on it."
+    headmaster.think "I keep telling myself it's temporary. Emiko's right, though, isn't she — the students don't read the memo, they read the door. And right now the door says I couldn't be bothered to put my own name on it."
 
     $ situation_manager.apply_progress_change("situation:new_management:main", 0)
     $ emiko.clear_display()
@@ -425,7 +425,7 @@ label .introduce (**kwargs):
     $ aona.display(PDAImage(mood = "sad", mouth = "closed"))
     $ ikushi.display(PDAImage(pose = "8", mood = "shining"))
     subtitles "Ikushi turns a laugh into a cough. Aona's ears go bright pink and she suddenly finds her own shoes fascinating."
-    headmaster.think "Poor kid's ears are on fire. She'll be telling this one at lunch for a week — the day she called the headmaster a maintenance man to his face. Let her. If it's the story that finally sticks my face to the title, she can tell it as often as she likes."
+    headmaster.think "Her ears are on fire. She'll be telling this one at lunch for a week — the day she called the headmaster a maintenance man to his face. Let her. If it's the story that finally sticks my face to the title, she can tell it as often as she likes."
 
     $ set_game_data("nm_face_introduced", 1)
     $ situation_manager.apply_progress_change("situation:new_management:main", 3)

@@ -1359,7 +1359,7 @@ label load_characters ():
     $ staff_char = get_character_by_key('staff')
 
     $ load_person("NoView", Person("default", "", "Person", school_char, []))
-    $ load_person("NoView", Person("default_school", "", "School Girl", school_char, []))
+    $ load_person("NoView", Person("default_school", "", "Student", school_char, []))
     $ load_person("NoView", Person("default_parent", "", "Parent", parent_char, []))
     $ load_person("NoView", Person("default_teacher", "", "Teacher", teacher_char, []))
     $ load_person("NoView", Person("default_secretary", "", "Secretary", secretary_char, []))

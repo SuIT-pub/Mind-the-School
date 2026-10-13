@@ -123,11 +123,10 @@ init python:
         old_character = get_character("school_mean_values", charList)
         if old_character != None:
             max_level = 0
-            high_school = get_character("high_school", charList['schools'])
-            middle_school = get_character("middle_school", charList['schools'])
-            elementary_school = get_character("elementary_school", charList['schools'])
-            if high_school != None:
-                max_level = max(max_level, high_school.get_level())
+            if 'schools' in charList:
+                for legacy in charList['schools'].values():
+                    if legacy != None:
+                        max_level = max(max_level, legacy.get_level())
 
             old_character.name = "school"
             old_character.title = "School"
@@ -135,9 +134,6 @@ init python:
             charList["school"] = old_character
             charList.pop("school_mean_values")
         if 'schools' in charList:
-            charList['schools'].pop("high_school")
-            charList['schools'].pop("middle_school")
-            charList['schools'].pop("elementary_school")
             charList.pop('schools')
 
         load_character("school", "School", charList, {

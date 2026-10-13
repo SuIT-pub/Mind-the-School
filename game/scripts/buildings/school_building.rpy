@@ -158,7 +158,7 @@ label sb_event_1 (**kwargs): # patrol, check class
     $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0)
-    subtitles "You walk through the corridors of the high school."
+    subtitles "You walk through the corridors."
 
     $ image.show(1)
     subtitles "You come across a couple making out in the hallway."
@@ -201,7 +201,7 @@ label sb_event_3 (**kwargs): # patrol
     $ image = convert_pattern("main", **kwargs)
 
     $ image.show(0) # walk with girl sitting
-    subtitles "As you walk through the corridors of the high school, you notice a student sitting in the corner of the hallway."
+    subtitles "As you walk through the corridors, you notice a student sitting in the corner of the hallway."
     miwa "*sniffle*"
 
     $ image.show(1) # stand next to her asking

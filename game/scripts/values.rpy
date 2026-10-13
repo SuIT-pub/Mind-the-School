@@ -1,8 +1,4 @@
 init -98 python:
-    # 0 = no loli content (High School age: 18-22)
-    # 1 = slight loli content (Middle School age: 13-17, High School age: 18-22)
-    # 2 = hard loli content (Elementary School age: 8-12, Middle School age: 13-17, High School age: 18-22)
-    loli_content = 0
     cheat_mode = False
     nude_vision = 2
     sfw_mode = False
@@ -14,8 +10,8 @@ init -98 python:
     event_register_by_max_level = {}
     fragment_storage_register = {}
 
-    loli_filter = {}
-    get_loli_filter()
+    gallery_exclude = []
+    load_gallery_exclude()
 
     members = ""
     download_members()
@@ -348,7 +344,7 @@ init -99:
         retain = False,
     )
     define character.sgirl = Character(
-        "School Girl",
+        "Student",
         #window_background = None,
         who_color = "#8a2be2",
         what_color = "#ffffff",
@@ -357,7 +353,7 @@ init -99:
         retain = False,
     )
     define character.sboy = Character(
-        "School Boy",
+        "Student",
         #window_background = None,
         who_color = "#008000",
         what_color = "#ffffff",

@@ -243,7 +243,7 @@ label tutorial_map ():
     emiko "This is the School Building. Here the students from age 18 to 22 attend their classes and clubs."
 
     show screen show_building_buttons("school_dormitory", show_type = "white") with dissolveM
-    emiko "This is the School Dormitory where the High School students live."
+    emiko "This is the School Dormitory, where those students live."
 
     show screen show_building_buttons("labs", show_type = "white") with dissolveM
     emiko "This is the Labs Building containing classrooms specialized for biology, chemistry etc."

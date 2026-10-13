@@ -246,7 +246,7 @@ These keys are filled even if you did not pass them in kwargs:
 | `<variant>` | random `1…max` among files that exist (`get_image` / `refine_image_with_variant`) |
 | `<nude>` | not replaced with a single value — see [§8](#8-nude-levels) |
 | `<step>` | the frame index, filled by `Image_Series.show(n)` |
-| `<loli>` / `<loli_content>` | content-filter values, injected if missing |
+| `<roster>` | roster index, injected as `0` if missing |
 
 Any other `<key>` comes from **kwargs**: event selectors ([Selectors](Selectors)),
 values you pass into `refine_image`, paperdoll `PDAImage` keys, a building's

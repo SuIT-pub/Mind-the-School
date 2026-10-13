@@ -4904,7 +4904,7 @@ label load_situations:
                 "nm_miwa_gap",
                 "Miwa can't remember Tuesday morning at all — a clean blank where the week should be.\nHer notebook lay open on an empty page she kept both hands over.",
                 EventSeenCondition(True, "nm_potion_hangover_miwa"),
-                interpretation="The potion took a whole morning out of a child, and in all these weeks not one adult has thought to give it back to her. Nobody that age should have to guard a hole in her own memory alone. This one stays with me.",
+                interpretation="The potion took a whole morning out of her, and in all these weeks not one of the staff has thought to give it back to her. Nobody should have to guard a hole in her own memory alone. This one stays with me.",
                 note_type="setback",
                 image="images/journal/new_management/nm_miwa_gap.webp",
                 layout="photo_left",

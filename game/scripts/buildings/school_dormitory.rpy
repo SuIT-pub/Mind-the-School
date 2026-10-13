@@ -1,5 +1,5 @@
 ####################################################
-# region High School Dormitory Event Handler ----- #
+# region School Dormitory Event Handler ----- #
 ####################################################
 
 init -1 python:
@@ -112,7 +112,7 @@ label school_dormitory ():
 
 label .after_general_check (**kwargs):
     call call_event_menu (
-        "What to do in the High School Dorm?", 
+        "What to do in the Dorm?", 
         sd_events, 
         default_fallback,
         character.subtitles,
