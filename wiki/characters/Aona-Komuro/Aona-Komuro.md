@@ -9,6 +9,7 @@ Aona Komuro is a student in class 3A.
 
 ## Description
 
+- Age: 21
 - Height: 172.5 cm
 - Bra size: 75F (DDD)
 - Bust–waist–hips: 89–74–98 cm

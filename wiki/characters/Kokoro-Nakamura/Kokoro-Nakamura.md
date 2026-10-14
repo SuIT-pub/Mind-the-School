@@ -9,6 +9,7 @@ Kokoro Nakamura is a student in class 3A.
 
 ## Description
 
+- Age: 19
 - Height: 163.4 cm
 - Bra size: 70B
 - Bust–waist–hips: 76–66–89 cm

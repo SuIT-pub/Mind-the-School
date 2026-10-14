@@ -9,6 +9,7 @@ Lin Kato is a student in class 3A.
 
 ## Description
 
+- Age: 21
 - Height: 167.6 cm
 - Bra size: 65B
 - Bust–waist–hips: 70–63–94 cm

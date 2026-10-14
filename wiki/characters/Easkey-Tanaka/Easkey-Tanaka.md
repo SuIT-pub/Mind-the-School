@@ -10,6 +10,7 @@ Easkey Tanaka is a student in class 3A. She is in a relationship with
 
 ## Description
 
+- Age: 20
 - Height: 168.8 cm
 - Bra size: 65DD (E)
 - Bust–waist–hips: 78–68–98 cm

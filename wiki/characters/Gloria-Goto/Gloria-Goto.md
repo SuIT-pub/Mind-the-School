@@ -9,6 +9,7 @@ Gloria Goto is a student in class 3A.
 
 ## Description
 
+- Age: 18
 - Height: 160.4 cm
 - Bra size: 65C
 - Bust–waist–hips: 73–57–82 cm

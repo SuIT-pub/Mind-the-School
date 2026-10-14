@@ -10,6 +10,7 @@ Seraphina Clark is a student in class 3A. She is the twin sister of
 
 ## Description
 
+- Age: 20
 - Height: 144.8 cm
 - Bra size: 55DD (E)
 - Bust–waist–hips: 68–48–81 cm

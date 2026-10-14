@@ -9,6 +9,7 @@ Emiko Langley is the school secretary.
 
 ## Description
 
+- Age: 31
 - Height: 180.7 cm
 - Bra size: 75F (DDD)
 - Bust–waist–hips: 91–66–99 cm

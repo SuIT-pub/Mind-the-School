@@ -9,6 +9,7 @@ Lily Anderson teaches Math and Sciences.
 
 ## Description
 
+- Age: 29
 - Height: 167.0 cm
 - Bra size: 70B
 - Bust–waist–hips: 76–64–90 cm

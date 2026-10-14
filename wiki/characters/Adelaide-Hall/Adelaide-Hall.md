@@ -9,6 +9,7 @@ Adelaide Hall works in the cafeteria as Kitchen Mother.
 
 ## Description
 
+- Age: 41
 - Height: 157.8 cm
 - Bra size: 55J
 - Bust–waist–hips: 80–60–93 cm

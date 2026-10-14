@@ -9,6 +9,7 @@ Hatano Miwa is a student in class 3A.
 
 ## Description
 
+- Age: 22
 - Height: 165.7 cm
 - Bra size: 70A
 - Bust–waist–hips: 73–63–87 cm

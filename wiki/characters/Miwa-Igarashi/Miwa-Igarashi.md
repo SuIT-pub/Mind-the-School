@@ -9,6 +9,7 @@ Miwa Igarashi is a student in class 3A. She likes dancing.
 
 ## Description
 
+- Age: 19
 - Height: 158.9 cm
 - Bra size: 65B
 - Bust–waist–hips: 69–62–84 cm

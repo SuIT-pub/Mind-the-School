@@ -9,6 +9,7 @@ Ikushi Ito is a student in class 3A.
 
 ## Description
 
+- Age: 20
 - Height: 164.3 cm
 - Bra size: 65G (DDDD)
 - Bust–waist–hips: 82–62–92 cm

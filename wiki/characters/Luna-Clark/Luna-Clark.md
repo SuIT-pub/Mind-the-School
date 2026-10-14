@@ -10,6 +10,7 @@ Luna Clark is a student in class 3A. She is the twin sister of
 
 ## Description
 
+- Age: 20
 - Height: 144.8 cm
 - Bra size: 55D
 - Bust–waist–hips: 65–48–81 cm

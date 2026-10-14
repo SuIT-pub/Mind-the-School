@@ -10,6 +10,7 @@ Sakura Mori is a student in class 3A. She is in a relationship with
 
 ## Description
 
+- Age: 20
 - Height: 163.7 cm
 - Bra size: 65C
 - Bust–waist–hips: 74–65–88 cm

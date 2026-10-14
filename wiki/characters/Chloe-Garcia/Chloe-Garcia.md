@@ -9,6 +9,7 @@ Chloe Garcia teaches Art and Music.
 
 ## Description
 
+- Age: 27
 - Height: 168.8 cm
 - Bra size: 65C
 - Bust–waist–hips: 72–61–91 cm

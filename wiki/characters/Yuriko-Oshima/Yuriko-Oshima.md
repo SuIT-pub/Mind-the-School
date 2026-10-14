@@ -10,6 +10,7 @@ Yuriko Oshima is a student in class 3A. She is in a relationship with
 
 ## Description
 
+- Age: 21
 - Height: 159.5 cm
 - Bra size: 65C
 - Bust–waist–hips: 72–65–85 cm

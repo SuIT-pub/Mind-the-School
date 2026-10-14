@@ -9,6 +9,7 @@ Zoe Parker teaches Physical Education and Health.
 
 ## Description
 
+- Age: 28
 - Height: 167.3 cm
 - Bra size: 65C
 - Bust–waist–hips: 73–63–91 cm

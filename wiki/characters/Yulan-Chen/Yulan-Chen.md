@@ -9,6 +9,7 @@ Yulan Chen teaches History and Politics.
 
 ## Description
 
+- Age: 33
 - Height: 167.0 cm
 - Bra size: 65F (DDD)
 - Bust–waist–hips: 81–67–90 cm

@@ -10,6 +10,7 @@ Elsie Johnson is a student in class 3A. She is in a relationship with
 
 ## Description
 
+- Age: 19
 - Height: 168.0 cm
 - Bra size: 65D
 - Bust–waist–hips: 76–63–105 cm

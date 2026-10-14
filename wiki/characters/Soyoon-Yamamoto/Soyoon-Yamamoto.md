@@ -10,6 +10,7 @@ Soyoon Yamamoto is a student in class 3A. She is the daughter of
 
 ## Description
 
+- Age: 18
 - Height: 161.0 cm
 - Bra size: 60C
 - Bust–waist–hips: 68–91–92 cm

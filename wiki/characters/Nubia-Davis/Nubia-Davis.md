@@ -9,6 +9,7 @@ Nubia Davis is a parent character.
 
 ## Description
 
+- Age: 39
 - Height: 169.3 cm
 - Bra size: 75DD (E)
 - Bust–waist–hips: 88–68–97 cm

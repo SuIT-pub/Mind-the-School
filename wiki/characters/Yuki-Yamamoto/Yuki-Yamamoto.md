@@ -10,6 +10,7 @@ Yuki Yamamoto is a parent character and the mother of
 
 ## Description
 
+- Age: 40
 - Height: 170.9 cm
 - Bra size: 65DD (E)
 - Bust–waist–hips: 77–67–94 cm

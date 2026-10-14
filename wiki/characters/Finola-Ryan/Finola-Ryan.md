@@ -9,6 +9,7 @@ Finola Ryan teaches English and Geography.
 
 ## Description
 
+- Age: 34
 - Height: 169.0 cm
 - Bra size: 65DD (E)
 - Bust–waist–hips: 78–65–88 cm

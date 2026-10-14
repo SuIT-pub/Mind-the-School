@@ -9,6 +9,7 @@ Linh Nguyen is the nurse. She works at the hospital in the city.
 
 ## Description
 
+- Age: 26
 - Height: 165.6 cm
 - Bra size: 60C
 - Bust–waist–hips: 68–70–95 cm

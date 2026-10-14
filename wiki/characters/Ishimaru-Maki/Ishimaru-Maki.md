@@ -9,6 +9,7 @@ Ishimaru Maki is a student in class 3A.
 
 ## Description
 
+- Age: 23
 - Height: 170.8 cm
 - Bra size: 70B
 - Bust–waist–hips: 75–68–91 cm
