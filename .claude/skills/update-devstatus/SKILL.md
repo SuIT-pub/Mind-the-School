@@ -1,6 +1,6 @@
 ---
 name: update-devstatus
-description: Use when starting, finishing, pausing or reprioritising a feature, when a release or version bump happens, when the devstatus hook reminds you after a commit, or when asked what is being worked on — keeps devstatus.json (the public roadmap on mts-game.com) current.
+description: Use when starting, finishing, pausing or reprioritising a feature, when a release or version bump happens, when the devstatus hook reminds you after a commit, or when asked what is being worked on — keeps devstatus.json (the public roadmap on mts-game.com and the Discord dev-status channel) current.
 ---
 
 # Update devstatus.json
@@ -11,6 +11,11 @@ description: Use when starting, finishing, pausing or reprioritising a feature, 
 You can update it on any branch. When you push, the `Publish dev status` GitHub Action copies it
 to the `devstatus` branch, which the site reads every 5 minutes. The newest `updatedAt` wins, so
 always bump `updatedAt` — an unchanged timestamp is treated as "nothing new" and skipped.
+
+The same action mirrors the file into the Discord dev-status channel (`tools/post_devstatus_discord.py`):
+the roadmap embed is edited in place and a short "Dev status updated" note is reposted underneath, listing
+what was started, finished or added. So every push with a newer `updatedAt` notifies the channel —
+one more reason to update for player-visible changes only, and to bundle related changes into one update.
 
 ## When to update
 

@@ -4,6 +4,8 @@ name: Publish dev status
 # branch. This job copies it there from whichever branch updated it, so the
 # public roadmap follows work in progress without waiting for a merge to master.
 # The newest `updatedAt` wins; pushes from older branches are skipped.
+# The same state is mirrored into the Discord dev-status channel through a
+# webhook (secret DISCORD_DEVSTATUS_WEBHOOK); without the secret that step is a no-op.
 
 on:
   push:
@@ -13,6 +15,7 @@ on:
       - devstatus.json
       - tools/publish_devstatus.py
       - tools/validate_devstatus.py
+      - tools/post_devstatus_discord.py
       - .github/workflows/publish-devstatus.yml
   workflow_dispatch:
 
@@ -36,10 +39,15 @@ jobs:
           python-version: "3.12"
 
       - name: Test the publisher
-        run: python -m unittest tools/test_validate_devstatus.py tools/test_publish_devstatus.py
+        run: python -m unittest tools/test_validate_devstatus.py tools/test_publish_devstatus.py tools/test_post_devstatus_discord.py
 
       - name: Publish devstatus.json
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           python tools/publish_devstatus.py devstatus.json "${GITHUB_REF_NAME}"
+
+      - name: Update the Discord channel
+        env:
+          DISCORD_DEVSTATUS_WEBHOOK: ${{ secrets.DISCORD_DEVSTATUS_WEBHOOK }}
+        run: python tools/post_devstatus_discord.py devstatus.json

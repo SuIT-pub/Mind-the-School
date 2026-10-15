@@ -65,6 +65,20 @@ def _git(repo, *args, input_text=None, check=True):
     )
 
 
+def tree_with(repo, parent, name, blob):
+    """A tree that is `parent`'s tree with `name` set to `blob`.
+
+    Other files on the branch (discord.json from post_devstatus_discord.py) survive,
+    so each publisher only ever replaces its own file.
+    """
+    entries = []
+    if parent:
+        listing = _git(repo, "ls-tree", parent).stdout
+        entries = [line for line in listing.splitlines() if line and line.split("\t", 1)[1] != name]
+    entries.append(f"100644 blob {blob}\t{name}")
+    return _git(repo, "mktree", input_text="\n".join(entries) + "\n").stdout.strip()
+
+
 def _published(repo):
     """(document, commit sha) currently on origin/devstatus, or (None, None)."""
     if _git(repo, "fetch", "-q", "origin", TARGET_BRANCH, check=False).returncode != 0:
@@ -96,7 +110,7 @@ def publish(path, repo, source_branch, attempts=3):
             return "skipped"
 
         blob = _git(repo, "hash-object", "-w", str(path)).stdout.strip()
-        tree = _git(repo, "mktree", input_text=f"100644 blob {blob}\t{FILE_NAME}\n").stdout.strip()
+        tree = tree_with(repo, parent, FILE_NAME, blob)
         message = f"Publish dev status from {source_branch} ({document['updatedAt']})"
         parent_args = ["-p", parent] if parent else []
         commit = _git(repo, "commit-tree", tree, *parent_args, "-m", message).stdout.strip()
