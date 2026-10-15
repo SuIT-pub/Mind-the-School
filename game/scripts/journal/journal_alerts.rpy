@@ -309,11 +309,22 @@ init python:
         page=8,
         extract_item=_journal_alert_item_from_situation_display,
     )
+    def _journal_alert_item_from_unlockable_display(display):
+        # Alerts are raised under the unlockable's situation key ("rule:level:3"),
+        # but the Unlockables page shows "level" or "level:3": resolve it to the
+        # member it opens. On the Situations page the display already is that key.
+        key, _tab = parse_situation_journal_display(display)
+        if unlockable_manager is not None:
+            unlockable = unlockable_manager.resolve_display(key)
+            if unlockable is not None:
+                return unlockable.key
+        return key
+
     register_journal_alert_topic(
         "unlockables",
         page=4,
         extra_item_pages=(8,),
-        extract_item=_journal_alert_item_from_situation_display,
+        extract_item=_journal_alert_item_from_unlockable_display,
     )
 
 default journal_alert_manager = JournalAlertManager()

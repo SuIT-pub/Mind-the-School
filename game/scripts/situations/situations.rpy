@@ -208,6 +208,8 @@ init -99 python:
             note_type: str = None,
             image: str = None,
             layout: str = None,
+            doodle: str = None,
+            doodle_ink: str = "pencil",
         ):
             self.key = key
             self.teaser = teaser
@@ -218,6 +220,11 @@ init -99 python:
             self.image = get_mod_path(active_mod_key) + image if image else image
             # Optional forced journal layout id; None → random on activate.
             self.layout = layout
+            # Optional pencil note scribbled next to the entry (a word or two, see
+            # journal_doodles.rpy); which side it lands on is frozen on activate.
+            self.doodle = doodle
+            self.doodle_ink = doodle_ink
+            self.doodle_side = None
 
             self.active = False
             self.values = {}
@@ -241,6 +248,10 @@ init -99 python:
             self.note_type = teaser.note_type
             self.image = teaser.image
             self.layout = teaser.layout
+            self.doodle = getattr(teaser, "doodle", None)
+            self.doodle_ink = getattr(teaser, "doodle_ink", "pencil")
+            if not hasattr(self, 'doodle_side'):
+                self.doodle_side = None
             if not hasattr(self, 'activation_order'):
                 self.activation_order = -1
             if not hasattr(self, 'interpretation'):
@@ -389,6 +400,8 @@ init -99 python:
             self.layout_rotation = round((renpy.random.random() * 8.0) - 4.0, 2)
             self.layout_offset_x = get_random_int(-6, 6)
             self.layout_offset_y = get_random_int(-4, 4)
+            # photo_top notes sit left or right of the photo; decided once, like the tilt
+            self.doodle_side = "left" if renpy.random.random() < 0.5 else "right"
 
         def activate(self, **kwargs):
             """
@@ -4512,7 +4525,7 @@ init -99 python:
             open_ended=open_ended,
         )
 
-    def Teaser(key, text, *conditions, interpretation=None, note_type=None, image=None, layout=None):
+    def Teaser(key, text, *conditions, interpretation=None, note_type=None, image=None, layout=None, doodle=None, doodle_ink="pencil"):
         """
         Chronicle note / pre-activation teaser.
 
@@ -4526,6 +4539,9 @@ init -99 python:
             layout: Optional forced layout id. None = random on activate.
                 Text: text_full, text_aside.
                 Photo: photo_left, photo_right, photo_top.
+            doodle: Optional pencil note (one to three words) scribbled next to
+                the entry in the journal, with an arrow at the photo if there is one.
+            doodle_ink: "pencil" (default) or "red".
         """
         return SituationTeaser(
             key,
@@ -4535,6 +4551,8 @@ init -99 python:
             note_type=note_type,
             image=image,
             layout=layout,
+            doodle=doodle,
+            doodle_ink=doodle_ink,
         )
 
     def PositiveResolution(mode="ALL", *elements, delta_lock=False):
@@ -4619,9 +4637,9 @@ label load_situations:
             Teaser("kiosk_complaints", "There's a heated discussion about prices at the snack bar. It seems the students are paying double for a regular lunch.", PlaceholderCondition(), interpretation="Money pressure shows first at the lunch counter—everyday friction before anyone calls it a crisis.", note_type="observation"),
             Teaser("abandoned_kitchen", "There's an abandoned building next to the courtyard. A yellowed menu is still stuck to the door—there must have been a kitchen there at one time.", PlaceholderCondition(), interpretation="A leftover function, not a secret. The school already solved this once.", note_type="insight"),
             Teaser("adelaide_offers", "Adelaide Hall has heard rumors about the food problem. She says she'd help—if the school lets her.", PlaceholderCondition(), interpretation="Willingness without mandate. She needs cover more than she needs skill.", note_type="suspicion"),
-            Teaser("snack_line_photo", "I snapped a quick note of the snack-bar queue at peak hour. Same crowd, same complaints, same overpriced trays.", PlaceholderCondition(), interpretation="A repeating scene is data. The problem is structural, not a bad day.", note_type="observation", image="images/journal/rules/Level_10.webp", layout="photo_left"),
+            Teaser("snack_line_photo", "I snapped a quick note of the snack-bar queue at peak hour. Same crowd, same complaints, same overpriced trays.", PlaceholderCondition(), interpretation="A repeating scene is data. The problem is structural, not a bad day.", note_type="observation", image="images/journal/rules/Level_10.webp", layout="photo_left", doodle="every day!", doodle_ink="red"),
             Teaser("kitchen_door_photo", "Photo of the courtyard annex door—padlocked, menu faded, paint peeling. Still waiting for someone to claim it.", PlaceholderCondition(), interpretation="The building is an unused answer sitting in plain sight.", note_type="insight", image="images/journal/rules/Level_10.webp", layout="photo_right"),
-            Teaser("adelaide_handshake_photo", "Adelaide in the office doorway, half-promise written on her face. She wants in—if we open the door.", PlaceholderCondition(), interpretation="Alliance forming. Document it before the moment softens into rumor.", note_type="suspicion", image="images/journal/rules/Level_10.webp", layout="photo_top"),
+            Teaser("adelaide_handshake_photo", "Adelaide in the office doorway, half-promise written on her face. She wants in—if we open the door.", PlaceholderCondition(), interpretation="Alliance forming. Document it before the moment softens into rumor.", note_type="suspicion", image="images/journal/rules/Level_10.webp", layout="photo_top", doodle="ally?"),
             Teaser("menu_board_photo", "Close-up of the yellowed annex menu board. Prices from another decade, still stuck to the glass.", PlaceholderCondition(), interpretation="A fossil of the old cafeteria. Proof the school already knew how to feed students.", note_type="insight", image="images/journal/rules/Level_10.webp", layout="text_full"),
             Teaser("queue_aside_photo", "Side note with a snap of the afternoon queue spilling past the kiosk railing.", PlaceholderCondition(), interpretation="Capacity failure made visible. The line is the complaint.", note_type="observation", image="images/journal/rules/Level_10.webp", layout="text_aside"),
             Bar("main", limits = (-30, 60), stat_weights = {HAPPINESS: 0.5, EDUCATION: 0.2, REPUTATION: 0.2}),

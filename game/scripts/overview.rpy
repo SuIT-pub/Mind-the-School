@@ -300,9 +300,19 @@ screen overview_situation_list(situations, interactive, row_width):
             use overview_situation_entry(situation, interactive, row_width)
             null height 4
 
-screen school_overview_stats (interactive = True):
+screen school_overview_stats (interactive = True, show_navigation = True, show_tooltip = True):
     # """
     # Displays the stats and time bars on the map.
+
+    # ### Parameters:
+    # 1. interactive: bool (default True)
+    #     - whether the stat entries and time buttons react to clicks
+    # 2. show_navigation: bool (default True)
+    #     - whether the Situations / Journal bar (and the situation list) is shown;
+    #       the open journal hides it because it would overlap the book
+    # 3. show_tooltip: bool (default True)
+    #     - whether this screen draws its own tooltip; off when embedded in a
+    #       screen that already shows tooltips (the journal), or both would appear
     # """
 
     zorder 80
@@ -405,114 +415,115 @@ screen school_overview_stats (interactive = True):
                         size OVERVIEW_TIME_TEXT_SIZE
                         color daytime_color
 
-        $ overview_situations = get_overview_active_situations()
-        $ split_w = OVERVIEW_COMPACT_BAR_WIDTH // 2
-        $ journal_action = Call("start_journal") if interactive else NullAction()
-        $ journal_tip = "Open Journal"
-        $ journal_icon = get_journal_map_icon()
-        if has_keyboard() and show_shortcut():
-            $ journal_tip = journal_tip + " [[J]"
+        if show_navigation:
+            $ overview_situations = get_overview_active_situations()
+            $ split_w = OVERVIEW_COMPACT_BAR_WIDTH // 2
+            $ journal_action = Call("start_journal") if interactive else NullAction()
+            $ journal_tip = "Open Journal"
+            $ journal_icon = get_journal_map_icon()
+            if has_keyboard() and show_shortcut():
+                $ journal_tip = journal_tip + " [[J]"
 
-        frame:
-            background Solid("#11111177")
-            padding (0, 0, 0, 0)
-            xsize OVERVIEW_COMPACT_BAR_WIDTH
-            ysize OVERVIEW_SPLIT_BAR_HEIGHT
-            xalign 1.0
+            frame:
+                background Solid("#11111177")
+                padding (0, 0, 0, 0)
+                xsize OVERVIEW_COMPACT_BAR_WIDTH
+                ysize OVERVIEW_SPLIT_BAR_HEIGHT
+                xalign 1.0
 
-            hbox:
-                spacing 0
-                xfill True
-                yfill True
-
-                button:
-                    style "overview_split_button"
-                    xsize split_w
+                hbox:
+                    spacing 0
+                    xfill True
                     yfill True
-                    tooltip ("Collapse situations" if persistent.overview_situations_expanded else "Expand situations")
-                    action ToggleField(persistent, "overview_situations_expanded")
 
-                    hbox:
-                        spacing 6
-                        yalign 0.5
-                        xoffset 8
+                    button:
+                        style "overview_split_button"
+                        xsize split_w
+                        yfill True
+                        tooltip ("Collapse situations" if persistent.overview_situations_expanded else "Expand situations")
+                        action ToggleField(persistent, "overview_situations_expanded")
 
-                        text ("▼" if persistent.overview_situations_expanded else "▶"):
-                            style "stat_overview"
-                            size OVERVIEW_TIME_TEXT_SIZE
+                        hbox:
+                            spacing 6
                             yalign 0.5
+                            xoffset 8
 
-                        text "Situations":
-                            style "stat_overview"
-                            size OVERVIEW_TIME_TEXT_SIZE
-                            yalign 0.5
-
-                        if not persistent.overview_situations_expanded:
-                            text ("(" + str(len(overview_situations)) + ")"):
+                            text ("▼" if persistent.overview_situations_expanded else "▶"):
                                 style "stat_overview"
                                 size OVERVIEW_TIME_TEXT_SIZE
                                 yalign 0.5
 
-                add Solid("#ffffff50"):
-                    xsize 1
-                    ysize OVERVIEW_SPLIT_BAR_HEIGHT - 12
-                    yalign 0.5
+                            text "Situations":
+                                style "stat_overview"
+                                size OVERVIEW_TIME_TEXT_SIZE
+                                yalign 0.5
 
-                button:
-                    style "overview_split_button"
-                    xsize split_w
-                    yfill True
-                    tooltip journal_tip
-                    action journal_action
+                            if not persistent.overview_situations_expanded:
+                                text ("(" + str(len(overview_situations)) + ")"):
+                                    style "stat_overview"
+                                    size OVERVIEW_TIME_TEXT_SIZE
+                                    yalign 0.5
 
-                    hbox:
-                        spacing 6
-                        xalign 0.5
+                    add Solid("#ffffff50"):
+                        xsize 1
+                        ysize OVERVIEW_SPLIT_BAR_HEIGHT - 12
                         yalign 0.5
 
-                        add journal_icon:
+                    button:
+                        style "overview_split_button"
+                        xsize split_w
+                        yfill True
+                        tooltip journal_tip
+                        action journal_action
+
+                        hbox:
+                            spacing 6
+                            xalign 0.5
                             yalign 0.5
-                            zoom 0.18
 
-                        text "Journal":
-                            style "stat_overview"
-                            size OVERVIEW_TIME_TEXT_SIZE
-                            yalign 0.5
+                            add journal_icon:
+                                yalign 0.5
+                                zoom 0.18
 
-        if persistent.overview_situations_expanded and overview_situations:
-            $ sit_count = len(overview_situations)
-            $ sit_content_h = sit_count * OVERVIEW_SITUATION_ROW_HEIGHT
-            $ needs_scroll = sit_content_h > OVERVIEW_SITUATION_LIST_MAX_HEIGHT
-            $ sit_view_h = OVERVIEW_SITUATION_LIST_MAX_HEIGHT if needs_scroll else sit_content_h
-            $ sit_row_w = OVERVIEW_COMPACT_BAR_WIDTH - (OVERVIEW_SITUATION_SCROLL_WIDTH if needs_scroll else 0)
+                            text "Journal":
+                                style "stat_overview"
+                                size OVERVIEW_TIME_TEXT_SIZE
+                                yalign 0.5
 
-            frame:
-                background Solid("#00000000")
-                padding (0, 0, 0, 0)
-                xsize OVERVIEW_COMPACT_BAR_WIDTH
-                xalign 1.0
+            if persistent.overview_situations_expanded and overview_situations:
+                $ sit_count = len(overview_situations)
+                $ sit_content_h = sit_count * OVERVIEW_SITUATION_ROW_HEIGHT
+                $ needs_scroll = sit_content_h > OVERVIEW_SITUATION_LIST_MAX_HEIGHT
+                $ sit_view_h = OVERVIEW_SITUATION_LIST_MAX_HEIGHT if needs_scroll else sit_content_h
+                $ sit_row_w = OVERVIEW_COMPACT_BAR_WIDTH - (OVERVIEW_SITUATION_SCROLL_WIDTH if needs_scroll else 0)
 
-                if needs_scroll:
-                    side "c r":
-                        xsize OVERVIEW_COMPACT_BAR_WIDTH
-                        ysize sit_view_h
+                frame:
+                    background Solid("#00000000")
+                    padding (0, 0, 0, 0)
+                    xsize OVERVIEW_COMPACT_BAR_WIDTH
+                    xalign 1.0
 
-                        viewport id "OverviewSituationsList":
-                            mousewheel True
-                            draggable "touch"
-
-                            use overview_situation_list(overview_situations, interactive, sit_row_w)
-
-                        vbar:
-                            style "overview_vscrollbar"
-                            value YScrollValue("OverviewSituationsList")
-                            unscrollable "hide"
-                            xsize OVERVIEW_SITUATION_SCROLL_WIDTH
+                    if needs_scroll:
+                        side "c r":
+                            xsize OVERVIEW_COMPACT_BAR_WIDTH
                             ysize sit_view_h
-                else:
-                    use overview_situation_list(overview_situations, interactive, sit_row_w)
 
-    $ tooltip = GetTooltip()
+                            viewport id "OverviewSituationsList":
+                                mousewheel True
+                                draggable "touch"
+
+                                use overview_situation_list(overview_situations, interactive, sit_row_w)
+
+                            vbar:
+                                style "overview_vscrollbar"
+                                value YScrollValue("OverviewSituationsList")
+                                unscrollable "hide"
+                                xsize OVERVIEW_SITUATION_SCROLL_WIDTH
+                                ysize sit_view_h
+                    else:
+                        use overview_situation_list(overview_situations, interactive, sit_row_w)
+
+    $ tooltip = GetTooltip() if show_tooltip else None
 
     if tooltip:
         nearrect:

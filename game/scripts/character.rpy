@@ -979,7 +979,7 @@ init -6 python:
             - e.g. `{"level": 5}` when the character has no level-1 uniform
         """
 
-        def __init__(self, name: str, first_name: str, last_name: str, char: Char, description: List[Union[str, Tuple[str, Condition]]], portraits: Dict[str, Union[str, Tuple[str, Condition]]] = {}, paperdollOverrides: List[PaperdollOverride] = [], thumbnail = "", paperdollPresets = None, paperdollDefaults = None, styleOverrides: Dict[str, Any] = None):
+        def __init__(self, name: str, first_name: str, last_name: str, char: Char, description: List[Union[str, Tuple[str, Condition]]], portraits: Dict[str, Union[str, Tuple[str, Condition]]] = {}, paperdollOverrides: List[PaperdollOverride] = [], thumbnail = "", paperdollPresets = None, paperdollDefaults = None, styleOverrides: Dict[str, Any] = None, keywords: List[Union[str, Tuple[str, Condition]]] = None):
             self.name = name
             self.first_name = first_name
             self.last_name = last_name
@@ -999,6 +999,10 @@ init -6 python:
             # what_suffix, window_background, ...) layered on top of the category `kind` in
             # get_renpy_char. Empty = fall back entirely to the category Character.
             self.styleOverrides = dict(styleOverrides) if styleOverrides else {}
+            # Short notes pencilled next to the journal dossier photo. A plain string is
+            # known from the start; (text, condition) is "found" while the condition holds.
+            # Order = discovery order: the journal pencils the last two, lists the rest.
+            self.keywords = list(keywords) if keywords else []
 
         @classmethod
         def __class_getitem__(cls, key):
@@ -1033,6 +1037,8 @@ init -6 python:
                 self.paperdollDefaults = {}
             if not hasattr(data, 'styleOverrides'):
                 self.styleOverrides = {}
+            if not hasattr(self, 'keywords'):
+                self.keywords = []
 
             if data != None:
                 self.name = data.name
@@ -1047,6 +1053,7 @@ init -6 python:
                     self.paperdollDefaults = dict(data.paperdollDefaults) if data.paperdollDefaults else {}
                 if hasattr(data, 'styleOverrides'):
                     self.styleOverrides = dict(data.styleOverrides) if data.styleOverrides else {}
+                self.keywords = list(getattr(data, 'keywords', None) or [])
 
         def get_name(self) -> str:
             return self.name
@@ -1071,6 +1078,20 @@ init -6 python:
 
         def get_description_str(self, **kwargs) -> str:
             return "\n".join(self.get_description(**kwargs))
+
+        def get_keywords(self, **kwargs) -> List[str]:
+            """
+            The keywords found so far, in discovery order.
+            """
+
+            found = []
+            for entry in getattr(self, 'keywords', None) or []:
+                if isinstance(entry, tuple):
+                    if entry[1].is_fulfilled(**kwargs):
+                        found.append(entry[0])
+                else:
+                    found.append(entry)
+            return found
 
         def get_portraits(self) -> Dict[str, str]:
             output = {}
@@ -1377,7 +1398,8 @@ label load_characters ():
             (["", "{b}Pussy{/b}", "Between her thick thighs she's smooth and clean-shaven, a soft, plump, puffy mound with a neat closed slit tucked at the join. Bare, pale, and simple — no hair, the lips pressed shut and tidy, framed by the full inner curves of her heavy thighs."], NOT(GameDataCondition("seen_pussy_aona_komuro", True))),
             (["", "{b}Personality{/b}", "Loud, brash, and hungry for attention — she needs to be the center of the room and works for it through boasting, teasing, or sheer volume. She competes at everything and can't give a short answer when a long story will hold the floor.", "Quick to anger and quick to envy: let someone outshine her and the temper flares, all wounded pride."], NOT(LevelCondition("3+"))),
             (["", "{b}Under the surface{/b}", "For all the bravado she's more fragile than she lets on, and specifically insecure about her own body — that very large chest gives her real back pain and embarrassment, and early on she'd rather cover up than show off. As the school opens up her craving for eyes reroutes from cruelty into sex: first to volunteer, the one who wants to be watched, in time a full exhibitionist. The engine never changes, only where she points it."], NOT(LevelCondition("5+"))),
-        ]
+        ],
+        keywords = ["loud", "show-off", ("insecure underneath", LevelCondition("3+")), ("puffy nipples", GameDataCondition("seen_breasts_aona_komuro", True)), ("exhibitionist", LevelCondition("5+"))],
     ))
     $ load_person("class_3a", Person("easkey_tanaka", "Easkey", "Tanaka", school_char, [
             "• Height: 168.8 cm",
@@ -1390,6 +1412,7 @@ label load_characters ():
             (["", "{b}Personality{/b}", "Shy, gentle, and easily flustered — she stammers when she's put on the spot and would rather not be noticed. Frank about disliking schoolwork, and not much driven by it."], NOT(LevelCondition("3+"))),
             (["", "{b}Under the surface{/b}", "In a steady relationship with Sakura Mori, who's the more capable, grounded half of the pair. As the campus opens up she loosens in Sakura's company but stays one of the softer, more retiring girls — her shyness never quite becomes boldness."], NOT(LevelCondition("5+"))),
         ],
+        keywords = ["shy", "Sakura's girlfriend", ("hates homework", LevelCondition("3+")), ("sticking out", GameDataCondition("seen_breasts_easkey_tanaka", True)), ("freckled there", GameDataCondition("seen_breasts_easkey_tanaka", True))],
     ))
     $ load_person("class_3a", Person("elsie_johnson", "Elsie", "Johnson", school_char, [
             "• Height: 168.0 cm",
@@ -1402,6 +1425,7 @@ label load_characters ():
             (["", "{b}Personality{/b}", "Gentle, modest, and quietly bookish — calm and studious, soft-spoken and easy to overlook around people she doesn't know well."], NOT(LevelCondition("3+"))),
             (["", "{b}Under the surface{/b}", "But she's an ambivert, not an introvert: with the few she trusts — above all her girlfriend Yuriko Oshima — she's warm, chatty and openly affectionate, the steady anchor Yuriko leans on. Where Yuriko is prickly and withdrawn, Elsie is patient and kind; the split between reserved-in-the-open and open-with-her-own never changes."], NOT(LevelCondition("5+"))),
         ],
+        keywords = ["bookworm", "Yuriko's girlfriend", ("chatty with friends", LevelCondition("3+")), ("freckled all over", GameDataCondition("seen_breasts_elsie_johnson", True)), ("even there", GameDataCondition("seen_pussy_elsie_johnson", True))],
     ))
     $ load_person("class_3a", Person("gloria_goto", "Gloria", "Goto", school_char, [
             "• Height: 160.4 cm",
@@ -1413,6 +1437,7 @@ label load_characters ():
             (["", "{b}Personality{/b}", "An analytical nerd, endlessly and bluntly curious — she treats bodies, sex, and other people's private lives as fascinating subject matter to catalogue. Her default is a flat, clinical deadpan that cracks into eager over-explaining the moment something genuinely interests her."], NOT(LevelCondition("3+"))),
             (["", "{b}Under the surface{/b}", "Her curiosity has no brakes, and that's the unsettling part: ethics come a distant second to knowing, and she can treat the people she studies as data points rather than friends. As the campus opens up the same detached lens turns to sex directly — she surveys, records, experiments, narrating even her own arousal as calmly as anyone else's."], NOT(LevelCondition("5+"))),
         ],
+        keywords = ["nerd", "asks everything", ("takes notes on people", LevelCondition("3+")), ("bubble butt", GameDataCondition("seen_ass_gloria_goto", True)), ("studies herself", LevelCondition("5+"))],
     ))
     $ load_person("class_3a", Person("luna_clark", "Luna", "Clark", school_char, [
             "• Height: 144.8 cm",
@@ -1426,6 +1451,7 @@ label load_characters ():
             (["", "{b}Under the surface{/b}", "Beneath the shyness runs a sly, mischievous streak deeper than anyone expects. With Seraphina she's one half of the class's chaos-and-pranks duo — and often the real schemer behind it, the innocent-looking one nobody suspects until the trap is already sprung. She lags half a step behind her sister at every stage, needing Sera's cover before she'll open up; the higher the school climbs, the more that trickster shows."], NOT(LevelCondition("5+"))),
         ],
         thumbnail = "images/characters/luna_clark/level_1.webp",
+        keywords = ["quiet twin", "red glasses", ("the real schemer", LevelCondition("3+")), ("way too big", GameDataCondition("seen_breasts_luna_clark", True)), ("way too round", GameDataCondition("seen_ass_luna_clark", True))],
     ))
     $ load_person("class_3a", Person("seraphina_clark", "Seraphina", "Clark", school_char, [
             "• Height: 144.8 cm",
@@ -1438,6 +1464,7 @@ label load_characters ():
             (["", "{b}Personality{/b}", "The forward Clark twin — active, socially confident, and a prankster at heart. She's the loud, visible half of the chaos-and-pranks duo, happy to be the grinning face of a scheme."], NOT(LevelCondition("3+"))),
             (["", "{b}Under the surface{/b}", "Precocious and quick with a teasing joke, she fronts the mischief while quiet Luna plots behind her. Even at the lowest levels she reads as more open and curious than her peers — though open isn't explicit; at level 1 she's still fundamentally innocent, just less shy about it. She reaches each new stage of the campus a little early, pulling hesitant Luna along after her."], NOT(LevelCondition("5+"))),
         ],
+        keywords = ["loud twin", "prankster", ("black glasses", LevelCondition("3+")), ("out of scale", GameDataCondition("seen_breasts_seraphina_clark", True)), ("bare and pink", GameDataCondition("seen_pussy_seraphina_clark", True))],
     ))
     $ load_person("class_3a", Person("hatano_miwa", "Hatano", "Miwa", school_char, [
             "• Height: 165.7 cm",
@@ -1449,6 +1476,7 @@ label load_characters ():
             (["", "{b}Personality{/b}", "A fashionista through and through — loves shopping, turns up in on-trend outfits, and carries a real gyaru (gal) attitude. Vain and a little arrogant about it, sure she has the best taste in the room and quick with a catty remark about a bad outfit."], NOT(LevelCondition("3+"))),
             (["", "{b}Under the surface{/b}", "Hers is loud, in-your-face superiority rather than cold snobbery (that is Soyoon Yamamoto's lane) — still sociable and high-energy, just convinced she is a cut above on style. Her love of showing off makes her an early adopter of each new look as the campus opens up. (Not to be confused with Miwa Igarashi — different girl, shared first name.)"], NOT(LevelCondition("5+"))),
         ],
+        keywords = ["fashionista", "gyaru", ("catty", LevelCondition("3+")), ("angled down", GameDataCondition("seen_breasts_hatano_miwa", True)), ("bares early", LevelCondition("4+"))],
     ))
     $ load_person("class_3a", Person("ikushi_ito", "Ikushi", "Ito", school_char, [
             "• Height: 164.3 cm",
@@ -1460,6 +1488,7 @@ label load_characters ():
             (["", "{b}Personality{/b}", "Shy but game — bashful about intimate questions yet fundamentally honest, she caves to peer pressure only to own it a beat later ('Fine, I'll do it!'). Stoic about small hurts, quietly curious."], NOT(LevelCondition("3+"))),
             (["", "{b}Under the surface{/b}", "Openly a little smitten with the Headmaster. At low levels her shyness fights her curiosity and the group has to talk her into things; as the campus opens up the hesitation thins and she goes along more freely — still more follower than instigator."], NOT(LevelCondition("5+"))),
         ],
+        keywords = ["stoic", "shy but game", ("caves to dares", LevelCondition("3+")), ("heavy for her", GameDataCondition("seen_breasts_ikushi_ito", True)), ("silver patch", GameDataCondition("seen_pussy_ikushi_ito", True))],
     ))
     $ load_person("class_3a", Person("ishimaru_maki", "Ishimaru", "Maki", school_char, [
             "• Height: 170.8 cm",
@@ -1471,6 +1500,7 @@ label load_characters ():
             (["", "{b}Personality{/b}", "Enthusiastic, fun-loving, and a little clumsy — a dedicated guitarist (her instant answer to 'favourite hobby'), the one who brings the card game and keeps the group entertained. Warm and quick to apologise when she bumps into things."], NOT(LevelCondition("3+"))),
             (["", "{b}Under the surface{/b}", "There's a faintly edgy, band-girl streak under the wholesome fun — the guitarist, not just the nice girl. Her upbeat, game-for-anything energy carries her along as the campus opens up; she joins in readily without ever being the one leading it."], NOT(LevelCondition("5+"))),
         ],
+        keywords = ["guitarist", "clumsy", ("brings card games", LevelCondition("3+")), ("puffy nipples", GameDataCondition("seen_breasts_ishimaru_maki", True)), ("joins in", LevelCondition("5+"))],
     ))
     $ load_person("class_3a", Person("kokoro_nakamura", "Kokoro", "Nakamura", school_char, [
             "• Height: 163.4 cm",
@@ -1482,6 +1512,7 @@ label load_characters ():
             (["", "{b}Personality{/b}", "Shy, modest, and quick to fluster — pushed out of her comfort zone she wells up rather than pushes back. Yet she carries a quiet, grown-up sense of style and a poise that read as more composed than she actually feels."], NOT(LevelCondition("3+"))),
             (["", "{b}Under the surface{/b}", "Underneath it all she's genuinely curious, asking frank, almost clinical questions about sex and the body once the subject is opened. As the campus climbs, that curiosity and understated elegance win out over the embarrassment — though she never becomes brazen about it."], NOT(LevelCondition("5+"))),
         ],
+        keywords = ["elegant", "shy", ("curious", LevelCondition("3+")), ("puffy and perky", GameDataCondition("seen_breasts_kokoro_nakamura", True)), ("clinical questions", LevelCondition("5+"))],
     ))
     $ load_person("class_3a", Person("lin_kato", "Lin", "Kato", school_char, [
             "• Height: 167.6 cm",
@@ -1493,6 +1524,7 @@ label load_characters ():
             (["", "{b}Personality{/b}", "Sociable, easygoing, and funny — the one who keeps the fun going, organises the games, eggs everyone on, and loves dumb internet cat videos. Practical, unpretentious, a bit of a ringleader."], NOT(LevelCondition("3+"))),
             (["", "{b}Under the surface{/b}", "She'll deflect with a quick 'I'm not that kind of person' when a dare cuts too close, but as the campus opens up the ringleader energy carries straight over — game, loud about it, and the one daring everyone else on, without much hang-up."], NOT(LevelCondition("5+"))),
         ],
+        keywords = ["ringleader", "cat videos!", ("dares everyone", LevelCondition("3+")), ("bright pink", GameDataCondition("seen_breasts_lin_kato", True)), ("keeps a patch", GameDataCondition("seen_pussy_lin_kato", True))],
     ))
     $ load_person("class_3a", Person("miwa_igarashi", "Miwa", "Igarashi", school_char, [
             "• Height: 158.9 cm",
@@ -1505,6 +1537,7 @@ label load_characters ():
             (["", "{b}Personality{/b}", "Cheerful and expressive, with a real love of dancing that doubles as her main outlet for confidence."], NOT(LevelCondition("3+"))),
             (["", "{b}Under the surface{/b}", "Early on she's self-conscious about her body — specifically her small chest, after Aona Komuro teased her over it — and that conflict is one of her defining early arcs, live and stinging at the low levels. Once it's resolved (around level 3–4) she grows steadily surer in her own skin, using her body and her dancing more and more boldly. Her arc is insecurity turning into self-possession."], NOT(LevelCondition("5+"))),
         ],
+        keywords = ["dancer", ("teased by Aona", LevelCondition("3-")), ("more confident now", LevelCondition("4+")), ("natural bush", GameDataCondition("seen_pussy_miwa_igarashi", True)), ("owns it now", LevelCondition("5+"))],
     ))
     $ load_person("class_3a", Person("sakura_mori", "Sakura", "Mori", school_char, [
             "• Height: 163.7 cm",
@@ -1517,6 +1550,7 @@ label load_characters ():
             (["", "{b}Personality{/b}", "Diligent, bright, and practical — she pays attention, gives clear well-reasoned answers, and notices the sensible problem everyone else missed. Works hard even when it's uncomfortable and cooperates readily."], NOT(LevelCondition("3+"))),
             (["", "{b}Under the surface{/b}", "In a steady relationship with Easkey Tanaka, and the more capable, level-headed of the two. Under the calm runs a fierce, burning ambition — she needs to be the best and a loss genuinely gnaws at her, though it's about clearing her own bar, not tearing anyone down. She approaches sex the way she approaches schoolwork: willing, practical, unflustered."], NOT(LevelCondition("5+"))),
         ],
+        keywords = ["top of the class", "Easkey's girlfriend", ("hates losing", LevelCondition("3+")), ("gently domed", GameDataCondition("seen_breasts_sakura_mori", True)), ("bare and tidy", GameDataCondition("seen_pussy_sakura_mori", True))],
     ))
     $ load_person("class_3a", Person("soyoon_yamamoto", "Soyoon", "Yamamoto", school_char, [
             "• Height: 161.0 cm",
@@ -1529,6 +1563,7 @@ label load_characters ():
             (["", "{b}Personality{/b}", "A haughty, fashionable ice queen — cool, composed, and image-conscious, with a distinct air of looking down her nose at everyone. She keeps most people at arm's length and is hard to fluster or read."], NOT(LevelCondition("3+"))),
             (["", "{b}Under the surface{/b}", "Where Hatano Miwa's superiority is loud and style-obsessed, Soyoon's is cold and snobbish — quiet condescension, not catty commentary. The chill is partly a front, but she doesn't let it drop easily, or for just anyone; as the campus opens up the poise holds, slipping only rarely and on her own terms."], NOT(LevelCondition("5+"))),
         ],
+        keywords = ["ice queen", "Yuki's daughter", ("just a front?", LevelCondition("3+")), ("vivid pink", GameDataCondition("seen_breasts_soyoon_yamamoto", True)), ("openly pink", GameDataCondition("seen_pussy_soyoon_yamamoto", True))],
     ))
     $ load_person("class_3a", Person("yuriko_oshima", "Yuriko", "Oshima", school_char, [
             "• Height: 159.5 cm",
@@ -1541,6 +1576,7 @@ label load_characters ():
             (["", "{b}Personality{/b}", "Mostly a loner — guarded, with a slight depressive, withdrawn streak. Early on she's the reluctant holdout on anything sexual: prickly, easily embarrassed, sure the whole subject is unnecessary."], NOT(LevelCondition("3+"))),
             (["", "{b}Under the surface{/b}", "Her relationship with Elsie Johnson is her one warm, open anchor; with everyone else she keeps her distance, and there's a real cynical, bitter edge to her — she finds most classmates shallow and says so, dry and sardonic. She thaws slowly: at higher levels she turns casual and matter-of-fact about sex, but flatly, unbothered rather than eager — graphic candour landing in that bored deadpan is the whole effect."], NOT(LevelCondition("5+"))),
         ],
+        keywords = ["loner", "Elsie's girlfriend", ("sardonic", LevelCondition("3+")), ("soft cones", GameDataCondition("seen_breasts_yuriko_oshima", True)), ("deadpan now", LevelCondition("5+"))],
     ))
 
     $ load_person("parents", Person("adelaide_hall", "Adelaide", "Hall", parent_char, [
@@ -1554,6 +1590,7 @@ label load_characters ():
             (["", "{b}Personality{/b}", "Warm and maternal at work — she runs the cafeteria as the school's 'Kitchen Mother,' friendly and helpful in her kitchen."], NOT(LevelCondition("3+"))),
             (["", "{b}Under the surface{/b}", "At the PTA table she's a socially conservative voice who objects to anything risqué before grudgingly letting it come to a vote. As the campus opens up the maternal warmth stays while her conservatism is worn down slowly, against her first instinct — unfussy and hardworking through all of it."], NOT(LevelCondition("5+"))),
         ],
+        keywords = ["Kitchen Mother", "conservative", ("comes around", LevelCondition("3+")), ("hangs heavy", GameDataCondition("seen_breasts_adelaide_hall", True)), ("dark patch", GameDataCondition("seen_pussy_adelaide_hall", True))],
     ))
     $ load_person("parents", Person("nubia_davis", "Nubia", "Davis", parent_char, [
             "• Height: 169.3 cm",
@@ -1565,6 +1602,7 @@ label load_characters ():
             (["", "{b}Personality{/b}", "A very direct, strong-willed woman with a big personality and a rocker attitude — she says what she thinks without softening it and doesn't back down easily. Short fuse: push her or waste her time and the bluntness turns confrontational fast."], NOT(LevelCondition("3+"))),
             (["", "{b}Under the surface{/b}", "At the PTA that bluntness cuts through the dithering — she's the one who'll weigh a contested question and then just move it toward a decision rather than let it circle. Her forthright, unshakeable streak stays constant as the campus opens up; she meets whatever comes head-on rather than clutching her pearls."], NOT(LevelCondition("5+"))),
         ],
+        keywords = ["blunt", "rocker", ("short fuse", LevelCondition("3+")), ("that ass", GameDataCondition("seen_ass_nubia_davis", True)), ("dark tuft", GameDataCondition("seen_pussy_nubia_davis", True))],
     ))
     $ load_person("parents", Person("yuki_yamamoto", "Yuki", "Yamamoto", parent_char, [
             "• Height: 170.9 cm",
@@ -1577,6 +1615,7 @@ label load_characters ():
             (["", "{b}Personality{/b}", "A protective, conservative parent — her reflex is that these things belong at home with the parents, and she voices her doubts plainly."], NOT(LevelCondition("3+"))),
             (["", "{b}Under the surface{/b}", "But she can see the benefits when they're laid out and comes around rather than digging in. As the campus opens up she's persuadable, following rather than resisting once the argument is made."], NOT(LevelCondition("5+"))),
         ],
+        keywords = ["protective", "Soyoon's mother", ("can be persuaded", LevelCondition("3+")), ("puffy nipples", GameDataCondition("seen_breasts_yuki_yamamoto", True)), ("shaved clean", GameDataCondition("seen_pussy_yuki_yamamoto", True))],
     ))
 
     $ load_person("staff", Person("chloe_garcia", "Chloe", "Garcia", teacher_char, [
@@ -1590,6 +1629,7 @@ label load_characters ():
             (["", "{b}Personality{/b}", "Creative, expressive, and quietly rebellious under a careful professional surface — the tattoos and rocker wardrobe are the real Chloe, an artist through and through."], NOT(LevelCondition("3+"))),
             (["", "{b}Under the surface{/b}", "In front of parents and colleagues her first instinct is decorum and 'what will the community think,' but that caution is a professional reflex, not her true self — she's rarely as scandalised as she lets on. At low levels she plays the propriety card as one of the brakes on anything explicit; as the campus opens up she needs the front less and less, and her unbothered real self comes through fast."], NOT(LevelCondition("5+"))),
         ],
+        keywords = ["art & music", "tattoos", ("rocker at heart", LevelCondition("3+")), ("proud nubs", GameDataCondition("seen_breasts_chloe_garcia", True)), ("barely shocked", LevelCondition("5+"))],
     ))
     $ load_person("staff", Person("emiko_langley", "Emiko", "Langley", secretary_char, [
             "• Height: 180.7 cm",
@@ -1604,7 +1644,8 @@ label load_characters ():
         ],
         paperdollOverrides = [PaperdollOverride(1, {"outfit": "bunny"}, x_override = -0.0014, y_override = -0.026132)],
         paperdollDefaults = {"level": 5},
-        thumbnail = "images/characters/emiko_langley/level_5.webp"
+        thumbnail = "images/characters/emiko_langley/level_5.webp",
+        keywords = ["my right hand", "riding boots", ("always teasing", LevelCondition("3+")), ("heavy bust", GameDataCondition("seen_breasts_emiko_langley", True)), ("that ass", GameDataCondition("seen_ass_emiko_langley", True))],
     ))
     $ load_person("staff", Person("finola_ryan", "Finola", "Ryan", teacher_char, [
             "• Height: 169.0 cm",
@@ -1617,6 +1658,7 @@ label load_characters ():
             (["", "{b}Personality{/b}", "Dutiful, methodical, and conscientious — she takes her teaching seriously and does things properly. A touch reserved and easily embarrassed, but fundamentally honest; she won't lie even when the truthful answer costs her composure."], NOT(LevelCondition("3+"))),
             (["", "{b}Under the surface{/b}", "At low levels she's prim and proper and blushes at the subject, but answers straight when pressed. As the campus opens up the primness erodes while the diligence stays — she'll participate and demonstrate because it's her job and she's thorough about it, the reserve giving way to a matter-of-fact, almost clinical thoroughness."], NOT(LevelCondition("5+"))),
         ],
+        keywords = ["by the book", "blushes easily", ("honest to a fault", LevelCondition("3+")), ("freckled there", GameDataCondition("seen_breasts_finola_ryan", True)), ("clinical", LevelCondition("5+"))],
     ))
     $ load_person("staff", Person("lily_anderson", "Lily", "Anderson", teacher_char, [
             "• Height: 167.0 cm",
@@ -1629,6 +1671,7 @@ label load_characters ():
             (["", "{b}Personality{/b}", "Conscientious, anxious, and overworked — she grades past midnight, runs herself toward burnout, and worries. Her instinct on sex ed is a conservative 'won't this just make them worse?' She cares deeply about her students and carries it heavily."], NOT(LevelCondition("3+"))),
             (["", "{b}Under the surface{/b}", "The composed professional register is distinct from how frayed she is underneath; stretched too thin, the composure cracks into snappishness and a quiet bitterness — a sense that nobody sees how much she carries — before she catches herself. As the campus opens up she's pulled along anxiously rather than eagerly, still fretting over consequences the others have stopped noticing."], NOT(LevelCondition("5+"))),
         ],
+        keywords = ["overworked", "math & science", ("needs a break", LevelCondition("3+")), ("pointed nipples", GameDataCondition("seen_breasts_lily_anderson", True)), ("pulled along", LevelCondition("5+"))],
     ))
     $ load_person("staff", Person("yulan_chen", "Yulan", "Chen", teacher_char, [
             "• Height: 167.0 cm",
@@ -1641,6 +1684,7 @@ label load_characters ():
             (["", "{b}Personality{/b}", "Precise, guarded, and rule-minded — she asks the procedural question everyone else skips (is attendance mandatory? how do we handle the backlash?), respects hard evidence and competence, and keeps her distance until someone earns it."], NOT(LevelCondition("3+"))),
             (["", "{b}Under the surface{/b}", "She thaws slowly, and only to demonstrated competence; as the campus opens up her guard comes down by degrees, on her own terms rather than the crowd's."], NOT(LevelCondition("5+"))),
         ],
+        keywords = ["rules first", "history & politics", ("earn her trust", LevelCondition("3+")), ("rosy nipples", GameDataCondition("seen_breasts_yulan_chen", True)), ("dark tuft", GameDataCondition("seen_pussy_yulan_chen", True))],
     ))
     $ load_person("staff", Person("zoe_parker", "Zoe", "Parker", teacher_char, [
             "• Height: 167.3 cm",
@@ -1653,6 +1697,7 @@ label load_characters ():
             (["", "{b}Personality{/b}", "The conscience of the staff — caring, protective, and safety-first with her students; she'll push back on the Headmaster directly when she thinks he's gone too far. Professional and proactive."], NOT(LevelCondition("3+"))),
             (["", "{b}Under the surface{/b}", "She runs her PE and yoga classes with real duty of care and solves problems by reaching out — she's the one who brought in her nurse friend Linh Nguyen for the students' checkups, arranged for free. Her protective instinct is the constant: as the campus opens up she's the staff member most likely to keep worrying about the girls' wellbeing even as the culture around her stops."], NOT(LevelCondition("5+"))),
         ],
+        keywords = ["PE & health", "safety first", ("the staff's conscience", LevelCondition("3+")), ("Dirty Girl", GameDataCondition("seen_breasts_zoe_parker", True)), ("landing strip", GameDataCondition("seen_pussy_zoe_parker", True))],
     ))
     $ load_person("staff", Person("linh_nguyen", "Linh", "Nguyen", teacher_char, [
             "• Height: 165.6 cm",
@@ -1665,6 +1710,7 @@ label load_characters ():
             (["", "{b}Personality{/b}", "Often grumpy and short-spoken, but with a heart of gold — quite shy and not one for social niceties. What she lacks in people skills she more than makes up for in sheer sense of duty."], NOT(LevelCondition("3+"))),
             (["", "{b}Under the surface{/b}", "She gives her absolute all treating her patients and steps up without fuss when needed — she's the one who comes in to run the students' health checkups, doing the first round for free. A nurse at the city hospital and a friend of Zoe Parker; if there's one person you can truly trust, it's her."], NOT(LevelCondition("5+"))),
         ],
+        keywords = ["grumpy", "heart of gold", ("Zoe's friend", LevelCondition("3+")), ("sticks out", GameDataCondition("seen_breasts_linh_nguyen", True)), ("tan all over", GameDataCondition("seen_ass_linh_nguyen", True))],
     ))
 
     return
