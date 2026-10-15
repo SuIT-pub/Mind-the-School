@@ -724,7 +724,7 @@ label sb_teach_math_main_1 (**kwargs):
     $ main_girl_name = get_value('main_girl_name', **kwargs)
     $ main_topic = get_value('main_topic', **kwargs)
 
-    $ girl_person = Person["class_3a"]
+    $ girl_person = Person[main_girl_name]
 
     $ girl_last_name = girl_person.get_last_name()
 
