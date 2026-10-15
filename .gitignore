@@ -52,3 +52,5 @@ wiki/characters/**/*.png
 .venv/
 venv/
 *.py[cod]
+# Journal asset generator: downloaded CC0 textures, icon font, 2x masters
+tools/journal_assets/.cache/
